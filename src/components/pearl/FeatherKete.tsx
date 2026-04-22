@@ -9,6 +9,8 @@ import keteAuaha from "@/assets/kete-feather-auaha.png";
 import keteArataki from "@/assets/kete-feather-arataki.png";
 import ketePikau from "@/assets/kete-feather-pikau.png";
 import keteToro from "@/assets/kete-feather-toro.png";
+import keteHoko from "@/assets/kete-feather-hoko.png";
+import keteAko from "@/assets/kete-feather-ako.png";
 
 /**
  * FeatherKete — photoreal woven feather kete used as a decorative
@@ -35,8 +37,8 @@ const VARIANT_IMAGE: Record<KeteVariant, string | null> = {
   auaha: keteAuaha,
   arataki: keteArataki,
   pikau: ketePikau,
-  hoko: null,
-  ako: null,
+  hoko: keteHoko,
+  ako: keteAko,
   toro: keteToro,
 };
 
@@ -105,7 +107,7 @@ export default function FeatherKete({
   return (
     <div
       className={`relative pointer-events-none ${className}`}
-      style={{ width: size, height: size, opacity: opacity * 0.42 }}
+      style={{ width: size, height: size, opacity }}
     >
       <div
         ref={ref}
