@@ -18,15 +18,17 @@ const NAV_ITEMS: NavItem[] = [
   { label: "About", to: "/about" },
 ];
 
+// Brand Guidelines v1.0 (2026-04) — accent hex per industry kete.
+// Source of truth: src/assets/brand/kete/index.ts (INDUSTRY_KETE).
 const KETE = [
-  { label: "Manaaki", sublabel: "Hospitality", to: "/manaaki", glowIcon: "UtensilsCrossed", color: "#4AA5A8" },
-  { label: "Waihanga", sublabel: "Construction", to: "/waihanga/about", glowIcon: "HardHat", color: "#4AA5A8" },
-  { label: "Auaha", sublabel: "Creative", to: "/auaha/about", glowIcon: "Palette", color: "#9B8EC4" },
-  { label: "Arataki", sublabel: "Automotive", to: "/arataki", glowIcon: "Car", color: "#4A6FA5" },
-  { label: "Pikau", sublabel: "Customs & Freight", to: "/pikau", glowIcon: "Package", color: "#5AADA0" },
-  { label: "Hoko", sublabel: "Retail", to: "/hoko", glowIcon: "ShoppingBag", color: "#C66B5C" },
-  { label: "Ako", sublabel: "Early Childhood", to: "/ako", glowIcon: "Baby", color: "#7BA7C7" },
-  { label: "Toro", sublabel: "Family", to: "/toro", glowIcon: "Bird", color: "#4AA5A8" },
+  { label: "Manaaki",  sublabel: "Hospitality",       to: "/manaaki",       glowIcon: "UtensilsCrossed", color: "#E6D8C6" },
+  { label: "Waihanga", sublabel: "Construction",      to: "/waihanga/about", glowIcon: "HardHat",         color: "#CBB8A4" },
+  { label: "Auaha",    sublabel: "Creative",          to: "/auaha/about",    glowIcon: "Palette",         color: "#C8DDD8" },
+  { label: "Arataki",  sublabel: "Automotive",        to: "/arataki",        glowIcon: "Car",             color: "#D5C0C8" },
+  { label: "Pikau",    sublabel: "Customs & Freight", to: "/pikau",          glowIcon: "Package",         color: "#B8C7B1" },
+  { label: "Hoko",     sublabel: "Retail",            to: "/hoko",           glowIcon: "ShoppingBag",     color: "#D8C3C2" },
+  { label: "Ako",      sublabel: "Early Childhood",   to: "/ako",            glowIcon: "Baby",            color: "#C7D6C7" },
+  { label: "Toro",     sublabel: "Family",            to: "/toro",           glowIcon: "Bird",            color: "#C7D9E8" },
 ];
 
 const MORE_LINKS = [

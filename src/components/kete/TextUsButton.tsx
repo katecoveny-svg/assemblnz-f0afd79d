@@ -77,7 +77,7 @@ const TextUsButton = ({
     color,
     border: `1px solid ${color}35`,
     background: `${color}08`,
-    fontFamily: "'Plus Jakarta Sans', sans-serif",
+    fontFamily: "'Inter', sans-serif",
   });
 
   return (
@@ -91,7 +91,7 @@ const TextUsButton = ({
           background: accentColor,
           color: "#FAF6EF",
           border: `1px solid ${accentColor}`,
-          fontFamily: "'Plus Jakarta Sans', sans-serif",
+          fontFamily: "'Inter', sans-serif",
           boxShadow: `0 6px 24px ${accentColor}30`,
         }}
         onMouseEnter={(e) => {
@@ -136,7 +136,7 @@ const TextUsButton = ({
             color: "#25D366",
             border: "1px solid rgba(37,211,102,0.3)",
             background: "rgba(37,211,102,0.06)",
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.borderColor = "rgba(37,211,102,0.6)";
