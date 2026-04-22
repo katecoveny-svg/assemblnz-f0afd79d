@@ -49,10 +49,22 @@ const MessageSchema = z.object({
 
 // Optional client-tunable model parameters. Bounded server-side so a tampered
 // client can't spike spend or trigger out-of-policy generations.
+// Whitelisted gateway models the user can pick from in the in-chat settings
+// panel. Anything else falls back to the agent's default model.
+const ALLOWED_GATEWAY_MODELS = new Set([
+  "openai/gpt-5",
+  "openai/gpt-5-mini",
+  "openai/gpt-5-nano",
+  "google/gemini-2.5-pro",
+  "google/gemini-2.5-flash",
+  "google/gemini-2.5-flash-lite",
+  "google/gemini-3-flash-preview",
+]);
 const ParamsSchema = z
   .object({
     temperature: z.number().min(0).max(2).optional(),
     max_tokens: z.number().int().min(64).max(4096).optional(),
+    model: z.string().max(64).optional(),
   })
   .optional();
 
@@ -462,7 +474,9 @@ Deno.serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: agent.model,
+        // Honour client-selected model only when whitelisted; otherwise stick
+        // with the agent's vetted default to prevent unbounded model swaps.
+        model: params?.model && ALLOWED_GATEWAY_MODELS.has(params.model) ? params.model : agent.model,
         messages: [{ role: "system", content: systemPrompt }, ...sanitizedMessages],
         stream: true,
         // Forward client-tunable params only when present — omitting lets the
