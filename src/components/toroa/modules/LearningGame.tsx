@@ -536,16 +536,35 @@ export default function LearningGame({
               <>
                 {attempts > 0 && (
                   <>
-                    <button
-                      onClick={revealHint}
-                      disabled={showHint}
-                      aria-label={showHint ? "Hint already shown" : "Reveal a hint for this question"}
-                      className="px-3 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
-                      style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
-                      type="button"
-                    >
-                      Show hint
-                    </button>
+                    {(() => {
+                      const hintList = getHintList(q);
+                      const totalHints = hintList.length;
+                      const allShown = hintStep >= totalHints;
+                      const label =
+                        totalHints === 0
+                          ? "No hints"
+                          : allShown
+                            ? `All ${totalHints} hints shown`
+                            : hintStep === 0
+                              ? `Show hint (1 of ${totalHints})`
+                              : `Next hint (${hintStep + 1} of ${totalHints})`;
+                      return (
+                        <button
+                          onClick={revealHint}
+                          disabled={allShown || totalHints === 0}
+                          aria-label={
+                            allShown
+                              ? "All hints already shown"
+                              : `Reveal hint ${hintStep + 1} of ${totalHints}`
+                          }
+                          className="px-3 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
+                          style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
+                          type="button"
+                        >
+                          {label}
+                        </button>
+                      );
+                    })()}
                     <button
                       onClick={giveUp}
                       className="px-3 py-2 rounded-lg text-xs font-body transition-all"
