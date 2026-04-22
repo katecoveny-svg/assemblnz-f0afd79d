@@ -158,6 +158,38 @@ html {
     --sidebar-accent-foreground: 224 13% 28%;
     --sidebar-border: 220 9% 46% / 0.10;
     --sidebar-ring: 179 28% 47%;
+
+    /* ── Assembl canonical design tokens (locked 2026-04-22) ── */
+    /* Core surfaces */
+    --assembl-mist: 33 33% 95%;          /* #F7F3EE */
+    --assembl-cloud: 32 36% 90%;         /* #EEE7DE */
+    --assembl-sand: 32 36% 78%;          /* #D8C8B4 */
+    --assembl-taupe: 28 14% 56%;         /* #9D8C7D */
+    --assembl-taupe-deep: 24 12% 39%;    /* #6F6158 */
+    --assembl-sage-mist: 144 19% 82%;    /* #C9D8D0 */
+    --assembl-soft-gold: 39 56% 67%;     /* #D9BC7A */
+
+    /* Text */
+    --assembl-text-primary: 24 12% 39%;     /* #6F6158 */
+    --assembl-text-secondary: 24 9% 51%;    /* #8E8177 */
+    --assembl-text-body: 24 9% 33%;         /* #5F554F */
+    --assembl-border-soft: 24 9% 51% / 0.14;
+    --assembl-shadow-soft: 0 8px 30px rgba(111,97,88,0.08);
+
+    /* Radius scale */
+    --assembl-radius-card: 24px;
+    --assembl-radius-chip: 16px;
+    --assembl-radius-pill: 999px;
+
+    /* Industry accents — kete codes mapped to hex-derived HSL */
+    --industry-pikau: 95 18% 74%;        /* #B8C7B1 Soft Moss */
+    --industry-hoko: 3 26% 80%;          /* #D8C3C2 Blush Stone */
+    --industry-ako: 120 17% 81%;         /* #C7D6C7 Soft Sage */
+    --industry-toro: 208 43% 85%;        /* #C7D9E8 Moonstone Blue */
+    --industry-manaaki: 33 41% 84%;      /* #E6D8C6 Warm Linen */
+    --industry-waihanga: 28 27% 72%;     /* #CBB8A4 Clay Sand */
+    --industry-arataki: 338 22% 79%;     /* #D5C0C8 Dusky Rose */
+    --industry-auaha: 165 27% 83%;       /* #C8DDD8 Pale Seafoam */
   }
 }
 
