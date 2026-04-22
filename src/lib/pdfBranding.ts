@@ -650,19 +650,26 @@ export function renderMarkdownToPDF(
     if (y + needed > 260) { doc.addPage(); y = 20; }
   };
 
-  // Sender label
+  // Sender label — styled as a "transcript chip" using Mist + Soft Gold rule.
   if (options.senderLabel) {
-    checkPage(10);
+    checkPage(12);
+    const chipPadX = 3;
+    const chipH = 7;
     doc.setFontSize(9);
     doc.setFont("helvetica", "bold");
+    const labelW = doc.getTextWidth(options.senderLabel) + chipPadX * 2;
+    // Soft Mist chip background
+    doc.setFillColor(...ASSEMBL_MIST);
+    doc.roundedRect(margin - 1, y - 4.5, labelW + 2, chipH, 1.4, 1.4, "F");
+    // Sender text
     const [r, g, b] = options.senderColor || TEXT_PRIMARY;
     doc.setTextColor(r, g, b);
-    doc.text(options.senderLabel, margin, y);
-    const w = doc.getTextWidth(options.senderLabel);
+    doc.text(options.senderLabel, margin + chipPadX - 1, y);
+    // Soft Gold underline rule (sparkle accent)
     doc.setDrawColor(...accentColor);
     doc.setLineWidth(0.4);
-    doc.line(margin, y + 1, margin + w, y + 1);
-    y += 7;
+    doc.line(margin, y + 2.5, margin + labelW, y + 2.5);
+    y += 8;
   }
 
   const lines = content.split("\n");
