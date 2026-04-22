@@ -314,24 +314,25 @@ Deno.serve(async (req) => {
   }
   const userId = claimsData.claims.sub as string;
 
-  // 2. Body validation
-  let body: { agentId?: string; messages?: Array<{ role: string; content: string }> };
+  // 2. Body validation (Zod)
+  let rawBody: unknown;
   try {
-    body = await req.json();
+    rawBody = await req.json();
   } catch {
     return new Response(JSON.stringify({ error: "Invalid JSON" }), {
       status: 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-  const agentId = body.agentId;
-  const messages = body.messages;
-  if (!agentId || !Array.isArray(messages) || messages.length === 0) {
-    return new Response(JSON.stringify({ error: "agentId and messages[] required" }), {
-      status: 400,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+  const parsed = ChatBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return new Response(
+      JSON.stringify({ error: "Invalid request", details: parsed.error.flatten().fieldErrors }),
+      { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
   }
+  const { agentId, messages } = parsed.data;
+
   const agent = AGENTS[agentId];
   if (!agent) {
     return new Response(JSON.stringify({ error: `Unknown agent: ${agentId}` }), {
@@ -339,6 +340,24 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
+
+  // 2b. Safety filter — prompt-injection & disallowed content
+  const safety = safetyCheck(messages);
+  if (!safety.ok) {
+    await logCall({
+      tool_name: `chat:${agentId}`,
+      toolset_slug: agent.toolset,
+      user_id: userId,
+      status: "denied",
+      duration_ms: Math.round(performance.now() - start),
+      error_message: safety.reason ?? "safety_blocked",
+    });
+    return new Response(JSON.stringify({ error: safety.reason }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
 
   const toolName = `chat:${agentId}`;
   const tier = await getUserTier(userId);
