@@ -16,6 +16,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import PWAInstallBanner from "@/components/PWAInstallBanner";
 import { setDynamicManifest } from "@/utils/pwaManifest";
 import SignalDashboard from "@/components/signal/SignalDashboard";
+import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 
 interface Message {
   role: "user" | "assistant";
@@ -54,6 +55,11 @@ export default function AgentApp() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Resume the user's previous conversation with this agent (DB for signed-in,
+  // localStorage for guests). Keyed by agentId so switching agents loads that
+  // agent's own thread.
+  const { clearHistory } = useAgentChatHistory(agentId, messages, setMessages);
 
   const agent = useMemo(() => agents.find(a => a.id === agentId), [agentId]);
   const capabilities = useMemo(() => agentCapabilities[agentId || ""] || [], [agentId]);
@@ -133,6 +139,20 @@ export default function AgentApp() {
           <h1 className="text-sm font-bold font-display" style={{ color }}>{agent.name}</h1>
           <p className="text-[9px] text-gray-400 font-mono truncate">{agent.designation} · {agent.role}</p>
         </div>
+        {messages.length > 0 && (
+          <button
+            onClick={() => {
+              if (window.confirm(`Start a new chat with ${agent.name}? Your previous conversation will be cleared.`)) {
+                clearHistory();
+              }
+            }}
+            className="text-[10px] font-medium px-2.5 py-1.5 rounded-lg transition hover:opacity-80"
+            style={{ color: "#3D4250", border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.6)" }}
+            title="Clear this conversation"
+          >
+            New chat
+          </button>
+        )}
         {user ? (
           <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold"
             style={{ background: color + "30", color }}>{(user.email?.[0] || "U").toUpperCase()}</div>
