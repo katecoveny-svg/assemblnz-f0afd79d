@@ -1512,6 +1512,7 @@ const ChatPage = () => {
   }, [agentId, buildVoiceHandoffPrompt, historyReady, searchParams, sendMessage, setSearchParams]);
 
   if (!agent) {
+    const lastAgent = getLastAgentContext();
     return (
       <div className="min-h-screen flex items-center justify-center bg-background px-6">
         <div className="max-w-md w-full text-center rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-8 shadow-sm">
@@ -1531,6 +1532,25 @@ const ChatPage = () => {
           <p className="text-sm text-muted-foreground mb-6">
             It may have been renamed or retired.
           </p>
+
+          {lastAgent && lastAgent.rawSlug !== rawAgentId && (
+            <Link
+              to={`/chat/${lastAgent.rawSlug}`}
+              className="mb-3 inline-flex items-center justify-center gap-2 w-full rounded-lg px-4 py-2.5 text-sm font-medium transition-all hover:scale-[1.01]"
+              style={{
+                background: `${lastAgent.color}15`,
+                border: `1px solid ${lastAgent.color}40`,
+                color: lastAgent.color,
+              }}
+            >
+              <span
+                className="inline-block w-2 h-2 rounded-full"
+                style={{ background: lastAgent.color }}
+              />
+              Resume with {lastAgent.name}
+            </Link>
+          )}
+
           <div className="flex flex-col sm:flex-row gap-2 justify-center">
             <Link
               to="/agents"
