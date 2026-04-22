@@ -6746,8 +6746,19 @@ Deno.serve(async (req) => {
  );
  }
 
+ const requestId = crypto.randomUUID().slice(0, 8);
  const body = await req.json();
  const { agentId: rawAgentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode } = body;
+
+ console.log(`[chat:${requestId}] incoming request`, JSON.stringify({
+   rawAgentId,
+   messageCount: Array.isArray(messages) ? messages.length : 0,
+   getSystemPrompt: !!getSystemPrompt,
+   receptionistMode: !!receptionistMode,
+   propertyMode: propertyMode ?? null,
+   requestedModel: requestedModel ?? null,
+   hasBrandContext: !!brandContext,
+ }));
 
  // Map frontend agent IDs (from agents.ts) to edge function prompt keys
  const AGENT_ID_TO_PROMPT_KEY: Record<string, string> = {
@@ -6790,12 +6801,44 @@ Deno.serve(async (req) => {
   carenavigation: "health",      // VITAE care nav
  };
  const agentId = AGENT_ID_TO_PROMPT_KEY[rawAgentId] || rawAgentId;
+ const wasMapped = !!AGENT_ID_TO_PROMPT_KEY[rawAgentId];
+ const promptExists = !!agentPrompts[agentId];
+
+ console.log(`[chat:${requestId}] agent resolution`, JSON.stringify({
+   rawAgentId,
+   resolvedAgentId: agentId,
+   wasMapped,
+   promptExists,
+   promptLength: promptExists ? agentPrompts[agentId].length : 0,
+ }));
+
+ if (!rawAgentId) {
+   console.warn(`[chat:${requestId}] missing agentId in request body`);
+   return new Response(
+     JSON.stringify({
+       error: "Missing agentId",
+       detail: "Request body must include an agentId field.",
+       requestId,
+     }),
+     { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+   );
+ }
 
  // Return system prompt for voice agent sync
  if (getSystemPrompt && agentId) {
   const prompt = agentPrompts[agentId];
   if (!prompt) {
-   return new Response(JSON.stringify({ error: "Unknown agent" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+   console.warn(`[chat:${requestId}] unknown agent (getSystemPrompt path)`, JSON.stringify({ rawAgentId, resolvedAgentId: agentId }));
+   return new Response(
+     JSON.stringify({
+       error: "Unknown agent",
+       detail: `No system prompt found for agentId "${rawAgentId}" (resolved to "${agentId}").`,
+       rawAgentId,
+       resolvedAgentId: agentId,
+       requestId,
+     }),
+     { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+   );
   }
   return new Response(
    JSON.stringify({ systemPrompt: prompt + SHARED_BEHAVIOURS }),
@@ -6959,11 +7002,29 @@ IMAGERY STYLE: When generating images, use the 'Dark Cosmic Aotearoa' aesthetic 
 
   const systemPrompt = agentPrompts[agentId];
  if (!systemPrompt) {
+  console.warn(`[chat:${requestId}] unknown agent (chat path)`, JSON.stringify({
+    rawAgentId,
+    resolvedAgentId: agentId,
+    wasMapped,
+  }));
   return new Response(
-   JSON.stringify({ error: "Unknown agent" }),
+   JSON.stringify({
+     error: "Unknown agent",
+     detail: `No system prompt found for agentId "${rawAgentId}"${wasMapped ? ` (mapped to "${agentId}")` : ""}. Check that the agentId matches a configured agent.`,
+     rawAgentId,
+     resolvedAgentId: agentId,
+     requestId,
+   }),
    { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
   );
  }
+
+ // Log confirmed prompt selection so logs verify what the model actually receives
+ console.log(`[chat:${requestId}] system prompt confirmed`, JSON.stringify({
+   resolvedAgentId: agentId,
+   systemPromptLength: systemPrompt.length,
+   systemPromptPreview: systemPrompt.slice(0, 120).replace(/\s+/g, " "),
+ }));
 
   // Build full system prompt with shared behaviours, optional brand context, and language preference
   let fullSystemPrompt = systemPrompt + `
