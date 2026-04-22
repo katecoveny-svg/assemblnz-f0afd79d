@@ -371,6 +371,8 @@ export default function InteractiveKeteHero({
             />
           )}
         </motion.div>
+        {/* /inner ambient-float wrapper */}
+        </motion.div>
 
         {/* Subtle highlight rim that follows cursor (depth illusion) */}
         <motion.div
