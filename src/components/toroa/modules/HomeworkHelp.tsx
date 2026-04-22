@@ -64,25 +64,67 @@ export default function HomeworkHelp({ children }: Props) {
     setInput(`Help ${child.name} with ${subject.name}`);
   };
 
+  const handleFile = async (file: File | null | undefined) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please choose an image file (JPG, PNG, HEIC).");
+      return;
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      toast.error("Image is over 5 MB — try a smaller photo.");
+      return;
+    }
+    const dataUrl = await new Promise<string>((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result as string);
+      r.onerror = () => reject(new Error("Could not read image"));
+      r.readAsDataURL(file);
+    });
+    setPendingImage(dataUrl);
+    setPendingImageName(file.name);
+  };
+
+  const clearPendingImage = () => {
+    setPendingImage(null);
+    setPendingImageName(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   const send = useCallback(async () => {
     const text = input.trim();
-    if (!text || streaming) return;
+    if ((!text && !pendingImage) || streaming) return;
 
     const ctxParts: string[] = [];
     if (activeChild) ctxParts.push(`Child: ${activeChild.name} (Year ${activeChild.year_level})`);
     if (activeSubject) ctxParts.push(`Subject: ${activeSubject.name} — NZC Level ${activeSubject.nzcLevel}`);
     const contextLine = ctxParts.length ? `[Context: ${ctxParts.join(" · ")}]\n\n` : "";
+    const userText = text || "Please help with this homework worksheet.";
 
-    const userMsg: Msg = { role: "user", content: text };
-    const sendable: Msg = { role: "user", content: contextLine + text };
+    const userMsg: Msg = { role: "user", content: userText, imageUrl: pendingImage ?? undefined };
+
+    // Build the multimodal payload sent to the model.
+    const sendable = pendingImage
+      ? {
+          role: "user" as const,
+          content: [
+            { type: "text", text: contextLine + userText },
+            { type: "image_url", image_url: { url: pendingImage, detail: "high" } },
+          ] as ContentPart[],
+        }
+      : { role: "user" as const, content: contextLine + userText };
+
+    // History sent to the model strips imageUrl (it's UI-only metadata).
+    const history = messages.map((m) => ({ role: m.role, content: m.content }));
+
     setMessages((prev) => [...prev, userMsg, { role: "assistant", content: "" }]);
     setInput("");
+    clearPendingImage();
     setStreaming(true);
 
     try {
       await streamMcpChat({
         agentId: "toro",
-        messages: [...messages, sendable],
+        messages: [...history, sendable],
         onDelta: (chunk) => {
           setMessages((prev) => {
             const next = [...prev];
@@ -111,7 +153,7 @@ export default function HomeworkHelp({ children }: Props) {
       toast.error((e as Error).message || "Tōro chat failed");
       setStreaming(false);
     }
-  }, [input, streaming, messages, activeChild, activeSubject]);
+  }, [input, streaming, messages, activeChild, activeSubject, pendingImage]);
 
   return (
     <div className="space-y-4">
