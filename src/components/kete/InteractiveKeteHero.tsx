@@ -81,14 +81,28 @@ export default function InteractiveKeteHero({
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
-  // Mouse-tracked tilt — perspective transform
+  // Cursor-tracked tilt + halo with LONG lag (300–500ms feel) per Brand Bible v2.0.
+  // We use very low stiffness + high damping so the kete trails the cursor like silk.
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [12, -12]), { stiffness: 120, damping: 18 });
-  const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-16, 16]), { stiffness: 120, damping: 18 });
-  const lift = useSpring(0, { stiffness: 200, damping: 22 });
-  const haloX = useSpring(useTransform(mx, [-0.5, 0.5], [-30, 30]), { stiffness: 90, damping: 20 });
-  const haloY = useSpring(useTransform(my, [-0.5, 0.5], [-20, 20]), { stiffness: 90, damping: 20 });
+  // ~350ms perceptual lag for tilt
+  const TILT_SPRING = { stiffness: 35, damping: 22, mass: 1.1 };
+  // ~450ms perceptual lag for halo (slower than tilt so light feels heavier than form)
+  const HALO_SPRING = { stiffness: 22, damping: 24, mass: 1.3 };
+  const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [10, -10]), TILT_SPRING);
+  const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-14, 14]), TILT_SPRING);
+  const lift = useSpring(0, { stiffness: 60, damping: 22 });
+  const haloX = useSpring(useTransform(mx, [-0.5, 0.5], [-34, 34]), HALO_SPRING);
+  const haloY = useSpring(useTransform(my, [-0.5, 0.5], [-22, 22]), HALO_SPRING);
+  // Hover sparkle/glow intensity — only lights up while pointer is in the kete area.
+  const glow = useSpring(0, { stiffness: 40, damping: 22 });
+
+  // Scroll parallax — kete drifts gently as the page scrolls, cloud drifts slower.
+  const { scrollY } = useScroll();
+  const keteParallax = useTransform(scrollY, [0, 800], [0, -60]);
+  const cloudParallax = useTransform(scrollY, [0, 800], [0, -28]);
+  const keteParallaxSmooth = useSpring(keteParallax, { stiffness: 40, damping: 28, mass: 1 });
+  const cloudParallaxSmooth = useSpring(cloudParallax, { stiffness: 30, damping: 28, mass: 1 });
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (reduced) return;
@@ -103,7 +117,8 @@ export default function InteractiveKeteHero({
 
   const handleEnter = () => {
     setHovered(true);
-    lift.set(-8);
+    lift.set(-6);
+    glow.set(1);
   };
 
   const handleLeave = () => {
@@ -111,6 +126,7 @@ export default function InteractiveKeteHero({
     mx.set(0);
     my.set(0);
     lift.set(0);
+    glow.set(0);
   };
 
   // Pre-computed sparkle particle field
