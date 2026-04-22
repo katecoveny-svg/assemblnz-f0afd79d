@@ -1092,3 +1092,44 @@ html {
   border-color: #D9BC7A !important;
 }
 
+/* ===========================================================================
+   8 ─ Brand Guidelines v1.0 typography shim (2026-04-22)
+   ---------------------------------------------------------------------------
+   The brand bible bans Plus Jakarta Sans, Lato, and JetBrains Mono.
+   Rather than rewrite every legacy inline `style={{ fontFamily: ... }}`
+   call site (1,700+ hits across 89 files), we alias them to the approved
+   families globally. Any element whose inline style mentions a banned
+   family gets re-rendered in the canonical Inter / IBM Plex Mono.
+   Mirror of the existing pearl-alignment-shim pattern.
+   =========================================================================== */
+[style*="Plus Jakarta Sans"],
+[style*="'Plus Jakarta Sans'"],
+[style*='"Plus Jakarta Sans"'],
+[style*="Lato"],
+[style*="'Lato'"],
+[style*='"Lato"'] {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+[style*="JetBrains Mono"],
+[style*="'JetBrains Mono'"],
+[style*='"JetBrains Mono"'] {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace !important;
+}
+
+/* 9 ─ Banned hard text colours → Twilight Taupe (Brand v1.0)
+       #1A1D29 / #000 used as text colour drift in legacy hanga + toroa
+       dashboards. SVG `fill` attributes are not reachable, but inline
+       `color` and `text-color` CSS in style strings are caught here.   */
+[style*="color:#1A1D29"],
+[style*="color: #1A1D29"],
+[style*="color:#1a1d29"],
+[style*="color: #1a1d29"],
+[style*="color:#000000"],
+[style*="color: #000000"],
+[style*="color:#000;"],
+[style*="color: #000;"],
+[style*="color: black"],
+[style*="color:black"] {
+  color: #6F6158 !important;
+}
+
