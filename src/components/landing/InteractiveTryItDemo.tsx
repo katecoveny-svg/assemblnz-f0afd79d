@@ -529,7 +529,13 @@ export default function InteractiveTryItDemo() {
               >
                 <div className="flex items-center gap-2 text-[12px]" style={{ color: C.textSecondary }}>
                   <Shield size={13} style={{ color: scenario.accent }} />
-                  Watermarked, audit-trail logged, ready to share with your auditor.
+                  {packResult ? (
+                    <span>
+                      Audit-ready evidence pack saved · <span style={{ fontFamily: "'JetBrains Mono', monospace", color: scenario.accent }}>{packResult.watermark}</span>
+                    </span>
+                  ) : (
+                    <span>Watermarked, source-cited, audit-trail logged — ready to file with your auditor.</span>
+                  )}
                 </div>
                 <div className="flex gap-2 shrink-0">
                   <button
@@ -543,13 +549,22 @@ export default function InteractiveTryItDemo() {
                   >
                     <RotateCcw size={11} /> Try another
                   </button>
-                  <Link
-                    to={`/sample/${scenario.id}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[12px] font-medium"
+                  <button
+                    onClick={handleGenerateEvidencePack}
+                    disabled={generating}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[12px] font-medium disabled:opacity-60"
                     style={{ background: scenario.accent, color: "#fff" }}
                   >
-                    See full pack <ArrowRight size={11} />
-                  </Link>
+                    {generating ? (
+                      <>
+                        <Loader2 size={11} className="animate-spin" /> Generating evidence pack…
+                      </>
+                    ) : (
+                      <>
+                        Download evidence pack <ArrowRight size={11} />
+                      </>
+                    )}
+                  </button>
                 </div>
               </motion.div>
             </motion.div>
