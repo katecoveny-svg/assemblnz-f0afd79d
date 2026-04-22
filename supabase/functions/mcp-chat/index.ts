@@ -76,21 +76,33 @@ const DISALLOWED_PATTERNS: RegExp[] = [
   /\b(instructions for self[- ]harm)\b/i,
 ];
 
-function safetyCheck(messages: Array<{ role: string; content: string }>): { ok: boolean; reason?: string } {
+type ContentPart = { type: "text"; text: string } | { type: "image_url"; image_url: { url: string; detail?: string } };
+type MsgIn = { role: string; content: string | ContentPart[] };
+
+function extractText(content: string | ContentPart[]): string {
+  if (typeof content === "string") return content;
+  return content
+    .filter((p): p is { type: "text"; text: string } => p.type === "text")
+    .map((p) => p.text)
+    .join("\n");
+}
+
+function safetyCheck(messages: MsgIn[]): { ok: boolean; reason?: string } {
   let total = 0;
   for (const m of messages) {
-    total += m.content.length;
+    const text = extractText(m.content);
+    total += text.length;
     if (total > MAX_TOTAL_CHARS) {
       return { ok: false, reason: `Conversation exceeds ${MAX_TOTAL_CHARS} characters total.` };
     }
-    if (m.role !== "user") continue; // only screen user input
+    if (m.role !== "user") continue; // only screen user text
     for (const re of INJECTION_PATTERNS) {
-      if (re.test(m.content)) {
+      if (re.test(text)) {
         return { ok: false, reason: "Message blocked: prompt-injection pattern detected." };
       }
     }
     for (const re of DISALLOWED_PATTERNS) {
-      if (re.test(m.content)) {
+      if (re.test(text)) {
         return { ok: false, reason: "Message blocked: disallowed content per safety policy." };
       }
     }
