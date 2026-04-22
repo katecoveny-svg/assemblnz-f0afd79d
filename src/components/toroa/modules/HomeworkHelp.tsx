@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
-import { BookOpen, GraduationCap, Calculator, Globe, Pencil, Send, Loader2, Sparkles, ImagePlus, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { BookOpen, GraduationCap, Calculator, Globe, Pencil, Send, Loader2, Sparkles, ImagePlus, X, Gamepad2 } from "lucide-react";
 import { streamMcpChat, type ContentPart } from "@/lib/mcpChat";
 import { toast } from "sonner";
+import LearningGame from "./LearningGame";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
@@ -50,6 +51,8 @@ export default function HomeworkHelp({ children }: Props) {
   const [streaming, setStreaming] = useState(false);
   const [pendingImage, setPendingImage] = useState<string | null>(null); // data URL
   const [pendingImageName, setPendingImageName] = useState<string | null>(null);
+  const [showGame, setShowGame] = useState(false);
+  const [gameKey, setGameKey] = useState(0); // bump to remount and regenerate
   const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -210,18 +213,57 @@ export default function HomeworkHelp({ children }: Props) {
         </motion.div>
       ))}
 
+      {/* ── Generate a learning game ── */}
+      <AnimatePresence>
+        {showGame && (
+          <LearningGame
+            key={gameKey}
+            childName={activeChild?.name}
+            yearLevel={activeChild?.year_level}
+            subject={activeSubject?.name ?? "general"}
+            nzcLevel={activeSubject?.nzcLevel}
+            topicHint={
+              input.trim() ||
+              messages.filter((m) => m.role === "user").slice(-1)[0]?.content ||
+              undefined
+            }
+            imageDataUrl={pendingImage}
+            onClose={() => setShowGame(false)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* ── Inline chat with Tōro ── */}
       <div className="rounded-xl p-4 space-y-3" style={{ ...glass, borderColor: `${POUNAMU}25` }}>
-        <div className="flex items-center gap-2">
-          <Sparkles size={14} style={{ color: POUNAMU }} />
-          <p className="font-body text-xs uppercase tracking-wider" style={{ color: POUNAMU }}>
-            Ask Tōro
-            {activeChild && activeSubject && (
-              <span className="ml-2 normal-case font-mono text-[10px]" style={{ color: "#6B7280" }}>
-                · {activeChild.name} · {activeSubject.name}
-              </span>
-            )}
-          </p>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <Sparkles size={14} style={{ color: POUNAMU }} />
+            <p className="font-body text-xs uppercase tracking-wider truncate" style={{ color: POUNAMU }}>
+              Ask Tōro
+              {activeChild && activeSubject && (
+                <span className="ml-2 normal-case font-mono text-[10px]" style={{ color: "#6B7280" }}>
+                  · {activeChild.name} · {activeSubject.name}
+                </span>
+              )}
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              setGameKey((k) => k + 1);
+              setShowGame(true);
+            }}
+            disabled={streaming}
+            className="shrink-0 px-2.5 py-1 rounded-full text-[10px] font-body flex items-center gap-1 transition-all hover:scale-[1.03] disabled:opacity-40"
+            style={{
+              background: "rgba(217,188,122,0.18)",
+              border: `1px solid #D9BC7A55`,
+              color: "#8A6B2E",
+            }}
+            type="button"
+            title="Generate a fun learning game from this topic"
+          >
+            <Gamepad2 size={11} /> Make a game
+          </button>
         </div>
 
         <div
