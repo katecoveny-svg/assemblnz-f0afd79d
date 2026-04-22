@@ -464,6 +464,9 @@ const ChatPage = () => {
     }
   }, [agentId]);
 
+  // Persist resolved agent context (id, color, name) for cross-refresh recovery
+  usePersistAgentContext(rawAgentId, agent);
+
   const dismissOnboarding = () => {
     if (onboardingStep < 2) {
       setOnboardingStep(s => s + 1);
