@@ -104,6 +104,7 @@ export async function agentChatStream({
   systemPrompt,
   userId,
   skipMemory,
+  params,
   onDelta,
   onDone,
   onError,
@@ -122,7 +123,7 @@ export async function agentChatStream({
           ...messages.map((m) => ({ role: m.role as "user" | "assistant", content: m.content })),
           { role: "user", content: message },
         ],
-        params: (arguments[0] as AgentChatOptions).params,
+        params,
         onDelta,
         onDone: () => onDone(),
         onError: (e) => {
