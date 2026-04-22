@@ -173,6 +173,49 @@ const ParentDashboard = ({
           </div>
         </GlassCard>
       </div>
+
+      <GlassCard className="p-6">
+        <div className="flex items-center gap-2 mb-3" style={{ color: "#7A8E83" }}>
+          <History size={14} />
+          <span className="text-[10px] uppercase tracking-[0.2em]">Recent results</span>
+        </div>
+        {loadingHistory ? (
+          <div className="flex items-center gap-2 text-sm" style={{ color: "#7A8E83" }}>
+            <Loader2 size={14} className="animate-spin" /> Loading saved progress…
+          </div>
+        ) : !history || history.length === 0 ? (
+          <p className="text-sm" style={{ color: "#5A6B62" }}>
+            No saved games yet. Completed missions and Tōro Homework games will appear here.
+          </p>
+        ) : (
+          <ul className="divide-y" style={{ borderColor: "rgba(47,73,55,0.08)" }}>
+            {history.map((r) => (
+              <li key={r.id} className="py-2.5 flex items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-sm font-medium truncate" style={{ color: "#1F3A2C" }}>
+                    {r.topic ?? r.subject ?? "Learning game"}
+                  </div>
+                  <div className="text-[11px]" style={{ color: "#7A8E83" }}>
+                    {r.game_source === "toro_homework" ? "Tōro Homework" : "Free the Letter"}
+                    {r.year_level ? ` · Year ${r.year_level}` : ""}
+                    {" · "}
+                    {new Date(r.created_at).toLocaleDateString()}
+                  </div>
+                </div>
+                <div
+                  className="text-xs font-mono px-2.5 py-1 rounded-full shrink-0"
+                  style={{
+                    background: r.accuracy >= 80 ? "rgba(47,203,137,0.12)" : "rgba(217,188,122,0.18)",
+                    color: r.accuracy >= 80 ? "#1F7A52" : "#7A5C20",
+                  }}
+                >
+                  {r.score}/{r.total_questions} · {r.accuracy}%
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </GlassCard>
     </div>
   );
 };
