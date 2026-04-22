@@ -4,7 +4,7 @@
 // by the toro-learning-game edge function.
 // ═══════════════════════════════════════════════════════════════
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight, Camera, CloudUpload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
