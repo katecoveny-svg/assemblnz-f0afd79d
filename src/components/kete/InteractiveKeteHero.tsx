@@ -1,5 +1,5 @@
 import { useRef, useState, useMemo, useEffect } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
 import ResponsiveKeteImage from "./ResponsiveKeteImage";
 // Industry-specific photoreal kete artwork (Kate's uploads).
 import keteManaaki from "@/assets/kete-feather-manaaki.png";
@@ -81,14 +81,28 @@ export default function InteractiveKeteHero({
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
 
-  // Mouse-tracked tilt — perspective transform
+  // Cursor-tracked tilt + halo with LONG lag (300–500ms feel) per Brand Bible v2.0.
+  // We use very low stiffness + high damping so the kete trails the cursor like silk.
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [12, -12]), { stiffness: 120, damping: 18 });
-  const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-16, 16]), { stiffness: 120, damping: 18 });
-  const lift = useSpring(0, { stiffness: 200, damping: 22 });
-  const haloX = useSpring(useTransform(mx, [-0.5, 0.5], [-30, 30]), { stiffness: 90, damping: 20 });
-  const haloY = useSpring(useTransform(my, [-0.5, 0.5], [-20, 20]), { stiffness: 90, damping: 20 });
+  // ~350ms perceptual lag for tilt
+  const TILT_SPRING = { stiffness: 35, damping: 22, mass: 1.1 };
+  // ~450ms perceptual lag for halo (slower than tilt so light feels heavier than form)
+  const HALO_SPRING = { stiffness: 22, damping: 24, mass: 1.3 };
+  const rotateX = useSpring(useTransform(my, [-0.5, 0.5], [10, -10]), TILT_SPRING);
+  const rotateY = useSpring(useTransform(mx, [-0.5, 0.5], [-14, 14]), TILT_SPRING);
+  const lift = useSpring(0, { stiffness: 60, damping: 22 });
+  const haloX = useSpring(useTransform(mx, [-0.5, 0.5], [-34, 34]), HALO_SPRING);
+  const haloY = useSpring(useTransform(my, [-0.5, 0.5], [-22, 22]), HALO_SPRING);
+  // Hover sparkle/glow intensity — only lights up while pointer is in the kete area.
+  const glow = useSpring(0, { stiffness: 40, damping: 22 });
+
+  // Scroll parallax — kete drifts gently as the page scrolls, cloud drifts slower.
+  const { scrollY } = useScroll();
+  const keteParallax = useTransform(scrollY, [0, 800], [0, -60]);
+  const cloudParallax = useTransform(scrollY, [0, 800], [0, -28]);
+  const keteParallaxSmooth = useSpring(keteParallax, { stiffness: 40, damping: 28, mass: 1 });
+  const cloudParallaxSmooth = useSpring(cloudParallax, { stiffness: 30, damping: 28, mass: 1 });
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (reduced) return;
@@ -103,7 +117,8 @@ export default function InteractiveKeteHero({
 
   const handleEnter = () => {
     setHovered(true);
-    lift.set(-8);
+    lift.set(-6);
+    glow.set(1);
   };
 
   const handleLeave = () => {
@@ -111,6 +126,7 @@ export default function InteractiveKeteHero({
     mx.set(0);
     my.set(0);
     lift.set(0);
+    glow.set(0);
   };
 
   // Pre-computed sparkle particle field
@@ -152,20 +168,27 @@ export default function InteractiveKeteHero({
       aria-label={alt}
       role="img"
     >
-      {/* Cinematic backdrop wash — luminous cream/ivory atmosphere */}
+      {/* Cinematic backdrop wash — luminous cream/ivory atmosphere with cloud breathing 12–18s */}
       {isCinematic && (
-        <div
+        <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{
             background: `
               radial-gradient(ellipse 70% 60% at 50% 45%, ${accent}10 0%, transparent 60%),
               radial-gradient(ellipse 90% 70% at 50% 100%, rgba(255,250,240,0.45) 0%, transparent 70%)
             `,
+            y: cloudParallaxSmooth,
           }}
+          animate={
+            reduced
+              ? {}
+              : { opacity: [0.85, 1, 0.85], scale: [1, 1.015, 1] }
+          }
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
         />
       )}
 
-      {/* Cursor-tracking glow halo (parallaxes against mouse) */}
+      {/* Cursor-tracking glow halo (parallaxes against mouse with long lag) */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ x: haloX, y: haloY }}
@@ -180,18 +203,36 @@ export default function InteractiveKeteHero({
             background: `radial-gradient(circle, ${accent}28 0%, ${accent}12 35%, transparent 65%)`,
             filter: "blur(36px)",
           }}
+          // Cloud breathing — 12–18s slow inhale/exhale per Brand Bible v2.0
           animate={
             reduced
               ? {}
-              : { scale: [1, 1.06, 1], opacity: [0.7, 1, 0.7] }
+              : { scale: [1, 1.08, 1], opacity: [0.6, 0.95, 0.6] }
           }
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {/* Hover-only sparkle GLOW — only ignites when cursor is in the kete area */}
+        <motion.div
+          className="absolute left-1/2 top-1/2 rounded-full"
+          style={{
+            width: size * 1.1,
+            height: size * 1.1,
+            x: "-50%",
+            y: "-50%",
+            background: `radial-gradient(circle, rgba(217,188,122,0.45) 0%, rgba(217,188,122,0.18) 40%, transparent 70%)`,
+            filter: "blur(28px)",
+            opacity: glow,
+            mixBlendMode: "screen",
+          }}
         />
       </motion.div>
 
-      {/* Sparkle particle field — soft drifting stars */}
+      {/* Sparkle particle field — Soft Gold stars; intensity tied to hover */}
       {sparkles && (
-        <div className="absolute inset-0 pointer-events-none overflow-visible">
+        <motion.div
+          className="absolute inset-0 pointer-events-none overflow-visible"
+          style={{ opacity: useTransform(glow, [0, 1], [0.35, 1]) }}
+        >
           {particles.map((p) => (
             <motion.div
               key={p.id}
@@ -201,8 +242,8 @@ export default function InteractiveKeteHero({
                 top: `${p.y}%`,
                 width: p.size,
                 height: p.size,
-                background: "radial-gradient(circle, rgba(255,250,240,1) 0%, rgba(255,240,210,0.6) 60%, transparent 100%)",
-                boxShadow: `0 0 ${p.size * 4}px rgba(255,245,220,0.6)`,
+                background: "radial-gradient(circle, rgba(255,250,240,1) 0%, rgba(217,188,122,0.7) 55%, transparent 100%)",
+                boxShadow: `0 0 ${p.size * 4}px rgba(217,188,122,0.55)`,
               }}
               animate={
                 reduced
@@ -221,25 +262,25 @@ export default function InteractiveKeteHero({
               }}
             />
           ))}
-        </div>
+        </motion.div>
       )}
 
-      {/* The interactive 3D kete */}
+      {/* The interactive 3D kete (with scroll parallax + slow ambient float) */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
         style={{
           rotateX,
           rotateY,
-          y: lift,
+          y: useTransform([lift, keteParallaxSmooth] as never, ([l, p]: number[]) => l + p),
           transformStyle: "preserve-3d",
         }}
-        animate={
-          reduced
-            ? {}
-            : { y: [0, -6, 0, 4, 0] }
-        }
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       >
+        {/* Inner wrapper: slow ambient float — independent of cursor + scroll y */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          animate={reduced ? {} : { y: [0, -5, 0, 4, 0] }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        >
         {/* Soft ground reflection */}
         <div
           className="absolute pointer-events-none"
@@ -329,6 +370,8 @@ export default function InteractiveKeteHero({
               style={{ width: "100%", height: "auto", display: "block" }}
             />
           )}
+        </motion.div>
+        {/* /inner ambient-float wrapper */}
         </motion.div>
 
         {/* Subtle highlight rim that follows cursor (depth illusion) */}
