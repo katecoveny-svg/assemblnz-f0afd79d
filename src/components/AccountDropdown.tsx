@@ -39,8 +39,15 @@ const AccountDropdown = () => {
     return (
       <Link
         to="/login"
-        className="text-xs font-medium px-3 py-1.5 rounded-lg border border-primary/30 text-primary hover:bg-primary/10 transition-colors"
+        className="inline-flex items-center gap-1.5 text-xs font-medium px-3.5 py-2 rounded-full transition-all hover:-translate-y-px"
+        style={{
+          background: "#1F4D47",
+          color: "#FAF6EF",
+          boxShadow: "0 6px 18px -8px rgba(31,77,71,0.55)",
+        }}
+        aria-label="Sign in to your account"
       >
+        <User size={12} aria-hidden="true" />
         Sign in
       </Link>
     );
