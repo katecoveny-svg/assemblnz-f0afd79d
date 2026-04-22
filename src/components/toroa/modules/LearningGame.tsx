@@ -389,6 +389,7 @@ export default function LearningGame({
 
             {q.kind === "fill_blank" ? (
               <input
+                ref={fillInputRef}
                 value={typed}
                 onChange={(e) => setTyped(e.target.value)}
                 onKeyDown={(e) => {
@@ -397,6 +398,7 @@ export default function LearningGame({
                 placeholder="Type your answer…"
                 disabled={revealed || solved}
                 aria-invalid={attempts > 0 && !solved}
+                aria-describedby="toro-game-shortcuts"
                 className="w-full rounded-lg px-3 py-2 text-sm font-body outline-none transition-colors"
                 style={{
                   background: "rgba(255,255,255,0.95)",
@@ -407,7 +409,7 @@ export default function LearningGame({
                 }}
               />
             ) : (
-              <div className="grid grid-cols-1 gap-2">
+              <div ref={optionsContainerRef} className="grid grid-cols-1 gap-2" role="group" aria-label="Answer options">
                 {(q.options ?? (q.kind === "true_false" ? ["True", "False"] : [])).map((opt, i) => {
                   const isPicked = picked === opt;
                   const isAnswer = matches(opt, q.answer, q.kind);
