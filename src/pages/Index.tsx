@@ -333,7 +333,7 @@ const Index = () => {
               <GlowCard className="h-full">
                 <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>The work itself</p>
                 <p className="text-[17px] leading-[1.7]" style={{ fontWeight: 400, color: C.text }}>
-                  Specific to the work at hand: a food diary, a site induction, a customs clearance, a contract review, a WoF reminder, a privacy check. Assembl runs the loop in the background and hands you the finished pack — not another dashboard to manage.
+                  Specific to the work at hand: a food diary, a site induction, a customs clearance, a contract review, a WoF reminder, a privacy check. Assembl runs the loop in the background and hands you the finished evidence pack — not another dashboard to manage.
                 </p>
               </GlowCard>
             </motion.div>
@@ -597,7 +597,7 @@ const Index = () => {
         <Sect>
           <motion.div {...fade} className="text-center mb-16">
             <SectionEyebrow>Evidence packs</SectionEyebrow>
-            <SectionH2>Every workflow ends in a pack you can file</SectionH2>
+            <SectionH2>Every workflow ends in an evidence pack you can file</SectionH2>
             <SectionP>Not a chatbot response. A structured document your auditor, bank, or regulator can trust.</SectionP>
           </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
@@ -611,7 +611,7 @@ const Index = () => {
                 { label: "H&S site briefing log", ref: "HSB-091", pass: true },
                 { label: "Payment claim schedule verified", ref: "PCS-004", pass: true },
               ]},
-              { kete: "Arataki", title: "Vehicle Compliance Pack", date: "March 2026", checks: [
+              { kete: "Arataki", title: "Vehicle Compliance Evidence Pack", date: "March 2026", checks: [
                 { label: "WoF/CoF status verified", ref: "VCC-12", pass: true },
                 { label: "Workshop service log", ref: "WSL-033", pass: true },
               ]},
