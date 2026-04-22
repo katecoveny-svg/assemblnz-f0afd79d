@@ -1,32 +1,32 @@
 /**
  * Runtime check: every hardcoded /chat/:agentId link in the codebase must
- * resolve to a real agent in the registry. Catches typos like /chat/hospitalty
- * or stale agent IDs after renames.
+ * resolve to a real agent. Catches typos like /chat/hospitalty or stale
+ * agent IDs after renames.
  *
- * Scans .tsx/.ts source files for `/chat/<id>` patterns and verifies each id
- * either matches an Agent.id or is in the known alias allowlist.
+ * Resolution mirrors ChatPage:
+ *   resolved = SLUG_TO_ID[id] ?? id
+ *   then look up in agents.ts (plus special agents echo, pilot)
  */
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { agents } from "@/data/agents";
+import { SLUG_TO_ID } from "@/lib/agentSlugMap";
 
 const SRC_DIR = resolve(__dirname, "..");
 const VALID_EXT = /\.(tsx?|jsx?)$/;
 const SKIP_DIRS = new Set(["node_modules", "test", "__tests__", "dist", "build"]);
 
-// Aliases handled at runtime by AGENT_SLUG_TO_ID / special agents in ChatPage.
-// Keep this list small and intentional.
-const KNOWN_ALIASES = new Set<string>([
-  "echo",   // injected dynamically in ChatPage
-  "pilot",  // injected dynamically in ChatPage
-]);
+// Special agents injected dynamically inside ChatPage.
+const SPECIAL_AGENTS = new Set<string>(["echo", "pilot"]);
 
-// Dynamic patterns we should ignore (template literals with vars).
-const DYNAMIC_TOKENS = [
-  "${", ":agentId", "agent.id", "agentId}", "a.agentId", "agentSlug",
-  "a.id", "mentionedAgent.id", "alert.target_agent",
-];
+// Match /chat/<id> only when preceded by a non-path char (avoids matching
+// import paths like "./chat/Foo") and the id is a static slug.
+const CHAT_LINK_RE = /(^|[^./\w-])\/chat\/([a-z0-9][a-z0-9-]*)/gi;
+
+// If any of these tokens appear immediately after the matched id, it's a
+// dynamic interpolation fragment (e.g. `/chat/${slug}`) — skip it.
+const DYNAMIC_TAIL_TOKENS = ["${", "agent.id", "a.id", "agentId}", "agentSlug"];
 
 function walk(dir: string, out: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
@@ -39,20 +39,26 @@ function walk(dir: string, out: string[] = []): string[] {
   return out;
 }
 
-function extractChatIds(source: string): string[] {
-  // Match /chat/<id> where <id> is a static slug (letters, digits, dashes).
-  const re = /\/chat\/([a-z0-9][a-z0-9-]*)/gi;
+function extractStaticChatIds(source: string): string[] {
   const ids: string[] = [];
   let m: RegExpExecArray | null;
-  while ((m = re.exec(source)) !== null) {
-    ids.push(m[1]);
+  CHAT_LINK_RE.lastIndex = 0;
+  while ((m = CHAT_LINK_RE.exec(source)) !== null) {
+    const id = m[2];
+    const tail = source.slice(m.index + m[0].length, m.index + m[0].length + 12);
+    if (DYNAMIC_TAIL_TOKENS.some((t) => tail.includes(t))) continue;
+    ids.push(id);
   }
   return ids;
 }
 
+function resolveAgentId(rawId: string): string {
+  return SLUG_TO_ID[rawId] ?? rawId;
+}
+
 describe("agent card routing integrity", () => {
   const validIds = new Set(agents.map((a) => a.id));
-  for (const alias of KNOWN_ALIASES) validIds.add(alias);
+  for (const a of SPECIAL_AGENTS) validIds.add(a);
 
   const files = walk(SRC_DIR);
 
@@ -61,32 +67,36 @@ describe("agent card routing integrity", () => {
   });
 
   it("every static /chat/:agentId link resolves to a real agent", () => {
-    const failures: { file: string; id: string }[] = [];
+    const failures: { file: string; raw: string; resolved: string }[] = [];
 
     for (const file of files) {
       const src = readFileSync(file, "utf8");
-      // Skip lines containing dynamic interpolation right after /chat/
-      const ids = extractChatIds(src).filter((id) => {
-        // Drop ids that look like fragments of a dynamic expression.
-        // A static slug won't include any js identifier glue afterwards.
-        const idx = src.indexOf(`/chat/${id}`);
-        const window = src.slice(idx, idx + id.length + 16);
-        return !DYNAMIC_TOKENS.some((tok) => window.includes(tok));
-      });
-
-      for (const id of ids) {
-        if (!validIds.has(id)) {
-          failures.push({ file: file.replace(SRC_DIR, "src"), id });
+      for (const raw of extractStaticChatIds(src)) {
+        const resolved = resolveAgentId(raw);
+        if (!validIds.has(resolved)) {
+          failures.push({ file: file.replace(SRC_DIR, "src"), raw, resolved });
         }
       }
     }
 
     if (failures.length > 0) {
       const msg = failures
-        .map((f) => `  ${f.file} → /chat/${f.id} (no matching agent)`)
+        .map((f) =>
+          f.raw === f.resolved
+            ? `  ${f.file} → /chat/${f.raw} (no matching agent)`
+            : `  ${f.file} → /chat/${f.raw} → "${f.resolved}" (no matching agent)`
+        )
         .join("\n");
       throw new Error(`Broken /chat/:agentId links:\n${msg}`);
     }
+  });
+
+  it("every SLUG_TO_ID alias resolves to a real agent", () => {
+    const broken: string[] = [];
+    for (const [slug, id] of Object.entries(SLUG_TO_ID)) {
+      if (!validIds.has(id)) broken.push(`${slug} → ${id}`);
+    }
+    expect(broken, `Broken aliases:\n${broken.join("\n")}`).toEqual([]);
   });
 
   it("registry exposes a non-empty agent list with unique ids", () => {
