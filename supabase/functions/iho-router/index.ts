@@ -663,8 +663,9 @@ Deno.serve(async (req: Request) => {
     // STEP 11: RESPONSE — Return to Kanohi
     const response: IhoResponse = {
       response: responseContent,
-      agentUsed: { code: intent.agent.code, name: intent.agent.name, pack: intent.agent.pack, model: modelConfig.model },
-      modelUsed: modelConfig.model,
+      agentUsed: { code: intent.agent.code, name: intent.agent.name, pack: intent.agent.pack, model: modelServed },
+      modelUsed: modelServed,
+      providerUsed: providerServed,
       tokensUsed: { input: inputTokens, output: outputTokens, total: totalTokens },
       cost: { usd: cost.usd, nzdAmount: cost.nzd },
       complianceStatus: {
@@ -677,7 +678,7 @@ Deno.serve(async (req: Request) => {
       },
       auditLog: {
         requestId, timestamp: new Date().toISOString(),
-        agentId: intent.agent.code, modelUsed: modelConfig.model,
+        agentId: intent.agent.code, modelUsed: modelServed, providerUsed: providerServed,
         tokensUsed: totalTokens, costNZD: cost.nzd,
       },
     };
