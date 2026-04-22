@@ -685,6 +685,14 @@ const ChatPage = () => {
     }
   }, [messages, user, agentId, conversationId]);
 
+  // Cross-tab sync for guest sessions: instantly mirror updates from other tabs.
+  useGuestChatSync({
+    agentId,
+    isGuest: !user,
+    messages,
+    setMessages,
+  });
+
   // Process NEXUS assistant responses for workflow data
   const processNexusResponse = useCallback((content: string) => {
     // Extract job sheet data
