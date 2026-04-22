@@ -152,7 +152,7 @@ const EchoChatWidget = () => {
           style={{ background: "hsl(var(--background))", border: `1px solid ${ECHO_BORDER}`, boxShadow: `0 4px 20px rgba(74,165,168,0.15)` }}
           onClick={() => setMinimized(false)}
         >
-          <img loading="lazy" decoding="async" src={assemblMark} alt="Echo" className="w-6 h-6 object-contain logo-glow" />
+          <img loading="lazy" decoding="async" src={floaterImage} alt={floaterAlt} className="w-6 h-6 object-cover rounded-full" />
           <span className="text-xs font-display font-bold" style={{ color: ECHO_COLOR }}>Echo</span>
           {messages.length > 0 && (
             <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: ECHO_BG_ACCENT, color: ECHO_COLOR }}>
