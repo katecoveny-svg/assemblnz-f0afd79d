@@ -10,6 +10,89 @@ Live: <https://assembl.co.nz> · <https://www.assembl.co.nz>
 
 ---
 
+## Quickstart
+
+Copy-paste the block below to clone, install, run, and verify that streaming
+chat is working end-to-end. Requires **Node 20+** (Node 22 recommended) and
+either `npm`, `pnpm`, or `bun`.
+
+```bash
+# 1. Clone + enter
+git clone https://github.com/<your-org>/assembl.git
+cd assembl
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the Vite dev server (http://localhost:5173)
+npm run dev
+```
+
+`.env` is auto-managed by Lovable Cloud — `VITE_SUPABASE_URL` and
+`VITE_SUPABASE_PUBLISHABLE_KEY` are already populated, so the dev server
+talks to the same backend (Postgres, RLS, edge functions) as production.
+
+### Verify chat streaming end-to-end
+
+In a **second terminal**, hit the secret-check function to confirm the keys
+the chat pipeline depends on are present (no values are ever returned):
+
+```bash
+# Pull the URL + publishable key out of .env
+source <(grep -E '^VITE_SUPABASE_(URL|PUBLISHABLE_KEY)=' .env | sed 's/^/export /')
+
+curl -s "$VITE_SUPABASE_URL/functions/v1/toroa-secret-check" \
+  -H "Authorization: Bearer $VITE_SUPABASE_PUBLISHABLE_KEY" | jq
+# Expect: { "ok": true, "secrets": [ { "name": "LOVABLE_API_KEY", "set": true }, … ] }
+```
+
+Then stream a real chat turn straight from the terminal. This hits
+`mcp-chat` (Lovable AI Gateway → Gemini/GPT-5) and prints raw SSE
+`data: …` frames as tokens arrive — if you see lines streaming
+in one-by-one, the full pipeline (auth → Mana Trust Layer → upstream
+model → SSE) is working:
+
+```bash
+curl -N "$VITE_SUPABASE_URL/functions/v1/mcp-chat" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $VITE_SUPABASE_PUBLISHABLE_KEY" \
+  -d '{
+    "agentId": "manaaki",
+    "messages": [{ "role": "user", "content": "Say hi in te reo Māori." }]
+  }'
+```
+
+To verify Claude streaming (uses `ANTHROPIC_API_KEY`), repeat with the
+`claude-chat` endpoint and a Claude model:
+
+```bash
+curl -N "$VITE_SUPABASE_URL/functions/v1/claude-chat" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $VITE_SUPABASE_PUBLISHABLE_KEY" \
+  -d '{
+    "agentId": "manaaki",
+    "model": "claude-3-5-sonnet-latest",
+    "messages": [{ "role": "user", "content": "Stream a one-line greeting." }]
+  }'
+```
+
+Finally, open <http://localhost:5173/manaaki>, send a message in the chat
+widget, and confirm the assistant reply appears **token-by-token**. That
+confirms `streamMcpChat` (`src/lib/mcpChat.ts`) is parsing the SSE frames
+correctly in the browser.
+
+> **401?** Sign in first (`/auth`) — both endpoints require a Supabase JWT.
+> **402 / 429?** You've hit Lovable AI Gateway billing or rate limits —
+> top up at *Settings → Workspace → Usage*.
+> **`LOVABLE_API_KEY not configured`** in logs → re-enable Lovable Cloud
+> from the project's **Connectors** panel.
+
+For deeper local-development notes (scripts, edge function workflow, full
+secret reference) see [Running locally](#running-locally) and
+[`docs/ENVIRONMENT.md`](docs/ENVIRONMENT.md).
+
+---
+
 ## Table of contents
 
 1. [Architecture](#architecture)
