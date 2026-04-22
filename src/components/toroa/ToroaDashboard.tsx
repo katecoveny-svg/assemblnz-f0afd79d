@@ -149,6 +149,9 @@ export default function ToroaDashboard() {
   const [digest, setDigest] = useState(DEMO_DIGEST);
   const [appointments, setAppointments] = useState(DEMO_APPOINTMENTS);
   const [shoppingItems, setShoppingItems] = useState(DEMO_SHOPPING);
+  const [familyMembers, setFamilyMembers] = useState(DEMO_FAMILY.members);
+  const [familyChildren, setFamilyChildren] = useState(DEMO_FAMILY.children);
+  const [familyPets, setFamilyPets] = useState(DEMO_FAMILY.pets);
 
   const toggleShopping = (id: string) => {
     setShoppingItems(prev => prev.map(i => i.id === id ? { ...i, purchased: !i.purchased } : i));
@@ -165,7 +168,19 @@ export default function ToroaDashboard() {
       case "today":
         return <TodayDigest items={digest} greeting="Kia ora, Sarah" onChange={setDigest} />;
       case "family":
-        return <FamilyOverview members={DEMO_FAMILY.members} pets={DEMO_FAMILY.pets} children={DEMO_FAMILY.children} />;
+        return (
+          <FamilyOverview
+            members={familyMembers}
+            pets={familyPets}
+            children={familyChildren}
+            onAddMember={(m) => setFamilyMembers(prev => [...prev, m])}
+            onRemoveMember={(i) => setFamilyMembers(prev => prev.filter((_, idx) => idx !== i))}
+            onAddChild={(c) => setFamilyChildren(prev => [...prev, c])}
+            onRemoveChild={(i) => setFamilyChildren(prev => prev.filter((_, idx) => idx !== i))}
+            onAddPet={(p) => setFamilyPets(prev => [...prev, p])}
+            onRemovePet={(i) => setFamilyPets(prev => prev.filter((_, idx) => idx !== i))}
+          />
+        );
       case "pets":
         return <PetModule pets={DEMO_PETS} />;
       case "school":
