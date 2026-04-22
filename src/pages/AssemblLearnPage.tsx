@@ -6,6 +6,7 @@ import ParentDashboard from "@/features/learn/components/ParentDashboard";
 import CompletionScreen from "@/features/learn/components/CompletionScreen";
 import { EQUATIONS } from "@/features/learn/data/equations";
 import { saveGameResult, type QuestionOutcome } from "@/features/learn/lib/gameResults";
+import AccountDropdown from "@/components/AccountDropdown";
 import { toast } from "sonner";
 
 type View = "home" | "mission" | "complete" | "parent";
