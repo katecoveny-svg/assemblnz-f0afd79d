@@ -28,7 +28,20 @@ interface Question {
   options?: string[];
   answer: string;
   explanation: string;
+  /** Legacy single hint — kept for backward compat with older payloads. */
   hint: string;
+  /** Preferred: 3 progressive hints from gentle → strong scaffold. */
+  hints?: string[];
+}
+
+/**
+ * Normalize whatever the model returned into 1–3 progressive hints.
+ * Always returns a non-empty array (falls back to legacy `hint`).
+ */
+function getHintList(q: Question): string[] {
+  const list = (q.hints ?? []).map((h) => (h ?? "").trim()).filter(Boolean);
+  if (list.length > 0) return list.slice(0, 3);
+  return q.hint ? [q.hint.trim()] : [];
 }
 
 interface Game {
