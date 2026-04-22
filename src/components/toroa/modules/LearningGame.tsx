@@ -6,7 +6,7 @@
 
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight } from "lucide-react";
+import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight, Camera } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -219,11 +219,11 @@ export default function LearningGame({
               </span>
               {topicSource === "image" && detectedTopic && (
                 <span
-                  className="font-mono text-[9px] px-2 py-0.5 rounded"
+                  className="font-mono text-[9px] px-2 py-0.5 rounded inline-flex items-center gap-1"
                   style={{ background: `${SOFT_GOLD}25`, color: "#8A6B2E" }}
                   title="Topic auto-detected from your worksheet photo"
                 >
-                  📷 {detectedTopic}
+                  <Camera size={9} /> {detectedTopic}
                 </span>
               )}
               <span className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>
