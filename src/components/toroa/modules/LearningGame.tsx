@@ -403,6 +403,30 @@ export default function LearningGame({
           <p className="font-body text-[11px]" style={{ color: "#6B7280" }}>
             Skill practised: {game.skill_focus}
           </p>
+          <p
+            className="font-body text-[10px] inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
+            style={{
+              background:
+                saveState === "saved"
+                  ? "rgba(58,125,110,0.10)"
+                  : saveState === "error"
+                    ? "rgba(239,68,68,0.08)"
+                    : "rgba(0,0,0,0.04)",
+              color:
+                saveState === "saved"
+                  ? POUNAMU
+                  : saveState === "error"
+                    ? "#9B1C1C"
+                    : "#6B7280",
+            }}
+            aria-live="polite"
+          >
+            <CloudUpload size={10} aria-hidden="true" />
+            {saveState === "saving" && "Saving result…"}
+            {saveState === "saved" && "Saved to your progress"}
+            {saveState === "error" && "Couldn't save — score still shown"}
+            {saveState === "idle" && "Result ready"}
+          </p>
           <div className="flex justify-center gap-2 pt-1">
             <button
               onClick={restart}
