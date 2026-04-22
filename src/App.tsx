@@ -28,6 +28,12 @@ const ChatPageKeyed = () => {
   return <ChatPage key={agentId} />;
 };
 
+// Redirect /agents/:agentId → /chat/:agentId (preserves the agent param)
+const AgentSlugRedirect = () => {
+  const { agentId } = useParams();
+  return <Navigate to={`/chat/${agentId}`} replace />;
+};
+
 // ─── Lazy imports (aligned pages only) ───────────────────────────────────────
 const EmbedPage = lazy(() => import("./pages/EmbedPage"));
 const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
