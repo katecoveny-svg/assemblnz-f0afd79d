@@ -1,13 +1,15 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, GraduationCap, Calculator, Globe, Pencil, Send, Loader2, Sparkles } from "lucide-react";
-import { streamMcpChat } from "@/lib/mcpChat";
+import { BookOpen, GraduationCap, Calculator, Globe, Pencil, Send, Loader2, Sparkles, ImagePlus, X } from "lucide-react";
+import { streamMcpChat, type ContentPart } from "@/lib/mcpChat";
 import { toast } from "sonner";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const BONE = "#F5F0E8";
 const TANGAROA = "#1A3A5C";
+
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5 MB raw photo cap
 
 interface Subject {
   name: string;
