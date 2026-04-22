@@ -88,6 +88,33 @@ export default function LearningGame({
   // Track whether we've already counted this question's outcome for analytics
   const recordedRef = useRef(false);
 
+  // Refs for focus management + screen-reader announcements
+  const fillInputRef = useRef<HTMLInputElement>(null);
+  const optionsContainerRef = useRef<HTMLDivElement>(null);
+  const [announcement, setAnnouncement] = useState("");
+
+  // Helper that nudges focus back to the active answer control
+  const focusAnswerControl = () => {
+    requestAnimationFrame(() => {
+      if (fillInputRef.current && !fillInputRef.current.disabled) {
+        fillInputRef.current.focus();
+        return;
+      }
+      const firstOption = optionsContainerRef.current?.querySelector<HTMLButtonElement>(
+        "button:not(:disabled)"
+      );
+      firstOption?.focus();
+    });
+  };
+
+  // Auto-focus the active answer control when each question loads
+  useEffect(() => {
+    if (!loading && !done && !revealed && !solved) {
+      focusAnswerControl();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx, loading, done]);
+
   // ── Fetch game on mount ────────────────────────────────
   useMemo(() => {
     let cancelled = false;
