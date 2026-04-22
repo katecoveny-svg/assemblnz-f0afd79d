@@ -136,20 +136,50 @@ export default function LearningGame({
   const total = game?.questions.length ?? 0;
 
   const submit = () => {
-    if (!q || revealed) return;
+    if (!q || revealed || solved) return;
     const userAnswer = q.kind === "fill_blank" ? typed : picked ?? "";
-    if (!userAnswer) return;
-    const correct = norm(userAnswer) === norm(q.answer);
-    if (correct) setScore((s) => s + 1);
-    outcomesRef.current.push({
-      index: idx,
-      prompt: q.prompt,
-      expected: q.answer,
-      given: userAnswer,
-      correct,
-      kind: q.kind,
-    });
-    setRevealed(true);
+    if (!userAnswer.trim()) return;
+    const correct = matches(userAnswer, q.answer, q.kind);
+
+    if (correct) {
+      // Only count score on the FIRST attempt of this question
+      if (!recordedRef.current) {
+        setScore((s) => s + 1);
+        outcomesRef.current.push({
+          index: idx,
+          prompt: q.prompt,
+          expected: q.answer,
+          given: userAnswer,
+          correct: true,
+          kind: q.kind,
+        });
+        recordedRef.current = true;
+      }
+      setSolved(true);
+      setRevealed(true);
+      return;
+    }
+
+    // Wrong answer → record only the FIRST miss for analytics, then let them try again
+    if (!recordedRef.current) {
+      outcomesRef.current.push({
+        index: idx,
+        prompt: q.prompt,
+        expected: q.answer,
+        given: userAnswer,
+        correct: false,
+        kind: q.kind,
+      });
+      recordedRef.current = true;
+    }
+    setAttempts((a) => a + 1);
+    // After the first miss, surface the hint automatically
+    setShowHint(true);
+  };
+
+  const giveUp = () => {
+    if (!q || revealed) return;
+    setRevealed(true); // shows the answer + explanation; score not awarded
   };
 
   const persistResult = async (finalScore: number) => {
@@ -192,6 +222,10 @@ export default function LearningGame({
     setPicked(null);
     setTyped("");
     setRevealed(false);
+    setSolved(false);
+    setAttempts(0);
+    setShowHint(false);
+    recordedRef.current = false;
   };
 
   const restart = () => {
@@ -199,11 +233,15 @@ export default function LearningGame({
     setPicked(null);
     setTyped("");
     setRevealed(false);
+    setSolved(false);
+    setAttempts(0);
+    setShowHint(false);
     setScore(0);
     setDone(false);
     outcomesRef.current = [];
     startedAtRef.current = Date.now();
     savedRef.current = false;
+    recordedRef.current = false;
     setSaveState("idle");
   };
 
