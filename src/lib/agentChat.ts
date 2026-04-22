@@ -37,6 +37,8 @@ export function getGlobalBrandPrompt(): string {
 export interface AgentChatParams {
   temperature?: number;
   max_tokens?: number;
+  /** Model id — e.g. "openai/gpt-5", "google/gemini-2.5-pro", or "claude-3-5-sonnet-20241022". */
+  model?: string;
 }
 
 interface AgentChatOptions {
@@ -56,7 +58,11 @@ interface AgentChatOptions {
 }
 
 /** True if this agent should be streamed through the new /mcp-chat pipeline. */
-function isMcpAgent(agentId: string, packId?: string): boolean {
+function isMcpAgent(agentId: string, packId?: string, params?: AgentChatParams): boolean {
+  // If the user picked a Claude model in settings, force the new pipeline so
+  // the request is routed via /claude-chat (the legacy /agent-router has no
+  // Anthropic wiring).
+  if (params?.model && /^claude/i.test(params.model)) return true;
   if (MCP_AGENTS.has(agentId)) return true;
   // Some kete dashboards use a sub-agent id (e.g. "aura") with packId="manaaki".
   // Route on packId when it matches a known kete.
