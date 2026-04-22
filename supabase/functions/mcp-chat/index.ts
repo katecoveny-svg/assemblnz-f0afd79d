@@ -369,7 +369,7 @@ Deno.serve(async (req) => {
       { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
-  const { agentId, messages } = parsed.data;
+  const { agentId, messages, params } = parsed.data;
 
   const agent = AGENTS[agentId];
   if (!agent) {
@@ -465,6 +465,10 @@ Deno.serve(async (req) => {
         model: agent.model,
         messages: [{ role: "system", content: systemPrompt }, ...sanitizedMessages],
         stream: true,
+        // Forward client-tunable params only when present — omitting lets the
+        // gateway / model pick its own defaults rather than being pinned to 0.
+        ...(typeof params?.temperature === "number" ? { temperature: params.temperature } : {}),
+        ...(typeof params?.max_tokens === "number" ? { max_tokens: params.max_tokens } : {}),
       }),
     });
   } catch (e) {
