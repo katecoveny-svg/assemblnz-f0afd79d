@@ -648,7 +648,7 @@ const ChatPage = () => {
   useEffect(() => { return () => { Object.values(pollingRef.current).forEach(clearInterval); }; }, []);
   useEffect(() => { return () => { if (pendingImagePreview) URL.revokeObjectURL(pendingImagePreview); }; }, [pendingImagePreview]);
 
-  // Load conversation history on mount
+  // Load conversation history on mount (DB for signed-in users, localStorage fallback for guests)
   useEffect(() => {
     let isActive = true;
 
@@ -661,30 +661,42 @@ const ChatPage = () => {
       return;
     }
 
-    if (!user) {
-      setHistoryReady(true);
-      return;
-    }
-
     setHistoryReady(false);
+
     const loadConversation = async () => {
       try {
-        const { data } = await supabase
-          .from("conversations")
-          .select("id, messages")
-          .eq("user_id", user.id)
-          .eq("agent_id", agentId)
-          .order("updated_at", { ascending: false })
-          .limit(1);
+        if (user) {
+          const { data } = await supabase
+            .from("conversations")
+            .select("id, messages")
+            .eq("user_id", user.id)
+            .eq("agent_id", agentId)
+            .order("updated_at", { ascending: false })
+            .limit(1);
 
-        if (!isActive) return;
+          if (!isActive) return;
 
-        if (data && data.length > 0) {
-          const conv = data[0] as any;
-          setConversationId(conv.id);
-          if (Array.isArray(conv.messages) && conv.messages.length > 0) {
-            setMessages(conv.messages as Message[]);
+          if (data && data.length > 0) {
+            const conv = data[0] as any;
+            setConversationId(conv.id);
+            if (Array.isArray(conv.messages) && conv.messages.length > 0) {
+              setMessages(conv.messages as Message[]);
+              return;
+            }
           }
+        }
+
+        // Guest fallback: restore from localStorage
+        try {
+          const stored = localStorage.getItem(`assembl_chat_${agentId}`);
+          if (stored && isActive) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setMessages(parsed as Message[]);
+            }
+          }
+        } catch {
+          // ignore parse errors
         }
       } finally {
         if (isActive) setHistoryReady(true);
@@ -698,18 +710,30 @@ const ChatPage = () => {
     };
   }, [user, agentId]);
 
-  // Save conversation when messages change
+  // Save conversation when messages change (DB for signed-in users, localStorage for guests)
   useEffect(() => {
-    if (!user || !agentId || messages.length === 0) return;
-    const save = async () => {
-      if (conversationId) {
-        await supabase.from("conversations").update({ messages: messages as any, updated_at: new Date().toISOString() }).eq("id", conversationId);
-      } else {
-        const { data } = await supabase.from("conversations").insert({ user_id: user.id, agent_id: agentId, messages: messages as any }).select("id").single();
-        if (data) setConversationId((data as any).id);
-      }
-    };
-    save();
+    if (!agentId || messages.length === 0) return;
+
+    if (user) {
+      const save = async () => {
+        if (conversationId) {
+          await supabase.from("conversations").update({ messages: messages as any, updated_at: new Date().toISOString() }).eq("id", conversationId);
+        } else {
+          const { data } = await supabase.from("conversations").insert({ user_id: user.id, agent_id: agentId, messages: messages as any }).select("id").single();
+          if (data) setConversationId((data as any).id);
+        }
+      };
+      save();
+      return;
+    }
+
+    // Guest persistence: cap to last 50 messages to avoid bloating storage
+    try {
+      const trimmed = messages.slice(-50);
+      localStorage.setItem(`assembl_chat_${agentId}`, JSON.stringify(trimmed));
+    } catch {
+      // localStorage may be full or disabled — silently ignore
+    }
   }, [messages, user, agentId, conversationId]);
 
   // Process NEXUS assistant responses for workflow data
