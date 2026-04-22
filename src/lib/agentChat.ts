@@ -77,12 +77,19 @@ function isMcpAgent(agentId: string, packId?: string, params?: AgentChatParams):
 export async function agentChat(opts: AgentChatOptions): Promise<string> {
   const { agentId, message, messages = [], packId, params } = opts;
 
-  // New path: stream through /mcp-chat and accumulate.
-  if (isMcpAgent(agentId, packId)) {
+  // New path: stream through /mcp-chat (or /claude-chat when a Claude model is
+  // selected — handled inside streamMcpChat).
+  if (isMcpAgent(agentId, packId, params)) {
     let buffer = "";
     let final: string | null = null;
     let errMsg: string | null = null;
-    const mcpAgent = MCP_AGENTS.has(agentId) ? agentId : (packId as string);
+    // Pick the registered agent persona when known; otherwise fall back to the
+    // raw id (claude-chat tolerates unknown ids with a generic prompt).
+    const mcpAgent = MCP_AGENTS.has(agentId)
+      ? agentId
+      : packId && MCP_AGENTS.has(packId)
+        ? packId
+        : agentId;
     await streamMcpChat({
       agentId: mcpAgent,
       messages: [...messages.map((m) => ({ role: m.role as "user" | "assistant", content: m.content })), { role: "user", content: message }],
@@ -119,9 +126,13 @@ export async function agentChatStream({
   onDone: () => void;
   onError?: (error: Error) => void;
 }): Promise<void> {
-  // New path: /mcp-chat with auth.
-  if (isMcpAgent(agentId, packId)) {
-    const mcpAgent = MCP_AGENTS.has(agentId) ? agentId : (packId as string);
+  // New path: /mcp-chat (or /claude-chat) with auth.
+  if (isMcpAgent(agentId, packId, params)) {
+    const mcpAgent = MCP_AGENTS.has(agentId)
+      ? agentId
+      : packId && MCP_AGENTS.has(packId)
+        ? packId
+        : agentId;
     try {
       await streamMcpChat({
         agentId: mcpAgent,
