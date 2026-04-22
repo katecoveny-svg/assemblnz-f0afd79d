@@ -1,0 +1,365 @@
+// ═══════════════════════════════════════════════════════════════
+// Tōro — Inline Learning Game
+// Renders a fun, age-appropriate, NZC-aligned mini-game generated
+// by the toro-learning-game edge function.
+// ═══════════════════════════════════════════════════════════════
+
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Loader2, Sparkles, Trophy, RefreshCw, X, Check, ChevronRight } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+const POUNAMU = "#3A7D6E";
+const TANGAROA = "#1A3A5C";
+const SOFT_GOLD = "#D9BC7A";
+
+const glass = {
+  background: "rgba(255,255,255,0.7)",
+  border: `1px solid ${TANGAROA}25`,
+  backdropFilter: "blur(14px)",
+};
+
+interface Question {
+  kind: "multiple_choice" | "fill_blank" | "true_false";
+  prompt: string;
+  options?: string[];
+  answer: string;
+  explanation: string;
+  hint: string;
+}
+
+interface Game {
+  title: string;
+  intro: string;
+  skill_focus: string;
+  nzc_level: string;
+  questions: Question[];
+  celebration: string;
+}
+
+interface Props {
+  childName?: string;
+  yearLevel?: string;
+  subject?: string;
+  nzcLevel?: string;
+  /** Optional context — e.g. last user message or a worksheet topic. */
+  topicHint?: string;
+  /** Optional photo of the homework. */
+  imageDataUrl?: string | null;
+  onClose: () => void;
+}
+
+const norm = (s: string) => s.trim().toLowerCase().replace(/\s+/g, " ");
+
+export default function LearningGame({
+  childName,
+  yearLevel,
+  subject,
+  nzcLevel,
+  topicHint,
+  imageDataUrl,
+  onClose,
+}: Props) {
+  const [loading, setLoading] = useState(true);
+  const [game, setGame] = useState<Game | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [idx, setIdx] = useState(0);
+  const [picked, setPicked] = useState<string | null>(null);
+  const [typed, setTyped] = useState("");
+  const [revealed, setRevealed] = useState(false);
+  const [score, setScore] = useState(0);
+  const [done, setDone] = useState(false);
+
+  // ── Fetch game on mount ────────────────────────────────
+  useMemo(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const { data, error: fnErr } = await supabase.functions.invoke("toro-learning-game", {
+          body: {
+            childName,
+            yearLevel,
+            subject,
+            nzcLevel,
+            topicHint,
+            imageDataUrl: imageDataUrl ?? undefined,
+          },
+        });
+        if (cancelled) return;
+        if (fnErr) throw new Error(fnErr.message);
+        const g = (data as { game?: Game })?.game;
+        if (!g || !Array.isArray(g.questions) || g.questions.length === 0) {
+          throw new Error("Tōro couldn't build the game just now — give it another try.");
+        }
+        setGame(g);
+      } catch (e) {
+        if (cancelled) return;
+        const msg = (e as Error).message || "Could not load the game.";
+        setError(msg);
+        toast.error(msg);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // We intentionally only run this once on mount. Inputs don't change while panel is open.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Question logic ─────────────────────────────────────
+  const q = game?.questions[idx];
+  const total = game?.questions.length ?? 0;
+
+  const submit = () => {
+    if (!q || revealed) return;
+    const userAnswer = q.kind === "fill_blank" ? typed : picked ?? "";
+    if (!userAnswer) return;
+    const correct = norm(userAnswer) === norm(q.answer);
+    if (correct) setScore((s) => s + 1);
+    setRevealed(true);
+  };
+
+  const next = () => {
+    if (!game) return;
+    if (idx + 1 >= game.questions.length) {
+      setDone(true);
+      return;
+    }
+    setIdx((i) => i + 1);
+    setPicked(null);
+    setTyped("");
+    setRevealed(false);
+  };
+
+  const restart = () => {
+    setIdx(0);
+    setPicked(null);
+    setTyped("");
+    setRevealed(false);
+    setScore(0);
+    setDone(false);
+  };
+
+  // ── Render ─────────────────────────────────────────────
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      className="rounded-xl p-4 space-y-3"
+      style={{ ...glass, borderColor: `${SOFT_GOLD}55`, background: "rgba(255,255,255,0.85)" }}
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Sparkles size={14} style={{ color: SOFT_GOLD }} />
+          <p className="font-body text-xs uppercase tracking-wider" style={{ color: POUNAMU }}>
+            Tōro Learning Game
+          </p>
+        </div>
+        <button
+          onClick={onClose}
+          className="p-1 rounded hover:bg-white/60 transition-all"
+          aria-label="Close game"
+          type="button"
+        >
+          <X size={14} style={{ color: "#6B7280" }} />
+        </button>
+      </div>
+
+      {loading && (
+        <div className="flex flex-col items-center justify-center py-8 gap-2">
+          <Loader2 size={18} className="animate-spin" style={{ color: POUNAMU }} />
+          <p className="font-body text-xs" style={{ color: "#6B7280" }}>
+            Designing a game just for {childName ?? "you"}…
+          </p>
+        </div>
+      )}
+
+      {!loading && error && (
+        <div className="rounded-lg p-3 text-center space-y-2" style={{ background: "rgba(239,68,68,0.06)" }}>
+          <p className="font-body text-xs" style={{ color: "#9B1C1C" }}>
+            {error}
+          </p>
+          <button
+            onClick={onClose}
+            className="font-body text-[11px] underline"
+            style={{ color: POUNAMU }}
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      )}
+
+      {!loading && !error && game && !done && q && (
+        <>
+          <div className="space-y-1">
+            <p className="font-display text-sm" style={{ color: TANGAROA }}>
+              {game.title}
+            </p>
+            <p className="font-body text-[11px]" style={{ color: "#6B7280" }}>
+              {game.intro}
+            </p>
+            <div className="flex items-center gap-2 pt-1">
+              <span
+                className="font-mono text-[9px] px-2 py-0.5 rounded"
+                style={{ background: `${POUNAMU}15`, color: POUNAMU }}
+              >
+                NZC {game.nzc_level}
+              </span>
+              <span className="font-mono text-[9px]" style={{ color: "#9CA3AF" }}>
+                Question {idx + 1} of {total}
+              </span>
+              <span className="font-mono text-[9px] ml-auto" style={{ color: SOFT_GOLD }}>
+                ★ {score}
+              </span>
+            </div>
+          </div>
+
+          <div className="rounded-lg p-3 space-y-3" style={{ background: "rgba(255,255,255,0.7)", border: `1px solid ${TANGAROA}15` }}>
+            <p className="font-body text-sm" style={{ color: "#1A1D29" }}>
+              {q.prompt}
+            </p>
+
+            {q.kind === "fill_blank" ? (
+              <input
+                value={typed}
+                onChange={(e) => setTyped(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !revealed && typed.trim()) submit();
+                }}
+                placeholder="Type your answer…"
+                disabled={revealed}
+                className="w-full rounded-lg px-3 py-2 text-sm font-body outline-none"
+                style={{
+                  background: "rgba(255,255,255,0.95)",
+                  border: `1px solid ${TANGAROA}25`,
+                  color: "#1A1D29",
+                }}
+              />
+            ) : (
+              <div className="grid grid-cols-1 gap-2">
+                {(q.options ?? (q.kind === "true_false" ? ["True", "False"] : [])).map((opt, i) => {
+                  const isPicked = picked === opt;
+                  const isCorrect = revealed && norm(opt) === norm(q.answer);
+                  const isWrongPick = revealed && isPicked && !isCorrect;
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => !revealed && setPicked(opt)}
+                      disabled={revealed}
+                      className="rounded-lg px-3 py-2 text-left text-xs font-body flex items-center gap-2 transition-all disabled:cursor-default"
+                      style={{
+                        background: isCorrect
+                          ? "rgba(58,125,110,0.15)"
+                          : isWrongPick
+                            ? "rgba(239,68,68,0.1)"
+                            : isPicked
+                              ? `${POUNAMU}15`
+                              : "rgba(255,255,255,0.9)",
+                        border: `1px solid ${isCorrect ? POUNAMU : isWrongPick ? "#EF4444" : isPicked ? POUNAMU : `${TANGAROA}25`}`,
+                        color: "#1A1D29",
+                      }}
+                      type="button"
+                    >
+                      {revealed && isCorrect && <Check size={12} style={{ color: POUNAMU }} />}
+                      {revealed && isWrongPick && <X size={12} style={{ color: "#EF4444" }} />}
+                      <span>{opt}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            <AnimatePresence>
+              {revealed && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="rounded-md p-2 space-y-1"
+                  style={{
+                    background:
+                      norm(q.kind === "fill_blank" ? typed : picked ?? "") === norm(q.answer)
+                        ? "rgba(58,125,110,0.08)"
+                        : "rgba(217,188,122,0.12)",
+                  }}
+                >
+                  <p className="font-body text-[11px]" style={{ color: TANGAROA }}>
+                    <strong>Answer:</strong> {q.answer}
+                  </p>
+                  <p className="font-body text-[11px]" style={{ color: "#6B7280" }}>
+                    {q.explanation}
+                  </p>
+                  {norm(q.kind === "fill_blank" ? typed : picked ?? "") !== norm(q.answer) && (
+                    <p className="font-body text-[11px] italic" style={{ color: "#9CA3AF" }}>
+                      Hint for next time: {q.hint}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="flex justify-end gap-2">
+            {!revealed ? (
+              <button
+                onClick={submit}
+                disabled={q.kind === "fill_blank" ? !typed.trim() : !picked}
+                className="px-4 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all disabled:opacity-40"
+                style={{ background: POUNAMU, color: "#FFFFFF" }}
+                type="button"
+              >
+                Check <Check size={12} />
+              </button>
+            ) : (
+              <button
+                onClick={next}
+                className="px-4 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all"
+                style={{ background: POUNAMU, color: "#FFFFFF" }}
+                type="button"
+              >
+                {idx + 1 >= total ? "See score" : "Next"} <ChevronRight size={12} />
+              </button>
+            )}
+          </div>
+        </>
+      )}
+
+      {!loading && !error && game && done && (
+        <div className="text-center space-y-3 py-3">
+          <Trophy size={28} style={{ color: SOFT_GOLD }} className="mx-auto" />
+          <p className="font-display text-base" style={{ color: TANGAROA }}>
+            {score} / {total} — {game.celebration}
+          </p>
+          <p className="font-body text-[11px]" style={{ color: "#6B7280" }}>
+            Skill practised: {game.skill_focus}
+          </p>
+          <div className="flex justify-center gap-2 pt-1">
+            <button
+              onClick={restart}
+              className="px-4 py-2 rounded-lg text-xs font-body flex items-center gap-1 transition-all"
+              style={{ background: "rgba(255,255,255,0.9)", border: `1px solid ${POUNAMU}40`, color: POUNAMU }}
+              type="button"
+            >
+              <RefreshCw size={12} /> Play again
+            </button>
+            <button
+              onClick={onClose}
+              className="px-4 py-2 rounded-lg text-xs font-body transition-all"
+              style={{ background: POUNAMU, color: "#FFFFFF" }}
+              type="button"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
+    </motion.div>
+  );
+}
