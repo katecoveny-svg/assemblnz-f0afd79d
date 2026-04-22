@@ -6,6 +6,7 @@ import ParentDashboard from "@/features/learn/components/ParentDashboard";
 import CompletionScreen from "@/features/learn/components/CompletionScreen";
 import { EQUATIONS } from "@/features/learn/data/equations";
 import { saveGameResult, type QuestionOutcome } from "@/features/learn/lib/gameResults";
+import AccountDropdown from "@/components/AccountDropdown";
 import { toast } from "sonner";
 
 type View = "home" | "mission" | "complete" | "parent";
@@ -109,7 +110,7 @@ const AssemblLearnPage = () => {
     >
       <div className="max-w-4xl mx-auto">
         {/* brand bar */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-8 gap-3">
           <div className="flex items-center gap-2">
             {view !== "home" && view !== "parent" && (
               <button
@@ -121,8 +122,11 @@ const AssemblLearnPage = () => {
               </button>
             )}
           </div>
-          <div className="text-[10px] uppercase tracking-[0.28em]" style={{ color: "#7A8E83" }}>
-            Assembl Learn · Free the Letter
+          <div className="flex items-center gap-3 ml-auto">
+            <div className="text-[10px] uppercase tracking-[0.28em] hidden sm:block" style={{ color: "#7A8E83" }}>
+              Assembl Learn · Free the Letter
+            </div>
+            <AccountDropdown />
           </div>
         </div>
 
