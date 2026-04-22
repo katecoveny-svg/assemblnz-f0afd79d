@@ -29,6 +29,7 @@ const BG = "#F7F3EE";            // Mist — light canvas
 const INK = "#6F6158";           // All text/headlines
 const MUTED = "#9D8C7D";         // Wordmark / secondary text
 const SOFT_BORDER = "rgba(142,129,119,0.14)";
+const TEAL_ACCENT = ACCENT;      // Legacy alias retargeted to Taupe
 
 type ModuleKey = "today" | "family" | "pets" | "school" | "uniforms" | "appointments" | "shopping" | "homework";
 
