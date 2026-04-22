@@ -6,8 +6,8 @@
  * send and re-validated server-side in the mcp-chat edge function.
  */
 import { useEffect, useRef, useState } from "react";
-import { Settings2, RotateCcw, Thermometer, Hash, X } from "lucide-react";
-import { PARAM_BOUNDS, useAgentChatParams } from "@/hooks/useAgentChatParams";
+import { Settings2, RotateCcw, Thermometer, Hash, X, Cpu } from "lucide-react";
+import { PARAM_BOUNDS, MODEL_OPTIONS, useAgentChatParams } from "@/hooks/useAgentChatParams";
 
 interface Props {
   agentId: string | undefined;
@@ -93,6 +93,36 @@ export function ChatSettingsPanel({ agentId, accentColor }: Props) {
             >
               <X size={12} style={{ color: "#6B7280" }} />
             </button>
+          </div>
+
+          {/* Model picker */}
+          <div className="mb-4">
+            <label className="flex items-center gap-1.5 text-[11px] font-medium mb-1.5" style={{ color: "#3D4250" }}>
+              <Cpu size={12} /> Model
+            </label>
+            <select
+              value={params.model}
+              onChange={(e) => setParams({ model: e.target.value })}
+              className="w-full text-[11px] rounded-lg px-2 py-1.5 focus:outline-none"
+              style={{ background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.08)", color: "#3D4250" }}
+              aria-label="AI model"
+            >
+              {(["openai", "google", "anthropic"] as const).map((provider) => (
+                <optgroup
+                  key={provider}
+                  label={provider === "openai" ? "OpenAI (Lovable Gateway)" : provider === "google" ? "Google (Lovable Gateway)" : "Anthropic (Claude)"}
+                >
+                  {MODEL_OPTIONS.filter((m) => m.provider === provider).map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.label} — {m.description}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+            <p className="text-[10px] mt-1" style={{ color: "#6B7280" }}>
+              Claude models stream directly from Anthropic; others route through Lovable AI Gateway.
+            </p>
           </div>
 
           {/* Temperature */}
