@@ -1,6 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { resolveModel, DEFAULT_MODEL } from "../_shared/model-router.ts";
+import { callLlm, detectProvider } from "../_shared/llm-call.ts";
 
 const corsHeaders = {
  "Access-Control-Allow-Origin": "*",
@@ -7349,6 +7350,10 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  fullSystemPrompt += `\n\n[INTEGRATIONS: You have access to live integration tools. When the user asks about calendar events, scheduling, or their Canva designs, USE the tools to fetch real data or create items. Do NOT make up data — call the tool. If the tool returns an error about "not connected", tell the user to connect the integration via Integration Hub in settings.]`;
 
  // ===== SELF-HEALING RETRY with model fallback =====
+ // Second routing layer: if the resolved model is anthropic/* or perplexity/*,
+ // callLlm dispatches directly to that provider. Gateway models (google/*,
+ // openai/*) continue to flow through the Lovable AI Gateway as before.
+ // Fallback chain stays on the gateway because flash-lite is always available.
  const FALLBACK_MODELS = [selectedModel, "google/gemini-2.5-flash-lite", "google/gemini-2.5-flash-lite"];
  let response: Response | null = null;
  let actualModelUsed = selectedModel;
@@ -7358,21 +7363,14 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
   attempts = attempt + 1;
   actualModelUsed = FALLBACK_MODELS[attempt] || FALLBACK_MODELS[0];
   try {
-   response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-    method: "POST",
-    headers: {
-     "Content-Type": "application/json",
-     "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-    },
-    body: JSON.stringify({
-     model: actualModelUsed,
-     messages: [
-      { role: "system", content: fullSystemPrompt },
-      ...formattedMessages,
-     ],
-     max_tokens: 4096,
-     tools: integrationTools,
-    }),
+   response = await callLlm({
+    model: actualModelUsed,
+    systemPrompt: fullSystemPrompt,
+    messages: formattedMessages,
+    maxTokens: 4096,
+    // Tools are gateway-only (OpenAI tool-calling shape). Skip for direct
+    // Anthropic/Perplexity calls — they don't use this exact schema.
+    tools: detectProvider(actualModelUsed) === "gateway" ? integrationTools : undefined,
    });
    if (response.ok) break;
    const errStatus = response.status;
@@ -7382,10 +7380,10 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
      { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
    }
-   console.error(`AI Gateway attempt ${attempt + 1} failed [${errStatus}]`);
+   console.error(`LLM attempt ${attempt + 1} failed [${errStatus}] for model ${actualModelUsed}`);
    if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
   } catch (fetchErr) {
-   console.error(`AI Gateway fetch error attempt ${attempt + 1}:`, fetchErr);
+   console.error(`LLM fetch error attempt ${attempt + 1}:`, fetchErr);
    if (attempt < 2) await new Promise(r => setTimeout(r, 1000 * Math.pow(2, attempt)));
   }
  }
@@ -7466,23 +7464,15 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  });
  }
 
- // Send tool results back to AI for a final response
- const followUp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
- method: "POST",
- headers: {
- "Content-Type": "application/json",
- "Authorization": `Bearer ${LOVABLE_API_KEY}`,
- },
- body: JSON.stringify({
- model: selectedModel,
- messages: [
- { role: "system", content: fullSystemPrompt },
- ...formattedMessages,
- aiMessage,
- ...toolResults,
- ],
- max_tokens: 4096,
- }),
+ // Send tool results back to AI for a final response.
+ // Tool calling is gateway-only (Anthropic/Perplexity direct paths don't
+ // emit OpenAI-style tool_calls), so this branch is only reached for
+ // gateway models — callLlm routes through the gateway accordingly.
+ const followUp = await callLlm({
+ model: actualModelUsed,
+ systemPrompt: fullSystemPrompt,
+ messages: [...formattedMessages, aiMessage, ...toolResults],
+ maxTokens: 4096,
  });
 
  if (followUp.ok) {
