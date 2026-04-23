@@ -14,6 +14,7 @@ import {
   Sparkles,
   Receipt,
   Server,
+  KeyRound,
 } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import { useAuth } from "@/hooks/useAuth";
@@ -30,6 +31,7 @@ const NAV = [
   { to: "/admin/mcp/security", label: "Security", icon: Shield },
   { to: "/admin/mcp/housekeeping", label: "Housekeeping", icon: Sparkles },
   { to: "/admin/mcp/server", label: "Server", icon: Server },
+  { to: "/admin/api-keys", label: "API Keys", icon: KeyRound },
 ];
 
 export default function AdminMcpLayout({ children }: { children?: ReactNode }) {
