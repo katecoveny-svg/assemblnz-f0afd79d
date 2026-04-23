@@ -84,9 +84,14 @@ for (const { slug, model } of EXPECTED) {
     assertEquals(
       returnedModel,
       model,
-      `wrong model for "${slug}". Expected ${model}, got ${returnedModel}. ` +
-        `If this says "${"google/gemini-2.5-flash"}" the router fell back — ` +
-        `check that agent_prompts has a row for "${slug}" with model_preference set. ` +
+      `Wrong model for "${slug}". Expected ${model}, got ${returnedModel}.\n` +
+        `Possible causes:\n` +
+        `  • If returned "google/gemini-2.5-flash": the router fell back to DEFAULT_MODEL — ` +
+        `agent_prompts has no active row for "${slug}".\n` +
+        `  • If returned "google/gemini-2.5-flash-lite": chat downgraded after the AI Gateway ` +
+        `rejected the resolved model (FALLBACK_MODELS in chat/index.ts). The Lovable AI Gateway ` +
+        `may not support "${model}" — check the gateway's supported model list.\n` +
+        `  • Any other value: investigate the chat function's actualModelUsed logic.\n` +
         `Full response: ${JSON.stringify(body)}`,
     );
   });
