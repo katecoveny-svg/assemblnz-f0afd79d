@@ -104,6 +104,7 @@ const EvidenceGalleryPage = lazy(() => import("./pages/EvidenceGalleryPage"));
 const EvidencePackSharePage = lazy(() => import("./pages/EvidencePackSharePage"));
 const AgentMarketplacePage = lazy(() => import("./pages/AgentMarketplacePage"));
 const KeteCollectionPage = lazy(() => import("./pages/KeteCollectionPage"));
+const OperatorWorkspacePage = lazy(() => import("./pages/OperatorWorkspacePage"));
 const KeteDetailPageNew = lazy(() => import("./pages/KeteDetailPage"));
 const CareDashboard = lazy(() => import("./pages/CareDashboard"));
 const AtaBimDashboard = lazy(() => import("./components/hanga/AtaBimDashboard"));
