@@ -6968,20 +6968,35 @@ IMAGERY STYLE: When generating images, use the 'Dark Cosmic Aotearoa' aesthetic 
 
   let selectedModel: string;
   let modelSource: "user_override" | "agent_prompts" | "default_fallback";
+  const routingStart = Date.now();
   if (requestedModel && ALLOWED_MODELS_MAP[requestedModel]) {
     selectedModel = ALLOWED_MODELS_MAP[requestedModel];
     modelSource = "user_override";
   } else {
-    // Always defer to agent_prompts.model_preference for this agent.
-    // resolveModel never throws — it returns DEFAULT_MODEL on any failure
-    // and writes a routing_log row for every resolution.
     const resolved = await resolveModel(agentId, sb);
     selectedModel = resolved;
     modelSource = resolved === DEFAULT_MODEL ? "default_fallback" : "agent_prompts";
   }
+  const routingTimeMs = Date.now() - routingStart;
+  const isFallback = modelSource === "default_fallback";
   console.log(`[chat:${requestId}] model resolved`, JSON.stringify({
-    agentId, selectedModel, modelSource, complexity,
+    agentId, selectedModel, modelSource, complexity, isFallback, routingTimeMs,
   }));
+
+  // ROUTING LOG: per-request audit. Fire-and-forget write capturing agent slug,
+  // resolved model, fallback flag, source, and routing time for every chat call.
+  sb.from("routing_log").insert({
+    request_id: crypto.randomUUID(),
+    user_input: (lastMsgText || "").slice(0, 500) || "[empty]",
+    detected_intent: complexity ?? null,
+    selected_kete: agentId || "[unknown]",
+    selected_agent: agentId || "[unknown]",
+    selected_model: selectedModel,
+    confidence_score: modelSource === "user_override" ? 1.0 : modelSource === "agent_prompts" ? 0.9 : 0.3,
+    routing_time_ms: routingTimeMs,
+  }).then((res: { error: { message: string } | null }) => {
+    if (res.error) console.error(`[chat:${requestId}] routing_log insert failed:`, res.error.message);
+  });
 
  // ===== CACHE CHECK =====
  const cacheKey = getCacheKey(lastMsgText);
