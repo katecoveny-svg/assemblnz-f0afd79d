@@ -570,7 +570,7 @@ Deno.serve(async (req: Request) => {
   try {
     // STEP 1: Parse request from Kanohi
     const body: IhoRequest = await req.json();
-    const { message, agentId, packId, context } = body;
+    const { message, agentId, packId, context, mode = "respond", modelHint, hasAttachments = false, systemPromptOverride } = body;
 
     if (!message?.trim()) {
       return new Response(JSON.stringify({ error: "Message is required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -644,12 +644,34 @@ Deno.serve(async (req: Request) => {
     }
 
     // STEP 7: MODEL ROUTER — Select AI Model (now routes Claude agents correctly)
-    const hasAttachments = false;
-    const modelConfig = selectModel(intent.agent, intent.taskType, hasAttachments);
+    const modelConfig = selectModel(intent.agent, intent.taskType, hasAttachments, modelHint);
 
     // STEP 8: CALL AI MODEL
     const safeMessage = compliance.piiDetected ? compliance.maskedMessage : message;
-    const systemPrompt = buildSystemPrompt(intent.agent, businessContext);
+    const systemPrompt = systemPromptOverride || buildSystemPrompt(intent.agent, businessContext);
+
+    if (mode === "plan") {
+      const planResponse: IhoPlanResponse = {
+        mode: "plan",
+        requestId,
+        agentUsed: { code: intent.agent.code, name: intent.agent.name, pack: intent.agent.pack },
+        modelConfig,
+        systemPrompt,
+        safeMessage,
+        complianceStatus: {
+          passed: compliance.passed,
+          piiDetected: compliance.piiDetected,
+          piiMasked: compliance.piiMasked,
+          dataClassification: compliance.dataClassification,
+          policies: compliance.policies,
+        },
+      };
+
+      return new Response(JSON.stringify(planResponse), {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     const messages = [
       { role: "system", content: systemPrompt },
