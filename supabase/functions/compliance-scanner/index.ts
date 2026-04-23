@@ -167,11 +167,16 @@ Deno.serve(async (req) => {
     let totalChanges = 0;
     let highImpact = 0;
 
+    // Resolve KAHU's preferred model once per run — KAHU is the
+    // compliance scanner agent. Falls back to DEFAULT_MODEL if the DB
+    // lookup fails.
+    const scannerModel = await resolveModel("kahu", supabase);
+
     // Scan sources in batches of 4 to avoid rate limits
     for (let i = 0; i < SOURCES.length; i += 4) {
       const batch = SOURCES.slice(i, i + 4);
       const results = await Promise.allSettled(
-        batch.map((s) => scanSource(s, LOVABLE_API_KEY))
+        batch.map((s) => scanSource(s, LOVABLE_API_KEY, scannerModel))
       );
 
       for (const result of results) {
