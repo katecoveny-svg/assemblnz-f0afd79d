@@ -129,3 +129,19 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.model-router]
     verify_jwt = false
+  [functions.mcp-security]
+    verify_jwt = false
+  [functions.mcp-shipping]
+    verify_jwt = false
+  [functions.mcp-financial]
+    verify_jwt = false
+  [functions.mcp-nz-govt]
+    verify_jwt = false
+  [functions.mcp-news]
+    verify_jwt = false
+  [functions.mcp-construction]
+    verify_jwt = false
+  [functions.mcp-travel]
+    verify_jwt = false
+  [functions.mcp-iot]
+    verify_jwt = false
