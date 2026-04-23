@@ -7464,23 +7464,15 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  });
  }
 
- // Send tool results back to AI for a final response
- const followUp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
- method: "POST",
- headers: {
- "Content-Type": "application/json",
- "Authorization": `Bearer ${LOVABLE_API_KEY}`,
- },
- body: JSON.stringify({
- model: selectedModel,
- messages: [
- { role: "system", content: fullSystemPrompt },
- ...formattedMessages,
- aiMessage,
- ...toolResults,
- ],
- max_tokens: 4096,
- }),
+ // Send tool results back to AI for a final response.
+ // Tool calling is gateway-only (Anthropic/Perplexity direct paths don't
+ // emit OpenAI-style tool_calls), so this branch is only reached for
+ // gateway models — callLlm routes through the gateway accordingly.
+ const followUp = await callLlm({
+ model: actualModelUsed,
+ systemPrompt: fullSystemPrompt,
+ messages: [...formattedMessages, aiMessage, ...toolResults],
+ maxTokens: 4096,
  });
 
  if (followUp.ok) {
