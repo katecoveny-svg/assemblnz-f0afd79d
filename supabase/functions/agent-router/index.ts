@@ -662,7 +662,7 @@ Trust & compliance:
       { role: "user", content: message },
     ];
 
-    // Model selection from DB preference
+    // Model selection from DB preference (used as the hint to Iho)
     const MODEL_MAP: Record<string, string> = {
       "gemini-2.5-flash": "google/gemini-2.5-flash",
       "gemini-2.5-pro": "google/gemini-2.5-pro",
@@ -673,7 +673,49 @@ Trust & compliance:
       "gpt-5-mini": "openai/gpt-5-mini",
     };
     const rawPref = agentPrompt?.model_preference || "gemini-3-flash-preview";
-    const model = MODEL_MAP[rawPref] || `google/${rawPref}`;
+    let model = MODEL_MAP[rawPref] || `google/${rawPref}`;
+    let safeUserMessage = message;
+
+    // ═══ IHO PLAN — central brain decides model + compliance ═══
+    // Ask Iho-router (plan mode) to choose the model, mask PII, and run a
+    // compliance preflight. This means every chat path now flows through Iho
+    // even though we keep streaming locally.
+    try {
+      const planResp = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/iho-router`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+        },
+        body: JSON.stringify({
+          message,
+          agentId: selectedAgent,
+          packId: agentPack,
+          mode: "plan",
+          modelHint: rawPref,
+          systemPromptOverride: systemPrompt,
+        }),
+      });
+
+      if (planResp.ok) {
+        const plan = await planResp.json();
+        if (plan?.modelConfig?.model) model = plan.modelConfig.model;
+        if (typeof plan?.safeMessage === "string" && plan.safeMessage.length > 0) {
+          safeUserMessage = plan.safeMessage;
+        }
+        // Iho already logged the compliance decision; nothing else to do here.
+      } else if (planResp.status === 403) {
+        // Kahu blocked — refuse to call the model.
+        const errBody = await planResp.json().catch(() => ({}));
+        return new Response(JSON.stringify({
+          error: errBody?.error || "Request blocked by compliance engine (Kahu).",
+        }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      } else {
+        console.warn(`[agent-router] iho-router plan failed (${planResp.status}); falling back to local model selection.`);
+      }
+    } catch (planErr) {
+      console.warn("[agent-router] iho-router plan call errored, using local defaults:", planErr);
+    }
 
     // ═══ ROUTING OBSERVABILITY — log the selection decision (fire-and-forget) ═══
     supabase.from("routing_log").insert({
