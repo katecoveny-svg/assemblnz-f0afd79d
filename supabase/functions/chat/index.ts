@@ -6769,6 +6769,9 @@ Deno.serve(async (req) => {
   netsec: "it",             // SIGNAL (secondary)
   analytics: "pm",          // AXIS
   innovation: "nonprofit",  // KINDLE
+  signal: "it",             // SIGNAL — accept canonical slug, route to IT prompt
+  toro: "operations",       // TŌRO — accept canonical slug, route to operations prompt
+  nova: "nonprofit",        // NOVA — innovation/ideation, route to KINDLE prompt
   hotel: "hospitality",     // sub-agents → AURA
   events: "hospitality",
   coastal: "hospitality",
