@@ -855,6 +855,14 @@ Trust & compliance:
       }
     }
 
+    // Apply Iho's PII-masked message into the final conversation payload.
+    if (safeUserMessage !== message && conversationMessages.length > 0) {
+      conversationMessages[conversationMessages.length - 1] = {
+        role: "user",
+        content: safeUserMessage,
+      };
+    }
+
     const aiRequestBody: any = {
       model,
       messages: conversationMessages,
