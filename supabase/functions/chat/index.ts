@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { resolveModel, DEFAULT_MODEL } from "../_shared/model-router.ts";
 
 const corsHeaders = {
  "Access-Control-Allow-Origin": "*",
@@ -6946,27 +6947,41 @@ IMAGERY STYLE: When generating images, use the 'Dark Cosmic Aotearoa' aesthetic 
    }
  }
 
- // ===== SMART MODEL ROUTING =====
- const lastUserMsg = messages?.[messages.length - 1];
- const lastMsgText = typeof lastUserMsg?.content === "string" ? lastUserMsg.content : "";
- const complexity = classifyComplexity(lastMsgText);
+  // ===== MODEL ROUTING =====
+  // Authoritative source: agent_prompts.model_preference for this agent slug,
+  // resolved via the shared model-router helper. Only falls through to
+  // DEFAULT_MODEL when the lookup fails (no row, DB error, or empty slug).
+  // An explicit `requestedModel` from the caller still wins so users can
+  // override via the in-chat model picker.
+  const lastUserMsg = messages?.[messages.length - 1];
+  const lastMsgText = typeof lastUserMsg?.content === "string" ? lastUserMsg.content : "";
+  const complexity = classifyComplexity(lastMsgText);
 
- // Allowed models whitelist
- const ALLOWED_MODELS_MAP: Record<string, string> = {
-  "gemini-flash": "google/gemini-3-flash-preview",
-  "gemini-pro": "google/gemini-2.5-pro",
-  "gemini-flash-lite": "google/gemini-2.5-flash-lite",
-  "gpt-5-mini": "openai/gpt-5-mini",
-  "gpt-5": "openai/gpt-5",
-  };
+  // Allowed models whitelist for explicit user overrides only.
+  const ALLOWED_MODELS_MAP: Record<string, string> = {
+   "gemini-flash": "google/gemini-3-flash-preview",
+   "gemini-pro": "google/gemini-2.5-pro",
+   "gemini-flash-lite": "google/gemini-2.5-flash-lite",
+   "gpt-5-mini": "openai/gpt-5-mini",
+   "gpt-5": "openai/gpt-5",
+   };
 
- // If user explicitly chose a model, honour it. Otherwise, route by complexity.
- let selectedModel: string;
- if (requestedModel && ALLOWED_MODELS_MAP[requestedModel]) {
-   selectedModel = ALLOWED_MODELS_MAP[requestedModel];
- } else {
-   selectedModel = complexity === "simple" ? "google/gemini-2.5-flash-lite" : "google/gemini-3-flash-preview";
- }
+  let selectedModel: string;
+  let modelSource: "user_override" | "agent_prompts" | "default_fallback";
+  if (requestedModel && ALLOWED_MODELS_MAP[requestedModel]) {
+    selectedModel = ALLOWED_MODELS_MAP[requestedModel];
+    modelSource = "user_override";
+  } else {
+    // Always defer to agent_prompts.model_preference for this agent.
+    // resolveModel never throws — it returns DEFAULT_MODEL on any failure
+    // and writes a routing_log row for every resolution.
+    const resolved = await resolveModel(agentId, sb);
+    selectedModel = resolved;
+    modelSource = resolved === DEFAULT_MODEL ? "default_fallback" : "agent_prompts";
+  }
+  console.log(`[chat:${requestId}] model resolved`, JSON.stringify({
+    agentId, selectedModel, modelSource, complexity,
+  }));
 
  // ===== CACHE CHECK =====
  const cacheKey = getCacheKey(lastMsgText);
