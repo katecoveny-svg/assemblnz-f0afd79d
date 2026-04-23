@@ -6976,7 +6976,11 @@ IMAGERY STYLE: When generating images, use the 'Dark Cosmic Aotearoa' aesthetic 
     selectedModel = ALLOWED_MODELS_MAP[requestedModel];
     modelSource = "user_override";
   } else {
-    const resolved = await resolveModel(agentId, sb);
+    // Use the original (canonical) slug for model lookup so it matches the
+    // seeded agent_prompts.agent_name (e.g. "signal", "toro", "nova"), then
+    // fall back to the mapped prompt key if the canonical slug is missing.
+    const modelLookupSlug = rawAgentId || agentId;
+    const resolved = await resolveModel(modelLookupSlug, sb);
     selectedModel = resolved;
     modelSource = resolved === DEFAULT_MODEL ? "default_fallback" : "agent_prompts";
   }
