@@ -21,9 +21,29 @@ interface IhoRequest {
   message: string;
   agentId?: string;
   packId?: string;
+  mode?: "plan" | "respond";
+  modelHint?: string;
+  hasAttachments?: boolean;
+  systemPromptOverride?: string;
   context?: {
     projectId?: string;
     previousMessages?: { role: string; content: string }[];
+  };
+}
+
+interface IhoPlanResponse {
+  mode: "plan";
+  requestId: string;
+  agentUsed: { code: string; name: string; pack: string };
+  modelConfig: ModelConfig;
+  systemPrompt: string;
+  safeMessage: string;
+  complianceStatus: {
+    passed: boolean;
+    piiDetected: boolean;
+    piiMasked: boolean;
+    dataClassification: string;
+    policies: string[];
   };
 }
 
@@ -312,7 +332,41 @@ function claudeConfig(): ModelConfig {
   };
 }
 
-function selectModel(agent: AgentConfig, taskType: string, hasAttachments: boolean): ModelConfig {
+function modelConfigFromHint(modelHint?: string): ModelConfig | null {
+  if (!modelHint) return null;
+
+  const normalized = modelHint.trim().toLowerCase();
+
+  if (normalized.startsWith("claude") || normalized.startsWith("anthropic/")) {
+    const isHaiku = normalized.includes("haiku");
+    const gatewaySlug = isHaiku ? "anthropic/claude-haiku-4-5" : "anthropic/claude-sonnet-4-5";
+    return {
+      model: gatewaySlug,
+      anthropicModel: normalized.startsWith("claude") ? modelHint : ANTHROPIC_MODEL_MAP[gatewaySlug],
+      provider: preferDirectAnthropic() ? "anthropic" : "lovable",
+      maxTokens: 4096,
+    };
+  }
+
+  if (normalized.startsWith("openai/") || normalized.startsWith("google/")) {
+    return { model: modelHint, provider: "lovable", maxTokens: 4096 };
+  }
+
+  if (normalized.startsWith("gpt-")) {
+    return { model: `openai/${normalized}`, provider: "lovable", maxTokens: 4096 };
+  }
+
+  if (normalized.startsWith("gemini-")) {
+    return { model: `google/${normalized}`, provider: "lovable", maxTokens: 4096 };
+  }
+
+  return null;
+}
+
+function selectModel(agent: AgentConfig, taskType: string, hasAttachments: boolean, modelHint?: string): ModelConfig {
+  const hintedModel = modelConfigFromHint(modelHint);
+  if (hintedModel) return hintedModel;
+
   // Multimodal / real-time → Gemini (Anthropic vision is supported but Gemini is cheaper here)
   if (hasAttachments) return { model: "google/gemini-2.5-flash", provider: "lovable", maxTokens: 4096 };
 
@@ -516,7 +570,7 @@ Deno.serve(async (req: Request) => {
   try {
     // STEP 1: Parse request from Kanohi
     const body: IhoRequest = await req.json();
-    const { message, agentId, packId, context } = body;
+    const { message, agentId, packId, context, mode = "respond", modelHint, hasAttachments = false, systemPromptOverride } = body;
 
     if (!message?.trim()) {
       return new Response(JSON.stringify({ error: "Message is required" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
@@ -590,12 +644,34 @@ Deno.serve(async (req: Request) => {
     }
 
     // STEP 7: MODEL ROUTER — Select AI Model (now routes Claude agents correctly)
-    const hasAttachments = false;
-    const modelConfig = selectModel(intent.agent, intent.taskType, hasAttachments);
+    const modelConfig = selectModel(intent.agent, intent.taskType, hasAttachments, modelHint);
 
     // STEP 8: CALL AI MODEL
     const safeMessage = compliance.piiDetected ? compliance.maskedMessage : message;
-    const systemPrompt = buildSystemPrompt(intent.agent, businessContext);
+    const systemPrompt = systemPromptOverride || buildSystemPrompt(intent.agent, businessContext);
+
+    if (mode === "plan") {
+      const planResponse: IhoPlanResponse = {
+        mode: "plan",
+        requestId,
+        agentUsed: { code: intent.agent.code, name: intent.agent.name, pack: intent.agent.pack },
+        modelConfig,
+        systemPrompt,
+        safeMessage,
+        complianceStatus: {
+          passed: compliance.passed,
+          piiDetected: compliance.piiDetected,
+          piiMasked: compliance.piiMasked,
+          dataClassification: compliance.dataClassification,
+          policies: compliance.policies,
+        },
+      };
+
+      return new Response(JSON.stringify(planResponse), {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
 
     const messages = [
       { role: "system", content: systemPrompt },
