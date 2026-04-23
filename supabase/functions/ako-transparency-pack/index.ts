@@ -25,8 +25,13 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { resolveModel, DEFAULT_MODEL } from "../_shared/model-router.ts";
+
 const LOVABLE_AI_BASE = "https://ai.gateway.lovable.dev/v1";
-const MODEL = "google/gemini-2.5-flash";
+// Resolved at request time via resolveModel("ako", supabase). Constant
+// retained as a safe fallback if the helper or DB are unreachable.
+const MODEL = DEFAULT_MODEL;
 const PACK_VERSION = "v2026-04-20";
 
 // Deterministic legislative footer appended to every doc — never AI-generated.
