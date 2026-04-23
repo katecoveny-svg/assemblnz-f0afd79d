@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { resolveModel } from "../_shared/model-router.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -189,7 +190,7 @@ Respond in JSON only:
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "google/gemini-2.5-flash",
+            model: await resolveModel(classification.kete_primary, supabase),
             messages: [{ role: "user", content: classifyPrompt }],
             response_format: { type: "json_object" },
           }),
@@ -247,7 +248,7 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "google/gemini-2.5-flash",
+            model: await resolveModel(classification.kete_primary, supabase),
             messages: [{ role: "user", content: planPrompt }],
             response_format: { type: "json_object" },
           }),

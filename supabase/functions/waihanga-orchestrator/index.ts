@@ -5,6 +5,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
+import { resolveModel } from "../_shared/model-router.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -95,15 +96,16 @@ function getSupabase(authHeader?: string) {
     authHeader ? { global: { headers: { Authorization: authHeader } } } : undefined);
 }
 
-async function callAgent(agent: string, userPrompt: string, kbContext: string): Promise<string> {
+async function callAgent(agent: string, userPrompt: string, kbContext: string, supabase: ReturnType<typeof getSupabase>): Promise<string> {
   const apiKey = Deno.env.get("LOVABLE_API_KEY");
   if (!apiKey) throw new Error("LOVABLE_API_KEY missing");
   const role = AGENT_ROLES[agent] || `You are ${agent}, a NZ specialist agent.`;
   const sys = `${role}\n\nGROUNDING (cite where relevant):\n${kbContext}\n\nHARD RULES: Never invent statute sections. Never authorise payments or send emails autonomously — always draft for human review. Use NZD and NZ English spelling.`;
+  const model = await resolveModel(agent, supabase);
   const res = await fetch(LOVABLE_AI, {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ model: "google/gemini-2.5-flash", messages: [{ role: "system", content: sys }, { role: "user", content: userPrompt }] }),
+    body: JSON.stringify({ model, messages: [{ role: "system", content: sys }, { role: "user", content: userPrompt }] }),
   });
   if (!res.ok) { const t = await res.text(); throw new Error(`AI gateway ${res.status}: ${t.slice(0,200)}`); }
   const data = await res.json();
@@ -229,7 +231,7 @@ serve(async (req) => {
 
     for (const agent of chain.agents) {
       const prompt = `${priorContext}${transcript.length ? `\n\nPRIOR AGENT OUTPUTS:\n${transcript.map((t) => `[${t.agent}]\n${t.output}`).join("\n\n")}` : ""}\n\nYour task as ${agent}: produce the next step in the chain. Be concise, cite NZ statute where relevant, structured output.`;
-      const output = await callAgent(agent, prompt, kbContext);
+      const output = await callAgent(agent, prompt, kbContext, supabase);
       transcript.push({ agent, output });
     }
 

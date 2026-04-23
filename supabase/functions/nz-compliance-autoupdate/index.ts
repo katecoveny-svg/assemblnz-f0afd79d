@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { resolveModel } from "../_shared/model-router.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -127,7 +128,7 @@ Respond as a JSON array only. No markdown, no explanation.`;
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: await resolveModel("kahu", supabase),
           messages: [
             { role: "system", content: "You are an NZ compliance scanner. Return only valid JSON arrays." },
             { role: "user", content: prompt },

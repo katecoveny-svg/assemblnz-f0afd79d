@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { resolveModel } from "../_shared/model-router.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -186,7 +187,7 @@ Deno.serve(async (req) => {
             method: "POST",
             headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
             body: JSON.stringify({
-              model: "google/gemini-2.5-flash",
+              model: await resolveModel("toroa", sb),
               messages: [
                 { role: "system", content: `You are Tōro on Alexa — a warm Kiwi family AI. Keep responses under 200 chars for voice. Use NZ English. Family context: ${memorySnippet}. Upcoming: ${calSnippet}.` },
                 { role: "user", content: query },

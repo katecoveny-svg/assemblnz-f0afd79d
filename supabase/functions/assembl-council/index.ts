@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { resolveModel } from "../_shared/model-router.ts";
 
 /**
  * ASSEMBL-COUNCIL
@@ -107,6 +108,7 @@ async function askAdvisor(
   mode: string,
   systemPrompt: string,
   apiKey: string,
+  advisorModel: string,
 ): Promise<AdvisorResponse> {
   const ctxBlock = Object.keys(context).length
     ? `\n\nBUSINESS CONTEXT:\n${Object.entries(context).map(([k, v]) => `• ${k}: ${v}`).join("\n")}`
@@ -133,7 +135,7 @@ Question: [one sharpening question]`;
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: advisorModel,
         messages: [
           { role: "system", content: fullSystem },
           { role: "user", content: question },
@@ -166,7 +168,7 @@ Question: [one sharpening question]`;
   }
 }
 
-async function synthesise(question: string, advisors: AdvisorResponse[], apiKey: string) {
+async function synthesise(question: string, advisors: AdvisorResponse[], apiKey: string, synthModel: string) {
   const yesCount = advisors.filter(a => a.position === "YES").length;
   const noCount = advisors.filter(a => a.position === "NO").length;
   const condCount = advisors.filter(a => a.position === "CONDITIONAL").length;
@@ -187,7 +189,7 @@ Be ruthless. NZ English. Max 3 items per array.`;
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: synthModel,
         messages: [
           { role: "system", content: sys },
           { role: "user", content: `Question: ${question}\n\n${ctx}` },
@@ -253,12 +255,19 @@ Deno.serve(async (req) => {
     const promptMap = new Map((prompts || []).map(p => [p.agent_name, p.system_prompt as string]));
 
     const t0 = Date.now();
+    // Resolve per-advisor model preferences in parallel (one DB lookup
+    // each; failures fall through to DEFAULT_MODEL silently).
+    const advisorModels = await Promise.all(
+      chosen.map((a) => resolveModel(a.id, sb)),
+    );
+    const synthModel = await resolveModel("iho", sb);
+
     const advisors = await Promise.all(
-      chosen.map(a => askAdvisor(a, body.question, context, mode, promptMap.get(a.id) || "", apiKey))
+      chosen.map((a, i) => askAdvisor(a, body.question, context, mode, promptMap.get(a.id) || "", apiKey, advisorModels[i]))
     );
 
     const synthesis = advisors.length > 1
-      ? await synthesise(body.question, advisors, apiKey)
+      ? await synthesise(body.question, advisors, apiKey, synthModel)
       : {
           vote_tally: { yes: 0, no: 0, conditional: 0 },
           agreement_points: [],

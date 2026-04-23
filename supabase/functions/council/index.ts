@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { resolveModel } from "../_shared/model-router.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -82,7 +83,8 @@ async function askOne(
   question: string,
   sharedBlock: string,
   apiKey: string,
-  systemPromptDb: string | null
+  systemPromptDb: string | null,
+  model: string,
 ): Promise<{ agentId: string; agentName: string; kete: string; answer: string; ms: number }> {
   const t0 = Date.now();
   const baseSystem = systemPromptDb || `You are ${agent.name}, a ${agent.kete} specialist at Assembl (NZ). Give a concise, expert answer in your domain. Use NZ English and cite legislation where relevant. Max 200 words.`;
@@ -94,7 +96,7 @@ async function askOne(
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model,
         messages: [
           { role: "system", content: fullSystem },
           { role: "user", content: question },
@@ -118,7 +120,7 @@ async function askOne(
 }
 
 // ─── Synthesiser (IHO summarises all agent answers) ─────────────────────
-async function synthesise(question: string, answers: { agentName: string; kete: string; answer: string }[], apiKey: string): Promise<string> {
+async function synthesise(question: string, answers: { agentName: string; kete: string; answer: string }[], apiKey: string, model: string): Promise<string> {
   const sys = `You are IHO, the Assembl Brain. Multiple specialists have answered the same user question. Your job: weave their perspectives into ONE crisp practical summary (max 120 words, NZ English). Highlight any conflicts. Do not repeat their full answers. Bullet the 3 most actionable next steps.`;
 
   const ctx = answers.map(a => `--- ${a.agentName} (${a.kete}) ---\n${a.answer}`).join("\n\n");
@@ -128,7 +130,7 @@ async function synthesise(question: string, answers: { agentName: string; kete: 
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model,
         messages: [
           { role: "system", content: sys },
           { role: "user", content: `Question: ${question}\n\n${ctx}` },
@@ -203,14 +205,18 @@ Deno.serve(async (req) => {
 
     // ── Fan-out in parallel ──
     const t0 = Date.now();
+    // Resolve preferred models for each chosen agent + Iho synthesiser.
+    const agentModels = await Promise.all(chosen.map((a) => resolveModel(a.id, sb)));
+    const synthModel = await resolveModel("iho", sb);
+
     const answers = await Promise.all(
-      chosen.map(a => askOne(a, body.question, sharedBlock, apiKey, promptMap.get(a.id) || null))
+      chosen.map((a, i) => askOne(a, body.question, sharedBlock, apiKey, promptMap.get(a.id) || null, agentModels[i]))
     );
 
     // ── Optional synthesis ──
     let summary: string | undefined;
     if (body.synthesise !== false && answers.length > 1) {
-      summary = await synthesise(body.question, answers, apiKey);
+      summary = await synthesise(body.question, answers, apiKey, synthModel);
     }
 
     // ── Log to agent_triggers for visibility ──

@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { resolveModel } from "../_shared/model-router.ts";
 
 /**
  * ═══════════════════════════════════════════════════════════
@@ -287,7 +288,7 @@ Deno.serve(async (req) => {
           Authorization: `Bearer ${LOVABLE_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: await resolveModel("prism", sb),
           messages: [
             {
               role: "system",

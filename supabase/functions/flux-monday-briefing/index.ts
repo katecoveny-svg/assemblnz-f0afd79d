@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { resolveModel } from "../_shared/model-router.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -101,6 +102,8 @@ FORMAT (WhatsApp-friendly, use emojis):
 🟢 Revenue progress summary
 Keep under 500 characters. End with "Reply GO to send follow-ups."`;
 
+      const briefingModel = await resolveModel("flux", supabase);
+
       const aiResponse = await fetch(
         "https://ai.gateway.lovable.dev/v1/chat/completions",
         {
@@ -110,7 +113,7 @@ Keep under 500 characters. End with "Reply GO to send follow-ups."`;
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "google/gemini-2.5-flash",
+            model: briefingModel,
             messages: [
               { role: "system", content: "You are FLUX, an elite NZ sales intelligence engine. Be concise, actionable, NZ-voiced." },
               { role: "user", content: briefingPrompt },

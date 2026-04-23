@@ -25,8 +25,13 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
+import { resolveModel, DEFAULT_MODEL } from "../_shared/model-router.ts";
+
 const LOVABLE_AI_BASE = "https://ai.gateway.lovable.dev/v1";
-const MODEL = "google/gemini-2.5-flash";
+// Resolved at request time via resolveModel("ako", supabase). Constant
+// retained as a safe fallback if the helper or DB are unreachable.
+const MODEL = DEFAULT_MODEL;
 const PACK_VERSION = "v2026-04-20";
 
 // Deterministic legislative footer appended to every doc — never AI-generated.
@@ -159,11 +164,16 @@ Deno.serve(async (req) => {
 
     if (lovableKey) {
       try {
+        const sb = createClient(
+          Deno.env.get("SUPABASE_URL")!,
+          Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+        );
+        const akoModel = await resolveModel("ako", sb);
         const aiRes = await fetch(`${LOVABLE_AI_BASE}/chat/completions`, {
           method: "POST",
           headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: MODEL,
+            model: akoModel,
             messages: [
               { role: "system", content: "You return only valid JSON. No prose, no fences." },
               { role: "user", content: buildPrompt(centre, voice) },

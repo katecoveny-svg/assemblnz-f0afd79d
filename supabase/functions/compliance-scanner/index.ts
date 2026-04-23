@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { resolveModel } from "../_shared/model-router.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -60,7 +61,7 @@ const ALL_AGENTS = [
   "GROVE", "COMPASS", "VITAE",
 ];
 
-async function scanSource(source: Source, apiKey: string) {
+async function scanSource(source: Source, apiKey: string, model: string) {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
@@ -85,7 +86,7 @@ async function scanSource(source: Source, apiKey: string) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model,
         messages: [
           {
             role: "system",
@@ -166,11 +167,16 @@ Deno.serve(async (req) => {
     let totalChanges = 0;
     let highImpact = 0;
 
+    // Resolve KAHU's preferred model once per run — KAHU is the
+    // compliance scanner agent. Falls back to DEFAULT_MODEL if the DB
+    // lookup fails.
+    const scannerModel = await resolveModel("kahu", supabase);
+
     // Scan sources in batches of 4 to avoid rate limits
     for (let i = 0; i < SOURCES.length; i += 4) {
       const batch = SOURCES.slice(i, i + 4);
       const results = await Promise.allSettled(
-        batch.map((s) => scanSource(s, LOVABLE_API_KEY))
+        batch.map((s) => scanSource(s, LOVABLE_API_KEY, scannerModel))
       );
 
       for (const result of results) {
