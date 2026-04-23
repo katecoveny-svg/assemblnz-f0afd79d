@@ -129,7 +129,7 @@ Write a warm, personalised email reply (plain text). Acknowledge their business 
             Authorization: `Bearer ${LOVABLE_API_KEY}`,
           },
           body: JSON.stringify({
-            model: "google/gemini-2.5-flash",
+            model: await resolveModel("echo", sb),
             messages: [
               { role: "system", content: ECHO_ASSEMBL_SYSTEM_PROMPT },
               { role: "user", content: userPrompt },

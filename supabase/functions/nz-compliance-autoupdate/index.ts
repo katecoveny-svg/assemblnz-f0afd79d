@@ -128,7 +128,7 @@ Respond as a JSON array only. No markdown, no explanation.`;
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: await resolveModel("kahu", supabase),
           messages: [
             { role: "system", content: "You are an NZ compliance scanner. Return only valid JSON arrays." },
             { role: "user", content: prompt },

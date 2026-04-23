@@ -96,15 +96,16 @@ function getSupabase(authHeader?: string) {
     authHeader ? { global: { headers: { Authorization: authHeader } } } : undefined);
 }
 
-async function callAgent(agent: string, userPrompt: string, kbContext: string): Promise<string> {
+async function callAgent(agent: string, userPrompt: string, kbContext: string, supabase: ReturnType<typeof getSupabase>): Promise<string> {
   const apiKey = Deno.env.get("LOVABLE_API_KEY");
   if (!apiKey) throw new Error("LOVABLE_API_KEY missing");
   const role = AGENT_ROLES[agent] || `You are ${agent}, a NZ specialist agent.`;
   const sys = `${role}\n\nGROUNDING (cite where relevant):\n${kbContext}\n\nHARD RULES: Never invent statute sections. Never authorise payments or send emails autonomously — always draft for human review. Use NZD and NZ English spelling.`;
+  const model = await resolveModel(agent, supabase);
   const res = await fetch(LOVABLE_AI, {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ model: "google/gemini-2.5-flash", messages: [{ role: "system", content: sys }, { role: "user", content: userPrompt }] }),
+    body: JSON.stringify({ model, messages: [{ role: "system", content: sys }, { role: "user", content: userPrompt }] }),
   });
   if (!res.ok) { const t = await res.text(); throw new Error(`AI gateway ${res.status}: ${t.slice(0,200)}`); }
   const data = await res.json();
