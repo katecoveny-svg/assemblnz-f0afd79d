@@ -5,20 +5,25 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
  * KETE-DEFAULT-HANDLER
  * ====================
  * Universal handler for every kete that doesn't have a bespoke handler_fn.
- * Pulls the kete's persona, injects shared symbiotic context + memory,
- * routes to the Lovable AI gateway, and writes facts back to agent_memory.
+ *
+ * Flow (Iho is the brain):
+ *   1. Resolve identity (auth → phone → anon)
+ *   2. Load kete persona + memory + shared_context (for the system prompt)
+ *   3. Hand the message to iho-router with our composed systemPromptOverride
+ *      → Iho selects the model (Claude direct / Gemini gateway), enforces
+ *        Kahu PII masking, retrieves Mahara memory, runs Mana on the reply,
+ *        and returns the final response + audit metadata.
+ *   4. Persist memory write-back (last_exchange + turn_count).
  *
  * Contract (called by tnz-inbound):
  *   Input:  { tenant_id, conversation_id, phone, body, mediaUrl?, history[], channel, kete_slug? }
- *   Output: { reply, meta: { agent, model, features_used[] } }
+ *   Output: { reply, meta: { agent, model, provider, features_used[] } }
  */
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
-
-const AI_GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 
 const SMS_RULES = `
 SMS/WhatsApp rules:
@@ -39,26 +44,28 @@ interface HandlerPayload {
   kete_slug?: string;
 }
 
+// Map kete slug → Iho agent code so Iho's registry picks the right specialist.
+const KETE_TO_IHO_AGENT: Record<string, string> = {
+  manaaki: "AURA",
+  waihanga: "APEX",
+  auaha: "PRISM",
+  pakihi: "LEDGER",
+  arataki: "ARATAKI",
+  pikau: "PIKAU",
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    const sb = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-    );
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
-      return new Response(JSON.stringify({ reply: "AI gateway not configured." }), {
-        status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+    const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const sb = createClient(SUPABASE_URL, SERVICE_ROLE);
 
     const payload: HandlerPayload = await req.json();
-    const { body, history = [], channel = "sms", phone, conversation_id, tenant_id } = payload;
+    const { body, history = [], channel = "sms", phone, conversation_id, tenant_id, mediaUrl } = payload;
 
-    // The path used by tnz-inbound passes the kete via the URL — but we also
-    // accept a slug in the body, and otherwise we infer it from the messaging conversation.
+    // ── 1. Resolve kete ──────────────────────────────────────────
     let keteSlug = payload.kete_slug;
     if (!keteSlug && conversation_id) {
       const { data: conv } = await sb
@@ -70,7 +77,6 @@ Deno.serve(async (req) => {
     }
     keteSlug = keteSlug || "pakihi";
 
-    // Pull kete persona
     const { data: kete } = await sb
       .from("kete_definitions")
       .select("slug, display_name, te_reo_name, description")
@@ -81,17 +87,15 @@ Deno.serve(async (req) => {
     const teReo = kete?.te_reo_name || displayName;
     const description = kete?.description || "";
 
-    // Resolve user_id — first from authenticated JWT (web chat path),
-    // then from phone (SMS/WhatsApp path). Required so agent_memory
-    // gets persisted on every channel, not just SMS.
+    // ── 2. Resolve user_id (auth → phone) ────────────────────────
     let userId: string | null = null;
+    const authHeader = req.headers.get("Authorization");
     try {
-      const authHeader = req.headers.get("Authorization");
       if (authHeader?.startsWith("Bearer ")) {
         const { data: { user } } = await sb.auth.getUser(authHeader.replace("Bearer ", ""));
         if (user?.id) userId = user.id;
       }
-    } catch (_) { /* ignore — fall through to phone lookup */ }
+    } catch (_) { /* fall through */ }
 
     if (!userId && phone) {
       const { data: tcfg } = await sb
@@ -102,7 +106,7 @@ Deno.serve(async (req) => {
       userId = tcfg?.user_id ?? null;
     }
 
-    // Memory injection: pull recent agent_memory + last conversation_summary
+    // ── 3. Memory + shared context for the system prompt ─────────
     let memoryBlock = "";
     if (userId) {
       const { data: mem } = await sb
@@ -118,7 +122,6 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Symbiotic shared_context (cross-agent flags this tenant set)
     let sharedBlock = "";
     if (tenant_id) {
       const { data: shared } = await sb
@@ -134,7 +137,7 @@ Deno.serve(async (req) => {
     }
 
     const nzTime = new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" });
-    const systemPrompt = `You are ${teReo} (${displayName}), an Assembl specialist for New Zealand businesses and whanau.
+    const systemPrompt = `You are ${teReo} (${displayName}), an Assembl specialist for New Zealand businesses and whānau.
 
 ${description}
 
@@ -146,40 +149,55 @@ ${sharedBlock}
 
 Sign off with: — ${teReo}, your ${displayName.toLowerCase()} navigator`;
 
-    const messages = [
-      { role: "system", content: systemPrompt },
-      ...history.slice(-10),
-      { role: "user", content: body },
-    ];
-
-    const aiResp = await fetch(AI_GATEWAY, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+    // ── 4. Hand off to Iho (the brain) ───────────────────────────
+    // Iho will: pick the model (Claude/Gemini/Anthropic-direct), run Kahu PII
+    // checks, pull Mahara memory, call the model, run Mana, log to audit_log.
+    const ihoUrl = `${SUPABASE_URL}/functions/v1/iho-router`;
+    const ihoBody = {
+      message: body,
+      agentId: KETE_TO_IHO_AGENT[keteSlug] || undefined,
+      packId: keteSlug,
+      mode: "respond",
+      hasAttachments: !!mediaUrl,
+      systemPromptOverride: systemPrompt,
+      context: {
+        previousMessages: (history || []).slice(-10),
       },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages,
-        max_tokens: 800,
-      }),
-    });
+    };
 
-    if (!aiResp.ok) {
-      const errTxt = await aiResp.text();
-      console.error(`[${keteSlug}-handler] AI error ${aiResp.status}:`, errTxt.slice(0, 200));
-      return new Response(
-        JSON.stringify({ reply: `Kia ora — ${teReo} is having a quick moment. Please try again shortly.` }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    let reply = "";
+    let modelUsed = "iho-routed";
+    let providerUsed = "iho";
+
+    try {
+      const ihoResp = await fetch(ihoUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Forward auth (lets Iho see the same user) — service role used by Iho for memory.
+          ...(authHeader ? { Authorization: authHeader } : { Authorization: `Bearer ${SERVICE_ROLE}` }),
+        },
+        body: JSON.stringify(ihoBody),
+      });
+
+      if (ihoResp.ok) {
+        const ihoData = await ihoResp.json();
+        reply = (ihoData?.response || "").trim();
+        modelUsed = ihoData?.modelUsed || ihoData?.agentUsed?.model || modelUsed;
+        providerUsed = ihoData?.providerUsed || providerUsed;
+      } else {
+        const errTxt = await ihoResp.text();
+        console.error(`[${keteSlug}-handler] iho-router error ${ihoResp.status}:`, errTxt.slice(0, 300));
+      }
+    } catch (err) {
+      console.error(`[${keteSlug}-handler] iho-router call failed:`, err);
     }
 
-    const aiData = await aiResp.json();
-    const reply = aiData.choices?.[0]?.message?.content?.trim() ||
-      `Kia ora! ${teReo} here — could you re-send that?`;
+    if (!reply) {
+      reply = `Kia ora — ${teReo} is having a quick moment. Please try again shortly.`;
+    }
 
-    // Memory write-back — AWAIT so production sees actual writes.
-    // Persists last_exchange + a rolling exchange counter under turn_count.
+    // ── 5. Memory write-back (last_exchange + turn_count) ────────
     if (userId) {
       try {
         const nowIso = new Date().toISOString();
@@ -189,13 +207,12 @@ Sign off with: — ${teReo}, your ${displayName.toLowerCase()} navigator`;
           memory_key: "last_exchange",
           memory_value: {
             question: body.slice(0, 240),
-            answer:   reply.slice(0, 480),
+            answer: reply.slice(0, 480),
             channel,
             at: nowIso,
           },
         }, { onConflict: "user_id,agent_id,memory_key" });
 
-        // Increment turn counter (separate row so it survives upserts above)
         const { data: existing } = await sb
           .from("agent_memory")
           .select("memory_value")
@@ -220,8 +237,9 @@ Sign off with: — ${teReo}, your ${displayName.toLowerCase()} navigator`;
         reply,
         meta: {
           agent: keteSlug,
-          model: "google/gemini-2.5-flash",
-          features_used: ["memory_injection", "shared_context", "kete_persona"].filter(Boolean),
+          model: modelUsed,
+          provider: providerUsed,
+          features_used: ["iho_router", "memory_injection", "shared_context", "kete_persona"],
         },
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
