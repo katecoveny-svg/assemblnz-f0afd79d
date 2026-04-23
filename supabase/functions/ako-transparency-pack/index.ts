@@ -164,11 +164,16 @@ Deno.serve(async (req) => {
 
     if (lovableKey) {
       try {
+        const sb = createClient(
+          Deno.env.get("SUPABASE_URL")!,
+          Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+        );
+        const akoModel = await resolveModel("ako", sb);
         const aiRes = await fetch(`${LOVABLE_AI_BASE}/chat/completions`, {
           method: "POST",
           headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: MODEL,
+            model: akoModel,
             messages: [
               { role: "system", content: "You return only valid JSON. No prose, no fences." },
               { role: "user", content: buildPrompt(centre, voice) },
