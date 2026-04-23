@@ -255,12 +255,19 @@ Deno.serve(async (req) => {
     const promptMap = new Map((prompts || []).map(p => [p.agent_name, p.system_prompt as string]));
 
     const t0 = Date.now();
+    // Resolve per-advisor model preferences in parallel (one DB lookup
+    // each; failures fall through to DEFAULT_MODEL silently).
+    const advisorModels = await Promise.all(
+      chosen.map((a) => resolveModel(a.id, sb)),
+    );
+    const synthModel = await resolveModel("iho", sb);
+
     const advisors = await Promise.all(
-      chosen.map(a => askAdvisor(a, body.question, context, mode, promptMap.get(a.id) || "", apiKey))
+      chosen.map((a, i) => askAdvisor(a, body.question, context, mode, promptMap.get(a.id) || "", apiKey, advisorModels[i]))
     );
 
     const synthesis = advisors.length > 1
-      ? await synthesise(body.question, advisors, apiKey)
+      ? await synthesise(body.question, advisors, apiKey, synthModel)
       : {
           vote_tally: { yes: 0, no: 0, conditional: 0 },
           agreement_points: [],
