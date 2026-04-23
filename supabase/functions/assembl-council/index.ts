@@ -134,7 +134,7 @@ Question: [one sharpening question]`;
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: advisorModel,
         messages: [
           { role: "system", content: fullSystem },
           { role: "user", content: question },
@@ -188,7 +188,7 @@ Be ruthless. NZ English. Max 3 items per array.`;
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: synthModel,
         messages: [
           { role: "system", content: sys },
           { role: "user", content: `Question: ${question}\n\n${ctx}` },
