@@ -5662,6 +5662,30 @@ export type Database = {
         }
         Relationships: []
       }
+      mcp_data_log: {
+        Row: {
+          action: string
+          created_at: string
+          function_name: string
+          id: string
+          request_params: Json
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          function_name: string
+          id?: string
+          request_params?: Json
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          function_name?: string
+          id?: string
+          request_params?: Json
+        }
+        Relationships: []
+      }
       mcp_org_toolsets: {
         Row: {
           created_at: string
