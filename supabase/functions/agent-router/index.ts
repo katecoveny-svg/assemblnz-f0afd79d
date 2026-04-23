@@ -659,7 +659,7 @@ Trust & compliance:
       ...messages.map((m: { role: string; content: string }) => ({
         role: m.role, content: m.content,
       })),
-      { role: "user", content: message },
+      { role: "user", content: message }, // replaced after Iho plan with masked text
     ];
 
     // Model selection from DB preference (used as the hint to Iho)
