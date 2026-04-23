@@ -351,6 +351,7 @@ const App = () => (
 
                         <Route path="/kete" element={<Suspense fallback={null}><KeteCollectionPage /></Suspense>} />
                         <Route path="/kete/:slug" element={<Suspense fallback={null}><KeteDetailPageNew /></Suspense>} />
+                        <Route path="/operator/:slug" element={<Suspense fallback={null}><OperatorWorkspacePage /></Suspense>} />
 
                         <Route path="/aaaip" element={<Suspense fallback={null}><AaaipDashboard /></Suspense>} />
                         <Route path="/aaaip/researcher" element={<Suspense fallback={null}><AaaipResearcher /></Suspense>} />
