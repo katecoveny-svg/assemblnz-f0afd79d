@@ -4,6 +4,10 @@
 // case-insensitive `agent_name`). Falls through to a safe default if no
 // preference is set, the table is unreachable, or the slug is unknown.
 //
+// Every resolution — successful or fallback — is logged fire-and-forget
+// to `routing_log` so we can audit which kete actually have preferences
+// wired up vs. which are silently using DEFAULT_MODEL.
+//
 // Usage (inside an edge function):
 //
 //   import { resolveModel } from "../_shared/model-router.ts";
@@ -42,29 +46,72 @@ function normalise(pref: string | null | undefined): string {
   return PREFIX_MAP[pref] || `google/${pref}`;
 }
 
+// Fire-and-forget audit log. Never blocks, never throws.
+function logRouting(
+  supabase: SupabaseClient,
+  keteSlug: string,
+  agentName: string,
+  selectedModel: string,
+  confidence: number,
+): void {
+  supabase
+    .from("routing_log")
+    .insert({
+      request_id: crypto.randomUUID(),
+      user_input: "[model_selection]",
+      detected_intent: null,
+      selected_kete: keteSlug,
+      selected_agent: agentName,
+      selected_model: selectedModel,
+      confidence_score: confidence,
+      routing_time_ms: 0,
+    })
+    .then(({ error: logError }: { error: { message: string } | null }) => {
+      if (logError) {
+        console.error("[model-router] routing_log insert failed:", logError.message);
+      }
+    });
+}
+
 /**
  * Resolve the preferred model for an agent slug.
  * - keteSlug: case-insensitive agent_name (e.g. "flux", "iho", "ARATAKI").
- * - supabase: a service-role or anon client (only `.from("agent_prompts").select` is used).
+ * - supabase: a service-role or anon client. Used for both the lookup
+ *   and the fire-and-forget routing_log insert.
  *
  * If the lookup fails for any reason, returns DEFAULT_MODEL — never throws.
+ * Every resolution path (hit, miss, error) writes one row to routing_log.
  */
 export async function resolveModel(
   keteSlug: string,
   supabase: SupabaseClient,
 ): Promise<string> {
-  if (!keteSlug) return DEFAULT_MODEL;
+  if (!keteSlug) {
+    logRouting(supabase, "[empty]", "[empty]", DEFAULT_MODEL, 0.3);
+    return DEFAULT_MODEL;
+  }
   try {
     const { data, error } = await supabase
       .from("agent_prompts")
-      .select("model_preference")
+      .select("agent_name, model_preference")
       .ilike("agent_name", keteSlug)
       .eq("is_active", true)
       .limit(1)
       .maybeSingle();
-    if (error || !data) return DEFAULT_MODEL;
-    return normalise(data.model_preference);
+
+    // Lookup failed or no row — log fallback at low confidence.
+    if (error || !data) {
+      logRouting(supabase, keteSlug, keteSlug, DEFAULT_MODEL, 0.3);
+      return DEFAULT_MODEL;
+    }
+
+    // Successful resolution — log at full confidence with stored agent_name casing.
+    const selectedModel = normalise(data.model_preference);
+    const confidence = data.model_preference ? 1.0 : 0.3; // null preference = soft fallback
+    logRouting(supabase, keteSlug, data.agent_name ?? keteSlug, selectedModel, confidence);
+    return selectedModel;
   } catch {
+    logRouting(supabase, keteSlug, keteSlug, DEFAULT_MODEL, 0.3);
     return DEFAULT_MODEL;
   }
 }
