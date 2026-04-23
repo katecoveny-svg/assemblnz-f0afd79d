@@ -108,6 +108,7 @@ async function askAdvisor(
   mode: string,
   systemPrompt: string,
   apiKey: string,
+  advisorModel: string,
 ): Promise<AdvisorResponse> {
   const ctxBlock = Object.keys(context).length
     ? `\n\nBUSINESS CONTEXT:\n${Object.entries(context).map(([k, v]) => `• ${k}: ${v}`).join("\n")}`
@@ -167,7 +168,7 @@ Question: [one sharpening question]`;
   }
 }
 
-async function synthesise(question: string, advisors: AdvisorResponse[], apiKey: string) {
+async function synthesise(question: string, advisors: AdvisorResponse[], apiKey: string, synthModel: string) {
   const yesCount = advisors.filter(a => a.position === "YES").length;
   const noCount = advisors.filter(a => a.position === "NO").length;
   const condCount = advisors.filter(a => a.position === "CONDITIONAL").length;
