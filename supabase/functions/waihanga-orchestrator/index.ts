@@ -231,7 +231,7 @@ serve(async (req) => {
 
     for (const agent of chain.agents) {
       const prompt = `${priorContext}${transcript.length ? `\n\nPRIOR AGENT OUTPUTS:\n${transcript.map((t) => `[${t.agent}]\n${t.output}`).join("\n\n")}` : ""}\n\nYour task as ${agent}: produce the next step in the chain. Be concise, cite NZ statute where relevant, structured output.`;
-      const output = await callAgent(agent, prompt, kbContext);
+      const output = await callAgent(agent, prompt, kbContext, supabase);
       transcript.push({ agent, output });
     }
 
