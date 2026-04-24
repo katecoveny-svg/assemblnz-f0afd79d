@@ -37,7 +37,7 @@ export function GearListChecklist({ familyId, childName }: Props) {
         .eq("child_name", childName)
         .eq("list_date", todayIso())
         .maybeSingle();
-      setList(data as GearListRow | null);
+      setList((data as unknown) as GearListRow | null);
       setIsLoading(false);
     })();
   }, [familyId, childName]);
