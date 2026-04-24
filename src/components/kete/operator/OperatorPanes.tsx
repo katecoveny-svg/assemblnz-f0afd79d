@@ -34,6 +34,10 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
   accent,
 }) => {
   const { data, isLoading, error } = useOperatorDrafts(slug);
+  const qc = useQueryClient();
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkBusy, setBulkBusy] = useState(false);
+
   if (isLoading) return <Loading label="Loading draft queue…" />;
   if (error) return <Failure error={error} />;
   if (!data?.length)
@@ -45,19 +49,211 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
       />
     );
 
+  const allIds = data.map((d) => d.id);
+  const allSelected = selected.size > 0 && selected.size === allIds.length;
+  const someSelected = selected.size > 0 && !allSelected;
+
+  const toggleOne = (id: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    setSelected((prev) =>
+      prev.size === allIds.length ? new Set() : new Set(allIds),
+    );
+  };
+
+  const bulkApprove = async () => {
+    if (selected.size === 0) return;
+    setBulkBusy(true);
+    const ids = Array.from(selected);
+    try {
+      const { data: userResp } = await supabase.auth.getUser();
+      const operator =
+        userResp.user?.email ??
+        userResp.user?.user_metadata?.full_name ??
+        userResp.user?.id ??
+        "operator";
+
+      const { error } = await supabase
+        .from("approval_queue")
+        .update({
+          status: "approved",
+          approved_by: operator,
+          decided_at: new Date().toISOString(),
+        })
+        .in("id", ids);
+      if (error) throw error;
+
+      toast.success(`Signed off ${ids.length} draft${ids.length === 1 ? "" : "s"}`, {
+        description: `Approved by ${operator}`,
+      });
+      setSelected(new Set());
+      await qc.invalidateQueries({ queryKey: ["operator", "drafts", slug] });
+    } catch (e) {
+      toast.error(
+        e instanceof Error ? e.message : "Could not sign off these drafts",
+      );
+    } finally {
+      setBulkBusy(false);
+    }
+  };
+
   return (
-    <Table
-      headers={["Action", "Requested", "Expires", "Request ID", ""]}
-      rows={data.map((d: DraftRow) => [
-        <strong key="a">{d.action_type}</strong>,
-        formatDate(d.requested_at),
-        formatDate(d.expires_at),
-        <Mono key="r">{shortId(d.request_id)}</Mono>,
-        <SignOffButton key="s" draftId={d.id} slug={slug} accent={accent} />,
-      ])}
+    <div>
+      <BulkActionBar
+        accent={accent}
+        count={selected.size}
+        busy={bulkBusy}
+        onApprove={bulkApprove}
+        onClear={() => setSelected(new Set())}
+      />
+      <Table
+        headers={[
+          <SelectAllCheckbox
+            key="sel"
+            checked={allSelected}
+            indeterminate={someSelected}
+            onToggle={toggleAll}
+            accent={accent}
+          />,
+          "Action",
+          "Requested",
+          "Expires",
+          "Request ID",
+          "",
+        ]}
+        rows={data.map((d: DraftRow) => [
+          <RowCheckbox
+            key="sel"
+            checked={selected.has(d.id)}
+            onToggle={() => toggleOne(d.id)}
+            accent={accent}
+            label={`Select draft ${shortId(d.request_id)}`}
+          />,
+          <strong key="a">{d.action_type}</strong>,
+          formatDate(d.requested_at),
+          formatDate(d.expires_at),
+          <Mono key="r">{shortId(d.request_id)}</Mono>,
+          <SignOffButton key="s" draftId={d.id} slug={slug} accent={accent} />,
+        ])}
+      />
+    </div>
+  );
+};
+
+const BulkActionBar: React.FC<{
+  accent: string;
+  count: number;
+  busy: boolean;
+  onApprove: () => void;
+  onClear: () => void;
+}> = ({ accent, count, busy, onApprove, onClear }) => {
+  const active = count > 0;
+  return (
+    <div
+      className="flex items-center justify-between gap-3 px-4 py-2.5 mb-3 rounded-2xl transition-all"
+      style={{
+        background: active ? `${accent}1F` : "rgba(255,255,255,0.55)",
+        border: `1px solid ${active ? `${accent}66` : ASSEMBL_TOKENS.core.text["border-soft"]}`,
+        boxShadow: ASSEMBL_TOKENS.core.text["shadow-soft"],
+      }}
+    >
+      <span
+        className="text-xs"
+        style={{
+          fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+          color: ASSEMBL_TOKENS.core.text[active ? "text-primary" : "text-secondary"],
+        }}
+      >
+        {active
+          ? `${count} draft${count === 1 ? "" : "s"} selected`
+          : "Tick drafts to bulk-approve"}
+      </span>
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={onClear}
+          disabled={!active || busy}
+          className="px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-40"
+          style={{
+            background: "rgba(255,255,255,0.8)",
+            border: `1px solid ${ASSEMBL_TOKENS.core.text["border-soft"]}`,
+            color: ASSEMBL_TOKENS.core.text["text-secondary"],
+            fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+          }}
+        >
+          Clear
+        </button>
+        <button
+          type="button"
+          onClick={onApprove}
+          disabled={!active || busy}
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-40"
+          style={{
+            background: `${accent}55`,
+            border: `1px solid ${accent}99`,
+            color: ASSEMBL_TOKENS.core.text["text-primary"],
+            fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+          }}
+          aria-label="Approve selected drafts"
+        >
+          {busy ? (
+            <Loader2 size={12} className="animate-spin" />
+          ) : (
+            <Check size={12} />
+          )}
+          Approve selected
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const SelectAllCheckbox: React.FC<{
+  checked: boolean;
+  indeterminate: boolean;
+  onToggle: () => void;
+  accent: string;
+}> = ({ checked, indeterminate, onToggle, accent }) => {
+  const ref = React.useRef<HTMLInputElement>(null);
+  React.useEffect(() => {
+    if (ref.current) ref.current.indeterminate = indeterminate;
+  }, [indeterminate]);
+  return (
+    <input
+      ref={ref}
+      type="checkbox"
+      checked={checked}
+      onChange={onToggle}
+      aria-label="Select all drafts"
+      className="h-3.5 w-3.5 cursor-pointer rounded"
+      style={{ accentColor: accent }}
     />
   );
 };
+
+const RowCheckbox: React.FC<{
+  checked: boolean;
+  onToggle: () => void;
+  accent: string;
+  label: string;
+}> = ({ checked, onToggle, accent, label }) => (
+  <input
+    type="checkbox"
+    checked={checked}
+    onChange={onToggle}
+    onClick={(e) => e.stopPropagation()}
+    aria-label={label}
+    className="h-3.5 w-3.5 cursor-pointer rounded"
+    style={{ accentColor: accent }}
+  />
+);
 
 const SignOffButton: React.FC<{
   draftId: string;
@@ -355,16 +551,16 @@ export const GatesPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
 // ───────────────────── shared helpers ─────────────────────
 
 const Table: React.FC<{
-  headers: string[];
+  headers: React.ReactNode[];
   rows: React.ReactNode[][];
 }> = ({ headers, rows }) => (
   <div className="overflow-x-auto -mx-2">
     <table className="w-full text-sm border-separate" style={{ borderSpacing: "0 6px" }}>
       <thead>
         <tr>
-          {headers.map((h) => (
+          {headers.map((h, i) => (
             <th
-              key={h}
+              key={i}
               className="text-left px-3 py-2 text-xs uppercase tracking-wider font-medium"
               style={{
                 color: ASSEMBL_TOKENS.core.text["text-secondary"],
