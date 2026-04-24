@@ -140,6 +140,8 @@ interface Message {
   content: string;
   imageUrl?: string;
   fileName?: string;
+  /** Permanent URLs of images the agent generated for this message. Persisted with the conversation. */
+  generatedImageUrls?: string[];
 }
 
 type VoiceTranscriptTurn = {
