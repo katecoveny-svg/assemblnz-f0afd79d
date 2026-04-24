@@ -366,6 +366,7 @@ export default function ToroaDashboard() {
             </div>
           </Link>
 
+          <AnimatePresence mode="wait">
             <motion.div
               key={active}
               initial={{ opacity: 0, y: 16 }}
