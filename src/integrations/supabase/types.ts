@@ -12355,6 +12355,17 @@ export type Database = {
         Args: { _token: string }
         Returns: undefined
       }
+      introspect_unique_indexes: {
+        Args: { p_schema: string; p_table: string }
+        Returns: {
+          columns: string[]
+          constraint_name: string
+          expressions: string[]
+          index_name: string
+          is_primary: boolean
+          is_unique: boolean
+        }[]
+      }
       is_family_member: {
         Args: { _family_id: string; _user_id: string }
         Returns: boolean
