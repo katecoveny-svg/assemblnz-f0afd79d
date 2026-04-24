@@ -36,7 +36,7 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
   const { data, isLoading, error } = useOperatorDrafts(slug);
   const qc = useQueryClient();
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [bulkBusy, setBulkBusy] = useState(false);
+  const [bulkBusy, setBulkBusy] = useState<"approve" | "reject" | null>(null);
 
   if (isLoading) return <Loading label="Loading draft queue…" />;
   if (error) return <Failure error={error} />;
@@ -68,9 +68,9 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
     );
   };
 
-  const bulkApprove = async () => {
+  const runBulkDecision = async (decision: "approve" | "reject") => {
     if (selected.size === 0) return;
-    setBulkBusy(true);
+    setBulkBusy(decision);
     const ids = Array.from(selected);
     try {
       const { data: userResp } = await supabase.auth.getUser();
@@ -83,24 +83,27 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
       const { error } = await supabase
         .from("approval_queue")
         .update({
-          status: "approved",
+          status: decision === "approve" ? "approved" : "rejected",
           approved_by: operator,
           decided_at: new Date().toISOString(),
+          decision_reason:
+            decision === "reject" ? "Bulk rejected by operator" : null,
         })
         .in("id", ids);
       if (error) throw error;
 
-      toast.success(`Signed off ${ids.length} draft${ids.length === 1 ? "" : "s"}`, {
-        description: `Approved by ${operator}`,
-      });
+      toast.success(
+        `${decision === "approve" ? "Signed off" : "Rejected"} ${ids.length} draft${ids.length === 1 ? "" : "s"}`,
+        { description: `${decision === "approve" ? "Approved" : "Rejected"} by ${operator}` },
+      );
       setSelected(new Set());
       await qc.invalidateQueries({ queryKey: ["operator", "drafts", slug] });
     } catch (e) {
       toast.error(
-        e instanceof Error ? e.message : "Could not sign off these drafts",
+        e instanceof Error ? e.message : `Could not ${decision} these drafts`,
       );
     } finally {
-      setBulkBusy(false);
+      setBulkBusy(null);
     }
   };
 
@@ -110,7 +113,8 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
         accent={accent}
         count={selected.size}
         busy={bulkBusy}
-        onApprove={bulkApprove}
+        onApprove={() => runBulkDecision("approve")}
+        onReject={() => runBulkDecision("reject")}
         onClear={() => setSelected(new Set())}
       />
       <Table
@@ -140,7 +144,7 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
           formatDate(d.requested_at),
           formatDate(d.expires_at),
           <Mono key="r">{shortId(d.request_id)}</Mono>,
-          <SignOffButton key="s" draftId={d.id} slug={slug} accent={accent} />,
+          <DraftRowActions key="s" draftId={d.id} slug={slug} accent={accent} />,
         ])}
       />
     </div>
