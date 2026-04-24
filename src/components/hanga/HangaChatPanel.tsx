@@ -306,6 +306,15 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
               />
             )}
 
+            {/* Governed action audit log */}
+            {isWaihanga && (
+              <GovernanceAuditPanel
+                entries={auditEntries}
+                onClear={clearAudit}
+                kete={auditKete}
+              />
+            )}
+
             {/* Messages */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
               {messages.length === 0 && (
