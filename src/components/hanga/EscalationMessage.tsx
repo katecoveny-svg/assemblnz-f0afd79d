@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { UserCheck, FileSearch, ArrowRight, Clock, AlertTriangle } from "lucide-react";
 import type { AuditPolicyEvaluation } from "./useGovernanceAuditLog";
+import { ApprovalStatusBadge } from "./ApprovalStatusBadge";
 
 const POUNAMU = "#3A7D6E";
 const TEAL_ACCENT = "#4AA5A8";
@@ -84,15 +85,7 @@ export function EscalationMessage({
             Compliance verdict: needs_human · {actionLabel}
           </p>
         </div>
-        {approvalId && (
-          <span
-            className="text-[9px] font-mono px-1.5 py-0.5 rounded"
-            style={{ background: "rgba(0,0,0,0.04)", color: "#6B7280" }}
-            title="Approval queue ID"
-          >
-            #{approvalId.slice(0, 6)}
-          </span>
-        )}
+        {approvalId && <ApprovalStatusBadge approvalId={approvalId} variant="pill" />}
       </div>
 
       <div className="px-3 py-2.5 space-y-2.5">
