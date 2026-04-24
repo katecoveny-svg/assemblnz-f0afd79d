@@ -66,6 +66,8 @@ const AgentWorkspacePage: React.FC = () => {
     }
   };
 
+  if (!agent) return <Navigate to="/agents" replace />;
+
   const totalRuns = runs.data?.length ?? 0;
   const passRate =
     totalRuns > 0
