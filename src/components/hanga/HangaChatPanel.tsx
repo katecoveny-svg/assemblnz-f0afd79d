@@ -12,6 +12,7 @@ import {
   type SupervisorComplianceContext,
 } from "./SupervisorControls";
 import { GovernanceAuditPanel } from "./GovernanceAuditPanel";
+import { CompliancePreflightGate } from "./CompliancePreflightGate";
 import {
   useGovernanceAuditLog,
   deriveActionKind,
@@ -100,6 +101,9 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
   const [supervisorContext, setSupervisorContext] = useState<SupervisorComplianceContext>(
     DEFAULT_SUPERVISOR_CONTEXT,
   );
+  const [preflightConfirmed, setPreflightConfirmed] = useState(false);
+  const [showPreflight, setShowPreflight] = useState(false);
+  const [pendingMessage, setPendingMessage] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const isWaihanga = packId === "waihanga" || packId === "hanga";
@@ -126,6 +130,12 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
+    // Waihanga first-message gate: capture context before any AI call
+    if (isWaihanga && !preflightConfirmed) {
+      setPendingMessage(text.trim());
+      setShowPreflight(true);
+      return;
+    }
     const userMsg: Message = { id: crypto.randomUUID(), role: "user", content: text.trim() };
     setMessages(prev => [...prev, userMsg]);
     setInput("");
@@ -256,6 +266,26 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
     return <Icon size={14} style={{ color: TEAL_ACCENT }} />;
   };
 
+  const handlePreflightConfirm = (next: SupervisorComplianceContext) => {
+    setSupervisorContext(next);
+    setPreflightConfirmed(true);
+    setShowPreflight(false);
+    pushSystemNote(
+      `Pre-flight compliance confirmed — Zone: ${next.zone ?? "—"}, headcount cap ${next.world.headcountCap}.`,
+    );
+    if (pendingMessage) {
+      const queued = pendingMessage;
+      setPendingMessage(null);
+      // Defer so state updates flush before sendMessage re-checks the gate
+      setTimeout(() => void sendMessage(queued), 0);
+    }
+  };
+
+  const handlePreflightCancel = () => {
+    setShowPreflight(false);
+    setPendingMessage(null);
+  };
+
   return (
     <>
       {/* FAB */}
@@ -281,7 +311,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 w-[380px] h-[600px] max-h-[80vh] rounded-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-6 right-6 z-50 w-[380px] h-[600px] max-h-[80vh] rounded-2xl flex flex-col overflow-hidden relative"
             style={{
               background: "rgba(255,255,255,0.92)",
               border: "1px solid rgba(74,165,168,0.15)",
@@ -419,6 +449,15 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                 </button>
               </div>
             </div>
+
+            {/* Pre-flight compliance gate (Waihanga first message only) */}
+            {isWaihanga && showPreflight && (
+              <CompliancePreflightGate
+                initial={supervisorContext}
+                onConfirm={handlePreflightConfirm}
+                onCancel={handlePreflightCancel}
+              />
+            )}
           </motion.div>
         )}
       </AnimatePresence>
