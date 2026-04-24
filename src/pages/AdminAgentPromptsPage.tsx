@@ -765,6 +765,59 @@ export default function AdminAgentPromptsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Version preview dialog */}
+      <Dialog open={!!previewVersion} onOpenChange={(o) => !o && setPreviewVersion(null)}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <History className="w-4 h-4" />
+              {previewVersion?.display_name} — v{previewVersion?.version}
+            </DialogTitle>
+            <DialogDescription>
+              Snapshot from{" "}
+              {previewVersion ? new Date(previewVersion.created_at).toLocaleString("en-NZ") : ""}
+              {previewVersion?.change_note ? ` · ${previewVersion.change_note}` : ""}
+            </DialogDescription>
+          </DialogHeader>
+          {previewVersion && (
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-2 text-xs">
+                <Badge variant="outline" className="font-mono">
+                  {previewVersion.agent_name}
+                </Badge>
+                <Badge>{previewVersion.pack}</Badge>
+                {previewVersion.model_preference && (
+                  <Badge variant="secondary">{previewVersion.model_preference}</Badge>
+                )}
+                <Badge variant={previewVersion.is_active ? "secondary" : "outline"}>
+                  {previewVersion.is_active ? "Was active" : "Was inactive"}
+                </Badge>
+              </div>
+              <div>
+                <Label className="text-xs">System prompt</Label>
+                <Textarea
+                  readOnly
+                  value={previewVersion.system_prompt}
+                  className="font-mono text-xs min-h-[360px] mt-1"
+                />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPreviewVersion(null)}>
+              Close
+            </Button>
+            <Button
+              onClick={() => previewVersion && handleRestore(previewVersion)}
+              className="gap-2"
+              disabled={!previewVersion}
+            >
+              <RotateCw className="w-4 h-4" /> Restore this version
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
