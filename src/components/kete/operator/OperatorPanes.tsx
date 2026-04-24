@@ -558,9 +558,9 @@ const Table: React.FC<{
     <table className="w-full text-sm border-separate" style={{ borderSpacing: "0 6px" }}>
       <thead>
         <tr>
-          {headers.map((h) => (
+          {headers.map((h, i) => (
             <th
-              key={h}
+              key={i}
               className="text-left px-3 py-2 text-xs uppercase tracking-wider font-medium"
               style={{
                 color: ASSEMBL_TOKENS.core.text["text-secondary"],
