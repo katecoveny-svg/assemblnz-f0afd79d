@@ -281,17 +281,20 @@ const RowCheckbox: React.FC<{
   />
 );
 
-const SignOffButton: React.FC<{
+const DraftRowActions: React.FC<{
   draftId: string;
   slug: IndustrySlug;
   accent: string;
 }> = ({ draftId, slug, accent }) => {
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<"approve" | "reject" | null>(null);
   const qc = useQueryClient();
 
-  const handleClick = async (clickEv: React.MouseEvent) => {
+  const decide = async (
+    clickEv: React.MouseEvent,
+    decision: "approve" | "reject",
+  ) => {
     clickEv.stopPropagation();
-    setBusy(true);
+    setBusy(decision);
     try {
       const { data: userResp } = await supabase.auth.getUser();
       const operator =
@@ -300,46 +303,90 @@ const SignOffButton: React.FC<{
         userResp.user?.id ??
         "operator";
 
+      let reason: string | null = null;
+      if (decision === "reject") {
+        const input = window.prompt(
+          "Reason for rejecting this draft? (optional)",
+          "",
+        );
+        // Cancel only if user presses Escape (returns null); empty string is fine
+        if (input === null) {
+          setBusy(null);
+          return;
+        }
+        reason = input.trim() || "Rejected by operator";
+      }
+
       const { error } = await supabase
         .from("approval_queue")
         .update({
-          status: "approved",
+          status: decision === "approve" ? "approved" : "rejected",
           approved_by: operator,
           decided_at: new Date().toISOString(),
+          decision_reason: reason,
         })
         .eq("id", draftId);
       if (error) throw error;
 
-      toast.success("Draft signed off", {
-        description: `Approved by ${operator}`,
-      });
+      toast.success(
+        decision === "approve" ? "Draft signed off" : "Draft rejected",
+        { description: `${decision === "approve" ? "Approved" : "Rejected"} by ${operator}` },
+      );
       await qc.invalidateQueries({ queryKey: ["operator", "drafts", slug] });
     } catch (e) {
       toast.error(
-        e instanceof Error ? e.message : "Could not sign off this draft",
+        e instanceof Error ? e.message : `Could not ${decision} this draft`,
       );
     } finally {
-      setBusy(false);
+      setBusy(null);
     }
   };
 
+  const anyBusy = busy !== null;
+
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      disabled={busy}
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
-      style={{
-        background: `${accent}33`,
-        border: `1px solid ${accent}66`,
-        color: ASSEMBL_TOKENS.core.text["text-primary"],
-        fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
-      }}
-      aria-label="Sign off draft"
-    >
-      {busy ? <Loader2 size={12} className="animate-spin" /> : <Check size={12} />}
-      Sign off
-    </button>
+    <div className="inline-flex items-center gap-1.5">
+      <button
+        type="button"
+        onClick={(e) => decide(e, "reject")}
+        disabled={anyBusy}
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+        style={{
+          background: "#F2DEDC",
+          border: "1px solid #D9B0AA",
+          color: "#7A2E2A",
+          fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+        }}
+        aria-label="Reject draft"
+      >
+        {busy === "reject" ? (
+          <Loader2 size={12} className="animate-spin" />
+        ) : (
+          <X size={12} />
+        )}
+        Reject
+      </button>
+      <button
+        type="button"
+        onClick={(e) => decide(e, "approve")}
+        disabled={anyBusy}
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+        style={{
+          background: `${accent}33`,
+          border: `1px solid ${accent}66`,
+          color: ASSEMBL_TOKENS.core.text["text-primary"],
+          fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+        }}
+        aria-label="Sign off draft"
+      >
+        {busy === "approve" ? (
+          <Loader2 size={12} className="animate-spin" />
+        ) : (
+          <Check size={12} />
+        )}
+        Sign off
+      </button>
+    </div>
   );
 };
 
