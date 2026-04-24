@@ -4,8 +4,10 @@ import App from "./App.tsx";
 import "./index.css";
 import { registerServiceWorker } from "./utils/pwaManifest";
 import { ModuleErrorBoundary } from "./components/ModuleErrorBoundary";
+import { runStartupDependencyCheck } from "./utils/startupDependencyCheck";
 
 registerServiceWorker();
+runStartupDependencyCheck();
 
 // Site-wide light-glass upgrade — every page picks up the
 // charcoal-on-light remap defined in index.css. Pages with
