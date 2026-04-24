@@ -6,6 +6,7 @@ import { TimetableGrid } from "@/components/toro/TimetableGrid";
 import { GearListChecklist } from "@/components/toro/GearListChecklist";
 import { AddChildModal } from "@/components/toro/AddChildModal";
 import { EditChildModal } from "@/components/toro/EditChildModal";
+import { ToroTutorChat } from "@/components/toro/ToroTutorChat";
 import { toast } from "sonner";
 
 interface Child {
@@ -249,6 +250,33 @@ const ToroChildren = () => {
                     <h3 className="font-display text-xl text-[#9D8C7D] mb-4">Today's gear list</h3>
                     <GearListChecklist familyId={familyId!} childName={activeChild.name} />
                   </div>
+
+                  {/* Tutor chat — day plan & gear */}
+                  <ToroTutorChat
+                    variant="day"
+                    title={`Ask Tōro about ${activeChild.name}`}
+                    contextLines={[
+                      `Child: ${activeChild.name}${activeChild.year_level ? ` (Year ${activeChild.year_level})` : ""}.`,
+                      activeChild.school ? `School: ${activeChild.school}.` : "School not set.",
+                      activeChild.school_start_time && activeChild.school_end_time
+                        ? `School hours: ${activeChild.school_start_time}–${activeChild.school_end_time}.`
+                        : "School hours not set.",
+                      activeChild.transport_mode
+                        ? `Transport: ${activeChild.transport_mode}${activeChild.bus_route_id ? ` (route ${activeChild.bus_route_id})` : ""}.`
+                        : "Transport not set.",
+                      activeChild.allergies && activeChild.allergies.length
+                        ? `Allergies: ${activeChild.allergies.join(", ")}.`
+                        : "No allergies recorded.",
+                      activeChild.interests && activeChild.interests.length
+                        ? `Interests: ${activeChild.interests.join(", ")}.`
+                        : "",
+                    ].filter(Boolean)}
+                    suggestions={[
+                      `What does ${activeChild.name}'s day look like?`,
+                      "What gear should we pack tomorrow?",
+                      "Any school admin I should chase?",
+                    ]}
+                  />
                 </>
               )}
             </section>
