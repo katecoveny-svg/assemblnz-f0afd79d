@@ -492,6 +492,7 @@ const App = () => (
                           <Route path="app-spark" element={<AppSparkForge />} />
                           <Route path="brand-scan" element={<AuahaBrandScanner />} />
                           <Route path="reels" element={<ReelsPage />} />
+                          <Route path="queue" element={<AuahaKahuQueue />} />
                         </Route>
 
                         <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />
