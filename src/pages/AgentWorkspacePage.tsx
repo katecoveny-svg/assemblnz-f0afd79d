@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader2, MessageSquare, ArrowLeft, RefreshCw, PlayCircle } from "lucide-react";
+import { Loader2, MessageSquare, ArrowLeft, RefreshCw, PlayCircle, FileUp } from "lucide-react";
 import { toast } from "sonner";
 import { agents } from "@/data/agents";
 import { SLUG_TO_ID } from "@/lib/agentSlugMap";
 import { ASSEMBL_TOKENS } from "@/design/assemblTokens";
 import { agentChat } from "@/lib/agentChat";
+import UploadEvidencePackDialog from "@/components/agent/UploadEvidencePackDialog";
 import {
   useAgentRuns,
   useAgentMemory,
@@ -41,6 +42,7 @@ const AgentWorkspacePage: React.FC = () => {
 
   const queryClient = useQueryClient();
   const [rerunBusy, setRerunBusy] = useState(false);
+  const [uploadOpen, setUploadOpen] = useState(false);
 
   const handleRefresh = () => {
     queryClient.invalidateQueries({ queryKey: ["agent-workspace"] });
@@ -106,6 +108,20 @@ const AgentWorkspacePage: React.FC = () => {
             <ArrowLeft size={12} /> Back to {agent.name} chat
           </Link>
           <div className="flex-1" />
+          <button
+            onClick={() => setUploadOpen(true)}
+            disabled={!keteCode}
+            title={keteCode ? "Upload source documents and generate a branded evidence pack" : "Agent has no kete — cannot file a pack"}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs hover:brightness-95 disabled:opacity-50"
+            style={{
+              background: `${accent}33`,
+              border: `1px solid ${accent}66`,
+              color: ASSEMBL_TOKENS.core.text["text-primary"],
+              fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+            }}
+          >
+            <FileUp size={12} /> Upload &amp; generate pack
+          </button>
           <button
             onClick={handleRerunLast}
             disabled={rerunBusy || !runs.data?.length}
@@ -300,6 +316,16 @@ const AgentWorkspacePage: React.FC = () => {
           </Panel>
         </div>
       </div>
+
+      <UploadEvidencePackDialog
+        open={uploadOpen}
+        onOpenChange={setUploadOpen}
+        agentName={agent.name}
+        agentDesignation={agent.designation}
+        keteCode={keteCode}
+        accent={accent}
+        onCompleted={() => queryClient.invalidateQueries({ queryKey: ["agent-workspace", "evidence"] })}
+      />
     </div>
   );
 };
