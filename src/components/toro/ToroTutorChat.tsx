@@ -15,6 +15,18 @@ import ReactMarkdown from "react-markdown";
 
 import { streamMcpChat, type ChatMsg } from "@/lib/mcpChat";
 import { toast } from "sonner";
+import { ChatPanelBoundary } from "@/components/chat/ChatPanelBoundary";
+
+// Declared imports — surfaced in the diagnostics fallback if the panel
+// ever fails to mount (e.g. missing dep, broken alias, stale Vite chunk).
+const TORO_TUTOR_IMPORTS = [
+  "react",
+  "lucide-react",
+  "react-markdown",
+  "@/lib/mcpChat",
+  "sonner",
+  "@/components/chat/ChatPanelBoundary",
+];
 
 interface Props {
   /** Display title above the chat (e.g. "Ask Tōro about Mia"). */
