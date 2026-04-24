@@ -97,6 +97,7 @@ const ToroaLandingPage = lazy(() => import("./pages/ToroaLandingPage"));
 const ToroaApp = lazy(() => import("./pages/ToroaApp"));
 const ToroaInstallPage = lazy(() => import("./pages/ToroaInstallPage"));
 const AgentApp = lazy(() => import("./pages/AgentApp"));
+const AgentWorkspacePage = lazy(() => import("./pages/AgentWorkspacePage"));
 const AdminSmsPage = lazy(() => import("./pages/AdminSmsPage"));
 const HowItWorksPage = lazy(() => import("./pages/HowItWorksPage"));
 const StatusPage = lazy(() => import("./pages/StatusPage"));
@@ -380,6 +381,7 @@ const App = () => (
                         <Route path="/packs/:packSlug" element={<PackSlugRedirect />} />
                         <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
                         <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
+                        <Route path="/app/:agentId/workspace" element={<Suspense fallback={null}><AgentWorkspacePage /></Suspense>} />
                         <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
                         <Route path="/start" element={<Suspense fallback={null}><StartPage /></Suspense>} />
                         <Route path="/start/pending/:id" element={<Suspense fallback={null}><StartPendingPage /></Suspense>} />
