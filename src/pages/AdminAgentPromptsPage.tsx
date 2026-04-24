@@ -109,6 +109,11 @@ export default function AdminAgentPromptsPage() {
   const [saving, setSaving] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
   const [newDraft, setNewDraft] = useState({ ...emptyDraft });
+  const [showHistory, setShowHistory] = useState(false);
+  const [history, setHistory] = useState<PromptVersion[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [previewVersion, setPreviewVersion] = useState<PromptVersion | null>(null);
+  const [changeNote, setChangeNote] = useState("");
 
   const load = async () => {
     setLoading(true);
