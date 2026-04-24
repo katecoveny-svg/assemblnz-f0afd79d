@@ -145,3 +145,5 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.mcp-iot]
     verify_jwt = false
+  [functions.evidence-sweep]
+    verify_jwt = false

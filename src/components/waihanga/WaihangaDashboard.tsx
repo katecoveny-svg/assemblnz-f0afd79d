@@ -65,9 +65,36 @@ function useWaihangaEvidence() {
   });
 }
 
+type SweepSnapshot = {
+  swept_for: string;
+  green_count: number;
+  amber_count: number;
+  red_count: number;
+  readiness_score: number;
+  high_risk_records: number;
+};
+
+function useWaihangaSweep() {
+  return useQuery({
+    queryKey: ["waihanga-evidence-sweep"],
+    queryFn: async (): Promise<SweepSnapshot | null> => {
+      const { data, error } = await supabase
+        .from("evidence_sweep_snapshots")
+        .select("swept_for, green_count, amber_count, red_count, readiness_score, high_risk_records")
+        .eq("kete", "WAIHANGA")
+        .order("swept_for", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as SweepSnapshot | null) ?? null;
+    },
+  });
+}
+
 export default function WaihangaDashboard() {
   const { data: records = [], isLoading } = useArchitectureRecords();
   const { data: packs = [] } = useWaihangaEvidence();
+  const { data: sweep } = useWaihangaSweep();
 
   // Risk distribution from live records
   const riskCounts = records.reduce((acc, r) => {
@@ -100,6 +127,10 @@ export default function WaihangaDashboard() {
     };
   });
 
+  const sweptForLabel = sweep?.swept_for
+    ? new Date(sweep.swept_for).toLocaleDateString("en-NZ", { day: "2-digit", month: "short", year: "numeric" })
+    : null;
+
   return (
     <KeteDashboardShell
       name="Waihanga"
@@ -114,7 +145,12 @@ export default function WaihangaDashboard() {
           { label: "Workflow Records", value: records.length, icon: Layers, color: ACCENT },
           { label: "High-Risk Items", value: highRisk, icon: AlertTriangle, color: "#C85A54" },
           { label: "Evidence Packs", value: packs.length, icon: FileText, color: CLAY },
-          { label: "Compliance Gate", value: highRisk === 0 ? "GREEN" : "REVIEW", icon: Shield, color: highRisk === 0 ? ACCENT : "#D9BC7A" },
+          {
+            label: "Readiness",
+            value: sweep ? `${sweep.readiness_score}%` : highRisk === 0 ? "GREEN" : "REVIEW",
+            icon: Shield,
+            color: sweep && sweep.readiness_score >= 80 ? ACCENT : highRisk === 0 ? ACCENT : "#D9BC7A",
+          },
         ].map(m => (
           <DashboardGlassCard key={m.label} accentColor={m.color} className="p-4">
             <div className="flex items-center gap-2 mb-2">
@@ -127,6 +163,27 @@ export default function WaihangaDashboard() {
           </DashboardGlassCard>
         ))}
       </div>
+
+      {/* Daily evidence sweep banner */}
+      {sweep && (
+        <DashboardGlassCard accentColor={ACCENT} className="p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="text-xs font-semibold uppercase tracking-wider" style={{ color: MUTED }}>
+                Daily Evidence Sweep
+              </h3>
+              <p className="text-[11px] mt-1" style={{ color: INK }}>
+                {sweptForLabel} · 90-day window · recalculated automatically at 5:30am NZST
+              </p>
+            </div>
+            <div className="flex gap-3 text-[11px] font-mono" style={{ color: INK }}>
+              <span><span style={{ color: ACCENT }}>●</span> Green {sweep.green_count}</span>
+              <span><span style={{ color: "#D9BC7A" }}>●</span> Amber {sweep.amber_count}</span>
+              <span><span style={{ color: "#C85A54" }}>●</span> Red {sweep.red_count}</span>
+            </div>
+          </div>
+        </DashboardGlassCard>
+      )}
 
       {/* Charts */}
       <div className="grid md:grid-cols-2 gap-4">
