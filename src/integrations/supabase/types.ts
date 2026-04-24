@@ -1400,6 +1400,181 @@ export type Database = {
         }
         Relationships: []
       }
+      assembl_integration_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          direction: string
+          duration_ms: number | null
+          error_message: string | null
+          id: string
+          integration_id: string | null
+          organisation_id: string | null
+          provider_code: string
+          records_processed: number | null
+          request_metadata: Json | null
+          status: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          direction: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          integration_id?: string | null
+          organisation_id?: string | null
+          provider_code: string
+          records_processed?: number | null
+          request_metadata?: Json | null
+          status: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          direction?: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          integration_id?: string | null
+          organisation_id?: string | null
+          provider_code?: string
+          records_processed?: number | null
+          request_metadata?: Json | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assembl_integration_logs_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "assembl_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assembl_integration_providers: {
+        Row: {
+          auth_type: string | null
+          auth_url: string | null
+          category: string
+          code: string
+          created_at: string | null
+          description: string | null
+          icon_url: string | null
+          id: string
+          is_active: boolean | null
+          kete_codes: string[] | null
+          name: string
+          scopes: string[] | null
+          setup_guide: string | null
+          token_url: string | null
+        }
+        Insert: {
+          auth_type?: string | null
+          auth_url?: string | null
+          category: string
+          code: string
+          created_at?: string | null
+          description?: string | null
+          icon_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          kete_codes?: string[] | null
+          name: string
+          scopes?: string[] | null
+          setup_guide?: string | null
+          token_url?: string | null
+        }
+        Update: {
+          auth_type?: string | null
+          auth_url?: string | null
+          category?: string
+          code?: string
+          created_at?: string | null
+          description?: string | null
+          icon_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          kete_codes?: string[] | null
+          name?: string
+          scopes?: string[] | null
+          setup_guide?: string | null
+          token_url?: string | null
+        }
+        Relationships: []
+      }
+      assembl_integrations: {
+        Row: {
+          access_token: string | null
+          connected_at: string | null
+          external_org_id: string | null
+          external_org_name: string | null
+          id: string
+          last_sync_at: string | null
+          last_sync_error: string | null
+          last_sync_status: string | null
+          metadata: Json | null
+          organisation_id: string
+          provider_code: string
+          refresh_token: string | null
+          scopes_granted: string[] | null
+          status: string | null
+          sync_frequency_minutes: number | null
+          token_expires_at: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          access_token?: string | null
+          connected_at?: string | null
+          external_org_id?: string | null
+          external_org_name?: string | null
+          id?: string
+          last_sync_at?: string | null
+          last_sync_error?: string | null
+          last_sync_status?: string | null
+          metadata?: Json | null
+          organisation_id: string
+          provider_code: string
+          refresh_token?: string | null
+          scopes_granted?: string[] | null
+          status?: string | null
+          sync_frequency_minutes?: number | null
+          token_expires_at?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          access_token?: string | null
+          connected_at?: string | null
+          external_org_id?: string | null
+          external_org_name?: string | null
+          id?: string
+          last_sync_at?: string | null
+          last_sync_error?: string | null
+          last_sync_status?: string | null
+          metadata?: Json | null
+          organisation_id?: string
+          provider_code?: string
+          refresh_token?: string | null
+          scopes_granted?: string[] | null
+          status?: string | null
+          sync_frequency_minutes?: number | null
+          token_expires_at?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assembl_integrations_provider_code_fkey"
+            columns: ["provider_code"]
+            isOneToOne: false
+            referencedRelation: "assembl_integration_providers"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       assembl_lead_magnets: {
         Row: {
           avg_time_seconds: number | null
@@ -1675,6 +1850,92 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      assembl_oauth_states: {
+        Row: {
+          code_verifier: string | null
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          organisation_id: string
+          provider_code: string
+          redirect_after: string | null
+          state: string
+          used: boolean | null
+          user_id: string
+        }
+        Insert: {
+          code_verifier?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          organisation_id: string
+          provider_code: string
+          redirect_after?: string | null
+          state: string
+          used?: boolean | null
+          user_id: string
+        }
+        Update: {
+          code_verifier?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          organisation_id?: string
+          provider_code?: string
+          redirect_after?: string | null
+          state?: string
+          used?: boolean | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      assembl_synced_data: {
+        Row: {
+          data: Json
+          data_type: string
+          expires_at: string | null
+          external_id: string | null
+          id: string
+          integration_id: string | null
+          is_stale: boolean | null
+          organisation_id: string
+          provider_code: string
+          synced_at: string | null
+        }
+        Insert: {
+          data: Json
+          data_type: string
+          expires_at?: string | null
+          external_id?: string | null
+          id?: string
+          integration_id?: string | null
+          is_stale?: boolean | null
+          organisation_id: string
+          provider_code: string
+          synced_at?: string | null
+        }
+        Update: {
+          data?: Json
+          data_type?: string
+          expires_at?: string | null
+          external_id?: string | null
+          id?: string
+          integration_id?: string | null
+          is_stale?: boolean | null
+          organisation_id?: string
+          provider_code?: string
+          synced_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assembl_synced_data_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "assembl_integrations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       assembl_workflow_mapping: {
         Row: {
@@ -15564,9 +15825,73 @@ export type Database = {
       }
     }
     Functions: {
+      assembl_agent_get_employees: {
+        Args: { p_organisation_id: string }
+        Returns: {
+          email: string
+          external_id: string
+          hourly_rate: number
+          is_fresh: boolean
+          name: string
+          provider: string
+          raw_data: Json
+          role: string
+          start_date: string
+        }[]
+      }
+      assembl_agent_get_invoices: {
+        Args: { p_limit?: number; p_organisation_id: string; p_status?: string }
+        Returns: {
+          amount: number
+          contact_name: string
+          currency: string
+          due_date: string
+          external_id: string
+          invoice_number: string
+          provider: string
+          raw_data: Json
+          status: string
+        }[]
+      }
+      assembl_agent_get_shifts: {
+        Args: { p_from?: string; p_organisation_id: string; p_to?: string }
+        Returns: {
+          employee_name: string
+          end_time: string
+          external_id: string
+          location: string
+          provider: string
+          raw_data: Json
+          role: string
+          start_time: string
+        }[]
+      }
       assembl_calculate_lead_score: {
         Args: { p_lead_id: string }
         Returns: number
+      }
+      assembl_get_integration: {
+        Args: { p_organisation_id: string; p_provider_code: string }
+        Returns: {
+          access_token: string
+          external_org_id: string
+          id: string
+          metadata: Json
+          refresh_token: string
+          token_expires_at: string
+        }[]
+      }
+      assembl_get_or_sync: {
+        Args: {
+          p_data_type: string
+          p_organisation_id: string
+          p_provider_code: string
+        }
+        Returns: {
+          data: Json
+          is_fresh: boolean
+          synced_at: string
+        }[]
       }
       assembl_log_agent_interaction: {
         Args: {
@@ -15584,6 +15909,11 @@ export type Database = {
           p_workflow_type?: string
         }
         Returns: string
+      }
+      assembl_mark_stale_data: { Args: never; Returns: number }
+      assembl_needs_token_refresh: {
+        Args: { p_integration_id: string }
+        Returns: boolean
       }
       can_access_trip: { Args: { _trip_id: string }; Returns: boolean }
       delete_email: {
