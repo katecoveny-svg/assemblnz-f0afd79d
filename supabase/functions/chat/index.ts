@@ -7443,18 +7443,37 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  },
  ];
 
- // Pull every schema'd tool from tool_registry so the LLM can call them
+ // Pull every schema'd tool from tool_registry so the LLM can call them.
+ // Cross-validate `requires_integration` against the agent's kete scope
+ // (KETE_SCOPES from live-data-context). If a tool needs a scope the kete
+ // can't reach, drop it and audit the denial — single source of truth.
+ const agentKete: Kete | null = AGENT_TO_KETE[agentId] ?? AGENT_TO_KETE[rawAgentId] ?? null;
+ const allowedScopes = new Set<LiveDataScope>(agentKete ? KETE_SCOPES[agentKete] : []);
  let registryTools: any[] = [];
+ const droppedForScope: string[] = [];
  try {
   const { data: regRows } = await sb
    .from("tool_registry")
-   .select("tool_schema")
+   .select("tool_name, tool_schema, requires_integration")
    .eq("is_active", true);
   registryTools = (regRows || [])
+   .filter((r: any) => {
+    const reqs: string[] = Array.isArray(r.requires_integration) ? r.requires_integration : [];
+    if (reqs.length === 0) return true; // unrestricted
+    // Allow if ANY required scope is granted to the agent's kete.
+    const ok = reqs.some((scope: string) => allowedScopes.has(scope as LiveDataScope));
+    if (!ok) droppedForScope.push(r.tool_name);
+    return ok;
+   })
    .map((r: any) => r.tool_schema)
    .filter((s: any) => s && s.function && s.function.name);
  } catch (e) {
   console.warn("[chat] tool_registry load failed:", e);
+ }
+ if (droppedForScope.length > 0) {
+  console.info(`[chat:${requestId}] tool scope filter`, JSON.stringify({
+   agentId, kete: agentKete, dropped: droppedForScope.slice(0, 20), dropped_count: droppedForScope.length,
+  }));
  }
 
  const allTools = [...integrationTools, ...LIVE_DATA_TOOLS, ...registryTools];
