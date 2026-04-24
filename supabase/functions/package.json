@@ -1,0 +1,7 @@
+{
+  "name": "supabase-functions",
+  "private": true,
+  "dependencies": {
+    "openai": "^4.52.5"
+  }
+}
