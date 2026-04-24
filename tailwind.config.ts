@@ -17,15 +17,9 @@ export default {
         // Brand Guidelines v1.0 (locked 2026-04-22)
         display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
         serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        body: ['Inter', 'sans-serif'],
-        sans: ['Inter', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'monospace'],
-        // Legacy aliases — silently retarget to v1.0 fonts
-        inter: ['Inter', 'sans-serif'],
-        outfit: ['Inter', 'sans-serif'],
-        syne: ['"Cormorant Garamond"', 'serif'],
-        jakarta: ['Inter', 'sans-serif'],
-        'mono-jb': ['"IBM Plex Mono"', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
