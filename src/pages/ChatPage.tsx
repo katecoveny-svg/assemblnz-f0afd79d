@@ -2497,10 +2497,17 @@ const ChatPage = () => {
                                 };
                                 return (
                                   <div key={imgIdx} className="relative group rounded-xl overflow-hidden border border-border">
-                                    <img loading="lazy" decoding="async" src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" />
+                                    <img
+                                      loading="lazy"
+                                      decoding="async"
+                                      src={url}
+                                      alt={`Generated visual ${imgIdx + 1}`}
+                                      onClick={() => setLightboxUrl(url)}
+                                      className="w-full h-auto rounded-xl cursor-zoom-in transition-transform hover:scale-[1.005]"
+                                    />
                                     {/* Always-visible download pill — top-right for easy access on touch + desktop */}
                                     <button
-                                      onClick={downloadImage}
+                                      onClick={(e) => { e.stopPropagation(); downloadImage(); }}
                                       className="absolute top-2 right-2 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-body font-medium text-foreground bg-background/90 hover:bg-background backdrop-blur-md border border-border shadow-sm transition-all hover:scale-105"
                                       title="Download as PNG"
                                       aria-label="Download image as PNG"
