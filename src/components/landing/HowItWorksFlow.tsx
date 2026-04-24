@@ -1,212 +1,394 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, GitBranch, Cpu, Shield, CheckCircle2, ChevronRight, Play, Pause } from "lucide-react";
+import {
+  ShieldCheck,
+  GitBranch,
+  Cpu,
+  BrainCircuit,
+  BadgeCheck,
+  Play,
+  Pause,
+  CheckCircle2,
+  AlertTriangle,
+} from "lucide-react";
 
-const ease = [0.16, 1, 0.3, 1];
+/**
+ * HowItWorksFlow — interactive 5-stage governance pipeline.
+ * Mirrors what the live platform actually does for every agent request:
+ *   1. Kahu    — policy detection / intake gate
+ *   2. Iho     — model router + specialist routing
+ *   3. Tā      — execution + NZ-correct generation
+ *   4. Mahara  — memory + cross-verification
+ *   5. Mana    — assurance + human-in-the-loop sign-off
+ *
+ * Styling uses the Pearl/Mārama Whenua light tokens (no dark surfaces, no neon).
+ */
 
-const STEPS = [
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const PEARL = {
+  bg: "#FBFAF7",
+  linen: "#F3F4F2",
+  opal: "#E8EEEC",
+  ink: "#0E1513",
+  pounamu: "#1F4D47",
+  seaGlass: "#C4D6D2",
+  muted: "#8B8479",
+  bodyInk: "rgba(14,21,19,0.72)",
+  softGold: "#D9BC7A",
+  dustyRose: "#D5C0C8",
+  warmLinen: "#E6D8C6",
+} as const;
+
+type StageId = "kahu" | "iho" | "ta" | "mahara" | "mana";
+
+interface Stage {
+  id: StageId;
+  num: string;
+  name: string;
+  question: string;
+  desc: string;
+  icon: typeof ShieldCheck;
+  accent: string;
+  visual: StageId;
+}
+
+const STAGES: Stage[] = [
   {
-    id: 1,
-    te_reo: "Pātai",
-    title: "You ask a question",
-    subtitle: "Text, voice, or chat — however suits you",
-    description: "Type a question in the dashboard, send an SMS, or talk to your agent. Assembl understands natural language — no jargon, no commands.",
-    example: '"Can I terminate an employee during their 90-day trial if they keep showing up late?"',
-    icon: MessageSquare,
-    color: "#4AA5A8",
-    visual: "chat",
+    id: "kahu",
+    num: "01",
+    name: "Kahu",
+    question: "What's allowed here?",
+    desc: "Policy detection. PII masking, tikanga check, and a tier gate before any model sees the request.",
+    icon: ShieldCheck,
+    accent: PEARL.pounamu,
+    visual: "kahu",
   },
   {
-    id: 2,
-    te_reo: "Iho",
-    title: "Iho routes to the right specialist",
-    subtitle: "Iho, the heart of Assembl, matches your question to the right specialist",
-    description: "Iho analyses your question, identifies the domain (employment law), and routes it to Aroha — your HR and Employment Relations specialist. No guesswork.",
-    example: "Routing → Manaaki kete → AROHA (Employment Relations)",
+    id: "iho",
+    num: "02",
+    name: "Iho",
+    question: "Which specialist handles this?",
+    desc: "Routing. Iho classifies the intent, picks the right kete and specialist agent, and selects the right model for the job.",
     icon: GitBranch,
-    color: "#3A7D6E",
-    visual: "routing",
+    accent: PEARL.softGold,
+    visual: "iho",
   },
   {
-    id: 3,
-    te_reo: "Mahi",
-    title: "Your specialist gets to work",
-    subtitle: "Deep expertise, NZ legislation, your business context",
-    description: "Aroha pulls the Employment Relations Act 2000, the 90-day trial provisions, recent case law, and your specific employment agreement templates to build a thorough answer.",
-    example: "Checking: ERA s67A · Trial period validity · Recent ERA rulings · Your templates",
+    id: "ta",
+    num: "03",
+    name: "Tā",
+    question: "Does the work, properly.",
+    desc: "Execution + NZ correctness. Generates the draft against current NZ legislation, your business context and your evidence templates.",
     icon: Cpu,
-    color: "#5B8FA8",
-    visual: "processing",
+    accent: PEARL.warmLinen,
+    visual: "ta",
   },
   {
-    id: 4,
-    te_reo: "Mana",
-    title: "Compliance and governance check",
-    subtitle: "Every answer passes through our trust pipeline",
-    description: "Before you see the answer, it passes through Kahu (policy detection), Tā (execution), Mahara (cross-verification), and Mana (assurance + human-in-the-loop). Your data stays sovereign in Aotearoa.",
-    example: "Privacy Act 2020 ✓ · Aligning with tikanga governance ✓ · Audit logged ✓",
-    icon: Shield,
-    color: "#E8B4B8",
-    visual: "compliance",
+    id: "mahara",
+    num: "04",
+    name: "Mahara",
+    question: "Checks against what we've learned.",
+    desc: "Memory + cross-verification. Pulls prior decisions, business memory and the knowledge base; flags anything that contradicts the past.",
+    icon: BrainCircuit,
+    accent: PEARL.dustyRose,
+    visual: "mahara",
   },
   {
-    id: 5,
-    te_reo: "Whakautu",
-    title: "You get a clear, actionable answer",
-    subtitle: "Not a wall of text — a decision you can act on",
-    description: "A structured response with the law, your options, recommended next steps, and any risks. Ready to act on immediately. Saved to your business memory for next time.",
-    example: "Yes — if the trial clause meets s67A requirements. Here are 3 steps to follow...",
-    icon: CheckCircle2,
-    color: "#4AA5A8",
-    visual: "result",
+    id: "mana",
+    num: "05",
+    name: "Mana",
+    question: "Proves it was done right.",
+    desc: "Assurance + human-in-the-loop. Assembles the evidence pack, locks the audit trail, and waits for a named operator to sign off.",
+    icon: BadgeCheck,
+    accent: PEARL.pounamu,
+    visual: "mana",
   },
 ];
 
-/** Chat bubble animation */
-const ChatVisual = ({ active }: { active: boolean }) => (
-  <div className="space-y-3">
-    <motion.div
-      className="flex justify-end"
-      initial={{ opacity: 0, x: 20 }}
-      animate={active ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.5, delay: 0.2, ease }}
-    >
-      <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[280px] text-xs" style={{ background: "rgba(74,165,168,0.15)", border: "1px solid rgba(74,165,168,0.2)", color: "rgba(255,255,255,0.85)", fontFamily: "'Inter', sans-serif" }}>
-        Can I terminate an employee during their 90-day trial if they keep showing up late?
-      </div>
-    </motion.div>
-    <motion.div
-      className="flex items-center gap-2"
-      initial={{ opacity: 0 }}
-      animate={active ? { opacity: 1 } : {}}
-      transition={{ delay: 0.7, duration: 0.3 }}
-    >
-      <div className="w-1.5 h-1.5 rounded-full bg-[#4AA5A8] animate-pulse" />
-      <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "'IBM Plex Mono', monospace" }}>Assembl is thinking...</span>
-    </motion.div>
-  </div>
-);
-
-/** Routing visualization */
-const RoutingVisual = ({ active }: { active: boolean }) => (
-  <div className="flex items-center justify-center gap-3">
-    <motion.div
-      className="text-center"
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={active ? { opacity: 1, scale: 1 } : {}}
-      transition={{ duration: 0.4, ease }}
-    >
-      <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-1" style={{ background: "rgba(58,125,110,0.15)", border: "1px solid rgba(58,125,110,0.3)" }}>
-        <GitBranch size={16} style={{ color: "#3A7D6E" }} />
-      </div>
-      <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'IBM Plex Mono', monospace" }}>IHO</span>
-    </motion.div>
-    {["Manaaki", "AROHA", "Pakihi"].map((name, i) => (
-      <motion.div
-        key={name}
-        className="text-center"
-        initial={{ opacity: 0, x: -10 }}
-        animate={active ? { opacity: i === 1 ? 1 : 0.3, x: 0 } : {}}
-        transition={{ delay: 0.3 + i * 0.15, duration: 0.4, ease }}
-      >
-        <div
-          className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-1"
-          style={{
-            background: i === 1 ? "rgba(74,165,168,0.2)" : "rgba(255,255,255,0.03)",
-            border: i === 1 ? "2px solid #4AA5A8" : "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
-          <span className="text-[8px] font-bold" style={{ color: i === 1 ? "#4AA5A8" : "rgba(255,255,255,0.3)" }}>
-            {name === "AROHA" ? "A" : name[0]}
-          </span>
-        </div>
-        <span className="text-[9px]" style={{ color: i === 1 ? "#4AA5A8" : "rgba(255,255,255,0.25)", fontFamily: "'IBM Plex Mono', monospace" }}>{name}</span>
-      </motion.div>
-    ))}
-  </div>
-);
-
-/** Processing animation */
-const ProcessingVisual = ({ active }: { active: boolean }) => (
-  <div className="space-y-2">
-    {["ERA s67A — Trial period provisions", "Case law: recent ERA rulings", "Your employment agreement templates", "Business context from Mahara"].map((item, i) => (
-      <motion.div
-        key={item}
-        className="flex items-center gap-2"
-        initial={{ opacity: 0, x: -10 }}
-        animate={active ? { opacity: 1, x: 0 } : {}}
-        transition={{ delay: 0.2 + i * 0.25, duration: 0.4, ease }}
-      >
-        <motion.div
-          className="w-4 h-4 rounded-full flex items-center justify-center shrink-0"
-          animate={active ? { background: ["rgba(91,143,168,0.1)", "rgba(91,143,168,0.3)", "rgba(91,143,168,0.1)"] } : {}}
-          transition={{ delay: 0.2 + i * 0.25 + 0.3, duration: 1.5, repeat: Infinity }}
-        >
-          <CheckCircle2 size={10} style={{ color: "#5B8FA8" }} />
-        </motion.div>
-        <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'IBM Plex Mono', monospace" }}>{item}</span>
-      </motion.div>
-    ))}
-  </div>
-);
-
-/** Compliance check animation */
-const ComplianceVisual = ({ active }: { active: boolean }) => (
-  <div className="flex items-center justify-center gap-4">
-    {[
-      { label: "Privacy Act 2020", color: "#3A7D6E" },
-      { label: "Aligning with tikanga", color: "#E8B4B8" },
-      { label: "Audit logged", color: "#4AA5A8" },
-    ].map((badge, i) => (
-      <motion.div
-        key={badge.label}
-        className="px-3 py-1.5 rounded-full text-[10px] flex items-center gap-1.5"
-        style={{ background: `${badge.color}15`, border: `1px solid ${badge.color}30`, color: badge.color, fontFamily: "'IBM Plex Mono', monospace" }}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={active ? { opacity: 1, scale: 1 } : {}}
-        transition={{ delay: 0.3 + i * 0.2, duration: 0.4, ease }}
-      >
-        <CheckCircle2 size={10} /> {badge.label}
-      </motion.div>
-    ))}
-  </div>
-);
-
-/** Result card */
-const ResultVisual = ({ active }: { active: boolean }) => (
-  <motion.div
-    className="glass-card rounded-xl p-4 space-y-2"
-    initial={{ opacity: 0, y: 10 }}
-    animate={active ? { opacity: 1, y: 0 } : {}}
-    transition={{ duration: 0.5, delay: 0.2, ease }}
+/* ─── Tiny atoms ─── */
+const Mono = ({ children, color, size = 11 }: { children: React.ReactNode; color?: string; size?: number }) => (
+  <span
+    style={{
+      fontFamily: "'IBM Plex Mono', monospace",
+      fontSize: size,
+      letterSpacing: "0.14em",
+      color: color ?? PEARL.muted,
+      textTransform: "uppercase",
+    }}
   >
-    <div className="flex items-center gap-2 mb-2">
-      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "rgba(74,165,168,0.15)" }}>
-        <span className="text-[8px] font-bold" style={{ color: "#4AA5A8" }}>A</span>
-      </div>
-      <span className="text-[10px]" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>AROHA · Employment Relations</span>
-    </div>
-    <p className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif" }}>
-      <strong style={{ color: "rgba(255,255,255,0.9)" }}>Yes, you can</strong> — provided the trial period clause meets the requirements of s67A of the Employment Relations Act 2000.
-    </p>
-    <div className="pt-2 space-y-1">
-      {["Ensure trial clause was signed before start date", "Document the lateness pattern clearly", "Follow your agreed disciplinary process"].map((step, i) => (
-        <div key={step} className="flex items-start gap-1.5 text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>
-          <span style={{ color: "#3A7D6E", fontFamily: "'IBM Plex Mono', monospace" }}>{i + 1}.</span> {step}
-        </div>
-      ))}
-    </div>
-  </motion.div>
+    {children}
+  </span>
 );
 
-const VISUALS: Record<string, React.FC<{ active: boolean }>> = {
-  chat: ChatVisual,
-  routing: RoutingVisual,
-  processing: ProcessingVisual,
-  compliance: ComplianceVisual,
-  result: ResultVisual,
+const RowBadge = ({
+  active,
+  label,
+  status = "ok",
+  delay = 0,
+}: {
+  active: boolean;
+  label: string;
+  status?: "ok" | "warn";
+  delay?: number;
+}) => {
+  const colour = status === "ok" ? PEARL.pounamu : "#B8860B";
+  const Icon = status === "ok" ? CheckCircle2 : AlertTriangle;
+  return (
+    <motion.div
+      className="flex items-center gap-2.5 px-3 py-2 rounded-xl"
+      style={{
+        background: "rgba(255,255,255,0.7)",
+        border: `1px solid ${PEARL.opal}`,
+      }}
+      initial={{ opacity: 0, x: -8 }}
+      animate={active ? { opacity: 1, x: 0 } : {}}
+      transition={{ delay, duration: 0.4, ease }}
+    >
+      <Icon size={13} style={{ color: colour, flexShrink: 0 }} />
+      <span
+        style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 12,
+          color: PEARL.bodyInk,
+          lineHeight: 1.4,
+        }}
+      >
+        {label}
+      </span>
+    </motion.div>
+  );
 };
 
+/* ─── Per-stage visuals — modelled on the real pipeline ─── */
+const KahuVisual = ({ active }: { active: boolean }) => (
+  <div className="space-y-2.5">
+    <RowBadge active={active} label="PII detected · masked at intake" delay={0.1} />
+    <RowBadge active={active} label="Tier check · Operator plan · OK" delay={0.25} />
+    <RowBadge active={active} label="Tikanga check · respectful handling of taonga data" delay={0.4} />
+    <RowBadge active={active} label="Rate limit · within hourly budget" delay={0.55} />
+  </div>
+);
+
+const IhoVisual = ({ active }: { active: boolean }) => {
+  const targets = [
+    { kete: "Manaaki", agent: "AROHA", picked: false },
+    { kete: "Manaaki", agent: "AURA", picked: true },
+    { kete: "Waihanga", agent: "ĀRAI", picked: false },
+  ];
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between">
+        <Mono>intent</Mono>
+        <span
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontStyle: "italic",
+            fontSize: 18,
+            color: PEARL.pounamu,
+          }}
+        >
+          "guest experience workflow"
+        </span>
+      </div>
+      <div className="space-y-1.5">
+        {targets.map((t, i) => (
+          <motion.div
+            key={t.agent}
+            className="flex items-center gap-3 px-3 py-2 rounded-xl"
+            style={{
+              background: t.picked ? "rgba(217,188,122,0.18)" : "rgba(255,255,255,0.6)",
+              border: `1px solid ${t.picked ? PEARL.softGold : PEARL.opal}`,
+            }}
+            initial={{ opacity: 0, x: -8 }}
+            animate={active ? { opacity: t.picked ? 1 : 0.55, x: 0 } : {}}
+            transition={{ delay: 0.15 + i * 0.12, duration: 0.4, ease }}
+          >
+            <Mono color={t.picked ? PEARL.pounamu : PEARL.muted}>
+              {t.kete}
+            </Mono>
+            <span
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 13,
+                fontWeight: t.picked ? 600 : 400,
+                color: PEARL.ink,
+              }}
+            >
+              {t.agent}
+            </span>
+            {t.picked && (
+              <span
+                className="ml-auto"
+                style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: PEARL.pounamu }}
+              >
+                ROUTED
+              </span>
+            )}
+          </motion.div>
+        ))}
+      </div>
+      <div className="flex items-center justify-between pt-1">
+        <Mono>model</Mono>
+        <Mono color={PEARL.pounamu}>gemini-2.5-flash · NZ region</Mono>
+      </div>
+    </div>
+  );
+};
+
+const TaVisual = ({ active }: { active: boolean }) => {
+  const sources = [
+    "Food Act 2014 · s 39 — Food Control Plans",
+    "MPI verification cycle — current",
+    "Your business memory · last audit Mar 2026",
+    "Evidence pack template · Manaaki / FCP",
+  ];
+  return (
+    <div className="space-y-2">
+      <Mono>generating draft against</Mono>
+      {sources.map((s, i) => (
+        <motion.div
+          key={s}
+          className="flex items-center gap-2.5"
+          initial={{ opacity: 0, y: 4 }}
+          animate={active ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.15 + i * 0.18, duration: 0.4, ease }}
+        >
+          <motion.span
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ background: PEARL.pounamu }}
+            animate={
+              active
+                ? { opacity: [0.4, 1, 0.4], scale: [0.9, 1.1, 0.9] }
+                : {}
+            }
+            transition={{ duration: 1.6, repeat: Infinity, delay: i * 0.2 }}
+          />
+          <span
+            style={{
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: 12,
+              color: PEARL.bodyInk,
+            }}
+          >
+            {s}
+          </span>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
+
+const MaharaVisual = ({ active }: { active: boolean }) => (
+  <div className="space-y-2.5">
+    <RowBadge active={active} label="Matches prior decision · 2026-03-18" delay={0.1} />
+    <RowBadge active={active} label="Cross-verified against agent_knowledge_base" delay={0.25} />
+    <RowBadge
+      active={active}
+      label="Flagged · supplier policy changed since last run"
+      status="warn"
+      delay={0.4}
+    />
+    <RowBadge active={active} label="No contradictions in business memory" delay={0.55} />
+  </div>
+);
+
+const ManaVisual = ({ active }: { active: boolean }) => (
+  <div className="space-y-3">
+    <motion.div
+      className="rounded-xl p-4"
+      style={{
+        background: "rgba(255,255,255,0.85)",
+        border: `1px solid ${PEARL.opal}`,
+      }}
+      initial={{ opacity: 0, y: 6 }}
+      animate={active ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, ease }}
+    >
+      <div className="flex items-center justify-between mb-2">
+        <Mono color={PEARL.pounamu}>evidence pack · ready</Mono>
+        <span
+          style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: 10,
+            color: PEARL.muted,
+          }}
+        >
+          v1 · 24/04/26
+        </span>
+      </div>
+      <p
+        style={{
+          fontFamily: "'Cormorant Garamond', serif",
+          fontStyle: "italic",
+          fontWeight: 300,
+          fontSize: 19,
+          lineHeight: 1.3,
+          color: PEARL.ink,
+          marginBottom: 10,
+        }}
+      >
+        File · forward · footnote.
+      </p>
+      <div className="space-y-1">
+        {["3 sources cited", "1 risk flagged for review", "Audit trail locked"].map(
+          (line, i) => (
+            <motion.div
+              key={line}
+              className="flex items-center gap-2"
+              initial={{ opacity: 0 }}
+              animate={active ? { opacity: 1 } : {}}
+              transition={{ delay: 0.3 + i * 0.12, duration: 0.3 }}
+            >
+              <CheckCircle2 size={12} style={{ color: PEARL.pounamu }} />
+              <span
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 12,
+                  color: PEARL.bodyInk,
+                }}
+              >
+                {line}
+              </span>
+            </motion.div>
+          ),
+        )}
+      </div>
+    </motion.div>
+    <motion.div
+      className="flex items-center justify-between px-3 py-2 rounded-xl"
+      style={{
+        background: "rgba(217,188,122,0.18)",
+        border: `1px solid ${PEARL.softGold}`,
+      }}
+      initial={{ opacity: 0 }}
+      animate={active ? { opacity: 1 } : {}}
+      transition={{ delay: 0.7, duration: 0.4 }}
+    >
+      <Mono color={PEARL.pounamu}>awaiting human sign-off</Mono>
+      <span
+        style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: 12,
+          fontWeight: 500,
+          color: PEARL.pounamu,
+        }}
+      >
+        Kate H. · Operator
+      </span>
+    </motion.div>
+  </div>
+);
+
+const VISUALS: Record<StageId, React.FC<{ active: boolean }>> = {
+  kahu: KahuVisual,
+  iho: IhoVisual,
+  ta: TaVisual,
+  mahara: MaharaVisual,
+  mana: ManaVisual,
+};
+
+/* ─── Component ─── */
 const HowItWorksFlow = () => {
   const [active, setActive] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
@@ -214,159 +396,191 @@ const HowItWorksFlow = () => {
   useEffect(() => {
     if (!autoPlay) return;
     const timer = setInterval(() => {
-      setActive((prev) => (prev + 1) % STEPS.length);
-    }, 4500);
+      setActive((prev) => (prev + 1) % STAGES.length);
+    }, 5000);
     return () => clearInterval(timer);
   }, [autoPlay]);
 
-  const step = STEPS[active];
-  const Visual = VISUALS[step.visual];
+  const stage = STAGES[active];
+  const Visual = VISUALS[stage.visual];
 
   return (
-    <section className="relative z-10 py-20 sm:py-28" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-      <div className="max-w-6xl mx-auto px-5">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease }}
-        >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 400, color: "#3A7D6E" }}>
-            TE ARA · THE PATHWAY
-          </p>
-          <h2 className="text-2xl sm:text-4xl mb-3 text-foreground" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
-            From question to answer in seconds
-          </h2>
-          <p className="text-sm max-w-lg mx-auto" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}>
-            Five steps. Every question follows the same governed path — whether it's employment law, food safety, or a building consent.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* Left: Step selector */}
-          <div className="space-y-2">
-            {STEPS.map((s, i) => {
-              const Icon = s.icon;
-              const isActive = i === active;
-              return (
-                <motion.button
-                  key={s.id}
-                  onClick={() => { setActive(i); setAutoPlay(false); }}
-                  className={`w-full text-left rounded-xl p-4 transition-all duration-300 ${isActive ? "glass-card" : ""}`}
-                  style={{
-                    background: isActive ? "rgba(15,22,35,0.7)" : "transparent",
-                    border: isActive ? `1px solid ${s.color}30` : "1px solid transparent",
-                  }}
-                  whileHover={{ x: isActive ? 0 : 4 }}
-                >
-                  <div className="flex items-start gap-3">
-                    <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-all duration-300"
-                      style={{
-                        background: isActive ? `${s.color}20` : "rgba(255,255,255,0.03)",
-                        border: isActive ? `1px solid ${s.color}40` : "1px solid rgba(255,255,255,0.06)",
-                      }}
-                    >
-                      <Icon size={16} style={{ color: isActive ? s.color : "rgba(255,255,255,0.3)" }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[9px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: isActive ? s.color : "rgba(255,255,255,0.25)" }}>
-                          {s.te_reo}
-                        </span>
-                        <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.15)" }}>·</span>
-                        <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.2)" }}>Step {s.id}</span>
-                      </div>
-                      <h3 className="text-sm mb-0.5 transition-colors duration-300" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: isActive ? "#fff" : "rgba(255,255,255,0.5)" }}>
-                        {s.title}
-                      </h3>
-                      {isActive && (
-                        <motion.p
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          className="text-[11px] leading-relaxed"
-                          style={{ color: "rgba(255,255,255,0.45)", fontFamily: "'Inter', sans-serif" }}
-                        >
-                          {s.description}
-                        </motion.p>
-                      )}
-                    </div>
-                    {isActive && <ChevronRight size={14} style={{ color: s.color }} className="mt-1 shrink-0" />}
-                  </div>
-                </motion.button>
-              );
-            })}
-
-            {/* Play / Pause */}
-            <div className="flex items-center justify-center gap-3 pt-3">
-              <button
-                onClick={() => setAutoPlay(!autoPlay)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] transition-all"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)", fontFamily: "'IBM Plex Mono', monospace" }}
-              >
-                {autoPlay ? <Pause size={10} /> : <Play size={10} />}
-                {autoPlay ? "Pause" : "Auto-play"}
-              </button>
-              {/* Progress dots */}
-              <div className="flex gap-1.5">
-                {STEPS.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => { setActive(i); setAutoPlay(false); }}
-                    className="w-2 h-2 rounded-full transition-all duration-300"
-                    style={{
-                      background: i === active ? STEPS[active].color : "rgba(255,255,255,0.1)",
-                      boxShadow: i === active ? `0 0 8px ${STEPS[active].color}40` : "none",
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Visual preview */}
-          <div className="relative">
-            <div
-              className="glass-card rounded-2xl p-6 min-h-[340px] flex flex-col"
-              style={{ border: `1px solid ${step.color}20` }}
+    <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_1fr] gap-10 items-start">
+      {/* Left: stage selector */}
+      <div className="space-y-2.5">
+        {STAGES.map((s, i) => {
+          const Icon = s.icon;
+          const isActive = i === active;
+          return (
+            <motion.button
+              key={s.id}
+              type="button"
+              onClick={() => {
+                setActive(i);
+                setAutoPlay(false);
+              }}
+              className="w-full text-left rounded-2xl p-5 transition-all duration-300"
+              style={{
+                background: isActive ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.45)",
+                border: `1px solid ${isActive ? s.accent : PEARL.opal}`,
+                boxShadow: isActive
+                  ? `0 8px 30px rgba(111,97,88,0.10)`
+                  : "0 1px 0 rgba(255,255,255,0.4) inset",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+              }}
+              whileHover={{ x: isActive ? 0 : 3 }}
             >
-              {/* Header */}
-              <div className="flex items-center gap-2 mb-4 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                <div className="w-2 h-2 rounded-full" style={{ background: step.color }} />
-                <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: step.color }}>
-                  {step.te_reo} · {step.subtitle}
-                </span>
-              </div>
-
-              {/* Dynamic visual */}
-              <div className="flex-1 flex items-center justify-center">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={active}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.3, ease }}
-                    className="w-full"
+              <div className="flex items-start gap-4">
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                  style={{
+                    background: isActive ? `${s.accent}25` : "rgba(255,255,255,0.7)",
+                    border: `1px solid ${isActive ? s.accent : PEARL.opal}`,
+                  }}
+                >
+                  <Icon size={18} style={{ color: isActive ? PEARL.pounamu : PEARL.muted }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Mono color={isActive ? PEARL.pounamu : PEARL.muted}>
+                      stage {s.num}
+                    </Mono>
+                    <span style={{ color: PEARL.opal }}>·</span>
+                    <Mono color={isActive ? PEARL.pounamu : PEARL.muted}>{s.name}</Mono>
+                  </div>
+                  <p
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontStyle: "italic",
+                      fontWeight: 300,
+                      fontSize: 22,
+                      lineHeight: 1.2,
+                      color: PEARL.ink,
+                      marginBottom: 6,
+                    }}
                   >
-                    <Visual active={true} />
-                  </motion.div>
-                </AnimatePresence>
+                    "{s.question}"
+                  </p>
+                  <AnimatePresence initial={false}>
+                    {isActive && (
+                      <motion.p
+                        key="desc"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease }}
+                        style={{
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: 13.5,
+                          lineHeight: 1.55,
+                          color: PEARL.bodyInk,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {s.desc}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
+            </motion.button>
+          );
+        })}
 
-              {/* Example footer */}
-              <div className="mt-4 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                <p className="text-[10px] italic" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "'Inter', sans-serif" }}>
-                  {step.example}
-                </p>
-              </div>
-            </div>
+        {/* Controls */}
+        <div className="flex items-center justify-between pt-3">
+          <button
+            type="button"
+            onClick={() => setAutoPlay(!autoPlay)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all"
+            style={{
+              background: "rgba(255,255,255,0.7)",
+              border: `1px solid ${PEARL.opal}`,
+              color: PEARL.bodyInk,
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 12,
+            }}
+          >
+            {autoPlay ? <Pause size={11} /> : <Play size={11} />}
+            {autoPlay ? "Pause" : "Auto-play"}
+          </button>
+          <div className="flex gap-2">
+            {STAGES.map((s, i) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => {
+                  setActive(i);
+                  setAutoPlay(false);
+                }}
+                aria-label={`Jump to ${s.name}`}
+                className="w-2 h-2 rounded-full transition-all duration-300"
+                style={{
+                  background: i === active ? PEARL.pounamu : PEARL.opal,
+                  transform: i === active ? "scale(1.3)" : "scale(1)",
+                }}
+              />
+            ))}
           </div>
         </div>
       </div>
-    </section>
+
+      {/* Right: live visual preview */}
+      <div className="relative">
+        <div
+          className="rounded-2xl p-7 min-h-[380px] flex flex-col"
+          style={{
+            background: "rgba(255,255,255,0.7)",
+            border: `1px solid ${PEARL.opal}`,
+            boxShadow: "0 14px 40px rgba(111,97,88,0.10)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+          }}
+        >
+          <div
+            className="flex items-center justify-between pb-4 mb-5"
+            style={{ borderBottom: `1px solid ${PEARL.opal}` }}
+          >
+            <div className="flex items-center gap-2">
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ background: stage.accent, boxShadow: `0 0 0 4px ${stage.accent}30` }}
+              />
+              <Mono color={PEARL.pounamu}>
+                stage {stage.num} · {stage.name}
+              </Mono>
+            </div>
+            <Mono>live demo</Mono>
+          </div>
+
+          <div className="flex-1">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={stage.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3, ease }}
+              >
+                <Visual active={true} />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div
+            className="mt-5 pt-4 flex items-center gap-2"
+            style={{ borderTop: `1px solid ${PEARL.opal}` }}
+          >
+            <span
+              className="w-1 h-1 rounded-full"
+              style={{ background: PEARL.pounamu }}
+            />
+            <Mono>logged · audit_log · request_id #r4f9c1</Mono>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
