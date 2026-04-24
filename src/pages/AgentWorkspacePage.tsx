@@ -30,14 +30,12 @@ const AgentWorkspacePage: React.FC = () => {
   const agentId = rawAgentId ? (SLUG_TO_ID[rawAgentId] ?? rawAgentId) : "";
   const agent = agents.find((a) => a.id === agentId);
 
-  if (!agent) return <Navigate to="/agents" replace />;
-
-  const agentCode = agent.designation;
-  const keteCode = (agent.pack ?? "").toUpperCase();
-  const accent = agent.color || "#9D8C7D";
+  const agentCode = agent?.designation ?? "";
+  const keteCode = (agent?.pack ?? "").toUpperCase();
+  const accent = agent?.color || "#9D8C7D";
 
   const runs = useAgentRuns(agentCode);
-  const memory = useAgentMemory(agent.id);
+  const memory = useAgentMemory(agent?.id ?? "");
   const evidence = useAgentEvidence(keteCode);
   const policyHits = useAgentPolicyHits(agentCode);
 
