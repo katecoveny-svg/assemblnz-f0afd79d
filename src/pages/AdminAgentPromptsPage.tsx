@@ -464,7 +464,26 @@ export default function AdminAgentPromptsPage() {
                       Updated {new Date(selected.updated_at).toLocaleString("en-NZ")}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Button
+                      asChild
+                      size="sm"
+                      className="gap-2"
+                      title="Open the live agent chat in a new tab to test this prompt"
+                    >
+                      <Link to={`/chat/${selected.agent_name}`} target="_blank" rel="noreferrer">
+                        <PlayCircle className="w-4 h-4" /> Test this prompt
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowHistory((s) => !s)}
+                      className="gap-2"
+                    >
+                      <History className="w-4 h-4" />
+                      {showHistory ? "Hide history" : "History"}
+                    </Button>
                     <Button
                       variant="outline"
                       size="sm"
@@ -491,6 +510,76 @@ export default function AdminAgentPromptsPage() {
                     </Button>
                   </div>
                 </div>
+
+                {showHistory && (
+                  <Card className="p-3 bg-foreground/[0.02] border-foreground/10">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-medium flex items-center gap-2">
+                        <History className="w-4 h-4" /> Version history
+                      </h3>
+                      <span className="text-[11px] text-foreground/50 font-mono">
+                        {history.length} snapshot{history.length === 1 ? "" : "s"}
+                      </span>
+                    </div>
+                    {historyLoading ? (
+                      <div className="py-4 flex items-center justify-center text-foreground/50 text-sm">
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" /> Loading…
+                      </div>
+                    ) : history.length === 0 ? (
+                      <p className="text-xs text-foreground/50 py-2">
+                        No prior versions yet. Each save will snapshot the previous prompt here.
+                      </p>
+                    ) : (
+                      <ul className="divide-y divide-foreground/10 max-h-[260px] overflow-y-auto">
+                        {history.map((v) => (
+                          <li
+                            key={v.id}
+                            className="flex items-center justify-between gap-2 py-2 text-sm"
+                          >
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2">
+                                <Badge variant="secondary" className="text-[10px]">
+                                  v{v.version}
+                                </Badge>
+                                <span className="text-xs text-foreground/55 font-mono">
+                                  {new Date(v.created_at).toLocaleString("en-NZ")}
+                                </span>
+                                {v.model_preference && (
+                                  <span className="text-[10px] text-foreground/45 font-mono truncate">
+                                    {v.model_preference}
+                                  </span>
+                                )}
+                              </div>
+                              {v.change_note && (
+                                <p className="text-xs text-foreground/60 mt-0.5 truncate">
+                                  {v.change_note}
+                                </p>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="gap-1 h-7 px-2"
+                                onClick={() => setPreviewVersion(v)}
+                              >
+                                <Eye className="w-3.5 h-3.5" /> View
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-1 h-7 px-2"
+                                onClick={() => handleRestore(v)}
+                              >
+                                <RotateCw className="w-3.5 h-3.5" /> Restore
+                              </Button>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Card>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
