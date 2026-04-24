@@ -1,30 +1,87 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Camera, Upload, MapPin, Clock, Layers, Grid, List, X, Sparkles } from "lucide-react";
+import {
+  Camera, Upload, MapPin, Clock, Layers, Grid, List, X, Sparkles,
+  AlertTriangle, CheckCircle2,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
-
-const TEAL_ACCENT = "#4AA5A8";
-const POUNAMU = "#3A7D6E";
+import {
+  MARAMA_WAIHANGA as M,
+  MaramaShell,
+  MaramaCard,
+  MaramaBadge,
+  MaramaButton,
+  MaramaStat,
+} from "./marama";
 
 interface Photo {
-  id: string; name: string; timestamp: string; location: string; aiAnalysis: string | null; thumbnail: string; analyzed: boolean;
+  id: string;
+  name: string;
+  timestamp: string;
+  location: string;
+  aiAnalysis: string | null;
+  thumbnail: string;
+  analyzed: boolean;
+  hazard?: "ok" | "warn" | "alert";
 }
 
 const DEMO_PHOTOS: Photo[] = [
-  { id: "1", name: "scaffold-level4-north.jpg", timestamp: "2 Apr 2026 09:15", location: "Level 4 North", aiAnalysis: "️ Missing edge protection detected on north face. Scaffold tag expired (30 Mar). Recommend immediate inspection.", thumbnail: "📸", analyzed: true },
-  { id: "2", name: "trench-services-B.jpg", timestamp: "2 Apr 2026 08:42", location: "Ground East", aiAnalysis: "️ Trench depth exceeds 1.5m without visible shoring. NZS 4431 compliance concern. Workers observed without hard hats.", thumbnail: "📸", analyzed: true },
-  { id: "3", name: "crane-exclusion-zone.jpg", timestamp: "1 Apr 2026 14:30", location: "Site Perimeter", aiAnalysis: "Exclusion barriers in place. Signage visible. Spotter positioned correctly.", thumbnail: "📸", analyzed: true },
-  { id: "4", name: "level2-slab-pour.jpg", timestamp: "1 Apr 2026 11:00", location: "Level 2 Central", aiAnalysis: "Concrete pour proceeding as per methodology. PPE compliance observed. Vibrator in use.", thumbnail: "📸", analyzed: true },
+  {
+    id: "1",
+    name: "scaffold-level4-north.jpg",
+    timestamp: "2 Apr 2026 09:15",
+    location: "Level 4 North",
+    aiAnalysis:
+      "Missing edge protection detected on the north face. Scaffold tag expired 30 March. Recommend immediate inspection before next lift.",
+    thumbnail: "🏗️",
+    analyzed: true,
+    hazard: "alert",
+  },
+  {
+    id: "2",
+    name: "trench-services-B.jpg",
+    timestamp: "2 Apr 2026 08:42",
+    location: "Ground East",
+    aiAnalysis:
+      "Trench depth exceeds 1.5 m without visible shoring. NZS 4431 compliance concern. Two workers observed without hard hats.",
+    thumbnail: "🚧",
+    analyzed: true,
+    hazard: "warn",
+  },
+  {
+    id: "3",
+    name: "crane-exclusion-zone.jpg",
+    timestamp: "1 Apr 2026 14:30",
+    location: "Site perimeter",
+    aiAnalysis:
+      "Exclusion barriers in place. Signage visible and legible. Spotter positioned correctly per lift plan.",
+    thumbnail: "🛠️",
+    analyzed: true,
+    hazard: "ok",
+  },
+  {
+    id: "4",
+    name: "level2-slab-pour.jpg",
+    timestamp: "1 Apr 2026 11:00",
+    location: "Level 2 Central",
+    aiAnalysis:
+      "Concrete pour proceeding as per methodology. PPE compliance observed across the crew. Vibrator in use.",
+    thumbnail: "🧱",
+    analyzed: true,
+    hazard: "ok",
+  },
 ];
 
-const Glass = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={`rounded-2xl border backdrop-blur-md ${className}`} style={{
-    background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
-    borderColor: "rgba(255,255,255,0.5)", boxShadow: "8px 8px 24px rgba(166,166,180,0.28), -6px -6px 18px rgba(255,255,255,0.95)",
-  }}>{children}</div>
-);
+const hazardTone = (h?: Photo["hazard"]) => {
+  if (h === "alert") return "alert" as const;
+  if (h === "warn") return "warn" as const;
+  return "ok" as const;
+};
+
+const hazardLabel = (h?: Photo["hazard"]) =>
+  h === "alert" ? "Action required" : h === "warn" ? "Review" : "Clear";
 
 export default function PhotoDocsPage() {
   const [photos, setPhotos] = useState<Photo[]>(DEMO_PHOTOS);
@@ -37,15 +94,9 @@ export default function PhotoDocsPage() {
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault();
-      // Most site photos contain identifiable workers. The AAAIP
-      // worker-consent policy gates uploads unless the crew's
-      // consent has been recorded.
       const decision = guard.check({
         kind: "upload_photo",
-        payload: {
-          containsWorkers: true,
-          workerConsent,
-        },
+        payload: { containsWorkers: true, workerConsent },
         world: {},
         rationale: "Upload site photo via drag-and-drop",
       });
@@ -61,7 +112,7 @@ export default function PhotoDocsPage() {
       const newPhoto: Photo = {
         id: Date.now().toString(),
         name: "new-upload.jpg",
-        timestamp: new Date().toLocaleString(),
+        timestamp: new Date().toLocaleString("en-NZ"),
         location: "Pending GPS",
         aiAnalysis: null,
         thumbnail: "📷",
@@ -75,8 +126,9 @@ export default function PhotoDocsPage() {
               ? {
                   ...ph,
                   aiAnalysis:
-                    "🔍 Analysis complete: No immediate hazards detected. Good housekeeping observed. PPE compliance confirmed.",
+                    "Analysis complete. No immediate hazards detected. Good housekeeping observed. PPE compliance confirmed.",
                   analyzed: true,
+                  hazard: "ok",
                 }
               : ph,
           ),
@@ -87,79 +139,216 @@ export default function PhotoDocsPage() {
     [guard, workerConsent],
   );
 
+  const counts = {
+    total: photos.length,
+    flagged: photos.filter((p) => p.hazard === "alert" || p.hazard === "warn").length,
+    cleared: photos.filter((p) => p.hazard === "ok").length,
+    pending: photos.filter((p) => !p.analyzed).length,
+  };
+
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-bold text-foreground flex items-center gap-2"><Camera size={22} style={{ color: TEAL_ACCENT }} /> Photo Documentation</h1>
-          <p className="text-xs text-[#9CA3AF]">AI-Powered Hazard Detection — Whakaahua</p>
-        </div>
+    <MaramaShell
+      eyebrow="WAIHANGA · Whakaahua"
+      title="Photo documentation"
+      titleMi="Whakaahua"
+      description="Drop site photos here. ĀRAI scans each frame for hazards, PPE compliance and overdue scaffold tags before they reach the project record."
+      icon={<Camera size={22} />}
+      actions={
         <div className="flex flex-wrap items-center gap-3">
-          <label className="flex items-center gap-2 text-[11px] text-[#6B7280]">
+          <label
+            className="flex items-center gap-2 text-[11px] cursor-pointer"
+            style={{ color: M.textSecondary }}
+          >
             <input
               type="checkbox"
               checked={workerConsent}
               onChange={(e) => setWorkerConsent(e.target.checked)}
-              className="h-3.5 w-3.5 rounded border-gray-300"
+              className="h-3.5 w-3.5 rounded"
+              style={{ accentColor: M.accentDeep }}
             />
             Crew photo consent on file
           </label>
-          <AaaipGuardBadge domain="waihanga" accentColor={POUNAMU} subtitle="Worker consent required" />
-          <div className="flex gap-1">
-            <button onClick={() => setView("grid")} className={`p-2 rounded-lg ${view === "grid" ? "bg-white/10 text-foreground" : "text-gray-400"}`}><Grid size={16} /></button>
-            <button onClick={() => setView("timeline")} className={`p-2 rounded-lg ${view === "timeline" ? "bg-white/10 text-foreground" : "text-gray-400"}`}><List size={16} /></button>
+          <AaaipGuardBadge
+            domain="waihanga"
+            accentColor={M.accentDeep}
+            subtitle="Worker consent required"
+          />
+          <div
+            className="flex gap-1 rounded-full p-1"
+            style={{
+              background: "rgba(255,255,255,0.7)",
+              border: `1px solid ${M.borderSoft}`,
+            }}
+          >
+            <button
+              onClick={() => setView("grid")}
+              className="p-1.5 rounded-full transition-colors"
+              style={{
+                background: view === "grid" ? M.accentSoft : "transparent",
+                color: view === "grid" ? M.accentDeep : M.textSecondary,
+              }}
+              aria-label="Grid view"
+            >
+              <Grid size={14} />
+            </button>
+            <button
+              onClick={() => setView("timeline")}
+              className="p-1.5 rounded-full transition-colors"
+              style={{
+                background: view === "timeline" ? M.accentSoft : "transparent",
+                color: view === "timeline" ? M.accentDeep : M.textSecondary,
+              }}
+              aria-label="Timeline view"
+            >
+              <List size={14} />
+            </button>
           </div>
         </div>
-      </motion.div>
+      }
+    >
+      {/* Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <MaramaStat
+          index={0}
+          label="Total photos"
+          value={counts.total}
+          icon={<Camera size={16} />}
+        />
+        <MaramaStat
+          index={1}
+          label="Flagged"
+          value={counts.flagged}
+          delta="Needs review"
+          deltaTone="warn"
+          icon={<AlertTriangle size={16} />}
+        />
+        <MaramaStat
+          index={2}
+          label="Cleared"
+          value={counts.cleared}
+          delta="No hazards"
+          deltaTone="ok"
+          icon={<CheckCircle2 size={16} />}
+        />
+        <MaramaStat
+          index={3}
+          label="Awaiting analysis"
+          value={counts.pending}
+          icon={<Layers size={16} />}
+        />
+      </div>
 
       {/* Upload area */}
-      <Glass className="p-8">
-        <div onDrop={handleDrop} onDragOver={e => e.preventDefault()}
-          className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all hover:border-gray-300"
-          style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+      <MaramaCard padding="lg">
+        <div
+          onDrop={handleDrop}
+          onDragOver={(e) => e.preventDefault()}
+          className="rounded-2xl px-8 py-10 text-center cursor-pointer transition-all"
+          style={{
+            background: "rgba(238,231,222,0.4)",
+            border: `1.5px dashed ${M.accentRing}`,
+          }}
+        >
           {uploading ? (
-            <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2, ease: "linear" }}>
-              <Layers size={40} style={{ color: TEAL_ACCENT }} className="mx-auto mb-3" />
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+            >
+              <Layers
+                size={36}
+                style={{ color: M.accentDeep }}
+                className="mx-auto mb-3"
+              />
             </motion.div>
           ) : (
-            <Upload size={40} className="text-[#9CA3AF] mx-auto mb-3" />
+            <Upload
+              size={36}
+              style={{ color: M.accentDeep }}
+              className="mx-auto mb-3"
+            />
           )}
-          <p className="text-sm text-gray-500">{uploading ? "AI analyzing photo..." : "Drag & drop photos here or click to upload"}</p>
-          <p className="text-[11px] text-white/25 mt-1">ĀRAI will automatically scan for hazards</p>
+          <p
+            className="font-display text-lg font-light"
+            style={{ color: M.textPrimary }}
+          >
+            {uploading
+              ? "ĀRAI is analysing the photo…"
+              : "Drag and drop photos here"}
+          </p>
+          <p
+            className="mt-1 text-xs"
+            style={{ color: M.textSecondary }}
+          >
+            Or click to browse — ĀRAI scans automatically for site hazards.
+          </p>
+          <div className="mt-5 flex items-center justify-center gap-2">
+            <MaramaButton size="sm" variant="primary" icon={<Upload size={14} />}>
+              Choose photos
+            </MaramaButton>
+          </div>
         </div>
-      </Glass>
+      </MaramaCard>
 
       {/* Photo gallery */}
-      <div className={view === "grid" ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" : "space-y-3"}>
+      <div
+        className={
+          view === "grid"
+            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            : "space-y-3"
+        }
+      >
         {photos.map((photo, i) => (
-          <motion.div key={photo.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.05 }}>
-            <div onClick={() => setSelectedPhoto(photo)}><Glass className="overflow-hidden cursor-pointer hover:border-white/15 transition-all">
-              <div className="h-40 flex items-center justify-center text-5xl" style={{ background: "linear-gradient(135deg, rgba(26,58,92,0.3), rgba(255,255,255,0.65))" }}>
+          <motion.div
+            key={photo.id}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.05 }}
+            onClick={() => setSelectedPhoto(photo)}
+            className="cursor-pointer"
+          >
+            <MaramaCard padding="sm" className="overflow-hidden hover:shadow-lg transition-shadow">
+              <div
+                className="rounded-2xl h-40 flex items-center justify-center text-5xl"
+                style={{
+                  background: `linear-gradient(135deg, ${M.accentSoft}, rgba(255,255,255,0.6))`,
+                  border: `1px solid ${M.borderSoft}`,
+                }}
+              >
                 {photo.thumbnail}
               </div>
-              <div className="p-4">
-                <div className="text-xs text-[#3D4250] font-medium truncate">{photo.name}</div>
-                <div className="flex items-center gap-3 mt-2 text-[10px] text-gray-400">
-                  <span className="flex items-center gap-1"><Clock size={10} />{photo.timestamp}</span>
-                  <span className="flex items-center gap-1"><MapPin size={10} />{photo.location}</span>
+              <div className="pt-3">
+                <div
+                  className="text-xs font-medium truncate font-mono"
+                  style={{ color: M.textPrimary }}
+                >
+                  {photo.name}
                 </div>
-                {photo.analyzed && (
-                  <div className="mt-2 flex items-center gap-1">
-                    <Sparkles size={10} style={{ color: POUNAMU }} />
-                    <span className="text-[10px]" style={{ color: POUNAMU }}>AI Analyzed</span>
-                  </div>
-                )}
-                {!photo.analyzed && (
-                  <div className="mt-2 flex items-center gap-1">
-                    <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2 }}>
-                      <Layers size={10} style={{ color: TEAL_ACCENT }} />
-                    </motion.div>
-                    <span className="text-[10px]" style={{ color: TEAL_ACCENT }}>Analyzing...</span>
-                  </div>
-                )}
+                <div
+                  className="flex items-center flex-wrap gap-3 mt-2 text-[10px]"
+                  style={{ color: M.textMuted }}
+                >
+                  <span className="flex items-center gap-1">
+                    <Clock size={10} />
+                    {photo.timestamp}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <MapPin size={10} />
+                    {photo.location}
+                  </span>
+                </div>
+                <div className="mt-3 flex items-center justify-between">
+                  {photo.analyzed ? (
+                    <MaramaBadge tone={hazardTone(photo.hazard)} size="sm" icon={<Sparkles size={10} />}>
+                      {hazardLabel(photo.hazard)}
+                    </MaramaBadge>
+                  ) : (
+                    <MaramaBadge tone="info" size="sm">
+                      Analysing…
+                    </MaramaBadge>
+                  )}
+                </div>
               </div>
-            </Glass>
-            </div>
+            </MaramaCard>
           </motion.div>
         ))}
       </div>
@@ -168,29 +357,95 @@ export default function PhotoDocsPage() {
       <AnimatePresence>
         {selectedPhoto && (
           <>
-            <motion.div className="fixed inset-0 z-50 bg-black/60" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedPhoto(null)} />
-            <motion.div className="fixed inset-4 sm:inset-10 z-50 flex items-center justify-center" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}>
-              <Glass className="w-full max-w-lg p-6 relative">
-                <button onClick={() => setSelectedPhoto(null)} className="absolute top-4 right-4 text-gray-400"><X size={18} /></button>
-                <h3 className="text-sm font-semibold text-foreground mb-2">{selectedPhoto.name}</h3>
-                <div className="flex items-center gap-3 text-[11px] text-gray-400 mb-4">
-                  <span className="flex items-center gap-1"><Clock size={10} />{selectedPhoto.timestamp}</span>
-                  <span className="flex items-center gap-1"><MapPin size={10} />{selectedPhoto.location}</span>
-                </div>
-                {selectedPhoto.aiAnalysis && (
-                  <div className="p-4 rounded-xl" style={{ background: "rgba(58,125,110,0.08)", border: "1px solid rgba(58,125,110,0.15)" }}>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Sparkles size={14} style={{ color: POUNAMU }} />
-                      <span className="text-xs font-medium" style={{ color: POUNAMU }}>AI Analysis</span>
-                    </div>
-                    <p className="text-xs text-[#6B7280] leading-relaxed">{selectedPhoto.aiAnalysis}</p>
+            <motion.div
+              className="fixed inset-0 z-50"
+              style={{ background: "rgba(111,97,88,0.35)", backdropFilter: "blur(4px)" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedPhoto(null)}
+            />
+            <motion.div
+              className="fixed inset-4 sm:inset-10 z-50 flex items-center justify-center pointer-events-none"
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+            >
+              <div className="w-full max-w-lg pointer-events-auto">
+                <MaramaCard
+                  tone="raised"
+                  padding="lg"
+                  className="relative"
+                  title={selectedPhoto.name}
+                  eyebrow="Site photo"
+                  actions={
+                    <button
+                      onClick={() => setSelectedPhoto(null)}
+                      className="p-1.5 rounded-full"
+                      style={{ color: M.textSecondary }}
+                    >
+                      <X size={16} />
+                    </button>
+                  }
+                >
+                  <div
+                    className="rounded-2xl h-48 flex items-center justify-center text-6xl mb-4"
+                    style={{
+                      background: `linear-gradient(135deg, ${M.accentSoft}, rgba(255,255,255,0.7))`,
+                      border: `1px solid ${M.borderSoft}`,
+                    }}
+                  >
+                    {selectedPhoto.thumbnail}
                   </div>
-                )}
-              </Glass>
+                  <div
+                    className="flex items-center gap-3 text-[11px] mb-4"
+                    style={{ color: M.textSecondary }}
+                  >
+                    <span className="flex items-center gap-1">
+                      <Clock size={11} />
+                      {selectedPhoto.timestamp}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <MapPin size={11} />
+                      {selectedPhoto.location}
+                    </span>
+                    {selectedPhoto.analyzed && (
+                      <MaramaBadge tone={hazardTone(selectedPhoto.hazard)} size="sm">
+                        {hazardLabel(selectedPhoto.hazard)}
+                      </MaramaBadge>
+                    )}
+                  </div>
+                  {selectedPhoto.aiAnalysis && (
+                    <div
+                      className="p-4 rounded-2xl"
+                      style={{
+                        background: M.accentSoft,
+                        border: `1px solid ${M.borderSoft}`,
+                      }}
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <Sparkles size={14} style={{ color: M.accentDeep }} />
+                        <span
+                          className="text-xs font-medium"
+                          style={{ color: M.accentDeep }}
+                        >
+                          ĀRAI analysis
+                        </span>
+                      </div>
+                      <p
+                        className="text-xs leading-relaxed"
+                        style={{ color: M.textPrimary }}
+                      >
+                        {selectedPhoto.aiAnalysis}
+                      </p>
+                    </div>
+                  )}
+                </MaramaCard>
+              </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
-    </div>
+    </MaramaShell>
   );
 }
