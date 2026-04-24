@@ -7730,6 +7730,7 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
   console.error("Post-response logging error (non-critical):", logErr);
  }
 
+ const persistedConvoId = (req as any).__assemblConvoId ?? null;
  return new Response(
   JSON.stringify({
     content,
@@ -7737,7 +7738,9 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
     complexity,
     responseTime,
     fromCache: false,
-    conversationId: bodyConversationId || bodySessionId || (userId ? `${userId}:${agentId}` : null),
+    // Prefer the real conversations.id (used by memory_extractor + agent_memory).
+    // Falls back to client-provided session IDs for backwards compat.
+    conversationId: persistedConvoId || bodyConversationId || bodySessionId || (userId ? `${userId}:${agentId}` : null),
   }),
   { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
