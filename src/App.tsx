@@ -312,6 +312,7 @@ const App = () => (
                         
                         <Route path="/agents" element={<Suspense fallback={null}><AgentMarketplacePage /></Suspense>} />
                         <Route path="/tools" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/tools/compliance-calculator" element={<Suspense fallback={null}><ComplianceCalculatorPage /></Suspense>} />
                         
 
                         <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
