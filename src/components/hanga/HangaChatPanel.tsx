@@ -449,6 +449,15 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                 </button>
               </div>
             </div>
+
+            {/* Pre-flight compliance gate (Waihanga first message only) */}
+            {isWaihanga && showPreflight && (
+              <CompliancePreflightGate
+                initial={supervisorContext}
+                onConfirm={handlePreflightConfirm}
+                onCancel={handlePreflightCancel}
+              />
+            )}
           </motion.div>
         )}
       </AnimatePresence>
