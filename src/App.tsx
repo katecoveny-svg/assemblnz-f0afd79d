@@ -147,6 +147,7 @@ const AuahaSpeechToImage = lazy(() => import("./components/auaha/AuahaSpeechToIm
 const AppSparkForge = lazy(() => import("./components/auaha/AppSparkForge"));
 const AuahaBrandScanner = lazy(() => import("./components/auaha/AuahaBrandScanner"));
 const AdminPacksPage = lazy(() => import("./pages/AdminPacksPage"));
+const AdminMigrationAudit = lazy(() => import("./pages/AdminMigrationAudit"));
 const AdminPackAnalytics = lazy(() => import("./pages/AdminPackAnalytics"));
 const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboard"));
 const AdminMessagingLive = lazy(() => import("./pages/AdminMessagingLive"));
@@ -330,6 +331,7 @@ const App = () => (
                         <Route path="/admin/messaging" element={<Suspense fallback={null}><AdminMessagingDashboard /></Suspense>} />
                         <Route path="/admin/messaging-live" element={<Suspense fallback={null}><AdminMessagingLive /></Suspense>} />
                         <Route path="/admin/packs" element={<Suspense fallback={null}><AdminPacksPage /></Suspense>} />
+                        <Route path="/admin/migration-audit" element={<Suspense fallback={null}><AdminMigrationAudit /></Suspense>} />
                         <Route path="/admin/pack-analytics" element={<Suspense fallback={null}><AdminPackAnalytics /></Suspense>} />
                         <Route path="/admin/skill-wiring" element={<Suspense fallback={null}><SkillWiringDashboard /></Suspense>} />
                         <Route path="/admin/showcase-videos" element={<Suspense fallback={null}><AdminShowcaseVideos /></Suspense>} />
