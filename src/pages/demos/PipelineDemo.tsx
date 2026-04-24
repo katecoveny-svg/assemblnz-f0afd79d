@@ -99,17 +99,17 @@ const PipelineDemo = () => {
 
         {/* Demo mode banner */}
         <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
-          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#A8DDDB" }}>
+          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#A8DDDB" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
 
         <DemoProvesCard slug="pipeline" />
 
-        <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
+        <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
           Five-Stage Pipeline
         </h1>
-        <p className="text-center text-sm mb-10" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.6)" }}>
+        <p className="text-center text-sm mb-10" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.6)" }}>
           Watch a query flow through Kahu → Iho → Tā → Mahara → Mana
         </p>
 
@@ -119,11 +119,11 @@ const PipelineDemo = () => {
             <button key={i} onClick={() => setSelectedQuery(i)}
               className={`liquid-glass text-left p-5 rounded-2xl transition-all text-xs group ${selectedQuery === i ? "liquid-glass-pounamu" : ""}`}
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 borderColor: selectedQuery === i ? "rgba(58,125,110,0.4)" : undefined,
                 boxShadow: selectedQuery === i ? "0 0 30px rgba(58,125,110,0.1), inset 0 1px 0 rgba(255,255,255,0.1)" : undefined,
               }}>
-              <span className="text-[9px] tracking-[2px] uppercase block mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#7ECFC2" }}>{q.kete}</span>
+              <span className="text-[9px] tracking-[2px] uppercase block mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#7ECFC2" }}>{q.kete}</span>
               <span style={{ color: "rgba(245,240,232,0.75)" }}>{q.label}</span>
             </button>
           ))}
@@ -166,19 +166,19 @@ const PipelineDemo = () => {
                         boxShadow: isActive ? `0 0 20px ${v?.color}10` : "none",
                       }}>
                       {isActive && v ? <v.icon size={18} style={{ color: v.color }} /> : (
-                        <span className="text-[11px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.2)" }}>{String(i + 1).padStart(2, "0")}</span>
+                        <span className="text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.2)" }}>{String(i + 1).padStart(2, "0")}</span>
                       )}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-3">
-                        <span className="text-sm" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: isActive ? "#F5F0E8" : "rgba(245,240,232,0.4)" }}>{stage.name}</span>
+                        <span className="text-sm" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: isActive ? "#F5F0E8" : "rgba(245,240,232,0.4)" }}>{stage.name}</span>
                         <span className="text-[11px]" style={{ color: "rgba(245,240,232,0.3)" }}>{stage.fn}</span>
                         {isActive && v && (
                           <span className="text-[9px] tracking-[2px] uppercase px-3 py-1 rounded-full" 
                             style={{ 
                               background: `${v.color}12`, 
                               color: v.color, 
-                              fontFamily: "'JetBrains Mono', monospace",
+                              fontFamily: "'IBM Plex Mono', monospace",
                               border: `1px solid ${v.color}20`,
                               boxShadow: `0 0 12px ${v.color}10`,
                             }}>
@@ -188,7 +188,7 @@ const PipelineDemo = () => {
                       </div>
                       <AnimatePresence>
                         {isActive && (
-                          <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="text-xs mt-2" style={{ color: "rgba(245,240,232,0.55)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                          <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="text-xs mt-2" style={{ color: "rgba(245,240,232,0.55)", fontFamily: "'Inter', sans-serif" }}>
                             {stageData.explanation}
                           </motion.p>
                         )}
@@ -216,10 +216,10 @@ const PipelineDemo = () => {
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} 
               className="mt-8 liquid-glass liquid-glass-pounamu rounded-2xl p-8 text-center"
               style={{ borderColor: "rgba(58,125,110,0.25)" }}>
-              <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#7ECFC2" }}>Evidence Pack (Demo)</p>
-              <p className="text-xs mb-1" style={{ color: "rgba(245,240,232,0.6)" }}>Pack ID: <span style={{ fontFamily: "'JetBrains Mono', monospace" }}>EP-DEMO-{String(selectedQuery + 1).padStart(3, "0")}</span></p>
+              <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#7ECFC2" }}>Evidence Pack (Demo)</p>
+              <p className="text-xs mb-1" style={{ color: "rgba(245,240,232,0.6)" }}>Pack ID: <span style={{ fontFamily: "'IBM Plex Mono', monospace" }}>EP-DEMO-{String(selectedQuery + 1).padStart(3, "0")}</span></p>
               <p className="text-xs mb-1" style={{ color: "rgba(245,240,232,0.4)" }}>Timestamp: {timestamp}</p>
-              <p className="text-xs" style={{ color: "rgba(245,240,232,0.4)", fontFamily: "'JetBrains Mono', monospace" }}>SHA-256: {hashStub}</p>
+              <p className="text-xs" style={{ color: "rgba(245,240,232,0.4)", fontFamily: "'IBM Plex Mono', monospace" }}>SHA-256: {hashStub}</p>
               <PoweredByAssembl />
             </motion.div>
           )}

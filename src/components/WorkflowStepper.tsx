@@ -33,7 +33,7 @@ const WorkflowStepper = ({ steps, title, onStepClick, onSkip }: Props) => {
       background: "linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.62))",
       borderColor: "rgba(255,255,255,0.5)",
     }}>
-      <h3 className="text-sm font-bold text-foreground mb-4" style={{ fontFamily: "'Lato', sans-serif" }}>
+      <h3 className="text-sm font-bold text-foreground mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
         {title}
       </h3>
 

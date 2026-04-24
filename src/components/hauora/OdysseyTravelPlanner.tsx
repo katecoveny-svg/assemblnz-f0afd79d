@@ -121,7 +121,7 @@ export default function OdysseyTravelPlanner() {
       }}>
         <div className="flex items-center gap-2 mb-5">
           <Compass className="w-5 h-5" style={{ color: "#4AA5A8" }} />
-          <h2 className="text-lg font-light text-foreground tracking-wide" style={{ fontFamily: "'Lato', sans-serif" }}>
+          <h2 className="text-lg font-light text-foreground tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
             Plan Your Trip
           </h2>
         </div>

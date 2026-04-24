@@ -51,7 +51,7 @@ const MigrationFeatureSection = () => (
             <path d="M0 10 L7 0 L14 10 Z" fill="#4AA5A8" fillOpacity="0.18" stroke="#4AA5A8" strokeOpacity="0.7" strokeWidth="0.8" strokeLinejoin="round" />
           </svg>
           <p className="text-[10px] font-medium tracking-[5px] uppercase"
-            style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
+            style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>
             Nuku Mai
           </p>
           {/* Right peak */}
@@ -60,15 +60,15 @@ const MigrationFeatureSection = () => (
           </svg>
         </div>
         <h2 className="text-lg sm:text-[36px] lg:text-[42px] mb-4 uppercase tracking-[3px]"
-          style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
+          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
           Nuku Mai · Seamless Migration
         </h2>
         <p className="text-[15px] mb-6"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "#6B7280" }}>
+          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: "#6B7280" }}>
           Your data moves with you — not against you
         </p>
         <p className="text-[14px] leading-[1.8] max-w-2xl mx-auto"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: "#6B7280" }}>
+          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "#6B7280" }}>
           Switching systems shouldn't mean starting over. Assembl's migration agents extract your data from legacy platforms, clean and validate it against NZ compliance requirements, and load it into your new kete — ready to work from day one. No lost records. No manual re-entry. No compliance gaps during the handover.
         </p>
       </motion.div>
@@ -88,11 +88,11 @@ const MigrationFeatureSection = () => (
               <card.icon size={20} style={{ color: "#4AA5A8" }} />
             </div>
             <p className="text-[11px] tracking-[2px] uppercase mb-2 font-medium"
-              style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>
+              style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}>
               {card.label}
             </p>
             <p className="text-[14px] leading-[1.7]"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+              style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
               {card.description}
             </p>
           </motion.div>
@@ -106,7 +106,7 @@ const MigrationFeatureSection = () => (
             background: "linear-gradient(145deg, #55BFC1, #4AA5A8)",
             color: "#FFFFFF",
             boxShadow: "0 6px 24px rgba(74,165,168,0.3), inset 0 1px 0 rgba(255,255,255,0.3)",
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
           }}>
           See how migration works
           <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />

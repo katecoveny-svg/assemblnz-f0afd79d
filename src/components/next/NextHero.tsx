@@ -85,7 +85,7 @@ export default function NextHero({
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="uppercase mb-6"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               fontSize: 11,
               letterSpacing: "0.32em",
               color: "#3A7D6E",
@@ -100,7 +100,7 @@ export default function NextHero({
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 200,
             fontSize: "clamp(40px, 7.5vw, 104px)",
             lineHeight: 0.98,
@@ -119,7 +119,7 @@ export default function NextHero({
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
             className="max-w-[56ch] mt-8"
             style={{
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontSize: 17,
               lineHeight: 1.55,
               color: "#3D4250B3",

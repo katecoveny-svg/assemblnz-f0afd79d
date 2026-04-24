@@ -45,7 +45,7 @@ export default function KeteSwitcherPill({ activeKete }: { activeKete?: string }
               aria-current={active ? "page" : undefined}
               className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] whitespace-nowrap transition-all"
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'IBM Plex Mono', monospace",
                 color: active ? "#FFFFFF" : "#5B6374",
                 fontWeight: active ? 500 : 400,
               }}

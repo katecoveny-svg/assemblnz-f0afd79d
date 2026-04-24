@@ -196,14 +196,14 @@ const LiveDemoSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#4AA5A8" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 400, color: "#4AA5A8" }}>
             WHAKAMĀTAU · TRY IT
           </p>
           <TanikoDivider color="#4AA5A8" width={200} />
-          <h2 className="text-2xl sm:text-4xl mb-3 mt-4 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
+          <h2 className="text-2xl sm:text-4xl mb-3 mt-4 text-foreground" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
             Type anything. Watch it work.
           </h2>
-          <p className="text-sm max-w-lg mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-sm max-w-lg mx-auto" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}>
             Ask a real question — or pick one below. Watch Assembl route to the right agent and deliver the answer.
           </p>
         </motion.div>
@@ -211,7 +211,7 @@ const LiveDemoSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left: Question picker */}
           <div className="space-y-2">
-            <p className="text-[10px] tracking-[2px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.3)" }}>
+            <p className="text-[10px] tracking-[2px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.3)" }}>
               POPULAR QUESTIONS
             </p>
             {DEMO_CONVERSATIONS.slice(0, 4).map((c, i) => (
@@ -227,14 +227,14 @@ const LiveDemoSection = () => {
                 whileHover={{ scale: 1.01, x: 3 }}
                 whileTap={{ scale: 0.99 }}
               >
-                <p className="text-xs mb-1.5" style={{ color: activeDemo === i && !customQuestion ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.6)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <p className="text-xs mb-1.5" style={{ color: activeDemo === i && !customQuestion ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.6)", fontFamily: "'Inter', sans-serif" }}>
                   "{c.question}"
                 </p>
                 <div className="flex items-center gap-2">
-                  <span className="text-[9px] px-2 py-0.5 rounded-full transition-all group-hover:scale-105" style={{ background: `${c.keteColor}15`, color: c.keteColor, fontFamily: "'JetBrains Mono', monospace" }}>
+                  <span className="text-[9px] px-2 py-0.5 rounded-full transition-all group-hover:scale-105" style={{ background: `${c.keteColor}15`, color: c.keteColor, fontFamily: "'IBM Plex Mono', monospace" }}>
                     {c.agent}
                   </span>
-                  <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}>
+                  <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'IBM Plex Mono', monospace" }}>
                     {c.kete}
                   </span>
                 </div>
@@ -258,7 +258,7 @@ const LiveDemoSection = () => {
                     animate={{ scale: [1, 1.3, 1], opacity: [1, 0.7, 1] }}
                     transition={{ duration: 2, repeat: Infinity }}
                   />
-                  <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.4)" }}>
+                  <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.4)" }}>
                     ASSEMBL DASHBOARD
                   </span>
                 </div>
@@ -268,7 +268,7 @@ const LiveDemoSection = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     className="flex items-center gap-1.5"
                   >
-                    <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `${conv.keteColor}15`, color: conv.keteColor, fontFamily: "'JetBrains Mono', monospace" }}>
+                    <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `${conv.keteColor}15`, color: conv.keteColor, fontFamily: "'IBM Plex Mono', monospace" }}>
                       {conv.agent} · {conv.kete}
                     </span>
                   </motion.div>
@@ -287,7 +287,7 @@ const LiveDemoSection = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[85%] text-xs" style={{ background: "rgba(74,165,168,0.12)", border: "1px solid rgba(74,165,168,0.15)", color: "rgba(255,255,255,0.85)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                        <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[85%] text-xs" style={{ background: "rgba(74,165,168,0.12)", border: "1px solid rgba(74,165,168,0.15)", color: "rgba(255,255,255,0.85)", fontFamily: "'Inter', sans-serif" }}>
                           {customQuestion || conv.question}
                         </div>
                       </motion.div>
@@ -302,7 +302,7 @@ const LiveDemoSection = () => {
                         >
                           <motion.div
                             className="text-[9px] px-2 py-0.5 rounded-full"
-                            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.3)" }}
+                            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.3)" }}
                             animate={{ opacity: [0.5, 1, 0.5] }}
                             transition={{ duration: 1.5, repeat: Infinity }}
                           >
@@ -328,7 +328,7 @@ const LiveDemoSection = () => {
                               />
                             ))}
                           </div>
-                          <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}>
+                          <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'IBM Plex Mono', monospace" }}>
                             {conv.agent} is working...
                           </span>
                         </motion.div>
@@ -338,7 +338,7 @@ const LiveDemoSection = () => {
                             <span className="text-[8px] font-bold" style={{ color: conv.keteColor }}>{conv.agent[0]}</span>
                           </div>
                           <div className="space-y-2 flex-1">
-                            <p className="text-xs leading-relaxed whitespace-pre-line" style={{ color: "rgba(255,255,255,0.75)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                            <p className="text-xs leading-relaxed whitespace-pre-line" style={{ color: "rgba(255,255,255,0.75)", fontFamily: "'Inter', sans-serif" }}>
                               {displayedResponse}
                             </p>
                             {displayedResponse === conv.response && (
@@ -352,7 +352,7 @@ const LiveDemoSection = () => {
                                   <motion.span
                                     key={c}
                                     className="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full cursor-default"
-                                    style={{ background: "rgba(58,125,110,0.1)", border: "1px solid rgba(58,125,110,0.2)", color: "#5AADA0", fontFamily: "'JetBrains Mono', monospace" }}
+                                    style={{ background: "rgba(58,125,110,0.1)", border: "1px solid rgba(58,125,110,0.2)", color: "#5AADA0", fontFamily: "'IBM Plex Mono', monospace" }}
                                     whileHover={{ scale: 1.08 }}
                                   >
                                     <CheckCircle2 size={8} /> {c}
@@ -360,7 +360,7 @@ const LiveDemoSection = () => {
                                 ))}
                                 <motion.span
                                   className="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full cursor-default"
-                                  style={{ background: "rgba(232,180,184,0.1)", border: "1px solid rgba(232,180,184,0.2)", color: "#E8B4B8", fontFamily: "'JetBrains Mono', monospace" }}
+                                  style={{ background: "rgba(232,180,184,0.1)", border: "1px solid rgba(232,180,184,0.2)", color: "#E8B4B8", fontFamily: "'IBM Plex Mono', monospace" }}
                                   whileHover={{ scale: 1.08 }}
                                 >
                                   <Shield size={8} /> Tikanga checked
@@ -376,7 +376,7 @@ const LiveDemoSection = () => {
                   <div className="flex items-center justify-center h-full">
                     <motion.p
                       className="text-sm text-center"
-                      style={{ color: "rgba(255,255,255,0.2)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                      style={{ color: "rgba(255,255,255,0.2)", fontFamily: "'Inter', sans-serif" }}
                       animate={{ opacity: [0.3, 0.6, 0.3] }}
                       transition={{ duration: 3, repeat: Infinity }}
                     >
@@ -399,7 +399,7 @@ const LiveDemoSection = () => {
                     style={{
                       background: "rgba(255,255,255,0.03)",
                       border: "1px solid rgba(255,255,255,0.08)",
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "'Inter', sans-serif",
                     }}
                     onFocus={(e) => {
                       (e.target as HTMLElement).style.borderColor = "rgba(74,165,168,0.3)";
@@ -445,10 +445,10 @@ const LiveDemoSection = () => {
               whileHover={{ y: -3, boxShadow: `0 8px 25px ${stat.color}10` }}
             >
               <stat.icon size={18} className="mx-auto mb-2 transition-transform group-hover:scale-110" style={{ color: stat.color }} />
-              <p className="text-xl font-mono mb-0.5" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, color: stat.color }}>
+              <p className="text-xl font-mono mb-0.5" style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 500, color: stat.color }}>
                 <AnimCounter target={stat.value} suffix={stat.suffix} />
               </p>
-              <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "'Inter', sans-serif" }}>
                 {stat.label}
               </p>
             </motion.div>

@@ -51,7 +51,7 @@ const TeKahuiReoSection = () => (
           <p
             className="uppercase"
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 500,
               fontSize: "13px",
               letterSpacing: "6px",
@@ -63,7 +63,7 @@ const TeKahuiReoSection = () => (
         </div>
         <h2
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 300,
             fontSize: "2.25rem",
             color: "#1A1D29",
@@ -75,7 +75,7 @@ const TeKahuiReoSection = () => (
         <p
           className="max-w-2xl mx-auto"
           style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 400,
             fontSize: "18px",
             color: "rgba(255,255,255,0.65)",
@@ -87,7 +87,7 @@ const TeKahuiReoSection = () => (
         </p>
         <p
           style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 500,
             fontSize: "14px",
             color: "#4AA5A8",
@@ -129,7 +129,7 @@ const TeKahuiReoSection = () => (
               <div>
                 <p
                   style={{
-                    fontFamily: "'Lato', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: 400,
                     fontSize: "13px",
                     color: "#1A1D29",
@@ -140,7 +140,7 @@ const TeKahuiReoSection = () => (
                 </p>
                 <p
                   style={{
-                    fontFamily: "'JetBrains Mono', monospace",
+                    fontFamily: "'IBM Plex Mono', monospace",
                     fontWeight: 400,
                     fontSize: "9px",
                     color: "rgba(74,165,168,0.7)",
@@ -154,7 +154,7 @@ const TeKahuiReoSection = () => (
             </div>
             <p
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 fontSize: "12px",
                 color: "rgba(255,255,255,0.65)",
@@ -198,7 +198,7 @@ const TeKahuiReoSection = () => (
               <div>
                 <span
                   style={{
-                    fontFamily: "'Lato', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: 400,
                     fontSize: "15px",
                     color: "#4AA5A8",
@@ -209,7 +209,7 @@ const TeKahuiReoSection = () => (
                 </span>
                 <p
                   style={{
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: 400,
                     fontSize: "12px",
                     color: "rgba(255,255,255,0.65)",
@@ -221,7 +221,7 @@ const TeKahuiReoSection = () => (
             </div>
             <p
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 fontSize: "14px",
                 color: "rgba(255,255,255,0.65)",
@@ -235,7 +235,7 @@ const TeKahuiReoSection = () => (
               to="/toro"
               className="inline-flex items-center gap-2 text-sm transition-colors"
               style={{
-                fontFamily: "'Lato', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 color: "#4AA5A8",
               }}
@@ -252,7 +252,7 @@ const TeKahuiReoSection = () => (
           to="/auaha"
           className="inline-flex items-center gap-2 text-sm px-6 py-3 rounded-xl transition-all duration-300"
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 400,
             color: "#3A7D6E",
             border: "1px solid rgba(58,125,110,0.4)",

@@ -108,14 +108,14 @@ const KeteExplorer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#E8B4B8" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 400, color: "#E8B4B8" }}>
             NGĀ KETE · THE COLLECTION
           </p>
           <TanikoDivider color="#E8B4B8" width={200} />
-          <h2 className="text-2xl sm:text-4xl mb-3 mt-4 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
+          <h2 className="text-2xl sm:text-4xl mb-3 mt-4 text-foreground" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
             Nine kete. Every industry covered.
           </h2>
-          <p className="text-sm max-w-lg mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-sm max-w-lg mx-auto" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}>
             Each kete is a basket of specialist tools built for a specific industry. Tap to explore what's inside.
           </p>
         </motion.div>
@@ -207,19 +207,19 @@ const KeteExplorer = () => {
                         >
                           <KeteIcon name={k.name} accentColor={k.accentColor} accentLight={k.accentLight} variant={k.variant} size="small" />
                         </motion.div>
-                        <h3 className="text-xl mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: k.accentColor, textShadow: `0 0 15px rgba(255,255,255,0.2), 0 0 30px rgba(255,255,255,0.08)` }}>
+                        <h3 className="text-xl mb-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: k.accentColor, textShadow: `0 0 15px rgba(255,255,255,0.2), 0 0 30px rgba(255,255,255,0.08)` }}>
                           {k.name}
                         </h3>
-                        <p className="text-xs tracking-[1px] uppercase mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+                        <p className="text-xs tracking-[1px] uppercase mb-3" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}>
                           {k.englishName}
                         </p>
-                        <p className="text-xs leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                        <p className="text-xs leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Inter', sans-serif" }}>
                           {k.longDescription}
                         </p>
                         <Link
                           to={`/kete/${k.slug}`}
                           className="inline-flex items-center gap-1.5 text-xs px-4 py-2 rounded-full transition-all group"
-                          style={{ background: `${k.accentColor}15`, border: `1px solid ${k.accentColor}30`, color: k.accentColor, fontFamily: "'JetBrains Mono', monospace" }}
+                          style={{ background: `${k.accentColor}15`, border: `1px solid ${k.accentColor}30`, color: k.accentColor, fontFamily: "'IBM Plex Mono', monospace" }}
                           onClick={(e) => e.stopPropagation()}
                         >
                           Explore {k.name} <ChevronRight size={12} className="group-hover:translate-x-1 transition-transform" />
@@ -228,7 +228,7 @@ const KeteExplorer = () => {
 
                       {/* Center: Agents list */}
                       <div>
-                        <p className="text-[10px] tracking-[2px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: k.accentColor }}>
+                        <p className="text-[10px] tracking-[2px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: k.accentColor }}>
                           {k.agentCount} SPECIALIST AGENTS
                         </p>
                         <div className="space-y-1.5">
@@ -251,14 +251,14 @@ const KeteExplorer = () => {
                                   <span
                                     className="block text-[10px] font-bold tracking-wider mb-0.5"
                                     style={{
-                                      fontFamily: "'JetBrains Mono', monospace",
+                                      fontFamily: "'IBM Plex Mono', monospace",
                                       color: k.accentColor,
                                       textShadow: `0 0 8px ${k.accentColor}60`,
                                     }}
                                   >
                                     {agent.name}
                                   </span>
-                                  <span className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                                  <span className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Inter', sans-serif" }}>
                                     {agent.desc}
                                   </span>
                                 </div>
@@ -274,7 +274,7 @@ const KeteExplorer = () => {
                                         background: `${k.accentColor}12`,
                                         border: `1px solid ${k.accentColor}25`,
                                         color: k.accentColor,
-                                        fontFamily: "'JetBrains Mono', monospace",
+                                        fontFamily: "'IBM Plex Mono', monospace",
                                       }}
                                     >
                                       {cap}
@@ -289,7 +289,7 @@ const KeteExplorer = () => {
 
                       {/* Right: Sample questions */}
                       <div>
-                        <p className="text-[10px] tracking-[2px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.35)" }}>
+                        <p className="text-[10px] tracking-[2px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.35)" }}>
                           TYPICAL QUESTIONS
                         </p>
                         <div className="space-y-2">
@@ -304,7 +304,7 @@ const KeteExplorer = () => {
                               whileHover={{ x: 3, background: `${k.accentColor}12` }}
                             >
                               <MessageSquare size={12} className="shrink-0 mt-0.5 transition-transform group-hover/q:scale-110" style={{ color: k.accentColor }} />
-                              <span className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                              <span className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "'Inter', sans-serif" }}>
                                 "{q}"
                               </span>
                             </motion.div>
@@ -314,7 +314,7 @@ const KeteExplorer = () => {
                         {/* Legislation covered */}
                         {k.legislationCovered.length > 0 && (
                           <div className="mt-4">
-                            <p className="text-[10px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.25)" }}>
+                            <p className="text-[10px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.25)" }}>
                               LEGISLATION
                             </p>
                             <div className="flex flex-wrap gap-1.5">
@@ -322,7 +322,7 @@ const KeteExplorer = () => {
                                 <motion.span
                                   key={l}
                                   className="text-[9px] px-2 py-0.5 rounded-full cursor-default"
-                                  style={{ background: "rgba(58,125,110,0.08)", border: "1px solid rgba(58,125,110,0.15)", color: "#5AADA0", fontFamily: "'JetBrains Mono', monospace" }}
+                                  style={{ background: "rgba(58,125,110,0.08)", border: "1px solid rgba(58,125,110,0.15)", color: "#5AADA0", fontFamily: "'IBM Plex Mono', monospace" }}
                                   whileHover={{ scale: 1.08 }}
                                 >
                                   {l}
@@ -362,14 +362,14 @@ const KeteExplorer = () => {
                     </motion.div>
                     <div className="flex-1 min-w-0 relative z-10">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <h3 className="text-sm" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: k.accentColor, textShadow: `0 0 10px rgba(255,255,255,0.2)` }}>
+                        <h3 className="text-sm" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: k.accentColor, textShadow: `0 0 10px rgba(255,255,255,0.2)` }}>
                           {k.name}
                         </h3>
-                        <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `rgba(${rgb}, 0.12)`, color: k.accentColor, fontFamily: "'JetBrains Mono', monospace", boxShadow: `0 0 8px ${k.accentColor}20` }}>
+                        <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: `rgba(${rgb}, 0.12)`, color: k.accentColor, fontFamily: "'IBM Plex Mono', monospace", boxShadow: `0 0 8px ${k.accentColor}20` }}>
                           {k.agentCount}
                         </span>
                       </div>
-                      <p className="text-[11px] truncate" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                      <p className="text-[11px] truncate" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "'Inter', sans-serif" }}>
                         {k.englishName} · {k.description}
                       </p>
                     </div>

@@ -62,13 +62,13 @@ export default function AdminKeteOverview() {
       <div>
         <h2
           className="text-2xl font-light tracking-[3px] uppercase"
-          style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}
+          style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
         >
           Kete Control Centre
         </h2>
         <p
           className="text-sm mt-1"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}
+          style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}
         >
           {KETE_CONFIG.length} kete · {totalAgents} specialist agents · SMS live on {liveSms} ·
           WhatsApp live on {liveWa}
@@ -87,13 +87,13 @@ export default function AdminKeteOverview() {
             <s.icon className="w-4 h-4 mb-3" style={{ color: s.color }} />
             <p
               className="text-3xl font-bold tabular-nums mb-1"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#2D3140" }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "#2D3140" }}
             >
               {s.value}
             </p>
             <p
               className="text-[10px] uppercase tracking-wider"
-              style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}
+              style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF" }}
             >
               {s.label}
             </p>
@@ -137,7 +137,7 @@ export default function AdminKeteOverview() {
                 <div className="flex-1 min-w-0">
                   <p
                     className="text-base font-bold tracking-wide"
-                    style={{ fontFamily: "'JetBrains Mono', monospace", color: "#2D3140" }}
+                    style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#2D3140" }}
                   >
                     {kete.name.toUpperCase()}
                   </p>
@@ -163,7 +163,7 @@ export default function AdminKeteOverview() {
               {/* Description */}
               <p
                 className="text-[11px] leading-relaxed mb-4 line-clamp-2"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}
+                style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}
               >
                 {kete.description}
               </p>

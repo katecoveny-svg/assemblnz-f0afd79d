@@ -71,7 +71,7 @@ const ChatVisual = ({ active }: { active: boolean }) => (
       animate={active ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.5, delay: 0.2, ease }}
     >
-      <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[280px] text-xs" style={{ background: "rgba(74,165,168,0.15)", border: "1px solid rgba(74,165,168,0.2)", color: "rgba(255,255,255,0.85)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className="px-4 py-2.5 rounded-2xl rounded-br-md max-w-[280px] text-xs" style={{ background: "rgba(74,165,168,0.15)", border: "1px solid rgba(74,165,168,0.2)", color: "rgba(255,255,255,0.85)", fontFamily: "'Inter', sans-serif" }}>
         Can I terminate an employee during their 90-day trial if they keep showing up late?
       </div>
     </motion.div>
@@ -82,7 +82,7 @@ const ChatVisual = ({ active }: { active: boolean }) => (
       transition={{ delay: 0.7, duration: 0.3 }}
     >
       <div className="w-1.5 h-1.5 rounded-full bg-[#4AA5A8] animate-pulse" />
-      <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "'JetBrains Mono', monospace" }}>Assembl is thinking...</span>
+      <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "'IBM Plex Mono', monospace" }}>Assembl is thinking...</span>
     </motion.div>
   </div>
 );
@@ -99,7 +99,7 @@ const RoutingVisual = ({ active }: { active: boolean }) => (
       <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-1" style={{ background: "rgba(58,125,110,0.15)", border: "1px solid rgba(58,125,110,0.3)" }}>
         <GitBranch size={16} style={{ color: "#3A7D6E" }} />
       </div>
-      <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'JetBrains Mono', monospace" }}>IHO</span>
+      <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'IBM Plex Mono', monospace" }}>IHO</span>
     </motion.div>
     {["Manaaki", "AROHA", "Pakihi"].map((name, i) => (
       <motion.div
@@ -120,7 +120,7 @@ const RoutingVisual = ({ active }: { active: boolean }) => (
             {name === "AROHA" ? "A" : name[0]}
           </span>
         </div>
-        <span className="text-[9px]" style={{ color: i === 1 ? "#4AA5A8" : "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}>{name}</span>
+        <span className="text-[9px]" style={{ color: i === 1 ? "#4AA5A8" : "rgba(255,255,255,0.25)", fontFamily: "'IBM Plex Mono', monospace" }}>{name}</span>
       </motion.div>
     ))}
   </div>
@@ -144,7 +144,7 @@ const ProcessingVisual = ({ active }: { active: boolean }) => (
         >
           <CheckCircle2 size={10} style={{ color: "#5B8FA8" }} />
         </motion.div>
-        <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'JetBrains Mono', monospace" }}>{item}</span>
+        <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'IBM Plex Mono', monospace" }}>{item}</span>
       </motion.div>
     ))}
   </div>
@@ -161,7 +161,7 @@ const ComplianceVisual = ({ active }: { active: boolean }) => (
       <motion.div
         key={badge.label}
         className="px-3 py-1.5 rounded-full text-[10px] flex items-center gap-1.5"
-        style={{ background: `${badge.color}15`, border: `1px solid ${badge.color}30`, color: badge.color, fontFamily: "'JetBrains Mono', monospace" }}
+        style={{ background: `${badge.color}15`, border: `1px solid ${badge.color}30`, color: badge.color, fontFamily: "'IBM Plex Mono', monospace" }}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={active ? { opacity: 1, scale: 1 } : {}}
         transition={{ delay: 0.3 + i * 0.2, duration: 0.4, ease }}
@@ -184,15 +184,15 @@ const ResultVisual = ({ active }: { active: boolean }) => (
       <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: "rgba(74,165,168,0.15)" }}>
         <span className="text-[8px] font-bold" style={{ color: "#4AA5A8" }}>A</span>
       </div>
-      <span className="text-[10px]" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>AROHA · Employment Relations</span>
+      <span className="text-[10px]" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>AROHA · Employment Relations</span>
     </div>
-    <p className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <p className="text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif" }}>
       <strong style={{ color: "rgba(255,255,255,0.9)" }}>Yes, you can</strong> — provided the trial period clause meets the requirements of s67A of the Employment Relations Act 2000.
     </p>
     <div className="pt-2 space-y-1">
       {["Ensure trial clause was signed before start date", "Document the lateness pattern clearly", "Follow your agreed disciplinary process"].map((step, i) => (
         <div key={step} className="flex items-start gap-1.5 text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>
-          <span style={{ color: "#3A7D6E", fontFamily: "'JetBrains Mono', monospace" }}>{i + 1}.</span> {step}
+          <span style={{ color: "#3A7D6E", fontFamily: "'IBM Plex Mono', monospace" }}>{i + 1}.</span> {step}
         </div>
       ))}
     </div>
@@ -233,13 +233,13 @@ const HowItWorksFlow = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#3A7D6E" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 400, color: "#3A7D6E" }}>
             TE ARA · THE PATHWAY
           </p>
-          <h2 className="text-2xl sm:text-4xl mb-3 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
+          <h2 className="text-2xl sm:text-4xl mb-3 text-foreground" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
             From question to answer in seconds
           </h2>
-          <p className="text-sm max-w-lg mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-sm max-w-lg mx-auto" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}>
             Five steps. Every question follows the same governed path — whether it's employment law, food safety, or a building consent.
           </p>
         </motion.div>
@@ -273,13 +273,13 @@ const HowItWorksFlow = () => {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[9px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: isActive ? s.color : "rgba(255,255,255,0.25)" }}>
+                        <span className="text-[9px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: isActive ? s.color : "rgba(255,255,255,0.25)" }}>
                           {s.te_reo}
                         </span>
                         <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.15)" }}>·</span>
                         <span className="text-[9px]" style={{ color: "rgba(255,255,255,0.2)" }}>Step {s.id}</span>
                       </div>
-                      <h3 className="text-sm mb-0.5 transition-colors duration-300" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: isActive ? "#fff" : "rgba(255,255,255,0.5)" }}>
+                      <h3 className="text-sm mb-0.5 transition-colors duration-300" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: isActive ? "#fff" : "rgba(255,255,255,0.5)" }}>
                         {s.title}
                       </h3>
                       {isActive && (
@@ -287,7 +287,7 @@ const HowItWorksFlow = () => {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
                           className="text-[11px] leading-relaxed"
-                          style={{ color: "rgba(255,255,255,0.45)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                          style={{ color: "rgba(255,255,255,0.45)", fontFamily: "'Inter', sans-serif" }}
                         >
                           {s.description}
                         </motion.p>
@@ -304,7 +304,7 @@ const HowItWorksFlow = () => {
               <button
                 onClick={() => setAutoPlay(!autoPlay)}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] transition-all"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)", fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)", fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 {autoPlay ? <Pause size={10} /> : <Play size={10} />}
                 {autoPlay ? "Pause" : "Auto-play"}
@@ -335,7 +335,7 @@ const HowItWorksFlow = () => {
               {/* Header */}
               <div className="flex items-center gap-2 mb-4 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                 <div className="w-2 h-2 rounded-full" style={{ background: step.color }} />
-                <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: step.color }}>
+                <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: step.color }}>
                   {step.te_reo} · {step.subtitle}
                 </span>
               </div>
@@ -358,7 +358,7 @@ const HowItWorksFlow = () => {
 
               {/* Example footer */}
               <div className="mt-4 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                <p className="text-[10px] italic" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <p className="text-[10px] italic" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "'Inter', sans-serif" }}>
                   {step.example}
                 </p>
               </div>

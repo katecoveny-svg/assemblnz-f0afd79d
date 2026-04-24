@@ -231,7 +231,7 @@ export default function InteractiveTryItDemo() {
                 </div>
                 <span
                   className="text-[11px] tracking-[2px] uppercase hidden sm:inline"
-                  style={{ fontFamily: "'JetBrains Mono', monospace", color: active ? C.text : C.textTertiary }}
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", color: active ? C.text : C.textTertiary }}
                 >
                   {n === 1 ? "Pick" : n === 2 ? "Run" : "Evidence"}
                 </span>
@@ -272,7 +272,7 @@ export default function InteractiveTryItDemo() {
             >
               <p
                 className="text-[10px] tracking-[3px] uppercase mb-3 text-center"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}
+                style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.textTertiary }}
               >
                 Step 1 · Choose your industry
               </p>
@@ -302,7 +302,7 @@ export default function InteractiveTryItDemo() {
                     </div>
                     <p
                       className="text-[10px] tracking-[2px] uppercase mb-1"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: s.accent }}
+                      style={{ fontFamily: "'IBM Plex Mono', monospace", color: s.accent }}
                     >
                       {s.reo}
                     </p>
@@ -361,7 +361,7 @@ export default function InteractiveTryItDemo() {
                   />
                   <span
                     className="text-[9px] tracking-[2px] uppercase"
-                    style={{ fontFamily: "'JetBrains Mono', monospace", color: scenario.accent }}
+                    style={{ fontFamily: "'IBM Plex Mono', monospace", color: scenario.accent }}
                   >
                     Thinking
                   </span>
@@ -425,7 +425,7 @@ export default function InteractiveTryItDemo() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="pl-11 text-[10px]"
-                  style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}
+                  style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.textTertiary }}
                 >
                   📎 {scenario.citation}
                 </motion.p>
@@ -466,7 +466,7 @@ export default function InteractiveTryItDemo() {
                 <div className="flex-1 min-w-0">
                   <p
                     className="text-[10px] tracking-[3px] uppercase mb-1"
-                    style={{ fontFamily: "'JetBrains Mono', monospace", color: scenario.accent }}
+                    style={{ fontFamily: "'IBM Plex Mono', monospace", color: scenario.accent }}
                   >
                     Step 3 · Evidence pack generated
                   </p>
@@ -510,7 +510,7 @@ export default function InteractiveTryItDemo() {
                     <span
                       className="text-[10px] tracking-[2px] uppercase"
                       style={{
-                        fontFamily: "'JetBrains Mono', monospace",
+                        fontFamily: "'IBM Plex Mono', monospace",
                         color: f.status === "ok" ? C.teal : C.ochre,
                       }}
                     >
@@ -531,7 +531,7 @@ export default function InteractiveTryItDemo() {
                   <Shield size={13} style={{ color: scenario.accent }} />
                   {packResult ? (
                     <span>
-                      Audit-ready evidence pack saved · <span style={{ fontFamily: "'JetBrains Mono', monospace", color: scenario.accent }}>{packResult.watermark}</span>
+                      Audit-ready evidence pack saved · <span style={{ fontFamily: "'IBM Plex Mono', monospace", color: scenario.accent }}>{packResult.watermark}</span>
                     </span>
                   ) : (
                     <span>Watermarked, source-cited, audit-trail logged — ready to file with your auditor.</span>

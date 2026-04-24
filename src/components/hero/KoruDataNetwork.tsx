@@ -354,7 +354,7 @@ function MobileCanvasKoru() {
 
       // Kete labels
       ctx!.textAlign = "center";
-      ctx!.font = "600 7px 'Lato', sans-serif";
+      ctx!.font = "600 7px 'Inter', sans-serif";
       for (const d of dots) {
         if (!d.name) continue;
         const labelAlpha = 0.4 + Math.sin(t * 1.5 + d.phase) * 0.4;

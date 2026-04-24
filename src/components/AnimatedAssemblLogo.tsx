@@ -127,7 +127,7 @@ const AnimatedAssemblLogo = ({ size = 64, showWordmark = true }: { size?: number
       {showWordmark && (
         <motion.span
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 300,
             fontSize: s * 0.32,
             letterSpacing: "0.18em",

@@ -103,7 +103,7 @@ export default function AdminLeadsDashboard() {
       actions={
         unscoredCount > 0 ? (
           <button onClick={scoreAll} className="flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-lg hover:bg-primary/30 text-sm"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            style={{ fontFamily: "'Inter', sans-serif" }}>
             <TrendingUp className="w-4 h-4" />
             Score {unscoredCount} Unscored
           </button>

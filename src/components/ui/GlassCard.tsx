@@ -64,11 +64,11 @@ const GlassCard = ({ title, description, accentColor, icon, children }: GlassCar
       <div className="relative z-10 p-6 sm:p-8">
         {icon && <div className="mb-4">{icon}</div>}
         <h3 className="text-[16px] font-semibold mb-2"
-          style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>
+          style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}>
           {title}
         </h3>
         <p className="text-[14px] leading-[1.7]"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+          style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
           {description}
         </p>
         {children}

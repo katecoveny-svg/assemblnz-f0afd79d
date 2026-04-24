@@ -38,7 +38,7 @@ const HowItWorksSection = () => {
           <p
             className="uppercase mb-3"
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 700,
               fontSize: "11px",
               letterSpacing: "4px",
@@ -49,7 +49,7 @@ const HowItWorksSection = () => {
           </p>
           <h2
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 300,
               fontSize: "2rem",
               color: "#1A1D29",
@@ -89,7 +89,7 @@ const HowItWorksSection = () => {
                 <span
                   className="absolute -top-3 -left-1 pointer-events-none select-none"
                   style={{
-                    fontFamily: "'Lato', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: 700,
                     fontSize: "3rem",
                     color: "transparent",
@@ -112,7 +112,7 @@ const HowItWorksSection = () => {
 
                 <h3
                   style={{
-                    fontFamily: "'Lato', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: 300,
                     fontSize: "14px",
                     color: "#1A1D29",
@@ -123,7 +123,7 @@ const HowItWorksSection = () => {
                 </h3>
                 <p
                   style={{
-                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: 400,
                     fontSize: "12px",
                     color: "rgba(255,255,255,0.65)",

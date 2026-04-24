@@ -41,7 +41,7 @@ const GlassKoruHero = () => {
               border: "1px solid rgba(73,128,126,0.15)",
               background: "rgba(255,255,255,0.45)",
               color: "#4A6E6E",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "'Inter', sans-serif",
             }}
           >
             Intelligence, shaped for Aotearoa
@@ -49,7 +49,7 @@ const GlassKoruHero = () => {
 
           <h1
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 500,
               fontSize: isMobile ? "2.25rem" : "3.75rem",
               lineHeight: 1.04,
@@ -63,7 +63,7 @@ const GlassKoruHero = () => {
           <p
             className="mt-6 max-w-lg"
             style={{
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 400,
               fontSize: isMobile ? "1rem" : "1.125rem",
               lineHeight: 1.7,
@@ -82,7 +82,7 @@ const GlassKoruHero = () => {
               style={{
                 background: "#7FD4CC",
                 color: "#133E43",
-                fontFamily: "'Lato', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 500,
                 fontSize: "1.0625rem",
                 boxShadow: "0 10px 30px rgba(96,188,180,0.22)",
@@ -97,7 +97,7 @@ const GlassKoruHero = () => {
                 background: "rgba(255,255,255,0.5)",
                 border: "1px solid rgba(73,128,126,0.20)",
                 color: "#2A5A5F",
-                fontFamily: "'Lato', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 500,
                 fontSize: "1.0625rem",
               }}

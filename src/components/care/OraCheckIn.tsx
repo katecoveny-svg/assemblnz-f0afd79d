@@ -28,7 +28,7 @@ const OraCheckIn = ({ onSendToChat }: OraCheckInProps) => {
     loadSeniors();
     return (
       <div className="flex-1 flex items-center justify-center p-6">
-        <p className="text-xs animate-pulse" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Loading…</p>
+        <p className="text-xs animate-pulse" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "'Inter', sans-serif" }}>Loading…</p>
       </div>
     );
   }
@@ -41,9 +41,9 @@ const OraCheckIn = ({ onSendToChat }: OraCheckInProps) => {
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div>
-        <p className="text-[10px] uppercase font-bold" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "4px" }}>ORA CHECK-IN</p>
+        <p className="text-[10px] uppercase font-bold" style={{ color: POUNAMU, fontFamily: "'Inter', sans-serif", letterSpacing: "4px" }}>ORA CHECK-IN</p>
         <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Daily companion check-ins for your whānau</p>
       </div>
 

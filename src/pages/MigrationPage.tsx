@@ -83,19 +83,19 @@ const MigrationPage = () => {
           <div className="max-w-[900px] mx-auto text-center relative z-10">
             <motion.div {...fade}>
               <p className="text-[10px] font-medium tracking-[5px] uppercase mb-6"
-                style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
+                style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>
                 — Migration —
               </p>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl uppercase tracking-[5px] mb-4"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
                 Nuku Mai
               </h1>
               <p className="text-lg sm:text-xl mb-8"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "#6B7280" }}>
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: "#6B7280" }}>
                 Seamless Database Migration
               </p>
               <p className="text-[15px] leading-[1.8] max-w-2xl mx-auto"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: "#6B7280" }}>
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "#6B7280" }}>
                 Your business didn't stop running when you chose Assembl — and your data shouldn't have to start over. Our migration agents move your records, compliance history, and operational data from any existing system into your new kete. Validated. Compliant. Ready to work.
               </p>
             </motion.div>
@@ -107,11 +107,11 @@ const MigrationPage = () => {
           <div className="max-w-[900px] mx-auto">
             <motion.div {...fade} className="text-center mb-16">
               <p className="text-[10px] font-medium tracking-[5px] uppercase mb-5"
-                style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
+                style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>
                 — How it works —
               </p>
               <h2 className="text-lg sm:text-[32px] uppercase tracking-[3px]"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
                 Five-Step Pipeline
               </h2>
             </motion.div>
@@ -139,18 +139,18 @@ const MigrationPage = () => {
                       }}>
                       <div className="flex items-baseline gap-3 mb-2">
                         <span className="text-[10px] tracking-[2px] uppercase font-medium"
-                          style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>
+                          style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}>
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <h3 className="text-[16px] font-semibold" style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}>
+                        <h3 className="text-[16px] font-semibold" style={{ fontFamily: "'Inter', sans-serif", color: "#1A1D29" }}>
                           {step.reo}
                         </h3>
-                        <span className="text-[12px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                        <span className="text-[12px]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                           {step.en}
                         </span>
                       </div>
                       <p className="text-[14px] leading-[1.7]"
-                        style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                        style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                         {step.desc}
                       </p>
                     </div>
@@ -166,11 +166,11 @@ const MigrationPage = () => {
           <div className="max-w-[1200px] mx-auto">
             <motion.div {...fade} className="text-center mb-16">
               <p className="text-[10px] font-medium tracking-[5px] uppercase mb-5"
-                style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
+                style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>
                 — By industry —
               </p>
               <h2 className="text-lg sm:text-[32px] uppercase tracking-[3px]"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
                 What We Migrate
               </h2>
             </motion.div>
@@ -192,22 +192,22 @@ const MigrationPage = () => {
                     <div className="w-16 h-[72px] mx-auto mb-4">
                       <KeteIcon name={kete.name} accentColor={kete.accentColor} accentLight={kete.accentLight} variant={kete.variant} size="small" />
                     </div>
-                    <h3 className="text-[14px] font-semibold text-center mb-1" style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}>
+                    <h3 className="text-[14px] font-semibold text-center mb-1" style={{ fontFamily: "'Inter', sans-serif", color: "#1A1D29" }}>
                       {kete.name}
                     </h3>
                     <p className="text-[11px] text-center mb-3 tracking-[1px] uppercase"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: kete.accentColor }}>
+                      style={{ fontFamily: "'IBM Plex Mono', monospace", color: kete.accentColor }}>
                       {kete.englishName}
                     </p>
                     <p className="text-[12px] leading-[1.6] mb-4 text-center"
-                      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                      style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                       {copy.subheading}
                     </p>
                     <div className="flex flex-wrap justify-center gap-1.5">
                       {copy.examples.map(ex => (
                         <span key={ex} className="text-[9px] px-2 py-1 rounded-full"
                           style={{
-                            fontFamily: "'JetBrains Mono', monospace",
+                            fontFamily: "'IBM Plex Mono', monospace",
                             color: kete.accentColor,
                             background: `${kete.accentColor}10`,
                           }}>
@@ -227,7 +227,7 @@ const MigrationPage = () => {
           <div className="max-w-[1000px] mx-auto">
             <motion.div {...fade} className="text-center mb-16">
               <h2 className="text-lg sm:text-[32px] uppercase tracking-[3px]"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
                 Migration, the Assembl way
               </h2>
             </motion.div>
@@ -245,11 +245,11 @@ const MigrationPage = () => {
                     style={{ background: "rgba(74,165,168,0.1)" }}>
                     <Check size={16} style={{ color: "#4AA5A8" }} />
                   </div>
-                  <h3 className="text-[14px] font-semibold mb-2" style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}>
+                  <h3 className="text-[14px] font-semibold mb-2" style={{ fontFamily: "'Inter', sans-serif", color: "#1A1D29" }}>
                     {tp.title}
                   </h3>
                   <p className="text-[13px] leading-[1.7]"
-                    style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                    style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                     {tp.body}
                   </p>
                 </motion.div>
@@ -270,11 +270,11 @@ const MigrationPage = () => {
                 boxShadow: "6px 6px 16px rgba(166,166,180,0.25), -6px -6px 16px rgba(255,255,255,0.85)",
               }}>
               <h2 className="text-xl sm:text-[28px] uppercase tracking-[3px] mb-4"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#1A1D29" }}>
                 Ready to move?
               </h2>
               <p className="text-[14px] leading-[1.7] mb-8"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                 Tell us what system you're coming from and we'll scope your migration — usually takes less than a week.
               </p>
               <button onClick={() => setKiaOraOpen(true)}
@@ -283,7 +283,7 @@ const MigrationPage = () => {
                   background: "linear-gradient(145deg, #55BFC1, #4AA5A8)",
                   color: "#FFFFFF",
                   boxShadow: "0 6px 24px rgba(74,165,168,0.3), inset 0 1px 0 rgba(255,255,255,0.3)",
-                  fontFamily: "'Lato', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
                 }}>
                 Kia ora — let's talk
                 <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />

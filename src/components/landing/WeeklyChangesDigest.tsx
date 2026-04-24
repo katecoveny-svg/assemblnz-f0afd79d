@@ -69,11 +69,11 @@ export default function WeeklyChangesDigest() {
             <div>
               <p
                 className="text-[10px] tracking-[3px] uppercase mb-0.5"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL }}
+                style={{ fontFamily: "'IBM Plex Mono', monospace", color: TEAL }}
               >
                 — What changed this week —
               </p>
-              <h3 className="text-[16px] sm:text-[18px]" style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif", fontWeight: 400 }}>
+              <h3 className="text-[16px] sm:text-[18px]" style={{ color: "#3D4250", fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
                 NZ governance sources Assembl ingested in the last 7 days
               </h3>
             </div>
@@ -98,7 +98,7 @@ export default function WeeklyChangesDigest() {
                   <span
                     className="text-[9px] px-2 py-0.5 rounded-full shrink-0 tracking-wider uppercase"
                     style={{
-                      fontFamily: "'JetBrains Mono', monospace",
+                      fontFamily: "'IBM Plex Mono', monospace",
                       background: `${TEAL}10`,
                       color: TEAL,
                       border: `1px solid ${TEAL}20`,
@@ -111,7 +111,7 @@ export default function WeeklyChangesDigest() {
                   </span>
                   <span
                     className="text-[10px] shrink-0"
-                    style={{ color: "#9CA3AF", fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ color: "#9CA3AF", fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     {c.last_checked_at ? formatAgo(new Date(c.last_checked_at)) : "—"}
                   </span>
@@ -123,7 +123,7 @@ export default function WeeklyChangesDigest() {
             <Link
               to="/status"
               className="inline-flex items-center gap-2 text-[12px] tracking-[1px] uppercase transition-all hover:gap-3"
-              style={{ fontFamily: "'Lato', sans-serif", color: TEAL }}
+              style={{ fontFamily: "'Inter', sans-serif", color: TEAL }}
             >
               See live status <ArrowRight size={12} />
             </Link>

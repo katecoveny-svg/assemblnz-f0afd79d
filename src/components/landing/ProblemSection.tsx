@@ -42,7 +42,7 @@ const ProblemSection = () => (
         </span>
         <h2
           className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-4"
-          style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
+          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
         >
            You're spending more time on <span style={{ color: GOLD }}>admin</span>
           <br />
@@ -50,7 +50,7 @@ const ProblemSection = () => (
         </h2>
         <p
           className="text-sm max-w-xl mx-auto leading-relaxed"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.6)" }}
+          style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.6)" }}
         >
           Compliance paperwork, employment law updates, audit prep — it piles up fast. assembl handles it and gives you signed evidence packs your auditor and lawyer can actually use.
         </p>
@@ -89,19 +89,19 @@ const ProblemSection = () => (
 
             <p
               className="text-3xl font-display mb-1"
-              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: GOLD }}
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: GOLD }}
             >
               {point.stat}
             </p>
             <p
               className="text-sm font-display tracking-wide uppercase mb-2"
-              style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#1A1D29" }}
+              style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#1A1D29" }}
             >
               {point.label}
             </p>
             <p
               className="text-xs leading-relaxed"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.6)" }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.6)" }}
             >
               {point.desc}
             </p>

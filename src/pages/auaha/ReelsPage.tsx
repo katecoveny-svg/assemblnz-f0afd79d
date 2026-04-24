@@ -198,7 +198,7 @@ export default function ReelsPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center gap-3 mb-3">
             <Film className="w-6 h-6" style={{ color: "#4AA5A8" }} />
-            <h1 className="text-3xl sm:text-4xl font-light tracking-tight" style={{ color: "#F5F0E8", fontFamily: "'Lato', sans-serif" }}>
+            <h1 className="text-3xl sm:text-4xl font-light tracking-tight" style={{ color: "#F5F0E8", fontFamily: "'Inter', sans-serif" }}>
               Reel Creator
             </h1>
           </div>

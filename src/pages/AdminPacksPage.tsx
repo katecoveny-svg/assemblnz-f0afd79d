@@ -55,7 +55,7 @@ const AdminPacksPage = () => {
           <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>Loading…</p>
         ) : (
           <div className="rounded-2xl overflow-hidden" style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(20px)", border: "1px solid rgba(74,165,168,0.15)" }}>
-            <table className="w-full text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <table className="w-full text-xs" style={{ fontFamily: "'Inter', sans-serif" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
                   {["Order", "Pack", "Public", "Min Role", "Agents", "Subscribers", "Updated"].map(h => (
@@ -70,7 +70,7 @@ const AdminPacksPage = () => {
                       <div className="flex items-center gap-1">
                         <button onClick={() => moveOrder(idx, -1)} disabled={idx === 0} className="p-1 rounded hover:bg-white/5 disabled:opacity-20"><ArrowUp size={12} color="#A8A8B8" /></button>
                         <button onClick={() => moveOrder(idx, 1)} disabled={idx === packs.length - 1} className="p-1 rounded hover:bg-white/5 disabled:opacity-20"><ArrowDown size={12} color="#A8A8B8" /></button>
-                        <span className="ml-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{pack.display_order}</span>
+                        <span className="ml-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#6B7280" }}>{pack.display_order}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -96,9 +96,9 @@ const AdminPacksPage = () => {
                         {ROLE_OPTIONS.map(r => <option key={r} value={r} style={{ background: "transparent" }}>{r}</option>)}
                       </select>
                     </td>
-                    <td className="px-4 py-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>{pack.agent_count}</td>
+                    <td className="px-4 py-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}>{pack.agent_count}</td>
                     <td className="px-4 py-3" style={{ color: "#9CA3AF" }}>Coming Soon</td>
-                    <td className="px-4 py-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF", fontSize: "10px" }}>
+                    <td className="px-4 py-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF", fontSize: "10px" }}>
                       {new Date(pack.updated_at).toLocaleDateString("en-NZ")}
                     </td>
                   </tr>

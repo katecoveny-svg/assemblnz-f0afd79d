@@ -18,9 +18,9 @@ const WHITE = "#FFFFFF";
 const SURFACE = "rgba(255,255,255,0.04)";
 const BORDER = "rgba(255,255,255,0.08)";
 
-const FONT_HEAD = "'Lato', sans-serif";
-const FONT_BODY = "'Plus Jakarta Sans', sans-serif";
-const FONT_MONO = "'JetBrains Mono', monospace";
+const FONT_HEAD = "'Inter', sans-serif";
+const FONT_BODY = "'Inter', sans-serif";
+const FONT_MONO = "'IBM Plex Mono', monospace";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const fade = (i = 0) => ({

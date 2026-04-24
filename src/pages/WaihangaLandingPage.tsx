@@ -107,7 +107,7 @@ export default function WaihangaLandingPage() {
 
           <motion.p
             className="text-[10px] uppercase tracking-[5px] mb-6"
-            style={{ color: C.pounamu, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}
+            style={{ color: C.pounamu, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}
             variants={fadeUp} initial="hidden" animate="visible" custom={0}
           >
             WAIHANGA · CONSTRUCTION
@@ -115,17 +115,17 @@ export default function WaihangaLandingPage() {
 
           <motion.h1
             className="text-4xl sm:text-6xl font-light tracking-tight mb-4 max-w-3xl leading-[1.1]"
-            style={{ fontFamily: "'Lato', sans-serif", letterSpacing: "-0.02em", color: C.text }}
+            style={{ fontFamily: "'Inter', sans-serif", letterSpacing: "-0.02em", color: C.text }}
             variants={fadeUp} initial="hidden" animate="visible" custom={1}
           >
             Site to sign-off. Tracked.
           </motion.h1>
 
-          <motion.p className="text-lg sm:text-xl font-light mb-6 max-w-2xl" style={{ fontFamily: "'Lato', sans-serif", color: C.textSecondary }} variants={fadeUp} initial="hidden" animate="visible" custom={1.5}>
+          <motion.p className="text-lg sm:text-xl font-light mb-6 max-w-2xl" style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }} variants={fadeUp} initial="hidden" animate="visible" custom={1.5}>
             Operational intelligence for NZ construction
           </motion.p>
 
-          <motion.p className="text-[15px] max-w-xl mb-8 leading-[1.7]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }} variants={fadeUp} initial="hidden" animate="visible" custom={2}>
+          <motion.p className="text-[15px] max-w-xl mb-8 leading-[1.7]" style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }} variants={fadeUp} initial="hidden" animate="visible" custom={2}>
             Building Code checklists, CCA compliance, BIM coordination, site check-ins, and tender management — documented, checked, and evidence-packed.
           </motion.p>
 
@@ -149,7 +149,7 @@ export default function WaihangaLandingPage() {
           {/* Compliance — single line */}
           <motion.p
             className="text-xs mb-10 max-w-xl"
-            style={{ color: C.textSecondary, fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: "0.02em" }}
+            style={{ color: C.textSecondary, fontFamily: "'Inter', sans-serif", letterSpacing: "0.02em" }}
             variants={fadeUp} initial="hidden" animate="visible" custom={3}
           >
             <span style={{ color: C.pounamu, fontWeight: 500 }}>Governed by</span> Construction Contracts Act 2002, NZ Building Code B1–H1, HSWA, Privacy Act 2020.
@@ -158,11 +158,11 @@ export default function WaihangaLandingPage() {
           {/* CTAs */}
           <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={fadeUp} initial="hidden" animate="visible" custom={4}>
             <Link to="/waihanga/workflow" className="group inline-flex items-center gap-3 px-10 py-5 rounded-full text-[13px] font-medium transition-all duration-300 hover:scale-[1.02]"
-              style={{ background: C.pounamu, color: "#FFFFFF", boxShadow: `0 4px 20px ${C.pounamu}30`, fontFamily: "'Lato', sans-serif" }}>
+              style={{ background: C.pounamu, color: "#FFFFFF", boxShadow: `0 4px 20px ${C.pounamu}30`, fontFamily: "'Inter', sans-serif" }}>
               Launch Construction Dashboard <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link to="/contact" className="group px-10 py-5 rounded-full text-[13px] font-medium transition-all duration-300"
-              style={{ color: C.pounamu, border: `1px solid ${C.pounamu}`, background: "#FFFFFF", fontFamily: "'Lato', sans-serif" }}>
+              style={{ color: C.pounamu, border: `1px solid ${C.pounamu}`, background: "#FFFFFF", fontFamily: "'Inter', sans-serif" }}>
               Book a walk-through
             </Link>
           </motion.div>
@@ -177,8 +177,8 @@ export default function WaihangaLandingPage() {
         {/* ── Agent Network ── */}
         <section className="relative px-6 py-32 max-w-5xl mx-auto">
           <motion.div className="text-center mb-14" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-            <p className="text-[10px] tracking-[5px] mb-4 uppercase" style={{ color: C.pounamu, fontFamily: "'JetBrains Mono', monospace" }}>— specialist network —</p>
-            <h2 className="text-2xl sm:text-[36px] font-light" style={{ fontFamily: "'Lato', sans-serif", letterSpacing: "-0.02em", color: C.text }}>9 agents working together</h2>
+            <p className="text-[10px] tracking-[5px] mb-4 uppercase" style={{ color: C.pounamu, fontFamily: "'IBM Plex Mono', monospace" }}>— specialist network —</p>
+            <h2 className="text-2xl sm:text-[36px] font-light" style={{ fontFamily: "'Inter', sans-serif", letterSpacing: "-0.02em", color: C.text }}>9 agents working together</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {AGENTS.map((a, i) => (
@@ -195,7 +195,7 @@ export default function WaihangaLandingPage() {
                   <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: `${C.pounamu}10` }}>
                     <a.icon size={18} style={{ color: C.pounamu }} />
                   </div>
-                  <span className="text-[12px] font-medium tracking-[2px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.text }}>{a.code}</span>
+                  <span className="text-[12px] font-medium tracking-[2px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.text }}>{a.code}</span>
                 </div>
                 <p className="text-[13px] leading-[1.7]" style={{ color: C.textSecondary }}>{a.role}</p>
               </motion.div>
@@ -213,7 +213,7 @@ export default function WaihangaLandingPage() {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <p className="text-[17px]" style={{ color: C.textSecondary }}>Ready to streamline your construction compliance?</p>
             <Link to="/waihanga/workflow" className="group inline-flex items-center gap-3 px-10 py-5 rounded-full text-[13px] font-medium transition-all duration-300 hover:scale-[1.02]"
-              style={{ background: C.pounamu, color: "#FFFFFF", boxShadow: `0 4px 20px ${C.pounamu}30`, fontFamily: "'Lato', sans-serif" }}>
+              style={{ background: C.pounamu, color: "#FFFFFF", boxShadow: `0 4px 20px ${C.pounamu}30`, fontFamily: "'Inter', sans-serif" }}>
               Open Waihanga Dashboard <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
             </Link>
             <TextUsButton keteName="Waihanga" accentColor={C.pounamu} showWhatsApp={true} />

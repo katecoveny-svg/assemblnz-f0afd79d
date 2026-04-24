@@ -106,7 +106,7 @@ const KeteDetailPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
         <div className="text-center">
-          <h1 className="text-2xl mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>Kete not found</h1>
+          <h1 className="text-2xl mb-4" style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}>Kete not found</h1>
           <button onClick={() => navigate("/kete")} className="text-sm px-4 py-2 rounded-lg" style={{ color: "#4AA5A8", border: "1px solid #4AA5A830", background: "#4AA5A810" }}>
             Back to collection
           </button>
@@ -125,7 +125,7 @@ const KeteDetailPage = () => {
       <div className="min-h-screen" style={{ background: "transparent" }}>
         {/* Hero */}
         <div className="max-w-[1200px] mx-auto px-6 py-16 md:py-24">
-          <button onClick={() => navigate("/kete")} className="flex items-center gap-1.5 text-xs mb-10 transition-colors" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D425080" }}>
+          <button onClick={() => navigate("/kete")} className="flex items-center gap-1.5 text-xs mb-10 transition-colors" style={{ fontFamily: "'Inter', sans-serif", color: "#3D425080" }}>
             <GlowIcon name="ArrowLeft" size={14} color="rgba(61,66,80,0.4)" />
             Back to Kete Collection
           </button>
@@ -135,21 +135,21 @@ const KeteDetailPage = () => {
               <KeteIcon name={kete.name} accentColor={kete.accentColor} accentLight={kete.accentLight} variant={kete.variant} size="large" />
             </div>
             <div>
-              <h1 className="text-4xl md:text-5xl tracking-[5px] uppercase mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250" }}>
+              <h1 className="text-4xl md:text-5xl tracking-[5px] uppercase mb-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#3D4250" }}>
                 {kete.name}
               </h1>
-              <p className="text-base tracking-[2px] uppercase mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: kete.accentColor }}>
+              <p className="text-base tracking-[2px] uppercase mb-6" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: kete.accentColor }}>
                 {kete.englishName}
               </p>
-              <p className="text-base leading-relaxed max-w-lg" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250CC" }}>
+              <p className="text-base leading-relaxed max-w-lg" style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250CC" }}>
                 {kete.description}
               </p>
               <div className="flex items-center gap-4 mt-6">
-                <span className="text-xs tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: kete.accentColor }}>
+                <span className="text-xs tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: kete.accentColor }}>
                   {kete.agentCount} agents
                 </span>
                 {kete.badge && (
-                  <span className="text-[11px] tracking-[1px] uppercase px-3 py-1 rounded" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3D425080", background: `${kete.accentColor}15` }}>
+                  <span className="text-[11px] tracking-[1px] uppercase px-3 py-1 rounded" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#3D425080", background: `${kete.accentColor}15` }}>
                     {kete.badge}
                   </span>
                 )}
@@ -166,14 +166,14 @@ const KeteDetailPage = () => {
                 borderLeft: `3px solid ${kete.accentColor}`,
               }}
             >
-              <h2 className="text-base mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600, color: "#1A1D29" }}>
+              <h2 className="text-base mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, color: "#1A1D29" }}>
                 {nzBarrier.heading}
               </h2>
-              <p className="text-sm leading-relaxed mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+              <p className="text-sm leading-relaxed mb-4" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                 {nzBarrier.body}
               </p>
               <div className="pt-3" style={{ borderTop: `1px solid ${kete.accentColor}25` }}>
-                <p className="text-[11px] uppercase tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace", color: kete.accentColor }}>
+                <p className="text-[11px] uppercase tracking-wider" style={{ fontFamily: "'IBM Plex Mono', monospace", color: kete.accentColor }}>
                   {nzBarrier.legislation}
                 </p>
               </div>
@@ -183,13 +183,13 @@ const KeteDetailPage = () => {
           {/* PART 4 — Refuse-When-Unsafe (AUAHA only) */}
           {isAuaha && (
             <section className="mb-12">
-              <h2 className="text-lg tracking-[3px] uppercase mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
+              <h2 className="text-lg tracking-[3px] uppercase mb-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
                 Refuse-When-Unsafe
               </h2>
-              <p className="text-sm mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#1A1D29", fontWeight: 500 }}>
+              <p className="text-sm mb-3" style={{ fontFamily: "'Inter', sans-serif", color: "#1A1D29", fontWeight: 500 }}>
                 How Assembl Handles Cultural Boundaries
               </p>
-              <p className="text-sm leading-relaxed mb-6 max-w-3xl" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+              <p className="text-sm leading-relaxed mb-6 max-w-3xl" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                 Most AI safety systems use a binary approach: allow or block. Assembl's creative agents use a three-stage pattern that's more nuanced — and more useful.
               </p>
 
@@ -209,17 +209,17 @@ const KeteDetailPage = () => {
                       boxShadow: "0 4px 24px rgba(184,165,208,0.08)",
                     }}
                   >
-                    <p className="text-[11px] uppercase tracking-wider mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#B8A5D0" }}>
+                    <p className="text-[11px] uppercase tracking-wider mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#B8A5D0" }}>
                       {card.label}
                     </p>
-                    <p className="text-[13px] leading-relaxed" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250CC" }}>
+                    <p className="text-[13px] leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250CC" }}>
                       {card.desc}
                     </p>
                   </div>
                 ))}
               </div>
 
-              <p className="text-[12px] mt-5 max-w-3xl leading-relaxed italic" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#9CA3AF" }}>
+              <p className="text-[12px] mt-5 max-w-3xl leading-relaxed italic" style={{ fontFamily: "'Inter', sans-serif", color: "#9CA3AF" }}>
                 This pattern is what Assembl proposes as a testable research artefact for the AAAIP programme. The question isn't whether AI should refuse — it's whether there's a middle ground between "generate everything" and "block everything" that actually serves creative professionals and the communities whose taonga they're working with.
               </p>
             </section>
@@ -234,36 +234,36 @@ const KeteDetailPage = () => {
                 borderLeft: "3px solid #22C55E",
               }}
             >
-              <h2 className="text-base mb-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600, color: "#1A1D29" }}>
+              <h2 className="text-base mb-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, color: "#1A1D29" }}>
                 Pipeline in Action
               </h2>
-              <p className="text-[11px] uppercase tracking-wider mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#22C55E" }}>
+              <p className="text-[11px] uppercase tracking-wider mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#22C55E" }}>
                 Real query · Five stages
               </p>
-              <p className="text-[14px] mb-5 italic" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}>
+              <p className="text-[14px] mb-5 italic" style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}>
                 "{pipelineExample.query}"
               </p>
               <ol className="space-y-3">
                 {pipelineExample.stages.map((s, i) => (
                   <li key={s.name} className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
                     <div className="flex items-baseline gap-2 shrink-0 sm:w-[280px]">
-                      <span className="text-[11px] tracking-wider" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#22C55E", fontWeight: 700 }}>
+                      <span className="text-[11px] tracking-wider" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#22C55E", fontWeight: 700 }}>
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#1A1D29", fontWeight: 600 }}>
+                      <span className="text-[13px]" style={{ fontFamily: "'Inter', sans-serif", color: "#1A1D29", fontWeight: 600 }}>
                         {s.name}
                       </span>
-                      <span className="text-[12px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                      <span className="text-[12px]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                         ("{s.question}")
                       </span>
                     </div>
-                    <p className="text-[13px] leading-relaxed flex-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250CC" }}>
+                    <p className="text-[13px] leading-relaxed flex-1" style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250CC" }}>
                       {s.action}
                     </p>
                   </li>
                 ))}
               </ol>
-              <p className="text-[12px] mt-5 leading-relaxed" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+              <p className="text-[12px] mt-5 leading-relaxed" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                 Every output passes through all five stages. Draft-only posture — no agent publishes, sends, or executes without a named human operator's approval.
               </p>
             </section>
@@ -275,7 +275,7 @@ const KeteDetailPage = () => {
           {/* Agents grid */}
           {kete.agents && kete.agents.length > 0 && (
             <section>
-              <h2 className="text-lg tracking-[3px] uppercase mb-8" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
+              <h2 className="text-lg tracking-[3px] uppercase mb-8" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
                 Specialist Agents
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -284,13 +284,13 @@ const KeteDetailPage = () => {
                     style={{ background: "rgba(255,255,255,0.7)", backdropFilter: "blur(10px)", borderColor: "rgba(61,66,80,0.08)" }}>
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${kete.accentColor}15` }}>
-                        <span className="text-[10px] font-bold" style={{ color: kete.accentColor, fontFamily: "'JetBrains Mono', monospace" }}>
+                        <span className="text-[10px] font-bold" style={{ color: kete.accentColor, fontFamily: "'IBM Plex Mono', monospace" }}>
                           {agent.name.slice(0, 2)}
                         </span>
                       </div>
                       <div>
                         <p className="text-xs font-bold tracking-wider uppercase" style={{ color: "#3D4250DD" }}>{agent.name}</p>
-                        <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D425066" }}>{agent.desc}</p>
+                        <p className="text-[11px]" style={{ fontFamily: "'Inter', sans-serif", color: "#3D425066" }}>{agent.desc}</p>
                       </div>
                     </div>
                   </div>
@@ -312,25 +312,25 @@ const KeteDetailPage = () => {
             if (!mc) return null;
             return (
               <section className="mt-16 rounded-2xl p-6 sm:p-8" style={{ background: `${kete.accentColor}08`, border: `1px solid ${kete.accentColor}12` }}>
-                <h2 className="text-lg tracking-[3px] uppercase mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
+                <h2 className="text-lg tracking-[3px] uppercase mb-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#3D4250B3" }}>
                   Nuku Mai · Migration Support
                 </h2>
-                <p className="text-[15px] font-medium mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: kete.accentColor }}>
+                <p className="text-[15px] font-medium mb-3" style={{ fontFamily: "'Inter', sans-serif", color: kete.accentColor }}>
                   {mc.subheading}
                 </p>
-                <p className="text-[14px] leading-[1.7] mb-5 max-w-2xl" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                <p className="text-[14px] leading-[1.7] mb-5 max-w-2xl" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                   {mc.body}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-5">
                   {mc.examples.map(ex => (
                     <span key={ex} className="text-[11px] px-3 py-1.5 rounded-full tracking-wider uppercase"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: kete.accentColor, background: `${kete.accentColor}10` }}>
+                      style={{ fontFamily: "'IBM Plex Mono', monospace", color: kete.accentColor, background: `${kete.accentColor}10` }}>
                       {ex}
                     </span>
                   ))}
                 </div>
                 <a href="/migration" className="inline-flex items-center gap-1.5 text-[13px] font-medium transition-opacity hover:opacity-70"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: kete.accentColor }}>
+                  style={{ fontFamily: "'Inter', sans-serif", color: kete.accentColor }}>
                   Learn more about migration <span>→</span>
                 </a>
               </section>
@@ -340,7 +340,7 @@ const KeteDetailPage = () => {
           {/* CTA */}
           <div className="mt-16 flex flex-col items-center gap-4">
             <button onClick={() => navigate("/contact")} className="px-6 py-3 rounded-xl text-sm font-medium transition-all hover:opacity-80"
-              style={{ background: `${kete.accentColor}20`, color: kete.accentColor, border: `1px solid ${kete.accentColor}30`, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              style={{ background: `${kete.accentColor}20`, color: kete.accentColor, border: `1px solid ${kete.accentColor}30`, fontFamily: "'Inter', sans-serif" }}>
               Get started
             </button>
             <TextUsButton keteName={kete.name} accentColor={kete.accentColor} />

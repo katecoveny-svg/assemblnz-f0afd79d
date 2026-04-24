@@ -87,7 +87,7 @@ export default function AuahaLandingPage() {
 
           <LandingKeteHero accentColor="#4AA5A8" accentLight="#E8C76A" model="palette" size={200} />
 
-          <motion.p className="text-[10px] uppercase tracking-[5px] mb-6" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}
+          <motion.p className="text-[10px] uppercase tracking-[5px] mb-6" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}
             variants={fadeUp} initial="hidden" animate="visible" custom={0}>
             AUAHA · CREATIVE & MEDIA
           </motion.p>
@@ -116,7 +116,7 @@ export default function AuahaLandingPage() {
             whileHover={{ scale: 1.02, boxShadow: `0 12px 40px rgba(58,125,110,0.12), 0 0 80px ${POUNAMU}15` }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}>
             <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${POUNAMU}80 50%, transparent 100%)` }} />
-            <p className="text-[10px] uppercase tracking-[3px] mb-4" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
+            <p className="text-[10px] uppercase tracking-[3px] mb-4" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}>
               te kete aronui — human expression
             </p>
             <ul className="space-y-3">
@@ -179,7 +179,7 @@ export default function AuahaLandingPage() {
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}10 0%, transparent 70%)` }} />
           <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-            <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>specialist network</p>
+            <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace" }}>specialist network</p>
             <h2 className="text-2xl sm:text-3xl font-display tracking-[0.01em]" style={{ color: "#3D4250", fontWeight: 200 }}>9 agents working together</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -212,7 +212,7 @@ export default function AuahaLandingPage() {
         <section className="relative px-6 pb-28 max-w-4xl mx-auto">
           <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[500px] h-[300px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}10 0%, transparent 60%)` }} />
           <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-            <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>workflow</p>
+            <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace" }}>workflow</p>
             <h2 className="text-2xl sm:text-3xl font-display tracking-[0.01em]" style={{ color: "#3D4250", fontWeight: 200 }}>How it works</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">

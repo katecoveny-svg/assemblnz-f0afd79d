@@ -70,7 +70,7 @@ export default function SimulatorHub() {
           </div>
           <h1
             className="text-4xl md:text-5xl font-light tracking-tight mb-4 text-assembl-text"
-            style={{ fontFamily: "'Lato', sans-serif" }}
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Scenario Simulator
           </h1>

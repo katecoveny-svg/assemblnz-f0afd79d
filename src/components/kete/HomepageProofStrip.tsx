@@ -61,7 +61,7 @@ export default function HomepageProofStrip() {
         backdropFilter: "blur(20px)",
         boxShadow: "0 4px 16px rgba(74,165,168,0.08), 0 0 0 1px rgba(255,255,255,0.4) inset",
         color: "#5B6374",
-        fontFamily: "'JetBrains Mono', monospace",
+        fontFamily: "'IBM Plex Mono', monospace",
         letterSpacing: "0.02em",
       }}
       aria-label="Live platform status"

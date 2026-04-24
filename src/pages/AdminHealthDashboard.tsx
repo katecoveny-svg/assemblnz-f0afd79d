@@ -123,7 +123,7 @@ export default function AdminHealthDashboard() {
           onClick={triggerManualCheck}
           disabled={refreshing}
           className="flex items-center gap-2 px-4 py-2 bg-primary/20 text-primary rounded-lg hover:bg-primary/30 disabled:opacity-50 text-sm"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+          style={{ fontFamily: "'Inter', sans-serif" }}
         >
           <RefreshCw className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`} />
           {refreshing ? "Checking..." : "Run Check"}

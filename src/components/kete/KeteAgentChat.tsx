@@ -331,7 +331,7 @@ export default function KeteAgentChat({
             style={{
               background: accentColor,
               color: "#3D3428",
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 600,
               fontSize: "13px",
               boxShadow: `0 8px 32px ${accentColor}40`,
@@ -365,10 +365,10 @@ export default function KeteAgentChat({
               style={{ borderBottom: `1px solid rgba(0,0,0,0.06)` }}
             >
               <div>
-                <p className="text-sm font-semibold" style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>
+                <p className="text-sm font-semibold" style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}>
                   {keteName} Agent
                 </p>
-                <p className="text-[10px] uppercase tracking-[2px]" style={{ color: accentColor, fontFamily: "'JetBrains Mono', monospace" }}>
+                <p className="text-[10px] uppercase tracking-[2px]" style={{ color: accentColor, fontFamily: "'IBM Plex Mono', monospace" }}>
                   {keteLabel} specialist
                 </p>
               </div>
@@ -391,7 +391,7 @@ export default function KeteAgentChat({
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3" style={{ minHeight: 280, maxHeight: 360 }}>
               {messages.length === 0 && (
                 <div className="space-y-2">
-                  <p className="text-xs mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                  <p className="text-xs mb-3" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                     Ask anything about {keteLabel.toLowerCase()} operations, compliance, or workflows:
                   </p>
                   {starterPrompts.map((prompt) => (
@@ -402,7 +402,7 @@ export default function KeteAgentChat({
                       style={{
                         color: "#6B7280",
                         border: `1px solid ${accentColor}20`,
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        fontFamily: "'Inter', sans-serif",
                       }}
                     >
                       {prompt}
@@ -415,7 +415,7 @@ export default function KeteAgentChat({
                   <div
                     className="max-w-[85%] px-3.5 py-2.5 rounded-xl text-xs leading-relaxed"
                     style={{
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "'Inter', sans-serif",
                       ...(msg.role === "user"
                         ? { background: `${accentColor}18`, color: "#3D4250" }
                         : { background: "rgba(0,0,0,0.03)", color: "#3D4250" }),
@@ -450,7 +450,7 @@ export default function KeteAgentChat({
                   placeholder={`Ask ${keteName} anything...`}
                   disabled={isLoading}
                   className="flex-1 bg-transparent text-xs outline-none"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}
+                  style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
                 />
                 <button
                   type="submit"
@@ -461,7 +461,7 @@ export default function KeteAgentChat({
                   <Send size={14} />
                 </button>
               </div>
-              <p className="text-[9px] text-center mt-2" style={{ color: "#9CA3AF", fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[9px] text-center mt-2" style={{ color: "#9CA3AF", fontFamily: "'IBM Plex Mono', monospace" }}>
                 assembl · governed · draft-only · evidence-packed
               </p>
             </form>

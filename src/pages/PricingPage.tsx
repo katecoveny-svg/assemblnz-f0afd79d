@@ -97,7 +97,7 @@ const PricingPage = () => (
               {tier.badge && (
                 <div className="absolute top-4 right-4">
                   <span className="text-[9px] tracking-[2px] uppercase px-3 py-1.5 rounded-full" style={{
-                    fontFamily: "'JetBrains Mono', monospace", fontWeight: 700,
+                    fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700,
                     background: `${C.gold}18`, color: C.gold, border: `1px solid ${C.gold}30`,
                   }}>{tier.badge}</span>
                 </div>
@@ -106,25 +106,25 @@ const PricingPage = () => (
               <div className="p-8 flex flex-col flex-1">
                 {/* Tier name */}
                 <h3 className="text-[22px] mb-2" style={{
-                  fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px",
+                  fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px",
                   textTransform: "uppercase", color: C.white,
                 }}>{data.name}</h3>
 
                 {/* Price */}
                 <div className="mb-2">
                   <span className="text-[32px]" style={{
-                    fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, color: C.white,
+                    fontFamily: "'IBM Plex Mono', monospace", fontWeight: 500, color: C.white,
                   }}>${data.price.toLocaleString()}</span>
                   <span className="text-[14px] ml-1" style={{ color: "#6B7280" }}>/mo</span>
                 </div>
 
                 {/* Setup — separate line, always visible */}
                 {data.setup !== null && data.setup > 0 ? (
-                  <p className="text-[13px] mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, fontWeight: 600 }}>
+                  <p className="text-[13px] mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.gold, fontWeight: 600 }}>
                     + ${data.setup.toLocaleString()} one-off setup
                   </p>
                 ) : (
-                  <p className="text-[13px] mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}>
+                  <p className="text-[13px] mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF" }}>
                     No setup fee
                   </p>
                 )}
@@ -134,7 +134,7 @@ const PricingPage = () => (
 
                 {/* Descriptor */}
                 <p className="text-[13px] leading-[1.8] mb-6 pb-6" style={{
-                  fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280",
+                  fontFamily: "'Inter', sans-serif", color: "#6B7280",
                   borderBottom: "1px solid rgba(74,165,168,0.1)",
                 }}>
                   {data.descriptor}
@@ -150,7 +150,7 @@ const PricingPage = () => (
                         <Check size={11} style={{ color: tier.accent }} />
                       </div>
                       <span className="text-[13px] leading-[1.6]" style={{
-                        fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#9CA3AF",
+                        fontFamily: "'Inter', sans-serif", color: "#9CA3AF",
                       }}>{f}</span>
                     </li>
                   ))}
@@ -162,7 +162,7 @@ const PricingPage = () => (
                     background: `${tier.accent}08`, border: `1px solid ${tier.accent}15`,
                   }}>
                     <p className="text-[11px] leading-[1.7]" style={{
-                      fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280",
+                      fontFamily: "'Inter', sans-serif", color: "#6B7280",
                     }}>
                       <span style={{ color: tier.accent, fontWeight: 600 }}>ROI: </span>
                       {data.valueAnchor}
@@ -173,7 +173,7 @@ const PricingPage = () => (
                 {/* Operator-as-platform note (Operator tier only) */}
                 {tier.key === "operator" && "platformNote" in data && (data as any).platformNote && (
                   <div className="rounded-xl p-3 mb-4" style={{ background: "rgba(74,165,168,0.05)", border: "1px dashed rgba(74,165,168,0.25)" }}>
-                    <p className="text-[10.5px] leading-[1.6]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                    <p className="text-[10.5px] leading-[1.6]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                       <strong style={{ color: C.gold }}>Business / Pro Services / Tech?</strong> Same price, no kete bundle. <Link to="/platform" className="underline" style={{ color: C.gold }}>Operator-as-platform →</Link>
                     </p>
                   </div>
@@ -182,7 +182,7 @@ const PricingPage = () => (
                 {/* CTA */}
                 <Link to={data.link} className="block w-full text-center py-4 rounded-xl text-[12px] tracking-[2px] uppercase transition-all duration-300 hover:scale-[1.02]"
                   style={{
-                    fontFamily: "'Lato', sans-serif", fontWeight: 600,
+                    fontFamily: "'Inter', sans-serif", fontWeight: 600,
                     background: tier.highlight ? `linear-gradient(135deg, ${C.gold}, ${C.goldLight})` : "rgba(255,255,255,0.06)",
                     color: tier.highlight ? "#FFFFFF" : "#3D4250",
                     border: tier.highlight ? "none" : "1px solid rgba(74,165,168,0.2)",
@@ -197,7 +197,7 @@ const PricingPage = () => (
       </div>
 
       {/* Annual discount note */}
-      <p className="text-center mt-8 text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+      <p className="text-center mt-8 text-[13px]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
         Annual prepay (ANNUAL12) saves 12% on any business tier. <Link to="/contact" className="underline" style={{ color: C.gold }}>Talk to us</Link>.
       </p>
     </section>
@@ -217,17 +217,17 @@ const PricingPage = () => (
           border: "1px solid rgba(74,165,168,0.15)",
         }}>
           <span className="text-[9px] tracking-[3px] uppercase px-3 py-1 rounded-full mb-5 inline-block" style={{
-            fontFamily: "'JetBrains Mono', monospace", fontWeight: 700,
+            fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700,
             background: `${C.gold}12`, color: C.gold, border: `1px solid ${C.gold}20`,
           }}>Bespoke</span>
-          <h3 className="text-[20px] mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "3px", textTransform: "uppercase", color: C.white }}>
+          <h3 className="text-[20px] mb-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "3px", textTransform: "uppercase", color: C.white }}>
             Outcome
           </h3>
           <div className="mb-4">
-            <span className="text-[22px]" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, color: C.white }}>From $5,000</span>
+            <span className="text-[22px]" style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 500, color: C.white }}>From $5,000</span>
             <span className="text-[14px] ml-1" style={{ color: "#6B7280" }}>/mo</span>
           </div>
-          <p className="text-[13px] leading-[1.8] mb-5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+          <p className="text-[13px] leading-[1.8] mb-5" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
             Bespoke engagements where Assembl takes on the result. Base fee + 10–20% of measured savings.
           </p>
           <ul className="space-y-2 mb-6">
@@ -237,7 +237,7 @@ const PricingPage = () => (
               </li>
             ))}
           </ul>
-          <Link to="/contact" className="inline-flex items-center gap-2 text-[12px] tracking-[2px] uppercase" style={{ fontFamily: "'Lato', sans-serif", color: C.gold }}>
+          <Link to="/contact" className="inline-flex items-center gap-2 text-[12px] tracking-[2px] uppercase" style={{ fontFamily: "'Inter', sans-serif", color: C.gold }}>
             Contact sales <ArrowRight size={12} />
           </Link>
         </motion.div>
@@ -253,11 +253,11 @@ const PricingPage = () => (
     <section className="px-6 py-20">
       <div className="max-w-4xl mx-auto">
         <motion.div {...fade} className="text-center mb-12">
-          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, fontWeight: 700 }}>
+          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.gold, fontWeight: 700 }}>
             — Compare —
           </p>
           <h2 className="text-xl sm:text-[32px] mb-4" style={{
-            fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "5px",
+            fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "5px",
             textTransform: "uppercase", color: "rgba(255,255,255,0.92)",
           }}>Feature comparison</h2>
         </motion.div>
@@ -272,7 +272,7 @@ const PricingPage = () => (
             {["Operator", "Leader", "Enterprise", "Outcome"].map((name) => (
               <div key={name} className="text-center">
                 <p className="text-[11px] tracking-[2px] uppercase" style={{
-                  fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#4AA5A8",
+                  fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "#4AA5A8",
                 }}>{name}</p>
               </div>
             ))}
@@ -285,7 +285,7 @@ const PricingPage = () => (
               background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent",
             }}>
               <div className="col-span-1 pr-4">
-                <p className="text-[12px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#9CA3AF" }}>
+                <p className="text-[12px]" style={{ fontFamily: "'Inter', sans-serif", color: "#9CA3AF" }}>
                   {row.feature}
                 </p>
               </div>
@@ -298,7 +298,7 @@ const PricingPage = () => (
                     ) : val === false ? (
                       <X size={14} className="mx-auto" style={{ color: "#D1D5DB" }} />
                     ) : (
-                      <span className="text-[11px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>
+                      <span className="text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#6B7280" }}>
                         {val}
                       </span>
                     )}
@@ -320,11 +320,11 @@ const PricingPage = () => (
     <section className="px-6 py-20">
       <div className="max-w-3xl mx-auto">
         <motion.div {...fade} className="text-center mb-10">
-          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.pounamuGlow, fontWeight: 700 }}>
+          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.pounamuGlow, fontWeight: 700 }}>
             — Add-ons —
           </p>
           <h2 className="text-xl sm:text-[28px]" style={{
-            fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px",
+            fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px",
             textTransform: "uppercase", color: "rgba(255,255,255,0.9)",
           }}>Scale as you grow</h2>
         </motion.div>
@@ -335,14 +335,14 @@ const PricingPage = () => (
               background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)",
             }}>
               <div>
-                <p className="text-[14px] mb-0.5" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.8)" }}>
+                <p className="text-[14px] mb-0.5" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.8)" }}>
                   {addon.name}
                 </p>
                 <p className="text-[11px]" style={{ color: "#9CA3AF" }}>
                   Available: {addon.available}
                 </p>
               </div>
-              <span className="text-[13px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold }}>
+              <span className="text-[13px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.gold }}>
                 {addon.price}
               </span>
             </div>
@@ -360,14 +360,14 @@ const PricingPage = () => (
     <section className="px-6 py-20">
       <div className="max-w-4xl mx-auto">
         <motion.div {...fade} className="text-center mb-10">
-          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, fontWeight: 700 }}>
+          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.gold, fontWeight: 700 }}>
             — Industry kete —
           </p>
           <h2 className="text-xl sm:text-[28px] mb-3" style={{
-            fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px",
+            fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px",
             textTransform: "uppercase", color: "#3D4250",
           }}>Seven industry kete + Tōro</h2>
-          <p className="text-[14px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+          <p className="text-[14px]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
             Operator picks 1. Leader picks 2. Enterprise gets all 7 plus Tōro.
           </p>
         </motion.div>
@@ -383,7 +383,7 @@ const PricingPage = () => (
                 border: "1px solid rgba(74,165,168,0.15)",
               }}
             >
-              <p className="text-[14px] mb-1" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "3px", textTransform: "uppercase", color: "#3D4250" }}>
+              <p className="text-[14px] mb-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: "3px", textTransform: "uppercase", color: "#3D4250" }}>
                 {k.name}
               </p>
               <p className="text-[11px]" style={{ color: "#6B7280" }}>{k.eng}</p>
@@ -393,7 +393,7 @@ const PricingPage = () => (
 
         {/* Operator-as-platform note */}
         <div className="mt-8 max-w-2xl mx-auto rounded-xl p-5 text-center" style={{ background: "rgba(255,255,255,0.5)", border: "1px dashed rgba(74,165,168,0.25)" }}>
-          <p className="text-[12px] leading-[1.7]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+          <p className="text-[12px] leading-[1.7]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
             <strong style={{ color: C.gold }}>Business · Professional Services · Technology?</strong> Ask about <Link to="/platform" className="underline" style={{ color: C.gold }}>Operator-as-platform</Link> — same $1,490/mo + $590 setup, no industry kete bundle, full platform plus the cross-cutting agents. Build your own workflows on top of Iho.
           </p>
         </div>
@@ -415,11 +415,11 @@ const PricingPage = () => (
       }} />
       <div className="relative z-10 max-w-xl mx-auto">
         <h2 className="text-xl sm:text-[32px] mb-4" style={{
-          fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "5px",
+          fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "5px",
           textTransform: "uppercase", color: "rgba(255,255,255,0.92)",
         }}>Ready to start?</h2>
         <p className="text-[15px] leading-[1.8] mb-10" style={{
-          fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280",
+          fontFamily: "'Inter', sans-serif", color: "#6B7280",
         }}>
           Tell us about your business and we'll map your workflows to the right kete.
         </p>
@@ -427,13 +427,13 @@ const PricingPage = () => (
           <Link to="/contact" className="group inline-flex items-center justify-center gap-3 px-12 py-4 text-[11px] tracking-[2px] uppercase font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
             style={{
               background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
-              color: C.bg, fontFamily: "'Lato', sans-serif",
+              color: C.bg, fontFamily: "'Inter', sans-serif",
               boxShadow: `0 4px 30px rgba(74,165,168,0.35)`,
             }}>
             Get started <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
           </Link>
           <Link to="/demos" className="inline-flex items-center justify-center gap-2 px-12 py-4 text-[11px] tracking-[2px] uppercase font-medium rounded-full transition-all duration-300"
-            style={{ border: "1px solid rgba(74,165,168,0.15)", color: "#9CA3AF", fontFamily: "'Lato', sans-serif" }}>
+            style={{ border: "1px solid rgba(74,165,168,0.15)", color: "#9CA3AF", fontFamily: "'Inter', sans-serif" }}>
             See the demos
           </Link>
         </div>

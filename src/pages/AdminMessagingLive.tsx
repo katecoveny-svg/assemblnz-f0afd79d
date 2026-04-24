@@ -106,7 +106,7 @@ export default function AdminMessagingLive() {
             </Link>
             <div className="flex items-center gap-3">
               <Radio className={`w-5 h-5 ${paused ? "" : "animate-pulse"}`} style={{ color: paused ? MUTED : POUNAMU }} />
-              <h1 className="text-2xl sm:text-3xl font-light tracking-tight" style={{ color: TEXT, fontFamily: "'Lato', sans-serif" }}>
+              <h1 className="text-2xl sm:text-3xl font-light tracking-tight" style={{ color: TEXT, fontFamily: "'Inter', sans-serif" }}>
                 Live Messaging Stream
               </h1>
             </div>

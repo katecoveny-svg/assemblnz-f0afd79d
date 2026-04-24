@@ -108,7 +108,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
         <h3
           className="text-xl tracking-[5px] uppercase"
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 400,
             color: accentColor,
           }}
@@ -120,7 +120,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
         <p
           className="text-[13px] tracking-[1px] uppercase"
           style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 500,
             color: "#3D4250",
           }}
@@ -132,7 +132,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
         <p
           className="text-sm leading-relaxed min-h-[72px] flex items-center"
           style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             color: "#5A6270",
           }}
         >
@@ -144,7 +144,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
           <span
             className="text-xs tracking-[2px] uppercase px-3 py-1 rounded-full"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               color: accentColor,
               background: `rgba(${rgb}, 0.08)`,
               border: `1px solid rgba(${rgb}, 0.2)`,
@@ -156,7 +156,7 @@ const KeteCard: React.FC<KeteCardProps> = ({
             <span
               className="text-[11px] tracking-[1px] uppercase px-3 py-1.5 rounded-full"
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'IBM Plex Mono', monospace",
                 color: accentColor,
                 background: `rgba(${rgb}, 0.06)`,
                 border: `1px solid rgba(${rgb}, 0.15)`,

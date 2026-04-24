@@ -141,7 +141,7 @@ export default function CouncilPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center gap-3 mb-4">
             <Scale className="w-7 h-7" style={{ color: TEAL }} />
-            <h1 className="text-4xl sm:text-5xl font-light tracking-tight" style={{ color: TEXT, fontFamily: "'Lato', sans-serif" }}>
+            <h1 className="text-4xl sm:text-5xl font-light tracking-tight" style={{ color: TEXT, fontFamily: "'Inter', sans-serif" }}>
               Assembl Council
             </h1>
           </div>

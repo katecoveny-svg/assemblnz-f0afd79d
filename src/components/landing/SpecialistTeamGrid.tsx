@@ -108,7 +108,7 @@ const SpecialistTeamGrid = () => (
         <p
           className="uppercase mb-3"
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 400,
             fontSize: "11px",
             letterSpacing: "4px",
@@ -119,7 +119,7 @@ const SpecialistTeamGrid = () => (
         </p>
         <h2
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 300,
             fontSize: "2rem",
             color: "#1A1D29",
@@ -161,7 +161,7 @@ const SpecialistTeamGrid = () => (
             <p
               className="uppercase mb-1"
               style={{
-                fontFamily: "'Lato', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 fontSize: "10px",
                 letterSpacing: "3px",
@@ -173,7 +173,7 @@ const SpecialistTeamGrid = () => (
             <p
               className="mb-1"
               style={{
-                fontFamily: "'Lato', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 fontSize: "14px",
                 color: "#1A1D29",
@@ -184,7 +184,7 @@ const SpecialistTeamGrid = () => (
             <p
               className="mb-3"
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 fontSize: "11px",
                 color: "rgba(255,255,255,0.65)",
@@ -197,7 +197,7 @@ const SpecialistTeamGrid = () => (
               to={`/chat/${a.agentId}`}
               className="text-xs transition-colors"
               style={{
-                fontFamily: "'Lato', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 color: a.packColor,
               }}
@@ -213,7 +213,7 @@ const SpecialistTeamGrid = () => (
           to="/auaha"
           className="inline-flex items-center gap-2 text-xs px-6 py-3 rounded-xl transition-all duration-300"
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 400,
             color: "#4AA5A8",
             border: "1px solid rgba(74,165,168,0.25)",

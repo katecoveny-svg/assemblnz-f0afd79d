@@ -28,7 +28,7 @@ const SocialProofSection = () => (
         <p
           className="uppercase mb-3"
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 400,
             fontSize: "11px",
             letterSpacing: "4px",
@@ -39,7 +39,7 @@ const SocialProofSection = () => (
         </p>
         <h2
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 300,
             fontSize: "2rem",
             color: "#1A1D29",
@@ -90,7 +90,7 @@ const SocialProofSection = () => (
             <p
               className="relative z-10 mt-8 mb-4"
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 fontSize: "16px",
                 color: "#1A1D29",
@@ -101,7 +101,7 @@ const SocialProofSection = () => (
             </p>
             <p
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 fontSize: "14px",
                 color: "rgba(255,255,255,0.35)",

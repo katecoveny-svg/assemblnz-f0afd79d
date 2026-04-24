@@ -72,15 +72,15 @@ const KaitiakiGateDemo = () => {
         <DemoProvesCard slug="kaitiaki-gate" />
 
         <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
-          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#A8DDDB" }}>
+          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#A8DDDB" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
+        <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
           Kaitiaki Gate
         </h1>
-        <p className="text-center text-sm mb-10" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.6)" }}>
+        <p className="text-center text-sm mb-10" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.6)" }}>
           Human-in-the-loop for cultural content — sacred content is never AI-generated
         </p>
 
@@ -90,11 +90,11 @@ const KaitiakiGateDemo = () => {
             <button key={i} onClick={() => handleSwitch(i)}
               className={`liquid-glass text-left p-5 rounded-2xl transition-all text-xs group`}
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 borderColor: selectedPrompt === i ? (p.type === "sacred" ? "rgba(232,116,97,0.3)" : "rgba(58,125,110,0.4)") : undefined,
                 boxShadow: selectedPrompt === i ? `0 0 30px ${p.type === "sacred" ? "rgba(232,116,97,0.08)" : "rgba(58,125,110,0.1)"}` : undefined,
               }}>
-              <span className="text-[9px] tracking-[2px] uppercase block mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: p.type === "sacred" ? "#E87461" : "#4FE4A7" }}>
+              <span className="text-[9px] tracking-[2px] uppercase block mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: p.type === "sacred" ? "#E87461" : "#4FE4A7" }}>
                 {p.type === "sacred" ? "Sacred content" : "Standard te reo"}
               </span>
               <span style={{ color: "rgba(245,240,232,0.75)" }}>{p.label}</span>
@@ -122,19 +122,19 @@ const KaitiakiGateDemo = () => {
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(79,228,167,0.12)", border: "1px solid rgba(79,228,167,0.2)" }}>
                     <Check size={16} style={{ color: "#4FE4A7" }} />
                   </div>
-                  <span className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4FE4A7" }}>PASS — Macron auto-correction applied</span>
+                  <span className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4FE4A7" }}>PASS — Macron auto-correction applied</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <div className="liquid-glass rounded-xl p-4" style={{ borderColor: "rgba(232,116,97,0.15)" }}>
-                    <p className="text-[9px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#E87461" }}>Before</p>
-                    <p className="text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.6)" }}>
+                    <p className="text-[9px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#E87461" }}>Before</p>
+                    <p className="text-sm" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.6)" }}>
                       {(prompt as typeof PROMPTS[0]).before}
                     </p>
                   </div>
                   <div className="liquid-glass rounded-xl p-4" style={{ borderColor: "rgba(79,228,167,0.15)" }}>
-                    <p className="text-[9px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4FE4A7" }}>After</p>
-                    <p className="text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.8)" }}>
+                    <p className="text-[9px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4FE4A7" }}>After</p>
+                    <p className="text-sm" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.8)" }}>
                       {(prompt as typeof PROMPTS[0]).after}
                     </p>
                   </div>
@@ -143,9 +143,9 @@ const KaitiakiGateDemo = () => {
                 <div className="space-y-2">
                   {(prompt as typeof PROMPTS[0]).corrections?.map((c, i) => (
                     <div key={i} className="flex items-center gap-3 text-xs p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.02)", color: "rgba(245,240,232,0.5)" }}>
-                      <span style={{ fontFamily: "'JetBrains Mono', monospace", color: "#E87461", textDecoration: "line-through" }}>{c.from}</span>
+                      <span style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#E87461", textDecoration: "line-through" }}>{c.from}</span>
                       <span>→</span>
-                      <span style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4FE4A7" }}>{c.to}</span>
+                      <span style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4FE4A7" }}>{c.to}</span>
                       <span style={{ color: "rgba(245,240,232,0.35)" }}>— {c.reason}</span>
                     </div>
                   ))}
@@ -168,16 +168,16 @@ const KaitiakiGateDemo = () => {
                     <X size={20} style={{ color: "#E87461" }} />
                   </div>
                   <div>
-                    <h3 className="text-base" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#F5F0E8" }}>Sacred content — escalated to Kaitiaki Review</h3>
+                    <h3 className="text-base" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "#F5F0E8" }}>Sacred content — escalated to Kaitiaki Review</h3>
                   </div>
                 </div>
-                <p className="text-sm mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.65)" }}>
+                <p className="text-sm mb-6" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.65)" }}>
                   Whaikōrero, karakia, and waiata cannot be AI-generated. This request has been routed to a named kaitiaki for human-led support.
                 </p>
 
                 {/* Mead's Five Tests — nested glass */}
                 <div className="liquid-glass rounded-xl p-5 mb-5" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-                  <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(245,240,232,0.4)" }}>Mead's Five Tests</p>
+                  <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(245,240,232,0.4)" }}>Mead's Five Tests</p>
                   <div className="space-y-3">
                     {MEADS_TESTS.map(t => (
                       <label key={t.name} className="flex items-center gap-3 cursor-pointer p-2 rounded-lg hover:bg-white/[0.02] transition-colors">
@@ -202,7 +202,7 @@ const KaitiakiGateDemo = () => {
 
         {/* Ngā Pou e Whā — glass surface */}
         <div className="liquid-glass liquid-glass-gold rounded-2xl p-6 mt-8">
-          <p className="text-[10px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>
+          <p className="text-[10px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}>
             Ngā Pou e Whā
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

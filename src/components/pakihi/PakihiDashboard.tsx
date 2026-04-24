@@ -143,7 +143,7 @@ function OverviewTab() {
               <GlowIcon name={m.icon} size={16} color={ACCENT} />
               <span className="text-[10px] text-white/40 uppercase tracking-wider">{m.label}</span>
             </div>
-            <div className="text-xl font-bold text-white/90" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.value}</div>
+            <div className="text-xl font-bold text-white/90" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{m.value}</div>
             <span className={`text-[10px] ${m.trend.startsWith("+") || m.trend.startsWith("-3") ? "text-[#5AADA0]" : "text-white/40"}`}>{m.trend}</span>
           </Glass>
         ))}
@@ -267,15 +267,15 @@ function ReconciliationTab() {
       {/* Reconciliation Stats */}
       <div className="grid grid-cols-3 gap-3">
         <Glass className="p-4 text-center">
-          <div className="text-2xl font-bold text-white/90" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{matchRate}%</div>
+          <div className="text-2xl font-bold text-white/90" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{matchRate}%</div>
           <p className="text-[10px] text-white/40 mt-1">Auto-Match Rate</p>
         </Glass>
         <Glass className="p-4 text-center">
-          <div className="text-2xl font-bold" style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>{matchedCount}</div>
+          <div className="text-2xl font-bold" style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>{matchedCount}</div>
           <p className="text-[10px] text-white/40 mt-1">Matched This Week</p>
         </Glass>
         <Glass className="p-4 text-center">
-          <div className="text-2xl font-bold text-[#4AA5A8]" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{recentTransactions.length - matchedCount}</div>
+          <div className="text-2xl font-bold text-[#4AA5A8]" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{recentTransactions.length - matchedCount}</div>
           <p className="text-[10px] text-white/40 mt-1">Need Review</p>
         </Glass>
       </div>

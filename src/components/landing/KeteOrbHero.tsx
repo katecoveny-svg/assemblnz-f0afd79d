@@ -646,7 +646,7 @@ function CognitiveLayerLabels({ size }: { size: number }) {
               <span
                 className="text-[8px] sm:text-[9px] tracking-[2.5px] uppercase whitespace-nowrap"
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'IBM Plex Mono', monospace",
                   color: layer.color,
                   fontWeight: 500,
                   opacity: 0.7,
@@ -742,19 +742,19 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
         <div className="text-center mt-8 px-4">
           <p
             className="text-[10px] tracking-[4px] uppercase mb-3"
-            style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(74,165,168,0.6)" }}
+            style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(74,165,168,0.6)" }}
           >
             Ngā Kete · 7 Industries + Tōro · Tangible Outcomes
           </p>
           <h2
             className="text-2xl sm:text-4xl tracking-[0.02em] text-foreground mb-3"
-            style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif", textShadow: "0 0 40px rgba(74,165,168,0.15)" }}
+            style={{ fontWeight: 300, fontFamily: "'Inter', sans-serif", textShadow: "0 0 40px rgba(74,165,168,0.15)" }}
           >
             More efficiency. Less admin. Real evidence.
           </h2>
           <p
             className="text-sm max-w-lg mx-auto leading-relaxed"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}
+            style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}
           >
             Five industry kete that run your compliance, operations, and reporting
             — then hand you a signed pack your auditor can read and your lawyer can

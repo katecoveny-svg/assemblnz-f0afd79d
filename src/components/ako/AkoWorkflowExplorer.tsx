@@ -77,7 +77,7 @@ export default function AkoWorkflowExplorer({ accent }: { accent: string }) {
       <div className="space-y-2">
         <p
           className="text-[10px] tracking-[3px] uppercase mb-3"
-          style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}
         >
           The other two workflows
         </p>
@@ -109,7 +109,7 @@ export default function AkoWorkflowExplorer({ accent }: { accent: string }) {
                   className="text-[10px] mt-1"
                   style={{
                     color: isActive ? accent : "#9CA3AF",
-                    fontFamily: "'JetBrains Mono', monospace",
+                    fontFamily: "'IBM Plex Mono', monospace",
                   }}
                 >
                   {w.pipeline}
@@ -156,7 +156,7 @@ export default function AkoWorkflowExplorer({ accent }: { accent: string }) {
                   </h4>
                   <p
                     className="text-[10px] tracking-wider uppercase mt-0.5"
-                    style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     {active.pipeline}
                   </p>
@@ -169,7 +169,7 @@ export default function AkoWorkflowExplorer({ accent }: { accent: string }) {
               <div className="rounded-xl p-3" style={{ background: "rgba(0,0,0,0.02)" }}>
                 <div className="flex items-center gap-1.5 mb-1">
                   <ChevronRight size={11} style={{ color: accent }} />
-                  <span className="text-[9px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}>
+                  <span className="text-[9px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}>
                     Trigger
                   </span>
                 </div>
@@ -180,7 +180,7 @@ export default function AkoWorkflowExplorer({ accent }: { accent: string }) {
               <div className="rounded-xl p-3" style={{ background: "rgba(0,0,0,0.02)" }}>
                 <div className="flex items-center gap-1.5 mb-1">
                   <Clock size={11} style={{ color: accent }} />
-                  <span className="text-[9px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}>
+                  <span className="text-[9px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}>
                     Cadence
                   </span>
                 </div>
@@ -197,7 +197,7 @@ export default function AkoWorkflowExplorer({ accent }: { accent: string }) {
             >
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles size={13} style={{ color: accent }} />
-                <span className="text-[10px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}>
+                <span className="text-[10px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}>
                   {active.output.label}
                 </span>
               </div>
@@ -222,7 +222,7 @@ export default function AkoWorkflowExplorer({ accent }: { accent: string }) {
               <FileCheck size={12} style={{ color: "#3A7D6E" }} />
               <span
                 className="text-[11px]"
-                style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 {active.receipt}
               </span>

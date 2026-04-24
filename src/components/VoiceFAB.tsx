@@ -169,7 +169,7 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
               </div>
             )}
 
-            <p className="text-xs text-center" style={{ color: TEAL_ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>
+            <p className="text-xs text-center" style={{ color: TEAL_ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>
               {statusLabel.mi}
             </p>
             <p className="text-[10px] text-center text-[#9CA3AF] mt-0.5">

@@ -42,11 +42,11 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div {...fade} className="text-center mb-14">
           <p className="text-[10px] font-bold tracking-[5px] uppercase mb-5"
-            style={{ color: accentColor, fontFamily: "'JetBrains Mono', monospace" }}>
+            style={{ color: accentColor, fontFamily: "'IBM Plex Mono', monospace" }}>
             — Real use case —
           </p>
           <h2 className="text-2xl sm:text-[34px] mb-4"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase", lineHeight: 1.15, color: "#3D4250" }}>
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase", lineHeight: 1.15, color: "#3D4250" }}>
             A day in the life
           </h2>
           <p className="text-sm max-w-lg mx-auto" style={{ color: "#6B7280" }}>
@@ -66,7 +66,7 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
             <div className="absolute top-0 left-[8%] right-[8%] h-px" style={{ background: `linear-gradient(90deg, transparent, ${accentColor}40, transparent)` }} />
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
-                style={{ background: `${accentColor}15`, color: accentColor, fontFamily: "'Lato', sans-serif" }}>
+                style={{ background: `${accentColor}15`, color: accentColor, fontFamily: "'Inter', sans-serif" }}>
                 {persona.name[0]}
               </div>
               <div>
@@ -74,11 +74,11 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
                 <p className="text-[11px]" style={{ color: "#6B7280" }}>{persona.role}</p>
               </div>
               <span className="ml-auto text-[9px] tracking-[2px] uppercase px-3 py-1 rounded-full"
-                style={{ background: "rgba(74,165,168,0.06)", border: "1px solid rgba(74,165,168,0.15)", color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+                style={{ background: "rgba(74,165,168,0.06)", border: "1px solid rgba(74,165,168,0.15)", color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
                 The situation
               </span>
             </div>
-            <p className="text-[14px] leading-[1.9]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#374151" }}>
+            <p className="text-[14px] leading-[1.9]" style={{ fontFamily: "'Inter', sans-serif", color: "#374151" }}>
               {situation}
             </p>
           </motion.div>
@@ -92,10 +92,10 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
               boxShadow: `0 10px 40px -10px rgba(74,165,168,0.12), 0 4px 12px rgba(0,0,0,0.04)`,
             }}>
             <div className="absolute top-0 left-[8%] right-[8%] h-px" style={{ background: `linear-gradient(90deg, transparent, ${accentColor}60, transparent)` }} />
-            <p className="text-[10px] tracking-[3px] uppercase mb-5" style={{ color: accentColor, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
+            <p className="text-[10px] tracking-[3px] uppercase mb-5" style={{ color: accentColor, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}>
               What assembl does
             </p>
-            <p className="text-[14px] leading-[1.9]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}>
+            <p className="text-[14px] leading-[1.9]" style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}>
               {assembl}
             </p>
           </motion.div>
@@ -122,11 +122,11 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${accentColor}12` }}>
                     <Icon size={14} style={{ color: accentColor }} />
                   </div>
-                  <span className="text-[12px] font-semibold tracking-[1px] uppercase" style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}>
+                  <span className="text-[12px] font-semibold tracking-[1px] uppercase" style={{ color: "#3D4250", fontFamily: "'Inter', sans-serif" }}>
                     {b.label}
                   </span>
                 </div>
-                <p className="text-[12px] leading-[1.8]" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <p className="text-[12px] leading-[1.8]" style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}>
                   {b.detail}
                 </p>
               </motion.div>
@@ -143,11 +143,11 @@ export default function KeteUseCaseSection({ data }: { data: UseCaseData }) {
           }}>
           <div className="flex items-center justify-center gap-2 mb-3">
             <Globe size={14} style={{ color: POUNAMU }} />
-            <p className="text-[10px] tracking-[3px] uppercase" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
+            <p className="text-[10px] tracking-[3px] uppercase" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}>
               NZ economy impact
             </p>
           </div>
-          <p className="text-[13px] leading-[1.9] max-w-2xl mx-auto" style={{ color: "#374151", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <p className="text-[13px] leading-[1.9] max-w-2xl mx-auto" style={{ color: "#374151", fontFamily: "'Inter', sans-serif" }}>
             {economyBenefit}
           </p>
         </motion.div>

@@ -54,10 +54,10 @@ const TrustCard = ({ t, i }: { t: typeof TRUST_SIGNALS[0]; i: number }) => {
       >
         <t.icon size={22} className="mx-auto mb-2" style={{ color: t.color }} />
       </motion.div>
-      <p className="text-[11px] mb-0.5 transition-colors duration-300 group-hover:text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>
+      <p className="text-[11px] mb-0.5 transition-colors duration-300 group-hover:text-foreground" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.8)" }}>
         {t.label}
       </p>
-      <p className="text-[9px]" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <p className="text-[9px]" style={{ color: "rgba(255,255,255,0.3)", fontFamily: "'Inter', sans-serif" }}>
         {t.detail}
       </p>
       {/* Hover glow */}
@@ -78,7 +78,7 @@ const TrustStrip = () => (
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
       >
-        <p className="text-[10px] tracking-[4px] uppercase mb-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.3)" }}>
+        <p className="text-[10px] tracking-[4px] uppercase mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.3)" }}>
           WHAKAPONO · TRUST
         </p>
         <TanikoDivider color="#3A7D6E" width={120} />

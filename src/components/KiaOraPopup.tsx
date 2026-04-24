@@ -7,9 +7,9 @@ import { toast } from "sonner";
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#5AADA0";
 const FONT = {
-  heading: "'Lato', sans-serif",
-  body: "'Plus Jakarta Sans', sans-serif",
-  mono: "'JetBrains Mono', monospace",
+  heading: "'Inter', sans-serif",
+  body: "'Inter', sans-serif",
+  mono: "'IBM Plex Mono', monospace",
 };
 
 const PAIN_AREAS = [

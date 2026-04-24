@@ -60,7 +60,7 @@ export default function EvidenceGalleryPage() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4" style={{ background: `${TEAL}14`, border: `1px solid ${TEAL}40` }}>
             <ShieldCheck size={13} style={{ color: TEAL }} />
-            <span className="text-xs font-medium uppercase tracking-wider" style={{ color: TEAL, fontFamily: "'JetBrains Mono', monospace" }}>Proof of Life · Recent activity</span>
+            <span className="text-xs font-medium uppercase tracking-wider" style={{ color: TEAL, fontFamily: "'IBM Plex Mono', monospace" }}>Proof of Life · Recent activity</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-light text-foreground mb-3">Every workflow leaves a paper trail</h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
@@ -105,12 +105,12 @@ function PackCard({ pack, index }: { pack: PackRow; index: number }) {
       className="p-5 rounded-2xl relative overflow-hidden"
       style={{ background: "rgba(255,255,255,0.85)", border: `1px solid ${accent}30`, backdropFilter: "blur(20px)", boxShadow: `0 8px 24px -10px ${accent}25` }}
     >
-      <div className="absolute top-0 right-0 px-2.5 py-1 rounded-bl-lg text-[10px] font-medium uppercase tracking-wider" style={{ background: `${accent}15`, color: accent, fontFamily: "'JetBrains Mono', monospace" }}>
+      <div className="absolute top-0 right-0 px-2.5 py-1 rounded-bl-lg text-[10px] font-medium uppercase tracking-wider" style={{ background: `${accent}15`, color: accent, fontFamily: "'IBM Plex Mono', monospace" }}>
         {kete?.name ?? pack.kete}
       </div>
       <FileText size={20} style={{ color: accent, marginBottom: 10 }} />
       <h3 className="text-sm font-medium mb-2" style={{ color: "#3D4250" }}>{pack.action_type}</h3>
-      <div className="text-[11px] space-y-1" style={{ color: "#5B6374", fontFamily: "'JetBrains Mono', monospace" }}>
+      <div className="text-[11px] space-y-1" style={{ color: "#5B6374", fontFamily: "'IBM Plex Mono', monospace" }}>
         {pack.signed_by && <div>Signed by · {pack.signed_by}</div>}
         <div>Watermark · {pack.watermark?.slice(0, 12) ?? pack.id.slice(0, 8)}…</div>
         <div>{timeAgo(new Date(pack.created_at))}</div>
@@ -130,13 +130,13 @@ function ShowcaseCard({ item, index }: { item: typeof SHOWCASE[number]; index: n
       className="p-5 rounded-2xl relative overflow-hidden"
       style={{ background: "rgba(255,255,255,0.7)", border: `1px solid ${accent}25`, backdropFilter: "blur(20px)", boxShadow: `0 8px 24px -10px ${accent}1f` }}
     >
-      <div className="absolute top-0 right-0 px-2.5 py-1 rounded-bl-lg text-[10px] font-medium uppercase tracking-wider" style={{ background: `${accent}15`, color: accent, fontFamily: "'JetBrains Mono', monospace" }}>
+      <div className="absolute top-0 right-0 px-2.5 py-1 rounded-bl-lg text-[10px] font-medium uppercase tracking-wider" style={{ background: `${accent}15`, color: accent, fontFamily: "'IBM Plex Mono', monospace" }}>
         {kete?.name ?? item.kete} · sample
       </div>
       <FileText size={20} style={{ color: accent, marginBottom: 10 }} />
       <h3 className="text-sm font-medium mb-2" style={{ color: "#3D4250" }}>{item.action_type}</h3>
       <p className="text-xs mb-3" style={{ color: "#5B6374", lineHeight: 1.55 }}>{item.summary}</p>
-      <div className="text-[11px] space-y-1" style={{ color: "#8B92A0", fontFamily: "'JetBrains Mono', monospace" }}>
+      <div className="text-[11px] space-y-1" style={{ color: "#8B92A0", fontFamily: "'IBM Plex Mono', monospace" }}>
         <div>Signed by · {item.signed_by}</div>
         <div>{item.days_ago === 1 ? "Yesterday" : `${item.days_ago} days ago`}</div>
       </div>

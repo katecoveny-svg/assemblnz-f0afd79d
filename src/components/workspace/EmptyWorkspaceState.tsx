@@ -94,7 +94,7 @@ export default function EmptyWorkspaceState({ accent, keteKey, keteLabel, onSamp
           <div
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] tracking-[2px] uppercase mb-4"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               background: "rgba(255,255,255,0.7)",
               color: accent,
               border: `1px solid ${accent}30`,

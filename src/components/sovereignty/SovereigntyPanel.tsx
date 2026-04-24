@@ -58,7 +58,7 @@ const SovereigntyPanel: React.FC<SovereigntyPanelProps> = ({ kete, accentColor }
         {statCards.map(s => (
           <div key={s.label} className="rounded-lg p-2.5 text-center" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
             <s.icon size={14} className="mx-auto mb-1" style={{ color: s.color }} />
-            <div className="text-lg font-bold text-white/90" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            <div className="text-lg font-bold text-white/90" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {stats.isLoading ? "—" : s.value}
             </div>
             <div className="text-[9px] text-white/40 leading-tight">{s.label}</div>

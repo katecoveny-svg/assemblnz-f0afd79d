@@ -25,7 +25,7 @@ export default function VehicleEconomy() {
       <BrandNav />
       <main className="max-w-4xl mx-auto px-6 pt-16 pb-32">
         <Link to="/arataki" className="text-xs text-white/40 hover:text-white/60 mb-6 inline-block">← Back to Arataki</Link>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3" style={{ fontFamily: "'Lato', sans-serif" }}>
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
           <Calculator className="inline mr-3 text-amber-400" size={28} />Vehicle Economy Calculator
         </motion.h1>
         <p className="text-gray-500 mb-10 max-w-xl">Real-world per-km cost including fuel, RUC, depreciation, maintenance, and insurance.</p>

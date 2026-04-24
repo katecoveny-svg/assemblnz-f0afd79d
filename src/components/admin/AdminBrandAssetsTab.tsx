@@ -70,7 +70,7 @@ export default function AdminBrandAssetsTab() {
             <Film className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-bold" style={{ color: CHARCOAL, fontFamily: "'Lato', sans-serif", letterSpacing: "1px" }}>
+            <h3 className="text-lg font-bold" style={{ color: CHARCOAL, fontFamily: "'Inter', sans-serif", letterSpacing: "1px" }}>
               ASSEMBL BRAND VIDEO
             </h3>
             <p className="text-xs" style={{ color: `${CHARCOAL}80` }}>
@@ -93,7 +93,7 @@ export default function AdminBrandAssetsTab() {
                  border: "1px solid rgba(255,255,255,0.25)",
                }}>
             <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-6 h-6" />
-            <span className="text-white text-xs font-light tracking-[3px]" style={{ fontFamily: "'Lato', sans-serif" }}>
+            <span className="text-white text-xs font-light tracking-[3px]" style={{ fontFamily: "'Inter', sans-serif" }}>
               ASSEMBL
             </span>
           </div>
@@ -124,7 +124,7 @@ export default function AdminBrandAssetsTab() {
 
       {/* Social captions */}
       <div className="rounded-3xl p-6" style={GLASS}>
-        <h4 className="text-sm font-bold mb-4 tracking-[1px]" style={{ color: CHARCOAL, fontFamily: "'Lato', sans-serif" }}>
+        <h4 className="text-sm font-bold mb-4 tracking-[1px]" style={{ color: CHARCOAL, fontFamily: "'Inter', sans-serif" }}>
           READY-TO-POST CAPTIONS
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -154,7 +154,7 @@ export default function AdminBrandAssetsTab() {
 
       {/* Brand mark + wordmark assets */}
       <div className="rounded-3xl p-6" style={GLASS}>
-        <h4 className="text-sm font-bold mb-4 tracking-[1px]" style={{ color: CHARCOAL, fontFamily: "'Lato', sans-serif" }}>
+        <h4 className="text-sm font-bold mb-4 tracking-[1px]" style={{ color: CHARCOAL, fontFamily: "'Inter', sans-serif" }}>
           <ImageIcon className="w-4 h-4 inline mr-2" style={{ color: GOLD }} />
           LOGO ASSETS
         </h4>

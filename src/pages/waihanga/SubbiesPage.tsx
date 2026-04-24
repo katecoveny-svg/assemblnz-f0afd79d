@@ -128,7 +128,7 @@ export default function SubbiesPage() {
     <div className="min-h-screen" style={{ background: "#F7F3EE" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-3xl sm:text-4xl font-light tracking-tight" style={{ color: "#F5F0E8", fontFamily: "'Lato', sans-serif" }}>
+          <h1 className="text-3xl sm:text-4xl font-light tracking-tight" style={{ color: "#F5F0E8", fontFamily: "'Inter', sans-serif" }}>
             Subbie Watchdog
           </h1>
           <p className="text-sm mt-2" style={{ color: "#9CA3AF" }}>

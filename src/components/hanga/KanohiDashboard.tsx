@@ -123,8 +123,8 @@ function AraiSafetyDashboard() {
                   <span style={{ color: s.accent }}>{s.icon}</span>
                 </div>
               </div>
-              <p className="text-xl md:text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
-              <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+              <p className="text-xl md:text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.value}</p>
+              <p className="text-[10px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
             </div>
           </Glass>
         ))}
@@ -134,7 +134,7 @@ function AraiSafetyDashboard() {
       <Glass navy>
         <div className="p-4">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
               <Shield size={16} style={{ color: TEAL_ACCENT }} /> Risk Matrix (5×5)
             </h3>
             <div className="flex gap-2">
@@ -155,7 +155,7 @@ function AraiSafetyDashboard() {
                 {/* Y-axis label */}
                 <div className="flex">
                   <div className="w-20 flex items-center justify-center">
-                    <span className="text-[9px] -rotate-90 whitespace-nowrap" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                    <span className="text-[9px] -rotate-90 whitespace-nowrap" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                       LIKELIHOOD →
                     </span>
                   </div>
@@ -163,7 +163,7 @@ function AraiSafetyDashboard() {
                     {/* Column headers */}
                     <div className="grid grid-cols-5 gap-1 mb-1 ml-0">
                       {[1,2,3,4,5].map(c => (
-                        <div key={c} className="text-center text-[9px] py-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                        <div key={c} className="text-center text-[9px] py-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                           {c}
                         </div>
                       ))}
@@ -177,7 +177,7 @@ function AraiSafetyDashboard() {
                           return (
                             <div key={c} className="relative aspect-square rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-[1.05]"
                               style={{ background: matrixBg(l, c), border: cellRisks.length > 0 ? `2px solid ${riskColor(score)}50` : "1px solid rgba(255,255,255,0.5)" }}>
-                              <span className="text-[10px] font-bold" style={{ fontFamily: "JetBrains Mono", color: riskColor(score) }}>{score}</span>
+                              <span className="text-[10px] font-bold" style={{ fontFamily: "IBM Plex Mono", color: riskColor(score) }}>{score}</span>
                               {cellRisks.length > 0 && (
                                 <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold"
                                   style={{ background: riskColor(score), color: "#3D3428" }}>
@@ -191,7 +191,7 @@ function AraiSafetyDashboard() {
                     ))}
                     {/* X-axis label */}
                     <div className="text-center mt-1">
-                      <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                      <span className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                         CONSEQUENCE →
                       </span>
                     </div>
@@ -199,7 +199,7 @@ function AraiSafetyDashboard() {
                   {/* Legend on right side */}
                   <div className="w-16 flex flex-col items-start justify-center gap-1 pl-2">
                     {[5,4,3,2,1].map(l => (
-                      <div key={l} className="text-[8px] h-[calc((100%-4px)/5)]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                      <div key={l} className="text-[8px] h-[calc((100%-4px)/5)]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                         L{l}
                       </div>
                     ))}
@@ -215,7 +215,7 @@ function AraiSafetyDashboard() {
                   ].map(l => (
                     <div key={l.label} className="flex items-center gap-1.5">
                       <div className="w-3 h-3 rounded" style={{ background: l.color + "40" }} />
-                      <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>{l.label}</span>
+                      <span className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>{l.label}</span>
                     </div>
                   ))}
                 </div>
@@ -228,7 +228,7 @@ function AraiSafetyDashboard() {
       {/* Risk Register List */}
       <Glass navy>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
             <Shield size={16} style={{ color: TEAL_ACCENT }} /> Risk Register
           </h3>
           <div className="space-y-2">
@@ -239,16 +239,16 @@ function AraiSafetyDashboard() {
                 <div key={r.id} className="rounded-xl transition-all" style={{ background: "rgba(255,255,255,0.5)", border: `1px solid ${isOpen ? riskColor(score) + "30" : "rgba(255,255,255,0.5)"}` }}>
                   <button onClick={() => setExpandedRisk(isOpen ? null : r.id)} className="w-full text-left p-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg flex flex-col items-center justify-center text-[10px] font-bold flex-shrink-0" style={{ background: `${riskColor(score)}15`, color: riskColor(score), fontFamily: "JetBrains Mono" }}>
+                      <div className="w-10 h-10 rounded-lg flex flex-col items-center justify-center text-[10px] font-bold flex-shrink-0" style={{ background: `${riskColor(score)}15`, color: riskColor(score), fontFamily: "IBM Plex Mono" }}>
                         <span className="text-base leading-none">{score}</span>
                         <span className="text-[7px] opacity-60">{riskLabel(score)}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs truncate" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{r.hazard}</p>
+                        <p className="text-xs truncate" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{r.hazard}</p>
                         <div className="flex gap-2 mt-1 flex-wrap">
-                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${riskColor(score)}12`, color: riskColor(score), fontFamily: "JetBrains Mono" }}>{r.category}</span>
-                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{r.hierarchy}</span>
-                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: r.status === "Under Review" ? "rgba(74,165,168,0.12)" : "rgba(58,125,110,0.12)", color: r.status === "Under Review" ? TEAL_ACCENT : POUNAMU, fontFamily: "JetBrains Mono" }}>{r.status}</span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${riskColor(score)}12`, color: riskColor(score), fontFamily: "IBM Plex Mono" }}>{r.category}</span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "IBM Plex Mono" }}>{r.hierarchy}</span>
+                          <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: r.status === "Under Review" ? "rgba(74,165,168,0.12)" : "rgba(58,125,110,0.12)", color: r.status === "Under Review" ? TEAL_ACCENT : POUNAMU, fontFamily: "IBM Plex Mono" }}>{r.status}</span>
                         </div>
                       </div>
                       <ArrowRight size={14} className="flex-shrink-0 transition-transform" style={{ color: "rgba(255,255,255,0.2)", transform: isOpen ? "rotate(90deg)" : "none" }} />
@@ -256,15 +256,15 @@ function AraiSafetyDashboard() {
                   </button>
                   {isOpen && (
                     <div className="px-3 pb-3 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
-                      <div className="pt-3 grid grid-cols-2 gap-x-4 gap-y-1.5 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.45)" }}>
+                      <div className="pt-3 grid grid-cols-2 gap-x-4 gap-y-1.5 text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.45)" }}>
                         <div className="flex justify-between"><span>Likelihood</span><span style={{ color: "#1A1D29" }}>{r.likelihood}/5</span></div>
                         <div className="flex justify-between"><span>Consequence</span><span style={{ color: "#1A1D29" }}>{r.consequence}/5</span></div>
                         <div className="flex justify-between"><span>Responsible</span><span style={{ color: "#1A1D29" }}>{r.responsible}</span></div>
                         <div className="flex justify-between"><span>Review Date</span><span style={{ color: "#1A1D29" }}>{r.reviewDate}</span></div>
                       </div>
                       <div className="mt-2 p-2.5 rounded-lg" style={{ background: "rgba(255,255,255,0.5)" }}>
-                        <p className="text-[10px] font-medium mb-1" style={{ fontFamily: "JetBrains Mono", color: TEAL_ACCENT }}>Controls</p>
-                        <p className="text-xs leading-relaxed" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{r.controls}</p>
+                        <p className="text-[10px] font-medium mb-1" style={{ fontFamily: "IBM Plex Mono", color: TEAL_ACCENT }}>Controls</p>
+                        <p className="text-xs leading-relaxed" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>{r.controls}</p>
                       </div>
                     </div>
                   )}
@@ -279,7 +279,7 @@ function AraiSafetyDashboard() {
       <Glass>
         <div className="p-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
               <AlertTriangle size={16} style={{ color: "#EF4444" }} /> Incident Log
             </h3>
             <button className="px-3 py-1.5 rounded-lg text-[10px] font-medium flex items-center gap-1 transition-all hover:scale-[1.02]"
@@ -298,17 +298,17 @@ function AraiSafetyDashboard() {
                     <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
                       background: inc.type === "Notifiable Event" ? "rgba(239,68,68,0.15)" : inc.type === "Near Miss" ? "rgba(74,165,168,0.15)" : "rgba(58,125,110,0.15)",
                       color: inc.type === "Notifiable Event" ? "#EF4444" : inc.type === "Near Miss" ? TEAL_ACCENT : POUNAMU,
-                      fontFamily: "JetBrains Mono",
+                      fontFamily: "IBM Plex Mono",
                     }}>{inc.type}</span>
                     {inc.worksafe && (
-                      <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "JetBrains Mono" }}>
+                      <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "IBM Plex Mono" }}>
                         WorkSafe Notified
                       </span>
                     )}
-                    <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>{inc.date}</span>
+                    <span className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>{inc.date}</span>
                   </div>
-                  <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{inc.description}</p>
-                  <span className="text-[9px] mt-1 block" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>{inc.location} · {inc.status}</span>
+                  <p className="text-xs" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{inc.description}</p>
+                  <span className="text-[9px] mt-1 block" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>{inc.location} · {inc.status}</span>
                 </div>
               </div>
             ))}
@@ -319,11 +319,11 @@ function AraiSafetyDashboard() {
       {/* Worker Competency */}
       <Glass navy>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
             <HardHat size={16} style={{ color: POUNAMU }} /> Worker Competency Tracker
           </h3>
           <div className="overflow-x-auto">
-            <table className="w-full text-[10px]" style={{ fontFamily: "JetBrains Mono" }}>
+            <table className="w-full text-[10px]" style={{ fontFamily: "IBM Plex Mono" }}>
               <thead>
                 <tr style={{ color: "rgba(255,255,255,0.35)" }}>
                   <th className="text-left py-2 pr-3">Name</th>
@@ -386,10 +386,10 @@ function OverviewDashboard() {
       <Glass glow>
         <div className="p-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+            <h3 className="text-sm flex items-center gap-2" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
               <Zap size={16} style={{ color: TEAL_ACCENT }} /> Project Health
             </h3>
-            <span className="text-[10px] px-2 py-1 rounded-full" style={{ background: "rgba(58,125,110,0.15)", color: POUNAMU, fontFamily: "JetBrains Mono" }}>68% On Track</span>
+            <span className="text-[10px] px-2 py-1 rounded-full" style={{ background: "rgba(58,125,110,0.15)", color: POUNAMU, fontFamily: "IBM Plex Mono" }}>68% On Track</span>
           </div>
           <div className="grid grid-cols-6 gap-1 h-3 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.5)" }}>
             <div className="h-full rounded-l-full" style={{ background: POUNAMU, gridColumn: "span 2" }} />
@@ -406,7 +406,7 @@ function OverviewDashboard() {
             ].map(l => (
               <div key={l.label} className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full" style={{ background: l.color }} />
-                <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>{l.label}</span>
+                <span className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>{l.label}</span>
               </div>
             ))}
           </div>
@@ -422,12 +422,12 @@ function OverviewDashboard() {
                 <div className="p-1.5 rounded-lg" style={{ background: `${s.accent}20` }}>
                   <span style={{ color: s.accent }}>{s.icon}</span>
                 </div>
-                <span className="text-[8px] px-1.5 py-0.5 rounded" style={{ background: `${s.accent}12`, color: s.accent, fontFamily: "JetBrains Mono" }}>{s.agent}</span>
+                <span className="text-[8px] px-1.5 py-0.5 rounded" style={{ background: `${s.accent}12`, color: s.accent, fontFamily: "IBM Plex Mono" }}>{s.agent}</span>
               </div>
-              <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
+              <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.value}</p>
               <div className="flex items-center justify-between mt-1">
-                <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
-                <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: s.trendUp ? (s.accent === "#EF4444" ? "#EF4444" : POUNAMU) : "rgba(255,255,255,0.3)" }}>{s.trend}</span>
+                <p className="text-[10px]" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+                <span className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: s.trendUp ? (s.accent === "#EF4444" ? "#EF4444" : POUNAMU) : "rgba(255,255,255,0.3)" }}>{s.trend}</span>
               </div>
               {/* Mini progress bar */}
               <div className="mt-2 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
@@ -441,7 +441,7 @@ function OverviewDashboard() {
       {/* Priority Alerts */}
       <Glass>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
             <AlertTriangle size={16} style={{ color: "#EF4444" }} /> Priority Alerts
           </h3>
           <div className="space-y-2">
@@ -456,10 +456,10 @@ function OverviewDashboard() {
                 <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 animate-pulse" style={{ background: a.accent }} />
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${a.accent}15`, color: a.accent, fontFamily: "JetBrains Mono" }}>{a.agent}</span>
-                    <span className="text-[8px] px-1.5 py-0.5 rounded uppercase" style={{ background: `${a.accent}08`, color: a.accent, fontFamily: "JetBrains Mono" }}>{a.severity}</span>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: `${a.accent}15`, color: a.accent, fontFamily: "IBM Plex Mono" }}>{a.agent}</span>
+                    <span className="text-[8px] px-1.5 py-0.5 rounded uppercase" style={{ background: `${a.accent}08`, color: a.accent, fontFamily: "IBM Plex Mono" }}>{a.severity}</span>
                   </div>
-                  <p className="text-xs leading-relaxed" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.7)" }}>{a.text}</p>
+                  <p className="text-xs leading-relaxed" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.7)" }}>{a.text}</p>
                 </div>
               </div>
             ))}
@@ -477,14 +477,14 @@ function OverviewDashboard() {
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <span style={{ color: t.accent }}>{t.icon}</span>
-                  <span className="text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{t.shortLabel}</span>
+                  <span className="text-xs font-medium" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{t.shortLabel}</span>
                 </div>
-                <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>{t.label.split(" — ")[1]}</p>
+                <p className="text-[10px]" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.4)" }}>{t.label.split(" — ")[1]}</p>
                 <div className="mt-3 flex items-center gap-2">
                   <div className="flex-1 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                     <div className="h-full rounded-full transition-all" style={{ width: `${pv}%`, background: `linear-gradient(90deg, ${t.accent}, ${t.accent}60)` }} />
                   </div>
-                  <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: t.accent }}>{pv}%</span>
+                  <span className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: t.accent }}>{pv}%</span>
                 </div>
               </div>
             </Glass>
@@ -571,8 +571,8 @@ function HangaChat({ projectName }: { projectName: string }) {
             <Building2 size={16} style={{ color: TEAL_ACCENT }} />
           </div>
           <div>
-            <p className="text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Ask Hanga</p>
-            <p className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Construction Intelligence</p>
+            <p className="text-xs font-medium" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Ask Hanga</p>
+            <p className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>Construction Intelligence</p>
           </div>
         </div>
         <button onClick={() => setOpen(false)} className="p-1 rounded-lg hover:bg-white/5 transition-colors">
@@ -585,14 +585,14 @@ function HangaChat({ projectName }: { projectName: string }) {
         {messages.length === 0 && (
           <div className="space-y-3">
             <div className="p-3 rounded-xl" style={{ background: `${TEAL_ACCENT}08`, border: `1px solid ${TEAL_ACCENT}15` }}>
-              <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>
+              <p className="text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>
                 Kia ora! I'm your Hanga construction assistant. Ask me anything about your project — safety, consents, quality, resources, or BIM.
               </p>
             </div>
             <div className="space-y-1.5">
               {quickActions.map(q => (
                 <button key={q} onClick={() => sendMessage(q)} className="w-full text-left px-3 py-2 rounded-lg text-xs transition-all hover:bg-white/5" style={{
-                  fontFamily: "Plus Jakarta Sans",
+                  fontFamily: "Inter",
                   color: TEAL_ACCENT,
                   background: "rgba(255,255,255,0.5)",
                   border: "1px solid rgba(74,165,168,0.12)",
@@ -607,7 +607,7 @@ function HangaChat({ projectName }: { projectName: string }) {
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             <div className="max-w-[85%] px-3 py-2 rounded-xl text-xs" style={{
-              fontFamily: "Plus Jakarta Sans",
+              fontFamily: "Inter",
               background: m.role === "user" ? `${TEAL_ACCENT}15` : "rgba(255,255,255,0.5)",
               border: `1px solid ${m.role === "user" ? `${TEAL_ACCENT}25` : "rgba(255,255,255,0.5)"}`,
               color: "rgba(255,255,255,0.8)",
@@ -639,7 +639,7 @@ function HangaChat({ projectName }: { projectName: string }) {
             placeholder="Ask about your project..."
             className="flex-1 px-3 py-2 rounded-lg text-xs outline-none"
             style={{
-              fontFamily: "Plus Jakarta Sans",
+              fontFamily: "Inter",
               background: "rgba(255,255,255,0.5)",
               border: "1px solid rgba(255,255,255,0.5)",
               color: "#1A1D29",
@@ -651,7 +651,7 @@ function HangaChat({ projectName }: { projectName: string }) {
         </form>
         <div className="flex items-center justify-center gap-1 mt-2">
           <Sparkles size={8} style={{ color: "rgba(255,255,255,0.15)" }} />
-          <span className="text-[8px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.15)" }}>Powered by Assembl</span>
+          <span className="text-[8px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.15)" }}>Powered by Assembl</span>
         </div>
       </div>
     </div>
@@ -711,9 +711,9 @@ export default function KanohiDashboard() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Eye size={20} style={{ color: TEAL_ACCENT }} />
-              <span className="text-xs tracking-widest uppercase" style={{ color: `${TEAL_ACCENT}90`, fontFamily: "JetBrains Mono" }}>Construction Intelligence Platform</span>
+              <span className="text-xs tracking-widest uppercase" style={{ color: `${TEAL_ACCENT}90`, fontFamily: "IBM Plex Mono" }}>Construction Intelligence Platform</span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
+            <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
               WAIHANGA — Kanohi Dashboard
             </h1>
           </div>
@@ -724,7 +724,7 @@ export default function KanohiDashboard() {
               onClick={() => setProjectDropdown(!projectDropdown)}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm transition-all min-w-[280px]"
               style={{
-                fontFamily: "Plus Jakarta Sans",
+                fontFamily: "Inter",
                 background: "rgba(255,255,255,0.65)",
                 border: "1px solid rgba(74,165,168,0.2)",
                 color: "#1A1D29",
@@ -748,8 +748,8 @@ export default function KanohiDashboard() {
                     className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors"
                     style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
                   >
-                    <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: selectedProject === p.id ? TEAL_ACCENT : "#FFFFFF" }}>{p.name}</p>
-                    <p className="text-[9px] mt-0.5" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                    <p className="text-xs" style={{ fontFamily: "Inter", color: selectedProject === p.id ? TEAL_ACCENT : "#FFFFFF" }}>{p.name}</p>
+                    <p className="text-[9px] mt-0.5" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                       {p.address} · {p.status}
                     </p>
                   </button>
@@ -767,7 +767,7 @@ export default function KanohiDashboard() {
               onClick={() => setActiveTab(t.id)}
               className="flex items-center gap-1.5 px-3 py-2.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap"
               style={{
-                fontFamily: "Plus Jakarta Sans",
+                fontFamily: "Inter",
                 background: activeTab === t.id ? `${t.accent}18` : "transparent",
                 color: activeTab === t.id ? t.accent : "rgba(255,255,255,0.4)",
                 border: activeTab === t.id ? `1px solid ${t.accent}30` : "1px solid transparent",
@@ -829,7 +829,7 @@ export default function KanohiDashboard() {
 
         {/* Footer */}
         <div className="text-center pt-4 pb-20">
-          <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
+          <p className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.2)" }}>
             WAIHANGA — Kanohi Dashboard · Construction Intelligence · Assembl Mārama
           </p>
         </div>

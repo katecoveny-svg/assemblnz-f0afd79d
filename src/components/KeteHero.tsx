@@ -10,7 +10,7 @@ const KeteHero = () => (
     <p
       className="text-sm sm:text-base italic"
       style={{
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
+        fontFamily: "'Inter', sans-serif",
         color: "rgba(74,165,168,0.6)",
         letterSpacing: "0.02em",
       }}

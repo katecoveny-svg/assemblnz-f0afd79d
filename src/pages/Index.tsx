@@ -148,7 +148,7 @@ function LiveDemoChatSection() {
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: `${C.teal}08`, border: `1px solid ${C.teal}15` }}>
             <div className="w-2 h-2 rounded-full" style={{ background: C.teal }} />
-            <span className="text-[9px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>Active</span>
+            <span className="text-[9px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.teal }}>Active</span>
           </div>
         </div>
         <div className="px-6 py-6 space-y-5 min-h-[220px]">
@@ -181,7 +181,7 @@ function LiveDemoChatSection() {
                         ))}
                       </p>
                     </div>
-                    <p className="mt-2 px-2 text-[10px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}>
+                    <p className="mt-2 px-2 text-[10px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.textTertiary }}>
                       📎 {msg.citation}
                     </p>
                   </div>
@@ -208,7 +208,7 @@ function LiveDemoChatSection() {
         </div>
       </GlowCard>
       <div className="text-center mt-8">
-        <Link to="/chat/hospitality" className="inline-flex items-center gap-2 text-[12px] tracking-[2px] uppercase transition-all hover:gap-3" style={{ fontFamily: "'Lato', sans-serif", color: C.teal }}>
+        <Link to="/chat/hospitality" className="inline-flex items-center gap-2 text-[12px] tracking-[2px] uppercase transition-all hover:gap-3" style={{ fontFamily: "'Inter', sans-serif", color: C.teal }}>
           Try it live with your own question <ArrowRight size={12} />
         </Link>
       </div>
@@ -332,7 +332,7 @@ const Index = () => {
           <div className="max-w-[1080px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             <motion.div {...fade}>
               <GlowCard className="h-full">
-                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>The work itself</p>
+                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.teal }}>The work itself</p>
                 <p className="text-[17px] leading-[1.7]" style={{ fontWeight: 400, color: C.text }}>
                   Specific to the work at hand: a food diary, a site induction, a customs clearance, a contract review, a WoF reminder, a privacy check. Assembl runs the loop in the background and hands you the finished evidence pack — not another dashboard to manage.
                 </p>
@@ -340,7 +340,7 @@ const Index = () => {
             </motion.div>
             <motion.div {...fade}>
               <GlowCard className="h-full">
-                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.teal }}>What it is for</p>
+                <p className="text-[10px] tracking-[4px] uppercase mb-6" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.teal }}>What it is for</p>
                 <p className="text-[17px] leading-[1.7]" style={{ fontWeight: 400, color: C.text }}>
                   Assembl is not built to create more motion. It is built to return time. Every loop it closes gives something back: a minute, an hour, an evening, a little more room to think, decide, and be present.
                 </p>
@@ -354,10 +354,10 @@ const Index = () => {
           <motion.div {...fade} className="max-w-[720px] mx-auto text-center">
             <SectionEyebrow>Why assembl</SectionEyebrow>
             <SectionH2>Assembl exists because time matters.</SectionH2>
-            <p className="text-[16px] sm:text-[18px] leading-[1.75] mt-8 mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.text, fontWeight: 400 }}>
+            <p className="text-[16px] sm:text-[18px] leading-[1.75] mt-8 mb-6" style={{ fontFamily: "'Inter', sans-serif", color: C.text, fontWeight: 400 }}>
               Assembl is built for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay current as the rules keep changing, and for the evenings that never seem to start on time.
             </p>
-            <p className="text-[16px] sm:text-[18px] leading-[1.75] mb-10" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.text, fontWeight: 400 }}>
+            <p className="text-[16px] sm:text-[18px] leading-[1.75] mb-10" style={{ fontFamily: "'Inter', sans-serif", color: C.text, fontWeight: 400 }}>
               It is based on a simple belief: AI should do more than make work faster. It should give people time back.
             </p>
             <p className="text-[18px] sm:text-[22px] leading-[1.55]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, color: C.teal }}>
@@ -392,7 +392,7 @@ const Index = () => {
                         <KeteHoverEffect kete={p.reo} />
                         {isDetected && (
                           <span className="text-[9px] px-3 py-1 rounded-full tracking-[2px] uppercase inline-block mb-4"
-                            style={{ background: `${C.teal}08`, color: C.teal, border: `1px solid ${C.teal}15`, fontFamily: "'JetBrains Mono', monospace" }}>
+                            style={{ background: `${C.teal}08`, color: C.teal, border: `1px solid ${C.teal}15`, fontFamily: "'IBM Plex Mono', monospace" }}>
                             Recommended
                           </span>
                         )}
@@ -418,7 +418,7 @@ const Index = () => {
           {/* ─── Tōro — consumer tier, distinguished row ─── */}
           <div className="mt-12 max-w-[1200px] mx-auto">
             <div className="text-center mb-6">
-              <p className="text-[10px] tracking-[5px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.textTertiary }}>
+              <p className="text-[10px] tracking-[5px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.textTertiary }}>
                 — For whānau, not businesses —
               </p>
             </div>
@@ -445,7 +445,7 @@ const Index = () => {
 
           {/* ─── Operator-as-platform shortcut for Business / Tech / Pro Services ─── */}
           <div className="mt-8 max-w-[1200px] mx-auto text-center">
-            <p className="text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}>
+            <p className="text-[13px]" style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}>
               Don't fit a pre-built kete? <Link to="/platform" className="underline" style={{ color: "#3A7D6E" }}>Operator-as-platform</Link> — same price, no kete bundle, you build on top of Iho. Used by professional services, tech, and consulting teams.
             </p>
           </div>
@@ -459,7 +459,7 @@ const Index = () => {
           <motion.div {...fade} className="max-w-[760px] mx-auto text-center">
             <SectionEyebrow>Live compliance</SectionEyebrow>
             <SectionH2>Your compliance, kept current.</SectionH2>
-            <p className="text-[16px] sm:text-[17px] leading-[1.75] mt-6 mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.text, fontWeight: 400 }}>
+            <p className="text-[16px] sm:text-[17px] leading-[1.75] mt-6 mb-6" style={{ fontFamily: "'Inter', sans-serif", color: C.text, fontWeight: 400 }}>
               When New Zealand law changes, Assembl updates centrally. Your workflows inherit the change automatically — without internal scramble, delayed SOP updates, or extra consultant spend.
             </p>
             <p className="text-[15px] leading-[1.7] mb-10" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", color: C.teal, fontWeight: 400 }}>
@@ -470,7 +470,7 @@ const Index = () => {
                 background: "rgba(255,255,255,0.65)",
                 border: `1px solid ${C.teal}22`,
                 backdropFilter: "blur(20px)",
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'IBM Plex Mono', monospace",
                 color: C.text,
               }}
             >
@@ -501,7 +501,7 @@ const Index = () => {
               style={{
                 background: "#3A7D6E",
                 color: "#fff",
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: 12,
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
@@ -535,7 +535,7 @@ const Index = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-2 flex-wrap">
-                          <span className="text-[10px] tracking-[2px] uppercase font-medium" style={{ color: uc.data.accentColor, fontFamily: "'JetBrains Mono', monospace" }}>
+                          <span className="text-[10px] tracking-[2px] uppercase font-medium" style={{ color: uc.data.accentColor, fontFamily: "'IBM Plex Mono', monospace" }}>
                             {uc.kete} · {uc.en}
                           </span>
                           <span className="text-[10px]" style={{ color: C.textTertiary }}>
@@ -548,7 +548,7 @@ const Index = () => {
                         <div className="flex flex-wrap gap-2">
                           {uc.data.benefits.slice(0, 3).map(b => (
                             <span key={b.label} className="text-[9px] px-2.5 py-1 rounded-full"
-                              style={{ background: `${uc.data.accentColor}06`, color: uc.data.accentColor, border: `1px solid ${uc.data.accentColor}12`, fontFamily: "'JetBrains Mono', monospace" }}>
+                              style={{ background: `${uc.data.accentColor}06`, color: uc.data.accentColor, border: `1px solid ${uc.data.accentColor}12`, fontFamily: "'IBM Plex Mono', monospace" }}>
                               {b.label}
                             </span>
                           ))}
@@ -586,7 +586,7 @@ const Index = () => {
                         <p className="text-[14px] mb-1 font-semibold" style={{ color: C.text }}>
                           <span className="inline-flex items-center gap-1.5 mr-2">
                             <span className="w-1.5 h-1.5 rounded-full" style={{ background: layer.color }} />
-                            <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
+                            <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'IBM Plex Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
                           </span>
                           {layer.name}
                         </p>
@@ -630,10 +630,10 @@ const Index = () => {
                 <GlowCard className="h-full">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="w-2.5 h-2.5 rounded-full" style={{ background: C.teal }} />
-                    <p className="text-[9px] tracking-[3px] uppercase font-medium" style={{ color: C.teal, fontFamily: "'JetBrains Mono', monospace" }}>Evidence Pack</p>
+                    <p className="text-[9px] tracking-[3px] uppercase font-medium" style={{ color: C.teal, fontFamily: "'IBM Plex Mono', monospace" }}>Evidence Pack</p>
                   </div>
                   <h3 className="text-[15px] mb-1 font-medium" style={{ color: C.text }}>{pack.title}</h3>
-                  <p className="text-[10px] tracking-[2px] uppercase mb-5" style={{ color: C.teal, fontFamily: "'JetBrains Mono', monospace" }}>{pack.kete} · {pack.date}</p>
+                  <p className="text-[10px] tracking-[2px] uppercase mb-5" style={{ color: C.teal, fontFamily: "'IBM Plex Mono', monospace" }}>{pack.kete} · {pack.date}</p>
                   <div className="space-y-2.5">
                     {pack.checks.map((c) => (
                       <div key={c.ref} className="flex items-center gap-3 p-3 rounded-2xl" style={{ background: C.lavender + "40" }}>
@@ -641,7 +641,7 @@ const Index = () => {
                           <GlowIcon name="Check" size={12} color={C.teal} glow />
                         </div>
                         <span className="text-[12px] flex-1" style={{ color: C.text }}>{c.label}</span>
-                        <span className="text-[9px] tracking-wider" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{c.ref}</span>
+                        <span className="text-[9px] tracking-wider" style={{ color: C.textTertiary, fontFamily: "'IBM Plex Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{c.ref}</span>
                       </div>
                     ))}
                   </div>
@@ -674,7 +674,7 @@ const Index = () => {
                         <p className="text-[14px] mb-1 font-semibold" style={{ color: C.text }}>
                           <span className="inline-flex items-center gap-1.5 mr-2">
                             <span className="w-1.5 h-1.5 rounded-full" style={{ background: layer.color }} />
-                            <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
+                            <span className="text-[10px] font-normal" style={{ color: C.textTertiary, fontFamily: "'IBM Plex Mono', monospace", fontVariantNumeric: "tabular-nums" }}>{String(i + 1).padStart(2, "0")}</span>
                           </span>
                           {layer.name}
                         </p>
@@ -698,14 +698,14 @@ const Index = () => {
         <Sect>
           <motion.div {...fade} className="max-w-3xl mx-auto text-center">
             <SectionEyebrow>How we fit with the NZ AI ecosystem</SectionEyebrow>
-            <h3 className="text-[22px] sm:text-[28px] mb-6" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, lineHeight: 1.3, color: C.text }}>
+            <h3 className="text-[22px] sm:text-[28px] mb-6" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, lineHeight: 1.3, color: C.text }}>
               Sovereign infrastructure answers <em style={{ color: C.teal, fontStyle: "normal" }}>where</em> your data lives.<br />
               Assembl answers <em style={{ color: C.teal, fontStyle: "normal" }}>what</em> your data does.
             </h3>
-            <p className="text-[15px] leading-[1.8] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}>
+            <p className="text-[15px] leading-[1.8] mb-4" style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}>
               NZ-owned providers (like Kererū) build the sovereign substrate. Assembl is the product layer on top — grounded in NZ Acts, tikanga-governed, with industry kete that turn compliance into evidence packs. We're exploring relationships with NZ-owned infrastructure partners and will say more when terms are signed. NZ businesses need both layers.
             </p>
-            <p className="text-[13px] leading-[1.8]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textTertiary }}>
+            <p className="text-[13px] leading-[1.8]" style={{ fontFamily: "'Inter', sans-serif", color: C.textTertiary }}>
               We're actively working with NZ-owned infrastructure partners so your data can stay on NZ soil. Sovereign hosting is in flight — not yet live for every customer. Ask us where your specific kete runs.
             </p>
           </motion.div>
@@ -720,11 +720,11 @@ const Index = () => {
                 <SectionP className="mb-12">Pick your kete. Run the demo. See the evidence pack it produces.</SectionP>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link to="/contact" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
-                    style={{ background: `linear-gradient(145deg, #55BFC1, ${C.teal})`, color: "#FFFFFF", boxShadow: `0 6px 24px rgba(74,165,168,0.35), 0 2px 8px rgba(74,165,168,0.2), inset 0 1px 0 rgba(255,255,255,0.3)`, fontFamily: "'Lato', sans-serif", textShadow: "0 1px 2px rgba(0,0,0,0.15)" }}>
+                    style={{ background: `linear-gradient(145deg, #55BFC1, ${C.teal})`, color: "#FFFFFF", boxShadow: `0 6px 24px rgba(74,165,168,0.35), 0 2px 8px rgba(74,165,168,0.2), inset 0 1px 0 rgba(255,255,255,0.3)`, fontFamily: "'Inter', sans-serif", textShadow: "0 1px 2px rgba(0,0,0,0.15)" }}>
                     See it in action <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
                   </Link>
                   <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
-                    style={{ background: "linear-gradient(145deg, #F5F5F8, #E4E4E8)", border: `1px solid rgba(74,165,168,0.2)`, color: C.teal, fontFamily: "'Lato', sans-serif", boxShadow: `4px 4px 10px rgba(166,166,180,0.4), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.8)` }}>
+                    style={{ background: "linear-gradient(145deg, #F5F5F8, #E4E4E8)", border: `1px solid rgba(74,165,168,0.2)`, color: C.teal, fontFamily: "'Inter', sans-serif", boxShadow: `4px 4px 10px rgba(166,166,180,0.4), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.8)` }}>
                     Book a walkthrough
                   </Link>
                 </div>
@@ -766,7 +766,7 @@ function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
 function SectionEyebrow({ children }: { children: string }) {
   return (
     <p className="text-[10px] font-medium tracking-[5px] uppercase mb-5"
-      style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
+      style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>
       — {children} —
     </p>
   );
@@ -775,7 +775,7 @@ function SectionEyebrow({ children }: { children: string }) {
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="text-lg sm:text-[36px] lg:text-[42px] mb-4 sm:mb-6"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#3D4250", textShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#3D4250", textShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
       {children}
     </h2>
   );
@@ -784,7 +784,7 @@ function SectionH2({ children }: { children: React.ReactNode }) {
 function SectionP({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
     <p className={`text-[14px] sm:text-[17px] leading-[1.7] max-w-xl mx-auto ${className}`}
-      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 500, color: "#4B5563" }}>
+      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: "#4B5563" }}>
       {children}
     </p>
   );

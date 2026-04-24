@@ -158,12 +158,12 @@ export default function PaiDashboard() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <CheckCircle2 size={20} style={{ color: "#3A7D6E" }} />
-            <span className="text-xs tracking-widest uppercase" style={{ color: "#5AADA0", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
+            <span className="text-xs tracking-widest uppercase" style={{ color: "#5AADA0", fontFamily: "IBM Plex Mono" }}>Waihanga Construction Suite</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
+          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
             PAI — Quality Assurance
           </h1>
-          <p className="text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-sm mt-1" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>
             Non-conformance tracking, punch lists, inspection test plans, producer statements &amp; handover
           </p>
         </div>
@@ -183,8 +183,8 @@ export default function PaiDashboard() {
                     <span style={{ color: s.accent }}>{s.icon}</span>
                   </div>
                 </div>
-                <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
-                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+                <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.value}</p>
+                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
               </div>
             </Glass>
           ))}
@@ -193,7 +193,7 @@ export default function PaiDashboard() {
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
           {tabs.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(58,125,110,0.2)" : "transparent", color: tab === t.id ? "#5AADA0" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(58,125,110,0.35)" : "1px solid transparent" }}>
+            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Inter", background: tab === t.id ? "rgba(58,125,110,0.2)" : "transparent", color: tab === t.id ? "#5AADA0" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(58,125,110,0.35)" : "1px solid transparent" }}>
               {t.icon} {t.label}
             </button>
           ))}
@@ -210,17 +210,17 @@ export default function PaiDashboard() {
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-xs font-mono" style={{ color: sevColor(n.severity), fontFamily: "JetBrains Mono" }}>{n.number}</span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${sevColor(n.severity)}18`, color: sevColor(n.severity), fontFamily: "JetBrains Mono" }}>
+                          <span className="text-xs font-mono" style={{ color: sevColor(n.severity), fontFamily: "IBM Plex Mono" }}>{n.number}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${sevColor(n.severity)}18`, color: sevColor(n.severity), fontFamily: "IBM Plex Mono" }}>
                             {sevLabel(n.severity)}
                           </span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: n.status === "closed" ? "rgba(58,125,110,0.15)" : "rgba(255,255,255,0.5)", color: n.status === "closed" ? "#3A7D6E" : "rgba(255,255,255,0.4)", fontFamily: "JetBrains Mono" }}>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: n.status === "closed" ? "rgba(58,125,110,0.15)" : "rgba(255,255,255,0.5)", color: n.status === "closed" ? "#3A7D6E" : "rgba(255,255,255,0.4)", fontFamily: "IBM Plex Mono" }}>
                             {n.status === "under_review" ? "Under Review" : n.status === "closed" ? "Closed" : "Open"}
                           </span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{n.discipline}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "IBM Plex Mono" }}>{n.discipline}</span>
                         </div>
-                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: n.status === "closed" ? "rgba(255,255,255,0.4)" : "#FFFFFF", textDecoration: n.status === "closed" ? "line-through" : "none" }}>{n.title}</p>
-                        <div className="flex gap-3 mt-1 text-[10px] flex-wrap" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                        <p className="text-sm" style={{ fontFamily: "Inter", color: n.status === "closed" ? "rgba(255,255,255,0.4)" : "#FFFFFF", textDecoration: n.status === "closed" ? "line-through" : "none" }}>{n.title}</p>
+                        <div className="flex gap-3 mt-1 text-[10px] flex-wrap" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                           <span>{n.location}</span>
                           <span>Raised: {n.raisedDate}</span>
                           <span style={{ color: n.status !== "closed" ? sevColor(n.severity) : "rgba(255,255,255,0.35)" }}>Due: {n.dueDate}</span>
@@ -231,12 +231,12 @@ export default function PaiDashboard() {
                   </button>
                   {isOpen && (
                     <div className="px-4 pb-4 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
-                      <p className="pt-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{n.description}</p>
+                      <p className="pt-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>{n.description}</p>
                       <div className="p-3 rounded-lg" style={{ background: `${sevColor(n.severity)}08`, border: `1px solid ${sevColor(n.severity)}20` }}>
-                        <p className="text-[10px] uppercase mb-1" style={{ fontFamily: "JetBrains Mono", color: sevColor(n.severity) }}>Corrective Action</p>
-                        <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{n.correctiveAction}</p>
+                        <p className="text-[10px] uppercase mb-1" style={{ fontFamily: "IBM Plex Mono", color: sevColor(n.severity) }}>Corrective Action</p>
+                        <p className="text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>{n.correctiveAction}</p>
                       </div>
-                      <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>Raised by: {n.raisedBy}</p>
+                      <p className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>Raised by: {n.raisedBy}</p>
                     </div>
                   )}
                 </Glass>
@@ -253,7 +253,7 @@ export default function PaiDashboard() {
               <Filter size={14} style={{ color: "rgba(255,255,255,0.4)" }} />
               {(["all", "P1", "P2", "P3"] as const).map(f => (
                 <button key={f} onClick={() => setPunchFilter(f)} className="px-2.5 py-1 rounded-lg text-[10px] transition-all" style={{
-                  fontFamily: "JetBrains Mono",
+                  fontFamily: "IBM Plex Mono",
                   background: punchFilter === f ? (f === "all" ? "rgba(255,255,255,0.5)" : `${prioColor(f as Priority)}15`) : "transparent",
                   color: punchFilter === f ? (f === "all" ? "#FFFFFF" : prioColor(f as Priority)) : "rgba(255,255,255,0.35)",
                   border: `1px solid ${punchFilter === f ? (f === "all" ? "rgba(255,255,255,0.12)" : `${prioColor(f as Priority)}30`) : "transparent"}`,
@@ -261,7 +261,7 @@ export default function PaiDashboard() {
                   {f === "all" ? "All" : f}
                 </button>
               ))}
-              <span className="text-[10px] ml-auto" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>{filteredPunch.length} items</span>
+              <span className="text-[10px] ml-auto" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>{filteredPunch.length} items</span>
             </div>
 
             {filteredPunch.map(p => (
@@ -270,16 +270,16 @@ export default function PaiDashboard() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <span className="text-xs font-mono" style={{ color: prioColor(p.priority), fontFamily: "JetBrains Mono" }}>{p.number}</span>
-                        <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: `${prioColor(p.priority)}18`, color: prioColor(p.priority), fontFamily: "JetBrains Mono" }}>{p.priority}</span>
+                        <span className="text-xs font-mono" style={{ color: prioColor(p.priority), fontFamily: "IBM Plex Mono" }}>{p.number}</span>
+                        <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: `${prioColor(p.priority)}18`, color: prioColor(p.priority), fontFamily: "IBM Plex Mono" }}>{p.priority}</span>
                         <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
                           background: p.status === "closed" ? "rgba(58,125,110,0.15)" : p.status === "verified" ? "rgba(90,173,160,0.15)" : "rgba(255,255,255,0.5)",
                           color: p.status === "closed" ? "#3A7D6E" : p.status === "verified" ? "#5AADA0" : "rgba(255,255,255,0.4)",
-                          fontFamily: "JetBrains Mono",
+                          fontFamily: "IBM Plex Mono",
                         }}>{p.status.replace("_", " ")}</span>
                       </div>
-                      <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: p.status === "closed" ? "rgba(255,255,255,0.4)" : "#FFFFFF" }}>{p.description}</p>
-                      <div className="flex gap-3 mt-1.5 text-[10px] flex-wrap" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                      <p className="text-sm" style={{ fontFamily: "Inter", color: p.status === "closed" ? "rgba(255,255,255,0.4)" : "#FFFFFF" }}>{p.description}</p>
+                      <div className="flex gap-3 mt-1.5 text-[10px] flex-wrap" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                         <span>{p.location}</span>
                         <span>{p.discipline}</span>
                         <span style={{ color: "#5A8AB5" }}>→ {p.assignedTo}</span>
@@ -300,13 +300,13 @@ export default function PaiDashboard() {
             <Glass navy>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Inspection Test Plan Progress</h3>
-                  <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#5AADA0" }}>{itpPct}%</span>
+                  <h3 className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Inspection Test Plan Progress</h3>
+                  <span className="text-lg font-light" style={{ fontFamily: "Inter", color: "#5AADA0" }}>{itpPct}%</span>
                 </div>
                 <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div className="h-full rounded-full" style={{ width: `${itpPct}%`, background: "linear-gradient(90deg, #3A7D6E, #5AADA0)" }} />
                 </div>
-                <div className="flex gap-4 mt-2 text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                <div className="flex gap-4 mt-2 text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                   <span>{itpPassed} passed</span>
                   <span>{ITP_POINTS.filter(p => p.status === "Failed").length} failed</span>
                   <span>{ITP_POINTS.filter(p => p.status === "In progress").length} in progress</span>
@@ -316,7 +316,7 @@ export default function PaiDashboard() {
             </Glass>
 
             {/* Legend */}
-            <div className="flex gap-4 text-[9px]" style={{ fontFamily: "JetBrains Mono" }}>
+            <div className="flex gap-4 text-[9px]" style={{ fontFamily: "IBM Plex Mono" }}>
               {([["hold", "Hold Point", "#EF4444"], ["witness", "Witness Point", "#4AA5A8"], ["review", "Review Point", "#5A8AB5"]] as const).map(([type, label, color]) => (
                 <div key={type} className="flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full" style={{ background: color }} />
@@ -336,17 +336,17 @@ export default function PaiDashboard() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-[10px] font-mono" style={{ color: pointColor(p.pointType), fontFamily: "JetBrains Mono" }}>{p.itpRef}</span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${statusColor}15`, color: statusColor, fontFamily: "JetBrains Mono" }}>{p.status}</span>
-                          <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{p.discipline}</span>
+                          <span className="text-[10px] font-mono" style={{ color: pointColor(p.pointType), fontFamily: "IBM Plex Mono" }}>{p.itpRef}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${statusColor}15`, color: statusColor, fontFamily: "IBM Plex Mono" }}>{p.status}</span>
+                          <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "IBM Plex Mono" }}>{p.discipline}</span>
                         </div>
-                        <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{p.activity}</p>
-                        <div className="flex gap-3 mt-1 text-[9px] flex-wrap" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                        <p className="text-xs" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{p.activity}</p>
+                        <div className="flex gap-3 mt-1 text-[9px] flex-wrap" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                           <span>Std: {p.standard}</span>
                           {p.inspectedBy && <span style={{ color: "#3A7D6E" }}>✓ {p.inspectedBy}</span>}
                           {p.inspectedDate && <span>{p.inspectedDate}</span>}
                         </div>
-                        {p.notes && <p className="text-[10px] mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.35)" }}>{p.notes}</p>}
+                        {p.notes && <p className="text-[10px] mt-1" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.35)" }}>{p.notes}</p>}
                       </div>
                     </div>
                   </div>
@@ -361,7 +361,7 @@ export default function PaiDashboard() {
           <div className="space-y-3">
             <Glass navy>
               <div className="p-4">
-                <h3 className="text-sm mb-3" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Producer Statement Types — Building Act 2004</h3>
+                <h3 className="text-sm mb-3" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Producer Statement Types — Building Act 2004</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {([
                     { type: "PS1", desc: "Design", detail: "Design complies with Building Code" },
@@ -373,10 +373,10 @@ export default function PaiDashboard() {
                     const issued = PS.filter(p => p.type === ps.type && p.status === "Issued").length;
                     return (
                       <div key={ps.type} className="p-2 rounded-lg" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
-                        <p className="text-xs font-bold" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{ps.type}</p>
-                        <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{ps.desc}</p>
-                        <p className="text-[8px] mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.35)" }}>{ps.detail}</p>
-                        <p className="text-[9px] mt-1" style={{ fontFamily: "JetBrains Mono", color: "#5A8AB5" }}>{issued}/{count} issued</p>
+                        <p className="text-xs font-bold" style={{ fontFamily: "IBM Plex Mono", color: "#4AA5A8" }}>{ps.type}</p>
+                        <p className="text-[10px]" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>{ps.desc}</p>
+                        <p className="text-[8px] mt-1" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.35)" }}>{ps.detail}</p>
+                        <p className="text-[9px] mt-1" style={{ fontFamily: "IBM Plex Mono", color: "#5A8AB5" }}>{issued}/{count} issued</p>
                       </div>
                     );
                   })}
@@ -389,15 +389,15 @@ export default function PaiDashboard() {
                 <div className="p-4">
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0">
-                      <span className="text-xs font-bold px-2 py-1 rounded-lg" style={{ fontFamily: "JetBrains Mono", background: `${psColor(p.status)}15`, color: psColor(p.status), border: `1px solid ${psColor(p.status)}25` }}>{p.type}</span>
+                      <span className="text-xs font-bold px-2 py-1 rounded-lg" style={{ fontFamily: "IBM Plex Mono", background: `${psColor(p.status)}15`, color: psColor(p.status), border: `1px solid ${psColor(p.status)}25` }}>{p.type}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <span className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{p.discipline}</span>
-                        <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${psColor(p.status)}15`, color: psColor(p.status), fontFamily: "JetBrains Mono" }}>{p.status}</span>
+                        <span className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{p.discipline}</span>
+                        <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${psColor(p.status)}15`, color: psColor(p.status), fontFamily: "IBM Plex Mono" }}>{p.status}</span>
                       </div>
-                      <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{p.description}</p>
-                      <div className="flex gap-3 mt-1.5 text-[9px] flex-wrap" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                      <p className="text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{p.description}</p>
+                      <div className="flex gap-3 mt-1.5 text-[9px] flex-wrap" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                         <span>{p.author} — {p.company}</span>
                         <span>{p.cpeng}</span>
                         <span>Consent: {p.consentRef}</span>
@@ -418,13 +418,13 @@ export default function PaiDashboard() {
             <Glass navy>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Handover Readiness</h3>
-                  <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#5A8AB5" }}>{handoverPct}%</span>
+                  <h3 className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Handover Readiness</h3>
+                  <span className="text-lg font-light" style={{ fontFamily: "Inter", color: "#5A8AB5" }}>{handoverPct}%</span>
                 </div>
                 <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div className="h-full rounded-full" style={{ width: `${handoverPct}%`, background: "linear-gradient(90deg, #1A3A5C, #5A8AB5)" }} />
                 </div>
-                <p className="text-[10px] mt-1.5" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                <p className="text-[10px] mt-1.5" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                   {handoverDone} of {handoverTotal} items complete
                 </p>
               </div>
@@ -432,10 +432,10 @@ export default function PaiDashboard() {
 
             {/* BWOF section */}
             <div className="p-3 rounded-xl" style={{ background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.15)" }}>
-              <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "#EF4444" }}>
+              <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "#EF4444" }}>
                 BWOF — Building Warrant of Fitness Requirements
               </p>
-              <p className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>
+              <p className="text-[10px]" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.45)" }}>
                 Items marked with BWOF badge require annual inspection by an Independent Qualified Person (IQP) per Building Act 2004 s.108.
               </p>
             </div>
@@ -447,7 +447,7 @@ export default function PaiDashboard() {
               return (
                 <Glass key={cat}>
                   <div className="p-4">
-                    <h4 className="text-xs font-medium mb-3" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{cat}</h4>
+                    <h4 className="text-xs font-medium mb-3" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{cat}</h4>
                     <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
                       {items.map(h => (
                         <div key={h.id} className="flex items-start gap-3 py-2.5 first:pt-0 last:pb-0">
@@ -462,13 +462,13 @@ export default function PaiDashboard() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: h.status === "N/A" ? "rgba(255,255,255,0.25)" : "#FFFFFF" }}>{h.item}</span>
+                              <span className="text-xs" style={{ fontFamily: "Inter", color: h.status === "N/A" ? "rgba(255,255,255,0.25)" : "#FFFFFF" }}>{h.item}</span>
                               {h.bwofRequired && (
-                                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "JetBrains Mono" }}>BWOF</span>
+                                <span className="px-1.5 py-0.5 rounded text-[8px] font-bold" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "IBM Plex Mono" }}>BWOF</span>
                               )}
-                              <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: `${handoverStatusColor(h.status)}15`, color: handoverStatusColor(h.status), fontFamily: "JetBrains Mono" }}>{h.status}</span>
+                              <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: `${handoverStatusColor(h.status)}15`, color: handoverStatusColor(h.status), fontFamily: "IBM Plex Mono" }}>{h.status}</span>
                             </div>
-                            <div className="flex gap-3 mt-1 text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                            <div className="flex gap-3 mt-1 text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                               <span>{h.responsible}</span>
                               {h.dueDate !== "—" && <span>Due: {h.dueDate}</span>}
                               <span>{h.notes}</span>
@@ -486,7 +486,7 @@ export default function PaiDashboard() {
 
         {/* Footer */}
         <div className="text-center pt-4">
-          <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
+          <p className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.2)" }}>
             PAI — Quality Assurance · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>

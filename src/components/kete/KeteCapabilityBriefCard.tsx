@@ -48,13 +48,13 @@ const KeteCapabilityBriefCard = ({
         <div>
           <div
             className="text-[11px] font-mono uppercase tracking-[0.18em] mb-2"
-            style={{ color: `${accent}CC`, fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ color: `${accent}CC`, fontFamily: "'IBM Plex Mono', monospace" }}
           >
             {brief.sector}
           </div>
           <h2
             className="text-3xl md:text-4xl font-light leading-tight"
-            style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}
+            style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
           >
             {brief.name} —{" "}
             <span style={{ color: accent }}>{brief.tagline}</span>
@@ -65,7 +65,7 @@ const KeteCapabilityBriefCard = ({
       {/* One-liner */}
       <p
         className="text-base md:text-lg leading-relaxed mb-8 max-w-3xl"
-        style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250CC" }}
+        style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250CC" }}
       >
         {brief.oneLiner}
       </p>
@@ -89,7 +89,7 @@ const KeteCapabilityBriefCard = ({
             </div>
             <span
               className="text-sm leading-snug"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
             >
               {cap}
             </span>
@@ -107,13 +107,13 @@ const KeteCapabilityBriefCard = ({
           <div>
             <div
               className="text-[10px] font-mono uppercase tracking-wider mb-1"
-              style={{ color: "#3D425088", fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ color: "#3D425088", fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Channels
             </div>
             <div
               className="text-sm"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
             >
               {brief.channels.join(" · ")}
             </div>
@@ -128,13 +128,13 @@ const KeteCapabilityBriefCard = ({
           <div>
             <div
               className="text-[10px] font-mono uppercase tracking-wider mb-1"
-              style={{ color: "#3D425088", fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ color: "#3D425088", fontFamily: "'IBM Plex Mono', monospace" }}
             >
               Grounded in
             </div>
             <div
               className="text-sm leading-snug"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
             >
               {brief.groundedIn}
             </div>
@@ -150,7 +150,7 @@ const KeteCapabilityBriefCard = ({
         <Sparkles size={16} style={{ color: accent }} className="mt-0.5 shrink-0" />
         <p
           className="text-sm md:text-base font-medium leading-snug"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}
+          style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
         >
           {brief.proofPoint}
         </p>
@@ -160,7 +160,7 @@ const KeteCapabilityBriefCard = ({
         <div className="mt-6 text-right">
           <span
             className="text-sm font-mono"
-            style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}
           >
             → {brief.cta}
           </span>

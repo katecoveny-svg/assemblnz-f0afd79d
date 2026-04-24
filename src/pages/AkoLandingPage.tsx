@@ -97,7 +97,7 @@ export default function AkoLandingPage() {
           <motion.p
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
             className="relative z-10 text-[11px] tracking-[5px] uppercase mb-3"
-            style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}
           >
             AKO · TE KETE ARONUI · KNOWLEDGE & LEARNING
           </motion.p>
@@ -106,7 +106,7 @@ export default function AkoLandingPage() {
             custom={1}
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
             className="relative z-10 text-4xl md:text-5xl font-light tracking-tight max-w-3xl"
-            style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}
+            style={{ color: "#3D4250", fontFamily: "'Inter', sans-serif" }}
           >
             Licensing intelligence that keeps your centre open.
           </motion.h1>
@@ -143,7 +143,7 @@ export default function AkoLandingPage() {
                     border: `1px solid ${ACCENT}20`,
                   }}
                 >
-                  <div className="text-2xl font-light" style={{ color: ACCENT, fontFamily: "'Lato', sans-serif" }}>
+                  <div className="text-2xl font-light" style={{ color: ACCENT, fontFamily: "'Inter', sans-serif" }}>
                     {m.stat}
                   </div>
                   <div className="text-[11px] tracking-wider mt-1" style={{ color: "#6B7280" }}>
@@ -197,10 +197,10 @@ export default function AkoLandingPage() {
               className="text-center mb-10"
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
             >
-              <p className="text-[11px] tracking-[4px] uppercase mb-2" style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[11px] tracking-[4px] uppercase mb-2" style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>
                 FLAGSHIP WORKFLOW · LIVE DEMO
               </p>
-              <h2 className="text-3xl md:text-4xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}>
+              <h2 className="text-3xl md:text-4xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Inter', sans-serif" }}>
                 Licensing Criteria Matcher
               </h2>
               <p className="mt-3 text-sm max-w-2xl mx-auto" style={{ color: "#6B7280" }}>
@@ -217,10 +217,10 @@ export default function AkoLandingPage() {
         <section className="px-6 py-20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-10">
-              <p className="text-[11px] tracking-[4px] uppercase mb-2" style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[11px] tracking-[4px] uppercase mb-2" style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>
                 THE THREE AKO WORKFLOWS · MVP
               </p>
-              <h2 className="text-3xl md:text-4xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}>
+              <h2 className="text-3xl md:text-4xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Inter', sans-serif" }}>
                 Three core workflows. Nothing more.
               </h2>
               <p className="mt-3 text-sm max-w-xl mx-auto" style={{ color: "#6B7280" }}>
@@ -246,7 +246,7 @@ export default function AkoLandingPage() {
                   >
                     {w.flagship && (
                       <span className="absolute top-3 right-3 text-[9px] tracking-[2px] uppercase px-2 py-0.5 rounded-full"
-                        style={{ background: ACCENT, color: "white", fontFamily: "'JetBrains Mono', monospace" }}>
+                        style={{ background: ACCENT, color: "white", fontFamily: "'IBM Plex Mono', monospace" }}>
                         Flagship
                       </span>
                     )}
@@ -255,7 +255,7 @@ export default function AkoLandingPage() {
                       <Icon size={18} style={{ color: ACCENT }} />
                     </div>
                     <h3 className="text-base font-medium mb-1" style={{ color: "#3D4250" }}>{w.title}</h3>
-                    <p className="text-[10px] tracking-wider uppercase mb-3" style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>
+                    <p className="text-[10px] tracking-wider uppercase mb-3" style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>
                       {w.sub}
                     </p>
                     <p className="text-[13px] leading-relaxed" style={{ color: "#6B7280" }}>{w.desc}</p>
@@ -269,10 +269,10 @@ export default function AkoLandingPage() {
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
               className="mb-6"
             >
-              <p className="text-[11px] tracking-[4px] uppercase mb-2" style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[11px] tracking-[4px] uppercase mb-2" style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>
                 EXPLORE THE PIPELINE · CLICK A WORKFLOW
               </p>
-              <h3 className="text-2xl md:text-3xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}>
+              <h3 className="text-2xl md:text-3xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Inter', sans-serif" }}>
                 What an evidence-pack output looks like
               </h3>
             </motion.div>
@@ -288,10 +288,10 @@ export default function AkoLandingPage() {
         <section className="px-6 py-20" style={{ background: "rgba(58,125,110,0.02)" }}>
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-10">
-              <p className="text-[11px] tracking-[4px] uppercase mb-2" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[11px] tracking-[4px] uppercase mb-2" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace" }}>
                 YOUR AKO TEAM
               </p>
-              <h2 className="text-3xl md:text-4xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif" }}>
+              <h2 className="text-3xl md:text-4xl font-light tracking-tight" style={{ color: "#3D4250", fontFamily: "'Inter', sans-serif" }}>
                 Three specialist agents · all HIGH-RISK
               </h2>
             </div>
@@ -309,7 +309,7 @@ export default function AkoLandingPage() {
                     }}
                   >
                     <Icon size={22} style={{ color: ACCENT, margin: "0 auto 10px" }} />
-                    <div className="text-[13px] font-medium mb-1" style={{ color: "#3D4250", fontFamily: "'JetBrains Mono', monospace" }}>
+                    <div className="text-[13px] font-medium mb-1" style={{ color: "#3D4250", fontFamily: "'IBM Plex Mono', monospace" }}>
                       {agent.code}
                     </div>
                     <div className="text-[12px] mt-1 leading-snug" style={{ color: "#6B7280" }}>

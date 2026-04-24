@@ -196,13 +196,13 @@ export default function KeteGuidedTour({
               <div>
                 <p
                   className="text-[10px] uppercase tracking-[2px]"
-                  style={{ color: accentColor, fontFamily: "'JetBrains Mono', monospace" }}
+                  style={{ color: accentColor, fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   Quick tour · {stepIdx + 1}/{tourSteps.length}
                 </p>
                 <p
                   className="text-sm font-semibold leading-tight"
-                  style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}
+                  style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
                 >
                   {step.title}
                 </p>
@@ -222,13 +222,13 @@ export default function KeteGuidedTour({
           <div className="px-5 py-4 space-y-2">
             <p
               className="text-xs leading-relaxed"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250CC" }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250CC" }}
             >
               {step.body}
             </p>
             <p
               className="text-[10px] uppercase tracking-[1.5px]"
-              style={{ fontFamily: "'JetBrains Mono', monospace", color: accentColor }}
+              style={{ fontFamily: "'IBM Plex Mono', monospace", color: accentColor }}
             >
               ↳ {step.hint}
             </p>
@@ -256,7 +256,7 @@ export default function KeteGuidedTour({
               <button
                 onClick={() => dismiss(true)}
                 className="text-[11px] px-2 py-1 rounded-md transition-colors hover:bg-black/5"
-                style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}
               >
                 Skip
               </button>
@@ -266,7 +266,7 @@ export default function KeteGuidedTour({
                 style={{
                   background: accentColor,
                   color: "#0B1020",
-                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
                   boxShadow: `0 4px 14px ${accentColor}55`,
                 }}
               >

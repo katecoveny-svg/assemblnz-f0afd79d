@@ -153,12 +153,12 @@ export default function RawaDashboard() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Package size={20} style={{ color: "#3A7D6E" }} />
-            <span className="text-xs tracking-widest uppercase" style={{ color: "#3A7D6E", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
+            <span className="text-xs tracking-widest uppercase" style={{ color: "#3A7D6E", fontFamily: "IBM Plex Mono" }}>Waihanga Construction Suite</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
+          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
             RAWA — Resources &amp; Procurement
           </h1>
-          <p className="text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-sm mt-1" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>
             Tender management, supply chain, workforce planning, cost benchmarks &amp; waste minimisation
           </p>
         </div>
@@ -178,8 +178,8 @@ export default function RawaDashboard() {
                     <span style={{ color: s.accent }}>{s.icon}</span>
                   </div>
                 </div>
-                <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
-                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+                <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.value}</p>
+                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
               </div>
             </Glass>
           ))}
@@ -188,7 +188,7 @@ export default function RawaDashboard() {
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
           {tabs.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(58,125,110,0.12)" : "transparent", color: tab === t.id ? "#3A7D6E" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(58,125,110,0.25)" : "1px solid transparent" }}>
+            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Inter", background: tab === t.id ? "rgba(58,125,110,0.12)" : "transparent", color: tab === t.id ? "#3A7D6E" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(58,125,110,0.25)" : "1px solid transparent" }}>
               {t.icon} {t.label}
             </button>
           ))}
@@ -206,14 +206,14 @@ export default function RawaDashboard() {
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-xs font-mono" style={{ color: "#3A7D6E", fontFamily: "JetBrains Mono" }}>{t.reference}</span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.12)", color: "#5AADA0", fontFamily: "JetBrains Mono" }}>{t.category}</span>
+                          <span className="text-xs font-mono" style={{ color: "#3A7D6E", fontFamily: "IBM Plex Mono" }}>{t.reference}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.12)", color: "#5AADA0", fontFamily: "IBM Plex Mono" }}>{t.category}</span>
                           {t.platform !== "Direct" && (
-                            <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{t.platform}</span>
+                            <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "IBM Plex Mono" }}>{t.platform}</span>
                           )}
                         </div>
-                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{t.title}</p>
-                        <div className="flex gap-4 mt-1 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                        <p className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{t.title}</p>
+                        <div className="flex gap-4 mt-1 text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                           <span>Value: <strong style={{ color: "#4AA5A8" }}>{fmtNZD(t.value)}</strong></span>
                           <span>{t.status === "awarded" ? `Awarded: ${t.supplier}` : `Due: ${t.dueDate}`}</span>
                         </div>
@@ -236,7 +236,7 @@ export default function RawaDashboard() {
                                 boxShadow: isCurrent ? "0 0 8px rgba(58,125,110,0.4)" : "none",
                               }} />
                               <span className="text-[8px]" style={{
-                                fontFamily: "JetBrains Mono",
+                                fontFamily: "IBM Plex Mono",
                                 color: isComplete ? "#5AADA0" : "rgba(255,255,255,0.25)",
                               }}>
                                 {tenderStatusLabel[step]}
@@ -248,7 +248,7 @@ export default function RawaDashboard() {
                     </div>
                   </button>
                   {isOpen && (
-                    <div className="px-4 pb-4 pt-2 text-[10px] grid grid-cols-2 gap-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                    <div className="px-4 pb-4 pt-2 text-[10px] grid grid-cols-2 gap-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                       <span>Supplier: {t.supplier}</span>
                       <span>Platform: {t.platform}</span>
                       <span>Category: {t.category}</span>
@@ -271,16 +271,16 @@ export default function RawaDashboard() {
                   <div className="p-4">
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <div>
-                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{s.material}</p>
-                        <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{s.supplier}</p>
+                        <p className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.material}</p>
+                        <p className="text-[10px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{s.supplier}</p>
                       </div>
-                      <span className="px-2 py-0.5 rounded-full text-[9px] whitespace-nowrap" style={{ background: `${statusCol}15`, color: statusCol, fontFamily: "JetBrains Mono" }}>
+                      <span className="px-2 py-0.5 rounded-full text-[9px] whitespace-nowrap" style={{ background: `${statusCol}15`, color: statusCol, fontFamily: "IBM Plex Mono" }}>
                         {s.status}
                       </span>
                     </div>
 
                     {/* Timeline */}
-                    <div className="flex items-center gap-1 text-[9px]" style={{ fontFamily: "JetBrains Mono" }}>
+                    <div className="flex items-center gap-1 text-[9px]" style={{ fontFamily: "IBM Plex Mono" }}>
                       <div className="flex flex-col items-center gap-0.5">
                         <MapPin size={10} style={{ color: "rgba(255,255,255,0.3)" }} />
                         <span style={{ color: "rgba(255,255,255,0.35)" }}>{s.origin}</span>
@@ -312,7 +312,7 @@ export default function RawaDashboard() {
                       </div>
                     </div>
 
-                    <div className="flex gap-4 mt-2 text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                    <div className="flex gap-4 mt-2 text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                       <span>Container: {s.containerRef}</span>
                       <span>Value: {fmtNZD(s.value)}</span>
                     </div>
@@ -331,7 +331,7 @@ export default function RawaDashboard() {
                 <thead>
                   <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                     {["Name", "Role", "Company", "Trade", "Day Rate", "On Site", "Until", "Status"].map(h => (
-                      <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
+                      <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -342,17 +342,17 @@ export default function RawaDashboard() {
                       <tr key={w.id} className="transition-colors" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
                         onMouseEnter={e => e.currentTarget.style.background = "rgba(58,125,110,0.04)"}
                         onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                        <td className="px-4 py-3 text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{w.name}</td>
-                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.7)" }}>{w.role}</td>
-                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{w.company}</td>
+                        <td className="px-4 py-3 text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{w.name}</td>
+                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.7)" }}>{w.role}</td>
+                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{w.company}</td>
                         <td className="px-4 py-3">
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.1)", color: "#5AADA0", fontFamily: "JetBrains Mono" }}>{w.trade}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.1)", color: "#5AADA0", fontFamily: "IBM Plex Mono" }}>{w.trade}</span>
                         </td>
-                        <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtNZD(w.dayRate)}</td>
-                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{w.onSiteFrom}</td>
-                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{w.onSiteTo}</td>
+                        <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#4AA5A8" }}>{fmtNZD(w.dayRate)}</td>
+                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{w.onSiteFrom}</td>
+                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{w.onSiteTo}</td>
                         <td className="px-4 py-3">
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: ws.bg, color: ws.text, fontFamily: "JetBrains Mono" }}>{w.status}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: ws.bg, color: ws.text, fontFamily: "IBM Plex Mono" }}>{w.status}</span>
                         </td>
                       </tr>
                     );
@@ -360,7 +360,7 @@ export default function RawaDashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="px-4 py-3 flex items-center gap-4 text-[10px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+            <div className="px-4 py-3 flex items-center gap-4 text-[10px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
               <span>Total workers: {WORKERS.length}</span>
               <span>On site: {onSiteWorkers}</span>
               <span>Avg day rate: {fmtNZD(Math.round(WORKERS.reduce((s, w) => s + w.dayRate, 0) / WORKERS.length))}</span>
@@ -374,7 +374,7 @@ export default function RawaDashboard() {
             <Glass>
               <div className="p-4 flex items-center gap-2">
                 <BarChart3 size={14} style={{ color: "#4AA5A8" }} />
-                <span className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
+                <span className="text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>
                   Regional construction cost benchmarks — NZD excl. GST · Source: QV CostBuilder & industry data · {BENCHMARKS[0].lastUpdated}
                 </span>
               </div>
@@ -385,7 +385,7 @@ export default function RawaDashboard() {
                   <thead>
                     <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                       {["Category", "Item", "Unit", "Auckland", "Wellington", "Christchurch", "Regional NZ"].map(h => (
-                        <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
+                        <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -397,13 +397,13 @@ export default function RawaDashboard() {
                       return (
                         <tr key={i} style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                           <td className="px-4 py-3">
-                            <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.1)", color: "#5AADA0", fontFamily: "JetBrains Mono" }}>{b.category}</span>
+                            <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.1)", color: "#5AADA0", fontFamily: "IBM Plex Mono" }}>{b.category}</span>
                           </td>
-                          <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{b.item}</td>
-                          <td className="px-4 py-3 text-[10px] font-mono" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>/{b.unit}</td>
+                          <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{b.item}</td>
+                          <td className="px-4 py-3 text-[10px] font-mono" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>/{b.unit}</td>
                           {vals.map((v, j) => (
                             <td key={j} className="px-4 py-3 text-xs font-mono" style={{
-                              fontFamily: "JetBrains Mono",
+                              fontFamily: "IBM Plex Mono",
                               color: v === min ? "#3A7D6E" : v === max ? "#EF4444" : "rgba(255,255,255,0.6)",
                             }}>
                               ${v.toLocaleString()}
@@ -415,7 +415,7 @@ export default function RawaDashboard() {
                   </tbody>
                 </table>
               </div>
-              <div className="px-4 py-3 flex items-center gap-4 text-[9px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "JetBrains Mono" }}>
+              <div className="px-4 py-3 flex items-center gap-4 text-[9px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "IBM Plex Mono" }}>
                 <span style={{ color: "#3A7D6E" }}>● Lowest</span>
                 <span style={{ color: "#EF4444" }}>● Highest</span>
                 <span style={{ color: "rgba(255,255,255,0.3)" }}>Prices excl. GST · Indicative only</span>
@@ -431,13 +431,13 @@ export default function RawaDashboard() {
             <Glass glow>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Overall Waste Diversion from Landfill</h3>
-                  <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#3A7D6E" }}>{diversionPct}%</span>
+                  <h3 className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Overall Waste Diversion from Landfill</h3>
+                  <span className="text-lg font-light" style={{ fontFamily: "Inter", color: "#3A7D6E" }}>{diversionPct}%</span>
                 </div>
                 <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div className="h-full rounded-full transition-all" style={{ width: `${diversionPct}%`, background: "linear-gradient(90deg, #3A7D6E, #5AADA0)" }} />
                 </div>
-                <div className="flex justify-between mt-1.5 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                <div className="flex justify-between mt-1.5 text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                   <span>{totalDiverted.toFixed(1)} tonnes diverted</span>
                   <span>{totalWasteGen.toFixed(1)} tonnes total</span>
                 </div>
@@ -454,14 +454,14 @@ export default function RawaDashboard() {
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-2">
                         <div>
-                          <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{w.stream}</p>
-                          <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>{w.method}</p>
+                          <p className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{w.stream}</p>
+                          <p className="text-[10px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.4)" }}>{w.method}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-light" style={{ fontFamily: "Lato", color: meetsTarget ? "#3A7D6E" : "#4AA5A8" }}>
+                          <p className="text-sm font-light" style={{ fontFamily: "Inter", color: meetsTarget ? "#3A7D6E" : "#4AA5A8" }}>
                             {actualPct}%
                           </p>
-                          <p className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                          <p className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                             Target: {w.target}%
                           </p>
                         </div>
@@ -476,7 +476,7 @@ export default function RawaDashboard() {
                           background: meetsTarget ? "linear-gradient(90deg, #3A7D6E, #5AADA0)" : "linear-gradient(90deg, #4AA5A8, #B8892A)",
                         }} />
                       </div>
-                      <div className="flex gap-4 mt-1.5 text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                      <div className="flex gap-4 mt-1.5 text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                         <span>Generated: {w.generated} {w.unit}</span>
                         <span>Diverted: {w.diverted} {w.unit}</span>
                         <span>To landfill: {(w.generated - w.diverted).toFixed(1)} {w.unit}</span>
@@ -492,7 +492,7 @@ export default function RawaDashboard() {
               <div className="p-4 flex items-start gap-3">
                 <Recycle size={16} className="flex-shrink-0 mt-0.5" style={{ color: "#3A7D6E" }} />
                 <div>
-                  <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>
+                  <p className="text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>
                     Waste tracking aligned with <strong style={{ color: "#3A7D6E" }}>Waste Minimisation Act 2008</strong> and 
                     <strong style={{ color: "#3A7D6E" }}> Auckland Council Construction & Demolition Waste Guide</strong>. 
                     Waste levy applies at $60/tonne (effective Jul 2024). Target: 80% diversion by project completion.
@@ -505,7 +505,7 @@ export default function RawaDashboard() {
 
         {/* Footer */}
         <div className="text-center pt-4">
-          <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
+          <p className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.2)" }}>
             RAWA — Resources &amp; Procurement · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>

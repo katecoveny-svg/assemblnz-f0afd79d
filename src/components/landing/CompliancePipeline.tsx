@@ -59,7 +59,7 @@ const CompliancePipeline = () => {
       <div className="max-w-5xl mx-auto">
         <motion.p
           className="text-center text-[10px] font-medium tracking-[5px] uppercase mb-5"
-          style={{ color: TEAL, fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ color: TEAL, fontFamily: "'IBM Plex Mono', monospace" }}
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
@@ -70,7 +70,7 @@ const CompliancePipeline = () => {
         <motion.h2
           className="text-center mb-6"
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 200,
             fontSize: "clamp(28px, 4.6vw, 48px)",
             letterSpacing: "-0.02em",
@@ -87,7 +87,7 @@ const CompliancePipeline = () => {
 
         <motion.p
           className="text-center text-[14px] max-w-[640px] mx-auto mb-20"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250B3", lineHeight: 1.7 }}
+          style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250B3", lineHeight: 1.7 }}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -144,7 +144,7 @@ const CompliancePipeline = () => {
                 <span
                   className="relative z-10"
                   style={{
-                    fontFamily: "'Lato', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: 400,
                     fontSize: stage.name.length > 4 ? 13 : 16,
                     letterSpacing: "0.08em",
@@ -183,13 +183,13 @@ const CompliancePipeline = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.6 + i * 0.08, duration: 0.4 }}
             >
-              <p className="text-[10px] tracking-[2px] uppercase mb-2" style={{ color: TEAL, fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[10px] tracking-[2px] uppercase mb-2" style={{ color: TEAL, fontFamily: "'IBM Plex Mono', monospace" }}>
                 Stage {i + 1} · {stage.name}
               </p>
-              <p className="text-[14px] mb-1.5" style={{ color: "#3D4250", fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 600, lineHeight: 1.35 }}>
+              <p className="text-[14px] mb-1.5" style={{ color: "#3D4250", fontFamily: "'Inter', sans-serif", fontWeight: 600, lineHeight: 1.35 }}>
                 "{stage.question}"
               </p>
-              <p className="text-[11px]" style={{ color: "#3D4250B3", fontFamily: "'Plus Jakarta Sans', sans-serif", lineHeight: 1.55 }}>
+              <p className="text-[11px]" style={{ color: "#3D4250B3", fontFamily: "'Inter', sans-serif", lineHeight: 1.55 }}>
                 {stage.subtitle}
               </p>
             </motion.div>

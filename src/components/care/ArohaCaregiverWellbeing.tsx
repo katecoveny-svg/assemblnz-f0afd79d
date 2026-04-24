@@ -17,9 +17,9 @@ const SUPPORT_SERVICES = [
 
 const ArohaCaregiverWellbeing = ({ onSendToChat }: ArohaCaregiverWellbeingProps) => {
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div>
-        <p className="text-[10px] uppercase font-bold" style={{ color: AROHA_PINK, fontFamily: "'Lato', sans-serif", letterSpacing: "4px" }}>AROHA — CAREGIVER SUPPORT</p>
+        <p className="text-[10px] uppercase font-bold" style={{ color: AROHA_PINK, fontFamily: "'Inter', sans-serif", letterSpacing: "4px" }}>AROHA — CAREGIVER SUPPORT</p>
         <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Your wellbeing matters too. We see you.</p>
       </div>
 
@@ -59,7 +59,7 @@ const ArohaCaregiverWellbeing = ({ onSendToChat }: ArohaCaregiverWellbeingProps)
 
       {/* Support services */}
       <div>
-        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Support Services</p>
+        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: POUNAMU, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>Support Services</p>
         <div className="space-y-2">
           {SUPPORT_SERVICES.map(s => (
             <div key={s.name} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
@@ -67,7 +67,7 @@ const ArohaCaregiverWellbeing = ({ onSendToChat }: ArohaCaregiverWellbeingProps)
                 <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{s.name}</p>
                 <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>{s.desc}</p>
               </div>
-              <span className="text-[11px] font-mono" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace" }}>{s.phone}</span>
+              <span className="text-[11px] font-mono" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace" }}>{s.phone}</span>
             </div>
           ))}
         </div>

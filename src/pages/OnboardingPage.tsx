@@ -570,7 +570,7 @@ const OnboardingPage = () => {
                   <div className="rounded-2xl p-5 text-center" style={cardStyle}>
                     <p
                       className="text-3xl font-bold"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: ACCENT }}
+                      style={{ fontFamily: "'IBM Plex Mono', monospace", color: ACCENT }}
                     >
                       {trialDaysLeft}
                     </p>

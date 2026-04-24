@@ -46,7 +46,7 @@ export default function WorkspaceQuickActions({ accent }: WorkspaceQuickActionsP
       <div className="flex items-center justify-between mb-4">
         <h2
           className="text-sm font-semibold flex items-center gap-2"
-          style={{ color: "#3D4250", fontFamily: "'Lato', sans-serif", letterSpacing: "1px" }}
+          style={{ color: "#3D4250", fontFamily: "'Inter', sans-serif", letterSpacing: "1px" }}
         >
           <span className="w-1 h-4 rounded-full" style={{ background: accent }} />
           Quick actions

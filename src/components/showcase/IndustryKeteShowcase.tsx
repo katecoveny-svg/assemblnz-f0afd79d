@@ -66,7 +66,7 @@ function KeteVideoCard({ slug, name, englishName, description, accentColor, inde
             </div>
             <p
               className="text-[11px] uppercase tracking-[2px]"
-              style={{ fontFamily: "'JetBrains Mono', monospace", color: `${accentColor}CC` }}
+              style={{ fontFamily: "'IBM Plex Mono', monospace", color: `${accentColor}CC` }}
             >
               Video coming soon
             </p>
@@ -79,27 +79,27 @@ function KeteVideoCard({ slug, name, englishName, description, accentColor, inde
         <div className="flex items-baseline justify-between gap-3">
           <h3
             className="text-lg tracking-[3px] uppercase"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250" }}
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#3D4250" }}
           >
             {name}
           </h3>
           <span
             className="text-[10px] uppercase tracking-[1.5px]"
-            style={{ fontFamily: "'JetBrains Mono', monospace", color: accentColor }}
+            style={{ fontFamily: "'IBM Plex Mono', monospace", color: accentColor }}
           >
             {englishName}
           </span>
         </div>
         <p
           className="text-sm leading-relaxed flex-1"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250B3" }}
+          style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250B3" }}
         >
           {description}
         </p>
         <Link
           to={`/kete/${slug}`}
           className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[2px] mt-1"
-          style={{ fontFamily: "'JetBrains Mono', monospace", color: accentColor }}
+          style={{ fontFamily: "'IBM Plex Mono', monospace", color: accentColor }}
         >
           Explore kete →
         </Link>
@@ -129,19 +129,19 @@ export default function IndustryKeteShowcase() {
         >
           <p
             className="text-[11px] uppercase tracking-[3px] mb-4"
-            style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}
+            style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#3A7D6E" }}
           >
             Platform showcase
           </p>
           <h2
             className="text-4xl md:text-5xl tracking-[4px] uppercase mb-4"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250" }}
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#3D4250" }}
           >
             See It In Action
           </h2>
           <p
             className="text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250B3" }}
+            style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250B3" }}
           >
             AI agents working across five NZ industries — built for the laws and language of Aotearoa.
           </p>
