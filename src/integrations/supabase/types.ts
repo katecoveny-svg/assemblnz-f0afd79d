@@ -6639,6 +6639,60 @@ export type Database = {
         }
         Relationships: []
       }
+      migration_runs: {
+        Row: {
+          created_at: string
+          description: string | null
+          finished_at: string | null
+          id: string
+          notes: string | null
+          operator_email: string | null
+          operator_id: string | null
+          packs_skipped: string[]
+          packs_updated: string[]
+          per_pack_results: Json
+          run_name: string
+          started_at: string
+          status: string
+          total_rows_changed: number
+          total_rows_skipped: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          finished_at?: string | null
+          id?: string
+          notes?: string | null
+          operator_email?: string | null
+          operator_id?: string | null
+          packs_skipped?: string[]
+          packs_updated?: string[]
+          per_pack_results?: Json
+          run_name: string
+          started_at?: string
+          status?: string
+          total_rows_changed?: number
+          total_rows_skipped?: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          finished_at?: string | null
+          id?: string
+          notes?: string | null
+          operator_email?: string | null
+          operator_id?: string | null
+          packs_skipped?: string[]
+          packs_updated?: string[]
+          per_pack_results?: Json
+          run_name?: string
+          started_at?: string
+          status?: string
+          total_rows_changed?: number
+          total_rows_skipped?: number
+        }
+        Relationships: []
+      }
       mpi_import_standards: {
         Row: {
           clearance_required: boolean | null
