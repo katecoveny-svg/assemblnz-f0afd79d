@@ -6,6 +6,8 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import IhoRoutingVisualizer from "@/components/demo/IhoRoutingVisualizer";
+import HowItWorksFlow from "@/components/landing/HowItWorksFlow";
+import { INDUSTRY_KETE_LIST } from "@/assets/brand/kete";
 
 const KeteFocus = lazy(() => import("@/components/pearl/KeteFocus"));
 
@@ -180,51 +182,66 @@ const STEPS = [
   },
 ];
 
-const KETE = [
-  {
-    name: "Manaaki",
-    sub: "Hospitality",
-    to: "/packs/manaaki",
-    desc: "Food Act plans, liquor licensing, guest experience, tourism operators. Every compliance deadline tracked.",
-    agents: ["AURA", "HAVEN", "TIDE", "BEACON"],
+/**
+ * Canonical kete list for /how-it-works.
+ * Uses live routes (verified in src/App.tsx) and real specialist names from
+ * src/data/agents.ts. Imagery comes from INDUSTRY_KETE_LIST so this page
+ * stays in lockstep with the brand-system catalogue.
+ */
+type KeteRow = {
+  slug: string;
+  to: string;
+  desc: string;
+  agents: string[];
+};
+
+const KETE_META: Record<string, KeteRow> = {
+  manaaki: {
+    slug: "manaaki", to: "/manaaki",
+    desc: "Food Act plans, liquor licensing, guest experience, adventure operators. Every compliance deadline tracked.",
+    agents: ["AURA", "SAFFRON", "CELLAR", "MOANA", "KURA"],
   },
-  {
-    name: "Waihanga",
-    sub: "Construction",
-    to: "/waihanga",
+  hoko: {
+    slug: "hoko", to: "/hoko",
+    desc: "POS reconciliation, stock movement, returns, Fair Trading and Consumer Guarantees compliance for NZ retail.",
+    agents: ["Coming Q3 2026"],
+  },
+  ako: {
+    slug: "ako", to: "/ako",
+    desc: "Licensed ECE centres — ratios, attendance, parent comms, MoE reporting and ERO readiness.",
+    agents: ["Coming Q3 2026"],
+  },
+  toro: {
+    slug: "toro", to: "/toro",
+    desc: "Whānau life navigator. SMS-first family admin: school notes, appointments, shared calendars, $29/mo.",
+    agents: ["TORO"],
+  },
+  waihanga: {
+    slug: "waihanga", to: "/waihanga",
     desc: "Site to sign-off. H&S, consenting, project programmes, quality records. WorkSafe-aligned.",
     agents: ["ĀRAI", "KAUPAPA", "ATA", "RAWA"],
   },
-  {
-    name: "Auaha",
-    sub: "Creative & Media",
-    to: "/packs/auaha",
-    desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.",
-    agents: ["Rautaki", "Kōrero", "Mana Kupu", "Toi"],
-  },
-  {
-    name: "Arataki",
-    sub: "Automotive",
-    to: "/arataki",
-    desc: "Enquiry → test drive → sale → delivery → service → loyalty. Warranty claims, loan cars, workshop booking.",
-    agents: ["Coming Q3 2026"],
-  },
-  {
-    name: "Pikau",
-    sub: "Freight & Customs",
-    to: "/contact",
+  pikau: {
+    slug: "pikau", to: "/pikau",
     desc: "Route optimisation, declarations, broker hand-off, customs compliance. Cross-border ready.",
     agents: ["Coming Q3 2026"],
   },
-];
+  arataki: {
+    slug: "arataki", to: "/arataki",
+    desc: "Fleet fuel oracle, vehicle economy, route intelligence, driver compliance — for NZ automotive operators.",
+    agents: ["FUEL ORACLE", "VEHICLE ECONOMY", "ROUTE INTELLIGENCE", "DRIVER COMPLIANCE"],
+  },
+  auaha: {
+    slug: "auaha", to: "/auaha",
+    desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.",
+    agents: ["PRISM", "MUSE", "PIXEL", "VERSE", "MARKET"],
+  },
+};
 
-const PIPELINE = [
-  { name: "Kahu", question: "What's allowed here?", desc: "Policy detection" },
-  { name: "Iho", question: "Which specialist handles this?", desc: "Routing" },
-  { name: "Tā", question: "Does the work, properly", desc: "Execution + NZ correctness" },
-  { name: "Mahara", question: "Checks against what we've learned", desc: "Memory + cross-verification" },
-  { name: "Mana", question: "Proves it was done right", desc: "Assurance + human-in-the-loop" },
-];
+const KETE = INDUSTRY_KETE_LIST.map((k) => ({
+  ...k,
+  ...(KETE_META[k.slug] ?? { slug: k.slug, to: "/contact", desc: "", agents: [] }),
+}));
 
 /* ─── Sections ─── */
 function Hero() {
@@ -354,9 +371,9 @@ const HowItWorksPage = () => (
       </div>
     </Section>
 
-    {/* ─── FIVE-STAGE PIPELINE ─── */}
+    {/* ─── FIVE-STAGE PIPELINE — interactive ─── */}
     <Section alt>
-      <motion.div {...fadeUp} className="max-w-[680px] mb-20">
+      <motion.div {...fadeUp} className="max-w-[680px] mb-16">
         <Eyebrow>Five-stage pipeline</Eyebrow>
         <Serif size="lg" className="mb-6">
           Every action logged.{" "}
@@ -365,74 +382,21 @@ const HowItWorksPage = () => (
           </Serif>
         </Serif>
         <Body>
-          Every output passes through all five stages. Draft-only posture — no agent publishes,
-          sends, or executes without a named human operator's approval.
+          Every request flows through Kahu → Iho → Tā → Mahara → Mana before anything ships.
+          Draft-only posture — no agent publishes, sends or executes without a named human
+          operator's approval. Tap a stage to see what it actually does.
         </Body>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-        {PIPELINE.map((stage, i) => (
-          <motion.div
-            key={stage.name}
-            {...fadeUp}
-            transition={{ ...fadeUp.transition, delay: i * 0.06 }}
-            style={{
-              background: "rgba(255,255,255,0.55)",
-              border: `1px solid ${PEARL.opal}`,
-              borderRadius: 16,
-              padding: 24,
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-            }}
-          >
-            <p
-              className="lowercase mb-4"
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 11,
-                letterSpacing: "0.18em",
-                color: PEARL.muted,
-              }}
-            >
-              stage {String(i + 1).padStart(2, "0")}
-            </p>
-            <Serif size="sm" className="mb-3">
-              {stage.name}
-            </Serif>
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: "italic",
-                fontWeight: 300,
-                fontSize: 18,
-                color: PEARL.pounamu,
-                marginBottom: 10,
-                lineHeight: 1.3,
-              }}
-            >
-              "{stage.question}"
-            </p>
-            <p
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 13,
-                color: PEARL.bodyInk,
-                lineHeight: 1.55,
-              }}
-            >
-              {stage.desc}
-            </p>
-          </motion.div>
-        ))}
-      </div>
+      <HowItWorksFlow />
     </Section>
 
-    {/* ─── NGĀ KETE ─── */}
+    {/* ─── NGĀ KETE — canonical 8 industry kete with brand imagery ─── */}
     <Section>
       <motion.div {...fadeUp} className="max-w-[680px] mb-20">
         <Eyebrow>Ngā kete</Eyebrow>
         <Serif size="lg" className="mb-6">
-          Five industry kete,{" "}
+          Eight industry kete,{" "}
           <Serif size="lg" italic color={PEARL.pounamu} className="inline">
             woven in Aotearoa.
           </Serif>
@@ -445,76 +409,115 @@ const HowItWorksPage = () => (
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {KETE.map((k, i) => (
-          <motion.div
-            key={k.name}
-            {...fadeUp}
-            transition={{ ...fadeUp.transition, delay: i * 0.06 }}
-          >
-            <Link
-              to={k.to}
-              data-magnetic
-              className="block h-full group transition-all hover:-translate-y-1"
-              style={{
-                background: "rgba(255,255,255,0.55)",
-                border: `1px solid ${PEARL.opal}`,
-                borderRadius: 20,
-                padding: 32,
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-              }}
+        {KETE.map((k, i) => {
+          const keteName = k.code.split("-")[0]; // e.g. "MANAAKI" from "MANAAKI-01"
+          const displayName = keteName.charAt(0) + keteName.slice(1).toLowerCase();
+          const isWaitlist = k.agents.length === 1 && k.agents[0].startsWith("Coming");
+          return (
+            <motion.div
+              key={k.slug}
+              {...fadeUp}
+              transition={{ ...fadeUp.transition, delay: i * 0.06 }}
             >
-              <p
-                className="lowercase mb-3"
+              <Link
+                to={k.to}
+                data-magnetic
+                className="block h-full group transition-all hover:-translate-y-1 overflow-hidden"
                 style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 11,
-                  letterSpacing: "0.18em",
-                  color: PEARL.muted,
+                  background: "rgba(255,255,255,0.55)",
+                  border: `1px solid ${PEARL.opal}`,
+                  borderRadius: 20,
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
                 }}
               >
-                {k.sub}
-              </p>
-              <Serif size="md" className="mb-5">
-                {k.name}
-              </Serif>
-              <div style={{ marginBottom: 24 }}>
-                <Body>{k.desc}</Body>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {k.agents.map((a) => (
+                {/* Brand kete imagery — accent-tinted */}
+                <div
+                  className="relative w-full"
+                  style={{
+                    aspectRatio: "16 / 9",
+                    background: `linear-gradient(180deg, ${k.accentHex}30 0%, ${k.accentHex}10 100%)`,
+                    overflow: "hidden",
+                  }}
+                >
+                  <img
+                    src={k.image}
+                    alt={`${displayName} kete — ${k.industry}`}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    style={{ mixBlendMode: "multiply", opacity: 0.92 }}
+                  />
                   <span
-                    key={a}
+                    className="absolute top-3 left-3"
+                    style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: 10,
+                      letterSpacing: "0.18em",
+                      color: PEARL.ink,
+                      background: "rgba(255,255,255,0.85)",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {k.code}
+                  </span>
+                </div>
+
+                <div style={{ padding: 28 }}>
+                  <p
+                    className="lowercase mb-3"
                     style={{
                       fontFamily: "'Inter', sans-serif",
                       fontSize: 11,
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                      background: `${PEARL.pounamu}10`,
-                      color: PEARL.pounamu,
-                      border: `1px solid ${PEARL.pounamu}25`,
-                      letterSpacing: "0.04em",
+                      letterSpacing: "0.18em",
+                      color: PEARL.muted,
                     }}
                   >
-                    {a}
-                  </span>
-                ))}
-              </div>
-              <div
-                className="inline-flex items-center gap-2 transition-all group-hover:gap-3"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 14,
-                  color: PEARL.pounamu,
-                  fontWeight: 500,
-                }}
-              >
-                {k.to === "/contact" ? "Talk to us" : "Explore kete"}
-                <ArrowRight size={14} />
-              </div>
-            </Link>
-          </motion.div>
-        ))}
+                    {k.industry}
+                  </p>
+                  <Serif size="md" className="mb-5">
+                    {displayName}
+                  </Serif>
+                  <div style={{ marginBottom: 24 }}>
+                    <Body>{k.desc}</Body>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {k.agents.map((a) => (
+                      <span
+                        key={a}
+                        style={{
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: 11,
+                          padding: "4px 10px",
+                          borderRadius: 999,
+                          background: isWaitlist ? `${PEARL.muted}10` : `${PEARL.pounamu}10`,
+                          color: isWaitlist ? PEARL.muted : PEARL.pounamu,
+                          border: `1px solid ${isWaitlist ? PEARL.muted : PEARL.pounamu}25`,
+                          letterSpacing: "0.04em",
+                        }}
+                      >
+                        {a}
+                      </span>
+                    ))}
+                  </div>
+                  <div
+                    className="inline-flex items-center gap-2 transition-all group-hover:gap-3"
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: 14,
+                      color: PEARL.pounamu,
+                      fontWeight: 500,
+                    }}
+                  >
+                    {isWaitlist ? "Join the waitlist" : `Explore ${displayName}`}
+                    <ArrowRight size={14} />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          );
+        })}
       </div>
     </Section>
 
