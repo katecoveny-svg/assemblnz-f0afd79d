@@ -423,6 +423,7 @@ const ChatPage = () => {
 
   // Inline image generation state (ECHO visual outputs)
   const [inlineImages, setInlineImages] = useState<Record<number, { status: "loading" | "done" | "error"; urls: string[] }>>({});
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
   const { user, session, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached, role } = useAuth();
   const { teReoPrompt } = useLanguage();
   const [conversationId, setConversationId] = useState<string | null>(null);
