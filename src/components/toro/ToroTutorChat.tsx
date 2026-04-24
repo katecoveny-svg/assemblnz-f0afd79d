@@ -15,6 +15,18 @@ import ReactMarkdown from "react-markdown";
 
 import { streamMcpChat, type ChatMsg } from "@/lib/mcpChat";
 import { toast } from "sonner";
+import { ChatPanelBoundary } from "@/components/chat/ChatPanelBoundary";
+
+// Declared imports — surfaced in the diagnostics fallback if the panel
+// ever fails to mount (e.g. missing dep, broken alias, stale Vite chunk).
+const TORO_TUTOR_IMPORTS = [
+  "react",
+  "lucide-react",
+  "react-markdown",
+  "@/lib/mcpChat",
+  "sonner",
+  "@/components/chat/ChatPanelBoundary",
+];
 
 interface Props {
   /** Display title above the chat (e.g. "Ask Tōro about Mia"). */
@@ -48,7 +60,19 @@ const DEFAULT_SUGGESTIONS_DAY = [
   "Anything I should chase before school?",
 ];
 
-export function ToroTutorChat({
+export function ToroTutorChat(props: Props) {
+  return (
+    <ChatPanelBoundary
+      name="ToroTutorChat"
+      title={props.title ?? "Chat panel unavailable"}
+      imports={TORO_TUTOR_IMPORTS}
+    >
+      <ToroTutorChatInner {...props} />
+    </ChatPanelBoundary>
+  );
+}
+
+function ToroTutorChatInner({
   title = "Ask Tōro",
   contextLines = [],
   suggestions,
