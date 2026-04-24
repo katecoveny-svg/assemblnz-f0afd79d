@@ -6227,6 +6227,122 @@ export type Database = {
           },
         ]
       }
+      meeting_action_items: {
+        Row: {
+          assignee: string | null
+          completed_at: string | null
+          created_at: string
+          description: string
+          due_date: string | null
+          id: string
+          meeting_note_id: string | null
+          priority: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assignee?: string | null
+          completed_at?: string | null
+          created_at?: string
+          description: string
+          due_date?: string | null
+          id?: string
+          meeting_note_id?: string | null
+          priority?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assignee?: string | null
+          completed_at?: string | null
+          created_at?: string
+          description?: string
+          due_date?: string | null
+          id?: string
+          meeting_note_id?: string | null
+          priority?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meeting_action_items_meeting_note_id_fkey"
+            columns: ["meeting_note_id"]
+            isOneToOne: false
+            referencedRelation: "meeting_notes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meeting_notes: {
+        Row: {
+          action_items: Json
+          attendees: Json
+          calendar_event_id: string | null
+          created_at: string
+          decisions: Json
+          drive_url: string | null
+          highlights: Json
+          id: string
+          kete_tag: string | null
+          meeting_date: string
+          meeting_id: string | null
+          notes_md: string | null
+          parking_lot: Json
+          status: string
+          title: string
+          transcript_id: string | null
+          transcript_text: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action_items?: Json
+          attendees?: Json
+          calendar_event_id?: string | null
+          created_at?: string
+          decisions?: Json
+          drive_url?: string | null
+          highlights?: Json
+          id?: string
+          kete_tag?: string | null
+          meeting_date?: string
+          meeting_id?: string | null
+          notes_md?: string | null
+          parking_lot?: Json
+          status?: string
+          title: string
+          transcript_id?: string | null
+          transcript_text?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action_items?: Json
+          attendees?: Json
+          calendar_event_id?: string | null
+          created_at?: string
+          decisions?: Json
+          drive_url?: string | null
+          highlights?: Json
+          id?: string
+          kete_tag?: string | null
+          meeting_date?: string
+          meeting_id?: string | null
+          notes_md?: string | null
+          parking_lot?: Json
+          status?: string
+          title?: string
+          transcript_id?: string | null
+          transcript_text?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       memory_extraction_queue: {
         Row: {
           attempts: number
@@ -9464,6 +9580,69 @@ export type Database = {
           },
         ]
       }
+      toroa_email_flags: {
+        Row: {
+          action_description: string | null
+          action_required: boolean
+          category: string
+          created_at: string
+          due_date: string | null
+          family_id: string | null
+          id: string
+          message_id: string | null
+          received_at: string | null
+          sender: string
+          sender_email: string | null
+          snippet: string | null
+          source_link: string | null
+          status: string
+          subject: string
+          thread_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action_description?: string | null
+          action_required?: boolean
+          category?: string
+          created_at?: string
+          due_date?: string | null
+          family_id?: string | null
+          id?: string
+          message_id?: string | null
+          received_at?: string | null
+          sender: string
+          sender_email?: string | null
+          snippet?: string | null
+          source_link?: string | null
+          status?: string
+          subject: string
+          thread_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action_description?: string | null
+          action_required?: boolean
+          category?: string
+          created_at?: string
+          due_date?: string | null
+          family_id?: string | null
+          id?: string
+          message_id?: string | null
+          received_at?: string | null
+          sender?: string
+          sender_email?: string | null
+          snippet?: string | null
+          source_link?: string | null
+          status?: string
+          subject?: string
+          thread_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       toroa_families: {
         Row: {
           budget: Json | null
@@ -9949,6 +10128,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      toroa_school_reports: {
+        Row: {
+          attendance_pct: number | null
+          created_at: string
+          family_id: string | null
+          grade: string
+          grade_numeric: number | null
+          id: string
+          notes: string | null
+          previous_grade: string | null
+          report_date: string
+          school_name: string | null
+          student_name: string
+          subject: string
+          teacher: string | null
+          trend: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attendance_pct?: number | null
+          created_at?: string
+          family_id?: string | null
+          grade: string
+          grade_numeric?: number | null
+          id?: string
+          notes?: string | null
+          previous_grade?: string | null
+          report_date?: string
+          school_name?: string | null
+          student_name: string
+          subject: string
+          teacher?: string | null
+          trend?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attendance_pct?: number | null
+          created_at?: string
+          family_id?: string | null
+          grade?: string
+          grade_numeric?: number | null
+          id?: string
+          notes?: string | null
+          previous_grade?: string | null
+          report_date?: string
+          school_name?: string | null
+          student_name?: string
+          subject?: string
+          teacher?: string | null
+          trend?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       toroa_shopping: {
         Row: {
