@@ -97,10 +97,10 @@ export function CompliancePreflightGate({ initial, policySet, onConfirm, onCance
         </div>
         <div>
           <h3 className="text-sm font-semibold" style={{ color: "#3D4250" }}>
-            Pre-flight compliance check
+            {policySet.label}
           </h3>
           <p className="text-[10px]" style={{ color: "#9CA3AF" }}>
-            Required before the first message
+            {policySet.description}
           </p>
         </div>
       </div>
