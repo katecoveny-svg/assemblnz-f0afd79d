@@ -14,6 +14,16 @@ const SLUG_TO_PACK: Record<string, { packId: string; agentId: string }> = {
   arataki: { packId: "waka", agentId: "motor" },
   pikau: { packId: "pikau", agentId: "gateway" },
   contracts: { packId: "contracts", agentId: "accord" },
+  // TŌRO family kete — top-level + 8 sub-agents wired to their own system prompts and tools
+  toro: { packId: "toro", agentId: "toro-family" },
+  "toro-family": { packId: "toro", agentId: "toro-family" },
+  "toro-money": { packId: "toro", agentId: "toro-money" },
+  "toro-homework": { packId: "toro", agentId: "toro-homework" },
+  "toro-health": { packId: "toro", agentId: "toro-health" },
+  "toro-home": { packId: "toro", agentId: "toro-home" },
+  "toro-education": { packId: "toro", agentId: "toro-education" },
+  "toro-email": { packId: "toro", agentId: "toro-email" },
+  "toro-logistics": { packId: "toro", agentId: "toro-logistics" },
 };
 
 const NZ_BARRIER_COPY: Record<string, { heading: string; body: string; legislation: string }> = {
