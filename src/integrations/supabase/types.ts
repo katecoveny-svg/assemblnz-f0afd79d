@@ -1075,6 +1075,622 @@ export type Database = {
         }
         Relationships: []
       }
+      auaha_ad_campaigns: {
+        Row: {
+          ad_sets: Json | null
+          campaign_name: string
+          created_at: string
+          daily_budget: number | null
+          end_date: string | null
+          external_campaign_id: string | null
+          id: string
+          objective: string | null
+          org_id: string | null
+          performance: Json | null
+          platform: string
+          project_id: string | null
+          start_date: string | null
+          status: string | null
+          targeting: Json | null
+          total_budget: number | null
+          total_spent: number | null
+          updated_at: string
+        }
+        Insert: {
+          ad_sets?: Json | null
+          campaign_name: string
+          created_at?: string
+          daily_budget?: number | null
+          end_date?: string | null
+          external_campaign_id?: string | null
+          id?: string
+          objective?: string | null
+          org_id?: string | null
+          performance?: Json | null
+          platform: string
+          project_id?: string | null
+          start_date?: string | null
+          status?: string | null
+          targeting?: Json | null
+          total_budget?: number | null
+          total_spent?: number | null
+          updated_at?: string
+        }
+        Update: {
+          ad_sets?: Json | null
+          campaign_name?: string
+          created_at?: string
+          daily_budget?: number | null
+          end_date?: string | null
+          external_campaign_id?: string | null
+          id?: string
+          objective?: string | null
+          org_id?: string | null
+          performance?: Json | null
+          platform?: string
+          project_id?: string | null
+          start_date?: string | null
+          status?: string | null
+          targeting?: Json | null
+          total_budget?: number | null
+          total_spent?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auaha_ad_campaigns_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auaha_analytics: {
+        Row: {
+          asset_id: string | null
+          calendar_entry_id: string | null
+          clicks: number | null
+          comments: number | null
+          conversions: number | null
+          created_at: string
+          engagement: number | null
+          engagement_rate: number | null
+          followers_gained: number | null
+          id: string
+          impressions: number | null
+          likes: number | null
+          metric_date: string
+          platform: string
+          raw_data: Json | null
+          reach: number | null
+          revenue: number | null
+          roas: number | null
+          saves: number | null
+          shares: number | null
+          spend: number | null
+          video_views: number | null
+          watch_time_seconds: number | null
+        }
+        Insert: {
+          asset_id?: string | null
+          calendar_entry_id?: string | null
+          clicks?: number | null
+          comments?: number | null
+          conversions?: number | null
+          created_at?: string
+          engagement?: number | null
+          engagement_rate?: number | null
+          followers_gained?: number | null
+          id?: string
+          impressions?: number | null
+          likes?: number | null
+          metric_date: string
+          platform: string
+          raw_data?: Json | null
+          reach?: number | null
+          revenue?: number | null
+          roas?: number | null
+          saves?: number | null
+          shares?: number | null
+          spend?: number | null
+          video_views?: number | null
+          watch_time_seconds?: number | null
+        }
+        Update: {
+          asset_id?: string | null
+          calendar_entry_id?: string | null
+          clicks?: number | null
+          comments?: number | null
+          conversions?: number | null
+          created_at?: string
+          engagement?: number | null
+          engagement_rate?: number | null
+          followers_gained?: number | null
+          id?: string
+          impressions?: number | null
+          likes?: number | null
+          metric_date?: string
+          platform?: string
+          raw_data?: Json | null
+          reach?: number | null
+          revenue?: number | null
+          roas?: number | null
+          saves?: number | null
+          shares?: number | null
+          spend?: number | null
+          video_views?: number | null
+          watch_time_seconds?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auaha_analytics_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auaha_analytics_calendar_entry_id_fkey"
+            columns: ["calendar_entry_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_content_calendar"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auaha_assets: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          asset_type: string
+          brand_score: number | null
+          content: string | null
+          created_at: string
+          created_by_agent: string | null
+          deleted_at: string | null
+          description: string | null
+          dimensions: Json | null
+          duration_seconds: number | null
+          file_size_bytes: number | null
+          file_url: string | null
+          id: string
+          metadata: Json | null
+          mime_type: string | null
+          model_used: string | null
+          org_id: string | null
+          parent_asset_id: string | null
+          project_id: string | null
+          prompt_used: string | null
+          provider: string | null
+          qa_notes: string | null
+          qa_status: string | null
+          style: string | null
+          tags: string[] | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string
+          variations: Json | null
+          version: number | null
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          asset_type: string
+          brand_score?: number | null
+          content?: string | null
+          created_at?: string
+          created_by_agent?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          dimensions?: Json | null
+          duration_seconds?: number | null
+          file_size_bytes?: number | null
+          file_url?: string | null
+          id?: string
+          metadata?: Json | null
+          mime_type?: string | null
+          model_used?: string | null
+          org_id?: string | null
+          parent_asset_id?: string | null
+          project_id?: string | null
+          prompt_used?: string | null
+          provider?: string | null
+          qa_notes?: string | null
+          qa_status?: string | null
+          style?: string | null
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string
+          variations?: Json | null
+          version?: number | null
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          asset_type?: string
+          brand_score?: number | null
+          content?: string | null
+          created_at?: string
+          created_by_agent?: string | null
+          deleted_at?: string | null
+          description?: string | null
+          dimensions?: Json | null
+          duration_seconds?: number | null
+          file_size_bytes?: number | null
+          file_url?: string | null
+          id?: string
+          metadata?: Json | null
+          mime_type?: string | null
+          model_used?: string | null
+          org_id?: string | null
+          parent_asset_id?: string | null
+          project_id?: string | null
+          prompt_used?: string | null
+          provider?: string | null
+          qa_notes?: string | null
+          qa_status?: string | null
+          style?: string | null
+          tags?: string[] | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string
+          variations?: Json | null
+          version?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auaha_assets_parent_asset_id_fkey"
+            columns: ["parent_asset_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auaha_assets_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auaha_brand_profiles: {
+        Row: {
+          banned_words: string[] | null
+          brand_name: string
+          colour_palette: Json | null
+          competitor_brands: string[] | null
+          created_at: string
+          do_list: string[] | null
+          dont_list: string[] | null
+          example_copy: Json | null
+          font_stack: Json | null
+          id: string
+          industry: string | null
+          logo_url: string | null
+          logo_variants: Json | null
+          messaging_pillars: Json | null
+          org_id: string | null
+          style_guide_url: string | null
+          tagline: string | null
+          target_audience: string | null
+          tone_keywords: string[] | null
+          updated_at: string
+          voice_attributes: Json | null
+        }
+        Insert: {
+          banned_words?: string[] | null
+          brand_name: string
+          colour_palette?: Json | null
+          competitor_brands?: string[] | null
+          created_at?: string
+          do_list?: string[] | null
+          dont_list?: string[] | null
+          example_copy?: Json | null
+          font_stack?: Json | null
+          id?: string
+          industry?: string | null
+          logo_url?: string | null
+          logo_variants?: Json | null
+          messaging_pillars?: Json | null
+          org_id?: string | null
+          style_guide_url?: string | null
+          tagline?: string | null
+          target_audience?: string | null
+          tone_keywords?: string[] | null
+          updated_at?: string
+          voice_attributes?: Json | null
+        }
+        Update: {
+          banned_words?: string[] | null
+          brand_name?: string
+          colour_palette?: Json | null
+          competitor_brands?: string[] | null
+          created_at?: string
+          do_list?: string[] | null
+          dont_list?: string[] | null
+          example_copy?: Json | null
+          font_stack?: Json | null
+          id?: string
+          industry?: string | null
+          logo_url?: string | null
+          logo_variants?: Json | null
+          messaging_pillars?: Json | null
+          org_id?: string | null
+          style_guide_url?: string | null
+          tagline?: string | null
+          target_audience?: string | null
+          tone_keywords?: string[] | null
+          updated_at?: string
+          voice_attributes?: Json | null
+        }
+        Relationships: []
+      }
+      auaha_content_calendar: {
+        Row: {
+          asset_id: string | null
+          buffer_post_id: string | null
+          caption: string | null
+          created_at: string
+          engagement: Json | null
+          hashtags: string[] | null
+          id: string
+          link_url: string | null
+          org_id: string | null
+          platform: string
+          project_id: string | null
+          published_at: string | null
+          scheduled_at: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          asset_id?: string | null
+          buffer_post_id?: string | null
+          caption?: string | null
+          created_at?: string
+          engagement?: Json | null
+          hashtags?: string[] | null
+          id?: string
+          link_url?: string | null
+          org_id?: string | null
+          platform: string
+          project_id?: string | null
+          published_at?: string | null
+          scheduled_at?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string | null
+          buffer_post_id?: string | null
+          caption?: string | null
+          created_at?: string
+          engagement?: Json | null
+          hashtags?: string[] | null
+          id?: string
+          link_url?: string | null
+          org_id?: string | null
+          platform?: string
+          project_id?: string | null
+          published_at?: string | null
+          scheduled_at?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auaha_content_calendar_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auaha_content_calendar_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auaha_pipeline_stages: {
+        Row: {
+          agent_name: string
+          asset_id: string | null
+          completed_at: string | null
+          created_at: string
+          duration_ms: number | null
+          error_message: string | null
+          id: string
+          input_data: Json | null
+          output_data: Json | null
+          project_id: string | null
+          stage: string
+          started_at: string | null
+          status: string | null
+        }
+        Insert: {
+          agent_name: string
+          asset_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          input_data?: Json | null
+          output_data?: Json | null
+          project_id?: string | null
+          stage: string
+          started_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          agent_name?: string
+          asset_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          error_message?: string | null
+          id?: string
+          input_data?: Json | null
+          output_data?: Json | null
+          project_id?: string | null
+          stage?: string
+          started_at?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auaha_pipeline_stages_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "auaha_pipeline_stages_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auaha_podcast_episodes: {
+        Row: {
+          audio_url: string | null
+          chapters: Json | null
+          created_at: string
+          description: string | null
+          distribution: Json | null
+          duration_seconds: number | null
+          episode_number: number | null
+          guests: Json | null
+          id: string
+          org_id: string | null
+          project_id: string | null
+          published_at: string | null
+          script: string | null
+          season: number | null
+          show_notes: string | null
+          status: string | null
+          title: string
+          transcript: string | null
+          updated_at: string
+        }
+        Insert: {
+          audio_url?: string | null
+          chapters?: Json | null
+          created_at?: string
+          description?: string | null
+          distribution?: Json | null
+          duration_seconds?: number | null
+          episode_number?: number | null
+          guests?: Json | null
+          id?: string
+          org_id?: string | null
+          project_id?: string | null
+          published_at?: string | null
+          script?: string | null
+          season?: number | null
+          show_notes?: string | null
+          status?: string | null
+          title: string
+          transcript?: string | null
+          updated_at?: string
+        }
+        Update: {
+          audio_url?: string | null
+          chapters?: Json | null
+          created_at?: string
+          description?: string | null
+          distribution?: Json | null
+          duration_seconds?: number | null
+          episode_number?: number | null
+          guests?: Json | null
+          id?: string
+          org_id?: string | null
+          project_id?: string | null
+          published_at?: string | null
+          script?: string | null
+          season?: number | null
+          show_notes?: string | null
+          status?: string | null
+          title?: string
+          transcript?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auaha_podcast_episodes_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "auaha_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      auaha_projects: {
+        Row: {
+          brand_guidelines: Json | null
+          brief: string | null
+          budget: number | null
+          client_name: string | null
+          created_at: string
+          created_by: string | null
+          deadline: string | null
+          id: string
+          kete_accent: string | null
+          objectives: Json | null
+          org_id: string | null
+          project_name: string
+          spent: number | null
+          status: string | null
+          target_audience: string | null
+          updated_at: string
+        }
+        Insert: {
+          brand_guidelines?: Json | null
+          brief?: string | null
+          budget?: number | null
+          client_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          deadline?: string | null
+          id?: string
+          kete_accent?: string | null
+          objectives?: Json | null
+          org_id?: string | null
+          project_name: string
+          spent?: number | null
+          status?: string | null
+          target_audience?: string | null
+          updated_at?: string
+        }
+        Update: {
+          brand_guidelines?: Json | null
+          brief?: string | null
+          budget?: number | null
+          client_name?: string | null
+          created_at?: string
+          created_by?: string | null
+          deadline?: string | null
+          id?: string
+          kete_accent?: string | null
+          objectives?: Json | null
+          org_id?: string | null
+          project_name?: string
+          spent?: number | null
+          status?: string | null
+          target_audience?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       audit_log: {
         Row: {
           agent_code: string
