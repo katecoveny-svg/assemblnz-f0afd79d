@@ -2868,6 +2868,12 @@ const ChatPage = () => {
       />
       {isPrism && <AdEngineModal open={adEngineOpen} onOpenChange={setAdEngineOpen} />}
       <AgentDebugPanel rawAgentId={rawAgentId} resolvedAgentId={agentId} agent={agent} />
+      <ImageLightbox
+        url={lightboxUrl}
+        alt="Generated visual"
+        downloadName={`assembl-${agent?.name?.toLowerCase() || "image"}`}
+        onClose={() => setLightboxUrl(null)}
+      />
     </div>
   );
 };
