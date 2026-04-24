@@ -28,6 +28,7 @@ const ADMIN_PAGES = [
   { label: "Packs", to: "/admin/packs", group: "Admin" },
   { label: "Agent Catalog (edit)", to: "/admin/agents", group: "Admin" },
   { label: "Agent Inventory (read-only)", to: "/admin/agents/inventory", group: "Admin" },
+  { label: "Agent System Prompts", to: "/admin/agents/prompts", group: "Admin" },
 ];
 
 const QUICK_LINKS = [
