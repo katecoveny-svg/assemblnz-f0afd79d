@@ -14,6 +14,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://esm.sh/zod@3.23.8";
 import {
+  buildComplianceResult,
   deriveActionFromMessage,
   evaluateWaihangaCompliance,
   type WaihangaAction,
@@ -384,6 +385,10 @@ Deno.serve(async (req) => {
         }
       }
 
+      const complianceResult = buildComplianceResult(decision, action, {
+        approvalId,
+      });
+
       return new Response(
         JSON.stringify({
           error: decision.explanation,
@@ -391,6 +396,7 @@ Deno.serve(async (req) => {
           policy: "waihanga",
           action: action.kind,
           evaluations: decision.evaluations.filter((e) => !e.passed),
+          complianceResult,
           ...(approvalId
             ? { approvalId, status: "approval_required", message: queuedMessage }
             : {}),
