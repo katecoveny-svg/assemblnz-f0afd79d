@@ -2,6 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, HardHat, Users, MapPin, FileSignature, AlertCircle, CheckCircle2 } from "lucide-react";
 import type { SupervisorComplianceContext } from "./SupervisorControls";
+import {
+  policySetIncludes,
+  type CompliancePolicySet,
+} from "./agentCompliancePolicies";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
@@ -10,6 +14,7 @@ const ALERT_RED = "#B5483A";
 
 interface Props {
   initial: SupervisorComplianceContext;
+  policySet: CompliancePolicySet;
   onConfirm: (context: SupervisorComplianceContext) => void;
   onCancel: () => void;
 }
