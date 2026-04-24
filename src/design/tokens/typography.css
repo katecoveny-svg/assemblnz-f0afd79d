@@ -1,0 +1,91 @@
+/**
+ * Assembl Canonical Typography Scale — CSS layer
+ * ─────────────────────────────────────────────────
+ * Mirrors `typography.ts`. Imported once from `src/index.css`.
+ *
+ * Update typography.ts AND this file together — both are the
+ * source of truth (TS for runtime/inline, CSS for className use).
+ *
+ * Three semantic roles (agent-code, role-text, tagline) ship as
+ * ready-to-use utility classes. The underlying `--type-*` tokens
+ * are also exposed so you can compose your own classes.
+ */
+
+:root {
+  /* ── Families ─────────────────────────────────────────────── */
+  --type-family-display: "Cormorant Garamond", Georgia, serif;
+  --type-family-body:    "Inter", system-ui, sans-serif;
+  --type-family-mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+  /* ── Weights ──────────────────────────────────────────────── */
+  --type-weight-light:    300;
+  --type-weight-regular:  400;
+  --type-weight-medium:   500;
+  --type-weight-semibold: 600;
+
+  /* ── Line heights ─────────────────────────────────────────── */
+  --type-leading-tight:   1.1;
+  --type-leading-snug:    1.25;
+  --type-leading-normal:  1.45;
+  --type-leading-relaxed: 1.6;
+
+  /* ── Tracking ─────────────────────────────────────────────── */
+  --type-tracking-tightest: -0.02em;
+  --type-tracking-tight:    -0.01em;
+  --type-tracking-normal:    0;
+  --type-tracking-wide:      0.04em;
+  --type-tracking-widest:    0.12em;
+
+  /* ── Fluid sizes (sm → lg via clamp) ──────────────────────── */
+  --type-size-agent-code: clamp(11px, 0.45vw + 10px, 13px);
+  --type-size-role-text:  clamp(13px, 0.5vw + 12px, 15px);
+  --type-size-tagline:    clamp(14px, 0.8vw + 12px, 18px);
+  --type-size-agent-name: clamp(22px, 1.6vw + 16px, 32px);
+  --type-size-meta-label: 12px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Utility classes — drop straight onto an element.
+   ══════════════════════════════════════════════════════════════ */
+.type-agent-code {
+  font-family:    var(--type-family-mono);
+  font-weight:    var(--type-weight-medium);
+  font-size:      var(--type-size-agent-code);
+  line-height:    var(--type-leading-tight);
+  letter-spacing: var(--type-tracking-widest);
+  text-transform: uppercase;
+}
+
+.type-role-text {
+  font-family:    var(--type-family-body);
+  font-weight:    var(--type-weight-medium);
+  font-size:      var(--type-size-role-text);
+  line-height:    var(--type-leading-snug);
+  letter-spacing: var(--type-tracking-tight);
+}
+
+.type-tagline {
+  font-family:    var(--type-family-body);
+  font-weight:    var(--type-weight-regular);
+  font-size:      var(--type-size-tagline);
+  line-height:    var(--type-leading-normal);
+  letter-spacing: var(--type-tracking-normal);
+  text-wrap:      pretty;
+}
+
+.type-agent-name {
+  font-family:    var(--type-family-display);
+  font-weight:    var(--type-weight-regular);
+  font-size:      var(--type-size-agent-name);
+  line-height:    var(--type-leading-tight);
+  letter-spacing: var(--type-tracking-tight);
+}
+
+.type-meta-label {
+  font-family:    var(--type-family-body);
+  font-weight:    var(--type-weight-medium);
+  font-size:      var(--type-size-meta-label);
+  line-height:    var(--type-leading-snug);
+  letter-spacing: var(--type-tracking-wide);
+  text-transform: uppercase;
+}
