@@ -1,0 +1,77 @@
+/**
+ * Assembl Canonical Color Tokens — CSS layer
+ * ─────────────────────────────────────────────
+ * Mirrors `palette.ts`. Imported once from `src/index.css`.
+ *
+ * Update palette.ts AND this file together — both are the source of
+ * truth (TS for runtime surfaces, CSS for Tailwind / shadcn / className).
+ *
+ * Tokens here are flat custom properties. Use them as:
+ *   color: var(--token-text-strong);
+ *   background: var(--token-surface-raised);
+ *
+ * Existing app variables (--background, --foreground, --primary…) are
+ * defined in index.css and continue to work — this file is additive.
+ */
+
+:root {
+  /* ── Raw palette ─────────────────────────────────────────── */
+    --c-mist:         #F7F3EE;
+    --c-cloud:        #EEE7DE;
+    --c-sand:         #D8C8B4;
+    --c-taupe:        #9D8C7D;
+    --c-taupe-deep:   #6F6158;
+    --c-taupe-light:  #A89E94;
+    --c-charcoal:     #3D4250;
+    --c-white:        #FFFFFF;
+
+    --c-gold-leaf:        #D9BC7A;
+    --c-gold-leaf-deep:   #B89B5C;
+
+    --c-moss:    #7FA88E;
+    --c-honey:   #D6B07A;
+    --c-clay:    #C28A7A;
+    --c-haze:    #9BB5B8;
+
+    /* ── Semantic tokens ─────────────────────────────────────── */
+    --token-surface-page:    var(--c-mist);
+    --token-surface-raised:  var(--c-white);
+    --token-surface-sunken:  var(--c-cloud);
+    --token-surface-overlay: rgba(247,243,238,0.86);
+
+    --token-text-strong:    var(--c-charcoal);
+    --token-text-primary:   var(--c-taupe-deep);
+    --token-text-secondary: var(--c-taupe);
+    --token-text-muted:     var(--c-taupe-light);
+    --token-text-on-accent: var(--c-charcoal);
+
+    --token-border-soft:   rgba(142,129,119,0.14);
+    --token-border-hover:  rgba(142,129,119,0.28);
+    --token-border-accent: rgba(217,188,122,0.40);
+
+    --token-shadow-soft: 0 8px 30px rgba(111,97,88,0.08);
+    --token-shadow-card: 0 4px 20px rgba(111,97,88,0.06);
+    --token-shadow-lift: 0 12px 40px rgba(111,97,88,0.12);
+
+    --token-accent-base: var(--c-gold-leaf);
+    --token-accent-deep: var(--c-gold-leaf-deep);
+    --token-accent-soft: rgba(217,188,122,0.18);
+    --token-accent-ring: rgba(217,188,122,0.40);
+
+    --token-status-ok:         var(--c-moss);
+    --token-status-ok-soft:    rgba(127,168,142,0.14);
+    --token-status-warn:       var(--c-honey);
+    --token-status-warn-soft:  rgba(214,176,122,0.16);
+    --token-status-alert:      var(--c-clay);
+    --token-status-alert-soft: rgba(194,138,122,0.16);
+    --token-status-info:       var(--c-haze);
+    --token-status-info-soft:  rgba(155,181,184,0.16);
+
+    --token-radius-card: 24px;
+    --token-radius-chip: 16px;
+    --token-radius-pill: 999px;
+
+    --token-font-display: "Cormorant Garamond", serif;
+    --token-font-body:    "Inter", sans-serif;
+    --token-font-mono:    "IBM Plex Mono", monospace;
+}
