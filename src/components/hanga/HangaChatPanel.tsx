@@ -130,6 +130,12 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
+    // Waihanga first-message gate: capture context before any AI call
+    if (isWaihanga && !preflightConfirmed) {
+      setPendingMessage(text.trim());
+      setShowPreflight(true);
+      return;
+    }
     const userMsg: Message = { id: crypto.randomUUID(), role: "user", content: text.trim() };
     setMessages(prev => [...prev, userMsg]);
     setInput("");
