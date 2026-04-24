@@ -1,4 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+/**
+ * Assembl — Feather Kete Design System
+ * "Quiet intelligence. Time returned."
+ *
+ * Palette: Mārama Whenua (warm light)
+ * Typography: Cormorant Garamond + Inter + IBM Plex Mono
+ * Updated: 24 April 2026
+ *
+ * REPLACES: old dark theme (#09090F, Lato, Plus Jakarta Sans)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,14 +23,6 @@ html {
   html {
     scroll-behavior: auto;
   }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  canvas {
-    display: none;
-  }
 }
 
 @layer utilities {
@@ -32,181 +35,95 @@ html {
   }
 }
 
-@keyframes liquidShimmer {
-  0%   { background-position: 0% 0%; }
-  50%  { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
-}
 
-@keyframes liquidGlossDrift {
-  0%   { transform: translate(-10%, -10%) rotate(0deg); }
-  50%  { transform: translate(10%, 10%) rotate(180deg); }
-  100% { transform: translate(-10%, -10%) rotate(360deg); }
-}
-
-/* ── Hero koru orb — gentle float, halo pulse, drifting motes ── */
-@keyframes koruOrbFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-14px) rotate(0.6deg); }
-}
-@keyframes koruHaloPulse {
-  0%, 100% { opacity: 0.85; transform: scale(1); }
-  50%      { opacity: 1;    transform: scale(1.08); }
-}
-@keyframes koruMoteDrift {
-  0%   { transform: translate(0,0) scale(0.8); opacity: 0; }
-  20%  { opacity: 0.9; }
-  80%  { opacity: 0.6; }
-  100% { transform: translate(var(--mx,40px), var(--my,-60px)) scale(1.1); opacity: 0; }
-}
-
-.koru-orb-img {
-  animation: koruOrbFloat 7s ease-in-out infinite;
-  will-change: transform;
-}
-.koru-orb-halo {
-  animation: koruHaloPulse 6s ease-in-out infinite;
-  will-change: opacity, transform;
-}
-.koru-mote {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(168,221,219,0.5) 60%, transparent 100%);
-  box-shadow: 0 0 12px rgba(168,221,219,0.7);
-  pointer-events: none;
-}
-.koru-mote--a { top: 22%; left: 18%; --mx: 60px;  --my: -80px; animation: koruMoteDrift 5.5s ease-in-out infinite; }
-.koru-mote--b { top: 70%; left: 72%; --mx: -50px; --my: -90px; animation: koruMoteDrift 7s ease-in-out 1.4s infinite; }
-.koru-mote--c { top: 38%; left: 82%; --mx: -70px; --my: -50px; animation: koruMoteDrift 6.2s ease-in-out 0.8s infinite; }
-.koru-mote--d { top: 80%; left: 28%; --mx: 50px;  --my: -110px; animation: koruMoteDrift 8s ease-in-out 2.1s infinite; }
+/* ════════════════════════════════════════════════════════════
+   BASE THEME — Mārama Whenua (warm light)
+   ════════════════════════════════════════════════════════════ */
 
 @layer base {
   :root {
-    /* ═══════════════════════════════════════════════════════════════
-       ASSEMBL BRAND GUIDELINES v1.0 — canonical tokens (2026-04-22)
-       Mist/Cloud/Sand/Taupe palette · Cormorant Garamond + Inter
-       Soft Gold sparkle accent · Feather kete imagery
-       Single source of truth. PDF: /brand/Assembl_Brand_Guidelines.pdf
-       ═══════════════════════════════════════════════════════════════ */
+    /* ── Page & surface ── */
+    --background: 30 23% 95%;          /* #F7F3EE — Mist */
+    --foreground: 22 12% 35%;          /* #6F6158 — Taupe Deep */
 
-    /* Core neutrals (HSL) */
-    --assembl-mist:        33 33% 95%;   /* #F7F3EE */
-    --assembl-cloud:       32 39% 90%;   /* #EEE7DE */
-    --assembl-sand:        32 39% 78%;   /* #D8C8B4 */
-    --assembl-taupe:       28 14% 56%;   /* #9D8C7D */
-    --assembl-taupe-deep:  24 12% 39%;   /* #6F6158 */
-    --assembl-sage-mist:   149 18% 82%;  /* #C9D8D0 */
-    --assembl-soft-gold:   38 56% 67%;   /* #D9BC7A */
-
-    /* Industry kete accents (HSL) */
-    --kete-pikau:    95 18% 74%;   /* #B8C7B1 Soft Moss */
-    --kete-hoko:     2 26% 80%;    /* #D8C3C2 Blush Stone */
-    --kete-ako:      120 17% 81%;  /* #C7D6C7 Soft Sage */
-    --kete-toro:     208 47% 85%;  /* #C7D9E8 Moonstone Blue */
-    --kete-manaaki:  33 41% 84%;   /* #E6D8C6 Warm Linen */
-    --kete-waihanga: 28 27% 72%;   /* #CBB8A4 Clay Sand */
-    --kete-arataki:  338 22% 79%;  /* #D5C0C8 Dusky Rose */
-    --kete-auaha:    164 28% 83%;  /* #C8DDD8 Pale Seafoam */
-
-    /* Text */
-    --text-primary:    24 12% 39%;  /* #6F6158 Twilight Taupe */
-    --text-secondary:  24  9% 51%;  /* #8E8177 */
-    --text-body:       24  9% 33%;  /* #5F554F */
-
-    /* Aliases for legacy callers */
-    --assembl-text-primary:   var(--text-primary);
-    --assembl-text-secondary: var(--text-secondary);
-    --assembl-text-body:      var(--text-body);
-    --assembl-border-soft:    24 12% 56% / 0.14;
-    --assembl-shadow-soft:    0 8px 30px rgba(111,97,88,0.08);
-    --assembl-radius-card:    24px;
-    --assembl-radius-chip:    16px;
-    --assembl-radius-pill:    999px;
-    --industry-pikau:    var(--kete-pikau);
-    --industry-hoko:     var(--kete-hoko);
-    --industry-ako:      var(--kete-ako);
-    --industry-toro:     var(--kete-toro);
-    --industry-manaaki:  var(--kete-manaaki);
-    --industry-waihanga: var(--kete-waihanga);
-    --industry-arataki:  var(--kete-arataki);
-    --industry-auaha:    var(--kete-auaha);
-
-    /* shadcn semantic tokens — re-mapped to brand */
-    --background: 33 33% 95%;
-    --foreground: 24 12% 39%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 24 12% 39%;
+    --card: 32 25% 97%;               /* slightly lighter than mist */
+    --card-foreground: 22 12% 35%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 24 12% 39%;
+    --popover-foreground: 22 12% 35%;
 
-    --primary: 24 12% 39%;             /* Twilight Taupe */
-    --primary-foreground: 33 33% 95%;  /* Mist */
-    --primary-glow: 28 14% 56%;        /* Taupe */
+    /* ── Primary: Soft Gold (CTAs, links) ── */
+    --primary: 40 48% 66%;            /* #D9BC7A */
+    --primary-foreground: 22 12% 25%;
 
-    --secondary: 32 39% 90%;           /* Cloud */
-    --secondary-foreground: 24 12% 39%;
+    /* ── Secondary: Cloud ── */
+    --secondary: 32 27% 90%;          /* #EEE7DE */
+    --secondary-foreground: 22 12% 35%;
 
-    --muted: 32 39% 90%;
-    --muted-foreground: 24 9% 51%;
+    /* ── Muted: Sand ── */
+    --muted: 30 25% 87%;              /* ~D8C8B4 area */
+    --muted-foreground: 22 10% 52%;   /* #8E8177 */
 
-    --accent: 149 18% 82%;             /* Sage Mist */
-    --accent-foreground: 24 12% 39%;
+    /* ── Accent: Sage Mist ── */
+    --accent: 152 18% 82%;            /* #C9D8D0 */
+    --accent-foreground: 22 12% 30%;
 
-    --destructive: 3 45% 56%;
+    /* ── Destructive ── */
+    --destructive: 0 50% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 24 12% 56% / 0.14;
-    --input: 24 12% 56% / 0.18;
-    --ring: 28 14% 56%;
+    /* ── Border & input ── */
+    --border: 22 10% 52% / 0.14;      /* rgba(142,129,119,0.14) */
+    --input: 22 10% 52% / 0.14;
+    --ring: 40 48% 66%;               /* Soft Gold */
 
-    --radius: 1.5rem;            /* 24px */
-    --radius-card: 24px;
-    --radius-chip: 16px;
-    --radius-pill: 999px;
-    --border-soft: rgba(142,129,119,0.14);
-    --shadow-soft: 0 8px 30px rgba(111,97,88,0.08);
+    /* ── Radius ── */
+    --radius: 24px;
 
-    /* Legacy aliases — Whenua / Pearl callers keep compiling */
-    --color-bg: 33 33% 95%;
-    --color-surface: 0 0% 100%;
-    --color-surface-2: 32 39% 90%;
-    --kowhai: 38 56% 67%;
-    --kowhai-light: 38 56% 75%;
-    --pounamu: 28 14% 56%;
-    --pounamu-light: 28 14% 66%;
-    --tangaroa: 213 35% 40%;
-    --tangaroa-light: 213 35% 55%;
-    --rust: 3 45% 56%;
-    --bone: 32 39% 90%;
-    --success: 149 18% 70%;
-    --warning: 38 56% 67%;
-    --error: 3 45% 56%;
-    --kete-hanga: 28 27% 72%;
-    --kete-pakihi: 38 56% 67%;
-    --kete-waka: 207 22% 52%;
-    --kete-hangarau: 28 14% 56%;
-    --kete-toroa: 208 47% 85%;
-    --kete-hauora: 149 18% 70%;
+    /* ── Assembl surface tokens ── */
+    --assembl-mist: #F7F3EE;
+    --assembl-cloud: #EEE7DE;
+    --assembl-sand: #D8C8B4;
+    --assembl-taupe: #9D8C7D;
+    --assembl-taupe-deep: #6F6158;
+    --assembl-sage-mist: #C9D8D0;
+    --assembl-soft-gold: #D9BC7A;
 
-    --surface-0: 33 33% 95%;
-    --surface-1: 0 0% 100%;
-    --surface-2: 32 39% 90%;
-    --surface-3: 32 39% 78%;
+    /* ── Text tokens ── */
+    --text-primary: #6F6158;
+    --text-secondary: #8E8177;
+    --text-body: #5F554F;
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 24 12% 39%;
-    --sidebar-primary: 24 12% 39%;
-    --sidebar-primary-foreground: 33 33% 95%;
-    --sidebar-accent: 33 33% 95%;
-    --sidebar-accent-foreground: 24 12% 39%;
-    --sidebar-border: 24 12% 56% / 0.10;
-    --sidebar-ring: 28 14% 56%;
+    /* ── Shadow tokens ── */
+    --shadow-soft: 0 8px 30px rgba(111, 97, 88, 0.08);
+    --shadow-card: 0 4px 20px rgba(111, 97, 88, 0.06);
+
+    /* ── Industry kete accents ── */
+    --kete-pikau: #B8C7B1;
+    --kete-hoko: #D8C3C2;
+    --kete-ako: #C7D6C7;
+    --kete-toro: #C7D9E8;
+    --kete-manaaki: #E6D8C6;
+    --kete-waihanga: #CBB8A4;
+    --kete-arataki: #D5C0C8;
+    --kete-auaha: #C8DDD8;
+
+    /* ── Sidebar ── */
+    --sidebar-background: 32 25% 97%;
+    --sidebar-foreground: 22 12% 35%;
+    --sidebar-primary: 22 12% 35%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 32 27% 92%;
+    --sidebar-accent-foreground: 22 12% 35%;
+    --sidebar-border: 22 10% 52% / 0.14;
+    --sidebar-ring: 40 48% 66%;
   }
 }
+
+
+/* ════════════════════════════════════════════════════════════
+   BODY & TYPOGRAPHY
+   ════════════════════════════════════════════════════════════ */
 
 @layer base {
   * {
@@ -214,152 +131,200 @@ html {
   }
 
   body {
-    @apply text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
-    color: #5F554F;
-    background-color: #F7F3EE;
-    background-image:
-      radial-gradient(ellipse 80% 60% at 80% 0%, rgba(238,231,222,0.55) 0%, transparent 60%),
-      radial-gradient(ellipse 70% 55% at 10% 30%, rgba(201,216,208,0.30) 0%, transparent 65%),
-      radial-gradient(ellipse 80% 55% at 50% 100%, rgba(247,243,238,0.95) 0%, transparent 70%);
-    background-attachment: fixed;
+    color: var(--text-body);
+  }
+
+  /* Subtle warm noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-weight: 400;
-    letter-spacing: -0.012em;
-    color: #6F6158;
-  }
-}
-
-/* ── Pearl utility classes ── */
-@layer utilities {
-  .font-serif-display { font-family: 'Cormorant Garamond', serif; }
-  .font-sans-pearl { font-family: 'Inter', sans-serif; }
-  .text-pounamu { color: #6F6158; }                       /* retargeted to Brand v1.0 Taupe Deep */
-  .text-deep-calm { color: #6F6158; }
-  .text-ink-soft { color: rgba(111,97,88,0.72); }
-  .bg-icy-pearl { background-color: #FBFAF7; }
-  .bg-warm-pearl { background-color: #FBFAF7; }   /* alias kept for back-compat */
-  .bg-linen { background-color: #F3F4F2; }        /* now Moonstone */
-  .bg-moonstone { background-color: #F3F4F2; }
-  .bg-harbour-ink { background-color: #1B2A2E; }
-  .bg-opal-shimmer { background-color: #E8EEEC; }
-  .border-sea-glass { border-color: #C4D6D2; }
-
-  /* Pearl globe drift — slow, organic, never bouncy */
-  @keyframes pearlDrift {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33%      { transform: translate(12px, -18px) scale(1.015); }
-    66%      { transform: translate(-10px, 14px) scale(0.99); }
-  }
-  .pearl-drift-slow { animation: pearlDrift 22s ease-in-out infinite; will-change: transform; }
-  .pearl-drift-med  { animation: pearlDrift 16s ease-in-out infinite; will-change: transform; }
-
-  /* Feather plumes sway gently — like breath through a cloud */
-  @keyframes pearl-feather-sway {
-    0%   { transform: rotate(-1.5deg) scale(1);    opacity: 0.55; }
-    50%  { transform: rotate(1.5deg)  scale(1.04); opacity: 0.78; }
-    100% { transform: rotate(-1deg)   scale(0.98); opacity: 0.6;  }
-  }
-
-  /* Data nodes twinkle — uneven, never disco */
-  @keyframes pearl-node-twinkle {
-    0%, 100% { opacity: 0.25; transform: scale(0.85); }
-    45%      { opacity: 1;    transform: scale(1.25); }
-    70%      { opacity: 0.55; transform: scale(1);    }
-  }
-
-  /* Caustic wash slowly rotates behind the orb */
-  @keyframes pearl-caustic-rotate {
-    from { transform: scale(1.9) rotate(0deg);   }
-    to   { transform: scale(1.9) rotate(360deg); }
-  }
-  .pearl-caustic-wash { animation: pearl-caustic-rotate 38s linear infinite; will-change: transform; }
-
-  /* Pearl section fade-in */
-  @keyframes pearlFadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .pearl-fade-up { animation: pearlFadeUp 800ms cubic-bezier(0.22,1,0.36,1) both; }
-}
-
-/* ── Typography rhythm — locked 4-size scale (display/h1/h2/body) ── */
-@layer utilities {
-  .type-display {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-weight: 400;
-    font-size: clamp(2.5rem, 5vw + 1rem, 4.5rem);
-    line-height: 1.05;
-    letter-spacing: -0.018em;
-    color: #6F6158;
-  }
-  .type-h1 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-weight: 400;
-    font-size: clamp(1.875rem, 2.5vw + 0.75rem, 2.75rem);
-    line-height: 1.15;
-    letter-spacing: -0.014em;
-    color: #6F6158;
-  }
-  .type-h2 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 500;
-    font-size: clamp(1.375rem, 1.5vw + 0.5rem, 1.75rem);
-    line-height: 1.25;
-    letter-spacing: -0.012em;
-    color: #6F6158;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
   }
-  .type-h3 {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 1.125rem;
-    line-height: 1.4;
-    letter-spacing: -0.008em;
-    color: #6F6158;
-  }
-  .type-body {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.65;
-    color: #5F554F;
-  }
-  .type-body-sm {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: #5F554F;
-  }
-  .type-caption {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #8E8177;
-  }
-}
 
-@layer utilities {
-  /* ── Mono utility (legacy alias kept for backward compat) ── */
-  .font-mono-jb {
+  h1 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* Metadata, code snippets */
+  code, pre, .font-mono {
     font-family: 'IBM Plex Mono', monospace;
   }
+}
 
-  /* Hero gradient text — Brand v1.0 Soft Gold + Taupe Deep */
+
+/* ════════════════════════════════════════════════════════════
+   CARD SYSTEM — Airy glass surfaces
+   ════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+
+  /* ── Standard card — warm glass ── */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(142, 129, 119, 0.14);
+    border-radius: 24px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* ── Elevated card (modals, popovers) ── */
+  .glass-card-elevated {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(142, 129, 119, 0.18);
+    border-radius: 24px;
+    box-shadow: 0 12px 48px rgba(111, 97, 88, 0.12);
+  }
+
+  /* ── Card hover — gentle lift ── */
+  .glow-card-hover {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    will-change: transform;
+  }
+
+  .glow-card-hover:hover {
+    border-color: rgba(142, 129, 119, 0.22);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 40px rgba(111, 97, 88, 0.12);
+  }
+
+  /* ── Kete card — per-industry accent ── */
+  .kete-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(142, 129, 119, 0.14);
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    will-change: transform, box-shadow;
+  }
+
+  .kete-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--kete-accent, rgba(217, 188, 122, 0.35));
+    box-shadow: 0 12px 48px rgba(111, 97, 88, 0.12),
+                0 0 0 1px var(--kete-accent, rgba(217, 188, 122, 0.2));
+  }
+
+  /* Per-kete accent overrides */
+  .kete-card[data-kete="pikau"]   { --kete-accent: #B8C7B1; }
+  .kete-card[data-kete="hoko"]    { --kete-accent: #D8C3C2; }
+  .kete-card[data-kete="ako"]     { --kete-accent: #C7D6C7; }
+  .kete-card[data-kete="toro"]    { --kete-accent: #C7D9E8; }
+  .kete-card[data-kete="manaaki"] { --kete-accent: #E6D8C6; }
+  .kete-card[data-kete="waihanga"]{ --kete-accent: #CBB8A4; }
+  .kete-card[data-kete="arataki"] { --kete-accent: #D5C0C8; }
+  .kete-card[data-kete="auaha"]   { --kete-accent: #C8DDD8; }
+
+  /* ── Outcome cards (feature grid) ── */
+  .outcome-card {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(142, 129, 119, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    transition:
+      border-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  .outcome-card:hover {
+    border-color: rgba(142, 129, 119, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(111, 97, 88, 0.1);
+  }
+
+  .outcome-card:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 4px;
+  }
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   BUTTONS — Calm, human CTAs
+   ════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+
+  /* ── Primary CTA — Soft Gold ── */
+  .cta-primary {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #D9BC7A 0%, #C4A664 100%);
+    color: #3D3428;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 16px rgba(217, 188, 122, 0.25);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cta-primary:hover {
+    box-shadow: 0 6px 24px rgba(217, 188, 122, 0.35);
+    transform: translateY(-1px);
+  }
+
+  /* ── Ghost button — taupe outline ── */
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid rgba(157, 140, 125, 0.3);
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(157, 140, 125, 0.5);
+    background: rgba(157, 140, 125, 0.06);
+    transform: translateY(-1px);
+  }
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   TEXT UTILITIES
+   ════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+
+  /* Hero gradient text — warm gold sweep */
   .text-gradient-hero {
     background-image: linear-gradient(
       135deg,
-      #D9BC7A 0%,
-      #C9A966 45%,
+      #9D8C7D 0%,
+      #D9BC7A 50%,
       #6F6158 100%
     );
     -webkit-background-clip: text;
@@ -367,257 +332,207 @@ html {
     -webkit-text-fill-color: transparent;
   }
 
-  /* ── Glass Card — Brand v1.0 light glass (Taupe shadow, Soft Gold hover) ── */
-  .glass-card {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(24px) saturate(140%);
-    -webkit-backdrop-filter: blur(24px) saturate(140%);
-    border: 1px solid rgba(142, 129, 119, 0.14);
-    border-radius: 24px;
-    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
-  }
+  /* Text colour utilities */
+  .text-taupe       { color: var(--assembl-taupe); }
+  .text-taupe-deep  { color: var(--assembl-taupe-deep); }
+  .text-soft-gold   { color: var(--assembl-soft-gold); }
 
-  /* ── Glass Panel — interactive (hover lifts to Soft Gold edge) ── */
-  .glass-panel {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(24px) saturate(140%);
-    -webkit-backdrop-filter: blur(24px) saturate(140%);
-    border: 1px solid rgba(142, 129, 119, 0.14);
-    border-radius: 24px;
-    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-    position: relative;
-  }
-
-  .glass-panel:hover {
-    border-color: rgba(217, 188, 122, 0.45);
-    box-shadow: 0 14px 48px -10px rgba(217, 188, 122, 0.22), 0 6px 16px rgba(111, 97, 88, 0.08);
-    transform: translateY(-4px);
-  }
-
-  @media (max-width: 768px) {
-    .glass-panel {
-      backdrop-filter: blur(12px) saturate(1.2);
-      -webkit-backdrop-filter: blur(12px) saturate(1.2);
-    }
-  }
-
-  /* ── Premium Liquid Glass — Apple-tier light, Soft Gold hover ── */
-  .liquid-glass {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(40px) saturate(160%);
-    -webkit-backdrop-filter: blur(40px) saturate(160%);
-    border: 1px solid rgba(142, 129, 119, 0.14);
-    border-radius: 24px;
-    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .liquid-glass::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 10%;
-    right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 1), transparent);
-    z-index: 2;
-  }
-
-  .liquid-glass:hover {
-    border-color: rgba(217, 188, 122, 0.40);
-    box-shadow: 0 14px 48px -10px rgba(217, 188, 122, 0.24), 0 6px 16px rgba(111, 97, 88, 0.08);
-    transform: translateY(-4px);
-  }
-
-  @media (max-width: 768px) {
-    .liquid-glass {
-      backdrop-filter: blur(16px) saturate(1.3);
-      -webkit-backdrop-filter: blur(16px) saturate(1.3);
-    }
-  }
-
-  /* ── CTA Button — Soft Gold pill (Brand v1.0) ── */
-  .cta-glass-gold {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, #D9BC7A 0%, #C4A664 100%);
-    color: #3D3428;
-    border: none;
-    border-radius: 9999px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    letter-spacing: 0;
-    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-  }
-
-  .cta-glass-gold:hover {
-    box-shadow: 0 12px 36px rgba(217, 188, 122, 0.28);
-    transform: translateY(-2px);
-  }
-
-  /* ── Ghost button — calm, taupe outline ── */
-  .btn-ghost {
-    background: transparent;
-    color: #6F6158;
-    border: 1px solid rgba(157, 140, 125, 0.3);
-    border-radius: 9999px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    letter-spacing: 0;
-    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
-  }
-
-  .btn-ghost:hover {
-    border-color: rgba(157, 140, 125, 0.55);
-    background: rgba(255, 255, 255, 0.5);
-    transform: translateY(-1px);
-  }
-
-  /* ── Section divider ── */
-  .section-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(157, 140, 125, 0.20), transparent);
-  }
-
-  /* ── Glow card hover (calm, no green) ── */
-  .glow-card-hover {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-  }
-  .glow-card-hover:hover {
-    border-color: rgba(217, 188, 122, 0.30) !important;
-    transform: translateY(-4px);
-    box-shadow: 0 14px 48px -10px rgba(217, 188, 122, 0.18), 0 6px 16px rgba(111, 97, 88, 0.06);
-  }
-
-  /* ── Kete Card — light glass ── */
-  .kete-card {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(24px) saturate(140%);
-    -webkit-backdrop-filter: blur(24px) saturate(140%);
-    border: 1px solid rgba(142, 129, 119, 0.14);
-    border-radius: 24px;
-    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, box-shadow;
-  }
-  .kete-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(217, 188, 122, 0.30);
-    box-shadow: 0 14px 48px -10px rgba(217, 188, 122, 0.22), 0 6px 16px rgba(111, 97, 88, 0.06);
-  }
-
-  /* ── Text accent utilities — retired teal glow, now Taupe Deep ── */
-  .text-glow-cyan,
-  .text-glow-pounamu { color: #6F6158; }
-
-  /* ── Heading accent — calm Cormorant (no glow) ── */
-  .heading-glow {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    color: #6F6158;
-  }
-
-  /* ── Aurora — retired neon, now soft warm wash ── */
-  .aurora-glow {
-    background: radial-gradient(ellipse at center, rgba(217, 188, 122, 0.10) 0%, transparent 70%);
+  /* Monospace utility */
+  .font-mono-ibm {
+    font-family: 'IBM Plex Mono', monospace;
   }
 }
 
 
-/* ── Keyframes ── */
-@keyframes enterprise-gradient-sweep {
+/* ════════════════════════════════════════════════════════════
+   BADGES — Warm tonal chips
+   ════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+
+  .badge-gold {
+    background: rgba(217, 188, 122, 0.12);
+    color: #9D7D3A;
+    border: 1px solid rgba(217, 188, 122, 0.25);
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .badge-sage {
+    background: rgba(201, 216, 208, 0.2);
+    color: #5A7A6A;
+    border: 1px solid rgba(201, 216, 208, 0.35);
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .badge-sand {
+    background: rgba(216, 200, 180, 0.15);
+    color: #7A6A5A;
+    border: 1px solid rgba(216, 200, 180, 0.3);
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   LAYOUT UTILITIES
+   ════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+
+  /* Section divider — warm taupe gradient */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(157, 140, 125, 0.2), transparent);
+  }
+
+  /* Section heading with animated underline */
+  .section-heading {
+    position: relative;
+    display: inline-block;
+  }
+  .section-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--assembl-soft-gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+  }
+  .section-heading:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Premium gradient border tag */
+  .gradient-border-tag {
+    position: relative;
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 16px;
+    background: var(--assembl-mist);
+    isolation: isolate;
+  }
+
+  .gradient-border-tag::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 17px;
+    padding: 1px;
+    background: linear-gradient(90deg, var(--assembl-sand), var(--assembl-soft-gold), var(--assembl-sand));
+    background-size: 300% 100%;
+    animation: gradient-sweep 6s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+  }
+
+  /* Input field focus */
+  .input-glow:focus {
+    box-shadow: 0 0 0 1px rgba(217, 188, 122, 0.4),
+                0 0 16px rgba(217, 188, 122, 0.1);
+    border-color: rgba(217, 188, 122, 0.5) !important;
+  }
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   SPARKLE — Fairy-light accent (hero/hover/completion ONLY)
+   ════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+
+  .sparkle-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sparkle-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--assembl-soft-gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkle 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Only show sparkles on hero sections and hover states */
+  .sparkle-on-hover .sparkle-particle {
+    opacity: 0;
+  }
+  .sparkle-on-hover:hover .sparkle-particle {
+    animation: sparkle 2.5s ease-in-out infinite;
+  }
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   KETE ANIMATIONS — Feather kete motifs
+   ════════════════════════════════════════════════════════════ */
+
+@keyframes gradient-sweep {
   0% { background-position: 0% 50%; }
   100% { background-position: 300% 50%; }
 }
 
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes gentle-breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.01); }
 }
 
-@keyframes bounce-dot {
-  0%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-6px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes float-orb {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(10px, -20px); }
-  50% { transform: translate(-10px, -10px); }
-  75% { transform: translate(15px, 10px); }
-}
-
-/* ── Kete icon animations ── */
 @keyframes kete-float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  50% { transform: translateY(-4px); }
 }
-.kete-float { animation: kete-float 6s ease-in-out infinite; }
-.kete-float-dense { animation: kete-float 5s ease-in-out infinite; }
 
 @keyframes kete-card-entrance {
-  0% { opacity: 0; transform: translateY(20px); }
+  0% { opacity: 0; transform: translateY(16px); }
   100% { opacity: 1; transform: translateY(0); }
 }
-.kete-card-visible { animation: kete-card-entrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-@keyframes kete-glow-pulse-kf {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
-}
-.kete-glow-pulse { animation: kete-glow-pulse-kf 3s ease-in-out infinite; }
-
-@keyframes kete-glow-dot-kf {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
-.kete-glow-dot { animation: kete-glow-dot-kf 4s ease-in-out infinite; }
-
-@keyframes kete-handle-breathe {
-  0%, 100% { stroke-width: 2.5; opacity: 0.95; }
-  50% { stroke-width: 2.2; opacity: 0.8; }
-}
-.kete-handle { animation: kete-handle-breathe 4s ease-in-out infinite; }
-.kete-handle-warm { animation: kete-handle-breathe 3.5s ease-in-out infinite; }
-
-@keyframes kete-albatross-float {
+@keyframes feather-drift {
   0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-2px) rotate(1deg); }
+  50% { transform: translateY(-3px) rotate(1deg); }
 }
-.kete-albatross { animation: kete-albatross-float 5s ease-in-out infinite; }
 
-@keyframes kete-weave-in {
-  0% { stroke-dashoffset: 300; opacity: 0; }
-  100% { stroke-dashoffset: 0; opacity: 1; }
-}
-.kete-weave-in { animation: kete-weave-in 1.2s cubic-bezier(0.16,1,0.3,1) forwards; }
+.kete-float         { animation: kete-float 6s ease-in-out infinite; will-change: transform; }
+.kete-card-visible  { animation: kete-card-entrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.feather-drift      { animation: feather-drift 5s ease-in-out infinite; }
+.gentle-breathe     { animation: gentle-breathe 5s ease-in-out infinite; will-change: opacity; }
 
-@keyframes scan-line {
-  0% { transform: translateY(0); opacity: 0; }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.6; }
-  100% { transform: translateY(100px); opacity: 0; }
-}
-.animate-scan-line { animation: scan-line 2s ease-in-out infinite; }
 
-@keyframes marama-breathe {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.02); }
+/* ════════════════════════════════════════════════════════════
+   ACCESSIBILITY
+   ════════════════════════════════════════════════════════════ */
+
+/* High Contrast Mode — WCAG 2.1 AA */
+.high-contrast {
+  --foreground: 0 0% 10%;
+  --muted-foreground: 0 0% 30%;
+  --border: 0 0% 30% / 0.3;
 }
-.marama-breathe { animation: marama-breathe 5s ease-in-out infinite; }
+
+.high-contrast * {
+  --tw-text-opacity: 1;
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -628,391 +543,59 @@ html {
   }
 }
 
-/* ─────────────────────────────────────────────
-   LIGHT GLASS SHELL — site-wide upgrade remap
-   Every authenticated page is wrapped by either
-   .kete-light-shell (dashboards) or .light-glass-shell
-   (LightPageShell). Both classes co-exist so any
-   leftover dark-theme utility classes inside
-   (text-white/X, bg-white/X, dark form inputs, etc.)
-   are auto-remapped to charcoal-on-light glass.
-   This upgrades ~90 legacy components without
-   touching their source files.
 
-   The body element also receives .light-glass-shell
-   by default (App.tsx) so pages without an explicit
-   wrapper still get the upgrade.
-   ───────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════
+   COMPATIBILITY ALIASES — keep legacy class names working
+   These preserve component imports while the codebase migrates
+   to the canonical Feather Kete utilities above.
+   ════════════════════════════════════════════════════════════ */
 
-/* === TEXT — white-on-dark → charcoal-on-light === */
-.kete-light-shell .text-white,
-.light-glass-shell .text-white         { color: #1F2330 !important; }
-.kete-light-shell .text-white\/95,
-.light-glass-shell .text-white\/95     { color: rgba(31,35,48,0.95) !important; }
-.kete-light-shell .text-white\/90,
-.light-glass-shell .text-white\/90     { color: rgba(31,35,48,0.92) !important; }
-.kete-light-shell .text-white\/80,
-.light-glass-shell .text-white\/80     { color: rgba(31,35,48,0.85) !important; }
-.kete-light-shell .text-white\/70,
-.light-glass-shell .text-white\/70     { color: rgba(31,35,48,0.78) !important; }
-.kete-light-shell .text-white\/60,
-.light-glass-shell .text-white\/60     { color: rgba(31,35,48,0.66) !important; }
-.kete-light-shell .text-white\/50,
-.light-glass-shell .text-white\/50     { color: rgba(31,35,48,0.55) !important; }
-.kete-light-shell .text-white\/40,
-.light-glass-shell .text-white\/40     { color: rgba(31,35,48,0.48) !important; }
-.kete-light-shell .text-white\/35,
-.light-glass-shell .text-white\/35     { color: rgba(31,35,48,0.42) !important; }
-.kete-light-shell .text-white\/30,
-.light-glass-shell .text-white\/30     { color: rgba(31,35,48,0.38) !important; }
-.kete-light-shell .text-white\/20,
-.light-glass-shell .text-white\/20     { color: rgba(31,35,48,0.30) !important; }
-.kete-light-shell .text-white\/15,
-.light-glass-shell .text-white\/15     { color: rgba(31,35,48,0.40) !important; }
-.kete-light-shell .text-white\/10,
-.light-glass-shell .text-white\/10     { color: rgba(31,35,48,0.38) !important; }
-.kete-light-shell .text-white\/25,
-.light-glass-shell .text-white\/25     { color: rgba(31,35,48,0.45) !important; }
-.kete-light-shell .text-white\/5,
-.light-glass-shell .text-white\/5      { color: rgba(31,35,48,0.36) !important; }
-.kete-light-shell .text-white\/85,
-.light-glass-shell .text-white\/85     { color: rgba(31,35,48,0.88) !important; }
-.kete-light-shell .text-white\/75,
-.light-glass-shell .text-white\/75     { color: rgba(31,35,48,0.80) !important; }
-.kete-light-shell .text-white\/65,
-.light-glass-shell .text-white\/65     { color: rgba(31,35,48,0.72) !important; }
-.kete-light-shell .text-white\/55,
-.light-glass-shell .text-white\/55     { color: rgba(31,35,48,0.60) !important; }
-.kete-light-shell .text-white\/45,
-.light-glass-shell .text-white\/45     { color: rgba(31,35,48,0.50) !important; }
+@layer utilities {
+  /* Mono alias (49 component refs) → IBM Plex Mono */
+  .font-mono-jb { font-family: 'IBM Plex Mono', monospace; }
 
-/* Plain Tailwind grays that were chosen for dark bg */
-.kete-light-shell .text-gray-200,
-.light-glass-shell .text-gray-200      { color: rgba(31,35,48,0.85) !important; }
-.kete-light-shell .text-gray-300,
-.light-glass-shell .text-gray-300      { color: rgba(31,35,48,0.70) !important; }
-.kete-light-shell .text-gray-400,
-.light-glass-shell .text-gray-400      { color: rgba(31,35,48,0.55) !important; }
+  /* Glass surface aliases (7 component refs) → standard glass-card */
+  .liquid-glass,
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(142, 129, 119, 0.14);
+    border-radius: 24px;
+    box-shadow: var(--shadow-soft);
+  }
 
-/* === PLACEHOLDERS === */
-.kete-light-shell [class*="placeholder:text-white"]::placeholder,
-.kete-light-shell [class*="placeholder:text-gray-4"]::placeholder,
-.kete-light-shell [class*="placeholder:text-gray-3"]::placeholder,
-.light-glass-shell [class*="placeholder:text-white"]::placeholder,
-.light-glass-shell [class*="placeholder:text-gray-4"]::placeholder,
-.light-glass-shell [class*="placeholder:text-gray-3"]::placeholder {
-  color: rgba(31,35,48,0.42) !important;
-}
+  /* Gold CTA alias (5 component refs) → cta-primary */
+  .cta-glass-gold {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #D9BC7A 0%, #C4A664 100%);
+    color: #3D3428;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 16px rgba(217, 188, 122, 0.25);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cta-glass-gold:hover {
+    box-shadow: 0 6px 24px rgba(217, 188, 122, 0.35);
+    transform: translateY(-1px);
+  }
 
-/* === SURFACES — white tints become charcoal tints === */
-.kete-light-shell .bg-white\/5,
-.light-glass-shell .bg-white\/5         { background-color: rgba(255,255,255,0.65) !important; backdrop-filter: blur(8px); }
-.kete-light-shell .bg-white\/10,
-.light-glass-shell .bg-white\/10        { background-color: rgba(255,255,255,0.72) !important; backdrop-filter: blur(10px); }
-.kete-light-shell .bg-white\/20,
-.light-glass-shell .bg-white\/20        { background-color: rgba(255,255,255,0.80) !important; backdrop-filter: blur(12px); }
-.kete-light-shell .hover\:bg-white\/5:hover,
-.light-glass-shell .hover\:bg-white\/5:hover  { background-color: rgba(255,255,255,0.85) !important; }
-.kete-light-shell .hover\:bg-white\/10:hover,
-.light-glass-shell .hover\:bg-white\/10:hover { background-color: rgba(255,255,255,0.92) !important; }
+  /* Retired neon glow text aliases → calm Taupe Deep */
+  .text-glow-cyan,
+  .text-glow-pounamu { color: var(--text-primary); }
 
-/* Heavy darks (bg-black, bg-slate-900 etc.) shouldn't appear, but if they do, surface them */
-.kete-light-shell .bg-black,
-.light-glass-shell .bg-black,
-.kete-light-shell .bg-slate-900,
-.light-glass-shell .bg-slate-900,
-.kete-light-shell .bg-slate-800,
-.light-glass-shell .bg-slate-800        {
-  background-color: rgba(255,255,255,0.78) !important;
-  color: #1F2330 !important;
-  backdrop-filter: blur(12px);
-}
+  /* Heading accent alias (3 refs) → Cormorant, no glow */
+  .heading-glow {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--text-primary);
+  }
 
-/* === BORDERS — Soft Gold edge (Brand v1.0) === */
-.kete-light-shell .border-white\/5,
-.kete-light-shell .border-white\/10,
-.kete-light-shell .border-white\/20,
-.kete-light-shell .border-white\/30,
-.light-glass-shell .border-white\/5,
-.light-glass-shell .border-white\/10,
-.light-glass-shell .border-white\/20,
-.light-glass-shell .border-white\/30 {
-  border-color: rgba(217,188,122,0.28) !important;
-}
-
-/* === FORM INPUTS — Soft Gold focus ring === */
-.kete-light-shell input[class*="bg-white/"],
-.kete-light-shell select[class*="bg-white/"],
-.kete-light-shell textarea[class*="bg-white/"],
-.light-glass-shell input[class*="bg-white/"],
-.light-glass-shell select[class*="bg-white/"],
-.light-glass-shell textarea[class*="bg-white/"] {
-  background-color: rgba(255,255,255,0.85) !important;
-  color: #1F2330 !important;
-  border-color: rgba(217,188,122,0.30) !important;
-  box-shadow: inset 2px 2px 6px rgba(166,166,180,0.18),
-              inset -2px -2px 6px rgba(255,255,255,0.95) !important;
-}
-.kete-light-shell input[class*="bg-white/"]:focus,
-.kete-light-shell select[class*="bg-white/"]:focus,
-.kete-light-shell textarea[class*="bg-white/"]:focus,
-.light-glass-shell input[class*="bg-white/"]:focus,
-.light-glass-shell select[class*="bg-white/"]:focus,
-.light-glass-shell textarea[class*="bg-white/"]:focus {
-  outline: none !important;
-  border-color: rgba(217,188,122,0.65) !important;
-  box-shadow: 0 0 0 3px rgba(217,188,122,0.18),
-              inset 2px 2px 6px rgba(166,166,180,0.18),
-              inset -2px -2px 6px rgba(255,255,255,0.95) !important;
-}
-
-/* === LEGACY DARK CARDS — Soft Gold edge === */
-.kete-light-shell [style*="rgba(255,255,255,0.03)"],
-.kete-light-shell [style*="rgba(255,255,255,0.05)"],
-.light-glass-shell [style*="rgba(255,255,255,0.03)"],
-.light-glass-shell [style*="rgba(255,255,255,0.05)"] {
-  background: rgba(255,255,255,0.75) !important;
-  backdrop-filter: blur(10px) saturate(150%);
-  border: 1px solid rgba(217,188,122,0.22) !important;
-}
-
-/* ─────────────────────────────────────────────
-   MĀRAMA LIQUID 3D — design tokens + keyframes
-   Used by src/components/marama/* (LiquidButton,
-   LiquidPanel, GlowBadge). Pushable 3D feel,
-   liquid shimmer, ambient color glows.
-   ───────────────────────────────────────────── */
-:root {
-  --radius-liquid:        24px;
-  --radius-liquid-sm:     16px;
-
-  /* Neumorphic dual-shadow stack (rest state) */
-  --shadow-rest:          12px 14px 36px rgba(166,166,180,0.28),
-                          -10px -10px 28px rgba(255,255,255,0.95),
-                          inset 0 2px 0 rgba(255,255,255,0.95),
-                          inset 0 -1px 0 rgba(0,0,0,0.04);
-  /* Pressed state (used by liquid-button:active) */
-  --shadow-press:         inset 4px 4px 10px rgba(166,166,180,0.32),
-                          inset -4px -4px 8px rgba(255,255,255,0.65);
-
-  /* Ambient color glows — Brand v1.0 Soft Gold (was teal) */
-  --glow-teal:            0 0 38px rgba(217,188,122,0.32);
-  --glow-ochre:           0 0 38px rgba(217,188,122,0.32);
-  --glow-lavender:        0 0 38px rgba(155,143,191,0.32);
-  --glow-success:         0 0 32px rgba(184,199,177,0.36);
-  --glow-error:           0 0 32px rgba(200,90,84,0.34);
-  --glow-info:            0 0 32px rgba(199,217,232,0.36);
-}
-
-/* Liquid shimmer band — used by LiquidPanel + LiquidButton */
-@keyframes liquidShimmer {
-  0%   { background-position: 0% 0%; }
-  50%  { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
-/* Live data ribbon marquee */
-@keyframes ribbon {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-/* Press feedback for any element with .liquid-press */
-.liquid-press {
-  transition: transform 140ms cubic-bezier(.2,.8,.2,1),
-              box-shadow 180ms cubic-bezier(.2,.8,.2,1);
-}
-.liquid-press:active { transform: translateY(1px) scale(0.997); }
-
-/* Reduced motion respects prefers-reduced-motion above */
-@media (prefers-reduced-motion: reduce) {
-  .liquid-button > span[aria-hidden],
-  .liquid-panel  > span[aria-hidden] {
-    animation: none !important;
+  /* Aurora alias → soft warm wash */
+  .aurora-glow {
+    background: radial-gradient(ellipse at center, rgba(217, 188, 122, 0.10) 0%, transparent 70%);
   }
 }
-
-/* ═══════════════════════════════════════════════════════════════════════
-   PEARL BRAND ALIGNMENT SHIM (sitewide retarget — 2026-04-21)
-   The site has 300+ files using legacy fonts (Lato, Plus Jakarta) and
-   teal accents (#3A7D6E, #4AA5A8). Rather than rewrite each file, this
-   shim retargets those tokens to the Pearl system at the CSS layer so
-   every page inherits the homepage branding without code edits.
-
-   Pearl tokens:
-     Display: 'Cormorant Garamond' (was Lato for headings)
-     Body:    'Inter' (was Plus Jakarta Sans)
-     Accent:  #1F4D47 Pounamu (was #3A7D6E / #4AA5A8 teal)
-     Canvas:  #FBFAF7 Icy Pearl (was #FAFBFC)
-     Ink:     #0E1513 Deep Calm (was #3D4250)
-   ═══════════════════════════════════════════════════════════════════════ */
-
-/* 1 ─ Inline-style font remap                                              */
-[style*="'Lato'"],
-[style*='"Lato"'] {
-  font-family: 'Cormorant Garamond', serif !important;
-  letter-spacing: -0.012em;
-}
-[style*="'Plus Jakarta Sans'"],
-[style*='"Plus Jakarta Sans"'] {
-  font-family: 'Inter', sans-serif !important;
-}
-
-/* 2 ─ Tailwind font utilities still in use across pages -> Inter           */
-.font-syne,
-.font-outfit,
-.font-jakarta,
-.font-inter {
-  font-family: 'Inter', sans-serif !important;
-}
-.font-display {
-  font-family: 'Cormorant Garamond', serif !important;
-  font-weight: 300;
-  letter-spacing: -0.015em;
-}
-
-/* 3 ─ Tailwind utility colour classes using legacy teal hexes
-       Brand v1.0 (2026-04-22): teal retired → Soft Gold #D9BC7A accents,
-       Taupe Deep #6F6158 for stronger fills.                                */
-.text-\[\#3A7D6E\],
-.text-\[\#3a7d6e\],
-.text-\[\#4AA5A8\],
-.text-\[\#4aa5a8\],
-.text-\[\#3A8A8D\],
-.text-\[\#5AADA0\],
-.text-\[\#7ECFC2\],
-.text-\[\#A8DDDB\] {
-  color: #6F6158 !important;
-}
-.bg-\[\#3A7D6E\],
-.bg-\[\#3a7d6e\],
-.bg-\[\#4AA5A8\],
-.bg-\[\#4aa5a8\],
-.bg-\[\#3A8A8D\],
-.bg-\[\#5AADA0\],
-.bg-\[\#7ECFC2\],
-.bg-\[\#A8DDDB\] {
-  background-color: #D9BC7A !important;
-}
-.border-\[\#3A7D6E\],
-.border-\[\#4AA5A8\],
-.border-\[\#3A8A8D\],
-.border-\[\#A8DDDB\] {
-  border-color: #D9BC7A !important;
-}
-
-/* 4 ─ Whenua / neon legacy palette → Brand v1.0 Soft Gold + Taupe          */
-.text-whenua-pounamu,
-.text-whenua-pounamu-light,
-.text-neon-green,
-.text-neon-teal,
-.text-neon-cyan,
-.text-neon-blue {
-  color: #6F6158 !important;
-}
-.bg-whenua-pounamu,
-.bg-whenua-pounamu-light,
-.bg-neon-green,
-.bg-neon-teal {
-  background-color: #D9BC7A !important;
-}
-
-/* 5 ─ Old canvas / ink retargets                                           */
-.bg-\[\#FAFBFC\],
-.bg-\[\#fafbfc\] {
-  background-color: #FBFAF7 !important;
-}
-.text-\[\#3D4250\],
-.text-\[\#3d4250\] {
-  color: #0E1513 !important;
-}
-
-/* 6 ─ Legacy uppercase wordmarks (Lato 300, 4-6px tracking) read awkward
-       once retargeted to Cormorant. Force them into the Pearl eyebrow
-       treatment instead — Inter, lowercase, 0.18em, muted clay.            */
-[style*="letter-spacing: 4px"][style*="'Lato'"],
-[style*="letter-spacing: 5px"][style*="'Lato'"],
-[style*="letter-spacing: 6px"][style*="'Lato'"],
-[style*="letter-spacing: 8px"][style*="'Lato'"] {
-  font-family: 'Inter', sans-serif !important;
-  letter-spacing: 0.18em !important;
-  text-transform: lowercase;
-  font-weight: 500 !important;
-  color: #8B8479 !important;
-}
-
-/* 7 ─ Inline-style legacy teal hexes → Soft Gold (Brand v1.0)
-       Catches `style="color:#4AA5A8"`, `background:#3A7D6E`, etc.
-       SVG attribute usages (stroke="#4AA5A8", fill="#4AA5A8") are not
-       reachable from CSS and are visually softened by the lighter shell;
-       any remaining stray strokes read as muted ochre on the new bg.       */
-[style*="#4AA5A8"],
-[style*="#4aa5a8"],
-[style*="#3A7D6E"],
-[style*="#3a7d6e"],
-[style*="#3A8A8D"],
-[style*="#5AADA0"],
-[style*="#7ECFC2"],
-[style*="rgba(74,165,168"],
-[style*="rgba(74, 165, 168"],
-[style*="rgba(58,125,110"] {
-  /* Soft Gold tint — overrides inline color when the hex is used as the
-     `color` value. Background/box-shadow inline usages keep their geometry
-     but read as warm gold rather than teal. */
-  color: #6F6158 !important;
-}
-[style*="background:#4AA5A8"],
-[style*="background: #4AA5A8"],
-[style*="background-color:#4AA5A8"],
-[style*="background-color: #4AA5A8"],
-[style*="background:#3A7D6E"],
-[style*="background: #3A7D6E"] {
-  background-color: #D9BC7A !important;
-}
-[style*="border-color:#4AA5A8"],
-[style*="border-color: #4AA5A8"],
-[style*="border-color:#3A7D6E"] {
-  border-color: #D9BC7A !important;
-}
-
-/* ===========================================================================
-   8 ─ Brand Guidelines v1.0 typography shim (2026-04-22)
-   ---------------------------------------------------------------------------
-   The brand bible bans Plus Jakarta Sans, Lato, and JetBrains Mono.
-   Rather than rewrite every legacy inline `style={{ fontFamily: ... }}`
-   call site (1,700+ hits across 89 files), we alias them to the approved
-   families globally. Any element whose inline style mentions a banned
-   family gets re-rendered in the canonical Inter / IBM Plex Mono.
-   Mirror of the existing pearl-alignment-shim pattern.
-   =========================================================================== */
-[style*="Plus Jakarta Sans"],
-[style*="'Plus Jakarta Sans'"],
-[style*='"Plus Jakarta Sans"'],
-[style*="Lato"],
-[style*="'Lato'"],
-[style*='"Lato"'] {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-}
-[style*="JetBrains Mono"],
-[style*="'JetBrains Mono'"],
-[style*='"JetBrains Mono"'] {
-  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace !important;
-}
-
-/* 9 ─ Banned hard text colours → Twilight Taupe (Brand v1.0)
-       #1A1D29 / #000 used as text colour drift in legacy hanga + toroa
-       dashboards. SVG `fill` attributes are not reachable, but inline
-       `color` and `text-color` CSS in style strings are caught here.   */
-[style*="color:#1A1D29"],
-[style*="color: #1A1D29"],
-[style*="color:#1a1d29"],
-[style*="color: #1a1d29"],
-[style*="color:#000000"],
-[style*="color: #000000"],
-[style*="color:#000;"],
-[style*="color: #000;"],
-[style*="color: black"],
-[style*="color:black"] {
-  color: #6F6158 !important;
-}
-
