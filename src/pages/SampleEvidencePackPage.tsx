@@ -11,7 +11,7 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
 /* ─── Brand tokens ─── */
-const BG = "#0A1628";
+const BG = "#F7F3EE";
 const TEAL = "#3A7D6E";
 const GOLD = "#4AA5A8";
 const WHITE = "#FFFFFF";

@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 
 const GOLD = "#4AA5A8";
 const BG = "#FAFBFC";
-const CARD_BG = "#0F0F1A";
+const CARD_BG = "#FFFFFF";
 
 interface Conversation {
   id: string;

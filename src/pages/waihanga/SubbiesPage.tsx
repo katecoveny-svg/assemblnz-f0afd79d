@@ -125,7 +125,7 @@ export default function SubbiesPage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "#0A1628" }}>
+    <div className="min-h-screen" style={{ background: "#F7F3EE" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="text-3xl sm:text-4xl font-light tracking-tight" style={{ color: "#F5F0E8", fontFamily: "'Lato', sans-serif" }}>
@@ -180,7 +180,7 @@ export default function SubbiesPage() {
           </div>
           <button onClick={() => setShowAdd(true)}
             className="px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2"
-            style={{ background: "#4AA5A8", color: "#0A1628" }}>
+            style={{ background: "#4AA5A8", color: "#F7F3EE" }}>
             <Plus className="w-4 h-4" /> Add subbie
           </button>
         </div>
@@ -308,7 +308,7 @@ export default function SubbiesPage() {
               </label>
             </div>
             <button type="submit" className="mt-6 w-full py-3 rounded-full font-medium"
-              style={{ background: "#4AA5A8", color: "#0A1628" }}>
+              style={{ background: "#4AA5A8", color: "#F7F3EE" }}>
               Add subbie
             </button>
           </form>

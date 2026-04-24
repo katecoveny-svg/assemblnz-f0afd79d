@@ -193,7 +193,7 @@ export default function ReelsPage() {
   const inFlight = renders.length - completed - failed;
 
   return (
-    <div className="min-h-screen" style={{ background: "#0A1628" }}>
+    <div className="min-h-screen" style={{ background: "#F7F3EE" }}>
       <div className="max-w-5xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center gap-3 mb-3">
@@ -241,15 +241,15 @@ export default function ReelsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
             <select value={audience} onChange={e => setAudience(e.target.value)}
               className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none" style={{ color: "#F5F0E8" }}>
-              {AUDIENCES.map(a => <option key={a} value={a} style={{ color: "#0A1628" }}>{a}</option>)}
+              {AUDIENCES.map(a => <option key={a} value={a} style={{ color: "#F7F3EE" }}>{a}</option>)}
             </select>
             <select value={contentType} onChange={e => setContentType(e.target.value)}
               className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none" style={{ color: "#F5F0E8" }}>
-              {TYPES.map(t => <option key={t} value={t} style={{ color: "#0A1628" }}>{t}</option>)}
+              {TYPES.map(t => <option key={t} value={t} style={{ color: "#F7F3EE" }}>{t}</option>)}
             </select>
             <select value={brand} onChange={e => setBrand(e.target.value)}
               className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 outline-none" style={{ color: "#F5F0E8" }}>
-              {BRANDS.map(b => <option key={b} value={b} style={{ color: "#0A1628" }}>{b}</option>)}
+              {BRANDS.map(b => <option key={b} value={b} style={{ color: "#F7F3EE" }}>{b}</option>)}
             </select>
           </div>
 

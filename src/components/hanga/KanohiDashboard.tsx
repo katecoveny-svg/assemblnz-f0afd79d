@@ -33,7 +33,7 @@ interface ChatMsg {
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
-const SURFACE = "#0F0F1A";
+const SURFACE = "#FFFFFF";
 const BG = "#3D3428";
 
 const Glass = ({ children, className = "", glow = false, navy = false }: {
