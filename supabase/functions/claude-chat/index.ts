@@ -59,11 +59,37 @@ const ParamsSchema = z
   })
   .optional();
 
+// Optional compliance context the client can supply to make the gate more
+// precise. All fields are optional — when omitted we infer from the latest
+// user message.
+const ComplianceContextSchema = z
+  .object({
+    kind: z
+      .enum(["site_checkin", "upload_photo", "submit_tender", "escalate_hazard", "chat"])
+      .optional(),
+    zone: z.string().max(64).optional(),
+    ppeConfirmed: z.boolean().optional(),
+    containsWorkers: z.boolean().optional(),
+    workerConsent: z.boolean().optional(),
+    humanSignoff: z.boolean().optional(),
+    confidence: z.number().min(0).max(1).optional(),
+    world: z
+      .object({
+        headcount: z.number().int().min(0).max(10_000).optional(),
+        headcountCap: z.number().int().min(1).max(10_000).optional(),
+        criticalHazardZones: z.array(z.string().max(64)).max(64).optional(),
+        uncertaintyThreshold: z.number().min(0).max(1).optional(),
+      })
+      .optional(),
+  })
+  .optional();
+
 const ChatBodySchema = z.object({
   agentId: z.string().min(1).max(64).regex(/^[a-z0-9_-]+$/i),
   messages: z.array(MessageSchema).min(1).max(MAX_MESSAGES),
   model: z.enum(CLAUDE_MODELS).optional(),
   params: ParamsSchema,
+  complianceContext: ComplianceContextSchema,
 });
 
 const corsHeaders = {
