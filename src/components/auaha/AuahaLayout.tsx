@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useLocation } from "react-router-dom";
-import { Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Globe, LayoutDashboard, Target, ChevronRight, Sparkles, Shield, BookOpen, Grid3X3, MonitorPlay, Eye, Zap, AudioLines, Fingerprint, Film } from "lucide-react";
+import { Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Globe, LayoutDashboard, Target, ChevronRight, Sparkles, Shield, BookOpen, Grid3X3, MonitorPlay, Eye, Zap, AudioLines, Fingerprint, Film, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BrandDnaProvider, useBrandDna } from "@/contexts/BrandDnaContext";
 
@@ -31,6 +31,7 @@ const AUAHA_NAV = [
     { to: "/auaha/web", label: "Web Builder", icon: Globe },
   ]},
   { group: "System", items: [
+    { to: "/auaha/queue", label: "Kahu queue", icon: ShieldCheck },
     { to: "/auaha/audit", label: "Tā Audit", icon: Shield },
     { to: "/auaha/prompts", label: "Prompts", icon: BookOpen },
     { to: "/auaha/whaikorero", label: "Whaikōrero", icon: Target },
