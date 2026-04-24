@@ -101,6 +101,9 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
   const [supervisorContext, setSupervisorContext] = useState<SupervisorComplianceContext>(
     DEFAULT_SUPERVISOR_CONTEXT,
   );
+  const [preflightConfirmed, setPreflightConfirmed] = useState(false);
+  const [showPreflight, setShowPreflight] = useState(false);
+  const [pendingMessage, setPendingMessage] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const isWaihanga = packId === "waihanga" || packId === "hanga";
