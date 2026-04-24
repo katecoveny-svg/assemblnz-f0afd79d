@@ -84,6 +84,7 @@ const AdminMcpSecurity = lazy(() => import("./pages/admin/mcp/Security"));
 const AdminMcpHousekeeping = lazy(() => import("./pages/admin/mcp/Housekeeping"));
 const AdminMcpBilling = lazy(() => import("./pages/admin/mcp/Billing"));
 const AdminMcpServer = lazy(() => import("./pages/admin/mcp/Server"));
+const AdminMcpFunctionHealth = lazy(() => import("./pages/admin/mcp/FunctionHealth"));
 const AdminApiKeys = lazy(() => import("./pages/admin/ApiKeys"));
 const DataSovereigntyPage = lazy(() => import("./pages/DataSovereigntyPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
@@ -340,6 +341,7 @@ const App = () => (
                           <Route path="housekeeping" element={<Suspense fallback={null}><AdminMcpHousekeeping /></Suspense>} />
                           <Route path="billing" element={<Suspense fallback={null}><AdminMcpBilling /></Suspense>} />
                           <Route path="server" element={<Suspense fallback={null}><AdminMcpServer /></Suspense>} />
+                          <Route path="health" element={<Suspense fallback={null}><AdminMcpFunctionHealth /></Suspense>} />
                         </Route>
                         <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
                         <Route path="/admin/messaging" element={<Suspense fallback={null}><AdminMessagingDashboard /></Suspense>} />

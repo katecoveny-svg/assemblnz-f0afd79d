@@ -15,6 +15,7 @@ import {
   Receipt,
   Server,
   KeyRound,
+  Activity,
 } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import { useAuth } from "@/hooks/useAuth";
@@ -31,6 +32,7 @@ const NAV = [
   { to: "/admin/mcp/security", label: "Security", icon: Shield },
   { to: "/admin/mcp/housekeeping", label: "Housekeeping", icon: Sparkles },
   { to: "/admin/mcp/server", label: "Server", icon: Server },
+  { to: "/admin/mcp/health", label: "Function Health", icon: Activity },
   { to: "/admin/api-keys", label: "API Keys", icon: KeyRound },
 ];
 
