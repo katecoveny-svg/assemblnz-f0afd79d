@@ -6807,7 +6807,7 @@ Deno.serve(async (req) => {
   const validation = await validateChatRequest(req, { allowedAgentIds, requestId });
   if (!validation.ok) return validation.response;
   const body = validation.body;
-  const { agentId: rawAgentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode } = body;
+  const { agentId: rawAgentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode, testMode, recallToken } = body;
 
   console.log(`[chat:${requestId}] incoming request`, JSON.stringify({
     rawAgentId,
