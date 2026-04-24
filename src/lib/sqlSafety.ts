@@ -449,5 +449,7 @@ const splitTopLevel = (s: string): string[] => {
 // ---------------------------------------------------------------------------
 export const assertSqlSafe = (sql: string): void => {
   const result = checkSqlSafety(sql);
-  if (!result.ok) throw new SqlSafetyError(result.issues);
+  if (result.ok === false) {
+    throw new SqlSafetyError(result.issues);
+  }
 };

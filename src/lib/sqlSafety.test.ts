@@ -1,5 +1,13 @@
 import { describe, it, expect } from "vitest";
-import { checkSqlSafety, assertSqlSafe, SqlSafetyError } from "./sqlSafety";
+import {
+  checkSqlSafety,
+  assertSqlSafe,
+  SqlSafetyError,
+  type SqlSafetyResult,
+} from "./sqlSafety";
+
+const issuesOf = (r: SqlSafetyResult): string[] =>
+  r.ok === false ? r.issues.map((i) => i.code) : [];
 
 describe("checkSqlSafety", () => {
   describe("UPDATE", () => {
