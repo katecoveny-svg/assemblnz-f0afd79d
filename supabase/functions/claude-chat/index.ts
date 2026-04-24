@@ -238,7 +238,29 @@ Deno.serve(async (req) => {
   }
   const { agentId, messages, model, params, complianceContext } = parsed.data;
 
-  const systemPrompt = AGENT_PROMPTS[agentId] ?? DEFAULT_PROMPT;
+  // Load the live system prompt for this agent from agent_prompts (admin-editable
+  // via /admin/agent-prompts). Falls back to the in-file AGENT_PROMPTS map and
+  // finally DEFAULT_PROMPT so the function still works if the DB row is missing
+  // or the table is unreachable.
+  let systemPrompt = AGENT_PROMPTS[agentId] ?? DEFAULT_PROMPT;
+  try {
+    const promptClient = SUPABASE_SERVICE_ROLE_KEY
+      ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+      : userClient;
+    const { data: promptRow, error: promptErr } = await promptClient
+      .from("agent_prompts")
+      .select("system_prompt, is_active")
+      .ilike("agent_name", agentId)
+      .eq("is_active", true)
+      .maybeSingle();
+    if (promptErr) {
+      console.error("agent_prompts lookup failed", promptErr.message);
+    } else if (promptRow?.system_prompt) {
+      systemPrompt = promptRow.system_prompt;
+    }
+  } catch (e) {
+    console.error("agent_prompts lookup threw", (e as Error).message);
+  }
 
   // ── WAIHANGA compliance pre-check ───────────────────────────────────────
   // For the construction kete every turn passes through the same six policies
