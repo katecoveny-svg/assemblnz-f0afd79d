@@ -414,7 +414,23 @@ const App = () => (
                         <Route path="/simulator" element={<Suspense fallback={null}><SimulatorHub /></Suspense>} />
 
                         <Route path="/pikau" element={<Suspense fallback={null}><PikauLandingPage /></Suspense>} />
-                        <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
+                        <Route path="/pikau/legacy-dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
+                        <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauLayout /></Suspense>}>
+                          <Route index element={<PikauShipments />} />
+                          <Route path="customs" element={<PikauCustoms />} />
+                          <Route path="landed-cost" element={<PikauLandedCost />} />
+                          <Route path="biosecurity" element={<PikauBiosecurity />} />
+                          <Route path="dangerous-goods" element={<PikauDangerousGoods />} />
+                          <Route path="fta" element={<PikauFtaChecker />} />
+                        </Route>
+
+                        <Route path="/flux" element={<Suspense fallback={null}><FluxLayout /></Suspense>}>
+                          <Route index element={<FluxLeadPipeline />} />
+                          <Route path="deals" element={<FluxDealRoom />} />
+                          <Route path="clients" element={<FluxClients />} />
+                          <Route path="follow-ups" element={<FluxFollowUps />} />
+                          <Route path="call-prep" element={<FluxCallPrep />} />
+                        </Route>
 
                         <Route path="/hoko" element={<Suspense fallback={null}><HokoLandingPage /></Suspense>} />
                         <Route path="/ako" element={<Suspense fallback={null}><AkoLandingPage /></Suspense>} />
