@@ -180,19 +180,44 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
         const err = await resp.json().catch(() => ({ error: "AI request failed" }));
         if (isWaihanga && (resp.status === 403 || resp.status === 409) && err?.verdict) {
           const verdict = err.verdict as AuditVerdict;
+          const evaluations = (err.evaluations ?? []) as AuditPolicyEvaluation[];
+          const action = err.action ?? deriveActionKind(text, undefined);
+          const reason = err.error ?? "Compliance check did not pass";
           recordAudit({
             kete: auditKete,
             agentName: "Compliance pre-check",
-            action: err.action ?? deriveActionKind(text, undefined),
+            action,
             zone: supervisorContext.zone,
             verdict,
-            rationale: err.error ?? "Blocked by policy",
-            evaluations: (err.evaluations ?? []) as AuditPolicyEvaluation[],
+            rationale: reason,
+            evaluations,
             context: buildAuditContext(),
             userMessagePreview: text.trim().slice(0, 120),
             approvalId: err.approvalId ?? null,
             durationMs: Math.round(performance.now() - startedAt),
           });
+
+          // needs_human → render structured escalation handoff in chat
+          if (verdict === "needs_human") {
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: crypto.randomUUID(),
+                role: "assistant",
+                content: "",
+                agentName: "Compliance handoff",
+                agentIcon: "ShieldCheck",
+                escalation: {
+                  action,
+                  reason,
+                  evaluations,
+                  approvalId: err.approvalId ?? null,
+                  zone: supervisorContext.zone,
+                },
+              },
+            ]);
+            return;
+          }
         }
         throw new Error(err.error || `Error ${resp.status}`);
       }
