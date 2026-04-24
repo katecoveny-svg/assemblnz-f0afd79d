@@ -55,18 +55,8 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Whenua palette — retired teal/ochre, now mapped to Brand v1.0 neutrals
-        whenua: {
-          kowhai: '#D9BC7A',
-          'kowhai-light': '#E6CFA0',
-          pounamu: '#9D8C7D',
-          'pounamu-light': '#B5A89B',
-          tangaroa: '#6F6158',
-          'tangaroa-light': '#8E8177',
-          rust: '#C85A54',
-        },
+        // Brand Guidelines v1.0 (locked 2026-04-22) — Marama Whenua palette
         assembl: {
-          // Canonical Brand Guidelines v1.0 tokens (locked 2026-04-22)
           mist: 'hsl(var(--assembl-mist))',
           cloud: 'hsl(var(--assembl-cloud))',
           sand: 'hsl(var(--assembl-sand))',
@@ -77,10 +67,6 @@ export default {
           'text-primary': 'hsl(var(--assembl-text-primary))',
           'text-secondary': 'hsl(var(--assembl-text-secondary))',
           'text-body': 'hsl(var(--assembl-text-body))',
-          // Legacy aliases retargeted
-          bg: '#F7F3EE',
-          surface: '#FFFFFF',
-          'surface-2': '#EEE7DE',
         },
         kete: {
           pikau: 'hsl(var(--kete-pikau))',
@@ -101,19 +87,6 @@ export default {
           waihanga: 'hsl(var(--industry-waihanga))',
           arataki: 'hsl(var(--industry-arataki))',
           auaha: 'hsl(var(--industry-auaha))',
-        },
-        neon: {
-          // Retired — all aliases now map to Taupe + status palette
-          green: "#9D8C7D",
-          pink: "#C85A54",
-          cyan: "#6F6158",
-          orange: "#D9BC7A",
-          lime: "#9D8C7D",
-          red: "#C85A54",
-          gold: "#D9BC7A",
-          teal: "#9D8C7D",
-          blue: "#6F6158",
-          amber: "#D9BC7A",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
