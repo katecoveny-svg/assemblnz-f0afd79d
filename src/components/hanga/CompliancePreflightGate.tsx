@@ -33,7 +33,7 @@ const ZONE_PRESETS = [
  * Collects PPE, worker consent, tender sign-off, zone, and headcount cap.
  * Cannot be dismissed without confirming or cancelling.
  */
-export function CompliancePreflightGate({ initial, onConfirm, onCancel }: Props) {
+export function CompliancePreflightGate({ initial, policySet, onConfirm, onCancel }: Props) {
   const [ppe, setPpe] = useState(initial.ppeConfirmed);
   const [consent, setConsent] = useState(initial.workerConsent);
   const [signoff, setSignoff] = useState(initial.humanSignoff);
@@ -43,10 +43,21 @@ export function CompliancePreflightGate({ initial, onConfirm, onCancel }: Props)
   const [headcountCap, setHeadcountCap] = useState(initial.world.headcountCap);
   const [attempted, setAttempted] = useState(false);
 
+  const needsPpe = policySetIncludes(policySet, "ppe");
+  const needsConsent = policySetIncludes(policySet, "worker_consent");
+  const needsSignoff = policySetIncludes(policySet, "tender_signoff");
+  const needsZone = policySetIncludes(policySet, "zone");
+  const needsCap = policySetIncludes(policySet, "headcount_cap");
+
   const resolvedZone = zone === "Other (custom)" ? customZone.trim() : zone;
-  const capValid = headcountCap >= 1 && headcount >= 0 && headcount <= headcountCap;
-  const zoneValid = resolvedZone.length > 0;
-  const allValid = ppe && consent && signoff && zoneValid && capValid;
+  const capValid = !needsCap || (headcountCap >= 1 && headcount >= 0 && headcount <= headcountCap);
+  const zoneValid = !needsZone || resolvedZone.length > 0;
+  const allValid =
+    (!needsPpe || ppe) &&
+    (!needsConsent || consent) &&
+    (!needsSignoff || signoff) &&
+    zoneValid &&
+    capValid;
 
   const submit = () => {
     if (!allValid) {
@@ -55,14 +66,14 @@ export function CompliancePreflightGate({ initial, onConfirm, onCancel }: Props)
     }
     onConfirm({
       ...initial,
-      ppeConfirmed: ppe,
-      workerConsent: consent,
-      humanSignoff: signoff,
-      zone: resolvedZone,
+      ppeConfirmed: needsPpe ? ppe : initial.ppeConfirmed,
+      workerConsent: needsConsent ? consent : initial.workerConsent,
+      humanSignoff: needsSignoff ? signoff : initial.humanSignoff,
+      zone: needsZone ? resolvedZone : initial.zone,
       world: {
         ...initial.world,
-        headcount,
-        headcountCap,
+        headcount: needsCap ? headcount : initial.world.headcount,
+        headcountCap: needsCap ? headcountCap : initial.world.headcountCap,
       },
     });
   };
