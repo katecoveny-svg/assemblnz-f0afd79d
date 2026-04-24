@@ -98,15 +98,16 @@ html {
     --shadow-soft: 0 8px 30px rgba(111, 97, 88, 0.08);
     --shadow-card: 0 4px 20px rgba(111, 97, 88, 0.06);
 
-    /* ── Industry kete accents ── */
-    --kete-pikau: #B8C7B1;
-    --kete-hoko: #D8C3C2;
-    --kete-ako: #C7D6C7;
-    --kete-toro: #C7D9E8;
-    --kete-manaaki: #E6D8C6;
-    --kete-waihanga: #CBB8A4;
-    --kete-arataki: #D5C0C8;
-    --kete-auaha: #C8DDD8;
+    /* ── Industry kete accents (canonical palette) ── */
+    --kete-waihanga: #D4B896;       /* Clay Sand */
+    --kete-manaaki: #8FB09A;        /* Harakeke Green */
+    --kete-arataki: #B8A0C4;        /* Dusk Mauve */
+    --kete-toro: #C7D9E8;           /* Moonstone Blue */
+    --kete-auaha: #E0A88C;          /* Sunset Coral */
+    --kete-pikau: #9EAAB4;          /* Storm Grey */
+    --kete-ako: #E4B8C4;            /* Petal Pink */
+    --kete-reo: #D9BC7A;            /* Kowhai Soft */
+    --kete-hoko: #D8C3C2;           /* Blush Stone (legacy) */
 
     /* ── Sidebar ── */
     --sidebar-background: 32 25% 97%;
