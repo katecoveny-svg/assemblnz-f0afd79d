@@ -162,6 +162,14 @@ export default function AgentApp() {
             New chat
           </button>
         )}
+        <Link
+          to={`/app/${rawAgentId}/workspace`}
+          title={`Open ${agent.name} workspace`}
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-medium transition hover:opacity-80"
+          style={{ color: "#3D4250", border: "1px solid rgba(0,0,0,0.08)", background: "rgba(255,255,255,0.6)" }}
+        >
+          <LayoutGrid size={12} /> Workspace
+        </Link>
         <ChatSettingsPanel agentId={agentId} accentColor={color} />
         {user ? (
           <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold"
