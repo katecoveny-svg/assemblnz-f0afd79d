@@ -235,9 +235,56 @@ Deno.serve(async (req) => {
       { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
-  const { agentId, messages, model, params } = parsed.data;
+  const { agentId, messages, model, params, complianceContext } = parsed.data;
 
   const systemPrompt = AGENT_PROMPTS[agentId] ?? DEFAULT_PROMPT;
+
+  // ── WAIHANGA compliance pre-check ───────────────────────────────────────
+  // For the construction kete every turn passes through the same six policies
+  // the in-app guard uses (PPE, hazard escalation, worker consent, tender
+  // sign-off, site-access cap, uncertainty handoff) BEFORE we spend any tokens
+  // talking to Claude. Block → 403, needs_human → 409, allow → continue.
+  if (agentId === "waihanga") {
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    const lastUserText = lastUser
+      ? typeof lastUser.content === "string"
+        ? lastUser.content
+        : (lastUser.content as Array<{ type: string; text?: string }>)
+            .filter((p) => p.type === "text")
+            .map((p) => p.text ?? "")
+            .join("\n")
+      : "";
+
+    const action: WaihangaAction = deriveActionFromMessage(lastUserText, {
+      kind: complianceContext?.kind,
+      zone: complianceContext?.zone,
+      ppeConfirmed: complianceContext?.ppeConfirmed,
+      containsWorkers: complianceContext?.containsWorkers,
+      workerConsent: complianceContext?.workerConsent,
+      humanSignoff: complianceContext?.humanSignoff,
+      confidence: complianceContext?.confidence,
+    });
+    const world: WaihangaWorld = complianceContext?.world ?? {};
+    const decision = evaluateWaihangaCompliance(action, world);
+
+    if (decision.verdict !== "allow") {
+      const status = decision.verdict === "block" ? 403 : 409;
+      return new Response(
+        JSON.stringify({
+          error: decision.explanation,
+          verdict: decision.verdict,
+          policy: "waihanga",
+          action: action.kind,
+          evaluations: decision.evaluations.filter((e) => !e.passed),
+        }),
+        {
+          status,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
+    }
+  }
+
   const { system: extraSystem, messages: anthMessages } = toAnthropicMessages(messages);
   const fullSystem = extraSystem ? `${systemPrompt}\n\n${extraSystem}` : systemPrompt;
 
