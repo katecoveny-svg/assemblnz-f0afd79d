@@ -150,7 +150,12 @@ export default function ChatImageMessage({
         />
       )}
       <img
-        src={url}
+        key={retryToken}
+        src={
+          retryToken > 0 && /^https?:\/\//i.test(url)
+            ? `${url}${url.includes("?") ? "&" : "?"}_retry=${retryToken}`
+            : url
+        }
         alt={alt}
         loading="lazy"
         decoding="async"
