@@ -371,9 +371,9 @@ const HowItWorksPage = () => (
       </div>
     </Section>
 
-    {/* ─── FIVE-STAGE PIPELINE ─── */}
+    {/* ─── FIVE-STAGE PIPELINE — interactive ─── */}
     <Section alt>
-      <motion.div {...fadeUp} className="max-w-[680px] mb-20">
+      <motion.div {...fadeUp} className="max-w-[680px] mb-16">
         <Eyebrow>Five-stage pipeline</Eyebrow>
         <Serif size="lg" className="mb-6">
           Every action logged.{" "}
@@ -382,66 +382,13 @@ const HowItWorksPage = () => (
           </Serif>
         </Serif>
         <Body>
-          Every output passes through all five stages. Draft-only posture — no agent publishes,
-          sends, or executes without a named human operator's approval.
+          Every request flows through Kahu → Iho → Tā → Mahara → Mana before anything ships.
+          Draft-only posture — no agent publishes, sends or executes without a named human
+          operator's approval. Tap a stage to see what it actually does.
         </Body>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-        {PIPELINE.map((stage, i) => (
-          <motion.div
-            key={stage.name}
-            {...fadeUp}
-            transition={{ ...fadeUp.transition, delay: i * 0.06 }}
-            style={{
-              background: "rgba(255,255,255,0.55)",
-              border: `1px solid ${PEARL.opal}`,
-              borderRadius: 16,
-              padding: 24,
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-            }}
-          >
-            <p
-              className="lowercase mb-4"
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 11,
-                letterSpacing: "0.18em",
-                color: PEARL.muted,
-              }}
-            >
-              stage {String(i + 1).padStart(2, "0")}
-            </p>
-            <Serif size="sm" className="mb-3">
-              {stage.name}
-            </Serif>
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: "italic",
-                fontWeight: 300,
-                fontSize: 18,
-                color: PEARL.pounamu,
-                marginBottom: 10,
-                lineHeight: 1.3,
-              }}
-            >
-              "{stage.question}"
-            </p>
-            <p
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 13,
-                color: PEARL.bodyInk,
-                lineHeight: 1.55,
-              }}
-            >
-              {stage.desc}
-            </p>
-          </motion.div>
-        ))}
-      </div>
+      <HowItWorksFlow />
     </Section>
 
     {/* ─── NGĀ KETE ─── */}
