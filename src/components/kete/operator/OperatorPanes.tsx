@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { Download, Loader2, Check, ChevronRight } from "lucide-react";
+import { Download, Loader2, Check, ChevronRight, X } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ASSEMBL_TOKENS } from "@/design/assemblTokens";
 import type { IndustrySlug } from "@/assets/brand/kete";
@@ -36,7 +36,7 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
   const { data, isLoading, error } = useOperatorDrafts(slug);
   const qc = useQueryClient();
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [bulkBusy, setBulkBusy] = useState(false);
+  const [bulkBusy, setBulkBusy] = useState<"approve" | "reject" | null>(null);
 
   if (isLoading) return <Loading label="Loading draft queue…" />;
   if (error) return <Failure error={error} />;
@@ -68,9 +68,9 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
     );
   };
 
-  const bulkApprove = async () => {
+  const runBulkDecision = async (decision: "approve" | "reject") => {
     if (selected.size === 0) return;
-    setBulkBusy(true);
+    setBulkBusy(decision);
     const ids = Array.from(selected);
     try {
       const { data: userResp } = await supabase.auth.getUser();
@@ -83,24 +83,27 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
       const { error } = await supabase
         .from("approval_queue")
         .update({
-          status: "approved",
+          status: decision === "approve" ? "approved" : "rejected",
           approved_by: operator,
           decided_at: new Date().toISOString(),
+          decision_reason:
+            decision === "reject" ? "Bulk rejected by operator" : null,
         })
         .in("id", ids);
       if (error) throw error;
 
-      toast.success(`Signed off ${ids.length} draft${ids.length === 1 ? "" : "s"}`, {
-        description: `Approved by ${operator}`,
-      });
+      toast.success(
+        `${decision === "approve" ? "Signed off" : "Rejected"} ${ids.length} draft${ids.length === 1 ? "" : "s"}`,
+        { description: `${decision === "approve" ? "Approved" : "Rejected"} by ${operator}` },
+      );
       setSelected(new Set());
       await qc.invalidateQueries({ queryKey: ["operator", "drafts", slug] });
     } catch (e) {
       toast.error(
-        e instanceof Error ? e.message : "Could not sign off these drafts",
+        e instanceof Error ? e.message : `Could not ${decision} these drafts`,
       );
     } finally {
-      setBulkBusy(false);
+      setBulkBusy(null);
     }
   };
 
@@ -110,7 +113,8 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
         accent={accent}
         count={selected.size}
         busy={bulkBusy}
-        onApprove={bulkApprove}
+        onApprove={() => runBulkDecision("approve")}
+        onReject={() => runBulkDecision("reject")}
         onClear={() => setSelected(new Set())}
       />
       <Table
@@ -140,7 +144,7 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
           formatDate(d.requested_at),
           formatDate(d.expires_at),
           <Mono key="r">{shortId(d.request_id)}</Mono>,
-          <SignOffButton key="s" draftId={d.id} slug={slug} accent={accent} />,
+          <DraftRowActions key="s" draftId={d.id} slug={slug} accent={accent} />,
         ])}
       />
     </div>
@@ -150,11 +154,13 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
 const BulkActionBar: React.FC<{
   accent: string;
   count: number;
-  busy: boolean;
+  busy: "approve" | "reject" | null;
   onApprove: () => void;
+  onReject: () => void;
   onClear: () => void;
-}> = ({ accent, count, busy, onApprove, onClear }) => {
+}> = ({ accent, count, busy, onApprove, onReject, onClear }) => {
   const active = count > 0;
+  const anyBusy = busy !== null;
   return (
     <div
       className="flex items-center justify-between gap-3 px-4 py-2.5 mb-3 rounded-2xl transition-all"
@@ -173,13 +179,13 @@ const BulkActionBar: React.FC<{
       >
         {active
           ? `${count} draft${count === 1 ? "" : "s"} selected`
-          : "Tick drafts to bulk-approve"}
+          : "Tick drafts to bulk-approve or reject"}
       </span>
       <div className="flex items-center gap-2">
         <button
           type="button"
           onClick={onClear}
-          disabled={!active || busy}
+          disabled={!active || anyBusy}
           className="px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-40"
           style={{
             background: "rgba(255,255,255,0.8)",
@@ -192,8 +198,28 @@ const BulkActionBar: React.FC<{
         </button>
         <button
           type="button"
+          onClick={onReject}
+          disabled={!active || anyBusy}
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-40"
+          style={{
+            background: "#E9C9C7",
+            border: "1px solid #C99A95",
+            color: "#7A2E2A",
+            fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+          }}
+          aria-label="Reject selected drafts"
+        >
+          {busy === "reject" ? (
+            <Loader2 size={12} className="animate-spin" />
+          ) : (
+            <X size={12} />
+          )}
+          Reject selected
+        </button>
+        <button
+          type="button"
           onClick={onApprove}
-          disabled={!active || busy}
+          disabled={!active || anyBusy}
           className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-40"
           style={{
             background: `${accent}55`,
@@ -203,7 +229,7 @@ const BulkActionBar: React.FC<{
           }}
           aria-label="Approve selected drafts"
         >
-          {busy ? (
+          {busy === "approve" ? (
             <Loader2 size={12} className="animate-spin" />
           ) : (
             <Check size={12} />
@@ -255,17 +281,20 @@ const RowCheckbox: React.FC<{
   />
 );
 
-const SignOffButton: React.FC<{
+const DraftRowActions: React.FC<{
   draftId: string;
   slug: IndustrySlug;
   accent: string;
 }> = ({ draftId, slug, accent }) => {
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<"approve" | "reject" | null>(null);
   const qc = useQueryClient();
 
-  const handleClick = async (clickEv: React.MouseEvent) => {
+  const decide = async (
+    clickEv: React.MouseEvent,
+    decision: "approve" | "reject",
+  ) => {
     clickEv.stopPropagation();
-    setBusy(true);
+    setBusy(decision);
     try {
       const { data: userResp } = await supabase.auth.getUser();
       const operator =
@@ -274,46 +303,90 @@ const SignOffButton: React.FC<{
         userResp.user?.id ??
         "operator";
 
+      let reason: string | null = null;
+      if (decision === "reject") {
+        const input = window.prompt(
+          "Reason for rejecting this draft? (optional)",
+          "",
+        );
+        // Cancel only if user presses Escape (returns null); empty string is fine
+        if (input === null) {
+          setBusy(null);
+          return;
+        }
+        reason = input.trim() || "Rejected by operator";
+      }
+
       const { error } = await supabase
         .from("approval_queue")
         .update({
-          status: "approved",
+          status: decision === "approve" ? "approved" : "rejected",
           approved_by: operator,
           decided_at: new Date().toISOString(),
+          decision_reason: reason,
         })
         .eq("id", draftId);
       if (error) throw error;
 
-      toast.success("Draft signed off", {
-        description: `Approved by ${operator}`,
-      });
+      toast.success(
+        decision === "approve" ? "Draft signed off" : "Draft rejected",
+        { description: `${decision === "approve" ? "Approved" : "Rejected"} by ${operator}` },
+      );
       await qc.invalidateQueries({ queryKey: ["operator", "drafts", slug] });
     } catch (e) {
       toast.error(
-        e instanceof Error ? e.message : "Could not sign off this draft",
+        e instanceof Error ? e.message : `Could not ${decision} this draft`,
       );
     } finally {
-      setBusy(false);
+      setBusy(null);
     }
   };
 
+  const anyBusy = busy !== null;
+
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      disabled={busy}
-      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
-      style={{
-        background: `${accent}33`,
-        border: `1px solid ${accent}66`,
-        color: ASSEMBL_TOKENS.core.text["text-primary"],
-        fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
-      }}
-      aria-label="Sign off draft"
-    >
-      {busy ? <Loader2 size={12} className="animate-spin" /> : <Check size={12} />}
-      Sign off
-    </button>
+    <div className="inline-flex items-center gap-1.5">
+      <button
+        type="button"
+        onClick={(e) => decide(e, "reject")}
+        disabled={anyBusy}
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+        style={{
+          background: "#F2DEDC",
+          border: "1px solid #D9B0AA",
+          color: "#7A2E2A",
+          fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+        }}
+        aria-label="Reject draft"
+      >
+        {busy === "reject" ? (
+          <Loader2 size={12} className="animate-spin" />
+        ) : (
+          <X size={12} />
+        )}
+        Reject
+      </button>
+      <button
+        type="button"
+        onClick={(e) => decide(e, "approve")}
+        disabled={anyBusy}
+        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+        style={{
+          background: `${accent}33`,
+          border: `1px solid ${accent}66`,
+          color: ASSEMBL_TOKENS.core.text["text-primary"],
+          fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+        }}
+        aria-label="Sign off draft"
+      >
+        {busy === "approve" ? (
+          <Loader2 size={12} className="animate-spin" />
+        ) : (
+          <Check size={12} />
+        )}
+        Sign off
+      </button>
+    </div>
   );
 };
 
@@ -531,20 +604,129 @@ export const GatesPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
         ) : (
           <Muted>—</Muted>
         ),
-        <Link
-          key="open"
-          to={`/operator/${slug}/gates/${g.id}`}
-          className="inline-flex items-center gap-1 text-xs hover:underline"
-          style={{
-            color: ASSEMBL_TOKENS.core.text["text-primary"],
-            fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
-          }}
-          aria-label="Open gate detail"
-        >
-          Open <ChevronRight size={12} />
-        </Link>,
+        <GateRowActions
+          key="actions"
+          gate={g}
+          slug={slug}
+          accent={accent}
+        />,
       ])}
     />
+  );
+};
+
+const GateRowActions: React.FC<{
+  gate: GateRow;
+  slug: IndustrySlug;
+  accent: string;
+}> = ({ gate, slug, accent }) => {
+  const qc = useQueryClient();
+  const [busy, setBusy] = useState<"approve" | "decline" | null>(null);
+
+  const decide = async (
+    clickEv: React.MouseEvent,
+    decision: "approve" | "decline",
+  ) => {
+    clickEv.stopPropagation();
+    setBusy(decision);
+    try {
+      let conditions: string | null = gate.conditions ?? null;
+      if (decision === "decline") {
+        const input = window.prompt(
+          "Reason for declining this gate?",
+          gate.conditions ?? "",
+        );
+        if (input === null) {
+          setBusy(null);
+          return;
+        }
+        conditions = input.trim() || "Declined by operator";
+      }
+
+      const { error } = await supabase
+        .from("governance_gates")
+        .update({
+          status: decision === "approve" ? "approved" : "declined",
+          decided_at: new Date().toISOString(),
+          conditions,
+        })
+        .eq("id", gate.id);
+      if (error) throw error;
+
+      toast.success(
+        decision === "approve" ? "Gate approved" : "Gate declined",
+      );
+      await qc.invalidateQueries({ queryKey: ["operator", "gates", slug] });
+    } catch (e) {
+      toast.error(
+        e instanceof Error ? e.message : `Could not ${decision} gate`,
+      );
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const isPending = (gate.status ?? "").toLowerCase() === "pending";
+  const anyBusy = busy !== null;
+
+  return (
+    <div className="inline-flex items-center gap-1.5">
+      {isPending && (
+        <>
+          <button
+            type="button"
+            onClick={(e) => decide(e, "decline")}
+            disabled={anyBusy}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+            style={{
+              background: "#F2DEDC",
+              border: "1px solid #D9B0AA",
+              color: "#7A2E2A",
+              fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+            }}
+            aria-label="Decline gate"
+          >
+            {busy === "decline" ? (
+              <Loader2 size={12} className="animate-spin" />
+            ) : (
+              <X size={12} />
+            )}
+            Decline
+          </button>
+          <button
+            type="button"
+            onClick={(e) => decide(e, "approve")}
+            disabled={anyBusy}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+            style={{
+              background: `${accent}33`,
+              border: `1px solid ${accent}66`,
+              color: ASSEMBL_TOKENS.core.text["text-primary"],
+              fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+            }}
+            aria-label="Approve gate"
+          >
+            {busy === "approve" ? (
+              <Loader2 size={12} className="animate-spin" />
+            ) : (
+              <Check size={12} />
+            )}
+            Approve
+          </button>
+        </>
+      )}
+      <Link
+        to={`/operator/${slug}/gates/${gate.id}`}
+        className="inline-flex items-center gap-1 text-xs hover:underline"
+        style={{
+          color: ASSEMBL_TOKENS.core.text["text-primary"],
+          fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+        }}
+        aria-label="Open gate detail"
+      >
+        Open <ChevronRight size={12} />
+      </Link>
+    </div>
   );
 };
 
