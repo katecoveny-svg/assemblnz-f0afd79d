@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { Download, Loader2 } from "lucide-react";
+import { Download, Loader2, Check } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { ASSEMBL_TOKENS } from "@/design/assemblTokens";
 import type { IndustrySlug } from "@/assets/brand/kete";
 import { supabase } from "@/integrations/supabase/client";
@@ -45,14 +46,77 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
 
   return (
     <Table
-      headers={["Action", "Requested", "Expires", "Request ID"]}
+      headers={["Action", "Requested", "Expires", "Request ID", ""]}
       rows={data.map((d: DraftRow) => [
         <strong key="a">{d.action_type}</strong>,
         formatDate(d.requested_at),
         formatDate(d.expires_at),
         <Mono key="r">{shortId(d.request_id)}</Mono>,
+        <SignOffButton key="s" draftId={d.id} slug={slug} accent={accent} />,
       ])}
     />
+  );
+};
+
+const SignOffButton: React.FC<{
+  draftId: string;
+  slug: IndustrySlug;
+  accent: string;
+}> = ({ draftId, slug, accent }) => {
+  const [busy, setBusy] = useState(false);
+  const qc = useQueryClient();
+
+  const handleClick = async (clickEv: React.MouseEvent) => {
+    clickEv.stopPropagation();
+    setBusy(true);
+    try {
+      const { data: userResp } = await supabase.auth.getUser();
+      const operator =
+        userResp.user?.email ??
+        userResp.user?.user_metadata?.full_name ??
+        userResp.user?.id ??
+        "operator";
+
+      const { error } = await supabase
+        .from("approval_queue")
+        .update({
+          status: "approved",
+          approved_by: operator,
+          decided_at: new Date().toISOString(),
+        })
+        .eq("id", draftId);
+      if (error) throw error;
+
+      toast.success("Draft signed off", {
+        description: `Approved by ${operator}`,
+      });
+      await qc.invalidateQueries({ queryKey: ["operator", "drafts", slug] });
+    } catch (e) {
+      toast.error(
+        e instanceof Error ? e.message : "Could not sign off this draft",
+      );
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      disabled={busy}
+      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+      style={{
+        background: `${accent}33`,
+        border: `1px solid ${accent}66`,
+        color: ASSEMBL_TOKENS.core.text["text-primary"],
+        fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+      }}
+      aria-label="Sign off draft"
+    >
+      {busy ? <Loader2 size={12} className="animate-spin" /> : <Check size={12} />}
+      Sign off
+    </button>
   );
 };
 
