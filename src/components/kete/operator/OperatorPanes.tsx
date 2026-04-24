@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { Download, Loader2, Check, ChevronRight } from "lucide-react";
+import { Download, Loader2, Check, ChevronRight, X } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ASSEMBL_TOKENS } from "@/design/assemblTokens";
 import type { IndustrySlug } from "@/assets/brand/kete";
