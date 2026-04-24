@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ImageIcon, Download, AlertCircle } from "lucide-react";
+import { ImageIcon, Download, AlertCircle, RefreshCw } from "lucide-react";
 
 interface ChatImageMessageProps {
   /** Final image URL (https://… or data:image/…). When undefined and `loading` is true, shows skeleton. */
@@ -29,6 +29,13 @@ export default function ChatImageMessage({
 }: ChatImageMessageProps) {
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
+  const [retryToken, setRetryToken] = useState(0);
+
+  const handleRetry = () => {
+    setErrored(false);
+    setLoaded(false);
+    setRetryToken((t) => t + 1);
+  };
 
   // ── Loading skeleton ──────────────────────────────────────────────
   if (loading || !url) {
@@ -93,7 +100,7 @@ export default function ChatImageMessage({
   if (errored) {
     return (
       <div
-        className="w-full max-w-sm rounded-2xl border px-4 py-6 flex items-center gap-3"
+        className="w-full max-w-sm rounded-2xl border px-4 py-4 flex items-center gap-3"
         style={{
           background: "hsl(var(--card))",
           borderColor: "rgba(200,90,84,0.25)",
@@ -101,9 +108,23 @@ export default function ChatImageMessage({
         }}
       >
         <AlertCircle size={18} style={{ color: "hsl(var(--destructive))" }} />
-        <div className="text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>
+        <div className="flex-1 text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>
           Couldn't load this image.
         </div>
+        <button
+          type="button"
+          onClick={handleRetry}
+          className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-body transition-colors hover:bg-[hsl(var(--muted))]"
+          style={{
+            borderColor: "rgba(142,129,119,0.25)",
+            color: "hsl(var(--foreground))",
+            background: "hsl(var(--background))",
+          }}
+          aria-label="Retry loading image"
+        >
+          <RefreshCw size={12} />
+          Retry
+        </button>
       </div>
     );
   }
@@ -129,7 +150,12 @@ export default function ChatImageMessage({
         />
       )}
       <img
-        src={url}
+        key={retryToken}
+        src={
+          retryToken > 0 && /^https?:\/\//i.test(url)
+            ? `${url}${url.includes("?") ? "&" : "?"}_retry=${retryToken}`
+            : url
+        }
         alt={alt}
         loading="lazy"
         decoding="async"
