@@ -10,6 +10,7 @@ import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
+import ImageLightbox from "@/components/chat/ImageLightbox";
 import sparkCtaImg from "@/assets/agents/spark.png";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
