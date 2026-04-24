@@ -137,7 +137,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
               fontFamily: "'Lato', sans-serif",
               fontWeight: 400,
               background: loading ? "rgba(255,255,255,0.5)" : agentColor,
-              color: loading ? "rgba(255,255,255,0.35)" : "#09090F",
+              color: loading ? "rgba(255,255,255,0.35)" : "#3D3428",
               border: `1px solid ${agentColor}`,
               opacity: !url ? 0.5 : 1,
             }}

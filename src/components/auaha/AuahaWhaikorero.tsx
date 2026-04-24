@@ -128,7 +128,7 @@ function ProspectingPanel() {
           onClick={generate}
           disabled={!company.trim()}
           className="px-4 py-2.5 rounded-xl text-sm font-medium transition-all disabled:opacity-40"
-          style={{ background: ACCENT, color: "#09090F" }}
+          style={{ background: ACCENT, color: "#3D3428" }}
         >
           Generate ICP →
         </button>
@@ -202,7 +202,7 @@ function OutreachPanel() {
             className="px-3 py-1.5 rounded-full text-xs transition-all"
             style={
               type === t
-                ? { background: ACCENT, color: "#09090F", fontWeight: 600 }
+                ? { background: ACCENT, color: "#3D3428", fontWeight: 600 }
                 : { background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)" }
             }
           >
@@ -244,7 +244,7 @@ function OutreachPanel() {
       <button
         onClick={() => setOutput(generateOutreach(type, prospect, pain, product))}
         className="px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
-        style={{ background: ACCENT, color: "#09090F" }}
+        style={{ background: ACCENT, color: "#3D3428" }}
       >
         Draft outreach →
       </button>
@@ -442,7 +442,7 @@ function CallPrepPanel() {
         onClick={generate}
         disabled={!prospect.trim()}
         className="px-4 py-2.5 rounded-xl text-sm font-medium transition-all disabled:opacity-40"
-        style={{ background: ACCENT, color: "#09090F" }}
+        style={{ background: ACCENT, color: "#3D3428" }}
       >
         Generate call brief →
       </button>

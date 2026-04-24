@@ -8,7 +8,7 @@ import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 
 const C = {
-  bg: "#09090F",
+  bg: "#3D3428",
   gold: "#A8DDDB",
   goldDim: "#4AA5A8",
   pounamu: "#3A7D6E",

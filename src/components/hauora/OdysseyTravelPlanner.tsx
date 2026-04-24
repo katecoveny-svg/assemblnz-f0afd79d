@@ -213,7 +213,7 @@ export default function OdysseyTravelPlanner() {
                 className="px-3 py-1 rounded-full text-xs font-medium transition-all"
                 style={{
                   background: interests.includes(i) ? "#4AA5A8" : "rgba(255,255,255,0.5)",
-                  color: interests.includes(i) ? "#09090F" : "rgba(255,255,255,0.5)",
+                  color: interests.includes(i) ? "#3D3428" : "rgba(255,255,255,0.5)",
                   borderColor: interests.includes(i) ? "#4AA5A8" : "rgba(255,255,255,0.1)",
                   border: "1px solid",
                 }}
@@ -228,7 +228,7 @@ export default function OdysseyTravelPlanner() {
           onClick={generateItinerary}
           disabled={loading || !destination}
           className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all disabled:opacity-40"
-          style={{ background: "#4AA5A8", color: "#09090F" }}
+          style={{ background: "#4AA5A8", color: "#3D3428" }}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           {loading ? "Planning your adventure..." : "Generate Itinerary"}

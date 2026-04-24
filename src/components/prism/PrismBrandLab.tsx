@@ -70,7 +70,7 @@ REQUIREMENTS:
 - Each concept must take a distinctly different creative direction
 - Use clean paths, proper layering, consistent stroke widths
 - Every logo must work at 32px (favicon) and 512px
-- Include: the logo on dark bg (#09090F), plus a 1-line design rationale
+- Include: the logo on dark bg (#3D3428), plus a 1-line design rationale
 - For wordmarks, use custom letter spacing and consider modifying letterforms
 - For symbols, aim for a single memorable shape
 - Use geometric construction and golden ratio proportions where appropriate
@@ -81,7 +81,7 @@ Present each concept as:
 [SVG code]
 *Rationale: [1 line]*
 
-Then generate the best concept as an actual image: [GENERATE_IMAGE: Logo for "${desc}" — ${style} style, ${feeling} aesthetic, primary colour ${colour}, on dark background #09090F, clean minimal professional logo design, scalable vector-style mark]`
+Then generate the best concept as an actual image: [GENERATE_IMAGE: Logo for "${desc}" — ${style} style, ${feeling} aesthetic, primary colour ${colour}, on dark background #3D3428, clean minimal professional logo design, scalable vector-style mark]`
     );
   };
 
@@ -203,7 +203,7 @@ For each colour provide HEX, RGB, and HSL values:
 ## 8. Do's and Don'ts
 - Visual examples described as text for each rule
 
-Present this as a beautifully formatted document. Then generate a brand mood board: [GENERATE_IMAGE: Brand mood board for "${form.business_name}" — professional brand guidelines visual showing colour palette swatches, typography samples, and visual style direction, dark sophisticated layout on #09090F background]`
+Present this as a beautifully formatted document. Then generate a brand mood board: [GENERATE_IMAGE: Brand mood board for "${form.business_name}" — professional brand guidelines visual showing colour palette swatches, typography samples, and visual style direction, dark sophisticated layout on #3D3428 background]`
     );
   };
 

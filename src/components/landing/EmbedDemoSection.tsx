@@ -156,7 +156,7 @@ const EmbedDemoSection = () => (
               fontFamily: "'Lato', sans-serif",
               fontWeight: 400,
               background: "#4AA5A8",
-              color: "#09090F",
+              color: "#3D3428",
               border: "1px solid #4AA5A8",
               boxShadow: "0 0 20px rgba(74,165,168,0.2)",
             }}

@@ -841,7 +841,7 @@ const SampleEvidencePackPage = () => {
                   textTransform: "uppercase",
                   letterSpacing: "0.08em",
                   background: pack.accent,
-                  color: pack.accent === GOLD || pack.accent === "#C4943A" ? "#09090F" : WHITE,
+                  color: pack.accent === GOLD || pack.accent === "#C4943A" ? "#3D3428" : WHITE,
                 }}
               >
                 Get started <ArrowRight size={15} />

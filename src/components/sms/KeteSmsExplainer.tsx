@@ -122,7 +122,7 @@ export default function KeteSmsExplainer({
 
               {/* Setup buttons */}
               <div className="flex gap-2">
-                <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all" style={{ background: smsConnected ? `${accentColor}15` : accentColor, color: smsConnected ? accentColor : "#09090F" }}>
+                <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all" style={{ background: smsConnected ? `${accentColor}15` : accentColor, color: smsConnected ? accentColor : "#3D3428" }}>
                   <Phone size={14} /> {smsConnected ? "SMS Connected" : "Set up SMS"}
                 </button>
                 <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all" style={{ background: whatsappConnected ? `${accentColor}15` : "rgba(255,255,255,0.5)", color: whatsappConnected ? accentColor : "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>

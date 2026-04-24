@@ -118,7 +118,7 @@ export default function AraiSafetyPage() {
                 </select>
                 <input placeholder="Assigned To" className="px-4 py-2.5 rounded-xl text-sm text-foreground bg-white/[0.04] border border-white/[0.06] focus:outline-none" />
               </div>
-              <button className="mt-4 px-6 py-2.5 rounded-xl text-xs font-medium" style={{ background: TEAL_ACCENT, color: "#09090F" }}>Submit Hazard Report</button>
+              <button className="mt-4 px-6 py-2.5 rounded-xl text-xs font-medium" style={{ background: TEAL_ACCENT, color: "#3D3428" }}>Submit Hazard Report</button>
             </Glass>
           </motion.div>
         )}

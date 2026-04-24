@@ -92,7 +92,7 @@ const SmartAgentSelector = () => {
               <div className="flex items-start gap-4">
                 {/* Avatar */}
                 <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 text-sm font-mono-jb font-bold"
-                  style={{ background: result.keteAccent, color: '#09090F' }}>
+                  style={{ background: result.keteAccent, color: '#3D3428' }}>
                   {result.agentName.slice(0, 2)}
                 </div>
 
@@ -172,7 +172,7 @@ const SmartAgentSelector = () => {
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-mono-jb font-bold"
-                          style={{ background: alt.keteAccent, color: '#09090F' }}>
+                          style={{ background: alt.keteAccent, color: '#3D3428' }}>
                           {alt.agentName.slice(0, 2)}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -211,7 +211,7 @@ const SmartAgentSelector = () => {
             >
               <span className="w-3 h-3 rounded-full border flex items-center justify-center"
                 style={{ borderColor: 'rgba(255,255,255,0.15)', background: showLearn ? 'hsl(var(--kowhai))' : 'transparent' }}>
-                {showLearn && <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#09090F' }} />}
+                {showLearn && <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#3D3428' }} />}
               </span>
               Learn from this selection
             </button>

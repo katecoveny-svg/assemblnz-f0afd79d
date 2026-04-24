@@ -426,7 +426,7 @@ Make it sound authentic and grounded. No corporate jargon. Write like you're tal
             <button onClick={() => toggle.set(!toggle.value)} className="w-9 h-5 rounded-full relative transition-all"
               style={{ background: toggle.value ? GOLD : "rgba(255,255,255,0.1)" }}>
               <div className="w-3.5 h-3.5 rounded-full absolute top-[3px] transition-all"
-                style={{ background: toggle.value ? "#09090F" : "#fff", left: toggle.value ? "18px" : "3px" }} />
+                style={{ background: toggle.value ? "#3D3428" : "#fff", left: toggle.value ? "18px" : "3px" }} />
             </button>
             <span className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.5)" }}>{toggle.label}</span>
           </div>
@@ -437,7 +437,7 @@ Make it sound authentic and grounded. No corporate jargon. Write like you're tal
       <button onClick={generate} disabled={!topic.trim()}
         className="w-full py-3 rounded-xl text-xs font-semibold transition-all hover:scale-[0.98] active:scale-[0.96] disabled:opacity-30 flex items-center justify-center gap-2 font-display uppercase"
         style={{
-          background: GOLD, color: "#09090F",
+          background: GOLD, color: "#3D3428",
           letterSpacing: "2px",
         }}>
         <Sparkles size={14} /> Assembl with me — Generate

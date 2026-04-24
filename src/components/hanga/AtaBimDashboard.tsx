@@ -174,7 +174,7 @@ export default function AtaBimDashboard() {
           <button
             onClick={() => setShowAddModel(true)}
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all hover:scale-[1.02]"
-            style={{ background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#09090F", fontFamily: "Plus Jakarta Sans" }}
+            style={{ background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#3D3428", fontFamily: "Plus Jakarta Sans" }}
           >
             <Plus size={14} /> Upload Model
           </button>
@@ -436,7 +436,7 @@ export default function AtaBimDashboard() {
 
                   {/* Today marker */}
                   <div className="absolute top-0 h-full w-px" style={{ left: `${(3 / 16) * 100}%`, background: "#4AA5A8", opacity: 0.5 }}>
-                    <div className="absolute -top-4 -translate-x-1/2 px-1.5 py-0.5 rounded text-[8px] font-mono" style={{ background: "#4AA5A8", color: "#09090F", fontFamily: "JetBrains Mono" }}>
+                    <div className="absolute -top-4 -translate-x-1/2 px-1.5 py-0.5 rounded text-[8px] font-mono" style={{ background: "#4AA5A8", color: "#3D3428", fontFamily: "JetBrains Mono" }}>
                       Today
                     </div>
                   </div>
@@ -599,7 +599,7 @@ export default function AtaBimDashboard() {
                   <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm" style={{ fontFamily: "Plus Jakarta Sans", background: "rgba(255,255,255,0.5)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                     Cancel
                   </button>
-                  <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm font-medium" style={{ fontFamily: "Plus Jakarta Sans", background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#09090F" }}>
+                  <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm font-medium" style={{ fontFamily: "Plus Jakarta Sans", background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#3D3428" }}>
                     Upload Model
                   </button>
                 </div>

@@ -321,7 +321,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
         whileTap={{ scale: 0.95 }}
       >
         {open ? (
-          <GlowIcon name="X" size={20} color={open ? "#09090F" : accentColor} glow={false} />
+          <GlowIcon name="X" size={20} color={open ? "#3D3428" : accentColor} glow={false} />
         ) : keteId === "toroa" ? (
           <img loading="lazy" decoding="async" src={toroaMark} alt="Tōro" className="w-8 h-8 rounded-full" />
         ) : (

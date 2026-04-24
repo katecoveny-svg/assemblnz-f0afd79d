@@ -130,7 +130,7 @@ export default function HangaLayout() {
         className={`hidden lg:flex flex-col shrink-0 sticky top-0 h-screen transition-all duration-300 border-r`}
         style={{
           width: collapsed ? 64 : 240,
-          background: "linear-gradient(180deg, #0D0D18 0%, #09090F 100%)",
+          background: "linear-gradient(180deg, #0D0D18 0%, #3D3428 100%)",
           borderColor: "rgba(255,255,255,0.5)",
         }}
       >

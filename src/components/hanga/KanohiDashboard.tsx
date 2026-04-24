@@ -34,7 +34,7 @@ const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
 const TANGAROA = "#1A3A5C";
 const SURFACE = "#0F0F1A";
-const BG = "#09090F";
+const BG = "#3D3428";
 
 const Glass = ({ children, className = "", glow = false, navy = false }: {
   children: React.ReactNode; className?: string; glow?: boolean; navy?: boolean;
@@ -180,7 +180,7 @@ function AraiSafetyDashboard() {
                               <span className="text-[10px] font-bold" style={{ fontFamily: "JetBrains Mono", color: riskColor(score) }}>{score}</span>
                               {cellRisks.length > 0 && (
                                 <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold"
-                                  style={{ background: riskColor(score), color: "#09090F" }}>
+                                  style={{ background: riskColor(score), color: "#3D3428" }}>
                                   {cellRisks.length}
                                 </div>
                               )}

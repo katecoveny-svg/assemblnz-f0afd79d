@@ -330,7 +330,7 @@ export default function KeteAgentChat({
             className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-5 py-3 rounded-full shadow-2xl"
             style={{
               background: accentColor,
-              color: "#09090F",
+              color: "#3D3428",
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               fontWeight: 600,
               fontSize: "13px",

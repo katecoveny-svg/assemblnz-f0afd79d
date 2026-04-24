@@ -122,7 +122,7 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
         transition={state === "listening" ? { duration: 1.5, repeat: Infinity } : {}}
       >
         {state === "listening" ? (
-          <MicOff size={22} color="#09090F" />
+          <MicOff size={22} color="#3D3428" />
         ) : (
           <Mic size={22} style={{ color: TEAL_ACCENT }} />
         )}
