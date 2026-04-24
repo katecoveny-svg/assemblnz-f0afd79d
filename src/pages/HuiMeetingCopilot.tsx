@@ -105,9 +105,10 @@ const HuiMeetingCopilot = () => {
           {/* Workspace */}
           <div className="lg:col-span-2">
             <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-[rgba(142,129,119,0.14)] shadow-[0_8px_30px_rgba(111,97,88,0.08)] overflow-hidden">
-              <div className="p-4 border-b border-[rgba(142,129,119,0.14)] flex items-center gap-2">
+              <div className="p-4 border-b border-[rgba(142,129,119,0.14)] flex items-center gap-2 flex-wrap">
                 <ModeTab k="prep" label="Prep" />
                 <ModeTab k="notes" label="Notes" />
+                <ModeTab k="summary" label="Summary" />
                 <ModeTab k="insights" label="Insights" />
               </div>
               <div className="p-6">
@@ -120,11 +121,14 @@ const HuiMeetingCopilot = () => {
                       Pick a meeting to begin
                     </h3>
                     <p className="font-['Inter'] text-sm text-[#6F6158]/80 mt-2 max-w-md mx-auto">
-                      Choose a meeting from the list to surface prep notes, transcripts, and follow-ups.
+                      Choose a meeting from the list — or hit Notes, Summary, or Insights on any
+                      row to jump straight in.
                     </p>
                   </div>
                 ) : mode === "prep" ? (
                   <MeetingPrep meeting={selected} onStartNotes={() => setMode("notes")} />
+                ) : mode === "summary" ? (
+                  <MeetingSummary meeting={selected} />
                 ) : (
                   <MeetingNotes meeting={selected} />
                 )}
