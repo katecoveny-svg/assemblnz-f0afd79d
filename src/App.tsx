@@ -40,6 +40,7 @@ const AgentSlugRedirect = () => {
 const EmbedPage = lazy(() => import("./pages/EmbedPage"));
 const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const DashboardsHubPage = lazy(() => import("./pages/DashboardsHubPage"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminForgotPassword = lazy(() => import("./pages/AdminForgotPassword"));
 const AdminResetPassword = lazy(() => import("./pages/AdminResetPassword"));
@@ -297,6 +298,7 @@ const App = () => (
                         <Route path="/voyage/wanaka" element={<Navigate to="/voyage/command?trip=11111111-1111-1111-1111-111111111111" replace />} />
                         <Route path="/voyage" element={<Navigate to="/voyage/plan" replace />} />
                         <Route path="/dashboard" element={<Suspense fallback={null}><DashboardPage /></Suspense>} />
+                        <Route path="/dashboards" element={<Suspense fallback={null}><DashboardsHubPage /></Suspense>} />
                         <Route path="/pricing" element={<Suspense fallback={null}><PricingPage /></Suspense>} />
                         <Route path="/platform" element={<Suspense fallback={null}><PlatformPage /></Suspense>} />
                         <Route path="/capabilities" element={<Suspense fallback={null}><CapabilitiesPage /></Suspense>} />
