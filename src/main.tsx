@@ -3,6 +3,7 @@ import { HelmetProvider } from "react-helmet-async";
 import App from "./App.tsx";
 import "./index.css";
 import { registerServiceWorker } from "./utils/pwaManifest";
+import { ModuleErrorBoundary } from "./components/ModuleErrorBoundary";
 
 registerServiceWorker();
 
@@ -13,7 +14,9 @@ registerServiceWorker();
 document.body.classList.add("light-glass-shell");
 
 createRoot(document.getElementById("root")!).render(
-  <HelmetProvider>
-    <App />
-  </HelmetProvider>
+  <ModuleErrorBoundary>
+    <HelmetProvider>
+      <App />
+    </HelmetProvider>
+  </ModuleErrorBoundary>
 );
