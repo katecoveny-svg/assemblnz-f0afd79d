@@ -292,8 +292,8 @@ export default function AgentApp() {
 
                 {messages.map((msg, i) => {
                   const isUser = msg.role === "user";
-                  const { text, images, generating } = isUser
-                    ? { text: msg.content, images: [], generating: false }
+                  const { text, images, generating, generatingPrompt } = isUser
+                    ? { text: msg.content, images: [], generating: false, generatingPrompt: undefined }
                     : extractInlineImages(msg.content);
                   const hasImages = images.length > 0 || generating;
                   return (
@@ -316,10 +316,16 @@ export default function AgentApp() {
                           </div>
                         )}
                         {generating && (
-                          <ChatImageMessage loading accentColor={color} />
+                          <ChatImageMessage loading accentColor={color} caption={generatingPrompt} />
                         )}
                         {images.map((img, idx) => (
-                          <ChatImageMessage key={idx} url={img.url} alt={img.alt} accentColor={color} />
+                          <ChatImageMessage
+                            key={idx}
+                            url={img.url}
+                            alt={img.alt}
+                            caption={img.caption}
+                            accentColor={color}
+                          />
                         ))}
                       </div>
                       {isUser && (
