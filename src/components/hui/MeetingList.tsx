@@ -17,6 +17,8 @@ interface Props {
   onSelect: (m: MeetingItem) => void;
   onPrep: (m: MeetingItem) => void;
   onNotes: (m: MeetingItem) => void;
+  onInsights: (m: MeetingItem) => void;
+  onSummary: (m: MeetingItem) => void;
 }
 
 const KETE_TAGS: { match: RegExp; label: string; color: string }[] = [
@@ -44,7 +46,7 @@ const friendly = (iso: string): string => {
   return d.toLocaleDateString("en-NZ", { weekday: "short", day: "numeric", month: "short" }) + " " + time;
 };
 
-export const MeetingList = ({ selectedId, onSelect, onPrep, onNotes }: Props) => {
+export const MeetingList = ({ selectedId, onSelect, onPrep, onNotes, onInsights, onSummary }: Props) => {
   const [meetings, setMeetings] = useState<MeetingItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -144,18 +146,30 @@ export const MeetingList = ({ selectedId, onSelect, onPrep, onNotes }: Props) =>
                     </span>
                   )}
                 </button>
-                <div className="flex gap-1.5 mt-3">
+                <div className="grid grid-cols-2 gap-1.5 mt-3">
                   <button
                     onClick={() => onPrep(m)}
-                    className="flex-1 bg-[#D9BC7A] hover:bg-[#C4A665] text-[#6F6158] rounded-xl px-2 py-1.5 text-xs font-['Inter'] font-medium transition-colors"
+                    className="bg-[#D9BC7A] hover:bg-[#C4A665] text-[#6F6158] rounded-xl px-2 py-1.5 text-xs font-['Inter'] font-medium transition-colors"
                   >
                     Prep
                   </button>
                   <button
                     onClick={() => onNotes(m)}
-                    className="flex-1 border border-[rgba(142,129,119,0.2)] text-[#6F6158] hover:bg-[#EEE7DE] rounded-xl px-2 py-1.5 text-xs font-['Inter'] transition-colors"
+                    className="border border-[rgba(142,129,119,0.2)] text-[#6F6158] hover:bg-[#EEE7DE] rounded-xl px-2 py-1.5 text-xs font-['Inter'] transition-colors"
                   >
                     Notes
+                  </button>
+                  <button
+                    onClick={() => onInsights(m)}
+                    className="border border-[rgba(142,129,119,0.2)] text-[#6F6158] hover:bg-[#EEE7DE] rounded-xl px-2 py-1.5 text-xs font-['Inter'] transition-colors"
+                  >
+                    Insights
+                  </button>
+                  <button
+                    onClick={() => onSummary(m)}
+                    className="border border-[rgba(142,129,119,0.2)] text-[#6F6158] hover:bg-[#EEE7DE] rounded-xl px-2 py-1.5 text-xs font-['Inter'] transition-colors"
+                  >
+                    Summary
                   </button>
                 </div>
               </div>
