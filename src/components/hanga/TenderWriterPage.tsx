@@ -4,6 +4,8 @@ import { FileText, Sparkles, Download, Save, Copy, Send } from "lucide-react";
 import { toast } from "sonner";
 
 import { AaaipGuardBadge, useAaaipGuard } from "@/aaaip";
+import { ApprovalStatusBadge } from "./ApprovalStatusBadge";
+import { supabase } from "@/integrations/supabase/client";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
@@ -22,9 +24,11 @@ export default function TenderWriterPage() {
   const [generating, setGenerating] = useState(false);
   const [response, setResponse] = useState("");
   const [humanSignoff, setHumanSignoff] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [approvalId, setApprovalId] = useState<string | null>(null);
   const guard = useAaaipGuard("waihanga");
 
-  const submitTender = () => {
+  const submitTender = async () => {
     const decision = guard.check({
       kind: "submit_tender",
       payload: { title, humanSignoff },
@@ -35,17 +39,65 @@ export default function TenderWriterPage() {
       toast.error("Tender submission blocked", { description: decision.explanation });
       return;
     }
-    if (decision.requiresHuman) {
-      toast.warning("Sign-off required", {
-        description:
-          "Waihanga tender-integrity policy requires a principal to sign off before dispatch. Tick the sign-off box and retry.",
+
+    setSubmitting(true);
+    setApprovalId(null);
+    try {
+      // Hand the submission to the Waihanga compliance pipeline so the
+      // backend creates an approval_queue row and returns its ID + status.
+      const { data, error } = await supabase.functions.invoke("claude-chat", {
+        body: {
+          message: `Submit tender: ${title || "Untitled"}`,
+          packId: "waihanga",
+          messages: [],
+          complianceContext: {
+            action: "submit_tender",
+            title: title || "Untitled",
+            humanSignoff,
+            templateType: template,
+          },
+        },
       });
-      return;
+
+      // claude-chat returns 403/409 with { approvalId, status } when held.
+      // supabase.functions.invoke surfaces non-2xx as `error` with `context.body`.
+      const payload =
+        (data as { approvalId?: string; status?: string; error?: string } | null) ??
+        (error && typeof (error as { context?: { body?: unknown } }).context?.body === "string"
+          ? safeParse((error as { context: { body: string } }).context.body)
+          : null);
+
+      if (payload?.approvalId) {
+        setApprovalId(payload.approvalId);
+        toast.success("Tender queued for review", {
+          description: "Approval ID issued — track status below.",
+        });
+      } else if (decision.requiresHuman) {
+        toast.warning("Sign-off required", {
+          description:
+            "Waihanga tender-integrity policy requires a principal to sign off before dispatch. Tick the sign-off box and retry.",
+        });
+      } else {
+        toast.success("Tender dispatched", {
+          description: "Cleared by AAAIP Waihanga policies and logged to the audit feed.",
+        });
+      }
+    } catch (e) {
+      toast.error("Submission failed", {
+        description: e instanceof Error ? e.message : "Unknown error",
+      });
+    } finally {
+      setSubmitting(false);
     }
-    toast.success("Tender dispatched", {
-      description: "Cleared by AAAIP Waihanga policies and logged to the audit feed.",
-    });
   };
+
+  function safeParse(s: string): { approvalId?: string; status?: string } | null {
+    try {
+      return JSON.parse(s);
+    } catch {
+      return null;
+    }
+  }
 
   const generate = () => {
     setGenerating(true);
