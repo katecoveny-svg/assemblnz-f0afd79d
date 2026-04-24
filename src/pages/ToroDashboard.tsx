@@ -7,6 +7,7 @@ import { FamilyCalendarCard } from "@/components/toro/FamilyCalendarCard";
 import { SchoolReportsCard } from "@/components/toro/SchoolReportsCard";
 import { ActionItemsCard } from "@/components/toro/ActionItemsCard";
 import { ToroTutorChat } from "@/components/toro/ToroTutorChat";
+import KeteDashboardLiveRow from "@/components/kete/KeteDashboardLiveRow";
 
 const ToroDashboard = () => {
   const [gmailConnected, setGmailConnected] = useState(false);
@@ -78,6 +79,11 @@ const ToroDashboard = () => {
             </div>
           </div>
         </header>
+
+        {/* Live signals — same data Tōro reads from /chat */}
+        <div className="mb-6">
+          <KeteDashboardLiveRow kete="toro" />
+        </div>
 
         {/* 4-section grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
