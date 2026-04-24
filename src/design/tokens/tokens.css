@@ -14,9 +14,8 @@
  * defined in index.css and continue to work — this file is additive.
  */
 
-@layer base {
-  :root {
-    /* ── Raw palette ─────────────────────────────────────────── */
+:root {
+  /* ── Raw palette ─────────────────────────────────────────── */
     --c-mist:         #F7F3EE;
     --c-cloud:        #EEE7DE;
     --c-sand:         #D8C8B4;
