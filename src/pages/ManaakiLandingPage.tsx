@@ -250,12 +250,12 @@ export default function ManaakiLandingPage() {
                 key={a.code}
                 className="group relative p-5 rounded-xl overflow-hidden cursor-default"
                 style={{
-                  background: hoveredAgent === i
-                    ? `linear-gradient(135deg, rgba(58,125,110,0.1) 0%, rgba(74,165,168,0.05) 100%)`
-                    : `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
-                  border: `1px solid ${hoveredAgent === i ? POUNAMU + "40" : "rgba(255,255,255,0.06)"}`,
+                background: hoveredAgent === i
+                    ? `linear-gradient(135deg, rgba(58,125,110,0.12) 0%, rgba(74,165,168,0.06) 100%)`
+                    : `linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.7) 100%)`,
+                  border: `1px solid ${hoveredAgent === i ? POUNAMU + "60" : "rgba(111,97,88,0.14)"}`,
                   transition: "all 0.4s ease",
-                  boxShadow: hoveredAgent === i ? `0 8px 32px rgba(0,0,0,0.3), 0 0 40px ${POUNAMU}08` : "none",
+                  boxShadow: hoveredAgent === i ? `0 8px 30px rgba(111,97,88,0.12)` : `0 4px 16px rgba(111,97,88,0.06)`,
                 }}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
