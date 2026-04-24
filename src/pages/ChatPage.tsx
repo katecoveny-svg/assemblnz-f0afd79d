@@ -2460,18 +2460,24 @@ const ChatPage = () => {
                         const lastUserMsg = messages.slice(0, i).reverse().find(m => m.role === "user");
                         return <div className="ml-8 mt-1"><HandoffCard agentId={handoffId} context={lastUserMsg?.content} /></div>;
                       })()}
-                      {/* Inline generated images */}
-                      {msg.role === "assistant" && inlineImages[i] && (
+                      {/* Inline generated images — merge live state with persisted URLs from message history */}
+                      {msg.role === "assistant" && (() => {
+                        const live = inlineImages[i];
+                        const persistedUrls = msg.generatedImageUrls ?? [];
+                        const urls = live?.urls?.length ? live.urls : persistedUrls;
+                        const status = live?.status ?? (persistedUrls.length > 0 ? "done" : undefined);
+                        if (!status && urls.length === 0) return null;
+                        return (
                         <div className="ml-8 mt-2">
-                          {inlineImages[i].status === "loading" && (
+                          {status === "loading" && (
                             <div className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs" style={{ background: "rgba(228,160,255,0.08)", border: "1px solid rgba(228,160,255,0.15)", color: "#E4A0FF" }}>
                               <ImagePlus size={14} className="animate-pulse" />
-                              <span>Generating visual{inlineImages[i].urls.length > 0 ? `s (${inlineImages[i].urls.length} ready)` : "s"}...</span>
+                              <span>Generating visual{urls.length > 0 ? `s (${urls.length} ready)` : "s"}...</span>
                             </div>
                           )}
-                          {inlineImages[i].urls.length > 0 && (
-                            <div className="grid gap-2" style={{ gridTemplateColumns: inlineImages[i].urls.length > 1 ? "1fr 1fr" : "1fr" }}>
-                              {inlineImages[i].urls.map((url, imgIdx) => (
+                          {urls.length > 0 && (
+                            <div className="grid gap-2" style={{ gridTemplateColumns: urls.length > 1 ? "1fr 1fr" : "1fr" }}>
+                              {urls.map((url, imgIdx) => (
                                 <div key={imgIdx} className="relative group rounded-xl overflow-hidden border border-border">
                                   <img loading="lazy" decoding="async" src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" />
                                    <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -2497,11 +2503,12 @@ const ChatPage = () => {
                               ))}
                             </div>
                           )}
-                          {inlineImages[i].status === "error" && inlineImages[i].urls.length === 0 && (
+                          {status === "error" && urls.length === 0 && (
                             <div className="text-xs text-muted-foreground px-3 py-2">Image generation failed — try asking again or use PRISM's Content Studio for more options.</div>
                           )}
                         </div>
-                      )}
+                        );
+                      })()}
                       {msg.role === "assistant" &&
                         getGenerationsForIndex(i).map((gen) => (
                           <div key={gen.id} className="mt-2 ml-8">
