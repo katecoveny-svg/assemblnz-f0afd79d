@@ -108,7 +108,7 @@ export function LiveWidgetShell({
           aria-hidden="true"
         >
           <div
-            className="h-full w-1/3 animate-[shimmer_1.4s_ease-in-out_infinite]"
+            className="h-full w-1/3 animate-shimmer-sweep"
             style={{
               background: `linear-gradient(90deg, transparent, ${accent.accentHex}cc, transparent)`,
             }}
