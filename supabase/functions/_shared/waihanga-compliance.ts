@@ -200,3 +200,229 @@ export function deriveActionFromMessage(
     confidence: ctx.confidence ?? 0.95,
   };
 }
+
+// ── Structured compliance result for API responses ─────────────
+//
+// When a chat request is blocked or needs human review, we return
+// a richer `complianceResult` object so the frontend can render a
+// proper handoff card (per-policy status, required follow-ups,
+// recommended next action) without re-deriving the meaning of each
+// policy id on the client.
+
+export type PolicyStatus = "passed" | "warned" | "blocked";
+
+export interface PolicyResultItem {
+  policyId: string;
+  status: PolicyStatus;
+  severity: Severity;
+  message: string;
+  /** Plain-English description of what this policy guards. */
+  description: string;
+  /** Concrete steps the user / reviewer must take to clear it. */
+  requiredFollowUps: string[];
+}
+
+export type RecommendedActionType =
+  | "fix_input_and_retry"
+  | "request_human_approval"
+  | "escalate_hazard"
+  | "wait_for_capacity"
+  | "no_action_required";
+
+export interface RecommendedAction {
+  type: RecommendedActionType;
+  /** One-line summary the UI can show as a CTA. */
+  summary: string;
+  /** Ordered next steps the user should follow. */
+  steps: string[];
+  /** Who owns the next step. */
+  owner: "user" | "supervisor" | "site_manager" | "health_safety_officer";
+}
+
+export interface ComplianceResult {
+  verdict: Verdict;
+  explanation: string;
+  actionKind: string;
+  zone: string | null;
+  /** Per-policy outcome — every policy the engine evaluated, in order. */
+  policies: PolicyResultItem[];
+  /** Subset of `policies` that did not pass — convenience for the UI. */
+  failedPolicies: PolicyResultItem[];
+  /** Single recommended next action the caller should take. */
+  recommendedAction: RecommendedAction;
+  /** Optional approval queue id when the request was queued for review. */
+  approvalId?: string;
+  /** Stable schema version so clients can negotiate future changes. */
+  schemaVersion: 1;
+}
+
+interface PolicyMeta {
+  description: string;
+  /** Followups when the policy fails. */
+  followUpsOnFail: string[];
+}
+
+const POLICY_META: Record<string, PolicyMeta> = {
+  "waihanga.ppe_required": {
+    description: "Workers must confirm correct PPE before checking on-site.",
+    followUpsOnFail: [
+      "Confirm hi-vis, hard hat, and steel-cap boots are on.",
+      "Re-submit the check-in with the PPE box ticked.",
+    ],
+  },
+  "waihanga.hazard_escalation": {
+    description:
+      "Zones with an unresolved critical hazard only accept escalation actions.",
+    followUpsOnFail: [
+      "Switch the action to 'escalate_hazard' or pick a different zone.",
+      "Notify the site H&S officer if the hazard is new.",
+    ],
+  },
+  "waihanga.worker_consent": {
+    description:
+      "Photos showing identifiable workers require recorded worker consent.",
+    followUpsOnFail: [
+      "Capture verbal/written consent from every visible worker, or",
+      "Re-shoot the photo so no worker is identifiable, then re-upload.",
+    ],
+  },
+  "waihanga.tender_integrity": {
+    description:
+      "Tender submissions must be reviewed and signed off by a human before dispatch.",
+    followUpsOnFail: [
+      "Have an authorised teammate review the tender draft.",
+      "Mark 'human sign-off complete' and re-submit, or wait for the queued reviewer.",
+    ],
+  },
+  "waihanga.site_access": {
+    description:
+      "Site headcount cap protects evacuation routes — no further check-ins once full.",
+    followUpsOnFail: [
+      "Wait for a worker to check out, or",
+      "Request a temporary cap increase from the site manager.",
+    ],
+  },
+  "waihanga.uncertainty_handoff": {
+    description:
+      "Low-confidence agent decisions are escalated to a human rather than auto-actioned.",
+    followUpsOnFail: [
+      "Add the missing context (zone, PPE, consent, etc.) and resend.",
+      "Escalate to a supervisor if the request can't be clarified.",
+    ],
+  },
+};
+
+const DEFAULT_META: PolicyMeta = {
+  description: "Compliance policy.",
+  followUpsOnFail: ["Review the policy message and resolve the failure before retrying."],
+};
+
+function evaluationToItem(ev: PolicyEvaluation): PolicyResultItem {
+  const meta = POLICY_META[ev.policyId] ?? DEFAULT_META;
+  let status: PolicyStatus;
+  if (ev.passed) status = "passed";
+  else if (ev.severity === "warn") status = "warned";
+  else status = "blocked";
+  return {
+    policyId: ev.policyId,
+    status,
+    severity: ev.severity,
+    message: ev.message,
+    description: meta.description,
+    requiredFollowUps: ev.passed ? [] : meta.followUpsOnFail,
+  };
+}
+
+function recommendedActionFor(
+  decision: ComplianceDecision,
+  action: WaihangaAction,
+  approvalId?: string,
+): RecommendedAction {
+  const failed = decision.evaluations.filter((e) => !e.passed);
+  const failedIds = new Set(failed.map((e) => e.policyId));
+
+  if (decision.verdict === "allow") {
+    return {
+      type: "no_action_required",
+      summary: "Compliance passed — proceed.",
+      steps: [],
+      owner: "user",
+    };
+  }
+
+  if (failedIds.has("waihanga.hazard_escalation")) {
+    return {
+      type: "escalate_hazard",
+      summary: `Escalate the hazard in zone ${action.zone ?? "(unspecified)"} before any other action.`,
+      steps: [
+        "Stop work in the affected zone.",
+        "Notify the site H&S officer and log the hazard.",
+        "Re-submit only after the hazard is cleared or as an explicit escalation.",
+      ],
+      owner: "health_safety_officer",
+    };
+  }
+
+  if (failedIds.has("waihanga.site_access")) {
+    return {
+      type: "wait_for_capacity",
+      summary: "Site is at headcount cap — wait or request an increase.",
+      steps: [
+        "Wait for an active worker to check out.",
+        "Or contact the site manager to authorise a temporary cap increase.",
+      ],
+      owner: "site_manager",
+    };
+  }
+
+  if (decision.verdict === "needs_human") {
+    return {
+      type: "request_human_approval",
+      summary: approvalId
+        ? "Queued for human review — a teammate will action this."
+        : "A human reviewer must approve before this can proceed.",
+      steps: [
+        approvalId
+          ? `Approval queue id: ${approvalId} — track in the supervisor inbox.`
+          : "Forward the request and context to an authorised reviewer.",
+        "Do not retry until the reviewer signs off.",
+      ],
+      owner: "supervisor",
+    };
+  }
+
+  // Default: block — user can fix the input and retry.
+  return {
+    type: "fix_input_and_retry",
+    summary: "Resolve the failed policies and resend the request.",
+    steps: failed.flatMap((e) =>
+      (POLICY_META[e.policyId] ?? DEFAULT_META).followUpsOnFail,
+    ),
+    owner: "user",
+  };
+}
+
+/**
+ * Build the structured `complianceResult` object returned by the
+ * chat API on block / needs_human responses.
+ */
+export function buildComplianceResult(
+  decision: ComplianceDecision,
+  action: WaihangaAction,
+  options: { approvalId?: string } = {},
+): ComplianceResult {
+  const policies = decision.evaluations.map(evaluationToItem);
+  const failedPolicies = policies.filter((p) => p.status !== "passed");
+  return {
+    schemaVersion: 1,
+    verdict: decision.verdict,
+    explanation: decision.explanation,
+    actionKind: action.kind,
+    zone: action.zone ?? null,
+    policies,
+    failedPolicies,
+    recommendedAction: recommendedActionFor(decision, action, options.approvalId),
+    ...(options.approvalId ? { approvalId: options.approvalId } : {}),
+  };
+}
+
