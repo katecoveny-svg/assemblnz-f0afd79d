@@ -21,9 +21,7 @@ describe("checkSqlSafety", () => {
     it("blocks UPDATE missing WHERE", () => {
       const r = checkSqlSafety("UPDATE users SET active = false");
       expect(r.ok).toBe(false);
-      if (!r.ok) {
-        expect(r.issues.map((i) => i.code)).toContain("MISSING_WHERE");
-      }
+      expect(issuesOf(r)).toContain("MISSING_WHERE");
     });
 
     it("allows UPDATE without WHERE when @safe-no-where comment present", () => {
@@ -36,9 +34,7 @@ describe("checkSqlSafety", () => {
     it("blocks UPDATE with truncated WHERE clause", () => {
       const r = checkSqlSafety("UPDATE users SET name = 'a' WHERE id =");
       expect(r.ok).toBe(false);
-      if (!r.ok) {
-        expect(r.issues.map((i) => i.code)).toContain("TRAILING_OPERATOR");
-      }
+      expect(issuesOf(r)).toContain("TRAILING_OPERATOR");
     });
 
     it("blocks UPDATE with empty SET clause", () => {
@@ -49,9 +45,7 @@ describe("checkSqlSafety", () => {
     it("blocks UPDATE truncated mid-string", () => {
       const r = checkSqlSafety("UPDATE users SET name = 'Ka WHERE id = 1");
       expect(r.ok).toBe(false);
-      if (!r.ok) {
-        expect(r.issues.map((i) => i.code)).toContain("UNBALANCED_QUOTES");
-      }
+      expect(issuesOf(r)).toContain("UNBALANCED_QUOTES");
     });
 
     it("blocks UPDATE ending in AND", () => {
@@ -73,9 +67,7 @@ describe("checkSqlSafety", () => {
     it("blocks INSERT with no VALUES", () => {
       const r = checkSqlSafety("INSERT INTO users (id, name)");
       expect(r.ok).toBe(false);
-      if (!r.ok) {
-        expect(r.issues.map((i) => i.code)).toContain("INSERT_NO_VALUES");
-      }
+      expect(issuesOf(r)).toContain("INSERT_NO_VALUES");
     });
 
     it("blocks INSERT with column/value arity mismatch", () => {
@@ -83,11 +75,7 @@ describe("checkSqlSafety", () => {
         "INSERT INTO users (id, name, email) VALUES ('1', 'Kate')",
       );
       expect(r.ok).toBe(false);
-      if (!r.ok) {
-        expect(r.issues.map((i) => i.code)).toContain(
-          "INSERT_COLUMN_VALUE_MISMATCH",
-        );
-      }
+      expect(issuesOf(r)).toContain("INSERT_COLUMN_VALUE_MISMATCH");
     });
 
     it("blocks INSERT with truncated VALUES", () => {
@@ -107,9 +95,7 @@ describe("checkSqlSafety", () => {
     it("blocks DELETE missing WHERE", () => {
       const r = checkSqlSafety("DELETE FROM users");
       expect(r.ok).toBe(false);
-      if (!r.ok) {
-        expect(r.issues.map((i) => i.code)).toContain("MISSING_WHERE");
-      }
+      expect(issuesOf(r)).toContain("MISSING_WHERE");
     });
 
     it("allows DELETE WHERE", () => {
