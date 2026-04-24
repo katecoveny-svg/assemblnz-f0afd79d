@@ -195,9 +195,16 @@ export default function AuahaDashboard() {
           </div>
           <div className="hidden lg:flex flex-col items-end gap-2">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: `${TEAL}15`, border: `1px solid ${TEAL}30` }}>
-              <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: TEAL }} />
-              <span className="text-xs font-medium" style={{ color: TEAL }}>All systems live</span>
+              {initialLoading ? (
+                <Loader2 className="w-3 h-3 animate-spin" style={{ color: TEAL }} />
+              ) : (
+                <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: TEAL }} />
+              )}
+              <span className="text-xs font-medium" style={{ color: TEAL }}>
+                {initialLoading ? "Loading dashboard…" : metricsFetching ? "Refreshing…" : "All systems live"}
+              </span>
             </div>
+            <DashboardRefreshButton onReload={reload} accent={ACCENT} lastUpdatedAt={lastUpdatedAt} size="sm" />
             <span className="text-[10px] font-mono" style={{ color: TEXT_FAINT }}>{totalContent} items • {totalCampaigns} campaigns</span>
           </div>
         </div>
