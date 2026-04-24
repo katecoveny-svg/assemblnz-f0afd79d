@@ -16,7 +16,7 @@
  *     model can read them and explain to the user.
  */
 
-import { createClient, type SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { createClient, type SupabaseClient } from "jsr:@supabase/supabase-js@2";
 
 export interface ToolContext {
   supabaseUrl: string;

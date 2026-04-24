@@ -30,7 +30,7 @@
 // place and makes it impossible for an agent to bypass the trust layer.
 // ============================================================================
 
-import { createClient, SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { createClient, SupabaseClient } from "jsr:@supabase/supabase-js@2";
 
 // ---------------------------------------------------------------------------
 // Types
