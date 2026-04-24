@@ -7,7 +7,7 @@ import {
   Camera, FileText, MessageSquare, Mic, ChevronLeft, ChevronRight,
   Layers, Brain, Globe, Menu, X, Users
 } from "lucide-react";
-import { MARAMA_WAIHANGA as M } from "./marama/tokens";
+import { MARAMA_WAIHANGA as M } from "./marama";
 
 const NAV_ITEMS = [
   { label: "Dashboard", labelMi: "Papa Matua", to: "/waihanga", icon: LayoutDashboard, end: true },
