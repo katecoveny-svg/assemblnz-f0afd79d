@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   Home, Users, PawPrint, GraduationCap, Shirt, Clock, ShoppingCart,
-  BookOpen, MessageSquare, Settings, ChevronLeft, Menu, X, Wifi, Compass, Sparkles,
+  BookOpen, MessageSquare, Settings, ChevronLeft, Menu, X, Wifi, Compass, Sparkles, MapPin,
 } from "lucide-react";
 import toroaLogo from "@/assets/brand/toroa-logo.svg";
 import KeteBrainChat from "@/components/KeteBrainChat";
@@ -343,7 +343,29 @@ export default function ToroaDashboard() {
             </div>
           </Link>
 
-          <AnimatePresence mode="wait">
+          {/* ── Route Intelligence tile (shared with ARATAKI) ── */}
+          <Link
+            to="/toro/route"
+            className="block rounded-2xl p-4 transition-all hover:scale-[1.01] group"
+            style={{
+              background: "white",
+              border: `1px solid ${ACCENT}25`,
+              boxShadow: "0 8px 30px rgba(111,97,88,0.06)",
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${SPARKLE}20`, border: `1px solid ${SPARKLE}30` }}>
+                <MapPin size={18} style={{ color: SPARKLE }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[9px] uppercase tracking-[0.2em]" style={{ color: ACCENT }}>Route Intelligence · live</p>
+                <p className="text-xs mt-0.5" style={{ color: INK, fontWeight: 500 }}>Whānau road-trip planner</p>
+                <p className="text-[10px] mt-0.5" style={{ color: MUTED }}>School runs, weekend escapes — live NZ weather and drive times.</p>
+              </div>
+              <ChevronLeft size={14} className="rotate-180 group-hover:translate-x-0.5 transition-transform" style={{ color: ACCENT }} />
+            </div>
+          </Link>
+
             <motion.div
               key={active}
               initial={{ opacity: 0, y: 16 }}
