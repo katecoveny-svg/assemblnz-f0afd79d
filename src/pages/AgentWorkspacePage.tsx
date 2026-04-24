@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
-import { Loader2, MessageSquare, ArrowLeft } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Loader2, MessageSquare, ArrowLeft, RefreshCw, PlayCircle } from "lucide-react";
+import { toast } from "sonner";
 import { agents } from "@/data/agents";
 import { SLUG_TO_ID } from "@/lib/agentSlugMap";
 import { ASSEMBL_TOKENS } from "@/design/assemblTokens";
+import { agentChat } from "@/lib/agentChat";
 import {
   useAgentRuns,
   useAgentMemory,
@@ -27,16 +30,43 @@ const AgentWorkspacePage: React.FC = () => {
   const agentId = rawAgentId ? (SLUG_TO_ID[rawAgentId] ?? rawAgentId) : "";
   const agent = agents.find((a) => a.id === agentId);
 
-  if (!agent) return <Navigate to="/agents" replace />;
-
-  const agentCode = agent.designation;
-  const keteCode = (agent.pack ?? "").toUpperCase();
-  const accent = agent.color || "#9D8C7D";
+  const agentCode = agent?.designation ?? "";
+  const keteCode = (agent?.pack ?? "").toUpperCase();
+  const accent = agent?.color || "#9D8C7D";
 
   const runs = useAgentRuns(agentCode);
-  const memory = useAgentMemory(agent.id);
+  const memory = useAgentMemory(agent?.id ?? "");
   const evidence = useAgentEvidence(keteCode);
   const policyHits = useAgentPolicyHits(agentCode);
+
+  const queryClient = useQueryClient();
+  const [rerunBusy, setRerunBusy] = useState(false);
+
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: ["agent-workspace"] });
+    toast.success("Workspace refreshed");
+  };
+
+  const handleRerunLast = async () => {
+    const last = runs.data?.[0];
+    const prompt = last?.request_summary;
+    if (!prompt) {
+      toast.error("No previous prompt found to re-run");
+      return;
+    }
+    setRerunBusy(true);
+    try {
+      await agentChat({ agentId: agent!.id, message: prompt });
+      toast.success("Re-run complete — refreshing feed");
+      queryClient.invalidateQueries({ queryKey: ["agent-workspace"] });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Re-run failed");
+    } finally {
+      setRerunBusy(false);
+    }
+  };
+
+  if (!agent) return <Navigate to="/agents" replace />;
 
   const totalRuns = runs.data?.length ?? 0;
   const passRate =
@@ -76,6 +106,38 @@ const AgentWorkspacePage: React.FC = () => {
             <ArrowLeft size={12} /> Back to {agent.name} chat
           </Link>
           <div className="flex-1" />
+          <button
+            onClick={handleRerunLast}
+            disabled={rerunBusy || !runs.data?.length}
+            title="Re-run the most recent prompt against this agent"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs hover:brightness-95 disabled:opacity-50"
+            style={{
+              background: "rgba(255,255,255,0.65)",
+              border: `1px solid ${ASSEMBL_TOKENS.core.text["border-soft"]}`,
+              color: ASSEMBL_TOKENS.core.text["text-primary"],
+              fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+            }}
+          >
+            {rerunBusy ? (
+              <Loader2 size={12} className="animate-spin" />
+            ) : (
+              <PlayCircle size={12} />
+            )}
+            Re-run last
+          </button>
+          <button
+            onClick={handleRefresh}
+            title="Refresh all live feeds on this workspace"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs hover:brightness-95"
+            style={{
+              background: "rgba(255,255,255,0.65)",
+              border: `1px solid ${ASSEMBL_TOKENS.core.text["border-soft"]}`,
+              color: ASSEMBL_TOKENS.core.text["text-primary"],
+              fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+            }}
+          >
+            <RefreshCw size={12} /> Refresh
+          </button>
           <Link
             to={`/chat/${rawAgentId}`}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs hover:brightness-95"
