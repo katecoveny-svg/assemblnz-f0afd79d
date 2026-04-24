@@ -7679,7 +7679,14 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  }
 
  return new Response(
-  JSON.stringify({ content, model: actualModelUsed, complexity, responseTime, fromCache: false }),
+  JSON.stringify({
+    content,
+    model: actualModelUsed,
+    complexity,
+    responseTime,
+    fromCache: false,
+    conversationId: bodyConversationId || bodySessionId || (userId ? `${userId}:${agentId}` : null),
+  }),
   { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
  } catch (error) {
