@@ -10951,6 +10951,81 @@ export type Database = {
           },
         ]
       }
+      toroa_journal_entries: {
+        Row: {
+          author_name: string | null
+          author_user_id: string | null
+          challenge: string | null
+          child_id: string | null
+          created_at: string
+          energy_level: number | null
+          entry_date: string
+          family_id: string
+          gratitude: string | null
+          highlight: string | null
+          id: string
+          is_private: boolean
+          mood: string | null
+          prompt_used: string | null
+          shared_with_parent: boolean
+          tomorrow_focus: string | null
+          updated_at: string
+        }
+        Insert: {
+          author_name?: string | null
+          author_user_id?: string | null
+          challenge?: string | null
+          child_id?: string | null
+          created_at?: string
+          energy_level?: number | null
+          entry_date?: string
+          family_id: string
+          gratitude?: string | null
+          highlight?: string | null
+          id?: string
+          is_private?: boolean
+          mood?: string | null
+          prompt_used?: string | null
+          shared_with_parent?: boolean
+          tomorrow_focus?: string | null
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string | null
+          author_user_id?: string | null
+          challenge?: string | null
+          child_id?: string | null
+          created_at?: string
+          energy_level?: number | null
+          entry_date?: string
+          family_id?: string
+          gratitude?: string | null
+          highlight?: string | null
+          id?: string
+          is_private?: boolean
+          mood?: string | null
+          prompt_used?: string | null
+          shared_with_parent?: boolean
+          tomorrow_focus?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_journal_entries_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_journal_entries_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_meal_plans: {
         Row: {
           created_at: string
