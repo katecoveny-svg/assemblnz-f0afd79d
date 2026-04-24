@@ -1,13 +1,15 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import { MARAMA_WAIHANGA as M } from "./tokens";
+import { useMaramaTokens } from "./MaramaKeteContext";
+import { KeteSlug, maramaTokens } from "./tokens";
 
-type Variant = "primary" | "ghost" | "outline" | "subtle";
+type Variant = "primary" | "ghost" | "outline" | "subtle" | "accent";
 type Size = "sm" | "md";
 
 interface MaramaButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   size?: Size;
   icon?: ReactNode;
+  kete?: KeteSlug;
 }
 
 const SIZE = {
@@ -22,29 +24,38 @@ export function MaramaButton({
   className = "",
   children,
   style,
+  kete,
   ...rest
 }: MaramaButtonProps) {
+  const ctx = useMaramaTokens();
+  const T = kete ? maramaTokens(kete) : ctx;
+
   const variantStyle: Record<Variant, React.CSSProperties> = {
     primary: {
-      background: M.cta,
+      background: T.cta,
       color: "#3F3221",
-      border: `1px solid ${M.ctaDeep}`,
+      border: `1px solid ${T.ctaDeep}`,
       boxShadow: "0 6px 20px rgba(217,188,122,0.28)",
     },
     ghost: {
       background: "transparent",
-      color: M.textPrimary,
+      color: T.textPrimary,
       border: `1px solid transparent`,
     },
     outline: {
       background: "rgba(255,255,255,0.7)",
-      color: M.textPrimary,
-      border: `1px solid ${M.borderSoft}`,
+      color: T.textPrimary,
+      border: `1px solid ${T.borderSoft}`,
     },
     subtle: {
-      background: M.accentSoft,
-      color: M.accentDeep,
-      border: `1px solid ${M.borderSoft}`,
+      background: T.accentSoft,
+      color: T.accentDeep,
+      border: `1px solid ${T.borderSoft}`,
+    },
+    accent: {
+      background: T.accent,
+      color: T.accentDeep,
+      border: `1px solid ${T.accentRing}`,
     },
   };
   return (
