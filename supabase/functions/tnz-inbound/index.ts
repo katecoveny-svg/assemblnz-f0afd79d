@@ -567,26 +567,96 @@ Deno.serve(async (req) => {
       console.error("Audit log error:", auditErr);
     }
 
-    // ═══ MEMORY EXTRACTION QUEUE — debounced enqueue (fire-and-forget) ═══
+    // ═══ CROSS-CHANNEL MEMORY PERSISTENCE ═══
+    // Mirror SMS/WhatsApp turns into the canonical `conversations` table so
+    // memory_extractor (which joins on conversations.id) can write into
+    // agent_memory, and the dashboard /chat surface can recall facts the
+    // user shared via text. Keyed on the tenant's primary admin user_id and
+    // a channel-prefixed agent_id ("sms:<agent>") so SMS threads don't collide
+    // with web /chat threads but DO share extracted agent_memory facts
+    // (match_agent_memory filters on user_id, not agent_id).
     try {
-      const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
-      const { data: recent } = await sb
-        .from("memory_extraction_queue")
-        .select("id")
-        .eq("conversation_id", conversationId)
-        .gte("created_at", tenMinAgo)
-        .limit(1);
-      if (!recent || recent.length === 0) {
-        sb.from("memory_extraction_queue").insert({
-          tenant_id: tenantId,
-          conversation_id: conversationId,
-          status: "pending",
-        }).then(({ error }) => {
-          if (error) console.warn("[tnz-inbound] memory_extraction_queue insert failed:", error.message);
-        });
+      const { data: ownerRow } = await sb
+        .from("tenant_members")
+        .select("user_id")
+        .eq("tenant_id", tenantId)
+        .in("role", ["admin", "manager"])
+        .order("created_at", { ascending: true })
+        .limit(1)
+        .maybeSingle();
+      const ownerUserId = ownerRow?.user_id ?? null;
+
+      if (ownerUserId) {
+        const channelAgentId = `${validChannel}:${agentUsed}`;
+        const newTurn = [
+          { role: "user", content: messageBody, ts: new Date().toISOString() },
+          { role: "assistant", content: aiReply, ts: new Date().toISOString() },
+        ];
+
+        const { data: existingConvo } = await sb
+          .from("conversations")
+          .select("id, messages")
+          .eq("user_id", ownerUserId)
+          .eq("agent_id", channelAgentId)
+          .order("updated_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+
+        let convoUuid: string | null = null;
+        if (existingConvo?.id) {
+          const prev = Array.isArray(existingConvo.messages) ? existingConvo.messages : [];
+          const merged = [...prev, ...newTurn].slice(-200);
+          await sb
+            .from("conversations")
+            .update({ messages: merged, updated_at: new Date().toISOString() })
+            .eq("id", existingConvo.id);
+          convoUuid = existingConvo.id;
+        } else {
+          const { data: created } = await sb
+            .from("conversations")
+            .insert({ user_id: ownerUserId, agent_id: channelAgentId, messages: newTurn })
+            .select("id")
+            .single();
+          convoUuid = created?.id ?? null;
+        }
+
+        if (convoUuid) {
+          const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+          const { data: recent } = await sb
+            .from("memory_extraction_queue")
+            .select("id")
+            .eq("conversation_id", convoUuid)
+            .gte("created_at", tenMinAgo)
+            .limit(1);
+          if (!recent || recent.length === 0) {
+            await sb.from("memory_extraction_queue").insert({
+              tenant_id: tenantId,
+              user_id: ownerUserId,
+              conversation_id: convoUuid,
+              status: "pending",
+            });
+          }
+
+          // Cross-channel summary so /chat MemoryPanel sees SMS activity too.
+          await sb.from("conversation_summaries").insert({
+            user_id: ownerUserId,
+            agent_id: channelAgentId,
+            summary: `[${validChannel.toUpperCase()}] ${messageBody.slice(0, 200)} → ${aiReply.slice(0, 160)}`,
+            key_facts_extracted: {
+              conversation_id: convoUuid,
+              messaging_conversation_id: conversationId,
+              channel: validChannel,
+              tenant_id: tenantId,
+            },
+            original_message_count: 1,
+            compression_level: 0,
+          });
+        }
+      } else {
+        console.warn(`[tnz-inbound] no admin/manager user found for tenant ${tenantId}; skipping memory mirror`);
       }
     } catch (memErr) {
-      console.warn("[tnz-inbound] memory queue check failed:", (memErr as Error).message);
+      console.warn("[tnz-inbound] memory mirror failed (non-critical):", (memErr as Error).message);
     }
 
     console.log(
