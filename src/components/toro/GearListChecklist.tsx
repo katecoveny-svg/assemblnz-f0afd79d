@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { Cloud, CloudRain, Plus, Sun, X } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Cloud, CloudRain, Plus, RefreshCw, Sun, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -31,14 +31,15 @@ const todayIso = () => new Date().toISOString().slice(0, 10);
 export function GearListChecklist({ familyId, childName }: Props) {
   const [list, setList] = useState<GearListRow | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [newItem, setNewItem] = useState("");
   const [showAdd, setShowAdd] = useState(false);
 
-  useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      setIsLoading(true);
+  const load = useCallback(
+    async (mode: "initial" | "refresh" = "initial") => {
+      if (mode === "initial") setIsLoading(true);
+      else setIsRefreshing(true);
       const today = todayIso();
       const { data, error } = await supabase
         .from("toroa_gear_lists")
@@ -48,11 +49,10 @@ export function GearListChecklist({ familyId, childName }: Props) {
         .eq("list_date", today)
         .maybeSingle();
 
-      if (cancelled) return;
-
       if (error) {
         toast.error("Couldn't load gear list");
         setIsLoading(false);
+        setIsRefreshing(false);
         return;
       }
 
@@ -67,11 +67,39 @@ export function GearListChecklist({ familyId, childName }: Props) {
         setList(null);
       }
       setIsLoading(false);
-    })();
+      setIsRefreshing(false);
+    },
+    [familyId, childName],
+  );
+
+  useEffect(() => {
+    void load("initial");
+    const today = todayIso();
+    const channel = supabase
+      .channel(`gear-${familyId}-${childName}-${today}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "toroa_gear_lists",
+          filter: `family_id=eq.${familyId}`,
+        },
+        (payload) => {
+          const row = (payload.new ?? payload.old) as
+            | { child_name?: string; list_date?: string }
+            | null;
+          if (!row) return;
+          if (row.child_name === childName && row.list_date === today) {
+            void load("refresh");
+          }
+        },
+      )
+      .subscribe();
     return () => {
-      cancelled = true;
+      void supabase.removeChannel(channel);
     };
-  }, [familyId, childName]);
+  }, [familyId, childName, load]);
 
   const allItems = useMemo(() => {
     const base = (list?.items ?? []) as GearItem[];
