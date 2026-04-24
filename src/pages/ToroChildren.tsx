@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, Plus, Users, GraduationCap, Bus, Car, Bike, Footprints } from "lucide-react";
+import { ChevronLeft, Plus, Pencil, Users, GraduationCap, Bus, Car, Bike, Footprints } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { TimetableGrid } from "@/components/toro/TimetableGrid";
 import { GearListChecklist } from "@/components/toro/GearListChecklist";
 import { AddChildModal } from "@/components/toro/AddChildModal";
+import { EditChildModal } from "@/components/toro/EditChildModal";
 import { toast } from "sonner";
 
 interface Child {
@@ -36,6 +37,7 @@ const ToroChildren = () => {
   const [children, setChildren] = useState<Child[]>([]);
   const [activeChildId, setActiveChildId] = useState<string | null>(null);
   const [showAdd, setShowAdd] = useState(false);
+  const [editChildId, setEditChildId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const loadFamily = async () => {
@@ -187,7 +189,16 @@ const ToroChildren = () => {
                 <>
                   {/* Profile header */}
                   <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-[rgba(142,129,119,0.14)] shadow-[0_8px_30px_rgba(111,97,88,0.08)] p-6">
-                    <h2 className="font-display text-3xl text-[#6F6158]">{activeChild.name}</h2>
+                    <div className="flex items-start justify-between gap-3">
+                      <h2 className="font-display text-3xl text-[#6F6158]">{activeChild.name}</h2>
+                      <button
+                        onClick={() => setEditChildId(activeChild.id)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-body text-[#9D8C7D] hover:text-[#6F6158] hover:bg-[#EEE7DE] border border-[rgba(142,129,119,0.14)]"
+                      >
+                        <Pencil size={12} />
+                        Edit
+                      </button>
+                    </div>
                     <div className="flex flex-wrap gap-4 mt-3 font-body text-sm text-[#6F6158]">
                       {activeChild.school && (
                         <span><span className="text-[#9D8C7D]">School:</span> {activeChild.school}</span>
@@ -253,6 +264,13 @@ const ToroChildren = () => {
           onSaved={() => void loadFamily()}
         />
       )}
+
+      <EditChildModal
+        child={children.find((c) => c.id === editChildId) ?? null}
+        open={editChildId !== null}
+        onClose={() => setEditChildId(null)}
+        onSaved={() => void loadFamily()}
+      />
     </div>
   );
 };
