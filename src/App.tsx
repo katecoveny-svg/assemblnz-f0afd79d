@@ -399,7 +399,13 @@ const App = () => (
                         <Route path="/manaaki/dashboard" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
 
                         <Route path="/arataki" element={<Suspense fallback={null}><AratakiLandingPage /></Suspense>} />
-                        <Route path="/arataki/dashboard" element={<Suspense fallback={null}><AratakiDashboard /></Suspense>} />
+                        <Route path="/arataki/legacy-dashboard" element={<Suspense fallback={null}><AratakiDashboard /></Suspense>} />
+                        <Route path="/arataki/dashboard" element={<Suspense fallback={null}><AratakiLayout /></Suspense>}>
+                          <Route index element={<AratakiWorkshop />} />
+                          <Route path="loan-cars" element={<AratakiLoanCars />} />
+                          <Route path="wof-calendar" element={<AratakiWofCalendar />} />
+                          <Route path="parts" element={<ForgePartsService />} />
+                        </Route>
                         <Route path="/arataki/fuel-oracle" element={<Suspense fallback={null}><AratakiFuelOracle /></Suspense>} />
                         <Route path="/arataki/vehicle-economy" element={<Suspense fallback={null}><AratakiVehicleEconomy /></Suspense>} />
                         <Route path="/arataki/route-intelligence" element={<Suspense fallback={null}><AratakiRouteIntelligence /></Suspense>} />
