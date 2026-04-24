@@ -29,7 +29,7 @@ export function getAgentManifest(agentId: string): ManifestData {
     description: `${shortName} — ${role}. Powered by Assembl, NZ's business intelligence platform.`,
     start_url: agentId === "operations" ? "/toroa" : `/app/${agentId}`,
     display: "standalone",
-    background_color: "#3D3428",
+    background_color: "#F7F3EE",
     theme_color: color,
     orientation: "any",
     icons: [
