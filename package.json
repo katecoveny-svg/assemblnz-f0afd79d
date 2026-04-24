@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "predeploy:agents": "tsx scripts/predeploy-validate-agents.ts",
+    "check:kete-names": "tsx scripts/check-kete-names.ts"
   },
   "dependencies": {
     "@elevenlabs/react": "^0.14.3",
