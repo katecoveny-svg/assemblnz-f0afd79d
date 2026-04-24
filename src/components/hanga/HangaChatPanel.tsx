@@ -128,6 +128,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
           packId,
           messages: messages.filter(m => m.role === "user" || m.role === "assistant")
             .map(m => ({ role: m.role, content: m.content })),
+          ...(isWaihanga ? { complianceContext: supervisorContext } : {}),
         }),
       });
 
