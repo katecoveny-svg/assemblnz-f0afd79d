@@ -10,6 +10,7 @@ import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
+import ImageLightbox from "@/components/chat/ImageLightbox";
 import sparkCtaImg from "@/assets/agents/spark.png";
 import ReactMarkdown from "react-markdown";
 import ModelGenerationCard from "@/components/ModelGenerationCard";
@@ -422,6 +423,7 @@ const ChatPage = () => {
 
   // Inline image generation state (ECHO visual outputs)
   const [inlineImages, setInlineImages] = useState<Record<number, { status: "loading" | "done" | "error"; urls: string[] }>>({});
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
   const { user, session, isPaid, canUseFeature, incrementMessageCount, dailyMessageCount, dailyLimit, messageLimitReached, role } = useAuth();
   const { teReoPrompt } = useLanguage();
   const [conversationId, setConversationId] = useState<string | null>(null);
@@ -2495,10 +2497,17 @@ const ChatPage = () => {
                                 };
                                 return (
                                   <div key={imgIdx} className="relative group rounded-xl overflow-hidden border border-border">
-                                    <img loading="lazy" decoding="async" src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" />
+                                    <img
+                                      loading="lazy"
+                                      decoding="async"
+                                      src={url}
+                                      alt={`Generated visual ${imgIdx + 1}`}
+                                      onClick={() => setLightboxUrl(url)}
+                                      className="w-full h-auto rounded-xl cursor-zoom-in transition-transform hover:scale-[1.005]"
+                                    />
                                     {/* Always-visible download pill — top-right for easy access on touch + desktop */}
                                     <button
-                                      onClick={downloadImage}
+                                      onClick={(e) => { e.stopPropagation(); downloadImage(); }}
                                       className="absolute top-2 right-2 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-body font-medium text-foreground bg-background/90 hover:bg-background backdrop-blur-md border border-border shadow-sm transition-all hover:scale-105"
                                       title="Download as PNG"
                                       aria-label="Download image as PNG"
@@ -2859,6 +2868,12 @@ const ChatPage = () => {
       />
       {isPrism && <AdEngineModal open={adEngineOpen} onOpenChange={setAdEngineOpen} />}
       <AgentDebugPanel rawAgentId={rawAgentId} resolvedAgentId={agentId} agent={agent} />
+      <ImageLightbox
+        url={lightboxUrl}
+        alt="Generated visual"
+        downloadName={`assembl-${agent?.name?.toLowerCase() || "image"}`}
+        onClose={() => setLightboxUrl(null)}
+      />
     </div>
   );
 };
