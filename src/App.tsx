@@ -465,6 +465,7 @@ const App = () => (
                        <Route path="/toro/routines" element={<Suspense fallback={null}><ToroRoutines /></Suspense>} />
                        <Route path="/toro/journal" element={<Suspense fallback={null}><ToroJournal /></Suspense>} />
                         <Route path="/toro/go" element={<Suspense fallback={null}><ToroLogistics /></Suspense>} />
+                        <Route path="/toro/logistics" element={<Suspense fallback={null}><ToroLogistics /></Suspense>} />
                         <Route path="/toro/legacy-dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
                         <Route path="/hui" element={<Suspense fallback={null}><HuiMeetingCopilot /></Suspense>} />
                         <Route path="/toro/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
