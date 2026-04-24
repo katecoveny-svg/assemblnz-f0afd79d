@@ -551,7 +551,7 @@ export const GatesPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
 // ───────────────────── shared helpers ─────────────────────
 
 const Table: React.FC<{
-  headers: string[];
+  headers: React.ReactNode[];
   rows: React.ReactNode[][];
 }> = ({ headers, rows }) => (
   <div className="overflow-x-auto -mx-2">
