@@ -270,12 +270,28 @@ export async function executeAgentTool(
     case "auaha_falai_image_gen":
       return invokeFunction(ctx, "stitch-generate", args);
     case "auaha_runway_ml_video":
-      return invokeFunction(ctx, "videogen-runway", args);
+      // Repointed from missing 'videogen-runway' to the deployed function.
+      return invokeFunction(ctx, "auaha-runway-ml", { action: "generate_video", ...args });
     case "auaha_buffer_scheduler":
       return invokeFunction(ctx, "buffer-mcp", { action: "schedule_post", ...args });
+    // The following three remain registered but are deactivated in
+    // tool_registry (is_active=false). Kept here as a defensive fallback
+    // in case anyone re-enables the row without wiring an integration.
     case "auaha_adobe_creative_cloud": return integrationStub("adobe_creative_cloud", args);
     case "auaha_spline_3d": return integrationStub("spline_3d", args);
     case "auaha_unsplash_pexels": return integrationStub("unsplash_pexels", args);
+  }
+
+  // ── TORO (family life — toroa_* schema) ─────────────────────────
+  switch (fnName) {
+    case "toro_list_children": return toroListChildren(ctx);
+    case "toro_list_homework_due": return toroListHomeworkDue(args, ctx);
+    case "toro_get_pocket_money_balances": return toroGetPocketMoneyBalances(args, ctx);
+    case "toro_request_purchase_approval": return toroRequestPurchaseApproval(args, ctx);
+    case "toro_add_shopping_item": return toroAddShoppingItem(args, ctx);
+    case "toro_today_routine": return toroTodayRoutine(args, ctx);
+    case "toro_immunisations_due": return toroImmunisationsDue(args, ctx);
+    case "toro_curriculum_resources": return toroCurriculumResources(args, ctx);
   }
 
   // PRISM (brand/visual)
