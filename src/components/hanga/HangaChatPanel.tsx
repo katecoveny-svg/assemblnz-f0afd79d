@@ -13,6 +13,7 @@ import {
 } from "./SupervisorControls";
 import { GovernanceAuditPanel } from "./GovernanceAuditPanel";
 import { CompliancePreflightGate } from "./CompliancePreflightGate";
+import { EscalationMessage, escalationToText, type EscalationPayload } from "./EscalationMessage";
 import {
   useGovernanceAuditLog,
   deriveActionKind,
