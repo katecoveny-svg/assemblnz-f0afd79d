@@ -274,10 +274,11 @@ export const checkSqlSafety = (rawSql: string): SqlSafetyResult => {
   }
 
   // 5. Statement-type specific checks
+  const allowNoWhere = /--\s*@safe-no-where/i.test(sql);
   if (statementType === "UPDATE") {
-    checkUpdate(cleaned, issues);
+    checkUpdate(cleaned, issues, allowNoWhere);
   } else if (statementType === "DELETE") {
-    checkDelete(cleaned, issues);
+    checkDelete(cleaned, issues, allowNoWhere);
   } else if (statementType === "INSERT") {
     checkInsert(cleaned, issues);
   }
