@@ -242,6 +242,15 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
               </button>
             </div>
 
+            {/* Site supervisor controls (Waihanga only) */}
+            {isWaihanga && (
+              <SupervisorControls
+                context={supervisorContext}
+                onChange={setSupervisorContext}
+                onSystemNote={pushSystemNote}
+              />
+            )}
+
             {/* Messages */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
               {messages.length === 0 && (
