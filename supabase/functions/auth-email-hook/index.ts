@@ -1,8 +1,84 @@
-import * as React from 'npm:react@18.3.1'
-import { renderAsync } from 'npm:@react-email/components@0.0.22'
-import { parseEmailWebhookPayload } from 'npm:@lovable.dev/email-js'
-import { WebhookError, verifyWebhookRequest } from 'npm:@lovable.dev/webhooks-js'
+import * as React from 'https://esm.sh/react@18.3.1'
+import { renderAsync } from 'https://esm.sh/@react-email/components@0.0.22?deps=react@18.3.1,react-dom@18.3.1'
 import { createClient } from 'npm:@supabase/supabase-js@2'
+
+// --- Inline webhook verification (replaces @lovable.dev/webhooks-js) ---
+class WebhookError extends Error {
+  code: string
+  constructor(code: string, message: string) {
+    super(message)
+    this.code = code
+  }
+}
+
+const MAX_TIMESTAMP_SKEW_MS = 5 * 60 * 1000 // 5 minutes
+
+async function hmacSha256Hex(secret: string, message: string): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  )
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(message))
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('')
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false
+  let mismatch = 0
+  for (let i = 0; i < a.length; i++) mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  return mismatch === 0
+}
+
+async function verifyWebhookRequest(opts: {
+  req: Request
+  secret: string
+  parser: (raw: unknown) => any
+}): Promise<{ payload: any }> {
+  const signature = opts.req.headers.get('x-lovable-signature') ?? ''
+  const timestamp = opts.req.headers.get('x-lovable-timestamp') ?? ''
+
+  if (!timestamp) throw new WebhookError('missing_timestamp', 'Missing timestamp header')
+  const ts = Number(timestamp)
+  if (!Number.isFinite(ts)) throw new WebhookError('invalid_timestamp', 'Invalid timestamp')
+  if (Math.abs(Date.now() - ts) > MAX_TIMESTAMP_SKEW_MS) {
+    throw new WebhookError('stale_timestamp', 'Timestamp outside allowed skew')
+  }
+
+  const body = await opts.req.text()
+  const expected = await hmacSha256Hex(opts.secret, `${timestamp}.${body}`)
+  const provided = signature.replace(/^sha256=/, '')
+  if (!timingSafeEqual(expected, provided)) {
+    throw new WebhookError('invalid_signature', 'Signature mismatch')
+  }
+
+  let raw: unknown
+  try {
+    raw = JSON.parse(body)
+  } catch {
+    throw new WebhookError('invalid_json', 'Body is not valid JSON')
+  }
+
+  try {
+    return { payload: opts.parser(raw) }
+  } catch (e) {
+    throw new WebhookError('invalid_payload', e instanceof Error ? e.message : 'Invalid payload')
+  }
+}
+
+function parseEmailWebhookPayload(raw: any): any {
+  if (!raw || typeof raw !== 'object') throw new Error('payload must be an object')
+  if (!raw.run_id) throw new Error('missing run_id')
+  if (!raw.data || typeof raw.data !== 'object') throw new Error('missing data')
+  if (!raw.data.action_type) throw new Error('missing data.action_type')
+  return raw
+}
+// --- end inline verification ---
+
 import { SignupEmail } from '../_shared/email-templates/signup.tsx'
 import { InviteEmail } from '../_shared/email-templates/invite.tsx'
 import { MagicLinkEmail } from '../_shared/email-templates/magic-link.tsx'
