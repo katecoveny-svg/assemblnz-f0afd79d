@@ -20,6 +20,7 @@ const ADMIN_PAGES = [
   { label: "Test Reports", to: "/admin/test-reports", group: "Admin" },
   { label: "Knowledge Base", to: "/admin/knowledge", group: "Admin" },
   { label: "Test Lab", to: "/admin/test-lab", group: "Admin" },
+  { label: "Agent Wiring Check", to: "/admin/wiring-check", group: "Admin" },
   { label: "Analytics", to: "/admin/analytics", group: "Admin" },
   { label: "Messages", to: "/admin/messages", group: "Admin" },
   { label: "Messaging Hub", to: "/admin/messaging", group: "Admin" },
