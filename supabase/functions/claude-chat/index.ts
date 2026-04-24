@@ -13,6 +13,12 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://esm.sh/zod@3.23.8";
+import {
+  deriveActionFromMessage,
+  evaluateWaihangaCompliance,
+  type WaihangaAction,
+  type WaihangaWorld,
+} from "../_shared/waihanga-compliance.ts";
 
 const MAX_MESSAGES = 40;
 const MAX_CONTENT_CHARS = 8000;
