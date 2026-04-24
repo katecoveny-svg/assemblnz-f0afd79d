@@ -176,30 +176,38 @@ for (const agentId of AGENTS) {
       const conv = await readConversation(agentId, userId);
       assert(conv, `expected conversation to exist for ${agentId}`);
 
+      // Use the deterministic test-mode recall path so this assertion is
+      // stable across model swaps / wording drift. The chat function scans
+      // the supplied messages for `recallToken` and returns
+      // `RECALL_OK:<TOKEN>` when found, `RECALL_MISS:<TOKEN>` otherwise.
+      // The persisted history is replayed verbatim, so a present token
+      // proves context survived the round-trip.
+      const recallToken = `PURPLE-KAKA-${agentId.toUpperCase()}`;
       const followUp =
-        `${TEST_RUN_TAG} :: What was the token I asked you to remember? Answer with just the token.`;
+        `${TEST_RUN_TAG} :: probe — recall the previously seeded token.`;
       const replay = [
         ...conv!.messages.map((m) => ({ role: m.role, content: m.content })),
         { role: "user", content: followUp },
       ];
 
-      const { status, body } = await callChat(agentId, replay, userId);
+      const { status, body } = await callChat(agentId, replay, userId, {
+        testMode: "recall",
+        recallToken,
+      });
       assertEquals(
         status,
         200,
         `follow-up chat ${agentId} returned ${status}: ${JSON.stringify(body)}`,
       );
-      const content = (body.content as string | undefined) ?? "";
-      assert(
-        content.trim().length > 0,
-        `follow-up returned empty content for ${agentId}`,
+      assertEquals(
+        body.content,
+        `RECALL_OK:${recallToken}`,
+        `agent ${agentId} did not recall token from persisted context. Reply: ${JSON.stringify(body)}`,
       );
-      // The agent should be able to recall the token because we re-supplied
-      // the persisted history. This is the contract the UI depends on:
-      // persisted messages → context survives → agent can reference earlier turns.
-      assert(
-        content.toUpperCase().includes(`PURPLE-KAKA-${agentId.toUpperCase()}`),
-        `agent ${agentId} did not recall token from persisted context. Reply: "${content}"`,
+      assertEquals(
+        body.recallMatched,
+        true,
+        `recallMatched should be true for persisted context (${agentId})`,
       );
     });
 
