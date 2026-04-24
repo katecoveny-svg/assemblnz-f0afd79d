@@ -7467,7 +7467,7 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
     maxTokens: 4096,
     // Tools are gateway-only (OpenAI tool-calling shape). Skip for direct
     // Anthropic/Perplexity calls — they don't use this exact schema.
-    tools: detectProvider(actualModelUsed) === "gateway" ? integrationTools : undefined,
+    tools: detectProvider(actualModelUsed) === "gateway" ? allTools : undefined,
    });
    if (response.ok) break;
    const errStatus = response.status;
