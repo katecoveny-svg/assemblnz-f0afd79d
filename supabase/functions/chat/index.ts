@@ -4,6 +4,22 @@ import { resolveModel, DEFAULT_MODEL } from "../_shared/model-router.ts";
 import { callLlm, detectProvider } from "../_shared/llm-call.ts";
 import { validateChatRequest } from "../_shared/chat-validation.ts";
 import { executeAgentTool, LIVE_DATA_TOOLS, getServiceClient } from "../_shared/tool-executor.ts";
+import { KETE_SCOPES, type Kete, type LiveDataScope } from "../_shared/live-data-context.ts";
+
+// Map a chat agentId/kete slug to the canonical Kete enum used by
+// live-data-context. Anything outside this map is treated as having no
+// kete-restricted scopes (i.e. only tools with empty requires_integration
+// are exposed).
+const AGENT_TO_KETE: Record<string, Kete> = {
+  hospitality: "manaaki", manaaki: "manaaki",
+  construction: "waihanga", waihanga: "waihanga",
+  creative: "auaha", auaha: "auaha", marketing: "auaha",
+  automotive: "arataki", arataki: "arataki", fleet: "arataki",
+  freight: "pikau", pikau: "pikau", customs: "pikau",
+  retail: "hoko", hoko: "hoko",
+  ako: "ako", earlychildhood: "ako",
+  toro: "toro", family: "toro", toroa: "toro",
+};
 
 const corsHeaders = {
  "Access-Control-Allow-Origin": "*",
