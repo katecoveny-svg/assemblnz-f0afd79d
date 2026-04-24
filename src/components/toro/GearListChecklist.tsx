@@ -212,6 +212,18 @@ export function GearListChecklist({ familyId, childName }: Props) {
 
   return (
     <div className="space-y-3">
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={() => void load("refresh")}
+          disabled={isRefreshing}
+          aria-label="Refresh gear list"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-body text-[#9D8C7D] hover:text-[#6F6158] hover:bg-[#EEE7DE] disabled:opacity-50"
+        >
+          <RefreshCw size={12} className={isRefreshing ? "animate-spin" : ""} />
+          Refresh
+        </button>
+      </div>
       {!hasItems ? (
         <div className="rounded-2xl border border-dashed border-[rgba(142,129,119,0.24)] p-4 text-center">
           <p className="font-body text-sm text-[#6F6158]">
