@@ -1815,6 +1815,19 @@ const ChatPage = () => {
               </LockedButton>
             )}
 
+            {/* Workspace link — opens this agent's full workspace */}
+            {rawAgentId && (
+              <Link
+                to={`/app/${rawAgentId}/workspace`}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80 shrink-0"
+                style={{ color: accentColor, border: `1px solid ${accentColor}25` }}
+                title={`Open ${agent.name}'s workspace`}
+              >
+                <LayoutDashboard size={12} />
+                <span className="hidden md:inline">Workspace</span>
+              </Link>
+            )}
+
             <LanguageSelector agentColor={agent.color} />
 
             {/* New Chat button */}
