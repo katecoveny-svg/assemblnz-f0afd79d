@@ -1,7 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
-import { Navigate } from "react-router-dom";
-import { Loader2, Search, Plus, Save, Trash2, Power, PowerOff, RotateCcw } from "lucide-react";
+import { Navigate, Link } from "react-router-dom";
+import {
+  Loader2,
+  Search,
+  Plus,
+  Save,
+  Trash2,
+  Power,
+  PowerOff,
+  RotateCcw,
+  History,
+  PlayCircle,
+  RotateCw,
+  Eye,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import BrandNav from "@/components/BrandNav";
