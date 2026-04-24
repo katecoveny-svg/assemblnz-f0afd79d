@@ -197,23 +197,24 @@ export default function ChatImageMessage({
 
 /**
  * Pulls image URLs out of a freeform assistant message. Recognises:
- *   • markdown images: ![alt](url)
- *   • bare data URLs: data:image/png;base64,...
- *   • bracketed marker: [IMAGE: url]
+ *   • markdown images: ![alt](url)              — alt becomes caption
+ *   • bare data URLs: data:image/png;base64,... — no caption
+ *   • bracketed marker: [IMAGE: url]            — optional `| caption` after url
+ *   • caption marker:   [CAPTION: text]         — attaches to the previous image
  *   • generation marker: [GENERATING_IMAGE] / [GENERATING_IMAGE: prompt]
  *
  * Returns the cleaned text (with markers removed) plus extracted images
- * and a `generating` flag so the UI can show the skeleton.
+ * (each with optional `caption`) and a `generating` flag.
  */
 export function extractInlineImages(content: string): {
   text: string;
-  images: { url: string; alt?: string }[];
+  images: { url: string; alt?: string; caption?: string }[];
   generating: boolean;
   generatingPrompt?: string;
 } {
   if (!content) return { text: "", images: [], generating: false };
 
-  const images: { url: string; alt?: string }[] = [];
+  const images: { url: string; alt?: string; caption?: string }[] = [];
   let generating = false;
   let generatingPrompt: string | undefined;
   let text = content;
@@ -226,17 +227,29 @@ export function extractInlineImages(content: string): {
     text = text.replace(genMatch[0], "").trim();
   }
 
-  // Markdown images: ![alt](url)
-  text = text.replace(/!\[([^\]]*)\]\((https?:\/\/[^\s)]+|data:image\/[^\s)]+)\)/gi, (_m, alt, url) => {
-    images.push({ url, alt: alt || undefined });
-    return "";
-  });
+  // Markdown images: ![alt](url) — alt text becomes caption when present
+  text = text.replace(
+    /!\[([^\]]*)\]\((https?:\/\/[^\s)]+|data:image\/[^\s)]+)\)/gi,
+    (_m, alt, url) => {
+      const trimmed = (alt as string).trim();
+      images.push({
+        url,
+        alt: trimmed || undefined,
+        caption: trimmed || undefined,
+      });
+      return "";
+    },
+  );
 
-  // [IMAGE: url] markers
-  text = text.replace(/\[IMAGE:\s*(https?:\/\/[^\s\]]+|data:image\/[^\s\]]+)\]/gi, (_m, url) => {
-    images.push({ url });
-    return "";
-  });
+  // [IMAGE: url] or [IMAGE: url | caption]
+  text = text.replace(
+    /\[IMAGE:\s*(https?:\/\/[^\s\]|]+|data:image\/[^\s\]|]+)(?:\s*\|\s*([^\]]+))?\]/gi,
+    (_m, url, caption?: string) => {
+      const trimmed = caption?.trim();
+      images.push({ url, caption: trimmed || undefined });
+      return "";
+    },
+  );
 
   // Bare data URLs (rare but possible)
   text = text.replace(/(data:image\/[a-zA-Z+]+;base64,[A-Za-z0-9+/=]+)/g, (_m, url) => {
@@ -244,5 +257,21 @@ export function extractInlineImages(content: string): {
     return "";
   });
 
-  return { text: text.replace(/\n{3,}/g, "\n\n").trim(), images, generating, generatingPrompt };
+  // [CAPTION: text] markers — attach to the most recent image without a caption,
+  // otherwise to the last image overall.
+  text = text.replace(/\[CAPTION:\s*([^\]]+)\]/gi, (_m, raw) => {
+    const caption = (raw as string).trim();
+    if (!caption || images.length === 0) return "";
+    const target =
+      [...images].reverse().find((img) => !img.caption) ?? images[images.length - 1];
+    target.caption = caption;
+    return "";
+  });
+
+  return {
+    text: text.replace(/\n{3,}/g, "\n\n").trim(),
+    images,
+    generating,
+    generatingPrompt,
+  };
 }
