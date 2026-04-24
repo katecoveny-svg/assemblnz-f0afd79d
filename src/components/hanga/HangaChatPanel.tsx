@@ -141,8 +141,8 @@ export default function HangaChatPanel({
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || isLoading) return;
-    // Waihanga first-message gate: capture context before any AI call
-    if (isWaihanga && !preflightConfirmed) {
+    // Pre-flight gate for any agent governed by a compliance policy set
+    if (requiresCompliance && !preflightConfirmed) {
       setPendingMessage(text.trim());
       setShowPreflight(true);
       return;
@@ -180,14 +180,14 @@ export default function HangaChatPanel({
           packId,
           messages: messages.filter(m => m.role === "user" || m.role === "assistant")
             .map(m => ({ role: m.role, content: m.content })),
-          ...(isWaihanga ? { complianceContext: supervisorContext } : {}),
+          ...(compliancePolicySet?.sendContextWithRequests ? { complianceContext: supervisorContext } : {}),
         }),
       });
 
       // Compliance pre-check rejections (403/409) carry verdict + evaluations
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({ error: "AI request failed" }));
-        if (isWaihanga && (resp.status === 403 || resp.status === 409) && err?.verdict) {
+        if (requiresCompliance && (resp.status === 403 || resp.status === 409) && err?.verdict) {
           const verdict = err.verdict as AuditVerdict;
           const evaluations = (err.evaluations ?? []) as AuditPolicyEvaluation[];
           const action = err.action ?? deriveActionKind(text, undefined);
@@ -271,7 +271,7 @@ export default function HangaChatPanel({
       }
 
       // Allowed turn — log inferred action
-      if (isWaihanga) {
+      if (requiresCompliance) {
         const action = deriveActionKind(text, undefined);
         recordAudit({
           kete: auditKete,
@@ -279,7 +279,7 @@ export default function HangaChatPanel({
           action,
           zone: supervisorContext.zone,
           verdict: "allow",
-          rationale: "Approved by Waihanga compliance pre-check",
+          rationale: `Approved by ${compliancePolicySet?.label ?? "compliance"} pre-check`,
           evaluations: [],
           context: buildAuditContext(),
           userMessagePreview: text.trim().slice(0, 120),
@@ -373,8 +373,8 @@ export default function HangaChatPanel({
               </button>
             </div>
 
-            {/* Site supervisor controls (Waihanga only) */}
-            {isWaihanga && (
+            {/* Site supervisor controls (compliance-governed agents only) */}
+            {requiresCompliance && (
               <SupervisorControls
                 context={supervisorContext}
                 onChange={setSupervisorContext}
@@ -383,7 +383,7 @@ export default function HangaChatPanel({
             )}
 
             {/* Governed action audit log */}
-            {isWaihanga && (
+            {requiresCompliance && (
               <GovernanceAuditPanel
                 entries={auditEntries}
                 onClear={clearAudit}
@@ -503,10 +503,11 @@ export default function HangaChatPanel({
               </div>
             </div>
 
-            {/* Pre-flight compliance gate (Waihanga first message only) */}
-            {isWaihanga && showPreflight && (
+            {/* Pre-flight compliance gate (rendered for any compliance-governed agent) */}
+            {requiresCompliance && compliancePolicySet && showPreflight && (
               <CompliancePreflightGate
                 initial={supervisorContext}
+                policySet={compliancePolicySet}
                 onConfirm={handlePreflightConfirm}
                 onCancel={handlePreflightCancel}
               />
