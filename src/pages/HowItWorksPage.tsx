@@ -391,12 +391,12 @@ const HowItWorksPage = () => (
       <HowItWorksFlow />
     </Section>
 
-    {/* ─── NGĀ KETE ─── */}
+    {/* ─── NGĀ KETE — canonical 8 industry kete with brand imagery ─── */}
     <Section>
       <motion.div {...fadeUp} className="max-w-[680px] mb-20">
         <Eyebrow>Ngā kete</Eyebrow>
         <Serif size="lg" className="mb-6">
-          Five industry kete,{" "}
+          Eight industry kete,{" "}
           <Serif size="lg" italic color={PEARL.pounamu} className="inline">
             woven in Aotearoa.
           </Serif>
@@ -409,76 +409,115 @@ const HowItWorksPage = () => (
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {KETE.map((k, i) => (
-          <motion.div
-            key={k.name}
-            {...fadeUp}
-            transition={{ ...fadeUp.transition, delay: i * 0.06 }}
-          >
-            <Link
-              to={k.to}
-              data-magnetic
-              className="block h-full group transition-all hover:-translate-y-1"
-              style={{
-                background: "rgba(255,255,255,0.55)",
-                border: `1px solid ${PEARL.opal}`,
-                borderRadius: 20,
-                padding: 32,
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-              }}
+        {KETE.map((k, i) => {
+          const keteName = k.code.split("-")[0]; // e.g. "MANAAKI" from "MANAAKI-01"
+          const displayName = keteName.charAt(0) + keteName.slice(1).toLowerCase();
+          const isWaitlist = k.agents.length === 1 && k.agents[0].startsWith("Coming");
+          return (
+            <motion.div
+              key={k.slug}
+              {...fadeUp}
+              transition={{ ...fadeUp.transition, delay: i * 0.06 }}
             >
-              <p
-                className="lowercase mb-3"
+              <Link
+                to={k.to}
+                data-magnetic
+                className="block h-full group transition-all hover:-translate-y-1 overflow-hidden"
                 style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 11,
-                  letterSpacing: "0.18em",
-                  color: PEARL.muted,
+                  background: "rgba(255,255,255,0.55)",
+                  border: `1px solid ${PEARL.opal}`,
+                  borderRadius: 20,
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
                 }}
               >
-                {k.sub}
-              </p>
-              <Serif size="md" className="mb-5">
-                {k.name}
-              </Serif>
-              <div style={{ marginBottom: 24 }}>
-                <Body>{k.desc}</Body>
-              </div>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {k.agents.map((a) => (
+                {/* Brand kete imagery — accent-tinted */}
+                <div
+                  className="relative w-full"
+                  style={{
+                    aspectRatio: "16 / 9",
+                    background: `linear-gradient(180deg, ${k.accentHex}30 0%, ${k.accentHex}10 100%)`,
+                    overflow: "hidden",
+                  }}
+                >
+                  <img
+                    src={k.image}
+                    alt={`${displayName} kete — ${k.industry}`}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    style={{ mixBlendMode: "multiply", opacity: 0.92 }}
+                  />
                   <span
-                    key={a}
+                    className="absolute top-3 left-3"
+                    style={{
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      fontSize: 10,
+                      letterSpacing: "0.18em",
+                      color: PEARL.ink,
+                      background: "rgba(255,255,255,0.85)",
+                      padding: "4px 10px",
+                      borderRadius: 999,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {k.code}
+                  </span>
+                </div>
+
+                <div style={{ padding: 28 }}>
+                  <p
+                    className="lowercase mb-3"
                     style={{
                       fontFamily: "'Inter', sans-serif",
                       fontSize: 11,
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                      background: `${PEARL.pounamu}10`,
-                      color: PEARL.pounamu,
-                      border: `1px solid ${PEARL.pounamu}25`,
-                      letterSpacing: "0.04em",
+                      letterSpacing: "0.18em",
+                      color: PEARL.muted,
                     }}
                   >
-                    {a}
-                  </span>
-                ))}
-              </div>
-              <div
-                className="inline-flex items-center gap-2 transition-all group-hover:gap-3"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 14,
-                  color: PEARL.pounamu,
-                  fontWeight: 500,
-                }}
-              >
-                {k.to === "/contact" ? "Talk to us" : "Explore kete"}
-                <ArrowRight size={14} />
-              </div>
-            </Link>
-          </motion.div>
-        ))}
+                    {k.industry}
+                  </p>
+                  <Serif size="md" className="mb-5">
+                    {displayName}
+                  </Serif>
+                  <div style={{ marginBottom: 24 }}>
+                    <Body>{k.desc}</Body>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {k.agents.map((a) => (
+                      <span
+                        key={a}
+                        style={{
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: 11,
+                          padding: "4px 10px",
+                          borderRadius: 999,
+                          background: isWaitlist ? `${PEARL.muted}10` : `${PEARL.pounamu}10`,
+                          color: isWaitlist ? PEARL.muted : PEARL.pounamu,
+                          border: `1px solid ${isWaitlist ? PEARL.muted : PEARL.pounamu}25`,
+                          letterSpacing: "0.04em",
+                        }}
+                      >
+                        {a}
+                      </span>
+                    ))}
+                  </div>
+                  <div
+                    className="inline-flex items-center gap-2 transition-all group-hover:gap-3"
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: 14,
+                      color: PEARL.pounamu,
+                      fontWeight: 500,
+                    }}
+                  >
+                    {isWaitlist ? "Join the waitlist" : `Explore ${displayName}`}
+                    <ArrowRight size={14} />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          );
+        })}
       </div>
     </Section>
 
