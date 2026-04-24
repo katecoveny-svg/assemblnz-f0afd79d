@@ -3845,6 +3845,54 @@ export type Database = {
         }
         Relationships: []
       }
+      evidence_sweep_snapshots: {
+        Row: {
+          amber_count: number
+          approved_gates: number
+          created_at: string
+          details: Json
+          green_count: number
+          high_risk_records: number
+          id: string
+          kete: string
+          pending_gates: number
+          readiness_score: number
+          red_count: number
+          swept_for: string
+          total_packs: number
+        }
+        Insert: {
+          amber_count?: number
+          approved_gates?: number
+          created_at?: string
+          details?: Json
+          green_count?: number
+          high_risk_records?: number
+          id?: string
+          kete: string
+          pending_gates?: number
+          readiness_score?: number
+          red_count?: number
+          swept_for: string
+          total_packs?: number
+        }
+        Update: {
+          amber_count?: number
+          approved_gates?: number
+          created_at?: string
+          details?: Json
+          green_count?: number
+          high_risk_records?: number
+          id?: string
+          kete?: string
+          pending_gates?: number
+          readiness_score?: number
+          red_count?: number
+          swept_for?: string
+          total_packs?: number
+        }
+        Relationships: []
+      }
       explanation_objects: {
         Row: {
           action: string
