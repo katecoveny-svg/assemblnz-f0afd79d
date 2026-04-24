@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Loader2, Sparkles, Copy, Check } from "lucide-react";
+import { Loader2, Sparkles, Copy, Check, FileDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { MeetingItem } from "./MeetingList";
+import { exportHuiSummaryPdf } from "@/lib/huiPdf";
 
 interface Props {
   meeting: MeetingItem;
@@ -95,13 +96,21 @@ Then list 3 likely focus points as short bullet lines starting with "• ".`;
       </section>
 
       {!loading && summary && (
-        <button
-          onClick={copy}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-['Inter'] border border-[rgba(142,129,119,0.2)] text-[#6F6158] hover:bg-[#EEE7DE] transition-colors"
-        >
-          {copied ? <Check size={12} /> : <Copy size={12} />}
-          {copied ? "Copied" : "Copy summary"}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={copy}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-['Inter'] border border-[rgba(142,129,119,0.2)] text-[#6F6158] hover:bg-[#EEE7DE] transition-colors"
+          >
+            {copied ? <Check size={12} /> : <Copy size={12} />}
+            {copied ? "Copied" : "Copy summary"}
+          </button>
+          <button
+            onClick={() => exportHuiSummaryPdf(meeting, summary)}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-['Inter'] bg-[#D9BC7A] hover:bg-[#C4A665] text-[#6F6158] transition-colors"
+          >
+            <FileDown size={12} /> Download PDF
+          </button>
+        </div>
       )}
     </div>
   );
