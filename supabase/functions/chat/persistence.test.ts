@@ -265,3 +265,67 @@ for (const agentId of AGENTS) {
 Deno.test("persistence: final cleanup", async () => {
   await cleanup(TEST_USER_ID);
 });
+
+// ─────────────────────────────────────────────────────────────────────────
+// Standalone self-checks for the deterministic test-mode path. These run
+// without touching DB persistence so a failure here points squarely at the
+// test-mode short-circuit rather than at storage / context loading.
+// ─────────────────────────────────────────────────────────────────────────
+
+Deno.test("test-mode recall: returns RECALL_OK when token present", async () => {
+  const token = `SELFCHECK-${Date.now()}`;
+  const { status, body } = await callChat(
+    "signal",
+    [
+      { role: "user", content: `Please remember the token ${token}.` },
+      { role: "assistant", content: `Acknowledged: ${token}.` },
+      { role: "user", content: "Probe — recall the seeded token." },
+    ],
+    TEST_USER_ID,
+    { testMode: "recall", recallToken: token },
+  );
+  assertEquals(status, 200, `unexpected status: ${JSON.stringify(body)}`);
+  assertEquals(body.content, `RECALL_OK:${token}`);
+  assertEquals(body.model, "test-mode-recall");
+  assertEquals(body.recallMatched, true);
+});
+
+Deno.test("test-mode recall: returns RECALL_MISS when token absent", async () => {
+  const token = `MISSING-${Date.now()}`;
+  const { status, body } = await callChat(
+    "signal",
+    [{ role: "user", content: "No token here." }],
+    TEST_USER_ID,
+    { testMode: "recall", recallToken: token },
+  );
+  assertEquals(status, 200, `unexpected status: ${JSON.stringify(body)}`);
+  assertEquals(body.content, `RECALL_MISS:${token}`);
+  assertEquals(body.recallMatched, false);
+});
+
+Deno.test("test-mode recall: rejects body flag without matching header", async () => {
+  // Drop the x-assembl-test-mode header even though the body flag is set;
+  // the server must refuse with 400 to keep the path inert for normal clients.
+  const res = await fetch(CHAT_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+      "apikey": SUPABASE_ANON_KEY,
+      "x-test-user-id": TEST_USER_ID,
+    },
+    body: JSON.stringify({
+      agentId: "signal",
+      userId: TEST_USER_ID,
+      messages: [{ role: "user", content: "hi" }],
+      testMode: "recall",
+      recallToken: "SHOULD-NOT-FIRE",
+    }),
+  });
+  const text = await res.text();
+  assertEquals(
+    res.status,
+    400,
+    `expected 400 when test-mode header missing, got ${res.status}: ${text}`,
+  );
+});
