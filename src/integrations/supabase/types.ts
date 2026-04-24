@@ -6877,6 +6877,60 @@ export type Database = {
         }
         Relationships: []
       }
+      policy_check_log: {
+        Row: {
+          action_kind: string | null
+          agent_id: string
+          context: Json
+          created_at: string
+          id: string
+          kete: string
+          message: string | null
+          outcome: string
+          overall_verdict: string
+          passed: boolean
+          policy_id: string
+          request_id: string
+          severity: string
+          user_id: string | null
+          zone: string | null
+        }
+        Insert: {
+          action_kind?: string | null
+          agent_id: string
+          context?: Json
+          created_at?: string
+          id?: string
+          kete: string
+          message?: string | null
+          outcome: string
+          overall_verdict: string
+          passed: boolean
+          policy_id: string
+          request_id?: string
+          severity: string
+          user_id?: string | null
+          zone?: string | null
+        }
+        Update: {
+          action_kind?: string | null
+          agent_id?: string
+          context?: Json
+          created_at?: string
+          id?: string
+          kete?: string
+          message?: string | null
+          outcome?: string
+          overall_verdict?: string
+          passed?: boolean
+          policy_id?: string
+          request_id?: string
+          severity?: string
+          user_id?: string | null
+          zone?: string | null
+        }
+        Relationships: []
+      }
       policy_rules: {
         Row: {
           applicable_action_types: string[] | null
