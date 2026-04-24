@@ -99,7 +99,7 @@ const stripStringsAndComments = (sql: string): StripResult => {
           i = sql.length;
           continue;
         }
-        out += " ";
+        out += "_S_";
         i = close + tag.length;
         continue;
       }
@@ -118,15 +118,10 @@ const stripStringsAndComments = (sql: string): StripResult => {
         }
         i++;
       }
-      if (i > sql.length || (sql[sql.length - 1] !== "'" && i >= sql.length)) {
-        // we never found a closing quote
-        // walking past end is the signal — set flag if last char wasn't a quote
-        // (defensive: explicit re-check below)
-      }
-      out += " ";
+      out += "_S_";
       continue;
     }
-    // "identifier" — Postgres quoted identifiers (also '' escape via "")
+    // "identifier" — Postgres quoted identifiers
     if (ch === '"') {
       i++;
       while (i < sql.length) {
@@ -140,7 +135,7 @@ const stripStringsAndComments = (sql: string): StripResult => {
         }
         i++;
       }
-      out += " ";
+      out += "_I_";
       continue;
     }
 
