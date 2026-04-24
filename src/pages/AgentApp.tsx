@@ -20,6 +20,7 @@ import SignalDashboard from "@/components/signal/SignalDashboard";
 import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 import { useAgentChatParams } from "@/hooks/useAgentChatParams";
 import { ChatSettingsPanel } from "@/components/chat/ChatSettingsPanel";
+import ChatImageMessage, { extractInlineImages } from "@/components/chat/ChatImageMessage";
 
 interface Message {
   role: "user" | "assistant";
