@@ -49,11 +49,12 @@ export default function PikauShipments() {
 
   const addShipment = async () => {
     if (!user || !form.shipment_ref.trim()) return;
-    const { data, error } = await supabase.from("shipments").insert({
+    const { data, error } = await (supabase as any).from("shipments").insert({
       user_id: user.id,
       shipment_ref: form.shipment_ref,
       origin: form.origin,
       destination: form.destination,
+      description: form.shipment_ref,
       carrier: form.carrier,
       value_nzd: form.value_nzd ? parseFloat(form.value_nzd) : null,
       eta: form.eta || null,

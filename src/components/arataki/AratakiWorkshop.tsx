@@ -54,7 +54,7 @@ export default function AratakiWorkshop() {
       toast.error("Rego is required");
       return;
     }
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("workshop_jobs")
       .insert({ ...form, user_id: user.id, due_date: form.due_date || null })
       .select()

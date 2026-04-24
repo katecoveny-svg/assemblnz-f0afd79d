@@ -12,14 +12,14 @@ export default function PikauDangerousGoods() {
     contact: "",
   });
 
-  const fields = [
+  const fields: { k: keyof typeof form; l: string; mono?: boolean }[] = [
     { k: "un", l: "UN number", mono: true },
     { k: "name", l: "Proper shipping name" },
     { k: "classDiv", l: "Class / division" },
     { k: "packing", l: "Packing group" },
     { k: "qty", l: "Quantity" },
     { k: "contact", l: "Emergency contact" },
-  ] as const;
+  ];
 
   const generate = () => {
     if (!form.un || !form.name) {
