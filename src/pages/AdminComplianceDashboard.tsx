@@ -9,6 +9,7 @@ import AdminShell from "@/components/admin/AdminShell";
 import AdminGlassCard from "@/components/admin/AdminGlassCard";
 import { Shield, RefreshCw, CheckCircle, XCircle, Clock, AlertTriangle, Activity, Brain } from "lucide-react";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
+import KeteDashboardLiveRow from "@/components/kete/KeteDashboardLiveRow";
 
 const BONE = "#F5F0E8";
 const TEAL_ACCENT = "#4AA5A8";
@@ -114,6 +115,9 @@ export default function AdminComplianceDashboard() {
       }
     >
       <div className="space-y-6">
+
+      {/* Live signals — same NZ data feeds the agents in /chat */}
+      <KeteDashboardLiveRow kete="admin" />
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

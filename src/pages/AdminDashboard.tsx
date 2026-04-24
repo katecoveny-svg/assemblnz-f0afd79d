@@ -14,6 +14,7 @@ import AdminVideoGenTab from "@/components/admin/AdminVideoGenTab";
 import AdminBrandAssetsTab from "@/components/admin/AdminBrandAssetsTab";
 import MemoryPanel from "@/components/memory/MemoryPanel";
 import SymbioticDraftsPanel from "@/components/admin/SymbioticDraftsPanel";
+import KeteDashboardLiveRow from "@/components/kete/KeteDashboardLiveRow";
 import {
   Users, MessageSquare, DollarSign, TrendingUp, Shield,
   Trash2, RefreshCw, ChevronDown, ExternalLink, Mail, Eye, EyeOff,
@@ -277,6 +278,9 @@ const AdminDashboard = () => {
           {section === "overview" && (
             <div className="space-y-6">
               <SectionTitle title="Overview" subtitle="Platform metrics & real-time status" icon={BarChart3} color={GOLD} />
+
+              {/* Live signals — same data feeds the agents in /chat */}
+              <KeteDashboardLiveRow kete="admin" />
 
               {/* Quick action buttons */}
               <div className="flex gap-3 flex-wrap">

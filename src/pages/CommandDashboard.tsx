@@ -17,6 +17,7 @@ import SectorSwitcher from "@/components/SectorSwitcher";
 import SEO from "@/components/SEO";
 import BusinessPulse from "@/components/BusinessPulse";
 import AotearoaVerifiedBadge from "@/components/AotearoaVerifiedBadge";
+import KeteDashboardLiveRow from "@/components/kete/KeteDashboardLiveRow";
 
 const GOLD = "#4AA5A8";
 
@@ -151,6 +152,11 @@ export default function CommandDashboard() {
             <p className="text-xs font-body text-[#9CA3AF] ml-8">
               Your entire NZ operation at a glance — {new Date().toLocaleDateString("en-NZ", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
             </p>
+          </div>
+
+          {/* Live cross-sector signals — same data feeds the agents in /chat */}
+          <div className="px-8 pb-6">
+            <KeteDashboardLiveRow kete="command" />
           </div>
 
           {/* Sector Cards Grid */}
