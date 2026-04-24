@@ -122,7 +122,7 @@ const DownloadEvidenceButton: React.FC<{ packId: string; accent: string }> = ({
         }>;
       };
 
-      const sections: CrossAgentSection[] = (ev.sections ?? []).map((s) => ({
+      const sections: CrossAgentSection[] = (pack.sections ?? []).map((s) => ({
         agent: s.agent ?? "Assembl",
         title: s.title ?? "Section",
         body:
@@ -136,9 +136,9 @@ const DownloadEvidenceButton: React.FC<{ packId: string; accent: string }> = ({
 
       await generateAndDownloadEvidencePack({
         kete: data.kete,
-        title: ev.title ?? `${data.action_type} — Evidence Pack`,
-        client: ev.client,
-        summary: ev.summary,
+        title: pack.title ?? `${data.action_type} — Evidence Pack`,
+        client: pack.client,
+        summary: pack.summary,
         sections:
           sections.length > 0
             ? sections
@@ -152,8 +152,8 @@ const DownloadEvidenceButton: React.FC<{ packId: string; accent: string }> = ({
                   status: "pass",
                 },
               ],
-        version: ev.version,
-        simulated: ev.simulated,
+        version: pack.version,
+        simulated: pack.simulated,
       });
       toast.success("Evidence pack downloaded");
     } catch (e) {
