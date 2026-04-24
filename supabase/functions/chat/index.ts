@@ -6749,86 +6749,87 @@ Deno.serve(async (req) => {
  );
  }
 
- const requestId = crypto.randomUUID().slice(0, 8);
- const body = await req.json();
- const { agentId: rawAgentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode } = body;
+  const requestId = crypto.randomUUID().slice(0, 8);
 
- console.log(`[chat:${requestId}] incoming request`, JSON.stringify({
-   rawAgentId,
-   messageCount: Array.isArray(messages) ? messages.length : 0,
-   getSystemPrompt: !!getSystemPrompt,
-   receptionistMode: !!receptionistMode,
-   propertyMode: propertyMode ?? null,
-   requestedModel: requestedModel ?? null,
-   hasBrandContext: !!brandContext,
- }));
+  // Map frontend agent IDs (from agents.ts) to edge function prompt keys.
+  // Defined BEFORE validation so we can build the allow-list from it.
+  const AGENT_ID_TO_PROMPT_KEY: Record<string, string> = {
+   software: "spark",
+   family: "operations",     // TŌRO
+   integration: "customs",   // NEXUS
+   netsec: "it",             // SIGNAL (secondary)
+   analytics: "pm",          // AXIS
+   innovation: "nonprofit",  // KINDLE
+   signal: "it",             // SIGNAL — accept canonical slug, route to IT prompt
+   toro: "operations",       // TŌRO — accept canonical slug, route to operations prompt
+   nova: "nonprofit",        // NOVA — innovation/ideation, route to KINDLE prompt
+   hotel: "hospitality",     // sub-agents → AURA
+   events: "hospitality",
+   coastal: "hospitality",
+   bar: "hospitality",
+   garden: "hospitality",
+   concierge: "hospitality",
+   bim: "construction",      // ATA → APEX
+   safety: "construction",
+   projectgov: "construction",
+   resource: "construction",
+   consent: "construction",
+   quality: "construction",
+    copywriting: "copywriting",    // MUSE — dedicated copywriting agent
+    design: "design",              // PIXEL — dedicated design agent
+    video: "video",                // VERSE — dedicated video agent
+    experiential: "experiential",  // CANVAS — dedicated experience agent
+    social: "socialmedia",         // REEL — social media (avoid conflict with lifestyle SOCIAL)
+    techwriting: "techwriting",    // QUILL — dedicated tech writing agent
+    podcast: "podcast",       // KŌRERO — dedicated podcast agent
+   brandstrategy: "sports",  // TURF
+   strategy: "legal",        // SAGE → ANCHOR
+   risk: "legal",            // COMPASS (risk) → ANCHOR
+   datasecurity: "it",       // VAULT → SIGNAL
+   forecasting: "accounting",// MINT → LEDGER
+   monitoring: "it",         // SENTINEL → SIGNAL
+   crypto: "it",             // CIPHER → SIGNAL
+   messaging: "it",          // RELAY → SIGNAL
+   devops: "it",             // FORGE (devops) → SIGNAL
+   healthcompanion: "publichealth",// ORA → public health navigator
+   triage: "publichealth",        // TAHI → health triage
+   carenavigation: "health",      // VITAE care nav
+  };
 
- // Map frontend agent IDs (from agents.ts) to edge function prompt keys
- const AGENT_ID_TO_PROMPT_KEY: Record<string, string> = {
-  software: "spark",
-  family: "operations",     // TŌRO
-  integration: "customs",   // NEXUS
-  netsec: "it",             // SIGNAL (secondary)
-  analytics: "pm",          // AXIS
-  innovation: "nonprofit",  // KINDLE
-  signal: "it",             // SIGNAL — accept canonical slug, route to IT prompt
-  toro: "operations",       // TŌRO — accept canonical slug, route to operations prompt
-  nova: "nonprofit",        // NOVA — innovation/ideation, route to KINDLE prompt
-  hotel: "hospitality",     // sub-agents → AURA
-  events: "hospitality",
-  coastal: "hospitality",
-  bar: "hospitality",
-  garden: "hospitality",
-  concierge: "hospitality",
-  bim: "construction",      // ATA → APEX
-  safety: "construction",
-  projectgov: "construction",
-  resource: "construction",
-  consent: "construction",
-  quality: "construction",
-   copywriting: "copywriting",    // MUSE — dedicated copywriting agent
-   design: "design",              // PIXEL — dedicated design agent
-   video: "video",                // VERSE — dedicated video agent
-   experiential: "experiential",  // CANVAS — dedicated experience agent
-   social: "socialmedia",         // REEL — social media (avoid conflict with lifestyle SOCIAL)
-   techwriting: "techwriting",    // QUILL — dedicated tech writing agent
-   podcast: "podcast",       // KŌRERO — dedicated podcast agent
-  brandstrategy: "sports",  // TURF
-  strategy: "legal",        // SAGE → ANCHOR
-  risk: "legal",            // COMPASS (risk) → ANCHOR
-  datasecurity: "it",       // VAULT → SIGNAL
-  forecasting: "accounting",// MINT → LEDGER
-  monitoring: "it",         // SENTINEL → SIGNAL
-  crypto: "it",             // CIPHER → SIGNAL
-  messaging: "it",          // RELAY → SIGNAL
-  devops: "it",             // FORGE (devops) → SIGNAL
-  healthcompanion: "publichealth",// ORA → public health navigator
-  triage: "publichealth",        // TAHI → health triage
-  carenavigation: "health",      // VITAE care nav
- };
- const agentId = AGENT_ID_TO_PROMPT_KEY[rawAgentId] || rawAgentId;
- const wasMapped = !!AGENT_ID_TO_PROMPT_KEY[rawAgentId];
- const promptExists = !!agentPrompts[agentId];
+  // Server-side allow-list = every prompt key the function actually serves,
+  // plus every alias the frontend is permitted to send. Anything else is 403.
+  const allowedAgentIds = new Set<string>([
+    ...Object.keys(agentPrompts),
+    ...Object.keys(AGENT_ID_TO_PROMPT_KEY),
+  ]);
 
- console.log(`[chat:${requestId}] agent resolution`, JSON.stringify({
-   rawAgentId,
-   resolvedAgentId: agentId,
-   wasMapped,
-   promptExists,
-   promptLength: promptExists ? agentPrompts[agentId].length : 0,
- }));
+  // Validate + sanitise the body before any LLM work happens.
+  const validation = await validateChatRequest(req, { allowedAgentIds, requestId });
+  if (!validation.ok) return validation.response;
+  const body = validation.body;
+  const { agentId: rawAgentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode } = body;
 
- if (!rawAgentId) {
-   console.warn(`[chat:${requestId}] missing agentId in request body`);
-   return new Response(
-     JSON.stringify({
-       error: "Missing agentId",
-       detail: "Request body must include an agentId field.",
-       requestId,
-     }),
-     { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-   );
- }
+  console.log(`[chat:${requestId}] incoming request`, JSON.stringify({
+    rawAgentId,
+    messageCount: Array.isArray(messages) ? messages.length : 0,
+    getSystemPrompt: !!getSystemPrompt,
+    receptionistMode: !!receptionistMode,
+    propertyMode: propertyMode ?? null,
+    requestedModel: requestedModel ?? null,
+    hasBrandContext: !!brandContext,
+  }));
+
+  const agentId = AGENT_ID_TO_PROMPT_KEY[rawAgentId] || rawAgentId;
+  const wasMapped = !!AGENT_ID_TO_PROMPT_KEY[rawAgentId];
+  const promptExists = !!agentPrompts[agentId];
+
+  console.log(`[chat:${requestId}] agent resolution`, JSON.stringify({
+    rawAgentId,
+    resolvedAgentId: agentId,
+    wasMapped,
+    promptExists,
+    promptLength: promptExists ? agentPrompts[agentId].length : 0,
+  }));
 
  // Return system prompt for voice agent sync
  if (getSystemPrompt && agentId) {
