@@ -50,7 +50,7 @@ const FourPouSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">
+        <p className="font-mono text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">
           Tikanga Governance
         </p>
         <h2

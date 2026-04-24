@@ -218,7 +218,7 @@ const EmbedPage = () => {
                         >
                           <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: a.color }} />
                           <span className="text-xs font-bold text-foreground">{a.name}</span>
-                          <span className="text-[10px] font-mono-jb text-muted-foreground">{a.designation}</span>
+                          <span className="text-[10px] font-mono text-muted-foreground">{a.designation}</span>
                           <span className="text-[10px] ml-auto" style={{ color: a.color }}>{a.sector}</span>
                           {locked && <Lock size={10} className="text-muted-foreground ml-1" />}
                         </button>
@@ -271,7 +271,7 @@ const EmbedPage = () => {
                 {/* Code snippet */}
                 <div className="rounded-xl border border-border bg-card overflow-hidden">
                   <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-                    <span className="text-xs font-mono-jb" style={{ color: "#9CA3AF" }}>
+                    <span className="text-xs font-mono" style={{ color: "#9CA3AF" }}>
                       {codeTab === "iframe" ? "HTML" : "HTML / JavaScript"}
                     </span>
                     <button
@@ -282,7 +282,7 @@ const EmbedPage = () => {
                       {copiedSnippet ? "Copied!" : "Copy code"}
                     </button>
                   </div>
-                  <pre className="p-4 text-[11px] font-mono-jb text-primary overflow-x-auto leading-relaxed whitespace-pre-wrap">
+                  <pre className="p-4 text-[11px] font-mono text-primary overflow-x-auto leading-relaxed whitespace-pre-wrap">
                     <code>{currentCode}</code>
                   </pre>
                 </div>
@@ -314,7 +314,7 @@ const EmbedPage = () => {
                       <div className="w-2.5 h-2.5 rounded-full bg-primary/20" />
                     </div>
                     <div className="flex-1 text-center">
-                      <span className="text-[10px] font-mono-jb" style={{ color: "#D1D5DB" }}>
+                      <span className="text-[10px] font-mono" style={{ color: "#D1D5DB" }}>
                         yourwebsite.co.nz
                       </span>
                     </div>

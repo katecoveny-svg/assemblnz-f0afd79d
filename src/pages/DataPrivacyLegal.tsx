@@ -79,7 +79,7 @@ const DataPrivacyLegal = () => (
         transition={{ duration: 0.5 }}
       >
         <div
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-mono-jb tracking-wider uppercase mb-8"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-mono tracking-wider uppercase mb-8"
           style={{
             background: "hsl(var(--primary) / 0.08)",
             border: "1px solid hsl(var(--primary) / 0.2)",
@@ -136,7 +136,7 @@ const DataPrivacyLegal = () => (
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
                   {["Your data is never sold", "Not used for AI training", "Encrypted in transit & at rest", "Deletable on request"].map(item => (
-                    <span key={item} className="text-[10px] font-mono-jb px-3 py-1.5 rounded-full" style={{ background: "hsl(var(--primary) / 0.1)", color: GOLD }}>
+                    <span key={item} className="text-[10px] font-mono px-3 py-1.5 rounded-full" style={{ background: "hsl(var(--primary) / 0.1)", color: GOLD }}>
                       {item}
                     </span>
                   ))}
@@ -267,7 +267,7 @@ const DataPrivacyLegal = () => (
               ].map(act => (
                 <span
                   key={act}
-                  className="text-[10px] font-mono-jb px-3 py-1.5 rounded-full text-muted-foreground/70"
+                  className="text-[10px] font-mono px-3 py-1.5 rounded-full text-muted-foreground/70"
                   style={{ background: "hsl(var(--muted))", border: "1px solid hsl(var(--border))" }}
                 >
                   {act}

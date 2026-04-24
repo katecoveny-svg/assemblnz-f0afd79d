@@ -41,7 +41,7 @@ function Chip({ label, active, onClick, sub }: { label: string; active: boolean;
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1.5 block" style={{ color: "rgba(255,255,255,0.4)" }}>{children}</label>;
+  return <label className="text-[10px] font-mono uppercase tracking-wider mb-1.5 block" style={{ color: "rgba(255,255,255,0.4)" }}>{children}</label>;
 }
 
 export default function PrismCreativeStudio({ onSendToChat }: { onSendToChat?: (msg: string) => void }) {
@@ -186,7 +186,7 @@ ${imageTags}${qualityTag}${providerTag}`
         {brandPreset === "custom" && (
           <div className="flex items-center gap-3 mt-2">
             <input type="color" value={primaryColour} onChange={e => setPrimaryColour(e.target.value)} className="w-7 h-7 rounded cursor-pointer border-0" style={{ background: "transparent" }} />
-            <span className="text-[11px] font-mono-jb" style={{ color: "rgba(255,255,255,0.5)" }}>{primaryColour}</span>
+            <span className="text-[11px] font-mono" style={{ color: "rgba(255,255,255,0.5)" }}>{primaryColour}</span>
           </div>
         )}
       </div>

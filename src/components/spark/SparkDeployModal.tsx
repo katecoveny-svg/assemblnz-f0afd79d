@@ -124,19 +124,19 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
             )}
 
             <div>
-              <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>App Name *</label>
+              <label className="text-[10px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>App Name *</label>
               <input value={displayName} onChange={e => handleNameChange(e.target.value)} placeholder="e.g. Paint Quote Calculator"
                 className="w-full px-3 py-2.5 rounded-lg text-xs font-body bg-transparent border outline-none"
                 style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
               {appName && (
-                <p className="text-[9px] font-mono-jb mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>
+                <p className="text-[9px] font-mono mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>
                   URL: {window.location.origin}/apps/{appName}
                 </p>
               )}
             </div>
 
             <div>
-              <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>Description (SEO)</label>
+              <label className="text-[10px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>Description (SEO)</label>
               <input value={metaDesc} onChange={e => setMetaDesc(e.target.value)} placeholder="Brief description for search engines..."
                 className="w-full px-3 py-2.5 rounded-lg text-xs font-body bg-transparent border outline-none"
                 style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />
@@ -186,7 +186,7 @@ export default function SparkDeployModal({ htmlContent, onClose, onDeployed }: S
               <CheckCircle2 size={32} className="mx-auto" style={{ color: "rgba(102,187,106,0.9)" }} />
               <p className="text-xs font-body" style={{ color: "rgba(102,187,106,0.9)" }}>Your app is live!</p>
               <div className="flex items-center gap-2 justify-center">
-                <code className="text-[10px] font-mono-jb px-2 py-1 rounded" style={{ background: "rgba(255,255,255,0.05)", color: "#E4E4EC" }}>
+                <code className="text-[10px] font-mono px-2 py-1 rounded" style={{ background: "rgba(255,255,255,0.05)", color: "#E4E4EC" }}>
                   {deployedUrl}
                 </code>
                 <button onClick={copyUrl} className="p-1 rounded" style={{ color: "rgba(255,255,255,0.4)" }}>

@@ -56,7 +56,7 @@ export default function PrismBrandVoice({ onSendToChat }: { onSendToChat?: (msg:
           const Icon = f.icon;
           return (
             <div key={f.key}>
-              <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <label className="text-[10px] font-mono uppercase tracking-wider mb-1 flex items-center gap-1.5" style={{ color: "rgba(255,255,255,0.4)" }}>
                 <Icon size={10} /> {f.label}
               </label>
               <input value={(form as any)[f.key]} onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))} placeholder={f.placeholder}

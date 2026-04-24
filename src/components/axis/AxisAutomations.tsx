@@ -58,7 +58,7 @@ export default function AxisAutomations() {
               <div className="flex-1 min-w-0">
                 <p className="text-xs font-display font-semibold" style={{ color: "#E4E4EC" }}>{a.title}</p>
                 <p className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.4)" }}>{a.description}</p>
-                {a.run_count > 0 && <p className="text-[9px] font-mono-jb mt-0.5" style={{ color: "rgba(255,255,255,0.25)" }}>{a.run_count} runs</p>}
+                {a.run_count > 0 && <p className="text-[9px] font-mono mt-0.5" style={{ color: "rgba(255,255,255,0.25)" }}>{a.run_count} runs</p>}
               </div>
               <button onClick={() => toggle(a.id, a.is_active)} className="w-10 h-5 rounded-full relative transition-colors shrink-0"
                 style={{ background: a.is_active ? `${ACCENT}40` : "rgba(255,255,255,0.08)" }}>

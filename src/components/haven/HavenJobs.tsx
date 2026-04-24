@@ -187,7 +187,7 @@ const HavenJobs = ({ onSendToChat }: { onSendToChat: (msg: string) => void }) =>
                     <div className="flex items-center gap-3 mt-1">
                       {tradie && <span className="flex items-center gap-1 text-[10px] text-muted-foreground"><User size={9} />{tradie.name}</span>}
                       {j.scheduled_date && <span className="flex items-center gap-1 text-[10px] text-muted-foreground"><Calendar size={9} />{new Date(j.scheduled_date).toLocaleDateString("en-NZ", { day: "numeric", month: "short" })}</span>}
-                      {j.invoice_amount && <span className="text-[10px] font-mono-jb" style={{ color: "#66BB6A" }}>${j.invoice_amount.toFixed(2)}</span>}
+                      {j.invoice_amount && <span className="text-[10px] font-mono" style={{ color: "#66BB6A" }}>${j.invoice_amount.toFixed(2)}</span>}
                     </div>
                   </div>
                   {/* Quick status update */}

@@ -62,7 +62,7 @@ const LivePacksHero = () => (
   <section className="relative z-10 py-20 sm:py-28">
     <div className="max-w-6xl mx-auto px-4 sm:px-6">
       <motion.div className="text-center mb-14" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">7 Industry Kete + Tōro · Tangible Outcomes · Built in Aotearoa</p>
+        <p className="font-mono text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">7 Industry Kete + Tōro · Tangible Outcomes · Built in Aotearoa</p>
         <h2 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: "2.25rem", letterSpacing: "-0.01em", color: "#1A1D29" }}>
           Your industry. <span style={{ color: "#4AA5A8" }}>Your evidence packs.</span>
         </h2>

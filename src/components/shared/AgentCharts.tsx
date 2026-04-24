@@ -11,7 +11,7 @@ const DarkTooltip = ({ active, payload, label }: any) => {
     <div className="rounded-lg px-3 py-2 text-xs font-body shadow-xl" style={{ background: "#111118", border: "1px solid rgba(255,255,255,0.08)" }}>
       {label && <p className="text-muted-foreground mb-1">{label}</p>}
       {payload.map((p: any, i: number) => (
-        <p key={i} style={{ color: p.color || p.fill }}>{p.name}: <span className="font-mono-jb font-semibold">{typeof p.value === "number" ? p.value.toLocaleString() : p.value}</span></p>
+        <p key={i} style={{ color: p.color || p.fill }}>{p.name}: <span className="font-mono font-semibold">{typeof p.value === "number" ? p.value.toLocaleString() : p.value}</span></p>
       ))}
     </div>
   );
@@ -128,8 +128,8 @@ export function AgentFunnelChart({ stages, title, color }: {
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-body text-muted-foreground">{s.name}</span>
                 <div className="flex items-center gap-2">
-                  {convRate && <span className="text-[9px] font-mono-jb" style={{ color: "rgba(255,255,255,0.3)" }}>{convRate}%</span>}
-                  <span className="text-xs font-mono-jb font-bold text-foreground">{s.value.toLocaleString()}</span>
+                  {convRate && <span className="text-[9px] font-mono" style={{ color: "rgba(255,255,255,0.3)" }}>{convRate}%</span>}
+                  <span className="text-xs font-mono font-bold text-foreground">{s.value.toLocaleString()}</span>
                 </div>
               </div>
               <div className="h-3 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.04)" }}>
@@ -155,7 +155,7 @@ export function AgentWorkflow({ steps, activeIndex = -1, color, title }: {
           <div key={s.label} className="flex items-center gap-1 shrink-0">
             <div className="flex flex-col items-center gap-0.5">
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold font-mono-jb transition-all"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold font-mono transition-all"
                 style={{
                   background: i <= activeIndex ? `${color}25` : "rgba(255,255,255,0.04)",
                   color: i <= activeIndex ? color : "rgba(255,255,255,0.3)",
@@ -185,7 +185,7 @@ export function AgentKPIRow({ kpis }: {
         <div key={k.label} className="rounded-xl p-3 border" style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
           <p className="text-[10px] font-body text-muted-foreground">{k.label}</p>
           <p className="font-display font-bold text-base text-foreground">{k.value}</p>
-          {k.change && <p className="text-[10px] font-mono-jb" style={{ color: k.color || "#5AADA0" }}>{k.change}</p>}
+          {k.change && <p className="text-[10px] font-mono" style={{ color: k.color || "#5AADA0" }}>{k.change}</p>}
         </div>
       ))}
     </div>

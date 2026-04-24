@@ -18,7 +18,7 @@ const PackShowcase = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <span className="font-mono-jb text-[10px] tracking-[4px] text-primary/60 uppercase mb-3">The Ketes</span>
+        <span className="font-mono text-[10px] tracking-[4px] text-primary/60 uppercase mb-3">The Ketes</span>
         <h2 className="text-2xl sm:text-4xl font-display tracking-wide text-foreground mt-2 mb-3 heading-glow section-heading" style={{ fontWeight: 400 }}>
           One kete per industry. <span className="text-gradient-hero">One platform underneath.</span>
         </h2>

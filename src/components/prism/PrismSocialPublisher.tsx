@@ -42,7 +42,7 @@ function PlatformMockup({ platform, caption, image }: {
       <div className="flex items-center gap-2">
         <platform.icon size={14} style={{ color: ACCENT }} />
         <span className="text-[11px] font-display font-semibold" style={{ color: "#E4E4EC" }}>{platform.label}</span>
-        <span className="text-[9px] font-mono-jb ml-auto" style={{ color: "rgba(255,255,255,0.3)" }}>{platform.dims}</span>
+        <span className="text-[9px] font-mono ml-auto" style={{ color: "rgba(255,255,255,0.3)" }}>{platform.dims}</span>
       </div>
 
       {/* Image preview area */}
@@ -65,7 +65,7 @@ function PlatformMockup({ platform, caption, image }: {
           className="w-full px-3 py-2 rounded-lg text-[11px] font-body bg-transparent border outline-none resize-none"
           style={{ borderColor: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.6)" }} />
         <div className="flex items-center justify-between mt-1">
-          <span className="text-[9px] font-mono-jb" style={{ color: isOverLimit ? "#FF4D6A" : "rgba(255,255,255,0.25)" }}>
+          <span className="text-[9px] font-mono" style={{ color: isOverLimit ? "#FF4D6A" : "rgba(255,255,255,0.25)" }}>
             {charCount}/{platform.maxChars}
           </span>
           <button onClick={copyCaption} className="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded"
@@ -119,7 +119,7 @@ Then generate the hero visual: [GENERATE_IMAGE: Social media graphic for "${topi
 
       {/* Quick generate */}
       <div>
-        <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1.5 block" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <label className="text-[10px] font-mono uppercase tracking-wider mb-1.5 block" style={{ color: "rgba(255,255,255,0.4)" }}>
           What are you posting about?
         </label>
         <textarea value={topic} onChange={e => setTopic(e.target.value)} rows={2}
@@ -136,7 +136,7 @@ Then generate the hero visual: [GENERATE_IMAGE: Social media graphic for "${topi
 
       {/* Platform mockups */}
       <div className="space-y-3 pt-2">
-        <label className="text-[10px] font-mono-jb uppercase tracking-wider block" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <label className="text-[10px] font-mono uppercase tracking-wider block" style={{ color: "rgba(255,255,255,0.4)" }}>
           Platform Previews
         </label>
         {PLATFORM_CONFIGS.map(p => (

@@ -69,7 +69,7 @@ const SkillWiringDashboard = () => {
         <div className="rounded-xl p-5 mb-8" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="flex items-center justify-between mb-3">
             <p className="font-display font-bold text-sm" style={{ color: 'hsl(var(--foreground))' }}>Global Coverage</p>
-            <p className="font-mono-jb text-sm" style={{ color: '#22C55E' }}>{pct}%</p>
+            <p className="font-mono text-sm" style={{ color: '#22C55E' }}>{pct}%</p>
           </div>
           <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
             <motion.div
@@ -88,7 +88,7 @@ const SkillWiringDashboard = () => {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className="px-3 py-1.5 rounded-lg text-[11px] font-mono-jb transition-all"
+              className="px-3 py-1.5 rounded-lg text-[11px] font-mono transition-all"
               style={{
                 background: filter === f ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)',
                 color: filter === f ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground))',
@@ -107,7 +107,7 @@ const SkillWiringDashboard = () => {
             {getFoundationSkills()
               .filter(s => filter === 'all' || s.status === filter)
               .map(s => (
-                <span key={s.id} className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono-jb" style={{ background: 'rgba(58,125,110,0.1)', color: '#3A7D6E', border: '1px solid rgba(58,125,110,0.2)' }}>
+                <span key={s.id} className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono" style={{ background: 'rgba(58,125,110,0.1)', color: '#3A7D6E', border: '1px solid rgba(58,125,110,0.2)' }}>
                   <CheckCircle2 size={9} /> {s.name}
                 </span>
               ))}
@@ -137,14 +137,14 @@ const SkillWiringDashboard = () => {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="font-display font-bold text-sm" style={{ color: 'hsl(var(--foreground))' }}>{k.name}</span>
-                      <span className="font-mono-jb text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{keteData.agents.length} agents</span>
+                      <span className="font-mono text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{keteData.agents.length} agents</span>
                     </div>
                     <div className="h-1.5 rounded-full mt-2 overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
                       <div className="h-full rounded-full transition-all duration-500" style={{ width: `${kPct}%`, background: k.accent }} />
                     </div>
                   </div>
-                  <span className="font-mono-jb text-xs shrink-0" style={{ color: k.accent }}>{kPct}%</span>
-                  <span className="font-mono-jb text-[10px] shrink-0" style={{ color: 'hsl(var(--muted-foreground))' }}>{k.wired}W / {k.gap}G</span>
+                  <span className="font-mono text-xs shrink-0" style={{ color: k.accent }}>{kPct}%</span>
+                  <span className="font-mono text-[10px] shrink-0" style={{ color: 'hsl(var(--muted-foreground))' }}>{k.wired}W / {k.gap}G</span>
                   {isExpanded ? <ChevronUp size={14} style={{ color: 'hsl(var(--muted-foreground))' }} /> : <ChevronDown size={14} style={{ color: 'hsl(var(--muted-foreground))' }} />}
                 </button>
 
@@ -160,7 +160,7 @@ const SkillWiringDashboard = () => {
                     {/* Agents list */}
                     <div className="flex flex-wrap gap-1.5 mb-4">
                       {keteData.agents.map(a => (
-                        <span key={a} className="text-[10px] font-mono-jb px-2 py-0.5 rounded" style={{ background: `${k.accent}12`, color: k.accent, border: `1px solid ${k.accent}20` }}>
+                        <span key={a} className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ background: `${k.accent}12`, color: k.accent, border: `1px solid ${k.accent}20` }}>
                           {a.toUpperCase()}
                         </span>
                       ))}
@@ -171,7 +171,7 @@ const SkillWiringDashboard = () => {
                       {filteredSkills.map(s => (
                         <span
                           key={s.id}
-                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono-jb"
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono"
                           style={{
                             background: s.status === 'wired' ? `${k.accent}10` : 'rgba(234,179,8,0.08)',
                             color: s.status === 'wired' ? k.accent : '#EAB308',
@@ -188,9 +188,9 @@ const SkillWiringDashboard = () => {
                     {/* MCPs */}
                     {keteData.keteMCPs.length > 0 && (
                       <div>
-                        <p className="text-[9px] font-mono-jb uppercase tracking-wider mb-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>MCP Connectors</p>
+                        <p className="text-[9px] font-mono uppercase tracking-wider mb-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>MCP Connectors</p>
                         {keteData.keteMCPs.map(m => (
-                          <div key={m.id} className="flex items-center gap-2 text-[10px] font-mono-jb" style={{ color: 'hsl(var(--muted-foreground))' }}>
+                          <div key={m.id} className="flex items-center gap-2 text-[10px] font-mono" style={{ color: 'hsl(var(--muted-foreground))' }}>
                             <Plug size={10} style={{ color: k.accent }} />
                             {m.name} — {m.tools.length} tools
                             <span className="px-1 py-0.5 rounded text-[8px]" style={{ background: m.connectionStatus === 'connected' ? 'rgba(34,197,94,0.1)' : 'rgba(234,179,8,0.08)', color: m.connectionStatus === 'connected' ? '#22C55E' : '#EAB308' }}>

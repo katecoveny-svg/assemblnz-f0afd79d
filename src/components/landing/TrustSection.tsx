@@ -44,7 +44,7 @@ const TrustSection = () => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Trusted platform</p>
+        <p className="font-mono text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Trusted platform</p>
         <h2
           className="text-2xl sm:text-[2.75rem] font-display font-bold text-foreground"
           style={{ letterSpacing: '-0.02em', lineHeight: '1.15' }}

@@ -69,10 +69,10 @@ export default function FluxFollowUps() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <p className="text-xs font-display font-semibold truncate" style={{ color: "#E4E4EC" }}>{fu.contact_name}</p>
-                  <span className="text-[9px] font-mono-jb px-1.5 py-0.5 rounded-full shrink-0" style={{ background: s.bg, color: s.color }}>{s.label}</span>
+                  <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full shrink-0" style={{ background: s.bg, color: s.color }}>{s.label}</span>
                 </div>
                 <p className="text-[11px] font-body truncate" style={{ color: "rgba(255,255,255,0.5)" }}>{fu.subject}</p>
-                {fu.due_date && <p className="text-[10px] font-mono-jb flex items-center gap-1 mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>
+                {fu.due_date && <p className="text-[10px] font-mono flex items-center gap-1 mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>
                   <Clock size={9} /> {new Date(fu.due_date).toLocaleDateString("en-NZ")}
                 </p>}
               </div>
@@ -102,7 +102,7 @@ export default function FluxFollowUps() {
               { key: "due_date", label: "Due Date", type: "date" },
             ].map(f => (
               <div key={f.key}>
-                <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
+                <label className="text-[10px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
                 <input type={f.type} value={(form as any)[f.key]} onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))}
                   className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                   style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />

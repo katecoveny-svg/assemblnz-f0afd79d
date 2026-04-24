@@ -89,7 +89,7 @@ export default function FluxClients() {
               { key: "notes", label: "Notes" },
             ].map(f => (
               <div key={f.key}>
-                <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
+                <label className="text-[10px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
                 <input value={(form as any)[f.key]} onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))}
                   className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                   style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />

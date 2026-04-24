@@ -52,7 +52,7 @@ const SmartAgentSelector = () => {
           />
           {query && (
             <button onClick={() => { setQuery(""); setResult(null); }}
-              className="text-xs font-mono-jb px-2 py-1 rounded"
+              className="text-xs font-mono px-2 py-1 rounded"
               style={{ color: 'rgba(255,255,255,0.45)' }}>
               Clear
             </button>
@@ -91,14 +91,14 @@ const SmartAgentSelector = () => {
             <div className="glass-card p-5 glow-card-hover" style={{ borderRadius: 16 }}>
               <div className="flex items-start gap-4">
                 {/* Avatar */}
-                <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 text-sm font-mono-jb font-bold"
+                <div className="w-14 h-14 rounded-full flex items-center justify-center shrink-0 text-sm font-mono font-bold"
                   style={{ background: result.keteAccent, color: '#3D3428' }}>
                   {result.agentName.slice(0, 2)}
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-mono-jb font-bold text-base" style={{ color: 'hsl(var(--foreground))' }}>
+                    <span className="font-mono font-bold text-base" style={{ color: 'hsl(var(--foreground))' }}>
                       {result.agentName}
                     </span>
                     <span className="px-2 py-0.5 rounded-full text-[9px] font-display font-bold uppercase tracking-wider"
@@ -125,7 +125,7 @@ const SmartAgentSelector = () => {
                         transition={{ duration: 0.8, ease: 'easeOut' }}
                       />
                     </div>
-                    <span className="font-mono-jb text-xs font-bold" style={{ color: result.keteAccent }}>
+                    <span className="font-mono text-xs font-bold" style={{ color: result.keteAccent }}>
                       {result.confidence}%
                     </span>
                   </div>
@@ -137,7 +137,7 @@ const SmartAgentSelector = () => {
                       Why this agent?
                     </span>
                     {result.reasoning.map((r, i) => (
-                      <span key={i} className="glass-card px-2 py-0.5 text-[10px] font-mono-jb"
+                      <span key={i} className="glass-card px-2 py-0.5 text-[10px] font-mono"
                         style={{ color: 'rgba(255,255,255,0.65)', borderRadius: 6 }}>
                         {r}
                       </span>
@@ -171,13 +171,13 @@ const SmartAgentSelector = () => {
                       transition={{ duration: 0.2 }}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-mono-jb font-bold"
+                        <div className="w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-mono font-bold"
                           style={{ background: alt.keteAccent, color: '#3D3428' }}>
                           {alt.agentName.slice(0, 2)}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="font-mono-jb font-bold text-xs" style={{ color: 'hsl(var(--foreground))' }}>
+                            <span className="font-mono font-bold text-xs" style={{ color: 'hsl(var(--foreground))' }}>
                               {alt.agentName}
                             </span>
                             <span className="px-1.5 py-0.5 rounded-full text-[8px] font-display font-bold uppercase"
@@ -189,7 +189,7 @@ const SmartAgentSelector = () => {
                             {alt.reason}
                           </p>
                         </div>
-                        <span className="font-mono-jb text-xs font-bold" style={{ color: alt.keteAccent }}>
+                        <span className="font-mono text-xs font-bold" style={{ color: alt.keteAccent }}>
                           {alt.confidence}%
                         </span>
                       </div>
@@ -206,7 +206,7 @@ const SmartAgentSelector = () => {
             {/* Learn toggle */}
             <button
               onClick={() => setShowLearn(!showLearn)}
-              className="text-[10px] font-mono-jb flex items-center gap-1"
+              className="text-[10px] font-mono flex items-center gap-1"
               style={{ color: 'rgba(255,255,255,0.35)' }}
             >
               <span className="w-3 h-3 rounded-full border flex items-center justify-center"

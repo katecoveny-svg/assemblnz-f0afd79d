@@ -137,7 +137,7 @@ export default function SectorSwitcher({ collapsed = false, onToggle }: Props) {
                   >
                     {kete.name}
                   </span>
-                  <span className="text-[9px] font-mono-jb uppercase tracking-wider text-white/25 block truncate">
+                  <span className="text-[9px] font-mono uppercase tracking-wider text-white/25 block truncate">
                     / {kete.nameEn}
                   </span>
                 </motion.div>

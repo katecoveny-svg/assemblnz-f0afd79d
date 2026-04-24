@@ -129,7 +129,7 @@ const MatarikiStars = ({ className = "", showLabels = false, size = 400 }: Props
           {/* Label */}
           {showLabels && (
             <motion.span
-              className="absolute whitespace-nowrap font-mono-jb text-[7px] tracking-widest uppercase"
+              className="absolute whitespace-nowrap font-mono text-[7px] tracking-widest uppercase"
               style={{
                 top: "100%",
                 left: "50%",

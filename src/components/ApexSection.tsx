@@ -50,13 +50,13 @@ const ApexSection = () => {
                 <HardHat size={18} style={{ color: APEX_COLOR }} />
                 <ShieldCheck size={14} style={{ color: APEX_COLOR }} />
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full"
                   style={{ background: `${APEX_COLOR}15`, color: APEX_COLOR, border: `1px solid ${APEX_COLOR}30` }}
                 >
                   CONSTRUCTION
                 </span>
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full flex items-center gap-1"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1"
                   style={{ background: `${APEX_COLOR}20`, color: APEX_COLOR, border: `1px solid ${APEX_COLOR}40` }}
                 >
                   <Mic size={8} /> VOICE
@@ -69,7 +69,7 @@ const ApexSection = () => {
               >
                 Meet APEX
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${APEX_COLOR}30` }}>
+              <p className="font-mono text-[10px] mb-4" style={{ color: `${APEX_COLOR}30` }}>
                 ASM-003 · Construction Compliance Director
               </p>
               <h3

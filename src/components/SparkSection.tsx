@@ -50,10 +50,10 @@ const SparkSection = () => {
               <div className="flex items-center gap-2 justify-center lg:justify-start mb-3">
                 <Code2 size={20} className="text-pounamu-light" />
                 <Sparkles size={14} className="text-pounamu-light" />
-                <span className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full bg-pounamu-light/15 text-pounamu-light border border-pounamu-light/30">
+                <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-pounamu-light/15 text-pounamu-light border border-pounamu-light/30">
                   HANGARAU PACK
                 </span>
-                <span className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full flex items-center gap-1 bg-pounamu-light/15 text-pounamu-light border border-pounamu-light/30">
+                <span className="text-[9px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1 bg-pounamu-light/15 text-pounamu-light border border-pounamu-light/30">
                   <Mic size={8} /> VOICE
                 </span>
               </div>
@@ -61,7 +61,7 @@ const SparkSection = () => {
               <h2 className="font-display font-light text-3xl sm:text-4xl mb-1 text-pounamu-light" style={{ textShadow: `0 0 20px rgba(90,173,160,0.4)` }}>
                 SPARK
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4 text-pounamu-light/40">
+              <p className="font-mono text-[10px] mb-4 text-pounamu-light/40">
                 ASM-042 · App Builder & Digital Transformation
               </p>
               <h3 className="font-display font-bold text-base sm:text-lg mb-4 text-pounamu-light" style={{ textShadow: `0 0 12px rgba(90,173,160,0.25)` }}>

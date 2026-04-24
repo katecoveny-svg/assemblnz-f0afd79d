@@ -78,7 +78,7 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
           const val = leads.filter(l => l.stage === s).reduce((sum, l) => sum + (l.value || 0), 0);
           return (
             <div key={s} className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
-              <p className="text-[10px] font-mono-jb uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.4)" }}>{STAGE_LABELS[s]}</p>
+              <p className="text-[10px] font-mono uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.4)" }}>{STAGE_LABELS[s]}</p>
               <p className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>{count}</p>
               <p className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.3)" }}>${val.toLocaleString()} NZD</p>
             </div>
@@ -122,7 +122,7 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
           <div key={stage} className="rounded-xl p-3 space-y-2 min-h-[200px]" style={{ background: "rgba(255,255,255,0.01)", border: "1px solid rgba(255,255,255,0.04)" }}>
             <div className="flex items-center justify-between mb-2">
               <span className="text-[11px] font-display font-bold uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.5)" }}>{STAGE_LABELS[stage]}</span>
-              <span className="text-[10px] font-mono-jb px-1.5 py-0.5 rounded-full" style={{ background: `${ACCENT}10`, color: ACCENT }}>{filtered.filter(l => l.stage === stage).length}</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full" style={{ background: `${ACCENT}10`, color: ACCENT }}>{filtered.filter(l => l.stage === stage).length}</span>
             </div>
             {filtered.filter(l => l.stage === stage).map(lead => {
               const score = calcScore(lead);
@@ -135,9 +135,9 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
                       <p className="text-xs font-display font-semibold" style={{ color: "#E4E4EC" }}>{lead.name}</p>
                       {lead.company && <p className="text-[10px] font-body flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}><Building2 size={9} />{lead.company}</p>}
                     </div>
-                    <span className="text-[9px] font-mono-jb px-1.5 py-0.5 rounded-full" style={{ background: ss.bg, color: ss.text }}>{ss.label}</span>
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full" style={{ background: ss.bg, color: ss.text }}>{ss.label}</span>
                   </div>
-                  {lead.value && <p className="text-sm font-bold font-mono-jb" style={{ color: "#E4E4EC" }}>${lead.value.toLocaleString()}</p>}
+                  {lead.value && <p className="text-sm font-bold font-mono" style={{ color: "#E4E4EC" }}>${lead.value.toLocaleString()}</p>}
                   <div className="flex gap-1 flex-wrap">
                     {STAGES.filter(s => s !== stage).map(s => (
                       <button key={s} onClick={() => moveStage(lead.id, s)} className="text-[9px] px-1.5 py-0.5 rounded font-body transition-colors hover:opacity-80"
@@ -168,7 +168,7 @@ export default function FluxLeadPipeline({ onSendToChat }: { onSendToChat?: (msg
               { key: "source", label: "Source", placeholder: "Website, referral, etc." },
             ].map(f => (
               <div key={f.key}>
-                <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
+                <label className="text-[10px] font-mono uppercase tracking-wider mb-1 block" style={{ color: "rgba(255,255,255,0.4)" }}>{f.label}</label>
                 <input value={(form as any)[f.key]} onChange={e => setForm(prev => ({ ...prev, [f.key]: e.target.value }))} placeholder={f.placeholder}
                   className="w-full px-3 py-2 rounded-lg text-xs font-body bg-transparent border outline-none"
                   style={{ borderColor: "rgba(255,255,255,0.06)", color: "#E4E4EC" }} />

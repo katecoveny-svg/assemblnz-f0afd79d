@@ -111,7 +111,7 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
       <div className="flex items-center gap-2 px-4 py-3 border-b border-pounamu/10">
         <Layers size={16} className="text-pounamu" />
         <span className="text-xs font-display font-bold text-pounamu tracking-[3px] uppercase">BIM & 4D Tools</span>
-        <span className="text-[9px] font-mono-jb text-pounamu/40 ml-auto tracking-wider">GEMINI VISION + MESHY</span>
+        <span className="text-[9px] font-mono text-pounamu/40 ml-auto tracking-wider">GEMINI VISION + MESHY</span>
       </div>
 
       {/* ── Action tabs ── */}
@@ -153,7 +153,7 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <FileUp size={12} className="text-pounamu" />
-                  <span className="text-[10px] font-mono-jb text-pounamu truncate max-w-[200px]">{imageName}</span>
+                  <span className="text-[10px] font-mono text-pounamu truncate max-w-[200px]">{imageName}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <button onClick={e => { e.stopPropagation(); setPreviewExpanded(!previewExpanded); }} className="p-1 rounded hover:bg-pounamu/10 transition-colors">
@@ -178,7 +178,7 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
               <p className="text-[11px] font-body font-medium text-foreground/60">
                 {isDragActive ? "Drop your plan here..." : "Drag & drop plan, IFC screenshot, or BIM export"}
               </p>
-              <p className="text-[9px] font-mono-jb text-muted-foreground/40 tracking-wider">PNG · JPG · WEBP · PDF · SVG — MAX 10 MB</p>
+              <p className="text-[9px] font-mono text-muted-foreground/40 tracking-wider">PNG · JPG · WEBP · PDF · SVG — MAX 10 MB</p>
             </div>
           )}
         </div>
@@ -206,7 +206,7 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
         </button>
 
         {meshyTaskId && (
-          <div className="flex items-center gap-2 text-[10px] font-mono-jb text-pounamu">
+          <div className="flex items-center gap-2 text-[10px] font-mono text-pounamu">
             <Loader2 size={12} className="animate-spin" />
             <span>Generating 3D model... {meshyProgress}%</span>
             <div className="flex-1 h-1 rounded-full bg-pounamu/10 overflow-hidden">
@@ -219,7 +219,7 @@ export default function BimAnalysisPanel({ agentId, agentName }: BimPanelProps) 
       {/* ── Results ── */}
       {result && (
         <div className="border-t border-pounamu/10 px-4 py-4">
-          <div className="prose prose-sm max-w-none text-xs font-body leading-relaxed [&_h1]:text-pounamu [&_h1]:font-display [&_h1]:tracking-wider [&_h2]:text-pounamu [&_h2]:font-display [&_h2]:tracking-wider [&_h3]:text-pounamu/80 [&_h3]:font-display [&_strong]:text-[#2D3140] [&_a]:text-pounamu [&_code]:font-mono-jb [&_code]:text-pounamu/70 [&_table]:border-pounamu/20 [&_th]:text-pounamu [&_th]:font-display [&_th]:tracking-wider [&_th]:uppercase [&_th]:text-[10px] [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_td]:text-[#3D4250]">
+          <div className="prose prose-sm max-w-none text-xs font-body leading-relaxed [&_h1]:text-pounamu [&_h1]:font-display [&_h1]:tracking-wider [&_h2]:text-pounamu [&_h2]:font-display [&_h2]:tracking-wider [&_h3]:text-pounamu/80 [&_h3]:font-display [&_strong]:text-[#2D3140] [&_a]:text-pounamu [&_code]:font-mono [&_code]:text-pounamu/70 [&_table]:border-pounamu/20 [&_th]:text-pounamu [&_th]:font-display [&_th]:tracking-wider [&_th]:uppercase [&_th]:text-[10px] [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_td]:text-[#3D4250]">
             <ReactMarkdown>{result}</ReactMarkdown>
           </div>
         </div>

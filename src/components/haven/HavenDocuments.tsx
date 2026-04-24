@@ -41,7 +41,7 @@ const HavenDocuments = ({ onSendToChat }: { onSendToChat: (msg: string) => void 
                   <div>
                     <p className="text-xs font-display font-bold text-foreground">{t.title}</p>
                     <p className="text-[10px] text-muted-foreground font-body mt-0.5">{t.desc}</p>
-                    <p className="text-[9px] font-mono-jb mt-1" style={{ color: HAVEN_PINK + "80" }}>{t.act}</p>
+                    <p className="text-[9px] font-mono mt-1" style={{ color: HAVEN_PINK + "80" }}>{t.act}</p>
                   </div>
                 </div>
                 <button onClick={() => onSendToChat(`Generate a ${t.title} template for me`)}
