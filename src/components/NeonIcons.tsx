@@ -97,7 +97,7 @@ export const NeonTeam = ({ size = 24 }: P) =>
 export const NeonCoin = ({ size = 24, color = C.gold }: P) =>
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="1.5" fill={`${color}14`} />
-    <text x="12" y="16" textAnchor="middle" fill={color} fontSize="10" fontFamily="JetBrains Mono, monospace" fontWeight="700" opacity="0.8">$</text>
+    <text x="12" y="16" textAnchor="middle" fill={color} fontSize="10" fontFamily="IBM Plex Mono, monospace" fontWeight="700" opacity="0.8">$</text>
     <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="0.5" strokeOpacity="0.2" strokeDasharray="2 3">
       <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="20s" repeatCount="indefinite" />
     </circle>

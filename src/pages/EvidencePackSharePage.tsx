@@ -131,7 +131,7 @@ export default function EvidencePackSharePage() {
               assembl
             </span>
           </Link>
-          <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}>
+          <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF" }}>
             Shared evidence pack
           </span>
         </div>
@@ -145,7 +145,7 @@ export default function EvidencePackSharePage() {
         >
           <div
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] tracking-[2px] uppercase mb-4"
-            style={{ fontFamily: "'JetBrains Mono', monospace", background: `${TEAL}12`, color: TEAL, border: `1px solid ${TEAL}30` }}
+            style={{ fontFamily: "'IBM Plex Mono', monospace", background: `${TEAL}12`, color: TEAL, border: `1px solid ${TEAL}30` }}
           >
             <Sparkles size={10} /> {keteLabel}
           </div>
@@ -202,7 +202,7 @@ export default function EvidencePackSharePage() {
                     </p>
                     <span
                       className="text-[10px] tracking-[2px] uppercase"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: colour }}
+                      style={{ fontFamily: "'IBM Plex Mono', monospace", color: colour }}
                     >
                       {isOk ? "PASS" : isWarn ? "REVIEW" : "FLAG"}
                     </span>
@@ -230,7 +230,7 @@ export default function EvidencePackSharePage() {
                 {s.agent && (
                   <p
                     className="text-[10px] tracking-[2px] uppercase mb-2"
-                    style={{ fontFamily: "'JetBrains Mono', monospace", color: TEAL }}
+                    style={{ fontFamily: "'IBM Plex Mono', monospace", color: TEAL }}
                   >
                     {s.agent}
                   </p>
@@ -311,7 +311,7 @@ function MetaTile({
     >
       <div className="flex items-center gap-1.5 mb-1.5" style={{ color: "#9CA3AF" }}>
         {icon}
-        <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+        <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
           {label}
         </span>
       </div>
@@ -319,7 +319,7 @@ function MetaTile({
         className="text-[13px] font-medium truncate"
         style={{
           color: valueColor ?? CHARCOAL,
-          fontFamily: mono ? "'JetBrains Mono', monospace" : "inherit",
+          fontFamily: mono ? "'IBM Plex Mono', monospace" : "inherit",
         }}
       >
         {value}

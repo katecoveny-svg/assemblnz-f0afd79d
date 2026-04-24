@@ -222,7 +222,7 @@ const FloatingLabel = ({ text, side, index, visible }: { text: string; side: "le
   <motion.span
     className="absolute text-[11px] sm:text-xs tracking-[3px] uppercase pointer-events-none"
     style={{
-      fontFamily: "'JetBrains Mono', monospace",
+      fontFamily: "'IBM Plex Mono', monospace",
       fontWeight: 500,
       color: side === "left" ? "rgba(74,165,168,0.6)" : "rgba(58,125,110,0.6)",
       top: `${30 + index * 18}%`,
@@ -287,7 +287,7 @@ const BrandFilm = ({ onComplete }: { onComplete: () => void }) => {
             >
               <motion.p
                 className="text-lg sm:text-2xl leading-relaxed"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.5)" }}
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.5)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
@@ -296,7 +296,7 @@ const BrandFilm = ({ onComplete }: { onComplete: () => void }) => {
               </motion.p>
               <motion.p
                 className="text-lg sm:text-2xl leading-relaxed mt-2"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.35)" }}
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.35)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 0.8 }}
@@ -305,7 +305,7 @@ const BrandFilm = ({ onComplete }: { onComplete: () => void }) => {
               </motion.p>
               <motion.p
                 className="text-lg sm:text-2xl leading-relaxed mt-2"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.2)" }}
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.2)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, duration: 0.8 }}
@@ -326,7 +326,7 @@ const BrandFilm = ({ onComplete }: { onComplete: () => void }) => {
             >
               <motion.p
                 className="text-xl sm:text-3xl"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#4AA5A8" }}
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#4AA5A8" }}
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3, duration: 1 }}
@@ -347,7 +347,7 @@ const BrandFilm = ({ onComplete }: { onComplete: () => void }) => {
             >
               <motion.p
                 className="text-base sm:text-xl tracking-[2px] uppercase"
-                style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.5)" }}
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.5)" }}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.2, duration: 0.8 }}
@@ -556,7 +556,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.1, ease }}
             >
-              <span className="text-[10px] tracking-[4px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8", fontWeight: 500 }}>
+              <span className="text-[10px] tracking-[4px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8", fontWeight: 500 }}>
                 BUILT FOR NEW ZEALAND BUSINESS
               </span>
             </motion.div>
@@ -565,7 +565,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             <div className="max-w-4xl mx-auto mb-4">
               <motion.h1
                 style={{
-                  fontFamily: "'Lato', sans-serif",
+                  fontFamily: "'Inter', sans-serif",
                   fontWeight: 300,
                   fontSize: isMobile ? "2.25rem" : "4rem",
                   lineHeight: 1.1,
@@ -591,7 +591,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             <motion.p
               className="max-w-[640px] mb-2 mt-4"
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 fontSize: isMobile ? "15px" : "17px",
                 lineHeight: 1.7,
@@ -608,7 +608,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
             <motion.p
               className="mb-6"
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 fontWeight: 400,
                 fontSize: "13px",
                 color: "rgba(255,255,255,0.35)",
@@ -632,7 +632,7 @@ const AnimatedHero = ({ onScrollToGrid }: AnimatedHeroProps) => {
                   key={s.label}
                   className="px-4 py-2 rounded-full text-xs"
                   style={{
-                    fontFamily: "'JetBrains Mono', monospace",
+                    fontFamily: "'IBM Plex Mono', monospace",
                     fontWeight: 500,
                     background: "rgba(15,22,35,0.6)",
                     backdropFilter: "blur(12px)",

@@ -117,12 +117,12 @@ function InlinePipelineDemo() {
       <div className="px-6 py-4" style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
         <div className="flex items-center gap-3">
           <div className="w-2.5 h-2.5 rounded-full" style={{ background: C.gold, boxShadow: `0 0 8px ${C.gold}60` }} />
-          <p className="text-[13px] flex-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#374151" }}>
+          <p className="text-[13px] flex-1" style={{ fontFamily: "'Inter', sans-serif", color: "#374151" }}>
             "Do I need a food control plan for my cafe?"
           </p>
           {hasRun && !running && (
             <button onClick={runDemo} className="text-[10px] tracking-[2px] uppercase px-3 py-1.5 rounded-full transition-all hover:scale-105" style={{
-              fontFamily: "'JetBrains Mono', monospace", color: C.pounamuGlow,
+              fontFamily: "'IBM Plex Mono', monospace", color: C.pounamuGlow,
               border: `1px solid ${C.pounamuGlow}30`, background: `${C.pounamuGlow}08`,
             }}>
               Replay
@@ -159,19 +159,19 @@ function InlinePipelineDemo() {
                   )}
                 </div>
                 <span className="text-[8px] tracking-[2px] uppercase" style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'IBM Plex Mono', monospace",
                   color: isActive ? stage.color : "rgba(0,0,0,0.3)",
                 }}>{stage.name}</span>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] tracking-[1px] uppercase mb-1" style={{
-                  fontFamily: "'Lato', sans-serif", fontWeight: 400,
+                  fontFamily: "'Inter', sans-serif", fontWeight: 400,
                   color: isActive ? "#374151" : "rgba(0,0,0,0.3)",
                 }}>{stage.fn}</p>
                 <AnimatePresence>
                   {isActive && (
                     <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0 }}
-                      className="text-[12px] leading-[1.7]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                      className="text-[12px] leading-[1.7]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                       {result.text}
                     </motion.p>
                   )}
@@ -179,7 +179,7 @@ function InlinePipelineDemo() {
               </div>
               {isActive && (
                 <span className="text-[8px] tracking-[1px] uppercase px-2 py-1 rounded-full shrink-0 mt-1" style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'IBM Plex Mono', monospace",
                   background: `${C.pounamuGlow}12`, color: C.pounamuGlow,
                 }}>PASS</span>
               )}
@@ -196,11 +196,11 @@ function InlinePipelineDemo() {
               background: `${C.pounamuGlow}08`, border: `1px solid ${C.pounamuGlow}20`,
             }}>
             <Check size={16} style={{ color: C.pounamuGlow }} />
-            <p className="text-[13px] flex-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#374151" }}>
+            <p className="text-[13px] flex-1" style={{ fontFamily: "'Inter', sans-serif", color: "#374151" }}>
               Evidence pack ready. All 5 governance stages passed.
             </p>
             <Link to="/demos/pipeline" className="text-[10px] tracking-[2px] uppercase flex items-center gap-1" style={{
-              fontFamily: "'JetBrains Mono', monospace", color: C.gold,
+              fontFamily: "'IBM Plex Mono', monospace", color: C.gold,
             }}>
               Full demo <ChevronRight size={10} />
             </Link>
@@ -222,13 +222,13 @@ const DemosHub = () => {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-28 pb-20">
         {/* Intro */}
         <motion.div className="text-center mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}>
-          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: C.gold, fontWeight: 700 }}>
+          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.gold, fontWeight: 700 }}>
             — Live demos —
           </p>
-          <h1 className="text-2xl sm:text-[40px] mb-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", color: "#3D4250" }}>
+          <h1 className="text-2xl sm:text-[40px] mb-4" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "6px", textTransform: "uppercase", color: "#3D4250" }}>
             See it work
           </h1>
-          <p className="text-[15px] max-w-lg mx-auto" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+          <p className="text-[15px] max-w-lg mx-auto" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
             Watch a real query flow through the governance pipeline. Then explore each demo in detail.
           </p>
         </motion.div>
@@ -238,7 +238,7 @@ const DemosHub = () => {
           style={{ background: "rgba(74,165,168,0.06)", border: "1px solid rgba(74,165,168,0.12)" }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.4 }}>
           <Shield size={14} className="shrink-0 mt-0.5" style={{ color: C.goldLight }} />
-          <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#9CA3AF" }}>
+          <p className="text-[11px]" style={{ fontFamily: "'Inter', sans-serif", color: "#9CA3AF" }}>
             These demos run with synthetic data. Nothing leaves this page.
           </p>
         </motion.div>
@@ -267,7 +267,7 @@ const DemosHub = () => {
                   }}>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-3.5 h-3.5 rounded-full" style={{ background: d.accent, boxShadow: `0 0 16px ${d.accent}50` }} />
-                    <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}>
+                    <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF" }}>
                       Demo {i + 1}
                     </span>
                     <span className="ml-auto flex items-center gap-1 text-[10px]" style={{ color: "#9CA3AF" }}>
@@ -275,15 +275,15 @@ const DemosHub = () => {
                     </span>
                   </div>
 
-                  <h3 className="text-[15px] mb-3" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: "#1F2937" }}>
+                  <h3 className="text-[15px] mb-3" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: "2px", textTransform: "uppercase", color: "#1F2937" }}>
                     {d.title}
                   </h3>
-                  <p className="text-[13px] leading-[1.7] mb-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                  <p className="text-[13px] leading-[1.7] mb-4" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                     {d.pitch}
                   </p>
 
                   <div className="rounded-xl px-3 py-2.5 mb-5" style={{ background: `${d.accent}08`, border: `1px solid ${d.accent}15` }}>
-                    <p className="text-[11px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                    <p className="text-[11px]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                       <span className="font-semibold" style={{ color: d.accent }}>Proves:</span> {d.proves}
                     </p>
                   </div>

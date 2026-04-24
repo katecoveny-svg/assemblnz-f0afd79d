@@ -92,7 +92,7 @@ export default function CommsHubPage() {
           </div>
 
           <motion.button onClick={send} whileHover={{ scale: 1.02 }} className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-medium"
-            style={{ background: TEAL_ACCENT, color: "#09090F" }}>
+            style={{ background: TEAL_ACCENT, color: "#3D3428" }}>
             <Send size={16} /> Send Message
           </motion.button>
         </Glass>

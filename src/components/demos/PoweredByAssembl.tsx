@@ -23,14 +23,14 @@ const PoweredByAssembl = ({ variant = "dark" }: { variant?: "dark" | "light" }) 
       <div className="text-center">
         <p className="text-[9px] tracking-[3px] uppercase" 
           style={{ 
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "'IBM Plex Mono', monospace",
             color: isDark ? "rgba(245,240,232,0.3)" : "rgba(58,125,110,0.4)",
           }}>
           Powered by
         </p>
         <p className="text-[11px] tracking-[4px] uppercase" 
           style={{ 
-            fontFamily: "'Lato', sans-serif", 
+            fontFamily: "'Inter', sans-serif", 
             fontWeight: 300,
             color: isDark ? "rgba(245,240,232,0.5)" : "rgba(58,125,110,0.6)",
           }}>

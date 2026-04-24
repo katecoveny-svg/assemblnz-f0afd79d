@@ -77,7 +77,7 @@ const PWAInstallBanner = ({ agentName, agentColor }: PWAInstallBannerProps) => {
         <button
           onClick={handleInstall}
           className="px-3 py-1 rounded-lg text-[10px] font-bold font-display transition"
-          style={{ background: agentColor, color: "#09090F" }}
+          style={{ background: agentColor, color: "#3D3428" }}
         >
           Install
         </button>

@@ -76,12 +76,12 @@ export default function AratakiLandingPage() {
           <LandingKeteHero accentColor={ACCENT} accentLight={ACCENT_LIGHT} model="car" size={200} />
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.05 }}
-            className="text-[11px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: ACCENT }}>
+            className="text-[11px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: ACCENT }}>
             ARATAKI / Automotive
           </motion.p>
 
           <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8 }}
-            className="text-4xl md:text-6xl font-light tracking-tight mb-6" style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}>
+            className="text-4xl md:text-6xl font-light tracking-tight mb-6" style={{ fontFamily: "'Inter', sans-serif", color: "#1A1D29" }}>
             Four verticals.<br />One dealership brain.
           </motion.h1>
 
@@ -115,7 +115,7 @@ export default function AratakiLandingPage() {
         {/* ── Persona Context ── */}
         <section className="max-w-3xl mx-auto px-6 pb-20">
           <div className="rounded-3xl p-8 text-center" style={GLASS}>
-            <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>The Arataki Persona</p>
+            <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>The Arataki Persona</p>
             <p className="text-[17px] leading-[1.75] mb-2" style={{ color: "#1A1D29" }}>
               <strong style={{ fontWeight: 500 }}>James</strong> is a service manager at a Hamilton Toyota dealership.
             </p>
@@ -148,7 +148,7 @@ export default function AratakiLandingPage() {
         {/* ── Four Verticals ── */}
         <section className="max-w-5xl mx-auto px-6 pb-24">
           <div className="text-center mb-12">
-            <p className="text-[11px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: ACCENT }}>
+            <p className="text-[11px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: ACCENT }}>
               Four Dealership Verticals
             </p>
             <h2 className="text-[28px] sm:text-[36px] font-light tracking-[-0.02em]" style={{ color: "#1A1D29" }}>
@@ -199,7 +199,7 @@ export default function AratakiLandingPage() {
         {/* ── CTA ── */}
         <section className="max-w-3xl mx-auto px-6 pb-32 text-center">
           <div className="rounded-3xl p-10" style={GLASS}>
-            <h3 className="text-[22px] font-light mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}>Try a scenario</h3>
+            <h3 className="text-[22px] font-light mb-3" style={{ fontFamily: "'Inter', sans-serif", color: "#1A1D29" }}>Try a scenario</h3>
             <p className="text-[15px] mb-6" style={{ color: "#6B7280" }}>
               Run a realistic dealership scenario and see every step — service booking, parts order, loan car, compliance pack.
             </p>

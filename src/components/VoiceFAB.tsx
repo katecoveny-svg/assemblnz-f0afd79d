@@ -122,7 +122,7 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
         transition={state === "listening" ? { duration: 1.5, repeat: Infinity } : {}}
       >
         {state === "listening" ? (
-          <MicOff size={22} color="#09090F" />
+          <MicOff size={22} color="#3D3428" />
         ) : (
           <Mic size={22} style={{ color: TEAL_ACCENT }} />
         )}
@@ -169,7 +169,7 @@ const VoiceFAB = ({ packId = "waihanga", agentId }: Props) => {
               </div>
             )}
 
-            <p className="text-xs text-center" style={{ color: TEAL_ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>
+            <p className="text-xs text-center" style={{ color: TEAL_ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>
               {statusLabel.mi}
             </p>
             <p className="text-[10px] text-center text-[#9CA3AF] mt-0.5">

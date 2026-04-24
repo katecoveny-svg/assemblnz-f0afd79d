@@ -28,7 +28,7 @@ export default function SectorSwitcher({ collapsed = false, onToggle }: Props) {
       animate={{ width: collapsed ? 56 : 220 }}
       transition={{ duration: 0.25, ease: "easeInOut" }}
       style={{
-        background: "linear-gradient(180deg, #09090F 0%, #0D0D18 100%)",
+        background: "linear-gradient(180deg, #3D3428 0%, #0D0D18 100%)",
         borderRight: "1px solid rgba(255,255,255,0.04)",
       }}
     >

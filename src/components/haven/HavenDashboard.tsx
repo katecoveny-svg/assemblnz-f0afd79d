@@ -81,14 +81,14 @@ const HavenDashboard = () => {
         <div>
           <div className="flex items-center gap-2 mb-0.5">
             <Home size={16} style={{ color: TEAL_ACCENT }} />
-            <span className="text-[10px] tracking-widest uppercase" style={{ color: TEAL_ACCENT, fontFamily: "JetBrains Mono" }}>HAVEN</span>
+            <span className="text-[10px] tracking-widest uppercase" style={{ color: TEAL_ACCENT, fontFamily: "IBM Plex Mono" }}>HAVEN</span>
           </div>
-          <h2 className="text-lg font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>Portfolio Overview</h2>
+          <h2 className="text-lg font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Portfolio Overview</h2>
         </div>
         {stats.emergencyJobs > 0 && (
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full animate-pulse" style={{ background: "rgba(239,68,68,0.15)", border: "1px solid rgba(239,68,68,0.3)" }}>
             <AlertTriangle size={12} style={{ color: "#EF4444" }} />
-            <span className="text-[10px] font-medium" style={{ color: "#EF4444", fontFamily: "JetBrains Mono" }}>{stats.emergencyJobs} Emergency</span>
+            <span className="text-[10px] font-medium" style={{ color: "#EF4444", fontFamily: "IBM Plex Mono" }}>{stats.emergencyJobs} Emergency</span>
           </div>
         )}
       </div>
@@ -102,9 +102,9 @@ const HavenDashboard = () => {
                 <div className="p-1.5 rounded-lg" style={{ background: `${c.accent}20` }}>
                   <c.icon size={14} style={{ color: c.accent }} />
                 </div>
-                <span className="text-[10px]" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{c.label}</span>
+                <span className="text-[10px]" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.45)" }}>{c.label}</span>
               </div>
-              <p className="text-xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{c.value}</p>
+              <p className="text-xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{c.value}</p>
               <div className="mt-2 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                 <div className="h-full rounded-full transition-all" style={{ width: `${c.progress}%`, background: `linear-gradient(90deg, ${c.accent}, ${c.accent}60)` }} />
               </div>
@@ -116,7 +116,7 @@ const HavenDashboard = () => {
       {/* Job Pipeline */}
       <Glass>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
             <TrendingUp size={16} style={{ color: TEAL_ACCENT }} /> Job Pipeline
           </h3>
           <AgentWorkflow
@@ -156,13 +156,13 @@ const HavenDashboard = () => {
       {/* Recent Jobs */}
       <Glass>
         <div className="p-4">
-          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+          <h3 className="text-sm mb-3 flex items-center gap-2" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
             <Wrench size={16} style={{ color: POUNAMU }} /> Recent Jobs
           </h3>
           {recentJobs.length === 0 ? (
             <div className="text-center py-8">
               <Wrench size={24} className="mx-auto mb-2" style={{ color: "rgba(255,255,255,0.15)" }} />
-              <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.3)" }}>No jobs logged yet. Use the chat to report maintenance issues.</p>
+              <p className="text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.3)" }}>No jobs logged yet. Use the chat to report maintenance issues.</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -172,15 +172,15 @@ const HavenDashboard = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-8 rounded-full" style={{ background: urgencyColor(j.urgency) }} />
                     <div>
-                      <span className="text-xs block" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{j.title}</span>
-                      {j.property_name && <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>{j.property_name}</span>}
+                      <span className="text-xs block" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{j.title}</span>
+                      {j.property_name && <span className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>{j.property_name}</span>}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-[9px] px-2 py-0.5 rounded-full capitalize" style={{
                       background: j.status === "completed" ? `${POUNAMU}15` : "rgba(255,255,255,0.5)",
                       color: j.status === "completed" ? POUNAMU : "rgba(255,255,255,0.4)",
-                      fontFamily: "JetBrains Mono",
+                      fontFamily: "IBM Plex Mono",
                     }}>{j.status.replace("_", " ")}</span>
                     <ChevronRight size={12} style={{ color: "rgba(255,255,255,0.15)" }} />
                   </div>

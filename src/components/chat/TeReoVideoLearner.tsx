@@ -105,10 +105,10 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
       <div className="px-4 pt-4 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
         <div className="flex items-center gap-2 mb-3">
           <BookOpen size={16} style={{ color: agentColor }} />
-          <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "11px", letterSpacing: "3px", color: agentColor }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "11px", letterSpacing: "3px", color: agentColor }}>
             MĀRAMA
           </span>
-          <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>
             Te Reo Māori Video Learning
           </span>
         </div>
@@ -121,7 +121,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
             placeholder="Paste a YouTube URL..."
             className="flex-1 px-3 py-2 rounded-lg text-xs"
             style={{
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               background: "rgba(255,255,255,0.5)",
               border: "1px solid rgba(255,255,255,0.5)",
               color: "#1A1D29",
@@ -134,10 +134,10 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
             disabled={loading || !url}
             className="px-4 py-2 rounded-lg text-xs flex items-center gap-1.5 transition-all"
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 400,
               background: loading ? "rgba(255,255,255,0.5)" : agentColor,
-              color: loading ? "rgba(255,255,255,0.35)" : "#09090F",
+              color: loading ? "rgba(255,255,255,0.35)" : "#3D3428",
               border: `1px solid ${agentColor}`,
               opacity: !url ? 0.5 : 1,
             }}
@@ -153,7 +153,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
         {/* Examples when no data */}
         {!data && !loading && !error && (
           <div>
-            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.35)", marginBottom: "8px" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.35)", marginBottom: "8px" }}>
               Or try an example:
             </p>
              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -172,7 +172,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                       </div>
                       <div className="w-5 h-0.5 rounded-full" style={{ background: `${ex.accent}30` }} />
                     </div>
-                    <p className="px-3 pb-2.5 text-center" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: ex.accent, fontWeight: 500 }}>
+                    <p className="px-3 pb-2.5 text-center" style={{ fontFamily: "'Inter', sans-serif", fontSize: "10px", color: ex.accent, fontWeight: 500 }}>
                       {ex.title}
                     </p>
                   </button>
@@ -186,10 +186,10 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
         {loading && (
           <div className="flex flex-col items-center justify-center py-16 gap-3">
             <Loader2 size={28} className="animate-spin" style={{ color: agentColor }} />
-            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.5)" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.5)" }}>
               Generating te reo Māori exercises...
             </p>
-            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.25)" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.25)" }}>
               This usually takes 15-30 seconds
             </p>
           </div>
@@ -198,7 +198,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
         {/* Error */}
         {error && (
           <div className="rounded-lg p-4" style={{ background: "rgba(220,50,50,0.1)", border: "1px solid rgba(220,50,50,0.2)" }}>
-            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", color: "#E05050" }}>{error}</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "12px", color: "#E05050" }}>{error}</p>
           </div>
         )}
 
@@ -221,14 +221,14 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
 
             {/* Summary */}
             <div className="rounded-xl p-4" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
-              <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, fontSize: "16px", color: "#1A1D29", marginBottom: "6px" }}>
+              <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, fontSize: "16px", color: "#1A1D29", marginBottom: "6px" }}>
                 {data.videoTitle}
               </h3>
-              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.65)", lineHeight: 1.6 }}>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.65)", lineHeight: 1.6 }}>
                 {data.summary}
               </p>
               {data.culturalContext && (
-                <p className="mt-2 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: agentColor, lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.5)" }}>
+                <p className="mt-2 pt-2" style={{ fontFamily: "'Inter', sans-serif", fontSize: "11px", color: agentColor, lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.5)" }}>
                   {data.culturalContext}
                 </p>
               )}
@@ -246,7 +246,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                   onClick={() => setActiveSection(tab.id)}
                   className="flex-1 flex items-center justify-center gap-1.5 px-2 py-2 rounded-md text-[10px] transition-all"
                   style={{
-                    fontFamily: "'Lato', sans-serif",
+                    fontFamily: "'Inter', sans-serif",
                     fontWeight: activeSection === tab.id ? 700 : 400,
                     letterSpacing: "1px",
                     background: activeSection === tab.id ? agentColor + "15" : "transparent",
@@ -276,10 +276,10 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                   >
                     <div className="flex items-center justify-between px-4 py-3">
                       <div className="flex items-center gap-3">
-                        <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "14px", color: agentColor }}>
+                        <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "14px", color: agentColor }}>
                           {v.maori}
                         </span>
-                        <span style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
+                        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
                           {revealedVocab.has(i) ? v.english : "tap to reveal"}
                         </span>
                       </div>
@@ -294,10 +294,10 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                           className="overflow-hidden"
                         >
                           <div className="px-4 pb-3 space-y-1" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
-                            <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: "10px", color: "rgba(255,255,255,0.35)", marginTop: "8px" }}>
+                            <p style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "10px", color: "rgba(255,255,255,0.35)", marginTop: "8px" }}>
                               /{v.pronunciation}/
                             </p>
-                            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.5)", fontStyle: "italic", lineHeight: 1.5 }}>
+                            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.5)", fontStyle: "italic", lineHeight: 1.5 }}>
                               "{v.usage}"
                             </p>
                           </div>
@@ -321,14 +321,14 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                     className="rounded-xl p-4"
                     style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}
                   >
-                    <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#1A1D29", marginBottom: "6px" }}>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#1A1D29", marginBottom: "6px" }}>
                       {s.english}
                     </p>
-                    <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "13px", color: agentColor, marginBottom: "4px" }}>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "13px", color: agentColor, marginBottom: "4px" }}>
                       → {s.maori}
                     </p>
                     {s.notes && (
-                      <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)", fontStyle: "italic" }}>
+                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)", fontStyle: "italic" }}>
                         {s.notes}
                       </p>
                     )}
@@ -352,7 +352,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                       className="rounded-xl p-4"
                       style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${answered ? (correct ? "rgba(58,125,110,0.3)" : "rgba(220,50,50,0.2)") : "rgba(255,255,255,0.5)"}` }}
                     >
-                      <p className="mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", color: "#1A1D29" }}>
+                      <p className="mb-3" style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", color: "#1A1D29" }}>
                         {qi + 1}. {q.question}
                       </p>
                       <div className="space-y-1.5">
@@ -367,7 +367,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                               disabled={answered}
                               className="w-full text-left px-3 py-2 rounded-lg text-xs transition-all flex items-center gap-2"
                               style={{
-                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                fontFamily: "'Inter', sans-serif",
                                 background: showResult && isCorrectOption ? "rgba(58,125,110,0.15)"
                                   : showResult && isSelected && !isCorrectOption ? "rgba(220,50,50,0.1)"
                                   : "rgba(255,255,255,0.5)",
@@ -388,7 +388,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                         })}
                       </div>
                       {answered && (
-                        <p className="mt-2 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.45)", lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.5)" }}>
+                        <p className="mt-2 pt-2" style={{ fontFamily: "'Inter', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.45)", lineHeight: 1.5, borderTop: "1px solid rgba(255,255,255,0.5)" }}>
                           {q.explanation}
                         </p>
                       )}
@@ -404,10 +404,10 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                     className="rounded-xl p-5 text-center"
                     style={{ background: `${agentColor}10`, border: `1px solid ${agentColor}30` }}
                   >
-                    <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 700, fontSize: "24px", color: agentColor }}>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: "24px", color: agentColor }}>
                       {quizScore}/{data.quiz.length}
                     </p>
-                    <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
+                    <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
                       {quizScore === data.quiz.length ? "Ka rawe! Perfect score!" : quizScore >= data.quiz.length / 2 ? "Ka pai! Good effort!" : "Kia kaha! Keep practising!"}
                     </p>
                     {onSendToChat && (
@@ -415,7 +415,7 @@ const TeReoVideoLearner = ({ agentColor, onSendToChat }: Props) => {
                         onClick={() => onSendToChat(`I just completed a te reo Māori exercise based on "${data.videoTitle}" and scored ${quizScore}/${data.quiz!.length}. Can you help me practise the words I got wrong?`)}
                         className="mt-3 px-4 py-2 rounded-lg text-xs transition-all"
                         style={{
-                          fontFamily: "'Lato', sans-serif",
+                          fontFamily: "'Inter', sans-serif",
                           background: agentColor + "20",
                           border: `1px solid ${agentColor}30`,
                           color: agentColor,

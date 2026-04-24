@@ -112,7 +112,7 @@ export default function ManaakiLandingPage() {
 
           <motion.p
             className="text-[10px] tracking-[5px] mb-6"
-            style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, textTransform: "uppercase" }}
+            style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, textTransform: "uppercase" }}
             variants={fadeUp} initial="hidden" animate="visible" custom={0}
           >
             Manaaki · Hospitality & Tourism
@@ -236,7 +236,7 @@ export default function ManaakiLandingPage() {
           }} />
 
           <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-            <p className="text-[10px] tracking-[4px] mb-3" style={{ color: POUNAMU, fontFamily: "'JetBrains Mono', monospace", textTransform: "uppercase" }}>
+            <p className="text-[10px] tracking-[4px] mb-3" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace", textTransform: "uppercase" }}>
               specialist network
             </p>
             <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: BONE }}>

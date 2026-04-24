@@ -41,9 +41,9 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
   if (loading) return <div className="flex-1 flex items-center justify-center"><p className="text-xs animate-pulse" style={{ color: "rgba(255,255,255,0.3)" }}>Loading journeys…</p></div>;
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div>
-        <p className="text-[10px] uppercase font-bold" style={{ color: NAVY, fontFamily: "'Lato', sans-serif", letterSpacing: "4px" }}>VITAE — CARE JOURNEYS</p>
+        <p className="text-[10px] uppercase font-bold" style={{ color: NAVY, fontFamily: "'Inter', sans-serif", letterSpacing: "4px" }}>VITAE — CARE JOURNEYS</p>
         <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Track referrals, waitlists, and specialist appointments</p>
       </div>
 
@@ -71,7 +71,7 @@ const VitaeCareJourneys = ({ onSendToChat }: VitaeCareJourneysProps) => {
                     <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{j.speciality || j.referral_type}</p>
                     <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>{seniorName}</p>
                   </div>
-                  <span className="text-[9px] uppercase px-2 py-0.5 rounded-full font-bold" style={{ background: "rgba(26,58,92,0.2)", color: "#5A9ACC", fontFamily: "'JetBrains Mono', monospace" }}>
+                  <span className="text-[9px] uppercase px-2 py-0.5 rounded-full font-bold" style={{ background: "rgba(26,58,92,0.2)", color: "#5A9ACC", fontFamily: "'IBM Plex Mono', monospace" }}>
                     {j.status.replace(/_/g, " ")}
                   </span>
                 </div>

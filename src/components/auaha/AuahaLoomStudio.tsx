@@ -65,10 +65,10 @@ export default function AuahaLoomStudio() {
           <MonitorPlay className="w-5 h-5" style={{ color: ACCENT }} />
         </div>
         <div>
-          <h1 className="text-foreground text-xl font-light uppercase tracking-[4px]" style={{ fontFamily: "Lato, sans-serif" }}>
+          <h1 className="text-foreground text-xl font-light uppercase tracking-[4px]" style={{ fontFamily: "Inter, sans-serif" }}>
             Loom Studio
           </h1>
-          <p className="text-[#6B7280] text-xs" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
+          <p className="text-[#6B7280] text-xs" style={{ fontFamily: "Inter, sans-serif" }}>
             Record walkthroughs, embed demos, and share client presentations
           </p>
         </div>
@@ -78,7 +78,7 @@ export default function AuahaLoomStudio() {
       <DashboardGlassCard accentColor={ACCENT} className="p-6">
         <div className="flex items-center gap-2 mb-4">
           <Link2 className="w-4 h-4" style={{ color: ACCENT }} />
-          <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: "Lato, sans-serif" }}>Add Loom Video</h3>
+          <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: "Inter, sans-serif" }}>Add Loom Video</h3>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
           <input
@@ -86,7 +86,7 @@ export default function AuahaLoomStudio() {
             onChange={(e) => setInputTitle(e.target.value)}
             placeholder="Title (optional)"
             className="flex-shrink-0 w-full sm:w-40 px-4 py-2.5 rounded-xl text-sm text-[#1A1D29] placeholder:text-[#8B92A0] outline-none transition-all focus:ring-1"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "Plus Jakarta Sans, sans-serif" }}
+            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "Inter, sans-serif" }}
             onFocus={(e) => (e.target.style.borderColor = `${ACCENT}40`)}
             onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.08)")}
           />
@@ -95,14 +95,14 @@ export default function AuahaLoomStudio() {
             onChange={(e) => setInputUrl(e.target.value)}
             placeholder="Paste Loom share URL (e.g. https://www.loom.com/share/...)"
             className="flex-1 px-4 py-2.5 rounded-xl text-sm text-[#1A1D29] placeholder:text-[#8B92A0] outline-none transition-all focus:ring-1"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "Plus Jakarta Sans, sans-serif" }}
+            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "Inter, sans-serif" }}
             onFocus={(e) => (e.target.style.borderColor = `${ACCENT}40`)}
             onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.08)")}
             onKeyDown={(e) => e.key === "Enter" && addLoom()}
           />
           <button onClick={addLoom}
             className="px-5 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 transition-all hover:scale-[1.02]"
-            style={{ background: `linear-gradient(135deg, ${ACCENT}, #4AA5A8)`, color: "#09090F" }}>
+            style={{ background: `linear-gradient(135deg, ${ACCENT}, #4AA5A8)`, color: "#3D3428" }}>
             <Plus className="w-4 h-4" />
             Add
           </button>
@@ -160,7 +160,7 @@ export default function AuahaLoomStudio() {
           <Play className="w-3.5 h-3.5" style={{ color: ACCENT }} />
           <h4 className="text-[#6B7280] text-[10px] uppercase tracking-[2px]">Tips</h4>
         </div>
-        <div className="grid sm:grid-cols-3 gap-4 text-xs text-[#1A1D29]/35" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
+        <div className="grid sm:grid-cols-3 gap-4 text-xs text-[#1A1D29]/35" style={{ fontFamily: "Inter, sans-serif" }}>
           <div>Record product walkthroughs for client onboarding and embed them directly in proposals.</div>
           <div>Use Loom's built-in analytics to see who watched and how far — great for sales follow-ups.</div>
           <div>Copy the embed code to paste into campaign landing pages or internal knowledge bases.</div>

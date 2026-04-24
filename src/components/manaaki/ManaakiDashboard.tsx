@@ -150,7 +150,7 @@ export default function ManaakiDashboard() {
               <m.icon size={16} style={{ color: m.color }} />
               <span className="text-[10px] text-white/40 uppercase tracking-wider">{m.label}</span>
             </div>
-            <div className="text-2xl font-bold text-white/90" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+            <div className="text-2xl font-bold text-white/90" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
               {isLoading ? "—" : m.value}
             </div>
           </DashboardGlassCard>

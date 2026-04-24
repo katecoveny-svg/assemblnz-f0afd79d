@@ -65,13 +65,13 @@ const CareDashboard = () => {
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: "transparent" }}>
-      <div className="animate-pulse text-sm" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Loading care dashboard…</div>
+      <div className="animate-pulse text-sm" style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}>Loading care dashboard…</div>
     </div>
   );
 
   if (!senior) return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: "transparent" }}>
-      <p className="text-sm" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Senior profile not found</p>
+      <p className="text-sm" style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}>Senior profile not found</p>
       <Link to="/" className="text-xs underline" style={{ color: TEAL_ACCENT }}>Back to home</Link>
     </div>
   );
@@ -87,7 +87,7 @@ const CareDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen" style={{ background: "transparent", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen" style={{ background: "transparent", fontFamily: "'Inter', sans-serif" }}>
       <SEO title={`${senior.preferred_name || senior.first_name} — Care Dashboard`} description="Whānau care dashboard" />
       
       {/* Header */}
@@ -97,7 +97,7 @@ const CareDashboard = () => {
         </Link>
         <div className="flex items-center justify-between">
           <div>
-            <h1 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, textTransform: "uppercase", letterSpacing: "4px", fontSize: "24px", color: "#3D4250" }}>
+            <h1 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, textTransform: "uppercase", letterSpacing: "4px", fontSize: "24px", color: "#3D4250" }}>
               {senior.preferred_name || senior.first_name} {senior.last_name}
             </h1>
             <p className="text-xs mt-1" style={{ color: "#6B7280" }}>
@@ -106,7 +106,7 @@ const CareDashboard = () => {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full animate-pulse" style={{ background: statusColor }} />
-            <span className="text-[10px] uppercase font-semibold" style={{ color: statusColor, fontFamily: "'Lato', sans-serif", letterSpacing: "2px" }}>
+            <span className="text-[10px] uppercase font-semibold" style={{ color: statusColor, fontFamily: "'Inter', sans-serif", letterSpacing: "2px" }}>
               {overallStatus === "red" ? "Needs attention" : overallStatus === "amber" ? "Monitor" : "All good"}
             </span>
           </div>
@@ -117,8 +117,8 @@ const CareDashboard = () => {
         {/* Last Check-in Summary */}
         <Card>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Last check-in</span>
-            {latestCheckIn && <span className="text-[10px]" style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+            <span className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>Last check-in</span>
+            {latestCheckIn && <span className="text-[10px]" style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
               {new Date(latestCheckIn.completed_at || latestCheckIn.scheduled_at).toLocaleString("en-NZ", { dateStyle: "medium", timeStyle: "short" })}
             </span>}
           </div>
@@ -149,7 +149,7 @@ const CareDashboard = () => {
         {moodData.length > 1 && (
           <Card>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Mood timeline</span>
+              <span className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>Mood timeline</span>
               <div className="flex items-center gap-1">
                 {moodTrend === "improving" ? <TrendingUp size={12} style={{ color: POUNAMU }} /> : moodTrend === "declining" ? <TrendingDown size={12} style={{ color: KOKKOWAI }} /> : <Minus size={12} style={{ color: "#6B7280" }} />}
                 <span className="text-[10px] capitalize" style={{ color: moodTrend === "improving" ? POUNAMU : moodTrend === "declining" ? KOKKOWAI : "rgba(255,255,255,0.4)" }}>{moodTrend}</span>
@@ -171,7 +171,7 @@ const CareDashboard = () => {
         {/* Active Alerts */}
         {alerts.length > 0 && (
           <Card>
-            <span className="text-[10px] uppercase font-bold block mb-3" style={{ color: KOKKOWAI, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Active alerts</span>
+            <span className="text-[10px] uppercase font-bold block mb-3" style={{ color: KOKKOWAI, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>Active alerts</span>
             <div className="space-y-2">
               {alerts.map(a => (
                 <div key={a.id} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: "rgba(165,42,42,0.08)", border: "1px solid rgba(165,42,42,0.15)" }}>
@@ -193,7 +193,7 @@ const CareDashboard = () => {
 
         {/* Medication Tracker */}
         <Card>
-          <span className="text-[10px] uppercase font-bold block mb-3" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Medications</span>
+          <span className="text-[10px] uppercase font-bold block mb-3" style={{ color: POUNAMU, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>Medications</span>
           {medications.length === 0 ? (
             <p className="text-xs" style={{ color: "#6B7280" }}>No medications tracked yet</p>
           ) : (
@@ -216,7 +216,7 @@ const CareDashboard = () => {
         {/* Care Journeys */}
         {journeys.length > 0 && (
           <Card>
-            <span className="text-[10px] uppercase font-bold block mb-3" style={{ color: "#1A3A5C", fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Care journeys</span>
+            <span className="text-[10px] uppercase font-bold block mb-3" style={{ color: "#1A3A5C", fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>Care journeys</span>
             <div className="space-y-3">
               {journeys.map(j => {
                 const stages = ['referred', 'waitlisted', 'fsa_scheduled', 'fsa_completed', 'treatment_waitlisted', 'treatment_scheduled', 'treatment_completed', 'recovery', 'discharged'];
@@ -225,7 +225,7 @@ const CareDashboard = () => {
                   <div key={j.id} className="p-3 rounded-xl" style={{ background: "rgba(26,58,92,0.08)", border: "1px solid rgba(26,58,92,0.15)" }}>
                     <div className="flex items-center justify-between mb-2">
                       <p className="text-xs font-medium" style={{ color: "#3D4250" }}>{j.speciality || j.referral_type}</p>
-                      <span className="text-[9px] uppercase px-2 py-0.5 rounded-full" style={{ background: "rgba(26,58,92,0.2)", color: "#5A9ACC", fontFamily: "'JetBrains Mono', monospace" }}>
+                      <span className="text-[9px] uppercase px-2 py-0.5 rounded-full" style={{ background: "rgba(26,58,92,0.2)", color: "#5A9ACC", fontFamily: "'IBM Plex Mono', monospace" }}>
                         {j.status.replace(/_/g, " ")}
                       </span>
                     </div>
@@ -246,8 +246,8 @@ const CareDashboard = () => {
         {/* Home Safety */}
         <Card>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Home safety</span>
-            {safetyAssessments[0] && <span className="text-[10px]" style={{ color: "#9CA3AF", fontFamily: "'JetBrains Mono', monospace" }}>
+            <span className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>Home safety</span>
+            {safetyAssessments[0] && <span className="text-[10px]" style={{ color: "#9CA3AF", fontFamily: "'IBM Plex Mono', monospace" }}>
               Score: {safetyAssessments[0].risk_score}/10
             </span>}
           </div>

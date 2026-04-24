@@ -28,9 +28,9 @@ const QUICK_SCENARIOS = [
 
 const TahiTriage = ({ onSendToChat }: TahiTriageProps) => {
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div>
-        <p className="text-[10px] uppercase font-bold" style={{ color: KOKKOWAI, fontFamily: "'Lato', sans-serif", letterSpacing: "4px" }}>TAHI — HEALTH TRIAGE</p>
+        <p className="text-[10px] uppercase font-bold" style={{ color: KOKKOWAI, fontFamily: "'Inter', sans-serif", letterSpacing: "4px" }}>TAHI — HEALTH TRIAGE</p>
         <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Help me figure out where to go for care</p>
       </div>
 
@@ -45,7 +45,7 @@ const TahiTriage = ({ onSendToChat }: TahiTriageProps) => {
 
       {/* Quick scenarios */}
       <div>
-        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>What's happening?</p>
+        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: TEAL_ACCENT, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>What's happening?</p>
         <div className="grid grid-cols-1 gap-2">
           {QUICK_SCENARIOS.map(s => (
             <button
@@ -63,7 +63,7 @@ const TahiTriage = ({ onSendToChat }: TahiTriageProps) => {
 
       {/* NZ Services quick reference */}
       <div>
-        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>NZ Health Services</p>
+        <p className="text-[10px] uppercase font-bold mb-2" style={{ color: POUNAMU, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>NZ Health Services</p>
         <div className="space-y-2">
           {SERVICES.map(s => (
             <div key={s.label} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>

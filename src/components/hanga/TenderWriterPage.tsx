@@ -95,7 +95,7 @@ export default function TenderWriterPage() {
         </div>
         <motion.button onClick={generate} disabled={generating} whileHover={{ scale: 1.02 }}
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium disabled:opacity-50"
-          style={{ background: TEAL_ACCENT, color: "#09090F" }}>
+          style={{ background: TEAL_ACCENT, color: "#3D3428" }}>
           <Sparkles size={16} />
           {generating ? "Generating..." : "Generate Response"}
         </motion.button>

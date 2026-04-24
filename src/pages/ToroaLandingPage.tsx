@@ -100,7 +100,7 @@ function SmsThread() {
       <div className="flex items-center justify-between mb-5 px-1">
         <span
           className="text-[10px] uppercase tracking-[0.25em] font-medium"
-          style={{ color: INK, opacity: 0.55, fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ color: INK, opacity: 0.55, fontFamily: "'IBM Plex Mono', monospace" }}
         >
           3688 · TŌRO
         </span>
@@ -214,7 +214,7 @@ export default function ToroaLandingPage() {
 
             <motion.p
               className="text-[10px] uppercase tracking-[5px] mb-6"
-              style={{ color: ACCENT_DEEP, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}
+              style={{ color: ACCENT_DEEP, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}
               variants={fadeUp}
               initial="hidden"
               animate="visible"
@@ -265,7 +265,7 @@ export default function ToroaLandingPage() {
               No app. No login. Text{" "}
               <span
                 className="px-2 py-0.5 rounded-md font-semibold"
-                style={{ background: ACCENT_DEEP, color: "#FFFFFF", fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ background: ACCENT_DEEP, color: "#FFFFFF", fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 3688
               </span>{" "}
@@ -293,7 +293,7 @@ export default function ToroaLandingPage() {
               />
               <p
                 className="text-[10px] uppercase tracking-[3px] mb-4"
-                style={{ color: ACCENT_DEEP, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}
+                style={{ color: ACCENT_DEEP, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}
               >
                 te kete tuauri — quiet care
               </p>
@@ -393,7 +393,7 @@ export default function ToroaLandingPage() {
           >
             <p
               className="text-[10px] tracking-[4px] mb-3 uppercase"
-              style={{ color: ACCENT_DEEP, fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ color: ACCENT_DEEP, fontFamily: "'IBM Plex Mono', monospace" }}
             >
               specialist network
             </p>
@@ -472,7 +472,7 @@ export default function ToroaLandingPage() {
           >
             <p
               className="text-[10px] tracking-[4px] mb-3 uppercase"
-              style={{ color: ACCENT_DEEP, fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ color: ACCENT_DEEP, fontFamily: "'IBM Plex Mono', monospace" }}
             >
               how it works
             </p>

@@ -86,7 +86,7 @@ export default function VoyagePlannerPage() {
             rows={5}
             placeholder="e.g. 5 days South Island for the Smith and Tane families, kids 6–10, snow-friendly, mid-July, budget about $3k each…"
             className="w-full p-5 text-sm resize-none outline-none bg-transparent"
-            style={{ color: CHARCOAL, fontFamily: "Lato, sans-serif" }}
+            style={{ color: CHARCOAL, fontFamily: "Inter, sans-serif" }}
           />
           <div className="flex items-center justify-between px-5 py-3 border-t" style={{ borderColor: `${TEAL_ACCENT}15`, background: "rgba(74,165,168,0.04)" }}>
             <p className="text-[10px]" style={{ color: "#9CA3AF" }}>⌘/Ctrl + Enter to send</p>

@@ -63,11 +63,11 @@ export default function StatusPage() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4" style={{ background: `${overallColor}14`, border: `1px solid ${overallColor}40` }}>
             <span className="inline-block w-2 h-2 rounded-full" style={{ background: overallColor, boxShadow: `0 0 10px ${overallColor}` }} />
-            <span className="text-xs font-medium uppercase tracking-wider" style={{ color: overallColor, fontFamily: "'JetBrains Mono', monospace" }}>{overall}</span>
+            <span className="text-xs font-medium uppercase tracking-wider" style={{ color: overallColor, fontFamily: "'IBM Plex Mono', monospace" }}>{overall}</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-light text-foreground mb-3">Live system status</h1>
           <p className="text-sm text-muted-foreground max-w-xl mx-auto">Real-time view of governance sync, agent uptime, and the daily NZ regulatory scan.</p>
-          <div className="mt-4 flex items-center justify-center gap-3 text-[11px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#5B6374" }}>
+          <div className="mt-4 flex items-center justify-center gap-3 text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#5B6374" }}>
             <span>Refreshed {timeAgo(refreshedAt)}</span>
             <button onClick={load} className="inline-flex items-center gap-1 hover:text-foreground transition-colors" disabled={loading}>
               <RefreshCw size={11} className={loading ? "animate-spin" : ""} /> refresh
@@ -91,7 +91,7 @@ export default function StatusPage() {
               {agents.sort((a, b) => a.agent_id.localeCompare(b.agent_id)).map((a) => (
                 <div key={a.agent_id} className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: "rgba(255,255,255,0.6)", border: "1px solid rgba(0,0,0,0.04)" }}>
                   <span className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: a.is_online ? POUNAMU : RED, boxShadow: a.is_online ? `0 0 6px ${POUNAMU}80` : "none" }} />
-                  <span className="text-xs font-medium truncate" style={{ color: "#3D4250", fontFamily: "'JetBrains Mono', monospace" }}>{a.agent_id}</span>
+                  <span className="text-xs font-medium truncate" style={{ color: "#3D4250", fontFamily: "'IBM Plex Mono', monospace" }}>{a.agent_id}</span>
                 </div>
               ))}
             </div>
@@ -110,7 +110,7 @@ export default function StatusPage() {
                     <CheckCircle2 size={13} style={{ color: POUNAMU, flexShrink: 0 }} />
                     <span className="text-xs sm:text-sm truncate" style={{ color: "#3D4250" }}>{s.name}</span>
                   </div>
-                  <span className="text-[10px] sm:text-xs whitespace-nowrap" style={{ color: "#8B92A0", fontFamily: "'JetBrains Mono', monospace" }}>
+                  <span className="text-[10px] sm:text-xs whitespace-nowrap" style={{ color: "#8B92A0", fontFamily: "'IBM Plex Mono', monospace" }}>
                     {s.last_checked_at ? timeAgo(new Date(s.last_checked_at)) : "—"}
                   </span>
                 </div>
@@ -119,7 +119,7 @@ export default function StatusPage() {
           )}
         </Section>
 
-        <p className="text-center text-[11px] text-muted-foreground mt-10" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+        <p className="text-center text-[11px] text-muted-foreground mt-10" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
           Status updates every 60 seconds. Daily compliance scan runs 5am NZST.
         </p>
       </main>
@@ -133,7 +133,7 @@ function MetricCard({ icon: Icon, label, value, sub, loading, accent }: { icon: 
     <div className="p-5 rounded-2xl" style={{ background: "rgba(255,255,255,0.75)", border: `1px solid ${accent}22`, backdropFilter: "blur(20px)", boxShadow: `0 8px 24px -8px ${accent}1f` }}>
       <div className="flex items-center gap-2 mb-2">
         <Icon size={14} style={{ color: accent }} />
-        <span className="text-[11px] uppercase tracking-wider" style={{ color: "#5B6374", fontFamily: "'JetBrains Mono', monospace" }}>{label}</span>
+        <span className="text-[11px] uppercase tracking-wider" style={{ color: "#5B6374", fontFamily: "'IBM Plex Mono', monospace" }}>{label}</span>
       </div>
       {loading ? (
         <div className="h-8 w-20 rounded-md animate-pulse" style={{ background: `${accent}20` }} />

@@ -78,7 +78,7 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
 
           <Link to="/admin/dashboard" className="flex items-center gap-2 shrink-0">
             <img loading="lazy" decoding="async" src={assemblMark} alt="Assembl" className="w-6 h-6 object-contain" />
-            <span style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
+            <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
               className="text-xs tracking-[3px] uppercase text-[#3D4250] hidden sm:inline">
               ASSEMBL
             </span>
@@ -93,12 +93,12 @@ const AdminShell: React.FC<AdminShellProps> = ({ title, subtitle, icon, actions,
             <div className="flex items-center gap-2">
               {icon}
               <div className="min-w-0">
-                <h1 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
+                <h1 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
                   className="text-base sm:text-lg tracking-[2px] uppercase text-[#3D4250] truncate">
                   {title}
                 </h1>
                 {subtitle && (
-                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  <p style={{ fontFamily: "'Inter', sans-serif" }}
                     className="text-[11px] text-[#3D4250]/50 truncate">
                     {subtitle}
                   </p>

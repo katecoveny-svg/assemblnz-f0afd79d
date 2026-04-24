@@ -75,7 +75,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="uppercase mb-6"
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "'IBM Plex Mono', monospace",
             fontSize: 11,
             letterSpacing: "0.32em",
             color: "#3A7D6E",
@@ -90,7 +90,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
           className="max-w-[18ch]"
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 200,
             fontSize: "clamp(44px, 8.5vw, 120px)",
             lineHeight: 0.98,
@@ -127,7 +127,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
           className="max-w-[60ch] mt-7"
           style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontSize: 17,
             lineHeight: 1.65,
             color: "#3D4250CC",
@@ -149,7 +149,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
             style={{
               background: "#3A7D6E",
               color: "#fff",
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               fontSize: 12,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
@@ -168,7 +168,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
               backdropFilter: "blur(20px)",
               border: "1px solid rgba(58,125,110,0.25)",
               color: "#3D4250",
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               fontSize: 12,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
@@ -185,7 +185,7 @@ export default function HeroNext({ variant }: { variant: "shader" | "layered" })
           transition={{ delay: 1.2, duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 uppercase"
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "'IBM Plex Mono', monospace",
             fontSize: 10,
             letterSpacing: "0.32em",
             color: "#3D4250",

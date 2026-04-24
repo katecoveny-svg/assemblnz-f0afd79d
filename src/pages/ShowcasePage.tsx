@@ -118,7 +118,7 @@ const BRAND_CLIPS = [
 function Eyebrow({ children, color = C.teal }: { children: React.ReactNode; color?: string }) {
   return (
     <p className="text-[11px] uppercase tracking-[3px] mb-4"
-      style={{ fontFamily: "'JetBrains Mono', monospace", color }}>
+      style={{ fontFamily: "'IBM Plex Mono', monospace", color }}>
       {children}
     </p>
   );
@@ -127,7 +127,7 @@ function Eyebrow({ children, color = C.teal }: { children: React.ReactNode; colo
 function H2({ children }: { children: React.ReactNode }) {
   return (
     <h2 className="text-3xl md:text-5xl tracking-[3px] uppercase mb-4"
-      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: C.text }}>
+      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.text }}>
       {children}
     </h2>
   );
@@ -136,7 +136,7 @@ function H2({ children }: { children: React.ReactNode }) {
 function Sub({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
-      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}>
+      style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}>
       {children}
     </p>
   );
@@ -211,7 +211,7 @@ function VideoCard({
             <Play size={20} style={{ color: accent }} />
           </div>
           <p className="text-[11px] uppercase tracking-[2px]"
-            style={{ fontFamily: "'JetBrains Mono', monospace", color: `${accent}CC` }}>
+            style={{ fontFamily: "'IBM Plex Mono', monospace", color: `${accent}CC` }}>
             Video coming soon
           </p>
         </div>
@@ -222,7 +222,7 @@ function VideoCard({
           <span
             className="self-start text-[10px] uppercase tracking-[1.5px] px-2.5 py-1 rounded-full"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               color: accent,
               background: `${accent}1F`,
             }}
@@ -231,11 +231,11 @@ function VideoCard({
           </span>
         )}
         <h3 className="text-[16px] leading-snug"
-          style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: C.text }}>
+          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: C.text }}>
           {title}
         </h3>
         <p className="text-[13px] leading-relaxed"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}>
+          style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}>
           {description}
         </p>
       </div>
@@ -278,13 +278,13 @@ export default function ShowcasePage() {
           <Eyebrow>Kia Ora · Showcase</Eyebrow>
           <h1
             className="text-4xl md:text-6xl tracking-[3px] uppercase mb-5"
-            style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: C.text }}
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: C.text }}
           >
             See It In Action
           </h1>
           <p
             className="text-lg leading-relaxed max-w-2xl mx-auto"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}
+            style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}
           >
             AI agents working across five NZ industries — built for the laws and language of Aotearoa.
           </p>
@@ -432,7 +432,7 @@ export default function ShowcasePage() {
         >
           <H2>Want to see more?</H2>
           <p className="text-base mb-8 leading-relaxed"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: C.textSecondary }}>
+            style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}>
             The platform is live. Book a walkthrough and we'll show you the agents in action.
           </p>
           <button
@@ -442,7 +442,7 @@ export default function ShowcasePage() {
               background: `linear-gradient(145deg, #55BFC1, ${C.teal})`,
               color: "#FFFFFF",
               boxShadow: `0 6px 24px rgba(74,165,168,0.35), 0 2px 8px rgba(74,165,168,0.2), inset 0 1px 0 rgba(255,255,255,0.3)`,
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               textShadow: "0 1px 2px rgba(0,0,0,0.15)",
             }}
           >

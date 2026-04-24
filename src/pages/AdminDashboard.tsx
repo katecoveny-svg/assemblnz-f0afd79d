@@ -222,12 +222,12 @@ const AdminDashboard = () => {
           <Icon className="w-4 h-4" style={{ color }} />
         </div>
         <h1 className="text-2xl font-light tracking-[3px] uppercase"
-          style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>
+          style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}>
           {title}
         </h1>
       </div>
       {subtitle && (
-        <p className="text-sm ml-11" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+        <p className="text-sm ml-11" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
           {subtitle}
         </p>
       )}
@@ -262,7 +262,7 @@ const AdminDashboard = () => {
         <div className="flex items-center gap-2">
           <Shield className="w-4 h-4" style={{ color: "#C85A54" }} />
           <span className="text-xs tracking-[3px] uppercase font-light"
-            style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}>Command</span>
+            style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}>Command</span>
         </div>
         <button onClick={() => setMobileNav(!mobileNav)} className="p-2" style={{ color: "#6B7280" }}>
           {mobileNav ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -322,9 +322,9 @@ const AdminDashboard = () => {
                       <GlassCard key={m.label} className="p-6" accent={m.color}>
                         <m.icon className="w-5 h-5 mb-3" style={{ color: m.color }} />
                         <p className="text-3xl font-bold text-[#2D3140] tabular-nums mb-1"
-                          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{m.value}</p>
+                          style={{ fontFamily: "'Inter', sans-serif" }}>{m.value}</p>
                         <p className="text-[11px] text-gray-400 uppercase tracking-wider"
-                          style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.label}</p>
+                          style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{m.label}</p>
                       </GlassCard>
                     ))}
                   </div>

@@ -243,7 +243,7 @@ const CapabilitiesPage = () => {
                     <div
                       className="text-[11px] uppercase tracking-wider pt-4"
                       style={{
-                        fontFamily: "'JetBrains Mono', monospace",
+                        fontFamily: "'IBM Plex Mono', monospace",
                         color: PEARL.pounamu,
                         borderTop: `1px solid ${PEARL.seaGlass}`,
                       }}

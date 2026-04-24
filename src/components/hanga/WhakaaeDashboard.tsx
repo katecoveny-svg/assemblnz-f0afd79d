@@ -152,12 +152,12 @@ export default function WhakaaeDashboard() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Shield size={20} style={{ color: "#1A3A5C" }} />
-            <span className="text-xs tracking-widest uppercase" style={{ color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
+            <span className="text-xs tracking-widest uppercase" style={{ color: "#5A8AB5", fontFamily: "IBM Plex Mono" }}>Waihanga Construction Suite</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
+          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
             WHAKAAĒ — Consenting &amp; Compliance
           </h1>
-          <p className="text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-sm mt-1" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>
             Building &amp; resource consent tracking, E2 weathertightness, RFI management &amp; condition compliance
           </p>
         </div>
@@ -177,8 +177,8 @@ export default function WhakaaeDashboard() {
                     <span style={{ color: s.accent }}>{s.icon}</span>
                   </div>
                 </div>
-                <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
-                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+                <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.value}</p>
+                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
               </div>
             </Glass>
           ))}
@@ -187,7 +187,7 @@ export default function WhakaaeDashboard() {
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
           {tabs.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(26,58,92,0.25)" : "transparent", color: tab === t.id ? "#5A8AB5" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(26,58,92,0.4)" : "1px solid transparent" }}>
+            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Inter", background: tab === t.id ? "rgba(26,58,92,0.25)" : "transparent", color: tab === t.id ? "#5A8AB5" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(26,58,92,0.4)" : "1px solid transparent" }}>
               {t.icon} {t.label}
             </button>
           ))}
@@ -206,16 +206,16 @@ export default function WhakaaeDashboard() {
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-xs font-mono" style={{ color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{c.reference}</span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${consentTypeColor[c.type]}25`, color: consentTypeColor[c.type], fontFamily: "JetBrains Mono" }}>
+                          <span className="text-xs font-mono" style={{ color: "#5A8AB5", fontFamily: "IBM Plex Mono" }}>{c.reference}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: `${consentTypeColor[c.type]}25`, color: consentTypeColor[c.type], fontFamily: "IBM Plex Mono" }}>
                             {consentTypeLabel[c.type]}
                           </span>
                           {isExpired && (
-                            <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "JetBrains Mono" }}>Expired</span>
+                            <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "IBM Plex Mono" }}>Expired</span>
                           )}
                         </div>
-                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{c.projectName}</p>
-                        <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>{c.council} · {c.officer}</p>
+                        <p className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{c.projectName}</p>
+                        <p className="text-[10px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.4)" }}>{c.council} · {c.officer}</p>
                       </div>
                       <ChevronRight size={14} className="flex-shrink-0 mt-1 transition-transform" style={{ color: "rgba(255,255,255,0.3)", transform: isOpen ? "rotate(90deg)" : "rotate(0)" }} />
                     </div>
@@ -236,7 +236,7 @@ export default function WhakaaeDashboard() {
                                 boxShadow: isCurrent ? `0 0 8px ${isRFI ? "rgba(74,165,168,0.4)" : "rgba(26,58,92,0.5)"}` : "none",
                               }} />
                               <span className="block text-center text-[8px] mt-1" style={{
-                                fontFamily: "JetBrains Mono",
+                                fontFamily: "IBM Plex Mono",
                                 color: isComplete ? (isRFI ? "#4AA5A8" : "#5A8AB5") : "rgba(255,255,255,0.25)",
                               }}>
                                 {consentStepLabel[step]}
@@ -253,7 +253,7 @@ export default function WhakaaeDashboard() {
                         <div className="flex-1 h-1 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                           <div className="h-full rounded-full" style={{ width: `${(c.conditionsMet / c.conditions) * 100}%`, background: "linear-gradient(90deg, #3A7D6E, #5AADA0)" }} />
                         </div>
-                        <span className="text-[9px] font-mono" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                        <span className="text-[9px] font-mono" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                           {c.conditionsMet}/{c.conditions} conditions
                         </span>
                       </div>
@@ -261,8 +261,8 @@ export default function WhakaaeDashboard() {
                   </button>
 
                   {isOpen && (
-                    <div className="px-4 pb-4 space-y-2 text-[10px]" style={{ borderTop: "1px solid rgba(26,58,92,0.2)", fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.45)" }}>
-                      <p className="pt-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{c.description}</p>
+                    <div className="px-4 pb-4 space-y-2 text-[10px]" style={{ borderTop: "1px solid rgba(26,58,92,0.2)", fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.45)" }}>
+                      <p className="pt-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>{c.description}</p>
                       <div className="grid grid-cols-2 gap-2 mt-2">
                         {c.lodgedDate && <span>Lodged: {c.lodgedDate}</span>}
                         {c.decisionDate && <span>Decision: {c.decisionDate}</span>}
@@ -284,11 +284,11 @@ export default function WhakaaeDashboard() {
               <div className="p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <Shield size={16} style={{ color: "#5A8AB5" }} />
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+                  <h3 className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
                     E2/AS1 Weathertightness Risk Matrix Calculator
                   </h3>
                 </div>
-                <p className="text-xs mb-4" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
+                <p className="text-xs mb-4" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>
                   Per NZBC Clause E2 — External Moisture. This matrix determines the risk category for the building envelope, 
                   which dictates the level of specific design required under E2/AS1, Table 2.
                 </p>
@@ -297,7 +297,7 @@ export default function WhakaaeDashboard() {
                 <div className="space-y-2">
                   {e2Risks.map((r, i) => (
                     <div key={r.factor} className="p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
-                      <p className="text-xs mb-2" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{r.factor}</p>
+                      <p className="text-xs mb-2" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{r.factor}</p>
                       <div className="grid grid-cols-3 gap-2">
                         {(["low", "medium", "high"] as const).map(level => (
                           <button
@@ -309,7 +309,7 @@ export default function WhakaaeDashboard() {
                             }}
                             className="px-2 py-1.5 rounded-lg text-[9px] text-left transition-all"
                             style={{
-                              fontFamily: "JetBrains Mono",
+                              fontFamily: "IBM Plex Mono",
                               background: r.selected === level ? `${riskLevelColor(level)}15` : "rgba(255,255,255,0.5)",
                               border: `1px solid ${r.selected === level ? `${riskLevelColor(level)}40` : "rgba(255,255,255,0.5)"}`,
                               color: r.selected === level ? riskLevelColor(level) : "rgba(255,255,255,0.35)",
@@ -329,20 +329,20 @@ export default function WhakaaeDashboard() {
             <Glass glow={e2Pct > 66}>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Risk Assessment Result</h3>
-                  <span className="text-lg font-light px-3 py-1 rounded-xl" style={{ fontFamily: "Lato", color: e2Color, background: `${e2Color}15`, border: `1px solid ${e2Color}30` }}>
+                  <h3 className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Risk Assessment Result</h3>
+                  <span className="text-lg font-light px-3 py-1 rounded-xl" style={{ fontFamily: "Inter", color: e2Color, background: `${e2Color}15`, border: `1px solid ${e2Color}30` }}>
                     {e2Category}
                   </span>
                 </div>
                 <div className="h-3 rounded-full mb-2" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div className="h-full rounded-full transition-all" style={{ width: `${e2Pct}%`, background: `linear-gradient(90deg, #3A7D6E, ${e2Color})` }} />
                 </div>
-                <div className="flex justify-between text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                <div className="flex justify-between text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                   <span>Low risk — E2/AS1 acceptable solution</span>
                   <span>High risk — Specific design required (E2/VM1)</span>
                 </div>
                 <div className="mt-3 p-3 rounded-lg" style={{ background: `${e2Color}08`, border: `1px solid ${e2Color}20` }}>
-                  <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>
+                  <p className="text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>
                     {e2Pct <= 33
                       ? "Building can proceed with E2/AS1 acceptable solutions. Standard cavity construction with code-compliant flashings."
                       : e2Pct <= 66
@@ -366,14 +366,14 @@ export default function WhakaaeDashboard() {
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <span className="text-xs font-mono" style={{ color: isOutstanding ? "#EF4444" : "#5A8AB5", fontFamily: "JetBrains Mono" }}>{r.rfiNumber}</span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: isOutstanding ? "rgba(239,68,68,0.15)" : "rgba(58,125,110,0.15)", color: isOutstanding ? "#EF4444" : "#3A7D6E", fontFamily: "JetBrains Mono" }}>
+                          <span className="text-xs font-mono" style={{ color: isOutstanding ? "#EF4444" : "#5A8AB5", fontFamily: "IBM Plex Mono" }}>{r.rfiNumber}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: isOutstanding ? "rgba(239,68,68,0.15)" : "rgba(58,125,110,0.15)", color: isOutstanding ? "#EF4444" : "#3A7D6E", fontFamily: "IBM Plex Mono" }}>
                             {r.status}
                           </span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{r.category}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "IBM Plex Mono" }}>{r.category}</span>
                         </div>
-                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{r.subject}</p>
-                        <div className="flex gap-4 mt-1.5 text-[10px] flex-wrap" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                        <p className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{r.subject}</p>
+                        <div className="flex gap-4 mt-1.5 text-[10px] flex-wrap" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                           <span>Consent: {r.consentRef}</span>
                           <span>Issued: {r.issuedDate}</span>
                           <span style={{ color: isOutstanding ? "#EF4444" : "rgba(255,255,255,0.4)" }}>
@@ -381,10 +381,10 @@ export default function WhakaaeDashboard() {
                           </span>
                           {r.respondedDate && <span style={{ color: "#3A7D6E" }}>Responded: {r.respondedDate}</span>}
                         </div>
-                        <p className="text-[10px] mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.35)" }}>From: {r.issuedBy}</p>
+                        <p className="text-[10px] mt-1" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.35)" }}>From: {r.issuedBy}</p>
                       </div>
                       {isOutstanding && (
-                        <button className="px-3 py-1.5 rounded-lg text-[10px] font-medium flex-shrink-0" style={{ fontFamily: "Plus Jakarta Sans", background: "rgba(26,58,92,0.3)", color: "#5A8AB5", border: "1px solid rgba(26,58,92,0.4)" }}>
+                        <button className="px-3 py-1.5 rounded-lg text-[10px] font-medium flex-shrink-0" style={{ fontFamily: "Inter", background: "rgba(26,58,92,0.3)", color: "#5A8AB5", border: "1px solid rgba(26,58,92,0.4)" }}>
                           Respond
                         </button>
                       )}
@@ -408,14 +408,14 @@ export default function WhakaaeDashboard() {
                       <div className="flex-1">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <Umbrella size={14} style={{ color: "#5A8AB5" }} />
-                          <span className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{p.policyType}</span>
+                          <span className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{p.policyType}</span>
                           <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
                             background: isRenewal ? "rgba(74,165,168,0.15)" : "rgba(58,125,110,0.15)",
                             color: isRenewal ? "#4AA5A8" : "#3A7D6E",
-                            fontFamily: "JetBrains Mono",
+                            fontFamily: "IBM Plex Mono",
                           }}>{p.status}</span>
                         </div>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.45)" }}>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2 text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.45)" }}>
                           <div>
                             <span className="block text-[8px] uppercase" style={{ color: "rgba(255,255,255,0.25)" }}>Provider</span>
                             {p.provider}
@@ -433,7 +433,7 @@ export default function WhakaaeDashboard() {
                             <span style={{ color: isRenewal ? "#4AA5A8" : "rgba(255,255,255,0.45)" }}>{p.expiryDate}</span>
                           </div>
                         </div>
-                        <p className="text-[10px] mt-2" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.35)" }}>
+                        <p className="text-[10px] mt-2" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.35)" }}>
                           {p.holder} · {p.notes}
                         </p>
                       </div>
@@ -452,15 +452,15 @@ export default function WhakaaeDashboard() {
             <Glass navy>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Condition Compliance Progress</h3>
-                  <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#5A8AB5" }}>
+                  <h3 className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Condition Compliance Progress</h3>
+                  <span className="text-lg font-light" style={{ fontFamily: "Inter", color: "#5A8AB5" }}>
                     {Math.round(((totalConditions - conditionsToMeet) / totalConditions) * 100)}%
                   </span>
                 </div>
                 <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div className="h-full rounded-full" style={{ width: `${((totalConditions - conditionsToMeet) / totalConditions) * 100}%`, background: "linear-gradient(90deg, #1A3A5C, #5A8AB5)" }} />
                 </div>
-                <p className="text-[10px] mt-1.5" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                <p className="text-[10px] mt-1.5" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                   {totalConditions - conditionsToMeet} of {totalConditions} conditions signed off
                 </p>
               </div>
@@ -480,14 +480,14 @@ export default function WhakaaeDashboard() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                        <span className="text-[10px] font-mono" style={{ color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{c.conditionNumber}</span>
-                        <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "JetBrains Mono" }}>{c.category}</span>
-                        <span className="text-[9px] font-mono" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>{c.consentRef}</span>
+                        <span className="text-[10px] font-mono" style={{ color: "#5A8AB5", fontFamily: "IBM Plex Mono" }}>{c.conditionNumber}</span>
+                        <span className="px-1.5 py-0.5 rounded text-[8px]" style={{ background: "rgba(26,58,92,0.2)", color: "#5A8AB5", fontFamily: "IBM Plex Mono" }}>{c.category}</span>
+                        <span className="text-[9px] font-mono" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>{c.consentRef}</span>
                       </div>
-                      <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: c.signedOff ? "rgba(255,255,255,0.4)" : "#FFFFFF", textDecoration: c.signedOff ? "line-through" : "none" }}>
+                      <p className="text-xs" style={{ fontFamily: "Inter", color: c.signedOff ? "rgba(255,255,255,0.4)" : "#FFFFFF", textDecoration: c.signedOff ? "line-through" : "none" }}>
                         {c.description}
                       </p>
-                      <div className="flex gap-3 mt-1 text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                      <div className="flex gap-3 mt-1 text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                         <span>Due: {c.dueDate}</span>
                         {c.signedOff && <span style={{ color: "#3A7D6E" }}>✓ {c.signedOffBy} · {c.signedOffDate}</span>}
                         <span>{c.evidence}</span>
@@ -502,7 +502,7 @@ export default function WhakaaeDashboard() {
 
         {/* Footer */}
         <div className="text-center pt-4">
-          <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
+          <p className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.2)" }}>
             WHAKAAĒ — Consenting &amp; Compliance · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>

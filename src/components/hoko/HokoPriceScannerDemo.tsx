@@ -90,7 +90,7 @@ export default function HokoPriceScannerDemo({
     <div className="grid lg:grid-cols-[260px_1fr] gap-5">
       {/* SKU picker */}
       <div className="space-y-2">
-        <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+        <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
           Top monitored SKUs
         </p>
         {SAMPLE_DATA.map((r, i) => {
@@ -107,7 +107,7 @@ export default function HokoPriceScannerDemo({
             >
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: sev }} />
-                <span className="text-[10px] tracking-wider" style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+                <span className="text-[10px] tracking-wider" style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
                   {r.sku}
                 </span>
               </div>
@@ -124,7 +124,7 @@ export default function HokoPriceScannerDemo({
           style={{
             background: accent, color: "white",
             boxShadow: `0 6px 20px ${accent}40`,
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "'IBM Plex Mono', monospace",
           }}
         >
           ▶ Re-run pipeline
@@ -152,7 +152,7 @@ export default function HokoPriceScannerDemo({
                   opacity: stage >= i ? 1 : 0.4,
                 }}
               >
-                <div className="text-[9px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}>
+                <div className="text-[9px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}>
                   {s.name}
                 </div>
                 <div className="text-[11px] mt-0.5" style={{ color: "#3D4250" }}>{s.role}</div>
@@ -168,16 +168,16 @@ export default function HokoPriceScannerDemo({
         {/* Row header */}
         <div className="flex items-start justify-between gap-3 pb-4 mb-4 border-b" style={{ borderColor: "rgba(0,0,0,0.06)" }}>
           <div>
-            <div className="text-[10px] tracking-wider mb-1" style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+            <div className="text-[10px] tracking-wider mb-1" style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
               {row.sku}
             </div>
             <h4 className="text-base font-medium" style={{ color: "#3D4250" }}>{row.name}</h4>
-            <div className="mt-2 text-2xl font-light" style={{ color: accent, fontFamily: "'Lato', sans-serif" }}>
+            <div className="mt-2 text-2xl font-light" style={{ color: accent, fontFamily: "'Inter', sans-serif" }}>
               ${row.yourPrice.toFixed(2)} <span className="text-xs" style={{ color: "#9CA3AF" }}>your retail price</span>
             </div>
           </div>
           <div className="text-right shrink-0">
-            <span className="text-[11px] px-2 py-1 rounded-full" style={{ background: `${sevColor}15`, color: sevColor, fontFamily: "'JetBrains Mono', monospace" }}>
+            <span className="text-[11px] px-2 py-1 rounded-full" style={{ background: `${sevColor}15`, color: sevColor, fontFamily: "'IBM Plex Mono', monospace" }}>
               {sevLabel}
             </span>
           </div>
@@ -193,7 +193,7 @@ export default function HokoPriceScannerDemo({
               transition={{ duration: 0.4 }}
               className="space-y-2 mb-5"
             >
-              <p className="text-[10px] tracking-[3px] uppercase mb-2" style={{ color: "#9CA3AF", fontFamily: "'JetBrains Mono', monospace" }}>
+              <p className="text-[10px] tracking-[3px] uppercase mb-2" style={{ color: "#9CA3AF", fontFamily: "'IBM Plex Mono', monospace" }}>
                 Competitor scan · honest comparison
               </p>
               {row.competitors.map((c, i) => {
@@ -227,7 +227,7 @@ export default function HokoPriceScannerDemo({
                     <div className="w-16 text-right shrink-0">
                       <span className="text-[11px] font-medium" style={{
                         color: gap > 15 ? "#C66B5C" : gap > 0 ? "#4AA5A8" : "#3A7D6E",
-                        fontFamily: "'JetBrains Mono', monospace",
+                        fontFamily: "'IBM Plex Mono', monospace",
                       }}>
                         {gap > 0 ? "+" : ""}{gap.toFixed(0)}%
                       </span>
@@ -252,7 +252,7 @@ export default function HokoPriceScannerDemo({
             >
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles size={14} style={{ color: accent }} />
-                <span className="text-[10px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}>
+                <span className="text-[10px] tracking-[2px] uppercase" style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}>
                   NOVA · Defensive recommendation
                 </span>
               </div>
@@ -274,13 +274,13 @@ export default function HokoPriceScannerDemo({
               className="flex items-center justify-between gap-3 pt-4 border-t"
               style={{ borderColor: "rgba(0,0,0,0.06)" }}
             >
-              <div className="flex items-center gap-2 text-[11px]" style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+              <div className="flex items-center gap-2 text-[11px]" style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
                 <Check size={12} style={{ color: "#3A7D6E" }} />
                 AURA: Brief queued for Monday 7:00am · evidence pack written to MANA
               </div>
               <button
                 className="text-[11px] px-3 py-1.5 rounded-full font-medium transition-all hover:opacity-90"
-                style={{ background: accent, color: "white", fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ background: accent, color: "white", fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Approve & ship →
               </button>

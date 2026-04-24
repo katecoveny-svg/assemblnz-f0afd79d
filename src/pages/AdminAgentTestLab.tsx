@@ -143,7 +143,7 @@ const VERDICT_COLORS: Record<string, string> = { pass: "#5AADA0", warn: "#4AA5A8
 function VerdictPill({ label, value }: { label: string; value: string }) {
   return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px]"
-      style={{ fontFamily: "'JetBrains Mono', monospace", background: `${VERDICT_COLORS[value] || "#666"}20`, color: VERDICT_COLORS[value] || "#666", border: `1px solid ${VERDICT_COLORS[value] || "#666"}40` }}>
+      style={{ fontFamily: "'IBM Plex Mono', monospace", background: `${VERDICT_COLORS[value] || "#666"}20`, color: VERDICT_COLORS[value] || "#666", border: `1px solid ${VERDICT_COLORS[value] || "#666"}40` }}>
       <span className="w-1.5 h-1.5 rounded-full" style={{ background: VERDICT_COLORS[value] }} />
       {label}
     </span>
@@ -343,12 +343,12 @@ export default function AdminAgentTestLab() {
           <div className="space-y-4">
             <div className="flex items-center gap-2 mb-1">
               <ShieldAlert className="w-5 h-5" style={{ color: "#4AA5A8" }} />
-              <h2 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
+              <h2 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
                 className="text-base tracking-[2px] uppercase text-foreground">
                 Assembl Testing Protocols
               </h2>
             </div>
-            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            <p style={{ fontFamily: "'Inter', sans-serif" }}
               className="text-sm text-muted-foreground leading-relaxed max-w-4xl">
               Every Assembl agent passes through a <strong className="text-foreground">5-stage Governance Pipeline</strong> before
               any output reaches a user. This lab allows you to stress-test agents across four critical dimensions —
@@ -365,18 +365,18 @@ export default function AdminAgentTestLab() {
                 { stage: "Mana", label: "Assurance", desc: "Final governance and sovereignty check" },
               ].map(s => (
                 <div key={s.stage} className="rounded-xl p-3" style={{ background: "rgba(74,165,168,0.06)", border: "1px solid rgba(74,165,168,0.12)" }}>
-                  <div className="text-[10px] tracking-wider uppercase" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
+                  <div className="text-[10px] tracking-wider uppercase" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>
                     {s.stage}
                   </div>
-                  <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  <div style={{ fontFamily: "'Inter', sans-serif" }}
                     className="text-xs font-semibold text-foreground mt-0.5">{s.label}</div>
-                  <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                  <div style={{ fontFamily: "'Inter', sans-serif" }}
                     className="text-[10px] text-muted-foreground mt-0.5">{s.desc}</div>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-4 pt-2" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <div className="flex flex-wrap gap-4 pt-2" style={{ fontFamily: "'Inter', sans-serif" }}>
               <span className="text-[11px] text-muted-foreground">
                 <strong className="text-foreground">Data Sovereignty:</strong> All data handled as taonga under Te Mana Raraunga principles
               </span>
@@ -575,7 +575,7 @@ export default function AdminAgentTestLab() {
         {/* Legal & Compliance Documents */}
         <AdminGlassCard accent="#3A7D6E">
           <div className="space-y-3">
-            <h3 style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}
+            <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}
               className="text-xs tracking-[2px] uppercase text-muted-foreground">
               Supporting Legal & Compliance Documentation
             </h3>
@@ -590,13 +590,13 @@ export default function AdminAgentTestLab() {
               ].map(doc => (
                 <a key={doc.label} href={doc.to} target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 p-2.5 rounded-xl text-[11px] text-foreground/70 hover:text-foreground transition-colors"
-                  style={{ background: "rgba(58,125,110,0.06)", border: "1px solid rgba(58,125,110,0.1)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  style={{ background: "rgba(58,125,110,0.06)", border: "1px solid rgba(58,125,110,0.1)", fontFamily: "'Inter', sans-serif" }}>
                   <span>{doc.icon}</span>
                   <span>{doc.label}</span>
                 </a>
               ))}
             </div>
-            <p className="text-[10px] text-muted-foreground pt-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <p className="text-[10px] text-muted-foreground pt-1" style={{ fontFamily: "'Inter', sans-serif" }}>
               These documents form the legal and compliance foundation for the Assembl platform.
               All agent testing results are logged with tamper-evident audit trails aligned to the NZ Privacy Act 2020 and Te Mana Raraunga principles.
             </p>

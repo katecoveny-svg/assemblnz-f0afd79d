@@ -124,7 +124,7 @@ export default function PrivacyVault() {
               <Shield className="w-6 h-6" style={{ color: POUNAMU }} />
             </div>
             <div>
-              <h1 className="text-2xl font-light tracking-tight" style={{ color: TEXT, fontFamily: "'Lato', sans-serif" }}>Privacy & Governance</h1>
+              <h1 className="text-2xl font-light tracking-tight" style={{ color: TEXT, fontFamily: "'Inter', sans-serif" }}>Privacy & Governance</h1>
               <p className="text-sm" style={{ color: MUTED }}>NZ Privacy Act 2020 · Your data, your control</p>
             </div>
           </div>

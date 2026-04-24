@@ -186,7 +186,7 @@ function CodeBlock({
     <div className="relative group">
       <pre
         className="rounded-xl bg-foreground/[0.04] border border-foreground/10 p-4 sm:p-5 text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto text-foreground/85"
-        style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace" }}
+        style={{ fontFamily: "'IBM Plex Mono', ui-monospace, monospace" }}
       >
         {code}
       </pre>

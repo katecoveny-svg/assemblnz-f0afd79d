@@ -52,21 +52,21 @@ const ConfidenceScoringDemo = () => {
         <DemoProvesCard slug="confidence-scoring" />
 
         <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
-          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#A8DDDB" }}>
+          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#A8DDDB" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
+        <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
           Confidence Scoring
         </h1>
-        <p className="text-center text-sm mb-8" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.6)" }}>
+        <p className="text-center text-sm mb-8" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.6)" }}>
           Every substantive claim carries a confidence badge and a legislative citation
         </p>
 
         {/* Summary — liquid glass */}
         <div className="liquid-glass liquid-glass-pounamu rounded-2xl p-5 mb-8" style={{ borderColor: "rgba(58,125,110,0.2)" }}>
-          <div className="flex flex-wrap items-center gap-4 text-xs" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+          <div className="flex flex-wrap items-center gap-4 text-xs" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
             <span style={{ color: "rgba(245,240,232,0.6)" }}>{CLAIMS.length} claims</span>
             <span style={{ color: "#4FE4A7" }}>{high} high</span>
             <span style={{ color: "#A8DDDB" }}>{medium} medium</span>
@@ -77,7 +77,7 @@ const ConfidenceScoringDemo = () => {
 
         {/* Claims — liquid glass card */}
         <div className="liquid-glass rounded-2xl p-6 mb-8">
-          <p className="text-[10px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#7ECFC2" }}>
+          <p className="text-[10px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#7ECFC2" }}>
             Food Act 2014 — Food control plan requirements for a small café
           </p>
           <div className="space-y-0">
@@ -90,7 +90,7 @@ const ConfidenceScoringDemo = () => {
                     onMouseEnter={() => setHoveredClaim(i)}
                     onMouseLeave={() => setHoveredClaim(null)}
                     style={{
-                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      fontFamily: "'Inter', sans-serif",
                       fontSize: "14px",
                       lineHeight: "2",
                       color: "rgba(245,240,232,0.75)",
@@ -108,13 +108,13 @@ const ConfidenceScoringDemo = () => {
                       }}>
                       <div className="flex items-center gap-2 mb-2">
                         <span style={{ color: dot.color, fontSize: "10px" }}>{dot.emoji}</span>
-                        <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: dot.color }}>{claim.confidence} confidence</span>
+                        <span className="text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: dot.color }}>{claim.confidence} confidence</span>
                       </div>
                       <p className="text-xs mb-2" style={{ color: "rgba(245,240,232,0.5)" }}>
                         <a href={claim.link} target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">{claim.source} · {claim.section}</a>
                       </p>
                       <p className="text-xs mb-2" style={{ color: "rgba(245,240,232,0.6)" }}>{claim.reasoning}</p>
-                      <p className="text-[10px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(245,240,232,0.3)" }}>Last verified: {claim.lastVerified}</p>
+                      <p className="text-[10px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(245,240,232,0.3)" }}>Last verified: {claim.lastVerified}</p>
                     </motion.div>
                   )}
                 </div>
@@ -125,7 +125,7 @@ const ConfidenceScoringDemo = () => {
 
         {/* Sources — glass surface */}
         <div className="liquid-glass rounded-2xl p-5">
-          <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(245,240,232,0.4)" }}>
+          <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(245,240,232,0.4)" }}>
             26 verified NZ sources — daily scan at 05:00 NZST
           </p>
           <div className="flex flex-wrap gap-2">
@@ -133,7 +133,7 @@ const ConfidenceScoringDemo = () => {
               <span key={s} className="text-[10px] px-3 py-1.5 rounded-lg" style={{ 
                 background: "rgba(255,255,255,0.04)", 
                 color: "rgba(245,240,232,0.45)", 
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'IBM Plex Mono', monospace",
                 border: "1px solid rgba(255,255,255,0.06)",
               }}>
                 {s}

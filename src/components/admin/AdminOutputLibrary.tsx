@@ -133,11 +133,11 @@ export default function AdminOutputLibrary() {
         <div>
           <h2
             className="text-2xl font-light tracking-[3px] uppercase text-white/90"
-            style={{ fontFamily: "'Lato', sans-serif" }}
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Output Library
           </h2>
-          <p className="text-sm text-white/40 mt-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <p className="text-sm text-white/40 mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>
             {outputs.length} outputs across all agents and studios
           </p>
         </div>

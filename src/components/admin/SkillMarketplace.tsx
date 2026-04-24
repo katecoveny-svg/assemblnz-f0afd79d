@@ -126,7 +126,7 @@ const SkillMarketplace = () => {
           className="px-4 py-1.5 rounded-full text-xs font-display font-bold uppercase tracking-wider transition-all"
           style={{
             background: installed.has('worksafe-hs') ? 'hsl(var(--pounamu))' : 'transparent',
-            color: installed.has('worksafe-hs') ? '#09090F' : 'hsl(var(--kowhai))',
+            color: installed.has('worksafe-hs') ? '#3D3428' : 'hsl(var(--kowhai))',
             border: `1px solid ${installed.has('worksafe-hs') ? 'hsl(var(--pounamu))' : 'hsl(var(--kowhai))'}`,
           }}
         >
@@ -158,7 +158,7 @@ const SkillMarketplace = () => {
               className="px-3 py-1.5 rounded-lg text-[10px] font-display font-bold uppercase tracking-wider transition-all"
               style={{
                 background: category === cat ? 'hsl(var(--kowhai))' : 'rgba(255,255,255,0.03)',
-                color: category === cat ? '#09090F' : 'rgba(255,255,255,0.45)',
+                color: category === cat ? '#3D3428' : 'rgba(255,255,255,0.45)',
                 border: `1px solid ${category === cat ? 'hsl(var(--kowhai))' : 'rgba(255,255,255,0.08)'}`,
               }}
             >
@@ -245,7 +245,7 @@ const SkillMarketplace = () => {
                       className="px-3 py-1 rounded-full text-[10px] font-display font-bold uppercase tracking-wider transition-all"
                       style={{
                         background: isInstalled ? 'hsl(var(--pounamu))' : 'transparent',
-                        color: isInstalled ? '#09090F' : 'hsl(var(--kowhai))',
+                        color: isInstalled ? '#3D3428' : 'hsl(var(--kowhai))',
                         border: `1px solid ${isInstalled ? 'hsl(var(--pounamu))' : 'hsl(var(--kowhai))'}`,
                         opacity: isInstalled ? 0.7 : 1,
                       }}

@@ -20,7 +20,7 @@ export default function AdminShowcaseVideos() {
         <Link
           to="/admin/dashboard"
           className="inline-flex items-center gap-2 text-sm"
-          style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}
+          style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#3A7D6E" }}
         >
           <ArrowLeft size={14} /> Back to admin
         </Link>

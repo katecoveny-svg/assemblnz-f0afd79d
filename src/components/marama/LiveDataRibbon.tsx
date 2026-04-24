@@ -366,7 +366,7 @@ export default function LiveDataRibbon({
                 {t.sigil}
               </span>
               <span className="text-[11px] tracking-[0.5px] uppercase" style={{ color: "#6B7280" }}>{t.label}</span>
-              <span className="text-xs font-medium tabular-nums" style={{ color: "#1A1D29", fontFamily: "'JetBrains Mono', monospace" }}>
+              <span className="text-xs font-medium tabular-nums" style={{ color: "#1A1D29", fontFamily: "'IBM Plex Mono', monospace" }}>
                 {t.value}
               </span>
               <span className="opacity-30" style={{ color: "#6B7280" }}>·</span>

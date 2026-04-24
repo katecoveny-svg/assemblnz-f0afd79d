@@ -24,9 +24,9 @@ const C = {
 };
 
 const FONT = {
-  heading: "'Lato', sans-serif",
-  body: "'Plus Jakarta Sans', sans-serif",
-  mono: "'JetBrains Mono', monospace",
+  heading: "'Inter', sans-serif",
+  body: "'Inter', sans-serif",
+  mono: "'IBM Plex Mono', monospace",
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -276,11 +276,11 @@ function ResultRow({ icon, label, value, highlight }: { icon: React.ReactNode; l
     <div className="flex items-center justify-between py-1">
       <div className="flex items-center gap-3">
         {icon}
-        <span className="text-[13px]" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{label}</span>
+        <span className="text-[13px]" style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}>{label}</span>
       </div>
       <span
         className="text-[14px] font-medium"
-        style={{ color: highlight ? "#3A7D6E" : "#3D4250", fontFamily: "'JetBrains Mono', monospace" }}
+        style={{ color: highlight ? "#3A7D6E" : "#3D4250", fontFamily: "'IBM Plex Mono', monospace" }}
       >
         {value}
       </span>
@@ -292,10 +292,10 @@ function ResultRow({ icon, label, value, highlight }: { icon: React.ReactNode; l
 function SummaryRow({ label, value, color, large }: { label: string; value: string; color: string; large?: boolean }) {
   return (
     <div className="flex justify-between items-center">
-      <span className="text-[13px]" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{label}</span>
+      <span className="text-[13px]" style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}>{label}</span>
       <span
         className={large ? "text-2xl font-light" : "text-base font-medium"}
-        style={{ fontFamily: "'Lato', sans-serif", color }}
+        style={{ fontFamily: "'Inter', sans-serif", color }}
       >
         {value}
       </span>

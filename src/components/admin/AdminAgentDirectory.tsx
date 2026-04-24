@@ -70,11 +70,11 @@ export default function AdminAgentDirectory() {
       <div>
         <h2
           className="text-2xl font-light tracking-[3px] uppercase"
-          style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}
+          style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
         >
           Agent Directory
         </h2>
-        <p className="text-sm mt-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+        <p className="text-sm mt-1" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
           {agents.length} specialist agents across {KETE_CONFIG.length} kete + shared core
         </p>
       </div>
@@ -92,7 +92,7 @@ export default function AdminAgentDirectory() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="flex-1 bg-transparent text-sm outline-none"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#3D4250" }}
+            style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
           />
         </div>
         <div className="flex items-center gap-2 flex-wrap">
@@ -180,7 +180,7 @@ export default function AdminAgentDirectory() {
                 <div className="flex-1 min-w-0">
                   <p
                     className="text-sm font-bold tracking-wide"
-                    style={{ fontFamily: "'JetBrains Mono', monospace", color: "#2D3140" }}
+                    style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#2D3140" }}
                   >
                     {agent.name}
                   </p>
@@ -207,7 +207,7 @@ export default function AdminAgentDirectory() {
 
               <p
                 className="text-[11px] leading-relaxed mb-4 line-clamp-2"
-                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}
+                style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}
               >
                 {agent.role}
               </p>

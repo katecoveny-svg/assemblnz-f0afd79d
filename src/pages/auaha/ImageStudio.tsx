@@ -140,7 +140,7 @@ export default function ImageStudio() {
         <p className="text-[#9CA3AF] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Image Studio</p>
         <h1
           className="text-foreground text-2xl font-light uppercase tracking-[4px]"
-          style={{ fontFamily: "Lato, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         >
           PIXEL — Image Studio
         </h1>

@@ -136,7 +136,7 @@ export default function AkoTransparencyPackGenerator() {
         <div>
           <p
             className="text-[10px] tracking-[3px] uppercase mb-1"
-            style={{ color: AKO_BLUE, fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ color: AKO_BLUE, fontFamily: "'IBM Plex Mono', monospace" }}
           >
             NOVA-AKO · Workflow 2 · Live
           </p>
@@ -149,7 +149,7 @@ export default function AkoTransparencyPackGenerator() {
         </div>
         <div
           className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] tracking-[2px] uppercase"
-          style={{ background: "#FEF3C7", color: "#92400E", fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ background: "#FEF3C7", color: "#92400E", fontFamily: "'IBM Plex Mono', monospace" }}
         >
           <AlertTriangle size={10} /> High-risk kete
         </div>
@@ -165,7 +165,7 @@ export default function AkoTransparencyPackGenerator() {
       <Field label="Address" value={state.address} onChange={(v) => setState({ ...state, address: v })} />
       <div className="mt-3">
         <label className="block text-[10px] tracking-[2px] uppercase mb-1.5"
-          style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+          style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
           Policies held (one per line)
         </label>
         <textarea
@@ -177,7 +177,7 @@ export default function AkoTransparencyPackGenerator() {
             background: "rgba(255,255,255,0.7)",
             border: "1px solid rgba(123,167,199,0.2)",
             color: "#3D4250",
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "'IBM Plex Mono', monospace",
             fontSize: "12px",
           }}
         />
@@ -211,7 +211,7 @@ export default function AkoTransparencyPackGenerator() {
           >
             <div className="flex items-center justify-between mb-3">
               <p className="text-[10px] tracking-[2px] uppercase"
-                 style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+                 style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
                 MANA · Pack {pack.version} · {pack.mode === "ai" ? "AI-drafted" : "deterministic fallback"}
               </p>
               <p className="text-[10px]" style={{ color: "#6B7280" }}>
@@ -276,7 +276,7 @@ function Field({ label, value, onChange }: { label: string; value: string; onCha
   return (
     <div>
       <label className="block text-[10px] tracking-[2px] uppercase mb-1.5"
-        style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+        style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
         {label}
       </label>
       <input

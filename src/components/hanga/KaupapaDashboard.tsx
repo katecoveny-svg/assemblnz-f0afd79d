@@ -145,12 +145,12 @@ export default function KaupapaDashboard() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <FileCheck size={20} style={{ color: "#4AA5A8" }} />
-            <span className="text-xs tracking-widest uppercase" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>Waihanga Construction Suite</span>
+            <span className="text-xs tracking-widest uppercase" style={{ color: "#4AA5A8", fontFamily: "IBM Plex Mono" }}>Waihanga Construction Suite</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
+          <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
             KAUPAPA — Project Management
           </h1>
-          <p className="text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
+          <p className="text-sm mt-1" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>
             Payment claims, retention, variations &amp; budget tracking · Construction Contracts Act 2002 compliant
           </p>
         </div>
@@ -170,8 +170,8 @@ export default function KaupapaDashboard() {
                     <span style={{ color: s.accent }}>{s.icon}</span>
                   </div>
                 </div>
-                <p className="text-xl md:text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
-                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+                <p className="text-xl md:text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.value}</p>
+                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
               </div>
             </Glass>
           ))}
@@ -180,7 +180,7 @@ export default function KaupapaDashboard() {
         {/* Tabs */}
         <div className="flex gap-1 p-1 rounded-xl overflow-x-auto scrollbar-hide" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
           {tabs.map((t) => (
-            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Plus Jakarta Sans", background: tab === t.id ? "rgba(74,165,168,0.12)" : "transparent", color: tab === t.id ? "#4AA5A8" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(74,165,168,0.25)" : "1px solid transparent" }}>
+            <button key={t.id} onClick={() => setTab(t.id)} className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all whitespace-nowrap" style={{ fontFamily: "Inter", background: tab === t.id ? "rgba(74,165,168,0.12)" : "transparent", color: tab === t.id ? "#4AA5A8" : "rgba(255,255,255,0.4)", border: tab === t.id ? "1px solid rgba(74,165,168,0.25)" : "1px solid transparent" }}>
               {t.icon} {t.label}
             </button>
           ))}
@@ -194,7 +194,7 @@ export default function KaupapaDashboard() {
                 <thead>
                   <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                     {["Claim #", "Contractor", "Date", "Amount", "Retention", "Net", "CCA Form 1", "Response Due", "Status"].map(h => (
-                      <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
+                      <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -205,26 +205,26 @@ export default function KaupapaDashboard() {
                       <tr key={c.id} className="transition-colors" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
                         onMouseEnter={e => e.currentTarget.style.background = "rgba(74,165,168,0.04)"}
                         onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                        <td className="px-4 py-3 text-sm font-mono" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>{c.claimNumber}</td>
-                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.7)" }}>{c.contractor}</td>
-                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{c.claimDate}</td>
-                        <td className="px-4 py-3 text-sm font-mono" style={{ fontFamily: "JetBrains Mono", color: "#1A1D29" }}>{fmtFull(c.amount)}</td>
-                        <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.5)" }}>{fmtFull(c.retentionHeld)}</td>
-                        <td className="px-4 py-3 text-sm font-mono" style={{ fontFamily: "JetBrains Mono", color: "#1A1D29" }}>{fmtFull(c.netAmount)}</td>
+                        <td className="px-4 py-3 text-sm font-mono" style={{ color: "#4AA5A8", fontFamily: "IBM Plex Mono" }}>{c.claimNumber}</td>
+                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.7)" }}>{c.contractor}</td>
+                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{c.claimDate}</td>
+                        <td className="px-4 py-3 text-sm font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#1A1D29" }}>{fmtFull(c.amount)}</td>
+                        <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.5)" }}>{fmtFull(c.retentionHeld)}</td>
+                        <td className="px-4 py-3 text-sm font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#1A1D29" }}>{fmtFull(c.netAmount)}</td>
                         <td className="px-4 py-3">
                           {c.ccaForm1 ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.15)", color: "#3A7D6E", fontFamily: "JetBrains Mono" }}>
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(58,125,110,0.15)", color: "#3A7D6E", fontFamily: "IBM Plex Mono" }}>
                               <Shield size={10} /> Compliant
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "JetBrains Mono" }}>
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px]" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "IBM Plex Mono" }}>
                               <AlertTriangle size={10} /> Missing
                             </span>
                           )}
                         </td>
-                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{c.responseDueDate}</td>
+                        <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{c.responseDueDate}</td>
                         <td className="px-4 py-3">
-                          <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: cs.bg, color: cs.text, fontFamily: "JetBrains Mono" }}>{c.status}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: cs.bg, color: cs.text, fontFamily: "IBM Plex Mono" }}>{c.status}</span>
                         </td>
                       </tr>
                     );
@@ -234,7 +234,7 @@ export default function KaupapaDashboard() {
             </div>
             <div className="px-4 py-3 flex items-center gap-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
               <Shield size={12} style={{ color: "#3A7D6E" }} />
-              <span className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+              <span className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                 CCA Form 1 = Payment Claim form per Construction Contracts Act 2002, s.20
               </span>
             </div>
@@ -251,14 +251,14 @@ export default function KaupapaDashboard() {
                   <Shield size={20} style={{ color: "#4AA5A8" }} />
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium mb-1" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+                  <h3 className="text-sm font-medium mb-1" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
                     Retention Money Trust Account Requirements
                   </h3>
-                  <p className="text-xs leading-relaxed" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.55)" }}>
+                  <p className="text-xs leading-relaxed" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.55)" }}>
                     Under the <strong style={{ color: "#4AA5A8" }}>Construction Contracts (Retention Money) Amendment Act 2023</strong> (effective 5 October 2023), 
                     all retention money must be held on trust in a compliant trust account. The party holding retention must:
                   </p>
-                  <ul className="mt-2 space-y-1 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
+                  <ul className="mt-2 space-y-1 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>
                     <li className="flex items-start gap-2">
                       <CheckCircle2 size={12} className="mt-0.5 flex-shrink-0" style={{ color: "#3A7D6E" }} />
                       Hold funds in a separate, designated trust account
@@ -284,23 +284,23 @@ export default function KaupapaDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <Glass>
                 <div className="p-4">
-                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Total Retention Held</p>
-                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#4AA5A8" }}>{fmtFull(totalRetention)}</p>
+                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>Total Retention Held</p>
+                  <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#4AA5A8" }}>{fmtFull(totalRetention)}</p>
                 </div>
               </Glass>
               <Glass>
                 <div className="p-4">
-                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Trust Account Compliant</p>
-                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#3A7D6E" }}>
+                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>Trust Account Compliant</p>
+                  <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#3A7D6E" }}>
                     {SUBCONTRACTORS.filter(s => s.trustAccount && s.retentionHeld > 0).length} / {SUBCONTRACTORS.filter(s => s.retentionHeld > 0).length}
                   </p>
                 </div>
               </Glass>
               <Glass>
                 <div className="p-4">
-                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Retention Rate</p>
-                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>5%</p>
-                  <p className="text-[10px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.3)" }}>Standard contractual rate</p>
+                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>Retention Rate</p>
+                  <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>5%</p>
+                  <p className="text-[10px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.3)" }}>Standard contractual rate</p>
                 </div>
               </Glass>
             </div>
@@ -308,27 +308,27 @@ export default function KaupapaDashboard() {
             {/* Per-subcontractor retention */}
             <Glass>
               <div className="p-4">
-                <h3 className="text-xs uppercase tracking-wider mb-3" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Retention by Subcontractor</h3>
+                <h3 className="text-xs uppercase tracking-wider mb-3" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>Retention by Subcontractor</h3>
                 <div className="space-y-2">
                   {SUBCONTRACTORS.filter(s => s.retentionHeld > 0).map(s => (
                     <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{s.company}</p>
-                        <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>{s.trade}</p>
+                        <p className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.company}</p>
+                        <p className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>{s.trade}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(s.retentionHeld)}</p>
-                        <p className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                        <p className="text-sm font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#4AA5A8" }}>{fmtFull(s.retentionHeld)}</p>
+                        <p className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                           of {fmtFull(s.contractValue)} contract
                         </p>
                       </div>
                       <div className="flex-shrink-0">
                         {s.trustAccount ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[9px]" style={{ background: "rgba(58,125,110,0.15)", color: "#3A7D6E", fontFamily: "JetBrains Mono" }}>
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[9px]" style={{ background: "rgba(58,125,110,0.15)", color: "#3A7D6E", fontFamily: "IBM Plex Mono" }}>
                             <Shield size={10} /> Trust
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[9px]" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "JetBrains Mono" }}>
+                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[9px]" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", fontFamily: "IBM Plex Mono" }}>
                             <AlertTriangle size={10} /> No Trust
                           </span>
                         )}
@@ -353,9 +353,9 @@ export default function KaupapaDashboard() {
                   <Glass key={s}>
                     <div className="flex items-center gap-2 px-4 py-2.5">
                       <div className="w-2.5 h-2.5 rounded-full" style={{ background: varStatusColor[s] }} />
-                      <span className="text-xs capitalize" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{s}</span>
-                      <span className="text-sm font-light ml-1" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{count}</span>
-                      <span className="text-[10px] font-mono ml-1" style={{ fontFamily: "JetBrains Mono", color: varStatusColor[s] }}>
+                      <span className="text-xs capitalize" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>{s}</span>
+                      <span className="text-sm font-light ml-1" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{count}</span>
+                      <span className="text-[10px] font-mono ml-1" style={{ fontFamily: "IBM Plex Mono", color: varStatusColor[s] }}>
                         {totalCost >= 0 ? "+" : ""}{fmtFull(totalCost)}
                       </span>
                     </div>
@@ -373,11 +373,11 @@ export default function KaupapaDashboard() {
                     <div className="w-1 h-12 rounded-full flex-shrink-0" style={{ background: varStatusColor[v.status] }} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-xs font-mono" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>{v.variationNumber}</span>
-                        <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: `${varStatusColor[v.status]}20`, color: varStatusColor[v.status], fontFamily: "JetBrains Mono" }}>{v.status}</span>
+                        <span className="text-xs font-mono" style={{ color: "#4AA5A8", fontFamily: "IBM Plex Mono" }}>{v.variationNumber}</span>
+                        <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: `${varStatusColor[v.status]}20`, color: varStatusColor[v.status], fontFamily: "IBM Plex Mono" }}>{v.status}</span>
                       </div>
-                      <p className="text-sm mt-1 truncate" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{v.description}</p>
-                      <div className="flex gap-4 mt-1 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                      <p className="text-sm mt-1 truncate" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{v.description}</p>
+                      <div className="flex gap-4 mt-1 text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                         <span>Cost: <strong style={{ color: v.costImpact >= 0 ? "#EF4444" : "#3A7D6E" }}>{v.costImpact >= 0 ? "+" : ""}{fmtFull(v.costImpact)}</strong></span>
                         <span>Time: <strong style={{ color: v.timeImpactDays > 0 ? "#4AA5A8" : v.timeImpactDays < 0 ? "#3A7D6E" : "rgba(255,255,255,0.5)" }}>{v.timeImpactDays > 0 ? "+" : ""}{v.timeImpactDays} days</strong></span>
                       </div>
@@ -385,7 +385,7 @@ export default function KaupapaDashboard() {
                     <ChevronRight size={14} className="flex-shrink-0 transition-transform" style={{ color: "rgba(255,255,255,0.3)", transform: isOpen ? "rotate(90deg)" : "rotate(0)" }} />
                   </button>
                   {isOpen && (
-                    <div className="px-4 pb-4 space-y-1 text-[10px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                    <div className="px-4 pb-4 space-y-1 text-[10px]" style={{ borderTop: "1px solid rgba(255,255,255,0.5)", fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                       <div className="pt-3 grid grid-cols-2 gap-2">
                         <span>Requested by: {v.requestedBy}</span>
                         <span>Raised: {v.dateRaised}</span>
@@ -406,23 +406,23 @@ export default function KaupapaDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <Glass glow>
                 <div className="p-4">
-                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Total Budget</p>
-                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#4AA5A8" }}>{fmtFull(totalBudget)}</p>
+                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>Total Budget</p>
+                  <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#4AA5A8" }}>{fmtFull(totalBudget)}</p>
                 </div>
               </Glass>
               <Glass>
                 <div className="p-4">
-                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Spent to Date</p>
-                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{fmtFull(totalActual)}</p>
-                  <p className="text-[10px] mt-0.5" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>Spent to Date</p>
+                  <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{fmtFull(totalActual)}</p>
+                  <p className="text-[10px] mt-0.5" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                     {Math.round((totalActual / totalBudget) * 100)}% of budget
                   </p>
                 </div>
               </Glass>
               <Glass>
                 <div className="p-4">
-                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>Committed (Unspent)</p>
-                  <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A3A5C" }}>{fmtFull(BUDGET.reduce((s, b) => s + b.committed, 0))}</p>
+                  <p className="text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>Committed (Unspent)</p>
+                  <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A3A5C" }}>{fmtFull(BUDGET.reduce((s, b) => s + b.committed, 0))}</p>
                 </div>
               </Glass>
             </div>
@@ -430,7 +430,7 @@ export default function KaupapaDashboard() {
             {/* Burn rate chart (ASCII-style bar chart) */}
             <Glass>
               <div className="p-4">
-                <h3 className="text-xs uppercase tracking-wider mb-4" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                <h3 className="text-xs uppercase tracking-wider mb-4" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                   Burn Rate — Planned vs Actual ($000s)
                 </h3>
                 <div className="relative h-48 flex items-end gap-[2px]">
@@ -454,17 +454,17 @@ export default function KaupapaDashboard() {
                 </div>
                 <div className="flex gap-[2px] mt-1">
                   {BURN_MONTHS.map((m, i) => (
-                    <div key={`label-${m}-${i}`} className="flex-1 text-center text-[7px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.25)" }}>{m}</div>
+                    <div key={`label-${m}-${i}`} className="flex-1 text-center text-[7px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.25)" }}>{m}</div>
                   ))}
                 </div>
                 <div className="flex items-center gap-4 mt-3">
                   <div className="flex items-center gap-1.5">
                     <div className="w-3 h-3 rounded-sm" style={{ background: "#4AA5A8" }} />
-                    <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>Actual spend</span>
+                    <span className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>Actual spend</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full" style={{ background: "rgba(255,255,255,0.3)", border: "1px solid rgba(255,255,255,0.5)" }} />
-                    <span className="text-[9px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>Planned (S-curve)</span>
+                    <span className="text-[9px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>Planned (S-curve)</span>
                   </div>
                 </div>
               </div>
@@ -477,7 +477,7 @@ export default function KaupapaDashboard() {
                   <thead>
                     <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                       {["Category", "Planned", "Actual", "Committed", "Remaining", "% Used"].map(h => (
-                        <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
+                        <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -488,17 +488,17 @@ export default function KaupapaDashboard() {
                       const overBudget = remaining < 0;
                       return (
                         <tr key={b.category} style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
-                          <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{b.category}</td>
-                          <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.5)" }}>{fmtFull(b.planned)}</td>
-                          <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#1A1D29" }}>{fmtFull(b.actual)}</td>
-                          <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.5)" }}>{fmtFull(b.committed)}</td>
-                          <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: overBudget ? "#EF4444" : "#3A7D6E" }}>{fmtFull(remaining)}</td>
+                          <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{b.category}</td>
+                          <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.5)" }}>{fmtFull(b.planned)}</td>
+                          <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#1A1D29" }}>{fmtFull(b.actual)}</td>
+                          <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.5)" }}>{fmtFull(b.committed)}</td>
+                          <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: overBudget ? "#EF4444" : "#3A7D6E" }}>{fmtFull(remaining)}</td>
                           <td className="px-4 py-3">
                             <div className="flex items-center gap-2">
                               <div className="flex-1 h-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                                 <div className="h-full rounded-full" style={{ width: `${Math.min(pctUsed, 100)}%`, background: pctUsed > 90 ? "#EF4444" : pctUsed > 70 ? "#4AA5A8" : "#3A7D6E" }} />
                               </div>
-                              <span className="text-[9px] font-mono w-8 text-right" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>{pctUsed}%</span>
+                              <span className="text-[9px] font-mono w-8 text-right" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>{pctUsed}%</span>
                             </div>
                           </td>
                         </tr>
@@ -506,12 +506,12 @@ export default function KaupapaDashboard() {
                     })}
                     {/* Totals row */}
                     <tr style={{ borderTop: "2px solid rgba(74,165,168,0.2)" }}>
-                      <td className="px-4 py-3 text-xs font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#4AA5A8" }}>Total</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(totalBudget)}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(totalActual)}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(BUDGET.reduce((s, b) => s + b.committed, 0))}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#3A7D6E" }}>{fmtFull(budgetRemaining - BUDGET.reduce((s, b) => s + b.committed, 0))}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{Math.round((totalActual / totalBudget) * 100)}%</td>
+                      <td className="px-4 py-3 text-xs font-medium" style={{ fontFamily: "Inter", color: "#4AA5A8" }}>Total</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#4AA5A8" }}>{fmtFull(totalBudget)}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#4AA5A8" }}>{fmtFull(totalActual)}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#4AA5A8" }}>{fmtFull(BUDGET.reduce((s, b) => s + b.committed, 0))}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#3A7D6E" }}>{fmtFull(budgetRemaining - BUDGET.reduce((s, b) => s + b.committed, 0))}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#4AA5A8" }}>{Math.round((totalActual / totalBudget) * 100)}%</td>
                     </tr>
                   </tbody>
                 </table>
@@ -528,7 +528,7 @@ export default function KaupapaDashboard() {
                 <thead>
                   <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                     {["Company", "Trade", "Contract Value", "Retention Held", "Claims Paid", "Trust Acct", "Status", "Last Claim"].map(h => (
-                      <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
+                      <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -537,26 +537,26 @@ export default function KaupapaDashboard() {
                     <tr key={s.id} className="transition-colors" style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}
                       onMouseEnter={e => e.currentTarget.style.background = "rgba(74,165,168,0.04)"}
                       onMouseLeave={e => e.currentTarget.style.background = "transparent"}>
-                      <td className="px-4 py-3 text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{s.company}</td>
-                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{s.trade}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#1A1D29" }}>{fmtFull(s.contractValue)}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "#4AA5A8" }}>{fmtFull(s.retentionHeld)}</td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.5)" }}>{fmtFull(s.claimsPaid)}</td>
+                      <td className="px-4 py-3 text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.company}</td>
+                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>{s.trade}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#1A1D29" }}>{fmtFull(s.contractValue)}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "#4AA5A8" }}>{fmtFull(s.retentionHeld)}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.5)" }}>{fmtFull(s.claimsPaid)}</td>
                       <td className="px-4 py-3">
                         {s.trustAccount ? (
                           <Shield size={14} style={{ color: "#3A7D6E" }} />
                         ) : (
-                          <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: "rgba(239,68,68,0.1)", color: "#EF4444", fontFamily: "JetBrains Mono" }}>Required</span>
+                          <span className="text-[9px] px-2 py-0.5 rounded-full" style={{ background: "rgba(239,68,68,0.1)", color: "#EF4444", fontFamily: "IBM Plex Mono" }}>Required</span>
                         )}
                       </td>
                       <td className="px-4 py-3">
                         <span className="px-2 py-0.5 rounded-full text-[9px]" style={{
-                          fontFamily: "JetBrains Mono",
+                          fontFamily: "IBM Plex Mono",
                           background: s.status === "Active" ? "rgba(58,125,110,0.15)" : "rgba(74,165,168,0.15)",
                           color: s.status === "Active" ? "#3A7D6E" : "#4AA5A8",
                         }}>{s.status}</span>
                       </td>
-                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{s.lastClaim}</td>
+                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{s.lastClaim}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -567,7 +567,7 @@ export default function KaupapaDashboard() {
 
         {/* Footer */}
         <div className="text-center pt-4">
-          <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
+          <p className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.2)" }}>
             KAUPAPA — Project Management · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>

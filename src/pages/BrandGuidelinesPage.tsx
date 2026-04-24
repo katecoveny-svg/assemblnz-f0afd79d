@@ -108,13 +108,13 @@ export default function BrandGuidelinesPage() {
       {/* Hero */}
       <section className={`${SECTION_PAD} px-6`}>
         <div className="max-w-[1200px] mx-auto text-center">
-          <p className="text-[11px] tracking-[3px] uppercase mb-6" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>
+          <p className="text-[11px] tracking-[3px] uppercase mb-6" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}>
             Brand Guidelines v3
           </p>
           <h1 className={HEADING} style={{ color: "#1A1D29", fontFamily: "'Inter', sans-serif" }}>
             The Assembl Visual Identity
           </h1>
-          <p className={`${SUB} mx-auto`} style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <p className={`${SUB} mx-auto`} style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}>
             A library of specialist agents. Eight kete (seven industry + Tōro). One intelligence layer. This guide defines how Assembl looks,
             speaks, and feels across every touchpoint.
           </p>
@@ -132,11 +132,11 @@ export default function BrandGuidelinesPage() {
             </h2>
             <div className="space-y-6">
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
-                <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>One-line pitch</p>
+                <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>One-line pitch</p>
                 <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"A specialist agent library. Eight kete. One governed intelligence layer."</p>
               </div>
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
-                <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Elevator pitch</p>
+                <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Elevator pitch</p>
                 <p className="text-[15px] leading-[1.75]" style={{ color: "#6B7280" }}>
                   "Assembl is 44 AI agents that operate your NZ business — organised into five industry kete:
                   hospitality, construction, creative, automotive, and freight. They calculate your PAYE, write your
@@ -148,7 +148,7 @@ export default function BrandGuidelinesPage() {
           </div>
           <div className="space-y-6">
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>What Assembl is</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>What Assembl is</p>
               <ul className="space-y-2">
                 {["The operating system for NZ business", "44 AI agents across 5 industry kete", "One governed intelligence layer", "Trained on NZ legislation with section references"].map(t => (
                   <li key={t} className="flex items-start gap-3 text-[14px]" style={{ color: "#6B7280" }}>
@@ -159,7 +159,7 @@ export default function BrandGuidelinesPage() {
               </ul>
             </div>
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#E8A090", fontFamily: "'JetBrains Mono', monospace" }}>What Assembl is NOT</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#E8A090", fontFamily: "'IBM Plex Mono', monospace" }}>What Assembl is NOT</p>
               <ul className="space-y-2">
                 {["A chatbot platform", "A generic AI wrapper", "A dark-mode dashboard", "A cheaper version of something else"].map(t => (
                   <li key={t} className="flex items-start gap-3 text-[14px]" style={{ color: "#6B7280" }}>
@@ -170,7 +170,7 @@ export default function BrandGuidelinesPage() {
               </ul>
             </div>
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#B8A5D0", fontFamily: "'JetBrains Mono', monospace" }}>Brand personality</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#B8A5D0", fontFamily: "'IBM Plex Mono', monospace" }}>Brand personality</p>
               <p className="text-[15px] leading-[1.75]" style={{ color: "#6B7280" }}>
                 Light. Precise. Quietly powerful. We don't shout — we ship. The brand feels like a
                 tool built by someone who actually runs a business in Aotearoa.
@@ -225,25 +225,25 @@ export default function BrandGuidelinesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Surfaces</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Surfaces</p>
               <div className="space-y-5">
                 {COLOURS.primary.map(c => <ColourSwatch key={c.hex} hex={c.hex} name={c.name} sub={c.css} />)}
               </div>
             </div>
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Text</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Text</p>
               <div className="space-y-5">
                 {COLOURS.text.map(c => <ColourSwatch key={c.hex} hex={c.hex} name={c.name} sub={c.usage} />)}
               </div>
             </div>
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Accents</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Accents</p>
               <div className="space-y-5">
                 {COLOURS.accent.map(c => <ColourSwatch key={c.hex + c.name} hex={c.hex} name={c.name} sub={c.usage} />)}
               </div>
             </div>
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Kete Colours</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Kete Colours</p>
               <div className="space-y-5">
                 {COLOURS.kete.map(k => <ColourSwatch key={k.hex + k.name} hex={k.hex} name={k.name} sub={k.industry} />)}
               </div>
@@ -252,7 +252,7 @@ export default function BrandGuidelinesPage() {
 
           {/* Colour Rules */}
           <div className="rounded-3xl p-8" style={GLASS_CARD}>
-            <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#E8A090", fontFamily: "'JetBrains Mono', monospace" }}>Colours we NEVER use</p>
+            <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#E8A090", fontFamily: "'IBM Plex Mono', monospace" }}>Colours we NEVER use</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 "Pure black #000000 — always use #1A1D29",
@@ -286,13 +286,13 @@ export default function BrandGuidelinesPage() {
             {[
               { role: "Headings", font: "Inter", weight: "300, 400", sample: "The operating system for NZ business" },
               { role: "Body", font: "Inter", weight: "400, 500", sample: "Specialist workflows that reduce admin, surface risk earlier, and keep your people in control." },
-              { role: "Mono", font: "JetBrains Mono", weight: "400", sample: "46 agents · 8 kete · 1 brain" },
+              { role: "Mono", font: "IBM Plex Mono", weight: "400", sample: "46 agents · 8 kete · 1 brain" },
             ].map(t => (
               <div key={t.role} className="rounded-3xl p-8" style={GLASS_CARD}>
-                <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>{t.role}</p>
+                <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>{t.role}</p>
                 <p className="text-[11px] mb-4" style={{ color: "#9CA3AF" }}>{t.font} · Weight {t.weight}</p>
                 <p className="text-[18px] leading-[1.6]" style={{
-                  fontFamily: t.role === "Mono" ? "'JetBrains Mono', monospace" : "'Inter', sans-serif",
+                  fontFamily: t.role === "Mono" ? "'IBM Plex Mono', monospace" : "'Inter', sans-serif",
                   fontWeight: t.role === "Headings" ? 300 : 400,
                   color: "#1A1D29",
                 }}>{t.sample}</p>
@@ -302,7 +302,7 @@ export default function BrandGuidelinesPage() {
 
           {/* Type Scale */}
           <div className="rounded-3xl p-8" style={GLASS_CARD}>
-            <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Type Scale</p>
+            <p className="text-[12px] tracking-[2px] uppercase mb-6" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Type Scale</p>
             <div className="space-y-6">
               {[
                 { el: "Hero heading", size: "72px", weight: 300, tracking: "-0.02em" },
@@ -315,7 +315,7 @@ export default function BrandGuidelinesPage() {
                   <span style={{ fontSize: Math.min(parseInt(s.size), 36), fontWeight: s.weight, color: "#1A1D29", letterSpacing: s.tracking }}>
                     {s.el}
                   </span>
-                  <span className="text-[11px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}>
+                  <span className="text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF" }}>
                     {s.size} · {s.weight} · {s.tracking}
                   </span>
                 </div>
@@ -339,8 +339,8 @@ export default function BrandGuidelinesPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Glass Surface CSS</p>
-              <pre className="text-[12px] leading-[1.8] overflow-x-auto rounded-xl p-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280", background: "rgba(250,251,252,0.8)" }}>
+              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Glass Surface CSS</p>
+              <pre className="text-[12px] leading-[1.8] overflow-x-auto rounded-xl p-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#6B7280", background: "rgba(250,251,252,0.8)" }}>
 {`background: rgba(255,255,255,0.65);
 backdrop-filter: blur(20px) saturate(140%);
 border: 1px solid rgba(255,255,255,0.9);
@@ -352,7 +352,7 @@ box-shadow:
               </pre>
             </div>
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Interaction</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Interaction</p>
               <div className="space-y-3 text-[14px]" style={{ color: "#6B7280" }}>
                 <p>• Cards tilt 4–6° on mouse-follow (perspective: 1200px)</p>
                 <p>• Cards lift 4px on hover with shadow growth</p>
@@ -365,21 +365,21 @@ box-shadow:
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Primary Button</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Primary Button</p>
               <div className="flex justify-center py-4">
                 <button className="px-10 py-4 rounded-full text-[13px] font-semibold text-white" style={{
                   background: "linear-gradient(135deg, #4AA5A8, #3D8F92)",
                   boxShadow: "0 4px 20px rgba(74,165,168,0.3)",
                 }}>Start here</button>
               </div>
-              <pre className="text-[11px] leading-[1.8] mt-4 rounded-xl p-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF", background: "rgba(250,251,252,0.8)" }}>
+              <pre className="text-[11px] leading-[1.8] mt-4 rounded-xl p-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF", background: "rgba(250,251,252,0.8)" }}>
 {`background: linear-gradient(135deg, #4AA5A8, #3D8F92);
 box-shadow: 0 4px 20px rgba(74,165,168,0.3);
 border-radius: 9999px;`}
               </pre>
             </div>
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
-              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>Secondary Button</p>
+              <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Secondary Button</p>
               <div className="flex justify-center py-4">
                 <button className="px-10 py-4 rounded-full text-[13px] font-semibold" style={{
                   background: "rgba(255,255,255,0.65)",
@@ -388,7 +388,7 @@ border-radius: 9999px;`}
                   color: "#4AA5A8",
                 }}>Run live demo</button>
               </div>
-              <pre className="text-[11px] leading-[1.8] mt-4 rounded-xl p-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF", background: "rgba(250,251,252,0.8)" }}>
+              <pre className="text-[11px] leading-[1.8] mt-4 rounded-xl p-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF", background: "rgba(250,251,252,0.8)" }}>
 {`background: rgba(255,255,255,0.65);
 backdrop-filter: blur(20px);
 border: 1px solid rgba(74,165,168,0.3);
@@ -458,7 +458,7 @@ color: #4AA5A8;`}
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between border-b border-gray-100 pb-3">
                   <span className="text-[14px]" style={{ color: "#1A1D29" }}>{label}</span>
-                  <span className="text-[13px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#9CA3AF" }}>{value}</span>
+                  <span className="text-[13px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF" }}>{value}</span>
                 </div>
               ))}
             </div>
@@ -472,7 +472,7 @@ color: #4AA5A8;`}
       <section className={`${SECTION_PAD} px-6`}>
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center mb-12">
-            <p className="text-[11px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>
+            <p className="text-[11px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}>
               Motion Identity
             </p>
             <h2 className="text-[28px] sm:text-[36px] font-light tracking-[-0.02em] mb-4" style={{ color: "#1A1D29" }}>
@@ -504,7 +504,7 @@ color: #4AA5A8;`}
                 border: "1px solid rgba(255,255,255,0.2)",
               }}>
                 <img loading="lazy" decoding="async" src="/brand/assembl-mark.svg" alt="" className="w-5 h-5" />
-                <span className="text-[11px] tracking-[3px] uppercase text-white" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                <span className="text-[11px] tracking-[3px] uppercase text-white" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
                   Assembl
                 </span>
               </div>
@@ -543,7 +543,7 @@ color: #4AA5A8;`}
               { label: "X / Web", note: "Upload as-is — GIF plays inline" },
             ].map(item => (
               <div key={item.label} className="rounded-2xl p-5" style={GLASS_CARD}>
-                <p className="text-[11px] tracking-[2px] uppercase mb-2" style={{ color: "#4AA5A8", fontFamily: "'JetBrains Mono', monospace" }}>
+                <p className="text-[11px] tracking-[2px] uppercase mb-2" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>
                   {item.label}
                 </p>
                 <p className="text-[13px] leading-[1.6]" style={{ color: "#6B7280" }}>

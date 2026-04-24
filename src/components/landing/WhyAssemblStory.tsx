@@ -81,11 +81,11 @@ const WhyAssemblStory = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease }}
         >
-          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#E8B4B8" }}>
+          <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 400, color: "#E8B4B8" }}>
             TE TAKE · THE WHY
           </p>
           <TanikoDivider color="#E8B4B8" width={200} />
-          <h2 className="text-2xl sm:text-[2.75rem] leading-[1.15] mt-4 mb-4 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
+          <h2 className="text-2xl sm:text-[2.75rem] leading-[1.15] mt-4 mb-4 text-foreground" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
             You didn't start a business
             <br />
             <motion.span
@@ -101,7 +101,7 @@ const WhyAssemblStory = () => {
           </h2>
           <motion.p
             className="text-sm sm:text-base max-w-2xl mx-auto"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)", lineHeight: 1.8 }}
+            style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)", lineHeight: 1.8 }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -126,7 +126,7 @@ const WhyAssemblStory = () => {
               onClick={() => setShowAfter(!showAfter)}
               className="relative px-8 py-3 rounded-full text-sm overflow-hidden"
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'IBM Plex Mono', monospace",
                 background: showAfter ? "rgba(58,125,110,0.15)" : "rgba(232,180,184,0.12)",
                 border: showAfter ? "1px solid rgba(58,125,110,0.3)" : "1px solid rgba(232,180,184,0.25)",
                 color: showAfter ? "#3A7D6E" : "#E8B4B8",
@@ -170,7 +170,7 @@ const WhyAssemblStory = () => {
                   >
                     <scene.icon size={18} style={{ color: scene.color }} />
                   </div>
-                  <p className="text-sm leading-relaxed pt-1.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.7)" }}>
+                  <p className="text-sm leading-relaxed pt-1.5" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.7)" }}>
                     {scene.text}
                   </p>
                 </motion.div>
@@ -181,7 +181,7 @@ const WhyAssemblStory = () => {
           {/* Emotional CTA */}
           <motion.p
             className="text-center mt-8 text-xs"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.3)" }}
+            style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.3)" }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -201,11 +201,11 @@ const WhyAssemblStory = () => {
           transition={{ duration: 0.7, ease }}
         >
           <div className="text-center mb-10">
-            <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 400, color: "#3A7D6E" }}>
+            <p className="text-[11px] tracking-[5px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 400, color: "#3A7D6E" }}>
               NGĀ UARA · OUR VALUES
             </p>
             <TanikoDivider color="#3A7D6E" width={180} />
-            <h3 className="text-xl sm:text-2xl mt-4 text-foreground" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300 }}>
+            <h3 className="text-xl sm:text-2xl mt-4 text-foreground" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300 }}>
               Built on tikanga, not just technology
             </h3>
           </div>
@@ -240,10 +240,10 @@ const WhyAssemblStory = () => {
                       />
                     )}
                     <div className="flex items-baseline gap-3">
-                      <span className="text-lg" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: isActive ? v.color : "rgba(255,255,255,0.6)" }}>
+                      <span className="text-lg" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: isActive ? v.color : "rgba(255,255,255,0.6)" }}>
                         {v.te_reo}
                       </span>
-                      <span className="text-[10px] tracking-[1px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.25)" }}>
+                      <span className="text-[10px] tracking-[1px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.25)" }}>
                         {v.english}
                       </span>
                     </div>
@@ -283,7 +283,7 @@ const WhyAssemblStory = () => {
                   <div className="relative z-10">
                     <motion.h4
                       className="text-2xl mb-1"
-                      style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: VALUES[activeValue].color }}
+                      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: VALUES[activeValue].color }}
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 }}
@@ -292,7 +292,7 @@ const WhyAssemblStory = () => {
                     </motion.h4>
                     <motion.p
                       className="text-[10px] tracking-[2px] uppercase mb-4"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.3)" }}
+                      style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.3)" }}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.15 }}
@@ -301,7 +301,7 @@ const WhyAssemblStory = () => {
                     </motion.p>
                     <motion.p
                       className="text-sm leading-[1.85]"
-                      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.6)" }}
+                      style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.6)" }}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2, duration: 0.4 }}
@@ -324,7 +324,7 @@ const WhyAssemblStory = () => {
           transition={{ duration: 0.7, ease }}
         >
           <TanikoDivider color="#4AA5A8" width={120} className="mb-6" />
-          <p className="text-lg sm:text-xl leading-relaxed mb-6" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.75)" }}>
+          <p className="text-lg sm:text-xl leading-relaxed mb-6" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.75)" }}>
             "I built Assembl because NZ business owners deserve
             <motion.span
               className="inline"
@@ -334,7 +334,7 @@ const WhyAssemblStory = () => {
             </motion.span>
             that big corporates have — but built on our values, our law, and our language."
           </p>
-          <p className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.3)" }}>
+          <p className="text-xs" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(255,255,255,0.3)" }}>
             — Kate Hudson, Founder
           </p>
 

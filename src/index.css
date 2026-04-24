@@ -349,12 +349,12 @@ html {
 }
 
 @layer utilities {
+  /* ── Mono utility (legacy alias kept for backward compat) ── */
   .font-mono-jb {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'IBM Plex Mono', monospace;
   }
 
-  /* Hero gradient text — Brand v1.0 Soft Gold + Taupe Deep
-     (was teal+ochre — retired per Brand Guidelines v1.0, 2026-04-22) */
+  /* Hero gradient text — Brand v1.0 Soft Gold + Taupe Deep */
   .text-gradient-hero {
     background-image: linear-gradient(
       135deg,
@@ -370,28 +370,28 @@ html {
   /* ── Glass Card — Brand v1.0 light glass (Taupe shadow, Soft Gold hover) ── */
   .glass-card {
     background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(142, 129, 119, 0.14);
     border-radius: 24px;
-    box-shadow: 0 10px 40px -10px rgba(111,97,88,0.14), 0 4px 12px rgba(111,97,88,0.05);
+    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
   }
 
   /* ── Glass Panel — interactive (hover lifts to Soft Gold edge) ── */
   .glass-panel {
     background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(142, 129, 119, 0.14);
     border-radius: 24px;
-    box-shadow: 0 10px 40px -10px rgba(111,97,88,0.14), 0 4px 12px rgba(111,97,88,0.05);
+    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     position: relative;
   }
 
   .glass-panel:hover {
-    border-color: rgba(217,188,122,0.45);
-    box-shadow: 0 14px 48px -10px rgba(217,188,122,0.22), 0 6px 16px rgba(111,97,88,0.08);
+    border-color: rgba(217, 188, 122, 0.45);
+    box-shadow: 0 14px 48px -10px rgba(217, 188, 122, 0.22), 0 6px 16px rgba(111, 97, 88, 0.08);
     transform: translateY(-4px);
   }
 
@@ -402,26 +402,14 @@ html {
     }
   }
 
-  /* ── Elevated Glass Card ── */
-  .glass-card-elevated {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(24px) saturate(150%);
-    -webkit-backdrop-filter: blur(24px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.95);
-    border-radius: 24px;
-    box-shadow: 0 14px 48px -10px rgba(111,97,88,0.18), 0 6px 16px rgba(111,97,88,0.06);
-  }
-
   /* ── Premium Liquid Glass — Apple-tier light, Soft Gold hover ── */
   .liquid-glass {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(40px) saturate(160%);
     -webkit-backdrop-filter: blur(40px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(142, 129, 119, 0.14);
     border-radius: 24px;
-    box-shadow:
-      0 10px 40px -10px rgba(111,97,88,0.14),
-      0 4px 12px rgba(111,97,88,0.05);
+    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
     position: relative;
     overflow: hidden;
     transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -434,15 +422,13 @@ html {
     left: 10%;
     right: 10%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 1), transparent);
     z-index: 2;
   }
 
   .liquid-glass:hover {
-    border-color: rgba(217,188,122,0.40);
-    box-shadow:
-      0 14px 48px -10px rgba(217,188,122,0.24),
-      0 6px 16px rgba(111,97,88,0.08);
+    border-color: rgba(217, 188, 122, 0.40);
+    box-shadow: 0 14px 48px -10px rgba(217, 188, 122, 0.24), 0 6px 16px rgba(111, 97, 88, 0.08);
     transform: translateY(-4px);
   }
 
@@ -453,94 +439,51 @@ html {
     }
   }
 
-  /* ── Outcome cards — light ── */
-  .outcome-card {
-    background: rgba(255,255,255,0.65);
-    border: 1px solid rgba(255,255,255,0.9);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border-radius: 24px;
-    box-shadow: 0 10px 40px -10px rgba(74,165,168,0.12), 0 4px 12px rgba(0,0,0,0.03);
-    transition:
-      border-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
-      transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, opacity;
-  }
-
-  .outcome-card:hover {
-    border-color: rgba(74,165,168,0.3);
-    transform: translateY(-4px);
-    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.2), 0 6px 16px rgba(0,0,0,0.05);
-  }
-
-  /* ── CTA Buttons — glass pill ── */
-  .cta-glass-green {
-    position: relative;
-    overflow: hidden;
-    background: #FFFFFF;
-    color: #4AA5A8;
-    border: 1px solid #4AA5A8;
-    border-radius: 9999px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    box-shadow: 0 4px 20px rgba(74,165,168,0.15);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    padding: 18px 40px;
-  }
-
-  .cta-glass-green:hover {
-    background: #4AA5A8;
-    color: #FFFFFF;
-    box-shadow: 0 8px 32px rgba(74,165,168,0.25);
-    transform: translateY(-2px);
-  }
-
+  /* ── CTA Button — Soft Gold pill (Brand v1.0) ── */
   .cta-glass-gold {
     position: relative;
     overflow: hidden;
-    background: #4AA5A8;
-    color: #FFFFFF;
+    background: linear-gradient(135deg, #D9BC7A 0%, #C4A664 100%);
+    color: #3D3428;
     border: none;
     border-radius: 9999px;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 500;
-    letter-spacing: 0.02em;
-    box-shadow: 0 4px 20px rgba(74,165,168,0.2);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 0;
+    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   }
 
   .cta-glass-gold:hover {
-    box-shadow: 0 8px 32px rgba(74,165,168,0.3);
+    box-shadow: 0 12px 36px rgba(217, 188, 122, 0.28);
     transform: translateY(-2px);
   }
 
+  /* ── Ghost button — calm, taupe outline ── */
   .btn-ghost {
     background: transparent;
-    color: #4AA5A8;
-    border: 1px solid rgba(74,165,168,0.3);
+    color: #6F6158;
+    border: 1px solid rgba(157, 140, 125, 0.3);
     border-radius: 9999px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    letter-spacing: 0.02em;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0;
+    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
   }
 
   .btn-ghost:hover {
-    border-color: #4AA5A8;
-    color: #4AA5A8;
-    background: rgba(74,165,168,0.05);
+    border-color: rgba(157, 140, 125, 0.55);
+    background: rgba(255, 255, 255, 0.5);
     transform: translateY(-1px);
   }
 
   /* ── Section divider ── */
   .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(74,165,168,0.15), transparent);
+    background: linear-gradient(90deg, transparent, rgba(157, 140, 125, 0.20), transparent);
   }
 
-  /* ── Glow hover utilities — light ── */
+  /* ── Glow card hover (calm, no green) ── */
   .glow-card-hover {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                 border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
@@ -548,46 +491,19 @@ html {
     will-change: transform;
   }
   .glow-card-hover:hover {
-    border-color: rgba(74,165,168,0.2) !important;
+    border-color: rgba(217, 188, 122, 0.30) !important;
     transform: translateY(-4px);
-    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.2), 0 6px 16px rgba(0,0,0,0.05);
-  }
-
-  .glow-hover-gold {
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .glow-hover-gold:hover {
-    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.2), 0 6px 16px rgba(0,0,0,0.04);
-    border-color: rgba(74,165,168,0.2) !important;
-    transform: translateY(-4px);
-  }
-
-  .glow-hover-pounamu {
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .glow-hover-pounamu:hover {
-    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.2), 0 6px 16px rgba(0,0,0,0.04);
-    border-color: rgba(74,165,168,0.2) !important;
-    transform: translateY(-4px);
-  }
-
-  .glow-hover-white {
-    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .glow-hover-white:hover {
-    box-shadow: 0 14px 48px -10px rgba(0,0,0,0.08);
-    border-color: rgba(74,165,168,0.15) !important;
-    transform: translateY(-4px);
+    box-shadow: 0 14px 48px -10px rgba(217, 188, 122, 0.18), 0 6px 16px rgba(111, 97, 88, 0.06);
   }
 
   /* ── Kete Card — light glass ── */
   .kete-card {
     background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid rgba(142, 129, 119, 0.14);
     border-radius: 24px;
-    box-shadow: 0 10px 40px -10px rgba(74,165,168,0.12), 0 4px 12px rgba(0,0,0,0.03);
+    box-shadow: 0 8px 30px rgba(111, 97, 88, 0.08);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                 border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                 box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -595,59 +511,26 @@ html {
   }
   .kete-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(74,165,168,0.3);
-    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.22), 0 6px 16px rgba(0,0,0,0.05);
+    border-color: rgba(217, 188, 122, 0.30);
+    box-shadow: 0 14px 48px -10px rgba(217, 188, 122, 0.22), 0 6px 16px rgba(111, 97, 88, 0.06);
   }
 
-  /* ── Input glow ── */
-  .input-glow:focus {
-    box-shadow: 0 0 0 1px rgba(74,165,168,0.3), 0 0 16px rgba(74,165,168,0.1);
-    border-color: rgba(74,165,168,0.4) !important;
+  /* ── Text accent utilities — retired teal glow, now Taupe Deep ── */
+  .text-glow-cyan,
+  .text-glow-pounamu { color: #6F6158; }
+
+  /* ── Heading accent — calm Cormorant (no glow) ── */
+  .heading-glow {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: #6F6158;
   }
 
-  /* Badge utilities */
-  .badge-green {
-    background: rgba(74,165,168,0.08);
-    color: #4AA5A8;
-    border: 1px solid rgba(74,165,168,0.15);
-    border-radius: 9999px;
-    padding: 4px 12px;
-    font-size: 0.75rem;
-  }
-
-  /* ── Logo glow — subtle for light mode ── */
-  .logo-glow {
-    filter: drop-shadow(0 0 8px rgba(74,165,168,0.2));
-  }
-  .logo-glow-pounamu {
-    filter: drop-shadow(0 0 8px rgba(74,165,168,0.25));
-  }
-
-  /* ── Text glow utilities — very subtle on light ── */
-  .text-glow-green, .text-emerald-glow { color: #4AA5A8; }
-  .text-glow-cyan { color: #4AA5A8; }
-  .text-glow-pounamu { color: #4AA5A8; }
-
-  /* ── Card glow hover ── */
-  .card-glow-hover {
-    position: relative;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-  }
-  .card-glow-hover:hover {
-    transform: translateY(-4px);
-    border-color: rgba(74,165,168,0.2) !important;
-    box-shadow: 0 14px 48px -10px rgba(74,165,168,0.18), 0 6px 16px rgba(0,0,0,0.04);
-  }
-
-  /* ── Parallax depth ── */
-  .parallax-depth {
-    transform-style: preserve-3d;
-    perspective: 800px;
-  }
-  .parallax-depth:hover {
-    transform: perspective(800px) rotateX(2deg) rotateY(-2deg) translateZ(4px);
+  /* ── Aurora — retired neon, now soft warm wash ── */
+  .aurora-glow {
+    background: radial-gradient(ellipse at center, rgba(217, 188, 122, 0.10) 0%, transparent 70%);
   }
 }
+
 
 /* ── Keyframes ── */
 @keyframes enterprise-gradient-sweep {

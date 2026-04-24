@@ -182,7 +182,7 @@ export default function AdminComplianceDashboard() {
             style={{
               background: tab === t ? `${TEAL_ACCENT}15` : "transparent",
               color: tab === t ? TEAL_ACCENT : `${BONE}50`,
-              fontFamily: "Lato, sans-serif",
+              fontFamily: "Inter, sans-serif",
             }}
           >
             {t === "updates" ? "Updates" : t === "scans" ? "Scan Log" : "Stale Knowledge"}

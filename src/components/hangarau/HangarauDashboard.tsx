@@ -54,7 +54,7 @@ export default function HangarauDashboard() {
               <GlowIcon name={m.icon} size={16} color={ACCENT_LIGHT} />
               <span className="text-[10px] text-white/40 uppercase tracking-wider">{m.label}</span>
             </div>
-            <div className="text-xl font-bold text-white/90" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{m.value}</div>
+            <div className="text-xl font-bold text-white/90" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{m.value}</div>
             <span className="text-[10px] text-[#5AADA0]">{m.trend}</span>
           </DashboardGlassCard>
         ))}

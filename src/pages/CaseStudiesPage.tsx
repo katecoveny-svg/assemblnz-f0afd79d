@@ -80,16 +80,16 @@ export default function CaseStudiesPage() {
           ))}
 
           <motion.div className="text-center mb-16 relative z-10" variants={fadeUp} initial="hidden" animate="visible" custom={0}>
-            <p className="text-[10px] uppercase tracking-[5px] mb-4" style={{ color: POUNAMU_LIGHT, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
+            <p className="text-[10px] uppercase tracking-[5px] mb-4" style={{ color: POUNAMU_LIGHT, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}>
               CASE STUDIES
             </p>
-            <h1 className="text-3xl sm:text-5xl mb-4" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "-0.5px" }}>
+            <h1 className="text-3xl sm:text-5xl mb-4" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "-0.5px" }}>
               The packs our customers took to their{" "}
               <span style={{ background: `linear-gradient(135deg, #3D4250, ${POUNAMU_LIGHT}, ${BONE})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundSize: "200% auto" }}>
                 boards.
               </span>
             </h1>
-            <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}>
               Every pack tagged with the meeting it went into. Real outputs, real businesses, real outcomes.
             </p>
           </motion.div>
@@ -109,20 +109,20 @@ export default function CaseStudiesPage() {
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${c.color}15`, boxShadow: `0 0 12px ${c.color}10` }}>
                       <FileText size={16} style={{ color: c.color }} />
                     </div>
-                    <span className="text-[10px] uppercase tracking-[3px]" style={{ color: c.color, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 }}>
+                    <span className="text-[10px] uppercase tracking-[3px]" style={{ color: c.color, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}>
                       {c.kete} pack
                     </span>
                   </div>
-                  <h3 className="text-base mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400 }}>
+                  <h3 className="text-base mb-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400 }}>
                     {c.packTitle}
                   </h3>
-                  <p className="text-xs mb-1" style={{ color: "#6B7280", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <p className="text-xs mb-1" style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}>
                     {c.business} · {c.meeting}
                   </p>
-                  <blockquote className="text-sm italic mt-4 pt-4" style={{ color: "#9CA3AF", borderTop: "1px solid rgba(255,255,255,0.06)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <blockquote className="text-sm italic mt-4 pt-4" style={{ color: "#9CA3AF", borderTop: "1px solid rgba(255,255,255,0.06)", fontFamily: "'Inter', sans-serif" }}>
                     "{c.quote}"
                   </blockquote>
-                  <Link to={`/sample/${c.kete.toLowerCase()}`} className="inline-flex items-center gap-1 mt-4 text-xs group/link" style={{ color: c.color, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <Link to={`/sample/${c.kete.toLowerCase()}`} className="inline-flex items-center gap-1 mt-4 text-xs group/link" style={{ color: c.color, fontFamily: "'Inter', sans-serif" }}>
                     Read the pack story <ArrowRight size={11} className="group-hover/link:translate-x-1 transition-transform" />
                   </Link>
                 </div>

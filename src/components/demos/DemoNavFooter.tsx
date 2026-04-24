@@ -17,7 +17,7 @@ export const DEMO_PROVES: Record<string, string> = {
 };
 
 export const DemoBreadcrumb = ({ title }: { title: string }) => (
-  <nav className="flex items-center gap-2 text-[11px] mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.45)" }}>
+  <nav className="flex items-center gap-2 text-[11px] mb-6" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.45)" }}>
     <Link to="/demos" className="hover:text-white/70 transition-colors">Demos</Link>
     <ChevronRight size={10} />
     <span style={{ color: "rgba(245,240,232,0.7)" }}>{title}</span>
@@ -29,8 +29,8 @@ export const DemoProvesCard = ({ slug }: { slug: string }) => {
   if (!proves) return null;
   return (
     <div className="rounded-xl px-4 py-3 mb-8" style={{ background: "rgba(58,125,110,0.08)", border: "1px solid rgba(58,125,110,0.2)" }}>
-      <p className="text-[11px] tracking-[2px] uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(79,228,167,0.7)" }}>What this proves</p>
-      <p className="text-[13px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.8)" }}>{proves}</p>
+      <p className="text-[11px] tracking-[2px] uppercase mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "rgba(79,228,167,0.7)" }}>What this proves</p>
+      <p className="text-[13px]" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.8)" }}>{proves}</p>
     </div>
   );
 };

@@ -34,15 +34,15 @@ const EvidencePackDemo = () => {
         <DemoProvesCard slug="evidence-pack" />
 
         <div className="liquid-glass liquid-glass-gold rounded-xl px-4 py-2 text-center mb-10">
-          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#A8DDDB" }}>
+          <p className="text-[11px] tracking-[3px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#A8DDDB" }}>
             Demo mode — no real data leaves this page
           </p>
         </div>
 
-        <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
+        <h1 className="text-2xl sm:text-4xl mb-2 text-center" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px", textTransform: "uppercase" }}>
           Evidence Pack
         </h1>
-        <p className="text-center text-sm mb-10" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.6)" }}>
+        <p className="text-center text-sm mb-10" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.6)" }}>
           What a customer actually keeps — structured, sourced, and signed
         </p>
 
@@ -50,8 +50,8 @@ const EvidencePackDemo = () => {
           {/* Left: trigger — liquid glass */}
           <div>
             <div className="liquid-glass liquid-glass-pounamu rounded-2xl p-6">
-              <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#7ECFC2" }}>Query</p>
-              <p className="text-sm mb-6" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(245,240,232,0.7)" }}>
+              <p className="text-[10px] tracking-[3px] uppercase mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#7ECFC2" }}>Query</p>
+              <p className="text-sm mb-6" style={{ fontFamily: "'Inter', sans-serif", color: "rgba(245,240,232,0.7)" }}>
                 "Draft a site induction for a new scaffolder on a three-storey residential build."
               </p>
               <button onClick={() => setGenerated(true)} disabled={generated}
@@ -91,12 +91,12 @@ const EvidencePackDemo = () => {
               {/* Header */}
               <div className="flex items-center justify-between mb-6 pb-4" style={{ borderBottom: "2px solid #3A7D6E" }}>
                 <div>
-                  <p className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>Evidence Pack</p>
-                  <h2 className="text-lg font-semibold" style={{ fontFamily: "'Lato', sans-serif" }}>Waihanga Site Safety Pack</h2>
+                  <p className="text-[10px] tracking-[3px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#3A7D6E" }}>Evidence Pack</p>
+                  <h2 className="text-lg font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>Waihanga Site Safety Pack</h2>
                   <p className="text-xs text-gray-500">Scaffolder Induction — Three-storey Residential</p>
                 </div>
                 <div className="text-right">
-                  <span className="text-[9px] tracking-[2px] uppercase px-3 py-1 rounded-full" style={{ background: "rgba(58,125,110,0.1)", color: "#3A7D6E", fontFamily: "'JetBrains Mono', monospace", border: "1px solid rgba(58,125,110,0.2)" }}>WAIHANGA</span>
+                  <span className="text-[9px] tracking-[2px] uppercase px-3 py-1 rounded-full" style={{ background: "rgba(58,125,110,0.1)", color: "#3A7D6E", fontFamily: "'IBM Plex Mono', monospace", border: "1px solid rgba(58,125,110,0.2)" }}>WAIHANGA</span>
                 </div>
               </div>
 
@@ -118,14 +118,14 @@ const EvidencePackDemo = () => {
                       <div className="flex-1">
                         <p className="text-xs" style={{ color: "#333" }}>{c.label}</p>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className="text-[9px] px-2 py-0.5 rounded" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999", background: "rgba(0,0,0,0.04)" }}>{c.ref}</span>
+                          <span className="text-[9px] px-2 py-0.5 rounded" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#999", background: "rgba(0,0,0,0.04)" }}>{c.ref}</span>
                           <span className="text-[9px]" style={{ color: conf.color }}>{conf.dot} {c.confidence}</span>
                         </div>
                       </div>
                       <span className="text-[9px] tracking-[2px] uppercase px-2 py-1 rounded-lg" style={{ 
                         background: c.pass ? "rgba(58,125,110,0.08)" : "rgba(232,116,97,0.08)", 
                         color: c.pass ? "#3A7D6E" : "#E87461", 
-                        fontFamily: "'JetBrains Mono', monospace",
+                        fontFamily: "'IBM Plex Mono', monospace",
                         border: `1px solid ${c.pass ? "rgba(58,125,110,0.15)" : "rgba(232,116,97,0.15)"}`,
                       }}>
                         {c.pass ? "PASS" : "FLAG"}
@@ -137,7 +137,7 @@ const EvidencePackDemo = () => {
 
               {/* Legislative citations */}
               <div className="mb-6 p-4 rounded-xl" style={{ background: "rgba(58,125,110,0.04)", border: "1px solid rgba(58,125,110,0.1)" }}>
-                <p className="text-[9px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>Legislative Citations</p>
+                <p className="text-[9px] tracking-[2px] uppercase mb-2" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#3A7D6E" }}>Legislative Citations</p>
                 <p className="text-[11px]" style={{ color: "#555" }}>Health and Safety at Work Act 2015 · s36, s37 · WorkSafe NZ</p>
                 <p className="text-[11px]" style={{ color: "#555" }}>NZS 3910:2013 · Conditions of Contract</p>
                 <p className="text-[11px]" style={{ color: "#555" }}>Building Act 2004 · s17 Building Work</p>
@@ -145,12 +145,12 @@ const EvidencePackDemo = () => {
 
               {/* Hash + sign-off */}
               <div className="pt-4" style={{ borderTop: "1px solid rgba(58,125,110,0.15)" }}>
-                <div className="flex justify-between text-[9px]" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#999" }}>
+                <div className="flex justify-between text-[9px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#999" }}>
                   <span>SHA-256: {hash}</span>
                   <span>{timestamp}</span>
                 </div>
                 <div className="mt-4 p-4 rounded-xl" style={{ border: "1px dashed rgba(58,125,110,0.25)", background: "rgba(58,125,110,0.02)" }}>
-                  <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>Sign-off</p>
+                  <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#3A7D6E" }}>Sign-off</p>
                   <p className="text-xs" style={{ color: "#666" }}>Named operator: ___________________________</p>
                   <p className="text-xs mt-1" style={{ color: "#666" }}>Date: _______________</p>
                 </div>

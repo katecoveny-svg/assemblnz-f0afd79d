@@ -134,14 +134,14 @@ export default function AdminCommandSidebar({
           <div>
             <h2
               className="font-light uppercase tracking-[4px] text-[13px]"
-              style={{ fontFamily: "'Lato', sans-serif", color: "#3D4250" }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250" }}
             >
               ASSEMBL
             </h2>
             <p
               className="text-[9px] tracking-[2px] uppercase"
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 color: POUNAMU,
               }}
             >
@@ -163,7 +163,7 @@ export default function AdminCommandSidebar({
             <p
               className="px-3 mb-2 text-[9px] font-bold uppercase tracking-[3px]"
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'IBM Plex Mono', monospace",
                 color: "rgba(61,66,80,0.4)",
               }}
             >
@@ -214,7 +214,7 @@ export default function AdminCommandSidebar({
                     />
                     <span
                       className="relative z-10 flex-1"
-                      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                      style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                       {item.label}
                     </span>

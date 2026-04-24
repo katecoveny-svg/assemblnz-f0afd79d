@@ -38,9 +38,9 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
   const seasonData = SEASONAL_TIPS[season];
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ fontFamily: "'Inter', sans-serif" }}>
       <div>
-        <p className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Lato', sans-serif", letterSpacing: "4px" }}>HAVEN — HOME SAFETY</p>
+        <p className="text-[10px] uppercase font-bold" style={{ color: TEAL_ACCENT, fontFamily: "'Inter', sans-serif", letterSpacing: "4px" }}>HAVEN — HOME SAFETY</p>
         <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Photo-based home safety assessment with AI spatial reasoning</p>
       </div>
 
@@ -68,7 +68,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
       {/* Recent assessments */}
       {assessments.length > 0 && (
         <div>
-          <p className="text-[10px] uppercase font-bold mb-2" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>Recent assessments</p>
+          <p className="text-[10px] uppercase font-bold mb-2" style={{ color: POUNAMU, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>Recent assessments</p>
           <div className="space-y-2">
             {assessments.map(a => (
               <div key={a.id} className="flex items-center justify-between p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.5)" }}>
@@ -82,7 +82,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
                 {a.risk_score && (
                   <span className="text-xs font-mono font-bold" style={{
                     color: a.risk_score >= 7 ? KOKKOWAI : a.risk_score >= 4 ? TEAL_ACCENT : POUNAMU,
-                    fontFamily: "'JetBrains Mono', monospace",
+                    fontFamily: "'IBM Plex Mono', monospace",
                   }}>{a.risk_score}/10</span>
                 )}
               </div>
@@ -95,7 +95,7 @@ const HavenHomeSafety = ({ onSendToChat }: HavenHomeSafetyProps) => {
       <div className="p-4 rounded-2xl" style={{ background: "rgba(58,125,110,0.06)", border: "1px solid rgba(58,125,110,0.12)" }}>
         <div className="flex items-center gap-2 mb-2">
           <seasonData.icon size={14} style={{ color: POUNAMU }} />
-          <p className="text-[10px] uppercase font-bold" style={{ color: POUNAMU, fontFamily: "'Lato', sans-serif", letterSpacing: "3px" }}>
+          <p className="text-[10px] uppercase font-bold" style={{ color: POUNAMU, fontFamily: "'Inter', sans-serif", letterSpacing: "3px" }}>
             {season === "summer" ? "Summer" : "Winter"} safety tips
           </p>
         </div>

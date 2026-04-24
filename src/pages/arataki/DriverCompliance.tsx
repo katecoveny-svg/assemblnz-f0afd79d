@@ -27,7 +27,7 @@ export default function DriverCompliance() {
       <BrandNav />
       <main className="max-w-5xl mx-auto px-6 pt-16 pb-32">
         <Link to="/arataki" className="text-xs text-white/40 hover:text-white/60 mb-6 inline-block">← Back to Arataki</Link>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3" style={{ fontFamily: "'Lato', sans-serif" }}>
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3" style={{ fontFamily: "'Inter', sans-serif" }}>
           <Shield className="inline mr-3 text-violet-400" size={28} />Driver Compliance
         </motion.h1>
         <p className="text-gray-500 mb-10 max-w-xl">WoF/CoF expiry, RUC balance, licence class watch, and logbook prompts.</p>

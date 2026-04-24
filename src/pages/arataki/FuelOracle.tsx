@@ -31,7 +31,7 @@ export default function FuelOracle() {
       <BrandNav />
       <main className="max-w-5xl mx-auto px-6 pt-16 pb-32">
         <Link to="/arataki" className="text-xs text-[#3D4250]/40 hover:text-[#3D4250]/60 mb-6 inline-block">← Back to Arataki</Link>
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3 text-[#3D4250]" style={{ fontFamily: "'Lato', sans-serif" }}>
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-light mb-3 text-[#3D4250]" style={{ fontFamily: "'Inter', sans-serif" }}>
           <Fuel className="inline mr-3 text-[#4AA5A8]" size={28} />FuelOracle
         </motion.h1>
         <p className="text-[#3D4250]/50 mb-10 max-w-xl">Live NZ fuel pricing across Z, BP, Mobil, Gull, Waitomo — automatically selects cheapest stops on your route.</p>

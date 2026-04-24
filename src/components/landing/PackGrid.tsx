@@ -154,7 +154,7 @@ const PackGrid = () => {
                   <p
                     className="text-[10px] tracking-[3px] uppercase mb-0.5"
                     style={{
-                      fontFamily: "'JetBrains Mono', monospace",
+                      fontFamily: "'IBM Plex Mono', monospace",
                       color: pack.accent,
                     }}
                   >
@@ -162,7 +162,7 @@ const PackGrid = () => {
                   </p>
                   <h3
                     className="text-lg tracking-[2px] uppercase"
-                    style={{ fontWeight: 300, fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}
+                    style={{ fontWeight: 300, fontFamily: "'Inter', sans-serif", color: "#1A1D29" }}
                   >
                     {pack.name}
                   </h3>

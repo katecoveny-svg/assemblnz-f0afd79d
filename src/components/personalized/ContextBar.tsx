@@ -125,7 +125,7 @@ export default function ContextBar() {
                 0 0 30px rgba(${rgb},0.1)
               `,
               borderBottom: `1px solid rgba(${rgb},0.12)`,
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
             }}
           >
             {/* Liquid glass blobs */}
@@ -199,7 +199,7 @@ export default function ContextBar() {
                 </span>
                 <Radio size={10} style={{ color: info.color }} />
                 <span className="text-[10px] uppercase tracking-[2px] font-semibold shrink-0" style={{ color: info.color }}>Live</span>
-                <span className="text-[11px] truncate" style={{ color: '#3D4250', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                <span className="text-[11px] truncate" style={{ color: '#3D4250', fontFamily: "'Inter', sans-serif" }}>
                   {liveUpdate.title}
                 </span>
                 {liveUpdate.published_at && (

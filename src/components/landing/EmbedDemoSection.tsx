@@ -15,7 +15,7 @@ const EmbedDemoSection = () => (
         <p
           className="uppercase mb-3"
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 400,
             fontSize: "11px",
             letterSpacing: "4px",
@@ -26,7 +26,7 @@ const EmbedDemoSection = () => (
         </p>
         <h2
           style={{
-            fontFamily: "'Lato', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 300,
             fontSize: "2rem",
             color: "#1A1D29",
@@ -37,7 +37,7 @@ const EmbedDemoSection = () => (
         </h2>
         <p
           style={{
-            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontFamily: "'Inter', sans-serif",
             fontWeight: 400,
             fontSize: "15px",
             color: "rgba(255,255,255,0.65)",
@@ -72,17 +72,17 @@ const EmbedDemoSection = () => (
             <Bot size={14} style={{ color: "#4AA5A8" }} />
           </div>
           <div>
-            <p style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, fontSize: "12px", color: "#1A1D29", letterSpacing: "2px" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, fontSize: "12px", color: "#1A1D29", letterSpacing: "2px" }}>
               AURA
             </p>
-            <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>
               Accommodation & Hospitality Orchestrator
             </p>
           </div>
           <span
             className="ml-auto px-2 py-0.5 rounded-full text-[9px]"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               background: "rgba(58,125,110,0.15)",
               color: "#3A7D6E",
               letterSpacing: "1px",
@@ -103,7 +103,7 @@ const EmbedDemoSection = () => (
                 border: "1px solid rgba(74,165,168,0.15)",
               }}
             >
-              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "#1A1D29" }}>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "15px", color: "#1A1D29" }}>
                 Do I need a food control plan for my cafe?
               </p>
             </div>
@@ -130,13 +130,13 @@ const EmbedDemoSection = () => (
                 border: "1px solid rgba(255,255,255,0.5)",
               }}
             >
-              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", color: "rgba(255,255,255,0.85)", lineHeight: 1.6 }}>
+              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "15px", color: "rgba(255,255,255,0.85)", lineHeight: 1.6 }}>
                 Yes — under the <span style={{ color: "#4AA5A8" }}>Food Act 2014</span>, all food businesses in NZ must operate under either a Food Control Plan (FCP) or a National Programme. A cafe that prepares and serves food on-site would typically require a <span style={{ color: "#4AA5A8" }}>template Food Control Plan</span>, registered with your local council...
               </p>
               <p
                 className="mt-2"
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'IBM Plex Mono', monospace",
                   fontSize: "10px",
                   color: "rgba(255,255,255,0.25)",
                 }}
@@ -153,10 +153,10 @@ const EmbedDemoSection = () => (
             to="/chat/hospitality"
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm transition-all duration-300"
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 400,
               background: "#4AA5A8",
-              color: "#09090F",
+              color: "#3D3428",
               border: "1px solid #4AA5A8",
               boxShadow: "0 0 20px rgba(74,165,168,0.2)",
             }}

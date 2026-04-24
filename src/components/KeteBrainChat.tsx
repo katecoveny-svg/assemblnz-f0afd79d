@@ -321,7 +321,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
         whileTap={{ scale: 0.95 }}
       >
         {open ? (
-          <GlowIcon name="X" size={20} color={open ? "#09090F" : accentColor} glow={false} />
+          <GlowIcon name="X" size={20} color={open ? "#3D3428" : accentColor} glow={false} />
         ) : keteId === "toroa" ? (
           <img loading="lazy" decoding="async" src={toroaMark} alt="Tōro" className="w-8 h-8 rounded-full" />
         ) : (
@@ -354,7 +354,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                 <BrainAvatar color={accentColor} size={40} />
               )}
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-light uppercase tracking-[2px]" style={{ fontFamily: "Lato, sans-serif", color: "#1A1D29" }}>
+                <p className="text-sm font-light uppercase tracking-[2px]" style={{ fontFamily: "Inter, sans-serif", color: "#1A1D29" }}>
                   {keteName}
                 </p>
                 <p className="text-[10px]" style={{ color: "#6B7280" }}>{keteNameEn} Intelligence • NZ Voice</p>
@@ -480,7 +480,7 @@ export default function KeteBrainChat({ keteId, keteName, keteNameEn, accentColo
                       placeholder={`Ask ${keteName}... (or "council: <question>" for multi-agent)`}
                       disabled={isStreaming}
                       style={{
-                        fontFamily: "Plus Jakarta Sans, sans-serif",
+                        fontFamily: "Inter, sans-serif",
                         background: "#FFFFFF",
                         border: "1px solid rgba(0,0,0,0.08)",
                         color: "#1A1D29",

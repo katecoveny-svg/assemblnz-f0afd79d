@@ -174,7 +174,7 @@ export default function AdEngineModal({ open, onOpenChange }: { open: boolean; o
       for (let i = 0; i < imageCount; i++) {
         const c = allCreatives[i];
         try {
-          const imagePrompt = `Professional marketing ad visual for ${c.industry} industry. Dark background #09090F, glassmorphism effects, cinematic lighting, premium tech aesthetic. Show: ${c.pain_point.slice(0, 100)}. Style: ${visualStyle === "3d_glass" ? "3D glass elements floating" : visualStyle === "neon_tech" ? "neon glow effects" : "dark minimal clean"}. No text.`;
+          const imagePrompt = `Professional marketing ad visual for ${c.industry} industry. Dark background #3D3428, glassmorphism effects, cinematic lighting, premium tech aesthetic. Show: ${c.pain_point.slice(0, 100)}. Style: ${visualStyle === "3d_glass" ? "3D glass elements floating" : visualStyle === "neon_tech" ? "neon glow effects" : "dark minimal clean"}. No text.`;
           
           console.log(`[AdEngine] Generating image ${i + 1}/${imageCount} for ${c.industry}...`);
           

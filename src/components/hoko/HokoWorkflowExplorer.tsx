@@ -128,7 +128,7 @@ export default function HokoWorkflowExplorer({ accent }: { accent: string }) {
       <div className="space-y-2">
         <p
           className="text-[10px] tracking-[3px] uppercase mb-3"
-          style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}
+          style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}
         >
           The other five workflows
         </p>
@@ -160,7 +160,7 @@ export default function HokoWorkflowExplorer({ accent }: { accent: string }) {
                   className="text-[10px] mt-1"
                   style={{
                     color: isActive ? accent : "#9CA3AF",
-                    fontFamily: "'JetBrains Mono', monospace",
+                    fontFamily: "'IBM Plex Mono', monospace",
                   }}
                 >
                   {w.pipeline}
@@ -207,7 +207,7 @@ export default function HokoWorkflowExplorer({ accent }: { accent: string }) {
                   </h4>
                   <p
                     className="text-[10px] tracking-wider uppercase mt-0.5"
-                    style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     {active.pipeline}
                   </p>
@@ -225,7 +225,7 @@ export default function HokoWorkflowExplorer({ accent }: { accent: string }) {
                   <ChevronRight size={11} style={{ color: accent }} />
                   <span
                     className="text-[9px] tracking-[2px] uppercase"
-                    style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     Trigger
                   </span>
@@ -242,7 +242,7 @@ export default function HokoWorkflowExplorer({ accent }: { accent: string }) {
                   <Clock size={11} style={{ color: accent }} />
                   <span
                     className="text-[9px] tracking-[2px] uppercase"
-                    style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}
+                    style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}
                   >
                     Cadence
                   </span>
@@ -262,7 +262,7 @@ export default function HokoWorkflowExplorer({ accent }: { accent: string }) {
                 <Sparkles size={13} style={{ color: accent }} />
                 <span
                   className="text-[10px] tracking-[2px] uppercase"
-                  style={{ color: accent, fontFamily: "'JetBrains Mono', monospace" }}
+                  style={{ color: accent, fontFamily: "'IBM Plex Mono', monospace" }}
                 >
                   {active.output.label}
                 </span>
@@ -290,7 +290,7 @@ export default function HokoWorkflowExplorer({ accent }: { accent: string }) {
                 className="text-[11px]"
                 style={{
                   color: "#6B7280",
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'IBM Plex Mono', monospace",
                 }}
               >
                 {active.receipt}

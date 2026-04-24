@@ -22,7 +22,7 @@ export default function AuahaBrandScanner() {
   return (
     <div className="p-6 lg:p-10 max-w-5xl mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl font-light tracking-wide text-[#1A1D29]" style={{ fontFamily: "Lato, sans-serif" }}>
+        <h1 className="text-3xl font-light tracking-wide text-[#1A1D29]" style={{ fontFamily: "Inter, sans-serif" }}>
           Brand Scanner
         </h1>
         <p className="text-[#6B7280] text-sm mt-1">
@@ -116,7 +116,7 @@ export default function AuahaBrandScanner() {
 
               {/* Colours */}
               <div className="mb-4">
-                <span className="text-[#6B7280] text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                <span className="text-[#6B7280] text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "IBM Plex Mono, monospace" }}>
                   Colour Palette
                 </span>
                 <div className="flex gap-3">
@@ -132,7 +132,7 @@ export default function AuahaBrandScanner() {
 
               {/* Keywords */}
               <div className="mb-4">
-                <span className="text-[#6B7280] text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                <span className="text-[#6B7280] text-xs uppercase tracking-wider block mb-2" style={{ fontFamily: "IBM Plex Mono, monospace" }}>
                   Keywords
                 </span>
                 <div className="flex flex-wrap gap-2">
@@ -150,7 +150,7 @@ export default function AuahaBrandScanner() {
 
               {/* Target Audience */}
               <div>
-                <span className="text-[#6B7280] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                <span className="text-[#6B7280] text-xs uppercase tracking-wider block mb-1" style={{ fontFamily: "IBM Plex Mono, monospace" }}>
                   Target Audience
                 </span>
                 <p className="text-[#4A5160] text-sm">{brand.targetAudience}</p>

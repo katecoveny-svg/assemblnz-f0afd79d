@@ -115,13 +115,13 @@ const KetePackSelector = () => {
               <div>
                 <h3
                   className="text-lg font-semibold leading-tight"
-                  style={{ fontFamily: "'Lato', sans-serif", color: "#1A1D29" }}
+                  style={{ fontFamily: "'Inter', sans-serif", color: "#1A1D29" }}
                 >
                   {pack.name}
                 </h3>
                 <p
                   className="text-sm mt-0.5"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.5)" }}
+                  style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}
                 >
                   {pack.sub}
                 </p>
@@ -131,7 +131,7 @@ const KetePackSelector = () => {
             {/* Description */}
             <p
               className="text-sm leading-relaxed mb-4"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "rgba(255,255,255,0.6)" }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.6)" }}
             >
               {pack.desc}
             </p>
@@ -140,7 +140,7 @@ const KetePackSelector = () => {
             <div
               className="text-[11px] font-mono mb-4 pb-4"
               style={{
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: "'IBM Plex Mono', monospace",
                 color: `${pack.color}AA`,
                 borderBottom: `1px solid rgba(255,255,255,0.5)`,
               }}

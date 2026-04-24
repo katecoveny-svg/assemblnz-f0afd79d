@@ -47,7 +47,7 @@ export default function AuahaAnalytics() {
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
         <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Analytics</p>
-        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Analytics Hub</h1>
+        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Inter, sans-serif' }}>Analytics Hub</h1>
         <p className="text-[#6B7280] text-sm mt-1">Unified performance across all platforms</p>
       </div>
 
@@ -59,7 +59,7 @@ export default function AuahaAnalytics() {
               <m.icon className="w-4 h-4 text-[#6B7280]" />
               <span className="text-xs text-[#5AADA0]">{m.change}</span>
             </div>
-            <p className="text-foreground text-xl font-light" style={{ fontFamily: 'JetBrains Mono, monospace' }}>{m.value}</p>
+            <p className="text-foreground text-xl font-light" style={{ fontFamily: 'IBM Plex Mono, monospace' }}>{m.value}</p>
             <p className="text-[#6B7280] text-xs mt-1">{m.label}</p>
           </GlassCard>
         ))}

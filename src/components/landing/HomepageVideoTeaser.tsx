@@ -18,7 +18,7 @@ export default function HomepageVideoTeaser() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
           className="text-[11px] uppercase tracking-[3px] mb-4"
-          style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}
+          style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}
         >
           See it in action
         </motion.p>
@@ -53,7 +53,7 @@ export default function HomepageVideoTeaser() {
               style={{ background: "linear-gradient(135deg, rgba(74,165,168,0.1), rgba(74,165,168,0.05))" }}
             >
               <p className="text-[11px] uppercase tracking-[2px]"
-                style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>
+                style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}>
                 60-second overview · uploading
               </p>
             </div>
@@ -66,7 +66,7 @@ export default function HomepageVideoTeaser() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mt-6 text-[15px] leading-relaxed max-w-xl mx-auto"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}
+          style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}
         >
           Seven industries plus Tōro for whānau. One governed intelligence layer. Built for the laws and language of Aotearoa.
         </motion.p>

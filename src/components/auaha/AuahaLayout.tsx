@@ -98,10 +98,10 @@ function AuahaLayoutInner() {
               <Palette className="w-5 h-5" style={{ color: "#B8860B" }} />
             </div>
             <div>
-              <h2 className="font-light uppercase tracking-[4px] text-[14px]" style={{ fontFamily: "Lato, sans-serif", color: TEXT_PRIMARY }}>
+              <h2 className="font-light uppercase tracking-[4px] text-[14px]" style={{ fontFamily: "Inter, sans-serif", color: TEXT_PRIMARY }}>
                 AUAHA NZ
               </h2>
-              <p className="text-[10px] tracking-wide" style={{ fontFamily: "Plus Jakarta Sans, sans-serif", color: TEXT_MUTED }}>
+              <p className="text-[10px] tracking-wide" style={{ fontFamily: "Inter, sans-serif", color: TEXT_MUTED }}>
                 Creative Suite
               </p>
             </div>
@@ -116,7 +116,7 @@ function AuahaLayoutInner() {
         <nav className="flex-1 px-3 py-2 overflow-y-auto scrollbar-hide space-y-4">
           {AUAHA_NAV.map((group) => (
             <div key={group.group}>
-              <span className="block px-3 mb-1.5 text-[9px] uppercase tracking-[2px] font-medium" style={{ fontFamily: "JetBrains Mono, monospace", color: TEXT_MUTED }}>
+              <span className="block px-3 mb-1.5 text-[9px] uppercase tracking-[2px] font-medium" style={{ fontFamily: "IBM Plex Mono, monospace", color: TEXT_MUTED }}>
                 {group.group}
               </span>
               <div className="space-y-0.5">
@@ -149,7 +149,7 @@ function AuahaLayoutInner() {
                         </>
                       )}
                       <item.icon className="w-3.5 h-3.5 relative z-10 transition-colors" style={{ color: isActive ? "#B8860B" : TEXT_SECONDARY }} />
-                      <span className="relative z-10 flex-1" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>{item.label}</span>
+                      <span className="relative z-10 flex-1" style={{ fontFamily: "Inter, sans-serif" }}>{item.label}</span>
                       {isActive && <ChevronRight className="w-3 h-3 relative z-10" style={{ color: "#B8860B" }} />}
                     </NavLink>
                   );
@@ -179,7 +179,7 @@ function AuahaLayoutInner() {
         }}>
         <div className="flex items-center gap-3 px-4 py-3">
           <Palette className="w-4 h-4" style={{ color: "#B8860B" }} />
-          <span className="text-[13px] uppercase tracking-[3px] font-light" style={{ fontFamily: "Lato, sans-serif", color: TEXT_PRIMARY }}>AUAHA NZ</span>
+          <span className="text-[13px] uppercase tracking-[3px] font-light" style={{ fontFamily: "Inter, sans-serif", color: TEXT_PRIMARY }}>AUAHA NZ</span>
         </div>
         <div className="flex overflow-x-auto px-2 pb-2 gap-1 no-scrollbar">
           {allItems.map((item) => (

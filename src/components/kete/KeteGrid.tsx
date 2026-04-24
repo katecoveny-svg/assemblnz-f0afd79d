@@ -15,7 +15,7 @@ const KeteGrid: React.FC = () => {
       <h2
         className="text-2xl tracking-[4px] uppercase mb-10"
         style={{
-          fontFamily: "'Lato', sans-serif",
+          fontFamily: "'Inter', sans-serif",
           fontWeight: 300,
           color: "#3D4250",
         }}
@@ -54,7 +54,7 @@ const KeteGrid: React.FC = () => {
           <p
             className="text-xs tracking-[6px] uppercase mb-3"
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 400,
               color: "#4AA5A8",
             }}
@@ -64,7 +64,7 @@ const KeteGrid: React.FC = () => {
           <h1
             className="text-4xl md:text-[56px] tracking-[2px] uppercase mb-4"
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 300,
               background: "linear-gradient(135deg, #3A7D6E 0%, #4AA5A8 100%)",
               WebkitBackgroundClip: "text",
@@ -76,7 +76,7 @@ const KeteGrid: React.FC = () => {
           <p
             className="text-base max-w-[600px] mx-auto leading-relaxed"
             style={{
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               color: "#5A6270",
             }}
           >
@@ -92,7 +92,7 @@ const KeteGrid: React.FC = () => {
         <div
           className="flex justify-center items-center gap-3 mt-24 pt-10 text-sm tracking-[3px] uppercase"
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "'IBM Plex Mono', monospace",
             color: "#7A8290",
             borderTop: "1px solid rgba(74,165,168,0.18)",
           }}

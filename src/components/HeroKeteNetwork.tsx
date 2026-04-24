@@ -328,7 +328,7 @@ export default function HeroKeteNetwork({ isMobile = false }: { isMobile?: boole
                 <motion.text
                   x={orb.cx} y={orb.cy + orb.r + 16}
                   textAnchor="middle" fill={orb.color}
-                  fontSize="8" fontFamily="'JetBrains Mono', monospace"
+                  fontSize="8" fontFamily="'IBM Plex Mono', monospace"
                   letterSpacing="2" opacity="0.35"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 0.35 }}

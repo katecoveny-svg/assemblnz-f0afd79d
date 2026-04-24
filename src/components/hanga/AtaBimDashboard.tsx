@@ -160,21 +160,21 @@ export default function AtaBimDashboard() {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Box size={20} style={{ color: "#4AA5A8" }} />
-              <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>
+              <span className="text-xs font-mono tracking-widest uppercase" style={{ color: "#4AA5A8", fontFamily: "IBM Plex Mono" }}>
                 Waihanga Construction Suite
               </span>
             </div>
-            <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Lato", color: "#1A1D29" }}>
+            <h1 className="text-2xl md:text-3xl font-light tracking-tight" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
               ATA — BIM Management
             </h1>
-            <p className="text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
+            <p className="text-sm mt-1" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>
               Building Information Model register, clash detection, 4D sequencing &amp; handover tracking
             </p>
           </div>
           <button
             onClick={() => setShowAddModel(true)}
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-all hover:scale-[1.02]"
-            style={{ background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#09090F", fontFamily: "Plus Jakarta Sans" }}
+            style={{ background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#3D3428", fontFamily: "Inter" }}
           >
             <Plus size={14} /> Upload Model
           </button>
@@ -195,8 +195,8 @@ export default function AtaBimDashboard() {
                     <span style={{ color: s.accent }}>{s.icon}</span>
                   </div>
                 </div>
-                <p className="text-2xl font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{s.value}</p>
-                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
+                <p className="text-2xl font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{s.value}</p>
+                <p className="text-[11px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.45)" }}>{s.label}</p>
               </div>
             </Glass>
           ))}
@@ -210,7 +210,7 @@ export default function AtaBimDashboard() {
               onClick={() => setTab(t.id)}
               className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all flex-1 justify-center"
               style={{
-                fontFamily: "Plus Jakarta Sans",
+                fontFamily: "Inter",
                 background: tab === t.id ? "rgba(74,165,168,0.12)" : "transparent",
                 color: tab === t.id ? "#4AA5A8" : "rgba(255,255,255,0.4)",
                 border: tab === t.id ? "1px solid rgba(74,165,168,0.25)" : "1px solid transparent",
@@ -230,7 +230,7 @@ export default function AtaBimDashboard() {
             placeholder={`Search ${tabs.find(t => t.id === tab)?.label.toLowerCase()}…`}
             className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none"
             style={{
-              fontFamily: "Plus Jakarta Sans",
+              fontFamily: "Inter",
               background: "rgba(255,255,255,0.65)",
               border: "1px solid rgba(255,255,255,0.5)",
               color: "#1A1D29",
@@ -246,7 +246,7 @@ export default function AtaBimDashboard() {
                 <thead>
                   <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                     {["Model Name", "Discipline", "LOD", "Format", "Size", "Updated", "Author"].map((h) => (
-                      <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                      <th key={h} className="px-4 py-3 text-[10px] uppercase tracking-wider" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                         {h}
                       </th>
                     ))}
@@ -264,22 +264,22 @@ export default function AtaBimDashboard() {
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
                           <Box size={14} style={{ color: lodColor(m.lod) }} />
-                          <span className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{m.name}</span>
+                          <span className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{m.name}</span>
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{m.discipline}</td>
+                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>{m.discipline}</td>
                       <td className="px-4 py-3">
                         <span
                           className="px-2 py-0.5 rounded-full text-[10px] font-mono"
-                          style={{ background: `${lodColor(m.lod)}20`, color: lodColor(m.lod), fontFamily: "JetBrains Mono" }}
+                          style={{ background: `${lodColor(m.lod)}20`, color: lodColor(m.lod), fontFamily: "IBM Plex Mono" }}
                         >
                           LOD {m.lod}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-xs font-mono" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "JetBrains Mono" }}>{m.format}</td>
-                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{m.fileSize}</td>
-                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{m.lastUpdated}</td>
-                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>{m.author}</td>
+                      <td className="px-4 py-3 text-xs font-mono" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "IBM Plex Mono" }}>{m.format}</td>
+                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{m.fileSize}</td>
+                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{m.lastUpdated}</td>
+                      <td className="px-4 py-3 text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>{m.author}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -287,7 +287,7 @@ export default function AtaBimDashboard() {
             </div>
             {/* LOD Legend */}
             <div className="flex items-center gap-4 px-4 py-3" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
-              <span className="text-[10px] uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>LOD Scale:</span>
+              <span className="text-[10px] uppercase tracking-wider" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>LOD Scale:</span>
               {[
                 { lod: "100–200", color: "hsl(var(--pounamu))", label: "Conceptual" },
                 { lod: "300–350", color: "hsl(var(--kowhai))", label: "Design" },
@@ -295,7 +295,7 @@ export default function AtaBimDashboard() {
               ].map((l) => (
                 <div key={l.lod} className="flex items-center gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ background: l.color }} />
-                  <span className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                  <span className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                     {l.lod} — {l.label}
                   </span>
                 </div>
@@ -315,8 +315,8 @@ export default function AtaBimDashboard() {
                   <Glass key={t}>
                     <div className="flex items-center gap-2 px-4 py-2.5">
                       <div className="w-2.5 h-2.5 rounded-full" style={{ background: clashTypeColor(t) }} />
-                      <span className="text-xs capitalize" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.6)" }}>{t} clashes</span>
-                      <span className="text-sm font-light ml-1" style={{ fontFamily: "Lato", color: "#1A1D29" }}>{count}</span>
+                      <span className="text-xs capitalize" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.6)" }}>{t} clashes</span>
+                      <span className="text-sm font-light ml-1" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{count}</span>
                     </div>
                   </Glass>
                 );
@@ -337,21 +337,21 @@ export default function AtaBimDashboard() {
                       <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ background: clashTypeColor(c.type) }} />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-xs font-mono" style={{ color: "#4AA5A8", fontFamily: "JetBrains Mono" }}>{c.id}</span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: badge.bg, color: badge.text, fontFamily: "JetBrains Mono" }}>{c.status}</span>
-                          <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: `${clashTypeColor(c.type)}20`, color: clashTypeColor(c.type), fontFamily: "JetBrains Mono" }}>{c.type}</span>
+                          <span className="text-xs font-mono" style={{ color: "#4AA5A8", fontFamily: "IBM Plex Mono" }}>{c.id}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: badge.bg, color: badge.text, fontFamily: "IBM Plex Mono" }}>{c.status}</span>
+                          <span className="px-2 py-0.5 rounded-full text-[9px] capitalize" style={{ background: `${clashTypeColor(c.type)}20`, color: clashTypeColor(c.type), fontFamily: "IBM Plex Mono" }}>{c.type}</span>
                         </div>
-                        <p className="text-sm mt-1 truncate" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>
+                        <p className="text-sm mt-1 truncate" style={{ fontFamily: "Inter", color: "#1A1D29" }}>
                           {c.modelA} ↔ {c.modelB}
                         </p>
-                        <p className="text-[11px] mt-0.5" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>{c.location}</p>
+                        <p className="text-[11px] mt-0.5" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.4)" }}>{c.location}</p>
                       </div>
                       <ChevronRight size={14} className="flex-shrink-0 transition-transform" style={{ color: "rgba(255,255,255,0.3)", transform: isOpen ? "rotate(90deg)" : "rotate(0)" }} />
                     </button>
                     {isOpen && (
                       <div className="px-4 pb-4 space-y-2" style={{ borderTop: "1px solid rgba(255,255,255,0.5)" }}>
-                        <p className="text-xs pt-3" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.65)" }}>{c.description}</p>
-                        <div className="flex gap-4 flex-wrap text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                        <p className="text-xs pt-3" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.65)" }}>{c.description}</p>
+                        <div className="flex gap-4 flex-wrap text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                           <span>Severity: <strong style={{ color: c.severity === "Critical" ? "#EF4444" : c.severity === "Major" ? "#4AA5A8" : "#3A7D6E" }}>{c.severity}</strong></span>
                           <span>Assigned: {c.assignedTo}</span>
                           <span>Found: {c.dateFound}</span>
@@ -371,14 +371,14 @@ export default function AtaBimDashboard() {
             {/* Timeline bar */}
             <Glass>
               <div className="p-4">
-                <h3 className="text-xs uppercase tracking-wider mb-3" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                <h3 className="text-xs uppercase tracking-wider mb-3" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                   Construction Programme — 4D Timeline
                 </h3>
                 <div className="relative">
                   {/* Months header */}
                   <div className="flex mb-2">
                     {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr"].map((m, i) => (
-                      <div key={`${m}-${i}`} className="flex-1 text-center text-[8px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.25)" }}>
+                      <div key={`${m}-${i}`} className="flex-1 text-center text-[8px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.25)" }}>
                         {m}
                       </div>
                     ))}
@@ -401,7 +401,7 @@ export default function AtaBimDashboard() {
 
                       return (
                         <div key={p.id} className="flex items-center gap-2">
-                          <span className="w-36 text-[10px] truncate text-right pr-2" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.5)" }}>
+                          <span className="w-36 text-[10px] truncate text-right pr-2" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.5)" }}>
                             {p.name}
                           </span>
                           <div className="flex-1 relative h-6 rounded-md" style={{ background: "rgba(255,255,255,0.5)" }}>
@@ -424,7 +424,7 @@ export default function AtaBimDashboard() {
                                   style={{ width: `${p.progress}%`, background: `${phaseColor(p.status)}30` }}
                                 />
                               )}
-                              <span className="relative z-10 text-[8px] font-mono" style={{ color: phaseColor(p.status), fontFamily: "JetBrains Mono" }}>
+                              <span className="relative z-10 text-[8px] font-mono" style={{ color: phaseColor(p.status), fontFamily: "IBM Plex Mono" }}>
                                 {p.progress > 0 ? `${p.progress}%` : ""}
                               </span>
                             </div>
@@ -436,7 +436,7 @@ export default function AtaBimDashboard() {
 
                   {/* Today marker */}
                   <div className="absolute top-0 h-full w-px" style={{ left: `${(3 / 16) * 100}%`, background: "#4AA5A8", opacity: 0.5 }}>
-                    <div className="absolute -top-4 -translate-x-1/2 px-1.5 py-0.5 rounded text-[8px] font-mono" style={{ background: "#4AA5A8", color: "#09090F", fontFamily: "JetBrains Mono" }}>
+                    <div className="absolute -top-4 -translate-x-1/2 px-1.5 py-0.5 rounded text-[8px] font-mono" style={{ background: "#4AA5A8", color: "#3D3428", fontFamily: "IBM Plex Mono" }}>
                       Today
                     </div>
                   </div>
@@ -452,17 +452,17 @@ export default function AtaBimDashboard() {
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 rounded-full" style={{ background: phaseColor(p.status) }} />
-                        <h4 className="text-sm font-medium" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>{p.name}</h4>
+                        <h4 className="text-sm font-medium" style={{ fontFamily: "Inter", color: "#1A1D29" }}>{p.name}</h4>
                       </div>
                       <span className="text-[9px] px-2 py-0.5 rounded-full capitalize" style={{
-                        fontFamily: "JetBrains Mono",
+                        fontFamily: "IBM Plex Mono",
                         background: `${phaseColor(p.status)}15`,
                         color: phaseColor(p.status),
                       }}>
                         {p.status}
                       </span>
                     </div>
-                    <p className="text-[10px] mb-2" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.4)" }}>
+                    <p className="text-[10px] mb-2" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.4)" }}>
                       {p.start} → {p.end}
                     </p>
                     {/* Progress bar */}
@@ -472,7 +472,7 @@ export default function AtaBimDashboard() {
                     <div className="flex flex-wrap gap-1">
                       {p.trades.map((t) => (
                         <span key={t} className="px-1.5 py-0.5 rounded text-[8px]" style={{
-                          fontFamily: "JetBrains Mono",
+                          fontFamily: "IBM Plex Mono",
                           background: "rgba(255,255,255,0.5)",
                           color: "rgba(255,255,255,0.4)",
                           border: "1px solid rgba(255,255,255,0.5)",
@@ -495,8 +495,8 @@ export default function AtaBimDashboard() {
             <Glass glow>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm" style={{ fontFamily: "Plus Jakarta Sans", color: "#1A1D29" }}>Handover Completion</h3>
-                  <span className="text-lg font-light" style={{ fontFamily: "Lato", color: "#4AA5A8" }}>{handoverPct}%</span>
+                  <h3 className="text-sm" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Handover Completion</h3>
+                  <span className="text-lg font-light" style={{ fontFamily: "Inter", color: "#4AA5A8" }}>{handoverPct}%</span>
                 </div>
                 <div className="h-2 rounded-full" style={{ background: "rgba(255,255,255,0.5)" }}>
                   <div
@@ -504,7 +504,7 @@ export default function AtaBimDashboard() {
                     style={{ width: `${handoverPct}%`, background: "linear-gradient(90deg, #4AA5A8, #3A7D6E)" }}
                   />
                 </div>
-                <p className="text-[10px] mt-1.5" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>
+                <p className="text-[10px] mt-1.5" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>
                   {handoverDone} of {HANDOVER.length} documents uploaded
                 </p>
               </div>
@@ -523,10 +523,10 @@ export default function AtaBimDashboard() {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm truncate" style={{ fontFamily: "Plus Jakarta Sans", color: h.uploaded ? "rgba(255,255,255,0.5)" : "#FFFFFF", textDecoration: h.uploaded ? "line-through" : "none" }}>
+                      <p className="text-sm truncate" style={{ fontFamily: "Inter", color: h.uploaded ? "rgba(255,255,255,0.5)" : "#FFFFFF", textDecoration: h.uploaded ? "line-through" : "none" }}>
                         {h.document}
                       </p>
-                      <div className="flex gap-3 mt-0.5 text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.3)" }}>
+                      <div className="flex gap-3 mt-0.5 text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.3)" }}>
                         <span>{h.category}</span>
                         <span>Reviewer: {h.reviewer}</span>
                       </div>
@@ -535,7 +535,7 @@ export default function AtaBimDashboard() {
                       <button
                         className="px-3 py-1 rounded-lg text-[10px] font-medium transition-colors"
                         style={{
-                          fontFamily: "Plus Jakarta Sans",
+                          fontFamily: "Inter",
                           background: "rgba(74,165,168,0.1)",
                           color: "#4AA5A8",
                           border: "1px solid rgba(74,165,168,0.2)",
@@ -557,7 +557,7 @@ export default function AtaBimDashboard() {
             <Glass className="w-full max-w-lg">
               <div className="p-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-light" style={{ fontFamily: "Lato", color: "#1A1D29" }}>Upload BIM Model</h3>
+                  <h3 className="text-lg font-light" style={{ fontFamily: "Inter", color: "#1A1D29" }}>Upload BIM Model</h3>
                   <button onClick={() => setShowAddModel(false)}><X size={18} style={{ color: "rgba(255,255,255,0.4)" }} /></button>
                 </div>
                 {[
@@ -566,19 +566,19 @@ export default function AtaBimDashboard() {
                   { label: "Author", placeholder: "e.g. J. Henare" },
                 ].map((f) => (
                   <div key={f.label}>
-                    <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>{f.label}</label>
-                    <input placeholder={f.placeholder} className="w-full px-3 py-2 rounded-lg text-sm outline-none" style={{ fontFamily: "Plus Jakarta Sans", background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)", color: "#1A1D29" }} />
+                    <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>{f.label}</label>
+                    <input placeholder={f.placeholder} className="w-full px-3 py-2 rounded-lg text-sm outline-none" style={{ fontFamily: "Inter", background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)", color: "#1A1D29" }} />
                   </div>
                 ))}
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>LOD Level</label>
-                  <select className="w-full px-3 py-2 rounded-lg text-sm outline-none" style={{ fontFamily: "Plus Jakarta Sans", background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)", color: "#1A1D29" }}>
+                  <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>LOD Level</label>
+                  <select className="w-full px-3 py-2 rounded-lg text-sm outline-none" style={{ fontFamily: "Inter", background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)", color: "#1A1D29" }}>
                     {[100, 200, 300, 350, 400, 500].map(l => <option key={l} value={l}>LOD {l}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.35)" }}>File Format</label>
-                  <select className="w-full px-3 py-2 rounded-lg text-sm outline-none" style={{ fontFamily: "Plus Jakarta Sans", background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)", color: "#1A1D29" }}>
+                  <label className="block text-[10px] uppercase tracking-wider mb-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.35)" }}>File Format</label>
+                  <select className="w-full px-3 py-2 rounded-lg text-sm outline-none" style={{ fontFamily: "Inter", background: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)", color: "#1A1D29" }}>
                     {["IFC 4.0", "RVT", "DWG", "NWD", "GLB"].map(f => <option key={f} value={f}>{f}</option>)}
                   </select>
                 </div>
@@ -588,18 +588,18 @@ export default function AtaBimDashboard() {
                   style={{ borderColor: "rgba(74,165,168,0.2)", background: "rgba(74,165,168,0.03)" }}
                 >
                   <Box size={24} className="mx-auto mb-2" style={{ color: "rgba(74,165,168,0.4)" }} />
-                  <p className="text-xs" style={{ fontFamily: "Plus Jakarta Sans", color: "rgba(255,255,255,0.4)" }}>
+                  <p className="text-xs" style={{ fontFamily: "Inter", color: "rgba(255,255,255,0.4)" }}>
                     Drop IFC, RVT, DWG, or GLB file here
                   </p>
-                  <p className="text-[10px] mt-1" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
+                  <p className="text-[10px] mt-1" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.2)" }}>
                     Max 500 MB
                   </p>
                 </div>
                 <div className="flex gap-2 pt-2">
-                  <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm" style={{ fontFamily: "Plus Jakarta Sans", background: "rgba(255,255,255,0.5)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
+                  <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm" style={{ fontFamily: "Inter", background: "rgba(255,255,255,0.5)", color: "rgba(255,255,255,0.5)", border: "1px solid rgba(255,255,255,0.5)" }}>
                     Cancel
                   </button>
-                  <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm font-medium" style={{ fontFamily: "Plus Jakarta Sans", background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#09090F" }}>
+                  <button onClick={() => setShowAddModel(false)} className="flex-1 py-2 rounded-xl text-sm font-medium" style={{ fontFamily: "Inter", background: "linear-gradient(135deg, #4AA5A8, #B8892A)", color: "#3D3428" }}>
                     Upload Model
                   </button>
                 </div>
@@ -610,7 +610,7 @@ export default function AtaBimDashboard() {
 
         {/* Footer */}
         <div className="text-center pt-4">
-          <p className="text-[10px]" style={{ fontFamily: "JetBrains Mono", color: "rgba(255,255,255,0.2)" }}>
+          <p className="text-[10px]" style={{ fontFamily: "IBM Plex Mono", color: "rgba(255,255,255,0.2)" }}>
             ATA — BIM Management · Waihanga Construction Suite · Assembl Mārama
           </p>
         </div>

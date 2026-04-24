@@ -41,7 +41,7 @@ export default function AuahaCalendar() {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Content Calendar</p>
-          <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Content Calendar</h1>
+          <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Inter, sans-serif' }}>Content Calendar</h1>
         </div>
         <div className="flex items-center gap-3">
           <button className="text-[#6B7280] hover:text-[#4A5160]"><ChevronLeft className="w-5 h-5" /></button>

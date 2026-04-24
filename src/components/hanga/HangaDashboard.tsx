@@ -113,7 +113,7 @@ export default function HangaDashboard() {
       {/* ── Header ── */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl sm:text-3xl font-light tracking-[0.08em] uppercase" style={{ fontFamily: "'Lato', sans-serif", color: C.text }}>WAIHANGA</h1>
+          <h1 className="text-2xl sm:text-3xl font-light tracking-[0.08em] uppercase" style={{ fontFamily: "'Inter', sans-serif", color: C.text }}>WAIHANGA</h1>
           <span className="text-[9px] font-bold tracking-[0.2em] px-3 py-1 rounded-full" style={{ background: `${C.kowhai}12`, color: C.kowhai, border: `1px solid ${C.kowhai}20` }}>
             CONSTRUCTION INTELLIGENCE
           </span>

@@ -229,7 +229,7 @@ const AdminPackAnalytics = () => {
                 onClick={() => setDateRange(r)}
                 className="px-3 py-1.5 text-[10px] font-bold uppercase transition-colors"
                 style={{
-                  fontFamily: "'JetBrains Mono', monospace",
+                  fontFamily: "'IBM Plex Mono', monospace",
                   background: dateRange === r ? "rgba(74,165,168,0.15)" : "transparent",
                   color: dateRange === r ? "#4AA5A8" : "rgba(255,255,255,0.4)",
                   letterSpacing: "0.08em",
@@ -242,7 +242,7 @@ const AdminPackAnalytics = () => {
           <button
             onClick={exportCSV}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase transition-all hover:scale-105"
-            style={{ fontFamily: "'Lato', sans-serif", background: "#4AA5A8", color: "#3D4250", letterSpacing: "0.08em" }}
+            style={{ fontFamily: "'Inter', sans-serif", background: "#4AA5A8", color: "#3D4250", letterSpacing: "0.08em" }}
           >
             <Download size={12} /> CSV Export
           </button>
@@ -258,7 +258,7 @@ const AdminPackAnalytics = () => {
               onClick={() => setTab(t.key)}
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium transition-all"
               style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontFamily: "'Inter', sans-serif",
                 background: tab === t.key ? "rgba(74,165,168,0.12)" : "transparent",
                 color: tab === t.key ? "#4AA5A8" : "rgba(255,255,255,0.4)",
               }}
@@ -284,7 +284,7 @@ const AdminPackAnalytics = () => {
                     { label: "Conversion Rate", value: `${convRate}%`, color: "#3A7D6E" },
                   ].map(kpi => (
                     <motion.div key={kpi.label} className="rounded-2xl p-5 text-center" style={cardStyle} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-                      <p className="text-2xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: kpi.color }}>{kpi.value}</p>
+                      <p className="text-2xl font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace", color: kpi.color }}>{kpi.value}</p>
                       <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "#6B7280" }}>{kpi.label}</p>
                     </motion.div>
                   ))}
@@ -292,7 +292,7 @@ const AdminPackAnalytics = () => {
 
                 {/* Pack views bar chart */}
                 <div className="rounded-2xl p-6" style={cardStyle}>
-                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                     Pack Views — Last {daysFromRange(dateRange)} Days
                   </h3>
                   <ResponsiveContainer width="100%" height={220}>
@@ -308,7 +308,7 @@ const AdminPackAnalytics = () => {
 
                 {/* Funnel */}
                 <div className="rounded-2xl p-6" style={cardStyle}>
-                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                     Conversion Funnel
                   </h3>
                   <div className="flex items-end gap-2 h-[180px]">
@@ -317,7 +317,7 @@ const AdminPackAnalytics = () => {
                       const height = Math.max((step.count / maxCount) * 160, 20);
                       return (
                         <div key={step.step} className="flex-1 flex flex-col items-center justify-end">
-                          <span className="text-xs font-bold mb-1" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>{step.count}</span>
+                          <span className="text-xs font-bold mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}>{step.count}</span>
                           <div className="w-full rounded-t-lg" style={{ height, background: `rgba(74,165,168,${0.3 + (i * 0.15)})` }} />
                           <span className="text-[9px] mt-2 text-center" style={{ color: "#6B7280", lineHeight: 1.2 }}>{step.step}</span>
                         </div>
@@ -330,13 +330,13 @@ const AdminPackAnalytics = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {Object.entries(topAgents).map(([pack, agents]) => (
                     <div key={pack} className="rounded-2xl p-5" style={cardStyle}>
-                      <h4 className="text-[10px] uppercase tracking-wider mb-3" style={{ fontFamily: "'Lato', sans-serif", color: "#4AA5A8" }}>
+                      <h4 className="text-[10px] uppercase tracking-wider mb-3" style={{ fontFamily: "'Inter', sans-serif", color: "#4AA5A8" }}>
                         Top Agents — {pack}
                       </h4>
                       {agents.map((a: any, i: number) => (
                         <div key={a.name} className="flex items-center justify-between py-1.5" style={{ borderBottom: i < agents.length - 1 ? "1px solid rgba(255,255,255,0.5)" : "none" }}>
                           <span className="text-xs" style={{ color: "#1A1D29" }}>{i + 1}. {a.name}</span>
-                          <span className="text-xs" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>{a.clicks} clicks</span>
+                          <span className="text-xs" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#3A7D6E" }}>{a.clicks} clicks</span>
                         </div>
                       ))}
                       {agents.length === 0 && <p className="text-[10px]" style={{ color: "#9CA3AF" }}>No data yet</p>}
@@ -368,7 +368,7 @@ const AdminPackAnalytics = () => {
 
                 {/* Daily views line chart */}
                 <div className="rounded-2xl p-6" style={cardStyle}>
-                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
+                  <h3 className="text-xs font-bold uppercase tracking-wider mb-4" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                     Daily Views — {selectedPack}
                   </h3>
                   <ResponsiveContainer width="100%" height={200}>
@@ -385,11 +385,11 @@ const AdminPackAnalytics = () => {
                 {/* Agent performance grid */}
                 <div className="rounded-2xl overflow-hidden" style={cardStyle}>
                   <div className="px-5 py-3" style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
-                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>
+                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                       Agent Performance — {selectedPack}
                     </h3>
                   </div>
-                  <table className="w-full text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  <table className="w-full text-xs" style={{ fontFamily: "'Inter', sans-serif" }}>
                     <thead>
                       <tr style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
                         {["Agent", "Clicks", "Sessions", "Avg Duration", "Completion %"].map(h => (
@@ -403,9 +403,9 @@ const AdminPackAnalytics = () => {
                       ) : agentPerf.map(a => (
                         <tr key={a.name} style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
                           <td className="px-4 py-2.5 font-bold" style={{ color: "#1A1D29" }}>{a.name}</td>
-                          <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4AA5A8" }}>{a.clicks}</td>
-                          <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#3A7D6E" }}>{a.sessions}</td>
-                          <td className="px-4 py-2.5" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{a.avgDuration}s</td>
+                          <td className="px-4 py-2.5" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}>{a.clicks}</td>
+                          <td className="px-4 py-2.5" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#3A7D6E" }}>{a.sessions}</td>
+                          <td className="px-4 py-2.5" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#6B7280" }}>{a.avgDuration}s</td>
                           <td className="px-4 py-2.5">
                             <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{
                               background: a.completionRate > 70 ? "rgba(58,125,110,0.2)" : a.completionRate > 40 ? "rgba(74,165,168,0.2)" : "rgba(200,90,84,0.2)",
@@ -437,7 +437,7 @@ const AdminPackAnalytics = () => {
                     })(), color: "#3A7D6E" },
                   ].map(kpi => (
                     <div key={kpi.label} className="rounded-2xl p-5 text-center" style={cardStyle}>
-                      <p className="text-2xl font-bold" style={{ fontFamily: "'JetBrains Mono', monospace", color: kpi.color }}>{kpi.value}</p>
+                      <p className="text-2xl font-bold" style={{ fontFamily: "'IBM Plex Mono', monospace", color: kpi.color }}>{kpi.value}</p>
                       <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: "#6B7280" }}>{kpi.label}</p>
                     </div>
                   ))}
@@ -446,11 +446,11 @@ const AdminPackAnalytics = () => {
                 {/* Cohort table */}
                 <div className="rounded-2xl overflow-hidden" style={cardStyle}>
                   <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
-                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Lato', sans-serif", color: "#6B7280" }}>User Cohort Analysis</h3>
+                    <h3 className="text-xs font-bold uppercase tracking-wider" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>User Cohort Analysis</h3>
                     <Filter size={14} style={{ color: "#9CA3AF" }} />
                   </div>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-xs" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                    <table className="w-full text-xs" style={{ fontFamily: "'Inter', sans-serif" }}>
                       <thead>
                         <tr style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
                           {["User", "Signup", "Trial", "Converted", "Days to Upgrade"].map(h => (
@@ -463,7 +463,7 @@ const AdminPackAnalytics = () => {
                           <tr><td colSpan={5} className="px-4 py-6 text-center" style={{ color: "#9CA3AF" }}>No cohort data yet</td></tr>
                         ) : cohortData.slice(0, 50).map(u => (
                           <tr key={u.user_id} style={{ borderBottom: "1px solid rgba(255,255,255,0.5)" }}>
-                            <td className="px-4 py-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: "#6B7280" }}>{u.user_id}…</td>
+                            <td className="px-4 py-2" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#6B7280" }}>{u.user_id}…</td>
                             <td className="px-4 py-2" style={{ color: "#6B7280" }}>{u.signup_date}</td>
                             <td className="px-4 py-2">
                               <span className="px-2 py-0.5 rounded-full text-[9px] font-bold" style={{ background: u.trial_started ? "rgba(58,125,110,0.2)" : "rgba(255,255,255,0.5)", color: u.trial_started ? "#3A7D6E" : "rgba(255,255,255,0.3)" }}>
@@ -475,7 +475,7 @@ const AdminPackAnalytics = () => {
                                 {u.converted ? "Paid" : "Free"}
                               </span>
                             </td>
-                            <td className="px-4 py-2" style={{ fontFamily: "'JetBrains Mono', monospace", color: u.days_to_upgrade !== null ? "#3A7D6E" : "rgba(255,255,255,0.2)" }}>
+                            <td className="px-4 py-2" style={{ fontFamily: "'IBM Plex Mono', monospace", color: u.days_to_upgrade !== null ? "#3A7D6E" : "rgba(255,255,255,0.2)" }}>
                               {u.days_to_upgrade !== null ? `${u.days_to_upgrade}d` : "–"}
                             </td>
                           </tr>

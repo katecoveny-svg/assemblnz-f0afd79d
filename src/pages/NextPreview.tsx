@@ -40,7 +40,7 @@ export default function NextPreview() {
             onClick={() => setVariant(v)}
             className="px-4 py-2 rounded-full uppercase"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               fontSize: 10,
               letterSpacing: "0.2em",
               background: variant === v ? "#3A7D6E" : "transparent",
@@ -61,7 +61,7 @@ export default function NextPreview() {
           <p
             className="uppercase mb-6"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               fontSize: 11,
               letterSpacing: "0.32em",
               color: "#3A7D6E",
@@ -71,7 +71,7 @@ export default function NextPreview() {
           </p>
           <h2
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 200,
               fontSize: "clamp(32px, 5vw, 56px)",
               lineHeight: 1.05,
@@ -85,7 +85,7 @@ export default function NextPreview() {
           <p
             className="mt-8 max-w-[60ch] mx-auto"
             style={{
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontSize: 16,
               lineHeight: 1.65,
               color: "#3D4250B3",
@@ -103,9 +103,9 @@ export default function NextPreview() {
             ].map((p) => (
               <div key={p.eyebrow} className="p-6 rounded-2xl"
                 style={{ background: "rgba(255,255,255,0.65)", backdropFilter: "blur(20px)", border: "1px solid rgba(58,125,110,0.15)" }}>
-                <p className="uppercase text-[10px] mb-3" style={{ fontFamily: "'JetBrains Mono', monospace", letterSpacing: "0.28em", color: "#3A7D6E" }}>{p.eyebrow}</p>
-                <h3 className="text-[19px] mb-2" style={{ fontFamily: "'Lato', sans-serif", fontWeight: 400, color: "#3D4250" }}>{p.title}</h3>
-                <p className="text-[14px]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", lineHeight: 1.6, color: "#3D4250B3" }}>{p.body}</p>
+                <p className="uppercase text-[10px] mb-3" style={{ fontFamily: "'IBM Plex Mono', monospace", letterSpacing: "0.28em", color: "#3A7D6E" }}>{p.eyebrow}</p>
+                <h3 className="text-[19px] mb-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "#3D4250" }}>{p.title}</h3>
+                <p className="text-[14px]" style={{ fontFamily: "'Inter', sans-serif", lineHeight: 1.6, color: "#3D4250B3" }}>{p.body}</p>
               </div>
             ))}
           </div>
@@ -113,7 +113,7 @@ export default function NextPreview() {
           <p
             className="mt-12 text-[13px]"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'IBM Plex Mono', monospace",
               letterSpacing: "0.18em",
               color: "#3A7D6E",
               textTransform: "uppercase",

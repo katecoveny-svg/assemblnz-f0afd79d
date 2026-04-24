@@ -61,7 +61,7 @@ const FAQSection = () => {
           <p
             className="uppercase mb-3"
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 700,
               fontSize: "11px",
               letterSpacing: "4px",
@@ -72,7 +72,7 @@ const FAQSection = () => {
           </p>
           <h2
             style={{
-              fontFamily: "'Lato', sans-serif",
+              fontFamily: "'Inter', sans-serif",
               fontWeight: 300,
               fontSize: "2rem",
               color: "#1A1D29",
@@ -107,7 +107,7 @@ const FAQSection = () => {
                   <span
                     className="pr-4"
                     style={{
-                      fontFamily: "'Lato', sans-serif",
+                      fontFamily: "'Inter', sans-serif",
                       fontWeight: 300,
                       fontSize: "14px",
                       color: "#1A1D29",
@@ -136,7 +136,7 @@ const FAQSection = () => {
                       <p
                         className="px-5 sm:px-6 pb-4"
                         style={{
-                          fontFamily: "'Plus Jakarta Sans', sans-serif",
+                          fontFamily: "'Inter', sans-serif",
                           fontWeight: 400,
                           fontSize: "13px",
                           color: "rgba(255,255,255,0.65)",

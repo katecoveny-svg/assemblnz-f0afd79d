@@ -51,13 +51,13 @@ export default function KeteVideoBlock({ slug, accentColor, keteName }: Props) {
     >
       <p
         className="text-[11px] uppercase tracking-[3px] mb-3"
-        style={{ fontFamily: "'JetBrains Mono', monospace", color: accentColor }}
+        style={{ fontFamily: "'IBM Plex Mono', monospace", color: accentColor }}
       >
         See it in action
       </p>
       <h2
         className="text-2xl tracking-[3px] uppercase mb-5"
-        style={{ fontFamily: "'Lato', sans-serif", fontWeight: 300, color: "#3D4250" }}
+        style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "#3D4250" }}
       >
         {keteName} on Assembl
       </h2>
@@ -84,7 +84,7 @@ export default function KeteVideoBlock({ slug, accentColor, keteName }: Props) {
         </div>
         <p
           className="text-center mt-4 text-[13px] italic"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 400, color: "#6B7280" }}
+          style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "#6B7280" }}
         >
           {config.caption}
         </p>

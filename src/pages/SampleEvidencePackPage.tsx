@@ -11,16 +11,16 @@ import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 
 /* ─── Brand tokens ─── */
-const BG = "#0A1628";
+const BG = "#F7F3EE";
 const TEAL = "#3A7D6E";
 const GOLD = "#4AA5A8";
 const WHITE = "#FFFFFF";
 const SURFACE = "rgba(255,255,255,0.04)";
 const BORDER = "rgba(255,255,255,0.08)";
 
-const FONT_HEAD = "'Lato', sans-serif";
-const FONT_BODY = "'Plus Jakarta Sans', sans-serif";
-const FONT_MONO = "'JetBrains Mono', monospace";
+const FONT_HEAD = "'Inter', sans-serif";
+const FONT_BODY = "'Inter', sans-serif";
+const FONT_MONO = "'IBM Plex Mono', monospace";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const fade = (i = 0) => ({
@@ -841,7 +841,7 @@ const SampleEvidencePackPage = () => {
                   textTransform: "uppercase",
                   letterSpacing: "0.08em",
                   background: pack.accent,
-                  color: pack.accent === GOLD || pack.accent === "#C4943A" ? "#09090F" : WHITE,
+                  color: pack.accent === GOLD || pack.accent === "#C4943A" ? "#3D3428" : WHITE,
                 }}
               >
                 Get started <ArrowRight size={15} />

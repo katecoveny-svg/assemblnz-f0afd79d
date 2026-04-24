@@ -146,7 +146,7 @@ export default function AdminAnalyticsDashboard() {
       backTo="/admin/dashboard"
       actions={
         <button onClick={fetchData} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-sm transition-colors"
-          style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          style={{ fontFamily: "'Inter', sans-serif" }}>
           <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
           Refresh
         </button>

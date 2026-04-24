@@ -114,13 +114,13 @@ export default function AgentMarketplacePage() {
             </span>
             <h1
               className="text-4xl md:text-5xl font-light tracking-tight mb-4"
-              style={{ fontFamily: "'Lato', sans-serif", color: CHARCOAL }}
+              style={{ fontFamily: "'Inter', sans-serif", color: CHARCOAL }}
             >
               Every Assembl agent, in one place.
             </h1>
             <p
               className="text-base md:text-lg leading-relaxed"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}
+              style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}
             >
               Browse {enriched.length} governed specialists across {KETE_CONFIG.length} industry kete plus the shared
               compliance core. Every agent is grounded in NZ legislation, citation-ready, and human-approval safe.
@@ -147,7 +147,7 @@ export default function AgentMarketplacePage() {
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by name, role, or expertise — try 'privacy', 'tendering', 'fuel'…"
                 className="flex-1 bg-transparent outline-none text-sm"
-                style={{ color: CHARCOAL, fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                style={{ color: CHARCOAL, fontFamily: "'Inter', sans-serif" }}
               />
               {search && (
                 <button onClick={() => setSearch("")} aria-label="Clear search">
@@ -256,7 +256,7 @@ export default function AgentMarketplacePage() {
                       <div className="flex items-baseline gap-2 mb-1">
                         <h3
                           className="text-base font-bold tracking-wide"
-                          style={{ fontFamily: "'JetBrains Mono', monospace", color: CHARCOAL }}
+                          style={{ fontFamily: "'IBM Plex Mono', monospace", color: CHARCOAL }}
                         >
                           {agent.name}
                         </h3>
@@ -264,13 +264,13 @@ export default function AgentMarketplacePage() {
                           {agent.designation}
                         </span>
                       </div>
-                      <p className="text-xs mb-3" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#6B7280" }}>
+                      <p className="text-xs mb-3" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
                         {agent.role}
                       </p>
 
                       <p
                         className="text-[12px] leading-relaxed mb-4 line-clamp-2"
-                        style={{ color: "#4B5563", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+                        style={{ color: "#4B5563", fontFamily: "'Inter', sans-serif" }}
                       >
                         {agent.tagline}
                       </p>

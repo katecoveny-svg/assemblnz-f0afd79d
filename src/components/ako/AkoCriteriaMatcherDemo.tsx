@@ -125,7 +125,7 @@ export default function AkoCriteriaMatcherDemo() {
       }}
     >
       {/* Pipeline strip */}
-      <div className="flex items-center gap-2 flex-wrap mb-6 text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'JetBrains Mono', monospace", color: ACCENT }}>
+      <div className="flex items-center gap-2 flex-wrap mb-6 text-[10px] tracking-[2px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: ACCENT }}>
         <span>APEX-AKO</span>
         <ArrowRight size={10} style={{ color: ACCENT_LIGHT }} />
         <span>NOVA-AKO</span>
@@ -186,7 +186,7 @@ export default function AkoCriteriaMatcherDemo() {
               APEX-AKO is matching <strong>{SAMPLE_POLICY_NAME}</strong> against ~78 criteria…
             </p>
             <div className="mt-4 max-w-sm mx-auto">
-              <div className="space-y-1.5 text-[11px] text-left" style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+              <div className="space-y-1.5 text-[11px] text-left" style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
                 <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
                   ✓ Loaded 20 Apr 2026 criteria corpus (78 items)
                 </motion.p>
@@ -223,10 +223,10 @@ export default function AkoCriteriaMatcherDemo() {
                     style={{ background: `${meta.color}10`, border: `1px solid ${meta.color}30` }}
                   >
                     <Icon size={16} style={{ color: meta.color, margin: "0 auto 4px" }} />
-                    <div className="text-2xl font-light" style={{ color: meta.color, fontFamily: "'Lato', sans-serif" }}>
+                    <div className="text-2xl font-light" style={{ color: meta.color, fontFamily: "'Inter', sans-serif" }}>
                       {counts[s]}
                     </div>
-                    <div className="text-[10px] tracking-wider uppercase" style={{ color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+                    <div className="text-[10px] tracking-wider uppercase" style={{ color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
                       {meta.label}
                     </div>
                   </div>
@@ -252,11 +252,11 @@ export default function AkoCriteriaMatcherDemo() {
                       className="w-full px-4 py-3 flex items-center gap-3 text-left transition-colors hover:bg-black/[0.02]"
                     >
                       <Icon size={14} style={{ color: meta.color, flexShrink: 0 }} />
-                      <span className="text-[11px] tracking-wider px-2 py-0.5 rounded" style={{ background: `${meta.color}15`, color: meta.color, fontFamily: "'JetBrains Mono', monospace" }}>
+                      <span className="text-[11px] tracking-wider px-2 py-0.5 rounded" style={{ background: `${meta.color}15`, color: meta.color, fontFamily: "'IBM Plex Mono', monospace" }}>
                         {row.code}
                       </span>
                       <span className="text-[12px]" style={{ color: "#3D4250" }}>{row.category}</span>
-                      <span className="text-[9px] tracking-[2px] uppercase ml-auto" style={{ color: RetMeta.color, fontFamily: "'JetBrains Mono', monospace" }}>
+                      <span className="text-[9px] tracking-[2px] uppercase ml-auto" style={{ color: RetMeta.color, fontFamily: "'IBM Plex Mono', monospace" }}>
                         {RetMeta.label}
                       </span>
                     </button>
@@ -272,20 +272,20 @@ export default function AkoCriteriaMatcherDemo() {
                         >
                           <div className="px-4 pb-4 pt-1 space-y-3 text-[12px] leading-relaxed" style={{ color: "#3D4250" }}>
                             <div>
-                              <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ color: "#9CA3AF", fontFamily: "'JetBrains Mono', monospace" }}>
+                              <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ color: "#9CA3AF", fontFamily: "'IBM Plex Mono', monospace" }}>
                                 CURRENT POLICY LINE
                               </p>
                               <p style={{ color: "#6B7280" }}>{row.current}</p>
                             </div>
                             <div>
-                              <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>
+                              <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>
                                 20 APR 2026 CRITERION
                               </p>
                               <p>{row.newCriterion}</p>
                             </div>
                             {row.rewrite && (
                               <div className="rounded-lg p-3" style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}25` }}>
-                                <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}>
+                                <p className="text-[9px] tracking-[2px] uppercase mb-1" style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}>
                                   NOVA-AKO DRAFT REWRITE · centre voice
                                 </p>
                                 <p>{row.rewrite}</p>
@@ -301,13 +301,13 @@ export default function AkoCriteriaMatcherDemo() {
             </div>
 
             {/* Receipt */}
-            <div className="flex items-center gap-2 mt-5 pt-4 border-t text-[11px]" style={{ borderColor: "rgba(0,0,0,0.06)", color: "#6B7280", fontFamily: "'JetBrains Mono', monospace" }}>
+            <div className="flex items-center gap-2 mt-5 pt-4 border-t text-[11px]" style={{ borderColor: "rgba(0,0,0,0.06)", color: "#6B7280", fontFamily: "'IBM Plex Mono', monospace" }}>
               <FileCheck size={12} style={{ color: "#3A7D6E" }} />
               <span>MANA · evidence pack #ako-3a8f · 20 Apr 2026 criteria corpus v1 · signed</span>
               <button
                 onClick={reset}
                 className="ml-auto text-[11px] underline"
-                style={{ color: ACCENT, fontFamily: "'JetBrains Mono', monospace" }}
+                style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace" }}
               >
                 Run again
               </button>
