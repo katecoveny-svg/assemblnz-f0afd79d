@@ -302,7 +302,11 @@ export const checkSqlSafety = (rawSql: string): SqlSafetyResult => {
 // UPDATE-specific: must contain SET; must contain WHERE (or explicit override
 // via -- @safe-no-where comment); SET clause must not be empty.
 // ---------------------------------------------------------------------------
-const checkUpdate = (cleaned: string, issues: SqlSafetyIssue[]) => {
+const checkUpdate = (
+  cleaned: string,
+  issues: SqlSafetyIssue[],
+  allowNoWhere: boolean,
+) => {
   const upper = cleaned.toUpperCase();
   const hasSet = /\bSET\b/.test(upper);
   const hasWhere = /\bWHERE\b/.test(upper);
@@ -360,7 +364,11 @@ const checkUpdate = (cleaned: string, issues: SqlSafetyIssue[]) => {
 // ---------------------------------------------------------------------------
 // DELETE-specific: same WHERE rule as UPDATE.
 // ---------------------------------------------------------------------------
-const checkDelete = (cleaned: string, issues: SqlSafetyIssue[]) => {
+const checkDelete = (
+  cleaned: string,
+  issues: SqlSafetyIssue[],
+  allowNoWhere: boolean,
+) => {
   const upper = cleaned.toUpperCase();
   const hasWhere = /\bWHERE\b/.test(upper);
   const allowNoWhere = /--\s*@safe-no-where/i.test(cleaned);
