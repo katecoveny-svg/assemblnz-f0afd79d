@@ -60,7 +60,19 @@ const DEFAULT_SUGGESTIONS_DAY = [
   "Anything I should chase before school?",
 ];
 
-export function ToroTutorChat({
+export function ToroTutorChat(props: Props) {
+  return (
+    <ChatPanelBoundary
+      name="ToroTutorChat"
+      title={props.title ?? "Chat panel unavailable"}
+      imports={TORO_TUTOR_IMPORTS}
+    >
+      <ToroTutorChatInner {...props} />
+    </ChatPanelBoundary>
+  );
+}
+
+function ToroTutorChatInner({
   title = "Ask Tōro",
   contextLines = [],
   suggestions,
