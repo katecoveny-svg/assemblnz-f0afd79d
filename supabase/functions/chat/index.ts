@@ -7427,8 +7427,24 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  },
  ];
 
+ // Pull every schema'd tool from tool_registry so the LLM can call them
+ let registryTools: any[] = [];
+ try {
+  const { data: regRows } = await sb
+   .from("tool_registry")
+   .select("tool_schema")
+   .eq("is_active", true);
+  registryTools = (regRows || [])
+   .map((r: any) => r.tool_schema)
+   .filter((s: any) => s && s.function && s.function.name);
+ } catch (e) {
+  console.warn("[chat] tool_registry load failed:", e);
+ }
+
+ const allTools = [...integrationTools, ...LIVE_DATA_TOOLS, ...registryTools];
+
  // Add integration awareness to system prompt
- fullSystemPrompt += `\n\n[INTEGRATIONS: You have access to live integration tools. When the user asks about calendar events, scheduling, or their Canva designs, USE the tools to fetch real data or create items. Do NOT make up data — call the tool. If the tool returns an error about "not connected", tell the user to connect the integration via Integration Hub in settings.]`;
+ fullSystemPrompt += `\n\n[LIVE TOOLS: You have ${allTools.length} live tools available — calendar, Canva, NZ weather, fuel prices, routes, knowledge base search, memory recall, compliance updates, IoT signals, SMS, and ${registryTools.length} NZ industry calculators (GST, payroll, leave, NAIT, ETS, payment claim, allergen matrix, temp log, healthy homes, host responsibility, etc.). ALWAYS use a tool instead of guessing numbers, dates, or live data. If a tool returns {error}, surface the error to the user and suggest the fix.]`;
 
  // ===== SELF-HEALING RETRY with model fallback =====
  // Second routing layer: if the resolved model is anthropic/* or perplexity/*,
