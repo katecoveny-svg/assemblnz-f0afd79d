@@ -2335,6 +2335,54 @@ export type Database = {
           },
         ]
       }
+      content_queue: {
+        Row: {
+          author: string | null
+          content_body: string | null
+          content_type: string
+          created_at: string
+          id: string
+          rejection_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          submitted_at: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          author?: string | null
+          content_body?: string | null
+          content_type?: string
+          created_at?: string
+          id?: string
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_at?: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          author?: string | null
+          content_body?: string | null
+          content_type?: string
+          created_at?: string
+          id?: string
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_at?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       conversation_summaries: {
         Row: {
           agent_id: string
@@ -2529,6 +2577,60 @@ export type Database = {
         }
         Relationships: []
       }
+      customs_entries: {
+        Row: {
+          broker_name: string | null
+          cleared_date: string | null
+          created_at: string
+          duty_rate: number | null
+          entry_number: string
+          gst_amount: number | null
+          hs_code: string | null
+          id: string
+          importer: string | null
+          lodged_date: string | null
+          notes: string | null
+          shipment_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          broker_name?: string | null
+          cleared_date?: string | null
+          created_at?: string
+          duty_rate?: number | null
+          entry_number: string
+          gst_amount?: number | null
+          hs_code?: string | null
+          id?: string
+          importer?: string | null
+          lodged_date?: string | null
+          notes?: string | null
+          shipment_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          broker_name?: string | null
+          cleared_date?: string | null
+          created_at?: string
+          duty_rate?: number | null
+          entry_number?: string
+          gst_amount?: number | null
+          hs_code?: string | null
+          id?: string
+          importer?: string | null
+          lodged_date?: string | null
+          notes?: string | null
+          shipment_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       customs_workflow_records: {
         Row: {
           created_at: string
@@ -2592,6 +2694,54 @@ export type Database = {
           message_count?: number
           message_date?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      deals: {
+        Row: {
+          account_name: string
+          contact_email: string | null
+          contact_name: string | null
+          created_at: string
+          days_in_stage: number | null
+          id: string
+          next_action: string | null
+          notes: string | null
+          owner: string | null
+          stage: string
+          updated_at: string
+          user_id: string
+          value_nzd: number
+        }
+        Insert: {
+          account_name: string
+          contact_email?: string | null
+          contact_name?: string | null
+          created_at?: string
+          days_in_stage?: number | null
+          id?: string
+          next_action?: string | null
+          notes?: string | null
+          owner?: string | null
+          stage?: string
+          updated_at?: string
+          user_id: string
+          value_nzd?: number
+        }
+        Update: {
+          account_name?: string
+          contact_email?: string | null
+          contact_name?: string | null
+          created_at?: string
+          days_in_stage?: number | null
+          id?: string
+          next_action?: string | null
+          notes?: string | null
+          owner?: string | null
+          stage?: string
+          updated_at?: string
+          user_id?: string
+          value_nzd?: number
         }
         Relationships: []
       }
@@ -5349,6 +5499,54 @@ export type Database = {
         }
         Relationships: []
       }
+      loan_cars: {
+        Row: {
+          borrower_name: string | null
+          borrower_phone: string | null
+          created_at: string
+          id: string
+          linked_job_id: string | null
+          make: string
+          model: string
+          notes: string | null
+          rego: string
+          return_date: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          borrower_name?: string | null
+          borrower_phone?: string | null
+          created_at?: string
+          id?: string
+          linked_job_id?: string | null
+          make: string
+          model: string
+          notes?: string | null
+          rego: string
+          return_date?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          borrower_name?: string | null
+          borrower_phone?: string | null
+          created_at?: string
+          id?: string
+          linked_job_id?: string | null
+          make?: string
+          model?: string
+          notes?: string | null
+          rego?: string
+          return_date?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       logistics_workflow_records: {
         Row: {
           created_at: string
@@ -6776,6 +6974,48 @@ export type Database = {
           },
         ]
       }
+      permission_slips: {
+        Row: {
+          child_name: string | null
+          created_at: string
+          details: string | null
+          event_date: string | null
+          event_name: string
+          id: string
+          responded_at: string | null
+          school_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          child_name?: string | null
+          created_at?: string
+          details?: string | null
+          event_date?: string | null
+          event_name: string
+          id?: string
+          responded_at?: string | null
+          school_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          child_name?: string | null
+          created_at?: string
+          details?: string | null
+          event_date?: string | null
+          event_name?: string
+          id?: string
+          responded_at?: string | null
+          school_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       permissions: {
         Row: {
           action: string
@@ -6807,6 +7047,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      photo_docs: {
+        Row: {
+          caption: string | null
+          created_at: string
+          gps_lat: number | null
+          gps_lng: number | null
+          id: string
+          photo_url: string
+          project_id: string | null
+          tags: string[] | null
+          taken_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          gps_lat?: number | null
+          gps_lng?: number | null
+          id?: string
+          photo_url: string
+          project_id?: string | null
+          tags?: string[] | null
+          taken_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          gps_lat?: number | null
+          gps_lng?: number | null
+          id?: string
+          photo_url?: string
+          project_id?: string | null
+          tags?: string[] | null
+          taken_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       pipeline_audit_logs: {
         Row: {
@@ -7350,6 +7632,45 @@ export type Database = {
         }
         Relationships: []
       }
+      safety_audits: {
+        Row: {
+          audit_date: string
+          created_at: string
+          findings: string | null
+          id: string
+          inspector: string
+          notes: string | null
+          pass: boolean
+          project_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          audit_date?: string
+          created_at?: string
+          findings?: string | null
+          id?: string
+          inspector: string
+          notes?: string | null
+          pass?: boolean
+          project_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          audit_date?: string
+          created_at?: string
+          findings?: string | null
+          id?: string
+          inspector?: string
+          notes?: string | null
+          pass?: boolean
+          project_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       sar_requests: {
         Row: {
           completed_at: string | null
@@ -7509,6 +7830,84 @@ export type Database = {
           schedule_cron?: string | null
           status?: string
           task_type?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      school_events: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_date: string
+          event_time: string | null
+          id: string
+          location: string | null
+          school_id: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_date: string
+          event_time?: string | null
+          id?: string
+          location?: string | null
+          school_id?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_date?: string
+          event_time?: string | null
+          id?: string
+          location?: string | null
+          school_id?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      school_newsletters: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          published_at: string
+          read: boolean
+          school_id: string | null
+          school_name: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          published_at?: string
+          read?: boolean
+          school_id?: string | null
+          school_name?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          published_at?: string
+          read?: boolean
+          school_id?: string | null
+          school_name?: string | null
           title?: string
           updated_at?: string
           user_id?: string
@@ -7728,11 +8127,13 @@ export type Database = {
           dangerous_goods: boolean | null
           description: string
           destination: string
+          eta: string | null
           hs_code: string | null
           id: string
           incoterm: string | null
           notes: string | null
           origin: string
+          shipment_ref: string | null
           status: string
           tracking_code: string | null
           updated_at: string
@@ -7747,11 +8148,13 @@ export type Database = {
           dangerous_goods?: boolean | null
           description: string
           destination: string
+          eta?: string | null
           hs_code?: string | null
           id?: string
           incoterm?: string | null
           notes?: string | null
           origin: string
+          shipment_ref?: string | null
           status?: string
           tracking_code?: string | null
           updated_at?: string
@@ -7766,11 +8169,13 @@ export type Database = {
           dangerous_goods?: boolean | null
           description?: string
           destination?: string
+          eta?: string | null
           hs_code?: string | null
           id?: string
           incoterm?: string | null
           notes?: string | null
           origin?: string
+          shipment_ref?: string | null
           status?: string
           tracking_code?: string | null
           updated_at?: string
@@ -9882,6 +10287,75 @@ export type Database = {
         }
         Relationships: []
       }
+      transport_alerts: {
+        Row: {
+          alert_type: string
+          created_at: string
+          id: string
+          message: string
+          route_id: string | null
+          user_id: string
+        }
+        Insert: {
+          alert_type?: string
+          created_at?: string
+          id?: string
+          message: string
+          route_id?: string | null
+          user_id: string
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          id?: string
+          message?: string
+          route_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      transport_routes: {
+        Row: {
+          child_stop: string | null
+          created_at: string
+          delay_minutes: number | null
+          id: string
+          next_departure: string | null
+          route_name: string
+          route_number: string
+          status: string
+          stops_json: Json | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          child_stop?: string | null
+          created_at?: string
+          delay_minutes?: number | null
+          id?: string
+          next_departure?: string | null
+          route_name: string
+          route_number: string
+          status?: string
+          stops_json?: Json | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          child_stop?: string | null
+          created_at?: string
+          delay_minutes?: number | null
+          id?: string
+          next_departure?: string | null
+          route_name?: string
+          route_number?: string
+          status?: string
+          stops_json?: Json | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       travel_itineraries: {
         Row: {
           accommodation_style: string | null
@@ -11663,45 +12137,63 @@ export type Database = {
       workshop_jobs: {
         Row: {
           created_at: string
+          customer_name: string | null
+          due_date: string | null
           fleet_id: string | null
           id: string
           job_id: string
           job_type: string | null
           notes: string | null
+          rego: string | null
           scheduled_end: string | null
           scheduled_start: string | null
           status: string | null
+          technician: string | null
           updated_at: string
           user_id: string | null
           vehicle_id: string
+          vehicle_make: string | null
+          vehicle_model: string | null
         }
         Insert: {
           created_at?: string
+          customer_name?: string | null
+          due_date?: string | null
           fleet_id?: string | null
           id?: string
           job_id?: string
           job_type?: string | null
           notes?: string | null
+          rego?: string | null
           scheduled_end?: string | null
           scheduled_start?: string | null
           status?: string | null
+          technician?: string | null
           updated_at?: string
           user_id?: string | null
           vehicle_id: string
+          vehicle_make?: string | null
+          vehicle_model?: string | null
         }
         Update: {
           created_at?: string
+          customer_name?: string | null
+          due_date?: string | null
           fleet_id?: string | null
           id?: string
           job_id?: string
           job_type?: string | null
           notes?: string | null
+          rego?: string | null
           scheduled_end?: string | null
           scheduled_start?: string | null
           status?: string | null
+          technician?: string | null
           updated_at?: string
           user_id?: string | null
           vehicle_id?: string
+          vehicle_make?: string | null
+          vehicle_model?: string | null
         }
         Relationships: []
       }
