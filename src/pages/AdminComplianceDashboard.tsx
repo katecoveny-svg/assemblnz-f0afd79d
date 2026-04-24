@@ -116,6 +116,9 @@ export default function AdminComplianceDashboard() {
     >
       <div className="space-y-6">
 
+      {/* Live signals — same NZ data feeds the agents in /chat */}
+      <KeteDashboardLiveRow kete="admin" />
+
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <AdminGlassCard>
