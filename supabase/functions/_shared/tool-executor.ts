@@ -226,6 +226,75 @@ export async function executeAgentTool(
     case "assembl_generate_agreement": return generateAgreement(args);
     case "assembl_brand_dna_analyzer": return brandDnaAnalyzer(args, ctx);
     case "assembl_content_calendar": return contentCalendar(args);
+    case "assembl_evidence_pack": return evidencePack(args, ctx);
+    case "assembl_cross_agent_handoff": return crossAgentHandoff(args, ctx);
+  }
+
+  // APEX (construction risk/safety/tender)
+  switch (fnName) {
+    case "apex_safety_plan": return apexSafetyPlan(args);
+    case "apex_schedule_risk": return apexScheduleRisk(args);
+    case "apex_tender_announcement": return apexTenderAnnouncement(args);
+  }
+
+  // ARAI (site HSE)
+  switch (fnName) {
+    case "arai_hazard_register": return araiHazardRegister(args);
+    case "arai_site_induction": return araiSiteInduction(args);
+  }
+
+  // FORGE (auto/fleet)
+  switch (fnName) {
+    case "assembl_forge_cin_generator": return forgeCinGenerator(args);
+    case "assembl_forge_fleet_dashboard": return forgeFleetDashboard(args, ctx);
+    case "assembl_forge_ruc_calculator": return forgeRucCalculator(args);
+    case "assembl_forge_service_reminder": return forgeServiceReminder(args);
+    case "assembl_forge_wof_tracker": return forgeWofTracker(args);
+  }
+
+  // TORO (farm/agri)
+  switch (fnName) {
+    case "assembl_toro_ets_calculator": return toroEtsCalculator(args);
+    case "assembl_toro_fep_builder": return toroFepBuilder(args);
+    case "assembl_toro_milk_price": return toroMilkPrice(args);
+    case "assembl_toro_nait_tracker": return toroNaitTracker(args);
+    case "assembl_toro_seasonal_sweep": return toroSeasonalSweep(args);
+    case "assembl_toro_weather_ops":
+      return invokeFunction(ctx, "iot-weather", args);
+  }
+
+  // AUAHA (creative integrations)
+  switch (fnName) {
+    case "auaha_falai_image_gen":
+      return invokeFunction(ctx, "stitch-generate", args);
+    case "auaha_runway_ml_video":
+      return invokeFunction(ctx, "videogen-runway", args);
+    case "auaha_buffer_scheduler":
+      return invokeFunction(ctx, "buffer-mcp", { action: "schedule_post", ...args });
+    case "auaha_adobe_creative_cloud": return integrationStub("adobe_creative_cloud", args);
+    case "auaha_spline_3d": return integrationStub("spline_3d", args);
+    case "auaha_unsplash_pexels": return integrationStub("unsplash_pexels", args);
+  }
+
+  // PRISM (brand/visual)
+  switch (fnName) {
+    case "prism_brand_scanner":
+      return invokeFunction(ctx, "scan-website", args);
+    case "prism_brand_lock": return prismBrandLock(args);
+    case "prism_campaign_engine": return prismCampaignEngine(args);
+  }
+
+  // ECHO (analytics)
+  switch (fnName) {
+    case "echo_analytics_feedback": return echoAnalyticsFeedback(args, ctx);
+    case "echo_content_calendar": return contentCalendar(args);
+  }
+
+  // Compliance / tourism cross-mapped to existing calculators
+  switch (fnName) {
+    case "kaupapa_progress_claim": return genPaymentClaim(args);
+    case "nova_qualmark_prep": return qualmarkCheck(args);
+    case "whakae_consent_checklist": return consentTracker(args);
   }
 
   return { error: `Unknown tool: ${fnName}`, hint: "This tool is registered but has no executor handler." };
