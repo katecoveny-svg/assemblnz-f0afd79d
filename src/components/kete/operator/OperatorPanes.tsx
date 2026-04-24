@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "sonner";
+import { Download, Loader2 } from "lucide-react";
 import { ASSEMBL_TOKENS } from "@/design/assemblTokens";
 import type { IndustrySlug } from "@/assets/brand/kete";
+import { supabase } from "@/integrations/supabase/client";
+import { generateAndDownloadEvidencePack } from "@/lib/evidencePackPdf";
+import type { CrossAgentSection } from "@/lib/pdfBranding";
 import {
   useOperatorDrafts,
   useOperatorEvidence,
@@ -71,15 +76,110 @@ export const EvidencePane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
 
   return (
     <Table
-      headers={["Action", "Filed", "Signed by", "Views", "Watermark"]}
+      headers={["Action", "Filed", "Signed by", "Views", "Watermark", ""]}
       rows={data.map((e: EvidenceRow) => [
         <strong key="a">{e.action_type}</strong>,
         formatDate(e.created_at),
         e.signed_by ?? <Muted>unsigned</Muted>,
         <Mono key="v">{e.share_view_count}</Mono>,
         <Mono key="w">{e.watermark.slice(0, 10)}…</Mono>,
+        <DownloadEvidenceButton key="dl" packId={e.id} accent={accent} />,
       ])}
     />
+  );
+};
+
+const DownloadEvidenceButton: React.FC<{ packId: string; accent: string }> = ({
+  packId,
+  accent,
+}) => {
+  const [busy, setBusy] = useState(false);
+
+  const handleClick = async (clickEv: React.MouseEvent) => {
+    clickEv.stopPropagation();
+    setBusy(true);
+    try {
+      const { data, error } = await supabase
+        .from("evidence_packs")
+        .select("kete, action_type, watermark, evidence_json, signed_by, signed_at")
+        .eq("id", packId)
+        .maybeSingle();
+      if (error) throw error;
+      if (!data) throw new Error("Evidence pack not found");
+
+      const pack = (data.evidence_json ?? {}) as {
+        title?: string;
+        client?: string;
+        summary?: string;
+        simulated?: boolean;
+        version?: string;
+        sections?: Array<{
+          agent?: string;
+          title?: string;
+          status?: string;
+          legislation_ref?: string;
+          body?: string;
+        }>;
+      };
+
+      const sections: CrossAgentSection[] = (pack.sections ?? []).map((s) => ({
+        agent: s.agent ?? "Assembl",
+        title: s.title ?? "Section",
+        body:
+          s.body ??
+          `Verified entry. Status: ${(s.status ?? "pass").toUpperCase()}.${
+            s.legislation_ref ? ` Legislation: ${s.legislation_ref}.` : ""
+          }`,
+        status: (s.status as CrossAgentSection["status"]) ?? "pass",
+        legislationRef: s.legislation_ref,
+      }));
+
+      await generateAndDownloadEvidencePack({
+        kete: data.kete,
+        title: pack.title ?? `${data.action_type} — Evidence Pack`,
+        client: pack.client,
+        summary: pack.summary,
+        sections:
+          sections.length > 0
+            ? sections
+            : [
+                {
+                  agent: "Assembl",
+                  title: data.action_type,
+                  body: `Watermark: ${data.watermark}. Filed${
+                    data.signed_by ? ` by ${data.signed_by}` : ""
+                  }${data.signed_at ? ` on ${data.signed_at}` : ""}.`,
+                  status: "pass",
+                },
+              ],
+        version: pack.version,
+        simulated: pack.simulated,
+      });
+      toast.success("Evidence pack downloaded");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not open evidence pack");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      disabled={busy}
+      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+      style={{
+        background: `${accent}33`,
+        border: `1px solid ${accent}66`,
+        color: ASSEMBL_TOKENS.core.text["text-primary"],
+        fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+      }}
+      aria-label="Download evidence pack PDF"
+    >
+      {busy ? <Loader2 size={12} className="animate-spin" /> : <Download size={12} />}
+      Open PDF
+    </button>
   );
 };
 
