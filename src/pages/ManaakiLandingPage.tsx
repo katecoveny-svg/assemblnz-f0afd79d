@@ -217,7 +217,7 @@ export default function ManaakiLandingPage() {
                 background: "rgba(255,255,255,0.5)",
               }}
             >
-              <span className="group-hover:text-white/80 transition-colors">Book a hospitality walk-through</span>
+              <span className="transition-colors">Book a hospitality walk-through</span>
             </Link>
           </motion.div>
         </main>
@@ -316,7 +316,7 @@ export default function ManaakiLandingPage() {
             <h3 className="text-xl sm:text-2xl font-display font-light" style={{ color: BONE }}>
               Ready to streamline your hospitality?
             </h3>
-            <p className="text-sm text-white/40 max-w-md">
+            <p className="text-sm max-w-md" style={{ color: "#6F6158" }}>
               Join NZ operators using assembl to cut compliance admin by 70% while keeping guests and inspectors happy.
             </p>
             <Link
