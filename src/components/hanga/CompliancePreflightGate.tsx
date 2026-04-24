@@ -190,52 +190,54 @@ export function CompliancePreflightGate({ initial, policySet, onConfirm, onCance
         )}
 
         {/* Headcount cap */}
-        <div>
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <Users size={12} style={{ color: TEAL_ACCENT }} />
-            <span className="text-[11px] font-medium" style={{ color: "#3D4250" }}>
-              Site headcount cap
-            </span>
+        {needsCap && (
+          <div>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <Users size={12} style={{ color: TEAL_ACCENT }} />
+              <span className="text-[11px] font-medium" style={{ color: "#3D4250" }}>
+                Site headcount cap
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                min={0}
+                value={headcount}
+                onChange={(e) => setHeadcount(Math.max(0, Number(e.target.value) || 0))}
+                className="w-16 px-2 py-1 rounded-lg text-[11px] outline-none text-right"
+                style={{
+                  background: "rgba(255,255,255,0.9)",
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  color: "#3D4250",
+                }}
+              />
+              <span className="text-[11px]" style={{ color: "#9CA3AF" }}>on site /</span>
+              <input
+                type="number"
+                min={1}
+                value={headcountCap}
+                onChange={(e) => setHeadcountCap(Math.max(1, Number(e.target.value) || 1))}
+                className="w-16 px-2 py-1 rounded-lg text-[11px] outline-none text-right"
+                style={{
+                  background: "rgba(255,255,255,0.9)",
+                  border: `1px solid ${attempted && !capValid ? ALERT_RED : "rgba(0,0,0,0.08)"}`,
+                  color: "#3D4250",
+                }}
+              />
+              <span className="text-[10px]" style={{ color: "#9CA3AF" }}>cap</span>
+            </div>
+            {headcount > headcountCap * 0.85 && capValid && (
+              <p className="text-[10px] mt-1 flex items-center gap-1" style={{ color: ALERT_AMBER }}>
+                <AlertCircle size={10} /> Approaching cap — agent will warn on inductions.
+              </p>
+            )}
+            {attempted && !capValid && (
+              <p className="text-[10px] mt-1" style={{ color: ALERT_RED }}>
+                Headcount must be between 0 and the cap.
+              </p>
+            )}
           </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              min={0}
-              value={headcount}
-              onChange={(e) => setHeadcount(Math.max(0, Number(e.target.value) || 0))}
-              className="w-16 px-2 py-1 rounded-lg text-[11px] outline-none text-right"
-              style={{
-                background: "rgba(255,255,255,0.9)",
-                border: "1px solid rgba(0,0,0,0.08)",
-                color: "#3D4250",
-              }}
-            />
-            <span className="text-[11px]" style={{ color: "#9CA3AF" }}>on site /</span>
-            <input
-              type="number"
-              min={1}
-              value={headcountCap}
-              onChange={(e) => setHeadcountCap(Math.max(1, Number(e.target.value) || 1))}
-              className="w-16 px-2 py-1 rounded-lg text-[11px] outline-none text-right"
-              style={{
-                background: "rgba(255,255,255,0.9)",
-                border: `1px solid ${attempted && !capValid ? ALERT_RED : "rgba(0,0,0,0.08)"}`,
-                color: "#3D4250",
-              }}
-            />
-            <span className="text-[10px]" style={{ color: "#9CA3AF" }}>cap</span>
-          </div>
-          {headcount > headcountCap * 0.85 && capValid && (
-            <p className="text-[10px] mt-1 flex items-center gap-1" style={{ color: ALERT_AMBER }}>
-              <AlertCircle size={10} /> Approaching cap — agent will warn on inductions.
-            </p>
-          )}
-          {attempted && !capValid && (
-            <p className="text-[10px] mt-1" style={{ color: ALERT_RED }}>
-              Headcount must be between 0 and the cap.
-            </p>
-          )}
-        </div>
+        )}
 
         {attempted && !allValid && (
           <div
