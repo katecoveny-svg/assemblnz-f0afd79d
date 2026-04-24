@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import keteSmall from "@/assets/kete-master/kete-256.png";
+import keteSmall from "@/assets/kete-master/kete-256-new.png";
 
 /**
  * Nav3DKeteLogo — canonical static feather kete shown in the header on every page.
