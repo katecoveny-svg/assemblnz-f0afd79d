@@ -185,6 +185,8 @@ export async function executeAgentTool(
     case "get_nz_weather":
       return invokeFunction(ctx, "iot-weather", args);
     case "get_nz_fuel_prices":
+    case "check_nz_fuel_prices":
+    case "nz_fuel_prices":
       return invokeFunction(ctx, "nz-fuel-prices", {});
     case "get_nz_route":
       return invokeFunction(ctx, "nz-routes", args);
