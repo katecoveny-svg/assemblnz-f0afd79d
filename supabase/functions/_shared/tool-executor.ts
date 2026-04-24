@@ -270,12 +270,28 @@ export async function executeAgentTool(
     case "auaha_falai_image_gen":
       return invokeFunction(ctx, "stitch-generate", args);
     case "auaha_runway_ml_video":
-      return invokeFunction(ctx, "videogen-runway", args);
+      // Repointed from missing 'videogen-runway' to the deployed function.
+      return invokeFunction(ctx, "auaha-runway-ml", { action: "generate_video", ...args });
     case "auaha_buffer_scheduler":
       return invokeFunction(ctx, "buffer-mcp", { action: "schedule_post", ...args });
+    // The following three remain registered but are deactivated in
+    // tool_registry (is_active=false). Kept here as a defensive fallback
+    // in case anyone re-enables the row without wiring an integration.
     case "auaha_adobe_creative_cloud": return integrationStub("adobe_creative_cloud", args);
     case "auaha_spline_3d": return integrationStub("spline_3d", args);
     case "auaha_unsplash_pexels": return integrationStub("unsplash_pexels", args);
+  }
+
+  // ── TORO (family life — toroa_* schema) ─────────────────────────
+  switch (fnName) {
+    case "toro_list_children": return toroListChildren(ctx);
+    case "toro_list_homework_due": return toroListHomeworkDue(args, ctx);
+    case "toro_get_pocket_money_balances": return toroGetPocketMoneyBalances(args, ctx);
+    case "toro_request_purchase_approval": return toroRequestPurchaseApproval(args, ctx);
+    case "toro_add_shopping_item": return toroAddShoppingItem(args, ctx);
+    case "toro_today_routine": return toroTodayRoutine(args, ctx);
+    case "toro_immunisations_due": return toroImmunisationsDue(args, ctx);
+    case "toro_curriculum_resources": return toroCurriculumResources(args, ctx);
   }
 
   // PRISM (brand/visual)
@@ -1268,3 +1284,228 @@ async function crossAgentHandoff(args: Record<string, unknown>, ctx: ToolContext
     return { error: e instanceof Error ? e.message : String(e) };
   }
 }
+
+// ────────────────────────────────────────────────────────────────
+// TORO (family life) handlers — read/write against toroa_* tables.
+// All queries are family-scoped via family_members.user_id = auth.uid()
+// and the RLS policies on the toroa_* tables enforce membership.
+// We use the service client and pre-resolve the family_id so the LLM
+// never has to pass tenant context.
+// ────────────────────────────────────────────────────────────────
+
+async function resolveFamilyId(ctx: ToolContext): Promise<{ family_id: string | null; error?: string }> {
+  if (!ctx.userId) return { family_id: null, error: "Sign-in required for TORO family tools." };
+  const { data, error } = await ctx.serviceClient
+    .from("family_members")
+    .select("family_id")
+    .eq("user_id", ctx.userId)
+    .order("created_at", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+  if (error) return { family_id: null, error: error.message };
+  if (!data?.family_id) return { family_id: null, error: "No family on this account yet. Create a family in TORO first." };
+  return { family_id: data.family_id };
+}
+
+async function toroListChildren(ctx: ToolContext): Promise<unknown> {
+  const { family_id, error } = await resolveFamilyId(ctx);
+  if (error) return { error };
+  const { data, error: qErr } = await ctx.serviceClient
+    .from("toroa_children")
+    .select("id, name, age, year_level, school, allergies, dietary_requirements")
+    .eq("family_id", family_id)
+    .order("age", { ascending: false });
+  if (qErr) return { error: qErr.message };
+  return { source: "toroa_children", count: data?.length ?? 0, children: data ?? [] };
+}
+
+async function toroListHomeworkDue(args: Record<string, unknown>, ctx: ToolContext): Promise<unknown> {
+  const { family_id, error } = await resolveFamilyId(ctx);
+  if (error) return { error };
+  const childId = String(args.child_id ?? "");
+  if (!childId) return { error: "child_id is required" };
+  const within = Math.max(1, Math.min(60, Number(args.within_days ?? 14)));
+  const cutoff = new Date(Date.now() + within * 86400000).toISOString().slice(0, 10);
+  const { data, error: qErr } = await ctx.serviceClient
+    .from("toroa_homework")
+    .select("id, title, subject, due_date, due_time, status, estimated_hours, ncea_standard, difficulty")
+    .eq("family_id", family_id)
+    .eq("child_id", childId)
+    .neq("status", "done")
+    .lte("due_date", cutoff)
+    .order("due_date", { ascending: true });
+  if (qErr) return { error: qErr.message };
+  return { source: "toroa_homework", count: data?.length ?? 0, within_days: within, items: data ?? [] };
+}
+
+async function toroGetPocketMoneyBalances(args: Record<string, unknown>, ctx: ToolContext): Promise<unknown> {
+  const { family_id, error } = await resolveFamilyId(ctx);
+  if (error) return { error };
+  const childId = String(args.child_id ?? "");
+  if (!childId) return { error: "child_id is required" };
+  const { data, error: qErr } = await ctx.serviceClient
+    .from("toroa_child_pocket_money")
+    .select("save_balance, spend_balance, give_balance, weekly_amount, save_percent, spend_percent, give_percent, payday")
+    .eq("family_id", family_id)
+    .eq("child_id", childId)
+    .maybeSingle();
+  if (qErr) return { error: qErr.message };
+  if (!data) return { source: "toroa_child_pocket_money", note: "No pocket-money plan set up for this child yet." };
+  return {
+    source: "toroa_child_pocket_money",
+    balances: { save: data.save_balance, spend: data.spend_balance, give: data.give_balance },
+    weekly: { amount: data.weekly_amount, save_pct: data.save_percent, spend_pct: data.spend_percent, give_pct: data.give_percent, payday: data.payday },
+  };
+}
+
+async function toroRequestPurchaseApproval(args: Record<string, unknown>, ctx: ToolContext): Promise<unknown> {
+  const { family_id, error } = await resolveFamilyId(ctx);
+  if (error) return { error };
+  const child_id = String(args.child_id ?? "");
+  const amount = Number(args.amount ?? 0);
+  const jar = String(args.jar ?? "spend");
+  const description = String(args.description ?? "");
+  if (!child_id || !amount || !description) {
+    return { error: "child_id, amount and description are required" };
+  }
+  if (!["save", "spend", "give"].includes(jar)) return { error: "jar must be save, spend or give" };
+  const { data, error: qErr } = await ctx.serviceClient
+    .from("toroa_purchase_approvals")
+    .insert({
+      family_id,
+      child_id,
+      amount,
+      jar,
+      description,
+      item_url: args.item_url ? String(args.item_url) : null,
+      status: "pending",
+      requested_at: new Date().toISOString(),
+    })
+    .select("id, status, requested_at")
+    .single();
+  if (qErr) return { error: qErr.message };
+  return { source: "toroa_purchase_approvals", request_id: data?.id, status: data?.status, message: "Awaiting parent approval." };
+}
+
+async function toroAddShoppingItem(args: Record<string, unknown>, ctx: ToolContext): Promise<unknown> {
+  const { family_id, error } = await resolveFamilyId(ctx);
+  if (error) return { error };
+  const item = String(args.item ?? "").trim();
+  const quantity = String(args.quantity ?? "").trim();
+  const category = args.category ? String(args.category) : "other";
+  if (!item || !quantity) return { error: "item and quantity are required" };
+
+  // Append to the active shopping list, creating one if needed.
+  const { data: existing, error: listErr } = await ctx.serviceClient
+    .from("toroa_family_shopping_lists")
+    .select("id, items")
+    .eq("family_id", family_id)
+    .neq("status", "completed")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (listErr) return { error: listErr.message };
+
+  const newRow = { item, quantity, category, added_at: new Date().toISOString() };
+  if (existing?.id) {
+    const items = Array.isArray(existing.items) ? existing.items : [];
+    const { error: upErr } = await ctx.serviceClient
+      .from("toroa_family_shopping_lists")
+      .update({ items: [...items, newRow], updated_at: new Date().toISOString() })
+      .eq("id", existing.id);
+    if (upErr) return { error: upErr.message };
+    return { source: "toroa_family_shopping_lists", list_id: existing.id, added: newRow };
+  }
+  const { data: created, error: insErr } = await ctx.serviceClient
+    .from("toroa_family_shopping_lists")
+    .insert({
+      family_id,
+      list_name: "Shopping list",
+      items: [newRow],
+      status: "active",
+    })
+    .select("id")
+    .single();
+  if (insErr) return { error: insErr.message };
+  return { source: "toroa_family_shopping_lists", list_id: created?.id, added: newRow, created: true };
+}
+
+async function toroTodayRoutine(args: Record<string, unknown>, ctx: ToolContext): Promise<unknown> {
+  const { family_id, error } = await resolveFamilyId(ctx);
+  if (error) return { error };
+  const segment = String(args.segment ?? "all");
+  const today = new Date().toLocaleDateString("en-NZ", { weekday: "long" }).toLowerCase();
+  let q = ctx.serviceClient
+    .from("toroa_daily_routines")
+    .select("id, child_id, routine_name, routine_type, steps, start_time, estimated_minutes, reward_points, active_days")
+    .eq("family_id", family_id)
+    .eq("is_active", true);
+  if (segment !== "all") q = q.eq("routine_type", segment);
+  const { data, error: qErr } = await q.order("start_time", { ascending: true });
+  if (qErr) return { error: qErr.message };
+  const filtered = (data ?? []).filter((r: { active_days: string[] | null }) =>
+    !r.active_days || r.active_days.length === 0 || r.active_days.includes(today)
+  );
+  return { source: "toroa_daily_routines", segment, today, count: filtered.length, routines: filtered };
+}
+
+async function toroImmunisationsDue(args: Record<string, unknown>, ctx: ToolContext): Promise<unknown> {
+  const { family_id, error } = await resolveFamilyId(ctx);
+  if (error) return { error };
+  const child_id = String(args.child_id ?? "");
+  if (!child_id) return { error: "child_id is required" };
+  const window = Math.max(7, Math.min(365, Number(args.window_days ?? 60)));
+  const cutoff = new Date(Date.now() + window * 86400000).toISOString().slice(0, 10);
+  const { data, error: qErr } = await ctx.serviceClient
+    .from("toroa_immunisation_schedule")
+    .select("vaccine_name, vaccine_code, scheduled_age, scheduled_date, status, nz_schedule_ref, clinic")
+    .eq("family_id", family_id)
+    .eq("child_id", child_id)
+    .neq("status", "administered")
+    .lte("scheduled_date", cutoff)
+    .order("scheduled_date", { ascending: true });
+  if (qErr) return { error: qErr.message };
+  return { source: "toroa_immunisation_schedule", window_days: window, count: data?.length ?? 0, due: data ?? [] };
+}
+
+async function toroCurriculumResources(args: Record<string, unknown>, ctx: ToolContext): Promise<unknown> {
+  const yearLevelRaw = String(args.year_level ?? "").trim();
+  const topic = String(args.topic ?? "").trim();
+  if (!yearLevelRaw || !topic) return { error: "year_level and topic are required" };
+  // Year level may arrive as 'Y8', 'Year 8', 'NCEA L2' — extract the digit.
+  const yMatch = yearLevelRaw.match(/(\d+)/);
+  const yearInt = yMatch ? Number(yMatch[1]) : null;
+  let q = ctx.serviceClient
+    .from("toroa_curriculum_resources")
+    .select("resource_name, resource_url, resource_type, provider, ncea_standard, curriculum_area, is_free, quality_rating")
+    .or(`curriculum_area.ilike.%${topic}%,curriculum_strand.ilike.%${topic}%,resource_name.ilike.%${topic}%`)
+    .order("quality_rating", { ascending: false })
+    .limit(10);
+  if (yearInt !== null) q = q.eq("year_level", yearInt);
+  if (/ncea\s*l\s*\d/i.test(yearLevelRaw)) {
+    const lvl = yearLevelRaw.match(/l\s*(\d)/i)?.[1];
+    if (lvl) q = q.ilike("ncea_standard", `%L${lvl}%`);
+  }
+  const { data, error: qErr } = await q;
+  if (qErr) return { error: qErr.message };
+  return { source: "toroa_curriculum_resources", year_level: yearLevelRaw, topic, count: data?.length ?? 0, resources: data ?? [] };
+}
+
+// ────────────────────────────────────────────────────────────────
+// SCOPE MAPPING — used by chat/index.ts to filter tool_registry rows
+// against live-data-context's KETE_SCOPES. If a tool declares
+// requires_integration = ['weather'] but the agent's kete cannot
+// reach weather, the tool is dropped from the LLM's option list and
+// an audit row is written.
+// ────────────────────────────────────────────────────────────────
+export const TOOL_REQUIRED_SCOPES: Record<string, string[]> = {
+  // Live data tools (also seeded into tool_registry.requires_integration)
+  get_nz_weather: ["weather"],
+  get_nz_fuel_prices: ["fuel"],
+  get_nz_route: ["routes"],
+  search_knowledge_base: ["knowledge_base"],
+  recall_memory: [],
+  get_compliance_updates: ["compliance"],
+  get_iot_signal: ["fleet", "freight", "ais", "agriculture", "construction", "marine"],
+  send_sms: [],
+};

@@ -136,7 +136,7 @@ export interface LiveFeeds {
 
 const DEFAULT_TENANT_ID = "00000000-0000-0000-0000-000000000001";
 
-const KETE_SCOPES: Record<Kete, LiveDataScope[]> = {
+export const KETE_SCOPES: Record<Kete, LiveDataScope[]> = {
   manaaki: ["weather", "compliance", "knowledge_base"],
   waihanga: ["weather", "compliance", "knowledge_base", "construction"],
   auaha: ["compliance", "knowledge_base"],

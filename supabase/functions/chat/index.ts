@@ -4,6 +4,22 @@ import { resolveModel, DEFAULT_MODEL } from "../_shared/model-router.ts";
 import { callLlm, detectProvider } from "../_shared/llm-call.ts";
 import { validateChatRequest } from "../_shared/chat-validation.ts";
 import { executeAgentTool, LIVE_DATA_TOOLS, getServiceClient } from "../_shared/tool-executor.ts";
+import { KETE_SCOPES, type Kete, type LiveDataScope } from "../_shared/live-data-context.ts";
+
+// Map a chat agentId/kete slug to the canonical Kete enum used by
+// live-data-context. Anything outside this map is treated as having no
+// kete-restricted scopes (i.e. only tools with empty requires_integration
+// are exposed).
+const AGENT_TO_KETE: Record<string, Kete> = {
+  hospitality: "manaaki", manaaki: "manaaki",
+  construction: "waihanga", waihanga: "waihanga",
+  creative: "auaha", auaha: "auaha", marketing: "auaha",
+  automotive: "arataki", arataki: "arataki", fleet: "arataki",
+  freight: "pikau", pikau: "pikau", customs: "pikau",
+  retail: "hoko", hoko: "hoko",
+  ako: "ako", earlychildhood: "ako",
+  toro: "toro", family: "toro", toroa: "toro",
+};
 
 const corsHeaders = {
  "Access-Control-Allow-Origin": "*",
@@ -7427,18 +7443,37 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  },
  ];
 
- // Pull every schema'd tool from tool_registry so the LLM can call them
+ // Pull every schema'd tool from tool_registry so the LLM can call them.
+ // Cross-validate `requires_integration` against the agent's kete scope
+ // (KETE_SCOPES from live-data-context). If a tool needs a scope the kete
+ // can't reach, drop it and audit the denial — single source of truth.
+ const agentKete: Kete | null = AGENT_TO_KETE[agentId] ?? AGENT_TO_KETE[rawAgentId] ?? null;
+ const allowedScopes = new Set<LiveDataScope>(agentKete ? KETE_SCOPES[agentKete] : []);
  let registryTools: any[] = [];
+ const droppedForScope: string[] = [];
  try {
   const { data: regRows } = await sb
    .from("tool_registry")
-   .select("tool_schema")
+   .select("tool_name, tool_schema, requires_integration")
    .eq("is_active", true);
   registryTools = (regRows || [])
+   .filter((r: any) => {
+    const reqs: string[] = Array.isArray(r.requires_integration) ? r.requires_integration : [];
+    if (reqs.length === 0) return true; // unrestricted
+    // Allow if ANY required scope is granted to the agent's kete.
+    const ok = reqs.some((scope: string) => allowedScopes.has(scope as LiveDataScope));
+    if (!ok) droppedForScope.push(r.tool_name);
+    return ok;
+   })
    .map((r: any) => r.tool_schema)
    .filter((s: any) => s && s.function && s.function.name);
  } catch (e) {
   console.warn("[chat] tool_registry load failed:", e);
+ }
+ if (droppedForScope.length > 0) {
+  console.info(`[chat:${requestId}] tool scope filter`, JSON.stringify({
+   agentId, kete: agentKete, dropped: droppedForScope.slice(0, 20), dropped_count: droppedForScope.length,
+  }));
  }
 
  const allTools = [...integrationTools, ...LIVE_DATA_TOOLS, ...registryTools];
