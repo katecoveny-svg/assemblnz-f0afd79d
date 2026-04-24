@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, Check, X, Mic, Sparkles } from "lucide-react";
+import { ChevronLeft, Mic, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { MeetingList, type MeetingItem } from "@/components/hui/MeetingList";
 import { MeetingPrep } from "@/components/hui/MeetingPrep";
 import { MeetingNotes } from "@/components/hui/MeetingNotes";
 import { MeetingInsights } from "@/components/hui/MeetingInsights";
+import { MeetingSummary } from "@/components/hui/MeetingSummary";
 import { QuickActions } from "@/components/hui/QuickActions";
+import { ConnectPill } from "@/components/hui/ConnectPill";
 
-type Mode = "prep" | "notes" | "insights";
+type Mode = "prep" | "notes" | "insights" | "summary";
 
 const HuiMeetingCopilot = () => {
   const [selected, setSelected] = useState<MeetingItem | null>(null);
@@ -29,17 +31,6 @@ const HuiMeetingCopilot = () => {
       // ignore
     }
   };
-
-  const ConnPill = ({ name, ok }: { name: string; ok: boolean }) => (
-    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-['Inter'] bg-white/60 border border-[rgba(142,129,119,0.14)]">
-      {ok ? (
-        <Check size={12} className="text-[#9DB89D]" />
-      ) : (
-        <X size={12} className="text-[#C09494]" />
-      )}
-      <span className="text-[#6F6158]">{name}</span>
-    </span>
-  );
 
   const ModeTab = ({ k, label }: { k: Mode; label: string }) => (
     <button
@@ -75,10 +66,10 @@ const HuiMeetingCopilot = () => {
               <p className="font-['Inter'] text-base text-[#9D8C7D]/80 mt-2">Meeting Copilot</p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <ConnPill name="Granola" ok={false} />
-              <ConnPill name="Calendar" ok={calendarConnected} />
-              <ConnPill name="Drive" ok={false} />
-              <ConnPill name="Gmail" ok={false} />
+              <ConnectPill name="Granola" provider="granola" connected={false} />
+              <ConnectPill name="Calendar" provider="calendar" connected={calendarConnected} onChange={check} />
+              <ConnectPill name="Drive" provider="drive" connected={false} />
+              <ConnectPill name="Gmail" provider="gmail" connected={false} />
             </div>
           </div>
         </header>
@@ -99,6 +90,14 @@ const HuiMeetingCopilot = () => {
               onNotes={(m) => {
                 setSelected(m);
                 setMode("notes");
+              }}
+              onInsights={(m) => {
+                setSelected(m);
+                setMode("insights");
+              }}
+              onSummary={(m) => {
+                setSelected(m);
+                setMode("summary");
               }}
             />
           </div>
