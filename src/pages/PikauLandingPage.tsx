@@ -222,12 +222,12 @@ export default function PikauLandingPage() {
 
         <section className="relative text-center px-6 pb-24">
           <motion.div className="relative inline-flex flex-col items-center gap-4 p-10 rounded-2xl overflow-hidden" style={{
-            background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)`,
-            border: `1px solid ${POUNAMU}25`,
-            boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 60px ${ACCENT}05`,
+            background: `rgba(255,255,255,0.85)`,
+            border: `1px solid rgba(142,129,119,0.14)`,
+            boxShadow: `0 8px 30px rgba(111,97,88,0.08)`,
           }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}40, transparent)` }} />
-            <p className="text-sm text-white/60">Ready to streamline your freight compliance?</p>
+            <p className="text-sm" style={{ color: "#6F6158" }}>Ready to support your freight compliance work?</p>
             <Link to="/pikau/dashboard" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#3D4250" }}>
               <div className="absolute inset-0 rounded-full" style={{ background: POUNAMU }} />
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />

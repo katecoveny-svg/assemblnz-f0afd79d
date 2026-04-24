@@ -1,7 +1,7 @@
 import { agentChat } from "@/lib/agentChat";
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { agents, echoAgent, pilotAgent } from "@/data/agents";
+import { agents, echoAgent, pilotAgent, conciergeAgent } from "@/data/agents";
 import { useResolvedAgent } from "@/hooks/useAgentOverrides";
 import { supabase } from "@/integrations/supabase/client";
 import AgentAvatar from "@/components/AgentAvatar";
@@ -18,7 +18,11 @@ const PREVIEW_LIMIT = 3;
 
 const EmbedChatWidget = () => {
   const { agentId } = useParams<{ agentId: string }>();
-  const rawAgent = agentId === "echo" ? echoAgent : agentId === "pilot" ? pilotAgent : agents.find((a) => a.id === agentId);
+  const rawAgent =
+    agentId === "echo" ? echoAgent
+    : agentId === "pilot" ? pilotAgent
+    : agentId === "concierge" || agentId === "aria" ? conciergeAgent
+    : agents.find((a) => a.id === agentId);
   const agent = useResolvedAgent(rawAgent ?? agents[0]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");

@@ -920,5 +920,27 @@ export const pilotAgent: Agent = {
   starters: ["What's the priority today?", "Summarise my meetings this week", "Draft a LinkedIn post"],
 };
 
+/** ARIA — public-site Concierge agent. Loaded by /embed/concierge for the floating widget. */
+export const conciergeAgent: Agent = {
+  id: "concierge", name: "ARIA", designation: "ASM-100",
+  role: "Assembl Concierge",
+  tagline: "Your guide to assembl — the 8 kete, pricing, governance and evidence packs.",
+  color: "#D9BC7A", sector: "Public Site", pack: "core", primaryModel: "google/gemini-2.5-flash",
+  traits: ["Warm", "Precise", "NZ-grounded"],
+  expertise: [
+    "8 industry kete (Manaaki, Waihanga, Auaha, Arataki, Pikau, Hoko, Ako, Tōro)",
+    "Pricing tiers (Family, Operator, Leader, Enterprise, Outcome)",
+    "Governance pipeline (Kahu → Iho → Tā → Mahara → Mana)",
+    "Evidence packs and the draft-only posture",
+    "NZ Privacy Act 2020 + IPP 3A, AAAIP, NZISM-informed security",
+  ],
+  starters: [
+    "Which kete is right for my business?",
+    "How does assembl pricing work?",
+    "What's an evidence pack?",
+    "How do you handle the Privacy Act?",
+  ],
+};
+
 /** @deprecated Use packs instead */
 export const sectors = [...new Set(allAgents.map(a => a.sector))];
