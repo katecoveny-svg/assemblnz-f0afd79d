@@ -17,6 +17,7 @@ import { BusinessProvider } from "@/contexts/BusinessContext";
 import { AgentOverridesProvider } from "@/hooks/useAgentOverrides";
 import PageTransition from "@/components/marama/PageTransition";
 import GlobalMotionShell from "@/components/next/GlobalMotionShell";
+import { PublicRouteGuard } from "@/components/PublicRouteGuard";
 
 import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
@@ -269,6 +270,7 @@ const App = () => (
                     <GlobalMotionShell />
                     <div className="pb-14 sm:pb-0 relative z-10">
                       <PageTransition>
+                      <PublicRouteGuard>
                       <Routes>
                         <Route path="/" element={<Index />} />
                         <Route path="/next" element={<Suspense fallback={null}><NextPreview /></Suspense>} />
@@ -552,6 +554,7 @@ const App = () => (
                         <Route path="/te-reo" element={<Navigate to="/about" replace />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
+                      </PublicRouteGuard>
                       </PageTransition>
                     </div>
                     <EchoChatWidget />
