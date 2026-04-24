@@ -182,51 +182,66 @@ const STEPS = [
   },
 ];
 
-const KETE = [
-  {
-    name: "Manaaki",
-    sub: "Hospitality",
-    to: "/packs/manaaki",
-    desc: "Food Act plans, liquor licensing, guest experience, tourism operators. Every compliance deadline tracked.",
-    agents: ["AURA", "HAVEN", "TIDE", "BEACON"],
+/**
+ * Canonical kete list for /how-it-works.
+ * Uses live routes (verified in src/App.tsx) and real specialist names from
+ * src/data/agents.ts. Imagery comes from INDUSTRY_KETE_LIST so this page
+ * stays in lockstep with the brand-system catalogue.
+ */
+type KeteRow = {
+  slug: string;
+  to: string;
+  desc: string;
+  agents: string[];
+};
+
+const KETE_META: Record<string, KeteRow> = {
+  manaaki: {
+    slug: "manaaki", to: "/manaaki",
+    desc: "Food Act plans, liquor licensing, guest experience, adventure operators. Every compliance deadline tracked.",
+    agents: ["AURA", "SAFFRON", "CELLAR", "MOANA", "KURA"],
   },
-  {
-    name: "Waihanga",
-    sub: "Construction",
-    to: "/waihanga",
+  hoko: {
+    slug: "hoko", to: "/hoko",
+    desc: "POS reconciliation, stock movement, returns, Fair Trading and Consumer Guarantees compliance for NZ retail.",
+    agents: ["Coming Q3 2026"],
+  },
+  ako: {
+    slug: "ako", to: "/ako",
+    desc: "Licensed ECE centres — ratios, attendance, parent comms, MoE reporting and ERO readiness.",
+    agents: ["Coming Q3 2026"],
+  },
+  toro: {
+    slug: "toro", to: "/toro",
+    desc: "Whānau life navigator. SMS-first family admin: school notes, appointments, shared calendars, $29/mo.",
+    agents: ["TORO"],
+  },
+  waihanga: {
+    slug: "waihanga", to: "/waihanga",
     desc: "Site to sign-off. H&S, consenting, project programmes, quality records. WorkSafe-aligned.",
     agents: ["ĀRAI", "KAUPAPA", "ATA", "RAWA"],
   },
-  {
-    name: "Auaha",
-    sub: "Creative & Media",
-    to: "/packs/auaha",
-    desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.",
-    agents: ["Rautaki", "Kōrero", "Mana Kupu", "Toi"],
-  },
-  {
-    name: "Arataki",
-    sub: "Automotive",
-    to: "/arataki",
-    desc: "Enquiry → test drive → sale → delivery → service → loyalty. Warranty claims, loan cars, workshop booking.",
-    agents: ["Coming Q3 2026"],
-  },
-  {
-    name: "Pikau",
-    sub: "Freight & Customs",
-    to: "/contact",
+  pikau: {
+    slug: "pikau", to: "/pikau",
     desc: "Route optimisation, declarations, broker hand-off, customs compliance. Cross-border ready.",
     agents: ["Coming Q3 2026"],
   },
-];
+  arataki: {
+    slug: "arataki", to: "/arataki",
+    desc: "Fleet fuel oracle, vehicle economy, route intelligence, driver compliance — for NZ automotive operators.",
+    agents: ["FUEL ORACLE", "VEHICLE ECONOMY", "ROUTE INTELLIGENCE", "DRIVER COMPLIANCE"],
+  },
+  auaha: {
+    slug: "auaha", to: "/auaha",
+    desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.",
+    agents: ["PRISM", "MUSE", "PIXEL", "VERSE", "MARKET"],
+  },
+};
 
-const PIPELINE = [
-  { name: "Kahu", question: "What's allowed here?", desc: "Policy detection" },
-  { name: "Iho", question: "Which specialist handles this?", desc: "Routing" },
-  { name: "Tā", question: "Does the work, properly", desc: "Execution + NZ correctness" },
-  { name: "Mahara", question: "Checks against what we've learned", desc: "Memory + cross-verification" },
-  { name: "Mana", question: "Proves it was done right", desc: "Assurance + human-in-the-loop" },
-];
+const KETE = INDUSTRY_KETE_LIST.map((k) => ({
+  ...k,
+  ...(KETE_META[k.slug] ?? { slug: k.slug, to: "/contact", desc: "", agents: [] }),
+}));
 
 /* ─── Sections ─── */
 function Hero() {
