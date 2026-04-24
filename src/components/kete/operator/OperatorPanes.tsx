@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
-import { Download, Loader2, Check } from "lucide-react";
+import { Download, Loader2, Check, ChevronRight } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { ASSEMBL_TOKENS } from "@/design/assemblTokens";
 import type { IndustrySlug } from "@/assets/brand/kete";
@@ -321,7 +322,7 @@ export const GatesPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
 
   return (
     <Table
-      headers={["Gate", "Purpose", "Status", "Decided", "Conditions"]}
+      headers={["Gate", "Purpose", "Status", "Decided", "Conditions", ""]}
       rows={data.map((g: GateRow) => [
         <Mono key="g">{g.gate_type}</Mono>,
         <span key="p" className="line-clamp-2">
@@ -334,6 +335,18 @@ export const GatesPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
         ) : (
           <Muted>—</Muted>
         ),
+        <Link
+          key="open"
+          to={`/operator/${slug}/gates/${g.id}`}
+          className="inline-flex items-center gap-1 text-xs hover:underline"
+          style={{
+            color: ASSEMBL_TOKENS.core.text["text-primary"],
+            fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+          }}
+          aria-label="Open gate detail"
+        >
+          Open <ChevronRight size={12} />
+        </Link>,
       ])}
     />
   );
