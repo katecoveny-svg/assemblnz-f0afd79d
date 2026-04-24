@@ -92,9 +92,26 @@ function useAkoSweep() {
 export default function AkoDashboard() {
   const { data: packs = [], isLoading } = useAkoEvidence();
   const { data: gates = [] } = useAkoGates();
+  const { data: sweep } = useAkoSweep();
 
   const pendingGates = gates.filter(g => g.status === "pending").length;
   const approvedGates = gates.filter(g => g.status === "approved" || g.status === "approved_with_conditions").length;
+
+  const readinessData = sweep
+    ? [
+        { cat: "GREEN", count: sweep.green_count, color: "#3A7D6E" },
+        { cat: "AMBER", count: sweep.amber_count, color: "#D9BC7A" },
+        { cat: "RED", count: sweep.red_count, color: "#C85A54" },
+      ]
+    : [
+        { cat: "GREEN", count: 0, color: "#3A7D6E" },
+        { cat: "AMBER", count: 0, color: "#D9BC7A" },
+        { cat: "RED", count: 0, color: "#C85A54" },
+      ];
+
+  const sweptForLabel = sweep?.swept_for
+    ? new Date(sweep.swept_for).toLocaleDateString("en-NZ", { day: "2-digit", month: "short", year: "numeric" })
+    : null;
 
   return (
     <KeteDashboardShell
@@ -118,7 +135,7 @@ export default function AkoDashboard() {
           { label: "Evidence Packs", value: packs.length, icon: FileText, color: ACCENT },
           { label: "Gates Pending", value: pendingGates, icon: Shield, color: "#D9BC7A" },
           { label: "Gates Approved", value: approvedGates, icon: Gauge, color: POUNAMU },
-          { label: "Centre Status", value: "LICENSED", icon: Baby, color: ACCENT_LIGHT },
+          { label: "Readiness Score", value: sweep ? `${sweep.readiness_score}%` : "—", icon: Baby, color: ACCENT_LIGHT },
         ].map(m => (
           <DashboardGlassCard key={m.label} accentColor={m.color} className="p-4">
             <div className="flex items-center gap-2 mb-2">
@@ -134,21 +151,28 @@ export default function AkoDashboard() {
 
       {/* Readiness chart */}
       <DashboardGlassCard accentColor={ACCENT} className="p-4">
-        <h3 className="text-xs font-semibold mb-3 uppercase tracking-wider" style={{ color: MUTED }}>
-          Graduated Enforcement Readiness · Today's Snapshot
-        </h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xs font-semibold uppercase tracking-wider" style={{ color: MUTED }}>
+            Graduated Enforcement Readiness
+          </h3>
+          <span className="text-[10px] font-mono" style={{ color: MUTED }}>
+            {sweptForLabel ? `Swept ${sweptForLabel}` : "Awaiting first sweep"}
+          </span>
+        </div>
         <ResponsiveContainer width="100%" height={180}>
-          <BarChart data={READINESS} layout="vertical">
+          <BarChart data={readinessData} layout="vertical">
             <XAxis type="number" tick={{ fill: MUTED, fontSize: 10 }} axisLine={false} />
             <YAxis dataKey="cat" type="category" tick={{ fill: MUTED, fontSize: 10 }} axisLine={false} width={70} />
             <Tooltip contentStyle={{ background: "rgba(255,255,255,0.98)", border: `1px solid ${ACCENT}33`, borderRadius: 8, fontSize: 11, color: INK }} />
             <Bar dataKey="count" radius={[0, 6, 6, 0]}>
-              {READINESS.map(r => <rect key={r.cat} fill={r.color} />)}
+              {readinessData.map(r => <rect key={r.cat} fill={r.color} />)}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
         <p className="text-[10px] mt-3 italic" style={{ color: MUTED }}>
-          Live counts will replace this snapshot once daily evidence sweep cron is enabled for your centre.
+          {sweep
+            ? `Recalculated daily at 5:30am NZST across the last 90 days of evidence packs and governance gates.`
+            : `Daily evidence sweep runs at 5:30am NZST. The first snapshot will appear here once it has run.`}
         </p>
       </DashboardGlassCard>
 
