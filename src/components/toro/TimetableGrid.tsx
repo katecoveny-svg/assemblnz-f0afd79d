@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Backpack } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Backpack, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface TimetableEntry {
@@ -34,10 +34,12 @@ export function TimetableGrid({ familyId, childName }: Props) {
   const [entries, setEntries] = useState<TimetableEntry[]>([]);
   const [selectedDay, setSelectedDay] = useState<number>(todayDow);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(() => {
-    void (async () => {
-      setIsLoading(true);
+  const load = useCallback(
+    async (mode: "initial" | "refresh" = "initial") => {
+      if (mode === "initial") setIsLoading(true);
+      else setIsRefreshing(true);
       const { data } = await supabase
         .from("toroa_child_timetables")
         .select("id, day_of_week, period, subject, teacher, room, gear_needed")
@@ -46,8 +48,35 @@ export function TimetableGrid({ familyId, childName }: Props) {
         .order("period");
       setEntries((data as TimetableEntry[] | null) ?? []);
       setIsLoading(false);
-    })();
-  }, [familyId, childName]);
+      setIsRefreshing(false);
+    },
+    [familyId, childName],
+  );
+
+  useEffect(() => {
+    void load("initial");
+    const channel = supabase
+      .channel(`timetable-${familyId}-${childName}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "toroa_child_timetables",
+          filter: `family_id=eq.${familyId}`,
+        },
+        (payload) => {
+          const row = (payload.new ?? payload.old) as { child_name?: string } | null;
+          if (!row || row.child_name === childName) {
+            void load("refresh");
+          }
+        },
+      )
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [familyId, childName, load]);
 
   if (isLoading) {
     return <p className="font-body text-sm text-[#9D8C7D]">Loading timetable…</p>;
@@ -60,13 +89,22 @@ export function TimetableGrid({ familyId, childName }: Props) {
         <p className="font-body text-xs text-[#9D8C7D] mt-1">
           Add periods to enable today's gear list.
         </p>
+        <button
+          type="button"
+          onClick={() => void load("refresh")}
+          disabled={isRefreshing}
+          className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-body text-[#9D8C7D] hover:text-[#6F6158] hover:bg-[#EEE7DE] disabled:opacity-50"
+        >
+          <RefreshCw size={12} className={isRefreshing ? "animate-spin" : ""} />
+          Refresh
+        </button>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {DAYS.map((d) => (
           <button
             key={d.num}
@@ -81,6 +119,16 @@ export function TimetableGrid({ familyId, childName }: Props) {
             {d.short}
           </button>
         ))}
+        <button
+          type="button"
+          onClick={() => void load("refresh")}
+          disabled={isRefreshing}
+          aria-label="Refresh timetable"
+          className="ml-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-body text-[#9D8C7D] hover:text-[#6F6158] hover:bg-[#EEE7DE] disabled:opacity-50"
+        >
+          <RefreshCw size={12} className={isRefreshing ? "animate-spin" : ""} />
+          Refresh
+        </button>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {DAYS.map((d) => {
