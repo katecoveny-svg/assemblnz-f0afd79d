@@ -13,6 +13,12 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://esm.sh/zod@3.23.8";
+import {
+  deriveActionFromMessage,
+  evaluateWaihangaCompliance,
+  type WaihangaAction,
+  type WaihangaWorld,
+} from "../_shared/waihanga-compliance.ts";
 
 const MAX_MESSAGES = 40;
 const MAX_CONTENT_CHARS = 8000;
@@ -53,11 +59,37 @@ const ParamsSchema = z
   })
   .optional();
 
+// Optional compliance context the client can supply to make the gate more
+// precise. All fields are optional — when omitted we infer from the latest
+// user message.
+const ComplianceContextSchema = z
+  .object({
+    kind: z
+      .enum(["site_checkin", "upload_photo", "submit_tender", "escalate_hazard", "chat"])
+      .optional(),
+    zone: z.string().max(64).optional(),
+    ppeConfirmed: z.boolean().optional(),
+    containsWorkers: z.boolean().optional(),
+    workerConsent: z.boolean().optional(),
+    humanSignoff: z.boolean().optional(),
+    confidence: z.number().min(0).max(1).optional(),
+    world: z
+      .object({
+        headcount: z.number().int().min(0).max(10_000).optional(),
+        headcountCap: z.number().int().min(1).max(10_000).optional(),
+        criticalHazardZones: z.array(z.string().max(64)).max(64).optional(),
+        uncertaintyThreshold: z.number().min(0).max(1).optional(),
+      })
+      .optional(),
+  })
+  .optional();
+
 const ChatBodySchema = z.object({
   agentId: z.string().min(1).max(64).regex(/^[a-z0-9_-]+$/i),
   messages: z.array(MessageSchema).min(1).max(MAX_MESSAGES),
   model: z.enum(CLAUDE_MODELS).optional(),
   params: ParamsSchema,
+  complianceContext: ComplianceContextSchema,
 });
 
 const corsHeaders = {
@@ -203,9 +235,56 @@ Deno.serve(async (req) => {
       { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
-  const { agentId, messages, model, params } = parsed.data;
+  const { agentId, messages, model, params, complianceContext } = parsed.data;
 
   const systemPrompt = AGENT_PROMPTS[agentId] ?? DEFAULT_PROMPT;
+
+  // ── WAIHANGA compliance pre-check ───────────────────────────────────────
+  // For the construction kete every turn passes through the same six policies
+  // the in-app guard uses (PPE, hazard escalation, worker consent, tender
+  // sign-off, site-access cap, uncertainty handoff) BEFORE we spend any tokens
+  // talking to Claude. Block → 403, needs_human → 409, allow → continue.
+  if (agentId === "waihanga") {
+    const lastUser = [...messages].reverse().find((m) => m.role === "user");
+    const lastUserText = lastUser
+      ? typeof lastUser.content === "string"
+        ? lastUser.content
+        : (lastUser.content as Array<{ type: string; text?: string }>)
+            .filter((p) => p.type === "text")
+            .map((p) => p.text ?? "")
+            .join("\n")
+      : "";
+
+    const action: WaihangaAction = deriveActionFromMessage(lastUserText, {
+      kind: complianceContext?.kind,
+      zone: complianceContext?.zone,
+      ppeConfirmed: complianceContext?.ppeConfirmed,
+      containsWorkers: complianceContext?.containsWorkers,
+      workerConsent: complianceContext?.workerConsent,
+      humanSignoff: complianceContext?.humanSignoff,
+      confidence: complianceContext?.confidence,
+    });
+    const world: WaihangaWorld = complianceContext?.world ?? {};
+    const decision = evaluateWaihangaCompliance(action, world);
+
+    if (decision.verdict !== "allow") {
+      const status = decision.verdict === "block" ? 403 : 409;
+      return new Response(
+        JSON.stringify({
+          error: decision.explanation,
+          verdict: decision.verdict,
+          policy: "waihanga",
+          action: action.kind,
+          evaluations: decision.evaluations.filter((e) => !e.passed),
+        }),
+        {
+          status,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
+    }
+  }
+
   const { system: extraSystem, messages: anthMessages } = toAnthropicMessages(messages);
   const fullSystem = extraSystem ? `${systemPrompt}\n\n${extraSystem}` : systemPrompt;
 
