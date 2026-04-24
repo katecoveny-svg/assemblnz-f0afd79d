@@ -36,15 +36,13 @@ Then list 3 likely focus points as short bullet lines starting with "• ".`;
 
       const { data, error } = await supabase.functions.invoke("chat", {
         body: {
+          agentId: "echo",
           messages: [{ role: "user", content: prompt }],
-          model: "google/gemini-2.5-flash",
         },
       });
       if (error) throw error;
       const text =
-        data?.response ||
-        data?.content ||
-        data?.message ||
+        (typeof data?.content === "string" && data.content) ||
         (typeof data === "string" ? data : "");
       setSummary(
         text ||
