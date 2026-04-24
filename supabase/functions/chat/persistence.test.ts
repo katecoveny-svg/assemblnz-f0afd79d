@@ -61,28 +61,38 @@ async function callChat(
   agentId: string,
   messages: Array<{ role: string; content: string }>,
   userId: string,
+  opts: { testMode?: "recall"; recallToken?: string } = {},
 ): Promise<ChatResp> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+    "apikey": SUPABASE_ANON_KEY,
+    // chat/index.ts honours an explicit user_id in the body when present —
+    // lets us drive deterministic persistence checks without needing real
+    // signed-in auth tokens for every agent.
+    "x-test-user-id": userId,
+  };
+  // Deterministic recall mode requires both the body flag and a matching
+  // header so a normal client cannot trigger it accidentally.
+  if (opts.testMode === "recall") {
+    headers["x-assembl-test-mode"] = "recall";
+  }
+  const body: Record<string, unknown> = { agentId, messages, userId };
+  if (opts.testMode) body.testMode = opts.testMode;
+  if (opts.recallToken) body.recallToken = opts.recallToken;
   const res = await fetch(CHAT_ENDPOINT, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
-      "apikey": SUPABASE_ANON_KEY,
-      // chat/index.ts honours an explicit user_id in the body when present —
-      // lets us drive deterministic persistence checks without needing real
-      // signed-in auth tokens for every agent.
-      "x-test-user-id": userId,
-    },
-    body: JSON.stringify({ agentId, messages, userId }),
+    headers,
+    body: JSON.stringify(body),
   });
   const text = await res.text();
-  let body: Record<string, unknown> = {};
+  let parsed: Record<string, unknown> = {};
   try {
-    body = JSON.parse(text);
+    parsed = JSON.parse(text);
   } catch {
-    body = { _raw: text };
+    parsed = { _raw: text };
   }
-  return { status: res.status, body };
+  return { status: res.status, body: parsed };
 }
 
 interface PersistedMsg { role: string; content: string }
