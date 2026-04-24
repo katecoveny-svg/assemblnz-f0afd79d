@@ -862,11 +862,13 @@ const ChatPage = () => {
       [msgIndex]: { status: urls.length > 0 ? "done" : "error", urls },
     }));
 
-    // Upload images to permanent storage and log to exported_outputs
+    // Upload images to permanent storage, log to exported_outputs, and persist URLs on the message
     if (urls.length > 0 && user) {
       try {
+        const permanentUrls: string[] = [];
         for (let idx = 0; idx < urls.length; idx++) {
           const permanentUrl = await uploadGeneratedImage(urls[idx], user.id, agentId || "echo");
+          if (permanentUrl) permanentUrls.push(permanentUrl);
           await supabase.from("exported_outputs").insert({
             user_id: user.id,
             agent_id: agentId || "echo",
@@ -877,6 +879,16 @@ const ChatPage = () => {
             format: "png",
             image_url: permanentUrl,
           });
+        }
+        // Write permanent URLs back onto the assistant message so they survive reload.
+        if (permanentUrls.length > 0) {
+          setMessages((prev) => {
+            if (!prev[msgIndex] || prev[msgIndex].role !== "assistant") return prev;
+            const next = [...prev];
+            next[msgIndex] = { ...next[msgIndex], generatedImageUrls: permanentUrls };
+            return next;
+          });
+          setInlineImages((prev) => ({ ...prev, [msgIndex]: { status: "done", urls: permanentUrls } }));
         }
       } catch { /* silent */ }
     }
@@ -905,9 +917,19 @@ const ChatPage = () => {
           { role: "assistant", content: "Here's your generated image:" },
         ]);
         setInlineImages((prev) => ({ ...prev, [msgIndex + 1]: { status: "done", urls: [data.imageUrl] } }));
-        // Upload to permanent storage and log to exports
+        // Upload to permanent storage, log to exports, and persist URL on the message
         if (user) {
           uploadGeneratedImage(data.imageUrl, user.id, "marketing").then((permanentUrl) => {
+            if (permanentUrl) {
+              setMessages((prev) => {
+                const target = msgIndex + 1;
+                if (!prev[target] || prev[target].role !== "assistant") return prev;
+                const next = [...prev];
+                next[target] = { ...next[target], generatedImageUrls: [permanentUrl] };
+                return next;
+              });
+              setInlineImages((prev) => ({ ...prev, [msgIndex + 1]: { status: "done", urls: [permanentUrl] } }));
+            }
             supabase.from("exported_outputs").insert({
               user_id: user.id,
               agent_id: "marketing",
