@@ -279,12 +279,12 @@ export default function ManaakiLandingPage() {
                     <a.icon size={18} style={{ color: ACCENT }} />
                   </div>
                   <span className="text-xs font-mono font-bold" style={{
-                    color: hoveredAgent === i ? BONE : "rgba(255,255,255,0.7)",
+                    color: "#6F6158",
                     transition: "color 0.3s",
                   }}>{a.code}</span>
                 </div>
                 <p className="text-[12px] leading-relaxed transition-colors duration-300" style={{
-                  color: hoveredAgent === i ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.35)",
+                  color: "#5F554F",
                 }}>{a.role}</p>
               </motion.div>
             ))}
