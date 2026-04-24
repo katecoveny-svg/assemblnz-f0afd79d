@@ -200,6 +200,9 @@ const HokoLandingPage = lazy(() => import("./pages/HokoLandingPage"));
 const AkoLandingPage = lazy(() => import("./pages/AkoLandingPage"));
 const AuahaLandingPage = lazy(() => import("./pages/AuahaLandingPage"));
 const WaihangaLandingPage = lazy(() => import("./pages/WaihangaLandingPage"));
+const HokoDashboard = lazy(() => import("./components/hoko/HokoDashboard"));
+const AkoDashboard = lazy(() => import("./components/ako/AkoDashboard"));
+const WaihangaDashboard = lazy(() => import("./components/waihanga/WaihangaDashboard"));
 const ToroaTravelPage = lazy(() => import("./pages/ToroaTravelPage"));
 const ToroaChatPage = lazy(() => import("./pages/ToroaChatPage"));
 const ToroaRoutePage = lazy(() => import("./pages/ToroaRoutePage"));
@@ -438,7 +441,10 @@ const App = () => (
                         </Route>
 
                         <Route path="/hoko" element={<Suspense fallback={null}><HokoLandingPage /></Suspense>} />
+                        <Route path="/hoko/dashboard" element={<Suspense fallback={null}><HokoDashboard /></Suspense>} />
                         <Route path="/ako" element={<Suspense fallback={null}><AkoLandingPage /></Suspense>} />
+                        <Route path="/ako/dashboard" element={<Suspense fallback={null}><AkoDashboard /></Suspense>} />
+                        <Route path="/waihanga/dashboard" element={<Suspense fallback={null}><WaihangaDashboard /></Suspense>} />
 
                         <Route path="/toro" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
                         <Route path="/toro/dashboard" element={<Suspense fallback={null}><ToroDashboard /></Suspense>} />
