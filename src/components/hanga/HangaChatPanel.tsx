@@ -20,6 +20,7 @@ import {
   type AuditPolicyEvaluation,
   type AuditVerdict,
 } from "./useGovernanceAuditLog";
+import { resolveCompliancePolicySet } from "./agentCompliancePolicies";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
