@@ -180,13 +180,19 @@ export default function TenderWriterPage() {
               </label>
               <button
                 onClick={submitTender}
-                className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium"
+                disabled={submitting}
+                className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium disabled:opacity-50"
                 style={{ background: POUNAMU, color: "#3D4250" }}
               >
                 <Send size={14} />
-                Submit tender
+                {submitting ? "Submitting..." : "Submit tender"}
               </button>
             </div>
+            {approvalId && (
+              <div className="mt-3">
+                <ApprovalStatusBadge approvalId={approvalId} variant="card" />
+              </div>
+            )}
           </Glass>
         </motion.div>
       )}
