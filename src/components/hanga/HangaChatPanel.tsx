@@ -11,6 +11,13 @@ import {
   DEFAULT_SUPERVISOR_CONTEXT,
   type SupervisorComplianceContext,
 } from "./SupervisorControls";
+import { GovernanceAuditPanel } from "./GovernanceAuditPanel";
+import {
+  useGovernanceAuditLog,
+  deriveActionKind,
+  type AuditPolicyEvaluation,
+  type AuditVerdict,
+} from "./useGovernanceAuditLog";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
