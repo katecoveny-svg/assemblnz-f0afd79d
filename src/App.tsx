@@ -180,6 +180,8 @@ const WaihangaLandingPage = lazy(() => import("./pages/WaihangaLandingPage"));
 const ToroaTravelPage = lazy(() => import("./pages/ToroaTravelPage"));
 const ToroaChatPage = lazy(() => import("./pages/ToroaChatPage"));
 const ToroaRoutePage = lazy(() => import("./pages/ToroaRoutePage"));
+const ToroaSchoolPage = lazy(() => import("./pages/ToroaSchoolPage"));
+const ToroaTransportPage = lazy(() => import("./pages/ToroaTransportPage"));
 const WaihangaArchitecturePage = lazy(() => import("./pages/WaihangaArchitecturePage"));
 const WaihangaWorkflow = lazy(() => import("./pages/WaihangaWorkflow"));
 const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
@@ -401,6 +403,8 @@ const App = () => (
                         <Route path="/toro/travel" element={<Suspense fallback={null}><ToroaTravelPage /></Suspense>} />
                         <Route path="/toro/chat" element={<Suspense fallback={null}><ToroaChatPage /></Suspense>} />
                         <Route path="/toro/route" element={<Suspense fallback={null}><ToroaRoutePage /></Suspense>} />
+                        <Route path="/toro/school" element={<Suspense fallback={null}><ToroaSchoolPage /></Suspense>} />
+                        <Route path="/toro/transport" element={<Suspense fallback={null}><ToroaTransportPage /></Suspense>} />
 
                         <Route path="/waihanga/workflow" element={<Suspense fallback={null}><WaihangaWorkflow /></Suspense>} />
                         <Route path="/waihanga/about" element={<Suspense fallback={null}><WaihangaLandingPage /></Suspense>} />
