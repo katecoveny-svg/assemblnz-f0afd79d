@@ -88,6 +88,7 @@ const AdminMcpServer = lazy(() => import("./pages/admin/mcp/Server"));
 const AdminMcpFunctionHealth = lazy(() => import("./pages/admin/mcp/FunctionHealth"));
 const AdminMcpAgentToolE2E = lazy(() => import("./pages/admin/mcp/AgentToolE2E"));
 const AdminAgentWiringCheck = lazy(() => import("./pages/admin/AdminAgentWiringCheck"));
+const AdminAgentInspector = lazy(() => import("./pages/admin/AdminAgentInspector"));
 const AdminApiKeys = lazy(() => import("./pages/admin/ApiKeys"));
 const DataSovereigntyPage = lazy(() => import("./pages/DataSovereigntyPage"));
 const DataPrivacyLegal = lazy(() => import("./pages/DataPrivacyLegal"));
@@ -325,6 +326,7 @@ const App = () => (
                         <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
                         <Route path="/admin/test-lab" element={<Suspense fallback={null}><AdminAgentTestLab /></Suspense>} />
                         <Route path="/admin/wiring-check" element={<Suspense fallback={null}><AdminAgentWiringCheck /></Suspense>} />
+                        <Route path="/admin/agent-inspector" element={<Suspense fallback={null}><AdminAgentInspector /></Suspense>} />
                         <Route path="/admin/agents" element={<Suspense fallback={null}><AdminAgentCatalogPage /></Suspense>} />
                         <Route path="/admin/agents/inventory" element={<Suspense fallback={null}><AdminAgentInventoryPage /></Suspense>} />
                         <Route path="/admin/agents/prompts" element={<Suspense fallback={null}><AdminAgentPromptsPage /></Suspense>} />

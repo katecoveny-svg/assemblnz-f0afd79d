@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Users, Bot, FlaskConical, FileCheck2,
   Sparkles, Megaphone, PenTool, FolderOpen, FileText,
   Activity, Heart, Mail, MessageSquare, Shield, BookOpen,
-  Gauge, ChevronRight, LogOut, Image, Film, Layers, Brain, Palette, Stethoscope,
+  Gauge, ChevronRight, LogOut, Image, Film, Layers, Brain, Palette, Stethoscope, SlidersHorizontal,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -35,6 +35,7 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
       { to: "/admin/dashboard#agents", label: "Agent Directory", icon: Bot },
       { to: "/admin/test-lab", label: "Testing Lab", icon: FlaskConical },
       { to: "/admin/wiring-check", label: "Wiring Check", icon: Stethoscope },
+      { to: "/admin/agent-inspector", label: "Agent Inspector", icon: SlidersHorizontal },
       { to: "/admin/test-reports", label: "Test Results", icon: FileCheck2 },
     ],
   },
