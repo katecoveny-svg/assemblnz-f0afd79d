@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
+import { logAgentInteraction, detectWorkflowType, modelTierFromName } from "./analytics.ts";
 
 // ═══════════════════════════════════════════════════════════════
 // IHO ROUTER — The Central Brain of Assembl
@@ -758,6 +759,29 @@ Deno.serve(async (req: Request) => {
         tokensUsed: totalTokens, costNZD: cost.nzd,
       },
     };
+
+    // STEP 10.5: ANALYTICS — Fire-and-forget log to assembl_agent_analytics
+    // Greg Isenberg Step 5: "Use the data you collect as the moat"
+    logAgentInteraction(sb, {
+      userId: userId === "anonymous" ? "00000000-0000-0000-0000-000000000000" : userId,
+      agentCode: intent.agent.code,
+      keteCode: intent.agent.pack,
+      modelUsed: modelServed,
+      modelTier: modelTierFromName(modelServed),
+      intent: intent.taskType,
+      inputTokens,
+      outputTokens,
+      latencyMs: durationMs,
+      success: compliance.passed && manaResult.passed,
+      workflowType: detectWorkflowType(intent.taskType),
+      metadata: {
+        request_id: requestId,
+        provider: providerServed,
+        cost_nzd: cost.nzd,
+        pack: intent.agent.pack,
+        confidence: intent.confidence,
+      },
+    }).catch((e) => console.error("[iho-router] analytics dispatch failed:", e));
 
     return new Response(JSON.stringify(response), {
       status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
