@@ -93,9 +93,15 @@ interface Message {
 interface PackChatPanelProps {
   packId?: string;
   packLabel?: string;
+  /** Optional agent slug — enables per-agent compliance overrides. */
+  agentId?: string;
 }
 
-export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waihanga Intelligence" }: PackChatPanelProps) {
+export default function HangaChatPanel({
+  packId = "waihanga",
+  packLabel = "Waihanga Intelligence",
+  agentId,
+}: PackChatPanelProps) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -109,8 +115,10 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
   const [pendingMessage, setPendingMessage] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const isWaihanga = packId === "waihanga" || packId === "hanga";
-  const auditKete = isWaihanga ? "WAIHANGA" : packId.toUpperCase();
+  // Resolve compliance policy set from pack/agent config — replaces hard-coded `isWaihanga`
+  const compliancePolicySet = resolveCompliancePolicySet(packId, agentId);
+  const requiresCompliance = compliancePolicySet !== null;
+  const auditKete = compliancePolicySet?.auditKete ?? packId.toUpperCase();
   const { entries: auditEntries, record: recordAudit, clear: clearAudit } =
     useGovernanceAuditLog(auditKete);
 
