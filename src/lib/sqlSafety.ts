@@ -310,7 +310,6 @@ const checkUpdate = (
   const upper = cleaned.toUpperCase();
   const hasSet = /\bSET\b/.test(upper);
   const hasWhere = /\bWHERE\b/.test(upper);
-  const allowNoWhere = /--\s*@safe-no-where/i.test(cleaned);
 
   if (!hasSet) {
     issues.push({
@@ -371,7 +370,6 @@ const checkDelete = (
 ) => {
   const upper = cleaned.toUpperCase();
   const hasWhere = /\bWHERE\b/.test(upper);
-  const allowNoWhere = /--\s*@safe-no-where/i.test(cleaned);
 
   if (!hasWhere && !allowNoWhere) {
     issues.push({
