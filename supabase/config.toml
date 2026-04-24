@@ -57,6 +57,8 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.iot-weather]
     verify_jwt = false
+  [functions.dashboard-feed]
+    verify_jwt = false
   [functions.plan-to-3d]
     verify_jwt = false
   [functions.process-email-queue]
