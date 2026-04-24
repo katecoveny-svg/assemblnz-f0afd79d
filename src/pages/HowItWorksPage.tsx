@@ -6,6 +6,8 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import IhoRoutingVisualizer from "@/components/demo/IhoRoutingVisualizer";
+import HowItWorksFlow from "@/components/landing/HowItWorksFlow";
+import { INDUSTRY_KETE_LIST } from "@/assets/brand/kete";
 
 const KeteFocus = lazy(() => import("@/components/pearl/KeteFocus"));
 
