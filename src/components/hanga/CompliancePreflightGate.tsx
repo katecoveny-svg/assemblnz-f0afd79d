@@ -143,49 +143,51 @@ export function CompliancePreflightGate({ initial, policySet, onConfirm, onCance
         )}
 
         {/* Zone selection */}
-        <div>
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <MapPin size={12} style={{ color: TEAL_ACCENT }} />
-            <span className="text-[11px] font-medium" style={{ color: "#3D4250" }}>
-              Active zone
-            </span>
-          </div>
-          <select
-            value={zone}
-            onChange={(e) => setZone(e.target.value)}
-            className="w-full px-2.5 py-1.5 rounded-lg text-[11px] outline-none"
-            style={{
-              background: "rgba(255,255,255,0.9)",
-              border: "1px solid rgba(0,0,0,0.08)",
-              color: "#3D4250",
-            }}
-          >
-            {ZONE_PRESETS.map((z) => (
-              <option key={z} value={z}>
-                {z}
-              </option>
-            ))}
-          </select>
-          {zone === "Other (custom)" && (
-            <input
-              value={customZone}
-              onChange={(e) => setCustomZone(e.target.value)}
-              placeholder="Enter zone label"
-              maxLength={60}
-              className="w-full mt-1.5 px-2.5 py-1.5 rounded-lg text-[11px] outline-none"
+        {needsZone && (
+          <div>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <MapPin size={12} style={{ color: TEAL_ACCENT }} />
+              <span className="text-[11px] font-medium" style={{ color: "#3D4250" }}>
+                Active zone
+              </span>
+            </div>
+            <select
+              value={zone}
+              onChange={(e) => setZone(e.target.value)}
+              className="w-full px-2.5 py-1.5 rounded-lg text-[11px] outline-none"
               style={{
                 background: "rgba(255,255,255,0.9)",
-                border: `1px solid ${attempted && !zoneValid ? ALERT_RED : "rgba(0,0,0,0.08)"}`,
+                border: "1px solid rgba(0,0,0,0.08)",
                 color: "#3D4250",
               }}
-            />
-          )}
-          {attempted && !zoneValid && (
-            <p className="text-[10px] mt-1" style={{ color: ALERT_RED }}>
-              Enter a zone label.
-            </p>
-          )}
-        </div>
+            >
+              {ZONE_PRESETS.map((z) => (
+                <option key={z} value={z}>
+                  {z}
+                </option>
+              ))}
+            </select>
+            {zone === "Other (custom)" && (
+              <input
+                value={customZone}
+                onChange={(e) => setCustomZone(e.target.value)}
+                placeholder="Enter zone label"
+                maxLength={60}
+                className="w-full mt-1.5 px-2.5 py-1.5 rounded-lg text-[11px] outline-none"
+                style={{
+                  background: "rgba(255,255,255,0.9)",
+                  border: `1px solid ${attempted && !zoneValid ? ALERT_RED : "rgba(0,0,0,0.08)"}`,
+                  color: "#3D4250",
+                }}
+              />
+            )}
+            {attempted && !zoneValid && (
+              <p className="text-[10px] mt-1" style={{ color: ALERT_RED }}>
+                Enter a zone label.
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Headcount cap */}
         <div>
