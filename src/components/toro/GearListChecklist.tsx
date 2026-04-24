@@ -119,7 +119,7 @@ export function GearListChecklist({ familyId, childName }: Props) {
     setIsSaving(true);
     const { error } = await supabase
       .from("toroa_gear_lists")
-      .update(patch)
+      .update(patch as never)
       .eq("id", rowId);
     setIsSaving(false);
     if (error) {
