@@ -5,7 +5,7 @@ import { agents, echoAgent, pilotAgent } from "@/data/agents";
 import { useResolvedAgent } from "@/hooks/useAgentOverrides";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Layers, ListChecks, Phone, Radio, Camera, RotateCcw, Target, AlertCircle, Download } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Layers, ListChecks, Phone, Radio, Camera, RotateCcw, Target, AlertCircle, Download, LayoutDashboard } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
@@ -1813,6 +1813,19 @@ const ChatPage = () => {
                 style={{ color: accentColor, border: `1px solid ${accentColor}25` }}>
                 <LayoutGrid size={12} />
               </LockedButton>
+            )}
+
+            {/* Workspace link — opens this agent's full workspace */}
+            {rawAgentId && (
+              <Link
+                to={`/app/${rawAgentId}/workspace`}
+                className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors hover:opacity-80 shrink-0"
+                style={{ color: accentColor, border: `1px solid ${accentColor}25` }}
+                title={`Open ${agent.name}'s workspace`}
+              >
+                <LayoutDashboard size={12} />
+                <span className="hidden md:inline">Workspace</span>
+              </Link>
             )}
 
             <LanguageSelector agentColor={agent.color} />
