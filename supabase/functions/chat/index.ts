@@ -7505,54 +7505,30 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  let aiMessage = data.choices?.[0]?.message;
  let content = aiMessage?.content || "";
 
- // Handle tool calls 
+  // Handle tool calls — single dispatcher via executeAgentTool
  if (aiMessage?.tool_calls && aiMessage.tool_calls.length > 0) {
  const toolResults: any[] = [];
- const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+ const toolCtx = {
+ supabaseUrl: Deno.env.get("SUPABASE_URL")!,
+ authHeader: authHeader || "",
+ serviceClient: sb,
+ userId,
+ agentId,
+ };
 
  for (const toolCall of aiMessage.tool_calls) {
  const fnName = toolCall.function.name;
- let fnArgs: any = {};
+ let fnArgs: Record<string, unknown> = {};
  try { fnArgs = JSON.parse(toolCall.function.arguments || "{}"); } catch {}
 
- let integrationName = "";
- let integrationAction = "";
- let integrationParams: any = {};
-
- if (fnName === "google_calendar_list") {
- integrationName = "google-calendar";
- integrationAction = "list_events";
- integrationParams = fnArgs;
- } else if (fnName === "google_calendar_create") {
- integrationName = "google-calendar";
- integrationAction = "create_event";
- integrationParams = fnArgs;
- } else if (fnName === "canva_list_designs") {
- integrationName = "canva-api";
- integrationAction = "list_designs";
- integrationParams = fnArgs;
- } else if (fnName === "canva_create_design") {
- integrationName = "canva-api";
- integrationAction = "create_design";
- integrationParams = fnArgs;
- }
-
- let toolResult = { error: "Unknown tool" };
- if (integrationName) {
+ let toolResult: unknown;
  try {
- const intResp = await fetch(`${supabaseUrl}/functions/v1/${integrationName}`, {
- method: "POST",
- headers: {
- "Content-Type": "application/json",
- Authorization: authHeader,
- },
- body: JSON.stringify({ action: integrationAction, ...integrationParams }),
- });
- toolResult = await intResp.json();
+ toolResult = await executeAgentTool(fnName, fnArgs, toolCtx);
  } catch (e) {
- toolResult = { error: `Integration call failed: ${e instanceof Error ? e.message : "Unknown"}` };
+ toolResult = { error: `Tool '${fnName}' threw: ${e instanceof Error ? e.message : String(e)}` };
  }
- }
+
+ console.log(`[chat] tool_call ${fnName} →`, JSON.stringify(toolResult).slice(0, 200));
 
  toolResults.push({
  role: "tool",
