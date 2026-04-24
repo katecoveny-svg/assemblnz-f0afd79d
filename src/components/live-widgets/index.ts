@@ -22,6 +22,9 @@ export type { LiveWidgetProps } from "./LiveWidget";
 export { LiveWidgetSection } from "./LiveWidgetSection";
 export type { LiveWidgetSectionProps } from "./LiveWidgetSection";
 
+export { KeteLiveFeedStrip } from "./KeteLiveFeedStrip";
+export type { KeteLiveFeedStripProps } from "./KeteLiveFeedStrip";
+
 export { LiveWidgetShell } from "./LiveWidgetShell";
 export type { LiveWidgetShellProps } from "./LiveWidgetShell";
 
