@@ -1075,6 +1075,714 @@ export type Database = {
         }
         Relationships: []
       }
+      assembl_agent_analytics: {
+        Row: {
+          agent_code: string
+          created_at: string | null
+          error_type: string | null
+          evidence_pack_generated: boolean | null
+          id: string
+          input_tokens: number | null
+          intent_category: string | null
+          kete_code: string
+          latency_ms: number | null
+          metadata: Json | null
+          model_tier: string | null
+          model_used: string | null
+          organisation_id: string | null
+          output_tokens: number | null
+          session_id: string | null
+          success: boolean | null
+          user_id: string | null
+          user_satisfaction: number | null
+          workflow_type: string | null
+        }
+        Insert: {
+          agent_code: string
+          created_at?: string | null
+          error_type?: string | null
+          evidence_pack_generated?: boolean | null
+          id?: string
+          input_tokens?: number | null
+          intent_category?: string | null
+          kete_code: string
+          latency_ms?: number | null
+          metadata?: Json | null
+          model_tier?: string | null
+          model_used?: string | null
+          organisation_id?: string | null
+          output_tokens?: number | null
+          session_id?: string | null
+          success?: boolean | null
+          user_id?: string | null
+          user_satisfaction?: number | null
+          workflow_type?: string | null
+        }
+        Update: {
+          agent_code?: string
+          created_at?: string | null
+          error_type?: string | null
+          evidence_pack_generated?: boolean | null
+          id?: string
+          input_tokens?: number | null
+          intent_category?: string | null
+          kete_code?: string
+          latency_ms?: number | null
+          metadata?: Json | null
+          model_tier?: string | null
+          model_used?: string | null
+          organisation_id?: string | null
+          output_tokens?: number | null
+          session_id?: string | null
+          success?: boolean | null
+          user_id?: string | null
+          user_satisfaction?: number | null
+          workflow_type?: string | null
+        }
+        Relationships: []
+      }
+      assembl_content_atoms: {
+        Row: {
+          approved_by: string | null
+          core_insight: string
+          created_at: string | null
+          created_by: string | null
+          id: string
+          kete_codes: string[] | null
+          priority: number | null
+          source_type: string | null
+          status: string | null
+          target_persona: string | null
+          title: string
+          topic_tags: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          approved_by?: string | null
+          core_insight: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          kete_codes?: string[] | null
+          priority?: number | null
+          source_type?: string | null
+          status?: string | null
+          target_persona?: string | null
+          title: string
+          topic_tags?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          approved_by?: string | null
+          core_insight?: string
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          kete_codes?: string[] | null
+          priority?: number | null
+          source_type?: string | null
+          status?: string | null
+          target_persona?: string | null
+          title?: string
+          topic_tags?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      assembl_content_derivatives: {
+        Row: {
+          agent_used: string | null
+          asset_url: string | null
+          atom_id: string | null
+          clicks: number | null
+          content: string | null
+          conversions: number | null
+          created_at: string | null
+          engagement_rate: number | null
+          engagements: number | null
+          format: string
+          hook_score: number | null
+          hook_text: string | null
+          id: string
+          impressions: number | null
+          platform: string | null
+          published_at: string | null
+          scheduled_for: string | null
+          status: string | null
+          title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          agent_used?: string | null
+          asset_url?: string | null
+          atom_id?: string | null
+          clicks?: number | null
+          content?: string | null
+          conversions?: number | null
+          created_at?: string | null
+          engagement_rate?: number | null
+          engagements?: number | null
+          format: string
+          hook_score?: number | null
+          hook_text?: string | null
+          id?: string
+          impressions?: number | null
+          platform?: string | null
+          published_at?: string | null
+          scheduled_for?: string | null
+          status?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          agent_used?: string | null
+          asset_url?: string | null
+          atom_id?: string | null
+          clicks?: number | null
+          content?: string | null
+          conversions?: number | null
+          created_at?: string | null
+          engagement_rate?: number | null
+          engagements?: number | null
+          format?: string
+          hook_score?: number | null
+          hook_text?: string | null
+          id?: string
+          impressions?: number | null
+          platform?: string | null
+          published_at?: string | null
+          scheduled_for?: string | null
+          status?: string | null
+          title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assembl_content_derivatives_atom_id_fkey"
+            columns: ["atom_id"]
+            isOneToOne: false
+            referencedRelation: "assembl_content_atoms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assembl_feature_usage: {
+        Row: {
+          action: string
+          count: number | null
+          date: string | null
+          feature_name: string
+          id: string
+          kete_code: string
+          metadata: Json | null
+          organisation_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          count?: number | null
+          date?: string | null
+          feature_name: string
+          id?: string
+          kete_code: string
+          metadata?: Json | null
+          organisation_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          count?: number | null
+          date?: string | null
+          feature_name?: string
+          id?: string
+          kete_code?: string
+          metadata?: Json | null
+          organisation_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      assembl_hook_tests: {
+        Row: {
+          clicks: number | null
+          derivative_id: string | null
+          engagement_rate: number | null
+          engagements: number | null
+          hook_text: string
+          id: string
+          impressions: number | null
+          is_winner: boolean | null
+          platform: string
+          tested_at: string | null
+          variant_label: string | null
+        }
+        Insert: {
+          clicks?: number | null
+          derivative_id?: string | null
+          engagement_rate?: number | null
+          engagements?: number | null
+          hook_text: string
+          id?: string
+          impressions?: number | null
+          is_winner?: boolean | null
+          platform: string
+          tested_at?: string | null
+          variant_label?: string | null
+        }
+        Update: {
+          clicks?: number | null
+          derivative_id?: string | null
+          engagement_rate?: number | null
+          engagements?: number | null
+          hook_text?: string
+          id?: string
+          impressions?: number | null
+          is_winner?: boolean | null
+          platform?: string
+          tested_at?: string | null
+          variant_label?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assembl_hook_tests_derivative_id_fkey"
+            columns: ["derivative_id"]
+            isOneToOne: false
+            referencedRelation: "assembl_content_derivatives"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assembl_industry_benchmarks: {
+        Row: {
+          generated_at: string | null
+          id: string
+          industry: string
+          kete_code: string
+          metric_name: string
+          metric_value: number | null
+          percentile_25: number | null
+          percentile_50: number | null
+          percentile_75: number | null
+          period_end: string | null
+          period_start: string | null
+          region: string | null
+          sample_size: number | null
+        }
+        Insert: {
+          generated_at?: string | null
+          id?: string
+          industry: string
+          kete_code: string
+          metric_name: string
+          metric_value?: number | null
+          percentile_25?: number | null
+          percentile_50?: number | null
+          percentile_75?: number | null
+          period_end?: string | null
+          period_start?: string | null
+          region?: string | null
+          sample_size?: number | null
+        }
+        Update: {
+          generated_at?: string | null
+          id?: string
+          industry?: string
+          kete_code?: string
+          metric_name?: string
+          metric_value?: number | null
+          percentile_25?: number | null
+          percentile_50?: number | null
+          percentile_75?: number | null
+          period_end?: string | null
+          period_start?: string | null
+          region?: string | null
+          sample_size?: number | null
+        }
+        Relationships: []
+      }
+      assembl_lead_magnets: {
+        Row: {
+          avg_time_seconds: number | null
+          completions: number | null
+          conversion_rate: number | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          kete_codes: string[] | null
+          leads_captured: number | null
+          name: string
+          slug: string
+          starts: number | null
+          type: string
+          updated_at: string | null
+          views: number | null
+        }
+        Insert: {
+          avg_time_seconds?: number | null
+          completions?: number | null
+          conversion_rate?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          kete_codes?: string[] | null
+          leads_captured?: number | null
+          name: string
+          slug: string
+          starts?: number | null
+          type: string
+          updated_at?: string | null
+          views?: number | null
+        }
+        Update: {
+          avg_time_seconds?: number | null
+          completions?: number | null
+          conversion_rate?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          kete_codes?: string[] | null
+          leads_captured?: number | null
+          name?: string
+          slug?: string
+          starts?: number | null
+          type?: string
+          updated_at?: string | null
+          views?: number | null
+        }
+        Relationships: []
+      }
+      assembl_lead_scoring_rules: {
+        Row: {
+          action: string
+          decay_days: number | null
+          id: string
+          is_active: boolean | null
+          points: number
+        }
+        Insert: {
+          action: string
+          decay_days?: number | null
+          id?: string
+          is_active?: boolean | null
+          points: number
+        }
+        Update: {
+          action?: string
+          decay_days?: number | null
+          id?: string
+          is_active?: boolean | null
+          points?: number
+        }
+        Relationships: []
+      }
+      assembl_leads: {
+        Row: {
+          company_name: string | null
+          company_size: string | null
+          converted_at: string | null
+          created_at: string | null
+          email: string
+          id: string
+          industry: string | null
+          kete_interest: string[] | null
+          last_engaged_at: string | null
+          lead_score: number | null
+          name: string | null
+          quiz_answers: Json | null
+          region: string | null
+          source: string
+          source_detail: string | null
+          status: string | null
+          updated_at: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          company_size?: string | null
+          converted_at?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          industry?: string | null
+          kete_interest?: string[] | null
+          last_engaged_at?: string | null
+          lead_score?: number | null
+          name?: string | null
+          quiz_answers?: Json | null
+          region?: string | null
+          source: string
+          source_detail?: string | null
+          status?: string | null
+          updated_at?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          company_size?: string | null
+          converted_at?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          industry?: string | null
+          kete_interest?: string[] | null
+          last_engaged_at?: string | null
+          lead_score?: number | null
+          name?: string | null
+          quiz_answers?: Json | null
+          region?: string | null
+          source?: string
+          source_detail?: string | null
+          status?: string | null
+          updated_at?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
+      assembl_managed_engagements: {
+        Row: {
+          agents_configured: string[] | null
+          created_at: string | null
+          customer_confidence_score: number | null
+          customer_email: string
+          customer_name: string
+          id: string
+          industry: string
+          kete_code: string
+          monthly_fee_nzd: number | null
+          notes: Json | null
+          organisation_id: string | null
+          setup_fee_nzd: number | null
+          start_date: string | null
+          status: string | null
+          time_saved_hours_per_week: number | null
+          training_sessions_completed: number | null
+          transition_target_date: string | null
+          updated_at: string | null
+          workflows_automated: number | null
+          workflows_mapped: number | null
+        }
+        Insert: {
+          agents_configured?: string[] | null
+          created_at?: string | null
+          customer_confidence_score?: number | null
+          customer_email: string
+          customer_name: string
+          id?: string
+          industry: string
+          kete_code: string
+          monthly_fee_nzd?: number | null
+          notes?: Json | null
+          organisation_id?: string | null
+          setup_fee_nzd?: number | null
+          start_date?: string | null
+          status?: string | null
+          time_saved_hours_per_week?: number | null
+          training_sessions_completed?: number | null
+          transition_target_date?: string | null
+          updated_at?: string | null
+          workflows_automated?: number | null
+          workflows_mapped?: number | null
+        }
+        Update: {
+          agents_configured?: string[] | null
+          created_at?: string | null
+          customer_confidence_score?: number | null
+          customer_email?: string
+          customer_name?: string
+          id?: string
+          industry?: string
+          kete_code?: string
+          monthly_fee_nzd?: number | null
+          notes?: Json | null
+          organisation_id?: string | null
+          setup_fee_nzd?: number | null
+          start_date?: string | null
+          status?: string | null
+          time_saved_hours_per_week?: number | null
+          training_sessions_completed?: number | null
+          transition_target_date?: string | null
+          updated_at?: string | null
+          workflows_automated?: number | null
+          workflows_mapped?: number | null
+        }
+        Relationships: []
+      }
+      assembl_nz_ai_directory: {
+        Row: {
+          ai_use_cases: string[] | null
+          company_name: string
+          company_size: string | null
+          contact_email: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          industry: string
+          is_assembl_customer: boolean | null
+          is_featured: boolean | null
+          is_verified: boolean | null
+          region: string | null
+          submitted_by: string | null
+          tools_used: string[] | null
+          updated_at: string | null
+          views: number | null
+          website: string | null
+        }
+        Insert: {
+          ai_use_cases?: string[] | null
+          company_name: string
+          company_size?: string | null
+          contact_email?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          industry: string
+          is_assembl_customer?: boolean | null
+          is_featured?: boolean | null
+          is_verified?: boolean | null
+          region?: string | null
+          submitted_by?: string | null
+          tools_used?: string[] | null
+          updated_at?: string | null
+          views?: number | null
+          website?: string | null
+        }
+        Update: {
+          ai_use_cases?: string[] | null
+          company_name?: string
+          company_size?: string | null
+          contact_email?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          industry?: string
+          is_assembl_customer?: boolean | null
+          is_featured?: boolean | null
+          is_verified?: boolean | null
+          region?: string | null
+          submitted_by?: string | null
+          tools_used?: string[] | null
+          updated_at?: string | null
+          views?: number | null
+          website?: string | null
+        }
+        Relationships: []
+      }
+      assembl_workflow_mapping: {
+        Row: {
+          agent_assigned: string | null
+          automatable: boolean | null
+          automation_status: string | null
+          current_tool: string | null
+          engagement_id: string | null
+          id: string
+          mapped_at: string | null
+          notes: string | null
+          pain_level: number | null
+          step_description: string
+          step_number: number
+          time_minutes: number | null
+          workflow_name: string
+        }
+        Insert: {
+          agent_assigned?: string | null
+          automatable?: boolean | null
+          automation_status?: string | null
+          current_tool?: string | null
+          engagement_id?: string | null
+          id?: string
+          mapped_at?: string | null
+          notes?: string | null
+          pain_level?: number | null
+          step_description: string
+          step_number: number
+          time_minutes?: number | null
+          workflow_name: string
+        }
+        Update: {
+          agent_assigned?: string | null
+          automatable?: boolean | null
+          automation_status?: string | null
+          current_tool?: string | null
+          engagement_id?: string | null
+          id?: string
+          mapped_at?: string | null
+          notes?: string | null
+          pain_level?: number | null
+          step_description?: string
+          step_number?: number
+          time_minutes?: number | null
+          workflow_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assembl_workflow_mapping_engagement_id_fkey"
+            columns: ["engagement_id"]
+            isOneToOne: false
+            referencedRelation: "assembl_managed_engagements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assembl_workflow_patterns: {
+        Row: {
+          completion_rate: number | null
+          created_at: string | null
+          drop_off_step: string | null
+          id: string
+          industry_category: string | null
+          is_template: boolean | null
+          kete_code: string
+          organisation_id: string | null
+          steps: Json
+          times_used: number | null
+          total_time_seconds: number | null
+          updated_at: string | null
+          workflow_name: string
+          workflow_version: number | null
+        }
+        Insert: {
+          completion_rate?: number | null
+          created_at?: string | null
+          drop_off_step?: string | null
+          id?: string
+          industry_category?: string | null
+          is_template?: boolean | null
+          kete_code: string
+          organisation_id?: string | null
+          steps: Json
+          times_used?: number | null
+          total_time_seconds?: number | null
+          updated_at?: string | null
+          workflow_name: string
+          workflow_version?: number | null
+        }
+        Update: {
+          completion_rate?: number | null
+          created_at?: string | null
+          drop_off_step?: string | null
+          id?: string
+          industry_category?: string | null
+          is_template?: boolean | null
+          kete_code?: string
+          organisation_id?: string | null
+          steps?: Json
+          times_used?: number | null
+          total_time_seconds?: number | null
+          updated_at?: string | null
+          workflow_name?: string
+          workflow_version?: number | null
+        }
+        Relationships: []
+      }
       auaha_ad_campaigns: {
         Row: {
           ad_sets: Json | null
@@ -14721,6 +15429,94 @@ export type Database = {
       }
     }
     Views: {
+      assembl_agent_usage_summary: {
+        Row: {
+          agent_code: string | null
+          avg_latency_ms: number | null
+          avg_satisfaction: number | null
+          kete_code: string | null
+          packs_generated: number | null
+          success_rate: number | null
+          total_calls: number | null
+          total_tokens: number | null
+          unique_users: number | null
+        }
+        Relationships: []
+      }
+      assembl_content_winners: {
+        Row: {
+          agent_used: string | null
+          atom_title: string | null
+          engagement_rate: number | null
+          engagements: number | null
+          format: string | null
+          hook_score: number | null
+          hook_text: string | null
+          impressions: number | null
+          platform: string | null
+          published_at: string | null
+        }
+        Relationships: []
+      }
+      assembl_lead_funnel: {
+        Row: {
+          avg_score: number | null
+          count: number | null
+          earliest: string | null
+          latest: string | null
+          source: string | null
+          status: string | null
+        }
+        Relationships: []
+      }
+      assembl_magnet_performance: {
+        Row: {
+          capture_pct: number | null
+          completion_pct: number | null
+          completions: number | null
+          kete_codes: string[] | null
+          leads_captured: number | null
+          name: string | null
+          starts: number | null
+          type: string | null
+          views: number | null
+        }
+        Insert: {
+          capture_pct?: never
+          completion_pct?: never
+          completions?: number | null
+          kete_codes?: string[] | null
+          leads_captured?: number | null
+          name?: string | null
+          starts?: number | null
+          type?: string | null
+          views?: number | null
+        }
+        Update: {
+          capture_pct?: never
+          completion_pct?: never
+          completions?: number | null
+          kete_codes?: string[] | null
+          leads_captured?: number | null
+          name?: string | null
+          starts?: number | null
+          type?: string | null
+          views?: number | null
+        }
+        Relationships: []
+      }
+      assembl_managed_pipeline: {
+        Row: {
+          avg_confidence: number | null
+          avg_hours_saved: number | null
+          avg_workflows_automated: number | null
+          avg_workflows_mapped: number | null
+          count: number | null
+          kete_code: string | null
+          status: string | null
+        }
+        Relationships: []
+      }
       kb_source_health: {
         Row: {
           active: boolean | null
@@ -14768,6 +15564,27 @@ export type Database = {
       }
     }
     Functions: {
+      assembl_calculate_lead_score: {
+        Args: { p_lead_id: string }
+        Returns: number
+      }
+      assembl_log_agent_interaction: {
+        Args: {
+          p_agent_code: string
+          p_input_tokens: number
+          p_intent: string
+          p_kete_code: string
+          p_latency_ms: number
+          p_metadata?: Json
+          p_model_tier: string
+          p_model_used: string
+          p_output_tokens: number
+          p_success?: boolean
+          p_user_id: string
+          p_workflow_type?: string
+        }
+        Returns: string
+      }
       can_access_trip: { Args: { _trip_id: string }; Returns: boolean }
       delete_email: {
         Args: { message_id: number; queue_name: string }
