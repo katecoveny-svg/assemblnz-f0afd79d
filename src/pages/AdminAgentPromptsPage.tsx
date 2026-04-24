@@ -639,26 +639,37 @@ export default function AdminAgentPromptsPage() {
                   />
                 </div>
 
-                <div className="flex items-center justify-end gap-2 pt-2 border-t border-foreground/10">
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      setDraft({
-                        display_name: selected.display_name,
-                        icon: selected.icon ?? "",
-                        system_prompt: selected.system_prompt,
-                        model_preference: selected.model_preference ?? "google/gemini-2.5-flash",
-                        is_active: selected.is_active ?? true,
-                      })
-                    }
-                    disabled={!isDirty || saving}
-                  >
-                    Discard
-                  </Button>
-                  <Button onClick={handleSave} disabled={!isDirty || saving} className="gap-2">
-                    {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    Save & bump version
-                  </Button>
+                <div className="flex items-end justify-between gap-3 pt-2 border-t border-foreground/10 flex-wrap">
+                  <div className="flex-1 min-w-[240px]">
+                    <Label className="text-xs">Change note (optional, stored with history)</Label>
+                    <Input
+                      value={changeNote}
+                      placeholder="e.g. Tightened tone, removed price claim"
+                      onChange={(e) => setChangeNote(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setDraft({
+                          display_name: selected.display_name,
+                          icon: selected.icon ?? "",
+                          system_prompt: selected.system_prompt,
+                          model_preference: selected.model_preference ?? "google/gemini-2.5-flash",
+                          is_active: selected.is_active ?? true,
+                        });
+                        setChangeNote("");
+                      }}
+                      disabled={!isDirty || saving}
+                    >
+                      Discard
+                    </Button>
+                    <Button onClick={handleSave} disabled={!isDirty || saving} className="gap-2">
+                      {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                      Save & bump version
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
