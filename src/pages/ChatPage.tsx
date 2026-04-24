@@ -2477,30 +2477,38 @@ const ChatPage = () => {
                           )}
                           {urls.length > 0 && (
                             <div className="grid gap-2" style={{ gridTemplateColumns: urls.length > 1 ? "1fr 1fr" : "1fr" }}>
-                              {urls.map((url, imgIdx) => (
-                                <div key={imgIdx} className="relative group rounded-xl overflow-hidden border border-border">
-                                  <img loading="lazy" decoding="async" src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" />
-                                   <div className="absolute bottom-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                     <button onClick={async () => {
-                                       try {
-                                         const res = await fetch(url);
-                                         const blob = await res.blob();
-                                         const pngBlob = new Blob([blob], { type: "image/png" });
-                                         const blobUrl = URL.createObjectURL(pngBlob);
-                                         const a = document.createElement("a");
-                                         a.href = blobUrl;
-                                         a.download = `assembl-${agent?.name?.toLowerCase() || "image"}-${Date.now()}-${imgIdx}.png`;
-                                         document.body.appendChild(a);
-                                         a.click();
-                                         document.body.removeChild(a);
-                                         URL.revokeObjectURL(blobUrl);
-                                       } catch { /* fallback */ window.open(url, "_blank"); }
-                                     }} className="p-1.5 rounded-md bg-black/60 hover:bg-white/80 text-foreground transition-colors" title="Download PNG">
-                                       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                     </button>
-                                   </div>
-                                </div>
-                              ))}
+                              {urls.map((url, imgIdx) => {
+                                const downloadImage = async () => {
+                                  try {
+                                    const res = await fetch(url);
+                                    const blob = await res.blob();
+                                    const pngBlob = new Blob([blob], { type: "image/png" });
+                                    const blobUrl = URL.createObjectURL(pngBlob);
+                                    const a = document.createElement("a");
+                                    a.href = blobUrl;
+                                    a.download = `assembl-${agent?.name?.toLowerCase() || "image"}-${Date.now()}-${imgIdx}.png`;
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    document.body.removeChild(a);
+                                    URL.revokeObjectURL(blobUrl);
+                                  } catch { window.open(url, "_blank"); }
+                                };
+                                return (
+                                  <div key={imgIdx} className="relative group rounded-xl overflow-hidden border border-border">
+                                    <img loading="lazy" decoding="async" src={url} alt={`Generated visual ${imgIdx + 1}`} className="w-full h-auto rounded-xl" />
+                                    {/* Always-visible download pill — top-right for easy access on touch + desktop */}
+                                    <button
+                                      onClick={downloadImage}
+                                      className="absolute top-2 right-2 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-body font-medium text-foreground bg-background/90 hover:bg-background backdrop-blur-md border border-border shadow-sm transition-all hover:scale-105"
+                                      title="Download as PNG"
+                                      aria-label="Download image as PNG"
+                                    >
+                                      <Download size={12} strokeWidth={2.25} />
+                                      <span>PNG</span>
+                                    </button>
+                                  </div>
+                                );
+                              })}
                             </div>
                           )}
                           {status === "error" && urls.length === 0 && (
