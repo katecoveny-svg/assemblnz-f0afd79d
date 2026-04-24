@@ -154,11 +154,13 @@ export const DraftsPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
 const BulkActionBar: React.FC<{
   accent: string;
   count: number;
-  busy: boolean;
+  busy: "approve" | "reject" | null;
   onApprove: () => void;
+  onReject: () => void;
   onClear: () => void;
-}> = ({ accent, count, busy, onApprove, onClear }) => {
+}> = ({ accent, count, busy, onApprove, onReject, onClear }) => {
   const active = count > 0;
+  const anyBusy = busy !== null;
   return (
     <div
       className="flex items-center justify-between gap-3 px-4 py-2.5 mb-3 rounded-2xl transition-all"
@@ -177,13 +179,13 @@ const BulkActionBar: React.FC<{
       >
         {active
           ? `${count} draft${count === 1 ? "" : "s"} selected`
-          : "Tick drafts to bulk-approve"}
+          : "Tick drafts to bulk-approve or reject"}
       </span>
       <div className="flex items-center gap-2">
         <button
           type="button"
           onClick={onClear}
-          disabled={!active || busy}
+          disabled={!active || anyBusy}
           className="px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-40"
           style={{
             background: "rgba(255,255,255,0.8)",
@@ -196,8 +198,28 @@ const BulkActionBar: React.FC<{
         </button>
         <button
           type="button"
+          onClick={onReject}
+          disabled={!active || anyBusy}
+          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-40"
+          style={{
+            background: "#E9C9C7",
+            border: "1px solid #C99A95",
+            color: "#7A2E2A",
+            fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+          }}
+          aria-label="Reject selected drafts"
+        >
+          {busy === "reject" ? (
+            <Loader2 size={12} className="animate-spin" />
+          ) : (
+            <X size={12} />
+          )}
+          Reject selected
+        </button>
+        <button
+          type="button"
           onClick={onApprove}
-          disabled={!active || busy}
+          disabled={!active || anyBusy}
           className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-40"
           style={{
             background: `${accent}55`,
@@ -207,7 +229,7 @@ const BulkActionBar: React.FC<{
           }}
           aria-label="Approve selected drafts"
         >
-          {busy ? (
+          {busy === "approve" ? (
             <Loader2 size={12} className="animate-spin" />
           ) : (
             <Check size={12} />
