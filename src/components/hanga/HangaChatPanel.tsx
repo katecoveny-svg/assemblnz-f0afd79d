@@ -12,6 +12,7 @@ import {
   type SupervisorComplianceContext,
 } from "./SupervisorControls";
 import { GovernanceAuditPanel } from "./GovernanceAuditPanel";
+import { CompliancePreflightGate } from "./CompliancePreflightGate";
 import {
   useGovernanceAuditLog,
   deriveActionKind,
