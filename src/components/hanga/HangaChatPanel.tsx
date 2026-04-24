@@ -266,6 +266,26 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
     return <Icon size={14} style={{ color: TEAL_ACCENT }} />;
   };
 
+  const handlePreflightConfirm = (next: SupervisorComplianceContext) => {
+    setSupervisorContext(next);
+    setPreflightConfirmed(true);
+    setShowPreflight(false);
+    pushSystemNote(
+      `Pre-flight compliance confirmed — Zone: ${next.zone ?? "—"}, headcount cap ${next.world.headcountCap}.`,
+    );
+    if (pendingMessage) {
+      const queued = pendingMessage;
+      setPendingMessage(null);
+      // Defer so state updates flush before sendMessage re-checks the gate
+      setTimeout(() => void sendMessage(queued), 0);
+    }
+  };
+
+  const handlePreflightCancel = () => {
+    setShowPreflight(false);
+    setPendingMessage(null);
+  };
+
   return (
     <>
       {/* FAB */}
