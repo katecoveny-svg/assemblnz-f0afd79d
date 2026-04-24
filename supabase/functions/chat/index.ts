@@ -6853,6 +6853,72 @@ Deno.serve(async (req) => {
   );
  }
 
+ // ===== DETERMINISTIC TEST MODE — context recall =====
+ // Lets persistence + context tests assert a stable, model-independent reply.
+ // Activated only when BOTH:
+ //   - body.testMode === "recall"
+ //   - request header `x-assembl-test-mode: recall` is present
+ // The double gate means a regular browser client cannot accidentally
+ // trigger it, while an automated test can opt in explicitly.
+ //
+ // Behaviour:
+ //   - If `recallToken` appears (case-insensitive) in any prior message
+ //     content, returns `RECALL_OK:<TOKEN>`.
+ //   - Otherwise returns `RECALL_MISS:<TOKEN>`.
+ // Both responses are short, ASCII-only, and stable across model swaps.
+ // No LLM call, no audit logging, no usage counter increment — this is a
+ // pure echo path designed for deterministic assertions.
+ if (testMode === "recall") {
+   const testHeader = req.headers.get("x-assembl-test-mode")?.toLowerCase();
+   if (testHeader !== "recall") {
+     return new Response(
+       JSON.stringify({
+         error: "testMode requires matching x-assembl-test-mode header",
+         requestId,
+       }),
+       { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+     );
+   }
+   if (!recallToken) {
+     return new Response(
+       JSON.stringify({
+         error: "testMode=recall requires a recallToken in the request body",
+         requestId,
+       }),
+       { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+     );
+   }
+   const needle = recallToken.toUpperCase();
+   const haystack = (Array.isArray(messages) ? messages : [])
+     .map((m) => {
+       const c = (m as { content: unknown }).content;
+       if (typeof c === "string") return c;
+       if (Array.isArray(c)) {
+         return c
+           .map((b) => (b && typeof b === "object" && "text" in b ? String((b as { text?: unknown }).text ?? "") : ""))
+           .join(" ");
+       }
+       return "";
+     })
+     .join(" ")
+     .toUpperCase();
+   const found = haystack.includes(needle);
+   const content = `${found ? "RECALL_OK" : "RECALL_MISS"}:${recallToken}`;
+   console.log(`[chat:${requestId}] test-mode recall`, JSON.stringify({
+     agentId, recallToken, found, messageCount: Array.isArray(messages) ? messages.length : 0,
+   }));
+   return new Response(
+     JSON.stringify({
+       content,
+       model: "test-mode-recall",
+       testMode: "recall",
+       recallToken,
+       recallMatched: found,
+     }),
+     { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+   );
+ }
+
  // ===== AUTH & USER RESOLUTION =====
  // Admin brand block is collected here and applied once `fullSystemPrompt`
  // is declared later (outside the usage-limit block), so the admin
