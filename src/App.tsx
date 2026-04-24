@@ -235,6 +235,7 @@ const AdminAgentInventoryPage = lazy(() => import("./pages/AdminAgentInventoryPa
 const AdminAgentPromptsPage = lazy(() => import("./pages/AdminAgentPromptsPage"));
 const AdminPromptDiffPage = lazy(() => import("./pages/AdminPromptDiffPage"));
 const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
+const ComplianceCalculatorPage = lazy(() => import("./pages/ComplianceCalculatorPage"));
 const DemosHub = lazy(() => import("./pages/demos/DemosHub"));
 const PipelineDemo = lazy(() => import("./pages/demos/PipelineDemo"));
 const EvidencePackDemo = lazy(() => import("./pages/demos/EvidencePackDemo"));
@@ -312,6 +313,7 @@ const App = () => (
                         
                         <Route path="/agents" element={<Suspense fallback={null}><AgentMarketplacePage /></Suspense>} />
                         <Route path="/tools" element={<Navigate to="/how-it-works" replace />} />
+                        <Route path="/tools/compliance-calculator" element={<Suspense fallback={null}><ComplianceCalculatorPage /></Suspense>} />
                         
 
                         <Route path="/admin" element={<Suspense fallback={null}><AdminLogin /></Suspense>} />
