@@ -1,7 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
-import { Navigate } from "react-router-dom";
-import { Loader2, Search, Plus, Save, Trash2, Power, PowerOff, RotateCcw } from "lucide-react";
+import { Navigate, Link } from "react-router-dom";
+import {
+  Loader2,
+  Search,
+  Plus,
+  Save,
+  Trash2,
+  Power,
+  PowerOff,
+  RotateCcw,
+  History,
+  PlayCircle,
+  RotateCw,
+  Eye,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import BrandNav from "@/components/BrandNav";
@@ -43,6 +56,22 @@ interface AgentPrompt {
   updated_at: string;
 }
 
+interface PromptVersion {
+  id: string;
+  prompt_id: string;
+  agent_name: string;
+  pack: string;
+  display_name: string;
+  icon: string | null;
+  system_prompt: string;
+  model_preference: string | null;
+  is_active: boolean | null;
+  version: number;
+  changed_by: string | null;
+  change_note: string | null;
+  created_at: string;
+}
+
 const MODEL_OPTIONS = [
   "google/gemini-2.5-flash",
   "google/gemini-2.5-pro",
@@ -80,6 +109,11 @@ export default function AdminAgentPromptsPage() {
   const [saving, setSaving] = useState(false);
   const [showCreate, setShowCreate] = useState(false);
   const [newDraft, setNewDraft] = useState({ ...emptyDraft });
+  const [showHistory, setShowHistory] = useState(false);
+  const [history, setHistory] = useState<PromptVersion[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [previewVersion, setPreviewVersion] = useState<PromptVersion | null>(null);
+  const [changeNote, setChangeNote] = useState("");
 
   const load = async () => {
     setLoading(true);
@@ -147,9 +181,54 @@ export default function AdminAgentPromptsPage() {
     );
   }, [draft, selected]);
 
+  const loadHistory = useCallback(async (promptId: string) => {
+    setHistoryLoading(true);
+    const { data, error } = await supabase
+      .from("agent_prompt_versions")
+      .select("*")
+      .eq("prompt_id", promptId)
+      .order("created_at", { ascending: false })
+      .limit(50);
+    setHistoryLoading(false);
+    if (error) {
+      toast.error(`History failed: ${error.message}`);
+      return;
+    }
+    setHistory((data ?? []) as PromptVersion[]);
+  }, []);
+
+  useEffect(() => {
+    setShowHistory(false);
+    setPreviewVersion(null);
+    setHistory([]);
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (showHistory && selected) void loadHistory(selected.id);
+  }, [showHistory, selected, loadHistory]);
+
+  const snapshotCurrent = async (row: AgentPrompt, note: string | null) => {
+    await supabase.from("agent_prompt_versions").insert({
+      prompt_id: row.id,
+      agent_name: row.agent_name,
+      pack: row.pack,
+      display_name: row.display_name,
+      icon: row.icon,
+      system_prompt: row.system_prompt,
+      model_preference: row.model_preference,
+      is_active: row.is_active,
+      version: row.version ?? 1,
+      changed_by: user?.id ?? null,
+      change_note: note,
+    });
+  };
+
   const handleSave = async () => {
     if (!selected) return;
     setSaving(true);
+    // Snapshot the OUTGOING version before mutating the row
+    await snapshotCurrent(selected, changeNote.trim() || null);
+    const newVersion = (selected.version ?? 1) + 1;
     const { error } = await supabase
       .from("agent_prompts")
       .update({
@@ -158,7 +237,7 @@ export default function AdminAgentPromptsPage() {
         system_prompt: draft.system_prompt ?? selected.system_prompt,
         model_preference: draft.model_preference ?? selected.model_preference,
         is_active: draft.is_active ?? selected.is_active,
-        version: (selected.version ?? 1) + 1,
+        version: newVersion,
         updated_at: new Date().toISOString(),
       })
       .eq("id", selected.id);
@@ -167,9 +246,39 @@ export default function AdminAgentPromptsPage() {
       toast.error(`Save failed: ${error.message}`);
       return;
     }
-    toast.success(`${selected.display_name} updated to v${(selected.version ?? 1) + 1}`);
+    setChangeNote("");
+    toast.success(`${selected.display_name} updated to v${newVersion}`);
     await load();
+    if (showHistory) await loadHistory(selected.id);
   };
+
+  const handleRestore = async (version: PromptVersion) => {
+    if (!selected) return;
+    if (!confirm(`Restore ${selected.display_name} to v${version.version}? Current state will be saved to history.`)) return;
+    await snapshotCurrent(selected, `Auto-snapshot before restore to v${version.version}`);
+    const newVersion = (selected.version ?? 1) + 1;
+    const { error } = await supabase
+      .from("agent_prompts")
+      .update({
+        display_name: version.display_name,
+        icon: version.icon,
+        system_prompt: version.system_prompt,
+        model_preference: version.model_preference,
+        is_active: version.is_active,
+        version: newVersion,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", selected.id);
+    if (error) {
+      toast.error(`Restore failed: ${error.message}`);
+      return;
+    }
+    toast.success(`Restored to v${version.version} (now v${newVersion})`);
+    setPreviewVersion(null);
+    await load();
+    await loadHistory(selected.id);
+  };
+
 
   const handleToggleActive = async (row: AgentPrompt) => {
     const { error } = await supabase
@@ -355,7 +464,26 @@ export default function AdminAgentPromptsPage() {
                       Updated {new Date(selected.updated_at).toLocaleString("en-NZ")}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Button
+                      asChild
+                      size="sm"
+                      className="gap-2"
+                      title="Open the live agent chat in a new tab to test this prompt"
+                    >
+                      <Link to={`/chat/${selected.agent_name}`} target="_blank" rel="noreferrer">
+                        <PlayCircle className="w-4 h-4" /> Test this prompt
+                      </Link>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowHistory((s) => !s)}
+                      className="gap-2"
+                    >
+                      <History className="w-4 h-4" />
+                      {showHistory ? "Hide history" : "History"}
+                    </Button>
                     <Button
                       variant="outline"
                       size="sm"
@@ -382,6 +510,76 @@ export default function AdminAgentPromptsPage() {
                     </Button>
                   </div>
                 </div>
+
+                {showHistory && (
+                  <Card className="p-3 bg-foreground/[0.02] border-foreground/10">
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-medium flex items-center gap-2">
+                        <History className="w-4 h-4" /> Version history
+                      </h3>
+                      <span className="text-[11px] text-foreground/50 font-mono">
+                        {history.length} snapshot{history.length === 1 ? "" : "s"}
+                      </span>
+                    </div>
+                    {historyLoading ? (
+                      <div className="py-4 flex items-center justify-center text-foreground/50 text-sm">
+                        <Loader2 className="w-4 h-4 animate-spin mr-2" /> Loading…
+                      </div>
+                    ) : history.length === 0 ? (
+                      <p className="text-xs text-foreground/50 py-2">
+                        No prior versions yet. Each save will snapshot the previous prompt here.
+                      </p>
+                    ) : (
+                      <ul className="divide-y divide-foreground/10 max-h-[260px] overflow-y-auto">
+                        {history.map((v) => (
+                          <li
+                            key={v.id}
+                            className="flex items-center justify-between gap-2 py-2 text-sm"
+                          >
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2">
+                                <Badge variant="secondary" className="text-[10px]">
+                                  v{v.version}
+                                </Badge>
+                                <span className="text-xs text-foreground/55 font-mono">
+                                  {new Date(v.created_at).toLocaleString("en-NZ")}
+                                </span>
+                                {v.model_preference && (
+                                  <span className="text-[10px] text-foreground/45 font-mono truncate">
+                                    {v.model_preference}
+                                  </span>
+                                )}
+                              </div>
+                              {v.change_note && (
+                                <p className="text-xs text-foreground/60 mt-0.5 truncate">
+                                  {v.change_note}
+                                </p>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="gap-1 h-7 px-2"
+                                onClick={() => setPreviewVersion(v)}
+                              >
+                                <Eye className="w-3.5 h-3.5" /> View
+                              </Button>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-1 h-7 px-2"
+                                onClick={() => handleRestore(v)}
+                              >
+                                <RotateCw className="w-3.5 h-3.5" /> Restore
+                              </Button>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Card>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
@@ -441,26 +639,37 @@ export default function AdminAgentPromptsPage() {
                   />
                 </div>
 
-                <div className="flex items-center justify-end gap-2 pt-2 border-t border-foreground/10">
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      setDraft({
-                        display_name: selected.display_name,
-                        icon: selected.icon ?? "",
-                        system_prompt: selected.system_prompt,
-                        model_preference: selected.model_preference ?? "google/gemini-2.5-flash",
-                        is_active: selected.is_active ?? true,
-                      })
-                    }
-                    disabled={!isDirty || saving}
-                  >
-                    Discard
-                  </Button>
-                  <Button onClick={handleSave} disabled={!isDirty || saving} className="gap-2">
-                    {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    Save & bump version
-                  </Button>
+                <div className="flex items-end justify-between gap-3 pt-2 border-t border-foreground/10 flex-wrap">
+                  <div className="flex-1 min-w-[240px]">
+                    <Label className="text-xs">Change note (optional, stored with history)</Label>
+                    <Input
+                      value={changeNote}
+                      placeholder="e.g. Tightened tone, removed price claim"
+                      onChange={(e) => setChangeNote(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setDraft({
+                          display_name: selected.display_name,
+                          icon: selected.icon ?? "",
+                          system_prompt: selected.system_prompt,
+                          model_preference: selected.model_preference ?? "google/gemini-2.5-flash",
+                          is_active: selected.is_active ?? true,
+                        });
+                        setChangeNote("");
+                      }}
+                      disabled={!isDirty || saving}
+                    >
+                      Discard
+                    </Button>
+                    <Button onClick={handleSave} disabled={!isDirty || saving} className="gap-2">
+                      {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                      Save & bump version
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
@@ -552,6 +761,59 @@ export default function AdminAgentPromptsPage() {
             </Button>
             <Button onClick={handleCreate} className="gap-2">
               <Plus className="w-4 h-4" /> Create
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Version preview dialog */}
+      <Dialog open={!!previewVersion} onOpenChange={(o) => !o && setPreviewVersion(null)}>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <History className="w-4 h-4" />
+              {previewVersion?.display_name} — v{previewVersion?.version}
+            </DialogTitle>
+            <DialogDescription>
+              Snapshot from{" "}
+              {previewVersion ? new Date(previewVersion.created_at).toLocaleString("en-NZ") : ""}
+              {previewVersion?.change_note ? ` · ${previewVersion.change_note}` : ""}
+            </DialogDescription>
+          </DialogHeader>
+          {previewVersion && (
+            <div className="space-y-3">
+              <div className="flex flex-wrap gap-2 text-xs">
+                <Badge variant="outline" className="font-mono">
+                  {previewVersion.agent_name}
+                </Badge>
+                <Badge>{previewVersion.pack}</Badge>
+                {previewVersion.model_preference && (
+                  <Badge variant="secondary">{previewVersion.model_preference}</Badge>
+                )}
+                <Badge variant={previewVersion.is_active ? "secondary" : "outline"}>
+                  {previewVersion.is_active ? "Was active" : "Was inactive"}
+                </Badge>
+              </div>
+              <div>
+                <Label className="text-xs">System prompt</Label>
+                <Textarea
+                  readOnly
+                  value={previewVersion.system_prompt}
+                  className="font-mono text-xs min-h-[360px] mt-1"
+                />
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setPreviewVersion(null)}>
+              Close
+            </Button>
+            <Button
+              onClick={() => previewVersion && handleRestore(previewVersion)}
+              className="gap-2"
+              disabled={!previewVersion}
+            >
+              <RotateCw className="w-4 h-4" /> Restore this version
             </Button>
           </DialogFooter>
         </DialogContent>

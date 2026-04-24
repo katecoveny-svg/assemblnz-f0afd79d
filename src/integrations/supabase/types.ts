@@ -544,6 +544,62 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_prompt_versions: {
+        Row: {
+          agent_name: string
+          change_note: string | null
+          changed_by: string | null
+          created_at: string
+          display_name: string
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          model_preference: string | null
+          pack: string
+          prompt_id: string
+          system_prompt: string
+          version: number
+        }
+        Insert: {
+          agent_name: string
+          change_note?: string | null
+          changed_by?: string | null
+          created_at?: string
+          display_name: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          model_preference?: string | null
+          pack: string
+          prompt_id: string
+          system_prompt: string
+          version: number
+        }
+        Update: {
+          agent_name?: string
+          change_note?: string | null
+          changed_by?: string | null
+          created_at?: string
+          display_name?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          model_preference?: string | null
+          pack?: string
+          prompt_id?: string
+          system_prompt?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_prompt_versions_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "agent_prompts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agent_prompts: {
         Row: {
           agent_name: string
@@ -6874,6 +6930,60 @@ export type Database = {
           podcast_name?: string
           rss_feed_url?: string | null
           user_id?: string
+        }
+        Relationships: []
+      }
+      policy_check_log: {
+        Row: {
+          action_kind: string | null
+          agent_id: string
+          context: Json
+          created_at: string
+          id: string
+          kete: string
+          message: string | null
+          outcome: string
+          overall_verdict: string
+          passed: boolean
+          policy_id: string
+          request_id: string
+          severity: string
+          user_id: string | null
+          zone: string | null
+        }
+        Insert: {
+          action_kind?: string | null
+          agent_id: string
+          context?: Json
+          created_at?: string
+          id?: string
+          kete: string
+          message?: string | null
+          outcome: string
+          overall_verdict: string
+          passed: boolean
+          policy_id: string
+          request_id?: string
+          severity: string
+          user_id?: string | null
+          zone?: string | null
+        }
+        Update: {
+          action_kind?: string | null
+          agent_id?: string
+          context?: Json
+          created_at?: string
+          id?: string
+          kete?: string
+          message?: string | null
+          outcome?: string
+          overall_verdict?: string
+          passed?: boolean
+          policy_id?: string
+          request_id?: string
+          severity?: string
+          user_id?: string | null
+          zone?: string | null
         }
         Relationships: []
       }

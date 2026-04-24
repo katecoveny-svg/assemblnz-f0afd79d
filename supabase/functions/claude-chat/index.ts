@@ -290,6 +290,46 @@ Deno.serve(async (req) => {
     const world: WaihangaWorld = complianceContext?.world ?? {};
     const decision = evaluateWaihangaCompliance(action, world);
 
+    // ── Structured per-policy logging ────────────────────────────────────
+    // One row per evaluated policy (pass/block/warn) so supervisors and
+    // auditors can review decisions later. Non-blocking — logging failures
+    // never short-circuit the request.
+    const userId = (claimsData.claims as { sub?: string }).sub ?? null;
+    const requestId = crypto.randomUUID();
+    try {
+      const logClient = SUPABASE_SERVICE_ROLE_KEY
+        ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+        : userClient;
+      const rows = decision.evaluations.map((evaluation) => ({
+        agent_id: agentId,
+        kete: "WAIHANGA",
+        user_id: userId,
+        request_id: requestId,
+        action_kind: action.kind,
+        zone: action.zone ?? null,
+        policy_id: evaluation.policyId,
+        passed: evaluation.passed,
+        severity: evaluation.severity,
+        outcome: evaluation.passed ? "pass" : evaluation.severity,
+        message: evaluation.message,
+        overall_verdict: decision.verdict,
+        context: {
+          confidence: action.confidence ?? null,
+          ppeConfirmed: action.ppeConfirmed ?? null,
+          containsWorkers: action.containsWorkers ?? null,
+          workerConsent: action.workerConsent ?? null,
+          humanSignoff: action.humanSignoff ?? null,
+          headcount: world.headcount ?? null,
+          headcountCap: world.headcountCap ?? null,
+          criticalHazardZones: world.criticalHazardZones ?? null,
+        },
+      }));
+      const { error: logErr } = await logClient.from("policy_check_log").insert(rows);
+      if (logErr) console.error("policy_check_log insert failed", logErr.message);
+    } catch (e) {
+      console.error("policy_check_log threw", (e as Error).message);
+    }
+
     if (decision.verdict !== "allow") {
       const status = decision.verdict === "block" ? 403 : 409;
 
@@ -303,7 +343,6 @@ Deno.serve(async (req) => {
         action.humanSignoff !== true
       ) {
         try {
-          const userId = (claimsData.claims as { sub?: string }).sub ?? null;
           // 7-day expiry — tenders shouldn't sit in the queue indefinitely.
           const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
           // Use service-role client so the insert isn't blocked by RLS
