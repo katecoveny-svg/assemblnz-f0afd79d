@@ -10,6 +10,7 @@ import { AuditLog, type AuditEntry } from "./metrics/audit";
 import { ComplianceEngine } from "./policy/engine";
 import { WAIHANGA_POLICIES } from "./policy/waihanga";
 import type { AaaipRuntimeBase } from "./runtime-base";
+import { logWaihangaDecision } from "./services/waihangaAuditLogger";
 import { WaihangaSimulator, type WaihangaWorld } from "./simulation/waihanga";
 
 const PILOT_LABEL =
@@ -53,7 +54,16 @@ export function useWaihangaRuntime(): WaihangaRuntime {
     const audit = auditRef.current!;
     sim.tick();
     const result = agent.step(sim);
-    if (result) audit.record(result.decision, result.applied);
+    if (result) {
+      audit.record(result.decision, result.applied);
+      // Server-side audit trail (fire-and-forget).
+      logWaihangaDecision({
+        decision: result.decision,
+        applied: result.applied,
+        pilotLabel: PILOT_LABEL,
+        world: sim.world,
+      });
+    }
     setTickCount((t) => t + 1);
     forceRender();
     return result;
