@@ -56,7 +56,7 @@ const AgentWorkspacePage: React.FC = () => {
     }
     setRerunBusy(true);
     try {
-      await agentChat({ agentId: agent.id, message: prompt });
+      await agentChat({ agentId: agent!.id, message: prompt });
       toast.success("Re-run complete — refreshing feed");
       queryClient.invalidateQueries({ queryKey: ["agent-workspace"] });
     } catch (e) {
