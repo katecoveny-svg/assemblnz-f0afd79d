@@ -340,7 +340,8 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                     {(PACK_SUGGESTIONS[packId] || PACK_SUGGESTIONS.hanga).map(s => (
                       <button
                         key={s}
-                        onClick={() => sendMessage(s)}
+                        onClick={() => setInput(s)}
+                        title="Click to prefill — edit then send"
                         className="px-3 py-1.5 rounded-full text-[10px] transition-colors hover:bg-black/[0.03]"
                         style={{ background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.06)", color: "#6B7280" }}
                       >
