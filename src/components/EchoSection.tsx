@@ -58,7 +58,7 @@ const EchoSection = () => {
             <div className="text-center lg:text-left">
               <div className="flex items-center gap-2 justify-center lg:justify-start mb-3">
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full flex items-center gap-1"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1"
                   style={{
                     background: `${ECHO_COLOR}20`,
                     color: ECHO_COLOR,
@@ -77,7 +77,7 @@ const EchoSection = () => {
               >
                 Meet ECHO
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4" style={{ color: "rgba(74,165,168,0.3)" }}>
+              <p className="font-mono text-[10px] mb-4" style={{ color: "rgba(74,165,168,0.3)" }}>
                 ASM-000 · Assembl Hero Agent
               </p>
               <h3

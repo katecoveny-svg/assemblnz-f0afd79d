@@ -144,7 +144,7 @@ export default function DataSovereigntyPage() {
           {NGA_POU.map((p, i) => (
             <motion.div key={p.pou} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
               <Glass className="p-6 h-full" style={{ borderTop: `3px solid ${p.color}` }}>
-                <span className="font-mono-jb text-[10px] tracking-[0.12em] uppercase" style={{ color: p.color }}>{p.english}</span>
+                <span className="font-mono text-[10px] tracking-[0.12em] uppercase" style={{ color: p.color }}>{p.english}</span>
                 <h3 className="font-display text-xl mt-2 mb-3 text-foreground" style={{ fontWeight: 300 }}>{p.pou}</h3>
                 <p className="font-body text-sm leading-relaxed" style={{ color: C.muted }}>{p.desc}</p>
               </Glass>
@@ -217,7 +217,7 @@ export default function DataSovereigntyPage() {
             <motion.div key={s.stage} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
               <Glass className="p-5 flex items-start gap-4">
                 <div className="flex flex-col items-center shrink-0 w-14">
-                  <span className="font-mono-jb text-[9px] tracking-widest uppercase" style={{ color: C.gold }}>{s.label}</span>
+                  <span className="font-mono text-[9px] tracking-widest uppercase" style={{ color: C.gold }}>{s.label}</span>
                   <span className="font-display text-lg mt-1" style={{ fontWeight: 300, color: C.white }}>{s.stage}</span>
                   {i < TESTING_REGIME.length - 1 && <div className="w-px h-4 mt-2" style={{ background: `${C.pounamu}30` }} />}
                 </div>
@@ -244,7 +244,7 @@ export default function DataSovereigntyPage() {
           ].map((t, i) => (
             <motion.div key={t.tier} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i}>
               <Glass className="p-4 h-full" style={{ borderTop: `2px solid ${t.color}` }}>
-                <span className="font-mono-jb text-[10px] tracking-widest" style={{ color: t.color }}>{t.tier}</span>
+                <span className="font-mono text-[10px] tracking-widest" style={{ color: t.color }}>{t.tier}</span>
                 <p className="font-body text-[11px] mt-2 leading-relaxed" style={{ color: C.muted }}>{t.desc}</p>
               </Glass>
             </motion.div>
@@ -263,14 +263,14 @@ export default function DataSovereigntyPage() {
           <Glass style={{ padding: 0, overflow: "hidden" }}>
             <div className="hidden sm:grid grid-cols-[1.5fr_1.5fr_1.2fr_1.8fr] gap-4 px-6 py-3" style={{ background: `${C.pounamu}15`, borderBottom: `1px solid ${C.glassBorder}` }}>
               {["Data category", "How it is stored", "Retention", "Your control"].map(h => (
-                <span key={h} className="font-mono-jb text-[10px] tracking-[0.12em] uppercase" style={{ color: C.gold, fontWeight: 700 }}>{h}</span>
+                <span key={h} className="font-mono text-[10px] tracking-[0.12em] uppercase" style={{ color: C.gold, fontWeight: 700 }}>{h}</span>
               ))}
             </div>
             {DATA_TABLE.map((row, i) => (
               <div key={row.category} className="grid grid-cols-1 sm:grid-cols-[1.5fr_1.5fr_1.2fr_1.8fr] gap-2 sm:gap-4 px-6 py-4" style={{ borderBottom: i < DATA_TABLE.length - 1 ? `1px solid ${C.glassBorder}` : "none", background: i % 2 === 1 ? "rgba(58,125,110,0.04)" : "transparent" }}>
                 <span className="font-display text-sm text-foreground" style={{ fontWeight: 700 }}>{row.category}</span>
                 <span className="font-body text-xs" style={{ color: C.muted }}>{row.storage}</span>
-                <span className="font-mono-jb text-xs" style={{ color: C.pounamu }}>{row.retention}</span>
+                <span className="font-mono text-xs" style={{ color: C.pounamu }}>{row.retention}</span>
                 <span className="font-body text-xs" style={{ color: C.muted }}>{row.control}</span>
               </div>
             ))}
@@ -290,7 +290,7 @@ export default function DataSovereigntyPage() {
             <motion.div key={i} variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i * 0.3}>
               <Glass className="flex items-start gap-4 px-6 py-4">
                 <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(228,77,77,0.1)", border: "1px solid rgba(228,77,77,0.3)" }}>
-                  <span className="font-mono-jb text-xs font-bold" style={{ color: "#E44D4D" }}>✕</span>
+                  <span className="font-mono text-xs font-bold" style={{ color: "#E44D4D" }}>✕</span>
                 </div>
                 <div>
                   <span className="font-display text-sm text-foreground" style={{ fontWeight: 700 }}>Never. </span>

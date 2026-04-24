@@ -50,13 +50,13 @@ const ArohaSection = () => {
                 <Heart size={18} style={{ color: AROHA_COLOR }} />
                 <Scale size={14} style={{ color: AROHA_COLOR }} />
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full"
                   style={{ background: `${AROHA_COLOR}15`, color: AROHA_COLOR, border: `1px solid ${AROHA_COLOR}30` }}
                 >
                   HR & PEOPLE
                 </span>
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full flex items-center gap-1"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1"
                   style={{ background: `${AROHA_COLOR}20`, color: AROHA_COLOR, border: `1px solid ${AROHA_COLOR}40` }}
                 >
                   <Mic size={8} /> VOICE
@@ -69,7 +69,7 @@ const ArohaSection = () => {
               >
                 Meet AROHA
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${AROHA_COLOR}30` }}>
+              <p className="font-mono text-[10px] mb-4" style={{ color: `${AROHA_COLOR}30` }}>
                 ASM-038 · HR & Employment Law Specialist
               </p>
               <h3

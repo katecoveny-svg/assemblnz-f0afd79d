@@ -59,7 +59,7 @@ export default function MyAppsPage() {
             <img loading="lazy" decoding="async" src={sparkImg} alt="SPARK" className="w-8 h-8 object-contain rounded-lg" style={{ filter: "drop-shadow(0 0 6px rgba(255,107,0,0.4))" }} />
             <h1 className="text-lg font-display font-bold" style={{ color: "#E4E4EC" }}>My Apps</h1>
           </div>
-          <span className="text-[11px] font-mono-jb px-3 py-1 rounded-full" style={{ background: `${ACCENT}15`, color: ACCENT }}>
+          <span className="text-[11px] font-mono px-3 py-1 rounded-full" style={{ background: `${ACCENT}15`, color: ACCENT }}>
             {apps.length} app{apps.length !== 1 ? "s" : ""} deployed
           </span>
         </div>
@@ -84,7 +84,7 @@ export default function MyAppsPage() {
               <div key={app.id} className="rounded-xl p-4 space-y-3" style={{ background: "rgba(255,255,255,0.5)", border: "1px solid rgba(74,165,168,0.15)" }}>
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-display font-semibold" style={{ color: "#E4E4EC" }}>{app.display_name}</h3>
-                  <span className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-full"
                     style={{ background: app.status === "live" ? "rgba(102,187,106,0.1)" : "rgba(255,255,255,0.05)",
                       color: app.status === "live" ? "rgba(102,187,106,0.9)" : "rgba(255,255,255,0.3)" }}>
                     {app.status === "live" ? " Live" : " Paused"}
@@ -95,7 +95,7 @@ export default function MyAppsPage() {
                   <p className="text-[10px] font-body line-clamp-2" style={{ color: "#6B7280" }}>{app.meta_description}</p>
                 )}
 
-                <div className="flex items-center gap-2 text-[9px] font-mono-jb" style={{ color: "#9CA3AF" }}>
+                <div className="flex items-center gap-2 text-[9px] font-mono" style={{ color: "#9CA3AF" }}>
                   <Eye size={10} /> {app.view_count} views
                   <span className="mx-1">·</span>
                   {new Date(app.created_at).toLocaleDateString()}

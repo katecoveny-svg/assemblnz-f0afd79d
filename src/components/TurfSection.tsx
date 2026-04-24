@@ -49,7 +49,7 @@ const TurfSection = () => {
                 <Trophy size={18} style={{ color: TURF_COLOR }} />
                 <Users size={14} style={{ color: TURF_COLOR }} />
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full"
                   style={{
                     background: `${TURF_COLOR}15`,
                     color: TURF_COLOR,
@@ -59,7 +59,7 @@ const TurfSection = () => {
                   NZ SPORT
                 </span>
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full"
                   style={{
                     background: `${TURF_COLOR}15`,
                     color: TURF_COLOR,
@@ -79,7 +79,7 @@ const TurfSection = () => {
               >
                 Meet TURF
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${TURF_COLOR}30` }}>
+              <p className="font-mono text-[10px] mb-4" style={{ color: `${TURF_COLOR}30` }}>
                 ASM-043 · Sports Operations
               </p>
               <h3

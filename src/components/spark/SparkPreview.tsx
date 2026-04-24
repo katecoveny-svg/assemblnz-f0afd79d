@@ -41,7 +41,7 @@ const SparkPreview = ({ code, onIterate, onDeploy }: SparkPreviewProps) => {
     <div className="flex flex-col h-full rounded-xl overflow-hidden border border-pounamu-light/15" style={{ background: "rgba(0,0,0,0.3)" }}>
       {/* Toolbar */}
       <div className="flex items-center gap-2 px-3 py-2 border-b border-border/10" style={{ background: "rgba(0,0,0,0.2)" }}>
-        <span className="text-[10px] font-mono-jb text-pounamu-light/60">
+        <span className="text-[10px] font-mono text-pounamu-light/60">
           Live Preview
         </span>
         <div className="flex-1" />

@@ -53,7 +53,7 @@ const AuraSection = () => {
                 <UtensilsCrossed size={18} style={{ color: AURA_COLOR }} />
                 <Star size={14} style={{ color: AURA_COLOR }} />
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full"
                   style={{
                     background: `${AURA_COLOR}15`,
                     color: AURA_COLOR,
@@ -63,7 +63,7 @@ const AuraSection = () => {
                   HOSPITALITY
                 </span>
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full flex items-center gap-1"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1"
                   style={{
                     background: `${AURA_COLOR}20`,
                     color: AURA_COLOR,
@@ -83,7 +83,7 @@ const AuraSection = () => {
               >
                 Meet AURA
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${AURA_COLOR}30` }}>
+              <p className="font-mono text-[10px] mb-4" style={{ color: `${AURA_COLOR}30` }}>
                 ASM-001 · Hospitality Operations Director — Cafés · Restaurants · Hotels · Bars · Lodges
               </p>
               <h3

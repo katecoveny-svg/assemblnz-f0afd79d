@@ -55,7 +55,7 @@ const ModelGenerationCard = ({ status, progress, prompt, color = "#3A6A9C" }: Mo
 
       {prompt && (
         <p
-          className="text-xs font-mono-jb leading-relaxed"
+          className="text-xs font-mono leading-relaxed"
           style={{ color: "rgba(255,255,255,0.25)" }}
         >
           Prompt: "{prompt}"

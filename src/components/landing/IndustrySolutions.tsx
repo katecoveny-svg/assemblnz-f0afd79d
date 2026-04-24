@@ -102,7 +102,7 @@ const IndustrySolutions = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <p className="font-mono-jb text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Purpose-built for NZ</p>
+          <p className="font-mono text-[10px] uppercase tracking-[4px] text-primary/70 mb-3">Purpose-built for NZ</p>
           <h2
             className="text-2xl sm:text-[2.75rem] font-display text-foreground mb-4 heading-glow section-heading"
             style={{ letterSpacing: '-0.02em', lineHeight: '1.15', fontWeight: 400 }}
@@ -181,7 +181,7 @@ const IndustrySolutions = () => {
                     </div>
                     <div>
                       <p className="text-sm font-display font-bold" style={{ color: '#3D4250' }}>{ind.industry}</p>
-                      <p className="text-[10px] font-mono-jb uppercase tracking-[2px]" style={{
+                      <p className="text-[10px] font-mono uppercase tracking-[2px]" style={{
                         color: ind.color,
                         textShadow: `0 0 8px rgba(${rgb},0.3)`,
                       }}>{ind.agent}</p>
@@ -264,7 +264,7 @@ const IndustrySolutions = () => {
                   <button
                     key={s}
                     onClick={() => setActiveSector(s)}
-                    className={`px-4 py-2 rounded-xl text-[10px] font-mono-jb uppercase tracking-wider transition-all duration-300 hover:-translate-y-[1px] ${
+                    className={`px-4 py-2 rounded-xl text-[10px] font-mono uppercase tracking-wider transition-all duration-300 hover:-translate-y-[1px] ${
                       activeSector === s ? "font-bold" : ""
                     }`}
                     style={{

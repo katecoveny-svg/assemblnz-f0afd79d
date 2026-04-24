@@ -82,7 +82,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
         </div>
         <div className="flex items-center gap-2">
           {dna.brand_score && (
-            <span className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full" style={{ background: `${ACCENT}15`, color: ACCENT }}>
+            <span className="text-[9px] font-mono px-2 py-0.5 rounded-full" style={{ background: `${ACCENT}15`, color: ACCENT }}>
               <Shield size={8} className="inline mr-0.5" /> Score: {dna.brand_score}%
             </span>
           )}
@@ -114,7 +114,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
               ) : (
                 <div className="w-4 h-4 rounded-full border border-gray-200" style={{ backgroundColor: s.color }} />
               )}
-              <span className="text-[9px] font-mono-jb" style={{ color: "rgba(255,255,255,0.4)" }}>{s.color}</span>
+              <span className="text-[9px] font-mono" style={{ color: "rgba(255,255,255,0.4)" }}>{s.color}</span>
             </div>
           ))}
         </div>
@@ -149,7 +149,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
           )}
           {dna.key_products && dna.key_products.length > 0 && (
             <div>
-              <span className="text-[9px] font-mono-jb uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>Products/Services</span>
+              <span className="text-[9px] font-mono uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>Products/Services</span>
               <div className="flex flex-wrap gap-1 mt-1">
                 {dna.key_products.map(p => (
                   <span key={p} className="text-[9px] px-1.5 py-0.5 rounded" style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.5)" }}>{p}</span>
@@ -159,7 +159,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
           )}
           {dna.usps && dna.usps.length > 0 && (
             <div>
-              <span className="text-[9px] font-mono-jb uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>USPs</span>
+              <span className="text-[9px] font-mono uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>USPs</span>
               <ul className="mt-1 space-y-0.5">
                 {dna.usps.map(u => (
                   <li key={u} className="text-[10px] font-body" style={{ color: "rgba(255,255,255,0.5)" }}>• {u}</li>
@@ -168,7 +168,7 @@ export default function PrismBrandDNA({ onRescan }: { onRescan?: () => void }) {
             </div>
           )}
           {vi && (
-            <div className="flex flex-wrap gap-2 text-[9px] font-mono-jb" style={{ color: "rgba(255,255,255,0.3)" }}>
+            <div className="flex flex-wrap gap-2 text-[9px] font-mono" style={{ color: "rgba(255,255,255,0.3)" }}>
               <span>Aesthetic: {vi.visual_aesthetic}</span>
               <span>Photos: {vi.photography_style}</span>
               <span>BG: {vi.background_preference}</span>

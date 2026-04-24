@@ -84,7 +84,7 @@ const LiveDemoSection = () => {
                       {agent.name}
                     </p>
                     <span
-                      className="shrink-0 text-[8px] font-mono-jb px-1.5 py-0.5 rounded-full uppercase tracking-wider"
+                      className="shrink-0 text-[8px] font-mono px-1.5 py-0.5 rounded-full uppercase tracking-wider"
                       style={{
                         backgroundColor: "hsl(var(--primary) / 0.15)",
                         color: "hsl(var(--primary))",

@@ -113,7 +113,7 @@ const HavenCostIntelligence = () => {
               <div key={c.category} className="rounded-xl p-3 border" style={{ backgroundColor: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.05)" }}>
                 <div className="flex items-center justify-between mb-1">
                   <span className="font-display font-bold text-xs text-foreground">{c.category}</span>
-                  <span className="text-xs font-mono-jb" style={{ color: "#66BB6A" }}>${c.total.toLocaleString("en-NZ", { minimumFractionDigits: 0 })}</span>
+                  <span className="text-xs font-mono" style={{ color: "#66BB6A" }}>${c.total.toLocaleString("en-NZ", { minimumFractionDigits: 0 })}</span>
                 </div>
                 <div className="flex items-center gap-4 text-[10px] text-muted-foreground font-body">
                   <span>{c.count} {c.count === 1 ? "job" : "jobs"}</span>

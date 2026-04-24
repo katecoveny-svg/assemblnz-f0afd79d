@@ -94,8 +94,8 @@ const AboutPage = () => {
             {/* Decorative top hairline */}
             <div className="absolute top-0 left-[10%] right-[10%] h-px" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}60, ${POUNAMU}40, transparent)` }} />
             {/* Subtle corner glyphs */}
-            <span aria-hidden className="absolute top-5 left-5 text-[10px] font-mono-jb tracking-[3px]" style={{ color: `${GOLD}80` }}>◆</span>
-            <span aria-hidden className="absolute top-5 right-5 text-[10px] font-mono-jb tracking-[3px]" style={{ color: `${POUNAMU}80` }}>◆</span>
+            <span aria-hidden className="absolute top-5 left-5 text-[10px] font-mono tracking-[3px]" style={{ color: `${GOLD}80` }}>◆</span>
+            <span aria-hidden className="absolute top-5 right-5 text-[10px] font-mono tracking-[3px]" style={{ color: `${POUNAMU}80` }}>◆</span>
 
             <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
               {/* Photo — premium framed portrait */}
@@ -131,21 +131,21 @@ const AboutPage = () => {
                   }}>
                     <motion.div className="w-1.5 h-1.5 rounded-full" style={{ background: POUNAMU }}
                       animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2.4, repeat: Infinity }} />
-                    <span className="text-[9px] font-mono-jb tracking-[2px] uppercase" style={{ color: POUNAMU }}>Building</span>
+                    <span className="text-[9px] font-mono tracking-[2px] uppercase" style={{ color: POUNAMU }}>Building</span>
                   </div>
                 </div>
               </motion.div>
 
               {/* Content */}
               <div className="flex-1 text-center lg:text-left">
-                <p className="text-[10px] font-mono-jb font-semibold tracking-[5px] uppercase mb-3" style={{ color: GOLD }}>
+                <p className="text-[10px] font-mono font-semibold tracking-[5px] uppercase mb-3" style={{ color: GOLD }}>
                   Founder · est. 2025
                 </p>
                 <h2 className="text-3xl sm:text-4xl font-display mb-2" style={{ fontWeight: 300, color: "#3D4250", letterSpacing: "-0.01em" }}>
                   Built i{" "}
                   <span style={{ background: `linear-gradient(135deg, ${POUNAMU}, ${GOLD})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Aotearoa&nbsp;</span>
                 </h2>
-                <p className="text-[11px] font-mono-jb tracking-[2px] uppercase mb-6" style={{ color: "#9CA3AF" }}>
+                <p className="text-[11px] font-mono tracking-[2px] uppercase mb-6" style={{ color: "#9CA3AF" }}>
                   Founder & CEO · Tāmaki Makaurau, Aotearoa
                 </p>
 

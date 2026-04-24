@@ -76,13 +76,13 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
             <div className="flex items-center gap-1.5">
               {getElevenLabsAgentId(agent.id) && (
                 <span
-                  className="flex items-center gap-1 text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  className="flex items-center gap-1 text-[9px] font-mono px-2 py-0.5 rounded-full"
                   style={{ background: `${agent.color}12`, color: agent.color, border: `1px solid ${agent.color}20` }}
                 >
                   <Mic size={8} /> VOICE
                 </span>
               )}
-              <span className="font-mono-jb text-[10px] text-muted-foreground/60">{agent.designation}</span>
+              <span className="font-mono text-[10px] text-muted-foreground/60">{agent.designation}</span>
             </div>
           </div>
           <div className="flex items-center gap-2 mb-1">

@@ -177,7 +177,7 @@ const IhoRoutingVisualizer = () => {
                     </p>
                     {(s.active || s.complete) && s.detail && (
                       <motion.p
-                        className="font-mono-jb text-[10px] mt-0.5 truncate"
+                        className="font-mono text-[10px] mt-0.5 truncate"
                         style={{ color: 'hsl(var(--muted-foreground))' }}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -223,7 +223,7 @@ const IhoRoutingVisualizer = () => {
                 { label: 'MCPs', value: `${result.mcps.length}` },
               ].map(item => (
                 <div key={item.label} className="text-center">
-                  <p className="font-mono-jb text-[9px] uppercase tracking-wider" style={{ color: 'hsl(var(--muted-foreground))' }}>{item.label}</p>
+                  <p className="font-mono text-[9px] uppercase tracking-wider" style={{ color: 'hsl(var(--muted-foreground))' }}>{item.label}</p>
                   <p className="font-display font-bold text-sm mt-0.5" style={{ color: 'hsl(var(--foreground))' }}>{item.value}</p>
                 </div>
               ))}
@@ -231,7 +231,7 @@ const IhoRoutingVisualizer = () => {
             {result.governanceCheckpoints.length > 0 && (
               <div className="flex items-center gap-2 mt-3 pt-3" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                 <AlertTriangle size={12} style={{ color: '#EAB308' }} />
-                <p className="font-mono-jb text-[10px]" style={{ color: '#EAB308' }}>
+                <p className="font-mono text-[10px]" style={{ color: '#EAB308' }}>
                   Governance: {result.governanceCheckpoints.join(' → ')}
                 </p>
               </div>

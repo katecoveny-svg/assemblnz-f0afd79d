@@ -198,7 +198,7 @@ const SkillMarketplace = () => {
                 </div>
 
                 {/* Name */}
-                <h3 className="font-mono-jb font-bold text-sm pr-24" style={{ color: 'hsl(var(--foreground))' }}>
+                <h3 className="font-mono font-bold text-sm pr-24" style={{ color: 'hsl(var(--foreground))' }}>
                   {skill.name}
                 </h3>
 
@@ -209,10 +209,10 @@ const SkillMarketplace = () => {
 
                 {/* Stats */}
                 <div className="flex items-center gap-3 mt-3 flex-wrap">
-                  <span className="flex items-center gap-1 text-[11px] font-mono-jb" style={{ color: 'hsl(var(--kowhai))' }}>
+                  <span className="flex items-center gap-1 text-[11px] font-mono" style={{ color: 'hsl(var(--kowhai))' }}>
                     <Star size={11} fill="currentColor" /> {skill.rating}
                   </span>
-                  <span className="flex items-center gap-1 text-[11px] font-mono-jb" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <span className="flex items-center gap-1 text-[11px] font-mono" style={{ color: 'rgba(255,255,255,0.4)' }}>
                     <Download size={10} /> {formatCount(skill.installCount)}
                   </span>
                   {skill.compatibleKete.map(k => (
@@ -230,12 +230,12 @@ const SkillMarketplace = () => {
                       {skill.publisher}
                     </span>
                     <span className="mx-2 text-[10px]" style={{ color: 'rgba(255,255,255,0.15)' }}>·</span>
-                    <span className="text-[10px] font-mono-jb" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                    <span className="text-[10px] font-mono" style={{ color: 'rgba(255,255,255,0.25)' }}>
                       v{skill.version}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="font-mono-jb text-xs font-bold"
+                    <span className="font-mono text-xs font-bold"
                       style={{ color: skill.price.type === 'free' ? 'hsl(var(--pounamu))' : 'hsl(var(--kowhai))' }}>
                       {skill.price.type === 'free' ? 'Free' : `$${skill.price.amount}/mo`}
                     </span>

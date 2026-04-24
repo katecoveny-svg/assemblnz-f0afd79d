@@ -55,7 +55,7 @@ const HelmSection = () => {
                 <Calendar size={18} style={{ color: TOROA_COLOR }} />
                 <Layers size={14} style={{ color: TOROA_COLOR }} />
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full"
                   style={{
                     background: `${TOROA_COLOR}15`,
                     color: TOROA_COLOR,
@@ -65,7 +65,7 @@ const HelmSection = () => {
                   FAMILY AI
                 </span>
                 <span
-                  className="text-[9px] font-mono-jb px-2 py-0.5 rounded-full flex items-center gap-1"
+                  className="text-[9px] font-mono px-2 py-0.5 rounded-full flex items-center gap-1"
                   style={{
                     background: `${TOROA_COLOR}20`,
                     color: TOROA_COLOR,
@@ -85,7 +85,7 @@ const HelmSection = () => {
               >
                 Meet TORO
               </h2>
-              <p className="font-mono-jb text-[10px] mb-4" style={{ color: `${TOROA_COLOR}30` }}>
+              <p className="font-mono text-[10px] mb-4" style={{ color: `${TOROA_COLOR}30` }}>
                 ASM-013 · Family Command Centre
               </p>
               <h3

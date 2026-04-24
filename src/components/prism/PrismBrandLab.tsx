@@ -34,7 +34,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1.5 block"
+    <label className="text-[10px] font-mono uppercase tracking-wider mb-1.5 block"
       style={{ color: "rgba(255,255,255,0.4)" }}>
       {children}
     </label>
@@ -111,7 +111,7 @@ Then generate the best concept as an actual image: [GENERATE_IMAGE: Logo for "${
         <div className="flex items-center gap-3">
           <input type="color" value={colour} onChange={e => setColour(e.target.value)}
             className="w-8 h-8 rounded-lg border-0 cursor-pointer" style={{ background: "transparent" }} />
-          <span className="text-[11px] font-mono-jb" style={{ color: "rgba(255,255,255,0.5)" }}>{colour}</span>
+          <span className="text-[11px] font-mono" style={{ color: "rgba(255,255,255,0.5)" }}>{colour}</span>
           <button onClick={() => setColour("#3A7D6E")} className="text-[9px] px-2 py-1 rounded"
             style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.3)" }}>
             Reset
@@ -295,7 +295,7 @@ Provide actionable, specific feedback a business owner can implement immediately
 
       <div className="flex items-center gap-2 px-3">
         <div className="h-px flex-1" style={{ background: "rgba(255,255,255,0.06)" }} />
-        <span className="text-[9px] font-mono-jb" style={{ color: "rgba(255,255,255,0.2)" }}>OR</span>
+        <span className="text-[9px] font-mono" style={{ color: "rgba(255,255,255,0.2)" }}>OR</span>
         <div className="h-px flex-1" style={{ background: "rgba(255,255,255,0.06)" }} />
       </div>
 

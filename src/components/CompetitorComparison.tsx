@@ -81,7 +81,7 @@ const CompetitorComparison = () => (
         viewport={{ once: true }}
         transition={{ delay: 0.2 }}
       >
-        <p className="text-[10px] font-mono-jb text-muted-foreground uppercase tracking-wider mb-3">
+        <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider mb-3">
           All 7 industry kete + Tōro whānau available
         </p>
         <span className="text-2xl font-display font-light text-primary">From $590/mo NZD</span>

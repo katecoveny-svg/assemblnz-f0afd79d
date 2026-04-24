@@ -2741,7 +2741,7 @@ const ChatPage = () => {
             <div className="px-4 pb-1.5 flex justify-end">
               <Link
                 to={`/chat/spark?from=${encodeURIComponent(agent.name)}&context=${encodeURIComponent(messages.filter(m => m.role === "user").slice(-1)[0]?.content || "")}`}
-                className="flex items-center gap-1 text-[9px] font-mono-jb px-2 py-1 rounded-lg transition-all opacity-40 hover:opacity-80"
+                className="flex items-center gap-1 text-[9px] font-mono px-2 py-1 rounded-lg transition-all opacity-40 hover:opacity-80"
                 style={{ color: "#FF6B00" }}
               >
                 <img loading="lazy" decoding="async" src={sparkCtaImg} alt="" className="w-3 h-3 object-contain rounded-sm" />

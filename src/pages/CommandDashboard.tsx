@@ -191,7 +191,7 @@ export default function CommandDashboard() {
                       </div>
                       <div>
                         <h3 className="text-sm font-display font-bold text-foreground">{sector.name}</h3>
-                        <span className="text-[9px] font-mono-jb uppercase tracking-wider text-gray-400">
+                        <span className="text-[9px] font-mono uppercase tracking-wider text-gray-400">
                           / {sector.nameEn}
                         </span>
                       </div>
@@ -254,7 +254,7 @@ export default function CommandDashboard() {
                   </div>
                   <div>
                     <h3 className="text-sm font-display font-bold text-foreground">Symbiotic Bridge</h3>
-                    <span className="text-[9px] font-mono-jb uppercase tracking-wider text-gray-400">Cross-sector intelligence</span>
+                    <span className="text-[9px] font-mono uppercase tracking-wider text-gray-400">Cross-sector intelligence</span>
                   </div>
                 </div>
                 <p className="text-[11px] font-body text-[#9CA3AF] leading-relaxed mb-4">

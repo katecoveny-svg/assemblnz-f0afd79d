@@ -10,7 +10,7 @@ interface KeteSkillGridProps {
 const CoverageIndicator = ({ pct }: { pct: number }) => {
   const color = pct >= 80 ? '#22C55E' : pct >= 50 ? '#EAB308' : '#EF4444';
   return (
-    <span className="font-mono-jb text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: `${color}15`, color, border: `1px solid ${color}25` }}>
+    <span className="font-mono text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: `${color}15`, color, border: `1px solid ${color}25` }}>
       {pct}%
     </span>
   );
@@ -44,7 +44,7 @@ const AgentSkillCard = ({ agentId, kete }: { agentId: string; kete: KeteSkillCon
         </div>
         <div className="flex-1 min-w-0">
           <p className="font-display font-bold text-sm truncate" style={{ color: 'hsl(var(--foreground))' }}>{agentId.toUpperCase()}</p>
-          <p className="font-mono-jb text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{wired}/{keteSkills.length} skills</p>
+          <p className="font-mono text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{wired}/{keteSkills.length} skills</p>
         </div>
         <CoverageIndicator pct={pct} />
         {expanded ? <ChevronUp size={14} style={{ color: 'hsl(var(--muted-foreground))' }} /> : <ChevronDown size={14} style={{ color: 'hsl(var(--muted-foreground))' }} />}
@@ -62,12 +62,12 @@ const AgentSkillCard = ({ agentId, kete }: { agentId: string; kete: KeteSkillCon
           >
             {categories.map(cat => (
               <div key={cat} className="mt-3">
-                <p className="text-[9px] font-mono-jb uppercase tracking-wider mb-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>{cat}</p>
+                <p className="text-[9px] font-mono uppercase tracking-wider mb-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>{cat}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {keteSkills.filter(s => s.category === cat).map(s => (
                     <span
                       key={s.id}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono-jb"
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono"
                       style={{
                         background: s.status === 'wired' ? `${kete.accent}10` : 'rgba(234,179,8,0.08)',
                         color: s.status === 'wired' ? kete.accent : '#EAB308',
@@ -85,9 +85,9 @@ const AgentSkillCard = ({ agentId, kete }: { agentId: string; kete: KeteSkillCon
 
             {kete.keteMCPs.length > 0 && (
               <div className="mt-3">
-                <p className="text-[9px] font-mono-jb uppercase tracking-wider mb-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>MCP Connectors</p>
+                <p className="text-[9px] font-mono uppercase tracking-wider mb-1.5" style={{ color: 'hsl(var(--muted-foreground))' }}>MCP Connectors</p>
                 {kete.keteMCPs.map(m => (
-                  <div key={m.id} className="flex items-center gap-2 text-[10px] font-mono-jb py-1" style={{ color: 'hsl(var(--muted-foreground))' }}>
+                  <div key={m.id} className="flex items-center gap-2 text-[10px] font-mono py-1" style={{ color: 'hsl(var(--muted-foreground))' }}>
                     <Plug size={10} style={{ color: kete.accent }} />
                     <span>{m.name}</span>
                     <span className="ml-auto px-1.5 py-0.5 rounded text-[8px]" style={{
@@ -131,7 +131,7 @@ const KeteSkillGrid = ({ keteId }: KeteSkillGridProps) => {
             <div className="flex items-center gap-3 mb-4">
               <div className="w-3 h-3 rounded-full shrink-0" style={{ background: kete.accent }} />
               <h3 className="font-display font-bold text-lg" style={{ color: 'hsl(var(--foreground))' }}>{kete.name}</h3>
-              <span className="font-mono-jb text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{kete.agents.length} agents</span>
+              <span className="font-mono text-[10px]" style={{ color: 'hsl(var(--muted-foreground))' }}>{kete.agents.length} agents</span>
               <div className="ml-auto flex items-center gap-2">
                 <div className="w-20 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
                   <div className="h-full rounded-full" style={{ width: `${pct}%`, background: kete.accent }} />

@@ -87,7 +87,7 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
 
       {/* Personality */}
       <div>
-        <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <label className="text-[10px] font-mono uppercase tracking-wider mb-1 flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}>
           <MessageSquare size={10} /> Personality
         </label>
         <textarea value={form.personality} onChange={e => setForm(prev => ({ ...prev, personality: e.target.value }))} rows={3}
@@ -98,7 +98,7 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
 
       {/* Tone */}
       <div>
-        <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-2 block" style={{ color: "rgba(255,255,255,0.4)" }}>Tone</label>
+        <label className="text-[10px] font-mono uppercase tracking-wider mb-2 block" style={{ color: "rgba(255,255,255,0.4)" }}>Tone</label>
         <div className="flex flex-wrap gap-2">
           {TONES.map(t => (
             <button key={t} onClick={() => setForm(prev => ({ ...prev, tone: t }))}
@@ -112,7 +112,7 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
 
       {/* Business Context */}
       <div>
-        <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-1 flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <label className="text-[10px] font-mono uppercase tracking-wider mb-1 flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}>
           <FileText size={10} /> Business Context
         </label>
         <textarea value={form.business_context} onChange={e => setForm(prev => ({ ...prev, business_context: e.target.value }))} rows={3}
@@ -123,7 +123,7 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
 
       {/* FAQs */}
       <div>
-        <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-2 flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <label className="text-[10px] font-mono uppercase tracking-wider mb-2 flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}>
           <HelpCircle size={10} /> FAQs ({form.faqs.length})
         </label>
         <div className="space-y-2">
@@ -152,7 +152,7 @@ export default function AgentTraining({ agentId, agentName, agentColor }: Props)
 
       {/* Rules */}
       <div>
-        <label className="text-[10px] font-mono-jb uppercase tracking-wider mb-2 flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <label className="text-[10px] font-mono uppercase tracking-wider mb-2 flex items-center gap-1" style={{ color: "rgba(255,255,255,0.4)" }}>
           <ShieldCheck size={10} /> Rules ({form.rules.length})
         </label>
         <div className="space-y-1.5">
