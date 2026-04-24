@@ -1,7 +1,7 @@
 import { useWidgetData } from "@/hooks/useWidgetData";
 import { getWidget } from "@/config/dashboard-widgets";
 import type { WidgetRole } from "@/config/widget-types";
-import { LiveWidgetShell } from "./LiveWidgetShell";
+import { LiveWidgetShell, type SkeletonVariant } from "./LiveWidgetShell";
 import { LiveWeatherBody } from "./renderers/LiveWeatherBody";
 import { LiveFuelBody } from "./renderers/LiveFuelBody";
 import { LiveComplianceBody } from "./renderers/LiveComplianceBody";
@@ -14,6 +14,7 @@ import type {
   CompliancePayload,
   KbSourcesPayload,
 } from "./types";
+import type { WidgetDataSource } from "@/config/widget-types";
 
 export interface LiveWidgetProps {
   widgetId: string;
@@ -25,9 +26,10 @@ export interface LiveWidgetProps {
 /**
  * LiveWidget — generic dispatcher.
  *
- * Looks up the widget config, fetches via `useWidgetData`, and renders
- * the right body component based on the data source. Unknown sources
- * fall back to a JSON dump (admin-only diagnostic).
+ * Looks up the widget config, fetches via `useWidgetData` (React Query
+ * cached), and renders the right body component based on the data
+ * source. Picks a skeleton variant matched to the body shape so the
+ * first paint feels close to the eventual layout.
  */
 export function LiveWidget({
   widgetId,
@@ -36,10 +38,16 @@ export function LiveWidget({
   className,
 }: LiveWidgetProps) {
   const widget = getWidget(widgetId);
-  const { data, loading, error, forbidden, refetch } = useWidgetData<unknown>(widgetId, {
-    viewerRole,
-    enabledToolsets,
-  });
+  const {
+    data,
+    loading,
+    initialLoading,
+    refetching,
+    error,
+    forbidden,
+    updatedAt,
+    refetch,
+  } = useWidgetData<unknown>(widgetId, { viewerRole, enabledToolsets });
 
   if (!widget) {
     return (
@@ -51,15 +59,22 @@ export function LiveWidget({
 
   const ds = widget.dataSource;
   const isEmpty = computeIsEmpty(ds.kind, data);
+  const skeletonVariant = pickSkeletonVariant(ds);
+  const hasStaleData = data != null && !isEmpty;
 
   return (
     <LiveWidgetShell
       widget={widget}
       loading={loading}
+      initialLoading={initialLoading}
+      refetching={refetching}
       error={error}
       forbidden={forbidden}
       isEmpty={isEmpty}
+      updatedAt={updatedAt}
       onRefetch={refetch}
+      skeletonVariant={skeletonVariant}
+      hasStaleData={hasStaleData}
       className={className}
     >
       {ds.kind === "dashboard_feed" && ds.feedSource === "weather" && (
@@ -85,6 +100,17 @@ export function LiveWidget({
       )}
     </LiveWidgetShell>
   );
+}
+
+function pickSkeletonVariant(ds: WidgetDataSource): SkeletonVariant {
+  if (ds.kind === "dashboard_feed") {
+    if (ds.feedSource === "weather") return "weather";
+    if (ds.feedSource === "fuel_prices") return "stat";
+    return "list"; // compliance_updates, kb_sources
+  }
+  if (ds.kind === "table") return "table";
+  if (ds.kind === "edge_function") return "json";
+  return "list";
 }
 
 function computeIsEmpty(kind: string, data: unknown): boolean {
