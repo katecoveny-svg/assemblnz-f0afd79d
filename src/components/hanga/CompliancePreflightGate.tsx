@@ -107,34 +107,40 @@ export function CompliancePreflightGate({ initial, policySet, onConfirm, onCance
 
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {/* PPE confirmation */}
-        <CheckRow
-          icon={<HardHat size={14} style={{ color: TEAL_ACCENT }} />}
-          label="PPE confirmation"
-          description="All workers on site are in the correct PPE for today's tasks."
-          checked={ppe}
-          onChange={setPpe}
-          attempted={attempted}
-        />
+        {needsPpe && (
+          <CheckRow
+            icon={<HardHat size={14} style={{ color: TEAL_ACCENT }} />}
+            label="PPE confirmation"
+            description="All workers on site are in the correct PPE for today's tasks."
+            checked={ppe}
+            onChange={setPpe}
+            attempted={attempted}
+          />
+        )}
 
         {/* Worker consent */}
-        <CheckRow
-          icon={<Users size={14} style={{ color: TEAL_ACCENT }} />}
-          label="Worker consent"
-          description="Workers consent to AI-assisted reporting and compliance review."
-          checked={consent}
-          onChange={setConsent}
-          attempted={attempted}
-        />
+        {needsConsent && (
+          <CheckRow
+            icon={<Users size={14} style={{ color: TEAL_ACCENT }} />}
+            label="Worker consent"
+            description="Workers consent to AI-assisted reporting and compliance review."
+            checked={consent}
+            onChange={setConsent}
+            attempted={attempted}
+          />
+        )}
 
         {/* Tender / human sign-off */}
-        <CheckRow
-          icon={<FileSignature size={14} style={{ color: TEAL_ACCENT }} />}
-          label="Tender human sign-off"
-          description="A nominated human has approved any tender drafts before submission."
-          checked={signoff}
-          onChange={setSignoff}
-          attempted={attempted}
-        />
+        {needsSignoff && (
+          <CheckRow
+            icon={<FileSignature size={14} style={{ color: TEAL_ACCENT }} />}
+            label="Tender human sign-off"
+            description="A nominated human has approved any tender drafts before submission."
+            checked={signoff}
+            onChange={setSignoff}
+            attempted={attempted}
+          />
+        )}
 
         {/* Zone selection */}
         <div>
