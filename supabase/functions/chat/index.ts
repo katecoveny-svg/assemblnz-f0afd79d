@@ -6807,7 +6807,7 @@ Deno.serve(async (req) => {
   const validation = await validateChatRequest(req, { allowedAgentIds, requestId });
   if (!validation.ok) return validation.response;
   const body = validation.body;
-  const { agentId: rawAgentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode, testMode, recallToken } = body;
+  const { agentId: rawAgentId, messages, brandContext, brandLogoUrl, teReoPrompt, propertyMode, model: requestedModel, getSystemPrompt, receptionistMode, testMode, recallToken, conversationId: bodyConversationId, sessionId: bodySessionId } = body;
 
   console.log(`[chat:${requestId}] incoming request`, JSON.stringify({
     rawAgentId,
@@ -7627,10 +7627,18 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
    }
   }
   // ═══ MEMORY EXTRACTION QUEUE — fire-and-forget enqueue (debounced 10min/conversation) ═══
+  // Boundary precedence: validated body.conversationId > body.sessionId >
+  // a deterministic per-user/per-agent fallback. The fallback keeps a single
+  // long-running thread per (user, agent) bucketed together, so the extractor
+  // still runs even when clients haven't adopted explicit session IDs yet.
+  // NB: deterministic test-mode requests short-circuit much earlier and never
+  // reach this block, so synthetic traffic does not pollute agent_memory.
   if (userId && content) {
+    const conversationId =
+      bodyConversationId ||
+      bodySessionId ||
+      `${userId}:${agentId}`;
     try {
-      // Use sessionId as a stable conversation grouping; fall back to userId+agentId
-      const conversationId = (body as any)?.sessionId || (body as any)?.conversationId || `${userId}:${agentId}`;
       const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
       const { data: recent } = await sb
         .from("memory_extraction_queue")
@@ -7645,6 +7653,9 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
           conversation_id: conversationId,
           status: "pending",
         });
+        console.log(`[chat:${requestId}] enqueued memory extraction`, JSON.stringify({
+          conversationId, agentId,
+        }));
       }
 
       // Also write a lightweight conversation_summaries row so MemoryPanel has searchable text now
@@ -7654,7 +7665,7 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
           user_id: userId,
           agent_id: agentId,
           summary: `${agentId}: ${lastUserText.slice(0, 200)}${lastUserText.length > 200 ? "…" : ""} → ${(content || "").slice(0, 160)}${(content || "").length > 160 ? "…" : ""}`,
-          key_facts_extracted: {},
+          key_facts_extracted: { conversation_id: conversationId },
           original_message_count: 1,
           compression_level: 0,
         });
@@ -7668,7 +7679,14 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  }
 
  return new Response(
-  JSON.stringify({ content, model: actualModelUsed, complexity, responseTime, fromCache: false }),
+  JSON.stringify({
+    content,
+    model: actualModelUsed,
+    complexity,
+    responseTime,
+    fromCache: false,
+    conversationId: bodyConversationId || bodySessionId || (userId ? `${userId}:${agentId}` : null),
+  }),
   { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
  } catch (error) {
