@@ -29,6 +29,14 @@ const AGENT_ICONS: Record<string, typeof Brain> = {
   Users, UtensilsCrossed, Lock, Heart, PenTool, Shield,
 };
 
+/**
+ * Welcome-screen starter prompts shown above the input on a fresh chat.
+ *
+ * MANAAKI (hospitality) and ARATAKI (automotive/fleet) each surface exactly
+ * three role-specific prompts that prefill the input box so the operator can
+ * tweak before sending. Other kete keep their longer suggestion lists for
+ * backwards compatibility.
+ */
 const PACK_SUGGESTIONS: Record<string, string[]> = {
   hanga: [
     "Report a hazard on site",
@@ -39,12 +47,14 @@ const PACK_SUGGESTIONS: Record<string, string[]> = {
     "Check building consent status",
   ],
   manaaki: [
-    "Check food safety compliance",
-    "Alcohol licence renewal status",
-    "Staff training gaps",
-    "Audit preparation checklist",
-    "Allergen management plan",
-    "Manager certificate requirements",
+    "Draft a warm reply to a guest asking about late check-in",
+    "Build a daily food-safety checklist for our kitchen team",
+    "Plan next week's roster across front-of-house and housekeeping",
+  ],
+  arataki: [
+    "Summarise this week's fleet fuel use and flag anything unusual",
+    "Plan the most efficient route for tomorrow's deliveries across Auckland",
+    "Check which vehicles are due for WoF, CoF or service in the next 30 days",
   ],
   pakihi: [
     "Employment cost calculator",
@@ -330,7 +340,8 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                     {(PACK_SUGGESTIONS[packId] || PACK_SUGGESTIONS.hanga).map(s => (
                       <button
                         key={s}
-                        onClick={() => sendMessage(s)}
+                        onClick={() => setInput(s)}
+                        title="Click to prefill — edit then send"
                         className="px-3 py-1.5 rounded-full text-[10px] transition-colors hover:bg-black/[0.03]"
                         style={{ background: "rgba(0,0,0,0.03)", border: "1px solid rgba(0,0,0,0.06)", color: "#6B7280" }}
                       >
