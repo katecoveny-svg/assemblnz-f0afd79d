@@ -544,6 +544,62 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_prompt_versions: {
+        Row: {
+          agent_name: string
+          change_note: string | null
+          changed_by: string | null
+          created_at: string
+          display_name: string
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          model_preference: string | null
+          pack: string
+          prompt_id: string
+          system_prompt: string
+          version: number
+        }
+        Insert: {
+          agent_name: string
+          change_note?: string | null
+          changed_by?: string | null
+          created_at?: string
+          display_name: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          model_preference?: string | null
+          pack: string
+          prompt_id: string
+          system_prompt: string
+          version: number
+        }
+        Update: {
+          agent_name?: string
+          change_note?: string | null
+          changed_by?: string | null
+          created_at?: string
+          display_name?: string
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          model_preference?: string | null
+          pack?: string
+          prompt_id?: string
+          system_prompt?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_prompt_versions_prompt_id_fkey"
+            columns: ["prompt_id"]
+            isOneToOne: false
+            referencedRelation: "agent_prompts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agent_prompts: {
         Row: {
           agent_name: string
