@@ -30,6 +30,16 @@ type GateRow = {
   created_at: string;
 };
 
+type SweepSnapshot = {
+  swept_for: string;
+  green_count: number;
+  amber_count: number;
+  red_count: number;
+  readiness_score: number;
+  pending_gates: number;
+  approved_gates: number;
+};
+
 function useAkoEvidence() {
   return useQuery({
     queryKey: ["ako-evidence"],
@@ -62,12 +72,22 @@ function useAkoGates() {
   });
 }
 
-// Snapshot of mock readiness data — replaced by live counts when pack workflows fire
-const READINESS = [
-  { cat: "GREEN", count: 64, color: "#3A7D6E" },
-  { cat: "AMBER", count: 11, color: "#D9BC7A" },
-  { cat: "RED", count: 3, color: "#C85A54" },
-];
+function useAkoSweep() {
+  return useQuery({
+    queryKey: ["ako-evidence-sweep"],
+    queryFn: async (): Promise<SweepSnapshot | null> => {
+      const { data, error } = await supabase
+        .from("evidence_sweep_snapshots")
+        .select("swept_for, green_count, amber_count, red_count, readiness_score, pending_gates, approved_gates")
+        .eq("kete", "AKO")
+        .order("swept_for", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as SweepSnapshot | null) ?? null;
+    },
+  });
+}
 
 export default function AkoDashboard() {
   const { data: packs = [], isLoading } = useAkoEvidence();

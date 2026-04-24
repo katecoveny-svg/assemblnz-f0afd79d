@@ -65,6 +65,32 @@ function useWaihangaEvidence() {
   });
 }
 
+type SweepSnapshot = {
+  swept_for: string;
+  green_count: number;
+  amber_count: number;
+  red_count: number;
+  readiness_score: number;
+  high_risk_records: number;
+};
+
+function useWaihangaSweep() {
+  return useQuery({
+    queryKey: ["waihanga-evidence-sweep"],
+    queryFn: async (): Promise<SweepSnapshot | null> => {
+      const { data, error } = await supabase
+        .from("evidence_sweep_snapshots")
+        .select("swept_for, green_count, amber_count, red_count, readiness_score, high_risk_records")
+        .eq("kete", "WAIHANGA")
+        .order("swept_for", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as SweepSnapshot | null) ?? null;
+    },
+  });
+}
+
 export default function WaihangaDashboard() {
   const { data: records = [], isLoading } = useArchitectureRecords();
   const { data: packs = [] } = useWaihangaEvidence();
