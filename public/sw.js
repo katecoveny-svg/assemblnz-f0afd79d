@@ -2,7 +2,7 @@
 // The CACHE_NAME suffix is replaced with a fresh build-time stamp at build
 // start, so deploying a new build invalidates the previous cache and any
 // stale kete hero / asset versions automatically.
-const CACHE_NAME = "assembl-agent-mocu5pea";
+const CACHE_NAME = "assembl-agent-mod9k40p";
 
 const PRECACHE_URLS = ["/", "/index.html"];
 
