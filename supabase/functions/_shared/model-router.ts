@@ -19,7 +19,7 @@
 // resolver — DO NOT inline the lookup elsewhere.
 // ═══════════════════════════════════════════════════════════════════════
 
-import type { SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2";
+import type { SupabaseClient } from "jsr:@supabase/supabase-js@2";
 
 export const DEFAULT_MODEL = "google/gemini-2.5-flash";
 
