@@ -181,6 +181,7 @@ const ToroEducation = lazy(() => import("./pages/ToroEducation"));
 const ToroLogistics = lazy(() => import("./pages/ToroLogistics"));
 const ToroHomework = lazy(() => import("./pages/ToroHomework"));
 const ToroHealth = lazy(() => import("./pages/ToroHealth"));
+const ToroMoney = lazy(() => import("./pages/ToroMoney"));
 const HuiMeetingCopilot = lazy(() => import("./pages/HuiMeetingCopilot"));
 const WorkspaceDashboard = lazy(() => import("./pages/WorkspaceDashboard"));
 const WorkspaceConnections = lazy(() => import("./pages/WorkspaceConnections"));
