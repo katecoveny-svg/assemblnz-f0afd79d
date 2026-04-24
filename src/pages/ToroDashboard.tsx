@@ -6,6 +6,7 @@ import { EmailWatchCard } from "@/components/toro/EmailWatchCard";
 import { FamilyCalendarCard } from "@/components/toro/FamilyCalendarCard";
 import { SchoolReportsCard } from "@/components/toro/SchoolReportsCard";
 import { ActionItemsCard } from "@/components/toro/ActionItemsCard";
+import { ToroTutorChat } from "@/components/toro/ToroTutorChat";
 
 const ToroDashboard = () => {
   const [gmailConnected, setGmailConnected] = useState(false);
@@ -93,6 +94,18 @@ const ToroDashboard = () => {
             <ActionItemsCard />
           </section>
         </div>
+
+        {/* Tutor / day-plan chat */}
+        <section id="ask-toro" className="mt-6">
+          <ToroTutorChat
+            variant="day"
+            title="Ask Tōro about today"
+            contextLines={[
+              "Whānau dashboard view — no specific child selected.",
+              `Connections: Gmail ${gmailConnected ? "linked" : "not linked"}, Calendar ${calendarConnected ? "linked" : "not linked"}.`,
+            ]}
+          />
+        </section>
       </div>
     </div>
   );
