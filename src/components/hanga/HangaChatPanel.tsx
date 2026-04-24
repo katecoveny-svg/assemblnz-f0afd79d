@@ -93,6 +93,9 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const isWaihanga = packId === "waihanga" || packId === "hanga";
+  const auditKete = isWaihanga ? "WAIHANGA" : packId.toUpperCase();
+  const { entries: auditEntries, record: recordAudit, clear: clearAudit } =
+    useGovernanceAuditLog(auditKete);
 
   const pushSystemNote = (note: string) => {
     setMessages((prev) => [
