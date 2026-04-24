@@ -67,6 +67,22 @@ const BodySchema = z.object({
   model: z.string().max(128).optional().nullable(),
   getSystemPrompt: z.boolean().optional(),
   receptionistMode: z.boolean().optional(),
+  // ─── Deterministic test mode ───────────────────────────────────────
+  // When `testMode === "recall"`, the chat function bypasses the LLM and
+  // returns a deterministic, ASCII-only response based on whether the
+  // supplied `recallToken` appears anywhere in the prior messages.
+  // Gated server-side by the `x-assembl-test-mode: recall` request header,
+  // so a normal client cannot trigger it accidentally.
+  testMode: z.enum(["recall"]).optional(),
+  recallToken: z
+    .string()
+    .min(1)
+    .max(128)
+    .regex(/^[A-Za-z0-9_-]+$/, {
+      message:
+        "recallToken may only contain letters, digits, underscore, hyphen.",
+    })
+    .optional(),
 });
 
 export type ValidatedChatBody = z.infer<typeof BodySchema>;

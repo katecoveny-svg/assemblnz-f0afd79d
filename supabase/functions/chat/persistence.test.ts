@@ -61,28 +61,38 @@ async function callChat(
   agentId: string,
   messages: Array<{ role: string; content: string }>,
   userId: string,
+  opts: { testMode?: "recall"; recallToken?: string } = {},
 ): Promise<ChatResp> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+    "apikey": SUPABASE_ANON_KEY,
+    // chat/index.ts honours an explicit user_id in the body when present —
+    // lets us drive deterministic persistence checks without needing real
+    // signed-in auth tokens for every agent.
+    "x-test-user-id": userId,
+  };
+  // Deterministic recall mode requires both the body flag and a matching
+  // header so a normal client cannot trigger it accidentally.
+  if (opts.testMode === "recall") {
+    headers["x-assembl-test-mode"] = "recall";
+  }
+  const body: Record<string, unknown> = { agentId, messages, userId };
+  if (opts.testMode) body.testMode = opts.testMode;
+  if (opts.recallToken) body.recallToken = opts.recallToken;
   const res = await fetch(CHAT_ENDPOINT, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
-      "apikey": SUPABASE_ANON_KEY,
-      // chat/index.ts honours an explicit user_id in the body when present —
-      // lets us drive deterministic persistence checks without needing real
-      // signed-in auth tokens for every agent.
-      "x-test-user-id": userId,
-    },
-    body: JSON.stringify({ agentId, messages, userId }),
+    headers,
+    body: JSON.stringify(body),
   });
   const text = await res.text();
-  let body: Record<string, unknown> = {};
+  let parsed: Record<string, unknown> = {};
   try {
-    body = JSON.parse(text);
+    parsed = JSON.parse(text);
   } catch {
-    body = { _raw: text };
+    parsed = { _raw: text };
   }
-  return { status: res.status, body };
+  return { status: res.status, body: parsed };
 }
 
 interface PersistedMsg { role: string; content: string }
@@ -166,30 +176,38 @@ for (const agentId of AGENTS) {
       const conv = await readConversation(agentId, userId);
       assert(conv, `expected conversation to exist for ${agentId}`);
 
+      // Use the deterministic test-mode recall path so this assertion is
+      // stable across model swaps / wording drift. The chat function scans
+      // the supplied messages for `recallToken` and returns
+      // `RECALL_OK:<TOKEN>` when found, `RECALL_MISS:<TOKEN>` otherwise.
+      // The persisted history is replayed verbatim, so a present token
+      // proves context survived the round-trip.
+      const recallToken = `PURPLE-KAKA-${agentId.toUpperCase()}`;
       const followUp =
-        `${TEST_RUN_TAG} :: What was the token I asked you to remember? Answer with just the token.`;
+        `${TEST_RUN_TAG} :: probe — recall the previously seeded token.`;
       const replay = [
         ...conv!.messages.map((m) => ({ role: m.role, content: m.content })),
         { role: "user", content: followUp },
       ];
 
-      const { status, body } = await callChat(agentId, replay, userId);
+      const { status, body } = await callChat(agentId, replay, userId, {
+        testMode: "recall",
+        recallToken,
+      });
       assertEquals(
         status,
         200,
         `follow-up chat ${agentId} returned ${status}: ${JSON.stringify(body)}`,
       );
-      const content = (body.content as string | undefined) ?? "";
-      assert(
-        content.trim().length > 0,
-        `follow-up returned empty content for ${agentId}`,
+      assertEquals(
+        body.content,
+        `RECALL_OK:${recallToken}`,
+        `agent ${agentId} did not recall token from persisted context. Reply: ${JSON.stringify(body)}`,
       );
-      // The agent should be able to recall the token because we re-supplied
-      // the persisted history. This is the contract the UI depends on:
-      // persisted messages → context survives → agent can reference earlier turns.
-      assert(
-        content.toUpperCase().includes(`PURPLE-KAKA-${agentId.toUpperCase()}`),
-        `agent ${agentId} did not recall token from persisted context. Reply: "${content}"`,
+      assertEquals(
+        body.recallMatched,
+        true,
+        `recallMatched should be true for persisted context (${agentId})`,
       );
     });
 
@@ -246,4 +264,68 @@ for (const agentId of AGENTS) {
 // Final safety net in case any step above bailed before its cleanup ran.
 Deno.test("persistence: final cleanup", async () => {
   await cleanup(TEST_USER_ID);
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+// Standalone self-checks for the deterministic test-mode path. These run
+// without touching DB persistence so a failure here points squarely at the
+// test-mode short-circuit rather than at storage / context loading.
+// ─────────────────────────────────────────────────────────────────────────
+
+Deno.test("test-mode recall: returns RECALL_OK when token present", async () => {
+  const token = `SELFCHECK-${Date.now()}`;
+  const { status, body } = await callChat(
+    "signal",
+    [
+      { role: "user", content: `Please remember the token ${token}.` },
+      { role: "assistant", content: `Acknowledged: ${token}.` },
+      { role: "user", content: "Probe — recall the seeded token." },
+    ],
+    TEST_USER_ID,
+    { testMode: "recall", recallToken: token },
+  );
+  assertEquals(status, 200, `unexpected status: ${JSON.stringify(body)}`);
+  assertEquals(body.content, `RECALL_OK:${token}`);
+  assertEquals(body.model, "test-mode-recall");
+  assertEquals(body.recallMatched, true);
+});
+
+Deno.test("test-mode recall: returns RECALL_MISS when token absent", async () => {
+  const token = `MISSING-${Date.now()}`;
+  const { status, body } = await callChat(
+    "signal",
+    [{ role: "user", content: "No token here." }],
+    TEST_USER_ID,
+    { testMode: "recall", recallToken: token },
+  );
+  assertEquals(status, 200, `unexpected status: ${JSON.stringify(body)}`);
+  assertEquals(body.content, `RECALL_MISS:${token}`);
+  assertEquals(body.recallMatched, false);
+});
+
+Deno.test("test-mode recall: rejects body flag without matching header", async () => {
+  // Drop the x-assembl-test-mode header even though the body flag is set;
+  // the server must refuse with 400 to keep the path inert for normal clients.
+  const res = await fetch(CHAT_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+      "apikey": SUPABASE_ANON_KEY,
+      "x-test-user-id": TEST_USER_ID,
+    },
+    body: JSON.stringify({
+      agentId: "signal",
+      userId: TEST_USER_ID,
+      messages: [{ role: "user", content: "hi" }],
+      testMode: "recall",
+      recallToken: "SHOULD-NOT-FIRE",
+    }),
+  });
+  const text = await res.text();
+  assertEquals(
+    res.status,
+    400,
+    `expected 400 when test-mode header missing, got ${res.status}: ${text}`,
+  );
 });
