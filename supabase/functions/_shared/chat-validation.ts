@@ -83,6 +83,15 @@ const BodySchema = z.object({
         "recallToken may only contain letters, digits, underscore, hyphen.",
     })
     .optional(),
+  // ─── Conversation / session boundary ───────────────────────────────
+  // Either may be supplied by the client to mark a stable conversation
+  // boundary. Used by /chat to:
+  //   (a) group messages for memory_extraction_queue debouncing, and
+  //   (b) attach a stable conversation_id to conversation_summaries
+  //       and downstream agent_memory rows.
+  // If neither is provided the server falls back to `${userId}:${agentId}`.
+  conversationId: z.string().min(1).max(128).regex(/^[A-Za-z0-9_:.-]+$/).optional(),
+  sessionId: z.string().min(1).max(128).regex(/^[A-Za-z0-9_:.-]+$/).optional(),
 });
 
 export type ValidatedChatBody = z.infer<typeof BodySchema>;
