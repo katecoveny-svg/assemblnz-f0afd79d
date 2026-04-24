@@ -154,6 +154,8 @@ const ManaakiDashboard = lazy(() => import("./components/manaaki/ManaakiDashboar
 const AratakiDashboard = lazy(() => import("./components/arataki/AratakiDashboard"));
 const PikauDashboard = lazy(() => import("./components/pikau/PikauDashboard"));
 const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
+const ToroDashboard = lazy(() => import("./pages/ToroDashboard"));
+const HuiMeetingCopilot = lazy(() => import("./pages/HuiMeetingCopilot"));
 const WorkspaceDashboard = lazy(() => import("./pages/WorkspaceDashboard"));
 const WorkspaceConnections = lazy(() => import("./pages/WorkspaceConnections"));
 const SignEnvelopePage = lazy(() => import("./pages/SignEnvelopePage"));
@@ -391,7 +393,9 @@ const App = () => (
                         <Route path="/ako" element={<Suspense fallback={null}><AkoLandingPage /></Suspense>} />
 
                         <Route path="/toro" element={<Suspense fallback={null}><ToroaLandingPage /></Suspense>} />
-                        <Route path="/toro/dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
+                        <Route path="/toro/dashboard" element={<Suspense fallback={null}><ToroDashboard /></Suspense>} />
+                        <Route path="/toro/legacy-dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
+                        <Route path="/hui" element={<Suspense fallback={null}><HuiMeetingCopilot /></Suspense>} />
                         <Route path="/toro/app" element={<Suspense fallback={null}><ToroaApp /></Suspense>} />
                         <Route path="/toro/install" element={<Suspense fallback={null}><ToroaInstallPage /></Suspense>} />
                         <Route path="/toro/travel" element={<Suspense fallback={null}><ToroaTravelPage /></Suspense>} />
