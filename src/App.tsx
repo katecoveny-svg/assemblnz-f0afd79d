@@ -105,6 +105,7 @@ const EvidencePackSharePage = lazy(() => import("./pages/EvidencePackSharePage")
 const AgentMarketplacePage = lazy(() => import("./pages/AgentMarketplacePage"));
 const KeteCollectionPage = lazy(() => import("./pages/KeteCollectionPage"));
 const OperatorWorkspacePage = lazy(() => import("./pages/OperatorWorkspacePage"));
+const GateDetailPage = lazy(() => import("./pages/GateDetailPage"));
 const KeteDetailPageNew = lazy(() => import("./pages/KeteDetailPage"));
 const CareDashboard = lazy(() => import("./pages/CareDashboard"));
 const AtaBimDashboard = lazy(() => import("./components/hanga/AtaBimDashboard"));
@@ -353,6 +354,7 @@ const App = () => (
                         <Route path="/kete" element={<Suspense fallback={null}><KeteCollectionPage /></Suspense>} />
                         <Route path="/kete/:slug" element={<Suspense fallback={null}><KeteDetailPageNew /></Suspense>} />
                         <Route path="/operator/:slug" element={<Suspense fallback={null}><OperatorWorkspacePage /></Suspense>} />
+                        <Route path="/operator/:slug/gates/:gateId" element={<Suspense fallback={null}><GateDetailPage /></Suspense>} />
 
                         <Route path="/aaaip" element={<Suspense fallback={null}><AaaipDashboard /></Suspense>} />
                         <Route path="/aaaip/researcher" element={<Suspense fallback={null}><AaaipResearcher /></Suspense>} />
