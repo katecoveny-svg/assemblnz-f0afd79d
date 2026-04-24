@@ -484,6 +484,11 @@ export default function AdminAgentPromptsPage() {
                       <History className="w-4 h-4" />
                       {showHistory ? "Hide history" : "History"}
                     </Button>
+                    <Button asChild variant="outline" size="sm" className="gap-2">
+                      <Link to="/admin/agents/prompts/diff">
+                        <Eye className="w-4 h-4" /> Diff viewer
+                      </Link>
+                    </Button>
                     <Button
                       variant="outline"
                       size="sm"
