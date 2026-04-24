@@ -5,7 +5,7 @@ import { agents, echoAgent, pilotAgent } from "@/data/agents";
 import { useResolvedAgent } from "@/hooks/useAgentOverrides";
 import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Layers, ListChecks, Phone, Radio, Camera, RotateCcw, Target, AlertCircle, Download } from "lucide-react";
+import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Layers, ListChecks, Phone, Radio, Camera, RotateCcw, Target, AlertCircle, Download, LayoutDashboard } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
