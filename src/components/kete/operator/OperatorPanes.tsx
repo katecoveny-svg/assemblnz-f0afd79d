@@ -604,20 +604,129 @@ export const GatesPane: React.FC<{ slug: IndustrySlug; accent: string }> = ({
         ) : (
           <Muted>—</Muted>
         ),
-        <Link
-          key="open"
-          to={`/operator/${slug}/gates/${g.id}`}
-          className="inline-flex items-center gap-1 text-xs hover:underline"
-          style={{
-            color: ASSEMBL_TOKENS.core.text["text-primary"],
-            fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
-          }}
-          aria-label="Open gate detail"
-        >
-          Open <ChevronRight size={12} />
-        </Link>,
+        <GateRowActions
+          key="actions"
+          gate={g}
+          slug={slug}
+          accent={accent}
+        />,
       ])}
     />
+  );
+};
+
+const GateRowActions: React.FC<{
+  gate: GateRow;
+  slug: IndustrySlug;
+  accent: string;
+}> = ({ gate, slug, accent }) => {
+  const qc = useQueryClient();
+  const [busy, setBusy] = useState<"approve" | "decline" | null>(null);
+
+  const decide = async (
+    clickEv: React.MouseEvent,
+    decision: "approve" | "decline",
+  ) => {
+    clickEv.stopPropagation();
+    setBusy(decision);
+    try {
+      let conditions: string | null = gate.conditions ?? null;
+      if (decision === "decline") {
+        const input = window.prompt(
+          "Reason for declining this gate?",
+          gate.conditions ?? "",
+        );
+        if (input === null) {
+          setBusy(null);
+          return;
+        }
+        conditions = input.trim() || "Declined by operator";
+      }
+
+      const { error } = await supabase
+        .from("governance_gates")
+        .update({
+          status: decision === "approve" ? "approved" : "declined",
+          decided_at: new Date().toISOString(),
+          conditions,
+        })
+        .eq("id", gate.id);
+      if (error) throw error;
+
+      toast.success(
+        decision === "approve" ? "Gate approved" : "Gate declined",
+      );
+      await qc.invalidateQueries({ queryKey: ["operator", "gates", slug] });
+    } catch (e) {
+      toast.error(
+        e instanceof Error ? e.message : `Could not ${decision} gate`,
+      );
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const isPending = (gate.status ?? "").toLowerCase() === "pending";
+  const anyBusy = busy !== null;
+
+  return (
+    <div className="inline-flex items-center gap-1.5">
+      {isPending && (
+        <>
+          <button
+            type="button"
+            onClick={(e) => decide(e, "decline")}
+            disabled={anyBusy}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+            style={{
+              background: "#F2DEDC",
+              border: "1px solid #D9B0AA",
+              color: "#7A2E2A",
+              fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+            }}
+            aria-label="Decline gate"
+          >
+            {busy === "decline" ? (
+              <Loader2 size={12} className="animate-spin" />
+            ) : (
+              <X size={12} />
+            )}
+            Decline
+          </button>
+          <button
+            type="button"
+            onClick={(e) => decide(e, "approve")}
+            disabled={anyBusy}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-all hover:brightness-95 disabled:opacity-50"
+            style={{
+              background: `${accent}33`,
+              border: `1px solid ${accent}66`,
+              color: ASSEMBL_TOKENS.core.text["text-primary"],
+              fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+            }}
+            aria-label="Approve gate"
+          >
+            {busy === "approve" ? (
+              <Loader2 size={12} className="animate-spin" />
+            ) : (
+              <Check size={12} />
+            )}
+            Approve
+          </button>
+        </>
+      )}
+      <Link
+        to={`/operator/${slug}/gates/${gate.id}`}
+        className="inline-flex items-center gap-1 text-xs hover:underline"
+        style={{
+          color: ASSEMBL_TOKENS.core.text["text-primary"],
+          fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+        }}
+        aria-label="Open gate detail"
+      >
+        Open <ChevronRight size={12} />
+      </Link>
+    </div>
   );
 };
 
