@@ -269,6 +269,53 @@ Deno.serve(async (req) => {
 
     if (decision.verdict !== "allow") {
       const status = decision.verdict === "block" ? 403 : 409;
+
+      // Tender submissions awaiting human sign-off are queued for review
+      // in approval_queue rather than just rejected — never auto-submitted.
+      let approvalId: string | undefined;
+      let queuedMessage: string | undefined;
+      if (
+        decision.verdict === "needs_human" &&
+        action.kind === "submit_tender" &&
+        action.humanSignoff !== true
+      ) {
+        try {
+          const userId = (claimsData.claims as { sub?: string }).sub ?? null;
+          // 7-day expiry — tenders shouldn't sit in the queue indefinitely.
+          const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+          const { data: queueItem, error: queueErr } = await userClient
+            .from("approval_queue")
+            .insert({
+              request_id: `waihanga-tender-${crypto.randomUUID()}`,
+              action_type: "submit_tender",
+              kete: "WAIHANGA",
+              status: "pending",
+              requested_by: userId,
+              expires_at: expiresAt,
+              context: {
+                source: "claude-chat",
+                agentId,
+                zone: action.zone ?? null,
+                confidence: action.confidence ?? null,
+                last_user_message: lastUserText.slice(0, 2000),
+                evaluations: decision.evaluations.filter((e) => !e.passed),
+                rationale: decision.explanation,
+              },
+            })
+            .select("id")
+            .single();
+          if (queueErr) {
+            console.error("approval_queue insert failed", queueErr);
+          } else {
+            approvalId = queueItem?.id;
+            queuedMessage =
+              "Tender queued for human review. It will only be sent after a teammate approves it.";
+          }
+        } catch (e) {
+          console.error("Failed to enqueue tender approval", (e as Error).message);
+        }
+      }
+
       return new Response(
         JSON.stringify({
           error: decision.explanation,
@@ -276,6 +323,9 @@ Deno.serve(async (req) => {
           policy: "waihanga",
           action: action.kind,
           evaluations: decision.evaluations.filter((e) => !e.passed),
+          ...(approvalId
+            ? { approvalId, status: "approval_required", message: queuedMessage }
+            : {}),
         }),
         {
           status,
