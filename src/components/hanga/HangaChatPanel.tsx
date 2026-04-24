@@ -13,6 +13,7 @@ import {
 } from "./SupervisorControls";
 import { GovernanceAuditPanel } from "./GovernanceAuditPanel";
 import { CompliancePreflightGate } from "./CompliancePreflightGate";
+import { EscalationMessage, escalationToText, type EscalationPayload } from "./EscalationMessage";
 import {
   useGovernanceAuditLog,
   deriveActionKind,
@@ -85,6 +86,7 @@ interface Message {
   content: string;
   agentName?: string;
   agentIcon?: string;
+  escalation?: EscalationPayload;
 }
 
 interface PackChatPanelProps {
@@ -178,19 +180,44 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
         const err = await resp.json().catch(() => ({ error: "AI request failed" }));
         if (isWaihanga && (resp.status === 403 || resp.status === 409) && err?.verdict) {
           const verdict = err.verdict as AuditVerdict;
+          const evaluations = (err.evaluations ?? []) as AuditPolicyEvaluation[];
+          const action = err.action ?? deriveActionKind(text, undefined);
+          const reason = err.error ?? "Compliance check did not pass";
           recordAudit({
             kete: auditKete,
             agentName: "Compliance pre-check",
-            action: err.action ?? deriveActionKind(text, undefined),
+            action,
             zone: supervisorContext.zone,
             verdict,
-            rationale: err.error ?? "Blocked by policy",
-            evaluations: (err.evaluations ?? []) as AuditPolicyEvaluation[],
+            rationale: reason,
+            evaluations,
             context: buildAuditContext(),
             userMessagePreview: text.trim().slice(0, 120),
             approvalId: err.approvalId ?? null,
             durationMs: Math.round(performance.now() - startedAt),
           });
+
+          // needs_human → render structured escalation handoff in chat
+          if (verdict === "needs_human") {
+            setMessages((prev) => [
+              ...prev,
+              {
+                id: crypto.randomUUID(),
+                role: "assistant",
+                content: "",
+                agentName: "Compliance handoff",
+                agentIcon: "ShieldCheck",
+                escalation: {
+                  action,
+                  reason,
+                  evaluations,
+                  approvalId: err.approvalId ?? null,
+                  zone: supervisorContext.zone,
+                },
+              },
+            ]);
+            return;
+          }
         }
         throw new Error(err.error || `Error ${resp.status}`);
       }
@@ -391,27 +418,44 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                         <span className="text-[10px] font-medium" style={{ color: TEAL_ACCENT }}>{msg.agentName}</span>
                       </div>
                     )}
-                    <div
-                      className={`px-3.5 py-2.5 text-[13px] leading-relaxed ${
-                        msg.role === "user"
-                          ? "rounded-2xl rounded-br-md"
-                          : "rounded-2xl rounded-bl-md"
-                      }`}
-                      style={msg.role === "user" ? {
-                        background: `${POUNAMU}15`,
-                        color: "#3D4250",
-                      } : {
-                        background: "rgba(0,0,0,0.03)",
-                        border: "1px solid rgba(0,0,0,0.06)",
-                        color: "#3D4250",
-                      }}
-                    >
-                      {msg.role === "assistant" ? (
-                        <div className="prose prose-sm max-w-none [&_h2]:text-sm [&_h2]:mt-3 [&_h2]:mb-1 [&_h3]:text-xs [&_p]:text-[13px] [&_li]:text-[13px] [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]">
-                          <ReactMarkdown>{msg.content}</ReactMarkdown>
-                        </div>
-                      ) : msg.content}
-                    </div>
+                    {msg.escalation ? (
+                      <EscalationMessage
+                        action={msg.escalation.action}
+                        reason={msg.escalation.reason}
+                        evaluations={msg.escalation.evaluations}
+                        approvalId={msg.escalation.approvalId}
+                        zone={msg.escalation.zone}
+                        onCopySummary={() => {
+                          if (msg.escalation) {
+                            navigator.clipboard
+                              ?.writeText(escalationToText(msg.escalation))
+                              .catch(() => undefined);
+                          }
+                        }}
+                      />
+                    ) : (
+                      <div
+                        className={`px-3.5 py-2.5 text-[13px] leading-relaxed ${
+                          msg.role === "user"
+                            ? "rounded-2xl rounded-br-md"
+                            : "rounded-2xl rounded-bl-md"
+                        }`}
+                        style={msg.role === "user" ? {
+                          background: `${POUNAMU}15`,
+                          color: "#3D4250",
+                        } : {
+                          background: "rgba(0,0,0,0.03)",
+                          border: "1px solid rgba(0,0,0,0.06)",
+                          color: "#3D4250",
+                        }}
+                      >
+                        {msg.role === "assistant" ? (
+                          <div className="prose prose-sm max-w-none [&_h2]:text-sm [&_h2]:mt-3 [&_h2]:mb-1 [&_h3]:text-xs [&_p]:text-[13px] [&_li]:text-[13px] [&_p]:text-[#3D4250] [&_li]:text-[#3D4250] [&_strong]:text-[#2D3140]">
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                          </div>
+                        ) : msg.content}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
