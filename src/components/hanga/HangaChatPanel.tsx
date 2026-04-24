@@ -86,6 +86,7 @@ interface Message {
   content: string;
   agentName?: string;
   agentIcon?: string;
+  escalation?: EscalationPayload;
 }
 
 interface PackChatPanelProps {
