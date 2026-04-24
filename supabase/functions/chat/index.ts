@@ -3,6 +3,7 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 import { resolveModel, DEFAULT_MODEL } from "../_shared/model-router.ts";
 import { callLlm, detectProvider } from "../_shared/llm-call.ts";
 import { validateChatRequest } from "../_shared/chat-validation.ts";
+import { executeAgentTool, LIVE_DATA_TOOLS, getServiceClient } from "../_shared/tool-executor.ts";
 
 const corsHeaders = {
  "Access-Control-Allow-Origin": "*",
