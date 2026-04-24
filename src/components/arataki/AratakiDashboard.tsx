@@ -8,6 +8,7 @@ import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
+import { KeteLiveFeedStrip } from "@/components/live-widgets";
 
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
@@ -255,6 +256,8 @@ export default function AratakiDashboard() {
 
       <KeteDocUpload keteSlug="waka" keteColor={ACCENT} keteName="Arataki — Automotive"
         docContext="Expect job cards, warranty claims, vehicle inspection reports, sale agreements, CGA compliance documents, and MVSA 2003 records. Flag consumer guarantee and privacy compliance." />
+
+      <KeteLiveFeedStrip kete="arataki" />
 
       <KeteAgentChat keteName="Arataki" keteLabel="Automotive" accentColor={ACCENT} defaultAgentId="motor" packId="waka"
         starterPrompts={["Draft a warranty narrative", "Check MVSA compliance for a sale", "Generate a delivery evidence pack", "Run a customer journey audit"]} />

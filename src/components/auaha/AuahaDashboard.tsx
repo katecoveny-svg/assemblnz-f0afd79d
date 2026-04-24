@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TrendingUp, TrendingDown, Eye, Heart, FileText, DollarSign, Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Pipette, Timer, ArrowRight, CreditCard, Zap, Sparkles, Activity, MonitorPlay, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import KeteBrainChat from "@/components/KeteBrainChat";
+import { KeteLiveFeedStrip } from "@/components/live-widgets";
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
 import { motion } from "framer-motion";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
@@ -447,6 +448,8 @@ export default function AuahaDashboard() {
 
       <KeteDocUpload keteSlug="auaha" keteColor={ACCENT} keteName="Auaha — Creative & Media"
         docContext="Expect brand guidelines, creative briefs, media plans, campaign reports, analytics exports, and content calendars. Extract brand voice, colour palettes, and performance metrics." />
+
+      <KeteLiveFeedStrip kete="auaha" />
 
       <KeteBrainChat keteId="auaha" keteName="Auaha" keteNameEn="Creative" accentColor={ACCENT} />
     </KeteDashboardShell>

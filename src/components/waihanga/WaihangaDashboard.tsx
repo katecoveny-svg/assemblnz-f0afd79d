@@ -5,6 +5,7 @@ import { HardHat, Shield, FileText, AlertTriangle, Layers, CheckCircle } from "l
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import { KeteLiveFeedStrip } from "@/components/live-widgets";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 
@@ -325,6 +326,8 @@ export default function WaihangaDashboard() {
         keteName="Waihanga — Construction"
         docContext="Expect architectural drawings, PS1 producer statements, geotech reports, fire engineering reports, BIM models (IFC), site safety plans, payment claims, variations. Flag NZ Building Code, H&S at Work Act 2015, and CCA 2002 compliance."
       />
+
+      <KeteLiveFeedStrip kete="waihanga" />
 
       <KeteAgentChat
         keteName="Waihanga"
