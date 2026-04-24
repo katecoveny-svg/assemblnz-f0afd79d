@@ -6,6 +6,7 @@ import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pi
 import { Ship, FileText, Shield, Globe, AlertTriangle, Check, Plus, X, Loader2 } from "lucide-react";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
+import { KeteLiveFeedStrip } from "@/components/live-widgets";
 
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
@@ -414,6 +415,8 @@ export default function PikauDashboard() {
 
       <KeteDocUpload keteSlug="pikau" keteColor={ACCENT} keteName="Pikau — Freight & Customs"
         docContext="Expect customs declarations, commercial invoices, bills of lading, packing lists, certificates of origin, biosecurity certificates, and HS code schedules. Flag NZ Customs compliance issues." />
+
+      <KeteLiveFeedStrip kete="pikau" />
 
       <KeteAgentChat keteName="Pikau" keteLabel="Freight & Customs" accentColor={ACCENT} defaultAgentId="gateway" packId="pikau"
         starterPrompts={["Validate an HS code", "Generate a customs declaration", "Check biosecurity requirements", "Calculate landed costs for an import"]} />

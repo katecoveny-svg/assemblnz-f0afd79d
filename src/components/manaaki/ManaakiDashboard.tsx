@@ -10,6 +10,7 @@ import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
+import { KeteLiveFeedStrip } from "@/components/live-widgets";
 
 import SovereigntyBadge from "@/components/sovereignty/SovereigntyBadge";
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
@@ -298,6 +299,8 @@ export default function ManaakiDashboard() {
 
       <KeteDocUpload keteSlug="manaaki" keteColor={ACCENT} keteName="Manaaki — Hospitality"
         docContext="Expect food safety plans, alcohol licence documents, health & safety reports, guest contracts, event agreements, and supplier invoices. Flag Food Act 2014 and Sale and Supply of Alcohol Act 2012 compliance." />
+
+      <KeteLiveFeedStrip kete="manaaki" />
 
       <KeteAgentChat keteName="Manaaki" keteLabel="Hospitality" accentColor={ACCENT} defaultAgentId="aura" packId="manaaki"
         starterPrompts={["Create a food safety evidence pack", "Check alcohol licensing compliance", "Prepare a VIP guest brief", "Run a dietary requirements audit"]} />
