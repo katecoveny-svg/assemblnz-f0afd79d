@@ -56,6 +56,22 @@ interface AgentPrompt {
   updated_at: string;
 }
 
+interface PromptVersion {
+  id: string;
+  prompt_id: string;
+  agent_name: string;
+  pack: string;
+  display_name: string;
+  icon: string | null;
+  system_prompt: string;
+  model_preference: string | null;
+  is_active: boolean | null;
+  version: number;
+  changed_by: string | null;
+  change_note: string | null;
+  created_at: string;
+}
+
 const MODEL_OPTIONS = [
   "google/gemini-2.5-flash",
   "google/gemini-2.5-pro",
