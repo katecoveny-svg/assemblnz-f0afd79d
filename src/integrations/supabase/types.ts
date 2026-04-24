@@ -9479,41 +9479,119 @@ export type Database = {
           },
         ]
       }
+      toroa_child_timetables: {
+        Row: {
+          child_name: string
+          created_at: string | null
+          day_of_week: number
+          family_id: string
+          gear_needed: string[] | null
+          id: string
+          notes: string | null
+          period: number
+          room: string | null
+          school: string | null
+          subject: string
+          teacher: string | null
+          updated_at: string | null
+          year_level: number | null
+        }
+        Insert: {
+          child_name: string
+          created_at?: string | null
+          day_of_week: number
+          family_id: string
+          gear_needed?: string[] | null
+          id?: string
+          notes?: string | null
+          period: number
+          room?: string | null
+          school?: string | null
+          subject: string
+          teacher?: string | null
+          updated_at?: string | null
+          year_level?: number | null
+        }
+        Update: {
+          child_name?: string
+          created_at?: string | null
+          day_of_week?: number
+          family_id?: string
+          gear_needed?: string[] | null
+          id?: string
+          notes?: string | null
+          period?: number
+          room?: string | null
+          school?: string | null
+          subject?: string
+          teacher?: string | null
+          updated_at?: string | null
+          year_level?: number | null
+        }
+        Relationships: []
+      }
       toroa_children: {
         Row: {
           activities: Json | null
           age: number | null
+          allergies: string[] | null
+          bus_route_id: string | null
           created_at: string
+          date_of_birth: string | null
           dietary_requirements: Json | null
+          emergency_contact: string | null
           family_id: string
           id: string
+          interests: string[] | null
           name: string
+          ncea_level: number | null
           school: string | null
+          school_end_time: string | null
           school_id: string | null
+          school_start_time: string | null
+          transport_mode: string | null
           year_level: number | null
         }
         Insert: {
           activities?: Json | null
           age?: number | null
+          allergies?: string[] | null
+          bus_route_id?: string | null
           created_at?: string
+          date_of_birth?: string | null
           dietary_requirements?: Json | null
+          emergency_contact?: string | null
           family_id: string
           id?: string
+          interests?: string[] | null
           name: string
+          ncea_level?: number | null
           school?: string | null
+          school_end_time?: string | null
           school_id?: string | null
+          school_start_time?: string | null
+          transport_mode?: string | null
           year_level?: number | null
         }
         Update: {
           activities?: Json | null
           age?: number | null
+          allergies?: string[] | null
+          bus_route_id?: string | null
           created_at?: string
+          date_of_birth?: string | null
           dietary_requirements?: Json | null
+          emergency_contact?: string | null
           family_id?: string
           id?: string
+          interests?: string[] | null
           name?: string
+          ncea_level?: number | null
           school?: string | null
+          school_end_time?: string | null
           school_id?: string | null
+          school_start_time?: string | null
+          transport_mode?: string | null
           year_level?: number | null
         }
         Relationships: [
@@ -9810,6 +9888,105 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      toroa_gear_lists: {
+        Row: {
+          checked_off: Json | null
+          child_name: string
+          created_at: string | null
+          day_of_week: number | null
+          extras: Json | null
+          family_id: string
+          id: string
+          items: Json
+          list_date: string
+        }
+        Insert: {
+          checked_off?: Json | null
+          child_name: string
+          created_at?: string | null
+          day_of_week?: number | null
+          extras?: Json | null
+          family_id: string
+          id?: string
+          items?: Json
+          list_date: string
+        }
+        Update: {
+          checked_off?: Json | null
+          child_name?: string
+          created_at?: string | null
+          day_of_week?: number | null
+          extras?: Json | null
+          family_id?: string
+          id?: string
+          items?: Json
+          list_date?: string
+        }
+        Relationships: []
+      }
+      toroa_grade_history: {
+        Row: {
+          attendance_pct: number | null
+          child_name: string
+          created_at: string | null
+          family_id: string
+          grade: number | null
+          grade_label: string | null
+          id: string
+          ncea_credits: number | null
+          ncea_level: number | null
+          ncea_standard: string | null
+          report_date: string
+          report_type: string | null
+          school: string | null
+          source: string | null
+          subject: string
+          teacher: string | null
+          teacher_comments: string | null
+          year_level: number | null
+        }
+        Insert: {
+          attendance_pct?: number | null
+          child_name: string
+          created_at?: string | null
+          family_id: string
+          grade?: number | null
+          grade_label?: string | null
+          id?: string
+          ncea_credits?: number | null
+          ncea_level?: number | null
+          ncea_standard?: string | null
+          report_date: string
+          report_type?: string | null
+          school?: string | null
+          source?: string | null
+          subject: string
+          teacher?: string | null
+          teacher_comments?: string | null
+          year_level?: number | null
+        }
+        Update: {
+          attendance_pct?: number | null
+          child_name?: string
+          created_at?: string | null
+          family_id?: string
+          grade?: number | null
+          grade_label?: string | null
+          id?: string
+          ncea_credits?: number | null
+          ncea_level?: number | null
+          ncea_standard?: string | null
+          report_date?: string
+          report_type?: string | null
+          school?: string | null
+          source?: string | null
+          subject?: string
+          teacher?: string | null
+          teacher_comments?: string | null
+          year_level?: number | null
+        }
+        Relationships: []
       }
       toroa_homework: {
         Row: {
@@ -10128,6 +10305,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      toroa_saved_routes: {
+        Row: {
+          active: boolean | null
+          child_name: string | null
+          created_at: string | null
+          departure_time: string | null
+          dest_label: string | null
+          dest_lat: number | null
+          dest_lon: number | null
+          family_id: string
+          id: string
+          label: string
+          origin_label: string | null
+          origin_lat: number | null
+          origin_lon: number | null
+          typical_distance_km: number | null
+          typical_duration_mins: number | null
+        }
+        Insert: {
+          active?: boolean | null
+          child_name?: string | null
+          created_at?: string | null
+          departure_time?: string | null
+          dest_label?: string | null
+          dest_lat?: number | null
+          dest_lon?: number | null
+          family_id: string
+          id?: string
+          label: string
+          origin_label?: string | null
+          origin_lat?: number | null
+          origin_lon?: number | null
+          typical_distance_km?: number | null
+          typical_duration_mins?: number | null
+        }
+        Update: {
+          active?: boolean | null
+          child_name?: string | null
+          created_at?: string | null
+          departure_time?: string | null
+          dest_label?: string | null
+          dest_lat?: number | null
+          dest_lon?: number | null
+          family_id?: string
+          id?: string
+          label?: string
+          origin_label?: string | null
+          origin_lat?: number | null
+          origin_lon?: number | null
+          typical_distance_km?: number | null
+          typical_duration_mins?: number | null
+        }
+        Relationships: []
       }
       toroa_school_reports: {
         Row: {
