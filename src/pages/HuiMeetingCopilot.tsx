@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, Check, X, Mic, Sparkles } from "lucide-react";
+import { ChevronLeft, Mic, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { MeetingList, type MeetingItem } from "@/components/hui/MeetingList";
 import { MeetingPrep } from "@/components/hui/MeetingPrep";
 import { MeetingNotes } from "@/components/hui/MeetingNotes";
 import { MeetingInsights } from "@/components/hui/MeetingInsights";
+import { MeetingSummary } from "@/components/hui/MeetingSummary";
 import { QuickActions } from "@/components/hui/QuickActions";
+import { ConnectPill } from "@/components/hui/ConnectPill";
 
-type Mode = "prep" | "notes" | "insights";
+type Mode = "prep" | "notes" | "insights" | "summary";
 
 const HuiMeetingCopilot = () => {
   const [selected, setSelected] = useState<MeetingItem | null>(null);
@@ -29,17 +31,6 @@ const HuiMeetingCopilot = () => {
       // ignore
     }
   };
-
-  const ConnPill = ({ name, ok }: { name: string; ok: boolean }) => (
-    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-['Inter'] bg-white/60 border border-[rgba(142,129,119,0.14)]">
-      {ok ? (
-        <Check size={12} className="text-[#9DB89D]" />
-      ) : (
-        <X size={12} className="text-[#C09494]" />
-      )}
-      <span className="text-[#6F6158]">{name}</span>
-    </span>
-  );
 
   const ModeTab = ({ k, label }: { k: Mode; label: string }) => (
     <button
@@ -75,10 +66,10 @@ const HuiMeetingCopilot = () => {
               <p className="font-['Inter'] text-base text-[#9D8C7D]/80 mt-2">Meeting Copilot</p>
             </div>
             <div className="flex flex-wrap gap-2">
-              <ConnPill name="Granola" ok={false} />
-              <ConnPill name="Calendar" ok={calendarConnected} />
-              <ConnPill name="Drive" ok={false} />
-              <ConnPill name="Gmail" ok={false} />
+              <ConnectPill name="Granola" provider="granola" connected={false} />
+              <ConnectPill name="Calendar" provider="calendar" connected={calendarConnected} onChange={check} />
+              <ConnectPill name="Drive" provider="drive" connected={false} />
+              <ConnectPill name="Gmail" provider="gmail" connected={false} />
             </div>
           </div>
         </header>
@@ -100,15 +91,24 @@ const HuiMeetingCopilot = () => {
                 setSelected(m);
                 setMode("notes");
               }}
+              onInsights={(m) => {
+                setSelected(m);
+                setMode("insights");
+              }}
+              onSummary={(m) => {
+                setSelected(m);
+                setMode("summary");
+              }}
             />
           </div>
 
           {/* Workspace */}
           <div className="lg:col-span-2">
             <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-[rgba(142,129,119,0.14)] shadow-[0_8px_30px_rgba(111,97,88,0.08)] overflow-hidden">
-              <div className="p-4 border-b border-[rgba(142,129,119,0.14)] flex items-center gap-2">
+              <div className="p-4 border-b border-[rgba(142,129,119,0.14)] flex items-center gap-2 flex-wrap">
                 <ModeTab k="prep" label="Prep" />
                 <ModeTab k="notes" label="Notes" />
+                <ModeTab k="summary" label="Summary" />
                 <ModeTab k="insights" label="Insights" />
               </div>
               <div className="p-6">
@@ -121,11 +121,14 @@ const HuiMeetingCopilot = () => {
                       Pick a meeting to begin
                     </h3>
                     <p className="font-['Inter'] text-sm text-[#6F6158]/80 mt-2 max-w-md mx-auto">
-                      Choose a meeting from the list to surface prep notes, transcripts, and follow-ups.
+                      Choose a meeting from the list — or hit Notes, Summary, or Insights on any
+                      row to jump straight in.
                     </p>
                   </div>
                 ) : mode === "prep" ? (
                   <MeetingPrep meeting={selected} onStartNotes={() => setMode("notes")} />
+                ) : mode === "summary" ? (
+                  <MeetingSummary meeting={selected} />
                 ) : (
                   <MeetingNotes meeting={selected} />
                 )}
