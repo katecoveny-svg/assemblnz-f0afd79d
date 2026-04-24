@@ -235,6 +235,7 @@ const AdminAgentInventoryPage = lazy(() => import("./pages/AdminAgentInventoryPa
 const AdminAgentPromptsPage = lazy(() => import("./pages/AdminAgentPromptsPage"));
 const AdminPromptDiffPage = lazy(() => import("./pages/AdminPromptDiffPage"));
 const RoiCalculatorPage = lazy(() => import("./pages/RoiCalculatorPage"));
+const ComplianceCalculatorPage = lazy(() => import("./pages/ComplianceCalculatorPage"));
 const DemosHub = lazy(() => import("./pages/demos/DemosHub"));
 const PipelineDemo = lazy(() => import("./pages/demos/PipelineDemo"));
 const EvidencePackDemo = lazy(() => import("./pages/demos/EvidencePackDemo"));
