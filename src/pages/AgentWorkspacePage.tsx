@@ -41,6 +41,33 @@ const AgentWorkspacePage: React.FC = () => {
   const evidence = useAgentEvidence(keteCode);
   const policyHits = useAgentPolicyHits(agentCode);
 
+  const queryClient = useQueryClient();
+  const [rerunBusy, setRerunBusy] = useState(false);
+
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: ["agent-workspace"] });
+    toast.success("Workspace refreshed");
+  };
+
+  const handleRerunLast = async () => {
+    const last = runs.data?.[0];
+    const prompt = last?.request_summary;
+    if (!prompt) {
+      toast.error("No previous prompt found to re-run");
+      return;
+    }
+    setRerunBusy(true);
+    try {
+      await agentChat({ agentId: agent.id, message: prompt });
+      toast.success("Re-run complete — refreshing feed");
+      queryClient.invalidateQueries({ queryKey: ["agent-workspace"] });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Re-run failed");
+    } finally {
+      setRerunBusy(false);
+    }
+  };
+
   const totalRuns = runs.data?.length ?? 0;
   const passRate =
     totalRuns > 0
