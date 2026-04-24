@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { ChevronDown, ChevronRight, Save, Mail } from "lucide-react";
+import { ChevronDown, ChevronRight, Save, Mail, FileDown, FileText } from "lucide-react";
 import type { MeetingItem } from "./MeetingList";
+import { exportHuiNotesPdf, exportHuiNotesDoc } from "@/lib/huiPdf";
 
 interface Props {
   meeting: MeetingItem;
@@ -118,7 +119,35 @@ export const MeetingNotes = ({ meeting }: Props) => {
       </section>
 
       <div className="flex flex-wrap gap-2">
-        <button className="bg-[#D9BC7A] hover:bg-[#C4A665] text-[#6F6158] rounded-xl px-4 py-2 text-sm font-medium font-['Inter'] inline-flex items-center gap-2 transition-colors">
+        <button
+          onClick={() =>
+            exportHuiNotesPdf(meeting, {
+              decisions: SAMPLE_DECISIONS,
+              actions: SAMPLE_ACTIONS,
+              highlights: SAMPLE_HIGHLIGHTS,
+              parking: SAMPLE_PARKING,
+              notes,
+            })
+          }
+          className="bg-[#D9BC7A] hover:bg-[#C4A665] text-[#6F6158] rounded-xl px-4 py-2 text-sm font-medium font-['Inter'] inline-flex items-center gap-2 transition-colors"
+        >
+          <FileDown size={14} /> Download PDF
+        </button>
+        <button
+          onClick={() =>
+            exportHuiNotesDoc(meeting, {
+              decisions: SAMPLE_DECISIONS,
+              actions: SAMPLE_ACTIONS,
+              highlights: SAMPLE_HIGHLIGHTS,
+              parking: SAMPLE_PARKING,
+              notes,
+            })
+          }
+          className="border border-[rgba(142,129,119,0.2)] text-[#6F6158] hover:bg-[#EEE7DE] rounded-xl px-4 py-2 text-sm font-['Inter'] inline-flex items-center gap-2 transition-colors"
+        >
+          <FileText size={14} /> Download .doc
+        </button>
+        <button className="border border-[rgba(142,129,119,0.2)] text-[#6F6158] hover:bg-[#EEE7DE] rounded-xl px-4 py-2 text-sm font-['Inter'] inline-flex items-center gap-2 transition-colors">
           <Save size={14} /> Save to Drive
         </button>
         <button className="border border-[rgba(142,129,119,0.2)] text-[#6F6158] hover:bg-[#EEE7DE] rounded-xl px-4 py-2 text-sm font-['Inter'] inline-flex items-center gap-2 transition-colors">
