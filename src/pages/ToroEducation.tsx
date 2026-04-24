@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, GraduationCap, TrendingUp, TrendingDown, Minus, Award } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { ToroTutorChat } from "@/components/toro/ToroTutorChat";
 
 interface GradeRow {
   id: string;
@@ -284,6 +285,41 @@ const ToroEducation = () => {
                 </div>
               </article>
             ))}
+
+            {/* Tutor chat — grounded in summary stats */}
+            <ToroTutorChat
+              variant="education"
+              title="Ask Tōro about school"
+              contextLines={summaries.flatMap((s) => {
+                const lines = [
+                  `Child: ${s.name}${s.ncea_level ? ` — NCEA Level ${s.ncea_level}` : ""}.`,
+                ];
+                if (s.totalCredits > 0) {
+                  lines.push(
+                    `Credits: ${s.totalCredits} total (E${s.excellenceCredits}/M${s.meritCredits}/A${s.achievedCredits}).`,
+                  );
+                }
+                if (s.avgGrade !== null) lines.push(`Average grade: ${s.avgGrade.toFixed(1)}.`);
+                if (s.attendance !== null) lines.push(`Attendance: ${s.attendance.toFixed(0)}%.`);
+                if (s.trend) lines.push(`Recent trend: ${s.trend}.`);
+                if (s.subjects.length) {
+                  const subjList = s.subjects
+                    .map((sub) => `${sub.name}${sub.latest.grade_label ? ` (${sub.latest.grade_label})` : ""}`)
+                    .join(", ");
+                  lines.push(`Subjects: ${subjList}.`);
+                }
+                return lines;
+              })}
+              suggestions={
+                summaries[0]
+                  ? [
+                      `How is ${summaries[0].name} tracking overall?`,
+                      "Where should we focus revision this week?",
+                      "Explain the latest grades in plain words.",
+                    ]
+                  : undefined
+              }
+            />
 
             {/* Resources footer */}
             <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-[rgba(142,129,119,0.14)] shadow-[0_8px_30px_rgba(111,97,88,0.08)] p-6">
