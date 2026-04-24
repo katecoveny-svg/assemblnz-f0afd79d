@@ -95,8 +95,8 @@ const DownloadEvidenceButton: React.FC<{ packId: string; accent: string }> = ({
 }) => {
   const [busy, setBusy] = useState(false);
 
-  const handleClick = async (ev: React.MouseEvent) => {
-    ev.stopPropagation();
+  const handleClick = async (clickEv: React.MouseEvent) => {
+    clickEv.stopPropagation();
     setBusy(true);
     try {
       const { data, error } = await supabase
@@ -107,7 +107,7 @@ const DownloadEvidenceButton: React.FC<{ packId: string; accent: string }> = ({
       if (error) throw error;
       if (!data) throw new Error("Evidence pack not found");
 
-      const ev = (data.evidence_json ?? {}) as {
+      const pack = (data.evidence_json ?? {}) as {
         title?: string;
         client?: string;
         summary?: string;
