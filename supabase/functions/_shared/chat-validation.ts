@@ -51,6 +51,9 @@ const MessageSchema = z.object({
   tool_call_id: z.string().max(128).optional(),
 });
 
+type ContentBlock = z.infer<typeof ContentBlockSchema>;
+type Message = z.infer<typeof MessageSchema>;
+
 const BodySchema = z.object({
   agentId: z
     .string()
@@ -116,10 +119,10 @@ const sanitiseString = (s: string): string =>
     .slice(0, MAX_MESSAGE_CHARS);
 
 const sanitiseContent = (
-  content: string | Array<{ type: string; text?: string; image_url?: { url: string } }>,
-): string | Array<{ type: string; text?: string; image_url?: { url: string } }> => {
+  content: Message["content"],
+): Message["content"] => {
   if (typeof content === "string") return sanitiseString(content);
-  return content.map((block) => {
+  return content.map((block): ContentBlock => {
     if (block.type === "text" && typeof block.text === "string") {
       return { ...block, text: sanitiseString(block.text) };
     }
@@ -233,7 +236,7 @@ export const validateChatRequest = async (
   }
 
   // 5. Sanitise every message before forwarding.
-  const sanitisedMessages = body.messages.map((m) => ({
+  const sanitisedMessages: Message[] = body.messages.map((m) => ({
     ...m,
     content: sanitiseContent(m.content),
   }));
