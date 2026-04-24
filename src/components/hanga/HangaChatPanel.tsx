@@ -6,6 +6,11 @@ import {
   Users, UtensilsCrossed, Lock, Heart, PenTool, Shield
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import {
+  SupervisorControls,
+  DEFAULT_SUPERVISOR_CONTEXT,
+  type SupervisorComplianceContext,
+} from "./SupervisorControls";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
