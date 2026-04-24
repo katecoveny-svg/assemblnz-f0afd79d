@@ -7626,58 +7626,111 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
     }
    }
   }
-  // ═══ MEMORY EXTRACTION QUEUE — fire-and-forget enqueue (debounced 10min/conversation) ═══
-  // Boundary precedence: validated body.conversationId > body.sessionId >
-  // a deterministic per-user/per-agent fallback. The fallback keeps a single
-  // long-running thread per (user, agent) bucketed together, so the extractor
-  // still runs even when clients haven't adopted explicit session IDs yet.
-  // NB: deterministic test-mode requests short-circuit much earlier and never
-  // reach this block, so synthetic traffic does not pollute agent_memory.
+  // ═══ AUDIT_LOG BOUNDARY ═══
+  // The web /chat endpoint MUST NOT write to public.audit_log.
+  // audit_log is reserved for governed messaging/SMS/WhatsApp paths
+  // (tnz-inbound, tnz-send, iho-router, echo-respond, run-scheduled-task)
+  // where every turn must be auditable for compliance/billing.
+  // Web chat uses message_log + agent_analytics instead — see above.
+  // Do not add audit_log inserts in this function.
+
+  // ═══ CROSS-CHANNEL MEMORY PERSISTENCE ═══
+  // To keep memory flowing between (a) web /chat, (b) kete dashboards, and
+  // (c) SMS/WhatsApp, every turn is mirrored into the canonical `conversations`
+  // table keyed on (user_id, agent_id). The memory_extraction_queue.conversation_id
+  // column has a FK → conversations(id), so we MUST enqueue a real UUID from
+  // that table — historical string fallbacks like `${userId}:${agentId}` were
+  // silently rejected by the FK and broke agent_memory extraction.
+  //
+  // The same agent_id is used by tnz-inbound (it mirrors SMS turns into
+  // conversations on the SMS-prefixed agent thread), so deep memories
+  // surface across channels via match_agent_memory(user_id, agent_id).
   if (userId && content) {
-    const conversationId =
-      bodyConversationId ||
-      bodySessionId ||
-      `${userId}:${agentId}`;
     try {
-      const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
-      const { data: recent } = await sb
-        .from("memory_extraction_queue")
-        .select("id")
-        .eq("conversation_id", conversationId)
-        .gte("created_at", tenMinAgo)
-        .limit(1);
-      if (!recent || recent.length === 0) {
-        await sb.from("memory_extraction_queue").insert({
-          tenant_id: null,
-          user_id: userId,
-          conversation_id: conversationId,
-          status: "pending",
-        });
-        console.log(`[chat:${requestId}] enqueued memory extraction`, JSON.stringify({
-          conversationId, agentId,
-        }));
+      // 1. Upsert canonical conversation thread per (user, agent).
+      const lastUserText = typeof lastMsgText === "string" ? lastMsgText : "(attachment)";
+      const newTurn = [
+        { role: "user", content: lastUserText, ts: new Date().toISOString() },
+        { role: "assistant", content, ts: new Date().toISOString() },
+      ];
+
+      // Try to find an existing thread for this (user, agent).
+      const { data: existing } = await sb
+        .from("conversations")
+        .select("id, messages")
+        .eq("user_id", userId)
+        .eq("agent_id", agentId)
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      let convoId: string | null = null;
+      if (existing?.id) {
+        const prev = Array.isArray(existing.messages) ? existing.messages : [];
+        const merged = [...prev, ...newTurn].slice(-200); // cap thread length
+        await sb
+          .from("conversations")
+          .update({ messages: merged, updated_at: new Date().toISOString() })
+          .eq("id", existing.id);
+        convoId = existing.id;
+      } else {
+        const { data: created } = await sb
+          .from("conversations")
+          .insert({ user_id: userId, agent_id: agentId, messages: newTurn })
+          .select("id")
+          .single();
+        convoId = created?.id ?? null;
       }
 
-      // Also write a lightweight conversation_summaries row so MemoryPanel has searchable text now
-      const lastUserText = typeof lastMsgText === "string" ? lastMsgText : "(attachment)";
-      if (lastUserText.length >= 40) {
-        await sb.from("conversation_summaries").insert({
-          user_id: userId,
-          agent_id: agentId,
-          summary: `${agentId}: ${lastUserText.slice(0, 200)}${lastUserText.length > 200 ? "…" : ""} → ${(content || "").slice(0, 160)}${(content || "").length > 160 ? "…" : ""}`,
-          key_facts_extracted: { conversation_id: conversationId },
-          original_message_count: 1,
-          compression_level: 0,
-        });
+      // 2. Enqueue extraction (debounced 10min/conversation), only with real UUID.
+      if (convoId) {
+        const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+        const { data: recent } = await sb
+          .from("memory_extraction_queue")
+          .select("id")
+          .eq("conversation_id", convoId)
+          .gte("created_at", tenMinAgo)
+          .limit(1);
+        if (!recent || recent.length === 0) {
+          await sb.from("memory_extraction_queue").insert({
+            tenant_id: null,
+            user_id: userId,
+            conversation_id: convoId,
+            status: "pending",
+          });
+          console.log(`[chat:${requestId}] enqueued memory extraction`, JSON.stringify({
+            conversationId: convoId, agentId,
+          }));
+        }
+
+        // 3. Lightweight summary so MemoryPanel + cross-agent recall has text now.
+        if (lastUserText.length >= 40) {
+          await sb.from("conversation_summaries").insert({
+            user_id: userId,
+            agent_id: agentId,
+            summary: `${agentId}: ${lastUserText.slice(0, 200)}${lastUserText.length > 200 ? "…" : ""} → ${(content || "").slice(0, 160)}${(content || "").length > 160 ? "…" : ""}`,
+            key_facts_extracted: {
+              conversation_id: convoId,
+              client_session_id: bodyConversationId || bodySessionId || null,
+              channel: "web",
+            },
+            original_message_count: 1,
+            compression_level: 0,
+          });
+        }
       }
+
+      // Stash convoId on the closure so the response can return it (see below).
+      (req as any).__assemblConvoId = convoId;
     } catch (memErr) {
-      console.warn("memory enqueue failed (non-critical):", memErr);
+      console.warn("memory persist failed (non-critical):", memErr);
     }
   }
  } catch (logErr) {
   console.error("Post-response logging error (non-critical):", logErr);
  }
 
+ const persistedConvoId = (req as any).__assemblConvoId ?? null;
  return new Response(
   JSON.stringify({
     content,
@@ -7685,7 +7738,9 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
     complexity,
     responseTime,
     fromCache: false,
-    conversationId: bodyConversationId || bodySessionId || (userId ? `${userId}:${agentId}` : null),
+    // Prefer the real conversations.id (used by memory_extractor + agent_memory).
+    // Falls back to client-provided session IDs for backwards compat.
+    conversationId: persistedConvoId || bodyConversationId || bodySessionId || (userId ? `${userId}:${agentId}` : null),
   }),
   { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
