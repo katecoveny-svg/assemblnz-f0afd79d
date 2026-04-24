@@ -9299,6 +9299,81 @@ export type Database = {
         }
         Relationships: []
       }
+      toroa_allergy_register: {
+        Row: {
+          allergen: string
+          child_id: string | null
+          created_at: string
+          deleted_at: string | null
+          diagnosed_by: string | null
+          diagnosed_date: string | null
+          epipen_location: string | null
+          epipen_required: boolean | null
+          family_id: string
+          id: string
+          member_name: string
+          reaction_description: string | null
+          school_notified: boolean | null
+          school_notified_date: string | null
+          severity: string | null
+          treatment: string | null
+          updated_at: string
+        }
+        Insert: {
+          allergen: string
+          child_id?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          diagnosed_by?: string | null
+          diagnosed_date?: string | null
+          epipen_location?: string | null
+          epipen_required?: boolean | null
+          family_id: string
+          id?: string
+          member_name: string
+          reaction_description?: string | null
+          school_notified?: boolean | null
+          school_notified_date?: string | null
+          severity?: string | null
+          treatment?: string | null
+          updated_at?: string
+        }
+        Update: {
+          allergen?: string
+          child_id?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          diagnosed_by?: string | null
+          diagnosed_date?: string | null
+          epipen_location?: string | null
+          epipen_required?: boolean | null
+          family_id?: string
+          id?: string
+          member_name?: string
+          reaction_description?: string | null
+          school_notified?: boolean | null
+          school_notified_date?: string | null
+          severity?: string | null
+          treatment?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_allergy_register_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_allergy_register_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_appointments: {
         Row: {
           appointment_at: string
@@ -9533,6 +9608,72 @@ export type Database = {
           },
         ]
       }
+      toroa_child_pocket_money: {
+        Row: {
+          auto_distribute: boolean | null
+          child_id: string
+          created_at: string
+          family_id: string
+          give_balance: number | null
+          give_percent: number | null
+          id: string
+          payday: string | null
+          save_balance: number | null
+          save_percent: number | null
+          spend_balance: number | null
+          spend_percent: number | null
+          updated_at: string
+          weekly_amount: number | null
+        }
+        Insert: {
+          auto_distribute?: boolean | null
+          child_id: string
+          created_at?: string
+          family_id: string
+          give_balance?: number | null
+          give_percent?: number | null
+          id?: string
+          payday?: string | null
+          save_balance?: number | null
+          save_percent?: number | null
+          spend_balance?: number | null
+          spend_percent?: number | null
+          updated_at?: string
+          weekly_amount?: number | null
+        }
+        Update: {
+          auto_distribute?: boolean | null
+          child_id?: string
+          created_at?: string
+          family_id?: string
+          give_balance?: number | null
+          give_percent?: number | null
+          id?: string
+          payday?: string | null
+          save_balance?: number | null
+          save_percent?: number | null
+          spend_balance?: number | null
+          spend_percent?: number | null
+          updated_at?: string
+          weekly_amount?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_child_pocket_money_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_child_pocket_money_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_child_timetables: {
         Row: {
           child_name: string
@@ -9658,6 +9799,87 @@ export type Database = {
           },
         ]
       }
+      toroa_chore_assignments: {
+        Row: {
+          bonus_amount: number | null
+          child_id: string | null
+          chore_name: string
+          completed_at: string | null
+          created_at: string
+          deleted_at: string | null
+          description: string | null
+          due_day: string | null
+          due_time: string | null
+          family_id: string
+          frequency: string | null
+          icon: string | null
+          id: string
+          longest_streak: number | null
+          points: number | null
+          status: string | null
+          streak_count: number | null
+          total_completions: number | null
+          verified_by: string | null
+        }
+        Insert: {
+          bonus_amount?: number | null
+          child_id?: string | null
+          chore_name: string
+          completed_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          due_day?: string | null
+          due_time?: string | null
+          family_id: string
+          frequency?: string | null
+          icon?: string | null
+          id?: string
+          longest_streak?: number | null
+          points?: number | null
+          status?: string | null
+          streak_count?: number | null
+          total_completions?: number | null
+          verified_by?: string | null
+        }
+        Update: {
+          bonus_amount?: number | null
+          child_id?: string | null
+          chore_name?: string
+          completed_at?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          description?: string | null
+          due_day?: string | null
+          due_time?: string | null
+          family_id?: string
+          frequency?: string | null
+          icon?: string | null
+          id?: string
+          longest_streak?: number | null
+          points?: number | null
+          status?: string | null
+          streak_count?: number | null
+          total_completions?: number | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_chore_assignments_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_chore_assignments_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_conversations: {
         Row: {
           created_at: string
@@ -9708,6 +9930,114 @@ export type Database = {
             columns: ["member_id"]
             isOneToOne: false
             referencedRelation: "toroa_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_curriculum_resources: {
+        Row: {
+          created_at: string
+          curriculum_area: string
+          curriculum_strand: string | null
+          id: string
+          is_free: boolean | null
+          ncea_standard: string | null
+          provider: string | null
+          quality_rating: number | null
+          resource_name: string
+          resource_type: string | null
+          resource_url: string | null
+          year_level: number
+        }
+        Insert: {
+          created_at?: string
+          curriculum_area: string
+          curriculum_strand?: string | null
+          id?: string
+          is_free?: boolean | null
+          ncea_standard?: string | null
+          provider?: string | null
+          quality_rating?: number | null
+          resource_name: string
+          resource_type?: string | null
+          resource_url?: string | null
+          year_level: number
+        }
+        Update: {
+          created_at?: string
+          curriculum_area?: string
+          curriculum_strand?: string | null
+          id?: string
+          is_free?: boolean | null
+          ncea_standard?: string | null
+          provider?: string | null
+          quality_rating?: number | null
+          resource_name?: string
+          resource_type?: string | null
+          resource_url?: string | null
+          year_level?: number
+        }
+        Relationships: []
+      }
+      toroa_daily_routines: {
+        Row: {
+          active_days: string[] | null
+          child_id: string | null
+          created_at: string
+          estimated_minutes: number | null
+          family_id: string
+          id: string
+          is_active: boolean | null
+          reward_points: number | null
+          routine_name: string
+          routine_type: string
+          start_time: string | null
+          steps: Json
+          updated_at: string
+        }
+        Insert: {
+          active_days?: string[] | null
+          child_id?: string | null
+          created_at?: string
+          estimated_minutes?: number | null
+          family_id: string
+          id?: string
+          is_active?: boolean | null
+          reward_points?: number | null
+          routine_name: string
+          routine_type: string
+          start_time?: string | null
+          steps?: Json
+          updated_at?: string
+        }
+        Update: {
+          active_days?: string[] | null
+          child_id?: string | null
+          created_at?: string
+          estimated_minutes?: number | null
+          family_id?: string
+          id?: string
+          is_active?: boolean | null
+          reward_points?: number | null
+          routine_name?: string
+          routine_type?: string
+          start_time?: string | null
+          steps?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_daily_routines_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_daily_routines_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
             referencedColumns: ["id"]
           },
         ]
@@ -9860,31 +10190,52 @@ export type Database = {
           address: string | null
           created_at: string
           family_id: string
+          geofence_label: string | null
+          geofence_radius_m: number | null
           id: string
+          is_live_sharing: boolean | null
+          is_safe_zone: boolean | null
           label: string
           lat: number | null
           location_type: string
           lon: number | null
+          notify_on_arrival: boolean | null
+          notify_on_departure: boolean | null
+          sharing_expires_at: string | null
         }
         Insert: {
           address?: string | null
           created_at?: string
           family_id: string
+          geofence_label?: string | null
+          geofence_radius_m?: number | null
           id?: string
+          is_live_sharing?: boolean | null
+          is_safe_zone?: boolean | null
           label: string
           lat?: number | null
           location_type?: string
           lon?: number | null
+          notify_on_arrival?: boolean | null
+          notify_on_departure?: boolean | null
+          sharing_expires_at?: string | null
         }
         Update: {
           address?: string | null
           created_at?: string
           family_id?: string
+          geofence_label?: string | null
+          geofence_radius_m?: number | null
           id?: string
+          is_live_sharing?: boolean | null
+          is_safe_zone?: boolean | null
           label?: string
           lat?: number | null
           location_type?: string
           lon?: number | null
+          notify_on_arrival?: boolean | null
+          notify_on_departure?: boolean | null
+          sharing_expires_at?: string | null
         }
         Relationships: [
           {
@@ -9943,6 +10294,203 @@ export type Database = {
           },
         ]
       }
+      toroa_family_shopping_lists: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          estimated_cost: number | null
+          family_id: string
+          id: string
+          items: Json
+          linked_meal_plan_id: string | null
+          list_name: string | null
+          status: string | null
+          store_preference: string | null
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          estimated_cost?: number | null
+          family_id: string
+          id?: string
+          items?: Json
+          linked_meal_plan_id?: string | null
+          list_name?: string | null
+          status?: string | null
+          store_preference?: string | null
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          estimated_cost?: number | null
+          family_id?: string
+          id?: string
+          items?: Json
+          linked_meal_plan_id?: string | null
+          list_name?: string | null
+          status?: string | null
+          store_preference?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_family_shopping_lists_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_family_trips: {
+        Row: {
+          accommodation: Json | null
+          budget: number | null
+          created_at: string
+          deleted_at: string | null
+          destination: string | null
+          documents: Json | null
+          end_date: string | null
+          family_id: string
+          id: string
+          itinerary: Json | null
+          notes: string | null
+          packing_list: Json | null
+          region: string | null
+          spent: number | null
+          start_date: string | null
+          status: string | null
+          transport: Json | null
+          trip_name: string
+          updated_at: string
+        }
+        Insert: {
+          accommodation?: Json | null
+          budget?: number | null
+          created_at?: string
+          deleted_at?: string | null
+          destination?: string | null
+          documents?: Json | null
+          end_date?: string | null
+          family_id: string
+          id?: string
+          itinerary?: Json | null
+          notes?: string | null
+          packing_list?: Json | null
+          region?: string | null
+          spent?: number | null
+          start_date?: string | null
+          status?: string | null
+          transport?: Json | null
+          trip_name: string
+          updated_at?: string
+        }
+        Update: {
+          accommodation?: Json | null
+          budget?: number | null
+          created_at?: string
+          deleted_at?: string | null
+          destination?: string | null
+          documents?: Json | null
+          end_date?: string | null
+          family_id?: string
+          id?: string
+          itinerary?: Json | null
+          notes?: string | null
+          packing_list?: Json | null
+          region?: string | null
+          spent?: number | null
+          start_date?: string | null
+          status?: string | null
+          transport?: Json | null
+          trip_name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_family_trips_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_focus_sessions: {
+        Row: {
+          actual_minutes: number | null
+          child_id: string
+          created_at: string
+          distraction_count: number | null
+          ended_at: string | null
+          family_id: string
+          focus_rating: number | null
+          homework_id: string | null
+          id: string
+          planned_minutes: number | null
+          points_earned: number | null
+          session_type: string | null
+          started_at: string
+          subject: string
+        }
+        Insert: {
+          actual_minutes?: number | null
+          child_id: string
+          created_at?: string
+          distraction_count?: number | null
+          ended_at?: string | null
+          family_id: string
+          focus_rating?: number | null
+          homework_id?: string | null
+          id?: string
+          planned_minutes?: number | null
+          points_earned?: number | null
+          session_type?: string | null
+          started_at?: string
+          subject: string
+        }
+        Update: {
+          actual_minutes?: number | null
+          child_id?: string
+          created_at?: string
+          distraction_count?: number | null
+          ended_at?: string | null
+          family_id?: string
+          focus_rating?: number | null
+          homework_id?: string | null
+          id?: string
+          planned_minutes?: number | null
+          points_earned?: number | null
+          session_type?: string | null
+          started_at?: string
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_focus_sessions_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_focus_sessions_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_focus_sessions_homework_id_fkey"
+            columns: ["homework_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_homework"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_gear_lists: {
         Row: {
           checked_off: Json | null
@@ -9978,6 +10526,73 @@ export type Database = {
           list_date?: string
         }
         Relationships: []
+      }
+      toroa_geofence_events: {
+        Row: {
+          child_id: string | null
+          event_type: string
+          family_id: string
+          id: string
+          latitude: number | null
+          location_id: string | null
+          location_label: string | null
+          longitude: number | null
+          member_name: string
+          notification_sent_at: string | null
+          notified: boolean | null
+          occurred_at: string
+        }
+        Insert: {
+          child_id?: string | null
+          event_type: string
+          family_id: string
+          id?: string
+          latitude?: number | null
+          location_id?: string | null
+          location_label?: string | null
+          longitude?: number | null
+          member_name: string
+          notification_sent_at?: string | null
+          notified?: boolean | null
+          occurred_at?: string
+        }
+        Update: {
+          child_id?: string | null
+          event_type?: string
+          family_id?: string
+          id?: string
+          latitude?: number | null
+          location_id?: string | null
+          location_label?: string | null
+          longitude?: number | null
+          member_name?: string
+          notification_sent_at?: string | null
+          notified?: boolean | null
+          occurred_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_geofence_events_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_geofence_events_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_geofence_events_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_family_locations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       toroa_grade_history: {
         Row: {
@@ -10042,45 +10657,210 @@ export type Database = {
         }
         Relationships: []
       }
-      toroa_homework: {
+      toroa_growth_tracking: {
+        Row: {
+          bmi: number | null
+          child_id: string
+          created_at: string
+          family_id: string
+          head_circumference_cm: number | null
+          height_cm: number | null
+          id: string
+          measured_by: string | null
+          measured_date: string
+          notes: string | null
+          percentile_height: number | null
+          percentile_weight: number | null
+          weight_kg: number | null
+        }
+        Insert: {
+          bmi?: number | null
+          child_id: string
+          created_at?: string
+          family_id: string
+          head_circumference_cm?: number | null
+          height_cm?: number | null
+          id?: string
+          measured_by?: string | null
+          measured_date: string
+          notes?: string | null
+          percentile_height?: number | null
+          percentile_weight?: number | null
+          weight_kg?: number | null
+        }
+        Update: {
+          bmi?: number | null
+          child_id?: string
+          created_at?: string
+          family_id?: string
+          head_circumference_cm?: number | null
+          height_cm?: number | null
+          id?: string
+          measured_by?: string | null
+          measured_date?: string
+          notes?: string | null
+          percentile_height?: number | null
+          percentile_weight?: number | null
+          weight_kg?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_growth_tracking_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_growth_tracking_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_health_records: {
         Row: {
           child_id: string | null
+          clinic: string | null
           created_at: string
+          deleted_at: string | null
+          document_url: string | null
+          family_id: string
+          id: string
+          is_confidential: boolean | null
+          is_minor_record: boolean | null
+          member_name: string
+          next_due: string | null
+          notes: string | null
+          provider: string | null
+          record_date: string | null
+          record_type: string
+          reminder_days_before: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          child_id?: string | null
+          clinic?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          document_url?: string | null
+          family_id: string
+          id?: string
+          is_confidential?: boolean | null
+          is_minor_record?: boolean | null
+          member_name: string
+          next_due?: string | null
+          notes?: string | null
+          provider?: string | null
+          record_date?: string | null
+          record_type: string
+          reminder_days_before?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          child_id?: string | null
+          clinic?: string | null
+          created_at?: string
+          deleted_at?: string | null
+          document_url?: string | null
+          family_id?: string
+          id?: string
+          is_confidential?: boolean | null
+          is_minor_record?: boolean | null
+          member_name?: string
+          next_due?: string | null
+          notes?: string | null
+          provider?: string | null
+          record_date?: string | null
+          record_type?: string
+          reminder_days_before?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_health_records_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_health_records_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_homework: {
+        Row: {
+          ai_help_used: boolean | null
+          child_id: string | null
+          created_at: string
+          curriculum_area: string | null
+          curriculum_strand: string | null
           description: string | null
+          difficulty: string | null
           due_date: string | null
           due_time: string | null
           estimated_hours: number | null
           family_id: string
           id: string
+          ncea_standard: string | null
+          parent_notes: string | null
           status: string
           subject: string | null
+          time_spent_minutes: number | null
           title: string
+          year_level: number | null
         }
         Insert: {
+          ai_help_used?: boolean | null
           child_id?: string | null
           created_at?: string
+          curriculum_area?: string | null
+          curriculum_strand?: string | null
           description?: string | null
+          difficulty?: string | null
           due_date?: string | null
           due_time?: string | null
           estimated_hours?: number | null
           family_id: string
           id?: string
+          ncea_standard?: string | null
+          parent_notes?: string | null
           status?: string
           subject?: string | null
+          time_spent_minutes?: number | null
           title: string
+          year_level?: number | null
         }
         Update: {
+          ai_help_used?: boolean | null
           child_id?: string | null
           created_at?: string
+          curriculum_area?: string | null
+          curriculum_strand?: string | null
           description?: string | null
+          difficulty?: string | null
           due_date?: string | null
           due_time?: string | null
           estimated_hours?: number | null
           family_id?: string
           id?: string
+          ncea_standard?: string | null
+          parent_notes?: string | null
           status?: string
           subject?: string | null
+          time_spent_minutes?: number | null
           title?: string
+          year_level?: number | null
         }
         Relationships: [
           {
@@ -10092,6 +10872,78 @@ export type Database = {
           },
           {
             foreignKeyName: "toroa_homework_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      toroa_immunisation_schedule: {
+        Row: {
+          administered_by: string | null
+          administered_date: string | null
+          batch_number: string | null
+          child_id: string
+          clinic: string | null
+          created_at: string
+          family_id: string
+          id: string
+          nz_schedule_ref: string | null
+          scheduled_age: string | null
+          scheduled_date: string | null
+          side_effects_noted: string | null
+          status: string | null
+          updated_at: string
+          vaccine_code: string | null
+          vaccine_name: string
+        }
+        Insert: {
+          administered_by?: string | null
+          administered_date?: string | null
+          batch_number?: string | null
+          child_id: string
+          clinic?: string | null
+          created_at?: string
+          family_id: string
+          id?: string
+          nz_schedule_ref?: string | null
+          scheduled_age?: string | null
+          scheduled_date?: string | null
+          side_effects_noted?: string | null
+          status?: string | null
+          updated_at?: string
+          vaccine_code?: string | null
+          vaccine_name: string
+        }
+        Update: {
+          administered_by?: string | null
+          administered_date?: string | null
+          batch_number?: string | null
+          child_id?: string
+          clinic?: string | null
+          created_at?: string
+          family_id?: string
+          id?: string
+          nz_schedule_ref?: string | null
+          scheduled_age?: string | null
+          scheduled_date?: string | null
+          side_effects_noted?: string | null
+          status?: string | null
+          updated_at?: string
+          vaccine_code?: string | null
+          vaccine_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_immunisation_schedule_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_immunisation_schedule_family_id_fkey"
             columns: ["family_id"]
             isOneToOne: false
             referencedRelation: "toroa_families"
@@ -10216,6 +11068,74 @@ export type Database = {
           },
         ]
       }
+      toroa_money_transactions: {
+        Row: {
+          amount: number
+          child_id: string
+          chore_id: string | null
+          created_at: string
+          description: string | null
+          family_id: string
+          goal_id: string | null
+          id: string
+          jar: string
+          transaction_type: string
+        }
+        Insert: {
+          amount: number
+          child_id: string
+          chore_id?: string | null
+          created_at?: string
+          description?: string | null
+          family_id: string
+          goal_id?: string | null
+          id?: string
+          jar: string
+          transaction_type: string
+        }
+        Update: {
+          amount?: number
+          child_id?: string
+          chore_id?: string | null
+          created_at?: string
+          description?: string | null
+          family_id?: string
+          goal_id?: string | null
+          id?: string
+          jar?: string
+          transaction_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_money_transactions_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_money_transactions_chore_id_fkey"
+            columns: ["chore_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_chore_assignments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_money_transactions_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_money_transactions_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_savings_goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_newsletters: {
         Row: {
           action_items: Json | null
@@ -10250,6 +11170,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      toroa_nz_immunisation_template: {
+        Row: {
+          age_months: number
+          created_at: string
+          dose_number: number | null
+          id: string
+          notes: string | null
+          scheduled_age: string
+          vaccine_code: string | null
+          vaccine_name: string
+        }
+        Insert: {
+          age_months: number
+          created_at?: string
+          dose_number?: number | null
+          id?: string
+          notes?: string | null
+          scheduled_age: string
+          vaccine_code?: string | null
+          vaccine_name: string
+        }
+        Update: {
+          age_months?: number
+          created_at?: string
+          dose_number?: number | null
+          id?: string
+          notes?: string | null
+          scheduled_age?: string
+          vaccine_code?: string | null
+          vaccine_name?: string
+        }
+        Relationships: []
       }
       toroa_pets: {
         Row: {
@@ -10360,6 +11313,60 @@ export type Database = {
           },
         ]
       }
+      toroa_routine_completions: {
+        Row: {
+          child_id: string | null
+          completion_date: string
+          completion_percent: number | null
+          created_at: string
+          id: string
+          parent_verified: boolean | null
+          points_earned: number | null
+          routine_id: string
+          steps_completed: Json | null
+          time_taken_minutes: number | null
+        }
+        Insert: {
+          child_id?: string | null
+          completion_date: string
+          completion_percent?: number | null
+          created_at?: string
+          id?: string
+          parent_verified?: boolean | null
+          points_earned?: number | null
+          routine_id: string
+          steps_completed?: Json | null
+          time_taken_minutes?: number | null
+        }
+        Update: {
+          child_id?: string | null
+          completion_date?: string
+          completion_percent?: number | null
+          created_at?: string
+          id?: string
+          parent_verified?: boolean | null
+          points_earned?: number | null
+          routine_id?: string
+          steps_completed?: Json | null
+          time_taken_minutes?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_routine_completions_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_routine_completions_routine_id_fkey"
+            columns: ["routine_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_daily_routines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       toroa_saved_routes: {
         Row: {
           active: boolean | null
@@ -10413,6 +11420,66 @@ export type Database = {
           typical_duration_mins?: number | null
         }
         Relationships: []
+      }
+      toroa_savings_goals: {
+        Row: {
+          achieved_at: string | null
+          child_id: string
+          created_at: string
+          deleted_at: string | null
+          family_id: string
+          goal_name: string
+          id: string
+          photo_url: string | null
+          saved_amount: number | null
+          status: string | null
+          target_amount: number
+          target_date: string | null
+        }
+        Insert: {
+          achieved_at?: string | null
+          child_id: string
+          created_at?: string
+          deleted_at?: string | null
+          family_id: string
+          goal_name: string
+          id?: string
+          photo_url?: string | null
+          saved_amount?: number | null
+          status?: string | null
+          target_amount: number
+          target_date?: string | null
+        }
+        Update: {
+          achieved_at?: string | null
+          child_id?: string
+          created_at?: string
+          deleted_at?: string | null
+          family_id?: string
+          goal_name?: string
+          id?: string
+          photo_url?: string | null
+          saved_amount?: number | null
+          status?: string | null
+          target_amount?: number
+          target_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_savings_goals_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "toroa_savings_goals_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       toroa_school_reports: {
         Row: {
@@ -10709,6 +11776,65 @@ export type Database = {
           status?: string
         }
         Relationships: []
+      }
+      toroa_weekly_snapshots: {
+        Row: {
+          challenges: Json | null
+          chores_completed: number | null
+          created_at: string
+          family_id: string
+          focus_sessions: number | null
+          generated_summary: string | null
+          gratitude: Json | null
+          highlights: Json | null
+          homework_minutes: number | null
+          id: string
+          money_earned: number | null
+          photo_urls: string[] | null
+          routines_completed: number | null
+          week_starting: string
+        }
+        Insert: {
+          challenges?: Json | null
+          chores_completed?: number | null
+          created_at?: string
+          family_id: string
+          focus_sessions?: number | null
+          generated_summary?: string | null
+          gratitude?: Json | null
+          highlights?: Json | null
+          homework_minutes?: number | null
+          id?: string
+          money_earned?: number | null
+          photo_urls?: string[] | null
+          routines_completed?: number | null
+          week_starting: string
+        }
+        Update: {
+          challenges?: Json | null
+          chores_completed?: number | null
+          created_at?: string
+          family_id?: string
+          focus_sessions?: number | null
+          generated_summary?: string | null
+          gratitude?: Json | null
+          highlights?: Json | null
+          homework_minutes?: number | null
+          id?: string
+          money_earned?: number | null
+          photo_urls?: string[] | null
+          routines_completed?: number | null
+          week_starting?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "toroa_weekly_snapshots_family_id_fkey"
+            columns: ["family_id"]
+            isOneToOne: false
+            referencedRelation: "toroa_families"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tradie_availability: {
         Row: {
