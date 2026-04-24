@@ -343,7 +343,6 @@ Deno.serve(async (req) => {
         action.humanSignoff !== true
       ) {
         try {
-          const userId = (claimsData.claims as { sub?: string }).sub ?? null;
           // 7-day expiry — tenders shouldn't sit in the queue indefinitely.
           const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
           // Use service-role client so the insert isn't blocked by RLS
