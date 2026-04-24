@@ -181,9 +181,54 @@ export default function AdminAgentPromptsPage() {
     );
   }, [draft, selected]);
 
+  const loadHistory = useCallback(async (promptId: string) => {
+    setHistoryLoading(true);
+    const { data, error } = await supabase
+      .from("agent_prompt_versions")
+      .select("*")
+      .eq("prompt_id", promptId)
+      .order("created_at", { ascending: false })
+      .limit(50);
+    setHistoryLoading(false);
+    if (error) {
+      toast.error(`History failed: ${error.message}`);
+      return;
+    }
+    setHistory((data ?? []) as PromptVersion[]);
+  }, []);
+
+  useEffect(() => {
+    setShowHistory(false);
+    setPreviewVersion(null);
+    setHistory([]);
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (showHistory && selected) void loadHistory(selected.id);
+  }, [showHistory, selected, loadHistory]);
+
+  const snapshotCurrent = async (row: AgentPrompt, note: string | null) => {
+    await supabase.from("agent_prompt_versions").insert({
+      prompt_id: row.id,
+      agent_name: row.agent_name,
+      pack: row.pack,
+      display_name: row.display_name,
+      icon: row.icon,
+      system_prompt: row.system_prompt,
+      model_preference: row.model_preference,
+      is_active: row.is_active,
+      version: row.version ?? 1,
+      changed_by: user?.id ?? null,
+      change_note: note,
+    });
+  };
+
   const handleSave = async () => {
     if (!selected) return;
     setSaving(true);
+    // Snapshot the OUTGOING version before mutating the row
+    await snapshotCurrent(selected, changeNote.trim() || null);
+    const newVersion = (selected.version ?? 1) + 1;
     const { error } = await supabase
       .from("agent_prompts")
       .update({
@@ -192,7 +237,7 @@ export default function AdminAgentPromptsPage() {
         system_prompt: draft.system_prompt ?? selected.system_prompt,
         model_preference: draft.model_preference ?? selected.model_preference,
         is_active: draft.is_active ?? selected.is_active,
-        version: (selected.version ?? 1) + 1,
+        version: newVersion,
         updated_at: new Date().toISOString(),
       })
       .eq("id", selected.id);
@@ -201,9 +246,39 @@ export default function AdminAgentPromptsPage() {
       toast.error(`Save failed: ${error.message}`);
       return;
     }
-    toast.success(`${selected.display_name} updated to v${(selected.version ?? 1) + 1}`);
+    setChangeNote("");
+    toast.success(`${selected.display_name} updated to v${newVersion}`);
     await load();
+    if (showHistory) await loadHistory(selected.id);
   };
+
+  const handleRestore = async (version: PromptVersion) => {
+    if (!selected) return;
+    if (!confirm(`Restore ${selected.display_name} to v${version.version}? Current state will be saved to history.`)) return;
+    await snapshotCurrent(selected, `Auto-snapshot before restore to v${version.version}`);
+    const newVersion = (selected.version ?? 1) + 1;
+    const { error } = await supabase
+      .from("agent_prompts")
+      .update({
+        display_name: version.display_name,
+        icon: version.icon,
+        system_prompt: version.system_prompt,
+        model_preference: version.model_preference,
+        is_active: version.is_active,
+        version: newVersion,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", selected.id);
+    if (error) {
+      toast.error(`Restore failed: ${error.message}`);
+      return;
+    }
+    toast.success(`Restored to v${version.version} (now v${newVersion})`);
+    setPreviewVersion(null);
+    await load();
+    await loadHistory(selected.id);
+  };
+
 
   const handleToggleActive = async (row: AgentPrompt) => {
     const { error } = await supabase
