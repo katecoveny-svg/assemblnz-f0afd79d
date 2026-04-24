@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import AdminShell from "@/components/admin/AdminShell";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, CartesianGrid } from "recharts";
 import { Activity, DollarSign, Zap, Users, TrendingUp, Shield, RefreshCw } from "lucide-react";
+import KeteDashboardLiveRow from "@/components/kete/KeteDashboardLiveRow";
 
 const ADMIN_EMAILS = ["assembl@assembl.co.nz", "kate@assembl.co.nz"];
 
@@ -152,6 +153,10 @@ export default function AdminAnalyticsDashboard() {
         </button>
       }
     >
+
+        <div className="mb-6">
+          <KeteDashboardLiveRow kete="admin" />
+        </div>
 
         {data && (
           <>

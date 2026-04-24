@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Activity, CheckCircle, XCircle, RefreshCw } from "lucide-react";
 import AdminShell from "@/components/admin/AdminShell";
+import KeteDashboardLiveRow from "@/components/kete/KeteDashboardLiveRow";
 
 interface HealthCheck {
   id: string;
@@ -131,6 +132,9 @@ export default function AdminHealthDashboard() {
       }
     >
       <div className="space-y-6">
+
+        {/* Live signals — same NZ data feeds the agents in /chat */}
+        <KeteDashboardLiveRow kete="admin" />
 
         {/* Service Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
