@@ -10745,6 +10745,69 @@ export type Database = {
         }
         Relationships: []
       }
+      waihanga_compliance_audit: {
+        Row: {
+          action_confidence: number | null
+          action_id: string
+          action_kind: string
+          action_payload: Json
+          action_rationale: string | null
+          applied: boolean
+          created_at: string
+          decided_at: string
+          domain: string
+          evaluations: Json
+          explanation: string | null
+          failed_policy_ids: string[]
+          id: string
+          pilot_label: string | null
+          source_ip: string | null
+          user_agent: string | null
+          verdict: string
+          world_snapshot: Json
+        }
+        Insert: {
+          action_confidence?: number | null
+          action_id: string
+          action_kind: string
+          action_payload?: Json
+          action_rationale?: string | null
+          applied?: boolean
+          created_at?: string
+          decided_at?: string
+          domain?: string
+          evaluations?: Json
+          explanation?: string | null
+          failed_policy_ids?: string[]
+          id?: string
+          pilot_label?: string | null
+          source_ip?: string | null
+          user_agent?: string | null
+          verdict: string
+          world_snapshot?: Json
+        }
+        Update: {
+          action_confidence?: number | null
+          action_id?: string
+          action_kind?: string
+          action_payload?: Json
+          action_rationale?: string | null
+          applied?: boolean
+          created_at?: string
+          decided_at?: string
+          domain?: string
+          evaluations?: Json
+          explanation?: string | null
+          failed_policy_ids?: string[]
+          id?: string
+          pilot_label?: string | null
+          source_ip?: string | null
+          user_agent?: string | null
+          verdict?: string
+          world_snapshot?: Json
+        }
+        Relationships: []
+      }
       waihanga_consent_checks: {
         Row: {
           ambers: Json
