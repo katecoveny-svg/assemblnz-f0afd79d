@@ -316,6 +316,16 @@ const AgentWorkspacePage: React.FC = () => {
           </Panel>
         </div>
       </div>
+
+      <UploadEvidencePackDialog
+        open={uploadOpen}
+        onOpenChange={setUploadOpen}
+        agentName={agent.name}
+        agentDesignation={agent.designation}
+        keteCode={keteCode}
+        accent={accent}
+        onCompleted={() => queryClient.invalidateQueries({ queryKey: ["agent-workspace", "evidence"] })}
+      />
     </div>
   );
 };
