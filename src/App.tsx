@@ -152,7 +152,26 @@ const AdminMessagingDashboard = lazy(() => import("./pages/AdminMessagingDashboa
 const AdminMessagingLive = lazy(() => import("./pages/AdminMessagingLive"));
 const ManaakiDashboard = lazy(() => import("./components/manaaki/ManaakiDashboard"));
 const AratakiDashboard = lazy(() => import("./components/arataki/AratakiDashboard"));
+const AratakiLayout = lazy(() => import("./components/arataki/AratakiLayout"));
+const AratakiWorkshop = lazy(() => import("./components/arataki/AratakiWorkshop"));
+const AratakiLoanCars = lazy(() => import("./components/arataki/AratakiLoanCars"));
+const AratakiWofCalendar = lazy(() => import("./components/arataki/AratakiWofCalendar"));
+const ForgePartsService = lazy(() => import("./components/forge/ForgePartsService"));
 const PikauDashboard = lazy(() => import("./components/pikau/PikauDashboard"));
+const PikauLayout = lazy(() => import("./components/pikau/PikauLayout"));
+const PikauShipments = lazy(() => import("./components/pikau/PikauShipments"));
+const PikauCustoms = lazy(() => import("./components/pikau/PikauCustoms"));
+const PikauLandedCost = lazy(() => import("./components/pikau/PikauLandedCost"));
+const PikauBiosecurity = lazy(() => import("./components/pikau/PikauBiosecurity"));
+const PikauDangerousGoods = lazy(() => import("./components/pikau/PikauDangerousGoods"));
+const PikauFtaChecker = lazy(() => import("./components/pikau/PikauFtaChecker"));
+const FluxLayout = lazy(() => import("./components/flux/FluxLayout"));
+const FluxLeadPipeline = lazy(() => import("./components/flux/FluxLeadPipeline"));
+const FluxDealRoom = lazy(() => import("./components/flux/FluxDealRoom"));
+const FluxClients = lazy(() => import("./components/flux/FluxClients"));
+const FluxFollowUps = lazy(() => import("./components/flux/FluxFollowUps"));
+const FluxCallPrep = lazy(() => import("./components/flux/FluxCallPrep"));
+const AuahaKahuQueue = lazy(() => import("./components/auaha/AuahaKahuQueue"));
 const ToroaDashboard = lazy(() => import("./components/toroa/ToroaDashboard"));
 const ToroDashboard = lazy(() => import("./pages/ToroDashboard"));
 const HuiMeetingCopilot = lazy(() => import("./pages/HuiMeetingCopilot"));
@@ -380,7 +399,13 @@ const App = () => (
                         <Route path="/manaaki/dashboard" element={<Suspense fallback={null}><ManaakiDashboard /></Suspense>} />
 
                         <Route path="/arataki" element={<Suspense fallback={null}><AratakiLandingPage /></Suspense>} />
-                        <Route path="/arataki/dashboard" element={<Suspense fallback={null}><AratakiDashboard /></Suspense>} />
+                        <Route path="/arataki/legacy-dashboard" element={<Suspense fallback={null}><AratakiDashboard /></Suspense>} />
+                        <Route path="/arataki/dashboard" element={<Suspense fallback={null}><AratakiLayout /></Suspense>}>
+                          <Route index element={<AratakiWorkshop />} />
+                          <Route path="loan-cars" element={<AratakiLoanCars />} />
+                          <Route path="wof-calendar" element={<AratakiWofCalendar />} />
+                          <Route path="parts" element={<ForgePartsService />} />
+                        </Route>
                         <Route path="/arataki/fuel-oracle" element={<Suspense fallback={null}><AratakiFuelOracle /></Suspense>} />
                         <Route path="/arataki/vehicle-economy" element={<Suspense fallback={null}><AratakiVehicleEconomy /></Suspense>} />
                         <Route path="/arataki/route-intelligence" element={<Suspense fallback={null}><AratakiRouteIntelligence /></Suspense>} />
@@ -389,7 +414,23 @@ const App = () => (
                         <Route path="/simulator" element={<Suspense fallback={null}><SimulatorHub /></Suspense>} />
 
                         <Route path="/pikau" element={<Suspense fallback={null}><PikauLandingPage /></Suspense>} />
-                        <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
+                        <Route path="/pikau/legacy-dashboard" element={<Suspense fallback={null}><PikauDashboard /></Suspense>} />
+                        <Route path="/pikau/dashboard" element={<Suspense fallback={null}><PikauLayout /></Suspense>}>
+                          <Route index element={<PikauShipments />} />
+                          <Route path="customs" element={<PikauCustoms />} />
+                          <Route path="landed-cost" element={<PikauLandedCost />} />
+                          <Route path="biosecurity" element={<PikauBiosecurity />} />
+                          <Route path="dangerous-goods" element={<PikauDangerousGoods />} />
+                          <Route path="fta" element={<PikauFtaChecker />} />
+                        </Route>
+
+                        <Route path="/flux" element={<Suspense fallback={null}><FluxLayout /></Suspense>}>
+                          <Route index element={<FluxLeadPipeline />} />
+                          <Route path="deals" element={<FluxDealRoom />} />
+                          <Route path="clients" element={<FluxClients />} />
+                          <Route path="follow-ups" element={<FluxFollowUps />} />
+                          <Route path="call-prep" element={<FluxCallPrep />} />
+                        </Route>
 
                         <Route path="/hoko" element={<Suspense fallback={null}><HokoLandingPage /></Suspense>} />
                         <Route path="/ako" element={<Suspense fallback={null}><AkoLandingPage /></Suspense>} />
@@ -451,6 +492,7 @@ const App = () => (
                           <Route path="app-spark" element={<AppSparkForge />} />
                           <Route path="brand-scan" element={<AuahaBrandScanner />} />
                           <Route path="reels" element={<ReelsPage />} />
+                          <Route path="queue" element={<AuahaKahuQueue />} />
                         </Route>
 
                         <Route path="/hanga" element={<Navigate to="/waihanga" replace />} />
