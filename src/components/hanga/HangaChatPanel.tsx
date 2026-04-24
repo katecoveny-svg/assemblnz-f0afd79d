@@ -80,7 +80,25 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [activeAgent, setActiveAgent] = useState<string | null>(null);
+  const [supervisorContext, setSupervisorContext] = useState<SupervisorComplianceContext>(
+    DEFAULT_SUPERVISOR_CONTEXT,
+  );
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const isWaihanga = packId === "waihanga" || packId === "hanga";
+
+  const pushSystemNote = (note: string) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content: `**Supervisor action:** ${note}`,
+        agentName: "Site Supervisor",
+        agentIcon: "HardHat",
+      },
+    ]);
+  };
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
