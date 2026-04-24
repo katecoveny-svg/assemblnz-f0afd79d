@@ -20,6 +20,7 @@ import SignalDashboard from "@/components/signal/SignalDashboard";
 import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 import { useAgentChatParams } from "@/hooks/useAgentChatParams";
 import { ChatSettingsPanel } from "@/components/chat/ChatSettingsPanel";
+import ChatImageMessage, { extractInlineImages } from "@/components/chat/ChatImageMessage";
 
 interface Message {
   role: "user" | "assistant";
@@ -289,35 +290,53 @@ export default function AgentApp() {
                   </div>
                 )}
 
-                {messages.map((msg, i) => (
-                  <div key={i} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : ""}`}>
-                    {msg.role === "assistant" && (
-                      <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
-                        <AgentAvatar agentId={agent.id} color={color} size={28} showGlow={false} />
+                {messages.map((msg, i) => {
+                  const isUser = msg.role === "user";
+                  const { text, images, generating } = isUser
+                    ? { text: msg.content, images: [], generating: false }
+                    : extractInlineImages(msg.content);
+                  const hasImages = images.length > 0 || generating;
+                  return (
+                    <div key={i} className={`flex gap-3 ${isUser ? "justify-end" : ""}`}>
+                      {!isUser && (
+                        <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
+                          <AgentAvatar agentId={agent.id} color={color} size={28} showGlow={false} />
+                        </div>
+                      )}
+                      <div className={`flex flex-col gap-2 max-w-[85%] ${isUser ? "items-end" : "items-start"}`}>
+                        {(text || !hasImages) && (
+                          <div className="rounded-2xl px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap"
+                            style={{
+                              background: isUser ? color + "20" : "rgba(255,255,255,0.85)",
+                              color: "#3D4250",
+                              border: `1px solid ${isUser ? color + "30" : "rgba(142,129,119,0.18)"}`,
+                              boxShadow: "0 8px 30px rgba(111,97,88,0.06)",
+                            }}>
+                            {text || (hasImages ? "" : msg.content)}
+                          </div>
+                        )}
+                        {generating && (
+                          <ChatImageMessage loading accentColor={color} />
+                        )}
+                        {images.map((img, idx) => (
+                          <ChatImageMessage key={idx} url={img.url} alt={img.alt} accentColor={color} />
+                        ))}
                       </div>
-                    )}
-                    <div className="rounded-2xl px-4 py-2.5 max-w-[85%] text-sm leading-relaxed whitespace-pre-wrap"
-                      style={{
-                        background: msg.role === "user" ? color + "20" : "rgba(255,255,255,0.85)",
-                        color: "#3D4250",
-                        border: `1px solid ${msg.role === "user" ? color + "30" : "rgba(74,165,168,0.15)"}`,
-                      }}>
-                      {msg.content}
+                      {isUser && (
+                        <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center bg-white/10">
+                          <User size={14} className="text-gray-500" />
+                        </div>
+                      )}
                     </div>
-                    {msg.role === "user" && (
-                      <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center bg-white/10">
-                        <User size={14} className="text-gray-500" />
-                      </div>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
 
                 {loading && (
                   <div className="flex gap-3">
                     <div className="w-7 h-7 rounded-full shrink-0 flex items-center justify-center">
                       <AgentAvatar agentId={agent.id} color={color} size={28} showGlow={false} />
                     </div>
-                    <div className="rounded-2xl px-4 py-3" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
+                    <div className="rounded-2xl px-4 py-3" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(142,129,119,0.18)", boxShadow: "0 8px 30px rgba(111,97,88,0.06)" }}>
                       <div className="flex gap-1.5">
                         {[0, 0.2, 0.4].map(delay => (
                           <motion.div key={delay} className="w-2 h-2 rounded-full" style={{ background: color }}
