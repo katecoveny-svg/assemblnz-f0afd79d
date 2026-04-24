@@ -11,6 +11,13 @@ import {
   DEFAULT_SUPERVISOR_CONTEXT,
   type SupervisorComplianceContext,
 } from "./SupervisorControls";
+import { GovernanceAuditPanel } from "./GovernanceAuditPanel";
+import {
+  useGovernanceAuditLog,
+  deriveActionKind,
+  type AuditPolicyEvaluation,
+  type AuditVerdict,
+} from "./useGovernanceAuditLog";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
@@ -86,6 +93,9 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const isWaihanga = packId === "waihanga" || packId === "hanga";
+  const auditKete = isWaihanga ? "WAIHANGA" : packId.toUpperCase();
+  const { entries: auditEntries, record: recordAudit, clear: clearAudit } =
+    useGovernanceAuditLog(auditKete);
 
   const pushSystemNote = (note: string) => {
     setMessages((prev) => [
@@ -115,6 +125,17 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
     let assistantContent = "";
     let agentName = "IHO Brain";
     let agentIcon = "Brain";
+    const startedAt = performance.now();
+
+    const buildAuditContext = () => ({
+      ppeConfirmed: supervisorContext.ppeConfirmed,
+      workerConsent: supervisorContext.workerConsent,
+      containsWorkers: supervisorContext.containsWorkers,
+      humanSignoff: supervisorContext.humanSignoff,
+      headcount: supervisorContext.world.headcount,
+      headcountCap: supervisorContext.world.headcountCap,
+      criticalHazardZones: supervisorContext.world.criticalHazardZones,
+    });
 
     try {
       const resp = await fetch(CHAT_URL, {
@@ -132,8 +153,25 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
         }),
       });
 
+      // Compliance pre-check rejections (403/409) carry verdict + evaluations
       if (!resp.ok) {
         const err = await resp.json().catch(() => ({ error: "AI request failed" }));
+        if (isWaihanga && (resp.status === 403 || resp.status === 409) && err?.verdict) {
+          const verdict = err.verdict as AuditVerdict;
+          recordAudit({
+            kete: auditKete,
+            agentName: "Compliance pre-check",
+            action: err.action ?? deriveActionKind(text, undefined),
+            zone: supervisorContext.zone,
+            verdict,
+            rationale: err.error ?? "Blocked by policy",
+            evaluations: (err.evaluations ?? []) as AuditPolicyEvaluation[],
+            context: buildAuditContext(),
+            userMessagePreview: text.trim().slice(0, 120),
+            approvalId: err.approvalId ?? null,
+            durationMs: Math.round(performance.now() - startedAt),
+          });
+        }
         throw new Error(err.error || `Error ${resp.status}`);
       }
 
@@ -174,6 +212,23 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
             }
           } catch { /* partial JSON */ }
         }
+      }
+
+      // Allowed turn — log inferred action
+      if (isWaihanga) {
+        const action = deriveActionKind(text, undefined);
+        recordAudit({
+          kete: auditKete,
+          agentName,
+          action,
+          zone: supervisorContext.zone,
+          verdict: "allow",
+          rationale: "Approved by Waihanga compliance pre-check",
+          evaluations: [],
+          context: buildAuditContext(),
+          userMessagePreview: text.trim().slice(0, 120),
+          durationMs: Math.round(performance.now() - startedAt),
+        });
       }
     } catch (e) {
       const errMsg = e instanceof Error ? e.message : "Something went wrong";
@@ -248,6 +303,15 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                 context={supervisorContext}
                 onChange={setSupervisorContext}
                 onSystemNote={pushSystemNote}
+              />
+            )}
+
+            {/* Governed action audit log */}
+            {isWaihanga && (
+              <GovernanceAuditPanel
+                entries={auditEntries}
+                onClear={clearAudit}
+                kete={auditKete}
               />
             )}
 
