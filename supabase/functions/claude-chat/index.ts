@@ -101,6 +101,7 @@ const corsHeaders = {
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
 
 // Per-agent system prompts. Mirrors AGENTS in /mcp-chat so swapping providers
@@ -283,7 +284,13 @@ Deno.serve(async (req) => {
           const userId = (claimsData.claims as { sub?: string }).sub ?? null;
           // 7-day expiry — tenders shouldn't sit in the queue indefinitely.
           const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
-          const { data: queueItem, error: queueErr } = await userClient
+          // Use service-role client so the insert isn't blocked by RLS
+          // (approval_queue lets authenticated users read/update but writes
+          // are system-managed).
+          const queueClient = SUPABASE_SERVICE_ROLE_KEY
+            ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
+            : userClient;
+          const { data: queueItem, error: queueErr } = await queueClient
             .from("approval_queue")
             .insert({
               request_id: `waihanga-tender-${crypto.randomUUID()}`,
