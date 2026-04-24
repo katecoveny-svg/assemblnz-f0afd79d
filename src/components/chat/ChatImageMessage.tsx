@@ -100,7 +100,7 @@ export default function ChatImageMessage({
   if (errored) {
     return (
       <div
-        className="w-full max-w-sm rounded-2xl border px-4 py-6 flex items-center gap-3"
+        className="w-full max-w-sm rounded-2xl border px-4 py-4 flex items-center gap-3"
         style={{
           background: "hsl(var(--card))",
           borderColor: "rgba(200,90,84,0.25)",
@@ -108,9 +108,23 @@ export default function ChatImageMessage({
         }}
       >
         <AlertCircle size={18} style={{ color: "hsl(var(--destructive))" }} />
-        <div className="text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>
+        <div className="flex-1 text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>
           Couldn't load this image.
         </div>
+        <button
+          type="button"
+          onClick={handleRetry}
+          className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-body transition-colors hover:bg-[hsl(var(--muted))]"
+          style={{
+            borderColor: "rgba(142,129,119,0.25)",
+            color: "hsl(var(--foreground))",
+            background: "hsl(var(--background))",
+          }}
+          aria-label="Retry loading image"
+        >
+          <RefreshCw size={12} />
+          Retry
+        </button>
       </div>
     );
   }
