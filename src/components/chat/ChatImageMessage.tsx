@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ImageIcon, Download, AlertCircle } from "lucide-react";
+import { ImageIcon, Download, AlertCircle, RefreshCw } from "lucide-react";
 
 interface ChatImageMessageProps {
   /** Final image URL (https://… or data:image/…). When undefined and `loading` is true, shows skeleton. */
