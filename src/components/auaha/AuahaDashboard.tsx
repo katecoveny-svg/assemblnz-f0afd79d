@@ -1,17 +1,20 @@
-import React from "react";
-import { TrendingUp, TrendingDown, Eye, Heart, FileText, DollarSign, Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Pipette, Timer, ArrowRight, CreditCard, Zap, Sparkles, Activity, MonitorPlay } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { TrendingUp, TrendingDown, Eye, Heart, FileText, DollarSign, Palette, PenTool, Image, Video, Mic, Megaphone, Calendar, BarChart3, Pipette, Timer, ArrowRight, CreditCard, Zap, Sparkles, Activity, MonitorPlay, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import KeteBrainChat from "@/components/KeteBrainChat";
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie, Cell } from "recharts";
 import { motion } from "framer-motion";
 import KeteDashboardShell from "@/components/kete/KeteDashboardShell";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
+import DashboardRefreshButton from "@/components/kete/DashboardRefreshButton";
 import { useAuahaDashboardMetrics, useRecentContentItems, useAuahaCampaigns } from "@/hooks/useAuahaData";
+import { useDashboardRefresh } from "@/hooks/useDashboardRefresh";
 import SovereigntyPanel from "@/components/sovereignty/SovereigntyPanel";
 
 import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "sonner";
 
 // Auaha palette — light theme
 const ACCENT = "#4AA5A8";       // ochre (deeper for contrast on white)
@@ -110,14 +113,50 @@ function GlassCard({ children, className = "", accent = false, onClick, glow = f
 
 export default function AuahaDashboard() {
   const navigate = useNavigate();
-  const { data: metrics } = useAuahaDashboardMetrics();
-  const { data: recentItems } = useRecentContentItems(5);
-  const { data: campaigns } = useAuahaCampaigns();
+  const metricsQuery = useAuahaDashboardMetrics();
+  const recentQuery = useRecentContentItems(5);
+  const campaignsQuery = useAuahaCampaigns();
+
+  const { data: metrics, isLoading: metricsLoading, isFetching: metricsFetching, error: metricsError, dataUpdatedAt } = metricsQuery;
+  const { data: recentItems, error: recentError } = recentQuery;
+  const { data: campaigns, error: campaignsError } = campaignsQuery;
 
   const pipelineCounts = metrics?.pipelineCounts || {};
   const totalContent = metrics?.contentCount || 0;
   const totalCampaigns = metrics?.campaignCount || 0;
   const totalAssets = metrics?.assetCount || 0;
+
+  // Auto-refresh + manual reload (errors surface as toasts).
+  const { reload } = useDashboardRefresh({
+    queries: [
+      { key: ["auaha-dashboard-metrics"], label: "Metrics" },
+      { key: ["auaha-recent-content"], label: "Recent activity" },
+      { key: ["auaha-campaigns"], label: "Campaigns" },
+    ],
+    intervalMs: 30_000,
+  });
+
+  // Toast each query error once when it appears (background fetch failures).
+  const errorSeenRef = React.useRef<Set<string>>(new Set());
+  useEffect(() => {
+    const sources: Array<{ key: string; label: string; error: unknown }> = [
+      { key: "metrics", label: "Metrics", error: metricsError },
+      { key: "recent", label: "Recent activity", error: recentError },
+      { key: "campaigns", label: "Campaigns", error: campaignsError },
+    ];
+    for (const s of sources) {
+      if (s.error && !errorSeenRef.current.has(s.key)) {
+        errorSeenRef.current.add(s.key);
+        toast.error(`${s.label} failed to load`, {
+          description: s.error instanceof Error ? s.error.message : "Unknown error",
+        });
+      }
+      if (!s.error) errorSeenRef.current.delete(s.key);
+    }
+  }, [metricsError, recentError, campaignsError]);
+
+  const lastUpdatedAt = dataUpdatedAt ? new Date(dataUpdatedAt) : null;
+  const initialLoading = metricsLoading;
 
   const METRICS = [
     { label: "Content Items", value: String(totalContent), change: totalContent > 0 ? "live" : "—", up: totalContent > 0, icon: FileText },
