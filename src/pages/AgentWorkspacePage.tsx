@@ -106,6 +106,38 @@ const AgentWorkspacePage: React.FC = () => {
             <ArrowLeft size={12} /> Back to {agent.name} chat
           </Link>
           <div className="flex-1" />
+          <button
+            onClick={handleRerunLast}
+            disabled={rerunBusy || !runs.data?.length}
+            title="Re-run the most recent prompt against this agent"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs hover:brightness-95 disabled:opacity-50"
+            style={{
+              background: "rgba(255,255,255,0.65)",
+              border: `1px solid ${ASSEMBL_TOKENS.core.text["border-soft"]}`,
+              color: ASSEMBL_TOKENS.core.text["text-primary"],
+              fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+            }}
+          >
+            {rerunBusy ? (
+              <Loader2 size={12} className="animate-spin" />
+            ) : (
+              <PlayCircle size={12} />
+            )}
+            Re-run last
+          </button>
+          <button
+            onClick={handleRefresh}
+            title="Refresh all live feeds on this workspace"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs hover:brightness-95"
+            style={{
+              background: "rgba(255,255,255,0.65)",
+              border: `1px solid ${ASSEMBL_TOKENS.core.text["border-soft"]}`,
+              color: ASSEMBL_TOKENS.core.text["text-primary"],
+              fontFamily: ASSEMBL_TOKENS.core.fonts.mono,
+            }}
+          >
+            <RefreshCw size={12} /> Refresh
+          </button>
           <Link
             to={`/chat/${rawAgentId}`}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs hover:brightness-95"
