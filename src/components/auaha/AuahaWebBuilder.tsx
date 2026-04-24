@@ -106,12 +106,12 @@ export default function AuahaWebBuilder() {
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}18`, border: `1px solid ${ACCENT}30` }}>
                 <Globe className="w-5 h-5" style={{ color: ACCENT }} />
               </div>
-              <p className="text-[#6B7280] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>auaha &gt; web builder</p>
+              <p className="text-[#6B7280] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Inter, sans-serif' }}>auaha &gt; web builder</p>
             </div>
-            <h1 className="text-foreground text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Lato, sans-serif' }}>
+            <h1 className="text-foreground text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Inter, sans-serif' }}>
               Website Builder
             </h1>
-            <p className="text-[#1A1D29]/45 text-sm max-w-lg" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+            <p className="text-[#1A1D29]/45 text-sm max-w-lg" style={{ fontFamily: 'Inter, sans-serif' }}>
               Brief → Structure → Design → Build → Export. Three agents orchestrate your website from concept to code.
             </p>
           </div>
@@ -130,7 +130,7 @@ export default function AuahaWebBuilder() {
         <GlassCard glow className="p-6 lg:p-8">
           <div className="flex items-center gap-3 mb-6">
             <Zap className="w-4 h-4" style={{ color: ACCENT }} />
-            <h3 className="text-[#2A2F3D] text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Lato, sans-serif' }}>Build Pipeline</h3>
+            <h3 className="text-[#2A2F3D] text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>Build Pipeline</h3>
           </div>
           <div className="relative">
             <div className="absolute top-[22px] left-[40px] right-[40px] h-px" style={{ background: `linear-gradient(90deg, ${ACCENT}30, ${TEAL}30, ${ACCENT}30)` }} />
@@ -175,13 +175,13 @@ export default function AuahaWebBuilder() {
             <GlassCard className="p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Wand2 className="w-4 h-4" style={{ color: ACCENT }} />
-                <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Website Brief</h3>
+                <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Inter, sans-serif' }}>Website Brief</h3>
               </div>
               <textarea
                 value={brief}
                 onChange={(e) => setBrief(e.target.value)}
                 className="w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-foreground text-sm focus:outline-none focus:border-[#A8DDDB]/30 min-h-[140px] resize-none transition-colors placeholder:text-[#8B92A0]"
-                style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}
+                style={{ fontFamily: 'Inter, sans-serif' }}
                 placeholder="Describe your website…&#10;&#10;e.g. A modern landing page for a Wellington coffee roastery. Hero section with video background, menu section, about page, and contact form. Earthy colour palette."
               />
               <div className="flex items-center gap-3 mt-4">
@@ -205,7 +205,7 @@ export default function AuahaWebBuilder() {
             <GlassCard className="p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Layout className="w-4 h-4" style={{ color: TEAL }} />
-                <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Templates</h3>
+                <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Inter, sans-serif' }}>Templates</h3>
               </div>
               <div className="space-y-2">
                 {TEMPLATES.map((t) => (
@@ -241,7 +241,7 @@ export default function AuahaWebBuilder() {
               <div className="flex items-center justify-between mb-5">
                 <div className="flex items-center gap-2">
                   <Eye className="w-4 h-4" style={{ color: ACCENT }} />
-                  <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Preview</h3>
+                  <h3 className="text-[#4A5160] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Inter, sans-serif' }}>Preview</h3>
                 </div>
                 <div className="flex items-center gap-1 p-1 rounded-lg" style={{ background: "rgba(255,255,255,0.04)" }}>
                   {([
@@ -318,7 +318,7 @@ export default function AuahaWebBuilder() {
                           style={{ background: `linear-gradient(135deg, ${ACCENT}10, ${TEAL}08)`, border: `1px solid ${ACCENT}15` }}>
                           <Globe className="w-7 h-7" style={{ color: `${ACCENT}50` }} />
                         </div>
-                        <p className="text-[#6B7280] text-sm mb-2" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+                        <p className="text-[#6B7280] text-sm mb-2" style={{ fontFamily: 'Inter, sans-serif' }}>
                           {isGenerating ? "Building your website…" : "Enter a brief to start"}
                         </p>
                         <p className="text-[#1A1D29]/15 text-xs text-center max-w-xs">
@@ -359,7 +359,7 @@ export default function AuahaWebBuilder() {
         <GlassCard className="p-6">
           <div className="flex items-center gap-2 mb-5">
             <Zap className="w-4 h-4" style={{ color: ACCENT }} />
-            <h3 className="text-[#6B7280] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif' }}>Powering this builder</h3>
+            <h3 className="text-[#6B7280] text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Inter, sans-serif' }}>Powering this builder</h3>
           </div>
           <div className="grid grid-cols-3 gap-4">
             {[

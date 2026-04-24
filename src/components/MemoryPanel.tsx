@@ -110,7 +110,7 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
             <div className="sticky top-0 z-10 p-4 flex items-center justify-between" style={{ background: "rgba(9,9,15,0.95)", borderBottom: `1px solid rgba(255,255,255,0.5)` }}>
               <div className="flex items-center gap-2">
                 <Brain size={18} style={{ color: accentColor }} />
-                <span className="text-sm font-light uppercase tracking-[2px]" style={{ color: "#1A1D29", fontFamily: "Lato, sans-serif" }}>
+                <span className="text-sm font-light uppercase tracking-[2px]" style={{ color: "#1A1D29", fontFamily: "Inter, sans-serif" }}>
                   What I remember
                 </span>
               </div>
@@ -122,7 +122,7 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
             <div className="p-4 space-y-5">
               {/* Section 1: Business Profile */}
               <div>
-                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${TEAL_ACCENT}CC`, fontFamily: "Lato, sans-serif" }}>
+                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${TEAL_ACCENT}CC`, fontFamily: "Inter, sans-serif" }}>
                   <Database size={10} /> Business Profile
                 </h3>
                 {sharedCtx.length === 0 ? (
@@ -171,7 +171,7 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
 
               {/* Section 2: Agent Memory */}
               <div>
-                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${POUNAMU}CC`, fontFamily: "Lato, sans-serif" }}>
+                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: `${POUNAMU}CC`, fontFamily: "Inter, sans-serif" }}>
                   <Brain size={10} /> Agent Memory
                 </h3>
                 {agentMem.length === 0 ? (
@@ -192,7 +192,7 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
 
               {/* Section 3: Recent Activity */}
               <div>
-                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#6B7280", fontFamily: "Lato, sans-serif" }}>
+                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#6B7280", fontFamily: "Inter, sans-serif" }}>
                   <Clock size={10} /> Recent Activity
                 </h3>
                 {summaries.length === 0 ? (
@@ -216,7 +216,7 @@ export default function MemoryPanel({ open, onClose, userId, agentId, accentColo
 
               {/* Section 4: Compliance Updates */}
               <div>
-                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#6B7280", fontFamily: "Lato, sans-serif" }}>
+                <h3 className="text-[10px] uppercase tracking-wider flex items-center gap-1.5 mb-2" style={{ color: "#6B7280", fontFamily: "Inter, sans-serif" }}>
                   <Shield size={10} /> Compliance Updates
                 </h3>
                 {compliance.length === 0 ? (

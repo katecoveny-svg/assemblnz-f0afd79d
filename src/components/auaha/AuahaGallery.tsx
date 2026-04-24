@@ -37,7 +37,7 @@ export default function AuahaGallery() {
     <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
       <div>
         <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Gallery</p>
-        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Gallery</h1>
+        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Inter, sans-serif' }}>Gallery</h1>
         <p className="text-[#6B7280] text-sm mt-1">All generated assets with provider metadata and Kahu status</p>
       </div>
 

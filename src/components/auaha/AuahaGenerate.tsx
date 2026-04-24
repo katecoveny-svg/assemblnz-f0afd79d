@@ -306,7 +306,7 @@ export default function AuahaGenerate() {
       {/* Header */}
       <div>
         <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Generate</p>
-        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>
+        <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Inter, sans-serif' }}>
           Generate Studio
         </h1>
         <p className="text-[#6B7280] text-sm mt-1">Kahu compliance → Iho routing → Tā audit → Output + Evidence Pack</p>

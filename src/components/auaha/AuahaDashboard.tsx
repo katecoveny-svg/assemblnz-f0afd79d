@@ -145,12 +145,12 @@ export default function AuahaDashboard() {
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${ACCENT}20`, border: `1px solid ${ACCENT}40` }}>
                 <Sparkles className="w-5 h-5" style={{ color: "#B8860B" }} />
               </div>
-              <p className="text-xs lowercase tracking-[2px]" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_MUTED }}>assembl &gt; auaha</p>
+              <p className="text-xs lowercase tracking-[2px]" style={{ fontFamily: 'Inter, sans-serif', color: TEXT_MUTED }}>assembl &gt; auaha</p>
             </div>
-            <h1 className="text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_PRIMARY }}>
+            <h1 className="text-3xl lg:text-4xl font-light uppercase tracking-[5px] mb-2" style={{ fontFamily: 'Inter, sans-serif', color: TEXT_PRIMARY }}>
               Creative Command Centre
             </h1>
-            <p className="text-sm max-w-lg" style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', color: TEXT_SECONDARY }}>
+            <p className="text-sm max-w-lg" style={{ fontFamily: 'Inter, sans-serif', color: TEXT_SECONDARY }}>
               9 symbiotic agents orchestrating your creative pipeline — from brief to publish, powered by Lovable AI, Fal.ai & Runway.
             </p>
           </div>
@@ -181,7 +181,7 @@ export default function AuahaDashboard() {
                   {m.change}
                 </span>
               </div>
-              <p className="text-2xl font-light" style={{ fontFamily: 'JetBrains Mono, monospace', color: TEXT_PRIMARY }}>{m.value}</p>
+              <p className="text-2xl font-light" style={{ fontFamily: 'IBM Plex Mono, monospace', color: TEXT_PRIMARY }}>{m.value}</p>
               <p className="text-xs mt-1.5 uppercase tracking-wider" style={{ color: TEXT_MUTED }}>{m.label}</p>
             </GlassCard>
           </motion.div>
@@ -194,7 +194,7 @@ export default function AuahaDashboard() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <Activity className="w-4 h-4" style={{ color: "#B8860B" }} />
-              <h3 className="text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_SECONDARY }}>Creative Pipeline</h3>
+              <h3 className="text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Inter, sans-serif', color: TEXT_SECONDARY }}>Creative Pipeline</h3>
             </div>
             <span className="text-[10px] px-3 py-1 rounded-full" style={{ color: TEXT_MUTED, background: "rgba(26,29,41,0.04)" }}>Live counts from your content items</span>
           </div>
@@ -221,7 +221,7 @@ export default function AuahaDashboard() {
       <div>
         <div className="flex items-center gap-2 mb-4">
           <Zap className="w-4 h-4" style={{ color: "#B8860B" }} />
-          <h3 className="text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_SECONDARY }}>Quick Launch</h3>
+          <h3 className="text-xs uppercase tracking-[3px]" style={{ fontFamily: 'Inter, sans-serif', color: TEXT_SECONDARY }}>Quick Launch</h3>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {QUICK_LAUNCH.map((item, i) => (
@@ -247,7 +247,7 @@ export default function AuahaDashboard() {
         {/* Reach chart */}
         <GlassCard className="lg:col-span-3 p-6">
           <div className="flex items-center justify-between mb-5">
-            <h3 className="text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_SECONDARY }}>Weekly Reach</h3>
+            <h3 className="text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Inter, sans-serif', color: TEXT_SECONDARY }}>Weekly Reach</h3>
             <span className="text-[10px] font-mono" style={{ color: TEXT_FAINT }}>Sample data — connect analytics</span>
           </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -275,7 +275,7 @@ export default function AuahaDashboard() {
             <CreditCard className="w-3.5 h-3.5" style={{ color: TEXT_MUTED }} />
             <h3 className="text-[10px] uppercase tracking-[2px] font-medium" style={{ color: TEXT_SECONDARY }}>API Spend</h3>
           </div>
-          <p className="text-xl font-light mb-0.5" style={{ fontFamily: 'JetBrains Mono, monospace', color: TEXT_PRIMARY }}>$47.20</p>
+          <p className="text-xl font-light mb-0.5" style={{ fontFamily: 'IBM Plex Mono, monospace', color: TEXT_PRIMARY }}>$47.20</p>
           <p className="text-[10px] mb-4" style={{ color: TEXT_FAINT }}>this month</p>
           <ResponsiveContainer width="100%" height={80}>
             <PieChart>
@@ -299,7 +299,7 @@ export default function AuahaDashboard() {
 
         {/* Recent Activity — LIVE from content_items */}
         <GlassCard className="lg:col-span-2 p-6">
-          <h3 className="text-xs uppercase tracking-[3px] font-medium mb-5" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_SECONDARY }}>Recent Activity</h3>
+          <h3 className="text-xs uppercase tracking-[3px] font-medium mb-5" style={{ fontFamily: 'Inter, sans-serif', color: TEXT_SECONDARY }}>Recent Activity</h3>
           <div className="space-y-4">
             {recentItems && recentItems.length > 0 ? (
               recentItems.map((item: any, i: number) => (
@@ -339,7 +339,7 @@ export default function AuahaDashboard() {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <Zap className="w-4 h-4" style={{ color: "#B8860B" }} />
-            <h3 className="text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Lato, sans-serif', color: TEXT_SECONDARY }}>Symbiotic Workforce</h3>
+            <h3 className="text-xs uppercase tracking-[3px] font-medium" style={{ fontFamily: 'Inter, sans-serif', color: TEXT_SECONDARY }}>Symbiotic Workforce</h3>
           </div>
           <span className="text-[10px] px-3 py-1 rounded-full" style={{ color: TEXT_MUTED, background: "rgba(26,29,41,0.04)" }}>Agents share context across every tool</span>
         </div>

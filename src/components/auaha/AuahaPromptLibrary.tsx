@@ -68,7 +68,7 @@ export default function AuahaPromptLibrary() {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-[#6B7280] text-xs uppercase tracking-[3px] mb-1">Auaha &gt; Prompts</p>
-          <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Lato, sans-serif' }}>Prompt Library</h1>
+          <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Inter, sans-serif' }}>Prompt Library</h1>
           <p className="text-[#6B7280] text-sm mt-1">Team prompt templates with type + model tagging</p>
         </div>
         <Button onClick={() => setShowNew(!showNew)} size="sm" style={{ background: ACCENT, color: "#000" }}>

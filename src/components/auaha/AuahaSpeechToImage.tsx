@@ -116,10 +116,10 @@ export default function AuahaSpeechToImage() {
     <div className="p-6 lg:p-10 max-w-6xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-light tracking-wide text-[#1A1D29]" style={{ fontFamily: "Lato, sans-serif" }}>
+        <h1 className="text-3xl font-light tracking-wide text-[#1A1D29]" style={{ fontFamily: "Inter, sans-serif" }}>
           Speech-to-Image Canvas
         </h1>
-        <p className="text-[#6B7280] text-sm mt-1" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
+        <p className="text-[#6B7280] text-sm mt-1" style={{ fontFamily: "Inter, sans-serif" }}>
           Describe a scene with your voice — AUAHA NZ generates it instantly
         </p>
       </div>
@@ -195,7 +195,7 @@ export default function AuahaSpeechToImage() {
                 }}>
                   <div className="flex items-center gap-2 mb-2">
                     <Volume2 className="w-3.5 h-3.5" style={{ color: POUNAMU }} />
-                    <span className="text-[11px] uppercase tracking-wider text-[#6B7280]" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                    <span className="text-[11px] uppercase tracking-wider text-[#6B7280]" style={{ fontFamily: "IBM Plex Mono, monospace" }}>
                       Your prompt
                     </span>
                   </div>
@@ -203,7 +203,7 @@ export default function AuahaSpeechToImage() {
                     value={transcript}
                     onChange={(e) => setTranscript(e.target.value)}
                     className="w-full bg-transparent text-[#1A1D29] text-sm resize-none outline-none min-h-[60px]"
-                    style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}
+                    style={{ fontFamily: "Inter, sans-serif" }}
                   />
                 </div>
               </motion.div>
@@ -272,7 +272,7 @@ export default function AuahaSpeechToImage() {
       {/* Suggested prompts from brand */}
       {brand && brand.suggestions.videoIdeas.length > 0 && !transcript && (
         <div className="space-y-3">
-          <h3 className="text-[#6B7280] text-xs uppercase tracking-wider" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+          <h3 className="text-[#6B7280] text-xs uppercase tracking-wider" style={{ fontFamily: "IBM Plex Mono, monospace" }}>
             Suggested scenes from Brand DNA
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

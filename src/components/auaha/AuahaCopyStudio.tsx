@@ -192,7 +192,7 @@ export default function AuahaCopyStudio() {
       <div>
         <div className="flex items-center gap-3 mb-1">
           <PenTool className="w-5 h-5" style={{ color: POUNAMU }} />
-          <h1 className="text-2xl font-light uppercase tracking-[3px] text-[#1A1D29]" style={{ fontFamily: "Lato, sans-serif" }}>
+          <h1 className="text-2xl font-light uppercase tracking-[3px] text-[#1A1D29]" style={{ fontFamily: "Inter, sans-serif" }}>
             Kia Ora Copywriter
           </h1>
         </div>
@@ -325,7 +325,7 @@ export default function AuahaCopyStudio() {
             </div>
           </div>
 
-          <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-3 min-h-[200px] text-[#1A1D29] text-sm whitespace-pre-wrap" style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}>
+          <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-3 min-h-[200px] text-[#1A1D29] text-sm whitespace-pre-wrap" style={{ fontFamily: "Inter, sans-serif" }}>
             {output || <span className="text-[#1A1D29]/15">Your copy will appear here...</span>}
           </div>
 

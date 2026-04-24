@@ -140,7 +140,7 @@ Return ONLY the code, no markdown fences.`,
               <Zap className="w-5 h-5" style={{ color: POUNAMU }} />
             </div>
             <div>
-              <h1 className="text-2xl font-light tracking-wide text-[#1A1D29]" style={{ fontFamily: "Lato, sans-serif" }}>
+              <h1 className="text-2xl font-light tracking-wide text-[#1A1D29]" style={{ fontFamily: "Inter, sans-serif" }}>
                 App SPARK
               </h1>
               <p className="text-[#6B7280] text-xs">No-Code App Forge — Describe, Design, Deploy</p>
@@ -164,7 +164,7 @@ Return ONLY the code, no markdown fences.`,
         background: "linear-gradient(135deg, rgba(10,10,10,0.9), rgba(0,168,107,0.03))",
         borderColor: "rgba(255,255,255,0.08)",
       }}>
-        <label className="text-[#6B7280] text-xs uppercase tracking-wider mb-3 block" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+        <label className="text-[#6B7280] text-xs uppercase tracking-wider mb-3 block" style={{ fontFamily: "IBM Plex Mono, monospace" }}>
           Describe your app
         </label>
         <textarea
@@ -172,7 +172,7 @@ Return ONLY the code, no markdown fences.`,
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="e.g., A booking app for a Queenstown ski rental with equipment inventory, customer management, and seasonal pricing..."
           className="w-full bg-transparent text-[#1A1D29] text-sm resize-none outline-none min-h-[100px] placeholder:text-[#8B92A0]"
-          style={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}
+          style={{ fontFamily: "Inter, sans-serif" }}
         />
 
         {/* Brand suggestions */}
@@ -245,7 +245,7 @@ Return ONLY the code, no markdown fences.`,
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Tables */}
                 <div className="lg:col-span-2 space-y-4">
-                  <h3 className="text-[#6B7280] text-xs uppercase tracking-wider flex items-center gap-2" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                  <h3 className="text-[#6B7280] text-xs uppercase tracking-wider flex items-center gap-2" style={{ fontFamily: "IBM Plex Mono, monospace" }}>
                     <Table2 className="w-3.5 h-3.5" /> Database Tables
                   </h3>
                   {schema.tables.map((table, i) => (
@@ -286,7 +286,7 @@ Return ONLY the code, no markdown fences.`,
                 {/* Pages & API */}
                 <div className="space-y-4">
                   <div>
-                    <h3 className="text-[#6B7280] text-xs uppercase tracking-wider flex items-center gap-2 mb-3" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                    <h3 className="text-[#6B7280] text-xs uppercase tracking-wider flex items-center gap-2 mb-3" style={{ fontFamily: "IBM Plex Mono, monospace" }}>
                       <Layout className="w-3.5 h-3.5" /> UI Pages
                     </h3>
                     {schema.pages.map((page, i) => (
@@ -301,7 +301,7 @@ Return ONLY the code, no markdown fences.`,
                   </div>
 
                   <div>
-                    <h3 className="text-[#6B7280] text-xs uppercase tracking-wider flex items-center gap-2 mb-3" style={{ fontFamily: "JetBrains Mono, monospace" }}>
+                    <h3 className="text-[#6B7280] text-xs uppercase tracking-wider flex items-center gap-2 mb-3" style={{ fontFamily: "IBM Plex Mono, monospace" }}>
                       <Globe className="w-3.5 h-3.5" /> API Routes
                     </h3>
                     {schema.apiRoutes.map((route, i) => (

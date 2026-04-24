@@ -480,13 +480,13 @@ export default function AuahaWhaikorero() {
       <div className="mb-6">
         <p
           className="text-[10px] uppercase tracking-[5px] mb-2"
-          style={{ color: ACCENT, fontFamily: "Lato, sans-serif", fontWeight: 700 }}
+          style={{ color: ACCENT, fontFamily: "Inter, sans-serif", fontWeight: 700 }}
         >
           WHAIKŌRERO — SALES ASSISTANT
         </p>
         <h1
           className="text-2xl text-foreground mb-2"
-          style={{ fontFamily: "Lato, sans-serif", fontWeight: 300, letterSpacing: "-0.01em" }}
+          style={{ fontFamily: "Inter, sans-serif", fontWeight: 300, letterSpacing: "-0.01em" }}
         >
           Prospecting, outreach & pipeline — done right
         </h1>
