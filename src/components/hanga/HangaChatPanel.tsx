@@ -6,6 +6,11 @@ import {
   Users, UtensilsCrossed, Lock, Heart, PenTool, Shield
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import {
+  SupervisorControls,
+  DEFAULT_SUPERVISOR_CONTEXT,
+  type SupervisorComplianceContext,
+} from "./SupervisorControls";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
@@ -75,7 +80,25 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [activeAgent, setActiveAgent] = useState<string | null>(null);
+  const [supervisorContext, setSupervisorContext] = useState<SupervisorComplianceContext>(
+    DEFAULT_SUPERVISOR_CONTEXT,
+  );
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const isWaihanga = packId === "waihanga" || packId === "hanga";
+
+  const pushSystemNote = (note: string) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content: `**Supervisor action:** ${note}`,
+        agentName: "Site Supervisor",
+        agentIcon: "HardHat",
+      },
+    ]);
+  };
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -105,6 +128,7 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
           packId,
           messages: messages.filter(m => m.role === "user" || m.role === "assistant")
             .map(m => ({ role: m.role, content: m.content })),
+          ...(isWaihanga ? { complianceContext: supervisorContext } : {}),
         }),
       });
 
@@ -217,6 +241,15 @@ export default function HangaChatPanel({ packId = "waihanga", packLabel = "Waiha
                 <X size={16} />
               </button>
             </div>
+
+            {/* Site supervisor controls (Waihanga only) */}
+            {isWaihanga && (
+              <SupervisorControls
+                context={supervisorContext}
+                onChange={setSupervisorContext}
+                onSystemNote={pushSystemNote}
+              />
+            )}
 
             {/* Messages */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
