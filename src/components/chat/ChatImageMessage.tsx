@@ -29,6 +29,13 @@ export default function ChatImageMessage({
 }: ChatImageMessageProps) {
   const [loaded, setLoaded] = useState(false);
   const [errored, setErrored] = useState(false);
+  const [retryToken, setRetryToken] = useState(0);
+
+  const handleRetry = () => {
+    setErrored(false);
+    setLoaded(false);
+    setRetryToken((t) => t + 1);
+  };
 
   // ── Loading skeleton ──────────────────────────────────────────────
   if (loading || !url) {
