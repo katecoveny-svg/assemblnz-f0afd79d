@@ -11313,6 +11313,57 @@ export type Database = {
           },
         ]
       }
+      toroa_purchase_approvals: {
+        Row: {
+          amount: number
+          child_id: string
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          decision_note: string | null
+          description: string
+          family_id: string
+          id: string
+          item_url: string | null
+          jar: string
+          requested_at: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          child_id: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_note?: string | null
+          description: string
+          family_id: string
+          id?: string
+          item_url?: string | null
+          jar?: string
+          requested_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          child_id?: string
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_note?: string | null
+          description?: string
+          family_id?: string
+          id?: string
+          item_url?: string | null
+          jar?: string
+          requested_at?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       toroa_routine_completions: {
         Row: {
           child_id: string | null

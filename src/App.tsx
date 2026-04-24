@@ -181,6 +181,7 @@ const ToroEducation = lazy(() => import("./pages/ToroEducation"));
 const ToroLogistics = lazy(() => import("./pages/ToroLogistics"));
 const ToroHomework = lazy(() => import("./pages/ToroHomework"));
 const ToroHealth = lazy(() => import("./pages/ToroHealth"));
+const ToroMoney = lazy(() => import("./pages/ToroMoney"));
 const HuiMeetingCopilot = lazy(() => import("./pages/HuiMeetingCopilot"));
 const WorkspaceDashboard = lazy(() => import("./pages/WorkspaceDashboard"));
 const WorkspaceConnections = lazy(() => import("./pages/WorkspaceConnections"));
@@ -456,6 +457,7 @@ const App = () => (
                         <Route path="/toro/education" element={<Suspense fallback={null}><ToroEducation /></Suspense>} />
                         <Route path="/toro/homework" element={<Suspense fallback={null}><ToroHomework /></Suspense>} />
                         <Route path="/toro/health" element={<Suspense fallback={null}><ToroHealth /></Suspense>} />
+                        <Route path="/toro/money" element={<Suspense fallback={null}><ToroMoney /></Suspense>} />
                         <Route path="/toro/go" element={<Suspense fallback={null}><ToroLogistics /></Suspense>} />
                         <Route path="/toro/legacy-dashboard" element={<Suspense fallback={null}><ToroaDashboard /></Suspense>} />
                         <Route path="/hui" element={<Suspense fallback={null}><HuiMeetingCopilot /></Suspense>} />
