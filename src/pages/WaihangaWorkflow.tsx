@@ -4,6 +4,7 @@ import { ArrowLeft, LayoutDashboard, FolderPlus, Layers, ShieldCheck, Box, Alert
 import { Button } from "@/components/ui/button";
 import { showWorkflowToast } from "@/components/waihanga/WorkflowToast";
 import SEO from "@/components/SEO";
+import KeteDashboardLiveRow from "@/components/kete/KeteDashboardLiveRow";
 
 import WorkflowOverview from "@/components/waihanga/WorkflowOverview";
 import ProjectIntake from "@/components/waihanga/ProjectIntake";
@@ -122,6 +123,9 @@ export default function WaihangaWorkflow() {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
+          <div className="mb-6">
+            <KeteDashboardLiveRow kete="waihanga" />
+          </div>
           <ActiveContent />
         </main>
       </div>
