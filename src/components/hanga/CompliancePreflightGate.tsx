@@ -2,6 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldCheck, HardHat, Users, MapPin, FileSignature, AlertCircle, CheckCircle2 } from "lucide-react";
 import type { SupervisorComplianceContext } from "./SupervisorControls";
+import {
+  policySetIncludes,
+  type CompliancePolicySet,
+} from "./agentCompliancePolicies";
 
 const TEAL_ACCENT = "#4AA5A8";
 const POUNAMU = "#3A7D6E";
@@ -10,6 +14,7 @@ const ALERT_RED = "#B5483A";
 
 interface Props {
   initial: SupervisorComplianceContext;
+  policySet: CompliancePolicySet;
   onConfirm: (context: SupervisorComplianceContext) => void;
   onCancel: () => void;
 }
@@ -28,7 +33,7 @@ const ZONE_PRESETS = [
  * Collects PPE, worker consent, tender sign-off, zone, and headcount cap.
  * Cannot be dismissed without confirming or cancelling.
  */
-export function CompliancePreflightGate({ initial, onConfirm, onCancel }: Props) {
+export function CompliancePreflightGate({ initial, policySet, onConfirm, onCancel }: Props) {
   const [ppe, setPpe] = useState(initial.ppeConfirmed);
   const [consent, setConsent] = useState(initial.workerConsent);
   const [signoff, setSignoff] = useState(initial.humanSignoff);
@@ -38,10 +43,21 @@ export function CompliancePreflightGate({ initial, onConfirm, onCancel }: Props)
   const [headcountCap, setHeadcountCap] = useState(initial.world.headcountCap);
   const [attempted, setAttempted] = useState(false);
 
+  const needsPpe = policySetIncludes(policySet, "ppe");
+  const needsConsent = policySetIncludes(policySet, "worker_consent");
+  const needsSignoff = policySetIncludes(policySet, "tender_signoff");
+  const needsZone = policySetIncludes(policySet, "zone");
+  const needsCap = policySetIncludes(policySet, "headcount_cap");
+
   const resolvedZone = zone === "Other (custom)" ? customZone.trim() : zone;
-  const capValid = headcountCap >= 1 && headcount >= 0 && headcount <= headcountCap;
-  const zoneValid = resolvedZone.length > 0;
-  const allValid = ppe && consent && signoff && zoneValid && capValid;
+  const capValid = !needsCap || (headcountCap >= 1 && headcount >= 0 && headcount <= headcountCap);
+  const zoneValid = !needsZone || resolvedZone.length > 0;
+  const allValid =
+    (!needsPpe || ppe) &&
+    (!needsConsent || consent) &&
+    (!needsSignoff || signoff) &&
+    zoneValid &&
+    capValid;
 
   const submit = () => {
     if (!allValid) {
@@ -50,14 +66,14 @@ export function CompliancePreflightGate({ initial, onConfirm, onCancel }: Props)
     }
     onConfirm({
       ...initial,
-      ppeConfirmed: ppe,
-      workerConsent: consent,
-      humanSignoff: signoff,
-      zone: resolvedZone,
+      ppeConfirmed: needsPpe ? ppe : initial.ppeConfirmed,
+      workerConsent: needsConsent ? consent : initial.workerConsent,
+      humanSignoff: needsSignoff ? signoff : initial.humanSignoff,
+      zone: needsZone ? resolvedZone : initial.zone,
       world: {
         ...initial.world,
-        headcount,
-        headcountCap,
+        headcount: needsCap ? headcount : initial.world.headcount,
+        headcountCap: needsCap ? headcountCap : initial.world.headcountCap,
       },
     });
   };
@@ -81,137 +97,147 @@ export function CompliancePreflightGate({ initial, onConfirm, onCancel }: Props)
         </div>
         <div>
           <h3 className="text-sm font-semibold" style={{ color: "#3D4250" }}>
-            Pre-flight compliance check
+            {policySet.label}
           </h3>
           <p className="text-[10px]" style={{ color: "#9CA3AF" }}>
-            Required before the first message
+            {policySet.description}
           </p>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {/* PPE confirmation */}
-        <CheckRow
-          icon={<HardHat size={14} style={{ color: TEAL_ACCENT }} />}
-          label="PPE confirmation"
-          description="All workers on site are in the correct PPE for today's tasks."
-          checked={ppe}
-          onChange={setPpe}
-          attempted={attempted}
-        />
+        {needsPpe && (
+          <CheckRow
+            icon={<HardHat size={14} style={{ color: TEAL_ACCENT }} />}
+            label="PPE confirmation"
+            description="All workers on site are in the correct PPE for today's tasks."
+            checked={ppe}
+            onChange={setPpe}
+            attempted={attempted}
+          />
+        )}
 
         {/* Worker consent */}
-        <CheckRow
-          icon={<Users size={14} style={{ color: TEAL_ACCENT }} />}
-          label="Worker consent"
-          description="Workers consent to AI-assisted reporting and compliance review."
-          checked={consent}
-          onChange={setConsent}
-          attempted={attempted}
-        />
+        {needsConsent && (
+          <CheckRow
+            icon={<Users size={14} style={{ color: TEAL_ACCENT }} />}
+            label="Worker consent"
+            description="Workers consent to AI-assisted reporting and compliance review."
+            checked={consent}
+            onChange={setConsent}
+            attempted={attempted}
+          />
+        )}
 
         {/* Tender / human sign-off */}
-        <CheckRow
-          icon={<FileSignature size={14} style={{ color: TEAL_ACCENT }} />}
-          label="Tender human sign-off"
-          description="A nominated human has approved any tender drafts before submission."
-          checked={signoff}
-          onChange={setSignoff}
-          attempted={attempted}
-        />
+        {needsSignoff && (
+          <CheckRow
+            icon={<FileSignature size={14} style={{ color: TEAL_ACCENT }} />}
+            label="Tender human sign-off"
+            description="A nominated human has approved any tender drafts before submission."
+            checked={signoff}
+            onChange={setSignoff}
+            attempted={attempted}
+          />
+        )}
 
         {/* Zone selection */}
-        <div>
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <MapPin size={12} style={{ color: TEAL_ACCENT }} />
-            <span className="text-[11px] font-medium" style={{ color: "#3D4250" }}>
-              Active zone
-            </span>
-          </div>
-          <select
-            value={zone}
-            onChange={(e) => setZone(e.target.value)}
-            className="w-full px-2.5 py-1.5 rounded-lg text-[11px] outline-none"
-            style={{
-              background: "rgba(255,255,255,0.9)",
-              border: "1px solid rgba(0,0,0,0.08)",
-              color: "#3D4250",
-            }}
-          >
-            {ZONE_PRESETS.map((z) => (
-              <option key={z} value={z}>
-                {z}
-              </option>
-            ))}
-          </select>
-          {zone === "Other (custom)" && (
-            <input
-              value={customZone}
-              onChange={(e) => setCustomZone(e.target.value)}
-              placeholder="Enter zone label"
-              maxLength={60}
-              className="w-full mt-1.5 px-2.5 py-1.5 rounded-lg text-[11px] outline-none"
-              style={{
-                background: "rgba(255,255,255,0.9)",
-                border: `1px solid ${attempted && !zoneValid ? ALERT_RED : "rgba(0,0,0,0.08)"}`,
-                color: "#3D4250",
-              }}
-            />
-          )}
-          {attempted && !zoneValid && (
-            <p className="text-[10px] mt-1" style={{ color: ALERT_RED }}>
-              Enter a zone label.
-            </p>
-          )}
-        </div>
-
-        {/* Headcount cap */}
-        <div>
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <Users size={12} style={{ color: TEAL_ACCENT }} />
-            <span className="text-[11px] font-medium" style={{ color: "#3D4250" }}>
-              Site headcount cap
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              min={0}
-              value={headcount}
-              onChange={(e) => setHeadcount(Math.max(0, Number(e.target.value) || 0))}
-              className="w-16 px-2 py-1 rounded-lg text-[11px] outline-none text-right"
+        {needsZone && (
+          <div>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <MapPin size={12} style={{ color: TEAL_ACCENT }} />
+              <span className="text-[11px] font-medium" style={{ color: "#3D4250" }}>
+                Active zone
+              </span>
+            </div>
+            <select
+              value={zone}
+              onChange={(e) => setZone(e.target.value)}
+              className="w-full px-2.5 py-1.5 rounded-lg text-[11px] outline-none"
               style={{
                 background: "rgba(255,255,255,0.9)",
                 border: "1px solid rgba(0,0,0,0.08)",
                 color: "#3D4250",
               }}
-            />
-            <span className="text-[11px]" style={{ color: "#9CA3AF" }}>on site /</span>
-            <input
-              type="number"
-              min={1}
-              value={headcountCap}
-              onChange={(e) => setHeadcountCap(Math.max(1, Number(e.target.value) || 1))}
-              className="w-16 px-2 py-1 rounded-lg text-[11px] outline-none text-right"
-              style={{
-                background: "rgba(255,255,255,0.9)",
-                border: `1px solid ${attempted && !capValid ? ALERT_RED : "rgba(0,0,0,0.08)"}`,
-                color: "#3D4250",
-              }}
-            />
-            <span className="text-[10px]" style={{ color: "#9CA3AF" }}>cap</span>
+            >
+              {ZONE_PRESETS.map((z) => (
+                <option key={z} value={z}>
+                  {z}
+                </option>
+              ))}
+            </select>
+            {zone === "Other (custom)" && (
+              <input
+                value={customZone}
+                onChange={(e) => setCustomZone(e.target.value)}
+                placeholder="Enter zone label"
+                maxLength={60}
+                className="w-full mt-1.5 px-2.5 py-1.5 rounded-lg text-[11px] outline-none"
+                style={{
+                  background: "rgba(255,255,255,0.9)",
+                  border: `1px solid ${attempted && !zoneValid ? ALERT_RED : "rgba(0,0,0,0.08)"}`,
+                  color: "#3D4250",
+                }}
+              />
+            )}
+            {attempted && !zoneValid && (
+              <p className="text-[10px] mt-1" style={{ color: ALERT_RED }}>
+                Enter a zone label.
+              </p>
+            )}
           </div>
-          {headcount > headcountCap * 0.85 && capValid && (
-            <p className="text-[10px] mt-1 flex items-center gap-1" style={{ color: ALERT_AMBER }}>
-              <AlertCircle size={10} /> Approaching cap — agent will warn on inductions.
-            </p>
-          )}
-          {attempted && !capValid && (
-            <p className="text-[10px] mt-1" style={{ color: ALERT_RED }}>
-              Headcount must be between 0 and the cap.
-            </p>
-          )}
-        </div>
+        )}
+
+        {/* Headcount cap */}
+        {needsCap && (
+          <div>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <Users size={12} style={{ color: TEAL_ACCENT }} />
+              <span className="text-[11px] font-medium" style={{ color: "#3D4250" }}>
+                Site headcount cap
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                min={0}
+                value={headcount}
+                onChange={(e) => setHeadcount(Math.max(0, Number(e.target.value) || 0))}
+                className="w-16 px-2 py-1 rounded-lg text-[11px] outline-none text-right"
+                style={{
+                  background: "rgba(255,255,255,0.9)",
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  color: "#3D4250",
+                }}
+              />
+              <span className="text-[11px]" style={{ color: "#9CA3AF" }}>on site /</span>
+              <input
+                type="number"
+                min={1}
+                value={headcountCap}
+                onChange={(e) => setHeadcountCap(Math.max(1, Number(e.target.value) || 1))}
+                className="w-16 px-2 py-1 rounded-lg text-[11px] outline-none text-right"
+                style={{
+                  background: "rgba(255,255,255,0.9)",
+                  border: `1px solid ${attempted && !capValid ? ALERT_RED : "rgba(0,0,0,0.08)"}`,
+                  color: "#3D4250",
+                }}
+              />
+              <span className="text-[10px]" style={{ color: "#9CA3AF" }}>cap</span>
+            </div>
+            {headcount > headcountCap * 0.85 && capValid && (
+              <p className="text-[10px] mt-1 flex items-center gap-1" style={{ color: ALERT_AMBER }}>
+                <AlertCircle size={10} /> Approaching cap — agent will warn on inductions.
+              </p>
+            )}
+            {attempted && !capValid && (
+              <p className="text-[10px] mt-1" style={{ color: ALERT_RED }}>
+                Headcount must be between 0 and the cap.
+              </p>
+            )}
+          </div>
+        )}
 
         {attempted && !allValid && (
           <div
