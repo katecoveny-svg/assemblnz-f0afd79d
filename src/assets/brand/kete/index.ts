@@ -7,7 +7,7 @@
  *
  * Hero (lake/mountain) kete is for marketing mastheads only.
  */
-import keteHero from "@/assets/brand/hero-kete-masthead.jpg";
+import keteHero from "@/assets/brand/hero-kete-echo.png";
 import ketePikau from "@/assets/brand/kete/kete-pikau.jpg";
 import keteHoko from "@/assets/brand/kete/kete-hoko.jpg";
 import keteAko from "@/assets/brand/kete/kete-ako.jpg";

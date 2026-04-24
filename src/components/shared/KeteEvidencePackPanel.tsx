@@ -122,7 +122,7 @@ export default function KeteEvidencePackPanel({
     <>
       {compiling && <CompileModal accentColor={accentColor} onClose={() => setCompiling(false)} />}
 
-      <div className="rounded-2xl p-5 relative overflow-hidden" style={{
+      <div className="rounded-2xl p-5 relative overflow-hidden bg-muted" style={{
         background: "rgba(255,255,255,0.02)",
         border: "1px solid rgba(255,255,255,0.06)",
         boxShadow: `0 0 40px ${accentColor}08`,
