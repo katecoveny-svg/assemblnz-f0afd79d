@@ -1197,6 +1197,18 @@ const ChatPage = () => {
     clearPendingFile();
     setIsLoading(true);
 
+    logAgentEvent({
+      eventType: "chat_message_sent",
+      agentSlug: agentId ?? agent?.id ?? "unknown",
+      packSlug: agent?.pack ?? null,
+      metadata: {
+        surface: "chat_page",
+        message_length: displayContent.length,
+        has_image: !!imageFile,
+        has_file: !!docFile,
+      },
+    });
+
     const msgIndex = newMessages.length;
     const should3D = (isArc || isPrism) && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
 
