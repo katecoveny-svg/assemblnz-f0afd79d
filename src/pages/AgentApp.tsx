@@ -117,7 +117,7 @@ export default function AgentApp() {
     } finally {
       setLoading(false);
     }
-  }, [messages, agentId, chatParams]);
+  }, [messages, agentId, agent?.id, agent?.pack, chatParams]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
