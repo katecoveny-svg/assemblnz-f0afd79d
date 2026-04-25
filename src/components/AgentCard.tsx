@@ -6,6 +6,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import type { Agent } from "@/data/agents";
+import { logAgentEvent } from "@/engine/telemetry";
 
 interface AgentCardProps {
   agent: Agent;
