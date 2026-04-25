@@ -1,4 +1,4 @@
-import { createClient } from 'npm:@supabase/supabase-js@2'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0'
 
 // --- Inline Lovable email sender (replaces @lovable.dev/email-js) ---
 // Posts to the Lovable transactional email API. Throws an Error with a
