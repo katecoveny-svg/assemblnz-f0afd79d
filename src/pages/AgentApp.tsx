@@ -21,6 +21,8 @@ import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 import { useAgentChatParams } from "@/hooks/useAgentChatParams";
 import { ChatSettingsPanel } from "@/components/chat/ChatSettingsPanel";
 import ChatImageMessage, { extractInlineImages } from "@/components/chat/ChatImageMessage";
+import { prefillAndSend } from "@/engine/prefillAndSend";
+import { getStarterQuestions } from "@/engine/starterQuestions";
 
 interface Message {
   role: "user" | "assistant";
