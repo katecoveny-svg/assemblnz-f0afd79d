@@ -2306,8 +2306,8 @@ const ChatPage = () => {
                       Upload a job sheet, freight instructions, or commercial invoice to start processing
                     </p>
                     <div className="border-t border-border my-1" />
-                    {agent.starters.map((q) => (
-                      <button key={q} onClick={() => sendMessage(q)} className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70">
+                    {getStarterQuestions(agent).map((q) => (
+                      <button key={q} onClick={() => prefillAndSend({ prompt: q, setInput, send: sendMessage, focusRef: inputRef })} className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70">
                         {q}
                       </button>
                     ))}
