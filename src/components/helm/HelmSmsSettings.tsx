@@ -77,7 +77,7 @@ export default function HelmSmsSettings({ familyId }: Props) {
     if (!config) return;
     const { error } = await supabase
       .from("helm_sms_config")
-      .update({ [field]: value, updated_at: new Date().toISOString() })
+      .update({ [field]: value, updated_at: new Date().toISOString() } as any)
       .eq("id", config.id);
     if (error) {
       toast.error("Failed to update: " + error.message);

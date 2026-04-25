@@ -502,7 +502,7 @@ const ToroMoney = () => {
         }
         await supabase
           .from("toroa_child_pocket_money")
-          .update({ [balKey]: currentBal - Number(approval.amount) })
+          .update({ [balKey]: currentBal - Number(approval.amount) } as any)
           .eq("id", pm.id);
         await supabase.from("toroa_money_transactions").insert({
           family_id: approval.family_id,

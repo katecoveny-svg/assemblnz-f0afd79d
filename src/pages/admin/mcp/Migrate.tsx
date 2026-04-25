@@ -157,7 +157,7 @@ export default function McpMigratePage() {
           requires_auth_scope: null,
           deprecated: false,
         }));
-      const { error } = await supabase.from("mcp_tools").insert(inserts);
+      const { error } = await supabase.from("mcp_tools").insert(inserts as any);
       if (error) throw error;
       return inserts.length;
     },
