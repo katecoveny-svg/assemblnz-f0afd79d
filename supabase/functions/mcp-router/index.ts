@@ -25,7 +25,7 @@ import {
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, accept, mcp-protocol-version",
+    "authorization, x-client-info, apikey, content-type, accept, mcp-protocol-version, x-assembl-api-key, x-api-key",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
