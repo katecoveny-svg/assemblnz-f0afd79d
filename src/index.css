@@ -99,17 +99,23 @@ html {
     /* ── Shadow tokens ── */
     --shadow-soft: 0 8px 30px rgba(111, 97, 88, 0.08);
     --shadow-card: 0 4px 20px rgba(111, 97, 88, 0.06);
+    --shadow-brand: 0 12px 40px rgba(111, 97, 88, 0.10);
+    --sparkle-glow: 0 0 24px rgba(217, 188, 122, 0.35);
+    --hairline: 1px solid rgba(111, 97, 88, 0.18);
+    --surface-blur: 24px;
 
-    /* ── Industry kete accents (canonical palette) ── */
-    --kete-waihanga: #D4B896;       /* Clay Sand */
-    --kete-manaaki: #8FB09A;        /* Harakeke Green */
-    --kete-arataki: #B8A0C4;        /* Dusk Mauve */
-    --kete-toro: #C7D9E8;           /* Moonstone Blue */
-    --kete-auaha: #E0A88C;          /* Sunset Coral */
-    --kete-pikau: #9EAAB4;          /* Storm Grey */
-    --kete-ako: #E4B8C4;            /* Petal Pink */
-    --kete-reo: #D9BC7A;            /* Kowhai Soft */
-    --kete-hoko: #D8C3C2;           /* Blush Stone (legacy) */
+    /* ── Industry kete accents — Brand Guidelines v1.0 (Mārama Whenua) ──
+       Bleached feather palette, locked 24 April 2026. Source of truth:
+       src/design/assemblTokens.ts → src/components/live-widgets/kete-accents.ts */
+    --kete-pikau:    #B8C7B1;       /* Soft Moss      — Freight & Customs */
+    --kete-hoko:     #D8C3C2;       /* Blush Stone    — Retail */
+    --kete-ako:      #C7D6C7;       /* Soft Sage      — Early Childhood */
+    --kete-toro:     #C7D9E8;       /* Moonstone Blue — Family */
+    --kete-manaaki:  #E6D8C6;       /* Warm Linen     — Hospitality */
+    --kete-waihanga: #CBB8A4;       /* Clay Sand      — Construction */
+    --kete-arataki:  #D5C0C8;       /* Dusky Rose     — Automotive & Fleet */
+    --kete-auaha:    #C8DDD8;       /* Pale Seafoam   — Creative */
+    --kete-reo:      #D9BC7A;       /* Kowhai Soft    — Te Kāhui Reo (legacy) */
 
     /* ── Sidebar ── */
     --sidebar-background: 32 25% 97%;
