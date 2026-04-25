@@ -61,6 +61,7 @@ export default function AgentApp() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Resume the user's previous conversation with this agent (DB for signed-in,
   // localStorage for guests). Keyed by agentId so switching agents loads that
