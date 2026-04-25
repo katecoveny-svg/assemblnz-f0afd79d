@@ -961,8 +961,8 @@ export default function PearlIndex() {
   return (
     <>
       <SEO
-        title="Assembl — Premium intelligence that understands what matters"
-        description="NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited - and stays current as the law changes."
+        title="Assembl — Premium intelligence with a human heart"
+        description="NZ specialist AI agents and workflows that finish the work — and give the time back. Every workflow produces a pack you can file, forward or footnote, and stays current as the law changes. Simulation-tested · Policy-governed · Human-in-the-loop."
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />
