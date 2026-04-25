@@ -101,6 +101,14 @@ const TIERS: Tier[] = [
 
 const FAQS = [
   {
+    q: "How long does setup take?",
+    a: "Most businesses are fully operational within five business days. The first day is connecting your tools (about ten minutes of your time). Days two through four, we configure the agents for your workflows. Day five, everything goes live and we walk you through the dashboard.",
+  },
+  {
+    q: "Do my staff need training?",
+    a: "No. Your team keeps using the tools they already know. Assembl works behind those tools, and outputs arrive through email, SMS, or the dashboard. If someone can check their email, they can use Assembl.",
+  },
+  {
     q: "What's a kete?",
     a: "A kete is an industry-specific toolkit. Each one comes with specialist agents trained on NZ legislation, workflows, and operational patterns for that industry. MANAAKI covers hospitality. WAIHANGA covers construction. AUAHA covers creative. You pick the kete that match your business.",
   },

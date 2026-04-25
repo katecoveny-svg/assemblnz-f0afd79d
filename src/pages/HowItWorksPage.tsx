@@ -1,580 +1,324 @@
-import { lazy, Suspense } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import SEO from "@/components/SEO";
-import IhoRoutingVisualizer from "@/components/demo/IhoRoutingVisualizer";
-import HowItWorksFlow from "@/components/landing/HowItWorksFlow";
-import { INDUSTRY_KETE_LIST } from "@/assets/brand/kete";
 
-const KeteFocus = lazy(() => import("@/components/pearl/KeteFocus"));
-
-/* ─── Pearl palette — same tokens as PearlIndex (homepage) ─── */
-const PEARL = {
-  bg: "#FBFAF7",        // Icy Pearl canvas
-  linen: "#F3F4F2",     // Moonstone — section break tint
-  opal: "#E8EEEC",      // Opal Shimmer
-  ink: "#0E1513",       // Deep Calm
-  pounamu: "#1F4D47",   // accent
-  seaGlass: "#C4D6D2",  // hairline / ribbons
-  muted: "#8B8479",     // eyebrow grey
-  bodyInk: "rgba(14,21,19,0.72)",
+/* ── Mārama Whenua palette (locked) ── */
+const C = {
+  bg: "#F7F3EE",          // Mist
+  cloud: "#EEE7DE",       // Cloud
+  sand: "#D8C8B4",        // Sand
+  taupe: "#9D8C7D",       // Taupe (headings)
+  taupeDeep: "#6F6158",   // Taupe Deep (body text)
+  gold: "#D9BC7A",        // Soft Gold (CTA)
+  goldDeep: "#C9A862",
 };
 
-const ease = [0.22, 1, 0.36, 1] as const;
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.9, ease },
+type Step = {
+  n: string;
+  label: string;
+  title: string;
+  body: string[];
 };
 
-/* ─── Atomic pieces (mirrors PearlIndex) ─── */
-const Eyebrow = ({ children }: { children: React.ReactNode }) => (
-  <p
-    className="lowercase mb-8"
-    style={{
-      fontFamily: "'Inter', sans-serif",
-      fontSize: 12,
-      letterSpacing: "0.18em",
-      color: PEARL.muted,
-    }}
-  >
-    {children}
-  </p>
-);
-
-const Serif = ({
-  children,
-  italic = false,
-  size = "md",
-  color,
-  className = "",
-  weight = 300,
-}: {
-  children: React.ReactNode;
-  italic?: boolean;
-  size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
-  color?: string;
-  className?: string;
-  weight?: 300 | 400 | 500;
-}) => {
-  const sizes: Record<string, string> = {
-    xs: "clamp(20px, 1.6vw, 24px)",
-    sm: "clamp(22px, 1.8vw, 28px)",
-    md: "clamp(28px, 2.6vw, 38px)",
-    lg: "clamp(40px, 4.5vw, 56px)",
-    xl: "clamp(48px, 6vw, 80px)",
-    xxl: "clamp(56px, 7.5vw, 104px)",
-  };
-  return (
-    <span
-      className={className}
-      style={{
-        fontFamily: "'Cormorant Garamond', serif",
-        fontWeight: weight,
-        fontStyle: italic ? "italic" : "normal",
-        fontSize: sizes[size],
-        lineHeight: size === "xxl" || size === "xl" ? 1.05 : 1.15,
-        letterSpacing: "-0.012em",
-        color: color ?? PEARL.ink,
-        display: "block",
-      }}
-    >
-      {children}
-    </span>
-  );
-};
-
-const Body = ({
-  children,
-  className = "",
-  large = false,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  large?: boolean;
-}) => (
-  <p
-    className={className}
-    style={{
-      fontFamily: "'Inter', sans-serif",
-      fontSize: large ? 18 : 17,
-      lineHeight: 1.55,
-      color: PEARL.bodyInk,
-      fontWeight: 400,
-    }}
-  >
-    {children}
-  </p>
-);
-
-const InkButton = ({
-  to,
-  children,
-  variant = "solid",
-}: {
-  to: string;
-  children: React.ReactNode;
-  variant?: "solid" | "underline";
-}) => {
-  if (variant === "underline") {
-    return (
-      <Link
-        to={to}
-        className="inline-block transition-colors"
-        style={{
-          fontFamily: "'Inter', sans-serif",
-          fontSize: 15,
-          color: PEARL.ink,
-          borderBottom: `1px solid ${PEARL.ink}`,
-          paddingBottom: 2,
-          fontWeight: 500,
-        }}
-      >
-        {children}
-      </Link>
-    );
-  }
-  return (
-    <Link
-      to={to}
-      data-magnetic
-      className="inline-block transition-all hover:-translate-y-px"
-      style={{
-        fontFamily: "'Inter', sans-serif",
-        fontSize: 15,
-        color: "#FBFAF7",
-        background: PEARL.pounamu,
-        padding: "18px 32px",
-        borderRadius: 999,
-        fontWeight: 500,
-        letterSpacing: "0.01em",
-        boxShadow: "0 10px 30px -12px rgba(31, 77, 71, 0.35)",
-      }}
-    >
-      {children}
-    </Link>
-  );
-};
-
-/* ─── Content ─── */
-const STEPS = [
+const STEPS: Step[] = [
   {
-    num: "01",
-    title: "Understand your business",
-    desc: "During onboarding, we map your current workflows, tools, and pain points. No contract required before we start.",
-    details: ["Workflow mapping session", "Pain point audit", "No commitment required"],
+    n: "01",
+    label: "Pick your kete",
+    title: "Choose what you need",
+    body: [
+      "A kete is a specialist toolkit built for a specific industry. MANAAKI handles hospitality operations. WAIHANGA covers construction. AUAHA runs creative workflows. Pick the kete that match the work eating your time.",
+      "Starting with Grow? You get two. Not sure which two? We'll ask a few questions during setup and recommend the combination that covers the most ground for your business.",
+    ],
   },
   {
-    num: "02",
-    title: "Design your kete",
-    desc: "We configure your Assembl instance using the kete and specialist agents that match your industry. You see the design and we iterate based on your feedback.",
-    details: ["Custom agent configuration", "Industry-specific workflows", "Compliance pipeline setup"],
+    n: "02",
+    label: "Connect your tools",
+    title: "Xero, Deputy, Google — one click each",
+    body: [
+      "You log into Assembl, go to Settings, and click \"Connect\" next to each tool you use. It opens your normal Xero login (or Deputy, or Google) and asks you to approve access. That's it.",
+      "Assembl reads your existing data — employee records from Xero, shift schedules from Deputy, documents from Google Drive. It never moves your data anywhere. It never changes anything in your tools without telling you first. Think of it like giving a new staff member read access to the systems they need to do their job.",
+      "The whole process takes about ten minutes. If you get stuck, we're on a call with you.",
+    ],
   },
   {
-    num: "03",
-    title: "Deploy & evolve",
-    desc: "We deploy your instance and run weekly optimisation calls for the first month. Your team learns the platform, and we monitor for improvement opportunities.",
-    details: ["Weekly optimisation calls", "Team training sessions", "Continuous improvement"],
+    n: "03",
+    label: "We map your workflows",
+    title: "Your business, not a template",
+    body: [
+      "Every business runs differently. A café in Ponsonby doesn't operate like a construction firm in Hamilton, even if they both need compliance and scheduling sorted.",
+      "During setup, we map the workflows that matter to your business. Which compliance checks do you need to run, and when? How does your roster work? What reports does your accountant actually want? We configure the agents around the way you already work — not the other way around.",
+      "This is where the setup fee earns its keep. It's not a software licence charge. It's the work of fitting Assembl to your operation so the agents are useful from day one, not day ninety.",
+    ],
+  },
+  {
+    n: "04",
+    label: "Agents go live",
+    title: "Quiet, consistent, documented",
+    body: [
+      "Once configured, the agents start handling the operational work you've mapped. Compliance checks run on schedule. Roster gaps get flagged before they become problems. Reports generate and land in your inbox or your accountant's.",
+      "Every action produces an evidence pack — a timestamped record of what was checked, what was found, and what was done about it. If WorkSafe asks how you verified a competency, you've got the receipt. If your accountant asks when the last BAS reconciliation ran, there's a log.",
+      "Your team sees the outputs through channels they already check: email, SMS, or the Assembl dashboard. Nobody needs to learn a new system. Nobody needs to remember to run a report. It just happens.",
+    ],
   },
 ];
 
-/**
- * Canonical kete list for /how-it-works.
- * Uses live routes (verified in src/App.tsx) and real specialist names from
- * src/data/agents.ts. Imagery comes from INDUSTRY_KETE_LIST so this page
- * stays in lockstep with the brand-system catalogue.
- */
-type KeteRow = {
-  slug: string;
-  to: string;
-  desc: string;
-  agents: string[];
-};
-
-const KETE_META: Record<string, KeteRow> = {
-  manaaki: {
-    slug: "manaaki", to: "/manaaki",
-    desc: "Food Act plans, liquor licensing, guest experience, adventure operators. Every compliance deadline tracked.",
-    agents: ["AURA", "SAFFRON", "CELLAR", "MOANA", "KURA"],
-  },
-  hoko: {
-    slug: "hoko", to: "/hoko",
-    desc: "POS reconciliation, stock movement, returns, Fair Trading and Consumer Guarantees compliance for NZ retail.",
-    agents: ["Coming Q3 2026"],
-  },
-  ako: {
-    slug: "ako", to: "/ako",
-    desc: "Licensed ECE centres — ratios, attendance, parent comms, MoE reporting and ERO readiness.",
-    agents: ["Coming Q3 2026"],
-  },
-  toro: {
-    slug: "toro", to: "/toro",
-    desc: "Whānau life navigator. SMS-first family admin: school notes, appointments, shared calendars, $29/mo.",
-    agents: ["TORO"],
-  },
-  waihanga: {
-    slug: "waihanga", to: "/waihanga",
-    desc: "Site to sign-off. H&S, consenting, project programmes, quality records. WorkSafe-aligned.",
-    agents: ["ĀRAI", "KAUPAPA", "ATA", "RAWA"],
-  },
-  pikau: {
-    slug: "pikau", to: "/pikau",
-    desc: "Route optimisation, declarations, broker hand-off, customs compliance. Cross-border ready.",
-    agents: ["Coming Q3 2026"],
-  },
-  arataki: {
-    slug: "arataki", to: "/arataki",
-    desc: "Fleet fuel oracle, vehicle economy, route intelligence, driver compliance — for NZ automotive operators.",
-    agents: ["FUEL ORACLE", "VEHICLE ECONOMY", "ROUTE INTELLIGENCE", "DRIVER COMPLIANCE"],
-  },
-  auaha: {
-    slug: "auaha", to: "/auaha",
-    desc: "Strategy, content, brand voice, design, campaigns, lead formation, analytics — one coordinated studio.",
-    agents: ["PRISM", "MUSE", "PIXEL", "VERSE", "MARKET"],
-  },
-};
-
-const KETE = INDUSTRY_KETE_LIST.map((k) => ({
-  ...k,
-  ...(KETE_META[k.slug] ?? { slug: k.slug, to: "/contact", desc: "", agents: [] }),
-}));
-
-/* ─── Sections ─── */
-function Hero() {
-  return (
-    <section
-      className="relative overflow-hidden"
-      style={{ minHeight: "78vh", background: PEARL.bg }}
-    >
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 55% at 70% 40%, rgba(255,236,210,0.35) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 70%, rgba(228,238,236,0.45) 0%, transparent 65%)",
-        }}
-      />
-      <div
-        className="absolute hidden md:flex items-center justify-center pointer-events-none"
-        style={{ top: "8%", right: "-4%", width: 620, height: 680, opacity: 0.85 }}
-      >
-        <Suspense fallback={null}>
-          <KeteFocus size={620} sparkles={42} rimSparkles={24} priority />
-        </Suspense>
-      </div>
-
-      <div className="relative z-10 max-w-[1120px] mx-auto px-6 md:px-10 pt-40 md:pt-52 pb-32">
-        <div className="max-w-[680px]">
-          <Eyebrow>How it works</Eyebrow>
-          <Serif size="xl">
-            Shared intelligence for{" "}
-            <Serif size="xl" italic color={PEARL.pounamu} className="inline">
-              Aotearoa business.
-            </Serif>
-          </Serif>
-          <div style={{ marginTop: 28, maxWidth: 580 }}>
-            <Body large>
-              Specialist operational workflows packaged into industry kete — each one wrapped in a
-              five-stage compliance pipeline that runs before anything ships, not after. Built around
-              NZ law, not adapted from a US product.
-            </Body>
-          </div>
-          <div className="flex flex-wrap items-center gap-6" style={{ marginTop: 40 }}>
-            <InkButton to="/contact">Talk to us</InkButton>
-            <InkButton to="/pricing" variant="underline">
-              View pricing
-            </InkButton>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-const Section = ({ children, alt = false }: { children: React.ReactNode; alt?: boolean }) => (
-  <section
-    className="relative px-6 md:px-10"
-    style={{
-      paddingTop: 160,
-      paddingBottom: 160,
-      background: alt ? PEARL.linen : PEARL.bg,
-    }}
-  >
-    <div className="max-w-[1120px] mx-auto">{children}</div>
-  </section>
-);
-
 const HowItWorksPage = () => (
-  <div className="min-h-screen flex flex-col relative" style={{ background: PEARL.bg, color: PEARL.ink }}>
+  <div className="min-h-screen" style={{ background: C.bg, color: C.taupeDeep }}>
     <SEO
-      title="How Assembl Works — Specialist operational workflows for NZ business"
-      description="A library of specialist agents across five industry kete, governed by a single compliance pipeline that checks every output against current NZ law."
+      title="How it works — From signup to running in one week | Assembl"
+      description="Pick your kete. Connect Xero, Deputy and Google in one click each. We map your workflows. Agents go live. Most NZ businesses are fully operational within five business days."
       path="/how-it-works"
     />
     <BrandNav />
 
-    <Hero />
-
-    {/* ─── 3-STEP PROCESS ─── */}
-    <Section>
-      <motion.div {...fadeUp} className="max-w-[680px] mb-20">
-        <Eyebrow>Three steps</Eyebrow>
-        <Serif size="lg">From first contact to live operations.</Serif>
-      </motion.div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-        {STEPS.map((s, i) => (
-          <motion.div
-            key={s.num}
-            {...fadeUp}
-            transition={{ ...fadeUp.transition, delay: i * 0.08 }}
-          >
-            <p
-              style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontStyle: "italic",
-                fontSize: 28,
-                color: PEARL.pounamu,
-                marginBottom: 18,
-                fontWeight: 300,
-              }}
-            >
-              {s.num}
-            </p>
-            <Serif size="sm" className="mb-4">
-              {s.title}
-            </Serif>
-            <div style={{ marginBottom: 20 }}>
-              <Body>{s.desc}</Body>
-            </div>
-            <ul className="space-y-2.5">
-              {s.details.map((d) => (
-                <li
-                  key={d}
-                  className="flex items-start gap-3"
-                  style={{
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: 14,
-                    color: PEARL.bodyInk,
-                  }}
-                >
-                  <Check size={14} style={{ color: PEARL.pounamu, marginTop: 4, flexShrink: 0 }} />
-                  {d}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
+    {/* ═══ HEADER ═══ */}
+    <section className="pt-32 pb-12 px-6 text-center">
+      <div className="max-w-3xl mx-auto">
+        <p
+          className="text-[10px] tracking-[5px] uppercase mb-6 font-mono font-bold"
+          style={{ color: C.taupe }}
+        >
+          — How it works —
+        </p>
+        <h1
+          className="font-display mb-6"
+          style={{
+            fontWeight: 300,
+            fontSize: "clamp(2.5rem, 6vw, 4rem)",
+            lineHeight: 1.1,
+            color: C.taupe,
+            letterSpacing: "-0.01em",
+          }}
+        >
+          From signup to running. <em style={{ fontStyle: "italic", color: C.goldDeep }}>One week.</em>
+        </h1>
+        <p
+          className="font-body text-[17px] leading-[1.7] max-w-2xl mx-auto"
+          style={{ color: C.taupeDeep }}
+        >
+          You keep using the tools your team already knows. Assembl works behind them.
+        </p>
       </div>
-    </Section>
+    </section>
 
-    {/* ─── FIVE-STAGE PIPELINE — interactive ─── */}
-    <Section alt>
-      <motion.div {...fadeUp} className="max-w-[680px] mb-16">
-        <Eyebrow>Five-stage pipeline</Eyebrow>
-        <Serif size="lg" className="mb-6">
-          Every action logged.{" "}
-          <Serif size="lg" italic color={PEARL.pounamu} className="inline">
-            Every output auditable.
-          </Serif>
-        </Serif>
-        <Body>
-          Every request flows through Kahu → Iho → Tā → Mahara → Mana before anything ships.
-          Draft-only posture — no agent publishes, sends or executes without a named human
-          operator's approval. Tap a stage to see what it actually does.
-        </Body>
-      </motion.div>
-
-      <HowItWorksFlow />
-    </Section>
-
-    {/* ─── NGĀ KETE — canonical 8 industry kete with brand imagery ─── */}
-    <Section>
-      <motion.div {...fadeUp} className="max-w-[680px] mb-20">
-        <Eyebrow>Ngā kete</Eyebrow>
-        <Serif size="lg" className="mb-6">
-          Eight industry kete,{" "}
-          <Serif size="lg" italic color={PEARL.pounamu} className="inline">
-            woven in Aotearoa.
-          </Serif>
-        </Serif>
-        <Body>
-          Each kete carries the legislation, workflows and terminology its industry actually uses.
-          They share one intelligence layer underneath — aligning with tikanga Māori governance
-          principles, NZ-hosted.
-        </Body>
-      </motion.div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {KETE.map((k, i) => {
-          const keteName = k.code.split("-")[0]; // e.g. "MANAAKI" from "MANAAKI-01"
-          const displayName = keteName.charAt(0) + keteName.slice(1).toLowerCase();
-          const isWaitlist = k.agents.length === 1 && k.agents[0].startsWith("Coming");
-          return (
-            <motion.div
-              key={k.slug}
-              {...fadeUp}
-              transition={{ ...fadeUp.transition, delay: i * 0.06 }}
-            >
-              <Link
-                to={k.to}
-                data-magnetic
-                className="block h-full group transition-all hover:-translate-y-1 overflow-hidden"
-                style={{
-                  background: "rgba(255,255,255,0.55)",
-                  border: `1px solid ${PEARL.opal}`,
-                  borderRadius: 20,
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                }}
-              >
-                {/* Brand kete imagery — accent-tinted */}
-                <div
-                  className="relative w-full"
-                  style={{
-                    aspectRatio: "16 / 9",
-                    background: `linear-gradient(180deg, ${k.accentHex}30 0%, ${k.accentHex}10 100%)`,
-                    overflow: "hidden",
-                  }}
-                >
-                  <img
-                    src={k.image}
-                    alt={`${displayName} kete — ${k.industry}`}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                    style={{ mixBlendMode: "multiply", opacity: 0.92 }}
-                  />
-                  <span
-                    className="absolute top-3 left-3"
-                    style={{
-                      fontFamily: "'IBM Plex Mono', monospace",
-                      fontSize: 10,
-                      letterSpacing: "0.18em",
-                      color: PEARL.ink,
-                      background: "rgba(255,255,255,0.85)",
-                      padding: "4px 10px",
-                      borderRadius: 999,
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {k.code}
-                  </span>
-                </div>
-
-                <div style={{ padding: 28 }}>
-                  <p
-                    className="lowercase mb-3"
-                    style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: 11,
-                      letterSpacing: "0.18em",
-                      color: PEARL.muted,
-                    }}
-                  >
-                    {k.industry}
-                  </p>
-                  <Serif size="md" className="mb-5">
-                    {displayName}
-                  </Serif>
-                  <div style={{ marginBottom: 24 }}>
-                    <Body>{k.desc}</Body>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {k.agents.map((a) => (
-                      <span
-                        key={a}
-                        style={{
-                          fontFamily: "'Inter', sans-serif",
-                          fontSize: 11,
-                          padding: "4px 10px",
-                          borderRadius: 999,
-                          background: isWaitlist ? `${PEARL.muted}10` : `${PEARL.pounamu}10`,
-                          color: isWaitlist ? PEARL.muted : PEARL.pounamu,
-                          border: `1px solid ${isWaitlist ? PEARL.muted : PEARL.pounamu}25`,
-                          letterSpacing: "0.04em",
-                        }}
-                      >
-                        {a}
-                      </span>
-                    ))}
-                  </div>
-                  <div
-                    className="inline-flex items-center gap-2 transition-all group-hover:gap-3"
-                    style={{
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: 14,
-                      color: PEARL.pounamu,
-                      fontWeight: 500,
-                    }}
-                  >
-                    {isWaitlist ? "Join the waitlist" : `Explore ${displayName}`}
-                    <ArrowRight size={14} />
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          );
-        })}
-      </div>
-    </Section>
-
-    {/* ─── IHO ROUTING DEMO ─── */}
-    <Section alt>
-      <motion.div {...fadeUp} className="max-w-[680px] mb-16 mx-auto text-center">
-        <Eyebrow>Live demo</Eyebrow>
-        <Serif size="lg" className="mb-6">
-          See Iho{" "}
-          <Serif size="lg" italic color={PEARL.pounamu} className="inline">
-            route in real time.
-          </Serif>
-        </Serif>
-        <Body>
-          Type any business question and watch the routing engine classify intent, load skills, and
-          select the right agent.
-        </Body>
-      </motion.div>
-      <motion.div
-        {...fadeUp}
-        className="max-w-3xl mx-auto"
+    {/* ═══ SHORT VERSION ═══ */}
+    <section className="px-6 pb-16">
+      <div
+        className="max-w-3xl mx-auto rounded-3xl bg-white/80 backdrop-blur-xl p-10"
         style={{
-          background: "rgba(255,255,255,0.55)",
-          border: `1px solid ${PEARL.opal}`,
-          borderRadius: 20,
-          padding: 4,
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
+          border: `1px solid ${C.sand}50`,
+          boxShadow: "0 8px 30px rgba(111,97,88,0.08)",
         }}
       >
-        <IhoRoutingVisualizer />
-      </motion.div>
-    </Section>
+        <h2
+          className="font-display mb-5"
+          style={{
+            fontWeight: 400,
+            fontSize: "30px",
+            color: C.taupe,
+            lineHeight: 1.2,
+          }}
+        >
+          Four steps. <em style={{ fontStyle: "italic", color: C.goldDeep }}>No migration.</em>
+        </h2>
+        <div className="space-y-4 font-body text-[15px] leading-[1.75]" style={{ color: C.taupeDeep }}>
+          <p>
+            You pick your kete. We connect to your tools. The agents start working. Your team
+            barely notices — except the paperwork stops piling up.
+          </p>
+          <p>
+            Most customers are fully operational within{" "}
+            <strong style={{ color: C.taupe }}>five business days</strong>. No software to install
+            on anyone's computer. No training days. No "change management workshops." Your staff
+            keep using Xero, Deputy, and Google exactly the way they do now.
+          </p>
+        </div>
+      </div>
+    </section>
 
-    {/* ─── CTA ─── */}
-    <Section>
-      <motion.div {...fadeUp} className="max-w-[680px] mx-auto text-center">
-        <Eyebrow>Ready to begin</Eyebrow>
-        <Serif size="lg" className="mb-6">
-          See how it works for{" "}
-          <Serif size="lg" italic color={PEARL.pounamu} className="inline">
-            your business.
-          </Serif>
-        </Serif>
-        <div style={{ marginBottom: 36 }}>
-          <Body>
-            Tell us about your business and we'll show you exactly which kete fit your workflows.
-          </Body>
+    {/* ═══ STEPS — VERTICAL TIMELINE ═══ */}
+    <section className="px-6 pb-24">
+      <div className="max-w-3xl mx-auto space-y-6">
+        {STEPS.map((step) => (
+          <div
+            key={step.n}
+            className="relative rounded-3xl bg-white/80 backdrop-blur-xl p-8 md:p-10"
+            style={{
+              border: `1px solid ${C.sand}50`,
+              boxShadow: "0 8px 30px rgba(111,97,88,0.08)",
+            }}
+          >
+            <div className="flex flex-col md:flex-row md:items-start md:gap-6">
+              {/* Step number circle */}
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 mb-5 md:mb-0 font-mono font-bold text-[14px]"
+                style={{
+                  background: `linear-gradient(135deg, ${C.gold}, ${C.goldDeep})`,
+                  color: "#FFFFFF",
+                  boxShadow: "0 6px 20px rgba(217,188,122,0.3)",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {step.n}
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <p
+                  className="font-mono text-[10px] tracking-[2.5px] uppercase mb-3"
+                  style={{ color: C.taupe, fontWeight: 700 }}
+                >
+                  Step {step.n} — {step.label}
+                </p>
+                <h3
+                  className="font-display mb-5"
+                  style={{
+                    fontWeight: 400,
+                    fontSize: "26px",
+                    color: C.taupe,
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {step.title}
+                </h3>
+                <div
+                  className="space-y-4 font-body text-[15px] leading-[1.75]"
+                  style={{ color: C.taupeDeep }}
+                >
+                  {step.body.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* ═══ AFTER GO-LIVE ═══ */}
+    <section className="px-6 pb-16">
+      <div
+        className="max-w-3xl mx-auto rounded-3xl bg-white/80 backdrop-blur-xl p-10"
+        style={{
+          border: `1px solid ${C.sand}50`,
+          boxShadow: "0 8px 30px rgba(111,97,88,0.08)",
+        }}
+      >
+        <p
+          className="font-mono text-[10px] tracking-[3px] uppercase mb-4 font-bold"
+          style={{ color: C.taupe }}
+        >
+          — After go-live —
+        </p>
+        <h2
+          className="font-display mb-6"
+          style={{
+            fontWeight: 400,
+            fontSize: "30px",
+            color: C.taupe,
+            lineHeight: 1.2,
+          }}
+        >
+          It gets better the <em style={{ fontStyle: "italic", color: C.goldDeep }}>longer it runs</em>.
+        </h2>
+        <div className="space-y-4 font-body text-[15px] leading-[1.75]" style={{ color: C.taupeDeep }}>
+          <p>
+            The agents learn your patterns. After a few weeks, Assembl knows your peak roster
+            periods, your compliance calendar, and the reports your accountant always asks for at
+            month-end. Suggestions get sharper. Gaps get caught earlier.
+          </p>
+          <p>
+            On Enterprise plans, you get a named success manager who checks in quarterly. They
+            review what the agents are handling, flag anything that's changed in NZ legislation,
+            and tune the configuration if your business has shifted.
+          </p>
+          <p>
+            You're never locked in. Month to month, cancel anytime. If you leave, we export your
+            data and every evidence pack the agents ever generated.
+          </p>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-6">
-          <InkButton to="/contact">Get started</InkButton>
-          <InkButton to="/pricing" variant="underline">
-            View pricing
-          </InkButton>
+      </div>
+    </section>
+
+    {/* ═══ TEAM EXPERIENCE ═══ */}
+    <section className="px-6 pb-24">
+      <div
+        className="max-w-3xl mx-auto rounded-3xl bg-white/80 backdrop-blur-xl p-10"
+        style={{
+          border: `1px solid ${C.sand}50`,
+          boxShadow: "0 8px 30px rgba(111,97,88,0.08)",
+        }}
+      >
+        <p
+          className="font-mono text-[10px] tracking-[3px] uppercase mb-4 font-bold"
+          style={{ color: C.taupe }}
+        >
+          — What your team experiences —
+        </p>
+        <h2
+          className="font-display mb-6"
+          style={{
+            fontWeight: 400,
+            fontSize: "30px",
+            color: C.taupe,
+            lineHeight: 1.2,
+          }}
+        >
+          Day-to-day, almost <em style={{ fontStyle: "italic", color: C.goldDeep }}>nothing changes</em>.
+        </h2>
+        <div className="space-y-4 font-body text-[15px] leading-[1.75]" style={{ color: C.taupeDeep }}>
+          <p>
+            Your kitchen staff still clock in on Deputy. Your office manager still does payroll in
+            Xero. Your site foreman still files photos in Google Drive.
+          </p>
+          <p>
+            The difference is what happens between those actions. Compliance checks that used to
+            wait for someone to remember them now run automatically. Roster conflicts that used to
+            surface at 5am now get flagged the night before. The monthly reporting that used to eat
+            a full day now arrives as a finished document.
+          </p>
+          <p>
+            Assembl doesn't replace anyone on your team. It handles the work that was falling
+            between the cracks — or landing on someone's desk at 9pm.
+          </p>
         </div>
-      </motion.div>
-    </Section>
+      </div>
+    </section>
+
+    {/* ═══ CTA ═══ */}
+    <section className="px-6 pb-32">
+      <div className="max-w-2xl mx-auto text-center">
+        <h2
+          className="font-display mb-6"
+          style={{
+            fontWeight: 300,
+            fontSize: "clamp(1.875rem, 4vw, 2.5rem)",
+            color: C.taupe,
+            lineHeight: 1.15,
+          }}
+        >
+          Ready to see what it costs?
+        </h2>
+        <p
+          className="font-body text-[15px] leading-[1.7] mb-8"
+          style={{ color: C.taupeDeep }}
+        >
+          Three plans. NZD, ex GST. Month to month, no lock-in.
+        </p>
+        <Link
+          to="/pricing"
+          className="inline-block px-8 py-4 rounded-xl font-body font-medium text-[15px] tracking-[0.5px] transition-all duration-300 hover:scale-[1.02]"
+          style={{
+            background: `linear-gradient(135deg, ${C.gold}, ${C.goldDeep})`,
+            color: "#FFFFFF",
+            boxShadow: "0 6px 20px rgba(217,188,122,0.35)",
+          }}
+        >
+          See what it costs
+        </Link>
+      </div>
+    </section>
 
     <BrandFooter />
   </div>
