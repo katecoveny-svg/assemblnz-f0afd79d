@@ -133,7 +133,7 @@ const AgentWelcome = ({ agent: rawAgent, onStarterClick, forceShowStarters }: Ag
       )}
 
       {/* Agent-specific starter questions */}
-      {onStarterClick && starterQuestions.length > 0 && (
+      {showStarters && onStarterClick && starterQuestions.length > 0 && (
         <div className="w-full max-w-sm mt-1 space-y-1.5">
           <p
             className="text-[11px] font-semibold tracking-wide uppercase text-left"
