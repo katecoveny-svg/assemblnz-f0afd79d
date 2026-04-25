@@ -371,6 +371,7 @@ export default function AgentApp() {
                 <div className="flex items-end gap-2 rounded-2xl px-4 py-2"
                   style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
                   <textarea
+                    ref={inputRef}
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
