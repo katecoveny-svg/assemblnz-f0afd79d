@@ -1,5 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "npm:@supabase/supabase-js@2.45.0";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const DEFAULT_MODEL = "google/gemini-2.5-flash";
 const PROVIDER_PREFIXES = ["google/", "anthropic/", "openai/", "meta/", "deepseek/", "qwen/", "sambanova/", "perplexity/", "mistral/", "cohere/", "xai/"];
