@@ -22,6 +22,13 @@ export const ConnectPill = ({ name, provider, connected, onChange }: Props) => {
     }
     setLoading(true);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.message("Sign in required", {
+          description: "Please sign in before connecting Google Calendar.",
+        });
+        return;
+      }
       if (provider === "calendar") {
         const { data, error } = await supabase.functions.invoke("google-calendar", {
           body: { action: "get_auth_url" },
