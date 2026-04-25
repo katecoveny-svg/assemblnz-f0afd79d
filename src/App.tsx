@@ -46,6 +46,7 @@ const AdminForgotPassword = lazy(() => import("./pages/AdminForgotPassword"));
 const AdminResetPassword = lazy(() => import("./pages/AdminResetPassword"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const PricingPage = lazy(() => import("./pages/PricingPage"));
+const SettingsConnectionsPage = lazy(() => import("./pages/SettingsConnectionsPage"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const TermsOfUse = lazy(() => import("./pages/TermsOfUse"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
@@ -394,6 +395,7 @@ const App = () => (
                         <Route path="/knowledge" element={<Suspense fallback={null}><KnowledgeCataloguePage /></Suspense>} />
                         <Route path="/pikau/cbaff" element={<Suspense fallback={null}><PikauCbaffLanding /></Suspense>} />
                         <Route path="/arataki/mta" element={<Suspense fallback={null}><ArtakiMtaLanding /></Suspense>} />
+                        <Route path="/settings/connections" element={<Suspense fallback={null}><SettingsConnectionsPage /></Suspense>} />
                         <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationsSettingsPage /></Suspense>} />
                         <Route path="/settings/integrations/legacy" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
                         <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
