@@ -108,10 +108,10 @@ export default function FeatherKete({
   const tint = VARIANT_TINT[variant] ?? VARIANT_TINT.base;
   const industryImage = VARIANT_IMAGE[variant];
 
-  // For industry artwork: just the drop-shadow. For master fallback: hue-rotate too.
-  const filter = industryImage
-    ? tint.shadow
-    : `hue-rotate(${tint.hueDeg}deg) saturate(${tint.saturate}) ${tint.shadow}`;
+  // Apply hue-rotate + saturate to BOTH industry artwork and master fallback so
+  // each kete carries its locked accent colour (otherwise all eight cards read
+  // as the same warm-pink photograph).
+  const filter = `hue-rotate(${tint.hueDeg}deg) saturate(${tint.saturate}) ${tint.shadow}`;
 
   return (
     <div
@@ -139,13 +139,12 @@ export default function FeatherKete({
               objectFit: "contain",
               filter,
               userSelect: "none",
-              // Soft radial mask so the photo's cream square background
-              // dissolves into whatever sits behind the kete (no boxed edge).
+              // Soft radial mask dissolves the photo's cream square edge into
+              // whatever sits behind the kete (no boxed border).
               maskImage:
                 "radial-gradient(ellipse 65% 70% at 50% 55%, black 50%, rgba(0,0,0,0.6) 72%, transparent 92%)",
               WebkitMaskImage:
                 "radial-gradient(ellipse 65% 70% at 50% 55%, black 50%, rgba(0,0,0,0.6) 72%, transparent 92%)",
-              mixBlendMode: "multiply",
             }}
           />
         ) : (
