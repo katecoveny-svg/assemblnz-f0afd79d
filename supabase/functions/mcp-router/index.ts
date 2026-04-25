@@ -172,7 +172,17 @@ async function resolveAuthContext(req: Request): Promise<AuthContext> {
 
   const orgId = (member as { tenant_id?: string } | null)?.tenant_id ?? null;
 
-  // Resolve the tenant's plan → tier.
+  return await loadOrgContext(userId, orgId, scopes);
+}
+
+// Shared helper: given a userId (optional) + orgId + scopes, fetch the tier and
+// enabled toolsets and assemble the AuthContext. Used by both JWT and API-key
+// auth paths.
+async function loadOrgContext(
+  userId: string | null,
+  orgId: string | null,
+  scopes: string[],
+): Promise<AuthContext> {
   let tier: TierInfo | null = null;
   if (orgId) {
     const { data: tenant } = await supabase
@@ -189,8 +199,6 @@ async function resolveAuthContext(req: Request): Promise<AuthContext> {
     tier = (tierRow as TierInfo | null) ?? null;
   }
 
-  // Pull enabled toolsets from mcp_org_toolsets — never trust URL params for
-  // entitlements. Intersect with the tier allowlist as a defence-in-depth step.
   let enabled: ToolsetSlug[] = ["core"];
   if (orgId) {
     const { data: toolsetRows } = await supabase
@@ -204,7 +212,9 @@ async function resolveAuthContext(req: Request): Promise<AuthContext> {
       .filter((s): s is ToolsetSlug => s in TOOLSETS);
 
     const tierAllow = new Set(tier?.included_toolsets ?? ["core"]);
-    enabled = Array.from(new Set<ToolsetSlug>(["core", ...fromOrg.filter((s) => tierAllow.has(s))]));
+    enabled = Array.from(
+      new Set<ToolsetSlug>(["core", ...fromOrg.filter((s) => tierAllow.has(s))]),
+    );
   }
 
   return { userId, orgId, scopes, tier, enabledToolsets: enabled };
