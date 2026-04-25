@@ -271,10 +271,10 @@ export default function AgentApp() {
                     <p className="text-xs text-white/40 text-center max-w-sm mb-2">{agent.role}</p>
                     <p className="text-[11px] text-gray-400 text-center max-w-md mb-6">{agent.tagline}</p>
 
-                    {/* Starter prompts */}
+                    {/* Starter prompts — per-agent set, prefills input then sends */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-lg">
-                      {(agent.starters || []).slice(0, 4).map((s, i) => (
-                        <button key={i} onClick={() => sendMessage(s)}
+                      {getStarterQuestions(agent).slice(0, 4).map((s, i) => (
+                        <button key={i} onClick={() => prefillAndSend({ prompt: s, setInput, send: sendMessage, focusRef: inputRef })}
                           className="text-left px-3.5 py-3 rounded-xl transition-all duration-200 hover:border-opacity-40"
                           style={{ background: color + "08", border: `1px solid ${color}12` }}>
                           <p className="text-[11px] text-white/60 line-clamp-2">{s}</p>
