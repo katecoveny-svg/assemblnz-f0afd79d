@@ -2343,8 +2343,8 @@ const ChatPage = () => {
                           </button>
                         ));
                       }
-                      return agent.starters.map((q) => (
-                        <button key={q} onClick={() => sendMessage(q)}
+                      return getStarterQuestions(agent).map((q) => (
+                        <button key={q} onClick={() => prefillAndSend({ prompt: q, setInput, send: sendMessage, focusRef: inputRef })}
                           className="text-left rounded-xl p-3.5 transition-all duration-200 hover:scale-[1.01]"
                           style={{
                             background: "rgba(14,14,26,0.7)",
