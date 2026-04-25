@@ -6,6 +6,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import type { Agent } from "@/data/agents";
+import { logAgentEvent } from "@/engine/telemetry";
 
 interface AgentCardProps {
   agent: Agent;
@@ -48,6 +49,14 @@ const AgentCard = ({ agent, index }: AgentCardProps) => {
     >
       <Link
         to={`/chat/${agent.id}`}
+        onClick={() =>
+          logAgentEvent({
+            eventType: "agent_grid_click",
+            agentSlug: agent.id,
+            packSlug: agent.pack ?? null,
+            metadata: { surface: "agent_grid", index, agent_name: agent.name },
+          })
+        }
         className="group relative block rounded-2xl p-5 transition-all duration-500 overflow-hidden"
         style={{
           background: 'hsl(var(--surface-1) / 0.7)',

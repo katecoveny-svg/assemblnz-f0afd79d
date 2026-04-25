@@ -23,6 +23,7 @@ import { ChatSettingsPanel } from "@/components/chat/ChatSettingsPanel";
 import ChatImageMessage, { extractInlineImages } from "@/components/chat/ChatImageMessage";
 import { prefillAndSend } from "@/engine/prefillAndSend";
 import { getStarterQuestions } from "@/engine/starterQuestions";
+import { logAgentEvent } from "@/engine/telemetry";
 
 interface Message {
   role: "user" | "assistant";
@@ -94,6 +95,13 @@ export default function AgentApp() {
     setInput("");
     setLoading(true);
 
+    logAgentEvent({
+      eventType: "chat_message_sent",
+      agentSlug: agentId ?? agent?.id ?? "unknown",
+      packSlug: agent?.pack ?? null,
+      metadata: { surface: "agent_app", message_length: userMsg.content.length },
+    });
+
     try {
       const lastMsg = newMessages[newMessages.length - 1];
       const content = await agentChat({
@@ -109,7 +117,7 @@ export default function AgentApp() {
     } finally {
       setLoading(false);
     }
-  }, [messages, agentId, chatParams]);
+  }, [messages, agentId, agent?.id, agent?.pack, chatParams]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {

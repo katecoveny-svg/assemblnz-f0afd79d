@@ -7,6 +7,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, ImagePlus, Paperclip, X, FileText, Globe, LayoutGrid, Lock, Sparkles, Shield, Trophy, Leaf, MessageSquare, Mic, MicOff, Volume2, Upload, Loader2, Layers, ListChecks, Phone, Radio, Camera, RotateCcw, Target, AlertCircle, Download, LayoutDashboard } from "lucide-react";
 import { AGENT_LOADING_MESSAGES } from "@/engine/personality";
+import { logAgentEvent } from "@/engine/telemetry";
 import { agentCapabilities } from "@/data/agentCapabilities";
 import AgentMemoryPanel from "@/components/chat/AgentMemoryPanel";
 import ActionQueuePanel from "@/components/chat/ActionQueuePanel";
@@ -1195,6 +1196,18 @@ const ChatPage = () => {
     clearPendingImage();
     clearPendingFile();
     setIsLoading(true);
+
+    logAgentEvent({
+      eventType: "chat_message_sent",
+      agentSlug: agentId ?? agent?.id ?? "unknown",
+      packSlug: agent?.pack ?? null,
+      metadata: {
+        surface: "chat_page",
+        message_length: displayContent.length,
+        has_image: !!imageFile,
+        has_file: !!docFile,
+      },
+    });
 
     const msgIndex = newMessages.length;
     const should3D = (isArc || isPrism) && (!!uploadedImageUrl || shouldTrigger3D(userMessage.content));
