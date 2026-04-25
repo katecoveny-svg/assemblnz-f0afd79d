@@ -37,6 +37,7 @@ const AgentSlugRedirect = () => {
 };
 
 // ─── Lazy imports (aligned pages only) ───────────────────────────────────────
+const AgentThoughtsPage = lazy(() => import("./pages/AgentThoughts"));
 const EmbedPage = lazy(() => import("./pages/EmbedPage"));
 const EmbedChatWidget = lazy(() => import("./pages/EmbedChatWidget"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
@@ -556,6 +557,7 @@ const App = () => (
                         <Route path="/tradie-portal" element={<Navigate to="/waihanga" replace />} />
                         <Route path="/landlord" element={<Navigate to="/" replace />} />
                         <Route path="/agents/:agentId" element={<AgentSlugRedirect />} />
+                        <Route path="/thoughts" element={<Suspense fallback={null}><AgentThoughtsPage /></Suspense>} />
                         <Route path="/fuel-savings" element={<Navigate to="/arataki" replace />} />
                         <Route path="/claims-register" element={<Navigate to="/" replace />} />
                         <Route path="/turf" element={<Navigate to="/" replace />} />

@@ -151,3 +151,5 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.ambient-agent-loop]
     verify_jwt = false
+  [functions.run-thought]
+    verify_jwt = true
