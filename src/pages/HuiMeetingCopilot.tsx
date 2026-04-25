@@ -23,6 +23,11 @@ const HuiMeetingCopilot = () => {
 
   const check = async () => {
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        setCalendarConnected(false);
+        return;
+      }
       const { data } = await supabase.functions.invoke("google-calendar", {
         body: { action: "status" },
       });
