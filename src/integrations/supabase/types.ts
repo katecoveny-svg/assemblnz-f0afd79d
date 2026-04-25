@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      _ambient_loop_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       aaaip_audit_exports: {
         Row: {
           allowed: number
@@ -15963,6 +15981,17 @@ export type Database = {
       }
     }
     Functions: {
+      _ambient_loop_get_secret: { Args: never; Returns: string }
+      ambient_loop_cron_status: {
+        Args: never
+        Returns: {
+          active: boolean
+          jobname: string
+          last_run_at: string
+          last_run_status: string
+          schedule: string
+        }[]
+      }
       assembl_agent_get_employees: {
         Args: { p_organisation_id: string }
         Returns: {
