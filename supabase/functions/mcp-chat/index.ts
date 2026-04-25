@@ -1,20 +1,25 @@
 // ============================================================================
 // mcp-chat — secure streaming chat for Assembl agents
 // ----------------------------------------------------------------------------
-// POST { agentId: string, messages: [{role,content}] }
+// POST { agentId: string, messages: [{role,content}], context?: {...} }
 // Returns text/event-stream of OpenAI-compatible chunks (Lovable AI Gateway).
 //
 // Pipeline (Mana Trust Layer):
 //   1. Auth   — validate JWT via getClaims(), resolve user tier
 //   2. KAHU_PRE — load active rules, run PII masking + tier gate + rate limit
-//   3. TĀ_INFLIGHT — stamp messages with sovereignty/tikanga reminders in system prompt
-//   4. Stream — call Lovable AI Gateway (openai/gpt-5) with stream:true
-//   5. MANA_POST — buffer the assistant reply; run post-rules; rewrite if needed
-//   6. Log to mcp_tool_calls (tool_name = `chat:${agentId}`)
+//   3. CONTEXT — auto-inject live knowledge (kb_doc_chunks via pgvector) +
+//                user memory (agent_memory via pgvector). Cheap RPCs that
+//                make the agent feel grounded instead of stateless.
+//   4. TĀ_INFLIGHT — stamp messages with sovereignty/tikanga reminders +
+//                    knowledge + memory blocks in the system prompt
+//   5. Stream — call Lovable AI Gateway (openai/gpt-5) with stream:true
+//   6. MANA_POST — buffer the assistant reply; run post-rules; rewrite if needed
+//   7. Log to mcp_tool_calls (tool_name = `chat:${agentId}`) with context counts
 // ============================================================================
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://esm.sh/zod@3.23.8";
+import { embedText } from "../_shared/embed.ts";
 
 // ----------------------------------------------------------------------------
 // Request schema (server-side validation)
@@ -322,6 +327,110 @@ async function logCall(input: {
 }
 
 // ----------------------------------------------------------------------------
+// Live context — auto-inject knowledge base snippets + user memory
+// ----------------------------------------------------------------------------
+// These run in parallel and are best-effort: if the embedding call or RPC
+// fails we silently fall through with no context rather than blocking the
+// chat. The agent stays useful, just less grounded.
+
+const KB_TOP_K = 4;          // snippets injected per request
+const MEM_TOP_K = 6;          // memories injected per request
+const MEM_MIN_SIM = 0.6;      // matches /memory-recall default
+const CONTEXT_MAX_CHARS = 6000;
+
+const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
+
+interface KbSnippet { content: string; source?: string | null; score?: number | null }
+interface MemHit { summary?: string | null; content?: string | null; similarity?: number | null }
+
+async function loadKnowledgeContext(
+  vec: number[],
+  agentPack: string,
+): Promise<KbSnippet[]> {
+  try {
+    const { data, error } = await adminDb.rpc("match_kb_knowledge" as never, {
+      query_embedding: vec,
+      agent_pack: agentPack ?? null,
+      top_k: KB_TOP_K,
+    } as never);
+    if (error) {
+      console.warn("[mcp-chat] kb match error", error.message);
+      return [];
+    }
+    return Array.isArray(data) ? (data as KbSnippet[]) : [];
+  } catch (e) {
+    console.warn("[mcp-chat] kb context exception", (e as Error).message);
+    return [];
+  }
+}
+
+async function loadUserMemory(
+  userId: string,
+  vec: number[],
+): Promise<MemHit[]> {
+  try {
+    const { data, error } = await adminDb.rpc("match_agent_memory", {
+      p_tenant_id: null,
+      p_user_id: userId,
+      p_query_embedding: vec as unknown as string,
+      p_match_count: MEM_TOP_K,
+      p_min_similarity: MEM_MIN_SIM,
+    });
+    if (error) {
+      console.warn("[mcp-chat] memory match error", error.message);
+      return [];
+    }
+    if (data && (data as unknown[]).length) {
+      const ids = (data as { id: string }[]).map((r) => r.id);
+      adminDb.from("agent_memory")
+        .update({ last_accessed_at: new Date().toISOString() })
+        .in("id", ids)
+        .then(() => undefined, () => undefined);
+    }
+    return (data as MemHit[]) ?? [];
+  } catch (e) {
+    console.warn("[mcp-chat] memory exception", (e as Error).message);
+    return [];
+  }
+}
+
+/** Single embedding shared by KB + memory lookups. */
+async function embedQuestionOnce(question: string): Promise<number[] | null> {
+  if (!GEMINI_API_KEY || !question) return null;
+  return embedText(question, GEMINI_API_KEY, 768);
+}
+
+function buildContextBlock(snippets: KbSnippet[], memories: MemHit[]): string {
+  const sections: string[] = [];
+  if (snippets.length) {
+    const lines = snippets.map((s, i) => {
+      const src = s.source ? ` (${s.source})` : "";
+      return `${i + 1}.${src} ${String(s.content ?? "").trim()}`;
+    });
+    sections.push(`[Live knowledge — current as of this turn]\n${lines.join("\n")}`);
+  }
+  if (memories.length) {
+    const lines = memories.map((m, i) => {
+      const text = String(m.summary ?? m.content ?? "").trim();
+      return `${i + 1}. ${text}`;
+    });
+    sections.push(`[Remembered context for this user]\n${lines.join("\n")}`);
+  }
+  if (!sections.length) return "";
+  let out = `\n\n${sections.join("\n\n")}\n\nGround your reply in the above when relevant. Cite the source when you use a knowledge snippet.`;
+  if (out.length > CONTEXT_MAX_CHARS) out = out.slice(0, CONTEXT_MAX_CHARS) + "\n…(context truncated)";
+  return out;
+}
+
+function lastUserText(messages: { role: string; content: string | ContentPart[] }[]): string {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].role !== "user") continue;
+    return extractText(messages[i].content);
+  }
+  return "";
+}
+
+// ----------------------------------------------------------------------------
 // User tier resolution
 // ----------------------------------------------------------------------------
 async function getUserTier(userId: string): Promise<Tier> {
@@ -461,8 +570,21 @@ Deno.serve(async (req) => {
     };
   });
 
+  // 3d. CONTEXT — embed once, then run KB + memory lookups in parallel.
+  // Best-effort: any failure leaves the context block empty rather than
+  // aborting the chat. Cost: one Gemini embed + two pgvector RPCs.
+  const question = lastUserText(sanitizedMessages);
+  const queryVec = await embedQuestionOnce(question);
+  const [kbSnippets, memHits] = queryVec
+    ? await Promise.all([
+        loadKnowledgeContext(queryVec, agent.toolset),
+        loadUserMemory(userId, queryVec),
+      ])
+    : [[] as KbSnippet[], [] as MemHit[]];
+  const contextBlock = buildContextBlock(kbSnippets, memHits);
+
   // 4. TĀ_INFLIGHT — stamp system prompt
-  const systemPrompt = agent.prompt + buildInflightStamp(rules);
+  const systemPrompt = agent.prompt + contextBlock + buildInflightStamp(rules);
 
   // 5. Stream from Lovable AI Gateway
   let upstream: Response;
@@ -599,6 +721,8 @@ Deno.serve(async (req) => {
       "Cache-Control": "no-cache",
       "X-Assembl-Agent": agentId,
       "X-Assembl-Toolset": agent.toolset,
+      "X-Assembl-Kb-Hits": String(kbSnippets.length),
+      "X-Assembl-Memory-Hits": String(memHits.length),
     },
   });
 });
