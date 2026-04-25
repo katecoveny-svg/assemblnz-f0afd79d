@@ -7549,6 +7549,48 @@ export type Database = {
         }
         Relationships: []
       }
+      mcp_api_keys: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          key_hash: string
+          key_prefix: string
+          last_used_at: string | null
+          name: string
+          org_id: string
+          revoked_at: string | null
+          scopes: string[]
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          key_hash: string
+          key_prefix: string
+          last_used_at?: string | null
+          name: string
+          org_id: string
+          revoked_at?: string | null
+          scopes?: string[]
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          key_hash?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          name?: string
+          org_id?: string
+          revoked_at?: string | null
+          scopes?: string[]
+        }
+        Relationships: []
+      }
       mcp_data_log: {
         Row: {
           action: string
@@ -15991,6 +16033,15 @@ export type Database = {
           source_name: string
           title: string
           url: string
+        }[]
+      }
+      mcp_touch_api_key: { Args: { _key_hash: string }; Returns: undefined }
+      mcp_validate_api_key: {
+        Args: { _key_hash: string }
+        Returns: {
+          key_id: string
+          org_id: string
+          scopes: string[]
         }[]
       }
       move_to_dlq: {
