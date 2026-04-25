@@ -194,108 +194,98 @@ function Hero() {
       className="relative overflow-hidden"
       style={{ minHeight: "92vh", background: PEARL.bg }}
     >
-      {/* Soft icy backdrop wash — full-bleed, anchored on right where the kete lives */}
+      {/* Layer 0 — golden-hour wash (sunlit, candle-warm), anchored behind-right where the kete sits per spec */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 90% 70% at 72% 42%, rgba(255,236,210,0.55) 0%, rgba(255,236,210,0.18) 38%, transparent 68%), radial-gradient(ellipse 70% 60% at 28% 72%, rgba(228,238,236,0.5) 0%, transparent 70%), linear-gradient(180deg, rgba(255,248,236,0.35) 0%, transparent 55%)",
+            "radial-gradient(ellipse 75% 65% at 78% 42%, rgba(255,231,196,0.62) 0%, rgba(255,231,196,0.18) 42%, transparent 72%), radial-gradient(ellipse 60% 55% at 22% 78%, rgba(228,238,236,0.45) 0%, transparent 72%), linear-gradient(180deg, rgba(255,248,236,0.30) 0%, transparent 55%)",
         }}
       />
-      {/* Horizontal pearl band — unifies hero across full width so the kete reads as one continuous atmosphere */}
+
+      {/* Desktop: behind-right hero kete (~720px per Pearl spec), nested in a soft cumulus, dissolves at edges */}
       <div
         className="absolute hidden md:block pointer-events-none"
         style={{
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "100%",
-          background:
-            "radial-gradient(ellipse 65% 55% at 75% 45%, rgba(255,242,222,0.42) 0%, rgba(255,242,222,0.12) 45%, transparent 70%)",
-        }}
-      />
-      {/* Desktop: kete nested INSIDE a warm pearl cloud — TRUE full-bleed across the whole hero */}
-      <div
-        className="absolute hidden md:block pointer-events-none"
-        style={{
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          // Soft radial mask so the kete container has NO visible edge — it dissolves into the page
+          top: "8%",
+          right: "-4%",
+          width: 820,
+          height: 820,
+          // Softer feathering — keeps kete fully visible at centre, fades only at the very rim
           maskImage:
-            "radial-gradient(ellipse 60% 70% at 70% 50%, black 28%, rgba(0,0,0,0.55) 55%, transparent 82%)",
+            "radial-gradient(ellipse 70% 70% at 50% 50%, black 55%, rgba(0,0,0,0.7) 75%, transparent 95%)",
           WebkitMaskImage:
-            "radial-gradient(ellipse 60% 70% at 70% 50%, black 28%, rgba(0,0,0,0.55) 55%, transparent 82%)",
+            "radial-gradient(ellipse 70% 70% at 50% 50%, black 55%, rgba(0,0,0,0.7) 75%, transparent 95%)",
         }}
       >
-        {/* Layer 0 — warm pearl cumulus that wraps the kete */}
+        {/* Layer 1 — warm pearl cumulus that wraps the kete */}
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <HeroCloud height={820} opacity={0.95} />
+            <HeroCloud height={780} opacity={0.92} />
           </Suspense>
         </div>
-        {/* Layer 0.5 — Aotearoa silhouette watermark, hand-traced inside the mist */}
-        <svg
-          viewBox="0 0 200 320"
-          width={280}
-          height={448}
-          className="absolute"
-          style={{
-            top: "30%",
-            left: "42%",
-            filter: "blur(1.4px)",
-            opacity: 0.7,
-            mixBlendMode: "multiply",
-          }}
-          aria-hidden="true"
-        >
-          {/* North Island — softened hand-traced shape */}
-          <path
-            d="M118 24 C 132 30 138 46 134 60 C 142 70 150 86 146 102 C 158 110 162 128 152 142 C 156 158 148 174 132 178 C 122 188 106 188 96 180 C 82 184 68 174 70 158 C 60 150 60 134 70 124 C 64 110 72 92 88 88 C 92 72 102 58 104 44 C 106 32 110 24 118 24 Z"
-            fill="rgba(31,77,71,0.06)"
-          />
-          {/* South Island */}
-          <path
-            d="M70 196 C 88 198 110 210 124 226 C 138 242 142 264 130 282 C 116 298 92 304 70 296 C 50 288 38 268 42 248 C 46 228 56 210 70 196 Z"
-            fill="rgba(31,77,71,0.06)"
-          />
-          {/* Stewart Island — tiny dot */}
-          <ellipse cx="92" cy="312" rx="6" ry="3.5" fill="rgba(31,77,71,0.05)" />
-        </svg>
-        {/* Layer 1 — the kete, nested in the mist (scales up on wider viewports for true full-bleed feel) */}
+        {/* Layer 2 — the hero kete itself, fully visible (no over-mask) */}
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <KeteFocus size={860} sparkles={64} rimSparkles={48} priority warmGlow />
+            <KeteFocus size={720} sparkles={64} rimSparkles={48} priority warmGlow />
           </Suspense>
         </div>
       </div>
-      {/* Mobile: kete in cloud, behind copy — TRUE full-bleed (100vw) so it spans the whole device width */}
+
+      {/* Aotearoa silhouette watermark — quiet, sits behind the kete */}
+      <svg
+        viewBox="0 0 200 320"
+        width={220}
+        height={352}
+        className="absolute hidden md:block pointer-events-none"
+        style={{
+          top: "26%",
+          right: "12%",
+          filter: "blur(1.4px)",
+          opacity: 0.55,
+          mixBlendMode: "multiply",
+        }}
+        aria-hidden="true"
+      >
+        <path
+          d="M118 24 C 132 30 138 46 134 60 C 142 70 150 86 146 102 C 158 110 162 128 152 142 C 156 158 148 174 132 178 C 122 188 106 188 96 180 C 82 184 68 174 70 158 C 60 150 60 134 70 124 C 64 110 72 92 88 88 C 92 72 102 58 104 44 C 106 32 110 24 118 24 Z"
+          fill="rgba(31,77,71,0.05)"
+        />
+        <path
+          d="M70 196 C 88 198 110 210 124 226 C 138 242 142 264 130 282 C 116 298 92 304 70 296 C 50 288 38 268 42 248 C 46 228 56 210 70 196 Z"
+          fill="rgba(31,77,71,0.05)"
+        />
+        <ellipse cx="92" cy="312" rx="6" ry="3.5" fill="rgba(31,77,71,0.04)" />
+      </svg>
+
+      {/* Mobile: kete centred, full-bleed, behind copy */}
       <div
         className="absolute md:hidden pointer-events-none"
         style={{
-          top: 0,
+          top: "8vh",
           left: 0,
           right: 0,
           width: "100vw",
-          height: "min(78vh, 560px)",
+          height: "min(70vh, 520px)",
           opacity: 0.95,
           maskImage:
-            "radial-gradient(ellipse 80% 65% at 50% 50%, black 32%, rgba(0,0,0,0.55) 60%, transparent 88%)",
+            "radial-gradient(ellipse 80% 65% at 50% 50%, black 50%, rgba(0,0,0,0.6) 75%, transparent 95%)",
           WebkitMaskImage:
-            "radial-gradient(ellipse 80% 65% at 50% 50%, black 32%, rgba(0,0,0,0.55) 60%, transparent 88%)",
+            "radial-gradient(ellipse 80% 65% at 50% 50%, black 50%, rgba(0,0,0,0.6) 75%, transparent 95%)",
         }}
       >
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <HeroCloud height={520} opacity={0.85} />
+            <HeroCloud height={480} opacity={0.85} />
           </Suspense>
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <Suspense fallback={null}>
-            <KeteFocus size={Math.min(420, typeof window !== "undefined" ? window.innerWidth * 0.92 : 380)} sparkles={32} priority warmGlow />
+            <KeteFocus size={Math.min(380, typeof window !== "undefined" ? window.innerWidth * 0.86 : 360)} sparkles={32} priority warmGlow />
           </Suspense>
         </div>
       </div>
+
       {/* Bottom fade — bleeds the hero atmosphere into the next section seamlessly */}
       <div
         className="absolute inset-x-0 bottom-0 pointer-events-none"
@@ -321,11 +311,13 @@ function Hero() {
             lineHeight: 1.04,
             letterSpacing: "-0.018em",
             color: PEARL.ink,
-            maxWidth: "16ch",
+            maxWidth: "14ch",
             margin: 0,
           }}
         >
-          Built for the way New Zealand actually works.
+          Built for the way New Zealand{" "}
+          <span style={{ fontStyle: "italic", color: PEARL.pounamu }}>actually</span>{" "}
+          works.
         </motion.h1>
 
         <motion.p
@@ -342,17 +334,17 @@ function Hero() {
             letterSpacing: "0.005em",
           }}
         >
-          Premium intelligence that understands what matters.
+          Premium intelligence with a human heart.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease, delay: 0.7 }}
-          style={{ maxWidth: 620, marginTop: 36 }}
+          style={{ maxWidth: 560, marginTop: 36 }}
         >
           <Body large>
-            NZ specialist AI agents and workflows that finish the work — and give you valuable time back. Every workflow produces a pack that can be filed or audited, and stays current as the law changes.
+            NZ specialist AI agents and workflows that finish the work — and give you valuable time back. Every workflow produces a pack you can file, forward or footnote, and stays current as the law changes.
           </Body>
         </motion.div>
 
@@ -363,9 +355,27 @@ function Hero() {
           className="flex items-center gap-8 flex-wrap"
           style={{ marginTop: 44 }}
         >
-          <InkButton to="/how-it-works">See what a quiet day looks like</InkButton>
+          <InkButton to="/start">Start with one kete</InkButton>
           <InkButton to="/pricing" variant="underline">View pricing</InkButton>
         </motion.div>
+
+        {/* Trust stack — locked, never reword (per Pearl spec) */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.1, ease, delay: 1.2 }}
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: 11,
+            letterSpacing: "0.32em",
+            textTransform: "uppercase",
+            color: PEARL.pounamu,
+            marginTop: 56,
+            fontWeight: 500,
+          }}
+        >
+          Simulation-tested · Policy-governed · Human-in-the-loop
+        </motion.p>
       </div>
     </section>
   );
@@ -373,7 +383,7 @@ function Hero() {
 
 function WhyAssembl() {
   return (
-    <section className="relative overflow-hidden" style={{ paddingTop: 96, paddingBottom: 96, background: PEARL.bg }}>
+    <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
       {/* Atmospheric cloud removed */}
 
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6 relative z-10">
@@ -443,7 +453,7 @@ function WhyAssembl() {
 
 function WhatAssemblIs() {
   return (
-    <section className="relative overflow-hidden" style={{ paddingTop: 96, paddingBottom: 96, background: PEARL.bg }}>
+    <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
       {/* (atmospheric ribbon removed — hero room cloud carries the section) */}
 
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10">
@@ -684,7 +694,7 @@ function LiveCompliance() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ paddingTop: 180, paddingBottom: 180, background: PEARL.bg }}
+      style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}
     >
       {/* Soft opal wash — golden-hour through mist */}
       <div
@@ -854,7 +864,7 @@ function Closing() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ paddingTop: 200, paddingBottom: 200, background: PEARL.bg }}
+      style={{ paddingTop: 180, paddingBottom: 180, background: PEARL.bg }}
     >
       {/* Closing cloud — softer, lower in the frame than the hero, holding the most generous spread of fairy lights */}
       <div
@@ -933,10 +943,10 @@ function PearlFooter() {
             marginBottom: 8,
           }}
         >
-          Premium intelligence that understands what matters.
+          Premium intelligence with a human heart.
         </p>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(15,42,38,0.6)", marginBottom: 24 }}>
-          Time is the thing. We give it back.
+          Time is the most valuable thing you own. Assembl gives it back.
         </p>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(15,42,38,0.45)", letterSpacing: "0.04em" }}>
           Assembl · Built in Aotearoa · assembl.co.nz
@@ -951,8 +961,8 @@ export default function PearlIndex() {
   return (
     <>
       <SEO
-        title="Assembl — Premium intelligence that understands what matters"
-        description="NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited - and stays current as the law changes."
+        title="Assembl — Premium intelligence with a human heart"
+        description="NZ specialist AI agents and workflows that finish the work — and give the time back. Every workflow produces a pack you can file, forward or footnote, and stays current as the law changes. Simulation-tested · Policy-governed · Human-in-the-loop."
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />
