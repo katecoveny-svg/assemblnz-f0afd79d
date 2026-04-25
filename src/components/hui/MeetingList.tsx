@@ -57,6 +57,11 @@ export const MeetingList = ({ selectedId, onSelect, onPrep, onNotes, onInsights,
   const load = async () => {
     setLoading(true);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        setMeetings([]);
+        return;
+      }
       const { data, error } = await supabase.functions.invoke("google-calendar", {
         body: {
           action: "list_events",
