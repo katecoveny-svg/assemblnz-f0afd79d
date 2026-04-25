@@ -943,10 +943,10 @@ function PearlFooter() {
             marginBottom: 8,
           }}
         >
-          Premium intelligence that understands what matters.
+          Premium intelligence with a human heart.
         </p>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(15,42,38,0.6)", marginBottom: 24 }}>
-          Time is the thing. We give it back.
+          Time is the most valuable thing you own. Assembl gives it back.
         </p>
         <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(15,42,38,0.45)", letterSpacing: "0.04em" }}>
           Assembl · Built in Aotearoa · assembl.co.nz
