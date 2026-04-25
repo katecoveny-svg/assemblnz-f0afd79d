@@ -1,445 +1,444 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Check, ArrowRight, X } from "lucide-react";
+import { Check } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
-import FAQSectionShared from "@/components/FAQSection";
-import { PRICING, COMPARISON_FEATURES, ADD_ONS, KETE } from "@/data/pricing";
-import LightPageShell from "@/components/LightPageShell";
-import HeroParticlesLight from "@/components/HeroParticlesLight";
-import NextHero from "@/components/next/NextHero";
 
+/* ── Mārama Whenua palette (locked) ── */
 const C = {
-  bg: "#FAFBFC",
-  surface: "#FFFFFF",
-  pounamu: "#4AA5A8",
-  pounamuGlow: "#5AADA0",
-  pounamuLight: "#6CBFC1",
-  gold: "#4AA5A8",
-  goldLight: "#F0C670",
-  white: "#3D4250",
-  textSecondary: "#6B7280",
+  bg: "#F7F3EE",          // Mist
+  cloud: "#EEE7DE",       // Cloud
+  sand: "#D8C8B4",        // Sand
+  taupe: "#9D8C7D",       // Taupe (headings)
+  taupeDeep: "#6F6158",   // Taupe Deep (body text)
+  gold: "#D9BC7A",        // Soft Gold (CTA)
+  goldDeep: "#C9A862",
 };
 
-const ease = [0.22, 1, 0.36, 1] as const;
-const fade = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5, ease },
+type Tier = {
+  key: string;
+  name: string;
+  badge: string;
+  price: string;
+  cadence?: string;
+  setup?: string;
+  descriptor: string;
+  features: string[];
+  bestFor: string;
+  cta: { label: string; to: string };
+  highlight?: boolean;
 };
 
-/* ═══ MAIN TIERS ═══ */
-const TIERS = [
+const TIERS: Tier[] = [
   {
-    key: "operator" as const,
-    badge: null,
-    highlight: false,
-    accent: C.pounamuGlow,
+    key: "grow",
+    name: "Grow",
+    badge: "Two kete",
+    price: "$1,990",
+    cadence: "/mo",
+    setup: "+ $1,290 setup",
+    descriptor:
+      "Two specialist kete working across your operations — compliance, scheduling, reporting, creative. 40+ hours of operational work, handled every week.",
+    features: [
+      "Two kete of your choice",
+      "Full platform access",
+      "Xero, Deputy & Google integrations",
+      "Evidence packs for every workflow",
+      "Email support",
+    ],
+    bestFor:
+      "Owner-operators with a team. One site or two, enough moving parts that the admin is eating your evenings.",
+    cta: { label: "Request access", to: "/contact?plan=grow" },
   },
   {
-    key: "leader" as const,
-    badge: "Most popular",
+    key: "enterprise",
+    name: "Enterprise",
+    badge: "All 7 kete",
+    price: "$2,990",
+    cadence: "/mo",
+    setup: "+ $2,890 setup",
+    descriptor:
+      "Every kete, every workflow. Compliance, HR, scheduling, creative, logistics — quietly running while you focus on the work that grows the business.",
+    features: [
+      "All 7 kete, unlimited",
+      "Full platform access",
+      "Priority integrations (Xero, Deputy, Google, MYOB, Tanda)",
+      "Named success manager",
+      "Quarterly compliance review",
+      "99.9% uptime SLA",
+      "NZ data residency",
+    ],
+    bestFor:
+      "Multi-site businesses, companies with 15+ staff, anyone who's outgrown spreadsheets and sticky notes but isn't ready to hire a compliance team.",
+    cta: { label: "Request access", to: "/contact?plan=enterprise" },
     highlight: true,
-    accent: C.gold,
   },
   {
-    key: "enterprise" as const,
-    badge: null,
-    highlight: false,
-    accent: C.pounamuLight,
+    key: "outcome",
+    name: "Outcome",
+    badge: "Custom",
+    price: "from $5,000",
+    descriptor:
+      "Bespoke engagement. When the work is bespoke and the evidence pack is the contract. We embed alongside your team, map your workflows, and build the agents that handle them. Pricing tied to the time we give back — typically 10–20% of measured savings.",
+    features: [
+      "Everything in Enterprise",
+      "Custom workflow mapping",
+      "Dedicated onboarding (we run it for the first month)",
+      "Custom agent configuration",
+      "Outcome-based pricing",
+    ],
+    bestFor:
+      "Companies with high-value workflows — freight route optimisation, building maintenance scheduling, multi-site compliance — where getting it right saves tens of thousands.",
+    cta: { label: "Talk to us", to: "/contact?plan=outcome" },
+  },
+];
+
+const FAQS = [
+  {
+    q: "What's a kete?",
+    a: "A kete is an industry-specific toolkit. Each one comes with specialist agents trained on NZ legislation, workflows, and operational patterns for that industry. MANAAKI covers hospitality. WAIHANGA covers construction. AUAHA covers creative. You pick the kete that match your business.",
+  },
+  {
+    q: "What happens during setup?",
+    a: "We connect Assembl to the tools you already use — Xero, Deputy, Google Workspace. We map your key workflows and configure the agents for your specific business. You'll be operational within a week, and we check in after 30 days to tune things.",
+  },
+  {
+    q: "Can I start with one kete and add more later?",
+    a: "Yes. Most customers start with Grow (two kete) and add more as they see the value. Moving to Enterprise is a plan change, not a migration — your data and workflows carry over.",
+  },
+  {
+    q: "Do I need to change how my team works?",
+    a: "No. Assembl connects to the tools your team already uses. Your staff keep using Xero, Deputy, Google — the agents work behind the scenes, pulling data in and pushing outputs back. Most of the value arrives through channels your team already checks: email, SMS, or the dashboard.",
+  },
+  {
+    q: "What about my data?",
+    a: "Your data stays in New Zealand on enterprise plans. We use Supabase with row-level security — your data is yours, isolated from every other customer. We never train models on your data.",
+  },
+  {
+    q: "Is there a contract?",
+    a: "Month to month. No lock-in. The setup fee covers onboarding and configuration. If you leave, we export your data and evidence packs.",
   },
 ];
 
 const PricingPage = () => (
-  <div className="min-h-screen" style={{ background: C.bg, color: "#3D4250" }}>
+  <div className="min-h-screen" style={{ background: C.bg, color: C.taupeDeep }}>
     <SEO
-      title="Assembl Pricing — NZ workflow tools from $1,490/mo"
-      description="Pick the kete that matches your industry. Operator $1,490/mo · Leader $1,990/mo · Enterprise $2,990/mo. NZD ex GST."
+      title="Pricing — Time returned. Capacity gained. | Assembl"
+      description="Grow $1,990/mo · Enterprise $2,990/mo · Outcome from $5,000. Specialist kete that handle the operational work keeping your team from the work that matters."
       path="/pricing"
     />
     <BrandNav />
 
-    {/* ═══ HERO — cinematic NextHero shell ═══ */}
-    <NextHero
-      variant="layered"
-      eyebrow="Pricing — NZD ex GST"
-      title={
-        <>
-          Simple, <em style={{ fontStyle: "italic", fontWeight: 300, color: "#3A7D6E" }}>honest</em> pricing.
-        </>
-      }
-      subtitle="Pick the kete that matches your industry. Every plan includes the full governance pipeline, SMS & WhatsApp, and your dashboard. All prices NZD · Exclude GST (add 15%)."
-      minHeight="68vh"
-    />
-    {/* ═══ THREE BUSINESS TIERS ═══ */}
-    <section className="px-6 pb-20">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {TIERS.map((tier, i) => {
-          const data = PRICING[tier.key];
-          return (
-            <motion.div key={tier.key} {...fade} transition={{ ...fade.transition, delay: i * 0.1 }}
-              className="relative rounded-2xl overflow-hidden flex flex-col"
-              style={{
-                background: "rgba(255,255,255,0.65)",
-                border: tier.highlight ? `2px solid ${C.gold}50` : "1px solid rgba(255,255,255,0.10)",
-                boxShadow: tier.highlight
-                  ? `0 0 60px rgba(74,165,168,0.10), 0 20px 60px rgba(0,0,0,0.4)`
-                  : "0 12px 48px rgba(0,0,0,0.3)",
-              }}
-            >
-              {/* Top accent line */}
-              <div className="h-[2px]" style={{
-                background: `linear-gradient(90deg, transparent, ${tier.accent}, transparent)`,
-              }} />
-
-              {tier.badge && (
-                <div className="absolute top-4 right-4">
-                  <span className="text-[9px] tracking-[2px] uppercase px-3 py-1.5 rounded-full" style={{
-                    fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700,
-                    background: `${C.gold}18`, color: C.gold, border: `1px solid ${C.gold}30`,
-                  }}>{tier.badge}</span>
-                </div>
-              )}
-
-              <div className="p-8 flex flex-col flex-1">
-                {/* Tier name */}
-                <h3 className="text-[22px] mb-2" style={{
-                  fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px",
-                  textTransform: "uppercase", color: C.white,
-                }}>{data.name}</h3>
-
-                {/* Price */}
-                <div className="mb-2">
-                  <span className="text-[32px]" style={{
-                    fontFamily: "'IBM Plex Mono', monospace", fontWeight: 500, color: C.white,
-                  }}>${data.price.toLocaleString()}</span>
-                  <span className="text-[14px] ml-1" style={{ color: "#6B7280" }}>/mo</span>
-                </div>
-
-                {/* Setup — separate line, always visible */}
-                {data.setup !== null && data.setup > 0 ? (
-                  <p className="text-[13px] mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.gold, fontWeight: 600 }}>
-                    + ${data.setup.toLocaleString()} one-off setup
-                  </p>
-                ) : (
-                  <p className="text-[13px] mb-1" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#9CA3AF" }}>
-                    No setup fee
-                  </p>
-                )}
-                <p className="text-[11px] mb-6" style={{ color: "#9CA3AF" }}>
-                  {data.setupNote || "Setup splittable across 3 invoices"}
-                </p>
-
-                {/* Descriptor */}
-                <p className="text-[13px] leading-[1.8] mb-6 pb-6" style={{
-                  fontFamily: "'Inter', sans-serif", color: "#6B7280",
-                  borderBottom: "1px solid rgba(74,165,168,0.1)",
-                }}>
-                  {data.descriptor}
-                </p>
-
-                {/* Features */}
-                <ul className="space-y-3 mb-8 flex-1">
-                  {data.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{
-                        background: `${tier.accent}15`, border: `1px solid ${tier.accent}20`,
-                      }}>
-                        <Check size={11} style={{ color: tier.accent }} />
-                      </div>
-                      <span className="text-[13px] leading-[1.6]" style={{
-                        fontFamily: "'Inter', sans-serif", color: "#9CA3AF",
-                      }}>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Value anchor */}
-                {'valueAnchor' in data && data.valueAnchor && (
-                  <div className="rounded-xl p-4 mb-6" style={{
-                    background: `${tier.accent}08`, border: `1px solid ${tier.accent}15`,
-                  }}>
-                    <p className="text-[11px] leading-[1.7]" style={{
-                      fontFamily: "'Inter', sans-serif", color: "#6B7280",
-                    }}>
-                      <span style={{ color: tier.accent, fontWeight: 600 }}>ROI: </span>
-                      {data.valueAnchor}
-                    </p>
-                  </div>
-                )}
-
-                {/* Operator-as-platform note (Operator tier only) */}
-                {tier.key === "operator" && "platformNote" in data && (data as any).platformNote && (
-                  <div className="rounded-xl p-3 mb-4" style={{ background: "rgba(74,165,168,0.05)", border: "1px dashed rgba(74,165,168,0.25)" }}>
-                    <p className="text-[10.5px] leading-[1.6]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
-                      <strong style={{ color: C.gold }}>Business / Pro Services / Tech?</strong> Same price, no kete bundle. <Link to="/platform" className="underline" style={{ color: C.gold }}>Operator-as-platform →</Link>
-                    </p>
-                  </div>
-                )}
-
-                {/* CTA */}
-                <Link to={data.link} className="block w-full text-center py-4 rounded-xl text-[12px] tracking-[2px] uppercase transition-all duration-300 hover:scale-[1.02]"
-                  style={{
-                    fontFamily: "'Inter', sans-serif", fontWeight: 600,
-                    background: tier.highlight ? `linear-gradient(135deg, ${C.gold}, ${C.goldLight})` : "rgba(255,255,255,0.06)",
-                    color: tier.highlight ? "#FFFFFF" : "#3D4250",
-                    border: tier.highlight ? "none" : "1px solid rgba(74,165,168,0.2)",
-                    boxShadow: tier.highlight ? `0 4px 30px rgba(74,165,168,0.3)` : "none",
-                  }}>
-                  {data.cta}
-                </Link>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Annual discount note */}
-      <p className="text-center mt-8 text-[13px]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
-        Annual prepay (ANNUAL12) saves 12% on any business tier. <Link to="/contact" className="underline" style={{ color: C.gold }}>Talk to us</Link>.
-      </p>
-    </section>
-
-    {/* ═══ DIVIDER ═══ */}
-    <div className="max-w-4xl mx-auto px-6">
-      <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)" }} />
-    </div>
-
-    {/* ═══ OUTCOME ═══ */}
-    <section className="px-6 py-20">
-      <div className="max-w-2xl mx-auto">
-
-        {/* Outcome */}
-        <motion.div {...fade} className="rounded-2xl p-8" style={{
-          background: "rgba(255,255,255,0.6)",
-          border: "1px solid rgba(74,165,168,0.15)",
-        }}>
-          <span className="text-[9px] tracking-[3px] uppercase px-3 py-1 rounded-full mb-5 inline-block" style={{
-            fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700,
-            background: `${C.gold}12`, color: C.gold, border: `1px solid ${C.gold}20`,
-          }}>Bespoke</span>
-          <h3 className="text-[20px] mb-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "3px", textTransform: "uppercase", color: C.white }}>
-            Outcome
-          </h3>
-          <div className="mb-4">
-            <span className="text-[22px]" style={{ fontFamily: "'IBM Plex Mono', monospace", fontWeight: 500, color: C.white }}>From $5,000</span>
-            <span className="text-[14px] ml-1" style={{ color: "#6B7280" }}>/mo</span>
-          </div>
-          <p className="text-[13px] leading-[1.8] mb-5" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
-            Bespoke engagements where Assembl takes on the result. Base fee + 10–20% of measured savings.
-          </p>
-          <ul className="space-y-2 mb-6">
-            {PRICING.outcome.features.slice(0, 4).map(f => (
-              <li key={f} className="flex items-center gap-2 text-[12px]" style={{ color: "#6B7280" }}>
-                <Check size={12} style={{ color: C.gold }} />{f}
-              </li>
-            ))}
-          </ul>
-          <Link to="/contact" className="inline-flex items-center gap-2 text-[12px] tracking-[2px] uppercase" style={{ fontFamily: "'Inter', sans-serif", color: C.gold }}>
-            Contact sales <ArrowRight size={12} />
-          </Link>
-        </motion.div>
-      </div>
-    </section>
-
-    {/* ═══ DIVIDER ═══ */}
-    <div className="max-w-4xl mx-auto px-6">
-      <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)" }} />
-    </div>
-
-    {/* ═══ COMPARISON TABLE ═══ */}
-    <section className="px-6 py-20">
-      <div className="max-w-4xl mx-auto">
-        <motion.div {...fade} className="text-center mb-12">
-          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.gold, fontWeight: 700 }}>
-            — Compare —
-          </p>
-          <h2 className="text-xl sm:text-[32px] mb-4" style={{
-            fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "5px",
-            textTransform: "uppercase", color: "rgba(255,255,255,0.92)",
-          }}>Feature comparison</h2>
-        </motion.div>
-
-        <div className="rounded-2xl overflow-hidden" style={{
-          background: "rgba(255,255,255,0.6)",
-          border: "1px solid rgba(74,165,168,0.15)",
-        }}>
-          {/* Header */}
-          <div className="grid grid-cols-5 gap-0 px-6 py-4" style={{ borderBottom: "1px solid rgba(74,165,168,0.1)" }}>
-            <div className="col-span-1" />
-            {["Operator", "Leader", "Enterprise", "Outcome"].map((name) => (
-              <div key={name} className="text-center">
-                <p className="text-[11px] tracking-[2px] uppercase" style={{
-                  fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "#4AA5A8",
-                }}>{name}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Rows */}
-          {COMPARISON_FEATURES.map((row, i) => (
-            <div key={row.feature} className="grid grid-cols-5 gap-0 px-6 py-3 items-center" style={{
-              borderBottom: i < COMPARISON_FEATURES.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
-              background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent",
-            }}>
-              <div className="col-span-1 pr-4">
-                <p className="text-[12px]" style={{ fontFamily: "'Inter', sans-serif", color: "#9CA3AF" }}>
-                  {row.feature}
-                </p>
-              </div>
-              {(["operator", "leader", "enterprise", "outcome"] as const).map((tier) => {
-                const val = row[tier];
-                return (
-                  <div key={tier} className="text-center">
-                    {val === true ? (
-                      <Check size={14} className="mx-auto" style={{ color: C.pounamuGlow }} />
-                    ) : val === false ? (
-                      <X size={14} className="mx-auto" style={{ color: "#D1D5DB" }} />
-                    ) : (
-                      <span className="text-[11px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#6B7280" }}>
-                        {val}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    {/* ═══ DIVIDER ═══ */}
-    <div className="max-w-4xl mx-auto px-6">
-      <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)" }} />
-    </div>
-
-    {/* ═══ ADD-ONS ═══ */}
-    <section className="px-6 py-20">
+    {/* ═══ HEADER ═══ */}
+    <section className="pt-32 pb-12 px-6 text-center">
       <div className="max-w-3xl mx-auto">
-        <motion.div {...fade} className="text-center mb-10">
-          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.pounamuGlow, fontWeight: 700 }}>
-            — Add-ons —
-          </p>
-          <h2 className="text-xl sm:text-[28px]" style={{
-            fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px",
-            textTransform: "uppercase", color: "rgba(255,255,255,0.9)",
-          }}>Scale as you grow</h2>
-        </motion.div>
-
-        <div className="space-y-3">
-          {ADD_ONS.map((addon) => (
-            <div key={addon.name} className="flex items-center justify-between p-5 rounded-xl" style={{
-              background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)",
-            }}>
-              <div>
-                <p className="text-[14px] mb-0.5" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "rgba(255,255,255,0.8)" }}>
-                  {addon.name}
-                </p>
-                <p className="text-[11px]" style={{ color: "#9CA3AF" }}>
-                  Available: {addon.available}
-                </p>
-              </div>
-              <span className="text-[13px]" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.gold }}>
-                {addon.price}
-              </span>
-            </div>
-          ))}
-        </div>
+        <p
+          className="text-[10px] tracking-[5px] uppercase mb-6 font-mono font-bold"
+          style={{ color: C.taupe }}
+        >
+          — Pricing · NZD ex GST —
+        </p>
+        <h1
+          className="font-display mb-6"
+          style={{
+            fontWeight: 300,
+            fontSize: "clamp(2.5rem, 6vw, 4rem)",
+            lineHeight: 1.1,
+            color: C.taupe,
+            letterSpacing: "-0.01em",
+          }}
+        >
+          Time returned. <em style={{ fontStyle: "italic", color: C.goldDeep }}>Capacity gained.</em>
+        </h1>
+        <p
+          className="font-body text-[17px] leading-[1.7] max-w-2xl mx-auto"
+          style={{ color: C.taupeDeep }}
+        >
+          Every kete handles the operational work that keeps your team from the work that matters.
+          Pick the capacity your business needs.
+        </p>
       </div>
     </section>
 
-    {/* ═══ DIVIDER ═══ */}
-    <div className="max-w-4xl mx-auto px-6">
-      <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)" }} />
-    </div>
+    {/* ═══ VALUE ANCHOR ═══ */}
+    <section className="px-6 pb-14">
+      <div
+        className="max-w-2xl mx-auto rounded-3xl px-8 py-6 text-center backdrop-blur-xl"
+        style={{
+          background: "rgba(255,255,255,0.55)",
+          border: `1px solid ${C.sand}40`,
+          boxShadow: "0 8px 30px rgba(111,97,88,0.06)",
+        }}
+      >
+        <p className="font-body text-[14px] leading-[1.75]" style={{ color: C.taupeDeep }}>
+          Most NZ businesses spend <strong style={{ color: C.taupe }}>$50,000+ a year</strong> on
+          admin, compliance paperwork, and scheduling. That's a person's salary, spent on work that
+          doesn't grow the business. Assembl gives you that capacity back.
+        </p>
+      </div>
+    </section>
 
-    {/* ═══ INDUSTRY KETE — Simple reference ═══ */}
-    <section className="px-6 py-20">
-      <div className="max-w-4xl mx-auto">
-        <motion.div {...fade} className="text-center mb-10">
-          <p className="text-[10px] tracking-[5px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.gold, fontWeight: 700 }}>
-            — Industry kete —
-          </p>
-          <h2 className="text-xl sm:text-[28px] mb-3" style={{
-            fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "4px",
-            textTransform: "uppercase", color: "#3D4250",
-          }}>Seven industry kete + Tōro</h2>
-          <p className="text-[14px]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
-            Operator picks 1. Leader picks 2. Enterprise gets all 7 plus Tōro.
-          </p>
-        </motion.div>
+    {/* ═══ TIER CARDS ═══ */}
+    <section className="px-6 pb-24">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {TIERS.map((tier) => (
+          <div
+            key={tier.key}
+            className="relative rounded-3xl backdrop-blur-xl flex flex-col overflow-hidden"
+            style={{
+              background: tier.highlight ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.78)",
+              border: tier.highlight
+                ? `2px solid ${C.gold}`
+                : `1px solid ${C.sand}50`,
+              boxShadow: tier.highlight
+                ? "0 16px 50px rgba(217,188,122,0.18), 0 8px 30px rgba(111,97,88,0.08)"
+                : "0 8px 30px rgba(111,97,88,0.08)",
+            }}
+          >
+            {tier.highlight && (
+              <div
+                className="absolute top-5 right-5 px-3 py-1 rounded-full font-mono text-[10px] tracking-[2px] uppercase font-bold"
+                style={{ background: C.gold, color: "#FFFFFF" }}
+              >
+                Most popular
+              </div>
+            )}
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {KETE.map((k) => (
-            <Link
-              to={`/${k.key}`}
-              key={k.key}
-              className="rounded-xl p-5 text-center transition-all duration-300 hover:-translate-y-0.5"
-              style={{
-                background: "rgba(255,255,255,0.65)",
-                border: "1px solid rgba(74,165,168,0.15)",
-              }}
-            >
-              <p className="text-[14px] mb-1" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: "3px", textTransform: "uppercase", color: "#3D4250" }}>
-                {k.name}
+            <div className="p-8 flex flex-col flex-1">
+              {/* Tier name */}
+              <h3
+                className="font-display mb-2"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "28px",
+                  color: C.taupe,
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {tier.name}
+              </h3>
+
+              {/* Badge */}
+              <p
+                className="font-mono text-[10px] tracking-[3px] uppercase mb-6"
+                style={{ color: C.taupeDeep, opacity: 0.7 }}
+              >
+                {tier.badge}
               </p>
-              <p className="text-[11px]" style={{ color: "#6B7280" }}>{k.eng}</p>
-            </Link>
-          ))}
-        </div>
 
-        {/* Operator-as-platform note */}
-        <div className="mt-8 max-w-2xl mx-auto rounded-xl p-5 text-center" style={{ background: "rgba(255,255,255,0.5)", border: "1px dashed rgba(74,165,168,0.25)" }}>
-          <p className="text-[12px] leading-[1.7]" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>
-            <strong style={{ color: C.gold }}>Business · Professional Services · Technology?</strong> Ask about <Link to="/platform" className="underline" style={{ color: C.gold }}>Operator-as-platform</Link> — same $1,490/mo + $590 setup, no industry kete bundle, full platform plus the cross-cutting agents. Build your own workflows on top of Iho.
+              {/* Price */}
+              <div className="mb-2 flex items-baseline gap-1">
+                <span
+                  className="font-display"
+                  style={{ fontWeight: 400, fontSize: "44px", color: C.taupe, lineHeight: 1 }}
+                >
+                  {tier.price}
+                </span>
+                {tier.cadence && (
+                  <span
+                    className="font-body text-[15px]"
+                    style={{ color: C.taupeDeep, opacity: 0.7 }}
+                  >
+                    {tier.cadence}
+                  </span>
+                )}
+              </div>
+
+              {tier.setup && (
+                <p
+                  className="font-mono text-[12px] mb-6"
+                  style={{ color: C.goldDeep, fontWeight: 600 }}
+                >
+                  {tier.setup}
+                </p>
+              )}
+              {!tier.setup && <div className="mb-6" />}
+
+              {/* Descriptor */}
+              <p
+                className="font-body text-[14px] leading-[1.7] mb-7 pb-7"
+                style={{
+                  color: C.taupeDeep,
+                  borderBottom: `1px solid ${C.sand}50`,
+                }}
+              >
+                {tier.descriptor}
+              </p>
+
+              {/* Includes */}
+              <p
+                className="font-mono text-[10px] tracking-[2.5px] uppercase mb-4"
+                style={{ color: C.taupe, fontWeight: 700 }}
+              >
+                Includes
+              </p>
+              <ul className="space-y-3 mb-7 flex-1">
+                {tier.features.map((f) => (
+                  <li key={f} className="flex items-start gap-3">
+                    <div
+                      className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                      style={{
+                        background: `${C.gold}25`,
+                        border: `1px solid ${C.gold}50`,
+                      }}
+                    >
+                      <Check size={11} style={{ color: C.goldDeep }} strokeWidth={2.5} />
+                    </div>
+                    <span
+                      className="font-body text-[14px] leading-[1.55]"
+                      style={{ color: C.taupeDeep }}
+                    >
+                      {f}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Best for */}
+              <div
+                className="rounded-2xl px-4 py-3 mb-6"
+                style={{ background: C.cloud, border: `1px solid ${C.sand}40` }}
+              >
+                <p
+                  className="font-mono text-[9px] tracking-[2.5px] uppercase mb-2"
+                  style={{ color: C.taupe, fontWeight: 700 }}
+                >
+                  Best for
+                </p>
+                <p
+                  className="font-body text-[13px] leading-[1.6]"
+                  style={{ color: C.taupeDeep }}
+                >
+                  {tier.bestFor}
+                </p>
+              </div>
+
+              {/* CTA */}
+              <Link
+                to={tier.cta.to}
+                className="block text-center w-full py-3.5 rounded-full font-body text-[13px] tracking-[1.5px] uppercase font-semibold transition-all duration-300 hover:scale-[1.02]"
+                style={{
+                  background: tier.highlight
+                    ? `linear-gradient(135deg, ${C.gold}, ${C.goldDeep})`
+                    : "transparent",
+                  color: tier.highlight ? "#FFFFFF" : C.goldDeep,
+                  border: tier.highlight ? "none" : `1.5px solid ${C.gold}`,
+                  boxShadow: tier.highlight
+                    ? "0 6px 20px rgba(217,188,122,0.35)"
+                    : "none",
+                }}
+              >
+                {tier.cta.label}
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {/* ═══ THE MATHS ═══ */}
+    <section className="px-6 pb-24">
+      <div
+        className="max-w-3xl mx-auto rounded-3xl bg-white/80 backdrop-blur-xl p-10"
+        style={{
+          border: `1px solid ${C.sand}50`,
+          boxShadow: "0 8px 30px rgba(111,97,88,0.08)",
+        }}
+      >
+        <h2
+          className="font-display mb-6"
+          style={{
+            fontWeight: 400,
+            fontSize: "30px",
+            color: C.taupe,
+            lineHeight: 1.2,
+          }}
+        >
+          What does $1,990 a month actually buy?
+        </h2>
+        <div className="space-y-5 font-body text-[15px] leading-[1.75]" style={{ color: C.taupeDeep }}>
+          <p>
+            A part-time operations coordinator costs around{" "}
+            <strong style={{ color: C.taupe }}>$35,000 a year</strong>. That's $2,900 a month
+            before KiwiSaver, ACC, leave, and training. Assembl does the same operational work —
+            compliance checks, scheduling, reporting, evidence packs — for $1,990. No sick days, no
+            holidays, no recruitment costs. And it works at 2am when the morning shift roster needs
+            adjusting.
+          </p>
+          <p>
+            The enterprise tier? A compliance officer costs $75,000+. A marketing coordinator
+            another $55,000. Assembl's enterprise plan gives you both capabilities for{" "}
+            <strong style={{ color: C.taupe }}>$35,880 a year</strong>. That's less than one salary
+            covering the work of several roles.
           </p>
         </div>
       </div>
     </section>
 
     {/* ═══ FAQ ═══ */}
-    <div className="max-w-4xl mx-auto px-6">
-      <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)" }} />
-    </div>
-    <div id="faq">
-      <FAQSectionShared />
-    </div>
-
-    {/* ═══ FINAL CTA ═══ */}
-    <section className="px-6 py-24 text-center relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: `radial-gradient(ellipse 50% 40% at 50% 50%, rgba(74,165,168,0.06) 0%, transparent 60%)`,
-      }} />
-      <div className="relative z-10 max-w-xl mx-auto">
-        <h2 className="text-xl sm:text-[32px] mb-4" style={{
-          fontFamily: "'Inter', sans-serif", fontWeight: 300, letterSpacing: "5px",
-          textTransform: "uppercase", color: "rgba(255,255,255,0.92)",
-        }}>Ready to start?</h2>
-        <p className="text-[15px] leading-[1.8] mb-10" style={{
-          fontFamily: "'Inter', sans-serif", color: "#6B7280",
-        }}>
-          Tell us about your business and we'll map your workflows to the right kete.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link to="/contact" className="group inline-flex items-center justify-center gap-3 px-12 py-4 text-[11px] tracking-[2px] uppercase font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
+    <section className="px-6 pb-32">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-10">
+          <p
+            className="font-mono text-[10px] tracking-[5px] uppercase mb-4 font-bold"
+            style={{ color: C.taupe }}
+          >
+            — Common questions —
+          </p>
+          <h2
+            className="font-display"
             style={{
-              background: `linear-gradient(135deg, ${C.gold}, ${C.goldLight})`,
-              color: C.bg, fontFamily: "'Inter', sans-serif",
-              boxShadow: `0 4px 30px rgba(74,165,168,0.35)`,
-            }}>
-            Get started <ArrowRight size={13} className="group-hover:translate-x-1.5 transition-transform" />
-          </Link>
-          <Link to="/demos" className="inline-flex items-center justify-center gap-2 px-12 py-4 text-[11px] tracking-[2px] uppercase font-medium rounded-full transition-all duration-300"
-            style={{ border: "1px solid rgba(74,165,168,0.15)", color: "#9CA3AF", fontFamily: "'Inter', sans-serif" }}>
-            See the demos
-          </Link>
+              fontWeight: 300,
+              fontSize: "clamp(1.875rem, 4vw, 2.5rem)",
+              color: C.taupe,
+              lineHeight: 1.15,
+            }}
+          >
+            Things people ask before signing up.
+          </h2>
         </div>
-        <p className="mt-8 text-[12px]" style={{ color: "#9CA3AF" }}>
-          Or email <a href="mailto:assembl@assembl.co.nz" className="underline" style={{ color: "#6B7280" }}>assembl@assembl.co.nz</a>
-        </p>
+
+        <Accordion
+          type="single"
+          collapsible
+          className="rounded-3xl bg-white/80 backdrop-blur-xl px-6"
+          style={{
+            border: `1px solid ${C.sand}50`,
+            boxShadow: "0 8px 30px rgba(111,97,88,0.08)",
+          }}
+        >
+          {FAQS.map((item, i) => (
+            <AccordionItem
+              key={item.q}
+              value={`faq-${i}`}
+              className={i === FAQS.length - 1 ? "border-b-0" : ""}
+              style={{ borderColor: `${C.sand}40` }}
+            >
+              <AccordionTrigger
+                className="font-display text-left hover:no-underline py-5"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                  color: C.taupe,
+                }}
+              >
+                {item.q}
+              </AccordionTrigger>
+              <AccordionContent
+                className="font-body text-[15px] leading-[1.75] pb-5"
+                style={{ color: C.taupeDeep }}
+              >
+                {item.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </section>
 
