@@ -321,6 +321,41 @@ async function logCall(input: {
   await adminDb.from("mcp_tool_calls").insert(input);
 }
 
+// Per-stage observability — writes a row to agent_thoughts so the ambient loop
+// + admins can see exactly what each pipeline stage did. Fire-and-forget; never
+// block the chat stream on telemetry.
+function recordThought(input: {
+  user_id: string | null;
+  agent_id: string;
+  toolset_slug: string;
+  stage: "kahu_pre" | "ta_inflight" | "mana_post" | "iho";
+  thought: string;
+  reasoning?: string | null;
+  metadata?: Record<string, unknown>;
+  outcome?: string | null;
+  duration_ms?: number | null;
+  severity?: "info" | "warn" | "action_required";
+}) {
+  adminDb
+    .from("agent_thoughts")
+    .insert({
+      user_id: input.user_id,
+      agent_id: input.agent_id,
+      toolset_slug: input.toolset_slug,
+      source: "chat",
+      stage: input.stage,
+      thought: input.thought,
+      reasoning: input.reasoning ?? null,
+      metadata: input.metadata ?? {},
+      outcome: input.outcome ?? null,
+      duration_ms: input.duration_ms ?? null,
+      severity: input.severity ?? "info",
+    })
+    .then(({ error }) => {
+      if (error) console.error("[agent_thoughts]", error.message);
+    });
+}
+
 // ----------------------------------------------------------------------------
 // User tier resolution
 // ----------------------------------------------------------------------------
