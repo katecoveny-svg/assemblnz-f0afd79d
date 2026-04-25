@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthSafe } from "@/hooks/useAuth";
-import { User, ChevronDown, LogOut, CreditCard, Settings, Shield, Sun, Languages } from "lucide-react";
+import { User, ChevronDown, LogOut, CreditCard, Settings, Shield, Sun, Languages, Brain } from "lucide-react";
 import { useHighContrast } from "@/components/chat/HighContrastProvider";
 import { useLanguage } from "@/components/chat/TeReoProvider";
 
@@ -104,6 +104,12 @@ const AccountDropdown = () => {
               className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
             >
               <Settings size={12} /> My Account
+            </button>
+            <button
+              onClick={() => { setOpen(false); navigate("/thoughts"); }}
+              className="w-full flex items-center gap-2 px-3 py-2 text-xs text-foreground/70 hover:text-foreground hover:bg-muted transition-colors"
+            >
+              <Brain size={12} /> Ambient agents
             </button>
             <button
               onClick={() => { setOpen(false); navigate("/dashboard"); }}
