@@ -27,31 +27,33 @@ import KeteWispBreak from "@/components/kete/KeteWispBreak";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 import { manaakiMark } from "@/assets/brand";
+import { keteAccentHex, keteAccentRgba } from "@/lib/keteColors";
 
-/* ─── Light Palette Tokens ─── */
+/* ─── Mārama Whenua palette tokens — Brand Guidelines v1.0 ─── */
 const C = {
-  bg: "#FAFBFC",
+  bg: "var(--assembl-mist)",      // #F7F3EE
   surface: "#FFFFFF",
-  teal: "#4AA5A8",
-  tealLight: "#6CBFC1",
-  ochre: "#4AA5A8",
-  ochreLight: "#F0C670",
-  lavender: "#E8E6F0",
-  text: "#3D4250",
-  textSecondary: "#6B7280",
-  textTertiary: "#9CA3AF",
-};
+  teal: "var(--assembl-soft-gold)",       // primary CTA accent
+  tealLight: "var(--assembl-sage-mist)",  // soft secondary accent
+  ochre: "var(--assembl-soft-gold)",      // alias — kept for legacy refs
+  ochreLight: "var(--assembl-sand)",
+  lavender: "var(--assembl-cloud)",
+  text: "var(--assembl-taupe-deep)",      // #6F6158
+  textSecondary: "var(--assembl-taupe)",  // #9D8C7D
+  textTertiary: "#B5A99E",
+} as const;
 
-/* Kete pastel bleed colors */
+/* Soft brand bleed behind each kete tile (8% opacity wash). */
+const keteBleed = (slug: string) => keteAccentRgba(slug, 0.08);
 const KETE_BLEED: Record<string, string> = {
-  manaaki: "rgba(232,140,120,0.08)",
-  waihanga: "rgba(74,165,168,0.08)",
-  auaha: "rgba(155,142,196,0.08)",
-  arataki: "rgba(74,165,168,0.08)",
-  pikau: "rgba(108,191,193,0.08)",
-  hoko: "rgba(198,107,92,0.08)",
-  ako: "rgba(123,167,199,0.08)",
-  toro: "rgba(74,165,168,0.06)",
+  manaaki:  keteBleed("manaaki"),
+  waihanga: keteBleed("waihanga"),
+  auaha:    keteBleed("auaha"),
+  arataki:  keteBleed("arataki"),
+  pikau:    keteBleed("pikau"),
+  hoko:     keteBleed("hoko"),
+  ako:      keteBleed("ako"),
+  toro:     keteBleed("toro"),
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -68,15 +70,33 @@ const stagger = (i: number) => ({
   transition: { delay: i * 0.08, duration: 0.6, ease },
 });
 
-/* ─── Data ─── */
+/* ─── Per-kete card metadata (colours sourced from brand-locked tokens) ─── */
+const KETE_LIGHT: Record<string, string> = {
+  manaaki:  "#F2EAD9",
+  waihanga: "#E2D2BE",
+  auaha:    "#DEEDE9",
+  arataki:  "#E8D8DE",
+  pikau:    "#D2DCCD",
+  hoko:     "#EAD8D7",
+  ako:      "#DCE8DC",
+};
+const KETE_ROUTE: Record<string, string> = {
+  manaaki:  "/manaaki",
+  waihanga: "/waihanga/about",
+  auaha:    "/auaha/about",
+  arataki:  "/arataki",
+  pikau:    "/pikau",
+  hoko:     "/hoko",
+  ako:      "/ako",
+};
 const KETE_COLORS: Record<string, { color: string; accentLight: string; to: string }> = {
-  manaaki: { color: C.teal, accentLight: C.tealLight, to: "/manaaki" },
-  waihanga: { color: C.ochre, accentLight: C.ochreLight, to: "/waihanga/about" },
-  auaha: { color: "#9B8EC4", accentLight: "#B8ADDB", to: "/auaha/about" },
-  arataki: { color: C.teal, accentLight: C.tealLight, to: "/arataki" },
-  pikau: { color: C.tealLight, accentLight: "#A8E6DA", to: "/pikau" },
-  hoko: { color: "#C66B5C", accentLight: "#E89484", to: "/hoko" },
-  ako: { color: "#7BA7C7", accentLight: "#A8C8DD", to: "/ako" },
+  manaaki:  { color: keteAccentHex("manaaki"),  accentLight: KETE_LIGHT.manaaki,  to: KETE_ROUTE.manaaki  },
+  waihanga: { color: keteAccentHex("waihanga"), accentLight: KETE_LIGHT.waihanga, to: KETE_ROUTE.waihanga },
+  auaha:    { color: keteAccentHex("auaha"),    accentLight: KETE_LIGHT.auaha,    to: KETE_ROUTE.auaha    },
+  arataki:  { color: keteAccentHex("arataki"),  accentLight: KETE_LIGHT.arataki,  to: KETE_ROUTE.arataki  },
+  pikau:    { color: keteAccentHex("pikau"),    accentLight: KETE_LIGHT.pikau,    to: KETE_ROUTE.pikau    },
+  hoko:     { color: keteAccentHex("hoko"),     accentLight: KETE_LIGHT.hoko,     to: KETE_ROUTE.hoko     },
+  ako:      { color: keteAccentHex("ako"),      accentLight: KETE_LIGHT.ako,      to: KETE_ROUTE.ako      },
 };
 
 /** 7 industry kete — the locked marketing set. Tōro renders separately as the consumer tier. */
@@ -90,30 +110,31 @@ const TORO_PACK = {
   reo: "Tōroa",
   en: "Family",
   desc: "The household load, properly organised. From $29/month.",
-  color: C.ochre,
-  accentLight: C.ochreLight,
+  color: keteAccentHex("toro"),
+  accentLight: "#E2EBF4",
   to: "/toro",
 };
 
 /** Combined for personalization re-ordering only (Tōro pinned last). */
 const PACKS = [...INDUSTRY_PACKS, TORO_PACK];
 
+const LAYERS_GOLD = "#D9BC7A"; // assembl-soft-gold — single CTA accent across all five layers
 const LAYERS_DATA = [
-  { name: "Kahu — Intake", desc: "Receives the request, classifies data sensitivity, checks PII, and routes to the right specialist agent.", icon: "Eye", color: "#4AA5A8" },
-  { name: "Iho — Reasoning", desc: "The specialist agent processes the task — grounded in NZ legislation with section references, never guessing.", icon: "Brain", color: "#4AA5A8" },
-  { name: "Tā — Action", desc: "Generates the output: draft, calculation, document, or creative. Every action classified: allowed, needs approval, or forbidden.", icon: "Zap", color: "#4AA5A8" },
-  { name: "Mahara — Memory", desc: "Logs the decision, updates shared business memory, and creates the audit trail in plain language.", icon: "Shield", color: "#4AA5A8" },
-  { name: "Mana — Evidence", desc: "Packages the output into a structured evidence pack your auditor, bank, or regulator can trust.", icon: "Activity", color: "#4AA5A8" },
+  { name: "Kahu — Intake",     desc: "Receives the request, classifies data sensitivity, checks PII, and routes to the right specialist agent.", icon: "Eye",      color: LAYERS_GOLD },
+  { name: "Iho — Reasoning",   desc: "The specialist agent processes the task — grounded in NZ legislation with section references, never guessing.", icon: "Brain",     color: LAYERS_GOLD },
+  { name: "Tā — Action",       desc: "Generates the output: draft, calculation, document, or creative. Every action classified: allowed, needs approval, or forbidden.", icon: "Zap",  color: LAYERS_GOLD },
+  { name: "Mahara — Memory",   desc: "Logs the decision, updates shared business memory, and creates the audit trail in plain language.", icon: "Shield",   color: LAYERS_GOLD },
+  { name: "Mana — Evidence",   desc: "Packages the output into a structured evidence pack your auditor, bank, or regulator can trust.", icon: "Activity", color: LAYERS_GOLD },
 ];
 
 
 
 
 const START_HERE = [
-  { title: "Ask A Live Agent", desc: "Open a working agent and ask real business questions.", to: "/chat/echo", accent: C.teal, icon: "MessageSquare" },
-  { title: "Review A Document", desc: "Paste a contract or brief and get risks flagged instantly.", to: "/waihanga", accent: C.ochre, icon: "FileText" },
-  { title: "Make An Ad", desc: "Generate campaigns and visuals that look finished.", to: "/auaha/ads", accent: "#9B8EC4", icon: "Megaphone" },
-  { title: "Run The Demo", desc: "Show a client what Assembl does in 60 seconds.", to: "/demos", accent: C.tealLight, icon: "Rocket" },
+  { title: "Ask a live agent",     desc: "Open a working agent and ask a real business question.",        to: "/chat/echo",  accent: keteAccentHex("manaaki"),  icon: "MessageSquare" },
+  { title: "Review a document",    desc: "Paste a contract or brief — risks flagged in seconds.",         to: "/waihanga",   accent: keteAccentHex("waihanga"), icon: "FileText" },
+  { title: "Make an ad",           desc: "Generate finished campaigns and visuals from a single brief.",  to: "/auaha/ads",  accent: keteAccentHex("auaha"),    icon: "Megaphone" },
+  { title: "Run the 60-second demo", desc: "Show a client what Assembl does, end to end, in a minute.",   to: "/demos",      accent: LAYERS_GOLD,               icon: "Rocket" },
 ];
 
 /* ─── Live Demo Chat ─── */
