@@ -1,5 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "jsr:@supabase/supabase-js@2";
+import { createClient } from "npm:@supabase/supabase-js@2.45.0";
 import { resolveModel, DEFAULT_MODEL } from "../_shared/model-router.ts";
 import { callLlm, detectProvider } from "../_shared/llm-call.ts";
 import { validateChatRequest } from "../_shared/chat-validation.ts";
