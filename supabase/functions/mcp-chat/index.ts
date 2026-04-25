@@ -635,13 +635,32 @@ Deno.serve(async (req) => {
 
         // 7. MANA_POST — apply rewrites; if changed, send a final patch event
         const rewritten = applyManaPost(assistantBuffer, rules);
-        if (rewritten !== assistantBuffer) {
+        const wasRewritten = rewritten !== assistantBuffer;
+        if (wasRewritten) {
           const patch = {
             choices: [{ delta: { role: "assistant", content: "" }, finish_reason: null }],
             assembl_mana_patch: { final_content: rewritten },
           };
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(patch)}\n\n`));
         }
+
+        recordThought({
+          user_id: userId,
+          agent_id: agentId,
+          toolset_slug: agent.toolset,
+          stage: "mana_post",
+          thought: wasRewritten
+            ? `Mana rewrote the assistant reply to satisfy post-rules.`
+            : `Mana cleared the assistant reply unchanged.`,
+          reasoning: `assistant_chars=${assistantBuffer.length}; rewritten=${wasRewritten}`,
+          metadata: {
+            output_chars: assistantBuffer.length,
+            rewritten: wasRewritten,
+            char_delta: rewritten.length - assistantBuffer.length,
+          },
+          outcome: wasRewritten ? "rewritten" : "passed",
+          duration_ms: Math.round(performance.now() - start),
+        });
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
 
