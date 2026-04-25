@@ -818,6 +818,102 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_thought_runs: {
+        Row: {
+          duration_ms: number | null
+          errors: Json
+          finished_at: string | null
+          id: string
+          nudges_generated: number
+          org_id: string | null
+          started_at: string
+          status: string
+          thoughts_generated: number
+          triggered_by: string
+        }
+        Insert: {
+          duration_ms?: number | null
+          errors?: Json
+          finished_at?: string | null
+          id?: string
+          nudges_generated?: number
+          org_id?: string | null
+          started_at?: string
+          status?: string
+          thoughts_generated?: number
+          triggered_by?: string
+        }
+        Update: {
+          duration_ms?: number | null
+          errors?: Json
+          finished_at?: string | null
+          id?: string
+          nudges_generated?: number
+          org_id?: string | null
+          started_at?: string
+          status?: string
+          thoughts_generated?: number
+          triggered_by?: string
+        }
+        Relationships: []
+      }
+      agent_thoughts: {
+        Row: {
+          agent_id: string
+          conversation_id: string | null
+          created_at: string
+          duration_ms: number | null
+          id: string
+          message_id: string | null
+          metadata: Json
+          org_id: string | null
+          outcome: string | null
+          reasoning: string | null
+          severity: string | null
+          source: string
+          stage: string | null
+          thought: string
+          toolset_slug: string | null
+          user_id: string | null
+        }
+        Insert: {
+          agent_id: string
+          conversation_id?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          id?: string
+          message_id?: string | null
+          metadata?: Json
+          org_id?: string | null
+          outcome?: string | null
+          reasoning?: string | null
+          severity?: string | null
+          source?: string
+          stage?: string | null
+          thought: string
+          toolset_slug?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          agent_id?: string
+          conversation_id?: string | null
+          created_at?: string
+          duration_ms?: number | null
+          id?: string
+          message_id?: string | null
+          metadata?: Json
+          org_id?: string | null
+          outcome?: string | null
+          reasoning?: string | null
+          severity?: string | null
+          source?: string
+          stage?: string | null
+          thought?: string
+          toolset_slug?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       agent_toolsets: {
         Row: {
           agent_id: string
