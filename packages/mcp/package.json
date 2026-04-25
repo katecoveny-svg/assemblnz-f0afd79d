@@ -1,0 +1,54 @@
+{
+  "name": "@assembl/mcp",
+  "version": "0.1.0-alpha.1",
+  "description": "Assembl MCP server — bring NZ business agents (Manaaki, Waihanga, Auaha, Arataki, Pikau) into Claude Desktop, Cursor, n8n, and any other MCP-compatible client.",
+  "type": "module",
+  "bin": {
+    "@assembl/mcp": "./dist/cli.js",
+    "assembl-mcp": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "prepublishOnly": "npm run build",
+    "inspect": "npx @modelcontextprotocol/inspector node ./dist/cli.js"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "assembl",
+    "new-zealand",
+    "ai-agents",
+    "claude",
+    "cursor"
+  ],
+  "homepage": "https://assembl.co.nz/developers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/katecoveny-svg/assemblnz-f0afd79d.git",
+    "directory": "packages/mcp"
+  },
+  "author": "Assembl Aotearoa",
+  "license": "MIT",
+  "dependencies": {
+    "mcp-lite": "^0.10.0",
+    "undici": "^6.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "typescript": "^5.4.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
