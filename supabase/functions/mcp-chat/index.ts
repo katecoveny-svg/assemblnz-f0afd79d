@@ -496,8 +496,50 @@ Deno.serve(async (req) => {
     };
   });
 
+  // KAHU_PRE thought — gate cleared
+  recordThought({
+    user_id: userId,
+    agent_id: agentId,
+    toolset_slug: agent.toolset,
+    stage: "kahu_pre",
+    thought: `Kahu cleared request for ${agentId}.`,
+    reasoning: `tier=${tier}; rules_applied=${rules.length}; pii_masking=on`,
+    metadata: { tier, rule_count: rules.length },
+    outcome: "passed",
+    duration_ms: Math.round(performance.now() - start),
+  });
+
   // 4. TĀ_INFLIGHT — stamp system prompt
-  const systemPrompt = agent.prompt + buildInflightStamp(rules);
+  const inflightStamp = buildInflightStamp(rules);
+  const systemPrompt = agent.prompt + inflightStamp;
+
+  recordThought({
+    user_id: userId,
+    agent_id: agentId,
+    toolset_slug: agent.toolset,
+    stage: "ta_inflight",
+    thought: inflightStamp ? `Tā stamped sovereignty/tikanga reminders into system prompt.` : `Tā passed without additional in-flight stamps.`,
+    reasoning: inflightStamp ? inflightStamp.slice(0, 500) : null,
+    metadata: { stamped: Boolean(inflightStamp) },
+    outcome: "passed",
+  });
+
+  // IHO — model selection trace
+  const selectedModel = params?.model && ALLOWED_GATEWAY_MODELS.has(params.model) ? params.model : agent.model;
+  recordThought({
+    user_id: userId,
+    agent_id: agentId,
+    toolset_slug: agent.toolset,
+    stage: "iho",
+    thought: `Iho routed to model ${selectedModel}.`,
+    reasoning: params?.model
+      ? params.model === selectedModel
+        ? `Client requested ${params.model} (whitelisted).`
+        : `Client requested ${params.model} (not whitelisted) — fell back to agent default.`
+      : `No client model preference — using agent default.`,
+    metadata: { selected_model: selectedModel, requested_model: params?.model ?? null },
+    outcome: "routed",
+  });
 
   // 5. Stream from Lovable AI Gateway
   let upstream: Response;
@@ -509,9 +551,7 @@ Deno.serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        // Honour client-selected model only when whitelisted; otherwise stick
-        // with the agent's vetted default to prevent unbounded model swaps.
-        model: params?.model && ALLOWED_GATEWAY_MODELS.has(params.model) ? params.model : agent.model,
+        model: selectedModel,
         messages: [{ role: "system", content: systemPrompt }, ...sanitizedMessages],
         stream: true,
         // Forward client-tunable params only when present — omitting lets the
