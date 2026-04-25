@@ -23,6 +23,7 @@ import { ChatSettingsPanel } from "@/components/chat/ChatSettingsPanel";
 import ChatImageMessage, { extractInlineImages } from "@/components/chat/ChatImageMessage";
 import { prefillAndSend } from "@/engine/prefillAndSend";
 import { getStarterQuestions } from "@/engine/starterQuestions";
+import { logAgentEvent } from "@/engine/telemetry";
 
 interface Message {
   role: "user" | "assistant";
