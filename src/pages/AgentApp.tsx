@@ -95,6 +95,13 @@ export default function AgentApp() {
     setInput("");
     setLoading(true);
 
+    logAgentEvent({
+      eventType: "chat_message_sent",
+      agentSlug: agentId ?? agent?.id ?? "unknown",
+      packSlug: agent?.pack ?? null,
+      metadata: { surface: "agent_app", message_length: userMsg.content.length },
+    });
+
     try {
       const lastMsg = newMessages[newMessages.length - 1];
       const content = await agentChat({
