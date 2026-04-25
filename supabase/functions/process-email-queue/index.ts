@@ -1,5 +1,80 @@
-import { sendLovableEmail } from 'npm:@lovable.dev/email-js'
 import { createClient } from 'npm:@supabase/supabase-js@2'
+
+// --- Inline Lovable email sender (replaces @lovable.dev/email-js) ---
+// Posts to the Lovable transactional email API. Throws an Error with a
+// `status` and (for 429) `retryAfterSeconds` field so the existing
+// isRateLimited / isForbidden / getRetryAfterSeconds helpers work unchanged.
+const DEFAULT_LOVABLE_SEND_URL = 'https://api.lovable.dev/v1/emails/send'
+
+interface LovableEmailPayload {
+  run_id?: string
+  to: string
+  from?: string
+  sender_domain?: string
+  subject: string
+  html?: string
+  text?: string
+  purpose?: string
+  label?: string
+  idempotency_key?: string
+  unsubscribe_token?: string
+  message_id?: string
+}
+
+class EmailAPIError extends Error {
+  status: number
+  retryAfterSeconds: number | null
+  constructor(message: string, status: number, retryAfterSeconds: number | null) {
+    super(message)
+    this.name = 'EmailAPIError'
+    this.status = status
+    this.retryAfterSeconds = retryAfterSeconds
+  }
+}
+
+async function sendLovableEmail(
+  payload: LovableEmailPayload,
+  opts: { apiKey: string; sendUrl?: string | null }
+): Promise<void> {
+  const url = opts.sendUrl || DEFAULT_LOVABLE_SEND_URL
+  const headers: Record<string, string> = {
+    'Authorization': `Bearer ${opts.apiKey}`,
+    'Content-Type': 'application/json',
+  }
+  if (payload.idempotency_key) {
+    headers['Idempotency-Key'] = payload.idempotency_key
+  }
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(payload),
+  })
+
+  if (res.ok) return
+
+  let bodyText = ''
+  try {
+    bodyText = await res.text()
+  } catch {
+    // ignore
+  }
+
+  let retryAfterSeconds: number | null = null
+  if (res.status === 429) {
+    const ra = res.headers.get('Retry-After')
+    if (ra) {
+      const parsed = Number(ra)
+      retryAfterSeconds = Number.isFinite(parsed) ? parsed : null
+    }
+  }
+
+  throw new EmailAPIError(
+    `Lovable email send failed (${res.status}): ${bodyText.slice(0, 500)}`,
+    res.status,
+    retryAfterSeconds,
+  )
+}
 
 const MAX_RETRIES = 5
 const DEFAULT_BATCH_SIZE = 10
