@@ -35,7 +35,7 @@ const NAV = [
   { to: "/admin/mcp/server", label: "Server", icon: Server },
   { to: "/admin/mcp/health", label: "Function Health", icon: Activity },
   { to: "/admin/mcp/e2e", label: "E2E Matrix", icon: TestTube2 },
-  { to: "/admin/api-keys", label: "API Keys", icon: KeyRound },
+  { to: "/admin/mcp/api-keys", label: "API Keys", icon: KeyRound },
 ];
 
 export default function AdminMcpLayout({ children }: { children?: ReactNode }) {
