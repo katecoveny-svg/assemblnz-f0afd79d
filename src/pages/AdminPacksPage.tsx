@@ -24,7 +24,7 @@ const AdminPacksPage = () => {
   if (!isAdmin) return <Navigate to="/" replace />;
 
   const updatePack = async (id: string, updates: Record<string, any>) => {
-    const { error } = await supabase.from("pack_visibility").update(updates).eq("id", id);
+    const { error } = await supabase.from("pack_visibility").update(updates as any).eq("id", id);
     if (error) { toast.error("Update failed"); return; }
     setPacks(prev => prev.map(p => p.id === id ? { ...p, ...updates } : p));
     toast.success("Pack updated");

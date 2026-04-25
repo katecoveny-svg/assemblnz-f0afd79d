@@ -128,7 +128,7 @@ function LiveDemoChatSection() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    const timers: NodeJS.Timeout[] = [];
+    const timers: ReturnType<typeof setTimeout>[] = [];
     timers.push(setTimeout(() => setShowMessages(1), 600));
     timers.push(setTimeout(() => setShowMessages(2), 1800));
     timers.push(setTimeout(() => setShowMessages(3), 3200));
