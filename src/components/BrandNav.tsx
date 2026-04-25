@@ -32,6 +32,7 @@ const KETE = [
 ];
 
 const MORE_LINKS = [
+  { label: "Ambient Agents", sublabel: "Standing thoughts your kete keep for you", to: "/thoughts", glowIcon: "Brain", color: "#D9BC7A" },
   { label: "Hui", sublabel: "Meeting Copilot", to: "/hui", glowIcon: "Mic", color: "#D9BC7A" },
   { label: "Capabilities", sublabel: "What Assembl can do", to: "/capabilities", glowIcon: "Sparkles", color: "#4AA5A8" },
   { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", glowIcon: "BarChart3", color: "#4AA5A8" },

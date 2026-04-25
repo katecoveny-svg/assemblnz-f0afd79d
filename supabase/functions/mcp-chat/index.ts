@@ -20,6 +20,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://esm.sh/zod@3.23.8";
 import { embedText } from "../_shared/embed.ts";
+import { executeAgentTool, LIVE_DATA_TOOLS, type LlmTool } from "../_shared/tool-executor.ts";
 
 // ----------------------------------------------------------------------------
 // Request schema (server-side validation)
@@ -583,101 +584,208 @@ Deno.serve(async (req) => {
     : [[] as KbSnippet[], [] as MemHit[]];
   const contextBlock = buildContextBlock(kbSnippets, memHits);
 
-  // 4. TĀ_INFLIGHT — stamp system prompt
-  const systemPrompt = agent.prompt + contextBlock + buildInflightStamp(rules);
+  // 4. TĀ_INFLIGHT — stamp system prompt + advertise tools
+  const tools: LlmTool[] = LIVE_DATA_TOOLS;
+  const toolHint = `\n\n[LIVE TOOLS: You can call ${tools.length} live tools — NZ weather, fuel prices, route planning, internal knowledge base search, recall_memory, compliance updates, IoT signals, send_sms, calendar, Canva. Use a tool whenever the user's question depends on real-time data or stored history rather than guessing. If a tool returns {error}, surface the error and suggest a fix.]`;
+  const systemPrompt = agent.prompt + contextBlock + toolHint + buildInflightStamp(rules);
 
-  // 5. Stream from Lovable AI Gateway
-  let upstream: Response;
-  try {
-    upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const resolvedModel =
+    params?.model && ALLOWED_GATEWAY_MODELS.has(params.model) ? params.model : agent.model;
+
+  // ──────────────────────────────────────────────────────────────────────
+  // Two-round tool-calling flow:
+  //   Round 1 — stream upstream with tools advertised. Forward content
+  //             deltas to the client, but quietly buffer any tool_calls
+  //             (those are gateway-internal — the client only sees the
+  //             final natural-language answer).
+  //   Round 2 — only if tools fired in Round 1. Re-call the gateway with
+  //             the assistant's tool_calls + their results spliced into
+  //             the message history, no more tools advertised. Stream
+  //             that output to the client. Capped at one tool turn so a
+  //             confused model can't recurse forever.
+  // ──────────────────────────────────────────────────────────────────────
+
+  interface BufferedToolCall {
+    id: string;
+    type: "function";
+    function: { name: string; arguments: string };
+  }
+
+  /**
+   * Run one streaming gateway round.
+   *
+   * If `forwardContent` is true, content deltas are passed straight to
+   * the client controller. tool_call deltas are buffered silently and
+   * returned to the caller. The caller decides what to do with them.
+   */
+  async function runRound(opts: {
+    msgs: unknown[];
+    advertiseTools: boolean;
+    forwardContent: boolean;
+    controller: ReadableStreamDefaultController<Uint8Array>;
+  }): Promise<{
+    ok: true;
+    text: string;
+    toolCalls: BufferedToolCall[];
+  } | {
+    ok: false;
+    status: number;
+    body: string;
+  }> {
+    const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
-        "Content-Type": "application/json",
-      },
+      headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        // Honour client-selected model only when whitelisted; otherwise stick
-        // with the agent's vetted default to prevent unbounded model swaps.
-        model: params?.model && ALLOWED_GATEWAY_MODELS.has(params.model) ? params.model : agent.model,
-        messages: [{ role: "system", content: systemPrompt }, ...sanitizedMessages],
+        model: resolvedModel,
+        messages: opts.msgs,
         stream: true,
-        // Forward client-tunable params only when present — omitting lets the
-        // gateway / model pick its own defaults rather than being pinned to 0.
+        ...(opts.advertiseTools ? { tools, tool_choice: "auto" } : {}),
         ...(typeof params?.temperature === "number" ? { temperature: params.temperature } : {}),
         ...(typeof params?.max_tokens === "number" ? { max_tokens: params.max_tokens } : {}),
       }),
     });
-  } catch (e) {
-    await logCall({
-      tool_name: toolName,
-      toolset_slug: agent.toolset,
-      user_id: userId,
-      status: "error",
-      duration_ms: Math.round(performance.now() - start),
-      error_message: (e as Error).message,
-    });
-    return new Response(JSON.stringify({ error: "Upstream unreachable" }), {
-      status: 502,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
+    if (!upstream.ok || !upstream.body) {
+      const body = await upstream.text().catch(() => "");
+      return { ok: false, status: upstream.status, body };
+    }
 
-  if (!upstream.ok || !upstream.body) {
-    const errText = await upstream.text().catch(() => "");
-    const status = upstream.status === 429 ? 429 : upstream.status === 402 ? 402 : 500;
-    const message =
-      upstream.status === 429
-        ? "Rate limits exceeded, please try again later."
-        : upstream.status === 402
-          ? "AI credits exhausted. Please add funds at Settings → Workspace → Usage."
-          : "AI gateway error";
-    await logCall({
-      tool_name: toolName,
-      toolset_slug: agent.toolset,
-      user_id: userId,
-      status: "error",
-      duration_ms: Math.round(performance.now() - start),
-      error_message: `gateway_${upstream.status}: ${errText.slice(0, 200)}`,
-    });
-    return new Response(JSON.stringify({ error: message }), {
-      status,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
-  }
+    const reader = upstream.body.getReader();
+    const dec = new TextDecoder();
+    let buffer = "";
+    let text = "";
+    // tool_calls arrive as a sparse list of indexed deltas; assemble them
+    // by index then return a dense array.
+    const partial = new Map<number, BufferedToolCall>();
 
-  // 6. Tee the stream — pass tokens through to client AND buffer for MANA_POST
-  let assistantBuffer = "";
-  const encoder = new TextEncoder();
-  const decoder = new TextDecoder();
-
-  const transformed = new ReadableStream({
-    async start(controller) {
-      const reader = upstream.body!.getReader();
-      let textBuffer = "";
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          // Forward raw bytes immediately for true token-by-token streaming.
-          controller.enqueue(value);
-          // Mirror into buffer for post-stream policy.
-          textBuffer += decoder.decode(value, { stream: true });
-          let nl: number;
-          while ((nl = textBuffer.indexOf("\n")) !== -1) {
-            let line = textBuffer.slice(0, nl);
-            textBuffer = textBuffer.slice(nl + 1);
-            if (line.endsWith("\r")) line = line.slice(0, -1);
-            if (!line.startsWith("data: ")) continue;
-            const json = line.slice(6).trim();
-            if (json === "[DONE]") continue;
-            try {
-              const parsed = JSON.parse(json);
-              const delta = parsed.choices?.[0]?.delta?.content;
-              if (typeof delta === "string") assistantBuffer += delta;
-            } catch {
-              // partial JSON — ignore for buffer purposes
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (opts.forwardContent) {
+          // Forward bytes verbatim — true token-by-token streaming.
+          opts.controller.enqueue(value);
+        }
+        buffer += dec.decode(value, { stream: true });
+        let nl: number;
+        while ((nl = buffer.indexOf("\n")) !== -1) {
+          let line = buffer.slice(0, nl);
+          buffer = buffer.slice(nl + 1);
+          if (line.endsWith("\r")) line = line.slice(0, -1);
+          if (!line.startsWith("data: ")) continue;
+          const payload = line.slice(6).trim();
+          if (payload === "[DONE]") continue;
+          let parsed: { choices?: { delta?: { content?: string; tool_calls?: { index: number; id?: string; function?: { name?: string; arguments?: string } }[] } }[] };
+          try { parsed = JSON.parse(payload); } catch { continue; }
+          const delta = parsed.choices?.[0]?.delta;
+          if (!delta) continue;
+          if (typeof delta.content === "string") text += delta.content;
+          if (Array.isArray(delta.tool_calls)) {
+            for (const tcDelta of delta.tool_calls) {
+              const idx = tcDelta.index ?? 0;
+              const existing = partial.get(idx) ?? {
+                id: tcDelta.id ?? `tc_${idx}`,
+                type: "function",
+                function: { name: "", arguments: "" },
+              };
+              if (tcDelta.id) existing.id = tcDelta.id;
+              if (tcDelta.function?.name) existing.function.name = tcDelta.function.name;
+              if (tcDelta.function?.arguments) existing.function.arguments += tcDelta.function.arguments;
+              partial.set(idx, existing);
             }
           }
+        }
+      }
+    } catch (e) {
+      console.warn("[mcp-chat] stream read error", (e as Error).message);
+    }
+
+    return { ok: true, text, toolCalls: Array.from(partial.values()) };
+  }
+
+  /** Execute buffered tool calls in parallel. Returns OpenAI tool messages. */
+  async function executeAll(calls: BufferedToolCall[]): Promise<{
+    toolMsgs: { role: "tool"; tool_call_id: string; content: string }[];
+    toolNames: string[];
+  }> {
+    const toolCtx = {
+      supabaseUrl: SUPABASE_URL,
+      authHeader: authHeader ?? "",
+      serviceClient: adminDb,
+      userId,
+      agentId,
+    };
+    const results = await Promise.all(calls.map(async (c) => {
+      let args: Record<string, unknown> = {};
+      try { args = JSON.parse(c.function.arguments || "{}"); } catch { /* ignore */ }
+      try {
+        const out = await executeAgentTool(c.function.name, args, toolCtx);
+        return { ok: true, name: c.function.name, id: c.id, body: out };
+      } catch (e) {
+        return { ok: true, name: c.function.name, id: c.id, body: { error: (e as Error).message } };
+      }
+    }));
+    return {
+      toolMsgs: results.map((r) => ({
+        role: "tool" as const,
+        tool_call_id: r.id,
+        content: JSON.stringify(r.body).slice(0, 12_000),
+      })),
+      toolNames: results.map((r) => r.name),
+    };
+  }
+
+  const encoder = new TextEncoder();
+
+  const transformed = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const baseMsgs: unknown[] = [
+        { role: "system", content: systemPrompt },
+        ...sanitizedMessages,
+      ];
+
+      let toolNamesUsed: string[] = [];
+      let assistantBuffer = "";
+
+      try {
+        // ── Round 1 ────────────────────────────────────────────────────
+        // If tools fire we DON'T forward content — the model normally
+        // emits no narration alongside tool_calls anyway, and we want
+        // the client to see the final post-tool answer streaming, not
+        // a partial pre-tool draft. If no tools fire we forward content
+        // verbatim and we're done.
+        const r1 = await runRound({
+          msgs: baseMsgs,
+          advertiseTools: true,
+          forwardContent: true, // optimistic — most turns won't call tools
+          controller,
+        });
+        if (!r1.ok) throw new Error(`gateway_${r1.status}: ${r1.body.slice(0, 240)}`);
+
+        if (r1.toolCalls.length > 0) {
+          // Tools fired. Run them, then start a second streaming round
+          // whose output IS forwarded to the client. The client may have
+          // already seen any pre-tool content from r1; that's fine.
+          const { toolMsgs, toolNames } = await executeAll(r1.toolCalls);
+          toolNamesUsed = toolNames;
+
+          // Compose the assistant message that emitted the tool_calls so
+          // the gateway sees a valid OpenAI tool-loop history.
+          const assistantToolMsg = {
+            role: "assistant",
+            content: r1.text || null,
+            tool_calls: r1.toolCalls,
+          };
+
+          const r2 = await runRound({
+            msgs: [...baseMsgs, assistantToolMsg, ...toolMsgs],
+            advertiseTools: false,
+            forwardContent: true,
+            controller,
+          });
+          if (!r2.ok) throw new Error(`gateway_${r2.status}: ${r2.body.slice(0, 240)}`);
+          assistantBuffer = r1.text + r2.text;
+        } else {
+          assistantBuffer = r1.text;
         }
 
         // 7. MANA_POST — apply rewrites; if changed, send a final patch event
@@ -688,6 +796,11 @@ Deno.serve(async (req) => {
             assembl_mana_patch: { final_content: rewritten },
           };
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(patch)}\n\n`));
+        }
+        if (toolNamesUsed.length) {
+          controller.enqueue(encoder.encode(
+            `data: ${JSON.stringify({ assembl_tools_used: toolNamesUsed })}\n\n`,
+          ));
         }
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
@@ -700,6 +813,7 @@ Deno.serve(async (req) => {
           duration_ms: Math.round(performance.now() - start),
           error_message: null,
         });
+        return;
       } catch (e) {
         await logCall({
           tool_name: toolName,
