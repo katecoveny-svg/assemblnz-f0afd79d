@@ -31,6 +31,8 @@ import AccountDropdown from "@/components/AccountDropdown";
 import PaywallModal from "@/components/PaywallModal";
 import { NeonLock } from "@/components/NeonIcons";
 import AgentWelcome from "@/components/AgentWelcome";
+import { prefillAndSend } from "@/engine/prefillAndSend";
+import { getStarterQuestions } from "@/engine/starterQuestions";
 import { AgentDebugPanel } from "@/components/dev/AgentDebugPanel";
 import { usePersistAgentContext, getLastAgentContext } from "@/hooks/usePersistAgentContext";
 import { useGuestChatSync } from "@/hooks/useGuestChatSync";
@@ -2269,7 +2271,7 @@ const ChatPage = () => {
 
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
-                <AgentWelcome agent={agent} onStarterClick={(prompt) => sendMessage(prompt)} />
+                <AgentWelcome agent={agent} onStarterClick={(prompt) => prefillAndSend({ prompt, setInput, send: sendMessage, focusRef: inputRef })} />
                 {isPrism && (
                   <div className="w-full max-w-sm mt-2 space-y-3">
                     {brandLogoUrl && (
@@ -2304,8 +2306,8 @@ const ChatPage = () => {
                       Upload a job sheet, freight instructions, or commercial invoice to start processing
                     </p>
                     <div className="border-t border-border my-1" />
-                    {agent.starters.map((q) => (
-                      <button key={q} onClick={() => sendMessage(q)} className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70">
+                    {getStarterQuestions(agent).map((q) => (
+                      <button key={q} onClick={() => prefillAndSend({ prompt: q, setInput, send: sendMessage, focusRef: inputRef })} className="text-left text-xs px-4 py-3 rounded-lg border border-border bg-card hover:border-foreground/10 transition-colors text-foreground/70">
                         {q}
                       </button>
                     ))}
@@ -2341,8 +2343,8 @@ const ChatPage = () => {
                           </button>
                         ));
                       }
-                      return agent.starters.map((q) => (
-                        <button key={q} onClick={() => sendMessage(q)}
+                      return getStarterQuestions(agent).map((q) => (
+                        <button key={q} onClick={() => prefillAndSend({ prompt: q, setInput, send: sendMessage, focusRef: inputRef })}
                           className="text-left rounded-xl p-3.5 transition-all duration-200 hover:scale-[1.01]"
                           style={{
                             background: "rgba(14,14,26,0.7)",

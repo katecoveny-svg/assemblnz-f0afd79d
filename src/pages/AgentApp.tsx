@@ -21,6 +21,8 @@ import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 import { useAgentChatParams } from "@/hooks/useAgentChatParams";
 import { ChatSettingsPanel } from "@/components/chat/ChatSettingsPanel";
 import ChatImageMessage, { extractInlineImages } from "@/components/chat/ChatImageMessage";
+import { prefillAndSend } from "@/engine/prefillAndSend";
+import { getStarterQuestions } from "@/engine/starterQuestions";
 
 interface Message {
   role: "user" | "assistant";
@@ -59,6 +61,7 @@ export default function AgentApp() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // Resume the user's previous conversation with this agent (DB for signed-in,
   // localStorage for guests). Keyed by agentId so switching agents loads that
@@ -268,10 +271,10 @@ export default function AgentApp() {
                     <p className="text-xs text-white/40 text-center max-w-sm mb-2">{agent.role}</p>
                     <p className="text-[11px] text-gray-400 text-center max-w-md mb-6">{agent.tagline}</p>
 
-                    {/* Starter prompts */}
+                    {/* Starter prompts — per-agent set, prefills input then sends */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-lg">
-                      {(agent.starters || []).slice(0, 4).map((s, i) => (
-                        <button key={i} onClick={() => sendMessage(s)}
+                      {getStarterQuestions(agent).slice(0, 4).map((s, i) => (
+                        <button key={i} onClick={() => prefillAndSend({ prompt: s, setInput, send: sendMessage, focusRef: inputRef })}
                           className="text-left px-3.5 py-3 rounded-xl transition-all duration-200 hover:border-opacity-40"
                           style={{ background: color + "08", border: `1px solid ${color}12` }}>
                           <p className="text-[11px] text-white/60 line-clamp-2">{s}</p>
@@ -368,6 +371,7 @@ export default function AgentApp() {
                 <div className="flex items-end gap-2 rounded-2xl px-4 py-2"
                   style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
                   <textarea
+                    ref={inputRef}
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
