@@ -321,6 +321,41 @@ async function logCall(input: {
   await adminDb.from("mcp_tool_calls").insert(input);
 }
 
+// Per-stage observability — writes a row to agent_thoughts so the ambient loop
+// + admins can see exactly what each pipeline stage did. Fire-and-forget; never
+// block the chat stream on telemetry.
+function recordThought(input: {
+  user_id: string | null;
+  agent_id: string;
+  toolset_slug: string;
+  stage: "kahu_pre" | "ta_inflight" | "mana_post" | "iho";
+  thought: string;
+  reasoning?: string | null;
+  metadata?: Record<string, unknown>;
+  outcome?: string | null;
+  duration_ms?: number | null;
+  severity?: "info" | "warn" | "action_required";
+}) {
+  adminDb
+    .from("agent_thoughts")
+    .insert({
+      user_id: input.user_id,
+      agent_id: input.agent_id,
+      toolset_slug: input.toolset_slug,
+      source: "chat",
+      stage: input.stage,
+      thought: input.thought,
+      reasoning: input.reasoning ?? null,
+      metadata: input.metadata ?? {},
+      outcome: input.outcome ?? null,
+      duration_ms: input.duration_ms ?? null,
+      severity: input.severity ?? "info",
+    })
+    .then(({ error }) => {
+      if (error) console.error("[agent_thoughts]", error.message);
+    });
+}
+
 // ----------------------------------------------------------------------------
 // User tier resolution
 // ----------------------------------------------------------------------------
@@ -461,8 +496,50 @@ Deno.serve(async (req) => {
     };
   });
 
+  // KAHU_PRE thought — gate cleared
+  recordThought({
+    user_id: userId,
+    agent_id: agentId,
+    toolset_slug: agent.toolset,
+    stage: "kahu_pre",
+    thought: `Kahu cleared request for ${agentId}.`,
+    reasoning: `tier=${tier}; rules_applied=${rules.length}; pii_masking=on`,
+    metadata: { tier, rule_count: rules.length },
+    outcome: "passed",
+    duration_ms: Math.round(performance.now() - start),
+  });
+
   // 4. TĀ_INFLIGHT — stamp system prompt
-  const systemPrompt = agent.prompt + buildInflightStamp(rules);
+  const inflightStamp = buildInflightStamp(rules);
+  const systemPrompt = agent.prompt + inflightStamp;
+
+  recordThought({
+    user_id: userId,
+    agent_id: agentId,
+    toolset_slug: agent.toolset,
+    stage: "ta_inflight",
+    thought: inflightStamp ? `Tā stamped sovereignty/tikanga reminders into system prompt.` : `Tā passed without additional in-flight stamps.`,
+    reasoning: inflightStamp ? inflightStamp.slice(0, 500) : null,
+    metadata: { stamped: Boolean(inflightStamp) },
+    outcome: "passed",
+  });
+
+  // IHO — model selection trace
+  const selectedModel = params?.model && ALLOWED_GATEWAY_MODELS.has(params.model) ? params.model : agent.model;
+  recordThought({
+    user_id: userId,
+    agent_id: agentId,
+    toolset_slug: agent.toolset,
+    stage: "iho",
+    thought: `Iho routed to model ${selectedModel}.`,
+    reasoning: params?.model
+      ? params.model === selectedModel
+        ? `Client requested ${params.model} (whitelisted).`
+        : `Client requested ${params.model} (not whitelisted) — fell back to agent default.`
+      : `No client model preference — using agent default.`,
+    metadata: { selected_model: selectedModel, requested_model: params?.model ?? null },
+    outcome: "routed",
+  });
 
   // 5. Stream from Lovable AI Gateway
   let upstream: Response;
@@ -474,9 +551,7 @@ Deno.serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        // Honour client-selected model only when whitelisted; otherwise stick
-        // with the agent's vetted default to prevent unbounded model swaps.
-        model: params?.model && ALLOWED_GATEWAY_MODELS.has(params.model) ? params.model : agent.model,
+        model: selectedModel,
         messages: [{ role: "system", content: systemPrompt }, ...sanitizedMessages],
         stream: true,
         // Forward client-tunable params only when present — omitting lets the
@@ -560,13 +635,32 @@ Deno.serve(async (req) => {
 
         // 7. MANA_POST — apply rewrites; if changed, send a final patch event
         const rewritten = applyManaPost(assistantBuffer, rules);
-        if (rewritten !== assistantBuffer) {
+        const wasRewritten = rewritten !== assistantBuffer;
+        if (wasRewritten) {
           const patch = {
             choices: [{ delta: { role: "assistant", content: "" }, finish_reason: null }],
             assembl_mana_patch: { final_content: rewritten },
           };
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(patch)}\n\n`));
         }
+
+        recordThought({
+          user_id: userId,
+          agent_id: agentId,
+          toolset_slug: agent.toolset,
+          stage: "mana_post",
+          thought: wasRewritten
+            ? `Mana rewrote the assistant reply to satisfy post-rules.`
+            : `Mana cleared the assistant reply unchanged.`,
+          reasoning: `assistant_chars=${assistantBuffer.length}; rewritten=${wasRewritten}`,
+          metadata: {
+            output_chars: assistantBuffer.length,
+            rewritten: wasRewritten,
+            char_delta: rewritten.length - assistantBuffer.length,
+          },
+          outcome: wasRewritten ? "rewritten" : "passed",
+          duration_ms: Math.round(performance.now() - start),
+        });
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
 
