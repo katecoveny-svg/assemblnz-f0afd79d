@@ -64,6 +64,7 @@ const PublicKnowledgeBrainPage = lazy(() => import("./pages/PublicKnowledgeBrain
 const PikauCbaffLanding = lazy(() => import("./pages/PikauCbaffLanding"));
 const ArtakiMtaLanding = lazy(() => import("./pages/ArtakiMtaLanding"));
 const IntegrationHub = lazy(() => import("./pages/IntegrationHub"));
+const IntegrationsSettingsPage = lazy(() => import("./pages/IntegrationsSettingsPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const FounderPage = lazy(() => import("./pages/FounderPage"));
 const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
@@ -393,7 +394,8 @@ const App = () => (
                         <Route path="/knowledge" element={<Suspense fallback={null}><KnowledgeCataloguePage /></Suspense>} />
                         <Route path="/pikau/cbaff" element={<Suspense fallback={null}><PikauCbaffLanding /></Suspense>} />
                         <Route path="/arataki/mta" element={<Suspense fallback={null}><ArtakiMtaLanding /></Suspense>} />
-                        <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
+                        <Route path="/settings/integrations" element={<Suspense fallback={null}><IntegrationsSettingsPage /></Suspense>} />
+                        <Route path="/settings/integrations/legacy" element={<Suspense fallback={null}><IntegrationHub /></Suspense>} />
                         <Route path="/welcome" element={<Navigate to="/onboarding" replace />} />
                         <Route path="/onboarding" element={<Suspense fallback={null}><OnboardingPage /></Suspense>} />
                         <Route path="/try" element={<Navigate to="/contact" replace />} />
