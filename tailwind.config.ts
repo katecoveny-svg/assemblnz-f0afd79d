@@ -95,18 +95,19 @@ export default {
           'text-secondary': '#8E8177',
           'text-body': '#5F554F',
         },
-        // ── Industry kete accent colours (canonical palette) ──
+        // ── Industry kete accents — Brand Guidelines v1.0 (Mārama Whenua) ──
+        // Bleached feather palette, locked 24 April 2026. Sourced from
+        // src/design/assemblTokens.ts and mirrored as CSS vars in src/index.css.
         kete: {
-          waihanga: '#D4B896',    // Clay Sand — Construction
-          manaaki: '#8FB09A',     // Harakeke Green — Hospitality
-          arataki: '#B8A0C4',     // Dusk Mauve — Automotive & Fleet
-          toro: '#C7D9E8',        // Moonstone Blue — Family
-          auaha: '#E0A88C',       // Sunset Coral — Creative
-          pikau: '#9EAAB4',       // Storm Grey — Freight & Customs
-          ako: '#E4B8C4',         // Petal Pink — Early Childhood
-          reo: '#D9BC7A',         // Kowhai Soft — Te Kahui Reo
-          // Legacy aliases (preserved for backwards compatibility)
-          hoko: '#D8C3C2',        // Blush Stone — Retail
+          pikau:    '#B8C7B1',    // Soft Moss      — Freight & Customs
+          hoko:     '#D8C3C2',    // Blush Stone    — Retail
+          ako:      '#C7D6C7',    // Soft Sage      — Early Childhood
+          toro:     '#C7D9E8',    // Moonstone Blue — Family
+          manaaki:  '#E6D8C6',    // Warm Linen     — Hospitality
+          waihanga: '#CBB8A4',    // Clay Sand      — Construction
+          arataki:  '#D5C0C8',    // Dusky Rose     — Automotive & Fleet
+          auaha:    '#C8DDD8',    // Pale Seafoam   — Creative
+          reo:      '#D9BC7A',    // Kowhai Soft    — Te Kāhui Reo (legacy)
         },
       },
       borderRadius: {
@@ -122,9 +123,15 @@ export default {
         'card': '0 4px 20px rgba(111, 97, 88, 0.06)',
         'card-hover': '0 8px 40px rgba(111, 97, 88, 0.12)',
         'gold-glow': '0 0 20px rgba(217, 188, 122, 0.15)',
+        // ── Brand Guidelines v1.0 surface tokens ──
+        'brand-soft': '0 12px 40px rgba(111, 97, 88, 0.10)',
+        'sparkle-glow': '0 0 24px rgba(217, 188, 122, 0.35)',
       },
       backdropBlur: {
         'surface': '24px',
+      },
+      borderColor: {
+        'hairline': 'rgba(111, 97, 88, 0.18)',
       },
       keyframes: {
         "accordion-down": {

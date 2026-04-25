@@ -5,86 +5,84 @@ import { ChevronDown, ArrowRight } from "lucide-react";
 import AgentCard from "@/components/AgentCard";
 import KeteIcon from "@/components/kete/KeteIcon";
 import { agents, sectors } from "@/data/agents";
+import { keteAccentHex, hexToRgb as hexToRgbShared } from "@/lib/keteColors";
 
+// Brand-locked Mārama palette (sourced via @/lib/keteColors).
+// `accentLight` is a one-step lighter wash for icon container haloes.
 const HERO_INDUSTRIES = [
   {
-    industry: "Hospitality & Tourism",
+    industry: "Hospitality",
     agent: "MANAAKI",
-    color: "#4AA5A8",
-    accentLight: "#A8DDDB",
+    color: keteAccentHex("manaaki"),
+    accentLight: "#F2EAD9",
     variant: "warm" as const,
-    description: "Your 18-page Food Control Plan diary replaced with a 90-second voice check. Verifier visits stop being stressful.",
-    capabilities: ["Season calendar builder", "Gaming trust grant writer", "Coaching session planner", "Incorporated Societies compliance"],
+    description: "Hospitality that runs itself. Food safety, licensing, guest experience — paperwork dissolved.",
+    capabilities: ["Food Control Plan diary", "Liquor licensing tracker", "Guest experience CRM", "Compliance autopilot"],
     agentId: "manaaki",
   },
   {
     industry: "Construction",
     agent: "WAIHANGA",
-    color: "#3A7D6E",
-    accentLight: "#5AADA0",
+    color: keteAccentHex("waihanga"),
+    accentLight: "#E2D2BE",
     variant: "dense" as const,
-    description: "Site safety, schedule risks surfaced earlier, cleaner audit trails, approvals that don't stall.",
-    capabilities: ["Guest intelligence & CRM", "Menu engineering & F&B", "Revenue optimisation", "Compliance autopilot"],
+    description: "Site to sign-off. Safety, BIM, consenting, tenders — approvals that don't stall.",
+    capabilities: ["Site safety induction", "BIM coordination", "Consent application", "Tender writer"],
     agentId: "waihanga",
   },
   {
-    industry: "Creative & Media",
+    industry: "Creative",
     agent: "AUAHA",
-    color: "#A8DDDB",
-    accentLight: "#D6F0EE",
+    color: keteAccentHex("auaha"),
+    accentLight: "#DEEDE9",
     variant: "tricolor" as const,
-    description: "Brand strategy, campaign creation, image generation, and social deployment — your entire marketing department in one place.",
-    capabilities: ["Brand strategy builder", "AI image generation", "Social media deployment", "Campaign auto-creator"],
+    description: "Strategy, content, brand, campaigns — one studio, not six tools and a freelancer.",
+    capabilities: ["Brand strategy builder", "Image & video generation", "Campaign auto-creator", "Channel deployment"],
     agentId: "auaha",
   },
   {
-    industry: "Automotive",
+    industry: "Automotive & Fleet",
     agent: "ARATAKI",
-    color: "#E8E8E8",
-    accentLight: "#C8C8D0",
+    color: keteAccentHex("arataki"),
+    accentLight: "#E8D8DE",
     variant: "standard" as const,
-    description: "Enquiry → test drive → sale → delivery → service → loyalty. No handoff dropped.",
+    description: "Enquiry to loyalty. Every handoff captured, every customer remembered.",
     capabilities: ["Fuel oracle AI", "Fleet compliance", "Driver safety scoring", "Route optimisation"],
     agentId: "arataki",
   },
   {
     industry: "Freight & Customs",
     agent: "PIKAU",
-    color: "#5AADA0",
-    accentLight: "#8ECFC6",
+    color: keteAccentHex("pikau"),
+    accentLight: "#D2DCCD",
     variant: "organic" as const,
-    description: "Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble.",
-    capabilities: ["Customs entry builder", "Freight rate comparison", "DG check automation", "Border compliance"],
+    description: "Customs, freight, dangerous goods. Border compliance without the scramble.",
+    capabilities: ["Customs entry builder", "Freight rate comparison", "DG check automation", "Broker hand-off"],
     agentId: "pikau",
   },
   {
     industry: "Retail",
     agent: "HOKO",
-    color: "#C66B5C",
-    accentLight: "#E89484",
+    color: keteAccentHex("hoko"),
+    accentLight: "#EAD8D7",
     variant: "warm" as const,
-    description: "Pricing intelligence vs Temu/Amazon, POS-driven re-orders, FTA/CGA compliance lint, unified customer view — for NZ retail's $92.3bn frontline.",
+    description: "Pricing intelligence, POS reorders, FTA/CGA lint, unified customer view.",
     capabilities: ["Price benchmarking", "POS re-order signals", "FTA/CGA compliance lint", "Unified customer view"],
     agentId: "hoko",
   },
   {
-    industry: "Early Childhood Education",
+    industry: "Early Childhood",
     agent: "AKO",
-    color: "#7BA7C7",
-    accentLight: "#A8C8DD",
+    color: keteAccentHex("ako"),
+    accentLight: "#DCE8DC",
     variant: "standard" as const,
-    description: "Licensing criteria matcher, transparency pack generator, graduated enforcement readiness — built for the 20 April 2026 ECE wedge moment.",
+    description: "Licensing, transparency, graduated enforcement readiness — built for ECE.",
     capabilities: ["Licensing criteria matcher", "Transparency pack generator", "Readiness scorecard", "Parent-facing comms"],
     agentId: "ako",
   },
 ];
 
-function hexToRgb(hex: string): string {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `${r},${g},${b}`;
-}
+const hexToRgb = (hex: string): string => hexToRgbShared(hex).replace(/, /g, ",");
 
 const IndustrySolutions = () => {
   const [expanded, setExpanded] = useState(false);
@@ -268,14 +266,14 @@ const IndustrySolutions = () => {
                       activeSector === s ? "font-bold" : ""
                     }`}
                     style={{
-                      color: activeSector === s ? '#3A7D6E' : 'rgba(26,29,41,0.5)',
+                      color: activeSector === s ? 'var(--assembl-taupe-deep)' : 'rgba(111,97,88,0.5)',
                       background: activeSector === s
-                        ? 'linear-gradient(145deg, #F5F5F8, #E4E4E8)'
-                        : '#EEEEF2',
+                        ? 'linear-gradient(145deg, #FAF6F0, #EEE7DE)'
+                        : '#F2EDE6',
                       boxShadow: activeSector === s
-                        ? '4px 4px 10px rgba(166,166,180,0.4), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.7), 0 0 10px rgba(58,125,110,0.08)'
-                        : 'inset 2px 2px 4px rgba(166,166,180,0.25), inset -2px -2px 4px rgba(255,255,255,0.7)',
-                      border: activeSector === s ? '1px solid rgba(58,125,110,0.12)' : '1px solid rgba(255,255,255,0.3)',
+                        ? '4px 4px 10px rgba(166,158,148,0.25), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.7), 0 0 10px rgba(217,188,122,0.10)'
+                        : 'inset 2px 2px 4px rgba(166,158,148,0.20), inset -2px -2px 4px rgba(255,255,255,0.7)',
+                      border: activeSector === s ? '1px solid rgba(217,188,122,0.20)' : '1px solid rgba(255,255,255,0.3)',
                     }}
                   >
                     {s}

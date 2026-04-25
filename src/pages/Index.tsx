@@ -27,31 +27,33 @@ import KeteWispBreak from "@/components/kete/KeteWispBreak";
 import { ALL_USE_CASES } from "@/data/useCases";
 import { KETE } from "@/data/pricing";
 import { manaakiMark } from "@/assets/brand";
+import { keteAccentHex, keteAccentRgba } from "@/lib/keteColors";
 
-/* ─── Light Palette Tokens ─── */
+/* ─── Mārama Whenua palette tokens — Brand Guidelines v1.0 ─── */
 const C = {
-  bg: "#FAFBFC",
+  bg: "var(--assembl-mist)",      // #F7F3EE
   surface: "#FFFFFF",
-  teal: "#4AA5A8",
-  tealLight: "#6CBFC1",
-  ochre: "#4AA5A8",
-  ochreLight: "#F0C670",
-  lavender: "#E8E6F0",
-  text: "#3D4250",
-  textSecondary: "#6B7280",
-  textTertiary: "#9CA3AF",
-};
+  teal: "var(--assembl-soft-gold)",       // primary CTA accent
+  tealLight: "var(--assembl-sage-mist)",  // soft secondary accent
+  ochre: "var(--assembl-soft-gold)",      // alias — kept for legacy refs
+  ochreLight: "var(--assembl-sand)",
+  lavender: "var(--assembl-cloud)",
+  text: "var(--assembl-taupe-deep)",      // #6F6158
+  textSecondary: "var(--assembl-taupe)",  // #9D8C7D
+  textTertiary: "#B5A99E",
+} as const;
 
-/* Kete pastel bleed colors */
+/* Soft brand bleed behind each kete tile (8% opacity wash). */
+const keteBleed = (slug: string) => keteAccentRgba(slug, 0.08);
 const KETE_BLEED: Record<string, string> = {
-  manaaki: "rgba(232,140,120,0.08)",
-  waihanga: "rgba(74,165,168,0.08)",
-  auaha: "rgba(155,142,196,0.08)",
-  arataki: "rgba(74,165,168,0.08)",
-  pikau: "rgba(108,191,193,0.08)",
-  hoko: "rgba(198,107,92,0.08)",
-  ako: "rgba(123,167,199,0.08)",
-  toro: "rgba(74,165,168,0.06)",
+  manaaki:  keteBleed("manaaki"),
+  waihanga: keteBleed("waihanga"),
+  auaha:    keteBleed("auaha"),
+  arataki:  keteBleed("arataki"),
+  pikau:    keteBleed("pikau"),
+  hoko:     keteBleed("hoko"),
+  ako:      keteBleed("ako"),
+  toro:     keteBleed("toro"),
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -68,15 +70,33 @@ const stagger = (i: number) => ({
   transition: { delay: i * 0.08, duration: 0.6, ease },
 });
 
-/* ─── Data ─── */
+/* ─── Per-kete card metadata (colours sourced from brand-locked tokens) ─── */
+const KETE_LIGHT: Record<string, string> = {
+  manaaki:  "#F2EAD9",
+  waihanga: "#E2D2BE",
+  auaha:    "#DEEDE9",
+  arataki:  "#E8D8DE",
+  pikau:    "#D2DCCD",
+  hoko:     "#EAD8D7",
+  ako:      "#DCE8DC",
+};
+const KETE_ROUTE: Record<string, string> = {
+  manaaki:  "/manaaki",
+  waihanga: "/waihanga/about",
+  auaha:    "/auaha/about",
+  arataki:  "/arataki",
+  pikau:    "/pikau",
+  hoko:     "/hoko",
+  ako:      "/ako",
+};
 const KETE_COLORS: Record<string, { color: string; accentLight: string; to: string }> = {
-  manaaki: { color: C.teal, accentLight: C.tealLight, to: "/manaaki" },
-  waihanga: { color: C.ochre, accentLight: C.ochreLight, to: "/waihanga/about" },
-  auaha: { color: "#9B8EC4", accentLight: "#B8ADDB", to: "/auaha/about" },
-  arataki: { color: C.teal, accentLight: C.tealLight, to: "/arataki" },
-  pikau: { color: C.tealLight, accentLight: "#A8E6DA", to: "/pikau" },
-  hoko: { color: "#C66B5C", accentLight: "#E89484", to: "/hoko" },
-  ako: { color: "#7BA7C7", accentLight: "#A8C8DD", to: "/ako" },
+  manaaki:  { color: keteAccentHex("manaaki"),  accentLight: KETE_LIGHT.manaaki,  to: KETE_ROUTE.manaaki  },
+  waihanga: { color: keteAccentHex("waihanga"), accentLight: KETE_LIGHT.waihanga, to: KETE_ROUTE.waihanga },
+  auaha:    { color: keteAccentHex("auaha"),    accentLight: KETE_LIGHT.auaha,    to: KETE_ROUTE.auaha    },
+  arataki:  { color: keteAccentHex("arataki"),  accentLight: KETE_LIGHT.arataki,  to: KETE_ROUTE.arataki  },
+  pikau:    { color: keteAccentHex("pikau"),    accentLight: KETE_LIGHT.pikau,    to: KETE_ROUTE.pikau    },
+  hoko:     { color: keteAccentHex("hoko"),     accentLight: KETE_LIGHT.hoko,     to: KETE_ROUTE.hoko     },
+  ako:      { color: keteAccentHex("ako"),      accentLight: KETE_LIGHT.ako,      to: KETE_ROUTE.ako      },
 };
 
 /** 7 industry kete — the locked marketing set. Tōro renders separately as the consumer tier. */
@@ -90,30 +110,31 @@ const TORO_PACK = {
   reo: "Tōroa",
   en: "Family",
   desc: "The household load, properly organised. From $29/month.",
-  color: C.ochre,
-  accentLight: C.ochreLight,
+  color: keteAccentHex("toro"),
+  accentLight: "#E2EBF4",
   to: "/toro",
 };
 
 /** Combined for personalization re-ordering only (Tōro pinned last). */
 const PACKS = [...INDUSTRY_PACKS, TORO_PACK];
 
+const LAYERS_GOLD = "#D9BC7A"; // assembl-soft-gold — single CTA accent across all five layers
 const LAYERS_DATA = [
-  { name: "Kahu — Intake", desc: "Receives the request, classifies data sensitivity, checks PII, and routes to the right specialist agent.", icon: "Eye", color: "#4AA5A8" },
-  { name: "Iho — Reasoning", desc: "The specialist agent processes the task — grounded in NZ legislation with section references, never guessing.", icon: "Brain", color: "#4AA5A8" },
-  { name: "Tā — Action", desc: "Generates the output: draft, calculation, document, or creative. Every action classified: allowed, needs approval, or forbidden.", icon: "Zap", color: "#4AA5A8" },
-  { name: "Mahara — Memory", desc: "Logs the decision, updates shared business memory, and creates the audit trail in plain language.", icon: "Shield", color: "#4AA5A8" },
-  { name: "Mana — Evidence", desc: "Packages the output into a structured evidence pack your auditor, bank, or regulator can trust.", icon: "Activity", color: "#4AA5A8" },
+  { name: "Kahu — Intake",     desc: "Receives the request, classifies data sensitivity, checks PII, and routes to the right specialist agent.", icon: "Eye",      color: LAYERS_GOLD },
+  { name: "Iho — Reasoning",   desc: "The specialist agent processes the task — grounded in NZ legislation with section references, never guessing.", icon: "Brain",     color: LAYERS_GOLD },
+  { name: "Tā — Action",       desc: "Generates the output: draft, calculation, document, or creative. Every action classified: allowed, needs approval, or forbidden.", icon: "Zap",  color: LAYERS_GOLD },
+  { name: "Mahara — Memory",   desc: "Logs the decision, updates shared business memory, and creates the audit trail in plain language.", icon: "Shield",   color: LAYERS_GOLD },
+  { name: "Mana — Evidence",   desc: "Packages the output into a structured evidence pack your auditor, bank, or regulator can trust.", icon: "Activity", color: LAYERS_GOLD },
 ];
 
 
 
 
 const START_HERE = [
-  { title: "Ask A Live Agent", desc: "Open a working agent and ask real business questions.", to: "/chat/echo", accent: C.teal, icon: "MessageSquare" },
-  { title: "Review A Document", desc: "Paste a contract or brief and get risks flagged instantly.", to: "/waihanga", accent: C.ochre, icon: "FileText" },
-  { title: "Make An Ad", desc: "Generate campaigns and visuals that look finished.", to: "/auaha/ads", accent: "#9B8EC4", icon: "Megaphone" },
-  { title: "Run The Demo", desc: "Show a client what Assembl does in 60 seconds.", to: "/demos", accent: C.tealLight, icon: "Rocket" },
+  { title: "Ask a live agent",     desc: "Open a working agent and ask a real business question.",        to: "/chat/echo",  accent: keteAccentHex("manaaki"),  icon: "MessageSquare" },
+  { title: "Review a document",    desc: "Paste a contract or brief — risks flagged in seconds.",         to: "/waihanga",   accent: keteAccentHex("waihanga"), icon: "FileText" },
+  { title: "Make an ad",           desc: "Generate finished campaigns and visuals from a single brief.",  to: "/auaha/ads",  accent: keteAccentHex("auaha"),    icon: "Megaphone" },
+  { title: "Run the 60-second demo", desc: "Show a client what Assembl does, end to end, in a minute.",   to: "/demos",      accent: LAYERS_GOLD,               icon: "Rocket" },
 ];
 
 /* ─── Live Demo Chat ─── */
@@ -243,8 +264,8 @@ const Index = () => {
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.text }}>
       <SEO
-        title="assembl — Governed workflow tools for NZ businesses"
-        description="Specialist operational workflows that reduce admin, surface risk earlier, and keep people in control. Built for NZ."
+        title="assembl — premium intelligence, built in Aotearoa"
+        description="Everything intelligent, built in harmony. Unified operations, compliance, and evidence for modern teams. Specialist kete that finish the work, file the pack, and return time to people."
       />
       {/* WharikiFoundation removed — light glass background */}
       
@@ -269,9 +290,9 @@ const Index = () => {
         {/* ═══ TRY IT LIVE — 3-step interactive demo ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-10">
-            <SectionEyebrow>Try it live · 60 seconds</SectionEyebrow>
-            <SectionH2>Pick a kete. Run an agent. Get an evidence pack.</SectionH2>
-            <SectionP>No signup. Pick your industry below and watch a real workflow run end-to-end.</SectionP>
+            <SectionEyebrow>Try it live · sixty seconds</SectionEyebrow>
+            <SectionH2>Pick a kete. Run the agent. Receive the evidence pack.</SectionH2>
+            <SectionP>No signup. Choose your industry below and watch a real workflow run end-to-end — citations, approvals, and pack included.</SectionP>
           </motion.div>
           <motion.div {...fade}>
             <InteractiveTryItDemo />
@@ -281,7 +302,7 @@ const Index = () => {
         {/* ═══ FALLBACK: single-agent live demo (kept for variety) ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-10">
-            <SectionEyebrow>And a closer look</SectionEyebrow>
+            <SectionEyebrow>A closer look</SectionEyebrow>
             <SectionH2>One agent, one citation, in real time.</SectionH2>
           </motion.div>
           <motion.div {...fade}>
@@ -292,8 +313,8 @@ const Index = () => {
         {/* ═══ START HERE ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-16">
-            <SectionEyebrow>What do you need?</SectionEyebrow>
-            <SectionH2>Choose the job you need done</SectionH2>
+            <SectionEyebrow>Where would you like to begin?</SectionEyebrow>
+            <SectionH2>Four quiet ways to meet Assembl.</SectionH2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-[1200px] mx-auto">
             {START_HERE.map((item, i) => {
@@ -323,10 +344,10 @@ const Index = () => {
         {/* ═══ WHAT ASSEMBL IS ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-14 max-w-[760px] mx-auto">
-            <SectionEyebrow>What assembl is</SectionEyebrow>
-            <SectionH2>Specialist AI agents that finish the work — and give time back.</SectionH2>
+            <SectionEyebrow>What Assembl is</SectionEyebrow>
+            <SectionH2>Eight kete. One quiet system.</SectionH2>
             <SectionP>
-              Assembl is a New Zealand-built platform of specialist AI agents for hospitality, construction, automotive, freight, creative, retail, early childhood, and the household. Each one runs an end-to-end workflow and closes it with a single evidence pack: source-cited, audit-ready, dated, and current with New Zealand law.
+              Assembl is a New Zealand-built platform of specialist agents for hospitality, construction, creative, automotive, freight, retail, early childhood, and the household. Each one finishes the work and closes it with a single evidence pack — source-cited, audit-ready, and current with New Zealand law.
             </SectionP>
           </motion.div>
           <div className="max-w-[1080px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
@@ -352,8 +373,8 @@ const Index = () => {
         {/* ═══ WHY ASSEMBL ═══ */}
         <Sect>
           <motion.div {...fade} className="max-w-[720px] mx-auto text-center">
-            <SectionEyebrow>Why assembl</SectionEyebrow>
-            <SectionH2>Assembl exists because time matters.</SectionH2>
+            <SectionEyebrow>Why Assembl</SectionEyebrow>
+            <SectionH2>Built so the day starts on time.</SectionH2>
             <p className="text-[16px] sm:text-[18px] leading-[1.75] mt-8 mb-6" style={{ fontFamily: "'Inter', sans-serif", color: C.text, fontWeight: 400 }}>
               Assembl is built for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay current as the rules keep changing, and for the evenings that never seem to start on time.
             </p>
@@ -372,9 +393,9 @@ const Index = () => {
         {/* ═══ INDUSTRY KETE — 7 industry tiles ═══ */}
         <Sect id="industry-packs">
           <motion.div {...fade} className="text-center mb-16">
-            <SectionEyebrow>Specialist kete</SectionEyebrow>
+            <SectionEyebrow>The kete</SectionEyebrow>
             <SectionH2>Choose the kete that fits the work.</SectionH2>
-            <SectionP>Pick the one that matches the work in front of you. Operator gets one, Leader two, Enterprise all seven plus Tōroa.</SectionP>
+            <SectionP>Each kete carries a complete specialist workflow. Operator includes one, Leader two, Enterprise all seven — Tōroa for whānau sits separately, from $29 a month.</SectionP>
           </motion.div>
           <LayoutGroup>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
@@ -446,7 +467,7 @@ const Index = () => {
           {/* ─── Operator-as-platform shortcut for Business / Tech / Pro Services ─── */}
           <div className="mt-8 max-w-[1200px] mx-auto text-center">
             <p className="text-[13px]" style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}>
-              Don't fit a pre-built kete? <Link to="/platform" className="underline" style={{ color: "#3A7D6E" }}>Operator-as-platform</Link> — same price, no kete bundle, you build on top of Iho. Used by professional services, tech, and consulting teams.
+              No kete fits? <Link to="/platform" className="underline" style={{ color: "var(--assembl-soft-gold)" }}>Operator-as-platform</Link> — same price, no bundle. Build directly on Iho. Trusted by professional services, technology, and consulting teams.
             </p>
           </div>
         </Sect>
@@ -458,7 +479,7 @@ const Index = () => {
         <Sect>
           <motion.div {...fade} className="max-w-[760px] mx-auto text-center">
             <SectionEyebrow>Live compliance</SectionEyebrow>
-            <SectionH2>Your compliance, kept current.</SectionH2>
+            <SectionH2>Your compliance, kept quietly current.</SectionH2>
             <p className="text-[16px] sm:text-[17px] leading-[1.75] mt-6 mb-6" style={{ fontFamily: "'Inter', sans-serif", color: C.text, fontWeight: 400 }}>
               When New Zealand law changes, Assembl updates centrally. Your workflows inherit the change automatically — without internal scramble, delayed SOP updates, or extra consultant spend.
             </p>
@@ -497,15 +518,15 @@ const Index = () => {
             <Link
               to="/kete"
               data-magnetic
-              className="inline-flex items-center gap-2 px-7 py-4 rounded-full transition-transform duration-300 hover:-translate-y-px"
+              className="inline-flex items-center gap-2 px-7 py-4 rounded-full transition-all duration-300 hover:-translate-y-px"
               style={{
-                background: "#3A7D6E",
-                color: "#fff",
+                background: "linear-gradient(135deg, #D9BC7A 0%, #C4A664 100%)",
+                color: "#3D3428",
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: 12,
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                boxShadow: "0 12px 40px -12px rgba(58,125,110,0.55)",
+                boxShadow: "var(--sparkle-glow), 0 12px 40px -12px rgba(217,188,122,0.55)",
               }}
             >
               Start with one kete <ArrowRight size={14} />
@@ -566,8 +587,8 @@ const Index = () => {
         {/* ═══ HOW IT WORKS ═══ */}
         <Sect>
           <motion.div {...fade} className="text-center mb-16">
-            <SectionEyebrow>How assembl works</SectionEyebrow>
-            <SectionH2>Five stages of governed intelligence</SectionH2>
+            <SectionEyebrow>How Assembl works</SectionEyebrow>
+            <SectionH2>Five quiet stages. One governed loop.</SectionH2>
             <SectionP>Every decision checked, every action logged, every output something you can file.</SectionP>
           </motion.div>
           <div className="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -766,7 +787,7 @@ function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
 function SectionEyebrow({ children }: { children: string }) {
   return (
     <p className="text-[10px] font-medium tracking-[5px] uppercase mb-5"
-      style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>
+      style={{ color: "var(--assembl-soft-gold)", fontFamily: "'IBM Plex Mono', monospace" }}>
       — {children} —
     </p>
   );
@@ -774,8 +795,14 @@ function SectionEyebrow({ children }: { children: string }) {
 
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-lg sm:text-[36px] lg:text-[42px] mb-4 sm:mb-6"
-      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.15, color: "#3D4250", textShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+    <h2 className="text-[28px] sm:text-[42px] lg:text-[52px] mb-4 sm:mb-6"
+      style={{
+        fontFamily: "'Cormorant Garamond', Georgia, serif",
+        fontWeight: 400,
+        letterSpacing: "-0.005em",
+        lineHeight: 1.1,
+        color: "var(--assembl-taupe-deep)",
+      }}>
       {children}
     </h2>
   );
@@ -783,38 +810,35 @@ function SectionH2({ children }: { children: React.ReactNode }) {
 
 function SectionP({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`text-[14px] sm:text-[17px] leading-[1.7] max-w-xl mx-auto ${className}`}
-      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, color: "#4B5563" }}>
+    <p className={`text-[15px] sm:text-[17px] leading-[1.75] max-w-xl mx-auto ${className}`}
+      style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "var(--text-secondary)" }}>
       {children}
     </p>
   );
 }
 
-/* ─── Glow Card — 3D neumorphic glass ─── */
+/* ─── Glow Card — soft glass surface (brand-locked tokens) ─── */
 function GlowCard({ children, className = "", accentColor }: { children: React.ReactNode; className?: string; accentColor?: string }) {
-  const ac = accentColor || "#4AA5A8";
+  const ac = accentColor || "var(--assembl-soft-gold)";
   return (
-    <div className={`relative rounded-3xl overflow-hidden p-6 sm:p-10 ${className}`}
+    <div className={`relative rounded-[24px] overflow-hidden p-6 sm:p-10 ${className}`}
       style={{
-        background: "linear-gradient(145deg, rgba(255,255,255,0.8), rgba(238,238,242,0.65))",
-        backdropFilter: "blur(24px) saturate(160%)",
-        border: "1px solid rgba(255,255,255,0.95)",
-        boxShadow: `
-          6px 6px 16px rgba(166,166,180,0.3),
-          -6px -6px 16px rgba(255,255,255,0.85),
-          inset 0 1px 0 rgba(255,255,255,0.9),
-          0 0 40px -15px ${ac}25
-        `,
+        background: "rgba(255,255,255,0.65)",
+        backdropFilter: "blur(var(--surface-blur))",
+        WebkitBackdropFilter: "blur(var(--surface-blur))",
+        border: "var(--hairline)",
+        boxShadow: "var(--shadow-brand)",
       }}
     >
-      {/* Top glass shine */}
+      {/* Top hairline shine */}
       <div className="absolute top-0 left-[8%] right-[8%] h-px" style={{
-        background: "linear-gradient(90deg, transparent, rgba(255,255,255,1), transparent)",
+        background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent)",
       }} />
-      {/* Accent glow line */}
+      {/* Bottom accent whisper */}
       <div className="absolute bottom-0 left-[15%] right-[15%] h-[2px]" style={{
-        background: `linear-gradient(90deg, transparent, ${ac}30, transparent)`,
-        filter: `blur(1px)`,
+        background: `linear-gradient(90deg, transparent, ${ac}, transparent)`,
+        opacity: 0.18,
+        filter: "blur(0.5px)",
       }} />
       {children}
     </div>
