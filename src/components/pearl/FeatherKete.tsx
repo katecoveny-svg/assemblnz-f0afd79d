@@ -42,20 +42,29 @@ const VARIANT_IMAGE: Record<KeteVariant, string | null> = {
   toro: keteToro,
 };
 
-// Per-variant subtle drop-shadow + hue tint. Hue/saturate is only applied when
-// we fall through to the master image — industry-specific artwork uses its own
-// natural colour, with just the shadow added for depth.
+// Per-variant tint pushes the warm-pink kete photo toward each kete's
+// LOCKED accent (Brand Guidelines v3 + project-knowledge). Applied to BOTH
+// the master fallback AND industry artwork so the eight kete read as eight
+// distinct objects, not the same photograph eight times.
 type Tint = { hueDeg: number; saturate: number; shadow: string };
 const VARIANT_TINT: Record<KeteVariant, Tint> = {
   base:    { hueDeg:   0, saturate: 1.00, shadow: "drop-shadow(0 14px 30px rgba(120,150,180,0.18))" },
-  manaaki: { hueDeg: -10, saturate: 1.05, shadow: "drop-shadow(0 14px 30px rgba(214,142,120,0.22))" },
-  waihanga:{ hueDeg: -25, saturate: 1.05, shadow: "drop-shadow(0 14px 30px rgba(196,150,110,0.22))" },
-  auaha:   { hueDeg:  35, saturate: 1.06, shadow: "drop-shadow(0 14px 30px rgba(155,142,196,0.22))" },
-  arataki: { hueDeg: -50, saturate: 1.04, shadow: "drop-shadow(0 14px 30px rgba(170,128,108,0.22))" },
-  pikau:   { hueDeg:  20, saturate: 1.04, shadow: "drop-shadow(0 14px 30px rgba(122,154,188,0.22))" },
-  hoko:    { hueDeg: -35, saturate: 1.05, shadow: "drop-shadow(0 14px 30px rgba(206,160,128,0.22))" },
-  ako:     { hueDeg:  50, saturate: 1.05, shadow: "drop-shadow(0 14px 30px rgba(196,176,140,0.22))" },
-  toro:    { hueDeg:  10, saturate: 1.03, shadow: "drop-shadow(0 14px 30px rgba(180,196,210,0.22))" },
+  // MANAAKI · Warm Linen #E6D8C6 — neutral warm
+  manaaki: { hueDeg:  -8, saturate: 0.95, shadow: "drop-shadow(0 14px 30px rgba(214,182,140,0.22))" },
+  // WAIHANGA · Clay Sand #CBB8A4 — desaturated earth
+  waihanga:{ hueDeg: -18, saturate: 0.85, shadow: "drop-shadow(0 14px 30px rgba(196,168,130,0.22))" },
+  // AUAHA · Pale Seafoam #C8DDD8 — cool green-teal
+  auaha:   { hueDeg:  85, saturate: 0.90, shadow: "drop-shadow(0 14px 30px rgba(155,196,184,0.22))" },
+  // ARATAKI · Dusky Rose #D5C0C8 — keep warm pink (the artwork is already this hue)
+  arataki: { hueDeg:   0, saturate: 1.05, shadow: "drop-shadow(0 14px 30px rgba(213,176,184,0.22))" },
+  // PIKAU · Soft Moss #B8C7B1 — quiet sage green
+  pikau:   { hueDeg:  60, saturate: 0.85, shadow: "drop-shadow(0 14px 30px rgba(166,188,158,0.22))" },
+  // HOKO · Blush Stone #D8C3C2 — soft rose-stone
+  hoko:    { hueDeg: -10, saturate: 0.85, shadow: "drop-shadow(0 14px 30px rgba(216,184,176,0.22))" },
+  // AKO · Soft Sage #C7D6C7 — gentle green
+  ako:     { hueDeg:  70, saturate: 0.85, shadow: "drop-shadow(0 14px 30px rgba(176,196,168,0.22))" },
+  // TŌRO · Moonstone Blue #C7D9E8 — calm cool blue
+  toro:    { hueDeg: 140, saturate: 0.80, shadow: "drop-shadow(0 14px 30px rgba(170,196,222,0.24))" },
 };
 
 interface FeatherKeteProps {
