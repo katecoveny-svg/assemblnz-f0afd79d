@@ -111,6 +111,38 @@ export default function McpServerPage() {
           <Download className="w-4 h-4" /> Download mcp-tools.json
         </Button>
       </div>
+
+      <div
+        className="rounded-2xl bg-white/55 backdrop-blur-md border border-foreground/10 p-5"
+        style={{ boxShadow: "inset 0 0 0 1px rgba(212,168,67,0.18)" }}
+      >
+        <h3 className="font-display text-lg">@assembl/mcp install snippet</h3>
+        <p className="text-sm text-foreground/60 mt-1 max-w-xl">
+          Drop this into a customer's Claude Desktop, Cursor, or n8n config.
+          Replace the API key with one minted on the{" "}
+          <a href="/admin/mcp/api-keys" className="underline">API Keys</a> page.
+        </p>
+        <pre className="mt-4 rounded-xl bg-foreground/5 p-3 text-xs font-mono overflow-x-auto border border-foreground/10">
+{`{
+  "mcpServers": {
+    "assembl-nz": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@assembl/mcp@latest",
+        "--toolsets=manaaki,core",
+        "--mana-trust=enforce"
+      ],
+      "env": {
+        "ASSEMBL_API_KEY": "asm_live_REPLACE_ME",
+        "ASSEMBL_TIER": "industry_suite",
+        "ASSEMBL_LOG_LEVEL": "info"
+      }
+    }
+  }
+}`}
+        </pre>
+      </div>
     </AdminMcpLayout>
   );
 }
