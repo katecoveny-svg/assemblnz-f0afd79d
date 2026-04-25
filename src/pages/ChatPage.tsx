@@ -31,6 +31,8 @@ import AccountDropdown from "@/components/AccountDropdown";
 import PaywallModal from "@/components/PaywallModal";
 import { NeonLock } from "@/components/NeonIcons";
 import AgentWelcome from "@/components/AgentWelcome";
+import { prefillAndSend } from "@/engine/prefillAndSend";
+import { getStarterQuestions } from "@/engine/starterQuestions";
 import { AgentDebugPanel } from "@/components/dev/AgentDebugPanel";
 import { usePersistAgentContext, getLastAgentContext } from "@/hooks/usePersistAgentContext";
 import { useGuestChatSync } from "@/hooks/useGuestChatSync";
