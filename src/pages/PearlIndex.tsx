@@ -383,7 +383,7 @@ function Hero() {
 
 function WhyAssembl() {
   return (
-    <section className="relative overflow-hidden" style={{ paddingTop: 96, paddingBottom: 96, background: PEARL.bg }}>
+    <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
       {/* Atmospheric cloud removed */}
 
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6 relative z-10">
@@ -453,7 +453,7 @@ function WhyAssembl() {
 
 function WhatAssemblIs() {
   return (
-    <section className="relative overflow-hidden" style={{ paddingTop: 96, paddingBottom: 96, background: PEARL.bg }}>
+    <section className="relative overflow-hidden" style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}>
       {/* (atmospheric ribbon removed — hero room cloud carries the section) */}
 
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10">
@@ -694,7 +694,7 @@ function LiveCompliance() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ paddingTop: 180, paddingBottom: 180, background: PEARL.bg }}
+      style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.bg }}
     >
       {/* Soft opal wash — golden-hour through mist */}
       <div
@@ -864,7 +864,7 @@ function Closing() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ paddingTop: 200, paddingBottom: 200, background: PEARL.bg }}
+      style={{ paddingTop: 180, paddingBottom: 180, background: PEARL.bg }}
     >
       {/* Closing cloud — softer, lower in the frame than the hero, holding the most generous spread of fairy lights */}
       <div
