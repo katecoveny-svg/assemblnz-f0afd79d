@@ -5,16 +5,24 @@ import { getGreetingText, getSeasonalAgentHint, getAnniversaryMessage, AGENT_LOA
 import { getStarterQuestions } from "@/engine/starterQuestions";
 import { useAuth } from "@/hooks/useAuth";
 import { useResolvedAgent } from "@/hooks/useAgentOverrides";
+import { useAgentFirstVisit } from "@/hooks/useAgentFirstVisit";
 import type { Agent } from "@/data/agents";
 
 interface AgentWelcomeProps {
   agent: Agent;
   onStarterClick?: (prompt: string) => void;
+  /**
+   * If true, force-show starter prompts even when the user has already
+   * asked a first question (e.g. "show suggestions again" affordance).
+   */
+  forceShowStarters?: boolean;
 }
 
-const AgentWelcome = ({ agent: rawAgent, onStarterClick }: AgentWelcomeProps) => {
+const AgentWelcome = ({ agent: rawAgent, onStarterClick, forceShowStarters }: AgentWelcomeProps) => {
   const agent = useResolvedAgent(rawAgent);
   const starterQuestions = useMemo(() => getStarterQuestions(agent), [agent]);
+  const { isFirstVisit } = useAgentFirstVisit(agent.id);
+  const showStarters = forceShowStarters || isFirstVisit;
   const rawCaps = agentCapabilities[agent.id] || [];
   const capabilities = rawCaps.map(c => typeof c === 'string' ? c : c.bullet);
   const { profile, user } = useAuth();
