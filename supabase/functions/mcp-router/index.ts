@@ -100,9 +100,45 @@ interface AuthContext {
 }
 
 // ---------------------------------------------------------------------------
+// SHA-256 helper for API-key validation
+// ---------------------------------------------------------------------------
+async function sha256Hex(input: string): Promise<string> {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+  return Array.from(new Uint8Array(buf))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+// ---------------------------------------------------------------------------
 // CRITICAL-01: real auth context resolution
+// Supports BOTH:
+//   1. Supabase JWT  (Authorization: Bearer <jwt>)            — web app
+//   2. Assembl API key (X-Assembl-Api-Key: asm_live_...)      — npm package
 // ---------------------------------------------------------------------------
 async function resolveAuthContext(req: Request): Promise<AuthContext> {
+  // --- Path A: Assembl API key (npm package / external MCP clients) ---
+  const apiKey =
+    req.headers.get("x-assembl-api-key") ??
+    req.headers.get("x-api-key");
+
+  if (apiKey && apiKey.startsWith("asm_")) {
+    const keyHash = await sha256Hex(apiKey);
+    const { data: keyRow } = await supabase.rpc("mcp_validate_api_key", {
+      _key_hash: keyHash,
+    });
+    const validated = Array.isArray(keyRow) ? keyRow[0] : keyRow;
+    if (validated?.org_id) {
+      // Touch last_used_at (fire and forget).
+      supabase.rpc("mcp_touch_api_key", { _key_hash: keyHash }).then(() => {});
+      return await loadOrgContext(
+        null,
+        validated.org_id as string,
+        (validated.scopes as string[] | null) ?? [],
+      );
+    }
+    // Bad key → fall through to anonymous.
+  }
+
   const authHeader = req.headers.get("authorization");
   if (!authHeader?.toLowerCase().startsWith("bearer ")) {
     return { userId: null, orgId: null, scopes: [], tier: null, enabledToolsets: ["core"] };
