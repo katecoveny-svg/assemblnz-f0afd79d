@@ -410,8 +410,8 @@ export default function DevelopersPage() {
           <div className="h-px w-16 bg-kowhai/60 mb-6" />
           <p className="text-foreground/70 max-w-3xl leading-relaxed mb-8">
             Loading every tool into your model's context wastes tokens and
-            degrades accuracy. Assembl groups its 44 agents into six industry
-            toolsets. Enable <code className="font-mono text-foreground">manaaki</code> for hospitality.{" "}
+            degrades accuracy. Assembl groups its 44 agents into seven industry kete plus Tōro for whānau —
+            each with its own toolset. Enable <code className="font-mono text-foreground">manaaki</code> for hospitality.{" "}
             <code className="font-mono text-foreground">waihanga</code> for construction.{" "}
             <code className="font-mono text-foreground">core</code> always. Your context stays clean.
           </p>

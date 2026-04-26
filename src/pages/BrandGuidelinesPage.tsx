@@ -138,7 +138,7 @@ export default function BrandGuidelinesPage() {
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Elevator pitch</p>
                 <p className="text-[15px] leading-[1.75]" style={{ color: "#6B7280" }}>
-                  "Assembl is 44 AI agents that operate your NZ business — organised into five industry kete:
+                  "Assembl is 44 AI agents that operate your NZ business — organised into seven industry kete plus Tōro for whānau:
                   hospitality, construction, creative, automotive, and freight. They calculate your PAYE, write your
                   tenders, check your compliance, build your apps, and run your marketing — all trained on NZ law,
                   all sharing one brain, all governed by tikanga."
@@ -190,7 +190,7 @@ export default function BrandGuidelinesPage() {
           </h2>
           <p className={`${SUB} mx-auto mb-16`} style={{ color: "#6B7280" }}>
             The primary brand mark is a glass koru spiral made of 44 interconnected glass spheres —
-            one for each agent. Five larger spheres represent the five industry kete.
+            one for each agent. Seven larger spheres represent the seven industry kete, with an eighth for Tōro.
           </p>
           <div className="rounded-3xl p-12 mb-12" style={GLASS_CARD}>
             <img loading="lazy" decoding="async" src={koruMarkImg} alt="Glass Koru Mark" className="mx-auto max-h-[400px]" />
