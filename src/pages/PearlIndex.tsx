@@ -1089,11 +1089,42 @@ function PearlFooter() {
 
 /* ─── Page ─── */
 export default function PearlIndex() {
+  // JSON-LD for the Pilot in 30 Days offer — surfaces in rich Google results
+  // and clarifies the headline CTA for AI crawlers (GPTBot, ClaudeBot, etc.).
+  const pilotOfferJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Offer",
+    "@id": "https://www.assembl.co.nz/#pilot-30",
+    name: "Pilot in 30 Days",
+    description:
+      "Pick one painful workflow. We solve it in 30 days — governed, evidence-backed, human-in-control. Every output is an evidence pack you can file, forward or footnote.",
+    url: "https://www.assembl.co.nz/contact?offer=pilot-30",
+    price: "15000",
+    priceCurrency: "NZD",
+    priceSpecification: {
+      "@type": "PriceSpecification",
+      price: "15000",
+      priceCurrency: "NZD",
+      valueAddedTaxIncluded: false,
+      description: "From NZD 15,000 ex GST. Fixed scope, fixed timeline.",
+    },
+    eligibleRegion: { "@type": "Country", name: "New Zealand" },
+    availability: "https://schema.org/LimitedAvailability",
+    seller: { "@type": "Organization", name: "Assembl", url: "https://www.assembl.co.nz" },
+    category: "Pilot programme",
+  };
+
   return (
     <>
       <SEO
-        title="Assembl — Premium intelligence with a human heart"
-        description="NZ specialist AI agents and workflows that finish the work — and give the time back. Every workflow produces a pack you can file, forward or footnote, and stays current as the law changes. Simulation-tested · Policy-governed · Human-in-the-loop."
+        title="Assembl — Quiet AI that gives time back · Pilot in 30 Days from $15k"
+        ogTitle="Quiet AI that gives time back — book a 30-day pilot from $15k"
+        description="One painful workflow, solved in 30 days. Governed, evidence-backed, human-in-control — every output is a pack you can file, forward or footnote. Built for the way New Zealand actually works."
+        path="/"
+        image="https://www.assembl.co.nz/assembl-og.png"
+        imageAlt="Assembl — quiet AI for NZ businesses. Pilot in 30 Days from $15k. Evidence packs you can file, forward or footnote."
+        twitterCreator="@AssemblNZ"
+        jsonLd={pilotOfferJsonLd}
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />
