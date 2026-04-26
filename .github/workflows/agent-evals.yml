@@ -1,16 +1,20 @@
-
-name: build-check
+name: agent-orchestrator
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
-  build:
+  orchestrator:
     runs-on: ubuntu-latest
-
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
     steps:
       - uses: actions/checkout@v4
 
@@ -20,5 +24,7 @@ jobs:
           cache: 'npm'
 
       - run: npm install
-
+      - run: npm run check:kete-names
+      - run: npm run predeploy:agents
+      - run: npm test
       - run: npm run build
