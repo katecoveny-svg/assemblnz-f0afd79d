@@ -126,6 +126,32 @@ const Card = ({ children, icon: Icon }: { children: React.ReactNode; icon: React
 );
 
 export default function TrustPage() {
+  const trustJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.assembl.co.nz/trust#webpage",
+        url: "https://www.assembl.co.nz/trust",
+        name: "Trust — Privacy, security and human-in-control",
+        description:
+          "Assembl's trust posture: NZ Privacy Act 2020 (incl. IPP 3A), human-in-the-loop on every consequential action, NZ data residency under review, full subprocessor list, and incident response.",
+        inLanguage: "en-NZ",
+        isPartOf: { "@id": "https://www.assembl.co.nz/#website" },
+        about: { "@id": "https://www.assembl.co.nz/#organization" },
+        primaryImageOfPage: "https://www.assembl.co.nz/assembl-og.png",
+        dateModified: "2026-04-26",
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://www.assembl.co.nz/" },
+          { "@type": "ListItem", position: 2, name: "Trust", item: "https://www.assembl.co.nz/trust" },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
       <SEO
@@ -133,6 +159,7 @@ export default function TrustPage() {
         description="Assembl's trust posture: NZ Privacy Act 2020 (incl. IPP 3A), human-in-the-loop on every consequential action, NZ data residency under review, full subprocessor list, and incident response."
         path="/trust"
       />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(trustJsonLd) }} />
 
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />
