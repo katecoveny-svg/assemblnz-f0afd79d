@@ -8,6 +8,7 @@ import koruMarkImg from "@/assets/brand/glass-koru-mark.png";
 import logoLockupImg from "@/assets/brand/assembl-logo-lockup.png";
 import socialCoverImg from "@/assets/brand/social-cover-template.png";
 import socialAvatarImg from "@/assets/brand/social-avatar.png";
+import keteMarkLibraryImg from "@/assets/brand/kete-mark-library.jpg";
 
 const SECTION_PAD = "py-24 sm:py-32";
 const HEADING = "text-[32px] sm:text-[48px] font-light tracking-[-0.02em] mb-4";
@@ -118,6 +119,104 @@ export default function BrandGuidelinesPage() {
             A library of specialist agents. Eight kete (seven industry + Tōro). One intelligence layer. This guide defines how Assembl looks,
             speaks, and feels across every touchpoint.
           </p>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      {/* Kete Mark Exploration — woven node kete library */}
+      <section className={`${SECTION_PAD} px-6`}>
+        <div className="max-w-[1200px] mx-auto">
+          <div className="text-center mb-12">
+            <p
+              className="text-[11px] tracking-[3px] uppercase mb-6"
+              style={{ fontFamily: "'IBM Plex Mono', monospace", color: "#4AA5A8" }}
+            >
+              Kete Mark Exploration
+            </p>
+            <h2
+              className="text-[28px] sm:text-[42px] font-light tracking-[-0.02em] mb-4"
+              style={{ color: "#1A1D29", fontFamily: "'Cormorant Garamond', serif" }}
+            >
+              Woven Node Kete
+            </h2>
+            <p
+              className={`${SUB} mx-auto`}
+              style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}
+            >
+              Six refined interpretations of the woven node kete. Each mark captures the essence
+              of connection, intelligence, and quiet craftsmanship — from the primary lockup down
+              to the favicon-scale compact mark.
+            </p>
+          </div>
+
+          <motion.figure
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="rounded-3xl overflow-hidden"
+            style={GLASS_CARD}
+          >
+            <img
+              src={keteMarkLibraryImg}
+              alt="Assembl Brand Library — six refined interpretations of the woven node kete: primary, monoline, crest seal, soft geometric, app icon, and premium lockup"
+              loading="lazy"
+              className="w-full h-auto block"
+              style={{ objectFit: "contain" }}
+            />
+            <figcaption
+              className="px-6 py-5 text-center"
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 12,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "#6B7280",
+                borderTop: "1px solid rgba(74,165,168,0.12)",
+              }}
+            >
+              Intelligence that gives time back · Premium intelligence, built in Aotearoa
+            </figcaption>
+          </motion.figure>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mt-8">
+            {[
+              { n: "01", label: "Primary" },
+              { n: "02", label: "Monoline" },
+              { n: "03", label: "Crest Seal" },
+              { n: "04", label: "Soft Geometric" },
+              { n: "05", label: "App Icon / Favicon" },
+              { n: "06", label: "Premium Lockup" },
+            ].map((v) => (
+              <div
+                key={v.n}
+                className="rounded-2xl px-4 py-3 text-center"
+                style={GLASS_CARD}
+              >
+                <div
+                  style={{
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontSize: 10,
+                    letterSpacing: "0.2em",
+                    color: "#4AA5A8",
+                  }}
+                >
+                  {v.n}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 12,
+                    color: "#1A1D29",
+                    marginTop: 4,
+                  }}
+                >
+                  {v.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

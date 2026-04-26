@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Send, ArrowUpRight, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import assemblLockup from "@/assets/brand/assembl-lockup.png";
 
 /* ─── Pearl brand tokens (single source of truth) ─── */
 /* Warm Pearl + Forest Ink — never black, never cool blue-white. */
@@ -120,21 +121,20 @@ const BrandFooter = () => {
       />
 
       <div className="max-w-[1200px] mx-auto relative z-10">
-        {/* Wordmark */}
+        {/* Brand lockup — kete + wordmark + tagline */}
         <div className="text-center mb-16">
-          <h2
-            className="mb-5"
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 300,
-              fontSize: "clamp(36px, 4vw, 52px)",
-              letterSpacing: "0.02em",
-              textTransform: "lowercase",
-              color: PEARL.ink,
-              lineHeight: 1.1,
-            }}
-          >
-            assembl
+          <h2 className="mb-5 flex justify-center" aria-label="Assembl — gives time back">
+            <img
+              src={assemblLockup}
+              alt="Assembl — gives time back"
+              className="select-none"
+              style={{
+                height: "clamp(120px, 14vw, 180px)",
+                width: "auto",
+                objectFit: "contain",
+              }}
+              draggable={false}
+            />
           </h2>
           <p
             className="max-w-2xl mx-auto"

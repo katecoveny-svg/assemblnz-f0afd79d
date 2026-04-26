@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import GlowIcon from "@/components/GlowIcon";
 import AccountDropdown from "@/components/AccountDropdown";
-import Nav3DKeteLogo from "@/components/Nav3DKeteLogo";
 import KiaOraPopup from "@/components/KiaOraPopup";
 import { usePersonalization } from "@/contexts/PersonalizationContext";
+import assemblLockup from "@/assets/brand/assembl-lockup.png";
 
 interface NavItem { label: string; to: string }
 
@@ -175,20 +175,14 @@ const BrandNav = () => {
           borderBottom: `1px solid ${PEARL.opal}`,
         }}
       >
-        <Link to="/" className="flex items-center gap-3 group shrink-0">
-          <Nav3DKeteLogo size={36} />
-          <span
-            style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 400,
-              letterSpacing: "0.04em",
-              textTransform: "lowercase",
-              fontSize: "20px",
-              color: PEARL.ink,
-            }}
-          >
-            assembl
-          </span>
+        <Link to="/" className="flex items-center group shrink-0" aria-label="Assembl — home">
+          <img
+            src={assemblLockup}
+            alt="Assembl — gives time back"
+            className="h-12 w-auto select-none"
+            style={{ objectFit: "contain", imageRendering: "auto" }}
+            draggable={false}
+          />
         </Link>
 
         <div className="flex-1" />
