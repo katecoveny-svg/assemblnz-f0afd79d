@@ -37,7 +37,7 @@ const MORE_LINKS = [
   { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", glowIcon: "BarChart3", color: "#4AA5A8" },
   { label: "Scenario Simulator", sublabel: "Try a live demo", to: "/simulator", glowIcon: "Brain", color: "#4AA5A8" },
   { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", glowIcon: "Shield", color: "#4AA5A8" },
-  { label: "Trust", sublabel: "Privacy, security & human-in-control", to: "/trust", glowIcon: "ShieldCheck", color: "#1F4D47" },
+  { label: "Trust", sublabel: "Privacy, security & human-in-control", to: "/trust", glowIcon: "Shield", color: "#1F4D47" },
   { label: "Developers", sublabel: "API & docs", to: "/developers", glowIcon: "Cpu", color: "#6CBFC1" },
   { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", glowIcon: "Sparkles", color: "#4AA5A8" },
   { label: "Agent Marketplace", sublabel: "Browse the specialist library", to: "/agents", glowIcon: "Users", color: "#9B8EC4" },
