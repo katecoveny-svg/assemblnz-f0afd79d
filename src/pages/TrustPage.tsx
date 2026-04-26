@@ -95,7 +95,7 @@ const Body = ({ children }: { children: React.ReactNode }) => (
   </p>
 );
 
-const Card = ({ children, icon: Icon }: { children: React.ReactNode; icon: React.ComponentType<{ size?: number }> }) => (
+const Card = ({ children, icon: Icon }: { children: React.ReactNode; icon: React.ComponentType<{ size?: number | string }> }) => (
   <motion.section
     initial="hidden"
     whileInView="visible"
