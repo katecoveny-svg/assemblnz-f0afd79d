@@ -14,6 +14,11 @@
   <url><loc>https://www.assembl.co.nz/status</loc><priority>0.7</priority><changefreq>daily</changefreq></url>
   <url><loc>https://www.assembl.co.nz/evidence</loc><priority>0.8</priority><changefreq>weekly</changefreq></url>
 
+  <!-- Trust & procurement (high-priority — buyer due-diligence surface) -->
+  <url><loc>https://www.assembl.co.nz/trust</loc><lastmod>2026-04-26</lastmod><priority>0.9</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/security</loc><lastmod>2026-04-26</lastmod><priority>0.7</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.assembl.co.nz/data-sovereignty</loc><lastmod>2026-04-26</lastmod><priority>0.7</priority><changefreq>monthly</changefreq></url>
+
   <!-- Industry kete (top-priority — primary product surface) -->
   <url><loc>https://www.assembl.co.nz/manaaki</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/waihanga</loc><priority>0.95</priority><changefreq>weekly</changefreq></url>
@@ -96,6 +101,5 @@
   <url><loc>https://www.assembl.co.nz/tradie-portal</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/landlord</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
 
-  <!-- Trust & procurement -->
-  <url><loc>https://www.assembl.co.nz/trust</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
+
 </urlset>
