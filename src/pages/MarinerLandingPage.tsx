@@ -212,6 +212,25 @@ export default function MarinerLandingPage() {
                 Talk to us about Mariner <ArrowRight size={16} />
               </Link>
               <Link
+                to="/chat/mariner"
+                className="inline-flex items-center gap-2 transition-all hover:-translate-y-px"
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 15,
+                  color: PEARL.pounamu,
+                  background: "rgba(255,255,255,0.65)",
+                  padding: "17px 30px",
+                  borderRadius: 999,
+                  fontWeight: 500,
+                  letterSpacing: "0.01em",
+                  border: `1px solid ${PEARL.pounamu}`,
+                  backdropFilter: "blur(12px)",
+                }}
+                aria-label="Chat with Mariner agent"
+              >
+                Chat with Mariner <ArrowRight size={16} />
+              </Link>
+              <Link
                 to="/pricing"
                 className="inline-block transition-colors"
                 style={{
