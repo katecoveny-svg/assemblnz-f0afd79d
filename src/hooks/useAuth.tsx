@@ -56,11 +56,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const checkSubscription = useCallback(async () => {
     if (!session?.access_token) return;
-    try {
-      const { data, error } = await supabase.functions.invoke("check-subscription", {
+
+    // Resilient invoke: retry once on transient edge-runtime 503s (cold boot)
+    const invokeOnce = async () => {
+      return await supabase.functions.invoke("check-subscription", {
         headers: { Authorization: `Bearer ${session.access_token}` },
       });
-      if (error || !data) return;
+    };
+
+    try {
+      let { data, error } = await invokeOnce();
+
+      // Edge runtime cold-start / 503 → wait briefly and try once more
+      const isTransient =
+        !!error &&
+        /503|temporarily unavailable|SUPABASE_EDGE_RUNTIME_ERROR|Failed to send/i.test(
+          (error as any)?.message ?? String(error),
+        );
+      if (isTransient) {
+        await new Promise((r) => setTimeout(r, 1200));
+        ({ data, error } = await invokeOnce());
+      }
+
+      if (error || !data) return; // graceful: DB role remains the source of truth
       if (data.subscribed && data.product_id) {
         const stripeRole = roleFromProductId(data.product_id);
         if (stripeRole) {
@@ -69,7 +87,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setSubscriptionEnd(data.subscription_end || null);
       }
     } catch {
-      // Silently fail — DB role is the fallback
+      // Silently fail — DB role is the fallback, never break the UI
     }
   }, [session?.access_token]);
 
