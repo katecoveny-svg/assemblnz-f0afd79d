@@ -95,4 +95,7 @@
   <url><loc>https://www.assembl.co.nz/mariner</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/tradie-portal</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/landlord</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+
+  <!-- Trust & procurement -->
+  <url><loc>https://www.assembl.co.nz/trust</loc><priority>0.8</priority><changefreq>monthly</changefreq></url>
 </urlset>
