@@ -150,7 +150,7 @@ export default function BrandGuidelinesPage() {
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
               <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>What Assembl is</p>
               <ul className="space-y-2">
-                {["The operating system for NZ business", "44 AI agents across 5 industry kete", "One governed intelligence layer", "Trained on NZ legislation with section references"].map(t => (
+                {["The operating system for NZ business", "44 AI agents across 7 industry kete + Tōro", "One governed intelligence layer", "Trained on NZ legislation with section references"].map(t => (
                   <li key={t} className="flex items-start gap-3 text-[14px]" style={{ color: "#6B7280" }}>
                     <span className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ background: "#4AA5A8" }} />
                     {t}

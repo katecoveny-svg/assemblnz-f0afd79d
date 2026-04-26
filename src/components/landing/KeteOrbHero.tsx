@@ -756,9 +756,9 @@ const KeteOrbHero = ({ hideText = false }: { hideText?: boolean }) => {
             className="text-sm max-w-lg mx-auto leading-relaxed"
             style={{ fontFamily: "'Inter', sans-serif", color: "rgba(255,255,255,0.5)" }}
           >
-            Five industry kete that run your compliance, operations, and reporting
-            — then hand you a signed pack your auditor can read and your lawyer can
-            rely on.
+            Seven industry kete plus Tōro for whānau — running your compliance,
+            operations, and reporting, then handing you a signed pack your auditor
+            can read and your lawyer can rely on.
           </p>
         </div>
       )}

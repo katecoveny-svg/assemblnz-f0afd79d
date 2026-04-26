@@ -80,7 +80,7 @@ const KeteGrid: React.FC = () => {
               color: "#5A6270",
             }}
           >
-            Five industry kete plus a shared core platform, built for Aotearoa. Each kete brings together specialist workflows, templates, and policy guidance for its domain.
+            Seven industry kete plus Tōro for whānau and a shared core platform, built for Aotearoa. Each kete brings together specialist workflows, templates, and policy guidance for its domain.
           </p>
         </header>
 

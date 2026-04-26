@@ -6,12 +6,15 @@ assembl is an intelligent business platform built in Aotearoa. It increases effi
 
 Built in Aotearoa. Grounded in NZ legislation and policy workflows. Every output runs through a tikanga compliance pipeline (Kahu → Tā → Mahara → Mana) with an audit trail.
 
-## Five industry kete (locked 2026-04-07)
+## Seven industry kete + Tōro (locked 2026-04-21)
 - Manaaki — Hospitality: food safety, liquor licensing, guest experience, tourism operations
 - Waihanga — Construction: site safety, consenting, project management, quality and sign-off
 - Auaha — Creative: brief to publish — copy, image, video, podcast, ads, analytics
 - Arataki — Automotive: workshops, fleet, vehicle compliance, service scheduling
 - Pikau — Freight & Customs: route optimisation, declarations, broker hand-off, customs compliance
+- Hoko — Retail: stock, point of sale, customer comms, returns and Fair Trading Act
+- Ako — Early Childhood: enrolment, ratios, learning stories, MoE compliance
+- Tōro — Family (whānau): SMS-first family life navigator (consumer tier)
 
 ## Pricing (NZD ex GST, locked 2026-04-08)
 Family: $29/mo — SMS-first whānau agent (consumer)

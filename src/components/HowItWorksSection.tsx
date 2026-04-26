@@ -10,7 +10,7 @@ const STEPS = [
   {
     icon: Share2,
     title: "Meet your whānau of tools",
-    desc: "Five industry kete grounded in the Acts, regulations, and tikanga that apply to your work.",
+    desc: "Seven industry kete plus Tōro for whānau — grounded in the Acts, regulations, and tikanga that apply to your work.",
   },
   {
     icon: ShieldCheck,
