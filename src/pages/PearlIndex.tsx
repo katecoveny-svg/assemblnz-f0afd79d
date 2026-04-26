@@ -1101,6 +1101,7 @@ export default function PearlIndex() {
         <WhyAssembl />
         <WhatAssemblIs />
         <HowItWorks />
+        <PriorityProducts />
         <KetesGrid />
         <LiveCompliance />
         <Tikanga />
