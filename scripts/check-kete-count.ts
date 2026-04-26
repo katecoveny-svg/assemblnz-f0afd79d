@@ -20,7 +20,7 @@ const PATTERNS = [
   "6 industry kete",
 ];
 
-const TARGETS = ["src/", "public/"];
+const TARGETS = ["src/", "public/", "index.html"];
 
 const cmd = `grep -rniE '${PATTERNS.join("|")}' ${TARGETS.join(" ")} \
   --include='*.ts' --include='*.tsx' --include='*.md' --include='*.json' \
