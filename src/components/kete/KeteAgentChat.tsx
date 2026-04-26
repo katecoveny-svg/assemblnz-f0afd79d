@@ -135,7 +135,7 @@ Every query routes through a 10-step Iho pipeline: Parse → Access → Intent �
 
 Every output passes through the tikanga compliance pipeline (Kahu → Tā → Mahara → Mana) before reaching the user.
 
-## The Five Industry Kete
+## The Seven Industry Kete (plus Tōro for whānau)
 
 1. **Manaaki** (Hospitality & Tourism) — restaurants, cafés, hotels, lodges, tourism operators, event venues.
    - Food safety (Food Act 2014), alcohol licensing (SSAA 2012), guest experience, events, sustainability.

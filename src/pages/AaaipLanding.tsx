@@ -324,7 +324,7 @@ export default function AaaipLanding() {
               },
               {
                 aaaip: "How can agentic AI serve all New Zealanders, not just large corporates?",
-                assembl: "Purpose-built for SMEs — the 97% of NZ businesses that can't afford enterprise AI. Five industry kete covering hospitality, construction, creative, automotive, and freight.",
+                assembl: "Purpose-built for SMEs — the 97% of NZ businesses that can't afford enterprise AI. Seven industry kete plus Tōro for whānau, covering hospitality, construction, creative, automotive, freight, retail, early childhood, and family.",
                 icon: Users,
               },
             ].map((item) => (

@@ -6,18 +6,21 @@ assembl is an intelligent business platform built in Aotearoa. It increases effi
 
 Built in Aotearoa. Grounded in NZ legislation and policy workflows. Every output runs through a tikanga compliance pipeline (Kahu → Tā → Mahara → Mana) with an audit trail.
 
-## Five industry kete (locked 2026-04-07)
+## Seven industry kete + Tōro (locked 2026-04-21)
 - Manaaki — Hospitality: food safety, liquor licensing, guest experience, tourism operations
 - Waihanga — Construction: site safety, consenting, project management, quality and sign-off
 - Auaha — Creative: brief to publish — copy, image, video, podcast, ads, analytics
 - Arataki — Automotive: workshops, fleet, vehicle compliance, service scheduling
 - Pikau — Freight & Customs: route optimisation, declarations, broker hand-off, customs compliance
+- Hoko — Retail: stock, point of sale, customer comms, returns and Fair Trading Act
+- Ako — Early Childhood: enrolment, ratios, learning stories, MoE compliance
+- Tōro — Family (whānau): SMS-first family life navigator (consumer tier)
 
 ## Pricing (NZD ex GST, locked 2026-04-08)
 Family: $29/mo — SMS-first whānau agent (consumer)
 Operator: $590/mo + $1,490 setup — sole traders and micro-SMEs, 1 kete, up to 5 seats
 Leader: $1,290/mo + $1,990 setup — multi-discipline SMEs, 2 kete, up to 15 seats, quarterly compliance review
-Enterprise: $2,890/mo + $2,990 setup — multi-site, all 5 kete, unlimited seats, 99.9% uptime SLA, attested NZ data residency, named success manager
+Enterprise: $2,890/mo + $2,990 setup — multi-site, all kete (seven industry kete + Tōro), unlimited seats, 99.9% uptime SLA, attested NZ data residency, named success manager
 Outcome: from $5,000/mo — bespoke engagements, base + 10–20% of measured savings
 
 Setup fees can be split across the first 3 invoices on request.
@@ -29,6 +32,9 @@ Setup fees can be split across the first 3 invoices on request.
 - Encrypted in transit and at rest
 - Customer business data is never used to train models
 - Attested NZ data residency on Enterprise
+- Public trust posture, subprocessor list, and incident response: https://www.assembl.co.nz/trust
+- Maritime kete (Mariner): https://www.assembl.co.nz/mariner
+- Property kete (Landlord): https://www.assembl.co.nz/landlord
 
 ## Location
 Auckland, New Zealand

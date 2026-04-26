@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "predeploy:agents": "tsx scripts/predeploy-validate-agents.ts",
-    "check:kete-names": "tsx scripts/check-kete-names.ts"
+    "check:kete-names": "tsx scripts/check-kete-names.ts",
+    "check:kete-count": "tsx scripts/check-kete-count.ts"
   },
   "dependencies": {
     "@elevenlabs/react": "^0.14.3",
@@ -106,6 +107,7 @@
     "lovable-tagger": "^1.1.13",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
     "vite": "^6.3.0",

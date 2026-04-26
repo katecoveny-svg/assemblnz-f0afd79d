@@ -8,7 +8,7 @@ const GOLD = "#4AA5A8";
 
 const FEATURES = [
   { icon: Brain, title: "Intent Classification", desc: "Automatically detects which kete and agent is needed. Keyword matching, pattern recognition, and confidence scoring." },
-  { icon: Users, title: "Five Industry Kete", desc: "Manaaki, Waihanga, Auaha, Arataki, Pikau — each kete grounded in NZ legislation and policy workflows for its industry." },
+  { icon: Users, title: "Seven Industry Kete + Tōro", desc: "Manaaki, Waihanga, Auaha, Arataki, Pikau, Hoko, Ako — plus Tōro for whānau. Each kete grounded in NZ legislation and policy workflows for its industry." },
   { icon: GitBranch, title: "Model Routing", desc: "Gemini for speed and multimodal. Claude for reasoning, compliance, and code. Cost-aware routing optimises every request." },
   { icon: Shield, title: "Privacy & Compliance", desc: "PII detection for emails, IRD numbers, bank accounts. Privacy Act 2020 compliance across all 13 IPPs plus new IPP 3A." },
   { icon: FileText, title: "Audit Logging", desc: "Every request logged — user, agent, model, tokens, cost, and compliance outcome. CSV export for external analysis." },

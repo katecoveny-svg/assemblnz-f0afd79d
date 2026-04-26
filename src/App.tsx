@@ -75,6 +75,8 @@ const ContactPage = lazy(() => import("./pages/ContactPage"));
 const AdminAnalyticsDashboard = lazy(() => import("./pages/AdminAnalyticsDashboard"));
 const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
+const MarinerLandingPage = lazy(() => import("./pages/MarinerLandingPage"));
+const TrustPage = lazy(() => import("./pages/TrustPage"));
 const AdminMcpLayout = lazy(() => import("./pages/admin/AdminMcpLayout"));
 const AdminMcpOverview = lazy(() => import("./pages/admin/mcp/Overview"));
 const AdminMcpToolsets = lazy(() => import("./pages/admin/mcp/Toolsets"));
@@ -557,6 +559,8 @@ const App = () => (
                         <Route path="/aroha/*" element={<Navigate to="/" replace />} />
                         <Route path="/tradie-portal" element={<Navigate to="/waihanga" replace />} />
                         <Route path="/landlord" element={<Navigate to="/" replace />} />
+                        <Route path="/mariner" element={<Suspense fallback={null}><MarinerLandingPage /></Suspense>} />
+                        <Route path="/trust" element={<Suspense fallback={null}><TrustPage /></Suspense>} />
                         <Route path="/agents/:agentId" element={<AgentSlugRedirect />} />
                         <Route path="/fuel-savings" element={<Navigate to="/arataki" replace />} />
                         <Route path="/claims-register" element={<Navigate to="/" replace />} />

@@ -315,9 +315,9 @@ function Hero() {
             margin: 0,
           }}
         >
-          Built for the way New Zealand{" "}
-          <span style={{ fontStyle: "italic", color: PEARL.pounamu }}>actually</span>{" "}
-          works.
+          Quiet AI that{" "}
+          <span style={{ fontStyle: "italic", color: PEARL.pounamu }}>gives</span>{" "}
+          time back.
         </motion.h1>
 
         <motion.p
@@ -334,7 +334,7 @@ function Hero() {
             letterSpacing: "0.005em",
           }}
         >
-          Premium intelligence with a human heart.
+          Built for the way New Zealand actually works.
         </motion.p>
 
         <motion.div
@@ -344,7 +344,7 @@ function Hero() {
           style={{ maxWidth: 560, marginTop: 36 }}
         >
           <Body large>
-            NZ specialist AI agents and workflows that finish the work — and give you valuable time back. Every workflow produces a pack you can file, forward or footnote, and stays current as the law changes.
+            One painful workflow, solved in 30 days. Governed, evidence-backed, human-in-control.
           </Body>
         </motion.div>
 
@@ -355,27 +355,158 @@ function Hero() {
           className="flex items-center gap-8 flex-wrap"
           style={{ marginTop: 44 }}
         >
-          <InkButton to="/start">Start with one kete</InkButton>
-          <InkButton to="/pricing" variant="underline">View pricing</InkButton>
+          <InkButton to="/contact?offer=pilot-30">Book a 30-day pilot — from $15k</InkButton>
+          <InkButton to="/how-it-works" variant="underline">See how it works</InkButton>
         </motion.div>
 
-        {/* Trust stack — locked, never reword (per Pearl spec) */}
-        <motion.p
+        {/* Trust strip — three pills, locked copy (anchors trust above the fold) */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.1, ease, delay: 1.2 }}
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 11,
-            letterSpacing: "0.32em",
-            textTransform: "uppercase",
-            color: PEARL.pounamu,
-            marginTop: 56,
-            fontWeight: 500,
-          }}
+          className="flex flex-wrap items-center gap-3"
+          style={{ marginTop: 56 }}
         >
-          Simulation-tested · Policy-governed · Human-in-the-loop
-        </motion.p>
+          {[
+            { icon: "🛡", text: "NZ data residency — under review for full AU/NZ migration" },
+            { icon: "✓", text: "Human-in-control — every consequential action requires approval" },
+            { icon: "📋", text: "Evidence pack — every output exportable as PDF" },
+          ].map((p) => (
+            <span
+              key={p.text}
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: 12,
+                letterSpacing: "0.04em",
+                color: PEARL.pounamu,
+                background: "rgba(255,255,255,0.7)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid rgba(31,77,71,0.12)",
+                padding: "10px 16px",
+                borderRadius: 999,
+                fontWeight: 500,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <span aria-hidden="true">{p.icon}</span> {p.text}
+            </span>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── Three priority product cards (above the kete grid) ─────────── */
+const PRODUCT_CARDS = [
+  {
+    title: "Pilot in 30 Days",
+    price: "From $15k",
+    blurb: "One painful workflow, governed and live in a month.",
+    to: "/contact?offer=pilot-30",
+    cta: "Book a pilot",
+  },
+  {
+    title: "Landlord",
+    price: "From $399/mo",
+    blurb: "Governed property admin and compliance for NZ landlords.",
+    to: "/landlord",
+    cta: "See Landlord",
+  },
+  {
+    title: "Mariner",
+    price: "From $1,500/mo",
+    blurb: "Maritime compliance and operational assistant for Aotearoa operators.",
+    to: "/mariner",
+    cta: "See Mariner",
+  },
+];
+
+function PriorityProducts() {
+  return (
+    <section className="relative" style={{ paddingTop: 100, paddingBottom: 60, background: PEARL.bg }}>
+      <div className="max-w-[1200px] mx-auto px-6 md:px-10">
+        <motion.div {...fadeUp}>
+          <Eyebrow>Where to start</Eyebrow>
+          <Serif size="lg">Three ways into Assembl.</Serif>
+          <div style={{ marginTop: 12, maxWidth: 620 }}>
+            <Body large>Pick the offer that matches the work in front of you. The full kete library sits below.</Body>
+          </div>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          {PRODUCT_CARDS.map((p, i) => (
+            <motion.div
+              key={p.title}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: i * 0.08, ease }}
+              className="rounded-3xl p-8 flex flex-col"
+              style={{
+                background: "rgba(255,255,255,0.72)",
+                backdropFilter: "blur(20px)",
+                border: "1px solid rgba(31,77,71,0.10)",
+                boxShadow: "0 8px 30px rgba(111,97,88,0.06)",
+              }}
+            >
+              <p
+                className="lowercase mb-3"
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 11,
+                  letterSpacing: "0.28em",
+                  color: PEARL.pounamu,
+                  fontWeight: 500,
+                }}
+              >
+                {p.price}
+              </p>
+              <h3
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontWeight: 400,
+                  fontSize: 30,
+                  lineHeight: 1.15,
+                  color: PEARL.ink,
+                  margin: 0,
+                  marginBottom: 14,
+                }}
+              >
+                {p.title}
+              </h3>
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 15,
+                  lineHeight: 1.6,
+                  color: "rgba(15,42,38,0.72)",
+                  margin: 0,
+                  marginBottom: 28,
+                  flex: 1,
+                }}
+              >
+                {p.blurb}
+              </p>
+              <Link
+                to={p.to}
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 14,
+                  color: PEARL.ink,
+                  borderBottom: `1px solid ${PEARL.ink}`,
+                  paddingBottom: 2,
+                  fontWeight: 500,
+                  alignSelf: "flex-start",
+                }}
+              >
+                {p.cta} →
+              </Link>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -970,6 +1101,7 @@ export default function PearlIndex() {
         <WhyAssembl />
         <WhatAssemblIs />
         <HowItWorks />
+        <PriorityProducts />
         <KetesGrid />
         <LiveCompliance />
         <Tikanga />

@@ -298,7 +298,7 @@ export default function AaaipPitchPrep() {
 
         <ScriptBlock title="Opening" time="2 min">
           <p>Thanks for meeting with me, Gill. I'm Kate Hudson, founder of Assembl. I reached out because what you're building with the AAAIP is exactly aligned with what I'm building commercially — and I think there's a really natural partnership here.</p>
-          <p>Assembl is a multi-agent AI platform built specifically for New Zealand small businesses. I have a library of specialist AI agents across five industry kete, each trained on a specific area of NZ legislation or business operations — employment law, food safety, health and safety, privacy, tax, construction, hospitality — and they work together through a central intelligence layer to give coordinated, accurate answers.</p>
+          <p>Assembl is a multi-agent AI platform built specifically for New Zealand small businesses. I have a library of specialist AI agents across seven industry kete plus Tōro for whānau, each trained on a specific area of NZ legislation or business operations — employment law, food safety, health and safety, privacy, tax, construction, hospitality — and they work together through a central intelligence layer to give coordinated, accurate answers.</p>
           <p>Your vision is 100 million AI assistants for 5 million New Zealanders. I'm building the version of that for the 500,000+ NZ small businesses that can't afford Beca or Datacom.</p>
         </ScriptBlock>
 
