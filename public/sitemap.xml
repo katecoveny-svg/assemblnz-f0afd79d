@@ -94,7 +94,6 @@
   <url><loc>https://www.assembl.co.nz/terms</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/cookies</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://www.assembl.co.nz/disclaimer</loc><priority>0.3</priority><changefreq>yearly</changefreq></url>
-  <url><loc>https://www.assembl.co.nz/security</loc><priority>0.4</priority><changefreq>yearly</changefreq></url>
 
   <!-- Portals -->
   <url><loc>https://www.assembl.co.nz/mariner</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
