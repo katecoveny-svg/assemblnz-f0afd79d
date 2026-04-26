@@ -32,6 +32,9 @@ Setup fees can be split across the first 3 invoices on request.
 - Encrypted in transit and at rest
 - Customer business data is never used to train models
 - Attested NZ data residency on Enterprise
+- Public trust posture, subprocessor list, and incident response: https://www.assembl.co.nz/trust
+- Maritime kete (Mariner): https://www.assembl.co.nz/mariner
+- Property kete (Landlord): https://www.assembl.co.nz/landlord
 
 ## Location
 Auckland, New Zealand
