@@ -238,6 +238,7 @@ const AdminKnowledgeBase = lazy(() => import("./pages/AdminKnowledgeBase"));
 const AdminFlintDashboard = lazy(() => import("./pages/AdminFlintDashboard"));
 const AdminAgentTestLab = lazy(() => import("./pages/AdminAgentTestLab"));
 const AdminPikauValidator = lazy(() => import("./pages/AdminPikauValidator"));
+const AdminEvalPikau = lazy(() => import("./pages/AdminEvalPikau"));
 const AdminAgentCatalogPage = lazy(() => import("./pages/AdminAgentCatalogPage"));
 const AdminAgentInventoryPage = lazy(() => import("./pages/AdminAgentInventoryPage"));
 const AdminAgentPromptsPage = lazy(() => import("./pages/AdminAgentPromptsPage"));
