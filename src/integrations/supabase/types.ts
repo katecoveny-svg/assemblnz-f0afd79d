@@ -9049,6 +9049,125 @@ export type Database = {
         }
         Relationships: []
       }
+      pikau_eval_runs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          error: string | null
+          hard_fails_triggered: Json
+          id: string
+          judge_model: string | null
+          judge_notes: string | null
+          judge_verdict: string
+          latency_ms: number | null
+          model_used: string | null
+          must_cite_hits: Json
+          must_cite_misses: Json
+          must_flag_hits: Json
+          must_flag_misses: Json
+          pass: boolean
+          pikau_response: string | null
+          run_batch: string | null
+          scenario_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          error?: string | null
+          hard_fails_triggered?: Json
+          id?: string
+          judge_model?: string | null
+          judge_notes?: string | null
+          judge_verdict: string
+          latency_ms?: number | null
+          model_used?: string | null
+          must_cite_hits?: Json
+          must_cite_misses?: Json
+          must_flag_hits?: Json
+          must_flag_misses?: Json
+          pass: boolean
+          pikau_response?: string | null
+          run_batch?: string | null
+          scenario_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          error?: string | null
+          hard_fails_triggered?: Json
+          id?: string
+          judge_model?: string | null
+          judge_notes?: string | null
+          judge_verdict?: string
+          latency_ms?: number | null
+          model_used?: string | null
+          must_cite_hits?: Json
+          must_cite_misses?: Json
+          must_flag_hits?: Json
+          must_flag_misses?: Json
+          pass?: boolean
+          pikau_response?: string | null
+          run_batch?: string | null
+          scenario_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pikau_eval_runs_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "pikau_eval_scenarios"
+            referencedColumns: ["scenario_id"]
+          },
+        ]
+      }
+      pikau_eval_scenarios: {
+        Row: {
+          active: boolean
+          created_at: string
+          hard_fails: Json
+          must_cite: Json
+          must_flag: Json
+          pass_criteria: string
+          prompt: string
+          scenario_id: string
+          title: string
+          type: string
+          updated_at: string
+          weight: string
+          workflow: number
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          hard_fails?: Json
+          must_cite?: Json
+          must_flag?: Json
+          pass_criteria: string
+          prompt: string
+          scenario_id: string
+          title: string
+          type: string
+          updated_at?: string
+          weight: string
+          workflow: number
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          hard_fails?: Json
+          must_cite?: Json
+          must_flag?: Json
+          pass_criteria?: string
+          prompt?: string
+          scenario_id?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          weight?: string
+          workflow?: number
+        }
+        Relationships: []
+      }
       pipeline_audit_logs: {
         Row: {
           action_type: string
