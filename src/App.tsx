@@ -92,6 +92,7 @@ const AdminMcpServer = lazy(() => import("./pages/admin/mcp/Server"));
 const AdminMcpFunctionHealth = lazy(() => import("./pages/admin/mcp/FunctionHealth"));
 const AdminMcpAgentToolE2E = lazy(() => import("./pages/admin/mcp/AgentToolE2E"));
 const AdminMcpApiKeys = lazy(() => import("./pages/admin/mcp/ApiKeys"));
+const AdminMcpAmbient = lazy(() => import("./pages/admin/mcp/AmbientLoop"));
 const AdminAgentWiringCheck = lazy(() => import("./pages/admin/AdminAgentWiringCheck"));
 const AdminAgentInspector = lazy(() => import("./pages/admin/AdminAgentInspector"));
 const AdminApiKeys = lazy(() => import("./pages/admin/ApiKeys"));
@@ -358,6 +359,7 @@ const App = () => (
                           <Route path="health" element={<Suspense fallback={null}><AdminMcpFunctionHealth /></Suspense>} />
                           <Route path="e2e" element={<Suspense fallback={null}><AdminMcpAgentToolE2E /></Suspense>} />
                           <Route path="api-keys" element={<Suspense fallback={null}><AdminMcpApiKeys /></Suspense>} />
+                          <Route path="ambient" element={<Suspense fallback={null}><AdminMcpAmbient /></Suspense>} />
                         </Route>
                         <Route path="/admin/sms" element={<Suspense fallback={null}><AdminSmsPage /></Suspense>} />
                         <Route path="/admin/messaging" element={<Suspense fallback={null}><AdminMessagingDashboard /></Suspense>} />

@@ -17,6 +17,7 @@ import {
   KeyRound,
   Activity,
   TestTube2,
+  Waves,
 } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import { useAuth } from "@/hooks/useAuth";
@@ -34,6 +35,7 @@ const NAV = [
   { to: "/admin/mcp/housekeeping", label: "Housekeeping", icon: Sparkles },
   { to: "/admin/mcp/server", label: "Server", icon: Server },
   { to: "/admin/mcp/health", label: "Function Health", icon: Activity },
+  { to: "/admin/mcp/ambient", label: "Ambient Loop", icon: Waves },
   { to: "/admin/mcp/e2e", label: "E2E Matrix", icon: TestTube2 },
   { to: "/admin/mcp/api-keys", label: "API Keys", icon: KeyRound },
 ];
