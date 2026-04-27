@@ -145,6 +145,33 @@ export default function AdminPikauValidator() {
     }
   };
 
+  const runAndScoreAll = async () => {
+    setScoring(true);
+    setLastResults([]);
+    setLastBatch(null);
+    setDashboard(null);
+    try {
+      const body: Record<string, unknown> = { model, limit: 50, concurrency: 4 };
+      if (workflow !== "all") body.workflow = Number(workflow);
+      if (weight !== "all") body.weight = weight;
+      const { data, error } = await supabase.functions.invoke("pikau-run-score", { body });
+      if (error) throw error;
+      const summary = data?.summary as DashboardSummary | undefined;
+      const results = (data?.results ?? []) as ResultItem[];
+      setDashboard(summary ?? null);
+      setLastBatch(summary?.run_batch ?? null);
+      setLastResults(results);
+      toast.success(`Run & Score complete — ${summary?.passed}/${summary?.total} passed (${((summary?.pass_rate ?? 0) * 100).toFixed(0)}%)`);
+      await loadData();
+    } catch (err) {
+      console.error(err);
+      const msg = err instanceof Error ? err.message : "Run & Score failed";
+      toast.error(msg);
+    } finally {
+      setScoring(false);
+    }
+  };
+
   // Per-scenario aggregate from history
   const aggregate = useMemo(() => {
     const map = new Map<string, { total: number; passed: number; lastVerdict?: string; lastAt?: string }>();
