@@ -23,6 +23,7 @@ import ChatPage from "./pages/ChatPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
 import Index from "./pages/PearlIndex";
+const QuietHeroPage = lazy(() => import("./pages/QuietHeroPage"));
 
 // Wrapper to force full remount when agentId changes (prevents removeChild crash)
 const ChatPageKeyed = () => {
@@ -285,6 +286,7 @@ const App = () => (
                       <PublicRouteGuard>
                       <Routes>
                         <Route path="/" element={<Index />} />
+                        <Route path="/quiet" element={<Suspense fallback={null}><QuietHeroPage /></Suspense>} />
                         <Route path="/next" element={<Suspense fallback={null}><NextPreview /></Suspense>} />
                         <Route path="/app" element={<Navigate to="/kete" replace />} />
                         {/* Tōro legacy chat slugs always route to the Tōro family dashboard. */}
