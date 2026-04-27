@@ -278,10 +278,16 @@ export default function AdminPikauValidator() {
                 </Select>
               </div>
             </div>
-            <Button onClick={runValidator} disabled={busy} className="md:w-48">
-              {busy ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Play className="h-4 w-4 mr-2" />}
-              {busy ? "Running…" : "Run validator"}
-            </Button>
+            <div className="flex flex-col gap-2 md:w-64">
+              <Button onClick={runValidator} disabled={busy || scoring}>
+                {busy ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Play className="h-4 w-4 mr-2" />}
+                {busy ? "Running…" : "Run validator"}
+              </Button>
+              <Button onClick={runAndScoreAll} disabled={busy || scoring} variant="default" className="bg-foreground text-background hover:bg-foreground/90">
+                {scoring ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Zap className="h-4 w-4 mr-2" />}
+                {scoring ? "Scoring 50…" : "Run & Score (full 50)"}
+              </Button>
+            </div>
           </div>
           {lastBatch && (
             <div className="mt-3 text-xs text-foreground/60">
