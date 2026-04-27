@@ -297,13 +297,168 @@ export default function AdminPikauValidator() {
         </AdminGlassCard>
 
         {/* Tabs */}
-        <Tabs defaultValue="last">
+        <Tabs defaultValue="dashboard">
           <TabsList>
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="last">Last batch</TabsTrigger>
             <TabsTrigger value="scenarios">Scenario coverage</TabsTrigger>
             <TabsTrigger value="history">Run history</TabsTrigger>
           </TabsList>
 
+          {/* Dashboard */}
+          <TabsContent value="dashboard" className="mt-4 space-y-4">
+            {!dashboard ? (
+              <AdminGlassCard>
+                <div className="text-sm text-foreground/60">
+                  Click <strong>Run &amp; Score (full 50)</strong> to process every scenario in workflow order and generate a failure-reason dashboard.
+                </div>
+              </AdminGlassCard>
+            ) : (
+              <>
+                {/* Top KPI strip */}
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                  <AdminGlassCard>
+                    <div className="text-xs uppercase tracking-wide text-foreground/60">Pass rate</div>
+                    <div className="text-3xl font-light mt-1">{(dashboard.pass_rate * 100).toFixed(0)}%</div>
+                    <div className="text-xs text-foreground/50 mt-1">{dashboard.passed} / {dashboard.total}</div>
+                  </AdminGlassCard>
+                  <AdminGlassCard>
+                    <div className="text-xs uppercase tracking-wide text-foreground/60">Hard fails</div>
+                    <div className="text-3xl font-light mt-1 text-rose-700">{dashboard.failure_breakdown.hard_fail_triggered ?? 0}</div>
+                  </AdminGlassCard>
+                  <AdminGlassCard>
+                    <div className="text-xs uppercase tracking-wide text-foreground/60">Insufficient flags</div>
+                    <div className="text-3xl font-light mt-1 text-amber-700">{dashboard.failure_breakdown.insufficient_flags ?? 0}</div>
+                  </AdminGlassCard>
+                  <AdminGlassCard>
+                    <div className="text-xs uppercase tracking-wide text-foreground/60">Insufficient cites</div>
+                    <div className="text-3xl font-light mt-1 text-amber-700">{dashboard.failure_breakdown.insufficient_cites ?? 0}</div>
+                  </AdminGlassCard>
+                  <AdminGlassCard>
+                    <div className="text-xs uppercase tracking-wide text-foreground/60">AI errors</div>
+                    <div className="text-3xl font-light mt-1 text-foreground/70">{dashboard.failure_breakdown.ai_error ?? 0}</div>
+                  </AdminGlassCard>
+                </div>
+
+                {/* Run meta */}
+                <AdminGlassCard>
+                  <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-foreground/60">
+                    <div>Batch: <code className="font-mono text-foreground/80">{dashboard.run_batch.slice(0,8)}</code></div>
+                    <div>Model: <span className="text-foreground/80">{dashboard.model}</span></div>
+                    <div>Duration: <span className="text-foreground/80">{(dashboard.duration_ms/1000).toFixed(1)}s</span></div>
+                    <div>p50: {dashboard.latency.p50_ms}ms · p90: {dashboard.latency.p90_ms}ms · avg: {dashboard.latency.avg_ms}ms</div>
+                  </div>
+                </AdminGlassCard>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  {/* Per-workflow */}
+                  <AdminGlassCard>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Activity className="h-4 w-4 text-foreground/60" />
+                      <div className="font-medium">Pass rate by workflow</div>
+                    </div>
+                    <div className="space-y-2">
+                      {dashboard.per_workflow.map((w) => (
+                        <div key={w.workflow}>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span>Workflow {w.workflow}</span>
+                            <span className="text-foreground/60">{w.passed}/{w.total} · {(w.pass_rate*100).toFixed(0)}%</span>
+                          </div>
+                          <div className="h-2 bg-foreground/5 rounded-full overflow-hidden">
+                            <div className={`h-full ${w.pass_rate >= 0.8 ? 'bg-emerald-500' : w.pass_rate >= 0.5 ? 'bg-amber-500' : 'bg-rose-500'}`} style={{ width: `${w.pass_rate*100}%` }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </AdminGlassCard>
+
+                  {/* Per-weight */}
+                  <AdminGlassCard>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Target className="h-4 w-4 text-foreground/60" />
+                      <div className="font-medium">Pass rate by weight class</div>
+                    </div>
+                    <div className="space-y-2">
+                      {dashboard.per_weight.map((w) => (
+                        <div key={w.weight}>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="capitalize">{w.weight}</span>
+                            <span className="text-foreground/60">{w.passed}/{w.total} · {(w.pass_rate*100).toFixed(0)}%</span>
+                          </div>
+                          <div className="h-2 bg-foreground/5 rounded-full overflow-hidden">
+                            <div className={`h-full ${w.pass_rate >= 0.8 ? 'bg-emerald-500' : w.pass_rate >= 0.5 ? 'bg-amber-500' : 'bg-rose-500'}`} style={{ width: `${w.pass_rate*100}%` }} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </AdminGlassCard>
+                </div>
+
+                {/* Top missed */}
+                <div className="grid md:grid-cols-3 gap-4">
+                  <AdminGlassCard>
+                    <div className="flex items-center gap-2 mb-2"><Flag className="h-4 w-4 text-amber-700" /><div className="font-medium text-sm">Top missed flags</div></div>
+                    {dashboard.top_missed_flags.length === 0 ? <div className="text-xs text-foreground/50">None — all flags surfaced.</div> : (
+                      <ul className="text-xs space-y-1">
+                        {dashboard.top_missed_flags.map((m,i)=>(
+                          <li key={i} className="flex justify-between gap-2"><span className="truncate">{m.item}</span><span className="text-foreground/60 shrink-0">×{m.count}</span></li>
+                        ))}
+                      </ul>
+                    )}
+                  </AdminGlassCard>
+                  <AdminGlassCard>
+                    <div className="flex items-center gap-2 mb-2"><Quote className="h-4 w-4 text-amber-700" /><div className="font-medium text-sm">Top missed cites</div></div>
+                    {dashboard.top_missed_cites.length === 0 ? <div className="text-xs text-foreground/50">None — all cites present.</div> : (
+                      <ul className="text-xs space-y-1">
+                        {dashboard.top_missed_cites.map((m,i)=>(
+                          <li key={i} className="flex justify-between gap-2"><span className="truncate font-mono">{m.item}</span><span className="text-foreground/60 shrink-0">×{m.count}</span></li>
+                        ))}
+                      </ul>
+                    )}
+                  </AdminGlassCard>
+                  <AdminGlassCard>
+                    <div className="flex items-center gap-2 mb-2"><ShieldAlert className="h-4 w-4 text-rose-700" /><div className="font-medium text-sm">Hard fails triggered</div></div>
+                    {dashboard.top_hard_fails.length === 0 ? <div className="text-xs text-foreground/50">Zero hard fails 🟢</div> : (
+                      <ul className="text-xs space-y-1">
+                        {dashboard.top_hard_fails.map((m,i)=>(
+                          <li key={i} className="flex justify-between gap-2"><span className="truncate text-rose-700">{m.item}</span><span className="text-foreground/60 shrink-0">×{m.count}</span></li>
+                        ))}
+                      </ul>
+                    )}
+                  </AdminGlassCard>
+                </div>
+
+                {/* Worst offenders */}
+                <AdminGlassCard>
+                  <div className="font-medium mb-3">Worst-offending scenarios</div>
+                  {dashboard.worst_scenarios.length === 0 ? (
+                    <div className="text-sm text-foreground/60">All scenarios passed.</div>
+                  ) : (
+                    <div className="space-y-2">
+                      {dashboard.worst_scenarios.map((w) => (
+                        <div key={w.scenario_id} className="flex items-start justify-between gap-3 py-2 border-b border-foreground/5 last:border-0">
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <code className="text-xs font-mono text-foreground/70">{w.scenario_id}</code>
+                              <Badge variant="outline" className="text-[10px]">W{w.workflow}</Badge>
+                              <Badge variant="outline" className="text-[10px]">{w.weight}</Badge>
+                              <Badge className="text-[10px] bg-rose-100 text-rose-700 border-rose-200">{w.failure_reason.replace(/_/g,' ')}</Badge>
+                            </div>
+                            <div className="text-sm mt-1">{w.title}</div>
+                            {w.error && <div className="text-xs text-rose-700 mt-1">{w.error}</div>}
+                          </div>
+                          <div className="text-right text-xs text-foreground/60 shrink-0">
+                            <div>Flags {(w.flag_coverage*100).toFixed(0)}%</div>
+                            <div>Cites {(w.cite_coverage*100).toFixed(0)}%</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </AdminGlassCard>
+              </>
+            )}
+          </TabsContent>
           {/* Last batch */}
           <TabsContent value="last" className="mt-4 space-y-3">
             {lastResults.length === 0 ? (
