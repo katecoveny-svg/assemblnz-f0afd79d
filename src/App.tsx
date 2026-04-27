@@ -338,6 +338,7 @@ const App = () => (
                         <Route path="/admin/flint" element={<Suspense fallback={null}><AdminFlintDashboard /></Suspense>} />
                         <Route path="/admin/test-lab" element={<Suspense fallback={null}><AdminAgentTestLab /></Suspense>} />
                         <Route path="/admin/pikau-validator" element={<Suspense fallback={null}><AdminPikauValidator /></Suspense>} />
+                        <Route path="/admin/eval/pikau" element={<Suspense fallback={null}><AdminEvalPikau /></Suspense>} />
                         <Route path="/admin/wiring-check" element={<Suspense fallback={null}><AdminAgentWiringCheck /></Suspense>} />
                         <Route path="/admin/agent-inspector" element={<Suspense fallback={null}><AdminAgentInspector /></Suspense>} />
                         <Route path="/admin/agents" element={<Suspense fallback={null}><AdminAgentCatalogPage /></Suspense>} />
