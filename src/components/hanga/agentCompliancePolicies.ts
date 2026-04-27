@@ -57,7 +57,7 @@ const PACK_POLICY_SETS: Record<string, CompliancePolicySet> = {
  * Keys are agent slugs as they appear in the chat router.
  */
 const AGENT_POLICY_SETS: Record<string, CompliancePolicySet> = {
-  // HANGA / Construction kete specialists
+  // WAIHANGA / Construction kete specialists
   arai: CONSTRUCTION_SITE_POLICIES,
   kaupapa: CONSTRUCTION_SITE_POLICIES,
   ata: CONSTRUCTION_SITE_POLICIES,
