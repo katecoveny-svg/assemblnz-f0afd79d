@@ -102,6 +102,8 @@ export default function AdminPikauValidator() {
 
   const [lastBatch, setLastBatch] = useState<string | null>(null);
   const [lastResults, setLastResults] = useState<ResultItem[]>([]);
+  const [dashboard, setDashboard] = useState<DashboardSummary | null>(null);
+  const [scoring, setScoring] = useState(false);
 
   const loadData = async () => {
     setLoading(true);
