@@ -58,6 +58,30 @@ interface ResultItem {
   error?: string;
 }
 
+interface DashboardSummary {
+  run_batch: string;
+  model: string;
+  started_at: string;
+  finished_at: string;
+  duration_ms: number;
+  total: number;
+  passed: number;
+  failed: number;
+  pass_rate: number;
+  failure_breakdown: Record<string, number>;
+  per_workflow: { workflow: number; total: number; passed: number; pass_rate: number }[];
+  per_weight: { weight: string; total: number; passed: number; pass_rate: number }[];
+  top_missed_flags: { item: string; count: number }[];
+  top_missed_cites: { item: string; count: number }[];
+  top_hard_fails: { item: string; count: number }[];
+  worst_scenarios: {
+    scenario_id: string; title: string; workflow: number; weight: string;
+    failure_reason: string; flag_coverage: number; cite_coverage: number;
+    combined: number; hard_fails: string[]; error: string | null;
+  }[];
+  latency: { p50_ms: number; p90_ms: number; p99_ms: number; avg_ms: number };
+}
+
 const MODELS = [
   { value: "google/gemini-2.5-flash", label: "Gemini 2.5 Flash (fast/cheap)" },
   { value: "google/gemini-2.5-pro", label: "Gemini 2.5 Pro (deep reasoning)" },
