@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { ShieldCheck, ShieldAlert, ShieldX, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+import { ShieldCheck, ShieldAlert, ShieldX, ChevronDown, ChevronUp, ExternalLink, FileText } from "lucide-react";
 import type { GroundingPayload } from "@/lib/mcpChat";
+import { CitationPreviewModal } from "./CitationPreviewModal";
 
 interface GroundingBadgeProps {
   grounding: GroundingPayload;
