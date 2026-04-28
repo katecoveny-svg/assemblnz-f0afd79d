@@ -1,6 +1,14 @@
 project_id = "ssaxxdkxzrvkdjsanhei"
 
 [functions]
+  [functions.rag-crawler]
+    verify_jwt = false
+  [functions.rag-chunker]
+    verify_jwt = false
+  [functions.rag-embedder]
+    verify_jwt = false
+  [functions.rag-retrieve]
+    verify_jwt = false
   [functions.github-sync-status]
     verify_jwt = false
   [functions.fix-mime-types]
