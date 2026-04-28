@@ -1,6 +1,8 @@
 project_id = "ssaxxdkxzrvkdjsanhei"
 
 [functions]
+  [functions.github-sync-status]
+    verify_jwt = false
   [functions.fix-mime-types]
     verify_jwt = false
   [functions.admin-api]
