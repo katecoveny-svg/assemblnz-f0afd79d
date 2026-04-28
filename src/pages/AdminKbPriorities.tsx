@@ -176,6 +176,10 @@ export default function AdminKbPriorities() {
             <Badge variant="outline">{totals.fetched} fetched</Badge>
             <Badge variant="outline">{totals.chunked} chunked</Badge>
             <Badge variant="outline">{totals.stale} never refreshed</Badge>
+            <Button size="sm" variant="default" disabled={batchIngesting} onClick={batchIngest} className="ml-2">
+              <Layers className={`w-3 h-3 mr-1 ${batchIngesting ? "animate-pulse" : ""}`} />
+              {batchIngesting ? "Ingesting…" : `Batch ingest${activeKete !== "ALL" ? ` (${activeKete})` : ""}`}
+            </Button>
           </div>
         </header>
 
