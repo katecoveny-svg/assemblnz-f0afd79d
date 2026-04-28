@@ -43,6 +43,8 @@ export default function AdminKbPriorities() {
   const [docs, setDocs] = useState<KbDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState<Record<string, boolean>>({});
+  const [ingesting, setIngesting] = useState<Record<string, boolean>>({});
+  const [batchIngesting, setBatchIngesting] = useState(false);
   const [filter, setFilter] = useState("");
   const [activeKete, setActiveKete] = useState<string>("ALL");
 
