@@ -5,6 +5,19 @@ import { callLlm, detectProvider } from "../_shared/llm-call.ts";
 import { validateChatRequest } from "../_shared/chat-validation.ts";
 import { executeAgentTool, LIVE_DATA_TOOLS, getServiceClient } from "../_shared/tool-executor.ts";
 import { KETE_SCOPES, type Kete, type LiveDataScope } from "../_shared/live-data-context.ts";
+import { fetchRagContext, verifyCitationsAgainst, type RagChunk } from "../_shared/rag-context.ts";
+
+// Map chat agentId → uppercase kete codes used by the rag.sources.kete[] column.
+const AGENT_TO_RAG_KETE: Record<string, string[]> = {
+  hospitality: ["MANAAKI"], manaaki: ["MANAAKI"],
+  construction: ["WAIHANGA"], waihanga: ["WAIHANGA"],
+  creative: ["AUAHA"], auaha: ["AUAHA"], marketing: ["AUAHA"],
+  automotive: ["ARATAKI"], arataki: ["ARATAKI"], fleet: ["ARATAKI"],
+  freight: ["PIKAU"], pikau: ["PIKAU"], customs: ["PIKAU"],
+  retail: ["HOKO"], hoko: ["HOKO"],
+  ako: ["AKO"], earlychildhood: ["AKO"],
+  toro: ["TORO"], family: ["TORO"], toroa: ["TORO"],
+};
 
 // Map a chat agentId/kete slug to the canonical Kete enum used by
 // live-data-context. Anything outside this map is treated as having no
