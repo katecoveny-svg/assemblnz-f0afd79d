@@ -41,6 +41,19 @@ interface ErrorRow {
   response_time_ms: number | null;
 }
 
+interface TnzLogRow {
+  id: string;
+  created_at: string;
+  channel: string;
+  recipient: string;
+  tnz_reference: string | null;
+  http_status: number | null;
+  tnz_result: string | null;
+  success: boolean;
+  error_message: string | null;
+  source: string | null;
+}
+
 const RANGES: { label: string; hours: number }[] = [
   { label: "Last 24h", hours: 24 },
   { label: "Last 7 days", hours: 24 * 7 },
@@ -76,6 +89,8 @@ export default function AdminClaudeUsage() {
   const [onlyClaude, setOnlyClaude] = useState(true);
   const [rows, setRows] = useState<UsageRow[]>([]);
   const [errors, setErrors] = useState<ErrorRow[]>([]);
+  const [tnzFailures, setTnzFailures] = useState<TnzLogRow[]>([]);
+  const [tnzShowAll, setTnzShowAll] = useState(false);
   const [loading, setLoading] = useState(false);
   const [forbidden, setForbidden] = useState(false);
 
