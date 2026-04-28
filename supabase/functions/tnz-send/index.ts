@@ -26,9 +26,31 @@ function normalisePhone(raw: string): string {
   return n;
 }
 
+const TNZ_SEND_VERSION = {
+  name: "tnz-send",
+  version: "v2.04-basic-2026-04-28",
+  deployed_at: "2026-04-28T04:05:40Z",
+  api_base_default: "https://api.tnz.co.nz/api/v2.04",
+  auth_scheme: "Basic",
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  const url = new URL(req.url);
+  if (req.method === "GET" && url.searchParams.has("version")) {
+    return new Response(
+      JSON.stringify({
+        ...TNZ_SEND_VERSION,
+        api_base_active: Deno.env.get("TNZ_API_BASE") || TNZ_SEND_VERSION.api_base_default,
+        has_token: Boolean(Deno.env.get("TNZ_AUTH_TOKEN")),
+        has_from: Boolean(Deno.env.get("TNZ_FROM_NUMBER")),
+        checked_at: new Date().toISOString(),
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   }
 
   try {

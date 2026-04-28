@@ -112,9 +112,30 @@ async function sendViaTnz(channel: string, to: string, message: string, referenc
 // MAIN HANDLER
 // ============================================================================
 
+const TNZ_INBOUND_VERSION = {
+  name: "tnz-inbound",
+  version: "v2.04-basic-2026-04-28",
+  deployed_at: "2026-04-28T04:05:40Z",
+  api_base_default: "https://api.tnz.co.nz/api/v2.04",
+  auth_scheme: "Basic",
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  const _url = new URL(req.url);
+  if (req.method === "GET" && _url.searchParams.has("version")) {
+    return new Response(
+      JSON.stringify({
+        ...TNZ_INBOUND_VERSION,
+        api_base_active: Deno.env.get("TNZ_API_BASE") || TNZ_INBOUND_VERSION.api_base_default,
+        has_token: Boolean(Deno.env.get("TNZ_AUTH_TOKEN")),
+        checked_at: new Date().toISOString(),
+      }),
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+    );
   }
 
   try {
