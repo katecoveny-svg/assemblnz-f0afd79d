@@ -242,6 +242,7 @@ const AdminClaudeUsage = lazy(() => import("./pages/AdminClaudeUsage"));
 const AdminGithubSync = lazy(() => import("./pages/AdminGithubSync"));
 const AdminTnzVersion = lazy(() => import("./pages/AdminTnzVersion"));
 const AdminRagStatus = lazy(() => import("./pages/AdminRagStatus"));
+const AdminRagPilotValidator = lazy(() => import("./pages/AdminRagPilotValidator"));
 const AdminTnzSend = lazy(() => import("./pages/AdminTnzSend"));
 const AdminEvalPikau = lazy(() => import("./pages/AdminEvalPikau"));
 const AdminAgentCatalogPage = lazy(() => import("./pages/AdminAgentCatalogPage"));
