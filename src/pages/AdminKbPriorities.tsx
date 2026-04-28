@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { ExternalLink, RefreshCw, Database, ShieldCheck } from "lucide-react";
+import { ExternalLink, RefreshCw, Database, ShieldCheck, Sparkles, Layers } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { KETE_LABELS, KETE_BY_CODE } from "@/data/keteLabels";
