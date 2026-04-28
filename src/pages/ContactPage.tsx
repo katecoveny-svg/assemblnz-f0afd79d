@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle } from "lucide-react";
 import SEO from "@/components/SEO";
@@ -7,6 +7,7 @@ import BrandFooter from "@/components/BrandFooter";
 import LightPageShell from "@/components/LightPageShell";
 import HeroParticlesLight from "@/components/HeroParticlesLight";
 import { supabase } from "@/integrations/supabase/client";
+import { track } from "@/lib/analytics";
 
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
@@ -36,6 +37,22 @@ const ContactPage = () => {
   const [form, setForm] = useState({ name: "", business_name: "", email: "", phone: "", industry: "", interest: "", message: "" });
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const formStartedRef = useRef(false);
+
+  // booked_call: fires when redirected back from Cal.com with ?booked=1.
+  useEffect(() => {
+    const qs = new URLSearchParams(window.location.search);
+    if (qs.get("booked") === "1") {
+      track("booked_call", { source: "contact_redirect" });
+    }
+  }, []);
+
+  // form_started: first focus on any input inside the contact form.
+  const handleFormFocusOnce = () => {
+    if (formStartedRef.current) return;
+    formStartedRef.current = true;
+    track("form_started", { form: "contact" });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
