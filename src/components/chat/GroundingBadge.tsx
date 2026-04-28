@@ -24,6 +24,7 @@ export function GroundingBadge({ grounding, accentColor = "#9D8C7D" }: Grounding
 
   if (!grounding || grounding.chunk_count === 0) return null;
 
+  const conf = grounding.confidence;
   const verification = grounding.verification;
 
   const confColors: Record<string, { bg: string; fg: string; label: string }> = {
