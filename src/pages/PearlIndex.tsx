@@ -730,97 +730,27 @@ function Tikanga() {
   );
 }
 
-const TIERS = [
-  { name: "Tōro", sub: "Family", price: "$29", per: "/ mo", setup: "No setup", desc: "A household that runs itself." },
-  { name: "Operator", sub: "1 Kete", price: "$1,490", per: "/ mo", setup: "+ $590 setup", desc: "One kete plus the full platform." },
-  { name: "Leader", sub: "2 Ketes", price: "$1,990", per: "/ mo", setup: "+ $1,290 setup", desc: "Two ketes plus the full platform." },
-  { name: "Enterprise", sub: "All 7 Ketes", price: "$2,990", per: "/ mo", setup: "+ $2,890 setup", desc: "Every kete plus the full platform." },
-  { name: "Outcome", sub: "Custom", price: "from $5,000", per: "", setup: "Bespoke engagement", desc: "When the work is bespoke and the evidence pack is the contract." },
-];
-
+// Home page: single-offer pricing card. The full tier ladder
+// (Tōro / Operator / Leader / Enterprise / Outcome) lives at /pricing.
 function Pricing() {
   return (
-    <section style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.linen, position: "relative", overflow: "hidden" }}>
-      {/* Soft fairy strand at the top — draped between section breaks */}
-      <div className="absolute pointer-events-none" style={{ top: 32, left: "50%", transform: "translateX(-50%)" }}>
-        <Suspense fallback={null}>
-          <FairyLightStrand width={420} height={80} bulbs={9} direction="drape" />
-        </Suspense>
-      </div>
-      <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
-        <Eyebrow>Pricing</Eyebrow>
-        <Serif size="lg" className="mb-20">
-          One quiet subscription. No surprises.
-        </Serif>
-
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-x-6 gap-y-12">
-          {TIERS.map((t, i) => (
-            <motion.div
-              key={t.name}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease, delay: i * 0.06 }}
-              style={{ borderLeft: i === 0 ? "none" : `1px solid ${PEARL.seaGlass}`, paddingLeft: i === 0 ? 0 : 24 }}
-              className="md:pl-6"
-            >
-              <Serif size="sm" className="mb-2">{t.name}</Serif>
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 10,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "rgba(15,42,38,0.5)",
-                  marginBottom: 24,
-                }}
-              >
-                {t.sub}
-              </p>
-              <div className="flex items-baseline gap-1 mb-1">
-                <span
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontWeight: 300,
-                    fontSize: 36,
-                    color: PEARL.ink,
-                    lineHeight: 1,
-                  }}
-                >
-                  {t.price}
-                </span>
-                {t.per && (
-                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(15,42,38,0.55)" }}>
-                    {t.per}
-                  </span>
-                )}
-              </div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(15,42,38,0.55)", marginBottom: 16 }}>
-                {t.setup}
-              </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(15,42,38,0.75)", lineHeight: 1.55 }}>
-                {t.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        <p
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 12,
-            color: "rgba(15,42,38,0.55)",
-            marginTop: 64,
-            maxWidth: 720,
-            lineHeight: 1.6,
-          }}
-        >
-          Every paid tier includes the cross-cutting agents — HR (Aroha), security (Signal), monitoring (Sentinel). NZD, GST exclusive. 12% off annual with code <strong style={{ color: PEARL.ink }}>ANNUAL12</strong>.
+    <section className="py-16 px-6">
+      <div className="max-w-3xl mx-auto rounded-2xl border border-[#0F2A26]/10 bg-white p-10 text-center">
+        <p className="text-sm uppercase tracking-[0.2em] text-[#7A8B82] mb-4">One offer · One promise</p>
+        <h2 className="font-serif text-3xl md:text-4xl text-[#0F2A26] mb-3">Pilot from NZ$5,000</h2>
+        <p className="text-[#0F2A26]/70 mb-8">Fixed scope. 30 days. Money-back if it doesn't ship.</p>
+        <a href="/contact" data-cta="pricing-primary"
+           className="inline-flex rounded-full bg-[#0F2A26] px-7 py-3 text-white font-medium hover:bg-[#1F4D47] transition">
+          Book a discovery call
+        </a>
+        <p className="mt-6 text-sm text-[#7A8B82]">
+          Full tier ladder: <a href="/pricing" className="underline">/pricing</a>
         </p>
-      </motion.div>
+      </div>
     </section>
   );
 }
+
 
 function Closing() {
   return (
