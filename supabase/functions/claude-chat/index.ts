@@ -20,6 +20,36 @@ import {
   type WaihangaAction,
   type WaihangaWorld,
 } from "../_shared/waihanga-compliance.ts";
+import { fetchRagContext, verifyCitationsAgainst, type RagChunk } from "../_shared/rag-context.ts";
+
+// Map agentId → uppercase kete codes used by rag.sources.kete[]
+const AGENT_TO_RAG_KETE: Record<string, string> = {
+  manaaki: "MANAAKI",
+  waihanga: "WAIHANGA",
+  auaha: "AUAHA",
+  pakihi: "PAKIHI",
+  pikau: "PIKAU",
+  apex: "WAIHANGA",
+  "apex-safety": "WAIHANGA",
+  aura: "MANAAKI",
+  "aura-food-safety": "MANAAKI",
+  privacy: "ARATAKI",
+  "privacy-lead": "ARATAKI",
+  privacy_lead: "ARATAKI",
+};
+
+function lastUserText(msgs: Array<{ role: string; content: unknown }>): string {
+  for (let i = msgs.length - 1; i >= 0; i--) {
+    const m = msgs[i];
+    if (m.role !== "user") continue;
+    if (typeof m.content === "string") return m.content;
+    if (Array.isArray(m.content)) {
+      const t = (m.content as any[]).find((p) => p?.type === "text");
+      if (t && typeof t.text === "string") return t.text;
+    }
+  }
+  return "";
+}
 
 const MAX_MESSAGES = 40;
 const MAX_CONTENT_CHARS = 8000;
