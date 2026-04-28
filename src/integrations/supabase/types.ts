@@ -16101,6 +16101,32 @@ export type Database = {
     }
     Functions: {
       _ambient_loop_get_secret: { Args: never; Returns: string }
+      admin_claude_recent_errors: {
+        Args: { p_limit?: number; p_since?: string }
+        Returns: {
+          agent_name: string
+          created_at: string
+          error_message: string
+          model_used: string
+          response_time_ms: number
+        }[]
+      }
+      admin_claude_usage_stats: {
+        Args: { p_only_claude?: boolean; p_since?: string }
+        Returns: {
+          agent_name: string
+          avg_latency_ms: number
+          error_rate: number
+          errors: number
+          last_used: string
+          messages: number
+          model_used: string
+          p95_latency_ms: number
+          total_cost_nzd: number
+          total_input_tokens: number
+          total_output_tokens: number
+        }[]
+      }
       ambient_loop_cron_status: {
         Args: never
         Returns: {
