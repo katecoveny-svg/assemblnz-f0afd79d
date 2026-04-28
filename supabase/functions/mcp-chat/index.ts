@@ -696,6 +696,29 @@ Deno.serve(async (req) => {
           outcome: wasRewritten ? "rewritten" : "passed",
           duration_ms: Math.round(performance.now() - start),
         });
+
+        // 7b. Emit grounding side-channel — confidence + citation sources + Mana verification
+        if (ragChunks.length > 0) {
+          const finalText = (wasRewritten ? rewritten : assistantBuffer) ?? "";
+          let verification: ReturnType<typeof verifyCitationsAgainst> | null = null;
+          try { verification = verifyCitationsAgainst(ragChunks, finalText); } catch { /* noop */ }
+          const grounding = {
+            choices: [{ delta: { role: "assistant", content: "" }, finish_reason: null }],
+            assembl_grounding: {
+              confidence: ragConfidence,
+              chunk_count: ragChunks.length,
+              sources: ragChunks.map((c) => ({
+                chunk_id: c.chunk_id,
+                source: c.source,
+                citation: c.citation,
+                tier: c.tier,
+              })),
+              verification,
+            },
+          };
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(grounding)}\n\n`));
+        }
+
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
 
