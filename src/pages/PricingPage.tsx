@@ -456,6 +456,7 @@ const PricingPage = () => {
 
     <BrandFooter />
   </div>
-);
+  );
+};
 
 export default PricingPage;
