@@ -128,6 +128,34 @@ export default function AdminRagStatus() {
   const totalEmbedded = Object.values(chunks).reduce((s, c) => s + c.embedded, 0);
   const fetchedSources = sources.filter((s) => s.last_fetched_at).length;
 
+  const runRetrieve = async () => {
+    if (!testQuery.trim()) return;
+    setTestBusy("retrieve"); setRetrieveResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("rag-retrieve", {
+        body: { query: testQuery, kete: testKete ? [testKete] : null, top_k: 6 },
+      });
+      if (error) throw error;
+      setRetrieveResult(data);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "rag-retrieve failed");
+    } finally { setTestBusy(null); }
+  };
+
+  const runAgentTest = async () => {
+    if (!testQuery.trim()) return;
+    setTestBusy("agent"); setAgentResult(null);
+    try {
+      const { data, error } = await supabase.functions.invoke("chat", {
+        body: { agentId: testAgent, messages: [{ role: "user", content: testQuery }] },
+      });
+      if (error) throw error;
+      setAgentResult(data);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "agent call failed");
+    } finally { setTestBusy(null); }
+  };
+
   return (
     <AdminShell
       title="RAG Corpus Status"
