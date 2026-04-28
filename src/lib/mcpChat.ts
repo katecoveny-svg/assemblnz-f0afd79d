@@ -157,6 +157,12 @@ export async function streamMcpChat(args: StreamArgs): Promise<void> {
           manaPatchedFinal = parsed.assembl_mana_patch.final_content as string;
           continue;
         }
+        if (parsed.assembl_grounding) {
+          try {
+            args.onGrounding?.(parsed.assembl_grounding as GroundingPayload);
+          } catch { /* noop */ }
+          continue;
+        }
         const delta: string | undefined = parsed.choices?.[0]?.delta?.content;
         if (delta) {
           assistantText += delta;
