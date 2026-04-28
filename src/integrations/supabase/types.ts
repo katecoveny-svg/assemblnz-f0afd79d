@@ -9527,6 +9527,143 @@ export type Database = {
         }
         Relationships: []
       }
+      rag_pilot_runs: {
+        Row: {
+          agent_id: string
+          agent_response: string | null
+          cite_coverage: number | null
+          created_at: string
+          created_by: string | null
+          error: string | null
+          flag_coverage: number | null
+          hard_fails_triggered: Json | null
+          id: string
+          kete: string
+          latency_ms: number | null
+          mana_verdict: string | null
+          model_used: string | null
+          must_cite_hits: Json | null
+          must_cite_misses: Json | null
+          must_flag_hits: Json | null
+          must_flag_misses: Json | null
+          pass: boolean
+          rag_confidence: string | null
+          rag_sources: Json | null
+          run_batch: string
+          scenario_id: string
+          verdict: string
+        }
+        Insert: {
+          agent_id: string
+          agent_response?: string | null
+          cite_coverage?: number | null
+          created_at?: string
+          created_by?: string | null
+          error?: string | null
+          flag_coverage?: number | null
+          hard_fails_triggered?: Json | null
+          id?: string
+          kete: string
+          latency_ms?: number | null
+          mana_verdict?: string | null
+          model_used?: string | null
+          must_cite_hits?: Json | null
+          must_cite_misses?: Json | null
+          must_flag_hits?: Json | null
+          must_flag_misses?: Json | null
+          pass?: boolean
+          rag_confidence?: string | null
+          rag_sources?: Json | null
+          run_batch: string
+          scenario_id: string
+          verdict?: string
+        }
+        Update: {
+          agent_id?: string
+          agent_response?: string | null
+          cite_coverage?: number | null
+          created_at?: string
+          created_by?: string | null
+          error?: string | null
+          flag_coverage?: number | null
+          hard_fails_triggered?: Json | null
+          id?: string
+          kete?: string
+          latency_ms?: number | null
+          mana_verdict?: string | null
+          model_used?: string | null
+          must_cite_hits?: Json | null
+          must_cite_misses?: Json | null
+          must_flag_hits?: Json | null
+          must_flag_misses?: Json | null
+          pass?: boolean
+          rag_confidence?: string | null
+          rag_sources?: Json | null
+          run_batch?: string
+          scenario_id?: string
+          verdict?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rag_pilot_runs_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "rag_pilot_scenarios"
+            referencedColumns: ["scenario_id"]
+          },
+        ]
+      }
+      rag_pilot_scenarios: {
+        Row: {
+          active: boolean
+          agent_id: string
+          category: string
+          created_at: string
+          hard_fails: Json
+          kete: string
+          must_cite: Json
+          must_flag: Json
+          pass_criteria: string | null
+          prompt: string
+          scenario_id: string
+          title: string
+          updated_at: string
+          weight: string
+        }
+        Insert: {
+          active?: boolean
+          agent_id: string
+          category: string
+          created_at?: string
+          hard_fails?: Json
+          kete: string
+          must_cite?: Json
+          must_flag?: Json
+          pass_criteria?: string | null
+          prompt: string
+          scenario_id: string
+          title: string
+          updated_at?: string
+          weight?: string
+        }
+        Update: {
+          active?: boolean
+          agent_id?: string
+          category?: string
+          created_at?: string
+          hard_fails?: Json
+          kete?: string
+          must_cite?: Json
+          must_flag?: Json
+          pass_criteria?: string | null
+          prompt?: string
+          scenario_id?: string
+          title?: string
+          updated_at?: string
+          weight?: string
+        }
+        Relationships: []
+      }
       reel_plans: {
         Row: {
           audience: string | null
