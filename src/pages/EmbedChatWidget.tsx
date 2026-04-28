@@ -8,6 +8,7 @@ import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 import { Send } from "lucide-react";
 import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
+import ChatSignInPrompt from "@/components/chat/ChatSignInPrompt";
 
 interface Message {
   role: "user" | "assistant";
@@ -138,6 +139,8 @@ const EmbedChatWidget = () => {
             </p>
           </div>
         )}
+
+        <ChatSignInPrompt agentId={agent.id} hasMessages={messages.length > 0} className="mb-3" />
 
         {messages.map((msg, i) => (
           <div

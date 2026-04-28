@@ -268,6 +268,7 @@ export default function AgentApp() {
             <div className="flex-1 flex flex-col min-h-0">
               {/* Messages */}
               <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+                <ChatSignInPrompt agentId={agent.id} hasMessages={messages.length > 0} />
                 {messages.length === 0 && (
                   <div className="flex flex-col items-center justify-center py-12">
                     <div className="mb-4">

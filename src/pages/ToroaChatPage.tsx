@@ -6,6 +6,7 @@ import { agentChatStream } from "@/lib/agentChat";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
+import ChatSignInPrompt from "@/components/chat/ChatSignInPrompt";
 
 const TEAL = "#4AA5A8";
 const CHARCOAL = "#3D4250";
@@ -153,6 +154,7 @@ export default function ToroaChatPage() {
       </header>
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 sm:px-6 max-w-3xl mx-auto w-full pb-4">
+        <ChatSignInPrompt agentId="toro" hasMessages={messages.length > 0} className="mt-4" />
         {messages.length === 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
             {STARTERS.map((s) => {
