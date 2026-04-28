@@ -23,6 +23,7 @@ interface KeteAgentChatProps {
 interface ChatMsg {
   role: "user" | "assistant";
   content: string;
+  grounding?: import("@/lib/mcpChat").GroundingPayload;
 }
 
 const SHARED_KNOWLEDGE = `You are an assembl specialist agent — a governed, simulation-tested platform built for New Zealand businesses.
