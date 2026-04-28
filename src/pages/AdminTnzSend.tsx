@@ -59,10 +59,10 @@ export default function AdminTnzSend() {
   async function loadConversations() {
     const { data } = await supabase
       .from("messaging_conversations")
-      .select("id, channel, recipient, agent_used, last_message_at")
-      .order("last_message_at", { ascending: false, nullsFirst: false })
+      .select("id, channel, phone_number, assigned_agent, updated_at")
+      .order("updated_at", { ascending: false, nullsFirst: false })
       .limit(50);
-    setConversations((data ?? []) as ConversationOption[]);
+    setConversations((data ?? []) as unknown as ConversationOption[]);
   }
 
   function applyConversation(id: string) {
@@ -70,7 +70,7 @@ export default function AdminTnzSend() {
     const c = conversations.find((x) => x.id === id);
     if (c) {
       if (c.channel === "sms" || c.channel === "whatsapp") setChannel(c.channel);
-      if (c.recipient) setRecipient(c.recipient);
+      if (c.phone_number) setRecipient(c.phone_number);
     }
   }
 
