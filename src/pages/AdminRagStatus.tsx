@@ -6,7 +6,7 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   Loader2, RefreshCw, Database, BookOpen, Activity, PlayCircle,
-  CheckCircle2, AlertTriangle, Clock,
+  CheckCircle2, AlertTriangle, Clock, Search, ShieldCheck, ShieldAlert, ShieldX,
 } from "lucide-react";
 import { toast } from "sonner";
 import AdminShell from "@/components/admin/AdminShell";
