@@ -12,6 +12,7 @@ import KeteDocUpload from "@/components/shared/KeteDocUpload";
 import KeteEvidencePackPanel from "@/components/shared/KeteEvidencePackPanel";
 import { LiquidPanel, LiquidButton, GlowBadge } from "@/components/marama";
 import DashboardGlassCard from "@/components/kete/DashboardGlassCard";
+import PikauEntryAutopilot from "@/components/pikau/PikauEntryAutopilot";
 
 const ACCENT = "#5AADA0";
 const ACCENT_LIGHT = "#A8E6DA";
@@ -388,6 +389,9 @@ export default function PikauDashboard() {
           ))}
         </div>
       </DashboardGlassCard>
+
+      <PikauEntryAutopilot />
+
       <KeteEvidencePackPanel
         keteSlug="pikau"
         keteName="Pikau — Freight & Customs"
