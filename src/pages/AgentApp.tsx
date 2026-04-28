@@ -105,16 +105,47 @@ export default function AgentApp() {
 
     try {
       const lastMsg = newMessages[newMessages.length - 1];
-      const content = await agentChat({
+      // Add an empty assistant bubble we'll progressively fill as tokens stream in.
+      setMessages([...newMessages, { role: "assistant", content: "" }]);
+      let streamed = "";
+      await agentChatStream({
         agentId: agentId,
         message: lastMsg.content,
         messages: newMessages.slice(0, -1).map(m => ({ role: m.role, content: m.content })),
         params: chatParams,
+        onDelta: (chunk) => {
+          streamed += chunk;
+          setMessages((prev) => {
+            const updated = [...prev];
+            updated[updated.length - 1] = { role: "assistant", content: streamed };
+            return updated;
+          });
+        },
+        onDone: () => {
+          if (!streamed) {
+            setMessages((prev) => {
+              const updated = [...prev];
+              updated[updated.length - 1] = { role: "assistant", content: "Sorry, I couldn't generate a response. Please try again." };
+              return updated;
+            });
+          }
+        },
+        onError: (err) => {
+          console.error("Agent chat stream error:", err);
+        },
       });
-      setMessages([...newMessages, { role: "assistant", content }]);
     } catch (err: any) {
       console.error("Agent chat error:", err);
-      setMessages([...newMessages, { role: "assistant", content: "Something went wrong. Please try again." }]);
+      setMessages((prev) => {
+        // Replace the trailing empty assistant bubble (if any) with an error message.
+        const updated = [...prev];
+        const last = updated[updated.length - 1];
+        if (last?.role === "assistant" && !last.content) {
+          updated[updated.length - 1] = { role: "assistant", content: "Something went wrong. Please try again." };
+          return updated;
+        }
+        return [...updated, { role: "assistant", content: "Something went wrong. Please try again." }];
+      });
     } finally {
       setLoading(false);
     }
