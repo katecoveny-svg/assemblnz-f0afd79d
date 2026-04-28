@@ -32,6 +32,12 @@ const EmbedChatWidget = () => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Persist transcript per (user, agent). Guests use localStorage so the
+  // embedded widget thread survives reloads even without a sign-in.
+  useAgentChatHistory(agent?.id, messages, (saved) =>
+    setMessages(saved.map((m) => ({ role: m.role as "user" | "assistant", content: m.content }))),
+  );
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
