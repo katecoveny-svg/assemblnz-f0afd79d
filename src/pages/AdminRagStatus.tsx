@@ -65,6 +65,14 @@ export default function AdminRagStatus() {
   const [chunks, setChunks] = useState<Record<string, ChunkAgg>>({});
   const [events, setEvents] = useState<ChangeEvent[]>([]);
 
+  // RAG → Agent → Mana test panel state
+  const [testQuery, setTestQuery] = useState("Do I need a Food Control Plan for a small café?");
+  const [testKete, setTestKete] = useState("MANAAKI");
+  const [testAgent, setTestAgent] = useState("hospitality");
+  const [testBusy, setTestBusy] = useState<"retrieve" | "agent" | null>(null);
+  const [retrieveResult, setRetrieveResult] = useState<any>(null);
+  const [agentResult, setAgentResult] = useState<any>(null);
+
   const load = useCallback(async () => {
     setLoading(true);
     try {
