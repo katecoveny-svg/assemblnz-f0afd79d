@@ -1,4 +1,4 @@
-import { agentChat } from "@/lib/agentChat";
+import { agentChatStream } from "@/lib/agentChat";
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { agents, echoAgent, pilotAgent, conciergeAgent } from "@/data/agents";
@@ -70,10 +70,52 @@ const EmbedChatWidget = () => {
 
     try {
       const apiMessages = newMessages.slice(0, -1).map((m) => ({ role: m.role, content: m.content }));
-      const content = await agentChat({ agentId: agent.id, message: newMessages[newMessages.length - 1].content, messages: apiMessages });
-      setMessages((prev) => [...prev, { role: "assistant", content }]);
+      const lastUserMsg = newMessages[newMessages.length - 1].content;
+      // Add an empty assistant bubble we'll fill as tokens stream in.
+      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+      let streamed = "";
+      await agentChatStream({
+        agentId: agent.id,
+        message: lastUserMsg,
+        messages: apiMessages,
+        onDelta: (chunk) => {
+          streamed += chunk;
+          setMessages((prev) => {
+            const updated = [...prev];
+            updated[updated.length - 1] = { role: "assistant", content: streamed };
+            return updated;
+          });
+        },
+        onDone: () => {
+          if (!streamed) {
+            setMessages((prev) => {
+              const updated = [...prev];
+              updated[updated.length - 1] = { role: "assistant", content: "Sorry, I couldn't generate a response. Please try again." };
+              return updated;
+            });
+          }
+        },
+        onError: () => {
+          setMessages((prev) => {
+            const updated = [...prev];
+            const last = updated[updated.length - 1];
+            if (last?.role === "assistant" && !last.content) {
+              updated[updated.length - 1] = { role: "assistant", content: "Sorry, I'm having trouble connecting. Please try again." };
+            }
+            return updated;
+          });
+        },
+      });
     } catch {
-      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I'm having trouble connecting. Please try again." }]);
+      setMessages((prev) => {
+        const updated = [...prev];
+        const last = updated[updated.length - 1];
+        if (last?.role === "assistant" && !last.content) {
+          updated[updated.length - 1] = { role: "assistant", content: "Sorry, I'm having trouble connecting. Please try again." };
+          return updated;
+        }
+        return [...updated, { role: "assistant", content: "Sorry, I'm having trouble connecting. Please try again." }];
+      });
     } finally {
       setIsLoading(false);
       inputRef.current?.focus();
