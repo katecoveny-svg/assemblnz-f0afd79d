@@ -16375,6 +16375,37 @@ export type Database = {
         Returns: number
       }
       owns_trip: { Args: { _trip_id: string }; Returns: boolean }
+      rag_retrieve: {
+        Args: {
+          max_tier?: number
+          query_embedding: string
+          query_kete: string[]
+          top_k?: number
+        }
+        Returns: {
+          authority_weight: number
+          chunk_id: string
+          content: string
+          kete: string[]
+          similarity: number
+          source_short_name: string
+          structural_label: string
+          tier: number
+        }[]
+      }
+      rag_status_summary: {
+        Args: never
+        Returns: {
+          active_sources: number
+          embedded_chunks: number
+          newest_fetch: string
+          oldest_fetch: string
+          pending_change_events: number
+          pending_rechunks: number
+          total_chunks: number
+          total_sources: number
+        }[]
+      }
       read_email_batch: {
         Args: { batch_size: number; queue_name: string; vt: number }
         Returns: {
