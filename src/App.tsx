@@ -78,7 +78,6 @@ const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const MarinerLandingPage = lazy(() => import("./pages/MarinerLandingPage"));
 const TrustPage = lazy(() => import("./pages/TrustPage"));
-const SampleEvidencePackPage = lazy(() => import("./pages/SampleEvidencePackPage"));
 const AdminMcpLayout = lazy(() => import("./pages/admin/AdminMcpLayout"));
 const AdminMcpOverview = lazy(() => import("./pages/admin/mcp/Overview"));
 const AdminMcpToolsets = lazy(() => import("./pages/admin/mcp/Toolsets"));
@@ -427,6 +426,7 @@ const App = () => (
                         <Route path="/try" element={<Navigate to="/contact" replace />} />
                         <Route path="/packs/:packSlug" element={<PackSlugRedirect />} />
                         <Route path="/sample/:kete" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
+                        <Route path="/sample-evidence-pack" element={<Suspense fallback={null}><SampleEvidencePackPage /></Suspense>} />
                         <Route path="/app/:agentId" element={<Suspense fallback={null}><AgentApp /></Suspense>} />
                         <Route path="/app/:agentId/workspace" element={<Suspense fallback={null}><AgentWorkspacePage /></Suspense>} />
                         <Route path="/care/:seniorId" element={<Suspense fallback={null}><CareDashboard /></Suspense>} />
