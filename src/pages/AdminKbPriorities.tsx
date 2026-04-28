@@ -112,6 +112,48 @@ export default function AdminKbPriorities() {
     }
   };
 
+  const ingest = async (doc: KbDoc) => {
+    setIngesting((r) => ({ ...r, [doc.id]: true }));
+    try {
+      const { data, error } = await supabase.functions.invoke("ikb-ingest", { body: { documentId: doc.id } });
+      if (error) throw error;
+      const result = data as { ok?: boolean; chunk_count?: number; status?: string } | null;
+      toast({
+        title: result?.ok ? "Ingested" : "Ingest issued",
+        description: result?.chunk_count != null
+          ? `${doc.doc_title} → ${result.chunk_count} chunks`
+          : (result?.status ?? "See status column"),
+      });
+      await load();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Ingest failed", description: msg, variant: "destructive" });
+    } finally {
+      setIngesting((r) => ({ ...r, [doc.id]: false }));
+    }
+  };
+
+  const batchIngest = async () => {
+    setBatchIngesting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("ikb-ingest", {
+        body: { batch: true, limit: 10, ...(activeKete !== "ALL" ? { kete: activeKete } : {}) },
+      });
+      if (error) throw error;
+      const result = data as { ok?: boolean; processed?: number; results?: unknown[] } | null;
+      toast({
+        title: "Batch ingest complete",
+        description: `Processed ${result?.processed ?? result?.results?.length ?? 0} documents`,
+      });
+      await load();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Batch ingest failed", description: msg, variant: "destructive" });
+    } finally {
+      setBatchIngesting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background p-6 md:p-10">
       <div className="max-w-7xl mx-auto space-y-6">
