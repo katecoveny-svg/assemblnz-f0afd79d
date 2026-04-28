@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Users, Bot, FlaskConical, FileCheck2,
   Sparkles, Megaphone, PenTool, FolderOpen, FileText,
   Activity, Heart, Mail, MessageSquare, Shield, BookOpen,
-  Gauge, ChevronRight, LogOut, Image, Film, Layers, Brain, Palette, Stethoscope, SlidersHorizontal,
+  Gauge, ChevronRight, LogOut, Image, Film, Layers, Brain, Palette, Stethoscope, SlidersHorizontal, GitBranch,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -69,6 +69,7 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
       { to: "/admin/messaging-live", label: "Live Stream", icon: Activity },
       { to: "/admin/analytics", label: "Analytics", icon: Gauge },
       { to: "/admin/design-system", label: "Design System", icon: Palette },
+      { to: "/admin/github-sync", label: "GitHub Sync", icon: GitBranch },
     ],
   },
 ];
