@@ -47,6 +47,13 @@ export default function ToroaChatPage() {
   const [tripStatus, setTripStatus] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  // Persist transcript per (user, agent). Guests fall back to localStorage.
+  useAgentChatHistory(
+    "toro",
+    messages.map((m) => ({ role: m.role, content: m.content })),
+    (saved) => setMessages(saved.map((m) => ({ role: m.role as "user" | "assistant", content: m.content }))),
+  );
+
   useEffect(() => {
     document.title = "Tōro Chat | Assembl";
     const desc = "Tōro — your family life navigator. Calendar, meals, trips, school logistics, all in one chat.";
