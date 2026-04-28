@@ -7812,6 +7812,22 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  }
 
  const persistedConvoId = (req as any).__assemblConvoId ?? null;
+
+ // Mana citation verification — confirms the model cited what RAG gave it.
+ let ragVerification: ReturnType<typeof verifyCitationsAgainst> | null = null;
+ if (ragChunks.length > 0 && typeof content === "string") {
+   try {
+     ragVerification = verifyCitationsAgainst(ragChunks, content);
+     console.log(`[chat:${requestId}] Mana citation check`, JSON.stringify({
+       status: ragVerification.status,
+       cited: ragVerification.cited_chunk_ids.length,
+       hallucinated: ragVerification.hallucinated_chunk_ids.length,
+     }));
+   } catch (verErr) {
+     console.warn(`[chat:${requestId}] citation verify failed:`, (verErr as Error).message);
+   }
+ }
+
  return new Response(
   JSON.stringify({
     content,
@@ -7819,9 +7835,13 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
     complexity,
     responseTime,
     fromCache: false,
-    // Prefer the real conversations.id (used by memory_extractor + agent_memory).
-    // Falls back to client-provided session IDs for backwards compat.
     conversationId: persistedConvoId || bodyConversationId || bodySessionId || (userId ? `${userId}:${agentId}` : null),
+    grounding: ragChunks.length > 0 ? {
+      confidence: ragConfidence,
+      chunk_count: ragChunks.length,
+      sources: ragChunks.map((c) => ({ source: c.source, citation: c.citation, tier: c.tier })),
+      verification: ragVerification,
+    } : null,
   }),
   { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
