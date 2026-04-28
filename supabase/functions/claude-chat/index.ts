@@ -503,6 +503,7 @@ Deno.serve(async (req) => {
   const stream = new ReadableStream({
     async start(controller) {
       let buf = "";
+      let assistantBuffer = "";
       const send = (obj: unknown) => {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
       };
@@ -523,7 +524,10 @@ Deno.serve(async (req) => {
               const evt = JSON.parse(payload);
               if (evt.type === "content_block_delta" && evt.delta?.type === "text_delta") {
                 const text: string = evt.delta.text ?? "";
-                if (text) send({ choices: [{ delta: { content: text } }] });
+                if (text) {
+                  assistantBuffer += text;
+                  send({ choices: [{ delta: { content: text } }] });
+                }
               } else if (evt.type === "message_stop") {
                 // graceful end
               } else if (evt.type === "error") {
@@ -535,6 +539,25 @@ Deno.serve(async (req) => {
       } catch (e) {
         send({ error: (e as Error).message });
       } finally {
+        // Emit grounding side-channel — confidence + citation sources + Mana verification
+        if (ragChunks.length > 0) {
+          let verification: ReturnType<typeof verifyCitationsAgainst> | null = null;
+          try { verification = verifyCitationsAgainst(ragChunks, assistantBuffer); } catch { /* noop */ }
+          send({
+            choices: [{ delta: { role: "assistant", content: "" }, finish_reason: null }],
+            assembl_grounding: {
+              confidence: ragConfidence,
+              chunk_count: ragChunks.length,
+              sources: ragChunks.map((c) => ({
+                chunk_id: c.chunk_id,
+                source: c.source,
+                citation: c.citation,
+                tier: c.tier,
+              })),
+              verification,
+            },
+          });
+        }
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
       }
