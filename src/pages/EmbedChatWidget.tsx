@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 import { Send } from "lucide-react";
+import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 
 interface Message {
   role: "user" | "assistant";
@@ -30,6 +31,12 @@ const EmbedChatWidget = () => {
   const [limitReached, setLimitReached] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Persist transcript per (user, agent). Guests use localStorage so the
+  // embedded widget thread survives reloads even without a sign-in.
+  useAgentChatHistory(agent?.id, messages, (saved) =>
+    setMessages(saved.map((m) => ({ role: m.role as "user" | "assistant", content: m.content }))),
+  );
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });

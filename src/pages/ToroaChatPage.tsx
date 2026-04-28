@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { agentChatStream } from "@/lib/agentChat";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
+import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 
 const TEAL = "#4AA5A8";
 const CHARCOAL = "#3D4250";
@@ -45,6 +46,13 @@ export default function ToroaChatPage() {
   const [tripSubmitting, setTripSubmitting] = useState(false);
   const [tripStatus, setTripStatus] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Persist transcript per (user, agent). Guests fall back to localStorage.
+  useAgentChatHistory(
+    "toro",
+    messages.map((m) => ({ role: m.role, content: m.content })),
+    (saved) => setMessages(saved.map((m) => ({ role: m.role as "user" | "assistant", content: m.content }))),
+  );
 
   useEffect(() => {
     document.title = "Tōro Chat | Assembl";
