@@ -11171,6 +11171,57 @@ export type Database = {
           },
         ]
       }
+      tnz_send_log: {
+        Row: {
+          agent_id: string | null
+          channel: string
+          conversation_id: string | null
+          created_at: string
+          error_message: string | null
+          http_status: number | null
+          id: string
+          message_preview: string | null
+          raw_response: Json | null
+          recipient: string
+          source: string | null
+          success: boolean
+          tnz_reference: string | null
+          tnz_result: string | null
+        }
+        Insert: {
+          agent_id?: string | null
+          channel: string
+          conversation_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          http_status?: number | null
+          id?: string
+          message_preview?: string | null
+          raw_response?: Json | null
+          recipient: string
+          source?: string | null
+          success?: boolean
+          tnz_reference?: string | null
+          tnz_result?: string | null
+        }
+        Update: {
+          agent_id?: string | null
+          channel?: string
+          conversation_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          http_status?: number | null
+          id?: string
+          message_preview?: string | null
+          raw_response?: Json | null
+          recipient?: string
+          source?: string | null
+          success?: boolean
+          tnz_reference?: string | null
+          tnz_result?: string | null
+        }
+        Relationships: []
+      }
       tool_registry: {
         Row: {
           created_at: string | null
