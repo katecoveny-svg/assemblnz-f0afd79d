@@ -16384,9 +16384,14 @@ export type Database = {
         }
         Returns: {
           authority_weight: number
+          canonical_url: string
           chunk_id: string
+          citation_format: string
           content: string
+          currency_date: string
           kete: string[]
+          publisher: string
+          section_url: string
           similarity: number
           source_short_name: string
           structural_label: string
