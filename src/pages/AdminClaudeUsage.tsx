@@ -314,6 +314,63 @@ export default function AdminClaudeUsage() {
             </div>
           )}
         </AdminGlassCard>
+
+        {/* TNZ send failures */}
+        <AdminGlassCard>
+          <div className="flex items-center gap-2 mb-3">
+            <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            <h2 className="text-base font-medium">
+              TNZ send {tnzShowAll ? "log" : "failures"}
+            </h2>
+            <Badge variant={tnzShowAll ? "secondary" : "destructive"} className="ml-2">
+              {tnzFailures.length}
+            </Badge>
+            <div className="ml-auto flex items-center gap-2">
+              <Switch id="tnz-show-all" checked={tnzShowAll} onCheckedChange={setTnzShowAll} />
+              <label htmlFor="tnz-show-all" className="text-xs text-muted-foreground">Show all sends</label>
+            </div>
+          </div>
+          {tnzFailures.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              {tnzShowAll ? "No sends logged in this range." : "No send failures in this range. 🎉"}
+            </p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="text-xs text-muted-foreground border-b">
+                  <tr>
+                    <th className="text-left py-2 pr-3">When</th>
+                    <th className="text-left py-2 pr-3">Channel</th>
+                    <th className="text-left py-2 pr-3">Recipient</th>
+                    <th className="text-right py-2 pr-3">HTTP</th>
+                    <th className="text-left py-2 pr-3">TNZ Result</th>
+                    <th className="text-left py-2 pr-3">Reference</th>
+                    <th className="text-left py-2">Error</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tnzFailures.map((r) => (
+                    <tr key={r.id} className="border-b last:border-0">
+                      <td className="py-2 pr-3 text-muted-foreground whitespace-nowrap">{fmtAgo(r.created_at)}</td>
+                      <td className="py-2 pr-3 uppercase text-xs">{r.channel}</td>
+                      <td className="py-2 pr-3 font-mono text-xs">{r.recipient}</td>
+                      <td className="py-2 pr-3 text-right tabular-nums">
+                        <Badge variant={r.success ? "secondary" : "destructive"}>{r.http_status ?? "—"}</Badge>
+                      </td>
+                      <td className="py-2 pr-3 text-muted-foreground">{r.tnz_result ?? "—"}</td>
+                      <td className="py-2 pr-3 font-mono text-[10px] text-muted-foreground max-w-[180px] truncate" title={r.tnz_reference || undefined}>
+                        {r.tnz_reference ?? "—"}
+                      </td>
+                      <td className="py-2 text-muted-foreground max-w-md truncate" title={r.error_message || undefined}>
+                        {r.error_message ?? (r.success ? "—" : "(no detail)")}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </AdminGlassCard>
       </div>
     </AdminShell>
   );
