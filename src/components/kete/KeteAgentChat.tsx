@@ -7,6 +7,7 @@ import VoiceAgentModal from "@/components/VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 import ChatSignInPrompt from "@/components/chat/ChatSignInPrompt";
+import GroundingBadge from "@/components/chat/GroundingBadge";
 
 interface KeteAgentChatProps {
   keteName: string;        // e.g. "Manaaki"
