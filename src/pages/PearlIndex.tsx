@@ -227,54 +227,8 @@ function Hero() {
 
 // Legacy hero body (kept inert below this point so the closing brace count stays valid).
 // The original layered hero below was replaced by the single-offer hero above.
-function _LegacyHeroFragment_unused() {
-  return (
-    <>
-      {/* placeholder to absorb dangling JSX from the original Hero body */}
-      <span style={{ display: "none" }}>
-          <span aria-hidden>0</span>
-          <span aria-hidden>0</span>
-        </motion.div>
+// (Legacy hero body removed — single-offer hero above is the live hero.)
 
-        {/* Trust strip — three pills, locked copy (anchors trust above the fold) */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.1, ease, delay: 1.2 }}
-          className="flex flex-wrap items-center gap-3"
-          style={{ marginTop: 56 }}
-        >
-          {[
-            { icon: "🛡", text: "NZ data residency — under review for full AU/NZ migration" },
-            { icon: "✓", text: "Human-in-control — every consequential action requires approval" },
-            { icon: "📋", text: "Evidence pack — every output exportable as PDF" },
-          ].map((p) => (
-            <span
-              key={p.text}
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 12,
-                letterSpacing: "0.04em",
-                color: PEARL.pounamu,
-                background: "rgba(255,255,255,0.7)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(31,77,71,0.12)",
-                padding: "10px 16px",
-                borderRadius: 999,
-                fontWeight: 500,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              <span aria-hidden="true">{p.icon}</span> {p.text}
-            </span>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
 
 /* ─── Three priority product cards (above the kete grid) ─────────── */
 const PRODUCT_CARDS = [
