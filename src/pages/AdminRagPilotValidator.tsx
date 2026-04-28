@@ -370,10 +370,11 @@ export default function AdminRagPilotValidator() {
         </AdminGlassCard>
 
         {/* Scenario catalogue */}
-        <AdminGlassCard
-          title={`Scenario catalogue (${filteredScenarios.length})`}
-          icon={<Target className="h-5 w-5" />}
-        >
+        <AdminGlassCard className="p-6">
+          <div className="mb-4 flex items-center gap-2 text-foreground/80">
+            <Target className="h-5 w-5" />
+            <h2 className="text-lg font-light">Scenario catalogue ({filteredScenarios.length})</h2>
+          </div>
           {loading ? (
             <p className="text-sm text-muted-foreground italic">Loading…</p>
           ) : filteredScenarios.length === 0 ? (
