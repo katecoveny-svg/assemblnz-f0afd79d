@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Users, Bot, FlaskConical, FileCheck2,
   Sparkles, Megaphone, PenTool, FolderOpen, FileText,
   Activity, Heart, Mail, MessageSquare, Shield, BookOpen,
-  Gauge, ChevronRight, LogOut, Image, Film, Layers, Brain, Palette, Stethoscope, SlidersHorizontal, GitBranch,
+  Gauge, ChevronRight, LogOut, Image, Film, Layers, Brain, Palette, Stethoscope, SlidersHorizontal, GitBranch, Database,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -65,6 +65,7 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
       { to: "/admin/knowledge-brain", label: "Knowledge Brain", icon: Brain },
       { to: "/admin/knowledge", label: "Agent Knowledge", icon: BookOpen },
       { to: "/admin/kb-priorities", label: "Knowledge Library (256)", icon: BookOpen },
+      { to: "/admin/rag-status", label: "RAG Corpus", icon: Database },
       { to: "/admin/messaging", label: "Messaging", icon: MessageSquare },
       { to: "/admin/messaging-live", label: "Live Stream", icon: Activity },
       { to: "/admin/analytics", label: "Analytics", icon: Gauge },
