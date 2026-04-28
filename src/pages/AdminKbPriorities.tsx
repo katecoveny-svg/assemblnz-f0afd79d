@@ -254,9 +254,13 @@ export default function AdminKbPriorities() {
                               </a>
                             </Button>
                           )}
-                          <Button size="sm" disabled={!doc.doc_source_url || !!refreshing[doc.id]} onClick={() => refresh(doc)}>
+                          <Button size="sm" variant="outline" disabled={!doc.doc_source_url || !!refreshing[doc.id]} onClick={() => refresh(doc)}>
                             <RefreshCw className={`w-3 h-3 mr-1 ${refreshing[doc.id] ? "animate-spin" : ""}`} />
                             Refresh
+                          </Button>
+                          <Button size="sm" disabled={!doc.doc_source_url || !!ingesting[doc.id]} onClick={() => ingest(doc)}>
+                            <Sparkles className={`w-3 h-3 mr-1 ${ingesting[doc.id] ? "animate-pulse" : ""}`} />
+                            {ingesting[doc.id] ? "Ingesting…" : "Ingest"}
                           </Button>
                         </div>
                       </div>
