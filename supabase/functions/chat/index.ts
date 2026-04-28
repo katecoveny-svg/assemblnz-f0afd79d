@@ -5,6 +5,19 @@ import { callLlm, detectProvider } from "../_shared/llm-call.ts";
 import { validateChatRequest } from "../_shared/chat-validation.ts";
 import { executeAgentTool, LIVE_DATA_TOOLS, getServiceClient } from "../_shared/tool-executor.ts";
 import { KETE_SCOPES, type Kete, type LiveDataScope } from "../_shared/live-data-context.ts";
+import { fetchRagContext, verifyCitationsAgainst, type RagChunk } from "../_shared/rag-context.ts";
+
+// Map chat agentId → uppercase kete codes used by the rag.sources.kete[] column.
+const AGENT_TO_RAG_KETE: Record<string, string[]> = {
+  hospitality: ["MANAAKI"], manaaki: ["MANAAKI"],
+  construction: ["WAIHANGA"], waihanga: ["WAIHANGA"],
+  creative: ["AUAHA"], auaha: ["AUAHA"], marketing: ["AUAHA"],
+  automotive: ["ARATAKI"], arataki: ["ARATAKI"], fleet: ["ARATAKI"],
+  freight: ["PIKAU"], pikau: ["PIKAU"], customs: ["PIKAU"],
+  retail: ["HOKO"], hoko: ["HOKO"],
+  ako: ["AKO"], earlychildhood: ["AKO"],
+  toro: ["TORO"], family: ["TORO"], toroa: ["TORO"],
+};
 
 // Map a chat agentId/kete slug to the canonical Kete enum used by
 // live-data-context. Anything outside this map is treated as having no
@@ -7285,9 +7298,33 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  if (brandLogoUrl) {
  fullSystemPrompt += `\n\n[USER BRAND LOGO: The user has uploaded their company logo at this URL: ${brandLogoUrl}. When generating professional documents, employment agreements, contracts, proposals, reports, or any branded output, ALWAYS reference this logo and include instructions for placing it in the document header. When generating HTML-based documents or visual outputs, embed this logo image directly using an <img> tag.]`;
  }
- if (teReoPrompt) {
- fullSystemPrompt += teReoPrompt;
- }
+  if (teReoPrompt) {
+  fullSystemPrompt += teReoPrompt;
+  }
+
+  // ═══ RAG GROUNDING — pull authoritative NZ regulation passages for compliance/legal queries.
+  // Captured for post-hoc citation verification (see Mana check below).
+  let ragChunks: RagChunk[] = [];
+  let ragConfidence: "high" | "medium" | "low" | "none" = "none";
+  try {
+    const lastUserMsg = messages[messages.length - 1];
+    const lastUserText = typeof lastUserMsg?.content === "string" ? lastUserMsg.content : "";
+    if (lastUserText) {
+      const keteForRag = AGENT_TO_RAG_KETE[agentId];
+      const rag = await fetchRagContext({ query: lastUserText, kete: keteForRag, top_k: 6 });
+      if (rag.grounded) {
+        fullSystemPrompt += rag.block;
+        ragChunks = rag.chunks;
+        ragConfidence = rag.confidence_signal;
+        console.log(`[chat:${requestId}] RAG grounded`, JSON.stringify({
+          agentId, kete: keteForRag ?? null,
+          chunks: rag.chunks.length, confidence: rag.confidence_signal,
+        }));
+      }
+    }
+  } catch (ragErr) {
+    console.warn(`[chat:${requestId}] RAG injection failed (non-critical):`, (ragErr as Error).message);
+  }
 
  // For Mariner: auto-fetch live weather if the user asks about weather, conditions, or trip planning
  if (agentId === "maritime") {
@@ -7775,6 +7812,22 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  }
 
  const persistedConvoId = (req as any).__assemblConvoId ?? null;
+
+ // Mana citation verification — confirms the model cited what RAG gave it.
+ let ragVerification: ReturnType<typeof verifyCitationsAgainst> | null = null;
+ if (ragChunks.length > 0 && typeof content === "string") {
+   try {
+     ragVerification = verifyCitationsAgainst(ragChunks, content);
+     console.log(`[chat:${requestId}] Mana citation check`, JSON.stringify({
+       status: ragVerification.status,
+       cited: ragVerification.cited_chunk_ids.length,
+       hallucinated: ragVerification.hallucinated_chunk_ids.length,
+     }));
+   } catch (verErr) {
+     console.warn(`[chat:${requestId}] citation verify failed:`, (verErr as Error).message);
+   }
+ }
+
  return new Response(
   JSON.stringify({
     content,
@@ -7782,9 +7835,13 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
     complexity,
     responseTime,
     fromCache: false,
-    // Prefer the real conversations.id (used by memory_extractor + agent_memory).
-    // Falls back to client-provided session IDs for backwards compat.
     conversationId: persistedConvoId || bodyConversationId || bodySessionId || (userId ? `${userId}:${agentId}` : null),
+    grounding: ragChunks.length > 0 ? {
+      confidence: ragConfidence,
+      chunk_count: ragChunks.length,
+      sources: ragChunks.map((c) => ({ source: c.source, citation: c.citation, tier: c.tier })),
+      verification: ragVerification,
+    } : null,
   }),
   { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
  );
