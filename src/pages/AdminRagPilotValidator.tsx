@@ -265,11 +265,13 @@ export default function AdminRagPilotValidator() {
         </AdminGlassCard>
 
         {/* Results */}
-        <AdminGlassCard
-          title={summary ? `Results — batch ${summary.run_batch.slice(0, 8)}…` : "Results"}
-          icon={<Quote className="h-5 w-5" />}
-          accent="moss"
-        >
+        <AdminGlassCard className="p-6" accent="#8FA68C">
+          <div className="mb-4 flex items-center gap-2 text-foreground/80">
+            <Quote className="h-5 w-5" />
+            <h2 className="text-lg font-light">
+              {summary ? `Results — batch ${summary.run_batch.slice(0, 8)}…` : "Results"}
+            </h2>
+          </div>
           {results.length === 0 ? (
             <p className="text-sm text-muted-foreground italic">
               {running
