@@ -70,6 +70,7 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
       { to: "/admin/analytics", label: "Analytics", icon: Gauge },
       { to: "/admin/design-system", label: "Design System", icon: Palette },
       { to: "/admin/github-sync", label: "GitHub Sync", icon: GitBranch },
+      { to: "/admin/tnz-version", label: "TNZ Version Check", icon: MessageSquare },
     ],
   },
 ];
