@@ -534,7 +534,19 @@ Deno.serve(async (req) => {
 
   // 4. TĀ_INFLIGHT — stamp system prompt
   const inflightStamp = buildInflightStamp(rules);
-  const systemPrompt = agent.prompt + inflightStamp;
+
+  // 4b. RAG grounding — fetch curated NZ regulation passages for compliance queries
+  const ragKete = TOOLSET_TO_RAG_KETE[agent.toolset];
+  const userQuery = lastUserText(sanitizedMessages as any);
+  const rag = await fetchRagContext({
+    query: userQuery,
+    kete: ragKete ? [ragKete] : undefined,
+    force: false,
+  });
+  const ragChunks: RagChunk[] = rag.chunks;
+  const ragConfidence = rag.confidence_signal;
+
+  const systemPrompt = agent.prompt + inflightStamp + (rag.block ?? "");
 
   recordThought({
     user_id: userId,
