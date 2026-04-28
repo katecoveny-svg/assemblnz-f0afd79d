@@ -204,6 +204,128 @@ export default function AdminRagStatus() {
         </p>
       </div>
 
+      {/* RAG → Agent → Mana test panel */}
+      <div className="rounded-3xl p-5 bg-white/80 backdrop-blur-xl mb-6"
+        style={{ border: "1px solid rgba(142,129,119,0.14)", boxShadow: "0 8px 30px rgba(111,97,88,0.08)" }}>
+        <h3 className="text-xs uppercase tracking-[2px] text-[#6F6158]/60 mb-3">Retrieval + agent + Mana test</h3>
+        <p className="text-[11px] text-[#6F6158]/55 mb-3">
+          Run a query through <span className="font-mono">rag-retrieve</span> alone, or end-to-end via the <span className="font-mono">chat</span> agent — the response includes a Mana citation verdict (PASS / FLAG / FAIL).
+        </p>
+        <div className="grid gap-2 sm:grid-cols-[1fr_140px_140px] mb-3">
+          <input
+            value={testQuery}
+            onChange={(e) => setTestQuery(e.target.value)}
+            placeholder="e.g. Do I need a Food Control Plan for a small café?"
+            className="px-3 py-2 rounded-xl text-[12px] bg-white/70 border border-[#E8DFD3] focus:outline-none focus:border-[#9D8C7D] text-[#6F6158]"
+          />
+          <select
+            value={testKete}
+            onChange={(e) => setTestKete(e.target.value)}
+            className="px-3 py-2 rounded-xl text-[12px] bg-white/70 border border-[#E8DFD3] focus:outline-none focus:border-[#9D8C7D] text-[#6F6158]"
+          >
+            <option value="">Any kete</option>
+            <option value="MANAAKI">MANAAKI</option>
+            <option value="WAIHANGA">WAIHANGA</option>
+            <option value="AUAHA">AUAHA</option>
+            <option value="ARATAKI">ARATAKI</option>
+            <option value="PIKAU">PIKAU</option>
+            <option value="HOKO">HOKO</option>
+            <option value="AKO">AKO</option>
+            <option value="TORO">TORO</option>
+          </select>
+          <select
+            value={testAgent}
+            onChange={(e) => setTestAgent(e.target.value)}
+            className="px-3 py-2 rounded-xl text-[12px] bg-white/70 border border-[#E8DFD3] focus:outline-none focus:border-[#9D8C7D] text-[#6F6158]"
+          >
+            <option value="hospitality">hospitality (Manaaki)</option>
+            <option value="construction">construction (Waihanga)</option>
+            <option value="creative">creative (Auaha)</option>
+            <option value="automotive">automotive (Arataki)</option>
+            <option value="freight">freight (Pikau)</option>
+            <option value="retail">retail (Hoko)</option>
+            <option value="ako">ako (Early ed)</option>
+            <option value="toro">toro (Family)</option>
+          </select>
+        </div>
+        <div className="flex flex-wrap gap-2 mb-4">
+          <Button size="sm" variant="outline" disabled={!!testBusy} onClick={runRetrieve}>
+            {testBusy === "retrieve" ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" /> : <Search className="w-3.5 h-3.5 mr-1.5" />}
+            Retrieve only
+          </Button>
+          <Button size="sm" variant="outline" disabled={!!testBusy} onClick={runAgentTest}>
+            {testBusy === "agent" ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" /> : <PlayCircle className="w-3.5 h-3.5 mr-1.5" />}
+            Run end-to-end (RAG → agent → Mana)
+          </Button>
+        </div>
+
+        {retrieveResult && (
+          <div className="mb-4">
+            <div className="text-[11px] uppercase tracking-[1.5px] text-[#6F6158]/55 mb-1.5">
+              Retrieve · confidence <span className="font-mono">{retrieveResult.confidence_signal}</span> · {retrieveResult.result_count} chunks
+            </div>
+            <ul className="space-y-1.5">
+              {(retrieveResult.results ?? []).map((r: any, i: number) => (
+                <li key={r.chunk_id} className="text-[11px] text-[#6F6158] flex gap-2 flex-wrap">
+                  <span className="font-mono text-[#6F6158]/60">[{i + 1}]</span>
+                  <span className="font-mono text-[#6F6158]/80">{r.source}</span>
+                  <span>{r.citation}</span>
+                  <Badge variant="secondary" className="text-[9px]">T{r.tier}</Badge>
+                  <span className="text-[#6F6158]/50">sim {r.similarity}</span>
+                </li>
+              ))}
+              {retrieveResult.result_count === 0 && (
+                <li className="text-[11px] text-[#6F6158]/50">No chunks matched. Crawl + embed first.</li>
+              )}
+            </ul>
+          </div>
+        )}
+
+        {agentResult && (
+          <div>
+            <div className="flex items-center gap-2 mb-2 flex-wrap">
+              <span className="text-[11px] uppercase tracking-[1.5px] text-[#6F6158]/55">Agent response</span>
+              {agentResult.grounding?.verification && (
+                <Badge
+                  className="text-[10px]"
+                  style={{
+                    background:
+                      agentResult.grounding.verification.status === "PASS" ? "#D8E6D6" :
+                      agentResult.grounding.verification.status === "FLAG" ? "#F4E2C5" :
+                      agentResult.grounding.verification.status === "FAIL" ? "#F0CFCD" : "#EDE7DC",
+                    color: "#6F6158",
+                  }}
+                >
+                  {agentResult.grounding.verification.status === "PASS" && <ShieldCheck className="w-3 h-3 mr-1 inline" />}
+                  {agentResult.grounding.verification.status === "FLAG" && <ShieldAlert className="w-3 h-3 mr-1 inline" />}
+                  {agentResult.grounding.verification.status === "FAIL" && <ShieldX className="w-3 h-3 mr-1 inline" />}
+                  Mana: {agentResult.grounding.verification.status}
+                </Badge>
+              )}
+              {!agentResult.grounding && (
+                <Badge variant="secondary" className="text-[10px]">No RAG grounding (query not classified as compliance)</Badge>
+              )}
+            </div>
+            {agentResult.grounding?.verification?.message && (
+              <div className="text-[11px] text-[#6F6158]/70 mb-2">{agentResult.grounding.verification.message}</div>
+            )}
+            <pre className="text-[11px] text-[#6F6158] bg-[#F7F3EE] p-3 rounded-2xl whitespace-pre-wrap max-h-[320px] overflow-auto" style={{ fontFamily: "'IBM Plex Mono', monospace" }}>
+{agentResult.content}
+            </pre>
+            {agentResult.grounding?.sources?.length > 0 && (
+              <div className="mt-2 text-[11px] text-[#6F6158]/70">
+                <div className="uppercase tracking-[1.5px] text-[10px] text-[#6F6158]/55 mb-1">Sources injected</div>
+                <ul className="space-y-1">
+                  {agentResult.grounding.sources.map((s: any, i: number) => (
+                    <li key={i}>· <span className="font-mono">{s.source}</span> — {s.citation} <Badge variant="secondary" className="text-[9px]">T{s.tier}</Badge></li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* Source table */}
       <div className="rounded-3xl p-5 bg-white/80 backdrop-blur-xl mb-6"
         style={{ border: "1px solid rgba(142,129,119,0.14)", boxShadow: "0 8px 30px rgba(111,97,88,0.08)" }}>
