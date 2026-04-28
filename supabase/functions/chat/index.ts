@@ -36,9 +36,12 @@ const AGENT_TO_RAG_KETE: Record<string, string[]> = {
 // are exposed).
 const AGENT_TO_KETE: Record<string, Kete> = {
   hospitality: "manaaki", manaaki: "manaaki",
+  aura: "manaaki", "aura-food-safety": "manaaki",
   construction: "waihanga", waihanga: "waihanga",
+  apex: "waihanga", "apex-safety": "waihanga",
   creative: "auaha", auaha: "auaha", marketing: "auaha",
   automotive: "arataki", arataki: "arataki", fleet: "arataki",
+  "privacy-lead": "arataki", privacy_lead: "arataki", privacylead: "arataki", privacy: "arataki",
   freight: "pikau", pikau: "pikau", customs: "pikau",
   retail: "hoko", hoko: "hoko",
   ako: "ako", earlychildhood: "ako",
