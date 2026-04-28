@@ -120,8 +120,8 @@ async function sendViaTnz(channel: string, to: string, message: string, referenc
 
 const TNZ_INBOUND_VERSION = {
   name: "tnz-inbound",
-  version: "v2.04-basic-2026-04-28",
-  deployed_at: "2026-04-28T04:05:40Z",
+  version: "v2.04-basic-guarded-2026-04-28",
+  deployed_at: "2026-04-28T08:30:00Z",
   api_base_default: "https://api.tnz.co.nz/api/v2.04",
   auth_scheme: "Basic",
 };
