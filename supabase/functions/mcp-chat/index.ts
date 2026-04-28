@@ -15,6 +15,29 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://esm.sh/zod@3.23.8";
+import { fetchRagContext, verifyCitationsAgainst, type RagChunk } from "../_shared/rag-context.ts";
+
+// Map agent toolset → uppercase kete codes used by rag.sources.kete[]
+const TOOLSET_TO_RAG_KETE: Record<string, string> = {
+  manaaki: "MANAAKI",
+  waihanga: "WAIHANGA",
+  auaha: "AUAHA",
+  pakihi: "PAKIHI",
+  pikau: "PIKAU",
+};
+
+function lastUserText(msgs: Array<{ role: string; content: unknown }>): string {
+  for (let i = msgs.length - 1; i >= 0; i--) {
+    const m = msgs[i];
+    if (m.role !== "user") continue;
+    if (typeof m.content === "string") return m.content;
+    if (Array.isArray(m.content)) {
+      const t = m.content.find((p: any) => p?.type === "text");
+      if (t && typeof (t as any).text === "string") return (t as any).text;
+    }
+  }
+  return "";
+}
 
 // ----------------------------------------------------------------------------
 // Request schema (server-side validation)
