@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { agentChatStream } from "@/lib/agentChat";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
+import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 
 const TEAL = "#4AA5A8";
 const CHARCOAL = "#3D4250";
