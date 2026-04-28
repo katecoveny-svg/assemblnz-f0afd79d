@@ -20,8 +20,7 @@ interface GroundingBadgeProps {
  */
 export function GroundingBadge({ grounding, accentColor = "#9D8C7D" }: GroundingBadgeProps) {
   const [open, setOpen] = useState(false);
-
-  if (!grounding || grounding.chunk_count === 0) return null;
+  const [previewChunk, setPreviewChunk] = useState<GroundingPayload["sources"][number] | null>(null);
 
   const conf = grounding.confidence;
   const verification = grounding.verification;
