@@ -41,6 +41,19 @@ interface ErrorRow {
   response_time_ms: number | null;
 }
 
+interface TnzLogRow {
+  id: string;
+  created_at: string;
+  channel: string;
+  recipient: string;
+  tnz_reference: string | null;
+  http_status: number | null;
+  tnz_result: string | null;
+  success: boolean;
+  error_message: string | null;
+  source: string | null;
+}
+
 const RANGES: { label: string; hours: number }[] = [
   { label: "Last 24h", hours: 24 },
   { label: "Last 7 days", hours: 24 * 7 },
@@ -76,6 +89,8 @@ export default function AdminClaudeUsage() {
   const [onlyClaude, setOnlyClaude] = useState(true);
   const [rows, setRows] = useState<UsageRow[]>([]);
   const [errors, setErrors] = useState<ErrorRow[]>([]);
+  const [tnzFailures, setTnzFailures] = useState<TnzLogRow[]>([]);
+  const [tnzShowAll, setTnzShowAll] = useState(false);
   const [loading, setLoading] = useState(false);
   const [forbidden, setForbidden] = useState(false);
 
@@ -85,16 +100,27 @@ export default function AdminClaudeUsage() {
     setLoading(true);
     setForbidden(false);
     try {
-      const [usage, errs] = await Promise.all([
+      let tnzQuery = supabase
+        .from("tnz_send_log")
+        .select("id, created_at, channel, recipient, tnz_reference, http_status, tnz_result, success, error_message, source")
+        .gte("created_at", since)
+        .order("created_at", { ascending: false })
+        .limit(100);
+      if (!tnzShowAll) tnzQuery = tnzQuery.eq("success", false);
+
+      const [usage, errs, tnz] = await Promise.all([
         supabase.rpc("admin_claude_usage_stats", { p_since: since, p_only_claude: onlyClaude }),
         supabase.rpc("admin_claude_recent_errors", { p_since: since, p_limit: 50 }),
+        tnzQuery,
       ]);
       if (usage.error) throw usage.error;
       if (errs.error) throw errs.error;
+      if (tnz.error) console.warn("[tnz_send_log] read error", tnz.error);
       const usageRows = (usage.data ?? []) as UsageRow[];
       const errorRows = (errs.data ?? []) as ErrorRow[];
       setRows(usageRows);
       setErrors(errorRows);
+      setTnzFailures(((tnz.data ?? []) as unknown as TnzLogRow[]));
       // Empty result + zero errors usually means non-admin (functions
       // intentionally return no rows for non-admins).
       if (usageRows.length === 0 && errorRows.length === 0) {
@@ -112,7 +138,7 @@ export default function AdminClaudeUsage() {
     } finally {
       setLoading(false);
     }
-  }, [since, onlyClaude]);
+  }, [since, onlyClaude, tnzShowAll]);
 
   useEffect(() => { void load(); }, [load]);
 
@@ -280,6 +306,63 @@ export default function AdminClaudeUsage() {
                       <td className="py-2 pr-3 text-right tabular-nums">{fmtMs(e.response_time_ms)}</td>
                       <td className="py-2 text-muted-foreground max-w-md truncate" title={e.error_message || undefined}>
                         {e.error_message || "(no message)"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </AdminGlassCard>
+
+        {/* TNZ send failures */}
+        <AdminGlassCard>
+          <div className="flex items-center gap-2 mb-3">
+            <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            <h2 className="text-base font-medium">
+              TNZ send {tnzShowAll ? "log" : "failures"}
+            </h2>
+            <Badge variant={tnzShowAll ? "secondary" : "destructive"} className="ml-2">
+              {tnzFailures.length}
+            </Badge>
+            <div className="ml-auto flex items-center gap-2">
+              <Switch id="tnz-show-all" checked={tnzShowAll} onCheckedChange={setTnzShowAll} />
+              <label htmlFor="tnz-show-all" className="text-xs text-muted-foreground">Show all sends</label>
+            </div>
+          </div>
+          {tnzFailures.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              {tnzShowAll ? "No sends logged in this range." : "No send failures in this range. 🎉"}
+            </p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="text-xs text-muted-foreground border-b">
+                  <tr>
+                    <th className="text-left py-2 pr-3">When</th>
+                    <th className="text-left py-2 pr-3">Channel</th>
+                    <th className="text-left py-2 pr-3">Recipient</th>
+                    <th className="text-right py-2 pr-3">HTTP</th>
+                    <th className="text-left py-2 pr-3">TNZ Result</th>
+                    <th className="text-left py-2 pr-3">Reference</th>
+                    <th className="text-left py-2">Error</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tnzFailures.map((r) => (
+                    <tr key={r.id} className="border-b last:border-0">
+                      <td className="py-2 pr-3 text-muted-foreground whitespace-nowrap">{fmtAgo(r.created_at)}</td>
+                      <td className="py-2 pr-3 uppercase text-xs">{r.channel}</td>
+                      <td className="py-2 pr-3 font-mono text-xs">{r.recipient}</td>
+                      <td className="py-2 pr-3 text-right tabular-nums">
+                        <Badge variant={r.success ? "secondary" : "destructive"}>{r.http_status ?? "—"}</Badge>
+                      </td>
+                      <td className="py-2 pr-3 text-muted-foreground">{r.tnz_result ?? "—"}</td>
+                      <td className="py-2 pr-3 font-mono text-[10px] text-muted-foreground max-w-[180px] truncate" title={r.tnz_reference || undefined}>
+                        {r.tnz_reference ?? "—"}
+                      </td>
+                      <td className="py-2 text-muted-foreground max-w-md truncate" title={r.error_message || undefined}>
+                        {r.error_message ?? (r.success ? "—" : "(no detail)")}
                       </td>
                     </tr>
                   ))}
