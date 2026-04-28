@@ -100,16 +100,27 @@ export default function AdminClaudeUsage() {
     setLoading(true);
     setForbidden(false);
     try {
-      const [usage, errs] = await Promise.all([
+      let tnzQuery = supabase
+        .from("tnz_send_log")
+        .select("id, created_at, channel, recipient, tnz_reference, http_status, tnz_result, success, error_message, source")
+        .gte("created_at", since)
+        .order("created_at", { ascending: false })
+        .limit(100);
+      if (!tnzShowAll) tnzQuery = tnzQuery.eq("success", false);
+
+      const [usage, errs, tnz] = await Promise.all([
         supabase.rpc("admin_claude_usage_stats", { p_since: since, p_only_claude: onlyClaude }),
         supabase.rpc("admin_claude_recent_errors", { p_since: since, p_limit: 50 }),
+        tnzQuery,
       ]);
       if (usage.error) throw usage.error;
       if (errs.error) throw errs.error;
+      if (tnz.error) console.warn("[tnz_send_log] read error", tnz.error);
       const usageRows = (usage.data ?? []) as UsageRow[];
       const errorRows = (errs.data ?? []) as ErrorRow[];
       setRows(usageRows);
       setErrors(errorRows);
+      setTnzFailures(((tnz.data ?? []) as unknown as TnzLogRow[]));
       // Empty result + zero errors usually means non-admin (functions
       // intentionally return no rows for non-admins).
       if (usageRows.length === 0 && errorRows.length === 0) {
@@ -127,7 +138,7 @@ export default function AdminClaudeUsage() {
     } finally {
       setLoading(false);
     }
-  }, [since, onlyClaude]);
+  }, [since, onlyClaude, tnzShowAll]);
 
   useEffect(() => { void load(); }, [load]);
 
