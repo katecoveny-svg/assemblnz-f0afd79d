@@ -8,11 +8,22 @@ import { KETE_SCOPES, type Kete, type LiveDataScope } from "../_shared/live-data
 import { fetchRagContext, verifyCitationsAgainst, type RagChunk } from "../_shared/rag-context.ts";
 
 // Map chat agentId → uppercase kete codes used by the rag.sources.kete[] column.
+// Pilot agents for RAG v1 (APEX/WAIHANGA, AURA/MANAAKI, PRIVACY-LEAD/ARATAKI)
+// are mapped explicitly so RAG grounding fires regardless of slug casing or
+// alias used by the calling client.
 const AGENT_TO_RAG_KETE: Record<string, string[]> = {
   hospitality: ["MANAAKI"], manaaki: ["MANAAKI"],
+  // AURA is the Manaaki food-safety + alcohol-licensing pilot agent (RAG v1).
+  aura: ["MANAAKI"], "aura-food-safety": ["MANAAKI"],
   construction: ["WAIHANGA"], waihanga: ["WAIHANGA"],
+  // APEX is the Waihanga H&S + safety-plan pilot agent (RAG v1).
+  apex: ["WAIHANGA"], "apex-safety": ["WAIHANGA"],
   creative: ["AUAHA"], auaha: ["AUAHA"], marketing: ["AUAHA"],
   automotive: ["ARATAKI"], arataki: ["ARATAKI"], fleet: ["ARATAKI"],
+  // PRIVACY-LEAD is the Arataki Privacy Act / IPP 3A pilot agent (RAG v1).
+  // Cross-loaded with Fair Trading Act via the cross-cutting source list.
+  "privacy-lead": ["ARATAKI"], privacy_lead: ["ARATAKI"], privacylead: ["ARATAKI"],
+  privacy: ["ARATAKI"],
   freight: ["PIKAU"], pikau: ["PIKAU"], customs: ["PIKAU"],
   retail: ["HOKO"], hoko: ["HOKO"],
   ako: ["AKO"], earlychildhood: ["AKO"],
