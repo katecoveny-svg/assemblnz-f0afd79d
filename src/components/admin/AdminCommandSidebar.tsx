@@ -71,6 +71,7 @@ const SECTIONS: { title: string; items: NavItem[] }[] = [
       { to: "/admin/design-system", label: "Design System", icon: Palette },
       { to: "/admin/github-sync", label: "GitHub Sync", icon: GitBranch },
       { to: "/admin/tnz-version", label: "TNZ Version Check", icon: MessageSquare },
+      { to: "/admin/tnz-send", label: "Manual SMS Send", icon: MessageSquare },
     ],
   },
 ];

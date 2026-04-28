@@ -241,6 +241,7 @@ const AdminPikauValidator = lazy(() => import("./pages/AdminPikauValidator"));
 const AdminClaudeUsage = lazy(() => import("./pages/AdminClaudeUsage"));
 const AdminGithubSync = lazy(() => import("./pages/AdminGithubSync"));
 const AdminTnzVersion = lazy(() => import("./pages/AdminTnzVersion"));
+const AdminTnzSend = lazy(() => import("./pages/AdminTnzSend"));
 const AdminEvalPikau = lazy(() => import("./pages/AdminEvalPikau"));
 const AdminAgentCatalogPage = lazy(() => import("./pages/AdminAgentCatalogPage"));
 const AdminAgentInventoryPage = lazy(() => import("./pages/AdminAgentInventoryPage"));
@@ -344,6 +345,7 @@ const App = () => (
                         <Route path="/admin/claude-usage" element={<Suspense fallback={null}><AdminClaudeUsage /></Suspense>} />
                         <Route path="/admin/github-sync" element={<Suspense fallback={null}><AdminGithubSync /></Suspense>} />
                         <Route path="/admin/tnz-version" element={<Suspense fallback={null}><AdminTnzVersion /></Suspense>} />
+                        <Route path="/admin/tnz-send" element={<Suspense fallback={null}><AdminTnzSend /></Suspense>} />
                         <Route path="/admin/eval/pikau" element={<Suspense fallback={null}><AdminEvalPikau /></Suspense>} />
                         <Route path="/admin/wiring-check" element={<Suspense fallback={null}><AdminAgentWiringCheck /></Suspense>} />
                         <Route path="/admin/agent-inspector" element={<Suspense fallback={null}><AdminAgentInspector /></Suspense>} />
