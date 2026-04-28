@@ -20,6 +20,7 @@ import SignalDashboard from "@/components/signal/SignalDashboard";
 import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 import { useAgentChatParams } from "@/hooks/useAgentChatParams";
 import { ChatSettingsPanel } from "@/components/chat/ChatSettingsPanel";
+import ChatSignInPrompt from "@/components/chat/ChatSignInPrompt";
 import ChatImageMessage, { extractInlineImages } from "@/components/chat/ChatImageMessage";
 import { prefillAndSend } from "@/engine/prefillAndSend";
 import { getStarterQuestions } from "@/engine/starterQuestions";
@@ -268,6 +269,7 @@ export default function AgentApp() {
             <div className="flex-1 flex flex-col min-h-0">
               {/* Messages */}
               <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+                <ChatSignInPrompt agentId={agent.id} hasMessages={messages.length > 0} />
                 {messages.length === 0 && (
                   <div className="flex flex-col items-center justify-center py-12">
                     <div className="mb-4">

@@ -6,6 +6,7 @@ import { agentChatStream } from "@/lib/agentChat";
 import VoiceAgentModal from "@/components/VoiceAgentModal";
 import { getElevenLabsAgentId } from "@/data/elevenLabsAgents";
 import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
+import ChatSignInPrompt from "@/components/chat/ChatSignInPrompt";
 
 interface KeteAgentChatProps {
   keteName: string;        // e.g. "Manaaki"
@@ -389,6 +390,7 @@ export default function KeteAgentChat({
 
             {/* Messages */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3" style={{ minHeight: 280, maxHeight: 360 }}>
+              <ChatSignInPrompt agentId={defaultAgentId} hasMessages={messages.length > 0} />
               {messages.length === 0 && (
                 <div className="space-y-2">
                   <p className="text-xs mb-3" style={{ fontFamily: "'Inter', sans-serif", color: "#6B7280" }}>

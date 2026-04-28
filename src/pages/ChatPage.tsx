@@ -25,6 +25,7 @@ import NexusEntryCard from "@/components/nexus/NexusEntryCard";
 import NexusJobSheet, { type JobSheetData, type DocumentStatus } from "@/components/nexus/NexusJobSheet";
 import HandoffCard, { detectHandoff } from "@/components/HandoffCard";
 import ProactiveAlertCards from "@/components/chat/ProactiveAlertCards";
+import ChatSignInPrompt from "@/components/chat/ChatSignInPrompt";
 import { agentTemplates } from "@/data/templates";
 import { AGENT_LIVE_DATA_MAP } from "@/data/agentLiveDataMap";
 import { useAuth } from "@/hooks/useAuth";
@@ -2281,6 +2282,9 @@ const ChatPage = () => {
           <div className="flex-1 overflow-y-auto px-4 py-4">
             {/* Proactive cross-agent alerts */}
             {agentId && <ProactiveAlertCards currentAgentId={agentId} accentColor={accentColor} />}
+
+            {/* Optional sign-in nudge so guests know how to keep their thread across devices */}
+            <ChatSignInPrompt agentId={agentId} hasMessages={messages.length > 0} className="mb-4" />
 
             {showWelcome ? (
               <div className="flex flex-col items-center justify-center min-h-full text-center gap-4 py-6 opacity-0 animate-fade-up overflow-y-auto" style={{ animationFillMode: "forwards" }}>
