@@ -303,6 +303,13 @@ export default function KeteAgentChat({
         messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
         systemPrompt,
         onDelta: updateAssistant,
+        onGrounding: (g) => {
+          setMessages((prev) => {
+            const last = prev[prev.length - 1];
+            if (last?.role !== "assistant") return prev;
+            return prev.map((m, i) => (i === prev.length - 1 ? { ...m, grounding: g } : m));
+          });
+        },
         onDone: () => setIsLoading(false),
         onError: (err) => {
           updateAssistant(`\n\n_Error: ${err.message}_`);
