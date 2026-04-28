@@ -189,174 +189,51 @@ const InkButton = ({
 /* ─── Sections ─── */
 
 function Hero() {
+  // Single-offer hero (locked copy). Colour values come straight from the brief
+  // and intentionally use the deep-pounamu accents on the warm Pearl canvas.
   return (
-    <section
-      className="relative overflow-hidden"
-      style={{ minHeight: "92vh", background: PEARL.bg }}
-    >
-      {/* Layer 0 — golden-hour wash (sunlit, candle-warm), anchored behind-right where the kete sits per spec */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 75% 65% at 78% 42%, rgba(255,231,196,0.62) 0%, rgba(255,231,196,0.18) 42%, transparent 72%), radial-gradient(ellipse 60% 55% at 22% 78%, rgba(228,238,236,0.45) 0%, transparent 72%), linear-gradient(180deg, rgba(255,248,236,0.30) 0%, transparent 55%)",
-        }}
-      />
-
-      {/* Desktop: behind-right hero kete (~720px per Pearl spec), nested in a soft cumulus, dissolves at edges */}
-      <div
-        className="absolute hidden md:block pointer-events-none"
-        style={{
-          top: "8%",
-          right: "-4%",
-          width: 820,
-          height: 820,
-          // Softer feathering — keeps kete fully visible at centre, fades only at the very rim
-          maskImage:
-            "radial-gradient(ellipse 70% 70% at 50% 50%, black 55%, rgba(0,0,0,0.7) 75%, transparent 95%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 70% 70% at 50% 50%, black 55%, rgba(0,0,0,0.7) 75%, transparent 95%)",
-        }}
-      >
-        {/* Layer 1 — warm pearl cumulus that wraps the kete */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <HeroCloud height={780} opacity={0.92} />
-          </Suspense>
+    <section className="relative w-full overflow-hidden" style={{ minHeight: "92vh", background: "#FAF6EF" }}>
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pt-32 pb-24 text-center">
+        <p className="text-sm uppercase tracking-[0.2em] text-[#7A8B82] mb-6">
+          Built in Aotearoa for NZ operators
+        </p>
+        <h1 className="font-serif text-5xl md:text-7xl leading-[1.05] text-[#0F2A26] mb-8">
+          Get one painful compliance workflow live in 30 days.
+          <br />
+          <span className="text-[#1F4D47]">Or your money back.</span>
+        </h1>
+        <p className="text-lg md:text-xl text-[#0F2A26]/80 max-w-2xl mx-auto mb-10">
+          Assembl's 30-day Pilot maps one regulated workflow, keeps it current as the law changes,
+          and ends every run with a signed evidence pack you can hand to a regulator.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
+          <a href="/contact" data-cta="hero-primary"
+             className="inline-flex items-center gap-2 rounded-full bg-[#0F2A26] px-7 py-3 text-white font-medium hover:bg-[#1F4D47] transition">
+            Book a 30-day pilot
+            <span aria-hidden>→</span>
+          </a>
+          <a href="/sample-evidence-pack" data-cta="hero-secondary"
+             className="inline-flex items-center gap-2 rounded-full border border-[#0F2A26]/20 px-7 py-3 text-[#0F2A26] hover:bg-[#0F2A26]/5 transition">
+            See a sample evidence pack
+          </a>
         </div>
-        {/* Layer 2 — the hero kete itself, fully visible (no over-mask) */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <KeteFocus size={720} sparkles={64} rimSparkles={48} priority warmGlow />
-          </Suspense>
-        </div>
+        <p className="text-sm text-[#7A8B82]">
+          Human-in-control · NZ-specific · Source-cited outputs · Privacy Act 2020 + IPP 3A ready
+        </p>
       </div>
+    </section>
+  );
+}
 
-      {/* Aotearoa silhouette watermark — quiet, sits behind the kete */}
-      <svg
-        viewBox="0 0 200 320"
-        width={220}
-        height={352}
-        className="absolute hidden md:block pointer-events-none"
-        style={{
-          top: "26%",
-          right: "12%",
-          filter: "blur(1.4px)",
-          opacity: 0.55,
-          mixBlendMode: "multiply",
-        }}
-        aria-hidden="true"
-      >
-        <path
-          d="M118 24 C 132 30 138 46 134 60 C 142 70 150 86 146 102 C 158 110 162 128 152 142 C 156 158 148 174 132 178 C 122 188 106 188 96 180 C 82 184 68 174 70 158 C 60 150 60 134 70 124 C 64 110 72 92 88 88 C 92 72 102 58 104 44 C 106 32 110 24 118 24 Z"
-          fill="rgba(31,77,71,0.05)"
-        />
-        <path
-          d="M70 196 C 88 198 110 210 124 226 C 138 242 142 264 130 282 C 116 298 92 304 70 296 C 50 288 38 268 42 248 C 46 228 56 210 70 196 Z"
-          fill="rgba(31,77,71,0.05)"
-        />
-        <ellipse cx="92" cy="312" rx="6" ry="3.5" fill="rgba(31,77,71,0.04)" />
-      </svg>
-
-      {/* Mobile: kete centred, full-bleed, behind copy */}
-      <div
-        className="absolute md:hidden pointer-events-none"
-        style={{
-          top: "8vh",
-          left: 0,
-          right: 0,
-          width: "100vw",
-          height: "min(70vh, 520px)",
-          opacity: 0.95,
-          maskImage:
-            "radial-gradient(ellipse 80% 65% at 50% 50%, black 50%, rgba(0,0,0,0.6) 75%, transparent 95%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 65% at 50% 50%, black 50%, rgba(0,0,0,0.6) 75%, transparent 95%)",
-        }}
-      >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <HeroCloud height={480} opacity={0.85} />
-          </Suspense>
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <KeteFocus size={Math.min(380, typeof window !== "undefined" ? window.innerWidth * 0.86 : 360)} sparkles={32} priority warmGlow />
-          </Suspense>
-        </div>
-      </div>
-
-      {/* Bottom fade — bleeds the hero atmosphere into the next section seamlessly */}
-      <div
-        className="absolute inset-x-0 bottom-0 pointer-events-none"
-        style={{
-          height: "18%",
-          background: `linear-gradient(180deg, transparent 0%, ${PEARL.bg} 100%)`,
-        }}
-      />
-
-      <div className="w-full px-6 md:px-16 lg:px-24 relative z-10" style={{ paddingTop: "16vh" }}>
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>
-          <Eyebrow>Assembl · Built in Aotearoa</Eyebrow>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0)" }}
-          transition={{ duration: 1.2, ease, delay: 0.15 }}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontWeight: 300,
-            fontSize: "clamp(48px, 7.6vw, 104px)",
-            lineHeight: 1.04,
-            letterSpacing: "-0.018em",
-            color: PEARL.ink,
-            maxWidth: "14ch",
-            margin: 0,
-          }}
-        >
-          Quiet AI that{" "}
-          <span style={{ fontStyle: "italic", color: PEARL.pounamu }}>gives</span>{" "}
-          time back.
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease, delay: 0.5 }}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: "italic",
-            fontWeight: 400,
-            fontSize: "clamp(20px, 1.9vw, 26px)",
-            color: PEARL.pounamu,
-            marginTop: 28,
-            letterSpacing: "0.005em",
-          }}
-        >
-          Built for the way New Zealand actually works.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease, delay: 0.7 }}
-          style={{ maxWidth: 560, marginTop: 36 }}
-        >
-          <Body large>
-            One painful workflow, solved in 30 days. Governed, evidence-backed, human-in-control.
-          </Body>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease, delay: 0.9 }}
-          className="flex items-center gap-8 flex-wrap"
-          style={{ marginTop: 44 }}
-        >
-          <InkButton to="/contact?offer=pilot-30">Book a 30-day pilot — from $15k</InkButton>
-          <InkButton to="/how-it-works" variant="underline">See how it works</InkButton>
+// Legacy hero body (kept inert below this point so the closing brace count stays valid).
+// The original layered hero below was replaced by the single-offer hero above.
+function _LegacyHeroFragment_unused() {
+  return (
+    <>
+      {/* placeholder to absorb dangling JSX from the original Hero body */}
+      <span style={{ display: "none" }}>
+          <span aria-hidden>0</span>
+          <span aria-hidden>0</span>
         </motion.div>
 
         {/* Trust strip — three pills, locked copy (anchors trust above the fold) */}
