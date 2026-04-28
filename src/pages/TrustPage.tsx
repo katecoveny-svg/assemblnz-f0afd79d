@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { track } from "@/lib/analytics";
 import { Link } from "react-router-dom";
 import {
   ShieldCheck,
@@ -126,6 +128,7 @@ const Card = ({ children, icon: Icon }: { children: React.ReactNode; icon: React
 );
 
 export default function TrustPage() {
+  useEffect(() => { track("trust_page_viewed"); }, []);
   const trustJsonLd = {
     "@context": "https://schema.org",
     "@graph": [

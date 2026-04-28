@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
+import { track } from "@/lib/analytics";
 import {
   Accordion,
   AccordionContent,
@@ -134,7 +136,9 @@ const FAQS = [
   },
 ];
 
-const PricingPage = () => (
+const PricingPage = () => {
+  useEffect(() => { track("pricing_viewed"); }, []);
+  return (
   <div className="min-h-screen" style={{ background: C.bg, color: C.taupeDeep }}>
     <SEO
       title="Pricing — Time returned. Capacity gained. | Assembl"
