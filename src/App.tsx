@@ -78,6 +78,7 @@ const AdminMessagesPage = lazy(() => import("./pages/AdminMessagesPage"));
 const DevelopersPage = lazy(() => import("./pages/DevelopersPage"));
 const MarinerLandingPage = lazy(() => import("./pages/MarinerLandingPage"));
 const TrustPage = lazy(() => import("./pages/TrustPage"));
+const SampleEvidencePackPage = lazy(() => import("./pages/SampleEvidencePackPage"));
 const AdminMcpLayout = lazy(() => import("./pages/admin/AdminMcpLayout"));
 const AdminMcpOverview = lazy(() => import("./pages/admin/mcp/Overview"));
 const AdminMcpToolsets = lazy(() => import("./pages/admin/mcp/Toolsets"));
