@@ -440,10 +440,20 @@ Deno.serve(async (req) => {
   }
 
   const { system: extraSystem, messages: anthMessages } = toAnthropicMessages(messages);
-  const fullSystem = extraSystem ? `${systemPrompt}\n\n${extraSystem}` : systemPrompt;
+  let fullSystem = extraSystem ? `${systemPrompt}\n\n${extraSystem}` : systemPrompt;
 
-  // Anthropic always requires max_tokens; default to 1024 to match the rest of
-  // the app's defaults.
+  // RAG grounding — fetch curated NZ regulation passages for compliance queries
+  const ragKete = AGENT_TO_RAG_KETE[agentId];
+  const userQuery = lastUserText(messages as any);
+  const rag = await fetchRagContext({
+    query: userQuery,
+    kete: ragKete ? [ragKete] : undefined,
+    force: false,
+  });
+  const ragChunks: RagChunk[] = rag.chunks;
+  const ragConfidence = rag.confidence_signal;
+  if (rag.block) fullSystem = `${fullSystem}${rag.block}`;
+
   const requestBody = {
     model: model ?? DEFAULT_MODEL,
     system: fullSystem,
