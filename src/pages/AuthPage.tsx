@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Loader2 } from "lucide-react";
 import ParticleField from "@/components/ParticleField";
@@ -13,6 +13,14 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // Honour ?redirect=/some/path so chat sign-in nudges return the user to
+  // exactly where they left off. Only same-origin paths are allowed.
+  const redirectParam = searchParams.get("redirect") || "/";
+  const safeRedirect = redirectParam.startsWith("/") && !redirectParam.startsWith("//")
+    ? redirectParam
+    : "/";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,11 +31,11 @@ const AuthPage = ({ mode }: { mode: "login" | "signup" }) => {
       if (!fullName.trim()) { setError("Name is required"); setLoading(false); return; }
       const { error } = await signUp(email, password, fullName);
       if (error) setError(error);
-      else navigate("/");
+      else navigate(safeRedirect);
     } else {
       const { error } = await signIn(email, password);
       if (error) setError(error);
-      else navigate("/");
+      else navigate(safeRedirect);
     }
     setLoading(false);
   };
