@@ -40,44 +40,72 @@ SMS/WhatsApp RULES — You are responding via text message:
 // TNZ SEND
 // ============================================================================
 
-async function sendViaTnz(
-  channel: string,
-  to: string,
-  message: string,
-  reference: string
-): Promise<{ messageId?: string; error?: string }> {
-  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v3.00";
+/** Normalise an NZ phone number to E.164 (+64...) and strip channel prefixes. */
+function normalisePhone(raw: string): string {
+  if (!raw) return raw;
+  let n = String(raw).trim();
+  n = n.replace(/^(whatsapp|sms):/i, "");
+  n = n.replace(/[\s\-()]/g, "");
+  if (/^64\d+/.test(n)) n = "+" + n;
+  if (/^0\d+/.test(n)) n = "+64" + n.substring(1);
+  if (/^\d{8,}$/.test(n) && !n.startsWith("+")) n = "+" + n;
+  return n;
+}
+
+/**
+ * Send message via TNZ API.
+ * FIXED 2026-04-28: v2.04 + Basic auth + /send/<channel> path + status check.
+ * Previously used v3.00 + Bearer which TNZ silently rejects.
+ */
+async function sendViaTnz(channel: string, to: string, message: string, reference: string): Promise<{ messageId?: string; error?: string }> {
+  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v2.04";
   const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
+  const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER");
   if (!tnzToken) return { error: "TNZ_AUTH_TOKEN not configured" };
 
   const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
-  const endpoint = channel === "whatsapp" ? "whatsapp" : "sms";
+  const endpoint = channel === "whatsapp" ? "send/whatsapp" : "send/sms";
+  const recipient = normalisePhone(to);
 
   const body: Record<string, unknown> = {
     MessageData: {
-      Message: message,
-      Destinations: [{ Recipient: to }],
+      Message: String(message).substring(0, 1600),
+      Destinations: [{ Recipient: recipient }],
       WebhookCallbackURL: webhookUrl,
       WebhookCallbackFormat: "JSON",
       Reference: reference,
-      ...(endpoint === "sms" ? { SendMode: "Normal", FallbackMode: "WhatsApp" } : {}),
+      ...(channel === "whatsapp" ? {} : { SendMode: "Normal" }),
+      ...(tnzFrom ? { FromNumber: tnzFrom } : {}),
     },
   };
 
-  const resp = await fetch(`${tnzBase}/${endpoint}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${tnzToken}`,
-    },
-    body: JSON.stringify(body),
-  });
-
-  const data = await resp.json();
-  if (data.Result === "Success") {
-    return { messageId: data.MessageID };
+  let resp: Response;
+  let respText = "";
+  try {
+    resp = await fetch(`${tnzBase}/${endpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Basic ${tnzToken}`,
+      },
+      body: JSON.stringify(body),
+    });
+    respText = await resp.text();
+  } catch (e) {
+    console.error("[sendViaTnz] network error:", e);
+    return { error: `network: ${String(e)}` };
   }
-  return { error: data.Result || "TNZ send failed" };
+
+  let data: Record<string, unknown> = {};
+  try { data = JSON.parse(respText); } catch { /* non-JSON response */ }
+
+  if (!resp.ok || (data as { Result?: string }).Result !== "Success") {
+    console.error(`[sendViaTnz] FAIL status=${resp.status} to=${recipient} body=${respText.substring(0, 300)}`);
+    return { error: `${resp.status}: ${(data as { Result?: string }).Result || respText.substring(0, 200)}` };
+  }
+
+  console.log(`[sendViaTnz] OK messageId=${(data as { MessageID?: string }).MessageID} to=${recipient}`);
+  return { messageId: (data as { MessageID?: string }).MessageID };
 }
 
 // ============================================================================
@@ -101,8 +129,10 @@ Deno.serve(async (req) => {
     const payload = await req.json();
     console.log("TNZ inbound payload:", JSON.stringify(payload));
 
-    const fromNumber = payload.From || payload.from || payload.Sender || payload.sender || "";
-    const toNumber = payload.To || payload.to || payload.Destination || payload.destination || "";
+    const fromNumberRaw = payload.From || payload.from || payload.Sender || payload.sender || "";
+    const toNumberRaw = payload.To || payload.to || payload.Destination || payload.destination || "";
+    const fromNumber = normalisePhone(fromNumberRaw);
+    const toNumber = normalisePhone(toNumberRaw);
     const messageBody = payload.Message || payload.message || payload.Body || payload.body || "";
     const channel = (payload.Channel || payload.channel || "sms").toLowerCase();
     const tnzMessageId = payload.MessageID || payload.messageId || "";
