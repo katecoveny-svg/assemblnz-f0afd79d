@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { ShieldCheck, ShieldAlert, ShieldX, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+import { ShieldCheck, ShieldAlert, ShieldX, ChevronDown, ChevronUp, ExternalLink, FileText } from "lucide-react";
 import type { GroundingPayload } from "@/lib/mcpChat";
+import { CitationPreviewModal } from "./CitationPreviewModal";
 
 interface GroundingBadgeProps {
   grounding: GroundingPayload;
@@ -19,6 +20,7 @@ interface GroundingBadgeProps {
  */
 export function GroundingBadge({ grounding, accentColor = "#9D8C7D" }: GroundingBadgeProps) {
   const [open, setOpen] = useState(false);
+  const [previewChunk, setPreviewChunk] = useState<GroundingPayload["sources"][number] | null>(null);
 
   if (!grounding || grounding.chunk_count === 0) return null;
 
@@ -111,25 +113,41 @@ export function GroundingBadge({ grounding, accentColor = "#9D8C7D" }: Grounding
                   {i + 1}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <div style={{ color: "#3D4250" }} className="font-medium truncate">
-                    {s.citation || s.source}
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewChunk(s)}
+                    className="w-full text-left group hover:underline"
+                    style={{ color: "#3D4250" }}
+                    title="Open cited passage"
+                  >
+                    <span className="font-medium truncate inline-flex items-center gap-1">
+                      <FileText className="w-2.5 h-2.5 shrink-0" style={{ color: accentColor }} />
+                      {s.citation || s.source}
+                    </span>
+                  </button>
                   <div className="flex items-center gap-1.5" style={{ color: "#6F6158" }}>
                     <span className="uppercase tracking-wide" style={{ fontSize: "9px" }}>
                       Tier {s.tier}
                     </span>
-                    {isUrl(s.source) ? (
+                    <button
+                      type="button"
+                      onClick={() => setPreviewChunk(s)}
+                      className="inline-flex items-center gap-0.5 hover:underline"
+                      style={{ color: accentColor }}
+                    >
+                      Preview
+                    </button>
+                    {isUrl(s.source) && (
                       <a
                         href={s.source}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-0.5 hover:underline"
                         style={{ color: accentColor }}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         Source <ExternalLink className="w-2.5 h-2.5" />
                       </a>
-                    ) : (
-                      <span className="truncate">{s.source}</span>
                     )}
                   </div>
                 </div>
@@ -143,6 +161,14 @@ export function GroundingBadge({ grounding, accentColor = "#9D8C7D" }: Grounding
           )}
         </div>
       )}
+
+      <CitationPreviewModal
+        chunkId={previewChunk?.chunk_id ?? null}
+        fallbackCitation={previewChunk?.citation}
+        fallbackSource={previewChunk?.source}
+        fallbackTier={previewChunk?.tier}
+        onClose={() => setPreviewChunk(null)}
+      />
     </div>
   );
 }
