@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { ExternalLink, RefreshCw, Database, ShieldCheck } from "lucide-react";
+import { ExternalLink, RefreshCw, Database, ShieldCheck, Sparkles, Layers } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { KETE_LABELS, KETE_BY_CODE } from "@/data/keteLabels";
@@ -43,6 +43,8 @@ export default function AdminKbPriorities() {
   const [docs, setDocs] = useState<KbDoc[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState<Record<string, boolean>>({});
+  const [ingesting, setIngesting] = useState<Record<string, boolean>>({});
+  const [batchIngesting, setBatchIngesting] = useState(false);
   const [filter, setFilter] = useState("");
   const [activeKete, setActiveKete] = useState<string>("ALL");
 
@@ -110,6 +112,48 @@ export default function AdminKbPriorities() {
     }
   };
 
+  const ingest = async (doc: KbDoc) => {
+    setIngesting((r) => ({ ...r, [doc.id]: true }));
+    try {
+      const { data, error } = await supabase.functions.invoke("ikb-ingest", { body: { documentId: doc.id } });
+      if (error) throw error;
+      const result = data as { ok?: boolean; chunk_count?: number; status?: string } | null;
+      toast({
+        title: result?.ok ? "Ingested" : "Ingest issued",
+        description: result?.chunk_count != null
+          ? `${doc.doc_title} → ${result.chunk_count} chunks`
+          : (result?.status ?? "See status column"),
+      });
+      await load();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Ingest failed", description: msg, variant: "destructive" });
+    } finally {
+      setIngesting((r) => ({ ...r, [doc.id]: false }));
+    }
+  };
+
+  const batchIngest = async () => {
+    setBatchIngesting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("ikb-ingest", {
+        body: { batch: true, limit: 10, ...(activeKete !== "ALL" ? { kete: activeKete } : {}) },
+      });
+      if (error) throw error;
+      const result = data as { ok?: boolean; processed?: number; results?: unknown[] } | null;
+      toast({
+        title: "Batch ingest complete",
+        description: `Processed ${result?.processed ?? result?.results?.length ?? 0} documents`,
+      });
+      await load();
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Batch ingest failed", description: msg, variant: "destructive" });
+    } finally {
+      setBatchIngesting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background p-6 md:p-10">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -132,6 +176,10 @@ export default function AdminKbPriorities() {
             <Badge variant="outline">{totals.fetched} fetched</Badge>
             <Badge variant="outline">{totals.chunked} chunked</Badge>
             <Badge variant="outline">{totals.stale} never refreshed</Badge>
+            <Button size="sm" variant="default" disabled={batchIngesting} onClick={batchIngest} className="ml-2">
+              <Layers className={`w-3 h-3 mr-1 ${batchIngesting ? "animate-pulse" : ""}`} />
+              {batchIngesting ? "Ingesting…" : `Batch ingest${activeKete !== "ALL" ? ` (${activeKete})` : ""}`}
+            </Button>
           </div>
         </header>
 
@@ -206,9 +254,13 @@ export default function AdminKbPriorities() {
                               </a>
                             </Button>
                           )}
-                          <Button size="sm" disabled={!doc.doc_source_url || !!refreshing[doc.id]} onClick={() => refresh(doc)}>
+                          <Button size="sm" variant="outline" disabled={!doc.doc_source_url || !!refreshing[doc.id]} onClick={() => refresh(doc)}>
                             <RefreshCw className={`w-3 h-3 mr-1 ${refreshing[doc.id] ? "animate-spin" : ""}`} />
                             Refresh
+                          </Button>
+                          <Button size="sm" disabled={!doc.doc_source_url || !!ingesting[doc.id]} onClick={() => ingest(doc)}>
+                            <Sparkles className={`w-3 h-3 mr-1 ${ingesting[doc.id] ? "animate-pulse" : ""}`} />
+                            {ingesting[doc.id] ? "Ingesting…" : "Ingest"}
                           </Button>
                         </div>
                       </div>
