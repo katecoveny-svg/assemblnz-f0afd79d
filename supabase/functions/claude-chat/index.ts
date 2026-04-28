@@ -20,6 +20,36 @@ import {
   type WaihangaAction,
   type WaihangaWorld,
 } from "../_shared/waihanga-compliance.ts";
+import { fetchRagContext, verifyCitationsAgainst, type RagChunk } from "../_shared/rag-context.ts";
+
+// Map agentId → uppercase kete codes used by rag.sources.kete[]
+const AGENT_TO_RAG_KETE: Record<string, string> = {
+  manaaki: "MANAAKI",
+  waihanga: "WAIHANGA",
+  auaha: "AUAHA",
+  pakihi: "PAKIHI",
+  pikau: "PIKAU",
+  apex: "WAIHANGA",
+  "apex-safety": "WAIHANGA",
+  aura: "MANAAKI",
+  "aura-food-safety": "MANAAKI",
+  privacy: "ARATAKI",
+  "privacy-lead": "ARATAKI",
+  privacy_lead: "ARATAKI",
+};
+
+function lastUserText(msgs: Array<{ role: string; content: unknown }>): string {
+  for (let i = msgs.length - 1; i >= 0; i--) {
+    const m = msgs[i];
+    if (m.role !== "user") continue;
+    if (typeof m.content === "string") return m.content;
+    if (Array.isArray(m.content)) {
+      const t = (m.content as any[]).find((p) => p?.type === "text");
+      if (t && typeof t.text === "string") return t.text;
+    }
+  }
+  return "";
+}
 
 const MAX_MESSAGES = 40;
 const MAX_CONTENT_CHARS = 8000;
@@ -410,10 +440,20 @@ Deno.serve(async (req) => {
   }
 
   const { system: extraSystem, messages: anthMessages } = toAnthropicMessages(messages);
-  const fullSystem = extraSystem ? `${systemPrompt}\n\n${extraSystem}` : systemPrompt;
+  let fullSystem = extraSystem ? `${systemPrompt}\n\n${extraSystem}` : systemPrompt;
 
-  // Anthropic always requires max_tokens; default to 1024 to match the rest of
-  // the app's defaults.
+  // RAG grounding — fetch curated NZ regulation passages for compliance queries
+  const ragKete = AGENT_TO_RAG_KETE[agentId];
+  const userQuery = lastUserText(messages as any);
+  const rag = await fetchRagContext({
+    query: userQuery,
+    kete: ragKete ? [ragKete] : undefined,
+    force: false,
+  });
+  const ragChunks: RagChunk[] = rag.chunks;
+  const ragConfidence = rag.confidence_signal;
+  if (rag.block) fullSystem = `${fullSystem}${rag.block}`;
+
   const requestBody = {
     model: model ?? DEFAULT_MODEL,
     system: fullSystem,
@@ -463,6 +503,7 @@ Deno.serve(async (req) => {
   const stream = new ReadableStream({
     async start(controller) {
       let buf = "";
+      let assistantBuffer = "";
       const send = (obj: unknown) => {
         controller.enqueue(encoder.encode(`data: ${JSON.stringify(obj)}\n\n`));
       };
@@ -483,7 +524,10 @@ Deno.serve(async (req) => {
               const evt = JSON.parse(payload);
               if (evt.type === "content_block_delta" && evt.delta?.type === "text_delta") {
                 const text: string = evt.delta.text ?? "";
-                if (text) send({ choices: [{ delta: { content: text } }] });
+                if (text) {
+                  assistantBuffer += text;
+                  send({ choices: [{ delta: { content: text } }] });
+                }
               } else if (evt.type === "message_stop") {
                 // graceful end
               } else if (evt.type === "error") {
@@ -495,6 +539,25 @@ Deno.serve(async (req) => {
       } catch (e) {
         send({ error: (e as Error).message });
       } finally {
+        // Emit grounding side-channel — confidence + citation sources + Mana verification
+        if (ragChunks.length > 0) {
+          let verification: ReturnType<typeof verifyCitationsAgainst> | null = null;
+          try { verification = verifyCitationsAgainst(ragChunks, assistantBuffer); } catch { /* noop */ }
+          send({
+            choices: [{ delta: { role: "assistant", content: "" }, finish_reason: null }],
+            assembl_grounding: {
+              confidence: ragConfidence,
+              chunk_count: ragChunks.length,
+              sources: ragChunks.map((c) => ({
+                chunk_id: c.chunk_id,
+                source: c.source,
+                citation: c.citation,
+                tier: c.tier,
+              })),
+              verification,
+            },
+          });
+        }
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
       }

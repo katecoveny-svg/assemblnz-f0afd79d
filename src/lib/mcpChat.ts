@@ -32,6 +32,26 @@ export type ChatParams = {
   model?: string;
 };
 
+export type GroundingSource = {
+  chunk_id: string;
+  source: string;
+  citation: string;
+  tier: number;
+};
+
+export type GroundingPayload = {
+  confidence: "high" | "medium" | "low" | "none";
+  chunk_count: number;
+  sources: GroundingSource[];
+  verification: {
+    status: "PASS" | "FLAG" | "FAIL" | "NOT_APPLICABLE";
+    cited_chunk_ids: string[];
+    hallucinated_chunk_ids: string[];
+    retrieved_chunk_ids: string[];
+    message: string;
+  } | null;
+};
+
 export type StreamArgs = {
   agentId: "toro" | "manaaki" | "waihanga" | "auaha" | "pakihi" | "pikau" | string;
   messages: ChatMsg[];
@@ -39,6 +59,8 @@ export type StreamArgs = {
   params?: ChatParams;
   onDelta: (chunk: string) => void;
   onDone: (finalContent: string) => void;
+  /** Fired once if the server returns RAG grounding metadata for this turn. */
+  onGrounding?: (g: GroundingPayload) => void;
   onError?: (err: { status: number; message: string }) => void;
   signal?: AbortSignal;
 };
@@ -133,6 +155,12 @@ export async function streamMcpChat(args: StreamArgs): Promise<void> {
         const parsed = JSON.parse(json);
         if (parsed.assembl_mana_patch?.final_content) {
           manaPatchedFinal = parsed.assembl_mana_patch.final_content as string;
+          continue;
+        }
+        if (parsed.assembl_grounding) {
+          try {
+            args.onGrounding?.(parsed.assembl_grounding as GroundingPayload);
+          } catch { /* noop */ }
           continue;
         }
         const delta: string | undefined = parsed.choices?.[0]?.delta?.content;

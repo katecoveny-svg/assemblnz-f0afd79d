@@ -15,6 +15,29 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://esm.sh/zod@3.23.8";
+import { fetchRagContext, verifyCitationsAgainst, type RagChunk } from "../_shared/rag-context.ts";
+
+// Map agent toolset → uppercase kete codes used by rag.sources.kete[]
+const TOOLSET_TO_RAG_KETE: Record<string, string> = {
+  manaaki: "MANAAKI",
+  waihanga: "WAIHANGA",
+  auaha: "AUAHA",
+  pakihi: "PAKIHI",
+  pikau: "PIKAU",
+};
+
+function lastUserText(msgs: Array<{ role: string; content: unknown }>): string {
+  for (let i = msgs.length - 1; i >= 0; i--) {
+    const m = msgs[i];
+    if (m.role !== "user") continue;
+    if (typeof m.content === "string") return m.content;
+    if (Array.isArray(m.content)) {
+      const t = m.content.find((p: any) => p?.type === "text");
+      if (t && typeof (t as any).text === "string") return (t as any).text;
+    }
+  }
+  return "";
+}
 
 // ----------------------------------------------------------------------------
 // Request schema (server-side validation)
@@ -511,7 +534,19 @@ Deno.serve(async (req) => {
 
   // 4. TĀ_INFLIGHT — stamp system prompt
   const inflightStamp = buildInflightStamp(rules);
-  const systemPrompt = agent.prompt + inflightStamp;
+
+  // 4b. RAG grounding — fetch curated NZ regulation passages for compliance queries
+  const ragKete = TOOLSET_TO_RAG_KETE[agent.toolset];
+  const userQuery = lastUserText(sanitizedMessages as any);
+  const rag = await fetchRagContext({
+    query: userQuery,
+    kete: ragKete ? [ragKete] : undefined,
+    force: false,
+  });
+  const ragChunks: RagChunk[] = rag.chunks;
+  const ragConfidence = rag.confidence_signal;
+
+  const systemPrompt = agent.prompt + inflightStamp + (rag.block ?? "");
 
   recordThought({
     user_id: userId,
@@ -661,6 +696,29 @@ Deno.serve(async (req) => {
           outcome: wasRewritten ? "rewritten" : "passed",
           duration_ms: Math.round(performance.now() - start),
         });
+
+        // 7b. Emit grounding side-channel — confidence + citation sources + Mana verification
+        if (ragChunks.length > 0) {
+          const finalText = (wasRewritten ? rewritten : assistantBuffer) ?? "";
+          let verification: ReturnType<typeof verifyCitationsAgainst> | null = null;
+          try { verification = verifyCitationsAgainst(ragChunks, finalText); } catch { /* noop */ }
+          const grounding = {
+            choices: [{ delta: { role: "assistant", content: "" }, finish_reason: null }],
+            assembl_grounding: {
+              confidence: ragConfidence,
+              chunk_count: ragChunks.length,
+              sources: ragChunks.map((c) => ({
+                chunk_id: c.chunk_id,
+                source: c.source,
+                citation: c.citation,
+                tier: c.tier,
+              })),
+              verification,
+            },
+          };
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(grounding)}\n\n`));
+        }
+
         controller.enqueue(encoder.encode("data: [DONE]\n\n"));
         controller.close();
 

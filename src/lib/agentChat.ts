@@ -120,10 +120,12 @@ export async function agentChatStream({
   params,
   onDelta,
   onDone,
+  onGrounding,
   onError,
 }: AgentChatOptions & {
   onDelta: (text: string) => void;
   onDone: () => void;
+  onGrounding?: (g: import("@/lib/mcpChat").GroundingPayload) => void;
   onError?: (error: Error) => void;
 }): Promise<void> {
   // New path: /mcp-chat (or /claude-chat) with auth.
@@ -143,6 +145,7 @@ export async function agentChatStream({
         params,
         onDelta,
         onDone: () => onDone(),
+        onGrounding,
         onError: (e) => {
           onError?.(new Error(e.message || `Chat error (${e.status})`));
           onDone();
