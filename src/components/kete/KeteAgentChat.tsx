@@ -422,7 +422,7 @@ export default function KeteAgentChat({
                 </div>
               )}
               {messages.map((msg, i) => (
-                <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                <div key={i} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
                   <div
                     className="max-w-[85%] px-3.5 py-2.5 rounded-xl text-xs leading-relaxed"
                     style={{
@@ -440,6 +440,11 @@ export default function KeteAgentChat({
                       msg.content
                     )}
                   </div>
+                  {msg.role === "assistant" && msg.grounding && (
+                    <div className="max-w-[85%] w-full">
+                      <GroundingBadge grounding={msg.grounding} accentColor={accentColor} />
+                    </div>
+                  )}
                 </div>
               ))}
               {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
