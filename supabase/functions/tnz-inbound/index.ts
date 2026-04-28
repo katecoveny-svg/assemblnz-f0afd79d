@@ -58,7 +58,13 @@ function normalisePhone(raw: string): string {
  * Previously used v3.00 + Bearer which TNZ silently rejects.
  */
 async function sendViaTnz(channel: string, to: string, message: string, reference: string): Promise<{ messageId?: string; error?: string }> {
-  const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v2.04";
+  const tnzBaseEnv = Deno.env.get("TNZ_API_BASE");
+  if (tnzBaseEnv && tnzBaseEnv.includes("v3.00")) {
+    console.error("[TNZ] WARNING: TNZ_API_BASE secret is pinned to v3.00 — TNZ rejects this. Forcing v2.04.");
+  }
+  const tnzBase = (tnzBaseEnv && !tnzBaseEnv.includes("v3.00"))
+    ? tnzBaseEnv
+    : "https://api.tnz.co.nz/api/v2.04";
   const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
   const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER");
   if (!tnzToken) return { error: "TNZ_AUTH_TOKEN not configured" };
