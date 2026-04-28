@@ -26,9 +26,9 @@ interface AgentOption {
 interface ConversationOption {
   id: string;
   channel: string;
-  recipient: string;
-  agent_used: string | null;
-  last_message_at: string | null;
+  phone_number: string;
+  assigned_agent: string | null;
+  updated_at: string | null;
 }
 
 export default function AdminTnzSend() {
