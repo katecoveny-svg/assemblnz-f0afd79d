@@ -168,11 +168,11 @@ export default function AdminRagPilotValidator() {
     <AdminShell title="RAG v1 Pilot Validator" subtitle="Must-cite + must-flag + hard-fail compliance for APEX · AURA · PRIVACY-LEAD">
       <div className="space-y-6">
         {/* Summary band */}
-        <AdminGlassCard
-          title="Run summary"
-          icon={<Activity className="h-5 w-5" />}
-          accent="primary"
-        >
+        <AdminGlassCard className="p-6">
+          <div className="mb-4 flex items-center gap-2 text-foreground/80">
+            <Activity className="h-5 w-5" />
+            <h2 className="text-lg font-light">Run summary</h2>
+          </div>
           <div className="flex flex-wrap items-center gap-3">
             {PILOT_AGENTS.map((a) => {
               const stats = summary?.by_agent?.[a.id];
