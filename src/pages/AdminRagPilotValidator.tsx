@@ -218,10 +218,11 @@ export default function AdminRagPilotValidator() {
         </AdminGlassCard>
 
         {/* Controls */}
-        <AdminGlassCard
-          title="Run controls"
-          icon={<Play className="h-5 w-5" />}
-        >
+        <AdminGlassCard className="p-6">
+          <div className="mb-4 flex items-center gap-2 text-foreground/80">
+            <Play className="h-5 w-5" />
+            <h2 className="text-lg font-light">Run controls</h2>
+          </div>
           <div className="flex flex-wrap items-center gap-3">
             <Tabs value={agentFilter} onValueChange={setAgentFilter}>
               <TabsList className="bg-white/60 backdrop-blur-xl">
