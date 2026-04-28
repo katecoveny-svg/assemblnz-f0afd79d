@@ -166,7 +166,7 @@ export default function AdminTnzSend() {
               <SelectContent>
                 {conversations.map((c) => (
                   <SelectItem key={c.id} value={c.id}>
-                    [{c.channel}] {c.recipient} {c.agent_used ? `· ${c.agent_used}` : ""}
+                    [{c.channel}] {c.phone_number} {c.assigned_agent ? `· ${c.assigned_agent}` : ""}
                   </SelectItem>
                 ))}
               </SelectContent>
