@@ -189,215 +189,46 @@ const InkButton = ({
 /* ─── Sections ─── */
 
 function Hero() {
+  // Single-offer hero (locked copy). Colour values come straight from the brief
+  // and intentionally use the deep-pounamu accents on the warm Pearl canvas.
   return (
-    <section
-      className="relative overflow-hidden"
-      style={{ minHeight: "92vh", background: PEARL.bg }}
-    >
-      {/* Layer 0 — golden-hour wash (sunlit, candle-warm), anchored behind-right where the kete sits per spec */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 75% 65% at 78% 42%, rgba(255,231,196,0.62) 0%, rgba(255,231,196,0.18) 42%, transparent 72%), radial-gradient(ellipse 60% 55% at 22% 78%, rgba(228,238,236,0.45) 0%, transparent 72%), linear-gradient(180deg, rgba(255,248,236,0.30) 0%, transparent 55%)",
-        }}
-      />
-
-      {/* Desktop: behind-right hero kete (~720px per Pearl spec), nested in a soft cumulus, dissolves at edges */}
-      <div
-        className="absolute hidden md:block pointer-events-none"
-        style={{
-          top: "8%",
-          right: "-4%",
-          width: 820,
-          height: 820,
-          // Softer feathering — keeps kete fully visible at centre, fades only at the very rim
-          maskImage:
-            "radial-gradient(ellipse 70% 70% at 50% 50%, black 55%, rgba(0,0,0,0.7) 75%, transparent 95%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 70% 70% at 50% 50%, black 55%, rgba(0,0,0,0.7) 75%, transparent 95%)",
-        }}
-      >
-        {/* Layer 1 — warm pearl cumulus that wraps the kete */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <HeroCloud height={780} opacity={0.92} />
-          </Suspense>
+    <section className="relative w-full overflow-hidden" style={{ minHeight: "92vh", background: "#FAF6EF" }}>
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pt-32 pb-24 text-center">
+        <p className="text-sm uppercase tracking-[0.2em] text-[#7A8B82] mb-6">
+          Built in Aotearoa for NZ operators
+        </p>
+        <h1 className="font-serif text-5xl md:text-7xl leading-[1.05] text-[#0F2A26] mb-8">
+          Get one painful compliance workflow live in 30 days.
+          <br />
+          <span className="text-[#1F4D47]">Or your money back.</span>
+        </h1>
+        <p className="text-lg md:text-xl text-[#0F2A26]/80 max-w-2xl mx-auto mb-10">
+          Assembl's 30-day Pilot maps one regulated workflow, keeps it current as the law changes,
+          and ends every run with a signed evidence pack you can hand to a regulator.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
+          <a href="/contact" data-cta="hero-primary"
+             className="inline-flex items-center gap-2 rounded-full bg-[#0F2A26] px-7 py-3 text-white font-medium hover:bg-[#1F4D47] transition">
+            Book a 30-day pilot
+            <span aria-hidden>→</span>
+          </a>
+          <a href="/sample-evidence-pack" data-cta="hero-secondary"
+             className="inline-flex items-center gap-2 rounded-full border border-[#0F2A26]/20 px-7 py-3 text-[#0F2A26] hover:bg-[#0F2A26]/5 transition">
+            See a sample evidence pack
+          </a>
         </div>
-        {/* Layer 2 — the hero kete itself, fully visible (no over-mask) */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <KeteFocus size={720} sparkles={64} rimSparkles={48} priority warmGlow />
-          </Suspense>
-        </div>
-      </div>
-
-      {/* Aotearoa silhouette watermark — quiet, sits behind the kete */}
-      <svg
-        viewBox="0 0 200 320"
-        width={220}
-        height={352}
-        className="absolute hidden md:block pointer-events-none"
-        style={{
-          top: "26%",
-          right: "12%",
-          filter: "blur(1.4px)",
-          opacity: 0.55,
-          mixBlendMode: "multiply",
-        }}
-        aria-hidden="true"
-      >
-        <path
-          d="M118 24 C 132 30 138 46 134 60 C 142 70 150 86 146 102 C 158 110 162 128 152 142 C 156 158 148 174 132 178 C 122 188 106 188 96 180 C 82 184 68 174 70 158 C 60 150 60 134 70 124 C 64 110 72 92 88 88 C 92 72 102 58 104 44 C 106 32 110 24 118 24 Z"
-          fill="rgba(31,77,71,0.05)"
-        />
-        <path
-          d="M70 196 C 88 198 110 210 124 226 C 138 242 142 264 130 282 C 116 298 92 304 70 296 C 50 288 38 268 42 248 C 46 228 56 210 70 196 Z"
-          fill="rgba(31,77,71,0.05)"
-        />
-        <ellipse cx="92" cy="312" rx="6" ry="3.5" fill="rgba(31,77,71,0.04)" />
-      </svg>
-
-      {/* Mobile: kete centred, full-bleed, behind copy */}
-      <div
-        className="absolute md:hidden pointer-events-none"
-        style={{
-          top: "8vh",
-          left: 0,
-          right: 0,
-          width: "100vw",
-          height: "min(70vh, 520px)",
-          opacity: 0.95,
-          maskImage:
-            "radial-gradient(ellipse 80% 65% at 50% 50%, black 50%, rgba(0,0,0,0.6) 75%, transparent 95%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 65% at 50% 50%, black 50%, rgba(0,0,0,0.6) 75%, transparent 95%)",
-        }}
-      >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <HeroCloud height={480} opacity={0.85} />
-          </Suspense>
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <KeteFocus size={Math.min(380, typeof window !== "undefined" ? window.innerWidth * 0.86 : 360)} sparkles={32} priority warmGlow />
-          </Suspense>
-        </div>
-      </div>
-
-      {/* Bottom fade — bleeds the hero atmosphere into the next section seamlessly */}
-      <div
-        className="absolute inset-x-0 bottom-0 pointer-events-none"
-        style={{
-          height: "18%",
-          background: `linear-gradient(180deg, transparent 0%, ${PEARL.bg} 100%)`,
-        }}
-      />
-
-      <div className="w-full px-6 md:px-16 lg:px-24 relative z-10" style={{ paddingTop: "16vh" }}>
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>
-          <Eyebrow>Assembl · Built in Aotearoa</Eyebrow>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0)" }}
-          transition={{ duration: 1.2, ease, delay: 0.15 }}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontWeight: 300,
-            fontSize: "clamp(48px, 7.6vw, 104px)",
-            lineHeight: 1.04,
-            letterSpacing: "-0.018em",
-            color: PEARL.ink,
-            maxWidth: "14ch",
-            margin: 0,
-          }}
-        >
-          Quiet AI that{" "}
-          <span style={{ fontStyle: "italic", color: PEARL.pounamu }}>gives</span>{" "}
-          time back.
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease, delay: 0.5 }}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: "italic",
-            fontWeight: 400,
-            fontSize: "clamp(20px, 1.9vw, 26px)",
-            color: PEARL.pounamu,
-            marginTop: 28,
-            letterSpacing: "0.005em",
-          }}
-        >
-          Built for the way New Zealand actually works.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease, delay: 0.7 }}
-          style={{ maxWidth: 560, marginTop: 36 }}
-        >
-          <Body large>
-            One painful workflow, solved in 30 days. Governed, evidence-backed, human-in-control.
-          </Body>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease, delay: 0.9 }}
-          className="flex items-center gap-8 flex-wrap"
-          style={{ marginTop: 44 }}
-        >
-          <InkButton to="/contact?offer=pilot-30">Book a 30-day pilot — from $15k</InkButton>
-          <InkButton to="/how-it-works" variant="underline">See how it works</InkButton>
-        </motion.div>
-
-        {/* Trust strip — three pills, locked copy (anchors trust above the fold) */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.1, ease, delay: 1.2 }}
-          className="flex flex-wrap items-center gap-3"
-          style={{ marginTop: 56 }}
-        >
-          {[
-            { icon: "🛡", text: "NZ data residency — under review for full AU/NZ migration" },
-            { icon: "✓", text: "Human-in-control — every consequential action requires approval" },
-            { icon: "📋", text: "Evidence pack — every output exportable as PDF" },
-          ].map((p) => (
-            <span
-              key={p.text}
-              style={{
-                fontFamily: "'Inter', sans-serif",
-                fontSize: 12,
-                letterSpacing: "0.04em",
-                color: PEARL.pounamu,
-                background: "rgba(255,255,255,0.7)",
-                backdropFilter: "blur(20px)",
-                border: "1px solid rgba(31,77,71,0.12)",
-                padding: "10px 16px",
-                borderRadius: 999,
-                fontWeight: 500,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              <span aria-hidden="true">{p.icon}</span> {p.text}
-            </span>
-          ))}
-        </motion.div>
+        <p className="text-sm text-[#7A8B82]">
+          Human-in-control · NZ-specific · Source-cited outputs · Privacy Act 2020 + IPP 3A ready
+        </p>
       </div>
     </section>
   );
 }
+
+// Legacy hero body (kept inert below this point so the closing brace count stays valid).
+// The original layered hero below was replaced by the single-offer hero above.
+// (Legacy hero body removed — single-offer hero above is the live hero.)
+
 
 /* ─── Three priority product cards (above the kete grid) ─────────── */
 const PRODUCT_CARDS = [
@@ -899,97 +730,27 @@ function Tikanga() {
   );
 }
 
-const TIERS = [
-  { name: "Tōro", sub: "Family", price: "$29", per: "/ mo", setup: "No setup", desc: "A household that runs itself." },
-  { name: "Operator", sub: "1 Kete", price: "$1,490", per: "/ mo", setup: "+ $590 setup", desc: "One kete plus the full platform." },
-  { name: "Leader", sub: "2 Ketes", price: "$1,990", per: "/ mo", setup: "+ $1,290 setup", desc: "Two ketes plus the full platform." },
-  { name: "Enterprise", sub: "All 7 Ketes", price: "$2,990", per: "/ mo", setup: "+ $2,890 setup", desc: "Every kete plus the full platform." },
-  { name: "Outcome", sub: "Custom", price: "from $5,000", per: "", setup: "Bespoke engagement", desc: "When the work is bespoke and the evidence pack is the contract." },
-];
-
+// Home page: single-offer pricing card. The full tier ladder
+// (Tōro / Operator / Leader / Enterprise / Outcome) lives at /pricing.
 function Pricing() {
   return (
-    <section style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.linen, position: "relative", overflow: "hidden" }}>
-      {/* Soft fairy strand at the top — draped between section breaks */}
-      <div className="absolute pointer-events-none" style={{ top: 32, left: "50%", transform: "translateX(-50%)" }}>
-        <Suspense fallback={null}>
-          <FairyLightStrand width={420} height={80} bulbs={9} direction="drape" />
-        </Suspense>
-      </div>
-      <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
-        <Eyebrow>Pricing</Eyebrow>
-        <Serif size="lg" className="mb-20">
-          One quiet subscription. No surprises.
-        </Serif>
-
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-x-6 gap-y-12">
-          {TIERS.map((t, i) => (
-            <motion.div
-              key={t.name}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease, delay: i * 0.06 }}
-              style={{ borderLeft: i === 0 ? "none" : `1px solid ${PEARL.seaGlass}`, paddingLeft: i === 0 ? 0 : 24 }}
-              className="md:pl-6"
-            >
-              <Serif size="sm" className="mb-2">{t.name}</Serif>
-              <p
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: 10,
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "rgba(15,42,38,0.5)",
-                  marginBottom: 24,
-                }}
-              >
-                {t.sub}
-              </p>
-              <div className="flex items-baseline gap-1 mb-1">
-                <span
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontWeight: 300,
-                    fontSize: 36,
-                    color: PEARL.ink,
-                    lineHeight: 1,
-                  }}
-                >
-                  {t.price}
-                </span>
-                {t.per && (
-                  <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 13, color: "rgba(15,42,38,0.55)" }}>
-                    {t.per}
-                  </span>
-                )}
-              </div>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 12, color: "rgba(15,42,38,0.55)", marginBottom: 16 }}>
-                {t.setup}
-              </p>
-              <p style={{ fontFamily: "'Inter', sans-serif", fontSize: 14, color: "rgba(15,42,38,0.75)", lineHeight: 1.55 }}>
-                {t.desc}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        <p
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: 12,
-            color: "rgba(15,42,38,0.55)",
-            marginTop: 64,
-            maxWidth: 720,
-            lineHeight: 1.6,
-          }}
-        >
-          Every paid tier includes the cross-cutting agents — HR (Aroha), security (Signal), monitoring (Sentinel). NZD, GST exclusive. 12% off annual with code <strong style={{ color: PEARL.ink }}>ANNUAL12</strong>.
+    <section className="py-16 px-6">
+      <div className="max-w-3xl mx-auto rounded-2xl border border-[#0F2A26]/10 bg-white p-10 text-center">
+        <p className="text-sm uppercase tracking-[0.2em] text-[#7A8B82] mb-4">One offer · One promise</p>
+        <h2 className="font-serif text-3xl md:text-4xl text-[#0F2A26] mb-3">Pilot from NZ$5,000</h2>
+        <p className="text-[#0F2A26]/70 mb-8">Fixed scope. 30 days. Money-back if it doesn't ship.</p>
+        <a href="/contact" data-cta="pricing-primary"
+           className="inline-flex rounded-full bg-[#0F2A26] px-7 py-3 text-white font-medium hover:bg-[#1F4D47] transition">
+          Book a discovery call
+        </a>
+        <p className="mt-6 text-sm text-[#7A8B82]">
+          Full tier ladder: <a href="/pricing" className="underline">/pricing</a>
         </p>
-      </motion.div>
+      </div>
     </section>
   );
 }
+
 
 function Closing() {
   return (

@@ -28,8 +28,8 @@ function normalisePhone(raw: string): string {
 
 const TNZ_SEND_VERSION = {
   name: "tnz-send",
-  version: "v2.04-basic-2026-04-28",
-  deployed_at: "2026-04-28T04:05:40Z",
+  version: "v2.04-basic-guarded-2026-04-28",
+  deployed_at: "2026-04-28T08:30:00Z",
   api_base_default: "https://api.tnz.co.nz/api/v2.04",
   auth_scheme: "Basic",
 };
@@ -55,7 +55,13 @@ Deno.serve(async (req) => {
 
   try {
     const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-    const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v2.04";
+    const tnzBaseEnv = Deno.env.get("TNZ_API_BASE");
+    if (tnzBaseEnv && tnzBaseEnv.includes("v3.00")) {
+      console.error("[TNZ] WARNING: TNZ_API_BASE secret is pinned to v3.00 — TNZ rejects this. Forcing v2.04.");
+    }
+    const tnzBase = (tnzBaseEnv && !tnzBaseEnv.includes("v3.00"))
+      ? tnzBaseEnv
+      : "https://api.tnz.co.nz/api/v2.04";
     const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
     const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER");
 

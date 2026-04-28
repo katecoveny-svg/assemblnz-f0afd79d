@@ -1,3 +1,4 @@
+// DORMANT — superseded by PearlIndex.tsx, see live route in App.tsx
 import React, { useMemo, useState } from "react";
 import { motion, LayoutGroup } from "framer-motion";
 import { ArrowRight, Send } from "lucide-react";
