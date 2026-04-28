@@ -1,5 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -7,11 +7,24 @@ const corsHeaders = {
 };
 
 /**
- * TNZ Send — send SMS via TNZ Group API (v2.04, Basic auth — the working endpoint).
- * Used by dashboards, agent workflows, manual takeover, and pilot test sends.
+ * TNZ Send — manually send SMS or WhatsApp via TNZ API.
+ * Used by the admin dashboard for manual takeover replies.
  *
- * Body: { channel?, to, message, conversationId?, agentId?, kete? }
+ * FIXED 2026-04-28: previously used v3.00 + Bearer (silently rejected by TNZ).
+ * Now uses v2.04 + Basic + the /send/<channel> path that TNZ actually accepts.
  */
+
+/** Normalise an NZ phone number to E.164 (+64...) and strip channel prefixes. */
+function normalisePhone(raw: string): string {
+  if (!raw) return raw;
+  let n = String(raw).trim();
+  n = n.replace(/^(whatsapp|sms):/i, "");
+  n = n.replace(/[\s\-()]/g, "");
+  if (/^64\d+/.test(n)) n = "+" + n;
+  if (/^0\d+/.test(n)) n = "+64" + n.substring(1);
+  if (/^\d{8,}$/.test(n) && !n.startsWith("+")) n = "+" + n;
+  return n;
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -20,8 +33,9 @@ Deno.serve(async (req) => {
 
   try {
     const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+    const tnzBase = Deno.env.get("TNZ_API_BASE") || "https://api.tnz.co.nz/api/v2.04";
     const tnzToken = Deno.env.get("TNZ_AUTH_TOKEN");
-    const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER") || "";
+    const tnzFrom = Deno.env.get("TNZ_FROM_NUMBER");
 
     if (!tnzToken) {
       return new Response(JSON.stringify({ error: "TNZ_AUTH_TOKEN not configured" }), {
@@ -29,7 +43,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const { channel, to, message, conversationId, agentId, kete } = await req.json();
+    const { channel, to, message, conversationId } = await req.json();
 
     if (!to || !message) {
       return new Response(JSON.stringify({ error: "Missing 'to' or 'message'" }), {
@@ -37,91 +51,75 @@ Deno.serve(async (req) => {
       });
     }
 
-    const agentLabel = agentId || "manual";
-    const keteLabel = kete || "unknown";
-    const ref = `assembl-${keteLabel}-${agentLabel}-${crypto.randomUUID()}`;
+    const recipient = normalisePhone(to);
+    const endpoint = channel === "whatsapp" ? "send/whatsapp" : "send/sms";
+    const ref = `assembl-manual-${crypto.randomUUID()}`;
     const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
 
-    // Use the v2.04 SMS endpoint (Basic auth) — the same one sms-send uses successfully
-    const tnzUrl = "https://api.tnz.co.nz/api/v2.04/send/sms";
+    const body: Record<string, unknown> = {
+      MessageData: {
+        Message: String(message).substring(0, 1600),
+        Destinations: [{ Recipient: recipient }],
+        WebhookCallbackURL: webhookUrl,
+        WebhookCallbackFormat: "JSON",
+        Reference: ref,
+        ...(channel === "whatsapp" ? {} : { SendMode: "Normal" }),
+        ...(tnzFrom ? { FromNumber: tnzFrom } : {}),
+      },
+    };
 
-    console.log(`[tnz-send] → ${to} (${keteLabel}/${agentLabel}) ref=${ref}`);
-
-    const tnzResp = await fetch(tnzUrl, {
+    const tnzResp = await fetch(`${tnzBase}/${endpoint}`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json; encoding='utf-8'",
-        Accept: "application/json; encoding='utf-8'",
+        "Content-Type": "application/json",
         Authorization: `Basic ${tnzToken}`,
       },
-      body: JSON.stringify({
-        MessageData: {
-          Message: message.substring(0, 1600),
-          Destinations: [{ Recipient: to }],
-          WebhookCallbackURL: webhookUrl,
-          WebhookCallbackFormat: "JSON",
-          Reference: ref,
-          ...(tnzFrom ? { FromNumber: tnzFrom } : {}),
-          SendMode: "Normal",
-        },
-      }),
+      body: JSON.stringify(body),
     });
 
-    const tnzText = await tnzResp.text();
-    console.log(`[tnz-send] TNZ response ${tnzResp.status}: ${tnzText}`);
+    const respText = await tnzResp.text();
+    let tnzData: Record<string, unknown> = {};
+    try { tnzData = JSON.parse(respText); } catch { tnzData = { raw: respText }; }
 
-    let tnzData: any;
-    try { tnzData = JSON.parse(tnzText); }
-    catch { tnzData = { Result: tnzResp.ok ? "Success" : "Failed", raw: tnzText }; }
+    const ok = tnzResp.ok && (tnzData as { Result?: string }).Result === "Success";
 
-    const success = tnzData.Result === "Success";
+    if (!ok) {
+      console.error(`[tnz-send] FAIL status=${tnzResp.status} body=${respText.substring(0, 500)}`);
+    } else {
+      console.log(`[tnz-send] OK messageId=${(tnzData as { MessageID?: string }).MessageID} to=${recipient}`);
+    }
 
     if (conversationId) {
-      await sb.from("messaging_messages").insert({
+      const { error: insErr } = await sb.from("messaging_messages").insert({
         conversation_id: conversationId,
-        tnz_message_id: tnzData.MessageID || null,
+        tnz_message_id: (tnzData as { MessageID?: string }).MessageID || null,
         direction: "outbound",
-        to_number: to,
-        from_number: tnzFrom,
-        body: message.substring(0, 1600),
+        to_number: recipient,
+        body: message,
         channel: channel || "sms",
-        status: success ? "sent" : "failed",
-        agent_used: agentLabel,
+        status: ok ? "sent" : "failed",
+        agent_used: "manual",
         tnz_reference: ref,
       });
+      if (insErr) console.error("[tnz-send] DB insert error:", insErr);
     }
 
-    if (agentId) {
-      try {
-        await sb.from("audit_log").insert({
-          agent_code: agentId,
-          agent_name: agentId.toUpperCase(),
-          model_used: "manual",
-          user_id: "00000000-0000-0000-0000-000000000000",
-          request_summary: `[OUTBOUND ${(channel || "sms").toUpperCase()} → ${to}]`,
-          response_summary: message.substring(0, 200),
-          compliance_passed: true,
-          data_classification: "INTERNAL",
-        });
-      } catch (e) {
-        console.error("Audit error:", e);
-      }
-    }
-
-    return new Response(JSON.stringify({
-      ok: success,
-      messageId: tnzData.MessageID,
-      result: tnzData.Result,
-      details: success ? undefined : tnzData,
-      kete: keteLabel,
-      agent: agentLabel,
-    }), {
-      status: success ? 200 : 502,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        ok,
+        messageId: (tnzData as { MessageID?: string }).MessageID,
+        status: tnzResp.status,
+        result: (tnzData as { Result?: string }).Result,
+        error: ok ? undefined : (respText.substring(0, 300)),
+      }),
+      {
+        status: ok ? 200 : 502,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   } catch (err) {
-    console.error("[tnz-send] Error:", err);
-    return new Response(JSON.stringify({ error: "Send failed", message: String(err) }), {
+    console.error("[tnz-send] exception:", err);
+    return new Response(JSON.stringify({ error: "Send failed", detail: String(err) }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
