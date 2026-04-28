@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import AgentAvatar from "@/components/AgentAvatar";
 import ReactMarkdown from "react-markdown";
 import { Send } from "lucide-react";
+import { useAgentChatHistory } from "@/hooks/useAgentChatHistory";
 
 interface Message {
   role: "user" | "assistant";
