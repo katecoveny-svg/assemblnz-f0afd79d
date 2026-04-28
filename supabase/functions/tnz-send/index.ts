@@ -65,7 +65,9 @@ Deno.serve(async (req) => {
       });
     }
 
-    const { channel, to, message, conversationId } = await req.json();
+    const payload = await req.json();
+    const { channel, to, message, conversationId, conversation_id, agent_id, source } = payload ?? {};
+    const convoId = conversationId || conversation_id || null;
 
     if (!to || !message) {
       return new Response(JSON.stringify({ error: "Missing 'to' or 'message'" }), {
@@ -74,7 +76,8 @@ Deno.serve(async (req) => {
     }
 
     const recipient = normalisePhone(to);
-    const endpoint = channel === "whatsapp" ? "send/whatsapp" : "send/sms";
+    const chan = channel === "whatsapp" ? "whatsapp" : "sms";
+    const endpoint = chan === "whatsapp" ? "send/whatsapp" : "send/sms";
     const ref = `assembl-manual-${crypto.randomUUID()}`;
     const webhookUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/tnz-webhook`;
 
@@ -85,40 +88,70 @@ Deno.serve(async (req) => {
         WebhookCallbackURL: webhookUrl,
         WebhookCallbackFormat: "JSON",
         Reference: ref,
-        ...(channel === "whatsapp" ? {} : { SendMode: "Normal" }),
+        ...(chan === "whatsapp" ? {} : { SendMode: "Normal" }),
         ...(tnzFrom ? { FromNumber: tnzFrom } : {}),
       },
     };
 
-    const tnzResp = await fetch(`${tnzBase}/${endpoint}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Basic ${tnzToken}`,
-      },
-      body: JSON.stringify(body),
-    });
-
-    const respText = await tnzResp.text();
+    let tnzResp: Response | null = null;
+    let respText = "";
     let tnzData: Record<string, unknown> = {};
-    try { tnzData = JSON.parse(respText); } catch { tnzData = { raw: respText }; }
+    let networkError: string | null = null;
 
-    const ok = tnzResp.ok && (tnzData as { Result?: string }).Result === "Success";
-
-    if (!ok) {
-      console.error(`[tnz-send] FAIL status=${tnzResp.status} body=${respText.substring(0, 500)}`);
-    } else {
-      console.log(`[tnz-send] OK messageId=${(tnzData as { MessageID?: string }).MessageID} to=${recipient}`);
+    try {
+      tnzResp = await fetch(`${tnzBase}/${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${tnzToken}`,
+        },
+        body: JSON.stringify(body),
+      });
+      respText = await tnzResp.text();
+      try { tnzData = JSON.parse(respText); } catch { tnzData = { raw: respText }; }
+    } catch (e) {
+      networkError = String(e);
     }
 
-    if (conversationId) {
+    const httpStatus = tnzResp?.status ?? 0;
+    const tnzResult = (tnzData as { Result?: string }).Result ?? null;
+    const messageId = (tnzData as { MessageID?: string }).MessageID ?? null;
+    const ok = !networkError && !!tnzResp?.ok && tnzResult === "Success";
+
+    if (!ok) {
+      console.error(`[tnz-send] FAIL status=${httpStatus} result=${tnzResult} body=${respText.substring(0, 500)}`);
+    } else {
+      console.log(`[tnz-send] OK messageId=${messageId} to=${recipient}`);
+    }
+
+    // Per-request log row (best-effort, never blocks response)
+    try {
+      await sb.from("tnz_send_log").insert({
+        channel: chan,
+        recipient,
+        tnz_reference: ref,
+        http_status: httpStatus || null,
+        tnz_result: tnzResult,
+        success: ok,
+        error_message: ok ? null : (networkError ?? respText.substring(0, 500) ?? null),
+        conversation_id: convoId,
+        agent_id: agent_id ?? null,
+        source: source ?? "tnz-send",
+        message_preview: String(message).substring(0, 160),
+        raw_response: tnzData,
+      });
+    } catch (logErr) {
+      console.error("[tnz-send] log insert error:", logErr);
+    }
+
+    if (convoId) {
       const { error: insErr } = await sb.from("messaging_messages").insert({
-        conversation_id: conversationId,
-        tnz_message_id: (tnzData as { MessageID?: string }).MessageID || null,
+        conversation_id: convoId,
+        tnz_message_id: messageId,
         direction: "outbound",
         to_number: recipient,
         body: message,
-        channel: channel || "sms",
+        channel: chan,
         status: ok ? "sent" : "failed",
         agent_used: "manual",
         tnz_reference: ref,
@@ -129,10 +162,11 @@ Deno.serve(async (req) => {
     return new Response(
       JSON.stringify({
         ok,
-        messageId: (tnzData as { MessageID?: string }).MessageID,
-        status: tnzResp.status,
-        result: (tnzData as { Result?: string }).Result,
-        error: ok ? undefined : (respText.substring(0, 300)),
+        messageId,
+        status: httpStatus,
+        result: tnzResult,
+        tnz_reference: ref,
+        error: ok ? undefined : (networkError ?? respText.substring(0, 300)),
       }),
       {
         status: ok ? 200 : 502,
