@@ -56,6 +56,7 @@ const ContactPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    track("form_submitted", { form: "contact", industry: form.industry, interest: form.interest });
     setSending(true);
     try {
       await supabase.from("enquiries" as any).insert(form as any);
@@ -128,7 +129,7 @@ const ContactPage = () => {
                 <p className="text-sm font-body text-muted-foreground">We'll be in touch within 24 hours to get you set up.</p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="relative rounded-2xl p-6 sm:p-8 space-y-5 overflow-hidden" style={{
+              <form onSubmit={handleSubmit} onFocusCapture={handleFormFocusOnce} className="relative rounded-2xl p-6 sm:p-8 space-y-5 overflow-hidden" style={{
                 background: "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))",
                 border: `1px solid rgba(255,255,255,0.06)`,
                 boxShadow: `0 16px 48px rgba(0,0,0,0.4), 0 0 60px ${POUNAMU}05, inset 0 1px 0 rgba(255,255,255,0.04)`,
