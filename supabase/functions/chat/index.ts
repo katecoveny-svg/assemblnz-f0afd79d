@@ -7298,9 +7298,33 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  if (brandLogoUrl) {
  fullSystemPrompt += `\n\n[USER BRAND LOGO: The user has uploaded their company logo at this URL: ${brandLogoUrl}. When generating professional documents, employment agreements, contracts, proposals, reports, or any branded output, ALWAYS reference this logo and include instructions for placing it in the document header. When generating HTML-based documents or visual outputs, embed this logo image directly using an <img> tag.]`;
  }
- if (teReoPrompt) {
- fullSystemPrompt += teReoPrompt;
- }
+  if (teReoPrompt) {
+  fullSystemPrompt += teReoPrompt;
+  }
+
+  // ═══ RAG GROUNDING — pull authoritative NZ regulation passages for compliance/legal queries.
+  // Captured for post-hoc citation verification (see Mana check below).
+  let ragChunks: RagChunk[] = [];
+  let ragConfidence: "high" | "medium" | "low" | "none" = "none";
+  try {
+    const lastUserMsg = messages[messages.length - 1];
+    const lastUserText = typeof lastUserMsg?.content === "string" ? lastUserMsg.content : "";
+    if (lastUserText) {
+      const keteForRag = AGENT_TO_RAG_KETE[agentId];
+      const rag = await fetchRagContext({ query: lastUserText, kete: keteForRag, top_k: 6 });
+      if (rag.grounded) {
+        fullSystemPrompt += rag.block;
+        ragChunks = rag.chunks;
+        ragConfidence = rag.confidence_signal;
+        console.log(`[chat:${requestId}] RAG grounded`, JSON.stringify({
+          agentId, kete: keteForRag ?? null,
+          chunks: rag.chunks.length, confidence: rag.confidence_signal,
+        }));
+      }
+    }
+  } catch (ragErr) {
+    console.warn(`[chat:${requestId}] RAG injection failed (non-critical):`, (ragErr as Error).message);
+  }
 
  // For Mariner: auto-fetch live weather if the user asks about weather, conditions, or trip planning
  if (agentId === "maritime") {
