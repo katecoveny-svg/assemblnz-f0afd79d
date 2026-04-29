@@ -1,9 +1,10 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
+import { track } from "@/lib/analytics";
 
 const MiniCloud = lazy(() => import("@/components/pearl/MiniCloud"));
 const KeteFocus = lazy(() => import("@/components/pearl/KeteFocus"));
