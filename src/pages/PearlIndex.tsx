@@ -889,32 +889,30 @@ function PearlFooter() {
 
 /* ─── Page ─── */
 export default function PearlIndex() {
-  // Fire page_version_seen once on mount — fixed variant for now (no A/B split yet).
   useEffect(() => {
-    track("page_version_seen", { page: "/", version: "single_offer_v1" });
+    track("page_version_seen", { page: "/", version: "two_vertical_v1" });
   }, []);
 
-  // JSON-LD for the Pilot in 30 Days offer — surfaces in rich Google results
-  // and clarifies the headline CTA for AI crawlers (GPTBot, ClaudeBot, etc.).
+  // JSON-LD for the Pilot Sprint offer.
   const pilotOfferJsonLd = {
     "@context": "https://schema.org",
     "@type": "Offer",
-    "@id": "https://www.assembl.co.nz/#pilot-30",
-    name: "Pilot in 30 Days",
+    "@id": "https://www.assembl.co.nz/#pilot-sprint",
+    name: "Pilot Sprint",
     description:
-      "Pick one painful workflow. We solve it in 30 days — governed, evidence-backed, human-in-control. Every output is an evidence pack you can file, forward or footnote.",
-    url: "https://www.assembl.co.nz/contact?offer=pilot-30",
-    price: "15000",
+      "Two-week pilot sprint for Customs Brokers and Architectural firms. One painful workflow automated, or your money back.",
+    url: "https://www.assembl.co.nz/contact",
+    price: "2500",
     priceCurrency: "NZD",
     priceSpecification: {
       "@type": "PriceSpecification",
-      price: "15000",
+      price: "2500",
       priceCurrency: "NZD",
       valueAddedTaxIncluded: false,
-      description: "From NZD 15,000 ex GST. Fixed scope, fixed timeline.",
+      description: "NZD 2,500 ex GST. Two weeks. Money-back guarantee.",
     },
     eligibleRegion: { "@type": "Country", name: "New Zealand" },
-    availability: "https://schema.org/LimitedAvailability",
+    availability: "https://schema.org/InStock",
     seller: { "@type": "Organization", name: "Assembl", url: "https://www.assembl.co.nz" },
     category: "Pilot programme",
   };
@@ -922,26 +920,21 @@ export default function PearlIndex() {
   return (
     <>
       <SEO
-        title="Assembl — Quiet AI that gives time back · Pilot in 30 Days from $15k"
-        ogTitle="Quiet AI that gives time back — book a 30-day pilot from $15k"
-        description="One painful workflow, solved in 30 days. Governed, evidence-backed, human-in-control — every output is a pack you can file, forward or footnote. Built for the way New Zealand actually works."
+        title="Assembl — Quiet AI that gives time back · Pilot Sprint NZ$2,500"
+        ogTitle="Quiet AI that gives time back — Pilot Sprint NZ$2,500"
+        description="Specialist AI advisory for Customs Brokers and Architectural firms. Two-week Pilot Sprint, NZ$2,500 + GST. One painful workflow automated, or your money back."
         path="/"
         image="https://www.assembl.co.nz/assembl-og.png"
-        imageAlt="Assembl — quiet AI for NZ businesses. Pilot in 30 Days from $15k. Evidence packs you can file, forward or footnote."
+        imageAlt="Assembl — quiet AI for NZ Customs Brokers and Architectural firms. Pilot Sprint NZ$2,500."
         twitterCreator="@AssemblNZ"
         jsonLd={pilotOfferJsonLd}
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />
         <Hero />
-        <WhyAssembl />
-        <WhatAssemblIs />
-        <HowItWorks />
-        <PriorityProducts />
-        <KetesGrid />
-        <LiveCompliance />
-        <Tikanga />
+        <TwoVerticalProblem />
         <Pricing />
+        <Tikanga />
         <Closing />
         <PearlFooter />
       </div>
