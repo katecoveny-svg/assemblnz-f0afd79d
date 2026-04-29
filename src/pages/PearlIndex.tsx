@@ -851,6 +851,11 @@ function PearlFooter() {
 
 /* ─── Page ─── */
 export default function PearlIndex() {
+  // Fire page_version_seen once on mount — fixed variant for now (no A/B split yet).
+  useEffect(() => {
+    track("page_version_seen", { page: "/", version: "single_offer_v1" });
+  }, []);
+
   // JSON-LD for the Pilot in 30 Days offer — surfaces in rich Google results
   // and clarifies the headline CTA for AI crawlers (GPTBot, ClaudeBot, etc.).
   const pilotOfferJsonLd = {
