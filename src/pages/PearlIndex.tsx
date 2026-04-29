@@ -190,38 +190,74 @@ const InkButton = ({
 /* ─── Sections ─── */
 
 function Hero() {
-  // Single-offer hero (locked copy). Colour values come straight from the brief
-  // and intentionally use the deep-pounamu accents on the warm Pearl canvas.
   return (
-    <section className="relative w-full overflow-hidden" style={{ minHeight: "92vh", background: "#FAF6EF" }}>
-      <div className="relative z-10 mx-auto max-w-5xl px-6 pt-32 pb-24 text-center">
+    <section className="relative w-full overflow-hidden" style={{ minHeight: "88vh", background: PEARL.bg }}>
+      <div className="relative z-10 mx-auto max-w-4xl px-6 pt-32 pb-24 text-center">
         <p className="text-sm uppercase tracking-[0.2em] text-[#7A8B82] mb-6">
-          Built in Aotearoa for NZ operators
+          Built in Aotearoa
         </p>
-        <h1 className="font-serif text-5xl md:text-7xl leading-[1.05] text-[#0F2A26] mb-8">
-          Get one painful compliance workflow live in 30 days.
-          <br />
-          <span className="text-[#1F4D47]">Or your money back.</span>
+        <h1 className="font-serif text-5xl md:text-7xl leading-[1.05] text-[#0F2A26] mb-8"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+          Quiet AI that gives time back.
         </h1>
         <p className="text-lg md:text-xl text-[#0F2A26]/80 max-w-2xl mx-auto mb-10">
-          Assembl's 30-day Pilot maps one regulated workflow, keeps it current as the law changes,
-          and ends every run with a signed evidence pack you can hand to a regulator.
+          Specialist AI advisory for Customs Brokers and Architectural firms. We embed AI to capture
+          decades of domain expertise before it walks out the door.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-4 mb-10">
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
           <a href="/contact" data-cta="hero-primary"
              className="inline-flex items-center gap-2 rounded-full bg-[#0F2A26] px-7 py-3 text-white font-medium hover:bg-[#1F4D47] transition">
-            Book a 30-day pilot
+            Book a Pilot Sprint
             <span aria-hidden>→</span>
-          </a>
-          <a href="/sample-evidence-pack" data-cta="hero-secondary"
-             className="inline-flex items-center gap-2 rounded-full border border-[#0F2A26]/20 px-7 py-3 text-[#0F2A26] hover:bg-[#0F2A26]/5 transition">
-            See a sample evidence pack
           </a>
         </div>
         <p className="text-sm text-[#7A8B82]">
-          Human-in-control · NZ-specific · Source-cited outputs · Privacy Act 2020 + IPP 3A ready
+          NZ$2,500 + GST · Two weeks · One workflow · Money-back guarantee
         </p>
       </div>
+    </section>
+  );
+}
+
+function TwoVerticalProblem() {
+  const cols = [
+    {
+      eyebrow: "Customs Brokerage",
+      body:
+        "5–10 years to train a licensed broker. Your most experienced people are approaching retirement. Who classifies the tricky shipments when they're gone?",
+    },
+    {
+      eyebrow: "Architecture & Construction",
+      body:
+        "73% of building consents receive RFIs. Missing documents and vague specs cost firms weeks of rework and reputational damage.",
+    },
+  ];
+  return (
+    <section style={{ paddingTop: 140, paddingBottom: 140, background: PEARL.linen }}>
+      <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
+        <Eyebrow>The problem</Eyebrow>
+        <Serif size="lg" className="mb-16">Two industries. One quiet crisis: knowledge walking out the door.</Serif>
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+          {cols.map((c) => (
+            <div key={c.eyebrow}>
+              <p
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: 11,
+                  letterSpacing: "0.32em",
+                  textTransform: "uppercase",
+                  color: PEARL.pounamu,
+                  fontWeight: 500,
+                  marginBottom: 20,
+                }}
+              >
+                {c.eyebrow}
+              </p>
+              <Body large>{c.body}</Body>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 }
