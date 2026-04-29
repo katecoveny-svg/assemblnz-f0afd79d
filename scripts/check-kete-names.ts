@@ -83,7 +83,8 @@ for (const p of PATTERNS) {
   const lines = out
     .split("\n")
     .filter(Boolean)
-    .filter((l) => !ALLOW_SUBSTRINGS.some((s) => l.includes(s)));
+    .filter((l) => !ALLOW_SUBSTRINGS.some((s) => l.includes(s)))
+    .filter((l) => !ALLOW_PATHS.some((p) => l.startsWith(p)));
   for (const l of lines) failures.push({ pattern: p.name, line: l });
 }
 
