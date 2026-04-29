@@ -46,7 +46,6 @@ const INCLUDES = [
   "*.json",
   "*.html",
   "*.txt",
-  "*.sql",
 ];
 
 const includeFlags = INCLUDES.map((g) => `--include='${g}'`).join(" ");
