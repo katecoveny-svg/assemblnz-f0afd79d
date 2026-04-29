@@ -137,7 +137,7 @@ export default function AdminAgentInventoryPage() {
           >
             <option value="all">All packs</option>
             <option value="core">core</option>
-            {packs.map((p) => (
+            {activePacks.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.id} · {p.name}
               </option>
