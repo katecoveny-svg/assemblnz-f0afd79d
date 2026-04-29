@@ -4,7 +4,7 @@ import { Navigate, Link } from "react-router-dom";
 import { Loader2, Search, Download, Pencil } from "lucide-react";
 import BrandNav from "@/components/BrandNav";
 import { useAuth } from "@/hooks/useAuth";
-import { allAgents, packs, echoAgent, pilotAgent, type Agent } from "@/data/agents";
+import { allAgents, packs, activePacks, echoAgent, pilotAgent, type Agent } from "@/data/agents";
 import { useAgentOverrides } from "@/hooks/useAgentOverrides";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -137,7 +137,7 @@ export default function AdminAgentInventoryPage() {
           >
             <option value="all">All packs</option>
             <option value="core">core</option>
-            {packs.map((p) => (
+            {activePacks.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.id} · {p.name}
               </option>

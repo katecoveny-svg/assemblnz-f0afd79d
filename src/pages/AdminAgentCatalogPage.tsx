@@ -4,7 +4,7 @@ import { Loader2, Save, RotateCcw, Search, X } from "lucide-react";
 import { Navigate } from "react-router-dom";
 import BrandNav from "@/components/BrandNav";
 import { useAuth } from "@/hooks/useAuth";
-import { allAgents, packs, type Agent } from "@/data/agents";
+import { allAgents, packs, activePacks, type Agent } from "@/data/agents";
 import {
   fetchAgentOverrides,
   upsertAgentOverride,
@@ -176,7 +176,7 @@ export default function AdminAgentCatalogPage() {
           >
             <option value="all">All packs ({Object.keys(drafts).length})</option>
             <option value="core">Core</option>
-            {packs.map((p) => (
+            {activePacks.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.name}
               </option>
