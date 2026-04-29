@@ -10,7 +10,7 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { useAuthSafe } from "@/hooks/useAuth";
-import { allAgents, packs } from "@/data/agents";
+import { allAgents, packs, activePacks } from "@/data/agents";
 
 const ADMIN_PAGES = [
   { label: "Admin Dashboard", to: "/admin/dashboard", group: "Admin" },
