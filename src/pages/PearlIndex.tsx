@@ -189,6 +189,65 @@ const InkButton = ({
 
 /* ─── Sections ─── */
 
+function MinimalNav() {
+  return (
+    <nav
+      className="sticky top-0 z-40 w-full"
+      style={{
+        background: "rgba(250,246,239,0.85)",
+        backdropFilter: "blur(14px)",
+        borderBottom: `1px solid ${PEARL.opal}`,
+      }}
+      aria-label="Primary"
+    >
+      <div className="max-w-[1120px] mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+        <Link
+          to="/"
+          aria-label="Assembl — home"
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontWeight: 400,
+            fontSize: 22,
+            color: PEARL.ink,
+            letterSpacing: "0.01em",
+          }}
+        >
+          assembl<span style={{ color: PEARL.pounamu }}>.</span>
+        </Link>
+        <div className="flex items-center gap-8">
+          <Link
+            to="/"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 14,
+              color: PEARL.ink,
+              fontWeight: 500,
+            }}
+          >
+            Home
+          </Link>
+          <Link
+            to="/contact"
+            data-cta="nav-contact"
+            className="inline-flex items-center rounded-full transition hover:-translate-y-px"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 14,
+              color: "#FBFAF7",
+              background: PEARL.pounamu,
+              padding: "10px 20px",
+              fontWeight: 500,
+              letterSpacing: "0.01em",
+            }}
+          >
+            Contact
+          </Link>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
 function Hero() {
   return (
     <section className="relative w-full overflow-hidden" style={{ minHeight: "88vh", background: PEARL.bg }}>
