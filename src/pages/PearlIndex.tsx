@@ -989,7 +989,7 @@ export default function PearlIndex() {
         jsonLd={pilotOfferJsonLd}
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
-        <BrandNav />
+        <MinimalNav />
         <Hero />
         <TwoVerticalProblem />
         <Pricing />
