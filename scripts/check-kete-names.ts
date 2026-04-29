@@ -61,6 +61,7 @@ const ALLOW_PATHS = [
   "agents/echo/knowledge-base.md",
   "public/brand-assets.html",
   "public/unified-brand-system-v2.html",
+  "public/unified-brand-system.html",
 ];
 
 const INCLUDES = [
