@@ -11,9 +11,10 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "predeploy:agents": "tsx scripts/predeploy-validate-agents.ts",
+    "predeploy:agents": "tsx scripts/predeploy-validate-agents.ts && npm run check:kete-names && npm run check:brand-voice",
     "check:kete-names": "tsx scripts/check-kete-names.ts",
-    "check:kete-count": "tsx scripts/check-kete-count.ts"
+    "check:kete-count": "tsx scripts/check-kete-count.ts",
+    "check:brand-voice": "tsx scripts/check-brand-voice.ts"
   },
   "dependencies": {
     "@elevenlabs/react": "^0.14.3",
