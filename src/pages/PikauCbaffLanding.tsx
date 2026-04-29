@@ -86,7 +86,7 @@ export default function PikauCbaffLanding() {
                 <span className="font-medium">Landed-cost accuracy ≥ 99%</span> across the first 50 consignments, or the next 30 days are on us.
               </p>
               <p className="text-sm text-muted-foreground">
-                Calculations grounded in the current Working Tariff Document, the 2026 Goods Management Levy schedule, and live FTA preference rules — refreshed via Firecrawl on the Customs/MPI source.
+                Calculations grounded in the General Interpretative Rules of the New Zealand Working Tariff Document (effective 1 April 2026), the 2026 Goods Management Levy schedule, and live FTA preference rules including AANZFTA and the NZ–Thailand Closer Economic Partnership (NZTCEP) — refreshed daily from the Customs and MPI source of truth. Every classification cites the heading, subheading, and the GIR rule applied (typically GIR 1 and GIR 6).
               </p>
               <p className="text-sm text-muted-foreground">
                 CBAFF members: mention your member number when you book — setup credits apply.
