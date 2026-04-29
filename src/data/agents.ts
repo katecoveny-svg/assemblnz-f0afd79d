@@ -21,13 +21,16 @@ export const packs = [
   { id: "manaaki", name: "Manaaki", label: "Hospitality & Tourism", color: "#4AA5A8", agentCount: 9 },
   { id: "waihanga", name: "Waihanga", label: "Construction", color: "#3A7D6E", agentCount: 9 },
   { id: "auaha", name: "Auaha", label: "Creative & Media", color: "#A8DDDB", agentCount: 9 },
-  { id: "pakihi", name: "Pakihi", label: "Business & Commerce", color: "#5AADA0", agentCount: 11 },
-  { id: "waka", name: "Waka", label: "Transport & Vehicles", color: "#6B8FA3", agentCount: 3 },
-  { id: "hangarau", name: "Hangarau", label: "Technology", color: "#3A6A9C", agentCount: 12 },
-  { id: "hauora", name: "Hauora", label: "Health, Wellbeing, Sport & Lifestyle", color: "#A87D4A", agentCount: 8 },
-  { id: "te-kahui-reo", name: "Te Kāhui Reo", label: "Māori Business Intelligence", color: "#4AA5A8", agentCount: 8 },
+  { id: "pakihi", name: "Pakihi", label: "Business & Commerce", color: "#5AADA0", agentCount: 11, retired: true },
+  { id: "waka", name: "Waka", label: "Transport & Vehicles", color: "#6B8FA3", agentCount: 3, retired: true },
+  { id: "hangarau", name: "Hangarau", label: "Technology", color: "#3A6A9C", agentCount: 12, retired: true },
+  { id: "hauora", name: "Hauora", label: "Health, Wellbeing, Sport & Lifestyle", color: "#A87D4A", agentCount: 8, retired: true },
+  { id: "te-kahui-reo", name: "Te Kāhui Reo", label: "Māori Business Intelligence", color: "#4AA5A8", agentCount: 8, retired: true },
   { id: "toroa", name: "Toro", label: "Family Navigator", color: "#4AA5A8", agentCount: 1 },
-];
+] as Array<{ id: string; name: string; label: string; color: string; agentCount: number; retired?: boolean }>;
+
+/** Active (non-retired) packs — use this for any user-visible pack list. */
+export const activePacks = packs.filter((p) => !p.retired);
 
 // ═══════════════════════════════════════
 // SHARED CORE FOUNDATION (8 agents)
