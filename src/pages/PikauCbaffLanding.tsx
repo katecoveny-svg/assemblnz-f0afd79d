@@ -32,6 +32,9 @@ export default function PikauCbaffLanding() {
           <p className="text-lg text-muted-foreground max-w-2xl">
             The new per-consignment Goods Management Levy, separate air/sea rates, and removed low-value-goods subsidy mean every existing landed-cost calculator is wrong. PIKAU rebuilds the calculation in real time and keeps it tied to the live Working Tariff Document.
           </p>
+          <p className="text-sm text-muted-foreground max-w-2xl">
+            Every output is a draft for review by a licensed broker. Source-cited. Auditable. Human-in-control.
+          </p>
         </header>
 
         {/* Single offer — matches the homepage pilot narrative */}
@@ -83,7 +86,7 @@ export default function PikauCbaffLanding() {
                 <span className="font-medium">Landed-cost accuracy ≥ 99%</span> across the first 50 consignments, or the next 30 days are on us.
               </p>
               <p className="text-sm text-muted-foreground">
-                Calculations grounded in the current Working Tariff Document, the 2026 Goods Management Levy schedule, and live FTA preference rules — refreshed via Firecrawl on the Customs/MPI source.
+                Calculations grounded in the General Interpretative Rules of the New Zealand Working Tariff Document (effective 1 April 2026), the 2026 Goods Management Levy schedule, and live FTA preference rules including AANZFTA and the NZ–Thailand Closer Economic Partnership (NZTCEP) — refreshed daily from the Customs and MPI source of truth. Every classification cites the heading, subheading, and the GIR rule applied (typically GIR 1 and GIR 6).
               </p>
               <p className="text-sm text-muted-foreground">
                 CBAFF members: mention your member number when you book — setup credits apply.
@@ -98,6 +101,33 @@ export default function PikauCbaffLanding() {
           <Pillar icon={Clock} title="FTA Preference Builder" body="Identify applicable FTA + RoO test, draft Certificate of Origin request, calculate duty saving so the paperwork is justified." />
         </section>
 
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base font-medium">What an evidence pack looks like</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm text-muted-foreground">
+            <p className="text-foreground">Worked example for a single line:</p>
+            <p>
+              <span className="font-medium text-foreground">Product:</span> Frozen durian pulp, 500g vacuum-sealed, ex Thailand.
+            </p>
+            <p>
+              <span className="font-medium text-foreground">HS code:</span> 0811.90.09 (statistical key — Section II, Chapter 8, Heading 08.11 "Fruit and nuts, uncooked or cooked by steaming or boiling in water, frozen, whether or not containing added sugar or other sweetening matter").
+            </p>
+            <p>
+              <span className="font-medium text-foreground">GIR applied:</span> Rule 1 (terms of heading) and Rule 6 (subheading "Other" within "Other").
+            </p>
+            <p>
+              <span className="font-medium text-foreground">MFN rate:</span> Free.
+            </p>
+            <p>
+              <span className="font-medium text-foreground">FTA:</span> AANZFTA and NZTCEP both available with a valid Certificate of Origin — broker compares RoO and picks whichever gives the cleaner saving.
+            </p>
+            <p className="italic">
+              Disclaimer: "AI-assisted classification for review by a licensed broker. Final responsibility rests with the broker and importer per the Customs and Excise Act 2018."
+            </p>
+          </CardContent>
+        </Card>
+
         <section className="rounded-lg border bg-card p-6 space-y-3">
           <h2 className="text-xl font-light text-foreground">Talk to us before 1 April</h2>
           <p className="text-muted-foreground">
@@ -110,7 +140,7 @@ export default function PikauCbaffLanding() {
               </Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link to="/contact" data-cta="pikau-cbaff-talk">Talk to us</Link>
+              <Link to="/contact?offer=pikau-pilot" data-cta="pikau-cbaff-talk">Talk to us</Link>
             </Button>
           </div>
         </section>
