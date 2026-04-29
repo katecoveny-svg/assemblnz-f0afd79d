@@ -771,18 +771,20 @@ function Tikanga() {
 // (Tōro / Operator / Leader / Enterprise / Outcome) lives at /pricing.
 function Pricing() {
   return (
-    <section className="py-16 px-6">
+    <section className="py-20 px-6" style={{ background: PEARL.bg }}>
       <div className="max-w-3xl mx-auto rounded-2xl border border-[#0F2A26]/10 bg-white p-10 text-center">
-        <p className="text-sm uppercase tracking-[0.2em] text-[#7A8B82] mb-4">One offer · One promise</p>
-        <h2 className="font-serif text-3xl md:text-4xl text-[#0F2A26] mb-3">Pilot from NZ$5,000</h2>
-        <p className="text-[#0F2A26]/70 mb-8">Fixed scope. 30 days. Money-back if it doesn't ship.</p>
+        <p className="text-sm uppercase tracking-[0.2em] text-[#7A8B82] mb-4">The offer</p>
+        <h2 className="font-serif text-3xl md:text-4xl text-[#0F2A26] mb-3"
+            style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
+          Pilot Sprint · NZ$2,500 + GST
+        </h2>
+        <p className="text-[#0F2A26]/75 mb-8 text-lg">
+          Two weeks. One painful workflow automated. Or your money back.
+        </p>
         <a href="/contact" data-cta="pricing-primary"
            className="inline-flex rounded-full bg-[#0F2A26] px-7 py-3 text-white font-medium hover:bg-[#1F4D47] transition">
-          Book a discovery call
+          Start your Pilot Sprint
         </a>
-        <p className="mt-6 text-sm text-[#7A8B82]">
-          Full tier ladder: <a href="/pricing" className="underline">/pricing</a>
-        </p>
       </div>
     </section>
   );
