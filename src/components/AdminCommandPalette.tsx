@@ -69,9 +69,12 @@ export default function AdminCommandPalette() {
   }, []);
 
   const groupedAgents = useMemo(() => {
+    const activePackIds = new Set(activePacks.map((p) => p.id));
     const map = new Map<string, typeof allAgents>();
     for (const a of allAgents) {
       const key = a.pack ?? "core";
+      // Hide agents whose pack has been retired from the user-visible palette
+      if (key !== "core" && !activePackIds.has(key)) continue;
       if (!map.has(key)) map.set(key, []);
       map.get(key)!.push(a);
     }
