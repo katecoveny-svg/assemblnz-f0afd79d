@@ -32,6 +32,9 @@ export default function PikauCbaffLanding() {
           <p className="text-lg text-muted-foreground max-w-2xl">
             The new per-consignment Goods Management Levy, separate air/sea rates, and removed low-value-goods subsidy mean every existing landed-cost calculator is wrong. PIKAU rebuilds the calculation in real time and keeps it tied to the live Working Tariff Document.
           </p>
+          <p className="text-sm text-muted-foreground max-w-2xl">
+            Every output is a draft for review by a licensed broker. Source-cited. Auditable. Human-in-control.
+          </p>
         </header>
 
         {/* Single offer — matches the homepage pilot narrative */}
