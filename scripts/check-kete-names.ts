@@ -39,6 +39,30 @@ const ALLOW_SUBSTRINGS = [
   "// ALLOW: retired-name reference",
 ];
 
+/**
+ * Path-based allowlist — files that legitimately retain retired-pack
+ * references because admin pages still need to render historical agent
+ * records. New code MUST NOT add retired names; these paths are the
+ * only sanctioned home for them outside docs/legacy-kete-codes.md.
+ */
+const ALLOW_PATHS = [
+  "src/data/agents.ts",
+  "src/data/agentCapabilities.ts",
+  "src/data/agentLiveDataMap.ts",
+  "src/data/agentSkillConfig.ts",
+  "src/lib/intentClassifier.ts",
+  "src/components/SparkSection.tsx",
+  "supabase/functions/agent-router/",
+  "supabase/functions/chat/",
+  "supabase/functions/claude-chat/",
+  "supabase/functions/echo-respond/",
+  "supabase/functions/iho-router/",
+  "supabase/functions/mcp-chat/",
+  "agents/echo/knowledge-base.md",
+  "public/brand-assets.html",
+  "public/unified-brand-system-v2.html",
+];
+
 const INCLUDES = [
   "*.ts",
   "*.tsx",
