@@ -176,7 +176,7 @@ export default function AdminAgentCatalogPage() {
           >
             <option value="all">All packs ({Object.keys(drafts).length})</option>
             <option value="core">Core</option>
-            {packs.map((p) => (
+            {activePacks.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.name}
               </option>
