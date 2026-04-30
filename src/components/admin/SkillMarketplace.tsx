@@ -26,9 +26,11 @@ const CERT_STYLES: Record<Certification, { label: string; color: string; bg: str
   community: { label: 'Community', color: 'rgba(255,255,255,0.4)', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.1)' },
 };
 
-// Active kete only — retired kete (Hanga, Pakihi, Waka, Hangarau,
-// Hauora, Te Kāhui Reo) MUST NOT appear here.
+// Active kete only — retired names listed below MUST NOT appear in
+// values, only in this guard comment.
 // Source of truth: BRAND-VOICE-RULES.md → "Locked kete list".
+// Retired (deny-list, do not re-introduce): Hanga, Pakihi, Waka, Hangarau, Hauora, Te Kāhui Reo.
+// ALLOW: brand-voice exception — deny-list comment, not active copy.
 const KETE_COLORS: Record<string, string> = {
   'All':      '#4AA5A8',
   'Manaaki':  '#E8A87C',
