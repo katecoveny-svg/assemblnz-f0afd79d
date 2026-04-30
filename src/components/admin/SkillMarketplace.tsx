@@ -26,20 +26,22 @@ const CERT_STYLES: Record<Certification, { label: string; color: string; bg: str
   community: { label: 'Community', color: 'rgba(255,255,255,0.4)', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.1)' },
 };
 
+// Active kete only — retired kete (Hanga, Pakihi, Waka, Hangarau,
+// Hauora, Te Kāhui Reo) MUST NOT appear here.
+// Source of truth: BRAND-VOICE-RULES.md → "Locked kete list".
 const KETE_COLORS: Record<string, string> = {
-  'All': '#4AA5A8',
-  'Pakihi': '#4AA5A8',
-  'Auaha': '#B794F4',
-  'Hanga': '#C9B458',
-  'Hauora': '#7BC8A4',
-  'Manaaki': '#E8A87C',
-  'Waka': '#6B8FA3',
-  'Hangarau': '#3A7D6E',
-  'Te Kāhui Reo': '#4AA5A8',
-  'Toro': '#E8D5B7',
+  'All':      '#4AA5A8',
+  'Manaaki':  '#E8A87C',
+  'Waihanga': '#C9B458',
+  'Auaha':    '#B794F4',
+  'Arataki':  '#6B8FA3',
+  'Pikau':    '#3A7D6E',
+  'Hoko':     '#D8C3C2',
+  'Ako':      '#C7D6C7',
+  'Tōro':     '#E8D5B7',
 };
 
-const CATEGORIES = ['All', 'Compliance', 'Operations', 'Sales', 'Design', 'Finance', 'Legal', 'NZ-Specific', 'Māori'];
+const CATEGORIES = ['All', 'Compliance', 'Operations', 'Sales', 'Design', 'Finance', 'Legal', 'NZ-Specific'];
 
 const SKILLS: MarketplaceSkill[] = [
   {
@@ -48,9 +50,9 @@ const SKILLS: MarketplaceSkill[] = [
     price: { type: 'free' }, compatibleKete: ['All'], certification: 'official', version: '2.1.0',
   },
   {
-    id: 'xero-integration', name: 'Xero Integration', description: 'Full two-way sync with Xero for invoicing, expense tracking, GST returns, and bank reconciliation. Supports multi-currency.',
+    id: 'accounting-integration', name: 'Accounting Integration', description: 'Full two-way sync with the leading NZ accounting platform for invoicing, expense tracking, GST returns, and bank reconciliation. Supports multi-currency.',
     category: 'Finance', publisher: 'FinanceNZ', rating: 4.7, installCount: 890,
-    price: { type: 'subscription', amount: 49 }, compatibleKete: ['Pakihi'], certification: 'certified', version: '3.0.2',
+    price: { type: 'subscription', amount: 49 }, compatibleKete: ['Hoko'], certification: 'certified', version: '3.0.2',
   },
   {
     id: 'fal-image-gen', name: 'fal.ai Image Gen', description: 'AI-powered image generation using fal.ai models. Create product photos, marketing visuals, and social media assets from text prompts.',
@@ -60,17 +62,17 @@ const SKILLS: MarketplaceSkill[] = [
   {
     id: 'worksafe-hs', name: 'WorkSafe H&S', description: 'Complete Health & Safety compliance toolkit aligned with WorkSafe NZ guidelines. Includes hazard registers, incident reporting, and PCBU obligations.',
     category: 'Compliance', publisher: 'Assembl', rating: 4.8, installCount: 1200,
-    price: { type: 'free' }, compatibleKete: ['Hanga', 'Hauora'], certification: 'official', version: '2.3.1',
+    price: { type: 'free' }, compatibleKete: ['Waihanga', 'Manaaki'], certification: 'official', version: '2.3.1',
   },
   {
-    id: 'te-reo-dictionary', name: 'Te Reo Dictionary', description: 'Comprehensive te reo Māori dictionary with contextual usage, pronunciation guides, and dialect variations. Powered by native speaker data.',
-    category: 'Māori', publisher: 'Kaiako Digital', rating: 4.6, installCount: 234,
-    price: { type: 'free' }, compatibleKete: ['Te Kāhui Reo'], certification: 'community', version: '1.2.0',
+    id: 'fleet-compliance', name: 'Fleet Compliance', description: 'WoF schedules, RUC, CIN generation, and MVDT defence packs aligned with NZTA and MVSA 2003 requirements.',
+    category: 'Compliance', publisher: 'Assembl', rating: 4.6, installCount: 234,
+    price: { type: 'free' }, compatibleKete: ['Arataki'], certification: 'official', version: '1.2.0',
   },
   {
     id: 'stripe-payments', name: 'Stripe Payments', description: 'Accept payments via Stripe with NZ-optimised checkout. Supports one-off and recurring billing, invoices, and multi-currency.',
     category: 'Finance', publisher: 'PayNZ', rating: 4.4, installCount: 678,
-    price: { type: 'subscription', amount: 39 }, compatibleKete: ['Pakihi', 'Waka'], certification: 'certified', version: '4.1.0',
+    price: { type: 'subscription', amount: 39 }, compatibleKete: ['Hoko', 'Pikau'], certification: 'certified', version: '4.1.0',
   },
 ];
 
