@@ -4,7 +4,7 @@
 // Wedge: 1 April 2026 Goods Management Levy restructure
 //
 // Single-offer pattern (matches PearlIndex /). The previous 3-tier
-// SaaS pricing ($349/$549/$799) conflicted with the homepage pilot
+// SaaS pricing (legacy three-tier) conflicted with the homepage pilot
 // narrative and was retired 2026-04-29.
 // ═══════════════════════════════════════════════════════════════
 import { useEffect } from "react";
