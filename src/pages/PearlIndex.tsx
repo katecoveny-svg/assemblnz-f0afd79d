@@ -961,11 +961,11 @@ export default function PearlIndex() {
     description:
       "Two-week pilot sprint for Customs Brokers and Architectural firms. One painful workflow automated, or your money back.",
     url: "https://www.assembl.co.nz/contact",
-    price: "2500",
+    price: "5000",
     priceCurrency: "NZD",
     priceSpecification: {
       "@type": "PriceSpecification",
-      price: "2500",
+      price: "5000",
       priceCurrency: "NZD",
       valueAddedTaxIncluded: false,
       description: "NZD 5,000 ex GST. Two weeks. Money-back guarantee.",
