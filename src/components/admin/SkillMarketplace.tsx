@@ -117,7 +117,7 @@ const SkillMarketplace = () => {
         <Sparkles size={18} style={{ color: 'hsl(var(--kowhai))' }} />
         <div className="flex-1 min-w-0">
           <p className="font-body text-sm font-medium" style={{ color: 'hsl(var(--foreground))' }}>
-            NEW: WorkSafe H&S skill available for Hanga kete
+            NEW: WorkSafe H&S skill available for Waihanga kete
           </p>
           <p className="font-body text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>
             Complete compliance toolkit — free for all subscribers
