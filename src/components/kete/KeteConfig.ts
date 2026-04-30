@@ -9,9 +9,10 @@ import {
  * 7 industry Kete (Manaaki, Waihanga, Auaha, Arataki, Pikau, Hoko, Ako)
  * + Tōro whānau Kete. HOKO and AKO were added 2026-04 as the V2
  * expansion kete (see /docs/v2-expansion.md and
- * mem://features/v2-kete-expansion.md). Retired Kete — Hanga,
- * Pakihi, Waka, Hangarau, Hauora, Te Kāhui Reo — are intentionally
- * absent so legacy references cannot leak back into the UI.
+ * mem://features/v2-kete-expansion.md). Retired Kete names — listed
+ * here as a guard against re-introduction — are intentionally absent
+ * so legacy references cannot leak back into the UI.
+ * ALLOW: brand-voice exception — list of names is a deny-list comment, not active copy.
  *
  * The canonical Māori names (Waihanga, Manaaki, Pikau, Auaha,
  * Arataki, Hoko, Tōro) are the source of truth for every
