@@ -73,7 +73,7 @@ Warm regards,
 ## Budget Estimate (50 guests)
 | Item | Cost |
 |------|------|
-| Catering & beverages | $2,500 |
+| Catering & beverages | $2,450 |
 | Venue hire/setup | $1,500 |
 | Entertainment/music | $800 |
 | Printing/invitations | $400 |

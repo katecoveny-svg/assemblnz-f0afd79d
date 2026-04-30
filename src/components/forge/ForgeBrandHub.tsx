@@ -10,7 +10,7 @@ interface BrandProfile {
 }
 
 const DEMO_BRANDS: BrandProfile[] = [
-  { id: "1", name: "Toyota", primaryColor: "#EB0A1E", secondaryColor: "#282830", tone: "Reliable, trusted, family-focused. 'Let's Go Places' energy.", tagline: "Let's Go Places", models: ["Corolla", "RAV4", "Hilux", "Camry", "Land Cruiser", "Yaris Cross"], coopBudget: "$15,000/quarter", guidelines: "Red must be Toyota Red (PMS 485). No modification to logo. All local ads require distributor sign-off." },
+  { id: "1", name: "Toyota", primaryColor: "#EB0A1E", secondaryColor: "#282830", tone: "Reliable, trusted, family-focused. 'Let's Go Places' energy.", tagline: "Let's Go Places", models: ["Corolla", "RAV4", "Hilux", "Camry", "Land Cruiser", "Yaris Cross"], coopBudget: "$15,000/quarter", guidelines: "Red must be Toyota Red (PMS 485). No modification to logo. All local ads require distributor sign-off." }, // ALLOW: brand-voice exception — demo automotive co-op budget, not Assembl pricing
   { id: "2", name: "Mazda", primaryColor: "#910000", secondaryColor: "#2C2C2C", tone: "Premium, emotive, design-forward. 'Feel Alive' brand energy.", tagline: "Feel Alive", models: ["CX-5", "CX-30", "CX-60", "Mazda3", "BT-50", "MX-5"], coopBudget: "$12,000/quarter", guidelines: "Soul Red Crystal is hero colour. Kodo design language in all creative. Clean, minimal layouts." },
   { id: "3", name: "Hyundai", primaryColor: "#002C5F", secondaryColor: "#00AAD2", tone: "Progressive, accessible, innovative. 'New Thinking. New Possibilities.'", tagline: "New Thinking. New Possibilities", models: ["Tucson", "Kona", "Santa Fe", "i30", "IONIQ 5", "Staria"], coopBudget: "$10,000/quarter", guidelines: "Hyundai blue is primary. Modern sans-serif typography. Emphasise technology and safety." },
 ];

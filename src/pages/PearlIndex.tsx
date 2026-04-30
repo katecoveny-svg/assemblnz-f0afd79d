@@ -271,7 +271,7 @@ function Hero() {
           </a>
         </div>
         <p className="text-sm text-[#7A8B82]">
-          NZ$2,500 + GST · Two weeks · One workflow · Money-back guarantee
+          NZ$5,000 + GST · Two weeks · One workflow · Money-back guarantee
         </p>
       </div>
     </section>
@@ -330,14 +330,14 @@ function TwoVerticalProblem() {
 const PRODUCT_CARDS = [
   {
     title: "Pilot in 30 Days",
-    price: "From $15k",
+    price: "NZ$5,000 + GST",
     blurb: "One painful workflow, governed and live in a month.",
     to: "/contact?offer=pilot-30",
     cta: "Book a pilot",
   },
   {
     title: "Landlord",
-    price: "From $399/mo",
+    price: "Operator tier",
     blurb: "Governed property admin and compliance for NZ landlords.",
     to: "/landlord",
     cta: "See Landlord",
@@ -835,7 +835,7 @@ function Pricing() {
         <p className="text-sm uppercase tracking-[0.2em] text-[#7A8B82] mb-4">The offer</p>
         <h2 className="font-serif text-3xl md:text-4xl text-[#0F2A26] mb-3"
             style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>
-          Pilot Sprint · NZ$2,500 + GST
+          Pilot Sprint · NZ$5,000 + GST
         </h2>
         <p className="text-[#0F2A26]/75 mb-8 text-lg">
           Two weeks. One painful workflow automated. Or your money back.
@@ -961,14 +961,14 @@ export default function PearlIndex() {
     description:
       "Two-week pilot sprint for Customs Brokers and Architectural firms. One painful workflow automated, or your money back.",
     url: "https://www.assembl.co.nz/contact",
-    price: "2500",
+    price: "5000",
     priceCurrency: "NZD",
     priceSpecification: {
       "@type": "PriceSpecification",
-      price: "2500",
+      price: "5000",
       priceCurrency: "NZD",
       valueAddedTaxIncluded: false,
-      description: "NZD 2,500 ex GST. Two weeks. Money-back guarantee.",
+      description: "NZD 5,000 ex GST. Two weeks. Money-back guarantee.",
     },
     eligibleRegion: { "@type": "Country", name: "New Zealand" },
     availability: "https://schema.org/InStock",
@@ -979,12 +979,12 @@ export default function PearlIndex() {
   return (
     <>
       <SEO
-        title="Assembl — Quiet AI that gives time back · Pilot Sprint NZ$2,500"
-        ogTitle="Quiet AI that gives time back — Pilot Sprint NZ$2,500"
-        description="Specialist AI advisory for Customs Brokers and Architectural firms. Two-week Pilot Sprint, NZ$2,500 + GST. One painful workflow automated, or your money back."
+        title="Assembl — Quiet AI that gives time back · Pilot Sprint NZ$5,000"
+        ogTitle="Quiet AI that gives time back — Pilot Sprint NZ$5,000"
+        description="Specialist AI advisory for Customs Brokers and Architectural firms. Two-week Pilot Sprint, NZ$5,000 + GST. One painful workflow automated, or your money back."
         path="/"
         image="https://www.assembl.co.nz/assembl-og.png"
-        imageAlt="Assembl — quiet AI for NZ Customs Brokers and Architectural firms. Pilot Sprint NZ$2,500."
+        imageAlt="Assembl — quiet AI for NZ Customs Brokers and Architectural firms. Pilot Sprint NZ$5,000."
         twitterCreator="@AssemblNZ"
         jsonLd={pilotOfferJsonLd}
       />

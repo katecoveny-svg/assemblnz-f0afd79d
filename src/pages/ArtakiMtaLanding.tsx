@@ -37,7 +37,7 @@ export default function ArtakiMtaLanding() {
             "Booking + utilisation triage",
             "24-hour no-show reminders",
           ]} highlighted />
-          <PriceCard tier="Dealer+" price="$799" tagline="+ Vehicle entry + EV/HV safety" features={[
+          <PriceCard tier="Dealer+" price="Talk to us" tagline="+ Vehicle entry + EV/HV safety" features={[
             "Everything in Workshop",
             "Pre-import VIN compliance check",
             "EV/HV safe-work decision tree",
