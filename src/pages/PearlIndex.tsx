@@ -5,6 +5,7 @@ import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
 import { track } from "@/lib/analytics";
+import { tier } from "@/data/tierLadder";
 
 const MiniCloud = lazy(() => import("@/components/pearl/MiniCloud"));
 const KeteFocus = lazy(() => import("@/components/pearl/KeteFocus"));
@@ -326,25 +327,29 @@ function TwoVerticalProblem() {
 // (Legacy hero body removed — single-offer hero above is the live hero.)
 
 
-/* ─── Three priority product cards (above the kete grid) ─────────── */
+/* ─── Three priority product cards (above the kete grid) ───────────
+ *  Tier prices come from src/data/tierLadder.ts (locked source of
+ *  truth). To change pricing copy here, edit tierLadder.ts — never
+ *  hard-code monthly/setup numbers in this file.
+ */
 const PRODUCT_CARDS = [
   {
     title: "Pilot in 30 Days",
-    price: "NZ$5,000 + GST",
+    price: tier("pilotSprint").price,
     blurb: "One painful workflow, governed and live in a month.",
     to: "/contact?offer=pilot-30",
     cta: "Book a pilot",
   },
   {
     title: "Landlord",
-    price: "Operator tier",
+    price: tier("operator").price,
     blurb: "Governed property admin and compliance for NZ landlords.",
     to: "/landlord",
     cta: "See Landlord",
   },
   {
     title: "Mariner",
-    price: "From $1,500/mo",
+    price: tier("leader").price,
     blurb: "Maritime compliance and operational assistant for Aotearoa operators.",
     to: "/mariner",
     cta: "See Mariner",
