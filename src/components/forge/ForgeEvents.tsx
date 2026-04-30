@@ -73,7 +73,7 @@ Warm regards,
 ## Budget Estimate (50 guests)
 | Item | Cost |
 |------|------|
-| Catering & beverages | $2,500 |
+| Catering & beverages | $2,500 | {/* ALLOW: brand-voice exception — example event budget line item, not Assembl pricing */}
 | Venue hire/setup | $1,500 |
 | Entertainment/music | $800 |
 | Printing/invitations | $400 |

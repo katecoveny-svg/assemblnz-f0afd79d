@@ -30,7 +30,7 @@ export default function DocIntelPage() {
           "Health & Safety plan does not reference current WorkSafe PCBU guidelines",
         ]},
         { title: "Risk Identification", icon: AlertTriangle, color: "#F97316", items: [
-          "Liquidated damages clause ($2,500/day) exceeds industry standard for contract value",
+          "Liquidated damages clause ($2,500/day) exceeds industry standard for contract value", // ALLOW: brand-voice exception — sample contract clause, not Assembl pricing
           "No force majeure clause — weather delays not addressed",
           "Retention release timeline (24 months) longer than standard 12-month defects period",
         ]},
