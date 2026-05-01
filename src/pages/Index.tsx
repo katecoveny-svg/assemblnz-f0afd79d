@@ -487,7 +487,7 @@ const Index = () => {
         {/* ═══ WHAT IT GIVES YOU BACK ═══ */}
         <Sect>
           <motion.div {...fade} className="max-w-[680px] mx-auto text-center">
-            <SectionEyebrow>What it gives you back</SectionEyebrow>
+            <SectionEyebrow>{" "}</SectionEyebrow>
             <SectionH2>The day, returned to you.</SectionH2>
             <div className="mt-10 mb-12 space-y-3" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, fontStyle: "italic", color: C.text }}>
               <p style={{ fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1.5 }}>The kitchen, calmer by 6:45.</p>
