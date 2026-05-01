@@ -569,20 +569,22 @@ function WhatAssemblIs() {
             </Body>
           </div>
 
-          {/* Background feathery cloud — large, soft, sits behind the columns */}
+          {/* Background canonical kete — large, soft, sits behind the columns */}
           <div
             className="hidden md:block absolute pointer-events-none"
             style={{
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              width: 880,
-              height: 880,
+              width: 720,
+              height: 720,
               zIndex: 0,
+              opacity: 0.5,
             }}
+            aria-hidden
           >
             <Suspense fallback={null}>
-              <MiniCloud size={880} drift="slow" opacity={0.32} />
+              <FeatherKete variant="base" size={720} drift="slow" />
             </Suspense>
           </div>
           {/* Data-light strand woven across the cloud — obvious network of connected lights */}
