@@ -1,6 +1,11 @@
-// ═══════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════
 // migrate-helper — TEMPORARY edge function for Lovable → assembl-prod migration
-// ═══════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════
+// REDEPLOY 2026-05-02: original PR #9 was merged 2026-05-01 but Lovable
+// never auto-deployed the new function (a known issue with NEW edge
+// functions on the Lovable→Supabase sync). Rotating the bearer token and
+// touching this file forces Lovable to treat it as a CHANGE to an existing
+// file, which deploys reliably within ~2-3 min of merge.
 //
 // SCOPE: One-shot data export tool. Lives only as long as the migration takes.
 // MUST BE DELETED after migration is complete (separate PR will remove it).
@@ -29,15 +34,18 @@
 //
 // SECURITY NOTE: This is intentionally a temporary tool. Do NOT extend or
 // repurpose it. After migration, delete the entire migrate-helper directory.
-// ═══════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════
 
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { Pool } from "https://deno.land/x/postgres@v0.19.3/mod.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
-// THROWAWAY TOKEN — generated 2026-05-01 for this migration only.
-// Once migrate-helper is deleted, this token is meaningless.
-const TOKEN = "BjxasRDWm-i-OydWcelTsACYUcHs-41fJdF7vH7B9VU";
+// THROWAWAY TOKEN — rotated 2026-05-02 for the actual migration run. The
+// previous token (in PR #9 commit history) is dead because the function
+// never deployed under it; rotating defensively in case anyone scraped the
+// public commit. This token is also temporary — once migrate-helper is
+// deleted (cleanup PR after migration), this token is meaningless.
+const TOKEN = "h2kPPHVhuqkjwwMLFombY50GBx-bXp0kbawsHl566jUBnEN3lE6vIN-l7aZXRkoy";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -77,7 +85,7 @@ function authorize(req: Request): boolean {
   return auth === `Bearer ${TOKEN}`;
 }
 
-// ── Lazy clients ────────────────────────────────────────────────────────────
+// ── Lazy clients ─────────────────────────────────────────────────────────────────
 
 let _pool: Pool | null = null;
 function getPool(): Pool {
@@ -115,7 +123,7 @@ function getAdmin() {
   return _admin;
 }
 
-// ── Action handlers ─────────────────────────────────────────────────────────
+// ── Action handlers ────────────────────────────────────────────────────────────
 
 async function actionListSchemas() {
   const placeholders = SYSTEM_SCHEMAS.map((_, i) => `$${i + 1}`).join(",");
@@ -255,7 +263,7 @@ async function actionDownloadStorageObject(bucket: string, path: string) {
   });
 }
 
-// ── Main handler ────────────────────────────────────────────────────────────
+// ── Main handler ───────────────────────────────────────────────────────────────
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
