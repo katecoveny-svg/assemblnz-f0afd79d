@@ -14,6 +14,7 @@ import LiveStatusStrip from "@/components/kete/LiveStatusStrip";
 import LiveDataTiles, { loadConsents, loadConstructionMaterial, loadWeather } from "@/components/kete/LiveDataTiles";
 import { Hammer, Building2, CloudSun } from "lucide-react";
 import UseCaseToggle from "@/components/kete/UseCaseToggle";
+import HangaPipelineComparison from "@/components/kete/HangaPipelineComparison";
 
 import TextUsButton from "@/components/kete/TextUsButton";
 import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
@@ -205,7 +206,14 @@ export default function WaihangaLandingPage() {
 
         {/* Demo flow removed — replaced by the live KeteAgentChat (bottom-right) */}
 
-        
+        {/* ── Pipeline + Comparison + Pricing (extracted to its own component) ── */}
+        <HangaPipelineComparison
+          accent={C.pounamu}
+          text={C.text}
+          textSecondary={C.textSecondary}
+          textTertiary={C.textTertiary}
+          glass={glass}
+        />
 
         {/* ── CTA ── */}
         <section className="relative text-center px-6 py-32">
