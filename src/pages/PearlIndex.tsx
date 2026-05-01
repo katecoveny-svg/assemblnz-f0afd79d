@@ -758,6 +758,175 @@ function Tikanga() {
   );
 }
 
+/* ─── See it in action — surface the live demos already wired into the platform ─── */
+const SEE_IT_DEMOS = [
+  {
+    n: "01",
+    mi: "Kaitiaki",
+    en: "Tikanga gate",
+    line: "How tikanga shapes every Assembl decision — four pou, four checks, before any output ships.",
+    to: "/demos/kaitiaki-gate",
+  },
+  {
+    n: "02",
+    mi: "Tukanga",
+    en: "Compliance pipeline",
+    line: "Five quiet stages from intent to evidence — Kahu, Iho, Tā, Mahara, Mana.",
+    to: "/demos/pipeline",
+  },
+  {
+    n: "03",
+    mi: "Pukapuka",
+    en: "Evidence pack",
+    line: "What a finished, source-cited, audit-ready pack actually looks like when the work is done.",
+    to: "/demos/evidence-pack",
+  },
+  {
+    n: "04",
+    mi: "Hui",
+    en: "Meeting copilot",
+    line: "Notes, summaries and follow-ups — kept quietly alongside your day, not after it.",
+    to: "/hui",
+  },
+];
+
+function SeeItInAction() {
+  return (
+    <section
+      className="relative overflow-hidden"
+      style={{ paddingTop: 160, paddingBottom: 160, background: PEARL.linen }}
+    >
+      {/* Soft fairy strand at the top — matches the rhythm used elsewhere on Pearl */}
+      <div className="absolute pointer-events-none" style={{ top: 32, left: "50%", transform: "translateX(-50%)" }}>
+        <Suspense fallback={null}>
+          <FairyLightStrand width={420} height={80} bulbs={9} direction="drape" />
+        </Suspense>
+      </div>
+
+      <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10">
+        <Eyebrow>See it in action</Eyebrow>
+        <Serif size="lg">Four quiet demonstrations.</Serif>
+        <div style={{ maxWidth: 680, marginTop: 24, marginBottom: 80 }}>
+          <Body large>
+            The platform behind the kete. Four short walk-throughs you can browse without signing up — the cultural gate, the compliance pipeline, the evidence pack, and the meeting copilot.
+          </Body>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {SEE_IT_DEMOS.map((d, i) => (
+            <motion.div
+              key={d.n}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease, delay: i * 0.06 }}
+            >
+              <Link
+                to={d.to}
+                className="block group h-full"
+                data-magnetic
+                style={{
+                  borderRadius: 20,
+                  border: `1px solid ${PEARL.seaGlass}`,
+                  background: "rgba(255,255,255,0.55)",
+                  backdropFilter: "blur(10px)",
+                  padding: 32,
+                  boxShadow: "0 1px 2px rgba(15,42,38,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)",
+                  transition: "all 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  minHeight: 280,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = PEARL.pounamu;
+                  e.currentTarget.style.boxShadow = "0 2px 4px rgba(15,42,38,0.05), 0 18px 48px -16px rgba(31,77,71,0.22)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = PEARL.seaGlass;
+                  e.currentTarget.style.boxShadow = "0 1px 2px rgba(15,42,38,0.04), 0 8px 28px -12px rgba(31,77,71,0.10)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                <p
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontWeight: 300,
+                    fontSize: 28,
+                    color: PEARL.pounamu,
+                    letterSpacing: "0.04em",
+                    marginBottom: 24,
+                    lineHeight: 1,
+                  }}
+                >
+                  {d.n}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontStyle: "italic",
+                    fontSize: 15,
+                    color: PEARL.pounamu,
+                    letterSpacing: "0.02em",
+                    marginBottom: 8,
+                    fontWeight: 400,
+                  }}
+                >
+                  {d.mi}
+                </p>
+                <Serif size="sm" className="mb-3">{d.en}</Serif>
+                <p
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 14,
+                    lineHeight: 1.6,
+                    color: "rgba(15,42,38,0.7)",
+                    flex: 1,
+                  }}
+                >
+                  {d.line}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: 13,
+                    color: PEARL.ink,
+                    marginTop: 24,
+                    fontWeight: 500,
+                    letterSpacing: "0.01em",
+                  }}
+                >
+                  Open demo →
+                </p>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 56, maxWidth: 680 }}>
+          <p
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: 13,
+              color: "rgba(15,42,38,0.55)",
+              lineHeight: 1.6,
+            }}
+          >
+            Each demonstration is a working slice of the production platform — the same gate, pipeline, pack and copilot every kete uses. No signup. Browse the
+            {" "}
+            <Link to="/demos" style={{ color: PEARL.ink, borderBottom: `1px solid ${PEARL.ink}` }}>
+              full demos hub
+            </Link>
+            {" "}
+            for confidence scoring and more.
+          </p>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
 const TIERS = [
   { name: "Tōro", sub: "Family", price: "$29", per: "/ mo", setup: "No setup", desc: "A household that runs itself." },
   { name: "Operator", sub: "1 Kete", price: "$1,490", per: "/ mo", setup: "+ $590 setup", desc: "One kete plus the full platform." },
@@ -962,6 +1131,7 @@ export default function PearlIndex() {
         <HowItWorks />
         <KetesGrid />
         <LiveCompliance />
+        <SeeItInAction />
         <Tikanga />
         <Pricing />
         <Closing />
