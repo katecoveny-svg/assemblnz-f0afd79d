@@ -1,4 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════
 // Second routing layer — provider dispatcher.
 //
 // The Lovable AI Gateway only natively supports `google/*` and `openai/*`
@@ -11,7 +11,14 @@
 // normalised OpenAI-style chat completion response, regardless of which
 // underlying provider was used. The caller (chat/index.ts) is provider-
 // agnostic — it just inspects `data.choices[0].message` like before.
-// ═══════════════════════════════════════════════════════════════════════
+//
+// COST LOGGING (Kaihanga, 1 May 2026):
+// Pass `meta` on LlmCallOptions and every successful or failed call is
+// logged to public.agent_cost_log via cost-logger.ts. Backward-compatible:
+// callers that don't pass `meta` still work, just without logging.
+// ════════════════════════════════════════════════════════════════════════
+
+import { logCost } from "./cost-logger.ts";
 
 export type ChatMessage = {
   role: "system" | "user" | "assistant" | "tool";
@@ -21,12 +28,25 @@ export type ChatMessage = {
   name?: string;
 };
 
+export type LlmCallMeta = {
+  /** Tenant UUID for per-tenant gross-margin tracking. */
+  tenantId: string;
+  /** Agent slug (e.g. "arai", "kaupapa") for per-agent rollups. */
+  agentCode: string;
+  /** Optional correlation id for multi-agent run tracing. */
+  requestId?: string;
+  /** Optional parent request id for cross-agent handoff trees. */
+  parentRequestId?: string;
+};
+
 export type LlmCallOptions = {
-  model: string;                  // fully-qualified, e.g. "anthropic/claude-opus-4-6"
+  model: string;                          // fully-qualified, e.g. "anthropic/claude-opus-4-6"
   systemPrompt: string;
-  messages: ChatMessage[];        // the user/assistant turn history (no system message)
+  messages: ChatMessage[];                // the user/assistant turn history (no system message)
   maxTokens?: number;
-  tools?: unknown[];              // OpenAI-style tools — only forwarded for gateway calls
+  tools?: unknown[];                      // OpenAI-style tools — only forwarded for gateway calls
+  /** Optional cost-logging metadata. When provided, every call is logged. */
+  meta?: LlmCallMeta;
 };
 
 export type Provider = "gateway" | "anthropic" | "perplexity";
@@ -44,17 +64,78 @@ export function detectProvider(model: string): Provider {
  *
  * Always returns a Response — even on provider errors — so callers can
  * inspect `.ok` / `.status` exactly as they do for the gateway today.
+ *
+ * If `opts.meta` is provided, writes one row to public.agent_cost_log per
+ * call (success or error). Cost logging is fire-and-forget and never
+ * throws — caller never sees logging-related errors.
  */
 export async function callLlm(opts: LlmCallOptions): Promise<Response> {
   const provider = detectProvider(opts.model);
+  const start = Date.now();
+
+  let response: Response;
   switch (provider) {
-    case "anthropic":  return callAnthropic(opts);
-    case "perplexity": return callPerplexity(opts);
-    default:           return callGateway(opts);
+    case "anthropic":  response = await callAnthropic(opts); break;
+    case "perplexity": response = await callPerplexity(opts); break;
+    default:           response = await callGateway(opts); break;
   }
+
+  // Cost logging — fire-and-forget. Never blocks the caller.
+  if (opts.meta?.tenantId && opts.meta?.agentCode) {
+    logCallCost(response, opts, Date.now() - start).catch((err) => {
+      console.error("[llm-call] cost logging failed:", err);
+    });
+  }
+
+  return response;
 }
 
-// ─── Lovable AI Gateway (google/* + openai/*) ─────────────────────────
+/**
+ * Read the response body once (via clone, so the caller still gets the
+ * original) and write a row to agent_cost_log. Never throws.
+ */
+async function logCallCost(response: Response, opts: LlmCallOptions, latencyMs: number): Promise<void> {
+  const meta = opts.meta!;
+  if (!response.ok) {
+    await logCost({
+      tenantId: meta.tenantId,
+      agentCode: meta.agentCode,
+      model: opts.model,
+      tokensIn: 0,
+      tokensOut: 0,
+      latencyMs,
+      requestId: meta.requestId,
+      parentRequestId: meta.parentRequestId,
+      status: "error",
+      errorCode: `http_${response.status}`,
+    });
+    return;
+  }
+
+  // Clone so we don't consume the body the caller will read.
+  const clone = response.clone();
+  let usage: { prompt_tokens?: number; completion_tokens?: number } = {};
+  try {
+    const data = await clone.json();
+    usage = data?.usage ?? {};
+  } catch {
+    // body wasn't JSON or already consumed — log with zeros, status completed
+  }
+
+  await logCost({
+    tenantId: meta.tenantId,
+    agentCode: meta.agentCode,
+    model: opts.model,
+    tokensIn: usage.prompt_tokens ?? 0,
+    tokensOut: usage.completion_tokens ?? 0,
+    latencyMs,
+    requestId: meta.requestId,
+    parentRequestId: meta.parentRequestId,
+    status: "completed",
+  });
+}
+
+// ─── Lovable AI Gateway (google/* + openai/*) ─────────────────────────────
 async function callGateway(opts: LlmCallOptions): Promise<Response> {
   const key = Deno.env.get("LOVABLE_API_KEY");
   if (!key) return errResponse(500, "LOVABLE_API_KEY not configured");
@@ -70,7 +151,7 @@ async function callGateway(opts: LlmCallOptions): Promise<Response> {
   });
 }
 
-// ─── Anthropic direct (anthropic/*) ───────────────────────────────────
+// ─── Anthropic direct (anthropic/*) ──────────────────────────────
 async function callAnthropic(opts: LlmCallOptions): Promise<Response> {
   const key = Deno.env.get("ANTHROPIC_API_KEY");
   if (!key) return errResponse(500, "ANTHROPIC_API_KEY not configured");
@@ -128,7 +209,7 @@ async function callAnthropic(opts: LlmCallOptions): Promise<Response> {
   return jsonResponse(200, normalised);
 }
 
-// ─── Perplexity direct (perplexity/*) ─────────────────────────────────
+// ─── Perplexity direct (perplexity/*) ──────────────────────────
 async function callPerplexity(opts: LlmCallOptions): Promise<Response> {
   // Prefer dedicated PERPLEXITY_API_KEY; OPENROUTER_API_KEY is a fallback
   // because some workspaces store the Perplexity key under that name.
@@ -178,7 +259,7 @@ async function callPerplexity(opts: LlmCallOptions): Promise<Response> {
   return jsonResponse(200, normalised);
 }
 
-// ─── helpers ──────────────────────────────────────────────────────────
+// ─── helpers ──────────────────────────────────────────────────
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), {
     status,
