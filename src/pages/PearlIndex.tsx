@@ -7,14 +7,10 @@ import SEO from "@/components/SEO";
 import { track } from "@/lib/analytics";
 import { tier } from "@/data/tierLadder";
 
-const MiniCloud = lazy(() => import("@/components/pearl/MiniCloud"));
 const KeteFocus = lazy(() => import("@/components/pearl/KeteFocus"));
 const FeatherKete = lazy(() => import("@/components/pearl/FeatherKete"));
 const FairyLightStrand = lazy(() =>
   import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.FairyLightStrand }))
-);
-const HeroCloud = lazy(() =>
-  import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.HeroCloud }))
 );
 
 /* ─── Pearl palette — WARM (sunlit, candle-warm, golden-hour) ─── */
