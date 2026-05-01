@@ -43,7 +43,7 @@ Keep responses practical, NZ-specific, and structured. Cite the Acceptable Solut
 const STARTERS = [
   { icon: Layers, label: "Walk me through design stages", prompt: "Walk me through the architectural design stages from Concept to Construction Documents and what evidence each stage needs." },
   { icon: FileCheck, label: "Resource consent pathway", prompt: "I'm starting a residential project in Auckland. Help me think through the resource consent pathway and what activity status to expect." },
-  { icon: Building2, label: "H1 energy compliance", prompt: "Explain the H1 energy efficiency 2022 update and how it changes our wall, roof, and window specs." },
+  { icon: Building2, label: "Pre-Consent Compliance Report", prompt: "Generate a draft Pre-Consent Compliance Report for a single-storey timber-framed house in Auckland (climate zone 1). Cover B1 Structure, B2 Durability, E2 External Moisture, H1 Energy Efficiency, and any relevant Auckland Council practice notes (AC1011, AC1009). Cite current Acceptable Solution editions and end with the BCA disclaimer." },
   { icon: Ruler, label: "BCA submission checklist", prompt: "Build me a draft Building Consent submission checklist for a single-storey timber-frame house." },
 ];
 
