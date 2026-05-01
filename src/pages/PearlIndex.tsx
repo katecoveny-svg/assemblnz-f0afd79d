@@ -768,10 +768,10 @@ function LiveCompliance() {
           background: "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(232,238,236,0.55) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 50% 40%, rgba(248,233,196,0.22) 0%, transparent 70%)",
         }}
       />
-      {/* Atmospheric wisp tucked top-right */}
-      <div className="absolute hidden md:block pointer-events-none" style={{ top: 48, right: "8%", width: 180, height: 180 }}>
+      {/* Canonical kete tucked top-right */}
+      <div className="absolute hidden md:block pointer-events-none" style={{ top: 48, right: "8%", width: 180, height: 180, opacity: 0.7 }} aria-hidden>
         <Suspense fallback={null}>
-          <MiniCloud size={180} drift="slow" opacity={0.35} />
+          <FeatherKete variant="base" size={180} drift="slow" />
         </Suspense>
       </div>
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6 text-center relative z-10">
