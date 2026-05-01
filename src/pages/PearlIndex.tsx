@@ -863,20 +863,23 @@ function Closing() {
       className="relative overflow-hidden"
       style={{ paddingTop: 180, paddingBottom: 180, background: PEARL.bg }}
     >
-      {/* Closing cloud — softer, lower in the frame than the hero, holding the most generous spread of fairy lights */}
+      {/* Closing kete trio — canonical FeatherKete imagery, soft and low in the frame */}
       <div
-        className="absolute hidden md:flex items-center justify-center pointer-events-none"
+        className="absolute hidden md:flex items-center justify-center gap-12 pointer-events-none"
         style={{
           top: "55%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: 1100,
-          height: 620,
-          opacity: 0.85,
+          height: 520,
+          opacity: 0.55,
         }}
+        aria-hidden
       >
         <Suspense fallback={null}>
-          <HeroCloud height={520} opacity={0.85} />
+          <FeatherKete variant="manaaki" size={280} drift="slow" />
+          <FeatherKete variant="base" size={360} drift="slow" />
+          <FeatherKete variant="auaha" size={280} drift="slow" />
         </Suspense>
       </div>
 
