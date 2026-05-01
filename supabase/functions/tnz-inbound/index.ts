@@ -2,27 +2,66 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 /**
- * TNZ-INBOUND (Multi-Tenant Router)
- * ==================================
- * Single gateway for ALL inbound SMS/WhatsApp via TNZ.
+ * TNZ-INBOUND (Multi-Tenant Router · Multi-Channel)
+ * ==================================================
+ * Single gateway for ALL inbound messages.
+ *
+ * Inbound sources detected automatically:
+ *   - TextBee SMS webhook  (event: "MESSAGE_RECEIVED")
+ *   - Chatwoot webhook     (event: "message_created", message_type: "incoming")
+ *   - TNZ legacy fallback  (From / Message style payloads)
+ *
+ * Outbound sender priority (when ENABLE_NEW_SENDERS=true):
+ *   1. PWA push notification (free, instant — if user_id has subscriptions)
+ *   2. Chatwoot reply API    (for webchat / WhatsApp / Facebook)
+ *   3. TextBee SMS gateway   (for sms when configured)
+ *   4. TNZ legacy            (final fallback)
+ *
+ * When ENABLE_NEW_SENDERS is not "true" the sender chain is bypassed and
+ * every reply goes via the legacy sendViaTnz() — identical to pre-migration
+ * behaviour. The flag must be flipped on explicitly per environment.
+ *
+ * Core routing intelligence (tenant resolution, kete picker, keyword
+ * matching, handler dispatch, conversation history, audit logging) is
+ * unchanged from the TNZ-only version. This change is surgical: only the
+ * inbound parser and outbound sender layers move.
  *
  * Flow:
- *   1. Resolve tenant from the "to" phone number
- *   2. Handle STOP/START/HELP (UEMA compliance)
- *   3. Find/create conversation (tenant-scoped)
- *   4. Load tenant's enabled kete
- *   5. Kete picker (menu, greeting, numeric selection)
- *   6. Route by keyword to the right kete (Iho routing)
- *   7. If kete has handler_fn → POST to handler, return reply
- *   8. Otherwise → fall back to default Gemini path
- *   9. Truncate & send via TNZ
- *  10. Audit log
+ *   1. Resolve tenant from the "to" phone number / account id
+ *   2. Resolve owner user_id (for push notification routing)
+ *   3. Handle STOP/START/HELP (UEMA compliance)
+ *   4. Find/create conversation (tenant-scoped)
+ *   5. Load tenant's enabled kete
+ *   6. Kete picker (menu, greeting, numeric selection)
+ *   7. Route by keyword to the right kete (Iho routing)
+ *   8. If kete has handler_fn → POST to handler, return reply
+ *   9. Otherwise → fall back to default Gemini path
+ *  10. Truncate & send via the priority chain (or legacy TNZ if flag off)
+ *  11. Audit log
  */
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+
+/**
+ * ENABLE_NEW_SENDERS — feature flag for the multi-channel sender chain.
+ *
+ *   "true"   → sendMessage() routes via push → Chatwoot → TextBee → TNZ
+ *   anything else (including unset) → sendMessage() proxies straight to
+ *   the legacy sendViaTnz(), preserving exact pre-migration behaviour.
+ *
+ * This is the ONLY behavioural toggle in this PR. Inbound parsing always
+ * accepts all three payload shapes — but with the flag off, the new
+ * outbound paths are never invoked even if a TextBee/Chatwoot webhook
+ * arrives. Flip this on per-environment once secrets and services are
+ * provisioned.
+ */
+const ENABLE_NEW_SENDERS =
+  (Deno.env.get("ENABLE_NEW_SENDERS") ?? "").trim().toLowerCase() === "true";
+
+type SupabaseClient = ReturnType<typeof createClient>;
 
 const SMS_BEHAVIOUR = `
 SMS/WhatsApp RULES — You are responding via text message:
@@ -81,6 +120,242 @@ async function sendViaTnz(
 }
 
 // ============================================================================
+// SEND — Multi-channel (TextBee SMS + Chatwoot API + PWA Push)
+// ============================================================================
+//
+// Each sender below is INERT unless its corresponding env vars are set. They
+// are only invoked from sendMessage() when ENABLE_NEW_SENDERS=true. Until
+// the flag flips, sendMessage() routes straight to sendViaTnz() and these
+// functions never run.
+
+async function sendViaTextBee(
+  to: string,
+  message: string,
+  reference: string,
+): Promise<{ messageId?: string; error?: string }> {
+  const apiKey = Deno.env.get("TEXTBEE_API_KEY");
+  const deviceId = Deno.env.get("TEXTBEE_DEVICE_ID");
+  if (!apiKey || !deviceId) return { error: "TextBee not configured" };
+
+  try {
+    const resp = await fetch(
+      `https://api.textbee.dev/api/v1/gateway/devices/${deviceId}/send-sms`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": apiKey,
+        },
+        body: JSON.stringify({
+          recipients: [to],
+          message,
+        }),
+      },
+    );
+
+    const data = await resp.json().catch(() => ({}));
+    if (resp.ok && (data.success || data.messageId || data._id)) {
+      return { messageId: data.messageId || data._id || reference };
+    }
+    return { error: data.error || `TextBee send failed (HTTP ${resp.status})` };
+  } catch (e) {
+    return { error: `TextBee fetch error: ${(e as Error).message}` };
+  }
+}
+
+async function replyViaChatwoot(
+  conversationId: string,
+  accountId: string,
+  message: string,
+): Promise<{ messageId?: string; error?: string }> {
+  const chatwootUrl = Deno.env.get("CHATWOOT_API_URL");
+  const chatwootToken = Deno.env.get("CHATWOOT_API_ACCESS_TOKEN");
+  if (!chatwootUrl || !chatwootToken) {
+    return { error: "Chatwoot not configured" };
+  }
+  if (!conversationId || !accountId) {
+    return { error: "Chatwoot conversation/account id missing" };
+  }
+
+  try {
+    const resp = await fetch(
+      `${chatwootUrl.replace(/\/$/, "")}/api/v1/accounts/${accountId}/conversations/${conversationId}/messages`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          api_access_token: chatwootToken,
+        },
+        body: JSON.stringify({ content: message, message_type: "outgoing" }),
+      },
+    );
+
+    const data = await resp.json().catch(() => ({}));
+    if (resp.ok && data.id) {
+      return { messageId: String(data.id) };
+    }
+    return { error: data.error || `Chatwoot reply failed (HTTP ${resp.status})` };
+  } catch (e) {
+    return { error: `Chatwoot fetch error: ${(e as Error).message}` };
+  }
+}
+
+async function sendPushNotification(
+  sb: SupabaseClient,
+  tenantId: string,
+  userId: string,
+  message: string,
+): Promise<{ sent: boolean; error?: string }> {
+  try {
+    const { data: subs, error: queryErr } = await sb
+      .from("push_subscriptions")
+      .select("id, subscription")
+      .eq("user_id", userId)
+      .eq("tenant_id", tenantId);
+
+    if (queryErr) return { sent: false, error: queryErr.message };
+    if (!subs || subs.length === 0) {
+      return { sent: false, error: "No push subscription found" };
+    }
+
+    const vapidPublic = Deno.env.get("VAPID_PUBLIC_KEY");
+    const vapidPrivate = Deno.env.get("VAPID_PRIVATE_KEY");
+    if (!vapidPublic || !vapidPrivate) {
+      return { sent: false, error: "VAPID keys not configured" };
+    }
+
+    let webPush: any;
+    try {
+      // Lazy import — only attempted when at least one subscription exists.
+      // Wrapped because Deno's npm: shim has documented edge cases with
+      // web-push's Node crypto deps.
+      webPush = await import("npm:web-push");
+    } catch (importErr) {
+      console.warn("[push] web-push module load failed:", (importErr as Error).message);
+      return { sent: false, error: "web-push module unavailable" };
+    }
+
+    try {
+      webPush.setVapidDetails(
+        "mailto:hello@assembl.co.nz",
+        vapidPublic,
+        vapidPrivate,
+      );
+    } catch (vapidErr) {
+      console.warn("[push] setVapidDetails failed:", (vapidErr as Error).message);
+      return { sent: false, error: "VAPID configuration failed" };
+    }
+
+    let anySent = false;
+    for (const row of subs) {
+      try {
+        await webPush.sendNotification(
+          row.subscription,
+          JSON.stringify({ title: "Assembl", body: message }),
+        );
+        anySent = true;
+      } catch (e: any) {
+        const status = e?.statusCode;
+        if (status === 410 || status === 404) {
+          // Subscription gone — clean up the dead row by id.
+          try {
+            await sb.from("push_subscriptions").delete().eq("id", row.id);
+          } catch {
+            // non-critical
+          }
+        } else {
+          console.warn("[push] send failed for subscription:", e?.message || e);
+        }
+      }
+    }
+
+    return anySent
+      ? { sent: true }
+      : { sent: false, error: "All push deliveries failed" };
+  } catch (err) {
+    console.warn("[push] unexpected error:", (err as Error).message);
+    return { sent: false, error: (err as Error).message };
+  }
+}
+
+/**
+ * Unified send entry point. EVERY outbound reply in this file goes through
+ * sendMessage() — there are no remaining direct sendViaTnz() call sites in
+ * the handler.
+ *
+ * When ENABLE_NEW_SENDERS is NOT "true": delegates straight to sendViaTnz()
+ * so this PR is a no-op behaviourally on deploy. Flip the flag per
+ * environment once TextBee + Chatwoot + VAPID are provisioned.
+ */
+async function sendMessage(opts: {
+  sb: SupabaseClient;
+  channel: string;
+  to: string;
+  message: string;
+  reference: string;
+  tenantId: string;
+  userId: string | null;
+  chatwootConversationId?: string;
+  chatwootAccountId?: string;
+}): Promise<{ messageId?: string; error?: string; method: string }> {
+  const {
+    sb,
+    channel,
+    to,
+    message,
+    reference,
+    tenantId,
+    userId,
+    chatwootConversationId,
+    chatwootAccountId,
+  } = opts;
+
+  // Flag off → exact pre-migration behaviour.
+  if (!ENABLE_NEW_SENDERS) {
+    const r = await sendViaTnz(channel, to, message, reference);
+    return { ...r, method: r.messageId ? "tnz" : "tnz_failed" };
+  }
+
+  // 1. PWA push (only if we have a user to target).
+  if (userId) {
+    const push = await sendPushNotification(sb, tenantId, userId, message);
+    if (push.sent) {
+      return { messageId: reference, method: "push" };
+    }
+  }
+
+  // 2. Chatwoot (web chat / WhatsApp / Facebook inbound).
+  const chatwootChannels = new Set(["webchat", "whatsapp", "facebook", "instagram", "telegram", "line"]);
+  if (
+    chatwootChannels.has(channel) &&
+    chatwootConversationId &&
+    chatwootAccountId &&
+    Deno.env.get("CHATWOOT_API_URL") &&
+    Deno.env.get("CHATWOOT_API_ACCESS_TOKEN")
+  ) {
+    const r = await replyViaChatwoot(chatwootConversationId, chatwootAccountId, message);
+    if (r.messageId) return { ...r, method: "chatwoot" };
+    // fall through to TextBee/TNZ if Chatwoot fails
+  }
+
+  // 3. TextBee SMS gateway (when configured for sms channel).
+  if (
+    channel === "sms" &&
+    Deno.env.get("TEXTBEE_API_KEY") &&
+    Deno.env.get("TEXTBEE_DEVICE_ID")
+  ) {
+    const r = await sendViaTextBee(to, message, reference);
+    if (r.messageId) return { ...r, method: "textbee" };
+    // fall through to TNZ on TextBee failure
+  }
+
+  // 4. Final fallback — legacy TNZ. Keeps SMS/WhatsApp working until TNZ
+  // account is cancelled.
+  const r = await sendViaTnz(channel, to, message, reference);
+  return { ...r, method: r.messageId ? "tnz" : "tnz_failed" };
+}
+
+// ============================================================================
 // MAIN HANDLER
 // ============================================================================
 
@@ -97,20 +372,80 @@ Deno.serve(async (req) => {
     );
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
-    // --- PARSE TNZ INBOUND PAYLOAD ---
+    // --- PARSE INBOUND PAYLOAD (multi-source: TextBee + Chatwoot + TNZ) ---
     const payload = await req.json();
-    console.log("TNZ inbound payload:", JSON.stringify(payload));
+    console.log("Inbound payload:", JSON.stringify(payload));
 
-    const fromNumber = payload.From || payload.from || payload.Sender || payload.sender || "";
-    const toNumber = payload.To || payload.to || payload.Destination || payload.destination || "";
-    const messageBody = payload.Message || payload.message || payload.Body || payload.body || "";
-    const channel = (payload.Channel || payload.channel || "sms").toLowerCase();
-    const tnzMessageId = payload.MessageID || payload.messageId || "";
-    const mediaUrl = payload.MediaUrl || payload.mediaUrl || payload.Media || null;
+    let fromNumber = "";
+    let toNumber = "";
+    let messageBody = "";
+    let channel = "sms";
+    let sourceMessageId = "";
+    let mediaUrl: string | null = null;
+    let chatwootConversationId = "";
+    let chatwootAccountId = "";
+    let inboundSource: "textbee" | "chatwoot" | "tnz" | "unknown" = "unknown";
+
+    // TextBee SMS webhook
+    if (payload.event === "MESSAGE_RECEIVED" && payload.data?.sender) {
+      inboundSource = "textbee";
+      fromNumber = payload.data.sender;
+      toNumber = payload.data.device?._id || Deno.env.get("TEXTBEE_DEVICE_ID") || "";
+      messageBody = payload.data.message || "";
+      channel = "sms";
+      sourceMessageId = payload.data._id || "";
+    }
+    // Chatwoot webhook (web chat / WhatsApp / Facebook / Instagram / Telegram)
+    else if (
+      payload.event === "message_created" &&
+      payload.message_type === "incoming"
+    ) {
+      inboundSource = "chatwoot";
+      // Phone number if available, otherwise contact id as a stable identifier.
+      fromNumber =
+        payload.contact?.phone_number ||
+        (payload.contact?.id != null ? String(payload.contact.id) : "") ||
+        (payload.sender?.id != null ? String(payload.sender.id) : "") ||
+        "";
+      toNumber = payload.account?.id != null ? String(payload.account.id) : "";
+      messageBody = payload.content || "";
+      channel = (payload.conversation?.channel || "webchat").toString().toLowerCase();
+      sourceMessageId = payload.id != null ? String(payload.id) : "";
+      mediaUrl = payload.content_attributes?.media_url || null;
+      chatwootConversationId =
+        payload.conversation?.display_id != null
+          ? String(payload.conversation.display_id)
+          : payload.conversation?.id != null
+          ? String(payload.conversation.id)
+          : "";
+      chatwootAccountId = toNumber;
+    }
+    // Legacy TNZ payload (kept during transition; remove after 1 week of stable TextBee/Chatwoot)
+    else if (
+      payload.From ||
+      payload.from ||
+      payload.Sender ||
+      payload.sender ||
+      payload.Message ||
+      payload.message
+    ) {
+      inboundSource = "tnz";
+      fromNumber = payload.From || payload.from || payload.Sender || payload.sender || "";
+      toNumber = payload.To || payload.to || payload.Destination || payload.destination || "";
+      messageBody = payload.Message || payload.message || payload.Body || payload.body || "";
+      channel = (payload.Channel || payload.channel || "sms").toLowerCase();
+      sourceMessageId = payload.MessageID || payload.messageId || "";
+      mediaUrl = payload.MediaUrl || payload.mediaUrl || payload.Media || null;
+    }
+
+    // Backwards-compatible alias — code below still references tnzMessageId
+    // when persisting to messaging_messages.tnz_message_id (column kept for
+    // schema continuity; renaming is a separate cleanup PR).
+    const tnzMessageId = sourceMessageId;
 
     if (!fromNumber || !messageBody) {
       return new Response(
-        JSON.stringify({ ok: false, error: "Missing from/body" }),
+        JSON.stringify({ ok: false, error: "Missing from/body", inboundSource }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -127,42 +462,84 @@ Deno.serve(async (req) => {
       tenantId = "00000000-0000-0000-0000-000000000001";
     }
 
-    console.log(`Tenant resolved: ${tenantId} for number ${toNumber}`);
+    console.log(
+      `Tenant resolved: ${tenantId} for number ${toNumber} (source: ${inboundSource})`,
+    );
+
+    // --- STEP 1.5: RESOLVE OWNER USER_ID (for push notification routing) ---
+    //
+    // Looked up ONCE here, before any send call, so every send site can pass
+    // the same userId into sendMessage(). Reused later by the cross-channel
+    // memory persistence block to avoid a second query.
+    let ownerUserId: string | null = null;
+    try {
+      const { data: ownerRow } = await sb
+        .from("tenant_members")
+        .select("user_id")
+        .eq("tenant_id", tenantId)
+        .in("role", ["admin", "manager"])
+        .order("created_at", { ascending: true })
+        .limit(1)
+        .maybeSingle();
+      ownerUserId = ownerRow?.user_id ?? null;
+    } catch (lookupErr) {
+      console.warn(
+        `[tnz-inbound] owner user_id lookup failed (non-critical):`,
+        (lookupErr as Error).message,
+      );
+    }
 
     // --- STEP 2: UEMA COMPLIANCE (STOP/START/HELP) ---
     const upper = messageBody.trim().toUpperCase();
 
     if (upper === "STOP" || upper === "UNSUBSCRIBE") {
-      await sendViaTnz(
+      await sendMessage({
+        sb,
         channel,
-        fromNumber,
-        "You've been unsubscribed from messages. Text START to re-subscribe anytime.",
-        `opt-out-${crypto.randomUUID()}`
-      );
+        to: fromNumber,
+        message:
+          "You've been unsubscribed from messages. Text START to re-subscribe anytime.",
+        reference: `opt-out-${crypto.randomUUID()}`,
+        tenantId,
+        userId: ownerUserId,
+        chatwootConversationId,
+        chatwootAccountId,
+      });
       return new Response(JSON.stringify({ ok: true, action: "opt-out" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     if (upper === "START" || upper === "SUBSCRIBE") {
-      await sendViaTnz(
+      await sendMessage({
+        sb,
         channel,
-        fromNumber,
-        "Kia ora! Welcome back. Text anything to get started.",
-        `opt-in-${crypto.randomUUID()}`
-      );
+        to: fromNumber,
+        message: "Kia ora! Welcome back. Text anything to get started.",
+        reference: `opt-in-${crypto.randomUUID()}`,
+        tenantId,
+        userId: ownerUserId,
+        chatwootConversationId,
+        chatwootAccountId,
+      });
       return new Response(JSON.stringify({ ok: true, action: "opt-in" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     if (upper === "HELP") {
-      await sendViaTnz(
+      await sendMessage({
+        sb,
         channel,
-        fromNumber,
-        "Assembl help:\n- Text MENU to see available services\n- Text STOP to unsubscribe\n- Text START to re-subscribe\n- Or just ask your question and we'll route you to the right specialist.",
-        `help-${crypto.randomUUID()}`
-      );
+        to: fromNumber,
+        message:
+          "Assembl help:\n- Text MENU to see available services\n- Text STOP to unsubscribe\n- Text START to re-subscribe\n- Or just ask your question and we'll route you to the right specialist.",
+        reference: `help-${crypto.randomUUID()}`,
+        tenantId,
+        userId: ownerUserId,
+        chatwootConversationId,
+        chatwootAccountId,
+      });
       return new Response(JSON.stringify({ ok: true, action: "help" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -267,7 +644,17 @@ Deno.serve(async (req) => {
       );
       const menuMsg = `Kia ora! Here are your available services:\n\n${menuLines.join("\n")}\n\nReply with a number or just describe what you need.`;
       const ref = `menu-${crypto.randomUUID()}`;
-      await sendViaTnz(validChannel, fromNumber, menuMsg, ref);
+      await sendMessage({
+        sb,
+        channel: validChannel,
+        to: fromNumber,
+        message: menuMsg,
+        reference: ref,
+        tenantId,
+        userId: ownerUserId,
+        chatwootConversationId,
+        chatwootAccountId,
+      });
 
       await sb.from("messaging_messages").insert({
         conversation_id: conversationId,
@@ -293,7 +680,17 @@ Deno.serve(async (req) => {
       );
       const greetMsg = `Kia ora! Welcome to Assembl.\n\nWhat can I help with?\n${menuLines.join("\n")}\n\nReply with a number, or just ask your question.`;
       const ref = `greet-${crypto.randomUUID()}`;
-      await sendViaTnz(validChannel, fromNumber, greetMsg, ref);
+      await sendMessage({
+        sb,
+        channel: validChannel,
+        to: fromNumber,
+        message: greetMsg,
+        reference: ref,
+        tenantId,
+        userId: ownerUserId,
+        chatwootConversationId,
+        chatwootAccountId,
+      });
 
       await sb.from("messaging_messages").insert({
         conversation_id: conversationId,
@@ -386,7 +783,17 @@ Deno.serve(async (req) => {
 
     if (!selectedKete) {
       const fallbackMsg = "Kia ora! We're setting up your services. Please try again shortly or visit assembl.co.nz";
-      await sendViaTnz(validChannel, fromNumber, fallbackMsg, `fallback-${crypto.randomUUID()}`);
+      await sendMessage({
+        sb,
+        channel: validChannel,
+        to: fromNumber,
+        message: fallbackMsg,
+        reference: `fallback-${crypto.randomUUID()}`,
+        tenantId,
+        userId: ownerUserId,
+        chatwootConversationId,
+        chatwootAccountId,
+      });
       return new Response(JSON.stringify({ ok: true, action: "no-kete" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -530,8 +937,25 @@ Deno.serve(async (req) => {
     }
 
     const ref = `${selectedKete.slug}-${validChannel}-${crypto.randomUUID()}`;
-    const sendResult = await sendViaTnz(validChannel, fromNumber, aiReply, ref);
+    const sendResult = await sendMessage({
+      sb,
+      channel: validChannel,
+      to: fromNumber,
+      message: aiReply,
+      reference: ref,
+      tenantId,
+      userId: ownerUserId,
+      chatwootConversationId,
+      chatwootAccountId,
+    });
     const responseTimeMs = Date.now() - startTime;
+
+    // Telemetry: record which sender path actually fired (push / chatwoot /
+    // textbee / tnz / *_failed). Logged to console rather than persisted to
+    // avoid widening messaging_messages in this PR.
+    console.log(
+      `[tnz-inbound] outbound delivery method: ${sendResult.method} (ref: ${ref})`,
+    );
 
     await sb.from("messaging_messages").insert({
       conversation_id: conversationId,
@@ -576,16 +1000,8 @@ Deno.serve(async (req) => {
     // with web /chat threads but DO share extracted agent_memory facts
     // (match_agent_memory filters on user_id, not agent_id).
     try {
-      const { data: ownerRow } = await sb
-        .from("tenant_members")
-        .select("user_id")
-        .eq("tenant_id", tenantId)
-        .in("role", ["admin", "manager"])
-        .order("created_at", { ascending: true })
-        .limit(1)
-        .maybeSingle();
-      const ownerUserId = ownerRow?.user_id ?? null;
-
+      // ownerUserId was resolved once in step 1.5 — reuse it here so we
+      // don't query tenant_members twice per request.
       if (ownerUserId) {
         const channelAgentId = `${validChannel}:${agentUsed}`;
         const newTurn = [
