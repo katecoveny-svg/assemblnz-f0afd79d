@@ -887,7 +887,7 @@ function Closing() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 64 }}>
           {[
-            "The 6:45am kitchen.",
+            " ",
             "The guest greeted properly.",
             "The team member looked in the eye.",
             "The evening that starts on time.",
