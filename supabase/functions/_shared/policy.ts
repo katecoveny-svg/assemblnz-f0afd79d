@@ -111,8 +111,16 @@ export function checkRateLimit(
 //   normalise_macrons?: boolean,
 //   require_legal_disclaimer?: string,
 //   require_medical_disclaimer?: string,
+//   require_ipp3a_footer?: string,    // appended when output references third-party PII
 //   strip_fields?: string[]
 // }
+//
+// IPP 3A footer (Privacy Act 2020, in force 1 May 2026):
+//   When the output contains a recognised PII pattern (email, phone, IRD, NHI,
+//   NZBN), assume the information was collected indirectly and append the
+//   supplied footer so the holder can fulfil their notification obligation.
+//   This is a runtime SAFETY NET — the prompts should still teach agents to
+//   add IPP 3A notification blocks proactively.
 // ---------------------------------------------------------------------------
 const MACRON_MAP: Record<string, string> = {
   "Maori": "Māori",
@@ -133,10 +141,27 @@ const MACRON_MAP: Record<string, string> = {
   "Korero": "Kōrero",
 };
 
+/**
+ * Detect whether a string contains any recognised NZ-context PII pattern
+ * (email, phone, IRD, NHI, NZBN). Used by IPP 3A footer enforcement.
+ *
+ * NOTE: This does NOT detect free-text names or postal addresses — those
+ * require an NER model and a separate rule. The patterns here are the
+ * reliable subset that prompts and agents most commonly leak.
+ */
+export function containsThirdPartyPii(s: string): boolean {
+  for (const re of Object.values(PII_PATTERNS)) {
+    re.lastIndex = 0; // reset stateful /g regex
+    if (re.test(s)) return true;
+  }
+  return false;
+}
+
 export function applyContentPolicy<T>(payload: T, ruleLogic: Record<string, unknown>): T {
   const normalise = ruleLogic.normalise_macrons === true;
   const legalDisclaimer = ruleLogic.require_legal_disclaimer as string | undefined;
   const medicalDisclaimer = ruleLogic.require_medical_disclaimer as string | undefined;
+  const ipp3aFooter = ruleLogic.require_ipp3a_footer as string | undefined;
   const stripFields = (ruleLogic.strip_fields as string[] | undefined) ?? [];
 
   const transformString = (s: string): string => {
@@ -153,6 +178,10 @@ export function applyContentPolicy<T>(payload: T, ruleLogic: Record<string, unkn
     if (medicalDisclaimer && /\b(medical|health|diagnosis|symptom|medication)\b/i.test(out) &&
         !out.includes(medicalDisclaimer)) {
       out = `${out}\n\n${medicalDisclaimer}`;
+    }
+    // IPP 3A: if output references third-party PII and no footer present yet, append it.
+    if (ipp3aFooter && containsThirdPartyPii(out) && !out.includes(ipp3aFooter)) {
+      out = `${out}\n\n${ipp3aFooter}`;
     }
     return out;
   };
