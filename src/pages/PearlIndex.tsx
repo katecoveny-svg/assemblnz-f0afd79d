@@ -7,14 +7,10 @@ import SEO from "@/components/SEO";
 import { track } from "@/lib/analytics";
 import { tier } from "@/data/tierLadder";
 
-const MiniCloud = lazy(() => import("@/components/pearl/MiniCloud"));
 const KeteFocus = lazy(() => import("@/components/pearl/KeteFocus"));
 const FeatherKete = lazy(() => import("@/components/pearl/FeatherKete"));
 const FairyLightStrand = lazy(() =>
   import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.FairyLightStrand }))
-);
-const HeroCloud = lazy(() =>
-  import("@/components/pearl/FluffyCloud").then((m) => ({ default: m.HeroCloud }))
 );
 
 /* ─── Pearl palette — WARM (sunlit, candle-warm, golden-hour) ─── */
@@ -569,20 +565,22 @@ function WhatAssemblIs() {
             </Body>
           </div>
 
-          {/* Background feathery cloud — large, soft, sits behind the columns */}
+          {/* Background canonical kete — large, soft, sits behind the columns */}
           <div
             className="hidden md:block absolute pointer-events-none"
             style={{
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              width: 880,
-              height: 880,
+              width: 720,
+              height: 720,
               zIndex: 0,
+              opacity: 0.5,
             }}
+            aria-hidden
           >
             <Suspense fallback={null}>
-              <MiniCloud size={880} drift="slow" opacity={0.32} />
+              <FeatherKete variant="base" size={720} drift="slow" />
             </Suspense>
           </div>
           {/* Data-light strand woven across the cloud — obvious network of connected lights */}
@@ -766,10 +764,10 @@ function LiveCompliance() {
           background: "radial-gradient(ellipse 70% 60% at 50% 45%, rgba(232,238,236,0.55) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 50% 40%, rgba(248,233,196,0.22) 0%, transparent 70%)",
         }}
       />
-      {/* Atmospheric wisp tucked top-right */}
-      <div className="absolute hidden md:block pointer-events-none" style={{ top: 48, right: "8%", width: 180, height: 180 }}>
+      {/* Canonical kete tucked top-right */}
+      <div className="absolute hidden md:block pointer-events-none" style={{ top: 48, right: "8%", width: 180, height: 180, opacity: 0.7 }} aria-hidden>
         <Suspense fallback={null}>
-          <MiniCloud size={180} drift="slow" opacity={0.35} />
+          <FeatherKete variant="base" size={180} drift="slow" />
         </Suspense>
       </div>
       <motion.div {...fadeUp} className="max-w-[680px] mx-auto px-6 text-center relative z-10">
@@ -861,20 +859,23 @@ function Closing() {
       className="relative overflow-hidden"
       style={{ paddingTop: 180, paddingBottom: 180, background: PEARL.bg }}
     >
-      {/* Closing cloud — softer, lower in the frame than the hero, holding the most generous spread of fairy lights */}
+      {/* Closing kete trio — canonical FeatherKete imagery, soft and low in the frame */}
       <div
-        className="absolute hidden md:flex items-center justify-center pointer-events-none"
+        className="absolute hidden md:flex items-center justify-center gap-12 pointer-events-none"
         style={{
           top: "55%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: 1100,
-          height: 620,
-          opacity: 0.85,
+          height: 520,
+          opacity: 0.55,
         }}
+        aria-hidden
       >
         <Suspense fallback={null}>
-          <HeroCloud height={520} opacity={0.85} />
+          <FeatherKete variant="manaaki" size={280} drift="slow" />
+          <FeatherKete variant="base" size={360} drift="slow" />
+          <FeatherKete variant="auaha" size={280} drift="slow" />
         </Suspense>
       </div>
 
