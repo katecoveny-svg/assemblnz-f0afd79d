@@ -153,3 +153,7 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.run-thought]
     verify_jwt = true
+  # TEMPORARY — migrate-helper. Remove this entry along with the function
+  # itself once the Lovable → assembl-prod migration is complete.
+  [functions.migrate-helper]
+    verify_jwt = false
