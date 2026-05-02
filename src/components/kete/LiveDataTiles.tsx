@@ -180,10 +180,10 @@ export default function LiveDataTiles({ tiles, accent = "#3A7D6E", refreshMs = 6
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────────
 // Loader helpers — each wraps an existing edge function and returns
 // a single human-readable value. All loaders are non-throwing.
-// ─────────────────────────────────────────────────────────────────────
+// ───────────────────────────────────────────────────────────────────
 
 async function invokeFn<T = any>(name: string, body?: any): Promise<T | null> {
   try {
@@ -215,7 +215,7 @@ export async function loadFuel(): Promise<string | null> {
 /** AIS vessel tracking — count of vessels in a bbox */
 export async function loadVessels(label = "Hauraki Gulf"): Promise<string | null> {
   try {
-    const url = `https://ssaxxdkxzrvkdjsanhei.supabase.co/functions/v1/iot-ais-tracking?action=vessels&lat=-36.85&lon=174.76&radius=0.6`;
+    const url = `https://wurwcrgxjjwqdaxqceey.supabase.co/functions/v1/iot-ais-tracking?action=vessels&lat=-36.85&lon=174.76&radius=0.6`;
     const r = await fetch(url, {
       headers: {
         apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "",

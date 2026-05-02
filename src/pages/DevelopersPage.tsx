@@ -34,11 +34,11 @@ import {
 } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────
 // Constants — every line of customer-facing copy is sourced from the spec.
 // "AI" is banned in body copy. We use "system", "platform", "agents".
-// ────────────────────────────────────────────────────────────────────────────
-const MCP_URL = `https://ssaxxdkxzrvkdjsanhei.supabase.co/functions/v1/assembl-mcp`;
+// ─────────────────────────────────────────────────────────────────────
+const MCP_URL = `https://wurwcrgxjjwqdaxqceey.supabase.co/functions/v1/assembl-mcp`;
 
 const HERO_CONFIG = `{
   "mcpServers": {
@@ -167,9 +167,9 @@ const waitlistSchema = z.object({
     .or(z.literal("")),
 });
 
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────
 // Reusable bits
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────
 function CodeBlock({
   code,
   id,
@@ -224,9 +224,9 @@ function GlassCard({
   );
 }
 
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────
 // Page
-// ────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────
 export default function DevelopersPage() {
   const [copied, setCopied] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -287,7 +287,7 @@ export default function DevelopersPage() {
       <BrandNav />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* ── 1. HERO ────────────────────────────────────────────────────── */}
+        {/* ── 1. HERO ─────────────────────────────────────────────── */}
         <section className="pt-12 sm:pt-20 pb-14 sm:pb-20">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -355,7 +355,7 @@ export default function DevelopersPage() {
           </motion.div>
         </section>
 
-        {/* ── 2. THREE WAYS IN ───────────────────────────────────────────── */}
+        {/* ── 2. THREE WAYS IN ───────────────────────────────────────── */}
         <section id="three-ways" className="py-14 sm:py-20">
           <h2 className="font-display font-light uppercase tracking-[0.18em] text-2xl sm:text-3xl text-foreground/90 mb-2">
             Three ways in
@@ -402,7 +402,7 @@ export default function DevelopersPage() {
           </div>
         </section>
 
-        {/* ── 3. TOOLSETS ────────────────────────────────────────────────── */}
+        {/* ── 3. TOOLSETS ────────────────────────────────────────────── */}
         <section id="toolsets" className="py-14 sm:py-20 scroll-mt-24">
           <h2 className="font-display font-light uppercase tracking-[0.18em] text-2xl sm:text-3xl text-foreground/90 mb-2">
             Six toolsets. Enable only what you need.
@@ -465,7 +465,7 @@ export default function DevelopersPage() {
           </GlassCard>
         </section>
 
-        {/* ── 4. MANA TRUST LAYER ────────────────────────────────────────── */}
+        {/* ── 4. MANA TRUST LAYER ──────────────────────────────────── */}
         <section id="trust" className="py-14 sm:py-20 scroll-mt-24">
           <h2 className="font-display font-light uppercase tracking-[0.18em] text-2xl sm:text-3xl text-foreground/90 mb-2">
             The Mana Trust Layer
@@ -507,7 +507,7 @@ export default function DevelopersPage() {
           </GlassCard>
         </section>
 
-        {/* ── 5. QUICK START ─────────────────────────────────────────────── */}
+        {/* ── 5. QUICK START ───────────────────────────────────────────── */}
         <section id="quick-start" className="py-14 sm:py-20 scroll-mt-24">
           <h2 className="font-display font-light uppercase tracking-[0.18em] text-2xl sm:text-3xl text-foreground/90 mb-2">
             Connect in 30 seconds
@@ -548,7 +548,7 @@ export default function DevelopersPage() {
           </Tabs>
         </section>
 
-        {/* ── 6. CLI ─────────────────────────────────────────────────────── */}
+        {/* ── 6. CLI ──────────────────────────────────────────────────────── */}
         <section id="cli" className="py-14 sm:py-20 scroll-mt-24">
           <h2 className="font-display font-light uppercase tracking-[0.18em] text-2xl sm:text-3xl text-foreground/90 mb-2">
             The Assembl CLI
@@ -563,7 +563,7 @@ export default function DevelopersPage() {
           </div>
         </section>
 
-        {/* ── 7. WAITLIST ────────────────────────────────────────────────── */}
+        {/* ── 7. WAITLIST ────────────────────────────────────────────── */}
         <section id="early-access" className="py-14 sm:py-20 scroll-mt-24">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
             <div className="md:col-span-2">
@@ -673,7 +673,7 @@ export default function DevelopersPage() {
           </div>
         </section>
 
-        {/* ── 8. Mini-footer note (full footer below) ────────────────────── */}
+        {/* ── 8. Mini-footer note (full footer below) ────────────────── */}
         <section className="py-10">
           <div className="text-center text-xs text-foreground/55 space-x-3">
             <Link to="/how-it-works" className="hover:text-foreground/80">
