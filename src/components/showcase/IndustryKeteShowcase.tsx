@@ -5,7 +5,7 @@ import { Play } from "lucide-react";
 import { KETE_DATA } from "@/components/kete/keteData";
 import { supabase } from "@/integrations/supabase/client";
 
-const SUPABASE_URL = "https://ssaxxdkxzrvkdjsanhei.supabase.co";
+const SUPABASE_URL = "https://wurwcrgxjjwqdaxqceey.supabase.co";
 const videoUrl = (slug: string) =>
   `${SUPABASE_URL}/storage/v1/object/public/video-assets/${slug}.mp4`;
 
