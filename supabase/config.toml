@@ -1,4 +1,1 @@
 project_id = "ssaxxdkxzrvkdjsanhei"
-
-[functions.secret-readback]
-verify_jwt = false
