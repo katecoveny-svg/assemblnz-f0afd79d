@@ -7,7 +7,9 @@
 # functions not yet deployed. Subsequent pushes to main that touch
 # supabase/functions/** auto-deploy via the path filter below.
 #
-# Requires repo secret: SUPABASE_ACCESS_TOKEN
+# Requires repo secret: DEPLOY (mapped to SUPABASE_ACCESS_TOKEN env var below — the
+#                       Supabase CLI reads from that env var name regardless of the
+#                       GitHub secret name).
 # Generate at https://supabase.com/dashboard/account/tokens
 # Paste at https://github.com/katecoveny-svg/assemblnz-f0afd79d/settings/secrets/actions
 
@@ -45,7 +47,7 @@ jobs:
 
       - name: Deploy all edge functions
         env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.DEPLOY }}
           PROJECT_REF: wurwcrgxjjwqdaxqceey
         run: |
           set +e  # don't bail on first failure; report all
