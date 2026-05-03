@@ -38,12 +38,7 @@
   "exclude": [
     "node_modules",
     "legacy-vite",
-    "evidence-bundles",
-    "agents",
     "supabase",
-    "kb",
-    "simulator",
-    "scripts",
     "remotion",
     "docs",
     ".lovable"
