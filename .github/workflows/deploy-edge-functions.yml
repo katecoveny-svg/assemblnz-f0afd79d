@@ -1,0 +1,114 @@
+# Deploy Supabase Edge Functions to assembl-prod
+#
+# Bundles each function (handles supabase/functions/_shared/ imports automatically
+# via --use-api mode) and deploys to the assembl-prod project.
+#
+# First run: trigger via workflow_dispatch from the Actions tab to catch up on
+# functions not yet deployed. Subsequent pushes to main that touch
+# supabase/functions/** auto-deploy via the path filter below.
+#
+# Requires repo secret: SUPABASE_ACCESS_TOKEN
+# Generate at https://supabase.com/dashboard/account/tokens
+# Paste at https://github.com/katecoveny-svg/assemblnz-f0afd79d/settings/secrets/actions
+
+name: Deploy Supabase Edge Functions
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/functions/**'
+      - '.github/workflows/deploy-edge-functions.yml'
+  workflow_dispatch:
+
+# Cancel in-flight runs on the same ref when a newer one starts
+concurrency:
+  group: deploy-edge-functions-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to assembl-prod
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy all edge functions
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROJECT_REF: wurwcrgxjjwqdaxqceey
+        run: |
+          set +e  # don't bail on first failure; report all
+
+          # Discover all function directories (skip _shared, which is the
+          # imported helper code, not a deployable function)
+          mapfile -t FUNCTIONS < <(find supabase/functions -mindepth 1 -maxdepth 1 -type d -not -name '_shared' -printf '%f\n' | sort)
+          TOTAL=${#FUNCTIONS[@]}
+
+          echo "::group::Functions to deploy ($TOTAL total)"
+          printf '%s\n' "${FUNCTIONS[@]}"
+          echo "::endgroup::"
+
+          DEPLOYED=0
+          FAILED=0
+          declare -a DEPLOYED_NAMES
+          declare -a FAILED_NAMES
+
+          for fn in "${FUNCTIONS[@]}"; do
+            if [ ! -f "supabase/functions/$fn/index.ts" ]; then
+              echo "::warning::Skipping $fn — no index.ts"
+              continue
+            fi
+
+            echo "::group::Deploy: $fn"
+            if supabase functions deploy "$fn" --project-ref "$PROJECT_REF" --use-api; then
+              DEPLOYED=$((DEPLOYED + 1))
+              DEPLOYED_NAMES+=("$fn")
+            else
+              FAILED=$((FAILED + 1))
+              FAILED_NAMES+=("$fn")
+              echo "::error::Deploy failed: $fn"
+            fi
+            echo "::endgroup::"
+          done
+
+          # Write summary visible at the top of the workflow run
+          {
+            echo "## Edge Function Deploy Summary"
+            echo ""
+            echo "- **Total**: $TOTAL"
+            echo "- **Deployed**: $DEPLOYED"
+            echo "- **Failed**: $FAILED"
+            echo "- **Project**: \`$PROJECT_REF\` (assembl-prod, Sydney)"
+            echo ""
+            if [ ${#FAILED_NAMES[@]} -gt 0 ]; then
+              echo "### Failed functions"
+              for name in "${FAILED_NAMES[@]}"; do
+                echo "- \`$name\`"
+              done
+              echo ""
+            fi
+            if [ ${#DEPLOYED_NAMES[@]} -gt 0 ]; then
+              echo "<details><summary>Successfully deployed (${#DEPLOYED_NAMES[@]})</summary>"
+              echo ""
+              for name in "${DEPLOYED_NAMES[@]}"; do
+                echo "- \`$name\`"
+              done
+              echo ""
+              echo "</details>"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # Workflow turns red if anything failed, so Kate notices.
+          # Doesn't auto-revert anything — successful deploys stay deployed.
+          [ "$FAILED" -eq 0 ]
