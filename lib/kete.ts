@@ -13,6 +13,13 @@ export type Kete = {
   tagline: string;
   accent: string;
   accentName: string;
+  /**
+   * "industry" — one of the five locked industry kete (sold via Operator /
+   * Leader / Enterprise tiers).
+   * "whanau" — Tōroa, sold standalone on the Family tier.
+   * Source: PRICING-LOCKED.md
+   */
+  type: "industry" | "whanau";
 };
 
 export const KETES: Kete[] = [
@@ -20,9 +27,11 @@ export const KETES: Kete[] = [
     slug: "waihanga",
     name: "Waihanga",
     industry: "Construction",
-    tagline: "Autonomous compliance, evidence packs, and auditor-ready outputs.",
+    tagline:
+      "Autonomous compliance, evidence packs, and auditor-ready outputs.",
     accent: "#CBB8A4",
     accentName: "Clay Sand",
+    type: "industry",
   },
   {
     slug: "manaaki",
@@ -31,14 +40,17 @@ export const KETES: Kete[] = [
     tagline: "Front-of-house, rosters, and food safety — quietly handled.",
     accent: "#E6D8C6",
     accentName: "Warm Linen",
+    type: "industry",
   },
   {
     slug: "pikau",
     name: "Pikau",
     industry: "Freight & Customs",
-    tagline: "Manifests, customs lodgements, and chain-of-custody evidence.",
+    tagline:
+      "Manifests, customs lodgements, and chain-of-custody evidence.",
     accent: "#B8C7B1",
     accentName: "Soft Moss",
+    type: "industry",
   },
   {
     slug: "arataki",
@@ -47,24 +59,32 @@ export const KETES: Kete[] = [
     tagline: "WoF/CoF tracking, service records, and fleet compliance.",
     accent: "#D5C0C8",
     accentName: "Dusky Rose",
+    type: "industry",
   },
   {
     slug: "auaha",
     name: "Auaha",
     industry: "Creative",
-    tagline: "Briefs, scripts, brand guardrails — provenance-watermarked.",
+    tagline:
+      "Briefs, scripts, brand guardrails — provenance-watermarked.",
     accent: "#C8DDD8",
     accentName: "Pale Seafoam",
+    type: "industry",
   },
   {
     slug: "toroa",
     name: "Tōroa",
-    industry: "Family",
-    tagline: "Routines, school logistics, and household admin in one kete.",
+    industry: "Whānau",
+    tagline:
+      "Routines, school logistics, and household admin in one quiet kete.",
     accent: "#C7D9E8",
     accentName: "Moonstone Blue",
+    type: "whanau",
   },
 ];
+
+export const INDUSTRY_KETES = KETES.filter((k) => k.type === "industry");
+export const WHANAU_KETE = KETES.find((k) => k.type === "whanau")!;
 
 export function getKete(slug: KeteSlug): Kete {
   const kete = KETES.find((k) => k.slug === slug);
