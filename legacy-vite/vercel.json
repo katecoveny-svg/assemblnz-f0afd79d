@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json.schemastore.org/vercel.json",
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "redirects": [
+    { "source": "/aura", "destination": "/app/hospitality", "permanent": false },
+    { "source": "/nova", "destination": "/app/tourism", "permanent": false },
+    { "source": "/apex", "destination": "/app/construction", "permanent": false },
+    { "source": "/terra", "destination": "/app/agriculture", "permanent": false },
+    { "source": "/pulse", "destination": "/app/retail", "permanent": false },
+    { "source": "/forge", "destination": "/app/automotive", "permanent": false },
+    { "source": "/flux", "destination": "/app/sales", "permanent": false },
+    { "source": "/prism", "destination": "/app/marketing", "permanent": false },
+    { "source": "/aroha", "destination": "/app/hr", "permanent": false },
+    { "source": "/haven", "destination": "/app/property", "permanent": false },
+    { "source": "/anchor", "destination": "/app/legal", "permanent": false },
+    { "source": "/ledger", "destination": "/app/accounting", "permanent": false },
+    { "source": "/voyage", "destination": "/app/travel", "permanent": false },
+    { "source": "/kindle", "destination": "/app/nonprofit", "permanent": false },
+    { "source": "/spark", "destination": "/app/spark", "permanent": false },
+    { "source": "/turf", "destination": "/app/sports", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/manifest-:agent.json",
+      "headers": [
+        { "key": "Content-Type", "value": "application/manifest+json" },
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache" },
+        { "key": "Service-Worker-Allowed", "value": "/" }
+      ]
+    }
+  ]
+}

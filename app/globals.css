@@ -1,0 +1,236 @@
+/**
+ * Assembl — Feather Kete Design System
+ * Palette: Mārama Whenua (warm light)
+ * Light theme only
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 23% 95%;
+    --foreground: 22 12% 35%;
+    --card: 32 25% 97%;
+    --card-foreground: 22 12% 35%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 22 12% 35%;
+    --primary: 40 48% 66%;
+    --primary-foreground: 22 12% 25%;
+    --secondary: 32 27% 90%;
+    --secondary-foreground: 22 12% 35%;
+    --muted: 30 25% 87%;
+    --muted-foreground: 22 10% 52%;
+    --accent: 152 18% 82%;
+    --accent-foreground: 22 12% 30%;
+    --destructive: 0 50% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 22 10% 52% / 0.14;
+    --input: 22 10% 52% / 0.14;
+    --ring: 40 48% 66%;
+    --radius: 24px;
+
+    --assembl-mist: #F7F3EE;
+    --assembl-cloud: #EEE7DE;
+    --assembl-sand: #D8C8B4;
+    --assembl-taupe: #9D8C7D;
+    --assembl-taupe-deep: #6F6158;
+    --assembl-sage-mist: #C9D8D0;
+    --assembl-soft-gold: #D9BC7A;
+
+    --text-primary: #6F6158;
+    --text-secondary: #8E8177;
+    --text-body: #5F554F;
+
+    --shadow-soft: 0 8px 30px rgba(111, 97, 88, 0.08);
+    --shadow-card: 0 4px 20px rgba(111, 97, 88, 0.06);
+    --shadow-brand: 0 12px 40px rgba(111, 97, 88, 0.10);
+
+    --kete-waihanga: #CBB8A4;
+    --kete-manaaki: #E6D8C6;
+    --kete-pikau: #B8C7B1;
+    --kete-arataki: #D5C0C8;
+    --kete-auaha: #C8DDD8;
+    --kete-toroa: #C7D9E8;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background: var(--assembl-mist);
+    color: var(--text-body);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+  }
+
+  /* Subtle warm noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+  }
+
+  h1 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(142, 129, 119, 0.14);
+    border-radius: 24px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .glass-card-elevated {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(142, 129, 119, 0.18);
+    border-radius: 24px;
+    box-shadow: 0 12px 48px rgba(111, 97, 88, 0.12);
+  }
+
+  .kete-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(142, 129, 119, 0.14);
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+    transition:
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .kete-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--kete-accent, rgba(217, 188, 122, 0.35));
+    box-shadow:
+      0 12px 48px rgba(111, 97, 88, 0.12),
+      0 0 0 1px var(--kete-accent, rgba(217, 188, 122, 0.2));
+  }
+
+  .cta-primary {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #D9BC7A 0%, #C4A664 100%);
+    color: #3D3428;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 16px rgba(217, 188, 122, 0.25);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cta-primary:hover {
+    box-shadow: 0 6px 24px rgba(217, 188, 122, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid rgba(157, 140, 125, 0.3);
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(157, 140, 125, 0.5);
+    background: rgba(157, 140, 125, 0.06);
+    transform: translateY(-1px);
+  }
+
+  .badge-gold {
+    background: rgba(217, 188, 122, 0.12);
+    color: #9D7D3A;
+    border: 1px solid rgba(217, 188, 122, 0.25);
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .badge-sage {
+    background: rgba(201, 216, 208, 0.2);
+    color: #5A7A6A;
+    border: 1px solid rgba(201, 216, 208, 0.35);
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .text-gradient-hero {
+    background-image: linear-gradient(
+      135deg,
+      #9D8C7D 0%,
+      #D9BC7A 50%,
+      #6F6158 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(157, 140, 125, 0.2), transparent);
+  }
+}
+
+@layer utilities {
+  .text-taupe       { color: var(--assembl-taupe); }
+  .text-taupe-deep  { color: var(--assembl-taupe-deep); }
+  .text-soft-gold   { color: var(--assembl-soft-gold); }
+}

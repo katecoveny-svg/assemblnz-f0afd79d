@@ -2,42 +2,34 @@ import type { Config } from "tailwindcss";
 
 /**
  * Assembl — Feather Kete Design System
- * "Quiet intelligence. Time returned."
- *
  * Palette: Mārama Whenua (warm light)
- * Typography: Cormorant Garamond (display) + Inter (body) + IBM Plex Mono (code)
- * Updated: 24 April 2026
+ * Typography: Cormorant Garamond + Inter + IBM Plex Mono
  */
 
 export default {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./lib/**/*.{ts,tsx}",
   ],
-  prefix: "",
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1.5rem",
       screens: {
         "2xl": "1400px",
       },
     },
     extend: {
       fontFamily: {
-        // Primary typography stack
-        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', 'monospace'],
-        // Aliases for convenience
-        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['"Cormorant Garamond"', "Georgia", "serif"],
+        body: ["Inter", "system-ui", "sans-serif"],
+        mono: ['"IBM Plex Mono"', "monospace"],
+        serif: ['"Cormorant Garamond"', "Georgia", "serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
       colors: {
-        // shadcn/ui semantic tokens (driven by CSS variables)
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -71,43 +63,25 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
-        },
-        // ── Mārama Whenua palette (direct access) ──
         assembl: {
-          mist: '#F7F3EE',
-          cloud: '#EEE7DE',
-          sand: '#D8C8B4',
-          taupe: '#9D8C7D',
-          'taupe-deep': '#6F6158',
-          'sage-mist': '#C9D8D0',
-          'soft-gold': '#D9BC7A',
-          // Text aliases (preserved — referenced by 3 components)
-          'text-primary': '#6F6158',
-          'text-secondary': '#8E8177',
-          'text-body': '#5F554F',
+          mist: "#F7F3EE",
+          cloud: "#EEE7DE",
+          sand: "#D8C8B4",
+          taupe: "#9D8C7D",
+          "taupe-deep": "#6F6158",
+          "sage-mist": "#C9D8D0",
+          "soft-gold": "#D9BC7A",
+          "text-primary": "#6F6158",
+          "text-secondary": "#8E8177",
+          "text-body": "#5F554F",
         },
-        // ── Industry kete accents — Brand Guidelines v1.0 (Mārama Whenua) ──
-        // Bleached feather palette, locked 24 April 2026. Sourced from
-        // src/design/assemblTokens.ts and mirrored as CSS vars in src/index.css.
         kete: {
-          pikau:    '#B8C7B1',    // Soft Moss      — Freight & Customs
-          hoko:     '#D8C3C2',    // Blush Stone    — Retail
-          ako:      '#C7D6C7',    // Soft Sage      — Early Childhood
-          toro:     '#C7D9E8',    // Moonstone Blue — Family
-          manaaki:  '#E6D8C6',    // Warm Linen     — Hospitality
-          waihanga: '#CBB8A4',    // Clay Sand      — Construction
-          arataki:  '#D5C0C8',    // Dusky Rose     — Automotive & Fleet
-          auaha:    '#C8DDD8',    // Pale Seafoam   — Creative
-          reo:      '#D9BC7A',    // Kowhai Soft    — Te Kāhui Reo (legacy)
+          waihanga: "#CBB8A4", // Clay Sand — Construction
+          manaaki: "#E6D8C6",  // Warm Linen — Hospitality
+          pikau: "#B8C7B1",    // Soft Moss — Freight
+          arataki: "#D5C0C8",  // Dusky Rose — Automotive
+          auaha: "#C8DDD8",    // Pale Seafoam — Creative
+          toroa: "#C7D9E8",    // Moonstone Blue — Family
         },
       },
       borderRadius: {
@@ -119,19 +93,10 @@ export default {
         pill: "999px",
       },
       boxShadow: {
-        'soft': '0 8px 30px rgba(111, 97, 88, 0.08)',
-        'card': '0 4px 20px rgba(111, 97, 88, 0.06)',
-        'card-hover': '0 8px 40px rgba(111, 97, 88, 0.12)',
-        'gold-glow': '0 0 20px rgba(217, 188, 122, 0.15)',
-        // ── Brand Guidelines v1.0 surface tokens ──
-        'brand-soft': '0 12px 40px rgba(111, 97, 88, 0.10)',
-        'sparkle-glow': '0 0 24px rgba(217, 188, 122, 0.35)',
-      },
-      backdropBlur: {
-        'surface': '24px',
-      },
-      borderColor: {
-        'hairline': 'rgba(111, 97, 88, 0.18)',
+        soft: "0 8px 30px rgba(111, 97, 88, 0.08)",
+        card: "0 4px 20px rgba(111, 97, 88, 0.06)",
+        "card-hover": "0 8px 40px rgba(111, 97, 88, 0.12)",
+        "brand-soft": "0 12px 40px rgba(111, 97, 88, 0.10)",
       },
       keyframes: {
         "accordion-down": {
@@ -146,14 +111,6 @@ export default {
           from: { opacity: "0", transform: "translateY(16px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
-        "sparkle": {
-          "0%, 100%": { opacity: "0", transform: "scale(0)" },
-          "50%": { opacity: "1", transform: "scale(1)" },
-        },
-        "shimmer-sweep": {
-          "0%": { transform: "translateX(-100%)" },
-          "100%": { transform: "translateX(100%)" },
-        },
         "gentle-float": {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-4px)" },
@@ -162,9 +119,7 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-up": "fade-up 0.5s ease-out forwards",
-        "sparkle": "sparkle 3s ease-in-out infinite",
-        "shimmer-sweep": "shimmer-sweep 4s ease-in-out infinite",
+        "fade-up": "fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "gentle-float": "gentle-float 6s ease-in-out infinite",
       },
     },
