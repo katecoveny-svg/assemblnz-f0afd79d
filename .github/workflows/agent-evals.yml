@@ -27,8 +27,11 @@ jobs:
         with:
           version: 10
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: pnpm install
+
+      - name: Install legacy-vite dependencies
+        run: cd legacy-vite && pnpm install
 
       - name: Kete name check
         run: cd legacy-vite && pnpm run check:kete-names
