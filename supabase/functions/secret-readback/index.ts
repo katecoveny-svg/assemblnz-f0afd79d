@@ -42,8 +42,10 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   const auth = req.headers.get("authorization") || "";
-  const expected = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
-  if (!expected || auth !== `Bearer ${expected}`) {
+  const svc = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+  const anon = Deno.env.get("SUPABASE_ANON_KEY") || "";
+  const ok = (svc && auth === `Bearer ${svc}`) || (anon && auth === `Bearer ${anon}`);
+  if (!ok) {
     return new Response(JSON.stringify({ error: "unauthorized" }), {
       status: 401,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
