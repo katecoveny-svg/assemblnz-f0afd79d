@@ -1,37 +1,30 @@
-import Link from "next/link";
-import { ArrowRight, FileCheck2, Sparkles, Workflow } from "lucide-react";
-import { INDUSTRY_KETES, WHANAU_KETE } from "@/lib/kete";
-import { PRICING_TIERS } from "@/lib/pricing";
-import { KeteCard } from "@/components/site/kete-card";
+import Link from 'next/link';
+import { ArrowRight, FileCheck2, CheckCircle, Workflow } from 'lucide-react';
+import { INDUSTRY_KETES, WHANAU_KETE } from '@/lib/kete';
+import { KeteCard } from '@/components/site/kete-card';
 
 const STEPS = [
   {
-    icon: Sparkles,
-    title: "Pick your kete",
+    icon: CheckCircle,
+    title: 'Agents draft',
     body:
-      "Choose the industry kete that fits — Waihanga for construction, Manaaki for hospitality, five in total. Modular, swap any time.",
+      'Specialist agents — each grounded in NZ legislation for your industry — produce compliance documentation, consent applications, and audit reports. They draft. You do not start from a blank page.',
   },
   {
     icon: Workflow,
-    title: "Agents go to work",
+    title: 'The pipeline checks',
     body:
-      "Autonomous workflows handle quotes, rosters, manifests, briefs — citing the latest NZ legislation as they go.",
+      'Every draft passes through a five-stage compliance pipeline: policy detection, intelligent routing, citation verification, source checking, and human approval. Nothing skips a stage.',
   },
   {
     icon: FileCheck2,
-    title: "Get evidence packs",
+    title: 'You decide',
     body:
-      "Every output is auditor-ready: cited, timestamped, watermarked for provenance. Defensible by default.",
+      'Nothing ships without your sign-off. Every output comes with an Evidence Pack — a tamper-evident audit trail showing every Act and Section that was checked, and when. The agent drafted. You approved. That is the record.',
   },
 ];
 
-const PRICING_PREVIEW_SLUGS = ["family", "operator", "enterprise"] as const;
-
 export default function HomePage() {
-  const pricingPreview = PRICING_PREVIEW_SLUGS.map(
-    (slug) => PRICING_TIERS.find((t) => t.slug === slug)!
-  );
-
   return (
     <>
       {/* ── Hero ───────────────────────────────────────────────── */}
@@ -41,42 +34,44 @@ export default function HomePage() {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(ellipse at 30% 20%, rgba(217, 188, 122, 0.18) 0%, transparent 55%), radial-gradient(ellipse at 80% 60%, rgba(201, 216, 208, 0.20) 0%, transparent 55%)",
+              'radial-gradient(ellipse at 30% 20%, rgba(43, 107, 87, 0.10) 0%, transparent 55%), radial-gradient(ellipse at 80% 60%, rgba(184, 178, 168, 0.15) 0%, transparent 55%)',
           }}
         />
 
         <div className="container py-20 md:py-28 lg:py-32">
           <div className="mx-auto max-w-4xl text-center animate-fade-up">
             <span className="badge-gold inline-flex">
-              Built in Aotearoa · Mārama Whenua v1.0
+              Built in Aotearoa · Mārama Whenua
             </span>
 
             <h1 className="mt-8 font-display text-5xl leading-[1.05] sm:text-6xl md:text-7xl">
-              <span className="text-gradient-hero">Autonomous AI agents</span>
-              <br />
-              <span className="text-[color:var(--text-primary)]">
-                for New&nbsp;Zealand business
-              </span>
+              Less noise. More{' '}
+              <em className="not-italic text-gradient-hero">time</em>.
             </h1>
 
-            <p className="mx-auto mt-8 max-w-2xl text-lg text-[color:var(--text-body)] md:text-xl">
-              Industry-specific kete that cite legislation, produce evidence
-              packs, and pass auditor scrutiny.
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-[color:var(--text-body)] md:text-xl">
+              Quiet intelligence for the businesses that build Aotearoa.
+            </p>
+
+            <p className="mx-auto mt-4 max-w-2xl text-base text-[color:var(--text-body)]">
+              assembl works alongside your team — purpose-built AI agents that draft compliance
+              documentation, cite every NZ Act and Section, and hand it to you for sign-off. Your
+              people keep doing what they do best. They just get the Friday afternoon back.
             </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                href="#kete"
+                href="/contact"
                 className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
               >
-                Explore the five kete
+                Start your pilot
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link
-                href="/contact"
+                href="/pricing"
                 className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
               >
-                Book a demo
+                See pricing
               </Link>
             </div>
 
@@ -87,20 +82,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Industry kete grid (5) ────────────────────────────── */}
+      {/* ── Industry kete grid ───────────────────────────────── */}
       <section id="kete" className="relative scroll-mt-20">
         <div className="container py-16 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              The five industry kete
+              Industry kete
             </span>
             <h2 className="mt-3 font-display text-4xl md:text-5xl">
-              Five kete. One quiet platform.
+              Purpose-built for your industry.
             </h2>
             <p className="mt-5 text-base text-[color:var(--text-body)] md:text-lg">
-              Each kete is purpose-built for an industry — its workflows, its
-              compliance regime, its evidence requirements. Modular, so you
-              start with what you need and add as you grow.
+              Each kete is grounded in the legislation your industry lives under — its workflows,
+              its compliance regime, its evidence requirements.
             </p>
           </div>
 
@@ -112,33 +106,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Tōroa — whānau ─────────────────────────────────────── */}
+      {/* ── Tōro — whānau ──────────────────────────────────────── */}
       <section className="relative">
         <div className="container py-12 md:py-16">
           <div
             className="glass-card-elevated relative overflow-hidden p-8 md:p-12"
-            style={{ ["--kete-accent" as string]: WHANAU_KETE.accent }}
+            style={{ ['--kete-accent' as string]: WHANAU_KETE.accent }}
           >
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-12 -top-12 h-48 w-48 rounded-full opacity-50"
-              style={{
-                background: `radial-gradient(circle, ${WHANAU_KETE.accent} 0%, transparent 70%)`,
-              }}
-            />
-
             <div className="relative grid items-center gap-8 md:grid-cols-2 md:gap-12">
               <div>
                 <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                   For whānau · Family tier
                 </span>
                 <h2 className="mt-3 font-display text-4xl md:text-5xl">
-                  Tōroa
+                  Tōro
                 </h2>
                 <p className="mt-4 text-base text-[color:var(--text-body)] md:text-lg">
-                  An SMS-first whānau agent for households. Routines, school
-                  logistics, and the quiet admin of family life — without
-                  another app to open.
+                  Tōro is assembl\'s family agent — a personal assistant for household admin,
+                  school communications, appointment management, and family scheduling.
+                  Available self-serve at the Family tier.
                 </p>
                 <div className="mt-6 flex items-center gap-3">
                   <span
@@ -155,20 +141,20 @@ export default function HomePage() {
               <div className="flex flex-col items-start gap-4 md:items-end">
                 <div className="text-left md:text-right">
                   <p className="font-display text-5xl text-[color:var(--text-primary)]">
-                    $29
+                    NZ$29
                     <span className="ml-1 text-lg font-normal text-[color:var(--text-secondary)]">
                       /month
                     </span>
                   </p>
                   <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                    No setup · NZD, GST excl.
+                    No setup · GST excl.
                   </p>
                 </div>
                 <Link
-                  href="/kete/toroa"
+                  href="/kete/toro"
                   className="cta-primary inline-flex h-11 items-center px-6 text-sm"
                 >
-                  Meet Tōroa
+                  Get started for NZ$29/month
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
               </div>
@@ -177,7 +163,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── How it works ─────────────────────────────────────── */}
+      {/* ── How it works ────────────────────────────────────── */}
       <section className="relative">
         <div className="container py-16 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
@@ -194,10 +180,10 @@ export default function HomePage() {
               <div key={step.title} className="glass-card relative p-8">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs text-[color:var(--text-secondary)]">
-                    Step {String(i + 1).padStart(2, "0")}
+                    Step {String(i + 1).padStart(2, '0')}
                   </span>
                   <step.icon
-                    className="h-5 w-5 text-[color:var(--assembl-soft-gold)]"
+                    className="h-5 w-5 text-[color:var(--assembl-sage-mist)]"
                     aria-hidden
                   />
                 </div>
@@ -213,60 +199,103 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Pricing summary ──────────────────────────────────── */}
+      {/* ── Waihanga + Pikau spotlight ─────────────────────── */}
       <section className="relative">
         <div className="container py-16 md:py-24">
-          <div className="glass-card-elevated mx-auto max-w-5xl p-8 md:p-12">
-            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-xl">
-                <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  Pricing
-                </span>
-                <h2 className="mt-3 font-display text-3xl md:text-4xl">
-                  Transparent, NZD, no surprises.
-                </h2>
-                <p className="mt-4 text-[color:var(--text-body)]">
-                  Five tiers, one ladder — from a $29/mo whānau agent to bespoke
-                  outcome engagements. GST exclusive, cancel any time.
-                </p>
-              </div>
-              <Link
-                href="/pricing"
-                className="cta-primary inline-flex h-11 items-center self-start px-6 text-sm md:self-auto"
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              Active kete
+            </span>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl">
+              Every agent cites current NZ legislation.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            <div className="glass-card p-8">
+              <p
+                className="font-mono text-xs uppercase tracking-[0.22em]"
+                style={{ color: '#2B6B57' }}
               >
-                See full pricing
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                Waihanga · Construction
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                Six specialist agents covering health and safety (HSWA 2015), building consents
+                (Building Act 2004), BIM analysis, materials compliance, and quality assurance.
+                Every consent application leaves with an Evidence Pack your team can stand
+                behind with a BCA.
+              </p>
+              <Link
+                href="/kete/waihanga"
+                className="mt-6 inline-flex items-center gap-1 font-mono text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+              >
+                Learn more <ArrowRight className="h-3 w-3" aria-hidden />
               </Link>
             </div>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
-              {pricingPreview.map((tier) => (
-                <div
-                  key={tier.slug}
-                  className="rounded-card border border-[rgba(157,140,125,0.18)] bg-white/50 p-6"
-                >
-                  <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                    {tier.name} · {tier.audience}
-                  </p>
-                  <p className="mt-3 font-display text-3xl text-[color:var(--text-primary)]">
-                    {tier.monthly}
-                    {tier.monthly !== "—" && (
-                      <span className="ml-1 text-sm font-normal text-[color:var(--text-secondary)]">
-                        /mo
-                      </span>
-                    )}
-                  </p>
-                  <p className="mt-2 text-xs text-[color:var(--text-secondary)]">
-                    Setup: {tier.setup}
-                  </p>
-                </div>
-              ))}
+            <div className="glass-card p-8">
+              <p
+                className="font-mono text-xs uppercase tracking-[0.22em]"
+                style={{ color: '#3B7CB5' }}
+              >
+                Pikau · Freight & Customs
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                Specialist agents for customs declarations (Customs and Excise Act 2018), tariff
+                classification, trade compliance, and freight documentation. The audit trail your
+                broker needs.
+              </p>
+              <Link
+                href="/kete/pikau"
+                className="mt-6 inline-flex items-center gap-1 font-mono text-xs text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+              >
+                Learn more <ArrowRight className="h-3 w-3" aria-hidden />
+              </Link>
+            </div>
+          </div>
+
+          <p className="mt-8 text-center text-sm text-[color:var(--text-secondary)]">
+            More industries coming — Manaaki (Hospitality), Auaha (Creative), Arataki (Automotive),
+            Hoko (Retail), Ako (Early Childhood).
+          </p>
+        </div>
+      </section>
+
+      {/* ── Pilot Sprint ──────────────────────────────────── */}
+      <section className="relative">
+        <div className="container py-16 md:py-24">
+          <div
+            className="glass-card-elevated mx-auto max-w-4xl p-8 md:p-12"
+            style={{ borderLeft: '3px solid #2B6B57' }}
+          >
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              Pilot Sprint
+            </span>
+            <h2 className="mt-3 font-display text-3xl md:text-4xl">
+              NZ$5,000 + GST. Two weeks. One workflow. One Evidence Pack.
+            </h2>
+            <p className="mt-4 text-[color:var(--text-body)]">
+              The fastest way to see what assembl does for your business. Pick one workflow — a
+              consent application, a customs declaration, a safety plan — and your agents draft it
+              end-to-end, with every NZ Act and Section cited.
+            </p>
+            <p className="mt-3 text-[color:var(--text-body)]">
+              If your team has not saved time by week two, you get your money back.
+            </p>
+            <div className="mt-8">
+              <Link
+                href="/contact"
+                className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
+              >
+                Book your pilot
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Trust ─────────────────────────────────────────────── */}
+      {/* ── Trust strip ─────────────────────────────────────── */}
       <section className="relative">
         <div className="container py-16 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
@@ -287,8 +316,8 @@ export default function HomePage() {
                   Cited
                 </p>
                 <p className="mt-2 text-sm text-[color:var(--text-body)]">
-                  Outputs reference the exact section of the Building Act, Food
-                  Act, Customs Act, or relevant regulation.
+                  Outputs reference the exact section of the Building Act, Food Act, Customs
+                  and Excise Act, or relevant regulation.
                 </p>
               </div>
               <div>
@@ -296,8 +325,8 @@ export default function HomePage() {
                   Watermarked
                 </p>
                 <p className="mt-2 text-sm text-[color:var(--text-body)]">
-                  Provenance signature on every document — auditor-defensible
-                  trail of who, what, when.
+                  Provenance signature on every document — auditor-defensible trail of who,
+                  what, when.
                 </p>
               </div>
               <div>

@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { Mail, Clock, MapPin } from "lucide-react";
-import { ContactForm } from "@/components/site/contact-form";
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { Mail, Clock, MapPin } from 'lucide-react';
+import { ContactForm } from '@/components/site/contact-form';
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: 'Contact',
   description:
-    "Book a demo, start a 14-day trial, or ask us a question. NZ-hosted intake. One working-day response.",
+    'Whether you are ready for a pilot or just want to understand what assembl does for your industry — we would like to hear from you.',
 };
 
 export default function ContactPage() {
@@ -19,23 +19,18 @@ export default function ContactPage() {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 0%, rgba(201, 216, 208, 0.22) 0%, transparent 55%), radial-gradient(ellipse at 80% 60%, rgba(217, 188, 122, 0.16) 0%, transparent 50%)",
+              'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.10) 0%, transparent 55%), radial-gradient(ellipse at 80% 60%, rgba(184, 178, 168, 0.12) 0%, transparent 50%)',
           }}
         />
         <div className="container py-20 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <span className="badge-gold inline-flex">Get in touch</span>
             <h1 className="mt-6 font-display text-5xl md:text-6xl">
-              <span className="text-[color:var(--text-primary)]">
-                Tell us what you'd like
-              </span>
-              <br />
-              <span className="text-gradient-hero">to hand over.</span>
+              Let\'s talk.
             </h1>
             <p className="mt-6 text-lg text-[color:var(--text-body)]">
-              Demo bookings, trial sign-ups, and "is this even right for us?"
-              questions all land in the same inbox. We reply within one working
-              day, NZ time.
+              Whether you are ready for a pilot or just want to understand what assembl does for
+              your industry — we would like to hear from you.
             </p>
           </div>
         </div>
@@ -59,33 +54,32 @@ export default function ContactPage() {
                   >
                     assembl@assembl.co.nz
                   </Link>,
-                  "We read every message ourselves.",
+                  'We read every message ourselves.',
                 ]}
               />
               <ContactCard
                 icon={Clock}
                 title="Response time"
                 lines={[
-                  "One working day, NZ time.",
-                  "Mon–Fri, 9am–5pm. Pacific public holidays observed.",
+                  'One working day, NZ time.',
+                  'Mon–Fri, 9am–5pm. Pacific public holidays observed.',
                 ]}
               />
               <ContactCard
                 icon={MapPin}
                 title="Where we are"
                 lines={[
-                  "Aotearoa New Zealand.",
-                  "Customer data hosted in NZ-resident regions by default.",
+                  'Aotearoa New Zealand.',
+                  'Customer data hosted in NZ-resident regions by default.',
                 ]}
               />
 
               <div className="glass-card p-6">
                 <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  Already a customer?
+                  Success message
                 </p>
                 <p className="mt-3 text-sm text-[color:var(--text-body)]">
-                  Use the in-app support channel inside your kete. It routes
-                  straight to the team that knows your account.
+                  Thank you. Kate will be in touch within one business day.
                 </p>
               </div>
             </aside>
@@ -101,7 +95,7 @@ function ContactCard({
   title,
   lines,
 }: {
-  icon: React.ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
+  icon: React.ComponentType<{ className?: string; 'aria-hidden'?: boolean }>;
   title: string;
   lines: React.ReactNode[];
 }) {
@@ -111,12 +105,12 @@ function ContactCard({
         <div
           className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full"
           style={{
-            background: "rgba(217, 188, 122, 0.12)",
-            border: "1px solid rgba(217, 188, 122, 0.25)",
+            background: 'rgba(43, 107, 87, 0.10)',
+            border: '1px solid rgba(43, 107, 87, 0.20)',
           }}
         >
           <Icon
-            className="h-4 w-4 text-[color:var(--assembl-soft-gold)]"
+            className="h-4 w-4 text-[color:var(--assembl-sage-mist)]"
             aria-hidden
           />
         </div>
