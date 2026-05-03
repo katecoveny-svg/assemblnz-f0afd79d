@@ -1,10 +1,12 @@
 export type KeteSlug =
-  | "waihanga"
-  | "manaaki"
-  | "pikau"
-  | "arataki"
-  | "auaha"
-  | "toroa";
+  | 'waihanga'
+  | 'manaaki'
+  | 'pikau'
+  | 'arataki'
+  | 'auaha'
+  | 'hoko'
+  | 'ako'
+  | 'toro';
 
 export type Kete = {
   slug: KeteSlug;
@@ -14,77 +16,98 @@ export type Kete = {
   accent: string;
   accentName: string;
   /**
-   * "industry" — one of the five locked industry kete (sold via Operator /
-   * Leader / Enterprise tiers).
-   * "whanau" — Tōroa, sold standalone on the Family tier.
-   * Source: PRICING-LOCKED.md
+   * "industry" — industry kete (sold via Operator / Leader / Enterprise tiers).
+   * "whanau" — Tōro, sold standalone on the Family tier.
    */
-  type: "industry" | "whanau";
+  type: 'industry' | 'whanau';
+  status: 'active' | 'coming-soon' | 'mothballed';
 };
 
 export const KETES: Kete[] = [
   {
-    slug: "waihanga",
-    name: "Waihanga",
-    industry: "Construction",
-    tagline:
-      "Autonomous compliance, evidence packs, and auditor-ready outputs.",
-    accent: "#CBB8A4",
-    accentName: "Clay Sand",
-    type: "industry",
+    slug: 'waihanga',
+    name: 'Waihanga',
+    industry: 'Construction',
+    tagline: 'Fewer reworked consents. Faster council sign-off. Stronger audit trails.',
+    accent: '#2B6B57',
+    accentName: 'Pounamu',
+    type: 'industry',
+    status: 'active',
   },
   {
-    slug: "manaaki",
-    name: "Manaaki",
-    industry: "Hospitality",
-    tagline: "Front-of-house, rosters, and food safety — quietly handled.",
-    accent: "#E6D8C6",
-    accentName: "Warm Linen",
-    type: "industry",
+    slug: 'manaaki',
+    name: 'Manaaki',
+    industry: 'Hospitality',
+    tagline: 'From liquor licensing to food safety — compliance that does not slow your kitchen down.',
+    accent: '#AC5838',
+    accentName: 'Kōkōwai',
+    type: 'industry',
+    status: 'coming-soon',
   },
   {
-    slug: "pikau",
-    name: "Pikau",
-    industry: "Freight & Customs",
-    tagline:
-      "Manifests, customs lodgements, and chain-of-custody evidence.",
-    accent: "#B8C7B1",
-    accentName: "Soft Moss",
-    type: "industry",
+    slug: 'pikau',
+    name: 'Pikau',
+    industry: 'Freight & Customs',
+    tagline: 'The audit trail your broker needs.',
+    accent: '#3B7CB5',
+    accentName: 'Kikorangi',
+    type: 'industry',
+    status: 'active',
   },
   {
-    slug: "arataki",
-    name: "Arataki",
-    industry: "Automotive & Fleet",
-    tagline: "WoF/CoF tracking, service records, and fleet compliance.",
-    accent: "#D5C0C8",
-    accentName: "Dusky Rose",
-    type: "industry",
+    slug: 'arataki',
+    name: 'Arataki',
+    industry: 'Automotive',
+    tagline: 'From workshop compliance to fleet documentation.',
+    accent: '#D4842A',
+    accentName: 'Karaka',
+    type: 'industry',
+    status: 'coming-soon',
   },
   {
-    slug: "auaha",
-    name: "Auaha",
-    industry: "Creative",
-    tagline:
-      "Briefs, scripts, brand guardrails — provenance-watermarked.",
-    accent: "#C8DDD8",
-    accentName: "Pale Seafoam",
-    type: "industry",
+    slug: 'auaha',
+    name: 'Auaha',
+    industry: 'Creative',
+    tagline: 'Brand work that is compliant by default.',
+    accent: '#5B4FA0',
+    accentName: 'Kahurangi',
+    type: 'industry',
+    status: 'coming-soon',
   },
   {
-    slug: "toroa",
-    name: "Tōroa",
-    industry: "Whānau",
-    tagline:
-      "Routines, school logistics, and household admin in one quiet kete.",
-    accent: "#C7D9E8",
-    accentName: "Moonstone Blue",
-    type: "whanau",
+    slug: 'hoko',
+    name: 'Hoko',
+    industry: 'Retail',
+    tagline: 'Consumer protection compliance for NZ retailers.',
+    accent: '#7B3F8F',
+    accentName: 'Waiporoporo',
+    type: 'industry',
+    status: 'mothballed',
+  },
+  {
+    slug: 'ako',
+    name: 'Ako',
+    industry: 'Early Childhood',
+    tagline: 'Compliance that protects tamariki.',
+    accent: '#6B5843',
+    accentName: 'Parauri',
+    type: 'industry',
+    status: 'coming-soon',
+  },
+  {
+    slug: 'toro',
+    name: 'Tōro',
+    industry: 'Whānau',
+    tagline: 'Your family\'s quiet assistant.',
+    accent: '#23211F',
+    accentName: 'Mangū',
+    type: 'whanau',
+    status: 'active',
   },
 ];
 
-export const INDUSTRY_KETES = KETES.filter((k) => k.type === "industry");
-export const WHANAU_KETE = KETES.find((k) => k.type === "whanau")!;
+export const INDUSTRY_KETES = KETES.filter((k) => k.type === 'industry');
+export const WHANAU_KETE = KETES.find((k) => k.type === 'whanau')!;
 
 export function getKete(slug: KeteSlug): Kete {
   const kete = KETES.find((k) => k.slug === slug);

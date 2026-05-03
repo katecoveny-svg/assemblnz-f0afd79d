@@ -1,10 +1,8 @@
 /**
- * Assembl — Feather Kete Design System
+ * assembl — Mārama Whenua design system
  * Palette: Mārama Whenua (warm light)
  * Light theme only
  */
-
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,49 +10,51 @@
 
 @layer base {
   :root {
-    --background: 30 23% 95%;
-    --foreground: 22 12% 35%;
-    --card: 32 25% 97%;
-    --card-foreground: 22 12% 35%;
+    --background: 37 44% 96%;
+    --foreground: 30 6% 13%;
+    --card: 36 18% 89%;
+    --card-foreground: 30 6% 13%;
     --popover: 0 0% 100%;
-    --popover-foreground: 22 12% 35%;
-    --primary: 40 48% 66%;
-    --primary-foreground: 22 12% 25%;
-    --secondary: 32 27% 90%;
-    --secondary-foreground: 22 12% 35%;
-    --muted: 30 25% 87%;
-    --muted-foreground: 22 10% 52%;
-    --accent: 152 18% 82%;
-    --accent-foreground: 22 12% 30%;
+    --popover-foreground: 30 6% 13%;
+    --primary: 161 43% 29%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 36 18% 89%;
+    --secondary-foreground: 30 6% 13%;
+    --muted: 36 18% 89%;
+    --muted-foreground: 37 11% 69%;
+    --accent: 161 43% 29%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 50% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 22 10% 52% / 0.14;
-    --input: 22 10% 52% / 0.14;
-    --ring: 40 48% 66%;
+    --border: 30 6% 13% / 0.14;
+    --input: 30 6% 13% / 0.14;
+    --ring: 161 43% 29%;
     --radius: 24px;
 
-    --assembl-mist: #F7F3EE;
-    --assembl-cloud: #EEE7DE;
-    --assembl-sand: #D8C8B4;
-    --assembl-taupe: #9D8C7D;
-    --assembl-taupe-deep: #6F6158;
-    --assembl-sage-mist: #C9D8D0;
-    --assembl-soft-gold: #D9BC7A;
+    --assembl-mist: #FAF7F2;
+    --assembl-cloud: #E8E4DE;
+    --assembl-sand: #B8B2A8;
+    --assembl-taupe: #B8B2A8;
+    --assembl-taupe-deep: #23211F;
+    --assembl-sage-mist: #2B6B57;
+    --assembl-soft-gold: #D4A853;
 
-    --text-primary: #6F6158;
-    --text-secondary: #8E8177;
-    --text-body: #5F554F;
+    --text-primary: #23211F;
+    --text-secondary: #B8B2A8;
+    --text-body: #23211F;
 
-    --shadow-soft: 0 8px 30px rgba(111, 97, 88, 0.08);
-    --shadow-card: 0 4px 20px rgba(111, 97, 88, 0.06);
-    --shadow-brand: 0 12px 40px rgba(111, 97, 88, 0.10);
+    --shadow-soft: 0 8px 30px rgba(35, 33, 31, 0.08);
+    --shadow-card: 0 4px 20px rgba(35, 33, 31, 0.06);
+    --shadow-brand: 0 12px 40px rgba(35, 33, 31, 0.10);
 
-    --kete-waihanga: #CBB8A4;
-    --kete-manaaki: #E6D8C6;
-    --kete-pikau: #B8C7B1;
-    --kete-arataki: #D5C0C8;
-    --kete-auaha: #C8DDD8;
-    --kete-toroa: #C7D9E8;
+    --kete-waihanga: #2B6B57;
+    --kete-manaaki: #AC5838;
+    --kete-pikau: #3B7CB5;
+    --kete-arataki: #D4842A;
+    --kete-auaha: #5B4FA0;
+    --kete-toro: #23211F;
+    --kete-hoko: #7B3F8F;
+    --kete-ako: #6B5843;
   }
 
   html {
@@ -79,7 +79,7 @@
   body {
     background: var(--assembl-mist);
     color: var(--text-body);
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-body), 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
@@ -97,7 +97,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
     font-weight: 500;
     letter-spacing: 0.01em;
     color: var(--text-primary);
@@ -109,7 +109,7 @@
   }
 
   code, pre, .font-mono {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
   }
 }
 
@@ -118,7 +118,7 @@
     background: rgba(255, 255, 255, 0.65);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(142, 129, 119, 0.14);
+    border: 1px solid rgba(35, 33, 31, 0.10);
     border-radius: 24px;
     box-shadow: var(--shadow-soft);
   }
@@ -127,16 +127,16 @@
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(32px);
     -webkit-backdrop-filter: blur(32px);
-    border: 1px solid rgba(142, 129, 119, 0.18);
+    border: 1px solid rgba(35, 33, 31, 0.12);
     border-radius: 24px;
-    box-shadow: 0 12px 48px rgba(111, 97, 88, 0.12);
+    box-shadow: 0 12px 48px rgba(35, 33, 31, 0.10);
   }
 
   .kete-card {
     background: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(142, 129, 119, 0.14);
+    border: 1px solid rgba(35, 33, 31, 0.10);
     border-radius: 24px;
     box-shadow: var(--shadow-card);
     transition:
@@ -147,52 +147,52 @@
 
   .kete-card:hover {
     transform: translateY(-4px);
-    border-color: var(--kete-accent, rgba(217, 188, 122, 0.35));
+    border-color: var(--kete-accent, rgba(212, 168, 83, 0.35));
     box-shadow:
-      0 12px 48px rgba(111, 97, 88, 0.12),
-      0 0 0 1px var(--kete-accent, rgba(217, 188, 122, 0.2));
+      0 12px 48px rgba(35, 33, 31, 0.10),
+      0 0 0 1px var(--kete-accent, rgba(212, 168, 83, 0.2));
   }
 
   .cta-primary {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #D9BC7A 0%, #C4A664 100%);
-    color: #3D3428;
+    background: linear-gradient(135deg, #2B6B57 0%, #1F4F40 100%);
+    color: #FAF7F2;
     border: none;
     border-radius: 999px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body), 'Inter', sans-serif;
     font-weight: 500;
     letter-spacing: 0.01em;
-    box-shadow: 0 4px 16px rgba(217, 188, 122, 0.25);
+    box-shadow: 0 4px 16px rgba(43, 107, 87, 0.25);
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .cta-primary:hover {
-    box-shadow: 0 6px 24px rgba(217, 188, 122, 0.35);
+    box-shadow: 0 6px 24px rgba(43, 107, 87, 0.35);
     transform: translateY(-1px);
   }
 
   .btn-ghost {
     background: transparent;
     color: var(--text-primary);
-    border: 1px solid rgba(157, 140, 125, 0.3);
+    border: 1px solid rgba(35, 33, 31, 0.25);
     border-radius: 999px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-body), 'Inter', sans-serif;
     font-weight: 500;
     letter-spacing: 0.01em;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .btn-ghost:hover {
-    border-color: rgba(157, 140, 125, 0.5);
-    background: rgba(157, 140, 125, 0.06);
+    border-color: rgba(35, 33, 31, 0.45);
+    background: rgba(35, 33, 31, 0.04);
     transform: translateY(-1px);
   }
 
   .badge-gold {
-    background: rgba(217, 188, 122, 0.12);
-    color: #9D7D3A;
-    border: 1px solid rgba(217, 188, 122, 0.25);
+    background: rgba(212, 168, 83, 0.12);
+    color: #7A5C1E;
+    border: 1px solid rgba(212, 168, 83, 0.25);
     border-radius: 16px;
     padding: 4px 12px;
     font-size: 0.75rem;
@@ -201,9 +201,9 @@
   }
 
   .badge-sage {
-    background: rgba(201, 216, 208, 0.2);
-    color: #5A7A6A;
-    border: 1px solid rgba(201, 216, 208, 0.35);
+    background: rgba(43, 107, 87, 0.10);
+    color: #2B6B57;
+    border: 1px solid rgba(43, 107, 87, 0.25);
     border-radius: 16px;
     padding: 4px 12px;
     font-size: 0.75rem;
@@ -214,9 +214,9 @@
   .text-gradient-hero {
     background-image: linear-gradient(
       135deg,
-      #9D8C7D 0%,
-      #D9BC7A 50%,
-      #6F6158 100%
+      #23211F 0%,
+      #2B6B57 50%,
+      #B8B2A8 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -225,7 +225,7 @@
 
   .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(157, 140, 125, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(35, 33, 31, 0.12), transparent);
   }
 }
 
