@@ -15,7 +15,7 @@ export function ContactForm() {
 
   if (state.status === "success") {
     return (
-      <div className="glass-card-elevated p-8 md:p-12 text-center">
+      <div className="glass-card-elevated p-8 md:p-12 text-center" role="status">
         <div
           className="mx-auto flex h-14 w-14 items-center justify-center rounded-full"
           style={{
@@ -43,12 +43,14 @@ export function ContactForm() {
   return (
     <form action={formAction} className="glass-card-elevated p-7 md:p-10">
       <div className="grid gap-5">
-        <Field label="What's this about?" name="intent">
+        <Field label="What's this about?" name="intent" required>
           <select
+            id="intent"
             name="intent"
             defaultValue="demo"
             className="form-input"
             required
+            aria-required="true"
           >
             <option value="demo">Book a demo</option>
             <option value="trial">Start a 14-day trial</option>
@@ -57,22 +59,26 @@ export function ContactForm() {
         </Field>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field label="Your name" name="name">
+          <Field label="Your name" name="name" required>
             <input
+              id="name"
               type="text"
               name="name"
               required
+              aria-required="true"
               maxLength={120}
               autoComplete="name"
               className="form-input"
             />
           </Field>
 
-          <Field label="Email" name="email">
+          <Field label="Email" name="email" required>
             <input
+              id="email"
               type="email"
               name="email"
               required
+              aria-required="true"
               autoComplete="email"
               className="form-input"
             />
@@ -82,6 +88,7 @@ export function ContactForm() {
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Business (optional)" name="business">
             <input
+              id="business"
               type="text"
               name="business"
               maxLength={160}
@@ -91,7 +98,7 @@ export function ContactForm() {
           </Field>
 
           <Field label="Which kete fits best?" name="kete">
-            <select name="kete" defaultValue="" className="form-input">
+            <select id="kete" name="kete" defaultValue="" className="form-input">
               <option value="">Not sure yet</option>
               {INDUSTRY_KETES.map((k) => (
                 <option key={k.slug} value={k.slug}>
@@ -103,10 +110,12 @@ export function ContactForm() {
           </Field>
         </div>
 
-        <Field label="A few sentences about what you'd like to do" name="message">
+        <Field label="A few sentences about what you'd like to do" name="message" required>
           <textarea
+            id="message"
             name="message"
             required
+            aria-required="true"
             minLength={10}
             maxLength={4000}
             rows={5}
@@ -116,7 +125,7 @@ export function ContactForm() {
         </Field>
 
         {state.status === "error" && (
-          <p className="rounded-card border border-[rgba(180,90,90,0.3)] bg-[rgba(180,90,90,0.08)] p-3 text-sm text-[#7A3A3A]">
+          <p className="rounded-card border border-[rgba(180,90,90,0.3)] bg-[rgba(180,90,90,0.08)] p-3 text-sm text-[#7A3A3A]" role="alert">
             {state.message}
           </p>
         )}
@@ -175,17 +184,27 @@ function Field({
   label,
   name,
   children,
+  required,
 }: {
   label: string;
   name: string;
   children: React.ReactNode;
+  required?: boolean;
 }) {
   return (
-    <label htmlFor={name} className="block">
-      <span className="mb-2 block font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+    <div className="block">
+      <label
+        htmlFor={name}
+        className="mb-2 block font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]"
+      >
         {label}
-      </span>
+        {required && (
+          <span className="ml-1 text-[color:var(--assembl-soft-gold)]" aria-hidden="true">
+            *
+          </span>
+        )}
+      </label>
       {children}
-    </label>
+    </div>
   );
 }
