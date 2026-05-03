@@ -15,7 +15,7 @@ export function SiteHeader() {
           href="/"
           className="font-display text-2xl font-semibold tracking-tight text-[color:var(--text-primary)]"
         >
-          Assembl
+          assembl
         </Link>
         <nav className="hidden md:flex items-center gap-8">
           {NAV.map((item) => (
