@@ -29,6 +29,27 @@ export default function HomePage() {
     <>
       {/* ── Hero ───────────────────────────────────────────────── */}
       <section className="relative overflow-hidden">
+        {/* New hero imagery layer — sits behind radial gradient */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-20">
+          <img
+            src="/images/hero-kete-totem.png"
+            alt=""
+            className="h-full w-full object-cover opacity-30"
+          />
+          {/* TODO(PR-25-stage-2): add /video/hero-kete-push-in.mp4 source after AUAHA Track 2A audit (Wed 6 May 2026) */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/hero-kete-totem.png"
+            className="absolute inset-0 h-full w-full object-cover opacity-35 motion-reduce:hidden"
+          >
+            {/* <source src="/video/hero-kete-push-in.mp4" type="video/mp4" /> — uncomment in stage 2 */}
+          </video>
+        </div>
+
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
