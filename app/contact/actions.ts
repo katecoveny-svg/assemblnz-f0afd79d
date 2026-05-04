@@ -1,10 +1,17 @@
 "use server";
 
 /**
- * TODO: wire to Brevo (BREVO_API_KEY available in env once rotated and
- * stored in Vercel) or to a Supabase edge function once the new project
- * is set up. For now this server action validates input and acknowledges
- * — the submission lands in Vercel's function logs.
+ * Contact form server action.
+ *
+ * Validates input via Zod, then forwards the message to the deployed
+ * Supabase edge function `send-contact-email`, which sends an email
+ * to assembl@assembl.co.nz via Brevo. The edge function reads
+ * BREVO_API_KEY from Supabase secrets — no Vercel-side env required
+ * beyond NEXT_PUBLIC_SUPABASE_URL + NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.
+ *
+ * The edge function has verify_jwt = true (Supabase default) so we
+ * pass the anon publishable key as Bearer + apikey header — that key
+ * is public-by-design (already shipped in browser bundles).
  */
 
 import { z } from "zod";
@@ -22,6 +29,9 @@ export type ContactState =
   | { status: "idle" }
   | { status: "success"; ref: string }
   | { status: "error"; message: string };
+
+const FALLBACK_ERROR =
+  "We couldn't send your message right now — please email assembl@assembl.co.nz directly.";
 
 export async function submitContact(
   _prev: ContactState,
@@ -44,7 +54,60 @@ export async function submitContact(
   }
 
   const ref = `ASB-${Date.now().toString(36).toUpperCase()}`;
-  console.log("[contact]", ref, parsed.data);
 
-  return { status: "success", ref };
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (!supabaseUrl || !anonKey) {
+    console.error("[contact]", ref, "missing Supabase env vars");
+    return { status: "error", message: FALLBACK_ERROR };
+  }
+
+  // Build a richer message body so the email includes intent + business + kete
+  const enriched = [
+    `Reference: ${ref}`,
+    `Intent: ${parsed.data.intent}`,
+    parsed.data.business ? `Business: ${parsed.data.business}` : null,
+    parsed.data.kete ? `Kete: ${parsed.data.kete}` : null,
+    "",
+    parsed.data.message,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  try {
+    const res = await fetch(
+      `${supabaseUrl}/functions/v1/send-contact-email`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${anonKey}`,
+          apikey: anonKey,
+        },
+        body: JSON.stringify({
+          name: parsed.data.name,
+          email: parsed.data.email,
+          message: enriched,
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      console.error(
+        "[contact]",
+        ref,
+        "send-contact-email failed:",
+        res.status,
+        data
+      );
+      return { status: "error", message: FALLBACK_ERROR };
+    }
+
+    console.log("[contact]", ref, "delivered");
+    return { status: "success", ref };
+  } catch (err) {
+    console.error("[contact]", ref, "fetch error:", err);
+    return { status: "error", message: FALLBACK_ERROR };
+  }
 }
