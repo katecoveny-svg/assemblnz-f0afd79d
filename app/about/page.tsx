@@ -13,6 +13,25 @@ export default function AboutPage() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden">
+        {/* New hero imagery layer — sits behind radial gradient */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-20">
+          <img
+            src="/images/hero-kete-totem.png"
+            alt=""
+            className="h-full w-full object-cover opacity-15"
+          />
+          {/* TODO(PR-25-stage-2): add /video/about-hero.mp4 (ambient-light-breathe.mp4 from Reo's library) */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/hero-kete-totem.png"
+            className="absolute inset-0 h-full w-full object-cover opacity-25 motion-reduce:hidden"
+          />
+        </div>
+
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"

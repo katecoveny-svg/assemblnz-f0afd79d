@@ -55,6 +55,11 @@ export const metadata: Metadata = {
     description:
       'AI agents that draft, check, and document — so your team gets time back.',
   },
+  icons: {
+    icon: '/icon.png',
+    apple: '/apple-icon.png',
+    shortcut: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
