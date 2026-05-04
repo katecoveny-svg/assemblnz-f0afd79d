@@ -7,11 +7,21 @@ export function SiteFooter() {
       <div className="container py-16">
         <div className="grid gap-12 md:grid-cols-4">
           <div>
-            <Link
-              href="/"
-              className="font-display text-2xl font-semibold text-[color:var(--text-primary)]"
-            >
-              Assembl
+            <Link href="/" className="inline-flex flex-col items-start gap-3">
+              {/* Brand-mark — Kaihanga placeholder per Reo's locked totem spec, AUAHA Track 2A audit PASS.
+                  Hosted on pub.hyperagent.com until PR #25 stage 1 commits the binary to /public/images/brand-mark.png,
+                  at which point switch the src to "/images/brand-mark.png". */}
+              <img
+                src="https://pub.hyperagent.com/api/published/O7k8nhvVDG4vamKBKx0-vw/brand-mark.png"
+                alt=""
+                aria-hidden
+                width={96}
+                height={96}
+                className="w-24 opacity-40 select-none pointer-events-none"
+              />
+              <span className="font-display text-2xl font-semibold lowercase text-[color:var(--text-primary)]">
+                assembl
+              </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm text-[color:var(--text-secondary)]">
               Quiet intelligence for Aotearoa. Industry-specific kete that cite
@@ -77,7 +87,7 @@ export function SiteFooter() {
         <div className="section-divider mt-12" />
 
         <div className="mt-6 flex flex-col gap-2 text-xs text-[color:var(--text-secondary)] md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} Assembl. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} assembl. All rights reserved.</p>
           <p className="font-mono">Mārama Whenua · v1.0</p>
         </div>
       </div>
