@@ -11,6 +11,8 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.assembl-mcp]
     verify_jwt = false
+  [functions.ata-bim]
+    verify_jwt = true
   [functions.auth-email-hook]
     verify_jwt = false
   [functions.bus-positions]
