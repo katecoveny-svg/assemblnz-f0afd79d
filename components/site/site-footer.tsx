@@ -8,11 +8,9 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-4">
           <div>
             <Link href="/" className="inline-flex flex-col items-start gap-3">
-              {/* Brand-mark — Kaihanga placeholder per Reo's locked totem spec, AUAHA Track 2A audit PASS.
-                  Hosted on pub.hyperagent.com until PR #25 stage 1 commits the binary to /public/images/brand-mark.png,
-                  at which point switch the src to "/images/brand-mark.png". */}
+              {/* Brand-mark — Reo's locked kete totem spec, AUAHA Track 2A audit PASS. Binary committed in PR #26. */}
               <img
-                src="https://pub.hyperagent.com/api/published/O7k8nhvVDG4vamKBKx0-vw/brand-mark.png"
+                src="/images/brand-mark.png"
                 alt=""
                 aria-hidden
                 width={96}
@@ -94,3 +92,4 @@ export function SiteFooter() {
     </footer>
   );
 }
+
