@@ -1,6 +1,6 @@
 
 -- Agent SMS Config table
-CREATE TABLE public.agent_sms_config (
+CREATE TABLE IF NOT EXISTS public.agent_sms_config (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL,
   agent_id TEXT NOT NULL,
@@ -14,13 +14,14 @@ CREATE TABLE public.agent_sms_config (
 
 ALTER TABLE public.agent_sms_config ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users manage own sms config" ON public.agent_sms_config;
 CREATE POLICY "Users manage own sms config" ON public.agent_sms_config
   FOR ALL TO authenticated
   USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);
 
 -- Agent SMS Messages table
-CREATE TABLE public.agent_sms_messages (
+CREATE TABLE IF NOT EXISTS public.agent_sms_messages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL,
   agent_id TEXT NOT NULL,
@@ -34,16 +35,18 @@ CREATE TABLE public.agent_sms_messages (
 
 ALTER TABLE public.agent_sms_messages ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users view own sms messages" ON public.agent_sms_messages;
 CREATE POLICY "Users view own sms messages" ON public.agent_sms_messages
   FOR SELECT TO authenticated
   USING (auth.uid() = user_id);
 
+DROP POLICY IF EXISTS "Service can insert sms messages" ON public.agent_sms_messages;
 CREATE POLICY "Service can insert sms messages" ON public.agent_sms_messages
   FOR INSERT TO authenticated
   WITH CHECK (auth.uid() = user_id);
 
 -- Helm SMS Config table
-CREATE TABLE public.helm_sms_config (
+CREATE TABLE IF NOT EXISTS public.helm_sms_config (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   family_id UUID NOT NULL REFERENCES public.families(id) ON DELETE CASCADE,
   enabled BOOLEAN NOT NULL DEFAULT false,
@@ -58,13 +61,14 @@ CREATE TABLE public.helm_sms_config (
 
 ALTER TABLE public.helm_sms_config ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Family members manage helm sms config" ON public.helm_sms_config;
 CREATE POLICY "Family members manage helm sms config" ON public.helm_sms_config
   FOR ALL TO authenticated
   USING (public.is_family_member(auth.uid(), family_id))
   WITH CHECK (public.is_family_member(auth.uid(), family_id));
 
 -- Helm SMS Conversations table
-CREATE TABLE public.helm_sms_conversations (
+CREATE TABLE IF NOT EXISTS public.helm_sms_conversations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   family_id UUID NOT NULL REFERENCES public.families(id) ON DELETE CASCADE,
   phone_number TEXT NOT NULL,
@@ -76,6 +80,7 @@ CREATE TABLE public.helm_sms_conversations (
 
 ALTER TABLE public.helm_sms_conversations ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Family members manage helm sms conversations" ON public.helm_sms_conversations;
 CREATE POLICY "Family members manage helm sms conversations" ON public.helm_sms_conversations
   FOR ALL TO authenticated
   USING (public.is_family_member(auth.uid(), family_id))

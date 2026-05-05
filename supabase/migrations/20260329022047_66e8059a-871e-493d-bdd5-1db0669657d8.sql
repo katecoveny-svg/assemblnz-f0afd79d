@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS whatsapp_templates (
 ALTER TABLE whatsapp_templates ENABLE ROW LEVEL SECURITY;
 
 -- Admin-only policies using has_role function
+DROP POLICY IF EXISTS "Admins can manage whatsapp templates" ON whatsapp_templates;
 CREATE POLICY "Admins can manage whatsapp templates" ON whatsapp_templates
   FOR ALL TO authenticated
   USING (public.has_role(auth.uid(), 'admin'))
