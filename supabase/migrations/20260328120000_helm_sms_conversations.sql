@@ -1,5 +1,5 @@
 -- HELM SMS conversations table for Twilio text interface (family-based)
-CREATE TABLE public.helm_sms_conversations (
+CREATE TABLE IF NOT EXISTS public.helm_sms_conversations (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   family_id UUID REFERENCES public.families(id) ON DELETE CASCADE,
   phone_number TEXT NOT NULL,
@@ -13,6 +13,7 @@ CREATE TABLE public.helm_sms_conversations (
 
 ALTER TABLE public.helm_sms_conversations ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Family members view own SMS conversations" ON public.helm_sms_conversations;
 CREATE POLICY "Family members view own SMS conversations"
   ON public.helm_sms_conversations FOR ALL
   USING (
@@ -27,7 +28,7 @@ CREATE POLICY "Family members view own SMS conversations"
   );
 
 -- SMS message log (shared by HELM and generic agent SMS)
-CREATE TABLE public.helm_sms_messages (
+CREATE TABLE IF NOT EXISTS public.helm_sms_messages (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   conversation_id UUID REFERENCES public.helm_sms_conversations(id) ON DELETE CASCADE,
   direction TEXT NOT NULL CHECK (direction IN ('inbound', 'outbound')),
@@ -39,6 +40,7 @@ CREATE TABLE public.helm_sms_messages (
 
 ALTER TABLE public.helm_sms_messages ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Family members view own SMS messages" ON public.helm_sms_messages;
 CREATE POLICY "Family members view own SMS messages"
   ON public.helm_sms_messages FOR ALL
   USING (
@@ -59,7 +61,7 @@ CREATE POLICY "Family members view own SMS messages"
   );
 
 -- SMS config per family for HELM
-CREATE TABLE public.helm_sms_config (
+CREATE TABLE IF NOT EXISTS public.helm_sms_config (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   family_id UUID REFERENCES public.families(id) ON DELETE CASCADE UNIQUE,
   enabled BOOLEAN DEFAULT false,
@@ -73,6 +75,7 @@ CREATE TABLE public.helm_sms_config (
 
 ALTER TABLE public.helm_sms_config ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Family members manage SMS config" ON public.helm_sms_config;
 CREATE POLICY "Family members manage SMS config"
   ON public.helm_sms_config FOR ALL
   USING (
@@ -87,7 +90,7 @@ CREATE POLICY "Family members manage SMS config"
   );
 
 -- Generic agent SMS config (per user, per agent — mirrors voice_agent_config pattern)
-CREATE TABLE public.agent_sms_config (
+CREATE TABLE IF NOT EXISTS public.agent_sms_config (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID NOT NULL,
   agent_id TEXT NOT NULL,
@@ -101,13 +104,14 @@ CREATE TABLE public.agent_sms_config (
 
 ALTER TABLE public.agent_sms_config ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users manage own agent SMS config" ON public.agent_sms_config;
 CREATE POLICY "Users manage own agent SMS config"
   ON public.agent_sms_config FOR ALL
   USING (auth.uid() = user_id)
   WITH CHECK (auth.uid() = user_id);
 
 -- Generic agent SMS message log
-CREATE TABLE public.agent_sms_messages (
+CREATE TABLE IF NOT EXISTS public.agent_sms_messages (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID NOT NULL,
   agent_id TEXT NOT NULL,
@@ -121,6 +125,7 @@ CREATE TABLE public.agent_sms_messages (
 
 ALTER TABLE public.agent_sms_messages ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users view own agent SMS messages" ON public.agent_sms_messages;
 CREATE POLICY "Users view own agent SMS messages"
   ON public.agent_sms_messages FOR ALL
   USING (auth.uid() = user_id)
