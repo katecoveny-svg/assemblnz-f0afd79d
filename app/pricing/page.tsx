@@ -9,6 +9,7 @@ import {
   PILOT_SPRINT,
   PRICING_NOTE,
 } from '@/lib/pricing';
+import { SectionReveal } from '@/components/SectionReveal';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -37,13 +38,17 @@ export default function PricingPage() {
               'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.10) 0%, transparent 60%)',
           }}
         />
-        <div className="container py-20 md:py-28">
+        <div className="container py-32 md:py-40">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="badge-gold inline-flex">Pricing</span>
-            <h1 className="mt-6 font-display text-4xl md:text-6xl">
-              Pay for what your business actually does. Not for software you{' '}
-              <em className="not-italic text-gradient-hero">forget you bought</em>.
-            </h1>
+            <SectionReveal>
+              <span className="badge-gold inline-flex">Pricing</span>
+            </SectionReveal>
+            <SectionReveal delay={0.1}>
+              <h1 className="mt-6 font-display text-4xl md:text-6xl">
+                Pay for what your business actually does. Not for software you{' '}
+                <em className="not-italic text-gradient-hero">forget you bought</em>.
+              </h1>
+            </SectionReveal>
             <p className="mt-8 text-lg text-[color:var(--text-body)] md:text-xl">
               79% of New Zealand businesses don&apos;t know how to use AI safely. Only 2.7%
               of the workforce is trained for it. We&apos;re high-use, low-trust as a country —

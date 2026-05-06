@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { SectionReveal } from '@/components/SectionReveal';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -41,16 +42,23 @@ export default function AboutPage() {
               'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.10) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(184, 178, 168, 0.15) 0%, transparent 50%)',
           }}
         />
-        <div className="container py-20 md:py-28">
+        <div className="container py-32 md:py-40">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="badge-sage inline-flex">About assembl</span>
-            <h1 className="mt-6 font-display text-5xl md:text-6xl">
-              Built in Aotearoa. For{' '}
-              <em className="not-italic text-gradient-hero">Aotearoa</em>.
-            </h1>
-            <p className="mt-6 text-lg text-[color:var(--text-body)]">
-              assembl exists because compliance should not cost your team their Friday afternoons.
-            </p>
+            <SectionReveal>
+              <span className="badge-sage inline-flex">About assembl</span>
+            </SectionReveal>
+            <SectionReveal delay={0.1}>
+              <h1 className="mt-6 font-display text-5xl md:text-6xl">
+                Built in Aotearoa. For{' '}
+                <em className="not-italic text-gradient-hero">Aotearoa</em>.
+              </h1>
+            </SectionReveal>
+            <SectionReveal delay={0.2}>
+              <p className="mt-6 text-lg text-[color:var(--text-body)]">
+                assembl exists because compliance should not cost your team their Friday
+                afternoons.
+              </p>
+            </SectionReveal>
           </div>
         </div>
       </section>
@@ -149,7 +157,7 @@ export default function AboutPage() {
             </h2>
 
             <p className="mt-6 text-[color:var(--text-body)]">
-              assembl\'s governance is grounded in four pou: rangatiratanga (authority and
+              assembl&apos;s governance is grounded in four pou: rangatiratanga (authority and
               self-determination over data), kaitiakitanga (stewardship and care), manaakitanga
               (hospitality and respect), and whanaungatanga (relationships and reciprocity).
             </p>

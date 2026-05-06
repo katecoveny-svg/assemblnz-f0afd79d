@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Cormorant_Garamond, Inter, IBM_Plex_Mono } from 'next/font/google';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
+import { ScrollProgress } from '@/components/site/scroll-progress';
 import './globals.css';
 
 const cormorant = Cormorant_Garamond({
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to main content
         </a>
+        <ScrollProgress />
         <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
           <main id="main-content" className="relative z-10 flex-1 outline-none" tabIndex={-1}>
