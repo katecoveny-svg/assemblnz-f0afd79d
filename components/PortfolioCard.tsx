@@ -77,11 +77,12 @@ export function PortfolioCard({
     imageY.set(0);
   }
 
-  // Dynamic glow position
+  // Dynamic glow position — use soft-gold for ink variant
+  const glowColor = bg === 'ink' ? '#D4A853' : accent;
   const glowBackground = useMotionTemplate`
     radial-gradient(
       400px circle at ${mouseX}px ${mouseY}px,
-      ${accent}30,
+      ${glowColor}30,
       transparent 60%
     )
   `;
@@ -89,20 +90,21 @@ export function PortfolioCard({
   // Background and text styles based on bg prop
   const bgClass =
     bg === 'ink'
-      ? 'bg-assembl-ink'
+      ? 'bg-[#23211F]'
       : bg === 'mist'
-        ? 'bg-assembl-mist'
-        : 'bg-assembl-paper';
+        ? 'bg-[#E8E4DE]'
+        : 'bg-[#FAF7F2]';
 
+  // Ink variant uses soft-gold accent for premium feel
   const eyebrowClass =
-    bg === 'ink' ? 'text-assembl-shadow' : 'text-[color:var(--text-secondary)]';
+    bg === 'ink' ? 'text-[#D4A853]' : 'text-[color:var(--text-secondary)]';
   const titleClass =
-    bg === 'ink' ? 'text-assembl-paper' : 'text-[color:var(--text-primary)]';
+    bg === 'ink' ? 'text-[#FAF7F2]' : 'text-[color:var(--text-primary)]';
   const descClass =
-    bg === 'ink' ? 'text-assembl-shadow' : 'text-[color:var(--text-body)]';
+    bg === 'ink' ? 'text-[#B8B2A8]' : 'text-[color:var(--text-body)]';
   const borderClass =
     bg === 'ink'
-      ? 'border-white/10 hover:border-white/20'
+      ? 'border-[#D4A853]/20 hover:border-[#D4A853]/40'
       : 'border-[rgba(35,33,31,0.08)] hover:border-[rgba(35,33,31,0.18)]';
 
   return (
@@ -142,8 +144,19 @@ export function PortfolioCard({
           <div
             aria-hidden
             className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full opacity-0 blur-3xl transition-opacity duration-700 group-hover:opacity-60"
-            style={{ background: accent }}
+            style={{ background: bg === 'ink' ? '#D4A853' : accent }}
           />
+
+          {/* Ink variant: subtle gold gradient overlay at bottom */}
+          {bg === 'ink' && (
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-30"
+              style={{
+                background: 'linear-gradient(to top, rgba(212,168,83,0.15) 0%, transparent 100%)',
+              }}
+            />
+          )}
 
           {/* Visual area — 60% of card */}
           <motion.div
@@ -174,20 +187,20 @@ export function PortfolioCard({
             <div className="mt-6 flex items-center justify-between">
               <span
                 className="font-mono text-xs uppercase tracking-[0.28em] transition-transform duration-500 group-hover:translate-x-1"
-                style={{ color: bg === 'ink' ? 'var(--assembl-soft-gold)' : accent }}
+                style={{ color: bg === 'ink' ? '#D4A853' : accent }}
               >
                 Explore
               </span>
               <div
                 className="flex h-10 w-10 items-center justify-center rounded-full border transition-all duration-500 group-hover:scale-110"
                 style={{
-                  borderColor: bg === 'ink' ? 'rgba(250,247,242,0.2)' : `${accent}40`,
-                  background: bg === 'ink' ? 'rgba(250,247,242,0.05)' : `${accent}10`,
+                  borderColor: bg === 'ink' ? 'rgba(212,168,83,0.35)' : `${accent}40`,
+                  background: bg === 'ink' ? 'rgba(212,168,83,0.1)' : `${accent}10`,
                 }}
               >
                 <ArrowUpRight
                   className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  style={{ color: bg === 'ink' ? 'var(--assembl-soft-gold)' : accent }}
+                  style={{ color: bg === 'ink' ? '#D4A853' : accent }}
                   aria-hidden
                 />
               </div>
@@ -198,7 +211,7 @@ export function PortfolioCard({
           <div
             aria-hidden
             className="absolute bottom-0 left-0 h-1 w-0 transition-all duration-700 group-hover:w-full"
-            style={{ background: accent }}
+            style={{ background: bg === 'ink' ? '#D4A853' : accent }}
           />
         </Link>
       </motion.div>
