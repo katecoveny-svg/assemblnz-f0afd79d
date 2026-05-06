@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { INDUSTRY_KETES } from '@/lib/kete';
 import { AGENTS } from '@/lib/agents';
 import { SectionReveal } from '@/components/SectionReveal';
-import { DestinationCard } from '@/components/DestinationCard';
+import { PortfolioCard } from '@/components/PortfolioCard';
 import { KeteIllustration } from '@/components/KeteIllustration';
 
 const AGENT_TOTAL = AGENTS.length;
@@ -162,99 +162,101 @@ export default function HomePage() {
             </div>
           </SectionReveal>
 
-          <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 md:gap-8">
-            {/* Kete */}
-            <DestinationCard
+          <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:gap-8">
+            {/* Kete — cream/paper background */}
+            <PortfolioCard
               href="/kete"
               eyebrow={`${TOTAL_KETE_COUNT} kete · ${ACTIVE_KETE_COUNT} live`}
               title="Industry kete"
-              description="Each kete bundles specialist agents grounded in the legislation your industry lives under. Scroll through the lineup."
+              description="Each kete bundles specialist agents grounded in the legislation your industry lives under."
               accent="#2B6B57"
               index={0}
               bg="paper"
               visual={
-                <div className="flex justify-center">
-                  <KeteIllustration accent="#2B6B57" className="h-44 w-auto md:h-52" />
+                <div className="relative flex items-center justify-center">
+                  <KeteIllustration accent="#2B6B57" className="h-56 w-auto drop-shadow-lg md:h-72" />
                 </div>
               }
             />
 
-            {/* Agents */}
-            <DestinationCard
+            {/* Agents — dark ink background */}
+            <PortfolioCard
               href="/agents"
               eyebrow={`${AGENT_TOTAL} specialist agents`}
               title="Agent marketplace"
-              description="Pick the agents you need. Subscribe, pay per output, or pay per resolution. Every output reviewed in Draft Mode before it ships."
+              description="Pick the agents you need. Every output reviewed in Draft Mode before it ships."
               accent="#D4A853"
               index={1}
               bg="ink"
               visual={
-                <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+                <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
                   {INDUSTRY_KETES.slice(0, 7).map((k) => (
                     <KeteIllustration
                       key={k.slug}
                       slug={k.slug}
                       accent={k.accent}
-                      className="h-20 w-auto opacity-90 md:h-24"
+                      className="h-16 w-auto drop-shadow-md transition-transform duration-500 hover:scale-110 md:h-20"
                     />
                   ))}
                 </div>
               }
             />
 
-            {/* Pricing */}
-            <DestinationCard
+            {/* Pricing — cream/mist background */}
+            <PortfolioCard
               href="/pricing"
               eyebrow="Three ways to buy"
               title="Pricing"
-              description="Subscribe, pay per output, pay per resolution. Plus the Pilot Sprint — NZ$5,000 + GST, two weeks, money-back if no time saved."
+              description="Subscribe, pay per output, or pay per resolution. Plus the Pilot Sprint."
               accent="#AC5838"
               index={2}
               bg="mist"
               visual={
-                <div className="flex flex-col items-center gap-3">
-                  <div className="flex gap-3">
-                    {['Subscribe', 'Per output', 'Per resolution'].map((t, i) => (
+                <div className="flex flex-col items-center gap-6">
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {['Subscribe', 'Per output', 'Per resolution'].map((t) => (
                       <span
                         key={t}
-                        className="rounded-full border border-[rgba(35,33,31,0.18)] bg-white/40 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]"
-                        style={{ animationDelay: `${i * 0.1}s` }}
+                        className="rounded-full border border-[rgba(35,33,31,0.14)] bg-white/60 px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-primary)] shadow-sm backdrop-blur-sm"
                       >
                         {t}
                       </span>
                     ))}
                   </div>
                   <p
-                    className="font-display leading-none text-[color:var(--text-primary)]"
-                    style={{ fontWeight: 300, fontSize: 'clamp(3rem, 5vw, 5rem)' }}
+                    className="text-center font-display leading-none text-[color:var(--text-primary)]"
+                    style={{ fontWeight: 300, fontSize: 'clamp(2.5rem, 4vw, 4rem)' }}
                   >
                     NZ$<span className="text-gradient-hero">29</span>
-                    <span className="font-mono text-base font-normal text-[color:var(--text-secondary)]">
-                      {' '}
-                      · NZ$1,490 · NZ$1,990 · NZ$2,990+
+                    <span className="block font-mono text-sm font-normal text-[color:var(--text-secondary)] mt-2">
+                      NZ$1,490 · NZ$1,990 · NZ$2,990+
                     </span>
                   </p>
                 </div>
               }
             />
 
-            {/* About */}
-            <DestinationCard
+            {/* About — cream/paper background */}
+            <PortfolioCard
               href="/about"
               eyebrow="Why we exist"
               title="The trust gap"
-              description="Built in Aotearoa. For Aotearoa. Grounded in four pou. We do not generate AI karakia, whaikōrero, or waiata. That is a hard boundary."
+              description="Built in Aotearoa. For Aotearoa. Grounded in four pou."
               accent="#6B5843"
               index={3}
               bg="paper"
               visual={
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-center gap-3">
                   {['Rangatiratanga', 'Kaitiakitanga', 'Manaakitanga', 'Whanaungatanga'].map(
-                    (pou) => (
+                    (pou, i) => (
                       <span
                         key={pou}
-                        className="font-display text-2xl text-[color:var(--text-primary)] md:text-3xl"
-                        style={{ fontWeight: 300 }}
+                        className="font-display text-[color:var(--text-primary)] transition-all duration-300"
+                        style={{
+                          fontWeight: 300,
+                          fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
+                          opacity: 1 - i * 0.12,
+                        }}
                       >
                         {pou}
                       </span>
