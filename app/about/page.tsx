@@ -20,7 +20,6 @@ export default function AboutPage() {
             alt=""
             className="h-full w-full object-cover opacity-15"
           />
-          {/* TODO(PR-25-stage-2): add /video/about-hero.mp4 (ambient-light-breathe.mp4 from Reo's library) */}
           <video
             autoPlay
             muted
@@ -29,7 +28,9 @@ export default function AboutPage() {
             preload="metadata"
             poster="/images/hero-kete-totem.png"
             className="absolute inset-0 h-full w-full object-cover opacity-25 motion-reduce:hidden"
-          />
+          >
+            <source src="/video/about-hero.mp4" type="video/mp4" />
+          </video>
         </div>
 
         <div
