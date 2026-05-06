@@ -29,13 +29,8 @@ export default function HomePage() {
     <>
       {/* ── Hero ───────────────────────────────────────────────── */}
       <section className="relative overflow-hidden">
-        {/* New hero imagery layer — sits behind radial gradient */}
+        {/* Hero imagery layer — kete totem sits in front of ambient video */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-20">
-          <img
-            src="/images/hero-kete-totem.png"
-            alt=""
-            className="h-full w-full object-cover opacity-30"
-          />
           <video
             autoPlay
             muted
@@ -43,10 +38,15 @@ export default function HomePage() {
             playsInline
             preload="metadata"
             poster="/images/hero-kete-totem.png"
-            className="absolute inset-0 h-full w-full object-cover opacity-35 motion-reduce:hidden"
+            className="absolute inset-0 h-full w-full object-cover opacity-20 motion-reduce:hidden"
           >
             <source src="/video/hero-kete-push-in.mp4" type="video/mp4" />
           </video>
+          <img
+            src="/images/hero-kete-totem.png"
+            alt=""
+            className="absolute inset-0 z-10 h-full w-full object-cover opacity-60"
+          />
         </div>
 
         <div
