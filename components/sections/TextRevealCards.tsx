@@ -77,7 +77,6 @@ function TextRevealCard({
     offset: ['start end', 'center center'],
   });
 
-  const revealProgress = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const beforeOpacity = useTransform(scrollYProgress, [0.3, 0.7], [1, 0.3]);
   const afterOpacity = useTransform(scrollYProgress, [0.3, 0.7], [0.3, 1]);
 
@@ -161,9 +160,9 @@ function TextRevealCard({
       {/* Progress bar */}
       <div className="mt-8 h-1 w-full overflow-hidden rounded-full bg-[#23211F]/10">
         <motion.div
-          className="h-full rounded-full"
+          className="h-full origin-left rounded-full"
           style={{
-            width: revealProgress.get() + '%',
+            scaleX: scrollYProgress,
             background: accent,
           }}
         />
