@@ -4,8 +4,8 @@ import { INDUSTRY_KETES } from '@/lib/kete';
 import { AGENTS } from '@/lib/agents';
 import { KeteCard } from '@/components/site/kete-card';
 import { SectionReveal } from '@/components/SectionReveal';
-import { BrandFilmShowcase } from '@/components/BrandFilmShowcase';
 import { KeteHeroMount } from '@/components/KeteHeroMount';
+import { KeteIllustration } from '@/components/KeteIllustration';
 
 const AGENT_TOTAL = AGENTS.length;
 const FEATURED_KETES = INDUSTRY_KETES.filter((k) => k.status === 'active');
@@ -49,56 +49,65 @@ export default function HomePage() {
           }}
         />
 
-        <div className="container py-32 md:py-40 lg:py-48">
-          <div className="mx-auto max-w-4xl text-center">
-            <SectionReveal>
-              <span className="badge-gold inline-flex">Built in Aotearoa · Mārama Whenua</span>
-            </SectionReveal>
+        <div className="container py-24 md:py-32 lg:py-40">
+          {/* Asymmetric: text on left, kete on right — no more text-on-top-of-kete */}
+          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+            <div className="text-center lg:text-left">
+              <SectionReveal>
+                <span className="badge-gold inline-flex">Built in Aotearoa · Mārama Whenua</span>
+              </SectionReveal>
 
-            <SectionReveal delay={0.1}>
-              <h1 className="mt-8 font-display text-5xl leading-[1.05] sm:text-6xl md:text-7xl">
-                Less noise. More{' '}
-                <em className="not-italic text-gradient-hero">time</em>.
-              </h1>
-            </SectionReveal>
+              <SectionReveal delay={0.1}>
+                <h1 className="mt-8 font-display text-5xl leading-[1.05] sm:text-6xl md:text-7xl">
+                  Less noise. More{' '}
+                  <em className="not-italic text-gradient-hero">time</em>.
+                </h1>
+              </SectionReveal>
 
+              <SectionReveal delay={0.2}>
+                <p className="mt-6 text-lg text-[color:var(--text-body)] md:text-xl">
+                  Quiet intelligence for the businesses that build Aotearoa.
+                </p>
+              </SectionReveal>
+
+              <SectionReveal delay={0.3}>
+                <p className="mt-6 max-w-xl text-base text-[color:var(--text-body)] lg:mx-0 mx-auto">
+                  79% of Kiwi businesses don&apos;t know how to use AI safely. 97% of the workforce
+                  isn&apos;t trained for it. assembl fixes the trust gap — every output is reviewed
+                  in Draft Mode before anything goes out.
+                </p>
+              </SectionReveal>
+
+              <SectionReveal delay={0.4}>
+                <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+                  <Link
+                    href="/contact"
+                    className="cta-primary inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
+                  >
+                    Start your pilot
+                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                  </Link>
+                  <Link
+                    href="/agents"
+                    className="btn-ghost inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
+                  >
+                    Browse agents
+                  </Link>
+                </div>
+              </SectionReveal>
+
+              <SectionReveal delay={0.5}>
+                <p className="mt-8 font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  NZ-hosted data · GST-exclusive · Cancel any time
+                </p>
+              </SectionReveal>
+            </div>
+
+            {/* Kete totem — crisp SVG, sits in its own column. No more text on top of kete. */}
             <SectionReveal delay={0.2}>
-              <p className="mx-auto mt-6 max-w-2xl text-lg text-[color:var(--text-body)] md:text-xl">
-                Quiet intelligence for the businesses that build Aotearoa.
-              </p>
-            </SectionReveal>
-
-            <SectionReveal delay={0.3}>
-              <p className="mx-auto mt-6 max-w-2xl text-base text-[color:var(--text-body)]">
-                79% of Kiwi businesses don&apos;t know how to use AI safely. 97% of the workforce
-                isn&apos;t trained for it. We&apos;re high-use and low-trust as a country. assembl
-                exists to fix the trust gap — every output is reviewed in Draft Mode before anything
-                goes out.
-              </p>
-            </SectionReveal>
-
-            <SectionReveal delay={0.4}>
-              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Link
-                  href="/contact"
-                  className="cta-primary inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-                >
-                  Start your pilot
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="btn-ghost inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-                >
-                  See pricing
-                </Link>
+              <div className="flex justify-center lg:justify-end">
+                <KeteIllustration className="h-72 w-auto md:h-96 lg:h-[28rem]" />
               </div>
-            </SectionReveal>
-
-            <SectionReveal delay={0.5}>
-              <p className="mt-8 font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                NZ-hosted data · GST-exclusive · Cancel any time
-              </p>
             </SectionReveal>
           </div>
         </div>
@@ -258,30 +267,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Brand film — full-bleed Ink dark band, interactive scene picker ── */}
-      <section className="relative bg-[color:var(--assembl-taupe-deep)] py-32 text-[color:var(--assembl-paper)] md:py-48">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl text-center">
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[rgba(250,247,242,0.55)]">
-                Brand film
-              </span>
-              <h2 className="mt-3 font-display text-4xl md:text-6xl">
-                Two minutes. Four scenes.
-              </h2>
-              <p className="mt-5 text-base text-[rgba(250,247,242,0.75)] md:text-lg">
-                Sound on. Each scene narrated in NZ English. Click a scene to play.
-              </p>
-            </div>
-          </SectionReveal>
+      {/* Brand film section removed from homepage 2026-05-06 — videos didn't match
+          the original Opening/Dashboard/Pipeline/Close narrative and labels were confusing.
+          Binaries still in public/video/brand-film-scene-{1-4}-narrated.mp4 — can be
+          surfaced on a dedicated /brand-film route in a follow-up if needed. */}
 
-          <SectionReveal delay={0.15}>
-            <div className="mt-14">
-              <BrandFilmShowcase />
-            </div>
-          </SectionReveal>
-        </div>
-      </section>
 
       {/* ── Trust strip (Paper) ─────────────────────────────── */}
       <section className="relative bg-[color:var(--assembl-paper)] py-24 md:py-32">

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import { agentCountByKete } from '@/lib/agents';
 import { useKeteAccent } from '@/components/KeteAccentContext';
+import { KeteIllustration } from '@/components/KeteIllustration';
 
 /**
  * Per-kete subtle background pattern. CSS-only, layered at low opacity.
@@ -101,48 +102,64 @@ export function KeteCard({
           style={{ backgroundColor: kete.accent }}
         />
 
-        {/* Soft accent glow — top-right corner */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full opacity-40 transition-opacity duration-500 group-hover:opacity-90"
-          style={{
-            background: `radial-gradient(circle, ${kete.accent} 0%, transparent 70%)`,
-          }}
-        />
+        <div className={`relative ${featured ? 'grid items-center gap-8 md:grid-cols-[1fr_auto] md:gap-12' : ''}`}>
+          <div>
+            <div className="flex items-baseline justify-between">
+              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                {kete.industry}
+              </span>
+              <ArrowUpRight
+                className="h-5 w-5 text-[color:var(--text-secondary)] transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[color:var(--text-primary)]"
+                aria-hidden
+              />
+            </div>
 
-        <div className="relative">
-          <div className="flex items-baseline justify-between">
-            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              {kete.industry}
-            </span>
-            <ArrowUpRight
-              className="h-5 w-5 text-[color:var(--text-secondary)] transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[color:var(--text-primary)]"
-              aria-hidden
-            />
+            <h3
+              className={`mt-5 font-display text-[color:var(--text-primary)] ${
+                featured ? 'text-5xl md:text-6xl' : 'text-3xl md:text-4xl'
+              }`}
+            >
+              {kete.name}
+            </h3>
+
+            <p
+              className={`mt-4 leading-relaxed text-[color:var(--text-body)] ${
+                featured ? 'text-lg md:text-xl' : 'text-base'
+              }`}
+            >
+              {kete.tagline}
+            </p>
+
+            {featured && (
+              <p className="mt-4 max-w-xl text-sm text-[color:var(--text-secondary)]">
+                Live now. Every agent grounded in current NZ legislation. Click through for the
+                full agent list and the legislation each one cites.
+              </p>
+            )}
           </div>
 
-          <h3
-            className={`mt-5 font-display text-[color:var(--text-primary)] ${
-              featured ? 'text-5xl md:text-6xl' : 'text-3xl md:text-4xl'
-            }`}
-          >
-            {kete.name}
-          </h3>
-
-          <p
-            className={`mt-4 leading-relaxed text-[color:var(--text-body)] ${
-              featured ? 'text-lg md:text-xl' : 'text-base'
-            }`}
-          >
-            {kete.tagline}
-          </p>
-
+          {/* Per-kete illustration — featured cards show full size on the right */}
           {featured && (
-            <p className="mt-4 max-w-xl text-sm text-[color:var(--text-secondary)]">
-              Live now. Every agent grounded in current NZ legislation. Click through for the full
-              agent list and the legislation each one cites.
-            </p>
+            <div className="flex justify-center md:justify-end">
+              <KeteIllustration
+                slug={kete.slug}
+                accent={kete.accent}
+                className="h-44 w-auto transition-transform duration-700 group-hover:scale-[1.04] md:h-56"
+              />
+            </div>
           )}
+        </div>
+
+        {/* Non-featured cards: small illustration top-right */}
+        {!featured && (
+          <KeteIllustration
+            slug={kete.slug}
+            accent={kete.accent}
+            className="pointer-events-none absolute right-4 top-4 h-20 w-auto opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110"
+          />
+        )}
+
+        <div className="relative">
 
           <div className="mt-7 flex items-center justify-between">
             <span className="flex items-center gap-2 font-mono text-[11px] text-[color:var(--text-secondary)]">
