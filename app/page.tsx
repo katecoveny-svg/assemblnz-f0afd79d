@@ -3,28 +3,18 @@ import { ArrowRight } from 'lucide-react';
 import { INDUSTRY_KETES } from '@/lib/kete';
 import { AGENTS } from '@/lib/agents';
 import { SectionReveal } from '@/components/SectionReveal';
-import { KeteSpotlight } from '@/components/KeteSpotlight';
+import { DestinationCard } from '@/components/DestinationCard';
 import { KeteIllustration } from '@/components/KeteIllustration';
-import { PipelineStickyScroll } from '@/components/PipelineStickyScroll';
 
 const AGENT_TOTAL = AGENTS.length;
-const FEATURED_KETES = INDUSTRY_KETES.filter((k) => k.status === 'active');
-const SECONDARY_KETES = INDUSTRY_KETES.filter((k) => k.status !== 'active');
-
-// Per-kete description for the spotlight section. Used only on featured (active) kete.
-const SPOTLIGHT_COPY: Record<string, string> = {
-  waihanga:
-    'Six specialist agents covering health and safety (HSWA 2015), building consents (Building Act 2004 s 14B), BIM analysis, materials compliance, and quality assurance. Every consent application leaves with an Evidence Pack your team can stand behind with a BCA.',
-  pikau:
-    'Specialist agents for customs declarations (Customs and Excise Act 2018), tariff classification, trade compliance, and freight documentation. The audit trail your broker needs — drafted, cited, and signed off before anything hits the EDI.',
-};
+const ACTIVE_KETE_COUNT = INDUSTRY_KETES.filter((k) => k.status === 'active').length;
+const TOTAL_KETE_COUNT = INDUSTRY_KETES.length + 1; // +1 for Tōro
 
 export default function HomePage() {
   return (
     <>
-      {/* ── HERO — full-bleed lattice video, Joby-style cinematic ─────── */}
+      {/* ── HERO — full-bleed lattice video ─────────────────────────── */}
       <section className="relative min-h-[88vh] overflow-hidden bg-[color:var(--assembl-paper)]">
-        {/* Background video — kete lattice loop */}
         <div className="absolute inset-0">
           <video
             autoPlay
@@ -37,7 +27,6 @@ export default function HomePage() {
           >
             <source src="/video/kete-hero-lattice.mp4" type="video/mp4" />
           </video>
-          {/* Static fallback for reduced motion */}
           <img
             src="/images/lattice-texture.jpg"
             alt=""
@@ -45,8 +34,6 @@ export default function HomePage() {
             className="absolute inset-0 h-full w-full object-cover motion-reduce:block hidden"
           />
         </div>
-
-        {/* Cream scrim — soft fade from transparent at top to paper at bottom for text legibility */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -55,8 +42,6 @@ export default function HomePage() {
               'linear-gradient(180deg, rgba(250,247,242,0.55) 0%, rgba(250,247,242,0.35) 35%, rgba(250,247,242,0.85) 80%, rgba(250,247,242,1) 100%)',
           }}
         />
-
-        {/* Content */}
         <div className="relative z-10 mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-center px-6 py-32 md:px-10">
           <SectionReveal>
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
@@ -76,18 +61,21 @@ export default function HomePage() {
           </SectionReveal>
 
           <SectionReveal delay={0.25}>
-            <p className="mt-10 max-w-2xl font-display text-2xl leading-snug text-[color:var(--text-body)] md:text-3xl" style={{ fontWeight: 300 }}>
+            <p
+              className="mt-10 max-w-2xl font-display text-2xl leading-snug text-[color:var(--text-body)] md:text-3xl"
+              style={{ fontWeight: 300 }}
+            >
               We are quietly rewiring New Zealand businesses for a calmer, more compliant
               tomorrow.
             </p>
           </SectionReveal>
 
           <SectionReveal delay={0.4}>
-            <p className="mt-10 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+            <p className="mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
               <em className="font-display text-xl not-italic md:text-2xl">assembl drafts.</em>{' '}
               Specialist AI agents grounded in current NZ legislation. We draft the compliance
-              documentation your team would otherwise spend the week on — every output reviewed
-              in Draft Mode before anything ships.
+              documentation your team would otherwise spend the week on — every output reviewed in
+              Draft Mode before anything ships.
             </p>
           </SectionReveal>
 
@@ -101,15 +89,14 @@ export default function HomePage() {
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link
-                href="/agents"
+                href="/kete"
                 className="btn-ghost inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
               >
-                Browse agents
+                See the kete
               </Link>
             </div>
           </SectionReveal>
 
-          {/* Scroll cue */}
           <div
             aria-hidden
             className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex"
@@ -122,246 +109,210 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── STAT BAND — single sentence, manifesto weight ───────────── */}
-      <section className="relative bg-[color:var(--assembl-paper)] py-20 md:py-32">
+      {/* ── STAT BAND — single manifesto line ─────────────────────── */}
+      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
+        {/* Subtle atmospheric backdrop */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 50%, rgba(212, 168, 83, 0.08) 0%, transparent 60%)',
+          }}
+        />
+
         <div className="container">
           <SectionReveal>
             <p
-              className="mx-auto max-w-5xl font-display leading-[1.1] text-[color:var(--text-primary)]"
-              style={{ fontWeight: 300, fontSize: 'clamp(1.6rem, 4vw, 3.5rem)' }}
+              className="mx-auto max-w-5xl text-center font-display leading-[1.05] text-[color:var(--text-primary)]"
+              style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4.5vw, 4rem)' }}
             >
               79% of Kiwi businesses don&apos;t know how to use AI safely.
               <br />
               <span className="text-[color:var(--text-secondary)]">
-                97% of the workforce isn&apos;t trained for it. We&apos;re high-use, low-trust.
+                97% of the workforce isn&apos;t trained for it.
               </span>
               <br />
               <em className="not-italic text-gradient-hero">
                 The trust gap is what assembl exists to close.
               </em>
             </p>
-            <p className="mt-8 font-mono text-xs uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            <p className="mt-12 text-center font-mono text-xs uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               Source: AI Forum NZ · AI Blueprint for Aotearoa (May 2026)
             </p>
           </SectionReveal>
         </div>
       </section>
 
-      {/* ── PER-KETE SPOTLIGHTS — Joby-style alternating full-width ────── */}
-      <section
-        id="kete"
-        className="relative scroll-mt-20 bg-[color:var(--assembl-mist)]/30 py-20 md:py-32"
-      >
+      {/* ── DESTINATION CARDS — 4 doors into the rest of the site ─── */}
+      <section className="relative bg-[color:var(--assembl-mist)]/30 py-24 md:py-32">
         <div className="container">
           <SectionReveal>
-            <div className="mx-auto max-w-3xl text-center">
+            <div className="mx-auto mb-16 max-w-3xl text-center">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Industry kete
+                Where to go next
               </p>
               <h2
                 className="mt-5 font-display leading-[0.95] tracking-tight"
                 style={{ fontWeight: 300, fontSize: 'clamp(2.2rem, 5vw, 4.5rem)' }}
               >
-                Purpose-built for{' '}
-                <em className="not-italic text-gradient-hero">your industry</em>.
-              </h2>
-              <p className="mt-6 text-base text-[color:var(--text-body)] md:text-lg">
-                Each kete is grounded in the legislation your industry lives under — its
-                workflows, its compliance regime, its evidence requirements.
-              </p>
-            </div>
-          </SectionReveal>
-        </div>
-      </section>
-
-      {/* Featured (live) kete spotlights — alternating left/right, alternating bg */}
-      {FEATURED_KETES.map((kete, i) => (
-        <KeteSpotlight
-          key={kete.slug}
-          kete={kete}
-          description={SPOTLIGHT_COPY[kete.slug] ?? kete.tagline}
-          flip={i % 2 === 1}
-          bg={i % 2 === 0 ? 'paper' : 'mist'}
-        />
-      ))}
-
-      {/* Secondary (coming-soon) kete — tighter inline grid */}
-      <section className="relative bg-[color:var(--assembl-paper)] py-20 md:py-32">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                More kete coming
-              </p>
-              <h2
-                className="mt-5 font-display leading-tight tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}
-              >
-                Five more industries on the way.
+                Four doors into{' '}
+                <em className="not-italic text-gradient-hero">assembl</em>.
               </h2>
             </div>
           </SectionReveal>
 
-          <div className="mx-auto mt-14 grid max-w-5xl gap-8 md:grid-cols-3">
-            {SECONDARY_KETES.map((kete, i) => (
-              <SectionReveal key={kete.slug} delay={i * 0.08}>
-                <Link
-                  href={`/kete/${kete.slug}`}
-                  className="group flex h-full flex-col items-center text-center transition-transform hover:-translate-y-1"
-                  style={{ ['--kete-accent' as string]: kete.accent }}
-                >
-                  <KeteIllustration
-                    slug={kete.slug}
-                    accent={kete.accent}
-                    className="h-40 w-auto transition-transform duration-500 group-hover:scale-105 md:h-48"
-                  />
-                  <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
-                    {kete.industry}
+          <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 md:gap-8">
+            {/* Kete */}
+            <DestinationCard
+              href="/kete"
+              eyebrow={`${TOTAL_KETE_COUNT} kete · ${ACTIVE_KETE_COUNT} live`}
+              title="Industry kete"
+              description="Each kete bundles specialist agents grounded in the legislation your industry lives under. Scroll through the lineup."
+              accent="#2B6B57"
+              index={0}
+              bg="paper"
+              visual={
+                <div className="flex justify-center">
+                  <KeteIllustration accent="#2B6B57" className="h-44 w-auto md:h-52" />
+                </div>
+              }
+            />
+
+            {/* Agents */}
+            <DestinationCard
+              href="/agents"
+              eyebrow={`${AGENT_TOTAL} specialist agents`}
+              title="Agent marketplace"
+              description="Pick the agents you need. Subscribe, pay per output, or pay per resolution. Every output reviewed in Draft Mode before it ships."
+              accent="#D4A853"
+              index={1}
+              bg="ink"
+              visual={
+                <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+                  {INDUSTRY_KETES.slice(0, 7).map((k) => (
+                    <KeteIllustration
+                      key={k.slug}
+                      slug={k.slug}
+                      accent={k.accent}
+                      className="h-20 w-auto opacity-90 md:h-24"
+                    />
+                  ))}
+                </div>
+              }
+            />
+
+            {/* Pricing */}
+            <DestinationCard
+              href="/pricing"
+              eyebrow="Three ways to buy"
+              title="Pricing"
+              description="Subscribe, pay per output, pay per resolution. Plus the Pilot Sprint — NZ$5,000 + GST, two weeks, money-back if no time saved."
+              accent="#AC5838"
+              index={2}
+              bg="mist"
+              visual={
+                <div className="flex flex-col items-center gap-3">
+                  <div className="flex gap-3">
+                    {['Subscribe', 'Per output', 'Per resolution'].map((t, i) => (
+                      <span
+                        key={t}
+                        className="rounded-full border border-[rgba(35,33,31,0.18)] bg-white/40 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]"
+                        style={{ animationDelay: `${i * 0.1}s` }}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <p
+                    className="font-display leading-none text-[color:var(--text-primary)]"
+                    style={{ fontWeight: 300, fontSize: 'clamp(3rem, 5vw, 5rem)' }}
+                  >
+                    NZ$<span className="text-gradient-hero">29</span>
+                    <span className="font-mono text-base font-normal text-[color:var(--text-secondary)]">
+                      {' '}
+                      · NZ$1,490 · NZ$1,990 · NZ$2,990+
+                    </span>
                   </p>
-                  <h3 className="mt-2 font-display text-3xl text-[color:var(--text-primary)] md:text-4xl">
-                    {kete.name}
-                  </h3>
-                  <p className="mt-3 text-sm text-[color:var(--text-body)]">{kete.tagline}</p>
-                </Link>
-              </SectionReveal>
-            ))}
+                </div>
+              }
+            />
+
+            {/* About */}
+            <DestinationCard
+              href="/about"
+              eyebrow="Why we exist"
+              title="The trust gap"
+              description="Built in Aotearoa. For Aotearoa. Grounded in four pou. We do not generate AI karakia, whaikōrero, or waiata. That is a hard boundary."
+              accent="#6B5843"
+              index={3}
+              bg="paper"
+              visual={
+                <div className="flex flex-col items-center gap-2">
+                  {['Rangatiratanga', 'Kaitiakitanga', 'Manaakitanga', 'Whanaungatanga'].map(
+                    (pou) => (
+                      <span
+                        key={pou}
+                        className="font-display text-2xl text-[color:var(--text-primary)] md:text-3xl"
+                        style={{ fontWeight: 300 }}
+                      >
+                        {pou}
+                      </span>
+                    ),
+                  )}
+                </div>
+              }
+            />
           </div>
         </div>
       </section>
 
-      {/* ── HOW IT WORKS — sticky scroll-pinned narrative ─────────────── */}
-      <PipelineStickyScroll />
-
-      {/* ── AGENT MARKETPLACE CTA — Ink dark band for contrast ─────── */}
-      <section className="relative bg-[color:var(--assembl-taupe-deep)] py-32 text-[color:var(--assembl-paper)] md:py-48">
+      {/* ── FOOTER CTA ─────────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 100%, rgba(43, 107, 87, 0.10) 0%, transparent 65%)',
+          }}
+        />
         <div className="container">
           <SectionReveal>
             <div className="mx-auto max-w-4xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[rgba(250,247,242,0.5)]">
-                Agent marketplace
+              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+                Pilot Sprint
               </p>
               <h2
-                className="mt-6 font-display leading-[0.92] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
+                className="mt-6 font-display leading-[0.95] tracking-tight"
+                style={{ fontWeight: 300, fontSize: 'clamp(2.4rem, 5.5vw, 5rem)' }}
               >
-                {AGENT_TOTAL} agents.
+                Two weeks. One workflow.
                 <br />
-                <em className="not-italic text-[color:var(--assembl-soft-gold)]">
-                  Pick the ones you need.
-                </em>
+                <em className="not-italic text-gradient-hero">One Evidence Pack.</em>
               </h2>
-              <p className="mx-auto mt-8 max-w-2xl text-base text-[rgba(250,247,242,0.75)] md:text-lg">
-                Every agent grounded in current NZ legislation. Subscribe, pay per output, or
-                pay per resolution. assembl bills based on what your team actually uses — not
-                on seats you forget you bought.
+              <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+                NZ$5,000 + GST. Pick a workflow. We draft it end-to-end with every NZ Act and
+                Section cited. If your team has not saved time by week two, you get your money
+                back.
               </p>
               <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
-                  href="/agents"
-                  className="inline-flex h-12 items-center rounded-full bg-[color:var(--assembl-soft-gold)] px-7 text-sm font-medium text-[color:var(--text-primary)] transition-transform hover:-translate-y-0.5 md:text-base"
+                  href="/contact"
+                  className="cta-primary inline-flex h-12 items-center px-8 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
                 >
-                  Browse agents
+                  Book your pilot
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
                 <Link
                   href="/pricing"
-                  className="inline-flex h-12 items-center rounded-full border border-[rgba(250,247,242,0.3)] px-7 text-sm font-medium text-[color:var(--assembl-paper)] transition-all hover:-translate-y-0.5 hover:border-[color:var(--assembl-paper)] md:text-base"
+                  className="btn-ghost inline-flex h-12 items-center px-8 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
                 >
                   See pricing
                 </Link>
               </div>
             </div>
           </SectionReveal>
-        </div>
-      </section>
-
-      {/* ── PILOT SPRINT ────────────────────────────────────────────── */}
-      <section className="relative bg-[color:var(--assembl-paper)] py-24 md:py-32">
-        <div className="container">
-          <SectionReveal>
-            <div
-              className="mx-auto max-w-4xl border-l-4 p-8 md:p-12"
-              style={{ borderColor: '#2B6B57' }}
-            >
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Pilot Sprint
-              </p>
-              <h2
-                className="mt-4 font-display leading-tight tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4vw, 3.2rem)' }}
-              >
-                NZ$5,000 + GST. Two weeks. One workflow. One Evidence Pack.
-              </h2>
-              <p className="mt-6 max-w-2xl text-[color:var(--text-body)]">
-                The fastest way to see what assembl does for your business. Pick one workflow —
-                a consent application, a customs declaration, a safety plan — and your agents
-                draft it end-to-end, with every NZ Act and Section cited.
-              </p>
-              <p className="mt-3 max-w-2xl text-[color:var(--text-body)]">
-                If your team has not saved time by week two, you get your money back.
-              </p>
-              <div className="mt-10">
-                <Link
-                  href="/contact"
-                  className="cta-primary inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-                >
-                  Book your pilot
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-              </div>
-            </div>
-          </SectionReveal>
-        </div>
-      </section>
-
-      {/* ── TRUST CLOSE ────────────────────────────────────────────── */}
-      <section className="relative bg-[color:var(--assembl-paper)] py-24 md:py-40">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto max-w-4xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Provenance · Compliance · Aotearoa
-              </p>
-              <h2
-                className="mt-6 font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.2rem, 5vw, 4.5rem)' }}
-              >
-                Every agent cites current NZ legislation.
-                <br />
-                Every output is an evidence pack.
-                <br />
-                <em className="not-italic text-gradient-hero">Built in Aotearoa.</em>
-              </h2>
-            </div>
-          </SectionReveal>
-
-          <div className="mx-auto mt-16 grid max-w-4xl gap-10 text-left sm:grid-cols-3">
-            {[
-              {
-                title: 'Cited',
-                body: 'Outputs reference the exact section of the Building Act, Food Act, Customs and Excise Act, or relevant regulation.',
-              },
-              {
-                title: 'Watermarked',
-                body: 'Provenance signature on every document — auditor-defensible trail of who, what, when.',
-              },
-              {
-                title: 'NZ-hosted',
-                body: 'Data sovereignty by default. Your records stay in Aotearoa.',
-              },
-            ].map((pillar, i) => (
-              <SectionReveal key={pillar.title} delay={i * 0.12}>
-                <div>
-                  <p className="font-mono text-xs uppercase tracking-[0.32em] text-[color:var(--assembl-soft-gold)]">
-                    {pillar.title}
-                  </p>
-                  <p className="mt-3 text-base leading-relaxed text-[color:var(--text-body)]">
-                    {pillar.body}
-                  </p>
-                </div>
-              </SectionReveal>
-            ))}
-          </div>
         </div>
       </section>
     </>
