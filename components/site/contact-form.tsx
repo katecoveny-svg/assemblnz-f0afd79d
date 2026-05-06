@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { Loader2, Send, CheckCircle2 } from "lucide-react";
 import { submitContact, type ContactState } from "@/app/contact/actions";
+import { cn } from "@/lib/utils";
 import { INDUSTRY_KETES } from "@/lib/kete";
 
 const initialState: ContactState = { status: "idle" };
@@ -12,6 +13,7 @@ export function ContactForm() {
     submitContact,
     initialState
   );
+  const [messageLength, setMessageLength] = useState(0);
 
   if (state.status === "success") {
     return (
@@ -119,9 +121,23 @@ export function ContactForm() {
             minLength={10}
             maxLength={4000}
             rows={5}
+            onChange={(e) => setMessageLength(e.target.value.length)}
             className="form-input resize-y"
             placeholder="The workflows you're hoping to hand over, the compliance pain that drove you here, the size of your team — whatever helps us prep for the call."
           />
+          <div className="mt-2 flex justify-end">
+            <span
+              className={cn(
+                "font-mono text-[10px] uppercase tracking-[0.1em]",
+                messageLength > 3800
+                  ? "text-destructive font-medium"
+                  : "text-[color:var(--text-secondary)]"
+              )}
+              aria-live="polite"
+            >
+              {messageLength} / 4000 characters
+            </span>
+          </div>
         </Field>
 
         {state.status === "error" && (
