@@ -14,6 +14,14 @@ export default function ContactPage() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden">
+        {/* Atmospheric layer — sits behind the radial gradient and content */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+          <img
+            src="/images/ambient-warmth.jpg"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.11]"
+          />
+        </div>
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"

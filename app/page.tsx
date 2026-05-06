@@ -136,6 +136,16 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Atmospheric divider — lattice texture between kete grid and Tōro ── */}
+      <div aria-hidden className="relative h-24 overflow-hidden md:h-32">
+        <img
+          src="/images/lattice-texture.jpg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover opacity-[0.20] motion-reduce:opacity-[0.12]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2] via-transparent to-[#FAF7F2]" />
+      </div>
+
       {/* ── Tōro — whānau ──────────────────────────────────────── */}
       <section className="relative">
         <div className="container py-12 md:py-16">
@@ -321,6 +331,55 @@ export default function HomePage() {
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Brand film — 4 narrated scenes ─────────────────── */}
+      <section className="relative">
+        <div className="container py-20 md:py-28">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              Brand film
+            </span>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl">
+              Two minutes. Four scenes.
+            </h2>
+            <p className="mt-5 text-base text-[color:var(--text-body)] md:text-lg">
+              Sound on. Each scene narrated in NZ English.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-14 grid max-w-4xl gap-10">
+            {[
+              { num: 1, title: 'Opening' },
+              { num: 2, title: 'Dashboard' },
+              { num: 3, title: 'Pipeline' },
+              { num: 4, title: 'Close' },
+            ].map((scene) => (
+              <figure key={scene.num} className="space-y-3">
+                <figcaption className="flex items-baseline gap-4">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    Scene {String(scene.num).padStart(2, '0')}
+                  </span>
+                  <span className="font-display text-2xl text-[color:var(--text-primary)]">
+                    {scene.title}
+                  </span>
+                </figcaption>
+                <video
+                  controls
+                  playsInline
+                  preload="metadata"
+                  className="aspect-video w-full rounded-2xl bg-[#23211F]"
+                >
+                  <source
+                    src={`/video/brand-film-scene-${scene.num}-narrated.mp4`}
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
