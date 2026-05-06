@@ -16,8 +16,9 @@ export type Kete = {
   accent: string;
   accentName: string;
   /**
-   * "industry" — industry kete (sold via Operator / Leader / Enterprise tiers).
-   * "whanau" — Tōro, sold standalone on the Family tier.
+   * "industry" — industry kete (sold via Operator / Leader / Enterprise
+   *   Subscribe sub-plans, or à la carte via Pay per output / Pay per resolution).
+   * "whanau" — Tōro, sold standalone on the Family Subscribe sub-plan.
    */
   type: 'industry' | 'whanau';
   status: 'active' | 'coming-soon' | 'mothballed';
