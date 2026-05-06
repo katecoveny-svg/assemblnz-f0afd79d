@@ -8,6 +8,7 @@ import {
   type IndustryKeteDetail,
   type WhanauKeteDetail,
 } from '@/lib/kete-detail';
+import { KeteIllustration } from '@/components/KeteIllustration';
 
 type Params = { slug: string };
 
@@ -89,27 +90,28 @@ function IndustryKetePage({
           }}
         />
         <div className="container py-20 md:py-28">
-          <div className="mx-auto max-w-4xl">
-            <div className="flex items-center gap-3">
-              <span
-                className="h-3 w-3 rounded-full"
-                style={{ backgroundColor: kete.accent }}
-                aria-hidden
-              />
-              <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                {kete.industry} · {kete.accentName}
-                {isComingSoon && ' · Coming soon'}
-              </span>
-            </div>
+          <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
+            <div>
+              <div className="flex items-center gap-3">
+                <span
+                  className="h-3 w-3 rounded-full"
+                  style={{ backgroundColor: kete.accent }}
+                  aria-hidden
+                />
+                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  {kete.industry} · {kete.accentName}
+                  {isComingSoon && ' · Coming soon'}
+                </span>
+              </div>
 
-            <h1 className="mt-6 font-display text-5xl md:text-7xl">
-              <span className="text-[color:var(--text-primary)]">{kete.name}</span>{' '}
-              <span className="text-gradient-hero">— {detail.heroLead}</span>
-            </h1>
+              <h1 className="mt-6 font-display text-5xl md:text-7xl">
+                <span className="text-[color:var(--text-primary)]">{kete.name}</span>{' '}
+                <span className="text-gradient-hero">— {detail.heroLead}</span>
+              </h1>
 
-            <p className="mt-8 max-w-2xl text-lg text-[color:var(--text-body)] md:text-xl">
-              {detail.heroBody}
-            </p>
+              <p className="mt-8 max-w-2xl text-lg text-[color:var(--text-body)] md:text-xl">
+                {detail.heroBody}
+              </p>
 
             {!isComingSoon && (
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -141,9 +143,19 @@ function IndustryKetePage({
               </div>
             )}
 
-            <p className="mt-6 font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              {detail.availableOn}
-            </p>
+              <p className="mt-6 font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                {detail.availableOn}
+              </p>
+            </div>
+
+            {/* Per-kete illustration — sits in the right column on desktop */}
+            <div className="flex justify-center lg:justify-end">
+              <KeteIllustration
+                slug={kete.slug}
+                accent={kete.accent}
+                className="h-72 w-auto md:h-80 lg:h-96"
+              />
+            </div>
           </div>
         </div>
       </section>
