@@ -34,7 +34,7 @@ export default function ContactPage() {
           <div className="mx-auto max-w-3xl text-center">
             <span className="badge-gold inline-flex">Get in touch</span>
             <h1 className="mt-6 font-display text-5xl md:text-6xl">
-              Let\'s talk.
+              Let&apos;s talk.
             </h1>
             <p className="mt-6 text-lg text-[color:var(--text-body)]">
               Whether you are ready for a pilot or just want to understand what assembl does for

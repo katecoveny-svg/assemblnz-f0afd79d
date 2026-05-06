@@ -387,7 +387,7 @@ function ToroPage({
               What Tōro does
             </span>
             <h2 className="mt-3 font-display text-4xl md:text-5xl">
-              Your family\'s quiet assistant.
+              Your family&apos;s quiet assistant.
             </h2>
           </div>
 
