@@ -1,17 +1,17 @@
 'use client';
 
-import { useRef, Suspense } from 'react';
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { Environment, Float, Sphere, Html } from '@react-three/drei';
+import { useRef, Suspense, useMemo } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Environment, Float, Sphere, Html, GradientTexture } from '@react-three/drei';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import * as THREE from 'three';
-import { TextureLoader } from 'three';
 
 // Brand colors
 const POUNAMU = '#2B6B57';
 const SOFT_GOLD = '#D4A853';
 const INK = '#23211F';
 const PAPER = '#FAF7F2';
+const MIST = '#E8E4DE';
 
 // New Zealand coordinates (approx center)
 const NZ_LAT = -41.2;
@@ -19,7 +19,6 @@ const NZ_LON = 174.9;
 
 function Globe() {
   const globeRef = useRef<THREE.Mesh>(null);
-  const texture = useLoader(TextureLoader, '/assets/3d/texture_earth.jpg');
 
   useFrame(({ clock }) => {
     if (globeRef.current) {
@@ -31,13 +30,17 @@ function Globe() {
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
       <group>
-        {/* Main globe */}
+        {/* Main globe with gradient material */}
         <Sphere ref={globeRef} args={[2, 64, 64]}>
           <meshStandardMaterial
-            map={texture}
             metalness={0.1}
-            roughness={0.8}
-          />
+            roughness={0.6}
+          >
+            <GradientTexture
+              stops={[0, 0.4, 0.6, 1]}
+              colors={[INK, POUNAMU, MIST, PAPER]}
+            />
+          </meshStandardMaterial>
         </Sphere>
 
         {/* Glass outer shell */}
