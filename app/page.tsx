@@ -179,25 +179,37 @@ export default function HomePage() {
               }
             />
 
-            {/* Agents — dark ink background */}
+            {/* Agents — cream/mist background with brand-aligned kete */}
             <PortfolioCard
               href="/agents"
               eyebrow={`${AGENT_TOTAL} specialist agents`}
               title="Agent marketplace"
               description="Pick the agents you need. Every output reviewed in Draft Mode before it ships."
-              accent="#D4A853"
+              accent="#2B6B57"
               index={1}
-              bg="ink"
+              bg="mist"
               visual={
-                <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-                  {INDUSTRY_KETES.slice(0, 7).map((k) => (
-                    <KeteIllustration
-                      key={k.slug}
-                      slug={k.slug}
-                      accent={k.accent}
-                      className="h-16 w-auto drop-shadow-md transition-transform duration-500 hover:scale-110 md:h-20"
-                    />
-                  ))}
+                <div className="flex flex-wrap items-center justify-center gap-5 md:gap-7">
+                  {/* Use brand-aligned palette: pounamu, soft-gold, ink variations */}
+                  {INDUSTRY_KETES.slice(0, 7).map((k, i) => {
+                    const brandAccents = [
+                      '#2B6B57', // Pounamu
+                      '#D4A853', // Soft gold
+                      '#23211F', // Ink
+                      '#2B6B57', // Pounamu
+                      '#6B5843', // Parauri (warm brown)
+                      '#D4A853', // Soft gold
+                      '#23211F', // Ink
+                    ];
+                    return (
+                      <KeteIllustration
+                        key={k.slug}
+                        slug={k.slug}
+                        accent={brandAccents[i]}
+                        className="h-16 w-auto drop-shadow-sm transition-transform duration-500 hover:scale-110 md:h-20"
+                      />
+                    );
+                  })}
                 </div>
               }
             />
