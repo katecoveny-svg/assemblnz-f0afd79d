@@ -1,334 +1,38 @@
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { INDUSTRY_KETES } from '@/lib/kete';
-import { AGENTS } from '@/lib/agents';
-import { SectionReveal } from '@/components/SectionReveal';
-import { PortfolioCard } from '@/components/PortfolioCard';
-import { KeteIllustration } from '@/components/KeteIllustration';
-
-const AGENT_TOTAL = AGENTS.length;
-const ACTIVE_KETE_COUNT = INDUSTRY_KETES.filter((k) => k.status === 'active').length;
-const TOTAL_KETE_COUNT = INDUSTRY_KETES.length + 1; // +1 for Tōro
+import { CinematicHero } from '@/components/sections/CinematicHero';
+import { HorizontalScrollKete } from '@/components/sections/HorizontalScrollKete';
+import { KeteTotem3D } from '@/components/sections/KeteTotem3D';
+import { StickyScrollNarrative } from '@/components/sections/StickyScrollNarrative';
+import { TextRevealCards } from '@/components/sections/TextRevealCards';
+import { BentoGrid } from '@/components/sections/BentoGrid';
+import { AotearoaGlobe } from '@/components/sections/AotearoaGlobe';
+import { ParallaxClose } from '@/components/sections/ParallaxClose';
 
 export default function HomePage() {
   return (
     <>
-      {/* ── HERO — full-bleed lattice video ─────────────────────────── */}
-      <section className="relative min-h-[88vh] overflow-hidden bg-[color:var(--assembl-paper)]">
-        <div className="absolute inset-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/images/lattice-texture.jpg"
-            className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
-          >
-            <source src="/video/kete-hero-lattice.mp4" type="video/mp4" />
-          </video>
-          <img
-            src="/images/lattice-texture.jpg"
-            alt=""
-            aria-hidden
-            className="absolute inset-0 h-full w-full object-cover motion-reduce:block hidden"
-          />
-        </div>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(250,247,242,0.55) 0%, rgba(250,247,242,0.35) 35%, rgba(250,247,242,0.85) 80%, rgba(250,247,242,1) 100%)',
-          }}
-        />
-        <div className="relative z-10 mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-center px-6 py-32 md:px-10">
-          <SectionReveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              Built in Aotearoa · Mārama Whenua
-            </p>
-          </SectionReveal>
+      {/* Cinematic hero with massive headline + image bg */}
+      <CinematicHero />
 
-          <SectionReveal delay={0.1}>
-            <h1
-              className="mt-8 max-w-5xl font-display uppercase leading-[0.92] tracking-tight text-[color:var(--text-primary)]"
-              style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 8vw, 7.5rem)' }}
-            >
-              Automate the mundane.
-              <br />
-              <em className="not-italic text-gradient-hero">Accelerate the remarkable.</em>
-            </h1>
-          </SectionReveal>
+      {/* Apple-style horizontal scroll kete cards */}
+      <HorizontalScrollKete />
 
-          <SectionReveal delay={0.25}>
-            <p
-              className="mt-10 max-w-2xl font-display text-2xl leading-snug text-[color:var(--text-body)] md:text-3xl"
-              style={{ fontWeight: 300 }}
-            >
-              We are quietly rewiring New Zealand businesses for a calmer, more compliant
-              tomorrow.
-            </p>
-          </SectionReveal>
+      {/* 3D rotating kete totem */}
+      <KeteTotem3D />
 
-          <SectionReveal delay={0.4}>
-            <p className="mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-              <em className="font-display text-xl not-italic md:text-2xl">assembl drafts.</em>{' '}
-              Specialist AI agents grounded in current NZ legislation. We draft the compliance
-              documentation your team would otherwise spend the week on — every output reviewed in
-              Draft Mode before anything ships.
-            </p>
-          </SectionReveal>
+      {/* Sticky scroll narrative — problem → solution */}
+      <StickyScrollNarrative />
 
-          <SectionReveal delay={0.55}>
-            <div className="mt-12 flex flex-col items-start gap-3 sm:flex-row">
-              <Link
-                href="/contact"
-                className="cta-primary inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-              >
-                Start your pilot
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-              <Link
-                href="/kete"
-                className="btn-ghost inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-              >
-                See the kete
-              </Link>
-            </div>
-          </SectionReveal>
+      {/* Text reveal cards — before/after comparisons */}
+      <TextRevealCards />
 
-          <div
-            aria-hidden
-            className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex"
-          >
-            <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              Scroll
-            </span>
-            <span className="h-8 w-px animate-pulse bg-[color:var(--text-secondary)]" />
-          </div>
-        </div>
-      </section>
+      {/* Bento grid with full-bleed imagery */}
+      <BentoGrid />
 
-      {/* ── STAT BAND — single manifesto line ─────────────────────── */}
-      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
-        {/* Subtle atmospheric backdrop */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 50%, rgba(212, 168, 83, 0.08) 0%, transparent 60%)',
-          }}
-        />
+      {/* 3D Aotearoa globe with glassmorphism */}
+      <AotearoaGlobe />
 
-        <div className="container">
-          <SectionReveal>
-            <p
-              className="mx-auto max-w-5xl text-center font-display leading-[1.05] text-[color:var(--text-primary)]"
-              style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4.5vw, 4rem)' }}
-            >
-              79% of Kiwi businesses don&apos;t know how to use AI safely.
-              <br />
-              <span className="text-[color:var(--text-secondary)]">
-                97% of the workforce isn&apos;t trained for it.
-              </span>
-              <br />
-              <em className="not-italic text-gradient-hero">
-                The trust gap is what assembl exists to close.
-              </em>
-            </p>
-            <p className="mt-12 text-center font-mono text-xs uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              Source: AI Forum NZ · AI Blueprint for Aotearoa (May 2026)
-            </p>
-          </SectionReveal>
-        </div>
-      </section>
-
-      {/* ── DESTINATION CARDS — 4 doors into the rest of the site ─── */}
-      <section className="relative bg-[color:var(--assembl-mist)]/30 py-24 md:py-32">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto mb-16 max-w-3xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Where to go next
-              </p>
-              <h2
-                className="mt-5 font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.2rem, 5vw, 4.5rem)' }}
-              >
-                Four doors into{' '}
-                <em className="not-italic text-gradient-hero">assembl</em>.
-              </h2>
-            </div>
-          </SectionReveal>
-
-          <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:gap-8">
-            {/* Kete — cream/paper background */}
-            <PortfolioCard
-              href="/kete"
-              eyebrow={`${TOTAL_KETE_COUNT} kete · ${ACTIVE_KETE_COUNT} live`}
-              title="Industry kete"
-              description="Each kete bundles specialist agents grounded in the legislation your industry lives under."
-              accent="#2B6B57"
-              index={0}
-              bg="paper"
-              visual={
-                <div className="relative flex items-center justify-center">
-                  <KeteIllustration accent="#2B6B57" className="h-56 w-auto drop-shadow-lg md:h-72" />
-                </div>
-              }
-            />
-
-            {/* Agents — cream/mist background with brand-aligned kete */}
-            <PortfolioCard
-              href="/agents"
-              eyebrow={`${AGENT_TOTAL} specialist agents`}
-              title="Agent marketplace"
-              description="Pick the agents you need. Every output reviewed in Draft Mode before it ships."
-              accent="#2B6B57"
-              index={1}
-              bg="mist"
-              visual={
-                <div className="flex flex-wrap items-center justify-center gap-5 md:gap-7">
-                  {/* Use brand-aligned palette: pounamu, soft-gold, ink variations */}
-                  {INDUSTRY_KETES.slice(0, 7).map((k, i) => {
-                    const brandAccents = [
-                      '#2B6B57', // Pounamu
-                      '#D4A853', // Soft gold
-                      '#23211F', // Ink
-                      '#2B6B57', // Pounamu
-                      '#6B5843', // Parauri (warm brown)
-                      '#D4A853', // Soft gold
-                      '#23211F', // Ink
-                    ];
-                    return (
-                      <KeteIllustration
-                        key={k.slug}
-                        slug={k.slug}
-                        accent={brandAccents[i]}
-                        className="h-16 w-auto drop-shadow-sm transition-transform duration-500 hover:scale-110 md:h-20"
-                      />
-                    );
-                  })}
-                </div>
-              }
-            />
-
-            {/* Pricing — cream/mist background */}
-            <PortfolioCard
-              href="/pricing"
-              eyebrow="Three ways to buy"
-              title="Pricing"
-              description="Subscribe, pay per output, or pay per resolution. Plus the Pilot Sprint."
-              accent="#AC5838"
-              index={2}
-              bg="mist"
-              visual={
-                <div className="flex flex-col items-center gap-6">
-                  <div className="flex flex-wrap justify-center gap-3">
-                    {['Subscribe', 'Per output', 'Per resolution'].map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full border border-[rgba(35,33,31,0.14)] bg-white/60 px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-primary)] shadow-sm backdrop-blur-sm"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                  <p
-                    className="text-center font-display leading-none text-[color:var(--text-primary)]"
-                    style={{ fontWeight: 300, fontSize: 'clamp(2.5rem, 4vw, 4rem)' }}
-                  >
-                    NZ$<span className="text-gradient-hero">29</span>
-                    <span className="block font-mono text-sm font-normal text-[color:var(--text-secondary)] mt-2">
-                      NZ$1,490 · NZ$1,990 · NZ$2,990+
-                    </span>
-                  </p>
-                </div>
-              }
-            />
-
-            {/* About — cream/paper background */}
-            <PortfolioCard
-              href="/about"
-              eyebrow="Why we exist"
-              title="The trust gap"
-              description="Built in Aotearoa. For Aotearoa. Grounded in four pou."
-              accent="#6B5843"
-              index={3}
-              bg="paper"
-              visual={
-                <div className="flex flex-col items-center gap-3">
-                  {['Rangatiratanga', 'Kaitiakitanga', 'Manaakitanga', 'Whanaungatanga'].map(
-                    (pou, i) => (
-                      <span
-                        key={pou}
-                        className="font-display text-[color:var(--text-primary)] transition-all duration-300"
-                        style={{
-                          fontWeight: 300,
-                          fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
-                          opacity: 1 - i * 0.12,
-                        }}
-                      >
-                        {pou}
-                      </span>
-                    ),
-                  )}
-                </div>
-              }
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ── FOOTER CTA ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 100%, rgba(43, 107, 87, 0.10) 0%, transparent 65%)',
-          }}
-        />
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto max-w-4xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Pilot Sprint
-              </p>
-              <h2
-                className="mt-6 font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.4rem, 5.5vw, 5rem)' }}
-              >
-                Two weeks. One workflow.
-                <br />
-                <em className="not-italic text-gradient-hero">One Evidence Pack.</em>
-              </h2>
-              <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                NZ$5,000 + GST. Pick a workflow. We draft it end-to-end with every NZ Act and
-                Section cited. If your team has not saved time by week two, you get your money
-                back.
-              </p>
-              <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Link
-                  href="/contact"
-                  className="cta-primary inline-flex h-12 items-center px-8 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-                >
-                  Book your pilot
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="btn-ghost inline-flex h-12 items-center px-8 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-                >
-                  See pricing
-                </Link>
-              </div>
-            </div>
-          </SectionReveal>
-        </div>
-      </section>
+      {/* Multi-layer parallax cinematic close */}
+      <ParallaxClose />
     </>
   );
 }
