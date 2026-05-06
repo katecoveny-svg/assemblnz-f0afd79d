@@ -126,6 +126,16 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Atmospheric divider — lattice texture between kete grid and Tōro ── */}
+      <div aria-hidden className="relative h-24 overflow-hidden md:h-32">
+        <img
+          src="/images/lattice-texture.jpg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover opacity-[0.20] motion-reduce:opacity-[0.12]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2] via-transparent to-[#FAF7F2]" />
+      </div>
+
       {/* ── Tōro — whānau ──────────────────────────────────────── */}
       <section className="relative">
         <div className="container py-12 md:py-16">

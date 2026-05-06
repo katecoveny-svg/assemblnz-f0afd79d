@@ -103,6 +103,16 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Atmospheric break — soft warm interlude between founder voice and tikanga framework */}
+      <div aria-hidden className="relative h-32 overflow-hidden md:h-48">
+        <img
+          src="/images/ambient-warmth.jpg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover opacity-[0.25] motion-reduce:opacity-[0.15]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF7F2] via-transparent to-[#FAF7F2]" />
+      </div>
+
       {/* Tikanga posture */}
       <section className="relative">
         <div className="container py-16">
