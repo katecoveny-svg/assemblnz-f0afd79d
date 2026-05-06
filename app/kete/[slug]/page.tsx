@@ -67,6 +67,20 @@ function IndustryKetePage({
     <>
       {/* Hero */}
       <section className="relative overflow-hidden">
+        {/* Atmospheric layer — sits behind the radial gradient and content */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/lattice-texture.jpg"
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.18] motion-reduce:hidden"
+          >
+            <source src="/video/kete-hero-lattice.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
@@ -290,6 +304,20 @@ function ToroPage({
   return (
     <>
       <section className="relative overflow-hidden">
+        {/* Atmospheric layer — sits behind the radial gradient and content */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/lattice-texture.jpg"
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.18] motion-reduce:hidden"
+          >
+            <source src="/video/kete-hero-lattice.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"
