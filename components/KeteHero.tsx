@@ -1,37 +1,62 @@
 'use client';
 
 /**
- * KeteHero — interactive 3D kete totem for the homepage hero.
+ * KeteHero — wow-factor 3D kete totem.
  *
- * Specs (locked, see Kaihanga modern-reactive-activation brief 2026-05-06):
- * - Three.js scene, transparent background, ~80vh container
- * - Pear/lantern silhouette wireframe in warm gold (#D4A853)
- * - Bead nodes at every lattice intersection
- * - 3 particle layers (sparks / dots / halos) drifting upward
- * - Cursor parallax (±5°), auto-rotate when idle
- * - Cursor proximity brightens nearby beads
- * - Click triggers a radial ripple + 5 pipeline-stage labels
- * - Reduced-motion fallback to /images/hero-kete-totem.png
- * - Full cleanup on unmount
+ * Amplified per Kaihanga's wow-factor brief 2026-05-06:
+ * - 24×12 lattice (was 16×8) with prominent emissive bead nodes
+ * - 4 particle layers: 800 sparks, 250 glow dots, 80 halos, 12 god-rays
+ * - Bloom post-processing for premium glow
+ * - Atmospheric exponential fog (Paper colour)
+ * - Continuous breathing pulse on idle
+ * - Cursor tracker trail
+ * - Click triggers 5-stage pipeline animation (Kahu → Iho → Tā → Mahara → Mana)
+ *   with HTML overlay glyph labels fading in time with each stage
+ * - Listens to KeteAccentContext — hovering a kete card in the grid
+ *   subtly tints the hero kete to that kete's accent colour
+ * - prefers-reduced-motion: full fallback to static PNG poster
  */
 
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import * as THREE from 'three';
+import { EffectComposer, RenderPass, EffectPass, BloomEffect } from 'postprocessing';
+import { useKeteAccent } from '@/components/KeteAccentContext';
 
 const GOLD_HEX = 0xd4a853;
-const PIPELINE_LABELS = [
-  { glyph: '◇', name: 'Kahu', pos: 'left-[16%] top-[28%]' },
-  { glyph: '•', name: 'Iho', pos: 'right-[16%] top-[28%]' },
-  { glyph: '✶', name: 'Tā', pos: 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' },
-  { glyph: '◇', name: 'Mahara', pos: 'left-[16%] bottom-[28%]' },
-  { glyph: '◆', name: 'Mana', pos: 'right-[16%] bottom-[28%]' },
+const PAPER_HEX = 0xfaf7f2;
+
+const PIPELINE_STAGES = [
+  { glyph: '◇', name: 'Kahu', delay: 0,    pos: 'left-[14%] top-[24%]' },
+  { glyph: '→', name: 'Iho',  delay: 200,  pos: 'right-[14%] top-[24%]' },
+  { glyph: '✦', name: 'Tā',   delay: 400,  pos: 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2' },
+  { glyph: '§', name: 'Mahara', delay: 600, pos: 'left-[14%] bottom-[24%]' },
+  { glyph: '◆', name: 'Mana', delay: 800,  pos: 'right-[14%] bottom-[24%]' },
 ];
+
+const HORIZONTAL_DIVS = 24;
+const VERTICAL_DIVS = 12;
+const SPARK_COUNT = 800;
+const GLOW_DOT_COUNT = 250;
+const HALO_COUNT = 80;
+const GODRAY_COUNT = 12;
 
 export default function KeteHero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [clickCount, setClickCount] = useState(0);
+  const [visibleStages, setVisibleStages] = useState<number[]>([]);
+
+  // Cross-component tint from kete grid hover
+  const { accent } = useKeteAccent();
+  const tintRef = useRef<THREE.Color | null>(null);
+  useEffect(() => {
+    if (accent) {
+      tintRef.current = new THREE.Color(accent);
+    } else {
+      tintRef.current = null;
+    }
+  }, [accent]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -49,7 +74,10 @@ export default function KeteHero() {
 
     const container = containerRef.current;
 
+    // ─── Scene + camera + renderer ──────────────────────────────
     const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(PAPER_HEX, 0.06);
+
     const camera = new THREE.PerspectiveCamera(
       45,
       container.clientWidth / container.clientHeight,
@@ -64,59 +92,78 @@ export default function KeteHero() {
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
+    // ─── Bloom post-processing ──────────────────────────────────
+    let composer: EffectComposer | null = null;
+    try {
+      composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      composer.addPass(
+        new EffectPass(
+          camera,
+          new BloomEffect({ intensity: 1.4, luminanceThreshold: 0.25, luminanceSmoothing: 0.4 }),
+        ),
+      );
+    } catch {
+      composer = null; // fall back to plain renderer.render if postprocessing fails
+    }
+
     const gold = new THREE.Color(GOLD_HEX);
 
-    // ─── Build the kete totem ─────────────────────────────────────────
+    // ─── Build the kete totem ─────────────────────────────────
     const keteGroup = new THREE.Group();
     scene.add(keteGroup);
 
-    // Pear/lantern silhouette: narrow at top, bulge at lower-mid, narrow at bottom
     function silhouetteRadius(y: number): number {
-      const t = (y + 1) / 2; // 0 at bottom, 1 at top
+      const t = (y + 1) / 2;
       const base = 0.12;
       const amp = 0.7;
-      // Gaussian centred at t=0.4 for the bulge
       return base + amp * Math.exp(-Math.pow((t - 0.4) / 0.32, 2));
     }
 
-    const verticalRings = 9;
-    const radialDivisions = 16;
-
     const vertices: THREE.Vector3[][] = [];
-    for (let i = 0; i < verticalRings; i++) {
-      const y = -1 + (2 * i) / (verticalRings - 1);
+    for (let i = 0; i < VERTICAL_DIVS; i++) {
+      const y = -1 + (2 * i) / (VERTICAL_DIVS - 1);
       const r = silhouetteRadius(y);
       const ring: THREE.Vector3[] = [];
-      for (let j = 0; j < radialDivisions; j++) {
-        const theta = (j / radialDivisions) * Math.PI * 2;
+      for (let j = 0; j < HORIZONTAL_DIVS; j++) {
+        const theta = (j / HORIZONTAL_DIVS) * Math.PI * 2;
         ring.push(new THREE.Vector3(r * Math.cos(theta), y, r * Math.sin(theta)));
       }
       vertices.push(ring);
     }
 
-    // Diamond-grid lattice (each vertex connects to next-ring-next-radial and next-ring-prev-radial)
+    // Diamond-grid lattice lines
     const linePositions: number[] = [];
-    for (let i = 0; i < verticalRings - 1; i++) {
-      for (let j = 0; j < radialDivisions; j++) {
+    for (let i = 0; i < VERTICAL_DIVS - 1; i++) {
+      for (let j = 0; j < HORIZONTAL_DIVS; j++) {
         const v = vertices[i][j];
-        const a = vertices[i + 1][(j + 1) % radialDivisions];
-        const b = vertices[i + 1][(j - 1 + radialDivisions) % radialDivisions];
+        const a = vertices[i + 1][(j + 1) % HORIZONTAL_DIVS];
+        const b = vertices[i + 1][(j - 1 + HORIZONTAL_DIVS) % HORIZONTAL_DIVS];
         linePositions.push(v.x, v.y, v.z, a.x, a.y, a.z);
         linePositions.push(v.x, v.y, v.z, b.x, b.y, b.z);
       }
     }
     const lineGeom = new THREE.BufferGeometry();
     lineGeom.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-    const lineMat = new THREE.LineBasicMaterial({ color: gold, transparent: true, opacity: 0.6 });
+    const lineMat = new THREE.LineBasicMaterial({
+      color: gold,
+      transparent: true,
+      opacity: 0.7,
+    });
     const lattice = new THREE.LineSegments(lineGeom, lineMat);
     keteGroup.add(lattice);
 
-    // Bead nodes at every intersection
-    const beadGeom = new THREE.SphereGeometry(0.04, 12, 12);
+    // Bead nodes — emissive Mesh so they bloom
+    const beadGeom = new THREE.SphereGeometry(0.05, 14, 14);
     const beads: THREE.Mesh[] = [];
-    for (let i = 0; i < verticalRings; i++) {
-      for (let j = 0; j < radialDivisions; j++) {
-        const beadMat = new THREE.MeshBasicMaterial({ color: gold });
+    for (let i = 0; i < VERTICAL_DIVS; i++) {
+      for (let j = 0; j < HORIZONTAL_DIVS; j++) {
+        const beadMat = new THREE.MeshStandardMaterial({
+          color: 0x000000,
+          emissive: gold,
+          emissiveIntensity: 1.2,
+          roughness: 0.6,
+        });
         const bead = new THREE.Mesh(beadGeom, beadMat);
         bead.position.copy(vertices[i][j]);
         keteGroup.add(bead);
@@ -124,15 +171,15 @@ export default function KeteHero() {
       }
     }
 
-    // ─── Particle layers ─────────────────────────────────────────────
-    function createLayer(count: number, size: number, opacity: number, spread: number) {
+    // ─── Particle layers ─────────────────────────────────────
+    function createLayer(count: number, size: number, opacity: number, spread: number, vy: number) {
       const positions = new Float32Array(count * 3);
       const velocities = new Float32Array(count);
       for (let i = 0; i < count; i++) {
         positions[i * 3] = (Math.random() - 0.5) * spread;
         positions[i * 3 + 1] = (Math.random() - 0.5) * spread;
         positions[i * 3 + 2] = (Math.random() - 0.5) * spread * 0.5;
-        velocities[i] = 0.0008 + Math.random() * 0.0025;
+        velocities[i] = vy * (0.5 + Math.random());
       }
       const geom = new THREE.BufferGeometry();
       geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
@@ -151,23 +198,27 @@ export default function KeteHero() {
       return points;
     }
 
-    const sparks = createLayer(200, 0.02, 0.3, 5);
-    const dots = createLayer(80, 0.06, 0.5, 4);
-    const halos = createLayer(30, 0.15, 0.2, 6);
+    const sparks = createLayer(SPARK_COUNT, 0.018, 0.35, 6, 0.0014);
+    const dots = createLayer(GLOW_DOT_COUNT, 0.05, 0.5, 5, 0.002);
+    const halos = createLayer(HALO_COUNT, 0.16, 0.18, 7, 0.0011);
+    const godrays = createLayer(GODRAY_COUNT, 0.4, 0.08, 8, 0.0007);
     scene.add(sparks);
     scene.add(dots);
     scene.add(halos);
+    scene.add(godrays);
 
-    // ─── Interaction state ──────────────────────────────────────────
+    // ─── Interaction state ──────────────────────────────────
     const mouse = new THREE.Vector2();
-    const targetTilt = new THREE.Vector2(0, 0);
-    const currentTilt = new THREE.Vector2(0, 0);
+    const targetTilt = new THREE.Vector2();
+    const currentTilt = new THREE.Vector2();
     let cursorActive = false;
     let lastMove = 0;
     const ripples: { time: number; origin: THREE.Vector3 }[] = [];
     const raycaster = new THREE.Raycaster();
     const mousePos3D = new THREE.Vector3();
+    const trackerPos = new THREE.Vector3();
     const planeZ = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+    let pulsePhase = 0;
 
     function projectMouse(clientX: number, clientY: number) {
       const rect = container.getBoundingClientRect();
@@ -192,6 +243,15 @@ export default function KeteHero() {
       raycaster.ray.intersectPlane(planeZ, origin);
       ripples.push({ time: performance.now(), origin });
       setClickCount((c) => c + 1);
+
+      // Sequence the 5 stage labels in
+      PIPELINE_STAGES.forEach((stage, idx) => {
+        setTimeout(() => {
+          setVisibleStages((prev) => Array.from(new Set([...prev, idx])));
+        }, stage.delay);
+      });
+      // Clear all stages after 4s
+      setTimeout(() => setVisibleStages([]), 4500);
     }
 
     function onClick(e: MouseEvent) {
@@ -213,23 +273,35 @@ export default function KeteHero() {
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      composer?.setSize(w, h);
     });
     resizeObserver.observe(container);
 
-    // ─── Animation loop ────────────────────────────────────────────
+    // ─── Animation loop ─────────────────────────────────────
     let frameId = 0;
     function animate() {
       frameId = requestAnimationFrame(animate);
 
-      // Auto-rotate when idle for 3s
-      if (!cursorActive || performance.now() - lastMove > 3000) {
-        keteGroup.rotation.y += 0.0008;
+      const now = performance.now();
+
+      // Auto-rotate when idle for 2s
+      if (!cursorActive || now - lastMove > 2000) {
+        keteGroup.rotation.y += 0.0009;
       }
 
-      // Smooth tilt on cursor
+      // Smooth tilt
       currentTilt.x += (targetTilt.x - currentTilt.x) * 0.05;
       currentTilt.y += (targetTilt.y - currentTilt.y) * 0.05;
       keteGroup.rotation.x = currentTilt.x;
+
+      // Cursor tracker trail (slower than cursor itself, smooth follow)
+      if (cursorActive) {
+        trackerPos.lerp(mousePos3D, 0.08);
+      }
+
+      // Continuous breathing pulse
+      pulsePhase += 0.005;
+      const pulse = 0.85 + 0.25 * Math.sin(pulsePhase); // 0.6 → 1.1
 
       // Drift particles upward
       const drift = (points: THREE.Points) => {
@@ -249,50 +321,71 @@ export default function KeteHero() {
       drift(sparks);
       drift(dots);
       drift(halos);
+      drift(godrays);
 
-      // Cursor proximity brightens beads
-      if (cursorActive) {
-        beads.forEach((bead) => {
-          const wp = bead.getWorldPosition(new THREE.Vector3());
-          const dist = wp.distanceTo(mousePos3D);
-          const proximity = Math.max(0, 1 - dist / 1.5);
-          const brightness = 1 + proximity * 0.5;
-          (bead.material as THREE.MeshBasicMaterial).color.copy(gold).multiplyScalar(brightness);
-        });
-      } else {
-        beads.forEach((bead) => {
-          (bead.material as THREE.MeshBasicMaterial).color.copy(gold);
-        });
+      // Compute the bead colour per-frame:
+      // base = gold, optionally blended toward kete-accent tint (from grid hover)
+      const baseColor = new THREE.Color(GOLD_HEX);
+      if (tintRef.current) {
+        baseColor.lerp(tintRef.current, 0.55);
       }
 
-      // Ripple wave through beads
-      const now = performance.now();
-      const rippleSpeed = 0.003;
-      const rippleDuration = 1500;
-      ripples.forEach((ripple) => {
-        const age = now - ripple.time;
-        if (age > rippleDuration) return;
-        const radius = age * rippleSpeed;
-        beads.forEach((bead) => {
-          const wp = bead.getWorldPosition(new THREE.Vector3());
+      // Tint the lattice line colour too (subtle)
+      const latticeColor = new THREE.Color(GOLD_HEX);
+      if (tintRef.current) {
+        latticeColor.lerp(tintRef.current, 0.3);
+      }
+      lineMat.color.copy(latticeColor);
+
+      // Update beads — proximity glow + ripple + breathing pulse + tracker trail
+      beads.forEach((bead) => {
+        const wp = bead.getWorldPosition(new THREE.Vector3());
+
+        let intensity = 1.2 * pulse; // baseline + pulse
+
+        if (cursorActive) {
+          // Proximity glow
+          const distMouse = wp.distanceTo(mousePos3D);
+          const proximity = Math.max(0, 1 - distMouse / 1.5);
+          intensity += proximity * 1.8;
+
+          // Tracker trail
+          const distTracker = wp.distanceTo(trackerPos);
+          const trail = Math.max(0, 1 - distTracker / 1.0);
+          intensity += trail * 0.6;
+        }
+
+        // Ripple wave
+        ripples.forEach((ripple) => {
+          const age = now - ripple.time;
+          if (age > 1500) return;
+          const radius = age * 0.0028;
           const dist = wp.distanceTo(ripple.origin);
-          if (Math.abs(dist - radius) < 0.25) {
-            const intensity = 1 - age / rippleDuration;
-            (bead.material as THREE.MeshBasicMaterial).color
-              .copy(gold)
-              .multiplyScalar(1 + intensity * 0.8);
+          if (Math.abs(dist - radius) < 0.3) {
+            const rippleIntensity = 1 - age / 1500;
+            intensity += rippleIntensity * 1.6;
           }
         });
+
+        const mat = bead.material as THREE.MeshStandardMaterial;
+        mat.emissive.copy(baseColor);
+        mat.emissiveIntensity = Math.min(intensity, 4);
       });
-      while (ripples.length > 0 && now - ripples[0].time > rippleDuration) {
+
+      // Cull old ripples
+      while (ripples.length > 0 && now - ripples[0].time > 1500) {
         ripples.shift();
       }
 
-      renderer.render(scene, camera);
+      if (composer) {
+        composer.render();
+      } else {
+        renderer.render(scene, camera);
+      }
     }
     animate();
 
-    // ─── Cleanup ──────────────────────────────────────────────────
+    // ─── Cleanup ────────────────────────────────────────────
     return () => {
       cancelAnimationFrame(frameId);
       container.removeEventListener('mousemove', onMouseMove);
@@ -302,11 +395,12 @@ export default function KeteHero() {
       lineGeom.dispose();
       lineMat.dispose();
       beadGeom.dispose();
-      beads.forEach((b) => (b.material as THREE.MeshBasicMaterial).dispose());
-      [sparks, dots, halos].forEach((p) => {
+      beads.forEach((b) => (b.material as THREE.MeshStandardMaterial).dispose());
+      [sparks, dots, halos, godrays].forEach((p) => {
         p.geometry.dispose();
         (p.material as THREE.PointsMaterial).dispose();
       });
+      composer?.dispose();
       renderer.dispose();
       if (renderer.domElement.parentNode === container) {
         container.removeChild(renderer.domElement);
@@ -339,14 +433,21 @@ export default function KeteHero() {
             exit={{ opacity: 0 }}
             transition={{ duration: 4, ease: 'easeOut' }}
           >
-            {PIPELINE_LABELS.map((label) => (
-              <span
-                key={label.name}
-                className={`absolute ${label.pos} font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]`}
+            {PIPELINE_STAGES.map((stage, idx) => (
+              <motion.span
+                key={stage.name}
+                className={`absolute ${stage.pos} font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]`}
+                initial={{ opacity: 0, y: 8 }}
+                animate={
+                  visibleStages.includes(idx)
+                    ? { opacity: 1, y: 0 }
+                    : { opacity: 0, y: 8 }
+                }
+                transition={{ duration: 0.3, ease: 'easeOut' }}
               >
-                <span className="mr-1 text-[color:var(--assembl-soft-gold)]">{label.glyph}</span>
-                {label.name}
-              </span>
+                <span className="mr-1.5 text-[color:var(--assembl-soft-gold)]">{stage.glyph}</span>
+                {stage.name}
+              </motion.span>
             ))}
           </motion.div>
         )}

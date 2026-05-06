@@ -1,10 +1,15 @@
 import Link from 'next/link';
 import { ArrowRight, FileCheck2, CheckCircle, Workflow } from 'lucide-react';
-import { INDUSTRY_KETES, WHANAU_KETE } from '@/lib/kete';
+import { INDUSTRY_KETES } from '@/lib/kete';
+import { AGENTS } from '@/lib/agents';
 import { KeteCard } from '@/components/site/kete-card';
 import { SectionReveal } from '@/components/SectionReveal';
 import { BrandFilmShowcase } from '@/components/BrandFilmShowcase';
 import { KeteHeroMount } from '@/components/KeteHeroMount';
+
+const AGENT_TOTAL = AGENTS.length;
+const FEATURED_KETES = INDUSTRY_KETES.filter((k) => k.status === 'active');
+const SECONDARY_KETES = INDUSTRY_KETES.filter((k) => k.status !== 'active');
 
 const STEPS = [
   {
@@ -120,66 +125,57 @@ export default function HomePage() {
             </div>
           </SectionReveal>
 
-          {/* 2-column hover-rich grid (was 4×2 dense matrix) */}
-          <div className="mx-auto mt-16 grid max-w-5xl gap-8 md:grid-cols-2">
-            {INDUSTRY_KETES.map((kete, i) => (
-              <KeteCard key={kete.slug} kete={kete} index={i} />
+          {/* Asymmetric layout: featured (live) kete full-width on top, secondary in 3-cols below */}
+          <div className="mx-auto mt-16 grid max-w-6xl gap-8">
+            {FEATURED_KETES.map((kete, i) => (
+              <KeteCard key={kete.slug} kete={kete} index={i} featured />
             ))}
+            {SECONDARY_KETES.length > 0 && (
+              <div className="grid gap-6 md:grid-cols-3">
+                {SECONDARY_KETES.map((kete, i) => (
+                  <KeteCard
+                    key={kete.slug}
+                    kete={kete}
+                    index={FEATURED_KETES.length + i}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* ── Tōro — whānau (Mist tint for rhythm) ─────────────── */}
-      <section className="relative bg-[color:var(--assembl-mist)]/40 py-24 md:py-32">
+      {/* ── Agent marketplace CTA (Mist tint) — replaces the Tōro card ──── */}
+      <section className="relative bg-[color:var(--assembl-mist)]/40 py-32 md:py-48">
         <div className="container">
           <SectionReveal>
-            <div
-              className="glass-card-elevated relative mx-auto max-w-5xl overflow-hidden p-8 md:p-12"
-              style={{ ['--kete-accent' as string]: WHANAU_KETE.accent }}
-            >
-              <div className="relative grid items-center gap-8 md:grid-cols-2 md:gap-12">
-                <div>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                    For whānau · Family plan
-                  </span>
-                  <h2 className="mt-3 font-display text-4xl md:text-5xl">Tōro</h2>
-                  <p className="mt-4 text-base text-[color:var(--text-body)] md:text-lg">
-                    Tōro is assembl&apos;s family agent — a personal assistant for household admin,
-                    school communications, appointment management, and family scheduling. Available
-                    self-serve at the Family plan.
-                  </p>
-                  <div className="mt-6 flex items-center gap-3">
-                    <span
-                      className="h-3 w-3 rounded-full"
-                      style={{ backgroundColor: WHANAU_KETE.accent }}
-                      aria-hidden
-                    />
-                    <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
-                      {WHANAU_KETE.accentName}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-start gap-4 md:items-end">
-                  <div className="text-left md:text-right">
-                    <p className="font-display text-5xl text-[color:var(--text-primary)]">
-                      NZ$29
-                      <span className="ml-1 text-lg font-normal text-[color:var(--text-secondary)]">
-                        /month
-                      </span>
-                    </p>
-                    <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                      No setup · GST excl.
-                    </p>
-                  </div>
-                  <Link
-                    href="/kete/toro"
-                    className="cta-primary inline-flex h-11 items-center px-6 text-sm transition-transform hover:-translate-y-0.5"
-                  >
-                    Get started for NZ$29/month
-                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                  </Link>
-                </div>
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                Agent marketplace
+              </span>
+              <h2 className="mt-3 font-display text-5xl md:text-6xl">
+                {AGENT_TOTAL} agents.{' '}
+                <em className="not-italic text-gradient-hero">Pick the ones you need.</em>
+              </h2>
+              <p className="mt-6 text-base text-[color:var(--text-body)] md:text-lg">
+                Every agent grounded in current NZ legislation. Subscribe, pay per output, or pay
+                per resolution. assembl bills based on what your team actually uses — not on seats
+                you forget you bought.
+              </p>
+              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <Link
+                  href="/agents"
+                  className="cta-primary inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
+                >
+                  Browse agents
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="btn-ghost inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
+                >
+                  See pricing
+                </Link>
               </div>
             </div>
           </SectionReveal>
