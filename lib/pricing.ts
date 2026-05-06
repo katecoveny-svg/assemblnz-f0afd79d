@@ -1,10 +1,24 @@
 /**
- * Source of truth: PRICING-LOCKED.md (locked 2026-04-08).
+ * Source of truth: assembl-pricing-model.xlsx (Kate-owned).
  * All prices NZD, GST exclusive.
+ *
+ * STRATEGIC DIRECTION (2026-05-06): the legacy 5-tier ladder
+ * (Family / Operator / Leader / Enterprise / Outcome) is superseded
+ * by a three-options model:
+ *
+ *   Subscribe        — predictable monthly, plan includes a quota,
+ *                      price flexes on overage
+ *   Pay per output   — one-off jobs (per-document fee)
+ *   Pay per resolution — outcome-based (Zendesk Fin / Intercom Fin
+ *                        reference model)
+ *
+ * TODO(reo-track-1): the specific monthly / per-output / per-resolution
+ * numbers below are PLACEHOLDERS. Replace with confirmed values from
+ * assembl-pricing-model.xlsx before this PR leaves draft.
  */
 
-export type PricingTier = {
-  slug: "family" | "operator" | "leader" | "enterprise" | "outcome";
+export type PricingPlan = {
+  slug: 'subscribe' | 'per-output' | 'per-resolution';
   name: string;
   audience: string;
   monthly: string;
@@ -13,80 +27,58 @@ export type PricingTier = {
   setupNote?: string;
   includes: string[];
   highlighted?: boolean;
+  cta: string;
 };
 
-export const PRICING_TIERS: PricingTier[] = [
+export const PRICING_PLANS: PricingPlan[] = [
   {
-    slug: "family",
-    name: "Family",
-    audience: "Households",
-    monthly: "$29",
-    setup: "—",
-    setupNote: "No setup fee",
+    slug: 'subscribe',
+    name: 'Subscribe',
+    audience: 'Predictable monthly cost',
+    monthly: 'from $X / month',
+    monthlyNote: 'Plan includes a sensible monthly quota; price flexes on overage',
+    setup: '—',
     includes: [
-      "Tōroa whānau agent",
-      "SMS-first interface",
-      "Household coordination",
-    ],
-  },
-  {
-    slug: "operator",
-    name: "Operator",
-    audience: "Single-site SMB",
-    monthly: "$1,490",
-    setup: "$590",
-    setupNote: "Split across first 3 invoices on request",
-    includes: [
-      "1 industry kete",
-      "Up to 5 seats",
-      "20 evidence packs / month",
-    ],
-  },
-  {
-    slug: "leader",
-    name: "Leader",
-    audience: "Multi-site SMB",
-    monthly: "$1,990",
-    setup: "$1,290",
-    setupNote: "Split across first 3 invoices on request",
-    includes: [
-      "2 industry kete",
-      "Up to 15 seats",
-      "60 evidence packs / month",
-      "Quarterly compliance review",
+      'Plan-included monthly quota of compliance docs, drafts, and checks',
+      'Overage flex pricing — only pay for what you exceed',
+      'Draft Mode review on every output',
+      'NZ-hosted data',
+      // TODO(reo-track-1): full feature list pending Kate's spreadsheet
     ],
     highlighted: true,
+    cta: 'Start free',
   },
   {
-    slug: "enterprise",
-    name: "Enterprise",
-    audience: "Mid-market NZ",
-    monthly: "$2,990",
-    setup: "$2,890",
-    setupNote: "Split across first 3 invoices on request",
+    slug: 'per-output',
+    name: 'Pay per output',
+    audience: 'One-off jobs',
+    monthly: 'from $X per output',
+    monthlyNote: 'No subscription. Pay only for what you run.',
+    setup: '—',
     includes: [
-      "All 5 industry kete",
-      "Unlimited seats",
-      "200 evidence packs / month",
-      "99.9% SLA",
-      "NZ data residency",
-      "Named success manager",
+      'Per-document fee — generate a consent application, customs declaration, or compliance report on demand',
+      'Same Draft Mode review on every output',
+      'No commitment, no monthly minimum',
+      // TODO(reo-track-1): per-output rate(s) pending Kate's spreadsheet
     ],
+    cta: 'Talk to us',
   },
   {
-    slug: "outcome",
-    name: "Outcome",
-    audience: "High-value flows",
-    monthly: "from $5,000",
-    monthlyNote: "Plus 10–20% of measured savings",
-    setup: "Per engagement",
+    slug: 'per-resolution',
+    name: 'Pay per resolution',
+    audience: 'Outcome-based',
+    monthly: 'from $X per resolution',
+    monthlyNote: 'You only pay when a workflow reaches its final, signed-off outcome',
+    setup: 'Per engagement',
     includes: [
-      "Bespoke outcome workflows",
-      "Tied to measured savings",
-      "Custom integrations",
+      'Outcome-based — fee tied to a successful resolution, not a draft',
+      'Reference model: Zendesk Fin, Intercom Fin',
+      'Best fit for high-value workflows where you want skin in the game',
+      // TODO(reo-track-1): per-resolution rate(s) and engagement scope pending Kate's spreadsheet
     ],
+    cta: 'Talk to us',
   },
 ];
 
 export const PRICING_NOTE =
-  "All prices NZD, GST exclusive. Add 15% GST at invoice. Setup fees can be split across the first 3 invoices on request.";
+  'All prices NZD, GST exclusive. Add 15% GST at invoice. Either way, every output goes through Draft Mode first — nothing gets sent, filed, or published without your sign-off.';

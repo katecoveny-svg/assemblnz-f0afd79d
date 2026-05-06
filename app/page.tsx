@@ -73,6 +73,16 @@ export default function HomePage() {
               Quiet intelligence for the businesses that build Aotearoa.
             </p>
 
+            {/* Strategic-direction stats lead — locked positioning paragraph (2026-05-06) */}
+            <p className="mx-auto mt-6 max-w-2xl text-base text-[color:var(--text-body)]">
+              79% of Kiwi businesses don&apos;t know how to use AI safely. 97% of the workforce
+              isn&apos;t trained for it. We&apos;re high-use and low-trust as a country. assembl
+              exists to fix the trust gap — every output is reviewed in Draft Mode before anything
+              goes out.
+            </p>
+
+            {/* TODO(reo-track-1): Reo's Track 1 may consolidate the body paragraph below into the
+                stats lead above, or refresh entirely. Keeping both for now. */}
             <p className="mx-auto mt-4 max-w-2xl text-base text-[color:var(--text-body)]">
               assembl works alongside your team — purpose-built AI agents that draft compliance
               documentation, cite every NZ Act and Section, and hand it to you for sign-off. Your

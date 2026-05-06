@@ -105,7 +105,7 @@ export function ContactForm() {
                   {k.name} — {k.industry}
                 </option>
               ))}
-              <option value="toroa">Tōroa — for whānau</option>
+              <option value="toroa">Tōro — for whānau</option>
             </select>
           </Field>
         </div>

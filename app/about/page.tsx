@@ -55,6 +55,30 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Trust-gap framing — strategic-direction positioning anchor (2026-05-06) */}
+      <section className="relative">
+        <div className="container py-16">
+          <div className="glass-card-elevated mx-auto max-w-3xl p-8 md:p-12">
+            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              Why we exist
+            </span>
+            <blockquote className="mt-4 font-display text-2xl text-[color:var(--text-primary)] md:text-3xl">
+              79% of Kiwi businesses don&apos;t know how to use AI safely. 97% of the workforce
+              isn&apos;t trained for it. We&apos;re high-use and low-trust as a country.
+              <em className="not-italic text-gradient-hero"> The trust gap is what we&apos;re here to close.</em>
+            </blockquote>
+            <p className="mt-6 text-[color:var(--text-body)]">
+              Every output assembl produces is reviewed in Draft Mode before anything is sent,
+              filed, or published. The agent drafts. You decide. That is the trust standard,
+              and it does not flex with the plan you pick.
+            </p>
+            <p className="mt-4 font-mono text-xs text-[color:var(--text-secondary)]">
+              Source: AI Forum NZ &mdash; AI Blueprint for Aotearoa (May 2026, NZT009 v05)
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* What assembl is */}
       <section className="relative">
         <div className="container py-16 md:py-24">

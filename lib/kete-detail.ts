@@ -94,7 +94,8 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Sometimes' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Operator tier and above (NZ$1,490/mo + setup).',
+    // TODO(reo-track-1): replace tier reference once assembl-pricing-model.xlsx is confirmed.
+    availableOn: 'Available on the Subscribe plan and above. See pricing for details.',
   },
 
   manaaki: {
@@ -133,7 +134,8 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Rarely' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Operator tier and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pikau reach five customers each.',
+    // TODO(reo-track-1): replace tier reference once assembl-pricing-model.xlsx is confirmed.
+    availableOn: 'Coming soon — launching after Waihanga and Pikau reach five customers each.',
   },
 
   pikau: {
@@ -172,7 +174,8 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Sometimes' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Operator tier and above (NZ$1,490/mo + setup).',
+    // TODO(reo-track-1): replace tier reference once assembl-pricing-model.xlsx is confirmed.
+    availableOn: 'Available on the Subscribe plan and above. See pricing for details.',
   },
 
   arataki: {
@@ -210,7 +213,8 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Rarely' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Operator tier and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pikau reach five customers each.',
+    // TODO(reo-track-1): replace tier reference once assembl-pricing-model.xlsx is confirmed.
+    availableOn: 'Coming soon — launching after Waihanga and Pikau reach five customers each.',
   },
 
   auaha: {
@@ -248,7 +252,8 @@ export const KETE_DETAIL: Record<
       { capability: 'Multi-channel variants', assembl: true, legacy: 'Yes' },
       { capability: 'NZ data residency', assembl: true, legacy: 'Rarely' },
     ],
-    availableOn: 'Operator tier and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pikau reach five customers each.',
+    // TODO(reo-track-1): replace tier reference once assembl-pricing-model.xlsx is confirmed.
+    availableOn: 'Coming soon — launching after Waihanga and Pikau reach five customers each.',
   },
 
   hoko: {
