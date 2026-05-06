@@ -1,84 +1,162 @@
 /**
- * Source of truth: assembl-pricing-model.xlsx (Kate-owned).
+ * Source of truth: assembl-pricing-model.xlsx (locked 2026-05-06).
  * All prices NZD, GST exclusive.
  *
- * STRATEGIC DIRECTION (2026-05-06): the legacy 5-tier ladder
- * (Family / Operator / Leader / Enterprise / Outcome) is superseded
- * by a three-options model:
+ * Three ways to buy:
+ *   Subscribe          — predictable monthly, 4 sub-plans (Family / Operator /
+ *                        Leader / Enterprise), each with quota + overage rate
+ *   Pay per output     — one-off jobs, per-document fee
+ *   Pay per resolution — outcome-based, customer pays only on objective
+ *                        external trigger (e.g., BCA accept, NZ Customs accept)
  *
- *   Subscribe        — predictable monthly, plan includes a quota,
- *                      price flexes on overage
- *   Pay per output   — one-off jobs (per-document fee)
- *   Pay per resolution — outcome-based (Zendesk Fin / Intercom Fin
- *                        reference model)
+ * Plus standalone:
+ *   Pilot Sprint       — NZ$5,000 + GST · 2 weeks · 1 workflow · 1 evidence
+ *                        pack · money-back if no time saved by week 2.
+ *                        Credit-back to Subscribe if converted within 30 days.
  *
- * TODO(reo-track-1): the specific monthly / per-output / per-resolution
- * numbers below are PLACEHOLDERS. Replace with confirmed values from
- * assembl-pricing-model.xlsx before this PR leaves draft.
+ * "Output" definition is exported separately because it's referenced by both
+ * Subscribe (quota counting) and Pay per output (per-unit billing).
  */
 
-export type PricingPlan = {
-  slug: 'subscribe' | 'per-output' | 'per-resolution';
+// ─────────────────────────────────────────────────────────────────────────────
+// Subscribe — 4 sub-plans
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type SubscribePlan = {
+  slug: 'family' | 'operator' | 'leader' | 'enterprise';
   name: string;
-  audience: string;
   monthly: string;
-  monthlyNote?: string;
   setup: string;
-  setupNote?: string;
-  includes: string[];
+  outputsIncluded: string;
+  overage: string;
+  features: string[];
   highlighted?: boolean;
-  cta: string;
 };
 
-export const PRICING_PLANS: PricingPlan[] = [
+export const SUBSCRIBE_PLANS: SubscribePlan[] = [
   {
-    slug: 'subscribe',
-    name: 'Subscribe',
-    audience: 'Predictable monthly cost',
-    monthly: 'from $X / month',
-    monthlyNote: 'Plan includes a sensible monthly quota; price flexes on overage',
-    setup: '—',
-    includes: [
-      'Plan-included monthly quota of compliance docs, drafts, and checks',
-      'Overage flex pricing — only pay for what you exceed',
-      'Draft Mode review on every output',
-      'NZ-hosted data',
-      // TODO(reo-track-1): full feature list pending Kate's spreadsheet
-    ],
+    slug: 'family',
+    name: 'Family',
+    monthly: 'NZ$29 / month',
+    setup: '$0 setup',
+    outputsIncluded: '5 outputs / month',
+    overage: '$9 per extra output',
+    features: ['Single kete', 'Tōro agent only'],
+  },
+  {
+    slug: 'operator',
+    name: 'Operator',
+    monthly: 'NZ$1,490 / month',
+    setup: '$590 setup',
+    outputsIncluded: '50 outputs / month',
+    overage: '$12 per extra output',
+    features: ['Up to 2 kete', 'Named team of 3'],
+  },
+  {
+    slug: 'leader',
+    name: 'Leader',
+    monthly: 'NZ$1,990 / month',
+    setup: '$1,290 setup',
+    outputsIncluded: '150 outputs / month',
+    overage: '$8 per extra output',
+    features: ['All kete', 'Named team of 8', 'Weekly evidence pack'],
     highlighted: true,
-    cta: 'Start free',
   },
   {
-    slug: 'per-output',
-    name: 'Pay per output',
-    audience: 'One-off jobs',
-    monthly: 'from $X per output',
-    monthlyNote: 'No subscription. Pay only for what you run.',
-    setup: '—',
-    includes: [
-      'Per-document fee — generate a consent application, customs declaration, or compliance report on demand',
-      'Same Draft Mode review on every output',
-      'No commitment, no monthly minimum',
-      // TODO(reo-track-1): per-output rate(s) pending Kate's spreadsheet
-    ],
-    cta: 'Talk to us',
-  },
-  {
-    slug: 'per-resolution',
-    name: 'Pay per resolution',
-    audience: 'Outcome-based',
-    monthly: 'from $X per resolution',
-    monthlyNote: 'You only pay when a workflow reaches its final, signed-off outcome',
-    setup: 'Per engagement',
-    includes: [
-      'Outcome-based — fee tied to a successful resolution, not a draft',
-      'Reference model: Zendesk Fin, Intercom Fin',
-      'Best fit for high-value workflows where you want skin in the game',
-      // TODO(reo-track-1): per-resolution rate(s) and engagement scope pending Kate's spreadsheet
-    ],
-    cta: 'Talk to us',
+    slug: 'enterprise',
+    name: 'Enterprise',
+    monthly: 'from NZ$2,990 / month',
+    setup: 'from $2,890 setup',
+    outputsIncluded: 'Unlimited within named kete + named team',
+    overage: 'Included',
+    features: ['Weekly + monthly evidence packs', 'Dedicated kaitiaki contact'],
   },
 ];
 
-export const PRICING_NOTE =
-  'All prices NZD, GST exclusive. Add 15% GST at invoice. Either way, every output goes through Draft Mode first — nothing gets sent, filed, or published without your sign-off.';
+// ─────────────────────────────────────────────────────────────────────────────
+// Pay per output — 4 rates
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type PayPerOutputRate = {
+  name: string;
+  description: string;
+  rate: string;
+};
+
+export const PAY_PER_OUTPUT_RATES: PayPerOutputRate[] = [
+  {
+    name: 'Compliance document',
+    description: 'SSSP, S14B precheck, payment claim, audit pack',
+    rate: 'from NZ$89',
+  },
+  {
+    name: 'Customer or supplier communication',
+    description: 'with NZ legislation citations',
+    rate: 'from NZ$19',
+  },
+  {
+    name: 'Weekly evidence pack',
+    description: '7-day compliance roll-up',
+    rate: 'from NZ$149',
+  },
+  {
+    name: 'Bespoke output',
+    description: 'quoted up-front',
+    rate: 'from NZ$290',
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Pay per resolution — 5 rates
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type PayPerResolutionRate = {
+  name: string;
+  description: string;
+  rate: string;
+};
+
+export const PAY_PER_RESOLUTION_RATES: PayPerResolutionRate[] = [
+  {
+    name: 'Consent precheck → BCA accept',
+    description: '60-day window, no rework on cited clauses',
+    rate: 'NZ$1,490',
+  },
+  {
+    name: 'SSSP accepted on site',
+    description: 'supervisor signs off, no amendments',
+    rate: 'NZ$290',
+  },
+  {
+    name: 'Customs entry lodged',
+    description: 'NZ Customs accepts, no re-classification',
+    rate: 'NZ$190',
+  },
+  {
+    name: 'Compliance audit passed',
+    description: 'external auditor signs off period',
+    rate: 'NZ$890',
+  },
+  {
+    name: 'Bespoke outcome',
+    description: 'defined in engagement',
+    rate: 'quoted',
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Definitions and standalone offers
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const OUTPUT_DEFINITION =
+  'An "output" is one compliance doc, one drafted communication, one audit check, or one workflow run. Counted at human approval, not draft generation.';
+
+export const PILOT_SPRINT = {
+  frame: 'Not sure which way to buy? Start with a Pilot Sprint.',
+  bannerCopy:
+    'NZ$5,000 + GST · 2 weeks · 1 workflow · 1 evidence pack · money-back if no time saved by week 2.',
+  creditBack:
+    'Pilot Sprint customers who convert to Subscribe within 30 days of completion get the $5,000 fully credited to their first 3 months of subscription.',
+};
+
+export const PRICING_NOTE = 'All prices NZD, ex GST.';

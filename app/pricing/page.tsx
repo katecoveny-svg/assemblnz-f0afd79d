@@ -1,7 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
-import { PRICING_PLANS, PRICING_NOTE } from '@/lib/pricing';
+import {
+  SUBSCRIBE_PLANS,
+  PAY_PER_OUTPUT_RATES,
+  PAY_PER_RESOLUTION_RATES,
+  OUTPUT_DEFINITION,
+  PILOT_SPRINT,
+  PRICING_NOTE,
+} from '@/lib/pricing';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -60,15 +67,50 @@ export default function PricingPage() {
             </div>
 
             <p className="mt-6 font-mono text-xs text-[color:var(--text-secondary)]">
-              Source: AI Forum NZ &mdash; AI Blueprint for Aotearoa (May 2026)
+              {PRICING_NOTE} &nbsp;·&nbsp; Source: AI Forum NZ &mdash; AI Blueprint for
+              Aotearoa (May 2026)
             </p>
           </div>
         </div>
       </section>
 
-      {/* ── Three options ─────────────────────────────────────── */}
+      {/* ── Pilot Sprint banner — above the three options ─────── */}
       <section className="relative">
-        <div className="container pb-12">
+        <div className="container pb-4">
+          <div
+            className="glass-card-elevated mx-auto max-w-4xl p-7 md:p-9"
+            style={{ borderTop: '3px solid #D4A843' }}
+          >
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
+              <div className="flex-1">
+                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  Pilot Sprint
+                </span>
+                <h2 className="mt-2 font-display text-2xl text-[color:var(--text-primary)] md:text-3xl">
+                  {PILOT_SPRINT.frame}
+                </h2>
+                <p className="mt-3 font-mono text-sm text-[color:var(--text-body)]">
+                  {PILOT_SPRINT.bannerCopy}
+                </p>
+                <p className="mt-3 text-sm text-[color:var(--text-secondary)]">
+                  {PILOT_SPRINT.creditBack}
+                </p>
+              </div>
+              <Link
+                href="/contact"
+                className="cta-primary inline-flex h-12 items-center justify-center px-7 text-sm md:text-base"
+              >
+                Book a Pilot Sprint
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Three options framing ─────────────────────────────── */}
+      <section className="relative">
+        <div className="container pt-12">
           <div className="mx-auto max-w-3xl text-center">
             <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               Three ways to buy
@@ -77,85 +119,210 @@ export default function PricingPage() {
               Pick the model that matches the way you actually work.
             </h2>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {PRICING_PLANS.map((plan) => (
-              <article
-                key={plan.slug}
-                className={
-                  plan.highlighted
-                    ? 'glass-card-elevated relative p-7'
-                    : 'glass-card relative p-7'
-                }
-              >
-                {plan.highlighted && (
-                  <span className="badge-gold absolute right-6 top-6">Most chosen</span>
-                )}
-
+      {/* ── Subscribe — 4 sub-plans ───────────────────────────── */}
+      <section className="relative">
+        <div className="container pb-8 pt-10">
+          <div className="glass-card mx-auto max-w-6xl p-7 md:p-10">
+            <div className="flex flex-col items-baseline justify-between gap-3 md:flex-row md:gap-6">
+              <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  {plan.audience}
+                  Option 1
                 </p>
-                <h3 className="mt-2 font-display text-3xl text-[color:var(--text-primary)]">
-                  {plan.name}
-                </h3>
+                <h2 className="mt-2 font-display text-3xl text-[color:var(--text-primary)] md:text-4xl">
+                  Subscribe
+                </h2>
+              </div>
+              <p className="text-sm text-[color:var(--text-body)] md:max-w-md md:text-right">
+                Predictable monthly. Plan includes a sensible quota; price flexes on overage.
+              </p>
+            </div>
 
-                <div className="mt-6">
-                  <p className="font-display text-3xl text-[color:var(--text-primary)]">
-                    {plan.monthly}
-                  </p>
-                  {plan.monthlyNote && (
-                    <p className="mt-2 text-sm text-[color:var(--text-secondary)]">
-                      {plan.monthlyNote}
-                    </p>
-                  )}
-                </div>
-
-                {plan.setup !== '—' && (
-                  <div className="mt-5 rounded-card bg-white/40 px-4 py-3">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-                      Setup
-                    </p>
-                    <p className="mt-1 text-sm text-[color:var(--text-primary)]">
-                      {plan.setup}
-                      {plan.setupNote && (
-                        <span className="block text-xs text-[color:var(--text-secondary)]">
-                          {plan.setupNote}
-                        </span>
-                      )}
-                    </p>
-                  </div>
-                )}
-
-                <ul className="mt-6 space-y-3 text-sm text-[color:var(--text-body)]">
-                  {plan.includes.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <Check
-                        className="mt-0.5 h-4 w-4 flex-shrink-0 text-[color:var(--assembl-sage-mist)]"
-                        aria-hidden
-                      />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  href="/contact"
+            <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {SUBSCRIBE_PLANS.map((plan) => (
+                <article
+                  key={plan.slug}
                   className={
                     plan.highlighted
-                      ? 'cta-primary mt-7 inline-flex h-11 w-full items-center justify-center px-6 text-sm'
-                      : 'btn-ghost mt-7 inline-flex h-11 w-full items-center justify-center px-6 text-sm'
+                      ? 'relative rounded-card border-2 border-[rgba(43,107,87,0.4)] bg-white/60 p-5'
+                      : 'relative rounded-card border border-[rgba(35,33,31,0.10)] bg-white/40 p-5'
                   }
                 >
-                  {plan.cta}
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-              </article>
-            ))}
-          </div>
+                  {plan.highlighted && (
+                    <span className="badge-sage absolute right-4 top-4 text-[9px]">
+                      Most chosen
+                    </span>
+                  )}
 
-          <p className="mt-8 text-center font-mono text-xs leading-relaxed text-[color:var(--text-secondary)]">
-            {PRICING_NOTE}
-          </p>
+                  <h3 className="font-display text-2xl text-[color:var(--text-primary)]">
+                    {plan.name}
+                  </h3>
+                  <p className="mt-3 font-display text-xl text-[color:var(--text-primary)]">
+                    {plan.monthly}
+                  </p>
+                  <p className="mt-1 font-mono text-[11px] text-[color:var(--text-secondary)]">
+                    {plan.setup}
+                  </p>
+
+                  <div className="mt-5 space-y-3 text-sm text-[color:var(--text-body)]">
+                    <div>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                        Included
+                      </p>
+                      <p className="mt-1">{plan.outputsIncluded}</p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                        Overage
+                      </p>
+                      <p className="mt-1">{plan.overage}</p>
+                    </div>
+                  </div>
+
+                  <ul className="mt-5 space-y-2 border-t border-[rgba(35,33,31,0.10)] pt-4 text-sm text-[color:var(--text-body)]">
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2">
+                        <Check
+                          className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[color:var(--assembl-sage-mist)]"
+                          aria-hidden
+                        />
+                        <span>{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+
+            <div className="mt-8 flex justify-center">
+              <Link
+                href="/contact"
+                className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
+              >
+                Start free
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Pay per output — 4 rates ──────────────────────────── */}
+      <section className="relative">
+        <div className="container pb-8 pt-2">
+          <div className="glass-card mx-auto max-w-6xl p-7 md:p-10">
+            <div className="flex flex-col items-baseline justify-between gap-3 md:flex-row md:gap-6">
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  Option 2
+                </p>
+                <h2 className="mt-2 font-display text-3xl text-[color:var(--text-primary)] md:text-4xl">
+                  Pay per output
+                </h2>
+              </div>
+              <p className="text-sm text-[color:var(--text-body)] md:max-w-md md:text-right">
+                One-off jobs. No subscription, no monthly minimum. Pay only for what you run.
+              </p>
+            </div>
+
+            <div className="mt-8 divide-y divide-[rgba(35,33,31,0.10)]">
+              {PAY_PER_OUTPUT_RATES.map((rate) => (
+                <div
+                  key={rate.name}
+                  className="flex flex-col items-baseline justify-between gap-2 py-4 md:flex-row md:gap-8"
+                >
+                  <div className="flex-1">
+                    <p className="font-display text-lg text-[color:var(--text-primary)]">
+                      {rate.name}
+                    </p>
+                    <p className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                      {rate.description}
+                    </p>
+                  </div>
+                  <p className="font-mono text-base text-[color:var(--text-primary)] md:whitespace-nowrap">
+                    {rate.rate}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex justify-center">
+              <Link
+                href="/contact"
+                className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
+              >
+                Talk to us
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Pay per resolution — 5 rates ──────────────────────── */}
+      <section className="relative">
+        <div className="container pb-12 pt-2">
+          <div className="glass-card mx-auto max-w-6xl p-7 md:p-10">
+            <div className="flex flex-col items-baseline justify-between gap-3 md:flex-row md:gap-6">
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  Option 3
+                </p>
+                <h2 className="mt-2 font-display text-3xl text-[color:var(--text-primary)] md:text-4xl">
+                  Pay per resolution
+                </h2>
+              </div>
+              <p className="text-sm text-[color:var(--text-body)] md:max-w-md md:text-right">
+                Outcome-based. You pay only when a workflow reaches its objective external
+                trigger — BCA accept, NZ Customs accept, auditor sign-off.
+              </p>
+            </div>
+
+            <div className="mt-8 divide-y divide-[rgba(35,33,31,0.10)]">
+              {PAY_PER_RESOLUTION_RATES.map((rate) => (
+                <div
+                  key={rate.name}
+                  className="flex flex-col items-baseline justify-between gap-2 py-4 md:flex-row md:gap-8"
+                >
+                  <div className="flex-1">
+                    <p className="font-display text-lg text-[color:var(--text-primary)]">
+                      {rate.name}
+                    </p>
+                    <p className="mt-1 text-sm text-[color:var(--text-secondary)]">
+                      {rate.description}
+                    </p>
+                  </div>
+                  <p className="font-mono text-base text-[color:var(--text-primary)] md:whitespace-nowrap">
+                    {rate.rate}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex justify-center">
+              <Link
+                href="/contact"
+                className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
+              >
+                Talk to us
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Output definition footnote ─────────────────────────── */}
+      <section className="relative">
+        <div className="container pb-12">
+          <div className="mx-auto max-w-4xl rounded-card border border-[rgba(35,33,31,0.10)] bg-white/40 px-6 py-5">
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              What counts as an output
+            </p>
+            <p className="mt-2 text-sm text-[color:var(--text-body)]">{OUTPUT_DEFINITION}</p>
+          </div>
         </div>
       </section>
 
@@ -194,16 +361,6 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
-
-      {/*
-        TODO(reo-track-1): Pilot Sprint section, comparison table, and FAQ removed
-        in this PR because they were 5-tier-specific and the new three-options model
-        supersedes them. Reo's Track 1 per-page copy refresh will decide:
-          - whether the Pilot Sprint $5,000 entry point survives the new model,
-          - whether to add a 3-option comparison table,
-          - which FAQ items to bring back / rewrite.
-        Keeping the page clean for now rather than shipping obsolete copy.
-      */}
     </>
   );
 }
