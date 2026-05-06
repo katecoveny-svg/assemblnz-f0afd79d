@@ -2,7 +2,7 @@
 
 import { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, Float, MeshTransmissionMaterial, Text } from '@react-three/drei';
+import { Environment, Float, MeshTransmissionMaterial } from '@react-three/drei';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import * as THREE from 'three';
 
@@ -80,19 +80,6 @@ function Scene() {
       <pointLight position={[0, 5, 0]} intensity={0.8} color={POUNAMU} />
       
       <TotemStack />
-      
-      {/* Brand text */}
-      <Text
-        position={[0, -5, 0]}
-        fontSize={0.4}
-        color={INK}
-        anchorX="center"
-        anchorY="middle"
-        font="/fonts/Inter-Regular.ttf"
-        letterSpacing={0.2}
-      >
-        ASSEMBL
-      </Text>
       
       <Environment preset="studio" />
     </>
