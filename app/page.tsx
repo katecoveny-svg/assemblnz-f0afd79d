@@ -3,6 +3,7 @@ import { HorizontalScrollKete } from '@/components/sections/HorizontalScrollKete
 import { KeteTotem3D } from '@/components/sections/KeteTotem3D';
 import { StickyScrollNarrative } from '@/components/sections/StickyScrollNarrative';
 import { TextRevealCards } from '@/components/sections/TextRevealCards';
+import { EvidenceVessel } from '@/components/sections/EvidenceVessel';
 import { BentoGrid } from '@/components/sections/BentoGrid';
 import { AotearoaGlobe } from '@/components/sections/AotearoaGlobe';
 import { ParallaxClose } from '@/components/sections/ParallaxClose';
@@ -24,6 +25,9 @@ export default function HomePage() {
 
       {/* Text reveal cards — before/after comparisons */}
       <TextRevealCards />
+
+      {/* Evidence vessel — 5 facets of transparent AI */}
+      <EvidenceVessel />
 
       {/* Bento grid with full-bleed imagery */}
       <BentoGrid />
