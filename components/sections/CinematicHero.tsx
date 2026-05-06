@@ -25,8 +25,8 @@ export function CinematicHero() {
       {/* Background image with parallax */}
       <motion.div className="absolute inset-0" style={{ y, scale }}>
         <Image
-          src="/images/hero-cinematic.jpg"
-          alt=""
+          src="/images/auckland-golden-hour.jpg"
+          alt="Auckland skyline at golden hour from Waiheke Island"
           fill
           priority
           className="object-cover"
