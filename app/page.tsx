@@ -117,7 +117,7 @@ export default function HomePage() {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              'radial-gradient(ellipse at 50% 50%, rgba(212, 168, 83, 0.08) 0%, transparent 60%)',
+              'radial-gradient(ellipse at 50% 50%, rgba(43, 107, 87, 0.08) 0%, transparent 60%)',
           }}
         />
 
@@ -185,7 +185,7 @@ export default function HomePage() {
               eyebrow={`${AGENT_TOTAL} specialist agents`}
               title="Agent marketplace"
               description="Pick the agents you need. Subscribe, pay per output, or pay per resolution. Every output reviewed in Draft Mode before it ships."
-              accent="#D4A853"
+              accent="#2B6B57"
               index={1}
               bg="ink"
               visual={

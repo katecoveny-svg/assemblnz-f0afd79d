@@ -1,7 +1,8 @@
 /**
- * assembl — Mārama Whenua design system
- * Palette: Mārama Whenua (warm light)
+ * assembl — Evidence Vessel design system
+ * Palette: Evidence Vessel (warm light + pounamu primary)
  * Light theme only
+ * Updated: 2026-05-07 — Evidence Vessel pivot
  */
 
 @tailwind base;
@@ -31,13 +32,23 @@
     --ring: 161 43% 29%;
     --radius: 24px;
 
+    --assembl-paper: #FAF7F2;           /* base canvas */
     --assembl-mist: #FAF7F2;
     --assembl-cloud: #E8E4DE;
     --assembl-sand: #B8B2A8;
     --assembl-taupe: #B8B2A8;
     --assembl-taupe-deep: #23211F;
-    --assembl-sage-mist: #2B6B57;
-    --assembl-soft-gold: #D4A853;
+
+    /* POUNAMU — primary accent (Evidence Vessel pivot 2026-05-07) */
+    --assembl-pounamu: #2B6B57;         /* PRIMARY — deep forest jade */
+    --assembl-pounamu-deep: #1F4F40;    /* hover, focus rings, deep accents */
+    --assembl-pounamu-soft: #6E957F;    /* subtle washes, sage tint */
+    --assembl-pounamu-paper: #E8EFE9;   /* very pale green tint for bg */
+    --assembl-sage-mist: #2B6B57;       /* alias — kept for backwards compat */
+
+    /* GOLD — punctuation thread only (hairlines, dividers, chapter numerals) */
+    --assembl-gold-thread: #D4A853;     /* NOT primary — thin accents only */
+    --assembl-soft-gold: #D4A853;       /* alias — kept for backwards compat */
 
     --text-primary: #23211F;
     --text-secondary: #B8B2A8;
@@ -91,7 +102,7 @@
     position: fixed;
     inset: 0;
     opacity: 0.015;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
   }
@@ -147,10 +158,10 @@
 
   .kete-card:hover {
     transform: translateY(-4px);
-    border-color: var(--kete-accent, rgba(212, 168, 83, 0.35));
+    border-color: var(--kete-accent, rgba(43, 107, 87, 0.35));
     box-shadow:
       0 12px 48px rgba(35, 33, 31, 0.10),
-      0 0 0 1px var(--kete-accent, rgba(212, 168, 83, 0.2));
+      0 0 0 1px var(--kete-accent, rgba(43, 107, 87, 0.2));
   }
 
   .cta-primary {
@@ -232,5 +243,7 @@
 @layer utilities {
   .text-taupe       { color: var(--assembl-taupe); }
   .text-taupe-deep  { color: var(--assembl-taupe-deep); }
-  .text-soft-gold   { color: var(--assembl-soft-gold); }
+  .text-gold-thread { color: var(--assembl-gold-thread); }
+  .text-soft-gold   { color: var(--assembl-gold-thread); } /* alias — deprecated, use text-gold-thread */
+  .text-pounamu     { color: var(--assembl-pounamu); }
 }
