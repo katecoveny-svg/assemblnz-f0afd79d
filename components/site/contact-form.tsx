@@ -1,7 +1,8 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { Loader2, Send, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { Loader2, Send, CheckCircle2, Copy, Check, Home } from "lucide-react";
 import { submitContact, type ContactState } from "@/app/contact/actions";
 import { cn } from "@/lib/utils";
 import { INDUSTRY_KETES } from "@/lib/kete";
@@ -14,19 +15,22 @@ export function ContactForm() {
     initialState
   );
   const [messageLength, setMessageLength] = useState(0);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    if (state.status === "success") {
+      navigator.clipboard.writeText(state.ref);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   if (state.status === "success") {
     return (
       <div className="glass-card-elevated p-8 md:p-12 text-center" role="status">
-        <div
-          className="mx-auto flex h-14 w-14 items-center justify-center rounded-full"
-          style={{
-            background: "rgba(217, 188, 122, 0.18)",
-            border: "1px solid rgba(217, 188, 122, 0.35)",
-          }}
-        >
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-assembl-pounamu/25 bg-assembl-pounamu/10">
           <CheckCircle2
-            className="h-6 w-6 text-[color:var(--assembl-soft-gold)]"
+            className="h-6 w-6 text-assembl-pounamu"
             aria-hidden
           />
         </div>
@@ -35,9 +39,33 @@ export function ContactForm() {
           We've logged your enquiry and someone from the team will reply
           within one working day. Reference for your records:
         </p>
-        <p className="mt-3 font-mono text-sm text-[color:var(--text-primary)]">
-          {state.ref}
-        </p>
+        <div className="mt-4 flex items-center justify-center gap-3">
+          <p className="font-mono text-sm font-medium text-[color:var(--text-primary)]">
+            {state.ref}
+          </p>
+          <button
+            onClick={handleCopy}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(35,33,31,0.15)] bg-white/40 text-[color:var(--text-secondary)] transition-all hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]"
+            aria-label={copied ? "Reference copied" : "Copy reference to clipboard"}
+            title="Copy reference"
+          >
+            {copied ? (
+              <Check className="h-3.5 w-3.5 text-[color:var(--assembl-pounamu)]" aria-hidden />
+            ) : (
+              <Copy className="h-3.5 w-3.5" aria-hidden />
+            )}
+          </button>
+        </div>
+
+        <div className="mt-10">
+          <Link
+            href="/"
+            className="btn-ghost inline-flex h-11 items-center px-6 text-sm transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]"
+          >
+            <Home className="mr-2 h-4 w-4" aria-hidden />
+            Return to home
+          </Link>
+        </div>
       </div>
     );
   }
@@ -153,7 +181,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isPending}
-            className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base disabled:opacity-60"
+            className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
           >
             {isPending ? (
               <>
@@ -184,8 +212,8 @@ export function ContactForm() {
         }
         .form-input:focus {
           outline: none;
-          border-color: rgba(217, 188, 122, 0.55);
-          box-shadow: 0 0 0 3px rgba(217, 188, 122, 0.18);
+          border-color: rgba(43, 107, 87, 0.55);
+          box-shadow: 0 0 0 3px rgba(43, 107, 87, 0.18);
         }
         .form-input::placeholder {
           color: var(--text-secondary);

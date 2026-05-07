@@ -6,6 +6,15 @@ import { CinematicHero } from '@/components/CinematicHero';
 import { HeroWordReveal } from '@/components/HeroWordReveal';
 import { SectionReveal } from '@/components/SectionReveal';
 import { KeteVesselCard } from '@/components/KeteVesselCard';
+import { DestinationCard } from '@/components/DestinationCard';
+import { ScrollEvidenceStory } from '@/components/site/ScrollEvidenceStory';
+import { HeroAssembl } from '@/components/site/HeroAssembl';
+import { FounderSection } from '@/components/site/FounderSection';
+import { VesselTile } from '@/components/site/VesselTile';
+
+const AGENT_TOTAL = AGENTS.length;
+const ACTIVE_KETE_COUNT = INDUSTRY_KETES.filter((k) => k.status === 'active').length;
+const TOTAL_KETE_COUNT = INDUSTRY_KETES.length + 1; // +1 for Tōro
 
 export default function HomePage() {
   return (
@@ -82,10 +91,17 @@ export default function HomePage() {
           </SectionReveal>
         </div>
       </section>
+      {/* ── HERO — sculptural-vessels direction ─────────────────────── */}
+      <HeroAssembl />
+
+      {/* ── SCROLL EVIDENCE STORY — five-scene Waihanga PM through-line ─ */}
+      <div id="scroll-story">
+        <ScrollEvidenceStory />
+      </div>
 
       {/* ── KETE GRID — 8 vessel cards ───────────────────────────────── */}
       <section className="relative bg-[color:var(--assembl-mist)]/30 py-24 md:py-32">
-        <div className="container">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
           <SectionReveal>
             <div className="mx-auto mb-16 max-w-3xl text-center">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
@@ -129,6 +145,53 @@ export default function HomePage() {
           </SectionReveal>
         </div>
       </section>
+          <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+            {/* Kete */}
+            <DestinationCard
+              href="/kete"
+              eyebrow={`${TOTAL_KETE_COUNT} kete · ${ACTIVE_KETE_COUNT} live`}
+              title="Industry kete"
+              description="Each kete bundles specialist agents grounded in the legislation your industry lives under. Scroll through the lineup."
+              accent="#2B6B57"
+              index={0}
+              bg="paper"
+              visual={
+                <div className="mx-auto w-full max-w-md">
+                  <VesselTile
+                    slug="waihanga"
+                    name="Waihanga"
+                    accent="#2B6B57"
+                    aspect="4/5"
+                    sizes="(min-width: 768px) 36vw, 80vw"
+                  />
+                </div>
+              }
+            />
+
+            {/* Agents */}
+            <DestinationCard
+              href="/agents"
+              eyebrow={`${AGENT_TOTAL} specialist agents`}
+              title="Agent marketplace"
+              description="Pick the agents you need. Subscribe, pay per output, or pay per resolution. Every output reviewed in Draft Mode before it ships."
+              accent="#2B6B57"
+              index={1}
+              bg="mist"
+              visual={
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
+                  {INDUSTRY_KETES.slice(0, 4).map((k) => (
+                    <VesselTile
+                      key={k.slug}
+                      slug={k.slug}
+                      name={k.name}
+                      accent={k.accent}
+                      aspect="1/1"
+                      sizes="(min-width: 768px) 18vw, 40vw"
+                    />
+                  ))}
+                </div>
+              }
+            />
 
       {/* ── BRAND FILM — Variant A locked ────────────────────────────── */}
       <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
@@ -176,6 +239,43 @@ export default function HomePage() {
       </section>
 
       {/* ── FOOTER CTA — Pilot Sprint ───────────────────────────────── */}
+      {/* ── STAT BAND — manifesto line ─────────────────────────────── */}
+      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 50%, rgba(43, 107, 87, 0.08) 0%, transparent 60%)',
+          }}
+        />
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <SectionReveal>
+            <p
+              className="mx-auto max-w-5xl text-center font-display leading-[1.05] text-[color:var(--text-primary)]"
+              style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4.5vw, 4rem)' }}
+            >
+              79% of Kiwi businesses don&apos;t know how to use AI safely.
+              <br />
+              <span className="text-[color:var(--text-secondary)]">
+                97% of the workforce isn&apos;t trained for it.
+              </span>
+              <br />
+              <em className="not-italic text-gradient-hero">
+                The trust gap is what assembl exists to close.
+              </em>
+            </p>
+            <p className="mt-12 text-center font-mono text-xs uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              Source: AI Forum NZ · AI Blueprint for Aotearoa (May 2026)
+            </p>
+          </SectionReveal>
+        </div>
+      </section>
+
+      {/* ── FOUNDER SECTION — Kate's note + portraits ──────────────── */}
+      <FounderSection />
+
+      {/* ── FOOTER CTA ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
         <div
           aria-hidden
@@ -185,7 +285,7 @@ export default function HomePage() {
               'radial-gradient(ellipse at 50% 100%, rgba(43, 107, 87, 0.10) 0%, transparent 65%)',
           }}
         />
-        <div className="container">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
           <SectionReveal>
             <div className="mx-auto max-w-4xl text-center">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">

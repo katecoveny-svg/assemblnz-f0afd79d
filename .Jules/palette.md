@@ -9,3 +9,7 @@
 ## 2026-05-15 - [Character Limit Transparency]
 **Learning:** Enforcing character limits on long-form inputs (like textareas) without providing visual feedback creates a "dead end" for users. They may reach the limit without warning, leading to frustration. A real-time character counter, coupled with a visual warning state (e.g., color change) near the limit, transforms a silent constraint into helpful guidance.
 **Action:** Always provide a real-time character counter for inputs with a `maxLength`, and use `aria-live="polite"` to ensure the update is accessible to screen reader users.
+
+## 2026-05-20 - [Design System Color Consistency]
+**Learning:** During the "Evidence Vessel" pivot, many component-level styles (like focus rings or success states) were still using the old "Soft Gold" tokens instead of the primary "Pounamu" green. This creates visual inconsistency in high-intent areas like forms.
+**Action:** Always cross-reference component-level inline styles or CSS with `globals.css` and `tailwind.config.ts` during theme pivots to ensure primary interaction colors (focus, success) are updated to the current brand primary.

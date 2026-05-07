@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import type { Kete } from '@/lib/kete';
-import { KeteIllustration } from '@/components/KeteIllustration';
+import { VesselTile } from '@/components/site/VesselTile';
 import { agentCountByKete } from '@/lib/agents';
 
 const COUNTS = agentCountByKete();
@@ -101,11 +101,15 @@ export function KeteSpotlight({
                 background: `radial-gradient(circle at 50% 50%, ${kete.accent}30 0%, transparent 60%)`,
               }}
             />
-            <KeteIllustration
-              slug={kete.slug}
-              accent={kete.accent}
-              className="h-[22rem] w-auto md:h-[30rem] lg:h-[36rem]"
-            />
+            <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
+              <VesselTile
+                slug={kete.slug}
+                name={kete.name}
+                accent={kete.accent}
+                aspect="4/5"
+                sizes="(min-width: 1024px) 36vw, (min-width: 640px) 60vw, 90vw"
+              />
+            </div>
           </motion.div>
         </div>
       </div>

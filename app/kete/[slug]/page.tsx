@@ -9,6 +9,7 @@ import {
   type WhanauKeteDetail,
 } from '@/lib/kete-detail';
 import { ketes as keteImagery } from '@/lib/site-config';
+import { VesselTile } from '@/components/site/VesselTile';
 
 type Params = { slug: string };
 
@@ -152,6 +153,16 @@ function IndustryKetePage({
                   src={keteImagery[kete.slug].square}
                   alt={`${kete.name} vessel — ${kete.industry}`}
                   className="h-full w-full object-cover"
+            {/* Per-kete vessel — locked render where available, named placeholder otherwise */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="w-full max-w-md">
+                <VesselTile
+                  slug={kete.slug}
+                  name={kete.name}
+                  accent={kete.accent}
+                  aspect="4/5"
+                  priority
+                  sizes="(min-width: 1024px) 32vw, (min-width: 640px) 60vw, 90vw"
                 />
               </div>
             </div>
