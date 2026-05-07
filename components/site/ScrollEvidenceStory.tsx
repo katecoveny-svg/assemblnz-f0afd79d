@@ -190,18 +190,18 @@ function SceneShell({
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SCENE_1_NOTES = [
-  { tag: 'email · inbox', name: 'quote follow-up', top: '4%', left: '4%', rot: -5 },
+  { tag: 'email · inbox', name: 'Quote follow-up', top: '4%', left: '4%', rot: -5 },
   { tag: 'drive · 2024', name: 'Q3 financials.xlsx', top: '2%', left: '42%', rot: 3 },
-  { tag: 'chat · #ops', name: "yesterday's standup", top: '6%', left: '74%', rot: -2 },
-  { tag: 'pdf · tender', name: 'wellington · stage 2', top: '24%', left: '18%', rot: 4 },
-  { tag: 'doc · meeting', name: 'board notes 12 may', top: '22%', left: '56%', rot: -3 },
+  { tag: 'chat · #ops', name: "Yesterday's standup", top: '6%', left: '74%', rot: -2 },
+  { tag: 'pdf · tender', name: 'Wellington · stage 2', top: '24%', left: '18%', rot: 4 },
+  { tag: 'doc · meeting', name: 'Board notes 12 May', top: '22%', left: '56%', rot: -3 },
   { tag: 'task · overdue', name: '4 items, 2 owners', top: '38%', left: '2%', rot: 2 },
-  { tag: 'invoice · #4421', name: 'awaiting approval', top: '42%', left: '38%', rot: -4 },
+  { tag: 'invoice · #4421', name: 'Awaiting approval', top: '42%', left: '38%', rot: -4 },
   { tag: 'call · missed', name: '3 from supplier', top: '40%', left: '72%', rot: 5 },
-  { tag: 'brief · client', name: 'auaha campaign', top: '60%', left: '14%', rot: -2 },
+  { tag: 'brief · client', name: 'Auaha campaign', top: '60%', left: '14%', rot: -2 },
   { tag: 'sheet · budget', name: 'v3 (final)', top: '62%', left: '48%', rot: 3 },
-  { tag: 'slack · dm', name: 'risk flag, 2 days', top: '78%', left: '8%', rot: 4 },
-  { tag: 'inbox · unread', name: '47 since friday', top: '80%', left: '52%', rot: -3 },
+  { tag: 'slack · dm', name: 'Risk flag, 2 days', top: '78%', left: '8%', rot: 4 },
+  { tag: 'inbox · unread', name: '47 since Friday', top: '80%', left: '52%', rot: -3 },
 ];
 
 function Scene1() {
@@ -222,7 +222,7 @@ function Scene1() {
           </em>
         </>
       }
-      body="the email, the drive, the chat, the spreadsheet no one named. when something needs answering, you go hunting."
+      body="The email, the drive, the chat, the spreadsheet no one named. When something needs answering, you go hunting."
     >
       <div className="relative h-full w-full">
         {SCENE_1_NOTES.map((note, i) => (
@@ -364,7 +364,7 @@ function Scene2() {
           </em>
         </>
       }
-      body="point the agent at the question. it finds each piece in the right place, shows you what it has, and waits for you to say go."
+      body="Point the agent at the question. It finds each piece in the right place, shows you what it has, and waits for you to say go."
     >
       <div className="relative h-full w-full">
         {/* dashed connectors between strata */}
@@ -478,7 +478,7 @@ function Scene3() {
           </em>
         </>
       }
-      body="every action cited. every step reversible. nothing happens behind your back."
+      body="Every action cited. Every step reversible. Nothing happens behind your back."
     >
       <div className="relative h-full w-full" style={{ perspective: '1200px' }}>
         <div
@@ -651,7 +651,7 @@ function Scene4() {
           </em>
         </>
       }
-      body="the response, the supporting documents, the changes, the timestamps. one artefact, ready for sign-off, with the trail behind every line."
+      body="The response, the supporting documents, the changes, the timestamps. One artefact, ready for sign-off, with the trail behind every line."
     >
       <div className="relative h-full w-full">
         <WaihangaVessel breathe />
@@ -698,7 +698,7 @@ function Scene5() {
           </em>
         </>
       }
-      body="into your system of record, your client's inbox, or a regulator's footnote. defensible because it's traceable."
+      body="Into your system of record, your client's inbox, or a regulator's footnote. Defensible because it's traceable."
     >
       <div
         ref={ref}
@@ -775,12 +775,12 @@ function Scene5() {
               letterSpacing: '-0.005em',
             }}
           >
-            tender response · stage 2 ·{' '}
+            Tender response · stage 2 ·{' '}
             <em
               className="not-italic"
               style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
             >
-              wellington.
+              Wellington.
             </em>
           </h3>
 
@@ -793,8 +793,8 @@ function Scene5() {
               borderColor: 'rgba(35,33,31,0.08)',
             }}
           >
-            the response is drafted, the supporting documents are linked, the timestamps are clean.
-            ready for your sign-off, then it ships.
+            The response is drafted, the supporting documents are linked, the timestamps are clean.
+            Ready for your sign-off, then it ships.
           </p>
 
           {/* timeline */}
@@ -855,7 +855,7 @@ function Scene5() {
           {/* meta grid */}
           <dl className="grid grid-cols-2 gap-x-8 gap-y-[18px] pt-[22px]">
             {[
-              { dt: 'sector', dd: <>business operations</> },
+              { dt: 'sector', dd: <>Business operations</> },
               {
                 dt: 'confidence',
                 dd: (
@@ -863,7 +863,7 @@ function Scene5() {
                     className="not-italic"
                     style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
                   >
-                    high
+                    High
                   </em>
                 ),
               },
@@ -875,7 +875,7 @@ function Scene5() {
                     className="not-italic"
                     style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
                   >
-                    approve and forward
+                    Approve and forward
                   </em>
                 ),
               },
