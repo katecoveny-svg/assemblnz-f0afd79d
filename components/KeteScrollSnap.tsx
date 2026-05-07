@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowDown } from 'lucide-react';
 import { KETES, type Kete } from '@/lib/kete';
 import { agentCountByKete } from '@/lib/agents';
-import { KeteIllustration } from '@/components/KeteIllustration';
+import { VesselTile } from '@/components/site/VesselTile';
 
 const COUNTS = agentCountByKete();
 
@@ -204,11 +204,15 @@ function KeteScene({
                 background: `radial-gradient(circle at 50% 50%, ${kete.accent}40 0%, transparent 60%)`,
               }}
             />
-            <KeteIllustration
-              slug={kete.slug}
-              accent={kete.accent}
-              className="h-[24rem] w-auto md:h-[32rem] lg:h-[40rem]"
-            />
+            <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
+              <VesselTile
+                slug={kete.slug}
+                name={kete.name}
+                accent={kete.accent}
+                aspect="4/5"
+                sizes="(min-width: 1024px) 36vw, (min-width: 640px) 60vw, 90vw"
+              />
+            </div>
           </motion.div>
         </div>
       </div>

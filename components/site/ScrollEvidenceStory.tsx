@@ -16,6 +16,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 
 const SCENES = [
@@ -652,8 +653,8 @@ function Scene4() {
       }
       body="the response, the supporting drawings, the recalcs, the timestamps. one artefact, ready for sign-off, with the trail behind every line."
     >
-      <div className="relative h-full w-full" style={{ perspective: '1200px' }}>
-        <Vessel breathe />
+      <div className="relative h-full w-full">
+        <WaihangaVessel breathe />
 
         {/* mono labels overlay — pounamu underlines, NOT brass */}
         <VesselLabel position="tl">signal in</VesselLabel>
@@ -706,12 +707,11 @@ function Scene5() {
         <motion.div
           className="relative h-full"
           style={{
-            perspective: '1200px',
             x: reduce ? '0%' : vesselX,
           }}
         >
           <div className="absolute" style={{ top: '4%', right: '8%', bottom: '4%', left: '8%' }}>
-            <Vessel breathe compact />
+            <WaihangaVessel breathe compact />
           </div>
         </motion.div>
 
@@ -931,254 +931,40 @@ function Scene5() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Vessel — sculptural pack used in scene 4 (full) and scene 5 (compact)
-// Layered translucent panels, gold armature, drifting pulses, breath animation.
+// WaihangaVessel — locked Waihanga render (cream backdrop, silk-organza bloom).
+// Used in scene 4 (full inset) and scene 5 (compact). Replaces the prior
+// CSS Vessel composition. Honours prefers-reduced-motion.
 // ─────────────────────────────────────────────────────────────────────────────
 
-function Vessel({ breathe = false, compact = false }: { breathe?: boolean; compact?: boolean }) {
+function WaihangaVessel({
+  breathe = false,
+  compact = false,
+}: {
+  breathe?: boolean;
+  compact?: boolean;
+}) {
   const reduce = useReducedMotion();
-  const inset = compact ? '0' : '6% 14%';
+  const inset = compact ? '0' : '4% 12%';
   return (
-    <div
-      className="absolute"
-      style={{ inset, transformStyle: 'preserve-3d' }}
+    <motion.div
+      className="absolute overflow-hidden rounded-sm bg-[color:var(--assembl-paper)]"
+      style={{ inset, border: '1px solid rgba(43,107,87,0.18)' }}
+      animate={breathe && !reduce ? { scale: [1, 1.012, 1] } : undefined}
+      transition={
+        breathe && !reduce
+          ? { duration: 8, repeat: Infinity, ease: 'easeInOut' }
+          : undefined
+      }
     >
-      <motion.div
-        className="absolute inset-0"
-        style={{ transformStyle: 'preserve-3d' }}
-        animate={
-          breathe && !reduce
-            ? {
-                rotateY: [-5, 5, -5],
-                rotateX: [2, -2, 2],
-              }
-            : undefined
-        }
-        transition={
-          breathe && !reduce
-            ? { duration: 22, repeat: Infinity, ease: 'easeInOut' }
-            : undefined
-        }
-      >
-        {/* p-back — deep pounamu */}
-        <Panel
-          rounded="8px"
-          inset="4% 14% 16% 4%"
-          background="linear-gradient(160deg,rgba(43,107,87,0.42),rgba(43,107,87,0.22) 45%,rgba(110,149,127,0.28))"
-          mixBlendMultiply
-          shadow="0 40px 80px -40px rgba(43,107,87,0.4), inset 0 1px 0 rgba(250,247,242,0.3)"
-          translateZ={-30}
-        />
-        {/* p-mid — silk */}
-        <Panel
-          rounded="8px"
-          inset="14% 4% 6% 16%"
-          background="linear-gradient(200deg,rgba(232,199,122,0.18),rgba(250,247,242,0.55) 40%,rgba(232,228,222,0.40))"
-          border="0.5px solid rgba(212,168,83,0.22)"
-          shadow="0 20px 50px -25px rgba(35,33,31,0.18), inset 0 0 30px rgba(250,247,242,0.4)"
-        />
-        {/* p-spine — gold spine */}
-        <Panel
-          rounded="0"
-          inset="8% 47% 8% 47%"
-          background="linear-gradient(180deg,rgba(212,168,83,0.12),rgba(212,168,83,0.06) 50%,rgba(212,168,83,0.12))"
-          border="0"
-          extra={{
-            borderLeft: '0.5px solid rgba(212,168,83,0.4)',
-            borderRight: '0.5px solid rgba(212,168,83,0.4)',
-          }}
-          translateZ={20}
-        />
-        {/* p-front — glass */}
-        <Panel
-          rounded="8px"
-          inset="24% 22% 24% 12%"
-          background="linear-gradient(165deg,rgba(232,228,222,0.60),rgba(250,247,242,0.35) 55%,rgba(43,107,87,0.10))"
-          border="0.5px solid rgba(35,33,31,0.08)"
-          shadow="0 30px 60px -30px rgba(35,33,31,0.15), inset 0 1px 0 rgba(255,255,255,0.5)"
-          translateZ={40}
-        />
-
-        {/* armature */}
-        <svg
-          className="pointer-events-none absolute inset-0 h-full w-full"
-          style={{ transform: 'translateZ(50px)', zIndex: 5 }}
-          viewBox="0 0 100 118"
-          preserveAspectRatio="none"
-          aria-hidden
-        >
-          <rect
-            x="5"
-            y="3"
-            width="90"
-            height="112"
-            rx="3"
-            ry="3"
-            fill="none"
-            stroke="var(--assembl-gold-thread)"
-            strokeWidth="0.6"
-            vectorEffect="non-scaling-stroke"
-            opacity="0.85"
-          />
-          <line x1="5" y1="20" x2="95" y2="20" {...thinGold} />
-          <line x1="5" y1="98" x2="95" y2="98" {...thinGold} />
-          <line
-            x1="50"
-            y1="3"
-            x2="50"
-            y2="20"
-            stroke="var(--assembl-gold-thread)"
-            strokeWidth="0.4"
-            strokeDasharray="1.5,2"
-            vectorEffect="non-scaling-stroke"
-            opacity="0.5"
-          />
-          <line
-            x1="50"
-            y1="98"
-            x2="50"
-            y2="115"
-            stroke="var(--assembl-gold-thread)"
-            strokeWidth="0.4"
-            strokeDasharray="1.5,2"
-            vectorEffect="non-scaling-stroke"
-            opacity="0.5"
-          />
-          {/* corner ticks */}
-          <line x1="5" y1="3" x2="12" y2="3" {...thinGold} />
-          <line x1="5" y1="3" x2="5" y2="10" {...thinGold} />
-          <line x1="88" y1="3" x2="95" y2="3" {...thinGold} />
-          <line x1="95" y1="3" x2="95" y2="10" {...thinGold} />
-          <line x1="5" y1="115" x2="12" y2="115" {...thinGold} />
-          <line x1="5" y1="108" x2="5" y2="115" {...thinGold} />
-          <line x1="88" y1="115" x2="95" y2="115" {...thinGold} />
-          <line x1="95" y1="108" x2="95" y2="115" {...thinGold} />
-          <circle cx="50" cy="11.5" r="0.9" fill="var(--assembl-gold-thread)" opacity="0.9" />
-          <circle cx="50" cy="106.5" r="0.9" fill="var(--assembl-gold-thread)" opacity="0.9" />
-          <line
-            x1="5"
-            y1="40"
-            x2="9"
-            y2="40"
-            stroke="var(--assembl-gold-thread)"
-            strokeWidth="0.4"
-            vectorEffect="non-scaling-stroke"
-            opacity="0.5"
-          />
-          <line
-            x1="5"
-            y1="60"
-            x2="9"
-            y2="60"
-            stroke="var(--assembl-gold-thread)"
-            strokeWidth="0.4"
-            vectorEffect="non-scaling-stroke"
-            opacity="0.5"
-          />
-          <line
-            x1="5"
-            y1="80"
-            x2="9"
-            y2="80"
-            stroke="var(--assembl-gold-thread)"
-            strokeWidth="0.4"
-            vectorEffect="non-scaling-stroke"
-            opacity="0.5"
-          />
-          <line
-            x1="91"
-            y1="40"
-            x2="95"
-            y2="40"
-            stroke="var(--assembl-gold-thread)"
-            strokeWidth="0.4"
-            vectorEffect="non-scaling-stroke"
-            opacity="0.5"
-          />
-          <line
-            x1="91"
-            y1="60"
-            x2="95"
-            y2="60"
-            stroke="var(--assembl-gold-thread)"
-            strokeWidth="0.4"
-            vectorEffect="non-scaling-stroke"
-            opacity="0.5"
-          />
-          <line
-            x1="91"
-            y1="80"
-            x2="95"
-            y2="80"
-            stroke="var(--assembl-gold-thread)"
-            strokeWidth="0.4"
-            vectorEffect="non-scaling-stroke"
-            opacity="0.5"
-          />
-        </svg>
-
-        {/* drifting pulses */}
-        <PulseDot absolute size={8} bright style={{ top: '28%', left: '34%' }} />
-        <PulseDot
-          absolute
-          size={8}
-          bright
-          style={{ top: '44%', left: '58%', animationDelay: '1.4s' }}
-        />
-        <PulseDot
-          absolute
-          size={8}
-          bright
-          style={{ top: '60%', left: '42%', animationDelay: '2.8s' }}
-        />
-        <PulseDot
-          absolute
-          size={5}
-          bright
-          style={{ top: '36%', left: '64%', animationDelay: '.6s' }}
-        />
-        <PulseDot
-          absolute
-          size={8}
-          bright
-          style={{ top: '70%', left: '50%', animationDelay: '3.4s' }}
-        />
-        <PulseDot
-          absolute
-          size={5}
-          bright
-          style={{ top: '52%', left: '30%', animationDelay: '2s' }}
-        />
-        <PulseDot
-          absolute
-          size={4}
-          bright
-          style={{ top: '22%', left: '54%', animationDelay: '4s' }}
-        />
-        <PulseDot
-          absolute
-          size={4}
-          bright
-          style={{ top: '78%', left: '60%', animationDelay: '1s' }}
-        />
-
-        {/* drop shadow under vessel */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute"
-          style={{
-            bottom: '-2%',
-            left: '14%',
-            right: '14%',
-            height: 28,
-            background:
-              'radial-gradient(ellipse, rgba(35,33,31,0.22), rgba(35,33,31,0.08) 50%, transparent 75%)',
-            filter: 'blur(10px)',
-            zIndex: 0,
-          }}
-        />
-      </motion.div>
-    </div>
+      <Image
+        src="/img/hero/waihanga-vessel-cream.jpg"
+        alt="Waihanga evidence vessel — silk-organza pounamu bloom on cream backdrop."
+        fill
+        sizes="(min-width: 1024px) 50vw, 90vw"
+        loading="lazy"
+        className="object-cover"
+      />
+    </motion.div>
   );
 }
 
