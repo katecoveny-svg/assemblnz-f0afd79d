@@ -153,3 +153,5 @@ project_id = "ssaxxdkxzrvkdjsanhei"
     verify_jwt = false
   [functions.run-thought]
     verify_jwt = true
+  [functions.vessel-generate]
+    verify_jwt = false
