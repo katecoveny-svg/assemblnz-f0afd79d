@@ -6,6 +6,8 @@ import { SectionReveal } from '@/components/SectionReveal';
 import { DestinationCard } from '@/components/DestinationCard';
 import { KeteIllustration } from '@/components/KeteIllustration';
 import { ScrollEvidenceStory } from '@/components/site/ScrollEvidenceStory';
+import { HeroAssembl } from '@/components/site/HeroAssembl';
+import { FounderSection } from '@/components/site/FounderSection';
 
 const AGENT_TOTAL = AGENTS.length;
 const ACTIVE_KETE_COUNT = INDUSTRY_KETES.filter((k) => k.status === 'active').length;
@@ -14,136 +16,13 @@ const TOTAL_KETE_COUNT = INDUSTRY_KETES.length + 1; // +1 for Tōro
 export default function HomePage() {
   return (
     <>
-      {/* ── HERO — full-bleed lattice video ─────────────────────────── */}
-      <section className="relative min-h-[88vh] overflow-hidden bg-[color:var(--assembl-paper)]">
-        <div className="absolute inset-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/images/lattice-texture.jpg"
-            className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
-          >
-            <source src="/video/kete-hero-lattice.mp4" type="video/mp4" />
-          </video>
-          <img
-            src="/images/lattice-texture.jpg"
-            alt=""
-            aria-hidden
-            className="absolute inset-0 h-full w-full object-cover motion-reduce:block hidden"
-          />
-        </div>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(180deg, rgba(250,247,242,0.55) 0%, rgba(250,247,242,0.35) 35%, rgba(250,247,242,0.85) 80%, rgba(250,247,242,1) 100%)',
-          }}
-        />
-        <div className="relative z-10 mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-center px-6 py-32 md:px-10">
-          <SectionReveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              Built in Aotearoa · Mārama Whenua
-            </p>
-          </SectionReveal>
+      {/* ── HERO — sculptural-vessels direction ─────────────────────── */}
+      <HeroAssembl />
 
-          <SectionReveal delay={0.1}>
-            <h1
-              className="mt-8 max-w-5xl font-display uppercase leading-[0.92] tracking-tight text-[color:var(--text-primary)]"
-              style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 8vw, 7.5rem)' }}
-            >
-              Automate the mundane.
-              <br />
-              <em className="not-italic text-gradient-hero">Accelerate the remarkable.</em>
-            </h1>
-          </SectionReveal>
-
-          <SectionReveal delay={0.25}>
-            <p
-              className="mt-10 max-w-2xl font-display text-2xl leading-snug text-[color:var(--text-body)] md:text-3xl"
-              style={{ fontWeight: 300 }}
-            >
-              We are quietly rewiring New Zealand businesses for a calmer, more compliant
-              tomorrow.
-            </p>
-          </SectionReveal>
-
-          <SectionReveal delay={0.4}>
-            <p className="mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-              <em className="font-display text-xl not-italic md:text-2xl">assembl drafts.</em>{' '}
-              Specialist AI agents grounded in current NZ legislation. We draft the compliance
-              documentation your team would otherwise spend the week on — every output reviewed in
-              Draft Mode before anything ships.
-            </p>
-          </SectionReveal>
-
-          <SectionReveal delay={0.55}>
-            <div className="mt-12 flex flex-col items-start gap-3 sm:flex-row">
-              <Link
-                href="/contact"
-                className="cta-primary inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-              >
-                Start your pilot
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-              <Link
-                href="/kete"
-                className="btn-ghost inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-              >
-                See the kete
-              </Link>
-            </div>
-          </SectionReveal>
-
-          <div
-            aria-hidden
-            className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex"
-          >
-            <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              Scroll
-            </span>
-            <span className="h-8 w-px animate-pulse bg-[color:var(--text-secondary)]" />
-          </div>
-        </div>
-      </section>
-
-      {/* ── STAT BAND — single manifesto line ─────────────────────── */}
-      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
-        {/* Subtle atmospheric backdrop */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 50%, rgba(43, 107, 87, 0.08) 0%, transparent 60%)',
-          }}
-        />
-
-        <div className="container">
-          <SectionReveal>
-            <p
-              className="mx-auto max-w-5xl text-center font-display leading-[1.05] text-[color:var(--text-primary)]"
-              style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4.5vw, 4rem)' }}
-            >
-              79% of Kiwi businesses don&apos;t know how to use AI safely.
-              <br />
-              <span className="text-[color:var(--text-secondary)]">
-                97% of the workforce isn&apos;t trained for it.
-              </span>
-              <br />
-              <em className="not-italic text-gradient-hero">
-                The trust gap is what assembl exists to close.
-              </em>
-            </p>
-            <p className="mt-12 text-center font-mono text-xs uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              Source: AI Forum NZ · AI Blueprint for Aotearoa (May 2026)
-            </p>
-          </SectionReveal>
-        </div>
-      </section>
+      {/* ── SCROLL EVIDENCE STORY — five-scene Waihanga PM through-line ─ */}
+      <div id="scroll-story">
+        <ScrollEvidenceStory />
+      </div>
 
       {/* ── DESTINATION CARDS — 4 doors into the rest of the site ─── */}
       <section className="relative bg-[color:var(--assembl-mist)]/30 py-24 md:py-32">
@@ -268,8 +147,41 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SCROLL EVIDENCE STORY — five-scene Waihanga PM through-line ─ */}
-      <ScrollEvidenceStory />
+      {/* ── STAT BAND — manifesto line ─────────────────────────────── */}
+      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 50%, rgba(43, 107, 87, 0.08) 0%, transparent 60%)',
+          }}
+        />
+        <div className="container">
+          <SectionReveal>
+            <p
+              className="mx-auto max-w-5xl text-center font-display leading-[1.05] text-[color:var(--text-primary)]"
+              style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4.5vw, 4rem)' }}
+            >
+              79% of Kiwi businesses don&apos;t know how to use AI safely.
+              <br />
+              <span className="text-[color:var(--text-secondary)]">
+                97% of the workforce isn&apos;t trained for it.
+              </span>
+              <br />
+              <em className="not-italic text-gradient-hero">
+                The trust gap is what assembl exists to close.
+              </em>
+            </p>
+            <p className="mt-12 text-center font-mono text-xs uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              Source: AI Forum NZ · AI Blueprint for Aotearoa (May 2026)
+            </p>
+          </SectionReveal>
+        </div>
+      </section>
+
+      {/* ── FOUNDER SECTION — Kate's note + portraits ──────────────── */}
+      <FounderSection />
 
       {/* ── FOOTER CTA ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
