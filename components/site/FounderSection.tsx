@@ -3,9 +3,9 @@ import Image from 'next/image';
 export function FounderSection() {
   return (
     <section className="relative bg-[color:var(--assembl-paper)] py-24 md:py-32">
-      <div className="container">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-7">
+      <div className="mx-auto max-w-7xl px-6 md:px-12">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="order-2 lg:order-1 lg:col-span-7">
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               assembl · founder note
             </p>
@@ -18,7 +18,7 @@ export function FounderSection() {
             </h2>
 
             <p className="mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-              Kate Harland built assembl after watching small NZ businesses lose their best people
+              Kate Hudson built assembl after watching small NZ businesses lose their best people
               to admin no one signed up for. The promise of AI shouldn&apos;t be speed. It should
               be time — for the work that actually matters, the people who depend on you, and the
               moments you&apos;d otherwise miss.
@@ -38,72 +38,25 @@ export function FounderSection() {
                 style={{ backgroundColor: 'var(--assembl-gold-thread)', opacity: 0.7 }}
               />
             </figure>
+
+            <p className="mt-12 font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              quiet intelligence. more presence. time returned.
+            </p>
           </div>
 
-          <div className="lg:col-span-5">
-            <div className="grid grid-cols-5 gap-4 md:gap-5">
-              <div className="relative col-span-3 aspect-[4/5] overflow-hidden rounded-sm bg-[color:var(--assembl-mist)]/40">
-                <Image
-                  src="/img/founder/founder-portrait.png"
-                  alt="Kate Harland — founder of assembl."
-                  fill
-                  loading="lazy"
-                  sizes="(min-width: 1024px) 30vw, 60vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="col-span-2 flex flex-col gap-4 md:gap-5">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-[color:var(--assembl-mist)]/40">
-                  <Image
-                    src="/img/founder/founder-human.png"
-                    alt="Founder portrait — quieter moment."
-                    fill
-                    loading="lazy"
-                    sizes="(min-width: 1024px) 18vw, 40vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-[color:var(--assembl-mist)]/40">
-                  <Image
-                    src="/img/founder/founder-pair.png"
-                    alt="Founder with collaborator."
-                    fill
-                    loading="lazy"
-                    sizes="(min-width: 1024px) 18vw, 40vw"
-                    className="object-cover"
-                  />
-                </div>
-              </div>
+          <div className="order-1 lg:order-2 lg:col-span-5">
+            <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-sm bg-[color:var(--assembl-mist)]/40">
+              <Image
+                src="/img/founder/founder-portrait.png"
+                alt="Kate Hudson — founder of assembl."
+                fill
+                loading="lazy"
+                sizes="(min-width: 1024px) 36vw, (min-width: 640px) 60vw, 90vw"
+                className="object-cover"
+              />
             </div>
           </div>
         </div>
-
-        <div className="mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-sm bg-[color:var(--assembl-mist)]/40">
-            <Image
-              src="/img/founder/founder-triptych-a.png"
-              alt="Founder triptych — frame one."
-              fill
-              loading="lazy"
-              sizes="(min-width: 768px) 45vw, 90vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[16/9] overflow-hidden rounded-sm bg-[color:var(--assembl-mist)]/40">
-            <Image
-              src="/img/founder/founder-triptych-b.png"
-              alt="Founder triptych — frame two."
-              fill
-              loading="lazy"
-              sizes="(min-width: 768px) 45vw, 90vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
-
-        <p className="mx-auto mt-16 max-w-7xl font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-          quiet intelligence. more presence. time returned.
-        </p>
       </div>
     </section>
   );

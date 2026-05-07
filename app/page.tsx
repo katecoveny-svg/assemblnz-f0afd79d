@@ -26,7 +26,7 @@ export default function HomePage() {
 
       {/* ── DESTINATION CARDS — 4 doors into the rest of the site ─── */}
       <section className="relative bg-[color:var(--assembl-mist)]/30 py-24 md:py-32">
-        <div className="container">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
           <SectionReveal>
             <div className="mx-auto mb-16 max-w-3xl text-center">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
@@ -42,7 +42,7 @@ export default function HomePage() {
             </div>
           </SectionReveal>
 
-          <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 md:gap-8">
+          <div className="grid gap-6 md:grid-cols-2 md:gap-8">
             {/* Kete */}
             <DestinationCard
               href="/kete"
@@ -67,7 +67,7 @@ export default function HomePage() {
               description="Pick the agents you need. Subscribe, pay per output, or pay per resolution. Every output reviewed in Draft Mode before it ships."
               accent="#2B6B57"
               index={1}
-              bg="ink"
+              bg="mist"
               visual={
                 <div className="flex flex-wrap justify-center gap-3 md:gap-4">
                   {INDUSTRY_KETES.slice(0, 7).map((k) => (
@@ -157,7 +157,7 @@ export default function HomePage() {
               'radial-gradient(ellipse at 50% 50%, rgba(43, 107, 87, 0.08) 0%, transparent 60%)',
           }}
         />
-        <div className="container">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
           <SectionReveal>
             <p
               className="mx-auto max-w-5xl text-center font-display leading-[1.05] text-[color:var(--text-primary)]"
@@ -193,7 +193,7 @@ export default function HomePage() {
               'radial-gradient(ellipse at 50% 100%, rgba(43, 107, 87, 0.10) 0%, transparent 65%)',
           }}
         />
-        <div className="container">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
           <SectionReveal>
             <div className="mx-auto max-w-4xl text-center">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">

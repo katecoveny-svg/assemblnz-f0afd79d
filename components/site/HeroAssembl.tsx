@@ -26,8 +26,8 @@ export function HeroAssembl() {
         />
       </div>
 
-      <div className="container relative z-10 -mt-16 pb-20 md:-mt-24 md:pb-28">
-        <div className="mx-auto max-w-4xl">
+      <div className="relative z-10 mx-auto -mt-16 max-w-7xl px-6 pb-20 md:-mt-24 md:px-12 md:pb-28">
+        <div className="max-w-4xl">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
             assembl · quiet intelligence
           </p>

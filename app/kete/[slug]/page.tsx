@@ -8,7 +8,7 @@ import {
   type IndustryKeteDetail,
   type WhanauKeteDetail,
 } from '@/lib/kete-detail';
-import { KeteIllustration } from '@/components/KeteIllustration';
+import { VesselTile } from '@/components/site/VesselTile';
 
 type Params = { slug: string };
 
@@ -148,13 +148,18 @@ function IndustryKetePage({
               </p>
             </div>
 
-            {/* Per-kete illustration — sits in the right column on desktop */}
+            {/* Per-kete vessel — locked render where available, named placeholder otherwise */}
             <div className="flex justify-center lg:justify-end">
-              <KeteIllustration
-                slug={kete.slug}
-                accent={kete.accent}
-                className="h-72 w-auto md:h-80 lg:h-96"
-              />
+              <div className="w-full max-w-md">
+                <VesselTile
+                  slug={kete.slug}
+                  name={kete.name}
+                  accent={kete.accent}
+                  aspect="4/5"
+                  priority
+                  sizes="(min-width: 1024px) 32vw, (min-width: 640px) 60vw, 90vw"
+                />
+              </div>
             </div>
           </div>
         </div>
