@@ -5,6 +5,15 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "pub.hyperagent.com",
+        pathname: "/api/published/**",
+      },
+    ],
+  },
   async redirects() {
     return [
       // Existing: kete name correction (Tōroa → Tōro)

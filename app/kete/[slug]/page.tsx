@@ -8,6 +8,7 @@ import {
   type IndustryKeteDetail,
   type WhanauKeteDetail,
 } from '@/lib/kete-detail';
+import { ketes as keteImagery } from '@/lib/site-config';
 import { VesselTile } from '@/components/site/VesselTile';
 
 type Params = { slug: string };
@@ -68,19 +69,13 @@ function IndustryKetePage({
     <>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        {/* Atmospheric layer — sits behind the radial gradient and content */}
+        {/* Atmospheric layer — locked 16:9 vessel hero, dimmed for legibility */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/images/lattice-texture.jpg"
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.18] motion-reduce:hidden"
-          >
-            <source src="/video/kete-hero-lattice.mp4" type="video/mp4" />
-          </video>
+          <img
+            src={keteImagery[kete.slug].wide}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.22]"
+          />
         </div>
         <div
           aria-hidden
@@ -148,6 +143,16 @@ function IndustryKetePage({
               </p>
             </div>
 
+            {/* Locked 1:1 vessel — sits in the right column on desktop */}
+            <div className="flex justify-center lg:justify-end">
+              <div
+                className="aspect-square w-full max-w-md overflow-hidden rounded-card shadow-brand-soft"
+                style={{ ['--kete-accent' as string]: kete.accent }}
+              >
+                <img
+                  src={keteImagery[kete.slug].square}
+                  alt={`${kete.name} vessel — ${kete.industry}`}
+                  className="h-full w-full object-cover"
             {/* Per-kete vessel — locked render where available, named placeholder otherwise */}
             <div className="flex justify-center lg:justify-end">
               <div className="w-full max-w-md">

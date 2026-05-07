@@ -50,13 +50,14 @@ export default function PricingPage() {
               </h1>
             </SectionReveal>
             <p className="mt-8 text-lg text-[color:var(--text-body)] md:text-xl">
-              79% of New Zealand businesses don&apos;t know how to use AI safely. Only 2.7%
-              of the workforce is trained for it. We&apos;re high-use, low-trust as a country —
-              and that gap is what assembl exists to close.
+              79% of New Zealand businesses don&apos;t know how to use intelligent agents safely.
+              Only 2.7% of the workforce is trained for them. We&apos;re high-use, low-trust as
+              a country — and that gap is what assembl exists to close.
             </p>
             <p className="mx-auto mt-6 max-w-2xl text-base text-[color:var(--text-body)]">
-              Most AI tools charge you a flat fee whether you use them or not. That doesn&apos;t
-              work for AI, and it especially doesn&apos;t work for compliance work. You pick
+              Most intelligent-agent tools charge you a flat fee whether you use them or not.
+              That doesn&apos;t work for ongoing intelligent automation, and it especially
+              doesn&apos;t work for compliance work. You pick
               a plan that includes a sensible amount of work each month — generating compliance
               docs, drafting emails, running checks. If you outgrow it, the price flexes. If
               you don&apos;t, you&apos;re not subsidising someone else&apos;s heavy use.

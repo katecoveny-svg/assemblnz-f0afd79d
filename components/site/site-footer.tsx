@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { KETES } from "@/lib/kete";
+import { footerDisclaimer, heroVessel } from "@/lib/site-config";
 
 export function SiteFooter() {
   return (
@@ -8,18 +9,13 @@ export function SiteFooter() {
         <div className="grid gap-12 md:grid-cols-4">
           <div>
             <Link href="/" className="inline-flex flex-col items-start gap-3">
-              {/* Brand-mark — Evidence Vessel mark.
-                  TODO (Claude Code): replace /images/brand-mark.png binary with Evidence Vessel version:
-                  curl -sL "https://pub.hyperagent.com/api/published/pbf01KQZNXVE1_NA5K5MPCQGCJEK7W/adfe1b92-a290-4c42-9a30-a79a2f2bd764.png" \
-                    -o public/images/brand-mark.png
-              */}
               <img
-                src="/images/brand-mark.png"
+                src={heroVessel.mark}
                 alt=""
                 aria-hidden
                 width={96}
                 height={96}
-                className="w-24 opacity-40 select-none pointer-events-none"
+                className="w-24 opacity-50 select-none pointer-events-none"
               />
               <span className="font-display text-2xl font-semibold lowercase text-[color:var(--text-primary)]">
                 assembl
@@ -58,13 +54,28 @@ export function SiteFooter() {
             </h4>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
-                <Link href="/about" className="text-[color:var(--text-primary)] hover:text-[color:var(--assembl-pounamu)]">
-                  About
+                <Link href="/pilot-sprint" className="text-[color:var(--text-primary)] hover:text-[color:var(--assembl-pounamu)]">
+                  Pilot Sprint
+                </Link>
+              </li>
+              <li>
+                <Link href="/how-it-works" className="text-[color:var(--text-primary)] hover:text-[color:var(--assembl-pounamu)]">
+                  How it works
+                </Link>
+              </li>
+              <li>
+                <Link href="/evidence-pack" className="text-[color:var(--text-primary)] hover:text-[color:var(--assembl-pounamu)]">
+                  Evidence pack
                 </Link>
               </li>
               <li>
                 <Link href="/pricing" className="text-[color:var(--text-primary)] hover:text-[color:var(--assembl-pounamu)]">
                   Pricing
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-[color:var(--text-primary)] hover:text-[color:var(--assembl-pounamu)]">
+                  About
                 </Link>
               </li>
               <li>
@@ -80,8 +91,15 @@ export function SiteFooter() {
               Aotearoa
             </h4>
             <p className="mt-4 text-sm text-[color:var(--text-secondary)]">
-              Built in New Zealand. Grounded in NZ legislation, Te Tiriti
-              principles, and provenance-watermarked outputs.
+              {footerDisclaimer}
+            </p>
+            <p className="mt-4 text-xs text-[color:var(--text-secondary)]">
+              <Link
+                href="/legal/disclaimer"
+                className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline"
+              >
+                Full disclaimer
+              </Link>
             </p>
           </div>
         </div>
@@ -90,10 +108,9 @@ export function SiteFooter() {
 
         <div className="mt-6 flex flex-col gap-2 text-xs text-[color:var(--text-secondary)] md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} assembl. All rights reserved.</p>
-          <p className="font-mono">Evidence Vessel · v2.0</p>
+          <p className="font-mono">Built in Aotearoa</p>
         </div>
       </div>
     </footer>
   );
 }
-
