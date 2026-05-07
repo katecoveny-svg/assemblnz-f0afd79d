@@ -9,8 +9,8 @@ export function HeroAssembl() {
     <section className="relative bg-[color:var(--assembl-paper)]">
       <div className="relative aspect-[16/9] w-full overflow-hidden">
         <Image
-          src="/img/hero/waihanga-vessel.jpg"
-          alt="Sculptural pounamu-toned vessel — assembl evidence vessel."
+          src="/img/hero/waihanga-vessel-cream.jpg"
+          alt="Sculptural pounamu evidence vessel — silk-organza bloom on a cream backdrop."
           fill
           priority
           sizes="100vw"
