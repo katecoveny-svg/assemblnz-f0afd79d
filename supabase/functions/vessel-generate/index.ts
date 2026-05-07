@@ -1,29 +1,26 @@
 // supabase/functions/vessel-generate/index.ts
 //
-// vessel-generate
-// ---------------
-// Proxies image generation requests to Fal.ai (Flux 1.1 Pro) and OpenAI
-// (gpt-image-1). Provider API keys live in Supabase Edge Function secrets
-// so the browser studio can call this endpoint without exposing credentials.
+// vessel-generate (v2)
+// --------------------
+// Proxies image generation requests to Fal.ai (Flux 1.1 Pro and Flux 1.1
+// Pro Ultra Redux) and OpenAI (gpt-image-1). Provider API keys live in
+// assembl-prod Supabase Edge Function secrets so the browser studio and
+// in-app Auaha studios can call this endpoint without exposing credentials.
 //
 // Auth: clients send `Authorization: Bearer <VESSEL_STUDIO_SHARED_SECRET>`.
-// The shared secret is rotatable independently of provider keys.
+// CORS: only the origins listed in ALLOWED_ORIGINS get an
+//       Access-Control-Allow-Origin header echoed back. Non-browser callers
+//       (curl, server-to-server) bypass the CORS layer entirely and rely on
+//       the Bearer token as the only gate.
 //
-// CORS: open to "*" so the studio can be hosted anywhere.
+// v2 deltas vs v1:
+//   - Ultra Redux endpoint when image_url is provided
+//   - ALLOWED_ORIGINS-aware CORS (replaces open `*`)
+//   - image_url + image_prompt_strength on the request schema
+//   - 60s provider timeout, explicit 504 on AbortError
+//   - Provider error bodies sanitised before pass-through
 
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
-
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Allow-Headers": "content-type, authorization",
-  "Access-Control-Max-Age": "86400",
-};
-
-const JSON_HEADERS = {
-  ...CORS_HEADERS,
-  "Content-Type": "application/json",
-};
 
 type AspectRatio = "16:9" | "4:5" | "1:1" | "9:16";
 type Model = "flux" | "openai";
@@ -33,7 +30,9 @@ interface GenerateRequest {
   prompt: string;
   aspect_ratio: AspectRatio;
   variants: number;
-  sref?: string;
+  sref?: string;                 // accepted but ignored — Midjourney-only
+  image_url?: string;            // hosted URL or data:image/...;base64,...
+  image_prompt_strength: number; // 0..1, default 0.35
 }
 
 interface GeneratedImage {
@@ -78,14 +77,48 @@ const OPENAI_DIMENSIONS: Record<AspectRatio, { width: number; height: number }> 
   "9:16": { width: 1024, height: 1536 },
 };
 
-const PROVIDER_TIMEOUT_MS = 120_000; // 2 minutes — high-quality OpenAI gens can run long
+const PROVIDER_TIMEOUT_MS = 60_000;
 
-function jsonResponse(status: number, body: unknown): Response {
+// ─── CORS ──────────────────────────────────────────────────────────────────
+
+function getAllowedOrigins(): string[] {
+  const raw = Deno.env.get("ALLOWED_ORIGINS") ?? "";
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+}
+
+function corsHeaders(
+  originHeader: string | null,
+  allowedOrigins: string[],
+): Record<string, string> {
+  const headers: Record<string, string> = {
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "content-type, authorization",
+    "Access-Control-Max-Age": "86400",
+    "Vary": "Origin",
+  };
+  // Only echo back the origin if it matches the allowlist. Browsers will
+  // refuse cross-origin reads without ACAO; non-browser callers don't care.
+  if (originHeader && allowedOrigins.includes(originHeader)) {
+    headers["Access-Control-Allow-Origin"] = originHeader;
+  }
+  return headers;
+}
+
+function jsonResponse(
+  status: number,
+  body: unknown,
+  cors: Record<string, string>,
+): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: JSON_HEADERS,
+    headers: { ...cors, "Content-Type": "application/json" },
   });
 }
+
+// ─── Type guards & validation ──────────────────────────────────────────────
 
 function isAspectRatio(v: unknown): v is AspectRatio {
   return v === "16:9" || v === "4:5" || v === "1:1" || v === "9:16";
@@ -93,6 +126,19 @@ function isAspectRatio(v: unknown): v is AspectRatio {
 
 function isModel(v: unknown): v is Model {
   return v === "flux" || v === "openai";
+}
+
+function isValidImageUrl(v: unknown): v is string {
+  if (typeof v !== "string" || v.length === 0) return false;
+  // Accept hosted https URLs or base64 data URLs only. http://localhost is
+  // allowed for development; anything else is rejected so we don't proxy
+  // arbitrary outbound fetches on the user's behalf.
+  return (
+    v.startsWith("https://") ||
+    v.startsWith("http://localhost") ||
+    v.startsWith("http://127.0.0.1") ||
+    /^data:image\/(png|jpeg|jpg|webp);base64,/i.test(v)
+  );
 }
 
 type ValidationResult =
@@ -139,6 +185,34 @@ function validateRequest(body: unknown): ValidationResult {
     sref = r.sref;
   }
 
+  let image_url: string | undefined;
+  if (r.image_url !== undefined && r.image_url !== null) {
+    if (!isValidImageUrl(r.image_url)) {
+      return {
+        ok: false,
+        error:
+          "image_url must be a hosted https URL, http://localhost URL, or data:image/(png|jpeg|webp);base64,... URL",
+      };
+    }
+    image_url = r.image_url;
+  }
+
+  let image_prompt_strength = 0.35;
+  if (r.image_prompt_strength !== undefined && r.image_prompt_strength !== null) {
+    if (
+      typeof r.image_prompt_strength !== "number" ||
+      Number.isNaN(r.image_prompt_strength) ||
+      r.image_prompt_strength < 0 ||
+      r.image_prompt_strength > 1
+    ) {
+      return {
+        ok: false,
+        error: "image_prompt_strength must be a number between 0 and 1",
+      };
+    }
+    image_prompt_strength = r.image_prompt_strength;
+  }
+
   return {
     ok: true,
     data: {
@@ -147,12 +221,17 @@ function validateRequest(body: unknown): ValidationResult {
       aspect_ratio: r.aspect_ratio,
       variants,
       sref,
+      image_url,
+      image_prompt_strength,
     },
   };
 }
 
-// Constant-time string equality. Length mismatch short-circuits, but only
-// returns false (timing leak there reveals length, not contents).
+// ─── Auth ──────────────────────────────────────────────────────────────────
+
+// Constant-time string equality. Length mismatch short-circuits — that
+// leaks length, but the expected length is fixed (`Bearer ` + 32 chars)
+// and is not secret.
 function timingSafeEqual(a: string, b: string): boolean {
   if (a.length !== b.length) return false;
   let result = 0;
@@ -162,24 +241,49 @@ function timingSafeEqual(a: string, b: string): boolean {
   return result === 0;
 }
 
+// ─── Provider error sanitisation ───────────────────────────────────────────
+
+// Redact accidental key echoes from upstream error bodies before returning
+// them to the client. Belt and braces — providers usually mask their own
+// keys, but a misconfigured proxy or middleware can leak.
+function sanitizeProviderError(text: string): string {
+  return text
+    .replace(/sk-[A-Za-z0-9_-]{10,}/g, "[REDACTED]")
+    .replace(/(?:Key\s+)?fal-[A-Za-z0-9_:.-]{10,}/gi, "[REDACTED]")
+    .replace(/Bearer\s+[A-Za-z0-9_.\-=]+/g, "Bearer [REDACTED]")
+    .replace(/authorization:\s*[^\s,]+/gi, "authorization: [REDACTED]");
+}
+
+function truncate(s: string, max: number): string {
+  return s.length > max ? s.slice(0, max) + "…" : s;
+}
+
+// ─── Provider implementations ──────────────────────────────────────────────
+
 async function generateFlux(
   req: GenerateRequest,
   falKey: string,
+  cors: Record<string, string>,
 ): Promise<Response> {
-  const dims = FLUX_DIMENSIONS[req.aspect_ratio];
   const variants = req.variants;
+  const useUltraRedux = typeof req.image_url === "string" && req.image_url.length > 0;
+  const dims = FLUX_DIMENSIONS[req.aspect_ratio];
 
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
+  const url = useUltraRedux
+    ? "https://fal.run/fal-ai/flux-pro/v1.1-ultra-redux"
+    : "https://fal.run/fal-ai/flux-pro/v1.1";
 
-  try {
-    const upstream = await fetch("https://fal.run/fal-ai/flux-pro/v1.1", {
-      method: "POST",
-      headers: {
-        "Authorization": `Key ${falKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+  const body: Record<string, unknown> = useUltraRedux
+    ? {
+        prompt: req.prompt,
+        image_url: req.image_url,
+        image_prompt_strength: req.image_prompt_strength,
+        aspect_ratio: req.aspect_ratio,
+        num_images: variants,
+        enable_safety_checker: true,
+        output_format: "jpeg",
+      }
+    : {
         prompt: req.prompt,
         image_size: FLUX_IMAGE_SIZES[req.aspect_ratio],
         num_inference_steps: 28,
@@ -187,85 +291,113 @@ async function generateFlux(
         num_images: variants,
         enable_safety_checker: true,
         output_format: "jpeg",
-      }),
+      };
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
+
+  try {
+    const upstream = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Authorization": `Key ${falKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
       signal: controller.signal,
     });
 
     if (!upstream.ok) {
       const errBody = await upstream.text().catch(() => "");
-      const safe = errBody.length > 500 ? errBody.slice(0, 500) : errBody;
-      return jsonResponse(502, {
-        error: `Fal.ai returned ${upstream.status}: ${safe}`,
-      });
+      const safe = truncate(sanitizeProviderError(errBody), 500);
+      return jsonResponse(
+        502,
+        { error: `Fal.ai returned ${upstream.status}: ${safe}` },
+        cors,
+      );
     }
 
     const data = await upstream.json();
     const rawImages = Array.isArray(data?.images) ? data.images : [];
-    const images: GeneratedImage[] = rawImages.map((img: Record<string, unknown>) => ({
-      url: typeof img.url === "string" ? img.url : "",
-      width: typeof img.width === "number" ? img.width : dims.width,
-      height: typeof img.height === "number" ? img.height : dims.height,
-      content_type: "image/jpeg" as const,
-    })).filter((img: GeneratedImage) => img.url.length > 0);
+    const images: GeneratedImage[] = rawImages
+      .map((img: Record<string, unknown>) => ({
+        url: typeof img.url === "string" ? img.url : "",
+        width: typeof img.width === "number" ? img.width : dims.width,
+        height: typeof img.height === "number" ? img.height : dims.height,
+        content_type: "image/jpeg" as const,
+      }))
+      .filter((img: GeneratedImage) => img.url.length > 0);
 
     if (images.length === 0) {
-      return jsonResponse(502, { error: "Fal.ai returned no images" });
+      return jsonResponse(502, { error: "Fal.ai returned no images" }, cors);
     }
 
+    const costPerVariant = useUltraRedux ? 0.06 : 0.04;
     const response: GenerateResponse = {
       images,
       model: "flux",
-      cost_estimate_usd: variants * 0.04,
+      cost_estimate_usd: variants * costPerVariant,
       generated_at: new Date().toISOString(),
     };
-    return jsonResponse(200, response);
+    return jsonResponse(200, response, cors);
   } catch (err) {
     const aborted = err instanceof Error && err.name === "AbortError";
-    const msg = aborted
-      ? `Fal.ai request timed out after ${PROVIDER_TIMEOUT_MS / 1000}s`
-      : err instanceof Error
-        ? `Fal.ai request failed: ${err.message}`
-        : "Fal.ai request failed: unknown error";
-    return jsonResponse(502, { error: msg });
+    if (aborted) {
+      return jsonResponse(
+        504,
+        {
+          error: `Fal.ai request timed out after ${PROVIDER_TIMEOUT_MS / 1000}s`,
+        },
+        cors,
+      );
+    }
+    const msg = err instanceof Error ? err.message : "unknown error";
+    return jsonResponse(502, { error: `Fal.ai request failed: ${msg}` }, cors);
   } finally {
-    clearTimeout(timeout);
+    clearTimeout(timer);
   }
 }
 
 async function generateOpenAI(
   req: GenerateRequest,
   openaiKey: string,
+  cors: Record<string, string>,
 ): Promise<Response> {
-  const dims = OPENAI_DIMENSIONS[req.aspect_ratio];
   const variants = req.variants;
+  const dims = OPENAI_DIMENSIONS[req.aspect_ratio];
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
 
   try {
-    const upstream = await fetch("https://api.openai.com/v1/images/generations", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${openaiKey}`,
-        "Content-Type": "application/json",
+    const upstream = await fetch(
+      "https://api.openai.com/v1/images/generations",
+      {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${openaiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-image-1",
+          prompt: req.prompt,
+          n: variants,
+          size: OPENAI_SIZES[req.aspect_ratio],
+          quality: "high",
+          output_format: "jpeg",
+        }),
+        signal: controller.signal,
       },
-      body: JSON.stringify({
-        model: "gpt-image-1",
-        prompt: req.prompt,
-        n: variants,
-        size: OPENAI_SIZES[req.aspect_ratio],
-        quality: "high",
-        output_format: "jpeg",
-      }),
-      signal: controller.signal,
-    });
+    );
 
     if (!upstream.ok) {
       const errBody = await upstream.text().catch(() => "");
-      const safe = errBody.length > 500 ? errBody.slice(0, 500) : errBody;
-      return jsonResponse(502, {
-        error: `OpenAI returned ${upstream.status}: ${safe}`,
-      });
+      const safe = truncate(sanitizeProviderError(errBody), 500);
+      return jsonResponse(
+        502,
+        { error: `OpenAI returned ${upstream.status}: ${safe}` },
+        cors,
+      );
     }
 
     const data = await upstream.json();
@@ -288,7 +420,7 @@ async function generateOpenAI(
       .filter((img: GeneratedImage) => img.url.length > 0);
 
     if (images.length === 0) {
-      return jsonResponse(502, { error: "OpenAI returned no images" });
+      return jsonResponse(502, { error: "OpenAI returned no images" }, cors);
     }
 
     const response: GenerateResponse = {
@@ -297,41 +429,54 @@ async function generateOpenAI(
       cost_estimate_usd: variants * 0.19,
       generated_at: new Date().toISOString(),
     };
-    return jsonResponse(200, response);
+    return jsonResponse(200, response, cors);
   } catch (err) {
     const aborted = err instanceof Error && err.name === "AbortError";
-    const msg = aborted
-      ? `OpenAI request timed out after ${PROVIDER_TIMEOUT_MS / 1000}s`
-      : err instanceof Error
-        ? `OpenAI request failed: ${err.message}`
-        : "OpenAI request failed: unknown error";
-    return jsonResponse(502, { error: msg });
+    if (aborted) {
+      return jsonResponse(
+        504,
+        {
+          error: `OpenAI request timed out after ${PROVIDER_TIMEOUT_MS / 1000}s`,
+        },
+        cors,
+      );
+    }
+    const msg = err instanceof Error ? err.message : "unknown error";
+    return jsonResponse(502, { error: `OpenAI request failed: ${msg}` }, cors);
   } finally {
-    clearTimeout(timeout);
+    clearTimeout(timer);
   }
 }
 
+// ─── Request handler ───────────────────────────────────────────────────────
+
 serve(async (req) => {
+  const allowedOrigins = getAllowedOrigins();
+  const originHeader = req.headers.get("origin");
+  const cors = corsHeaders(originHeader, allowedOrigins);
+
   // CORS preflight
   if (req.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: CORS_HEADERS });
+    return new Response(null, { status: 204, headers: cors });
   }
 
   if (req.method !== "POST") {
-    return jsonResponse(405, { error: "Method not allowed; use POST" });
+    return jsonResponse(405, { error: "Method not allowed; use POST" }, cors);
   }
 
   // Auth: Bearer <VESSEL_STUDIO_SHARED_SECRET>
   const sharedSecret = Deno.env.get("VESSEL_STUDIO_SHARED_SECRET");
   if (!sharedSecret) {
-    return jsonResponse(500, {
-      error: "Server misconfigured: VESSEL_STUDIO_SHARED_SECRET not set",
-    });
+    return jsonResponse(
+      500,
+      { error: "Server misconfigured: VESSEL_STUDIO_SHARED_SECRET not set" },
+      cors,
+    );
   }
   const auth = req.headers.get("authorization") ?? "";
   const expected = `Bearer ${sharedSecret}`;
   if (!timingSafeEqual(auth, expected)) {
-    return jsonResponse(401, { error: "Unauthorized" });
+    return jsonResponse(401, { error: "Unauthorized" }, cors);
   }
 
   // Parse JSON body
@@ -339,12 +484,12 @@ serve(async (req) => {
   try {
     body = await req.json();
   } catch {
-    return jsonResponse(400, { error: "Request body must be valid JSON" });
+    return jsonResponse(400, { error: "Request body must be valid JSON" }, cors);
   }
 
   const validated = validateRequest(body);
   if (!validated.ok) {
-    return jsonResponse(400, { error: validated.error });
+    return jsonResponse(400, { error: validated.error }, cors);
   }
   const data = validated.data;
 
@@ -352,26 +497,29 @@ serve(async (req) => {
   if (data.model === "flux") {
     const falKey = Deno.env.get("FAL_API_KEY");
     if (!falKey) {
-      return jsonResponse(500, {
-        error: "Server misconfigured: FAL_API_KEY not set",
-      });
+      return jsonResponse(
+        500,
+        { error: "Server misconfigured: FAL_API_KEY not set" },
+        cors,
+      );
     }
-    return await generateFlux(data, falKey);
+    return await generateFlux(data, falKey, cors);
   }
 
   if (data.model === "openai") {
     const openaiKey = Deno.env.get("OPENAI_API_KEY");
     if (!openaiKey) {
-      return jsonResponse(500, {
-        error: "Server misconfigured: OPENAI_API_KEY not set",
-      });
+      return jsonResponse(
+        500,
+        { error: "Server misconfigured: OPENAI_API_KEY not set" },
+        cors,
+      );
     }
     if (openaiKey === "PENDING") {
-      return jsonResponse(503, { error: "OpenAI key not configured yet" });
+      return jsonResponse(503, { error: "OpenAI key not configured yet" }, cors);
     }
-    return await generateOpenAI(data, openaiKey);
+    return await generateOpenAI(data, openaiKey, cors);
   }
 
-  // Unreachable — validateRequest narrows model to the union
-  return jsonResponse(400, { error: "Unsupported model" });
+  return jsonResponse(400, { error: "Unsupported model" }, cors);
 });
