@@ -4,10 +4,10 @@ import { INDUSTRY_KETES } from '@/lib/kete';
 import { AGENTS } from '@/lib/agents';
 import { SectionReveal } from '@/components/SectionReveal';
 import { DestinationCard } from '@/components/DestinationCard';
-import { KeteIllustration } from '@/components/KeteIllustration';
 import { ScrollEvidenceStory } from '@/components/site/ScrollEvidenceStory';
 import { HeroAssembl } from '@/components/site/HeroAssembl';
 import { FounderSection } from '@/components/site/FounderSection';
+import { VesselTile } from '@/components/site/VesselTile';
 
 const AGENT_TOTAL = AGENTS.length;
 const ACTIVE_KETE_COUNT = INDUSTRY_KETES.filter((k) => k.status === 'active').length;
@@ -53,8 +53,14 @@ export default function HomePage() {
               index={0}
               bg="paper"
               visual={
-                <div className="flex justify-center">
-                  <KeteIllustration accent="#2B6B57" className="h-44 w-auto md:h-52" />
+                <div className="mx-auto w-full max-w-md">
+                  <VesselTile
+                    slug="waihanga"
+                    name="Waihanga"
+                    accent="#2B6B57"
+                    aspect="4/5"
+                    sizes="(min-width: 768px) 36vw, 80vw"
+                  />
                 </div>
               }
             />
@@ -69,13 +75,15 @@ export default function HomePage() {
               index={1}
               bg="mist"
               visual={
-                <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-                  {INDUSTRY_KETES.slice(0, 7).map((k) => (
-                    <KeteIllustration
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
+                  {INDUSTRY_KETES.slice(0, 4).map((k) => (
+                    <VesselTile
                       key={k.slug}
                       slug={k.slug}
+                      name={k.name}
                       accent={k.accent}
-                      className="h-20 w-auto opacity-90 md:h-24"
+                      aspect="1/1"
+                      sizes="(min-width: 768px) 18vw, 40vw"
                     />
                   ))}
                 </div>

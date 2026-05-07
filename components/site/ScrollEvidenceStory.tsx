@@ -20,9 +20,9 @@ import Image from 'next/image';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 
 const SCENES = [
-  { id: 's1', step: 'scene 01 · the variation' },
-  { id: 's2', step: 'scene 02 · pulling it in' },
-  { id: 's3', step: 'scene 03 · the workflow' },
+  { id: 's1', step: 'scene 01 · scattered' },
+  { id: 's2', step: 'scene 02 · pulling together' },
+  { id: 's3', step: 'scene 03 · in the open' },
   { id: 's4', step: 'scene 04 · the pack' },
   { id: 's5', step: 'scene 05 · the handoff' },
 ] as const;
@@ -190,18 +190,18 @@ function SceneShell({
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SCENE_1_NOTES = [
-  { tag: 'tender · pdf', name: 'welly · stage 2', top: '4%', left: '4%', rot: -5 },
-  { tag: 'mbie · bulletin', name: 'consent dwell', top: '2%', left: '42%', rot: 3 },
-  { tag: 'consent · #4421', name: 'awaiting BCA', top: '6%', left: '74%', rot: -2 },
-  { tag: 'SOC · q2 report', name: 'port of tauranga', top: '24%', left: '18%', rot: 4 },
-  { tag: 'manifest · TUI-3142', name: 'fish, perishable', top: '22%', left: '56%', rot: -3 },
-  { tag: 'cover-count · q2', name: 'wgn cbd · 87.4%', top: '38%', left: '2%', rot: 2 },
-  { tag: 'claim · acc-2046', name: 'site fall · open', top: '42%', left: '38%', rot: -4 },
-  { tag: 'nzfc · slate r19', name: 'scripted · pending', top: '40%', left: '72%', rot: 5 },
-  { tag: 'dwell · TGA', name: '+1.4 days', top: '60%', left: '14%', rot: -2 },
-  { tag: 'induction · site-c', name: 'expired · 14d', top: '62%', left: '48%', rot: 3 },
-  { tag: 'POS · feed', name: 'repeat-visit ↘', top: '78%', left: '8%', rot: 4 },
-  { tag: 'wage signal · q2', name: 'trades + 4.2%', top: '80%', left: '52%', rot: -3 },
+  { tag: 'email · inbox', name: 'quote follow-up', top: '4%', left: '4%', rot: -5 },
+  { tag: 'drive · 2024', name: 'Q3 financials.xlsx', top: '2%', left: '42%', rot: 3 },
+  { tag: 'chat · #ops', name: "yesterday's standup", top: '6%', left: '74%', rot: -2 },
+  { tag: 'pdf · tender', name: 'wellington · stage 2', top: '24%', left: '18%', rot: 4 },
+  { tag: 'doc · meeting', name: 'board notes 12 may', top: '22%', left: '56%', rot: -3 },
+  { tag: 'task · overdue', name: '4 items, 2 owners', top: '38%', left: '2%', rot: 2 },
+  { tag: 'invoice · #4421', name: 'awaiting approval', top: '42%', left: '38%', rot: -4 },
+  { tag: 'call · missed', name: '3 from supplier', top: '40%', left: '72%', rot: 5 },
+  { tag: 'brief · client', name: 'auaha campaign', top: '60%', left: '14%', rot: -2 },
+  { tag: 'sheet · budget', name: 'v3 (final)', top: '62%', left: '48%', rot: 3 },
+  { tag: 'slack · dm', name: 'risk flag, 2 days', top: '78%', left: '8%', rot: 4 },
+  { tag: 'inbox · unread', name: '47 since friday', top: '80%', left: '52%', rot: -3 },
 ];
 
 function Scene1() {
@@ -213,16 +213,16 @@ function Scene1() {
       eyebrow="scene one"
       heading={
         <>
-          council comes back on{' '}
+          your evidence is{' '}
           <em
             className="not-italic"
             style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
           >
-            the cantilever.
+            scattered.
           </em>
         </>
       }
-      body="bca wants a structural variation on the lounge cantilever. you need the original consent, the calcs, last week's site diary and the subbie programme. they're in four different places."
+      body="the email, the drive, the chat, the spreadsheet no one named. when something needs answering, you go hunting."
     >
       <div className="relative h-full w-full">
         {SCENE_1_NOTES.map((note, i) => (
@@ -355,16 +355,16 @@ function Scene2() {
       eyebrow="scene two"
       heading={
         <>
-          assembl pulls{' '}
+          assembl pulls it{' '}
           <em
             className="not-italic"
             style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
           >
-            the right pieces in.
+            together.
           </em>
         </>
       }
-      body="open the waihanga kete. the consent agent reads the bca notice, finds the original drawings, the structural calcs and the diary, and lays them out by category."
+      body="point the agent at the question. it finds each piece in the right place, shows you what it has, and waits for you to say go."
     >
       <div className="relative h-full w-full">
         {/* dashed connectors between strata */}
@@ -469,16 +469,16 @@ function Scene3() {
       eyebrow="scene three"
       heading={
         <>
-          the workflow{' '}
+          the workflow runs{' '}
           <em
             className="not-italic"
             style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
           >
-            runs in front of you.
+            in the open.
           </em>
         </>
       }
-      body="the agent re-runs the cantilever calcs, drafts the engineer's response, and flags a 4-day programme hit. every step is cited and reversible. you stay in the seat."
+      body="every action cited. every step reversible. nothing happens behind your back."
     >
       <div className="relative h-full w-full" style={{ perspective: '1200px' }}>
         <div
@@ -642,7 +642,7 @@ function Scene4() {
       eyebrow="scene four"
       heading={
         <>
-          everything holds together as{' '}
+          it lands as{' '}
           <em
             className="not-italic"
             style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
@@ -651,7 +651,7 @@ function Scene4() {
           </em>
         </>
       }
-      body="the response, the supporting drawings, the recalcs, the timestamps. one artefact, ready for sign-off, with the trail behind every line."
+      body="the response, the supporting documents, the changes, the timestamps. one artefact, ready for sign-off, with the trail behind every line."
     >
       <div className="relative h-full w-full">
         <WaihangaVessel breathe />
@@ -698,7 +698,7 @@ function Scene5() {
           </em>
         </>
       }
-      body="send the variation to council. forward the same pack to your qs, your engineer or your legal team. you made the call; the pack proves the work."
+      body="into your system of record, your client's inbox, or a regulator's footnote. defensible because it's traceable."
     >
       <div
         ref={ref}
@@ -747,7 +747,7 @@ function Scene5() {
               style={{ color: 'var(--assembl-pounamu)' }}
             >
               <PulseDot size={6} pounamu />
-              waihanga · consents · live
+              evidence pack · ready
             </span>
             <span>07 may 2026 · 09:14 nzst</span>
           </div>
@@ -767,7 +767,7 @@ function Scene5() {
 
           {/* title */}
           <h3
-            className="mb-[18px] font-display leading-[1.15]"
+            className="mb-[18px] font-display italic leading-[1.15]"
             style={{
               color: 'var(--text-primary)',
               fontWeight: 300,
@@ -775,28 +775,26 @@ function Scene5() {
               letterSpacing: '-0.005em',
             }}
           >
-            consent #BC-2025-04421 ·{' '}
+            tender response · stage 2 ·{' '}
             <em
               className="not-italic"
               style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
             >
-              variation drafted.
+              wellington.
             </em>
           </h3>
 
           {/* body */}
           <p
-            className="border-b pb-[22px] text-[14px] leading-[1.7]"
+            className="border-b pb-[22px] font-display italic text-[15px] leading-[1.6]"
             style={{
               color: 'var(--text-body)',
-              opacity: 0.7,
+              opacity: 0.78,
               borderColor: 'rgba(35,33,31,0.08)',
             }}
           >
-            bca flagged the lounge cantilever during inspection and asked for a structural variation.
-            the agent re-ran the calcs against the original drawings, drafted the engineer&apos;s
-            response, and noted retention exposure if practical completion slips. lbp signature is
-            pending; the pack is ready to forward to legal.
+            the response is drafted, the supporting documents are linked, the timestamps are clean.
+            ready for your sign-off, then it ships.
           </p>
 
           {/* timeline */}
@@ -834,11 +832,12 @@ function Scene5() {
               <span
                 className="absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full"
                 style={{
-                  left: '88%',
+                  left: '75%',
                   background:
                     'radial-gradient(circle, rgba(232,199,122,1), var(--assembl-gold-thread) 70%, transparent)',
                   boxShadow: '0 0 14px 2px rgba(212,168,83,0.6)',
                 }}
+                aria-label="now"
               />
             </div>
             <div
@@ -856,50 +855,28 @@ function Scene5() {
           {/* meta grid */}
           <dl className="grid grid-cols-2 gap-x-8 gap-y-[18px] pt-[22px]">
             {[
-              { dt: 'consent', dd: <>BC-2025-04421</> },
+              { dt: 'sector', dd: <>business operations</> },
               {
-                dt: 'bca',
+                dt: 'confidence',
                 dd: (
-                  <>
-                    wellington
-                    <em
-                      className="not-italic"
-                      style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
-                    >
-                      {' '}
-                      · city council
-                    </em>
-                  </>
+                  <em
+                    className="not-italic"
+                    style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
+                  >
+                    high
+                  </em>
                 ),
               },
+              { dt: 'source', dd: <>5 documents · 2 conversations</> },
               {
-                dt: 'lbp',
+                dt: 'suggested action',
                 dd: (
-                  <>
-                    signature
-                    <em
-                      className="not-italic"
-                      style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
-                    >
-                      {' '}
-                      · pending
-                    </em>
-                  </>
-                ),
-              },
-              {
-                dt: 'retention',
-                dd: (
-                  <>
-                    exposure
-                    <em
-                      className="not-italic"
-                      style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
-                    >
-                      {' '}
-                      · flagged
-                    </em>
-                  </>
+                  <em
+                    className="not-italic"
+                    style={{ color: 'var(--assembl-pounamu)', fontWeight: 400 }}
+                  >
+                    approve and forward
+                  </em>
                 ),
               },
             ].map((cell, i) => (
