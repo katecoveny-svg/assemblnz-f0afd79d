@@ -5,6 +5,7 @@ import { AGENTS } from '@/lib/agents';
 import { SectionReveal } from '@/components/SectionReveal';
 import { DestinationCard } from '@/components/DestinationCard';
 import { KeteIllustration } from '@/components/KeteIllustration';
+import { ScrollEvidenceStory } from '@/components/site/ScrollEvidenceStory';
 
 const AGENT_TOTAL = AGENTS.length;
 const ACTIVE_KETE_COUNT = INDUSTRY_KETES.filter((k) => k.status === 'active').length;
@@ -266,6 +267,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── SCROLL EVIDENCE STORY — five-scene Waihanga PM through-line ─ */}
+      <ScrollEvidenceStory />
 
       {/* ── FOOTER CTA ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
