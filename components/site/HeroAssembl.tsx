@@ -33,15 +33,16 @@ export function HeroAssembl() {
           </p>
 
           <h1
-            className="mt-6 font-display lowercase leading-[0.95] tracking-tight text-[color:var(--text-primary)]"
+            className="mt-6 font-display leading-[0.95] tracking-tight text-[color:var(--text-primary)]"
             style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
           >
-            quiet intelligence for aotearoa
+            quiet intelligence for Aotearoa
           </h1>
 
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-            new zealanders use ai widely and trust it warily. assembl runs each workflow in the
-            open and ends each one with an evidence pack you can file, forward, or footnote.
+            New Zealanders use AI everywhere. Few of us trust what it does. assembl runs every
+            workflow in the open and ends each one with an evidence pack you can file, forward,
+            or footnote.
           </p>
 
           <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row">
