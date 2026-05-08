@@ -335,7 +335,80 @@ begin
 end $$;
 
 -- ---------------------------------------------------------------------------
--- 6. Grants
+-- 6. Accept invitation function (SECURITY DEFINER)
+-- Allows invited users to join a tenant by accepting their invitation.
+-- ---------------------------------------------------------------------------
+
+create or replace function public.accept_invitation(_token text)
+returns uuid
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  _invitation record;
+  _user_email text;
+  _new_member_id uuid;
+begin
+  -- Get the current user's email from JWT
+  _user_email := lower(coalesce(auth.jwt() ->> 'email', ''));
+  
+  if _user_email = '' then
+    raise exception 'User email not found in JWT'
+      using errcode = 'invalid_authorization_specification';
+  end if;
+
+  -- Find and validate the invitation
+  select * into _invitation
+  from public.tenant_invitations
+  where token = _token;
+
+  if not found then
+    raise exception 'Invalid invitation token'
+      using errcode = 'invalid_parameter_value';
+  end if;
+
+  if lower(_invitation.email) <> _user_email then
+    raise exception 'Invitation email does not match your account'
+      using errcode = 'invalid_authorization_specification';
+  end if;
+
+  if _invitation.accepted_at is not null then
+    raise exception 'Invitation has already been accepted'
+      using errcode = 'invalid_parameter_value';
+  end if;
+
+  if _invitation.expires_at < now() then
+    raise exception 'Invitation has expired'
+      using errcode = 'invalid_parameter_value';
+  end if;
+
+  -- Check if user is already a member of this tenant
+  if exists (
+    select 1 from public.tenant_members
+    where tenant_id = _invitation.tenant_id
+      and user_id = auth.uid()
+  ) then
+    raise exception 'You are already a member of this tenant'
+      using errcode = 'unique_violation';
+  end if;
+
+  -- Insert the new member
+  insert into public.tenant_members (tenant_id, user_id, role)
+  values (_invitation.tenant_id, auth.uid(), _invitation.role)
+  returning id into _new_member_id;
+
+  -- Mark invitation as accepted
+  update public.tenant_invitations
+  set accepted_at = now()
+  where id = _invitation.id;
+
+  return _new_member_id;
+end;
+$$;
+
+-- ---------------------------------------------------------------------------
+-- 7. Grants
 -- ---------------------------------------------------------------------------
 
 grant usage on schema public to authenticated;
@@ -345,3 +418,4 @@ grant select, insert, update, delete on public.tenant_invitations to authenticat
 grant execute on function public.is_tenant_member(uuid) to authenticated;
 grant execute on function public.is_tenant_admin(uuid)  to authenticated;
 grant execute on function public.is_tenant_owner(uuid)  to authenticated;
+grant execute on function public.accept_invitation(text) to authenticated;
