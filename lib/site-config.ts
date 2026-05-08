@@ -108,7 +108,7 @@ export const reo = {
 
   // Brand-film section — homepage. Variant A locked.
   brandFilm: {
-    eyebrow: 'Quiet intelligence, on tape.',
+    eyebrow: 'Quiet intelligence, in motion.',
     body:
       'A short film about how assembl works. Cream paper. The vessel breathes. Kate explains it in 90 seconds.',
     cta: 'Sound on. Narrated in NZ English.',
@@ -116,76 +116,103 @@ export const reo = {
   },
 };
 
-// ── How it works — 5 stages (sticky-side scroll narrative) ───────────────────
+// ── How it works — 5 canon stages (Kahu / Iho / Tā / Mahara / Mana) ─────────
+// Phase 1 brief §11 — the five-stage pipeline as named in the canon.
 
-export const pipelineStages = [
+export type PipelineStage = {
+  id: string;
+  number: string;
+  title: string;
+  subtitle: string;
+  body: string;
+  example: string;
+};
+
+export const pipelineStages: readonly PipelineStage[] = [
   {
-    id: 'intake',
+    id: 'kahu',
     number: '01',
-    title: 'Intake',
+    title: 'Kahu',
+    subtitle: 'Intent capture',
     body:
-      'You hand us a workflow your team runs every week. The brief, the inputs, the people who sign it off. We listen, we map, we annotate.',
+      'A request comes in. Kahu listens, transcribes, and frames it: what is being asked, who is asking, what context already lives in your kete. The brief never starts from a blank page.',
+    example: 'The council asks for a variation.',
   },
   {
-    id: 'draft',
+    id: 'iho',
     number: '02',
-    title: 'Draft',
+    title: 'Iho',
+    subtitle: 'Routing',
     body:
-      'A specialist agent drafts the work end-to-end with every NZ Act and Section cited inline. Nothing is invented. Nothing is left unsourced.',
+      'Iho is the brain of the pipeline. It picks the right specialist agent for the work, the right model for the job, and the right pou — Rangatiratanga, Kaitiakitanga, Manaakitanga, Whanaungatanga — for the cultural pass.',
+    example: 'Routes the variation to Whakaaē, citing NZS 3910:2013.',
   },
   {
-    id: 'review',
+    id: 'ta',
     number: '03',
-    title: 'Review',
+    title: 'Tā',
+    subtitle: 'Execution',
     body:
-      'Draft mode. The named human in your team reviews every paragraph, edits in place, accepts or rejects with a single click. Reasoning is preserved.',
+      'The specialist agent drafts the work end-to-end. Every Act, Section, and council document cited inline. Nothing invented, nothing left unsourced. This is where the time is given back to your team.',
+    example: 'Drafts the variation pack — cost, time, contract impact.',
   },
   {
-    id: 'evidence',
+    id: 'mahara',
     number: '04',
-    title: 'Evidence',
+    title: 'Mahara',
+    subtitle: 'Review',
     body:
-      'Every accepted paragraph is sealed into an evidence pack: source citations, prompt history, model version, reviewer name, timestamp, hash.',
+      'Draft Mode. The named reviewer in your team accepts, edits, or rejects each paragraph. Reasoning is preserved alongside the edit so the next reviewer — or the auditor — can see why.',
+    example: 'Your project manager edits the rate, accepts the rest.',
   },
   {
-    id: 'ship',
+    id: 'mana',
     number: '05',
-    title: 'Ship',
+    title: 'Mana',
+    subtitle: 'Sign-off',
     body:
-      'You ship the document. We hand you the evidence pack alongside it — file it, forward it, footnote it. The audit trail comes in the box.',
+      'Nothing ships until a person says so. Mana captures the sign-off, seals the evidence pack, and hands the work to the system that needs it — the BCA, the customer, the auditor. Your name is on it.',
+    example: 'Your name on the sign-off line. Pack sealed. Variation sent.',
   },
 ] as const;
 
-// ── Evidence pack — what's in the box (sticky-side scroll narrative) ─────────
+// ── Evidence pack — 4 reveals (Blank → Attribution → Citations → Sealed) ─────
 
-export const evidencePackContents = [
+export type EvidenceReveal = {
+  id: string;
+  number: string;
+  title: string;
+  body: string;
+};
+
+export const evidencePackContents: readonly EvidenceReveal[] = [
   {
-    id: 'sources',
+    id: 'blank',
     number: '01',
-    title: 'Source citations',
+    title: 'Blank',
     body:
-      'Every paragraph linked to the Act, Section, or council document it draws from. Hyperlinked, version-stamped, immutable.',
+      'A clean page. Your letterhead, your project name, the date, a draft watermark. Nothing else yet — the agents have not started. This is where every pack begins.',
   },
   {
-    id: 'reasoning',
+    id: 'attribution',
     number: '02',
-    title: 'Reasoning trace',
+    title: 'Attribution',
     body:
-      'The prompt the agent received. The reasoning it produced. The version of the model that drafted it. Reproducible end-to-end.',
+      'The agent that drafted the work, the model version, the prompt it received, the reviewer assigned. Every paragraph stamped with the name of the agent that produced it and the human who is on the hook for it.',
   },
   {
-    id: 'reviewer',
+    id: 'citations',
     number: '03',
-    title: 'Reviewer record',
+    title: 'Citations',
     body:
-      'The named human who accepted each paragraph. Their edits, their timestamps, their override notes. Not a rubber stamp — a record.',
+      'Hyperlinked Acts, Sections, NZS standards, council documents — version-stamped to the day. If a clause is amended next month, your pack still shows what was law the day you signed off.',
   },
   {
-    id: 'hash',
+    id: 'sealed',
     number: '04',
-    title: 'Cryptographic seal',
+    title: 'Sealed',
     body:
-      'A SHA-256 hash of the final pack. Tamper-evident. If someone changes a single character after sign-off, the seal breaks.',
+      'A SHA-256 hash of the final document is calculated and written into the pack. The pou stamp goes on. The pack is sealed. Tamper-evident — change a single character and the seal breaks.',
   },
 ] as const;
 

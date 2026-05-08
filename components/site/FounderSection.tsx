@@ -19,9 +19,9 @@ export function FounderSection() {
 
             <p className="mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
               Kate Hudson built assembl after watching small NZ businesses lose their best people
-              to admin no one signed up for. The promise of AI shouldn&apos;t be speed. It should
-              be time — for the work that actually matters, the people who depend on you, and the
-              moments you&apos;d otherwise miss.
+              to admin no one signed up for. The promise of intelligent automation shouldn&apos;t
+              be speed. It should be time — for the work that actually matters, the people who
+              depend on you, and the moments you&apos;d otherwise miss.
             </p>
 
             <figure className="mt-12 max-w-2xl">
@@ -29,8 +29,8 @@ export function FounderSection() {
                 className="font-display italic leading-[1.15] text-[color:var(--text-primary)]"
                 style={{ fontWeight: 300, fontSize: 'clamp(1.6rem, 3.2vw, 2.5rem)' }}
               >
-                &ldquo;The best thing AI can give us isn&apos;t speed. It&apos;s time. Time for
-                people. Time for family. Time for what matters.&rdquo;
+                &ldquo;The best thing intelligent automation can give us isn&apos;t speed. It&apos;s
+                time. Time for people. Time for family. Time for what matters.&rdquo;
               </blockquote>
               <span
                 aria-hidden

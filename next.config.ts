@@ -54,7 +54,9 @@ const nextConfig: NextConfig = {
       // Chat & agents
       { source: "/chat", destination: "https://app.assembl.co.nz/chat", permanent: false },
       { source: "/chat/:path*", destination: "https://app.assembl.co.nz/chat/:path*", permanent: false },
-      { source: "/agents/:path*", destination: "https://app.assembl.co.nz/agents/:path*", permanent: false },
+      // /agents itself now lives on apex (Phase 1 site-depth-pass). Sub-paths
+      // continue to route to the legacy Vite agent dashboards.
+      { source: "/agents/:path+", destination: "https://app.assembl.co.nz/agents/:path+", permanent: false },
 
       // AAAIP audit dashboard
       { source: "/aaaip", destination: "https://app.assembl.co.nz/aaaip", permanent: false },

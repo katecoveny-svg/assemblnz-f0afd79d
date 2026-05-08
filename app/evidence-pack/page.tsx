@@ -2,23 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
-import { StickyScrollNarrative } from '@/components/StickyScrollNarrative';
-import { evidencePackContents, ketes as keteImagery, reo } from '@/lib/site-config';
+import { EvidencePackNarrative } from '@/components/EvidencePackNarrative';
 
 export const metadata: Metadata = {
   title: 'Evidence pack',
   description:
-    'Not an output. A record. Source citations, reasoning trace, reviewer record, and a cryptographic seal — everything assembl ships comes with the audit trail in the box.',
+    'Not an output. A record. From Blank to Attribution to Citations to Sealed — every workflow assembl runs ends in a tamper-evident evidence pack.',
 };
-
-// Stage media — kete vessels stand in for the evidence pack frames until
-// AUAHA Phase 2 delivers the proper sequence.
-const FRAME_MEDIA = [
-  { src: keteImagery.waihanga.wide, alt: 'Source citations — Acts and Sections' },
-  { src: keteImagery.manaaki.wide,  alt: 'Reasoning trace — prompt, model, reasoning' },
-  { src: keteImagery.arataki.wide,  alt: 'Reviewer record — named human in the loop' },
-  { src: keteImagery.hoko.wide,     alt: 'Cryptographic seal — SHA-256 hash, tamper-evident' },
-];
 
 export default function EvidencePackPage() {
   return (
@@ -37,7 +27,7 @@ export default function EvidencePackPage() {
           <div className="mx-auto max-w-4xl text-center">
             <SectionReveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Evidence pack
+                04 — Evidence pack
               </p>
             </SectionReveal>
             <SectionReveal delay={0.1}>
@@ -45,15 +35,15 @@ export default function EvidencePackPage() {
                 className="mt-6 font-display leading-[0.95] tracking-tight"
                 style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
               >
-                {reo.evidencePackHeadline[0]}
+                Not an output.
                 <br />
-                <em className="not-italic text-gradient-hero">{reo.evidencePackHeadline[1]}</em>
+                <em className="not-italic text-gradient-hero">A record.</em>
               </h1>
             </SectionReveal>
             <SectionReveal delay={0.2}>
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Every workflow assembl runs ends with an evidence pack — a sealed, tamper-evident
-                record of what was drafted, what it cited, who reviewed it, and what they changed.
+                Every workflow assembl runs ends with an evidence pack. Watch one build itself
+                up — from a blank page to attribution, citations, and a tamper-evident seal.
                 File it. Forward it. Footnote it.
               </p>
             </SectionReveal>
@@ -61,9 +51,9 @@ export default function EvidencePackPage() {
         </div>
       </section>
 
-      {/* What's in the box — sticky-side narrative */}
+      {/* Four reveals — sticky-side narrative with custom evidence pack frame */}
       <section className="relative py-12 md:py-20">
-        <StickyScrollNarrative stages={evidencePackContents} media={FRAME_MEDIA} accent="#D4A853" />
+        <EvidencePackNarrative />
       </section>
 
       {/* CTA */}
@@ -83,10 +73,10 @@ export default function EvidencePackPage() {
               </p>
               <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
-                  href="/contact"
+                  href="/pilot-sprint"
                   className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
                 >
-                  Book a pilot
+                  Start a Pilot Sprint
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
                 <Link
