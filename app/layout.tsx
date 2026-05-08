@@ -34,12 +34,12 @@ export const metadata: Metadata = {
     template: '%s · assembl',
   },
   description:
-    'Purpose-built AI agents that work alongside your team — citing NZ legislation, producing evidence packs, and waiting for your approval before anything ships. Built in Aotearoa.',
+    'Purpose-built intelligent agents that work alongside your team — citing NZ legislation, producing evidence packs, and waiting for your approval before anything ships. Built in Aotearoa.',
   metadataBase: new URL('https://assembl.co.nz'),
   openGraph: {
     title: 'assembl — less noise, more time',
     description:
-      'AI agents that draft, check, and document — so your team gets time back.',
+      'Intelligent agents that draft, check, and document — so your team gets time back.',
     type: 'website',
     locale: 'en_NZ',
     images: [
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'assembl — less noise, more time',
     description:
-      'AI agents that draft, check, and document — so your team gets time back.',
+      'Intelligent agents that draft, check, and document — so your team gets time back.',
   },
   icons: {
     icon: '/icon.png',

@@ -10,6 +10,7 @@ import {
 } from '@/lib/kete-detail';
 import { ketes as keteImagery } from '@/lib/site-config';
 import { VesselTile } from '@/components/site/VesselTile';
+import { SectionReveal } from '@/components/SectionReveal';
 
 type Params = { slug: string };
 
@@ -160,16 +161,173 @@ function IndustryKetePage({
         </div>
       </section>
 
+      {/* What this kete does — description + legislation + typical workflows */}
+      <section className="relative">
+        <div className="container py-16 md:py-24">
+          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.4fr_0.9fr] lg:gap-16">
+            <div>
+              <SectionReveal>
+                <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  What this kete does
+                </span>
+                <h2 className="mt-3 font-display text-4xl md:text-5xl">
+                  Scope, citations, and the workflows that come with it.
+                </h2>
+              </SectionReveal>
+              <div className="mt-8 space-y-5 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+                {detail.description.map((paragraph, i) => (
+                  <SectionReveal key={i} delay={i * 0.06}>
+                    <p>{paragraph}</p>
+                  </SectionReveal>
+                ))}
+              </div>
+
+              {/* Waihanga-only ATA BIM teaser */}
+              {kete.slug === 'waihanga' && (
+                <SectionReveal delay={0.2}>
+                  <div
+                    className="mt-10 inline-flex items-center gap-3 rounded-card border border-[rgba(35,33,31,0.10)] bg-white/40 px-5 py-3"
+                    style={{ borderColor: `${kete.accent}40` }}
+                  >
+                    <span
+                      className="h-1.5 w-1.5 rounded-full"
+                      style={{ backgroundColor: kete.accent }}
+                      aria-hidden
+                    />
+                    <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                      Coming soon
+                    </span>
+                    <span className="text-sm text-[color:var(--text-primary)]">
+                      ATA BIM Demo —{' '}
+                      <Link
+                        href="/demo/ata"
+                        className="text-[color:var(--assembl-pounamu)] underline-offset-2 hover:underline"
+                      >
+                        sneak preview
+                      </Link>
+                    </span>
+                  </div>
+                </SectionReveal>
+              )}
+            </div>
+
+            <aside className="space-y-8">
+              <SectionReveal delay={0.1}>
+                <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    Grounded in
+                  </p>
+                  <ul className="mt-3 space-y-2 text-sm text-[color:var(--text-body)]">
+                    {detail.legislation.map((law) => (
+                      <li key={law} className="flex items-start gap-2">
+                        <span
+                          className="mt-1 font-mono text-[color:var(--assembl-gold-thread)]"
+                          aria-hidden
+                        >
+                          §
+                        </span>
+                        <span>{law}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </SectionReveal>
+
+              <SectionReveal delay={0.2}>
+                <div
+                  className="rounded-card border bg-white/55 p-6"
+                  style={{ borderColor: `${kete.accent}33` }}
+                >
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    Typical workflows
+                  </p>
+                  <ul className="mt-3 space-y-2 text-sm text-[color:var(--text-body)]">
+                    {detail.typicalWorkflows.map((wf) => (
+                      <li key={wf} className="flex items-start gap-2">
+                        <span
+                          className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full"
+                          style={{ backgroundColor: kete.accent }}
+                          aria-hidden
+                        />
+                        <span>{wf}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </SectionReveal>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* Agents in this kete — placeholder grid */}
+      {detail.placeholderAgents.length > 0 && (
+        <section className="relative">
+          <div className="container pb-16 md:pb-24">
+            <div className="mx-auto max-w-3xl text-center">
+              <SectionReveal>
+                <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  Agents in this kete
+                </span>
+                <h2 className="mt-3 font-display text-4xl md:text-5xl">
+                  {kete.name} ships with{' '}
+                  <em
+                    className="not-italic"
+                    style={{
+                      backgroundImage: `linear-gradient(135deg, #23211F 0%, ${kete.accent} 60%, #B8B2A8 100%)`,
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                    }}
+                  >
+                    {detail.placeholderAgents.length} agents
+                  </em>
+                  .
+                </h2>
+              </SectionReveal>
+            </div>
+
+            <div className="mx-auto mt-12 grid max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {detail.placeholderAgents.map((agent, i) => (
+                <SectionReveal key={agent.name} delay={i * 0.05}>
+                  <article
+                    className="kete-card h-full p-6"
+                    style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="h-1.5 w-1.5 rounded-full"
+                        style={{ backgroundColor: kete.accent }}
+                        aria-hidden
+                      />
+                      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                        Agent {String(i + 1).padStart(2, '0')}
+                      </span>
+                    </div>
+                    <h3 className="mt-3 font-display text-2xl text-[color:var(--text-primary)]">
+                      {agent.name}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                      {agent.description}
+                    </p>
+                  </article>
+                </SectionReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Workflows — only show if there are any */}
       {detail.workflows.length > 0 && (
         <section className="relative">
           <div className="container py-16 md:py-24">
             <div className="mx-auto max-w-3xl">
               <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                Agents
+                Sample workflows
               </span>
               <h2 className="mt-3 font-display text-4xl md:text-5xl">
-                What {kete.name} handles
+                What {kete.name} handles end-to-end
               </h2>
             </div>
 
@@ -262,6 +420,61 @@ function IndustryKetePage({
           </div>
         </section>
       )}
+
+      {/* Pilot Sprint per kete */}
+      <section className="relative">
+        <div className="container pb-12 pt-4">
+          <SectionReveal>
+            <div
+              className="glass-card-elevated mx-auto max-w-5xl p-8 md:p-12"
+              style={{
+                ['--kete-accent' as string]: kete.accent,
+                borderTop: `3px solid ${kete.accent}`,
+              }}
+            >
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-12">
+                <div className="lg:w-1/3">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    Pilot Sprint for {kete.name}
+                  </p>
+                  <p
+                    className="mt-3 font-display leading-[1] text-[color:var(--text-primary)]"
+                    style={{ fontWeight: 300, fontSize: 'clamp(2.2rem, 4vw, 3rem)' }}
+                  >
+                    NZ$5,000{' '}
+                    <span className="font-mono text-base text-[color:var(--text-secondary)]">
+                      + GST
+                    </span>
+                  </p>
+                  <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    Two weeks · One workflow · Money-back if no time saved
+                  </p>
+                </div>
+                <div className="flex-1">
+                  <p className="text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+                    {detail.pilotSprintPitch}
+                  </p>
+                  <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row">
+                    <Link
+                      href="/contact"
+                      className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
+                    >
+                      {isComingSoon ? 'Register interest' : `Pilot ${kete.name}`}
+                      <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                    </Link>
+                    <Link
+                      href="/pilot-sprint"
+                      className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
+                    >
+                      How a Sprint runs
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SectionReveal>
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="relative">
@@ -390,32 +603,82 @@ function ToroPage({
         </div>
       </section>
 
-      {/* Features */}
+      {/* What Tōro does */}
       <section className="relative">
         <div className="container py-16 md:py-24">
+          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.4fr_0.9fr] lg:gap-16">
+            <div>
+              <SectionReveal>
+                <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  What this kete does
+                </span>
+                <h2 className="mt-3 font-display text-4xl md:text-5xl">
+                  How Tōro lives in your whānau.
+                </h2>
+              </SectionReveal>
+              <div className="mt-8 space-y-5 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+                {detail.description.map((paragraph, i) => (
+                  <SectionReveal key={i} delay={i * 0.06}>
+                    <p>{paragraph}</p>
+                  </SectionReveal>
+                ))}
+              </div>
+            </div>
+            <aside>
+              <SectionReveal delay={0.1}>
+                <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    Grounded in
+                  </p>
+                  <ul className="mt-3 space-y-2 text-sm text-[color:var(--text-body)]">
+                    {detail.legislation.map((law) => (
+                      <li key={law} className="flex items-start gap-2">
+                        <span
+                          className="mt-1 font-mono text-[color:var(--assembl-gold-thread)]"
+                          aria-hidden
+                        >
+                          §
+                        </span>
+                        <span>{law}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </SectionReveal>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="relative">
+        <div className="container pb-16 md:pb-24">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              What Tōro does
-            </span>
-            <h2 className="mt-3 font-display text-4xl md:text-5xl">
-              Your family&apos;s quiet assistant.
-            </h2>
+            <SectionReveal>
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                What Tōro does
+              </span>
+              <h2 className="mt-3 font-display text-4xl md:text-5xl">
+                Your family&apos;s quiet assistant.
+              </h2>
+            </SectionReveal>
           </div>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {detail.features.map((f) => (
-              <div
-                key={f.name}
-                className="glass-card relative p-7"
-                style={{ ['--kete-accent' as string]: kete.accent }}
-              >
-                <h3 className="font-display text-2xl text-[color:var(--text-primary)]">
-                  {f.name}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-                  {f.body}
-                </p>
-              </div>
+            {detail.features.map((f, i) => (
+              <SectionReveal key={f.name} delay={i * 0.05}>
+                <div
+                  className="glass-card relative h-full p-7"
+                  style={{ ['--kete-accent' as string]: kete.accent }}
+                >
+                  <h3 className="font-display text-2xl text-[color:var(--text-primary)]">
+                    {f.name}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                    {f.body}
+                  </p>
+                </div>
+              </SectionReveal>
             ))}
           </div>
         </div>

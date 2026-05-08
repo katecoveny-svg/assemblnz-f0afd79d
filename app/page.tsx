@@ -67,7 +67,7 @@ export default function HomePage() {
       <HomeSectionTeaser
         eyebrow="02 — How it works"
         headline={reo.howItWorksHeadline}
-        body="Five stages, sequenced. Intake, draft, review, evidence, ship. Every paragraph is reviewed by a named human in your team before anything leaves your account."
+        body="Five stages, sequenced. Kahu intent capture, Iho routing, Tā execution, Mahara review, Mana sign-off. Every paragraph is reviewed by a named human in your team before anything leaves your account."
         cta={{ href: '/how-it-works', label: 'Walk the pipeline' }}
         background="mist"
       />

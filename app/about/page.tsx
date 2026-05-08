@@ -62,8 +62,8 @@ export default function AboutPage() {
               </h1>
               <p className="mt-8 max-w-xl text-base leading-relaxed text-[#E8E4DE] md:text-lg">
                 assembl exists because compliance should not cost your team their Friday
-                afternoons. Quiet intelligence, on the record. Every workflow we run ends with
-                an evidence pack you can file, forward, or footnote.
+                afternoons. Quiet intelligence, with the trail attached. Every workflow we run
+                ends with an evidence pack you can file, forward, or footnote.
               </p>
             </SectionReveal>
           </div>

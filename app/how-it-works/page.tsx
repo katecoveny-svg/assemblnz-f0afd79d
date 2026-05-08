@@ -3,24 +3,21 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
 import { StickyScrollNarrative } from '@/components/StickyScrollNarrative';
-import { pipelineStages, ketes as keteImagery, reo } from '@/lib/site-config';
+import { pipelineStages, ketes as keteImagery } from '@/lib/site-config';
 
 export const metadata: Metadata = {
   title: 'How it works',
   description:
-    'Five stages. Nothing ships until a person says so. Intake, Draft, Review, Evidence, Ship — every workflow assembl runs ends in a sealed evidence pack.',
+    'Five stages. Nothing ships until a person says so. Kahu intent capture, Iho routing, Tā execution, Mahara review, Mana sign-off — every workflow assembl runs ends in a sealed evidence pack.',
 };
 
-// Stage media — sculptural kete vessels stand in for the pipeline frames
-// until AUAHA Phase 2 delivers the proper sequence (estimated 60-75 min
-// from brief authoring; placeholder retained for now).
-const STAGE_MEDIA = [
-  { src: keteImagery.waihanga.wide, alt: 'Intake — workflow handed over' },
-  { src: keteImagery.pikau.wide,    alt: 'Draft — agent drafts with citations' },
-  { src: keteImagery.auaha.wide,    alt: 'Review — human in the loop' },
-  { src: keteImagery.ako.wide,      alt: 'Evidence — pack sealed' },
-  { src: keteImagery.toro.wide,     alt: 'Ship — pack delivered' },
-];
+// Stage media — same Waihanga vessel for all five stages. The active stage
+// renders at full opacity; the others fade to 30% per Phase 1 brief §11.
+// Replace with AUAHA Phase 2 dedicated stage frames when delivered.
+const STAGE_MEDIA = pipelineStages.map((s) => ({
+  src: keteImagery.waihanga.wide,
+  alt: `${s.title} — ${s.subtitle}`,
+}));
 
 export default function HowItWorksPage() {
   return (
@@ -39,7 +36,7 @@ export default function HowItWorksPage() {
           <div className="mx-auto max-w-4xl text-center">
             <SectionReveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                How it works
+                02 — How it works
               </p>
             </SectionReveal>
             <SectionReveal delay={0.1}>
@@ -47,16 +44,39 @@ export default function HowItWorksPage() {
                 className="mt-6 font-display leading-[0.95] tracking-tight"
                 style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
               >
-                {reo.howItWorksHeadline[0]}
+                Five stages.
                 <br />
-                <em className="not-italic text-gradient-hero">{reo.howItWorksHeadline[1]}</em>
+                Nothing ships
+                <br />
+                <em className="not-italic text-gradient-hero">until a person says so.</em>
               </h1>
             </SectionReveal>
             <SectionReveal delay={0.2}>
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Every workflow assembl runs moves through the same five stages. The pace changes.
-                The shape does not. A named human in your team signs off before anything ships.
+                Every workflow assembl runs moves through the same five stages.
+                <span className="font-display italic text-[color:var(--text-primary)]">
+                  {' '}Kahu, Iho, Tā, Mahara, Mana.
+                </span>{' '}
+                The pace changes. The shape does not. A named human in your team signs off
+                before anything ships.
               </p>
+            </SectionReveal>
+            <SectionReveal delay={0.3}>
+              <div className="mt-10 inline-flex flex-wrap items-center justify-center gap-3">
+                {pipelineStages.map((s, i) => (
+                  <div key={s.id} className="flex items-center gap-3">
+                    <span className="rounded-full border border-[rgba(35,33,31,0.18)] bg-white/40 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
+                      <span className="text-[color:var(--text-secondary)]">{s.number}</span>{' '}
+                      {s.title}
+                    </span>
+                    {i < pipelineStages.length - 1 && (
+                      <span className="text-[color:var(--text-secondary)]" aria-hidden>
+                        →
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
             </SectionReveal>
           </div>
         </div>
@@ -91,10 +111,10 @@ export default function HowItWorksPage() {
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/pilot-sprint"
                   className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
                 >
-                  Book a pilot
+                  Book a Pilot Sprint
                 </Link>
               </div>
             </div>

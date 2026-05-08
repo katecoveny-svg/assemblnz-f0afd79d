@@ -53,8 +53,8 @@ export function HeroWordReveal({
                   initial={{ opacity: 0, y: '0.4em' }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    delay: 0.15 + totalIdx * 0.08,
-                    duration: 0.7,
+                    delay: 0.12 + totalIdx * 0.06,
+                    duration: 0.5,
                     ease: [0.16, 1, 0.3, 1],
                   }}
                   className="inline-block"
