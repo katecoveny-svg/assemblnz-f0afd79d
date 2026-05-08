@@ -157,6 +157,29 @@ create trigger tenant_members_guard_last_owner_trg
   for each row execute function public.tenant_members_guard_last_owner();
 
 -- ---------------------------------------------------------------------------
+-- 4b. Bootstrap owner on tenant creation
+-- Automatically adds the tenant creator as owner, bypassing RLS.
+-- ---------------------------------------------------------------------------
+
+create or replace function public.tenant_bootstrap_owner()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  insert into public.tenant_members (tenant_id, user_id, role)
+  values (new.id, new.created_by, 'owner');
+  return new;
+end;
+$$;
+
+drop trigger if exists tenant_bootstrap_owner_trg on public.tenants;
+create trigger tenant_bootstrap_owner_trg
+  after insert on public.tenants
+  for each row execute function public.tenant_bootstrap_owner();
+
+-- ---------------------------------------------------------------------------
 -- 5. RLS
 -- ---------------------------------------------------------------------------
 
