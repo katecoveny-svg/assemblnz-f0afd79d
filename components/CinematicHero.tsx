@@ -1,75 +1,24 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 import { heroVessel } from '@/lib/site-config';
 
 /**
- * CinematicHero — full-bleed background with the vessel-rotate video.
- * Scroll-bound playback (GSAP + ScrollTrigger): frame advances with scroll.
- * Honours prefers-reduced-motion (renders the 16:9 still + autoplay loop fallback).
+ * CinematicHero — full-bleed static 16:9 vessel still as the hero background.
+ * The previous 720p video stretched full-bleed rendered fuzzy; the static PNG
+ * stays crisp at any size. min-h-[100vh] satisfies the brief's min-h-[80vh] floor.
  */
 export function CinematicHero({ children }: { children: React.ReactNode }) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
-
-    const section = sectionRef.current;
-    const video = videoRef.current;
-    if (!section || !video) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    let trigger: ScrollTrigger | null = null;
-
-    const setup = () => {
-      // Kill any previous trigger before rebuilding.
-      trigger?.kill();
-      trigger = ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 0.5,
-        onUpdate: (self) => {
-          if (!video.duration || isNaN(video.duration)) return;
-          video.currentTime = self.progress * video.duration;
-        },
-      });
-    };
-
-    if (video.readyState >= 1) {
-      setup();
-    } else {
-      video.addEventListener('loadedmetadata', setup, { once: true });
-    }
-
-    return () => {
-      trigger?.kill();
-    };
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-[100vh] overflow-hidden bg-[color:var(--assembl-paper)]"
-    >
+    <section className="relative min-h-[100vh] overflow-hidden bg-[color:var(--assembl-paper)]">
       <div className="absolute inset-0">
-        <video
-          ref={videoRef}
-          muted
-          playsInline
-          preload="metadata"
-          poster={heroVessel.wide}
-          autoPlay
-          loop
-          className="absolute inset-0 h-full w-full object-cover motion-reduce:opacity-90"
-        >
-          <source src={heroVessel.videoLocal} type="video/mp4" />
-        </video>
+        <Image
+          src={heroVessel.wide}
+          alt=""
+          aria-hidden
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
         {/* Sculptural cream wash so type stays readable on cream paper canon */}
         <div
           aria-hidden
