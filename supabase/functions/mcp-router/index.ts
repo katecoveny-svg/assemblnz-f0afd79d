@@ -127,7 +127,7 @@ async function resolveAuthContext(req: Request): Promise<AuthContext> {
 
   // Resolve the user's tenant (most-recent membership wins).
   const { data: member } = await supabase
-    .from("tenant_members")
+    .from("platform_org_members")
     .select("tenant_id, role, created_at")
     .eq("user_id", userId)
     .order("created_at", { ascending: false })
@@ -140,7 +140,7 @@ async function resolveAuthContext(req: Request): Promise<AuthContext> {
   let tier: TierInfo | null = null;
   if (orgId) {
     const { data: tenant } = await supabase
-      .from("tenants")
+      .from("platform_orgs")
       .select("plan")
       .eq("id", orgId)
       .maybeSingle();

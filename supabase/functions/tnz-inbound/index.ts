@@ -474,7 +474,7 @@ Deno.serve(async (req) => {
     let ownerUserId: string | null = null;
     try {
       const { data: ownerRow } = await sb
-        .from("tenant_members")
+        .from("platform_org_members")
         .select("user_id")
         .eq("tenant_id", tenantId)
         .in("role", ["admin", "manager"])

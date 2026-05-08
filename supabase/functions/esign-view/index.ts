@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
     }
 
     // Fetch tenant brand
-    const { data: tenant } = await supabase.from("tenants")
+    const { data: tenant } = await supabase.from("platform_orgs")
       .select("name, brand_color, logo_url").eq("id", env.tenant_id).single();
 
     // Record view (only on first view)

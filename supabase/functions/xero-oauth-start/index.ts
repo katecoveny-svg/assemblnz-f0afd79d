@@ -44,7 +44,7 @@ Deno.serve(async (req) => {
 
     // Verify user is admin/manager of this tenant
     const { data: membership } = await supabase
-      .from("tenant_members")
+      .from("platform_org_members")
       .select("role")
       .eq("user_id", user.id)
       .eq("tenant_id", tenant_id)
