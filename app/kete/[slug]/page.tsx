@@ -143,16 +143,6 @@ function IndustryKetePage({
               </p>
             </div>
 
-            {/* Locked 1:1 vessel — sits in the right column on desktop */}
-            <div className="flex justify-center lg:justify-end">
-              <div
-                className="aspect-square w-full max-w-md overflow-hidden rounded-card shadow-brand-soft"
-                style={{ ['--kete-accent' as string]: kete.accent }}
-              >
-                <img
-                  src={keteImagery[kete.slug].square}
-                  alt={`${kete.name} vessel — ${kete.industry}`}
-                  className="h-full w-full object-cover"
             {/* Per-kete vessel — locked render where available, named placeholder otherwise */}
             <div className="flex justify-center lg:justify-end">
               <div className="w-full max-w-md">
