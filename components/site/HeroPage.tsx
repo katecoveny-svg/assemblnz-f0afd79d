@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 
 interface HeroPageProps {
   eyebrow: string;
-  headline: string | string[];
+  headline: string | readonly string[];
   /** Body / lede paragraph below the headline */
   body?: string;
   /** Vessel image URL */
