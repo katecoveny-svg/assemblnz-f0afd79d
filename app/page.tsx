@@ -8,8 +8,6 @@ import { SectionReveal } from '@/components/SectionReveal';
 import { KeteVesselCard } from '@/components/KeteVesselCard';
 import { TrustStrip } from '@/components/site/TrustStrip';
 import { HomeSectionTeaser } from '@/components/site/HomeSectionTeaser';
-import { ScrollEvidenceStory } from '@/components/site/ScrollEvidenceStory';
-import { FounderSection } from '@/components/site/FounderSection';
 
 export default function HomePage() {
   return (
@@ -35,7 +33,7 @@ export default function HomePage() {
         <SectionReveal delay={0.6}>
           <div className="mt-12 flex flex-col items-start gap-3 sm:flex-row">
             <Link
-              href="/contact"
+              href="/pilot-sprint"
               className="cta-primary inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
             >
               Book a pilot
@@ -72,7 +70,7 @@ export default function HomePage() {
         background="mist"
       />
 
-      {/* ── 03 — KETE GRID — eight vessel cards ─────────────────────────────── */}
+      {/* ── 03 — KETE GRID — eight vessel cards ────────────────────────────── */}
       <section className="relative bg-[color:var(--assembl-paper)] py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6 md:px-12">
           <SectionReveal>
@@ -84,7 +82,7 @@ export default function HomePage() {
                 className="mt-6 font-display leading-[0.98] tracking-tight text-[color:var(--text-primary)]"
                 style={{ fontWeight: 300, fontSize: 'clamp(2rem, 4.6vw, 4rem)' }}
               >
-                Pick the kete that matches{' '}
+                Pick the kete that matches{ ' '}
                 <em className="not-italic text-gradient-hero">your industry</em>.
               </h2>
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
@@ -119,16 +117,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 04 — EVIDENCE PACK ───────────────────────────────────────────────── */}
+      {/* ── 04 — EVIDENCE PACK ────────────────────────────────────────────────── */}
       <HomeSectionTeaser
         eyebrow="04 — Evidence pack"
         headline={reo.evidencePackHeadline}
-        body="Source citations. Reasoning trace. Reviewer record. Cryptographic seal. The audit trail comes in the box — file it, forward it, footnote it."
+        body="SOurce citations. Reasoning trace. Reviewer record. Cryptographic seal. The audit trail comes in the box  — file it, forward it, footnote it."
         cta={{ href: '/evidence-pack', label: 'See what is in the box' }}
         background="mist"
       />
 
-      {/* ── 05 — PRICING ─────────────────────────────────────────────────────── */}
+      {/* ── 05 — PRICING ────────────────────────────────────────────────────── */}
       <HomeSectionTeaser
         eyebrow="05 — Pricing"
         headline={['Three ways to pay.', 'No surprises.']}
@@ -137,20 +135,12 @@ export default function HomePage() {
         background="paper"
       />
 
-      {/* ── SCROLL EVIDENCE STORY — Waihanga PM through-line ─────────────────── */}
-      <div id="scroll-story">
-        <ScrollEvidenceStory />
-      </div>
-
-      {/* ── FOUNDER NOTE — Kate Hudson ───────────────────────────────────────── */}
-      <FounderSection />
-
       {/* ── 06 — GET STARTED — final CTA ─────────────────────────────────────── */}
       <HomeSectionTeaser
         eyebrow="06 — Get started"
         headline={['Book a pilot.', 'Keep your evidence.']}
         body="Two weeks. One workflow. One evidence pack. Money back if your team has not saved time by week two."
-        cta={{ href: '/contact', label: 'Book a pilot' }}
+        cta={{ href: '/pilot-sprint', label: 'Book a pilot' }}
         background="paper"
         primary
       />

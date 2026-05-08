@@ -226,7 +226,7 @@ export const nav = [
   { href: '/about',         label: 'About' },
 ] as const;
 
-export const navCta = { href: '/contact', label: 'Book a pilot' };
+export const navCta = { href: '/pilot-sprint', label: 'Book a pilot' };
 
 // ── Footer disclaimer — Plugin Architecture Canon §4 (verbatim) ──────────────
 
