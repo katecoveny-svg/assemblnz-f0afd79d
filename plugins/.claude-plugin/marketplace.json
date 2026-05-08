@@ -1,0 +1,59 @@
+{
+  "name": "assembl-plugins",
+  "owner": {
+    "name": "Assembl Ltd",
+    "email": "kia.ora@assembl.co.nz",
+    "url": "https://assembl.co.nz"
+  },
+  "metadata": {
+    "description": "assembl's plugin marketplace — file-based plugins for Claude Code and Claude Managed Agents, adapted to the NZ SME market. Eight ketes (industry packs) plus assembl-core baseline.",
+    "version": "0.0.1"
+  },
+  "plugins": [
+    {
+      "name": "assembl-core",
+      "source": "./assembl-core",
+      "description": "Core plugin — install first. Mandatory baseline skills (Privacy Act 2020, tikanga compliance, CGA, NZBN lookup) and core MCP connectors (NZBN, Companies Office)."
+    },
+    {
+      "name": "waihanga",
+      "source": "./waihanga",
+      "description": "Construction industry pack (pilot — TOA Architecture). Building Act 2004, Construction Contracts Act 2002, NZS 3910, LBP licensing."
+    },
+    {
+      "name": "manaaki",
+      "source": "./manaaki",
+      "description": "Hospitality industry pack. Food Act 2014, Sale & Supply of Alcohol Act, MPI Food Control Plans."
+    },
+    {
+      "name": "pikau",
+      "source": "./pikau",
+      "description": "Freight & customs industry pack (pilot — Aironaut Customs). Customs and Excise Act 2018, tariff classification, Goods Management Levy."
+    },
+    {
+      "name": "arataki",
+      "source": "./arataki",
+      "description": "Tourism & visitor experience industry pack. Qualmark, ITO guidance, biosecurity declarations."
+    },
+    {
+      "name": "auaha",
+      "source": "./auaha",
+      "description": "Creative industries pack. NZ Film Commission, copyright, contractor agreements."
+    },
+    {
+      "name": "ako",
+      "source": "./ako",
+      "description": "Education industry pack. NZQA, Teaching Council, Education and Training Act."
+    },
+    {
+      "name": "hoko",
+      "source": "./hoko",
+      "description": "Retail & e-commerce industry pack. Consumer Guarantees Act, Fair Trading Act, GST."
+    },
+    {
+      "name": "toro",
+      "source": "./toro",
+      "description": "Professional services industry pack. AML/CFT Act, professional indemnity, scope of engagement."
+    }
+  ]
+}

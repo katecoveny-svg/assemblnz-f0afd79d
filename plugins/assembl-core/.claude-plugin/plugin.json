@@ -1,0 +1,7 @@
+{
+  "name": "assembl-core",
+  "version": "0.0.1",
+  "description": "Core plugin — mandatory baseline for every assembl deployment. Privacy Act 2020 (incl. IPP 3A), tikanga compliance, Consumer Guarantees Act quick reference, NZBN lookup utility. Registers core MCP connectors: NZBN and Companies Office (live), plus stubs for IRD, NZ Customs Tariff, MFAT Sanctions, LBP register.",
+  "skills": [],
+  "connectors": []
+}

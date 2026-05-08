@@ -1,0 +1,57 @@
+{
+  "mcpServers": {
+    "nzbn": {
+      "command": "node",
+      "args": ["../mcp-servers/mcp-nzbn/dist/index.js"],
+      "env": {},
+      "_status": "live",
+      "_source": "NZBN public register, https://www.nzbn.govt.nz/",
+      "_notes": "No auth — public API. Provides verify_nzbn and lookup_entity tools."
+    },
+    "companies-office": {
+      "command": "node",
+      "args": ["../mcp-servers/mcp-companies-office/dist/index.js"],
+      "env": {},
+      "_status": "live",
+      "_source": "Companies Office public register, https://www.business.govt.nz/services/business-data",
+      "_notes": "No auth for registry-search endpoints. Some deeper endpoints require an API key — surfaced as a clean error if hit."
+    },
+    "ird-myir": {
+      "command": "node",
+      "args": ["../mcp-servers/mcp-ird/dist/index.js"],
+      "env": {},
+      "_status": "stub",
+      "_notes": "STUB — IRD myIR requires OAuth, build when licensed. Per canon §8 row 6: 'Stub only until licensed'."
+    },
+    "nz-customs-tariff": {
+      "command": "node",
+      "args": ["../mcp-servers/mcp-customs-tariff/dist/index.js"],
+      "env": {},
+      "_status": "stub",
+      "_notes": "STUB — read-only Working Tariff lookup, public, build for PIKAU. NOT to be confused with the 'never build' Customs TSW lodgement MCP (canon §8.1)."
+    },
+    "mfat-sanctions": {
+      "command": "node",
+      "args": ["../mcp-servers/mcp-mfat-sanctions/dist/index.js"],
+      "env": {},
+      "_status": "stub",
+      "_notes": "STUB — MFAT NZ Sanctions Register + UN list, public, build for PIKAU."
+    },
+    "lbp-register": {
+      "command": "node",
+      "args": ["../mcp-servers/mcp-lbp-register/dist/index.js"],
+      "env": {},
+      "_status": "stub",
+      "_notes": "STUB — Licensed Building Practitioners public register, build for WAIHANGA."
+    }
+  },
+  "_neverBuild": [
+    "NZ Customs TSW lodgement (licensed broker only)",
+    "IRD myIR filing (taxpayer or licensed agent only)",
+    "WorkSafe notifiable event submission (PCBU duty)",
+    "Companies Office entity registration (director duty)",
+    "Privacy Commissioner breach notification (Privacy Officer duty)",
+    "MPI biosecurity declarations (importer duty)"
+  ],
+  "_canonRef": "CANON-plugin-architecture-2026-05-08.md §8 + §8.1"
+}
