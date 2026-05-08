@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { heroVessel } from '@/lib/site-config';
@@ -8,14 +8,22 @@ import { heroVessel } from '@/lib/site-config';
 /**
  * CinematicHero — full-bleed background with the vessel-rotate video.
  * Scroll-bound playback (GSAP + ScrollTrigger): frame advances with scroll.
- * Honours prefers-reduced-motion (renders the 16:9 still + autoplay loop fallback).
+ * Honours prefers-reduced-motion (renders the 16:9 still PNG; no video).
  */
 export function CinematicHero({ children }: { children: React.ReactNode }) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [reduce, setReduce] = useState(false);
 
   useEffect(() => {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduce(mql.matches);
+    const onChange = () => setReduce(mql.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
+  useEffect(() => {
     if (reduce) return;
 
     const section = sectionRef.current;
@@ -50,7 +58,7 @@ export function CinematicHero({ children }: { children: React.ReactNode }) {
     return () => {
       trigger?.kill();
     };
-  }, []);
+  }, [reduce]);
 
   return (
     <section
@@ -58,18 +66,27 @@ export function CinematicHero({ children }: { children: React.ReactNode }) {
       className="relative min-h-[100vh] overflow-hidden bg-[color:var(--assembl-paper)]"
     >
       <div className="absolute inset-0">
-        <video
-          ref={videoRef}
-          muted
-          playsInline
-          preload="metadata"
-          poster={heroVessel.wide}
-          autoPlay
-          loop
-          className="absolute inset-0 h-full w-full object-cover motion-reduce:opacity-90"
-        >
-          <source src={heroVessel.videoLocal} type="video/mp4" />
-        </video>
+        {reduce ? (
+          <img
+            src={heroVessel.wide}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            muted
+            playsInline
+            preload="metadata"
+            poster={heroVessel.wide}
+            autoPlay
+            loop
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src={heroVessel.videoLocal} type="video/mp4" />
+          </video>
+        )}
         {/* Sculptural cream wash so type stays readable on cream paper canon */}
         <div
           aria-hidden

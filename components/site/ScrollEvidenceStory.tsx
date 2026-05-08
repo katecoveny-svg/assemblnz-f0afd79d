@@ -18,6 +18,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { heroVessel } from '@/lib/site-config';
 
 const SCENES = [
   { id: 's1', step: 'scene 01 · scattered' },
@@ -30,6 +31,13 @@ const SCENES = [
 export function ScrollEvidenceStory() {
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  // Gentle parallax — translate the video container up as the section scrolls past.
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ['0%', '-12%']);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -55,6 +63,29 @@ export function ScrollEvidenceStory() {
       className="relative overflow-hidden"
       style={{ backgroundColor: 'var(--assembl-paper)' }}
     >
+      {/* Cinematic vessel video — fixed-feel background behind scenes 1-5,
+          sticky-pinned within the section, gentle parallax, ≤30% opacity. */}
+      {!reduceMotion && (
+        <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+          <motion.div
+            className="sticky top-0 h-screen w-full overflow-hidden"
+            style={{ y: parallaxY }}
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster={heroVessel.wide}
+              className="h-full w-full object-cover opacity-30"
+            >
+              <source src={heroVessel.videoLocal} type="video/mp4" />
+            </video>
+          </motion.div>
+        </div>
+      )}
+
       {/* Soft atmospheric backdrop */}
       <div
         aria-hidden
