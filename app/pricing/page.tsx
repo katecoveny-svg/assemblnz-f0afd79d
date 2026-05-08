@@ -1,376 +1,326 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
-import {
-  SUBSCRIBE_PLANS,
-  PAY_PER_OUTPUT_RATES,
-  PAY_PER_RESOLUTION_RATES,
-  OUTPUT_DEFINITION,
-  PILOT_SPRINT,
-  PRICING_NOTE,
-} from '@/lib/pricing';
-import { SectionReveal } from '@/components/SectionReveal';
+import { ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Pay for what your business actually does. Three ways to buy: Subscribe, Pay per output, or Pay per resolution. NZ data residency. Draft Mode review on every output.',
+    'Subscribe, pay per output, or pay per resolution. Pilot Sprint comes first.',
 };
+
+// Locked numbers per PRICING-LOCKED.md (2026-04-08).
+// Numbers are not to be changed. Bullets are short editorial summaries.
+const TIERS = [
+  {
+    slug: 'operator',
+    name: 'Operator',
+    differentiator: 'Single team. One workflow.',
+    monthly: '$1,490',
+    bullets: [
+      '1 kete',
+      'Up to 5 seats',
+      '50 outputs included',
+      '$12 per extra output',
+    ],
+    cta: 'Start with Operator',
+  },
+  {
+    slug: 'leader',
+    name: 'Leader',
+    differentiator: 'Multiple teams. Multiple kete.',
+    monthly: '$1,990',
+    bullets: [
+      'All 5 kete',
+      'Up to 15 seats',
+      '150 outputs included',
+      '$8 per extra output',
+      'Weekly evidence pack',
+    ],
+    cta: 'Choose Leader',
+    featured: true,
+  },
+  {
+    slug: 'enterprise',
+    name: 'Enterprise',
+    differentiator: 'Mid-market NZ. Compliance-grade.',
+    monthly: 'from $2,990',
+    bullets: [
+      'All kete',
+      'Unlimited seats',
+      '200 evidence packs / month',
+      '99.9% SLA · NZ data residency',
+      'Named kaitiaki contact',
+    ],
+    cta: 'Talk to Enterprise',
+  },
+];
 
 export default function PricingPage() {
   return (
     <>
-      {/* ── Hero — locked block ────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        {/* Atmospheric layer — sits behind the radial gradient and content (PR #36) */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-          <img
-            src="/images/atmospheric-banner.jpg"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.13]"
-          />
+      {/* ── Hero ────────────────────────────────────────────────── */}
+      <section
+        className="relative py-32 md:py-48"
+        style={{ backgroundColor: 'var(--assembl-paper)' }}
+      >
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
+            <div className="lg:col-start-2 lg:col-span-7">
+              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
+                05 — Pricing
+              </p>
+              <h1 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
+                Three ways to{' '}
+                <em className="not-italic text-gradient-hero">start</em>.
+              </h1>
+              <p className="mt-10 text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
+                Subscribe, pay per output, or pay per resolution. Pilot Sprint
+                comes first.
+              </p>
+            </div>
+          </div>
         </div>
+      </section>
+
+      {/* ── Pilot Sprint — the entry point ──────────────────────── */}
+      <section
+        className="relative py-32 md:py-48"
+        style={{ backgroundColor: 'var(--assembl-paper)' }}
+      >
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.10) 0%, transparent 60%)',
-          }}
-        />
-        <div className="container py-32 md:py-40">
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionReveal>
-              <span className="badge-gold inline-flex">Pricing</span>
-            </SectionReveal>
-            <SectionReveal delay={0.1}>
-              <h1 className="mt-6 font-display text-4xl md:text-6xl">
-                Pay for what your business actually does. Not for software you{' '}
-                <em className="not-italic text-gradient-hero">forget you bought</em>.
-              </h1>
-            </SectionReveal>
-            <p className="mt-8 text-lg text-[color:var(--text-body)] md:text-xl">
-              79% of New Zealand businesses don&apos;t know how to use intelligent agents safely.
-              Only 2.7% of the workforce is trained for them. We&apos;re high-use, low-trust as
-              a country — and that gap is what assembl exists to close.
-            </p>
-            <p className="mx-auto mt-6 max-w-2xl text-base text-[color:var(--text-body)]">
-              Most intelligent-agent tools charge you a flat fee whether you use them or not.
-              That doesn&apos;t work for ongoing intelligent automation, and it especially
-              doesn&apos;t work for compliance work. You pick
-              a plan that includes a sensible amount of work each month — generating compliance
-              docs, drafting emails, running checks. If you outgrow it, the price flexes. If
-              you don&apos;t, you&apos;re not subsidising someone else&apos;s heavy use.
-            </p>
-
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link
-                href="/contact"
-                className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
-              >
-                Start free
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-              <Link
-                href="/contact"
-                className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
-              >
-                Talk to us
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-            </div>
-
-            <p className="mt-6 font-mono text-xs text-[color:var(--text-secondary)]">
-              {PRICING_NOTE} &nbsp;·&nbsp; Source: AI Forum NZ &mdash; AI Blueprint for
-              Aotearoa (May 2026)
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Pilot Sprint banner — above the three options ─────── */}
-      <section className="relative">
-        <div className="container pb-4">
+          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
+        >
           <div
-            className="glass-card-elevated mx-auto max-w-4xl p-7 md:p-9"
-            style={{ borderTop: '3px solid #D4A843' }}
-          >
-            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
-              <div className="flex-1">
-                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  Pilot Sprint
-                </span>
-                <h2 className="mt-2 font-display text-2xl text-[color:var(--text-primary)] md:text-3xl">
-                  {PILOT_SPRINT.frame}
-                </h2>
-                <p className="mt-3 font-mono text-sm text-[color:var(--text-body)]">
-                  {PILOT_SPRINT.bannerCopy}
-                </p>
-                <p className="mt-3 text-sm text-[color:var(--text-secondary)]">
-                  {PILOT_SPRINT.creditBack}
-                </p>
-              </div>
-              <Link
-                href="/contact"
-                className="cta-primary inline-flex h-12 items-center justify-center px-7 text-sm md:text-base"
-              >
-                Book a Pilot Sprint
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-            </div>
-          </div>
+            className="h-px w-full"
+            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
+          />
         </div>
-      </section>
-
-      {/* ── Three options framing ─────────────────────────────── */}
-      <section className="relative">
-        <div className="container pt-12">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              Three ways to buy
-            </span>
-            <h2 className="mt-3 font-display text-3xl md:text-4xl">
-              Pick the model that matches the way you actually work.
-            </h2>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Subscribe — 4 sub-plans ───────────────────────────── */}
-      <section className="relative">
-        <div className="container pb-8 pt-10">
-          <div className="glass-card mx-auto max-w-6xl p-7 md:p-10">
-            <div className="flex flex-col items-baseline justify-between gap-3 md:flex-row md:gap-6">
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  Option 1
-                </p>
-                <h2 className="mt-2 font-display text-3xl text-[color:var(--text-primary)] md:text-4xl">
-                  Subscribe
-                </h2>
-              </div>
-              <p className="text-sm text-[color:var(--text-body)] md:max-w-md md:text-right">
-                Predictable monthly. Plan includes a sensible quota; price flexes on overage.
+        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-20 md:pt-28">
+          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
+            <div className="lg:col-start-2 lg:col-span-7">
+              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
+                The entry point
               </p>
-            </div>
-
-            <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-              {SUBSCRIBE_PLANS.map((plan) => (
-                <article
-                  key={plan.slug}
-                  className={
-                    plan.highlighted
-                      ? 'relative rounded-card border-2 border-[rgba(43,107,87,0.4)] bg-white/60 p-5'
-                      : 'relative rounded-card border border-[rgba(35,33,31,0.10)] bg-white/40 p-5'
-                  }
-                >
-                  {plan.highlighted && (
-                    <span className="badge-sage absolute right-4 top-4 text-[9px]">
-                      Most chosen
-                    </span>
-                  )}
-
-                  <h3 className="font-display text-2xl text-[color:var(--text-primary)]">
-                    {plan.name}
-                  </h3>
-                  <p className="mt-3 font-display text-xl text-[color:var(--text-primary)]">
-                    {plan.monthly}
-                  </p>
-                  <p className="mt-1 font-mono text-[11px] text-[color:var(--text-secondary)]">
-                    {plan.setup}
-                  </p>
-
-                  <div className="mt-5 space-y-3 text-sm text-[color:var(--text-body)]">
-                    <div>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-                        Included
-                      </p>
-                      <p className="mt-1">{plan.outputsIncluded}</p>
-                    </div>
-                    <div>
-                      <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-                        Overage
-                      </p>
-                      <p className="mt-1">{plan.overage}</p>
-                    </div>
-                  </div>
-
-                  <ul className="mt-5 space-y-2 border-t border-[rgba(35,33,31,0.10)] pt-4 text-sm text-[color:var(--text-body)]">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2">
-                        <Check
-                          className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-[color:var(--assembl-sage-mist)]"
-                          aria-hidden
-                        />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
-            </div>
-
-            <div className="mt-8 flex justify-center">
-              <Link
-                href="/contact"
-                className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
-              >
-                Start free
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Pay per output — 4 rates ──────────────────────────── */}
-      <section className="relative">
-        <div className="container pb-8 pt-2">
-          <div className="glass-card mx-auto max-w-6xl p-7 md:p-10">
-            <div className="flex flex-col items-baseline justify-between gap-3 md:flex-row md:gap-6">
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  Option 2
-                </p>
-                <h2 className="mt-2 font-display text-3xl text-[color:var(--text-primary)] md:text-4xl">
-                  Pay per output
-                </h2>
-              </div>
-              <p className="text-sm text-[color:var(--text-body)] md:max-w-md md:text-right">
-                One-off jobs. No subscription, no monthly minimum. Pay only for what you run.
+              <h2 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
+                Pilot Sprint{' '}
+                <em className="not-italic text-gradient-hero">— $5,000</em>.
+              </h2>
+              <p className="mt-6 font-display text-xl italic text-[color:var(--text-body)] md:text-2xl">
+                Two weeks. One workflow. Evidence by Friday.
               </p>
-            </div>
-
-            <div className="mt-8 divide-y divide-[rgba(35,33,31,0.10)]">
-              {PAY_PER_OUTPUT_RATES.map((rate) => (
-                <div
-                  key={rate.name}
-                  className="flex flex-col items-baseline justify-between gap-2 py-4 md:flex-row md:gap-8"
+              <ul className="mt-12 space-y-5">
+                <li className="flex items-baseline gap-6">
+                  <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)] w-20 flex-none">
+                    Week 1
+                  </span>
+                  <span className="font-display text-xl text-[color:var(--text-primary)] md:text-2xl">
+                    Scope and draft.
+                  </span>
+                </li>
+                <li className="flex items-baseline gap-6">
+                  <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)] w-20 flex-none">
+                    Week 2
+                  </span>
+                  <span className="font-display text-xl text-[color:var(--text-primary)] md:text-2xl">
+                    Review and ship.
+                  </span>
+                </li>
+                <li className="flex items-baseline gap-6">
+                  <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)] w-20 flex-none">
+                    Friday
+                  </span>
+                  <span className="font-display text-xl text-[color:var(--text-primary)] md:text-2xl">
+                    Evidence pack delivered.
+                  </span>
+                </li>
+              </ul>
+              <div className="mt-12">
+                <Link
+                  href="/contact"
+                  className="cta-primary inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
                 >
-                  <div className="flex-1">
-                    <p className="font-display text-lg text-[color:var(--text-primary)]">
-                      {rate.name}
-                    </p>
-                    <p className="mt-1 text-sm text-[color:var(--text-secondary)]">
-                      {rate.description}
-                    </p>
-                  </div>
-                  <p className="font-mono text-base text-[color:var(--text-primary)] md:whitespace-nowrap">
-                    {rate.rate}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 flex justify-center">
-              <Link
-                href="/contact"
-                className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
-              >
-                Talk to us
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Pay per resolution — 5 rates ──────────────────────── */}
-      <section className="relative">
-        <div className="container pb-12 pt-2">
-          <div className="glass-card mx-auto max-w-6xl p-7 md:p-10">
-            <div className="flex flex-col items-baseline justify-between gap-3 md:flex-row md:gap-6">
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  Option 3
-                </p>
-                <h2 className="mt-2 font-display text-3xl text-[color:var(--text-primary)] md:text-4xl">
-                  Pay per resolution
-                </h2>
+                  Book a Pilot Sprint
+                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
+                </Link>
               </div>
-              <p className="text-sm text-[color:var(--text-body)] md:max-w-md md:text-right">
-                Outcome-based. You pay only when a workflow reaches its objective external
-                trigger — BCA accept, NZ Customs accept, auditor sign-off.
-              </p>
-            </div>
-
-            <div className="mt-8 divide-y divide-[rgba(35,33,31,0.10)]">
-              {PAY_PER_RESOLUTION_RATES.map((rate) => (
-                <div
-                  key={rate.name}
-                  className="flex flex-col items-baseline justify-between gap-2 py-4 md:flex-row md:gap-8"
-                >
-                  <div className="flex-1">
-                    <p className="font-display text-lg text-[color:var(--text-primary)]">
-                      {rate.name}
-                    </p>
-                    <p className="mt-1 text-sm text-[color:var(--text-secondary)]">
-                      {rate.description}
-                    </p>
-                  </div>
-                  <p className="font-mono text-base text-[color:var(--text-primary)] md:whitespace-nowrap">
-                    {rate.rate}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 flex justify-center">
-              <Link
-                href="/contact"
-                className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
-              >
-                Talk to us
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Output definition footnote ─────────────────────────── */}
-      <section className="relative">
-        <div className="container pb-12">
-          <div className="mx-auto max-w-4xl rounded-card border border-[rgba(35,33,31,0.10)] bg-white/40 px-6 py-5">
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              What counts as an output
-            </p>
-            <p className="mt-2 text-sm text-[color:var(--text-body)]">{OUTPUT_DEFINITION}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Closer — Draft Mode promise ───────────────────────── */}
-      <section className="relative">
-        <div className="container py-16">
+      {/* ── Subscribe — three tier cards ────────────────────────── */}
+      <section
+        className="relative py-32 md:py-48"
+        style={{ backgroundColor: 'var(--assembl-paper)' }}
+      >
+        <div
+          aria-hidden
+          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
+        >
           <div
-            className="glass-card-elevated mx-auto max-w-4xl p-8 md:p-12"
-            style={{ borderLeft: '3px solid #2B6B57' }}
+            className="h-px w-full"
+            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
+          />
+        </div>
+        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-20 md:pt-28">
+          <div className="mb-16 grid grid-cols-1 gap-y-8 lg:grid-cols-12">
+            <div className="lg:col-start-2 lg:col-span-7">
+              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
+                Subscribe — three tiers
+              </p>
+              <h2 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
+                Predictable monthly.{' '}
+                <em className="not-italic text-gradient-hero">Quota included.</em>
+              </h2>
+            </div>
+          </div>
+
+          {/* Three cards. gap-px + container-bg renders 1px gold-thread
+              hairlines: horizontal between rows on mobile, vertical between
+              cols on desktop. */}
+          <div
+            className="grid grid-cols-1 gap-px lg:grid-cols-3"
+            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
           >
-            <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              Draft Mode
-            </span>
-            <h2 className="mt-3 font-display text-3xl md:text-4xl">
-              Either way, every output goes through Draft Mode first.
-            </h2>
-            <p className="mt-4 text-[color:var(--text-body)]">
-              Nothing gets sent, filed, or published without your sign-off. The plan you
-              pick changes how you pay. It does not change the trust standard.
-            </p>
-            <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row">
-              <Link
-                href="/contact"
-                className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
+            {TIERS.map((tier) => (
+              <article
+                key={tier.slug}
+                className="relative p-10 md:p-12"
+                style={{ backgroundColor: 'var(--assembl-paper)' }}
               >
-                Start free
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-              <Link
-                href="/about"
-                className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
-              >
-                Read the trust-gap framing
-              </Link>
+                {tier.featured && (
+                  <span
+                    className="absolute right-8 top-8 font-mono text-[10px] uppercase tracking-[0.22em]"
+                    style={{ color: 'var(--assembl-pounamu)' }}
+                  >
+                    Most chosen
+                  </span>
+                )}
+                <h3 className="font-display text-3xl font-light text-[color:var(--text-primary)] md:text-4xl">
+                  {tier.name}
+                </h3>
+                <p className="mt-3 font-display text-base italic text-[color:var(--text-body)] md:text-lg">
+                  {tier.differentiator}
+                </p>
+                <p className="mt-12 font-display text-5xl font-light leading-none text-[color:var(--text-primary)] md:text-6xl">
+                  {tier.monthly}
+                </p>
+                <p className="mt-3 font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  / month · NZD ex GST
+                </p>
+                <ul className="mt-10 space-y-3 text-base text-[color:var(--text-body)]">
+                  {tier.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-3">
+                      <span
+                        aria-hidden
+                        className="mt-2.5 h-px w-3 flex-none"
+                        style={{
+                          backgroundColor: 'var(--assembl-gold-thread)',
+                        }}
+                      />
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-12">
+                  <Link
+                    href="/contact"
+                    className={`${tier.featured ? 'cta-primary' : 'btn-ghost'} inline-flex items-center px-7 py-3 text-base transition-transform hover:-translate-y-0.5`}
+                  >
+                    {tier.cta}
+                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Other ways to buy — quieter ─────────────────────────── */}
+      <section
+        className="relative py-32 md:py-48"
+        style={{ backgroundColor: 'var(--assembl-paper)' }}
+      >
+        <div
+          aria-hidden
+          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
+        >
+          <div
+            className="h-px w-full"
+            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
+          />
+        </div>
+        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-20 md:pt-28">
+          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
+            <div className="lg:col-start-2 lg:col-span-7">
+              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
+                Other ways to buy
+              </p>
+              <h2 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
+                One-off, or{' '}
+                <em className="not-italic text-gradient-hero">outcome-based</em>.
+              </h2>
+              <ul className="mt-12 space-y-6 text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
+                <li>
+                  <span className="font-display italic text-[color:var(--text-primary)]">
+                    Pay per output
+                  </span>{' '}
+                  — from $19. One-off jobs, no subscription.
+                </li>
+                <li>
+                  <span className="font-display italic text-[color:var(--text-primary)]">
+                    Pay per resolution
+                  </span>{' '}
+                  — from $190. You pay only when the workflow lands: BCA accept,
+                  Customs accept, auditor sign-off.
+                </li>
+              </ul>
+              <div className="mt-12">
+                <Link
+                  href="/contact"
+                  className="btn-ghost inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
+                >
+                  Talk to us
+                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Footer line + single CTA ────────────────────────────── */}
+      <section
+        className="relative py-24 md:py-32"
+        style={{ backgroundColor: 'var(--assembl-paper)' }}
+      >
+        <div
+          aria-hidden
+          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
+        >
+          <div
+            className="h-px w-full"
+            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
+          />
+        </div>
+        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-16 md:pt-20">
+          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
+            <div className="lg:col-start-2 lg:col-span-10">
+              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                All prices NZD, GST excl. Setup splits across the first 3
+                invoices. Cancel any time.
+              </p>
+              <div className="mt-10">
+                <Link
+                  href="/contact"
+                  className="cta-primary inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
+                >
+                  Book a Pilot Sprint
+                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
