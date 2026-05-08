@@ -445,7 +445,7 @@ export default function KeteHero() {
                 }
                 transition={{ duration: 0.3, ease: 'easeOut' }}
               >
-                <span className="mr-1.5 text-[color:var(--assembl-soft-gold)]">{stage.glyph}</span>
+                <span className="mr-1.5 text-[color:var(--assembl-pounamu)]">{stage.glyph}</span>
                 {stage.name}
               </motion.span>
             ))}

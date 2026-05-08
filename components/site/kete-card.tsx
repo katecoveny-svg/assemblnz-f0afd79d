@@ -79,7 +79,7 @@ export function KeteCard({
         onMouseLeave={() => setAccent(null)}
         onFocus={() => setAccent(kete.accent)}
         onBlur={() => setAccent(null)}
-        className={`kete-card group relative block h-full overflow-hidden rounded-card border border-[rgba(35,33,31,0.08)] bg-white/55 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[rgba(35,33,31,0.18)] hover:shadow-[0_24px_56px_rgba(43,107,87,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-soft-gold)] ${
+        className={`kete-card group relative block h-full overflow-hidden rounded-card border border-[rgba(35,33,31,0.08)] bg-white/55 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[rgba(35,33,31,0.18)] hover:shadow-[0_24px_56px_rgba(43,107,87,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] ${
           featured ? 'p-10 md:p-14' : 'p-8 md:p-10'
         }`}
         style={{ ['--kete-accent' as string]: kete.accent }}

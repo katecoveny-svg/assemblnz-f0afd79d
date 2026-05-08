@@ -68,7 +68,7 @@ export function KeteSpotlight({
                 href={`/kete/${kete.slug}`}
                 className="group inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.28em] text-[color:var(--text-primary)]"
               >
-                <span className="border-b border-[color:var(--text-primary)] pb-1 transition-all duration-300 group-hover:border-[color:var(--assembl-soft-gold)] group-hover:text-[color:var(--assembl-sage-mist)]">
+                <span className="border-b border-[color:var(--text-primary)] pb-1 transition-all duration-300 group-hover:border-[color:var(--assembl-pounamu)] group-hover:text-[color:var(--assembl-pounamu)]">
                   Explore {kete.name}
                 </span>
                 <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden />
