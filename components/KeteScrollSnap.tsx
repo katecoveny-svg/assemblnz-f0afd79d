@@ -105,7 +105,7 @@ function KeteScene({
 }) {
   const copy = KETE_TAGLINE[kete.slug] ?? { lead: kete.tagline, body: '' };
   const count = COUNTS[kete.slug] ?? 0;
-  const isComingSoon = kete.status === 'coming-soon' || kete.status === 'mothballed';
+  const isComingSoon = kete.status !== 'pilot';
 
   return (
     <section

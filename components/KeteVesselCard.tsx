@@ -19,7 +19,7 @@ export function KeteVesselCard({
 }) {
   const reduce = useReducedMotion();
   const status =
-    kete.status === 'active' ? 'Live' : kete.status === 'coming-soon' ? 'Coming soon' : 'Pending';
+    kete.status === 'pilot' ? 'Live' : kete.status === 'shortly' ? 'Coming soon' : 'On roadmap';
 
   return (
     <motion.div
