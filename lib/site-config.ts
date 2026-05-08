@@ -271,8 +271,8 @@ export const FOOTER_DISCLAIMER =
   'assembl produces draft outputs for human review. No output constitutes legal, financial, immigration, medical, or professional advice. All consequential actions require sign-off from a qualified professional. assembl agents operate under a draft-only posture — nothing ships without explicit human approval.';
 
 // ─── Backwards-compatibility shims ───────────────────────────────────────────
-// site-footer.tsx and app/legal/disclaimer/page.tsx import these camelCase names.
-// They are aliases — no new data, no new content.
+// Pre-Phase-1 components import camelCase names. These are aliases only —
+// no new data, no new content. Phase 1 canonical names in comments.
 
 /** @deprecated Use FOOTER_DISCLAIMER */
 export const footerDisclaimer = FOOTER_DISCLAIMER;
@@ -281,3 +281,15 @@ export const footerDisclaimer = FOOTER_DISCLAIMER;
 export const heroVessel = {
   mark: VESSEL_ASSETS.brandMark,
 } as const;
+
+/**
+ * @deprecated Use HEADER_NAV
+ * Backwards compat for components/site/site-header.tsx
+ */
+export const nav = HEADER_NAV;
+
+/**
+ * @deprecated Use HEADER_CTA
+ * Backwards compat for components/site/site-header.tsx
+ */
+export const navCta = HEADER_CTA;
