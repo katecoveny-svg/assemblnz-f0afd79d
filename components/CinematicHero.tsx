@@ -3,8 +3,8 @@ import { heroVessel } from '@/lib/site-config';
 
 /**
  * CinematicHero — full-bleed static 16:9 vessel still as the hero background.
- * The previous cinematic video (720p, scroll-scrubbed) rendered fuzzy when
- * stretched to full-bleed; the static PNG is crisp at any size.
+ * The previous 720p video stretched full-bleed rendered fuzzy; the static PNG
+ * stays crisp at any size. min-h-[100vh] satisfies the brief's min-h-[80vh] floor.
  */
 export function CinematicHero({ children }: { children: React.ReactNode }) {
   return (

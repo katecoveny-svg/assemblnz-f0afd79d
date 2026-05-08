@@ -18,6 +18,20 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { heroVessel } from '@/lib/site-config';
+
+function VesselBackdrop() {
+  return (
+    <Image
+      src={heroVessel.wide}
+      alt=""
+      aria-hidden
+      fill
+      sizes="(max-width: 768px) 100vw, 50vw"
+      className="object-cover opacity-60"
+    />
+  );
+}
 
 const SCENES = [
   { id: 's1', step: 'scene 01 · scattered' },
@@ -224,7 +238,8 @@ function Scene1() {
       }
       body="The email, the drive, the chat, the spreadsheet no one named. When something needs answering, you go hunting."
     >
-      <div className="relative h-full w-full">
+      <VesselBackdrop />
+      <div className="relative z-10 h-full w-full">
         {SCENE_1_NOTES.map((note, i) => (
           <motion.div
             key={i}
@@ -379,7 +394,8 @@ function Scene2() {
       }
       body="Point the agent at the question. It finds each piece in the right place, shows you what it has, and waits for you to say go."
     >
-      <div className="relative h-full w-full">
+      <VesselBackdrop />
+      <div className="relative z-10 h-full w-full">
         {/* dashed connectors between strata */}
         <svg
           className="pointer-events-none absolute inset-0 h-full w-full"
@@ -494,87 +510,31 @@ function Scene3() {
       }
       body="Every action cited. Every step reversible. Nothing happens behind your back."
     >
-      <div className="relative h-full w-full" style={{ perspective: '1200px' }}>
-        <div
-          className="absolute"
-          style={{
-            top: '8%',
-            right: '10%',
-            bottom: '8%',
-            left: '10%',
-            transformStyle: 'preserve-3d',
-            transform: 'rotateX(2deg) rotateY(-4deg)',
-          }}
-        >
-          {/* l1 deepest pounamu */}
-          <Panel
-            inset="6% 14% 14% 4%"
-            background="linear-gradient(160deg,rgba(43,107,87,0.42),rgba(43,107,87,0.22) 55%,rgba(110,149,127,0.30))"
-            mixBlendMultiply
-            shadow="0 30px 60px -30px rgba(43,107,87,0.4)"
-          />
-          {/* l2 pounamu mid */}
-          <Panel
-            inset="14% 8% 18% 12%"
-            background="linear-gradient(180deg,rgba(43,107,87,0.28),rgba(110,149,127,0.18))"
-            mixBlendMultiply
-          />
-          {/* l3 silk */}
-          <Panel
-            inset="18% 4% 8% 18%"
-            background="linear-gradient(200deg,rgba(232,199,122,0.18),rgba(250,247,242,0.55) 50%,rgba(232,228,222,0.40))"
-            border="0.5px solid rgba(212,168,83,0.22)"
-            shadow="inset 0 0 30px rgba(250,247,242,0.4)"
-          />
-          {/* l4 glass */}
-          <Panel
-            inset="26% 18% 24% 10%"
-            background="linear-gradient(165deg,rgba(232,228,222,0.60),rgba(250,247,242,0.35) 55%,rgba(43,107,87,0.10))"
-            border="0.5px solid rgba(35,33,31,0.08)"
-            shadow="0 20px 40px -20px rgba(35,33,31,0.18), inset 0 1px 0 rgba(255,255,255,0.5)"
-          />
-          {/* l5 mist top */}
-          <Panel
-            inset="32% 28% 34% 22%"
-            background="linear-gradient(180deg,rgba(250,247,242,0.70),rgba(232,228,222,0.40))"
-            border="0.5px solid rgba(35,33,31,0.06)"
-          />
-          {/* l6 gold spine */}
-          <Panel
-            inset="8% 48% 8% 48%"
-            background="linear-gradient(180deg,rgba(212,168,83,0.16),rgba(212,168,83,0.06) 50%,rgba(212,168,83,0.16))"
-            border="0"
-            extra={{
-              borderLeft: '0.5px solid rgba(212,168,83,0.4)',
-              borderRight: '0.5px solid rgba(212,168,83,0.4)',
-              borderRadius: 0,
-            }}
-          />
+      <VesselBackdrop />
+      <div className="relative z-10 h-full w-full">
+        {/* drifting gold pulses on top of the vessel */}
+        <PulseDot
+          absolute
+          size={6}
+          style={{ top: '32%', left: '36%', animationDelay: '.2s' }}
+        />
+        <PulseDot
+          absolute
+          size={4}
+          style={{ top: '48%', left: '54%', animationDelay: '1.6s' }}
+        />
+        <PulseDot
+          absolute
+          size={6}
+          style={{ top: '62%', left: '42%', animationDelay: '3s' }}
+        />
+        <PulseDot
+          absolute
+          size={4}
+          style={{ top: '38%', left: '62%', animationDelay: '.8s' }}
+        />
 
-          {/* drifting gold pulses */}
-          <PulseDot
-            absolute
-            size={6}
-            style={{ top: '32%', left: '36%', animationDelay: '.2s' }}
-          />
-          <PulseDot
-            absolute
-            size={4}
-            style={{ top: '48%', left: '54%', animationDelay: '1.6s' }}
-          />
-          <PulseDot
-            absolute
-            size={6}
-            style={{ top: '62%', left: '42%', animationDelay: '3s' }}
-          />
-          <PulseDot
-            absolute
-            size={4}
-            style={{ top: '38%', left: '62%', animationDelay: '.8s' }}
-          />
-        </div>
-
-        {/* armature — gold hairlines forming a frame around the panels */}
+        {/* armature — gold hairlines forming a frame around the vessel */}
         <svg
           className="pointer-events-none absolute"
           style={{ top: '8%', right: '10%', bottom: '8%', left: '10%', opacity: 0.6 }}

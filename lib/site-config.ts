@@ -76,11 +76,12 @@ export const reo = {
   heroLede:
     'New Zealanders use intelligent agents everywhere. Few of us trust what they do. assembl runs every workflow in the open and ends each one with an evidence pack you can file, forward, or footnote.',
 
-  // Q1 — display-friendly two-line headline distilled from the lede.
-  // The hero word-reveal animation chunks against this.
+  // Q1 — locked Variant A H1 (signed off 2026-05-08): "quiet intelligence for Aotearoa".
+  // Lowercase q, capital A on the proper noun, no other punctuation.
+  // Two-line presentation so the gilded last line carries "for Aotearoa".
   heroHeadlineLines: [
-    'Quiet intelligence,',
-    'on the record.',
+    'quiet intelligence',
+    'for Aotearoa',
   ] as const,
 
   // Q3 — Homepage pull quote
