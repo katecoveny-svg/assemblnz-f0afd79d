@@ -47,7 +47,7 @@ export const KETES: Kete[] = [
   },
   {
     slug: 'pikau',
-    name: 'Pikau',
+    name: 'Pīkau',
     industry: 'Freight & Customs',
     tagline: 'The audit trail your broker needs.',
     accent: '#3B7CB5',

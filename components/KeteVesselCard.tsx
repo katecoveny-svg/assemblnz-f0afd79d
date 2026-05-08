@@ -25,6 +25,14 @@ export function KeteVesselCard({
     <motion.div
       initial={reduce ? false : { opacity: 0, y: 24 }}
       whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+      whileHover={
+        reduce
+          ? undefined
+          : {
+              scale: 1.02,
+              transition: { type: 'spring', stiffness: 320, damping: 28, mass: 0.6 },
+            }
+      }
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.6, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
     >

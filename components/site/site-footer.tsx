@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { KETES } from "@/lib/kete";
-import { footerDisclaimer, heroVessel } from "@/lib/site-config";
+import { footerDisclaimer, heroVessel, ketes as keteImagery } from "@/lib/site-config";
 
 export function SiteFooter() {
   return (
@@ -36,11 +36,22 @@ export function SiteFooter() {
                 <li key={k.slug}>
                   <Link
                     href={`/kete/${k.slug}`}
-                    className="text-[color:var(--text-primary)] hover:text-[color:var(--assembl-pounamu)]"
+                    className="inline-flex items-center gap-3 text-[color:var(--text-primary)] hover:text-[color:var(--assembl-pounamu)]"
                   >
-                    {k.name}
-                    <span className="ml-2 text-xs text-[color:var(--text-secondary)]">
-                      {k.industry}
+                    <img
+                      src={keteImagery[k.slug].square}
+                      alt=""
+                      aria-hidden
+                      width={24}
+                      height={24}
+                      loading="lazy"
+                      className="h-6 w-6 flex-none rounded-[2px] object-cover"
+                    />
+                    <span>
+                      {k.name}
+                      <span className="ml-2 text-xs text-[color:var(--text-secondary)]">
+                        {k.industry}
+                      </span>
                     </span>
                   </Link>
                 </li>
