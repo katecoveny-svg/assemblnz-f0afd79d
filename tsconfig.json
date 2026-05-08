@@ -41,6 +41,7 @@
     "supabase",
     "remotion",
     "docs",
-    ".lovable"
+    ".lovable",
+    "plugins"
   ]
 }

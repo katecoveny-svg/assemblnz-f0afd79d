@@ -363,7 +363,20 @@ const SCENE_2_ROWS: Array<{ tag: string; top: string; notes: Array<{ k: string; 
 ];
 
 function Scene2() {
+  const reducedMotion = useReducedMotion();
   return (
+    <div className="relative isolate">
+      {!reducedMotion && (
+        <video
+          src="/videos/manaaki-vessel.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover opacity-20"
+        />
+      )}
     <SceneShell
       index={1}
       id="s2"
@@ -470,6 +483,7 @@ function Scene2() {
         ))}
       </div>
     </SceneShell>
+    </div>
   );
 }
 
