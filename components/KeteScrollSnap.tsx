@@ -114,7 +114,7 @@ function KeteScene({
       id={`scene-${kete.slug}`}
       className="relative flex min-h-screen snap-start items-center overflow-hidden"
       style={{
-        background: `radial-gradient(ellipse at 30% 50%, ${kete.accent}1A 0%, transparent 55%), linear-gradient(180deg, var(--assembl-paper) 0%, ${kete.accent}08 100%)`,
+        background: `radial-gradient(ellipse at 30% 50%, ${kete.accentTint}1A 0%, transparent 55%), linear-gradient(180deg, var(--assembl-paper) 0%, ${kete.accentTint}08 100%)`,
       }}
     >
       {/* Scene number — top-left metadata */}
@@ -136,7 +136,7 @@ function KeteScene({
           >
             <p
               className="font-mono text-xs uppercase tracking-[0.32em]"
-              style={{ color: kete.accent }}
+              style={{ color: kete.accentTint }}
             >
               {kete.industry}
               {isComingSoon && ' · Coming soon'}
@@ -166,13 +166,13 @@ function KeteScene({
               >
                 <span
                   className="border-b pb-1 transition-colors duration-300 group-hover:opacity-80"
-                  style={{ borderColor: kete.accent }}
+                  style={{ borderColor: kete.accentTint }}
                 >
                   {isComingSoon ? `Register interest · ${kete.name}` : `Explore ${kete.name}`}
                 </span>
                 <ArrowRight
                   className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
-                  style={{ color: kete.accent }}
+                  style={{ color: kete.accentTint }}
                   aria-hidden
                 />
               </Link>
@@ -180,7 +180,7 @@ function KeteScene({
               {count > 0 && (
                 <span
                   className="font-mono text-[11px] uppercase tracking-[0.22em]"
-                  style={{ color: kete.accent }}
+                  style={{ color: kete.accentTint }}
                 >
                   ◆ {count} {count === 1 ? 'agent' : 'agents'}
                 </span>
@@ -201,14 +201,14 @@ function KeteScene({
               aria-hidden
               className="pointer-events-none absolute inset-0 -z-10 blur-3xl"
               style={{
-                background: `radial-gradient(circle at 50% 50%, ${kete.accent}40 0%, transparent 60%)`,
+                background: `radial-gradient(circle at 50% 50%, ${kete.accentTint}40 0%, transparent 60%)`,
               }}
             />
             <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
               <VesselTile
                 slug={kete.slug}
                 name={kete.name}
-                accent={kete.accent}
+                accent={kete.accentTint}
                 aspect="4/5"
                 sizes="(min-width: 1024px) 36vw, (min-width: 640px) 60vw, 90vw"
               />
@@ -272,7 +272,7 @@ function SceneDots({ activeIndex, ketes }: { activeIndex: number; ketes: typeof 
           <span
             className="block h-2 w-2 rounded-full transition-all duration-300"
             style={{
-              backgroundColor: i === activeIndex ? k.accent : 'rgba(35,33,31,0.25)',
+              backgroundColor: i === activeIndex ? k.accentTint : 'rgba(35,33,31,0.25)',
               transform: i === activeIndex ? 'scale(1.5)' : 'scale(1)',
             }}
           />

@@ -31,7 +31,7 @@ export function KeteVesselCard({
       <Link
         href={`/kete/${kete.slug}`}
         className="kete-card group block overflow-hidden"
-        style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
+        style={{ ['--kete-accent' as string]: `${kete.accentTint}59` }}
       >
         <div className="relative aspect-square overflow-hidden">
           <img
@@ -44,13 +44,13 @@ export function KeteVesselCard({
             aria-hidden
             className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
             style={{
-              background: `linear-gradient(180deg, transparent 50%, ${kete.accent}33 100%)`,
+              background: `linear-gradient(180deg, transparent 50%, ${kete.accentTint}33 100%)`,
             }}
           />
           <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-[rgba(250,247,242,0.85)] px-3 py-1 backdrop-blur-md">
             <span
               className="h-1.5 w-1.5 rounded-full"
-              style={{ backgroundColor: kete.accent }}
+              style={{ backgroundColor: kete.accentTint }}
               aria-hidden
             />
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
@@ -60,7 +60,7 @@ export function KeteVesselCard({
         </div>
         <div className="p-6">
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-            {kete.industry} · {kete.accentName}
+            {kete.industry} · 
           </p>
           <h3 className="mt-2 font-display text-3xl text-[color:var(--text-primary)]">
             {kete.name}

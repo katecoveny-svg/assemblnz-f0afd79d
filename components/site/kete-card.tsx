@@ -75,21 +75,21 @@ export function KeteCard({
       <Link
         href={`/kete/${kete.slug}`}
         data-kete={kete.slug}
-        onMouseEnter={() => setAccent(kete.accent)}
+        onMouseEnter={() => setAccent(kete.accentTint)}
         onMouseLeave={() => setAccent(null)}
-        onFocus={() => setAccent(kete.accent)}
+        onFocus={() => setAccent(kete.accentTint)}
         onBlur={() => setAccent(null)}
         className={`kete-card group relative block h-full overflow-hidden rounded-card border border-[rgba(35,33,31,0.08)] bg-white/55 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-[rgba(35,33,31,0.18)] hover:shadow-[0_24px_56px_rgba(43,107,87,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-soft-gold)] ${
           featured ? 'p-10 md:p-14' : 'p-8 md:p-10'
         }`}
-        style={{ ['--kete-accent' as string]: kete.accent }}
+        style={{ ['--kete-accent' as string]: kete.accentTint }}
       >
         {/* Per-kete subtle pattern — fades up on hover */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-[0.06] transition-opacity duration-500 group-hover:opacity-[0.14]"
           style={{
-            color: kete.accent,
+            color: kete.accentTint,
             backgroundImage: KETE_PATTERN[kete.slug],
             backgroundSize: KETE_PATTERN_SIZE[kete.slug],
           }}
@@ -99,7 +99,7 @@ export function KeteCard({
         <span
           aria-hidden
           className="absolute left-0 top-8 h-12 w-1 rounded-r transition-all duration-500 group-hover:top-0 group-hover:h-full group-hover:w-2"
-          style={{ backgroundColor: kete.accent }}
+          style={{ backgroundColor: kete.accentTint }}
         />
 
         <div className={`relative ${featured ? 'grid items-center gap-8 md:grid-cols-[1fr_auto] md:gap-12' : ''}`}>
@@ -143,7 +143,7 @@ export function KeteCard({
             <div className="flex justify-center md:justify-end">
               <KeteIllustration
                 slug={kete.slug}
-                accent={kete.accent}
+                accent={kete.accentTint}
                 className="h-44 w-auto transition-transform duration-700 group-hover:scale-[1.04] md:h-56"
               />
             </div>
@@ -154,7 +154,7 @@ export function KeteCard({
         {!featured && (
           <KeteIllustration
             slug={kete.slug}
-            accent={kete.accent}
+            accent={kete.accentTint}
             className="pointer-events-none absolute right-4 top-4 h-20 w-auto opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110"
           />
         )}
@@ -166,9 +166,9 @@ export function KeteCard({
               <span
                 aria-hidden
                 className="h-2.5 w-2.5 rounded-full transition-transform duration-500 group-hover:scale-150"
-                style={{ backgroundColor: kete.accent }}
+                style={{ backgroundColor: kete.accentTint }}
               />
-              {kete.accentName}
+              
             </span>
 
             {/* "+ N agents" chip — appears on hover */}
@@ -176,9 +176,9 @@ export function KeteCard({
               <span
                 className="rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                 style={{
-                  color: kete.accent,
-                  borderColor: kete.accent + '55',
-                  backgroundColor: kete.accent + '10',
+                  color: kete.accentTint,
+                  borderColor: kete.accentTint + '55',
+                  backgroundColor: kete.accentTint + '10',
                 }}
               >
                 + {agentCount} {agentCount === 1 ? 'agent' : 'agents'}

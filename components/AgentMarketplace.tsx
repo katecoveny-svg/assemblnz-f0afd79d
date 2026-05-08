@@ -93,7 +93,7 @@ export function AgentMarketplace() {
                 active={keteFilter === k.slug}
                 onClick={() => setKeteFilter(k.slug)}
                 label={k.name}
-                accent={k.accent}
+                accent={k.accentTint}
               />
             ))}
           </div>
@@ -261,14 +261,14 @@ function AgentCard({
           ? 'border-[color:var(--assembl-sage-mist)] ring-2 ring-[color:var(--assembl-sage-mist)]'
           : 'border-[rgba(35,33,31,0.10)]'
       }`}
-      style={{ ['--kete-accent' as string]: kete.accent }}
+      style={{ ['--kete-accent' as string]: kete.accentTint }}
     >
       {/* Subtle accent bleed on hover */}
       <div
         aria-hidden
         className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-50"
         style={{
-          background: `radial-gradient(circle, ${kete.accent} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${kete.accentTint} 0%, transparent 70%)`,
         }}
       />
 
@@ -276,7 +276,7 @@ function AgentCard({
       <div className="flex items-center gap-2">
         <span
           className="h-2 w-2 rounded-full"
-          style={{ backgroundColor: kete.accent }}
+          style={{ backgroundColor: kete.accentTint }}
           aria-hidden
         />
         <Link

@@ -77,7 +77,7 @@ export function KeteSpotlight({
               {count > 0 && (
                 <span
                   className="font-mono text-[11px] uppercase tracking-[0.22em]"
-                  style={{ color: kete.accent }}
+                  style={{ color: kete.accentTint }}
                 >
                   ◆ {count} {count === 1 ? 'agent' : 'agents'}
                 </span>
@@ -98,14 +98,14 @@ export function KeteSpotlight({
               aria-hidden
               className="pointer-events-none absolute inset-0 -z-10 blur-3xl"
               style={{
-                background: `radial-gradient(circle at 50% 50%, ${kete.accent}30 0%, transparent 60%)`,
+                background: `radial-gradient(circle at 50% 50%, ${kete.accentTint}30 0%, transparent 60%)`,
               }}
             />
             <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
               <VesselTile
                 slug={kete.slug}
                 name={kete.name}
-                accent={kete.accent}
+                accent={kete.accentTint}
                 aspect="4/5"
                 sizes="(min-width: 1024px) 36vw, (min-width: 640px) 60vw, 90vw"
               />
