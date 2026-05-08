@@ -1,141 +1,139 @@
 ---
 name: building-act-2004
 description: |
-  Fires whenever a workflow involves a building project under the New
-  Zealand Building Act 2004 — building consent applications, code
-  compliance, restricted building work, code compliance certificates
-  (CCCs), and notice-to-fix correspondence. Covers s.17 (building work
-  must comply with the Building Code), s.49 (grant of building consent),
-  and s.95A (CCC).
+  Fires on building consents, code compliance certificates (CCCs),
+  restricted building work (RBW), schedule 1 exempt work, building code
+  clauses, and producer statements. Provides a Building Act 2004 quick
+  reference for drafting consent applications, CCC-readiness checklists,
+  and consent-condition responses for a Licensed Building Practitioner or
+  registered architect to review and sign off. No building advice, no
+  consent lodgement, no CCC issue.
 
-  Trigger phrases / contexts: "Building Act", "building consent",
-  "building code", "BCA", "building consent authority", "CCC", "code
-  compliance certificate", "notice to fix", "restricted building work",
-  "RBW", "schedule 1 exempt work", "producer statement", "PS1", "PS2",
-  "PS3", "PS4", "MBIE", "council inspection".
+  Trigger phrases / contexts: "building consent", "BC", "CCC", "code
+  compliance certificate", "Building Act", "Building Code", "B1", "B2",
+  "E2", "weathertightness", "RBW", "restricted building work",
+  "schedule 1", "exempt work", "producer statement", "PS1", "PS2", "PS3",
+  "PS4", "consent conditions", "BCA", "building consent authority",
+  "MBIE determination", "section 17", "section 49", "section 95A".
 mandatory: true
 applies_to: ["waihanga"]
 ---
 
-# Building Act 2004 — Waihanga core skill
+# Building Act 2004 — quick reference skill (Waihanga)
 
 ## When to use
 
-- Drafting a building consent application for a registered designer
-  or licensed building practitioner to review and lodge.
-- Reviewing a council request for further information (RFI) and
-  drafting a response.
-- Producing a code-compliance narrative against a Building Code clause.
-- Drafting a producer statement (PS1 design, PS3 construction, PS4
-  construction review) for a registered author to sign.
-- Responding to a council notice to fix.
+- Drafting a building consent application package for a registered
+  architect, designer, or Licensed Building Practitioner to review
+  and lodge.
+- Producing a CCC-readiness checklist as a project closes out.
+- Preparing draft responses to consent conditions, requests for
+  information (RFIs) from the BCA, or notices to fix.
+- Identifying whether work is restricted building work (RBW) and
+  therefore requires a Licensed Building Practitioner.
+- Identifying whether work is exempt under Schedule 1 (and therefore
+  no consent is required).
 
 ## What this skill will NOT do
 
-- Submit consent applications to a Building Consent Authority (BCA).
-  The licensed designer or owner submits; the skill drafts.
-- Issue code compliance certificates (CCCs). Only a BCA can issue a CCC
+- Submit a building consent application to a building consent
+  authority. Lodgement remains with the registered architect, designer,
+  or LBP acting for the owner.
+- Issue a code compliance certificate. Only the BCA can issue a CCC
   under s.95A.
-- Sign off restricted building work (RBW). Only a Licensed Building
-  Practitioner (LBP) within their licence class may carry out, supervise,
-  or sign RBW. The skill never signs.
-- Provide legal advice. Outputs are drafts only — they go to the
-  designer, LBP, BCA, and where appropriate a lawyer.
-- Override a BCA decision. Reconsiderations, determinations, and
-  appeals go through the formal MBIE process.
+- Sign off on restricted building work. RBW design and supervision
+  are the duty of a Licensed Building Practitioner; Waihanga drafts
+  the documentation, not the sign-off.
+- Determine code compliance. The skill surfaces the relevant Building
+  Code clauses and the documentation pattern; a qualified person
+  assesses compliance.
+- Provide building, planning, or engineering advice. Outputs are draft
+  work product only.
 
 ## Tikanga check
 
-Where the build is on whenua Māori (Māori freehold land, Māori customary
-land), defer to mana whenua and the relevant trust or incorporation.
-Tikanga around wāhi tapu and burial sites must be respected — if a site
-discovery occurs during construction, work stops and the appropriate iwi
-authority is consulted before proceeding (this is also a Heritage
-New Zealand Pouhere Taonga Act 2014 obligation).
+Building work touches whenua and, often, sites with cultural
+significance — wāhi tapu, urupā, ancestral pā sites, water bodies. Where
+the project is on or near a known site of cultural significance, or
+where the client is a Māori land trust, hapū, iwi authority, marae, or
+papakāinga project, defer to the tikanga-compliance skill before drafting
+any client-facing copy. Cultural impact assessment may sit alongside the
+consent process; flag that to the human reviewer rather than absorbing
+it into the consent draft.
 
-Where the build is for a marae, papakāinga, kura kaupapa Māori, or
-other community kaupapa, defer to the kaupapa governance and to
-manaakitanga in tone of correspondence with the community.
+Macrons preserved (Waihanga).
 
 ## Privacy Act check
 
-Building consent records are mostly public (consent number, address,
-nature of work) but the applicant's contact details and any health or
-accessibility information about future occupants are personal
-information. Apply IPP 1 minimisation in the consent application —
-only what the BCA needs. Apply IPP 11 when sharing consent
-correspondence with subcontractors.
+Consent applications surface owner names, contact details, addresses,
+and sometimes financial information. Apply:
+
+- IPP 1: collect only what the consent application requires.
+- IPP 5: store consent files under access controls.
+- IPP 9: retain in line with the BCA's record-keeping obligations and
+  the project's professional indemnity / contract retention rules.
+- IPP 11: do not redistribute owner details beyond the design team and
+  the BCA without an authorising basis.
+- IPP 3A (effective 1 May 2026): where owner information is collected
+  indirectly (from a builder, agent, or insurer), notify the owner of
+  the collection.
 
 ## Workflow steps
 
-### Statutory anchors
+1. **Identify the work.** New build, alteration, addition, change of
+   use, demolition, or relocation. Confirm whether the work is exempt
+   under Schedule 1.
+2. **Identify the consent path.** Standard, fast-track (where
+   available), MultiProof (where applicable), or no consent (Schedule
+   1 exempt). For change of use, apply s.115 (BCA must be satisfied
+   the building will continue to comply).
+3. **Identify restricted building work (RBW).** RBW design and
+   supervision must be carried out or supervised by a Licensed
+   Building Practitioner. Surface which licence classes apply (carpentry,
+   site, foundations, external plastering, brick and blocklaying,
+   roofing, design — depending on the work).
+4. **Identify the relevant Building Code clauses.** Surface the
+   clauses likely engaged (B1 structure, B2 durability, C
+   protection from fire, D access, E2 external moisture / weathertight,
+   E3 internal moisture, F protection of people, G services and
+   facilities, H energy efficiency).
+5. **Draft the application package** — owner details, designer details,
+   site details, work description, plans and specifications inventory,
+   producer statements expected (PS1 design, PS2 design review, PS3
+   construction, PS4 construction review), proposed inspection
+   schedule.
+6. **Draft a CCC-readiness checklist** — consented documentation,
+   inspection records, producer statements held, as-built variations
+   recorded, energy-efficiency documentation under H1 where
+   relevant.
+7. **Stage for the LBP / registered architect / designer** to review
+   and lodge. Waihanga produces drafts; the licensed professional
+   takes responsibility.
 
-- **Section 17 — Building work must comply with the Building Code**:
-  all building work, whether or not a building consent is required, must
-  comply with the Building Code to the extent required by the Act.
-  Drafting starts with the relevant clause (B1 structure, B2
-  durability, C1–C6 protection from fire, E1 surface water, E2 external
-  moisture, F4 safety from falling, G4 ventilation, H1 energy
-  efficiency, etc.).
-- **Section 49 — Grant of building consent**: the BCA must grant a
-  building consent if it is satisfied on reasonable grounds that the
-  provisions of the Building Code would be met if the building work
-  were properly completed in accordance with the plans and
-  specifications submitted with the application.
-- **Section 95A — Code compliance certificate**: the BCA must issue a
-  CCC if it is satisfied on reasonable grounds that the building work
-  complies with the building consent. The owner applies for the CCC;
-  the BCA decides whether to issue it. The skill helps prepare the
-  application; it never issues the CCC itself.
+### Key sections
 
-### Drafting pattern — building consent application
-
-1. Confirm whether the work is exempt under Schedule 1, requires a
-   building consent, or qualifies for a national multiple-use approval.
-2. Identify whether the work involves restricted building work (RBW)
-   under the regulations — if yes, the design must be carried out or
-   supervised by an LBP in the appropriate licence class, and the LBP
-   memorandum (Form 2A) is part of the application.
-3. Compile the application pack: Form 2 (application for project
-   information memorandum and / or building consent), plans and
-   specifications, code-compliance documents (or PS1 design producer
-   statement), evidence of ownership, certificate of title, and
-   any specialist reports (geotechnical, structural, fire).
-4. Draft the code-compliance narrative against each Building Code
-   clause in scope. State which compliance pathway is used —
-   Acceptable Solution, Verification Method, or Alternative Solution.
-5. Stage for the registered designer / LBP to review, sign, and lodge.
-
-### Drafting pattern — CCC application
-
-1. Confirm all building work is complete and inspections are signed off.
-2. Compile the CCC application: Form 6 (application for code compliance
-   certificate), as-built records, PS3 construction and PS4
-   construction-review producer statements where used, energy work
-   certificates, and any required compliance schedules under s.100.
-3. Stage for the owner to lodge with the BCA. Do not lodge on behalf
-   of the owner; do not represent that the work complies — only the
-   BCA can decide that.
-
-### Drafting pattern — notice to fix response
-
-1. Read the notice to fix and identify the breach alleged and the
-   period to remedy.
-2. Draft the remediation plan with the LBP responsible for the work.
-3. Stage the response for the LBP / owner to send. Do not send on
-   their behalf.
+- **s.17 — Building Code compliance.** All building work must comply
+  with the Building Code, even where consent is not required.
+- **s.49 — Issue of building consent.** The BCA must grant a consent
+  if it is satisfied on reasonable grounds that the provisions of the
+  Building Code would be met if the building work were properly
+  completed in accordance with the plans and specifications.
+- **s.95A — Issue of code compliance certificate.** The BCA must
+  issue a CCC if it is satisfied on reasonable grounds that the
+  building work complies with the building consent.
+- **s.115 — Change of use.** The BCA must be satisfied the building
+  will comply with specified Code clauses to at least the extent
+  required by the new use.
 
 ## References
 
 - Building Act 2004:
-  `https://www.legislation.govt.nz/act/public/2004/0072/latest/whole.html`
-- Building (Forms) Regulations 2004:
-  `https://www.legislation.govt.nz/regulation/public/2004/0385/latest/whole.html`
-- Building Code (Schedule 1, Building Regulations 1992):
-  `https://www.legislation.govt.nz/regulation/public/1992/0150/latest/whole.html`
-- MBIE — Building Performance:
-  `https://www.building.govt.nz/`
-- MBIE — restricted building work:
-  `https://www.building.govt.nz/projects-and-consents/planning-a-successful-build/scope-and-design/check-if-you-need-consents/restricted-building-work/`
-- Heritage New Zealand Pouhere Taonga Act 2014 (wāhi tapu):
-  `https://www.legislation.govt.nz/act/public/2014/0026/latest/whole.html`
+  `https://www.legislation.govt.nz/act/public/2004/0072`
+- Building Code (Building Regulations 1992, Schedule 1):
+  `https://www.legislation.govt.nz/regulation/public/1992/0150`
+- MBIE Building Performance:
+  `https://www.building.govt.nz`
+- Licensed Building Practitioners register:
+  `https://www.lbp.govt.nz`
+- MBIE Determinations search:
+  `https://www.building.govt.nz/resolving-problems/resolution-options/determinations/determinations-issued/`

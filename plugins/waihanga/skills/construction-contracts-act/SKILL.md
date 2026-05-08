@@ -1,139 +1,140 @@
 ---
 name: construction-contracts-act
 description: |
-  Fires whenever a workflow involves a payment claim, payment schedule,
-  variation, or retention under the Construction Contracts Act 2002.
-  Covers s.20 (payment claim), s.21 (payment schedule), and s.18A
-  (retention money trust regime). Drafts only — no binding sign-offs.
+  Fires on payment claims, payment schedules, retentions, default
+  payment rules, and adjudication under the Construction Contracts Act
+  2002. Provides a quick reference for drafting payment claims and
+  payment schedules to the statutory form, surfacing retention-trust
+  rules, and identifying default-rule fallbacks for review by the
+  responsible party (principal, head contractor, subcontractor).
+  No legal advice; no signed payment claims; no binding adjudication
+  responses.
 
   Trigger phrases / contexts: "payment claim", "payment schedule",
-  "CCA", "Construction Contracts Act", "section 20", "section 21",
-  "retention money", "retention trust", "variation", "variation
-  order", "due date for payment", "default payment", "default amount",
-  "principal", "head contractor", "subcontractor", "adjudication".
+  "retentions", "retentions trust", "section 18A", "section 20",
+  "section 21", "default payment", "due date for payment", "CCA",
+  "Construction Contracts Act", "adjudication", "scheduled amount",
+  "claimed amount", "progress payment".
 mandatory: false
 applies_to: ["waihanga"]
 ---
 
-# Construction Contracts Act 2002 — Waihanga utility skill
+# Construction Contracts Act 2002 — quick reference skill (Waihanga)
 
 ## When to use
 
-- Drafting a payment claim under s.20 for a head contractor or
-  subcontractor to issue.
-- Drafting a payment schedule under s.21 for a principal or head
-  contractor to issue.
-- Reviewing a variation request and drafting the response.
-- Advising on retention money treatment under the s.18A retention
-  trust regime.
-- Preparing background notes for an adjudication referral.
+- Drafting a payment claim to the statutory form (s.20) for the
+  contracting party to review and sign before issue.
+- Drafting a payment schedule in response to a received payment claim
+  (s.21) — including the scheduled amount and the reasons for any
+  difference from the claimed amount.
+- Identifying whether retentions are held in trust under s.18A and what
+  the trust accounting position is.
+- Identifying default rules where the contract is silent on payment
+  terms (s.16 — implied terms, s.17 — default progress payment rules
+  where applicable, s.23 — consequences of failing to issue a payment
+  schedule).
+- Drafting the file note for a notice of intention to suspend work
+  (s.24A) where a payment claim is unpaid and no schedule has been
+  issued.
 
 ## What this skill will NOT do
 
-- Sign off payment claims or treat them as issued. The contracting
-  party signs; the skill drafts.
-- Issue payment schedules. Only the payer can issue a payment
-  schedule under s.21. The skill drafts; the payer issues.
-- Bind the principal or head contractor to a variation. Variations
-  must be agreed under the contract terms; the skill drafts the
-  variation request and the response, but it does not bind either
-  party.
-- File adjudication notices on behalf of either party.
-- Provide legal advice. Outputs are drafts only — they go to the
-  contracting party and, where appropriate, a lawyer.
+- Sign off on a payment claim under the CCA. The party named on the
+  claim (head contractor, subcontractor, consultant) signs, not the
+  drafting tool.
+- Issue payment schedules on the principal's behalf without principal
+  approval. The skill drafts; the principal or the principal's
+  authorised representative issues.
+- Bind the principal to a variation. Variation pricing flows through
+  the contract's variation clauses; the CCA governs the payment cycle,
+  not the underlying scope change.
+- Respond to an adjudication notice on the party's behalf. Adjudication
+  responses are drafted with legal review and signed by the party.
+- Provide legal, contracting, or quantity-surveying advice. Outputs are
+  draft work product only.
 
 ## Tikanga check
 
-Where the project is on whenua Māori or for a Māori entity, defer
-to the building-act-2004 skill's tikanga note for the wider workflow
-tone. Manaakitanga matters in payment-claim correspondence — even
-where the claim is contested, language toward the other party should
-remain respectful.
+Construction payment disputes are stressful, often urgent, and
+relationship-damaging. Manaakitanga applies even — especially — when
+the relationship is under pressure: the language of a payment claim or
+schedule is firm and accurate without being hostile. Where the
+contracting parties include Māori-owned entities, marae, hapū-led
+papakāinga projects, or iwi authorities, defer to the tikanga-compliance
+skill for tone before any client-facing copy goes out.
+
+Macrons preserved (Waihanga).
 
 ## Privacy Act check
 
-Payment claims and schedules are commercial documents. Where a
-sole-trader subcontractor or named individual is involved, their
-contact details are personal information; apply IPP 11 when
-distributing schedules to other parties on the project.
+Payment claims and schedules carry party identities, contact details,
+and contract values. These are personal information for sole-trader
+parties. Apply IPPs 1, 5, 9, and 11. Project payment files have a
+retention period set by the contract and by professional-indemnity
+requirements; default to 7 years unless the contract sets a longer
+period.
+
+Where party information is collected indirectly (from a head
+contractor about a subcontractor, or from a consultant about a
+sub-consultant), IPP 3A (effective 1 May 2026) requires notifying the
+party of the collection.
 
 ## Workflow steps
 
-### Statutory anchors
+### Drafting a payment claim (s.20)
 
-- **Section 20 — Payment claim**: a payee may serve a payment claim
-  on the payer for a progress payment. The claim must:
-  - be in writing,
-  - identify the construction contract under which it is made,
-  - identify the construction work and the relevant period,
-  - state the claimed amount and how it is calculated,
-  - state the due date for payment, and
-  - be in the prescribed form (and accompanied by the prescribed
-    notice for residential construction contracts).
-- **Section 21 — Payment schedule**: the payer may respond by serving
-  a payment schedule. The schedule must:
-  - be in writing,
-  - identify the payment claim to which it relates,
-  - state the scheduled amount the payer proposes to pay, and
-  - if the scheduled amount is less than the claimed amount, state
-    the reasons for the difference and (for each reason) the manner
-    in which the payer calculated the scheduled amount.
-  - The schedule must be served within the time required by the
-    contract or, if the contract is silent, within 20 working days
-    after the payment claim is served.
-  - If no payment schedule is served on time, the payer becomes
-    liable to pay the claimed amount on the due date.
-- **Section 18A — Retention money trust**: retentions held under a
-  commercial construction contract must be held on trust for the
-  party from whom they are withheld. The retention money must be
-  held in cash or readily liquid assets, identifiable as retention
-  money, accounted for separately, and reported on. The trust regime
-  is strict and protects the subcontractor from the head contractor's
-  insolvency.
+1. Confirm the contract is a construction contract under the CCA.
+2. Confirm the period covered (the relevant payment claim period in
+   the contract).
+3. Calculate the claimed amount and break down the calculation
+   (preliminaries, work in place, variations, EOT cost claims,
+   materials on site where contractually allowed, less retentions
+   held).
+4. Draft the claim in the statutory form — claim is in writing,
+   contains a statement that it is made under the CCA, identifies
+   the construction work, indicates the claimed amount, indicates
+   the due date, and is served on the payer.
+5. Stage for the contracting party to review and sign.
 
-### Drafting pattern — payment claim
+### Drafting a payment schedule (s.21)
 
-1. Confirm the contract and the period the claim covers.
-2. Compute the claimed amount with a clear breakdown (lines of work,
-   variations, retentions held back, GST treatment).
-3. State the due date for payment (per the contract; default 20
-   working days under the Act).
-4. Use the prescribed-form heading and, for residential contracts,
-   include the prescribed notice.
-5. Stage for the payee to issue.
+1. Receive the payment claim. Calendar the deadline for the schedule
+   (the period set by the contract, or 20 working days under the
+   default rule).
+2. Draft the scheduled amount and the reasons for any difference from
+   the claimed amount. Reasons must be specific — generic "amount in
+   dispute" is not a reason.
+3. Identify any set-off or counterclaim with reasons.
+4. Stage for the principal or the principal's authorised
+   representative to review and issue.
 
-### Drafting pattern — payment schedule
+### Retentions (s.18A)
 
-1. Identify the payment claim (date, amount, period).
-2. State the scheduled amount the payer proposes to pay.
-3. Where the scheduled amount is less than the claimed amount, set
-   out the reason for each difference and how each line was
-   recalculated (substantiation is non-optional).
-4. Stage for the payer to issue **within the contract window or 20
-   working days**. Do not let the deadline slip — failure to issue
-   triggers liability for the full claimed amount.
+- Cash retentions held by a party under a construction contract are
+  held on trust for the party from whom the retentions are withheld.
+- The party holding retentions has obligations: keep retention money
+  separately accounted for, do not commingle except as expressly
+  permitted, report on retentions held.
+- Default rules may apply where the contract is silent or where the
+  retention amount is below a regulated threshold. Confirm the
+  current threshold at drafting time.
 
-### Drafting pattern — retention treatment
+### Default rules (s.16, s.17, s.23)
 
-1. Confirm the contract is a commercial construction contract caught
-   by s.18A.
-2. Confirm the retention money is held on trust in cash or readily
-   liquid assets, identifiable as retention money, and accounted for
-   separately from other funds.
-3. Confirm the reporting cycle to the subcontractor is in place.
-4. Flag any practice that would breach the trust regime (commingling,
-   using retentions as working capital, holding in non-liquid
-   assets) — escalate immediately.
+- Where the contract is silent on payment terms, default rules under
+  the Act apply.
+- s.23 — failure to issue a payment schedule by the deadline means
+  the claimed amount becomes the amount payable, and the payee may
+  recover the claimed amount as a debt.
 
 ## References
 
 - Construction Contracts Act 2002:
-  `https://www.legislation.govt.nz/act/public/2002/0046/latest/whole.html`
-- MBIE — Construction Contracts Act overview:
-  `https://www.building.govt.nz/projects-and-consents/why-contracts-are-important/construction-contracts-act/`
-- MBIE — payment claims and schedules:
-  `https://www.building.govt.nz/projects-and-consents/why-contracts-are-important/construction-contracts-act/payment-claims-and-schedules/`
-- MBIE — retention money trust regime:
-  `https://www.building.govt.nz/projects-and-consents/why-contracts-are-important/construction-contracts-act/retention-money/`
-- Building Disputes Tribunal (adjudication):
+  `https://www.legislation.govt.nz/act/public/2002/0046`
+- MBIE Construction Contracts Act guidance:
+  `https://www.building.govt.nz/projects-and-consents/why-contracts-are-valuable/construction-contracts-act-2002/`
+- Building Disputes Tribunal:
   `https://www.buildingdisputestribunal.co.nz/`
+- Master Builders Association — payment claim templates and guidance:
+  `https://www.masterbuilder.org.nz/`

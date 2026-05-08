@@ -1,135 +1,131 @@
 ---
 name: customs-act-2018
 description: |
-  Fires whenever a workflow involves importing or exporting goods to or
-  from New Zealand under the Customs and Excise Act 2018. Covers entry of
-  goods (Subpart 3 of Part 3), record-keeping (s.405), Customs powers
-  (s.354), and tariff / valuation / origin rules (Schedule 4).
+  Fires on customs entries, tariff classification, valuation, country of
+  origin, Goods Management Levy, prohibited and restricted goods, and any
+  workflow touching the Customs and Excise Act 2018. Provides a quick
+  reference for drafting customs work product — entry worksheets, valuation
+  notes, classification candidates, broker file notes — for review by a
+  licensed customs broker. No customs advice, no lodgement, no commitment
+  on classification.
 
-  Trigger phrases / contexts: "import entry", "export entry", "TSW",
-  "Trade Single Window", "customs clearance", "customs declaration",
-  "tariff classification", "duty rate", "GST on imports", "MPI clearance",
-  "biosecurity", "valuation", "origin", "FTA preference",
-  "free trade agreement", "EIF", "EIA", customs audit, customs broker,
-  customs agent, importer, exporter, broker engagement, lodgement.
+  Trigger phrases / contexts: "customs entry", "import declaration",
+  "TSW", "Trade Single Window", "tariff", "HS code", "harmonised system",
+  "classification", "customs valuation", "transaction value", "country of
+  origin", "rules of origin", "preferential origin", "GMT", "GML", "Goods
+  Management Levy", "import duty", "GST on imports", "prohibited goods",
+  "restricted goods", "Customs powers", "s.354", "s.405", "Schedule 4",
+  "Customs and Excise Act", "CEA 2018".
 mandatory: true
 applies_to: ["pikau"]
 ---
 
-# Customs and Excise Act 2018 — Pīkau core skill
+# Customs and Excise Act 2018 — quick reference skill (Pīkau)
 
 ## When to use
 
-- Drafting an import or export declaration for a licensed customs broker
-  to review and lodge.
-- Working out tariff classification, valuation, or origin (for FTA
-  preference) for goods crossing the NZ border.
-- Advising on record-keeping obligations under s.405 (7-year retention).
-- Advising on a Customs request, audit, or query made under s.354
-  powers.
-- Drafting customs-related correspondence (broker briefings, importer
-  instructions, MPI handovers).
+- Drafting an import or export entry worksheet for review by a licensed
+  customs broker.
+- Identifying which provisions of the Customs and Excise Act 2018 apply
+  to a given consignment.
+- Cross-checking valuation, origin, and classification work before the
+  broker lodges with NZ Customs.
+- Triaging whether goods are prohibited or restricted, and which agency
+  controls the restriction (Customs, MPI, MoH, EPA, NZ Police).
+- Preparing a record-retention note under s.405 (7-year retention).
 
 ## What this skill will NOT do
 
 - Lodge customs entries to Trade Single Window (TSW) on behalf of the
-  importer or broker. The skill drafts; a licensed customs broker
-  reviews, signs, and lodges.
-- Commit to a tariff classification without a licensed broker review.
-  Classification is the broker's regulated decision.
+  importer or broker.
+- Commit to a tariff classification without a licensed customs broker's
+  review and sign-off.
 - Respond on behalf of the importer to NZ Customs queries, audits, or
-  s.354 information requests. Drafts go to the importer or their
-  appointed broker.
-- Provide legal or customs-law advice. Outputs are working drafts only —
-  they go to a licensed customs broker and, where appropriate, a lawyer.
-- File MPI biosecurity or food-import declarations.
+  enforcement notices.
+- Bypass the licensed customs broker's involvement. Where Pīkau drafts a
+  classification or valuation note, the broker remains the responsible
+  party for the entry.
+- Provide customs or trade-law advice. Outputs are draft work product
+  only.
 
 ## Tikanga check
 
-Where the cargo, importer, or beneficial owner is a Māori business —
-Māori land trust, iwi authority, Māori incorporation — apply the four
-pou. Manaakitanga in tone toward the importer; rangatiratanga in
-deferring to the entity's own decision-making structure rather than
-imposing a default broker workflow.
+Customs work touches imports of taonga, including kōiwi, taonga tūturu,
+and items subject to the Protected Objects Act 1975. Where the
+consignment includes anything that may be culturally sensitive — Māori
+or otherwise — pause and surface to the human reviewer before proceeding
+with classification or valuation. Manaakitanga applies to client
+relationships: even in a stressful clearance window, communication with
+the importer and the broker is respectful and clear.
 
-Where there is no Māori party in scope, record that no specific
-tikanga concern applies for this run, and continue.
+Where the importer or exporter is a Māori-owned business, Māori land
+trust, iwi authority, or hapū-owned company, defer to the
+tikanga-compliance skill for relationship and communication norms before
+any customer-facing copy goes out.
 
 ## Privacy Act check
 
-Importer and consignee details are personal information where the
-party is a natural person (sole trader, individual). Apply IPP 1
-minimisation when drafting broker briefs and IPP 11 when sharing
-documents with brokers, freight forwarders, or MPI. NZ Customs
-information requests under s.354 are a lawful basis for disclosure
-to Customs itself, but do not extend to onward sharing.
+Customs entries contain personal information of the importer (sole
+trader names, contact details, addresses) and of consignees. Apply:
+
+- IPP 1: collect only what the entry requires.
+- IPP 5 (storage and security): broker file notes, including draft
+  classifications, must be stored under access controls.
+- IPP 9 (retention): keep records for 7 years per Customs Act s.405,
+  then dispose under a documented retention rule.
+- IPP 11 (disclosure): customs information shared with NZ Customs is
+  permitted by law; sharing beyond Customs (with insurers, freight
+  forwarders, the consignee) needs an authorising basis.
+- IPP 3A (effective 1 May 2026): where importer information is
+  collected indirectly (from the freight forwarder or shipping line
+  rather than the importer), notify the importer of the collection.
 
 ## Workflow steps
 
-### Statutory anchors
+1. Identify the consignment: importer, supplier, goods description,
+   commercial invoice value, currency, country of export, country of
+   origin, mode of transport, port of entry.
+2. Confirm the legal basis for the entry — Part 3 of the Act (entry of
+   goods), specifically subpart 3 (entry of imported goods).
+3. Draft the tariff classification candidates (use the
+   `tariff-classification` skill — always 3 candidates, never 1).
+4. Draft the customs value (use the valuation rules in Schedule 4 —
+   transaction value first, then the alternative methods in order).
+5. Confirm the country of origin and any preferential origin claim
+   (Schedule 4 — origin rules; underlying free trade agreement where
+   relevant).
+6. Confirm the Goods Management Levy position (use the
+   `goods-management-levy` skill, in force from 1 April 2026).
+7. Note any prohibited or restricted goods exposure and which agency
+   controls the restriction.
+8. Stage the worksheet for the licensed customs broker. The broker
+   signs off, lodges the entry, and remains the responsible party.
+9. Record the file in the audit log with the 7-year retention flag.
 
-- **Subpart 3 of Part 3 — Entry of goods**: every consignment imported
-  for home consumption, warehousing, transhipment, or export must be
-  entered with NZ Customs in the prescribed manner. The skill drafts
-  the entry; a licensed customs broker lodges it via TSW.
-- **Section 354 — Customs powers**: NZ Customs may require the
-  production of documents, the answering of questions, and access to
-  premises and goods. The skill helps the importer prepare a
-  responsive, accurate reply; the importer (or their broker)
-  responds.
-- **Section 405 — Record retention**: importers and exporters must
-  keep customs records for **7 years** from the relevant date.
-  Records include entries, supporting commercial documents, valuation
-  worksheets, origin declarations, and broker communications.
-- **Schedule 4 — Tariff, valuation, and origin**: governs the Working
-  Tariff Document (WTD) classification, customs value (transaction
-  value plus adjustments per the WTO Valuation Agreement), and
-  origin rules for FTA preference claims.
+### Key sections (corrected per canon §11)
 
-### Drafting pattern
-
-1. Confirm the transaction type: import for home consumption,
-   import for warehousing, transhipment, export, temporary admission.
-2. Pull the candidate tariff classification (use the
-   `tariff-classification` skill — never commit to one classification
-   alone in this skill).
-3. Calculate the customs value per Schedule 4 / WTO Valuation
-   Agreement (transaction value + cost / insurance / freight where
-   applicable).
-4. Check origin status — if a free trade agreement preference is
-   claimed, document the rule of origin used and the supporting
-   evidence.
-5. Draft the entry pack for the licensed broker: invoice,
-   packing list, transport document, classification rationale,
-   valuation worksheet, origin declaration.
-6. Stage for human sign-off. The licensed customs broker reviews,
-   accepts liability, and lodges via TSW.
-
-### Recordkeeping pattern
-
-For every transaction, set up a 7-year retention bucket containing:
-
-- The lodged entry and any amendments.
-- Commercial invoices, packing lists, bills of lading, airway bills.
-- Valuation worksheets and supplier price lists.
-- Origin declarations and certificates of origin.
-- Correspondence with the broker, freight forwarder, MPI, and Customs.
-
-Tag the bucket with the entry number and date so retrieval under a
-s.354 request is straightforward.
+- **Part 3, subpart 3** — entry of imported goods. Defines the entry
+  obligation, the entry types, and the legal basis for the customs
+  declaration.
+- **s.354** — Customs powers (search, examination, requests for
+  information). Note when communicating with NZ Customs about a
+  consignment.
+- **s.405** — record-keeping. Importers, exporters, and brokers must
+  retain customs records for 7 years.
+- **Schedule 4** — tariff classification, valuation, and origin rules.
+  Read alongside the Working Tariff Document of New Zealand.
 
 ## References
 
 - Customs and Excise Act 2018:
-  `https://www.legislation.govt.nz/act/public/2018/0004/latest/whole.html`
-- NZ Customs Service: `https://www.customs.govt.nz/`
-- Working Tariff Document of New Zealand:
+  `https://www.legislation.govt.nz/act/public/2018/0004`
+- NZ Customs Working Tariff Document:
   `https://www.customs.govt.nz/business/tariffs/working-tariff-document/`
+- NZ Customs guidance — importing:
+  `https://www.customs.govt.nz/business/import/`
+- NZ Customs guidance — Goods Management Levy:
+  `https://www.customs.govt.nz/business/goods-management-levy/`
 - Trade Single Window (TSW):
   `https://www.customs.govt.nz/business/trade-single-window/`
-- Customs valuation guidance:
-  `https://www.customs.govt.nz/business/import/valuation/`
-- WTO Valuation Agreement:
-  `https://www.wto.org/english/tratop_e/cusval_e/cusval_e.htm`
-- Free trade agreements (NZ FTA hub):
-  `https://www.mfat.govt.nz/en/trade/free-trade-agreements/`
+- Protected Objects Act 1975:
+  `https://www.legislation.govt.nz/act/public/1975/0041`

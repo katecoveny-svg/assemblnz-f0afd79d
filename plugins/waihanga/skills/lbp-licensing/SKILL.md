@@ -1,122 +1,118 @@
 ---
 name: lbp-licensing
 description: |
-  Fires whenever a workflow needs to verify a Licensed Building
-  Practitioner's licence, identify the licence class needed for a
-  scope of work, or confirm an LBP can sign restricted building work
-  (RBW). Lookups go through the `mcp-lbp-register` MCP server (built
-  in Day 12+ of the canon build sequence).
+  Licensed Building Practitioner (LBP) verification skill. Looks up
+  practitioners on the public LBP register by name or licence number to
+  confirm licence class, current status, and scope of practice — and
+  whether the licence covers the restricted building work proposed.
+  Public-register lookup only; the skill never validates an LBP claim
+  without checking the register, and never signs off on RBW.
 
-  Trigger phrases / contexts: "LBP", "Licensed Building
-  Practitioner", "licence class", "carpentry licence", "design
-  licence", "site licence", "RBW", "restricted building work", "LBP
-  register", "licence number", "licence expiry", "memorandum",
-  "Form 2A".
+  Trigger phrases / contexts: "LBP", "licensed building practitioner",
+  "LBP check", "LBP register", "licence number", "licence class",
+  "carpentry licence", "site licence", "design licence", "RBW", "is
+  this builder licensed", "verify the builder", "external plastering
+  licence", "foundations licence".
 mandatory: false
 applies_to: ["waihanga"]
 ---
 
-# LBP licensing — Waihanga utility skill
+# Licensed Building Practitioner — verification skill (Waihanga)
 
 ## When to use
 
-- Verifying that a person on a job is a current Licensed Building
-  Practitioner before they carry out, supervise, or sign restricted
+- Verifying that a builder, designer, or other practitioner holds a
+  current LBP licence before they design or carry out restricted
   building work.
-- Working out which licence class is needed for a scope of work
-  (Carpentry, Design, Site, Foundations, Roofing, External Plastering,
-  Bricklaying and Blocklaying).
-- Preparing a Memorandum of Restricted Building Work (Form 2A) for
-  the LBP responsible to sign.
-- Confirming a contractor or subcontractor's claim that their team is
-  appropriately licensed.
+- Confirming the licence class is appropriate for the work scope
+  (carpentry, site, foundations, external plastering, brick and
+  blocklaying, roofing, design — area of practice 1, 2, or 3).
+- Confirming the licensee's current status (licensed, suspended,
+  cancelled, retired) on the public LBP register before pricing or
+  contracting work.
+- Producing a register-lookup file note for the project file before
+  RBW is contracted.
 
 ## What this skill will NOT do
 
-- Validate any LBP claim without checking the LBP public register.
-  The skill always confirms via the register — never relies on
-  copies or screenshots provided by the contractor.
-- Sign off restricted building work. Only an LBP within the
-  appropriate licence class may carry out, supervise, or sign RBW.
-  The skill drafts; the LBP signs.
-- Lodge or amend LBP licence applications. The LBP applies to the
-  Building Practitioners Board through the formal MBIE process.
-- Replace a Building Consent Authority's RBW determination. Where
-  the BCA queries whether work is RBW, the skill drafts a response;
-  the BCA decides.
+- Validate someone's claim of LBP status without checking the
+  register. The skill always reads the register; it does not take a
+  practitioner's word for licence status.
+- Sign off on restricted building work. RBW design and supervision
+  are the LBP's professional duty; the skill confirms eligibility on
+  the register and stops there.
+- Modify the LBP register. The register is operated by MBIE; the
+  skill is read-only against the public-register interface.
+- Replace a competence assessment. A licence is a baseline; project
+  fit is decided by the architect, designer, owner, and contractor.
+- Provide legal or licensing advice. Outputs are draft work product
+  only — a register-check note for the project file.
 
 ## Tikanga check
 
-No specific tikanga concern applies to the licence-verification
-exercise itself. Where the LBP, the contractor, or the project is
-Māori-led, defer to the building-act-2004 skill's tikanga note for
-the wider workflow tone. Manaakitanga matters in tone when raising a
-discrepancy with a contractor about a licence claim.
+LBP register lookup is a neutral verification task; no specific te reo
+or tikanga concern arises from the lookup itself. Where the project is
+on whenua of cultural significance, or the practitioner is a Māori-owned
+business, defer to the tikanga-compliance skill for tone in any
+client-facing copy. Manaakitanga applies in communication with the
+practitioner — confirming a licence is routine due diligence, not an
+accusation.
+
+Macrons preserved (Waihanga).
 
 ## Privacy Act check
 
-LBP licence details (name, licence number, classes, status, expiry)
-are public information published on the LBP register. Lookup is
-permissible under the publicly available information exception
-(IPP 11). However, do not aggregate LBP profiles across projects
-into a private dataset without telling the practitioner — apply
-IPP 9 (retention) and IPP 10 (use limitation) to any record built
-from these lookups.
+LBP register data is publicly available, so lookup is permissible under
+the publicly available information exception (IPP 11). However:
+
+- IPP 1: only retrieve what the workflow needs (licence number, licence
+  class, status, area of practice).
+- IPP 9: do not aggregate practitioner profiles across projects into a
+  private dataset that the practitioners have not been told about.
+- IPP 11: do not redistribute practitioner details from the lookup
+  beyond the project they were retrieved for.
+- IPP 3A (effective 1 May 2026): where practitioner information is
+  collected indirectly (from the head contractor or from a recruiter
+  rather than from the practitioner themselves), notify the
+  practitioner of the collection.
 
 ## Workflow steps
 
-### Licence classes
-
-The Licensed Building Practitioners scheme has the following classes:
-
-- **Design** — for design work that is restricted building work.
-  Has sub-classes for area of practice (Design 1, Design 2, Design 3).
-- **Carpentry** — structural carpentry RBW.
-- **Site** — site management of RBW (Site 1, Site 2, Site 3).
-- **Foundations** — foundation RBW.
-- **Roofing** — roofing RBW.
-- **External Plastering** — external plastering RBW.
-- **Bricklaying and Blocklaying** — masonry RBW.
-
-A practitioner may hold more than one class. RBW must be carried
-out, supervised, or signed by an LBP within the class appropriate
-to the work.
-
-### Verification pattern
-
-1. Receive the LBP claim: name, licence number (if provided), and
-   the work the practitioner is responsible for.
-2. Call the `mcp-lbp-register` MCP server (when built — see canon
-   Day 12+) to look up the practitioner. Until the MCP server is
-   built, fall back to the public LBP register search and surface
-   the URL the user can verify against.
-3. Confirm:
-   - The licence is **current** (not expired, suspended, or cancelled).
-   - The licence class **covers** the work in question.
-   - Any disciplinary record relevant to the work scope.
-4. Stage the verification note for the project manager / BCA. If
-   the licence does not cover the work, flag and stop — RBW done
-   outside class is a Building Act offence.
-
-### Memorandum of Restricted Building Work (Form 2A)
-
-For restricted building work, the LBP responsible signs a Form 2A
-memorandum that goes with the building consent application (or, in
-some cases, with the CCC application). The skill drafts the
-memorandum content; the LBP signs and dates it. The skill never
-signs.
+1. **Receive the input.** Either an LBP licence number or a
+   practitioner name (with employer or region if available to
+   disambiguate).
+2. **Look up on the public LBP register** at lbp.govt.nz. For a
+   licence number, retrieve the practitioner record directly. For a
+   name, retrieve the candidate set and disambiguate against the
+   region or employer.
+3. **Read the licence record** — full name, licence number, licence
+   class(es), area(s) of practice, current status (licensed,
+   suspended, cancelled, retired), date of last status change, any
+   notes (conditions, complaints history if published).
+4. **Map the work scope to the licence class.** Carpentry, site,
+   foundations, external plastering, brick and blocklaying, roofing,
+   design (area of practice 1, 2, or 3). Confirm the licence class
+   is appropriate for the proposed RBW.
+5. **Confirm RBW eligibility.** Cross-check the licence class and
+   area of practice against the restricted building work the
+   practitioner will design or supervise. Where the licence does not
+   cover the proposed RBW, surface the gap rather than working around
+   it.
+6. **Produce a register-lookup file note** with the date, the
+   register URL retrieved, the practitioner record retrieved, and
+   the conclusion (licence covers RBW / does not cover RBW / status
+   issue flagged).
+7. **Stage for the project lead** (architect, designer, contractor,
+   or owner's representative) to review and act on. The skill does
+   not commission the practitioner.
 
 ## References
 
-- LBP public register:
-  `https://lbp.ewr.govt.nz/`
-- MBIE — Licensed Building Practitioners:
-  `https://www.lbp.govt.nz/`
-- MBIE — restricted building work:
-  `https://www.building.govt.nz/projects-and-consents/planning-a-successful-build/scope-and-design/check-if-you-need-consents/restricted-building-work/`
-- Licensed Building Practitioners Rules 2007:
-  `https://www.legislation.govt.nz/regulation/public/2007/0383/latest/whole.html`
-- Building Practitioners Board (disciplinary):
-  `https://www.lbp.govt.nz/about-the-scheme/the-board/`
-- Building Act 2004 (parent statute):
-  `https://www.legislation.govt.nz/act/public/2004/0072/latest/whole.html`
+- Licensed Building Practitioners register:
+  `https://www.lbp.govt.nz`
+- LBP licence classes and areas of practice (MBIE):
+  `https://www.lbp.govt.nz/for-applicants/licence-classes/`
+- Building Act 2004 — restricted building work provisions:
+  `https://www.legislation.govt.nz/act/public/2004/0072`
+- MBIE Building Performance — restricted building work:
+  `https://www.building.govt.nz/projects-and-consents/planning-a-successful-build/scope-and-design/decide-who-helps-with-your-design/restricted-building-work/`

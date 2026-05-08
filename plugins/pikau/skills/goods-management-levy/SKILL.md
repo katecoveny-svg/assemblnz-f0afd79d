@@ -1,110 +1,110 @@
 ---
 name: goods-management-levy
 description: |
-  Fires whenever a workflow needs to estimate or document the Goods
-  Management Levy (GML) payable on imported goods. The GML is the
-  cost-recovery levy collected by NZ Customs to fund goods-related
-  services. The current rate set takes effect 1 April 2026.
+  Goods Management Levy (GML) calculator and confirmation skill. Effective
+  1 April 2026, the GML is collected by NZ Customs on import declarations
+  to fund the long-term cost of customs goods-management activities.
+  Pīkau confirms whether the GML applies to a given consignment and at
+  what rate, and produces a calculation worksheet for the licensed
+  customs broker. The broker remains responsible for filing the levy.
 
-  Trigger phrases / contexts: "GML", "goods management levy", "import
-  levy", "customs levy", "levy calculation", "duty and levy",
-  "1 April 2026 rate", "import cost recovery".
+  Trigger phrases / contexts: "GML", "Goods Management Levy", "customs
+  levy", "import levy", "what levy applies", "levy rate", "is the GML
+  payable", "GML calculation", "import declaration levy".
 mandatory: false
 applies_to: ["pikau"]
 ---
 
-# Goods Management Levy — Pīkau utility skill
+# Goods Management Levy — calculator skill (Pīkau)
 
 ## When to use
 
-- Quoting an importer the landed cost of a consignment (duty + GST +
-  levies).
-- Reviewing a draft entry to confirm the GML line is correct.
-- Modelling the impact of a rate change (effective 1 April 2026) on
-  an importer's annual cost base.
-- Helping an importer understand a GML line on a Customs invoice.
+- Confirming whether the GML applies to a given import.
+- Calculating the GML amount for an import declaration as part of the
+  entry worksheet.
+- Producing a calculation worksheet the licensed customs broker can
+  rely on for the entry.
+- Cross-checking GML totals against a broker's draft to catch
+  arithmetic errors before lodgement.
 
 ## What this skill will NOT do
 
-- File or pay the levy. The GML is collected by NZ Customs alongside
-  the customs entry; lodgement is the licensed broker's task.
-- Sign off the levy amount as final. The broker reviews the entry
-  before lodgement and accepts liability for the levy declared.
-- Provide a binding ruling on whether goods are levy-exempt. Exemption
-  questions go to NZ Customs.
-- Rebate or refund a levy already paid. Refund applications go through
-  Customs' formal process.
+- File the levy with NZ Customs. Filing the import declaration and any
+  associated levy is the duty of the importer or the licensed customs
+  broker acting for the importer, not Pīkau.
+- Waive, vary, or refund the levy. Concessions, refunds, and rulings
+  on levy applicability are NZ Customs functions, not the skill's.
+- Commit to a levy outcome where the underlying classification or
+  valuation is unsettled. If the tariff classification is in draft
+  candidates, the levy calculation is provisional too.
+- Provide customs or revenue advice. Outputs are draft work product
+  only, for the licensed broker's review.
 
 ## Tikanga check
 
-No specific tikanga concern applies to the levy calculation itself.
-Where the importer is a Māori entity, defer to the customs-act-2018
-skill's tikanga note for the wider workflow tone.
+The GML is a financial calculation; no specific te reo or tikanga
+concern arises from the rule itself. Where the importer is a Māori
+business, iwi authority, hapū entity, or Māori land trust, apply
+manaakitanga in communication and defer to the tikanga-compliance
+skill for tone and relationship norms. Macrons preserved (Pīkau).
 
 ## Privacy Act check
 
-Levy calculation uses consignment-level data, not personal information.
-Where the importer is a sole trader, apply IPP 1 minimisation when
-including their identity in calculation worksheets — only the data
-needed for the levy line.
+The GML calculation surfaces importer identity, declared values, and
+sometimes consignee details. These are personal information of the
+importer (where a sole trader) and of consignees (where individuals).
+Apply IPPs 1, 5, 9, and 11 as for any customs file. IPP 9 retention is
+7 years, aligned with Customs Act s.405.
+
+Where importer information is collected indirectly (from a freight
+forwarder rather than the importer themselves), IPP 3A (effective 1
+May 2026) requires notifying the importer of the collection.
 
 ## Workflow steps
 
-### What the levy is
+1. **Check the goods category.** Identify the tariff-item-level
+   classification (use the `tariff-classification` skill — three
+   candidates) and any classification-driven exclusion or concession.
+2. **Check the declared customs value.** Use the customs value already
+   determined under the `customs-act-2018` skill (Schedule 4 valuation
+   methods — transaction value first).
+3. **Check applicability.** Confirm whether the goods category and
+   value bring the consignment within the GML at the current rate.
+   Note any exemptions that may apply (low-value goods threshold,
+   specific goods exclusions, transhipment scenarios).
+4. **Apply the current rate.** Use the rate published by NZ Customs at
+   the time of the entry. The rate is set under the regulations and
+   may be revised — always check the current published rate, not a
+   cached value.
+5. **Produce a calculation worksheet** with: consignment reference,
+   declared value, currency and exchange rate used, GML rate applied,
+   GML amount, totals reconciled to the entry, open questions for the
+   broker.
+6. **Stage the worksheet for the licensed customs broker.** The broker
+   confirms the calculation, lodges the import declaration, and pays
+   the levy under the standard customs flow.
+7. **Record the file in the audit log** with the 7-year retention
+   flag, alongside the entry record.
 
-The Goods Management Levy is the cost-recovery levy collected by NZ
-Customs to fund the systems and services that support import and
-export goods clearance — Trade Single Window, intelligence, risk
-assessment, and goods-related operations.
+### Edge cases to flag, not resolve
 
-The current rate set takes effect **1 April 2026**. Use the rate
-applicable on the date the goods are entered, not the date of order
-or shipment. NZ Customs publishes the rate set on its cost recovery
-page; check that page for the live rate before producing a final
-estimate.
-
-### Calculation pattern
-
-For each consignment line subject to GML:
-
-1. Confirm the goods are within scope of the levy (most commercial
-   imports are; check Customs' published exemptions).
-2. Apply the current rate (per-entry component and / or
-   value-based component as set out in the regulations).
-3. Add to the line as a separate item alongside duty and GST — do
-   not bury it in the duty line.
-4. Surface the rate version used (e.g. "GML rate set effective
-   1 April 2026") in the worksheet so the broker can confirm.
-
-### Worksheet output
-
-```
-Consignment:           [reference]
-Entry date assumed:    [yyyy-mm-dd]
-Rate set used:         GML effective 1 April 2026
-
-  Customs value:       NZD ...
-  Duty:                NZD ...
-  GST (15%):           NZD ...
-  GML:                 NZD ...    ← this skill's line
-  Other levies:        NZD ...
-
-  Landed cost:         NZD ...
-
-Notes:                 GML rate sourced from <Customs URL>
-                       on <date>. Broker to confirm before lodgement.
-```
-
-The broker confirms the GML amount and lodges the entry. The skill
-never lodges or pays.
+- Low-value goods imports — confirm whether the consignment crosses
+  the low-value threshold and whether de minimis treatment applies at
+  the relevant date.
+- Transhipment, export-only goods, and temporary imports — confirm
+  whether the GML applies on any of these movements.
+- Bulk consignments split across multiple entries — confirm the levy
+  is applied per entry consistently with the published rate basis.
+- Disputed classification — flag that the levy is provisional until
+  the licensed broker selects the classification.
 
 ## References
 
-- NZ Customs — cost recovery and levies:
-  `https://www.customs.govt.nz/about-us/cost-recovery/`
-- NZ Customs — fees and charges schedule:
-  `https://www.customs.govt.nz/about-us/cost-recovery/fees-and-charges/`
-- Customs and Excise Regulations 1996 (levy regulations):
-  `https://www.legislation.govt.nz/regulation/public/1996/0232/latest/whole.html`
-- Customs and Excise Act 2018 (parent statute):
-  `https://www.legislation.govt.nz/act/public/2018/0004/latest/whole.html`
+- NZ Customs guidance — Goods Management Levy:
+  `https://www.customs.govt.nz/business/goods-management-levy/`
+- Customs and Excise Act 2018:
+  `https://www.legislation.govt.nz/act/public/2018/0004`
+- NZ Customs Working Tariff Document:
+  `https://www.customs.govt.nz/business/tariffs/working-tariff-document/`
+- NZ Customs — fees and levies overview:
+  `https://www.customs.govt.nz/business/fees-and-levies/`
