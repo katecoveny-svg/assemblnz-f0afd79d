@@ -193,7 +193,7 @@ export const HOW_IT_WORKS = {
       subtitle: 'signal in',
       body: 'Every request arrives here. Kahu validates it, logs it, and gives it a session ID that follows it through every subsequent stage. Nothing proceeds without a clean entry record. Garbage in, garbage out — Kahu is the first gate.',
       example:
-        'When a customs broker asks "what's the tariff classification for this consignment?", Kahu picks up the question, timestamps it, and hands it forward with a clean audit entry already written.',
+        `When a customs broker asks "what's the tariff classification for this consignment?", Kahu picks up the question, timestamps it, and hands it forward with a clean audit entry already written.`,
     },
     {
       eyebrow: '02 — IHO',
@@ -215,9 +215,9 @@ export const HOW_IT_WORKS = {
       eyebrow: '04 — MAHARA',
       name: 'Mahara',
       subtitle: 'memory and audit',
-      body: 'Every step of every draft is written to the audit log — the source, the tool call, the citation, the output. Mahara holds a seven-year record: not because we think you'll need it, but because the Customs Act and Tax Administration Act say you will. The record exists before you ask for it.',
+      body: `Every step of every draft is written to the audit log — the source, the tool call, the citation, the output. Mahara holds a seven-year record: not because we think you'll need it, but because the Customs Act and Tax Administration Act say you will. The record exists before you ask for it.`,
       example:
-        'Three months after a freight entry, a Customs officer queries the classification. The audit log returns the original question, the three candidates Tā drafted, which one the broker chose, and the sign-off record. The broker's time in the meeting is twenty minutes.',
+        `Three months after a freight entry, a Customs officer queries the classification. The audit log returns the original question, the three candidates Tā drafted, which one the broker chose, and the sign-off record. The broker's time in the meeting is twenty minutes.`,
     },
     {
       eyebrow: '05 — MANA',
@@ -235,7 +235,7 @@ export const EVIDENCE_PACK = {
   hero: {
     eyebrow: '04 — EVIDENCE PACK',
     headline: ['Not an output.', 'A record.'],
-    lede: 'Every consequential output assembl produces is an evidence pack — a watermarked, hashed, signed document that tells you exactly what was drafted, who drafted it, what legislation it relied on, and who approved it before it shipped. You don't have to trust us. The pack is the proof.',
+    lede: `Every consequential output assembl produces is an evidence pack — a watermarked, hashed, signed document that tells you exactly what was drafted, who drafted it, what legislation it relied on, and who approved it before it shipped. You don't have to trust us. The pack is the proof.`,
     ctaPrimary: { label: 'Start a Pilot Sprint →', href: '/pilot-sprint' },
   },
   frames: [
