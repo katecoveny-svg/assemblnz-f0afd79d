@@ -1,104 +1,121 @@
-import type { Metadata } from 'next';
+import { HeroPage } from '@/components/site/HeroPage';
+import { StickyScrollNarrative } from '@/components/site/StickyScrollNarrative';
+import { FadeUp } from '@/components/motion/FadeUp';
+import { HOW_IT_WORKS, VESSEL_ASSETS } from '@/lib/site-config';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { SectionReveal } from '@/components/SectionReveal';
-import { StickyScrollNarrative } from '@/components/StickyScrollNarrative';
-import { pipelineStages, ketes as keteImagery, reo } from '@/lib/site-config';
 
-export const metadata: Metadata = {
-  title: 'How it works',
-  description:
-    'Five stages. Nothing ships until a person says so. Intake, Draft, Review, Evidence, Ship — every workflow assembl runs ends in a sealed evidence pack.',
-};
+/**
+ * /how-it-works — sticky-side narrative, 5 pipeline stages.
+ * Left panel: stage indicator (static list, scroll-reactive highlighting Phase 1.5).
+ * Right column: 5 NarrativeCards from HOW_IT_WORKS.stages.
+ * Per Interactive Web Canon §4: GSAP ScrollTrigger pinning on desktop.
+ */
 
-// Stage media — sculptural kete vessels stand in for the pipeline frames
-// until AUAHA Phase 2 delivers the proper sequence (estimated 60-75 min
-// from brief authoring; placeholder retained for now).
-const STAGE_MEDIA = [
-  { src: keteImagery.waihanga.wide, alt: 'Intake — workflow handed over' },
-  { src: keteImagery.pikau.wide,    alt: 'Draft — agent drafts with citations' },
-  { src: keteImagery.auaha.wide,    alt: 'Review — human in the loop' },
-  { src: keteImagery.ako.wide,      alt: 'Evidence — pack sealed' },
-  { src: keteImagery.toro.wide,     alt: 'Ship — pack delivered' },
-];
+function PipelinePanel({
+  stages,
+}: {
+  stages: typeof HOW_IT_WORKS.stages;
+}) {
+  return (
+    <div className="flex h-full flex-col justify-center gap-5">
+      {/* Label */}
+      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-tertiary)]">
+        Five stages · every request
+      </p>
+
+      {stages.map((stage, i) => (
+        <div key={i} className="flex items-start gap-4">
+          {/* Step circle */}
+          <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[color:var(--assembl-gold-thread)] border-opacity-60 font-mono text-[10px] text-[color:var(--text-tertiary)]">
+            {String(i + 1).padStart(2, '0')}
+          </div>
+          {/* Stage name */}
+          <div className="min-w-0">
+            <p
+              className="font-display leading-tight text-[color:var(--text-primary)]"
+              style={{ fontWeight: 400, fontSize: 'clamp(1rem, 1.5vw, 1.2rem)' }}
+            >
+              {stage.name}
+            </p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-tertiary)]">
+              {stage.subtitle}
+            </p>
+          </div>
+        </div>
+      ))}
+
+      {/* Connector line visual */}
+      <div
+        className="pointer-events-none absolute left-[calc(1.75rem - 1px)] top-[5.5rem] h-[calc(100%-8rem)] w-px"
+        style={{
+          background:
+            'linear-gradient(to bottom, var(--assembl-gold-thread) 0%, transparent 100%)',
+          opacity: 0.25,
+        }}
+        aria-hidden="true"
+      />
+    </div>
+  );
+}
 
 export default function HowItWorksPage() {
+  const { hero, stages } = HOW_IT_WORKS;
+
+  const cards = stages.map((stage) => ({
+    eyebrow: stage.eyebrow,
+    name: stage.name,
+    subtitle: stage.subtitle,
+    body: stage.body,
+    example: stage.example,
+  }));
+
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.10) 0%, transparent 60%)',
-          }}
+      <HeroPage
+        eyebrow={hero.eyebrow}
+        headline={hero.headline}
+        body={hero.lede}
+        ctaPrimary={hero.ctaPrimary}
+        ctaSecondary={hero.ctaSecondary}
+        vesselSrc={VESSEL_ASSETS.portrait4x5}
+        vesselAlt="assembl Evidence Vessel — five stage pipeline"
+      />
+
+      {/* Sticky-side pipeline narrative */}
+      <section className="bg-[color:var(--assembl-paper)]">
+        <StickyScrollNarrative
+          cards={cards}
+          stickyContent={<PipelinePanel stages={stages} />}
+          label="assembl five-stage pipeline walkthrough"
         />
-        <div className="relative container py-24 md:py-32">
-          <div className="mx-auto max-w-4xl text-center">
-            <SectionReveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                How it works
-              </p>
-            </SectionReveal>
-            <SectionReveal delay={0.1}>
-              <h1
-                className="mt-6 font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
-              >
-                {reo.howItWorksHeadline[0]}
-                <br />
-                <em className="not-italic text-gradient-hero">{reo.howItWorksHeadline[1]}</em>
-              </h1>
-            </SectionReveal>
-            <SectionReveal delay={0.2}>
-              <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Every workflow assembl runs moves through the same five stages. The pace changes.
-                The shape does not. A named human in your team signs off before anything ships.
-              </p>
-            </SectionReveal>
-          </div>
-        </div>
       </section>
 
-      {/* The 5 stages — sticky-side narrative */}
-      <section className="relative py-12 md:py-20">
-        <StickyScrollNarrative stages={pipelineStages} media={STAGE_MEDIA} />
-      </section>
-
-      {/* CTA */}
-      <section className="relative bg-[color:var(--assembl-paper)] py-32 md:py-40">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl text-center">
+      {/* Closing CTA */}
+      <section className="border-t border-[color:var(--assembl-gold-thread)] border-opacity-30 bg-[color:var(--assembl-pounamu)] py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <FadeUp>
+            <div className="max-w-2xl">
+              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu-paper)]">
+                READY TO SEE IT LIVE
+              </p>
               <h2
-                className="font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.2rem, 5vw, 4.5rem)' }}
+                className="mt-6 font-display leading-[0.96] tracking-tight text-[#FAF7F2]"
+                style={{ fontWeight: 300, fontSize: 'clamp(2rem, 3.8vw, 4rem)' }}
               >
-                Five stages.{' '}
-                <em className="not-italic text-gradient-hero">One evidence pack.</em>
+                <span className="block">Start with one workflow.</span>
+                <span className="block">Two weeks. Evidence Friday.</span>
               </h2>
-              <p className="mt-8 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                See what comes out the other end.
-              </p>
-              <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <div className="mt-8">
                 <Link
-                  href="/evidence-pack"
-                  className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
+                  href="/pilot-sprint"
+                  className="inline-flex h-12 items-center rounded-full bg-[#FAF7F2] px-7 text-sm font-medium text-[color:var(--assembl-pounamu)] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#FAF7F2] md:text-base"
                 >
-                  See the evidence pack
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
-                >
-                  Book a pilot
+                  Start a Pilot Sprint →
                 </Link>
               </div>
             </div>
-          </SectionReveal>
+          </FadeUp>
         </div>
       </section>
     </>

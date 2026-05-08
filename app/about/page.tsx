@@ -1,265 +1,191 @@
-import type { Metadata } from 'next';
+import { AboutHero } from '@/components/site/AboutHero';
+import { FadeUp } from '@/components/motion/FadeUp';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { SectionReveal } from '@/components/SectionReveal';
-import { painterlyAnchor, footerDisclaimer } from '@/lib/site-config';
 
-export const metadata: Metadata = {
-  title: 'About',
+/**
+ * /about — PAINTERLY canon page.
+ * Uses AboutHero (warm olive gradient, not cream paper).
+ * Per Interactive Web Canon §3: softer, more atmospheric, emotional register.
+ * No sticky-side narrative — scrolling editorial sections.
+ */
+
+export const metadata = {
+  title: 'About assembl',
   description:
-    'Built in Aotearoa. For Aotearoa. assembl exists because compliance should not cost your team their Friday afternoons.',
+    'assembl is an intelligent automation platform built for New Zealand businesses. Quiet intelligence for the work that keeps Aotearoa moving.',
 };
 
-// /about — Painterly canon. Warm olive gradient, painterly anchor as hero.
 export default function AboutPage() {
   return (
-    <div className="painterly-page relative">
-      {/* Painterly canon — warm olive gradient runs the length of the page */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            'linear-gradient(180deg, #6B5843 0%, #4F4234 18%, #3A3128 45%, #2A241D 100%)',
-        }}
+    <>
+      {/* PAINTERLY hero */}
+      <AboutHero
+        eyebrow="assembl · Aotearoa"
+        headline={['Quiet intelligence', 'for the work that keeps', 'Aotearoa moving.']}
+        body="assembl builds intelligent agent workflows for New Zealand industries. Every workflow ends with a signed evidence pack. Every claim cites the Act that governs it. Nothing ships before a person says so."
       />
 
-      {/* Hero — painterly anchor */}
-      <section className="relative overflow-hidden">
-        <div className="container py-24 md:py-32">
-          <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-            <SectionReveal>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-card shadow-brand-soft">
-                <img
-                  src={painterlyAnchor}
-                  alt="assembl — painterly anchor, Waihanga"
-                  className="h-full w-full object-cover"
-                />
-                <div
-                  aria-hidden
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      'linear-gradient(180deg, transparent 60%, rgba(42, 36, 29, 0.45) 100%)',
-                  }}
-                />
-              </div>
-            </SectionReveal>
-
-            <SectionReveal delay={0.15}>
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#D4A853]/70">
-                About assembl
+      {/* Origin section */}
+      <section className="bg-[color:var(--assembl-paper)] py-24 md:py-32">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:gap-24">
+            <FadeUp>
+              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+                WHY ASSEMBL EXISTS
               </p>
-              <h1
-                className="mt-6 font-display leading-[0.95] tracking-tight text-[#FAF7F2]"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
+              <h2
+                className="mt-6 font-display leading-tight text-[color:var(--text-primary)]"
+                style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 3vw, 3rem)' }}
               >
-                Built in Aotearoa.
-                <br />
-                <em className="not-italic" style={{ color: '#D4A853' }}>
-                  For Aotearoa.
-                </em>
-              </h1>
-              <p className="mt-8 max-w-xl text-base leading-relaxed text-[#E8E4DE] md:text-lg">
-                assembl exists because compliance should not cost your team their Friday
-                afternoons. Quiet intelligence, on the record. Every workflow we run ends with
-                an evidence pack you can file, forward, or footnote.
-              </p>
-            </SectionReveal>
+                New Zealand businesses shouldn't have to trust a black box.
+              </h2>
+            </FadeUp>
+
+            <FadeUp delay={0.1}>
+              <div className="space-y-6 font-body text-[1.05rem] leading-relaxed text-[color:var(--text-body)]">
+                <p>
+                  Intelligent agents are transforming how work gets done. But adoption in New Zealand
+                  has been slow — not because of a lack of willingness, but because of a lack of
+                  trust. Outputs without citations. Decisions without audit trails. Automation
+                  without oversight.
+                </p>
+                <p>
+                  assembl was built to solve that. Every workflow runs through a fixed five-stage
+                  compliance pipeline. Every output is a watermarked evidence pack with a hash-chain
+                  audit trail. Every consequential action requires a named human to sign off.
+                </p>
+                <p>
+                  We built it for the industries that hold Aotearoa together — construction,
+                  freight, hospitality, retail, early childhood. The businesses that have real
+                  regulatory obligations and real consequences for getting it wrong.
+                </p>
+              </div>
+            </FadeUp>
           </div>
         </div>
       </section>
 
-      {/* Trust gap framing — strategic positioning anchor */}
-      <section className="relative">
-        <div className="container py-16">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#D4A853]/70">
-                Why we exist
-              </p>
-              <blockquote
-                className="mt-6 font-display leading-[1.1] text-[#FAF7F2]"
-                style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 3.6vw, 3rem)' }}
-              >
-                79% of Kiwi businesses don&apos;t know how to use intelligent agents safely. 97% of the
-                workforce isn&apos;t trained for them. We&apos;re high-use and low-trust as a country.
-                <em className="not-italic" style={{ color: '#D4A853' }}>
-                  {' '}The trust gap is what we&apos;re here to close.
-                </em>
-              </blockquote>
-              <p className="mt-8 max-w-2xl text-base leading-relaxed text-[#E8E4DE]">
-                Every output assembl produces is reviewed in Draft Mode before anything is sent,
-                filed, or published. The agent drafts. You decide. That is the trust standard, and
-                it does not flex with the plan you pick.
-              </p>
-              <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-[#B8B2A8]">
-                Source — AI Forum NZ Blueprint for Aotearoa (May 2026)
-              </p>
-            </div>
-          </SectionReveal>
+      {/* Principles */}
+      <section className="border-t border-[color:var(--assembl-gold-thread)] border-opacity-30 bg-[color:var(--assembl-mist)] py-24 md:py-32">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <FadeUp>
+            <p className="mb-12 font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              HOW WE WORK
+            </p>
+          </FadeUp>
+
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                num: '01',
+                title: 'Draft-only posture',
+                body: 'No agent may autonomously publish, sign, send, or execute any material action. All consequential outputs require explicit approval from a named human operator. This is not a courtesy feature. It is the architecture.',
+              },
+              {
+                num: '02',
+                title: 'Evidence not drama',
+                body: 'Every output is a watermarked document — citations, attribution, sign-off block, hash-chain provenance. Audit-ready by default. Not because we expect you to be audited, but because you might be.',
+              },
+              {
+                num: '03',
+                title: 'Grounded in NZ law',
+                body: 'Every claim in every output cites a New Zealand statute — Act, section, and year. Agents do not generate legislation. They read it, cite it, and flag when it has changed. You hold the expertise. We hold the receipts.',
+              },
+              {
+                num: '04',
+                title: 'Tikanga Māori alignment',
+                body: 'assembl is designed to respect Te Mana Raraunga — Māori data sovereignty principles. Iwi and hapū retain authority over their data. The platform never generates karakia, whaikōrero, or sacred content. Cultural authority stays with rights holders.',
+              },
+              {
+                num: '05',
+                title: 'Transparent by default',
+                body: 'Every agent interaction is logged with a session ID, a model attribution, and a per-stage verdict. You can inspect what data an agent accessed and how a decision was reached. Opacity is not a feature we offer.',
+              },
+              {
+                num: '06',
+                title: 'Built for adoption',
+                body: 'New Zealand has a cautious relationship with intelligent automation — and rightly so. assembl is designed to be the most accessible, affordable, and simple-to-implement option in the market. Trusted advisor before scale.',
+              },
+            ].map((p) => (
+              <FadeUp key={p.num}>
+                <article>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-tertiary)]">
+                    {p.num}
+                  </p>
+                  <h3
+                    className="mt-3 font-display leading-tight text-[color:var(--text-primary)]"
+                    style={{ fontWeight: 400, fontSize: '1.2rem' }}
+                  >
+                    {p.title}
+                  </h3>
+                  <p className="mt-3 font-body text-sm leading-relaxed text-[color:var(--text-body)] md:text-base">
+                    {p.body}
+                  </p>
+                </article>
+              </FadeUp>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* What assembl is */}
-      <section className="relative">
-        <div className="container py-16 md:py-24">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#D4A853]/70">
-                What assembl is
+      {/* NZ compliance stamps */}
+      <section className="border-t border-[color:var(--assembl-gold-thread)] border-opacity-30 bg-[color:var(--assembl-paper)] py-16 md:py-20">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <FadeUp>
+            <div className="flex flex-wrap items-center gap-4">
+              <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-tertiary)]">
+                Compliance posture:
               </p>
-              <h2
-                className="mt-4 font-display leading-[0.98] tracking-tight text-[#FAF7F2]"
-                style={{ fontWeight: 300, fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}
-              >
-                Purpose-built agents.{' '}
-                <em className="not-italic" style={{ color: '#D4A853' }}>
-                  Governed outputs.
-                </em>
-              </h2>
-              <div className="mt-8 space-y-5 text-base leading-relaxed text-[#E8E4DE] md:text-lg">
-                <p>
-                  assembl is a governed platform for New Zealand businesses. Purpose-built agents
-                  — organised into industry kete — draft compliance documentation, cite NZ
-                  legislation, and produce tamper-evident evidence packs that show exactly what
-                  was checked, by whom, and when.
-                </p>
-                <p>
-                  Every piece of work passes through a five-stage compliance pipeline before it
-                  reaches you. Every agent operates in draft-only mode — nothing publishes, sends,
-                  or executes without a human sign-off.
-                </p>
-                <p>We work alongside your team. We do not replace anyone.</p>
-              </div>
+              {[
+                'NZ Privacy Act 2020',
+                'MBIE Responsible Automation Guidance',
+                'NZ Algorithm Charter',
+                'Te Mana Raraunga',
+                'Sydney data hosting',
+              ].map((tag) => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center rounded-full bg-[color:var(--assembl-mist)] px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)] ring-1 ring-[color:var(--assembl-gold-thread)] ring-opacity-30"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
-          </SectionReveal>
-        </div>
-      </section>
-
-      {/* Founder voice */}
-      <section className="relative">
-        <div className="container py-16">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#D4A853]/70">
-                From the founder
-              </p>
-              <h2 className="mt-4 font-display text-3xl text-[#FAF7F2] md:text-4xl">
-                Kate Hudson
-              </h2>
-              <div className="mt-6 space-y-4 text-base leading-relaxed text-[#E8E4DE] md:text-lg">
-                <p className="italic text-[#B8B2A8]">
-                  [Kate — this section is yours. 3–5 sentences in your own voice about why you
-                  built assembl, what you saw in NZ businesses, and what drives the company.]
-                </p>
-              </div>
-            </div>
-          </SectionReveal>
-        </div>
-      </section>
-
-      {/* Tikanga posture */}
-      <section className="relative">
-        <div className="container py-16 md:py-24">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#D4A853]/70">
-                Our approach to tikanga
-              </p>
-              <h2
-                className="mt-4 font-display leading-[0.98] tracking-tight text-[#FAF7F2]"
-                style={{ fontWeight: 300, fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}
-              >
-                Principles in the system,{' '}
-                <em className="not-italic" style={{ color: '#D4A853' }}>
-                  not the brochure.
-                </em>
-              </h2>
-              <div className="mt-8 space-y-5 text-base leading-relaxed text-[#E8E4DE] md:text-lg">
-                <p>
-                  assembl&apos;s governance is grounded in four pou: rangatiratanga (authority and
-                  self-determination over data), kaitiakitanga (stewardship and care), manaakitanga
-                  (hospitality and respect), and whanaungatanga (relationships and reciprocity).
-                </p>
-                <p>
-                  We cite these frameworks because we believe in them, not because we have earned
-                  the right to perform them. Te reo Māori lives in our architecture — in the names
-                  of our kete, our agents, our compliance pipeline stages — because those names
-                  carry meaning we respect. English leads our public voice because we serve
-                  builders, brokers, and council officers who need to engage without translating.
-                </p>
-                <p>
-                  We do not generate karakia, whaikōrero, mihimihi, pepeha, or waiata. That is a
-                  hard boundary.
-                </p>
-              </div>
-            </div>
-          </SectionReveal>
-        </div>
-      </section>
-
-      {/* Where we are */}
-      <section className="relative">
-        <div className="container py-16 md:py-24">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#D4A853]/70">
-                Where we are
-              </p>
-              <h2 className="mt-4 font-display text-3xl text-[#FAF7F2] md:text-5xl">
-                Sole-founder. Aotearoa-built.
-              </h2>
-              <p className="mt-6 text-base leading-relaxed text-[#E8E4DE] md:text-lg">
-                assembl is based in Aotearoa New Zealand. Our infrastructure runs on servers in
-                Sydney (ap-southeast-2), the closest AWS/Supabase region to New Zealand. We are a
-                sole-founder company built by Kate Hudson.
-              </p>
-            </div>
-          </SectionReveal>
+          </FadeUp>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="relative">
-        <div className="container pb-24 pt-8 md:pb-32">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl text-center">
+      <section className="border-t border-[color:var(--assembl-gold-thread)] border-opacity-30 bg-[color:var(--assembl-pounamu)] py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <FadeUp>
+            <div className="max-w-2xl">
               <h2
-                className="font-display leading-[0.98] tracking-tight text-[#FAF7F2]"
-                style={{ fontWeight: 300, fontSize: 'clamp(2rem, 4.5vw, 3.6rem)' }}
+                className="font-display leading-[0.96] tracking-tight text-[#FAF7F2]"
+                style={{ fontWeight: 300, fontSize: 'clamp(2rem, 3.8vw, 4rem)' }}
               >
-                See it work on{' '}
-                <em className="not-italic" style={{ color: '#D4A853' }}>
-                  your own data.
-                </em>
+                <span className="block">One workflow.</span>
+                <span className="block">Two weeks.</span>
+                <span className="block">Evidence Friday.</span>
               </h2>
-              <p className="mt-6 text-base leading-relaxed text-[#E8E4DE] md:text-lg">
-                The fastest way to understand assembl is to watch it produce a real evidence pack
-                on a real workflow you already have.
-              </p>
-              <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-wrap gap-4">
                 <Link
-                  href="/contact"
-                  className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
+                  href="/pilot-sprint"
+                  className="inline-flex h-12 items-center rounded-full bg-[#FAF7F2] px-7 text-sm font-medium text-[color:var(--assembl-pounamu)] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#FAF7F2] md:text-base"
                 >
-                  Book a conversation
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                  Start a Pilot Sprint →
                 </Link>
                 <Link
-                  href="/pricing"
-                  className="inline-flex h-12 items-center rounded-full border border-[#D4A853]/40 px-7 text-sm font-medium text-[#FAF7F2] transition-colors hover:border-[#D4A853] md:text-base"
+                  href="/kete"
+                  className="inline-flex h-12 items-center rounded-full border border-[#FAF7F2] border-opacity-60 px-7 text-sm text-[#FAF7F2] transition-all hover:border-opacity-100 hover:bg-[#FAF7F2] hover:text-[color:var(--assembl-pounamu)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#FAF7F2] md:text-base"
                 >
-                  See pricing
+                  See all kete →
                 </Link>
               </div>
-              <p className="mt-12 max-w-2xl text-xs text-[#B8B2A8] md:mx-auto">
-                {footerDisclaimer}
-              </p>
             </div>
-          </SectionReveal>
+          </FadeUp>
         </div>
       </section>
-    </div>
+    </>
   );
 }

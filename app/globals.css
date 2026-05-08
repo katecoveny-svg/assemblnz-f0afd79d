@@ -2,7 +2,8 @@
  * assembl — Evidence Vessel design system
  * Palette: Evidence Vessel (warm light + pounamu primary)
  * Light theme only
- * Updated: 2026-05-07 — Evidence Vessel pivot
+ * Updated: 2026-05-08 — Phase 1 Canon Rebuild
+ * Token corrections: mist, gold-thread, text-secondary, text-tertiary
  */
 
 @tailwind base;
@@ -32,40 +33,45 @@
     --ring: 161 43% 29%;
     --radius: 24px;
 
-    --assembl-paper: #FAF7F2;           /* base canvas */
-    --assembl-mist: #FAF7F2;
+    /* ── SURFACE PALETTE ───────────────────────────────────────────────────── */
+    --assembl-paper: #FAF7F2;           /* base canvas — cream white */
+    --assembl-mist:  #F7F3EE;           /* section alternates — warm ivory */
     --assembl-cloud: #E8E4DE;
-    --assembl-sand: #B8B2A8;
-    --assembl-taupe: #B8B2A8;
+    --assembl-sand:  #B8B2A8;
+    --assembl-taupe: #9D8C7D;           /* brand Taupe — canonical */
     --assembl-taupe-deep: #23211F;
 
-    /* POUNAMU — primary accent (Evidence Vessel pivot 2026-05-07) */
-    --assembl-pounamu: #2B6B57;         /* PRIMARY — deep forest jade */
-    --assembl-pounamu-deep: #1F4F40;    /* hover, focus rings, deep accents */
-    --assembl-pounamu-soft: #6E957F;    /* subtle washes, sage tint */
-    --assembl-pounamu-paper: #E8EFE9;   /* very pale green tint for bg */
-    --assembl-sage-mist: #2B6B57;       /* alias — kept for backwards compat */
+    /* ── POUNAMU — primary accent (Evidence Vessel) ────────────────────────── */
+    --assembl-pounamu:       #2B6B57;   /* PRIMARY — deep forest jade */
+    --assembl-pounamu-deep:  #1F4F40;   /* hover, focus rings */
+    --assembl-pounamu-soft:  #6E957F;   /* subtle washes */
+    --assembl-pounamu-paper: #E8EFE9;   /* very pale green tint for bg chips */
+    --assembl-sage-mist:     #2B6B57;   /* alias — backwards compat */
 
-    /* GOLD — punctuation thread only (hairlines, dividers, chapter numerals) */
-    --assembl-gold-thread: #D4A853;     /* NOT primary — thin accents only */
-    --assembl-soft-gold: #D4A853;       /* alias — kept for backwards compat */
+    /* ── GOLD — punctuation thread only ───────────────────────────────────── */
+    --assembl-gold-thread: #D9BC7A;     /* Soft Gold — hairlines, dividers, chapter numerals */
+    --assembl-soft-gold:   #D9BC7A;     /* alias — backwards compat */
 
-    --text-primary: #23211F;
-    --text-secondary: #B8B2A8;
-    --text-body: #23211F;
+    /* ── TEXT SCALE ────────────────────────────────────────────────────────── */
+    --text-primary:   #1C1B19;          /* headlines, primary content */
+    --text-body:      #3D3833;          /* body copy */
+    --text-secondary: #5C5650;          /* metadata, labels */
+    --text-tertiary:  #9D8C7D;          /* eyebrows, mono caps, placeholder */
 
-    --shadow-soft: 0 8px 30px rgba(35, 33, 31, 0.08);
-    --shadow-card: 0 4px 20px rgba(35, 33, 31, 0.06);
+    /* ── SHADOWS ───────────────────────────────────────────────────────────── */
+    --shadow-soft:  0 8px 30px rgba(35, 33, 31, 0.08);
+    --shadow-card:  0 4px 20px rgba(35, 33, 31, 0.06);
     --shadow-brand: 0 12px 40px rgba(35, 33, 31, 0.10);
 
+    /* ── KETE ACCENTS ──────────────────────────────────────────────────────── */
     --kete-waihanga: #2B6B57;
-    --kete-manaaki: #AC5838;
-    --kete-pikau: #3B7CB5;
-    --kete-arataki: #D4842A;
-    --kete-auaha: #5B4FA0;
-    --kete-toro: #23211F;
-    --kete-hoko: #7B3F8F;
-    --kete-ako: #6B5843;
+    --kete-manaaki:  #AC5838;
+    --kete-pikau:    #3B7CB5;
+    --kete-arataki:  #D4842A;
+    --kete-auaha:    #5B4FA0;
+    --kete-toro:     #23211F;
+    --kete-hoko:     #7B3F8F;
+    --kete-ako:      #6B5843;
   }
 
   html {
@@ -88,7 +94,7 @@
   }
 
   body {
-    background: var(--assembl-mist);
+    background: var(--assembl-paper);
     color: var(--text-body);
     font-family: var(--font-body), 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -96,7 +102,7 @@
     line-height: 1.6;
   }
 
-  /* Subtle warm noise texture */
+  /* Subtle warm noise texture — 1.5% opacity, non-interactive */
   body::before {
     content: '';
     position: fixed;
@@ -201,9 +207,9 @@
   }
 
   .badge-gold {
-    background: rgba(212, 168, 83, 0.12);
+    background: rgba(217, 188, 122, 0.12);
     color: #7A5C1E;
-    border: 1px solid rgba(212, 168, 83, 0.25);
+    border: 1px solid rgba(217, 188, 122, 0.25);
     border-radius: 16px;
     padding: 4px 12px;
     font-size: 0.75rem;
@@ -225,9 +231,9 @@
   .text-gradient-hero {
     background-image: linear-gradient(
       135deg,
-      #23211F 0%,
+      #1C1B19 0%,
       #2B6B57 50%,
-      #B8B2A8 100%
+      #9D8C7D 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -236,14 +242,14 @@
 
   .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(35, 33, 31, 0.12), transparent);
+    background: linear-gradient(90deg, transparent, rgba(217, 188, 122, 0.30), transparent);
   }
 }
 
 @layer utilities {
-  .text-taupe       { color: var(--assembl-taupe); }
-  .text-taupe-deep  { color: var(--assembl-taupe-deep); }
-  .text-gold-thread { color: var(--assembl-gold-thread); }
-  .text-soft-gold   { color: var(--assembl-gold-thread); } /* alias — deprecated, use text-gold-thread */
-  .text-pounamu     { color: var(--assembl-pounamu); }
+  .text-taupe        { color: var(--assembl-taupe); }
+  .text-taupe-deep   { color: var(--assembl-taupe-deep); }
+  .text-gold-thread  { color: var(--assembl-gold-thread); }
+  .text-soft-gold    { color: var(--assembl-gold-thread); } /* alias — deprecated, use text-gold-thread */
+  .text-pounamu      { color: var(--assembl-pounamu); }
 }

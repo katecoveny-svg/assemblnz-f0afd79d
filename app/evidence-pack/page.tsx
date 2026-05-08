@@ -1,103 +1,150 @@
-import type { Metadata } from 'next';
+import { HeroPage } from '@/components/site/HeroPage';
+import { StickyScrollNarrative } from '@/components/site/StickyScrollNarrative';
+import { FadeUp } from '@/components/motion/FadeUp';
+import { EVIDENCE_PACK, VESSEL_ASSETS } from '@/lib/site-config';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { SectionReveal } from '@/components/SectionReveal';
-import { StickyScrollNarrative } from '@/components/StickyScrollNarrative';
-import { evidencePackContents, ketes as keteImagery, reo } from '@/lib/site-config';
 
-export const metadata: Metadata = {
-  title: 'Evidence pack',
-  description:
-    'Not an output. A record. Source citations, reasoning trace, reviewer record, and a cryptographic seal — everything assembl ships comes with the audit trail in the box.',
-};
+/**
+ * /evidence-pack — sticky-side narrative, 4 pack reveal frames.
+ * Left panel: schematic pack preview (watermark, hash, sign-off visual).
+ * Right column: 4 NarrativeCards from EVIDENCE_PACK.frames.
+ * Per Interactive Web Canon §4.
+ */
 
-// Stage media — kete vessels stand in for the evidence pack frames until
-// AUAHA Phase 2 delivers the proper sequence.
-const FRAME_MEDIA = [
-  { src: keteImagery.waihanga.wide, alt: 'Source citations — Acts and Sections' },
-  { src: keteImagery.manaaki.wide,  alt: 'Reasoning trace — prompt, model, reasoning' },
-  { src: keteImagery.arataki.wide,  alt: 'Reviewer record — named human in the loop' },
-  { src: keteImagery.hoko.wide,     alt: 'Cryptographic seal — SHA-256 hash, tamper-evident' },
-];
+function PackPreview() {
+  return (
+    <div className="relative flex h-full flex-col justify-center">
+      {/* Schematic evidence pack document */}
+      <div
+        className="relative overflow-hidden rounded-xl border border-[color:var(--assembl-gold-thread)] border-opacity-40 bg-[color:var(--assembl-paper)] p-6 shadow-xl"
+        style={{ maxWidth: '340px' }}
+        aria-hidden="true"
+      >
+        {/* Header bar */}
+        <div className="mb-5 flex items-center gap-3">
+          <div className="h-6 w-6 rounded-sm bg-[color:var(--assembl-pounamu)] opacity-80" />
+          <div className="flex flex-col gap-1">
+            <div className="h-2 w-24 rounded-sm bg-[color:var(--text-primary)] opacity-70" />
+            <div className="h-1.5 w-16 rounded-sm bg-[color:var(--text-tertiary)] opacity-50" />
+          </div>
+        </div>
+
+        {/* Body lines */}
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="mb-2 flex gap-2">
+            <div
+              className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--assembl-pounamu)] opacity-60"
+            />
+            <div
+              className="h-1.5 rounded-sm bg-[color:var(--text-tertiary)] opacity-30"
+              style={{ width: `${[85, 72, 90, 65][i]}%` }}
+            />
+          </div>
+        ))}
+
+        {/* Citation chips */}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {['Building Act 2004', 'HSWA 2015 §36', 'MBIE Code'].map((c) => (
+            <span
+              key={c}
+              className="inline-flex items-center rounded-full bg-[color:var(--assembl-pounamu-paper)] px-2 py-0.5 font-mono text-[9px] text-[color:var(--assembl-pounamu)]"
+            >
+              {c}
+            </span>
+          ))}
+        </div>
+
+        {/* Sign-off block */}
+        <div className="mt-5 rounded-lg border border-[color:var(--assembl-gold-thread)] border-opacity-50 bg-[color:var(--assembl-mist)] p-3">
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[color:var(--text-tertiary)]">
+            Reviewed and approved
+          </p>
+          <div className="mt-1.5 flex items-center gap-2">
+            <div className="h-5 w-5 rounded-full bg-[color:var(--assembl-pounamu)] opacity-70" />
+            <div>
+              <div className="h-1.5 w-20 rounded-sm bg-[color:var(--text-primary)] opacity-60" />
+              <div className="mt-1 h-1.5 w-28 rounded-sm bg-[color:var(--text-tertiary)] opacity-30" />
+            </div>
+          </div>
+        </div>
+
+        {/* Hash footer */}
+        <div className="mt-3 border-t border-[color:var(--assembl-gold-thread)] border-opacity-20 pt-3">
+          <p className="font-mono text-[8px] text-[color:var(--text-tertiary)] opacity-60 break-all">
+            SHA-256: 3a7f9c…e4b12d
+          </p>
+        </div>
+
+        {/* Watermark */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <p
+            className="font-mono text-[9px] uppercase tracking-[0.5em] text-[color:var(--assembl-pounamu)] opacity-[0.06] rotate-[-35deg] select-none"
+            style={{ fontSize: '1.4rem' }}
+          >
+            assembl
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function EvidencePackPage() {
+  const { hero, frames } = EVIDENCE_PACK;
+
+  const cards = frames.map((frame) => ({
+    eyebrow: frame.eyebrow,
+    body: frame.body,
+  }));
+
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.10) 0%, transparent 60%), radial-gradient(ellipse at 80% 60%, rgba(212, 168, 83, 0.06) 0%, transparent 50%)',
-          }}
+      <HeroPage
+        eyebrow={hero.eyebrow}
+        headline={hero.headline}
+        body={hero.lede}
+        ctaPrimary={hero.ctaPrimary}
+        vesselSrc={VESSEL_ASSETS.hero16x9}
+        vesselAlt="assembl Evidence Vessel — audit-ready outputs"
+      />
+
+      {/* Sticky pack reveal narrative */}
+      <section className="bg-[color:var(--assembl-paper)]">
+        <StickyScrollNarrative
+          cards={cards}
+          stickyContent={<PackPreview />}
+          label="assembl evidence pack structure walkthrough"
         />
-        <div className="relative container py-24 md:py-32">
-          <div className="mx-auto max-w-4xl text-center">
-            <SectionReveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Evidence pack
-              </p>
-            </SectionReveal>
-            <SectionReveal delay={0.1}>
-              <h1
-                className="mt-6 font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
-              >
-                {reo.evidencePackHeadline[0]}
-                <br />
-                <em className="not-italic text-gradient-hero">{reo.evidencePackHeadline[1]}</em>
-              </h1>
-            </SectionReveal>
-            <SectionReveal delay={0.2}>
-              <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Every workflow assembl runs ends with an evidence pack — a sealed, tamper-evident
-                record of what was drafted, what it cited, who reviewed it, and what they changed.
-                File it. Forward it. Footnote it.
-              </p>
-            </SectionReveal>
-          </div>
-        </div>
       </section>
 
-      {/* What's in the box — sticky-side narrative */}
-      <section className="relative py-12 md:py-20">
-        <StickyScrollNarrative stages={evidencePackContents} media={FRAME_MEDIA} accent="#D4A853" />
-      </section>
+      {/* Closing pull-quote */}
+      <section className="border-t border-[color:var(--assembl-gold-thread)] border-opacity-30 bg-[color:var(--assembl-mist)] py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <FadeUp>
+            <div className="max-w-3xl">
+              <blockquote>
+                <p
+                  className="font-display italic leading-snug text-[color:var(--text-primary)]"
+                  style={{ fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.8rem)' }}
+                >
+                  &ldquo;Evidence not drama.&rdquo;
+                </p>
+                <footer className="mt-4 font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-tertiary)]">
+                  assembl · core design principle
+                </footer>
+              </blockquote>
 
-      {/* CTA */}
-      <section className="relative bg-[color:var(--assembl-paper)] py-32 md:py-40">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl text-center">
-              <h2
-                className="font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.2rem, 5vw, 4.5rem)' }}
-              >
-                Want one for{' '}
-                <em className="not-italic text-gradient-hero">a workflow you actually ship</em>?
-              </h2>
-              <p className="mt-8 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                The Pilot Sprint produces one in two weeks for NZ$5,000 + GST.
-              </p>
-              <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <div className="mt-10">
                 <Link
-                  href="/contact"
-                  className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
+                  href="/pilot-sprint"
+                  className="inline-flex h-12 items-center rounded-full border border-[color:var(--assembl-gold-thread)] px-7 text-sm text-[color:var(--text-primary)] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-gold-thread)] md:text-base"
                 >
-                  Book a pilot
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-                <Link
-                  href="/how-it-works"
-                  className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
-                >
-                  See the five stages
+                  See a pack from your industry →
                 </Link>
               </div>
             </div>
-          </SectionReveal>
+          </FadeUp>
         </div>
       </section>
     </>

@@ -1,103 +1,160 @@
-import type { Metadata } from 'next';
+import { FadeUp } from '@/components/motion/FadeUp';
+import { KeteCard } from '@/components/site/KeteCard';
+import { KETES, VESSEL_ASSETS } from '@/lib/site-config';
+import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { KETES } from '@/lib/kete';
-import { ketes as keteImagery } from '@/lib/site-config';
-import { SectionReveal } from '@/components/SectionReveal';
-import { KeteVesselCard } from '@/components/KeteVesselCard';
 
-export const metadata: Metadata = {
-  title: 'Kete',
+/**
+ * /kete — 8 kete index page.
+ * Full-width hero with vessel image, then 2-column card grid (index variant with taglines).
+ * Per Interactive Web Canon §6: all cards use KeteCard with vessel imagery.
+ */
+
+export const metadata = {
+  title: 'Industry kete — assembl',
   description:
-    'Eight industry kete. Each one bundles specialist agents grounded in the legislation your industry lives under.',
+    'Eight intelligent agent workflows built for New Zealand industries — construction, freight, hospitality, retail, creative, early childhood, automotive, and whānau.',
 };
 
 export default function KeteIndexPage() {
+  const pilotKetes = KETES.filter((k) => k.status === 'pilot');
+  const soonKetes = KETES.filter((k) => k.status === 'shortly');
+  const roadmapKetes = KETES.filter((k) => k.status === 'roadmap');
+
   return (
     <>
-      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 0%, rgba(212, 168, 83, 0.10) 0%, transparent 65%)',
-          }}
-        />
-        <div className="relative container py-24 md:py-32">
-          <div className="mx-auto max-w-4xl text-center">
-            <SectionReveal>
+      {/* Page hero */}
+      <section
+        className="border-b border-[color:var(--assembl-gold-thread)] border-opacity-30 bg-[color:var(--assembl-paper)] py-24 md:py-32"
+        aria-label="Kete index"
+      >
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-20">
+            <FadeUp>
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Industry kete
+                03 — INDUSTRY KETE
               </p>
-            </SectionReveal>
-            <SectionReveal delay={0.1}>
               <h1
-                className="mt-6 font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
+                className="mt-6 font-display leading-[0.96] tracking-tight text-[color:var(--text-primary)]"
+                style={{ fontWeight: 300, fontSize: 'clamp(2.4rem, 4.4vw, 5rem)' }}
               >
-                Eight kete.
-                <br />
-                <em className="not-italic text-gradient-hero">Eight industries.</em>
+                <span className="block">Built the way</span>
+                <span className="block">Aotearoa works.</span>
               </h1>
-            </SectionReveal>
-            <SectionReveal delay={0.2}>
-              <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Each kete bundles specialist agents grounded in the legislation your industry
-                lives under — its workflows, its compliance regime, its evidence requirements.
+              <p className="mt-6 max-w-prose font-body text-[1.05rem] leading-relaxed text-[color:var(--text-body)]">
+                Every kete is grounded in the New Zealand legislation that governs its industry. Eight industries. Forty-six specialist agents. One consistent evidence standard.
               </p>
-            </SectionReveal>
+              <div className="mt-8">
+                <Link
+                  href="/pilot-sprint"
+                  className="inline-flex h-12 items-center rounded-full border border-[color:var(--assembl-gold-thread)] px-7 text-sm text-[color:var(--text-primary)] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-gold-thread)] md:text-base"
+                >
+                  Start a Pilot Sprint →
+                </Link>
+              </div>
+            </FadeUp>
+
+            <FadeUp delay={0.15}>
+              <div className="relative aspect-[16/9] overflow-hidden rounded-xl shadow-xl">
+                <Image
+                  src={VESSEL_ASSETS.hero16x9}
+                  alt="assembl Evidence Vessel — industry kete"
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
+            </FadeUp>
           </div>
         </div>
       </section>
 
-      <section className="relative bg-[color:var(--assembl-paper)] pb-24 md:pb-32">
-        <div className="container">
-          <div className="mx-auto grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {KETES.map((kete, i) => (
-              <KeteVesselCard
-                key={kete.slug}
-                kete={kete}
-                vesselSrc={keteImagery[kete.slug].square}
-                index={i}
-              />
+      {/* PILOT LIVE */}
+      <section className="bg-[color:var(--assembl-mist)] py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <FadeUp>
+            <div className="mb-10 flex items-center gap-4">
+              <span className="inline-flex items-center rounded-full bg-[color:var(--assembl-pounamu-paper)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--assembl-pounamu)]">
+                Pilot live
+              </span>
+              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-tertiary)]">
+                Active pilots with NZ businesses
+              </p>
+            </div>
+          </FadeUp>
+          <div className="grid gap-6 sm:grid-cols-2">
+            {pilotKetes.map((kete) => (
+              <KeteCard key={kete.slug} kete={kete} variant="index" />
             ))}
           </div>
         </div>
       </section>
 
-      <section className="relative bg-[color:var(--assembl-paper)] py-32 md:py-44">
-        <div className="container">
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionReveal>
-              <h2
-                className="font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.4rem, 5vw, 4.5rem)' }}
-              >
-                Found yours?{' '}
-                <em className="not-italic text-gradient-hero">Pick your agents.</em>
-              </h2>
-              <p className="mt-8 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Each kete contains specialist agents you can subscribe to, pay per output, or
-                pay per resolution.
+      {/* SHORTLY */}
+      <section className="border-t border-[color:var(--assembl-gold-thread)] border-opacity-30 bg-[color:var(--assembl-paper)] py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <FadeUp>
+            <div className="mb-10 flex items-center gap-4">
+              <span className="inline-flex items-center rounded-full bg-[color:var(--assembl-mist)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                Shortly
+              </span>
+              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-tertiary)]">
+                In final build · pilots opening soon
               </p>
-              <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            </div>
+          </FadeUp>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {soonKetes.map((kete) => (
+              <KeteCard key={kete.slug} kete={kete} variant="home" />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ROADMAP */}
+      <section className="border-t border-[color:var(--assembl-gold-thread)] border-opacity-30 bg-[color:var(--assembl-mist)] py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-6 md:px-12">
+          <FadeUp>
+            <div className="mb-10 flex items-center gap-4">
+              <span className="inline-flex items-center rounded-full bg-transparent px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-tertiary)] ring-1 ring-[color:var(--assembl-gold-thread)] ring-opacity-40">
+                Roadmap
+              </span>
+              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-tertiary)]">
+                Interest list open
+              </p>
+            </div>
+          </FadeUp>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {roadmapKetes.map((kete) => (
+              <KeteCard key={kete.slug} kete={kete} variant="home" />
+            ))}
+          </div>
+
+          <FadeUp className="mt-16">
+            <div className="rounded-xl border border-[color:var(--assembl-gold-thread)] border-opacity-30 bg-[color:var(--assembl-paper)] p-8 md:p-12">
+              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+                YOUR INDUSTRY NOT LISTED
+              </p>
+              <h3
+                className="mt-4 font-display leading-tight text-[color:var(--text-primary)]"
+                style={{ fontWeight: 300, fontSize: 'clamp(1.5rem, 2.5vw, 2.2rem)' }}
+              >
+                Tell us what workflow is eating your time.
+              </h3>
+              <p className="mt-4 max-w-prose font-body text-base leading-relaxed text-[color:var(--text-body)]">
+                Every kete starts with a real business problem. If your industry isn't on the list, the Pilot Sprint still applies — one workflow, two weeks, evidence Friday.
+              </p>
+              <div className="mt-6">
                 <Link
-                  href="/agents"
-                  className="cta-primary inline-flex h-12 items-center px-8 text-sm md:text-base"
+                  href="/pilot-sprint"
+                  className="inline-flex h-12 items-center rounded-full border border-[color:var(--assembl-gold-thread)] px-7 text-sm text-[color:var(--text-primary)] transition-transform hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-gold-thread)] md:text-base"
                 >
-                  Browse the agent marketplace
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="btn-ghost inline-flex h-12 items-center px-8 text-sm md:text-base"
-                >
-                  Talk to us
+                  Start a Pilot Sprint →
                 </Link>
               </div>
-            </SectionReveal>
-          </div>
+            </div>
+          </FadeUp>
         </div>
       </section>
     </>
