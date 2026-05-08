@@ -1,152 +1,167 @@
 ---
 name: nz-privacy-act-2020
 description: |
-  Fires whenever a user request involves personal information about an identifiable
-  individual — including names, contact details, IRD numbers, health records, IP
-  addresses, employment details, or any combination of attributes that could identify
-  a person. Also fires when a user asks about data collection, storage, sharing,
-  access requests, breach response, or privacy impact assessment. Trigger phrases:
-  "collect data", "store information", "share details", "customer records",
-  "employee data", "privacy breach", "access request", "data subject", "IPP",
-  "Privacy Commissioner", "notifiable breach", "consent", "disclosure".
+  Fires whenever an agent encounters personal information about a New Zealand
+  individual — handling, collection, storage, use, disclosure, sharing,
+  cross-border transfer, retention, deletion, breach response, or any IPP
+  query. The skill governs what the agent may collect, why, where it lives,
+  who it can be told, and how long it stays.
+
+  Trigger phrases / contexts: "personal information", "PII", "privacy",
+  "data collection", "consent", "data sharing", "disclosure", "data breach",
+  "notifiable breach", "Privacy Commissioner", "OPC", "IPP", "right of
+  access", "right of correction", "DPIA", "privacy impact assessment",
+  "indirect collection", "third-party data", IRD numbers, NHI numbers,
+  health information, employment records, tenancy records, customer
+  records, member registers.
 mandatory: true
-applies_to:
-  - assembl-core
-  - manaaki
-  - waihanga
-  - auaha
-  - arataki
-  - pikau
-  - hoko
-  - ako
-  - toro
+applies_to: ["*"]
 ---
 
-# NZ Privacy Act 2020 — Core Skill
-
-**Jurisdiction**: New Zealand  
-**Statute**: Privacy Act 2020 (commenced 1 December 2020)  
-**Amendment**: IPP 3A effective 1 May 2026  
-**Authority**: Privacy Commissioner Te Mana Mātāpono Matatapu  
-**Status**: Mandatory — fires on any personal information handling
-
----
+# NZ Privacy Act 2020 — core compliance skill
 
 ## When to use
 
-Use this skill whenever the interaction involves:
-- Collecting personal information from or about an identifiable individual
-- Storing, using, or disclosing personal information
-- Responding to an individual's request to access or correct their information
-- Assessing the privacy impact of a proposed business activity
-- Responding to a suspected privacy breach
-- Advising on data sharing arrangements with third parties
-- Building or reviewing systems that process personal information
+Any time the agent encounters personal information about a New Zealand
+individual. That includes (but is not limited to):
 
----
+- Names, addresses, phone numbers, email addresses
+- IRD numbers, NHI numbers, driver licence numbers, passport numbers
+- Employment records (pay, leave, performance, discipline)
+- Health information
+- Whakapapa, iwi affiliation, hapū affiliation
+- Tenancy and housing records
+- Customer purchase history, complaints, support tickets
+- Anything that could identify a living person, directly or indirectly
+
+If the workflow touches any of the above, this skill fires before any
+collection, storage, use, disclosure, or deletion is drafted.
 
 ## What this skill will NOT do
 
-- **Will NOT** submit a notifiable privacy breach notification to the Privacy Commissioner on the user's behalf — this is the Privacy Officer's statutory duty (s.115)
-- **Will NOT** draft a legally binding privacy statement or policy — recommend review by a legal adviser
-- **Will NOT** determine whether a specific breach meets the "serious harm" threshold for notification — this requires case-by-case legal assessment
-- **Will NOT** assess overseas data transfer risks for countries without equivalent legislation — recommend Privacy Commissioner guidance
-- **Will NOT** conduct a privacy impact assessment (PIA) in full — assists with structuring, but a PIA requires human sign-off by the Privacy Officer
-- **Will NOT** advise on the interaction between Privacy Act 2020 and sector-specific legislation (e.g., Health Information Privacy Code) — recommend specialist advice
-
----
+- Send Privacy Commissioner notifiable breach notifications on the user's
+  behalf. The skill drafts the notice; a human Privacy Officer files it.
+- Provide legal advice. Outputs are working drafts only — they go to the
+  organisation's Privacy Officer and, where appropriate, a lawyer.
+- Classify a breach as "notifiable" without a human Privacy Officer
+  review. The skill flags candidate notifiable breaches; the human signs
+  them off.
+- Release personal information to any third party without explicit,
+  documented consent or another lawful basis.
+- Bypass an organisation's Data Protection Impact Assessment (DPIA)
+  process for new collections or new uses.
 
 ## Tikanga check
 
-Before proceeding with any output involving Māori personal information:
+Where personal information includes Māori personal information —
+whakapapa, iwi or hapū affiliation, mātauranga, identity markers, taonga
+associations — apply Te Hiku Media's data sovereignty stance and
+Karaitiana Taiuru's Indigenous Peoples AI Framework alongside the IPPs.
 
-1. **Whakapapa data**: Information linked to iwi, hapū, or whanau relationships is taonga — handle with additional care beyond the minimum IPPs
-2. **Māori data sovereignty**: Te Mana Raraunga principles apply — Māori retain rangatiratanga over data about themselves and their communities
-3. **IPP 1 purpose limitation**: Be explicit that Māori data will not be used for secondary purposes without informed consent from rights-holders
-4. **Language**: Use correct macrons — Māori (not Maori), whanau (wh āno → whānau), hapū, iwi
-5. **If the request involves a Māori health record, genealogical record, or traditional knowledge record**: flag for Kaitiaki Review before any output is shared externally
+- Defer to mana whenua and kaitiaki where iwi, hapū, or marae data
+  sovereignty applies. The IPPs are a floor, not a ceiling.
+- Whakapapa is not a routine identifier. Treat it as taonga.
+- Never assume a Western privacy frame is sufficient for taonga data.
+- If in doubt, pause and consult — do not "minimise then proceed".
 
----
+Where there is no Māori personal information in scope, record that no
+specific tikanga concern applies for this run, and continue.
 
 ## Privacy Act check
 
-Apply in this order:
-
-### IPP 1 — Purpose of collection
-- Collect personal information only for a lawful purpose connected to the user's business functions
-- Draft must state the specific purpose clearly — not vague language like "business improvement"
-
-### IPP 2 — Source of collection
-- Collect from the individual themselves wherever reasonably practicable
-- If collected from a third party, trigger IPP 3A disclosure
-
-### IPP 3 — Collection from subject
-- Individual must know: (a) collector's identity, (b) purpose of collection, (c) whether mandatory or voluntary, (d) consequences of not providing, (e) right to access and correct
-
-### IPP 3A — Indirectly collected information (effective 1 May 2026)
-- When personal information is collected from a source other than the individual (e.g., a broker, a government register, a referral):
-  - The agency must inform the individual at or before first use of that information
-  - Exceptions: where notification would prejudice the purpose of collection, or where the information is publicly available
-  - This is NEW law — draft any consent or disclosure templates to include IPP 3A language
-
-### IPP 4 — Manner of collection
-- Do not collect by unlawful or unfair means, or by intrusion to an unreasonable degree
-
-### IPP 5 — Storage and security
-- Take reasonable steps to protect personal information from loss, unauthorised access, use, modification, or disclosure
-- Draft output: document security controls (encryption at rest, access controls, audit logging)
-
-### IPP 6 — Access
-- Individuals have the right to request access to their personal information
-- Agency must respond within 20 working days (s.51)
-- Grounds for refusal are limited (s.53)
-
-### IPP 7 — Correction
-- Individuals have the right to request correction of their personal information (s.71)
-- If correction is refused, individual can attach a statement of correction (s.75)
-
-### IPP 8 — Accuracy before use
-- Before using personal information, take reasonable steps to ensure it is accurate, up-to-date, complete, relevant, and not misleading
-
-### IPP 9 — Retention
-- Do not keep personal information for longer than required for the purpose of collection
-- Note specific retention requirements: Customs Act s.405 (7 years for customs records), Tax Administration Act (7 years for tax records), Employment Relations Act (wage/time records 6 years)
-
-### IPP 10 — Use limitation
-- Use personal information only for the purpose for which it was collected
-- Secondary use requires individual's consent, or falls within the limited statutory exceptions (s.22)
-
-### IPP 11 — Disclosure
-- Do not disclose personal information to a third party without consent unless an exception applies (s.22)
-- Permitted disclosures include: law enforcement, court order, serious threat to health/safety
-
-### IPP 12 — Unique identifiers
-- Do not assign unique identifiers unless necessary; do not assign a unique identifier already assigned by another agency
-- IRD numbers, NHI numbers, and bank account numbers are RESTRICTED — never log in plain text; always mask in outputs and audit records
-
-### IPP 13 — Sensitive attributes (proposed, watch legislation)
-- Special care for: ethnic/racial origin, religious beliefs, sexual orientation, health, criminal history
-
----
+This skill IS the Privacy Act check.
 
 ## Workflow steps
 
-1. **Identify** what personal information is involved in the user's request
-2. **Map** the information flow: collection → storage → use → disclosure → retention → disposal
-3. **Apply** the relevant IPPs in sequence (IPP 1 through 13 as applicable)
-4. **Flag** any IPP 3A triggers (indirectly collected information — new from 1 May 2026)
-5. **Draft** the privacy-compliant output with required disclosures
-6. **Recommend** professional review for anything involving health information, financial information, or overseas transfers
-7. **Stage** the output for human sign-off — do NOT submit or disclose on the user's behalf
+### The 13 Information Privacy Principles (IPPs)
 
----
+- **IPP 1 — Purpose**: collect only what is necessary for a lawful purpose
+  connected with a function of the agency. If the job can be done without
+  the information, do not collect it.
+- **IPP 2 — Source**: collect from the individual themselves where
+  reasonably practicable.
+- **IPP 3 — Notice at collection**: tell the individual who you are, why
+  you are collecting, who will receive it, whether collection is
+  mandatory, and their rights of access and correction.
+- **IPP 3A — Notice for indirectly collected information** (NEW,
+  effective 1 May 2026): when you collect personal information about an
+  individual from a source other than the individual themselves, give the
+  individual an IPP 3-equivalent notice as soon as reasonably practical.
+  Limited statutory exceptions apply. The default is **notify**.
+- **IPP 4 — Manner of collection**: collect lawfully and fairly. No
+  intrusive, deceptive, or unreasonable means.
+- **IPP 5 — Storage and security**: protect personal information against
+  loss, unauthorised access, use, modification, or disclosure.
+- **IPP 6 — Right of access**: the individual has the right to obtain
+  confirmation of, and access to, their personal information held by the
+  agency. Respond within 20 working days.
+- **IPP 7 — Right of correction**: the individual has the right to
+  request correction. If the agency declines, attach a statement of
+  disagreement.
+- **IPP 8 — Accuracy**: take reasonable steps to ensure personal
+  information is accurate, complete, relevant, up to date, and not
+  misleading before use or disclosure.
+- **IPP 9 — Retention**: do not keep personal information for longer
+  than is required for the purpose for which it may lawfully be used.
+- **IPP 10 — Use**: use personal information only for the purpose it was
+  collected, or a directly related purpose, or with consent, or under a
+  statutory exception.
+- **IPP 11 — Disclosure**: disclose only with consent or under a
+  statutory exception. Document the basis.
+- **IPP 12 — Cross-border disclosure**: before sending personal
+  information offshore, confirm the receiving agency is subject to
+  comparable safeguards (a country with comparable privacy law, a
+  binding scheme, or contractual safeguards).
+- **IPP 13 — Unique identifiers**: do not assign a unique identifier
+  unless necessary; do not adopt another agency's identifier; take
+  reasonable steps to confirm identity before assigning one.
+
+### Notifiable privacy breach procedure (Privacy Act 2020 ss. 116–117)
+
+A notifiable privacy breach is one where personal information is
+accessed, used, or disclosed without authorisation **and** the breach
+has caused, or is likely to cause, **serious harm** to an affected
+individual.
+
+When the skill detects a candidate notifiable breach:
+
+1. Stop and isolate. Do not "fix and forget".
+2. Document what happened, when, what information, how many individuals.
+3. Apply the serious-harm test: sensitivity of the information, who
+   has it, what they could do with it, mitigations already taken.
+4. Draft two notices:
+   - A notice to the **Privacy Commissioner** via NotifyUs.
+   - A notice to **each affected individual** in plain language, with
+     practical steps they can take to protect themselves.
+5. Hand both drafts to the human Privacy Officer for review and filing.
+6. Notify "as soon as practicable" — there is no fixed deadline in the
+   Act, but the standard is "without undue delay". Days, not weeks.
+
+### Working pattern for routine personal-information tasks
+
+For every task touching personal information:
+
+1. Name the IPPs in scope.
+2. Confirm the lawful basis for collection or use.
+3. Confirm a current, accurate IPP 3 (or IPP 3A) notice exists for this
+   collection.
+4. Confirm IPP 5 security controls are in place at the storage location.
+5. Confirm a retention rule is set under IPP 9.
+6. Output the work, with a privacy footnote naming the IPPs applied.
 
 ## References
 
-- Privacy Act 2020: https://www.legislation.govt.nz/act/public/2020/0031
-- Privacy Commissioner guidance: https://www.privacy.org.nz
-- IPP 3A guidance (from 1 May 2026): https://www.privacy.org.nz/privacy-act-2020/privacy-principles/collecting-personal-information/
-- Health Information Privacy Code 2020: https://www.privacy.org.nz/privacy-act-2020/codes-of-practice/hipc2020/
-- Te Mana Raraunga — Māori Data Sovereignty Network: https://www.temanararaunga.maori.nz
-- Notifiable breach guidance (s.113–s.120): https://www.privacy.org.nz/further-resources/notifiable-privacy-breaches/
-- Access and correction requests (Part 4): https://www.privacy.org.nz/privacy-act-2020/access-and-correction/
+- Privacy Act 2020:
+  `https://www.legislation.govt.nz/act/public/2020/0031`
+- Office of the Privacy Commissioner: `https://www.privacy.org.nz/`
+- OPC IPP 3A guidance (indirect collection):
+  `https://www.privacy.org.nz/privacy-act-2020/privacy-principles/3a/`
+- NotifyUs (notifiable breach tool):
+  `https://www.privacy.org.nz/responsibilities/privacy-breaches/notify-us/`
+- Health Information Privacy Code 2020:
+  `https://www.privacy.org.nz/privacy-act-2020/codes-of-practice/hipc2020/`
+- Te Hiku Media — Māori data sovereignty: `https://tehiku.nz`
+- Karaitiana Taiuru — Indigenous Peoples AI Framework:
+  `https://www.taiuru.maori.nz`
+- Te Mana Raraunga — Māori Data Sovereignty Network:
+  `https://www.temanararaunga.maori.nz`
