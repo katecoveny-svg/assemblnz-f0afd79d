@@ -608,7 +608,7 @@ Deno.serve(async (req: Request) => {
       const { data: { user } } = await sb.auth.getUser(token);
       if (user) {
         userId = user.id;
-        const { data: membership } = await sb.from("tenant_members").select("tenant_id, role").eq("user_id", user.id).limit(1).maybeSingle();
+        const { data: membership } = await sb.from("platform_org_members").select("tenant_id, role").eq("user_id", user.id).limit(1).maybeSingle();
         if (membership) {
           tenantId = membership.tenant_id;
           userRole = membership.role as UserRole;

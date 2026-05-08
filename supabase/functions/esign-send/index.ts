@@ -45,7 +45,7 @@ Deno.serve(async (req) => {
     }
 
     const { data: membership } = await supabase
-      .from("tenant_members").select("role")
+      .from("platform_org_members").select("role")
       .eq("user_id", user.id).eq("tenant_id", tenant_id).maybeSingle();
     if (!membership || !["admin", "manager"].includes(membership.role)) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
@@ -76,7 +76,7 @@ Deno.serve(async (req) => {
     // Send email via Brevo (already configured)
     const brevoKey = Deno.env.get("BREVO_API_KEY");
     if (brevoKey) {
-      const { data: tenant } = await supabase.from("tenants").select("name").eq("id", tenant_id).single();
+      const { data: tenant } = await supabase.from("platform_orgs").select("name").eq("id", tenant_id).single();
       const senderName = tenant?.name || "Assembl";
 
       await fetch("https://api.brevo.com/v3/smtp/email", {

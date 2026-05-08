@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
 
         // Get tenant details
         const { data: tenant } = await supabase
-          .from("tenants")
+          .from("platform_orgs")
           .select("id, name, kete_primary, brand_color, metadata")
           .eq("id", intake.tenant_id)
           .single();
@@ -165,7 +165,7 @@ Respond in JSON:
 
         // Store as business memory
         const { data: memberData } = await supabase
-          .from("tenant_members")
+          .from("platform_org_members")
           .select("user_id")
           .eq("tenant_id", tenant.id)
           .eq("role", "admin")

@@ -82,7 +82,7 @@ Deno.serve(async (req) => {
     // Email both parties
     const brevoKey = Deno.env.get("BREVO_API_KEY");
     if (brevoKey) {
-      const { data: tenant } = await supabase.from("tenants").select("name, billing_email").eq("id", env.tenant_id).single();
+      const { data: tenant } = await supabase.from("platform_orgs").select("name, billing_email").eq("id", env.tenant_id).single();
       const senderName = tenant?.name || "Assembl";
 
       const certHtml = `

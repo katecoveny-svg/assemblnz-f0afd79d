@@ -315,7 +315,7 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
 
     // 6a. Create tenant record
     const { data: tenant, error: tenantErr } = await supabase
-      .from("tenants")
+      .from("platform_orgs")
       .insert({
         name: businessName,
         plan: "trial",
@@ -379,7 +379,7 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
     }
 
     // 6c. Create tenant membership (admin role)
-    await supabase.from("tenant_members").upsert({
+    await supabase.from("platform_org_members").upsert({
       tenant_id: tenant.id,
       user_id: authUserId,
       role: "admin",

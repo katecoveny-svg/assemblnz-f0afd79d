@@ -258,7 +258,7 @@ Deno.serve(async (req) => {
     if (resolvedUserId) {
       try {
         const { data: tm } = await supabase
-          .from("tenant_members")
+          .from("platform_org_members")
           .select("tenant_id")
           .eq("user_id", resolvedUserId)
           .limit(1)

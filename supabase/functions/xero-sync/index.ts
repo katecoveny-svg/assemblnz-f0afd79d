@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
 
     // Verify membership
     const { data: membership } = await supabase
-      .from("tenant_members").select("role")
+      .from("platform_org_members").select("role")
       .eq("user_id", userResp.data.user.id).eq("tenant_id", tenant_id).maybeSingle();
     if (!membership) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
