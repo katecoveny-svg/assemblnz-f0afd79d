@@ -277,9 +277,18 @@ export const FOOTER_DISCLAIMER =
 /** @deprecated Use FOOTER_DISCLAIMER */
 export const footerDisclaimer = FOOTER_DISCLAIMER;
 
-/** @deprecated Use VESSEL_ASSETS.brandMark */
+/**
+ * @deprecated Use VESSEL_ASSETS
+ * Full backwards-compat shim for CinematicHero and any pre-Phase-1 component
+ * that references heroVessel.wide / square / portrait / videoLocal / videoRemote / mark
+ */
 export const heroVessel = {
   mark: VESSEL_ASSETS.brandMark,
+  wide: VESSEL_ASSETS.hero16x9,
+  square: VESSEL_ASSETS.square1x1,
+  portrait: VESSEL_ASSETS.portrait4x5,
+  videoLocal: VESSEL_ASSETS.cinematicVideo,
+  videoRemote: VESSEL_ASSETS.cinematicVideo,
 } as const;
 
 /**
