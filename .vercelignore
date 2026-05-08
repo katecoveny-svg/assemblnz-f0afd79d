@@ -1,0 +1,10 @@
+# Vercel only deploys the Next.js website. The plugin marketplace lives
+# under plugins/ and is not part of the deployed site — it ships via the
+# Claude Code marketplace, not via Vercel.
+plugins/
+
+# Belt-and-braces: explicit globs in case `plugins/` ever gets a Vercel-relevant
+# subdir (e.g. an Edge Function) and we narrow the exclusion later.
+plugins/mcp-servers/
+plugins/managed-agent-cookbooks/
+plugins/partner-built/

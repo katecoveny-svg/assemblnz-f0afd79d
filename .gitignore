@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Plugin marketplace MCP servers (under plugins/) — explicit globs
+# (covered above by `node_modules` and `dist`, but spelled out so a future
+# PR adding a build step under plugins/ can't accidentally commit artefacts).
+plugins/mcp-servers/*/node_modules/
+plugins/mcp-servers/*/dist/
+plugins/mcp-servers/*/*.tsbuildinfo
+
 # Next.js
 .next/
 out/
