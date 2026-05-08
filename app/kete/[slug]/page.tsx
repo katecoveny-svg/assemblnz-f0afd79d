@@ -351,9 +351,8 @@ function ToroPage({
             </div>
 
             <h1 className="mt-6 font-display text-5xl md:text-7xl">
-              <span className="text-[color:var(--text-primary)]">Tōro</span>
-              <br />
-              <span className="text-gradient-hero">{detail.heroLead}</span>
+              <span className="text-[color:var(--text-primary)]">Tōro</span>{' '}
+              <span className="text-gradient-hero">— {detail.heroLead}</span>
             </h1>
 
             <p className="mx-auto mt-8 max-w-2xl text-lg text-[color:var(--text-body)] md:text-xl">

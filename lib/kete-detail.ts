@@ -133,7 +133,7 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Rarely' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Operator plan and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pikau reach five customers each.',
+    availableOn: 'Operator plan and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pīkau reach five customers each.',
   },
 
   pikau: {
@@ -210,7 +210,7 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Rarely' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Operator plan and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pikau reach five customers each.',
+    availableOn: 'Operator plan and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pīkau reach five customers each.',
   },
 
   auaha: {
@@ -248,7 +248,7 @@ export const KETE_DETAIL: Record<
       { capability: 'Multi-channel variants', assembl: true, legacy: 'Yes' },
       { capability: 'NZ data residency', assembl: true, legacy: 'Rarely' },
     ],
-    availableOn: 'Operator plan and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pikau reach five customers each.',
+    availableOn: 'Operator plan and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pīkau reach five customers each.',
   },
 
   hoko: {

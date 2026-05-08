@@ -1,76 +1,54 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { AgentMarketplace } from '@/components/AgentMarketplace';
-import { SectionReveal } from '@/components/SectionReveal';
-import { AGENTS } from '@/lib/agents';
 
 export const metadata: Metadata = {
-  title: 'Agents',
+  title: 'Agent marketplace',
   description:
-    'Choose your agents. Specialist NZ-grounded agents across seven kete. Subscribe, pay per output, or pay per resolution — your choice.',
+    'Agent provisioning happens through your Pilot Sprint. Book one to talk to a real assembl team member.',
 };
-
-const TOTAL_AGENTS = AGENTS.length;
 
 export default function AgentsPage() {
   return (
-    <>
-      {/* Hero */}
-      <section className="relative overflow-hidden">
+    <section
+      className="relative py-32 md:py-48"
+      style={{ backgroundColor: 'var(--assembl-paper)' }}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
+      >
         <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.10) 0%, transparent 60%)',
-          }}
+          className="h-px w-full"
+          style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
         />
-        <div className="container py-32 md:py-40">
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionReveal>
-              <span className="badge-gold inline-flex">Agent marketplace</span>
-            </SectionReveal>
-            <SectionReveal delay={0.1}>
-              <h1 className="mt-6 font-display text-4xl md:text-6xl">
-                Choose your{' '}
-                <em className="not-italic text-gradient-hero">agents</em>.
-              </h1>
-            </SectionReveal>
-            <SectionReveal delay={0.2}>
-              <p className="mt-6 text-base text-[color:var(--text-body)] md:text-lg">
-                {TOTAL_AGENTS} specialist agents across seven kete. Each one grounded in current
-                NZ legislation. Pick the ones you need — assembl bills monthly per kete, or one-off
-                per output, or per resolution. Three ways to buy, your choice.
-              </p>
-            </SectionReveal>
-            <SectionReveal delay={0.3}>
-              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <a
-                  href="#marketplace"
-                  className="cta-primary inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-                >
-                  Browse all agents
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </a>
-                <Link
-                  href="/pricing"
-                  className="btn-ghost inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
-                >
-                  See pricing
-                </Link>
-              </div>
-            </SectionReveal>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-6 md:px-12">
+        <div className="grid grid-cols-1 gap-y-8 pt-20 md:pt-28 lg:grid-cols-12">
+          <div className="lg:col-start-2 lg:col-span-6">
+            <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
+              Phase 1B · Coming
+            </p>
+            <h1 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
+              Agent <em className="not-italic text-gradient-hero">marketplace</em>.
+            </h1>
+            <p className="mt-10 text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
+              Coming in Phase 1B. Right now agent provisioning happens through your
+              Pilot Sprint — book one to talk to a real assembl team member.
+            </p>
+            <div className="mt-12">
+              <Link
+                href="/pilot-sprint"
+                className="cta-primary inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
+              >
+                Book a pilot
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
+              </Link>
+            </div>
           </div>
         </div>
-      </section>
-
-      {/* Marketplace */}
-      <section id="marketplace" className="relative scroll-mt-20 pb-32">
-        <div className="container">
-          <AgentMarketplace />
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

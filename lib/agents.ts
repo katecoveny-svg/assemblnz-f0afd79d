@@ -1,7 +1,7 @@
 /**
  * Agent marketplace data.
  *
- * Waihanga + Pikau agents are the live ones (those kete are shipping).
+ * Waihanga + Pīkau agents are the live ones (those kete are shipping).
  * Other kete have placeholder agents — Reo's Track 1 will refine copy
  * for all 46 in a follow-up PR.
  */
@@ -98,10 +98,10 @@ export const AGENTS: Agent[] = [
     buyingOptions: { subscribe: true, perOutput: 149, perResolution: null },
   },
 
-  // ── Pikau (Freight & Customs) — 3 agents, live ──────────────────────
+  // ── Pīkau (Freight & Customs) — 3 agents, live ──────────────────────
   {
     slug: 'pikau',
-    name: 'Pikau',
+    name: 'Pīkau',
     role: 'Customs declarations',
     kete: 'pikau',
     oneLiner: 'Drafts customs entries citing Customs and Excise Act 2018 requirements.',
