@@ -3,9 +3,8 @@
  *
  * Reads NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY at runtime.
  * These env vars must point at the canonical assembl-prod Supabase project
- * (project ref `ssaxxdkxzrvkdjsanhei`, per supabase/config.toml) — NOT the
- * legacy Lovable project (`wurwcrgxjjwqdaxqceey`) referenced in the older
- * `.env` file.
+ * (project ref `wurwcrgxjjwqdaxqceey`, Sydney region — the "Lovable"-lineage
+ * project that IS live assembl-prod, confirmed by Kate 2026-05-09).
  */
 import { createBrowserClient } from '@supabase/ssr';
 

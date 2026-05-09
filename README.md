@@ -421,9 +421,9 @@ Every function emits `Boot`, `Listening`, `Log`, and `Shutdown` events.
 Pull them via the Supabase CLI or the Lovable Cloud panel:
 
 ```bash
-supabase functions logs mcp-chat        --project-ref ssaxxdkxzrvkdjsanhei
-supabase functions logs claude-chat     --project-ref ssaxxdkxzrvkdjsanhei
-supabase functions logs compress-context --project-ref ssaxxdkxzrvkdjsanhei
+supabase functions logs mcp-chat        --project-ref wurwcrgxjjwqdaxqceey
+supabase functions logs claude-chat     --project-ref wurwcrgxjjwqdaxqceey
+supabase functions logs compress-context --project-ref wurwcrgxjjwqdaxqceey
 ```
 
 A healthy chat call shows `booted (time: …ms)` followed by `Listening on
