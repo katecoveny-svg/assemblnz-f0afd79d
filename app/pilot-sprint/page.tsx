@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, CalendarDays, FileCheck2, Workflow } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
+import { HeroVideo } from '@/components/HeroVideo';
 import { PILOT_SPRINT, PRICING_NOTE } from '@/lib/pricing';
+import { heroVideos } from '@/lib/site-config';
 
 export const metadata: Metadata = {
   title: 'Pilot Sprint',
@@ -79,8 +81,18 @@ const KETE_USE_CASES = [
 export default function PilotSprintPage() {
   return (
     <>
-      {/* Hero */}
+      {/* Hero — HeroVideo background; honours prefers-reduced-motion +
+          drops to poster-only on mobile (no MP4 bytes < 768px).
+          TODO: replace with /pilot-sprint-specific video once Kate generates
+          one via vessel-studio; today this reuses the Waihanga placeholder. */}
       <section className="relative overflow-hidden bg-[color:var(--assembl-paper)]">
+        {heroVideos['pilot-sprint'].src && (
+          <HeroVideo
+            src={heroVideos['pilot-sprint'].src}
+            posterSrc={heroVideos['pilot-sprint'].poster}
+            label="Cream stoneware vessel — assembl signature motion"
+          />
+        )}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
