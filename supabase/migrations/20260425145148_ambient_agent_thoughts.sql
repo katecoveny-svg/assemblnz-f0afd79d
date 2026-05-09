@@ -168,7 +168,7 @@ $$;
 -- POST-DEPLOY (manual, requires service-role / dashboard):
 --   1. Set the two GUCs the cron job reads:
 --        alter database postgres set "app.settings.supabase_url" =
---          'https://ssaxxdkxzrvkdjsanhei.supabase.co';
+--          'https://wurwcrgxjjwqdaxqceey.supabase.co';
 --        alter database postgres set "app.settings.service_role_key" =
 --          '<service_role_jwt>';
 --      (skip if you scheduled via the dashboard with literal values instead)

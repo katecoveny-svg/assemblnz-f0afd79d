@@ -33,11 +33,11 @@ visual creative engine restore, Research Lab nav, and toroa-sms inbound fix.
 - Researcher view: https://www.assembl.co.nz/aaaip/researcher
 - Note: AAAIP uses RLS — researcher view needs a logged-in Supabase session
 
-### Supabase migrations (project ref: ssaxxdkxzrvkdjsanhei)
+### Supabase migrations (project ref: wurwcrgxjjwqdaxqceey)
 Since AAAIP was already live in the Lovable-deployed bundle, the migrations were
 almost certainly applied when Lovable last deployed. **To confirm**, check in the
 Supabase dashboard:  
-https://app.supabase.com/project/ssaxxdkxzrvkdjsanhei/database/tables  
+https://app.supabase.com/project/wurwcrgxjjwqdaxqceey/database/tables  
 You should see: `aaaip_audit_exports` table with columns: domain, pilot_label,
 entries, policy_hits, compliance_rate.
 
@@ -90,7 +90,7 @@ the Arataki and Pikau entries from the PACKS array (lines 20-21).
 
 ### Current inbound SMS state
 The previous Claude session confirmed:
-- TNZ webhook config is CORRECT: points to `https://ssaxxdkxzrvkdjsanhei.supabase.co/functions/v1/toroa-sms`
+- TNZ webhook config is CORRECT: points to `https://wurwcrgxjjwqdaxqceey.supabase.co/functions/v1/toroa-sms`
 - Reply notification: `sms-reply-notify-select = TNZAPI` (Webhooks) ✅
 - Auto-create conversations: ON ✅
 - The ONLY bug was `toroa-sms` rejecting the TNZ v2.04 `MessageText` field → now fixed
