@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { KETES } from '@/lib/kete';
-import { ketes as keteImagery } from '@/lib/site-config';
+import { ketes as keteImagery, reo } from '@/lib/site-config';
 import { SectionReveal } from '@/components/SectionReveal';
 import { KeteVesselCard } from '@/components/KeteVesselCard';
 
@@ -59,6 +59,11 @@ export default function AgentsPage() {
                 Each kete bundles specialist agents grounded in NZ legislation. Pilot Sprint
                 is the entry point; once embedded, you can scale specific agents per workflow
                 — Subscribe, Pay per output, or Pay per resolution.
+              </p>
+            </SectionReveal>
+            <SectionReveal delay={0.3}>
+              <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-[color:var(--text-secondary)] md:text-base">
+                {reo.agentsPolicyRuntimeIntro}
               </p>
             </SectionReveal>
           </div>

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
 import { EvidencePackNarrative } from '@/components/EvidencePackNarrative';
+import { reo } from '@/lib/site-config';
 
 export const metadata: Metadata = {
   title: 'Evidence pack',
@@ -45,6 +46,11 @@ export default function EvidencePackPage() {
                 Every workflow assembl runs ends with an evidence pack. Watch one build itself
                 up — from a blank page to attribution, citations, and a tamper-evident seal.
                 File it. Forward it. Footnote it.
+              </p>
+            </SectionReveal>
+            <SectionReveal delay={0.3}>
+              <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-[color:var(--text-secondary)] md:text-base">
+                {reo.evidenceLedgerSubcopy}
               </p>
             </SectionReveal>
           </div>

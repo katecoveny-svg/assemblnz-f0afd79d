@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
-import { painterlyAnchor, footerDisclaimer } from '@/lib/site-config';
+import { painterlyAnchor, footerDisclaimer, reo } from '@/lib/site-config';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -101,6 +101,32 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Strategic positioning — vertical-AI strategy memo, 2026-05-09 */}
+      <section className="relative">
+        <div className="container py-12 md:py-16">
+          <SectionReveal>
+            <div className="mx-auto max-w-3xl">
+              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#D4A853]/70">
+                Where assembl sits
+              </p>
+              <p
+                className="mt-6 font-display leading-[1.15] text-[#FAF7F2]"
+                style={{ fontWeight: 300, fontSize: 'clamp(1.6rem, 3.2vw, 2.6rem)' }}
+              >
+                {reo.aboutPositioning}
+              </p>
+              <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#E8E4DE]">
+                Three things sit underneath every workflow we run: an evidence ledger and a
+                work diary of every agent action (so you can prove what happened), a NZ
+                policy runtime (so Privacy Act, tikanga, and Te Tiriti governance are wired
+                into the substrate), and an agent-to-agent collection loop (so chasing
+                missing documents stops being your team’s afternoon).
+              </p>
+            </div>
+          </SectionReveal>
+        </div>
+      </section>
+
       {/* What assembl is */}
       <section className="relative">
         <div className="container py-16 md:py-24">
@@ -149,9 +175,19 @@ export default function AboutPage() {
                 Kate Hudson
               </h2>
               <div className="mt-6 space-y-4 text-base leading-relaxed text-[#E8E4DE] md:text-lg">
-                <p className="italic text-[#B8B2A8]">
-                  [Kate — this section is yours. 3–5 sentences in your own voice about why you
-                  built assembl, what you saw in NZ businesses, and what drives the company.]
+                <p>
+                  I built assembl because compliance work in Aotearoa still costs teams their
+                  Friday afternoons. The intelligent automation tools available today are
+                  capable; the trust scaffolding around them is not. Every workflow that runs
+                  through assembl ends in a signed evidence pack — what was checked, by whom,
+                  against which Act, on what date.
+                </p>
+                <p>
+                  Quiet intelligence with the trail attached. That is the standard, and it
+                  does not flex with the plan you pick.
+                </p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#B8B2A8]">
+                  — Kate Hudson, founder
                 </p>
               </div>
             </div>
