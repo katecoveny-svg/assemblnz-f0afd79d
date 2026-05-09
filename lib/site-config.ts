@@ -87,10 +87,12 @@ export const reo = {
   // Q3 — Homepage pull quote
   pullQuote: 'Intelligent automation with adult supervision.',
 
-  // Q2 — Trust strip (item 3 locked verbatim; 1 & 2 written to match canon §4)
+  // Q2 — Trust strip. Item 3 locked verbatim. Items 1 & 2 reframed 2026-05-09
+  // under the vertical-AI strategy memo: surface the governance substrate
+  // (Privacy Act 2020, tikanga + Te Tiriti) instead of geography.
   trustStrip: [
-    'Built in Aotearoa',
-    'Grounded in NZ legislation',
+    'Privacy Act 2020 compliant',
+    'Tikanga + Te Tiriti governance',
     'MBIE responsible automation guidance',
   ],
 
@@ -114,6 +116,26 @@ export const reo = {
     cta: 'Sound on. Narrated in NZ English.',
     duration: '90 seconds',
   },
+
+  // ── Strategic positioning copy (added 2026-05-09 per vertical-AI strategy
+  // memo). These are NEW strings — they sit ALONGSIDE the locked Reo, never
+  // replacing it. Three customer-facing labels are introduced:
+  //   Mana Receipts       → "evidence ledger and AI work diary"
+  //   Plugin Canon        → "NZ policy runtime"
+  //   A2A email substrate → "agent-to-agent collection loop"
+
+  // /evidence-pack — sub-paragraph below the locked H1 ("Not an output. / A record.")
+  evidenceLedgerSubcopy:
+    'The evidence ledger captures every workflow’s signed receipt, source citations, and tikanga and Privacy Act attestations. Pack-grade output, hand-it-to-your-insurer ready.',
+
+  // /agents — positioning paragraph below the existing lede. Reframes the
+  // marketplace as specialist kete on a shared NZ policy runtime.
+  agentsPolicyRuntimeIntro:
+    'Each kete sits on the same NZ policy runtime — Privacy Act 2020 controls, tikanga and Te Tiriti governance, full audit trail, and signed receipts built into the substrate. What works for one industry is consistent across all eight.',
+
+  // /about — strategic positioning sentence per the vertical-AI strategy memo.
+  aboutPositioning:
+    'assembl is the cross-vertical trust-and-control layer for operational agents in New Zealand document-heavy workflows.',
 };
 
 // ── How it works — 5 canon stages (Kahu / Iho / Tā / Mahara / Mana) ─────────
@@ -171,7 +193,7 @@ export const pipelineStages: readonly PipelineStage[] = [
     title: 'Mana',
     subtitle: 'Sign-off',
     body:
-      'Nothing ships until a person says so. Mana captures the sign-off, seals the evidence pack, and hands the work to the system that needs it — the BCA, the customer, the auditor. Your name is on it.',
+      'Nothing ships until a person says so. Mana captures the sign-off, seals the evidence pack, and hands the work to the system that needs it — the BCA, the customer, the auditor. Your name is on it. The evidence ledger — every output ends in a signed receipt you can file, forward, or footnote.',
     example: 'Your name on the sign-off line. Pack sealed. Variation sent.',
   },
 ] as const;
