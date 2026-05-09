@@ -21,7 +21,7 @@ export function GenerateButton({
         type="button"
         onClick={onClick}
         disabled={generating}
-        className="flex w-full items-center justify-center gap-3.5 rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--assembl-paper)] px-4 py-4 font-mono text-[12.5px] lowercase tracking-[0.22em] text-[color:var(--text-primary)] transition-colors enabled:hover:bg-[color:var(--assembl-cloud)] disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--assembl-gold-thread)]"
+        className="flex w-full items-center justify-center gap-3.5 rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--assembl-paper)] px-4 py-4 font-mono text-[12.5px] lowercase tracking-[0.22em] text-[color:var(--text-primary)] transition-colors enabled:hover:bg-[color:var(--assembl-cloud)] disabled:cursor-not-allowed disabled:opacity-55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--assembl-pounamu)]"
       >
         <span>
           {generating

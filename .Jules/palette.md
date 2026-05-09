@@ -13,3 +13,7 @@
 ## 2026-05-20 - [Design System Color Consistency]
 **Learning:** During the "Evidence Vessel" pivot, many component-level styles (like focus rings or success states) were still using the old "Soft Gold" tokens instead of the primary "Pounamu" green. This creates visual inconsistency in high-intent areas like forms.
 **Action:** Always cross-reference component-level inline styles or CSS with `globals.css` and `tailwind.config.ts` during theme pivots to ensure primary interaction colors (focus, success) are updated to the current brand primary.
+
+## 2026-05-25 - [Interactive Element Focus Contrast]
+**Learning:** Using "Soft Gold" for interactive focus indicators often provides insufficient contrast against the "Paper" background, making keyboard navigation difficult. The "Pounamu" green is the intended primary accent for high-intent areas and provides the necessary visual weight for accessibility.
+**Action:** Ensure all interactive elements (buttons, inputs) use `var(--assembl-pounamu)` or the `ring` variable for focus-visible states to maintain brand consistency and accessibility standards.
