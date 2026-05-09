@@ -69,6 +69,54 @@ export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
   },
 };
 
+// ── Hero videos — moving backgrounds for major page heroes ───────────────────
+//
+// Map of route key → { src, poster }. `src` is null where Kate has not yet
+// commissioned a route-specific video; the HeroVideo component falls through
+// to img-only in that case. Posters reuse the locked vessel imagery from
+// `ketes` and `heroVessel` — those are 16:9 stills.
+//
+// As Kate generates per-route videos via vessel-studio, replace the placeholder
+// (Waihanga signature video) with the route-specific MP4 URL.
+
+export type HeroVideoEntry = {
+  src: string | null;
+  poster: string;
+};
+
+export type HeroVideoKey =
+  | 'home'
+  | 'pilot-sprint'
+  | 'how-it-works'
+  | 'evidence-pack'
+  | 'pricing'
+  | 'agents'
+  | 'about'
+  | `kete:${KeteSlug}`;
+
+// Placeholder Waihanga video — used wherever a kete-specific MP4 has not
+// yet been commissioned. ~5.6 MB; the HeroVideo component gates it to
+// (min-width: 768px) so it does not load on mobile.
+const PLACEHOLDER_VIDEO = `${PUB}/pbf01KR29660W_5AV6EQQS47E3598Y/89dcf58c-d2ce-4d06-aeeb-64dcfb564fb1.mp4`;
+
+export const heroVideos: Record<HeroVideoKey, HeroVideoEntry> = {
+  home:           { src: PLACEHOLDER_VIDEO, poster: heroVessel.wide },
+  'pilot-sprint': { src: PLACEHOLDER_VIDEO, poster: ketes.waihanga.wide },
+  'how-it-works': { src: null,              poster: heroVessel.wide },
+  'evidence-pack':{ src: null,              poster: heroVessel.wide },
+  pricing:        { src: null,              poster: heroVessel.wide },
+  agents:         { src: null,              poster: heroVessel.wide },
+  about:          { src: null,              poster: painterlyAnchor },
+  'kete:waihanga':{ src: PLACEHOLDER_VIDEO, poster: ketes.waihanga.wide },
+  'kete:manaaki': { src: null,              poster: ketes.manaaki.wide },
+  'kete:pikau':   { src: null,              poster: ketes.pikau.wide },
+  'kete:arataki': { src: null,              poster: ketes.arataki.wide },
+  'kete:auaha':   { src: null,              poster: ketes.auaha.wide },
+  'kete:ako':     { src: null,              poster: ketes.ako.wide },
+  'kete:hoko':    { src: null,              poster: ketes.hoko.wide },
+  'kete:toro':    { src: null,              poster: ketes.toro.wide },
+};
+
 // ── Locked Reo Phase 1 (signed off 2026-05-08, do not edit lightly) ──────────
 
 export const reo = {
