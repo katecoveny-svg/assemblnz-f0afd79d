@@ -63,7 +63,9 @@ const nextConfig: NextConfig = {
       { source: "/aaaip/:path*", destination: "https://app.assembl.co.nz/aaaip/:path*", permanent: false },
 
       // Auth flows
-      { source: "/login", destination: "https://app.assembl.co.nz/login", permanent: false },
+      // /login lives on the apex (Next.js App Router, Supabase Auth on
+      // assembl-prod). /signup remains on the legacy Vite app for now —
+      // out of scope for this PR.
       { source: "/signup", destination: "https://app.assembl.co.nz/signup", permanent: false },
       { source: "/onboarding", destination: "https://app.assembl.co.nz/onboarding", permanent: false },
       { source: "/onboarding/:path*", destination: "https://app.assembl.co.nz/onboarding/:path*", permanent: false },
