@@ -71,6 +71,8 @@ project_id = "wurwcrgxjjwqdaxqceey"
     verify_jwt = false
   [functions.stitch-generate]
     verify_jwt = false
+  [functions.chatwoot-webhook]
+    verify_jwt = false
   [functions.twilio-webhook]
     verify_jwt = false
   [functions.weekly-score-email]
