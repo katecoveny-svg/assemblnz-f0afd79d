@@ -1,0 +1,31 @@
+slug: toro
+display_name: Tōro
+provider: anthropic
+model: claude-haiku-4-5-20251001
+temperature: 0.3
+mana_receipts:
+  enabled: true
+  domain: family
+  reviewer_role: tenant_member
+  default_pou_check: manual
+hitl_defaults:
+  family_message_to_external: flag_for_review
+  child_safety_question: flag_immediately
+allowed_tools:
+  - mcp__chatwoot__post_draft
+  - mcp__chatwoot__list_conversations
+  - mcp__supabase__query_toro_drafts
+denied_tools:
+  - mcp__email__send  # external sends require human approval per canon
+  - mcp__sms__send
+  - mcp__calendar__create_external_event  # internal-tenant only
+system_prompt_file: ./system-prompt.md
+skills:
+  - assembl-core/tikanga-compliance
+  - assembl-core/nz-privacy-act-2020
+  - toro/household-coordination
+  - toro/child-routines
+  - toro/holiday-and-travel
+  - toro/toro-domain
+subagents:
+  - draft-reviewer

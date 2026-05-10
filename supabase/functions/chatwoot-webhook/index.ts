@@ -95,6 +95,23 @@ async function verifyHmac(
  * draft pipeline lands (spec §5, "Draft is stored in our own toro_drafts
  * table"). Intentionally simple and te-reo-correct so the pilot UI has
  * something readable to review.
+ *
+ * PLUGIN DISPATCH HOOK (canon §6.2):
+ * When the file-based plugin loader (`lib/iho/loadPlugin.ts`, scaffolded
+ * in feat/toro-plugin-scaffold) is wired through to the edge runtime via
+ * the agent_prompts cache, this stub becomes:
+ *
+ *   const toro = await loadCachedPlugin('toro');
+ *   const draft = await toro.draftReply({
+ *     conversationId, incomingBody, contact: msg.sender,
+ *     tenantContext: { chatwootAccountId, chatwootInboxId },
+ *   });
+ *
+ * The matching condition (`accountId === PILOT_CHATWOOT_ACCOUNT_ID &&
+ * inboxId === PILOT_CHATWOOT_INBOX_ID`) is already enforced above; a
+ * future PR replaces those constants with a tenant lookup that reads
+ * `tenants.chatwoot_account_id` / `chatwoot_inbox_ids` and routes to
+ * the tenant's plugin slug (Tōro for the Hudson household pilot).
  */
 function generateDraftBody(incomingBody: string): {
   draft: string;
