@@ -1,7 +1,17 @@
 {
   "name": "auaha",
-  "version": "0.0.1",
-  "description": "Stub — built per canon Day 9-12+. Creative industries pack. Will cover Copyright Act 1994, NZ Film Commission, contractor agreements, music licensing, talent releases.",
-  "skills": [],
+  "version": "0.1.0",
+  "description": "Creative industries pack — agencies, studios, designers, photographers, film/TV, music, publishing, and freelance creatives. Drafts campaign briefs, creative contracts and IP-assignment terms, and content production plans against the Copyright Act 1994, the Fair Trading Act 1986 (s.9 misleading-conduct test), the ASA codes, and standard NZ contractor terms. Every output is staged for the agency producer, the operator's solicitor, or the senior creative to review and sign.",
+  "tags": ["creative", "agency", "copyright-act-1994", "fair-trading-act-1986", "asa-codes"],
+  "price_tier": "operator",
+  "skills": [
+    "campaign-brief",
+    "creative-contracts",
+    "content-production-plan"
+  ],
+  "core_skills": [
+    "assembl-core/tikanga-compliance",
+    "assembl-core/nz-privacy-act-2020"
+  ],
   "connectors": []
 }

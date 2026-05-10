@@ -1,7 +1,18 @@
 {
   "name": "hoko",
-  "version": "0.0.1",
-  "description": "Stub — built per canon Day 9-12+. Retail & e-commerce industry pack. Will cover Consumer Guarantees Act 1993, Fair Trading Act 1986, GST, Unsolicited Electronic Messages Act 2007.",
-  "skills": [],
+  "version": "0.1.0",
+  "description": "Retail and e-commerce industry pack — store owners, online retailers, marketplaces, and direct-to-consumer brands. Drafts consumer-law checks, returns and refund policies, and marketing-claims reviews under the Consumer Guarantees Act 1993, the Fair Trading Act 1986, and the Privacy Act 2020 as applied to retail. Every output is staged for the operator, the operator's solicitor, or the marketing-law adviser to review and sign.",
+  "tags": ["retail", "ecommerce", "consumer-guarantees-act-1993", "fair-trading-act-1986"],
+  "price_tier": "operator",
+  "skills": [
+    "consumer-law-check",
+    "returns-policy",
+    "marketing-claims-review"
+  ],
+  "core_skills": [
+    "assembl-core/tikanga-compliance",
+    "assembl-core/nz-privacy-act-2020",
+    "assembl-core/consumer-guarantees-act"
+  ],
   "connectors": []
 }

@@ -1,7 +1,17 @@
 {
   "name": "ako",
-  "version": "0.0.1",
-  "description": "Stub — built per canon Day 9-12+. Education industry pack. Will cover NZQA, Teaching Council, Education and Training Act 2020, Vulnerable Children Act safety checks.",
-  "skills": [],
+  "version": "0.1.0",
+  "description": "Early childhood education industry pack — ECE centres, kōhanga reo, home-based educators. Drafts ECE curriculum plans (Te Whāriki), child-safety reviews, and parent / whānau communications under the Education and Training Act 2020, the Education (Early Childhood Services) Regulations 2008, and Children's Act 2014 safety obligations. Every output is staged for the licensed person responsible, the centre manager, or the safety check officer to review and sign.",
+  "tags": ["ece", "early-childhood", "te-whariki", "education-and-training-act-2020", "childrens-act-2014"],
+  "price_tier": "operator",
+  "skills": [
+    "ece-curriculum-plan",
+    "child-safety-review",
+    "parent-communication"
+  ],
+  "core_skills": [
+    "assembl-core/tikanga-compliance",
+    "assembl-core/nz-privacy-act-2020"
+  ],
   "connectors": []
 }

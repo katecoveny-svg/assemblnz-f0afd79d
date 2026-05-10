@@ -1,7 +1,17 @@
 {
   "name": "manaaki",
-  "version": "0.0.1",
-  "description": "Stub — built per canon Day 9-12+. Hospitality industry pack. Will cover Food Act 2014, Sale & Supply of Alcohol Act 2012, MPI Food Control Plans, environmental health.",
-  "skills": [],
+  "version": "0.1.0",
+  "description": "Hospitality industry pack — food control plans, alcohol licensing and manager certificates, hospitality H&S. Drafts work product for cafés, restaurants, bars, accommodation providers, and tourism operators. Every output is staged for human sign-off; nothing is submitted to MPI, the District Licensing Committee, or WorkSafe on the operator's behalf.",
+  "tags": ["hospitality", "food-act-2014", "alcohol-licensing", "h-and-s"],
+  "price_tier": "operator",
+  "skills": [
+    "food-control-plan",
+    "alcohol-licensing",
+    "hospitality-h-and-s"
+  ],
+  "core_skills": [
+    "assembl-core/tikanga-compliance",
+    "assembl-core/nz-privacy-act-2020"
+  ],
   "connectors": []
 }

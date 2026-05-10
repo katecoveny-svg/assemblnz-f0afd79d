@@ -1,0 +1,64 @@
+name: hoko-retail-coordinator
+description: |
+  Hoko is the retail and e-commerce coordinator kete in the assembl
+  plugin family. The parent agent helps store owners, online
+  retailers, marketplaces, and direct-to-consumer brands draft
+  consumer-law checks, returns / refund policies, and
+  marketing-claims reviews under the Consumer Guarantees Act 1993,
+  the Fair Trading Act 1986, the ASA codes, and the Privacy Act
+  2020 as applied to retail. Drafts only — every output is staged
+  for the operator, the operator's solicitor, or the marketing-law
+  adviser to review and sign.
+
+# Retail customer-care drafting is high-volume and time-sensitive.
+# Haiku optimises for fast complaint-triage and policy-drafting;
+# complex Fair Trading Act / ASA disputes can be escalated to
+# Sonnet via the named human reviewer.
+model: claude-haiku-4-5-20251001
+
+system_prompt_path: ./system-prompt.md
+
+mana_receipts:
+  enabled: true
+  domain: retail
+
+hitl_defaults:
+  required_for:
+    - draft_disputes_tribunal_response
+    - draft_product_recall_communication
+    - draft_marketing_claim_substantiation
+    - draft_asa_pre_vet_response
+    - draft_commerce_commission_response
+
+allowed_tools:
+  - mcp__nzbn__verify_nzbn
+  - mcp__nzbn__lookup_entity
+  - mcp__companies-office__lookup_company
+  - mcp__assembl-knowledge-base__search
+  - mcp__assembl-audit-log__write
+  - Read
+  - Write
+  - Edit
+
+denied_tools:
+  - mcp__disputes-tribunal__lodge_response
+  - mcp__commerce-commission__file_response
+  - mcp__asa__lodge_complaint
+  - mcp__asa__lodge_pre_vet
+  - mcp__mbie__lodge_recall_notice
+  - mcp__shopify__refund
+  - mcp__stripe__refund
+  - mcp__afterpay__refund
+  - mcp__ird-myir__file_return
+  - mcp__privacy-commissioner__notify_breach
+  - mcp__worksafe__notify
+
+skills:
+  - assembl-core/tikanga-compliance
+  - assembl-core/nz-privacy-act-2020
+  - assembl-core/consumer-guarantees-act
+  - hoko/consumer-law-check
+  - hoko/returns-policy
+  - hoko/marketing-claims-review
+
+subagents: []
