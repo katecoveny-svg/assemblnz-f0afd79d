@@ -14,6 +14,17 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      // Mana Receipts public keyring — canonical /.well-known/ path.
+      // Implemented as an internal rewrite because Next.js App Router does
+      // not love folder names that start with a dot.
+      {
+        source: '/.well-known/assembl-agent-keys.json',
+        destination: '/well-known/assembl-agent-keys',
+      },
+    ];
+  },
   async redirects() {
     return [
       // Existing: kete name correction (Tōroa → Tōro)
