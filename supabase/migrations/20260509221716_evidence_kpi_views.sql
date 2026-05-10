@@ -1,18 +1,26 @@
--- Evidence ledger KPI summary — materialised view powering /app/admin/metrics.
+-- Evidence ledger KPI summary v1 — materialised view powering /app/admin/metrics.
 -- Spec: outputs/IMPLEMENTATION-PLAN-VERTICAL-AI-STRATEGY-2026-05-09.md (§7).
 --
--- Six "brutally simple" KPIs as a single wide row (refreshed on demand):
---   1. time_to_first_completed_case_minutes — median, last 30 days
---   2. citation_coverage_pct                — % of high-risk outputs with ≥1 citation
---   3. approval_coverage_pct                — % of high-risk actions with approval row (target 100%)
---   4. action_reversal_rate_pct             — % of agent outputs reversed by human within 7 days
---   5. cycle_time_reduction_pct             — vs baseline (NULL until baseline captured)
---   6. nrr_by_cohort_pct                    — placeholder (NULL until billing rolls in)
+-- v1 SCOPE: assembl_audit_log only. Receipt-derived columns are kept in
+-- the schema as NULL/0 placeholders so the matview shape stays stable
+-- across the v1 → v2 upgrade. The receipt join lands in the v2 migration
+-- (`20260509221717_kpi_evidence_summary_v2_with_receipts.sql`) which is
+-- guarded by `to_regclass('public.mana_receipts')` and only fires once
+-- Kaihanga has shipped Day 7.5.
 --
--- Schema-first scaffold: depends on assembl_audit_log (Day 7) and
--- mana_receipts (Day 7.5). Both ship after this PR. If either table is
--- missing the view definition still installs but yields all-NULL rows so
--- the dashboard renders an empty state instead of erroring.
+-- Why the split: Postgres parses the FROM clause before evaluating WHERE,
+-- so a `to_regclass(...)` runtime check cannot keep the planner from
+-- erroring with 42P01 when `public.mana_receipts` is missing. During the
+-- Day 7 → Day 7.5 rollout window (audit_log present, receipts not yet)
+-- the v1 view must therefore not reference mana_receipts at all.
+--
+-- Six "brutally simple" KPIs:
+--   1. time_to_first_completed_case_minutes — median, last 30 days
+--   2. citation_coverage_pct                — NULL in v1 (needs receipts; populated in v2)
+--   3. approval_coverage_pct                — % of high-risk actions with approval (target 100%)
+--   4. action_reversal_rate_pct             — % reversed by human within 7 days
+--   5. cycle_time_reduction_pct             — placeholder (NULL until baseline captured)
+--   6. nrr_by_cohort_pct                    — placeholder (NULL until billing rolls in)
 --
 -- Idempotent.
 
@@ -38,14 +46,7 @@ security definer
 set search_path = public
 as $$
 declare
-  has_audit boolean := exists (
-    select 1 from information_schema.tables
-    where table_schema='public' and table_name='assembl_audit_log'
-  );
-  has_receipts boolean := exists (
-    select 1 from information_schema.tables
-    where table_schema='public' and table_name='mana_receipts'
-  );
+  has_audit boolean := to_regclass('public.assembl_audit_log') is not null;
 begin
   if not has_audit then
     return query select
@@ -72,16 +73,6 @@ begin
     where audit.created_at >= now() - interval '30 days'
       and coalesce(audit.event_type, '') = 'agent_output'
   ),
-  citation_join as (
-    select hr.id,
-           exists (
-             select 1 from public.mana_receipts r
-             where has_receipts
-               and r.audit_log_id = hr.id
-               and jsonb_array_length(coalesce(r.citations, '[]'::jsonb)) > 0
-           ) as has_citation
-    from high_risk hr
-  ),
   reversed as (
     select count(*) filter (
       where coalesce(audit.reversed_at, null) is not null
@@ -103,11 +94,7 @@ begin
   select
     now() as computed_at,
     (select median_minutes from first_case)                          as time_to_first_completed_case_minutes,
-    case when (select count(*) from citation_join) = 0 then null
-         else round(
-           100.0 * (select count(*) from citation_join where has_citation)::numeric
-           / (select count(*) from citation_join)::numeric, 1)
-    end                                                              as citation_coverage_pct,
+    null::numeric                                                    as citation_coverage_pct,
     case when (select count(*) from high_risk) = 0 then null
          else round(
            100.0 * (select count(*) from high_risk
@@ -121,8 +108,8 @@ begin
     end                                                              as action_reversal_rate_pct,
     null::numeric                                                    as cycle_time_reduction_pct,
     null::numeric                                                    as nrr_by_cohort_pct,
-    (select count(*) from citation_join)                             as high_risk_outputs_total,
-    (select count(*) from citation_join where has_citation)          as high_risk_outputs_with_citation,
+    (select count(*) from high_risk)                                 as high_risk_outputs_total,
+    0::bigint                                                        as high_risk_outputs_with_citation,
     (select count(*) from high_risk)                                 as high_risk_actions_total,
     (select count(*) from high_risk
        where coalesce(approval_status, '') = 'approved')             as high_risk_actions_with_approval,
@@ -130,7 +117,8 @@ begin
     (select reversed_n from reversed)                                as agent_outputs_reversed_within_7d;
 
 exception when undefined_column then
-  -- Schema differs from expected — surface zeros so the dashboard renders.
+  -- Day 7 audit_log may ship with slightly different column names —
+  -- surface zeros so the dashboard renders cleanly while the schema settles.
   return query select
     now() as computed_at,
     null::numeric, null::numeric, null::numeric,
@@ -146,8 +134,12 @@ create materialized view public.kpi_evidence_summary as
 create unique index if not exists kpi_evidence_summary_uniq_idx
   on public.kpi_evidence_summary (computed_at);
 
--- Manual-refresh wrapper used by the /app/admin/metrics "Refresh" button.
--- Concurrency-safe form requires the unique index above.
+-- Manual-refresh entry point used by the /app/admin/metrics "Refresh" button.
+-- Always callable — refreshes the matview as currently defined, regardless
+-- of whether v2 has applied. Concurrency-safe form requires the unique
+-- index above; on the very first refresh we fall back to a non-CONCURRENT
+-- refresh because Postgres rejects CONCURRENT refresh until the matview
+-- has been populated at least once after the index was built.
 create or replace function public.refresh_kpi_evidence_summary()
 returns timestamptz
 language plpgsql
@@ -161,7 +153,6 @@ begin
   select max(computed_at) into ts from public.kpi_evidence_summary;
   return coalesce(ts, now());
 exception when feature_not_supported then
-  -- First refresh after a fresh create cannot be CONCURRENT.
   refresh materialized view public.kpi_evidence_summary;
   select max(computed_at) into ts from public.kpi_evidence_summary;
   return coalesce(ts, now());
