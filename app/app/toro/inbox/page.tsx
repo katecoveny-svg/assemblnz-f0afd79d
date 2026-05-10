@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { DraftRow, type DraftRowData, type TransitionLogEntry } from './DraftRow';
+import { DraftRow, type DraftPaymentIntent, type DraftRowData, type TransitionLogEntry } from './DraftRow';
 import type { DraftState } from '@/lib/toro/state-machine-types';
 
 export const metadata: Metadata = {
@@ -52,8 +52,34 @@ export default async function ToroInboxPage() {
 
   const draftIds = (drafts ?? []).map((d: { id: string }) => d.id);
   const transitionsByDraft = new Map<string, TransitionLogEntry[]>();
+  const paymentIntentByDraft = new Map<string, DraftPaymentIntent>();
 
   if (draftIds.length > 0) {
+    const { data: piRows } = await supabase
+      .from('toro_payment_intents')
+      .select('draft_id, stripe_payment_intent_id, amount_cents, currency, description, status, created_at')
+      .in('draft_id', draftIds)
+      .order('created_at', { ascending: false });
+
+    // Most-recent PI wins per draft.
+    for (const row of (piRows ?? []) as Array<{
+      draft_id: string;
+      stripe_payment_intent_id: string;
+      amount_cents: number;
+      currency: string;
+      description: string | null;
+      status: string;
+    }>) {
+      if (paymentIntentByDraft.has(row.draft_id)) continue;
+      paymentIntentByDraft.set(row.draft_id, {
+        stripe_payment_intent_id: row.stripe_payment_intent_id,
+        amount_cents: row.amount_cents,
+        currency: row.currency,
+        description: row.description,
+        status: row.status,
+      });
+    }
+
     const { data: rows } = await supabase
       .from('toro_draft_transitions')
       .select('draft_id, from_state, to_state, transitioned_by, transitioned_at, reason')
@@ -121,7 +147,10 @@ export default async function ToroInboxPage() {
           <ul className="mt-10 space-y-5">
             {(drafts as DraftRowData[]).map((d) => (
               <li key={d.id}>
-                <DraftRow draft={d} transitions={transitionsByDraft.get(d.id) ?? []} />
+                <DraftRow
+                  draft={{ ...d, paymentIntent: paymentIntentByDraft.get(d.id) ?? null }}
+                  transitions={transitionsByDraft.get(d.id) ?? []}
+                />
               </li>
             ))}
           </ul>
