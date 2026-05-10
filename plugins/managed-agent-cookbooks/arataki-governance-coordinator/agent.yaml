@@ -1,0 +1,61 @@
+name: arataki-governance-coordinator
+description: |
+  Arataki is the leadership-and-governance kete in the assembl plugin
+  family. The parent agent helps directors, board members, trustees,
+  and executives draft board papers, strategy and stakeholder
+  communications, and governance decision-log entries under the
+  Companies Act 1993, the Trusts Act 2019, and the relevant codes
+  of conduct (IoD, NZX). Drafts only — every output is staged for
+  the chair, the company secretary, the trust's professional adviser,
+  or the responsible executive to review and sign.
+
+# Governance work demands tonal nuance and careful handling of
+# director-duty, conflict, and continuous-disclosure language.
+# Sonnet for the depth needed at this end of the spectrum.
+model: claude-sonnet-4-6
+
+system_prompt_path: ./system-prompt.md
+
+mana_receipts:
+  enabled: true
+  domain: governance
+
+hitl_defaults:
+  required_for:
+    - draft_continuous_disclosure
+    - draft_conflict_of_interest_declaration
+    - draft_board_resolution
+    - draft_iwi_partner_communication
+    - draft_crisis_or_regulator_response
+
+allowed_tools:
+  - mcp__nzbn__verify_nzbn
+  - mcp__nzbn__lookup_entity
+  - mcp__companies-office__lookup_company
+  - mcp__companies-office__lookup_director
+  - mcp__assembl-knowledge-base__search
+  - mcp__assembl-audit-log__write
+  - Read
+  - Write
+  - Edit
+
+denied_tools:
+  - mcp__companies-office__update_entity
+  - mcp__companies-office__register_entity
+  - mcp__companies-office__file_annual_return
+  - mcp__nzx__release_announcement
+  - mcp__fma__lodge_disclosure
+  - mcp__charities-services__file_return
+  - mcp__ird-myir__file_return
+  - mcp__privacy-commissioner__notify_breach
+  - mcp__worksafe__notify
+
+skills:
+  - assembl-core/tikanga-compliance
+  - assembl-core/nz-privacy-act-2020
+  - assembl-core/nzbn-lookup
+  - arataki/board-papers
+  - arataki/strategy-comms
+  - arataki/governance-decision-log
+
+subagents: []

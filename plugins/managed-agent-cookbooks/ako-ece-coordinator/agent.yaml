@@ -1,0 +1,61 @@
+name: ako-ece-coordinator
+description: |
+  Ako is the early childhood education coordinator kete in the
+  assembl plugin family. The parent agent helps ECE centres,
+  kōhanga reo, and home-based educators draft Te Whāriki-aligned
+  curriculum plans, Children's Act 2014 safety reviews and
+  incident records, and parent / whānau communications. Drafts
+  only — every output is staged for the centre manager, the
+  licensed person responsible, the safety check officer, or the
+  ECE-network professional adviser to review and sign.
+
+# ECE work — especially child-safety reviews and sensitive whānau
+# communications — demands tonal nuance, careful safeguarding
+# language, and te reo / tikanga awareness. Sonnet for the depth.
+model: claude-sonnet-4-6
+
+system_prompt_path: ./system-prompt.md
+
+mana_receipts:
+  enabled: true
+  domain: ece
+
+hitl_defaults:
+  required_for:
+    - draft_report_of_concern
+    - draft_safety_check_decision
+    - draft_exclusion_or_exit_letter
+    - draft_incident_record
+    - draft_ero_review_response
+    - draft_sensitive_whanau_communication
+
+allowed_tools:
+  - mcp__nzbn__verify_nzbn
+  - mcp__nzbn__lookup_entity
+  - mcp__assembl-knowledge-base__search
+  - mcp__assembl-audit-log__write
+  - Read
+  - Write
+  - Edit
+
+denied_tools:
+  - mcp__police-vetting__submit_request
+  - mcp__police-vetting__retrieve_result
+  - mcp__oranga-tamariki__make_report_of_concern
+  - mcp__moe__file_licensing_change
+  - mcp__moe__file_ero_response
+  - mcp__storypark__post
+  - mcp__educa__post
+  - mcp__hero__post
+  - mcp__ird-myir__file_return
+  - mcp__privacy-commissioner__notify_breach
+  - mcp__worksafe__notify
+
+skills:
+  - assembl-core/tikanga-compliance
+  - assembl-core/nz-privacy-act-2020
+  - ako/ece-curriculum-plan
+  - ako/child-safety-review
+  - ako/parent-communication
+
+subagents: []

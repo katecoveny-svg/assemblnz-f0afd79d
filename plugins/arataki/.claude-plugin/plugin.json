@@ -1,7 +1,17 @@
 {
   "name": "arataki",
-  "version": "0.0.1",
-  "description": "Stub — built per canon Day 9-12+. Tourism & visitor experience industry pack. Will cover Qualmark, ITO guidance, biosecurity declarations, adventure activities regulations.",
-  "skills": [],
+  "version": "0.1.0",
+  "description": "Leadership and governance industry pack — directors, board members, trustees, and executives. Drafts board papers, strategy and stakeholder communications, and governance decision logs under the Companies Act 1993, the Trusts Act 2019, and the relevant codes of conduct (IoD, NZX). Every output is staged for the board chair, the company secretary, or the trust's professional adviser to review and sign.",
+  "tags": ["governance", "directors", "trustees", "board-papers", "companies-act-1993", "trusts-act-2019"],
+  "price_tier": "leader",
+  "skills": [
+    "board-papers",
+    "strategy-comms",
+    "governance-decision-log"
+  ],
+  "core_skills": [
+    "assembl-core/tikanga-compliance",
+    "assembl-core/nz-privacy-act-2020"
+  ],
   "connectors": []
 }

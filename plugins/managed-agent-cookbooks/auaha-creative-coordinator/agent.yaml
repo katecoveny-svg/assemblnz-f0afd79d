@@ -1,0 +1,62 @@
+name: auaha-creative-coordinator
+description: |
+  Auaha is the creative-industry coordinator kete in the assembl
+  plugin family. The parent agent helps agencies, studios, designers,
+  photographers, film and TV producers, music labels, publishers,
+  and freelance creatives draft campaign briefs, creative contracts
+  (scope, IP, talent, contractor), and content production plans
+  grounded in the Copyright Act 1994, the Fair Trading Act 1986
+  (s.9 misleading-conduct test), and the Advertising Standards
+  Authority codes. Drafts only — every output is staged for the
+  producer, the operator's solicitor, or the senior creative to
+  review and sign.
+
+# Creative production is iterative and high-volume. Haiku optimises
+# for fast brief / contract / call-sheet drafting; complex IP-assignment
+# negotiations or ASA disputes can be escalated to Sonnet via the
+# named human reviewer.
+model: claude-haiku-4-5-20251001
+
+system_prompt_path: ./system-prompt.md
+
+mana_receipts:
+  enabled: true
+  domain: creative
+
+hitl_defaults:
+  required_for:
+    - draft_iwi_consent_request
+    - draft_ip_assignment_terms
+    - draft_talent_release_for_minors
+    - draft_asa_pre_vet_response
+    - draft_misleading_conduct_response
+
+allowed_tools:
+  - mcp__nzbn__verify_nzbn
+  - mcp__nzbn__lookup_entity
+  - mcp__companies-office__lookup_company
+  - mcp__assembl-knowledge-base__search
+  - mcp__assembl-audit-log__write
+  - Read
+  - Write
+  - Edit
+
+denied_tools:
+  - mcp__asa__lodge_complaint
+  - mcp__asa__lodge_pre_vet
+  - mcp__commerce-commission__file_complaint
+  - mcp__doc__lodge_concession
+  - mcp__council-permits__lodge_filming_permit
+  - mcp__ird-myir__file_return
+  - mcp__privacy-commissioner__notify_breach
+  - mcp__worksafe__notify
+
+skills:
+  - assembl-core/tikanga-compliance
+  - assembl-core/nz-privacy-act-2020
+  - assembl-core/consumer-guarantees-act
+  - auaha/campaign-brief
+  - auaha/creative-contracts
+  - auaha/content-production-plan
+
+subagents: []

@@ -1,0 +1,63 @@
+name: manaaki-hospitality-coordinator
+description: |
+  Manaaki is the hospitality coordinator kete in the assembl plugin
+  family. The parent agent helps café, restaurant, bar, accommodation,
+  and tourism operators draft food control plan entries under the
+  Food Act 2014, alcohol-licensing work product under the Sale and
+  Supply of Alcohol Act 2012, and hospitality-floor health and safety
+  drafts under the Health and Safety at Work Act 2015. Drafts only —
+  every output is staged for the operator's certifying officer,
+  designated manager, MPI verifier, or WorkSafe-competent person to
+  review and sign.
+
+# Hospitality work is high-volume and time-sensitive. Haiku optimises
+# for speed on routine FCP / licence / H&S drafting; complex licence
+# objections or notifiable-event narratives can be escalated by the
+# named human reviewer to a Sonnet-class follow-up if depth is needed.
+model: claude-haiku-4-5-20251001
+
+system_prompt_path: ./system-prompt.md
+
+mana_receipts:
+  enabled: true
+  domain: hospitality
+
+hitl_defaults:
+  required_for:
+    - draft_alcohol_licence_objection
+    - draft_food_recall_communication
+    - draft_notifiable_event_narrative
+    - draft_dlc_response
+    - draft_eho_findings_response
+
+allowed_tools:
+  - mcp__nzbn__verify_nzbn
+  - mcp__nzbn__lookup_entity
+  - mcp__companies-office__lookup_company
+  - mcp__assembl-knowledge-base__search
+  - mcp__assembl-audit-log__write
+  - Read
+  - Write
+  - Edit
+
+denied_tools:
+  - mcp__mpi-food__submit_fcp
+  - mcp__mpi-food__submit_recall_notice
+  - mcp__dlc__lodge_application
+  - mcp__dlc__lodge_objection
+  - mcp__arla__lodge_appeal
+  - mcp__worksafe__notify
+  - mcp__worksafe__respond_to_notice
+  - mcp__acc__lodge_claim
+  - mcp__ird-myir__file_return
+  - mcp__privacy-commissioner__notify_breach
+
+skills:
+  - assembl-core/tikanga-compliance
+  - assembl-core/nz-privacy-act-2020
+  - assembl-core/consumer-guarantees-act
+  - manaaki/food-control-plan
+  - manaaki/alcohol-licensing
+  - manaaki/hospitality-h-and-s
+
+subagents: []
