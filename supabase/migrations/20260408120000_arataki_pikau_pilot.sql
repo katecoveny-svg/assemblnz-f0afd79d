@@ -6,7 +6,7 @@
 -- ─────────── ARATAKI ───────────
 create table if not exists public.arataki_listings (
   id              uuid primary key default gen_random_uuid(),
-  tenant_id       text not null,
+  tenant_id       uuid not null,
   vin             text not null,
   year            int  not null,
   make            text not null,
@@ -21,7 +21,7 @@ create index if not exists arataki_listings_tenant_idx on public.arataki_listing
 
 create table if not exists public.arataki_enquiries (
   id                  uuid primary key default gen_random_uuid(),
-  tenant_id           text not null,
+  tenant_id           uuid not null,
   customer_name_hash  text not null,
   vehicle_of_interest text,
   consent_marketing   boolean not null,
@@ -33,7 +33,7 @@ create index if not exists arataki_enquiries_tenant_idx on public.arataki_enquir
 
 create table if not exists public.arataki_finance_disclosures (
   id                  uuid primary key default gen_random_uuid(),
-  tenant_id           text not null,
+  tenant_id           uuid not null,
   lender_name         text not null,
   principal_nzd       numeric not null,
   interest_rate_pct   numeric not null,
@@ -48,7 +48,7 @@ create index if not exists arataki_finance_tenant_idx on public.arataki_finance_
 -- ─────────── PIKAU ───────────
 create table if not exists public.pikau_customs_entries (
   id                   uuid primary key default gen_random_uuid(),
-  tenant_id            text not null,
+  tenant_id            uuid not null,
   importer_ird_hash    text not null,
   broker_code          text not null,
   hs_code              text not null,
@@ -64,7 +64,7 @@ create index if not exists pikau_customs_tenant_idx on public.pikau_customs_entr
 
 create table if not exists public.pikau_freight_quotes (
   id                       uuid primary key default gen_random_uuid(),
-  tenant_id                text not null,
+  tenant_id                uuid not null,
   origin                   text not null,
   destination              text not null,
   weight_kg                numeric not null,
@@ -79,7 +79,7 @@ create index if not exists pikau_freight_tenant_idx on public.pikau_freight_quot
 
 create table if not exists public.pikau_dg_declarations (
   id                    uuid primary key default gen_random_uuid(),
-  tenant_id             text not null,
+  tenant_id             uuid not null,
   un_number             text not null,
   proper_shipping_name  text not null,
   imdg_class            text not null,
