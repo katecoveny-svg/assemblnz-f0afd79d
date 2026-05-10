@@ -81,6 +81,8 @@ export function ContactForm() {
             className="form-input"
             required
             aria-required="true"
+            aria-invalid={state.status === "error"}
+            aria-describedby={state.status === "error" ? "form-error" : undefined}
           >
             <option value="demo">Book a demo</option>
             <option value="trial">Start a 14-day trial</option>
@@ -96,6 +98,8 @@ export function ContactForm() {
               name="name"
               required
               aria-required="true"
+              aria-invalid={state.status === "error"}
+              aria-describedby={state.status === "error" ? "form-error" : undefined}
               maxLength={120}
               autoComplete="name"
               className="form-input"
@@ -109,6 +113,8 @@ export function ContactForm() {
               name="email"
               required
               aria-required="true"
+              aria-invalid={state.status === "error"}
+              aria-describedby={state.status === "error" ? "form-error" : undefined}
               autoComplete="email"
               className="form-input"
             />
@@ -146,6 +152,11 @@ export function ContactForm() {
             name="message"
             required
             aria-required="true"
+            aria-invalid={state.status === "error"}
+            aria-describedby={cn(
+              "message-counter",
+              state.status === "error" && "form-error"
+            )}
             minLength={10}
             maxLength={4000}
             rows={5}
@@ -155,6 +166,7 @@ export function ContactForm() {
           />
           <div className="mt-2 flex justify-end">
             <span
+              id="message-counter"
               className={cn(
                 "font-mono text-[10px] uppercase tracking-[0.1em]",
                 messageLength > 3800
@@ -169,7 +181,11 @@ export function ContactForm() {
         </Field>
 
         {state.status === "error" && (
-          <p className="rounded-card border border-[rgba(180,90,90,0.3)] bg-[rgba(180,90,90,0.08)] p-3 text-sm text-[#7A3A3A]" role="alert">
+          <p
+            id="form-error"
+            className="rounded-card border border-[rgba(180,90,90,0.3)] bg-[rgba(180,90,90,0.08)] p-3 text-sm text-[#7A3A3A]"
+            role="alert"
+          >
             {state.message}
           </p>
         )}
