@@ -21,7 +21,7 @@ Source of truth for assembl's agent definitions: this folder, in git. The Supaba
 | `auaha` | Creative Industries | — |
 | `ako` | Education | — |
 | `hoko` | Retail & E-commerce | — |
-| `toro` | Professional Services | — |
+| `toro` | Whānau / household life-admin | Hudson household |
 
 Plus `assembl-core`: mandatory baseline plugin (Privacy Act 2020, tikanga compliance, NZBN lookup, CGA quick reference). Install first.
 

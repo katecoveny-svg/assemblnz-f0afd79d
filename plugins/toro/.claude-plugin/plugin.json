@@ -1,7 +1,20 @@
 {
   "name": "toro",
+  "displayName": "Tōro",
+  "description": "Quiet whānau assistant — household coordination, child routines, holiday planning, gear lists, learning support. Every reply human-approved.",
   "version": "0.0.1",
-  "description": "Stub — built per canon Day 9-12+. Professional services industry pack. Will cover AML/CFT Act 2009, professional indemnity, scope-of-engagement letters, professional body codes of conduct.",
-  "skills": [],
+  "author": "Assembl Limited",
+  "tags": ["family", "whanau", "household", "consumer"],
+  "priceTier": "family",
+  "monthlyPrice": 29,
+  "currency": "NZD",
+  "skills": [
+    "assembl-core/tikanga-compliance",
+    "assembl-core/nz-privacy-act-2020",
+    "toro/household-coordination",
+    "toro/child-routines",
+    "toro/holiday-and-travel",
+    "toro/toro-domain"
+  ],
   "connectors": []
 }
