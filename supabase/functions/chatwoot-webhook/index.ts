@@ -1,11 +1,11 @@
 /**
  * Tōro · Chatwoot inbound webhook
  * ================================
- * Receives Chatwoot webhook events for the Hudson household pilot inbox,
- * validates the HMAC signature against the per-inbox `hmac_token`, and
- * inserts a draft reply into `public.toro_drafts` with status
- * `pending_approval`. A whānau member then reviews + sends from the
- * Tōro inbox UI (`/app/toro/inbox`).
+ * Receives Chatwoot webhook events for the Hudson household pilot inboxes,
+ * validates the HMAC signature against either the per-inbox `hmac_token` or
+ * the account-level webhook signing secret, and inserts a draft reply into
+ * `public.toro_drafts` with status `pending_approval`. A whānau member then
+ * reviews + sends from the Tōro inbox UI (`/app/toro/inbox`).
  *
  * Hard rules (Plugin Canon §1):
  *   - No auto-send. Ever. Drafts always wait for an explicit human click.
@@ -26,15 +26,33 @@
  *     warm canned reply so the pilot doesn't 500 — but logs the fallback
  *     so we can see degraded behaviour in console output.
  *
+ * Webhook topology (2026-05-11):
+ *   - Account-level webhook 16392 fires for message_created /
+ *     conversation_created / conversation_status_changed on ALL inboxes
+ *     and signs with the account webhook's `secret` field.
+ *   - Per-inbox webhook on inbox 108583 signs with that inbox's
+ *     `hmac_token`.
+ *   - We try both keys against X-Chatwoot-Signature and accept whichever
+ *     matches. Duplicate deliveries (same message via two webhooks, or
+ *     Chatwoot retries on 5xx) are deduped at the DB layer by the partial
+ *     unique index on toro_drafts (chatwoot_account_id, chatwoot_inbox_id,
+ *     chatwoot_message_id) WHERE chatwoot_message_id IS NOT NULL — see
+ *     migration 20260511103200_toro_drafts_unique_per_chatwoot_message.sql.
+ *
  * Deploy notes (do NOT auto-deploy from this PR):
  *   supabase functions deploy chatwoot-webhook --no-verify-jwt
  *
  * Env (set in Supabase project settings → Edge Functions → secrets):
- *   SUPABASE_URL                  (auto-injected)
- *   SUPABASE_SERVICE_ROLE_KEY     (auto-injected)
- *   CHATWOOT_HMAC_TOKEN           (per-inbox hmac_token; pilot value lives
- *                                  in Supabase Vault — never commit)
- *   ANTHROPIC_API_KEY             (project-wide; used by _shared/llm-call.ts)
+ *   SUPABASE_URL                       (auto-injected)
+ *   SUPABASE_SERVICE_ROLE_KEY          (auto-injected)
+ *   CHATWOOT_HMAC_TOKEN                (per-inbox hmac_token for inbox 108583;
+ *                                       optional once account secret is set)
+ *   CHATWOOT_ACCOUNT_WEBHOOK_SECRET    (account-level webhook 16392 secret;
+ *                                       covers ALL inboxes incl. WebWidget)
+ *   ANTHROPIC_API_KEY                  (project-wide; used by _shared/llm-call.ts)
+ *
+ * At least one of CHATWOOT_HMAC_TOKEN or CHATWOOT_ACCOUNT_WEBHOOK_SECRET
+ * MUST be set, or the function fails closed with 500.
  *
  * Webhook URL pattern (after deploy):
  *   https://<project-ref>.functions.supabase.co/chatwoot-webhook
@@ -46,12 +64,24 @@ import { callLlm, type ChatMessage } from "../_shared/llm-call.ts";
 import { loadCachedPlugin, TORO_HARD_RULES } from "../_shared/load-cached-plugin.ts";
 
 // ---------------------------------------------------------------------------
-// Hardcoded pilot constants — Hudson whānau test inbox.
+// Hardcoded pilot constants — Hudson whānau test inboxes.
 // Replace with per-tenant lookup once the tenants/tenant_members migration
 // applies. See spec §5 ("Tenant isolation enforced at API key").
 // ---------------------------------------------------------------------------
 const PILOT_CHATWOOT_ACCOUNT_ID = 164366;
-const PILOT_CHATWOOT_INBOX_ID = 108583; // Tōro — Hudson Whānau Test (Channel::Api)
+
+// Inbox allowlist — drop in additional inbox ids here as new Hudson channels
+// come online. Account-level webhook 16392 fires for events from any inbox
+// in the account, so we filter here rather than at the Chatwoot side.
+//
+//   108583 — Channel::Api       — Tōro Hudson Whānau Test (original)
+//   108774 — Channel::WebWidget — Hudson website widget (created 2026-05-10)
+const PILOT_CHATWOOT_INBOX_IDS: number[] = [108583, 108774];
+
+// Back-compat: the previous version of this function used a single constant.
+// Keep it exported under the old name for any other code reading from this
+// file (none in tree, but defensive).
+const PILOT_CHATWOOT_INBOX_ID = PILOT_CHATWOOT_INBOX_IDS[0];
 
 // Default tenant UUID for cost-logging until tenant_members lookup wires
 // through. Matches the demo tenant on assembl-prod (memory m32).
@@ -74,9 +104,10 @@ function jsonResponse(body: unknown, status = 200): Response {
 /**
  * Constant-time HMAC-SHA256 verification.
  *
- * Chatwoot signs the raw request body with the inbox `hmac_token` and
- * delivers the hex digest in `X-Chatwoot-Signature` (older deployments use
- * `X-Chatwoot-Hmac-Sha256`). We accept either.
+ * Chatwoot signs the raw request body with the inbox `hmac_token` (per-inbox
+ * webhooks) or the account-webhook `secret` field (account-level webhooks),
+ * and delivers the hex digest in `X-Chatwoot-Signature` (older deployments
+ * use `X-Chatwoot-Hmac-Sha256`). We accept either header.
  */
 async function verifyHmac(
   rawBody: string,
@@ -105,6 +136,28 @@ async function verifyHmac(
     mismatch |= expected.charCodeAt(i) ^ signature.charCodeAt(i);
   }
   return mismatch === 0;
+}
+
+/**
+ * Try every configured signing secret against the request signature. Returns
+ * the name of the secret that matched (for diagnostics), or null if none did.
+ * Both candidates are tried even if the first succeeds — the runtime cost is
+ * negligible and the constant-time-per-candidate property is preserved.
+ */
+async function verifyHmacAny(
+  rawBody: string,
+  signature: string,
+  candidates: Array<{ name: string; secret: string }>,
+): Promise<{ matched: string } | null> {
+  let matchedName: string | null = null;
+  for (const c of candidates) {
+    if (!c.secret) continue;
+    const ok = await verifyHmac(rawBody, signature, c.secret);
+    if (ok && matchedName === null) {
+      matchedName = c.name;
+    }
+  }
+  return matchedName ? { matched: matchedName } : null;
 }
 
 interface DraftResult {
@@ -282,15 +335,16 @@ Deno.serve(async (req: Request) => {
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-  const hmacToken = Deno.env.get("CHATWOOT_HMAC_TOKEN");
+  const inboxHmacToken = Deno.env.get("CHATWOOT_HMAC_TOKEN") ?? "";
+  const accountWebhookSecret = Deno.env.get("CHATWOOT_ACCOUNT_WEBHOOK_SECRET") ?? "";
 
   if (!supabaseUrl || !serviceKey) {
     return jsonResponse({ error: "supabase env not configured" }, 500);
   }
-  if (!hmacToken) {
-    // Fail closed — without the HMAC token we cannot verify the signature
+  if (!inboxHmacToken && !accountWebhookSecret) {
+    // Fail closed — without any HMAC secret we cannot verify the signature
     // and must reject the request.
-    return jsonResponse({ error: "hmac token not configured" }, 500);
+    return jsonResponse({ error: "no chatwoot hmac secrets configured" }, 500);
   }
 
   // Read raw body BEFORE parsing so the HMAC matches Chatwoot's signing input.
@@ -303,8 +357,11 @@ Deno.serve(async (req: Request) => {
     req.headers.get("X-Chatwoot-Hmac-Sha256") ??
     "";
 
-  const ok = await verifyHmac(rawBody, signature, hmacToken);
-  if (!ok) {
+  const verify = await verifyHmacAny(rawBody, signature, [
+    { name: "inbox", secret: inboxHmacToken },
+    { name: "account", secret: accountWebhookSecret },
+  ]);
+  if (!verify) {
     return jsonResponse({ error: "invalid signature" }, 401);
   }
 
@@ -315,14 +372,14 @@ Deno.serve(async (req: Request) => {
     return jsonResponse({ error: "invalid json" }, 400);
   }
 
-  // Tenant isolation guard: this function only handles the pilot inbox.
+  // Tenant isolation guard: this function only handles pilot inboxes.
   const accountId = payload.account?.id ?? payload.message?.account?.id;
   const inboxId = payload.inbox?.id ?? payload.message?.inbox?.id;
   if (accountId && accountId !== PILOT_CHATWOOT_ACCOUNT_ID) {
     return jsonResponse({ skipped: "account_id mismatch" }, 200);
   }
-  if (inboxId && inboxId !== PILOT_CHATWOOT_INBOX_ID) {
-    return jsonResponse({ skipped: "inbox_id mismatch" }, 200);
+  if (inboxId && !PILOT_CHATWOOT_INBOX_IDS.includes(inboxId)) {
+    return jsonResponse({ skipped: "inbox_id not on pilot allowlist" }, 200);
   }
 
   if (!isIncomingContactMessage(payload)) {
@@ -342,12 +399,41 @@ Deno.serve(async (req: Request) => {
     return jsonResponse({ skipped: "missing conversation id" }, 200);
   }
 
+  // Resolve the concrete inbox id for the toro_drafts row. Prefer the
+  // payload value (covers account-level webhooks which carry the inbox id
+  // in payload.inbox.id); fall back to the first allowlisted inbox for the
+  // unusual case where the payload omits both fields.
+  const resolvedInboxId = inboxId ?? PILOT_CHATWOOT_INBOX_IDS[0];
+
   const incomingBody = (msg.content ?? "").trim();
   const requestId = crypto.randomUUID();
 
   const supabase = createClient(supabaseUrl, serviceKey, {
     auth: { persistSession: false },
   });
+
+  // Idempotency fast-path: if a draft already exists for this exact Chatwoot
+  // message, return it immediately without calling the LLM. The partial
+  // unique index on toro_drafts catches anything that slips past this
+  // pre-check (concurrent webhook deliveries arriving in the same ms).
+  if (msg.id != null) {
+    const { data: existing } = await supabase
+      .from("toro_drafts")
+      .select("id")
+      .eq("chatwoot_account_id", PILOT_CHATWOOT_ACCOUNT_ID)
+      .eq("chatwoot_inbox_id", resolvedInboxId)
+      .eq("chatwoot_message_id", msg.id)
+      .maybeSingle();
+    if (existing?.id) {
+      return jsonResponse({
+        ok: true,
+        draft_id: existing.id,
+        dedup: true,
+        hmac_matched: verify.matched,
+        request_id: requestId,
+      }, 200);
+    }
+  }
 
   // Generate the draft via plugin-driven path with stub fallback.
   const result = await generateDraftBody(
@@ -367,7 +453,7 @@ Deno.serve(async (req: Request) => {
     .from("toro_drafts")
     .insert({
       chatwoot_account_id: PILOT_CHATWOOT_ACCOUNT_ID,
-      chatwoot_inbox_id: PILOT_CHATWOOT_INBOX_ID,
+      chatwoot_inbox_id: resolvedInboxId,
       chatwoot_conversation_id: conversationId,
       chatwoot_message_id: msg.id ?? null,
       contact_name: msg.sender?.name ?? null,
@@ -383,6 +469,28 @@ Deno.serve(async (req: Request) => {
     .single();
 
   if (error) {
+    // 23505 = unique constraint violation. Another concurrent webhook
+    // delivery raced us and inserted first. Look up the existing draft
+    // and return it with dedup:true so Chatwoot doesn't retry.
+    if ((error as { code?: string }).code === "23505" && msg.id != null) {
+      const { data: raced } = await supabase
+        .from("toro_drafts")
+        .select("id")
+        .eq("chatwoot_account_id", PILOT_CHATWOOT_ACCOUNT_ID)
+        .eq("chatwoot_inbox_id", resolvedInboxId)
+        .eq("chatwoot_message_id", msg.id)
+        .maybeSingle();
+      if (raced?.id) {
+        return jsonResponse({
+          ok: true,
+          draft_id: raced.id,
+          dedup: true,
+          dedup_path: "race_23505",
+          hmac_matched: verify.matched,
+          request_id: requestId,
+        }, 200);
+      }
+    }
     return jsonResponse({ error: "db insert failed", detail: error.message }, 500);
   }
 
@@ -392,6 +500,7 @@ Deno.serve(async (req: Request) => {
     source: result.source,
     model: result.model ?? null,
     prompt_version: result.promptVersion ?? null,
+    hmac_matched: verify.matched,
     request_id: requestId,
   }, 200);
 });
