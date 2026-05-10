@@ -101,7 +101,7 @@ const PLACEHOLDER_VIDEO = `${PUB}/pbf01KR29660W_5AV6EQQS47E3598Y/89dcf58c-d2ce-4
 
 export const heroVideos: Record<HeroVideoKey, HeroVideoEntry> = {
   home:           { src: PLACEHOLDER_VIDEO, poster: heroVessel.wide },
-  'pilot-sprint': { src: PLACEHOLDER_VIDEO, poster: ketes.waihanga.wide },
+  'pilot-sprint': { src: '/videos/pilot-sprint-hero.mp4', poster: '/videos/pilot-sprint-hero-poster.jpg' },
   'how-it-works': { src: null,              poster: heroVessel.wide },
   'evidence-pack':{ src: null,              poster: heroVessel.wide },
   pricing:        { src: null,              poster: heroVessel.wide },
