@@ -2,146 +2,151 @@
 
 import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
-import { postMessage } from '@/lib/toro/chatwoot-api';
+import { transitionDraft } from '@/lib/toro/state-machine';
 
 interface ActionResult {
   ok: boolean;
   reason?: string;
 }
 
-async function loadDraft(draftId: string) {
+/**
+ * Resolve the current authenticated user. Returns null when unauthenticated;
+ * the caller surfaces a user-friendly error string.
+ */
+async function currentUserId(): Promise<string | null> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { ok: false as const, reason: 'not authenticated' as const };
+  const { data } = await supabase.auth.getUser();
+  return data.user?.id ?? null;
+}
 
-  const { data, error } = await supabase
-    .from('toro_drafts')
-    .select(
-      'id, chatwoot_conversation_id, draft_body, status',
-    )
-    .eq('id', draftId)
-    .single();
+export async function markReviewingAction(draftId: string): Promise<ActionResult> {
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: 'not authenticated' };
 
-  if (error || !data) {
-    return { ok: false as const, reason: error?.message ?? 'draft not found' };
-  }
-  return { ok: true as const, supabase, user, draft: data };
+  const result = await transitionDraft({
+    draftId,
+    toState: 'reviewing',
+    userId,
+    reason: 'opened_in_inbox',
+  });
+
+  if (result.ok) revalidatePath('/app/toro/inbox');
+  return result.ok ? { ok: true } : { ok: false, reason: result.error };
 }
 
 export async function approveDraftAction(draftId: string): Promise<ActionResult> {
-  const loaded = await loadDraft(draftId);
-  if (!loaded.ok) return loaded;
-  const { supabase, user, draft } = loaded;
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: 'not authenticated' };
 
-  if (draft.status !== 'pending_approval') {
-    return { ok: false, reason: `cannot approve — current status is ${draft.status}` };
-  }
-
-  const now = new Date().toISOString();
-  await supabase
+  // Move pending → reviewing → approved → sent. The state machine guards
+  // every step and refuses if the user tries to skip.
+  const supabase = await createClient();
+  const { data: current } = await supabase
     .from('toro_drafts')
-    .update({
-      status: 'approved',
-      reviewer_user_id: user.id,
-      reviewed_at: now,
-    })
-    .eq('id', draftId);
+    .select('status')
+    .eq('id', draftId)
+    .maybeSingle();
 
-  try {
-    const sent = await postMessage(draft.chatwoot_conversation_id, draft.draft_body);
-    await supabase
-      .from('toro_drafts')
-      .update({
-        status: 'sent',
-        sent_at: new Date().toISOString(),
-        chatwoot_message_id: sent.message_id,
-      })
-      .eq('id', draftId);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'send failed';
-    await supabase
-      .from('toro_drafts')
-      .update({ status: 'failed', send_error: message })
-      .eq('id', draftId);
-    return { ok: false, reason: message };
+  if (current?.status === 'pending_approval') {
+    const intoReviewing = await transitionDraft({
+      draftId,
+      toState: 'reviewing',
+      userId,
+      reason: 'approve_action_auto_review',
+    });
+    if (!intoReviewing.ok) return { ok: false, reason: intoReviewing.error };
   }
+
+  const approved = await transitionDraft({
+    draftId,
+    toState: 'approved',
+    userId,
+    reason: 'inbox_approve_button',
+  });
 
   revalidatePath('/app/toro/inbox');
-  return { ok: true };
+  return approved.ok ? { ok: true } : { ok: false, reason: approved.error };
 }
 
 export async function editAndApproveDraftAction(
   draftId: string,
   newBody: string,
 ): Promise<ActionResult> {
-  const trimmed = newBody.trim();
-  if (trimmed.length === 0) {
-    return { ok: false, reason: 'edited body cannot be empty' };
-  }
-  if (trimmed.length > 4000) {
-    return { ok: false, reason: 'edited body too long (max 4000 chars)' };
-  }
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: 'not authenticated' };
 
-  const loaded = await loadDraft(draftId);
-  if (!loaded.ok) return loaded;
-  const { supabase, user, draft } = loaded;
-
-  if (draft.status !== 'pending_approval') {
-    return { ok: false, reason: `cannot edit — current status is ${draft.status}` };
-  }
-
-  const now = new Date().toISOString();
-  await supabase
+  const supabase = await createClient();
+  const { data: current } = await supabase
     .from('toro_drafts')
-    .update({
-      draft_body: trimmed,
-      status: 'edited_then_approved',
-      reviewer_user_id: user.id,
-      reviewed_at: now,
-    })
-    .eq('id', draftId);
+    .select('status')
+    .eq('id', draftId)
+    .maybeSingle();
 
-  try {
-    const sent = await postMessage(draft.chatwoot_conversation_id, trimmed);
-    await supabase
-      .from('toro_drafts')
-      .update({
-        status: 'sent',
-        sent_at: new Date().toISOString(),
-        chatwoot_message_id: sent.message_id,
-      })
-      .eq('id', draftId);
-  } catch (err) {
-    const message = err instanceof Error ? err.message : 'send failed';
-    await supabase
-      .from('toro_drafts')
-      .update({ status: 'failed', send_error: message })
-      .eq('id', draftId);
-    return { ok: false, reason: message };
+  if (current?.status === 'pending_approval') {
+    const intoReviewing = await transitionDraft({
+      draftId,
+      toState: 'reviewing',
+      userId,
+      reason: 'edit_action_auto_review',
+    });
+    if (!intoReviewing.ok) return { ok: false, reason: intoReviewing.error };
   }
+
+  const edited = await transitionDraft({
+    draftId,
+    toState: 'edited_then_approved',
+    userId,
+    newBody,
+    reason: 'inbox_edit_and_approve',
+  });
 
   revalidatePath('/app/toro/inbox');
-  return { ok: true };
+  return edited.ok ? { ok: true } : { ok: false, reason: edited.error };
 }
 
 export async function rejectDraftAction(draftId: string): Promise<ActionResult> {
-  const loaded = await loadDraft(draftId);
-  if (!loaded.ok) return loaded;
-  const { supabase, user, draft } = loaded;
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: 'not authenticated' };
 
-  if (draft.status !== 'pending_approval') {
-    return { ok: false, reason: `cannot reject — current status is ${draft.status}` };
+  const supabase = await createClient();
+  const { data: current } = await supabase
+    .from('toro_drafts')
+    .select('status')
+    .eq('id', draftId)
+    .maybeSingle();
+
+  if (current?.status === 'pending_approval') {
+    const intoReviewing = await transitionDraft({
+      draftId,
+      toState: 'reviewing',
+      userId,
+      reason: 'reject_action_auto_review',
+    });
+    if (!intoReviewing.ok) return { ok: false, reason: intoReviewing.error };
   }
 
-  await supabase
-    .from('toro_drafts')
-    .update({
-      status: 'rejected',
-      reviewer_user_id: user.id,
-      reviewed_at: new Date().toISOString(),
-    })
-    .eq('id', draftId);
+  const rejected = await transitionDraft({
+    draftId,
+    toState: 'rejected',
+    userId,
+    reason: 'inbox_reject_button',
+  });
 
   revalidatePath('/app/toro/inbox');
-  return { ok: true };
+  return rejected.ok ? { ok: true } : { ok: false, reason: rejected.error };
+}
+
+export async function retrySendAction(draftId: string): Promise<ActionResult> {
+  const userId = await currentUserId();
+  if (!userId) return { ok: false, reason: 'not authenticated' };
+
+  const retried = await transitionDraft({
+    draftId,
+    toState: 'approved',
+    userId,
+    reason: 'inbox_send_retry',
+  });
+
+  revalidatePath('/app/toro/inbox');
+  return retried.ok ? { ok: true } : { ok: false, reason: retried.error };
 }

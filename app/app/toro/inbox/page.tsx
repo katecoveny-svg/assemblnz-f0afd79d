@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { DraftRow, type DraftRowData } from './DraftRow';
+import { DraftRow, type DraftRowData, type TransitionLogEntry } from './DraftRow';
+import type { DraftState } from '@/lib/toro/state-machine-types';
 
 export const metadata: Metadata = {
   title: 'Tōro inbox',
@@ -12,6 +13,19 @@ export const metadata: Metadata = {
 
 // Reads the auth session per-request — never prerender.
 export const dynamic = 'force-dynamic';
+
+// States we surface in the inbox view. Terminal `sent` and `rejected` drafts
+// disappear from the active tray; `expired` rows are kept visible for one
+// scroll so the user notices the time-out. `send_failed` is kept visible so
+// the retry button is reachable.
+const VISIBLE_STATES: DraftState[] = [
+  'pending_approval',
+  'reviewing',
+  'approved',
+  'edited_then_approved',
+  'send_failed',
+  'expired',
+];
 
 export default async function ToroInboxPage() {
   const envConfigured = Boolean(
@@ -30,11 +44,35 @@ export default async function ToroInboxPage() {
   const { data: drafts, error } = await supabase
     .from('toro_drafts')
     .select(
-      'id, contact_name, contact_identifier, incoming_body, draft_body, confidence, created_at, chatwoot_conversation_id',
+      'id, contact_name, contact_identifier, incoming_body, draft_body, confidence, created_at, chatwoot_conversation_id, status, send_error',
     )
-    .eq('status', 'pending_approval')
+    .in('status', VISIBLE_STATES)
     .order('created_at', { ascending: false })
     .limit(50);
+
+  const draftIds = (drafts ?? []).map((d: { id: string }) => d.id);
+  const transitionsByDraft = new Map<string, TransitionLogEntry[]>();
+
+  if (draftIds.length > 0) {
+    const { data: rows } = await supabase
+      .from('toro_draft_transitions')
+      .select('draft_id, from_state, to_state, transitioned_by, transitioned_at, reason')
+      .in('draft_id', draftIds)
+      .order('transitioned_at', { ascending: false });
+
+    for (const row of rows ?? []) {
+      const key = row.draft_id as string;
+      const list = transitionsByDraft.get(key) ?? [];
+      list.push({
+        from_state: (row.from_state as DraftState | null) ?? null,
+        to_state: row.to_state as DraftState,
+        transitioned_by: (row.transitioned_by as string | null) ?? null,
+        transitioned_at: row.transitioned_at as string,
+        reason: (row.reason as string | null) ?? null,
+      });
+      transitionsByDraft.set(key, list);
+    }
+  }
 
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 md:px-10 md:py-16">
@@ -61,8 +99,9 @@ export default async function ToroInboxPage() {
               {error.message}
             </p>
             <p className="mt-2 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
-              this usually means the toro_drafts migration hasn&apos;t been applied yet —
-              run the migration in supabase/migrations and refresh.
+              this usually means a recent toro_drafts or toro_draft_transitions
+              migration hasn&apos;t been applied yet — run the migrations in
+              supabase/migrations and refresh.
             </p>
           </div>
         ) : null}
@@ -82,7 +121,7 @@ export default async function ToroInboxPage() {
           <ul className="mt-10 space-y-5">
             {(drafts as DraftRowData[]).map((d) => (
               <li key={d.id}>
-                <DraftRow draft={d} />
+                <DraftRow draft={d} transitions={transitionsByDraft.get(d.id) ?? []} />
               </li>
             ))}
           </ul>
