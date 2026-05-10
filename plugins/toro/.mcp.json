@@ -1,0 +1,42 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/v1/server-list.schema.json",
+  "_comment": [
+    "Plugin Architecture Canon §7.4 layer 3 — the third independent",
+    "enforcement layer for Tōro. Tools enumerated below are the ONLY",
+    "MCP servers Tōro and its sub-agents may connect to. Anything",
+    "absent from this list cannot be called regardless of what an",
+    "agent.yaml claims, because the protocol is never registered.",
+    "",
+    "Belt-and-braces with: (1) agent.yaml allowed_tools positive list,",
+    "(2) agent.yaml denied_tools explicit prohibitions, (3) THIS file.",
+    "All three layers must agree.",
+    "",
+    "PERMANENTLY EXCLUDED per canon §8.1 (the 'never build' set): SMS",
+    "send, email send, push send, calendar create-external-event,",
+    "Privacy Commissioner notifiable breach, IRD myIR file, WorkSafe",
+    "notifiable event, Companies Office register, NZ Customs TSW",
+    "lodge, MPI biosecurity declare. PRs adding any of these are",
+    "rejected on sight."
+  ],
+  "servers": {
+    "chatwoot-readonly": {
+      "type": "http",
+      "url": "https://app.chatwoot.com",
+      "_purpose": "List conversations and messages within the pilot inbox. READ ONLY — Tōro never posts via Chatwoot directly. Outbound sends are gated through /app/toro/inbox approval click → server-side action.",
+      "allowed_tools": [
+        "mcp__chatwoot__list_conversations",
+        "mcp__chatwoot__get_conversation",
+        "mcp__chatwoot__get_message"
+      ]
+    },
+    "supabase-toro-drafts": {
+      "type": "supabase",
+      "_purpose": "Read and write toro_drafts only. RLS scoped to authenticated tenant_members. NO write access to toroa_*, audit_log, or any other table.",
+      "allowed_tools": [
+        "mcp__supabase__query_toro_drafts",
+        "mcp__supabase__insert_toro_drafts",
+        "mcp__supabase__update_toro_drafts_status"
+      ]
+    }
+  }
+}
