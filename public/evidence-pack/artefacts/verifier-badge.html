@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Verifier badge · embeddable proof-of-seal · assembl</title>
+<meta name="description" content="Embeddable verifier badges for email signatures, lawyer letterhead, BCA correspondence." />
+<style>
+  :root {
+    --paper: #FAF7F2;
+    --ink: #23211F;
+    --ink-secondary: #5C5852;
+    --ink-tertiary: #8E8A82;
+    --pounamu: #2B6B57;
+    --soft-gold: #D9BC7A;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 56px 24px;
+    background: #ECE6DC;
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 2rem;
+    margin: 0 0 8px;
+  }
+  .lede {
+    font-size: .95rem;
+    color: var(--ink-secondary);
+    line-height: 1.6;
+    max-width: 56ch;
+  }
+
+  section { margin-top: 56px; }
+  section h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: .7rem;
+    color: var(--ink-tertiary);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+  }
+  .demo {
+    background: var(--paper);
+    border: 1px solid rgba(35,33,31,.10);
+    border-radius: 6px;
+    padding: 32px;
+  }
+  .demo-context {
+    margin: 0 0 20px;
+    font-size: .82rem;
+    color: var(--ink-tertiary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+  pre.snippet {
+    margin: 20px 0 0;
+    padding: 16px;
+    background: #2A2825;
+    color: #ECE6DC;
+    border-radius: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .68rem;
+    line-height: 1.55;
+    overflow-x: auto;
+  }
+
+  /* ───── Badge styles (mirror VerifierBadge.tsx) ───── */
+  a.badge { text-decoration: none; color: var(--ink); }
+  a.badge:hover { opacity: .85; }
+
+  .badge-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    color: var(--pounamu);
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .badge-inline .muted { color: var(--ink-secondary); }
+
+  .badge-compact {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    background: var(--paper);
+    border: 1px solid rgba(43,107,87,.20);
+    border-radius: 4px;
+    max-width: 360px;
+  }
+  .badge-compact-title {
+    margin: 0;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    font-size: .92rem;
+    line-height: 1.1;
+  }
+  .badge-compact-title .brand { color: var(--pounamu); }
+  .badge-compact-meta {
+    margin: 2px 0 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .62rem;
+    color: var(--ink-tertiary);
+    letter-spacing: .08em;
+  }
+
+  .badge-card {
+    display: block;
+    padding: 16px 20px;
+    background: var(--paper);
+    border: 1px solid rgba(43,107,87,.20);
+    border-left: 3px solid var(--pounamu);
+    border-radius: 4px;
+    max-width: 480px;
+  }
+  .badge-card-head { display: flex; align-items: center; gap: 10px; }
+  .badge-card-label {
+    margin: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--pounamu);
+  }
+  dl.kv {
+    margin: 14px 0 0;
+    display: grid;
+    grid-template-columns: 78px 1fr;
+    gap: 4px 12px;
+  }
+  dl.kv dt {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .6rem;
+    color: var(--ink-tertiary);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+  dl.kv dd {
+    margin: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    color: var(--ink);
+    word-break: break-all;
+  }
+  dl.kv dd.serif { font-family: 'Inter', sans-serif; }
+  .badge-card-verifier {
+    margin: 14px 0 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .6rem;
+    color: var(--ink-tertiary);
+    letter-spacing: .08em;
+    word-break: break-all;
+  }
+
+  /* Email-signature mock */
+  .email-sig {
+    background: white;
+    border: 1px solid rgba(35,33,31,.10);
+    border-radius: 6px;
+    padding: 24px;
+    max-width: 460px;
+    font-family: 'Inter', sans-serif;
+    font-size: .9rem;
+  }
+  .email-sig p { margin: 0; line-height: 1.5; color: var(--ink-secondary); }
+  .email-sig .name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.2rem;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+  .email-sig .role { font-size: .85rem; }
+  .email-sig hr { border: none; border-top: 1px solid rgba(35,33,31,.10); margin: 14px 0; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>Verifier badge</h1>
+  <p class="lede">
+    A small embeddable proof-of-seal. For email signatures, the foot of a
+    lawyer's letterhead PDF, BCA correspondence, the chip in the in-product
+    drawer, the back of a brand-day deck. Three sizes — pick the one that
+    fits the surface.
+  </p>
+
+  <section>
+    <h2>Inline · for paragraphs</h2>
+    <div class="demo">
+      <p class="demo-context">
+        Sits in a sentence. Use when the surrounding text already carries the
+        meaning; the badge just confirms.
+      </p>
+      <p style="font-size:.95rem; line-height:1.7; color: var(--ink);">
+        The April Co-Parenting Posture pack was sealed on 4 May 2026 (
+        <a class="badge badge-inline" href="/evidence/verify/a3b4c5d6e7f8091a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3">
+          <svg viewBox="0 0 48 48" width="11" height="11" aria-hidden="true">
+            <g fill="#D9BC7A">
+              <path d="M24 2 L26.5 21.5 L46 24 L26.5 26.5 L24 46 L21.5 26.5 L2 24 L21.5 21.5 Z"/>
+              <circle cx="24" cy="24" r="1.6" fill="#FAF7F2"/>
+            </g>
+            <circle cx="24" cy="24" r="22" fill="none" stroke="#2B6B57" stroke-width="0.6"/>
+          </svg>
+          <span class="muted">verified ·</span>
+          <span>a3b4c5…1a2b3</span>
+        </a>
+        ) and tendered with the court papers on 5 May.
+      </p>
+
+<pre class="snippet">&lt;VerifierBadge
+  variant="inline"
+  hash="a3b4c5d6e7f8091a2b3c4d5e6f7081a2b3..."
+  verifierUrl="/evidence/verify/a3b4c5d6..."
+/&gt;</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>Compact · for email signatures and footers</h2>
+    <div class="demo">
+      <p class="demo-context">
+        A small standalone block. Ideal for email signatures, the foot of a
+        contract PDF, a Slack post-card. Reads at a glance, links through.
+      </p>
+      <a class="badge badge-compact" href="/evidence/verify/a3b4c5d6e7f8091a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3">
+        <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true" style="flex-shrink:0;">
+          <g fill="#D9BC7A">
+            <path d="M24 2 L26.5 21.5 L46 24 L26.5 26.5 L24 46 L21.5 26.5 L2 24 L21.5 21.5 Z"/>
+            <circle cx="24" cy="24" r="1.6" fill="#FAF7F2"/>
+          </g>
+          <circle cx="24" cy="24" r="22" fill="none" stroke="#2B6B57" stroke-width="0.6"/>
+        </svg>
+        <div style="min-width:0;">
+          <p class="badge-compact-title">Sealed by <span class="brand">assembl</span></p>
+          <p class="badge-compact-meta">a3b4c5…1a2b3 · prev 4c2e1d…0f9e · 4 May 2026 NZST</p>
+        </div>
+      </a>
+
+      <p class="demo-context" style="margin-top:32px;">
+        In context, attached to an email signature for a Hamilton co-parenting
+        navigator:
+      </p>
+      <div class="email-sig">
+        <p class="name">Mereana Tipene</p>
+        <p class="role">Co-parenting navigator · FDR mediator</p>
+        <p>mereana@navigator.hamilton.nz · 021 432 8854</p>
+        <hr/>
+        <a class="badge badge-compact" href="/evidence/verify/a3b4c5d6e7f8091a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3">
+          <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true" style="flex-shrink:0;">
+            <g fill="#D9BC7A">
+              <path d="M24 2 L26.5 21.5 L46 24 L26.5 26.5 L24 46 L21.5 26.5 L2 24 L21.5 21.5 Z"/>
+              <circle cx="24" cy="24" r="1.6" fill="#FAF7F2"/>
+            </g>
+            <circle cx="24" cy="24" r="22" fill="none" stroke="#2B6B57" stroke-width="0.6"/>
+          </svg>
+          <div style="min-width:0;">
+            <p class="badge-compact-title">Latest pack sealed by <span class="brand">assembl</span></p>
+            <p class="badge-compact-meta">a3b4c5…1a2b3 · 4 May 2026 NZST</p>
+          </div>
+        </a>
+      </div>
+
+<pre class="snippet">&lt;VerifierBadge
+  variant="compact"
+  hash="a3b4c5d6e7f8091a2b3c4d5e6f7081a2b3..."
+  prevHash="4c2e1d8b9f3a5c6e7d4b2a0f1e9c8d7b..."
+  sealedAt="2026-05-04T09:00:00+12:00"
+  verifierUrl="/evidence/verify/a3b4c5d6..."
+/&gt;</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>Card · for contract footers and tender packs</h2>
+    <div class="demo">
+      <p class="demo-context">
+        The full-fat block. For the foot of a lawyer's letter, the closing
+        sheet of a tender, the cover-page of an audit response. Reviewer
+        named; chain visible; verifier URL printable.
+      </p>
+      <a class="badge badge-card" href="/evidence/verify/a3b4c5d6e7f8091a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3">
+        <div class="badge-card-head">
+          <svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true" style="flex-shrink:0;">
+            <g fill="#D9BC7A">
+              <path d="M24 2 L26.5 21.5 L46 24 L26.5 26.5 L24 46 L21.5 26.5 L2 24 L21.5 21.5 Z"/>
+              <circle cx="24" cy="24" r="1.6" fill="#FAF7F2"/>
+            </g>
+            <circle cx="24" cy="24" r="22" fill="none" stroke="#2B6B57" stroke-width="0.6"/>
+          </svg>
+          <p class="badge-card-label">Sealed · verified at assembl</p>
+        </div>
+        <dl class="kv">
+          <dt>hash</dt>
+          <dd>a3b4c5d6e7f8091a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3</dd>
+          <dt>prev</dt>
+          <dd>4c2e1d8b9f3a5c6e7d4b2a0f1e9c8d7b6a5f4e3d2c1b0a98765e4d3c2b1a0f9e</dd>
+          <dt>sealed</dt>
+          <dd>4 May 2026 NZST</dd>
+          <dt>reviewer</dt>
+          <dd class="serif">Mereana Tipene</dd>
+        </dl>
+        <p class="badge-card-verifier">assembl.co.nz/evidence/verify/a3b4c5d6e7f8091a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3c4d5e6f7081a2b3</p>
+      </a>
+
+<pre class="snippet">&lt;VerifierBadge
+  variant="card"
+  hash="a3b4c5d6..."
+  prevHash="4c2e1d8b..."
+  sealedAt="2026-05-04T09:00:00+12:00"
+  reviewer="Mereana Tipene"
+  verifierUrl="/evidence/verify/a3b4c5d6..."
+/&gt;</pre>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
