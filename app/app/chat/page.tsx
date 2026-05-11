@@ -30,7 +30,8 @@ export default async function ChatPage({
 
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
-  if (!data.user) {
+  const user = data.user;
+  if (!user) {
     redirect('/login?redirect=/app/chat');
   }
 
@@ -51,7 +52,7 @@ export default async function ChatPage({
         ketes={CHAT_KETES}
         initialKete={initial.kete.slug}
         initialAgentId={initial.agent.agentId}
-        userEmail={data.user.email ?? 'kaitiaki'}
+        userEmail={user.email ?? 'kaitiaki'}
         greeting={greeting}
       />
     </main>
