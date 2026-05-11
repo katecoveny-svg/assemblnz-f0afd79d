@@ -8,8 +8,13 @@ import { SectionReveal } from '@/components/SectionReveal';
 import { KeteVesselCard } from '@/components/KeteVesselCard';
 import { TrustStrip } from '@/components/site/TrustStrip';
 import { HomeSectionTeaser } from '@/components/site/HomeSectionTeaser';
+import { PearlLive } from '@/components/site/PearlLive';
+import { getPearlLiveStats } from '@/lib/pearl-live';
 
-export default function HomePage() {
+export const revalidate = 30;
+
+export default async function HomePage() {
+  const pearlLive = await getPearlLiveStats();
   return (
     <>
       {/* ── HERO — full-bleed cinematic vessel, scroll-bound video scrub ────── */}
@@ -48,6 +53,9 @@ export default function HomePage() {
           </div>
         </SectionReveal>
       </CinematicHero>
+
+      {/* ── PEARL LIVE — activity across Aotearoa ───────────────────────────── */}
+      <PearlLive initial={pearlLive} />
 
       {/* ── TRUST STRIP — locked Reo proof points ───────────────────────────── */}
       <TrustStrip items={reo.trustStrip} />
