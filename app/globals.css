@@ -249,3 +249,60 @@
   .text-soft-gold   { color: var(--assembl-gold-thread); } /* alias — deprecated, use text-gold-thread */
   .text-pounamu     { color: var(--assembl-pounamu); }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * Evidence pack — print stylesheet
+ * Spec: voyage-evidence-craft.md §8 — pack must survive the print shop.
+ * Applied automatically by @media print on any .pack-page panel.
+ * ───────────────────────────────────────────────────────────────────── */
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    background: #FAF7F2 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Chrome, nav, preview-page blurbs do not print */
+  [data-print-hide],
+  [data-print-hide="true"],
+  .print-hide {
+    display: none !important;
+  }
+
+  /* Each pack page becomes one printed A4 sheet */
+  .pack-page {
+    box-shadow: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    max-width: none !important;
+    aspect-ratio: auto !important;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden !important;
+  }
+  .pack-page:last-of-type {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  /* Pearl noise overlay carries through to print */
+  .pack-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  }
+}

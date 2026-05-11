@@ -5,6 +5,7 @@ import { KETES } from '@/lib/kete';
 import { ketes as keteImagery, reo } from '@/lib/site-config';
 import { SectionReveal } from '@/components/SectionReveal';
 import { KeteVesselCard } from '@/components/KeteVesselCard';
+import { TeHui } from '@/components/TeHui';
 
 export const metadata: Metadata = {
   title: 'Agent marketplace',
@@ -67,6 +68,36 @@ export default function AgentsPage() {
               </p>
             </SectionReveal>
           </div>
+        </div>
+      </section>
+
+      {/* Te Hui — the gathering. Visual anchor for the agent marketplace. */}
+      <section className="relative bg-[color:var(--assembl-paper)] pb-12 md:pb-20">
+        <div className="container">
+          <SectionReveal>
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+                Te Hui · The gathering
+              </p>
+              <h2
+                className="mt-6 font-display leading-[0.98] tracking-tight"
+                style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}
+              >
+                Forty-six specialists, in a circle.{' '}
+                <em className="not-italic text-gradient-hero">Iho at the centre.</em>
+              </h2>
+              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[color:var(--text-body)]">
+                Every output passes through Iho, the governed router, before any agent
+                touches it. The handoffs between Iho and the outer ring are the
+                Mana Trust Layer at work — drawn here as a quiet pulse of soft gold.
+              </p>
+            </div>
+          </SectionReveal>
+          <SectionReveal delay={0.2}>
+            <div className="mx-auto mt-12 max-w-3xl">
+              <TeHui />
+            </div>
+          </SectionReveal>
         </div>
       </section>
 

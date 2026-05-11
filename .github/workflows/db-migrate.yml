@@ -1,0 +1,103 @@
+# Deploy Supabase database migrations to assembl-prod
+#
+# Applies any new SQL files under supabase/migrations/ to the live project.
+# Runs on push to main when migrations change, plus manual trigger.
+#
+# Requires repo secrets:
+#   DEPLOY            — Supabase personal access token (same secret as the
+#                       edge-functions workflow uses).
+#   SUPABASE_DB_PASSWORD — the database password for the assembl-prod project,
+#                          taken from Supabase Studio → Project Settings →
+#                          Database → Connection string. Add at
+#                          https://github.com/katecoveny-svg/assemblnz-f0afd79d/settings/secrets/actions
+#
+# Safety:
+#   - Migrations are applied with `supabase db push --include-all`, which is
+#     idempotent for migrations already recorded in supabase_migrations.schema_migrations.
+#   - The workflow does NOT auto-revert. If a migration is bad, fix forward
+#     with a new migration; do not edit applied SQL files.
+#   - The workflow runs on main only — feature branches are dry-run only.
+
+name: Deploy Supabase Migrations
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/migrations/**'
+      - '.github/workflows/db-migrate.yml'
+  pull_request:
+    paths:
+      - 'supabase/migrations/**'
+  workflow_dispatch:
+
+concurrency:
+  group: db-migrate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    name: Apply migrations to assembl-prod
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.DEPLOY }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      PROJECT_REF: wurwcrgxjjwqdaxqceey
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Link to assembl-prod
+        run: supabase link --project-ref "$PROJECT_REF"
+
+      - name: Diff (dry-run on PR / non-main)
+        if: github.event_name == 'pull_request' || github.ref != 'refs/heads/main'
+        run: |
+          echo "::group::Migrations on disk"
+          ls -1 supabase/migrations/
+          echo "::endgroup::"
+
+          echo "::group::Diff against remote"
+          supabase db diff --linked || true
+          echo "::endgroup::"
+
+          {
+            echo "## Migration diff (dry-run)"
+            echo ""
+            echo "PR / non-main push: migrations are NOT applied. Merge to main"
+            echo "to run the actual deploy."
+            echo ""
+            echo "### On disk"
+            echo ""
+            echo '```'
+            ls -1 supabase/migrations/
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Push (main only)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          echo "::group::Pushing migrations to $PROJECT_REF"
+          supabase db push --include-all
+          echo "::endgroup::"
+
+          {
+            echo "## Migrations applied to assembl-prod"
+            echo ""
+            echo "Pushed to project \`$PROJECT_REF\` (Sydney)."
+            echo ""
+            echo "### Migration files in this push"
+            echo ""
+            echo '```'
+            ls -1 supabase/migrations/
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

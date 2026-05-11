@@ -1,0 +1,181 @@
+/* assembl evidence pack — shared stylesheet for static artefacts.
+ * Spec: voyage-evidence-craft.md
+ * Used by waihanga-precheck.html, co-parenting-april.html,
+ * customs-entry-draft.html.
+ */
+
+/* ───── Pearl tokens ───── */
+:root {
+  --paper: #FAF7F2;
+  --paper-elevated: #FFFEFB;
+  --ink: #23211F;
+  --ink-secondary: #5C5852;
+  --ink-tertiary: #8E8A82;
+  --pounamu: #2B6B57;
+  --soft-gold: #D9BC7A;
+  --draft-red: #A33B2C;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #ECE6DC;
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ───── Page chrome ───── */
+.pack-page {
+  position: relative;
+  width: min(640px, 100vw - 32px);
+  aspect-ratio: 210 / 297;
+  margin: 32px auto;
+  background: var(--paper);
+  box-shadow: 0 28px 80px rgba(35,33,31,.10), 0 2px 12px rgba(35,33,31,.06);
+  overflow: hidden;
+  padding: 48px;
+  page-break-after: always;
+  break-after: page;
+}
+.pack-page:last-of-type { page-break-after: auto; break-after: auto; }
+.pack-page::before {
+  content: '';
+  position: absolute;
+  inset: 28% 0 0 0;
+  pointer-events: none;
+  opacity: .02;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+}
+
+/* ───── Draft watermark ───── */
+.draft-watermark {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: .22;
+}
+.draft-watermark span {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-weight: 700;
+  font-size: clamp(8rem, 28vw, 18rem);
+  color: var(--draft-red);
+  transform: rotate(-22deg);
+  letter-spacing: -.02em;
+  line-height: 1;
+  user-select: none;
+}
+.draft-watermark-interior { opacity: .10; }
+
+/* ───── Type ───── */
+.display { font-family: 'Cormorant Garamond', 'Times New Roman', Georgia, serif; font-weight: 300; letter-spacing: -.01em; line-height: 1.05; }
+.mono { font-family: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace; font-weight: 500; letter-spacing: .22em; text-transform: uppercase; }
+.body-text { font-size: .95rem; line-height: 1.7; }
+
+/* ───── Cover ───── */
+.cover-wordmark { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 3rem; line-height: 1; margin: 0; }
+.cover-kete { margin-top: 12px; font-size: .72rem; color: var(--ink-secondary); }
+.cover-title { position: absolute; left: 48px; right: 48px; top: 50%; transform: translateY(-30%); }
+.cover-title-mi { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 2.6rem; line-height: 1.05; margin: 0; }
+.cover-title-en { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 1.7rem; color: var(--ink-secondary); margin: .25rem 0 0; }
+.cover-subject { margin-top: 32px; font-size: .78rem; color: var(--ink-secondary); }
+.cover-foot { position: absolute; inset: auto 48px 48px 48px; }
+.cover-foot-row { display: flex; align-items: flex-end; justify-content: space-between; }
+.cover-dateline { font-size: .7rem; color: var(--ink-secondary); }
+.cover-reviewer { margin-top: 6px; font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; }
+.cover-reviewer-role { color: var(--ink-tertiary); }
+.cover-hash { margin-top: 32px; font-family: 'IBM Plex Mono', monospace; font-size: .6rem; letter-spacing: .14em; color: var(--ink-tertiary); word-break: break-all; }
+.seal { width: 48px; height: 48px; flex-shrink: 0; }
+
+/* ───── Section ───── */
+.section-num { position: absolute; left: -30px; top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: .7rem; color: var(--ink-tertiary); letter-spacing: .18em; }
+.section-header { position: relative; margin-bottom: 28px; }
+.section-title-mi { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.9rem; line-height: 1.1; letter-spacing: -.01em; margin: 0; }
+.section-title-en { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 1.25rem; color: var(--ink-secondary); margin: 4px 0 0; }
+.section-rule { margin-top: 18px; height: 1px; background: rgba(217, 188, 122, .45); }
+.section-body > * + * { margin-top: 18px; }
+
+/* ───── Body blocks ───── */
+.cite { margin-left: 4px; font-family: 'IBM Plex Mono', monospace; font-size: .65em; color: var(--pounamu); font-weight: 500; vertical-align: super; }
+
+ul.bullet { list-style: none; padding: 0; margin: 0; }
+ul.bullet li { position: relative; padding-left: 20px; font-size: .95rem; line-height: 1.7; }
+ul.bullet li + li { margin-top: 8px; }
+ul.bullet li::before { content: ''; position: absolute; left: 0; top: .75rem; width: 5px; height: 5px; background: var(--pounamu); border-radius: 50%; }
+
+blockquote.pull { margin: 16px 0; padding-left: 24px; border-left: 2px solid var(--pounamu); }
+blockquote.pull p { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic; font-size: 1.35rem; line-height: 1.4; margin: 0; }
+blockquote.pull cite { display: block; margin-top: 10px; font-family: 'IBM Plex Mono', monospace; font-style: normal; font-size: .68rem; color: var(--ink-secondary); letter-spacing: .18em; text-transform: uppercase; }
+
+.callout-pounamu { background: rgba(43, 107, 87, .06); border: 1px solid var(--pounamu); border-radius: 4px; padding: 16px 20px; font-size: .92rem; line-height: 1.65; }
+.callout-draft { background: rgba(163, 59, 44, .06); border: 1px solid var(--draft-red); border-radius: 4px; padding: 16px 20px; font-size: .92rem; line-height: 1.65; }
+
+table.ledger { width: 100%; border-collapse: collapse; font-size: .85rem; }
+table.ledger th { text-align: left; padding: 8px 12px; font-family: 'IBM Plex Mono', monospace; font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-secondary); font-weight: 500; border-bottom: 1px solid rgba(35,33,31,.20); }
+table.ledger td { padding: 8px 12px; vertical-align: top; border-bottom: 1px solid rgba(35,33,31,.08); line-height: 1.6; }
+figcaption.caption { margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-tertiary); }
+
+.signature { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(35,33,31,.15); }
+.signature-name { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.4rem; margin: 0; }
+.signature-meta { margin-top: 4px; font-family: 'IBM Plex Mono', monospace; font-size: .65rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-tertiary); }
+
+.drafted-by { margin-top: 32px; font-family: 'IBM Plex Mono', monospace; font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-tertiary); }
+
+/* ───── Citations ───── */
+ol.citations { list-style: none; padding: 0; margin: 0; }
+ol.citations li { display: grid; grid-template-columns: 32px 1fr; gap: 12px; padding: 14px 0; }
+.cite-num { font-family: 'IBM Plex Mono', monospace; font-size: .7rem; color: var(--pounamu); font-weight: 500; letter-spacing: .12em; padding-top: 2px; }
+.cite-ref { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 1.05rem; line-height: 1.4; margin: 0; }
+.cite-context { margin: 4px 0 0; font-size: .85rem; line-height: 1.55; color: var(--ink-secondary); }
+.cite-url { margin-top: 4px; font-family: 'IBM Plex Mono', monospace; font-size: .6rem; letter-spacing: .08em; color: var(--ink-tertiary); word-break: break-all; }
+
+/* ───── Closing / audit ───── */
+.audit-label { font-family: 'IBM Plex Mono', monospace; font-size: .65rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-tertiary); }
+.audit-name { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; margin: 8px 0 4px; }
+.audit-role { font-size: .95rem; color: var(--ink-secondary); }
+.audit-loadout { margin-top: 20px; }
+.audit-loadout-row { display: grid; grid-template-columns: 130px 1fr; gap: 12px; font-size: .85rem; line-height: 1.7; }
+.audit-loadout-row .agent { font-family: 'IBM Plex Mono', monospace; font-size: .78rem; color: var(--pounamu); letter-spacing: .08em; }
+.audit-loadout-row .sections { color: var(--ink-secondary); }
+
+.audit-chain { margin-top: 32px; border: 1px solid rgba(43,107,87,.35); background: rgba(43,107,87,.05); border-radius: 4px; padding: 20px 24px; }
+.audit-chain-draft { border-color: rgba(163,59,44,.35); background: rgba(163,59,44,.05); }
+.audit-chain-label { font-family: 'IBM Plex Mono', monospace; font-size: .65rem; letter-spacing: .22em; text-transform: uppercase; color: var(--pounamu); }
+.audit-chain-draft .audit-chain-label { color: var(--draft-red); }
+dl.chain { margin: 16px 0 0; display: grid; grid-template-columns: 96px 1fr; gap: 8px 16px; }
+dl.chain dt { font-family: 'IBM Plex Mono', monospace; font-size: .62rem; color: var(--ink-tertiary); letter-spacing: .18em; text-transform: uppercase; }
+dl.chain dd { margin: 0; font-family: 'IBM Plex Mono', monospace; font-size: .74rem; color: var(--ink); word-break: break-all; }
+.audit-chain-note { margin-top: 20px; font-size: .78rem; line-height: 1.6; color: var(--ink-secondary); }
+
+/* ───── Page foot ───── */
+.page-foot { position: absolute; inset: auto 48px 20px 48px; display: flex; justify-content: space-between; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: .56rem; color: var(--ink-tertiary); letter-spacing: .12em; word-break: break-all; }
+.page-foot .center { flex: 1; text-align: center; padding: 0 12px; }
+
+/* ───── Print ───── */
+@page { size: A4 portrait; margin: 0; }
+@media print {
+  html, body { background: var(--paper); }
+  .chrome { display: none !important; }
+  .pack-page {
+    width: 210mm !important;
+    height: 297mm !important;
+    aspect-ratio: auto !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 18mm !important;
+    page-break-after: always;
+    break-after: page;
+  }
+}
+
+/* ───── Out-of-page chrome ───── */
+.chrome { max-width: 720px; margin: 32px auto 0; padding: 0 16px; font-size: .9rem; color: var(--ink-secondary); }
+.chrome h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.6rem; margin: 0 0 8px; color: var(--ink); }
+.chrome .note { background: rgba(43,107,87,.05); border-left: 2px solid var(--pounamu); padding: 10px 14px; margin-top: 12px; line-height: 1.5; }
+.chrome .note-draft { background: rgba(163,59,44,.05); border-left-color: var(--draft-red); }

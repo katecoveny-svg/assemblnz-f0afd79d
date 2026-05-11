@@ -157,3 +157,13 @@ project_id = "wurwcrgxjjwqdaxqceey"
     verify_jwt = true
   [functions.vessel-generate]
     verify_jwt = false
+  [functions.escalation-policy-check]
+    verify_jwt = true
+  [functions.reasoning-trace-ingest]
+    verify_jwt = true
+  [functions.monday-catch]
+    verify_jwt = true
+  [functions.outcome-pack-auto-seal]
+    verify_jwt = true
+  [functions.agent-toro-route]
+    verify_jwt = true
