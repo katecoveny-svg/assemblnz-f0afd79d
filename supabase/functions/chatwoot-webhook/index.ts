@@ -357,13 +357,28 @@ Deno.serve(async (req: Request) => {
     req.headers.get("X-Chatwoot-Hmac-Sha256") ??
     "";
 
+  // HMAC diagnostic logging (v6.1) — reveals whether Chatwoot is sending a
+  // signature header and whether our secrets are set, WITHOUT leaking values.
+  // Remove this block once secret alignment is confirmed end-to-end.
+  console.log("[chatwoot-webhook] hmac_diag", JSON.stringify({
+    signature_present: !!signature,
+    signature_len: signature.length,
+    signature_prefix: signature.slice(0, 8) || "(none)",
+    inbox_secret_set: !!inboxHmacToken,
+    account_secret_set: !!accountWebhookSecret,
+    raw_body_len: rawBody.length,
+    content_type: req.headers.get("content-type") ?? "(none)",
+  }));
+
   const verify = await verifyHmacAny(rawBody, signature, [
     { name: "inbox", secret: inboxHmacToken },
     { name: "account", secret: accountWebhookSecret },
   ]);
   if (!verify) {
+    console.warn("[chatwoot-webhook] hmac_diag REJECTED — no matching secret for incoming signature");
     return jsonResponse({ error: "invalid signature" }, 401);
   }
+  console.log("[chatwoot-webhook] hmac_diag ACCEPTED via secret:", verify.matched);
 
   let payload: ChatwootWebhookPayload;
   try {
