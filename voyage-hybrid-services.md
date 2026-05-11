@@ -48,10 +48,13 @@ architecture; we need new packaging.
 
 ---
 
-## 3. Five hybrid-service archetypes
+## 3. Six hybrid-service archetypes
 
 For each: the underserved business problem, what AI does, what the human does,
 what the evidence pack looks like, and which Assembl primitives wire it up.
+**§3.5 (co-parenting navigator) is the strongest single bet** — see that
+section for the reasoning on why the hash-chain audit log makes Assembl
+uniquely defensible for the NZ Family Court context.
 
 ### 3.1 Preventative legal maintenance
 
@@ -130,7 +133,114 @@ what the evidence pack looks like, and which Assembl primitives wire it up.
   pattern) + `compliance-scanner` for benefit/threshold changes +
   `esign-send` for engagement letters.
 
-### 3.5 Family coordination (elder care, childcare, household)
+### 3.5 Co-parenting navigator (Family Court-ready)
+
+This is the archetype with the most concentrated, unmet, legally-defensible
+need in NZ. It sits between the family-coordination domain (§3.6) and the
+preventative-legal domain (§3.1), and Assembl is uniquely positioned because
+the **hash-chained audit log** that the Mana Trust Layer already writes is
+the single primitive Family Court evidence rules ask for and that no
+consumer co-parenting app (OurFamilyWizard, AppClose, Talking Parents) has
+shipped natively for the NZ legal context.
+
+- **Underserved problem.** Separated parents in Aotearoa pay solicitor and
+  Family Court time — typically $250–400/hour — to manage what is day-to-day
+  a coordination and record-keeping problem. The legal cost is high *because
+  the record-keeping is bad*: texts go missing, screenshots are easy to
+  dispute, expense receipts get lost, and by the time the dispute reaches
+  Family Dispute Resolution (FDR) or counsel-led mediation, no one can agree
+  on what was said, what was paid, or whether the parenting order was
+  complied with.
+- **AI surface.**
+  - **Hash-chained communication log** between the two parents — every
+    message timestamped, signed, and tamper-evident. This is the
+    court-admissible substrate. Already built: `signal-security` exposes
+    `logWithHashChain`.
+  - **Shared expense ledger** with receipt capture (school fees, medical,
+    activities) and reconciliation against Inland Revenue child-support
+    assessments under the Child Support Act 1991.
+  - **Care calendar and handover log** — who has the children when, who
+    didn’t show, who was late, who was on a sober rotation.
+  - **Tone-rewrite** on hot messages before they send (the BIFF rule —
+    Brief, Informative, Friendly, Firm — applied automatically).
+  - **Deadline tracking** against COCA s 46G parenting plan windows,
+    Family Court directions, and Child Support Act review dates.
+  - **Document vault** — the parenting plan, court orders, lawyer-for-child
+    correspondence, school comms, medical records — held with consent
+    receipts.
+  - **Pattern detection** — escalating tone, missed handovers, unpaid
+    expenses, breaches of an in-force order. Surfaced to the navigator and
+    (with consent) to counsel.
+- **Human surface.** A **co-parenting navigator** — a paralegal, a
+  Family-Dispute-Resolution-trained mediator, or a registered social worker.
+  Their job is to hold the relationship with both parents, run monthly
+  check-ins, flag drift, prepare parties for FDR or counsel-led mediation,
+  and be the human escalation point when the AI surfaces a safety or
+  compliance concern (Oranga Tamariki notification thresholds; Family
+  Violence Act 2018 triggers).
+- **Evidence pack — the killer feature.** Monthly **Co-Parenting Posture
+  pack** exportable as a Family Court-ready bundle:
+  - chronological communication log with hash-chain integrity proof,
+  - expense ledger with receipt thumbnails and IRD reconciliation,
+  - handover log,
+  - flags and escalations,
+  - cited references to the **Care of Children Act 2004** (best
+    interests s 4–6, parenting orders s 46–48, parenting plans s 46G),
+    **Child Support Act 1991**, and any in-force order.
+  This is the document a lawyer would otherwise charge $1,500+ to compile by
+  hand from a year of text screenshots.
+- **Assembl primitives.**
+  - **Tōro kete** (family/household consumer surface) as the parent-facing
+    home.
+  - **Mana Trust Layer** — PII masking is *mandatory* because the case file
+    contains children’s data and the Privacy Act 2020 + Children’s Act
+    requirements bite.
+  - **`logWithHashChain`** in `signal-security` — already implemented; this
+    is the court-admissibility substrate.
+  - **Unified Channel Gateway** for asynchronous parent-to-parent
+    messaging that lands on each parent’s SMS / WhatsApp / email rather
+    than forcing a portal.
+  - **Escalation-policy primitive** (§6) — for safety thresholds.
+  - **`esign-*`** for the parenting plan and any agreed variation.
+  - **Draft-only autonomy** on every outbound message and every receipt
+    categorisation — the AI never sends a message between parents without a
+    human-tick step.
+- **NZ legal posture.** Three things make this defensible rather than
+  reckless:
+  1. **Not legal advice.** The navigator is not the parents’ lawyer; the
+     platform is not a substitute for counsel. The evidence pack is a
+     factual record, not a legal opinion. Surface this in copy.
+  2. **Court-admissibility, not court-determination.** Assembl produces a
+     record that a court can rely on for its integrity; the court still
+     decides the facts.
+  3. **Family Court Rules + Evidence Act 2006 alignment.** Hash-chained
+     audit logs satisfy the integrity requirement that screenshot evidence
+     fails (Evidence Act s 137 — authenticity of documents). Worth a brief
+     legal review before launch.
+- **Pricing fit.** This is the rare hybrid-service archetype where the
+  willingness-to-pay sits *above* the standard Operator unit economics —
+  separated parents already routinely spend $5,000–$30,000 in legal fees on
+  one dispute cycle. A $59/month per-family unit at 50 families per
+  navigator earns the navigator $35,400/year *and* saves each family
+  multiples of that in avoided counsel hours.
+- **Distribution.** Three channels: (1) family lawyers who refer their
+  clients into the platform as a way to keep cost down between
+  appointments, (2) FDR providers (FairWay Resolution, FDR Centre) who want
+  to keep agreements alive after mediation, (3) Oranga Tamariki-aligned
+  community providers working with families post-order.
+- **Risks to flag explicitly.**
+  - **Coercive control.** If one parent uses the platform to monitor or
+    pressure the other, that is a Family Violence Act 2018 concern. The
+    escalation-policy primitive must include coercive-control patterns; the
+    navigator must be trained to spot them.
+  - **Children’s privacy.** Children must not be users; their data must be
+    classified as SENSITIVE; the audit log must not be discoverable by the
+    children themselves later without proper process.
+  - **Lawyer-as-tool vs lawyer-as-counsel.** Assembl never *gives* legal
+    advice in this surface; it *records*, *coordinates*, and *prepares* for
+    counsel. The line must be explicit in product copy and onboarding.
+
+### 3.6 Family coordination (elder care, childcare, household)
 
 - **Underserved problem.** Care coordination — schedules, medications,
   appointments, school logistics, in-home worker rosters — eats unpaid hours
@@ -271,6 +381,13 @@ talk. Each is one sentence + one line of how Assembl wires it.
     check-ins for 100 people with two licensed clinicians on escalation.**
     The full hybrid-services stack: cadence, escalation policy, evidence
     pack, draft-only.
+11. **A paralegal in Hamilton runs the day-to-day record-keeping for 50
+    separated families at $59/month each — hash-chained text logs,
+    receipt-reconciled shared expenses, and a monthly Co-Parenting Posture
+    pack their lawyer can tender in Family Court.** The Mana Trust Layer’s
+    existing `logWithHashChain` becomes a court-admissible evidence
+    substrate. Care of Children Act 2004 + Child Support Act 1991 cited
+    automatically.
 
 The pitch in one line: *Assembl is the governance infrastructure for the
 hybrid services economy — sovereign, NZ-built, evidence-ready, and already
