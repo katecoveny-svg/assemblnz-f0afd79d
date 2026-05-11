@@ -7,7 +7,7 @@
  * whenua / standing-stones in a circle, with Iho (the governed router)
  * at the centre. Lines of soft-gold light flow between the centre and
  * the outer ring as work is handed off — the visual equivalent of
- * "Kahu → Iho → Tā → Mana".
+ * "Kahu → Iho → Tā → Mahara → Mana".
  *
  * Spec: voyage-evidence-craft.md follow-up / future-of-meaningful-work
  * thread.

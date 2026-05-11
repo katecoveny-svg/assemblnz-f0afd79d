@@ -6,7 +6,8 @@ documented end-to-end. No vibes; no hallucinations; no "we'll figure
 out the data later."
 
 Tōro lives in the same governed pipeline as every other kete — Kahu →
-Iho → Tā → Mana, draft-only autonomy, evidence packs — so each agent
+Iho → Tā → Mahara → Mana, draft-only autonomy, evidence packs — so each
+agent
 below produces a citable artefact, not a chatty assistant reply.
 
 The first one (**Tōro Route**) ships in this branch as a working

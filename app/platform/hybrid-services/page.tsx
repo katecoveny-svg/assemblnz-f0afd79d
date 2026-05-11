@@ -18,7 +18,7 @@ import { PRICING_NOTE } from '@/lib/pricing';
 export const metadata: Metadata = {
   title: 'Hybrid Services — Operator-as-platform',
   description:
-    'Assembl is the governance infrastructure for the hybrid services economy. Smaller, cheaper, more frequent professional services — delivered by human + AI operators on a sovereign, evidence-ready NZ platform.',
+    'Assembl is the governance infrastructure for the hybrid services economy. Smaller, cheaper, more frequent professional services — delivered by human + agent operators on a sovereign, evidence-ready NZ platform.',
 };
 
 const ROLES = [
@@ -33,17 +33,17 @@ const ROLES = [
   {
     icon: RadioTower,
     label: 'Continuous Support Worker',
-    title: 'Ongoing human contact around an AI-monitored signal',
+    title: 'Ongoing human contact around an agent-monitored signal',
     body:
-      'Mental-health peer worker, financial coach, learning coach, care coordinator. Weekly cadence, AI-prepped session briefs, configurable escalation rules — you keep the relationship, Assembl keeps the watch.',
+      'Mental-health peer worker, financial coach, learning coach, care coordinator. Weekly cadence, agent-prepped session briefs, configurable escalation rules — you keep the relationship, Assembl keeps the watch.',
     fit: 'Peer workers, coaches, community health navigators, learning guides.',
   },
   {
     icon: Sparkles,
-    label: 'AI-Augmented Service Operator',
+    label: 'Agent-Augmented Service Operator',
     title: 'Serve 5–10× more clients at a fraction of the unit price',
     body:
-      'You are the lawyer, the accountant, the planner. Assembl drafts the document, cites the legislation, flags the exposure. You judge, sign, and bill. Same expertise, denser surface area.',
+      'You are the lawyer, the accountant, the planner. The assembl agents draft the document, cite the legislation, flag the exposure. You judge, sign, and bill. Same expertise, denser surface area.',
     fit: 'Solo professionals, small practices, anyone whose week is bottlenecked at the keyboard.',
   },
 ] as const;
@@ -57,7 +57,7 @@ const ARCHETYPES = [
       'Small businesses and households see a lawyer at crisis — $3,500 once, instead of $99 every month for ongoing legal hygiene.',
     ai: 'Read every new contract the client signs, monitor employment law and tenancy law against their specific exposure, draft variation letters, build a client-specific clause library.',
     human:
-      'A junior lawyer or licensed paralegal reviews the AI flags weekly, makes the actionable call, signs the letter.',
+      'A junior lawyer or licensed paralegal reviews the agent\'s flags weekly, makes the actionable call, signs the letter.',
     evidence: 'Quarterly Legal Posture pack — every contract scanned, every regulatory change applicable, every action taken.',
     primitives:
       'Operator + compliance-scanner + nz-compliance-autoupdate + esign-* + IKB for the contract library + draft-only autonomy on every letter.',
@@ -89,7 +89,7 @@ const ARCHETYPES = [
     evidence: 'Per-client wellbeing posture — adherence, escalations triggered, referrals made. Funder/insurer-readable.',
     primitives:
       'Operator + Mana Trust Layer PII masking + scheduled tick + compress-conversation + escalation-policy primitive (see below) + draft-only on every message.',
-    example: 'A peer support worker runs three weekly groups of 12 with AI-prepped session briefs and crisis flagging.',
+    example: 'A peer support worker runs three weekly groups of 12 with agent-prepped session briefs and crisis flagging.',
   },
   {
     icon: Wallet,
@@ -99,7 +99,7 @@ const ARCHETYPES = [
       'Most people see an accountant once a year for tax. Insurance, KiwiSaver, debt, benefits eligibility, cash flow — would be consumed twelve times a year if the unit price was right.',
     ai: 'Bank-feed monitoring (via Xero/Akahu), benefit/credit eligibility scanning, tax-position projection, insurance-gap detection, retirement trajectory, document collation for IRD/MSD.',
     human:
-      'A finance navigator reviews the AI\'s flags weekly, calls IRD on the client\'s behalf, judges the KiwiSaver provider switch.',
+      'A finance navigator reviews the agent\'s flags weekly, calls IRD on the client\'s behalf, judges the KiwiSaver provider switch.',
     evidence: 'Monthly financial-life statement + actions taken + decisions deferred. Annual return falls out as a side-effect.',
     primitives:
       'Operator + xero-sync + IKB document store + flux-monday-briefing pattern + compliance-scanner + esign-send.',
@@ -127,7 +127,7 @@ const ARCHETYPES = [
       'Separated parents in Aotearoa pay for solicitors, mediators, and Family Court time to manage what is, day to day, a coordination and communication problem. The legal cost is high because the record-keeping is bad — texts go missing, screenshots are easy to dispute, expense receipts get lost, and by the time it reaches Family Dispute Resolution or the Family Court, no one can agree on what was said or paid.',
     ai: 'Hash-chained communication log between co-parents (every message timestamped and tamper-evident — court-admissible), shared expense ledger with receipt capture and child-support reconciliation against IRD assessments, calendar of care and handover log, tone-rewrite of hot messages before they send, deadline tracking against Care of Children Act and Child Support Act timeframes, parenting-plan and court-order document vault.',
     human:
-      'A co-parenting navigator (paralegal, ex-FDR mediator, or trained social worker) holds the relationship — runs monthly check-ins with each parent, flags drift in the agreement, prepares the parties for FDR or counsel-led mediation, and is the escalation point when the AI surfaces a safety or compliance concern.',
+      'A co-parenting navigator (paralegal, ex-FDR mediator, or trained social worker) holds the relationship — runs monthly check-ins with each parent, flags drift in the agreement, prepares the parties for FDR or counsel-led mediation, and is the escalation point when the agent surfaces a safety or compliance concern.',
     evidence: 'Monthly Co-Parenting Posture pack — every communication, every expense, every handover, every flag — exportable as a Family Court-ready bundle with hash-chain integrity proof and cited references to the Care of Children Act 2004, Child Support Act 1991, and any in-force parenting order.',
     primitives:
       'Tōro kete + Mana Trust Layer hash-chained audit log (`logWithHashChain`) + Unified Channel Gateway for asynchronous parent-to-parent messaging + escalation-policy primitive (see below) + esign for the parenting plan + draft-only autonomy on every message and every receipt categorisation. PII masking is mandatory because the case file contains children\'s data.',
@@ -139,11 +139,11 @@ const ARCHETYPES = [
 const PRIMITIVES = [
   {
     name: 'Mana Trust Layer',
-    body: 'Kahu → Iho → Tā → Mana. PII masking, model selection, in-flight stamping, post-flight rewrite. Privacy Act 2020-aligned out of the box.',
+    body: 'Kahu → Iho → Tā → Mahara → Mana. PII masking, model selection, in-flight stamping, memory recall, post-flight rewrite. Privacy Act 2020-aligned out of the box.',
   },
   {
     name: 'Draft-only autonomy',
-    body: 'Every AI action requires a human approval step. The exact human-in-the-loop pattern hybrid services already operate on.',
+    body: 'Every agent action requires a human approval step. The exact human-in-the-loop pattern hybrid services already operate on.',
   },
   {
     name: 'Evidence packs',
@@ -197,7 +197,7 @@ export default function HybridServicesPage() {
             </SectionReveal>
             <SectionReveal delay={0.2}>
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Pre-AI, professional services were priced for crisis-only engagement. Hybrid
+                Historically, professional services were priced for crisis-only engagement. Hybrid
                 operators — a person plus Assembl — can deliver continuous legal hygiene,
                 financial life support, learning guidance, peer mental-health, and family
                 coordination to the people and small businesses that were never agency clients
@@ -312,8 +312,8 @@ export default function HybridServicesPage() {
                 <em className="not-italic text-gradient-hero">in practice.</em>
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Each archetype is one underserved business problem, what the AI does, what the
-                human does, what the client receives, and which Assembl primitives wire it up.
+                Each archetype is one underserved business problem, what the agent does, what
+                the human does, what the client receives, and which Assembl primitives wire it up.
               </p>
             </div>
           </SectionReveal>
@@ -347,7 +347,7 @@ export default function HybridServicesPage() {
                     <div className="mt-8 grid gap-6 md:grid-cols-2">
                       <div>
                         <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                          What the AI does
+                          What the agent does
                         </p>
                         <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
                           {a.ai}

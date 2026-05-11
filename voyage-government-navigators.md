@@ -278,8 +278,10 @@ Concrete: a Manaakitanga Navigator agent on MSD's caseload.
    - a one-paragraph plain-language summary for the case manager.
 4. Tā stamps the trace into the reasoning ledger, runs the escalation
    policy (any safety flag triggers a Pae-trained kaimahi review).
-5. Mana unmasks, rewrites for voice, and writes the evidence pack.
-6. **Human approval** — the named case manager reviews and signs. No
+5. Mahara recalls prior touchpoints on this case and grounds the draft
+   against them.
+6. Mana unmasks, rewrites for voice, and writes the evidence pack.
+7. **Human approval** — the named case manager reviews and signs. No
    auto-send. Ever.
 
 **Outputs:**

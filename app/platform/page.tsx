@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const INCLUDED = [
   'Full Iho governed router — build any workflow on top',
-  'Mana Trust Layer — Kahu → Iho → Tā → Mana governance pipeline',
+  'Mana Trust Layer — Kahu → Iho → Tā → Mahara → Mana governance pipeline',
   'AROHA — HR & Employment',
   'SIGNAL — Security (NZISM-aligned, hash-chained audit log)',
   'SENTINEL — Monitoring & uptime',
@@ -56,7 +56,7 @@ export default function PlatformPage() {
             </SectionReveal>
             <SectionReveal delay={0.2}>
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                If you run a practice that pairs a human professional with AI to deliver smaller,
+                If you run a practice that pairs a human professional with intelligent automation to deliver smaller,
                 cheaper, more frequent services — legal, financial, learning, mental-health,
                 family — Operator-as-platform is the SKU. Same pipeline as every Assembl kete,
                 no vertical bundle, your workflows on top.
@@ -147,7 +147,7 @@ export default function PlatformPage() {
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
                 You get the same governed pipeline (Kahu → Iho → Tā → Mahara → Mana) and you
                 wire it to <em>your</em> workflows. If you’re a hybrid-services operator (a
-                human plus AI), we ship pre-built workflow templates so you’re not starting from
+                human plus agents), we ship pre-built workflow templates so you’re not starting from
                 a blank canvas.
               </p>
             </div>

@@ -31,7 +31,7 @@ named tier and ship workflow templates for five archetype operators.
 
 | Primitive | What it does | Why a hybrid-service operator needs it |
 |---|---|---|
-| **Mana Trust Layer** — Kahu → Iho → Tā → Mana | Pre-flight PII masking, model selection, in-flight stamping, post-flight rewrite | Lets an operator hand sensitive client data (legal facts, financial position, mental-health intake) to an AI without losing Privacy Act / regulator audit posture |
+| **Mana Trust Layer** — Kahu → Iho → Tā → Mahara → Mana | Pre-flight PII masking, model selection, in-flight stamping, memory recall, post-flight rewrite | Lets an operator hand sensitive client data (legal facts, financial position, mental-health intake) to a model without losing Privacy Act / regulator audit posture |
 | **Draft-only autonomy** | Every AI action requires a human approval step | Exactly the human-in-the-loop pattern hybrid services already operate on |
 | **Evidence packs** | Every workflow ends with a branded, citable artefact | Maps directly to the deliverable a paying client expects — letter, plan, summary, return |
 | **Operator-as-platform tier** ($1,490/mo + $590 setup, `/platform`) | Same price as Operator, no industry kete bundle, full Iho + AROHA/SIGNAL/SENTINEL | The existing SKU that already targets bespoke professional services |
