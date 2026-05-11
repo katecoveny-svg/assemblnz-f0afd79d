@@ -23,12 +23,23 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link
-          href={navCta.href}
-          className="cta-primary inline-flex h-10 items-center px-5 text-sm"
-        >
-          {navCta.label}
-        </Link>
+        <div className="flex items-center gap-4 md:gap-5">
+          {/* Sign in — takes signed-in users straight through to /app
+              (middleware refreshes the session), anonymous users land on
+              the magic-link form. */}
+          <Link
+            href="/login"
+            className="text-sm text-[color:var(--text-secondary)] transition-colors hover:text-[color:var(--text-primary)]"
+          >
+            Sign in
+          </Link>
+          <Link
+            href={navCta.href}
+            className="cta-primary inline-flex h-10 items-center px-5 text-sm"
+          >
+            {navCta.label}
+          </Link>
+        </div>
       </div>
     </header>
   );
