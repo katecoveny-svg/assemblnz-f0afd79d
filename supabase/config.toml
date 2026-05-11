@@ -165,3 +165,5 @@ project_id = "wurwcrgxjjwqdaxqceey"
     verify_jwt = true
   [functions.outcome-pack-auto-seal]
     verify_jwt = true
+  [functions.agent-toro-route]
+    verify_jwt = true
