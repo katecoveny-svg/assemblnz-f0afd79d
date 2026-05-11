@@ -23,7 +23,7 @@ export default async function LoginPage({
   const redirectTo = typeof sp.redirect === 'string' ? sp.redirect : '/app';
 
   const envConfigured = Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   );
 
   // If the user already has a session, send them straight through.
@@ -68,7 +68,7 @@ export default async function LoginPage({
             </p>
             <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
               <code className="font-mono">NEXT_PUBLIC_SUPABASE_URL</code> and{' '}
-              <code className="font-mono">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> are not set. Set
+              <code className="font-mono">NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code> are not set. Set
               them in the Vercel project env (and <code className="font-mono">.env.local</code>{' '}
               for local dev) — see <code className="font-mono">.env.local.example</code>.
             </p>
