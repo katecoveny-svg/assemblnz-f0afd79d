@@ -16,7 +16,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function MetricsPage() {
   const envConfigured = Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   );
   if (!envConfigured) {
     redirect('/login?redirect=/app/admin/metrics');

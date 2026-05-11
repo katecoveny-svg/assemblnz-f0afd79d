@@ -38,7 +38,7 @@ export default async function ToroBillingPage({ params }: PageProps) {
   const { slug } = await params;
 
   const envConfigured = Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   );
   if (!envConfigured) {
     redirect(`/login?redirect=/app/toro/${slug}/billing`);

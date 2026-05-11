@@ -29,7 +29,7 @@ export default async function AdminLandingPage(): Promise<never> {
   // missing we degrade to /login, which renders the configuration-missing
   // state explicitly.
   const envConfigured = Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   );
   if (!envConfigured) {
     redirect('/login?redirect=/app');
