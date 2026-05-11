@@ -15,6 +15,11 @@ export default defineConfig({
       'lib/**/__tests__/**/*.test.ts',
       'app/**/*.test.ts',
     ],
+    // Exclude self-contained tsx-runner scripts that pre-date vitest in this
+    // repo. They live under __tests__ for proximity to the code they test but
+    // are invoked via `npx tsx <file>` and call process.exit() at the end,
+    // which vitest treats as a fatal pool error.
+    exclude: ['lib/toro/__tests__/state-machine.test.ts', 'node_modules/**'],
     environment: 'node',
   },
   resolve: {

@@ -3,12 +3,21 @@
 import { useEffect, useMemo, useState, useTransition } from 'react';
 import {
   approveDraftAction,
+  confirmPaymentAndApproveAction,
   editAndApproveDraftAction,
   markReviewingAction,
   rejectDraftAction,
   retrySendAction,
 } from './actions';
 import type { DraftState } from '@/lib/toro/state-machine-types';
+
+export interface DraftPaymentIntent {
+  stripe_payment_intent_id: string;
+  amount_cents: number;
+  currency: string;
+  description: string | null;
+  status: string;
+}
 
 export interface DraftRowData {
   id: string;
@@ -21,6 +30,7 @@ export interface DraftRowData {
   chatwoot_conversation_id: number;
   status: DraftState;
   send_error: string | null;
+  paymentIntent?: DraftPaymentIntent | null;
 }
 
 export interface TransitionLogEntry {
@@ -52,6 +62,18 @@ function formatTime(iso: string): string {
 function hoursSince(iso: string, nowMs: number): number {
   const t = new Date(iso).getTime();
   return (nowMs - t) / 3_600_000;
+}
+
+function formatCurrency(cents: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat('en-NZ', {
+      style: 'currency',
+      currency: currency.toUpperCase(),
+      minimumFractionDigits: 2,
+    }).format(cents / 100);
+  } catch {
+    return `${(cents / 100).toFixed(2)} ${currency.toUpperCase()}`;
+  }
 }
 
 const STATUS_PILL: Record<DraftState, { label: string; tone: string }> = {
@@ -143,6 +165,14 @@ export function DraftRow({
     startTransition(async () => {
       const result = await approveDraftAction(draft.id);
       if (!result.ok) setError(result.reason ?? 'approve failed');
+    });
+  };
+
+  const handleConfirmPayment = () => {
+    setError(null);
+    startTransition(async () => {
+      const result = await confirmPaymentAndApproveAction(draft.id);
+      if (!result.ok) setError(result.reason ?? 'payment confirmation failed');
     });
   };
 
@@ -262,6 +292,23 @@ export function DraftRow({
         </p>
       ) : null}
 
+      {draft.paymentIntent && draft.paymentIntent.status === 'requires_capture' ? (
+        <section className="mt-4 rounded-[2px] border border-[color:var(--assembl-gold-thread)]/40 bg-[color:var(--assembl-gold-thread)]/[0.07] px-4 py-3">
+          <p className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-[color:var(--text-primary)]">
+            payment authorisation pending
+          </p>
+          <p className="mt-1.5 font-display text-[20px] font-light text-[color:var(--text-primary)]">
+            {formatCurrency(draft.paymentIntent.amount_cents, draft.paymentIntent.currency)}
+          </p>
+          <p className="mt-1 font-mono text-[11px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+            {draft.paymentIntent.description ?? 'tōro-initiated charge — awaiting your tap'}
+          </p>
+          <p className="mt-2 font-mono text-[10.5px] tracking-[0.04em] text-[color:var(--text-secondary)]">
+            canon hard rule #34: your card is authorised but not captured until you confirm.
+          </p>
+        </section>
+      ) : null}
+
       {error ? (
         <p className="mt-3 font-mono text-[11px] tracking-[0.06em] text-red-700">
           · {error}
@@ -296,14 +343,25 @@ export function DraftRow({
 
         {isInteractive && !editing ? (
           <>
-            <button
-              type="button"
-              onClick={handleApprove}
-              disabled={isPending}
-              className="inline-flex h-10 items-center rounded-[2px] bg-[color:var(--text-primary)] px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
-            >
-              approve & send
-            </button>
+            {draft.paymentIntent && draft.paymentIntent.status === 'requires_capture' ? (
+              <button
+                type="button"
+                onClick={handleConfirmPayment}
+                disabled={isPending}
+                className="inline-flex h-10 items-center rounded-[2px] bg-[color:var(--assembl-gold-thread)] px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] hover:opacity-90 disabled:opacity-50"
+              >
+                confirm payment & send
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleApprove}
+                disabled={isPending}
+                className="inline-flex h-10 items-center rounded-[2px] bg-[color:var(--text-primary)] px-5 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)] hover:opacity-90 disabled:opacity-50"
+              >
+                approve & send
+              </button>
+            )}
             <button
               type="button"
               onClick={() => setEditing(true)}
