@@ -165,6 +165,7 @@
   }
 
   .cta-primary {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
     position: relative;
     overflow: hidden;
     background: linear-gradient(135deg, #2B6B57 0%, #1F4F40 100%);
@@ -184,6 +185,7 @@
   }
 
   .btn-ghost {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
     background: transparent;
     color: var(--text-primary);
     border: 1px solid rgba(35, 33, 31, 0.25);

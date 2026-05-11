@@ -17,3 +17,7 @@
 ## 2026-05-25 - [Interactive Element Focus Contrast]
 **Learning:** Using "Soft Gold" for interactive focus indicators often provides insufficient contrast against the "Paper" background, making keyboard navigation difficult. The "Pounamu" green is the intended primary accent for high-intent areas and provides the necessary visual weight for accessibility.
 **Action:** Ensure all interactive elements (buttons, inputs) use `var(--assembl-pounamu)` or the `ring` variable for focus-visible states to maintain brand consistency and accessibility standards.
+
+## 2026-06-05 - [Global Focus and Navigation Active States]
+**Learning:** Standardizing focus visibility and active navigation states significantly improves the "quiet intelligence" feel of the UI. Applying `aria-current="page"` and visual active styles in the `SiteHeader` provides critical orientation context for all users, while global `@apply` rules for focus rings in `globals.css` ensure consistent, brand-aligned keyboard accessibility across all interactive components.
+**Action:** Use `usePathname` in navigation components to provide clear visual and ARIA signals for active routes, and always consolidate focus ring logic in global styles for design system consistency.
