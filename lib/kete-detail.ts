@@ -50,6 +50,17 @@ export type WhanauKeteDetail = {
   heroBody: string;
   description: string[];
   legislation: string[];
+  /**
+   * Three sub-plugins inside the Tōro pack. Each ships independently. Status
+   * controls the card's badge ("Live now", "Coming May", "Ships July"...).
+   */
+  subAgents: {
+    name: string;
+    pitch: string;
+    body: string;
+    status: 'live' | 'coming-soon';
+    statusLabel: string;
+  }[];
   features: { name: string; body: string }[];
   price: { monthly: string; setup: string };
 };
@@ -328,9 +339,9 @@ export const KETE_DETAIL: Record<
 
   arataki: {
     slug: 'arataki',
-    heroLead: 'From workshop compliance to fleet documentation.',
+    heroLead: 'Manaakitanga at scale.',
     heroBody:
-      "assembl's automotive kete covers workshop safety, vehicle compliance, fleet management, and transport regulations for dealerships, workshops, and fleet operators in Aotearoa.",
+      "assembl's tourism kete is being built for visitor-experience operators across Aotearoa — Qualmark holders, conservation-permit operators, marine and adventure providers, and the regional tourism organisations that host them.",
     description: [
       "Arataki sits across the workshop, the dealer floor, and the fleet office. WoF/CoF schedules, driver endorsement currency, NZTA logbook checks, incident triage to WorkSafe thresholds, and the insurance evidence packs that follow.",
       "The kete grounds outputs in the Land Transport Act 1998, the relevant Land Transport Rules, the Consumer Guarantees Act 1993 (for sales), and HSWA 2015 (for the workshop floor). Each output stamps which clause it stands on.",
@@ -543,7 +554,7 @@ export const KETE_DETAIL: Record<
     slug: 'ako',
     heroLead: 'Compliance that protects tamariki.',
     heroBody:
-      "assembl's early childhood kete covers licensing compliance, child safety, staff vetting, curriculum documentation, and privacy obligations (Privacy Act 2020, IPP 3A) for ECE centres across Aotearoa.",
+      "assembl's education kete covers licensing, child safety, staff vetting, curriculum documentation, and privacy obligations (Privacy Act 2020, IPP 3A) — from ECE through to kura across Aotearoa.",
     description: [
       "Ako sits inside an ECE centre's daily compliance load. ERO documentation, MoE licensing returns, Police vetting and Children's Act safety checks for staff, individual learning records, and the privacy notices that explain what tamariki data is held and why.",
       "The kete grounds outputs in the Education and Training Act 2020, the Children's Act 2014 (Vulnerable Children's Act), and Privacy Act 2020 — including the new IPP 3A obligations from 1 May 2026. Every record is whānau-readable, not just regulator-readable.",
@@ -595,39 +606,62 @@ export const KETE_DETAIL: Record<
 
   toro: {
     slug: 'toro',
-    heroLead: "Your family's quiet assistant.",
+    heroLead: 'Forward your school comms — get a structured plan back.',
     heroBody:
-      "Tōro is assembl's family agent — a personal assistant for household admin, school communications, appointment management, and family scheduling. Available self-serve at the Family tier.",
+      "Tōro is the whānau assistant inside assembl. Forward the school newsletter, the kindo notice, the OSCAR confirmation — it reads them, pulls out what matters, and hands back a term-shaped plan you can act on. Three sub-plugins under one Family plan.",
     description: [
-      "Tōro lives over SMS. It listens, captures the running list, surfaces things at the moment they matter — the assembly note that needs replying to before Friday, the hot-lunch order, the after-school pickup change. Always opt-in, always paperback-quiet.",
-      "Tōro replies only to numbers you have added. No public profile, no surfacing of children's data, no upsells inside the conversation. Privacy Act 2020 IPP 3A is honoured by default.",
+      "Tōro starts with email. Each whānau gets a private inbound address — term-<whanau-id>@toro.nz — so the school newsletter, the assembly note, the hot-lunch reminder all land in one place. Tōro reads them, drafts the response or the calendar entry, and waits for you to approve before anything goes out.",
+      "Nothing ships without a human click. Every draft is reviewable, every action is consent-gated, and every reply uses your voice not Tōro's. Privacy Act 2020 IPP 3A is honoured by default — children's data stays inside the whānau tenant.",
       "Available now at the Family tier — NZ$29/month, no setup. Cancel any time.",
     ],
     legislation: ['Privacy Act 2020 + IPP 3A (1 May 2026)'],
+    subAgents: [
+      {
+        name: 'Term Planner',
+        pitch: 'Forward school newsletters, get a term-shaped plan back.',
+        body: "Drop the term newsletter, the assembly note, the permission slip — Tōro reads it, pulls the dates into a draft calendar, drafts the reply you would have sent, and waits for your tick before anything goes out. Works with Kindo, Hero, Seesaw, and plain-email schools alike.",
+        status: 'live',
+        statusLabel: 'Live now',
+      },
+      {
+        name: 'Kid Money',
+        pitch: 'Chores, photo proof, payments split three ways.',
+        body: "Set a chore, tamariki submit photo proof, you approve. Payments split across save / spend / koha so the four pou — mahi (the work), koha (the giving), kaitiakitanga (the keeping), manaakitanga (the looking after) — show up in the maths, not just the marketing.",
+        status: 'coming-soon',
+        statusLabel: 'Coming May',
+      },
+      {
+        name: 'Holiday Ideas',
+        pitch: 'NZ-shaped school-holiday plans in 10 minutes, not two evenings.',
+        body: "Two-week term-break plans pulled from real local OSCAR programmes, council activities, and rainy-day options for your region. Drafts a parent-coordinated week, surfaces booking deadlines, and only proposes what fits the budget you set.",
+        status: 'coming-soon',
+        statusLabel: 'Ships July (Term 2 holidays)',
+      },
+    ],
     features: [
       {
         name: 'Household routines',
-        body: 'Morning, after-school, and bedtime routines tracked over SMS — gentle reminders, never nags.',
+        body: 'Morning, after-school, and bedtime routines tracked alongside the school calendar — gentle reminders, never nags.',
       },
       {
         name: 'School logistics',
-        body: 'Assembly notes, hot-lunch orders, sports gear, school-trip permission slips — captured and surfaced when they are actually needed.',
+        body: 'Assembly notes, hot-lunch orders, sports gear, permission slips — captured from email and surfaced when they are actually needed.',
       },
       {
         name: 'The running list',
-        body: 'Groceries, repairs, birthday gifts, library books to return — text it in, Tōro keeps the thread.',
+        body: 'Groceries, repairs, birthday gifts, library books to return — forward it in, Tōro keeps the thread.',
       },
       {
         name: 'Kid-safe by default',
-        body: "Tōro replies only to numbers you have added. No public profile, no surfacing of children's data, no upsells inside the conversation.",
+        body: "Tōro is scoped to your whānau tenant. No public profile, no surfacing of children's data, no upsells inside the conversation.",
       },
       {
         name: 'Te reo Māori, optional',
         body: 'Switch the voice to te reo Māori, English, or both — set per whānau member.',
       },
       {
-        name: 'Works on any phone',
-        body: 'SMS first, so it works on any phone — older phones, school-issue devices, low-data plans.',
+        name: 'Email-first, by design',
+        body: 'Forward from any client — Gmail, Outlook, school portal, your phone. No new app to install for the school comms you already get.',
       },
     ],
     price: { monthly: 'NZ$29', setup: '—' },

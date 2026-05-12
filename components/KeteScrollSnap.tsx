@@ -27,9 +27,9 @@ const KETE_TAGLINE: Record<string, { lead: string; body: string }> = {
       'Hospitality compliance grounded in Food Act 2014, Sale and Supply of Alcohol Act 2012, and health-and-safety obligations. Compliance that does not slow your kitchen down.',
   },
   arataki: {
-    lead: 'Workshop floor to fleet office.',
+    lead: 'Manaakitanga at scale.',
     body:
-      'Automotive compliance — workshop safety, vehicle compliance, fleet documentation, transport regulations. Drafted to NZTA and Land Transport Act requirements.',
+      'Tourism and visitor-experience compliance — Qualmark, biosecurity, conservation permits, visitor safety. Drafted with manaakitanga at the centre and the audit trail behind it.',
   },
   auaha: {
     lead: 'Brand work that is compliant by default.',
@@ -44,7 +44,7 @@ const KETE_TAGLINE: Record<string, { lead: string; body: string }> = {
   ako: {
     lead: 'Compliance that protects tamariki.',
     body:
-      'Early childhood education compliance — Education and Training Act 2020, child safety, staff vetting, Privacy Act 2020 (IPP 3A). Coming soon.',
+      'Education-sector compliance — Education and Training Act 2020, ERO and MoE returns, child safety, staff vetting, Privacy Act 2020 (IPP 3A). From ECE through to kura. Coming soon.',
   },
   toro: {
     lead: 'Your family’s quiet assistant.',

@@ -650,16 +650,79 @@ function ToroPage({
         </div>
       </section>
 
-      {/* Features */}
+      {/* Sub-plugins — Tōro is delivered as three distinct sub-agents under
+          one Family plan. This is the primary structure of the page; the
+          six feature blocks below stay as supporting context. */}
+      <section className="relative">
+        <div className="container pb-12 pt-4 md:pb-16">
+          <div className="mx-auto max-w-3xl text-center">
+            <SectionReveal>
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                Three sub-plugins, one Family plan
+              </span>
+              <h2 className="mt-3 font-display text-4xl md:text-5xl">
+                What Tōro ships with.
+              </h2>
+            </SectionReveal>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {detail.subAgents.map((sub, i) => (
+              <SectionReveal key={sub.name} delay={i * 0.06}>
+                <article
+                  className="glass-card-elevated relative h-full p-7"
+                  style={{
+                    ['--kete-accent' as string]: kete.accent,
+                    borderTop: `3px solid ${kete.accent}`,
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={
+                        sub.status === 'live'
+                          ? 'inline-flex items-center gap-1.5 rounded-full bg-[color:var(--assembl-pounamu-paper)] px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu-deep)]'
+                          : 'inline-flex items-center gap-1.5 rounded-full border border-[color:var(--assembl-cloud)] bg-white/40 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]'
+                      }
+                    >
+                      <span
+                        className="h-1.5 w-1.5 rounded-full"
+                        style={{
+                          backgroundColor:
+                            sub.status === 'live'
+                              ? 'var(--assembl-pounamu)'
+                              : 'var(--assembl-sand)',
+                        }}
+                        aria-hidden
+                      />
+                      {sub.statusLabel}
+                    </span>
+                  </div>
+                  <h3 className="mt-4 font-display text-2xl text-[color:var(--text-primary)]">
+                    {sub.name}
+                  </h3>
+                  <p className="mt-2 text-[15px] italic leading-snug text-[color:var(--text-primary)]">
+                    {sub.pitch}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                    {sub.body}
+                  </p>
+                </article>
+              </SectionReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features — supporting context below the three sub-plugin cards */}
       <section className="relative">
         <div className="container pb-16 md:pb-24">
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>
               <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                What Tōro does
+                Inside the Family plan
               </span>
               <h2 className="mt-3 font-display text-4xl md:text-5xl">
-                Your family&apos;s quiet assistant.
+                The quieter habits Tōro keeps for you.
               </h2>
             </SectionReveal>
           </div>
