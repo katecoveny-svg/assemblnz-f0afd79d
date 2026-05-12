@@ -151,58 +151,8 @@ create trigger escalation_policies_touch_updated_at
 alter table public.escalation_policies enable row level security;
 alter table public.escalation_events   enable row level security;
 
--- Policy: tenant members can read their tenant's policies and events.
--- The exact role check goes through the has_role RPC, but until that's
--- wired we fall back to comparing the JWT 'sub' claim to tenant_id rows the
--- caller is a member of via user_roles. This block assumes user_roles
--- exists; if not, the RLS stays restrictive (deny by default) until you
--- wire it.
-
-do $$
-begin
-  if exists (
-    select 1 from information_schema.tables
-    where table_schema = 'public' and table_name = 'user_roles'
-  ) then
-    -- Read
-    drop policy if exists escalation_policies_select on public.escalation_policies;
-    create policy escalation_policies_select on public.escalation_policies
-      for select using (
-        exists (
-          select 1 from public.user_roles ur
-          where ur.user_id = auth.uid()
-            and ur.tenant_id = escalation_policies.tenant_id
-        )
-      );
-
-    drop policy if exists escalation_events_select on public.escalation_events;
-    create policy escalation_events_select on public.escalation_events
-      for select using (
-        exists (
-          select 1 from public.user_roles ur
-          where ur.user_id = auth.uid()
-            and ur.tenant_id = escalation_events.tenant_id
-        )
-      );
-
-    -- Insert / update on policies: admins of the tenant only.
-    drop policy if exists escalation_policies_admin_write on public.escalation_policies;
-    create policy escalation_policies_admin_write on public.escalation_policies
-      for all using (
-        exists (
-          select 1 from public.user_roles ur
-          where ur.user_id = auth.uid()
-            and ur.tenant_id = escalation_policies.tenant_id
-            and ur.role = 'admin'
-        )
-      );
-
-    -- Events are written by the edge function via service_role; service_role
-    -- bypasses RLS, so we leave write policies off here. Acks/resolves go
-    -- through a dedicated RPC.
-  else
-    raise notice
-      'user_roles table not present — escalation_* RLS left deny-by-default. '
-      'Wire user_roles, then re-run this migration to attach policies.';
-  end if;
-end $$;
+-- RLS is intentionally left deny-by-default. Edge functions and admin
+-- tooling use service_role, which bypasses RLS, so writes work; tenant-
+-- scoped read policies attach in a follow-up migration once the
+-- canonical tenant model on user_roles (or a tenants_members table) is
+-- finalised. See voyage-hybrid-services.md §6 for the wiring plan.

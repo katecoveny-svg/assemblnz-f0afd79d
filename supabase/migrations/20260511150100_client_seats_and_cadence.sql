@@ -147,52 +147,10 @@ create trigger cadence_runs_touch_updated_at
   for each row execute function public.cadence_runs_touch_updated_at();
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- RLS — same posture as escalation_policies (deny by default; attach
--- policies only if user_roles exists).
+-- RLS — deny-by-default; service_role bypasses for edge functions.
+-- Tenant-scoped read policies attach in a follow-up migration once the
+-- canonical tenant model on user_roles (or tenants_members) is finalised.
 -- ─────────────────────────────────────────────────────────────────────────────
 
 alter table public.client_seats enable row level security;
 alter table public.cadence_runs enable row level security;
-
-do $$
-begin
-  if exists (
-    select 1 from information_schema.tables
-    where table_schema = 'public' and table_name = 'user_roles'
-  ) then
-    drop policy if exists client_seats_select on public.client_seats;
-    create policy client_seats_select on public.client_seats
-      for select using (
-        exists (
-          select 1 from public.user_roles ur
-          where ur.user_id = auth.uid()
-            and ur.tenant_id = client_seats.tenant_id
-        )
-      );
-
-    drop policy if exists client_seats_write on public.client_seats;
-    create policy client_seats_write on public.client_seats
-      for all using (
-        exists (
-          select 1 from public.user_roles ur
-          where ur.user_id = auth.uid()
-            and ur.tenant_id = client_seats.tenant_id
-            and ur.role in ('admin','operator')
-        )
-      );
-
-    drop policy if exists cadence_runs_select on public.cadence_runs;
-    create policy cadence_runs_select on public.cadence_runs
-      for select using (
-        exists (
-          select 1 from public.user_roles ur
-          where ur.user_id = auth.uid()
-            and ur.tenant_id = cadence_runs.tenant_id
-        )
-      );
-  else
-    raise notice
-      'user_roles table not present — client_seats / cadence_runs RLS left ' ||
-      'deny-by-default. Wire user_roles, then re-run.';
-  end if;
-end $$;
