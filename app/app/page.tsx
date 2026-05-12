@@ -46,13 +46,14 @@ export default async function AdminLandingPage(): Promise<never> {
   // dashboard (/app/toro/[slug]). If they don't — or if the lookup fails
   // — we send them to /app/chat so they can start talking right away.
   //
-  // Try `platform_org_members` first (the canonical membership table used by
-  // the iho-router edge function). Fall back gracefully if that table or
-  // those columns don't exist in this environment.
+  // Reads from `tenant_members` — the canonical post-rollback membership
+  // table. The planned `platform_org_members` rename never landed cleanly
+  // (see PR #112 and follow-up issue #113 for the broader cleanup).
+  // Falls back to /app/chat on any lookup failure.
   let tenantSlug: string | null = null;
   try {
     const { data: membership } = await supabase
-      .from('platform_org_members')
+      .from('tenant_members')
       .select('tenant_id, tenants:tenant_id ( slug )')
       .eq('user_id', user.id)
       .limit(1)
