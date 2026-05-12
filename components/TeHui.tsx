@@ -172,10 +172,9 @@ export function TeHui({
         fontFamily="'IBM Plex Mono', monospace"
         fontSize={size * 0.013}
         letterSpacing={2.4}
-        textTransform="uppercase"
         fill={PALETTE.inkTertiary}
       >
-        The governed router
+        THE GOVERNED ROUTER
       </text>
 
       {/* Outer pou ring */}
