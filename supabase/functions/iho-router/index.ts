@@ -80,7 +80,7 @@ type DataClassification = "PUBLIC" | "INTERNAL" | "CONFIDENTIAL" | "RESTRICTED";
 type UserRole = "admin" | "manager" | "operator" | "viewer" | "trial";
 
 // ═══════════════════════════════════════
-// AGENT REGISTRY (43 agents, 6 packs + ECHO fallback)
+// AGENT REGISTRY (46 agents, 7 packs + ECHO fallback)
 // ═══════════════════════════════════════
 
 interface AgentConfig {
@@ -161,6 +161,24 @@ const AGENT_REGISTRY: AgentConfig[] = [
                "biosecurity", "mpi clearance", "imdg", "dangerous goods", "un number",
                "landed cost", "duty", "gst zero rate", "customs entry", "shipment",
                "bill of lading", "sea freight", "air freight", "container", "lcl", "fcl"] },
+
+  // TŌRO — Whānau / Personal life (school, kids, money, holidays)
+  // agent_name lookup in agent_prompts is the lowercase form of `name`, so
+  // "TERM-PLANNER" maps to the row `term-planner` activated 2026-05-13.
+  // Ordering matters: term-planner sits first so it wins ties when packId="toro"
+  // is supplied with an ambiguous query (Kate's chosen default surface).
+  { code: "ASM-044", name: "TERM-PLANNER", pack: "toro", primaryModel: "claude",
+    skills: ["term_calendar_planning", "school_communications_triage", "permission_slips"],
+    keywords: ["school", "newsletter", "term", "calendar", "homework", "school holiday",
+               "permission slip", "uniform", "kindo", "kura", "hero", "seesaw"] },
+  { code: "ASM-045", name: "KID-MONEY", pack: "toro", primaryModel: "claude",
+    skills: ["chore_tracking", "allowance_management", "save_spend_give_jars", "koha"],
+    keywords: ["chore", "allowance", "pocket money", "kid money", "save", "spend",
+               "give", "koha", "charity", "jar"] },
+  { code: "ASM-046", name: "HOLIDAY-IDEAS", pack: "toro", primaryModel: "claude",
+    skills: ["holiday_programme_research", "kids_activities", "rainy_day_ideas"],
+    keywords: ["school holidays", "july holidays", "term break", "oscar",
+               "holiday programme", "kids activities", "rainy day"] },
 ];
 
 // ═══════════════════════════════════════
@@ -195,9 +213,14 @@ function classifyIntent(message: string, requestedAgentCode?: string, requestedP
   const best = scores[0];
   const confidence = best.score > 0 ? Math.min(best.score / 10, 1.0) : 0.1;
 
+  // No keyword match. If caller pinned packId="toro", route to term-planner
+  // (Kate's chosen default surface — broadest whānau coverage). Otherwise ECHO.
+  const toroDefault = AGENT_REGISTRY.find(a => a.pack === "toro" && a.name === "TERM-PLANNER");
   const selectedAgent = best.score > 0
     ? best.agent
-    : { code: "ASM-000", name: "ECHO", pack: "cross-pack", primaryModel: "claude" as const, skills: ["general"], keywords: [] };
+    : (requestedPack === "toro" && toroDefault
+        ? toroDefault
+        : { code: "ASM-000", name: "ECHO", pack: "cross-pack", primaryModel: "claude" as const, skills: ["general"], keywords: [] });
 
   return { agent: selectedAgent, confidence, taskType: detectTaskType(lc), packMatch: selectedAgent.pack };
 }
