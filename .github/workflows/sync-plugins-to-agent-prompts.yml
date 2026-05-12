@@ -1,0 +1,51 @@
+name: Sync plugins → agent_prompts
+
+# Mirrors plugins/managed-agent-cookbooks/<slug>/{agent.yaml,system-prompt.md}
+# into the canonical Supabase agent_prompts table (project ssaxxdkxzrvkdjsanhei).
+# Runs on push to main when plugin files change. Manual trigger also supported.
+#
+# Required repo secrets (Settings → Secrets and variables → Actions):
+#   SUPABASE_URL                e.g. https://ssaxxdkxzrvkdjsanhei.supabase.co
+#   SUPABASE_SERVICE_ROLE_KEY   service role key for that project
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "plugins/managed-agent-cookbooks/**"
+      - "scripts/sync-plugins-to-agent-prompts.mjs"
+      - ".github/workflows/sync-plugins-to-agent-prompts.yml"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (report only, no DB writes)"
+        type: boolean
+        default: false
+      only:
+        description: "Only sync cookbooks whose dir name contains this string"
+        type: string
+        default: ""
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install minimal deps
+        run: npm install --no-save @supabase/supabase-js@2
+
+      - name: Run sync
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
+          if [ -n "${{ github.event.inputs.only }}" ]; then ARGS="$ARGS --only=${{ github.event.inputs.only }}"; fi
+          node scripts/sync-plugins-to-agent-prompts.mjs $ARGS
