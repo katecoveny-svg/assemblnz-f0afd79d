@@ -21,3 +21,7 @@
 ## 2026-06-05 - [Global Focus and Navigation Active States]
 **Learning:** Standardizing focus visibility and active navigation states significantly improves the "quiet intelligence" feel of the UI. Applying `aria-current="page"` and visual active styles in the `SiteHeader` provides critical orientation context for all users, while global `@apply` rules for focus rings in `globals.css` ensure consistent, brand-aligned keyboard accessibility across all interactive components.
 **Action:** Use `usePathname` in navigation components to provide clear visual and ARIA signals for active routes, and always consolidate focus ring logic in global styles for design system consistency.
+
+## 2026-06-12 - [High-Intent Contrast and Footer A11y]
+**Learning:** High-intent visual indicators like scroll progress bars and footer navigation often fall into the "secondary detail" trap, using low-contrast tokens like "Soft Gold" (~2.2:1 contrast). Switching to the primary "Pounamu" green (5.8:1 contrast) and applying standardized `focus-visible` rings with proper offsets ensures these elements are both brand-aligned and accessible to all users.
+**Action:** Always use primary interaction colors (Pounamu) for status indicators and ensure all footer links have explicit focus-visible states and rounded corners to match the site-wide navigation pattern.
