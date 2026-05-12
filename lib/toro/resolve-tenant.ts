@@ -81,8 +81,8 @@ export async function listTenantsForUser(
       .eq('user_id', userId);
 
     if (error || !data) return [];
-    return (data as Array<{ tenant: TenantSummary | null }>)
-      .map((r) => r.tenant)
+    return (data as unknown as Array<{ tenant: TenantSummary | TenantSummary[] | null }>)
+      .map((r) => (Array.isArray(r.tenant) ? r.tenant[0] ?? null : r.tenant))
       .filter((t): t is TenantSummary => t !== null);
   } catch {
     return [];
