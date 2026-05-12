@@ -190,43 +190,11 @@ comment on view public.reasoning_outcomes is
   'outcome distribution.';
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- RLS — same posture as escalation_policies (deny by default; attach
--- policies only if user_roles exists).
+-- RLS — deny-by-default; service_role bypasses for the
+-- reasoning-trace-ingest function and outcome-event webhooks.
+-- Tenant-scoped read policies attach in a follow-up migration once the
+-- canonical tenant model on user_roles (or tenants_members) is finalised.
 -- ─────────────────────────────────────────────────────────────────────────────
 
 alter table public.reasoning_traces enable row level security;
 alter table public.outcome_events   enable row level security;
-
-do $$
-begin
-  if exists (
-    select 1 from information_schema.tables
-    where table_schema = 'public' and table_name = 'user_roles'
-  ) then
-    drop policy if exists reasoning_traces_select on public.reasoning_traces;
-    create policy reasoning_traces_select on public.reasoning_traces
-      for select using (
-        exists (
-          select 1 from public.user_roles ur
-          where ur.user_id = auth.uid()
-            and ur.tenant_id = reasoning_traces.tenant_id
-        )
-      );
-
-    drop policy if exists outcome_events_select on public.outcome_events;
-    create policy outcome_events_select on public.outcome_events
-      for select using (
-        exists (
-          select 1 from public.user_roles ur
-          where ur.user_id = auth.uid()
-            and ur.tenant_id = outcome_events.tenant_id
-        )
-      );
-    -- Writes go through service_role only (the reasoning-trace-ingest
-    -- function and outcome-event webhooks).
-  else
-    raise notice
-      'user_roles table not present — reasoning_* / outcome_* RLS left ' ||
-      'deny-by-default. Wire user_roles, then re-run.';
-  end if;
-end $$;
