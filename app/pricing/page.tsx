@@ -1,6 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -286,6 +292,78 @@ export default function PricingPage() {
                   <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
                 </Link>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ — sits between "Other ways to buy" and the footer CTA ── */}
+      <section
+        className="relative py-32 md:py-48"
+        style={{ backgroundColor: 'var(--assembl-paper)' }}
+      >
+        <div
+          aria-hidden
+          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
+        >
+          <div
+            className="h-px w-full"
+            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
+          />
+        </div>
+        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-20 md:pt-28">
+          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
+            <div className="lg:col-start-2 lg:col-span-9">
+              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
+                Frequently asked
+              </p>
+              <h2 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
+                The questions{' '}
+                <em className="not-italic text-gradient-hero">we get most</em>.
+              </h2>
+
+              <Accordion type="single" collapsible className="mt-16 w-full">
+                <AccordionItem value="intercom-hubspot">
+                  <AccordionTrigger>
+                    How does assembl compare to Intercom or HubSpot per
+                    conversation?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-4 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+                      <p>
+                        Different product. Intercom and HubSpot price per
+                        conversation, mostly for customer-support chat. assembl
+                        prices per output — each one a sealed evidence pack
+                        with NZ legislation cited, a reasoning trace, and a
+                        named reviewer&apos;s sign-off.
+                      </p>
+                      <p>
+                        At low volume — under roughly 500 conversations a month —
+                        the global chat tools are cheaper per message.
+                        Operator at $1,490 only pencils out once your team is
+                        producing &gt; 500 governed outputs a month and you
+                        actually need the evidence trail.
+                      </p>
+                      <p>
+                        At volume, Operator&apos;s included quota and $12 marginal
+                        output cost run below per-conversation pricing on
+                        Intercom&apos;s Fin or HubSpot&apos;s Breeze. And neither
+                        competitor bundles Privacy Act 2020 controls, tikanga
+                        and Te Tiriti governance, email and SMS in the same
+                        runtime, or a tamper-evident receipt at the end of
+                        each workflow.
+                      </p>
+                      <p>
+                        We don&apos;t undercut on per-resolution. Pay per
+                        resolution starts at $190 because an assembl resolution
+                        is a regulated workflow landing — a BCA accept, a
+                        Customs accept, an auditor sign-off — not a chat
+                        message marked read.
+                      </p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
           </div>
         </div>
