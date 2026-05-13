@@ -213,6 +213,26 @@ function KeteMotif({ slug, accent }: { slug: KeteSlug; accent: string }) {
         </g>
       );
 
+    case 'matauranga':
+      // Secondary Education — open exercise book + graduation cap nib
+      return (
+        <g {...props}>
+          {/* Open book */}
+          <path d="M76 178 L100 168 L124 178 L124 192 L100 184 L76 192 Z" />
+          <line x1="100" y1="168" x2="100" y2="184" opacity="0.55" />
+          {/* Ruled lines on left page */}
+          <line x1="82" y1="180" x2="96" y2="174" opacity="0.45" />
+          <line x1="82" y1="184" x2="96" y2="178" opacity="0.35" />
+          {/* Ruled lines on right page */}
+          <line x1="104" y1="174" x2="118" y2="180" opacity="0.45" />
+          <line x1="104" y1="178" x2="118" y2="184" opacity="0.35" />
+          {/* Graduation tassel / mortarboard above */}
+          <path d="M88 152 L100 146 L112 152 L100 158 Z" />
+          <line x1="100" y1="158" x2="100" y2="164" />
+          <circle cx="100" cy="165" r="1.2" fill={accent} stroke="none" />
+        </g>
+      );
+
     case 'toro':
       // Whānau — small house with chimney
       return (
