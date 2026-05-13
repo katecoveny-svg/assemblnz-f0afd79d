@@ -339,9 +339,9 @@ export const KETE_DETAIL: Record<
 
   arataki: {
     slug: 'arataki',
-    heroLead: 'Manaakitanga at scale.',
+    heroLead: 'Automotive (workshop, fleet, governance).',
     heroBody:
-      "assembl's tourism kete is being built for visitor-experience operators across Aotearoa — Qualmark holders, conservation-permit operators, marine and adventure providers, and the regional tourism organisations that host them.",
+      "assembl's automotive kete is built for NZ workshops, fleet operators, and dealerships. WoF/CoF schedules, driver endorsement currency, NZTA logbook checks, CCCFA disclosures, Consumer Guarantees warranty handling, and IPP 3A privacy obligations — every output cites the Act and section it stands on.",
     description: [
       "Arataki sits across the workshop, the dealer floor, and the fleet office. WoF/CoF schedules, driver endorsement currency, NZTA logbook checks, incident triage to WorkSafe thresholds, and the insurance evidence packs that follow.",
       "The kete grounds outputs in the Land Transport Act 1998, the relevant Land Transport Rules, the Consumer Guarantees Act 1993 (for sales), and HSWA 2015 (for the workshop floor). Each output stamps which clause it stands on.",
@@ -602,6 +602,39 @@ export const KETE_DETAIL: Record<
       { capability: 'Licensing compliance records', assembl: 'In development', legacy: 'Manual' },
     ],
     availableOn: 'Coming soon — early childhood kete in development. Register your interest via /contact.',
+  },
+
+  matauranga: {
+    slug: 'matauranga',
+    heroLead: 'NCEA L1–3 weekly reporting for school operators.',
+    heroBody:
+      "assembl's secondary education kete is greenfield — being built with a pilot Auckland school (in negotiation) for the school-operator audience. Parses weekly reports, tracks Achievement Standards, surfaces UE Literacy/Numeracy gaps. Pilot copy and agents land after Reo signs off.",
+    description: [
+      "Mātauranga is the school-operator-facing kete for NCEA L1–3 — distinct from the whānau-facing NCEA layer that lives inside Tōro. Where Tōro helps parents track their tamariki, Mātauranga helps a secondary school track its cohort: weekly-report parsing, Achievement Standards progress, UE Literacy/Numeracy compliance, ERO secondary review prep.",
+      "Grounding lands with the pilot. Expected scope: Education and Training Act 2020 (Part 4 — secondary), NZQA Act 2024 (Achievement Standards), Privacy Act 2020 (student data, IPP 3A, parental consent under 16), and Te Mātaiaho curriculum refresh expectations.",
+      "Pilot customer (in negotiation): Sacred Heart College Auckland. No agents seeded yet — the kete is intentionally empty until pilot signal arrives. An empty kete is better than a mis-shaped kete.",
+    ],
+    legislation: [
+      'Education and Training Act 2020 (Part 4 — secondary)',
+      'NZQA Act 2024 (Achievement Standards, NCEA framework)',
+      'Privacy Act 2020 + IPP 3A (student data, parental consent under 16)',
+      'Te Mātaiaho curriculum refresh',
+      'Health and Safety at Work Act 2015 (school grounds)',
+    ],
+    typicalWorkflows: [
+      'Weekly NCEA report parsing',
+      'Achievement Standards progress tracking',
+      'UE Literacy / Numeracy compliance check',
+      'ERO secondary review prep',
+      'Parental consent (IPP 3A) workflow for under-16 data',
+    ],
+    placeholderAgents: [],
+    pilotSprintPitch:
+      "Pilot customer in negotiation. When a school commits, assembl drafts the first weekly-report parser against the school's actual reporting cadence — not a template. Agents are written from pilot signal, fitted to real student-data architecture.",
+    workflows: [],
+    comparisonLegacyLabel: 'Manual reporting',
+    comparison: [],
+    availableOn: 'Coming soon — pilot in negotiation. Register your interest via /contact.',
   },
 
   toro: {

@@ -34,6 +34,9 @@ const KETE_PATTERN: Record<KeteSlug, string> = {
   // Soft scribble dots (Early Childhood)
   ako:
     'radial-gradient(circle at 25% 25%, currentColor 1.5px, transparent 2px), radial-gradient(circle at 75% 75%, currentColor 1.5px, transparent 2px)',
+  // Ruled exercise-book lines (Secondary Education)
+  matauranga:
+    'repeating-linear-gradient(0deg, currentColor 0, currentColor 1px, transparent 1px, transparent 22px)',
   // Floorplan grid (Whānau)
   toro:
     'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
@@ -47,6 +50,7 @@ const KETE_PATTERN_SIZE: Record<KeteSlug, string> = {
   auaha: '18px 18px',
   hoko: '44px 22px',
   ako: '32px 32px',
+  matauranga: '22px 22px',
   toro: '32px 32px',
 };
 

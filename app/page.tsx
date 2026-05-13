@@ -78,13 +78,13 @@ export default async function HomePage() {
         background="mist"
       />
 
-      {/* ── 03 — KETE GRID — eight vessel cards ────────────────────────────── */}
+      {/* ── 03 — KETE GRID — nine vessel cards ─────────────────────────────── */}
       <section className="relative bg-[color:var(--assembl-paper)] py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-6 md:px-12">
           <SectionReveal>
             <div className="mx-auto mb-16 max-w-3xl text-center">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                03 — Eight kete · One canon
+                03 — Nine kete · One canon
               </p>
               <h2
                 className="mt-6 font-display leading-[0.98] tracking-tight text-[color:var(--text-primary)]"

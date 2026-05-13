@@ -4,8 +4,9 @@ export type KeteSlug =
   | 'pikau'
   | 'arataki'
   | 'auaha'
-  | 'hoko'
   | 'ako'
+  | 'matauranga'
+  | 'hoko'
   | 'toro';
 
 export type Kete = {
@@ -58,8 +59,8 @@ export const KETES: Kete[] = [
   {
     slug: 'arataki',
     name: 'Arataki',
-    industry: 'Tourism & Visitor Experience',
-    tagline: 'Manaakitanga at scale — for visitor experience operators across Aotearoa.',
+    industry: 'Automotive',
+    tagline: 'Workshop floor, fleet office, dealer governance — WoF, CoF, CGA, and IPP 3A in one trail.',
     accent: '#D4842A',
     accentName: 'Karaka',
     type: 'industry',
@@ -72,6 +73,26 @@ export const KETES: Kete[] = [
     tagline: 'Brand work that is compliant by default.',
     accent: '#5B4FA0',
     accentName: 'Kahurangi',
+    type: 'industry',
+    status: 'coming-soon',
+  },
+  {
+    slug: 'ako',
+    name: 'Ako',
+    industry: 'Early Childhood Education',
+    tagline: 'Compliance that protects tamariki — Te Whāriki, ratios, ERO.',
+    accent: '#6B5843',
+    accentName: 'Parauri',
+    type: 'industry',
+    status: 'coming-soon',
+  },
+  {
+    slug: 'matauranga',
+    name: 'Mātauranga',
+    industry: 'Secondary Education',
+    tagline: 'NCEA L1–3 weekly reporting and Achievement Standards tracking for school operators.',
+    accent: '#3D5A7A',
+    accentName: 'Pōuriuri',
     type: 'industry',
     status: 'coming-soon',
   },

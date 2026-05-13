@@ -59,6 +59,12 @@ export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
     square: `${PUB}/pbf01KR2BTBT3_QEQEW35JCRW9XDSH/393cb7d8-5d02-43c2-a348-524802131e8f.png`,
     wide:   `${PUB}/pbf01KR2BVT12_DH7K493ABBKV1W1N/da0ccaf5-6e2e-4b9c-bba3-e1da41289d22.png`,
   },
+  // Placeholder vessel imagery — Mātauranga reuses Ako's vessel until a
+  // bespoke render is commissioned. Paired in the homepage grid (Ako · Mātauranga).
+  matauranga: {
+    square: `${PUB}/pbf01KR2BTBT3_QEQEW35JCRW9XDSH/393cb7d8-5d02-43c2-a348-524802131e8f.png`,
+    wide:   `${PUB}/pbf01KR2BVT12_DH7K493ABBKV1W1N/da0ccaf5-6e2e-4b9c-bba3-e1da41289d22.png`,
+  },
   hoko: {
     square: `${PUB}/pbf01KR2BGCDD_D34G6SMA3SDM4ANN/1a53a74a-1e57-4963-8e39-557317b86c67.png`,
     wide:   `${PUB}/pbf01KR2BW3CT_Q1F4AF22ZB86N9AP/0b247f34-ad05-42e8-b392-58f1337dbb9d.png`,
@@ -113,6 +119,7 @@ export const heroVideos: Record<HeroVideoKey, HeroVideoEntry> = {
   'kete:arataki': { src: null,              poster: ketes.arataki.wide },
   'kete:auaha':   { src: null,              poster: ketes.auaha.wide },
   'kete:ako':     { src: null,              poster: ketes.ako.wide },
+  'kete:matauranga': { src: null,           poster: ketes.matauranga.wide },
   'kete:hoko':    { src: null,              poster: ketes.hoko.wide },
   'kete:toro':    { src: null,              poster: ketes.toro.wide },
 };
