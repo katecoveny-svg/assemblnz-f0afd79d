@@ -10,16 +10,17 @@ Lives at `plugins/` inside the `assembl-web` repo (single-repo, solo-founder ops
 
 Source of truth for assembl's agent definitions: this folder, in git. The Supabase `agent_prompts` table is a runtime cache that loads from these files on each deploy. Every change is a git diff. Compliance review reads markdown and JSON directly.
 
-## The eight ketes
+## The nine ketes
 
 | Slug | Industry pack | Pilot customer |
 |---|---|---|
 | `waihanga` | Construction | TOA Architecture |
 | `manaaki` | Hospitality | TBD |
 | `pikau` | Freight & Customs | Aironaut Customs |
-| `arataki` | Tourism & Visitor Experience | — |
+| `arataki` | Automotive (workshop, fleet, governance) | — |
 | `auaha` | Creative Industries | — |
-| `ako` | Education | — |
+| `ako` | Early Childhood Education (Te Whāriki, licensing) | — |
+| `matauranga` | Secondary Education (NCEA L1-L3, UE, Achievement Standards) | Sacred Heart College |
 | `hoko` | Retail & E-commerce | — |
 | `toro` | Whānau / household life-admin | Hudson household |
 
@@ -36,7 +37,7 @@ The marketplace manifest is at `plugins/.claude-plugin/marketplace.json`. From w
 /plugin install waihanga@plugins     # construction (pilot)
 ```
 
-The other six ketes are stubs at v0.0.1 — install only as their build days complete (canon §9, Day 9-12+).
+The other seven ketes are stubs at v0.0.1 — install only as their build days complete (canon §9, Day 9-12+).
 
 ## MCP servers
 
