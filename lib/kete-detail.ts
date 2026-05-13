@@ -339,9 +339,9 @@ export const KETE_DETAIL: Record<
 
   arataki: {
     slug: 'arataki',
-    heroLead: 'Manaakitanga at scale.',
+    heroLead: 'Automotive (workshop, fleet, governance).',
     heroBody:
-      "assembl's tourism kete is being built for visitor-experience operators across Aotearoa — Qualmark holders, conservation-permit operators, marine and adventure providers, and the regional tourism organisations that host them.",
+      "assembl's automotive kete is built for NZ workshops, fleet operators, and dealerships. WoF/CoF schedules, driver endorsement currency, NZTA logbook checks, CCCFA disclosures, Consumer Guarantees warranty handling, and IPP 3A privacy obligations — every output cites the Act and section it stands on.",
     description: [
       "Arataki sits across the workshop, the dealer floor, and the fleet office. WoF/CoF schedules, driver endorsement currency, NZTA logbook checks, incident triage to WorkSafe thresholds, and the insurance evidence packs that follow.",
       "The kete grounds outputs in the Land Transport Act 1998, the relevant Land Transport Rules, the Consumer Guarantees Act 1993 (for sales), and HSWA 2015 (for the workshop floor). Each output stamps which clause it stands on.",
