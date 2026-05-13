@@ -25,3 +25,7 @@
 ## 2026-06-12 - [High-Intent Contrast and Footer A11y]
 **Learning:** High-intent visual indicators like scroll progress bars and footer navigation often fall into the "secondary detail" trap, using low-contrast tokens like "Soft Gold" (~2.2:1 contrast). Switching to the primary "Pounamu" green (5.8:1 contrast) and applying standardized `focus-visible` rings with proper offsets ensures these elements are both brand-aligned and accessible to all users.
 **Action:** Always use primary interaction colors (Pounamu) for status indicators and ensure all footer links have explicit focus-visible states and rounded corners to match the site-wide navigation pattern.
+
+## 2026-06-15 - [Interaction Parity and Focus Visibility]
+**Learning:** Forgetting to mirror hover effects (like scaling or color shifts) on keyboard focus creates a second-class experience for accessibility users. Furthermore, elements with `overflow-hidden` (common for card designs) will clip standard focus rings.
+**Action:** Use `group-focus-visible` on child elements to mirror hover delight for keyboard users, and always apply a `ring-offset-4` on focus rings for `overflow-hidden` containers to ensure the indicator is fully visible.
