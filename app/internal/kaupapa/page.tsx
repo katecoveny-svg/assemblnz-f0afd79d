@@ -47,7 +47,7 @@ const STATUS_BADGE: Record<Kaupapa["status"], string> = {
 };
 
 async function fetchKaupapa(): Promise<{ rows: Kaupapa[]; totalXp: number }> {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -79,7 +79,7 @@ async function fetchKaupapa(): Promise<{ rows: Kaupapa[]; totalXp: number }> {
 }
 
 export default async function KaupapaPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
