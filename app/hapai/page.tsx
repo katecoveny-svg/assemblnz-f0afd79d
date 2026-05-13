@@ -16,7 +16,7 @@ import HapaiAssessment from "@/components/hapai/HapaiAssessment";
 import HapaiShareButtons from "@/components/hapai/HapaiShareButtons";
 
 export const metadata: Metadata = {
-  title: "hapai — the AI adoption framework for NZ teams | assembl",
+  title: "hapai — the AI adoption framework for NZ teams",
   description:
     "Most NZ teams paid for AI. Almost nobody uses it. The HAPAI framework maps where your team actually sits on the adoption curve — in 60 seconds, no email required.",
   openGraph: {

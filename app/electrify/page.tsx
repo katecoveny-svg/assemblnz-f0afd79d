@@ -10,7 +10,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Electrify — SME switch-to-electric calculator · assembl",
+  title: "Electrify — SME switch-to-electric calculator",
   description:
     "How much would your small business save by switching to electric? Real prices, real maths, sourced from MBIE / EECA / Rewiring Aotearoa. 90 seconds, no signup.",
 };
