@@ -606,34 +606,63 @@ export const KETE_DETAIL: Record<
 
   matauranga: {
     slug: 'matauranga',
-    heroLead: 'NCEA L1–3 weekly reporting for school operators.',
+    heroLead: 'NCEA reporting, attendance, board prep — secondary-school admin compliance that holds up.',
     heroBody:
-      "assembl's secondary education kete is greenfield — being built with a pilot Auckland school (in negotiation) for the school-operator audience. Parses weekly reports, tracks Achievement Standards, surfaces UE Literacy/Numeracy gaps. Pilot copy and agents land after Reo signs off.",
+      "assembl's secondary-education kete is being built for school operators — deputy principals, registrars, board secretaries. NCEA L1–3 weekly reporting, MoE attendance reconciliation, board minute drafting, ERO secondary review prep. Every workflow ends in a pack you can file, forward or footnote. Pilot in negotiation.",
     description: [
-      "Mātauranga is the school-operator-facing kete for NCEA L1–3 — distinct from the whānau-facing NCEA layer that lives inside Tōro. Where Tōro helps parents track their tamariki, Mātauranga helps a secondary school track its cohort: weekly-report parsing, Achievement Standards progress, UE Literacy/Numeracy compliance, ERO secondary review prep.",
-      "Grounding lands with the pilot. Expected scope: Education and Training Act 2020 (Part 4 — secondary), NZQA Act 2024 (Achievement Standards), Privacy Act 2020 (student data, IPP 3A, parental consent under 16), and Te Mātaiaho curriculum refresh expectations.",
-      "Pilot customer (in negotiation): Sacred Heart College Auckland. No agents seeded yet — the kete is intentionally empty until pilot signal arrives. An empty kete is better than a mis-shaped kete.",
+      "Mātauranga sits inside the secondary-school admin office, not the classroom. The work a deputy principal or registrar does on a Friday afternoon to keep NZQA, MoE, the board, and ERO satisfied — without rewriting the same paragraph three times. Distinct from the whānau-facing NCEA layer that lives inside Tōro: Mātauranga reports the cohort upward; Tōro tracks one tamariki for the family.",
+      "Expected scope on day one: weekly NCEA report parsing (Achievement Standards progress and UE Literacy / Numeracy gaps surfaced before the term ends), attendance reconciliation against MoE thresholds, board minutes drafted in a format the chair will sign, ERO secondary review evidence bundles assembled from the same data already on file. Pastoral notes inform the cohort view but are read-only — kaiako write them; intelligent automation does not.",
+      "Mātauranga covers state and state-integrated secondary schools, Years 9–13. Kura kaupapa Māori, wharekura, and Māori-medium pathways are intentionally out of scope — those carry tikanga and curriculum obligations that warrant a separate pilot, not coverage by default. Ako next door covers early childhood education; together the two kete shape the schooling layer, alone they each stay in their lane.",
+      "Pilot customer in negotiation. No agents seeded yet — the kete is intentionally empty until pilot signal arrives. An empty kete is better than a mis-shaped one.",
     ],
     legislation: [
       'Education and Training Act 2020 (Part 4 — secondary)',
-      'NZQA Act 2024 (Achievement Standards, NCEA framework)',
+      'NZQA Act 2024 (Achievement Standards, NCEA L1–3)',
+      'MoE attendance reporting standards',
       'Privacy Act 2020 + IPP 3A (student data, parental consent under 16)',
       'Te Mātaiaho curriculum refresh',
       'Health and Safety at Work Act 2015 (school grounds)',
     ],
     typicalWorkflows: [
-      'Weekly NCEA report parsing',
-      'Achievement Standards progress tracking',
-      'UE Literacy / Numeracy compliance check',
-      'ERO secondary review prep',
-      'Parental consent (IPP 3A) workflow for under-16 data',
+      'Weekly NCEA report parsing → cohort dashboard',
+      'Achievement Standards progress + UE Lit / Num gap',
+      'Attendance reconciliation against MoE thresholds',
+      'Board minutes drafted to a chair-ready format',
+      'ERO secondary review evidence bundle',
+      'IPP 3A parental-consent record for under-16 data',
     ],
     placeholderAgents: [],
     pilotSprintPitch:
-      "Pilot customer in negotiation. When a school commits, assembl drafts the first weekly-report parser against the school's actual reporting cadence — not a template. Agents are written from pilot signal, fitted to real student-data architecture.",
-    workflows: [],
-    comparisonLegacyLabel: 'Manual reporting',
-    comparison: [],
+      "Pilot customer in negotiation. When a school commits, assembl drafts the first weekly-NCEA-report parser against the school's actual export — not a template. Every workflow ends in a pack the registrar can file, the chair will sign, or ERO will read months later.",
+    workflows: [
+      {
+        name: 'Weekly NCEA report parsing → cohort dashboard',
+        description:
+          "Parse the school's weekly NCEA export. Surface Achievement-Standards-at-risk learners, UE Literacy and Numeracy gaps, and credit-pace alerts before the term ends — not after results come back. Pack you can file with the board the same afternoon.",
+        compliance: ['NZQA Act 2024', 'Achievement Standards'],
+      },
+      {
+        name: 'Attendance reconciliation against MoE thresholds',
+        description:
+          'Reconcile attendance against MoE reporting thresholds. Flag the cohort sliding before the chronic-absence trigger fires — early enough that pastoral can act, late enough not to nag. Bundles the trail an ERO reviewer would want.',
+        compliance: ['Education and Training Act 2020', 'MoE attendance standards'],
+      },
+      {
+        name: 'Board minutes + ERO secondary review pack',
+        description:
+          'Drafts board minutes in the format the chair signs, from the meeting recording or your notes. Bundles the ERO secondary-review evidence from data already on file — no reconstruction the night before the visit. Pack you can forward, footnoted.',
+        compliance: ['Education and Training Act 2020', 'ERO secondary review'],
+      },
+    ],
+    comparisonLegacyLabel: 'Spreadsheets + reconstruction',
+    comparison: [
+      { capability: 'Weekly NCEA report parsing', assembl: 'In development', legacy: 'Manual export, manual read' },
+      { capability: 'Attendance threshold reconciliation', assembl: 'In development', legacy: 'Spreadsheet' },
+      { capability: 'Board minutes in chair-ready format', assembl: 'In development', legacy: 'Manual' },
+      { capability: 'ERO secondary review evidence pack', assembl: 'In development', legacy: 'Reconstructed the night before' },
+      { capability: 'IPP 3A parental-consent record', assembl: 'In development', legacy: 'Manual' },
+      { capability: 'NZ data residency', assembl: true, legacy: 'Sometimes' },
+    ],
     availableOn: 'Coming soon — pilot in negotiation. Register your interest via /contact.',
   },
 

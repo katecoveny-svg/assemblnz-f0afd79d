@@ -341,7 +341,7 @@ function IndustryKetePage({
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="font-mono text-[11px] text-[color:var(--text-secondary)]">
-                        Agent {String(i + 1).padStart(2, '0')}
+                        Workflow {String(i + 1).padStart(2, '0')}
                       </p>
                       <h3 className="mt-2 font-display text-2xl text-[color:var(--text-primary)]">
                         {wf.name}
