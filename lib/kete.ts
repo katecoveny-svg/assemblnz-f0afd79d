@@ -107,6 +107,16 @@ export const KETES: Kete[] = [
     status: 'mothballed',
   },
   {
+    slug: 'ako',
+    name: 'Ako',
+    industry: 'Early Childhood Education',
+    tagline: 'Compliance that protects tamariki — Te Whāriki, ratios, kaiako, ERO.',
+    accent: '#6B5843',
+    accentName: 'Parauri',
+    type: 'industry',
+    status: 'coming-soon',
+  },
+  {
     slug: 'toro',
     name: 'Tōro',
     industry: 'Whānau',

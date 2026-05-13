@@ -28,7 +28,7 @@ const KETE_LABELS: Record<string, { en: string; sub: string }> = {
   arataki: { en: 'Automotive', sub: 'evidence pack' },
   auaha: { en: 'Creative', sub: 'evidence pack' },
   hoko: { en: 'Retail', sub: 'evidence pack' },
-  ako: { en: 'Education', sub: 'evidence pack' },
+  ako: { en: 'Early Childhood Education', sub: 'evidence pack' },
   toro: { en: 'Family', sub: 'evidence pack' },
 };
 

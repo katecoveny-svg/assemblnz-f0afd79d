@@ -42,9 +42,9 @@ const KETE_TAGLINE: Record<string, { lead: string; body: string }> = {
       'Retail compliance grounded in Consumer Guarantees Act 1993, product safety obligations, and retail employment. Coming soon.',
   },
   ako: {
-    lead: 'Compliance that protects tamariki.',
+    lead: 'Early Childhood Education — ratios, kaiako, ERO.',
     body:
-      'Education-sector compliance — Education and Training Act 2020, ERO and MoE returns, child safety, staff vetting, Privacy Act 2020 (IPP 3A). From ECE through to kura. Coming soon.',
+      'ECE compliance grounded in the Education and Training Act 2020, ECE Services Regulations 2008, Te Whāriki, ERO review cycles, and Privacy Act 2020 (IPP 3A) on tamariki data. Centres, kaiako, ratios, individual learning records. Coming soon.',
   },
   toro: {
     lead: 'Your family’s quiet assistant.',
