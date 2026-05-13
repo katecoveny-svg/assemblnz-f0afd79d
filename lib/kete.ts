@@ -88,8 +88,8 @@ export const KETES: Kete[] = [
   {
     slug: 'ako',
     name: 'Ako',
-    industry: 'Education',
-    tagline: 'Compliance that protects tamariki — from ECE through to kura.',
+    industry: 'Early Childhood Education',
+    tagline: 'Compliance that protects tamariki — Te Whāriki, ratios, kaiako, ERO.',
     accent: '#6B5843',
     accentName: 'Parauri',
     type: 'industry',

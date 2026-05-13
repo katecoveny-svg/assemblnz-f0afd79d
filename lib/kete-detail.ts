@@ -552,9 +552,9 @@ export const KETE_DETAIL: Record<
 
   ako: {
     slug: 'ako',
-    heroLead: 'Compliance that protects tamariki.',
+    heroLead: 'Early Childhood Education — compliance that protects tamariki.',
     heroBody:
-      "assembl's education kete covers licensing, child safety, staff vetting, curriculum documentation, and privacy obligations (Privacy Act 2020, IPP 3A) — from ECE through to kura across Aotearoa.",
+      "assembl's early childhood education kete covers ECE licensing, ratios and kaiako qualifications, Te Whāriki learning records, ERO review prep, Children's Act safety checks, and the Privacy Act 2020 (IPP 3A) obligations on tamariki data — purpose-built for centres and home-based services across Aotearoa.",
     description: [
       "Ako sits inside an ECE centre's daily compliance load. ERO documentation, MoE licensing returns, Police vetting and Children's Act safety checks for staff, individual learning records, and the privacy notices that explain what tamariki data is held and why.",
       "The kete grounds outputs in the Education and Training Act 2020, the Children's Act 2014 (Vulnerable Children's Act), and Privacy Act 2020 — including the new IPP 3A obligations from 1 May 2026. Every record is whānau-readable, not just regulator-readable.",
