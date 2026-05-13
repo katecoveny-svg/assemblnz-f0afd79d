@@ -27,9 +27,9 @@ const KETE_TAGLINE: Record<string, { lead: string; body: string }> = {
       'Hospitality compliance grounded in Food Act 2014, Sale and Supply of Alcohol Act 2012, and health-and-safety obligations. Compliance that does not slow your kitchen down.',
   },
   arataki: {
-    lead: 'Manaakitanga at scale.',
+    lead: 'Workshop, fleet, dealer governance.',
     body:
-      'Tourism and visitor-experience compliance — Qualmark, biosecurity, conservation permits, visitor safety. Drafted with manaakitanga at the centre and the audit trail behind it.',
+      'Automotive compliance grounded in the Land Transport Act 1998, HSWA 2015, Consumer Guarantees Act 1993, CCCFA, and Privacy Act 2020 (IPP 3A). WoF/CoF, driver endorsements, warranty claims, customer data — every output cites the Act and section it stands on.',
   },
   auaha: {
     lead: 'Brand work that is compliant by default.',

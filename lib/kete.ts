@@ -59,8 +59,8 @@ export const KETES: Kete[] = [
   {
     slug: 'arataki',
     name: 'Arataki',
-    industry: 'Tourism & Visitor Experience',
-    tagline: 'Manaakitanga at scale — for visitor experience operators across Aotearoa.',
+    industry: 'Automotive',
+    tagline: 'Workshop floor, fleet office, dealer governance — WoF, CoF, CGA, and IPP 3A in one trail.',
     accent: '#D4842A',
     accentName: 'Karaka',
     type: 'industry',
