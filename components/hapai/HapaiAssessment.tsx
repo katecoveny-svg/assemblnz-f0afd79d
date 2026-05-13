@@ -233,6 +233,26 @@ function ResultCard({
             />
           ))}
         </div>
+        {/* soft-gold tier underline — marks the active tier */}
+        <div className="flex gap-1 mt-1.5">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <div
+              key={`u-${i}`}
+              className="flex-1 h-0.5 rounded-sm"
+              style={{
+                background: i === tierIndex ? "#D9BC7A" : "transparent",
+              }}
+            />
+          ))}
+        </div>
+        {/* session-count annotation row */}
+        <div className="flex justify-between text-[10px] text-taupe-500 uppercase tracking-widest mt-3">
+          <span>0</span>
+          <span>5</span>
+          <span>25</span>
+          <span>75</span>
+          <span>200+</span>
+        </div>
       </div>
 
       <div className="bg-pounamu-50 border border-pounamu-100 rounded-md p-5 mb-6">
