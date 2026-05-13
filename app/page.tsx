@@ -129,7 +129,7 @@ export default async function HomePage() {
       <HomeSectionTeaser
         eyebrow="04 — Evidence pack"
         headline={reo.evidencePackHeadline}
-        body="SOurce citations. Reasoning trace. Reviewer record. Cryptographic seal. The audit trail comes in the box  — file it, forward it, footnote it."
+        body="Source citations. Reasoning trace. Reviewer record. Cryptographic seal. The audit trail comes in the box — file it, forward it, footnote it."
         cta={{ href: '/evidence-pack', label: 'See what is in the box' }}
         background="mist"
       />

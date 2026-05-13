@@ -71,7 +71,7 @@ export function PearlLive({ initial }: PearlLiveProps) {
 
   return (
     <section
-      aria-label="Pearl Live — live activity across Assembl"
+      aria-label="Pearl Live — live activity across assembl"
       className="relative border-y border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)]"
     >
       <div className="container py-10 md:py-14">
