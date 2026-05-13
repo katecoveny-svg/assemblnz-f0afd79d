@@ -35,10 +35,11 @@ export function KeteVesselCard({
       }
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.6, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
+      className="focus-within:scale-[1.02] transition-transform duration-300"
     >
       <Link
         href={`/kete/${kete.slug}`}
-        className="kete-card group block overflow-hidden"
+        className="kete-card group block overflow-hidden rounded-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-4"
         style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
       >
         <div className="relative aspect-square overflow-hidden">
@@ -46,11 +47,11 @@ export function KeteVesselCard({
             src={vesselSrc}
             alt={`${kete.name} vessel — ${kete.industry}`}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] group-focus-visible:scale-[1.04]"
           />
           <div
             aria-hidden
-            className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100"
             style={{
               background: `linear-gradient(180deg, transparent 50%, ${kete.accent}33 100%)`,
             }}
