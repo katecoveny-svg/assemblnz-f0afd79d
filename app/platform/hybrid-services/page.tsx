@@ -18,7 +18,7 @@ import { PRICING_NOTE } from '@/lib/pricing';
 export const metadata: Metadata = {
   title: 'Hybrid Services — Operator-as-platform',
   description:
-    'Assembl is the governance infrastructure for the hybrid services economy. Smaller, cheaper, more frequent professional services — delivered by human + agent operators on a sovereign, evidence-ready NZ platform.',
+    'assembl is the governance infrastructure for the hybrid services economy. Smaller, cheaper, more frequent professional services — delivered by human + agent operators on a sovereign, evidence-ready NZ platform.',
 };
 
 const ROLES = [
@@ -27,7 +27,7 @@ const ROLES = [
     label: 'Navigator',
     title: 'Move clients through systems too complex to face alone',
     body:
-      'Court, IRD, MSD, immigration, the health system, school enrolment. You read the forms, draft the letters, sit in the meetings. Assembl scans the rules, pre-fills the documents, and keeps the audit trail.',
+      'Court, IRD, MSD, immigration, the health system, school enrolment. You read the forms, draft the letters, sit in the meetings. assembl scans the rules, pre-fills the documents, and keeps the audit trail.',
     fit: 'Ex-government caseworkers, paralegals, community-based social workers.',
   },
   {
@@ -35,7 +35,7 @@ const ROLES = [
     label: 'Continuous Support Worker',
     title: 'Ongoing human contact around an agent-monitored signal',
     body:
-      'Mental-health peer worker, financial coach, learning coach, care coordinator. Weekly cadence, agent-prepped session briefs, configurable escalation rules — you keep the relationship, Assembl keeps the watch.',
+      'Mental-health peer worker, financial coach, learning coach, care coordinator. Weekly cadence, agent-prepped session briefs, configurable escalation rules — you keep the relationship, assembl keeps the watch.',
     fit: 'Peer workers, coaches, community health navigators, learning guides.',
   },
   {
@@ -159,7 +159,7 @@ const PRIMITIVES = [
   },
   {
     name: 'NZ compliance autoupdate',
-    body: 'Tracks regulatory changes against your client list. The hybrid-service operator\'s biggest scaling cost is staying current — Assembl does it for you.',
+    body: 'Tracks regulatory changes against your client list. The hybrid-service operator\'s biggest scaling cost is staying current — assembl does it for you.',
   },
 ] as const;
 
@@ -198,7 +198,7 @@ export default function HybridServicesPage() {
             <SectionReveal delay={0.2}>
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
                 Historically, professional services were priced for crisis-only engagement. Hybrid
-                operators — a person plus Assembl — can deliver continuous legal hygiene,
+                operators — a person plus assembl — can deliver continuous legal hygiene,
                 financial life support, learning guidance, peer mental-health, and family
                 coordination to the people and small businesses that were never agency clients
                 before.
@@ -206,7 +206,7 @@ export default function HybridServicesPage() {
             </SectionReveal>
             <SectionReveal delay={0.3}>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)]">
-                Assembl is the governance layer underneath. Sovereign, NZ-built, evidence-ready,
+                assembl is the governance layer underneath. Sovereign, NZ-built, evidence-ready,
                 and already priced for a one-person practice.
               </p>
             </SectionReveal>
@@ -313,7 +313,7 @@ export default function HybridServicesPage() {
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
                 Each archetype is one underserved business problem, what the agent does, what
-                the human does, what the client receives, and which Assembl primitives wire it up.
+                the human does, what the client receives, and which assembl primitives wire it up.
               </p>
             </div>
           </SectionReveal>
@@ -371,7 +371,7 @@ export default function HybridServicesPage() {
                       </div>
                       <div>
                         <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                          Assembl primitives
+                          assembl primitives
                         </p>
                         <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
                           {a.primitives}
@@ -392,13 +392,13 @@ export default function HybridServicesPage() {
         </div>
       </section>
 
-      {/* Why this works on Assembl */}
+      {/* Why this works on assembl */}
       <section className="relative bg-[color:var(--assembl-paper)] py-20 md:py-28">
         <div className="container">
           <SectionReveal>
             <div className="mx-auto max-w-3xl text-center">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Why this works on Assembl
+                Why this works on assembl
               </p>
               <h2
                 className="mt-4 font-display leading-[0.95] tracking-tight"

@@ -7,7 +7,7 @@ import { PRICING_NOTE } from '@/lib/pricing';
 export const metadata: Metadata = {
   title: 'Operator-as-platform',
   description:
-    'Assembl is the governance infrastructure for the hybrid services economy. NZ$1,490/month + $590 setup. Sovereign, NZ-built, evidence-ready, priced for a one-person practice.',
+    'assembl is the governance infrastructure for the hybrid services economy. NZ$1,490/month + $590 setup. Sovereign, NZ-built, evidence-ready, priced for a one-person practice.',
 };
 
 const INCLUDED = [
@@ -58,7 +58,7 @@ export default function PlatformPage() {
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
                 If you run a practice that pairs a human professional with intelligent automation to deliver smaller,
                 cheaper, more frequent services — legal, financial, learning, mental-health,
-                family — Operator-as-platform is the SKU. Same pipeline as every Assembl kete,
+                family — Operator-as-platform is the SKU. Same pipeline as every assembl kete,
                 no vertical bundle, your workflows on top.
               </p>
             </SectionReveal>
