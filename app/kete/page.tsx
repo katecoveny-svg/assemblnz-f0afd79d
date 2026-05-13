@@ -9,7 +9,7 @@ import { KeteVesselCard } from '@/components/KeteVesselCard';
 export const metadata: Metadata = {
   title: 'Kete',
   description:
-    'Nine industry kete. Each one bundles specialist agents grounded in the legislation your industry lives under.',
+    'Eight industry kete plus Tōro, the whānau navigator. Each one bundles specialist agents grounded in the legislation your industry lives under.',
 };
 
 export default function KeteIndexPage() {
@@ -28,7 +28,7 @@ export default function KeteIndexPage() {
           <div className="mx-auto max-w-4xl text-center">
             <SectionReveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Industry kete
+                Industry kete + Tōro
               </p>
             </SectionReveal>
             <SectionReveal delay={0.1}>
@@ -38,13 +38,14 @@ export default function KeteIndexPage() {
               >
                 Nine kete.
                 <br />
-                <em className="not-italic text-gradient-hero">Nine industries.</em>
+                <em className="not-italic text-gradient-hero">Eight industries, one whānau.</em>
               </h1>
             </SectionReveal>
             <SectionReveal delay={0.2}>
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Each kete bundles specialist agents grounded in the legislation your industry
-                lives under — its workflows, its compliance regime, its evidence requirements.
+                Eight kete bundle specialist agents for the legislation your industry lives
+                under. Tōro is the ninth — a whānau navigator that sits on the same NZ policy
+                runtime.
               </p>
             </SectionReveal>
           </div>
