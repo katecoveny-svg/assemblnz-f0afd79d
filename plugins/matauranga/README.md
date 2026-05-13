@@ -1,55 +1,48 @@
 # matauranga/
 
-Secondary Education (NCEA L1-L3, UE, Achievement Standards) plugin pack.
+Secondary Education (NCEA L1-L3, UE, Achievement Standards) plugin pack — **secondary-school-operator audience**.
 
-Pilot customer: Sacred Heart College weekly-report parsing.
+> Mātauranga = knowledge, wisdom, the formal body of learning. In assembl's plugin canon, this is the kete that supports secondary schools (operators, principals, deputy-principals, NCEA coordinators) running NCEA L1-L3 programmes — NZQA Achievement Standards tracking, ERO secondary review cycles, weekly-report generation for whānau, UE Literacy/Numeracy compliance.
 
-> Mātauranga = knowledge, wisdom, the formal body of learning. In assembl's plugin canon, this is the kete that supports parents and tamariki through secondary education — NCEA Level 1 through 3, University Entrance, NZQA achievement standards, Sacred Heart-style weekly reports, study prep, and UE Literacy / Numeracy tracking.
+Pilot customer (placeholder): Sacred Heart College.
 
 ## Status
 
-**v0.0.1** — scaffold only. Build day to be scheduled.
+**v0.0.0 — greenfield, awaiting pilot.** No content yet. No agent_prompts seeded. The Lovable port-forward (2026-05-13) brought zero source content for this kete.
 
-Agents live on prod (`wurwcrgxjjwqdaxqceey.agent_prompts`) under `pack='matauranga'`:
+The Lovable AKO trio that was originally proposed as the seed for this kete (in an earlier brief addendum) turned out to be **Early Childhood Education content**, not NCEA. That content stays in `pack='ako'`. See `docs/runbooks/2026-05-13-lovable-port-forward/POST-MORTEM-AKO-NCEA-MISCLASSIFICATION.md` for the chain of evidence.
 
-| agent_name | length | source | status |
-|---|---|---|---|
-| `matauranga` (parent) | TBD | — | to be carved from `ako` Lovable port |
-| `matauranga-comply` | TBD | — | to be carved from `ako-comply` |
-| `matauranga-whanau` | TBD | — | to be carved from `ako-whanau` |
+The whānau-facing NCEA layer (parents tracking their kids' NCEA) is **already live on prod under `pack='toro'`** (toro-education, toro-email, toro-family, toro-homework). That's the family-facing use case.
 
-The data migration that moves the NCEA-heavy `ako` trio to this kete is queued at `supabase/migrations/20260513140600_phase8_matauranga_carveout.sql` but **NOT applied yet** — it ships after Cowork updates `lib/kete.ts` and the `/kete/matauranga` page exists so the runtime can route to it.
+This kete (Mātauranga) is the **school-operator-facing** use case — a school tracking its own students from the institution side. Different user, different lens.
 
-## Why separate from ako
-
-The 2026-05-13 Cowork site audit surfaced a canon split: `plugins/README.md` (locked 2026-05-08) had Ako = Education, but `lib/kete.ts` + the live site rendered Ako = Early Childhood. The actual `agent_prompts` content imported from Lovable Cloud on 13 May was unambiguously secondary-education (NCEA-heavy, Sacred Heart weekly-report parsing, NZQA past papers, UE Literacy/Numeracy at 9,680/5,549/5,193 chars).
-
-Rather than discard ~20 KB of canon NCEA work OR force-fit ECE content over it, Kate elected to split:
-- `ako` → Early Childhood Education (Te Whāriki, licensing, ratios, NEC) — new prompts to be written
-- `matauranga` → Secondary Education (NCEA, UE, Achievement Standards) — receives the imported Lovable trio
-
-## NZ legislation in scope
+## NZ legislation in scope (for fresh writes, when pilot starts)
 
 - Education and Training Act 2020 (Part 4, secondary schools)
 - NZQA Act 2024 (Achievement Standards, NCEA framework)
 - Privacy Act 2020 (student data, parental consent under age 16)
-- Te Tiriti o Waitangi obligations (Te Mātaiaho refresh, tikanga in curriculum delivery)
+- Te Tiriti o Waitangi Article 3 obligations in secondary curriculum delivery
+- Te Mātaiaho refresh expectations
+- Health and Safety at Work Act 2015 (school grounds duties)
 
-## Tools (planned)
+## Planned agents (greenfield, written from pilot signal)
 
-| Tool | Purpose | Status |
+- `matauranga` (parent kete master) — secondary-school operations
+- `matauranga-comply` — privacy + NCEA compliance gate
+- `matauranga-whanau` — parent-engagement communications at NCEA level
+
+All three to be written from scratch once a pilot customer (Sacred Heart or similar) commits, fitted to the actual school's reporting cadence and student-data architecture. Do not seed with template content — empty kete is better than mis-shaped kete.
+
+## Tools (planned, mostly already on prod from Phase 4a)
+
+| Tool | Purpose | Status in tool_registry |
 |---|---|---|
-| `toro_curriculum_resources` | Y0-13 + NCEA L1-3 resource lookup | Live in `tool_registry` |
-| `toro_list_homework_due` | Per-child homework prioritisation | Live |
-| `assembl_evidence_pack` | Watermarked PDF output | Live |
-| `assembl_cross_agent_handoff` | Handoff to other kete (e.g. `toro` for whānau context) | Live |
-
-## Sub-agents (planned)
-
-- `apex-matauranga` — research/discovery for NCEA tracking (to be carved from `apex-ako`)
-- `mana-matauranga` — approval gate for sharing student data (to be carved from `mana-ako`)
-- `nova-matauranga` — cross-agent connector (to be carved from `nova-ako`)
+| `toro_curriculum_resources` | Y0-13 + NCEA L1-3 resource lookup | Live (shared with Tōro whānau side) |
+| `toro_list_homework_due` | Per-student homework prioritisation | Live |
+| `assembl_evidence_pack` | Watermarked PDF for parent communications | Live |
+| `assembl_cross_agent_handoff` | Handoff to Tōro for whānau-side context | Live |
+| `nova_qualmark_prep` | NZQA Quality Mark prep (school-level audit) | Live (currently wired to NOVA, may rewire) |
 
 ## Status
 
-Scaffold only — see `docs/runbooks/2026-05-13-lovable-port-forward/` for the carve-out plan and Reo's editorial brief for new ako (ECE) prompts.
+Greenfield. No PRs to push for Mātauranga content until a school pilot is signed. The runtime placeholder (`lib/kete.ts` entry + `/kete/matauranga` "coming soon" page) is queued for Cowork in `COWORK-PHASE7-BRIEF.md`.

@@ -105,3 +105,28 @@ This is sequenced AFTER Cowork's runtime updates so the site doesn't 404 between
 - The Phase 8 carve-out SQL is drafted and held in `runbook-2026-05-13/sql/` until Cowork ships PRs 1-3.
 
 Update from Kaihanga, 2026-05-13.
+
+
+---
+
+# CORRECTION — 13 May 2026 (16:00 NZST)
+
+**PR-4 (Kaihanga's Phase 8 carve-out SQL) is CANCELLED.**
+
+Reo verified the Lovable AKO trio is Early Childhood Education content, not NCEA. There's no source content to carve out of `pack='ako'` into `pack='matauranga'`. The Phase 8 SQL migration is shelved.
+
+**What Cowork still ships unchanged:**
+
+- ✅ PR-1: Add `matauranga` to `lib/kete.ts` (status: coming-soon, greenfield)
+- ✅ PR-2: Refine `/kete/ako` to lock in ECE positioning
+- ✅ PR-3: Create `/kete/matauranga` page (coming-soon copy — "pilot in negotiation with Sacred Heart College")
+- ✅ PR-5: Rewrite `/kete/toro` (architecture-led, 9 specialists)
+
+**What changes:**
+
+- ❌ PR-4 (Kaihanga Phase 8 SQL carve-out) — dropped
+- The /kete/matauranga page is greenfield until a pilot signs. Use "coming soon" copy with a soft call to school operators interested in early access. No "secondary education prompts already live" framing.
+
+Other dependencies unchanged — Cowork can ship PRs 1-3 + 5 anytime.
+
+Update from Kaihanga, 2026-05-13 16:00 NZST.

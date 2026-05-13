@@ -329,118 +329,67 @@ SELECT agent_name, pack, system_prompt
 
 ---
 
-# Addendum — 13 May 2026 (afternoon)
+# CORRECTION — 13 May 2026 (16:00 NZST)
 
-Kate locked three decisions from the Cowork site-content audit. They reshape this brief.
+**Reo identified a critical error in the addendum above.** This section supersedes the "Decision Q2" section.
 
-## Decision Q1 — Arataki = Automotive (canon updated)
+## What was wrong
 
-`plugins/README.md` line `arataki | Tourism & Visitor Experience` updated to `arataki | Automotive (workshop, fleet, governance)`. **No impact on this brief** — the arataki prompt you'd merge in Phase 3 is already automotive-aligned (6,750 chars of fleet/RUC/WOF/governance content). No further editorial change needed for arataki.
+The earlier addendum claimed the Lovable AKO trio (`ako`, `ako-comply`, `ako-whanau`) contained "NCEA-heavy content (Level 1-3 credits, Sacred Heart College weekly reports, NZQA past papers)." That description was based on a scan of opener excerpts + prompt length, not on reading the full body content.
 
-## Decision Q2 — Ako splits: ECE + new Mātauranga kete
+When Reo fetched the full prompts via Lovable Cloud's anon REST endpoint and ran keyword counts:
 
-This is the consequential change. The "AKO trio" originally listed in this brief was secondary-education content (NCEA L1-3, Sacred Heart College weekly reports, NZQA, UE Literacy/Numeracy). That content is being moved to a new kete called **Mātauranga**.
+| Row | length | NCEA | NZQA | Sacred Heart | ERO | Te Whāriki | kaiako | tamariki |
+|---|---|---|---|---|---|---|---|---|
+| ako | 9,680 | 0 | 0 | 0 | 6 | 6 | 4 | 8 |
+| ako-comply | 5,549 | 0 | 0 | 0 | 7 | 2 | 1 | 6 |
+| ako-whanau | 5,193 | 0 | 0 | 0 | 3 | 4 | 5 | 5 |
 
-### What you do (Phase 3 update)
+**The Lovable AKO trio is 100% Early Childhood Education content** — Te Whāriki, Education (Early Childhood Services) Regulations 2008, Licensing Criteria, 1:5/1:10 ratios, ERO review cycles, kōhanga reo, SUDI, Oranga Tamariki, kaiako/whānau/tamariki vocabulary throughout.
 
-**Re-target the AKO trio merge → Mātauranga trio:**
+## Where the NCEA content actually lives
 
-The three rows currently at `agent_name='ako' / pack='ako'`, `ako-comply / ako`, `ako-whanau / ako` are being moved by SQL migration (queued, applies after Cowork updates `lib/kete.ts`) to:
-- `agent_name='matauranga' / pack='matauranga'` (carved from `ako`'s 9,680 chars)
-- `agent_name='matauranga-comply' / pack='matauranga'` (carved from `ako-comply`'s 5,549 chars)
-- `agent_name='matauranga-whanau' / pack='matauranga'` (carved from `ako-whanau`'s 5,193 chars)
+The Sacred Heart / NCEA / NZQA material is in the **Tōro family kete** sub-agents (which I also ported today in Phase 2):
 
-Your editorial merge instructions for these three are **unchanged in content** (NCEA still NCEA, you still merge Lovable's NZ-specific subtleties INTO prod's cross-agent + evidence pack tails). Just write the UPDATE statement targeting `agent_name='matauranga[-comply|-whanau]' AND pack='matauranga'` once the carve-out migration lands.
+| Agent | Pack | NCEA refs | Sacred Heart refs |
+|---|---|---|---|
+| `toro-education` | toro | 8 | ✓ |
+| `toro-email` | toro | 1 | ✓ |
+| `toro-family` | toro | 2 | — |
+| `toro-homework` | toro | 4 | — |
 
-### NEW work — write 3 fresh ako (ECE) prompts
+That's the **whānau-facing** NCEA layer — parents tracking their tamariki through secondary school. Different user, different lens than a secondary-school-operator NCEA agent would be.
 
-`pack='ako'` becomes an Early Childhood Education kete. There are currently **no ako (ECE) prompts on prod** — they need to be written from scratch.
+## Corrected architecture
 
-Reference for what ECE Ako should cover:
-- **Te Whāriki** (NZ early childhood curriculum, mana atua / mana whenua / mana tangata / mana reo / mana aotūroa strands)
-- **Licensing Criteria for Early Childhood Education and Care Services 2008** (regulations + amendments)
-- **National Education and Learning Priorities (NELP)** as they apply to ECE
-- **Ratios** (under 2: 1:5 / 1:4 home-based; 2-5: 1:10)
-- **Notifiable incidents** under HSWA 2015 + ECE-specific MoE reporting
-- **Whānau engagement at ECE level** (not NCEA-level parent reports — pickup/dropoff conversations, learning stories, profile books)
-- **Tikanga at ECE** (karakia, waiata, te reo immersion centres)
-- **Privacy Act 2020 specific to under-5s** (parental consent, photo policies, learning story consent)
+Two distinct NCEA presences on assembl, with two different audiences:
 
-Target prompt lengths similar to your other kete masters:
-- `ako` (parent ECE agent) — 6,000-10,000 chars
-- `ako-comply` (licensing + notifiable + ratios checker) — 4,000-6,000 chars
-- `ako-whanau` (whānau communications at ECE level) — 3,000-5,000 chars
+| Use case | User | Kete | Status |
+|---|---|---|---|
+| Whānau tracking their kids through NCEA | Parents | **Tōro** | Ported today; awaiting Reo's editorial pass on the 9 prompts |
+| Schools tracking their students through NCEA | Secondary-school operators (Sacred Heart pilot) | **Mātauranga** | Greenfield — no source content to migrate today |
 
-**Brand canon** (same as the 13 in Phase 3): lowercase `assembl`, no `SMS-first`, no `Tōroa`, include `CROSS-AGENT AWARENESS` and `EVIDENCE PACK OUTPUTS` sections.
+## Corrected Phase 3 scope for Reo
 
-### Updated Phase 3 deliverable
+| Workstream | Status |
+|---|---|
+| **13 editorial merges** (AKO trio + auaha quartet + waihanga six) | unchanged — all under existing packs |
+| ~~3 NEW ECE Ako prompts~~ | **CANCELLED** — Lovable's AKO trio IS already ECE; no fresh writes needed |
+| **Tōro page copy** (architecture-led "family AI team") | unchanged |
 
-Single migration `04_phase3_reo_editorial_merges.sql` now contains:
-- **13 UPDATE statements** (auaha quartet + waihanga six + AKO trio renamed in target to matauranga trio)
-- **3 INSERT statements** (new ako/ako-comply/ako-whanau ECE prompts)
-- All wrapped in BEGIN/COMMIT, dollar-quoted with `$REOMERGE$`
+The 3 fresh Mātauranga prompts (Sacred Heart pilot scaffold) become a **separate workstream** — not part of Phase 3. They wait until a Sacred Heart LOI / pilot agreement exists, then we write them fitted to the actual school's reporting cadence.
 
-## Decision Q3 — Tōro page: architecture-led ("the family team")
+## Corrected SQL queue
 
-The `/kete/toro` page positions Tōro as the coordinator over 9 family specialists. Not an "email-first" hero, not a breadth-led grid — an **organisational diagram** showing Tōro as the parent agent and 9 specialists as named team members.
-
-### What you do (separate from Phase 3, but coordinate with Cowork)
-
-Write the hero copy and 9 sub-agent profile cards for `/kete/toro`. Format:
-
-**Hero** (top of page):
-> Tōro is the family AI team — one coordinating intelligence and 9 specialists for the parts of family life that exhaust parents.
-
-**Org diagram** (visual, Cowork builds the layout):
-- Tōro (parent, coordinator) — at top
-- Below, 9 named cards in a single row or 3x3 grid:
-
-| Specialist | One-line role | Status (today) |
+| Phase | File | Status |
 |---|---|---|
-| **Tōro Email Watch** | Reads the family inbox, drafts the week | LIVE |
-| **Tōro Term Planner** | Maps school terms, holidays, sports seasons | LIVE |
-| **Tōro Kid Money** | Three-jar pocket money, purchase approvals | LIVE |
-| **Tōro Holiday Ideas** | NZ family adventures by region and budget | LIVE |
-| **Tōro Education** | NCEA tracking, homework, curriculum resources | Coming soon |
-| **Tōro Family** | The family dashboard — children, schedules, dietary | Coming soon |
-| **Tōro Health** | NZ immunisation schedule, GP visits | Coming soon |
-| **Tōro Home** | Shopping list, household admin | Coming soon |
-| **Tōro Homework** | Per-child after-school sessions | Coming soon |
+| 8 (carve-out AKO→Mātauranga) | `sql/05_phase8_matauranga_carveout.sql` | **SUPERSEDED** — drop this migration. AKO content is ECE, belongs in `pack='ako'`. Mātauranga stays empty until Sacred Heart pilot writes it. |
+| 9 (Tōro activation) | `sql/06_phase9_toro_activation.sql` | unchanged — applies after Reo's Tōro pass |
 
-(Don't surface `toro-logistics` and `toro-money` separately from `toro` parent — they're redundant with the existing `kid-money` and the term-planner. Reo to canon these.)
+## Lesson logged
 
-**Body copy below diagram:**
-- "Why a team and not one agent?" (architecture explanation, 100-150 words)
-- "How they work together" (cross-agent handoff example, 100-150 words)
-- "Coming soon vs live" (clear deadlines for the 6 awaiting Reo's pass)
+When asserting facts about prompt content, **read the body, not just the opener + length**. The opener showed cross-agent / NCEA framing language that's probably copy-paste from another agent's tail; the body was all ECE. Reo caught it because she fetched the full content via REST before locking the merge plan — that's the right discipline.
 
-### Brand canon (same as everywhere)
+Memory updated 2026-05-13 with this lesson.
 
-- lowercase `assembl` only (never `Assembl`)
-- email-first framing (no `SMS-first`)
-- no `Tōroa`
-- "the family AI team" / "the parent intelligence" — not "the AI parent"
-
-### Deliverable for Cowork
-
-A copy doc (markdown is fine) that Cowork wires into the `/kete/toro` page. Save as `docs/runbooks/2026-05-13-lovable-port-forward/briefs/REO-TORO-PAGE-COPY.md` and PR.
-
----
-
-## Sequencing
-
-Recommended order for your work:
-
-1. **First**: write the 13 Phase 3 editorial merges (still the highest-impact — Waihanga six at 4-8x richer is the biggest content gap on prod)
-2. **Second**: 3 new ECE prompts for `ako/ako-comply/ako-whanau` (since you're already in editorial-prompt mode)
-3. **Third**: the Tōro page copy (separate from migrations, doesn't block prod)
-
-Hand the editorial merge migration to Kaihanga for review + PR. Hand the Tōro copy directly to Cowork.
-
----
-
-## What's still blocked
-
-- The data migration that moves AKO trio → Mātauranga trio (Phase 8 carve-out SQL) needs Cowork's `lib/kete.ts` update first. Until that lands, `pack='ako'` still holds the NCEA prompts. Your Phase 3 UPDATE statements should target `agent_name='ako'/'ako-comply'/'ako-whanau' AND pack='ako'` in their CURRENT location, not the Mātauranga target — Kaihanga sequences the migrations so they apply in safe order.
-
-Update from Kaihanga, 2026-05-13 14:55 NZST.
+Update from Kaihanga, 2026-05-13 16:00 NZST.
