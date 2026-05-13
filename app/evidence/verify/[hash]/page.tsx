@@ -12,7 +12,7 @@ export async function generateMetadata({
   return {
     title: `Verify · ${shortHash(hash)}`,
     description:
-      'Public verifier for an Assembl evidence pack. Confirms hash-chain integrity without exposing pack contents.',
+      'Public verifier for an assembl evidence pack. Confirms hash-chain integrity without exposing pack contents.',
   };
 }
 
@@ -156,7 +156,7 @@ function VerifierResult({
             style={{ fontSize: '0.9rem', lineHeight: 1.65, color: '#5C5852' }}
           >
             {integrityOk
-              ? 'The hash you supplied matches a sealed Assembl evidence pack. The pack\'s canonical JSON form, when recomputed now, produces the same hash as the one stamped at seal-time. The chain to the previous pack for this tenant is intact.'
+              ? 'The hash you supplied matches a sealed assembl evidence pack. The pack\'s canonical JSON form, when recomputed now, produces the same hash as the one stamped at seal-time. The chain to the previous pack for this tenant is intact.'
               : 'The hash you supplied either does not match any sealed pack we hold, or the pack\'s canonical form has changed since seal. Treat any document carrying this hash with caution.'}
           </p>
         </section>
@@ -279,7 +279,7 @@ function VerifierResult({
             className="mt-3"
             style={{ fontSize: '0.88rem', lineHeight: 1.7, color: '#23211F' }}
           >
-            Assembl evidence packs are sealed with a SHA-256 hash over their
+            assembl evidence packs are sealed with a SHA-256 hash over their
             canonical JSON form, chained from the previous sealed pack for
             the same tenant. This verifier confirms three things — the
             supplied hash matches a pack on file, the pack\'s current
@@ -294,7 +294,7 @@ function VerifierResult({
           >
             This is the integrity substrate the Evidence Act 2006 s 137
             requires for documentary records. A pack that fails verification
-            is not an Assembl pack.
+            is not an assembl pack.
           </p>
         </section>
 
@@ -389,8 +389,8 @@ function VerifierFail({ hash }: { hash: string }) {
             style={{ fontSize: '0.9rem', lineHeight: 1.65, color: '#5C5852' }}
           >
             The hash you supplied — <code style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{shortHash(hash)}</code> —
-            does not match any sealed Assembl evidence pack. Either the
-            document is not an Assembl pack, the hash was transcribed in
+            does not match any sealed assembl evidence pack. Either the
+            document is not an assembl pack, the hash was transcribed in
             error, or the pack you hold is still in Draft.
           </p>
         </section>
