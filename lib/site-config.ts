@@ -127,16 +127,19 @@ export const heroVideos: Record<HeroVideoKey, HeroVideoEntry> = {
 // ── Locked Reo Phase 1 (signed off 2026-05-08, do not edit lightly) ──────────
 
 export const reo = {
-  // Q1 — Homepage hero lede (Variant A locked)
+  // Q1 — Homepage hero lede (Option A locked 2026-05-14: outcome-first positioning)
+  // Previous version: "quiet intelligence for Aotearoa" — too ambiguous, didn't say
+  // what assembl IS. Kate's 14 May lock-in: replace with outcome-first framing.
   heroLede:
-    'New Zealanders use intelligent agents everywhere. Few of us trust what they do. assembl runs every workflow in the open and ends each one with an evidence pack you can file, forward, or footnote.',
+    'Specialist agents draft your consents, customs entries, audit-pack documentation. Every output ends in a signed evidence record. Built in Aotearoa, reviewed by your team.',
 
-  // Q1 — locked Variant A H1 (signed off 2026-05-08): "quiet intelligence for Aotearoa".
-  // Lowercase q, capital A on the proper noun, no other punctuation.
-  // Two-line presentation so the gilded last line carries "for Aotearoa".
+  // Q1 — Option A locked 2026-05-14 (replaces 8 May Variant A "quiet intelligence for Aotearoa").
+  // Says WHAT assembl is (compliance evidence packs), WHO it's for (NZ industries),
+  // and WHAT outcome (signed evidence record at the end of every workflow).
+  // Two-line presentation matches the existing HeroWordReveal layout.
   heroHeadlineLines: [
-    'quiet intelligence',
-    'for Aotearoa',
+    'Compliance evidence packs',
+    'for New Zealand industries.',
   ] as const,
 
   // Q3 — Homepage pull quote
