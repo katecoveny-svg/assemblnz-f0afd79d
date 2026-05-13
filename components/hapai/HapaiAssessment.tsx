@@ -233,6 +233,21 @@ function ResultCard({
             />
           ))}
         </div>
+        {/* soft-gold thread under active tiers — typographic-poster motif (Direction 4) */}
+        <div className="flex gap-1 mt-1" aria-hidden="true">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <div
+              key={i}
+              className={`flex-1 h-[2px] rounded-sm ${
+                i <= tierIndex ? "bg-[#D9BC7A]/60" : "bg-transparent"
+              }`}
+            />
+          ))}
+        </div>
+        {/* sessions-scale annotation row */}
+        <div className="flex justify-between text-[10px] uppercase tracking-widest text-taupe-500 mt-2">
+          <span>0</span><span>5</span><span>25</span><span>75</span><span>200+</span>
+        </div>
       </div>
 
       <div className="bg-pounamu-50 border border-pounamu-100 rounded-md p-5 mb-6">
