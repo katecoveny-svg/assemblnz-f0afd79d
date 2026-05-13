@@ -16,20 +16,22 @@ import HapaiAssessment from "@/components/hapai/HapaiAssessment";
 import HapaiShareButtons from "@/components/hapai/HapaiShareButtons";
 
 export const metadata: Metadata = {
-  title: "HAPAI — Your team's AI adoption, made operational · assembl",
+  title: "hapai — the AI adoption framework for NZ teams | assembl",
   description:
-    "Most NZ businesses paid for AI. Almost nobody uses it. HAPAI fixes the adoption problem — not the tool problem. The John Kim playbook adapted for Aotearoa.",
+    "Most NZ teams paid for AI. Almost nobody uses it. The HAPAI framework maps where your team actually sits on the adoption curve — in 60 seconds, no email required.",
   openGraph: {
-    title: "HAPAI — Your team's AI adoption, made operational",
+    title: "hapai — the AI adoption framework for NZ teams",
     description:
-      "Most NZ businesses paid for AI. Almost nobody uses it. HAPAI fixes the adoption problem.",
+      "Take 60 seconds to find where your team sits on the AI adoption curve. From akoranga to pou.",
+    type: "article",
     url: "https://www.assembl.co.nz/hapai",
-    type: "website",
+    siteName: "assembl",
   },
   twitter: {
     card: "summary_large_image",
-    title: "HAPAI — Your team's AI adoption, made operational",
-    description: "Most NZ businesses paid for AI. Almost nobody uses it.",
+    title: "hapai — the AI adoption framework for NZ teams",
+    description:
+      "Most NZ teams paid for AI. Almost nobody uses it. Take 60 seconds.",
   },
 };
 
