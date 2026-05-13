@@ -36,7 +36,7 @@ const TIERS = [
     differentiator: 'Multiple teams. Multiple kete.',
     monthly: '$1,990',
     bullets: [
-      'All 5 kete',
+      'All kete',
       'Up to 15 seats',
       '150 outputs included',
       '$8 per extra output',
