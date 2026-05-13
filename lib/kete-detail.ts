@@ -604,6 +604,39 @@ export const KETE_DETAIL: Record<
     availableOn: 'Coming soon — early childhood kete in development. Register your interest via /contact.',
   },
 
+  matauranga: {
+    slug: 'matauranga',
+    heroLead: 'NCEA L1–3 weekly reporting for school operators.',
+    heroBody:
+      "assembl's secondary education kete is greenfield — being built with a pilot Auckland school (in negotiation) for the school-operator audience. Parses weekly reports, tracks Achievement Standards, surfaces UE Literacy/Numeracy gaps. Pilot copy and agents land after Reo signs off.",
+    description: [
+      "Mātauranga is the school-operator-facing kete for NCEA L1–3 — distinct from the whānau-facing NCEA layer that lives inside Tōro. Where Tōro helps parents track their tamariki, Mātauranga helps a secondary school track its cohort: weekly-report parsing, Achievement Standards progress, UE Literacy/Numeracy compliance, ERO secondary review prep.",
+      "Grounding lands with the pilot. Expected scope: Education and Training Act 2020 (Part 4 — secondary), NZQA Act 2024 (Achievement Standards), Privacy Act 2020 (student data, IPP 3A, parental consent under 16), and Te Mātaiaho curriculum refresh expectations.",
+      "Pilot customer (in negotiation): Sacred Heart College Auckland. No agents seeded yet — the kete is intentionally empty until pilot signal arrives. An empty kete is better than a mis-shaped kete.",
+    ],
+    legislation: [
+      'Education and Training Act 2020 (Part 4 — secondary)',
+      'NZQA Act 2024 (Achievement Standards, NCEA framework)',
+      'Privacy Act 2020 + IPP 3A (student data, parental consent under 16)',
+      'Te Mātaiaho curriculum refresh',
+      'Health and Safety at Work Act 2015 (school grounds)',
+    ],
+    typicalWorkflows: [
+      'Weekly NCEA report parsing',
+      'Achievement Standards progress tracking',
+      'UE Literacy / Numeracy compliance check',
+      'ERO secondary review prep',
+      'Parental consent (IPP 3A) workflow for under-16 data',
+    ],
+    placeholderAgents: [],
+    pilotSprintPitch:
+      "Pilot customer in negotiation. When a school commits, assembl drafts the first weekly-report parser against the school's actual reporting cadence — not a template. Agents are written from pilot signal, fitted to real student-data architecture.",
+    workflows: [],
+    comparisonLegacyLabel: 'Manual reporting',
+    comparison: [],
+    availableOn: 'Coming soon — pilot in negotiation. Register your interest via /contact.',
+  },
+
   toro: {
     slug: 'toro',
     heroLead: 'Forward your school comms — get a structured plan back.',

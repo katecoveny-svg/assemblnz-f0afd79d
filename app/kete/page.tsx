@@ -9,7 +9,7 @@ import { KeteVesselCard } from '@/components/KeteVesselCard';
 export const metadata: Metadata = {
   title: 'Kete',
   description:
-    'Eight industry kete. Each one bundles specialist agents grounded in the legislation your industry lives under.',
+    'Nine industry kete. Each one bundles specialist agents grounded in the legislation your industry lives under.',
 };
 
 export default function KeteIndexPage() {
@@ -36,9 +36,9 @@ export default function KeteIndexPage() {
                 className="mt-6 font-display leading-[0.95] tracking-tight"
                 style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
               >
-                Eight kete.
+                Nine kete.
                 <br />
-                <em className="not-italic text-gradient-hero">Eight industries.</em>
+                <em className="not-italic text-gradient-hero">Nine industries.</em>
               </h1>
             </SectionReveal>
             <SectionReveal delay={0.2}>
