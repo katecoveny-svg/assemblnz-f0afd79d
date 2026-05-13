@@ -94,7 +94,7 @@ export default function AboutPage() {
                 it does not flex with the plan you pick.
               </p>
               <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-[#B8B2A8]">
-                Source — AI Forum NZ Blueprint for Aotearoa (May 2026)
+                Source — Blueprint for Aotearoa, NZ industry forum (May 2026)
               </p>
             </div>
           </SectionReveal>
