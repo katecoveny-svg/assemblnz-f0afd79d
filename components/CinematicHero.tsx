@@ -14,7 +14,7 @@ import { heroVessel } from '@/lib/site-config';
 export function CinematicHero({ children }: { children: React.ReactNode }) {
   return (
     <section className="relative overflow-hidden bg-[color:var(--assembl-paper)]">
-      <div className="mx-auto grid min-h-[80vh] max-w-7xl items-center gap-12 px-6 py-20 md:min-h-[88vh] md:grid-cols-12 md:gap-12 md:px-10 md:py-28 lg:gap-16">
+      <div className="mx-auto grid min-h-[64vh] max-w-7xl items-center gap-12 px-6 py-20 md:min-h-[72vh] md:grid-cols-12 md:gap-12 md:px-10 md:py-28 lg:gap-16">
         {/* Copy column — first in DOM so screen readers and mobile get it first */}
         <div className="md:col-span-7">
           {children}
