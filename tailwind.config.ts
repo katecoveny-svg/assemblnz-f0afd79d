@@ -78,9 +78,11 @@ export default {
           auaha: '#5B4FA0',      // kahurangi
           arataki: '#D4842A',    // karaka
           pikau: '#3B7CB5',      // kikorangi
-          hoko: '#7B3F8F',       // waiporoporo
           ako: '#6B5843',        // parauri
+          matauranga: '#1A3A5C', // whenua tangaroa (Phase 7 Q2 canon, 13 May 2026 — 9th kete)
+          hoko: '#7B3F8F',       // waiporoporo
           toro: '#23211F',       // mangu
+          gold: '#D9BC7A',       // soft kete-gold accent — distinct from assembl.gold (#D4A853 hairlines)
         },
       },
       borderRadius: {
