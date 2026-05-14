@@ -30,16 +30,16 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl — quiet intelligence for Aotearoa',
+    default: 'assembl — compliance evidence packs for NZ industries',
     template: '%s · assembl',
   },
   description:
-    'Purpose-built intelligent agents that work alongside your team — citing NZ legislation, producing evidence packs, and waiting for your approval before anything ships. Built in Aotearoa.',
+    'Specialist agents draft your consents, customs entries, audit-pack documentation. Every output ends in a signed evidence record. Built in Aotearoa, reviewed by your team.',
   metadataBase: new URL('https://assembl.co.nz'),
   openGraph: {
-    title: 'assembl — less noise, more time',
+    title: 'assembl — compliance evidence packs for New Zealand industries',
     description:
-      'Intelligent agents that draft, check, and document — so your team gets time back.',
+      'Specialist agents draft your consents, customs entries, audit-pack documentation. Every output ends in a signed evidence record. Built in Aotearoa, reviewed by your team.',
     type: 'website',
     locale: 'en_NZ',
     images: [
@@ -47,15 +47,15 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'assembl — quiet intelligence for Aotearoa',
+        alt: 'assembl — compliance evidence packs for New Zealand industries',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl — less noise, more time',
+    title: 'assembl — compliance evidence packs for New Zealand industries',
     description:
-      'Intelligent agents that draft, check, and document — so your team gets time back.',
+      'Specialist agents draft your consents, customs entries, audit-pack documentation. Every output ends in a signed evidence record. Built in Aotearoa, reviewed by your team.',
   },
   icons: {
     icon: '/icon.png',
