@@ -47,7 +47,7 @@ export default async function LoginPage({
       />
       <div className="w-full max-w-md">
         <div className="mb-10 text-center">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[11px] lowercase tracking-[0.32em] text-[color:var(--text-secondary)]">
             assembl · admin
           </p>
           <h1
