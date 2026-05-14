@@ -44,12 +44,17 @@ export async function sendMagicLinkAction(
     return { ok: false, error: 'Could not determine request origin.' };
   }
   const origin = `${forwardedProto}://${host}`;
-  const callback = `${origin}/auth/callback?redirect=${encodeURIComponent(redirectTo)}`;
+  // /auth/confirm uses verifyOtp + token_hash, so the round-trip survives a
+  // magic-link click in a different browser/webview than the one that
+  // submitted (Gmail in-app, Apple Mail handoff, desktop→mobile). Server-side
+  // signInWithOtp also writes the PKCE verifier as an HttpOnly cookie via
+  // next/headers — robust for same-browser /auth/callback flows.
+  const confirmUrl = `${origin}/auth/confirm?next=${encodeURIComponent(redirectTo)}`;
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: callback },
+    options: { emailRedirectTo: confirmUrl },
   });
 
   if (error) {
