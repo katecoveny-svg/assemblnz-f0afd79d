@@ -11,23 +11,25 @@ export const metadata: Metadata = {
 // Reads the Supabase session per-request — never prerender.
 export const dynamic = 'force-dynamic';
 
+const LEGACY_APP_ORIGIN = 'https://app.assembl.co.nz';
+
 /**
  * /app — the post-sign-in landing page.
  *
- * Redirect logic (per chat-with-agents brief 2026-05-11):
- *   • Not signed in            → /login?redirect=/app
- *   • Signed in with a tenant  → /app/toro/[slug] (the tenant dashboard)
- *   • Signed in, no tenant     → /app/chat (so they can at least START talking)
+ * Redirect logic (Version A, 2026-05-14):
+ *   • Not signed in                       → /login?redirect=/app
+ *   • Signed in + has a primary kete      → app.assembl.co.nz/{kete-slug}
+ *   • Signed in + tenant but no kete yet  → /app/toro/{tenant-slug}
+ *   • Signed in, no tenant                → /app/chat (start the conversation)
  *
- * We never render a 404 here, and we never render the old admin stub — every
- * code path calls `redirect()` (which returns `never`) so this component has
- * no return-value branch to maintain.
+ * Primary kete = the first enabled kete for the user's tenant, sorted by
+ * kete_definitions.display_order. The kete dashboards live on legacy Vite
+ * at app.assembl.co.nz/{kete-slug}.
+ *
+ * Auth handoff to legacy Vite is intentionally out of scope here — the
+ * legacy SPA owns its own session detection.
  */
 export default async function AdminLandingPage(): Promise<never> {
-  // Middleware should already have bounced unauthenticated users back to
-  // /login, but belt-and-braces — re-check on the server. If env vars are
-  // missing we degrade to /login, which renders the configuration-missing
-  // state explicitly.
   const envConfigured = Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   );
@@ -42,15 +44,10 @@ export default async function AdminLandingPage(): Promise<never> {
     redirect('/login?redirect=/app');
   }
 
-  // Look up the user's tenant. If they have one, send them to the tenant
-  // dashboard (/app/toro/[slug]). If they don't — or if the lookup fails
-  // — we send them to /app/chat so they can start talking right away.
-  //
-  // Reads from `tenant_members` — the canonical post-rollback membership
-  // table. The planned `platform_org_members` rename never landed cleanly
-  // (see PR #112 and follow-up issue #113 for the broader cleanup).
-  // Falls back to /app/chat on any lookup failure.
+  let tenantId: string | null = null;
   let tenantSlug: string | null = null;
+  let primaryKeteSlug: string | null = null;
+
   try {
     const { data: membership } = await supabase
       .from('tenant_members')
@@ -58,24 +55,65 @@ export default async function AdminLandingPage(): Promise<never> {
       .eq('user_id', user.id)
       .limit(1)
       .maybeSingle();
-    // The Supabase relational shape comes back as `tenants` — try a few
-    // possible shapes defensively.
-    const t = membership as unknown as
-      | { tenants?: { slug?: string } | { slug?: string }[] }
+
+    const m = membership as unknown as
+      | { tenant_id?: string; tenants?: { slug?: string } | { slug?: string }[] }
       | null;
-    if (t?.tenants) {
-      if (Array.isArray(t.tenants)) tenantSlug = t.tenants[0]?.slug ?? null;
-      else tenantSlug = t.tenants.slug ?? null;
+
+    if (m?.tenant_id) tenantId = m.tenant_id;
+    if (m?.tenants) {
+      tenantSlug = Array.isArray(m.tenants)
+        ? m.tenants[0]?.slug ?? null
+        : m.tenants.slug ?? null;
     }
   } catch {
-    // ignore — fall through to chat
+    // fall through
   }
 
+  if (tenantId) {
+    try {
+      const { data: enabledKetes } = await supabase
+        .from('tenant_ketes')
+        .select('enabled, kete_definitions ( slug, display_order )')
+        .eq('tenant_id', tenantId)
+        .eq('enabled', true);
+
+      type KeteRow = {
+        enabled?: boolean;
+        kete_definitions?:
+          | { slug?: string; display_order?: number }
+          | { slug?: string; display_order?: number }[]
+          | null;
+      };
+
+      const flat = (enabledKetes as KeteRow[] | null | undefined)
+        ?.map((row) => {
+          const k = row.kete_definitions;
+          if (!k) return null;
+          if (Array.isArray(k)) return k[0] ?? null;
+          return k;
+        })
+        .filter(
+          (k): k is { slug: string; display_order?: number } =>
+            Boolean(k && typeof k.slug === 'string' && k.slug.length > 0),
+        )
+        .sort(
+          (a, b) => (a.display_order ?? 999) - (b.display_order ?? 999),
+        );
+
+      if (flat && flat.length > 0) {
+        primaryKeteSlug = flat[0].slug;
+      }
+    } catch {
+      // fall through
+    }
+  }
+
+  if (primaryKeteSlug) {
+    redirect(`${LEGACY_APP_ORIGIN}/${primaryKeteSlug}`);
+  }
   if (tenantSlug) {
     redirect(`/app/toro/${tenantSlug}`);
   }
-
-  // No tenant yet — send them to the chat surface so they can talk to an
-  // agent rather than land on a stub page.
   redirect('/app/chat');
 }
