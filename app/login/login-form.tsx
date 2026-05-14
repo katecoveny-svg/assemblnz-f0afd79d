@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useTransition, type FormEvent } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
+import { sendMagicLinkAction } from './actions';
 
 export function LoginForm({
   redirectTo,
@@ -14,33 +14,26 @@ export function LoginForm({
   errorMsg: string | null;
 }) {
   const [email, setEmail] = useState('');
-  const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(initialSent);
   const [error, setError] = useState<string | null>(initialError);
+  const [pending, startTransition] = useTransition();
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
-    setSubmitting(true);
 
-    try {
-      const supabase = createClient();
-      const origin = window.location.origin;
-      const callback = `${origin}/auth/callback?redirect=${encodeURIComponent(redirectTo)}`;
-      const { error: authError } = await supabase.auth.signInWithOtp({
-        email: email.trim().toLowerCase(),
-        options: { emailRedirectTo: callback },
-      });
-      if (authError) {
-        setError(authError.message);
-      } else {
+    const fd = new FormData();
+    fd.set('email', email);
+    fd.set('redirectTo', redirectTo);
+
+    startTransition(async () => {
+      const result = await sendMagicLinkAction(null, fd);
+      if (result.ok) {
         setSent(true);
+      } else {
+        setError(result.error);
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong sending the link.');
-    } finally {
-      setSubmitting(false);
-    }
+    });
   }
 
   if (sent) {
@@ -54,7 +47,7 @@ export function LoginForm({
           <span className="font-mono text-[color:var(--text-primary)]">
             {email || 'your email'}
           </span>
-          . Click it to finish signing in. The link expires in one hour.
+          . Click it on this device to finish signing in. The link expires in one hour.
         </p>
         <button
           type="button"
@@ -79,6 +72,7 @@ export function LoginForm({
         </span>
         <input
           type="email"
+          name="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -97,11 +91,11 @@ export function LoginForm({
 
       <button
         type="submit"
-        disabled={submitting || email.trim().length === 0}
+        disabled={pending || email.trim().length === 0}
         className="cta-primary mt-6 inline-flex h-12 w-full items-center justify-center px-7 text-sm md:text-base disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {submitting ? 'Sending magic link…' : 'Send magic link'}
-        {!submitting && <ArrowRight className="ml-2 h-4 w-4" aria-hidden />}
+        {pending ? 'Sending magic link…' : 'Send magic link'}
+        {!pending && <ArrowRight className="ml-2 h-4 w-4" aria-hidden />}
       </button>
     </form>
   );
