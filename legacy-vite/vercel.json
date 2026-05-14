@@ -7,6 +7,12 @@
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "redirects": [
+    { "source": "/", "destination": "https://www.assembl.co.nz/", "permanent": true },
+    { "source": "/pricing", "destination": "https://www.assembl.co.nz/pricing", "permanent": true },
+    { "source": "/about", "destination": "https://www.assembl.co.nz/about", "permanent": true },
+    { "source": "/ketes", "destination": "https://www.assembl.co.nz/kete", "permanent": true },
+    { "source": "/start-here", "destination": "https://www.assembl.co.nz/pilot-sprint", "permanent": true },
+    { "source": "/client-demos", "destination": "https://www.assembl.co.nz/pilot-sprint", "permanent": true },
     { "source": "/aura", "destination": "/app/hospitality", "permanent": false },
     { "source": "/nova", "destination": "/app/tourism", "permanent": false },
     { "source": "/apex", "destination": "/app/construction", "permanent": false },
