@@ -189,7 +189,7 @@ export const reo = {
   // /agents — positioning paragraph below the existing lede. Reframes the
   // marketplace as specialist kete on a shared NZ policy runtime.
   agentsPolicyRuntimeIntro:
-    'Each kete sits on the same NZ policy runtime — Privacy Act 2020 controls, tikanga and Te Tiriti governance, full audit trail, and signed receipts built into the substrate. What works for one industry is consistent across all eight.',
+    'Each kete sits on the same NZ policy runtime — Privacy Act 2020 controls, tikanga and Te Tiriti governance, full audit trail, and signed receipts built into the substrate. What works for one industry is consistent across all nine.',
 
   // /about — strategic positioning sentence per the vertical-AI strategy memo.
   aboutPositioning:
