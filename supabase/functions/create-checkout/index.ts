@@ -24,7 +24,11 @@ serve(async (req) => {
     const user = data.user;
     if (!user?.email) throw new Error("User not authenticated or email not available");
 
-    const { priceId } = await req.json();
+    const body = await req.json();
+    const priceId =
+      body.priceId ||
+      Deno.env.get("STRIPE_INDUSTRY_PACK_PRICE_ID") ||
+      Deno.env.get("INDUSTRY_PACK_PRICE_ID");
     if (!priceId) throw new Error("priceId is required");
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
@@ -37,15 +41,36 @@ serve(async (req) => {
       customerId = customers.data[0].id;
     }
 
-    const origin = req.headers.get("origin") || "https://assemblnz.lovable.app";
+    const origin = req.headers.get("origin") || "https://assembl.co.nz";
+    const successUrl =
+      typeof body.successUrl === "string" && body.successUrl.includes("{CHECKOUT_SESSION_ID}")
+        ? body.successUrl
+        : `${origin}/app/${body.slug || "tenant"}/onboarding?checkout=success&session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl =
+      typeof body.cancelUrl === "string"
+        ? body.cancelUrl
+        : `${origin}/start/signup?checkout=cancelled`;
+    const metadata = {
+      plan: String(body.plan || "industry-pack"),
+      kete: String(body.kete || ""),
+      company_name: String(body.companyName || ""),
+      tenant_slug: String(body.slug || ""),
+      contact_name: String(body.contactName || ""),
+      contact_phone: String(body.phone || ""),
+      auth_user_id: user.id,
+      user_email: user.email,
+    };
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       customer_email: customerId ? undefined : user.email,
       line_items: [{ price: priceId, quantity: 1 }],
       mode: "subscription",
-      success_url: `${origin}/dashboard?checkout=success`,
-      cancel_url: `${origin}/pricing?checkout=cancelled`,
+      client_reference_id: user.id,
+      metadata,
+      subscription_data: { metadata },
+      success_url: successUrl,
+      cancel_url: cancelUrl,
     });
 
     return new Response(JSON.stringify({ url: session.url }), {
