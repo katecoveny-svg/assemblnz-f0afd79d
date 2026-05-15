@@ -2,13 +2,18 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { IndustryPackFleetPicker } from './IndustryPackFleetPicker';
+import { PackPicker, type PackOption } from './PackPicker';
+import { agentsForKete } from '@/lib/agents';
+import { INDUSTRY_KETES, type KeteSlug } from '@/lib/kete';
+import { KETE_DETAIL, type IndustryKeteDetail } from '@/lib/kete-detail';
 
 export const metadata: Metadata = {
   title: 'Industry Pack',
   description:
     'NZ$5,000 a month. Six to eight specialist agents sequenced into one operating loop for NZ operators.',
 };
+
+type IndustryKeteSlug = Exclude<KeteSlug, 'toro'>;
 
 const LOOP = [
   {
@@ -72,6 +77,33 @@ const HOW_IT_WORKS = [
   'Approve every draft. Nothing ships without your tick.',
 ] as const;
 
+function buildPackOptions(): PackOption[] {
+  return INDUSTRY_KETES.map((kete) => {
+    const slug = kete.slug as IndustryKeteSlug;
+    const detail = KETE_DETAIL[slug] as IndustryKeteDetail;
+    const registryAgents = agentsForKete(slug).map((agent) => agent.name);
+    const placeholderAgents = detail.placeholderAgents.map((agent) => agent.name);
+    const agents =
+      registryAgents.length > 0
+        ? registryAgents
+        : placeholderAgents.length > 0
+          ? placeholderAgents
+          : ['Pilot fleet configured during onboarding'];
+
+    return {
+      slug,
+      name: kete.name,
+      industry: kete.industry,
+      accent: kete.accent,
+      agents,
+      workflow:
+        detail.typicalWorkflows[0] ??
+        detail.workflows[0]?.name ??
+        'One live workflow, scoped during the Pilot Sprint.',
+    };
+  });
+}
+
 function SectionHeader({
   eyebrow,
   title,
@@ -95,6 +127,8 @@ function SectionHeader({
 }
 
 export default function IndustryPackPage() {
+  const packOptions = buildPackOptions();
+
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)]">
@@ -169,7 +203,7 @@ export default function IndustryPackPage() {
             body="Each Industry Pack starts with one kete and one operating loop. You can switch kete any time."
           />
           <div className="mt-12">
-            <IndustryPackFleetPicker />
+            <PackPicker packs={packOptions} />
           </div>
         </div>
       </section>
