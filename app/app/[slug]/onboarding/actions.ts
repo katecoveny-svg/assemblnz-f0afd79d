@@ -6,8 +6,12 @@ import { createClient } from '@/lib/supabase/server';
 import { getServiceClient } from '@/lib/supabase/service';
 
 type ActionResult = { ok: true } | { ok: false; error: string };
+type TenantAccessTenant = { id: string; slug: string; metadata: Record<string, unknown> | null };
+type TenantAccessResult =
+  | { user: { id: string }; tenant: TenantAccessTenant }
+  | { error: string };
 
-async function assertTenantAccess(slug: string) {
+async function assertTenantAccess(slug: string): Promise<TenantAccessResult> {
   const supabase = await createClient();
   const {
     data: { user },
@@ -34,7 +38,7 @@ async function assertTenantAccess(slug: string) {
   ]);
 
   if (!member && !admin) return { error: 'forbidden' as const };
-  return { user, tenant: tenant as { id: string; slug: string; metadata: Record<string, unknown> | null } };
+  return { user, tenant: tenant as TenantAccessTenant };
 }
 
 export async function verifyAliasAction(slug: string): Promise<ActionResult> {

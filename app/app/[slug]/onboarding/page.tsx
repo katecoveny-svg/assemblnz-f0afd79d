@@ -95,6 +95,15 @@ export default async function TenantOnboardingPage({
     auto_confirm_enabled?: boolean;
     min_confidence?: number;
   };
+  async function verifyAliasFormAction() {
+    'use server';
+    await verifyAliasAction(slug);
+  }
+
+  async function saveThresholdsFormAction(formData: FormData) {
+    'use server';
+    await saveThresholdsAction(slug, formData);
+  }
 
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-5 py-10 text-[color:var(--text-primary)] md:px-10 md:py-14">
@@ -137,7 +146,7 @@ export default async function TenantOnboardingPage({
                 </span>
                 , then mark the alias verified here.
               </p>
-              <form action={verifyAliasAction.bind(null, slug)} className="mt-4">
+              <form action={verifyAliasFormAction} className="mt-4">
                 <button type="submit" className="btn-ghost inline-flex h-10 items-center justify-center px-5">
                   I forwarded a sample
                 </button>
@@ -185,7 +194,7 @@ export default async function TenantOnboardingPage({
               status={thresholds.min_confidence ? 'complete' : 'pending'}
               icon={<Check className="h-5 w-5" aria-hidden />}
             >
-              <form action={saveThresholdsAction.bind(null, slug)} className="mt-2 grid gap-4 md:grid-cols-[1fr_180px]">
+              <form action={saveThresholdsFormAction} className="mt-2 grid gap-4 md:grid-cols-[1fr_180px]">
                 <label className="flex items-center gap-3 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] px-4 py-3 text-sm">
                   <input
                     type="checkbox"
