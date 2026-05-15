@@ -27,7 +27,8 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Existing: kete name correction (Tōroa → Tōro)
+      // Existing: kete name correction (Tōroa → Tōro). Keep this in Next.js;
+      // public SPA paths are handled by middleware rewrites before auth.
       { source: "/kete/toroa", destination: "/kete/toro", permanent: true },
 
       // Admin & operations
