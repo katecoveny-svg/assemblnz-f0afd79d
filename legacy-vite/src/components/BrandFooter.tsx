@@ -7,17 +7,19 @@ import { supabase } from "@/integrations/supabase/client";
 /* ─── Pearl brand tokens (single source of truth) ─── */
 /* Warm Pearl + Forest Ink — never black, never cool blue-white. */
 const PEARL = {
-  bg: "#FAF6EF",      // Warm Pearl canvas
-  ink: "#0F2A26",     // Forest Ink
-  pounamu: "#1F4D47",
-  muted: "#7A8B82",
-  opal: "#E8EEEC",
-  bodyInk: "rgba(15,42,38,0.72)",
+  bg: "#FAF7F2",
+  ink: "#23211F",
+  pounamu: "#2B6B57",
+  muted: "#6F6158",
+  opal: "#E8E4DE",
+  bodyInk: "rgba(35,33,31,0.72)",
 };
 
 const FOOTER_LINKS = {
   Platform: [
-    { to: "/#ketes", label: "Your industry" },
+    { to: "/kete", label: "Explore kete" },
+    { to: "/pilot-sprint", label: "Book a pilot" },
+    { to: "/evidence", label: "See an evidence pack" },
     { to: "/showcase", label: "Showcase" },
     { to: "/pricing", label: "Pricing" },
     { to: "/how-it-works", label: "How it works" },
@@ -32,15 +34,16 @@ const FOOTER_LINKS = {
     { to: "/demos/confidence-scoring", label: "Confidence scoring" },
     { to: "/demos/kaitiaki-gate", label: "Kaitiaki gate" },
   ],
-  "Ketes": [
-    { to: "/manaaki", label: "Manaaki — Hospitality" },
+  "Kete": [
     { to: "/waihanga/about", label: "Waihanga — Construction" },
-    { to: "/auaha/about", label: "Auaha — Creative" },
+    { to: "/manaaki", label: "Manaaki — Hospitality" },
+    { to: "/pikau", label: "Pīkau — Freight & Customs" },
     { to: "/arataki", label: "Arataki — Automotive & Fleet" },
-    { to: "/pikau", label: "Pikau — Freight & Customs" },
-    { to: "/hoko", label: "Hoko — Retail" },
+    { to: "/auaha/about", label: "Auaha — Creative" },
     { to: "/ako", label: "Ako — Early Childhood Education" },
-    { to: "/toro", label: "Tōro — Family" },
+    { to: "/kete/matauranga", label: "Mātauranga — Secondary Education" },
+    { to: "/hoko", label: "Hoko — Retail" },
+    { to: "/toro", label: "Tōro — Whānau" },
     { to: "/platform", label: "Platform — Business / Tech / Pro Services" },
   ],
   "Trust & Compliance": [
@@ -146,7 +149,7 @@ const BrandFooter = () => {
               color: PEARL.pounamu,
             }}
           >
-            Premium intelligence with a human heart.
+            Specialist agents for NZ work that needs proof.
           </p>
           <p
             className="mt-4 max-w-xl mx-auto"
@@ -158,7 +161,7 @@ const BrandFooter = () => {
               fontWeight: 400,
             }}
           >
-            A platform of practical AI agents that finish the work — and give the time back.
+            Built in Aotearoa. Time is the thing. We give it back.
           </p>
           <p
             className="mt-6 lowercase"
@@ -170,7 +173,7 @@ const BrandFooter = () => {
               fontWeight: 500,
             }}
           >
-            simulation-tested · policy-governed · human-in-the-loop
+            assembl evidence vessel · reviewed by your team
           </p>
         </div>
 

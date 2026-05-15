@@ -25,8 +25,8 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm text-[color:var(--text-secondary)]">
-              Quiet intelligence for Aotearoa. Industry-specific kete that cite
-              legislation and produce evidence packs.
+              Specialist agents for NZ work that needs proof. Built in Aotearoa.
+              Time is the thing. We give it back.
             </p>
           </div>
 
