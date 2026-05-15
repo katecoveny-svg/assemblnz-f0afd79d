@@ -104,7 +104,7 @@ export const KETES: Kete[] = [
     accent: '#7B3F8F',
     accentName: 'Waiporoporo',
     type: 'industry',
-    status: 'mothballed',
+    status: 'coming-soon',
   },
   {
     slug: 'toro',

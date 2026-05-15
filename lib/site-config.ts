@@ -296,6 +296,7 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 // ── Site-wide nav (multi-page only — anchors are BANNED per canon §2.1) ──────
 
 export const nav = [
+  { href: '/agents',        label: 'Agents' },
   { href: '/pilot-sprint',  label: 'Pilot Sprint' },
   { href: '/how-it-works',  label: 'How it works' },
   { href: '/kete',          label: 'Kete' },
