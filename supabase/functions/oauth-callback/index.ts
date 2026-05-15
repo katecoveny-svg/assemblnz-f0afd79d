@@ -183,6 +183,22 @@ serve(async (req) => {
       { onConflict: "organisation_id,provider_code" }
     );
 
+    await supabase.from("tenant_tool_connections").upsert(
+      {
+        tenant_id: oauthState.organisation_id,
+        provider: oauthState.provider_code,
+        provider_label: provider.name || oauthState.provider_code,
+        status: "connected",
+        scopes: provider.scopes,
+        connected_at: new Date().toISOString(),
+        metadata: {
+          external_org_id: externalOrgId,
+          external_org_name: externalOrgName,
+        },
+      },
+      { onConflict: "tenant_id,provider" }
+    );
+
     // Log success
     await supabase.from("assembl_integration_logs").insert({
       organisation_id: oauthState.organisation_id,

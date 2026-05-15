@@ -42,15 +42,25 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Verify user is admin/manager of this tenant
-    const { data: membership } = await supabase
-      .from("platform_org_members")
+    // Verify user is admin/manager/operator of this tenant.
+    let { data: membership } = await supabase
+      .from("tenant_members")
       .select("role")
       .eq("user_id", user.id)
       .eq("tenant_id", tenant_id)
       .maybeSingle();
 
-    if (!membership || !["admin", "manager"].includes(membership.role)) {
+    if (!membership) {
+      const legacy = await supabase
+        .from("platform_org_members")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("tenant_id", tenant_id)
+        .maybeSingle();
+      membership = legacy.data;
+    }
+
+    if (!membership || !["admin", "manager", "operator"].includes(membership.role)) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
         status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
