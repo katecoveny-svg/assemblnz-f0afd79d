@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, FileCheck2, Images, LayoutDashboard, MessageCircle, ShieldCheck } from 'lucide-react';
+import { ArrowRight, FileCheck2, LayoutDashboard, MessageCircle, ShieldCheck } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
@@ -34,7 +34,7 @@ const KETE_DETAILS: Record<KeteSlug, {
     status: 'Pilot',
     workflow: 'Food safety, liquor licensing, shift records',
     agents: 'Hospitality compliance agents',
-    proof: 'Operator logs prepared for review',
+    proof: 'Service logs prepared for review',
   },
   pikau: {
     status: 'Live',
@@ -123,10 +123,10 @@ const PRODUCT_ACCESS = [
     icon: LayoutDashboard,
   },
   {
-    href: '/app/chat',
-    label: 'Open the app',
-    body: 'Choose a kete, choose a specialist, ask the first question.',
-    icon: Images,
+    href: '/industry-pack',
+    label: 'Industry Pack',
+    body: 'NZ$5,000 a month for one industry fleet, one operating loop, no setup fee.',
+    icon: FileCheck2,
   },
 ] as const;
 

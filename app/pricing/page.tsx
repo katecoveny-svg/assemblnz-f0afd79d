@@ -2,428 +2,174 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+  INDUSTRY_PACK_PLAN,
+  OUTCOME_OFFER,
+  PILOT_SPRINT,
+  PRICING_NOTE,
+  SUBSCRIBE_PLANS,
+} from '@/lib/pricing';
 
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Tōro Family, Operator, Leader, Enterprise, Pilot Sprint, and Outcome pricing. NZD, GST exclusive.',
+    'Tōro Family, Industry Pack, Pilot Sprint, and Outcome pricing. NZD, GST exclusive.',
 };
 
-// Locked numbers per PRICING-LOCKED.md (2026-04-08).
-// Numbers are not to be changed. Bullets are short editorial summaries.
-const TIERS = [
+const OFFERS = [
   {
-    slug: 'family',
-    name: 'Tōro Family',
-    differentiator: 'Whānau navigator.',
-    monthly: 'NZ$29',
-    setup: '$0 setup',
-    bullets: [
-      'Tōro whānau navigator',
-      'School, money, routines, and the week ahead',
-      'Reviewed family actions and records',
-      'Cancel any time',
-    ],
+    eyebrow: 'Whānau',
+    name: SUBSCRIBE_PLANS[0].name,
+    price: SUBSCRIBE_PLANS[0].monthly,
+    setup: SUBSCRIBE_PLANS[0].setup,
+    body: SUBSCRIBE_PLANS[0].summary,
+    features: SUBSCRIBE_PLANS[0].features,
     cta: 'Start Tōro',
+    href: '/toro',
+    featured: false,
   },
   {
-    slug: 'operator',
-    name: 'Operator',
-    differentiator: '1 kete + platform.',
-    monthly: 'NZ$1,490',
-    setup: '$590 setup',
-    bullets: [
-      '1 kete',
-      'Platform included',
-      '50 outputs included',
-      '$12 per extra output',
-    ],
-    cta: 'Start with Operator',
+    eyebrow: 'Try before you buy',
+    name: 'Pilot Sprint',
+    price: 'NZ$5,000 once-off',
+    setup: 'No subscription required',
+    body: PILOT_SPRINT.bannerCopy,
+    features: ['Two weeks', 'One workflow', 'One evidence pack', 'Refund if no time saved'],
+    cta: 'Book a Pilot Sprint',
+    href: '/pilot-sprint',
+    featured: false,
   },
   {
-    slug: 'leader',
-    name: 'Leader',
-    differentiator: '2 kete + platform.',
-    monthly: 'NZ$1,990',
-    setup: '$1,290 setup',
-    bullets: [
-      '2 kete',
-      'Platform included',
-      '150 outputs included',
-      '$8 per extra output',
-      'Weekly evidence pack',
-    ],
-    cta: 'Choose Leader',
+    eyebrow: 'Flat-rate operations',
+    name: INDUSTRY_PACK_PLAN.name,
+    price: INDUSTRY_PACK_PLAN.monthly,
+    setup: INDUSTRY_PACK_PLAN.setup,
+    body: INDUSTRY_PACK_PLAN.summary,
+    features: INDUSTRY_PACK_PLAN.features,
+    cta: 'See Industry Pack',
+    href: '/industry-pack',
     featured: true,
   },
   {
-    slug: 'enterprise',
-    name: 'Enterprise',
-    differentiator: 'All 9 kete + platform.',
-    monthly: 'from NZ$2,990',
-    setup: '$2,890 setup',
-    bullets: [
-      'All 9 kete',
-      'Platform included',
-      '200 evidence packs / month',
-      'Named kaitiaki contact',
-    ],
-    cta: 'Talk to Enterprise',
+    eyebrow: 'Bespoke',
+    name: OUTCOME_OFFER.name,
+    price: OUTCOME_OFFER.price,
+    setup: 'Scoped engagement',
+    body: OUTCOME_OFFER.summary,
+    features: ['Custom workflow map', 'Named engagement team', 'Evidence-pack contract'],
+    cta: 'Talk to us',
+    href: '/contact',
+    featured: false,
   },
-];
+] as const;
 
 export default function PricingPage() {
   return (
-    <>
-      {/* ── Hero ────────────────────────────────────────────────── */}
-      <section
-        className="relative py-32 md:py-48"
-        style={{ backgroundColor: 'var(--assembl-paper)' }}
-      >
-        <div className="mx-auto max-w-7xl px-6 md:px-12">
-          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
-            <div className="lg:col-start-2 lg:col-span-7">
-              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
-                05 — Pricing
-              </p>
-              <h1 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
-                Three ways to{' '}
-                <em className="not-italic text-gradient-hero">start</em>.
-              </h1>
-              <p className="mt-10 text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
-                NZD, GST exclusive. Use code ANNUAL12 for 12% off annual.
-                Pilot Sprint comes first when the workflow needs proof.
-              </p>
-            </div>
+    <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] py-24 md:py-32">
+        <div className="container">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-[color:var(--text-secondary)]">
+              Pricing · NZD, GST exclusive
+            </p>
+            <h1 className="mt-6 font-display text-6xl font-light leading-[0.92] md:text-7xl">
+              One flat industry pack. One pilot to prove it.
+            </h1>
+            <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-[color:var(--text-body)]">
+              {PRICING_NOTE} Use code ANNUAL12 for 12% off annual. Start with a Pilot Sprint, then
+              decide whether the monthly Industry Pack is right for your team.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* ── Pilot Sprint — the entry point ──────────────────────── */}
-      <section
-        className="relative py-32 md:py-48"
-        style={{ backgroundColor: 'var(--assembl-paper)' }}
-      >
-        <div
-          aria-hidden
-          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
-        >
-          <div
-            className="h-px w-full"
-            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
-          />
-        </div>
-        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-20 md:pt-28">
-          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
-            <div className="lg:col-start-2 lg:col-span-7">
-              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
-                The entry point
-              </p>
-              <h2 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
-                Pilot Sprint{' '}
-                <em className="not-italic text-gradient-hero">— NZ$5,000 + GST</em>.
-              </h2>
-              <p className="mt-6 font-display text-xl italic text-[color:var(--text-body)] md:text-2xl">
-                Two weeks. One workflow. Evidence by Friday.
-              </p>
-              <ul className="mt-12 space-y-5">
-                <li className="flex items-baseline gap-6">
-                  <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)] w-20 flex-none">
-                    Week 1
-                  </span>
-                  <span className="font-display text-xl text-[color:var(--text-primary)] md:text-2xl">
-                    Scope and draft.
-                  </span>
-                </li>
-                <li className="flex items-baseline gap-6">
-                  <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)] w-20 flex-none">
-                    Week 2
-                  </span>
-                  <span className="font-display text-xl text-[color:var(--text-primary)] md:text-2xl">
-                    Review and ship.
-                  </span>
-                </li>
-                <li className="flex items-baseline gap-6">
-                  <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)] w-20 flex-none">
-                    Friday
-                  </span>
-                  <span className="font-display text-xl text-[color:var(--text-primary)] md:text-2xl">
-                    Evidence pack delivered.
-                  </span>
-                </li>
-              </ul>
-              <div className="mt-12">
-                <Link
-                  href="/pilot-sprint"
-                  className="cta-primary inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
-                >
-                  Book a Pilot Sprint
-                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Subscribe — three tier cards ────────────────────────── */}
-      <section
-        className="relative py-32 md:py-48"
-        style={{ backgroundColor: 'var(--assembl-paper)' }}
-      >
-        <div
-          aria-hidden
-          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
-        >
-          <div
-            className="h-px w-full"
-            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
-          />
-        </div>
-        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-20 md:pt-28">
-          <div className="mb-16 grid grid-cols-1 gap-y-8 lg:grid-cols-12">
-            <div className="lg:col-start-2 lg:col-span-7">
-              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
-                Subscribe — three tiers
-              </p>
-              <h2 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
-                Predictable monthly.{' '}
-                <em className="not-italic text-gradient-hero">Quota included.</em>
-              </h2>
-            </div>
-          </div>
-
-          {/* Three cards. gap-px + container-bg renders 1px gold-thread
-              hairlines: horizontal between rows on mobile, vertical between
-              cols on desktop. */}
-          <div
-            className="grid grid-cols-1 gap-px lg:grid-cols-4"
-            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
+      <section className="py-16 md:py-24">
+        <div className="container">
+          <Link
+            href="/industry-pack"
+            className="group grid gap-6 border border-[rgba(212,168,83,0.45)] bg-white/50 p-8 transition duration-200 hover:-translate-y-0.5 md:grid-cols-[1fr_auto] md:items-center md:p-10"
           >
-            {TIERS.map((tier) => (
-              <article
-                key={tier.slug}
-                className="relative p-10 md:p-12"
-                style={{ backgroundColor: 'var(--assembl-paper)' }}
-              >
-                {tier.featured && (
-                  <span
-                    className="absolute right-8 top-8 font-mono text-[10px] uppercase tracking-[0.22em]"
-                    style={{ color: 'var(--assembl-pounamu)' }}
-                  >
-                    Most chosen
-                  </span>
-                )}
-                <h3 className="font-display text-3xl font-light text-[color:var(--text-primary)] md:text-4xl">
-                  {tier.name}
-                </h3>
-                <p className="mt-3 font-display text-base italic text-[color:var(--text-body)] md:text-lg">
-                  {tier.differentiator}
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+                Industry Pack
+              </p>
+              <h2 className="mt-3 font-display text-4xl font-light leading-[0.98] md:text-5xl">
+                NZ$5,000 a month. Pick one kete, switch any time.
+              </h2>
+              <p className="mt-4 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)]">
+                Six to eight specialist agents sequenced into one operating loop: find work, quote
+                it, run it, close the books.
+              </p>
+            </div>
+            <span className="inline-flex h-12 items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] px-6 text-sm font-semibold text-white">
+              See what&apos;s inside
+              <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
+            </span>
+          </Link>
+        </div>
+      </section>
+
+      <section className="pb-20 md:pb-28">
+        <div className="container">
+          <div className="grid gap-px border border-[rgba(212,168,83,0.32)] bg-[rgba(212,168,83,0.32)] md:grid-cols-2 lg:grid-cols-4">
+            {OFFERS.map((offer) => (
+              <article key={offer.name} className="flex min-h-[430px] flex-col bg-[color:var(--assembl-paper)] p-8">
+                <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+                  {offer.eyebrow}
                 </p>
-                <p className="mt-12 font-display text-5xl font-light leading-none text-[color:var(--text-primary)] md:text-6xl">
-                  {tier.monthly}
+                <h2 className="mt-5 font-display text-4xl font-light leading-none">{offer.name}</h2>
+                <p className="mt-8 font-display text-4xl font-light leading-none">{offer.price}</p>
+                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  {offer.setup}
                 </p>
-                <p className="mt-3 font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  / month · {tier.setup} · NZD ex GST
-                </p>
-                <ul className="mt-10 space-y-3 text-base text-[color:var(--text-body)]">
-                  {tier.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-3">
-                      <span
-                        aria-hidden
-                        className="mt-2.5 h-px w-3 flex-none"
-                        style={{
-                          backgroundColor: 'var(--assembl-gold-thread)',
-                        }}
-                      />
-                      <span>{b}</span>
+                <p className="mt-6 text-sm leading-relaxed text-[color:var(--text-body)]">{offer.body}</p>
+                <ul className="mt-8 space-y-3 text-sm text-[color:var(--text-body)]">
+                  {offer.features.map((feature) => (
+                    <li key={feature} className="flex gap-3">
+                      <span className="mt-2 h-px w-4 bg-[color:var(--assembl-gold-thread)]" />
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-12">
-                  <Link
-                    href="/pilot-sprint"
-                    className={`${tier.featured ? 'cta-primary' : 'btn-ghost'} inline-flex items-center px-7 py-3 text-base transition-transform hover:-translate-y-0.5`}
-                  >
-                    {tier.cta}
-                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                  </Link>
-                </div>
+                <Link
+                  href={offer.href}
+                  className={offer.featured ? 'cta-primary mt-auto inline-flex h-12 items-center justify-center px-6' : 'btn-ghost mt-auto inline-flex h-12 items-center justify-center px-6'}
+                >
+                  {offer.cta}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Other ways to buy — quieter ─────────────────────────── */}
-      <section
-        className="relative py-32 md:py-48"
-        style={{ backgroundColor: 'var(--assembl-paper)' }}
-      >
-        <div
-          aria-hidden
-          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
-        >
-          <div
-            className="h-px w-full"
-            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
-          />
-        </div>
-        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-20 md:pt-28">
-          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
-            <div className="lg:col-start-2 lg:col-span-7">
-              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
-                Other ways to buy
-              </p>
-              <h2 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
-                One-off, or{' '}
-                <em className="not-italic text-gradient-hero">outcome-based</em>.
-              </h2>
-              <ul className="mt-12 space-y-6 text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
-                <li>
-                  <span className="font-display italic text-[color:var(--text-primary)]">
-                    Pay per output
-                  </span>{' '}
-                  — from NZ$19. One-off jobs, no subscription.
-                </li>
-                <li>
-                  <span className="font-display italic text-[color:var(--text-primary)]">
-                    Pay per resolution
-                  </span>{' '}
-                  — from NZ$190. You pay only when the workflow lands: BCA accept,
-                  Customs accept, auditor sign-off.
-                </li>
-                <li>
-                  <span className="font-display italic text-[color:var(--text-primary)]">
-                    Outcome
-                  </span>{' '}
-                  — bespoke, from NZ$5,000.
-                </li>
-              </ul>
-              <div className="mt-12">
-                <Link
-                  href="/pilot-sprint"
-                  className="btn-ghost inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
-                >
-                  Talk to us
-                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
-                </Link>
-              </div>
+      <section className="border-t border-[rgba(212,168,83,0.36)] py-20 md:py-28">
+        <div className="container grid gap-10 lg:grid-cols-[0.85fr_1fr] lg:items-end">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+              The clean path
+            </p>
+            <h2 className="mt-5 font-display text-5xl font-light leading-[0.96] md:text-6xl">
+              Try it for two weeks. Keep it if the time comes back.
+            </h2>
+          </div>
+          <div>
+            <p className="text-lg leading-relaxed text-[color:var(--text-body)]">
+              Pilot Sprint proves one workflow with one evidence pack. Industry Pack turns the
+              whole operator&apos;s loop into a monthly fleet. Outcome stays available when the work
+              is bespoke.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/pilot-sprint" className="cta-primary inline-flex h-12 items-center justify-center px-8">
+                Book a Pilot Sprint
+              </Link>
+              <Link href="/industry-pack" className="btn-ghost inline-flex h-12 items-center justify-center px-8">
+                See Industry Pack
+              </Link>
             </div>
           </div>
         </div>
       </section>
-
-      {/* ── FAQ — sits between "Other ways to buy" and the footer CTA ── */}
-      <section
-        className="relative py-32 md:py-48"
-        style={{ backgroundColor: 'var(--assembl-paper)' }}
-      >
-        <div
-          aria-hidden
-          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
-        >
-          <div
-            className="h-px w-full"
-            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
-          />
-        </div>
-        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-20 md:pt-28">
-          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
-            <div className="lg:col-start-2 lg:col-span-9">
-              <p className="mb-6 font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)] md:mb-8">
-                Frequently asked
-              </p>
-              <h2 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
-                The questions{' '}
-                <em className="not-italic text-gradient-hero">we get most</em>.
-              </h2>
-
-              <Accordion type="single" collapsible className="mt-16 w-full">
-                <AccordionItem value="intercom-hubspot">
-                  <AccordionTrigger>
-                    How does assembl compare to Intercom or HubSpot per
-                    conversation?
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="space-y-4 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                      <p>
-                        Different product. Intercom and HubSpot price per
-                        conversation, mostly for customer-support chat. assembl
-                        prices per output — each one a sealed evidence pack
-                        with NZ legislation cited, a reasoning trace, and a
-                        named reviewer&apos;s sign-off.
-                      </p>
-                      <p>
-                        At low volume — under roughly 500 conversations a month —
-                        the global chat tools are cheaper per message.
-                        Operator at $1,490 only pencils out once your team is
-                        producing &gt; 500 governed outputs a month and you
-                        actually need the evidence trail.
-                      </p>
-                      <p>
-                        At volume, Operator&apos;s included quota and $12 marginal
-                        output cost run below per-conversation pricing on
-                        Intercom&apos;s Fin or HubSpot&apos;s Breeze. And neither
-                        competitor bundles Privacy Act 2020 controls, tikanga
-                        and Te Tiriti governance, email and SMS in the same
-                        runtime, or a tamper-evident receipt at the end of
-                        each workflow.
-                      </p>
-                      <p>
-                        We don&apos;t undercut on per-resolution. Pay per
-                        resolution starts at $190 because an assembl resolution
-                        is a regulated workflow landing — a BCA accept, a
-                        Customs accept, an auditor sign-off — not a chat
-                        message marked read.
-                      </p>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Footer line + single CTA ────────────────────────────── */}
-      <section
-        className="relative py-24 md:py-32"
-        style={{ backgroundColor: 'var(--assembl-paper)' }}
-      >
-        <div
-          aria-hidden
-          className="pointer-events-none mx-auto max-w-7xl px-6 md:px-12"
-        >
-          <div
-            className="h-px w-full"
-            style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
-          />
-        </div>
-        <div className="mx-auto max-w-7xl px-6 md:px-12 pt-16 md:pt-20">
-          <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
-            <div className="lg:col-start-2 lg:col-span-10">
-              <p className="font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
-                All prices NZD, GST exclusive. 12% off annual with code ANNUAL12.
-              </p>
-              <div className="mt-10">
-                <Link
-                  href="/pilot-sprint"
-                  className="cta-primary inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
-                >
-                  Book a Pilot Sprint
-                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+    </main>
   );
 }

@@ -1,487 +1,209 @@
 import { Link } from "react-router-dom";
-import { Check } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 
-/* ── Mārama Whenua palette (locked) ── */
 const C = {
-  bg: "#FAF7F2",
-  cloud: "#E8E4DE",
-  sand: "#B8B2A8",
-  taupe: "#23211F",
-  taupeDeep: "#23211F",
+  paper: "#FAF7F2",
+  pounamu: "#2B6B57",
   gold: "#D4A853",
-  goldDeep: "#2B6B57",
+  text: "#23211F",
+  secondary: "#6F6158",
 };
 
-type Tier = {
-  key: string;
-  name: string;
-  badge: string;
-  price: string;
-  cadence?: string;
-  setup?: string;
-  descriptor: string;
-  features: string[];
-  bestFor: string;
-  cta: { label: string; to: string };
-  highlight?: boolean;
-};
-
-const TIERS: Tier[] = [
+const OFFERS = [
   {
-    key: "family",
+    eyebrow: "WHĀNAU",
     name: "Tōro Family",
-    badge: "Whānau navigator",
-    price: "NZ$29",
-    cadence: "/mo",
+    price: "NZ$29/mo",
     setup: "$0 setup",
-    descriptor:
-      "The whānau navigator for school, money, routines, and the week ahead.",
-    features: [
-      "Tōro whānau navigator",
-      "Reviewed family actions and records",
-      "Cancel any time",
-    ],
-    bestFor:
-      "Families who need the week made visible without turning the house into a dashboard.",
-    cta: { label: "Book a pilot", to: "/pilot-sprint" },
+    body: "The whānau navigator for school, money, routines, and the week ahead.",
+    features: ["Tōro whānau navigator", "Reviewed family actions and records", "Cancel any time"],
+    cta: "Start Tōro",
+    to: "/toro",
+    highlight: false,
   },
   {
-    key: "operator",
-    name: "Operator",
-    badge: "1 kete + platform",
-    price: "NZ$1,490",
-    cadence: "/mo",
-    setup: "+ $590 setup",
-    descriptor:
-      "One specialist kete working across your operations, grounded in New Zealand legislation and reviewed by your team.",
-    features: [
-      "1 kete",
-      "Platform included",
-      "50 outputs included",
-      "Evidence packs for every workflow",
-    ],
-    bestFor:
-      "Owner-operators with one clear workflow that needs proof before it scales.",
-    cta: { label: "Book a pilot", to: "/pilot-sprint" },
+    eyebrow: "TRY BEFORE YOU BUY",
+    name: "Pilot Sprint",
+    price: "NZ$5,000 once-off",
+    setup: "No subscription required",
+    body: "Two weeks. One workflow. One evidence pack. Money-back if no time saved by week two.",
+    features: ["Scope and draft", "Review and ship", "Evidence pack delivered"],
+    cta: "Book a Pilot Sprint",
+    to: "/pilot-sprint",
+    highlight: false,
   },
   {
-    key: "leader",
-    name: "Leader",
-    badge: "2 kete + platform",
-    price: "NZ$1,990",
-    cadence: "/mo",
-    setup: "+ $1,290 setup",
-    descriptor:
-      "Two kete for teams where operational compliance crosses more than one lane.",
-    features: [
-      "2 kete",
-      "Platform included",
-      "150 outputs included",
-      "Weekly evidence pack",
-    ],
-    bestFor:
-      "Teams with multiple reviewers, repeat workflows, and evidence packs moving through the week.",
-    cta: { label: "Book a pilot", to: "/pilot-sprint" },
+    eyebrow: "FLAT-RATE OPERATIONS",
+    name: "Industry Pack",
+    price: "NZ$5,000/mo",
+    setup: "$0 setup",
+    body: "Six to eight specialist agents sequenced into one operating loop for one industry kete.",
+    features: ["Pick one of the 8 industry kete", "Switch kete any time", "No usage limits", "Cancel any time"],
+    cta: "See Industry Pack",
+    to: "/industry-pack",
     highlight: true,
   },
   {
-    key: "enterprise",
-    name: "Enterprise",
-    badge: "All 9 kete + platform",
-    price: "from NZ$2,990",
-    cadence: "/mo",
-    setup: "+ $2,890 setup",
-    descriptor:
-      "All nine kete and the platform layer for teams that need the same proof standard everywhere.",
-    features: [
-      "All 9 kete",
-      "Platform included",
-      "200 evidence packs / month",
-      "Named kaitiaki contact",
-    ],
-    bestFor:
-      "Multi-site or cross-functional teams that need a consistent evidence record across the whole operation.",
-    cta: { label: "Book a pilot", to: "/pilot-sprint" },
-  },
-  {
-    key: "outcome",
+    eyebrow: "BESPOKE",
     name: "Outcome",
-    badge: "Custom",
     price: "from NZ$5,000",
-    descriptor:
-      "Bespoke engagement. When the work is bespoke and the evidence pack is the contract. We embed alongside your team, map your workflows, and build the agents that handle them. Pricing tied to the time we give back — typically 10–20% of measured savings.",
-    features: [
-      "Everything in Enterprise",
-      "Custom workflow mapping",
-      "Dedicated onboarding (we run it for the first month)",
-      "Custom agent configuration",
-      "Outcome-based pricing",
-    ],
-    bestFor:
-      "Companies with high-value workflows — freight route optimisation, building maintenance scheduling, multi-site compliance — where getting it right saves tens of thousands.",
-    cta: { label: "Book a pilot", to: "/pilot-sprint" },
-  },
-];
-
-const FAQS = [
-  {
-    q: "How long does setup take?",
-    a: "Most businesses are fully operational within five business days. The first day is connecting your tools (about ten minutes of your time). Days two through four, we configure the agents for your workflows. Day five, everything goes live and we walk you through the dashboard.",
-  },
-  {
-    q: "Do my staff need training?",
-    a: "No. Your team keeps using the tools they already know. Assembl works behind those tools, and outputs arrive through email, SMS, or the dashboard. If someone can check their email, they can use Assembl.",
-  },
-  {
-    q: "What's a kete?",
-    a: "A kete is an industry-specific toolkit. There are nine: Waihanga, Manaaki, Pīkau, Arataki, Auaha, Ako, Mātauranga, Hoko, and Tōro for whānau.",
-  },
-  {
-    q: "What happens during setup?",
-    a: "We connect Assembl to the tools you already use — Xero, Deputy, Google Workspace. We map your key workflows and configure the agents for your specific business. You'll be operational within a week, and we check in after 30 days to tune things.",
-  },
-  {
-    q: "Can I start with one kete and add more later?",
-    a: "Yes. Most customers start with Operator for one kete, move to Leader for two, and use Enterprise when all nine kete need the same evidence standard.",
-  },
-  {
-    q: "Do I need to change how my team works?",
-    a: "No. Assembl connects to the tools your team already uses. Your staff keep using Xero, Deputy, Google — the agents work behind the scenes, pulling data in and pushing outputs back. Most of the value arrives through channels your team already checks: email, SMS, or the dashboard.",
-  },
-  {
-    q: "What about my data?",
-    a: "Your data is yours. We use Supabase with row-level security, and your evidence packs keep the reviewer, citations, and sign-off record together.",
-  },
-  {
-    q: "Is there a contract?",
-    a: "Month to month. No lock-in. The setup fee covers onboarding and configuration. If you leave, we export your data and evidence packs.",
+    setup: "Scoped engagement",
+    body: "Custom engagements for high-value workflows where the scope, evidence pack, and commercial model are agreed up front.",
+    features: ["Custom workflow map", "Named engagement team", "Evidence-pack contract"],
+    cta: "Talk to us",
+    to: "/contact",
+    highlight: false,
   },
 ];
 
 const PricingPage = () => (
-  <div className="min-h-screen" style={{ background: C.bg, color: C.taupeDeep }}>
+  <div className="min-h-screen" style={{ background: C.paper, color: C.text }}>
     <SEO
       title="Pricing — NZD, GST exclusive | Assembl"
-      description="Tōro Family NZ$29/mo · Operator NZ$1,490/mo · Leader NZ$1,990/mo · Enterprise from NZ$2,990/mo · Pilot Sprint NZ$5,000 + GST."
+      description="Tōro Family NZ$29/mo · Industry Pack NZ$5,000/mo · Pilot Sprint NZ$5,000 once-off · Outcome from NZ$5,000."
       path="/pricing"
     />
     <BrandNav />
 
-    {/* ═══ HEADER ═══ */}
-    <section className="pt-32 pb-12 px-6 text-center">
-      <div className="max-w-3xl mx-auto">
-        <p
-          className="text-[10px] tracking-[5px] uppercase mb-6 font-mono font-bold"
-          style={{ color: C.taupe }}
-        >
-          — Pricing · NZD, GST exclusive —
-        </p>
-        <h1
-          className="font-display mb-6"
-          style={{
-            fontWeight: 300,
-            fontSize: "clamp(2.5rem, 6vw, 4rem)",
-            lineHeight: 1.1,
-            color: C.taupe,
-            letterSpacing: "-0.01em",
-          }}
-        >
-          Pricing for work that <em style={{ fontStyle: "italic", color: C.goldDeep }}>needs proof.</em>
-        </h1>
-        <p
-          className="font-body text-[17px] leading-[1.7] max-w-2xl mx-auto"
-          style={{ color: C.taupeDeep }}
-        >
-          Start with a Pilot Sprint, then choose the plan that matches your kete coverage.
-          12% off annual with code ANNUAL12.
-        </p>
-      </div>
-    </section>
-
-    {/* ═══ VALUE ANCHOR ═══ */}
-    <section className="px-6 pb-14">
-      <div
-        className="max-w-2xl mx-auto rounded-3xl px-8 py-6 text-center backdrop-blur-xl"
-        style={{
-          background: "rgba(255,255,255,0.55)",
-          border: `1px solid ${C.sand}40`,
-          boxShadow: "0 8px 30px rgba(111,97,88,0.06)",
-        }}
-      >
-        <p className="font-body text-[14px] leading-[1.75]" style={{ color: C.taupeDeep }}>
-          Most NZ businesses spend <strong style={{ color: C.taupe }}>NZ$50,000+ a year</strong> on
-          admin, compliance paperwork, and scheduling. That's a person's salary, spent on work that
-          doesn't grow the business. Assembl gives you that capacity back.
-        </p>
-      </div>
-    </section>
-
-    {/* ═══ TIER CARDS ═══ */}
-    <section className="px-6 pb-24">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {TIERS.map((tier) => (
-          <div
-            key={tier.key}
-            className="relative rounded-3xl backdrop-blur-xl flex flex-col overflow-hidden"
+    <main>
+      <section className="px-6 pb-14 pt-32 text-center">
+        <div className="mx-auto max-w-4xl">
+          <p
+            className="mb-6 font-mono text-[11px] uppercase tracking-[0.28em]"
+            style={{ color: C.secondary }}
+          >
+            PRICING · NZD, GST EXCLUSIVE
+          </p>
+          <h1
+            className="font-display"
             style={{
-              background: tier.highlight ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.78)",
-              border: tier.highlight
-                ? `2px solid ${C.gold}`
-                : `1px solid ${C.sand}50`,
-              boxShadow: tier.highlight
-                ? "0 16px 50px rgba(217,188,122,0.18), 0 8px 30px rgba(111,97,88,0.08)"
-                : "0 8px 30px rgba(111,97,88,0.08)",
+              fontSize: "clamp(3.4rem, 7vw, 6.8rem)",
+              fontWeight: 300,
+              lineHeight: 0.92,
             }}
           >
-            {tier.highlight && (
-              <div
-                className="absolute top-5 right-5 px-3 py-1 rounded-full font-mono text-[10px] tracking-[2px] uppercase font-bold"
-                style={{ background: C.gold, color: "#FFFFFF" }}
-              >
-                Most popular
-              </div>
-            )}
+            One flat industry pack. One pilot to prove it.
+          </h1>
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed" style={{ color: C.secondary }}>
+            Start with a Pilot Sprint, then decide whether the monthly Industry Pack is right for
+            your team. Use code ANNUAL12 for 12% off annual.
+          </p>
+        </div>
+      </section>
 
-            <div className="p-8 flex flex-col flex-1">
-              {/* Tier name */}
-              <h3
-                className="font-display mb-2"
-                style={{
-                  fontWeight: 400,
-                  fontSize: "28px",
-                  color: C.taupe,
-                  letterSpacing: "0.02em",
-                }}
-              >
-                {tier.name}
-              </h3>
+      <section className="px-6 pb-16">
+        <Link
+          to="/industry-pack"
+          className="group mx-auto grid max-w-6xl gap-6 p-8 transition duration-200 hover:-translate-y-0.5 md:grid-cols-[1fr_auto] md:items-center md:p-10"
+          style={{
+            background: "rgba(255,255,255,0.52)",
+            border: `1px solid ${C.gold}72`,
+          }}
+        >
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em]" style={{ color: C.pounamu }}>
+              INDUSTRY PACK
+            </p>
+            <h2 className="mt-3 font-display text-4xl font-light leading-[0.98] md:text-5xl">
+              NZ$5,000 a month. Pick one kete, switch any time.
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed" style={{ color: C.secondary }}>
+              Six to eight specialist agents sequenced into one operating loop: find work, quote it,
+              run it, close the books.
+            </p>
+          </div>
+          <span
+            className="inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold text-white"
+            style={{ background: C.pounamu }}
+          >
+            See what&apos;s inside
+            <ArrowRight className="ml-2 h-4 w-4 transition group-hover:translate-x-0.5" />
+          </span>
+        </Link>
+      </section>
 
-              {/* Badge */}
-              <p
-                className="font-mono text-[10px] tracking-[3px] uppercase mb-6"
-                style={{ color: C.taupeDeep, opacity: 0.7 }}
-              >
-                {tier.badge}
+      <section className="px-6 pb-24">
+        <div
+          className="mx-auto grid max-w-6xl gap-px border md:grid-cols-2 lg:grid-cols-4"
+          style={{ background: `${C.gold}55`, borderColor: `${C.gold}55` }}
+        >
+          {OFFERS.map((offer) => (
+            <article key={offer.name} className="flex min-h-[430px] flex-col p-8" style={{ background: C.paper }}>
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em]" style={{ color: C.secondary }}>
+                {offer.eyebrow}
               </p>
-
-              {/* Price */}
-              <div className="mb-2 flex items-baseline gap-1">
-                <span
-                  className="font-display"
-                  style={{ fontWeight: 400, fontSize: "44px", color: C.taupe, lineHeight: 1 }}
-                >
-                  {tier.price}
-                </span>
-                {tier.cadence && (
-                  <span
-                    className="font-body text-[15px]"
-                    style={{ color: C.taupeDeep, opacity: 0.7 }}
-                  >
-                    {tier.cadence}
-                  </span>
-                )}
-              </div>
-
-              {tier.setup && (
-                <p
-                  className="font-mono text-[12px] mb-6"
-                  style={{ color: C.goldDeep, fontWeight: 600 }}
-                >
-                  {tier.setup}
-                </p>
-              )}
-              {!tier.setup && <div className="mb-6" />}
-
-              {/* Descriptor */}
-              <p
-                className="font-body text-[14px] leading-[1.7] mb-7 pb-7"
-                style={{
-                  color: C.taupeDeep,
-                  borderBottom: `1px solid ${C.sand}50`,
-                }}
-              >
-                {tier.descriptor}
+              <h2 className="mt-5 font-display text-4xl font-light leading-none">{offer.name}</h2>
+              <p className="mt-8 font-display text-4xl font-light leading-none">{offer.price}</p>
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em]" style={{ color: C.secondary }}>
+                {offer.setup}
               </p>
-
-              {/* Includes */}
-              <p
-                className="font-mono text-[10px] tracking-[2.5px] uppercase mb-4"
-                style={{ color: C.taupe, fontWeight: 700 }}
-              >
-                Includes
+              <p className="mt-6 text-sm leading-relaxed" style={{ color: C.secondary }}>
+                {offer.body}
               </p>
-              <ul className="space-y-3 mb-7 flex-1">
-                {tier.features.map((f) => (
-                  <li key={f} className="flex items-start gap-3">
-                    <div
-                      className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
-                      style={{
-                        background: `${C.gold}25`,
-                        border: `1px solid ${C.gold}50`,
-                      }}
-                    >
-                      <Check size={11} style={{ color: C.goldDeep }} strokeWidth={2.5} />
-                    </div>
-                    <span
-                      className="font-body text-[14px] leading-[1.55]"
-                      style={{ color: C.taupeDeep }}
-                    >
-                      {f}
-                    </span>
+              <ul className="mt-8 space-y-3 text-sm" style={{ color: C.secondary }}>
+                {offer.features.map((feature) => (
+                  <li key={feature} className="flex gap-3">
+                    <span className="mt-2 h-px w-4 shrink-0" style={{ background: C.gold }} />
+                    <span>{feature}</span>
                   </li>
                 ))}
               </ul>
-
-              {/* Best for */}
-              <div
-                className="rounded-2xl px-4 py-3 mb-6"
-                style={{ background: C.cloud, border: `1px solid ${C.sand}40` }}
-              >
-                <p
-                  className="font-mono text-[9px] tracking-[2.5px] uppercase mb-2"
-                  style={{ color: C.taupe, fontWeight: 700 }}
-                >
-                  Best for
-                </p>
-                <p
-                  className="font-body text-[13px] leading-[1.6]"
-                  style={{ color: C.taupeDeep }}
-                >
-                  {tier.bestFor}
-                </p>
-              </div>
-
-              {/* CTA */}
               <Link
-                to={tier.cta.to}
-                className="block text-center w-full py-3.5 rounded-full font-body text-[13px] tracking-[1.5px] uppercase font-semibold transition-all duration-300 hover:scale-[1.02]"
+                to={offer.to}
+                className="mt-auto inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold"
                 style={{
-                  background: tier.highlight
-                    ? `linear-gradient(135deg, ${C.gold}, ${C.goldDeep})`
-                    : "transparent",
-                  color: tier.highlight ? "#FFFFFF" : C.goldDeep,
-                  border: tier.highlight ? "none" : `1.5px solid ${C.gold}`,
-                  boxShadow: tier.highlight
-                    ? "0 6px 20px rgba(217,188,122,0.35)"
-                    : "none",
+                  background: offer.highlight ? C.pounamu : "transparent",
+                  border: offer.highlight ? "none" : `1px solid ${C.pounamu}55`,
+                  color: offer.highlight ? "#FFFFFF" : C.pounamu,
                 }}
               >
-                {tier.cta.label}
+                {offer.cta}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-6 py-24" style={{ borderTop: `1px solid ${C.gold}55` }}>
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1fr] lg:items-end">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em]" style={{ color: C.secondary }}>
+              THE CLEAN PATH
+            </p>
+            <h2 className="mt-5 font-display text-5xl font-light leading-[0.96] md:text-6xl">
+              Try it for two weeks. Keep it if the time comes back.
+            </h2>
+          </div>
+          <div>
+            <p className="text-lg leading-relaxed" style={{ color: C.secondary }}>
+              Pilot Sprint proves one workflow with one evidence pack. Industry Pack turns the
+              whole operator&apos;s loop into a monthly fleet. Outcome stays available when the work
+              is bespoke.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                to="/pilot-sprint"
+                className="inline-flex h-12 items-center justify-center rounded-full px-8 text-sm font-semibold text-white"
+                style={{ background: C.pounamu }}
+              >
+                Book a Pilot Sprint
+              </Link>
+              <Link
+                to="/industry-pack"
+                className="inline-flex h-12 items-center justify-center rounded-full border px-8 text-sm font-semibold"
+                style={{ borderColor: `${C.pounamu}55`, color: C.pounamu }}
+              >
+                See Industry Pack
               </Link>
             </div>
           </div>
-        ))}
-      </div>
-    </section>
-
-    {/* ═══ THE MATHS ═══ */}
-    <section className="px-6 pb-24">
-      <div
-        className="max-w-3xl mx-auto rounded-3xl bg-white/80 backdrop-blur-xl p-10"
-        style={{
-          border: `1px solid ${C.sand}50`,
-          boxShadow: "0 8px 30px rgba(111,97,88,0.08)",
-        }}
-      >
-        <h2
-          className="font-display mb-6"
-          style={{
-            fontWeight: 400,
-            fontSize: "30px",
-            color: C.taupe,
-            lineHeight: 1.2,
-          }}
-        >
-          What does NZ$1,990 a month actually buy?
-        </h2>
-        <div className="space-y-5 font-body text-[15px] leading-[1.75]" style={{ color: C.taupeDeep }}>
-          <p>
-            A part-time operations coordinator costs around{" "}
-            <strong style={{ color: C.taupe }}>NZ$35,000 a year</strong>. That's NZ$2,900 a month
-            before KiwiSaver, ACC, leave, and training. Assembl does the same operational work —
-            compliance checks, scheduling, reporting, evidence packs — for NZ$1,990. No sick days, no
-            holidays, no recruitment costs. And it works at 2am when the morning shift roster needs
-            adjusting.
-          </p>
-          <p>
-            The Enterprise tier? A compliance officer costs NZ$75,000+. A marketing coordinator
-            another NZ$55,000. Assembl's Enterprise plan starts from{" "}
-            <strong style={{ color: C.taupe }}>NZ$35,880 a year</strong>. That's less than one salary
-            covering the work of several roles.
-          </p>
         </div>
-      </div>
-    </section>
-
-    {/* ═══ FAQ ═══ */}
-    <section className="px-6 pb-32">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-10">
-          <p
-            className="font-mono text-[10px] tracking-[5px] uppercase mb-4 font-bold"
-            style={{ color: C.taupe }}
-          >
-            — Common questions —
-          </p>
-          <h2
-            className="font-display"
-            style={{
-              fontWeight: 300,
-              fontSize: "clamp(1.875rem, 4vw, 2.5rem)",
-              color: C.taupe,
-              lineHeight: 1.15,
-            }}
-          >
-            Things people ask before signing up.
-          </h2>
-        </div>
-
-        <Accordion
-          type="single"
-          collapsible
-          className="rounded-3xl bg-white/80 backdrop-blur-xl px-6"
-          style={{
-            border: `1px solid ${C.sand}50`,
-            boxShadow: "0 8px 30px rgba(111,97,88,0.08)",
-          }}
-        >
-          {FAQS.map((item, i) => (
-            <AccordionItem
-              key={item.q}
-              value={`faq-${i}`}
-              className={i === FAQS.length - 1 ? "border-b-0" : ""}
-              style={{ borderColor: `${C.sand}40` }}
-            >
-              <AccordionTrigger
-                className="font-display text-left hover:no-underline py-5"
-                style={{
-                  fontWeight: 400,
-                  fontSize: "18px",
-                  color: C.taupe,
-                }}
-              >
-                {item.q}
-              </AccordionTrigger>
-              <AccordionContent
-                className="font-body text-[15px] leading-[1.75] pb-5"
-                style={{ color: C.taupeDeep }}
-              >
-                {item.a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <BrandFooter />
   </div>
