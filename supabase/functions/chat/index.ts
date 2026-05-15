@@ -18,6 +18,7 @@ const AGENT_TO_KETE: Record<string, Kete> = {
   freight: "pikau", pikau: "pikau", customs: "pikau",
   retail: "hoko", hoko: "hoko",
   ako: "ako", earlychildhood: "ako",
+  matauranga: "matauranga", secondary: "matauranga", school: "matauranga",
   toro: "toro", family: "toro", toroa: "toro",
 };
 

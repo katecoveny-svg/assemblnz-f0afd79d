@@ -9,6 +9,12 @@ project_id = "wurwcrgxjjwqdaxqceey"
     verify_jwt = false
   [functions.agent-sms]
     verify_jwt = false
+  [functions.agent-ako]
+    verify_jwt = false
+  [functions.agent-matauranga]
+    verify_jwt = false
+  [functions.agent-hoko]
+    verify_jwt = false
   [functions.assembl-mcp]
     verify_jwt = false
   [functions.ata-bim]

@@ -44,6 +44,7 @@ export type Kete =
   | "pikau"
   | "hoko"
   | "ako"
+  | "matauranga"
   | "toro";
 
 export type LiveDataScope =
@@ -144,6 +145,7 @@ export const KETE_SCOPES: Record<Kete, LiveDataScope[]> = {
   pikau: ["weather", "compliance", "knowledge_base", "routes", "freight", "ais", "marine"],
   hoko: ["compliance", "knowledge_base"],
   ako: ["compliance", "knowledge_base"],
+  matauranga: ["compliance", "knowledge_base"],
   toro: ["weather", "knowledge_base"],
 };
 
