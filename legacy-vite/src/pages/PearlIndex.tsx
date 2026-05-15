@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
@@ -26,6 +26,10 @@ const PEARL = {
   seaGlass: "#C4D6D2",
   harbour: "#1B2A2E",
 };
+
+const HERO_IMAGE = "/img/evidence/home-vessel.jpg";
+const HERO_VIDEO = "/videos/vessel-rotate-720p.mp4";
+const GOLD_THREAD = "#D4A853";
 
 /* ─── Motion presets ─── */
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -189,114 +193,31 @@ const InkButton = ({
 /* ─── Sections ─── */
 
 function Hero() {
+  const reduceMotion = useReducedMotion();
+  const coreInitial = reduceMotion ? false : { opacity: 0.76, y: 18 };
+  const visualInitial = reduceMotion ? false : { opacity: 0.9, y: 24, scale: 0.985 };
+
   return (
     <section
-      className="relative overflow-hidden"
-      style={{ minHeight: "92vh", background: PEARL.bg }}
+      className="relative overflow-hidden px-5 py-16 sm:px-8 sm:py-24 lg:min-h-[88vh] lg:px-10 lg:py-28"
+      style={{
+        background:
+          "linear-gradient(135deg, #FAF7F2 0%, #F4EFE6 42%, #E8EFE9 100%)",
+      }}
     >
-      {/* Soft icy backdrop wash — full-bleed, anchored on right where the kete lives */}
       <div
+        aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 90% 70% at 72% 42%, rgba(255,236,210,0.55) 0%, rgba(255,236,210,0.18) 38%, transparent 68%), radial-gradient(ellipse 70% 60% at 28% 72%, rgba(228,238,236,0.5) 0%, transparent 70%), linear-gradient(180deg, rgba(255,248,236,0.35) 0%, transparent 55%)",
+            "radial-gradient(circle at 82% 16%, rgba(31,77,71,0.18), transparent 30%), radial-gradient(circle at 12% 88%, rgba(212,168,83,0.16), transparent 34%)",
         }}
       />
-      {/* Horizontal pearl band — unifies hero across full width so the kete reads as one continuous atmosphere */}
       <div
-        className="absolute hidden md:block pointer-events-none"
-        style={{
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "100%",
-          background:
-            "radial-gradient(ellipse 65% 55% at 75% 45%, rgba(255,242,222,0.42) 0%, rgba(255,242,222,0.12) 45%, transparent 70%)",
-        }}
+        aria-hidden
+        className="absolute left-1/2 top-10 h-[560px] w-[560px] -translate-x-1/2 rounded-full opacity-45 blur-3xl"
+        style={{ background: "rgba(31,77,71,0.12)" }}
       />
-      {/* Desktop: kete nested INSIDE a warm pearl cloud — TRUE full-bleed across the whole hero */}
-      <div
-        className="absolute hidden md:block pointer-events-none"
-        style={{
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          // Soft radial mask so the kete container has NO visible edge — it dissolves into the page
-          maskImage:
-            "radial-gradient(ellipse 60% 70% at 70% 50%, black 28%, rgba(0,0,0,0.55) 55%, transparent 82%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 60% 70% at 70% 50%, black 28%, rgba(0,0,0,0.55) 55%, transparent 82%)",
-        }}
-      >
-        {/* Layer 0 — warm pearl cumulus that wraps the kete */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <HeroCloud height={820} opacity={0.95} />
-          </Suspense>
-        </div>
-        {/* Layer 0.5 — Aotearoa silhouette watermark, hand-traced inside the mist */}
-        <svg
-          viewBox="0 0 200 320"
-          width={280}
-          height={448}
-          className="absolute"
-          style={{
-            top: "30%",
-            left: "42%",
-            filter: "blur(1.4px)",
-            opacity: 0.7,
-            mixBlendMode: "multiply",
-          }}
-          aria-hidden="true"
-        >
-          {/* North Island — softened hand-traced shape */}
-          <path
-            d="M118 24 C 132 30 138 46 134 60 C 142 70 150 86 146 102 C 158 110 162 128 152 142 C 156 158 148 174 132 178 C 122 188 106 188 96 180 C 82 184 68 174 70 158 C 60 150 60 134 70 124 C 64 110 72 92 88 88 C 92 72 102 58 104 44 C 106 32 110 24 118 24 Z"
-            fill="rgba(31,77,71,0.06)"
-          />
-          {/* South Island */}
-          <path
-            d="M70 196 C 88 198 110 210 124 226 C 138 242 142 264 130 282 C 116 298 92 304 70 296 C 50 288 38 268 42 248 C 46 228 56 210 70 196 Z"
-            fill="rgba(31,77,71,0.06)"
-          />
-          {/* Stewart Island — tiny dot */}
-          <ellipse cx="92" cy="312" rx="6" ry="3.5" fill="rgba(31,77,71,0.05)" />
-        </svg>
-        {/* Layer 1 — the kete, nested in the mist (scales up on wider viewports for true full-bleed feel) */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <KeteFocus size={860} sparkles={64} rimSparkles={48} priority warmGlow />
-          </Suspense>
-        </div>
-      </div>
-      {/* Mobile: kete in cloud, behind copy — TRUE full-bleed (100vw) so it spans the whole device width */}
-      <div
-        className="absolute md:hidden pointer-events-none"
-        style={{
-          top: 0,
-          left: 0,
-          right: 0,
-          width: "100vw",
-          height: "min(78vh, 560px)",
-          opacity: 0.95,
-          maskImage:
-            "radial-gradient(ellipse 80% 65% at 50% 50%, black 32%, rgba(0,0,0,0.55) 60%, transparent 88%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 65% at 50% 50%, black 32%, rgba(0,0,0,0.55) 60%, transparent 88%)",
-        }}
-      >
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <HeroCloud height={520} opacity={0.85} />
-          </Suspense>
-        </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Suspense fallback={null}>
-            <KeteFocus size={Math.min(420, typeof window !== "undefined" ? window.innerWidth * 0.92 : 380)} sparkles={32} priority warmGlow />
-          </Suspense>
-        </div>
-      </div>
-      {/* Bottom fade — bleeds the hero atmosphere into the next section seamlessly */}
       <div
         className="absolute inset-x-0 bottom-0 pointer-events-none"
         style={{
@@ -305,66 +226,120 @@ function Hero() {
         }}
       />
 
-      <div className="w-full px-6 md:px-16 lg:px-24 relative z-10" style={{ paddingTop: "16vh" }}>
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease }}>
-          <Eyebrow>Assembl · Built in Aotearoa</Eyebrow>
+      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-12 lg:gap-14">
+        <motion.div
+          className="lg:col-span-6"
+          initial={coreInitial}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease }}
+        >
+          <Eyebrow>Assembl evidence vessel</Eyebrow>
+          <h1
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontWeight: 500,
+              fontSize: "clamp(40px, 5.4vw, 74px)",
+              lineHeight: 0.98,
+              letterSpacing: "-0.01em",
+              color: "#23211F",
+              maxWidth: "14.5ch",
+              margin: 0,
+            }}
+          >
+            Specialist agents for NZ work that needs proof.
+          </h1>
+
+          <motion.div
+            initial={coreInitial}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: reduceMotion ? 0 : 0.08, ease }}
+            style={{ maxWidth: 590, marginTop: 22 }}
+          >
+            <Body>
+              Assembl runs operational AI in the open: every workflow is grounded in New Zealand context, reviewed by people, and sealed with an evidence pack you can file, forward, or footnote.
+            </Body>
+          </motion.div>
+
+          <motion.div
+            initial={coreInitial}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: reduceMotion ? 0 : 0.16, ease }}
+            className="flex items-center gap-4 flex-wrap pl-16"
+            style={{ marginTop: 24 }}
+          >
+            <InkButton to="/demos">Run a proof demo</InkButton>
+            <InkButton to="/kete" variant="outline">Explore kete</InkButton>
+          </motion.div>
+
+          <motion.div
+            className="grid max-w-[620px] gap-3 sm:grid-cols-3"
+            initial={coreInitial}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: reduceMotion ? 0 : 0.24, ease }}
+            style={{ marginTop: 40 }}
+          >
+            {["Privacy Act aware", "Human sign-off", "Evidence pack sealed"].map((item) => (
+              <div
+                key={item}
+                className="rounded-[18px] px-4 py-3 text-[11px] uppercase"
+                style={{
+                  background: "rgba(250,247,242,0.72)",
+                  border: "1px solid rgba(31,77,71,0.16)",
+                  color: PEARL.pounamu,
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  letterSpacing: "0.16em",
+                }}
+              >
+                {item}
+              </div>
+            ))}
+          </motion.div>
         </motion.div>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0)" }}
-          transition={{ duration: 1.2, ease, delay: 0.15 }}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontWeight: 300,
-            fontSize: "clamp(48px, 7.6vw, 104px)",
-            lineHeight: 1.04,
-            letterSpacing: "-0.018em",
-            color: PEARL.ink,
-            maxWidth: "16ch",
-            margin: 0,
-          }}
-        >
-          Built for the way New Zealand actually works.
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease, delay: 0.5 }}
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontStyle: "italic",
-            fontWeight: 400,
-            fontSize: "clamp(20px, 1.9vw, 26px)",
-            color: PEARL.pounamu,
-            marginTop: 28,
-            letterSpacing: "0.005em",
-          }}
-        >
-          Premium intelligence that understands what matters.
-        </motion.p>
-
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease, delay: 0.7 }}
-          style={{ maxWidth: 620, marginTop: 36 }}
+          className="relative lg:col-span-6"
+          initial={visualInitial}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, delay: reduceMotion ? 0 : 0.08, ease }}
         >
-          <Body large>
-            NZ specialist AI agents and workflows that finish the work — and give you valuable time back. Every workflow produces a pack that can be filed or audited, and stays current as the law changes.
-          </Body>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease, delay: 0.9 }}
-          className="flex items-center gap-8 flex-wrap"
-          style={{ marginTop: 44 }}
-        >
-          <InkButton to="/how-it-works">See what a quiet day looks like</InkButton>
-          <InkButton to="/pricing" variant="underline">View pricing</InkButton>
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-[560px] overflow-hidden rounded-[34px] border border-white/70 bg-white/40 shadow-[0_34px_90px_-42px_rgba(35,33,31,0.42)]">
+            <video
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-multiply"
+              autoPlay={!reduceMotion}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            >
+              <source src={HERO_VIDEO} type="video/mp4" />
+            </video>
+            <img
+              src={HERO_IMAGE}
+              alt="Assembl Evidence Vessel sculptural pounamu form"
+              className="relative z-10 h-full w-full object-cover"
+              fetchPriority="high"
+            />
+            <div
+              aria-hidden
+              className="absolute inset-x-8 bottom-8 z-20 flex items-center justify-between rounded-full px-4 py-3 text-[10px] uppercase backdrop-blur-xl"
+              style={{
+                background: "rgba(250,247,242,0.74)",
+                border: "1px solid rgba(255,255,255,0.7)",
+                color: "#23211F",
+                fontFamily: "'IBM Plex Mono', monospace",
+                letterSpacing: "0.18em",
+              }}
+            >
+              <span>Evidence vessel</span>
+              <span style={{ color: GOLD_THREAD }}>sealed proof</span>
+            </div>
+          </div>
+          <div
+            aria-hidden
+            className="absolute -bottom-8 left-1/2 h-16 w-[72%] -translate-x-1/2 rounded-full blur-2xl"
+            style={{ background: "rgba(31,77,71,0.16)" }}
+          />
         </motion.div>
       </div>
     </section>
