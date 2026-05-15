@@ -71,7 +71,7 @@ export default function ManaakiLandingPage() {
     <LightPageShell>
       <div style={{ minHeight: "100vh" }}>
         <SEO
-          title="Manaaki — Hospitality & Tourism | assembl"
+          title="Manaaki — Hospitality | assembl"
           description="Food safety, alcohol licensing, guest experience, sustainability — hospitality compliance without the paperwork pile-up. Built for NZ operators."
         />
         <BrandNav />
@@ -115,7 +115,7 @@ export default function ManaakiLandingPage() {
             style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, textTransform: "uppercase" }}
             variants={fadeUp} initial="hidden" animate="visible" custom={0}
           >
-            Manaaki · Hospitality & Tourism
+            Manaaki · Hospitality
           </motion.p>
 
           {/* Hero headline with gradient text */}
@@ -340,7 +340,7 @@ export default function ManaakiLandingPage() {
         
         <BrandFooter />
         <KeteAgentChat
-          keteName="Manaaki" keteLabel="Hospitality & Tourism" accentColor="#4AA5A8"
+          keteName="Manaaki" keteLabel="Hospitality" accentColor="#4AA5A8"
           defaultAgentId="aura" packId="manaaki"
           starterPrompts={["What does Manaaki cover for hospitality?", "How does food safety compliance work?", "Tell me about alcohol licensing support", "What evidence packs do I get?"]}
         />

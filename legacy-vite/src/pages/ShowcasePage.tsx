@@ -74,7 +74,7 @@ const KETE_CLIPS = [
 const SIZZLE_REELS = [
   {
     title: "Platform Sizzle Reel",
-    description: "Seven industries plus Tōro, one governed intelligence layer. Generated with NZ voiceover.",
+    description: "Nine kete, one governed agent layer. Generated with NZ voiceover.",
     videoUrl: "sizzle-reels/Assembl-Sizzle-Reel-A.mp4",
   },
   {
@@ -84,7 +84,7 @@ const SIZZLE_REELS = [
   },
   {
     title: "60-Second Introduction",
-    description: "One-minute introduction to the platform, the pipeline, and why NZ needs its own AI compliance layer.",
+    description: "One-minute introduction to the platform, the pipeline, and why NZ needs its own agent compliance layer.",
     videoUrl: "sizzle-reels/Assembl-60sec-Overview.mp4",
   },
 ];
@@ -251,8 +251,8 @@ export default function ShowcasePage() {
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.text }}>
       <SEO
-        title="Showcase — See Assembl in action | NZ AI agents"
-        description="Watch Assembl's AI agents work across five NZ industries — hospitality, construction, creative, automotive, freight & customs. Compliance-first, tikanga-aligned."
+        title="Showcase — See assembl in action | specialist agents"
+        description="Watch assembl specialist agents work across nine kete. Compliance-first, tikanga-aligned."
       />
       <BrandNav />
 
@@ -286,7 +286,7 @@ export default function ShowcasePage() {
             className="text-lg leading-relaxed max-w-2xl mx-auto"
             style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}
           >
-            AI agents working across five NZ industries — built for the laws and language of Aotearoa.
+            Specialist agents working across nine kete — built for the laws and language of Aotearoa.
           </p>
         </motion.div>
       </section>

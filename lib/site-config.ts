@@ -33,7 +33,7 @@ export const heroVessel = {
 // Painterly anchor — /about hero only.
 export const painterlyAnchor = `${PUB}/pbf01KR2C71SD_5DYB1N0ZR3DG7GFQ/assembl-waihanga-1778139014339.jpg`;
 
-// 8 kete vessels — 1:1 (card) + 16:9 (page hero)
+// Nine kete vessels — 1:1 (card) + 16:9 (page hero)
 export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
   waihanga: {
     square: `${PUB}/pbf01KR2AKJMZ_ZMB5AHZX86C6TQ7T/011e070e-7833-400c-9498-0c234754b478.png`,
@@ -127,26 +127,19 @@ export const heroVideos: Record<HeroVideoKey, HeroVideoEntry> = {
 // ── Locked Reo Phase 1 (signed off 2026-05-08, do not edit lightly) ──────────
 
 export const reo = {
-  // Q1 — Homepage hero lede (Option A locked 2026-05-14: outcome-first positioning)
-  // Previous version: "quiet intelligence for Aotearoa" — too ambiguous, didn't say
-  // what assembl IS. Kate's 14 May lock-in: replace with outcome-first framing.
   heroLede:
-    'Specialist agents draft your consents, customs entries, audit-pack documentation. Every output ends in a signed evidence record. Built in Aotearoa, reviewed by your team.',
+    'Assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
 
-  // Q1 — Option A locked 2026-05-14 (replaces 8 May Variant A "quiet intelligence for Aotearoa").
-  // Says WHAT assembl is (compliance evidence packs), WHO it's for (NZ industries),
-  // and WHAT outcome (signed evidence record at the end of every workflow).
-  // Two-line presentation matches the existing HeroWordReveal layout.
   heroHeadlineLines: [
-    'Compliance evidence packs',
-    'for New Zealand industries.',
+    'Specialist agents for NZ work',
+    'that needs proof.',
   ] as const,
 
   // Q3 — Homepage pull quote
-  pullQuote: 'Intelligent automation with adult supervision.',
+  pullQuote: 'Time is the thing. We give it back.',
 
   // Q2 — Trust strip. Item 3 locked verbatim. Items 1 & 2 reframed 2026-05-09
-  // under the vertical-AI strategy memo: surface the governance substrate
+  // under the vertical-agent strategy memo: surface the governance substrate
   // (Privacy Act 2020, tikanga + Te Tiriti) instead of geography.
   trustStrip: [
     'Privacy Act 2020 compliant',
@@ -168,17 +161,17 @@ export const reo = {
 
   // Brand-film section — homepage. Variant A locked.
   brandFilm: {
-    eyebrow: 'Quiet intelligence, in motion.',
+    eyebrow: 'assembl evidence vessel',
     body:
       'A short film about how assembl works. Cream paper. The vessel breathes. Kate explains it in 90 seconds.',
     cta: 'Sound on. Narrated in NZ English.',
     duration: '90 seconds',
   },
 
-  // ── Strategic positioning copy (added 2026-05-09 per vertical-AI strategy
+  // ── Strategic positioning copy (added 2026-05-09 per vertical-agent strategy
   // memo). These are NEW strings — they sit ALONGSIDE the locked Reo, never
   // replacing it. Three customer-facing labels are introduced:
-  //   Mana Receipts       → "evidence ledger and AI work diary"
+  //   Mana Receipts       → "evidence ledger and agent work diary"
   //   Plugin Canon        → "NZ policy runtime"
   //   A2A email substrate → "agent-to-agent collection loop"
 
@@ -189,9 +182,9 @@ export const reo = {
   // /agents — positioning paragraph below the existing lede. Reframes the
   // marketplace as specialist kete on a shared NZ policy runtime.
   agentsPolicyRuntimeIntro:
-    'Each kete sits on the same NZ policy runtime — Privacy Act 2020 controls, tikanga and Te Tiriti governance, full audit trail, and signed receipts built into the substrate. What works for one industry is consistent across all nine.',
+    'Each kete sits on the same NZ policy runtime — Privacy Act 2020 controls, tikanga and Te Tiriti governance, full audit trail, and signed receipts built into the substrate. What works for one industry is consistent across all nine kete.',
 
-  // /about — strategic positioning sentence per the vertical-AI strategy memo.
+  // /about — strategic positioning sentence per the vertical-agent strategy memo.
   aboutPositioning:
     'assembl is the cross-vertical trust-and-control layer for operational agents in New Zealand document-heavy workflows.',
 };
@@ -311,4 +304,4 @@ export const navCta = { href: '/pilot-sprint', label: 'Book a pilot' };
 // ── Footer disclaimer — Plugin Architecture Canon §4 (verbatim) ──────────────
 
 export const footerDisclaimer =
-  'assembl uses intelligent agents to draft, check, and document work — every output is reviewed by a named human in your team before it ships. We do not provide legal, tax, or medical advice. We do not generate karakia, whaikōrero, mihimihi, pepeha, or waiata.';
+  'assembl evidence vessel. Built in Aotearoa. Time is the thing. We give it back. Every output is reviewed by a named human in your team before it ships. We do not provide legal, tax, or medical advice. We do not generate karakia, whaikōrero, mihimihi, pepeha, or waiata.';

@@ -145,7 +145,7 @@ export default function DashboardsHubPage() {
     >
       <SEO
         title="Dashboards · all agents and kete | Assembl"
-        description="Live status across every Assembl kete and specialist agent. Jump straight into the dashboard for Manaaki, Waihanga, Auaha, Arataki, Pikau, Hoko, Ako or Tōro."
+        description="Live status across every assembl kete and specialist agent. Jump straight into the dashboard for Waihanga, Manaaki, Pīkau, Arataki, Auaha, Ako, Mātauranga, Hoko, or Tōro."
       />
       <BrandNav />
 

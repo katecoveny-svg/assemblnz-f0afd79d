@@ -22,7 +22,7 @@
     --secondary: 36 18% 89%;
     --secondary-foreground: 30 6% 13%;
     --muted: 36 18% 89%;
-    --muted-foreground: 37 11% 69%;
+    --muted-foreground: 22 12% 39%;
     --accent: 161 43% 29%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 50% 50%;
@@ -35,6 +35,7 @@
     --assembl-paper: #FAF7F2;           /* base canvas */
     --assembl-mist: #FAF7F2;
     --assembl-cloud: #E8E4DE;
+    --assembl-cloud-legacy: #E8E4DE;
     --assembl-sand: #B8B2A8;
     --assembl-taupe: #B8B2A8;
     --assembl-taupe-deep: #23211F;
@@ -66,6 +67,7 @@
     --kete-toro: #23211F;
     --kete-hoko: #7B3F8F;
     --kete-ako: #6B5843;
+    --kete-matauranga: #3D5A7A;
   }
 
   html {
@@ -109,14 +111,15 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 0.95;
     color: var(--text-primary);
   }
 
   h1 {
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 300;
+    letter-spacing: 0;
   }
 
   code, pre, .font-mono {

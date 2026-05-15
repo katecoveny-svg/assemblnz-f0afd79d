@@ -91,7 +91,7 @@ export default function NextPreview() {
               color: "#3D4250B3",
             }}
           >
-            Manaaki (hospitality), Waihanga (construction), Auaha (creative), Arataki (automotive &amp; fleet), Pikau (freight &amp; customs), Hoko (retail), Ako (early childhood) — and Tōro for whānau. Every output runs through Kahu → Iho → Tā → Mahara → Mana, grounded in live-updated NZ Acts and regulator guidance.
+            Waihanga (construction), Manaaki (hospitality), Pīkau (freight &amp; customs), Arataki (automotive &amp; fleet), Auaha (creative), Ako (early childhood), Mātauranga (secondary education), Hoko (retail), and Tōro for whānau. Every output runs through Kahu → Iho → Tā → Mahara → Mana, grounded in live-updated NZ Acts and regulator guidance.
           </p>
 
           {/* Three pillars */}

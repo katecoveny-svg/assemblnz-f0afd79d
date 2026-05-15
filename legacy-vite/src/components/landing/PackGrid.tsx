@@ -61,7 +61,7 @@ const PACKS: PackCard[] = [
   },
   {
     id: "pikau",
-    name: "Pikau",
+    name: "Pīkau",
     label: "FREIGHT & CUSTOMS",
     description:
       "Route optimisation, declarations, broker hand-off, customs compliance.",
@@ -196,7 +196,7 @@ const PackGrid = () => {
               backdropFilter: "blur(12px)",
             }}
           >
-            See all 7 kete + Tōro <ArrowRight size={14} />
+            See all 9 kete <ArrowRight size={14} />
           </Link>
         </div>
       </div>

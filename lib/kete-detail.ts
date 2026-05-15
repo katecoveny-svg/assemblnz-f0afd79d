@@ -285,7 +285,7 @@ export const KETE_DETAIL: Record<
     ],
     placeholderAgents: [
       {
-        name: 'Pikau',
+        name: 'Pīkau',
         description: 'Customs declarations — drafts entries citing Customs and Excise Act 2018 inline.',
       },
       {

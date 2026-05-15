@@ -11,20 +11,35 @@ import {
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Subscribe, pay per output, or pay per resolution. Pilot Sprint comes first.',
+    'Tōro Family, Operator, Leader, Enterprise, Pilot Sprint, and Outcome pricing. NZD, GST exclusive.',
 };
 
 // Locked numbers per PRICING-LOCKED.md (2026-04-08).
 // Numbers are not to be changed. Bullets are short editorial summaries.
 const TIERS = [
   {
+    slug: 'family',
+    name: 'Tōro Family',
+    differentiator: 'Whānau navigator.',
+    monthly: 'NZ$29',
+    setup: '$0 setup',
+    bullets: [
+      'Tōro whānau navigator',
+      'School, money, routines, and the week ahead',
+      'Reviewed family actions and records',
+      'Cancel any time',
+    ],
+    cta: 'Start Tōro',
+  },
+  {
     slug: 'operator',
     name: 'Operator',
-    differentiator: 'Single team. One workflow.',
-    monthly: '$1,490',
+    differentiator: '1 kete + platform.',
+    monthly: 'NZ$1,490',
+    setup: '$590 setup',
     bullets: [
       '1 kete',
-      'Up to 5 seats',
+      'Platform included',
       '50 outputs included',
       '$12 per extra output',
     ],
@@ -33,11 +48,12 @@ const TIERS = [
   {
     slug: 'leader',
     name: 'Leader',
-    differentiator: 'Multiple teams. Multiple kete.',
-    monthly: '$1,990',
+    differentiator: '2 kete + platform.',
+    monthly: 'NZ$1,990',
+    setup: '$1,290 setup',
     bullets: [
-      'All kete',
-      'Up to 15 seats',
+      '2 kete',
+      'Platform included',
       '150 outputs included',
       '$8 per extra output',
       'Weekly evidence pack',
@@ -48,13 +64,13 @@ const TIERS = [
   {
     slug: 'enterprise',
     name: 'Enterprise',
-    differentiator: 'Mid-market NZ. Compliance-grade.',
-    monthly: 'from $2,990',
+    differentiator: 'All 9 kete + platform.',
+    monthly: 'from NZ$2,990',
+    setup: '$2,890 setup',
     bullets: [
-      'All kete',
-      'Unlimited seats',
+      'All 9 kete',
+      'Platform included',
       '200 evidence packs / month',
-      '99.9% SLA · NZ data residency',
       'Named kaitiaki contact',
     ],
     cta: 'Talk to Enterprise',
@@ -80,8 +96,8 @@ export default function PricingPage() {
                 <em className="not-italic text-gradient-hero">start</em>.
               </h1>
               <p className="mt-10 text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
-                Subscribe, pay per output, or pay per resolution. Pilot Sprint
-                comes first.
+                NZD, GST exclusive. Use code ANNUAL12 for 12% off annual.
+                Pilot Sprint comes first when the workflow needs proof.
               </p>
             </div>
           </div>
@@ -110,7 +126,7 @@ export default function PricingPage() {
               </p>
               <h2 className="font-display text-5xl font-light leading-[1.05] tracking-tight text-[color:var(--text-primary)] md:text-6xl lg:text-7xl">
                 Pilot Sprint{' '}
-                <em className="not-italic text-gradient-hero">— $5,000</em>.
+                <em className="not-italic text-gradient-hero">— NZ$5,000 + GST</em>.
               </h2>
               <p className="mt-6 font-display text-xl italic text-[color:var(--text-body)] md:text-2xl">
                 Two weeks. One workflow. Evidence by Friday.
@@ -143,7 +159,7 @@ export default function PricingPage() {
               </ul>
               <div className="mt-12">
                 <Link
-                  href="/contact"
+                  href="/pilot-sprint"
                   className="cta-primary inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
                 >
                   Book a Pilot Sprint
@@ -186,7 +202,7 @@ export default function PricingPage() {
               hairlines: horizontal between rows on mobile, vertical between
               cols on desktop. */}
           <div
-            className="grid grid-cols-1 gap-px lg:grid-cols-3"
+            className="grid grid-cols-1 gap-px lg:grid-cols-4"
             style={{ backgroundColor: 'rgba(212,168,83,0.20)' }}
           >
             {TIERS.map((tier) => (
@@ -213,7 +229,7 @@ export default function PricingPage() {
                   {tier.monthly}
                 </p>
                 <p className="mt-3 font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  / month · NZD ex GST
+                  / month · {tier.setup} · NZD ex GST
                 </p>
                 <ul className="mt-10 space-y-3 text-base text-[color:var(--text-body)]">
                   {tier.bullets.map((b) => (
@@ -231,7 +247,7 @@ export default function PricingPage() {
                 </ul>
                 <div className="mt-12">
                   <Link
-                    href="/contact"
+                    href="/pilot-sprint"
                     className={`${tier.featured ? 'cta-primary' : 'btn-ghost'} inline-flex items-center px-7 py-3 text-base transition-transform hover:-translate-y-0.5`}
                   >
                     {tier.cta}
@@ -273,19 +289,25 @@ export default function PricingPage() {
                   <span className="font-display italic text-[color:var(--text-primary)]">
                     Pay per output
                   </span>{' '}
-                  — from $19. One-off jobs, no subscription.
+                  — from NZ$19. One-off jobs, no subscription.
                 </li>
                 <li>
                   <span className="font-display italic text-[color:var(--text-primary)]">
                     Pay per resolution
                   </span>{' '}
-                  — from $190. You pay only when the workflow lands: BCA accept,
+                  — from NZ$190. You pay only when the workflow lands: BCA accept,
                   Customs accept, auditor sign-off.
+                </li>
+                <li>
+                  <span className="font-display italic text-[color:var(--text-primary)]">
+                    Outcome
+                  </span>{' '}
+                  — bespoke, from NZ$5,000.
                 </li>
               </ul>
               <div className="mt-12">
                 <Link
-                  href="/contact"
+                  href="/pilot-sprint"
                   className="btn-ghost inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
                 >
                   Talk to us
@@ -387,12 +409,11 @@ export default function PricingPage() {
           <div className="grid grid-cols-1 gap-y-8 lg:grid-cols-12">
             <div className="lg:col-start-2 lg:col-span-10">
               <p className="font-mono text-sm uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
-                All prices NZD, GST excl. Setup splits across the first 3
-                invoices. Cancel any time.
+                All prices NZD, GST exclusive. 12% off annual with code ANNUAL12.
               </p>
               <div className="mt-10">
                 <Link
-                  href="/contact"
+                  href="/pilot-sprint"
                   className="cta-primary inline-flex items-center px-8 py-4 text-base transition-transform hover:-translate-y-0.5 md:text-lg"
                 >
                   Book a Pilot Sprint

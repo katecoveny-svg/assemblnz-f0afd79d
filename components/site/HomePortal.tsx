@@ -38,7 +38,7 @@ const KETE_DETAILS: Record<KeteSlug, {
   pikau: {
     status: 'Live',
     workflow: 'Customs entries, HS checks, tariff evidence',
-    agents: 'Pikau, Gateway, Transit-Freight',
+    agents: 'Pīkau, Gateway, Transit-Freight',
     proof: 'Broker-ready freight packs',
   },
   arataki: {
@@ -104,27 +104,27 @@ const PROOF_ITEMS = [
 
 const PRODUCT_ACCESS = [
   {
-    href: '/app/chat',
-    label: 'Talk to an agent',
-    body: 'Choose a kete, choose a specialist, ask the first question.',
+    href: '/pilot-sprint',
+    label: 'Book a pilot',
+    body: 'Two weeks, one workflow, one evidence pack reviewed by your team.',
     icon: MessageCircle,
   },
   {
-    href: '/app/admin',
-    label: 'Open admin',
-    body: 'Live agents, Tōro drafts, routing logs, metrics, and settings.',
-    icon: LayoutDashboard,
-  },
-  {
     href: '/evidence-pack',
-    label: 'See proof',
+    label: 'See an evidence pack',
     body: 'What the signed evidence record contains and how verification works.',
     icon: ShieldCheck,
   },
   {
-    href: '/app/admin/imagery',
-    label: 'Update imagery',
-    body: 'Where vessel URLs, hero assets, and the image studio live.',
+    href: '/kete',
+    label: 'Explore kete',
+    body: 'Nine kete: eight industries plus Tōro whānau.',
+    icon: LayoutDashboard,
+  },
+  {
+    href: '/app/chat',
+    label: 'Open the app',
+    body: 'Choose a kete, choose a specialist, ask the first question.',
     icon: Images,
   },
 ] as const;
@@ -160,10 +160,10 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/55 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
-                Use the product / prove the work
+                assembl evidence vessel · Built in Aotearoa
               </p>
               <h1 className="mt-5 max-w-[11ch] font-display text-[2rem] font-light leading-[0.96] text-[color:var(--text-primary)] md:mt-7 md:max-w-4xl md:text-[clamp(3.4rem,7vw,6.9rem)] md:leading-[0.91]">
-                Talk to a specialist agent. Keep the evidence.
+                Specialist agents for NZ work that needs proof.
               </h1>
               <div className="mt-4 md:hidden">
                 <KeteSelector
@@ -175,30 +175,31 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                 />
               </div>
               <p className="mt-7 hidden max-w-2xl text-lg leading-[1.75] text-[color:var(--text-body)] md:block">
-                Pick one of nine kete, ask the right specialist, review the draft,
-                and keep a signed evidence pack. Nothing consequential leaves without
-                a named human approving it.
+                Assembl runs operational compliance work in the open: every workflow
+                is grounded in New Zealand legislation, reviewed by a named person on
+                your team, and sealed with an evidence pack you can file, forward, or
+                footnote.
               </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row md:mt-8">
                 <Link
-                  href="/app/chat"
+                  href="/pilot-sprint"
                   className="cta-primary inline-flex h-11 w-full items-center justify-center px-7 text-sm sm:w-auto md:h-12 md:text-base"
                 >
-                  Talk to an agent
-                  <MessageCircle className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-                <Link
-                  href="/pilot-sprint"
-                  className="btn-ghost inline-flex h-11 w-full items-center justify-center px-7 text-sm sm:w-auto md:h-12 md:text-base"
-                >
                   Book a pilot
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                  <MessageCircle className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
                 <Link
                   href="/evidence-pack"
                   className="btn-ghost inline-flex h-11 w-full items-center justify-center px-7 text-sm sm:w-auto md:h-12 md:text-base"
                 >
-                  See evidence pack
+                  See an evidence pack
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+                <Link
+                  href="/kete"
+                  className="btn-ghost inline-flex h-11 w-full items-center justify-center px-7 text-sm sm:w-auto md:h-12 md:text-base"
+                >
+                  Explore kete
                   <FileCheck2 className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
               </div>
@@ -207,7 +208,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
             <ProductAccessPanel />
             <ProofDock stats={pearlLive} />
             <p className="text-sm leading-[1.62] text-[color:var(--text-body)] md:hidden">
-              Pick a kete, speak to a specialist, review the draft, keep the record.
+              Grounded in New Zealand legislation, reviewed by your team, sealed with evidence.
             </p>
           </div>
 

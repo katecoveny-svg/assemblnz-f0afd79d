@@ -35,35 +35,35 @@ export function HeroAssembl() {
           {/* TEXT — right column, headline + lede + CTAs all above the fold. */}
           <div className="md:col-span-6 lg:col-span-5">
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              assembl · quiet intelligence
+              assembl evidence vessel · Built in Aotearoa
             </p>
 
             <h1
               className="mt-5 font-display leading-[0.98] tracking-tight text-[color:var(--text-primary)]"
               style={{ fontWeight: 300, fontSize: 'clamp(2.2rem, 4.4vw, 4.5rem)' }}
             >
-              quiet intelligence for Aotearoa
+              Specialist agents for NZ work that needs proof.
             </h1>
 
             <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)] md:mt-7 md:text-lg">
-              New Zealanders use AI everywhere. Few of us trust what it does. assembl runs every
-              workflow in the open and ends each one with an evidence pack you can file, forward,
-              or footnote.
+              Assembl runs operational compliance work in the open: every workflow is grounded
+              in New Zealand legislation, reviewed by a named person on your team, and sealed
+              with an evidence pack you can file, forward, or footnote.
             </p>
 
             <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row md:mt-9">
               <Link
-                href="#scroll-story"
+                href="/pilot-sprint"
                 className="cta-primary inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
               >
-                See it run on a real workflow
+                Book a pilot
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link
-                href="/about"
+                href="/evidence-pack"
                 className="btn-ghost inline-flex h-12 items-center px-7 text-sm transition-transform hover:-translate-y-0.5 md:text-base"
               >
-                Read the evidence model
+                See an evidence pack
               </Link>
             </div>
           </div>

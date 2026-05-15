@@ -12,7 +12,7 @@ import { keteAccentHex, hexToRgb } from "@/lib/keteColors";
  *   1. Mist base + warm noise (already on body via index.css)
  *   2. Soft horizon gradient (Cloud → Sand) anchored at 80% viewport
  *   3. Sage Mist glow at top-right
- *   4. Hero kete — accent gradient cycles through all 8 brand colours,
+ *   4. Hero kete — accent gradient cycles through all nine brand colours,
  *      gentle float, light parallax driven by scrollY
  *   5. Twelve fairy-light sparkles around the kete — only after first
  *      user interaction (mouse-move or scroll), per brand guideline
@@ -27,10 +27,21 @@ import { keteAccentHex, hexToRgb } from "@/lib/keteColors";
  * variants are retired.
  */
 
-const KETE_CYCLE = ["pikau", "manaaki", "waihanga", "auaha", "arataki", "ako", "hoko", "toro"];
+const KETE_CYCLE = ["waihanga", "manaaki", "pikau", "arataki", "auaha", "ako", "matauranga", "hoko", "toro"];
+const CANONICAL_ACCENTS: Record<string, string> = {
+  waihanga: "#2B6B57",
+  manaaki: "#AC5838",
+  pikau: "#3B7CB5",
+  arataki: "#D4842A",
+  auaha: "#5B4FA0",
+  ako: "#6B5843",
+  matauranga: "#3D5A7A",
+  hoko: "#7B3F8F",
+  toro: "#23211F",
+};
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const HEADLINE = "Everything intelligent, built in harmony.";
+const HEADLINE = "Specialist agents for NZ work that needs proof.";
 const HEADLINE_WORDS = HEADLINE.split(" ");
 
 interface Sparkle {
@@ -76,7 +87,7 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
     };
   }, [reduceMotion]);
 
-  // Cycle the kete accent through the eight brand colours.
+  // Cycle the kete accent through the nine brand colours.
   useEffect(() => {
     if (reduceMotion) return;
     const id = setInterval(() => setAccentIdx((i) => (i + 1) % KETE_CYCLE.length), 4500);
@@ -87,7 +98,7 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
   const keteY = useTransform(scrollY, [0, 600], [0, 90]); // 0.15× parallax
   const headlineY = useTransform(scrollY, [0, 400], [0, -30]);
 
-  const accent = keteAccentHex(KETE_CYCLE[accentIdx]);
+  const accent = CANONICAL_ACCENTS[KETE_CYCLE[accentIdx]] ?? keteAccentHex(KETE_CYCLE[accentIdx]);
   const accentRgb = hexToRgb(accent);
 
   return (
@@ -153,8 +164,8 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
       >
         <motion.div
           className="kete-float"
-          initial={{ opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={reduceMotion ? false : { opacity: 0.65, scale: 0.94 }}
+          animate={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
           transition={{ duration: 1.6, ease: EASE, delay: 0.2 }}
           style={{
             filter: `drop-shadow(0 24px 60px rgba(${accentRgb}, 0.18)) drop-shadow(0 0 80px rgba(217,188,122,0.10))`,
@@ -162,8 +173,8 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
         >
           <motion.div
             key={accentIdx}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={reduceMotion ? false : { opacity: 0.65 }}
+            animate={reduceMotion ? undefined : { opacity: 1 }}
             transition={{ duration: 1.4, ease: EASE }}
           >
             <KeteWeaveVisual
@@ -206,8 +217,8 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
       >
         {/* Eyebrow */}
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduceMotion ? false : { opacity: 0.75, y: 12 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: EASE }}
           className="uppercase mb-6"
           style={{
@@ -217,7 +228,7 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
             color: "var(--assembl-taupe)",
           }}
         >
-          assembl · premium intelligence built in aotearoa
+          assembl evidence vessel · Built in Aotearoa
         </motion.p>
 
         {/* Headline — letter-by-letter reveal in Cormorant Garamond */}
@@ -231,8 +242,8 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
             letterSpacing: "-0.012em",
             color: "var(--assembl-taupe-deep)",
           }}
-          initial="hidden"
-          animate="visible"
+          initial={reduceMotion ? false : "hidden"}
+          animate={reduceMotion ? undefined : "visible"}
           variants={{
             hidden: { opacity: 1 },
             visible: { opacity: 1, transition: { staggerChildren: 0.04, delayChildren: 0.15 } },
@@ -245,14 +256,9 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
                   key={ci}
                   className="inline-block"
                   variants={{
-                    hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
+                    hidden: { opacity: 0.65, y: 24, filter: "blur(8px)" },
                     visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.65, ease: EASE } },
                   }}
-                  style={
-                    word === "harmony." && ci >= 0
-                      ? { fontStyle: "italic", color: "var(--assembl-soft-gold)" }
-                      : undefined
-                  }
                 >
                   {char}
                 </motion.span>
@@ -263,8 +269,8 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
 
         {/* Subhead */}
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduceMotion ? false : { opacity: 0.75, y: 16 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.6 }}
           className="max-w-[58ch] mt-7"
           style={{
@@ -275,20 +281,21 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
             color: "var(--assembl-taupe)",
           }}
         >
-          Unified operations, compliance and logistics for modern teams and global flows.
-          Specialist kete that finish the work, file the pack, and return time to people.
+          Assembl runs operational compliance work in the open: every workflow is grounded
+          in New Zealand legislation, reviewed by a named person on your team, and sealed
+          with an evidence pack you can file, forward, or footnote.
         </motion.p>
 
         {/* CTAs — soft-glass pill pair */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduceMotion ? false : { opacity: 0.75, y: 16 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: EASE, delay: 0.85 }}
           className="mt-10 flex items-center gap-3 sm:gap-4 flex-wrap justify-center"
         >
           {/* Primary — soft-gold gradient with sparkle-glow on hover */}
           <Link
-            to="/demos"
+            to="/pilot-sprint"
             data-magnetic
             className="group relative inline-flex items-center gap-2 px-7 py-4 rounded-full transition-all duration-300 hover:-translate-y-px"
             style={{
@@ -303,13 +310,13 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
             onMouseEnter={(e) => { e.currentTarget.style.boxShadow = "var(--sparkle-glow), 0 16px 40px -10px rgba(217,188,122,0.65)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.boxShadow = "0 12px 32px -10px rgba(217,188,122,0.55)"; }}
           >
-            See how it works
+            Book a pilot
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
           </Link>
 
           {/* Secondary — soft-glass pill, hairline border */}
           <Link
-            to="/kete"
+            to="/evidence"
             data-magnetic
             className="group inline-flex items-center gap-2 px-7 py-4 rounded-full transition-all duration-300 hover:-translate-y-px"
             style={{
@@ -325,15 +332,15 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
               boxShadow: "var(--shadow-brand)",
             }}
           >
-            Explore platform
+            See an evidence pack
             <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
           </Link>
         </motion.div>
 
         {/* Trust whisper */}
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.65 }}
+          initial={reduceMotion ? false : { opacity: 0.65 }}
+          animate={reduceMotion ? undefined : { opacity: 0.78 }}
           transition={{ duration: 0.9, ease: EASE, delay: 1.1 }}
           className="mt-8 uppercase"
           style={{
@@ -343,13 +350,13 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
             color: "var(--assembl-taupe)",
           }}
         >
-          eight kete · simulation-tested · governed end-to-end
+          nine kete · Built in Aotearoa · Time is the thing. We give it back.
         </motion.p>
 
         {/* Scroll cue */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={reduceMotion ? { opacity: 0.5 } : { opacity: 0.6, y: [0, 6, 0] }}
+          initial={reduceMotion ? false : { opacity: 0.65 }}
+          animate={reduceMotion ? undefined : { opacity: 0.72, y: [0, 6, 0] }}
           transition={{ delay: 1.4, duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 uppercase"
           style={{

@@ -50,7 +50,7 @@ const AGENTS = [
 
 const DEMO_FLOW = [
   { step: "Brand scan", detail: "Scan your website to extract brand DNA — voice, colours, fonts, and audience", icon: Eye },
-  { step: "Brief to draft", detail: "AI-drafted content aligned to your brand voice across all formats", icon: PenTool },
+  { step: "Brief to draft", detail: "Agent-drafted content aligned to your brand voice across all formats", icon: PenTool },
   { step: "Review & approve", detail: "Compliance checks run, brand voice validated, human sign-off required", icon: Check },
   { step: "Publish & track", detail: "Cross-platform publishing with performance analytics in one view", icon: BarChart3 },
 ];

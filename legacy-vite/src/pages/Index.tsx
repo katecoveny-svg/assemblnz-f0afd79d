@@ -25,22 +25,21 @@ import { KeteHoverEffect } from "@/components/KeteHoverEffects";
 import InteractiveTryItDemo from "@/components/landing/InteractiveTryItDemo";
 import KeteWispBreak from "@/components/kete/KeteWispBreak";
 import { ALL_USE_CASES } from "@/data/useCases";
-import { KETE } from "@/data/pricing";
 import { manaakiMark } from "@/assets/brand";
 import { keteAccentHex, keteAccentRgba } from "@/lib/keteColors";
 
 /* ─── Mārama Whenua palette tokens — Brand Guidelines v1.0 ─── */
 const C = {
-  bg: "var(--assembl-mist)",      // #F7F3EE
+  bg: "var(--assembl-paper)",
   surface: "#FFFFFF",
-  teal: "var(--assembl-soft-gold)",       // primary CTA accent
-  tealLight: "var(--assembl-sage-mist)",  // soft secondary accent
-  ochre: "var(--assembl-soft-gold)",      // alias — kept for legacy refs
+  teal: "var(--assembl-pounamu)",
+  tealLight: "var(--assembl-pounamu-paper)",
+  ochre: "var(--assembl-gold-thread)",
   ochreLight: "var(--assembl-sand)",
   lavender: "var(--assembl-cloud)",
-  text: "var(--assembl-taupe-deep)",      // #6F6158
-  textSecondary: "var(--assembl-taupe)",  // #9D8C7D
-  textTertiary: "#B5A99E",
+  text: "var(--text-primary)",
+  textSecondary: "var(--text-secondary)",
+  textTertiary: "var(--text-secondary)",
 } as const;
 
 /* Soft brand bleed behind each kete tile (8% opacity wash). */
@@ -53,18 +52,19 @@ const KETE_BLEED: Record<string, string> = {
   pikau:    keteBleed("pikau"),
   hoko:     keteBleed("hoko"),
   ako:      keteBleed("ako"),
+  matauranga: "rgba(61, 90, 122, 0.08)",
   toro:     keteBleed("toro"),
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const fade = {
-  initial: { opacity: 0, y: 40 },
+  initial: { opacity: 0.65, y: 40 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-60px" as const },
   transition: { duration: 0.7, ease },
 };
 const stagger = (i: number) => ({
-  initial: { opacity: 0, y: 40 },
+  initial: { opacity: 0.65, y: 40 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
   transition: { delay: i * 0.08, duration: 0.6, ease },
@@ -79,6 +79,7 @@ const KETE_LIGHT: Record<string, string> = {
   pikau:    "#D2DCCD",
   hoko:     "#EAD8D7",
   ako:      "#DCE8DC",
+  matauranga: "#D9E2EA",
 };
 const KETE_ROUTE: Record<string, string> = {
   manaaki:  "/manaaki",
@@ -88,6 +89,7 @@ const KETE_ROUTE: Record<string, string> = {
   pikau:    "/pikau",
   hoko:     "/hoko",
   ako:      "/ako",
+  matauranga: "/kete/matauranga",
 };
 const KETE_COLORS: Record<string, { color: string; accentLight: string; to: string }> = {
   manaaki:  { color: keteAccentHex("manaaki"),  accentLight: KETE_LIGHT.manaaki,  to: KETE_ROUTE.manaaki  },
@@ -97,19 +99,29 @@ const KETE_COLORS: Record<string, { color: string; accentLight: string; to: stri
   pikau:    { color: keteAccentHex("pikau"),    accentLight: KETE_LIGHT.pikau,    to: KETE_ROUTE.pikau    },
   hoko:     { color: keteAccentHex("hoko"),     accentLight: KETE_LIGHT.hoko,     to: KETE_ROUTE.hoko     },
   ako:      { color: keteAccentHex("ako"),      accentLight: KETE_LIGHT.ako,      to: KETE_ROUTE.ako      },
+  matauranga: { color: "#3D5A7A", accentLight: KETE_LIGHT.matauranga, to: KETE_ROUTE.matauranga },
 };
 
-/** 7 industry kete — the locked marketing set. Tōro renders separately as the consumer tier. */
-const INDUSTRY_PACKS = KETE.map((k) => ({
-  reo: k.name, en: k.eng, desc: k.desc,
+/** Eight industry kete — Tōro renders separately as the whānau tier. */
+const INDUSTRY_PACKS = [
+  { key: "waihanga", reo: "Waihanga", en: "Construction", desc: "Fewer reworked consents. Faster council sign-off. Stronger audit trails." },
+  { key: "manaaki", reo: "Manaaki", en: "Hospitality", desc: "Food safety, liquor licensing, and shift records without slowing the floor." },
+  { key: "pikau", reo: "Pīkau", en: "Freight & Customs", desc: "Customs entries, HS checks, tariff evidence, and broker-ready packs." },
+  { key: "arataki", reo: "Arataki", en: "Automotive & Fleet", desc: "Workshop, fleet, dealer, WoF, CoF, CGA, and IPP 3A records in one trail." },
+  { key: "auaha", reo: "Auaha", en: "Creative", desc: "Creative work with rights checks, approvals, and a traceable campaign record." },
+  { key: "ako", reo: "Ako", en: "Early Childhood Education", desc: "Te Whāriki, ratios, kaiako, and ERO readiness for named reviewers." },
+  { key: "matauranga", reo: "Mātauranga", en: "Secondary Education", desc: "A greenfield pilot for NCEA L1-3 reporting and Achievement Standards tracking." },
+  { key: "hoko", reo: "Hoko", en: "Retail", desc: "Consumer protection compliance and product records for NZ retail teams." },
+].map((k) => ({
+  ...k,
   ...KETE_COLORS[k.key],
 }));
 
-/** Tōroa — consumer/whānau kete, visually distinguished below the 7 industry tiles. */
+/** Tōro — consumer/whānau kete, visually distinguished below the industry tiles. */
 const TORO_PACK = {
-  reo: "Tōroa",
-  en: "Family",
-  desc: "The household load, properly organised. From $29/month.",
+  reo: "Tōro",
+  en: "Whānau",
+  desc: "The whānau navigator for school, money, routines, and the week ahead. NZ$29/month.",
   color: keteAccentHex("toro"),
   accentLight: "#E2EBF4",
   to: "/toro",
@@ -131,10 +143,10 @@ const LAYERS_DATA = [
 
 
 const START_HERE = [
-  { title: "Ask a live agent",     desc: "Open a working agent and ask a real business question.",        to: "/chat/echo",  accent: keteAccentHex("manaaki"),  icon: "MessageSquare" },
+  { title: "Book a pilot",         desc: "Run one real workflow and receive one evidence pack in two weeks.", to: "/pilot-sprint",  accent: keteAccentHex("waihanga"),  icon: "MessageSquare" },
   { title: "Review a document",    desc: "Paste a contract or brief — risks flagged in seconds.",         to: "/waihanga",   accent: keteAccentHex("waihanga"), icon: "FileText" },
   { title: "Make an ad",           desc: "Generate finished campaigns and visuals from a single brief.",  to: "/auaha/ads",  accent: keteAccentHex("auaha"),    icon: "Megaphone" },
-  { title: "Run the 60-second demo", desc: "Show a client what Assembl does, end to end, in a minute.",   to: "/demos",      accent: LAYERS_GOLD,               icon: "Rocket" },
+  { title: "See an evidence pack", desc: "Inspect the record every workflow leaves behind.",             to: "/evidence",   accent: LAYERS_GOLD,               icon: "Rocket" },
 ];
 
 /* ─── Live Demo Chat ─── */
@@ -174,7 +186,7 @@ function LiveDemoChatSection() {
         </div>
         <div className="px-6 py-6 space-y-5 min-h-[220px]">
           {DEMO_MESSAGES.slice(0, showMessages).map((msg, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease }}>
+            <motion.div key={i} initial={{ opacity: 0.65, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease }}>
               {msg.role === "user" ? (
                 <div className="flex justify-end">
                   <div className="flex items-start gap-3 max-w-[80%]">
@@ -245,13 +257,13 @@ const Index = () => {
 
 
 
-  // Personalize order of the 7 industry packs only — Tōro stays pinned at the end.
+  // Personalize order of the eight industry packs only — Tōro stays pinned at the end.
   const orderedIndustryPacks = useMemo(() => {
     if (!isPersonalized) return INDUSTRY_PACKS;
     const keteOrder = profile.preferences.keteOrder;
     const SLUG_MAP: Record<string, string> = {
       manaaki: "Manaaki", waihanga: "Waihanga", auaha: "Auaha",
-      arataki: "Arataki", pikau: "Pikau", hoko: "Hoko", ako: "Ako",
+      arataki: "Arataki", pikau: "Pīkau", hoko: "Hoko", ako: "Ako", matauranga: "Mātauranga",
     };
     return [...INDUSTRY_PACKS].sort((a, b) => {
       const aIdx = keteOrder.indexOf(Object.entries(SLUG_MAP).find(([_, v]) => v === a.reo)?.[0] as any ?? "");
@@ -264,8 +276,8 @@ const Index = () => {
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.text }}>
       <SEO
-        title="assembl — premium intelligence, built in Aotearoa"
-        description="Everything intelligent, built in harmony. Unified operations, compliance, and evidence for modern teams. Specialist kete that finish the work, file the pack, and return time to people."
+        title="assembl — specialist agents for NZ work that needs proof"
+        description="Specialist agents for NZ work that needs proof. Built in Aotearoa. Time is the thing. We give it back."
       />
       {/* WharikiFoundation removed — light glass background */}
       
@@ -345,9 +357,9 @@ const Index = () => {
         <Sect>
           <motion.div {...fade} className="text-center mb-14 max-w-[760px] mx-auto">
             <SectionEyebrow>What Assembl is</SectionEyebrow>
-            <SectionH2>Eight kete. One quiet system.</SectionH2>
+            <SectionH2>Nine kete. One evidence vessel.</SectionH2>
             <SectionP>
-              Assembl is a New Zealand-built platform of specialist agents for hospitality, construction, creative, automotive, freight, retail, early childhood, and the household. Each one finishes the work and closes it with a single evidence pack — source-cited, audit-ready, and current with New Zealand law.
+              Assembl is a New Zealand-built platform of specialist agents for construction, hospitality, freight and customs, automotive and fleet, creative, early childhood, secondary education, retail, and whānau. Each workflow closes with a single evidence pack — source-cited, reviewed, and current with New Zealand law.
             </SectionP>
           </motion.div>
           <div className="max-w-[1080px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
@@ -379,7 +391,7 @@ const Index = () => {
               Assembl is built for New Zealand families, teams, and communities — for the people carrying too much at once, for the businesses trying to stay current as the rules keep changing, and for the evenings that never seem to start on time.
             </p>
             <p className="text-[16px] sm:text-[18px] leading-[1.75] mb-10" style={{ fontFamily: "'Inter', sans-serif", color: C.text, fontWeight: 400 }}>
-              It is based on a simple belief: AI should do more than make work faster. It should give people time back.
+              It is based on a simple belief: agents should do more than make work faster. They should give people time back.
             </p>
             <p className="text-[18px] sm:text-[22px] leading-[1.55]" style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, color: C.teal }}>
               Time to think. Time to be present. Time for what matters most.
@@ -390,12 +402,12 @@ const Index = () => {
         {/* ─── Decorative wisp break — Mist/Cloud/Sand with Soft Gold strand ─── */}
         <KeteWispBreak variants={["manaaki", "auaha", "pikau"]} />
 
-        {/* ═══ INDUSTRY KETE — 7 industry tiles ═══ */}
+        {/* ═══ INDUSTRY KETE — eight industry tiles ═══ */}
         <Sect id="industry-packs">
           <motion.div {...fade} className="text-center mb-16">
             <SectionEyebrow>The kete</SectionEyebrow>
             <SectionH2>Choose the kete that fits the work.</SectionH2>
-            <SectionP>Each kete carries a complete specialist workflow. Operator includes one, Leader two, Enterprise all seven — Tōroa for whānau sits separately, from $29 a month.</SectionP>
+            <SectionP>Each kete carries a complete specialist workflow. Operator includes one, Leader two, Enterprise all nine kete plus platform. Tōro for whānau sits separately at NZ$29/month.</SectionP>
           </motion.div>
           <LayoutGroup>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
@@ -436,7 +448,7 @@ const Index = () => {
             </div>
           </LayoutGroup>
 
-          {/* ─── Tōro — consumer tier, distinguished row ─── */}
+          {/* ─── Tōro — whānau tier, distinguished row ─── */}
           <div className="mt-12 max-w-[1200px] mx-auto">
             <div className="text-center mb-6">
               <p className="text-[10px] tracking-[5px] uppercase" style={{ fontFamily: "'IBM Plex Mono', monospace", color: C.textTertiary }}>
@@ -467,7 +479,7 @@ const Index = () => {
           {/* ─── Operator-as-platform shortcut for Business / Tech / Pro Services ─── */}
           <div className="mt-8 max-w-[1200px] mx-auto text-center">
             <p className="text-[13px]" style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}>
-              No kete fits? <Link to="/platform" className="underline" style={{ color: "var(--assembl-soft-gold)" }}>Operator-as-platform</Link> — same price, no bundle. Build directly on Iho. Trusted by professional services, technology, and consulting teams.
+              No kete fits? <Link to="/platform" className="underline" style={{ color: "var(--assembl-pounamu)" }}>Operator-as-platform</Link> — same price, no bundle. Build directly on Iho. Trusted by professional services, technology, and consulting teams.
             </p>
           </div>
         </Sect>
@@ -715,10 +727,10 @@ const Index = () => {
         {/* ═══ WHAT CHANGED THIS WEEK ═══ */}
         <WeeklyChangesDigest />
 
-        {/* ═══ NZ AI ECOSYSTEM — partner-underclaim posture ═══ */}
+        {/* ═══ NZ AGENT ECOSYSTEM — partner-underclaim posture ═══ */}
         <Sect>
           <motion.div {...fade} className="max-w-3xl mx-auto text-center">
-            <SectionEyebrow>How we fit with the NZ AI ecosystem</SectionEyebrow>
+            <SectionEyebrow>How we fit with the NZ agent ecosystem</SectionEyebrow>
             <h3 className="text-[22px] sm:text-[28px] mb-6" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, lineHeight: 1.3, color: C.text }}>
               Sovereign infrastructure answers <em style={{ color: C.teal, fontStyle: "normal" }}>where</em> your data lives.<br />
               Assembl answers <em style={{ color: C.teal, fontStyle: "normal" }}>what</em> your data does.
@@ -740,13 +752,13 @@ const Index = () => {
                 <SectionH2>Ready to see your industry team?</SectionH2>
                 <SectionP className="mb-12">Pick your kete. Run the demo. See the evidence pack it produces.</SectionP>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/contact" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
+                  <Link to="/pilot-sprint" className="group inline-flex items-center justify-center gap-3 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
                     style={{ background: `linear-gradient(145deg, #55BFC1, ${C.teal})`, color: "#FFFFFF", boxShadow: `0 6px 24px rgba(74,165,168,0.35), 0 2px 8px rgba(74,165,168,0.2), inset 0 1px 0 rgba(255,255,255,0.3)`, fontFamily: "'Inter', sans-serif", textShadow: "0 1px 2px rgba(0,0,0,0.15)" }}>
-                    See it in action <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
+                    Book a pilot <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
                   </Link>
-                  <Link to="/contact" className="inline-flex items-center justify-center gap-2 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
+                  <Link to="/evidence" className="inline-flex items-center justify-center gap-2 px-10 py-5 text-[13px] font-semibold rounded-full transition-all duration-300 hover:scale-[1.03]"
                     style={{ background: "linear-gradient(145deg, #F5F5F8, #E4E4E8)", border: `1px solid rgba(74,165,168,0.2)`, color: C.teal, fontFamily: "'Inter', sans-serif", boxShadow: `4px 4px 10px rgba(166,166,180,0.4), -4px -4px 10px rgba(255,255,255,0.9), inset 0 1px 0 rgba(255,255,255,0.8)` }}>
-                    Book a walkthrough
+                    See an evidence pack
                   </Link>
                 </div>
               </GlowCard>

@@ -12,13 +12,13 @@ import BrandFooter from "@/components/BrandFooter";
 
 /* ── Mārama Whenua palette (locked) ── */
 const C = {
-  bg: "#F7F3EE",          // Mist
-  cloud: "#EEE7DE",       // Cloud
-  sand: "#D8C8B4",        // Sand
-  taupe: "#9D8C7D",       // Taupe (headings)
-  taupeDeep: "#6F6158",   // Taupe Deep (body text)
-  gold: "#D9BC7A",        // Soft Gold (CTA)
-  goldDeep: "#C9A862",
+  bg: "#FAF7F2",
+  cloud: "#E8E4DE",
+  sand: "#B8B2A8",
+  taupe: "#23211F",
+  taupeDeep: "#23211F",
+  gold: "#D4A853",
+  goldDeep: "#2B6B57",
 };
 
 type Tier = {
@@ -37,53 +37,86 @@ type Tier = {
 
 const TIERS: Tier[] = [
   {
-    key: "grow",
-    name: "Grow",
-    badge: "Two kete",
-    price: "$1,990",
+    key: "family",
+    name: "Tōro Family",
+    badge: "Whānau navigator",
+    price: "NZ$29",
+    cadence: "/mo",
+    setup: "$0 setup",
+    descriptor:
+      "The whānau navigator for school, money, routines, and the week ahead.",
+    features: [
+      "Tōro whānau navigator",
+      "Reviewed family actions and records",
+      "Cancel any time",
+    ],
+    bestFor:
+      "Families who need the week made visible without turning the house into a dashboard.",
+    cta: { label: "Book a pilot", to: "/pilot-sprint" },
+  },
+  {
+    key: "operator",
+    name: "Operator",
+    badge: "1 kete + platform",
+    price: "NZ$1,490",
+    cadence: "/mo",
+    setup: "+ $590 setup",
+    descriptor:
+      "One specialist kete working across your operations, grounded in New Zealand legislation and reviewed by your team.",
+    features: [
+      "1 kete",
+      "Platform included",
+      "50 outputs included",
+      "Evidence packs for every workflow",
+    ],
+    bestFor:
+      "Owner-operators with one clear workflow that needs proof before it scales.",
+    cta: { label: "Book a pilot", to: "/pilot-sprint" },
+  },
+  {
+    key: "leader",
+    name: "Leader",
+    badge: "2 kete + platform",
+    price: "NZ$1,990",
     cadence: "/mo",
     setup: "+ $1,290 setup",
     descriptor:
-      "Two specialist kete working across your operations — compliance, scheduling, reporting, creative. 40+ hours of operational work, handled every week.",
+      "Two kete for teams where operational compliance crosses more than one lane.",
     features: [
-      "Two kete of your choice",
-      "Full platform access",
-      "Xero, Deputy & Google integrations",
-      "Evidence packs for every workflow",
-      "Email support",
+      "2 kete",
+      "Platform included",
+      "150 outputs included",
+      "Weekly evidence pack",
     ],
     bestFor:
-      "Owner-operators with a team. One site or two, enough moving parts that the admin is eating your evenings.",
-    cta: { label: "Request access", to: "/contact?plan=grow" },
+      "Teams with multiple reviewers, repeat workflows, and evidence packs moving through the week.",
+    cta: { label: "Book a pilot", to: "/pilot-sprint" },
+    highlight: true,
   },
   {
     key: "enterprise",
     name: "Enterprise",
-    badge: "All 7 kete",
-    price: "$2,990",
+    badge: "All 9 kete + platform",
+    price: "from NZ$2,990",
     cadence: "/mo",
     setup: "+ $2,890 setup",
     descriptor:
-      "Every kete, every workflow. Compliance, HR, scheduling, creative, logistics — quietly running while you focus on the work that grows the business.",
+      "All nine kete and the platform layer for teams that need the same proof standard everywhere.",
     features: [
-      "All 7 kete, unlimited",
-      "Full platform access",
-      "Priority integrations (Xero, Deputy, Google, MYOB, Tanda)",
-      "Named success manager",
-      "Quarterly compliance review",
-      "99.9% uptime SLA",
-      "NZ data residency",
+      "All 9 kete",
+      "Platform included",
+      "200 evidence packs / month",
+      "Named kaitiaki contact",
     ],
     bestFor:
-      "Multi-site businesses, companies with 15+ staff, anyone who's outgrown spreadsheets and sticky notes but isn't ready to hire a compliance team.",
-    cta: { label: "Request access", to: "/contact?plan=enterprise" },
-    highlight: true,
+      "Multi-site or cross-functional teams that need a consistent evidence record across the whole operation.",
+    cta: { label: "Book a pilot", to: "/pilot-sprint" },
   },
   {
     key: "outcome",
     name: "Outcome",
     badge: "Custom",
-    price: "from $5,000",
+    price: "from NZ$5,000",
     descriptor:
       "Bespoke engagement. When the work is bespoke and the evidence pack is the contract. We embed alongside your team, map your workflows, and build the agents that handle them. Pricing tied to the time we give back — typically 10–20% of measured savings.",
     features: [
@@ -95,7 +128,7 @@ const TIERS: Tier[] = [
     ],
     bestFor:
       "Companies with high-value workflows — freight route optimisation, building maintenance scheduling, multi-site compliance — where getting it right saves tens of thousands.",
-    cta: { label: "Talk to us", to: "/contact?plan=outcome" },
+    cta: { label: "Book a pilot", to: "/pilot-sprint" },
   },
 ];
 
@@ -110,7 +143,7 @@ const FAQS = [
   },
   {
     q: "What's a kete?",
-    a: "A kete is an industry-specific toolkit. Each one comes with specialist agents trained on NZ legislation, workflows, and operational patterns for that industry. MANAAKI covers hospitality. WAIHANGA covers construction. AUAHA covers creative. You pick the kete that match your business.",
+    a: "A kete is an industry-specific toolkit. There are nine: Waihanga, Manaaki, Pīkau, Arataki, Auaha, Ako, Mātauranga, Hoko, and Tōro for whānau.",
   },
   {
     q: "What happens during setup?",
@@ -118,7 +151,7 @@ const FAQS = [
   },
   {
     q: "Can I start with one kete and add more later?",
-    a: "Yes. Most customers start with Grow (two kete) and add more as they see the value. Moving to Enterprise is a plan change, not a migration — your data and workflows carry over.",
+    a: "Yes. Most customers start with Operator for one kete, move to Leader for two, and use Enterprise when all nine kete need the same evidence standard.",
   },
   {
     q: "Do I need to change how my team works?",
@@ -126,7 +159,7 @@ const FAQS = [
   },
   {
     q: "What about my data?",
-    a: "Your data stays in New Zealand on enterprise plans. We use Supabase with row-level security — your data is yours, isolated from every other customer. We never train models on your data.",
+    a: "Your data is yours. We use Supabase with row-level security, and your evidence packs keep the reviewer, citations, and sign-off record together.",
   },
   {
     q: "Is there a contract?",
@@ -137,8 +170,8 @@ const FAQS = [
 const PricingPage = () => (
   <div className="min-h-screen" style={{ background: C.bg, color: C.taupeDeep }}>
     <SEO
-      title="Pricing — Time returned. Capacity gained. | Assembl"
-      description="Grow $1,990/mo · Enterprise $2,990/mo · Outcome from $5,000. Specialist kete that handle the operational work keeping your team from the work that matters."
+      title="Pricing — NZD, GST exclusive | Assembl"
+      description="Tōro Family NZ$29/mo · Operator NZ$1,490/mo · Leader NZ$1,990/mo · Enterprise from NZ$2,990/mo · Pilot Sprint NZ$5,000 + GST."
       path="/pricing"
     />
     <BrandNav />
@@ -150,7 +183,7 @@ const PricingPage = () => (
           className="text-[10px] tracking-[5px] uppercase mb-6 font-mono font-bold"
           style={{ color: C.taupe }}
         >
-          — Pricing · NZD ex GST —
+          — Pricing · NZD, GST exclusive —
         </p>
         <h1
           className="font-display mb-6"
@@ -162,14 +195,14 @@ const PricingPage = () => (
             letterSpacing: "-0.01em",
           }}
         >
-          Time returned. <em style={{ fontStyle: "italic", color: C.goldDeep }}>Capacity gained.</em>
+          Pricing for work that <em style={{ fontStyle: "italic", color: C.goldDeep }}>needs proof.</em>
         </h1>
         <p
           className="font-body text-[17px] leading-[1.7] max-w-2xl mx-auto"
           style={{ color: C.taupeDeep }}
         >
-          Every kete handles the operational work that keeps your team from the work that matters.
-          Pick the capacity your business needs.
+          Start with a Pilot Sprint, then choose the plan that matches your kete coverage.
+          12% off annual with code ANNUAL12.
         </p>
       </div>
     </section>
@@ -185,7 +218,7 @@ const PricingPage = () => (
         }}
       >
         <p className="font-body text-[14px] leading-[1.75]" style={{ color: C.taupeDeep }}>
-          Most NZ businesses spend <strong style={{ color: C.taupe }}>$50,000+ a year</strong> on
+          Most NZ businesses spend <strong style={{ color: C.taupe }}>NZ$50,000+ a year</strong> on
           admin, compliance paperwork, and scheduling. That's a person's salary, spent on work that
           doesn't grow the business. Assembl gives you that capacity back.
         </p>
@@ -368,21 +401,21 @@ const PricingPage = () => (
             lineHeight: 1.2,
           }}
         >
-          What does $1,990 a month actually buy?
+          What does NZ$1,990 a month actually buy?
         </h2>
         <div className="space-y-5 font-body text-[15px] leading-[1.75]" style={{ color: C.taupeDeep }}>
           <p>
             A part-time operations coordinator costs around{" "}
-            <strong style={{ color: C.taupe }}>$35,000 a year</strong>. That's $2,900 a month
+            <strong style={{ color: C.taupe }}>NZ$35,000 a year</strong>. That's NZ$2,900 a month
             before KiwiSaver, ACC, leave, and training. Assembl does the same operational work —
-            compliance checks, scheduling, reporting, evidence packs — for $1,990. No sick days, no
+            compliance checks, scheduling, reporting, evidence packs — for NZ$1,990. No sick days, no
             holidays, no recruitment costs. And it works at 2am when the morning shift roster needs
             adjusting.
           </p>
           <p>
-            The enterprise tier? A compliance officer costs $75,000+. A marketing coordinator
-            another $55,000. Assembl's enterprise plan gives you both capabilities for{" "}
-            <strong style={{ color: C.taupe }}>$35,880 a year</strong>. That's less than one salary
+            The Enterprise tier? A compliance officer costs NZ$75,000+. A marketing coordinator
+            another NZ$55,000. Assembl's Enterprise plan starts from{" "}
+            <strong style={{ color: C.taupe }}>NZ$35,880 a year</strong>. That's less than one salary
             covering the work of several roles.
           </p>
         </div>

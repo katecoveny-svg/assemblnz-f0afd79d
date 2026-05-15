@@ -12,35 +12,36 @@ interface NavItem { label: string; to: string }
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Home", to: "/" },
-  { label: "Start Here", to: "/how-it-works" },
-  { label: "Client Demos", to: "/demos" },
+  { label: "Pilot Sprint", to: "/pilot-sprint" },
+  { label: "Evidence Pack", to: "/evidence" },
+  { label: "Kete", to: "/kete" },
   { label: "Pricing", to: "/pricing" },
   { label: "About", to: "/about" },
 ];
 
-// Brand Guidelines v1.0 (2026-04) — accent hex per industry kete.
-// Source of truth: src/assets/brand/kete/index.ts (INDUSTRY_KETE).
+// Canonical nine kete palette, aligned with the Next.js app tokens.
 const KETE = [
-  { label: "Manaaki",  sublabel: "Hospitality",       to: "/manaaki",       glowIcon: "UtensilsCrossed", color: "#E6D8C6" },
-  { label: "Waihanga", sublabel: "Construction",      to: "/waihanga/about", glowIcon: "HardHat",         color: "#CBB8A4" },
-  { label: "Auaha",    sublabel: "Creative",          to: "/auaha/about",    glowIcon: "Palette",         color: "#C8DDD8" },
-  { label: "Arataki",  sublabel: "Automotive",        to: "/arataki",        glowIcon: "Car",             color: "#D5C0C8" },
-  { label: "Pikau",    sublabel: "Customs & Freight", to: "/pikau",          glowIcon: "Package",         color: "#B8C7B1" },
-  { label: "Hoko",     sublabel: "Retail",            to: "/hoko",           glowIcon: "ShoppingBag",     color: "#D8C3C2" },
-  { label: "Ako",      sublabel: "Early Childhood",   to: "/ako",            glowIcon: "Baby",            color: "#C7D6C7" },
-  { label: "Toro",     sublabel: "Family",            to: "/toro",           glowIcon: "Bird",            color: "#C7D9E8" },
+  { label: "Waihanga", sublabel: "Construction",               to: "/waihanga/about", glowIcon: "HardHat",         color: "#2B6B57" },
+  { label: "Manaaki",  sublabel: "Hospitality",                to: "/manaaki",       glowIcon: "UtensilsCrossed", color: "#AC5838" },
+  { label: "Pīkau",    sublabel: "Freight & Customs",          to: "/pikau",          glowIcon: "Package",         color: "#3B7CB5" },
+  { label: "Arataki",  sublabel: "Automotive & Fleet",         to: "/arataki",        glowIcon: "Car",             color: "#D4842A" },
+  { label: "Auaha",    sublabel: "Creative",                   to: "/auaha/about",    glowIcon: "Palette",         color: "#5B4FA0" },
+  { label: "Ako",      sublabel: "Early Childhood Education",  to: "/ako",            glowIcon: "Baby",            color: "#6B5843" },
+  { label: "Mātauranga", sublabel: "Secondary Education",      to: "/kete/matauranga", glowIcon: "BookOpen",       color: "#3D5A7A" },
+  { label: "Hoko",     sublabel: "Retail",                     to: "/hoko",           glowIcon: "ShoppingBag",     color: "#7B3F8F" },
+  { label: "Tōro",     sublabel: "Whānau",                     to: "/toro",           glowIcon: "Bird",            color: "#23211F" },
 ];
 
 const MORE_LINKS = [
   { label: "Ambient Agents", sublabel: "Standing thoughts your kete keep for you", to: "/thoughts", glowIcon: "Brain", color: "#D9BC7A" },
   { label: "Hui", sublabel: "Meeting Copilot", to: "/hui", glowIcon: "Mic", color: "#D9BC7A" },
-  { label: "Capabilities", sublabel: "What Assembl can do", to: "/capabilities", glowIcon: "Sparkles", color: "#4AA5A8" },
+  { label: "Capabilities", sublabel: "What assembl can do", to: "/capabilities", glowIcon: "Sparkles", color: "#2B6B57" },
   { label: "ROI Calculator", sublabel: "Sales tool", to: "/roi", glowIcon: "BarChart3", color: "#4AA5A8" },
   { label: "Scenario Simulator", sublabel: "Try a live demo", to: "/simulator", glowIcon: "Brain", color: "#4AA5A8" },
-  { label: "Data Sovereignty", sublabel: "Enterprise trust", to: "/data-sovereignty", glowIcon: "Shield", color: "#4AA5A8" },
-  { label: "Developers", sublabel: "API & docs", to: "/developers", glowIcon: "Cpu", color: "#6CBFC1" },
-  { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", glowIcon: "Sparkles", color: "#4AA5A8" },
-  { label: "Agent Marketplace", sublabel: "Browse the specialist library", to: "/agents", glowIcon: "Users", color: "#9B8EC4" },
+  { label: "Data Sovereignty", sublabel: "Data trust", to: "/data-sovereignty", glowIcon: "Shield", color: "#2B6B57" },
+  { label: "Developers", sublabel: "API & docs", to: "/developers", glowIcon: "Cpu", color: "#2B6B57" },
+  { label: "AAAIP", sublabel: "R&D showcase", to: "/aaaip", glowIcon: "Sparkles", color: "#2B6B57" },
+  { label: "Agent Marketplace", sublabel: "Browse the specialist library", to: "/agents", glowIcon: "Users", color: "#5B4FA0" },
 ];
 
 const BrandNav = () => {
@@ -55,16 +56,17 @@ const BrandNav = () => {
   // Pearl brand tokens (single source of truth — matches PearlIndex)
   // Warm Pearl + Forest Ink — never black, never cool blue-white.
   const PEARL = {
-    bg: "#FAF6EF",      // Warm Pearl canvas
-    ink: "#0F2A26",     // Forest Ink (deep pounamu, never black)
-    pounamu: "#1F4D47",
-    muted: "#7A8B82",   // warm sea-glass muted (was cool #8B8479)
-    opal: "#E8EEEC",
+    bg: "#FAF7F2",
+    ink: "#23211F",
+    pounamu: "#2B6B57",
+    muted: "#6F6158",
+    opal: "#E8E4DE",
   };
 
   const KETE_SLUG_MAP: Record<string, string> = {
-    manaaki: 'Manaaki', waihanga: 'Waihanga', auaha: 'Auaha',
-    arataki: 'Arataki', pikau: 'Pikau', hoko: 'Hoko', ako: 'Ako', toro: 'Toro',
+    waihanga: 'Waihanga', manaaki: 'Manaaki', pikau: 'Pīkau',
+    arataki: 'Arataki', auaha: 'Auaha', ako: 'Ako',
+    matauranga: 'Mātauranga', hoko: 'Hoko', toro: 'Tōro',
   };
 
   const orderedKete = useMemo(() => {
@@ -98,7 +100,7 @@ const BrandNav = () => {
   const DropdownPanel = ({ items, onClose }: { items: typeof KETE; onClose: () => void }) => (
     <>
       <div className="fixed inset-0 z-10" onClick={onClose} />
-      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
+      <motion.div initial={{ opacity: 0.65, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
         className="absolute top-full right-0 mt-2 z-20 w-[280px] rounded-2xl p-2 space-y-0.5"
         style={{
           background: "rgba(250,246,239,0.96)",
@@ -217,7 +219,7 @@ const BrandNav = () => {
               style={{ fontFamily: "'Inter', sans-serif", fontWeight: 500, fontSize: 13, color: PEARL.muted }}
               onMouseEnter={e => (e.currentTarget.style.color = PEARL.ink)}
               onMouseLeave={e => (e.currentTarget.style.color = PEARL.muted)}>
-              Ketes
+              Kete
               <ChevronDown size={12} className={`transition-transform ${packsOpen ? "rotate-180" : ""}`} />
             </button>
             <AnimatePresence>
@@ -239,7 +241,7 @@ const BrandNav = () => {
             </AnimatePresence>
           </div>
 
-          <button onClick={() => handleNavClick("/contact")}
+          <button onClick={() => handleNavClick("/pilot-sprint")}
             data-magnetic
             className="ml-2 transition-all duration-300 hover:-translate-y-px"
             style={{
@@ -253,7 +255,7 @@ const BrandNav = () => {
               color: PEARL.bg,
               boxShadow: "0 10px 30px -12px rgba(31,77,71,0.45)",
             }}>
-            Start with one kete
+            Book a pilot
           </button>
 
           <button
@@ -287,7 +289,7 @@ const BrandNav = () => {
       <AnimatePresence>
         {mobileOpen && (
           <>
-            <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(15,42,38,0.18)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
+            <motion.div className="fixed inset-0 z-[60]" style={{ background: "rgba(15,42,38,0.18)" }} initial={{ opacity: 0.65 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMobileOpen(false)} />
             <motion.div className="fixed top-0 right-0 bottom-0 z-[70] w-[300px] flex flex-col overflow-y-auto"
               style={{
                 background: "rgba(250,246,239,0.96)",
@@ -351,8 +353,8 @@ const BrandNav = () => {
                     color: PEARL.bg,
                     boxShadow: "0 10px 30px -12px rgba(31,77,71,0.45)",
                   }}
-                  onClick={() => { setMobileOpen(false); handleNavClick("/contact"); }}>
-                  Start with one kete
+                  onClick={() => { setMobileOpen(false); handleNavClick("/pilot-sprint"); }}>
+                  Book a pilot
                 </button>
                 <AccountDropdown />
                 <button
