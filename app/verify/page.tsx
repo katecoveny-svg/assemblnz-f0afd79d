@@ -4,7 +4,7 @@ import { VerifyClient } from './VerifyClient';
 export const metadata: Metadata = {
   title: 'Verify a Mana Receipt',
   description:
-    'Paste any Mana Receipt issued by Assembl. We check the cryptographic signature against our public key, confirm the hash chain, and show you exactly what was attested.',
+    'Paste any Mana Receipt issued by assembl. We check the cryptographic signature against our public key, confirm the hash chain, and show you exactly what was attested.',
 };
 
 export default function VerifyPage() {
@@ -21,7 +21,7 @@ export default function VerifyPage() {
           verify a Mana Receipt
         </h1>
         <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-[color:var(--text-primary)]">
-          Paste any Mana Receipt issued by Assembl. We check the cryptographic
+          Paste any Mana Receipt issued by assembl. We check the cryptographic
           signature against our public key, confirm the hash chain, and show
           you exactly what was attested — citations, the four pou, the three
           gates, and human-in-the-loop status.

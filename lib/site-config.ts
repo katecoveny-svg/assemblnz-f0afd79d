@@ -128,7 +128,7 @@ export const heroVideos: Record<HeroVideoKey, HeroVideoEntry> = {
 
 export const reo = {
   heroLede:
-    'Assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
+    'assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
 
   heroHeadlineLines: [
     'Specialist agents for NZ work',
