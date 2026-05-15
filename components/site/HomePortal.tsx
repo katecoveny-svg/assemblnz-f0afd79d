@@ -153,6 +153,19 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
     >
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F4EFE7_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
+        {!reduceMotion && (
+          <video
+            aria-hidden
+            className="pointer-events-none absolute right-0 top-1/2 hidden w-[min(58vw,720px)] max-w-[720px] -translate-y-1/2 opacity-[0.35] mix-blend-multiply md:block motion-reduce:hidden"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          >
+            <source src="/videos/vessel-rotate-720p.mp4" type="video/mp4" />
+          </video>
+        )}
         <motion.div
           className="absolute inset-y-0 left-0 w-2 bg-[color:var(--kete-accent)]"
           aria-hidden

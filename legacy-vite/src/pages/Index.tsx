@@ -802,7 +802,18 @@ const Index = () => {
         </Sect>
 
         {/* ═══ FINAL CTA ═══ */}
-        <section className="relative px-6 py-32 text-center">
+        <section className="relative overflow-hidden px-6 py-32 text-center">
+          <video
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 hidden w-[min(76vw,860px)] -translate-x-1/2 -translate-y-1/2 object-cover opacity-[0.20] mix-blend-multiply md:block motion-reduce:hidden"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          >
+            <source src="/videos/vessel-rotate-720p.mp4" type="video/mp4" />
+          </video>
           <div className="max-w-xl mx-auto relative z-10">
             <motion.div {...fade}>
               <GlowCard className="p-12 sm:p-16 text-center">
