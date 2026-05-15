@@ -8,6 +8,7 @@ import {
   Images,
   Inbox,
   MessageCircle,
+  Network,
   Settings,
   ShieldCheck,
 } from 'lucide-react';
@@ -47,6 +48,13 @@ const ADMIN_LINKS = [
     body: 'Citation coverage, approval coverage, reversal rate, cycle time, and volume.',
     icon: BarChart3,
     label: 'proof',
+  },
+  {
+    href: '/app/admin/fleet',
+    title: 'Fleet activation',
+    body: 'Activate or pause kete fleets for tenants after purchase.',
+    icon: Network,
+    label: 'access',
   },
   {
     href: '/app/toro/inbox',
