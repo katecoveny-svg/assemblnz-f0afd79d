@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useTransition } from 'react';
 import {
   Archive,
   Check,
@@ -12,6 +12,16 @@ import {
   Send,
   X,
 } from 'lucide-react';
+import {
+  approveDraftAction,
+  approveSelectedAction,
+  deferDraftAction,
+  markNeedsVoiceAction,
+  rejectDraftAction,
+  saveDraftRevisionAction,
+  sendToLedgerAction,
+  type InboxActionResult,
+} from './actions';
 import {
   FILTERS,
   filterDrafts,
@@ -43,6 +53,8 @@ export function InboxExperience({
   const [filter, setFilter] = useState<InboxFilter>('all');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [openAgents, setOpenAgents] = useState<Record<string, boolean>>({});
+  const [actionMessage, setActionMessage] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const filteredDrafts = useMemo(() => filterDrafts(drafts, filter), [drafts, filter]);
   const groups = useMemo(() => groupDraftsByAgent(filteredDrafts), [filteredDrafts]);
@@ -60,6 +72,15 @@ export function InboxExperience({
       ...current,
       [agentSlug]: !(current[agentSlug] ?? true),
     }));
+  }
+
+  function runAction(action: () => Promise<InboxActionResult>, clearSelection = false) {
+    setActionMessage(null);
+    startTransition(async () => {
+      const result = await action();
+      setActionMessage(result.message);
+      if (result.ok && clearSelection) setSelectedIds([]);
+    });
   }
 
   return (
@@ -101,7 +122,28 @@ export function InboxExperience({
         </div>
 
         {selectedCount > 0 ? (
-          <BatchBar selectedCount={selectedCount} />
+          <BatchBar
+            selectedCount={selectedCount}
+            disabled={isPending}
+            onApprove={() =>
+              runAction(() => approveSelectedAction(slug, selectedIds), true)
+            }
+            onSendToLedger={() =>
+              runAction(() => sendToLedgerAction(slug, selectedIds), true)
+            }
+            onNeedsVoice={() =>
+              runAction(() => markNeedsVoiceAction(slug, selectedIds), true)
+            }
+          />
+        ) : null}
+
+        {actionMessage ? (
+          <p
+            className="mt-4 rounded-[8px] border border-[rgba(43,107,87,0.18)] bg-white/75 px-4 py-3 text-sm text-[color:var(--text-secondary)]"
+            role="status"
+          >
+            {actionMessage}
+          </p>
         ) : null}
 
         {filteredDrafts.length === 0 ? (
@@ -158,6 +200,15 @@ export function InboxExperience({
                               draft={draft}
                               selected={selectedIds.includes(draft.id)}
                               onToggleSelected={() => toggleSelected(draft.id)}
+                              disabled={isPending}
+                              onApprove={() => runAction(() => approveDraftAction(slug, draft.id))}
+                              onDefer={() => runAction(() => deferDraftAction(slug, draft.id))}
+                              onSaveEdit={(body) =>
+                                runAction(() => saveDraftRevisionAction(slug, draft.id, body))
+                              }
+                              onReject={(reason) =>
+                                runAction(() => rejectDraftAction(slug, draft.id, reason))
+                              }
                             />
                           ))}
                         </div>
@@ -180,11 +231,26 @@ function DraftCard({
   draft,
   selected,
   onToggleSelected,
+  disabled,
+  onApprove,
+  onDefer,
+  onSaveEdit,
+  onReject,
 }: {
   draft: OperatorDraft;
   selected: boolean;
   onToggleSelected: () => void;
+  disabled: boolean;
+  onApprove: () => void;
+  onDefer: () => void;
+  onSaveEdit: (body: string) => void;
+  onReject: (reason: string) => void;
 }) {
+  const [editing, setEditing] = useState(false);
+  const [rejecting, setRejecting] = useState(false);
+  const [draftBody, setDraftBody] = useState(draft.draftBody);
+  const [rejectReason, setRejectReason] = useState('');
+
   return (
     <article className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-4">
       <div className="flex items-start gap-3">
@@ -224,12 +290,93 @@ function DraftCard({
             </div>
           ) : null}
 
+          {editing ? (
+            <div className="mt-4">
+              <label className="sr-only" htmlFor={`draft-body-${draft.id}`}>
+                Edit draft body
+              </label>
+              <textarea
+                id={`draft-body-${draft.id}`}
+                value={draftBody}
+                onChange={(event) => setDraftBody(event.target.value)}
+                rows={6}
+                className="w-full rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white p-3 text-sm leading-relaxed outline-none focus:border-[color:var(--assembl-pounamu)]"
+              />
+              <div className="mt-2 flex flex-wrap gap-2">
+                <DraftButton
+                  icon={Check}
+                  label="Save revision"
+                  disabled={disabled}
+                  onClick={() => {
+                    onSaveEdit(draftBody);
+                    setEditing(false);
+                  }}
+                />
+                <DraftButton
+                  icon={X}
+                  label="Cancel"
+                  disabled={disabled}
+                  onClick={() => setEditing(false)}
+                />
+              </div>
+            </div>
+          ) : null}
+
+          {rejecting ? (
+            <div className="mt-4">
+              <label className="sr-only" htmlFor={`reject-reason-${draft.id}`}>
+                Rejection reason
+              </label>
+              <input
+                id={`reject-reason-${draft.id}`}
+                value={rejectReason}
+                onChange={(event) => setRejectReason(event.target.value)}
+                placeholder="Reason"
+                className="h-10 w-full rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white px-3 text-sm outline-none focus:border-[color:var(--assembl-pounamu)]"
+              />
+              <div className="mt-2 flex flex-wrap gap-2">
+                <DraftButton
+                  icon={X}
+                  label="Confirm reject"
+                  disabled={disabled}
+                  onClick={() => {
+                    onReject(rejectReason);
+                    setRejecting(false);
+                    setRejectReason('');
+                  }}
+                />
+                <DraftButton
+                  icon={Archive}
+                  label="Cancel"
+                  disabled={disabled}
+                  onClick={() => setRejecting(false)}
+                />
+              </div>
+            </div>
+          ) : null}
+
           <div className="mt-4 flex flex-wrap gap-2">
-            <DraftButton icon={Check} label="Approve" />
-            <DraftButton icon={Edit3} label="Edit" />
-            <DraftButton icon={X} label="Reject" />
-            <DraftButton icon={Archive} label="Defer" />
-            <DraftButton icon={FileText} label="See full pack" />
+            <DraftButton icon={Check} label="Approve" disabled={disabled} onClick={onApprove} />
+            <DraftButton
+              icon={Edit3}
+              label="Edit"
+              disabled={disabled}
+              onClick={() => setEditing((value) => !value)}
+            />
+            <DraftButton
+              icon={X}
+              label="Reject"
+              disabled={disabled}
+              onClick={() => setRejecting((value) => !value)}
+            />
+            <DraftButton icon={Archive} label="Defer" disabled={disabled} onClick={onDefer} />
+            <a
+              href={`/app/evidence/export?draft=${draft.id}`}
+              className="inline-flex h-9 items-center justify-center rounded-full border border-[rgba(35,33,31,0.12)] bg-white px-3 text-xs text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--assembl-pounamu-paper)]"
+            >
+              <FileText className="mr-1.5 h-3.5 w-3.5" aria-hidden />
+              See full pack
+            </a>
           </div>
         </div>
       </div>
@@ -237,10 +384,22 @@ function DraftCard({
   );
 }
 
-function DraftButton({ icon: Icon, label }: { icon: typeof Check; label: string }) {
+function DraftButton({
+  icon: Icon,
+  label,
+  disabled,
+  onClick,
+}: {
+  icon: typeof Check;
+  label: string;
+  disabled?: boolean;
+  onClick?: () => void;
+}) {
   return (
     <button
       type="button"
+      disabled={disabled}
+      onClick={onClick}
       className="inline-flex h-9 items-center justify-center rounded-full border border-[rgba(35,33,31,0.12)] bg-white px-3 text-xs text-[color:var(--text-primary)] transition-colors hover:bg-[color:var(--assembl-pounamu-paper)]"
     >
       <Icon className="mr-1.5 h-3.5 w-3.5" aria-hidden />
@@ -249,7 +408,19 @@ function DraftButton({ icon: Icon, label }: { icon: typeof Check; label: string 
   );
 }
 
-function BatchBar({ selectedCount }: { selectedCount: number }) {
+function BatchBar({
+  selectedCount,
+  disabled,
+  onApprove,
+  onSendToLedger,
+  onNeedsVoice,
+}: {
+  selectedCount: number;
+  disabled: boolean;
+  onApprove: () => void;
+  onSendToLedger: () => void;
+  onNeedsVoice: () => void;
+}) {
   return (
     <div className="sticky top-3 z-10 mt-4 rounded-[8px] border border-[rgba(43,107,87,0.22)] bg-white/95 p-3 shadow-[0_14px_44px_rgba(35,33,31,0.10)] backdrop-blur">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -257,9 +428,24 @@ function BatchBar({ selectedCount }: { selectedCount: number }) {
           {selectedCount} selected
         </p>
         <div className="flex flex-wrap gap-2">
-          <DraftButton icon={Check} label="Approve all selected" />
-          <DraftButton icon={Send} label="Send to ledger" />
-          <DraftButton icon={Edit3} label="Mark needs-my-voice" />
+          <DraftButton
+            icon={Check}
+            label="Approve all selected"
+            disabled={disabled}
+            onClick={onApprove}
+          />
+          <DraftButton
+            icon={Send}
+            label="Send to ledger"
+            disabled={disabled}
+            onClick={onSendToLedger}
+          />
+          <DraftButton
+            icon={Edit3}
+            label="Mark needs-my-voice"
+            disabled={disabled}
+            onClick={onNeedsVoice}
+          />
         </div>
       </div>
     </div>
