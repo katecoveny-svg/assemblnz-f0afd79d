@@ -133,7 +133,7 @@ export default function BrandGuidelinesPage() {
             <div className="space-y-6">
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>One-line pitch</p>
-                <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"Specialist agents for NZ work that needs proof."</p>
+                <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"Mahi that earns its proof."</p>
               </div>
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Elevator pitch</p>
@@ -149,7 +149,7 @@ export default function BrandGuidelinesPage() {
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
               <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>What Assembl is</p>
               <ul className="space-y-2">
-                {["Specialist agents for NZ work that needs proof", "Nine kete: eight industry plus Tōro", "assembl evidence vessel", "Built in Aotearoa"].map(t => (
+                {["Mahi that earns its proof", "Nine kete: eight industry plus Tōro", "assembl evidence vessel", "Built in Aotearoa"].map(t => (
                   <li key={t} className="flex items-start gap-3 text-[14px]" style={{ color: "#6B7280" }}>
                     <span className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ background: "#4AA5A8" }} />
                     {t}

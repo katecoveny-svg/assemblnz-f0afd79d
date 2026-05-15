@@ -163,7 +163,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                 assembl evidence vessel · Built in Aotearoa
               </p>
               <h1 className="mt-5 max-w-[11ch] font-display text-[2rem] font-light leading-[0.96] text-[color:var(--text-primary)] md:mt-7 md:max-w-4xl md:text-[clamp(3.4rem,7vw,6.9rem)] md:leading-[0.91]">
-                Specialist agents for NZ work that needs proof.
+                Mahi that earns its proof.
               </h1>
               <div className="mt-4 md:hidden">
                 <KeteSelector

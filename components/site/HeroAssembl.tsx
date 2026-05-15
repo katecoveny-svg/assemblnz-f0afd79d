@@ -42,7 +42,7 @@ export function HeroAssembl() {
               className="mt-5 font-display leading-[0.98] tracking-tight text-[color:var(--text-primary)]"
               style={{ fontWeight: 300, fontSize: 'clamp(2.2rem, 4.4vw, 4.5rem)' }}
             >
-              Specialist agents for NZ work that needs proof.
+              Mahi that earns its proof.
             </h1>
 
             <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)] md:mt-7 md:text-lg">
