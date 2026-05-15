@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import fs from "fs";
-import { componentTagger } from "lovable-tagger";
 
 // Build-time version stamp. Stable per build, changes on every fresh build.
 // Used to (a) bust the service worker cache on new deploys and (b) version
@@ -42,7 +41,6 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === "development" && componentTagger(),
     swCacheBustPlugin(),
   ].filter(Boolean),
   resolve: {
