@@ -626,8 +626,11 @@ export type Database = {
           icon: string | null
           id: string
           is_active: boolean | null
+          is_draft: boolean
+          kete_slug: string | null
           model_preference: string | null
           pack: string
+          phase: string | null
           system_prompt: string
           tenant_id: string | null
           updated_at: string | null
@@ -640,8 +643,11 @@ export type Database = {
           icon?: string | null
           id?: string
           is_active?: boolean | null
+          is_draft?: boolean
+          kete_slug?: string | null
           model_preference?: string | null
           pack: string
+          phase?: string | null
           system_prompt: string
           tenant_id?: string | null
           updated_at?: string | null
@@ -654,14 +660,24 @@ export type Database = {
           icon?: string | null
           id?: string
           is_active?: boolean | null
+          is_draft?: boolean
+          kete_slug?: string | null
           model_preference?: string | null
           pack?: string
+          phase?: string | null
           system_prompt?: string
           tenant_id?: string | null
           updated_at?: string | null
           version?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "agent_prompts_kete_slug_fkey"
+            columns: ["kete_slug"]
+            isOneToOne: false
+            referencedRelation: "kete_definitions"
+            referencedColumns: ["slug"]
+          },
           {
             foreignKeyName: "agent_prompts_tenant_id_fkey"
             columns: ["tenant_id"]
