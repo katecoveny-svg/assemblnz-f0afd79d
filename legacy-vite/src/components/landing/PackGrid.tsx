@@ -1,12 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { lazy, Suspense } from "react";
 import KeteOrbHero from "./KeteOrbHero";
-
-const GlassKeteSphere = lazy(() => import("@/components/kete/GlassKeteSphere"));
-
-
 
 type PackCard = {
   id: string;
@@ -16,78 +11,112 @@ type PackCard = {
   accent: string;
   accentLight: string;
   route: string;
+  status: "Live" | "Pilot" | "Greenfield";
+  vesselSrc?: string;
 };
 
 const PACKS: PackCard[] = [
   {
-    id: "manaaki",
-    name: "Manaaki",
-    label: "HOSPITALITY & TOURISM",
-    description:
-      "Fewer missed checks. Cleaner compliance. Guests looked after without the paperwork pile-up.",
-    accent: "#4AA5A8",
-    accentLight: "#A8DDDB",
-    route: "/manaaki",
-  },
-  {
     id: "waihanga",
     name: "Waihanga",
-    label: "CONSTRUCTION",
+    label: "CONSTRUCTION · POUNAMU",
     description:
-      "Site safety, schedule risks surfaced earlier, cleaner audit trails, approvals that don't stall.",
-    accent: "#3A7D6E",
-    accentLight: "#7ECFC2",
+      "Site safety, consent evidence, contract admin, and council-ready proof.",
+    accent: "#2B6B57",
+    accentLight: "#E8EFE9",
     route: "/waihanga",
+    status: "Live",
   },
   {
-    id: "auaha",
-    name: "Auaha",
-    label: "CREATIVE & MEDIA",
+    id: "manaaki",
+    name: "Manaaki",
+    label: "HOSPITALITY · CLAY",
     description:
-      "Brief to published with fewer handoffs. Content that stays on-brand and on-deadline.",
-    accent: "#A8DDDB",
-    accentLight: "#FFE866",
-    route: "/auaha",
-  },
-  {
-    id: "arataki",
-    name: "Arataki",
-    label: "AUTOMOTIVE",
-    description:
-      "Service, sales, parts, loan fleet — four verticals, one governed agent. No handoff dropped between workshop and showroom.",
-    accent: "#4AA5A8",
-    accentLight: "#7DD4D6",
-    route: "/arataki",
+      "Food safety, liquor licensing, shift records, and operator logs.",
+    accent: "#AC5838",
+    accentLight: "#F2E4DC",
+    route: "/manaaki",
+    status: "Pilot",
+    vesselSrc: "/img/kete/manaaki-vessel.png",
   },
   {
     id: "pikau",
     name: "Pīkau",
-    label: "FREIGHT & CUSTOMS",
+    label: "FREIGHT & CUSTOMS · BLUE",
     description:
-      "Route optimisation, declarations, broker hand-off, customs compliance.",
-    accent: "#5AADA0",
-    accentLight: "#7ECFC2",
+      "Customs entries, HS checks, tariff evidence, and broker-ready packs.",
+    accent: "#3B7CB5",
+    accentLight: "#DCEAF5",
     route: "/pikau",
+    status: "Live",
+    vesselSrc: "/img/kete/pikau-vessel.jpg",
   },
   {
-    id: "hoko",
-    name: "Hoko",
-    label: "RETAIL",
+    id: "arataki",
+    name: "Arataki",
+    label: "AUTOMOTIVE & FLEET · ORANGE",
     description:
-      "Pricing intelligence vs Temu/Amazon, POS re-orders, FTA/CGA compliance lint. For NZ retail's $92.3bn frontline.",
-    accent: "#C66B5C",
-    accentLight: "#E89484",
-    route: "/hoko",
+      "Workshop, fleet, dealer, WoF, CoF, CGA, and IPP 3A records.",
+    accent: "#D4842A",
+    accentLight: "#F4E5D2",
+    route: "/arataki",
+    status: "Pilot",
+  },
+  {
+    id: "auaha",
+    name: "Auaha",
+    label: "CREATIVE · PURPLE",
+    description:
+      "Creative briefs, rights checks, approvals, and campaign evidence.",
+    accent: "#5B4FA0",
+    accentLight: "#E7E2F5",
+    route: "/auaha",
+    status: "Pilot",
   },
   {
     id: "ako",
     name: "Ako",
-    label: "EARLY CHILDHOOD EDUCATION",
+    label: "EARLY CHILDHOOD EDUCATION · BROWN",
     description:
-      "Licensing criteria matcher, transparency pack generator, readiness scorecard. Built for the 20 April 2026 wedge.",
-    accent: "#7BA7C7",
-    accentLight: "#A8C8DD",
+      "Te Whāriki, ratios, kaiako, ERO readiness, and centre evidence.",
+    accent: "#6B5843",
+    accentLight: "#E9E0D5",
     route: "/ako",
+    status: "Pilot",
+  },
+  {
+    id: "matauranga",
+    name: "Mātauranga",
+    label: "SECONDARY EDUCATION · DEEP BLUE",
+    description:
+      "A greenfield pilot for NCEA reporting and achievement standards.",
+    accent: "#1A3A5C",
+    accentLight: "#D9E2EA",
+    route: "/kete/matauranga",
+    status: "Greenfield",
+  },
+  {
+    id: "hoko",
+    name: "Hoko",
+    label: "RETAIL · VIOLET",
+    description:
+      "Consumer protection compliance and product records for NZ retail teams.",
+    accent: "#7B3F8F",
+    accentLight: "#E9DBEE",
+    route: "/hoko",
+    status: "Pilot",
+  },
+  {
+    id: "toro",
+    name: "Tōro",
+    label: "WHĀNAU · CHARCOAL",
+    description:
+      "The whānau navigator for school, money, routines, and the week ahead.",
+    accent: "#23211F",
+    accentLight: "#E8E4DE",
+    route: "/toro",
+    status: "Live",
+    vesselSrc: "/img/kete/toro-vessel.png",
   },
 ];
 
@@ -102,7 +131,7 @@ const PackGrid = () => {
         {/* Hero orb */}
         <KeteOrbHero />
 
-        {/* The 7 industry kete + Tōro whānau */}
+        {/* Nine kete: eight industry kete + Tōro whānau */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           {PACKS.map((pack, idx) => (
             <motion.div
@@ -115,12 +144,13 @@ const PackGrid = () => {
                 boxShadow: "0 10px 40px -10px rgba(74,165,168,0.15), 0 4px 12px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.8)",
                 transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0.7, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.08 }}
+              transition={{ duration: 0.4, delay: idx * 0.08, ease: "easeOut" }}
               whileHover={{
-                y: -4,
+                y: -2,
+                scale: 1.02,
                 boxShadow: `0 16px 48px -12px rgba(74,165,168,0.2), 0 4px 12px rgba(0,0,0,0.06)`,
               }}
             >
@@ -133,21 +163,7 @@ const PackGrid = () => {
 
               <div className="p-6">
                 <div className="flex justify-center mb-4">
-                  <Suspense
-                    fallback={
-                      <div
-                        className="w-[100px] h-[100px] rounded-full animate-pulse"
-                        style={{ background: `${pack.accent}10` }}
-                      />
-                    }
-                  >
-                    <GlassKeteSphere
-                      accentColor={pack.accent}
-                      accentLight={pack.accentLight}
-                      size={110}
-                      swirlCount={4}
-                    />
-                  </Suspense>
+                  <KeteVesselThumb pack={pack} />
                 </div>
 
                 <div className="mb-3">
@@ -161,11 +177,22 @@ const PackGrid = () => {
                     {pack.label}
                   </p>
                   <h3
-                    className="text-lg tracking-[2px] uppercase"
-                    style={{ fontWeight: 300, fontFamily: "'Inter', sans-serif", color: "#1A1D29" }}
+                    className="text-3xl"
+                    style={{ fontWeight: 300, fontFamily: "'Cormorant Garamond', serif", color: "#1A1D29" }}
                   >
                     {pack.name}
                   </h3>
+                  <span
+                    className="mt-3 inline-flex rounded-full px-3 py-1 text-[10px] uppercase tracking-[2px]"
+                    style={{
+                      color: pack.status === "Live" ? "#fff" : pack.accent,
+                      background: pack.status === "Live" ? pack.accent : "transparent",
+                      border: `1px solid ${pack.status === "Greenfield" ? "#B8B2A8" : pack.accent}66`,
+                      fontFamily: "'IBM Plex Mono', monospace",
+                    }}
+                  >
+                    {pack.status}
+                  </span>
                 </div>
 
                 <p className="text-[13px] leading-[1.7] mb-3" style={{ color: "#6B7280" }}>
@@ -203,5 +230,36 @@ const PackGrid = () => {
     </section>
   );
 };
+
+function KeteVesselThumb({ pack }: { pack: PackCard }) {
+  const monogram = pack.name.slice(0, 1);
+
+  return (
+    <div
+      className="relative h-28 w-28 overflow-hidden rounded-2xl border"
+      style={{
+        borderColor: `${pack.accent}33`,
+        background: `linear-gradient(135deg, ${pack.accent}22, ${pack.accentLight})`,
+      }}
+    >
+      {pack.vesselSrc ? (
+        <img src={pack.vesselSrc} alt="" className="h-full w-full object-cover" loading="lazy" />
+      ) : (
+        <div
+          className="flex h-full w-full items-center justify-center text-5xl"
+          style={{
+            color: "#FAF7F2",
+            fontFamily: "'Cormorant Garamond', serif",
+            fontWeight: 300,
+            background: pack.accent,
+          }}
+          aria-hidden
+        >
+          {monogram}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default PackGrid;

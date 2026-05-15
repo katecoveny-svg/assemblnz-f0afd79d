@@ -470,10 +470,12 @@ const Index = () => {
                           </span>
                         )}
                         <div className="flex items-center gap-4 mb-5">
-                          <span
-                            className="h-10 w-10 rounded-full border"
-                            style={{ background: p.color, borderColor: `${p.color}33` }}
-                            aria-hidden
+                          <KeteTileVisual
+                            slug={p.key}
+                            name={p.reo}
+                            color={p.color}
+                            accentLight={p.accentLight}
+                            size={64}
                           />
                           <div>
                             <h3 className="text-[18px] font-medium" style={{ color: C.text }}>{p.reo}</h3>
@@ -833,6 +835,52 @@ const Index = () => {
     </div>
   );
 };
+
+function KeteTileVisual({
+  slug,
+  name,
+  color,
+  accentLight,
+  size,
+}: {
+  slug: string;
+  name: string;
+  color: string;
+  accentLight: string;
+  size: number;
+}) {
+  const src = KETE_VESSEL_IMAGES[slug];
+
+  return (
+    <span
+      className="relative shrink-0 overflow-hidden rounded-2xl border"
+      style={{
+        width: size,
+        height: size,
+        borderColor: `${color}33`,
+        background: `linear-gradient(135deg, ${color}22, ${accentLight})`,
+      }}
+      aria-hidden
+    >
+      {src ? (
+        <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />
+      ) : (
+        <span
+          className="flex h-full w-full items-center justify-center"
+          style={{
+            color: "#FAF7F2",
+            background: color,
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: Math.round(size * 0.42),
+            fontWeight: 300,
+          }}
+        >
+          {name.slice(0, 1)}
+        </span>
+      )}
+    </span>
+  );
+}
 
 export default Index;
 

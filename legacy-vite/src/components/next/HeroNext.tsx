@@ -40,7 +40,7 @@ const CANONICAL_ACCENTS: Record<string, string> = {
 };
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const HEADLINE = "Specialist agents for NZ work that needs proof.";
+const HEADLINE = "Mahi that earns its proof.";
 const HEADLINE_WORDS = HEADLINE.split(" ");
 
 interface Sparkle {

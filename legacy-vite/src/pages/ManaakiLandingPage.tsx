@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Shield, Wine, Star, Leaf, Calendar, UtensilsCrossed, Coffee, Users, Thermometer, ClipboardList, Sparkles } from "lucide-react";
-import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import HeroBackdropNext from "@/components/next/HeroBackdropNext";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
@@ -21,7 +20,7 @@ import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { MANAAKI_USE_CASE } from "@/data/useCases";
 
 const BG = "#FAFBFC";
-const ACCENT = "#4AA5A8";
+const ACCENT = "#AC5838";
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
 const BONE = "#F5F0E8";
@@ -107,12 +106,28 @@ export default function ManaakiLandingPage() {
             />
           ))}
 
-          {/* 3D Hero — larger, more dramatic */}
-          <LandingKeteHero accentColor={POUNAMU} accentLight={POUNAMU_LIGHT} model="wine-glass" size={200} />
+          <motion.div
+            className="relative mb-8 aspect-square w-[min(68vw,320px)] overflow-hidden rounded-2xl border"
+            style={{
+              borderColor: `${ACCENT}40`,
+              boxShadow: `0 24px 72px ${ACCENT}20`,
+            }}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0}
+          >
+            <img src="/img/kete/manaaki-vessel.png" alt="" className="h-full w-full object-cover" />
+            <div
+              aria-hidden
+              className="absolute inset-0"
+              style={{ background: `radial-gradient(ellipse at 70% 20%, ${ACCENT}22 0%, transparent 58%)` }}
+            />
+          </motion.div>
 
           <motion.p
             className="text-[10px] tracking-[5px] mb-6"
-            style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, textTransform: "uppercase" }}
+            style={{ color: ACCENT, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700, textTransform: "uppercase" }}
             variants={fadeUp} initial="hidden" animate="visible" custom={0}
           >
             Manaaki · Hospitality

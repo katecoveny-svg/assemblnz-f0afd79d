@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, FileText, Shield, Package, Anchor, ChevronDown } from "lucide-react";
-import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import HeroBackdropNext from "@/components/next/HeroBackdropNext";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
@@ -22,8 +21,8 @@ import { PIKAU_USE_CASE } from "@/data/useCases";
 const BG = "#FAF6EF";          // Warm Pearl canvas
 const INK = "#0F2A26";         // Forest Ink (body / headlines)
 const INK_SOFT = "rgba(15,42,38,0.72)";
-const POUNAMU = "#1F4D47";     // Italic emphasis, accents
-const ACCENT = "#1F4D47";      // legacy alias kept for downstream sections
+const POUNAMU = "#3B7CB5";     // Pīkau kikorangi accent
+const ACCENT = "#3B7CB5";      // legacy alias kept for downstream sections
 const POUNAMU_LIGHT = "#C4D6D2"; // Sea Glass support
 const BONE = "#F4EFE6";        // Linen
 const GOLD = "#F8E9C4";        // Warm Halo (fairy-light only — never as text)
@@ -78,11 +77,28 @@ export default function PikauLandingPage() {
         <HeroBackdropNext variant="layered" accentTint={`${POUNAMU}10`}>
         <main className="relative flex flex-col items-center justify-center px-6 pt-16 pb-28 text-center overflow-hidden">
 
-          <LandingKeteHero accentColor="#1F4D47" accentLight="#C4D6D2" model="container" size={200} />
+          <motion.div
+            className="relative mb-8 aspect-square w-[min(68vw,320px)] overflow-hidden rounded-2xl border"
+            style={{
+              borderColor: `${POUNAMU}40`,
+              boxShadow: `0 24px 72px ${POUNAMU}20`,
+            }}
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            custom={0}
+          >
+            <img src="/img/kete/pikau-vessel.jpg" alt="" className="h-full w-full object-cover" />
+            <div
+              aria-hidden
+              className="absolute inset-0"
+              style={{ background: `radial-gradient(ellipse at 70% 20%, ${POUNAMU}22 0%, transparent 58%)` }}
+            />
+          </motion.div>
 
           <motion.p
             className="text-[10px] uppercase tracking-[0.32em] mb-6"
-            style={{ color: POUNAMU, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
+            style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 700 }}
             variants={fadeUp} initial="hidden" animate="visible" custom={0}
           >
             Pīkau · Freight & Customs

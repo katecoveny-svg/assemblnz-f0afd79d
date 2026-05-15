@@ -17,7 +17,6 @@ import {
   Users,
   CloudSun,
 } from "lucide-react";
-import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import HeroBackdropNext from "@/components/next/HeroBackdropNext";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
@@ -32,8 +31,8 @@ import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { TORO_USE_CASE } from "@/data/useCases";
 
 /* ─── Tōro palette — Moonstone Blue (TORO-04 industry accent) ─── */
-const ACCENT = "#C7D9E8";       // moonstone blue (locked industry accent)
-const ACCENT_DEEP = "#7BA8C9";  // deeper moonstone for primary actions
+const ACCENT = "#23211F";       // Tōro charcoal accent
+const ACCENT_DEEP = "#23211F";  // deeper charcoal for primary actions
 const POUNAMU = "#3A7D6E";      // brand green (CTA gradient end)
 const INK = "#3D4250";          // charcoal text (brand standard)
 
@@ -210,7 +209,24 @@ export default function ToroaLandingPage() {
               />
             ))}
 
-            <LandingKeteHero accentColor={ACCENT_DEEP} accentLight={ACCENT} model="palette" size={200} />
+            <motion.div
+              className="relative mb-8 aspect-square w-[min(68vw,320px)] overflow-hidden rounded-2xl border"
+              style={{
+                borderColor: "rgba(35,33,31,0.24)",
+                boxShadow: "0 24px 72px rgba(35,33,31,0.14)",
+              }}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={0}
+            >
+              <img src="/img/kete/toro-vessel.png" alt="" className="h-full w-full object-cover" />
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{ background: "radial-gradient(ellipse at 70% 20%, rgba(35,33,31,0.12) 0%, transparent 58%)" }}
+              />
+            </motion.div>
 
             <motion.p
               className="text-[10px] uppercase tracking-[5px] mb-6"
