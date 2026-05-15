@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, FileCheck2 } from 'lucide-react';
+import { ArrowRight, FileCheck2, Images, LayoutDashboard, MessageCircle, ShieldCheck } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
@@ -102,6 +102,33 @@ const PROOF_ITEMS = [
   },
 ] as const;
 
+const PRODUCT_ACCESS = [
+  {
+    href: '/app/chat',
+    label: 'Talk to an agent',
+    body: 'Choose a kete, choose a specialist, ask the first question.',
+    icon: MessageCircle,
+  },
+  {
+    href: '/app/admin',
+    label: 'Open admin',
+    body: 'Live agents, Tōro drafts, routing logs, metrics, and settings.',
+    icon: LayoutDashboard,
+  },
+  {
+    href: '/evidence-pack',
+    label: 'See proof',
+    body: 'What the signed evidence record contains and how verification works.',
+    icon: ShieldCheck,
+  },
+  {
+    href: '/app/admin/imagery',
+    label: 'Update imagery',
+    body: 'Where vessel URLs, hero assets, and the image studio live.',
+    icon: Images,
+  },
+] as const;
+
 export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
   const [activeSlug, setActiveSlug] = useState<KeteSlug>('waihanga');
   const reduceMotion = useReducedMotion();
@@ -133,10 +160,10 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
               <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/55 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
-                Nine kete / pilot sprint / evidence pack
+                Use the product / prove the work
               </p>
               <h1 className="mt-5 max-w-[11ch] font-display text-[2rem] font-light leading-[0.96] text-[color:var(--text-primary)] md:mt-7 md:max-w-4xl md:text-[clamp(3.4rem,7vw,6.9rem)] md:leading-[0.91]">
-                Pick a kete. Run a workflow. Leave with an evidence pack.
+                Talk to a specialist agent. Keep the evidence.
               </h1>
               <div className="mt-4 md:hidden">
                 <KeteSelector
@@ -148,14 +175,21 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                 />
               </div>
               <p className="mt-7 hidden max-w-2xl text-lg leading-[1.75] text-[color:var(--text-body)] md:block">
-                assembl is a platform of specialist agents for New Zealand operators and whānau.
-                Each workflow drafts the work, records the sources, and waits for a named human
-                before anything consequential leaves your account.
+                Pick one of nine kete, ask the right specialist, review the draft,
+                and keep a signed evidence pack. Nothing consequential leaves without
+                a named human approving it.
               </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row md:mt-8">
                 <Link
-                  href="/pilot-sprint"
+                  href="/app/chat"
                   className="cta-primary inline-flex h-11 w-full items-center justify-center px-7 text-sm sm:w-auto md:h-12 md:text-base"
+                >
+                  Talk to an agent
+                  <MessageCircle className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+                <Link
+                  href="/pilot-sprint"
+                  className="btn-ghost inline-flex h-11 w-full items-center justify-center px-7 text-sm sm:w-auto md:h-12 md:text-base"
                 >
                   Book a pilot
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
@@ -170,10 +204,10 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
               </div>
             </motion.div>
 
+            <ProductAccessPanel />
             <ProofDock stats={pearlLive} />
             <p className="text-sm leading-[1.62] text-[color:var(--text-body)] md:hidden">
-              assembl is a platform of specialist agents for New Zealand operators and whānau.
-              Every workflow keeps the sources, reviewer, and final record together.
+              Pick a kete, speak to a specialist, review the draft, keep the record.
             </p>
           </div>
 
@@ -200,10 +234,10 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
       <section className="bg-[color:var(--assembl-cloud)] px-6 py-8 md:px-10">
         <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-4">
           {[
-            ['01', 'Choose a kete', 'Start from your industry or Tōro whānau workflow.'],
-            ['02', 'Select the job', 'Pick the weekly workflow worth proving first.'],
-            ['03', 'Review the draft', 'A named person checks every consequential step.'],
-            ['04', 'Keep the record', 'The final pack carries citations, sign-off, and verifier trail.'],
+            ['01', 'Choose a kete', 'Nine kete: eight industries plus Tōro whānau.'],
+            ['02', 'Talk to a specialist', 'Use chat now, or run a Pilot Sprint for a real workflow.'],
+            ['03', 'Review the draft', 'A named person approves every consequential step.'],
+            ['04', 'Keep the record', 'Citations, reviewer, sign-off, and verifier trail stay together.'],
           ].map(([number, title, body]) => (
             <motion.div
               key={number}
@@ -227,6 +261,38 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
         </div>
       </section>
     </main>
+  );
+}
+
+function ProductAccessPanel() {
+  return (
+    <nav
+      aria-label="Product access"
+      className="grid gap-2 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[rgba(255,255,255,0.58)] p-3 shadow-[0_12px_40px_rgba(35,33,31,0.07)] backdrop-blur-xl sm:grid-cols-2"
+    >
+      {PRODUCT_ACCESS.map((item) => {
+        const Icon = item.icon;
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="group flex min-h-[78px] gap-3 rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-[rgba(250,247,242,0.62)] p-3 transition-colors hover:border-[color:var(--assembl-pounamu)] hover:bg-white"
+          >
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)]">
+              <Icon className="h-4 w-4" aria-hidden />
+            </span>
+            <span className="min-w-0">
+              <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+                {item.label}
+              </span>
+              <span className="mt-1 block text-xs leading-relaxed text-[color:var(--text-secondary)]">
+                {item.body}
+              </span>
+            </span>
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
 

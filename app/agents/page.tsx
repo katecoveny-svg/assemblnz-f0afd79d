@@ -1,200 +1,297 @@
 import type { Metadata } from 'next';
+import type { CSSProperties } from 'react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { KETES } from '@/lib/kete';
-import { ketes as keteImagery, reo } from '@/lib/site-config';
-import { SectionReveal } from '@/components/SectionReveal';
-import { KeteVesselCard } from '@/components/KeteVesselCard';
-import { TeHui } from '@/components/TeHui';
+import { ArrowRight, CheckCircle2, MessageCircle, Radio, ShieldCheck } from 'lucide-react';
+import { KETES, type Kete, type KeteSlug } from '@/lib/kete';
+import { agentsForKete } from '@/lib/agents';
+import { CHAT_KETES, type ChatAgent } from '@/lib/chat/registry';
 
 export const metadata: Metadata = {
-  title: 'Agent marketplace',
+  title: 'Agents',
   description:
-    'Browse the kete. Each one bundles specialist agents grounded in NZ legislation. Pilot Sprint is the entry point; once embedded, you can scale specific agents per workflow.',
+    'See which assembl agents are live, which kete they belong to, and where to talk to one.',
 };
 
-// Visual filter chips — no functionality yet, per Phase 1 brief §3.
-const FILTER_CHIPS = [
-  'All',
-  'Construction',
-  'Hospitality',
-  'Freight & Customs',
-  'Creative',
-  'Education',
-  'Retail',
-  'Whānau',
-] as const;
+const KETE_STAGE: Record<KeteSlug, string> = {
+  waihanga: 'Live',
+  manaaki: 'Pilot',
+  pikau: 'Live',
+  arataki: 'Pilot',
+  auaha: 'Pilot',
+  ako: 'Pilot',
+  matauranga: 'Greenfield / pilot',
+  hoko: 'Mothballed',
+  toro: 'Live',
+};
+
+const KETE_SUMMARY: Record<KeteSlug, string> = {
+  waihanga: 'Construction consent, safety, quality, BIM, materials, and handover work.',
+  manaaki: 'Food safety, liquor licensing, guest operations, and shift evidence.',
+  pikau: 'Customs entries, HS classification, broker records, and freight documents.',
+  arataki: 'Workshop, dealer, fleet, WoF, CoF, CGA, and IPP 3A workflows.',
+  auaha: 'Campaign, brand, rights, and creative operations records.',
+  ako: 'ECE licensing, Te Whāriki, ratios, kaiako, ERO, and tamariki safety.',
+  matauranga: 'Secondary-school operator workflows: NCEA, reporting, and board prep.',
+  hoko: 'Retail and consumer-protection workflows; held until the kete reopens.',
+  toro: 'Whānau navigator: Term Planner, Kid Money, Holiday Ideas, and parent approval.',
+};
 
 export default function AgentsPage() {
+  const chatByKete = new Map(CHAT_KETES.map((kete) => [kete.slug, kete.agents]));
+  const crossPack = CHAT_KETES.find((kete) => kete.slug === 'cross-pack');
+
   return (
-    <>
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 0%, rgba(212, 168, 83, 0.10) 0%, transparent 65%)',
-          }}
-        />
-        <div className="relative container py-24 md:py-32">
-          <div className="mx-auto max-w-4xl text-center">
-            <SectionReveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Agent marketplace
-              </p>
-            </SectionReveal>
-            <SectionReveal delay={0.1}>
-              <h1
-                className="mt-6 font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
+    <main className="min-h-screen bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
+      <section className="border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F1ECE4_100%)] px-6 py-14 md:px-10 md:py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.55fr)]">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+              Agents / kete / what works now
+            </p>
+            <h1 className="mt-5 max-w-3xl font-display text-[clamp(2.6rem,7vw,6.4rem)] font-light leading-[0.92]">
+              Speak to the right specialist.
+            </h1>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+              Pick a kete, choose an agent, ask the first question. A reply is a draft,
+              not a final action. Your team reviews before anything leaves.
+            </p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/app/chat"
+                className="cta-primary inline-flex h-12 items-center justify-center px-7 text-sm md:text-base"
               >
-                Browse the kete.
-                <br />
-                <em className="not-italic text-gradient-hero">Hire an agent.</em>
-              </h1>
-            </SectionReveal>
-            <SectionReveal delay={0.2}>
-              <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Each kete bundles specialist agents grounded in NZ legislation. Pilot Sprint
-                is the entry point; once embedded, you can scale specific agents per workflow
-                — Subscribe, Pay per output, or Pay per resolution.
-              </p>
-            </SectionReveal>
-            <SectionReveal delay={0.3}>
-              <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-[color:var(--text-secondary)] md:text-base">
-                {reo.agentsPolicyRuntimeIntro}
-              </p>
-            </SectionReveal>
+                Talk to an agent
+                <MessageCircle className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+              <Link
+                href="/app/admin"
+                className="btn-ghost inline-flex h-12 items-center justify-center px-7 text-sm md:text-base"
+              >
+                Open admin
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
           </div>
+
+          <aside className="rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/60 p-5 shadow-[0_12px_40px_rgba(35,33,31,0.08)]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+              Current product truth
+            </p>
+            <div className="mt-5 grid gap-3">
+              <TruthRow icon={MessageCircle} title="Chat is live" body="/app/chat routes through Iho to selected specialists." />
+              <TruthRow icon={ShieldCheck} title="Evidence is the product" body="Outputs are drafts until reviewed and recorded." />
+              <TruthRow icon={Radio} title="Admin shows the system" body="Agent status, drafts, routing logs, and evidence metrics live behind sign-in." />
+            </div>
+          </aside>
         </div>
       </section>
 
-      {/* Te Hui — the gathering. Visual anchor for the agent marketplace. */}
-      <section className="relative bg-[color:var(--assembl-paper)] pb-12 md:pb-20">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Te Hui · The gathering
+      <section className="px-6 py-10 md:px-10 md:py-14">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+                Kete catalogue
               </p>
-              <h2
-                className="mt-6 font-display leading-[0.98] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}
-              >
-                Forty-six specialists, in a circle.{' '}
-                <em className="not-italic text-gradient-hero">Iho at the centre.</em>
+              <h2 className="mt-2 font-display text-4xl font-light leading-none">
+                Nine entry points.
               </h2>
-              <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[color:var(--text-body)]">
-                Every output passes through Iho, the governed router, before any agent
-                touches it. The handoffs between Iho and the outer ring are the
-                Mana Trust Layer at work — drawn here as a quiet pulse of soft gold.
-              </p>
             </div>
-          </SectionReveal>
-          <SectionReveal delay={0.2}>
-            <div className="mx-auto mt-12 max-w-3xl">
-              <TeHui />
-            </div>
-          </SectionReveal>
-        </div>
-      </section>
+            <Link
+              href="/kete"
+              className="inline-flex items-center font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]"
+            >
+              See kete pages
+              <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+            </Link>
+          </div>
 
-      {/* Filter chips — visual only for now */}
-      <section className="relative bg-[color:var(--assembl-paper)]">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-2">
-              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                Filter
-              </span>
-              {FILTER_CHIPS.map((chip, i) => (
-                <span
-                  key={chip}
-                  className={`rounded-full border px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] ${
-                    i === 0
-                      ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
-                      : 'border-[rgba(35,33,31,0.15)] bg-white/40 text-[color:var(--text-secondary)]'
-                  }`}
-                >
-                  {chip}
-                </span>
-              ))}
-            </div>
-          </SectionReveal>
-        </div>
-      </section>
-
-      {/* 8 kete cards */}
-      <section className="relative bg-[color:var(--assembl-paper)] py-16 md:py-20">
-        <div className="container">
-          <div className="mx-auto grid max-w-7xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {KETES.map((kete, i) => (
-              <KeteVesselCard
+          <div className="grid gap-4 lg:grid-cols-3">
+            {KETES.map((kete) => (
+              <KeteAgentCard
                 key={kete.slug}
                 kete={kete}
-                vesselSrc={keteImagery[kete.slug].square}
-                index={i}
+                chatAgents={chatByKete.get(kete.slug) ?? []}
               />
             ))}
           </div>
         </div>
       </section>
 
-      {/* "Coming soon" provisioning UI note */}
-      <section className="relative bg-[color:var(--assembl-paper)] py-16">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl rounded-card border border-[rgba(35,33,31,0.10)] bg-white/40 px-6 py-5 text-center">
-              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                Phase 1B
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
-                Coming soon: agent provisioning UI — pick agents per workflow, configure
-                them in-browser, and ship to Draft Mode without a Pilot Sprint. For now,
-                every assembl deployment starts with a Pilot Sprint so we get the workflow
-                right with you.
-              </p>
+      {crossPack ? (
+        <section className="border-t border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-cloud)] px-6 py-10 md:px-10 md:py-14">
+          <div className="mx-auto max-w-7xl">
+            <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+              Cross-pack specialists
+            </p>
+            <h2 className="mt-2 font-display text-4xl font-light leading-none">
+              Useful when you do not know where to start.
+            </h2>
+            <div className="mt-6 grid gap-3 md:grid-cols-3">
+              {crossPack.agents.map((agent) => (
+                <AgentChatCard
+                  key={agent.agentId}
+                  agent={agent}
+                  keteSlug={crossPack.slug}
+                  accent={crossPack.accent}
+                />
+              ))}
             </div>
-          </SectionReveal>
-        </div>
-      </section>
+          </div>
+        </section>
+      ) : null}
+    </main>
+  );
+}
 
-      {/* CTA */}
-      <section className="relative bg-[color:var(--assembl-paper)] py-32 md:py-40">
-        <div className="container">
-          <SectionReveal>
-            <div className="mx-auto max-w-3xl text-center">
-              <h2
-                className="font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.4rem, 5vw, 4.5rem)' }}
-              >
-                Found a kete?{' '}
-                <em className="not-italic text-gradient-hero">Pilot it.</em>
-              </h2>
-              <p className="mt-8 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Two weeks. One workflow. Evidence by Friday.
-              </p>
-              <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <Link
-                  href="/pilot-sprint"
-                  className="cta-primary inline-flex h-12 items-center px-8 text-sm md:text-base"
-                >
-                  Start a Pilot Sprint
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="btn-ghost inline-flex h-12 items-center px-8 text-sm md:text-base"
-                >
-                  See pricing
-                </Link>
-              </div>
-            </div>
-          </SectionReveal>
+function KeteAgentCard({
+  kete,
+  chatAgents,
+}: {
+  kete: Kete;
+  chatAgents: ChatAgent[];
+}) {
+  const registryAgents = agentsForKete(kete.slug);
+  const stage = KETE_STAGE[kete.slug];
+  const canChat = chatAgents.length > 0;
+
+  return (
+    <article
+      className="flex min-h-[360px] flex-col rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/60 p-5 shadow-[0_10px_32px_rgba(35,33,31,0.06)]"
+      style={{ '--kete-accent': kete.accent } as CSSProperties}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--kete-accent)]">
+            {kete.industry}
+          </p>
+          <h3 className="mt-2 font-display text-4xl font-light leading-none">{kete.name}</h3>
         </div>
-      </section>
-    </>
+        <span className="rounded-full border border-[rgba(35,33,31,0.12)] bg-[rgba(250,247,242,0.8)] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+          {stage}
+        </span>
+      </div>
+
+      <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
+        {KETE_SUMMARY[kete.slug]}
+      </p>
+
+      <div className="mt-5">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+          Chat-ready agents
+        </p>
+        {canChat ? (
+          <div className="mt-3 grid gap-2">
+            {chatAgents.map((agent) => (
+              <AgentChatCard
+                key={agent.agentId}
+                agent={agent}
+                keteSlug={kete.slug}
+                accent={kete.accent}
+                compact
+              />
+            ))}
+          </div>
+        ) : (
+          <p className="mt-3 rounded-[8px] border border-dashed border-[rgba(35,33,31,0.16)] bg-[rgba(250,247,242,0.6)] p-3 text-sm leading-relaxed text-[color:var(--text-secondary)]">
+            Not exposed in chat yet. Use Pilot Sprint for this kete.
+          </p>
+        )}
+      </div>
+
+      <div className="mt-5">
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+          Backend registry
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {registryAgents.length > 0 ? (
+            registryAgents.map((agent) => (
+              <span
+                key={agent.slug}
+                className="rounded-full border border-[rgba(35,33,31,0.12)] bg-[rgba(250,247,242,0.72)] px-3 py-1 text-xs text-[color:var(--text-body)]"
+              >
+                {agent.name}
+              </span>
+            ))
+          ) : (
+            <span className="text-sm text-[color:var(--text-secondary)]">No public registry row yet.</span>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-auto pt-5">
+        <Link
+          href={`/kete/${kete.slug}`}
+          className="inline-flex items-center font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--kete-accent)]"
+        >
+          Open kete page
+          <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+        </Link>
+      </div>
+    </article>
+  );
+}
+
+function AgentChatCard({
+  agent,
+  keteSlug,
+  accent,
+  compact = false,
+}: {
+  agent: ChatAgent;
+  keteSlug: string;
+  accent: string;
+  compact?: boolean;
+}) {
+  return (
+    <Link
+      href={`/app/chat?kete=${encodeURIComponent(keteSlug)}&agent=${encodeURIComponent(agent.agentId)}`}
+      className="group flex gap-3 rounded-[8px] border border-[rgba(35,33,31,0.1)] bg-[rgba(250,247,242,0.75)] p-3 transition-colors hover:bg-white"
+      style={{ '--agent-accent': accent } as CSSProperties}
+    >
+      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--agent-accent)] text-[color:var(--assembl-paper)]">
+        <MessageCircle className="h-4 w-4" aria-hidden />
+      </span>
+      <span>
+        <span className="flex items-center gap-2">
+          <span className="font-display text-xl font-light leading-none text-[color:var(--text-primary)]">
+            {agent.name}
+          </span>
+          <CheckCircle2 className="h-3.5 w-3.5 text-[color:var(--agent-accent)]" aria-hidden />
+        </span>
+        <span className="mt-1 block text-xs leading-relaxed text-[color:var(--text-secondary)]">
+          {agent.role}
+        </span>
+        {!compact && agent.blurb ? (
+          <span className="mt-2 block text-sm leading-relaxed text-[color:var(--text-body)]">
+            {agent.blurb}
+          </span>
+        ) : null}
+      </span>
+    </Link>
+  );
+}
+
+function TruthRow({
+  icon: Icon,
+  title,
+  body,
+}: {
+  icon: typeof MessageCircle;
+  title: string;
+  body: string;
+}) {
+  return (
+    <div className="flex gap-3 border-l border-[rgba(212,168,83,0.8)] pl-3">
+      <Icon className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--assembl-pounamu)]" aria-hidden />
+      <div>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+          {title}
+        </p>
+        <p className="mt-1 text-sm leading-relaxed text-[color:var(--text-secondary)]">
+          {body}
+        </p>
+      </div>
+    </div>
   );
 }
