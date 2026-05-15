@@ -4,7 +4,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!tools/|.*\\.html$).*)", "destination": "/index.html" }
   ],
   "redirects": [
     { "source": "/pricing", "destination": "https://www.assembl.co.nz/pricing", "permanent": true },
