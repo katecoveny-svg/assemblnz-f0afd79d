@@ -201,7 +201,7 @@ export default function AgentSmsPanel({ agentId, agentName, agentColor }: Props)
         <h2 className="text-sm font-semibold text-white/90">{agentName} SMS</h2>
       </div>
       <p className="text-xs text-white/40">
-        Customers can text {agentName} directly and get instant AI-powered responses via SMS.
+        Customers can text {agentName} directly and get instant agent-powered responses via SMS.
       </p>
 
       {!config?.enabled ? (

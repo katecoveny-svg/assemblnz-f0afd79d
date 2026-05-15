@@ -53,7 +53,7 @@ const SKILLS: MarketplaceSkill[] = [
     price: { type: 'subscription', amount: 49 }, compatibleKete: ['Pakihi'], certification: 'certified', version: '3.0.2',
   },
   {
-    id: 'fal-image-gen', name: 'fal.ai Image Gen', description: 'AI-powered image generation using fal.ai models. Create product photos, marketing visuals, and social media assets from text prompts.',
+    id: 'fal-image-gen', name: 'fal.ai Image Gen', description: 'Agent-powered image generation using fal.ai models. Create product photos, marketing visuals, and social media assets from text prompts.',
     category: 'Design', publisher: 'CreativeTools', rating: 4.5, installCount: 456,
     price: { type: 'subscription', amount: 29 }, compatibleKete: ['Auaha'], certification: 'verified', version: '1.4.0',
   },

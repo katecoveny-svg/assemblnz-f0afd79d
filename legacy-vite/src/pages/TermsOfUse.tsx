@@ -18,7 +18,7 @@ const TermsOfUse = () => (
 
         <section>
           <h2 className="text-lg font-display font-bold text-foreground mb-2">2. About our service</h2>
-          <p>Assembl provides AI-powered agents that offer general information and guidance across various NZ industries. Our agents are tools to assist — they do not replace qualified professional advice.</p>
+          <p>Assembl provides agent-powered services that offer general information and guidance across various NZ industries. Our agents are tools to assist — they do not replace qualified professional advice.</p>
         </section>
 
         <section>

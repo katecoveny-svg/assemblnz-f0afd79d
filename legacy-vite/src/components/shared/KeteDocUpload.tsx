@@ -195,7 +195,7 @@ ${truncated}`;
           </div>
           <div>
             <h3 className="text-xs font-bold text-foreground font-display">Document Intelligence</h3>
-            <p className="text-[10px] text-muted-foreground">AI-powered document parsing for {keteName}</p>
+            <p className="text-[10px] text-muted-foreground">Agent-powered document parsing for {keteName}</p>
           </div>
         </div>
 

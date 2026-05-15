@@ -1295,9 +1295,9 @@ const ChatPage = () => {
           headers: session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : undefined,
         });
         if (error) throw error;
-        if (!data || data.error) throw new Error(data?.error || "No response from AI agent");
+        if (!data || data.error) throw new Error(data?.error || "No response from specialist agent");
         const assistantContent = data.content;
-        if (!assistantContent) throw new Error("Empty response from AI agent — please try again");
+        if (!assistantContent) throw new Error("Empty response from specialist agent — please try again");
         setMessages((prev) => [...prev, { role: "assistant", content: assistantContent }]);
       } else {
         // All other agents use streaming agent-router

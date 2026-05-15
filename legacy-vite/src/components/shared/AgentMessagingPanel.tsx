@@ -208,7 +208,7 @@ export default function AgentMessagingPanel({ agentId, agentName, agentColor, ch
         </h2>
       </div>
       <p className="text-[11px]" style={{ color: "#6B7280" }}>
-        Customers can {channel === "whatsapp" ? "message" : "text"} {agentName} directly and get instant AI-powered responses via {channelLabel}.
+        Customers can {channel === "whatsapp" ? "message" : "text"} {agentName} directly and get instant agent-powered responses via {channelLabel}.
       </p>
 
       {!config?.enabled ? (

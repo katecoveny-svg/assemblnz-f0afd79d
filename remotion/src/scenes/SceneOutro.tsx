@@ -76,7 +76,7 @@ export const SceneOutro = () => {
           letterSpacing: 4, textTransform: "uppercase", opacity: subtitleOpacity,
           margin: 0,
         }}>
-          AI agents for NZ industry
+          Specialist agents for NZ industry
         </p>
       </div>
     </AbsoluteFill>

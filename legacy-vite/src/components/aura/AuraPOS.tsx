@@ -149,7 +149,7 @@ const AuraPOS = ({ onGenerate }: Props) => {
         <div className="space-y-3">
           <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
             <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonChart size={16} color={color} /> POS Reports</h3>
-            <p className="text-[10px] text-muted-foreground mb-3">Generate AI-powered reports from your POS data. Connect your POS for live data, or AURA will generate template reports.</p>
+            <p className="text-[10px] text-muted-foreground mb-3">Generate agent-powered reports from your POS data. Connect your POS for live data, or AURA will generate template reports.</p>
             <div className="space-y-2">
               {REPORT_TYPES.map(r => (
                 <div key={r.name} className="p-3 rounded-lg border border-border flex items-center justify-between">
@@ -172,7 +172,7 @@ const AuraPOS = ({ onGenerate }: Props) => {
         <div className="space-y-4">
           <div className="rounded-xl border border-border bg-card p-4" style={{ borderColor: color + "20" }}>
             <h3 className="font-semibold text-sm text-foreground mb-3 flex items-center gap-2"><NeonStar size={16} color={color} /> Menu Intelligence</h3>
-            <p className="text-[10px] text-muted-foreground mb-3">AI-powered menu engineering: identify stars, plowhorses, puzzles & dogs. Optimise pricing and placement.</p>
+            <p className="text-[10px] text-muted-foreground mb-3">Agent-powered menu engineering: identify stars, plowhorses, puzzles & dogs. Optimise pricing and placement.</p>
             <div className="grid grid-cols-2 gap-2 mb-3">
               {[
                 { label: "Stars ", desc: "High profit, high sales", bg: "#5AADA020" },

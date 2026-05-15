@@ -512,7 +512,7 @@ Regenerate the affected scenes with the edit applied. Keep the same format as th
             </div>
             <p className="text-sm font-display font-bold" style={{ color: "hsl(var(--foreground))" }}>No video scripts yet</p>
             <p className="text-xs font-body max-w-xs mx-auto" style={{ color: "hsl(var(--muted-foreground))" }}>
-              Create your first production-ready video script with AI-powered storyboarding
+              Create your first production-ready video script with agent-powered storyboarding
             </p>
             <button onClick={() => setShowGen(true)} className="px-4 py-2 rounded-xl text-xs font-display font-bold mx-auto"
               style={{ background: `${ACCENT}15`, color: ACCENT, border: `1px solid ${ACCENT}30` }}>

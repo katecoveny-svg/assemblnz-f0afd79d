@@ -279,7 +279,7 @@ export default function AuahaBrandIdentity() {
           <h1 className="text-foreground text-2xl font-light uppercase tracking-[4px]" style={{ fontFamily: 'Inter, sans-serif' }}>
             Brand DNA Scanner
           </h1>
-          <p className="text-[#6B7280] text-sm mt-1">Powered by PRISM · AI-powered brand extraction</p>
+          <p className="text-[#6B7280] text-sm mt-1">Powered by PRISM · agent-powered brand extraction</p>
         </div>
         {brandDna && (
           <div className="flex items-center gap-3">

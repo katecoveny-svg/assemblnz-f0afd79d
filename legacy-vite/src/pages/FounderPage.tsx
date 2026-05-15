@@ -438,7 +438,7 @@ function ThreePillars() {
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10">
         <Eyebrow>What I'm building</Eyebrow>
         <Serif size="lg" weight={300} className="mb-20" >
-          Practical AI agents that finish the work.
+          Practical specialist agents that finish the work.
         </Serif>
         <div className="grid md:grid-cols-3 gap-12 md:gap-16">
           {pillars.map((p, i) => (
@@ -537,7 +537,7 @@ export default function FounderPage() {
     <>
       <SEO
         title="Kate Hudson · Founder of Assembl"
-        description="The founder of Assembl on why time matters — and what it means to build practical AI agents in Aotearoa New Zealand. Premium intelligence with a human heart."
+        description="The founder of Assembl on why time matters — and what it means to build practical specialist agents in Aotearoa New Zealand. Premium intelligence with a human heart."
       />
       <BrandNav />
       <main style={{ background: PEARL.bg }}>
