@@ -10,68 +10,64 @@
 
 import type { KeteSlug } from './kete';
 
-const PUB = 'https://pub.hyperagent.com/api/published';
-
 // ── Vessel imagery — Sculptural canon (locked 2026-05-08) ────────────────────
 
 export const heroVessel = {
   // 16:9 hero — cinematic video first frame fallback, deck cover, OG fallback
-  wide:    `${PUB}/pbf01KQZNN17F_QZ7P4QPVS1EWX8S1/4526e124-051e-4988-8a31-7fdb7e7848fe.png`,
+  wide:    '/img/kete/home-vessel-pounamu.jpg',
   // 1:1 square — OG image, Twitter card
-  square:  `${PUB}/pbf01KQZNN69D_F1PZY6EP7VFA8XVD/4118cc7f-6f94-40ef-87db-90369503d433.png`,
+  square:  '/img/kete/waihanga-vessel-square.jpg',
   // 4:5 portrait — mobile hero
-  portrait:`${PUB}/pbf01KQZNNA9Y_M0EN4QRNCEG2PGZE/1ae4a0f5-54a3-4664-a9a7-50ae2097c2c4.png`,
+  portrait:'/img/kete/toro-vessel-charcoal.jpg',
   // Brand mark — favicon, footer
-  mark:    `${PUB}/pbf01KQZNXVE1_NA5K5MPCQGCJEK7W/adfe1b92-a290-4c42-9a30-a79a2f2bd764.png`,
+  mark:    '/img/kete/waihanga-vessel-square.jpg',
   // Cinematic vessel video — homepage signature scrub-bound video.
   // Compressed locally to /videos/vessel-rotate-720p.mp4 (525 KB, 8s, 720p, no audio).
   // Original 5.6 MB MP4 retained as remote fallback only.
   videoLocal: '/videos/vessel-rotate-720p.mp4',
-  videoRemote: `${PUB}/pbf01KR29660W_5AV6EQQS47E3598Y/89dcf58c-d2ce-4d06-aeeb-64dcfb564fb1.mp4`,
+  videoRemote: '/videos/vessel-rotate-720p.mp4',
 };
 
 // Painterly anchor — /about hero only.
-export const painterlyAnchor = `${PUB}/pbf01KR2C71SD_5DYB1N0ZR3DG7GFQ/assembl-waihanga-1778139014339.jpg`;
+export const painterlyAnchor = '/img/kete/waihanga-vessel.jpg';
 
 // Nine kete vessels — 1:1 (card) + 16:9 (page hero)
 export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
   waihanga: {
-    square: `${PUB}/pbf01KR2AKJMZ_ZMB5AHZX86C6TQ7T/011e070e-7833-400c-9498-0c234754b478.png`,
-    wide:   `${PUB}/pbf01KR2CBWET_F7B9400XCPHSV7D5/432bd719-89c4-4c2d-80f9-3d025e5ab2cf.png`,
+    square: '/img/kete/waihanga-vessel-square.jpg',
+    wide:   '/img/kete/waihanga-vessel.jpg',
   },
   manaaki: {
-    square: `${PUB}/pbf01KR2BSMDJ_BR0EP5N10R6EX0XC/c673028f-a89e-4cd0-9196-adf28bc153a8.png`,
-    wide:   `${PUB}/pbf01KR2BTTQ1_S3GJ2XTY65FSAE5K/9c6d5f78-65e2-4aed-89b7-10d6422a7d78.png`,
+    square: '/img/kete/manaaki-vessel-warm.jpg',
+    wide:   '/img/kete/manaaki-vessel-warm.jpg',
   },
   pikau: {
-    square: `${PUB}/pbf01KR2BG4H6_6XZX51NHYJJ75VC2/111b5a32-524b-4952-8f17-80f22f0cddf2.png`,
-    wide:   `${PUB}/pbf01KR2BV3EY_YDM7PKXG517CBA0B/cbcc555f-f337-450c-b7b4-3fb50f8f5225.png`,
+    square: '/img/kete/pikau-vessel-blue.jpg',
+    wide:   '/img/kete/pikau-vessel-blue.jpg',
   },
   arataki: {
-    square: `${PUB}/pbf01KR2BSVX1_01E40PSVVTMDGWPP/295c0f3e-869e-45cb-bfdd-eada375ee298.png`,
-    wide:   `${PUB}/pbf01KR2BVBNP_33WTR87FXHETVFQN/8f792c3f-9811-4eb3-a3d2-fa8479f74145.png`,
+    square: '/img/kete/arataki-vessel-amber.jpg',
+    wide:   '/img/kete/arataki-vessel-amber.jpg',
   },
   auaha: {
-    square: `${PUB}/pbf01KR2BT3R6_BSW3ABA8N5RRXTXW/9da45672-f0be-4d86-8a81-c34d990ca2dc.png`,
-    wide:   `${PUB}/pbf01KR2BVJPD_N1H5BGJW58TH7Y25/99360b8b-e45e-4725-8427-b133ead1feff.png`,
+    square: '/img/kete/auaha-vessel-purple.jpg',
+    wide:   '/img/kete/auaha-vessel-purple.jpg',
   },
   ako: {
-    square: `${PUB}/pbf01KR2BTBT3_QEQEW35JCRW9XDSH/393cb7d8-5d02-43c2-a348-524802131e8f.png`,
-    wide:   `${PUB}/pbf01KR2BVT12_DH7K493ABBKV1W1N/da0ccaf5-6e2e-4b9c-bba3-e1da41289d22.png`,
+    square: '/img/kete/ako-vessel-amber.jpg',
+    wide:   '/img/kete/ako-vessel-amber.jpg',
   },
-  // Placeholder vessel imagery — Mātauranga reuses Ako's vessel until a
-  // bespoke render is commissioned. Paired in the homepage grid (Ako · Mātauranga).
   matauranga: {
-    square: `${PUB}/pbf01KR2BTBT3_QEQEW35JCRW9XDSH/393cb7d8-5d02-43c2-a348-524802131e8f.png`,
-    wide:   `${PUB}/pbf01KR2BVT12_DH7K493ABBKV1W1N/da0ccaf5-6e2e-4b9c-bba3-e1da41289d22.png`,
+    square: '/img/kete/matauranga-vessel-tall.jpg',
+    wide:   '/img/kete/matauranga-vessel-tall.jpg',
   },
   hoko: {
-    square: `${PUB}/pbf01KR2BGCDD_D34G6SMA3SDM4ANN/1a53a74a-1e57-4963-8e39-557317b86c67.png`,
-    wide:   `${PUB}/pbf01KR2BW3CT_Q1F4AF22ZB86N9AP/0b247f34-ad05-42e8-b392-58f1337dbb9d.png`,
+    square: '/img/kete/hoko-vessel-violet.jpg',
+    wide:   '/img/kete/hoko-vessel-violet.jpg',
   },
   toro: {
-    square: `${PUB}/pbf01KR2BTKQH_T3ZX2E53SHG1FTAD/9b7eb4e3-a0d7-46c3-aa4f-d10a947b66d6.png`,
-    wide:   `${PUB}/pbf01KR2BWA94_7PQ7R1ZPYB9MFNXE/46a806d9-7af3-4300-b18f-a0a25d627c49.png`,
+    square: '/img/kete/toro-vessel-charcoal.jpg',
+    wide:   '/img/kete/toro-vessel-charcoal.jpg',
   },
 };
 
@@ -103,7 +99,7 @@ export type HeroVideoKey =
 // Placeholder Waihanga video — used wherever a kete-specific MP4 has not
 // yet been commissioned. ~5.6 MB; the HeroVideo component gates it to
 // (min-width: 768px) so it does not load on mobile.
-const PLACEHOLDER_VIDEO = `${PUB}/pbf01KR29660W_5AV6EQQS47E3598Y/89dcf58c-d2ce-4d06-aeeb-64dcfb564fb1.mp4`;
+const PLACEHOLDER_VIDEO = '/videos/vessel-rotate-720p.mp4';
 
 export const heroVideos: Record<HeroVideoKey, HeroVideoEntry> = {
   home:           { src: PLACEHOLDER_VIDEO, poster: heroVessel.wide },

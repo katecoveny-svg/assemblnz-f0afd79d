@@ -168,6 +168,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
               <div className="mt-4 md:hidden">
                 <KeteSelector
                   ketes={ketes}
+                  imagery={keteImagery}
                   activeSlug={activeSlug}
                   onSelect={setActiveSlug}
                   reduceMotion={reduceMotion}
@@ -222,6 +223,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
             <div className="hidden md:block">
               <KeteSelector
                 ketes={ketes}
+                imagery={keteImagery}
                 activeSlug={activeSlug}
                 onSelect={setActiveSlug}
                 reduceMotion={reduceMotion}
@@ -364,12 +366,14 @@ function FeaturedKete({
 
 function KeteSelector({
   ketes,
+  imagery,
   activeSlug,
   onSelect,
   reduceMotion,
   variant = 'grid',
 }: {
   ketes: Kete[];
+  imagery: KeteImagery;
   activeSlug: KeteSlug;
   onSelect: (slug: KeteSlug) => void;
   reduceMotion: boolean | null;
@@ -392,7 +396,7 @@ function KeteSelector({
             whileTap={reduceMotion ? undefined : { scale: 0.985 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             className={[
-              'rounded-[8px] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
+              'group rounded-[8px] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
               variant === 'rail'
                 ? 'min-h-[58px] min-w-[126px] py-2'
                 : 'min-h-[86px] py-3',
@@ -402,7 +406,25 @@ function KeteSelector({
             ].join(' ')}
             aria-pressed={active}
           >
-            <span className={variant === 'rail' ? 'mb-2 block h-1 w-7 rounded-full bg-[color:var(--tile-accent)]' : 'mb-3 block h-1 w-8 rounded-full bg-[color:var(--tile-accent)]'} aria-hidden />
+            <span
+              className={[
+                'relative mb-3 block w-full overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)]',
+                variant === 'rail' ? 'h-8' : 'h-12',
+              ].join(' ')}
+              aria-hidden
+            >
+              <Image
+                src={imagery[kete.slug].square}
+                alt=""
+                fill
+                sizes={variant === 'rail' ? '126px' : '170px'}
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+              />
+              <span
+                className="absolute inset-x-0 bottom-0 h-1 bg-[color:var(--tile-accent)]"
+                aria-hidden
+              />
+            </span>
             <span className="block font-display text-[1.18rem] font-light leading-none text-[color:var(--text-primary)] md:text-[1.35rem]">
               {kete.name}
             </span>

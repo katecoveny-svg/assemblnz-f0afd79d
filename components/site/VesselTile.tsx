@@ -3,20 +3,40 @@ import type { KeteSlug } from '@/lib/kete';
 
 const LOCKED: Partial<Record<KeteSlug, { src: string; alt: string }>> = {
   waihanga: {
-    src: '/img/hero/waihanga-vessel-cream.jpg',
-    alt: 'Waihanga evidence vessel — silk-organza pounamu bloom on cream backdrop.',
+    src: '/img/kete/waihanga-vessel.jpg',
+    alt: 'Waihanga evidence vessel — pounamu stacked vessel on warm paper.',
   },
   manaaki: {
-    src: '/img/kete/manaaki-vessel.png',
-    alt: 'Manaaki evidence vessel — terracotta silk bloom on cream backdrop.',
+    src: '/img/kete/manaaki-vessel-warm.jpg',
+    alt: 'Manaaki evidence vessel — clay-toned vessel on warm paper.',
   },
   pikau: {
-    src: '/img/kete/pikau-vessel.jpg',
-    alt: 'Pīkau evidence vessel — cobalt and peach silk-organza drift on cream paper.',
+    src: '/img/kete/pikau-vessel-blue.jpg',
+    alt: 'Pīkau evidence vessel — blue stacked vessel on warm paper.',
+  },
+  arataki: {
+    src: '/img/kete/arataki-vessel-amber.jpg',
+    alt: 'Arataki evidence vessel — amber stacked vessel on warm paper.',
+  },
+  auaha: {
+    src: '/img/kete/auaha-vessel-purple.jpg',
+    alt: 'Auaha evidence vessel — violet sculptural vessel on warm paper.',
+  },
+  ako: {
+    src: '/img/kete/ako-vessel-amber.jpg',
+    alt: 'Ako evidence vessel — amber folded vessel on warm paper.',
+  },
+  matauranga: {
+    src: '/img/kete/matauranga-vessel-tall.jpg',
+    alt: 'Mātauranga evidence vessel — layered vessel with gold thread on warm paper.',
+  },
+  hoko: {
+    src: '/img/kete/hoko-vessel-violet.jpg',
+    alt: 'Hoko evidence vessel — violet sculptural vessel on warm paper.',
   },
   toro: {
-    src: '/img/kete/toro-vessel.png',
-    alt: 'Tōro evidence vessel — smoky grey and cream sculptural form with thin gold wires.',
+    src: '/img/kete/toro-vessel-charcoal.jpg',
+    alt: 'Tōro evidence vessel — charcoal and cream stacked vessel on warm paper.',
   },
 };
 
