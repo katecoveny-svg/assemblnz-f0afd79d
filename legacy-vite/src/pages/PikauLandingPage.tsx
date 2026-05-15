@@ -28,7 +28,7 @@ const BONE = "#F4EFE6";        // Linen
 const GOLD = "#F8E9C4";        // Warm Halo (fairy-light only — never as text)
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0.7, y: 12 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,
     transition: { delay: i * 0.12, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
@@ -205,7 +205,7 @@ export default function PikauLandingPage() {
         {/* ── Agent Network ── */}
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}06 0%, transparent 70%)` }} />
-          <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+          <motion.div className="text-center mb-12" initial={{ opacity: 0.7 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace" }}>specialist network</p>
             <h2 className="text-2xl sm:text-3xl font-display font-light" style={{ color: BONE }}>5 agents working together</h2>
           </motion.div>
@@ -216,7 +216,7 @@ export default function PikauLandingPage() {
                 border: `1px solid ${hoveredAgent === i ? ACCENT + "40" : "rgba(255,255,255,0.06)"}`,
                 transition: "all 0.4s ease",
                 boxShadow: hoveredAgent === i ? `0 8px 32px rgba(0,0,0,0.3), 0 0 40px ${ACCENT}08` : "none",
-              }} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
+              }} initial={{ opacity: 0.7, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
                 onMouseEnter={() => setHoveredAgent(i)} onMouseLeave={() => setHoveredAgent(null)}>
                 <div className="absolute top-0 left-0 right-0 h-[1px] transition-opacity duration-500" style={{ opacity: hoveredAgent === i ? 1 : 0, background: `linear-gradient(90deg, transparent, ${ACCENT}50, transparent)` }} />
                 <div className="flex items-center gap-3 mb-3">
@@ -241,7 +241,7 @@ export default function PikauLandingPage() {
             background: `rgba(255,255,255,0.85)`,
             border: `1px solid rgba(142,129,119,0.14)`,
             boxShadow: `0 8px 30px rgba(111,97,88,0.08)`,
-          }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          }} initial={{ opacity: 0.7, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}40, transparent)` }} />
             <p className="text-sm" style={{ color: "#6F6158" }}>Ready to support your freight compliance work?</p>
             <Link to="/pikau/dashboard" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#3D4250" }}>

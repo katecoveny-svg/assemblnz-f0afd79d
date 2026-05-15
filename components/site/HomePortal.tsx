@@ -478,8 +478,8 @@ function ProofDock({ stats: initialStats }: { stats: PearlLiveStats }) {
           <motion.span
             className="h-2 w-2 rounded-full bg-[color:var(--assembl-pounamu)] shadow-[0_0_0_4px_rgba(43,107,87,0.12)]"
             aria-hidden
-            animate={reduceMotion ? undefined : { scale: [1, 1.28, 1] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+            animate={reduceMotion ? undefined : { opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
           />
           <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[color:var(--text-secondary)]">
             Pearl Live

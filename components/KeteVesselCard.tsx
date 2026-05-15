@@ -37,7 +37,8 @@ export function KeteVesselCard({
           ? undefined
           : {
               scale: 1.02,
-              transition: { type: 'spring', stiffness: 320, damping: 28, mass: 0.6 },
+              y: -2,
+              transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
             }
       }
       viewport={{ once: true, margin: '-80px' }}

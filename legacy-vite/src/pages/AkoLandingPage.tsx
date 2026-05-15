@@ -32,7 +32,7 @@ const ACCENT_LIGHT = "#A8C8DD";
 const POUNAMU = "#3A7D6E";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0.7, y: 12 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,
     transition: { delay: i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },

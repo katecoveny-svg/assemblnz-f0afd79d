@@ -26,7 +26,7 @@ const POUNAMU_LIGHT = "#7ECFC2";
 const BONE = "#F5F0E8";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0.7, y: 12 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,
     transition: { delay: i * 0.12, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
@@ -250,7 +250,7 @@ export default function ManaakiLandingPage() {
             background: `radial-gradient(ellipse, ${ACCENT}06 0%, transparent 70%)`,
           }} />
 
-          <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+          <motion.div className="text-center mb-12" initial={{ opacity: 0.7 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace", textTransform: "uppercase" }}>
               specialist network
             </p>
@@ -272,7 +272,7 @@ export default function ManaakiLandingPage() {
                   transition: "all 0.4s ease",
                   boxShadow: hoveredAgent === i ? `0 8px 30px rgba(111,97,88,0.12)` : `0 4px 16px rgba(111,97,88,0.06)`,
                 }}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0.7, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
@@ -321,7 +321,7 @@ export default function ManaakiLandingPage() {
               border: `1px solid ${POUNAMU}20`,
               boxShadow: `0 16px 48px rgba(0,0,0,0.4), 0 0 60px ${POUNAMU}06`,
             }}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0.7, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >

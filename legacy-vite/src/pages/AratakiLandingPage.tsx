@@ -75,28 +75,28 @@ export default function AratakiLandingPage() {
 
           <LandingKeteHero accentColor={ACCENT} accentLight={ACCENT_LIGHT} model="car" size={200} />
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.05 }}
+          <motion.p initial={{ opacity: 0.7 }} animate={{ opacity: 1 }} transition={{ delay: 0.05 }}
             className="text-[11px] tracking-[3px] uppercase mb-4" style={{ fontFamily: "'IBM Plex Mono', monospace", color: ACCENT }}>
             ARATAKI / Automotive
           </motion.p>
 
-          <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8 }}
+          <motion.h1 initial={{ opacity: 0.7, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.8 }}
             className="text-4xl md:text-6xl font-light tracking-tight mb-6" style={{ fontFamily: "'Inter', sans-serif", color: "#1A1D29" }}>
             Four verticals.<br />One dealership brain.
           </motion.h1>
 
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          <motion.p initial={{ opacity: 0.7, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
             className="text-[17px] max-w-2xl mb-4 leading-[1.75]" style={{ color: "#6B7280" }}>
             Service, sales, parts, and loan fleet — governed by one intelligence layer trained on NZ
             automotive legislation. Built for dealerships like Hamilton Toyota.
           </motion.p>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}
+          <motion.p initial={{ opacity: 0.7 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}
             className="text-[13px] mb-10" style={{ color: "#9CA3AF", fontStyle: "italic" }}>
             "James runs service at a Hamilton Toyota dealership. 47 jobs a week, 12 bays, zero dropped handoffs."
           </motion.p>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex gap-4">
+          <motion.div initial={{ opacity: 0.7 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex gap-4">
             <Link to="/simulator" className="px-8 py-4 rounded-full text-[13px] font-semibold text-white" style={{
               background: `linear-gradient(135deg, ${ACCENT}, #3D8F92)`,
               boxShadow: `0 4px 20px rgba(74,165,168,0.3)`,
@@ -158,7 +158,7 @@ export default function AratakiLandingPage() {
 
           <div className="grid md:grid-cols-2 gap-8">
             {VERTICALS.map((v, i) => (
-              <motion.div key={v.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+              <motion.div key={v.title} initial={{ opacity: 0.7, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
                 {v.route ? (
                   <Link to={v.route} className="block rounded-3xl p-8 h-full group transition-all hover:scale-[1.01]" style={GLASS}>
                     <div className="flex items-center gap-3 mb-4">

@@ -33,7 +33,7 @@ const C = {
 };
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0.7, y: 12 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,
     transition: { delay: i * 0.12, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
@@ -177,7 +177,7 @@ export default function WaihangaLandingPage() {
 
         {/* ── Agent Network ── */}
         <section className="relative px-6 py-32 max-w-5xl mx-auto">
-          <motion.div className="text-center mb-14" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+          <motion.div className="text-center mb-14" initial={{ opacity: 0.7 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[5px] mb-4 uppercase" style={{ color: C.pounamu, fontFamily: "'IBM Plex Mono', monospace" }}>— specialist network —</p>
             <h2 className="text-2xl sm:text-[36px] font-light" style={{ fontFamily: "'Inter', sans-serif", letterSpacing: "-0.02em", color: C.text }}>9 agents working together</h2>
           </motion.div>
@@ -190,7 +190,7 @@ export default function WaihangaLandingPage() {
                     ? `0 10px 40px -10px ${C.pounamu}25, 0 4px 12px rgba(0,0,0,0.04)`
                     : glass.boxShadow,
                 }}
-                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
+                initial={{ opacity: 0.7, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
                 onMouseEnter={() => setHoveredAgent(i)} onMouseLeave={() => setHoveredAgent(null)}>
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: `${C.pounamu}10` }}>
@@ -218,7 +218,7 @@ export default function WaihangaLandingPage() {
         {/* ── CTA ── */}
         <section className="relative text-center px-6 py-32">
           <motion.div className="relative inline-flex flex-col items-center gap-6 p-12 rounded-3xl" style={glass}
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            initial={{ opacity: 0.7, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <p className="text-[17px]" style={{ color: C.textSecondary }}>Ready to streamline your construction compliance?</p>
             <Link to="/waihanga/workflow" className="group inline-flex items-center gap-3 px-10 py-5 rounded-full text-[13px] font-medium transition-all duration-300 hover:scale-[1.02]"
               style={{ background: C.pounamu, color: "#FFFFFF", boxShadow: `0 4px 20px ${C.pounamu}30`, fontFamily: "'Inter', sans-serif" }}>

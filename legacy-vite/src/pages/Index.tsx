@@ -235,7 +235,7 @@ function LiveDemoChatSection() {
             </motion.div>
           ))}
           {showMessages < 3 && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 1.2, repeat: Infinity }} className="flex items-center gap-2 pl-12">
+            <motion.div initial={{ opacity: 0.7 }} animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 1.2, repeat: Infinity }} className="flex items-center gap-2 pl-12">
               <div className="w-2 h-2 rounded-full" style={{ background: C.teal }} />
               <div className="w-2 h-2 rounded-full" style={{ background: C.teal, opacity: 0.6 }} />
               <div className="w-2 h-2 rounded-full" style={{ background: C.teal, opacity: 0.3 }} />
