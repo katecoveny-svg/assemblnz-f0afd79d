@@ -1,7 +1,52 @@
 import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 
+const SPA_ORIGIN = 'https://assembl-app.vercel.app';
+
+const SPA_PUBLIC_PREFIXES = [
+  '/manaaki',
+  '/waihanga',
+  '/pikau',
+  '/arataki',
+  '/auaha',
+  '/ako',
+  '/hoko',
+  '/toro',
+  '/toroa',
+  '/matauranga',
+  '/demos',
+  '/aaaip',
+  '/embed',
+  '/verify',
+];
+
+const matchesPrefix = (pathname: string, prefix: string) =>
+  pathname === prefix || pathname.startsWith(`${prefix}/`);
+
+const shouldProxyToSpa = (pathname: string) => {
+  if (SPA_PUBLIC_PREFIXES.some((prefix) => matchesPrefix(pathname, prefix))) {
+    return true;
+  }
+
+  if (pathname.startsWith('/assets/')) return true;
+  if (pathname === '/widget.js') return true;
+  if (/^\/manifest-[^/]+\.json$/.test(pathname)) return true;
+
+  // Keep the marketing /agents page on Next.js; only dynamic agent pages
+  // proxy to the SPA.
+  if (pathname.startsWith('/agents/')) return true;
+
+  return false;
+};
+
 export async function middleware(request: NextRequest) {
+  if (shouldProxyToSpa(request.nextUrl.pathname)) {
+    return NextResponse.rewrite(
+      new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, SPA_ORIGIN),
+    );
+  }
+
   return await updateSession(request);
 }
 
