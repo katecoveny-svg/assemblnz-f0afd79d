@@ -21,6 +21,7 @@ import { AUAHA_USE_CASE } from "@/data/useCases";
 
 const BG = "#FAFBFC";
 const ACCENT = "#A8DDDB";
+const AUAHA_ACCENT = "#5B4FA0";
 const POUNAMU = "#3A7D6E";
 const POUNAMU_LIGHT = "#7ECFC2";
 const BONE = "#F5F0E8";
@@ -174,6 +175,62 @@ export default function AuahaLandingPage() {
 
         {/* ── Real Use Case ── */}
         <KeteUseCaseSection data={AUAHA_USE_CASE} />
+
+        {/* ── Public Tool ── */}
+        <section className="relative px-6 pb-24 max-w-5xl mx-auto">
+          <motion.a
+            href="/tools/vessel-studio.html"
+            className="group relative block overflow-hidden rounded-2xl p-8 text-left md:p-10"
+            style={{
+              background: `linear-gradient(135deg, rgba(91,79,160,0.13) 0%, rgba(255,255,255,0.76) 56%, rgba(250,247,242,0.92) 100%)`,
+              border: `1px solid ${AUAHA_ACCENT}55`,
+              backdropFilter: "blur(18px)",
+              boxShadow: `0 18px 56px rgba(91,79,160,0.12), 0 0 0 1px rgba(255,255,255,0.42) inset`,
+            }}
+            initial={{ opacity: 0.7, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div
+              className="absolute left-0 right-0 top-0 h-[2px]"
+              style={{ background: `linear-gradient(90deg, transparent 0%, ${AUAHA_ACCENT} 50%, transparent 100%)` }}
+            />
+            <div className="relative grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+              <div>
+                <p
+                  className="text-[10px] uppercase tracking-[4px]"
+                  style={{
+                    color: AUAHA_ACCENT,
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    fontWeight: 700,
+                  }}
+                >
+                  AUAHA · TOOL
+                </p>
+                <h2
+                  className="mt-4 font-display text-4xl leading-none sm:text-5xl"
+                  style={{ color: "#23211F", fontWeight: 300 }}
+                >
+                  Vessel Studio
+                </h2>
+                <p className="mt-5 max-w-2xl text-sm leading-relaxed sm:text-base" style={{ color: "#5B6374" }}>
+                  Generate evidence-vessel imagery for any kete, any workflow, any campaign. Bring your own fal.ai key. Cormorant typography, pounamu palette, locked brand direction.
+                </p>
+              </div>
+              <div
+                className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm transition-all duration-300 group-hover:translate-x-1"
+                style={{
+                  color: "#FFFFFF",
+                  background: AUAHA_ACCENT,
+                  boxShadow: `0 10px 24px rgba(91,79,160,0.22)`,
+                }}
+              >
+                <span>Open Vessel Studio →</span>
+              </div>
+            </div>
+          </motion.a>
+        </section>
 
         {/* ── Agent Network ── */}
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">

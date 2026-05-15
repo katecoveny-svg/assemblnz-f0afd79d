@@ -318,6 +318,50 @@ function IndustryKetePage({
         </section>
       )}
 
+      {/* Auaha public tool */}
+      {kete.slug === 'auaha' && (
+        <section className="relative">
+          <div className="container pb-16 md:pb-24">
+            <SectionReveal>
+              <a
+                href="/tools/vessel-studio.html"
+                className="glass-card-elevated group relative block overflow-hidden p-8 text-left md:p-10"
+                style={{
+                  ['--kete-accent' as string]: '#5B4FA0',
+                  borderColor: 'rgba(91,79,160,0.34)',
+                  borderTop: '3px solid #5B4FA0',
+                }}
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 opacity-70 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    background:
+                      'radial-gradient(ellipse at 84% 18%, rgba(91,79,160,0.16) 0%, transparent 48%), linear-gradient(135deg, rgba(91,79,160,0.08), rgba(255,255,255,0.18))',
+                  }}
+                />
+                <div className="relative grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#5B4FA0]">
+                      AUAHA · TOOL
+                    </p>
+                    <h2 className="mt-4 font-display text-4xl text-[color:var(--text-primary)] md:text-5xl">
+                      Vessel Studio
+                    </h2>
+                    <p className="mt-5 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+                      Generate evidence-vessel imagery for any kete, any workflow, any campaign. Bring your own fal.ai key. Cormorant typography, pounamu palette, locked brand direction.
+                    </p>
+                  </div>
+                  <span className="inline-flex h-12 items-center justify-center rounded-full bg-[#5B4FA0] px-7 text-sm font-medium text-white transition-transform duration-300 group-hover:translate-x-1 md:text-base">
+                    Open Vessel Studio →
+                  </span>
+                </div>
+              </a>
+            </SectionReveal>
+          </div>
+        </section>
+      )}
+
       {/* Workflows — only show if there are any */}
       {detail.workflows.length > 0 && (
         <section className="relative">
