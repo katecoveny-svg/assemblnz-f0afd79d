@@ -45,87 +45,92 @@ html {
 @layer base {
   :root {
     /* ── Page & surface ── */
-    --background: 30 23% 95%;          /* #F7F3EE — Mist */
-    --foreground: 22 12% 35%;          /* #6F6158 — Taupe Deep */
+    --background: 37 44% 96%;          /* #FAF7F2 — Paper */
+    --foreground: 30 6% 13%;           /* #23211F — Taupe deep */
 
-    --card: 32 25% 97%;               /* slightly lighter than mist */
-    --card-foreground: 22 12% 35%;
+    --card: 36 18% 89%;               /* #E8E4DE — Cloud */
+    --card-foreground: 30 6% 13%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 22 12% 35%;
+    --popover-foreground: 30 6% 13%;
 
-    /* ── Primary: Soft Gold (CTAs, links) ── */
-    --primary: 40 48% 66%;            /* #D9BC7A */
-    --primary-foreground: 22 12% 25%;
+    /* ── Primary: Pounamu jade (CTAs, links) ── */
+    --primary: 161 43% 29%;           /* #2B6B57 */
+    --primary-foreground: 37 44% 96%;
 
     /* ── Secondary: Cloud ── */
-    --secondary: 32 27% 90%;          /* #EEE7DE */
-    --secondary-foreground: 22 12% 35%;
+    --secondary: 36 18% 89%;          /* #E8E4DE */
+    --secondary-foreground: 30 6% 13%;
 
     /* ── Muted: Sand ── */
-    --muted: 30 25% 87%;              /* ~D8C8B4 area */
-    --muted-foreground: 22 10% 52%;   /* #8E8177 */
+    --muted: 36 18% 89%;              /* #E8E4DE */
+    --muted-foreground: 22 12% 39%;   /* #6F6158 */
 
     /* ── Accent: Sage Mist ── */
-    --accent: 152 18% 82%;            /* #C9D8D0 */
-    --accent-foreground: 22 12% 30%;
+    --accent: 161 43% 29%;            /* #2B6B57 */
+    --accent-foreground: 37 44% 96%;
 
     /* ── Destructive ── */
     --destructive: 0 50% 50%;
     --destructive-foreground: 0 0% 100%;
 
     /* ── Border & input ── */
-    --border: 22 10% 52% / 0.14;      /* rgba(142,129,119,0.14) */
-    --input: 22 10% 52% / 0.14;
-    --ring: 40 48% 66%;               /* Soft Gold */
+    --border: 30 6% 13% / 0.14;
+    --input: 30 6% 13% / 0.14;
+    --ring: 161 43% 29%;
 
     /* ── Radius ── */
     --radius: 24px;
 
     /* ── Assembl surface tokens ── */
-    --assembl-mist: #F7F3EE;
-    --assembl-cloud: #EEE7DE;
-    --assembl-sand: #D8C8B4;
-    --assembl-taupe: #9D8C7D;
-    --assembl-taupe-deep: #6F6158;
-    --assembl-sage-mist: #C9D8D0;
-    --assembl-soft-gold: #D9BC7A;
+    --assembl-paper: #FAF7F2;
+    --assembl-mist: #FAF7F2;
+    --assembl-cloud: #E8E4DE;
+    --assembl-sand: #B8B2A8;
+    --assembl-taupe: #B8B2A8;
+    --assembl-taupe-deep: #23211F;
+    --assembl-pounamu: #2B6B57;
+    --assembl-pounamu-deep: #1F4F40;
+    --assembl-pounamu-soft: #6E957F;
+    --assembl-pounamu-paper: #E8EFE9;
+    --assembl-sage-mist: #2B6B57;
+    --assembl-gold-thread: #D4A853;
+    --assembl-soft-gold: #D4A853;
 
     /* ── Text tokens ── */
-    --text-primary: #6F6158;
-    --text-secondary: #8E8177;
-    --text-body: #5F554F;
+    --text-primary: #23211F;
+    --text-secondary: #6F6158;
+    --text-body: #23211F;
 
     /* ── Shadow tokens ── */
-    --shadow-soft: 0 8px 30px rgba(111, 97, 88, 0.08);
-    --shadow-card: 0 4px 20px rgba(111, 97, 88, 0.06);
-    --shadow-brand: 0 12px 40px rgba(111, 97, 88, 0.10);
-    --sparkle-glow: 0 0 24px rgba(217, 188, 122, 0.35);
-    --hairline: 1px solid rgba(111, 97, 88, 0.18);
+    --shadow-soft: 0 8px 30px rgba(35, 33, 31, 0.08);
+    --shadow-card: 0 4px 20px rgba(35, 33, 31, 0.06);
+    --shadow-brand: 0 12px 40px rgba(35, 33, 31, 0.10);
+    --sparkle-glow: 0 0 24px rgba(212, 168, 83, 0.28);
+    --hairline: 1px solid rgba(35, 33, 31, 0.14);
     --surface-blur: 24px;
 
-    /* ── Industry kete accents — Brand Guidelines v1.0 (Mārama Whenua) ──
-       Bleached feather palette, locked 24 April 2026. Source of truth:
-       src/design/assemblTokens.ts → src/components/live-widgets/kete-accents.ts */
-    --kete-pikau:    #B8C7B1;       /* Soft Moss      — Freight & Customs */
-    --kete-hoko:     #D8C3C2;       /* Blush Stone    — Retail */
-    --kete-ako:      #C7D6C7;       /* Soft Sage      — Early Childhood */
-    --kete-toro:     #C7D9E8;       /* Moonstone Blue — Family */
-    --kete-manaaki:  #E6D8C6;       /* Warm Linen     — Hospitality */
-    --kete-waihanga: #CBB8A4;       /* Clay Sand      — Construction */
-    --kete-arataki:  #D5C0C8;       /* Dusky Rose     — Automotive & Fleet */
-    --kete-auaha:    #C8DDD8;       /* Pale Seafoam   — Creative */
+    /* ── Industry kete accents — source of truth copied from app/globals.css ── */
+    --kete-waihanga: #2B6B57;       /* Pounamu — Construction */
+    --kete-manaaki:  #AC5838;       /* Kōkōwai — Hospitality */
+    --kete-pikau:    #3B7CB5;       /* Kikorangi — Freight & Customs */
+    --kete-arataki:  #D4842A;       /* Karaka — Automotive & Fleet */
+    --kete-auaha:    #5B4FA0;       /* Kahurangi — Creative */
+    --kete-ako:      #6B5843;       /* Parauri — Early Childhood Education */
+    --kete-matauranga: #3D5A7A;     /* Pōuriuri — Secondary Education */
+    --kete-hoko:     #7B3F8F;       /* Waiporoporo — Retail */
+    --kete-toro:     #23211F;       /* Mangū — Whānau */
     --kete-reo:      #D9BC7A;       /* Kowhai Soft    — Te Kāhui Reo (legacy) */
 
     /* ── Sidebar ── */
     --sidebar-background: 32 25% 97%;
-    --sidebar-foreground: 22 12% 35%;
-    --sidebar-primary: 22 12% 35%;
+    --sidebar-foreground: 30 6% 13%;
+    --sidebar-primary: 161 43% 29%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 32 27% 92%;
-    --sidebar-accent-foreground: 22 12% 35%;
-    --sidebar-border: 22 10% 52% / 0.14;
-    --sidebar-ring: 40 48% 66%;
+    --sidebar-accent: 36 18% 89%;
+    --sidebar-accent-foreground: 30 6% 13%;
+    --sidebar-border: 30 6% 13% / 0.14;
+    --sidebar-ring: 161 43% 29%;
   }
 }
 
@@ -161,14 +166,15 @@ html {
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 0.95;
     color: var(--text-primary);
   }
 
   h1 {
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 300;
+    letter-spacing: 0;
   }
 
   /* Metadata, code snippets */
@@ -240,14 +246,15 @@ html {
   }
 
   /* Per-kete accent overrides */
-  .kete-card[data-kete="pikau"]   { --kete-accent: #B8C7B1; }
-  .kete-card[data-kete="hoko"]    { --kete-accent: #D8C3C2; }
-  .kete-card[data-kete="ako"]     { --kete-accent: #C7D6C7; }
-  .kete-card[data-kete="toro"]    { --kete-accent: #C7D9E8; }
-  .kete-card[data-kete="manaaki"] { --kete-accent: #E6D8C6; }
-  .kete-card[data-kete="waihanga"]{ --kete-accent: #CBB8A4; }
-  .kete-card[data-kete="arataki"] { --kete-accent: #D5C0C8; }
-  .kete-card[data-kete="auaha"]   { --kete-accent: #C8DDD8; }
+  .kete-card[data-kete="waihanga"]  { --kete-accent: #2B6B57; }
+  .kete-card[data-kete="manaaki"]   { --kete-accent: #AC5838; }
+  .kete-card[data-kete="pikau"]     { --kete-accent: #3B7CB5; }
+  .kete-card[data-kete="arataki"]   { --kete-accent: #D4842A; }
+  .kete-card[data-kete="auaha"]     { --kete-accent: #5B4FA0; }
+  .kete-card[data-kete="ako"]       { --kete-accent: #6B5843; }
+  .kete-card[data-kete="matauranga"]{ --kete-accent: #3D5A7A; }
+  .kete-card[data-kete="hoko"]      { --kete-accent: #7B3F8F; }
+  .kete-card[data-kete="toro"]      { --kete-accent: #23211F; }
 
   /* ── Outcome cards (feature grid) ── */
   .outcome-card {

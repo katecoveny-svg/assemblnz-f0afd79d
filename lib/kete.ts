@@ -59,7 +59,7 @@ export const KETES: Kete[] = [
   {
     slug: 'arataki',
     name: 'Arataki',
-    industry: 'Automotive',
+    industry: 'Automotive & Fleet',
     tagline: 'Workshop floor, fleet office, dealer governance — WoF, CoF, CGA, and IPP 3A in one trail.',
     accent: '#D4842A',
     accentName: 'Karaka',
@@ -110,7 +110,7 @@ export const KETES: Kete[] = [
     slug: 'toro',
     name: 'Tōro',
     industry: 'Whānau',
-    tagline: 'Your family\'s quiet assistant.',
+    tagline: 'The whānau navigator for school, money, routines, and the week ahead.',
     accent: '#23211F',
     accentName: 'Mangū',
     type: 'whanau',

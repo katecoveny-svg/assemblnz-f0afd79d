@@ -30,16 +30,16 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl — compliance evidence packs for NZ industries',
+    default: 'assembl — specialist agents for NZ work that needs proof',
     template: '%s · assembl',
   },
   description:
-    'Specialist agents draft your consents, customs entries, audit-pack documentation. Every output ends in a signed evidence record. Built in Aotearoa, reviewed by your team.',
+    'Assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
   metadataBase: new URL('https://assembl.co.nz'),
   openGraph: {
-    title: 'assembl — compliance evidence packs for New Zealand industries',
+    title: 'assembl — specialist agents for NZ work that needs proof',
     description:
-      'Specialist agents draft your consents, customs entries, audit-pack documentation. Every output ends in a signed evidence record. Built in Aotearoa, reviewed by your team.',
+      'Assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
     type: 'website',
     locale: 'en_NZ',
     images: [
@@ -47,15 +47,15 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'assembl — compliance evidence packs for New Zealand industries',
+        alt: 'assembl — specialist agents for NZ work that needs proof',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl — compliance evidence packs for New Zealand industries',
+    title: 'assembl — specialist agents for NZ work that needs proof',
     description:
-      'Specialist agents draft your consents, customs entries, audit-pack documentation. Every output ends in a signed evidence record. Built in Aotearoa, reviewed by your team.',
+      'Assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
   },
   icons: {
     icon: '/icon.png',
