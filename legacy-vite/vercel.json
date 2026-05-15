@@ -7,7 +7,6 @@
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "redirects": [
-    { "source": "/", "destination": "https://www.assembl.co.nz/", "permanent": true },
     { "source": "/pricing", "destination": "https://www.assembl.co.nz/pricing", "permanent": true },
     { "source": "/about", "destination": "https://www.assembl.co.nz/about", "permanent": true },
     { "source": "/ketes", "destination": "https://www.assembl.co.nz/kete", "permanent": true },
