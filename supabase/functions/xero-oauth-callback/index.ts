@@ -78,7 +78,7 @@ Deno.serve(async (req) => {
     const orgs = await orgsResp.json();
 
     if (!Array.isArray(orgs) || orgs.length === 0) {
-      return redirect("/workspace/connections?xero=error&reason=no_orgs");
+      return redirect(stateRow.return_url || "/workspace/connections?xero=error&reason=no_orgs");
     }
 
     const expiresAt = new Date(Date.now() + tokens.expires_in * 1000).toISOString();
@@ -109,7 +109,7 @@ Deno.serve(async (req) => {
       metadata: { orgs: orgs.map((o: any) => ({ id: o.tenantId, name: o.tenantName })) },
     }, { onConflict: "tenant_id,provider" });
 
-    return redirect("/workspace/connections?xero=connected");
+    return redirect(stateRow.return_url || "/workspace/connections?xero=connected");
   } catch (e) {
     console.error("xero-oauth-callback error:", e);
     return redirect("/workspace/connections?xero=error&reason=server_error");

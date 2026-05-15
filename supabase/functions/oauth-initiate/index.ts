@@ -60,7 +60,7 @@ serve(async (req) => {
       });
     }
 
-    const { provider_code, organisation_id } = await req.json();
+    const { provider_code, organisation_id, redirect_after } = await req.json();
 
     if (!provider_code || !organisation_id) {
       return new Response(
@@ -102,7 +102,10 @@ serve(async (req) => {
       organisation_id,
       provider_code,
       code_verifier: pkce.verifier,
-      redirect_after: `/settings/integrations?connected=${provider_code}`,
+      redirect_after:
+        typeof redirect_after === "string" && redirect_after.startsWith("/")
+          ? redirect_after
+          : `/settings/integrations?connected=${provider_code}`,
     });
 
     // Build the redirect URL
