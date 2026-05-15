@@ -6,8 +6,15 @@ import { getServiceClient } from '@/lib/supabase/service';
 
 type DraftState = 'approved' | 'reviewing' | 'rejected';
 type ActionResult = { ok: true } | { ok: false; error: string };
+type ResolvedTenantDraft =
+  | {
+      user: { id: string };
+      tenant: { id: string; slug: string };
+      draft: { id: string; status: string; tenant_id: string };
+    }
+  | { error: string };
 
-async function resolveTenantDraft(slug: string, draftId: string) {
+async function resolveTenantDraft(slug: string, draftId: string): Promise<ResolvedTenantDraft> {
   const supabase = await createClient();
   const {
     data: { user },

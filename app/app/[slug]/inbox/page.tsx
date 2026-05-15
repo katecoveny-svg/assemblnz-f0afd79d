@@ -128,6 +128,20 @@ export default async function TenantInboxPage({
 
 function DraftCard({ slug, draft }: { slug: string; draft: DraftRow }) {
   const action = firstActionLabel(draft.extracted_actions);
+  async function acceptDraftFormAction() {
+    'use server';
+    await acceptDraftAction(slug, draft.id);
+  }
+
+  async function editDraftFormAction() {
+    'use server';
+    await editDraftAction(slug, draft.id);
+  }
+
+  async function rejectDraftFormAction() {
+    'use server';
+    await rejectDraftAction(slug, draft.id);
+  }
 
   return (
     <article className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5 shadow-[0_12px_36px_rgba(35,33,31,0.05)]">
@@ -165,19 +179,19 @@ function DraftCard({ slug, draft }: { slug: string; draft: DraftRow }) {
       </pre>
 
       <div className="mt-5 flex flex-wrap gap-3 border-t border-[rgba(35,33,31,0.08)] pt-4">
-        <form action={acceptDraftAction.bind(null, slug, draft.id)}>
+        <form action={acceptDraftFormAction}>
           <button type="submit" className="cta-primary inline-flex h-10 items-center justify-center px-5">
             <Check className="mr-2 h-4 w-4" aria-hidden />
             Accept
           </button>
         </form>
-        <form action={editDraftAction.bind(null, slug, draft.id)}>
+        <form action={editDraftFormAction}>
           <button type="submit" className="btn-ghost inline-flex h-10 items-center justify-center px-5">
             <Edit3 className="mr-2 h-4 w-4" aria-hidden />
             Edit
           </button>
         </form>
-        <form action={rejectDraftAction.bind(null, slug, draft.id)}>
+        <form action={rejectDraftFormAction}>
           <button type="submit" className="btn-ghost inline-flex h-10 items-center justify-center px-5">
             <X className="mr-2 h-4 w-4" aria-hidden />
             Reject
