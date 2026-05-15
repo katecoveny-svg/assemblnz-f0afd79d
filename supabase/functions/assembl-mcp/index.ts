@@ -5,8 +5,243 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+type SmeElectrificationInput = {
+  business_type: "hospitality" | "construction" | "freight" | "retail" | "automotive_fleet" | "creative" | "ece" | "professional_other";
+  region: string;
+  monthly_fuel_spend_nzd: number;
+  fuel_types: Array<"petrol" | "diesel" | "lpg" | "natural_gas" | "coal">;
+  vehicle_count: number;
+  vehicle_type?: "passenger" | "light_commercial" | "heavy_commercial" | "mixed";
+  premises_type: "own_freehold" | "lease_long_term" | "lease_short_term";
+  rooftop_solar_suitable: "yes" | "no" | "unsure";
+  monthly_electricity_spend_nzd: number;
+};
+
+const ELECTRIFY_ASSUMPTIONS_VERSION = "2026-05-13-v1";
+const FUEL_PRICES_NZD = {
+  petrol_per_litre: 2.85,
+  diesel_per_litre: 2.20,
+  lpg_per_kg: 3.40,
+  natural_gas_per_kwh: 0.11,
+  coal_per_kg: 0.55,
+} as const;
+const ELECTRICITY_PRICE_NZD_PER_KWH = {
+  grid_avg: 0.32,
+  solar_self_consumed: 0.12,
+  off_peak_ev_charging: 0.18,
+} as const;
+const EV_EFFICIENCY_KWH_PER_KM = { passenger: 0.18, light_commercial: 0.28, heavy_commercial: 0.95 } as const;
+const ICE_EFFICIENCY_L_PER_100KM = { passenger: 8.0, light_commercial: 11.0, heavy_commercial: 35.0 } as const;
+const ANNUAL_KM_DEFAULT = { passenger: 14_000, light_commercial: 25_000, heavy_commercial: 60_000 } as const;
+const ICE_MAINTENANCE_NZD_PER_YEAR = { passenger: 1_200, light_commercial: 2_400, heavy_commercial: 9_500 } as const;
+const EV_MAINTENANCE_RATIO_OF_ICE = 0.40;
+const HEAT_PUMP_COP = { process_heat: 4.0 } as const;
+const FOSSIL_HEAT_EFFICIENCY = { natural_gas_boiler: 0.85, lpg_boiler: 0.82, coal_boiler: 0.70 } as const;
+const EMISSIONS_FACTORS_KG_CO2E = {
+  petrol_per_litre: 2.31,
+  diesel_per_litre: 2.68,
+  natural_gas_per_kwh: 0.20,
+  lpg_per_kg: 2.94,
+  coal_per_kg: 2.42,
+  nz_grid_electricity_per_kwh: 0.073,
+} as const;
+const CAPEX_NZD = {
+  ev_passenger: 55_000,
+  ev_light_commercial: 75_000,
+  ev_heavy_truck: 220_000,
+  heat_pump_process_heat_kw: 1_800,
+  rooftop_solar_per_kw_installed: 1_800,
+} as const;
+const FINANCE_RATE_ANNUAL = { current_commercial: 0.055, cheap_green_loan: 0.01 } as const;
+const SWITCH_PRIORITY_BASE = {
+  ev_passenger: 9,
+  ev_light_commercial: 9,
+  ev_heavy_truck: 7,
+  heat_pump_process_heat: 8,
+  rooftop_solar: 7,
+} as const;
+const LEASE_PENALTY_MULTIPLIER = { own_freehold: 1, lease_long_term: 0.8, lease_short_term: 0.4 } as const;
+
+function roundCurrency(value: number): number {
+  return Math.round(value);
+}
+
+function vehicleClassFor(type: SmeElectrificationInput["vehicle_type"]): "passenger" | "light_commercial" | "heavy_commercial" {
+  if (type === "heavy_commercial") return "heavy_commercial";
+  if (type === "light_commercial" || type === "mixed") return "light_commercial";
+  return "passenger";
+}
+
+function vehicleAnnualKm(type: SmeElectrificationInput["vehicle_type"], count: number): number {
+  if (!type || count === 0) return 0;
+  if (type === "mixed") {
+    return Math.round((ANNUAL_KM_DEFAULT.passenger * 0.6 + ANNUAL_KM_DEFAULT.light_commercial * 0.4) * count);
+  }
+  return ANNUAL_KM_DEFAULT[type] * count;
+}
+
+function emissionsForFuel(annualSpendNzd: number, fuelType: SmeElectrificationInput["fuel_types"][number]): number {
+  if (fuelType === "petrol") return (annualSpendNzd / FUEL_PRICES_NZD.petrol_per_litre) * EMISSIONS_FACTORS_KG_CO2E.petrol_per_litre;
+  if (fuelType === "diesel") return (annualSpendNzd / FUEL_PRICES_NZD.diesel_per_litre) * EMISSIONS_FACTORS_KG_CO2E.diesel_per_litre;
+  if (fuelType === "lpg") return (annualSpendNzd / FUEL_PRICES_NZD.lpg_per_kg) * EMISSIONS_FACTORS_KG_CO2E.lpg_per_kg;
+  if (fuelType === "natural_gas") return (annualSpendNzd / FUEL_PRICES_NZD.natural_gas_per_kwh) * EMISSIONS_FACTORS_KG_CO2E.natural_gas_per_kwh;
+  return (annualSpendNzd / FUEL_PRICES_NZD.coal_per_kg) * EMISSIONS_FACTORS_KG_CO2E.coal_per_kg;
+}
+
+function calculateSmeElectrification(input: SmeElectrificationInput) {
+  const steps: Array<{
+    order: number;
+    machine: string;
+    estimated_capex_nzd: number;
+    estimated_annual_saving_nzd: number;
+    payback_years: number | null;
+    rationale: string;
+    priority_score: number;
+  }> = [];
+
+  if (input.vehicle_count > 0) {
+    const vClass = vehicleClassFor(input.vehicle_type);
+    const annualKm = vehicleAnnualKm(input.vehicle_type, input.vehicle_count);
+    const annualLitres = (annualKm * ICE_EFFICIENCY_L_PER_100KM[vClass]) / 100;
+    const fuelPrice = vClass === "passenger" ? FUEL_PRICES_NZD.petrol_per_litre : FUEL_PRICES_NZD.diesel_per_litre;
+    const annualIceFuelCost = annualLitres * fuelPrice;
+    const annualEvEnergyCost = annualKm * EV_EFFICIENCY_KWH_PER_KM[vClass] *
+      (ELECTRICITY_PRICE_NZD_PER_KWH.off_peak_ev_charging * 0.7 + ELECTRICITY_PRICE_NZD_PER_KWH.grid_avg * 0.3);
+    const annualMaintIce = ICE_MAINTENANCE_NZD_PER_YEAR[vClass] * input.vehicle_count;
+    const annualMaintEv = annualMaintIce * EV_MAINTENANCE_RATIO_OF_ICE;
+    const annualSaving = annualIceFuelCost - annualEvEnergyCost + annualMaintIce - annualMaintEv;
+    const capexUnit = vClass === "passenger"
+      ? CAPEX_NZD.ev_passenger
+      : vClass === "light_commercial"
+      ? CAPEX_NZD.ev_light_commercial
+      : CAPEX_NZD.ev_heavy_truck;
+    const capex = capexUnit * input.vehicle_count;
+    steps.push({
+      order: 0,
+      machine: `Replace ${input.vehicle_count} ${vClass.replace("_", " ")} ${input.vehicle_count > 1 ? "vehicles" : "vehicle"} with electric equivalents`,
+      estimated_capex_nzd: capex,
+      estimated_annual_saving_nzd: roundCurrency(annualSaving),
+      payback_years: annualSaving > 0 ? Math.round((capex / annualSaving) * 10) / 10 : null,
+      rationale: `Fuel plus maintenance savings vs ${vClass.replace("_", " ")} internal-combustion vehicles`,
+      priority_score: (vClass === "heavy_commercial" ? SWITCH_PRIORITY_BASE.ev_heavy_truck : vClass === "light_commercial" ? SWITCH_PRIORITY_BASE.ev_light_commercial : SWITCH_PRIORITY_BASE.ev_passenger) * LEASE_PENALTY_MULTIPLIER[input.premises_type],
+    });
+  }
+
+  const thermalFuels = input.fuel_types.filter((fuel) => ["lpg", "natural_gas", "coal"].includes(fuel));
+  if (thermalFuels.length > 0) {
+    const dominantFuel = thermalFuels[0];
+    const annualThermalFuelSpend = input.monthly_fuel_spend_nzd * 12 * (input.vehicle_count > 0 ? 0.4 : 1);
+    const fossilEfficiency = dominantFuel === "natural_gas"
+      ? FOSSIL_HEAT_EFFICIENCY.natural_gas_boiler
+      : dominantFuel === "lpg"
+      ? FOSSIL_HEAT_EFFICIENCY.lpg_boiler
+      : FOSSIL_HEAT_EFFICIENCY.coal_boiler;
+    const annualElectricCost = (annualThermalFuelSpend * fossilEfficiency * ELECTRICITY_PRICE_NZD_PER_KWH.grid_avg) /
+      (HEAT_PUMP_COP.process_heat * 0.11);
+    const annualSaving = annualThermalFuelSpend - annualElectricCost;
+    const capex = CAPEX_NZD.heat_pump_process_heat_kw * 30;
+    if (annualThermalFuelSpend >= 500) {
+      steps.push({
+        order: 0,
+        machine: `Replace ${dominantFuel.replace("_", " ")} heat with commercial heat pump`,
+        estimated_capex_nzd: capex,
+        estimated_annual_saving_nzd: roundCurrency(annualSaving),
+        payback_years: annualSaving > 0 ? Math.round((capex / annualSaving) * 10) / 10 : null,
+        rationale: `Heat pump COP ${HEAT_PUMP_COP.process_heat} vs ${dominantFuel.replace("_", " ")} boiler`,
+        priority_score: SWITCH_PRIORITY_BASE.heat_pump_process_heat * LEASE_PENALTY_MULTIPLIER[input.premises_type],
+      });
+    }
+  }
+
+  let solar_recommendation = {
+    recommended: false,
+    estimated_kw_size: 0,
+    estimated_capex_nzd: 0,
+    estimated_annual_saving_nzd: 0,
+    payback_years: null as number | null,
+    reason: "Short-term lease or rooftop not suitable",
+  };
+  if (input.premises_type !== "lease_short_term" && input.rooftop_solar_suitable !== "no") {
+    const annualKwh = (input.monthly_electricity_spend_nzd * 12) / ELECTRICITY_PRICE_NZD_PER_KWH.grid_avg;
+    const solarTargetKw = Math.max(5, Math.round((annualKwh * 0.5) / 1400));
+    const capex = solarTargetKw * CAPEX_NZD.rooftop_solar_per_kw_installed;
+    const annualSaving = solarTargetKw * 1400 * 0.7 * ELECTRICITY_PRICE_NZD_PER_KWH.grid_avg +
+      solarTargetKw * 1400 * 0.3 * ELECTRICITY_PRICE_NZD_PER_KWH.solar_self_consumed;
+    solar_recommendation = {
+      recommended: true,
+      estimated_kw_size: solarTargetKw,
+      estimated_capex_nzd: capex,
+      estimated_annual_saving_nzd: roundCurrency(annualSaving),
+      payback_years: annualSaving > 0 ? Math.round((capex / annualSaving) * 10) / 10 : null,
+      reason: `${solarTargetKw}kW system covers about half of annual electricity consumption`,
+    };
+    steps.push({
+      order: 0,
+      machine: `Install ${solarTargetKw}kW rooftop solar`,
+      estimated_capex_nzd: capex,
+      estimated_annual_saving_nzd: roundCurrency(annualSaving),
+      payback_years: solar_recommendation.payback_years,
+      rationale: solar_recommendation.reason,
+      priority_score: SWITCH_PRIORITY_BASE.rooftop_solar * LEASE_PENALTY_MULTIPLIER[input.premises_type],
+    });
+  }
+
+  steps.sort((a, b) => b.priority_score - a.priority_score || (a.payback_years ?? Infinity) - (b.payback_years ?? Infinity));
+  steps.forEach((step, index) => step.order = index + 1);
+  const totalAnnualSaving = steps.reduce((sum, step) => sum + step.estimated_annual_saving_nzd, 0);
+  const totalCapex = steps.reduce((sum, step) => sum + step.estimated_capex_nzd, 0);
+  const annualSavingsCurrent = totalAnnualSaving - totalCapex * FINANCE_RATE_ANNUAL.current_commercial;
+  const annualSavingsCheap = totalAnnualSaving - totalCapex * FINANCE_RATE_ANNUAL.cheap_green_loan;
+  const annualSpendByFuel = input.monthly_fuel_spend_nzd * 12;
+  const co2eKgAvoided = input.fuel_types.length
+    ? input.fuel_types.map((fuel) => emissionsForFuel(annualSpendByFuel / input.fuel_types.length, fuel)).reduce((a, b) => a + b, 0)
+    : 0;
+  const replacementKwh = (annualSpendByFuel * 0.5) / ELECTRICITY_PRICE_NZD_PER_KWH.grid_avg;
+  const co2eKgAdded = replacementKwh * EMISSIONS_FACTORS_KG_CO2E.nz_grid_electricity_per_kwh;
+
+  return {
+    annual_savings_current_finance_nzd: roundCurrency(annualSavingsCurrent),
+    annual_savings_cheap_finance_nzd: roundCurrency(annualSavingsCheap),
+    payback_years: totalAnnualSaving > 0 ? Math.round((totalCapex / totalAnnualSaving) * 10) / 10 : null,
+    ten_year_savings_nzd: roundCurrency(totalAnnualSaving * 10 - totalCapex),
+    co2e_avoided_tonnes: Math.round(Math.max(0, (co2eKgAvoided - co2eKgAdded) / 1000) * 10) / 10,
+    upfront_capex_estimate_nzd: totalCapex,
+    recommended_sequence: steps.map(({ priority_score, ...step }) => step),
+    solar_recommendation,
+    assumptions_version: ELECTRIFY_ASSUMPTIONS_VERSION,
+    assumptions_used: [
+      "MBIE Energy Prices Q1 2026",
+      "EECA Light Vehicle Fuel Economy Database 2026",
+      "EECA Heat Pump Performance Brief 2024",
+      "MfE NZ Greenhouse Gas Inventory 2024",
+      "Rewiring Aotearoa Machine Count Report 2025",
+      "NZTA Vehicle Fleet Statistics 2025",
+    ],
+    disclaimer: "Estimate only. Use as a starting point before quotes, finance, tax, electrical, and fleet advice.",
+  };
+}
+
 // NZ Business Intelligence Tools
 const TOOLS: Record<string, { description: string; parameters: any; handler: (args: any) => any }> = {
+  nz_sme_electrification_savings: {
+    description: "Estimate what a NZ small business could save by switching vehicles, heat, and rooftop solar to electric alternatives. Deterministic, source-attributed, and based on MBIE, EECA, MfE, NZTA, and Rewiring Aotearoa assumptions.",
+    parameters: {
+      type: "object",
+      properties: {
+        business_type: { type: "string", enum: ["hospitality", "construction", "freight", "retail", "automotive_fleet", "creative", "ece", "professional_other"] },
+        region: { type: "string", description: "NZ region, e.g. Auckland, Waikato, Wellington, Canterbury" },
+        monthly_fuel_spend_nzd: { type: "number", description: "Average monthly spend on petrol, diesel, LPG, gas, or coal" },
+        fuel_types: { type: "array", items: { type: "string", enum: ["petrol", "diesel", "lpg", "natural_gas", "coal"] } },
+        vehicle_count: { type: "number", description: "Number of business vehicles" },
+        vehicle_type: { type: "string", enum: ["passenger", "light_commercial", "heavy_commercial", "mixed"], description: "Required when vehicle_count is above zero" },
+        premises_type: { type: "string", enum: ["own_freehold", "lease_long_term", "lease_short_term"] },
+        rooftop_solar_suitable: { type: "string", enum: ["yes", "no", "unsure"] },
+        monthly_electricity_spend_nzd: { type: "number", description: "Average monthly electricity bill" },
+      },
+      required: ["business_type", "region", "monthly_fuel_spend_nzd", "fuel_types", "vehicle_count", "premises_type", "rooftop_solar_suitable", "monthly_electricity_spend_nzd"],
+    },
+    handler: (args) => calculateSmeElectrification(args as SmeElectrificationInput),
+  },
   nz_employment_cost: {
     description: "Calculate the true annual cost of a NZ employee including KiwiSaver (3.5%), ACC, annual leave, sick leave, public holidays, recruitment",
     parameters: {

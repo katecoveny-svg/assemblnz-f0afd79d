@@ -291,6 +291,7 @@ export const nav = [
   { href: '/pilot-sprint',  label: 'Pilot Sprint' },
   { href: '/how-it-works',  label: 'How it works' },
   { href: '/kete',          label: 'Kete' },
+  { href: '/free-tools',    label: 'Free tools' },
   { href: '/pricing',       label: 'Pricing' },
   { href: '/about',         label: 'About' },
 ] as const;
