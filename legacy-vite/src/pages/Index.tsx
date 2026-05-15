@@ -10,7 +10,6 @@ import ContextBar from "@/components/personalized/ContextBar";
 import BrandNav from "@/components/BrandNav";
 import BrandFooter from "@/components/BrandFooter";
 import SEO from "@/components/SEO";
-import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
@@ -91,6 +90,17 @@ const KETE_ROUTE: Record<string, string> = {
   ako:      "/ako",
   matauranga: "/kete/matauranga",
 };
+const KETE_VESSEL_IMAGES: Record<string, string> = {
+  waihanga: "/img/kete/waihanga-vessel.jpg",
+  manaaki: "/img/kete/manaaki-vessel-warm.jpg",
+  pikau: "/img/kete/pikau-vessel-blue.jpg",
+  arataki: "/img/kete/arataki-vessel-amber.jpg",
+  auaha: "/img/kete/auaha-vessel-purple.jpg",
+  ako: "/img/kete/ako-vessel-amber.jpg",
+  matauranga: "/img/kete/matauranga-vessel-tall.jpg",
+  hoko: "/img/kete/hoko-vessel-violet.jpg",
+  toro: "/img/kete/toro-vessel-charcoal.jpg",
+};
 const KETE_COLORS: Record<string, { color: string; accentLight: string; to: string }> = {
   manaaki:  { color: keteAccentHex("manaaki"),  accentLight: KETE_LIGHT.manaaki,  to: KETE_ROUTE.manaaki  },
   waihanga: { color: keteAccentHex("waihanga"), accentLight: KETE_LIGHT.waihanga, to: KETE_ROUTE.waihanga },
@@ -115,6 +125,7 @@ const INDUSTRY_PACKS = [
 ].map((k) => ({
   ...k,
   ...KETE_COLORS[k.key],
+  image: KETE_VESSEL_IMAGES[k.key],
 }));
 
 /** Tōro — consumer/whānau kete, visually distinguished below the industry tiles. */
@@ -125,6 +136,7 @@ const TORO_PACK = {
   color: keteAccentHex("toro"),
   accentLight: "#E2EBF4",
   to: "/toro",
+  image: KETE_VESSEL_IMAGES.toro,
 };
 
 /** Combined for personalization re-ordering only (Tōro pinned last). */
@@ -413,7 +425,7 @@ const Index = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
               {orderedIndustryPacks.map((p, i) => {
                 const isDetected = isPersonalized && i === 0;
-                const bleedColor = KETE_BLEED[p.reo.toLowerCase()] || "transparent";
+                const bleedColor = KETE_BLEED[p.key] || "transparent";
                 return (
                   <motion.div key={p.reo} layout layoutId={`kete-${p.reo}`} {...stagger(i)} className="relative">
                     <div className="absolute inset-0 rounded-[32px]" style={{
@@ -423,6 +435,34 @@ const Index = () => {
                     <Link to={p.to} className="group block h-full relative">
                       <GlowCard className="h-full hover:translate-y-[-4px] transition-all duration-300" accentColor={p.color}>
                         <KeteHoverEffect kete={p.reo} />
+                        <div
+                          className="relative mb-5 aspect-[16/10] overflow-hidden rounded-[22px]"
+                          style={{ background: p.accentLight, border: `1px solid ${p.color}22` }}
+                        >
+                          <img
+                            src={p.image}
+                            alt=""
+                            loading="lazy"
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                          />
+                          <div
+                            className="absolute inset-0"
+                            style={{
+                              background: `linear-gradient(180deg, transparent 38%, ${p.color}20 100%)`,
+                            }}
+                          />
+                          <span
+                            className="absolute left-4 top-4 rounded-full px-3 py-1 text-[9px] uppercase tracking-[0.22em]"
+                            style={{
+                              background: "rgba(250,247,242,0.84)",
+                              border: `1px solid ${p.color}33`,
+                              color: p.color,
+                              fontFamily: "'IBM Plex Mono', monospace",
+                            }}
+                          >
+                            {p.en}
+                          </span>
+                        </div>
                         {isDetected && (
                           <span className="text-[9px] px-3 py-1 rounded-full tracking-[2px] uppercase inline-block mb-4"
                             style={{ background: `${C.teal}08`, color: C.teal, border: `1px solid ${C.teal}15`, fontFamily: "'IBM Plex Mono', monospace" }}>
@@ -430,7 +470,11 @@ const Index = () => {
                           </span>
                         )}
                         <div className="flex items-center gap-4 mb-5">
-                          <KeteWeaveVisual size={48} accentColor={p.color} accentLight={p.accentLight} showNodes={false} showGlow={false} />
+                          <span
+                            className="h-10 w-10 rounded-full border"
+                            style={{ background: p.color, borderColor: `${p.color}33` }}
+                            aria-hidden
+                          />
                           <div>
                             <h3 className="text-[18px] font-medium" style={{ color: C.text }}>{p.reo}</h3>
                             <p className="text-[12px] mt-0.5 font-medium" style={{ color: C.textTertiary }}>{p.en}</p>
@@ -459,7 +503,18 @@ const Index = () => {
               <Link to={TORO_PACK.to} className="group block">
                 <GlowCard className="hover:translate-y-[-4px] transition-all duration-300" accentColor={TORO_PACK.color}>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <KeteWeaveVisual size={64} accentColor={TORO_PACK.color} accentLight={TORO_PACK.accentLight} showNodes={false} showGlow />
+                    <div
+                      className="relative h-44 w-full shrink-0 overflow-hidden rounded-[24px] sm:w-64"
+                      style={{ background: TORO_PACK.accentLight, border: `1px solid ${TORO_PACK.color}18` }}
+                    >
+                      <img
+                        src={TORO_PACK.image}
+                        alt=""
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(35,33,31,0.25)] to-transparent" />
+                    </div>
                     <div className="flex-1">
                       <div className="flex items-baseline gap-3 mb-2">
                         <h3 className="text-[22px] font-medium" style={{ color: C.text }}>{TORO_PACK.reo}</h3>

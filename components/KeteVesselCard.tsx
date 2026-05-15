@@ -23,7 +23,7 @@ export function KeteVesselCard({
 
   return (
     <motion.div
-      initial={reduce ? false : { opacity: 0, y: 24 }}
+      initial={reduce ? false : { opacity: 0.7, y: 12 }}
       whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
       whileHover={
         reduce
@@ -34,7 +34,7 @@ export function KeteVesselCard({
             }
       }
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
       className="focus-within:scale-[1.02] transition-transform duration-300"
     >
       <Link

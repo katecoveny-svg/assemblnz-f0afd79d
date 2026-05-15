@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import KeteWeaveVisual from "@/components/KeteWeaveVisual";
 import { keteAccentHex, hexToRgb } from "@/lib/keteColors";
 
 /**
@@ -147,23 +146,21 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
         }}
       />
 
-      {/* ── Hero kete — parallax + accent cycle ── */}
+      {/* ── Hero evidence vessel — parallax + accent cycle ── */}
       <motion.div
         aria-hidden
         className="absolute pointer-events-none flex items-center justify-center"
         style={{
-          top: "0",
-          left: "50%",
-          translateX: "-50%",
+          top: "8vh",
+          right: "-7vw",
           y: reduceMotion ? 0 : keteY,
-          width: "min(78vw, 640px)",
-          height: "100vh",
-          opacity: 0.55,
-          mixBlendMode: "multiply",
+          width: "min(76vw, 860px)",
+          height: "min(72vh, 620px)",
+          opacity: 0.82,
         }}
       >
         <motion.div
-          className="kete-float"
+          className="kete-float relative h-full w-full overflow-hidden rounded-[36px]"
           initial={reduceMotion ? false : { opacity: 0.65, scale: 0.94 }}
           animate={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
           transition={{ duration: 1.6, ease: EASE, delay: 0.2 }}
@@ -171,20 +168,19 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
             filter: `drop-shadow(0 24px 60px rgba(${accentRgb}, 0.18)) drop-shadow(0 0 80px rgba(217,188,122,0.10))`,
           }}
         >
-          <motion.div
-            key={accentIdx}
-            initial={reduceMotion ? false : { opacity: 0.65 }}
-            animate={reduceMotion ? undefined : { opacity: 1 }}
-            transition={{ duration: 1.4, ease: EASE }}
-          >
-            <KeteWeaveVisual
-              size={520}
-              accentColor={accent}
-              accentLight="#F2EAD9"
-              showNodes={false}
-              showGlow
-            />
-          </motion.div>
+          <img
+            src="/img/kete/home-vessel-pounamu.jpg"
+            alt=""
+            className="h-full w-full object-cover"
+            style={{ objectPosition: "left center" }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(90deg, rgba(${accentRgb},0.08), rgba(250,247,242,0.12) 42%, rgba(250,247,242,0.58) 100%)`,
+              mixBlendMode: "multiply",
+            }}
+          />
         </motion.div>
       </motion.div>
 
