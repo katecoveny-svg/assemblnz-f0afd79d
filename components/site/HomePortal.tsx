@@ -170,6 +170,17 @@ const BACKEND_PROOF = [
   },
 ] as const;
 
+const HERO_LINES = ['Specialist agents', 'for NZ work', 'that needs proof.'] as const;
+
+const WORKFLOW_STEPS = ['Ask', 'Route', 'Draft', 'Review', 'Seal'] as const;
+
+const ACTIVE_SIGNALS = [
+  { label: 'request', value: 'captured' },
+  { label: 'iho', value: 'routing' },
+  { label: 'agent', value: 'drafting' },
+  { label: 'review', value: 'ready' },
+] as const;
+
 export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
   const [activeSlug, setActiveSlug] = useState<KeteSlug>('waihanga');
   const reduceMotion = useReducedMotion();
@@ -236,12 +247,38 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                   sizes="100vw"
                   className="object-cover"
                 />
+                <motion.div
+                  className="absolute inset-y-0 left-0 w-1/3 bg-[linear-gradient(90deg,rgba(250,247,242,0),rgba(250,247,242,0.46),rgba(250,247,242,0))] mix-blend-screen"
+                  aria-hidden
+                  initial={reduceMotion ? false : { x: '-130%' }}
+                  animate={reduceMotion ? undefined : { x: '360%' }}
+                  transition={{ duration: 3.4, repeat: Infinity, repeatDelay: 1.4, ease: 'easeInOut' }}
+                />
                 <span className="absolute left-3 top-3 rounded-full border border-white/40 bg-[rgba(250,247,242,0.88)] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-primary)]">
                   {activeDetails.status}
                 </span>
+                <SignalStack reduceMotion={reduceMotion} />
               </motion.div>
-              <h1 className="mt-5 max-w-[11ch] font-display text-[2rem] font-light leading-[0.96] text-[color:var(--text-primary)] md:mt-7 md:max-w-4xl md:text-[clamp(3.4rem,7vw,6.9rem)] md:leading-[0.91]">
-                Pick a kete. Run a workflow. Leave with an evidence pack.
+              <h1
+                className="mt-5 max-w-[12ch] font-display text-[2.55rem] font-light leading-[0.92] text-[color:var(--text-primary)] md:mt-7 md:max-w-4xl md:text-[clamp(3.6rem,7.4vw,7.2rem)] md:leading-[0.9]"
+                aria-label="Specialist agents for NZ work that needs proof."
+              >
+                {HERO_LINES.map((line, index) => (
+                  <span key={line} className="block overflow-hidden" aria-hidden>
+                    <motion.span
+                      className="block"
+                      initial={reduceMotion ? false : { y: '104%', opacity: 0.6 }}
+                      animate={reduceMotion ? undefined : { y: 0, opacity: 1 }}
+                      transition={{
+                        duration: 0.72,
+                        delay: index * 0.09,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                    >
+                      {line}
+                    </motion.span>
+                  </span>
+                ))}
               </h1>
               <div className="mt-4 md:hidden">
                 <KeteSelector
@@ -254,9 +291,10 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                 />
               </div>
               <p className="mt-7 hidden max-w-2xl text-lg leading-[1.75] text-[color:var(--text-body)] md:block">
-                One product system: governed agents, NZ-specific workflows, human review,
-                and evidence packs you can file, forward, or verify.
+                Choose a kete, run one real workflow, review the draft, and leave
+                with a sealed evidence pack your team can file, forward, or verify.
               </p>
+              <WorkflowTrace reduceMotion={reduceMotion} compact />
               <div className="mt-5 flex flex-col gap-3 sm:flex-row md:mt-8">
                 <Link
                   href="/pilot-sprint"
@@ -277,8 +315,8 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
 
             <ProofDock stats={pearlLive} />
             <p className="text-sm leading-[1.62] text-[color:var(--text-body)] md:hidden">
-              assembl is a platform of specialist agents for New Zealand operators and whānau.
-              Every workflow keeps the sources, reviewer, and final record together.
+              Pick a kete, ask the right specialist, approve the draft, and keep
+              the sources, reviewer, and final record together.
             </p>
           </div>
 
@@ -313,6 +351,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
               className="border-l border-[rgba(35,33,31,0.18)] bg-[rgba(250,247,242,0.45)] py-2 pl-4 pr-3"
               initial={reduceMotion ? false : { opacity: 0.86, y: 8 }}
               whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+              whileHover={reduceMotion ? undefined : { y: -4, borderColor: 'rgba(43,107,87,0.62)' }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.55, delay: (index + 1) * 0.04, ease: [0.16, 1, 0.3, 1] }}
             >
@@ -347,6 +386,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                   key={item.href}
                   initial={reduceMotion ? false : { opacity: 0.86, y: 10 }}
                   whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                  whileHover={reduceMotion ? undefined : { y: -5, scale: 1.01 }}
                   viewport={{ once: true, margin: '-80px' }}
                   transition={{ duration: 0.45, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
                 >
@@ -404,9 +444,9 @@ function FeaturedKete({
     <motion.article
       key={kete.slug}
       className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[rgba(255,255,255,0.62)] shadow-[0_18px_60px_rgba(35,33,31,0.10)] backdrop-blur-xl"
-      initial={reduceMotion ? false : { opacity: 0.78, x: 10 }}
-      animate={reduceMotion ? undefined : { opacity: 1, x: 0 }}
-      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      initial={reduceMotion ? false : { opacity: 0.72, y: 18, scale: 0.985 }}
+      animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.58, ease: [0.16, 1, 0.3, 1] }}
     >
       <div className="relative aspect-[16/9] border-b border-[rgba(35,33,31,0.08)]">
         <Image
@@ -418,9 +458,17 @@ function FeaturedKete({
           className="object-cover"
         />
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[rgba(35,33,31,0.28)] to-transparent" />
+        <motion.div
+          className="absolute inset-y-0 left-0 w-1/3 bg-[linear-gradient(90deg,rgba(250,247,242,0),rgba(250,247,242,0.5),rgba(250,247,242,0))] mix-blend-screen"
+          aria-hidden
+          initial={reduceMotion ? false : { x: '-130%' }}
+          animate={reduceMotion ? undefined : { x: '360%' }}
+          transition={{ duration: 3.4, repeat: Infinity, repeatDelay: 1.4, ease: 'easeInOut' }}
+        />
         <span className="absolute left-4 top-4 rounded-full border border-white/40 bg-[rgba(250,247,242,0.86)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-primary)] shadow-sm">
           {details.status}
         </span>
+        <SignalStack reduceMotion={reduceMotion} />
       </div>
       <div className="p-5 md:p-6">
         <div className="flex items-start justify-between gap-4">
@@ -551,11 +599,18 @@ function ProofDock({ stats: initialStats }: { stats: PearlLiveStats }) {
 
   return (
     <motion.aside
-      className="rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[rgba(255,255,255,0.64)] p-3 shadow-[0_12px_40px_rgba(35,33,31,0.08)] backdrop-blur-xl md:p-4"
+      className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[rgba(255,255,255,0.64)] p-3 shadow-[0_12px_40px_rgba(35,33,31,0.08)] backdrop-blur-xl md:p-4"
       initial={reduceMotion ? false : { opacity: 0.9, y: 8 }}
       animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.55, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
     >
+      <motion.span
+        className="pointer-events-none absolute inset-y-0 w-24 bg-[linear-gradient(90deg,rgba(212,168,83,0),rgba(212,168,83,0.20),rgba(212,168,83,0))]"
+        aria-hidden
+        initial={reduceMotion ? false : { x: '-120%' }}
+        animate={reduceMotion ? undefined : { x: '720%' }}
+        transition={{ duration: 4.2, repeat: Infinity, ease: 'linear' }}
+      />
       <div className="mb-3 flex items-center justify-between gap-4 md:mb-4">
         <div className="flex items-center gap-2">
           <motion.span
@@ -583,9 +638,15 @@ function ProofDock({ stats: initialStats }: { stats: PearlLiveStats }) {
               animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="font-display text-[clamp(1.55rem,3vw,2.7rem)] font-light leading-none tabular-nums text-[color:var(--text-primary)]">
+              <motion.p
+                key={`${item.key}-${value}`}
+                className="font-display text-[clamp(1.55rem,3vw,2.7rem)] font-light leading-none tabular-nums text-[color:var(--text-primary)]"
+                initial={reduceMotion ? false : { opacity: 0.72, y: 6 }}
+                animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+              >
                 {value === 0 ? '—' : value.toLocaleString('en-NZ')}
-              </p>
+              </motion.p>
               <p className="mt-2 truncate font-mono text-[7px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)] md:text-[9px] md:tracking-[0.18em]">
                 {item.label}
               </p>
@@ -597,6 +658,81 @@ function ProofDock({ stats: initialStats }: { stats: PearlLiveStats }) {
         })}
       </div>
     </motion.aside>
+  );
+}
+
+function WorkflowTrace({
+  reduceMotion,
+  compact = false,
+}: {
+  reduceMotion: boolean | null;
+  compact?: boolean;
+}) {
+  return (
+    <div className={compact ? 'mt-5 max-w-2xl md:mt-7' : 'mt-7 max-w-2xl'}>
+      <div className="relative rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 px-3 py-3 shadow-[0_10px_32px_rgba(35,33,31,0.06)] backdrop-blur md:px-4">
+        <div className="absolute left-7 right-7 top-[28px] h-px bg-[rgba(43,107,87,0.24)]" aria-hidden />
+        <motion.div
+          className="absolute top-[25px] h-[7px] w-[7px] rounded-full bg-[color:var(--assembl-gold-thread)] shadow-[0_0_0_6px_rgba(212,168,83,0.18)]"
+          aria-hidden
+          initial={reduceMotion ? false : { left: '26px' }}
+          animate={reduceMotion ? undefined : { left: 'calc(100% - 31px)' }}
+          transition={{ duration: 3.2, repeat: Infinity, repeatType: 'reverse', ease: [0.65, 0, 0.35, 1] }}
+        />
+        <div className="relative grid grid-cols-5 gap-2">
+          {WORKFLOW_STEPS.map((step, index) => (
+            <motion.div
+              key={step}
+              className="min-w-0 text-center"
+              initial={reduceMotion ? false : { opacity: 0.72, y: 5 }}
+              animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.18 + index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <span className="mx-auto block h-3 w-3 rounded-full border border-[rgba(43,107,87,0.34)] bg-[color:var(--assembl-paper)] shadow-[0_0_0_4px_rgba(250,247,242,0.85)]" />
+              <span className="mt-3 block truncate font-mono text-[8px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)] md:text-[9px] md:tracking-[0.18em]">
+                {step}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SignalStack({ reduceMotion }: { reduceMotion: boolean | null }) {
+  return (
+    <div className="absolute inset-x-3 bottom-3 grid grid-cols-2 gap-2 md:grid-cols-4">
+      {ACTIVE_SIGNALS.map((signal, index) => (
+        <motion.div
+          key={signal.label}
+          className="border border-white/36 bg-[rgba(250,247,242,0.84)] px-2.5 py-2 shadow-[0_8px_22px_rgba(35,33,31,0.16)] backdrop-blur"
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  opacity: [0.84, 1, 0.84],
+                  y: [0, -4, 0],
+                }
+          }
+          transition={{
+            duration: 2.6,
+            delay: index * 0.16,
+            repeat: Infinity,
+            repeatDelay: 1,
+            ease: 'easeInOut',
+          }}
+        >
+          <p className="font-mono text-[8px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+            {signal.label}
+          </p>
+          <p className="mt-1 truncate font-mono text-[10px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)]">
+            {signal.value}
+          </p>
+        </motion.div>
+      ))}
+    </div>
   );
 }
 

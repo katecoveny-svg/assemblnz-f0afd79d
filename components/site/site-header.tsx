@@ -45,7 +45,7 @@ export function SiteHeader() {
           <Link
             href="/login"
             className={cn(
-              "rounded-sm text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2",
+              "hidden rounded-sm text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 sm:inline",
               pathname === "/login"
                 ? "text-[color:var(--text-primary)] font-medium"
                 : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
@@ -55,7 +55,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href={navCta.href}
-            className="cta-primary inline-flex h-10 items-center px-5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            className="cta-primary inline-flex h-9 items-center px-4 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 sm:h-10 sm:px-5"
           >
             {navCta.label}
           </Link>
