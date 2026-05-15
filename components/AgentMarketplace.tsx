@@ -7,6 +7,7 @@ import { ArrowRight, Check, Plus } from 'lucide-react';
 import {
   AGENTS,
   CAPABILITY_LABELS,
+  agentsForKete,
   type Agent,
   type Capability,
 } from '@/lib/agents';
@@ -28,10 +29,7 @@ export function AgentMarketplace() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const filtered = useMemo(() => {
-    let result = [...AGENTS];
-    if (keteFilter !== 'all') {
-      result = result.filter((a) => a.kete === keteFilter);
-    }
+    let result = keteFilter === 'all' ? [...AGENTS] : agentsForKete(keteFilter);
     if (capabilityFilter !== 'all') {
       result = result.filter((a) => a.capabilities.includes(capabilityFilter));
     }
@@ -287,7 +285,14 @@ function AgentCard({
         </Link>
       </div>
 
-      <h3 className="mt-4 font-display text-3xl text-[color:var(--text-primary)]">{agent.name}</h3>
+      <div className="mt-4 flex items-start justify-between gap-3">
+        <h3 className="font-display text-3xl text-[color:var(--text-primary)]">{agent.name}</h3>
+        {agent.status === 'draft' ? (
+          <span className="rounded-full border border-[rgba(212,168,83,0.45)] bg-[rgba(212,168,83,0.10)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-gold-thread)]">
+            Draft
+          </span>
+        ) : null}
+      </div>
       <p className="mt-1 font-mono text-xs text-[color:var(--text-secondary)]">{agent.role}</p>
 
       <p className="mt-4 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">

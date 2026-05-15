@@ -3,7 +3,7 @@ import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, MessageCircle, Radio, ShieldCheck } from 'lucide-react';
 import { KETES, type Kete, type KeteSlug } from '@/lib/kete';
-import { agentsForKete } from '@/lib/agents';
+import { agentsForKete, groupedAgentsByPhase } from '@/lib/agents';
 import { CHAT_KETES, type ChatAgent } from '@/lib/chat/registry';
 
 export const metadata: Metadata = {
@@ -152,6 +152,7 @@ function KeteAgentCard({
   chatAgents: ChatAgent[];
 }) {
   const registryAgents = agentsForKete(kete.slug);
+  const registryGroups = groupedAgentsByPhase(registryAgents);
   const stage = KETE_STAGE[kete.slug];
   const canChat = chatAgents.length > 0;
 
@@ -203,15 +204,29 @@ function KeteAgentCard({
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
           Backend registry
         </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {registryAgents.length > 0 ? (
-            registryAgents.map((agent) => (
-              <span
-                key={agent.slug}
-                className="rounded-full border border-[rgba(35,33,31,0.12)] bg-[rgba(250,247,242,0.72)] px-3 py-1 text-xs text-[color:var(--text-body)]"
-              >
-                {agent.name}
-              </span>
+        <div className="mt-3 space-y-3">
+          {registryGroups.length > 0 ? (
+            registryGroups.map((group) => (
+              <div key={group.phase}>
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                  {group.label}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {group.agents.map((agent) => (
+                    <span
+                      key={agent.slug}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(35,33,31,0.12)] bg-[rgba(250,247,242,0.72)] px-3 py-1 text-xs text-[color:var(--text-body)]"
+                    >
+                      {agent.name}
+                      {agent.status === 'draft' ? (
+                        <span className="font-mono text-[8px] uppercase tracking-[0.12em] text-[color:var(--assembl-gold-thread)]">
+                          Draft
+                        </span>
+                      ) : null}
+                    </span>
+                  ))}
+                </div>
+              </div>
             ))
           ) : (
             <span className="text-sm text-[color:var(--text-secondary)]">No public registry row yet.</span>
