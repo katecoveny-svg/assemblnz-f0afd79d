@@ -27,7 +27,7 @@
  *   - invoice.payment_failed
  */
 
-import { NextResponse, type NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe/client';
 import { createServiceClient } from '@/lib/stripe/supabase-service';
@@ -49,7 +49,7 @@ const HANDLED_EVENTS = new Set([
   'invoice.payment_failed',
 ]);
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(request: Request): Promise<NextResponse> {
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!secret) {
     // Mis-configuration: fail closed.
@@ -67,7 +67,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const rawBody = await request.text();
+  const readText = request.text;
+  if (typeof readText !== 'function') {
+    return NextResponse.json({ error: 'request body reader unavailable' }, { status: 400 });
+  }
+  const rawBody = await readText.call(request);
 
   let event: Stripe.Event;
   try {

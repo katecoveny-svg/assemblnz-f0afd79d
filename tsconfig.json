@@ -38,6 +38,10 @@
   "exclude": [
     "node_modules",
     "legacy-vite",
+    "**/* 2.ts",
+    "**/* 2.tsx",
+    "assemblnz-f0afd79d-main",
+    "assemblnz-f0afd79d-main 6",
     "supabase",
     "remotion",
     "docs",

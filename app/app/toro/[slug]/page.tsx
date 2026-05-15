@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getDashboardMockData } from '@/lib/toro/mock-data';
+import { InstallToroCta } from './InstallToroCta';
 
 export const metadata: Metadata = {
   title: 'Tōro · today',
@@ -48,10 +49,12 @@ export default async function ToroDashboardPage({
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 md:px-10 md:py-16">
       <div className="mx-auto max-w-[1040px]">
-        {/* breadcrumb */}
-        <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-          assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> tōro <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> {slug}
-        </p>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <p className="font-mono text-[11px] lowercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            assembl <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> tōro <span className="mx-1.5 text-[color:var(--assembl-gold-thread)]">·</span> {slug}
+          </p>
+          <InstallToroCta />
+        </div>
 
         {/* hero greeting */}
         <h1
