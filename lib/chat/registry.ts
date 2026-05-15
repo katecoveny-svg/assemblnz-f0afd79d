@@ -1,26 +1,19 @@
 /**
- * lib/chat/registry.ts
- *
  * Kete + agent registry for the /app/chat surface.
  *
- * Each entry tells the chat client:
- *   • which kete to group the agent under
- *   • the human-facing name + role
- *   • the `agentId` and `packId` values to pass to the `iho-router` Supabase
- *     edge function (the Iho brain resolves either the agent code/name OR
- *     falls back to keyword classification within the pack).
- *
- * The accent colour mirrors the locked Mārama Whenua palette in
- * `app/globals.css` so the picker visually matches the rest of the site.
- *
- * NOTE: We surface a curated subset of agents tonight — Kate's number-one ask
- * is "I can pick an agent and TALK to it". We can grow the list as more
- * agents land in `agent_prompts` and the Iho registry.
+ * Chat now derives from the canonical fleet registry in `lib/agents.ts`.
+ * Draft agents can be selected, but their cards elsewhere mark them as
+ * coming soon until Stage 2 prompt content lands.
  */
 
+import { agentBySlug, agentChatId, agentsForKete } from '@/lib/agents';
+import { KETES } from '@/lib/kete';
+
 export type ChatAgent = {
-  /** stable ID used as `agentId` in the iho-router request — Iho resolves by code or name */
+  /** stable ID used as `agentId` in the iho-router request */
   agentId: string;
+  /** canonical slug, useful for path redirects */
+  slug: string;
   /** display name */
   name: string;
   /** one-line role for the picker subtitle */
@@ -38,157 +31,19 @@ export type ChatKete = {
   agents: ChatAgent[];
 };
 
-export const CHAT_KETES: ChatKete[] = [
-  {
-    slug: 'toro',
-    name: 'Tōro',
-    industry: 'Whānau',
-    accent: '#23211F',
-    agents: [
-      {
-        agentId: 'TORO',
-        name: 'tōro',
-        role: 'Your family’s quiet assistant',
-        blurb:
-          'Permission slips, school notices, dinner ideas, appointment letters — Tōro reads the paperwork so you don’t have to.',
-      },
-    ],
-  },
-  {
-    slug: 'manaaki',
-    name: 'Manaaki',
-    industry: 'Hospitality',
-    accent: '#AC5838',
-    agents: [
-      {
-        agentId: 'AURA',
-        name: 'Aura',
-        role: 'Food safety + licensing',
-        blurb: 'Food Act 2014, alcohol licensing, kitchen compliance.',
-      },
-      {
-        agentId: 'HAVEN',
-        name: 'Haven',
-        role: 'Guest experience + bookings',
-      },
-    ],
-  },
-  {
-    slug: 'waihanga',
-    name: 'Waihanga',
-    industry: 'Construction',
-    accent: '#2B6B57',
-    agents: [
-      {
-        agentId: 'ARAI',
-        name: 'Ārai',
-        role: 'Health & safety on site',
-        blurb: 'HSWA 2015, SSSPs, hazard registers, WorkSafe.',
-      },
-      {
-        agentId: 'KAUPAPA',
-        name: 'Kaupapa',
-        role: 'Project + contract administration',
-        blurb: 'Construction Contracts Act 2002 — payment claims, retention, variations.',
-      },
-      {
-        agentId: 'ATA',
-        name: 'Ata',
-        role: 'BIM + plan review',
-      },
-      {
-        agentId: 'RAWA',
-        name: 'Rawa',
-        role: 'Materials + procurement',
-      },
-      {
-        agentId: 'PAI',
-        name: 'Pai',
-        role: 'Quality + handover',
-      },
-      {
-        agentId: 'WHAKAAE',
-        name: 'Whakaaē',
-        role: 'Consents + RMA',
-      },
-    ],
-  },
-  {
-    slug: 'auaha',
-    name: 'Auaha',
-    industry: 'Creative',
-    accent: '#5B4FA0',
-    agents: [
-      { agentId: 'PRISM', name: 'Prism', role: 'Brand-voice copy' },
-      { agentId: 'MUSE', name: 'Muse', role: 'Campaign + content planning' },
-    ],
-  },
-  {
-    slug: 'arataki',
-    name: 'Arataki',
-    industry: 'Advisory + automotive',
-    accent: '#D4842A',
-    agents: [
-      { agentId: 'MOTOR', name: 'Motor', role: 'Workshop compliance' },
-      { agentId: 'TRANSIT', name: 'Transit', role: 'Fleet documentation' },
-    ],
-  },
-  {
-    slug: 'pikau',
-    name: 'Pīkau',
-    industry: 'Freight + customs',
-    accent: '#3B7CB5',
-    agents: [
-      { agentId: 'PIKAU', name: 'Pīkau', role: 'Customs precedent + broker audit trails' },
-      { agentId: 'GATEWAY', name: 'Gateway', role: 'Border + entry classification' },
-    ],
-  },
-  {
-    slug: 'hoko',
-    name: 'Hoko',
-    industry: 'Trade + retail',
-    accent: '#7B3F8F',
-    agents: [
-      { agentId: 'HOKO-CGA', name: 'Hoko-CGA', role: 'Consumer Guarantees Act compliance' },
-    ],
-  },
-  {
-    slug: 'ako',
-    name: 'Ako',
-    industry: 'Education + learning',
-    accent: '#6B5843',
-    agents: [
-      { agentId: 'AKO-LICENCE', name: 'Ako-Licence', role: 'ECE licensing + tamariki safety' },
-    ],
-  },
-  {
-    slug: 'cross-pack',
-    name: 'Cross-pack',
-    industry: 'Across every kete',
-    accent: '#1F4F40',
-    agents: [
-      {
-        agentId: 'AROHA',
-        name: 'Aroha',
-        role: 'HR + NZ employment law',
-        blurb: 'Minimum wage, KiwiSaver, leave, personal grievances, restructures.',
-      },
-      {
-        agentId: 'SIGNAL',
-        name: 'Signal',
-        role: 'IT security + cyber',
-        blurb: 'NZISM, CERT NZ, Privacy Act 2020 breach response.',
-      },
-      {
-        agentId: 'IHO',
-        name: 'Iho',
-        role: 'Routing brain — let assembl pick',
-        blurb:
-          'Not sure who to ask? Iho reads your question, picks the right specialist, and routes you.',
-      },
-    ],
-  },
-];
+export const CHAT_KETES: ChatKete[] = KETES.map((kete) => ({
+  slug: kete.slug,
+  name: kete.name,
+  industry: kete.industry,
+  accent: kete.accent,
+  agents: agentsForKete(kete.slug).map((agent) => ({
+    agentId: agentChatId(agent),
+    slug: agent.slug,
+    name: agent.name,
+    role: agent.role,
+    blurb: agent.oneLiner,
+  })),
+}));
 
 export type ChatAgentRef = {
   kete: ChatKete;
@@ -198,9 +53,25 @@ export type ChatAgentRef = {
 export function findAgent(keteSlug: string, agentId: string): ChatAgentRef | null {
   const kete = CHAT_KETES.find((k) => k.slug === keteSlug);
   if (!kete) return null;
-  const agent = kete.agents.find((a) => a.agentId === agentId);
+  const agent = kete.agents.find((a) => a.agentId === agentId || a.slug === agentId);
   if (!agent) return null;
   return { kete, agent };
+}
+
+export function findAgentBySlug(slug: string, keteSlug?: string): ChatAgentRef | null {
+  const canonical = agentBySlug(slug);
+  if (!canonical) return null;
+
+  const preferredKetes = keteSlug
+    ? [keteSlug, ...CHAT_KETES.map((kete) => kete.slug)]
+    : [canonical.kete, ...CHAT_KETES.map((kete) => kete.slug)];
+
+  for (const candidate of preferredKetes) {
+    const found = findAgent(candidate, canonical.slug);
+    if (found) return found;
+  }
+
+  return null;
 }
 
 export const DEFAULT_AGENT_REF: ChatAgentRef = {
