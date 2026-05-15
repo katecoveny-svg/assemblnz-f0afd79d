@@ -55,7 +55,7 @@ const AGENTS = [
 
 const DEMO_FLOW = [
   { step: "Import shipment", detail: "Enter cargo details, HS codes, origin, and incoterm", icon: Package },
-  { step: "Auto-validate", detail: "Pikau validates HS codes, flags DG, checks MPI requirements", icon: Shield },
+  { step: "Auto-validate", detail: "Pīkau validates HS codes, flags DG, checks MPI requirements", icon: Shield },
   { step: "Generate pack", detail: "Customs declaration pack produced with compliance checks", icon: FileText },
   { step: "Broker hand-off", detail: "Pack ready for your licensed customs broker to lodge", icon: Check },
 ];
@@ -68,7 +68,7 @@ export default function PikauLandingPage() {
     <LightPageShell>
       <div style={{ minHeight: "100vh" }}>
         <SEO
-          title="Pikau — Freight & Customs | assembl"
+          title="Pīkau — Freight & Customs | assembl"
           description="Customs entries, freight quotes, dangerous goods checks — border compliance without the scramble. Built for NZ importers and logistics teams."
         />
         <BrandNav />
@@ -85,7 +85,7 @@ export default function PikauLandingPage() {
             style={{ color: POUNAMU, fontFamily: "'Inter', sans-serif", fontWeight: 500 }}
             variants={fadeUp} initial="hidden" animate="visible" custom={0}
           >
-            Pikau · Freight & Customs
+            Pīkau · Freight & Customs
           </motion.p>
 
           <motion.h1
@@ -166,7 +166,7 @@ export default function PikauLandingPage() {
               className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-medium font-body overflow-hidden transition-transform duration-300 hover:-translate-y-px"
               style={{ color: BG, background: POUNAMU, boxShadow: "0 12px 32px -12px rgba(31,77,71,0.45)" }}
             >
-              <span className="relative z-10">Launch Pikau Dashboard</span>
+              <span className="relative z-10">Launch Pīkau Dashboard</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
@@ -231,18 +231,18 @@ export default function PikauLandingPage() {
             <Link to="/pikau/dashboard" className="group relative flex items-center gap-2 px-10 py-4 rounded-full text-sm font-semibold transition-all overflow-hidden" style={{ color: "#3D4250" }}>
               <div className="absolute inset-0 rounded-full" style={{ background: POUNAMU }} />
               <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ boxShadow: `0 0 30px ${POUNAMU}40` }} />
-              <span className="relative z-10">Open Pikau Dashboard</span>
+              <span className="relative z-10">Open Pīkau Dashboard</span>
               <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <TextUsButton keteName="Pikau" accentColor={ACCENT} showWhatsApp={true} />
+            <TextUsButton keteName="Pīkau" accentColor={ACCENT} showWhatsApp={true} />
           </motion.div>
         </section>
 
         <BrandFooter />
         <KeteAgentChat
-          keteName="Pikau" keteLabel="Freight & Customs" accentColor="#7ECFC2"
+          keteName="Pīkau" keteLabel="Freight & Customs" accentColor="#7ECFC2"
           defaultAgentId="gateway" packId="pikau"
-          starterPrompts={["What does Pikau cover for freight teams?", "How does customs declaration support work?", "Tell me about HS code validation", "What evidence packs do I get for shipments?"]}
+          starterPrompts={["What does Pīkau cover for freight teams?", "How does customs declaration support work?", "Tell me about HS code validation", "What evidence packs do I get for shipments?"]}
         />
       </div>
     </LightPageShell>

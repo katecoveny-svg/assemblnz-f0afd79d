@@ -115,7 +115,7 @@ export default function BrandGuidelinesPage() {
             The Assembl Visual Identity
           </h1>
           <p className={`${SUB} mx-auto`} style={{ color: "#6B7280", fontFamily: "'Inter', sans-serif" }}>
-            A library of specialist agents. Eight kete (seven industry + Tōro). One intelligence layer. This guide defines how Assembl looks,
+            A library of specialist agents. Nine kete (eight industry + Tōro). One evidence vessel. This guide defines how Assembl looks,
             speaks, and feels across every touchpoint.
           </p>
         </div>
@@ -133,15 +133,14 @@ export default function BrandGuidelinesPage() {
             <div className="space-y-6">
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>One-line pitch</p>
-                <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"A specialist agent library. Eight kete. One governed intelligence layer."</p>
+                <p className="text-[20px] font-light" style={{ color: "#1A1D29" }}>"Specialist agents for NZ work that needs proof."</p>
               </div>
               <div className="rounded-3xl p-8" style={GLASS_CARD}>
                 <p className="text-[12px] tracking-[2px] uppercase mb-3" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>Elevator pitch</p>
                 <p className="text-[15px] leading-[1.75]" style={{ color: "#6B7280" }}>
-                  "Assembl is 44 AI agents that operate your NZ business — organised into five industry kete:
-                  hospitality, construction, creative, automotive, and freight. They calculate your PAYE, write your
-                  tenders, check your compliance, build your apps, and run your marketing — all trained on NZ law,
-                  all sharing one brain, all governed by tikanga."
+                  "Assembl runs operational compliance work in the open across nine kete: Waihanga, Manaaki, Pīkau,
+                  Arataki, Auaha, Ako, Mātauranga, Hoko, and Tōro. Every workflow is grounded in New Zealand legislation,
+                  reviewed by a named person on your team, and sealed with an evidence pack."
                 </p>
               </div>
             </div>
@@ -150,7 +149,7 @@ export default function BrandGuidelinesPage() {
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
               <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#4AA5A8", fontFamily: "'IBM Plex Mono', monospace" }}>What Assembl is</p>
               <ul className="space-y-2">
-                {["The operating system for NZ business", "44 AI agents across 5 industry kete", "One governed intelligence layer", "Trained on NZ legislation with section references"].map(t => (
+                {["Specialist agents for NZ work that needs proof", "Nine kete: eight industry plus Tōro", "assembl evidence vessel", "Built in Aotearoa"].map(t => (
                   <li key={t} className="flex items-start gap-3 text-[14px]" style={{ color: "#6B7280" }}>
                     <span className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ background: "#4AA5A8" }} />
                     {t}
@@ -161,7 +160,7 @@ export default function BrandGuidelinesPage() {
             <div className="rounded-3xl p-8" style={GLASS_CARD}>
               <p className="text-[12px] tracking-[2px] uppercase mb-4" style={{ color: "#E8A090", fontFamily: "'IBM Plex Mono', monospace" }}>What Assembl is NOT</p>
               <ul className="space-y-2">
-                {["A chatbot platform", "A generic AI wrapper", "A dark-mode dashboard", "A cheaper version of something else"].map(t => (
+                {["A chatbot platform", "A generic wrapper", "A dark-mode dashboard", "A cheaper version of something else"].map(t => (
                   <li key={t} className="flex items-start gap-3 text-[14px]" style={{ color: "#6B7280" }}>
                     <span className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ background: "#E8A090" }} />
                     {t}

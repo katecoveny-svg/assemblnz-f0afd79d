@@ -9,7 +9,7 @@ import { KeteVesselCard } from '@/components/KeteVesselCard';
 export const metadata: Metadata = {
   title: 'Kete',
   description:
-    'Eight industry kete plus Tōro, the whānau navigator. Each one bundles specialist agents grounded in the legislation your industry lives under.',
+    'Nine kete: eight industry kete plus Tōro, the whānau navigator. Each one bundles specialist agents grounded in the legislation your industry lives under.',
 };
 
 export default function KeteIndexPage() {
@@ -28,7 +28,7 @@ export default function KeteIndexPage() {
           <div className="mx-auto max-w-4xl text-center">
             <SectionReveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Industry kete + Tōro
+                Nine kete · Built in Aotearoa
               </p>
             </SectionReveal>
             <SectionReveal delay={0.1}>
@@ -76,25 +76,24 @@ export default function KeteIndexPage() {
                 style={{ fontWeight: 300, fontSize: 'clamp(2.4rem, 5vw, 4.5rem)' }}
               >
                 Found yours?{' '}
-                <em className="not-italic text-gradient-hero">Pick your agents.</em>
+                <em className="not-italic text-gradient-hero">Run a pilot.</em>
               </h2>
               <p className="mt-8 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Each kete contains specialist agents you can subscribe to, pay per output, or
-                pay per resolution.
+                Start with one real workflow, one named reviewer, and one evidence pack.
               </p>
               <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
-                  href="/agents"
+                  href="/pilot-sprint"
                   className="cta-primary inline-flex h-12 items-center px-8 text-sm md:text-base"
                 >
-                  Browse the agent marketplace
+                  Book a pilot
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/evidence-pack"
                   className="btn-ghost inline-flex h-12 items-center px-8 text-sm md:text-base"
                 >
-                  Talk to us
+                  See an evidence pack
                 </Link>
               </div>
             </SectionReveal>

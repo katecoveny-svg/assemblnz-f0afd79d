@@ -143,7 +143,7 @@ export default function IndustryKeteShowcase() {
             className="text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
             style={{ fontFamily: "'Inter', sans-serif", color: "#3D4250B3" }}
           >
-            AI agents working across five NZ industries — built for the laws and language of Aotearoa.
+            Specialist agents working across nine kete — built for the laws and language of Aotearoa.
           </p>
         </motion.div>
 
