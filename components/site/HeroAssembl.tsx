@@ -4,11 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 const BOTTOM_LABELS = ['signal in', 'evidence held', 'decision out', 'trail kept'];
 
-// Evidence Vessel — locked canonical asset, hosted on pub.hyperagent.com.
-// Material spec: matte cream ceramic top petal, three translucent pounamu green
-// glass plates, cream ceramic base, slim gold metal stand. Aesop × Cereal aesthetic.
-const VESSEL_HERO_SRC =
-  'https://pub.hyperagent.com/api/published/pbf01KQZNN17F_QZ7P4QPVS1EWX8S1/4526e124-051e-4988-8a31-7fdb7e7848fe.png';
+const VESSEL_HERO_SRC = '/img/kete/toro-vessel.png';
 
 export function HeroAssembl() {
   return (
@@ -19,7 +15,7 @@ export function HeroAssembl() {
         <div className="grid items-center gap-10 md:grid-cols-12 md:gap-10 lg:gap-14">
           {/* HERO IMAGE — capped 6 cols on tablet, 7 on desktop. NEVER full viewport. */}
           <div className="md:col-span-6 lg:col-span-7">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm md:aspect-[5/4] lg:aspect-[7/5]">
+            <div className="relative aspect-[4/3] max-h-[80vh] w-full max-w-[540px] overflow-hidden rounded-sm md:aspect-[5/4] lg:aspect-square">
               <Image
                 src={VESSEL_HERO_SRC}
                 alt="Evidence Vessel — sculptural stack of cream ceramic and pounamu green glass on a slim gold stand."
@@ -27,7 +23,6 @@ export function HeroAssembl() {
                 priority
                 sizes="(min-width: 1024px) 58vw, (min-width: 768px) 50vw, 100vw"
                 className="object-cover"
-                unoptimized
               />
             </div>
           </div>

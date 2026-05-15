@@ -4,6 +4,12 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { Kete } from '@/lib/kete';
 
+const LOCAL_VESSELS: Partial<Record<Kete['slug'], string>> = {
+  manaaki: '/img/kete/manaaki-vessel.png',
+  pikau: '/img/kete/pikau-vessel.jpg',
+  toro: '/img/kete/toro-vessel.png',
+};
+
 /**
  * KeteVesselCard — single 1:1 kete card with locked vessel imagery.
  * Hovers lift + tints the kete accent. Status pill renders mothballed/coming-soon.
@@ -18,6 +24,7 @@ export function KeteVesselCard({
   index?: number;
 }) {
   const reduce = useReducedMotion();
+  const localVessel = LOCAL_VESSELS[kete.slug];
   const status =
     kete.status === 'active' ? 'Live' : kete.status === 'coming-soon' ? 'Coming soon' : 'Pending';
 
@@ -43,12 +50,22 @@ export function KeteVesselCard({
         style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
       >
         <div className="relative aspect-square overflow-hidden">
-          <img
-            src={vesselSrc}
-            alt={`${kete.name} vessel — ${kete.industry}`}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] group-focus-visible:scale-[1.04]"
-          />
+          {localVessel || vesselSrc ? (
+            <img
+              src={localVessel ?? vesselSrc}
+              alt={`${kete.name} vessel — ${kete.industry}`}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] group-focus-visible:scale-[1.04]"
+            />
+          ) : (
+            <div
+              className="flex h-full w-full items-center justify-center font-display text-7xl font-light text-[color:var(--assembl-paper)]"
+              style={{ backgroundColor: kete.accent }}
+              aria-label={`${kete.name} vessel placeholder`}
+            >
+              {kete.name.slice(0, 1)}
+            </div>
+          )}
           <div
             aria-hidden
             className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100"

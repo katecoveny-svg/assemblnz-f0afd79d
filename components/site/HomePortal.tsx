@@ -103,6 +103,12 @@ const PROOF_ITEMS = [
   },
 ] as const;
 
+const LOCAL_VESSELS = {
+  manaaki: '/img/kete/manaaki-vessel.png',
+  pikau: '/img/kete/pikau-vessel.jpg',
+  toro: '/img/kete/toro-vessel.png',
+} as Partial<Record<KeteSlug, string>>;
+
 const PRODUCT_ACCESS = [
   {
     href: '/pilot-sprint',
@@ -218,7 +224,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
             <FeaturedKete
               kete={activeKete}
               details={activeDetails}
-              image={keteImagery[activeKete.slug].wide}
+              image={LOCAL_VESSELS[activeKete.slug] ?? keteImagery[activeKete.slug].wide}
               reduceMotion={reduceMotion}
             />
             <div className="hidden md:block">
