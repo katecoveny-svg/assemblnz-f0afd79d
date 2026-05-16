@@ -12,6 +12,8 @@ import {
   Send,
   X,
 } from 'lucide-react';
+import { BusinessPulseWidget } from '@/components/app/BusinessPulseWidget';
+import type { BusinessPulseBrief } from '@/lib/business-pulse/types';
 import {
   approveDraftAction,
   approveSelectedAction,
@@ -43,12 +45,14 @@ export function InboxExperience({
   dateLabel,
   drafts,
   briefing,
+  businessPulse,
 }: {
   slug: string;
   tenantName: string;
   dateLabel: string;
   drafts: OperatorDraft[];
   briefing: BriefingSummary;
+  businessPulse: BusinessPulseBrief | null;
 }) {
   const [filter, setFilter] = useState<InboxFilter>('all');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -222,7 +226,12 @@ export function InboxExperience({
         </div>
       </section>
 
-      <BriefingSidebar summary={summary} briefing={briefing} />
+      <BriefingSidebar
+        summary={summary}
+        briefing={briefing}
+        businessPulse={businessPulse}
+        tenantSlug={slug}
+      />
     </div>
   );
 }
@@ -455,12 +464,18 @@ function BatchBar({
 function BriefingSidebar({
   summary,
   briefing,
+  businessPulse,
+  tenantSlug,
 }: {
   summary: ReturnType<typeof summariseDrafts>;
   briefing: BriefingSummary;
+  businessPulse: BusinessPulseBrief | null;
+  tenantSlug: string;
 }) {
   return (
     <aside className="space-y-4">
+      <BusinessPulseWidget brief={businessPulse} tenantSlug={tenantSlug} />
+
       <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
           Today's briefing
