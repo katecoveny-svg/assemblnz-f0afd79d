@@ -113,9 +113,14 @@ export async function runBusinessPulse(context: BusinessPulseContext): Promise<B
         : ['No pilot health rows configured for this tenant.'],
   };
 
+  const stripeConnected = inputs.integrations.some(
+    (row) =>
+      row.provider_code === 'stripe' &&
+      ['active', 'connected'].includes(String(row.status ?? '').toLowerCase()),
+  );
   const sourceStatus = {
     xero: cash.status,
-    stripe: cash.stripeNetLast7Days > 0 || process.env.STRIPE_SECRET_KEY ? 'connected' : 'not_connected',
+    stripe: stripeConnected ? 'connected' : 'not_connected',
     calendar: commitments.status,
     gmail: inputs.integrations.some((row) => row.provider_code === 'gmail') ? 'connected' : 'not_connected',
     hubspot: pipeline?.status ?? 'not_connected',
@@ -187,6 +192,58 @@ export async function runBusinessPulseWithService(tenantId: string, asOf?: Date)
   return runBusinessPulse({ supabase: getServiceClient(), tenantId, asOf, manual: false });
 }
 
+// Fill-in defaults that satisfy the BusinessPulseBrief shape. Legacy or
+// partially-written rows can have null jsonb columns or empty objects;
+// downstream renderers (widget, page, inbox sidebar) read deep paths
+// like .weeklyCommitments.externalMeetings.length and would throw if we
+// returned a bare {}. Normalise here, once.
+function normaliseCashPosition(value: unknown): BusinessPulseBrief['cashPosition'] {
+  const v = (value && typeof value === 'object' ? value : {}) as Partial<BusinessPulseBrief['cashPosition']>;
+  return {
+    status: v.status ?? 'not_connected',
+    currency: 'NZD',
+    bankBalance: typeof v.bankBalance === 'number' ? v.bankBalance : null,
+    accountsReceivableDue: typeof v.accountsReceivableDue === 'number' ? v.accountsReceivableDue : 0,
+    accountsPayableDue: typeof v.accountsPayableDue === 'number' ? v.accountsPayableDue : 0,
+    stripeNetLast7Days: typeof v.stripeNetLast7Days === 'number' ? v.stripeNetLast7Days : 0,
+    fourteenDayForecast: typeof v.fourteenDayForecast === 'number' ? v.fourteenDayForecast : null,
+    threshold: typeof v.threshold === 'number' ? v.threshold : 5000,
+    belowThreshold: v.belowThreshold === true,
+    notes: Array.isArray(v.notes) ? v.notes : [],
+  };
+}
+
+function normaliseWeeklyCommitments(value: unknown): BusinessPulseBrief['weeklyCommitments'] {
+  const v = (value && typeof value === 'object' ? value : {}) as Partial<BusinessPulseBrief['weeklyCommitments']>;
+  return {
+    status: v.status ?? 'not_connected',
+    externalMeetings: Array.isArray(v.externalMeetings) ? v.externalMeetings : [],
+    blockedWithKate: Array.isArray(v.blockedWithKate) ? v.blockedWithKate : [],
+    notes: Array.isArray(v.notes) ? v.notes : [],
+  };
+}
+
+function normalisePipelineMovement(value: unknown): BusinessPulseBrief['pipelineMovement'] {
+  if (value === null || value === undefined) return null;
+  const v = (typeof value === 'object' ? value : {}) as Partial<NonNullable<BusinessPulseBrief['pipelineMovement']>>;
+  return {
+    status: v.status ?? 'not_connected',
+    newDeals: typeof v.newDeals === 'number' ? v.newDeals : 0,
+    movedDeals: typeof v.movedDeals === 'number' ? v.movedDeals : 0,
+    stuckDeals: Array.isArray(v.stuckDeals) ? v.stuckDeals : [],
+    notes: Array.isArray(v.notes) ? v.notes : [],
+  };
+}
+
+function normalisePilotHealth(value: unknown): BusinessPulseBrief['pilotHealth'] {
+  const v = (value && typeof value === 'object' ? value : {}) as Partial<BusinessPulseBrief['pilotHealth']>;
+  return {
+    status: v.status ?? 'not_configured',
+    customers: Array.isArray(v.customers) ? v.customers : [],
+    notes: Array.isArray(v.notes) ? v.notes : [],
+  };
+}
+
 export function toBusinessPulseBrief(row: BriefRow, tenant: { slug: string; name: string }): BusinessPulseBrief {
   return {
     id: row.id,
@@ -197,10 +254,10 @@ export function toBusinessPulseBrief(row: BriefRow, tenant: { slug: string; name
     drivePath: row.drive_path ?? '',
     markdown: row.markdown ?? '',
     threeThings: Array.isArray(row.three_things) ? (row.three_things as BusinessPulseBrief['threeThings']) : [],
-    cashPosition: (row.cash_position ?? {}) as BusinessPulseBrief['cashPosition'],
-    pipelineMovement: (row.pipeline_movement ?? null) as BusinessPulseBrief['pipelineMovement'],
-    weeklyCommitments: (row.weekly_commitments ?? {}) as BusinessPulseBrief['weeklyCommitments'],
-    pilotHealth: (row.pilot_health ?? {}) as BusinessPulseBrief['pilotHealth'],
+    cashPosition: normaliseCashPosition(row.cash_position),
+    pipelineMovement: normalisePipelineMovement(row.pipeline_movement),
+    weeklyCommitments: normaliseWeeklyCommitments(row.weekly_commitments),
+    pilotHealth: normalisePilotHealth(row.pilot_health),
     checks: {
       tikanga: {
         passed: row.tikanga_check_passed !== false,

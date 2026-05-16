@@ -18,10 +18,14 @@ function localNzParts(now = new Date()) {
 }
 
 function authorised(req: Request): boolean {
+  // Always require a validated shared secret. Vercel cron auto-injects
+  // Authorization: Bearer $CRON_SECRET when CRON_SECRET is set in the
+  // Vercel project env. The x-vercel-cron header alone is not a proof
+  // of origin because edge config or proxy rewrites can let it through;
+  // the bearer is the only trusted signal.
   const auth = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '').trim();
-  const cronHeader = req.headers.get('x-vercel-cron');
   const token = process.env.CRON_SECRET || process.env.BUSINESS_PULSE_RUN_TOKEN;
-  return Boolean(cronHeader || (token && auth === token));
+  return Boolean(token && auth === token);
 }
 
 export async function GET(req: Request) {
