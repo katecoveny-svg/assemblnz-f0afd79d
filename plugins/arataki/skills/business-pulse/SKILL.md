@@ -34,8 +34,10 @@ full spec.
 
 Fires on the Monday 07:00 NZT schedule, or when the named reviewer
 asks for a fresh business pulse out-of-band ("run my business pulse
-now"). One brief per organisation per day — the unique constraint on
-`business_pulse_briefs (org_id, brief_date)` enforces this.
+now"). One brief per tenant per day — the unique constraint on
+`business_pulse_briefs (tenant_id, brief_date)` enforces this. Tenancy
+follows the canon `tenants` / `tenant_members` shape (not `organizations`);
+RLS uses the `is_tenant_member(uuid)` helper.
 
 ## Inputs
 
@@ -65,7 +67,9 @@ A single Markdown doc in section order:
 ## Storage / delivery
 
 - Drive: `Assembl-Drive/[customer-slug]/business-pulse/YYYY-MM-DD-pulse.md`
-- Supabase: row in `business_pulse_briefs` with all sections as jsonb
+- Supabase: row in `business_pulse_briefs` with all sections as jsonb,
+  the full rendered Markdown in `markdown`, and per-source health in
+  `source_status` (one of `ok`, `skipped`, `failed` per connector)
 - Slack: optional, only if the org has a Slack connector
 - UI: rendered in `BusinessPulseWidget.tsx` on the Command Centre
 

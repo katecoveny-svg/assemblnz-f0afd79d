@@ -27,12 +27,16 @@ interface ThreeThing {
 
 interface PulseBrief {
   id: string;
+  tenant_id: string;
   brief_date: string;
   drive_path: string | null;
+  markdown: string;
   three_things: ThreeThing[];
   cash_position: { balance_nzd: number; forecast_14d_nzd: number; threshold_breach: boolean } | null;
+  source_status: Record<string, 'ok' | 'skipped' | 'failed'>;
   tikanga_check_passed: boolean;
   privacy_check_passed: boolean;
+  run_status: 'running' | 'completed' | 'skipped' | 'failed';
 }
 
 export function BusinessPulseWidget() {
