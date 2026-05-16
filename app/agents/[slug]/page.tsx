@@ -5,6 +5,7 @@ import { ArrowRight, CheckCircle2, MessageCircle, ShieldCheck, Workflow } from '
 import { agentBySlug, AGENTS, CAPABILITY_LABELS, PHASE_LABELS } from '@/lib/agents';
 import { getKete } from '@/lib/kete';
 import { WORKFLOW_STARTERS, workflowById } from '@/lib/chat/workflows';
+import { AgentDemoPanel } from './AgentDemoPanel';
 
 export function generateStaticParams() {
   return AGENTS.map((agent) => ({ slug: agent.slug }));
@@ -37,6 +38,7 @@ export default async function AgentDetailPage({
   const phase = agent.phase ? PHASE_LABELS[agent.phase] : 'Specialist';
   const workflow = workflowById(agent.kete, sp.workflow);
   const workflowOptions = WORKFLOW_STARTERS[agent.kete] ?? [];
+  const demoWorkflow = workflow ?? workflowOptions[0] ?? null;
   const chatHref = `/app/chat?kete=${encodeURIComponent(kete.slug)}&agent=${encodeURIComponent(agent.slug)}${
     workflow ? `&workflow=${encodeURIComponent(workflow.id)}` : ''
   }`;
@@ -109,6 +111,21 @@ export default async function AgentDetailPage({
           <Panel title="Phase" body={phase} />
           <Panel title="Status" body={agent.status ?? 'live'} />
         </div>
+
+        <AgentDemoPanel
+          agentSlug={agent.slug}
+          agentName={agent.name}
+          keteName={kete.name}
+          keteAccent={kete.accent}
+          workflowId={demoWorkflow?.id ?? null}
+          workflowTitle={demoWorkflow?.title ?? null}
+          starterPrompt={
+            demoWorkflow?.starterPrompt ??
+            `Ask ${agent.name} to assess one realistic ${kete.industry.toLowerCase()} workflow. Return the likely agent handoff, missing evidence, relevant New Zealand legislation, and the named human review gate.`
+          }
+          evidencePack={demoWorkflow?.evidencePack ?? null}
+          reviewerRole={demoWorkflow?.reviewerRole ?? null}
+        />
 
         <div className="mx-auto mt-8 grid max-w-7xl gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
