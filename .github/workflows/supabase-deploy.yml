@@ -1,0 +1,216 @@
+name: Supabase Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/**"
+      - ".github/workflows/supabase-deploy.yml"
+  pull_request:
+    paths:
+      - "supabase/**"
+      - ".github/workflows/supabase-deploy.yml"
+  workflow_dispatch:
+    inputs:
+      deploy_functions:
+        description: "Deploy edge functions"
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      deploy_migrations:
+        description: "Apply database migrations"
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+concurrency:
+  group: supabase-deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  detect:
+    name: Detect Supabase changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      functions: ${{ steps.changes.outputs.functions }}
+      migrations: ${{ steps.changes.outputs.migrations }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed paths
+        id: changes
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "functions=${{ inputs.deploy_functions }}" >> "$GITHUB_OUTPUT"
+            echo "migrations=${{ inputs.deploy_migrations }}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+          fi
+
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            BASE_SHA="$(git rev-list --max-parents=0 HEAD)"
+          fi
+
+          CHANGED="$(git diff --name-only "$BASE_SHA" HEAD)"
+          echo "$CHANGED"
+
+          if echo "$CHANGED" | grep -qE '^supabase/functions/|^supabase/config\.toml$|^\.github/workflows/supabase-deploy\.yml$'; then
+            echo "functions=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "functions=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if echo "$CHANGED" | grep -qE '^supabase/migrations/|^\.github/workflows/supabase-deploy\.yml$'; then
+            echo "migrations=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "migrations=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy-functions:
+    name: Deploy edge functions
+    needs: detect
+    if: needs.detect.outputs.functions == 'true' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.DEPLOY }}
+      PROJECT_REF: wurwcrgxjjwqdaxqceey
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Deploy functions
+        shell: bash
+        run: |
+          set +e
+
+          mapfile -t FUNCTIONS < <(find supabase/functions \
+            -mindepth 1 \
+            -maxdepth 1 \
+            -type d \
+            -not -name "_shared" \
+            -exec test -f "{}/index.ts" ";" \
+            -printf "%f\n" | sort)
+
+          TOTAL=${#FUNCTIONS[@]}
+          DEPLOYED=0
+          FAILED=0
+          declare -a DEPLOYED_NAMES
+          declare -a FAILED_NAMES
+
+          echo "::group::Functions to deploy ($TOTAL total)"
+          printf "%s\n" "${FUNCTIONS[@]}"
+          echo "::endgroup::"
+
+          for fn in "${FUNCTIONS[@]}"; do
+            echo "::group::Deploy $fn"
+            if supabase functions deploy "$fn" --project-ref "$PROJECT_REF" --use-api --workdir supabase; then
+              DEPLOYED=$((DEPLOYED + 1))
+              DEPLOYED_NAMES+=("$fn")
+            else
+              FAILED=$((FAILED + 1))
+              FAILED_NAMES+=("$fn")
+              echo "::error::Deploy failed: $fn"
+            fi
+            echo "::endgroup::"
+          done
+
+          {
+            echo "## Edge function deploy"
+            echo ""
+            echo "- Project: \`$PROJECT_REF\`"
+            echo "- Total: $TOTAL"
+            echo "- Deployed: $DEPLOYED"
+            echo "- Failed: $FAILED"
+            echo ""
+            if [ "${#FAILED_NAMES[@]}" -gt 0 ]; then
+              echo "### Failed"
+              printf -- "- \`%s\`\n" "${FAILED_NAMES[@]}"
+              echo ""
+            fi
+            if [ "${#DEPLOYED_NAMES[@]}" -gt 0 ]; then
+              echo "<details><summary>Deployed functions</summary>"
+              echo ""
+              printf -- "- \`%s\`\n" "${DEPLOYED_NAMES[@]}"
+              echo ""
+              echo "</details>"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          [ "$FAILED" -eq 0 ]
+
+  deploy-migrations:
+    name: Deploy migrations
+    needs: detect
+    if: needs.detect.outputs.migrations == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.DEPLOY }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      PROJECT_REF: wurwcrgxjjwqdaxqceey
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Link project
+        run: supabase link --project-ref "$PROJECT_REF" --workdir supabase
+
+      - name: Dry-run migrations
+        if: github.event_name == 'pull_request'
+        run: supabase db push --include-all --dry-run --password "$SUPABASE_DB_PASSWORD" --workdir supabase
+
+      - name: Push migrations
+        if: github.event_name != 'pull_request'
+        run: supabase db push --include-all --password "$SUPABASE_DB_PASSWORD" --workdir supabase
+
+      - name: Summarise migrations
+        if: always()
+        shell: bash
+        run: |
+          {
+            echo "## Migration deploy"
+            echo ""
+            echo "- Project: \`$PROJECT_REF\`"
+            echo "- Mode: \`${{ github.event_name == 'pull_request' && 'dry-run' || 'push' }}\`"
+            echo ""
+            echo "### Migration files"
+            echo ""
+            echo '```'
+            ls -1 supabase/migrations
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
