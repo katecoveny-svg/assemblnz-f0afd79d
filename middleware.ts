@@ -35,10 +35,6 @@ const shouldProxyToSpa = (pathname: string) => {
   if (/^\/manifest-[^/]+\.json$/.test(pathname)) return true;
   if (pathname === '/favicon.png') return true;
 
-  // Keep the marketing /agents page on Next.js; only dynamic agent pages
-  // proxy to the SPA.
-  if (pathname.startsWith('/agents/')) return true;
-
   return false;
 };
 
