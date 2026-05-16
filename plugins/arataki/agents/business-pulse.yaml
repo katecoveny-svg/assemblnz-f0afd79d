@@ -1,0 +1,82 @@
+name: business-pulse
+description: |
+  Business Pulse — Monday morning weekly brief for assembl operators.
+  Cross-kete workflow owned by Arataki. Pulls cash position from Xero,
+  settlements from Stripe, week-ahead from Google or Microsoft calendar,
+  and (optionally) pipeline movement from HubSpot. Synthesises the
+  three things that need the operator's attention this week, stages
+  any recommended actions as drafts, and writes the brief to the
+  operator's Drive plus (optionally) the operator's Slack channel.
+  Drafts only — never sends, posts, pays, or transmits.
+
+  Modelled on the Anthropic Claude-for-Small-Business "Morning Brief"
+  workflow, NZ-adapted: Xero (not QuickBooks), Stripe (not PayPal),
+  with the Privacy Act 2020 (incl. IPP 3A) and tikanga compliance
+  layers required on every brief.
+
+# Synthesis quality drives the whole workflow. Sonnet for judgment.
+model: claude-sonnet-4-6
+
+system_prompt_path: ./business-pulse-system-prompt.md
+
+mana_receipts:
+  enabled: true
+  domain: business-pulse
+
+hitl_defaults:
+  required_for:
+    - send_overdue_followup_email
+    - send_invoice_reminder
+    - reschedule_calendar_event
+    - change_hubspot_deal_stage
+    - post_to_slack_channel
+
+allowed_tools:
+  - mcp__xero__list_bank_balances
+  - mcp__xero__list_invoices
+  - mcp__xero__list_bills
+  - mcp__xero__list_payruns
+  - mcp__stripe__list_payouts
+  - mcp__stripe__list_refunds
+  - mcp__stripe__list_disputes
+  - mcp__google-calendar__list_events
+  - mcp__microsoft-calendar__list_events
+  - mcp__hubspot__list_deals
+  - mcp__assembl-drive__write_markdown
+  - mcp__assembl-audit-log__write
+  - mcp__assembl-knowledge-base__search
+  - Read
+  - Write
+  - Edit
+
+denied_tools:
+  - mcp__xero__post_journal
+  - mcp__xero__send_invoice
+  - mcp__xero__send_statement
+  - mcp__xero__pay_bill
+  - mcp__stripe__issue_refund
+  - mcp__stripe__respond_to_dispute
+  - mcp__google-calendar__create_event
+  - mcp__google-calendar__update_event
+  - mcp__google-calendar__delete_event
+  - mcp__microsoft-calendar__create_event
+  - mcp__microsoft-calendar__update_event
+  - mcp__hubspot__update_deal
+  - mcp__slack__send_message
+  - mcp__gmail__send
+  - mcp__ird-myir__file_return
+
+skills:
+  - assembl-core/tikanga-compliance
+  - assembl-core/nz-privacy-act-2020
+  - arataki/xero-cash-position
+  - arataki/stripe-settlement-summary
+  - arataki/calendar-week-ahead
+  - arataki/pulse-synthesis
+
+subagents: []
+
+schedule:
+  cron: '0 7 * * 1'
+  timezone: Pacific/Auckland
+  description: Every Monday at 07:00 NZT (gated per-tenant by tenant_intake.timezone)
