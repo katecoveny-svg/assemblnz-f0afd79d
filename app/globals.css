@@ -320,3 +320,43 @@
       url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
   }
 }
+
+/* Wide desktop guardrails
+ * The site is often reviewed on large desktop displays. Without these caps,
+ * hero copy and section content stay locked to narrow tablet-sized islands
+ * while the canvas keeps expanding, which makes the page look accidentally
+ * zoomed out. Keep the editorial restraint, but let desktop breathe properly.
+ */
+@media (min-width: 1600px) {
+  .container {
+    max-width: min(1720px, calc(100vw - 128px));
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  main > section:first-child .max-w-2xl {
+    max-width: 52rem;
+  }
+
+  main > section:first-child .max-w-3xl {
+    max-width: 64rem;
+  }
+
+  main > section:first-child .max-w-4xl {
+    max-width: 78rem;
+  }
+
+  main > section:first-child .max-w-5xl {
+    max-width: 88rem;
+  }
+}
+
+@media (min-width: 1900px) {
+  .container {
+    max-width: min(1840px, calc(100vw - 160px));
+  }
+
+  body {
+    font-size: 17px;
+  }
+}

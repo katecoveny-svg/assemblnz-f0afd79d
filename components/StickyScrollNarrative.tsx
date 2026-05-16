@@ -83,14 +83,14 @@ export function StickyScrollNarrative({
   return (
     <div ref={wrapRef} className="relative">
       <div className="container">
-        <div className="grid gap-8 md:grid-cols-[1fr_1.1fr] md:gap-16">
+        <div className="grid gap-8 md:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] md:gap-12 xl:gap-16">
           {/* Left — long scroll text */}
           <div>
             {stages.map((stage, i) => (
               <article
                 key={stage.id}
                 data-stage={stage.id}
-                className="flex min-h-[80vh] flex-col justify-center py-16 md:min-h-[100vh] md:py-0"
+                className="flex min-h-[64vh] flex-col justify-center py-14 md:min-h-[72vh] md:py-10 xl:min-h-[76vh]"
               >
                 <p
                   className="font-mono text-[11px] uppercase tracking-[0.32em]"
@@ -105,7 +105,7 @@ export function StickyScrollNarrative({
                 </p>
                 <h3
                   className="mt-4 font-display leading-[0.95] tracking-tight text-[color:var(--text-primary)]"
-                  style={{ fontWeight: 300, fontSize: 'clamp(2rem, 5vw, 4rem)' }}
+                  style={{ fontWeight: 300, fontSize: 'clamp(2.4rem, 4.2vw, 5.25rem)' }}
                 >
                   {stage.title}
                 </h3>
@@ -142,7 +142,7 @@ export function StickyScrollNarrative({
 
           {/* Right — sticky media (visible md+ only) */}
           <div className="hidden md:block">
-            <div className="sticky top-24 flex h-[100vh] items-center">
+            <div className="sticky top-24 flex h-[calc(100vh-6rem)] items-center">
               <div
                 className={`relative ${frameAspect} w-full overflow-hidden rounded-card shadow-brand-soft`}
               >

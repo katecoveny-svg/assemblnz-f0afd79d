@@ -32,8 +32,8 @@ export default function HowItWorksPage() {
               'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.10) 0%, transparent 60%)',
           }}
         />
-        <div className="relative container py-24 md:py-32">
-          <div className="mx-auto max-w-4xl text-center">
+        <div className="relative container py-16 md:py-20 xl:py-24">
+          <div className="mx-auto max-w-5xl text-center">
             <SectionReveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                 02 — How it works
@@ -42,7 +42,7 @@ export default function HowItWorksPage() {
             <SectionReveal delay={0.1}>
               <h1
                 className="mt-6 font-display leading-[0.95] tracking-tight"
-                style={{ fontWeight: 300, fontSize: 'clamp(2.6rem, 7vw, 6rem)' }}
+                style={{ fontWeight: 300, fontSize: 'clamp(3.6rem, 6.5vw, 8rem)' }}
               >
                 Five stages.
                 <br />
@@ -52,7 +52,7 @@ export default function HowItWorksPage() {
               </h1>
             </SectionReveal>
             <SectionReveal delay={0.2}>
-              <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+              <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-[color:var(--text-body)] md:text-xl">
                 Every workflow assembl runs moves through the same five stages.
                 <span className="font-display italic text-[color:var(--text-primary)]">
                   {' '}Kahu, Iho, Tā, Mahara, Mana.
@@ -83,7 +83,7 @@ export default function HowItWorksPage() {
       </section>
 
       {/* The 5 stages — sticky-side narrative */}
-      <section className="relative py-12 md:py-20">
+      <section className="relative py-8 md:py-10">
         <StickyScrollNarrative stages={pipelineStages} media={STAGE_MEDIA} />
       </section>
 
