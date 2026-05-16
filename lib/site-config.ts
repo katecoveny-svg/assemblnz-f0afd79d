@@ -38,19 +38,19 @@ export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
     wide:   '/img/kete/waihanga-vessel.jpg',
   },
   manaaki: {
-    square: '/img/kete/manaaki-vessel-warm.jpg',
+    square: '/img/kete/manaaki-vessel-warm-square.jpg',
     wide:   '/img/kete/manaaki-vessel-warm.jpg',
   },
   pikau: {
-    square: '/img/kete/pikau-vessel-blue.jpg',
+    square: '/img/kete/pikau-vessel-blue-square.jpg',
     wide:   '/img/kete/pikau-vessel-blue.jpg',
   },
   arataki: {
-    square: '/img/kete/arataki-vessel-amber.jpg',
+    square: '/img/kete/arataki-vessel-amber-square.jpg',
     wide:   '/img/kete/arataki-vessel-amber.jpg',
   },
   auaha: {
-    square: '/img/kete/auaha-vessel-purple.jpg',
+    square: '/img/kete/auaha-vessel-purple-square.jpg',
     wide:   '/img/kete/auaha-vessel-purple.jpg',
   },
   ako: {
