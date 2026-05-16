@@ -20,13 +20,16 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-4">
-        <div className="flex min-w-0 items-center gap-3">
+        <Link
+          href={`/kete/${kete.slug}`}
+          className="flex min-w-0 items-center gap-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+        >
           <Image
             src={KETE_VESSEL_IMAGES[kete.slug]}
             alt=""
             width={32}
             height={32}
-            className="h-8 w-8 rounded-sm object-cover"
+            className="h-8 w-8 rounded-sm object-cover transition hover:opacity-90"
           />
           <div className="min-w-0">
             <h2 className="font-display text-3xl leading-none text-[color:var(--text-primary)]">
@@ -34,7 +37,7 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
             </h2>
             <p className="mt-1 text-sm text-[color:var(--text-secondary)]">{kete.industry}</p>
           </div>
-        </div>
+        </Link>
         <Link
           href={`/kete/${kete.slug}`}
           className="hidden shrink-0 items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)] sm:inline-flex"
@@ -85,4 +88,3 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
     </section>
   );
 }
-

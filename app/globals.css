@@ -127,7 +127,6 @@
   }
 
   :lang(mi) {
-    font-family: var(--font-body), 'Inter', system-ui, sans-serif;
     letter-spacing: 0.01em;
   }
 }
