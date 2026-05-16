@@ -16,6 +16,20 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { embedText } from "../_shared/embed.ts";
+import {
+  agentSpecFor,
+  buildAmbientPrompt,
+  fallbackAmbientDraft,
+  inferKeteForAgent,
+  isAmbientAction,
+  isKeteSlug,
+  requiredScopesForAmbientRun,
+} from "../_shared/ambient-agent-contract.ts";
+import {
+  buildLiveDataContext,
+  buildLiveDataSnapshot,
+  type LiveDataScope,
+} from "../_shared/live-data-context.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -24,28 +38,12 @@ const corsHeaders = {
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
+const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY") ?? "";
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
 
 const adminDb = createClient(SUPABASE_URL, SERVICE_ROLE, {
   auth: { persistSession: false },
 });
-
-// Mirrors the public kete fleet enough for standing "ambient thinking" runs.
-// Each prompt asks the specialist to watch, collaborate, and draft for review.
-const AGENT_MODEL: Record<string, { toolset: string; model: string; prompt: string }> = {
-  toro:       { toolset: "core",       model: "openai/gpt-5", prompt: "You are Tōro, assembl's whānau navigator. Watch school, money, routines, travel, and parent-approved actions. Draft only; invite Iho or Signal when routing/privacy matters." },
-  manaaki:    { toolset: "manaaki",    model: "openai/gpt-5", prompt: "You are Manaaki, assembl's hospitality kete. Watch food safety, liquor licensing, guest operations, staff shifts, and trading margins. Draft the morning briefing and call in Iho, Signal, Kai, Mahi, or Pūtea when needed." },
-  waihanga:   { toolset: "waihanga",   model: "openai/gpt-5", prompt: "You are Waihanga, assembl's construction kete. Watch CCA, consent, BIM, materials, H&S, quality, and CCC evidence. Cite NZ law and hand off to Ārai, Whakaaē, Ata, Rawa, Kaupapa, or Pai as needed." },
-  auaha:      { toolset: "auaha",      model: "openai/gpt-5", prompt: "You are Auaha, assembl's creative kete. Watch brand strategy, copy, campaign operations, visual assets, claims, and approval queues. Keep Fair Trading, ASA, UEMA, privacy, and tikanga gates visible." },
-  pikau:      { toolset: "pikau",      model: "openai/gpt-5", prompt: "You are Pīkau, assembl's freight and customs kete. Watch tariff, broker packs, MPI, landed cost, holds, ETA, and chain-of-custody. Be precise with HS codes, sources, and broker handoffs." },
-  arataki:    { toolset: "arataki",    model: "openai/gpt-5", prompt: "You are Arataki, assembl's automotive and fleet kete. Watch WoF/CoF, CGA, warranty narratives, workshop capacity, fleet records, customer handoffs, and dealer governance." },
-  ako:        { toolset: "ako",        model: "openai/gpt-5", prompt: "You are Ako, assembl's early-childhood kete. Watch ECE licensing, ratios, kaiako qualifications, Te Whāriki evidence, ERO readiness, child safety, and whānau comms. Human review is mandatory for every child-facing output." },
-  matauranga: { toolset: "matauranga", model: "openai/gpt-5", prompt: "You are Mātauranga, assembl's secondary-school operator kete. Watch NCEA progress, attendance, board records, ERO evidence, reporting clarity, and IPP 3A consent for student data." },
-  hoko:       { toolset: "hoko",       model: "openai/gpt-5", prompt: "You are Hoko, assembl's retail kete. Watch CGA returns, Fair Trading claims, supplier records, stock risk, restricted goods, margin, and the daily trading brief." },
-  iho:        { toolset: "core",       model: "openai/gpt-5", prompt: "You are Iho, assembl's fleet-routing brain. Watch for work that needs multiple specialists, compress context, name the best handoff, and prepare draft sequences for operator review." },
-  signal:     { toolset: "core",       model: "openai/gpt-5", prompt: "You are Signal, assembl's privacy, security, and operational-risk guardrail. Watch access, connector, data, audit, and NZISM-informed risks across every kete." },
-};
 
 const KB_TOP_K = 4;
 const MEM_TOP_K = 6;
@@ -64,10 +62,10 @@ async function loadKb(vec: number[], pack: string): Promise<KbSnippet[]> {
   } catch (e) { console.warn("[ambient] kb exception", (e as Error).message); return []; }
 }
 
-async function loadMemory(userId: string, vec: number[]): Promise<MemHit[]> {
+async function loadMemory(userId: string, tenantId: string | null, vec: number[]): Promise<MemHit[]> {
   try {
     const { data, error } = await adminDb.rpc("match_agent_memory", {
-      p_tenant_id: null, p_user_id: userId,
+      p_tenant_id: tenantId, p_user_id: userId,
       p_query_embedding: vec as unknown as string,
       p_match_count: MEM_TOP_K, p_min_similarity: MEM_MIN_SIM,
     });
@@ -97,6 +95,9 @@ async function callGateway(
   userPrompt: string,
   model: string,
 ): Promise<{ ok: true; text: string } | { ok: false; error: string; status: number }> {
+  if (!LOVABLE_API_KEY) {
+    return { ok: false, status: 503, error: "gateway_not_configured" };
+  }
   const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
@@ -121,21 +122,38 @@ async function callGateway(
 interface DueThought {
   id: string;
   user_id: string;
+  tenant_id: string | null;
   agent_id: string;
+  kete: string | null;
+  action: string | null;
+  title: string;
   prompt: string;
+  metadata: Record<string, unknown> | null;
 }
 
 async function processOne(t: DueThought): Promise<{ id: string; ok: boolean; ms: number }> {
   const start = Date.now();
-  const spec = AGENT_MODEL[t.agent_id];
-  if (!spec) {
-    await adminDb.from("agent_thought_runs").insert({
-      thought_id: t.id, user_id: t.user_id, agent_id: t.agent_id,
-      status: "denied", error_message: `unknown agent: ${t.agent_id}`,
-      duration_ms: Date.now() - start,
-    });
-    return { id: t.id, ok: false, ms: Date.now() - start };
-  }
+  const kete = isKeteSlug(t.kete) ? t.kete : inferKeteForAgent(t.agent_id);
+  const action = isAmbientAction(t.action) ? t.action : "ambient-thought";
+  const spec = agentSpecFor(kete, t.agent_id);
+  const tenantId = t.tenant_id ?? undefined;
+  const liveReq = new Request("https://ambient.local/loop", {
+    headers: {
+      Authorization: `Bearer ${SERVICE_ROLE}`,
+      "X-Assembl-Trace-Id": `ambient-${t.id}`,
+    },
+  });
+  const liveContext = await buildLiveDataContext(liveReq, {
+    agentCode: spec.slug,
+    kete,
+    tenantId,
+    requiredScopes: [...requiredScopesForAmbientRun(kete, action)] as LiveDataScope[],
+  });
+  const liveSnapshot = await buildLiveDataSnapshot(liveContext, {
+    kete,
+    query: t.prompt,
+    include: [...requiredScopesForAmbientRun(kete, action)] as LiveDataScope[],
+  });
 
   let kbHits = 0, memHits = 0;
   let contextBlock = "";
@@ -143,34 +161,74 @@ async function processOne(t: DueThought): Promise<{ id: string; ok: boolean; ms:
     const vec = await embedText(t.prompt, GEMINI_API_KEY, 768);
     if (vec) {
       const [kb, mem] = await Promise.all([
-        loadKb(vec, spec.toolset),
-        loadMemory(t.user_id, vec),
+        loadKb(vec, kete),
+        loadMemory(t.user_id, t.tenant_id, vec),
       ]);
       kbHits = kb.length; memHits = mem.length;
       contextBlock = buildContextBlock(kb, mem);
     }
   }
 
-  const result = await callGateway(spec.prompt + contextBlock, t.prompt, spec.model);
+  const ambientPrompt = buildAmbientPrompt({
+    action,
+    tenant_id: t.tenant_id ?? "00000000-0000-0000-0000-000000000001",
+    kete,
+    agent: spec.slug,
+    phase: spec.phase,
+    prompt: t.prompt,
+    live_context: liveSnapshot,
+    metadata: t.metadata ?? {},
+  }, spec);
+  const userPrompt = [
+    ambientPrompt,
+    "",
+    "[Live data snapshot]",
+    JSON.stringify(liveSnapshot).slice(0, 12000),
+  ].join("\n");
+  const result = await callGateway(spec.systemPrompt + contextBlock, userPrompt, "openai/gpt-5");
   const ms = Date.now() - start;
 
   if (!result.ok) {
     await adminDb.from("agent_thought_runs").insert({
       thought_id: t.id, user_id: t.user_id, agent_id: t.agent_id,
+      tenant_id: t.tenant_id,
+      kete,
+      action,
       status: result.status === 429 ? "denied" : "error",
       error_message: result.error,
       kb_hits: kbHits, memory_hits: memHits,
       duration_ms: ms,
+      output_metadata: { live_context: liveSnapshot, trace_id: liveContext.identity.traceId },
     });
     return { id: t.id, ok: false, ms };
   }
 
+  const fallback = fallbackAmbientDraft({
+    action,
+    tenant_id: t.tenant_id ?? "00000000-0000-0000-0000-000000000001",
+    kete,
+    agent: spec.slug,
+    phase: spec.phase,
+    prompt: t.prompt,
+    live_context: liveSnapshot,
+    metadata: t.metadata ?? {},
+  }, spec);
+
   await adminDb.from("agent_thought_runs").insert({
     thought_id: t.id, user_id: t.user_id, agent_id: t.agent_id,
+    tenant_id: t.tenant_id,
+    kete,
+    action,
     output: result.text,
     status: "success",
     kb_hits: kbHits, memory_hits: memHits,
     duration_ms: ms,
+    output_metadata: {
+      title: fallback.title,
+      citations: fallback.citations,
+      live_context: liveSnapshot,
+      trace_id: liveContext.identity.traceId,
+    },
   });
   return { id: t.id, ok: true, ms };
 }
@@ -221,6 +279,9 @@ Deno.serve(async (req) => {
       console.error("[ambient] processOne crashed", (e as Error).message);
       await adminDb.from("agent_thought_runs").insert({
         thought_id: t.id, user_id: t.user_id, agent_id: t.agent_id,
+        tenant_id: t.tenant_id,
+        kete: isKeteSlug(t.kete) ? t.kete : inferKeteForAgent(t.agent_id),
+        action: isAmbientAction(t.action) ? t.action : "ambient-thought",
         status: "error",
         error_message: (e as Error).message.slice(0, 400),
         duration_ms: ms,

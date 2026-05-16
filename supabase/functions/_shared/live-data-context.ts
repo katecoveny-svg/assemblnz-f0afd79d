@@ -48,6 +48,11 @@ export type Kete =
   | "toro";
 
 export type LiveDataScope =
+  | "connections"
+  | "memory"
+  | "calendar"
+  | "accounting"
+  | "email"
   | "weather"
   | "fuel"
   | "compliance"
@@ -116,6 +121,12 @@ export interface AuditEntry {
 // ---------------------------------------------------------------------------
 
 export interface LiveFeeds {
+  connections: (args?: { providers?: string[] }) => Promise<unknown>;
+  memory: (args?: { category?: string; tags?: string[]; limit?: number }) => Promise<unknown>;
+  recentDrafts: (args?: { limit?: number }) => Promise<unknown>;
+  calendar: (args?: { days?: number }) => Promise<unknown>;
+  accounting: (args?: { action?: "status" | "recent_invoices" }) => Promise<unknown>;
+  email: (args?: { purpose?: string }) => Promise<unknown>;
   weather: (args: { city?: string; lat?: number; lon?: number; mode?: "current" | "forecast" | "both" }) => Promise<unknown>;
   fuel: () => Promise<unknown>;
   compliance: (args: { kete: Kete; dryRun?: boolean }) => Promise<unknown>;
@@ -138,15 +149,15 @@ export interface LiveFeeds {
 const DEFAULT_TENANT_ID = "00000000-0000-0000-0000-000000000001";
 
 export const KETE_SCOPES: Record<Kete, LiveDataScope[]> = {
-  manaaki: ["weather", "compliance", "knowledge_base"],
-  waihanga: ["weather", "compliance", "knowledge_base", "construction"],
-  auaha: ["compliance", "knowledge_base"],
-  arataki: ["weather", "fuel", "compliance", "knowledge_base", "routes", "fleet"],
-  pikau: ["weather", "compliance", "knowledge_base", "routes", "freight", "ais", "marine"],
-  hoko: ["compliance", "knowledge_base"],
-  ako: ["compliance", "knowledge_base"],
-  matauranga: ["compliance", "knowledge_base"],
-  toro: ["weather", "knowledge_base"],
+  manaaki: ["connections", "memory", "calendar", "accounting", "weather", "compliance", "knowledge_base"],
+  waihanga: ["connections", "memory", "calendar", "weather", "compliance", "knowledge_base", "construction"],
+  auaha: ["connections", "memory", "calendar", "compliance", "knowledge_base"],
+  arataki: ["connections", "memory", "calendar", "accounting", "weather", "fuel", "compliance", "knowledge_base", "routes", "fleet"],
+  pikau: ["connections", "memory", "calendar", "accounting", "weather", "compliance", "knowledge_base", "routes", "freight", "ais", "marine"],
+  hoko: ["connections", "memory", "calendar", "accounting", "compliance", "knowledge_base"],
+  ako: ["connections", "memory", "calendar", "compliance", "knowledge_base"],
+  matauranga: ["connections", "memory", "calendar", "compliance", "knowledge_base"],
+  toro: ["connections", "memory", "calendar", "email", "weather", "knowledge_base"],
 };
 
 // ---------------------------------------------------------------------------
@@ -160,6 +171,12 @@ function generateTraceId(): string {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
   return `assembl-${Date.now().toString(36)}-${rand(6)}`;
+}
+
+function auditRequestId(traceId: string): string {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(traceId)
+    ? traceId
+    : crypto.randomUUID();
 }
 
 async function resolveIdentity(
@@ -218,8 +235,8 @@ function buildAudit(supabase: SupabaseClient, identity: LiveDataIdentity) {
       model_used: "live-data-gateway",
       tenant_id: identity.tenantId,
       user_id: identity.userId ?? identity.tenantId,
-      request_id: identity.traceId,
-      request_summary: entry.request_summary ?? `${entry.action}/${entry.scope}`,
+      request_id: auditRequestId(identity.traceId),
+      request_summary: entry.request_summary ?? `${entry.action}/${entry.scope} trace=${identity.traceId}`,
       response_summary: entry.response_summary ?? null,
       compliance_passed: entry.compliance_passed ?? true,
       error_message: entry.error_message ?? null,
@@ -280,7 +297,100 @@ function buildFeeds(
     return data;
   };
 
+  const gate = async (scope: LiveDataScope, action: string, summary: string): Promise<void> => {
+    const decision = authorize(scope);
+    if (!decision.allowed) {
+      await audit({
+        action,
+        scope,
+        request_summary: summary,
+        compliance_passed: false,
+        error_message: decision.reason,
+      });
+      throw new Error(decision.reason ?? "Forbidden");
+    }
+  };
+
+  const safeSelect = async <T>(
+    scope: LiveDataScope,
+    action: string,
+    summary: string,
+    select: () => PromiseLike<{ data: T | null; error: { message?: string } | null }>,
+    fallback: T,
+  ): Promise<T> => {
+    await gate(scope, action, summary);
+    const { data, error } = await select();
+    await audit({
+      action,
+      scope,
+      request_summary: summary,
+      response_summary: error ? error.message : "ok",
+      compliance_passed: !error,
+      error_message: error?.message,
+    });
+    if (error) return fallback;
+    return data ?? fallback;
+  };
+
   return {
+    connections: ({ providers } = {}) =>
+      safeSelect("connections", "live_feed:connections", JSON.stringify({ providers }), async () => {
+        let query = supabase
+          .from("tenant_tool_connections")
+          .select("provider, provider_label, status, scopes, metadata, connected_at, updated_at")
+          .eq("tenant_id", identity.tenantId)
+          .order("provider", { ascending: true });
+        if (providers?.length) query = query.in("provider", providers);
+        return query;
+      }, []),
+    memory: ({ category, tags, limit = 8 } = {}) =>
+      safeSelect("memory", "live_feed:memory", JSON.stringify({ category, tags, limit }), async () => {
+        let query = supabase
+          .from("business_memory")
+          .select("category, content, tags, updated_at")
+          .eq("tenant_id", identity.tenantId)
+          .order("updated_at", { ascending: false })
+          .limit(Math.max(1, Math.min(limit, 20)));
+        if (category) query = query.eq("category", category);
+        if (tags?.length) query = query.contains("tags", tags);
+        return query;
+      }, []),
+    recentDrafts: ({ limit = 8 } = {}) =>
+      safeSelect("memory", "live_feed:recent_drafts", JSON.stringify({ limit }), async () =>
+        supabase
+          .from("toro_drafts")
+          .select("id, source, source_metadata, draft_body, confidence, status, created_by_agent, created_at, extracted_actions")
+          .eq("tenant_id", identity.tenantId)
+          .order("created_at", { ascending: false })
+          .limit(Math.max(1, Math.min(limit, 20))),
+      []),
+    calendar: ({ days = 7 } = {}) =>
+      safeSelect("calendar", "live_feed:calendar", JSON.stringify({ days }), async () =>
+        supabase
+          .from("tenant_tool_connections")
+          .select("provider, status, scopes, metadata, connected_at, updated_at")
+          .eq("tenant_id", identity.tenantId)
+          .in("provider", ["google", "google_workspace", "calendar", "outlook"])
+          .order("updated_at", { ascending: false }),
+      []),
+    accounting: ({ action = "status" } = {}) =>
+      safeSelect("accounting", "live_feed:accounting", JSON.stringify({ action }), async () =>
+        supabase
+          .from("tenant_tool_connections")
+          .select("provider, status, scopes, metadata, connected_at, updated_at")
+          .eq("tenant_id", identity.tenantId)
+          .in("provider", ["xero", "stripe"])
+          .order("updated_at", { ascending: false }),
+      []),
+    email: ({ purpose = "operator-inbox" } = {}) =>
+      safeSelect("email", "live_feed:email", JSON.stringify({ purpose }), async () =>
+        supabase
+          .from("tenant_phone_numbers")
+          .select("phone_number, channel, label, is_default, created_at")
+          .eq("tenant_id", identity.tenantId)
+          .eq("channel", "email")
+          .order("is_default", { ascending: false }),
+      []),
     weather: ({ city, lat, lon, mode = "both" }) =>
       city
         ? invoke("weather", "iot-weather", { city, mode })
@@ -343,4 +453,61 @@ export async function buildLiveDataContext(
 
   const feeds = buildFeeds(supabase, identity, authorize, audit);
   return { identity, supabase, authorize, feeds, audit };
+}
+
+export async function buildLiveDataSnapshot(
+  ctx: LiveDataContext,
+  args: {
+    query?: string;
+    kete?: Kete;
+    include?: LiveDataScope[];
+    city?: string;
+    lat?: number;
+    lon?: number;
+  } = {},
+): Promise<Record<string, unknown>> {
+  const include = args.include ?? KETE_SCOPES[args.kete ?? ctx.identity.kete ?? "toro"];
+  const snapshot: Record<string, unknown> = {
+    trace_id: ctx.identity.traceId,
+    generated_at: new Date().toISOString(),
+    tenant_id: ctx.identity.tenantId,
+    kete: args.kete ?? ctx.identity.kete,
+    agent_code: ctx.identity.agentCode,
+  };
+
+  const capture = async (key: string, scope: LiveDataScope, loader: () => Promise<unknown>) => {
+    if (!include.includes(scope)) return;
+    try {
+      snapshot[key] = await loader();
+    } catch (error) {
+      snapshot[key] = {
+        unavailable: true,
+        reason: error instanceof Error ? error.message : String(error),
+      };
+    }
+  };
+
+  await capture("connections", "connections", () => ctx.feeds.connections());
+  await capture("memory", "memory", () => ctx.feeds.memory({ limit: 8 }));
+  await capture("recent_drafts", "memory", () => ctx.feeds.recentDrafts({ limit: 8 }));
+  await capture("calendar", "calendar", () => ctx.feeds.calendar({ days: 7 }));
+  await capture("accounting", "accounting", () => ctx.feeds.accounting({ action: "status" }));
+  await capture("email", "email", () => ctx.feeds.email());
+  await capture("weather", "weather", () =>
+    ctx.feeds.weather({
+      city: args.city,
+      lat: args.lat ?? -36.85,
+      lon: args.lon ?? 174.76,
+      mode: "both",
+    }));
+  await capture("knowledge_base", "knowledge_base", () =>
+    ctx.feeds.knowledgeBase({
+      query: args.query ?? "today's operator priorities, risks, and evidence requirements",
+      kete: args.kete ?? ctx.identity.kete ?? undefined,
+      limit: 4,
+    }));
+  await capture("construction", "construction", () =>
+    ctx.feeds.construction({ action: "site_conditions", lat: args.lat, lon: args.lon }));
+
+  return snapshot;
 }
