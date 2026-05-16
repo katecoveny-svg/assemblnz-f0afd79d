@@ -251,7 +251,7 @@ function AgentCard({
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0.6, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.4) }}
       className={`relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(43,107,87,0.10)] ${
@@ -287,11 +287,9 @@ function AgentCard({
 
       <div className="mt-4 flex items-start justify-between gap-3">
         <h3 className="font-display text-3xl text-[color:var(--text-primary)]">{agent.name}</h3>
-        {agent.status === 'draft' ? (
-          <span className="rounded-full border border-[rgba(212,168,83,0.45)] bg-[rgba(212,168,83,0.10)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-gold-thread)]">
-            Draft
-          </span>
-        ) : null}
+        <span className="rounded-full border border-[rgba(43,107,87,0.28)] bg-[rgba(43,107,87,0.08)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+          Live
+        </span>
       </div>
       <p className="mt-1 font-mono text-xs text-[color:var(--text-secondary)]">{agent.role}</p>
 

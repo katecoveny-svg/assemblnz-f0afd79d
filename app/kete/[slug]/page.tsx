@@ -67,9 +67,7 @@ function IndustryKetePage({
   kete: ReturnType<typeof getKete>;
   detail: IndustryKeteDetail;
 }) {
-  const isComingSoon = kete.status === 'coming-soon' || kete.status === 'mothballed';
   const fleetAgents = agentsForKete(kete.slug);
-  const liveFleetAgents = fleetAgents.filter((agent) => agent.status === 'live');
 
   return (
     <>
@@ -101,7 +99,6 @@ function IndustryKetePage({
                 />
                 <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                   {kete.industry} · {kete.accentName}
-                  {isComingSoon && ' · Coming soon'}
                 </span>
               </div>
 
@@ -118,7 +115,6 @@ function IndustryKetePage({
                 <ComplianceChips kete={kete.slug} />
               </div>
 
-            {!isComingSoon && (
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/contact"
@@ -134,19 +130,6 @@ function IndustryKetePage({
                   See pricing
                 </Link>
               </div>
-            )}
-
-            {isComingSoon && (
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                <Link
-                  href="/contact"
-                  className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
-                >
-                  Register your interest
-                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                </Link>
-              </div>
-            )}
 
               <p className="mt-6 font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                 {detail.availableOn}
@@ -269,64 +252,6 @@ function IndustryKetePage({
         </div>
       </section>
 
-      {/* Agents in this kete — placeholder grid */}
-      {detail.placeholderAgents.length > 0 && (
-        <section className="relative">
-          <div className="container pb-16 md:pb-24">
-            <div className="mx-auto max-w-3xl text-center">
-              <SectionReveal>
-                <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
-                  Agents in this kete
-                </span>
-                <h2 className="mt-3 font-display text-display-md">
-                  <TeReo>{kete.name}</TeReo> ships with{' '}
-                  <em
-                    className="not-italic"
-                    style={{
-                      backgroundImage: `linear-gradient(135deg, #23211F 0%, ${kete.accent} 60%, #B8B2A8 100%)`,
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                    }}
-                  >
-                    {detail.placeholderAgents.length} agents
-                  </em>
-                  .
-                </h2>
-              </SectionReveal>
-            </div>
-
-            <div className="mx-auto mt-12 grid max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {detail.placeholderAgents.map((agent, i) => (
-                <SectionReveal key={agent.name} delay={i * 0.05}>
-                  <article
-                    className="kete-card h-full p-6"
-                    style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="h-1.5 w-1.5 rounded-full"
-                        style={{ backgroundColor: kete.accent }}
-                        aria-hidden
-                      />
-                      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                        Agent {String(i + 1).padStart(2, '0')}
-                      </span>
-                    </div>
-                    <h3 className="mt-3 font-display text-2xl text-[color:var(--text-primary)]">
-                      {agent.name}
-                    </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-                      {agent.description}
-                    </p>
-                  </article>
-                </SectionReveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Chat-explorable fleet */}
       <section className="relative">
         <div className="container pb-16 md:pb-24">
@@ -336,16 +261,16 @@ function IndustryKetePage({
                 Live chat agents
               </span>
               <h2 className="mt-3 font-display text-display-md">
-                Explore <TeReo>{kete.name}</TeReo>&apos;s specialist knowledge.
+                <TeReo>{kete.name}</TeReo> ships with {fleetAgents.length} specialist agents.
               </h2>
               <p className="mt-5 text-body-md text-[color:var(--text-body)]">
-                Live agents can be opened in chat now. Draft agents stay in the registry until their system prompts are written and reviewed.
+                Each one is grounded in the relevant New Zealand rules, routed through Iho, and closed with a human-reviewed evidence trail.
               </p>
             </SectionReveal>
           </div>
 
           <div className="mx-auto mt-12 grid max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {liveFleetAgents.map((agent, i) => (
+            {fleetAgents.map((agent, i) => (
               <SectionReveal key={agent.slug} delay={i * 0.04}>
                 <Link
                   href={`/app/chat?kete=${kete.slug}&agent=${agentChatId(agent)}`}
@@ -576,7 +501,7 @@ function IndustryKetePage({
                       href="/contact"
                       className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
                     >
-                      {isComingSoon ? 'Register interest' : `Pilot ${kete.name}`}
+                      Pilot {kete.name}
                       <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                     </Link>
                     <Link
@@ -601,33 +526,25 @@ function IndustryKetePage({
             style={{ ['--kete-accent' as string]: kete.accent }}
           >
             <h2 className="font-display text-display-md">
-                {isComingSoon ? (
-                  <>Register your interest in <TeReo>{kete.name}</TeReo>.</>
-                ) : (
                   <>Start with <TeReo>{kete.name}</TeReo>.</>
-                )}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
-              {isComingSoon
-                ? 'We will be in touch when this kete is ready for your industry.'
-                : 'The Pilot Sprint — NZ$5,000 + GST for two weeks — is the fastest way to see your mahi drafted, reviewed, and sealed with proof.'}
+              The Pilot Sprint — NZ$5,000 + GST for two weeks — is the fastest way to see your mahi drafted, reviewed, and sealed with proof.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
                 href="/contact"
                 className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
               >
-                {isComingSoon ? 'Register interest' : 'Book your pilot'}
+                Book your pilot
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
-              {!isComingSoon && (
                 <Link
                   href="/pricing"
                   className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
                 >
                   See full pricing
                 </Link>
-              )}
             </div>
           </div>
         </div>
@@ -853,7 +770,7 @@ function ToroPage({
                 Explore Tōro&apos;s working knowledge.
               </h2>
               <p className="mt-5 text-body-md text-[color:var(--text-body)]">
-                <TeReo>Tōro</TeReo>, <TeReo title="core">Iho</TeReo>, and Signal are live. Draft <TeReo title="family">whānau</TeReo> specialists stay hidden from chat until their prompts are ready.
+                <TeReo>Tōro</TeReo>, <TeReo title="core">Iho</TeReo>, Signal, and the <TeReo title="family">whānau</TeReo> specialists are live. Each action stays consent-gated and parent-reviewed.
               </p>
             </SectionReveal>
           </div>

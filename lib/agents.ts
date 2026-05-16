@@ -60,15 +60,15 @@ export const PHASE_LABELS: Record<AgentPhase, string> = {
 export const PHASE_ORDER: AgentPhase[] = ['hunt', 'pitch', 'execution', 'ledger', 'infra'];
 
 export const FLEET_AGENT_SLUGS_BY_KETE: Record<KeteSlug, string[]> = {
-  waihanga: ['hapori', 'kaupapa', 'ata', 'rawa', 'whakaae', 'pai', 'arai', 'iho', 'signal'],
-  manaaki: ['manuhiri', 'aura', 'kai', 'hau', 'mahi', 'pai', 'putea', 'iho', 'signal'],
-  pikau: ['morunga', 'gateway', 'pikau', 'transit', 'transit-freight', 'arai', 'iho', 'signal'],
-  arataki: ['motor', 'whaikorero', 'whare', 'rawa', 'whakaae', 'pai', 'iho', 'signal'],
-  auaha: ['muse', 'prism', 'vessel-studio', 'saffron', 'pai', 'putea', 'iho', 'signal'],
-  ako: ['aroha', 'ako-licence', 'kaiako', 'tamariki', 'ero-pack', 'iho', 'signal'],
-  matauranga: ['akonga', 'kaiako-s', 'reo', 'ropu', 'ero-s', 'iho', 'signal'],
-  hoko: ['spark', 'hoko-cga', 'stock', 'cellar', 'pai', 'putea', 'iho', 'signal'],
-  toro: ['toro', 'iho', 'signal'],
+  waihanga: ['hapori', 'kaupapa', 'ata', 'rawa', 'whakaae', 'pai', 'arai', 'contracts', 'variations', 'producer-statements', 'council-rfi', 'ccc-ledger', 'iho', 'signal'],
+  manaaki: ['manuhiri', 'aura', 'kai', 'hau', 'mahi', 'host-responsibility', 'licence-renewal', 'putea', 'iho', 'signal'],
+  pikau: ['morunga', 'gateway', 'pikau', 'transit', 'transit-freight', 'biosecurity', 'dangerous-goods', 'valuation', 'iho', 'signal'],
+  arataki: ['motor', 'whaikorero', 'whare', 'wof-cof', 'ruc', 'driver-hours', 'warranty', 'fleet-incident', 'iho', 'signal'],
+  auaha: ['muse', 'prism', 'vessel-studio', 'saffron', 'rights', 'tiriti-review', 'campaign-claims', 'brand-ledger', 'iho', 'signal'],
+  ako: ['aroha', 'ako-licence', 'kaiako', 'tamariki', 'ero-pack', 'ratio-watch', 'safety-checks', 'whanau-comms', 'iho', 'signal'],
+  matauranga: ['akonga', 'kaiako-s', 'reo', 'ropu', 'ero-s', 'ncea', 'board-pack', 'attendance', 'pastoral', 'iho', 'signal'],
+  hoko: ['spark', 'hoko-cga', 'stock', 'cellar', 'returns', 'fair-trading', 'supplier-records', 'retail-privacy', 'iho', 'signal'],
+  toro: ['toro', 'term-planner', 'kid-money', 'holiday-ideas', 'routines', 'school-comms', 'appointments', 'allowance-ledger', 'consent-guard', 'handover-helper', 'iho', 'signal'],
 };
 
 export const AGENTS: Agent[] = [
@@ -448,6 +448,55 @@ export const AGENTS: Agent[] = [
     capabilities: ['communications', 'planning'],
     buyingOptions: { subscribe: true, perOutput: null, perResolution: null },
   },
+  ...launchAgents([
+    ['contracts', 'Contracts', 'Construction contracts evidence', 'waihanga', 'pitch', ['Construction Contracts Act 2002', 'NZS 3910:2013', 'Building Act 2004'], ['compliance', 'audit']],
+    ['variations', 'Variations', 'Variation and RFI control', 'waihanga', 'execution', ['Construction Contracts Act 2002', 'NZS 3910:2013'], ['planning', 'audit']],
+    ['producer-statements', 'Producer Statements', 'PS1-PS4 evidence control', 'waihanga', 'execution', ['Building Act 2004', 'Engineering NZ practice notes'], ['compliance', 'quality']],
+    ['council-rfi', 'Council RFI', 'Council request response drafting', 'waihanga', 'execution', ['Building Act 2004', 'Resource Management Act 1991'], ['communications', 'compliance']],
+    ['ccc-ledger', 'CCC Ledger', 'Code compliance close-out record', 'waihanga', 'ledger', ['Building Act 2004 s 94', 'Building Code 2025'], ['audit', 'quality']],
+
+    ['host-responsibility', 'Host Responsibility', 'Alcohol host-responsibility records', 'manaaki', 'ledger', ['Sale and Supply of Alcohol Act 2012'], ['compliance', 'safety']],
+    ['licence-renewal', 'Licence Renewal', 'Alcohol licence renewal pack', 'manaaki', 'pitch', ['Sale and Supply of Alcohol Act 2012', 'Privacy Act 2020'], ['compliance', 'communications']],
+
+    ['biosecurity', 'Biosecurity', 'Border biosecurity attestations', 'pikau', 'execution', ['Biosecurity Act 1993', 'Customs and Excise Act 2018'], ['customs', 'compliance']],
+    ['dangerous-goods', 'Dangerous Goods', 'Dangerous goods declaration review', 'pikau', 'execution', ['IMO IMDG Code', 'Maritime Transport Act 1994'], ['safety', 'customs']],
+    ['valuation', 'Valuation', 'Customs valuation evidence', 'pikau', 'pitch', ['Customs and Excise Act 2018', 'NZ Tariff Schedule'], ['pricing', 'customs']],
+
+    ['wof-cof', 'WoF-CoF', 'WoF and CoF compliance calendar', 'arataki', 'execution', ['Land Transport Act 1998', 'NZTA rules'], ['compliance', 'planning']],
+    ['ruc', 'RUC', 'Road user charges evidence', 'arataki', 'ledger', ['Road User Charges Act 2012'], ['audit', 'pricing']],
+    ['driver-hours', 'Driver Hours', 'Driver logbook and fatigue checks', 'arataki', 'execution', ['Land Transport Rule: Work Time and Logbooks 2007'], ['safety', 'compliance']],
+    ['warranty', 'Warranty', 'Warranty and CGA decision record', 'arataki', 'ledger', ['Consumer Guarantees Act 1993', 'Fair Trading Act 1986'], ['compliance', 'communications']],
+    ['fleet-incident', 'Fleet Incident', 'Fleet incident triage and evidence', 'arataki', 'hunt', ['Health and Safety at Work Act 2015', 'Land Transport Act 1998'], ['safety', 'audit']],
+
+    ['rights', 'Rights', 'Copyright and usage rights review', 'auaha', 'execution', ['Copyright Act 1994', 'Fair Trading Act 1986'], ['compliance', 'communications']],
+    ['tiriti-review', 'Te Tiriti Review', 'Cultural and partnership review', 'auaha', 'ledger', ['Te Tiriti o Waitangi', 'Privacy Act 2020'], ['quality', 'compliance']],
+    ['campaign-claims', 'Campaign Claims', 'Marketing claims evidence', 'auaha', 'pitch', ['Fair Trading Act 1986', 'ASA Codes'], ['communications', 'compliance']],
+    ['brand-ledger', 'Brand Ledger', 'Brand approval record', 'auaha', 'ledger', ['Copyright Act 1994', 'Privacy Act 2020'], ['audit', 'quality']],
+
+    ['ratio-watch', 'Ratio Watch', 'ECE ratio and staffing monitor', 'ako', 'execution', ['Education and Training Act 2020', 'Education (Early Childhood Services) Regulations 2008'], ['compliance', 'planning']],
+    ['safety-checks', 'Safety Checks', 'Children safety-check evidence', 'ako', 'ledger', ['Children’s Act 2014', 'Privacy Act 2020'], ['safety', 'audit']],
+    ['whanau-comms', 'Whānau Comms', 'Family communication drafts', 'ako', 'pitch', ['Privacy Act 2020', 'Education and Training Act 2020'], ['communications', 'compliance']],
+
+    ['ncea', 'NCEA', 'NCEA rule and assessment tracker', 'matauranga', 'execution', ['NCEA rules', 'Education and Training Act 2020'], ['compliance', 'planning']],
+    ['board-pack', 'Board Pack', 'Board and governance records', 'matauranga', 'ledger', ['Education and Training Act 2020', 'Privacy Act 2020'], ['audit', 'communications']],
+    ['attendance', 'Attendance', 'Attendance and engagement evidence', 'matauranga', 'hunt', ['Education and Training Act 2020', 'Privacy Act 2020'], ['planning', 'audit']],
+    ['pastoral', 'Pastoral', 'Pastoral-care record review', 'matauranga', 'execution', ['Education and Training Act 2020', 'Privacy Act 2020'], ['safety', 'compliance']],
+
+    ['returns', 'Returns', 'Returns and remedy workflow', 'hoko', 'execution', ['Consumer Guarantees Act 1993'], ['compliance', 'communications']],
+    ['fair-trading', 'Fair Trading', 'Retail claims and promotion review', 'hoko', 'pitch', ['Fair Trading Act 1986'], ['compliance', 'communications']],
+    ['supplier-records', 'Supplier Records', 'Supplier evidence and traceability', 'hoko', 'ledger', ['Consumer Guarantees Act 1993', 'Fair Trading Act 1986'], ['audit', 'quality']],
+    ['retail-privacy', 'Retail Privacy', 'Customer-data privacy check', 'hoko', 'execution', ['Privacy Act 2020'], ['compliance', 'audit']],
+
+    ['term-planner', 'Term Planner', 'School-term planning', 'toro', 'hunt', ['Privacy Act 2020'], ['planning', 'communications']],
+    ['kid-money', 'Kid Money', 'Family money conversations', 'toro', 'execution', ['Privacy Act 2020'], ['planning', 'communications']],
+    ['holiday-ideas', 'Holiday Ideas', 'Family holiday planning', 'toro', 'hunt', ['Privacy Act 2020'], ['planning', 'booking']],
+    ['routines', 'Routines', 'Household routine planning', 'toro', 'execution', ['Privacy Act 2020'], ['planning', 'communications']],
+    ['school-comms', 'School Comms', 'School message drafting', 'toro', 'pitch', ['Privacy Act 2020'], ['communications', 'planning']],
+    ['appointments', 'Appointments', 'Appointment and reminder coordination', 'toro', 'execution', ['Privacy Act 2020'], ['booking', 'planning']],
+    ['allowance-ledger', 'Allowance Ledger', 'Allowance and pocket-money record', 'toro', 'ledger', ['Privacy Act 2020'], ['audit', 'planning']],
+    ['consent-guard', 'Consent Guard', 'Parent consent and approval checks', 'toro', 'ledger', ['Privacy Act 2020'], ['safety', 'compliance']],
+    ['handover-helper', 'Handover Helper', 'Care handover notes', 'toro', 'pitch', ['Privacy Act 2020'], ['communications', 'planning']],
+  ]),
 ];
 
 export const CAPABILITY_LABELS: Record<Capability, string> = {
@@ -507,16 +556,78 @@ function draftAgent(
   kete: KeteSlug,
   phase: AgentPhase,
 ): Agent {
+  const legislation = defaultLegislationForKete(kete);
   return {
     slug,
     name,
     role,
     kete,
     phase,
-    status: 'draft',
-    oneLiner: 'Draft specialist registered for fleet activation. System prompt content is pending.',
-    legislation: [],
-    capabilities: ['planning'],
+    status: 'live',
+    oneLiner: `${role} specialist for ${keteLabel(kete)} workflows, with human review and an evidence-pack trail.`,
+    expertise: `${name} handles ${role.toLowerCase()} inside the ${keteLabel(kete)} kete, grounding outputs in the relevant New Zealand rules before reviewer sign-off.`,
+    collaboratesWith: ['iho', 'signal'],
+    memoryScope: `${keteLabel(kete)} workflow context, reviewer decisions, source documents, and approval history.`,
+    ambientBrief: `Watch ${keteLabel(kete)} work for missing facts, compliance gaps, and drafts ready for a named reviewer.`,
+    legislation,
+    capabilities: ['planning', 'compliance'],
     buyingOptions: DEFAULT_BUYING_OPTIONS,
   };
+}
+
+type LaunchAgentDefinition = [
+  slug: string,
+  name: string,
+  role: string,
+  kete: KeteSlug,
+  phase: AgentPhase,
+  legislation: string[],
+  capabilities: Capability[],
+];
+
+function launchAgents(definitions: LaunchAgentDefinition[]): Agent[] {
+  return definitions.map(([slug, name, role, kete, phase, legislation, capabilities]) => ({
+    slug,
+    name,
+    role,
+    kete,
+    phase,
+    status: 'live',
+    oneLiner: `${role} specialist for ${keteLabel(kete)} workflows, with human review and an evidence-pack trail.`,
+    expertise: `${name} handles ${role.toLowerCase()} inside the ${keteLabel(kete)} kete, grounding outputs in the relevant New Zealand rules before reviewer sign-off.`,
+    collaboratesWith: ['iho', 'signal'],
+    memoryScope: `${keteLabel(kete)} workflow context, reviewer decisions, source documents, and approval history.`,
+    ambientBrief: `Watch ${keteLabel(kete)} work for missing facts, compliance gaps, and drafts ready for a named reviewer.`,
+    legislation,
+    capabilities,
+    buyingOptions: DEFAULT_BUYING_OPTIONS,
+  }));
+}
+
+function keteLabel(kete: KeteSlug): string {
+  return {
+    waihanga: 'Waihanga construction',
+    manaaki: 'Manaaki hospitality',
+    pikau: 'Pīkau freight and customs',
+    arataki: 'Arataki automotive and fleet',
+    auaha: 'Auaha creative',
+    ako: 'Ako early childhood education',
+    matauranga: 'Mātauranga secondary education',
+    hoko: 'Hoko retail',
+    toro: 'Tōro whānau',
+  }[kete];
+}
+
+function defaultLegislationForKete(kete: KeteSlug): string[] {
+  return {
+    waihanga: ['Building Act 2004', 'Construction Contracts Act 2002', 'Health and Safety at Work Act 2015'],
+    manaaki: ['Sale and Supply of Alcohol Act 2012', 'Food Act 2014', 'Privacy Act 2020'],
+    pikau: ['Customs and Excise Act 2018', 'Biosecurity Act 1993', 'Maritime Transport Act 1994'],
+    arataki: ['Land Transport Act 1998', 'Consumer Guarantees Act 1993', 'Health and Safety at Work Act 2015'],
+    auaha: ['Copyright Act 1994', 'Fair Trading Act 1986', 'Privacy Act 2020'],
+    ako: ['Education and Training Act 2020', 'Children’s Act 2014', 'Privacy Act 2020'],
+    matauranga: ['Education and Training Act 2020', 'NCEA rules', 'Privacy Act 2020'],
+    hoko: ['Consumer Guarantees Act 1993', 'Fair Trading Act 1986', 'Privacy Act 2020'],
+    toro: ['Privacy Act 2020'],
+  }[kete];
 }

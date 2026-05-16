@@ -85,18 +85,16 @@ export function IndustryPackFleetPicker() {
                           {agent.role}
                         </p>
                       </div>
-                      {agent.status === 'draft' ? (
-                        <span className="rounded-full border border-[rgba(212,168,83,0.45)] bg-[rgba(212,168,83,0.10)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-gold-thread)]">
-                          Draft
-                        </span>
-                      ) : null}
+                      <span className="rounded-full border border-[rgba(43,107,87,0.28)] bg-[rgba(43,107,87,0.08)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+                        Live
+                      </span>
                     </div>
                     <p className="mt-3 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">
                       {agent.oneLiner}
                     </p>
                     <div className="mt-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--kete-accent)]">
                       <MessageCircle className="h-3.5 w-3.5" aria-hidden />
-                      {agent.status === 'draft' ? 'Coming soon' : 'Live'}
+                      Live
                     </div>
                   </article>
                 ))}

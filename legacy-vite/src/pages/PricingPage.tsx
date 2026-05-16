@@ -14,7 +14,7 @@ const C = {
 
 const OFFERS = [
   ["WHĀNAU", "Tōro", "$29 / month", "Per whānau. School, money, routines, handovers, and the week ahead.", "Install Tōro", "/toro", false],
-  ["HERO OFFER", "Industry Pack", "$5,000 / month", "Per kete. 6-8 specialist agents. Iho governance. Signal monitoring. Unlimited evidence packs.", "See Industry Pack", "/industry-pack", true],
+  ["HERO OFFER", "Industry Pack", "$5,000 / month", "Per kete. Live specialist-agent fleet. Iho governance. Signal monitoring. Unlimited evidence packs.", "See Industry Pack", "/industry-pack", true],
   ["PROOF SPRINT", "Pilot Sprint", "$5,000 once-off", "Two weeks. We run one workflow end-to-end against your own data and ship the evidence pack.", "Book a sprint", "/pilot-sprint", false],
   ["OUTCOME", "Outcome", "Custom", "For operators who want us paid on signed evidence packs delivered, not seats.", "Talk to founder", "/contact", false],
 ] as const;
@@ -115,4 +115,3 @@ const PricingPage = () => (
 );
 
 export default PricingPage;
-
