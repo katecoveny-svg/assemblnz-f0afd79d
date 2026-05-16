@@ -67,9 +67,20 @@ export default function KeteIndexPage() {
         </div>
       </section>
 
-      <section className="relative bg-[color:var(--assembl-paper)] py-32 md:py-44">
+      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] py-32 md:py-44">
+        <video
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 hidden w-[min(76vw,860px)] -translate-x-1/2 -translate-y-1/2 opacity-[0.20] mix-blend-multiply md:block motion-reduce:hidden"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        >
+          <source src="/videos/vessel-rotate-720p.mp4" type="video/mp4" />
+        </video>
         <div className="container">
-          <div className="mx-auto max-w-3xl text-center">
+          <div className="relative z-10 mx-auto max-w-3xl text-center">
             <SectionReveal>
               <h2
                 className="font-display leading-[0.95] tracking-tight"

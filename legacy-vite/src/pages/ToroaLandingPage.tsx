@@ -17,7 +17,6 @@ import {
   Users,
   CloudSun,
 } from "lucide-react";
-import LandingKeteHero from "@/components/kete/LandingKeteHero";
 import HeroBackdropNext from "@/components/next/HeroBackdropNext";
 import SEO from "@/components/SEO";
 import BrandNav from "@/components/BrandNav";
@@ -32,13 +31,13 @@ import KeteUseCaseSection from "@/components/kete/KeteUseCaseSection";
 import { TORO_USE_CASE } from "@/data/useCases";
 
 /* ─── Tōro palette — Moonstone Blue (TORO-04 industry accent) ─── */
-const ACCENT = "#C7D9E8";       // moonstone blue (locked industry accent)
-const ACCENT_DEEP = "#7BA8C9";  // deeper moonstone for primary actions
+const ACCENT = "#23211F";       // Tōro charcoal accent
+const ACCENT_DEEP = "#23211F";  // deeper charcoal for primary actions
 const POUNAMU = "#3A7D6E";      // brand green (CTA gradient end)
 const INK = "#3D4250";          // charcoal text (brand standard)
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0.7, y: 12 },
   visible: (i = 0) => ({
     opacity: 1,
     y: 0,
@@ -113,7 +112,7 @@ function SmsThread() {
         {THREAD.slice(0, count).map((m, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 12, scale: 0.97 }}
+            initial={{ opacity: 0.7, y: 12, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className={`flex ${m.side === "you" ? "justify-end" : "justify-start"}`}
@@ -140,7 +139,7 @@ function SmsThread() {
         ))}
 
         {count < THREAD.length && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
+          <motion.div initial={{ opacity: 0.7 }} animate={{ opacity: 1 }} className="flex justify-start">
             <div
               className="px-4 py-3 rounded-2xl flex gap-1"
               style={{ background: "rgba(255,255,255,0.95)", border: `1px solid ${ACCENT}`, borderBottomLeftRadius: 4 }}
@@ -210,7 +209,24 @@ export default function ToroaLandingPage() {
               />
             ))}
 
-            <LandingKeteHero accentColor={ACCENT_DEEP} accentLight={ACCENT} model="palette" size={200} />
+            <motion.div
+              className="relative mb-8 aspect-square w-[min(68vw,320px)] overflow-hidden rounded-2xl border"
+              style={{
+                borderColor: "rgba(35,33,31,0.24)",
+                boxShadow: "0 24px 72px rgba(35,33,31,0.14)",
+              }}
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={0}
+            >
+              <img src="/img/kete/toro-vessel.png" alt="" className="h-full w-full object-cover" />
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{ background: "radial-gradient(ellipse at 70% 20%, rgba(35,33,31,0.12) 0%, transparent 58%)" }}
+              />
+            </motion.div>
 
             <motion.p
               className="text-[10px] uppercase tracking-[5px] mb-6"
@@ -308,7 +324,7 @@ export default function ToroaLandingPage() {
                     key={item}
                     className="flex items-start gap-3 text-xs font-body"
                     style={{ color: "#5B6374" }}
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0.7, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 + idx * 0.08 }}
                   >
@@ -367,7 +383,7 @@ export default function ToroaLandingPage() {
             {/* SMS thread directly under hero */}
             <motion.div
               className="mt-16 w-full flex justify-center"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0.7, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
@@ -387,7 +403,7 @@ export default function ToroaLandingPage() {
           />
           <motion.div
             className="text-center mb-12"
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0.7 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
@@ -419,7 +435,7 @@ export default function ToroaLandingPage() {
                       ? `0 8px 32px rgba(123,168,201,0.15), 0 0 40px ${ACCENT}40`
                       : "0 2px 8px rgba(0,0,0,0.04)",
                 }}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0.7, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
@@ -466,7 +482,7 @@ export default function ToroaLandingPage() {
           />
           <motion.div
             className="text-center mb-12"
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0.7 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
@@ -499,7 +515,7 @@ export default function ToroaLandingPage() {
                       : "0 2px 8px rgba(0,0,0,0.04)",
                   transition: "all 0.4s ease",
                 }}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0.7, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
@@ -549,7 +565,7 @@ export default function ToroaLandingPage() {
               backdropFilter: "blur(10px)",
               boxShadow: `0 16px 48px rgba(123,168,201,0.10), 0 0 80px ${ACCENT}30`,
             }}
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0.7 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
@@ -572,7 +588,7 @@ export default function ToroaLandingPage() {
             {activeDemo === 0 && (
               <motion.div
                 className="text-center py-6"
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0.7, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 key="demo-0"
               >
@@ -592,7 +608,7 @@ export default function ToroaLandingPage() {
             )}
 
             {activeDemo === 1 && (
-              <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="demo-1">
+              <motion.div className="space-y-3" initial={{ opacity: 0.7 }} animate={{ opacity: 1 }} key="demo-1">
                 {[
                   "Pick up Aroha at 3 — and dentist form",
                   "What's for dinner? Fridge has fish + spinach + kūmara",
@@ -601,7 +617,7 @@ export default function ToroaLandingPage() {
                   <motion.div
                     key={q}
                     className="p-4 rounded-lg flex justify-end"
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0.7, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: idx * 0.15 }}
                   >
@@ -617,7 +633,7 @@ export default function ToroaLandingPage() {
             )}
 
             {activeDemo === 2 && (
-              <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="demo-2">
+              <motion.div className="space-y-3" initial={{ opacity: 0.7 }} animate={{ opacity: 1 }} key="demo-2">
                 {[
                   { label: "Pickup", value: "Reminder set 2:45 pm — dentist form drafted" },
                   { label: "Dinner", value: "One-pan miso fish + kūmara — 22 min, list updated" },
@@ -627,7 +643,7 @@ export default function ToroaLandingPage() {
                     key={f.label}
                     className="p-3 rounded-lg text-xs"
                     style={{ background: "rgba(255,255,255,0.7)", border: `1px solid ${ACCENT}` }}
-                    initial={{ opacity: 0, y: 8 }}
+                    initial={{ opacity: 0.7, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
                   >
@@ -645,7 +661,7 @@ export default function ToroaLandingPage() {
             {activeDemo === 3 && (
               <motion.div
                 className="text-center py-6"
-                initial={{ opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0.7, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 key="demo-3"
               >
@@ -680,7 +696,7 @@ export default function ToroaLandingPage() {
               backdropFilter: "blur(10px)",
               boxShadow: `0 8px 32px rgba(123,168,201,0.10), 0 0 60px ${ACCENT}30`,
             }}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0.7, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >

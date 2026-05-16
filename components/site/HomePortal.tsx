@@ -103,6 +103,12 @@ const PROOF_ITEMS = [
   },
 ] as const;
 
+const LOCAL_VESSELS = {
+  manaaki: '/img/kete/manaaki-vessel.png',
+  pikau: '/img/kete/pikau-vessel.jpg',
+  toro: '/img/kete/toro-vessel.png',
+} as Partial<Record<KeteSlug, string>>;
+
 const PRODUCT_ACCESS = [
   {
     href: '/pilot-sprint',
@@ -147,6 +153,19 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
     >
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F4EFE7_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
+        {!reduceMotion && (
+          <video
+            aria-hidden
+            className="pointer-events-none absolute right-0 top-1/2 hidden w-[min(58vw,720px)] max-w-[720px] -translate-y-1/2 opacity-[0.35] mix-blend-multiply md:block motion-reduce:hidden"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          >
+            <source src="/videos/vessel-rotate-720p.mp4" type="video/mp4" />
+          </video>
+        )}
         <motion.div
           className="absolute inset-y-0 left-0 w-2 bg-[color:var(--kete-accent)]"
           aria-hidden
@@ -218,7 +237,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
             <FeaturedKete
               kete={activeKete}
               details={activeDetails}
-              image={keteImagery[activeKete.slug].wide}
+              image={LOCAL_VESSELS[activeKete.slug] ?? keteImagery[activeKete.slug].wide}
               reduceMotion={reduceMotion}
             />
             <div className="hidden md:block">
@@ -472,8 +491,8 @@ function ProofDock({ stats: initialStats }: { stats: PearlLiveStats }) {
           <motion.span
             className="h-2 w-2 rounded-full bg-[color:var(--assembl-pounamu)] shadow-[0_0_0_4px_rgba(43,107,87,0.12)]"
             aria-hidden
-            animate={reduceMotion ? undefined : { scale: [1, 1.28, 1] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+            animate={reduceMotion ? undefined : { opacity: [0.7, 1, 0.7] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
           />
           <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[color:var(--text-secondary)]">
             Pearl Live

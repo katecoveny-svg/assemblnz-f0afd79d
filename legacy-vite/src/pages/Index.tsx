@@ -235,7 +235,7 @@ function LiveDemoChatSection() {
             </motion.div>
           ))}
           {showMessages < 3 && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 1.2, repeat: Infinity }} className="flex items-center gap-2 pl-12">
+            <motion.div initial={{ opacity: 0.7 }} animate={{ opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 1.2, repeat: Infinity }} className="flex items-center gap-2 pl-12">
               <div className="w-2 h-2 rounded-full" style={{ background: C.teal }} />
               <div className="w-2 h-2 rounded-full" style={{ background: C.teal, opacity: 0.6 }} />
               <div className="w-2 h-2 rounded-full" style={{ background: C.teal, opacity: 0.3 }} />
@@ -470,10 +470,12 @@ const Index = () => {
                           </span>
                         )}
                         <div className="flex items-center gap-4 mb-5">
-                          <span
-                            className="h-10 w-10 rounded-full border"
-                            style={{ background: p.color, borderColor: `${p.color}33` }}
-                            aria-hidden
+                          <KeteTileVisual
+                            slug={p.key}
+                            name={p.reo}
+                            color={p.color}
+                            accentLight={p.accentLight}
+                            size={64}
                           />
                           <div>
                             <h3 className="text-[18px] font-medium" style={{ color: C.text }}>{p.reo}</h3>
@@ -800,7 +802,18 @@ const Index = () => {
         </Sect>
 
         {/* ═══ FINAL CTA ═══ */}
-        <section className="relative px-6 py-32 text-center">
+        <section className="relative overflow-hidden px-6 py-32 text-center">
+          <video
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 hidden w-[min(76vw,860px)] -translate-x-1/2 -translate-y-1/2 object-cover opacity-[0.20] mix-blend-multiply md:block motion-reduce:hidden"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          >
+            <source src="/videos/vessel-rotate-720p.mp4" type="video/mp4" />
+          </video>
           <div className="max-w-xl mx-auto relative z-10">
             <motion.div {...fade}>
               <GlowCard className="p-12 sm:p-16 text-center">
@@ -833,6 +846,52 @@ const Index = () => {
     </div>
   );
 };
+
+function KeteTileVisual({
+  slug,
+  name,
+  color,
+  accentLight,
+  size,
+}: {
+  slug: string;
+  name: string;
+  color: string;
+  accentLight: string;
+  size: number;
+}) {
+  const src = KETE_VESSEL_IMAGES[slug];
+
+  return (
+    <span
+      className="relative shrink-0 overflow-hidden rounded-2xl border"
+      style={{
+        width: size,
+        height: size,
+        borderColor: `${color}33`,
+        background: `linear-gradient(135deg, ${color}22, ${accentLight})`,
+      }}
+      aria-hidden
+    >
+      {src ? (
+        <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />
+      ) : (
+        <span
+          className="flex h-full w-full items-center justify-center"
+          style={{
+            color: "#FAF7F2",
+            background: color,
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: Math.round(size * 0.42),
+            fontWeight: 300,
+          }}
+        >
+          {name.slice(0, 1)}
+        </span>
+      )}
+    </span>
+  );
+}
 
 export default Index;
 

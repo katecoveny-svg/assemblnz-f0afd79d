@@ -28,7 +28,7 @@ const BONE = "#F5F0E8";
 const GOLD = "#4AA5A8";
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
+  hidden: { opacity: 0.7, y: 12 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,
     transition: { delay: i * 0.12, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
@@ -123,7 +123,7 @@ export default function AuahaLandingPage() {
             <ul className="space-y-3">
               {["No autonomous publishing — every piece reviewed before it goes live", "Brand voice enforced across every format and channel", "Every workflow run ends in a signed evidence pack", "Privacy Act 2020 and IPP 3A alignment built in"].map((item, idx) => (
                 <motion.li key={item} className="flex items-start gap-3 text-xs font-body" style={{ color: "#5B6374" }}
-                  initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + idx * 0.08 }}>
+                  initial={{ opacity: 0.7, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + idx * 0.08 }}>
                   <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${POUNAMU}25`, boxShadow: `0 0 8px ${POUNAMU}25` }}>
                     <Check size={10} style={{ color: POUNAMU }} />
                   </div>
@@ -235,7 +235,7 @@ export default function AuahaLandingPage() {
         {/* ── Agent Network ── */}
         <section className="relative px-6 pb-24 max-w-5xl mx-auto">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}10 0%, transparent 70%)` }} />
-          <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+          <motion.div className="text-center mb-12" initial={{ opacity: 0.7 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace" }}>specialist network</p>
             <h2 className="text-2xl sm:text-3xl font-display tracking-[0.01em]" style={{ color: "#3D4250", fontWeight: 200 }}>9 agents working together</h2>
           </motion.div>
@@ -247,7 +247,7 @@ export default function AuahaLandingPage() {
                 transition: "all 0.4s ease",
                 backdropFilter: "blur(10px)",
                 boxShadow: hoveredAgent === i ? `0 8px 32px rgba(58,125,110,0.12), 0 0 40px ${ACCENT}20` : "0 2px 8px rgba(0,0,0,0.04)",
-              }} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
+              }} initial={{ opacity: 0.7, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
                 onMouseEnter={() => setHoveredAgent(i)} onMouseLeave={() => setHoveredAgent(null)}>
                 <div className="absolute top-0 left-0 right-0 h-[1px] transition-opacity duration-500" style={{ opacity: hoveredAgent === i ? 1 : 0, background: `linear-gradient(90deg, transparent 0%, ${ACCENT} 50%, transparent 100%)` }} />
                 <div className="flex items-center gap-3 mb-3">
@@ -268,7 +268,7 @@ export default function AuahaLandingPage() {
         {/* ── Live Demo Flow ── */}
         <section className="relative px-6 pb-28 max-w-4xl mx-auto">
           <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[500px] h-[300px] pointer-events-none" style={{ background: `radial-gradient(ellipse, ${ACCENT}10 0%, transparent 60%)` }} />
-          <motion.div className="text-center mb-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+          <motion.div className="text-center mb-12" initial={{ opacity: 0.7 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <p className="text-[10px] tracking-[4px] mb-3 uppercase" style={{ color: POUNAMU, fontFamily: "'IBM Plex Mono', monospace" }}>workflow</p>
             <h2 className="text-2xl sm:text-3xl font-display tracking-[0.01em]" style={{ color: "#3D4250", fontWeight: 200 }}>How it works</h2>
           </motion.div>
@@ -280,7 +280,7 @@ export default function AuahaLandingPage() {
                 backdropFilter: "blur(10px)",
                 boxShadow: activeDemo === i ? `0 4px 24px rgba(58,125,110,0.12), 0 0 40px ${ACCENT}15` : "0 2px 8px rgba(0,0,0,0.04)",
                 transition: "all 0.4s ease",
-              }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+              }} initial={{ opacity: 0.7, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
                 {activeDemo === i && <motion.div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: `linear-gradient(90deg, transparent 0%, ${ACCENT} 50%, transparent 100%)` }} layoutId="auaha-demo-accent" />}
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300" style={{
@@ -301,14 +301,14 @@ export default function AuahaLandingPage() {
             border: `1px solid ${ACCENT}40`,
             backdropFilter: "blur(10px)",
             boxShadow: `0 16px 48px rgba(58,125,110,0.08), 0 0 80px ${ACCENT}10`,
-          }} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+          }} initial={{ opacity: 0.7 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent 10%, ${ACCENT}60 50%, transparent 90%)` }} />
             <div className="flex items-center gap-2.5 mb-6">
               <motion.div className="w-2.5 h-2.5 rounded-full" style={{ background: GOLD, boxShadow: `0 0 10px ${GOLD}60` }} animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }} />
               <span className="text-[10px] uppercase tracking-[3px] font-mono" style={{ color: GOLD }}>Live preview</span>
             </div>
             {activeDemo === 0 && (
-              <motion.div className="grid grid-cols-2 gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="ad-0">
+              <motion.div className="grid grid-cols-2 gap-4" initial={{ opacity: 0.7 }} animate={{ opacity: 1 }} key="ad-0">
                 {[
                   { label: "Brand", value: "Kōwhai Café" },
                   { label: "Voice", value: "Warm, down-to-earth, local" },
@@ -318,7 +318,7 @@ export default function AuahaLandingPage() {
                   { label: "Channels", value: "Instagram, Facebook, EDM" },
                 ].map((f, idx) => (
                   <motion.div key={f.label} className="p-3 rounded-lg text-xs" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(58,125,110,0.15)" }}
-                    initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
+                    initial={{ opacity: 0.7, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}>
                     <span className="text-[10px]" style={{ color: "#7B8294" }}>{f.label}</span>
                     <p className="font-mono mt-1" style={{ color: "#3D4250" }}>{f.value}</p>
                   </motion.div>
@@ -326,7 +326,7 @@ export default function AuahaLandingPage() {
               </motion.div>
             )}
             {activeDemo === 1 && (
-              <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="ad-1">
+              <motion.div className="space-y-3" initial={{ opacity: 0.7 }} animate={{ opacity: 1 }} key="ad-1">
                 <div className="p-4 rounded-lg" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(58,125,110,0.15)" }}>
                   <p className="text-[10px] mb-1" style={{ color: "#7B8294" }}>Instagram caption — drafted by MUSE</p>
                   <p className="text-xs italic" style={{ color: "#3D4250" }}>"Sunday mornings at Kōwhai. Fresh baking, strong flat whites, and the sun hitting the deck just right. Come find your spot ☕"</p>
@@ -338,7 +338,7 @@ export default function AuahaLandingPage() {
               </motion.div>
             )}
             {activeDemo === 2 && (
-              <motion.div className="space-y-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} key="ad-2">
+              <motion.div className="space-y-3" initial={{ opacity: 0.7 }} animate={{ opacity: 1 }} key="ad-2">
                 {[
                   { check: "Brand voice — matches DNA profile", st: "pass" },
                   { check: "Fair Trading Act — no misleading claims", st: "pass" },
@@ -346,7 +346,7 @@ export default function AuahaLandingPage() {
                   { check: "Human approval — awaiting sign-off", st: "pending" },
                 ].map((c, idx) => (
                   <motion.div key={c.check} className="flex items-center justify-between text-xs p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.7)", border: "1px solid rgba(58,125,110,0.15)" }}
-                    initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }}>
+                    initial={{ opacity: 0.7, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: idx * 0.08 }}>
                     <span style={{ color: "#5B6374" }}>{c.check}</span>
                     <span className="text-[10px] uppercase font-semibold" style={{ color: c.st === "pass" ? "#3A7D6E" : "#4AA5A8" }}>{c.st}</span>
                   </motion.div>
@@ -354,7 +354,7 @@ export default function AuahaLandingPage() {
               </motion.div>
             )}
             {activeDemo === 3 && (
-              <motion.div className="text-center py-6" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} key="ad-3">
+              <motion.div className="text-center py-6" initial={{ opacity: 0.7, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} key="ad-3">
                 <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: `${ACCENT}25`, boxShadow: `0 0 30px ${ACCENT}25` }}>
                   <BarChart3 size={28} style={{ color: GOLD }} />
                 </div>
@@ -374,7 +374,7 @@ export default function AuahaLandingPage() {
             border: `1px solid ${POUNAMU}40`,
             backdropFilter: "blur(10px)",
             boxShadow: `0 8px 32px rgba(58,125,110,0.08), 0 0 60px ${ACCENT}10`,
-          }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          }} initial={{ opacity: 0.7, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${ACCENT}60, transparent)` }} />
             <p className="text-sm" style={{ color: "#5B6374" }}>Ready to coordinate your creative pipeline?</p>
             <Link

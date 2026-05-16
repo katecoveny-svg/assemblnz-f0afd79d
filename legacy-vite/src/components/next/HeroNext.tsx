@@ -40,7 +40,7 @@ const CANONICAL_ACCENTS: Record<string, string> = {
 };
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const HEADLINE = "Specialist agents for NZ work that needs proof.";
+const HEADLINE = "Mahi that earns its proof.";
 const HEADLINE_WORDS = HEADLINE.split(" ");
 
 interface Sparkle {
@@ -171,9 +171,22 @@ export default function HeroNext({ variant: _variant }: { variant?: "shader" | "
           <img
             src="/img/kete/home-vessel-pounamu.jpg"
             alt=""
-            className="h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
             style={{ objectPosition: "left center" }}
           />
+          {!reduceMotion && (
+            <video
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover opacity-[0.18] mix-blend-soft-light"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            >
+              <source src="/videos/vessel-rotate-720p.mp4" type="video/mp4" />
+            </video>
+          )}
           <div
             className="absolute inset-0"
             style={{
