@@ -9,15 +9,17 @@ import { ArrowRight } from 'lucide-react';
  * resolved the Drive document URL) or a storage-style path like
  * `Assembl-Drive/[customer-slug]/business-pulse/YYYY-MM-DD-pulse.md`.
  *
- * For URLs we link directly. For storage paths we route through the resolver
- * endpoint (`/api/business-pulse/[id]/open`) which redirects to the underlying
- * Drive document once the workflow API is wired. Returns null if we can't
- * produce a safe target — caller hides the link.
+ * URLs link directly. For storage paths we currently return null so the
+ * caller hides the link — the Drive resolver endpoint
+ * (`/api/business-pulse/[id]/open`) is part of the deferred Codex build (see
+ * docs/handover/claude-for-small-business-2026-05-16.md). Once that route
+ * lands, swap the null branch for a redirect through the resolver so the
+ * primary storage-path case opens in Drive instead of 404ing.
  */
-function resolveBriefHref(briefId: string, drivePath: string | null): string | null {
+function resolveBriefHref(drivePath: string | null): string | null {
   if (!drivePath) return null;
   if (/^https?:\/\//i.test(drivePath)) return drivePath;
-  return `/api/business-pulse/${encodeURIComponent(briefId)}/open`;
+  return null;
 }
 
 /**
@@ -114,14 +116,13 @@ export function BusinessPulseWidget() {
           Business Pulse · {brief.brief_date}
         </p>
         {(() => {
-          const href = resolveBriefHref(brief.id, brief.drive_path);
+          const href = resolveBriefHref(brief.drive_path);
           if (!href) return null;
-          const external = /^https?:\/\//i.test(href);
           return (
             <a
               href={href}
-              target={external ? '_blank' : undefined}
-              rel={external ? 'noopener noreferrer' : undefined}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)]"
             >
               Full brief <ArrowRight className="h-3 w-3" aria-hidden />
