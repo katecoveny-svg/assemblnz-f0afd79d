@@ -28,6 +28,7 @@ type TenantRow = {
 };
 
 const FALLBACK_BRAND = '#2B6B57';
+const FALLBACK_TENANT_ID = '00000000-0000-0000-0000-000000000000';
 
 export function isKeteSlug(value: unknown): value is KeteSlug {
   return (
@@ -68,8 +69,36 @@ function optionalNumber(value: unknown): number {
   return 0;
 }
 
+function fallbackTenant(slug: string): PublicChatTenant | null {
+  if (!isKeteSlug(slug)) return null;
+  const kete = getKete(slug);
+  return {
+    id: FALLBACK_TENANT_ID,
+    slug,
+    name: slug === 'toro' ? 'Tōro Whānau' : kete.name,
+    kete: slug,
+    keteName: kete.name,
+    logoUrl: null,
+    brandColor: slug === 'toro' ? FALLBACK_BRAND : kete.accent,
+    contactEmail: 'hello@assembl.co.nz',
+    creditNzd: 0,
+  };
+}
+
 export async function getPublicChatTenant(slug: string): Promise<PublicChatTenant> {
-  const service = getServiceClient();
+  let service: ReturnType<typeof getServiceClient>;
+  try {
+    service = getServiceClient();
+  } catch (error) {
+    console.error('public chat service client unavailable', {
+      slug,
+      message: error instanceof Error ? error.message : String(error),
+    });
+    const fallback = fallbackTenant(slug);
+    if (fallback) return fallback;
+    notFound();
+  }
+
   const { data, error } = await service
     .from('tenants')
     .select('id,slug,name,kete_primary,brand_color,billing_email,is_active,status,metadata')
@@ -78,9 +107,15 @@ export async function getPublicChatTenant(slug: string): Promise<PublicChatTenan
 
   if (error) {
     console.error('public chat tenant lookup failed', { slug, message: error.message });
+    const fallback = fallbackTenant(slug);
+    if (fallback) return fallback;
     notFound();
   }
-  if (!data) notFound();
+  if (!data) {
+    const fallback = fallbackTenant(slug);
+    if (fallback) return fallback;
+    notFound();
+  }
   const tenant = data as TenantRow;
   if (!tenant.slug || !tenantIsPubliclyActive(tenant)) notFound();
 

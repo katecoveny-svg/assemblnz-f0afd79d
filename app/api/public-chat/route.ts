@@ -225,14 +225,28 @@ export async function POST(req: NextRequest) {
 
   if (!slug || !message) return json({ error: 'Missing tenant slug or message' }, 400);
 
-  const service = getServiceClient();
+  let service: ReturnType<typeof getServiceClient>;
+  try {
+    service = getServiceClient();
+  } catch {
+    return streamText(takingABreak(null), {
+      status: 200,
+      headers: { 'X-Chat-Id': chatId, 'X-Session-Id': sessionId },
+    });
+  }
+
   const { data, error } = await service
     .from('tenants')
     .select('id,slug,name,kete_primary,billing_email,is_active,status,metadata')
     .eq('slug', slug)
     .maybeSingle();
 
-  if (error) return json({ error: error.message }, 500);
+  if (error) {
+    return streamText(takingABreak(null), {
+      status: 200,
+      headers: { 'X-Chat-Id': chatId, 'X-Session-Id': sessionId },
+    });
+  }
   if (!data) return json({ error: 'Tenant not found' }, 404);
 
   const tenant = data as TenantRow;
