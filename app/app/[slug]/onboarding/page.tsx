@@ -45,6 +45,11 @@ export default async function TenantOnboardingPage({
   const { slug } = await params;
   const redirectTo = `/app/${slug}/onboarding`;
 
+  const envConfigured = Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  );
+  if (!envConfigured) redirect(`/login?redirect=${encodeURIComponent(redirectTo)}`);
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -95,6 +100,7 @@ export default async function TenantOnboardingPage({
     auto_confirm_enabled?: boolean;
     min_confidence?: number;
   };
+
   async function verifyAliasFormAction() {
     'use server';
     await verifyAliasAction(slug);
