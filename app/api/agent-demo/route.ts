@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
 import { agentBySlug, agentChatId } from '@/lib/agents';
 import { workflowById } from '@/lib/chat/workflows';
 import { getKete } from '@/lib/kete';
-import { getServiceClient } from '@/lib/supabase/service';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -75,7 +75,20 @@ export async function POST(req: NextRequest) {
     .join('\n');
 
   try {
-    const service = getServiceClient();
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+    const supabaseKey =
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+      process.env.SUPABASE_PUBLISHABLE_KEY;
+
+    if (!supabaseUrl || !supabaseKey) {
+      return json({ error: 'Live agent demo is not configured on this deployment.' }, 500);
+    }
+
+    const service = createClient(supabaseUrl, supabaseKey, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    });
     const { data, error } = await service.functions.invoke<{
       response?: string;
       error?: string;
@@ -120,12 +133,7 @@ export async function POST(req: NextRequest) {
       tokensUsed: data.tokensUsed,
     });
   } catch (error) {
-    const message =
-      error instanceof Error && error.message.includes('SUPABASE_SERVICE_ROLE_KEY')
-        ? 'Live agent demo is not configured on this deployment.'
-        : error instanceof Error
-          ? error.message
-          : 'Unknown live agent error.';
+    const message = error instanceof Error ? error.message : 'Unknown live agent error.';
     return json({ error: message }, 500);
   }
 }
