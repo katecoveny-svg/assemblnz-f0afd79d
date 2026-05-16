@@ -17,7 +17,8 @@ export function SiteHeader() {
           <Link
             href="/"
             aria-label="assembl — home"
-            className="shrink-0 rounded-sm font-display text-3xl font-light italic leading-none lowercase tracking-tight text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            className="shrink-0 rounded-sm text-[34px] font-normal leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            style={{ fontFamily: 'var(--font-display), "Cormorant Garamond", Garamond, Georgia, serif' }}
           >
             assembl
           </Link>
