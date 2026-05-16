@@ -1,5 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/vercel.json",
   "framework": "nextjs",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)plugins/'"
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ':(exclude)plugins/'",
+  "crons": [
+    {
+      "path": "/api/business-pulse/scheduled",
+      "schedule": "0 * * * *"
+    }
+  ]
 }
