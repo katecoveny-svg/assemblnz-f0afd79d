@@ -5,7 +5,17 @@ import { isKeteSlug } from '@/lib/public-chat/tenant';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const SUPPORTED_AGENT_ENDPOINTS = new Set(['waihanga', 'pikau', 'arataki', 'auaha', 'manaaki', 'toro']);
+const SUPPORTED_AGENT_ENDPOINTS = new Set([
+  'waihanga',
+  'manaaki',
+  'pikau',
+  'arataki',
+  'auaha',
+  'ako',
+  'matauranga',
+  'hoko',
+  'toro',
+]);
 const MAX_SESSION_MESSAGES = 20;
 const MAX_SESSION_TOKENS = 10_000;
 const ESTIMATED_COST_PER_MESSAGE_NZD = 0.12;
