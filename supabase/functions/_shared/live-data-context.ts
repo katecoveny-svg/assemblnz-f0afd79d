@@ -107,6 +107,11 @@ export interface LiveDataContext {
   audit: (entry: AuditEntry) => Promise<void>;
 }
 
+export interface BriefingLiveData {
+  weather: unknown;
+  upcomingJobs: string[];
+}
+
 export interface AuditEntry {
   action: string;
   scope: LiveDataScope;
@@ -510,4 +515,56 @@ export async function buildLiveDataSnapshot(
     ctx.feeds.construction({ action: "site_conditions", lat: args.lat, lon: args.lon }));
 
   return snapshot;
+}
+
+export async function loadBriefingLiveData(
+  req: Request,
+  opts: LiveDataContextOptions & { city?: string },
+): Promise<BriefingLiveData> {
+  const context = await buildLiveDataContext(req, {
+    ...opts,
+    requiredScopes: [...(opts.requiredScopes ?? []), "weather"],
+  });
+
+  let weather: unknown = null;
+  try {
+    weather = await context.feeds.weather({ city: opts.city ?? "Auckland", mode: "forecast" });
+  } catch (error) {
+    await context.audit({
+      action: "morning_briefing_weather_unavailable",
+      scope: "weather",
+      compliance_passed: false,
+      error_message: error instanceof Error ? error.message : "weather feed failed",
+    });
+  }
+
+  const { data } = await context.supabase
+    .from("tenant_tool_connections")
+    .select("metadata")
+    .eq("tenant_id", context.identity.tenantId)
+    .eq("provider", "google")
+    .eq("status", "connected")
+    .maybeSingle();
+
+  const metadata = (data?.metadata ?? {}) as Record<string, unknown>;
+  const upcomingJobs = readStringList(metadata.upcoming_jobs)
+    .concat(readStringList(metadata.jobs))
+    .concat(readStringList(metadata.events))
+    .slice(0, 8);
+
+  return { weather, upcomingJobs };
+}
+
+function readStringList(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((item) => {
+      if (typeof item === "string") return item;
+      if (item && typeof item === "object") {
+        const record = item as Record<string, unknown>;
+        return [record.summary, record.title, record.name].find((part) => typeof part === "string") as string | undefined;
+      }
+      return undefined;
+    })
+    .filter((item): item is string => typeof item === "string" && item.trim().length > 0);
 }

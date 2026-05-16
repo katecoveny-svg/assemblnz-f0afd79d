@@ -161,6 +161,8 @@ project_id = "wurwcrgxjjwqdaxqceey"
     verify_jwt = false
   [functions.ambient-agent-loop]
     verify_jwt = false
+  [functions.morning-briefing]
+    verify_jwt = false
   [functions.run-thought]
     verify_jwt = true
   [functions.vessel-generate]
