@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
         agentId: agentChatId(agent),
         packId: kete.slug,
         mode: 'respond',
-        modelHint: 'sonnet',
+        modelHint: 'gemini',
         context: {
           previousMessages: [],
           publicDemo: true,
