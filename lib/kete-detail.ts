@@ -506,7 +506,7 @@ export const KETE_DETAIL: Record<
     description: [
       "Hoko handles the compliance layer underneath the till: Consumer Guarantees Act remedies, Fair Trading Act claims review, product safety recalls, and the privacy obligations on customer data captured at checkout or online.",
       "Each output cites the relevant Act and section inline. Returns workflows, gift-card terms, and refund policies all hold up under Disputes Tribunal scrutiny because the trail is in the box.",
-      "Hoko is in development. Multi-site retailers and online sellers can register interest now to shape the first release.",
+      "Hoko is live as an Industry Pack kete. Multi-site retailers and online sellers can start with a Pilot Sprint, then keep CGA, Fair Trading, product-safety, and customer-privacy records running as one evidence trail.",
     ],
     legislation: [
       'Consumer Guarantees Act 1993',
