@@ -769,6 +769,9 @@ Trust & compliance:
             creative: "auaha", marketing: "auaha", design: "auaha",
             automotive: "arataki", dealership: "arataki", workshop: "arataki",
             freight: "pikau", logistics: "pikau", customs: "pikau",
+            retail: "hoko", shop: "hoko", ecommerce: "hoko",
+            ece: "ako", kindergarten: "ako", earlychildhood: "ako",
+            secondary: "matauranga", school: "matauranga", ncea: "matauranga",
             farming: "toro", agriculture: "toro", dairy: "toro",
           };
 
@@ -787,6 +790,9 @@ Trust & compliance:
           auaha: ["assembl_prism_brand_scanner", "assembl_prism_campaign_engine", "assembl_echo_content_calendar", "assembl_echo_analytics_feedback"],
           arataki: ["assembl_forge_ruc_calculator", "assembl_forge_cin_generator", "assembl_forge_wof_tracker", "assembl_forge_service_reminder", "assembl_forge_fleet_dashboard"],
           pikau: ["assembl_gateway_customs_entry", "assembl_gateway_hs_lookup", "assembl_gateway_tariff_calculator"],
+          ako: ["assembl_ako_licence_check", "assembl_ako_rs7_funding_check", "assembl_ako_ero_pack"],
+          matauranga: ["assembl_matauranga_ncea_report", "assembl_matauranga_board_pack", "assembl_matauranga_ero_pack"],
+          hoko: ["assembl_hoko_cga_response", "assembl_hoko_promo_claim_check", "assembl_hoko_stock_reorder"],
           toro: ["assembl_toro_nait_tracker", "assembl_toro_fep_builder", "assembl_toro_ets_calculator", "assembl_toro_milk_price", "assembl_toro_weather_ops", "assembl_toro_seasonal_sweep"],
         };
 
@@ -797,6 +803,9 @@ Trust & compliance:
           auaha: ["prism", "muse", "pixel", "verse", "echo", "flux", "chromatic", "rhythm", "market"],
           arataki: ["motor", "transit", "mariner"],
           pikau: ["gateway", "harvest", "grove"],
+          ako: ["aroha", "ako-licence", "kaiako", "tamariki", "ero-pack"],
+          matauranga: ["akonga", "kaiako-s", "reo", "ropu", "ero-s"],
+          hoko: ["spark", "hoko-cga", "stock", "cellar", "pai", "putea"],
           toro: ["toroa"],
         };
 
@@ -813,7 +822,8 @@ Trust & compliance:
         if (SHARED_AGENTS.includes(selectedAgent) && activePacks.length > 0) {
           const packLabels: Record<string, string> = {
             manaaki: "Hospitality & Tourism", hanga: "Construction", auaha: "Creative & Media",
-            arataki: "Automotive", pikau: "Freight & Customs", toro: "Agriculture & Farming",
+            arataki: "Automotive", pikau: "Freight & Customs", ako: "Early Childhood Education",
+            matauranga: "Secondary Education", hoko: "Retail", toro: "Agriculture & Farming",
           };
           const names = activePacks.map(p => packLabels[p] || p).join(", ");
           industryContextBlock = `\n\n--- INDUSTRY CONTEXT ---\nThis user has active packs: ${names}.\nLoad industry-specific templates and compliance rules for their sector(s). Tailor all advice, calculations, and documents to their industry.`;

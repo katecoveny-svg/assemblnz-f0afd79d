@@ -52,6 +52,9 @@ const KETE_TO_IHO_AGENT: Record<string, string> = {
   pakihi: "LEDGER",
   arataki: "ARATAKI",
   pikau: "PIKAU",
+  ako: "AKO",
+  matauranga: "MATAURANGA",
+  hoko: "HOKO",
 };
 
 Deno.serve(async (req) => {
