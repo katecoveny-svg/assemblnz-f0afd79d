@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import { agentBySlug, agentChatId } from '@/lib/agents';
 import { workflowById } from '@/lib/chat/workflows';
 import { getKete } from '@/lib/kete';
@@ -86,18 +85,14 @@ export async function POST(req: NextRequest) {
       return json({ error: 'Live agent demo is not configured on this deployment.' }, 500);
     }
 
-    const service = createClient(supabaseUrl, supabaseKey, {
-      auth: { persistSession: false, autoRefreshToken: false },
-    });
-    const { data, error } = await service.functions.invoke<{
-      response?: string;
-      error?: string;
-      agentUsed?: { code: string; name: string; pack: string; model: string };
-      modelUsed?: string;
-      complianceStatus?: unknown;
-      tokensUsed?: unknown;
-    }>('iho-router', {
-      body: {
+    const ihoResponse = await fetch(`${supabaseUrl.replace(/\/$/, '')}/functions/v1/iho-router`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+      },
+      body: JSON.stringify({
         message: modelMessage,
         agentId: agentChatId(agent),
         packId: kete.slug,
@@ -115,11 +110,24 @@ export async function POST(req: NextRequest) {
               }
             : null,
         },
-      },
+      }),
     });
 
-    if (error) {
-      return json({ error: error.message || 'The live agent did not respond.' }, 502);
+    const text = await ihoResponse.text();
+    const data = text ? safeJson(text) as {
+      response?: string;
+      error?: string;
+      detail?: string;
+      agentUsed?: { code: string; name: string; pack: string; model: string };
+      modelUsed?: string;
+      complianceStatus?: unknown;
+      tokensUsed?: unknown;
+    } : null;
+
+    if (!ihoResponse.ok) {
+      return json({
+        error: data?.detail || data?.error || text || `Iho returned HTTP ${ihoResponse.status}.`,
+      }, 502);
     }
     if (!data?.response || data.error) {
       return json({ error: data?.error || 'The live agent returned an empty response.' }, 502);
@@ -135,5 +143,13 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown live agent error.';
     return json({ error: message }, 500);
+  }
+}
+
+function safeJson(text: string): unknown {
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { error: text };
   }
 }
