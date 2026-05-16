@@ -36,7 +36,6 @@ type TenantRow = {
   name: string;
   kete_primary: string | null;
   billing_email: string | null;
-  credit_nzd: number | string | null;
   is_active: boolean | null;
   status?: string | null;
   metadata: Record<string, unknown> | null;
@@ -90,6 +89,15 @@ function pickKete(tenant: TenantRow, requested?: string) {
   const metadataKete = tenant.metadata?.kete_primary ?? tenant.metadata?.kete;
   if (isKeteSlug(metadataKete)) return metadataKete;
   return 'waihanga';
+}
+
+function optionalNumber(value: unknown): number {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+  return 0;
 }
 
 function agentText(payload: unknown): string {
@@ -220,7 +228,7 @@ export async function POST(req: NextRequest) {
   const service = getServiceClient();
   const { data, error } = await service
     .from('tenants')
-    .select('id,slug,name,kete_primary,billing_email,credit_nzd,is_active,status,metadata')
+    .select('id,slug,name,kete_primary,billing_email,is_active,status,metadata')
     .eq('slug', slug)
     .maybeSingle();
 
@@ -239,7 +247,7 @@ export async function POST(req: NextRequest) {
   const email = tenant.billing_email ?? (typeof tenant.metadata?.contact_email === 'string' ? tenant.metadata.contact_email : null);
   const inputTokens = estimateTokens(message) + (body.history ?? []).reduce((sum, item) => sum + estimateTokens(item.content), 0);
   const usage = await sessionUsage(service, sessionId);
-  const creditNzd = Number(tenant.credit_nzd ?? 0);
+  const creditNzd = optionalNumber(tenant.metadata?.credit_nzd);
   const tenantSpend = creditNzd > 0 ? await tenantMonthSpend(service, tenant.id) : 0;
 
   if (

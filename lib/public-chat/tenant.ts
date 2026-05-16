@@ -20,10 +20,8 @@ type TenantRow = {
   slug: string | null;
   name: string;
   kete_primary: string | null;
-  logo_url: string | null;
   brand_color: string | null;
   billing_email: string | null;
-  credit_nzd: number | string | null;
   is_active: boolean | null;
   status?: string | null;
   metadata: Record<string, unknown> | null;
@@ -57,14 +55,31 @@ function tenantIsPubliclyActive(row: TenantRow): boolean {
   return ['active', 'provisioned', 'trial'].includes(row.status);
 }
 
+function optionalString(value: unknown): string | null {
+  return typeof value === 'string' && value.trim() ? value : null;
+}
+
+function optionalNumber(value: unknown): number {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+  if (typeof value === 'string') {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+  return 0;
+}
+
 export async function getPublicChatTenant(slug: string): Promise<PublicChatTenant> {
   const service = getServiceClient();
-  const { data } = await service
+  const { data, error } = await service
     .from('tenants')
-    .select('id,slug,name,kete_primary,logo_url,brand_color,billing_email,credit_nzd,is_active,status,metadata')
+    .select('id,slug,name,kete_primary,brand_color,billing_email,is_active,status,metadata')
     .eq('slug', slug)
     .maybeSingle();
 
+  if (error) {
+    console.error('public chat tenant lookup failed', { slug, message: error.message });
+    notFound();
+  }
   if (!data) notFound();
   const tenant = data as TenantRow;
   if (!tenant.slug || !tenantIsPubliclyActive(tenant)) notFound();
@@ -84,11 +99,11 @@ export async function getPublicChatTenant(slug: string): Promise<PublicChatTenan
     name: tenant.name,
     kete,
     keteName: keteDef.name,
-    logoUrl: tenant.logo_url,
+    logoUrl: optionalString(metadata.logo_url),
     brandColor: normaliseBrandColor(tenant.brand_color ?? metadata.brand_color),
     contactEmail:
       tenant.billing_email ??
       (typeof metadata.contact_email === 'string' ? metadata.contact_email : null),
-    creditNzd: Number(tenant.credit_nzd ?? 0),
+    creditNzd: optionalNumber(metadata.credit_nzd),
   };
 }
