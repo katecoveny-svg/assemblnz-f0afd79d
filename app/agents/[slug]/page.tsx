@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowRight, CheckCircle2, MessageCircle, ShieldCheck } from 'lucide-react';
+import { ArrowRight, CheckCircle2, MessageCircle, ShieldCheck, Workflow } from 'lucide-react';
 import { agentBySlug, AGENTS, CAPABILITY_LABELS, PHASE_LABELS } from '@/lib/agents';
 import { getKete } from '@/lib/kete';
+import { WORKFLOW_STARTERS, workflowById } from '@/lib/chat/workflows';
 
 export function generateStaticParams() {
   return AGENTS.map((agent) => ({ slug: agent.slug }));
@@ -21,13 +22,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function AgentDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function AgentDetailPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ workflow?: string }>;
+}) {
+  const [{ slug }, sp] = await Promise.all([params, searchParams]);
   const agent = agentBySlug(slug);
   if (!agent) notFound();
 
   const kete = getKete(agent.kete);
   const phase = agent.phase ? PHASE_LABELS[agent.phase] : 'Specialist';
+  const workflow = workflowById(agent.kete, sp.workflow);
+  const workflowOptions = WORKFLOW_STARTERS[agent.kete] ?? [];
+  const chatHref = `/app/chat?kete=${encodeURIComponent(kete.slug)}&agent=${encodeURIComponent(agent.slug)}${
+    workflow ? `&workflow=${encodeURIComponent(workflow.id)}` : ''
+  }`;
 
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
@@ -47,7 +59,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
               {agent.oneLiner}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={`/app/chat?agent=${agent.slug}`} className="cta-primary inline-flex h-12 items-center gap-2 px-6">
+              <Link href={chatHref} className="cta-primary inline-flex h-12 items-center gap-2 px-6">
                 Demo in chat <MessageCircle className="h-4 w-4" aria-hidden />
               </Link>
               <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center gap-2 px-6">
@@ -58,13 +70,35 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5 shadow-[0_18px_56px_rgba(35,33,31,0.08)]">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              Demo status
+              {workflow ? 'Shared workflow' : 'Demo status'}
             </p>
-            <div className="mt-5 grid gap-3">
-              <StatusRow title="Public page" body="Live. This route now resolves to a real agent page." />
-              <StatusRow title="Chat handoff" body="Available after sign-in through the assembl chat surface." />
-              <StatusRow title="Human review" body="All outputs are positioned as drafts for named reviewer sign-off." />
-            </div>
+            {workflow ? (
+              <div className="mt-5">
+                <div className="rounded-[8px] bg-[color:var(--assembl-paper)] p-4">
+                  <div className="flex items-center gap-2">
+                    <Workflow className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
+                    <h2 className="font-display text-2xl font-light">{workflow.title}</h2>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                    {workflow.outcome}
+                  </p>
+                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                    Evidence pack
+                  </p>
+                  <p className="mt-1 text-sm text-[color:var(--text-primary)]">{workflow.evidencePack}</p>
+                  <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                    Reviewer
+                  </p>
+                  <p className="mt-1 text-sm text-[color:var(--text-primary)]">{workflow.reviewerRole}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="mt-5 grid gap-3">
+                <StatusRow title="Public page" body="Live. This route now resolves to a real agent page." />
+                <StatusRow title="Chat handoff" body="Available after sign-in through the assembl chat surface." />
+                <StatusRow title="Human review" body="All outputs are positioned as drafts for named reviewer sign-off." />
+              </div>
+            )}
           </aside>
         </div>
       </section>
@@ -119,6 +153,46 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
             </div>
           </section>
         </div>
+
+        {workflowOptions.length > 0 ? (
+          <section className="mx-auto mt-8 max-w-7xl rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+                  Premade workflows
+                </p>
+                <h2 className="mt-2 font-display text-4xl font-light">Client-shareable starting points.</h2>
+              </div>
+              <Link href={chatHref} className="btn-ghost inline-flex h-11 items-center gap-2 px-5">
+                Open in chat <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+            <div className="mt-6 grid gap-3 md:grid-cols-2">
+              {workflowOptions.map((option) => (
+                <Link
+                  key={option.id}
+                  href={`/agents/${agent.slug}?workflow=${encodeURIComponent(option.id)}`}
+                  className={[
+                    'rounded-[8px] border p-4 transition-colors',
+                    workflow?.id === option.id
+                      ? 'border-[rgba(35,33,31,0.24)] bg-[rgba(43,107,87,0.08)]'
+                      : 'border-[rgba(35,33,31,0.10)] bg-white/60 hover:bg-[rgba(35,33,31,0.04)]',
+                  ].join(' ')}
+                >
+                  <p className="font-display text-2xl font-light text-[color:var(--text-primary)]">
+                    {option.title}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
+                    {option.clientUse}
+                  </p>
+                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                    {option.agentSequence.join(' → ')}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
       </section>
     </main>
   );

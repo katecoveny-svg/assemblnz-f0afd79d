@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 // Reads the Supabase session per-request — never prerender.
 export const dynamic = 'force-dynamic';
 
-type SearchParams = { kete?: string; agent?: string };
+type SearchParams = { kete?: string; agent?: string; workflow?: string };
 
 export default async function ChatPage({
   searchParams,
@@ -54,6 +54,7 @@ export default async function ChatPage({
         initialAgentId={initial.agent.agentId}
         userEmail={user.email ?? 'kaitiaki'}
         greeting={greeting}
+        initialWorkflowId={sp.workflow ?? null}
       />
     </main>
   );

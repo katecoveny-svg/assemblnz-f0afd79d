@@ -2,9 +2,23 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Send, Loader2, MessageCircle, Menu, X } from 'lucide-react';
+import {
+  ArrowRight,
+  CheckCircle2,
+  Copy,
+  Layers3,
+  Link as LinkIcon,
+  Loader2,
+  Mail,
+  Menu,
+  MessageCircle,
+  Send,
+  Workflow,
+  X,
+} from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { findAgent, type ChatKete } from '@/lib/chat/registry';
+import { ASSEMBL_LAYERS, WORKFLOW_STARTERS, workflowById, type WorkflowStarter } from '@/lib/chat/workflows';
 
 type ChatMessage = {
   role: 'user' | 'agent' | 'system';
@@ -15,6 +29,7 @@ type ChatMessage = {
     modelUsed?: string;
     pack?: string;
     code?: string;
+    workflow?: string;
   };
 };
 
@@ -24,6 +39,7 @@ type Props = {
   initialAgentId: string;
   userEmail: string;
   greeting: string;
+  initialWorkflowId?: string | null;
 };
 
 /**
@@ -53,6 +69,7 @@ export function ChatClient({
   initialAgentId,
   userEmail,
   greeting,
+  initialWorkflowId,
 }: Props) {
   const supabase = useMemo(() => createClient(), []);
 
@@ -64,6 +81,8 @@ export function ChatClient({
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [railOpen, setRailOpen] = useState(false); // mobile drawer
+  const [activeWorkflowId, setActiveWorkflowId] = useState<string | null>(initialWorkflowId ?? null);
+  const [shareStatus, setShareStatus] = useState<string | null>(null);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -77,15 +96,29 @@ export function ChatClient({
   const agentMemoryScope = selection?.agent.memoryScope;
   const agentAmbientBrief = selection?.agent.ambientBrief;
   const collaborators = selection?.agent.collaboratesWith ?? [];
+  const workflowStarters = (WORKFLOW_STARTERS[activeKete as keyof typeof WORKFLOW_STARTERS] ?? []) as WorkflowStarter[];
+  const activeWorkflow = workflowById(activeKete as keyof typeof WORKFLOW_STARTERS, activeWorkflowId);
+  const clientIntroLink =
+    selection && typeof window !== 'undefined'
+      ? `${window.location.origin}/agents/${selection.agent.slug}${activeWorkflow ? `?workflow=${activeWorkflow.id}` : ''}`
+      : '';
 
   // Switching agent: fresh conversation, fresh transcript.
   const onChooseAgent = useCallback((keteSlug: string, agentId: string) => {
     setActiveKete(keteSlug);
     setActiveAgent(agentId);
+    setActiveWorkflowId(null);
     setMessages([]);
     setConversationId(null);
     setError(null);
     setRailOpen(false);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('kete', keteSlug);
+      url.searchParams.set('agent', agentId);
+      url.searchParams.delete('workflow');
+      window.history.replaceState(null, '', url.toString());
+    }
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
 
@@ -105,6 +138,74 @@ export function ChatClient({
       if (prompt) setDraft(prompt);
     }
   }, []);
+
+  const chooseWorkflow = useCallback((workflow: WorkflowStarter) => {
+    setActiveWorkflowId(workflow.id);
+    setDraft(workflow.starterPrompt);
+    setError(null);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('kete', activeKete);
+      url.searchParams.set('agent', activeAgent);
+      url.searchParams.set('workflow', workflow.id);
+      window.history.replaceState(null, '', url.toString());
+    }
+    requestAnimationFrame(() => inputRef.current?.focus());
+  }, [activeAgent, activeKete]);
+
+  const buildShareText = useCallback(() => {
+    const transcript = messages
+      .slice(-8)
+      .map((message) => {
+        const speaker =
+          message.role === 'user'
+            ? userEmail
+            : message.agentName ?? selection?.agent.name ?? 'assembl agent';
+        return `${speaker}:\n${message.body}`;
+      })
+      .join('\n\n');
+
+    return [
+      `assembl client brief`,
+      ``,
+      `Kete: ${selection?.kete.name ?? activeKete}`,
+      `Agent: ${selection?.agent.name ?? activeAgent}`,
+      activeWorkflow ? `Workflow: ${activeWorkflow.title}` : null,
+      activeWorkflow ? `Evidence pack: ${activeWorkflow.evidencePack}` : null,
+      activeWorkflow ? `Reviewer: ${activeWorkflow.reviewerRole}` : null,
+      clientIntroLink ? `Client link: ${clientIntroLink}` : null,
+      ``,
+      activeWorkflow ? `Outcome:\n${activeWorkflow.outcome}\n` : null,
+      transcript ? `Recent draft:\n${transcript}` : 'No transcript yet. Start the workflow, then share the draft from here.',
+      ``,
+      `Draft only. A named human reviewer approves before anything is sent or filed.`,
+    ]
+      .filter((line) => line !== null)
+      .join('\n');
+  }, [activeAgent, activeKete, activeWorkflow, clientIntroLink, messages, selection, userEmail]);
+
+  const copyClientLink = useCallback(async () => {
+    if (!clientIntroLink) return;
+    await navigator.clipboard.writeText(clientIntroLink);
+    setShareStatus('Client link copied');
+    window.setTimeout(() => setShareStatus(null), 1800);
+  }, [clientIntroLink]);
+
+  const copyClientBrief = useCallback(async () => {
+    await navigator.clipboard.writeText(buildShareText());
+    setShareStatus('Client brief copied');
+    window.setTimeout(() => setShareStatus(null), 1800);
+  }, [buildShareText]);
+
+  const emailClientBrief = useCallback(() => {
+    const subject = encodeURIComponent(
+      activeWorkflow
+        ? `assembl draft: ${activeWorkflow.title}`
+        : `assembl draft: ${selection?.agent.name ?? 'agent'} brief`,
+    );
+    const body = encodeURIComponent(buildShareText());
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  }, [activeWorkflow, buildShareText, selection]);
 
   // Submit handler — sends to iho-router + persists to public.conversations.
   const send = useCallback(async () => {
@@ -130,6 +231,31 @@ export function ChatClient({
           content: m.body,
         }));
 
+      const modelMessage = activeWorkflow
+        ? [
+            'ASSEMBL WORKFLOW STARTER',
+            `Kete: ${selection.kete.name} (${selection.kete.slug})`,
+            `Agent: ${selection.agent.name} (${selection.agent.agentId})`,
+            `Workflow: ${activeWorkflow.title}`,
+            `Outcome: ${activeWorkflow.outcome}`,
+            `Client use: ${activeWorkflow.clientUse}`,
+            `Agent sequence: ${activeWorkflow.agentSequence.join(' → ')}`,
+            `Named reviewer role: ${activeWorkflow.reviewerRole}`,
+            `Evidence pack: ${activeWorkflow.evidencePack}`,
+            `Citations to consider: ${activeWorkflow.citations.join('; ')}`,
+            '',
+            'Run the request through assembl layers:',
+            '1. Kahu: clarify intent, risk, data sensitivity, and missing inputs.',
+            '2. Iho: name the right specialists and handoffs.',
+            '3. Tā: draft the concrete artefact/checklist/client note.',
+            '4. Mahara: identify what should be remembered or monitored.',
+            '5. Mana: state the named human review gate before sending or filing.',
+            '',
+            'Operator message:',
+            trimmed,
+          ].join('\n')
+        : trimmed;
+
       // The Iho edge function. Lives at supabase/functions/iho-router/.
       // Falls back to keyword classification if agentId can't be resolved.
       const { data, error: invokeError } = await supabase.functions.invoke<{
@@ -139,11 +265,21 @@ export function ChatClient({
         modelUsed?: string;
       }>('iho-router', {
         body: {
-          message: trimmed,
+          message: modelMessage,
           agentId: selection.agent.agentId,
           packId: selection.kete.slug,
           mode: 'respond',
-          context: { previousMessages },
+          context: {
+            previousMessages,
+            workflow: activeWorkflow
+              ? {
+                  id: activeWorkflow.id,
+                  title: activeWorkflow.title,
+                  evidencePack: activeWorkflow.evidencePack,
+                  reviewerRole: activeWorkflow.reviewerRole,
+                }
+              : null,
+          },
         },
       });
 
@@ -160,6 +296,7 @@ export function ChatClient({
           modelUsed: data.modelUsed ?? data.agentUsed?.model,
           pack: data.agentUsed?.pack,
           code: data.agentUsed?.code,
+          workflow: activeWorkflow?.title,
         },
       };
       const finalMessages = [...nextMessages, agentMessage];
@@ -205,7 +342,7 @@ export function ChatClient({
       setSending(false);
       requestAnimationFrame(() => inputRef.current?.focus());
     }
-  }, [draft, sending, selection, messages, conversationId, supabase]);
+  }, [activeWorkflow, draft, sending, selection, messages, conversationId, supabase]);
 
   const onKey = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -343,7 +480,9 @@ export function ChatClient({
       <section className="flex min-h-screen flex-col">
         {/* Header */}
         <header className="border-b border-[rgba(35,33,31,0.10)] bg-white/40 px-6 py-5 md:px-10 md:py-7">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+              <div className="flex flex-col gap-1">
             <p
               className="font-mono text-[10px] uppercase tracking-[0.32em]"
               style={{ color: accent }}
@@ -375,6 +514,41 @@ export function ChatClient({
                 {agentBlurb}
               </p>
             )}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={copyClientLink}
+                  className="inline-flex h-9 items-center gap-2 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/65 px-3 text-xs text-[color:var(--text-primary)]"
+                >
+                  <LinkIcon size={14} aria-hidden />
+                  Client link
+                </button>
+                <button
+                  type="button"
+                  onClick={copyClientBrief}
+                  className="inline-flex h-9 items-center gap-2 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/65 px-3 text-xs text-[color:var(--text-primary)]"
+                >
+                  <Copy size={14} aria-hidden />
+                  Copy brief
+                </button>
+                <button
+                  type="button"
+                  onClick={emailClientBrief}
+                  className="inline-flex h-9 items-center gap-2 rounded-[8px] px-3 text-xs text-white"
+                  style={{ backgroundColor: accent }}
+                >
+                  <Mail size={14} aria-hidden />
+                  Email
+                </button>
+              </div>
+            </div>
+            {shareStatus ? (
+              <div className="inline-flex w-fit items-center gap-2 rounded-[8px] bg-[rgba(43,107,87,0.10)] px-3 py-2 text-xs text-[color:var(--text-primary)]">
+                <CheckCircle2 size={14} aria-hidden />
+                {shareStatus}
+              </div>
+            ) : null}
             <div className="mt-4 grid gap-2 text-xs text-[color:var(--text-secondary)] md:grid-cols-3">
               {agentExpertise ? (
                 <AgentTrait label="Expertise" value={agentExpertise} accent={accent} />
@@ -394,6 +568,72 @@ export function ChatClient({
             <p className="mt-3 max-w-2xl text-[12px] italic text-[color:var(--text-secondary)]">
               All replies are draft. You approve before anything happens elsewhere.
             </p>
+            <div className="grid gap-3 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
+              <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[rgba(250,247,242,0.62)] p-4">
+                <div className="flex items-center gap-2">
+                  <Layers3 size={16} style={{ color: accent }} aria-hidden />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+                    assembl layers
+                  </p>
+                </div>
+                <div className="mt-3 grid gap-2 md:grid-cols-5">
+                  {ASSEMBL_LAYERS.map((layer) => (
+                    <div key={layer.key} className="rounded-[8px] bg-white/55 p-3">
+                      <p className="font-display text-base text-[color:var(--text-primary)]">
+                        {layer.label}
+                      </p>
+                      <p className="mt-1 text-[11px] leading-relaxed text-[color:var(--text-body)]">
+                        {layer.role}
+                      </p>
+                      <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                        {layer.evidence}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-4">
+                <div className="flex items-center gap-2">
+                  <Workflow size={16} style={{ color: accent }} aria-hidden />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
+                    Premade workflows
+                  </p>
+                </div>
+                <div className="mt-3 space-y-2">
+                  {workflowStarters.map((workflow) => {
+                    const selected = activeWorkflow?.id === workflow.id;
+                    return (
+                      <button
+                        key={workflow.id}
+                        type="button"
+                        onClick={() => chooseWorkflow(workflow)}
+                        className={[
+                          'block w-full rounded-[8px] border px-3 py-2 text-left transition-colors',
+                          selected
+                            ? 'border-[rgba(35,33,31,0.22)] bg-[rgba(35,33,31,0.06)]'
+                            : 'border-[rgba(35,33,31,0.10)] bg-white/60 hover:bg-[rgba(35,33,31,0.04)]',
+                        ].join(' ')}
+                      >
+                        <span className="block text-sm font-medium text-[color:var(--text-primary)]">
+                          {workflow.title}
+                        </span>
+                        <span className="mt-0.5 block text-[11px] leading-relaxed text-[color:var(--text-secondary)]">
+                          {workflow.outcome}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+                {activeWorkflow ? (
+                  <div className="mt-3 rounded-[8px] bg-[rgba(43,107,87,0.08)] p-3 text-[11px] leading-relaxed text-[color:var(--text-body)]">
+                    <strong className="font-medium text-[color:var(--text-primary)]">
+                      {activeWorkflow.evidencePack}
+                    </strong>{' '}
+                    · {activeWorkflow.agentSequence.join(' → ')} · reviewer: {activeWorkflow.reviewerRole}
+                  </div>
+                ) : null}
+              </div>
+            </div>
           </div>
         </header>
 
@@ -411,7 +651,7 @@ export function ChatClient({
                   Ask {agentLabel} a question.
                 </p>
                 <p className="mt-2 text-sm text-[color:var(--text-body)]">
-                  Type below. Press Enter to send, Shift+Enter for a new line.
+                  Pick a premade workflow above, or type below. Press Enter to send, Shift+Enter for a new line.
                 </p>
               </div>
             )}

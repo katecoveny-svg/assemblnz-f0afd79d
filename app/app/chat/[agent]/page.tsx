@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { findAgentBySlug } from '@/lib/chat/registry';
 
 type Params = { agent: string };
-type SearchParams = { kete?: string };
+type SearchParams = { kete?: string; workflow?: string };
 
 export const dynamic = 'force-dynamic';
 
@@ -20,9 +20,11 @@ export default async function AgentChatRedirectPage({
     redirect('/app/chat');
   }
 
+  const workflowParam = sp.workflow ? `&workflow=${encodeURIComponent(sp.workflow)}` : '';
+
   redirect(
     `/app/chat?kete=${encodeURIComponent(found.kete.slug)}&agent=${encodeURIComponent(
       found.agent.agentId,
-    )}`,
+    )}${workflowParam}`,
   );
 }
