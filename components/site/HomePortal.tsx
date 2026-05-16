@@ -172,7 +172,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
             playsInline
             preload="auto"
           >
-            <source src="/videos/vessel-rotate-720p.mp4" type="video/mp4" />
+            <source src="/videos/vessel-canon-landscape-720p.mp4" type="video/mp4" />
           </video>
         )}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_42%,rgba(250,247,242,0.18)_0%,rgba(250,247,242,0.42)_30%,rgba(250,247,242,0.92)_68%)]" aria-hidden />

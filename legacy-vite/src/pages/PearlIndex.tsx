@@ -28,7 +28,7 @@ const PEARL = {
 };
 
 const HERO_IMAGE = "/img/evidence/home-vessel.jpg";
-const HERO_VIDEO = "/videos/vessel-rotate-720p.mp4";
+const HERO_VIDEO = "/videos/vessel-canon-landscape-720p.mp4";
 const GOLD_THREAD = "#D4A853";
 
 /* ─── Motion presets ─── */

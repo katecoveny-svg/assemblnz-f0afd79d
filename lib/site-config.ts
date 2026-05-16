@@ -22,10 +22,10 @@ export const heroVessel = {
   // Brand mark — favicon, footer
   mark:    '/img/kete/waihanga-vessel-square.jpg',
   // Cinematic vessel video — homepage signature scrub-bound video.
-  // Compressed locally to /videos/vessel-rotate-720p.mp4 (525 KB, 8s, 720p, no audio).
-  // Original 5.6 MB MP4 retained as remote fallback only.
-  videoLocal: '/videos/vessel-rotate-720p.mp4',
-  videoRemote: '/videos/vessel-rotate-720p.mp4',
+  // Compressed locally from Kate's 2026-05-16 vessel clips.
+  videoLocal: '/videos/vessel-canon-landscape-720p.mp4',
+  videoRemote: '/videos/vessel-canon-landscape-720p.mp4',
+  videoPortrait: '/videos/vessel-canon-portrait-720p.mp4',
 };
 
 // Painterly anchor — /about hero only.
@@ -38,19 +38,19 @@ export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
     wide:   '/img/kete/waihanga-vessel.jpg',
   },
   manaaki: {
-    square: '/img/kete/manaaki-vessel-warm.jpg',
+    square: '/img/kete/manaaki-vessel-warm-square.jpg',
     wide:   '/img/kete/manaaki-vessel-warm.jpg',
   },
   pikau: {
-    square: '/img/kete/pikau-vessel-blue.jpg',
+    square: '/img/kete/pikau-vessel-blue-square.jpg',
     wide:   '/img/kete/pikau-vessel-blue.jpg',
   },
   arataki: {
-    square: '/img/kete/arataki-vessel-amber.jpg',
+    square: '/img/kete/arataki-vessel-amber-square.jpg',
     wide:   '/img/kete/arataki-vessel-amber.jpg',
   },
   auaha: {
-    square: '/img/kete/auaha-vessel-purple.jpg',
+    square: '/img/kete/auaha-vessel-purple-square.jpg',
     wide:   '/img/kete/auaha-vessel-purple.jpg',
   },
   ako: {
@@ -96,20 +96,18 @@ export type HeroVideoKey =
   | 'about'
   | `kete:${KeteSlug}`;
 
-// Placeholder Waihanga video — used wherever a kete-specific MP4 has not
-// yet been commissioned. ~5.6 MB; the HeroVideo component gates it to
-// (min-width: 768px) so it does not load on mobile.
-const PLACEHOLDER_VIDEO = '/videos/vessel-rotate-720p.mp4';
+const CANON_LANDSCAPE_VIDEO = '/videos/vessel-canon-landscape-720p.mp4';
+const CANON_LANDSCAPE_POSTER = '/videos/vessel-canon-landscape-poster.jpg';
 
 export const heroVideos: Record<HeroVideoKey, HeroVideoEntry> = {
-  home:           { src: PLACEHOLDER_VIDEO, poster: heroVessel.wide },
+  home:           { src: CANON_LANDSCAPE_VIDEO, poster: CANON_LANDSCAPE_POSTER },
   'pilot-sprint': { src: '/videos/pilot-sprint-hero.mp4', poster: '/videos/pilot-sprint-hero-poster.jpg' },
   'how-it-works': { src: null,              poster: heroVessel.wide },
   'evidence-pack':{ src: null,              poster: heroVessel.wide },
   pricing:        { src: null,              poster: heroVessel.wide },
   agents:         { src: null,              poster: heroVessel.wide },
   about:          { src: null,              poster: painterlyAnchor },
-  'kete:waihanga':{ src: PLACEHOLDER_VIDEO, poster: ketes.waihanga.wide },
+  'kete:waihanga':{ src: CANON_LANDSCAPE_VIDEO, poster: ketes.waihanga.wide },
   'kete:manaaki': { src: null,              poster: ketes.manaaki.wide },
   'kete:pikau':   { src: null,              poster: ketes.pikau.wide },
   'kete:arataki': { src: null,              poster: ketes.arataki.wide },
@@ -157,6 +155,8 @@ export const reo = {
 
   // Brand-film section — homepage. Variant A locked.
   brandFilm: {
+    src: '/videos/assembl-brand-vessel-film-720p.mp4',
+    poster: '/videos/assembl-brand-vessel-film-poster.jpg',
     eyebrow: 'assembl evidence vessel',
     body:
       'A short film about how assembl works. Cream paper. The vessel breathes. Kate explains it in 90 seconds.',

@@ -865,7 +865,7 @@ const Index = () => {
             playsInline
             preload="metadata"
           >
-            <source src="/videos/vessel-rotate-720p.mp4" type="video/mp4" />
+            <source src="/videos/vessel-canon-landscape-720p.mp4" type="video/mp4" />
           </video>
           <div className="max-w-xl mx-auto relative z-10">
             <motion.div {...fade}>
