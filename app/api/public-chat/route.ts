@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { getServiceClient } from '@/lib/supabase/service';
 import { isKeteSlug } from '@/lib/public-chat/tenant';
+import { uuidOrNew } from '@/lib/public-chat/ids';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -220,8 +221,12 @@ export async function POST(req: NextRequest) {
   const body = (await req.json().catch(() => ({}))) as ChatRequest;
   const slug = body.slug?.trim();
   const message = body.message?.trim();
-  const sessionId = body.sessionId?.trim() || crypto.randomUUID();
-  const chatId = body.chatId?.trim() || crypto.randomUUID();
+  // Two downstream sinks (assembl_agent_analytics.session_id and
+  // agent_cost_log.request_id) are typed `uuid`, and their inserts swallow
+  // errors. A non-UUID id from a widget caller drops two of three analytics
+  // rows silently. Coerce to a fresh UUID when the caller's value isn't one.
+  const sessionId = uuidOrNew(body.sessionId);
+  const chatId = uuidOrNew(body.chatId);
 
   if (!slug || !message) return json({ error: 'Missing tenant slug or message' }, 400);
 
