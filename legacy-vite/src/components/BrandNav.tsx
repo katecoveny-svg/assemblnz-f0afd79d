@@ -186,8 +186,9 @@ const BrandNav = () => {
               fontStyle: "italic",
               fontWeight: 300,
               letterSpacing: "-0.01em",
+              lineHeight: 1,
               textTransform: "lowercase",
-              fontSize: "24px",
+              fontSize: "30px",
               color: PEARL.ink,
             }}
           >
