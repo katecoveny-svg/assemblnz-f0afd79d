@@ -122,7 +122,7 @@ export default function IndustryPackPage() {
             <h1 className="mt-7 max-w-[10ch] font-display text-display-xl font-light text-[color:var(--text-primary)]">
               <TeReo title="work">Mahi</TeReo> that earns its proof.
             </h1>
-            <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)] md:text-xl">
+            <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               NZ$5,000 a month. Six to eight specialist agents, sequenced into one operating loop
               — find work, quote it, run it, close the books. No usage limits. No setup fee. Cancel
               any time.
@@ -178,12 +178,12 @@ export default function IndustryPackPage() {
             {ADD_ONS.map((addon) => (
               <article key={addon.title} className="bg-[color:var(--assembl-paper)] p-7">
                 <div className="flex items-start justify-between gap-4">
-                  <h3 className="font-display text-3xl font-light leading-none">{addon.title}</h3>
+                  <h3 className="font-display text-display-md font-light leading-none">{addon.title}</h3>
                   <span className="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
                     {addon.price}
                   </span>
                 </div>
-                <p className="mt-5 text-sm leading-relaxed text-[color:var(--text-body)]">{addon.body}</p>
+                <p className="mt-5 text-body-md leading-relaxed text-[color:var(--text-body)]">{addon.body}</p>
               </article>
             ))}
           </div>
@@ -216,7 +216,7 @@ export default function IndustryPackPage() {
               One person can run a business with the right agents.
             </h2>
           </div>
-          <p className="text-lg leading-[1.8] text-[color:var(--text-body)]">
+          <p className="text-body-lg leading-[1.8] text-[color:var(--text-body)]">
             A solo lawn-care operator in rural New Hampshire runs 9 agents to manage his whole
             business — finding leads, satellite-rating property complexity, drafting outreach in his
             voice, clustering jobs into routes, watching insurance compliance, monitoring margins.

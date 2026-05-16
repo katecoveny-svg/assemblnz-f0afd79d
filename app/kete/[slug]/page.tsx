@@ -183,7 +183,7 @@ function IndustryKetePage({
                   Scope, citations, and the workflows that come with it.
                 </h2>
               </SectionReveal>
-              <div className="mt-8 space-y-5 text-body-md text-[color:var(--text-body)] md:text-lg">
+              <div className="mt-8 space-y-5 text-body-md text-[color:var(--text-body)] md:text-body-lg">
                 {detail.description.map((paragraph, i) => (
                   <SectionReveal key={i} delay={i * 0.06}>
                     <p>{paragraph}</p>
@@ -421,7 +421,7 @@ function IndustryKetePage({
                     <h2 className="mt-4 font-display text-display-md text-[color:var(--text-primary)]">
                       Vessel Studio
                     </h2>
-                    <p className="mt-5 max-w-2xl text-body-md text-[color:var(--text-body)] md:text-lg">
+                    <p className="mt-5 max-w-2xl text-body-md text-[color:var(--text-body)] md:text-body-lg">
                       Generate evidence-vessel imagery for any kete, any workflow, any campaign. Bring your own fal.ai key. Cormorant typography, pounamu palette, locked brand direction.
                     </p>
                   </div>
@@ -568,7 +568,7 @@ function IndustryKetePage({
                   </p>
                 </div>
                 <div className="flex-1">
-                  <p className="text-body-md text-[color:var(--text-body)] md:text-lg">
+                  <p className="text-body-md text-[color:var(--text-body)] md:text-body-lg">
                     {detail.pilotSprintPitch}
                   </p>
                   <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row">
@@ -744,7 +744,7 @@ function ToroPage({
                   How <TeReo>Tōro</TeReo> lives in your <TeReo title="family">whānau</TeReo>.
                 </h2>
               </SectionReveal>
-              <div className="mt-8 space-y-5 text-body-md text-[color:var(--text-body)] md:text-lg">
+              <div className="mt-8 space-y-5 text-body-md text-[color:var(--text-body)] md:text-body-lg">
                 {detail.description.map((paragraph, i) => (
                   <SectionReveal key={i} delay={i * 0.06}>
                     <p>{paragraph}</p>
