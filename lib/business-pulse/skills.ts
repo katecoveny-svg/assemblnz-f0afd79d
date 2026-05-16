@@ -77,21 +77,47 @@ export async function xeroCashPosition(input: BusinessPulseInputs): Promise<Busi
 
   let stripeNetLast7Days = 0;
   const notes: string[] = [];
-  try {
-    if (process.env.STRIPE_SECRET_KEY) {
-      const { getStripe } = await import('@/lib/stripe/client');
-      const stripe = getStripe();
-      const since = Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000);
-      const charges = await stripe.charges.list({ created: { gte: since }, limit: 100 });
-      stripeNetLast7Days = charges.data.reduce((sum, charge) => {
-        const refunded = charge.amount_refunded ?? 0;
-        return sum + (charge.amount - refunded) / 100;
-      }, 0);
-    } else {
-      notes.push('Stripe key not present in this environment; settlement summary deferred.');
+  // Only call Stripe when THIS tenant has a connected Stripe integration.
+  // Without that gate, a global STRIPE_SECRET_KEY would let every tenant's
+  // brief include charges from a Stripe account they don't own — inflating
+  // fourteenDayForecast and flipping belowThreshold incorrectly.
+  // Even with the gate, true per-tenant scoping requires Stripe Connect
+  // (account ids per tenant) or per-tenant API keys; the integration-row
+  // gate is the floor while that wiring is in flight.
+  const stripeIntegration = input.integrations.find(
+    (row) =>
+      row.provider_code === 'stripe' &&
+      ['active', 'connected'].includes(String(row.status ?? '').toLowerCase()),
+  );
+  if (stripeIntegration) {
+    try {
+      if (process.env.STRIPE_SECRET_KEY) {
+        const stripeAccountId =
+          typeof stripeIntegration.metadata?.stripe_account_id === 'string'
+            ? stripeIntegration.metadata.stripe_account_id
+            : undefined;
+        const { getStripe } = await import('@/lib/stripe/client');
+        const stripe = getStripe();
+        const since = Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000);
+        const charges = await stripe.charges.list(
+          { created: { gte: since }, limit: 100 },
+          stripeAccountId ? { stripeAccount: stripeAccountId } : undefined,
+        );
+        stripeNetLast7Days = charges.data.reduce((sum, charge) => {
+          const refunded = charge.amount_refunded ?? 0;
+          return sum + (charge.amount - refunded) / 100;
+        }, 0);
+        if (!stripeAccountId) {
+          notes.push(
+            'Stripe charges read from the global account — wire per-tenant stripe_account_id metadata for correct multi-tenant scoping.',
+          );
+        }
+      } else {
+        notes.push('Stripe integration row present but STRIPE_SECRET_KEY is not set; settlement summary deferred.');
+      }
+    } catch (error) {
+      notes.push(`Stripe summary unavailable: ${error instanceof Error ? error.message : 'unknown error'}`);
     }
-  } catch (error) {
-    notes.push(`Stripe summary unavailable: ${error instanceof Error ? error.message : 'unknown error'}`);
   }
 
   const fourteenDayForecast =
