@@ -1,6 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { logAgentInteraction, detectWorkflowType, modelTierFromName } from "./analytics.ts";
+import { buildPikauRuntimeContext } from "../_shared/kete/pikau/runtime-context.ts";
 
 // ═══════════════════════════════════════════════════════════════
 // IHO ROUTER — The Central Brain of assembl
@@ -778,6 +779,33 @@ Deno.serve(async (req: Request) => {
       systemPrompt = domainPrompt
         ? `${HARD_RULES}\n\n${domainPrompt}${businessContext}`
         : buildSystemPrompt(intent.agent, businessContext);
+    }
+
+    // ── PĪKAU runtime context injection ────────────────────────────
+    // For freight/customs requests, pre-flight the user's message against
+    // the curated NZ Working Tariff dataset (HS code lookup) and the Pīkau
+    // pgvector knowledge base (match_kb_knowledge RPC, Gemini 768-dim
+    // embeddings). Both blocks are appended after the system prompt so
+    // the model treats them as authoritative for HS codes, duty rates,
+    // FTA preferences, and statutory citations.
+    let pikauRuntime: { block: string; tariffHits: number; ragHits: number } = {
+      block: "",
+      tariffHits: 0,
+      ragHits: 0,
+    };
+    if (intent.agent.pack === "pikau") {
+      try {
+        pikauRuntime = await buildPikauRuntimeContext({
+          sb,
+          message: safeMessage,
+          geminiKey: Deno.env.get("GEMINI_API_KEY") ?? null,
+        });
+        if (pikauRuntime.block) {
+          systemPrompt = `${systemPrompt}\n\n${pikauRuntime.block}`;
+        }
+      } catch (err) {
+        console.error("[iho-router] pikau runtime context failed", (err as Error).message);
+      }
     }
 
     if (mode === "plan") {

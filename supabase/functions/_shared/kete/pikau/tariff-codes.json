@@ -1,0 +1,749 @@
+{
+  "_meta": {
+    "source": "NZ Working Tariff Document (HS 2022 nomenclature)",
+    "authority": "New Zealand Customs Service",
+    "version": "2026.05 demo extract",
+    "scope": "Curated ~80 commonly-imported consumer-goods HS lines for Pikau demo. Not the full schedule. Always confirm against the live NZ Working Tariff for any operational classification.",
+    "fields": {
+      "hs_code": "HS 10-digit NZ tariff line (8-digit headings shown where 10-digit is not yet differentiated for the demo).",
+      "description": "Plain-English summary of the tariff line.",
+      "duty_general": "General rate, NZD or % ad valorem.",
+      "duty_preferences": "Selected FTA preference rates. Where the line is 'Free' under general rate, all FTAs follow.",
+      "biosecurity_flag": "MPI Import Health Standard considerations.",
+      "keywords": "Lower-case substrings used for pre-flight matching against user messages.",
+      "notes": "Operational notes for the broker."
+    },
+    "fta_notes": "Preferential rates require a valid Certificate of Origin or self-declaration plus compliance with each FTA's Rules of Origin (RCEP / CPTPP / NZ-China / NZ-UK / PACER Plus). Cumulation rules vary."
+  },
+  "entries": [
+    {
+      "hs_code": "0901.21.00",
+      "description": "Coffee, roasted, not decaffeinated",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI IHS for processed plant products — phytosanitary certificate generally not required for fully roasted coffee but check importer registration.",
+      "keywords": ["coffee", "roasted coffee", "coffee beans"],
+      "notes": "GST 15% applies on VFD + freight + duty."
+    },
+    {
+      "hs_code": "0902.30.00",
+      "description": "Black tea (fermented), in immediate packings of ≤ 3 kg",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI IHS for plant products — declarations required if loose-leaf with stems.",
+      "keywords": ["tea", "black tea", "loose leaf tea"],
+      "notes": "Confirm wrapper material under GIR 5(b) for retail packaging classification."
+    },
+    {
+      "hs_code": "1806.32.00",
+      "description": "Chocolate, in blocks/slabs/bars, not filled, ≤ 2 kg",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": "MPI: dairy-containing products may need additional clearance from approved manufacturing facility.",
+      "keywords": ["chocolate", "chocolate bar", "cocoa product"],
+      "notes": "Distinguish from filled chocolate (1806.31.00) — filled = higher duty band typically."
+    },
+    {
+      "hs_code": "1905.31.00",
+      "description": "Sweet biscuits",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": "MPI IHS for baked goods — ingredient declaration required (egg, dairy).",
+      "keywords": ["biscuit", "cookie", "sweet biscuit"],
+      "notes": "Check claim register if marketed as 'low sugar' (FSANZ Code requirements)."
+    },
+    {
+      "hs_code": "2009.79.00",
+      "description": "Apple juice, not concentrated",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI: pasteurisation evidence required.",
+      "keywords": ["apple juice", "fruit juice"],
+      "notes": "Brix value drives sub-heading; declare on commercial invoice."
+    },
+    {
+      "hs_code": "2204.21.13",
+      "description": "Wine of fresh grapes, in containers ≤ 2L, not sparkling, 14% vol. or less",
+      "duty_general": "Free + excise-equivalent duty",
+      "duty_preferences": { "all": "Free customs duty; excise-equivalent applies regardless" },
+      "biosecurity_flag": "MPI: must be from an approved exporter for some origins.",
+      "keywords": ["wine", "red wine", "white wine"],
+      "notes": "Excise-equivalent duty applies. GST 15% on VFD + freight + duty + excise."
+    },
+    {
+      "hs_code": "2203.00.21",
+      "description": "Beer made from malt, in containers ≤ 2L",
+      "duty_general": "Free + excise-equivalent duty",
+      "duty_preferences": { "all": "Free customs duty; excise-equivalent applies regardless" },
+      "biosecurity_flag": null,
+      "keywords": ["beer", "lager", "ale"],
+      "notes": "Excise rate depends on alcoholic strength. Confirm ABV on label."
+    },
+    {
+      "hs_code": "3304.99.00",
+      "description": "Beauty/make-up/skin-care preparations (incl. moisturisers, foundations, lipsticks)",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["cosmetic", "makeup", "make-up", "skincare", "moisturiser", "lipstick", "foundation"],
+      "notes": "EPA notification may apply if product contains substances scheduled under HSNO."
+    },
+    {
+      "hs_code": "3305.10.00",
+      "description": "Shampoos",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["shampoo", "hair wash"],
+      "notes": "Conditioners classified separately under 3305.90."
+    },
+    {
+      "hs_code": "3303.00.00",
+      "description": "Perfumes and toilet waters",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["perfume", "fragrance", "cologne", "eau de toilette"],
+      "notes": "Alcohol content >24% may attract excise — flag for review."
+    },
+    {
+      "hs_code": "3401.11.00",
+      "description": "Soap and organic surface-active products, for toilet use, in bars",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["soap", "bar soap"],
+      "notes": "Liquid soap in 3401.20.00."
+    },
+    {
+      "hs_code": "3923.21.00",
+      "description": "Sacks and bags of polymers of ethylene (plastic carry bags)",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["plastic bag", "carrier bag", "poly bag"],
+      "notes": "Single-use plastic bag ban (Plastic Shopping Bag Regs 2018) — confirm end-use is not banned."
+    },
+    {
+      "hs_code": "3924.10.00",
+      "description": "Tableware and kitchenware of plastics",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["plastic tableware", "plastic kitchenware", "plastic plate", "plastic bowl"],
+      "notes": "Food-contact compliance: FSANZ Standard 1.4.3."
+    },
+    {
+      "hs_code": "4202.21.00",
+      "description": "Handbags, with outer surface of leather or composition leather",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": "MPI: leather goods require declaration; suede/untanned leather may need treatment cert.",
+      "keywords": ["handbag", "leather bag", "purse", "leather handbag"],
+      "notes": "Rules of Origin under CPTPP often require chapter-change for leather inputs."
+    },
+    {
+      "hs_code": "4202.22.00",
+      "description": "Handbags, outer surface of plastic sheeting or textile materials",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["handbag plastic", "fabric handbag", "tote bag"],
+      "notes": "Distinguish from 4202.21 by predominant outer-surface material (GIR 3(b))."
+    },
+    {
+      "hs_code": "4202.12.00",
+      "description": "Trunks, suitcases, vanity cases, briefcases with outer surface of plastics or textile",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["suitcase", "luggage", "briefcase", "travel bag"],
+      "notes": "Hard-shell vs soft-shell — both fall under 4202.12 if outer surface is plastic/textile."
+    },
+    {
+      "hs_code": "4202.32.00",
+      "description": "Articles normally carried in pocket/handbag, outer surface plastic/textile (wallets, card holders)",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["wallet", "card holder", "purse small"],
+      "notes": "Leather-outer equivalents in 4202.31."
+    },
+    {
+      "hs_code": "4818.10.00",
+      "description": "Toilet paper",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["toilet paper", "bathroom tissue", "loo paper"],
+      "notes": ""
+    },
+    {
+      "hs_code": "4901.99.00",
+      "description": "Printed books, brochures, leaflets",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["book", "printed book", "novel", "brochure"],
+      "notes": "GST 15% still applies on imports unless de minimis."
+    },
+    {
+      "hs_code": "4902.90.00",
+      "description": "Newspapers, journals and periodicals, not appearing at least four times a week",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["magazine", "journal", "periodical", "newspaper"],
+      "notes": ""
+    },
+    {
+      "hs_code": "4911.10.00",
+      "description": "Trade advertising material, commercial catalogues",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["catalogue", "advertising material", "leaflet"],
+      "notes": ""
+    },
+    {
+      "hs_code": "6109.10.00",
+      "description": "T-shirts, singlets, other vests, knitted or crocheted, of cotton",
+      "duty_general": "10%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["t-shirt", "tshirt", "tee shirt", "singlet", "cotton t-shirt"],
+      "notes": "Apparel duty bands are higher than most consumer goods — preference status matters a lot."
+    },
+    {
+      "hs_code": "6204.62.00",
+      "description": "Women's or girls' trousers, breeches, shorts of cotton, woven",
+      "duty_general": "10%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["jeans", "women's trousers", "denim pants", "shorts cotton"],
+      "notes": "Yarn-forward rule under CPTPP — origin requires that yarn was spun in a CPTPP party."
+    },
+    {
+      "hs_code": "6203.42.00",
+      "description": "Men's or boys' trousers, breeches, shorts of cotton, woven",
+      "duty_general": "10%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["men's trousers", "men's jeans", "chinos", "men's shorts"],
+      "notes": "Yarn-forward rule under CPTPP."
+    },
+    {
+      "hs_code": "6110.20.00",
+      "description": "Jerseys, pullovers, cardigans, knitted or crocheted, of cotton",
+      "duty_general": "10%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["jersey", "pullover", "cardigan", "sweater", "jumper"],
+      "notes": ""
+    },
+    {
+      "hs_code": "6201.13.00",
+      "description": "Men's or boys' overcoats, raincoats, anoraks, ski-jackets of man-made fibres",
+      "duty_general": "10%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["men's jacket", "raincoat", "anorak", "ski jacket", "men's coat"],
+      "notes": ""
+    },
+    {
+      "hs_code": "6402.99.00",
+      "description": "Footwear with outer soles and uppers of rubber or plastics (sneakers, sandals)",
+      "duty_general": "10%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["sneaker", "trainer", "sandal", "plastic footwear", "rubber shoe"],
+      "notes": ""
+    },
+    {
+      "hs_code": "6403.99.00",
+      "description": "Footwear with outer soles of rubber/plastic and uppers of leather",
+      "duty_general": "10%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": "MPI: leather uppers — declaration required.",
+      "keywords": ["leather shoe", "dress shoe", "leather boot", "loafer"],
+      "notes": ""
+    },
+    {
+      "hs_code": "6404.19.00",
+      "description": "Footwear with outer soles of rubber/plastic and uppers of textile materials",
+      "duty_general": "10%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["canvas shoe", "textile shoe", "trainer fabric"],
+      "notes": ""
+    },
+    {
+      "hs_code": "6505.00.00",
+      "description": "Hats and other headgear, knitted or crocheted",
+      "duty_general": "10%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["hat", "cap", "beanie", "headgear"],
+      "notes": ""
+    },
+    {
+      "hs_code": "7013.49.00",
+      "description": "Glassware for table/kitchen, other than of glass-ceramics",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["glassware", "drinking glass", "wine glass", "tumbler"],
+      "notes": "Lead crystal in 7013.91 carries different rate."
+    },
+    {
+      "hs_code": "7323.93.00",
+      "description": "Table, kitchen or other household articles of stainless steel",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["stainless cookware", "stainless steel pot", "stainless pan", "kitchen utensil"],
+      "notes": "Food-contact compliance applies (FSANZ 1.4.3)."
+    },
+    {
+      "hs_code": "7615.10.00",
+      "description": "Table, kitchen or other household articles of aluminium",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["aluminium cookware", "aluminium pot", "aluminium pan"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8215.99.00",
+      "description": "Spoons, forks, ladles, skimmers, and similar kitchen/tableware",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["cutlery", "spoon", "fork", "kitchen tool"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8201.10.00",
+      "description": "Spades and shovels (hand tools)",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI: used garden tools must be clean of soil.",
+      "keywords": ["shovel", "spade", "garden tool"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8205.40.00",
+      "description": "Screwdrivers",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["screwdriver", "hand tool"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8413.20.00",
+      "description": "Hand pumps, other than pumps of subheading 8413.11/8413.19",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["hand pump", "manual pump"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8418.10.00",
+      "description": "Combined refrigerator-freezers, fitted with separate external doors",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["refrigerator", "fridge freezer", "fridge"],
+      "notes": "MEPS (Minimum Energy Performance Standards) registration required under Energy Efficiency Act 2000."
+    },
+    {
+      "hs_code": "8422.11.00",
+      "description": "Dishwashing machines, household type",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["dishwasher"],
+      "notes": "WaterMark / WELS registration may apply."
+    },
+    {
+      "hs_code": "8450.11.00",
+      "description": "Washing machines, fully-automatic, of dry linen capacity ≤ 10 kg",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["washing machine", "washer"],
+      "notes": "MEPS + WELS registration required."
+    },
+    {
+      "hs_code": "8471.30.00",
+      "description": "Portable automatic data processing machines, weight ≤ 10 kg (laptops, tablets)",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["laptop", "notebook computer", "tablet", "ipad", "macbook"],
+      "notes": "Radio Spectrum Management compliance (Wi-Fi/BT) — supplier declaration acceptable."
+    },
+    {
+      "hs_code": "8517.13.00",
+      "description": "Smartphones",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["smartphone", "mobile phone", "iphone", "cellular phone"],
+      "notes": "Radio Spectrum compliance applies."
+    },
+    {
+      "hs_code": "8517.62.00",
+      "description": "Machines for reception/transmission of voice/images (routers, modems, Wi-Fi APs)",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["router", "modem", "wi-fi access point", "network gateway"],
+      "notes": "Radio Spectrum compliance applies."
+    },
+    {
+      "hs_code": "8518.30.00",
+      "description": "Headphones and earphones, whether or not combined with microphone",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["headphones", "earphones", "earbuds", "airpods"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8521.90.00",
+      "description": "Video recording or reproducing apparatus (set-top boxes, media players)",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["set top box", "streaming device", "media player", "apple tv"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8528.72.00",
+      "description": "Reception apparatus for television (TVs), other than cathode-ray",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["television", "tv", "smart tv", "led tv", "oled tv"],
+      "notes": "MEPS registration required."
+    },
+    {
+      "hs_code": "8542.31.00",
+      "description": "Electronic integrated circuits — processors and controllers",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["processor chip", "integrated circuit", "cpu chip", "microprocessor"],
+      "notes": ""
+    },
+    {
+      "hs_code": "9018.39.00",
+      "description": "Syringes, needles, catheters and the like for medical use",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["syringe", "needle medical", "catheter"],
+      "notes": "Medsafe / WAND registration required for medical devices."
+    },
+    {
+      "hs_code": "3004.90.00",
+      "description": "Medicaments consisting of mixed or unmixed products for therapeutic uses, in measured doses",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["medicine", "pharmaceutical", "tablet medication", "drug therapeutic"],
+      "notes": "Medicines Act 1981: requires Medsafe consent. Controlled drugs Schedule check."
+    },
+    {
+      "hs_code": "9401.61.00",
+      "description": "Seats with wooden frames, upholstered",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": "MPI IHS: wooden articles require ISPM 15-treated packaging and supplier biosecurity declarations.",
+      "keywords": ["sofa", "armchair", "upholstered chair", "wooden seat", "couch"],
+      "notes": "Risk-good: declarations of wood treatment required to avoid hold and inspection."
+    },
+    {
+      "hs_code": "9403.30.00",
+      "description": "Wooden furniture of a kind used in offices",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": "MPI IHS for wooden articles — fumigation / heat-treatment declarations required.",
+      "keywords": ["office desk", "office furniture", "wooden desk"],
+      "notes": ""
+    },
+    {
+      "hs_code": "9403.50.00",
+      "description": "Wooden furniture of a kind used in the bedroom",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": "MPI IHS for wooden articles — treatment evidence required.",
+      "keywords": ["bedroom furniture", "wooden bed", "wooden wardrobe", "dresser"],
+      "notes": ""
+    },
+    {
+      "hs_code": "9404.29.00",
+      "description": "Mattresses (other than of cellular rubber or plastics)",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["mattress", "bed mattress"],
+      "notes": "Flammability standards — refer NZ Standards AS/NZS 4220."
+    },
+    {
+      "hs_code": "9503.00.00",
+      "description": "Tricycles, scooters, pedal cars, dolls' carriages, dolls, other toys; reduced-size models",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["toy", "dolls", "plush toy", "stuffed toy", "children toy", "lego", "model toy"],
+      "notes": "Product safety standards under Fair Trading Act — small parts, choking hazards."
+    },
+    {
+      "hs_code": "9504.50.00",
+      "description": "Video game consoles and machines, other than those of subheading 9504.30",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["video game console", "playstation", "xbox", "nintendo switch", "gaming console"],
+      "notes": "Radio Spectrum compliance for wireless controllers."
+    },
+    {
+      "hs_code": "8712.00.00",
+      "description": "Bicycles and other cycles, not motorised",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI: used bicycles must be clean of soil and plant material.",
+      "keywords": ["bicycle", "bike", "pushbike", "cycle"],
+      "notes": "NZTA reflector/light requirements apply at point of sale."
+    },
+    {
+      "hs_code": "8711.60.00",
+      "description": "Motorcycles with electric motor for propulsion (e-motorbikes, including e-scooters above certain power)",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["electric motorcycle", "e-bike high power", "electric scooter motor"],
+      "notes": "Battery transport — IMDG Class 9 UN3480/UN3481. Clean Car Discount may apply."
+    },
+    {
+      "hs_code": "9506.62.00",
+      "description": "Inflatable balls (footballs, rugby balls, basketballs, soccer balls)",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["football", "rugby ball", "soccer ball", "basketball", "inflatable ball"],
+      "notes": ""
+    },
+    {
+      "hs_code": "9506.91.00",
+      "description": "Articles and equipment for general physical exercise, gymnastics, athletics",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["dumbbell", "treadmill", "yoga mat", "gym equipment", "exercise equipment"],
+      "notes": ""
+    },
+    {
+      "hs_code": "9101.11.00",
+      "description": "Wrist-watches, electrically operated, with case of precious metal",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["luxury watch", "gold watch", "precious metal watch"],
+      "notes": "AML/CFT considerations on high-value imports."
+    },
+    {
+      "hs_code": "9102.11.00",
+      "description": "Wrist-watches, electrically operated, with mechanical display only",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["wristwatch", "watch", "digital watch"],
+      "notes": ""
+    },
+    {
+      "hs_code": "7113.19.00",
+      "description": "Articles of jewellery of other precious metal (gold, platinum)",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["jewellery", "gold ring", "gold necklace", "platinum jewellery"],
+      "notes": "AML/CFT obligations for dealers. Valuation: WTO Method 1 from transaction value."
+    },
+    {
+      "hs_code": "7117.19.00",
+      "description": "Imitation jewellery, of base metal",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["costume jewellery", "fashion jewellery", "imitation jewellery"],
+      "notes": "Lead-content product safety requirements."
+    },
+    {
+      "hs_code": "4011.10.00",
+      "description": "New pneumatic tyres of rubber, of a kind used on motor cars",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI: used tyres require IHS clearance and may be biosecurity risk.",
+      "keywords": ["car tyre", "tire", "passenger tyre", "vehicle tyre"],
+      "notes": "Tyre Stewardship levy applies on entry into NZ market."
+    },
+    {
+      "hs_code": "8708.30.00",
+      "description": "Brakes and servo-brakes for motor vehicles",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["brake pad", "brake disc", "vehicle brake", "car brake"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8708.99.00",
+      "description": "Other parts and accessories of motor vehicles",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free", "NZ-UK FTA": "Free" },
+      "biosecurity_flag": "MPI: used parts must be clean of soil/plant material.",
+      "keywords": ["car part", "auto part", "vehicle accessory"],
+      "notes": "Confirm whether item is specifically classified elsewhere first (GIR 1)."
+    },
+    {
+      "hs_code": "2309.10.00",
+      "description": "Dog or cat food, put up for retail sale",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI IHS for pet food — variable by ingredient origin. Often requires veterinary certification.",
+      "keywords": ["pet food", "dog food", "cat food", "kibble"],
+      "notes": "Risk-good: many pet food imports require permit + MPI BACC clearance."
+    },
+    {
+      "hs_code": "4407.99.00",
+      "description": "Wood sawn or chipped lengthwise, of thickness > 6 mm, of non-coniferous species",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI: high biosecurity risk — IHS for sawn wood requires fumigation, kiln-drying, or alternative treatment per species.",
+      "keywords": ["sawn timber", "lumber", "hardwood timber", "wood plank"],
+      "notes": "CITES check for restricted species (e.g., Dalbergia)."
+    },
+    {
+      "hs_code": "4602.19.00",
+      "description": "Basketwork, wickerwork and other articles of vegetable plaiting materials",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI IHS for plant-based articles — high biosecurity risk; treatment evidence required.",
+      "keywords": ["basket", "wicker", "rattan", "bamboo basket", "vegetable plaiting"],
+      "notes": "Risk-good: frequent hold/inspection."
+    },
+    {
+      "hs_code": "4419.11.00",
+      "description": "Tableware and kitchenware of wood — bread boards, chopping boards, etc.",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI IHS for wooden articles — treatment evidence required.",
+      "keywords": ["wooden board", "chopping board", "cheese board", "wooden kitchenware"],
+      "notes": ""
+    },
+    {
+      "hs_code": "3406.00.00",
+      "description": "Candles, tapers and the like",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["candle", "wax candle", "scented candle"],
+      "notes": "Beeswax candles — confirm bee origin (HS 0410.90 for raw beeswax)."
+    },
+    {
+      "hs_code": "3924.90.00",
+      "description": "Other household articles of plastics",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["plastic homeware", "plastic storage", "plastic container"],
+      "notes": ""
+    },
+    {
+      "hs_code": "3304.30.00",
+      "description": "Manicure or pedicure preparations",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["nail polish", "manicure", "pedicure", "nail varnish"],
+      "notes": "Flammable liquid — IMDG check for shipping (often UN1263 PAINT)."
+    },
+    {
+      "hs_code": "9505.10.00",
+      "description": "Articles for Christmas festivities",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": "MPI: natural Christmas trees/wreaths — high biosecurity risk; permit required.",
+      "keywords": ["christmas decoration", "christmas ornament", "tinsel", "christmas tree artificial"],
+      "notes": ""
+    },
+    {
+      "hs_code": "9019.10.00",
+      "description": "Mechano-therapy appliances; massage apparatus",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["massage gun", "massage chair", "physiotherapy device", "massager"],
+      "notes": "If medical claim, Medsafe registration likely required."
+    },
+    {
+      "hs_code": "3214.10.00",
+      "description": "Glaziers' putty, grafting putty, resin cements, caulking compounds, painters' fillings",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["filler putty", "caulk", "sealant compound", "resin cement"],
+      "notes": "EPA HSNO check for hazardous substances."
+    },
+    {
+      "hs_code": "3208.90.00",
+      "description": "Paints and varnishes (incl. enamels and lacquers) in a non-aqueous medium",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["paint", "varnish", "enamel", "lacquer"],
+      "notes": "IMDG: solvent-based paints often UN1263 Class 3 flammable liquid."
+    },
+    {
+      "hs_code": "8516.71.00",
+      "description": "Electric coffee or tea makers",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["coffee machine", "espresso machine", "kettle", "tea maker"],
+      "notes": "Electrical Safety Compliance under Electricity (Safety) Regulations 2010."
+    },
+    {
+      "hs_code": "8516.32.00",
+      "description": "Other hair-dressing apparatus (hair dryers excluded — 8516.31)",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["hair straightener", "curling iron", "hair styling"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8501.31.00",
+      "description": "DC motors and generators, of output ≤ 750 W (small electric motors)",
+      "duty_general": "Free",
+      "duty_preferences": { "all": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["electric motor small", "dc motor", "small generator"],
+      "notes": ""
+    },
+    {
+      "hs_code": "8536.69.00",
+      "description": "Electrical plugs and sockets, for a voltage ≤ 1000V",
+      "duty_general": "5%",
+      "duty_preferences": { "CPTPP": "Free", "RCEP": "Free", "NZ-China FTA": "Free" },
+      "biosecurity_flag": null,
+      "keywords": ["plug socket", "power plug", "electrical outlet"],
+      "notes": "AS/NZS 3112 compliance required for sale in NZ."
+    }
+  ]
+}
