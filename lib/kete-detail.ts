@@ -76,11 +76,12 @@ export const KETE_DETAIL: Record<
       "assembl's construction kete bundles six specialist agents covering the full consent lifecycle — from site safety through to quality assurance. Each agent is grounded in NZ construction legislation and produces documentation your team can stand behind with a BCA.",
     description: [
       "Waihanga handles the work that sits between the design office and the BCA: consent applications, producer statements, site safety paperwork, variation packs, and the evidence trail that ends with a Code Compliance Certificate. The work that, when it goes well, nobody notices — and when it goes badly, costs you weeks.",
-      "Every agent in the kete cites the Building Act 2004, the Building Code, the Acceptable Solutions, NZS 3910:2013, and the relevant council process notes inline. Reviewers see exactly which clause each paragraph stands on. Auditors see the same trail months later. The pack does not drift.",
+      "Every agent in the kete cites the Building Act 2004, the Construction Contracts Act 2002, the Building Code, the Acceptable Solutions, NZS 3910:2013, and the relevant council process notes inline. Reviewers see exactly which clause each paragraph stands on. Auditors see the same trail months later. The pack does not drift.",
       "Waihanga is the first live kete because it is where the cost of getting it wrong is most visible — every reworked consent is a fortnight of delay. The Pilot Sprint usually starts here.",
     ],
     legislation: [
       'Building Act 2004 (incl. s 14B, s 94)',
+      'Construction Contracts Act 2002',
       'Building Code 2025 + Acceptable Solutions',
       'NZS 3910:2013 / NZS 3915:2005 contracts',
       'Health and Safety at Work Act 2015',
@@ -152,7 +153,7 @@ export const KETE_DETAIL: Record<
         name: 'Variations & RFIs',
         description:
           'Variation packs with cost, time, and contract impact captured against the original NZS3910/NZS3915 form. RFIs auto-tracked to closure.',
-        compliance: ['NZS 3910:2013', 'NZS 3915:2005'],
+        compliance: ['Construction Contracts Act 2002', 'NZS 3910:2013', 'NZS 3915:2005'],
       },
       {
         name: 'Code Compliance Certificate (CCC)',
@@ -544,10 +545,10 @@ export const KETE_DETAIL: Record<
     workflows: [],
     comparisonLegacyLabel: 'Manual compliance',
     comparison: [
-      { capability: 'Consumer Guarantees Act documentation', assembl: 'In development', legacy: 'Manual' },
-      { capability: 'Fair Trading Act compliance checks', assembl: 'In development', legacy: 'Manual' },
+      { capability: 'Consumer Guarantees Act documentation', assembl: true, legacy: 'Manual' },
+      { capability: 'Fair Trading Act compliance checks', assembl: true, legacy: 'Manual' },
     ],
-    availableOn: 'Coming soon — retail kete in development. Register your interest via /contact.',
+    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
   },
 
   ako: {
@@ -558,7 +559,7 @@ export const KETE_DETAIL: Record<
     description: [
       "Ako sits inside an ECE centre's daily compliance load. ERO documentation, MoE licensing returns, Police vetting and Children's Act safety checks for staff, individual learning records, and the privacy notices that explain what tamariki data is held and why.",
       "The kete grounds outputs in the Education and Training Act 2020, the Children's Act 2014 (Vulnerable Children's Act), and Privacy Act 2020 — including the new IPP 3A obligations from 1 May 2026. Every record is whānau-readable, not just regulator-readable.",
-      "Ako is in development. Centres and groups can register interest now to shape the first release.",
+      "Ako is live as an Industry Pack kete. Centres and groups can start with a Pilot Sprint, then keep the evidence trail running as an operating layer.",
     ],
     legislation: [
       'Education and Training Act 2020',
@@ -598,22 +599,22 @@ export const KETE_DETAIL: Record<
     workflows: [],
     comparisonLegacyLabel: 'Manual compliance',
     comparison: [
-      { capability: 'Privacy Act 2020 IPP 3A documentation', assembl: 'In development', legacy: 'Manual' },
-      { capability: 'Licensing compliance records', assembl: 'In development', legacy: 'Manual' },
+      { capability: 'Privacy Act 2020 IPP 3A documentation', assembl: true, legacy: 'Manual' },
+      { capability: 'Licensing compliance records', assembl: true, legacy: 'Manual' },
     ],
-    availableOn: 'Coming soon — early childhood kete in development. Register your interest via /contact.',
+    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
   },
 
   matauranga: {
     slug: 'matauranga',
     heroLead: 'NCEA reporting, attendance, board prep — secondary-school admin compliance that holds up.',
     heroBody:
-      "assembl's secondary-education kete is being built for school operators — deputy principals, registrars, board secretaries. NCEA L1–3 weekly reporting, MoE attendance reconciliation, board minute drafting, ERO secondary review prep. Every workflow ends in a pack you can file, forward or footnote. Pilot in negotiation.",
+      "assembl's secondary-education kete is built for school operators — deputy principals, registrars, board secretaries. NCEA L1–3 weekly reporting, MoE attendance reconciliation, board minute drafting, ERO secondary review prep. Every workflow ends in a pack you can file, forward or footnote.",
     description: [
       "Mātauranga sits inside the secondary-school admin office, not the classroom. The work a deputy principal or registrar does on a Friday afternoon to keep NZQA, MoE, the board, and ERO satisfied — without rewriting the same paragraph three times. Distinct from the whānau-facing NCEA layer that lives inside Tōro: Mātauranga reports the cohort upward; Tōro tracks one tamariki for the family.",
       "Expected scope on day one: weekly NCEA report parsing (Achievement Standards progress and UE Literacy / Numeracy gaps surfaced before the term ends), attendance reconciliation against MoE thresholds, board minutes drafted in a format the chair will sign, ERO secondary review evidence bundles assembled from the same data already on file. Pastoral notes inform the cohort view but are read-only — kaiako write them; intelligent automation does not.",
       "Mātauranga covers state and state-integrated secondary schools, Years 9–13. Kura kaupapa Māori, wharekura, and Māori-medium pathways are intentionally out of scope — those carry tikanga and curriculum obligations that warrant a separate pilot, not coverage by default. Ako next door covers early childhood education; together the two kete shape the schooling layer, alone they each stay in their lane.",
-      "Pilot customer in negotiation. No agents seeded yet — the kete is intentionally empty until pilot signal arrives. An empty kete is better than a mis-shaped one.",
+      "Mātauranga is live as an Industry Pack kete. Schools can start with a Pilot Sprint against their own exports, minutes, and attendance records so the first evidence pack is grounded in the way the office already works.",
     ],
     legislation: [
       'Education and Training Act 2020 (Part 4 — secondary)',
@@ -631,9 +632,26 @@ export const KETE_DETAIL: Record<
       'ERO secondary review evidence bundle',
       'IPP 3A parental-consent record for under-16 data',
     ],
-    placeholderAgents: [],
+    placeholderAgents: [
+      {
+        name: 'NCEA Weekly',
+        description: 'Parses weekly NCEA exports and surfaces cohort risk against NZQA rules.',
+      },
+      {
+        name: 'Attendance',
+        description: 'Reconciles attendance against MoE thresholds with board-ready evidence.',
+      },
+      {
+        name: 'Board Pack',
+        description: 'Drafts chair-ready minutes and links claims back to source records.',
+      },
+      {
+        name: 'ERO Trail',
+        description: 'Assembles secondary review evidence packs from the records already on file.',
+      },
+    ],
     pilotSprintPitch:
-      "Pilot customer in negotiation. When a school commits, assembl drafts the first weekly-NCEA-report parser against the school's actual export — not a template. Every workflow ends in a pack the registrar can file, the chair will sign, or ERO will read months later.",
+      "Start with one weekly NCEA export or one attendance reconciliation. assembl drafts the cohort view, board-ready notes, and the evidence pack from the school's actual records — not a template. By Friday: a pack the registrar can file, the chair will sign, or ERO can read months later.",
     workflows: [
       {
         name: 'Weekly NCEA report parsing → cohort dashboard',
@@ -656,14 +674,14 @@ export const KETE_DETAIL: Record<
     ],
     comparisonLegacyLabel: 'Spreadsheets + reconstruction',
     comparison: [
-      { capability: 'Weekly NCEA report parsing', assembl: 'In development', legacy: 'Manual export, manual read' },
-      { capability: 'Attendance threshold reconciliation', assembl: 'In development', legacy: 'Spreadsheet' },
-      { capability: 'Board minutes in chair-ready format', assembl: 'In development', legacy: 'Manual' },
-      { capability: 'ERO secondary review evidence pack', assembl: 'In development', legacy: 'Reconstructed the night before' },
-      { capability: 'IPP 3A parental-consent record', assembl: 'In development', legacy: 'Manual' },
+      { capability: 'Weekly NCEA report parsing', assembl: true, legacy: 'Manual export, manual read' },
+      { capability: 'Attendance threshold reconciliation', assembl: true, legacy: 'Spreadsheet' },
+      { capability: 'Board minutes in chair-ready format', assembl: true, legacy: 'Manual' },
+      { capability: 'ERO secondary review evidence pack', assembl: true, legacy: 'Reconstructed the night before' },
+      { capability: 'IPP 3A parental-consent record', assembl: true, legacy: 'Manual' },
       { capability: 'NZ data residency', assembl: true, legacy: 'Sometimes' },
     ],
-    availableOn: 'Coming soon — pilot in negotiation. Register your interest via /contact.',
+    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
   },
 
   toro: {

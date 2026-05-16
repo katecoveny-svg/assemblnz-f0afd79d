@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     absolute: 'assembl — mahi that earns its proof',
   },
   description:
-    'NZ$5,000 a month. Six to eight specialist agents sequenced into one operating loop for NZ operators.',
+    'NZ$5,000 a month. A live kete fleet sequenced into one operating loop for NZ operators.',
 };
 
 type IndustryKeteSlug = Exclude<KeteSlug, 'toro'>;
@@ -123,9 +123,8 @@ export default function IndustryPackPage() {
               <TeReo title="work">Mahi</TeReo> that earns its proof.
             </h1>
             <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              NZ$5,000 a month. Six to eight specialist agents, sequenced into one operating loop
-              — find work, quote it, run it, close the books. No usage limits. No setup fee. Cancel
-              any time.
+              NZ$5,000 a month. A live kete fleet, sequenced into one operating loop — find work,
+              quote it, run it, close the books. No usage limits. No setup fee. Cancel any time.
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link href="/pilot-sprint" className="cta-primary inline-flex h-12 items-center justify-center px-8">

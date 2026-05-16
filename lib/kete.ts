@@ -44,7 +44,7 @@ export const KETES: Kete[] = [
     accent: '#AC5838',
     accentName: 'Kōkōwai',
     type: 'industry',
-    status: 'coming-soon',
+    status: 'active',
   },
   {
     slug: 'pikau',
@@ -64,7 +64,7 @@ export const KETES: Kete[] = [
     accent: '#D4842A',
     accentName: 'Karaka',
     type: 'industry',
-    status: 'coming-soon',
+    status: 'active',
   },
   {
     slug: 'auaha',
@@ -74,7 +74,7 @@ export const KETES: Kete[] = [
     accent: '#5B4FA0',
     accentName: 'Kahurangi',
     type: 'industry',
-    status: 'coming-soon',
+    status: 'active',
   },
   {
     slug: 'ako',
@@ -84,7 +84,7 @@ export const KETES: Kete[] = [
     accent: '#6B5843',
     accentName: 'Parauri',
     type: 'industry',
-    status: 'coming-soon',
+    status: 'active',
   },
   {
     slug: 'matauranga',
@@ -94,7 +94,7 @@ export const KETES: Kete[] = [
     accent: '#3D5A7A',
     accentName: 'Pōuriuri',
     type: 'industry',
-    status: 'coming-soon',
+    status: 'active',
   },
   {
     slug: 'hoko',
@@ -104,7 +104,7 @@ export const KETES: Kete[] = [
     accent: '#7B3F8F',
     accentName: 'Waiporoporo',
     type: 'industry',
-    status: 'mothballed',
+    status: 'active',
   },
   {
     slug: 'toro',

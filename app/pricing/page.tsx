@@ -23,7 +23,7 @@ const OFFERS = [
     eyebrow: 'Hero offer',
     name: 'Industry Pack',
     price: '$5,000 / month',
-    body: 'Per kete. 6-8 specialist agents. Iho governance. Signal monitoring. Unlimited evidence packs.',
+    body: 'Per kete. Live specialist-agent fleet. Iho governance. Signal monitoring. Unlimited evidence packs.',
     cta: 'See Industry Pack',
     href: '/industry-pack',
     featured: true,
@@ -130,4 +130,3 @@ export default function PricingPage() {
     </main>
   );
 }
-
