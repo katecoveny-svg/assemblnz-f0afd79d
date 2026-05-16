@@ -672,16 +672,16 @@ export const KETE_DETAIL: Record<
     heroBody:
       "Tōro is the whānau assistant inside assembl. Forward the school newsletter, the kindo notice, the OSCAR confirmation — it reads them, pulls out what matters, and hands back a term-shaped plan you can act on. Three sub-plugins under one Family plan.",
     description: [
-      "Tōro is email-first by design. Each whānau gets a private inbound address — term-<whanau-id>@toro.nz — so the school newsletter, the assembly note, the hot-lunch reminder all land in one place. SMS where it helps (school-bus alerts, sport-cancellation pings), WhatsApp where your whānau already lives. Tōro reads what arrives, drafts the response or the calendar entry, and waits for you to approve before anything goes out.",
+      "Tōro is email-first by design. Each whānau gets their own private inbound address at toro.nz, so the school newsletter, the assembly note, the hot-lunch reminder all land in one place. SMS where it helps (school-bus alerts, sport-cancellation pings), WhatsApp where your whānau already lives. Tōro reads what arrives, drafts the response or the calendar entry, and waits for you to approve before anything goes out.",
       "Nothing ships without a human click. Every draft is reviewable, every action is consent-gated, and every reply uses your voice not Tōro's. Privacy Act 2020 IPP 3A is honoured by default — children's data stays inside the whānau tenant.",
-      "Three sub-plugins ship together under one Family plan: Term Planner reads school comms, Kid Money runs the chores-and-pocket-money ledger, Holiday Ideas plans the term-break weeks. Available now at NZ$29/month, no setup. Cancel any time.",
+      "Three sub-plugins under one Family plan: Term Planner reads school comms, Kid Money runs the chores-and-pocket-money ledger, Holiday Ideas plans the term-break weeks (launching Q3 2026). Available now at NZ$29/month, no setup. Cancel any time.",
     ],
     legislation: ['Privacy Act 2020 + IPP 3A (1 May 2026)'],
     subAgents: [
       {
         name: 'Tōro Term Planner',
         pitch: 'Forward school newsletters, get a term-shaped plan back.',
-        body: "Drop the term newsletter, the assembly note, the permission slip — Tōro reads it, pulls the dates into a draft calendar, drafts the reply you would have sent, and waits for your tick before anything goes out. Sacred Heart, Baradene, Kindo, Hero, Seesaw, and plain-email schools alike — notices, sport, music, parent-teacher all surfaced when they are actually needed.",
+        body: "Drop the term newsletter, the assembly note, the permission slip — Tōro reads it, pulls the dates into a draft calendar, drafts the reply you would have sent, and waits for your tick before anything goes out. We're piloting with whānau on Kindo, Hero, Seesaw, and plain-email schools through a private beta — notices, sport, music, parent-teacher all surfaced when they are actually needed.",
         status: 'live',
         statusLabel: 'Live now',
       },
@@ -695,9 +695,9 @@ export const KETE_DETAIL: Record<
       {
         name: 'Tōro Holiday Ideas',
         pitch: 'NZ-shaped school-holiday plans in 10 minutes, not two evenings.',
-        body: "Two-week term-break plans pulled from real local OSCAR programmes, council activities, and rainy-day options for your region. Flight, accommodation, and activity searches built on the Kiwi Tequila, Duffel, Booking.com, and Expedia Rapid stack — so the prices and availability are real, not generic. Drafts a parent-coordinated week, surfaces booking deadlines, and only proposes what fits the budget you set.",
-        status: 'live',
-        statusLabel: 'Live now',
+        body: "Two-week term-break plans pulled from real local OSCAR programmes, council activities, and rainy-day options for your region. Drafts a parent-coordinated week, surfaces booking deadlines, and only proposes what fits the budget you set. Holiday Ideas launches in Q3 2026.",
+        status: 'coming-soon',
+        statusLabel: 'Launching Q3 2026',
       },
     ],
     features: [
