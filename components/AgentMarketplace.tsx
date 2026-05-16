@@ -3,24 +3,19 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Check, Plus } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import {
   AGENTS,
   CAPABILITY_LABELS,
   agentsForKete,
-  type Agent,
   type Capability,
 } from '@/lib/agents';
 import { KETES, type KeteSlug } from '@/lib/kete';
+import { AgentCard } from '@/components/site/AgentCard';
 
 type KeteFilter = KeteSlug | 'all';
 type CapabilityFilter = Capability | 'all';
 type SortOption = 'popular' | 'alphabetical' | 'legislation';
-
-const KETE_BY_SLUG = Object.fromEntries(KETES.map((k) => [k.slug, k])) as Record<
-  KeteSlug,
-  (typeof KETES)[number]
->;
 
 export function AgentMarketplace() {
   const [keteFilter, setKeteFilter] = useState<KeteFilter>('all');
@@ -233,135 +228,5 @@ function FilterChip({
       )}
       {label}
     </button>
-  );
-}
-
-function AgentCard({
-  agent,
-  index,
-  selected,
-  onToggle,
-}: {
-  agent: Agent;
-  index: number;
-  selected: boolean;
-  onToggle: () => void;
-}) {
-  const kete = KETE_BY_SLUG[agent.kete];
-  return (
-    <motion.article
-      layout
-      initial={{ opacity: 0.6, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.4) }}
-      className={`relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(43,107,87,0.10)] ${
-        selected
-          ? 'border-[color:var(--assembl-sage-mist)] ring-2 ring-[color:var(--assembl-sage-mist)]'
-          : 'border-[rgba(35,33,31,0.10)]'
-      }`}
-      style={{ ['--kete-accent' as string]: kete.accent }}
-    >
-      {/* Subtle accent bleed on hover */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-50"
-        style={{
-          background: `radial-gradient(circle, ${kete.accent} 0%, transparent 70%)`,
-        }}
-      />
-
-      {/* Kete badge */}
-      <div className="flex items-center gap-2">
-        <span
-          className="h-2 w-2 rounded-full"
-          style={{ backgroundColor: kete.accent }}
-          aria-hidden
-        />
-        <Link
-          href={`/kete/${kete.slug}`}
-          className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
-        >
-          {kete.name} · {kete.industry}
-        </Link>
-      </div>
-
-      <div className="mt-4 flex items-start justify-between gap-3">
-        <h3 className="font-display text-3xl text-[color:var(--text-primary)]">{agent.name}</h3>
-        <span className="rounded-full border border-[rgba(43,107,87,0.28)] bg-[rgba(43,107,87,0.08)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
-          Live
-        </span>
-      </div>
-      <p className="mt-1 font-mono text-xs text-[color:var(--text-secondary)]">{agent.role}</p>
-
-      <p className="mt-4 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">
-        {agent.oneLiner}
-      </p>
-
-      {agent.legislation.length > 0 && (
-        <div className="mt-5 flex flex-wrap gap-1.5">
-          {agent.legislation.slice(0, 3).map((law) => (
-            <span
-              key={law}
-              className="rounded-full border border-[rgba(35,33,31,0.12)] bg-white/60 px-2.5 py-1 font-mono text-[10px] text-[color:var(--text-secondary)]"
-            >
-              § {law}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {/* Buying options */}
-      <div className="mt-5 grid gap-1.5 border-t border-[rgba(35,33,31,0.08)] pt-4 text-xs text-[color:var(--text-body)]">
-        {agent.buyingOptions.subscribe && (
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
-              Subscribe
-            </span>
-            <Check
-              className="h-3.5 w-3.5 text-[color:var(--assembl-sage-mist)]"
-              aria-hidden
-            />
-          </div>
-        )}
-        {agent.buyingOptions.perOutput !== null && (
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
-              Per output
-            </span>
-            <span className="font-mono text-xs">from NZ${agent.buyingOptions.perOutput}</span>
-          </div>
-        )}
-        {agent.buyingOptions.perResolution !== null && (
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] text-[color:var(--text-secondary)]">
-              Per resolution
-            </span>
-            <span className="font-mono text-xs">NZ${agent.buyingOptions.perResolution}</span>
-          </div>
-        )}
-      </div>
-
-      <button
-        onClick={onToggle}
-        className={`mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-full border px-5 text-sm font-medium transition-all ${
-          selected
-            ? 'border-[color:var(--assembl-sage-mist)] bg-[color:var(--assembl-sage-mist)] text-[color:var(--assembl-paper)]'
-            : 'border-[rgba(35,33,31,0.18)] bg-white/40 text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)]'
-        }`}
-        aria-pressed={selected}
-      >
-        {selected ? (
-          <>
-            <Check className="h-4 w-4" aria-hidden />
-            Added
-          </>
-        ) : (
-          <>
-            <Plus className="h-4 w-4" aria-hidden />
-            Add agent
-          </>
-        )}
-      </button>
-    </motion.article>
   );
 }
