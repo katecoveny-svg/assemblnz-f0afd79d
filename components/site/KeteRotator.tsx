@@ -88,7 +88,7 @@ export function KeteRotator({
       <button
         type="button"
         onClick={() => setPaused((value) => !value)}
-        className="mt-8 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(35,33,31,0.16)] bg-white/55 text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)]"
+        className="mt-8 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(35,33,31,0.16)] bg-white/55 text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
         aria-pressed={paused || Boolean(reduceMotion)}
         aria-label={paused || reduceMotion ? 'Resume animation' : 'Pause animation'}
       >

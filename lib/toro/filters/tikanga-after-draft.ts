@@ -65,7 +65,7 @@ export const tikangaAfterDraft: Filter = {
     // pronoun in mid-sentence) by requiring uppercase A and uppercase I
     // adjacent.
     if (/\bAI\b/.test(draft)) {
-      flags.push('banned automation token present in customer-facing draft');
+      flags.push('banned automation token "AI" present in customer-facing draft');
     }
 
     if (flags.length === 0) {

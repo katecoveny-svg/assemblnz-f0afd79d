@@ -52,13 +52,13 @@ export function DestinationCard({
     >
       <Link
         href={href}
-        className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-[28px] border border-[rgba(35,33,31,0.08)] p-10 transition-all duration-700 hover:-translate-y-1 hover:border-[rgba(35,33,31,0.20)] hover:shadow-[0_32px_64px_rgba(43,107,87,0.12)] md:p-14 ${bgClass}`}
+        className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-[28px] border border-[rgba(35,33,31,0.08)] p-10 transition-all duration-700 hover:-translate-y-1 hover:border-[rgba(35,33,31,0.20)] hover:shadow-[0_32px_64px_rgba(43,107,87,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-4 md:p-14 ${bgClass}`}
         style={{ ['--card-accent' as string]: accent, minHeight: '420px' }}
       >
         {/* Soft accent halo — top-right, intensifies on hover */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full opacity-30 blur-2xl transition-opacity duration-700 group-hover:opacity-80"
+          className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full opacity-30 blur-2xl transition-opacity duration-700 group-hover:opacity-80 group-focus-visible:opacity-80"
           style={{ background: `radial-gradient(circle, ${accent} 0%, transparent 70%)` }}
         />
 
@@ -85,7 +85,7 @@ export function DestinationCard({
               Enter →
             </span>
             <ArrowUpRight
-              className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
+              className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-focus-visible:translate-x-1 group-focus-visible:-translate-y-1"
               style={{ color: bg === 'ink' ? 'var(--assembl-soft-gold)' : accent }}
               aria-hidden
             />
