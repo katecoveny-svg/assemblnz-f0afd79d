@@ -118,6 +118,21 @@ export async function xeroCashPosition(input: BusinessPulseInputs): Promise<Busi
     } catch (error) {
       notes.push(`Stripe summary unavailable: ${error instanceof Error ? error.message : 'unknown error'}`);
     }
+  try {
+    if (process.env.STRIPE_SECRET_KEY) {
+      const { getStripe } = await import('@/lib/stripe/client');
+      const stripe = getStripe();
+      const since = Math.floor((Date.now() - 7 * 24 * 60 * 60 * 1000) / 1000);
+      const charges = await stripe.charges.list({ created: { gte: since }, limit: 100 });
+      stripeNetLast7Days = charges.data.reduce((sum, charge) => {
+        const refunded = charge.amount_refunded ?? 0;
+        return sum + (charge.amount - refunded) / 100;
+      }, 0);
+    } else {
+      notes.push('Stripe key not present in this environment; settlement summary deferred.');
+    }
+  } catch (error) {
+    notes.push(`Stripe summary unavailable: ${error instanceof Error ? error.message : 'unknown error'}`);
   }
 
   const fourteenDayForecast =
