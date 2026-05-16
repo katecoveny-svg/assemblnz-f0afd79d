@@ -154,36 +154,53 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
     >
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F4EFE7_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
+        <Image
+          src="/img/kete/home-vessel-pounamu.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="pointer-events-none object-cover opacity-[0.54] mix-blend-multiply"
+        />
         {!reduceMotion && (
           <video
             aria-hidden
-            className="pointer-events-none absolute right-0 top-1/2 hidden w-[min(58vw,720px)] max-w-[720px] -translate-y-1/2 opacity-[0.35] mix-blend-multiply md:block motion-reduce:hidden"
+            className="pointer-events-none absolute inset-0 hidden h-full w-full object-cover opacity-[0.78] mix-blend-multiply md:block motion-reduce:hidden"
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
           >
             <source src="/videos/vessel-rotate-720p.mp4" type="video/mp4" />
           </video>
         )}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_42%,rgba(250,247,242,0.18)_0%,rgba(250,247,242,0.42)_30%,rgba(250,247,242,0.92)_68%)]" aria-hidden />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
         <motion.div
           className="absolute inset-y-0 left-0 w-2 bg-[color:var(--kete-accent)]"
           aria-hidden
           animate={reduceMotion ? undefined : { opacity: [0.7, 1] }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         />
-        <div className="mx-auto grid min-h-[78vh] w-full max-w-screen-2xl gap-8 px-6 py-10 md:grid-cols-[minmax(0,1fr)_minmax(390px,540px)] md:px-10 md:py-14 xl:min-h-[74vh] xl:gap-12 xl:px-16 2xl:px-24">
-          <div className="min-w-0 flex flex-col justify-between gap-8 md:pr-2">
+        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4rem)] max-w-[1800px] grid-rows-[1fr_auto] gap-8 px-6 py-8 md:px-12 md:py-12 xl:px-20">
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(440px,0.7fr)] xl:gap-16">
             <motion.div
+              className="min-w-0"
               initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
               animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/55 px-3 py-2 font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
+              <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/70 px-3 py-2 font-mono text-eyebrow uppercase text-[color:var(--text-secondary)] shadow-sm backdrop-blur-md">
                 assembl evidence vessel · Built in Aotearoa
               </p>
-              <KeteRotator ketes={ketes} className="mt-5 md:mt-7" />
+              <KeteRotator
+                ketes={ketes}
+                className="mt-6 md:mt-8"
+                scale="immersive"
+                activeSlug={activeSlug}
+                onActiveSlugChange={setActiveSlug}
+              />
               <div className="mt-4 md:hidden">
                 <KeteSelector
                   ketes={ketes}
@@ -194,45 +211,50 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                   variant="rail"
                 />
               </div>
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row md:mt-8">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row md:mt-10">
                 <Link
                   href="/pilot-sprint"
-                  className="cta-primary inline-flex h-11 w-full items-center justify-center px-7 text-sm sm:w-auto md:h-12 md:text-base"
+                  className="cta-primary inline-flex h-12 w-full items-center justify-center px-8 text-base sm:w-auto md:h-14"
                 >
                   Book a pilot
                   <MessageCircle className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
                 <Link
                   href="/evidence-pack"
-                  className="btn-ghost inline-flex h-11 w-full items-center justify-center px-7 text-sm sm:w-auto md:h-12 md:text-base"
+                  className="btn-ghost inline-flex h-12 w-full items-center justify-center bg-white/58 px-8 text-base backdrop-blur-md sm:w-auto md:h-14"
                 >
                   See an evidence pack
                   <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
                 <Link
                   href="/kete"
-                  className="btn-ghost inline-flex h-11 w-full items-center justify-center px-7 text-sm sm:w-auto md:h-12 md:text-base"
+                  className="btn-ghost inline-flex h-12 w-full items-center justify-center bg-white/58 px-8 text-base backdrop-blur-md sm:w-auto md:h-14"
                 >
                   Explore kete
                   <FileCheck2 className="ml-2 h-4 w-4" aria-hidden />
                 </Link>
               </div>
+              <div className="mt-8 max-w-4xl">
+                <ProductAccessPanel />
+              </div>
             </motion.div>
 
-            <ProductAccessPanel />
-            <ProofDock stats={pearlLive} />
-            <p className="text-sm leading-[1.62] text-[color:var(--text-body)] md:hidden">
-              Grounded in New Zealand legislation, reviewed by your team, sealed with evidence.
-            </p>
+            <motion.div
+              className="hidden min-w-0 lg:block"
+              initial={reduceMotion ? false : { opacity: 0.78, x: 18 }}
+              animate={reduceMotion ? undefined : { opacity: 1, x: 0 }}
+              transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <FeaturedKete
+                kete={activeKete}
+                details={activeDetails}
+                image={LOCAL_VESSELS[activeKete.slug] ?? keteImagery[activeKete.slug].wide}
+                reduceMotion={reduceMotion}
+              />
+            </motion.div>
           </div>
 
-          <div className="min-w-0 flex flex-col gap-4">
-            <FeaturedKete
-              kete={activeKete}
-              details={activeDetails}
-              image={LOCAL_VESSELS[activeKete.slug] ?? keteImagery[activeKete.slug].wide}
-              reduceMotion={reduceMotion}
-            />
+          <div className="grid gap-4">
             <div className="hidden md:block">
               <KeteSelector
                 ketes={ketes}
@@ -243,6 +265,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                 variant="grid"
               />
             </div>
+            <ProofDock stats={pearlLive} />
           </div>
         </div>
       </section>
@@ -395,7 +418,7 @@ function KeteSelector({
 }) {
   return (
     <div
-      className={variant === 'rail' ? 'flex max-w-full gap-2 overflow-x-auto pb-2' : 'grid grid-cols-3 gap-2'}
+      className={variant === 'rail' ? 'flex max-w-full gap-2 overflow-x-auto pb-2' : 'grid grid-cols-3 gap-2 md:grid-cols-9'}
       aria-label="Choose a kete"
     >
       {ketes.map((kete) => {
@@ -413,7 +436,7 @@ function KeteSelector({
               'group rounded-[8px] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
               variant === 'rail'
                 ? 'min-h-[58px] min-w-[126px] py-2'
-                : 'min-h-[86px] py-3',
+                : 'min-h-[86px] py-3 md:min-h-[108px]',
               active
                 ? 'border-[color:var(--tile-accent)] bg-white shadow-[0_8px_24px_rgba(35,33,31,0.08)]'
                 : 'border-[rgba(35,33,31,0.12)] bg-white/45 hover:border-[color:var(--tile-accent)] hover:bg-white/75',
