@@ -75,11 +75,14 @@ export async function POST(req: NextRequest) {
 
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseKey =
-      process.env.SUPABASE_SERVICE_ROLE_KEY ||
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
-      process.env.SUPABASE_PUBLISHABLE_KEY;
+    const keyCandidates = [
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      process.env.SUPABASE_ANON_KEY,
+      process.env.SUPABASE_PUBLISHABLE_KEY,
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    ].filter(Boolean) as string[];
+    const supabaseKey = keyCandidates.find((key) => key.split('.').length === 3) ?? keyCandidates[0];
 
     if (!supabaseUrl || !supabaseKey) {
       return json({ error: 'Live agent demo is not configured on this deployment.' }, 500);
