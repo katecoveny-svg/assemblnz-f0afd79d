@@ -28,9 +28,7 @@ create table if not exists public.agent_thoughts (
   cadence_minutes integer not null default 60 check (cadence_minutes between 5 and 10080),
   enabled         boolean not null default true,
   last_run_at     timestamptz,
-  next_due_at     timestamptz generated always as (
-    coalesce(last_run_at, created_at) + (cadence_minutes || ' minutes')::interval
-  ) stored,
+  next_due_at     timestamptz not null default now(),
   created_at      timestamptz not null default now(),
   updated_at      timestamptz not null default now()
 );
@@ -50,10 +48,14 @@ create policy "agent_thoughts_owner_modify"
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
--- updated_at trigger
+-- next_due_at + updated_at trigger. Keep next_due_at as a normal column:
+-- generated interval expressions are not immutable on Postgres and fail with
+-- 42P17 in clean schema replays.
 create or replace function public.tg_agent_thoughts_set_updated_at()
 returns trigger language plpgsql as $$
 begin
+  new.next_due_at := coalesce(new.last_run_at, new.created_at, now())
+    + make_interval(mins => new.cadence_minutes);
   new.updated_at := now();
   return new;
 end;
@@ -61,7 +63,7 @@ $$;
 
 drop trigger if exists agent_thoughts_set_updated_at on public.agent_thoughts;
 create trigger agent_thoughts_set_updated_at
-  before update on public.agent_thoughts
+  before insert or update on public.agent_thoughts
   for each row execute function public.tg_agent_thoughts_set_updated_at();
 
 -- ── agent_thought_runs ──────────────────────────────────────────────────────
@@ -129,49 +131,10 @@ $$;
 revoke all on function public.pick_due_thoughts(integer) from public, anon, authenticated;
 grant execute on function public.pick_due_thoughts(integer) to service_role;
 
--- ── pg_cron schedule ───────────────────────────────────────────────────────
--- Runs once a minute. The function is a no-op if no thoughts are due.
--- Wrapped in DO block so the migration is idempotent across environments
--- where pg_cron may or may not be enabled.
-do $$
-declare
-  v_url  text := current_setting('app.settings.supabase_url', true);
-  v_key  text := current_setting('app.settings.service_role_key', true);
-begin
-  if exists (select 1 from pg_extension where extname = 'pg_cron') then
-    perform cron.unschedule('ambient-agent-loop')
-      where exists (select 1 from cron.job where jobname = 'ambient-agent-loop');
-    perform cron.schedule(
-      'ambient-agent-loop',
-      '* * * * *',
-      $cmd$
-        select net.http_post(
-          url := current_setting('app.settings.supabase_url', true) || '/functions/v1/ambient-agent-loop',
-          headers := jsonb_build_object(
-            'Content-Type', 'application/json',
-            'Authorization', 'Bearer ' || current_setting('app.settings.service_role_key', true)
-          ),
-          body := '{}'::jsonb
-        );
-      $cmd$
-    );
-    raise notice 'ambient-agent-loop cron scheduled (every minute)';
-  else
-    raise notice 'pg_cron not enabled — schedule /ambient-agent-loop manually via the dashboard';
-  end if;
-exception when others then
-  raise notice 'ambient-agent-loop cron skip: %', sqlerrm;
-end;
-$$;
-
 -- ============================================================================
 -- POST-DEPLOY (manual, requires service-role / dashboard):
---   1. Set the two GUCs the cron job reads:
---        alter database postgres set "app.settings.supabase_url" =
---          'https://wurwcrgxjjwqdaxqceey.supabase.co';
---        alter database postgres set "app.settings.service_role_key" =
---          '<service_role_jwt>';
---      (skip if you scheduled via the dashboard with literal values instead)
+--   1. Schedule /ambient-agent-loop via the Supabase dashboard or deploy
+--      workflow; do not rely on this schema migration to manage pg_cron.
 --   2. supabase functions deploy ambient-agent-loop
 --   3. supabase functions deploy mcp-chat   (KB + memory injection)
 -- ============================================================================
