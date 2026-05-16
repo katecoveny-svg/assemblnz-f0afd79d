@@ -45,6 +45,13 @@ Industry Pack is the off-the-shelf operating fleet:
 
 Pilot Sprint is the try-before-you-buy path into Industry Pack.
 
+### Fleet Wiring Branch Decision
+
+`feat/industry-pack-fleet-wiring-2026-05-15` was inspected after the flat
+pricing work landed and was formally abandoned as redundant. The branch tried
+to reintroduce older tier/copy structure while the useful Industry Pack canon
+is already captured here and in `lib/pricing.ts`.
+
 ## The 9 Locked Kete
 
 Eight industry kete:
