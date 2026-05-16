@@ -60,13 +60,26 @@ export function KeteCard({
   kete,
   index = 0,
   featured = false,
+  compact = false,
+  href,
+  className = '',
+  onAccentChange,
 }: {
   kete: Kete;
   index?: number;
   featured?: boolean;
+  compact?: boolean;
+  href?: string;
+  className?: string;
+  onAccentChange?: (accent: string | null) => void;
 }) {
   const { setAccent } = useKeteAccent();
   const agentCount = AGENT_COUNTS[kete.slug] ?? 0;
+  const cardHref = href ?? `/kete/${kete.slug}`;
+  const handleAccent = (accent: string | null) => {
+    setAccent(accent);
+    onAccentChange?.(accent);
+  };
 
   return (
     <motion.div
@@ -74,17 +87,17 @@ export function KeteCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.4, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-      className="h-full"
+      className={`h-full ${className}`}
     >
       <Link
-        href={`/kete/${kete.slug}`}
+        href={cardHref}
         data-kete={kete.slug}
-        onMouseEnter={() => setAccent(kete.accent)}
-        onMouseLeave={() => setAccent(null)}
-        onFocus={() => setAccent(kete.accent)}
-        onBlur={() => setAccent(null)}
+        onMouseEnter={() => handleAccent(kete.accent)}
+        onMouseLeave={() => handleAccent(null)}
+        onFocus={() => handleAccent(kete.accent)}
+        onBlur={() => handleAccent(null)}
         className={`kete-card group relative block h-full overflow-hidden rounded-card border border-[rgba(35,33,31,0.08)] bg-white/55 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[rgba(35,33,31,0.18)] hover:shadow-[0_24px_56px_rgba(43,107,87,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-4 ${
-          featured ? 'p-10 md:p-14' : 'p-8 md:p-10'
+          featured ? 'p-10 md:p-14' : compact ? 'p-5 md:p-6' : 'p-8 md:p-10'
         }`}
         style={{ ['--kete-accent' as string]: kete.accent }}
       >
@@ -120,7 +133,7 @@ export function KeteCard({
 
             <h3
               className={`mt-5 font-display text-[color:var(--text-primary)] ${
-                featured ? 'text-5xl md:text-6xl' : 'text-3xl md:text-4xl'
+                featured ? 'text-5xl md:text-6xl' : compact ? 'text-2xl md:text-3xl' : 'text-3xl md:text-4xl'
               }`}
             >
               {kete.name}
@@ -128,7 +141,7 @@ export function KeteCard({
 
             <p
               className={`mt-4 leading-relaxed text-[color:var(--text-body)] ${
-                featured ? 'text-lg md:text-xl' : 'text-base'
+                featured ? 'text-lg md:text-xl' : compact ? 'text-sm' : 'text-base'
               }`}
             >
               {kete.tagline}
