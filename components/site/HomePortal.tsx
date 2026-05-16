@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
@@ -87,7 +87,7 @@ export function HomePortal({ ketes, keteImagery }: HomePortalProps) {
                 className="cta-primary inline-flex h-12 w-full items-center justify-center px-8 text-base sm:w-auto md:h-14"
               >
                 Book a pilot
-                <MessageCircle className="ml-2 h-4 w-4" aria-hidden />
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link
                 href="/evidence-pack"
@@ -112,35 +112,6 @@ export function HomePortal({ ketes, keteImagery }: HomePortalProps) {
         </div>
       </section>
 
-      <section className="bg-[color:var(--assembl-paper)] px-6 py-14 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-6xl gap-4 md:grid-cols-4">
-          {[
-            ['01', 'Choose a kete', 'Pick the industry context.'],
-            ['02', 'Run one workflow', 'Start with a Pilot Sprint.'],
-            ['03', 'Review the work', 'A named person signs off.'],
-            ['04', 'Keep the proof', 'Evidence stays attached.'],
-          ].map(([number, title, body]) => (
-            <motion.div
-              key={number}
-              className="border-l border-[rgba(35,33,31,0.18)] bg-[rgba(250,247,242,0.45)] py-2 pl-4 pr-3"
-              initial={reduceMotion ? false : { opacity: 0.86, y: 8 }}
-              whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.55, delay: Number(number) * 0.04, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
-                {number}
-              </p>
-              <h2 className="mt-3 font-display text-[1.65rem] font-light leading-none text-[color:var(--text-primary)]">
-                {title}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
-                {body}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
       <div className="hidden md:block">
         <AssemblConciergeWidget />
       </div>
@@ -169,25 +140,28 @@ function KeteSelector({
         {ketes.map((kete) => {
           const active = kete.slug === activeSlug;
           return (
-            <motion.button
+            <motion.div
               key={kete.slug}
-              type="button"
-              onClick={() => onSelect(kete.slug)}
               style={{ '--tile-accent': kete.accent } as CSSProperties}
               whileHover={reduceMotion ? undefined : { y: -2 }}
-              whileTap={reduceMotion ? undefined : { scale: 0.985 }}
               transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className={[
-                'inline-flex h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
-                active
-                  ? 'border-[color:var(--tile-accent)] bg-white text-[color:var(--text-primary)] shadow-[0_8px_24px_rgba(35,33,31,0.08)]'
-                  : 'border-[rgba(35,33,31,0.12)] bg-white/50 text-[color:var(--text-secondary)] hover:border-[color:var(--tile-accent)] hover:bg-white/78 hover:text-[color:var(--text-primary)]',
-              ].join(' ')}
-              aria-pressed={active}
             >
-              <span className="h-2 w-2 rounded-full bg-[color:var(--tile-accent)]" aria-hidden />
-              <span className="whitespace-nowrap">{kete.name}</span>
-            </motion.button>
+              <Link
+                href={`/kete/${kete.slug}`}
+                onMouseEnter={() => onSelect(kete.slug)}
+                onFocus={() => onSelect(kete.slug)}
+                className={[
+                  'inline-flex h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
+                  active
+                    ? 'border-[color:var(--tile-accent)] bg-white text-[color:var(--text-primary)] shadow-[0_8px_24px_rgba(35,33,31,0.08)]'
+                    : 'border-[rgba(35,33,31,0.12)] bg-white/50 text-[color:var(--text-secondary)] hover:border-[color:var(--tile-accent)] hover:bg-white/78 hover:text-[color:var(--text-primary)]',
+                ].join(' ')}
+                aria-current={active ? 'true' : undefined}
+              >
+                <span className="h-2 w-2 rounded-full bg-[color:var(--tile-accent)]" aria-hidden />
+                <span className="whitespace-nowrap">{kete.name}</span>
+              </Link>
+            </motion.div>
           );
         })}
       </div>
@@ -199,49 +173,49 @@ function KeteSelector({
       {ketes.map((kete) => {
         const active = kete.slug === activeSlug;
         return (
-          <motion.button
+          <motion.div
             key={kete.slug}
-            type="button"
-            onClick={() => onSelect(kete.slug)}
             style={{ '--tile-accent': kete.accent } as CSSProperties}
             whileHover={reduceMotion ? undefined : { y: -2 }}
-            whileTap={reduceMotion ? undefined : { scale: 0.985 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className={[
-              'group rounded-[8px] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
-              'min-h-[86px] py-3 md:min-h-[108px]',
-              active
-                ? 'border-[color:var(--tile-accent)] bg-white shadow-[0_8px_24px_rgba(35,33,31,0.08)]'
-                : 'border-[rgba(35,33,31,0.12)] bg-white/45 hover:border-[color:var(--tile-accent)] hover:bg-white/75',
-            ].join(' ')}
-            aria-pressed={active}
           >
-            <span
+            <Link
+              href={`/kete/${kete.slug}`}
+              onMouseEnter={() => onSelect(kete.slug)}
+              onFocus={() => onSelect(kete.slug)}
               className={[
-                'relative mb-3 block w-full overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)]',
-                'h-12',
+                'group block rounded-[8px] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
+                'min-h-[86px] py-3 md:min-h-[108px]',
+                active
+                  ? 'border-[color:var(--tile-accent)] bg-white shadow-[0_8px_24px_rgba(35,33,31,0.08)]'
+                  : 'border-[rgba(35,33,31,0.12)] bg-white/45 hover:border-[color:var(--tile-accent)] hover:bg-white/75',
               ].join(' ')}
-              aria-hidden
+              aria-current={active ? 'true' : undefined}
             >
-              <Image
-                src={imagery[kete.slug].square}
-                alt=""
-                fill
-                sizes="170px"
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-              />
               <span
-                className="absolute inset-x-0 bottom-0 h-1 bg-[color:var(--tile-accent)]"
+                className="relative mb-3 block h-12 w-full overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)]"
                 aria-hidden
-              />
-            </span>
-            <span className="block font-display text-[1.18rem] font-light leading-none text-[color:var(--text-primary)] md:text-[1.35rem]">
-              {kete.name}
-            </span>
-            <span className="mt-2 block text-[10px] leading-snug text-[color:var(--text-secondary)] md:text-[11px]">
-              {kete.industry}
-            </span>
-          </motion.button>
+              >
+                <Image
+                  src={imagery[kete.slug].square}
+                  alt=""
+                  fill
+                  sizes="170px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                />
+                <span
+                  className="absolute inset-x-0 bottom-0 h-1 bg-[color:var(--tile-accent)]"
+                  aria-hidden
+                />
+              </span>
+              <span className="block font-display text-[1.18rem] font-light leading-none text-[color:var(--text-primary)] md:text-[1.35rem]">
+                {kete.name}
+              </span>
+              <span className="mt-2 block text-[10px] leading-snug text-[color:var(--text-secondary)] md:text-[11px]">
+                {kete.industry}
+              </span>
+            </Link>
+          </motion.div>
         );
       })}
     </div>
