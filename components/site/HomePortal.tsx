@@ -173,7 +173,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
           animate={reduceMotion ? undefined : { opacity: [0.7, 1] }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         />
-        <div className="mx-auto grid min-h-[78vh] max-w-7xl gap-8 px-6 py-10 md:grid-cols-[minmax(0,1fr)_minmax(390px,540px)] md:px-10 md:py-14 xl:min-h-[74vh]">
+        <div className="mx-auto grid min-h-[78vh] w-full max-w-screen-2xl gap-8 px-6 py-10 md:grid-cols-[minmax(0,1fr)_minmax(390px,540px)] md:px-10 md:py-14 xl:min-h-[74vh] xl:gap-12 xl:px-16 2xl:px-24">
           <div className="min-w-0 flex flex-col justify-between gap-8 md:pr-2">
             <motion.div
               initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}

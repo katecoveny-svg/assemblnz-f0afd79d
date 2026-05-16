@@ -83,7 +83,7 @@ export default function EvidencePackPage() {
             <div className="rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/60 p-6">
               <div className="border-l-4 border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-paper)] p-6">
                 <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)]">ASB-WHG-0428 · Kate Hudson · 2026-05-16</p>
-                <h3 className="mt-5 font-display text-4xl leading-none">Consent pre-check evidence pack</h3>
+                <h3 className="mt-5 font-display text-display-md font-light leading-none">Consent pre-check evidence pack</h3>
                 <div className="mt-8 grid gap-3">
                   {REGIONS.slice(3, 6).map((region) => (
                     <div key={region} className="rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-white p-4 font-mono text-[11px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)]">

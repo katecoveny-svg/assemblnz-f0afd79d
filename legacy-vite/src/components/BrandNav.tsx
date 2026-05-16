@@ -183,10 +183,11 @@ const BrandNav = () => {
           <span
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 400,
-              letterSpacing: "0.04em",
+              fontWeight: 300,
+              fontStyle: "italic",
+              letterSpacing: "0.02em",
               textTransform: "lowercase",
-              fontSize: "20px",
+              fontSize: "24px",
               color: PEARL.ink,
             }}
           >
