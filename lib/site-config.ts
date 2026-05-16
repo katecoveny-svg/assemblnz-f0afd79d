@@ -155,6 +155,8 @@ export const reo = {
 
   // Brand-film section — homepage. Variant A locked.
   brandFilm: {
+    src: '/videos/assembl-brand-vessel-film-720p.mp4',
+    poster: '/videos/assembl-brand-vessel-film-poster.jpg',
     eyebrow: 'assembl evidence vessel',
     body:
       'A short film about how assembl works. Cream paper. The vessel breathes. Kate explains it in 90 seconds.',
