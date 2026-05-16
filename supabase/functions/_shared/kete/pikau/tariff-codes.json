@@ -436,7 +436,7 @@
       "duty_general": "Free",
       "duty_preferences": { "all": "Free" },
       "biosecurity_flag": null,
-      "keywords": ["processor chip", "integrated circuit", "cpu chip", "ic"],
+      "keywords": ["processor chip", "integrated circuit", "cpu chip", "microprocessor"],
       "notes": ""
     },
     {

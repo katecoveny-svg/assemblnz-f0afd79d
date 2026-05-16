@@ -97,6 +97,16 @@ export async function buildPikauRuntimeContext(
 // Tariff matching
 // ───────────────────────────────────────────────────────────────
 
+/**
+ * Escape regex metacharacters in a keyword before composing a RegExp.
+ * Keywords are operator-curated so this is belt-and-braces, not a trust
+ * boundary — but it lets phrases like "wi-fi access point" or
+ * "hs code" tokenise safely without being interpreted as regex.
+ */
+function escapeRegex(input: string): string {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function matchTariff(message: string): TariffEntry[] {
   const lc = message.toLowerCase();
   const entries = (tariffData as { entries: TariffEntry[] }).entries;
@@ -105,7 +115,13 @@ function matchTariff(message: string): TariffEntry[] {
   for (const entry of entries) {
     let score = 0;
     for (const kw of entry.keywords) {
-      if (lc.includes(kw.toLowerCase())) {
+      // Word-boundary match. Raw substring matching would let short
+      // keywords like "ic" or "hat" match inside "specific", "that",
+      // etc., injecting a totally unrelated tariff line as authoritative
+      // context. Using \b on both sides of the keyword forces token
+      // alignment for ASCII keywords (sufficient for this dataset).
+      const re = new RegExp(`\\b${escapeRegex(kw.toLowerCase())}\\b`, "i");
+      if (re.test(lc)) {
         // Longer keywords are more specific → higher score.
         score += kw.length >= 6 ? 3 : 1;
       }
