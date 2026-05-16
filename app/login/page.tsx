@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { LoginForm } from './login-form';
 
 export const metadata: Metadata = {
@@ -9,7 +7,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// Reads the Supabase session per-request — never prerender.
+// Keeps the auth form per-request; protected app routes handle redirects.
 export const dynamic = 'force-dynamic';
 
 type SearchParams = { redirect?: string; sent?: string; error?: string };
@@ -25,15 +23,6 @@ export default async function LoginPage({
   const envConfigured = Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   );
-
-  // If the user already has a session, send them straight through.
-  if (envConfigured) {
-    const supabase = await createClient();
-    const { data } = await supabase.auth.getUser();
-    if (data.user) {
-      redirect(redirectTo);
-    }
-  }
 
   return (
     <main className="relative flex min-h-screen items-center justify-center bg-[color:var(--assembl-paper)] px-6 py-16">

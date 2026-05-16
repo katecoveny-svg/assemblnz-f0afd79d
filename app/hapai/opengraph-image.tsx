@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "hapai — the AI adoption framework for NZ teams";
+export const alt = "hapai — adoption for NZ teams";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -30,7 +30,9 @@ async function loadGoogleFont(
       headers: { "User-Agent": "Mozilla/5.0" },
     });
     if (!cssRes.ok) return null;
-    const css = await cssRes.text();
+    const readCss = cssRes.text?.bind(cssRes);
+    if (!readCss) return null;
+    const css = await readCss();
     const match = css.match(/src: url\((.+?)\) format\('(?:opentype|truetype|woff2?)'\)/);
     if (!match) return null;
     const fontRes = await fetch(match[1]);
@@ -44,7 +46,7 @@ async function loadGoogleFont(
 export default async function HapaiOpengraphImage() {
   const headlineText = "HAPAI";
   const bodyText =
-    "assembl · the AI adoption framework for nz teams. " +
+    "assembl · adoption for nz teams. " +
     TIERS.join(" ") +
     " " +
     SESSIONS.join(" ") +
@@ -151,7 +153,7 @@ export default async function HapaiOpengraphImage() {
               fontWeight: 400,
             }}
           >
-            the AI adoption framework for nz teams.
+            adoption for nz teams.
           </div>
         </div>
 

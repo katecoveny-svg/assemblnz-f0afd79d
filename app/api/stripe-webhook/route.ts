@@ -67,7 +67,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const rawBody = await request.text();
+  const readBody = request.text?.bind(request);
+  if (!readBody) {
+    return NextResponse.json({ error: 'request body reader unavailable' }, { status: 500 });
+  }
+  const rawBody = await readBody();
 
   let event: Stripe.Event;
   try {

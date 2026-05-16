@@ -98,7 +98,8 @@ export function RoutePlanner() {
         }),
       });
       if (!res.ok) {
-        const txt = await res.text();
+        const readText = res.text?.bind(res);
+        const txt = readText ? await readText() : '';
         setError(`Agent returned ${res.status}: ${txt.slice(0, 200)}`);
         setLoading(false);
         return;

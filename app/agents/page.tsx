@@ -9,19 +9,19 @@ import { CHAT_KETES, type ChatAgent } from '@/lib/chat/registry';
 export const metadata: Metadata = {
   title: 'Agents',
   description:
-    'See which assembl agents are live, which kete they belong to, and where to talk to one.',
+    'See which assembl specialists are live, which kete they belong to, and what mahi they are ready to support.',
 };
 
 const KETE_STAGE: Record<KeteSlug, string> = {
-  waihanga: 'Live',
-  manaaki: 'Pilot',
-  pikau: 'Live',
-  arataki: 'Pilot',
-  auaha: 'Pilot',
-  ako: 'Pilot',
-  matauranga: 'Greenfield / pilot',
-  hoko: 'Mothballed',
-  toro: 'Live',
+  waihanga: 'Chat-ready',
+  manaaki: 'Chat-ready',
+  pikau: 'Chat-ready',
+  arataki: 'Chat-ready',
+  auaha: 'Chat-ready',
+  ako: 'Chat-ready',
+  matauranga: 'Chat-ready',
+  hoko: 'Chat-ready',
+  toro: 'Chat-ready',
 };
 
 const KETE_SUMMARY: Record<KeteSlug, string> = {
@@ -32,7 +32,7 @@ const KETE_SUMMARY: Record<KeteSlug, string> = {
   auaha: 'Campaign, brand, rights, and creative operations records.',
   ako: 'ECE licensing, Te Whāriki, ratios, kaiako, ERO, and tamariki safety.',
   matauranga: 'Secondary-school operator workflows: NCEA, reporting, and board prep.',
-  hoko: 'Retail and consumer-protection workflows; held until the kete reopens.',
+  hoko: 'Retail and consumer-protection workflows: returns, stock, claims, and daily trading.',
   toro: 'Whānau navigator: Term Planner, Kid Money, Holiday Ideas, and parent approval.',
 };
 
@@ -49,25 +49,25 @@ export default function AgentsPage() {
               Agents / kete / what works now
             </p>
             <h1 className="mt-5 max-w-3xl font-display text-[clamp(2.6rem,7vw,6.4rem)] font-light leading-[0.92]">
-              Speak to the right specialist.
+              Find the specialist for the mahi.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-              Pick a kete, choose an agent, ask the first question. A reply is a draft,
-              not a final action. Your team reviews before anything leaves.
+              Pick a kete, choose the specialist, and start with the work in front of you.
+              A reply is a draft, not a final action. Your team reviews before anything leaves.
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/app/chat"
                 className="cta-primary inline-flex h-12 items-center justify-center px-7 text-sm md:text-base"
               >
-                Talk to an agent
+                Talk to a specialist
                 <MessageCircle className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link
-                href="/app/admin"
+                href="/industry-pack"
                 className="btn-ghost inline-flex h-12 items-center justify-center px-7 text-sm md:text-base"
               >
-                Open admin
+                View Industry Pack
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
@@ -78,9 +78,9 @@ export default function AgentsPage() {
               Current product truth
             </p>
             <div className="mt-5 grid gap-3">
-              <TruthRow icon={MessageCircle} title="Chat is live" body="/app/chat routes through Iho to selected specialists." />
-              <TruthRow icon={ShieldCheck} title="Evidence is the product" body="Outputs are drafts until reviewed and recorded." />
-              <TruthRow icon={Radio} title="Admin shows the system" body="Agent status, drafts, routing logs, and evidence metrics live behind sign-in." />
+              <TruthRow icon={MessageCircle} title="Chat is live" body="/app/chat routes the mahi through Iho to selected specialists." />
+              <TruthRow icon={ShieldCheck} title="Proof stays attached" body="Outputs stay draft until reviewed, recorded, and ready to stand behind." />
+              <TruthRow icon={Radio} title="Fleet collaboration" body="Agents carry memory, ambient briefs, and handoff notes so the right specialists can work together." />
             </div>
           </aside>
         </div>
@@ -94,7 +94,7 @@ export default function AgentsPage() {
                 Kete catalogue
               </p>
               <h2 className="mt-2 font-display text-4xl font-light leading-none">
-                Nine entry points.
+                Nine kete for real work.
               </h2>
             </div>
             <Link
@@ -125,7 +125,7 @@ export default function AgentsPage() {
               Cross-pack specialists
             </p>
             <h2 className="mt-2 font-display text-4xl font-light leading-none">
-              Useful when you do not know where to start.
+              Useful when you do not know where the mahi belongs.
             </h2>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
               {crossPack.agents.map((agent) => (
@@ -202,7 +202,7 @@ function KeteAgentCard({
 
       <div className="mt-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
-          Backend registry
+          Collaboration phases
         </p>
         <div className="mt-3 space-y-3">
           {registryGroups.length > 0 ? (
@@ -218,11 +218,9 @@ function KeteAgentCard({
                       className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(35,33,31,0.12)] bg-[rgba(250,247,242,0.72)] px-3 py-1 text-xs text-[color:var(--text-body)]"
                     >
                       {agent.name}
-                      {agent.status === 'draft' ? (
-                        <span className="font-mono text-[8px] uppercase tracking-[0.12em] text-[color:var(--assembl-gold-thread)]">
-                          Draft
-                        </span>
-                      ) : null}
+                      <span className="font-mono text-[8px] uppercase tracking-[0.12em] text-[color:var(--assembl-gold-thread)]">
+                        Chat
+                      </span>
                     </span>
                   ))}
                 </div>
@@ -280,6 +278,11 @@ function AgentChatCard({
         {!compact && agent.blurb ? (
           <span className="mt-2 block text-sm leading-relaxed text-[color:var(--text-body)]">
             {agent.blurb}
+          </span>
+        ) : null}
+        {!compact ? (
+          <span className="mt-2 block text-xs leading-relaxed text-[color:var(--text-secondary)]">
+            Memory: {agent.memoryScope}
           </span>
         ) : null}
       </span>

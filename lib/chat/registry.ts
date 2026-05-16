@@ -2,8 +2,9 @@
  * Kete + agent registry for the /app/chat surface.
  *
  * Chat now derives from the canonical fleet registry in `lib/agents.ts`.
- * Draft agents can be selected, but their cards elsewhere mark them as
- * coming soon until Stage 2 prompt content lands.
+ * Every agent can be selected. Iho may route internally to collaborators when
+ * the question crosses a kete boundary, but the selected specialist remains the
+ * front-of-house voice for the operator.
  */
 
 import { agentBySlug, agentChatId, agentsForKete } from '@/lib/agents';
@@ -20,6 +21,14 @@ export type ChatAgent = {
   role: string;
   /** ISO short blurb for the chat header */
   blurb?: string;
+  /** Highest-level practice area claimed by this agent */
+  expertise: string;
+  /** Who this agent should pull in when the work crosses disciplines */
+  collaboratesWith: string[];
+  /** Durable context this agent is allowed and expected to remember */
+  memoryScope: string;
+  /** Standing ambient-thinking brief for morning/daily runs */
+  ambientBrief: string;
 };
 
 export type ChatKete = {
@@ -42,6 +51,10 @@ export const CHAT_KETES: ChatKete[] = KETES.map((kete) => ({
     name: agent.name,
     role: agent.role,
     blurb: agent.oneLiner,
+    expertise: agent.expertise ?? `${agent.role} specialist with NZ-context evidence discipline.`,
+    collaboratesWith: agent.collaboratesWith ?? ['iho', 'signal'],
+    memoryScope: agent.memoryScope ?? 'Tenant profile, prior decisions, workflow state, reviewer preferences, and evidence history.',
+    ambientBrief: agent.ambientBrief ?? 'Watch for the next useful draft, risk, or handoff for the operator inbox.',
   })),
 }));
 
