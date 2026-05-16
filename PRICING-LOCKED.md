@@ -1,68 +1,84 @@
-# PRICING LOCKED — 2026-04-08 (Updated 2026-05-14 to reflect 9 kete + lowercase brand)
+# PRICING LOCKED — 2026-05-15
 
-This file is the **single source of truth** for assembl pricing.
-Code (`app/pricing/page.tsx`, `lib/pricing.ts`), copy (`PricingPage.tsx`,
-`Index.tsx`, `PaywallModal.tsx`, `FAQSection.tsx`), public surfaces
-(`public/llms.txt`, `public/manifest.json`, `index.html`) and any nav/footer
-kete listing must match this file. Do **not** deviate.
+This file is the single source of truth for assembl pricing.
+Code (`lib/pricing.ts`, `app/pricing/page.tsx`), copy
+(`legacy-vite/src/pages/PricingPage.tsx`, homepage pricing teasers), and
+customer-facing pricing references must match this file. Do not deviate.
 
-All prices NZD, **GST exclusive**. Add 15% GST at invoice.
+All prices are NZD, GST exclusive. Add 15% GST at invoice.
 
-**Lowercase brand canon:** always `assembl`, never `Assembl`. Per Plugin Architecture Canon §10.4 and Kate's 14 May 2026 lock-in.
+Use code `ANNUAL12` for 12% off annual prepay.
 
-## Tier ladder
+## Current Offers
 
-| Tier       | Monthly        | Setup (one-off)                 | Includes                                                                          | Audience          |
-|------------|----------------|---------------------------------|-----------------------------------------------------------------------------------|-------------------|
-| Family     | $29            | —                               | Tōro whānau agent · email-first · household coordination                          | Households        |
-| Operator   | $1,490         | $590 (split across first 3)     | 1 kete · up to 5 seats · 20 evidence packs/mo                                    | Single-site SMB   |
-| Leader     | $1,990         | $1,290 (split across first 3)   | All kete · up to 15 seats · 60 evidence packs/mo · quarterly compliance review   | Multi-site SMB    |
-| Enterprise | $2,990         | $2,890 (split across first 3)   | All kete · unlimited seats · 200 evidence packs/mo · 99.9% SLA · NZ data residency · named success mgr  | Mid-market NZ     |
-| Outcome    | from $5,000    | per engagement                  | Bespoke outcome workflows · 10–20% of measured savings                            | High-value flows  |
+| Offer | Price | Setup | Includes | Audience |
+| --- | ---: | ---: | --- | --- |
+| Tōro Family | $29/mo | $0 | Tōro whānau navigator · reviewed family actions and records · month to month | Households |
+| Pilot Sprint | $5,000 once-off | $0 | Two weeks · one workflow · one evidence pack · money-back if no real time saved by week two | Try before you buy |
+| Industry Pack | $5,000/mo | $0 | One industry kete · six to eight specialist agents · one operating loop · no usage limits · switch kete any time · cancel any time | NZ operators |
+| Outcome | from $5,000 | Scoped | Bespoke workflow engagements with the evidence pack and commercial model agreed up front | High-value bespoke work |
 
-> Setup fees can be split across the first 3 invoices on request.
-> Family tier has no setup fee.
+## Retired Public Tiers
 
-> **Tier differentiation:** kete count is the same across Leader / Enterprise (all kete). Differentiation is seats + monthly outputs + SLA + compliance review cadence + named contact.
+The previous Operator, Leader, and Enterprise public tiers are retired for new
+customer-facing copy as of 2026-05-15.
 
-## The 9 locked kete
+Do not publish:
 
-1. **Manaaki** — Hospitality
-2. **Waihanga** — Construction
-3. **Auaha** — Creative
-4. **Arataki** — Automotive (renamed from Tourism per Q1 canon 13 May 2026)
-5. **Pīkau** — Freight & Customs
-6. **Ako** — Early Childhood Education (tightened from generic education per Q2 canon 13 May 2026)
-7. **Mātauranga** — Secondary Education (new 9th kete per Q2 canon 13 May 2026)
-8. **Hoko** — Retail
-9. **Tōro** — Whānau / Family AI (architecture-led 9 specialists per Q3 canon 13 May 2026)
+- Operator — NZ$1,490/mo + setup
+- Leader — NZ$1,990/mo + setup
+- Enterprise — from NZ$2,990/mo + setup
+- Any copy that frames kete access as one/two/all kete by tier
 
-### Retired kete (do NOT show in user-visible copy)
+## Industry Pack Canon
 
-`Hanga` (renamed to **Waihanga** on the pricing page — component folder
-unchanged), `Pakihi`, `Waka`, `Hangarau`, `Hauora`, `Te Kāhui Reo`.
+Industry Pack is the off-the-shelf operating fleet:
 
-## Forbidden phrases (must not appear in user-visible copy)
+- NZ$5,000/month
+- GST exclusive
+- No setup fee
+- Pick one of the eight industry kete at signup
+- Switch kete any time
+- Six to eight specialist agents sequenced into one loop: Hunt, Pitch, Execution, Ledger
+- No usage limits
+- Cancel any time
+
+Pilot Sprint is the try-before-you-buy path into Industry Pack.
+
+## The 9 Locked Kete
+
+Eight industry kete:
+
+1. Waihanga — Construction
+2. Manaaki — Hospitality
+3. Pīkau — Freight & Customs
+4. Arataki — Automotive & Fleet
+5. Auaha — Creative
+6. Ako — Early Childhood Education
+7. Mātauranga — Secondary Education
+8. Hoko — Retail
+
+Ninth whānau kete:
+
+9. Tōro — Whānau
+
+## Forbidden Phrases
+
+These must not appear in user-visible pricing copy:
 
 - "44 specialist agents" / "42 specialist agents" / "78 agents"
-- "Trained on 50+ NZ Acts" (Fair Trading Act risk)
-- Legacy prices: `$199`, `$399`, `$799`, `$750–$4,500`
-- "enterprise-grade" (use "mid-market NZ")
-- "Assembl" with capital A (use lowercase `assembl`)
-- "AI" used as a bare noun in customer copy (use "intelligent automation" or describe the function)
-- Legacy 5-kete or 7-kete framing (use "9 kete" or "all kete")
+- "Trained on 50+ NZ Acts" or similar quantified claims unless backed in a register row
+- Legacy prices: `$199`, `$399`, `$799`, `$750-$4,500`
+- Retired tier names/prices: `Operator $1,490`, `Leader $1,990`, `Enterprise $2,990`
+- "enterprise-grade"
+- "AI" used as a bare noun in customer copy
+- Legacy 5-kete, 7-kete, or 8-kete product framing
+- "Tōroa" or "Toroa" in customer copy
 
-### Removed from forbidden list (14 May 2026)
+## Billing Note
 
-- ~~"9 kete"~~ — was forbidden in 8 April canon; site has had 9 kete since Q2 canon decision 13 May 2026; now canonical
-- ~~"7 industry kete"~~ — same reasoning
-- ~~"16 industries"~~ — was forbidden in 8 April canon; never reflected reality; removed
+Do not delete legacy Stripe price IDs without a billing migration plan. They may
+still be needed for grandfathered subscribers and historical invoices.
 
-## Grandfathering
-
-Existing customers on the legacy `$199 / $399 / $799 + $749 setup` model
-are grandfathered for 12 months from 2026-04-08 (until 2027-04-08). After
-that, they roll to the closest new tier with 60 days' written notice.
-
-**Do not delete legacy Stripe price IDs.** They are needed for billing
-existing subscribers through the grandfather window.
+New Industry Pack checkout wiring requires the real Stripe price ID before any
+checkout/paywall code is changed.

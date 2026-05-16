@@ -419,7 +419,7 @@ const Index = () => {
           <motion.div {...fade} className="text-center mb-16">
             <SectionEyebrow>The kete</SectionEyebrow>
             <SectionH2>Choose the kete that fits the work.</SectionH2>
-            <SectionP>Each kete carries a complete specialist workflow. Operator includes one, Leader two, Enterprise all nine kete plus platform. Tōro for whānau sits separately at NZ$29/month.</SectionP>
+            <SectionP>Each kete carries a complete specialist workflow. Industry Pack is NZ$5,000/month: pick one industry fleet, switch any time, no setup fee. Tōro for whānau sits separately at NZ$29/month.</SectionP>
           </motion.div>
           <LayoutGroup>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-[1200px] mx-auto">
@@ -531,10 +531,10 @@ const Index = () => {
             </motion.div>
           </div>
 
-          {/* ─── Operator-as-platform shortcut for Business / Tech / Pro Services ─── */}
+          {/* ─── Industry Pack shortcut for business operators ─── */}
           <div className="mt-8 max-w-[1200px] mx-auto text-center">
             <p className="text-[13px]" style={{ fontFamily: "'Inter', sans-serif", color: C.textSecondary }}>
-              No kete fits? <Link to="/platform" className="underline" style={{ color: "var(--assembl-pounamu)" }}>Operator-as-platform</Link> — same price, no bundle. Build directly on Iho. Trusted by professional services, technology, and consulting teams.
+              Want the off-the-shelf operating loop? <Link to="/industry-pack" className="underline" style={{ color: "var(--assembl-pounamu)" }}>Industry Pack</Link> gives you one industry fleet for NZ$5,000/month, no setup fee, with evidence packs included.
             </p>
           </div>
         </Sect>
@@ -828,7 +828,7 @@ const Index = () => {
       <KeteAgentChat
         keteName="assembl" keteLabel="Platform Concierge" accentColor="#4AA5A8"
         defaultAgentId="echo" packId="assembl"
-        starterPrompts={["What industry kete is right for my business?", "How does the onboarding process work?", "What's included in the Operator plan?", "How does assembl handle compliance?"]}
+        starterPrompts={["What industry kete is right for my business?", "How does the onboarding process work?", "What's included in Industry Pack?", "How does assembl handle compliance?"]}
       />
     </div>
   );
