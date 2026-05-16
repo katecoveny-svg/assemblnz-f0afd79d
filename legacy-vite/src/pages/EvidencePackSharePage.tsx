@@ -30,7 +30,7 @@ const KETE_LABEL: Record<string, string> = {
   waihanga: "Waihanga / Construction",
   auaha: "Auaha / Creative",
   arataki: "Arataki / Automotive",
-  pikau: "Pikau / Logistics",
+  pikau: "Pīkau / Logistics",
   hoko: "Hoko / Property",
   ako: "Ako / Education",
   toro: "Tōro / Whānau",

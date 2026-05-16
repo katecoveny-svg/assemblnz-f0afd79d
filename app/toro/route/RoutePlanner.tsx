@@ -175,7 +175,7 @@ export function RoutePlanner() {
         {error && (
           <motion.div
             key="err"
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0.6, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             className="mt-6 rounded-[6px] border border-[rgba(163,59,44,0.30)] bg-[rgba(163,59,44,0.04)] p-5"
@@ -194,7 +194,7 @@ export function RoutePlanner() {
         {result && (
           <motion.section
             key={result.summary}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0.6, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}

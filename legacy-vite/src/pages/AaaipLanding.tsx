@@ -257,10 +257,10 @@ export default function AaaipLanding() {
               { num: "03", name: "Drug Screening", desc: "96-well plate dispatch, IRB consent, dosage limits, reproducibility", group: "Foundation" },
               { num: "04", name: "Community Moderation", desc: "Harm detection, te reo respect, Māori data sovereignty, PII leak prevention", group: "Foundation" },
               { num: "05", name: "Waihanga — Construction", desc: "Site safety, photo documentation, hazard escalation, WorkSafe compliance", group: "Industry" },
-              { num: "06", name: "Pikau — Freight & Customs", desc: "Cold-chain monitoring, driver hours, eco-driving, customs declarations", group: "Industry" },
+              { num: "06", name: "Pīkau — Freight & Customs", desc: "Cold-chain monitoring, driver hours, eco-driving, customs declarations", group: "Industry" },
               { num: "07", name: "Manaaki — Hospitality", desc: "Guest safety, allergens, accessibility, overbooking protection", group: "Industry" },
               { num: "08", name: "Auaha — Creative", desc: "Nine-agent studio, claim register, Fair Trading Act, no autonomous publishing", group: "Industry" },
-              { num: "09", name: "Toro — Whānau Navigator", desc: "SMS-first family support, parental consent, age-appropriate, wellbeing crisis", group: "Industry" },
+              { num: "09", name: "Tōro — Whānau Navigator", desc: "SMS-first family support, parental consent, age-appropriate, wellbeing crisis", group: "Industry" },
               { num: "10", name: "Arataki — Automotive", desc: "Finance quotes, CCCFA disclosure, odometer integrity, ICE-vs-EV calculator", group: "Industry" },
             ].map((p) => (
               <motion.div key={p.num} variants={fade} className="rounded-xl p-5 flex gap-4" style={{ background: C.card, border: `1px solid ${C.border}` }}>

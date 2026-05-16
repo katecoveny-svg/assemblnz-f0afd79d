@@ -206,7 +206,7 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
     keteVariant: "dense",
   },
   pikau: {
-    title: "Pikau — Freight & Customs Twin",
+    title: "Pīkau — Freight & Customs Twin",
     pilotLabel: "Aotearoa Agentic AI Platform · Pilot 06",
     description:
       "A fleet / cold-chain agent reading telemetry from trucks and reefer containers. Driver-hours, cold-chain, sensor health, eco-driving and data residency policies gate every dispatch.",
@@ -250,7 +250,7 @@ const DOMAIN_META: Record<DomainKey, DomainMeta> = {
     keteVariant: "standard",
   },
   toro: {
-    title: "Toro — Whānau Family Navigator",
+    title: "Tōro — Whānau Family Navigator",
     pilotLabel: "Aotearoa Agentic AI Platform · Pilot 09",
     description:
       "An SMS-first whānau family navigator sending school notices, meal ideas, budget alerts, learning prompts and reminders. Parental-consent, age-appropriate, financial-harm, wellbeing-crisis and te reo integrity policies gate every outbound message.",
@@ -355,7 +355,7 @@ export default function AaaipDashboard() {
     <div className="relative min-h-screen" style={{ background: "transparent", color: "#3D4250" }}>
       <SEO
         title="AAAIP Live Demo · Assembl"
-        description="Simulation-tested, policy-governed autonomous agents across every Assembl industry Kete — Waihanga, Pikau, Manaaki, Auaha, Toro — plus clinical, robotics, drug-screening and community-moderation pilots."
+        description="Simulation-tested, policy-governed autonomous agents across every Assembl industry Kete — Waihanga, Pīkau, Manaaki, Auaha, Tōro — plus clinical, robotics, drug-screening and community-moderation pilots."
       />
       <BrandNav />
       <div className="relative z-10">
@@ -847,11 +847,11 @@ const DOMAIN_OPTIONS: Array<{ key: DomainKey; label: string; group: "foundation"
   { key: "science", label: "Drug screening", group: "foundation" },
   { key: "community", label: "Community portal", group: "foundation" },
   { key: "waihanga", label: "Waihanga — construction", group: "industry" },
-  { key: "pikau", label: "Pikau — freight & customs", group: "industry" },
+  { key: "pikau", label: "Pīkau — freight & customs", group: "industry" },
   { key: "manaaki", label: "Manaaki — hospitality", group: "industry" },
   { key: "auaha", label: "Auaha — creative", group: "industry" },
   { key: "arataki", label: "Arataki — automotive", group: "industry" },
-  { key: "toro", label: "Toro — whānau navigator", group: "industry" },
+  { key: "toro", label: "Tōro — whānau navigator", group: "industry" },
 ];
 
 function DomainIcon({ domain }: { domain: DomainKey }) {

@@ -9,6 +9,7 @@ import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import type { PearlLiveStats } from '@/lib/pearl-live';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
+import { KeteRotator } from './KeteRotator';
 
 type KeteImagery = Record<KeteSlug, { square: string; wide: string }>;
 
@@ -182,9 +183,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
               <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/55 px-3 py-2 font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                 assembl evidence vessel · Built in Aotearoa
               </p>
-              <h1 className="mt-5 max-w-[11ch] font-display text-display-xl font-light text-[color:var(--text-primary)] md:mt-7 md:max-w-4xl">
-                Mahi that earns its proof.
-              </h1>
+              <KeteRotator ketes={ketes} className="mt-5 md:mt-7" />
               <div className="mt-4 md:hidden">
                 <KeteSelector
                   ketes={ketes}
@@ -195,12 +194,6 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                   variant="rail"
                 />
               </div>
-              <p className="mt-7 hidden max-w-2xl text-body-lg text-[color:var(--text-body)] md:block">
-                Assembl runs operational compliance work in the open: every workflow
-                is grounded in New Zealand legislation, reviewed by a named person on
-                your team, and sealed with an evidence pack you can file, forward, or
-                footnote.
-              </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row md:mt-8">
                 <Link
                   href="/pilot-sprint"

@@ -84,7 +84,7 @@ const AGENT_MAP: Record<string, { name: string; Icon: typeof Hammer; desc: strin
   "Liquor compliance": { name: "AURA", Icon: ShieldCheck, desc: "Licence renewals and duty manager tracking" },
   "Menu costing": { name: "LEDGER", Icon: Receipt, desc: "Plate margin and supplier price tracking" },
   "Guest experience": { name: "AURA", Icon: Sparkles, desc: "Bookings, returning guests, dietary memory" },
-  // Freight / Pikau
+  // Freight / Pīkau
   "Customs clearance & MPI": { name: "PIKAU", Icon: Package, desc: "MPI BACC, customs entries, and biosecurity" },
   "Shipment tracking & ETAs": { name: "PIKAU", Icon: Truck, desc: "Live ETA tracking and customer updates" },
   "Driver hours & RUC": { name: "ARATAKI", Icon: Car, desc: "Hours of work, RUC, and fleet compliance" },

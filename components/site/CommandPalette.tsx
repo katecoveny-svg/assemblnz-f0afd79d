@@ -1,0 +1,119 @@
+'use client';
+
+import * as Dialog from '@radix-ui/react-dialog';
+import { Command } from 'cmdk';
+import { FileText, Layers3, Search, Sparkles, X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+import { AGENTS } from '@/lib/agents';
+import { KETES } from '@/lib/kete';
+import { KETE_VESSEL_IMAGES } from '@/lib/brand-tokens';
+
+const PAGES = [
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'How it works', href: '/how-it-works' },
+  { label: 'Evidence pack', href: '/evidence-pack' },
+  { label: 'Hapai assessment', href: '/hapai' },
+  { label: 'Founder', href: '/about' },
+];
+
+export function CommandPalette() {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const agents = useMemo(() => AGENTS.filter((agent, index, array) => array.findIndex((a) => a.slug === agent.slug) === index), []);
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setOpen((value) => !value);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    const onOpen = () => setOpen(true);
+    window.addEventListener('assembl:open-command', onOpen);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('assembl:open-command', onOpen);
+    };
+  }, []);
+
+  const go = (href: string) => {
+    setOpen(false);
+    router.push(href);
+  };
+
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-50 bg-[rgba(35,33,31,0.24)] backdrop-blur-sm" />
+        <Dialog.Content className="fixed left-1/2 top-[12vh] z-50 w-[min(calc(100vw-2rem),720px)] -translate-x-1/2 overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[color:var(--assembl-paper)] shadow-[0_32px_90px_rgba(35,33,31,0.24)]">
+          <Dialog.Title className="sr-only">Search assembl</Dialog.Title>
+          <Command label="Search assembl" className="[&_[cmdk-group-heading]]:px-4 [&_[cmdk-group-heading]]:pb-2 [&_[cmdk-group-heading]]:pt-5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.08em] [&_[cmdk-group-heading]]:text-[color:var(--text-secondary)]">
+            <div className="flex items-center gap-3 border-b border-[rgba(35,33,31,0.10)] px-4 py-3">
+              <Search className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
+              <Command.Input
+                autoFocus
+                placeholder="Find kete, specialist agents, or pages..."
+                className="h-11 flex-1 bg-transparent text-body-md outline-none placeholder:text-[color:var(--text-secondary)]"
+              />
+              <Dialog.Close className="rounded-full p-2 text-[color:var(--text-secondary)] hover:bg-[rgba(35,33,31,0.06)]" aria-label="Close command palette">
+                <X className="h-4 w-4" aria-hidden />
+              </Dialog.Close>
+            </div>
+            <Command.List className="max-h-[62vh] overflow-y-auto p-2">
+              <Command.Empty className="px-4 py-8 text-center text-body-md text-[color:var(--text-secondary)]">No result found.</Command.Empty>
+              <Command.Group heading="Kete">
+                {KETES.map((kete) => (
+                  <Command.Item
+                    key={kete.slug}
+                    value={`${kete.name} ${kete.industry}`}
+                    onSelect={() => go(`/kete/${kete.slug}`)}
+                    className="flex cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 aria-selected:bg-white"
+                    style={{ borderLeftColor: kete.accent }}
+                  >
+                    <img src={KETE_VESSEL_IMAGES[kete.slug]} alt="" className="h-8 w-8 rounded-sm object-cover" />
+                    <Layers3 className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
+                    <span className="flex-1 text-body-md">{kete.name}</span>
+                    <span className="text-xs text-[color:var(--text-secondary)]">{kete.industry}</span>
+                  </Command.Item>
+                ))}
+              </Command.Group>
+              <Command.Group heading="Specialist agents">
+                {agents.map((agent) => {
+                  const kete = KETES.find((item) => item.slug === agent.kete)!;
+                  return (
+                    <Command.Item
+                      key={agent.slug}
+                      value={`${agent.name} ${agent.role} ${kete.name}`}
+                      onSelect={() => go(`/agents/${agent.slug}`)}
+                      className="flex cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 aria-selected:bg-white"
+                      style={{ borderLeftColor: kete.accent }}
+                    >
+                      <Sparkles className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
+                      <span className="flex-1 text-body-md">{agent.name}</span>
+                      <span className="text-xs text-[color:var(--text-secondary)]">{kete.name}</span>
+                    </Command.Item>
+                  );
+                })}
+              </Command.Group>
+              <Command.Group heading="Pages">
+                {PAGES.map((page) => (
+                  <Command.Item
+                    key={page.href}
+                    value={page.label}
+                    onSelect={() => go(page.href)}
+                    className="flex cursor-pointer items-center gap-3 rounded-[8px] border-l-4 border-[color:var(--assembl-pounamu)] px-3 py-3 aria-selected:bg-white"
+                  >
+                    <FileText className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
+                    <span className="text-body-md">{page.label}</span>
+                  </Command.Item>
+                ))}
+              </Command.Group>
+            </Command.List>
+          </Command>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}

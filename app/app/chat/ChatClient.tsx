@@ -42,7 +42,7 @@ type Props = {
  *
  * Brand rules (locked):
  *   • lowercase tōro everywhere user-facing
- *   • Use "intelligent automation" / "specialist" / "the brain"
+ *   • Use "specialist agents" / "specialist" / "the brain"
  *   • Mārama Whenua palette only — paper, ink, pounamu, gold-thread
  *   • Editorial, calm — no hype-tech aesthetic
  *   • Every reply is a draft — banner the disclaimer.

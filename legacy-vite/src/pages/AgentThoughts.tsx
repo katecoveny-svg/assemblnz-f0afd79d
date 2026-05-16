@@ -35,7 +35,7 @@ const AGENT_OPTIONS: { id: string; label: string; sub: string }[] = [
   { id: "waihanga", label: "Waihanga", sub: "Construction" },
   { id: "auaha",    label: "Auaha",    sub: "Creative" },
   { id: "pakihi",   label: "Pakihi",   sub: "Small business" },
-  { id: "pikau",    label: "Pikau",    sub: "Freight & customs" },
+  { id: "pikau",    label: "Pīkau",    sub: "Freight & customs" },
   { id: "toro",     label: "Tōro",     sub: "Family" },
 ];
 

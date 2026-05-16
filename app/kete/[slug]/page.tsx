@@ -12,6 +12,8 @@ import {
 import { ketes as keteImagery } from '@/lib/site-config';
 import { VesselTile } from '@/components/site/VesselTile';
 import { SectionReveal } from '@/components/SectionReveal';
+import { ComplianceChips } from '@/components/site/ComplianceChips';
+import { TeReo } from '@/components/site/TeReo';
 
 type Params = { slug: string };
 
@@ -104,13 +106,17 @@ function IndustryKetePage({
               </div>
 
               <h1 className="mt-6 font-display text-display-xl">
-                <span className="text-[color:var(--text-primary)]">{kete.name}</span>{' '}
+                <TeReo className="text-[color:var(--text-primary)]">{kete.name}</TeReo>{' '}
                 <span className="text-gradient-hero">— {detail.heroLead}</span>
               </h1>
 
               <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
                 {detail.heroBody}
               </p>
+
+              <div className="mt-6">
+                <ComplianceChips kete={kete.slug} />
+              </div>
 
             {!isComingSoon && (
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -273,7 +279,7 @@ function IndustryKetePage({
                   Agents in this kete
                 </span>
                 <h2 className="mt-3 font-display text-display-md">
-                  {kete.name} ships with{' '}
+                  <TeReo>{kete.name}</TeReo> ships with{' '}
                   <em
                     className="not-italic"
                     style={{
@@ -330,7 +336,7 @@ function IndustryKetePage({
                 Live chat agents
               </span>
               <h2 className="mt-3 font-display text-display-md">
-                Explore {kete.name}&apos;s specialist knowledge.
+                Explore <TeReo>{kete.name}</TeReo>&apos;s specialist knowledge.
               </h2>
               <p className="mt-5 text-body-md text-[color:var(--text-body)]">
                 Live agents can be opened in chat now. Draft agents stay in the registry until their system prompts are written and reviewed.
@@ -595,7 +601,11 @@ function IndustryKetePage({
             style={{ ['--kete-accent' as string]: kete.accent }}
           >
             <h2 className="font-display text-display-md">
-              {isComingSoon ? `Register your interest in ${kete.name}.` : `Start with ${kete.name}.`}
+                {isComingSoon ? (
+                  <>Register your interest in <TeReo>{kete.name}</TeReo>.</>
+                ) : (
+                  <>Start with <TeReo>{kete.name}</TeReo>.</>
+                )}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
               {isComingSoon
@@ -673,18 +683,22 @@ function ToroPage({
                 aria-hidden
               />
               <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                For whānau · Family tier
+                For <TeReo title="family">whānau</TeReo> · Family tier
               </span>
             </div>
 
             <h1 className="mt-6 font-display text-display-xl">
-              <span className="text-[color:var(--text-primary)]">Tōro</span>{' '}
+              <TeReo className="text-[color:var(--text-primary)]">Tōro</TeReo>{' '}
               <span className="text-gradient-hero">— {detail.heroLead}</span>
             </h1>
 
             <p className="mx-auto mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               {detail.heroBody}
             </p>
+
+            <div className="mx-auto mt-6 flex max-w-2xl justify-center">
+              <ComplianceChips kete={kete.slug} />
+            </div>
 
             <div className="mt-8 inline-flex items-baseline gap-2">
               <span className="font-display text-display-lg text-[color:var(--text-primary)]">
@@ -727,7 +741,7 @@ function ToroPage({
                   What this kete does
                 </span>
                 <h2 className="mt-3 font-display text-display-md">
-                  How Tōro lives in your whānau.
+                  How <TeReo>Tōro</TeReo> lives in your <TeReo title="family">whānau</TeReo>.
                 </h2>
               </SectionReveal>
               <div className="mt-8 space-y-5 text-body-md text-[color:var(--text-body)] md:text-lg">
@@ -839,7 +853,7 @@ function ToroPage({
                 Explore Tōro&apos;s working knowledge.
               </h2>
               <p className="mt-5 text-body-md text-[color:var(--text-body)]">
-                Tōro, Iho, and Signal are live. Draft whānau specialists stay hidden from chat until their prompts are ready.
+                <TeReo>Tōro</TeReo>, <TeReo title="core">Iho</TeReo>, and Signal are live. Draft <TeReo title="family">whānau</TeReo> specialists stay hidden from chat until their prompts are ready.
               </p>
             </SectionReveal>
           </div>
@@ -920,7 +934,7 @@ function ToroPage({
             style={{ ['--kete-accent' as string]: kete.accent }}
           >
             <h2 className="font-display text-display-md">
-              Tōro is available now at the Family tier.
+              <TeReo>Tōro</TeReo> is available now at the Family tier.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
               Self-serve via Stripe. NZ$29/month, no setup fee. Cancel any time.

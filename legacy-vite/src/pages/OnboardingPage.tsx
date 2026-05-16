@@ -17,7 +17,7 @@ const INDUSTRIES = [
   { key: "waihanga", label: "Construction & Trades",  reo: "Waihanga", Icon: HardHat,        color: "#3A7D6E" },
   { key: "auaha",    label: "Creative & Marketing",   reo: "Auaha",    Icon: Palette,        color: "#4AA5A8" },
   { key: "arataki",  label: "Automotive & Fleet",     reo: "Arataki",  Icon: Car,            color: "#3A7D6E" },
-  { key: "pikau",    label: "Freight & Logistics",    reo: "Pikau",    Icon: Truck,          color: "#1F4E54" },
+  { key: "pikau",    label: "Freight & Logistics",    reo: "Pīkau",    Icon: Truck,          color: "#1F4E54" },
   { key: "hoko",     label: "Retail & E-commerce",    reo: "Hoko",     Icon: ShoppingBag,    color: "#4AA5A8" },
   { key: "ako",      label: "Education & Training",   reo: "Ako",      Icon: GraduationCap,  color: "#3A7D6E" },
   { key: "toro",     label: "Household & Whānau",     reo: "Tōro",     Icon: Home,           color: "#1F4E54" },

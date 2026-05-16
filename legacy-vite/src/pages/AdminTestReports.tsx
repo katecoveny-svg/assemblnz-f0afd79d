@@ -116,7 +116,7 @@ export default function AdminTestReports() {
     const pipeline = [
       "Kahu (Guardian): PII detection, data classification, cultural safety",
       "Iho (Route): Intent classification, industry routing",
-      "Ta (Apply): NZ English, te reo Maori macrons, brand voice",
+      "Tā (Apply): NZ English, te reo Maori macrons, brand voice",
       "Mahara (Verify): Legislative citations, rate verification, staleness check",
       "Mana (Approve): Professional disclaimers, Maori data sovereignty",
     ];
@@ -157,7 +157,7 @@ export default function AdminTestReports() {
       const promptShort = (r.prompt || "").substring(0, 100);
       doc.text(`  Prompt: "${promptShort}${r.prompt?.length > 100 ? "..." : ""}"`, 22, y);
       y += 5;
-      doc.text(`  Stages: Kahu=${r.verdict_kahu || "—"} Iho=${r.verdict_iho || "—"} Ta=${r.verdict_ta || "—"} Mahara=${r.verdict_mahara || "—"} Mana=${r.verdict_mana || "—"}`, 22, y);
+      doc.text(`  Stages: Kahu=${r.verdict_kahu || "—"} Iho=${r.verdict_iho || "—"} Tā=${r.verdict_ta || "—"} Mahara=${r.verdict_mahara || "—"} Mana=${r.verdict_mana || "—"}`, 22, y);
       y += 7;
     }
 
@@ -176,7 +176,7 @@ export default function AdminTestReports() {
       "orchestration — areas where no established solutions exist.",
       "",
       "Key R&D activities evidenced:",
-      "  - Development of 5-stage compliance pipeline (Kahu-Iho-Ta-Mahara-Mana)",
+      "  - Development of 5-stage compliance pipeline (Kahu-Iho-Tā-Mahara-Mana)",
       "  - NZ-specific legislative knowledge base with automated staleness detection",
       "  - Automated compliance scanning of 20+ NZ government sources",
       "  - Multi-agent context sharing and memory compression",

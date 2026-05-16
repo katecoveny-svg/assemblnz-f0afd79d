@@ -88,7 +88,7 @@ const PLATFORM_CAPABILITIES: Capability[] = [
     icon: Workflow,
     title: "Symbiotic workflows",
     body:
-      "Trigger one agent from another. Manaaki's booking confirmations feed Auaha's review-request campaigns; Waihanga site check-ins feed Pikau's freight planning.",
+      "Trigger one agent from another. Manaaki's booking confirmations feed Auaha's review-request campaigns; Waihanga site check-ins feed Pīkau's freight planning.",
   },
   {
     icon: Database,

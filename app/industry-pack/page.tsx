@@ -6,37 +6,18 @@ import { PackPicker, type PackOption } from './PackPicker';
 import { agentsForKete } from '@/lib/agents';
 import { INDUSTRY_KETES, type KeteSlug } from '@/lib/kete';
 import { KETE_DETAIL, type IndustryKeteDetail } from '@/lib/kete-detail';
+import { PipelineStickyScroll } from '@/components/site/PipelineStickyScroll';
+import { TeReo } from '@/components/site/TeReo';
 
 export const metadata: Metadata = {
-  title: 'Industry Pack',
+  title: {
+    absolute: 'assembl — mahi that earns its proof',
+  },
   description:
     'NZ$5,000 a month. Six to eight specialist agents sequenced into one operating loop for NZ operators.',
 };
 
 type IndustryKeteSlug = Exclude<KeteSlug, 'toro'>;
-
-const LOOP = [
-  {
-    number: '01',
-    title: 'HUNT',
-    body: 'Agents find prospects, qualify them, and surface high-value work to your inbox.',
-  },
-  {
-    number: '02',
-    title: 'PITCH',
-    body: 'Quotes, contracts, outreach in your voice. Every word drafted, every word reviewed by you.',
-  },
-  {
-    number: '03',
-    title: 'EXECUTION',
-    body: 'Route, schedule, manage, deliver. Weather-aware. Calendar-aware. Customer-aware.',
-  },
-  {
-    number: '04',
-    title: 'LEDGER',
-    body: 'Income, expenses, tax thresholds, compliance flags. Your books close themselves.',
-  },
-] as const;
 
 const ADD_ONS = [
   {
@@ -136,10 +117,10 @@ export default function IndustryPackPage() {
         <div className="container grid min-h-[calc(100vh-76px)] items-center gap-12 py-20 lg:grid-cols-[minmax(0,1fr)_minmax(360px,520px)] lg:py-24">
           <div>
             <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
-              ASSEMBL · INDUSTRY PACK
+              assembl · Industry Pack
             </p>
             <h1 className="mt-7 max-w-[10ch] font-display text-display-xl font-light text-[color:var(--text-primary)]">
-              Your industry. Your fleet. One flat number.
+              <TeReo title="work">Mahi</TeReo> that earns its proof.
             </h1>
             <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)] md:text-xl">
               NZ$5,000 a month. Six to eight specialist agents, sequenced into one operating loop
@@ -171,29 +152,7 @@ export default function IndustryPackPage() {
         </div>
       </section>
 
-      <section className="py-24 lg:py-32">
-        <div className="container">
-          <div className="flex gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-4 md:overflow-visible md:pb-0">
-            {LOOP.map((item) => (
-              <article
-                key={item.number}
-                className="min-w-[260px] border bg-white/45 p-6 md:min-w-0 md:p-8"
-                style={{ borderColor: 'rgba(212,168,83,0.42)' }}
-              >
-                <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">
-                  {item.number}
-                </p>
-                <h2 className="mt-8 font-display text-display-md font-light text-[color:var(--text-primary)]">
-                  {item.title}
-                </h2>
-                <p className="mt-5 text-sm leading-relaxed text-[color:var(--text-body)] md:text-base">
-                  {item.body}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PipelineStickyScroll />
 
       <section id="pack-details" className="border-y border-[rgba(212,168,83,0.36)] py-24 lg:py-32">
         <div className="container">

@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Inter, IBM_Plex_Mono } from 'next/font/google';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { ScrollProgress } from '@/components/site/scroll-progress';
+import { CommandPalette } from '@/components/site/CommandPalette';
 import { KeteAccentProvider } from '@/components/KeteAccentContext';
 import './globals.css';
 
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         <KeteAccentProvider>
           <ScrollProgress />
+          <CommandPalette />
           <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
             <main id="main-content" className="relative z-10 flex-1 outline-none" tabIndex={-1}>
