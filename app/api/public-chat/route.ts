@@ -302,30 +302,24 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const { data: agentData, error: invokeError } = await service.functions.invoke(`agent-${kete}`, {
-    body: {
-      action: 'public_chat',
-      actionType: 'public_chat',
-      project_id: tenant.id,
-      user_id: tenant.id,
-      userId: tenant.id,
-      kete,
-      payload: {
+  // Public chat backend: call the dedicated public-chat-llm edge function.
+  // The previous agent-${kete} invocation only handled kete-specific workflow
+  // actions (sync_calendar, plan_trip, etc) — not free-form public chat — so
+  // every session fell through to the "taking a break" fallback. The new
+  // public-chat-llm function loads the kete's system prompt from agent_prompts
+  // and calls Claude Haiku for a fast, cheap, demo-grade response.
+  const { data: agentData, error: invokeError } = await service.functions.invoke(
+    'public-chat-llm',
+    {
+      body: {
+        kete,
         message,
-        tenant_slug: slug,
         history: body.history?.slice(-8) ?? [],
-        channel: 'public-widget',
-        session_id: sessionId,
-        chat_id: chatId,
+        tenantId: tenant.id,
+        sessionId,
       },
-      context: {
-        channel: 'public-widget',
-        tenant_slug: slug,
-        previousMessages: body.history?.slice(-8) ?? [],
-      },
-      requestId: chatId,
     },
-  });
+  );
 
   const responseText = invokeError
     ? takingABreak(email)
