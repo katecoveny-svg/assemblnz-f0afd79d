@@ -269,6 +269,7 @@ export function ChatClient({
           agentId: selection.agent.agentId,
           packId: selection.kete.slug,
           mode: 'respond',
+          modelHint: 'gemini',
           context: {
             previousMessages,
             workflow: activeWorkflow
