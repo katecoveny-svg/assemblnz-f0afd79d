@@ -2,6 +2,7 @@
   "name": "arataki",
   "version": "0.2.0",
   "description": "Leadership and governance industry pack — directors, board members, trustees, and executives. Drafts board papers, strategy and stakeholder communications, and governance decision logs under the Companies Act 1993, the Trusts Act 2019, and the relevant codes of conduct (IoD, NZX). Also owns the cross-kete Business Pulse workflow (Monday 07:00 NZT brief, Xero + Stripe + Calendar synthesis). Every output is staged for the board chair, the company secretary, or the trust's professional adviser to review and sign.",
+  "description": "Leadership and governance industry pack — directors, board members, trustees, and executives. Drafts board papers, strategy and stakeholder communications, and governance decision logs under the Companies Act 1993, the Trusts Act 2019, and the relevant codes of conduct (IoD, NZX). Also hosts the cross-kete Business Pulse weekly brief workflow (Xero, Stripe, calendar, optional HubSpot). Every output is staged for the board chair, the company secretary, the trust's professional adviser, or the responsible executive to review and sign.",
   "tags": ["governance", "directors", "trustees", "board-papers", "companies-act-1993", "trusts-act-2019", "business-pulse"],
   "price_tier": "leader",
   "skills": [
@@ -14,9 +15,21 @@
     "calendar-week-ahead",
     "pulse-synthesis"
   ],
+  "agents": [
+    "business-pulse"
+  ],
   "core_skills": [
     "assembl-core/tikanga-compliance",
     "assembl-core/nz-privacy-act-2020"
   ],
   "connectors": ["xero", "stripe", "google-workspace", "hubspot", "slack"]
+  "connectors": [
+    "xero",
+    "stripe",
+    "google-calendar",
+    "microsoft-calendar",
+    "hubspot",
+    "slack",
+    "assembl-drive"
+  ]
 }

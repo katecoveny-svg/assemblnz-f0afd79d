@@ -32,7 +32,7 @@ export const SUBSCRIBE_PLANS: SubscribePlan[] = [
     monthly: 'NZ$5,000 / month',
     setup: '$0 setup',
     summary:
-      'Six to eight specialist agents sequenced into one operating loop for one industry kete.',
+      'A live specialist-agent fleet sequenced into one operating loop for one industry kete.',
     features: [
       'Pick one of the 8 industry kete',
       'Switch kete any time',

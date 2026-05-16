@@ -18,7 +18,7 @@ export function TrustStrip({ items }: { items: readonly string[] }) {
     >
       <div className="mx-auto max-w-7xl px-6 md:px-12">
         <motion.ul
-          initial={reduce ? false : { opacity: 0, y: 12 }}
+          initial={reduce ? false : { opacity: 0.6, y: 12 }}
           whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}

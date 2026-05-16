@@ -60,13 +60,26 @@ export function KeteCard({
   kete,
   index = 0,
   featured = false,
+  compact = false,
+  href,
+  className = '',
+  onAccentChange,
 }: {
   kete: Kete;
   index?: number;
   featured?: boolean;
+  compact?: boolean;
+  href?: string;
+  className?: string;
+  onAccentChange?: (accent: string | null) => void;
 }) {
   const { setAccent } = useKeteAccent();
   const agentCount = AGENT_COUNTS[kete.slug] ?? 0;
+  const cardHref = href ?? `/kete/${kete.slug}`;
+  const handleAccent = (accent: string | null) => {
+    setAccent(accent);
+    onAccentChange?.(accent);
+  };
 
   return (
     <motion.div
@@ -74,24 +87,24 @@ export function KeteCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.4, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-      className="h-full"
+      className={`h-full ${className}`}
     >
       <Link
-        href={`/kete/${kete.slug}`}
+        href={cardHref}
         data-kete={kete.slug}
-        onMouseEnter={() => setAccent(kete.accent)}
-        onMouseLeave={() => setAccent(null)}
-        onFocus={() => setAccent(kete.accent)}
-        onBlur={() => setAccent(null)}
+        onMouseEnter={() => handleAccent(kete.accent)}
+        onMouseLeave={() => handleAccent(null)}
+        onFocus={() => handleAccent(kete.accent)}
+        onBlur={() => handleAccent(null)}
         className={`kete-card group relative block h-full overflow-hidden rounded-card border border-[rgba(35,33,31,0.08)] bg-white/55 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:scale-[1.02] hover:border-[rgba(35,33,31,0.18)] hover:shadow-[0_24px_56px_rgba(43,107,87,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-4 ${
-          featured ? 'p-10 md:p-14' : 'p-8 md:p-10'
+          featured ? 'p-10 md:p-14' : compact ? 'p-5 md:p-6' : 'p-8 md:p-10'
         }`}
         style={{ ['--kete-accent' as string]: kete.accent }}
       >
         {/* Per-kete subtle pattern — fades up on hover */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.06] transition-opacity duration-500 group-hover:opacity-[0.14]"
+          className="pointer-events-none absolute inset-0 opacity-[0.06] transition-opacity duration-500 group-hover:opacity-[0.14] group-focus-visible:opacity-[0.14]"
           style={{
             color: kete.accent,
             backgroundImage: KETE_PATTERN[kete.slug],
@@ -102,7 +115,7 @@ export function KeteCard({
         {/* Accent stripe — left edge, grows top→full on hover */}
         <span
           aria-hidden
-          className="absolute left-0 top-8 h-12 w-1 rounded-r transition-all duration-500 group-hover:top-0 group-hover:h-full group-hover:w-2"
+          className="absolute left-0 top-8 h-12 w-1 rounded-r transition-all duration-500 group-hover:top-0 group-hover:h-full group-hover:w-2 group-focus-visible:top-0 group-focus-visible:h-full group-focus-visible:w-2"
           style={{ backgroundColor: kete.accent }}
         />
 
@@ -113,14 +126,14 @@ export function KeteCard({
                 {kete.industry}
               </span>
               <ArrowUpRight
-                className="h-5 w-5 text-[color:var(--text-secondary)] transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[color:var(--text-primary)]"
+                className="h-5 w-5 text-[color:var(--text-secondary)] transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[color:var(--text-primary)] group-focus-visible:translate-x-1 group-focus-visible:-translate-y-1 group-focus-visible:text-[color:var(--text-primary)]"
                 aria-hidden
               />
             </div>
 
             <h3
               className={`mt-5 font-display text-[color:var(--text-primary)] ${
-                featured ? 'text-5xl md:text-6xl' : 'text-3xl md:text-4xl'
+                featured ? 'text-5xl md:text-6xl' : compact ? 'text-2xl md:text-3xl' : 'text-3xl md:text-4xl'
               }`}
             >
               {kete.name}
@@ -128,7 +141,7 @@ export function KeteCard({
 
             <p
               className={`mt-4 leading-relaxed text-[color:var(--text-body)] ${
-                featured ? 'text-lg md:text-xl' : 'text-base'
+                featured ? 'text-lg md:text-xl' : compact ? 'text-sm' : 'text-base'
               }`}
             >
               {kete.tagline}
@@ -148,7 +161,7 @@ export function KeteCard({
               <KeteIllustration
                 slug={kete.slug}
                 accent={kete.accent}
-                className="h-44 w-auto transition-transform duration-700 group-hover:scale-[1.04] md:h-56"
+                className="h-44 w-auto transition-transform duration-700 group-hover:scale-[1.04] group-focus-visible:scale-[1.04] md:h-56"
               />
             </div>
           )}
@@ -159,7 +172,7 @@ export function KeteCard({
           <KeteIllustration
             slug={kete.slug}
             accent={kete.accent}
-            className="pointer-events-none absolute right-4 top-4 h-20 w-auto opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110"
+            className="pointer-events-none absolute right-4 top-4 h-20 w-auto opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 group-focus-visible:opacity-100 group-focus-visible:scale-110"
           />
         )}
 
@@ -169,7 +182,7 @@ export function KeteCard({
             <span className="flex items-center gap-2 font-mono text-[11px] text-[color:var(--text-secondary)]">
               <span
                 aria-hidden
-                className="h-2.5 w-2.5 rounded-full transition-transform duration-500 group-hover:scale-150"
+                className="h-2.5 w-2.5 rounded-full transition-transform duration-500 group-hover:scale-150 group-focus-visible:scale-150"
                 style={{ backgroundColor: kete.accent }}
               />
               {kete.accentName}
@@ -178,7 +191,7 @@ export function KeteCard({
             {/* "+ N agents" chip — appears on hover */}
             {agentCount > 0 && (
               <span
-                className="rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                className="rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100"
                 style={{
                   color: kete.accent,
                   borderColor: kete.accent + '55',

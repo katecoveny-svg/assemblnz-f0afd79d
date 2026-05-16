@@ -39,12 +39,12 @@ const KETE_TAGLINE: Record<string, { lead: string; body: string }> = {
   hoko: {
     lead: 'Consumer protection on the floor.',
     body:
-      'Retail compliance grounded in Consumer Guarantees Act 1993, product safety obligations, and retail employment. Coming soon.',
+      'Retail compliance grounded in Consumer Guarantees Act 1993, Fair Trading Act 1986, product safety obligations, and customer privacy.',
   },
   ako: {
     lead: 'Early Childhood Education — ratios, kaiako, ERO.',
     body:
-      'ECE compliance grounded in the Education and Training Act 2020, ECE Services Regulations 2008, Te Whāriki, ERO review cycles, and Privacy Act 2020 (IPP 3A) on tamariki data. Centres, kaiako, ratios, individual learning records. Coming soon.',
+      'ECE compliance grounded in the Education and Training Act 2020, ECE Services Regulations 2008, Te Whāriki, ERO review cycles, and Privacy Act 2020 (IPP 3A) on tamariki data.',
   },
   toro: {
     lead: 'Your family’s quiet assistant.',
@@ -105,7 +105,6 @@ function KeteScene({
 }) {
   const copy = KETE_TAGLINE[kete.slug] ?? { lead: kete.tagline, body: '' };
   const count = COUNTS[kete.slug] ?? 0;
-  const isComingSoon = kete.status === 'coming-soon' || kete.status === 'mothballed';
 
   return (
     <section
@@ -128,7 +127,7 @@ function KeteScene({
         <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           {/* Text — left side */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0.6, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.4 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -139,7 +138,6 @@ function KeteScene({
               style={{ color: kete.accent }}
             >
               {kete.industry}
-              {isComingSoon && ' · Coming soon'}
             </p>
             <h2
               className="mt-6 font-display leading-[0.9] tracking-tight text-[color:var(--text-primary)]"
@@ -168,7 +166,7 @@ function KeteScene({
                   className="border-b pb-1 transition-colors duration-300 group-hover:opacity-80"
                   style={{ borderColor: kete.accent }}
                 >
-                  {isComingSoon ? `Register interest · ${kete.name}` : `Explore ${kete.name}`}
+                  Explore {kete.name}
                 </span>
                 <ArrowRight
                   className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1"
@@ -190,7 +188,7 @@ function KeteScene({
 
           {/* Illustration — right side, very large, with halo */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0.6, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: false, amount: 0.4 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
@@ -261,7 +259,7 @@ function SceneDots({ activeIndex, ketes }: { activeIndex: number; ketes: typeof 
           <AnimatePresence>
             <motion.span
               key={i === activeIndex ? 'active' : 'inactive'}
-              initial={{ opacity: 0, x: 8 }}
+              initial={{ opacity: 0.6, x: 8 }}
               animate={{ opacity: i === activeIndex ? 1 : 0, x: 0 }}
               transition={{ duration: 0.3 }}
               className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)] group-hover:opacity-100"

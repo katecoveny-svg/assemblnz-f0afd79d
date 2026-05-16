@@ -26,7 +26,7 @@ export default function KeteIndexPage() {
                 Browse the fleet.
               </h1>
               <p className="mt-6 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-                9 kete. 60+ specialist agents. Each one runs the work, ends with an evidence pack.
+                9 kete. 80+ specialist agents. Each one runs the work, ends with an evidence pack.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
@@ -56,4 +56,3 @@ export default function KeteIndexPage() {
     </main>
   );
 }
-

@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getServiceClient } from '@/lib/supabase/service';
 import { InboxExperience } from './InboxExperience';
 import { toOperatorDraft, type OperatorDraftRow } from './model';
+import { toBusinessPulseBrief } from '@/lib/business-pulse/run';
 
 export const metadata: Metadata = {
   title: 'Operator inbox',
@@ -71,7 +72,7 @@ export default async function OperatorInboxPage({
 
   if (!member && !admin) redirect('/app');
 
-  const [{ data: draftRows }, { data: outcomes }] = await Promise.all([
+  const [{ data: draftRows }, { data: outcomes }, { data: pulseRow }] = await Promise.all([
     service
       .from('toro_drafts')
       .select(
@@ -87,6 +88,15 @@ export default async function OperatorInboxPage({
       .eq('tenant_id', currentTenant.id)
       .order('created_at', { ascending: false })
       .limit(6),
+    service
+      .from('business_pulse_briefs')
+      .select(
+        'id,tenant_id,brief_date,drive_path,markdown,three_things,cash_position,pipeline_movement,weekly_commitments,pilot_health,tikanga_check_passed,privacy_check_passed,source_status,created_at',
+      )
+      .eq('tenant_id', currentTenant.id)
+      .order('brief_date', { ascending: false })
+      .limit(1)
+      .maybeSingle(),
   ]);
 
   const drafts = ((draftRows ?? []) as OperatorDraftRow[]).map(toOperatorDraft);
@@ -120,6 +130,14 @@ export default async function OperatorInboxPage({
             upcomingJobs,
             recentOutcomes,
           }}
+          businessPulse={
+            pulseRow
+              ? toBusinessPulseBrief(pulseRow as never, {
+                  slug: currentTenant.slug,
+                  name: currentTenant.name,
+                })
+              : null
+          }
         />
       </div>
     </main>

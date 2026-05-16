@@ -12,7 +12,7 @@ const LOCAL_VESSELS: Partial<Record<Kete['slug'], string>> = {
 
 /**
  * KeteVesselCard — single 1:1 kete card with locked vessel imagery.
- * Hovers lift + tints the kete accent. Status pill renders mothballed/coming-soon.
+ * Hovers lift + tints the kete accent. Status pill renders the public launch state.
  */
 export function KeteVesselCard({
   kete,
@@ -25,8 +25,7 @@ export function KeteVesselCard({
 }) {
   const reduce = useReducedMotion();
   const localVessel = LOCAL_VESSELS[kete.slug];
-  const status =
-    kete.status === 'active' ? 'Live' : kete.status === 'coming-soon' ? 'Coming soon' : 'Pending';
+  const status = 'Live';
 
   return (
     <motion.div

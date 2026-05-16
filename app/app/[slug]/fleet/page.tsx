@@ -123,8 +123,8 @@ export default async function TenantFleetPage({
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[color:var(--text-body)] md:text-base">
               Your active specialists, grouped by the work phase they support.
-              Draft agents are visible now so the fleet shape is clear before
-              their prompt content lands.
+              Each agent is routed through human review and closes work with an
+              evidence trail.
             </p>
           </div>
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/60 px-4 py-3 text-right">
@@ -189,8 +189,6 @@ function AgentFleetCard({
   description: string;
   activityCount: number;
 }) {
-  const isDraft = agent.status === 'draft';
-
   return (
     <Link
       href={`/app/chat/${agent.slug}?kete=${encodeURIComponent(packId)}`}
@@ -204,14 +202,9 @@ function AgentFleetCard({
           </p>
         </div>
         <span
-          className={[
-            'rounded-full border px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em]',
-            isDraft
-              ? 'border-[rgba(212,168,83,0.45)] bg-[rgba(212,168,83,0.10)] text-[color:var(--assembl-gold-thread)]'
-              : 'border-[rgba(43,107,87,0.25)] bg-[rgba(43,107,87,0.08)] text-[color:var(--assembl-pounamu)]',
-          ].join(' ')}
+          className="rounded-full border border-[rgba(43,107,87,0.25)] bg-[rgba(43,107,87,0.08)] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]"
         >
-          {isDraft ? 'Coming soon' : 'Live'}
+          Live
         </span>
       </div>
       <p className="mt-4 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">

@@ -47,7 +47,7 @@ export function KeteRotator({
         className={[
           'font-display font-light leading-[0.95] tracking-[-0.02em] text-[color:var(--text-primary)]',
           scale === 'immersive'
-            ? 'text-[clamp(4rem,8vw,8.5rem)]'
+            ? 'text-[clamp(3.3rem,15vw,6rem)] md:text-[clamp(4rem,8vw,8.5rem)]'
             : 'text-display-xl',
         ].join(' ')}
       >
@@ -57,7 +57,7 @@ export function KeteRotator({
         className={[
           'mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-display font-light leading-[0.98] tracking-[-0.02em]',
           scale === 'immersive'
-            ? 'min-h-[clamp(3.4rem,5vw,5.6rem)] text-[clamp(3rem,5vw,5.8rem)]'
+            ? 'min-h-[clamp(2.8rem,12vw,4.5rem)] text-[clamp(2.7rem,12vw,4.5rem)] md:min-h-[clamp(3.4rem,5vw,5.6rem)] md:text-[clamp(3rem,5vw,5.8rem)]'
             : 'min-h-[3.5rem] text-display-lg',
         ].join(' ')}
       >
@@ -80,19 +80,19 @@ export function KeteRotator({
       <p
         className={[
           'mt-6 max-w-2xl text-[color:var(--text-body)]',
-          scale === 'immersive' ? 'text-body-lg' : 'text-body-md',
+          scale === 'immersive' ? 'text-body-md md:text-body-lg' : 'text-body-md',
         ].join(' ')}
       >
-        Specialist agents for NZ operators. Every workflow reviewed by a named person and sealed with an evidence pack.
+        Specialist agents. Human review. Evidence packs.
       </p>
       <button
         type="button"
         onClick={() => setPaused((value) => !value)}
-        className="mt-8 inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.16)] bg-white/55 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)]"
+        className="mt-8 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(35,33,31,0.16)] bg-white/55 text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
         aria-pressed={paused || Boolean(reduceMotion)}
+        aria-label={paused || reduceMotion ? 'Resume animation' : 'Pause animation'}
       >
         {paused || reduceMotion ? <Play className="h-3.5 w-3.5" aria-hidden /> : <Pause className="h-3.5 w-3.5" aria-hidden />}
-        {paused || reduceMotion ? 'Resume animation' : 'Pause animation'}
       </button>
     </div>
   );

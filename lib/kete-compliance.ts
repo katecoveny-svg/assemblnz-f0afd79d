@@ -1,7 +1,13 @@
 import type { KeteSlug } from './kete';
 
 export const KETE_COMPLIANCE: Record<KeteSlug, string[]> = {
-  waihanga: ['Building Act 2004', 'H&S at Work Act 2015', 'LBP Licensing', 'Consenting Authority Rules'],
+  waihanga: [
+    'Building Act 2004',
+    'Construction Contracts Act 2002',
+    'H&S at Work Act 2015',
+    'LBP Licensing',
+    'Consenting Authority Rules',
+  ],
   manaaki: ['Sale & Supply of Alcohol Act 2012', 'Food Act 2014', 'H&S at Work Act 2015', 'Privacy Act 2020'],
   pikau: ['Customs & Excise Act 2018', 'Biosecurity Act 1993', 'IMO IMDG', 'Maritime NZ'],
   arataki: ['LTSA', 'WoF/CoF', 'RUC', 'Driver Hours'],
@@ -11,4 +17,3 @@ export const KETE_COMPLIANCE: Record<KeteSlug, string[]> = {
   hoko: ['Consumer Guarantees Act 1993', 'Fair Trading Act 1986', 'Privacy Act 2020'],
   toro: ['Privacy Act 2020', 'Te Tiriti o Waitangi'],
 };
-

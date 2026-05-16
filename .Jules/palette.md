@@ -29,3 +29,7 @@
 ## 2026-06-15 - [Interaction Parity and Focus Visibility]
 **Learning:** Forgetting to mirror hover effects (like scaling or color shifts) on keyboard focus creates a second-class experience for accessibility users. Furthermore, elements with `overflow-hidden` (common for card designs) will clip standard focus rings.
 **Action:** Use `group-focus-visible` on child elements to mirror hover delight for keyboard users, and always apply a `ring-offset-4` on focus rings for `overflow-hidden` containers to ensure the indicator is fully visible.
+
+## 2026-06-18 - [OS-Aware Keyboard Shortcuts]
+**Learning:** Hard-coding keyboard shortcut hints (like "press ⌘K") creates friction for non-Mac users. Implementing simple client-side OS detection ensures that Windows and Linux users see the appropriate hint (e.g., "CTRL K"), making the command palette more discoverable and intuitive for everyone.
+**Action:** Use `navigator.platform` in a `useEffect` to detect the OS and display appropriate keyboard shortcut hints in the UI.
