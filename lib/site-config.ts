@@ -127,8 +127,8 @@ export const reo = {
     'assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
 
   heroHeadlineLines: [
-    'Specialist agents for NZ work',
-    'that needs proof.',
+    'Mahi that earns',
+    'its proof.',
   ] as const,
 
   // Q3 — Homepage pull quote

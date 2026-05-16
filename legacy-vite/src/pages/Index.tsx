@@ -288,8 +288,8 @@ const Index = () => {
   return (
     <div className="min-h-screen relative" style={{ background: C.bg, color: C.text }}>
       <SEO
-        title="assembl — specialist agents for NZ work that needs proof"
-        description="Specialist agents for NZ work that needs proof. Built in Aotearoa. Time is the thing. We give it back."
+        title="assembl — mahi that earns its proof"
+        description="Mahi that earns its proof. Built in Aotearoa. Time is the thing. We give it back."
       />
       {/* WharikiFoundation removed — light glass background */}
       
