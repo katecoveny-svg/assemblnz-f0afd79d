@@ -13,15 +13,15 @@ export const metadata: Metadata = {
 };
 
 const KETE_STAGE: Record<KeteSlug, string> = {
-  waihanga: 'Chat-ready',
-  manaaki: 'Chat-ready',
-  pikau: 'Chat-ready',
-  arataki: 'Chat-ready',
-  auaha: 'Chat-ready',
-  ako: 'Chat-ready',
-  matauranga: 'Chat-ready',
-  hoko: 'Chat-ready',
-  toro: 'Chat-ready',
+  waihanga: 'Live',
+  manaaki: 'Pilot',
+  pikau: 'Live',
+  arataki: 'Pilot',
+  auaha: 'Pilot',
+  ako: 'Pilot',
+  matauranga: 'Greenfield / pilot',
+  hoko: 'Mothballed',
+  toro: 'Live',
 };
 
 const KETE_SUMMARY: Record<KeteSlug, string> = {
@@ -45,13 +45,13 @@ export default function AgentsPage() {
       <section className="border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F1ECE4_100%)] px-6 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(360px,0.55fr)]">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+            <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
               Agents / kete / what works now
             </p>
-            <h1 className="mt-5 max-w-3xl font-display text-[clamp(2.6rem,7vw,6.4rem)] font-light leading-[0.92]">
+            <h1 className="mt-5 max-w-3xl font-display text-display-xl font-light">
               Find the specialist for the mahi.
             </h1>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+            <p className="mt-6 max-w-2xl text-body-md text-[color:var(--text-body)] md:text-body-lg">
               Pick a kete, choose the specialist, and start with the work in front of you.
               A reply is a draft, not a final action. Your team reviews before anything leaves.
             </p>
@@ -93,7 +93,7 @@ export default function AgentsPage() {
               <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
                 Kete catalogue
               </p>
-              <h2 className="mt-2 font-display text-4xl font-light leading-none">
+              <h2 className="mt-2 font-display text-display-md font-light">
                 Nine kete for real work.
               </h2>
             </div>
@@ -124,7 +124,7 @@ export default function AgentsPage() {
             <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
               Cross-pack specialists
             </p>
-            <h2 className="mt-2 font-display text-4xl font-light leading-none">
+            <h2 className="mt-2 font-display text-display-md font-light">
               Useful when you do not know where the mahi belongs.
             </h2>
             <div className="mt-6 grid gap-3 md:grid-cols-3">
@@ -166,7 +166,7 @@ function KeteAgentCard({
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--kete-accent)]">
             {kete.industry}
           </p>
-          <h3 className="mt-2 font-display text-4xl font-light leading-none">{kete.name}</h3>
+          <h3 className="mt-2 font-display text-display-md font-light">{kete.name}</h3>
         </div>
         <span className="rounded-full border border-[rgba(35,33,31,0.12)] bg-[rgba(250,247,242,0.8)] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
           {stage}
@@ -179,7 +179,7 @@ function KeteAgentCard({
 
       <div className="mt-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
-          Chat-ready agents
+          Live chat agents
         </p>
         {canChat ? (
           <div className="mt-3 grid gap-2">
@@ -219,7 +219,7 @@ function KeteAgentCard({
                     >
                       {agent.name}
                       <span className="font-mono text-[8px] uppercase tracking-[0.12em] text-[color:var(--assembl-gold-thread)]">
-                        Chat
+                        {agent.status === 'live' ? 'Chat' : 'Draft'}
                       </span>
                     </span>
                   ))}

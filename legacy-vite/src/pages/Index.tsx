@@ -13,7 +13,6 @@ import SEO from "@/components/SEO";
 import KeteAgentChat from "@/components/kete/KeteAgentChat";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import CursorFollower from "@/components/CursorFollower";
-import HeroNext from "@/components/next/HeroNext";
 import CompliancePipeline from "@/components/landing/CompliancePipeline";
 import MigrationFeatureSection from "@/components/MigrationFeatureSection";
 import ScrollDepthLayers from "@/components/hero/ScrollDepthLayers";
@@ -141,6 +140,60 @@ const TORO_PACK = {
 
 /** Combined for personalization re-ordering only (Tōro pinned last). */
 const PACKS = [...INDUSTRY_PACKS, TORO_PACK];
+
+function LegacyKeteRotator() {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  React.useEffect(() => {
+    if (paused) return;
+    const timer = window.setInterval(() => setIndex((value) => (value + 1) % PACKS.length), 2500);
+    return () => window.clearInterval(timer);
+  }, [paused]);
+  const current = PACKS[index % PACKS.length];
+
+  return (
+    <section className="px-6 pb-16 pt-32 md:pb-24" style={{ background: C.bg }}>
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-end">
+        <div>
+          <p className="font-mono text-eyebrow uppercase" style={{ color: C.textSecondary }}>
+            assembl evidence vessel · Built in Aotearoa
+          </p>
+          <h1 className="mt-6 font-display text-display-xl font-light" style={{ color: C.text }}>
+            <span lang="mi">Mahi</span> that earns its proof.
+          </h1>
+          <div className="mt-3 flex min-h-[4rem] flex-wrap items-baseline gap-x-3 font-display text-display-lg font-light">
+            <span>for</span>
+            <motion.span
+              key={current.reo}
+              lang="mi"
+              initial={{ opacity: 0.6, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.32, ease }}
+              style={{ color: current.color }}
+            >
+              {current.reo}
+            </motion.span>
+            <span>.</span>
+          </div>
+          <p className="mt-6 max-w-2xl text-body-md" style={{ color: C.text }}>
+            Specialist agents for NZ operators. Every workflow reviewed by a named person and sealed with an evidence pack.
+          </p>
+          <button
+            type="button"
+            onClick={() => setPaused((value) => !value)}
+            className="mt-8 rounded-full border px-3 py-2 font-mono text-[11px] uppercase tracking-[0.08em]"
+            style={{ borderColor: "rgba(35,33,31,0.16)", color: C.textSecondary, background: "rgba(255,255,255,0.55)" }}
+          >
+            {paused ? "Resume animation" : "Pause animation"}
+          </button>
+        </div>
+        <div className="overflow-hidden rounded-[8px] border" style={{ borderColor: "rgba(35,33,31,0.12)" }}>
+          <img src={current.image} alt="" className="aspect-[4/3] w-full object-cover" />
+        </div>
+      </div>
+    </section>
+  );
+}
 
 const LAYERS_GOLD = "#D9BC7A"; // assembl-soft-gold — single CTA accent across all five layers
 const LAYERS_DATA = [
@@ -302,7 +355,7 @@ const Index = () => {
         <ContextBar />
 
         {/* ═══ HERO ═══ */}
-        <HeroNext variant="layered" />
+        <LegacyKeteRotator />
 
         {/* ═══ LIVE PROOF STRIP ═══ */}
         <div className="px-4 -mt-2 mb-4 text-center">
@@ -901,7 +954,7 @@ export default Index;
 /* ─── Layout Primitives ─── */
 function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <section id={id} className="px-4 sm:px-6 py-16 sm:py-32 relative">
+    <section id={id} className="relative px-4 py-24 sm:px-6 lg:py-32">
       <div className="max-w-[1200px] mx-auto relative z-10">{children}</div>
       <div className="absolute bottom-0 left-0 right-0 flex justify-center py-2">
         <DotDivider />
@@ -912,8 +965,8 @@ function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
 
 function SectionEyebrow({ children }: { children: string }) {
   return (
-    <p className="text-[10px] font-medium tracking-[5px] uppercase mb-5"
-      style={{ color: "var(--assembl-soft-gold)", fontFamily: "'IBM Plex Mono', monospace" }}>
+    <p className="mb-5 font-mono text-eyebrow font-medium uppercase"
+      style={{ color: "var(--assembl-soft-gold)" }}>
       — {children} —
     </p>
   );
@@ -921,12 +974,9 @@ function SectionEyebrow({ children }: { children: string }) {
 
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-[28px] sm:text-[42px] lg:text-[52px] mb-4 sm:mb-6"
+    <h2 className="mb-4 font-display text-display-lg sm:mb-6"
       style={{
-        fontFamily: "'Cormorant Garamond', Georgia, serif",
         fontWeight: 400,
-        letterSpacing: "-0.005em",
-        lineHeight: 1.1,
         color: "var(--assembl-taupe-deep)",
       }}>
       {children}
@@ -936,7 +986,7 @@ function SectionH2({ children }: { children: React.ReactNode }) {
 
 function SectionP({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`text-[15px] sm:text-[17px] leading-[1.75] max-w-xl mx-auto ${className}`}
+    <p className={`mx-auto max-w-xl text-body-md ${className}`}
       style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "var(--text-secondary)" }}>
       {children}
     </p>

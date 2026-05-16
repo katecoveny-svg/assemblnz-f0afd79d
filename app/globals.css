@@ -125,6 +125,11 @@
   code, pre, .font-mono {
     font-family: var(--font-mono), 'IBM Plex Mono', monospace;
   }
+
+  :lang(mi) {
+    font-family: var(--font-body), 'Inter', system-ui, sans-serif;
+    letter-spacing: 0.01em;
+  }
 }
 
 @layer components {
@@ -242,6 +247,13 @@
   .section-divider {
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(35, 33, 31, 0.12), transparent);
+  }
+
+  .paper-noise {
+    background-color: #FAF7F2;
+    background-image:
+      linear-gradient(rgba(250, 247, 242, 0.96), rgba(250, 247, 242, 0.96)),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   }
 }
 

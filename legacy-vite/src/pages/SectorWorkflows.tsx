@@ -101,7 +101,7 @@ const SECTORS: Array<{ id: Sector; label: string }> = [
   { id: "waihanga", label: "Waihanga (Construction)" },
   { id: "architecture", label: "Architecture" },
   { id: "engineering", label: "Engineering Consultancy" },
-  { id: "customs", label: "Pikau (Customs/Freight)" },
+  { id: "customs", label: "Pīkau (Customs/Freight)" },
   { id: "logistics", label: "Logistics & Transport" },
   { id: "manaaki", label: "Manaaki (Hospitality)" },
   { id: "arataki", label: "Arataki (Automotive)" },

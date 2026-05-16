@@ -101,7 +101,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Strategic positioning — vertical-AI strategy memo, 2026-05-09 */}
+      {/* Strategic positioning — vertical specialist-agent strategy memo, 2026-05-09 */}
       <section className="relative">
         <div className="container py-12 md:py-16">
           <SectionReveal>
@@ -177,7 +177,7 @@ export default function AboutPage() {
               <div className="mt-6 space-y-4 text-base leading-relaxed text-[#E8E4DE] md:text-lg">
                 <p>
                   I built assembl because compliance work in Aotearoa still costs teams their
-                  Friday afternoons. The intelligent automation tools available today are
+                  Friday afternoons. The specialist agent tools available today are
                   capable; the trust scaffolding around them is not. Every workflow that runs
                   through assembl ends in a signed evidence pack — what was checked, by whom,
                   against which Act, on what date.

@@ -15,7 +15,7 @@ const PAGES = [
   { id: "waihanga-landing", label: "Waihanga", route: "/waihanga", color: "#3A7D6E" },
   { id: "auaha-landing", label: "Auaha", route: "/auaha", color: "#A8DDDB" },
   { id: "arataki-landing", label: "Arataki", route: "/arataki", color: "#C65D4E" },
-  { id: "pikau-landing", label: "Pikau", route: "/pikau", color: "#5AADA0" },
+  { id: "pikau-landing", label: "Pīkau", route: "/pikau", color: "#5AADA0" },
 ];
 
 const REGIONS = ["hero-subheadline", "feature-list", "feature-cards", "use-cases", "cta-copy", "social-proof"];

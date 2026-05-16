@@ -41,7 +41,7 @@ const TIERS = [
   { slug: "kaimahi", english: "Working with it", min: 11, max: 30,
     description: "Becoming routine for a few. The early adopters have built a couple of helpful workflows. Now it spreads." },
   { slug: "tohunga", english: "Skilled practitioner", min: 31, max: 75,
-    description: "Most of the team is using intelligent automation weekly. Skills get shared. Bottlenecks get spotted." },
+    description: "Most of the team is using specialist agents weekly. Skills get shared. Bottlenecks get spotted." },
   { slug: "rangatira", english: "Leading", min: 76, max: 150,
     description: "Adoption is the default. New hires are recruited for curiosity. The team starts building tools for itself." },
   { slug: "pou", english: "Pillar of practice", min: 151, max: 9999,

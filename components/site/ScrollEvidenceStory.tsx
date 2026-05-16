@@ -437,7 +437,7 @@ function Scene2() {
             key={row.tag}
             className="absolute left-[4%] right-[4%] flex h-12 items-center gap-2.5"
             style={{ top: row.top }}
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0.6, y: 6 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-15%' }}
             transition={{ duration: 0.55, delay: ri * 0.08, ease: [0.22, 1, 0.36, 1] }}

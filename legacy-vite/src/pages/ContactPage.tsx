@@ -18,7 +18,7 @@ const INDUSTRIES = [
   "Waihanga — Construction",
   "Auaha — Creative",
   "Arataki — Automotive",
-  "Pikau — Freight & Customs",
+  "Pīkau — Freight & Customs",
   "Family — Whānau (consumer)",
   "Other",
 ];

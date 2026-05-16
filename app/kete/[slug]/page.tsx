@@ -12,6 +12,8 @@ import {
 import { ketes as keteImagery } from '@/lib/site-config';
 import { VesselTile } from '@/components/site/VesselTile';
 import { SectionReveal } from '@/components/SectionReveal';
+import { ComplianceChips } from '@/components/site/ComplianceChips';
+import { TeReo } from '@/components/site/TeReo';
 
 type Params = { slug: string };
 
@@ -67,6 +69,7 @@ function IndustryKetePage({
 }) {
   const isComingSoon = kete.status === 'coming-soon' || kete.status === 'mothballed';
   const fleetAgents = agentsForKete(kete.slug);
+  const liveFleetAgents = fleetAgents.filter((agent) => agent.status === 'live');
 
   return (
     <>
@@ -87,7 +90,7 @@ function IndustryKetePage({
             background: `radial-gradient(ellipse at 70% 20%, ${kete.accent}33 0%, transparent 55%), radial-gradient(ellipse at 20% 70%, rgba(184, 178, 168, 0.12) 0%, transparent 55%)`,
           }}
         />
-        <div className="container py-20 md:py-28">
+        <div className="container py-24 lg:py-32">
           <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
             <div>
               <div className="flex items-center gap-3">
@@ -102,14 +105,18 @@ function IndustryKetePage({
                 </span>
               </div>
 
-              <h1 className="mt-6 font-display text-5xl md:text-7xl">
-                <span className="text-[color:var(--text-primary)]">{kete.name}</span>{' '}
+              <h1 className="mt-6 font-display text-display-xl">
+                <TeReo className="text-[color:var(--text-primary)]">{kete.name}</TeReo>{' '}
                 <span className="text-gradient-hero">— {detail.heroLead}</span>
               </h1>
 
-              <p className="mt-8 max-w-2xl text-lg text-[color:var(--text-body)] md:text-xl">
+              <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
                 {detail.heroBody}
               </p>
+
+              <div className="mt-6">
+                <ComplianceChips kete={kete.slug} />
+              </div>
 
             {!isComingSoon && (
               <div className="mt-10 flex flex-col gap-3 sm:flex-row">
@@ -141,7 +148,7 @@ function IndustryKetePage({
               </div>
             )}
 
-              <p className="mt-6 font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <p className="mt-6 font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                 {detail.availableOn}
               </p>
             </div>
@@ -165,18 +172,18 @@ function IndustryKetePage({
 
       {/* What this kete does — description + legislation + typical workflows */}
       <section className="relative">
-        <div className="container py-16 md:py-24">
+        <div className="container py-24 lg:py-32">
           <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.4fr_0.9fr] lg:gap-16">
             <div>
               <SectionReveal>
-                <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                   What this kete does
                 </span>
-                <h2 className="mt-3 font-display text-4xl md:text-5xl">
+                <h2 className="mt-3 font-display text-display-md">
                   Scope, citations, and the workflows that come with it.
                 </h2>
               </SectionReveal>
-              <div className="mt-8 space-y-5 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+              <div className="mt-8 space-y-5 text-body-md text-[color:var(--text-body)] md:text-lg">
                 {detail.description.map((paragraph, i) => (
                   <SectionReveal key={i} delay={i * 0.06}>
                     <p>{paragraph}</p>
@@ -268,11 +275,11 @@ function IndustryKetePage({
           <div className="container pb-16 md:pb-24">
             <div className="mx-auto max-w-3xl text-center">
               <SectionReveal>
-                <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                   Agents in this kete
                 </span>
-                <h2 className="mt-3 font-display text-4xl md:text-5xl">
-                  {kete.name} ships with{' '}
+                <h2 className="mt-3 font-display text-display-md">
+                  <TeReo>{kete.name}</TeReo> ships with{' '}
                   <em
                     className="not-italic"
                     style={{
@@ -325,21 +332,20 @@ function IndustryKetePage({
         <div className="container pb-16 md:pb-24">
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                Chat with the fleet
+              <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
+                Live chat agents
               </span>
-              <h2 className="mt-3 font-display text-4xl md:text-5xl">
-                Explore {kete.name}&apos;s specialist knowledge.
+              <h2 className="mt-3 font-display text-display-md">
+                Explore <TeReo>{kete.name}</TeReo>&apos;s specialist knowledge.
               </h2>
-              <p className="mt-5 text-base leading-relaxed text-[color:var(--text-body)]">
-                Every agent is chat-ready, memory-aware, and expected to call in collaborators
-                when the mahi crosses another phase or kete.
+              <p className="mt-5 text-body-md text-[color:var(--text-body)]">
+                Live agents can be opened in chat now. Draft agents stay in the registry until their system prompts are written and reviewed.
               </p>
             </SectionReveal>
           </div>
 
           <div className="mx-auto mt-12 grid max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {fleetAgents.map((agent, i) => (
+            {liveFleetAgents.map((agent, i) => (
               <SectionReveal key={agent.slug} delay={i * 0.04}>
                 <Link
                   href={`/app/chat?kete=${kete.slug}&agent=${agentChatId(agent)}`}
@@ -412,10 +418,10 @@ function IndustryKetePage({
                     <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#5B4FA0]">
                       AUAHA · TOOL
                     </p>
-                    <h2 className="mt-4 font-display text-4xl text-[color:var(--text-primary)] md:text-5xl">
+                    <h2 className="mt-4 font-display text-display-md text-[color:var(--text-primary)]">
                       Vessel Studio
                     </h2>
-                    <p className="mt-5 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+                    <p className="mt-5 max-w-2xl text-body-md text-[color:var(--text-body)] md:text-lg">
                       Generate evidence-vessel imagery for any kete, any workflow, any campaign. Bring your own fal.ai key. Cormorant typography, pounamu palette, locked brand direction.
                     </p>
                   </div>
@@ -432,12 +438,12 @@ function IndustryKetePage({
       {/* Workflows — only show if there are any */}
       {detail.workflows.length > 0 && (
         <section className="relative">
-          <div className="container py-16 md:py-24">
+          <div className="container py-24 lg:py-32">
             <div className="mx-auto max-w-3xl">
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                 Sample workflows
               </span>
-              <h2 className="mt-3 font-display text-4xl md:text-5xl">
+              <h2 className="mt-3 font-display text-display-md">
                 What {kete.name} handles end-to-end
               </h2>
             </div>
@@ -491,7 +497,7 @@ function IndustryKetePage({
         <section className="relative">
           <div className="container py-16">
             <div className="mx-auto max-w-3xl text-center">
-              <h2 className="font-display text-4xl md:text-5xl">
+              <h2 className="font-display text-display-md">
                 {kete.name} vs {detail.comparisonLegacyLabel}
               </h2>
             </div>
@@ -562,7 +568,7 @@ function IndustryKetePage({
                   </p>
                 </div>
                 <div className="flex-1">
-                  <p className="text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+                  <p className="text-body-md text-[color:var(--text-body)] md:text-lg">
                     {detail.pilotSprintPitch}
                   </p>
                   <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row">
@@ -594,8 +600,12 @@ function IndustryKetePage({
             className="glass-card-elevated mx-auto max-w-4xl p-8 text-center md:p-12"
             style={{ ['--kete-accent' as string]: kete.accent }}
           >
-            <h2 className="font-display text-3xl md:text-4xl">
-              {isComingSoon ? `Register your interest in ${kete.name}.` : `Start with ${kete.name}.`}
+            <h2 className="font-display text-display-md">
+                {isComingSoon ? (
+                  <>Register your interest in <TeReo>{kete.name}</TeReo>.</>
+                ) : (
+                  <>Start with <TeReo>{kete.name}</TeReo>.</>
+                )}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
               {isComingSoon
@@ -638,6 +648,7 @@ function ToroPage({
   detail: WhanauKeteDetail;
 }) {
   const fleetAgents = agentsForKete(kete.slug);
+  const liveFleetAgents = fleetAgents.filter((agent) => agent.status === 'live');
 
   return (
     <>
@@ -663,7 +674,7 @@ function ToroPage({
             background: `radial-gradient(ellipse at 50% 0%, ${kete.accent}33 0%, transparent 60%)`,
           }}
         />
-        <div className="container py-20 md:py-28">
+        <div className="container py-24 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.15)] bg-white/50 px-4 py-1.5">
               <span
@@ -672,21 +683,25 @@ function ToroPage({
                 aria-hidden
               />
               <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                For whānau · Family tier
+                For <TeReo title="family">whānau</TeReo> · Family tier
               </span>
             </div>
 
-            <h1 className="mt-6 font-display text-5xl md:text-7xl">
-              <span className="text-[color:var(--text-primary)]">Tōro</span>{' '}
+            <h1 className="mt-6 font-display text-display-xl">
+              <TeReo className="text-[color:var(--text-primary)]">Tōro</TeReo>{' '}
               <span className="text-gradient-hero">— {detail.heroLead}</span>
             </h1>
 
-            <p className="mx-auto mt-8 max-w-2xl text-lg text-[color:var(--text-body)] md:text-xl">
+            <p className="mx-auto mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               {detail.heroBody}
             </p>
 
+            <div className="mx-auto mt-6 flex max-w-2xl justify-center">
+              <ComplianceChips kete={kete.slug} />
+            </div>
+
             <div className="mt-8 inline-flex items-baseline gap-2">
-              <span className="font-display text-5xl text-[color:var(--text-primary)]">
+              <span className="font-display text-display-lg text-[color:var(--text-primary)]">
                 {detail.price.monthly}
               </span>
               <span className="text-base text-[color:var(--text-secondary)]">
@@ -718,18 +733,18 @@ function ToroPage({
 
       {/* What Tōro does */}
       <section className="relative">
-        <div className="container py-16 md:py-24">
+        <div className="container py-24 lg:py-32">
           <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.4fr_0.9fr] lg:gap-16">
             <div>
               <SectionReveal>
-                <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                   What this kete does
                 </span>
-                <h2 className="mt-3 font-display text-4xl md:text-5xl">
-                  How Tōro lives in your whānau.
+                <h2 className="mt-3 font-display text-display-md">
+                  How <TeReo>Tōro</TeReo> lives in your <TeReo title="family">whānau</TeReo>.
                 </h2>
               </SectionReveal>
-              <div className="mt-8 space-y-5 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+              <div className="mt-8 space-y-5 text-body-md text-[color:var(--text-body)] md:text-lg">
                 {detail.description.map((paragraph, i) => (
                   <SectionReveal key={i} delay={i * 0.06}>
                     <p>{paragraph}</p>
@@ -770,10 +785,10 @@ function ToroPage({
         <div className="container pb-12 pt-4 md:pb-16">
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                 Three sub-plugins, one Family plan
               </span>
-              <h2 className="mt-3 font-display text-4xl md:text-5xl">
+              <h2 className="mt-3 font-display text-display-md">
                 What Tōro ships with.
               </h2>
             </SectionReveal>
@@ -831,20 +846,20 @@ function ToroPage({
         <div className="container pb-12 pt-4 md:pb-16">
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                Chat with the fleet
+              <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
+                Live chat agents
               </span>
-              <h2 className="mt-3 font-display text-4xl md:text-5xl">
+              <h2 className="mt-3 font-display text-display-md">
                 Explore Tōro&apos;s working knowledge.
               </h2>
-              <p className="mt-5 text-base leading-relaxed text-[color:var(--text-body)]">
-                Tōro, Iho, and Signal are chat-ready, memory-aware, and review-first.
+              <p className="mt-5 text-body-md text-[color:var(--text-body)]">
+                <TeReo>Tōro</TeReo>, <TeReo title="core">Iho</TeReo>, and Signal are live. Draft <TeReo title="family">whānau</TeReo> specialists stay hidden from chat until their prompts are ready.
               </p>
             </SectionReveal>
           </div>
 
           <div className="mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
-            {fleetAgents.map((agent, i) => (
+            {liveFleetAgents.map((agent, i) => (
               <SectionReveal key={agent.slug} delay={i * 0.04}>
                 <Link
                   href={`/app/chat?kete=${kete.slug}&agent=${agentChatId(agent)}`}
@@ -882,10 +897,10 @@ function ToroPage({
         <div className="container pb-16 md:pb-24">
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+              <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                 Inside the Family plan
               </span>
-              <h2 className="mt-3 font-display text-4xl md:text-5xl">
+              <h2 className="mt-3 font-display text-display-md">
                 The quieter habits Tōro keeps for you.
               </h2>
             </SectionReveal>
@@ -918,8 +933,8 @@ function ToroPage({
             className="glass-card-elevated mx-auto max-w-4xl p-8 text-center md:p-12"
             style={{ ['--kete-accent' as string]: kete.accent }}
           >
-            <h2 className="font-display text-3xl md:text-4xl">
-              Tōro is available now at the Family tier.
+            <h2 className="font-display text-display-md">
+              <TeReo>Tōro</TeReo> is available now at the Family tier.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
               Self-serve via Stripe. NZ$29/month, no setup fee. Cancel any time.

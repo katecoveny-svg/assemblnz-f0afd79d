@@ -2,9 +2,9 @@
  * Kete + agent registry for the /app/chat surface.
  *
  * Chat now derives from the canonical fleet registry in `lib/agents.ts`.
- * Every agent can be selected. Iho may route internally to collaborators when
- * the question crosses a kete boundary, but the selected specialist remains the
- * front-of-house voice for the operator.
+ * Only live agents can be selected. Draft agents stay visible in the broader
+ * fleet registry, but are not exposed in chat until their system prompts are
+ * written and reviewed.
  */
 
 import { agentBySlug, agentChatId, agentsForKete } from '@/lib/agents';
@@ -45,17 +45,19 @@ export const CHAT_KETES: ChatKete[] = KETES.map((kete) => ({
   name: kete.name,
   industry: kete.industry,
   accent: kete.accent,
-  agents: agentsForKete(kete.slug).map((agent) => ({
-    agentId: agentChatId(agent),
-    slug: agent.slug,
-    name: agent.name,
-    role: agent.role,
-    blurb: agent.oneLiner,
-    expertise: agent.expertise ?? `${agent.role} specialist with NZ-context evidence discipline.`,
-    collaboratesWith: agent.collaboratesWith ?? ['iho', 'signal'],
-    memoryScope: agent.memoryScope ?? 'Tenant profile, prior decisions, workflow state, reviewer preferences, and evidence history.',
-    ambientBrief: agent.ambientBrief ?? 'Watch for the next useful draft, risk, or handoff for the operator inbox.',
-  })),
+  agents: agentsForKete(kete.slug)
+    .filter((agent) => agent.status === 'live')
+    .map((agent) => ({
+      agentId: agentChatId(agent),
+      slug: agent.slug,
+      name: agent.name,
+      role: agent.role,
+      blurb: agent.oneLiner,
+      expertise: agent.expertise ?? `${agent.role} specialist with NZ-context evidence discipline.`,
+      collaboratesWith: agent.collaboratesWith ?? ['iho', 'signal'],
+      memoryScope: agent.memoryScope ?? 'Tenant profile, prior decisions, workflow state, reviewer preferences, and evidence history.',
+      ambientBrief: agent.ambientBrief ?? 'Watch for the next useful draft, risk, or handoff for the operator inbox.',
+    })),
 }));
 
 export type ChatAgentRef = {

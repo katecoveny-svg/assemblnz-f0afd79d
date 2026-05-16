@@ -98,7 +98,7 @@ export default function CommandDashboard() {
       ],
     },
     {
-      id: "pikau", name: "Pikau", nameEn: "Freight & Customs",
+      id: "pikau", name: "Pīkau", nameEn: "Freight & Customs",
       icon: Package, color: "#5AADA0", route: "/pikau",
       status: liveData.shipments ? "attention" : "operational",
       statusLabel: `${liveData.shipments || 0} shipments tracking`,
@@ -269,7 +269,7 @@ export default function CommandDashboard() {
                 <div className="space-y-1.5">
                   {[
                     { from: "Waihanga", to: "Auaha", label: "Milestone → TikTok video", fromColor: "#3A7D6E", toColor: "#A8DDDB" },
-                    { from: "Pikau", to: "Manaaki", label: "Customs clear → Inventory update", fromColor: "#5AADA0", toColor: "#4AA5A8" },
+                    { from: "Pīkau", to: "Manaaki", label: "Customs clear → Inventory update", fromColor: "#5AADA0", toColor: "#4AA5A8" },
                     { from: "Auaha", to: "All", label: "Brand DNA → Tone adaptation", fromColor: "#A8DDDB", toColor: "#00A86B" },
                   ].map((bridge, i) => (
                     <div key={i} className="flex items-center gap-2 text-[10px] font-body">

@@ -47,8 +47,8 @@ export default function ToroaInstallPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12" style={{ background: "transparent", color: "white" }}>
       <SEO
-        title="Get Toro — Your Family's Intelligent Navigator | Assembl"
-        description="Install Toro on your phone. SMS-first AI whānau navigator built for NZ families. No app store needed."
+        title="Get Tōro — Your Family's Intelligent Navigator | Assembl"
+        description="Install Tōro on your phone. SMS-first AI whānau navigator built for NZ families. No app store needed."
       />
       <PWAInstallBanner agentName="TORO" agentColor={TOROA_COLOR} />
 
@@ -83,7 +83,7 @@ export default function ToroaInstallPage() {
               </div>
               <div className="flex items-start gap-3">
                 <span className="font-display font-bold shrink-0" style={{ color: TOROA_COLOR }}>3.</span>
-                <span>Tap <strong className="text-white/80">"Add"</strong> — Toro will appear on your home screen like a real app</span>
+                <span>Tap <strong className="text-white/80">"Add"</strong> — Tōro will appear on your home screen like a real app</span>
               </div>
             </div>
           </div>
@@ -97,12 +97,12 @@ export default function ToroaInstallPage() {
               boxShadow: `0 8px 32px ${TOROA_COLOR}40`,
             }}
           >
-            <Download size={22} /> Install Toro
+            <Download size={22} /> Install Tōro
           </button>
         ) : (
           <div className="rounded-2xl p-6 space-y-4" style={{ background: "rgba(255,255,255,0.65)", border: "1px solid rgba(74,165,168,0.15)" }}>
             <Smartphone size={32} className="mx-auto" style={{ color: GOLD }} />
-            <h2 className="font-display text-lg font-semibold">Install Toro</h2>
+            <h2 className="font-display text-lg font-semibold">Install Tōro</h2>
             <p className="text-sm" style={{ color: "#6B7280" }}>
               {platform === "android"
                 ? 'Tap the menu (⋮) in Chrome and select "Add to Home screen"'
@@ -118,7 +118,7 @@ export default function ToroaInstallPage() {
             className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-display font-medium text-sm transition-all hover:scale-[1.02]"
             style={{ background: "rgba(255,255,255,0.65)", border: `1px solid ${TOROA_COLOR}30`, color: TOROA_COLOR }}
           >
-            <MessageSquare size={16} /> Use Toro in browser
+            <MessageSquare size={16} /> Use Tōro in browser
             <ChevronRight size={14} className="ml-auto opacity-50" />
           </Link>
         </div>
@@ -138,7 +138,7 @@ export default function ToroaInstallPage() {
         </p>
 
         <Link to="/toroa" className="inline-flex items-center gap-1 text-xs transition hover:opacity-80" style={{ color: "#9CA3AF" }}>
-          Learn more about Toro <ChevronRight size={12} />
+          Learn more about Tōro <ChevronRight size={12} />
         </Link>
       </motion.div>
     </div>

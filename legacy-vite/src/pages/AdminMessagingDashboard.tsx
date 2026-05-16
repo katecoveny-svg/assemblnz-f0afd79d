@@ -51,7 +51,7 @@ const KETE_LIST = [
   { code: "waihanga", label: "Waihanga", subtitle: "Construction", color: "#3B82F6" },
   { code: "auaha", label: "Auaha", subtitle: "Creative", color: "#EAB308" },
   { code: "arataki", label: "Arataki", subtitle: "Automotive", color: "#EF4444" },
-  { code: "pikau", label: "Pikau", subtitle: "Freight", color: "#8B5CF6" },
+  { code: "pikau", label: "Pīkau", subtitle: "Freight", color: "#8B5CF6" },
   { code: "toro", label: "Tōro", subtitle: "Agriculture", color: "#22C55E" },
   { code: "whenua", label: "Whenua", subtitle: "Property", color: "#06B6D4" },
   { code: "toroa", label: "Tōro", subtitle: "Family", color: "#10B981" },

@@ -9,6 +9,7 @@ import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import type { PearlLiveStats } from '@/lib/pearl-live';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
+import { KeteRotator } from './KeteRotator';
 
 type KeteImagery = Record<KeteSlug, { square: string; wide: string }>;
 
@@ -179,12 +180,10 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
               animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/55 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+              <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/55 px-3 py-2 font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                 assembl evidence vessel · Built in Aotearoa
               </p>
-              <h1 className="mt-5 max-w-[11ch] font-display text-[2rem] font-light leading-[0.96] text-[color:var(--text-primary)] md:mt-7 md:max-w-4xl md:text-[clamp(3.4rem,7vw,6.9rem)] md:leading-[0.91]">
-                Mahi that earns its proof.
-              </h1>
+              <KeteRotator ketes={ketes} className="mt-5 md:mt-7" />
               <div className="mt-4 md:hidden">
                 <KeteSelector
                   ketes={ketes}
@@ -195,12 +194,6 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
                   variant="rail"
                 />
               </div>
-              <p className="mt-7 hidden max-w-2xl text-lg leading-[1.75] text-[color:var(--text-body)] md:block">
-                Assembl runs operational compliance work in the open: every workflow
-                is grounded in New Zealand legislation, reviewed by a named person on
-                your team, and sealed with an evidence pack you can file, forward, or
-                footnote.
-              </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row md:mt-8">
                 <Link
                   href="/pilot-sprint"
@@ -270,7 +263,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.55, delay: Number(number) * 0.04, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
                 {number}
               </p>
               <h2 className="mt-3 font-display text-[1.65rem] font-light leading-none text-[color:var(--text-primary)]">
@@ -356,10 +349,10 @@ function FeaturedKete({
       <div className="p-5 md:p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--kete-accent)]">
+            <p className="font-mono text-eyebrow uppercase text-[color:var(--kete-accent)]">
               {kete.industry}
             </p>
-            <h2 className="mt-2 font-display text-[clamp(2.25rem,4vw,3.4rem)] font-light leading-none text-[color:var(--text-primary)]">
+            <h2 className="mt-2 font-display text-display-lg font-light text-[color:var(--text-primary)]">
               {kete.name}
             </h2>
           </div>
@@ -494,7 +487,7 @@ function ProofDock({ stats: initialStats }: { stats: PearlLiveStats }) {
             animate={reduceMotion ? undefined : { opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
           />
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
             Pearl Live
           </p>
         </div>
@@ -513,7 +506,7 @@ function ProofDock({ stats: initialStats }: { stats: PearlLiveStats }) {
               animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="font-display text-[clamp(1.55rem,3vw,2.7rem)] font-light leading-none tabular-nums text-[color:var(--text-primary)]">
+              <p className="font-display text-display-md font-light tabular-nums text-[color:var(--text-primary)]">
                 {value === 0 ? '—' : value.toLocaleString('en-NZ')}
               </p>
               <p className="mt-2 truncate font-mono text-[7px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)] md:text-[9px] md:tracking-[0.18em]">

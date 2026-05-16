@@ -29,6 +29,14 @@ export default {
         sans: ['var(--font-body)', 'Inter', 'sans-serif'],
         mono: ['var(--font-mono)', 'IBM Plex Mono', 'monospace'],
       },
+      fontSize: {
+        'display-xl': ['clamp(3rem, 7vw, 4.5rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+        'display-lg': ['clamp(2.5rem, 5vw, 3.5rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
+        'display-md': ['2.5rem', { lineHeight: '3rem', letterSpacing: '0' }],
+        'body-lg': ['1.25rem', { lineHeight: '2rem', letterSpacing: '0' }],
+        'body-md': ['1rem', { lineHeight: '1.625rem', letterSpacing: '0' }],
+        eyebrow: ['0.8125rem', { lineHeight: '1rem', letterSpacing: '0.08em' }],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -109,7 +117,7 @@ export default {
           to: { height: '0' },
         },
         'fade-up': {
-          from: { opacity: '0', transform: 'translateY(16px)' },
+          from: { opacity: '0.6', transform: 'translateY(16px)' },
           to: { opacity: '1', transform: 'translateY(0)' },
         },
         'gentle-float': {

@@ -46,6 +46,13 @@ export function SiteHeader() {
           })}
         </nav>
         <div className="flex items-center gap-4 md:gap-5">
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('assembl:open-command'))}
+            className="hidden rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] lg:inline-flex"
+          >
+            press ⌘K
+          </button>
           {/* Sign in — takes signed-in users straight through to /app
               (middleware refreshes the session), anonymous users land on
               the magic-link form. */}
