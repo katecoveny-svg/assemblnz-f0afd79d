@@ -63,9 +63,9 @@ export default async function BusinessPulsePage({
   const { data: latest } = await service
     .from('business_pulse_briefs')
     .select(
-      'id,org_id,brief_date,drive_path,markdown,three_things,cash_position,pipeline_movement,weekly_commitments,pilot_health,tikanga_check_passed,privacy_check_passed,source_status,created_at',
+      'id,tenant_id,brief_date,drive_path,markdown,three_things,cash_position,pipeline_movement,weekly_commitments,pilot_health,tikanga_check_passed,privacy_check_passed,source_status,created_at',
     )
-    .eq('org_id', tenant.id)
+    .eq('tenant_id', tenant.id)
     .order('brief_date', { ascending: false })
     .limit(1)
     .maybeSingle();

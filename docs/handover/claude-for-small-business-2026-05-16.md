@@ -5,7 +5,17 @@
 **Date:** 16 May 2026
 **Status:** Research complete, scaffold committed.
 
-> Scaffold-status note (added at commit time): the `arataki/business-pulse` workflow, its four skills (`xero-cash-position`, `stripe-settlement-summary`, `calendar-week-ahead`, `pulse-synthesis`), the `business_pulse_briefs` Supabase table + RLS, the `BusinessPulseWidget` dashboard component, the `/dashboard/business-pulse` route, the `supabase/functions/business-pulse` edge function, and the pg_cron schedule (hourly, local-Mon-07:00 gated) have been **scaffolded** on `claude/assembl-handover-setup-4CshO` and merged to `main`. Connector calls inside the edge function are stubbed — no Xero / Stripe / Calendar / HubSpot credentials exist in this environment yet, so the function returns deterministic placeholder data. The six-step test plan at the bottom of this doc has **not** been satisfied. Treat this commit as the file-based source of truth for shape; treat the operator-ready feature as not yet shipped.
+> Status note (updated after reconciliation, 16 May 2026): three parallel scaffold attempts converged today — this branch ships the reconciled result.
+>
+> **App-side code (lib/, app/api/, app/app/[slug]/pulse/, components/app/, vercel.json):** taken from PR #210 (codex/business-pulse-command-centre-2026-05-16). It already reads from `assembl_synced_data` cache + `assembl_integrations` and calls the Stripe SDK when `STRIPE_SECRET_KEY` is present. Tests pass (`pnpm exec vitest run lib/business-pulse/__tests__/skills.test.ts`). PR #210's TypeScript was adjusted from `org_id` to `tenant_id` to match the existing live schema rather than rename the DB column.
+>
+> **Plugin scaffold (plugins/arataki/skills/*, agents/business-pulse.yaml, system prompt), Vault cron helper, handover doc:** kept from the earlier `claude/assembl-handover-setup-4CshO` branch.
+>
+> **Schema (live in assembl-prod):** the `business_pulse_briefs` table uses `tenant_id` (matches the rest of the codebase). Two columns added in this reconciliation: `markdown` and `source_status`. New table `business_pulse_pilot_health` (also keyed on `tenant_id`) created.
+>
+> **Schedule:** Vercel cron in `vercel.json` calls `/api/business-pulse/scheduled` hourly; the route gates per-tenant to Monday 07:00 NZT and to tenants with `metadata.business_pulse_enabled = true`. The pg_cron job that used to drive this was unscheduled. The morning-briefing pg_cron still uses the Vault helper.
+>
+> **What's not yet done:** real Xero / Calendar / HubSpot connector cache wiring per tenant (the runner reads from `assembl_synced_data` but no rows exist yet for the assembl tenant). The six-step test plan at the bottom of this doc is still only partly satisfied.
 
 ---
 

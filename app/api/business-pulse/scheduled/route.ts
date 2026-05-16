@@ -18,10 +18,14 @@ function localNzParts(now = new Date()) {
 }
 
 function authorised(req: Request): boolean {
+  // Always require a validated shared secret. Vercel cron auto-injects
+  // Authorization: Bearer $CRON_SECRET when CRON_SECRET is set in the
+  // Vercel project env. The x-vercel-cron header alone is not a proof
+  // of origin because edge config or proxy rewrites can let it through;
+  // the bearer is the only trusted signal.
   const auth = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '').trim();
-  const cronHeader = req.headers.get('x-vercel-cron');
   const token = process.env.CRON_SECRET || process.env.BUSINESS_PULSE_RUN_TOKEN;
-  return Boolean(cronHeader || (token && auth === token));
+  return Boolean(token && auth === token);
 }
 
 export async function GET(req: Request) {
@@ -38,15 +42,24 @@ export async function GET(req: Request) {
   }
 
   const service = getServiceClient();
-  const { data: tenants, error } = await service
-    .from('tenants')
-    .select('id,slug,name,metadata,status,is_active')
-    .or('is_active.is.null,is_active.eq.true')
-    .limit(50);
+  // Page through tenants so the sweep covers every enabled tenant, not just
+  // the first 50. Supabase JS caps a single .select() at 1000 rows by
+  // default; pagination keeps the cron correct as the tenant fleet grows.
+  const pageSize = 500;
+  const tenants: Array<Record<string, unknown>> = [];
+  for (let offset = 0; ; offset += pageSize) {
+    const { data: page, error } = await service
+      .from('tenants')
+      .select('id,slug,name,metadata,status,is_active')
+      .or('is_active.is.null,is_active.eq.true')
+      .range(offset, offset + pageSize - 1);
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (!page || page.length === 0) break;
+    tenants.push(...page);
+    if (page.length < pageSize) break;
+  }
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-  const enabled = (tenants ?? []).filter((tenant) => {
+  const enabled = tenants.filter((tenant) => {
     const row = tenant as { metadata?: Record<string, unknown> | null; status?: string | null };
     if (row.status && !['active', 'provisioned', 'trial'].includes(row.status)) return false;
     return row.metadata?.business_pulse_enabled === true;
