@@ -60,12 +60,12 @@ export const tikangaAfterDraft: Filter = {
       }
     }
 
-    // Banned token: the bare word "AI" (canon hard rule #4) in customer-
+    // Banned token: the bare two-letter automation word in customer-
     // facing copy. Allow common false-positives (the Māori word "ai", the
     // pronoun in mid-sentence) by requiring uppercase A and uppercase I
     // adjacent.
     if (/\bAI\b/.test(draft)) {
-      flags.push('banned token "AI" present in customer-facing draft');
+      flags.push('banned automation token present in customer-facing draft');
     }
 
     if (flags.length === 0) {

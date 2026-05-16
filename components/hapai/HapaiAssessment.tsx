@@ -40,12 +40,12 @@ const QUESTIONS: Array<{ id: string; text: string; weight: number }> = [
   },
   {
     id: "leadership_using",
-    text: "How visibly does leadership (CEO / founders / management) use AI in their own work?",
+    text: "How visibly does leadership (CEO / founders / management) use intelligent tools in their own work?",
     weight: 1.2,
   },
   {
     id: "smoothness",
-    text: "How consistent is your team's AI use, week to week?",
+    text: "How consistent is your team's tool use, week to week?",
     weight: 1.0,
   },
 ];
@@ -291,7 +291,7 @@ function ShareCluster({
   sessions: number;
 }) {
   const [copied, setCopied] = useState(false);
-  const shareText = `My team sits at ${tier.slug} — ${tier.english} (~${sessions} sessions/month).\n\nThe HAPAI adoption framework from assembl maps where NZ teams actually are with AI vs where they paid to be. Try it:`;
+  const shareText = `My team sits at ${tier.slug} — ${tier.english} (~${sessions} sessions/month).\n\nThe HAPAI adoption framework from assembl maps where NZ teams actually are with intelligent tools vs where they paid to be. Try it:`;
 
   function copyLink() {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -305,7 +305,7 @@ function ShareCluster({
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({
-          title: "HAPAI — your team's AI adoption tier",
+          title: "HAPAI — your team's adoption tier",
           text: shareText,
           url: shareUrl,
         });
@@ -319,7 +319,7 @@ function ShareCluster({
 
   const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-  const emailUrl = `mailto:?subject=${encodeURIComponent("HAPAI: where your team sits on the AI adoption ladder")}&body=${encodeURIComponent(shareText + "\n\n" + shareUrl)}`;
+  const emailUrl = `mailto:?subject=${encodeURIComponent("HAPAI: where your team sits on the adoption ladder")}&body=${encodeURIComponent(shareText + "\n\n" + shareUrl)}`;
 
   return (
     <div className="flex flex-wrap gap-2">

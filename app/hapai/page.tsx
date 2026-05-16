@@ -3,7 +3,7 @@
  *
  * Productised John Kim playbook adapted for NZ SMEs. Coming Q3 2026 as a
  * Suite add-on. This page exists to:
- *   1. State the thesis (most NZ businesses bought AI, nobody uses it)
+ *   1. State the thesis (most NZ businesses bought intelligent tools, nobody uses them)
  *   2. Explain the 5-tier framework
  *   3. Run a self-assessment (Where does your team sit?)
  *   4. Make it easy to share (viral share buttons + OG card)
@@ -16,22 +16,22 @@ import HapaiAssessment from "@/components/hapai/HapaiAssessment";
 import HapaiShareButtons from "@/components/hapai/HapaiShareButtons";
 
 export const metadata: Metadata = {
-  title: "hapai — the AI adoption framework for NZ teams",
+  title: "hapai — the intelligent-tool adoption framework for NZ teams",
   description:
-    "Most NZ teams paid for AI. Almost nobody uses it. The HAPAI framework maps where your team actually sits on the adoption curve — in 60 seconds, no email required.",
+    "Most NZ teams paid for intelligent tools. Almost nobody uses them. The HAPAI framework maps where your team actually sits on the adoption curve — in 60 seconds, no email required.",
   openGraph: {
-    title: "hapai — the AI adoption framework for NZ teams",
+    title: "hapai — the intelligent-tool adoption framework for NZ teams",
     description:
-      "Take 60 seconds to find where your team sits on the AI adoption curve. From akoranga to pou.",
+      "Take 60 seconds to find where your team sits on the adoption curve. From akoranga to pou.",
     type: "article",
     url: "https://www.assembl.co.nz/hapai",
     siteName: "assembl",
   },
   twitter: {
     card: "summary_large_image",
-    title: "hapai — the AI adoption framework for NZ teams",
+    title: "hapai — the intelligent-tool adoption framework for NZ teams",
     description:
-      "Most NZ teams paid for AI. Almost nobody uses it. Take 60 seconds.",
+      "Most NZ teams paid for intelligent tools. Almost nobody uses them. Take 60 seconds.",
   },
 };
 
@@ -45,7 +45,7 @@ const TIERS = [
   { slug: "rangatira", english: "Leading", min: 76, max: 150,
     description: "Adoption is the default. New hires are recruited for curiosity. The team starts building tools for itself." },
   { slug: "pou", english: "Pillar of practice", min: 151, max: 9999,
-    description: "AI adoption is structural. The skills marketplace is alive. People build for the team and share the results." },
+    description: "Adoption is structural. The skills marketplace is alive. People build for the team and share the results." },
 ];
 
 export default function HapaiPage() {
@@ -58,7 +58,7 @@ export default function HapaiPage() {
             HAPAI · the adoption layer for NZ teams
           </p>
           <h1 className="font-cormorant text-5xl lg:text-7xl leading-[1.05] tracking-tight mb-6">
-            Most NZ businesses paid for AI.<br />
+            Most NZ businesses paid for intelligent tools.<br />
             <em className="text-mist-50/95">Almost nobody uses it.</em>
           </h1>
           <p className="text-lg lg:text-xl text-mist-50/85 max-w-2xl leading-relaxed">
@@ -110,7 +110,7 @@ export default function HapaiPage() {
               there was no system for what comes after the licence purchase.
             </p>
             <p>
-              HAPAI is that system. It treats AI adoption as a product you build
+              HAPAI is that system. It treats intelligent-tool adoption as a product you build
               internally, not a training programme you sit through. A kaupapa board
               for requests, a skills library for what works, a five-tier dashboard
               that celebrates progress instead of punishing stragglers.
@@ -134,11 +134,11 @@ export default function HapaiPage() {
             The framework
           </p>
           <h2 className="font-cormorant text-4xl lg:text-5xl text-pounamu-900 leading-tight mb-4">
-            Five tiers. Te reo names. No "AI God."
+            Five tiers. Te reo names. No hype ladder.
           </h2>
           <p className="text-base lg:text-lg text-taupe-700 max-w-2xl mb-12">
             Adoption is measured in sessions per person per month. Not totals — the
-            shape of the curve. A team that uses AI thirty times every week beats
+            shape of the curve. A team that uses these tools thirty times every week beats
             a team that used it 800 times last Tuesday and then went quiet.
           </p>
 
@@ -276,7 +276,7 @@ export default function HapaiPage() {
               <span className="font-cormorant text-2xl text-pounamu-700 leading-none mt-1">·</span>
               <div>
                 <strong className="text-pounamu-900">Track smoothness, not totals.</strong> Consistency
-                beats heroic bursts. A team using AI thirty times every week wins
+                beats heroic bursts. A team using the tools thirty times every week wins
                 over a team that used it 800 times once and then went silent.
               </div>
             </li>
@@ -291,7 +291,7 @@ export default function HapaiPage() {
             Pass it on
           </p>
           <h2 className="font-cormorant text-4xl lg:text-5xl leading-tight mb-6">
-            If a friend's team bought AI and never landed it…
+            If a friend's team bought the tools and never landed them…
           </h2>
           <p className="text-base lg:text-lg text-mist-50/85 max-w-xl mx-auto mb-10">
             Send them this page. The thesis lands faster on a quiet read than over
@@ -307,7 +307,7 @@ export default function HapaiPage() {
         <div className="mx-auto max-w-5xl px-6 lg:px-8 text-sm text-taupe-600 space-y-3">
           <p>
             <strong className="text-taupe-900 font-medium">HAPAI</strong> is built on
-            the elite AI-adoption playbook from John Kim (Sendbird / Delight.ai),
+            the elite adoption playbook from John Kim (Sendbird / Delight.ai),
             adapted for NZ small business by Kate Hudson at assembl. Coming Q3 2026
             as an add-on to the assembl Business and Industry Suite tiers.
           </p>

@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import type { PearlLiveStats } from '@/lib/pearl-live';
+import { AssemblConciergeWidget } from './AssemblConciergeWidget';
 
 type KeteImagery = Record<KeteSlug, { square: string; wide: string }>;
 
@@ -263,6 +264,7 @@ export function HomePortal({ ketes, keteImagery, pearlLive }: HomePortalProps) {
           ))}
         </div>
       </section>
+      <AssemblConciergeWidget />
     </main>
   );
 }

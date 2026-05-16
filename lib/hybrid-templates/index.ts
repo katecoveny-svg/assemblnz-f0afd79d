@@ -132,7 +132,7 @@ export const HYBRID_TEMPLATES: HybridTemplate[] = [
     id: 'always_on_learning',
     label: 'Always-on personalised learning',
     summary:
-      'Daily AI prompts plus a weekly human pathway-guide check-in. Persistence over content.',
+      'Daily practice prompts plus a weekly human pathway-guide check-in. Persistence over content.',
     icon: 'GraduationCap',
     accent: '#AC5838',
     agents: ['agent-ako', 'memory-recall', 'te-reo-video-learn'],
@@ -142,7 +142,7 @@ export const HYBRID_TEMPLATES: HybridTemplate[] = [
       iso8601Duration: 'P1W',
       runKind: 'weekly_pathway_guide_session',
       description:
-        '20-minute weekly check-in with the learner. AI pre-prepares the session brief: what was covered, where they got stuck, what to nudge.',
+        '20-minute weekly check-in with the learner. The system pre-prepares the session brief: what was covered, where they got stuck, what to nudge.',
     },
     evidence: {
       name: 'Learner Monthly Report',
@@ -189,7 +189,7 @@ export const HYBRID_TEMPLATES: HybridTemplate[] = [
     id: 'mental_health_support',
     label: 'Peer mental-health support layer',
     summary:
-      'Between nothing and licensed therapy. AI-monitored check-ins, human-led groups, clinician on escalation.',
+      'Between nothing and licensed therapy. Monitored check-ins, human-led groups, clinician on escalation.',
     icon: 'HeartHandshake',
     accent: '#3B7CB5',
     agents: ['iho', 'memory-recall', 'compress-conversation', 'kahu'],
@@ -199,7 +199,7 @@ export const HYBRID_TEMPLATES: HybridTemplate[] = [
       iso8601Duration: 'P1W',
       runKind: 'weekly_peer_session',
       description:
-        'Weekly 1:1 or group session run by the peer worker, with an AI-prepped session brief on adherence, mood trend, and any flagged signals.',
+        'Weekly 1:1 or group session run by the peer worker, with a prepared session brief on adherence, mood trend, and any flagged signals.',
     },
     evidence: {
       name: 'Wellbeing Posture',
@@ -384,7 +384,7 @@ export const HYBRID_TEMPLATES: HybridTemplate[] = [
     id: 'family_coordination',
     label: 'Family coordination (elder / childcare / household)',
     summary:
-      'AI handles calendars, medication, document collation. Human handles the relational and trust pieces.',
+      'The system handles calendars, medication, document collation. Human handles the relational and trust pieces.',
     icon: 'Users',
     accent: '#4AA5A8',
     agents: ['agent-toro', 'memory-recall', 'compress-context', 'google-calendar'],

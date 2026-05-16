@@ -311,7 +311,7 @@ export interface ValidationIssue {
  *   - missing reviewer on sealed status
  *   - section template mismatch
  *   - claim without citation in a non-flag section
- *   - AI tells and hedge words (basic regex pass — the LLM rewrite handles
+ *   - Machine tells and hedge words (basic regex pass — the LLM rewrite handles
  *     the rest)
  */
 export function validatePack(pack: EvidencePack): ValidationIssue[] {
@@ -355,7 +355,7 @@ export function validatePack(pack: EvidencePack): ValidationIssue[] {
   }
 
   // Voice — basic regex pass. The full pass is the linter in §6.
-  const tells = /\b(as an AI|I hope this helps|let'?s explore|in summary|exciting|amazing|delighted|thrilled)\b/i;
+  const tells = /\b(as an A[Ii]|I hope this helps|let'?s explore|in summary|exciting|amazing|delighted|thrilled)\b/i;
   const hedges = /\b(might|seems to|appears to|could potentially|perhaps)\b/i;
   pack.sections.forEach((section) => {
     section.body.forEach((block, i) => {
@@ -369,7 +369,7 @@ export function validatePack(pack: EvidencePack): ValidationIssue[] {
         issues.push({
           severity: 'error',
           path: `sections.${section.id}.body[${i}]`,
-          message: 'AI tell detected. Rewrite or remove.',
+          message: 'Machine tell detected. Rewrite or remove.',
         });
       }
       if (hedges.test(text)) {

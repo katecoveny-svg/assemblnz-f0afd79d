@@ -173,7 +173,7 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Sometimes' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Operator plan and above (NZ$1,490/mo + setup).',
+    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
   },
 
   manaaki: {
@@ -184,7 +184,7 @@ export const KETE_DETAIL: Record<
     description: [
       "Manaaki keeps the kitchen running. Food Control Plans, alcohol licences, host responsibility logs, allergen records, employment paperwork — the operational compliance layer that keeps verifiers, DLCs, and WorkSafe inspectors satisfied.",
       "Every output cites the Food Act 2014, the Sale and Supply of Alcohol Act 2012, the Holidays Act 2003, and the relevant MPI / DLC guidance inline. Verifiers see a clean trail; managers spend an hour reviewing instead of a week reconstructing.",
-      "Manaaki launches after Waihanga and Pīkau reach five customers each. Kitchens and dining-rooms can register interest now and shape the first releases.",
+      "Manaaki is part of Industry Pack. Kitchens and dining rooms can start with a Pilot Sprint, then run the kete as a live operating layer.",
     ],
     legislation: [
       'Food Act 2014 + MPI registered FCP',
@@ -254,7 +254,7 @@ export const KETE_DETAIL: Record<
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
     availableOn:
-      'Operator plan and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pīkau reach five customers each.',
+      'Industry Pack — NZ$5,000/mo + GST flat.',
   },
 
   pikau: {
@@ -334,7 +334,7 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Sometimes' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Operator plan and above (NZ$1,490/mo + setup).',
+    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
   },
 
   arataki: {
@@ -345,7 +345,7 @@ export const KETE_DETAIL: Record<
     description: [
       "Arataki sits across the workshop, the dealer floor, and the fleet office. WoF/CoF schedules, driver endorsement currency, NZTA logbook checks, incident triage to WorkSafe thresholds, and the insurance evidence packs that follow.",
       "The kete grounds outputs in the Land Transport Act 1998, the relevant Land Transport Rules, the Consumer Guarantees Act 1993 (for sales), and HSWA 2015 (for the workshop floor). Each output stamps which clause it stands on.",
-      "Arataki launches after Waihanga and Pīkau reach five customers each. Workshops and fleet operators can register interest now to shape the first releases.",
+      "Arataki is part of Industry Pack. Workshops and fleet operators can start with a Pilot Sprint, then run the kete as a live operating layer.",
     ],
     legislation: [
       'Land Transport Act 1998',
@@ -414,7 +414,7 @@ export const KETE_DETAIL: Record<
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
     availableOn:
-      'Operator plan and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pīkau reach five customers each.',
+      'Industry Pack — NZ$5,000/mo + GST flat.',
   },
 
   auaha: {
@@ -425,7 +425,7 @@ export const KETE_DETAIL: Record<
     description: [
       "Auaha sits inside the creative process — the brief, the script, the channel-specific variants, the claims-substantiation pass before an ad goes live. Each output keeps the house voice and adds a Fair Trading + ASA Code review at every stage.",
       "If a campaign references te ao Māori, Auaha runs a tikanga and cultural review pass first — and assembl never generates karakia, whaikōrero, mihimihi, pepeha, or waiata. That is a hard boundary.",
-      "Auaha launches after Waihanga and Pīkau reach five customers each. Agencies and in-house creative teams can register interest now.",
+      "Auaha is part of Industry Pack. Agencies and in-house creative teams can start with a Pilot Sprint, then run the kete as a live operating layer.",
     ],
     legislation: [
       'Fair Trading Act 1986',
@@ -494,7 +494,7 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Rarely' },
     ],
     availableOn:
-      'Operator plan and above (NZ$1,490/mo + setup). Coming soon — launching after Waihanga and Pīkau reach five customers each.',
+      'Industry Pack — NZ$5,000/mo + GST flat.',
   },
 
   hoko: {

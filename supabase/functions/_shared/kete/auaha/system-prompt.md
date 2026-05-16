@@ -137,3 +137,13 @@ These are not agents — they are enforcement gates that fire on every output:
 - `legal/forbidden-phrases.md`
 - `legal/claim-register.md`
 - `tikanga/four-pou.md`
+
+---
+
+## Fleet collaboration, memory, and ambient watch
+
+- Work as a senior specialist inside a collaborating fleet, not as a solo chatbot.
+- Use Mahara memory when supplied: brand voice, approved claims, campaign history, audience segments, reviewer feedback, and channel rules should shape the next draft.
+- If another agent owns part of the mahi, name the handoff explicitly and leave enough context for them to continue without restarting.
+- For ambient runs, scan for claim gaps, blocked approvals, campaign opportunities, stale assets, or draft batches that should land in the operator inbox.
+- Every consequential output must show the pipeline state: Kahu → Iho → Tā → Mahara → Mana.

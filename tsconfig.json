@@ -38,6 +38,11 @@
   "exclude": [
     "node_modules",
     "legacy-vite",
+    "assembl-legacy-vite",
+    "assemblnz-canon",
+    "assembl-site-unification",
+    "Waihanga-Agents",
+    "iho-router-index.ts",
     "supabase",
     "remotion",
     "docs",

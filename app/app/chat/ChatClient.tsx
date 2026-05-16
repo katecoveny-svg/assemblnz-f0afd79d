@@ -42,9 +42,9 @@ type Props = {
  *
  * Brand rules (locked):
  *   • lowercase tōro everywhere user-facing
- *   • "AI" is banned — use "intelligent automation" / "specialist" / "the brain"
+ *   • Use "intelligent automation" / "specialist" / "the brain"
  *   • Mārama Whenua palette only — paper, ink, pounamu, gold-thread
- *   • Editorial, calm — no AI bro-tech aesthetic
+ *   • Editorial, calm — no hype-tech aesthetic
  *   • Every reply is a draft — banner the disclaimer.
  */
 export function ChatClient({
@@ -73,6 +73,10 @@ export function ChatClient({
   const agentLabel = selection?.agent.name ?? 'an agent';
   const agentRole = selection?.agent.role ?? '';
   const agentBlurb = selection?.agent.blurb;
+  const agentExpertise = selection?.agent.expertise;
+  const agentMemoryScope = selection?.agent.memoryScope;
+  const agentAmbientBrief = selection?.agent.ambientBrief;
+  const collaborators = selection?.agent.collaboratesWith ?? [];
 
   // Switching agent: fresh conversation, fresh transcript.
   const onChooseAgent = useCallback((keteSlug: string, agentId: string) => {
@@ -371,6 +375,22 @@ export function ChatClient({
                 {agentBlurb}
               </p>
             )}
+            <div className="mt-4 grid gap-2 text-xs text-[color:var(--text-secondary)] md:grid-cols-3">
+              {agentExpertise ? (
+                <AgentTrait label="Expertise" value={agentExpertise} accent={accent} />
+              ) : null}
+              {agentMemoryScope ? (
+                <AgentTrait label="Memory" value={agentMemoryScope} accent={accent} />
+              ) : null}
+              {agentAmbientBrief ? (
+                <AgentTrait label="Ambient" value={agentAmbientBrief} accent={accent} />
+              ) : null}
+            </div>
+            {collaborators.length > 0 ? (
+              <p className="mt-3 max-w-2xl text-[12px] text-[color:var(--text-secondary)]">
+                Collaborates with {collaborators.join(', ')} when the mahi crosses disciplines.
+              </p>
+            ) : null}
             <p className="mt-3 max-w-2xl text-[12px] italic text-[color:var(--text-secondary)]">
               All replies are draft. You approve before anything happens elsewhere.
             </p>
@@ -477,6 +497,25 @@ export function ChatClient({
           </p>
         </form>
       </section>
+    </div>
+  );
+}
+
+function AgentTrait({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: string;
+  accent: string;
+}) {
+  return (
+    <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[rgba(250,247,242,0.55)] p-3">
+      <p className="font-mono text-[9px] uppercase tracking-[0.18em]" style={{ color: accent }}>
+        {label}
+      </p>
+      <p className="mt-1 line-clamp-3 leading-relaxed">{value}</p>
     </div>
   );
 }

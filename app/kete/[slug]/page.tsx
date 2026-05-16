@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowRight, Check, Minus } from 'lucide-react';
+import { ArrowRight, Check, MessageCircle, Minus } from 'lucide-react';
 import { KETES, getKete, type KeteSlug } from '@/lib/kete';
+import { agentChatId, agentsForKete } from '@/lib/agents';
 import {
   KETE_DETAIL,
   type IndustryKeteDetail,
@@ -65,6 +66,7 @@ function IndustryKetePage({
   detail: IndustryKeteDetail;
 }) {
   const isComingSoon = kete.status === 'coming-soon' || kete.status === 'mothballed';
+  const fleetAgents = agentsForKete(kete.slug);
 
   return (
     <>
@@ -195,7 +197,7 @@ function IndustryKetePage({
                       aria-hidden
                     />
                     <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                      Coming soon
+                      Demo
                     </span>
                     <span className="text-sm text-[color:var(--text-primary)]">
                       ATA BIM Demo —{' '}
@@ -317,6 +319,71 @@ function IndustryKetePage({
           </div>
         </section>
       )}
+
+      {/* Chat-explorable fleet */}
+      <section className="relative">
+        <div className="container pb-16 md:pb-24">
+          <div className="mx-auto max-w-3xl text-center">
+            <SectionReveal>
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                Chat with the fleet
+              </span>
+              <h2 className="mt-3 font-display text-4xl md:text-5xl">
+                Explore {kete.name}&apos;s specialist knowledge.
+              </h2>
+              <p className="mt-5 text-base leading-relaxed text-[color:var(--text-body)]">
+                Every agent is chat-ready, memory-aware, and expected to call in collaborators
+                when the mahi crosses another phase or kete.
+              </p>
+            </SectionReveal>
+          </div>
+
+          <div className="mx-auto mt-12 grid max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {fleetAgents.map((agent, i) => (
+              <SectionReveal key={agent.slug} delay={i * 0.04}>
+                <Link
+                  href={`/app/chat?kete=${kete.slug}&agent=${agentChatId(agent)}`}
+                  className="kete-card group block h-full p-6 transition-transform hover:-translate-y-0.5"
+                  style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="h-1.5 w-1.5 rounded-full"
+                        style={{ backgroundColor: kete.accent }}
+                        aria-hidden
+                      />
+                      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                        {agent.phase ?? 'fleet'}
+                      </span>
+                    </div>
+                    <MessageCircle className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
+                  </div>
+                  <h3 className="mt-3 font-display text-2xl text-[color:var(--text-primary)]">
+                    {agent.name}
+                  </h3>
+                  <p className="mt-1 text-xs font-medium uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+                    {agent.role}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                    {agent.oneLiner}
+                  </p>
+                  <p className="mt-4 text-xs leading-relaxed text-[color:var(--text-secondary)]">
+                    Collaborates with {(agent.collaboratesWith ?? ['iho', 'signal']).join(', ')}.
+                  </p>
+                  <span
+                    className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]"
+                    style={{ color: kete.accent }}
+                  >
+                    Open chat
+                    <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden />
+                  </span>
+                </Link>
+              </SectionReveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Auaha public tool */}
       {kete.slug === 'auaha' && (
@@ -533,7 +600,7 @@ function IndustryKetePage({
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
               {isComingSoon
                 ? 'We will be in touch when this kete is ready for your industry.'
-                : 'The Pilot Sprint — NZ$5,000 + GST for two weeks — is the fastest way to see what assembl does for your team.'}
+                : 'The Pilot Sprint — NZ$5,000 + GST for two weeks — is the fastest way to see your mahi drafted, reviewed, and sealed with proof.'}
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
@@ -570,6 +637,8 @@ function ToroPage({
   kete: ReturnType<typeof getKete>;
   detail: WhanauKeteDetail;
 }) {
+  const fleetAgents = agentsForKete(kete.slug);
+
   return (
     <>
       <section className="relative overflow-hidden">
@@ -751,6 +820,57 @@ function ToroPage({
                     {sub.body}
                   </p>
                 </article>
+              </SectionReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Chat-explorable fleet */}
+      <section className="relative">
+        <div className="container pb-12 pt-4 md:pb-16">
+          <div className="mx-auto max-w-3xl text-center">
+            <SectionReveal>
+              <span className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                Chat with the fleet
+              </span>
+              <h2 className="mt-3 font-display text-4xl md:text-5xl">
+                Explore Tōro&apos;s working knowledge.
+              </h2>
+              <p className="mt-5 text-base leading-relaxed text-[color:var(--text-body)]">
+                Tōro, Iho, and Signal are chat-ready, memory-aware, and review-first.
+              </p>
+            </SectionReveal>
+          </div>
+
+          <div className="mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-3">
+            {fleetAgents.map((agent, i) => (
+              <SectionReveal key={agent.slug} delay={i * 0.04}>
+                <Link
+                  href={`/app/chat?kete=${kete.slug}&agent=${agentChatId(agent)}`}
+                  className="glass-card group block h-full p-6"
+                  style={{ ['--kete-accent' as string]: kete.accent }}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                      {agent.phase ?? 'fleet'}
+                    </span>
+                    <MessageCircle className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
+                  </div>
+                  <h3 className="mt-3 font-display text-2xl text-[color:var(--text-primary)]">
+                    {agent.name}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                    {agent.oneLiner}
+                  </p>
+                  <span
+                    className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]"
+                    style={{ color: kete.accent }}
+                  >
+                    Open chat
+                    <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden />
+                  </span>
+                </Link>
               </SectionReveal>
             ))}
           </div>
