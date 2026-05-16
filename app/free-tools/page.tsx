@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, BadgeDollarSign, Calculator, Car, CheckCircle2, PlugZap, ShieldCheck, ThermometerSun } from 'lucide-react';
+import { ArrowRight, BadgeDollarSign, Calculator, Car, CheckCircle2, PlugZap, ShieldCheck, Sparkles, ThermometerSun, Trophy } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Free NZ Business Tools',
@@ -16,6 +17,14 @@ const tools = [
     href: '/electrify',
     icon: PlugZap,
     kete: 'Arataki · Pīkau · Waihanga · Manaaki',
+  },
+  {
+    name: 'HAPAI adoption score',
+    slug: 'hapai_ai_adoption_assessment',
+    description: 'Run a 60-second gamified AI adoption check and see your team tier, session rhythm, and next play.',
+    href: '/hapai#assessment',
+    icon: Trophy,
+    kete: 'Team enablement',
   },
   {
     name: 'GST calculator',
@@ -94,6 +103,18 @@ export default function FreeToolsPage() {
           </div>
 
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-5 shadow-[0_20px_70px_rgba(35,33,31,0.08)]">
+            <div className="relative mb-5 aspect-[16/9] overflow-hidden rounded-[6px]">
+              <Image
+                src="/images/golden-nodes-square.jpg"
+                alt="Golden network pattern representing practical business tools"
+                fill
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#23211F]/65 to-transparent" />
+              <Sparkles className="absolute bottom-4 left-4 h-7 w-7 text-[#FAF7F2]" aria-hidden />
+            </div>
             <div className="flex items-start justify-between gap-5 border-b border-[rgba(35,33,31,0.10)] pb-5">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">

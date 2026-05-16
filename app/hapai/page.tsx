@@ -12,6 +12,9 @@
  */
 
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, BadgeCheck, Flame, LibraryBig, Trophy, UsersRound } from "lucide-react";
 import HapaiAssessment from "@/components/hapai/HapaiAssessment";
 import HapaiShareButtons from "@/components/hapai/HapaiShareButtons";
 
@@ -52,33 +55,86 @@ export default function HapaiPage() {
   return (
     <main className="bg-mist-50 text-taupe-900 font-inter">
       {/* HERO */}
-      <section className="bg-pounamu-900 text-mist-50 py-20 lg:py-32">
-        <div className="mx-auto max-w-4xl px-6 lg:px-8">
-          <p className="text-xs uppercase tracking-widest text-pounamu-100 mb-4">
-            HAPAI · the adoption layer for NZ teams
-          </p>
-          <h1 className="font-cormorant text-5xl lg:text-7xl leading-[1.05] tracking-tight mb-6">
-            Most NZ businesses paid for intelligent tools.<br />
-            <em className="text-mist-50/95">Almost nobody uses it.</em>
-          </h1>
-          <p className="text-lg lg:text-xl text-mist-50/85 max-w-2xl leading-relaxed">
-            The licences sit there generating no value. Microsoft Copilot, ChatGPT
-            Teams, Claude for Work — bought, announced, never landed. The tools
-            work. The rollout fails. HAPAI fixes the rollout.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <a
-              href="#assessment"
-              className="inline-flex items-center px-6 py-3 rounded-md bg-mist-50 text-pounamu-900 font-medium hover:bg-white transition-colors"
-            >
-              Where does your team sit? →
-            </a>
-            <a
-              href="#how"
-              className="inline-flex items-center px-6 py-3 rounded-md border border-mist-50/40 text-mist-50 font-medium hover:bg-mist-50/10 transition-colors"
-            >
-              How HAPAI works
-            </a>
+      <section className="relative overflow-hidden bg-pounamu-900 px-6 py-16 text-mist-50 lg:px-10 lg:py-24">
+        <div className="absolute inset-0 opacity-25">
+          <Image
+            src="/images/lattice-texture.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover mix-blend-screen"
+            priority
+          />
+        </div>
+        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.92fr] lg:items-center">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-pounamu-100">
+              HAPAI · gamified AI adoption for NZ teams
+            </p>
+            <h1 className="mt-5 max-w-5xl font-cormorant text-[clamp(3.7rem,8vw,7.5rem)] leading-[0.88] tracking-tight text-mist-50">
+              Turn unused AI licences into team momentum.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-mist-50/85 lg:text-xl">
+              The tools work. The rollout fails. HAPAI gives teams a game loop:
+              requests, quick wins, shared skills, visible progress, and a dashboard
+              that rewards consistency.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <a
+                href="#assessment"
+                className="inline-flex h-12 items-center gap-2 rounded-full bg-mist-50 px-6 text-sm font-medium text-pounamu-900 transition-colors hover:bg-white"
+              >
+                Take the assessment <ArrowRight className="h-4 w-4" aria-hidden />
+              </a>
+              <Link
+                href="/pilot-sprint"
+                className="inline-flex h-12 items-center rounded-full border border-mist-50/40 px-6 text-sm font-medium text-mist-50 transition-colors hover:bg-mist-50/10"
+              >
+                Add to a pilot
+              </Link>
+            </div>
+          </div>
+
+          <div className="rounded-[8px] border border-white/15 bg-white/12 p-4 shadow-[0_24px_80px_rgba(0,0,0,0.24)] backdrop-blur">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[6px] bg-[#23211F]">
+              <Image
+                src="/img/kete/ako-vessel-amber.jpg"
+                alt="Amber sculptural vessel representing learning momentum"
+                fill
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                className="object-cover opacity-70"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-pounamu-900/70 via-[#23211F]/20 to-[#23211F]/85" />
+              <div className="absolute inset-0 grid content-between p-5">
+                <div className="flex items-center justify-between">
+                  <span className="rounded-full bg-mist-50/90 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-pounamu-900">
+                    Week 2
+                  </span>
+                  <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-mist-50">
+                    smoothness 84
+                  </span>
+                </div>
+                <div>
+                  <div className="grid grid-cols-3 gap-2">
+                    <GameMetric icon={Trophy} value="tohunga" label="tier" />
+                    <GameMetric icon={Flame} value="47" label="sessions" />
+                    <GameMetric icon={BadgeCheck} value="9" label="wins" />
+                  </div>
+                  <div className="mt-3 rounded-[8px] border border-white/15 bg-white/12 p-3">
+                    <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.12em] text-mist-50/75">
+                      <span>adoption path</span>
+                      <span>3 / 5</span>
+                    </div>
+                    <div className="mt-3 grid grid-cols-5 gap-1">
+                      {[0, 1, 2, 3, 4].map((i) => (
+                        <div key={i} className={`h-2 rounded-full ${i < 3 ? "bg-[#D4A853]" : "bg-white/25"}`} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -90,7 +146,17 @@ export default function HapaiPage() {
 
       {/* THE THESIS */}
       <section className="py-20 lg:py-28 bg-mist-100">
-        <div className="mx-auto max-w-3xl px-6 lg:px-8">
+        <div className="mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[0.9fr_1fr] lg:px-8">
+          <div className="relative min-h-80 overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)]">
+            <Image
+              src="/images/brand-film-still-pipeline.jpg"
+              alt="Assembl vessel pipeline showing an adoption workflow"
+              fill
+              sizes="(min-width: 1024px) 42vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div>
           <p className="text-xs uppercase tracking-widest text-taupe-600 mb-4">
             The thesis
           </p>
@@ -123,6 +189,7 @@ export default function HapaiPage() {
                 — adapted from John Kim, Sendbird
               </cite>
             </blockquote>
+          </div>
           </div>
         </div>
       </section>
@@ -199,9 +266,9 @@ export default function HapaiPage() {
           <h2 className="font-cormorant text-4xl lg:text-5xl text-pounamu-900 leading-tight mb-12">
             What HAPAI ships with.
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
-              <span className="font-cormorant text-5xl text-pounamu-700">01</span>
+              <UsersRound className="h-8 w-8 text-pounamu-700" aria-hidden />
               <h3 className="font-cormorant text-2xl text-pounamu-900 mt-3 mb-2">
                 Kaupapa Board
               </h3>
@@ -212,7 +279,7 @@ export default function HapaiPage() {
               </p>
             </div>
             <div>
-              <span className="font-cormorant text-5xl text-pounamu-700">02</span>
+              <LibraryBig className="h-8 w-8 text-pounamu-700" aria-hidden />
               <h3 className="font-cormorant text-2xl text-pounamu-900 mt-3 mb-2">
                 Skills Library
               </h3>
@@ -223,7 +290,7 @@ export default function HapaiPage() {
               </p>
             </div>
             <div>
-              <span className="font-cormorant text-5xl text-pounamu-700">03</span>
+              <Trophy className="h-8 w-8 text-pounamu-700" aria-hidden />
               <h3 className="font-cormorant text-2xl text-pounamu-900 mt-3 mb-2">
                 Adoption Dashboard
               </h3>
@@ -319,5 +386,15 @@ export default function HapaiPage() {
         </div>
       </footer>
     </main>
+  );
+}
+
+function GameMetric({ icon: Icon, value, label }: { icon: typeof Trophy; value: string; label: string }) {
+  return (
+    <div className="rounded-[8px] border border-white/15 bg-white/12 p-3 text-mist-50 backdrop-blur">
+      <Icon className="h-4 w-4 text-[#D4A853]" aria-hidden />
+      <p className="mt-3 font-cormorant text-3xl leading-none">{value}</p>
+      <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-mist-50/70">{label}</p>
+    </div>
   );
 }

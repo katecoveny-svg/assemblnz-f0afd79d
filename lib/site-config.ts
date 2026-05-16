@@ -291,6 +291,7 @@ export const nav = [
   { href: '/pilot-sprint',  label: 'Pilot Sprint' },
   { href: '/how-it-works',  label: 'How it works' },
   { href: '/kete',          label: 'Kete' },
+  { href: '/hapai',         label: 'HAPAI' },
   { href: '/free-tools',    label: 'Free tools' },
   { href: '/pricing',       label: 'Pricing' },
   { href: '/about',         label: 'About' },

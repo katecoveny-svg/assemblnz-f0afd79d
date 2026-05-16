@@ -11,6 +11,9 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight, BatteryCharging, Leaf, PlugZap, Route, SunMedium } from "lucide-react";
+import { getServiceClient } from "@/lib/supabase/service";
 
 export const dynamic = "force-dynamic";
 
@@ -47,6 +50,8 @@ type ElectrifyLead = {
   assumptions_version: string;
 };
 
+const RESULT_COOKIE_PREFIX = "assembl_electrify_result_";
+
 // Map business type → relevant kete CTA
 const KETE_CTA: Record<string, { kete: string; label: string; href: string }> = {
   hospitality:        { kete: "Manaaki",  label: "Talk to Manaaki about kitchen-level electrification",        href: "/kete/manaaki" },
@@ -63,74 +68,142 @@ function fmtNzd(n: number): string {
   return new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD", maximumFractionDigits: 0 }).format(n);
 }
 
-export default async function ElectrifyResultsPage({ params }: { params: { id: string } }) {
+export default async function ElectrifyResultsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { get: (name: string) => cookieStore.get(name)?.value } }
-  );
+  let lead: ElectrifyLead | null = null;
 
-  // Anon SELECT not allowed by RLS — we use service role on server side.
-  // For this scaffold, we'll surface the result_id and rely on a server action
-  // pattern in production. For now, fetch with anon (no policy = no read).
-  // TODO: add a SELECT-by-id-with-recent-creation RLS policy or use service role.
-  const { data, error } = await supabase
-    .from("electrify_leads")
-    .select("*")
-    .eq("id", params.id)
-    .single();
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    const supabase = getServiceClient();
 
-  if (error || !data) notFound();
-  const lead = data as ElectrifyLead;
+    const { data } = await supabase
+      .from("electrify_leads")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (data) lead = data as ElectrifyLead;
+  } else if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      { cookies: { get: (name: string) => cookieStore.get(name)?.value } }
+    );
+
+    const { data } = await supabase
+      .from("electrify_leads")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (data) lead = data as ElectrifyLead;
+  }
+
+  if (!lead) {
+    const snapshot = cookieStore.get(`${RESULT_COOKIE_PREFIX}${id}`)?.value;
+    if (snapshot) {
+      try {
+        lead = JSON.parse(decodeURIComponent(snapshot)) as ElectrifyLead;
+      } catch {
+        lead = null;
+      }
+    }
+  }
+
+  if (!lead) notFound();
 
   const cta = KETE_CTA[lead.business_type] ?? KETE_CTA.professional_other;
+  const heroStep = lead.recommended_sequence[0];
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12 lg:py-16 font-inter text-taupe-900">
-      <header className="mb-10">
-        <p className="text-xs uppercase tracking-widest text-taupe-600 mb-2">
-          Electrify · your results
-        </p>
-        <h1 className="font-cormorant text-4xl lg:text-5xl text-pounamu-900 leading-tight">
-          You could save {fmtNzd(lead.annual_savings_current_nzd)} a year.
-        </h1>
-        <p className="mt-3 text-taupe-700">
-          {lead.annual_savings_cheap_finance_nzd > lead.annual_savings_current_nzd && (
-            <>
-              <span className="font-medium">
-                With a 1% Green loan, that becomes {fmtNzd(lead.annual_savings_cheap_finance_nzd)}.
-              </span>{" "}
-            </>
-          )}
-          Confidence: <ConfidenceBadge level={lead.result_confidence} />
-        </p>
-      </header>
+    <main className="bg-[color:var(--assembl-paper)] font-inter text-taupe-900">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-6 py-12 lg:px-10 lg:py-18">
+        <div className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
+          <Image
+            src="/images/lattice-macro.png"
+            alt=""
+            fill
+            sizes="50vw"
+            className="object-cover opacity-25 mix-blend-multiply"
+            priority
+          />
+        </div>
+        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <header>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-taupe-600">
+              Electrify · your result
+            </p>
+            <h1 className="mt-5 font-cormorant text-[clamp(3.4rem,8vw,7rem)] leading-[0.88] text-pounamu-900">
+              {fmtNzd(lead.annual_savings_current_nzd)} a year back from the machines.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-taupe-700">
+              {lead.annual_savings_cheap_finance_nzd > lead.annual_savings_current_nzd ? (
+                <>
+                  With a 1% green loan scenario, that rises to{" "}
+                  <span className="font-medium text-pounamu-900">
+                    {fmtNzd(lead.annual_savings_cheap_finance_nzd)}
+                  </span>
+                  .{" "}
+                </>
+              ) : null}
+              Confidence: <ConfidenceBadge level={lead.result_confidence} />
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href={cta.href} className="cta-primary inline-flex h-12 items-center gap-2 px-6">
+                {cta.label} <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+              <Link href="/electrify" className="btn-ghost inline-flex h-12 items-center px-6">
+                Run another estimate
+              </Link>
+            </div>
+          </header>
 
-      <section className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
-        <Metric label="Annual savings (current rates)" value={fmtNzd(lead.annual_savings_current_nzd)} />
+          <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-4 shadow-[0_20px_70px_rgba(35,33,31,0.10)]">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[6px] bg-pounamu-900">
+              <Image
+                src="/img/kete/arataki-vessel-amber.jpg"
+                alt="Sculptural vessel representing an electrification plan"
+                fill
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                className="object-cover opacity-90"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#23211F]/80 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-5 text-mist-50">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-mist-50/75">First switch</p>
+                <p className="mt-2 text-xl font-medium leading-tight">{heroStep?.machine ?? "Start with the highest-confidence switch"}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10 lg:py-16">
+      <section className="mb-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <Metric icon={PlugZap} label="Annual savings" value={fmtNzd(lead.annual_savings_current_nzd)} />
         <Metric
+          icon={BatteryCharging}
           label="Payback period"
           value={lead.payback_years ? `${lead.payback_years} years` : "—"}
         />
-        <Metric label="10-year savings" value={fmtNzd(lead.ten_year_savings_nzd)} />
+        <Metric icon={Route} label="10-year savings" value={fmtNzd(lead.ten_year_savings_nzd)} />
         <Metric
+          icon={Leaf}
           label="CO₂e avoided"
           value={`${lead.co2e_avoided_tonnes} t/yr`}
         />
       </section>
 
       <section className="mb-10">
-        <h2 className="font-cormorant text-2xl text-pounamu-900 mb-4">
+        <h2 className="font-cormorant text-4xl text-pounamu-900 mb-5">
           Where to start — your switch sequence
         </h2>
-        <ol className="space-y-3">
+        <ol className="grid gap-4 lg:grid-cols-3">
           {lead.recommended_sequence.map((step) => (
             <li
               key={step.order}
-              className="flex gap-4 p-4 border border-taupe-200 rounded-md bg-mist-50"
+              className="flex gap-4 rounded-[8px] border border-taupe-200 bg-white/65 p-5 shadow-[0_10px_34px_rgba(35,33,31,0.05)]"
             >
-              <span className="flex-shrink-0 w-8 h-8 rounded-full bg-pounamu-100 text-pounamu-900 flex items-center justify-center text-sm font-medium">
+              <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-pounamu-100 text-sm font-medium text-pounamu-900">
                 {step.order}
               </span>
               <div className="flex-1 min-w-0">
@@ -148,12 +221,24 @@ export default async function ElectrifyResultsPage({ params }: { params: { id: s
       </section>
 
       {lead.solar_recommendation && lead.solar_recommendation.recommended && (
-        <section className="mb-10 p-6 border border-karaka-300 rounded-md bg-karaka-50">
-          <h3 className="font-cormorant text-xl text-karaka-900 mb-2">
-            Rooftop solar: worth investigating
-          </h3>
-          <p className="text-sm text-taupe-700 mb-3">{lead.solar_recommendation.reason}</p>
-          <div className="grid grid-cols-3 gap-3 text-sm">
+        <section className="mb-10 overflow-hidden rounded-[8px] border border-karaka-300 bg-karaka-50">
+          <div className="grid lg:grid-cols-[0.72fr_1fr]">
+            <div className="relative min-h-56">
+              <Image
+                src="/images/golden-nodes-square.jpg"
+                alt="Golden network pattern representing rooftop solar generation"
+                fill
+                sizes="(min-width: 1024px) 34vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="p-6">
+              <SunMedium className="h-7 w-7 text-karaka-900" aria-hidden />
+              <h3 className="mt-4 font-cormorant text-3xl text-karaka-900">
+                Rooftop solar is worth investigating.
+              </h3>
+              <p className="mt-2 text-sm text-taupe-700">{lead.solar_recommendation.reason}</p>
+              <div className="mt-5 grid grid-cols-3 gap-3 text-sm">
             <div>
               <span className="block text-xs text-taupe-600">System size</span>
               <span className="font-medium">{lead.solar_recommendation.estimatedKwSize} kW</span>
@@ -169,11 +254,13 @@ export default async function ElectrifyResultsPage({ params }: { params: { id: s
               </span>
             </div>
           </div>
+            </div>
+          </div>
         </section>
       )}
 
-      <section className="mb-10 p-6 border border-pounamu-300 rounded-md bg-pounamu-50">
-        <h3 className="font-cormorant text-xl text-pounamu-900 mb-2">
+      <section className="mb-10 rounded-[8px] border border-pounamu-300 bg-pounamu-50 p-6">
+        <h3 className="font-cormorant text-3xl text-pounamu-900 mb-2">
           Want help making it happen?
         </h3>
         <p className="text-sm text-taupe-700 mb-4">
@@ -182,13 +269,13 @@ export default async function ElectrifyResultsPage({ params }: { params: { id: s
         </p>
         <Link
           href={cta.href}
-          className="inline-flex items-center px-5 py-2.5 rounded-md bg-pounamu-900 text-mist-50 text-sm font-medium hover:bg-pounamu-800 transition-colors"
+          className="inline-flex items-center rounded-md bg-pounamu-900 px-5 py-2.5 text-sm font-medium text-mist-50 transition-colors hover:bg-pounamu-800"
         >
           {cta.label} →
         </Link>
       </section>
 
-      <section className="mb-10 p-6 border border-taupe-200 rounded-md">
+      <section className="mb-10 rounded-[8px] border border-taupe-200 bg-white/55 p-6">
         <h3 className="font-medium text-taupe-900 mb-2">Email me the PDF</h3>
         <p className="text-sm text-taupe-600 mb-3">
           Branded PDF with the full breakdown + sources. We don't sell or share emails.
@@ -223,17 +310,19 @@ export default async function ElectrifyResultsPage({ params }: { params: { id: s
           Business Banking commercial rates May 2026.
         </p>
       </footer>
+      </div>
     </main>
   );
 }
 
-function Metric({ label, value }: { label: string; value: string }) {
+function Metric({ icon: Icon, label, value }: { icon: typeof PlugZap; label: string; value: string }) {
   return (
-    <div className="p-3 border border-taupe-200 rounded-md bg-mist-50">
+    <div className="rounded-[8px] border border-taupe-200 bg-white/65 p-4">
+      <Icon className="mb-4 h-5 w-5 text-pounamu-700" aria-hidden />
       <span className="block text-xs uppercase tracking-wider text-taupe-600 mb-1">
         {label}
       </span>
-      <span className="block text-lg font-cormorant text-pounamu-900">{value}</span>
+      <span className="block font-cormorant text-3xl text-pounamu-900">{value}</span>
     </div>
   );
 }

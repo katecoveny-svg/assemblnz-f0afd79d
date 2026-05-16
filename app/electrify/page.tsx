@@ -8,6 +8,9 @@
  */
 
 import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, BatteryCharging, Building2, Car, PlugZap, SunMedium } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Electrify — SME switch-to-electric calculator",
@@ -41,21 +44,70 @@ const FUEL_TYPES = [
 
 export default function ElectrifyFormPage() {
   return (
-    <main className="mx-auto max-w-2xl px-6 py-12 lg:py-16 font-inter text-taupe-900">
-      <header className="mb-10">
-        <p className="text-xs uppercase tracking-widest text-taupe-600 mb-2">
-          Electrify · for NZ small businesses
-        </p>
-        <h1 className="font-cormorant text-4xl lg:text-5xl text-pounamu-900 leading-tight">
-          How much would your business save by going electric?
-        </h1>
-        <p className="mt-4 text-taupe-700 max-w-xl">
-          Real NZ prices. Real maths. Sourced from MBIE, EECA, and Rewiring Aotearoa.
-          Takes about 90 seconds. No signup — the email comes at the PDF step.
-        </p>
-      </header>
+    <main className="bg-[color:var(--assembl-paper)] font-inter text-taupe-900">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-6 py-14 lg:px-10 lg:py-20">
+        <div className="absolute inset-0 opacity-[0.16]">
+          <Image
+            src="/images/section-bg-texture.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        </div>
+        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.92fr] lg:items-center">
+          <header>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-taupe-600">
+              Electrify · for NZ small businesses
+            </p>
+            <h1 className="mt-5 max-w-4xl font-cormorant text-[clamp(3.6rem,8vw,7.25rem)] leading-[0.88] text-pounamu-900">
+              Find the savings hiding in your fuel bill.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-taupe-700">
+              Real NZ prices. Deterministic maths. A switch sequence for vehicles,
+              heat, power, and solar in about 90 seconds.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#calculator" className="cta-primary inline-flex h-12 items-center gap-2 px-6">
+                Start calculator <ArrowRight className="h-4 w-4" aria-hidden />
+              </a>
+              <Link href="/free-tools" className="btn-ghost inline-flex h-12 items-center px-6">
+                View all tools
+              </Link>
+            </div>
+          </header>
 
-      <form action="/api/calculate" method="POST" className="space-y-6">
+          <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-4 shadow-[0_20px_70px_rgba(35,33,31,0.10)]">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[6px] bg-[#23211F]">
+              <Image
+                src="/img/kete/pikau-vessel-blue.jpg"
+                alt="Blue sculptural vessel representing fleet electrification"
+                fill
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                className="object-cover opacity-95"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#23211F]/80 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 grid grid-cols-3 gap-2 p-4 text-mist-50">
+                <HeroChip icon={Car} label="Fleet" />
+                <HeroChip icon={BatteryCharging} label="Heat" />
+                <HeroChip icon={SunMedium} label="Solar" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-10 lg:px-10 lg:py-14">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.78fr_1fr] lg:items-start">
+          <aside className="grid gap-4 sm:grid-cols-3 lg:sticky lg:top-24 lg:grid-cols-1">
+            <VisualNote icon={PlugZap} title="Fuel to electrons" body="Compares current fuel spend with EV and heat-pump operating costs." />
+            <VisualNote icon={Building2} title="Premises-aware" body="Lease length and rooftop suitability change the recommendations." />
+            <VisualNote icon={SunMedium} title="Solar signal" body="Adds a rooftop sizing estimate when the numbers make sense." />
+          </aside>
+
+      <form id="calculator" action="/api/calculate" method="POST" className="space-y-6 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5 shadow-[0_20px_70px_rgba(35,33,31,0.06)] md:p-8">
         <Field label="What does your business do?" name="businessType" required>
           <select
             name="businessType"
@@ -194,8 +246,10 @@ export default function ElectrifyFormPage() {
           </button>
         </div>
       </form>
+        </div>
+      </section>
 
-      <footer className="mt-12 pt-8 border-t border-taupe-200 text-xs text-taupe-500 space-y-2">
+      <footer className="mx-auto max-w-7xl px-6 pb-12 pt-8 text-xs text-taupe-500 space-y-2 lg:px-10">
         <p>
           <strong>Sources:</strong> MBIE Energy Prices Q1 2026 · EECA Light Vehicle
           Fuel Economy Database 2026 · MfE NZ Greenhouse Gas Inventory 2024 ·
@@ -216,6 +270,25 @@ export default function ElectrifyFormPage() {
         </p>
       </footer>
     </main>
+  );
+}
+
+function HeroChip({ icon: Icon, label }: { icon: typeof Car; label: string }) {
+  return (
+    <div className="rounded-[8px] border border-white/15 bg-white/12 px-3 py-2 backdrop-blur">
+      <Icon className="h-4 w-4" aria-hidden />
+      <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.12em]">{label}</span>
+    </div>
+  );
+}
+
+function VisualNote({ icon: Icon, title, body }: { icon: typeof PlugZap; title: string; body: string }) {
+  return (
+    <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-5">
+      <Icon className="h-5 w-5 text-pounamu-700" aria-hidden />
+      <h2 className="mt-4 font-cormorant text-3xl text-pounamu-900">{title}</h2>
+      <p className="mt-2 text-sm leading-relaxed text-taupe-700">{body}</p>
+    </div>
   );
 }
 

@@ -12,6 +12,8 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { calculateElectrification, type ElectrifyInput, type FuelType, type BusinessType, type VehicleType, type PremisesType } from "@/lib/electrify/calculator";
 
+const RESULT_COOKIE_PREFIX = "assembl_electrify_result_";
+
 export async function POST(req: Request) {
   const form = await req.formData();
 
@@ -46,6 +48,37 @@ export async function POST(req: Request) {
   };
 
   const result = calculateElectrification(input);
+  const localResultId = crypto.randomUUID();
+  const resultSnapshot = {
+    id: localResultId,
+    business_type: input.businessType,
+    region: input.region,
+    annual_savings_current_nzd: result.annualSavingsCurrentNzd,
+    annual_savings_cheap_finance_nzd: result.annualSavingsCheapFinanceNzd,
+    payback_years: result.paybackYears,
+    ten_year_savings_nzd: result.tenYearSavingsNzd,
+    co2e_avoided_tonnes: result.co2eAvoidedTonnes,
+    upfront_capex_estimate_nzd: result.upfrontCapexEstimateNzd,
+    recommended_sequence: result.recommendedSequence,
+    solar_recommendation: result.solarRecommendation,
+    result_confidence: result.confidence,
+    assumptions_version: result.assumptionsVersion,
+  };
+
+  function redirectWithSnapshot(id: string) {
+    const response = NextResponse.redirect(new URL(`/electrify/results/${id}`, req.url), { status: 303 });
+    response.cookies.set(`${RESULT_COOKIE_PREFIX}${id}`, encodeURIComponent(JSON.stringify({ ...resultSnapshot, id })), {
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 60 * 60,
+      path: "/",
+    });
+    return response;
+  }
+
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    return redirectWithSnapshot(localResultId);
+  }
 
   const cookieStore = await cookies();
   const supabase = createServerClient(
@@ -82,8 +115,8 @@ export async function POST(req: Request) {
 
   if (error || !data) {
     console.error("electrify lead insert failed", error);
-    return NextResponse.json({ error: "Calculation saved but lead capture failed." }, { status: 500 });
+    return redirectWithSnapshot(localResultId);
   }
 
-  return NextResponse.redirect(new URL(`/electrify/results/${data.id}`, req.url), { status: 303 });
+  return redirectWithSnapshot(data.id);
 }
