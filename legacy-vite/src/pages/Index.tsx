@@ -901,7 +901,7 @@ export default Index;
 /* ─── Layout Primitives ─── */
 function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
-    <section id={id} className="px-4 sm:px-6 py-16 sm:py-32 relative">
+    <section id={id} className="relative px-4 py-24 sm:px-6 lg:py-32">
       <div className="max-w-[1200px] mx-auto relative z-10">{children}</div>
       <div className="absolute bottom-0 left-0 right-0 flex justify-center py-2">
         <DotDivider />
@@ -912,8 +912,8 @@ function Sect({ children, id }: { children: React.ReactNode; id?: string }) {
 
 function SectionEyebrow({ children }: { children: string }) {
   return (
-    <p className="text-[10px] font-medium tracking-[5px] uppercase mb-5"
-      style={{ color: "var(--assembl-soft-gold)", fontFamily: "'IBM Plex Mono', monospace" }}>
+    <p className="mb-5 font-mono text-eyebrow font-medium uppercase"
+      style={{ color: "var(--assembl-soft-gold)" }}>
       — {children} —
     </p>
   );
@@ -921,12 +921,9 @@ function SectionEyebrow({ children }: { children: string }) {
 
 function SectionH2({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-[28px] sm:text-[42px] lg:text-[52px] mb-4 sm:mb-6"
+    <h2 className="mb-4 font-display text-display-lg sm:mb-6"
       style={{
-        fontFamily: "'Cormorant Garamond', Georgia, serif",
         fontWeight: 400,
-        letterSpacing: "-0.005em",
-        lineHeight: 1.1,
         color: "var(--assembl-taupe-deep)",
       }}>
       {children}
@@ -936,7 +933,7 @@ function SectionH2({ children }: { children: React.ReactNode }) {
 
 function SectionP({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <p className={`text-[15px] sm:text-[17px] leading-[1.75] max-w-xl mx-auto ${className}`}
+    <p className={`mx-auto max-w-xl text-body-md ${className}`}
       style={{ fontFamily: "'Inter', sans-serif", fontWeight: 400, color: "var(--text-secondary)" }}>
       {children}
     </p>

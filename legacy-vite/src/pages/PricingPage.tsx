@@ -72,22 +72,15 @@ const PricingPage = () => (
       <section className="px-6 pb-14 pt-32 text-center">
         <div className="mx-auto max-w-4xl">
           <p
-            className="mb-6 font-mono text-[11px] uppercase tracking-[0.28em]"
+            className="mb-6 font-mono text-eyebrow uppercase"
             style={{ color: C.secondary }}
           >
             PRICING · NZD, GST EXCLUSIVE
           </p>
-          <h1
-            className="font-display"
-            style={{
-              fontSize: "clamp(3.4rem, 7vw, 6.8rem)",
-              fontWeight: 300,
-              lineHeight: 0.92,
-            }}
-          >
+          <h1 className="font-display text-display-xl font-light">
             One flat industry pack. One pilot to prove it.
           </h1>
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed" style={{ color: C.secondary }}>
+          <p className="mx-auto mt-8 max-w-2xl text-body-lg" style={{ color: C.secondary }}>
             Start with a Pilot Sprint, then decide whether the monthly Industry Pack is right for
             your team. Use code ANNUAL12 for 12% off annual.
           </p>
@@ -104,13 +97,13 @@ const PricingPage = () => (
           }}
         >
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.28em]" style={{ color: C.pounamu }}>
+            <p className="font-mono text-eyebrow uppercase" style={{ color: C.pounamu }}>
               INDUSTRY PACK
             </p>
-            <h2 className="mt-3 font-display text-4xl font-light leading-[0.98] md:text-5xl">
+            <h2 className="mt-3 font-display text-display-md font-light">
               NZ$5,000 a month. Pick one kete, switch any time.
             </h2>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed" style={{ color: C.secondary }}>
+            <p className="mt-4 max-w-2xl text-body-md" style={{ color: C.secondary }}>
               Six to eight specialist agents sequenced into one operating loop: find work, quote it,
               run it, close the books.
             </p>
@@ -132,11 +125,11 @@ const PricingPage = () => (
         >
           {OFFERS.map((offer) => (
             <article key={offer.name} className="flex min-h-[430px] flex-col p-8" style={{ background: C.paper }}>
-              <p className="font-mono text-[10px] uppercase tracking-[0.28em]" style={{ color: C.secondary }}>
+              <p className="font-mono text-eyebrow uppercase" style={{ color: C.secondary }}>
                 {offer.eyebrow}
               </p>
-              <h2 className="mt-5 font-display text-4xl font-light leading-none">{offer.name}</h2>
-              <p className="mt-8 font-display text-4xl font-light leading-none">{offer.price}</p>
+              <h2 className="mt-5 font-display text-display-md font-light">{offer.name}</h2>
+              <p className="mt-8 font-display text-display-md font-light">{offer.price}</p>
               <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em]" style={{ color: C.secondary }}>
                 {offer.setup}
               </p>
@@ -171,15 +164,15 @@ const PricingPage = () => (
       <section className="px-6 py-24" style={{ borderTop: `1px solid ${C.gold}55` }}>
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1fr] lg:items-end">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em]" style={{ color: C.secondary }}>
+            <p className="font-mono text-eyebrow uppercase" style={{ color: C.secondary }}>
               THE CLEAN PATH
             </p>
-            <h2 className="mt-5 font-display text-5xl font-light leading-[0.96] md:text-6xl">
+            <h2 className="mt-5 font-display text-display-lg font-light">
               Try it for two weeks. Keep it if the time comes back.
             </h2>
           </div>
           <div>
-            <p className="text-lg leading-relaxed" style={{ color: C.secondary }}>
+            <p className="text-body-lg" style={{ color: C.secondary }}>
               Pilot Sprint proves one workflow with one evidence pack. Industry Pack turns the
               whole operator&apos;s loop into a monthly fleet. Outcome stays available when the work
               is bespoke.
