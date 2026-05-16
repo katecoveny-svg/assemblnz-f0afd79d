@@ -126,7 +126,7 @@ const OnboardingQuiz = ({ onComplete }: { onComplete: (filter?: string) => void 
                 <span className="tracking-[2px] lowercase text-gradient-hero">assembl</span>
               </h1>
               <p className="text-muted-foreground text-sm font-body">
-                Let's find the right AI agent for you in 30 seconds.
+                Let's find the right specialist agent for you in 30 seconds.
               </p>
             </div>
             <button

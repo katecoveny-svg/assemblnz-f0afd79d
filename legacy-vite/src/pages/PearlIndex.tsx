@@ -424,11 +424,11 @@ function WhatAssemblIs() {
       <motion.div {...fadeUp} className="max-w-[1120px] mx-auto px-6 md:px-10 relative z-10">
         <Eyebrow>What Assembl is</Eyebrow>
         <Serif size="lg" className="mb-10">
-          A platform of practical AI agents that finish the work — and give the time back.
+          A platform of practical specialist agents that finish the work — and give the time back.
         </Serif>
         <div style={{ maxWidth: 680, marginBottom: 56 }}>
           <Body large>
-            Assembl is a New Zealand-built platform of specialist AI agents — one for hospitality, construction, automotive, freight, creative, retail, early childhood, and one for the household. Each agent runs an end-to-end workflow for you and closes it with a single evidence pack: source-cited, audit-ready, dated, current with New Zealand law.
+            Assembl is a New Zealand-built platform of specialist agents — one for hospitality, construction, automotive, freight, creative, retail, early childhood, and one for the household. Each agent runs an end-to-end workflow for you and closes it with a single evidence pack: source-cited, audit-ready, dated, current with New Zealand law.
           </Body>
         </div>
 
@@ -1096,7 +1096,7 @@ export default function PearlIndex() {
     <>
       <SEO
         title="Assembl — Premium intelligence that understands what matters"
-        description="NZ specialist AI agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited - and stays current as the law changes."
+        description="NZ specialist agents and workflows designed to help business, teams and communities move through complexity with more control and clarity. Every workflow produces a pack that can be filed or audited - and stays current as the law changes."
       />
       <div style={{ background: PEARL.bg, minHeight: "100vh" }}>
         <BrandNav />

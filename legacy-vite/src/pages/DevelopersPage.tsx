@@ -310,7 +310,7 @@ export default function DevelopersPage() {
               Born headless.
             </h1>
             <p className="mt-6 text-base sm:text-lg text-foreground/70 max-w-2xl leading-relaxed">
-              Salesforce just rebuilt their platform around AI agents. Assembl
+              Salesforce just rebuilt their platform around specialist agents. Assembl
               was born that way. Same architecture, priced for New Zealand
               small business.
             </p>

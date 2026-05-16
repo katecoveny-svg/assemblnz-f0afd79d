@@ -56,7 +56,7 @@ export default function DocIntelPage() {
         <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
           <FileText size={22} style={{ color: POUNAMU }} /> Document Intelligence — Tuhinga
         </h1>
-        <p className="text-xs text-muted-foreground">AI-powered document analysis for construction contracts</p>
+        <p className="text-xs text-muted-foreground">Agent-powered document analysis for construction contracts</p>
       </motion.div>
 
       <Glass className="p-6 space-y-4">
