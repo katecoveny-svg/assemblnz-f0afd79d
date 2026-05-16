@@ -91,7 +91,7 @@ export function KeteCard({
         {/* Per-kete subtle pattern — fades up on hover */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.06] transition-opacity duration-500 group-hover:opacity-[0.14]"
+          className="pointer-events-none absolute inset-0 opacity-[0.06] transition-opacity duration-500 group-hover:opacity-[0.14] group-focus-visible:opacity-[0.14]"
           style={{
             color: kete.accent,
             backgroundImage: KETE_PATTERN[kete.slug],
@@ -102,7 +102,7 @@ export function KeteCard({
         {/* Accent stripe — left edge, grows top→full on hover */}
         <span
           aria-hidden
-          className="absolute left-0 top-8 h-12 w-1 rounded-r transition-all duration-500 group-hover:top-0 group-hover:h-full group-hover:w-2"
+          className="absolute left-0 top-8 h-12 w-1 rounded-r transition-all duration-500 group-hover:top-0 group-hover:h-full group-hover:w-2 group-focus-visible:top-0 group-focus-visible:h-full group-focus-visible:w-2"
           style={{ backgroundColor: kete.accent }}
         />
 
@@ -113,7 +113,7 @@ export function KeteCard({
                 {kete.industry}
               </span>
               <ArrowUpRight
-                className="h-5 w-5 text-[color:var(--text-secondary)] transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[color:var(--text-primary)]"
+                className="h-5 w-5 text-[color:var(--text-secondary)] transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[color:var(--text-primary)] group-focus-visible:translate-x-1 group-focus-visible:-translate-y-1 group-focus-visible:text-[color:var(--text-primary)]"
                 aria-hidden
               />
             </div>
@@ -148,7 +148,7 @@ export function KeteCard({
               <KeteIllustration
                 slug={kete.slug}
                 accent={kete.accent}
-                className="h-44 w-auto transition-transform duration-700 group-hover:scale-[1.04] md:h-56"
+                className="h-44 w-auto transition-transform duration-700 group-hover:scale-[1.04] group-focus-visible:scale-[1.04] md:h-56"
               />
             </div>
           )}
@@ -159,7 +159,7 @@ export function KeteCard({
           <KeteIllustration
             slug={kete.slug}
             accent={kete.accent}
-            className="pointer-events-none absolute right-4 top-4 h-20 w-auto opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110"
+            className="pointer-events-none absolute right-4 top-4 h-20 w-auto opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 group-focus-visible:opacity-100 group-focus-visible:scale-110"
           />
         )}
 
@@ -169,7 +169,7 @@ export function KeteCard({
             <span className="flex items-center gap-2 font-mono text-[11px] text-[color:var(--text-secondary)]">
               <span
                 aria-hidden
-                className="h-2.5 w-2.5 rounded-full transition-transform duration-500 group-hover:scale-150"
+                className="h-2.5 w-2.5 rounded-full transition-transform duration-500 group-hover:scale-150 group-focus-visible:scale-150"
                 style={{ backgroundColor: kete.accent }}
               />
               {kete.accentName}
@@ -178,7 +178,7 @@ export function KeteCard({
             {/* "+ N agents" chip — appears on hover */}
             {agentCount > 0 && (
               <span
-                className="rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                className="rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100"
                 style={{
                   color: kete.accent,
                   borderColor: kete.accent + '55',

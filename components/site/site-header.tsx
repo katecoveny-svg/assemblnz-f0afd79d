@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +10,11 @@ const PROOF_LINE = "Mahi that earns its proof.";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const [isMac, setIsMac] = useState(true);
+
+  useEffect(() => {
+    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[rgba(157,140,125,0.14)] bg-[rgba(247,243,238,0.78)] backdrop-blur-xl">
@@ -50,9 +56,9 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new Event('assembl:open-command'))}
-            className="hidden rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] lg:inline-flex"
+            className="hidden rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 lg:inline-flex"
           >
-            press ⌘K
+            press {isMac ? '⌘K' : 'CTRL K'}
           </button>
           {/* Sign in — takes signed-in users straight through to /app
               (middleware refreshes the session), anonymous users land on
