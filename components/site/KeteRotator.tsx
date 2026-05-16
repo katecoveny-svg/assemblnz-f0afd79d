@@ -6,25 +6,61 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Kete } from '@/lib/kete';
 import { TeReo } from './TeReo';
 
-export function KeteRotator({ ketes, className = '' }: { ketes: Kete[]; className?: string }) {
+export function KeteRotator({
+  ketes,
+  className = '',
+  scale = 'standard',
+  activeSlug,
+  onActiveSlugChange,
+}: {
+  ketes: Kete[];
+  className?: string;
+  scale?: 'standard' | 'immersive';
+  activeSlug?: Kete['slug'];
+  onActiveSlugChange?: (slug: Kete['slug']) => void;
+}) {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const ordered = useMemo(() => ketes.filter((kete) => kete.slug !== 'toro').concat(ketes.filter((kete) => kete.slug === 'toro')), [ketes]);
-  const current = ordered[index % ordered.length];
+  const controlledIndex = activeSlug ? ordered.findIndex((kete) => kete.slug === activeSlug) : -1;
+  const currentIndex = controlledIndex >= 0 ? controlledIndex : index % ordered.length;
+  const current = ordered[currentIndex];
 
   useEffect(() => {
     if (paused || reduceMotion || ordered.length < 2) return undefined;
-    const timer = window.setInterval(() => setIndex((value) => (value + 1) % ordered.length), 2500);
+    const timer = window.setInterval(() => {
+      const nextIndex = (currentIndex + 1) % ordered.length;
+      const nextSlug = ordered[nextIndex].slug;
+      if (onActiveSlugChange) {
+        onActiveSlugChange(nextSlug);
+      } else {
+        setIndex(nextIndex);
+      }
+    }, 2500);
     return () => window.clearInterval(timer);
-  }, [ordered.length, paused, reduceMotion]);
+  }, [currentIndex, onActiveSlugChange, ordered, paused, reduceMotion]);
 
   return (
     <div className={className}>
-      <h1 className="font-display text-display-xl font-light text-[color:var(--text-primary)]">
+      <h1
+        className={[
+          'font-display font-light leading-[0.95] tracking-[-0.02em] text-[color:var(--text-primary)]',
+          scale === 'immersive'
+            ? 'text-[clamp(4rem,8vw,8.5rem)]'
+            : 'text-display-xl',
+        ].join(' ')}
+      >
         <TeReo title="work">Mahi</TeReo> that earns its proof.
       </h1>
-      <div className="mt-3 flex min-h-[3.5rem] flex-wrap items-baseline gap-x-3 gap-y-1 font-display text-display-lg font-light">
+      <div
+        className={[
+          'mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-display font-light leading-[0.98] tracking-[-0.02em]',
+          scale === 'immersive'
+            ? 'min-h-[clamp(3.4rem,5vw,5.6rem)] text-[clamp(3rem,5vw,5.8rem)]'
+            : 'min-h-[3.5rem] text-display-lg',
+        ].join(' ')}
+      >
         <span>for</span>
         <AnimatePresence mode="wait">
           <motion.span
@@ -41,7 +77,12 @@ export function KeteRotator({ ketes, className = '' }: { ketes: Kete[]; classNam
         </AnimatePresence>
         <span>.</span>
       </div>
-      <p className="mt-6 max-w-2xl text-body-md text-[color:var(--text-body)]">
+      <p
+        className={[
+          'mt-6 max-w-2xl text-[color:var(--text-body)]',
+          scale === 'immersive' ? 'text-body-lg' : 'text-body-md',
+        ].join(' ')}
+      >
         Specialist agents for NZ operators. Every workflow reviewed by a named person and sealed with an evidence pack.
       </p>
       <button
