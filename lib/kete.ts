@@ -23,6 +23,7 @@ export type Kete = {
    */
   type: 'industry' | 'whanau';
   status: 'active' | 'coming-soon' | 'mothballed';
+  heroImage: string;
 };
 
 export const KETES: Kete[] = [
@@ -35,6 +36,7 @@ export const KETES: Kete[] = [
     accentName: 'Pounamu',
     type: 'industry',
     status: 'active',
+    heroImage: '/img/kete/heroes/waihanga-hero.png',
   },
   {
     slug: 'manaaki',
@@ -45,16 +47,18 @@ export const KETES: Kete[] = [
     accentName: 'Kōkōwai',
     type: 'industry',
     status: 'active',
+    heroImage: '/img/kete/heroes/manaaki-hero.png',
   },
   {
     slug: 'pikau',
     name: 'Pīkau',
-    industry: 'Freight & Customs',
+    industry: 'Logistics',
     tagline: 'The audit trail your broker needs.',
     accent: '#3B7CB5',
     accentName: 'Kikorangi',
     type: 'industry',
     status: 'active',
+    heroImage: '/img/kete/heroes/pikau-hero.png',
   },
   {
     slug: 'arataki',
@@ -65,6 +69,7 @@ export const KETES: Kete[] = [
     accentName: 'Karaka',
     type: 'industry',
     status: 'active',
+    heroImage: '/img/kete/heroes/arataki-hero.png',
   },
   {
     slug: 'auaha',
@@ -75,46 +80,51 @@ export const KETES: Kete[] = [
     accentName: 'Kahurangi',
     type: 'industry',
     status: 'active',
+    heroImage: '/img/kete/heroes/auaha-hero.png',
   },
   {
     slug: 'ako',
     name: 'Ako',
-    industry: 'Early Childhood Education',
+    industry: 'Education',
     tagline: 'Compliance that protects tamariki — Te Whāriki, ratios, kaiako, ERO.',
     accent: '#6B5843',
     accentName: 'Parauri',
     type: 'industry',
     status: 'active',
+    heroImage: '/img/kete/heroes/ako-hero.png',
   },
   {
     slug: 'matauranga',
     name: 'Mātauranga',
-    industry: 'Secondary Education',
+    industry: 'Knowledge',
     tagline: 'NCEA L1–3 weekly reporting and Achievement Standards tracking for school operators.',
     accent: '#3D5A7A',
     accentName: 'Pōuriuri',
     type: 'industry',
     status: 'active',
+    heroImage: '/img/kete/heroes/matauranga-hero.png',
   },
   {
     slug: 'hoko',
     name: 'Hoko',
-    industry: 'Retail',
+    industry: 'Commerce',
     tagline: 'Consumer protection compliance for NZ retailers.',
     accent: '#7B3F8F',
     accentName: 'Waiporoporo',
     type: 'industry',
     status: 'active',
+    heroImage: '/img/kete/heroes/hoko-hero.png',
   },
   {
     slug: 'toro',
     name: 'Tōro',
-    industry: 'Whānau',
+    industry: 'Family',
     tagline: 'The whānau navigator for school, money, routines, and the week ahead.',
     accent: '#23211F',
     accentName: 'Mangū',
     type: 'whanau',
     status: 'active',
+    heroImage: '/img/kete/heroes/toro-hero.png',
   },
 ];
 
