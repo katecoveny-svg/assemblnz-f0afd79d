@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { CSSProperties } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, MessageCircle, Radio, ShieldCheck } from 'lucide-react';
 import { KETES, type Kete, type KeteSlug } from '@/lib/kete';
@@ -158,9 +159,26 @@ function KeteAgentCard({
 
   return (
     <article
-      className="flex min-h-[360px] flex-col rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/60 p-5 shadow-[0_10px_32px_rgba(35,33,31,0.06)]"
+      className="flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/60 shadow-[0_10px_32px_rgba(35,33,31,0.06)]"
       style={{ '--kete-accent': kete.accent } as CSSProperties}
     >
+      <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)]">
+        <Image
+          src={kete.heroImage}
+          alt={`${kete.name} kete — ${kete.accentName} vessel`}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          quality={78}
+          className="object-cover"
+          style={{ objectPosition: '50% 35%' }}
+        />
+        <span
+          className="absolute inset-x-0 bottom-0 h-1"
+          style={{ backgroundColor: kete.accent }}
+          aria-hidden
+        />
+      </div>
+      <div className="flex flex-1 flex-col p-5">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--kete-accent)]">
@@ -240,6 +258,7 @@ function KeteAgentCard({
           Open kete page
           <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
         </Link>
+      </div>
       </div>
     </article>
   );
