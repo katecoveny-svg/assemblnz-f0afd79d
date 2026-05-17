@@ -3,8 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
 import { StickyScrollNarrative } from '@/components/StickyScrollNarrative';
-import { pipelineStages } from '@/lib/site-config';
-import { getKete } from '@/lib/kete';
+import { ketes, pipelineStages } from '@/lib/site-config';
 
 export const metadata: Metadata = {
   title: 'How it works',
@@ -12,16 +11,28 @@ export const metadata: Metadata = {
     'Five stages. Nothing ships until a person says so. Kahu intent capture, Iho routing, Tā execution, Mahara review, Mana sign-off — every workflow assembl runs ends in a sealed evidence pack.',
 };
 
-// Stage media — same Waihanga vessel for all five stages. The active stage
-// renders at full opacity; the others fade to 30% per Phase 1 brief §11.
-// Replace with AUAHA Phase 2 dedicated stage frames when delivered.
-// Uses the canonical 2026-05-17 kete hero WebP set (lib/kete.ts heroImage)
-// for a ~60 KB source instead of the legacy 985 KB pikau/manaaki JPGs.
-const WAIHANGA_HERO = getKete('waihanga').heroImage;
-const STAGE_MEDIA = pipelineStages.map((s) => ({
-  src: WAIHANGA_HERO,
-  alt: `${s.title} — ${s.subtitle}`,
-}));
+const STAGE_MEDIA = [
+  {
+    src: ketes.waihanga.wide,
+    alt: 'Kahu intent capture — Waihanga vessel on warm paper.',
+  },
+  {
+    src: ketes.auaha.wide,
+    alt: 'Iho routing — Auaha vessel on warm paper.',
+  },
+  {
+    src: ketes.hoko.wide,
+    alt: 'Tā execution — Hoko vessel on warm paper.',
+  },
+  {
+    src: ketes.matauranga.wide,
+    alt: 'Mahara review — Mātauranga vessel on warm paper.',
+  },
+  {
+    src: ketes.toro.wide,
+    alt: 'Mana sign-off — Tōro vessel on warm paper.',
+  },
+] satisfies ReadonlyArray<{ src: string; alt: string }>;
 
 export default function HowItWorksPage() {
   return (
