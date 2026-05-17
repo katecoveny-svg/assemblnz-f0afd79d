@@ -13,6 +13,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, BatteryCharging, Leaf, PlugZap, Route, SunMedium } from "lucide-react";
+import ElectrifyShareButtons from "@/components/electrify/ElectrifyShareButtons";
 import { getServiceClient } from "@/lib/supabase/service";
 
 export const dynamic = "force-dynamic";
@@ -114,6 +115,10 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
 
   const cta = KETE_CTA[lead.business_type] ?? KETE_CTA.professional_other;
   const heroStep = lead.recommended_sequence[0];
+  const resultUrl = `https://www.assembl.co.nz/electrify/results/${lead.id}`;
+  const shareText = `My Electrify Machine Count estimates ${fmtNzd(
+    lead.annual_savings_current_nzd,
+  )} a year back from fossil machines. Run your own NZ estimate from assembl.`;
 
   return (
     <main className="bg-[color:var(--assembl-paper)] font-inter text-taupe-900">
@@ -156,6 +161,13 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
                 Run another estimate
               </Link>
             </div>
+            <div className="mt-5">
+              <ElectrifyShareButtons
+                title="My Electrify Machine Count"
+                text={shareText}
+                url={resultUrl}
+              />
+            </div>
           </header>
 
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-4 shadow-[0_20px_70px_rgba(35,33,31,0.10)]">
@@ -195,8 +207,14 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
 
       <section className="mb-10">
         <h2 className="font-cormorant text-4xl text-pounamu-900 mb-5">
-          Where to start — your switch sequence
+          Your Machine Count.
         </h2>
+        <p className="mb-5 max-w-3xl text-sm leading-relaxed text-taupe-700">
+          Rewiring Aotearoa's machine-count frame is simple: count the fossil
+          machines first, then replace the ones with the strongest savings and
+          fastest payback. This sequence ranks the practical switches from your
+          inputs.
+        </p>
         <ol className="grid gap-4 lg:grid-cols-3">
           {lead.recommended_sequence.map((step) => (
             <li
@@ -273,6 +291,26 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
         >
           {cta.label} →
         </Link>
+      </section>
+
+      <section className="mb-10 rounded-[8px] border border-taupe-200 bg-white/55 p-6">
+        <div className="grid gap-6 lg:grid-cols-[0.9fr_1fr] lg:items-center">
+          <div>
+            <h3 className="font-cormorant text-3xl text-pounamu-900">
+              Share this Machine Count.
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-taupe-700">
+              Send the result to a partner, landlord, finance person, or builder.
+              The link opens this saved estimate, so the next person sees the same
+              Machine Count.
+            </p>
+          </div>
+          <ElectrifyShareButtons
+            title="My Electrify Machine Count"
+            text={shareText}
+            url={resultUrl}
+          />
+        </div>
       </section>
 
       <section className="mb-10 rounded-[8px] border border-taupe-200 bg-white/55 p-6">
