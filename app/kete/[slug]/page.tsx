@@ -336,7 +336,7 @@ function IndustryKetePage({
           <div className="container pb-16 md:pb-24">
             <SectionReveal>
               <a
-                href="/tools/vessel-studio.html"
+                href="/hapai/vessel-studio/"
                 className="glass-card-elevated group relative block overflow-hidden p-8 text-left md:p-10"
                 style={{
                   ['--kete-accent' as string]: '#5B4FA0',

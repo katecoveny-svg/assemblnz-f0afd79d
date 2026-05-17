@@ -59,7 +59,7 @@ const checks: Array<{
     notes: 'Calculator now falls back to a secure short-lived result snapshot if lead persistence fails.',
   },
   {
-    area: 'HAPAI adoption score',
+    area: 'HAPAI agent adoption score',
     status: 'working',
     route: '/hapai',
     claim: 'Gamified adoption assessment is visible and interactive.',
