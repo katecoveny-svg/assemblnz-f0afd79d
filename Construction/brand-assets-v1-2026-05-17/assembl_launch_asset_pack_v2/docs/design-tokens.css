@@ -1,0 +1,15 @@
+:root {
+  --paper: #FAF7F2;
+  --ink: #123D34;
+  --body: #23211F;
+  --taupe: #6F6158;
+  --gold: #D4A853;
+  --pounamu: #176B4D;
+  --cream: #EFE5D8;
+  --font-display: 'Cormorant Garamond', 'EB Garamond', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius-card: 24px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 24px 80px rgba(35,33,31,.06);
+}

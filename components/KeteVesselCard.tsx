@@ -25,7 +25,6 @@ export function KeteVesselCard({
 }) {
   const reduce = useReducedMotion();
   const localVessel = LOCAL_VESSELS[kete.slug];
-  const status = 'Live';
 
   return (
     <motion.div
@@ -73,16 +72,6 @@ export function KeteVesselCard({
               background: `linear-gradient(180deg, transparent 50%, ${kete.accent}33 100%)`,
             }}
           />
-          <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-[rgba(250,247,242,0.85)] px-3 py-1 backdrop-blur-md">
-            <span
-              className="h-1.5 w-1.5 rounded-full"
-              style={{ backgroundColor: kete.accent }}
-              aria-hidden
-            />
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-primary)]">
-              {status}
-            </span>
-          </div>
         </div>
         <div className="p-6">
           <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
