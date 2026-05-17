@@ -87,16 +87,22 @@ const GEMINI_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
 async function gatherLiveGrounding(prompt: string): Promise<string> {
   const blocks: string[] = [];
 
-  // 1. Frankfurter FX — free, no key, NZD↔EUR/USD/GBP for travel budgeting.
+  // 1. Frankfurter FX — free, no key. Returns "1 NZD = X foreign". We also
+  //    derive the inverse (foreign → NZD) because trip_plans.exchange_rate
+  //    follows the schema's "EUR → local" convention (NZD per EUR ≈ 1.85),
+  //    and the prompt needs both directions to reason about budgets.
   try {
     const r = await fetch("https://api.frankfurter.app/latest?from=NZD&to=EUR,USD,GBP,AUD,JPY");
     if (r.ok) {
       const fx = await r.json();
       if (fx?.rates) {
-        blocks.push(
-          `[LIVE FX — ${fx.date}, base NZD]\n` +
-            Object.entries(fx.rates).map(([k, v]) => `1 NZD ≈ ${v} ${k}`).join("\n"),
-        );
+        const lines: string[] = [`[LIVE FX — ${fx.date}, base NZD]`];
+        for (const [k, vRaw] of Object.entries(fx.rates)) {
+          const v = Number(vRaw);
+          const inverse = v > 0 ? (1 / v).toFixed(4) : "n/a";
+          lines.push(`1 NZD = ${v} ${k}   ·   1 ${k} = ${inverse} NZD`);
+        }
+        blocks.push(lines.join("\n"));
       }
     }
   } catch { /* FX is best-effort */ }
@@ -149,7 +155,7 @@ Convert the user's free-text trip brief into JSON matching this exact TypeScript
   "name": string,                          // e.g. "Kate's Italy Trip"
   "travelers": string[],                   // e.g. ["Kate"]
   "currency": "NZD",
-  "exchange_rate": number,                 // NZD → EUR, use the LIVE FX block if present, otherwise ~0.54
+  "exchange_rate": number,                 // NZD per EUR (EUR → NZD direction, default ~1.85). If LIVE FX is provided, use the "1 EUR = X NZD" value verbatim.
   "departure_date": "YYYY-MM-DD",
   "return_date": "YYYY-MM-DD",
   "status": "planning",
@@ -190,8 +196,8 @@ Rules:
 • Use real lat/lng for known places.
 • Use ISO dates.
 • Keep activities concrete and bookable. Italian must-books (Uffizi, Vatican Museums, Last Supper, Borghese Gallery, Colosseum, Doge's Palace) should be marked urgent:true.
-• Costs in EUR. If the user gives a NZD budget, divide by exchange_rate to estimate EUR.
-• Don't invent FX rates — use the LIVE FX value if provided.
+• Costs in EUR. The exchange_rate field is **NZD per EUR** (EUR→NZD direction). To convert a NZD budget to EUR, **divide** NZD by exchange_rate. To convert an EUR cost to NZD, **multiply** EUR by exchange_rate. Example: a NZ$10,000 budget at exchange_rate 1.85 ≈ €5,405. Never multiply NZD by exchange_rate, never divide EUR by exchange_rate.
+• Don't invent FX rates — use the "1 EUR = X NZD" value from the LIVE FX block as exchange_rate when present.
 • If you don't know an exact cost, use 0 and explain in note.
 • Default to small, walkable groupings (3–5 activities/day max).`;
 
@@ -243,7 +249,9 @@ async function writeTrip(payload: TripPayload): Promise<string> {
       name: payload.name,
       travelers: payload.travelers ?? [],
       currency: payload.currency ?? "NZD",
-      exchange_rate: payload.exchange_rate ?? 0.54, // NZD→EUR fallback
+      // exchange_rate follows the schema convention: NZD per EUR (EUR→NZD).
+      // Default 1.85 matches trip_plans.exchange_rate's column default.
+      exchange_rate: payload.exchange_rate ?? 1.85,
       departure_date: payload.departure_date,
       return_date: payload.return_date,
       status: payload.status ?? "planning",
@@ -330,15 +338,63 @@ async function writeTrip(payload: TripPayload): Promise<string> {
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   try {
-    const body = await req.json();
-    let payload: TripPayload;
+    // ── AUTH: bind ownership to the verified JWT subject ──────────
+    //
+    // The function deploys with verify_jwt=true so the platform has
+    // already rejected unauthenticated calls before we get here. We
+    // still need to know WHICH user is calling so we can stamp
+    // trip_plans.created_by + trip_members.user_id correctly — never
+    // trusting body.owner_id directly, since this function holds the
+    // service role and could otherwise be used to create trips
+    // owned by an arbitrary uuid.
+    //
+    // If body.owner_id is supplied, we accept it ONLY when it matches
+    // the authenticated user's id. Mismatch → 403. This keeps the
+    // shape compatible with future server-to-server calls that pass
+    // owner_id explicitly while still matching the JWT subject.
+    const authHeader = req.headers.get("Authorization") ?? "";
+    if (!authHeader.startsWith("Bearer ")) {
+      return new Response(
+        JSON.stringify({ error: "Authorization Bearer token is required" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+    const token = authHeader.replace("Bearer ", "");
+    const authClient = createClient(SUPABASE_URL, SERVICE_KEY);
+    const { data: userData, error: userErr } = await authClient.auth.getUser(token);
+    const authedUserId = userData?.user?.id;
+    if (userErr || !authedUserId) {
+      return new Response(
+        JSON.stringify({ error: "Auth token did not resolve to a user" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
 
+    const body = await req.json();
+
+    // Reject obvious owner-id spoofing before doing any LLM work.
+    if (
+      body.owner_id &&
+      typeof body.owner_id === "string" &&
+      body.owner_id !== authedUserId
+    ) {
+      return new Response(
+        JSON.stringify({
+          error: "owner_id does not match the authenticated user",
+        }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
+    let payload: TripPayload;
     if (body.mode === "natural") {
       payload = await naturalToStructured(body.prompt);
-      if (body.owner_id) payload.owner_id = body.owner_id;
     } else {
       payload = body.trip as TripPayload;
     }
+    // Always stamp ownership from the verified JWT — never from the
+    // request body, even if it would match. Single source of truth.
+    payload.owner_id = authedUserId;
 
     if (!payload?.name || !payload?.departure_date || !payload?.return_date) {
       return new Response(
