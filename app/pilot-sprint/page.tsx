@@ -323,7 +323,7 @@ export default function PilotSprintPage() {
             <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1fr_1fr] md:gap-14 xl:gap-20">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] shadow-[0_18px_56px_rgba(35,33,31,0.10)]">
                 <Image
-                  src="/img/pilot-sprint/kate-hudson-portrait-desk-workspace.png"
+                  src="/img/pilot-sprint/kate-hudson-portrait-desk-workspace.webp"
                   alt="Kate Hudson, founder of assembl"
                   fill
                   sizes="(min-width: 1024px) 540px, 100vw"

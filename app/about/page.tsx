@@ -35,7 +35,7 @@ export default function AboutPage() {
             <SectionReveal delay={0.1}>
               <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#F4EFE7] shadow-[0_24px_70px_rgba(35,33,31,0.10)]">
                 <Image
-                  src="/img/about/kate-hudson-portrait-tan-blazer-art.png"
+                  src="/img/about/kate-hudson-portrait-tan-blazer-art.webp"
                   alt="Kate Hudson, founder of assembl"
                   fill
                   priority
@@ -106,7 +106,7 @@ export default function AboutPage() {
             <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1fr_1fr] md:gap-14 xl:gap-20">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] shadow-[0_18px_56px_rgba(35,33,31,0.10)]">
                 <Image
-                  src="/img/about/kate-hudson-portrait-blue-shirt.png"
+                  src="/img/about/kate-hudson-portrait-blue-shirt.webp"
                   alt="Kate Hudson, founder of assembl"
                   fill
                   sizes="(min-width: 1024px) 600px, 100vw"
@@ -170,7 +170,7 @@ export default function AboutPage() {
               </div>
               <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] shadow-[0_18px_56px_rgba(35,33,31,0.10)]">
                 <Image
-                  src="/img/about/kate-hudson-portrait-sweater-chair.png"
+                  src="/img/about/kate-hudson-portrait-sweater-chair.webp"
                   alt="Kate Hudson, founder of assembl"
                   fill
                   sizes="(min-width: 1024px) 540px, 100vw"
