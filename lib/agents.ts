@@ -68,7 +68,7 @@ export const FLEET_AGENT_SLUGS_BY_KETE: Record<KeteSlug, string[]> = {
   ako: ['aroha', 'ako-licence', 'kaiako', 'tamariki', 'ero-pack', 'ratio-watch', 'safety-checks', 'whanau-comms', 'iho', 'signal'],
   matauranga: ['akonga', 'kaiako-s', 'reo', 'ropu', 'ero-s', 'ncea', 'board-pack', 'attendance', 'pastoral', 'iho', 'signal'],
   hoko: ['spark', 'hoko-cga', 'stock', 'cellar', 'returns', 'fair-trading', 'supplier-records', 'retail-privacy', 'iho', 'signal'],
-  toro: ['toro', 'term-planner', 'kid-money', 'holiday-ideas', 'routines', 'school-comms', 'appointments', 'allowance-ledger', 'consent-guard', 'handover-helper', 'iho', 'signal'],
+  toro: ['toro', 'voyage', 'term-planner', 'kid-money', 'holiday-ideas', 'routines', 'school-comms', 'appointments', 'allowance-ledger', 'consent-guard', 'handover-helper', 'iho', 'signal'],
 };
 
 export const AGENTS: Agent[] = [
@@ -446,6 +446,25 @@ export const AGENTS: Agent[] = [
     ambientBrief: 'Read the week ahead and prepare parent-review drafts for school, money, routines, and travel.',
     legislation: ['Privacy Act 2020'],
     capabilities: ['communications', 'planning'],
+    buyingOptions: { subscribe: true, perOutput: null, perResolution: null },
+  },
+  {
+    slug: 'voyage',
+    name: 'Voyage',
+    role: 'Trip planning',
+    kete: 'toro',
+    phase: 'execution',
+    status: 'live',
+    oneLiner: 'Plans multi-destination trips day-by-day with bookable activities, budgets, and packing lists.',
+    expertise:
+      'Travel planning specialist for NZ operators heading overseas — itinerary design, FX-aware budgeting, must-book-ahead flagging, and Italy depth (Rome, Florence, Venice, Tuscany, Cinque Terre).',
+    collaboratesWith: ['toro', 'holiday-ideas', 'appointments', 'iho'],
+    memoryScope:
+      'Active trips, destination notes, traveller preferences, urgent-booking decisions, budget thresholds, and packing decisions.',
+    ambientBrief:
+      'Surface upcoming bookings, urgent-deadline activities, and budget risks as the trip approaches; keep the trip plan in sync with the operator.',
+    legislation: ['Privacy Act 2020'],
+    capabilities: ['planning', 'booking'],
     buyingOptions: { subscribe: true, perOutput: null, perResolution: null },
   },
   ...launchAgents([
