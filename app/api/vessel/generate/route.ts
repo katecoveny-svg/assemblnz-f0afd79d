@@ -9,6 +9,43 @@ import {
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+const STORAGE_BUCKET = 'vessel-generations';
+
+/**
+ * Download a Fal.ai-hosted image and re-upload it to the
+ * `vessel-generations` Supabase Storage bucket so the public share link
+ * survives Fal's CDN expiry. Returns the bucket public URL on success.
+ * Throws on any fetch / upload error so the caller can record
+ * `mirror_failed=true` and fall back to the Fal URL.
+ */
+async function mirrorToStorage(
+  service: ReturnType<typeof getServiceClient>,
+  generationId: string,
+  remoteUrl: string,
+): Promise<string> {
+  const res = await fetch(remoteUrl);
+  if (!res.ok) {
+    throw new Error(`Fetching Fal image failed: ${res.status}`);
+  }
+  const contentType = res.headers.get('content-type') ?? 'image/jpeg';
+  const ext = contentType.includes('png')
+    ? 'png'
+    : contentType.includes('webp')
+      ? 'webp'
+      : 'jpg';
+  const bytes = await res.arrayBuffer();
+  const path = `gen/${generationId}.${ext}`;
+  const { error } = await service.storage
+    .from(STORAGE_BUCKET)
+    .upload(path, bytes, { contentType, upsert: false });
+  if (error) throw error;
+  const { data } = service.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+  if (!data?.publicUrl) {
+    throw new Error('Supabase Storage returned no public URL.');
+  }
+  return data.publicUrl;
+}
+
 type GenerateBody = {
   brandSlug?: string;
   brandName?: string;
@@ -97,6 +134,10 @@ export async function POST(req: NextRequest) {
 
   const prompt = buildPrompt({ brandName, brandColor, userPrompt, byok });
 
+  // Pre-allocate so the storage path `gen/<uuid>.<ext>` is deterministic
+  // and the eventual DB row id matches the storage path.
+  const generationId = crypto.randomUUID();
+
   // Two call paths:
   //   - BYOK: hit Fal.ai directly with the visitor's key so the platform
   //     key never sees their prompt and we don't bill platform Fal.
@@ -179,32 +220,47 @@ export async function POST(req: NextRequest) {
     return json({ error: 'Image provider returned no image.' }, 502);
   }
 
-  // Log the generation. Best-effort — the visitor's image returns either way.
-  let generationId = crypto.randomUUID();
+  const falImageUrl = imageUrl;
+  let mirrorFailed = false;
+
+  // Mirror the Fal image into Supabase Storage so the share link survives
+  // Fal CDN expiry. If the mirror fails, fall back to the Fal URL and flag
+  // the row so a future retry cron can pick it up.
+  const service = getServiceClient();
   try {
-    const service = getServiceClient();
+    imageUrl = await mirrorToStorage(service, generationId, falImageUrl);
+  } catch (err) {
+    mirrorFailed = true;
+    imageUrl = falImageUrl;
+    console.error('[vessel/generate] mirror upload failed', {
+      generationId,
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
+
+  // Log the generation. Best-effort — the visitor's image returns either way.
+  try {
     const verdict = byok
       ? { ipHash: null as string | null }
       : await checkPublicRateLimit(ip);
-    const { data: inserted } = await service
-      .from('vessel_generations')
-      .insert({
-        id: generationId,
-        brand_slug: brandSlug || null,
-        brand_name: brandName,
-        brand_color: brandColor,
-        prompt: userPrompt,
-        image_url: imageUrl,
-        cost_estimate_usd: costEstimateUsd,
-        byok,
-        ip_hash: byok ? null : verdict.ipHash,
-        user_agent: req.headers.get('user-agent')?.slice(0, 240) ?? null,
-      })
-      .select('id')
-      .single();
-    if (inserted?.id) generationId = inserted.id;
-  } catch {
-    // Logging failure is non-fatal.
+    await service.from('vessel_generations').insert({
+      id: generationId,
+      brand_slug: brandSlug || null,
+      brand_name: brandName,
+      brand_color: brandColor,
+      prompt: userPrompt,
+      image_url: imageUrl,
+      cost_estimate_usd: costEstimateUsd,
+      byok,
+      ip_hash: byok ? null : verdict.ipHash,
+      user_agent: req.headers.get('user-agent')?.slice(0, 240) ?? null,
+      mirror_failed: mirrorFailed,
+    });
+  } catch (err) {
+    console.error('[vessel/generate] persistence failed', {
+      generationId,
+      error: err instanceof Error ? err.message : String(err),
+    });
   }
 
   return json({
