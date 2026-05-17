@@ -1,8 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Link from 'next/link';
-import { Loader2, Send, ShieldCheck, X } from 'lucide-react';
+import { FileDown, Loader2, Send, ShieldCheck, X } from 'lucide-react';
 
 type Tenant = {
   slug: string;
@@ -17,6 +16,7 @@ type Message = {
   id: string;
   role: 'user' | 'assistant';
   body: string;
+  createdAt: string;
 };
 
 type Props = {
@@ -38,11 +38,14 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
       id: 'hello',
       role: 'assistant',
       body: `Kia ora. Ask ${tenant.name} a question and this ${tenant.keteName} fleet will draft a grounded reply for review.`,
+      createdAt: new Date().toISOString(),
     },
   ]);
   const [draft, setDraft] = useState('');
   const [sending, setSending] = useState(false);
+  const [savingPack, setSavingPack] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [packError, setPackError] = useState<string | null>(null);
   const [chatId, setChatId] = useState<string>(() => newId());
   const [sessionId, setSessionId] = useState<string>(() => newId());
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -57,6 +60,14 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
           role: message.role,
           content: message.body,
         })),
+    [messages],
+  );
+
+  const transcriptMessages = useMemo(
+    () =>
+      messages.filter(
+        (message) => message.id !== 'hello' && message.body.trim().length > 0,
+      ),
     [messages],
   );
 
@@ -105,16 +116,18 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
     const trimmed = draft.trim();
     if (!trimmed || sending) return;
 
-    const userMessage: Message = { id: newId(), role: 'user', body: trimmed };
+    const now = new Date().toISOString();
+    const userMessage: Message = { id: newId(), role: 'user', body: trimmed, createdAt: now };
     const assistantId = newId();
     setMessages((current) => [
       ...current,
       userMessage,
-      { id: assistantId, role: 'assistant', body: '' },
+      { id: assistantId, role: 'assistant', body: '', createdAt: now },
     ]);
     setDraft('');
     setSending(true);
     setError(null);
+    setPackError(null);
 
     try {
       const response = await fetch('/api/public-chat', {
@@ -139,13 +152,16 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let body = '';
+      const responseStartedAt = new Date().toISOString();
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         body += decoder.decode(value, { stream: true });
         setMessages((current) =>
           current.map((message) =>
-            message.id === assistantId ? { ...message, body } : message,
+            message.id === assistantId
+              ? { ...message, body, createdAt: responseStartedAt }
+              : message,
           ),
         );
       }
@@ -160,6 +176,51 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [chatId, draft, history, sending, sessionId, tenant.kete, tenant.slug]);
+
+  const saveEvidencePack = useCallback(async () => {
+    if (transcriptMessages.length < 2 || savingPack) return;
+
+    setSavingPack(true);
+    setPackError(null);
+    try {
+      const response = await fetch('/api/public-evidence-pack', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slug: tenant.slug,
+          kete: tenant.kete,
+          sessionId,
+          transcript: transcriptMessages.map((message) => ({
+            role: message.role,
+            content: message.body,
+            timestamp: message.createdAt,
+          })),
+        }),
+      });
+
+      if (!response.ok) {
+        const data = (await response.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(data?.error || 'The evidence pack could not be created just now.');
+      }
+
+      const blob = await response.blob();
+      const href = URL.createObjectURL(blob);
+      const sessionShort = sessionId.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10) || 'demo';
+      const link = document.createElement('a');
+      link.href = href;
+      link.download = `assembl-demo-evidence-pack-${tenant.slug}-${sessionShort}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(href);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Something went wrong.';
+      setPackError(message);
+    } finally {
+      setSavingPack(false);
+      requestAnimationFrame(() => inputRef.current?.focus());
+    }
+  }, [savingPack, sessionId, tenant.kete, tenant.slug, transcriptMessages]);
 
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -254,9 +315,9 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
           </div>
         </div>
 
-        {error && (
+        {(error || packError) && (
           <p className="border-t border-[rgba(35,33,31,0.08)] px-4 py-2 text-sm text-[#9A3412] sm:px-5">
-            {error}
+            {error || packError}
           </p>
         )}
 
@@ -283,12 +344,27 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
                 {sending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Send className="h-4 w-4" aria-hidden />}
               </button>
             </div>
+            {transcriptMessages.length >= 2 && (
+              <div className="mt-3">
+                <button
+                  type="button"
+                  onClick={saveEvidencePack}
+                  disabled={savingPack}
+                  className="group inline-flex items-center gap-2 font-display text-lg italic leading-none text-[color:var(--tenant-accent)] decoration-[color:var(--tenant-accent)] underline-offset-4 transition hover:underline disabled:cursor-wait disabled:opacity-60"
+                >
+                  {savingPack ? (
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                  ) : (
+                    <FileDown className="h-4 w-4" aria-hidden />
+                  )}
+                  Save this conversation as an evidence pack
+                </button>
+              </div>
+            )}
             {!embed && (
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-[rgba(35,33,31,0.08)] pt-3 text-xs text-[color:var(--text-secondary)]">
                 <span>Powered by assembl.</span>
-                <Link href={`/verify/${chatId}`} className="underline-offset-2 hover:underline">
-                  View your evidence pack →
-                </Link>
+                <span>Demo packs download only and remain unsealed.</span>
               </div>
             )}
           </div>

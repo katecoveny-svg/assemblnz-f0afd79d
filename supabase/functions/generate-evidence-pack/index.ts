@@ -443,7 +443,7 @@ function renderClosing(ctx: RenderContext) {
     });
     y -= 28;
   } else {
-    page.drawText("Not yet reviewed — pack remains in Draft.", {
+    page.drawText("Not yet reviewed - pack remains in Draft.", {
       x: MARGIN, y, size: 14, font: ctx.fonts.serif, color: C.draftRed,
     });
     y -= 28;
@@ -476,7 +476,7 @@ function renderClosing(ctx: RenderContext) {
     borderColor, borderWidth: 0.6, borderOpacity: 0.5,
   });
   let by = y - 22;
-  page.drawText("MŌKIHI · HASH CHAIN PROOF", {
+  page.drawText("MOKIHI · HASH CHAIN PROOF", {
     x: MARGIN + 14, y: by, size: 7.5, font: ctx.fonts.mono,
     color: borderColor, characterSpacing: 1.5,
   });
@@ -491,10 +491,10 @@ function renderClosing(ctx: RenderContext) {
     by -= 14;
   };
   kv("status", sealed ? "sealed" : "draft · not sealed");
-  kv("hash", ctx.pack.hashChain.thisHash || "—");
-  kv("prev", ctx.pack.hashChain.prevHash || "—");
+  kv("hash", ctx.pack.hashChain.thisHash || "-");
+  kv("prev", ctx.pack.hashChain.prevHash || "-");
   kv("sealed at", formatNzst(ctx.pack.hashChain.sealedAt));
-  kv("verifier", ctx.pack.hashChain.verifierUrl || "—");
+  kv("verifier", ctx.pack.hashChain.verifierUrl || "-");
 
   by -= 6;
   drawWrappedText(
@@ -580,13 +580,13 @@ function drawWrappedText(
 }
 
 function shortHash(hash: string | null | undefined): string {
-  if (!hash) return "—";
+  if (!hash) return "-";
   if (hash.length < 12) return hash;
-  return `${hash.slice(0, 6)}…${hash.slice(-4)}`;
+  return `${hash.slice(0, 6)}...${hash.slice(-4)}`;
 }
 
 function formatNzst(iso: string | null | undefined): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   return (
     new Intl.DateTimeFormat("en-NZ", {
       timeZone: "Pacific/Auckland",
@@ -598,9 +598,9 @@ function formatNzst(iso: string | null | undefined): string {
 
 function keteDisplay(slug: string): string {
   const map: Record<string, string> = {
-    waihanga: "Waihanga", manaaki: "Manaaki", pikau: "Pīkau",
+    waihanga: "Waihanga", manaaki: "Manaaki", pikau: "Pikau",
     arataki: "Arataki", auaha: "Auaha", hoko: "Hoko",
-    ako: "Ako", toro: "Tōro",
+    ako: "Ako", toro: "Toro",
   };
   return map[slug] ?? slug;
 }
