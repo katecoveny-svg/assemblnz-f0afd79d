@@ -1,7 +1,13 @@
 -- VOYAGE Command Mode: trip planner schema
+--
+-- 2026-05-17: made idempotent so Supabase Branching previews can replay
+-- this migration onto a cloned database where the tables/policies/indexes
+-- already exist. Prod is unaffected — Supabase migration tracking won't
+-- re-run an already-applied migration, but Branching replays from scratch
+-- and was failing fast on the unguarded CREATE TABLE here.
 
 -- Master trip
-CREATE TABLE public.trips (
+CREATE TABLE IF NOT EXISTS public.trips (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
   owner_id UUID,
   name TEXT NOT NULL,
@@ -18,7 +24,7 @@ CREATE TABLE public.trips (
 );
 
 -- Families joining the trip
-CREATE TABLE public.trip_families (
+CREATE TABLE IF NOT EXISTS public.trip_families (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
   trip_id UUID NOT NULL REFERENCES public.trips(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
@@ -32,7 +38,7 @@ CREATE TABLE public.trip_families (
 );
 
 -- Destinations / stops
-CREATE TABLE public.trip_destinations (
+CREATE TABLE IF NOT EXISTS public.trip_destinations (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
   trip_id UUID NOT NULL REFERENCES public.trips(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
@@ -47,7 +53,7 @@ CREATE TABLE public.trip_destinations (
 );
 
 -- Days
-CREATE TABLE public.trip_days (
+CREATE TABLE IF NOT EXISTS public.trip_days (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
   trip_id UUID NOT NULL REFERENCES public.trips(id) ON DELETE CASCADE,
   destination_id UUID REFERENCES public.trip_destinations(id) ON DELETE SET NULL,
@@ -59,7 +65,7 @@ CREATE TABLE public.trip_days (
 );
 
 -- Activities
-CREATE TABLE public.trip_activities (
+CREATE TABLE IF NOT EXISTS public.trip_activities (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
   trip_id UUID NOT NULL REFERENCES public.trips(id) ON DELETE CASCADE,
   day_id UUID NOT NULL REFERENCES public.trip_days(id) ON DELETE CASCADE,
@@ -77,7 +83,7 @@ CREATE TABLE public.trip_activities (
 );
 
 -- Convoys (per-family per-day routing)
-CREATE TABLE public.trip_convoys (
+CREATE TABLE IF NOT EXISTS public.trip_convoys (
   id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
   trip_id UUID NOT NULL REFERENCES public.trips(id) ON DELETE CASCADE,
   family_id UUID NOT NULL REFERENCES public.trip_families(id) ON DELETE CASCADE,
@@ -97,13 +103,14 @@ CREATE TABLE public.trip_convoys (
 );
 
 -- Indexes
-CREATE INDEX idx_trip_families_trip ON public.trip_families(trip_id);
-CREATE INDEX idx_trip_destinations_trip ON public.trip_destinations(trip_id, sort_order);
-CREATE INDEX idx_trip_days_trip ON public.trip_days(trip_id, date);
-CREATE INDEX idx_trip_activities_day ON public.trip_activities(day_id, sort_order);
-CREATE INDEX idx_trip_convoys_trip_day ON public.trip_convoys(trip_id, day_id);
+CREATE INDEX IF NOT EXISTS idx_trip_families_trip ON public.trip_families(trip_id);
+CREATE INDEX IF NOT EXISTS idx_trip_destinations_trip ON public.trip_destinations(trip_id, sort_order);
+CREATE INDEX IF NOT EXISTS idx_trip_days_trip ON public.trip_days(trip_id, date);
+CREATE INDEX IF NOT EXISTS idx_trip_activities_day ON public.trip_activities(day_id, sort_order);
+CREATE INDEX IF NOT EXISTS idx_trip_convoys_trip_day ON public.trip_convoys(trip_id, day_id);
 
 -- Updated_at trigger on trips
+DROP TRIGGER IF EXISTS update_trips_updated_at ON public.trips;
 CREATE TRIGGER update_trips_updated_at
 BEFORE UPDATE ON public.trips
 FOR EACH ROW
@@ -118,18 +125,22 @@ ALTER TABLE public.trip_activities ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.trip_convoys ENABLE ROW LEVEL SECURITY;
 
 -- trips policies
+DROP POLICY IF EXISTS "trips: sample trips are public" ON public.trips;
 CREATE POLICY "trips: sample trips are public"
   ON public.trips FOR SELECT
   USING (is_sample = true OR auth.uid() = owner_id);
 
+DROP POLICY IF EXISTS "trips: owners insert" ON public.trips;
 CREATE POLICY "trips: owners insert"
   ON public.trips FOR INSERT
   WITH CHECK (auth.uid() = owner_id);
 
+DROP POLICY IF EXISTS "trips: owners update" ON public.trips;
 CREATE POLICY "trips: owners update"
   ON public.trips FOR UPDATE
   USING (auth.uid() = owner_id);
 
+DROP POLICY IF EXISTS "trips: owners delete" ON public.trips;
 CREATE POLICY "trips: owners delete"
   ON public.trips FOR DELETE
   USING (auth.uid() = owner_id);
@@ -162,9 +173,13 @@ DECLARE
   t TEXT;
 BEGIN
   FOREACH t IN ARRAY ARRAY['trip_families','trip_destinations','trip_days','trip_activities','trip_convoys'] LOOP
+    EXECUTE format('DROP POLICY IF EXISTS "%1$s: read via trip" ON public.%1$s', t);
     EXECUTE format('CREATE POLICY "%1$s: read via trip" ON public.%1$s FOR SELECT USING (public.can_access_trip(trip_id))', t);
+    EXECUTE format('DROP POLICY IF EXISTS "%1$s: insert via trip" ON public.%1$s', t);
     EXECUTE format('CREATE POLICY "%1$s: insert via trip" ON public.%1$s FOR INSERT WITH CHECK (public.owns_trip(trip_id))', t);
+    EXECUTE format('DROP POLICY IF EXISTS "%1$s: update via trip" ON public.%1$s', t);
     EXECUTE format('CREATE POLICY "%1$s: update via trip" ON public.%1$s FOR UPDATE USING (public.owns_trip(trip_id))', t);
+    EXECUTE format('DROP POLICY IF EXISTS "%1$s: delete via trip" ON public.%1$s', t);
     EXECUTE format('CREATE POLICY "%1$s: delete via trip" ON public.%1$s FOR DELETE USING (public.owns_trip(trip_id))', t);
   END LOOP;
 END $$;
