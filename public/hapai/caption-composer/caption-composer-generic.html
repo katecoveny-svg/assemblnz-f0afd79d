@@ -292,6 +292,7 @@
     .copy { width: 100%; }
   }
 </style>
+<link rel="stylesheet" href="/hapai/_scaffold/shell.css">
 </head>
 <body>
 <div class="brand-config">
@@ -384,10 +385,11 @@
 
 <footer class="bottom">caption composer · white-label edition · all generations stay local to your browser · made with assembl</footer>
 
+<script src="/hapai/_scaffold/shell.js"></script>
 <script>
 (() => {
   const LS_KEY = "assembl-tools-anthropic-key";
-  const BRAND_KEY = "caption-composer-brand-config";
+  const BRAND_KEY = "assembl-tools-brand-config";
   const MODEL = "claude-haiku-4-5-20251001";
   const $ = (id) => document.getElementById(id);
   const lengths = { short: 120, medium: 280, long: 2000 };
