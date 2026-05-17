@@ -86,12 +86,11 @@ function IndustryKetePage({
     <>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        {/* Atmospheric layer — uses the 2026-05-17 polished hero
-            (lib/kete.ts → kete.heroImage at /img/kete/heroes/{slug}-hero.webp).
-            object-position pins the vessel to the upper third so it sits
-            above the headline rather than centring under it. Mobile caps
-            the section so the bottom of the vessel doesn't clip into the
-            paper-cream void on tall viewports. */}
+        {/* Atmospheric layer — uses kete.heroImage (vessel still-life from
+            lib/kete.ts). object-position pins the vessel to the upper third
+            so it sits above the headline rather than centring under it.
+            Mobile caps the section so the bottom of the vessel doesn't clip
+            into the paper-cream void on tall viewports. */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
           <img
             src={kete.heroImage}

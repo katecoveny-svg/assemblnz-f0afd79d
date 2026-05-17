@@ -36,7 +36,7 @@ export const KETES: Kete[] = [
     accentName: 'Pounamu',
     type: 'industry',
     status: 'active',
-    heroImage: '/img/kete/heroes/waihanga-hero.webp',
+    heroImage: '/img/kete/waihanga-vessel.jpg',
   },
   {
     slug: 'manaaki',
@@ -47,7 +47,7 @@ export const KETES: Kete[] = [
     accentName: 'Kōkōwai',
     type: 'industry',
     status: 'active',
-    heroImage: '/img/kete/heroes/manaaki-hero.webp',
+    heroImage: '/img/kete/manaaki-vessel-warm.jpg',
   },
   {
     slug: 'pikau',
@@ -58,7 +58,7 @@ export const KETES: Kete[] = [
     accentName: 'Kikorangi',
     type: 'industry',
     status: 'active',
-    heroImage: '/img/kete/heroes/pikau-hero.webp',
+    heroImage: '/img/kete/pikau-vessel-blue.jpg',
   },
   {
     slug: 'arataki',
@@ -69,7 +69,7 @@ export const KETES: Kete[] = [
     accentName: 'Karaka',
     type: 'industry',
     status: 'active',
-    heroImage: '/img/kete/heroes/arataki-hero.webp',
+    heroImage: '/img/kete/arataki-vessel-amber.jpg',
   },
   {
     slug: 'auaha',
@@ -80,7 +80,7 @@ export const KETES: Kete[] = [
     accentName: 'Kahurangi',
     type: 'industry',
     status: 'active',
-    heroImage: '/img/kete/heroes/auaha-hero.webp',
+    heroImage: '/img/kete/auaha-vessel-purple.jpg',
   },
   {
     slug: 'ako',
@@ -91,7 +91,7 @@ export const KETES: Kete[] = [
     accentName: 'Parauri',
     type: 'industry',
     status: 'active',
-    heroImage: '/img/kete/heroes/ako-hero.webp',
+    heroImage: '/img/kete/ako-vessel-amber.jpg',
   },
   {
     slug: 'matauranga',
@@ -102,7 +102,7 @@ export const KETES: Kete[] = [
     accentName: 'Pōuriuri',
     type: 'industry',
     status: 'active',
-    heroImage: '/img/kete/heroes/matauranga-hero.webp',
+    heroImage: '/img/kete/matauranga-vessel-tall.jpg',
   },
   {
     slug: 'hoko',
@@ -113,7 +113,7 @@ export const KETES: Kete[] = [
     accentName: 'Waiporoporo',
     type: 'industry',
     status: 'active',
-    heroImage: '/img/kete/heroes/hoko-hero.webp',
+    heroImage: '/img/kete/hoko-vessel-violet.jpg',
   },
   {
     slug: 'toro',
@@ -124,7 +124,7 @@ export const KETES: Kete[] = [
     accentName: 'Mangū',
     type: 'whanau',
     status: 'active',
-    heroImage: '/img/kete/heroes/toro-hero.webp',
+    heroImage: '/img/kete/toro-vessel-charcoal.jpg',
   },
 ];
 
