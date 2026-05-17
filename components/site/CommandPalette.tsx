@@ -47,21 +47,30 @@ export function CommandPalette() {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-[rgba(35,33,31,0.24)] backdrop-blur-sm" />
-        <Dialog.Content className="fixed left-1/2 top-[12vh] z-50 w-[min(calc(100vw-2rem),720px)] -translate-x-1/2 overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[color:var(--assembl-paper)] shadow-[0_32px_90px_rgba(35,33,31,0.24)]">
+        <Dialog.Content
+          className="fixed left-0 top-0 z-50 flex h-[100dvh] w-screen flex-col overflow-hidden bg-[color:var(--assembl-paper)] shadow-[0_32px_90px_rgba(35,33,31,0.24)] md:left-1/2 md:top-[12vh] md:h-auto md:w-[min(calc(100vw-2rem),720px)] md:-translate-x-1/2 md:rounded-[8px] md:border md:border-[rgba(35,33,31,0.14)]"
+          style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+        >
           <Dialog.Title className="sr-only">Search assembl</Dialog.Title>
-          <Command label="Search assembl" className="[&_[cmdk-group-heading]]:px-4 [&_[cmdk-group-heading]]:pb-2 [&_[cmdk-group-heading]]:pt-5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.08em] [&_[cmdk-group-heading]]:text-[color:var(--text-secondary)]">
+          <Command label="Search assembl" className="flex flex-1 flex-col [&_[cmdk-group-heading]]:px-4 [&_[cmdk-group-heading]]:pb-2 [&_[cmdk-group-heading]]:pt-5 [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-[0.08em] [&_[cmdk-group-heading]]:text-[color:var(--text-secondary)]">
             <div className="flex items-center gap-3 border-b border-[rgba(35,33,31,0.10)] px-4 py-3">
               <Search className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
               <Command.Input
                 autoFocus
                 placeholder="Find kete, specialist agents, or pages..."
-                className="h-11 flex-1 bg-transparent text-body-md outline-none placeholder:text-[color:var(--text-secondary)]"
+                className="h-11 flex-1 bg-transparent text-base outline-none placeholder:text-[color:var(--text-secondary)] md:text-body-md"
               />
-              <Dialog.Close className="rounded-full p-2 text-[color:var(--text-secondary)] hover:bg-[rgba(35,33,31,0.06)]" aria-label="Close command palette">
-                <X className="h-4 w-4" aria-hidden />
+              <Dialog.Close
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] hover:bg-[rgba(35,33,31,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]"
+                aria-label="Close command palette"
+              >
+                <X className="h-5 w-5" aria-hidden />
               </Dialog.Close>
             </div>
-            <Command.List className="max-h-[62vh] overflow-y-auto p-2">
+            <Command.List
+              className="flex-1 overflow-y-auto p-2 md:max-h-[62vh]"
+              style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom, 0px))" }}
+            >
               <Command.Empty className="px-4 py-8 text-center text-body-md text-[color:var(--text-secondary)]">No result found.</Command.Empty>
               <Command.Group heading="Kete">
                 {KETES.map((kete) => (
@@ -69,7 +78,7 @@ export function CommandPalette() {
                     key={kete.slug}
                     value={`${kete.name} ${kete.industry}`}
                     onSelect={() => go(`/kete/${kete.slug}`)}
-                    className="flex cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 aria-selected:bg-white"
+                    className="flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 aria-selected:bg-white"
                     style={{ borderLeftColor: kete.accent }}
                   >
                     <img src={KETE_VESSEL_IMAGES[kete.slug]} alt="" className="h-8 w-8 rounded-sm object-cover" />
@@ -87,7 +96,7 @@ export function CommandPalette() {
                       key={agent.slug}
                       value={`${agent.name} ${agent.role} ${kete.name}`}
                       onSelect={() => go(`/agents/${agent.slug}`)}
-                      className="flex cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 aria-selected:bg-white"
+                      className="flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 aria-selected:bg-white"
                       style={{ borderLeftColor: kete.accent }}
                     >
                       <Sparkles className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
@@ -103,7 +112,7 @@ export function CommandPalette() {
                     key={page.href}
                     value={page.label}
                     onSelect={() => go(page.href)}
-                    className="flex cursor-pointer items-center gap-3 rounded-[8px] border-l-4 border-[color:var(--assembl-pounamu)] px-3 py-3 aria-selected:bg-white"
+                    className="flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 border-[color:var(--assembl-pounamu)] px-3 py-3 aria-selected:bg-white"
                   >
                     <FileText className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                     <span className="text-body-md">{page.label}</span>
