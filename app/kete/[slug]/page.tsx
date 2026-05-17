@@ -9,7 +9,6 @@ import {
   type IndustryKeteDetail,
   type WhanauKeteDetail,
 } from '@/lib/kete-detail';
-import { ketes as keteImagery } from '@/lib/site-config';
 import { VesselTile } from '@/components/site/VesselTile';
 import { SectionReveal } from '@/components/SectionReveal';
 import { ComplianceChips } from '@/components/site/ComplianceChips';
@@ -87,12 +86,18 @@ function IndustryKetePage({
     <>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        {/* Atmospheric layer — locked 16:9 vessel hero, dimmed for legibility */}
+        {/* Atmospheric layer — uses the 2026-05-17 polished hero
+            (lib/kete.ts → kete.heroImage at /img/kete/heroes/{slug}-hero.webp).
+            object-position pins the vessel to the upper third so it sits
+            above the headline rather than centring under it. Mobile caps
+            the section so the bottom of the vessel doesn't clip into the
+            paper-cream void on tall viewports. */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
           <img
-            src={keteImagery[kete.slug].wide}
+            src={kete.heroImage}
             alt=""
             className="absolute inset-0 h-full w-full object-cover opacity-[0.22]"
+            style={{ objectPosition: "50% 35%" }}
           />
         </div>
         <div
