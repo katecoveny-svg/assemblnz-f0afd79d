@@ -149,49 +149,62 @@ export function StickyScrollNarrative({
                 {renderFrame ? (
                   renderFrame(active)
                 ) : (
-                  stages.map((stage, i) => {
-                    const m = media?.[i];
-                    return (
-                      <div
-                        key={stage.id}
-                        className="absolute inset-0 transition-opacity duration-700 ease-out"
-                        style={{ opacity: active === i ? 1 : 0.3 }}
-                        aria-hidden={active !== i}
-                      >
-                        {m?.src ? (
-                          <img
-                            src={m.src}
-                            alt={m.alt ?? ''}
-                            className="absolute inset-0 h-full w-full object-cover"
-                            loading={i === 0 ? 'eager' : 'lazy'}
-                          />
-                        ) : (
-                          <div
-                            className="absolute inset-0"
-                            style={{
-                              background: `linear-gradient(135deg, ${accent} 0%, #1F4F40 100%)`,
-                            }}
-                          />
-                        )}
-                        <div className="absolute inset-0 bg-[rgba(35,33,31,0.18)]" />
-                        <div className="absolute bottom-8 left-8 right-8 text-[#FAF7F2]">
-                          <p
-                            className="font-mono text-[11px] uppercase tracking-[0.32em] opacity-70"
-                          >
-                            {stage.number}
-                          </p>
-                          <p className="mt-2 font-display text-3xl leading-tight">
-                            {stage.title}
-                          </p>
-                          {stage.subtitle && (
-                            <p className="mt-1 font-mono text-xs uppercase tracking-[0.22em] opacity-80">
-                              {stage.subtitle}
-                            </p>
+                  <>
+                    {/* Image stack — all 5 frames render layered, cross-fade
+                        between them via opacity. NO captions on these frames
+                        (captions live in a single overlay below — fixes the
+                        2026-05-17 caption-stacking bug where all 5 stage
+                        labels mixed at the same position). */}
+                    {stages.map((stage, i) => {
+                      const m = media?.[i];
+                      return (
+                        <div
+                          key={stage.id}
+                          className="absolute inset-0 transition-opacity duration-700 ease-out"
+                          style={{ opacity: active === i ? 1 : 0 }}
+                          aria-hidden={active !== i}
+                        >
+                          {m?.src ? (
+                            <img
+                              src={m.src}
+                              alt={m.alt ?? ''}
+                              className="absolute inset-0 h-full w-full object-cover"
+                              loading={i === 0 ? 'eager' : 'lazy'}
+                            />
+                          ) : (
+                            <div
+                              className="absolute inset-0"
+                              style={{
+                                background: `linear-gradient(135deg, ${accent} 0%, #1F4F40 100%)`,
+                              }}
+                            />
                           )}
+                          <div className="absolute inset-0 bg-[rgba(35,33,31,0.18)]" />
                         </div>
+                      );
+                    })}
+
+                    {/* Single caption overlay — only the ACTIVE stage's label
+                        renders. Smoothly cross-fades title on stage change. */}
+                    {stages[active] && (
+                      <div
+                        key={stages[active].id}
+                        className="absolute bottom-8 left-8 right-8 text-[#FAF7F2] transition-opacity duration-500 ease-out"
+                      >
+                        <p className="font-mono text-[11px] uppercase tracking-[0.32em] opacity-70">
+                          {stages[active].number}
+                        </p>
+                        <p className="mt-2 font-display text-3xl leading-tight">
+                          {stages[active].title}
+                        </p>
+                        {stages[active].subtitle && (
+                          <p className="mt-1 font-mono text-xs uppercase tracking-[0.22em] opacity-80">
+                            {stages[active].subtitle}
+                          </p>
+                        )}
                       </div>
-                    );
-                  })
+                    )}
+                  </>
                 )}
               </div>
             </div>
