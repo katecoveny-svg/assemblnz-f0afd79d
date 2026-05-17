@@ -5,7 +5,7 @@ hero, page, kete, and social content until wired into the live pages.
 
 ## Layout
 
-- `pages/` — global headlines/body for home, pilot-sprint, pricing, about, contact (evidence-pack copy still pending — see build-brief.md §"Required pages")
+- `pages/` — global headlines/body for home, pilot-sprint, pricing, about, contact, evidence-pack
 - `kete/` — per-kete page copy (one file per slug)
 - `social/` — LinkedIn post starters and image asset prompts
 - `nav.md` — global navigation spec
