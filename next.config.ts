@@ -50,6 +50,10 @@ const nextConfig: NextConfig = {
         source: '/hapai/og-card-generator',
         destination: '/hapai/og-card-generator/index.html',
       },
+      {
+        source: '/hapai/tagline-workshop',
+        destination: '/hapai/tagline-workshop/index.html',
+      },
       // Mana Receipts public keyring — canonical /.well-known/ path.
       // Implemented as an internal rewrite because Next.js App Router does
       // not love folder names that start with a dot.
