@@ -7,6 +7,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
+import { heroVessel } from '@/lib/site-config';
 import type { PearlLiveStats } from '@/lib/pearl-live';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
 import { KeteRotator } from './KeteRotator';
@@ -32,7 +33,20 @@ export function HomePortal({ ketes }: HomePortalProps) {
     >
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F4EFE7_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(212,168,83,0.12),transparent_34%),linear-gradient(90deg,rgba(250,247,242,0.98)_0%,rgba(250,247,242,0.92)_100%)]" aria-hidden />
+        <video
+          className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[62vw] object-cover opacity-[0.16] mix-blend-multiply md:block"
+          src={heroVessel.videoLocal}
+          poster={heroVessel.wide}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-[radial-gradient(circle_at_72%_26%,color-mix(in_srgb,var(--kete-accent)_20%,transparent),transparent_38%),linear-gradient(90deg,rgba(250,247,242,0.99)_0%,rgba(250,247,242,0.88)_50%,rgba(250,247,242,0.36)_100%)]"
+          aria-hidden
+        />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
         <motion.div
           className="absolute inset-y-0 left-0 w-2 bg-[color:var(--kete-accent)]"
