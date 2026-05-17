@@ -78,7 +78,7 @@ export default function PressPage() {
             <h3 className="font-display text-2xl">Editorial</h3>
             <div className="relative mt-4 aspect-[4/5] overflow-hidden rounded-md bg-[#F4EFE7]">
               <Image
-                src="/img/press/kate-hudson-portrait-tan-blazer-shelves.png"
+                src="/img/press/kate-hudson-portrait-tan-blazer-shelves.webp"
                 alt="Kate Hudson, founder of assembl"
                 fill
                 sizes="(min-width: 768px) 480px, 100vw"
@@ -87,7 +87,7 @@ export default function PressPage() {
               />
             </div>
             <a
-              href="/img/press/kate-hudson-portrait-tan-blazer-shelves.png"
+              href="/img/press/kate-hudson-portrait-tan-blazer-shelves.webp"
               download
               className="mt-2 inline-block text-sm underline underline-offset-2"
             >
@@ -98,7 +98,7 @@ export default function PressPage() {
             <h3 className="font-display text-2xl">Headshot</h3>
             <div className="relative mt-4 aspect-[4/5] overflow-hidden rounded-md bg-[#F4EFE7]">
               <Image
-                src="/img/press/kate-hudson-portrait-white-shirt.png"
+                src="/img/press/kate-hudson-portrait-white-shirt.webp"
                 alt="Kate Hudson, founder of assembl"
                 fill
                 sizes="(min-width: 768px) 480px, 100vw"
@@ -107,7 +107,7 @@ export default function PressPage() {
               />
             </div>
             <a
-              href="/img/press/kate-hudson-portrait-white-shirt.png"
+              href="/img/press/kate-hudson-portrait-white-shirt.webp"
               download
               className="mt-2 inline-block text-sm underline underline-offset-2"
             >

@@ -237,7 +237,7 @@ export default function HapaiPage() {
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.72fr_1fr] lg:items-center">
           <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/50 shadow-[0_18px_56px_rgba(35,33,31,0.10)]">
             <Image
-              src="/img/about/kate-hudson-portrait-blue-shirt.png"
+              src="/img/about/kate-hudson-portrait-blue-shirt.webp"
               alt="Kate Hudson, founder of assembl"
               fill
               sizes="(min-width: 1024px) 34vw, 100vw"
