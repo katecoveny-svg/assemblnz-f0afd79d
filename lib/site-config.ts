@@ -129,8 +129,9 @@ export const reo = {
     'its proof.',
   ] as const,
 
-  // Q3 — Homepage pull quote
-  pullQuote: 'Time is the thing. We give it back.',
+  // Q3 — Homepage pull quote (canon: "Mahi that earns its proof." replaces older
+  // "Time is the thing. We give it back." line retired 2026-05-17)
+  pullQuote: 'Mahi that earns its proof.',
 
   // Q2 — Trust strip. Item 3 locked verbatim. Items 1 & 2 reframed 2026-05-09
   // under the vertical-agent strategy memo: surface the governance substrate
@@ -302,4 +303,4 @@ export const navCta = { href: '/pilot-sprint', label: 'Book a pilot' };
 // ── Footer disclaimer — Plugin Architecture Canon §4 (verbatim) ──────────────
 
 export const footerDisclaimer =
-  'assembl evidence vessel. Built in Aotearoa. Time is the thing. We give it back. Every output is reviewed by a named human in your team before it ships. We do not provide legal, tax, or medical advice. We do not generate karakia, whaikōrero, mihimihi, pepeha, or waiata.';
+  'assembl evidence vessel. Built in Aotearoa. Every output is reviewed by a named human in your team before it ships. We do not provide legal, tax, or medical advice. We do not generate karakia, whaikōrero, mihimihi, pepeha, or waiata.';
