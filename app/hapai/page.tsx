@@ -47,9 +47,9 @@ const tools = [
   },
   {
     name: 'OG card generator',
-    status: 'coming soon',
-    description: 'Branded share cards',
-    href: null,
+    status: 'live',
+    description: 'Branded 1200×630 share cards',
+    href: '/hapai/og-card-generator/',
     image: '/img/kete/hoko-vessel-violet.jpg',
   },
   {

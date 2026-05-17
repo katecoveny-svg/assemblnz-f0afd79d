@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>og card generator · assembl</title>
+<meta name="description" content="og card generator creates branded 1200 by 630 social share cards. All cards render locally in your browser.">
+<meta name="theme-color" content="#FAF7F2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAF7F2;
+    --paper-soft: #EFEAE1;
+    --mist: #E8E4DE;
+    --line: #D8D2C7;
+    --ink: #23211F;
+    --ink-soft: #4A4A4A;
+    --ink-faint: #8A8580;
+    --gold: #D4A853;
+    --pounamu: #2B6B57;
+    --radius: 4px;
+    --pad: 18px;
+    --maxw: 1240px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { min-height: 100vh; padding-top: env(safe-area-inset-top, 0); }
+  header.top {
+    padding: 28px 32px 14px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .brand, .subtitle, .label, .radio-label, .button, .privacy, footer.bottom, .canon-eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    text-transform: lowercase;
+  }
+  .brand { color: var(--ink); font-size: 12px; letter-spacing: 0.18em; }
+  .brand .dot { margin: 0 6px; color: var(--gold); }
+  h1.title {
+    margin: 5px 0 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 42px;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 1.08;
+  }
+  .subtitle {
+    margin-top: 7px;
+    color: var(--ink-faint);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+  }
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 28px;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 24px 32px 48px;
+  }
+  .col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .card {
+    padding: var(--pad);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+  }
+  .card.soft { background: var(--paper-soft); }
+  .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+  .field:last-child { margin-bottom: 0; }
+  .label {
+    color: var(--ink-soft);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+  }
+  .helper {
+    color: var(--ink-faint);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.45;
+    text-transform: none;
+  }
+  input.text {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.45;
+    padding: 11px 12px;
+  }
+  input.text:focus {
+    outline: 2px solid rgba(212, 168, 83, 0.42);
+    border-color: var(--pounamu);
+  }
+  .radio-stack { display: grid; gap: 8px; }
+  .radio-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 9px 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    cursor: pointer;
+  }
+  .radio-row:hover { background: var(--mist); }
+  .radio-row input { width: 18px; height: 18px; accent-color: var(--pounamu); }
+  .radio-row:has(input:checked) { border-color: var(--pounamu); background: #F4F0E8; }
+  .swatch {
+    width: 28px;
+    height: 28px;
+    flex: 0 0 auto;
+    border: 1px solid rgba(35, 33, 31, 0.18);
+    border-radius: 50%;
+  }
+  .radio-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    color: var(--ink);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+  .radio-label small { color: var(--ink-faint); font-size: 11px; }
+  .custom-colour-row { display: flex; gap: 10px; align-items: center; }
+  input[type="color"] {
+    width: 54px;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    padding: 4px;
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    padding: 11px 16px;
+  }
+  .button.secondary { border-color: var(--line); background: var(--paper); color: var(--ink); }
+  .button.download { border-color: var(--pounamu); background: var(--pounamu); color: var(--paper); }
+  .button:disabled { cursor: not-allowed; opacity: 0.58; }
+  .privacy {
+    color: var(--ink-faint);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .preview-shell { position: sticky; top: 18px; }
+  .canvas-wrap {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper-soft);
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1200 / 630;
+    height: auto;
+  }
+  .preview-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+    color: var(--ink-faint);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+  }
+  .preview-meta button {
+    min-height: 44px;
+    border: 0;
+    background: transparent;
+    color: var(--pounamu);
+    cursor: pointer;
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .founder-canon {
+    max-width: var(--maxw);
+    margin: 0 auto 26px;
+    padding: 28px 32px 0;
+  }
+  .founder-inner {
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+    gap: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+  .canon-eyebrow {
+    color: var(--pounamu);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+  }
+  .canon-sig {
+    margin: 8px 0 0;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    font-style: italic;
+    line-height: 1.1;
+  }
+  .founder-inner p:last-child { margin: 0; color: var(--ink-soft); }
+  footer.bottom {
+    padding: 0 32px calc(26px + env(safe-area-inset-bottom, 0));
+    color: var(--ink-faint);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    line-height: 1.65;
+    text-align: center;
+  }
+  *:focus-visible { outline: 2px solid var(--pounamu); outline-offset: 2px; }
+  @media (max-width: 880px) {
+    header.top { padding: 24px 20px 12px; }
+    main { grid-template-columns: 1fr; padding: 20px 20px 42px; }
+    .preview-shell { position: static; }
+    .founder-canon { padding: 12px 20px 0; }
+    .founder-inner { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    h1.title { font-size: 35px; }
+    .subtitle { font-size: 10px; line-height: 1.6; }
+    .card { padding: 15px; }
+    .radio-label { flex-direction: column; gap: 2px; }
+    .actions .button { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">assembl <span class="dot">·</span> hapai <span class="dot">·</span> og card generator</div>
+  <h1 class="title">OG card generator.</h1>
+  <div class="subtitle">branded 1200×630 social share cards · headline · accent · kete vessel · download as png</div>
+</header>
+
+<main>
+  <section class="col left" aria-label="card controls">
+    <div class="card">
+      <div class="field">
+        <label class="label" for="headline">headline</label>
+        <input class="text" id="headline" type="text" maxlength="80" value="Adoption tools that lift your team.">
+        <div class="helper">the main line. cormorant garamond. keep it short.</div>
+      </div>
+      <div class="field">
+        <label class="label" for="subline">subline (optional)</label>
+        <input class="text" id="subline" type="text" maxlength="120" value="single-purpose tools · no prompting · no platform switch">
+        <div class="helper">small mono line below the headline.</div>
+      </div>
+      <div class="field">
+        <label class="label" for="eyebrow">eyebrow (optional)</label>
+        <input class="text" id="eyebrow" type="text" maxlength="40" value="built in aotearoa · hapai">
+        <div class="helper">small caps mono line above the headline.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <div class="label">accent colour</div>
+        <div class="radio-stack" id="accentOptions"></div>
+        <div class="custom-colour-row">
+          <input type="color" id="customAccent" value="#2B6B57" aria-label="custom accent colour">
+          <div class="helper">custom colour is used when custom is selected.</div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="label">background vessel</div>
+        <div class="radio-stack" id="vesselOptions"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <div class="label">layout</div>
+        <div class="radio-stack" id="layoutOptions"></div>
+      </div>
+      <div class="field">
+        <div class="label">wordmark position</div>
+        <div class="radio-stack" id="wordmarkOptions"></div>
+      </div>
+      <div class="actions">
+        <button class="button" type="button" id="generateBtn">generate card</button>
+        <button class="button secondary" type="button" id="resetBtn">reset</button>
+        <button class="button download" type="button" id="downloadBtn">download png</button>
+      </div>
+      <p class="privacy">all cards rendered locally in your browser · no key required</p>
+    </div>
+  </section>
+
+  <section class="col right" aria-label="live preview">
+    <div class="card soft preview-shell">
+      <div class="canvas-wrap">
+        <canvas id="og-canvas" width="1200" height="630" aria-label="og card preview"></canvas>
+      </div>
+      <div class="preview-meta">
+        <span>1200×630 png</span>
+        <button type="button" id="downloadLink">download png</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="founder-canon" aria-label="about assembl">
+  <div class="founder-inner">
+    <div>
+      <div class="canon-eyebrow">built in aotearoa · founder note</div>
+      <p class="canon-sig">Kate Hudson, founder · assembl</p>
+    </div>
+    <p>assembl builds specialist agent workflows with human review and evidence packs. og card generator is a small public tool from that portfolio: practical, portable, and honest about where the work happens.</p>
+  </div>
+</section>
+
+<footer class="bottom">assembl · hapai · og card generator · mahi that earns its proof · built in aotearoa · all cards rendered locally in your browser · assembl@assembl.co.nz</footer>
+
+<script>
+(() => {
+  const BRAND_NAME = "assembl";
+  const $ = (id) => document.getElementById(id);
+  const imageCache = new Map();
+  const accentOptions = [
+    ["waihanga", "Waihanga", "pounamu", "#2B6B57"],
+    ["manaaki", "Manaaki", "kōkōwai", "#AC5838"],
+    ["pikau", "Pīkau", "kikorangi", "#3B7CB5"],
+    ["arataki", "Arataki", "karaka", "#D4842A"],
+    ["auaha", "Auaha", "kahurangi", "#5B4FA0"],
+    ["ako", "Ako", "parauri", "#6B5843"],
+    ["matauranga", "Mātauranga", "pōuriuri", "#3D5A7A"],
+    ["hoko", "Hoko", "waiporoporo", "#7B3F8F"],
+    ["toro", "Tōro", "mangū", "#23211F"],
+    ["custom", "Custom", "colour picker", "#2B6B57"],
+  ];
+  const vessels = [
+    ["none", "No vessel", ""],
+    ["waihanga", "Waihanga vessel", "/img/kete/waihanga-vessel-square.jpg"],
+    ["manaaki", "Manaaki vessel", "/img/kete/manaaki-vessel-warm-square.jpg"],
+    ["pikau", "Pīkau vessel", "/img/kete/pikau-vessel-blue-square.jpg"],
+    ["arataki", "Arataki vessel", "/img/kete/arataki-vessel-amber-square.jpg"],
+    ["auaha", "Auaha vessel", "/img/kete/auaha-vessel-purple-square.jpg"],
+    ["ako", "Ako vessel", "/img/kete/ako-vessel-amber.jpg"],
+    ["matauranga", "Mātauranga vessel", "/img/kete/matauranga-vessel-tall.jpg"],
+    ["hoko", "Hoko vessel", "/img/kete/hoko-vessel-violet.jpg"],
+    ["toro", "Tōro vessel", "/img/kete/toro-vessel-charcoal.jpg"],
+  ];
+  const layouts = [["left", "Left-aligned", "text on left, vessel on right"], ["centre", "Centred", "text centred, vessel behind"], ["right", "Right-aligned", "text on right, vessel on left"]];
+  const wordmarks = [["top-left", "Top-left", ""], ["top-right", "Top-right", ""], ["bottom-left", "Bottom-left", ""], ["hide", "Hide wordmark", ""]];
+
+  function radioRow(name, value, title, detail, checked, swatch) {
+    const label = document.createElement("label");
+    label.className = "radio-row";
+    label.innerHTML = `${swatch ? `<span class="swatch" style="background:${swatch}"></span>` : ""}<input type="radio" name="${name}" value="${value}" ${checked ? "checked" : ""}><span class="radio-label"><span>${title}</span>${detail ? `<small>${detail}</small>` : ""}</span>`;
+    return label;
+  }
+
+  function initOptions() {
+    accentOptions.forEach(([value, title, detail, colour], index) => $("accentOptions").appendChild(radioRow("accent", value, title, detail, index === 0, colour)));
+    vessels.forEach(([value, title, path], index) => $("vesselOptions").appendChild(radioRow("vessel", value, title, path ? "image background" : "paper background only", index === 1)));
+    layouts.forEach(([value, title, detail], index) => $("layoutOptions").appendChild(radioRow("layout", value, title, detail, index === 0)));
+    wordmarks.forEach(([value, title, detail], index) => $("wordmarkOptions").appendChild(radioRow("wordmark", value, title, detail, index === 0)));
+  }
+
+  function getChecked(name) {
+    return document.querySelector(`input[name="${name}"]:checked`)?.value;
+  }
+
+  function selectedAccent() {
+    const value = getChecked("accent");
+    if (value === "custom") return $("customAccent").value;
+    return accentOptions.find(([key]) => key === value)?.[3] || "#2B6B57";
+  }
+
+  function vesselPath(value) {
+    return vessels.find(([key]) => key === value)?.[2] || "";
+  }
+
+  function loadImage(src) {
+    if (!src) return Promise.resolve(null);
+    if (imageCache.has(src)) return imageCache.get(src);
+    const promise = new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+    imageCache.set(src, promise);
+    return promise;
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.trim().split(/\s+/);
+    let line = "";
+    let lines = [];
+    words.forEach((word) => {
+      const test = line ? `${line} ${word}` : word;
+      if (ctx.measureText(test).width > maxWidth && line) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = test;
+      }
+    });
+    if (line) lines.push(line);
+    lines.slice(0, 4).forEach((item, index) => ctx.fillText(item, x, y + index * lineHeight));
+    return y + Math.min(lines.length, 4) * lineHeight;
+  }
+
+  function wordmarkPosition(pos) {
+    if (pos === "top-right") return [1120, 70, "right"];
+    if (pos === "bottom-left") return [80, 570, "left"];
+    return [80, 70, "left"];
+  }
+
+  async function renderCard() {
+    await document.fonts.ready;
+    const canvas = $("og-canvas");
+    const ctx = canvas.getContext("2d");
+    const headline = $("headline").value.trim() || "Your headline here.";
+    const subline = $("subline").value.trim();
+    const eyebrow = $("eyebrow").value.trim();
+    const accent = selectedAccent();
+    const vessel = getChecked("vessel");
+    const layout = getChecked("layout");
+    const wordmarkPos = getChecked("wordmark");
+    canvas.width = 1200;
+    canvas.height = 630;
+    ctx.fillStyle = "#FAF7F2";
+    ctx.fillRect(0, 0, 1200, 630);
+    ctx.fillStyle = accent;
+    ctx.globalAlpha = 0.08;
+    ctx.fillRect(0, 0, 1200, 12);
+    ctx.globalAlpha = 1;
+
+    const src = vesselPath(vessel);
+    if (src) {
+      const img = await loadImage(src);
+      const size = layout === "centre" ? 520 : 480;
+      const vx = layout === "left" ? 1200 - size - 80 : layout === "right" ? 80 : (1200 - size) / 2;
+      const vy = (630 - size) / 2;
+      ctx.globalAlpha = layout === "centre" ? 0.25 : 0.88;
+      ctx.drawImage(img, vx, vy, size, size);
+      ctx.globalAlpha = 1;
+    }
+
+    const align = layout === "centre" ? "center" : layout === "right" ? "right" : "left";
+    const tx = layout === "left" ? 80 : layout === "right" ? 1120 : 600;
+    const maxWidth = layout === "centre" ? 760 : 620;
+    ctx.textAlign = align;
+    ctx.textBaseline = "alphabetic";
+    if (eyebrow) {
+      ctx.fillStyle = accent;
+      ctx.font = '600 14px "IBM Plex Mono", monospace';
+      ctx.fillText(eyebrow.toUpperCase(), tx, 178);
+    }
+    ctx.fillStyle = accent;
+    ctx.font = 'italic 72px "Cormorant Garamond", Georgia, serif';
+    const nextY = wrapText(ctx, headline, tx, 280, maxWidth, 78);
+    if (subline) {
+      ctx.fillStyle = "#5A5853";
+      ctx.font = '20px "IBM Plex Mono", monospace';
+      wrapText(ctx, subline, tx, Math.min(nextY + 18, 500), maxWidth, 30);
+    }
+    if (wordmarkPos !== "hide") {
+      const [wmx, wmy, wma] = wordmarkPosition(wordmarkPos);
+      ctx.fillStyle = "#2B6B57";
+      ctx.font = 'italic 34px "Cormorant Garamond", Georgia, serif';
+      ctx.textAlign = wma;
+      ctx.fillText(BRAND_NAME, wmx, wmy);
+    }
+  }
+
+  function slugify(value) {
+    return (value || "untitled").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "untitled";
+  }
+
+  function downloadPng() {
+    $("og-canvas").toBlob((blob) => {
+      if (!blob) return;
+      const a = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      a.download = `og-card-${slugify($("headline").value)}.png`;
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }, "image/png");
+  }
+
+  function resetForm() {
+    $("headline").value = "Adoption tools that lift your team.";
+    $("subline").value = "single-purpose tools · no prompting · no platform switch";
+    $("eyebrow").value = "built in aotearoa · hapai";
+    document.querySelector('input[name="accent"][value="waihanga"]').checked = true;
+    document.querySelector('input[name="vessel"][value="waihanga"]').checked = true;
+    document.querySelector('input[name="layout"][value="left"]').checked = true;
+    document.querySelector('input[name="wordmark"][value="top-left"]').checked = true;
+    $("customAccent").value = "#2B6B57";
+    renderCard();
+  }
+
+  function debounce(fn, wait) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn(...args), wait);
+    };
+  }
+
+  initOptions();
+  const debouncedRender = debounce(renderCard, 150);
+  document.querySelectorAll("input").forEach((input) => input.addEventListener("input", debouncedRender));
+  document.querySelectorAll('input[type="radio"], input[type="color"]').forEach((input) => input.addEventListener("change", debouncedRender));
+  $("generateBtn").addEventListener("click", renderCard);
+  $("resetBtn").addEventListener("click", resetForm);
+  $("downloadBtn").addEventListener("click", downloadPng);
+  $("downloadLink").addEventListener("click", downloadPng);
+  renderCard();
+})();
+</script>
+</body>
+</html>
