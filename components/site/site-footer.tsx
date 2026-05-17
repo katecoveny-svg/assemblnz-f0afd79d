@@ -26,7 +26,6 @@ export function SiteFooter() {
             </Link>
             <p className="mt-3 max-w-xs text-sm text-[color:var(--text-secondary)]">
               Mahi that earns its proof. Built in Aotearoa.
-              Time is the thing. We give it back.
             </p>
           </div>
 
