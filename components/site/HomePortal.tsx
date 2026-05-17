@@ -7,7 +7,6 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
-import { heroVessel } from '@/lib/site-config';
 import type { PearlLiveStats } from '@/lib/pearl-live';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
 import { KeteRotator } from './KeteRotator';
@@ -33,18 +32,8 @@ export function HomePortal({ ketes }: HomePortalProps) {
     >
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F4EFE7_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
-        <video
-          className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[62vw] object-cover opacity-[0.16] mix-blend-multiply md:block"
-          src={heroVessel.videoLocal}
-          poster={heroVessel.wide}
-          autoPlay
-          muted
-          loop
-          playsInline
-          aria-hidden
-        />
         <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_72%_26%,color-mix(in_srgb,var(--kete-accent)_20%,transparent),transparent_38%),linear-gradient(90deg,rgba(250,247,242,0.99)_0%,rgba(250,247,242,0.88)_50%,rgba(250,247,242,0.36)_100%)]"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_76%_42%,color-mix(in_srgb,var(--kete-accent)_16%,transparent),transparent_36%),linear-gradient(90deg,rgba(250,247,242,0.99)_0%,rgba(250,247,242,0.9)_52%,rgba(250,247,242,0.58)_100%)]"
           aria-hidden
         />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
@@ -54,7 +43,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
           animate={reduceMotion ? undefined : { opacity: [0.7, 1] }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         />
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] max-w-[1500px] flex-col justify-center px-6 py-14 md:px-12 xl:px-20">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-none flex-col justify-center px-6 py-14 md:px-10 xl:px-14 2xl:px-20">
           <motion.div
             className="w-full"
             initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
@@ -91,7 +80,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             />
           </motion.div>
 
-          <div className="mt-12 max-w-5xl md:mt-16">
+          <div className="mt-12 max-w-6xl md:mt-16">
             <KeteSelector
               ketes={ketes}
               activeSlug={activeSlug}

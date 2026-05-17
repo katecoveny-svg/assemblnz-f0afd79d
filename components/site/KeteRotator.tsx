@@ -52,11 +52,11 @@ export function KeteRotator({
   return (
     <div
       className={[
-        'grid items-center gap-10 md:grid-cols-[minmax(0,0.82fr)_minmax(0,1.05fr)] md:gap-6 lg:gap-10',
+        'grid items-center gap-10 md:grid-cols-[minmax(24rem,0.82fr)_minmax(0,1.22fr)] md:gap-8 lg:gap-12',
         className,
       ].join(' ')}
     >
-      <div>
+      <div className="relative z-10 md:max-w-[42rem]">
         <h1
           className={[
             'font-display font-light leading-[0.95] tracking-[-0.02em] text-[color:var(--text-primary)]',
@@ -111,7 +111,7 @@ export function KeteRotator({
         </button>
       </div>
 
-      <div className="relative -mx-6 aspect-[5/4] overflow-hidden bg-[#FAF7F2] md:mx-0 md:-mr-12 lg:-mr-16 xl:-mr-20">
+      <div className="relative -mx-6 aspect-[5/4] overflow-hidden bg-[#FAF7F2] md:mx-0 md:-mr-10 md:min-h-[min(68svh,760px)] lg:-mr-14 xl:-mr-20">
         <AnimatePresence mode="wait">
           <motion.div
             key={current.heroImage}
