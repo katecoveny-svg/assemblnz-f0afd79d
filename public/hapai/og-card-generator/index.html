@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>og card generator - assembl</title>
+<meta name="description" content="og card generator makes branded 1200 by 630 social share cards in your browser.">
+<meta property="og:title" content="og card generator - assembl">
+<meta property="og:description" content="Write a headline, choose an accent and kete vessel, then download a 1200 by 630 png.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#FAF7F2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAF7F2;
+    --paper-soft: #EFEAE1;
+    --line: #D8D2C7;
+    --ink: #23211F;
+    --ink-soft: #4A4A4A;
+    --ink-faint: #8A8580;
+    --pounamu: #2B6B57;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; }
+  body {
+    min-height: 100vh;
+    padding-top: env(safe-area-inset-top, 0);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Inter, system-ui, sans-serif;
+    line-height: 1.55;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 60px 28px 80px; }
+  .eyebrow, .footer-note, .edition-eyebrow, .feature-list {
+    font-family: "IBM Plex Mono", monospace;
+    text-transform: lowercase;
+  }
+  .eyebrow {
+    margin-bottom: 18px;
+    color: var(--pounamu);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+  }
+  h1 {
+    margin: 0 0 28px;
+    color: var(--ink);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 54px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.06;
+  }
+  .intro { max-width: 650px; margin: 0 0 56px; color: var(--ink-soft); font-size: 18px; }
+  .editions { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .edition {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+    padding: 28px 26px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+  }
+  .edition.featured { border-color: var(--pounamu); background: var(--paper-soft); }
+  .edition-eyebrow { color: var(--pounamu); font-size: 10.5px; letter-spacing: 0.2em; }
+  .edition h2 {
+    margin: 0;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 30px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+  .edition p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+  .feature-list {
+    margin: 4px 0 0;
+    padding: 0;
+    color: var(--ink-faint);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 1.8;
+    list-style: none;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-top: auto;
+    padding: 14px 22px;
+    border-radius: 999px;
+    background: var(--pounamu);
+    color: white;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-decoration: none;
+    text-transform: lowercase;
+  }
+  .cta.secondary { border: 1px solid var(--line); background: white; color: var(--ink); }
+  .footer-note {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-faint);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    line-height: 1.7;
+  }
+  .footer-note a { color: var(--pounamu); text-decoration: none; }
+  .footer-note a:hover { text-decoration: underline; text-underline-offset: 2px; }
+  @media (max-width: 720px) {
+    .container { padding: 36px 20px 60px; }
+    h1 { font-size: 40px; }
+    .intro { margin-bottom: 36px; font-size: 16px; }
+    .editions { grid-template-columns: 1fr; gap: 16px; }
+    .edition { padding: 22px 20px; }
+    .edition h2 { font-size: 25px; }
+  }
+</style>
+</head>
+<body>
+<main class="container">
+  <div class="eyebrow">built in aotearoa · hapai · og card generator</div>
+  <h1>og card generator</h1>
+  <p class="intro">Write a headline, choose an accent colour and kete vessel, then download a 1200 by 630 social share card. No key required. All cards render locally in your browser.</p>
+
+  <div class="editions">
+    <article class="edition featured">
+      <div class="edition-eyebrow">edition · assembl</div>
+      <h2>The assembl edition</h2>
+      <p>Creates share cards with the assembl wordmark, Mārama Whenua palette, and kete vessel imagery.</p>
+      <ul class="feature-list">
+        <li>· 1200 by 630 canvas render</li>
+        <li>· headline, subline, eyebrow</li>
+        <li>· 9 kete accents and vessels</li>
+        <li>· download as png</li>
+      </ul>
+      <a class="cta" href="./og-card-generator.html">open the assembl edition</a>
+    </article>
+
+    <article class="edition">
+      <div class="edition-eyebrow">edition · white-label</div>
+      <h2>The generic edition</h2>
+      <p>Same card renderer with an editable brand bar, so teams can make share cards in their own name.</p>
+      <ul class="feature-list">
+        <li>· editable brand name + tagline</li>
+        <li>· settings saved in your browser</li>
+        <li>· no assembl servers</li>
+        <li>· made with assembl</li>
+      </ul>
+      <a class="cta secondary" href="./og-card-generator-generic.html">open the generic edition</a>
+    </article>
+  </div>
+
+  <div class="footer-note">
+    no key required · all cards rendered locally in your browser · mobile-friendly<br>
+    made with <a href="https://www.assembl.co.nz">assembl</a> · hapai · built in aotearoa
+  </div>
+</main>
+</body>
+</html>
