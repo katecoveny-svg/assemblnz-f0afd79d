@@ -32,7 +32,10 @@ export function HomePortal({ ketes }: HomePortalProps) {
     >
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F4EFE7_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(212,168,83,0.12),transparent_34%),linear-gradient(90deg,rgba(250,247,242,0.98)_0%,rgba(250,247,242,0.92)_100%)]" aria-hidden />
+        <div
+          className="absolute inset-0 bg-[radial-gradient(circle_at_76%_42%,color-mix(in_srgb,var(--kete-accent)_16%,transparent),transparent_36%),linear-gradient(90deg,rgba(250,247,242,0.99)_0%,rgba(250,247,242,0.9)_52%,rgba(250,247,242,0.58)_100%)]"
+          aria-hidden
+        />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
         <motion.div
           className="absolute inset-y-0 left-0 w-2 bg-[color:var(--kete-accent)]"
@@ -40,7 +43,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
           animate={reduceMotion ? undefined : { opacity: [0.7, 1] }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         />
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] max-w-[1500px] flex-col justify-center px-6 py-14 md:px-12 xl:px-20">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-none flex-col justify-center px-6 py-14 md:px-10 xl:px-14 2xl:px-20">
           <motion.div
             className="w-full"
             initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
@@ -77,7 +80,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             />
           </motion.div>
 
-          <div className="mt-12 max-w-5xl md:mt-16">
+          <div className="mt-12 max-w-6xl md:mt-16">
             <KeteSelector
               ketes={ketes}
               activeSlug={activeSlug}
