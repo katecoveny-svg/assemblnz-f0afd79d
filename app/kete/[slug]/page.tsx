@@ -193,7 +193,8 @@ function IndustryKetePage({
                 ))}
               </div>
 
-              {/* Waihanga-only ATA BIM teaser */}
+              {/* Waihanga-only ATA BIM teaser. Pre-launch — the demo lives
+                  behind /pilot-sprint until the /demo/ata page ships. */}
               {kete.slug === 'waihanga' && (
                 <SectionReveal delay={0.2}>
                   <div
@@ -206,15 +207,15 @@ function IndustryKetePage({
                       aria-hidden
                     />
                     <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                      Demo
+                      Coming soon
                     </span>
                     <span className="text-sm text-[color:var(--text-primary)]">
                       ATA BIM Demo —{' '}
                       <Link
-                        href="/demo/ata"
+                        href="/pilot-sprint"
                         className="text-[color:var(--assembl-pounamu)] underline-offset-2 hover:underline"
                       >
-                        sneak preview
+                        request a preview
                       </Link>
                     </span>
                   </div>
