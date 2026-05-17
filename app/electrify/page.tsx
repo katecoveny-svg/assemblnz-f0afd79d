@@ -1,5 +1,5 @@
 /**
- * /electrify — SME switch-to-electric calculator form
+ * /electrify — switch-to-electric calculator form
  *
  * 8 questions, mobile-first, 90 second target. Form posts to /api/calculate
  * which returns a result-id. Then we redirect to /electrify/results/[id].
@@ -10,12 +10,20 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, BatteryCharging, Building2, Car, PlugZap, SunMedium } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { ArrowRight, BatteryCharging, Building2, Car, Home, KeyRound, PlugZap, SunMedium } from "lucide-react";
+import ElectrifyShareButtons from "@/components/electrify/ElectrifyShareButtons";
 
 export const metadata: Metadata = {
-  title: "Electrify — SME switch-to-electric calculator",
+  title: "Electrify — count your fossil machines",
   description:
-    "How much would your small business save by switching to electric? Real prices, real maths, sourced from MBIE / EECA / Rewiring Aotearoa. 90 seconds, no signup.",
+    "Count your fossil machines and switch the ones that pay back fastest. NZ electrification calculator for businesses, households, landlords, and new builds.",
+  openGraph: {
+    title: "Electrify — count your fossil machines",
+    description:
+      "Real NZ prices. Deterministic maths. A 90-second electrification calculator from assembl.",
+    images: ["/og/og-assembl.png"],
+  },
 };
 
 const BUSINESS_TYPES: Array<{ value: string; label: string }> = [
@@ -42,6 +50,48 @@ const FUEL_TYPES = [
   { value: "coal", label: "Coal" },
 ];
 
+const PERSONAS: Array<{
+  id: string;
+  label: string;
+  title: string;
+  body: string;
+  status: "live" | "next";
+  icon: LucideIcon;
+}> = [
+  {
+    id: "business",
+    label: "Business",
+    title: "SME switch sequence",
+    body: "Vehicles, heat, power, and solar for small NZ operators. Live now.",
+    status: "live",
+    icon: Building2,
+  },
+  {
+    id: "household",
+    label: "Household",
+    title: "Home energy path",
+    body: "Cars, power bill, gas-in-home, heating, and solar. Coming this week.",
+    status: "next",
+    icon: Home,
+  },
+  {
+    id: "landlord",
+    label: "Landlord",
+    title: "Rental property route",
+    body: "Split-incentive maths: solar-as-a-service, heat pumps, and chargers.",
+    status: "next",
+    icon: KeyRound,
+  },
+  {
+    id: "new-build",
+    label: "New build",
+    title: "Do not connect gas",
+    body: "Design-stage choices, 20-year operating cost, and green lending angles.",
+    status: "next",
+    icon: PlugZap,
+  },
+];
+
 export default function ElectrifyFormPage() {
   return (
     <main className="bg-[color:var(--assembl-paper)] font-inter text-taupe-900">
@@ -59,22 +109,30 @@ export default function ElectrifyFormPage() {
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.92fr] lg:items-center">
           <header>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-taupe-600">
-              Electrify · for NZ small businesses
+              Electrify · machine count for Aotearoa
             </p>
             <h1 className="mt-5 max-w-4xl font-cormorant text-[clamp(3.6rem,8vw,7.25rem)] leading-[0.88] text-pounamu-900">
-              Find the savings hiding in your fuel bill.
+              Count your fossil machines. Switch the ones that pay back fastest.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-taupe-700">
-              Real NZ prices. Deterministic maths. A switch sequence for vehicles,
-              heat, power, and solar in about 90 seconds.
+              Real NZ prices. Deterministic maths. A 90-second calculator for the
+              vehicles, heaters, boilers, gas connections, and rooftops that decide
+              your energy bill.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a href="#calculator" className="cta-primary inline-flex h-12 items-center gap-2 px-6">
-                Start calculator <ArrowRight className="h-4 w-4" aria-hidden />
+                Start with business <ArrowRight className="h-4 w-4" aria-hidden />
               </a>
               <Link href="/hapai" className="btn-ghost inline-flex h-12 items-center px-6">
                 View all tools
               </Link>
+            </div>
+            <div className="mt-5">
+              <ElectrifyShareButtons
+                title="Electrify — count your fossil machines"
+                text="A NZ electrification calculator from assembl: count your fossil machines and switch the ones that pay back fastest."
+                url="https://www.assembl.co.nz/electrify"
+              />
             </div>
           </header>
 
@@ -99,6 +157,30 @@ export default function ElectrifyFormPage() {
         </div>
       </section>
 
+      <section className="border-b border-[rgba(35,33,31,0.10)] px-6 py-8 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-4 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-taupe-600">
+                Choose your route
+              </p>
+              <h2 className="mt-2 font-cormorant text-4xl leading-none text-pounamu-900 md:text-5xl">
+                Four doors into the same maths.
+              </h2>
+            </div>
+            <p className="max-w-xl text-sm leading-relaxed text-taupe-700">
+              Business is live today. Household, landlord, and new-build flows are
+              staged next so the page can be shared now while the extra models land.
+            </p>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {PERSONAS.map((persona) => (
+              <PersonaCard key={persona.id} {...persona} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="px-6 py-10 lg:px-10 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.78fr_1fr] lg:items-start">
           <aside className="grid gap-4 sm:grid-cols-3 lg:sticky lg:top-24 lg:grid-cols-1">
@@ -108,6 +190,19 @@ export default function ElectrifyFormPage() {
           </aside>
 
       <form id="calculator" action="/api/calculate" method="POST" className="space-y-6 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5 shadow-[0_20px_70px_rgba(35,33,31,0.06)] md:p-8">
+        <div id="business" className="scroll-mt-28 border-b border-taupe-200 pb-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-pounamu-700">
+            Business · live calculator
+          </p>
+          <h2 className="mt-2 font-cormorant text-4xl leading-none text-pounamu-900">
+            Your Machine Count.
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-taupe-700">
+            Start with the fossil machines in the business: vehicles, thermal fuel,
+            power load, and rooftop potential. The result ranks the switches by
+            savings and payback.
+          </p>
+        </div>
         <Field label="What does your business do?" name="businessType" required>
           <select
             name="businessType"
@@ -273,7 +368,52 @@ export default function ElectrifyFormPage() {
   );
 }
 
-function HeroChip({ icon: Icon, label }: { icon: typeof Car; label: string }) {
+function PersonaCard({
+  id,
+  label,
+  title,
+  body,
+  status,
+  icon: Icon,
+}: (typeof PERSONAS)[number]) {
+  const isLive = status === "live";
+  const card = (
+    <div className="h-full rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/60 p-5 transition-colors hover:bg-white/80">
+      <div className="flex items-start justify-between gap-3">
+        <Icon className="h-5 w-5 text-pounamu-700" aria-hidden />
+        <span
+          className={`rounded-full px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] ${
+            isLive ? "bg-pounamu-100 text-pounamu-900" : "bg-taupe-100 text-taupe-700"
+          }`}
+        >
+          {isLive ? "Live" : "Coming this week"}
+        </span>
+      </div>
+      <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.2em] text-taupe-600">{label}</p>
+      <h3 className="mt-2 font-cormorant text-3xl leading-none text-pounamu-900">{title}</h3>
+      <p className="mt-3 text-sm leading-relaxed text-taupe-700">{body}</p>
+      <span className="mt-5 inline-flex text-sm font-medium text-pounamu-900">
+        {isLive ? "Open calculator →" : "Preview route"}
+      </span>
+    </div>
+  );
+
+  if (isLive) {
+    return (
+      <a href="#calculator" className="block h-full scroll-mt-28">
+        {card}
+      </a>
+    );
+  }
+
+  return (
+    <div id={id} className="h-full scroll-mt-28">
+      {card}
+    </div>
+  );
+}
+
+function HeroChip({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
   return (
     <div className="rounded-[8px] border border-white/15 bg-white/12 px-3 py-2 backdrop-blur">
       <Icon className="h-4 w-4" aria-hidden />
@@ -282,7 +422,7 @@ function HeroChip({ icon: Icon, label }: { icon: typeof Car; label: string }) {
   );
 }
 
-function VisualNote({ icon: Icon, title, body }: { icon: typeof PlugZap; title: string; body: string }) {
+function VisualNote({ icon: Icon, title, body }: { icon: LucideIcon; title: string; body: string }) {
   return (
     <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-5">
       <Icon className="h-5 w-5 text-pounamu-700" aria-hidden />
