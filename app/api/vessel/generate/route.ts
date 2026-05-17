@@ -90,7 +90,6 @@ export async function POST(req: NextRequest) {
   const supabaseUrl =
     process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   const sharedSecret = process.env.VESSEL_STUDIO_SHARED_SECRET;
-  const platformFalKey = process.env.FAL_API_KEY;
 
   if (!supabaseUrl) {
     return json({ error: 'Vessel generator is not configured.' }, 500);
@@ -137,7 +136,9 @@ export async function POST(req: NextRequest) {
         : '';
     costEstimateUsd = 0; // visitor's account, not ours
   } else {
-    if (!sharedSecret || !platformFalKey) {
+    // FAL_API_KEY lives on the Supabase edge function (vessel-generate);
+    // Vercel only needs the shared secret to authenticate to it.
+    if (!sharedSecret) {
       return json(
         { error: 'Platform vessel generation is not configured on this deployment.' },
         500,
