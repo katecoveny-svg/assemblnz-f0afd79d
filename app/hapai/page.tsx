@@ -59,6 +59,13 @@ const tools = [
     href: '/hapai/tagline-workshop/',
     image: '/img/kete/toro-vessel-charcoal.jpg',
   },
+  {
+    name: 'Project picker',
+    status: 'live',
+    description: 'Three ranked projects to build first',
+    href: '/hapai/projects/',
+    image: '/img/kete/matauranga-vessel-tall.jpg',
+  },
 ] as const;
 
 const reasons = [
