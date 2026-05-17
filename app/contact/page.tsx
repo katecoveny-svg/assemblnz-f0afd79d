@@ -17,7 +17,7 @@ export default function ContactPage() {
         {/* Atmospheric layer — sits behind the radial gradient and content */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
           <img
-            src="/images/ambient-warmth.jpg"
+            src="/images/ambient-warmth.webp"
             alt=""
             className="absolute inset-0 h-full w-full object-cover opacity-[0.11]"
           />

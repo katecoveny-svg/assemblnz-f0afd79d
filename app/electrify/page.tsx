@@ -48,7 +48,7 @@ export default function ElectrifyFormPage() {
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-6 py-14 lg:px-10 lg:py-20">
         <div className="absolute inset-0 opacity-[0.16]">
           <Image
-            src="/images/section-bg-texture.jpg"
+            src="/images/section-bg-texture.webp"
             alt=""
             fill
             sizes="100vw"

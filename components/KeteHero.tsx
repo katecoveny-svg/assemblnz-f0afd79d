@@ -412,7 +412,7 @@ export default function KeteHero() {
     return (
       <div aria-hidden className="absolute inset-0 overflow-hidden">
         <img
-          src="/images/hero-kete-totem.png"
+          src="/images/hero-kete-totem.webp"
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-60"
         />
