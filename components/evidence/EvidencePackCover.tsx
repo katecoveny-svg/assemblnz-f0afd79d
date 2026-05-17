@@ -21,14 +21,18 @@ interface EvidencePackCoverProps {
   mode?: 'screen' | 'print';
 }
 
+// Industry labels — sourced from the lib/kete.ts canon. Keep aligned with
+// the Kete type's `industry` field when adding new kete or renaming
+// existing ones.
 const KETE_LABELS: Record<string, { en: string; sub: string }> = {
   waihanga: { en: 'Construction', sub: 'evidence pack' },
   manaaki: { en: 'Hospitality', sub: 'evidence pack' },
-  pikau: { en: 'Freight & Customs', sub: 'evidence pack' },
-  arataki: { en: 'Automotive', sub: 'evidence pack' },
+  pikau: { en: 'Logistics', sub: 'evidence pack' },
+  arataki: { en: 'Automotive & Fleet', sub: 'evidence pack' },
   auaha: { en: 'Creative', sub: 'evidence pack' },
-  hoko: { en: 'Retail', sub: 'evidence pack' },
-  ako: { en: 'Early Childhood Education', sub: 'evidence pack' },
+  hoko: { en: 'Commerce', sub: 'evidence pack' },
+  ako: { en: 'Education', sub: 'evidence pack' },
+  matauranga: { en: 'Knowledge', sub: 'evidence pack' },
   toro: { en: 'Family', sub: 'evidence pack' },
 };
 
@@ -40,6 +44,7 @@ const KETE_DISPLAY: Record<string, string> = {
   auaha: 'Auaha',
   hoko: 'Hoko',
   ako: 'Ako',
+  matauranga: 'Mātauranga',
   toro: 'Tōro',
 };
 

@@ -71,7 +71,7 @@ const KETE_USE_CASES = [
   },
   {
     kete: 'Pīkau',
-    industry: 'Freight & Customs',
+    industry: 'Logistics',
     accent: '#3B7CB5',
     workflow: 'Customs lodgement + IHS declaration',
     body:
