@@ -120,7 +120,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-6 py-12 lg:px-10 lg:py-18">
         <div className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
           <Image
-            src="/images/lattice-macro.png"
+            src="/images/lattice-macro.webp"
             alt=""
             fill
             sizes="50vw"
@@ -225,7 +225,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
           <div className="grid lg:grid-cols-[0.72fr_1fr]">
             <div className="relative min-h-56">
               <Image
-                src="/images/golden-nodes-square.jpg"
+                src="/images/golden-nodes-square.webp"
                 alt="Golden network pattern representing rooftop solar generation"
                 fill
                 sizes="(min-width: 1024px) 34vw, 100vw"

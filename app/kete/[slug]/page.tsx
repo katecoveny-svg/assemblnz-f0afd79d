@@ -598,7 +598,7 @@ function ToroPage({
             loop
             playsInline
             preload="metadata"
-            poster="/images/lattice-texture.jpg"
+            poster="/images/lattice-texture.webp"
             className="absolute inset-0 h-full w-full object-cover opacity-[0.18] motion-reduce:hidden"
           >
             <source src="/video/kete-hero-lattice.mp4" type="video/mp4" />
