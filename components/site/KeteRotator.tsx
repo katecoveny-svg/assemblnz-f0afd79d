@@ -50,7 +50,12 @@ export function KeteRotator({
   }, [currentIndex, onActiveSlugChange, ordered, paused, reduceMotion]);
 
   return (
-    <div className={['grid items-center gap-10 md:grid-cols-2 md:gap-12 lg:gap-16', className].join(' ')}>
+    <div
+      className={[
+        'grid items-center gap-10 md:grid-cols-[minmax(0,0.82fr)_minmax(0,1.05fr)] md:gap-6 lg:gap-10',
+        className,
+      ].join(' ')}
+    >
       <div>
         <h1
           className={[
@@ -98,7 +103,7 @@ export function KeteRotator({
         <button
           type="button"
           onClick={() => setPaused((value) => !value)}
-          className="mt-8 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(35,33,31,0.16)] bg-white/55 text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+          className="mt-8 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(35,33,31,0.16)] bg-white/55 text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
           aria-pressed={paused || Boolean(reduceMotion)}
           aria-label={paused || reduceMotion ? 'Resume animation' : 'Pause animation'}
         >
@@ -106,26 +111,25 @@ export function KeteRotator({
         </button>
       </div>
 
-      <div
-        className="relative aspect-[4/5] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] shadow-[0_24px_70px_rgba(35,33,31,0.12)] md:aspect-[16/10]"
-      >
+      <div className="relative -mx-6 aspect-[5/4] overflow-hidden bg-[#FAF7F2] md:mx-0 md:-mr-12 lg:-mr-16 xl:-mr-20">
         <AnimatePresence mode="wait">
           <motion.div
             key={current.heroImage}
             className="absolute inset-0"
-            initial={reduceMotion ? false : { opacity: 0.65, y: 14 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0.65, y: -10 }}
-            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+            initial={reduceMotion ? false : { opacity: 0.6, scale: 1.015 }}
+            animate={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
+            exit={reduceMotion ? undefined : { opacity: 0.6, scale: 0.992 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <Image
               src={current.heroImage}
-              alt={`${current.name} hero still-life`}
+              alt={`${current.name} vessel — ${current.industry}`}
               fill
               priority={currentIndex === 0}
               loading={currentIndex === 0 ? undefined : 'lazy'}
-              sizes="(min-width: 768px) 46vw, 100vw"
+              sizes="(min-width: 768px) 55vw, 100vw"
               className="object-cover"
+              style={{ objectPosition: '50% 50%' }}
             />
           </motion.div>
         </AnimatePresence>
