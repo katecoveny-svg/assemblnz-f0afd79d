@@ -40,29 +40,36 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'assembl — mahi that earns its proof',
     description:
-      'assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
+      'Specialist agents. Human review. Evidence packs.',
     type: 'website',
     locale: 'en_NZ',
+    url: 'https://www.assembl.co.nz',
+    siteName: 'assembl',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og/og-assembl.png',
         width: 1200,
         height: 630,
-        alt: 'assembl — mahi that earns its proof',
+        alt: 'assembl — Mahi that earns its proof. Specialist agents. Human review. Evidence packs.',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'assembl — mahi that earns its proof',
-    description:
-      'assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
+    description: 'Specialist agents. Human review. Evidence packs.',
+    images: ['/og/og-assembl.png'],
   },
   icons: {
-    icon: '/icon.png',
-    apple: '/apple-icon.png',
-    shortcut: '/favicon.ico',
+    icon: [
+      { url: '/icons/assembl-icon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/assembl-icon-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icons/assembl-icon-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/icons/assembl-icon-180x180.png',
+    shortcut: '/icons/favicon.ico',
   },
+  manifest: '/manifest.webmanifest',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,0 +1,35 @@
+{
+  "colors": {
+    "paper": "#FAF7F2",
+    "ink": "#123D34",
+    "body": "#23211F",
+    "taupe": "#6F6158",
+    "gold": "#D4A853",
+    "pounamu": "#176B4D",
+    "cream": "#EFE5D8"
+  },
+  "fonts": {
+    "display": "Cormorant Garamond or EB Garamond",
+    "body": "Inter",
+    "mono": "IBM Plex Mono or DejaVu Sans Mono"
+  },
+  "radii": {
+    "pill": "999px",
+    "card": "24px",
+    "small": "12px"
+  },
+  "shadow": {
+    "soft": "0 24px 80px rgba(35,33,31,0.06)",
+    "medium": "0 32px 100px rgba(35,33,31,0.10)"
+  },
+  "spacing": [
+    8,
+    16,
+    24,
+    32,
+    48,
+    64,
+    96,
+    128
+  ]
+}
