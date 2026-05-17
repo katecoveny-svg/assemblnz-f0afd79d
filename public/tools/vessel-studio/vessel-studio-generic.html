@@ -1,0 +1,3626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>vessel studio · white-label · customise with your own brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=IBM+Plex+Mono:wght@300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<style>
+  :root {
+    /* Locked Mārama Whenua values */
+    --paper: #FAF7F2;
+    --paper-soft: #EFEAE1;
+    --mist: #E8E4DE;
+    --line: #D8D2C7;
+    --ink: #23211F;
+    --ink-soft: #4A4A4A;
+    --ink-faint: #8A8580;
+    --gold: #D4A853;
+    --pounamu: #2B6B57;
+    --rust: #B85C38;
+    --error-bg: #F4E9E4;
+    --error-ink: #7A2E15;
+    --radius: 2px;
+    --pad: 18px;
+    --gap: 14px;
+    --maxw: 1280px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Header */
+  header.top {
+    padding: 28px 32px 8px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .brand {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--ink);
+  }
+  .brand .dot { color: var(--gold); margin: 0 6px; }
+  h1.title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 38px;
+    letter-spacing: 0.005em;
+    margin: 4px 0 0;
+    line-height: 1.1;
+  }
+  .subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: lowercase;
+    color: var(--ink-faint);
+    margin-top: 6px;
+  }
+
+  /* Layout */
+  main {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 24px 32px 48px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 880px) {
+    main { grid-template-columns: 1fr; }
+    header.top { padding: 22px 20px 8px; }
+    main { padding: 20px; }
+  }
+
+  .col { display: flex; flex-direction: column; gap: 18px; }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--pad);
+  }
+  .card.soft { background: var(--paper-soft); }
+
+  .field {
+    display: flex; flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .field:last-child { margin-bottom: 0; }
+
+  .label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--ink-soft);
+  }
+  .label .helper {
+    color: var(--ink-faint);
+    margin-left: 8px;
+    letter-spacing: 0.12em;
+  }
+
+  /* Chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    appearance: none;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    padding: 7px 12px;
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: background 120ms ease, border-color 120ms ease;
+    text-transform: lowercase;
+  }
+  .chip:hover { background: var(--mist); }
+  .chip[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .chip:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  /* Selects */
+  select.select, input.text {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  select.select { background-image: linear-gradient(45deg, transparent 50%, var(--ink-soft) 50%), linear-gradient(135deg, var(--ink-soft) 50%, transparent 50%); background-position: calc(100% - 18px) 18px, calc(100% - 13px) 18px; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
+  input.text:focus, select.select:focus { outline: none; border-color: var(--ink); }
+  input.mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Kete option list with desc */
+  .kete-list { display: flex; flex-direction: column; gap: 6px; }
+  .kete-opt {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    cursor: pointer;
+    background: var(--paper);
+    transition: background 120ms ease, border-color 120ms ease;
+  }
+  .kete-opt:hover { background: var(--mist); }
+  .kete-opt[aria-pressed="true"] {
+    background: var(--paper-soft);
+    border-color: var(--ink);
+  }
+  .kete-opt .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+  }
+  .kete-opt .desc {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+    text-transform: lowercase;
+  }
+
+  /* Kete grammar / custom-fields panel */
+  .kete-detail { margin-top: 10px; }
+  .kete-grammar-preview {
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  .label.small {
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .grammar-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+
+  .custom-fields {
+    display: flex; flex-direction: column;
+    gap: 10px;
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  .sub-field { display: flex; flex-direction: column; gap: 4px; }
+  textarea.custom-ta {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 9px 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: var(--ink);
+    resize: vertical;
+    min-height: 44px;
+  }
+  textarea.custom-ta:focus { outline: none; border-color: var(--ink); }
+
+  /* Reference image drop zone */
+  .ref-zone {
+    position: relative;
+    height: 240px;
+    border: 1px dashed #D4A853;
+    background: var(--mist);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background 140ms ease, border-color 140ms ease;
+  }
+  .ref-zone:hover { background: #DDD8CF; }
+  .ref-zone.dragging { background: #E0D6BD; border-color: var(--gold); }
+  .ref-zone.has-image {
+    cursor: default;
+    height: auto;
+    min-height: 0;
+    padding: 12px;
+    background: var(--paper-soft);
+    border-style: solid;
+    border-color: var(--line);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .ref-empty-content { text-align: center; padding: 0 16px; }
+  .ref-empty-content .empty-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .ref-loaded { display: flex; flex-direction: column; gap: 10px; }
+  .ref-thumb {
+    display: block;
+    max-width: 240px;
+    max-height: 240px;
+    width: auto;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .ref-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .ref-meta-text {
+    display: flex;
+    flex-direction: column;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+    word-break: break-all;
+  }
+  .ref-meta-text .filename { color: var(--ink-soft); }
+  .ref-remove {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .ref-remove:hover { text-decoration: underline; text-underline-offset: 2px; }
+  .ref-help {
+    margin-top: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+  /* Strength slider */
+  .ref-strength {
+    margin-top: 12px;
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+  }
+  .ref-strength .strength-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    text-transform: lowercase;
+    margin-bottom: 8px;
+  }
+  .ref-strength .strength-label .val { color: var(--ink); }
+  .ref-strength input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    background: var(--line);
+    outline: none;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .ref-strength input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--ink);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 1px var(--ink);
+  }
+  .ref-strength input[type="range"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--ink);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 1px var(--ink);
+  }
+  .strength-poles {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.14em;
+    margin-top: 8px;
+  }
+
+  /* Kete helper note (under the kete label, above the radio list) */
+  .kete-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+  .kete-canonical-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  .kete-canonical-note code {
+    font-family: inherit;
+    background: var(--paper-soft);
+    padding: 1px 5px;
+    border-radius: 1px;
+    color: var(--ink-soft);
+  }
+
+  /* Founder Portrait tip (only shown when that preset is selected) */
+  .founder-tip {
+    margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11px;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    border-left: 2px solid var(--gold);
+    padding: 4px 0 4px 12px;
+  }
+  .founder-tip[hidden] { display: none; }
+
+  /* Negative anchors card (always-pinned, read-only chips) */
+  .anchors-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper-soft);
+    padding: 14px 16px;
+  }
+  .anchors-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .anchors-lbl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--ink-soft);
+  }
+  .anchors-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+  }
+  .anchors-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .anchor-chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 4px 9px;
+    cursor: default;
+    user-select: text;
+    text-transform: lowercase;
+  }
+  .anchor-chip::before {
+    content: '−';
+    color: var(--rust);
+    margin-right: 5px;
+    font-weight: 400;
+  }
+  .anchors-note {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+  }
+
+  /* Mode indicator */
+  .mode-indicator {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--ink-faint);
+    text-align: center;
+    text-transform: lowercase;
+    margin-bottom: 6px;
+  }
+  .mode-indicator .accent { color: var(--ink-soft); }
+
+  /* Variants stepper */
+  .stepper { display: flex; align-items: center; gap: 10px; }
+  .stepper button {
+    width: 30px; height: 30px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    border-radius: var(--radius);
+  }
+  .stepper button:hover { background: var(--mist); }
+  .stepper .val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    min-width: 22px;
+    text-align: center;
+  }
+
+  /* API key panel */
+  .key-panel {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper-soft);
+    padding: 0;
+    overflow: hidden;
+  }
+  .key-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .key-head .ttl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--ink-soft);
+  }
+  .key-head .status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    color: var(--ink-faint);
+  }
+  .key-head .status.ok { color: var(--gold); }
+  .key-body { display: none; padding: 0 16px 16px; }
+  .key-panel[data-open="true"] .key-body { display: block; }
+  .key-row { display: flex; gap: 8px; }
+  .key-row input { flex: 1; }
+  .key-row button {
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 0 14px;
+    cursor: pointer;
+    border-radius: var(--radius);
+    text-transform: lowercase;
+  }
+  .key-row button:hover { background: var(--mist); }
+  .key-help {
+    margin-top: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+  }
+  .key-help a { color: var(--ink-soft); }
+  .key-help .forget {
+    background: none; border: none; padding: 0; margin-left: 8px;
+    color: var(--rust); font: inherit; cursor: pointer;
+    text-decoration: underline; text-underline-offset: 2px;
+  }
+  .key-prompt-flash {
+    box-shadow: 0 0 0 2px var(--gold);
+    transition: box-shadow 600ms ease;
+  }
+
+  /* Prompt output */
+  .prompt-out {
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 80px;
+  }
+  .prompt-out .flag { color: var(--ink-faint); }
+
+  /* Generate button */
+  .btn-generate {
+    width: 100%;
+    padding: 16px 18px;
+    background: var(--paper);
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.22em;
+    text-transform: lowercase;
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: background 140ms ease;
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+  }
+  .btn-generate:hover:not(:disabled) { background: var(--mist); }
+  .btn-generate:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .btn-generate:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .pulse-dots { display: inline-flex; gap: 5px; }
+  .pulse-dots span {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 1.1s ease-in-out infinite;
+  }
+  .pulse-dots span:nth-child(2) { animation-delay: 0.18s; }
+  .pulse-dots span:nth-child(3) { animation-delay: 0.36s; }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dots span { animation: none; opacity: 0.55; }
+  }
+
+  /* Secondary actions */
+  .row-actions { display: flex; gap: 10px; }
+  .btn-secondary {
+    flex: 1;
+    padding: 11px 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: background 120ms ease;
+  }
+  .btn-secondary:hover { background: var(--mist); }
+  .btn-secondary.copied { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* Error card */
+  .error-card {
+    margin-top: 12px;
+    background: var(--error-bg);
+    border: 1px solid #D9C2B6;
+    color: var(--error-ink);
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    line-height: 1.55;
+    display: none;
+  }
+  .error-card.show { display: block; }
+
+  /* Section heading */
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+  .section-head .lbl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    color: var(--ink-soft);
+  }
+  .section-head h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 28px;
+    margin: 0;
+  }
+  .section-head .meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+  }
+
+  /* Gallery */
+  .gallery {
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .gen-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .gen-card img {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+  }
+  .gen-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+  .gen-actions { display: flex; gap: 8px; }
+  .gen-actions button {
+    border: 1px solid var(--line);
+    background: var(--paper);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    padding: 7px 11px;
+    cursor: pointer;
+    border-radius: var(--radius);
+    text-transform: lowercase;
+  }
+  .gen-actions button:hover { background: var(--mist); }
+  .gen-empty {
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    padding: 28px 16px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    text-transform: lowercase;
+  }
+
+  /* Cost log */
+  .cost-log {
+    margin-top: 12px;
+    text-align: right;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+  }
+
+  /* Sticky right column on desktop */
+  @media (min-width: 1024px) {
+    .col.right { position: sticky; top: 24px; align-self: start; max-height: calc(100vh - 48px); overflow-y: auto; padding-right: 4px; }
+  }
+
+  /* Size-prep upload trigger (sits beside the gallery section heading) */
+  .size-prep-trigger {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--ink-soft);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .size-prep-trigger:hover { color: var(--ink); }
+
+  /* Export modal */
+  .export-modal {
+    position: fixed; inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+  }
+  .export-modal[hidden] { display: none; }
+  .export-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(35, 33, 31, 0.42);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+  .export-shell {
+    position: relative;
+    background: var(--paper);
+    width: 100%;
+    max-width: 1240px;
+    margin: 32px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 28px 28px;
+    overflow-y: auto;
+    max-height: calc(100vh - 64px);
+    box-shadow: 0 24px 60px -20px rgba(35, 33, 31, 0.25);
+  }
+  .export-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 18px;
+    margin-bottom: 20px;
+  }
+  .export-head .lbl {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    color: var(--ink-soft);
+  }
+  .export-head h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 30px;
+    margin: 4px 0 6px;
+    line-height: 1.1;
+  }
+  .export-head .export-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+  }
+  .export-head-actions { display: flex; align-items: center; gap: 10px; }
+  .btn-zip {
+    background: var(--paper);
+    border: 1px solid var(--gold);
+    color: var(--ink);
+    padding: 10px 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: background 140ms ease;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-zip:hover:not(:disabled) { background: var(--mist); }
+  .btn-zip:disabled { opacity: 0.55; cursor: not-allowed; }
+  .btn-close {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    width: 32px; height: 32px;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: var(--radius);
+  }
+  .btn-close:hover { background: var(--mist); color: var(--ink); }
+
+  .export-body {
+    display: grid;
+    grid-template-columns: minmax(0, 600px) minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .export-body { grid-template-columns: 1fr; } }
+
+  .export-source { display: flex; flex-direction: column; gap: 10px; }
+  .source-wrap {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 6px;
+    align-self: flex-start;
+  }
+  .source-canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 1px;
+    cursor: crosshair;
+  }
+  .focal-dot {
+    position: absolute;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: rgba(43, 107, 87, 0.28);
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    touch-action: none;
+    box-shadow: 0 0 0 1px rgba(35, 33, 31, 0.15);
+  }
+  .focal-dot:focus-visible { outline: 2px solid var(--pounamu); outline-offset: 2px; }
+  .focal-dot.dragging { cursor: grabbing; }
+  .focal-dot::before, .focal-dot::after {
+    content: '';
+    position: absolute;
+    background: var(--ink);
+  }
+  .focal-dot::before {
+    left: 50%; top: 4px; bottom: 4px; width: 1px;
+    transform: translateX(-50%);
+  }
+  .focal-dot::after {
+    top: 50%; left: 4px; right: 4px; height: 1px;
+    transform: translateY(-50%);
+  }
+  .focal-helper {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    line-height: 1.6;
+  }
+  .focal-helper b { color: var(--ink-soft); font-weight: 400; }
+  .source-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+  }
+
+  /* Size grid */
+  .export-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .size-group { display: flex; flex-direction: column; gap: 8px; }
+  .size-group-head {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 16px;
+    color: var(--ink-soft);
+    letter-spacing: 0.01em;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 4px;
+  }
+  .size-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .size-card {
+    position: relative;
+    background: var(--mist);
+    border: 1px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .size-thumb-wrap {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .size-thumb {
+    display: block;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 1px;
+  }
+  .size-meta {
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+  }
+  .size-name { color: var(--ink); }
+  .size-dim { color: var(--ink-faint); }
+  .size-download {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    padding: 4px 9px;
+    text-transform: lowercase;
+    cursor: pointer;
+    border-radius: var(--radius);
+  }
+  .size-download:hover { background: var(--paper-soft); }
+  .size-card .warning-dot {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--rust);
+    box-shadow: 0 0 0 2px var(--mist);
+    cursor: help;
+  }
+  .size-card .warning-dot[hidden] { display: none; }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .export-shell { box-shadow: none; }
+    .export-backdrop { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  }
+
+  /* Mode toggle (Image / Video pills) */
+  .mode-toggle {
+    display: inline-flex;
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px;
+    align-self: flex-start;
+  }
+  .mode-toggle button {
+    background: none;
+    border: none;
+    padding: 7px 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 999px;
+    transition: background 140ms ease, color 140ms ease;
+  }
+  .mode-toggle button:hover { color: var(--ink); }
+  .mode-toggle button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .mode-toggle button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* Mode visibility (driven by body[data-mode]) */
+  body[data-mode="video"] .image-mode-only { display: none !important; }
+  body[data-mode="image"] .video-mode-only { display: none !important; }
+
+  /* Video-only controls: model picker + duration + camera motion + resolution */
+  .resolution-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 7px 12px;
+  }
+  .resolution-pill .lock {
+    color: var(--ink-faint);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+  }
+  .video-models {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .video-model {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    cursor: pointer;
+    background: var(--paper);
+    display: flex; align-items: baseline; justify-content: space-between;
+    transition: background 120ms ease, border-color 120ms ease;
+  }
+  .video-model:hover { background: var(--mist); }
+  .video-model[aria-pressed="true"] {
+    background: var(--paper-soft);
+    border-color: var(--ink);
+  }
+  .video-model .vm-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .video-model .vm-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+  }
+
+  /* Cost guardrail above Generate (video mode) */
+  .cost-guardrail {
+    background: var(--paper-soft);
+    border-left: 2px solid var(--gold);
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .cost-guardrail b { color: var(--ink); font-weight: 400; }
+
+  .btn-generate.confirming {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold);
+  }
+
+  /* Video output card (in gallery) */
+  .gen-card video {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: #000;
+  }
+  .gen-card .video-poster {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; max-width: 560px;
+    aspect-ratio: 16 / 9;
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--ink-soft);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    cursor: pointer;
+  }
+
+  /* Footer */
+  footer.bottom {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 32px 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+  }
+
+  
+
+  /* ─────────────────────────────────────────────────────────────────────
+     MOBILE-FIRST RESPONSIVE LAYER — added 2026-05-17 for shareable link
+     ───────────────────────────────────────────────────────────────────── */
+
+  /* Tablet: ≤ 880px (already exists, enhanced here) */
+  @media (max-width: 880px) {
+    :root { --pad: 16px; --gap: 12px; }
+    main { gap: 20px; padding: 16px; }
+    h1.title { font-size: 30px; }
+    .card { padding: 16px; }
+  }
+
+  /* Mobile: ≤ 600px */
+  @media (max-width: 600px) {
+    :root { --pad: 14px; --gap: 10px; }
+    header.top { padding: 18px 16px 6px; }
+    h1.title { font-size: 26px; line-height: 1.15; }
+    .subtitle { font-size: 10px; letter-spacing: 0.12em; }
+    .brand { font-size: 11px; }
+    main { padding: 14px 12px 32px; gap: 16px; }
+    .card { padding: 14px; border-radius: 4px; }
+    .label { font-size: 10px; }
+    .label .helper { display: block; margin-top: 2px; font-size: 9.5px; }
+
+    /* Touch-friendly form controls — min 44px tap target */
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    textarea,
+    select,
+    button,
+    .btn {
+      min-height: 44px;
+      font-size: 16px !important;  /* iOS won't zoom inputs at 16+ */
+      padding: 10px 14px;
+    }
+    button.compact,
+    .btn.compact {
+      min-height: 36px;
+      font-size: 13px !important;
+      padding: 8px 12px;
+    }
+
+    /* Kete radio list — stack as full-width tappable rows on mobile */
+    .kete-radio-list,
+    .radio-list {
+      flex-direction: column !important;
+      gap: 8px;
+    }
+    .kete-radio-list label,
+    .radio-list label {
+      width: 100%;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+    }
+
+    /* Image/Video mode toggle — full width */
+    .mode-toggle {
+      width: 100%;
+    }
+
+    /* Generations grid — single column on phones */
+    .gen-grid,
+    .generations,
+    .gallery-grid {
+      grid-template-columns: 1fr !important;
+      gap: 12px !important;
+    }
+
+    /* Aspect ratio + motion + variants buttons — wrap nicely */
+    .button-group,
+    .ratio-buttons,
+    .motion-buttons {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .button-group button,
+    .ratio-buttons button,
+    .motion-buttons button {
+      flex: 0 0 calc(50% - 3px);
+      min-height: 40px;
+    }
+
+    /* Reference image strength slider — taller thumb for touch */
+    .ref-strength input[type="range"]::-webkit-slider-thumb {
+      width: 22px;
+      height: 22px;
+    }
+    .ref-strength input[type="range"]::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+    }
+
+    
+
+    /* Footer — wrap onto multiple lines on phone */
+    footer.bottom {
+      padding: 0 16px 32px;
+      font-size: 9.5px;
+      letter-spacing: 0.10em;
+      line-height: 1.6;
+    }
+  }
+
+  /* Tiny phone: ≤ 380px (iPhone SE etc.) */
+  @media (max-width: 380px) {
+    h1.title { font-size: 23px; }
+    .subtitle { font-size: 9.5px; }
+    .button-group button,
+    .ratio-buttons button,
+    .motion-buttons button {
+      flex: 0 0 100%;
+    }
+  }
+
+  /* Always allow body to scroll, never horizontal overflow */
+  html, body { overflow-x: hidden; }
+  body { padding-bottom: env(safe-area-inset-bottom, 0); }
+
+  /* Respect notch / safe area on iOS */
+  header.top {
+    padding-top: max(28px, env(safe-area-inset-top, 0px));
+  }
+
+  /* Better focus visibility for keyboard users */
+  *:focus-visible {
+    outline: 2px solid var(--pounamu);
+    outline-offset: 2px;
+  }
+
+  /* Generic edition — configurable brand bar */
+  .brand-config {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    background: var(--paper-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .brand-config-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--ink-faint);
+  }
+  .brand-name-input,
+  .brand-tagline-input {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    color: var(--ink);
+  }
+  .brand-name-input { font-size: 20px; }
+  .brand-tagline-input { font-size: 15px; }
+  .brand-name-input:focus,
+  .brand-tagline-input:focus {
+    outline: none;
+    border-color: var(--pounamu);
+  }
+  @media (max-width: 600px) {
+    .brand-config {
+      padding: 12px;
+    }
+    .brand-name-input { font-size: 18px; }
+    .brand-tagline-input { font-size: 14px; }
+  }
+</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="vessel studio">
+<meta name="theme-color" content="#FAF7F2">
+<meta name="description" content="vessel studio · assembl — a quiet prompt builder for hero imagery. Mahi that earns its proof. Built in Aotearoa.">
+</head>
+<body data-mode="image">
+
+<header class="top">
+  <div class="brand-config">
+    <label class="brand-config-label" for="brandName">your brand</label>
+    <input type="text" id="brandName" class="brand-name-input" placeholder="your brand name" />
+    <label class="brand-config-label" for="brandTagline">your tagline (optional)</label>
+    <input type="text" id="brandTagline" class="brand-tagline-input" placeholder="one line that describes you" />
+  </div>
+  <div class="brand" id="brandDisplay">vessel studio</div>
+  <h1 class="title" id="taglineDisplay">a quiet prompt builder for hero imagery</h1>
+  <div class="subtitle">flux 1.1 pro via fal.ai · works for any brand · made with assembl vessel studio</div>
+</header>
+
+<main>
+  <!-- LEFT: PROMPT BUILDER -->
+  <section class="col left" aria-label="prompt builder">
+    <div class="card">
+
+      <div class="field">
+        <div class="label">kete <span class="helper">vessel form for the pillar</span></div>
+        <div class="kete-note" id="kete-note">each kete is a stacked still-life — cream stoneware top + base, kete-coloured translucent glass plates between them, on a small brass wire display stand. cream paper backdrop only.</div>
+        <div class="kete-canonical-note">canonical reference renders are saved at <code>outputs/locked-vessels/canonical/&lt;kete&gt;.png</code></div>
+        <div class="kete-list" id="kete-list" role="radiogroup" aria-label="kete form"></div>
+        <div class="kete-detail" id="kete-detail"></div>
+      </div>
+
+      <div class="field image-mode-only">
+        <div class="label">aspect ratio</div>
+        <div class="chips" id="ar-chips" role="radiogroup" aria-label="aspect ratio"></div>
+      </div>
+
+      <div class="field image-mode-only">
+        <div class="label">motion</div>
+        <div class="chips" id="motion-chips" role="radiogroup" aria-label="motion"></div>
+      </div>
+
+      <div class="field image-mode-only">
+        <div class="label">style reference (sref) <span class="helper">optional url · midjourney only</span></div>
+        <input class="text mono" id="sref" type="text" placeholder="https://…" autocomplete="off" spellcheck="false">
+      </div>
+
+      <div class="field">
+        <div class="label">reference image <span class="helper">visual anchor for fal redux</span></div>
+        <div class="ref-zone" id="ref-zone" role="button" tabindex="0" aria-label="upload reference image"></div>
+        <input id="ref-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+        <div class="ref-help">saved in this browser. up to ~5MB before localStorage may complain — reduce file size if so.</div>
+        <div class="ref-strength" id="ref-strength-wrap" hidden>
+          <div class="strength-label">anchor to reference: <span class="val" id="strength-val">0.35</span></div>
+          <input type="range" min="0" max="1" step="0.05" value="0.35" id="strength-slider" aria-label="image prompt strength">
+          <div class="strength-poles"><span>loose</span><span>← anchor →</span><span>tight</span></div>
+        </div>
+      </div>
+
+      <div class="field image-mode-only">
+        <div class="label">lighting</div>
+        <select class="select" id="lighting"></select>
+      </div>
+
+      <div class="field image-mode-only">
+        <div class="label">variants</div>
+        <div class="stepper">
+          <button id="var-down" aria-label="fewer variants">−</button>
+          <div class="val" id="var-val">1</div>
+          <button id="var-up" aria-label="more variants">+</button>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;color:var(--ink-faint);margin-left:8px;">images per run · 1–4</span>
+        </div>
+      </div>
+
+      <!-- VIDEO-MODE-ONLY CONTROLS -->
+      <div class="field video-mode-only">
+        <div class="label">camera motion</div>
+        <div class="chips" id="vid-cam-chips" role="radiogroup" aria-label="camera motion"></div>
+      </div>
+
+      <div class="field video-mode-only">
+        <div class="label">duration</div>
+        <div class="chips" id="vid-dur-chips" role="radiogroup" aria-label="duration"></div>
+      </div>
+
+      <div class="field video-mode-only">
+        <div class="label">aspect ratio</div>
+        <div class="chips" id="vid-ar-chips" role="radiogroup" aria-label="video aspect ratio"></div>
+      </div>
+
+      <div class="field video-mode-only">
+        <div class="label">resolution</div>
+        <div class="resolution-pill"><span>1080p</span><span class="lock">pinned</span></div>
+      </div>
+
+      <div class="field video-mode-only">
+        <div class="label">model</div>
+        <div class="video-models" id="vid-models" role="radiogroup" aria-label="video model"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RIGHT: API + PROMPT + GENERATE + GALLERY -->
+  <section class="col right" aria-label="generation">
+
+    <!-- API KEY PANEL — always visible, never collapsed. Needed for both image and video generation. -->
+    <!-- Inline styles override any competing CSS so this can't be accidentally hidden. -->
+    <section class="key-panel" id="key-panel" data-open="true" style="display:block !important; margin-bottom:18px; padding:16px 18px; border:1px solid var(--gold); border-radius:6px; background:var(--mist); overflow:visible;">
+      <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:10px;">
+        <h3 style="margin:0; font-family:'IBM Plex Mono',monospace; font-weight:400; font-size:11px; letter-spacing:0.18em; text-transform:lowercase; color:var(--ink);">fal.ai api key</h3>
+        <span id="key-status" style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; color:var(--ink-faint);">not set</span>
+      </div>
+      <p style="margin:0 0 10px 0; font-family:'IBM Plex Mono',monospace; font-size:10.5px; line-height:1.5; letter-spacing:0.04em; color:var(--ink-soft);">
+        your key stays in this browser. needed for both image and video generation. get a key at <a href="https://fal.ai/dashboard/keys" target="_blank" rel="noopener" style="color:var(--ink);">fal.ai/dashboard/keys</a>.
+      </p>
+      <div style="display:flex; gap:6px; align-items:stretch;">
+        <input id="key-input" class="text mono" type="password" placeholder="paste fal.ai api key" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter'){event.preventDefault();window.__assemblSaveKey&&window.__assemblSaveKey();}" style="flex:1; min-width:0; padding:8px 10px; border:1px solid var(--line); background:var(--paper); border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink);">
+        <button id="key-show" type="button" aria-pressed="false" style="padding:0 12px; border:1px solid var(--line); background:var(--paper); border-radius:4px; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; color:var(--ink); text-transform:lowercase;">show</button>
+        <button id="key-save" type="button" onclick="window.__assemblSaveKey&&window.__assemblSaveKey()" style="padding:0 14px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); border-radius:4px; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:lowercase;">save</button>
+      </div>
+      <div style="margin-top:8px; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.04em; color:var(--ink-faint);">
+        cost: ~$0.04 / image (flux pro v1.1) · ~$0.05 / image (ultra/redux i2i) · ~$0.30–$3.00 / clip (video)
+        <button id="key-forget" type="button" style="background:none; border:none; padding:0; margin-left:6px; color:var(--rust); font:inherit; cursor:pointer; text-decoration:underline; text-underline-offset:2px;">forget key</button>
+      </div>
+      <!-- Hidden node so existing wire() code that calls $('key-head') doesn't error. -->
+      <span id="key-head" style="display:none;" aria-hidden="true"></span>
+    </section>
+
+    <!-- Mode toggle (Image / Video) -->
+    <div class="mode-toggle" id="mode-toggle" role="tablist" aria-label="generation mode">
+      <button type="button" id="mode-image" role="tab" aria-pressed="true">Image</button>
+      <button type="button" id="mode-video" role="tab" aria-pressed="false">Video</button>
+    </div>
+
+    <!-- Prompt output -->
+    <div>
+      <div class="section-head">
+        <div>
+          <div class="lbl">prompt</div>
+          <h2 id="prompt-title">composed</h2>
+        </div>
+        <div class="meta" id="prompt-meta">—</div>
+      </div>
+      <div class="free-prompt-toggle">
+        <label style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); cursor:pointer; padding:6px 10px; background:var(--mist); border-radius:4px; margin-bottom:10px;">
+          <input type="checkbox" id="free-prompt-toggle" style="cursor:pointer;">
+          <span>free prompt mode</span>
+          <span style="margin-left:auto; font-size:9.5px; color:var(--ink-faint); text-transform:none; letter-spacing:.04em;">bypass kete grammar · type whatever you want</span>
+        </label>
+      </div>
+      <div class="prompt-out" id="prompt-out" aria-live="polite"></div>
+      <textarea id="free-prompt-text" class="custom-ta" hidden style="width:100%; min-height:140px; padding:12px; font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:1.55; color:var(--ink); background:#fffefb; border:1px solid var(--mist); border-radius:4px; resize:vertical;" placeholder="Type your custom prompt here. The kete grammar, motion clauses, and lighting hints are all bypassed when this is on. Negative anchors are still appended unless you delete them at the end."></textarea>
+      <div class="founder-tip" id="founder-tip" hidden>
+        tip: upload one of your existing brand portraits as a reference image for style consistency. anchor strength 0.45–0.6 works well for founder content.
+      </div>
+    </div>
+
+    <!-- Negative anchors (read-only, pinned to every prompt) -->
+    <div class="anchors-card">
+      <div class="anchors-head">
+        <span class="anchors-lbl">negative anchors · always pinned</span>
+        <span class="anchors-count" id="anchors-count">0</span>
+      </div>
+      <div class="anchors-chips" id="anchors-chips" aria-label="negative anchors"></div>
+      <div class="anchors-note">
+        these are doing work. each one keeps midjourney (and flux) from drifting toward something
+        off-brand — text overlays, kōwhaiwhai patterns, carvings, neon/sci-fi tropes, and the
+        architectural caged look (armature, cage, rails, spine, metal frame).
+        <br><br>
+        <em>brass at the base</em> — the small wire display stand the cream stoneware sits on — is now
+        part of the canonical look, which is why <em>brass</em> and <em>metal</em> are no longer in
+        the negative list. what stays banned is brass running THROUGH the form: armatures, cages,
+        rails, spines, metal frames binding the plates together. linear gold lines, route lines,
+        trajectories, threads, and wires through the form also stay banned.
+      </div>
+    </div>
+
+    <!-- Mode indicator + Generate button -->
+    <div class="mode-indicator" id="mode-indicator">mode: text-to-image · flux pro v1.1</div>
+    <div class="cost-guardrail video-mode-only" id="cost-guardrail">
+      video generation costs ~<b id="guardrail-cost">$0.50</b> per clip · slow (60–180s) · confirm before generating
+    </div>
+    <button class="btn-generate" id="btn-generate" type="button">
+      <span id="btn-label">generate</span>
+      <span class="pulse-dots" id="pulse" hidden><span></span><span></span><span></span></span>
+    </button>
+    <div class="error-card" id="error-card" role="alert"></div>
+
+    <!-- Copy / Reset row -->
+    <div class="row-actions">
+      <button class="btn-secondary" id="btn-copy" type="button">copy prompt</button>
+      <button class="btn-secondary" id="btn-reset" type="button">reset</button>
+    </div>
+
+    <!-- Gallery -->
+    <div>
+      <div class="section-head">
+        <div>
+          <div class="lbl">results</div>
+          <h2>generations</h2>
+        </div>
+        <div class="meta" id="gallery-meta">
+          <span id="gallery-count">0</span>
+          <span style="margin: 0 8px; color: var(--ink-faint);">·</span>
+          <button class="size-prep-trigger" id="size-prep-trigger" type="button" title="open the size-export panel for an image you didn't generate here">size-prep an image</button>
+          <input type="file" id="size-prep-file" accept="image/jpeg,image/png,image/webp" hidden>
+        </div>
+      </div>
+      <div class="gallery" id="gallery"></div>
+    </div>
+
+    <!-- Cost log -->
+    <div class="cost-log" id="cost-log">this session: 0 generations · ~$0.00 usd at flux 1.1 pro pricing</div>
+
+  </section>
+</main>
+
+<!-- Export modal: focal-point picker + multi-size preview grid + download all as zip -->
+<div class="export-modal" id="export-modal" hidden>
+  <div class="export-backdrop" id="export-backdrop"></div>
+  <div class="export-shell" role="dialog" aria-modal="true" aria-labelledby="export-title">
+    <header class="export-head">
+      <div>
+        <div class="lbl">surface</div>
+        <h2 id="export-title">compose for the surface</h2>
+        <div class="export-sub" id="export-sub">drag the focal point — every size below updates live</div>
+      </div>
+      <div class="export-head-actions">
+        <button class="btn-zip" id="btn-zip" type="button" disabled>
+          <span id="btn-zip-label">download all as zip</span>
+        </button>
+        <button class="btn-close" id="export-close" type="button" aria-label="close panel">×</button>
+      </div>
+    </header>
+    <div class="export-body">
+      <div class="export-source">
+        <div class="source-wrap" id="source-wrap">
+          <canvas id="source-canvas" class="source-canvas"></canvas>
+          <div class="focal-dot" id="focal-dot" tabindex="0" role="slider" aria-label="focal point" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.5" hidden></div>
+        </div>
+        <div class="focal-helper">drag the <b>gold dot</b> to set the focal point. previews update live. <span id="source-meta-text"></span></div>
+      </div>
+      <div class="export-grid" id="export-grid"></div>
+    </div>
+  </div>
+</div>
+
+
+
+<footer class="bottom">vessel studio · white-label edition · all images stay local to this browser · made with assembl vessel studio</footer>
+
+<script>
+(() => {
+  // ---------- options ----------
+  // Locked kete naming + material grammars per Kate's brand memory.
+  // The `id` is the filename slug (lowercased, macrons stripped).
+  // Canonical visual system locked 2026-05-08:
+  // every kete vessel = cream stoneware base + brass wire square display stand
+  // + layered translucent kete-coloured glass plates + cream stoneware top form,
+  // varying only in colour and the top form's silhouette per kete.
+  const KETE_OPTIONS = [
+    {
+      id: 'waihanga',
+      name: 'Waihanga',
+      label: 'Waihanga (Construction)',
+      pillar: 'construction',
+      grammar: 'editorial still-life photograph of a sculptural evidence vessel: cream stoneware ceramic base sitting on a fine brass wire square display stand, layered translucent jade pounamu glass plates stacked horizontally, topped with a tilted cream stoneware pitched-roof element evoking architecture',
+      tonalSignature: 'calm Aotearoa intelligence object, self-supporting form'
+    },
+    {
+      id: 'auaha',
+      name: 'Auaha',
+      label: 'Auaha (Creative)',
+      pillar: 'creative',
+      grammar: 'editorial still-life photograph of a sculptural evidence vessel: cream stoneware ceramic base sitting on a fine brass wire square display stand, layered translucent deep violet glass plates stacked at a dynamic tilt, topped with a raw-edged organic cream stoneware shell evoking creative motion',
+      tonalSignature: 'generative cultural intelligence, self-supporting form'
+    },
+    {
+      id: 'arataki',
+      name: 'Arataki',
+      label: 'Arataki (Leadership / Guidance)',
+      pillar: 'leadership · guidance',
+      grammar: 'editorial still-life photograph of a sculptural evidence vessel: cream stoneware ceramic base sitting on a fine brass wire square display stand, layered translucent amber and honey glass plates stacked horizontally with a forward lean, topped with a flowing cream stoneware spear-form evoking direction and forward motion',
+      tonalSignature: 'calm leadership intelligence, self-supporting form'
+    },
+    {
+      id: 'manaaki',
+      name: 'Manaaki',
+      label: 'Manaaki (Hospitality)',
+      pillar: 'hospitality',
+      grammar: 'editorial still-life photograph of a sculptural evidence vessel: cream stoneware ceramic base sitting on a fine brass wire square display stand, layered translucent peach and warm rose glass plates stacked horizontally, topped with a smooth cream stoneware dome evoking welcome and protection',
+      tonalSignature: 'hospitality warmth'
+    },
+    {
+      id: 'pikau',
+      name: 'Pīkau',
+      label: 'Pīkau (Freight & Customs)',
+      pillar: 'freight & customs',
+      grammar: 'editorial still-life photograph of a sculptural evidence vessel: cream stoneware ceramic base sitting on a fine brass wire square display stand, layered translucent cobalt and ice blue glass plates stacked with a slight horizontal drift, topped with a flowing cream stoneware crescent form evoking quiet movement',
+      tonalSignature: 'calm logistics intelligence, self-supporting form'
+    },
+    {
+      id: 'hoko',
+      name: 'Hoko',
+      label: 'Hoko (Trade)',
+      pillar: 'trade',
+      accent: '#7B3F8F',
+      grammar: 'editorial still-life photograph of a sculptural evidence vessel: cream stoneware ceramic base sitting on a fine brass wire square display stand, layered translucent mulberry and aubergine glass plates stacked horizontally, topped with a balanced cream stoneware ovoid form evoking exchange',
+      tonalSignature: 'calm trade intelligence, self-supporting form'
+    },
+    {
+      id: 'ako',
+      name: 'Ako',
+      label: 'Ako (Learning)',
+      pillar: 'learning',
+      accent: '#6B5843',
+      grammar: 'editorial still-life photograph of a sculptural evidence vessel: cream stoneware ceramic base sitting on a fine brass wire square display stand, layered translucent warm sepia and oak glass plates stacked horizontally with a quiet stillness, topped with a contemplative cream stoneware orb evoking learning and reflection',
+      tonalSignature: 'calm learning intelligence, self-supporting form'
+    },
+    {
+      id: 'toro',
+      name: 'Toro',
+      label: 'Toro (Family / Lifestyle)',
+      pillar: 'family · lifestyle',
+      grammar: 'editorial still-life photograph of a sculptural evidence vessel: cream stoneware ceramic base sitting on a fine brass wire square display stand, layered translucent smoky charcoal and warm grey glass plates stacked horizontally, topped with a quiet cream stoneware oval form evoking home',
+      tonalSignature: 'quiet domestic intelligence, self-supporting form'
+    },
+    {
+      id: 'custom',
+      name: 'Custom',
+      label: 'Custom',
+      pillar: 'your own material grammar',
+      grammar: '',
+      tonalSignature: '',
+      custom: true,
+    },
+    // Founder Portrait — different mode entirely. Skips the "evidence vessel" opener,
+    // uses portrait-specific camera spec (100mm portrait lens, f2.8), and overrides
+    // the vessel-specific flag negatives with a portrait-specific list.
+    {
+      id: 'founder-portrait',
+      name: 'Founder Portrait',
+      label: 'Founder Portrait',
+      pillar: 'Brand · Founder content',
+      grammar: 'editorial portrait photograph of a woman in her late 30s with shoulder-length sun-kissed blonde hair, warm gentle smile, calm and present expression, wearing soft cream or beige knitwear, sometimes holding a long-haired black dachshund with tan markings, seated in a warm cream-paper interior with soft natural light from a window upper left, plants and books in soft focus background',
+      tonalSignature: 'quiet intelligence, time returned, no harsh shadows',
+      defaultAspectRatio: '4:5',
+      defaultMotion: 'still',
+      portrait: true,
+      flagNegatives: [
+        'harsh shadows', 'beauty filter', 'plastic skin', 'oversaturated',
+        'neon', 'dark moody', 'studio backdrop', 'white seamless'
+      ],
+    },
+  ];
+  const AR_OPTIONS = ['16:9', '4:5', '1:1', '9:16'];
+  const MOTION_OPTIONS = ['slow gentle rotation', 'slow drift', 'gentle sway', 'falling cloth', 'still'];
+
+  // ---------- Video mode config ----------
+  const VIDEO_AR_OPTIONS = ['16:9', '9:16', '1:1'];
+  const VIDEO_DURATION_OPTIONS = ['5s', '8s', '10s'];
+  const VIDEO_CAMERA_MOTIONS = [
+    { id: 'slow orbit',     clause: 'Camera rotates 30 degrees clockwise over the duration.' },
+    { id: 'static',         clause: 'Camera holds still.' },
+    { id: 'gentle drift',   clause: 'Camera drifts slowly to the right.' },
+    { id: 'slow push-in',   clause: 'Camera dollies slowly forward.' },
+  ];
+  const VIDEO_MODELS = {
+    kling2: { name: 'Kling 2.0',  display: 'Kling 2.0',  price: 0.50, blurb: 'best balance · ~$0.50',  supportsI2V: true  },
+    veo3:   { name: 'Veo 3',      display: 'Veo 3',      price: 3.00, blurb: 'google premium 1080p · ~$3.00', supportsI2V: false },
+    hailuo: { name: 'Hailuo 02',  display: 'Hailuo 02',  price: 0.30, blurb: 'minimax · budget · ~$0.30', supportsI2V: true  },
+  };
+  const VIDEO_NEGATIVES = [
+    'text', 'logos', 'patterns', 'carvings', 'kowhaiwhai',
+    'neon', 'sci-fi', 'people', 'faces', 'text overlays', 'UI'
+  ];
+
+  // Video grammars — natural-prose cinematic descriptions, distinct from
+  // the still-life image grammars. Indexed by kete id.
+  const KETE_VIDEO_GRAMMARS = {
+    waihanga: 'A slow cinematic orbit around a sculptural Waihanga evidence vessel: cream stoneware ceramic base on a brushed-brass wire square display stand, layered translucent jade pounamu glass plates stacked horizontally in architectural rhythm, topped with a tilted cream stoneware pitched-roof element evoking a quiet home.',
+    auaha:    'A slow cinematic orbit around a sculptural Auaha evidence vessel: cream stoneware ceramic base on a brushed-brass wire square display stand, layered translucent deep violet and dusty plum glass plates stacked at a dynamic tilt, topped with a raw-edged organic cream stoneware shell evoking creative motion.',
+    arataki:  'A slow cinematic orbit around a sculptural Arataki evidence vessel: cream stoneware ceramic base on a brushed-brass wire square display stand, layered translucent amber and honey glass plates stacked with a forward lean, topped with a flowing cream stoneware spear-form evoking direction.',
+    manaaki:  'A slow cinematic orbit around a sculptural Manaaki evidence vessel: cream stoneware ceramic base on a brushed-brass wire square display stand, layered translucent terracotta and warm rose glass plates stacked in soft hospitality rhythm, topped with a smooth cream stoneware dome evoking welcome and protection.',
+    pikau:    'A slow cinematic orbit around a sculptural Pīkau evidence vessel: cream stoneware ceramic base on a brushed-brass wire square display stand, layered translucent cobalt and ice-blue glass plates stacked with a soft horizontal drift, topped with a flowing cream stoneware crescent evoking quiet movement.',
+    hoko:     'A slow cinematic orbit around a sculptural Hoko evidence vessel: cream stoneware ceramic base on a brushed-brass wire square display stand, layered translucent mulberry and aubergine glass plates stacked horizontally, topped with a balanced cream stoneware ovoid form evoking exchange.',
+    ako:      'A slow cinematic orbit around a sculptural Ako evidence vessel: cream stoneware ceramic base on a brushed-brass wire square display stand, layered translucent warm sepia and oak glass plates stacked with quiet stillness, topped with a contemplative cream stoneware orb evoking learning and reflection.',
+    toro:     'A slow cinematic orbit around a sculptural Tōro evidence vessel: cream stoneware ceramic base on a brushed-brass wire square display stand, layered translucent smoky charcoal and warm grey glass plates stacked horizontally, topped with a quiet cream stoneware oval evoking home.',
+  };
+
+  // Two-part negative system — body inline (conceptual rejections, written in
+  // natural language inside the prompt body) and --no flag (visual/architectural
+  // rejections, sent as discrete tokens for stronger MJ rejection).
+  const BODY_INLINE_NEGATIVES = [
+    'text', 'logos', 'patterns', 'carvings', 'kowhaiwhai', 'neon', 'sci-fi'
+  ];
+  // Canonical update 2026-05-08: removed "brass", "metal", "hard edges", "geometric"
+  // because the canonical look INCLUDES a small brass wire display stand and is
+  // architectural by design. What stays banned is brass *through* the form
+  // (armatures, cages, rails, spines, metal frames binding plates), and any kind
+  // of linear/wire/route element drawn through the vessel.
+  const FLAG_NEGATIVES = [
+    'dark background', 'forest', 'gemstone', 'pebble',
+    'armature', 'cage', 'rails', 'spine', 'metal frame',
+    'linear gold', 'gold lines', 'route lines', 'trajectories',
+    'threads', 'wires',
+    'sci-fi', 'neon', 'organic shell'
+  ];
+  // Active negatives are computed per-preset (Founder Portrait uses a different
+  // flag set than vessel presets) and per-mode (video mode swaps the entire list
+  // to the natural-language video negatives).
+  function activeFlagNegatives() {
+    if (state && state.mode === 'video') return VIDEO_NEGATIVES;
+    const k = (typeof getKete === 'function') ? getKete() : null;
+    return (k && Array.isArray(k.flagNegatives) && k.flagNegatives.length) ? k.flagNegatives : FLAG_NEGATIVES;
+  }
+  function activeNegatives() {
+    if (state && state.mode === 'video') return [...VIDEO_NEGATIVES];
+    return [...BODY_INLINE_NEGATIVES, ...activeFlagNegatives()];
+  }
+  const LIGHTING_OPTIONS = [
+    'soft natural light',
+    'morning sun through linen',
+    'overcast diffuse',
+    'candle warmth',
+    'studio rake light',
+    'late afternoon gold',
+  ];
+
+  // Text-to-image endpoint takes preset names.
+  const FAL_AR_MAP = {
+    '16:9': 'landscape_16_9',
+    '4:5':  'portrait_4_5',
+    '1:1':  'square_hd',
+    '9:16': 'portrait_16_9',
+  };
+  // Image-to-image (v1.1-ultra/redux) takes raw "W:H" strings, but its enum is
+  // [21:9, 16:9, 4:3, 3:2, 1:1, 2:3, 3:4, 9:16, 9:21] — no 4:5. Map 4:5 → 3:4.
+  const FAL_REDUX_AR_MAP = {
+    '16:9': '16:9',
+    '4:5':  '3:4',
+    '1:1':  '1:1',
+    '9:16': '9:16',
+  };
+  function reduxAspectFor(ar) { return FAL_REDUX_AR_MAP[ar] || '1:1'; }
+
+  const PRICE_TEXT  = 0.04; // usd, flux pro v1.1 (per image at default size)
+  const PRICE_REDUX = 0.05; // usd, flux pro v1.1 ultra/redux ($0.05 / megapixel — ≈ $0.05 at default 1MP outputs)
+  const REF_MAX_BYTES = 8 * 1024 * 1024; // 8MB
+  const REF_VALID_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+  const LS_KEY  = 'assembl_fal_key';
+  const LS_HIST = 'assembl_vessel_history';
+  const LS_REF  = 'assembl_vessel_reference';
+  const HIST_MAX = 12;
+
+  // ---------- state ----------
+  const state = {
+    kete: 'waihanga',
+    ar: '4:5',
+    motion: 'slow gentle rotation',
+    lighting: LIGHTING_OPTIONS[0],
+    sref: '',
+    variants: 1,
+    generating: false,
+    customMaterial: '',
+    customForm: '',
+    customPalette: '',
+    reference: null,            // { dataUrl, filename, sizeBytes } or null
+    imagePromptStrength: 0.35,
+    // Video mode
+    mode: 'image',              // 'image' | 'video'
+    videoCamera: 'slow orbit',
+    videoDuration: '8s',
+    videoAR: '16:9',
+    videoModel: 'kling2',
+    videoConfirming: false,
+  };
+  let sessionGenerations = 0;
+  let sessionCost = 0;
+  let history = loadHistory();
+
+  // ---------- DOM helpers ----------
+  const $ = (id) => document.getElementById(id);
+
+  // ---------- render: kete ----------
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function renderKete() {
+    const wrap = $('kete-list');
+    wrap.innerHTML = '';
+    const inVideo = state && state.mode === 'video';
+    KETE_OPTIONS.forEach(k => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'kete-opt';
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-pressed', state.kete === k.id ? 'true' : 'false');
+      btn.setAttribute('aria-checked', state.kete === k.id ? 'true' : 'false');
+      btn.dataset.id = k.id;
+      const disabledInVideo = inVideo && k.portrait;
+      if (disabledInVideo) {
+        btn.disabled = true;
+        btn.style.opacity = '0.4';
+        btn.style.cursor = 'not-allowed';
+        btn.title = 'video mode is for vessels — switch back to image mode for founder portraits';
+      }
+      btn.innerHTML = `<span class="name">${escapeHtml(k.label)}</span><span class="desc">${escapeHtml(k.pillar)}${disabledInVideo ? ' · image mode only' : ''}</span>`;
+      if (!disabledInVideo) btn.addEventListener('click', () => selectKete(k.id));
+      wrap.appendChild(btn);
+    });
+    renderKeteDetail();
+    updateKeteNote();
+    updateFounderTip();
+  }
+
+  // Apply preset-level defaults (aspect ratio, motion). Only sets fields the
+  // preset declares — switching back to a kete that has no defaults leaves
+  // ar/motion sticky at whatever the user last picked.
+  function applyPresetDefaults(k) {
+    if (k.defaultAspectRatio && AR_OPTIONS.includes(k.defaultAspectRatio)) {
+      state.ar = k.defaultAspectRatio;
+    }
+    if (k.defaultMotion && MOTION_OPTIONS.includes(k.defaultMotion)) {
+      state.motion = k.defaultMotion;
+    }
+  }
+
+  function selectKete(id) {
+    state.kete = id;
+    const k = getKete();
+    applyPresetDefaults(k);
+    renderKete();
+    renderChips('ar-chips', AR_OPTIONS, 'ar');
+    renderChips('motion-chips', MOTION_OPTIONS, 'motion');
+    renderAnchors();
+    updatePrompt();
+  }
+
+  function updateKeteNote() {
+    const note = $('kete-note');
+    if (!note) return;
+    const k = getKete();
+    note.textContent = k.portrait
+      ? 'founder portrait — warm cream interior, soft natural light, calm editorial portrait, dachshund optional'
+      : 'each kete is a stacked still-life — cream stoneware top + base, kete-coloured translucent glass plates between them, on a small brass wire display stand. cream paper backdrop only.';
+  }
+
+  function updateFounderTip() {
+    const tip = $('founder-tip');
+    if (!tip) return;
+    tip.hidden = !getKete().portrait;
+  }
+
+  function renderKeteDetail() {
+    const wrap = $('kete-detail');
+    if (!wrap) return;
+    const k = getKete();
+    const inVideo = state && state.mode === 'video';
+    wrap.innerHTML = '';
+    if (k.id === 'custom') {
+      wrap.appendChild(buildCustomFields());
+    } else {
+      const box = document.createElement('div');
+      box.className = 'kete-grammar-preview';
+      const grammarText = inVideo ? videoGrammarFor(k) : k.grammar;
+      const grammarLabel = inVideo ? 'video grammar · locked' : 'material grammar · locked';
+      box.innerHTML = `
+        <div class="label small">${grammarLabel}</div>
+        <div class="grammar-text">${escapeHtml(grammarText)}</div>
+      `;
+      wrap.appendChild(box);
+    }
+  }
+
+  function buildCustomFields() {
+    const root = document.createElement('div');
+    root.className = 'custom-fields';
+    const fields = [
+      ['customMaterial', 'material', 'e.g. translucent jade mineral, silk organza, glass-organza membrane…'],
+      ['customForm',     'form',     'e.g. monolithic organic form, blooming layered petals, archive-bloom folds…'],
+      ['customPalette',  'palette',  'e.g. soft gold light points scattered through the material, warm amber glow…'],
+    ];
+    fields.forEach(([key, label, ph]) => {
+      const sub = document.createElement('div');
+      sub.className = 'sub-field';
+      const lbl = document.createElement('div');
+      lbl.className = 'label small';
+      lbl.textContent = label;
+      const ta = document.createElement('textarea');
+      ta.className = 'text mono custom-ta';
+      ta.placeholder = ph;
+      ta.rows = 2;
+      ta.value = state[key] || '';
+      ta.spellcheck = false;
+      ta.addEventListener('input', () => { state[key] = ta.value; updatePrompt(); });
+      sub.appendChild(lbl);
+      sub.appendChild(ta);
+      root.appendChild(sub);
+    });
+    return root;
+  }
+
+  // ---------- render: chip rows ----------
+  function renderChips(containerId, options, key) {
+    const wrap = $(containerId);
+    wrap.innerHTML = '';
+    options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chip';
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-pressed', state[key] === opt ? 'true' : 'false');
+      btn.setAttribute('aria-checked', state[key] === opt ? 'true' : 'false');
+      btn.textContent = opt;
+      btn.addEventListener('click', () => { state[key] = opt; renderChips(containerId, options, key); updatePrompt(); });
+      wrap.appendChild(btn);
+    });
+  }
+
+  // ---------- render: lighting ----------
+  let lightingWired = false;
+  function renderLighting() {
+    const sel = $('lighting');
+    sel.innerHTML = '';
+    LIGHTING_OPTIONS.forEach(l => {
+      const o = document.createElement('option');
+      o.value = l; o.textContent = l;
+      if (state.lighting === l) o.selected = true;
+      sel.appendChild(o);
+    });
+    if (!lightingWired) {
+      sel.addEventListener('change', () => { state.lighting = sel.value; updatePrompt(); });
+      lightingWired = true;
+    }
+  }
+
+  // ---------- variants stepper ----------
+  function renderVariants() {
+    $('var-val').textContent = state.variants;
+  }
+
+  // ---------- prompt composition ----------
+  function getKete() { return KETE_OPTIONS.find(k => k.id === state.kete) || KETE_OPTIONS[0]; }
+
+  function composeCustomGrammar() {
+    const parts = [
+      (state.customMaterial || '').trim(),
+      (state.customForm || '').trim(),
+      (state.customPalette || '').trim(),
+    ].filter(Boolean);
+    // Canonical opener so Custom kete still produces a still-life prompt that
+    // matches the locked visual system. Free-form fields fill in after the colon.
+    const opener = 'editorial still-life photograph of a sculptural evidence vessel:';
+    if (!parts.length) return `${opener} a custom assembl vessel form (no material grammar set yet)`;
+    return `${opener} ${parts.join(', ')}`;
+  }
+
+  // Body template — single source for both Midjourney full prompt and Fal payload.
+  // Layout (comma-joined parts; empty tonalSignature drops cleanly without a stray comma):
+  //
+  //   editorial product photography of a sculptural evidence vessel made of {grammar},
+  //   {motion}, {lighting}, soft natural sunlight casting long warm shadows on a cream paper backdrop,
+  //   museum quality, [tonalSignature,] {body inline negatives}, shot on Hasselblad, 100mm macro, f4
+  function composeBody() {
+    const k = getKete();
+    const grammar = k.id === 'custom' ? composeCustomGrammar() : k.grammar;
+    const tonal   = ((k.tonalSignature || '') + '').trim();
+    const inlineNeg = BODY_INLINE_NEGATIVES.map(n => `no ${n}`).join(' ');
+    const isPortrait = !!k.portrait;
+
+    // Canonical 2026-05-08: each kete grammar now self-opens with
+    // "editorial still-life photograph of a sculptural evidence vessel: …"
+    // so the body composer no longer prefixes the vessel framing.
+    // composeCustomGrammar() prepends the same opener so Custom keeps the structure.
+    const parts = [grammar, state.motion];
+
+    if (isPortrait) {
+      parts.push(state.lighting);
+    } else {
+      // The lighting chip refines the quality of the light; position (upper left)
+      // and effect (long warm shadow on cream paper) are now fixed across vessels.
+      parts.push(`${state.lighting} from upper left casting a long warm shadow on a cream paper backdrop`);
+      parts.push('museum quality');
+    }
+
+    if (tonal) parts.push(tonal);
+    parts.push(inlineNeg);
+    parts.push('shot on Hasselblad');
+    parts.push(isPortrait ? '100mm portrait lens' : '100mm macro');
+    parts.push(isPortrait ? 'f2.8' : 'f4');
+
+    return parts.join(', ');
+  }
+
+  function composeFlags() {
+    const flags = [];
+    flags.push(`--ar ${state.ar}`);
+    flags.push('--v 6');
+    if (state.sref.trim()) flags.push(`--sref ${state.sref.trim()}`);
+    if (state.variants > 1) flags.push(`--repeat ${state.variants}`);
+    flags.push(`--no ${activeFlagNegatives().join(', ')}`);
+    return flags.join(' ');
+  }
+
+  function composeFull() {
+    const free = getFreePrompt();
+    if (free) return `${free} ${composeFlags()}`;
+    return `${composeBody()} ${composeFlags()}`;
+  }
+
+  // Returns trimmed free-prompt text when Free Prompt mode is on, else null.
+  function getFreePrompt() {
+    const toggle = document.getElementById('free-prompt-toggle');
+    const ta = document.getElementById('free-prompt-text');
+    if (!toggle || !ta || !toggle.checked) return null;
+    const txt = (ta.value || '').trim();
+    return txt.length > 0 ? txt : null;
+  }
+
+  // The prompt sent to Fal: drop MJ flags, append flag-negatives as soft inline parenthetical.
+  function composeForFal() {
+    const body = composeBody();
+    const flagNegInline = `(${activeFlagNegatives().map(n => `no ${n}`).join(', ')})`;
+    return `${body} ${flagNegInline}`;
+  }
+
+  // ---------- Video composer ----------
+  function videoGrammarFor(k) {
+    if (!k) return '';
+    if (k.id === 'custom') {
+      const parts = [
+        (state.customMaterial || '').trim(),
+        (state.customForm || '').trim(),
+        (state.customPalette || '').trim(),
+      ].filter(Boolean);
+      return parts.length
+        ? `A slow cinematic orbit around a sculptural Custom evidence vessel: ${parts.join(', ')}.`
+        : 'A slow cinematic orbit around a sculptural evidence vessel (custom material grammar not set yet).';
+    }
+    return KETE_VIDEO_GRAMMARS[k.id] || '';
+  }
+
+  function videoCameraClause(id) {
+    const m = VIDEO_CAMERA_MOTIONS.find(x => x.id === id);
+    return m ? m.clause : VIDEO_CAMERA_MOTIONS[0].clause;
+  }
+
+  // Composed video prompt — single template across all kete + models.
+  // Negative phrasing inlined at the end (Fal video models don't take a discrete --no list).
+  function composeVideoPrompt() {
+    const free = getFreePrompt();
+    if (free) {
+      const negTail = 'No text, no logos, no patterns, no people, no neon, no sci-fi.';
+      // Append negTail only if the user hasn't already included a "no ..." style negation.
+      return free.toLowerCase().includes('no text') || free.toLowerCase().includes('no logos')
+        ? free
+        : `${free} ${negTail}`;
+    }
+    const k = getKete();
+    const grammar = videoGrammarFor(k);
+    const camera  = videoCameraClause(state.videoCamera);
+    const negTail = 'No text, no logos, no patterns, no people, no neon, no sci-fi.';
+    return `${grammar} ${camera} Soft natural sunlight from upper-left casts a long warm shadow on a cream paper backdrop. Aesop × Cereal editorial product photography, museum quality, calm Aotearoa intelligence object. Hasselblad 100mm macro f4 cinematic depth of field. ${negTail}`;
+  }
+
+  // ---------- Video chip rendering ----------
+  function renderVideoCameraChips() {
+    const wrap = $('vid-cam-chips');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    VIDEO_CAMERA_MOTIONS.forEach(m => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chip';
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-pressed', state.videoCamera === m.id ? 'true' : 'false');
+      btn.textContent = m.id;
+      btn.title = m.clause;
+      btn.addEventListener('click', () => { state.videoCamera = m.id; renderVideoCameraChips(); updatePrompt(); });
+      wrap.appendChild(btn);
+    });
+  }
+  function renderVideoDurationChips() {
+    const wrap = $('vid-dur-chips');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    VIDEO_DURATION_OPTIONS.forEach(d => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chip';
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-pressed', state.videoDuration === d ? 'true' : 'false');
+      btn.textContent = d;
+      btn.addEventListener('click', () => { state.videoDuration = d; renderVideoDurationChips(); updatePrompt(); });
+      wrap.appendChild(btn);
+    });
+  }
+  function renderVideoARChips() {
+    const wrap = $('vid-ar-chips');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    VIDEO_AR_OPTIONS.forEach(a => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chip';
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-pressed', state.videoAR === a ? 'true' : 'false');
+      btn.textContent = a;
+      btn.addEventListener('click', () => { state.videoAR = a; renderVideoARChips(); updatePrompt(); });
+      wrap.appendChild(btn);
+    });
+  }
+  function renderVideoModelOptions() {
+    const wrap = $('vid-models');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    Object.entries(VIDEO_MODELS).forEach(([id, m]) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'video-model';
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-pressed', state.videoModel === id ? 'true' : 'false');
+      btn.innerHTML = `<span class="vm-name">${m.display}</span><span class="vm-meta">${m.blurb}</span>`;
+      btn.addEventListener('click', () => {
+        state.videoModel = id;
+        renderVideoModelOptions();
+        updateCostGuardrail();
+        updateGenerateLabel();
+        updatePrompt();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
+  function updateCostGuardrail() {
+    const m = VIDEO_MODELS[state.videoModel] || VIDEO_MODELS.kling2;
+    const el = $('guardrail-cost');
+    if (el) el.textContent = `$${m.price.toFixed(2)}`;
+  }
+
+  // ---------- Mode toggle ----------
+  function setMode(newMode) {
+    if (newMode !== 'image' && newMode !== 'video') return;
+    state.mode = newMode;
+    state.videoConfirming = false;
+    document.body.dataset.mode = newMode;
+    $('mode-image').setAttribute('aria-pressed', newMode === 'image' ? 'true' : 'false');
+    $('mode-video').setAttribute('aria-pressed', newMode === 'video' ? 'true' : 'false');
+    // If founder portrait is selected and user switches to video, fall back to waihanga.
+    if (newMode === 'video' && getKete().portrait) {
+      state.kete = 'waihanga';
+    }
+    renderKete();              // refresh disabled state on founder + swap grammar preview
+    $('btn-generate').classList.remove('confirming');
+    renderModeIndicator();
+    updateGenerateLabel();
+    updatePrompt();
+    renderAnchors();
+    updateCostGuardrail();
+  }
+
+  // ---------- Video generation ----------
+  function videoEndpoint(model, hasReference) {
+    if (model === 'kling2') {
+      return hasReference
+        ? 'https://fal.run/fal-ai/kling-video/v2/master/image-to-video'
+        : 'https://fal.run/fal-ai/kling-video/v2/master/text-to-video';
+    }
+    if (model === 'veo3') {
+      // Veo 3 in this build uses text-to-video only.
+      return 'https://fal.run/fal-ai/veo3';
+    }
+    if (model === 'hailuo') {
+      return hasReference
+        ? 'https://fal.run/fal-ai/minimax/hailuo-02/standard/image-to-video'
+        : 'https://fal.run/fal-ai/minimax/hailuo-02/standard/text-to-video';
+    }
+    return null;
+  }
+
+  function buildVideoBody(model, opts) {
+    // Adapter: map shared input shape to each Fal model's body schema.
+    // These follow standard Fal video model conventions; verify against the
+    // current /api docs for each model if a request 422s.
+    const durationSec = parseInt(opts.duration, 10) || 8;
+    const negativePrompt = VIDEO_NEGATIVES.join(', ');
+    if (model === 'kling2') {
+      const body = {
+        prompt: opts.prompt,
+        duration: String(durationSec >= 10 ? 10 : 5),  // Kling supports 5 or 10
+        aspect_ratio: opts.aspect_ratio,
+        cfg_scale: 0.5,
+        negative_prompt: negativePrompt,
+      };
+      if (opts.image_url) body.image_url = opts.image_url;
+      return body;
+    }
+    if (model === 'veo3') {
+      return {
+        prompt: opts.prompt,
+        aspect_ratio: opts.aspect_ratio,
+        duration: `${durationSec}s`,
+        negative_prompt: negativePrompt,
+        generate_audio: false,
+      };
+    }
+    if (model === 'hailuo') {
+      const body = {
+        prompt: opts.prompt,
+        duration: String(durationSec >= 10 ? 10 : 6),  // Hailuo standard supports 6 or 10
+        prompt_optimizer: false,
+        resolution: '1080p',
+      };
+      if (opts.image_url) body.image_url = opts.image_url;
+      return body;
+    }
+    return {};
+  }
+
+  // Try a few common shapes Fal video models use to expose the result URL.
+  function extractVideoUrl(data) {
+    if (!data) return null;
+    if (typeof data.video === 'string') return data.video;
+    if (data.video && data.video.url) return data.video.url;
+    if (Array.isArray(data.videos) && data.videos[0]) return data.videos[0].url || data.videos[0];
+    if (data.output && data.output.video && data.output.video.url) return data.output.video.url;
+    if (data.url && /\.(mp4|webm|mov)/i.test(data.url)) return data.url;
+    return null;
+  }
+
+  async function generateVideo() {
+    if (state.generating) return;
+    hideError();
+
+    const key = getKey();
+    if (!key) { flashKeyPanel(); return; }
+
+    // Two-click confirmation guardrail.
+    if (!state.videoConfirming) {
+      state.videoConfirming = true;
+      const m = VIDEO_MODELS[state.videoModel];
+      $('btn-label').textContent = `confirm — generate ${m.display.toLowerCase()} ${state.videoDuration} clip`;
+      $('btn-generate').classList.add('confirming');
+      // Auto-revert if not clicked again within 8s.
+      setTimeout(() => {
+        if (state.videoConfirming) {
+          state.videoConfirming = false;
+          $('btn-generate').classList.remove('confirming');
+          updateGenerateLabel();
+        }
+      }, 8000);
+      return;
+    }
+    state.videoConfirming = false;
+    $('btn-generate').classList.remove('confirming');
+
+    setGenerating(true);
+
+    const model = state.videoModel;
+    const hasRef = !!(state.reference && state.reference.dataUrl);
+    // Veo 3 doesn't support image-to-video in this build — surface a soft warning
+    // but still fire the request as text-to-video.
+    if (model === 'veo3' && hasRef) {
+      const proceed = confirm('Veo 3 is text-to-video only in this build — your reference image will be IGNORED.\n\nFor image-to-video that respects your reference, switch to Kling 2.0 or Hailuo 02.\n\nProceed with text-only Veo 3 anyway?');
+      if (!proceed) {
+        $('btn-generate').classList.remove('confirming');
+        return;
+      }
+    }
+    const endpoint = videoEndpoint(model, hasRef && model !== 'veo3');
+    const body = buildVideoBody(model, {
+      prompt: composeVideoPrompt(),
+      image_url: (hasRef && model !== 'veo3') ? state.reference.dataUrl : null,
+      duration: state.videoDuration,
+      aspect_ratio: state.videoAR,
+    });
+
+    try {
+      const resp = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Key ${key}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!resp.ok) {
+        let detail = `${resp.status} ${resp.statusText}`;
+        try {
+          const errBody = await resp.json();
+          if (errBody && (errBody.detail || errBody.message || errBody.error)) {
+            const m = errBody.detail || errBody.message || errBody.error;
+            detail = typeof m === 'string' ? m : JSON.stringify(m);
+          }
+        } catch {}
+        throw new Error(detail.slice(0, 280));
+      }
+
+      const data = await resp.json();
+      const videoUrl = extractVideoUrl(data);
+      if (!videoUrl) throw new Error('no video url in response');
+
+      const k = getKete();
+      addToGallery({
+        id: `${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+        prompt_full: composeVideoPrompt(),
+        prompt_to_fal: composeVideoPrompt(),
+        kete: state.kete,
+        ar: state.videoAR,
+        media_type: 'video',
+        model: model,
+        duration: state.videoDuration,
+        camera: state.videoCamera,
+        had_reference: hasRef && model !== 'veo3',
+        image_url: videoUrl,    // gallery key kept as image_url for backward compat with persist
+        generated_at: new Date().toISOString(),
+      });
+
+      const price = (VIDEO_MODELS[model] || {}).price || 0;
+      sessionGenerations += 1;
+      sessionCost += price;
+      renderCost();
+    } catch (err) {
+      showError((err && err.message) ? err.message : 'unknown error');
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  function updatePrompt() {
+    const out = $('prompt-out');
+    const ket = getKete();
+    if (state.mode === 'video') {
+      const text = composeVideoPrompt();
+      const safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+      out.innerHTML = safe;
+      const m = VIDEO_MODELS[state.videoModel] || VIDEO_MODELS.kling2;
+      $('prompt-meta').textContent = `${ket.name} · ${state.videoAR} · ${state.videoDuration} · ${m.display}`;
+    } else {
+      const full = composeFull();
+      const safe = full.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+      const highlighted = safe.replace(/(--[a-z]+ [^-]*)(?= --|$)/g, m => `<span class="flag">${m.trim()}</span> `);
+      out.innerHTML = highlighted;
+      $('prompt-meta').textContent = `${ket.name} · ${state.ar} · ${state.variants}× variant${state.variants>1?'s':''}`;
+    }
+    renderModeIndicator();
+  }
+
+  // ---------- API key panel ----------
+  function getKey() {
+    try { return (localStorage.getItem(LS_KEY) || '').trim(); }
+    catch (e) { return ''; }  // private mode / blocked storage
+  }
+  function setKey(v) {
+    try {
+      if (v && v.trim()) localStorage.setItem(LS_KEY, v.trim());
+      else localStorage.removeItem(LS_KEY);
+    } catch (e) {
+      const status = $('key-status');
+      if (status) {
+        status.textContent = 'save failed: ' + String(e.message || e).slice(0, 50);
+        status.style.color = 'var(--rust)';
+      }
+      return;
+    }
+    refreshKeyStatus();
+  }
+  function refreshKeyStatus() {
+    const status = $('key-status');
+    if (!status) return;
+    const k = getKey();
+    if (k) {
+      const head = k.slice(0, 4);
+      const tail = k.slice(-4);
+      status.textContent = `saved · ${head}…${tail}`;
+      status.style.color = 'var(--pounamu)';
+    } else {
+      status.textContent = 'not set';
+      status.style.color = 'var(--ink-faint)';
+    }
+    status.classList.toggle('ok', !!k);
+  }
+  // Single source of truth for user-triggered saves. Exposed on window so the
+  // inline onclick fallback on the save button can reach it even if wire() never ran.
+  function attemptKeySave() {
+    const inp = $('key-input');
+    const status = $('key-status');
+    if (!inp) return;
+    const v = (inp.value || '').trim();
+    if (status) { status.textContent = v ? 'saving…' : 'clearing…'; status.style.color = 'var(--ink-faint)'; }
+    setKey(v);
+    hideError();
+  }
+  if (typeof window !== 'undefined') window.__assemblSaveKey = attemptKeySave;
+  function openKeyPanel(open) {
+    const p = $('key-panel');
+    p.dataset.open = open ? 'true' : 'false';
+    $('key-head').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  // ---------- gallery + history ----------
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(LS_HIST);
+      if (!raw) return [];
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr.slice(0, HIST_MAX) : [];
+    } catch { return []; }
+  }
+  function saveHistory() {
+    try { localStorage.setItem(LS_HIST, JSON.stringify(history.slice(0, HIST_MAX))); } catch {}
+  }
+
+  function renderGallery() {
+    const g = $('gallery');
+    g.innerHTML = '';
+    const count = $('gallery-count');
+    if (count) count.textContent = `${history.length} saved`;
+    if (!history.length) {
+      const empty = document.createElement('div');
+      empty.className = 'gen-empty';
+      empty.textContent = 'no generations yet · paste a key, choose a kete, hit generate';
+      g.appendChild(empty);
+      return;
+    }
+    history.forEach(card => g.appendChild(renderCard(card)));
+  }
+
+  function renderCard(card) {
+    const el = document.createElement('div');
+    el.className = 'gen-card';
+    const dt = new Date(card.generated_at);
+    const stamp = dt.toLocaleString('en-NZ', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' });
+    const isVideo = card.media_type === 'video';
+
+    if (isVideo) {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const v = document.createElement('video');
+      v.src = card.image_url;
+      v.controls = true;
+      v.muted = true;
+      v.loop = true;
+      v.playsInline = true;
+      if (!prefersReducedMotion) v.autoplay = true;
+      v.preload = 'metadata';
+      el.appendChild(v);
+    } else {
+      const img = document.createElement('img');
+      img.src = card.image_url;
+      img.alt = `${card.kete} · ${card.ar}`;
+      img.loading = 'lazy';
+      el.appendChild(img);
+    }
+
+    const k = KETE_OPTIONS.find(x => x.id === card.kete);
+    const keteDisplay = k ? k.name : card.kete;
+    const meta = document.createElement('div');
+    meta.className = 'gen-meta';
+    const tag = isVideo
+      ? `· ${(VIDEO_MODELS[card.model] || {}).display || card.model || 'video'} · ${card.duration || ''} · ${card.camera || ''}`
+      : '';
+    meta.innerHTML = `<span>${stamp} · ${escapeHtml(keteDisplay)} · ${card.ar}${escapeHtml(tag)}</span>`;
+    const actions = document.createElement('div');
+    actions.className = 'gen-actions';
+
+    const dl = document.createElement('button');
+    dl.type = 'button';
+    dl.textContent = 'download';
+    dl.addEventListener('click', () => isVideo ? downloadVideo(card) : downloadImage(card));
+    actions.appendChild(dl);
+
+    if (!isVideo) {
+      const useSref = document.createElement('button');
+      useSref.type = 'button';
+      useSref.textContent = 'use as sref';
+      useSref.title = 'pipe url into the midjourney --sref field';
+      useSref.addEventListener('click', () => {
+        $('sref').value = card.image_url;
+        state.sref = card.image_url;
+        updatePrompt();
+        $('sref').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      const useRef = document.createElement('button');
+      useRef.type = 'button';
+      useRef.textContent = 'use as reference';
+      useRef.title = 'load this image into the fal redux reference field';
+      useRef.addEventListener('click', () => useGalleryAsReference(card));
+
+      const exportBtn = document.createElement('button');
+      exportBtn.type = 'button';
+      exportBtn.textContent = 'export sizes';
+      exportBtn.title = 'open the size-export panel for this image';
+      exportBtn.addEventListener('click', () => openExportFromCard(card));
+
+      actions.appendChild(useSref);
+      actions.appendChild(useRef);
+      actions.appendChild(exportBtn);
+    }
+
+    meta.appendChild(actions);
+    el.appendChild(meta);
+
+    return el;
+  }
+
+  async function downloadVideo(card) {
+    try {
+      const r = await fetch(card.image_url);
+      const blob = await r.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const ts = Date.parse(card.generated_at) || Date.now();
+      a.download = `assembl-${card.kete}-video-${ts}.mp4`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      window.open(card.image_url, '_blank', 'noopener');
+    }
+  }
+
+  async function downloadImage(card) {
+    try {
+      const r = await fetch(card.image_url);
+      const blob = await r.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const ts = Date.parse(card.generated_at) || Date.now();
+      a.download = `assembl-${card.kete}-${ts}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      // fallback: open in new tab
+      window.open(card.image_url, '_blank', 'noopener');
+    }
+  }
+
+  function addToGallery(card) {
+    history.unshift(card);
+    if (history.length > HIST_MAX) history = history.slice(0, HIST_MAX);
+    saveHistory();
+    renderGallery();
+  }
+
+  // ---------- cost log ----------
+  function renderCost() {
+    const cost = sessionCost.toFixed(2);
+    $('cost-log').textContent = `this session: ${sessionGenerations} generation${sessionGenerations===1?'':'s'} · ~$${cost} usd at fal.ai flux pro pricing`;
+  }
+  function bumpCost(n, mode) {
+    const rate = mode === 'redux' ? PRICE_REDUX : PRICE_TEXT;
+    sessionGenerations += n;
+    sessionCost += n * rate;
+    renderCost();
+  }
+
+  // ---------- reference image ----------
+  function humanBytes(n) {
+    if (n < 1024) return `${n} B`;
+    if (n < 1024 * 1024) return `${(n/1024).toFixed(1)} KB`;
+    return `${(n/1024/1024).toFixed(2)} MB`;
+  }
+
+  function readAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload  = () => resolve(r.result);
+      r.onerror = () => reject(new Error('could not read file'));
+      r.readAsDataURL(file);
+    });
+  }
+
+  function loadReferenceFromLS() {
+    try {
+      const raw = localStorage.getItem(LS_REF);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.dataUrl) return parsed;
+    } catch {}
+    return null;
+  }
+
+  function saveReferenceToLS() {
+    try {
+      if (state.reference && state.reference.dataUrl) {
+        localStorage.setItem(LS_REF, JSON.stringify(state.reference));
+      } else {
+        localStorage.removeItem(LS_REF);
+      }
+    } catch (e) {
+      // QuotaExceededError — keep in memory for this session, just warn quietly.
+      console.warn('reference too large for localStorage:', e.message);
+    }
+  }
+
+  async function loadReferenceFile(file) {
+    if (!file) return;
+    if (!REF_VALID_TYPES.includes(file.type)) {
+      showError(`unsupported image type: ${file.type || 'unknown'}. use jpeg, png, or webp.`);
+      return;
+    }
+    if (file.size > REF_MAX_BYTES) {
+      showError(`reference image too large (${humanBytes(file.size)}). max 8 MB — try compressing it.`);
+      return;
+    }
+    try {
+      const dataUrl = await readAsDataUrl(file);
+      state.reference = { dataUrl, filename: file.name || 'reference', sizeBytes: file.size };
+      state.imagePromptStrength = 0.35;
+      saveReferenceToLS();
+      renderRefZone();
+      renderModeIndicator();
+      updateGenerateLabel();
+      hideError();
+    } catch (err) {
+      showError(`could not read file: ${err.message}`);
+    }
+  }
+
+  function clearReference() {
+    state.reference = null;
+    state.imagePromptStrength = 0.35;
+    saveReferenceToLS();
+    renderRefZone();
+    renderModeIndicator();
+    updateGenerateLabel();
+  }
+
+  function renderRefZone() {
+    const zone = $('ref-zone');
+    if (!zone) return;
+    zone.innerHTML = '';
+    const wrap = $('ref-strength-wrap');
+    if (state.reference && state.reference.dataUrl) {
+      zone.classList.add('has-image');
+      zone.setAttribute('aria-label', 'reference image loaded');
+      const loaded = document.createElement('div');
+      loaded.className = 'ref-loaded';
+      const img = document.createElement('img');
+      img.className = 'ref-thumb';
+      img.src = state.reference.dataUrl;
+      img.alt = state.reference.filename || 'reference';
+      const meta = document.createElement('div');
+      meta.className = 'ref-meta';
+      const text = document.createElement('div');
+      text.className = 'ref-meta-text';
+      text.innerHTML = `<span class="filename">${escapeHtml(state.reference.filename)}</span><span>${humanBytes(state.reference.sizeBytes)}</span>`;
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'ref-remove';
+      removeBtn.textContent = 'remove';
+      removeBtn.addEventListener('click', (e) => { e.stopPropagation(); clearReference(); });
+      meta.appendChild(text);
+      meta.appendChild(removeBtn);
+      loaded.appendChild(img);
+      loaded.appendChild(meta);
+      zone.appendChild(loaded);
+      if (wrap) {
+        wrap.hidden = false;
+        $('strength-slider').value = state.imagePromptStrength;
+        $('strength-val').textContent = state.imagePromptStrength.toFixed(2);
+      }
+    } else {
+      zone.classList.remove('has-image');
+      zone.setAttribute('aria-label', 'upload reference image');
+      const empty = document.createElement('div');
+      empty.className = 'ref-empty-content';
+      empty.innerHTML = `<span class="empty-text">drag an image here, or click to upload</span>`;
+      zone.appendChild(empty);
+      if (wrap) wrap.hidden = true;
+    }
+  }
+
+  // ---------- export sizes ----------
+  const EXPORT_SIZES = [
+    { group: 'Instagram', name: 'Post',           w: 1080, h: 1080 },
+    { group: 'Instagram', name: 'Portrait',       w: 1080, h: 1350 },
+    { group: 'Instagram', name: 'Story / Reel',   w: 1080, h: 1920 },
+    { group: 'TikTok',    name: 'Vertical',       w: 1080, h: 1920 },
+    { group: 'LinkedIn',  name: 'Post',           w: 1200, h: 627  },
+    { group: 'LinkedIn',  name: 'Banner',         w: 1584, h: 396  },
+    { group: 'LinkedIn',  name: 'Square',         w: 1080, h: 1080 },
+    { group: 'X',         name: 'Post',           w: 1600, h: 900  },
+    { group: 'YouTube',   name: 'Thumbnail',      w: 1280, h: 720  },
+    { group: 'YouTube',   name: 'Channel Banner', w: 2560, h: 1440 },
+    { group: 'Facebook',  name: 'Post',           w: 1200, h: 630  },
+    { group: 'Facebook',  name: 'Cover',          w: 820,  h: 312  },
+    { group: 'Pinterest', name: 'Pin',            w: 1000, h: 1500 },
+    { group: 'Web',       name: 'Hero',           w: 1920, h: 1080 },
+    { group: 'Web',       name: 'Email Banner',   w: 600,  h: 200  },
+  ];
+
+  // Ephemeral (per-spec — persist nothing).
+  const exportState = {
+    image: null,                   // HTMLImageElement (loaded)
+    focal: { x: 0.5, y: 0.5 },     // normalized 0–1
+    sourceLabel: '',               // shown in source-meta text
+    previews: [],                  // per-size: { canvas, size, warningEl }
+  };
+
+  function slugify(s) {
+    return String(s).toLowerCase()
+      .replace(/[\s/]+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  // Smart fit-to-fill crop with focal-point clamping. Returns {sx, sy, sw, sh}
+  // — the rect in source-pixel space that should be drawn into a target canvas
+  // of size targetW × targetH using drawImage(src, sx,sy,sw,sh, 0,0, targetW,targetH).
+  function computeCrop(img, focal, targetW, targetH) {
+    const srcW = img.naturalWidth || img.width;
+    const srcH = img.naturalHeight || img.height;
+    const targetAR = targetW / targetH;
+    const srcAR = srcW / srcH;
+    let sw, sh;
+    if (srcAR > targetAR) {
+      // source is wider — crop width
+      sh = srcH;
+      sw = Math.round(sh * targetAR);
+    } else {
+      // source is taller (or equal) — crop height
+      sw = srcW;
+      sh = Math.round(sw / targetAR);
+    }
+    const focalX = focal.x * srcW;
+    const focalY = focal.y * srcH;
+    let sx = Math.round(focalX - sw / 2);
+    let sy = Math.round(focalY - sh / 2);
+    sx = Math.max(0, Math.min(srcW - sw, sx));
+    sy = Math.max(0, Math.min(srcH - sh, sy));
+    return { sx, sy, sw, sh, srcW, srcH };
+  }
+
+  function isExtremeCrop(crop) {
+    // If less than 40% of either source axis is kept (i.e. >60% cropped out), warn.
+    const kept = Math.min(crop.sw / crop.srcW, crop.sh / crop.srcH);
+    return kept < 0.4;
+  }
+
+  // Load an image from any URL. Goes through fetch → blob → object URL so the
+  // resulting <img> has a same-origin source and the canvas is never tainted
+  // (toBlob() works without CORS issues).
+  async function loadImageFromUrl(url) {
+    const r = await fetch(url, { mode: 'cors' });
+    if (!r.ok) throw new Error(`fetch failed (${r.status})`);
+    const blob = await r.blob();
+    const objUrl = URL.createObjectURL(blob);
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => { URL.revokeObjectURL(objUrl); reject(new Error('image decode failed')); };
+      img.src = objUrl;
+    });
+  }
+
+  function loadImageFromFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error('image decode failed'));
+        img.src = reader.result;
+      };
+      reader.onerror = () => reject(new Error('file read failed'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ---------- export modal: open / close ----------
+  async function openExportFromCard(card) {
+    try {
+      const img = await loadImageFromUrl(card.image_url);
+      openExportModal(img, `from gallery · ${card.kete} · ${card.ar}`);
+    } catch (err) {
+      showError(`couldn't open size export: ${err.message}`);
+    }
+  }
+
+  async function openExportFromFile(file) {
+    if (!file) return;
+    if (!REF_VALID_TYPES.includes(file.type)) { showError(`unsupported image type: ${file.type || 'unknown'}. use jpeg, png, or webp.`); return; }
+    if (file.size > REF_MAX_BYTES)            { showError(`image too large (${humanBytes(file.size)}). max 8 MB.`); return; }
+    try {
+      const img = await loadImageFromFile(file);
+      openExportModal(img, `uploaded · ${file.name} · ${humanBytes(file.size)}`);
+    } catch (err) {
+      showError(`couldn't open size export: ${err.message}`);
+    }
+  }
+
+  function openExportModal(img, sourceLabel) {
+    exportState.image = img;
+    exportState.focal = { x: 0.5, y: 0.5 };
+    exportState.sourceLabel = sourceLabel || '';
+    $('export-modal').hidden = false;
+    $('btn-zip').disabled = false;
+    document.body.style.overflow = 'hidden';
+    $('source-meta-text').textContent = exportState.sourceLabel ? `· ${exportState.sourceLabel}` : '';
+    drawSourceCanvas();
+    buildExportGrid();
+    renderAllPreviews();
+    setTimeout(() => $('export-close').focus(), 30);
+  }
+
+  function closeExportModal() {
+    $('export-modal').hidden = true;
+    document.body.style.overflow = '';
+    exportState.image = null;
+    exportState.previews = [];
+    $('export-grid').innerHTML = '';
+  }
+
+  // ---------- source canvas + focal dot ----------
+  function computeSourceDisplaySize(srcW, srcH) {
+    const MAX_W = 600, MAX_H = 480;
+    let dw = srcW, dh = srcH;
+    if (dw > MAX_W) { dh = dh * (MAX_W / dw); dw = MAX_W; }
+    if (dh > MAX_H) { dw = dw * (MAX_H / dh); dh = MAX_H; }
+    return { w: Math.round(dw), h: Math.round(dh) };
+  }
+
+  function drawSourceCanvas() {
+    const img = exportState.image;
+    if (!img) return;
+    const c = $('source-canvas');
+    const { w, h } = computeSourceDisplaySize(img.naturalWidth, img.naturalHeight);
+    c.width = w;
+    c.height = h;
+    c.style.width = w + 'px';
+    c.style.height = h + 'px';
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(img, 0, 0, w, h);
+    $('focal-dot').hidden = false;
+    updateFocalDotPosition();
+  }
+
+  function updateFocalDotPosition() {
+    const c = $('source-canvas');
+    const dot = $('focal-dot');
+    if (!c || !dot) return;
+    // The canvas sits inside source-wrap with 6px padding — match that offset.
+    const px = exportState.focal.x * c.clientWidth + 6;
+    const py = exportState.focal.y * c.clientHeight + 6;
+    dot.style.left = px + 'px';
+    dot.style.top  = py + 'px';
+    dot.setAttribute('aria-valuenow', exportState.focal.x.toFixed(2));
+  }
+
+  function focalFromPointer(clientX, clientY) {
+    const c = $('source-canvas');
+    const r = c.getBoundingClientRect();
+    let nx = (clientX - r.left) / r.width;
+    let ny = (clientY - r.top)  / r.height;
+    nx = Math.max(0, Math.min(1, nx));
+    ny = Math.max(0, Math.min(1, ny));
+    return { x: nx, y: ny };
+  }
+
+  function wireFocalDot() {
+    const dot = $('focal-dot');
+    const wrap = $('source-wrap');
+    let dragging = false;
+
+    function startDrag(e) {
+      dragging = true;
+      dot.classList.add('dragging');
+      e.preventDefault();
+    }
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      dot.classList.remove('dragging');
+    }
+    function moveDrag(clientX, clientY) {
+      if (!dragging) return;
+      exportState.focal = focalFromPointer(clientX, clientY);
+      updateFocalDotPosition();
+      renderAllPreviews();
+    }
+
+    // Mouse
+    dot.addEventListener('mousedown', startDrag);
+    document.addEventListener('mouseup', endDrag);
+    document.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
+
+    // Touch
+    dot.addEventListener('touchstart', (e) => { startDrag(e); }, { passive: false });
+    document.addEventListener('touchend', endDrag);
+    document.addEventListener('touchcancel', endDrag);
+    document.addEventListener('touchmove', (e) => {
+      if (!dragging || !e.touches[0]) return;
+      moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: false });
+
+    // Click anywhere on the source canvas snaps the dot
+    $('source-canvas').addEventListener('click', (e) => {
+      if (!exportState.image) return;
+      exportState.focal = focalFromPointer(e.clientX, e.clientY);
+      updateFocalDotPosition();
+      renderAllPreviews();
+    });
+
+    // Keyboard nudge (arrow keys, shift = bigger step)
+    dot.addEventListener('keydown', (e) => {
+      const step = e.shiftKey ? 0.05 : 0.01;
+      let handled = false;
+      if (e.key === 'ArrowLeft')  { exportState.focal.x = Math.max(0, exportState.focal.x - step); handled = true; }
+      if (e.key === 'ArrowRight') { exportState.focal.x = Math.min(1, exportState.focal.x + step); handled = true; }
+      if (e.key === 'ArrowUp')    { exportState.focal.y = Math.max(0, exportState.focal.y - step); handled = true; }
+      if (e.key === 'ArrowDown')  { exportState.focal.y = Math.min(1, exportState.focal.y + step); handled = true; }
+      if (handled) {
+        e.preventDefault();
+        updateFocalDotPosition();
+        renderAllPreviews();
+      }
+    });
+  }
+
+  // ---------- size grid ----------
+  function buildExportGrid() {
+    const grid = $('export-grid');
+    grid.innerHTML = '';
+    exportState.previews = [];
+
+    // Group EXPORT_SIZES by group name, preserving order of first appearance.
+    const byGroup = new Map();
+    EXPORT_SIZES.forEach(sz => {
+      if (!byGroup.has(sz.group)) byGroup.set(sz.group, []);
+      byGroup.get(sz.group).push(sz);
+    });
+
+    byGroup.forEach((sizes, groupName) => {
+      const groupEl = document.createElement('div');
+      groupEl.className = 'size-group';
+      const head = document.createElement('div');
+      head.className = 'size-group-head';
+      head.textContent = groupName;
+      groupEl.appendChild(head);
+
+      const list = document.createElement('div');
+      list.className = 'size-list';
+      sizes.forEach(sz => list.appendChild(buildSizeCard(sz)));
+      groupEl.appendChild(list);
+
+      grid.appendChild(groupEl);
+    });
+  }
+
+  function buildSizeCard(sz) {
+    const card = document.createElement('div');
+    card.className = 'size-card';
+
+    const warning = document.createElement('div');
+    warning.className = 'warning-dot';
+    warning.hidden = true;
+    warning.title = 'extreme crop — consider regenerating native at this size.';
+    card.appendChild(warning);
+
+    // Thumbnail bounding-box (120×120) keeps cards visually consistent;
+    // canvas inside is sized to the target aspect.
+    const thumbWrap = document.createElement('div');
+    thumbWrap.className = 'size-thumb-wrap';
+    const cv = document.createElement('canvas');
+    cv.className = 'size-thumb';
+    thumbWrap.appendChild(cv);
+    card.appendChild(thumbWrap);
+
+    const meta = document.createElement('div');
+    meta.className = 'size-meta';
+    const nameEl = document.createElement('div');
+    nameEl.className = 'size-name';
+    nameEl.textContent = sz.name;
+    const dimEl = document.createElement('div');
+    dimEl.className = 'size-dim';
+    dimEl.textContent = `${sz.w}×${sz.h}`;
+    meta.appendChild(nameEl);
+    meta.appendChild(dimEl);
+    card.appendChild(meta);
+
+    const dlBtn = document.createElement('button');
+    dlBtn.type = 'button';
+    dlBtn.className = 'size-download';
+    dlBtn.textContent = 'download';
+    dlBtn.addEventListener('click', () => downloadOne(sz));
+    card.appendChild(dlBtn);
+
+    exportState.previews.push({ canvas: cv, size: sz, warningEl: warning });
+    return card;
+  }
+
+  function renderAllPreviews() {
+    if (!exportState.image) return;
+    exportState.previews.forEach(p => renderOnePreview(p));
+  }
+
+  function renderOnePreview(p) {
+    const sz = p.size;
+    const cv = p.canvas;
+    const targetAR = sz.w / sz.h;
+    // Fit thumb inside a 120×120 box (long edge = 120).
+    let tw, th;
+    if (targetAR >= 1) { tw = 120; th = Math.round(120 / targetAR); }
+    else               { th = 120; tw = Math.round(120 * targetAR); }
+    cv.width = tw; cv.height = th;
+    cv.style.width = tw + 'px'; cv.style.height = th + 'px';
+    const ctx = cv.getContext('2d');
+    ctx.imageSmoothingQuality = 'high';
+    const crop = computeCrop(exportState.image, exportState.focal, sz.w, sz.h);
+    ctx.clearRect(0, 0, tw, th);
+    ctx.drawImage(exportState.image, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, tw, th);
+    p.warningEl.hidden = !isExtremeCrop(crop);
+  }
+
+  // ---------- single + zip downloads ----------
+  function generateExportBlob(sz) {
+    return new Promise((resolve, reject) => {
+      if (!exportState.image) return reject(new Error('no source image'));
+      const c = document.createElement('canvas');
+      c.width = sz.w; c.height = sz.h;
+      const ctx = c.getContext('2d');
+      ctx.imageSmoothingQuality = 'high';
+      const crop = computeCrop(exportState.image, exportState.focal, sz.w, sz.h);
+      ctx.drawImage(exportState.image, crop.sx, crop.sy, crop.sw, crop.sh, 0, 0, sz.w, sz.h);
+      c.toBlob((blob) => {
+        if (blob) resolve(blob);
+        else reject(new Error('blob generation failed'));
+      }, 'image/jpeg', 0.92);
+    });
+  }
+
+  function fileNameFor(sz) {
+    return `${slugify(sz.group)}-${slugify(sz.name)}-${sz.w}x${sz.h}.jpg`;
+  }
+
+  async function downloadOne(sz) {
+    try {
+      const blob = await generateExportBlob(sz);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileNameFor(sz);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      showError(`download failed: ${err.message}`);
+    }
+  }
+
+  async function downloadAllZip() {
+    if (typeof JSZip === 'undefined') {
+      showError('zip library not loaded — check your network and reload');
+      return;
+    }
+    if (!exportState.image) return;
+    const btn = $('btn-zip');
+    const lbl = $('btn-zip-label');
+    btn.disabled = true;
+    const originalLabel = lbl.textContent;
+    lbl.textContent = 'building zip…';
+    try {
+      const zip = new JSZip();
+      for (const sz of EXPORT_SIZES) {
+        const blob = await generateExportBlob(sz);
+        zip.file(fileNameFor(sz), blob);
+      }
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+      const ts = Date.now();
+      const url = URL.createObjectURL(zipBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `assembl-vessel-pack-${ts}.zip`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      showError(`zip failed: ${err.message}`);
+    } finally {
+      btn.disabled = false;
+      lbl.textContent = originalLabel;
+    }
+  }
+
+  // ---------- export modal wiring ----------
+  function wireExportModal() {
+    $('export-close').addEventListener('click', closeExportModal);
+    $('export-backdrop').addEventListener('click', closeExportModal);
+    $('btn-zip').addEventListener('click', downloadAllZip);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !$('export-modal').hidden) closeExportModal();
+    });
+    $('size-prep-trigger').addEventListener('click', () => $('size-prep-file').click());
+    $('size-prep-file').addEventListener('change', (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) openExportFromFile(f);
+      e.target.value = '';
+    });
+    wireFocalDot();
+  }
+
+  // ---------- negative anchors (read-only) ----------
+  function renderAnchors() {
+    const wrap = $('anchors-chips');
+    if (!wrap) return;
+    wrap.innerHTML = '';
+    const flagSet = new Set(activeFlagNegatives());
+    // Dedupe across body + flag (e.g. "neon" / "sci-fi" appear in both lists in
+    // the canonical 2026-05-08 system — show once, classify as flag where overlap).
+    const seen = new Set();
+    let count = 0;
+    activeNegatives().forEach(a => {
+      if (seen.has(a)) return;
+      seen.add(a);
+      const chip = document.createElement('span');
+      chip.className = 'anchor-chip';
+      chip.textContent = a;
+      const isFlag = flagSet.has(a);
+      chip.title = isFlag ? `--no ${a}` : `body inline: no ${a}`;
+      if (isFlag) chip.dataset.kind = 'flag';
+      wrap.appendChild(chip);
+      count++;
+    });
+    const c = $('anchors-count');
+    if (c) c.textContent = `${count} pinned`;
+  }
+
+  // ---------- mode indicator ----------
+  function renderModeIndicator() {
+    const ind = $('mode-indicator');
+    if (!ind) return;
+    if (state.mode === 'video') {
+      const m = VIDEO_MODELS[state.videoModel] || VIDEO_MODELS.kling2;
+      const hasRef = !!(state.reference && state.reference.dataUrl);
+      const isI2V = hasRef && m.supportsI2V;
+      const tag = isI2V ? 'image-to-video' : 'text-to-video';
+      const refNote = (hasRef && !m.supportsI2V) ? ' · reference ignored (model is text-only)' : '';
+      ind.innerHTML = `mode: <span class="accent">${tag}</span> · ${m.display.toLowerCase()} · ${state.videoDuration} · ${state.videoAR}${refNote}`;
+      return;
+    }
+    if (state.reference && state.reference.dataUrl) {
+      const mapped = reduxAspectFor(state.ar);
+      const arNote = mapped !== state.ar ? ` · ar ${state.ar} → ${mapped}` : '';
+      ind.innerHTML = `mode: <span class="accent">image-to-image</span> · flux pro v1.1 ultra/redux · anchor ${state.imagePromptStrength.toFixed(2)}${arNote}`;
+    } else {
+      ind.innerHTML = `mode: <span class="accent">text-to-image</span> · flux pro v1.1`;
+    }
+  }
+
+  function updateGenerateLabel() {
+    if (state.generating) return;
+    if (state.mode === 'video') {
+      if (state.videoConfirming) return;  // confirmation label set by generateVideo
+      const hasRef = !!(state.reference && state.reference.dataUrl);
+      const m = VIDEO_MODELS[state.videoModel];
+      const canI2V = hasRef && m && m.supportsI2V;
+      $('btn-label').textContent = canI2V ? 'generate video from reference' : 'generate video';
+      return;
+    }
+    $('btn-label').textContent = (state.reference && state.reference.dataUrl) ? 'generate from reference' : 'generate';
+  }
+
+  async function useGalleryAsReference(card) {
+    try {
+      const r = await fetch(card.image_url);
+      if (!r.ok) throw new Error(`fetch failed (${r.status})`);
+      const blob = await r.blob();
+      if (blob.size > REF_MAX_BYTES) throw new Error(`image too large (${humanBytes(blob.size)})`);
+      const dataUrl = await new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onload  = () => resolve(fr.result);
+        fr.onerror = () => reject(new Error('could not read blob'));
+        fr.readAsDataURL(blob);
+      });
+      const ts = Date.parse(card.generated_at) || Date.now();
+      state.reference = {
+        dataUrl,
+        filename: `gallery-${card.kete}-${ts}.jpg`,
+        sizeBytes: blob.size,
+      };
+      state.imagePromptStrength = 0.35;
+      saveReferenceToLS();
+      renderRefZone();
+      renderModeIndicator();
+      updateGenerateLabel();
+      hideError();
+      $('ref-zone').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (err) {
+      showError(`couldn't use gallery image as reference: ${err.message}`);
+    }
+  }
+
+  // ---------- generate ----------
+  function setGenerating(on) {
+    state.generating = on;
+    const btn = $('btn-generate');
+    btn.disabled = on;
+    if (on) {
+      $('btn-label').textContent = 'generating…';
+    } else {
+      updateGenerateLabel();
+    }
+    $('pulse').hidden = !on;
+  }
+
+  function showError(msg) {
+    const e = $('error-card');
+    e.textContent = `generation failed — ${msg}. check your key or try again.`;
+    e.classList.add('show');
+  }
+  function hideError() { $('error-card').classList.remove('show'); }
+
+  function flashKeyPanel() {
+    openKeyPanel(true);
+    const p = $('key-panel');
+    p.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    p.classList.add('key-prompt-flash');
+    setTimeout(() => p.classList.remove('key-prompt-flash'), 1400);
+    const inp = $('key-input');
+    inp.focus();
+    showError('paste a fal.ai key first');
+  }
+
+  async function generate() {
+    if (state.generating) return;
+    hideError();
+
+    const key = getKey();
+    if (!key) { flashKeyPanel(); return; }
+
+    setGenerating(true);
+
+    const promptForFal = composeForFal();
+    const promptFull   = composeFull();
+    const useRedux     = !!(state.reference && state.reference.dataUrl);
+
+    // Correct Fal endpoint for image-guided Flux Pro is v1.1-ultra/redux (slash, not hyphen).
+    // Verified: https://fal.ai/models/fal-ai/flux-pro/v1.1-ultra/redux/api
+    const endpoint = useRedux
+      ? 'https://fal.run/fal-ai/flux-pro/v1.1-ultra/redux'
+      : 'https://fal.run/fal-ai/flux-pro/v1.1';
+
+    const body = useRedux
+      ? {
+          prompt: promptForFal,
+          image_url: state.reference.dataUrl,
+          image_prompt_strength: state.imagePromptStrength,
+          aspect_ratio: reduxAspectFor(state.ar),  // 4:5 → 3:4 (redux enum doesn't include 4:5)
+          num_images: state.variants,
+          enable_safety_checker: true,
+          output_format: 'jpeg',
+        }
+      : {
+          prompt: promptForFal,
+          image_size: FAL_AR_MAP[state.ar] || 'square_hd',
+          num_inference_steps: 28,
+          guidance_scale: 3.5,
+          num_images: state.variants,
+          enable_safety_checker: true,
+          output_format: 'jpeg',
+        };
+
+    try {
+      const resp = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Key ${key}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!resp.ok) {
+        let detail = `${resp.status} ${resp.statusText}`;
+        try {
+          const errBody = await resp.json();
+          if (errBody && (errBody.detail || errBody.message || errBody.error)) {
+            const m = errBody.detail || errBody.message || errBody.error;
+            detail = typeof m === 'string' ? m : JSON.stringify(m);
+          }
+        } catch {}
+        // Friendlier hint when the reference is too large.
+        if (useRedux && /image_url|too large|payload|413|request entity/i.test(detail)) {
+          detail = `${detail} — try a smaller reference image (under ~5 MB)`;
+        }
+        throw new Error(detail.slice(0, 280));
+      }
+
+      const data = await resp.json();
+      const images = (data && data.images) || [];
+      if (!images.length) throw new Error('no images returned');
+
+      images.forEach(img => {
+        if (!img || !img.url) return;
+        addToGallery({
+          id: `${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
+          prompt_full: promptFull,
+          prompt_to_fal: promptForFal,
+          kete: state.kete,
+          ar: state.ar,
+          mode: useRedux ? 'redux' : 'text',
+          image_url: img.url,
+          generated_at: new Date().toISOString(),
+        });
+      });
+
+      bumpCost(images.length, useRedux ? 'redux' : 'text');
+    } catch (err) {
+      showError((err && err.message) ? err.message : 'unknown error');
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  // ---------- copy / reset ----------
+  async function copyPrompt() {
+    const txt = composeFull();
+    try {
+      await navigator.clipboard.writeText(txt);
+      const b = $('btn-copy');
+      b.classList.add('copied');
+      b.textContent = 'copied';
+      setTimeout(() => { b.classList.remove('copied'); b.textContent = 'copy prompt'; }, 1400);
+    } catch {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = txt;
+      document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      ta.remove();
+    }
+  }
+
+  function resetAll() {
+    state.kete = 'waihanga';
+    state.ar = '4:5';
+    state.motion = 'slow gentle rotation';
+    state.lighting = LIGHTING_OPTIONS[0];
+    state.sref = '';
+    state.variants = 1;
+    state.customMaterial = '';
+    state.customForm = '';
+    state.customPalette = '';
+    $('sref').value = '';
+    renderKete();
+    renderChips('ar-chips', AR_OPTIONS, 'ar');
+    renderChips('motion-chips', MOTION_OPTIONS, 'motion');
+    renderLighting();
+    renderVariants();
+    updatePrompt();
+  }
+
+  // ---------- wiring ----------
+  function wireRefZone() {
+    const zone = $('ref-zone');
+    const fileInput = $('ref-file');
+    if (!zone || !fileInput) return;
+
+    zone.addEventListener('click', () => {
+      if (!state.reference) fileInput.click();
+    });
+    zone.addEventListener('keydown', (e) => {
+      if ((e.key === 'Enter' || e.key === ' ') && !state.reference) {
+        e.preventDefault();
+        fileInput.click();
+      }
+    });
+    fileInput.addEventListener('change', (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (f) loadReferenceFile(f);
+      fileInput.value = '';
+    });
+
+    // Drag and drop
+    ['dragenter', 'dragover'].forEach(ev => {
+      zone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        zone.classList.add('dragging');
+      });
+    });
+    ['dragleave', 'drop'].forEach(ev => {
+      zone.addEventListener(ev, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        zone.classList.remove('dragging');
+      });
+    });
+    zone.addEventListener('drop', (e) => {
+      const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f) loadReferenceFile(f);
+    });
+
+    // Strength slider
+    const slider = $('strength-slider');
+    if (slider) {
+      slider.addEventListener('input', (e) => {
+        state.imagePromptStrength = parseFloat(e.target.value);
+        $('strength-val').textContent = state.imagePromptStrength.toFixed(2);
+        renderModeIndicator();
+      });
+    }
+  }
+
+  function wire() {
+    // sref input
+    $('sref').addEventListener('input', (e) => { state.sref = e.target.value; updatePrompt(); });
+
+    // variants
+    $('var-up').addEventListener('click', () => { state.variants = Math.min(4, state.variants + 1); renderVariants(); updatePrompt(); });
+    $('var-down').addEventListener('click', () => { state.variants = Math.max(1, state.variants - 1); renderVariants(); updatePrompt(); });
+
+    // reference image upload + strength slider
+    wireRefZone();
+
+    // key panel toggling
+    $('key-head').addEventListener('click', () => openKeyPanel($('key-panel').dataset.open !== 'true'));
+    $('key-head').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openKeyPanel($('key-panel').dataset.open !== 'true'); }
+    });
+
+    // key save / show / forget — three triggers all feed attemptKeySave():
+    // click on Save button, Enter in the input, or blur (clicking elsewhere).
+    $('key-save').addEventListener('click', attemptKeySave);
+    $('key-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); attemptKeySave(); } });
+    $('key-input').addEventListener('blur', () => {
+      // Auto-save if user typed something then tabbed away.
+      if (($('key-input').value || '').trim()) attemptKeySave();
+    });
+    $('key-show').addEventListener('click', (e) => {
+      const inp = $('key-input');
+      const showing = inp.type === 'text';
+      inp.type = showing ? 'password' : 'text';
+      e.currentTarget.textContent = showing ? 'show' : 'hide';
+      e.currentTarget.setAttribute('aria-pressed', showing ? 'false' : 'true');
+    });
+    $('key-forget').addEventListener('click', () => {
+      setKey('');
+      $('key-input').value = '';
+    });
+
+    // primary actions
+    $('btn-generate').addEventListener('click', () => {
+      if (state.mode === 'video') generateVideo();
+      else generate();
+    });
+    $('btn-copy').addEventListener('click', copyPrompt);
+    $('btn-reset').addEventListener('click', resetAll);
+
+    // mode toggle pills
+    $('mode-image').addEventListener('click', () => setMode('image'));
+    $('mode-video').addEventListener('click', () => setMode('video'));
+
+    // free prompt mode toggle
+    const fpt = $('free-prompt-toggle');
+    const fptxt = $('free-prompt-text');
+    if (fpt && fptxt) {
+      fpt.addEventListener('change', () => {
+        const on = fpt.checked;
+        const out = $('prompt-out');
+        const title = $('prompt-title');
+        if (on) {
+          // Prefill with the currently-composed prompt so user has a starting point
+          if (!fptxt.value.trim()) {
+            const seed = state.mode === 'video' ? composeVideoPrompt() : composeFull();
+            // Strip flags from seed for video-style free entry
+            fptxt.value = state.mode === 'video' ? seed : seed.replace(/--[a-z]+ [^-]*?(?=( --|$))/g, '').trim();
+          }
+          out.hidden = true;
+          fptxt.hidden = false;
+          if (title) title.textContent = 'free · custom';
+          if ($('prompt-meta')) $('prompt-meta').textContent = 'free prompt mode · kete grammar bypassed';
+        } else {
+          fptxt.hidden = true;
+          out.hidden = false;
+          if (title) title.textContent = 'composed';
+          updatePrompt();
+        }
+      });
+      // Update meta when typing in free mode
+      fptxt.addEventListener('input', () => {
+        if (fpt.checked && $('prompt-meta')) {
+          const len = (fptxt.value || '').trim().length;
+          $('prompt-meta').textContent = `free prompt mode · ${len} chars`;
+        }
+      });
+    }
+
+    // size export modal
+    wireExportModal();
+
+    // keyboard: Enter on Generate handled by native button
+  }
+
+  // ---------- init ----------
+  function init() {
+    // restore reference from previous session if present
+    state.reference = loadReferenceFromLS();
+
+    renderKete();
+    renderChips('ar-chips', AR_OPTIONS, 'ar');
+    renderChips('motion-chips', MOTION_OPTIONS, 'motion');
+    renderLighting();
+    renderVariants();
+    renderRefZone();
+    renderVideoCameraChips();
+    renderVideoDurationChips();
+    renderVideoARChips();
+    renderVideoModelOptions();
+    updateCostGuardrail();
+    renderAnchors();
+    renderModeIndicator();
+    updateGenerateLabel();
+    updatePrompt();
+    refreshKeyStatus();
+    renderGallery();
+    renderCost();
+    wire();
+    // open key panel on first load if no key, so it's discoverable
+    if (!getKey()) openKeyPanel(true);
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+
+<script>
+(function(){
+  const STORAGE_KEY = 'vessel-studio-brand-config';
+  const nameInput = document.getElementById('brandName');
+  const taglineInput = document.getElementById('brandTagline');
+  const nameDisplay = document.getElementById('brandDisplay');
+  const taglineDisplay = document.getElementById('taglineDisplay');
+
+  // Load saved values
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    if (saved.name) {
+      nameInput.value = saved.name;
+      nameDisplay.textContent = saved.name.toLowerCase() + ' · vessel studio';
+    }
+    if (saved.tagline) {
+      taglineInput.value = saved.tagline;
+      taglineDisplay.textContent = saved.tagline;
+    }
+  } catch(e) {}
+
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        name: nameInput.value,
+        tagline: taglineInput.value
+      }));
+    } catch(e) {}
+  }
+
+  nameInput.addEventListener('input', () => {
+    const v = nameInput.value.trim();
+    nameDisplay.textContent = v ? v.toLowerCase() + ' · vessel studio' : 'vessel studio';
+    save();
+  });
+  taglineInput.addEventListener('input', () => {
+    const v = taglineInput.value.trim();
+    taglineDisplay.textContent = v || 'a quiet prompt builder for hero imagery';
+    save();
+  });
+})();
+</script></body>
+</html>

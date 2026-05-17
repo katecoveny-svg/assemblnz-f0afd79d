@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>vessel studio — a quiet prompt builder for hero imagery</title>
+<meta name="description" content="vessel studio is a quiet prompt builder for hero imagery. Two editions: assembl-branded and white-label. Mobile-friendly. Built in Aotearoa.">
+<meta property="og:title" content="vessel studio — a quiet prompt builder for hero imagery">
+<meta property="og:description" content="Compose vessel hero imagery with flux 1.1 pro via fal.ai. Bring your own API key.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#FAF7F2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAF7F2;
+    --paper-soft: #EFEAE1;
+    --line: #D8D2C7;
+    --ink: #23211F;
+    --ink-soft: #4A4A4A;
+    --ink-faint: #8A8580;
+    --pounamu: #2B6B57;
+    --gold: #D4A853;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; overflow-x: hidden; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    min-height: 100vh;
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 28px 80px;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: lowercase;
+    color: var(--pounamu);
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
+    font-size: 52px;
+    line-height: 1.08;
+    margin: 0 0 28px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+
+  .intro {
+    font-size: 18px;
+    line-height: 1.55;
+    max-width: 620px;
+    color: var(--ink-soft);
+    margin: 0 0 56px;
+  }
+
+  .editions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+
+  .edition {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .edition.featured {
+    background: var(--paper-soft);
+    border-color: var(--pounamu);
+  }
+
+  .edition-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.20em;
+    text-transform: lowercase;
+    color: var(--pounamu);
+  }
+  .edition.featured .edition-eyebrow { color: var(--gold); }
+
+  .edition h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.15;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .edition p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .edition .feature-list {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--pounamu);
+    color: white;
+    text-decoration: none;
+    padding: 14px 22px;
+    border-radius: 999px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    min-height: 44px;
+    margin-top: auto;
+    transition: opacity .2s;
+  }
+  .cta:hover { opacity: .88; }
+  .cta.secondary {
+    background: white;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .cta .arrow { font-size: 14px; }
+
+  .footer-note {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--ink-faint);
+    text-transform: lowercase;
+    line-height: 1.7;
+  }
+  .footer-note a {
+    color: var(--pounamu);
+    text-decoration: none;
+  }
+  .footer-note a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+  @media (max-width: 720px) {
+    .container { padding: 36px 20px 60px; }
+    h1 { font-size: 38px; }
+    .intro { font-size: 16px; margin-bottom: 36px; }
+    .editions { grid-template-columns: 1fr; gap: 16px; }
+    .edition { padding: 22px 20px; }
+    .edition h2 { font-size: 24px; }
+  }
+
+  @media (max-width: 380px) {
+    h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+<main class="container">
+  <div class="eyebrow">built in aotearoa · vessel studio</div>
+  <h1>A quiet prompt builder for hero imagery.</h1>
+  <p class="intro">Two editions. Both work in your browser, both connect to flux 1.1 pro via fal.ai, both keep every image local. No uploads, no accounts, no servers between you and the model.</p>
+
+  <div class="editions">
+    <article class="edition featured">
+      <div class="edition-eyebrow">edition · assembl</div>
+      <h2>The assembl edition</h2>
+      <p>Pre-tuned for the nine kete vessels — pounamu, kōkōwai, kahurangi, karaka and the rest. Includes founder notes, brand canon, and the full kete preset library.</p>
+      <ul class="feature-list">
+        <li>· 9 kete vessel presets</li>
+        <li>· assembl brand canon baked in</li>
+        <li>· founder context · built in aotearoa</li>
+        <li>· flux 1.1 pro via fal.ai</li>
+      </ul>
+      <a class="cta" href="./vessel-studio.html">open the assembl edition <span class="arrow">→</span></a>
+    </article>
+
+    <article class="edition">
+      <div class="edition-eyebrow">edition · white-label</div>
+      <h2>The generic edition</h2>
+      <p>Same tool, no brand. Drop in your own name + tagline at the top and the page rebrands instantly. Your settings stay in your browser. Good for studios, agencies, and solo founders.</p>
+      <ul class="feature-list">
+        <li>· editable brand name + tagline</li>
+        <li>· settings saved to your browser</li>
+        <li>· same kete prompt structure</li>
+        <li>· flux 1.1 pro via fal.ai</li>
+      </ul>
+      <a class="cta secondary" href="./vessel-studio-generic.html">open the generic edition <span class="arrow">→</span></a>
+    </article>
+  </div>
+
+  <div class="footer-note">
+    bring your own fal.ai api key · all images stay local to your browser · nothing is uploaded · mobile-friendly<br>
+    made with <a href="https://www.assembl.co.nz">assembl</a> · mahi that earns its proof · built in aotearoa
+  </div>
+</main>
+</body>
+</html>
