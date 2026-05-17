@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "hapai — adoption for NZ teams";
+export const alt = "hapai — agent adoption tools";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -44,9 +44,9 @@ async function loadGoogleFont(
 }
 
 export default async function HapaiOpengraphImage() {
-  const headlineText = "HAPAI";
+  const headlineText = "hapai";
   const bodyText =
-    "assembl · adoption for nz teams. " +
+    "assembl · agent adoption tools. " +
     TIERS.join(" ") +
     " " +
     SESSIONS.join(" ") +
@@ -117,7 +117,7 @@ export default async function HapaiOpengraphImage() {
               display: "flex",
             }}
           >
-            HAPAI
+            hapai
           </div>
 
           {/* hairline under headline — pounamu + gold thread */}
