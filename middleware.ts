@@ -25,6 +25,10 @@ const matchesPrefix = (pathname: string, prefix: string) =>
   pathname === prefix || pathname.startsWith(`${prefix}/`);
 
 const shouldProxyToSpa = (pathname: string) => {
+  if (matchesPrefix(pathname, '/toro/school-survival')) {
+    return false;
+  }
+
   if (SPA_PUBLIC_PREFIXES.some((prefix) => matchesPrefix(pathname, prefix))) {
     return true;
   }
