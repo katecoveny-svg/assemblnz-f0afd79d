@@ -3,21 +3,21 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Press kit',
-  description: 'Logos, wordmarks, and brand assets for media use.',
+  description: 'Logos, wordmarks, founder portraits, and brand assets for media use.',
 };
 
 export default function PressPage() {
   return (
-    <main className="mx-auto max-w-3xl px-6 py-24">
+    <main className="mx-auto max-w-5xl px-6 py-24">
       <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
         Media
       </p>
       <h1 className="mt-3 font-display text-display-lg text-[color:var(--assembl-pounamu)]">
         Press kit
       </h1>
-      <p className="mt-4 text-body-md text-[color:var(--text-body)]">
-        Logos, wordmarks, and brand assets for media use. Please attribute as
-        &quot;assembl&quot; (lowercase). For interviews or commentary, email{' '}
+      <p className="mt-4 max-w-2xl text-body-md text-[color:var(--text-body)]">
+        Logos, wordmarks, founder portraits, and brand assets for media use. Please
+        attribute as &quot;assembl&quot; (lowercase). For interviews or commentary, email{' '}
         <a
           href="mailto:hello@assembl.co.nz"
           className="text-[color:var(--assembl-pounamu)] underline-offset-2 hover:underline"
@@ -27,48 +27,101 @@ export default function PressPage() {
         .
       </p>
 
-      <section className="mt-12 grid gap-12 md:grid-cols-2">
-        <div>
-          <h2 className="font-display text-display-sm">assembl wordmark</h2>
-          <Image
-            src="/img/press/assembl-wordmark.png"
-            alt="assembl wordmark"
-            width={600}
-            height={200}
-            className="mt-4 rounded-md bg-[#FAF7F2] p-8"
-          />
-          <a
-            href="/img/press/assembl-wordmark.png"
-            download
-            className="mt-2 inline-block text-sm underline underline-offset-2"
-          >
-            Download PNG
-          </a>
+      <section className="mt-12">
+        <h2 className="font-display text-display-sm">Wordmarks</h2>
+        <div className="mt-6 grid gap-12 md:grid-cols-2">
+          <div>
+            <h3 className="font-display text-2xl">assembl wordmark</h3>
+            <Image
+              src="/img/press/assembl-wordmark.png"
+              alt="assembl wordmark"
+              width={600}
+              height={200}
+              className="mt-4 rounded-md bg-[#FAF7F2] p-8"
+            />
+            <a
+              href="/img/press/assembl-wordmark.png"
+              download
+              className="mt-2 inline-block text-sm underline underline-offset-2"
+            >
+              Download PNG
+            </a>
+          </div>
+          <div>
+            <h3 className="font-display text-2xl">tōro wordmark</h3>
+            <Image
+              src="/img/press/toro-wordmark.png"
+              alt="tōro wordmark"
+              width={600}
+              height={200}
+              className="mt-4 rounded-md bg-[#FAF7F2] p-8"
+            />
+            <a
+              href="/img/press/toro-wordmark.png"
+              download
+              className="mt-2 inline-block text-sm underline underline-offset-2"
+            >
+              Download PNG
+            </a>
+          </div>
         </div>
-        <div>
-          <h2 className="font-display text-display-sm">tōro wordmark</h2>
-          <Image
-            src="/img/press/toro-wordmark.png"
-            alt="tōro wordmark"
-            width={600}
-            height={200}
-            className="mt-4 rounded-md bg-[#FAF7F2] p-8"
-          />
-          <a
-            href="/img/press/toro-wordmark.png"
-            download
-            className="mt-2 inline-block text-sm underline underline-offset-2"
-          >
-            Download PNG
-          </a>
+      </section>
+
+      <section className="mt-16">
+        <h2 className="font-display text-display-sm">Founder portraits</h2>
+        <p className="mt-3 max-w-2xl text-body-md text-[color:var(--text-body)]">
+          Press-ready portraits of Kate Hudson, founder of assembl. Please credit as
+          &quot;Kate Hudson, founder · assembl&quot;.
+        </p>
+        <div className="mt-6 grid gap-12 md:grid-cols-2">
+          <div>
+            <h3 className="font-display text-2xl">Editorial</h3>
+            <div className="relative mt-4 aspect-[4/5] overflow-hidden rounded-md bg-[#F4EFE7]">
+              <Image
+                src="/img/press/kate-hudson-portrait-tan-blazer-shelves.png"
+                alt="Kate Hudson, founder of assembl"
+                fill
+                sizes="(min-width: 768px) 480px, 100vw"
+                quality={82}
+                className="object-cover"
+              />
+            </div>
+            <a
+              href="/img/press/kate-hudson-portrait-tan-blazer-shelves.png"
+              download
+              className="mt-2 inline-block text-sm underline underline-offset-2"
+            >
+              Download PNG
+            </a>
+          </div>
+          <div>
+            <h3 className="font-display text-2xl">Headshot</h3>
+            <div className="relative mt-4 aspect-[4/5] overflow-hidden rounded-md bg-[#F4EFE7]">
+              <Image
+                src="/img/press/kate-hudson-portrait-white-shirt.png"
+                alt="Kate Hudson, founder of assembl"
+                fill
+                sizes="(min-width: 768px) 480px, 100vw"
+                quality={82}
+                className="object-cover"
+              />
+            </div>
+            <a
+              href="/img/press/kate-hudson-portrait-white-shirt.png"
+              download
+              className="mt-2 inline-block text-sm underline underline-offset-2"
+            >
+              Download PNG
+            </a>
+          </div>
         </div>
       </section>
 
       <section className="mt-16">
         <h2 className="font-display text-display-sm">One-page pitch</h2>
-        <p className="mt-3 text-body-md text-[color:var(--text-body)]">
-          A printable one-pager covering the headline, kete, pricing, and
-          contact details.
+        <p className="mt-3 max-w-2xl text-body-md text-[color:var(--text-body)]">
+          A printable one-pager covering the headline, kete, pricing, and contact
+          details.
         </p>
         <a
           href="/downloads/assembl-one-page-pitch.pdf"

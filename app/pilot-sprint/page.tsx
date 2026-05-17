@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CalendarDays, FileCheck2, Workflow } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
@@ -312,6 +313,48 @@ export default function PilotSprintPage() {
               </SectionReveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* From the founder — credibility anchor before the CTA */}
+      <section className="relative border-y border-[rgba(35,33,31,0.08)] bg-[#F4EFE7] py-20 md:py-28">
+        <div className="container">
+          <SectionReveal>
+            <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1fr_1fr] md:gap-14 xl:gap-20">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] shadow-[0_18px_56px_rgba(35,33,31,0.10)]">
+                <Image
+                  src="/img/pilot-sprint/kate-hudson-portrait-desk-workspace.png"
+                  alt="Kate Hudson, founder of assembl"
+                  fill
+                  sizes="(min-width: 1024px) 540px, 100vw"
+                  quality={82}
+                  className="object-cover"
+                />
+              </div>
+              <div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+                  From the founder
+                </p>
+                <h2
+                  className="mt-5 font-display leading-[0.98] tracking-tight"
+                  style={{ fontWeight: 300, fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+                >
+                  I sit with your team for the full two weeks.
+                </h2>
+                <div className="mt-6 space-y-4 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
+                  <p>
+                    A Pilot Sprint is hands-on. Your reviewer and I work side-by-side on
+                    real workflow inputs — not a slide deck, not a sandbox. By Friday of
+                    week two you have a working agent, an evidence pack, and a clear
+                    answer on whether to roll forward.
+                  </p>
+                  <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    Kate Hudson, founder
+                  </p>
+                </div>
+              </div>
+            </div>
+          </SectionReveal>
         </div>
       </section>
 

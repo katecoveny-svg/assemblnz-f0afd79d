@@ -69,10 +69,10 @@ export default function HapaiPage() {
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.92fr] lg:items-center">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-pounamu-100">
-              HAPAI · gamified AI adoption for NZ teams
+              HAPAI · gamified intelligent-tool adoption for NZ teams
             </p>
             <h1 className="mt-5 max-w-5xl font-cormorant text-[clamp(3.7rem,8vw,7.5rem)] leading-[0.88] tracking-tight text-mist-50">
-              Turn unused AI licences into team momentum.
+              Turn unused intelligent-tool licences into team momentum.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-mist-50/85 lg:text-xl">
               The tools work. The rollout fails. HAPAI gives teams a game loop:
