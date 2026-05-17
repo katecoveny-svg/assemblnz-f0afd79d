@@ -220,6 +220,7 @@
     .output-head { align-items: flex-start; flex-direction: column; }
   }
 </style>
+<link rel="stylesheet" href="/hapai/_scaffold/shell.css">
 </head>
 <body>
 <div class="brand-config">
@@ -279,10 +280,11 @@
 
 <footer class="bottom">brief generator · white-label edition · all generations stay local to your browser · made with assembl</footer>
 
+<script src="/hapai/_scaffold/shell.js"></script>
 <script>
 (() => {
   const LS_KEY = "assembl-tools-anthropic-key";
-  const BRAND_KEY = "brief-generator-brand-config";
+  const BRAND_KEY = "assembl-tools-brand-config";
   const MODEL = "claude-haiku-4-5-20251001";
   const $ = (id) => document.getElementById(id);
   let currentBrief = null;
