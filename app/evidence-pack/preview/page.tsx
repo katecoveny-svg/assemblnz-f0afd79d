@@ -26,7 +26,7 @@ const PACK_BLURBS: Record<string, { lede: string; note: string }> = {
       'The Family Court-ready posture pack. Hash-chained communication log, IRD-reconciled expense ledger, named navigator sign-off. The Evidence Act 2006 s 137 citation is doing real work here.',
   },
   pack_pikau_2026_05_11_maw: {
-    lede: 'Pīkau · Freight & Customs · entry MAW1234567 · DRAFT',
+    lede: 'Pīkau · Logistics · entry MAW1234567 · DRAFT',
     note:
       'A workflow pack still in Draft. The DRAFT watermark sits across every page; the hash-chain block reads "draft · not sealed · verifier inactive". Awaiting reviewer.',
   },
