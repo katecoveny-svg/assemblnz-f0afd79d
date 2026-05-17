@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+import sharp from 'sharp';
 import { getServiceClient } from '@/lib/supabase/service';
 import {
   checkPublicRateLimit,
@@ -12,28 +13,95 @@ export const dynamic = 'force-dynamic';
 const STORAGE_BUCKET = 'vessel-generations';
 
 /**
+ * Composite a small `assembl.co.nz` text mark onto the bottom-right of a
+ * generated image. Replaces the unreliable Fal-prompt-based watermark
+ * (Fal Flux often garbles requested text). Output stays the same encoding
+ * as the input: jpeg → jpeg, png → png, webp → webp.
+ *
+ * Skipped entirely for BYOK callers — they paid for the call, they get
+ * a clean image.
+ */
+async function applyWatermark(
+  bytes: ArrayBuffer,
+  contentType: string,
+): Promise<{ bytes: Buffer; contentType: string }> {
+  const input = Buffer.from(bytes);
+  const image = sharp(input);
+  const meta = await image.metadata();
+  const width = meta.width ?? 1024;
+  const height = meta.height ?? 1024;
+
+  // Scale the watermark to the image: ~3.2% of the height for the text
+  // baseline, padded 2.4% from the edges. Pounamu green at 88% opacity
+  // for legibility on the cream backgrounds we generate.
+  const fontSize = Math.max(14, Math.round(height * 0.032));
+  const padX = Math.round(width * 0.024);
+  const padY = Math.round(height * 0.024);
+  const text = 'assembl.co.nz';
+
+  const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+    <text x="${width - padX}" y="${height - padY}"
+      text-anchor="end"
+      font-family="'Helvetica Neue', Arial, sans-serif"
+      font-size="${fontSize}"
+      font-weight="500"
+      fill="#2B6B57"
+      fill-opacity="0.88"
+      letter-spacing="0.04em">${text}</text>
+  </svg>`;
+
+  let composited = image.composite([{ input: Buffer.from(svg), top: 0, left: 0 }]);
+
+  // Re-encode in the same format as the source so downstream MIME and the
+  // storage path extension stay consistent.
+  let outBytes: Buffer;
+  let outType = contentType;
+  if (contentType.includes('png')) {
+    outBytes = await composited.png({ quality: 92 }).toBuffer();
+    outType = 'image/png';
+  } else if (contentType.includes('webp')) {
+    outBytes = await composited.webp({ quality: 88 }).toBuffer();
+    outType = 'image/webp';
+  } else {
+    outBytes = await composited.jpeg({ quality: 90, mozjpeg: true }).toBuffer();
+    outType = 'image/jpeg';
+  }
+
+  return { bytes: outBytes, contentType: outType };
+}
+
+/**
  * Download a Fal.ai-hosted image and re-upload it to the
  * `vessel-generations` Supabase Storage bucket so the public share link
- * survives Fal's CDN expiry. Returns the bucket public URL on success.
- * Throws on any fetch / upload error so the caller can record
- * `mirror_failed=true` and fall back to the Fal URL.
+ * survives Fal's CDN expiry. Applies a server-side watermark unless the
+ * caller is BYOK. Returns the bucket public URL on success.
+ * Throws on any fetch / upload / watermark error so the caller can
+ * record `mirror_failed=true` and fall back to the Fal URL.
  */
 async function mirrorToStorage(
   service: ReturnType<typeof getServiceClient>,
   generationId: string,
   remoteUrl: string,
+  byok: boolean,
 ): Promise<string> {
   const res = await fetch(remoteUrl);
   if (!res.ok) {
     throw new Error(`Fetching Fal image failed: ${res.status}`);
   }
-  const contentType = res.headers.get('content-type') ?? 'image/jpeg';
+  let contentType = res.headers.get('content-type') ?? 'image/jpeg';
+  let bytes: ArrayBuffer | Buffer = await res.arrayBuffer();
+
+  if (!byok) {
+    const watermarked = await applyWatermark(bytes, contentType);
+    bytes = watermarked.bytes;
+    contentType = watermarked.contentType;
+  }
+
   const ext = contentType.includes('png')
     ? 'png'
     : contentType.includes('webp')
       ? 'webp'
       : 'jpg';
-  const bytes = await res.arrayBuffer();
   const path = `gen/${generationId}.${ext}`;
   const { error } = await service.storage
     .from(STORAGE_BUCKET)
@@ -74,18 +142,15 @@ function safeBrandColor(value: string): string {
  * The locked vessel aesthetic. Brand parameters are baked in here so a
  * visitor can only supply the subject, never override the form.
  *
- * Watermark is only added when not BYOK — BYOK callers paid for the call,
- * they get a clean image.
+ * Watermark is no longer requested from Fal — it's composited server-side
+ * in `applyWatermark` after generation. Fal Flux was unreliable at
+ * rendering specific text and frequently produced garbled marks.
  */
 function buildPrompt(args: {
   brandName: string;
   brandColor: string;
   userPrompt: string;
-  byok: boolean;
 }): string {
-  const watermark = args.byok
-    ? ''
-    : ', "assembl.co.nz" watermark text in bottom right corner';
   return [
     `ceramic still-life vessel in ${args.brandColor},`,
     'cast from inside vessel mouth,',
@@ -93,7 +158,6 @@ function buildPrompt(args: {
     `(#FAF7F2), ${args.brandName} subtly visible on vessel surface,`,
     args.userPrompt + ',',
     'soft natural light, editorial fine-art photography',
-    watermark,
   ]
     .filter(Boolean)
     .join(' ')
@@ -132,7 +196,7 @@ export async function POST(req: NextRequest) {
     return json({ error: 'Vessel generator is not configured.' }, 500);
   }
 
-  const prompt = buildPrompt({ brandName, brandColor, userPrompt, byok });
+  const prompt = buildPrompt({ brandName, brandColor, userPrompt });
 
   // Pre-allocate so the storage path `gen/<uuid>.<ext>` is deterministic
   // and the eventual DB row id matches the storage path.
@@ -228,7 +292,7 @@ export async function POST(req: NextRequest) {
   // the row so a future retry cron can pick it up.
   const service = getServiceClient();
   try {
-    imageUrl = await mirrorToStorage(service, generationId, falImageUrl);
+    imageUrl = await mirrorToStorage(service, generationId, falImageUrl, byok);
   } catch (err) {
     mirrorFailed = true;
     imageUrl = falImageUrl;
