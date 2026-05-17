@@ -54,9 +54,9 @@ const tools = [
   },
   {
     name: 'Tagline workshop',
-    status: 'coming soon',
-    description: 'Tagline candidates',
-    href: null,
+    status: 'live',
+    description: 'Tagline candidates in five styles',
+    href: '/hapai/tagline-workshop/',
     image: '/img/kete/toro-vessel-charcoal.jpg',
   },
 ] as const;

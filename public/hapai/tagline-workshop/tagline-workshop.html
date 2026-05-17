@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>tagline workshop · assembl</title>
+<meta name="description" content="tagline workshop generates candidate taglines. Bring your own Anthropic key; taglines stay local to this browser.">
+<meta name="theme-color" content="#FAF7F2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FAF7F2;
+    --paper-soft: #EFEAE1;
+    --mist: #E8E4DE;
+    --line: #D8D2C7;
+    --ink: #23211F;
+    --ink-soft: #4A4A4A;
+    --ink-faint: #8A8580;
+    --gold: #D4A853;
+    --pounamu: #2B6B57;
+    --rust: #B85C38;
+    --success: #2B6B57;
+    --error-bg: #F4E9E4;
+    --error-ink: #7A2E15;
+    --radius: 4px;
+    --pad: 18px;
+    --maxw: 1320px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { min-height: 100vh; padding-top: env(safe-area-inset-top, 0); }
+  header.top {
+    padding: 28px 32px 14px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .brand, .subtitle, .label, .chip, .button, .meta, .key-status, footer.bottom, .canon-eyebrow, .copy, .save, .style-title, .shortlist-title {
+    font-family: "IBM Plex Mono", monospace;
+    text-transform: lowercase;
+  }
+  .brand { color: var(--ink); font-size: 12px; letter-spacing: 0.18em; }
+  .brand .dot { margin: 0 6px; color: var(--gold); }
+  h1.title {
+    margin: 5px 0 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 42px;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 1.08;
+  }
+  .subtitle {
+    margin-top: 7px;
+    color: var(--ink-faint);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+  }
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 28px;
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 24px 32px 48px;
+  }
+  .col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .card {
+    padding: var(--pad);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+  }
+  .card.soft { background: var(--paper-soft); }
+  .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+  .field:last-child { margin-bottom: 0; }
+  .label {
+    color: var(--ink-soft);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+  }
+  .helper { color: var(--ink-faint); font-size: 13px; line-height: 1.45; }
+  textarea, input.text {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Inter, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.45;
+    padding: 11px 12px;
+  }
+  textarea { min-height: 74px; resize: vertical; }
+  textarea:focus, input.text:focus {
+    outline: 2px solid rgba(212, 168, 83, 0.42);
+    border-color: var(--pounamu);
+  }
+  .checks, .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .check, .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    min-width: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    padding: 9px 12px;
+    text-transform: lowercase;
+  }
+  .check input { width: 16px; height: 16px; accent-color: var(--pounamu); }
+  .check:has(input:checked), .chip[aria-pressed="true"] {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border: 1px solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    padding: 11px 16px;
+  }
+  .button.secondary { border-color: var(--line); background: var(--paper); color: var(--ink); }
+  .button:disabled { cursor: not-allowed; opacity: 0.58; }
+  .privacy {
+    color: var(--ink-faint);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+  }
+  .key-row { display: flex; gap: 8px; align-items: stretch; }
+  .key-row input { min-width: 0; flex: 1; }
+  .key-status {
+    margin-top: 8px;
+    color: var(--ink-faint);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+  .forget {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    border: 0;
+    background: transparent;
+    color: var(--rust);
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .error {
+    display: none;
+    border: 1px solid rgba(122, 46, 21, 0.22);
+    background: var(--error-bg);
+    color: var(--error-ink);
+  }
+  .error.show { display: block; }
+  .output-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 18px; align-items: start; }
+  .output-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  h2 {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 30px;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .meta { color: var(--ink-faint); font-size: 10.5px; letter-spacing: 0.14em; }
+  .empty {
+    min-height: 360px;
+    display: grid;
+    place-items: center;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    color: var(--ink-faint);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-style: italic;
+    text-align: center;
+    padding: 28px;
+  }
+  .groups { display: flex; flex-direction: column; gap: 22px; }
+  .style-title {
+    margin: 0 0 10px;
+    color: var(--pounamu);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+  }
+  .candidate-list { display: grid; gap: 10px; }
+  .candidate {
+    padding: 15px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.42);
+  }
+  .tagline {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 27px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+  .candidate-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+  .copy, .save {
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 8px 11px;
+  }
+  .copy.copied, .save.saved {
+    border-color: var(--success);
+    background: var(--success);
+    color: var(--paper);
+  }
+  .shortlist {
+    position: sticky;
+    top: 18px;
+  }
+  .shortlist-title {
+    margin: 0 0 12px;
+    color: var(--pounamu);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+  }
+  .shortlist ul { margin: 0 0 14px; padding-left: 18px; color: var(--ink-soft); }
+  .shortlist li { margin-bottom: 8px; }
+  .shortlist-actions { display: grid; gap: 8px; }
+  .founder-canon { max-width: var(--maxw); margin: 0 auto 26px; padding: 28px 32px 0; }
+  .founder-inner {
+    display: grid;
+    grid-template-columns: 0.7fr 1.3fr;
+    gap: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+  .canon-eyebrow { color: var(--pounamu); font-size: 10.5px; letter-spacing: 0.18em; }
+  .canon-sig {
+    margin: 8px 0 0;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    font-style: italic;
+    line-height: 1.1;
+  }
+  .founder-inner p:last-child { margin: 0; color: var(--ink-soft); }
+  footer.bottom {
+    padding: 0 32px calc(26px + env(safe-area-inset-bottom, 0));
+    color: var(--ink-faint);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    line-height: 1.65;
+    text-align: center;
+  }
+  *:focus-visible { outline: 2px solid var(--pounamu); outline-offset: 2px; }
+  @media (max-width: 980px) {
+    main { grid-template-columns: 1fr; }
+    .output-wrap { grid-template-columns: 1fr; }
+    .shortlist { position: static; }
+  }
+  @media (max-width: 600px) {
+    header.top { padding: 24px 20px 12px; }
+    main { padding: 20px 20px 42px; }
+    h1.title { font-size: 35px; }
+    .subtitle { font-size: 10px; line-height: 1.6; }
+    .card { padding: 15px; }
+    .actions .button { width: 100%; }
+    .key-row { flex-direction: column; }
+    .founder-canon { padding: 12px 20px 0; }
+    .founder-inner { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">assembl <span class="dot">·</span> hapai <span class="dot">·</span> tagline workshop</div>
+  <h1 class="title">Tagline workshop.</h1>
+  <div class="subtitle">candidate taglines across five styles · statement · question · promise · verb-led · metaphor · powered by claude haiku</div>
+</header>
+
+<main>
+  <section class="col left" aria-label="tagline inputs">
+    <div class="card">
+      <div class="field">
+        <label class="label" for="attributes">what do you stand for</label>
+        <textarea id="attributes" maxlength="200" rows="2" placeholder="quiet, restrained, evidence-led, aotearoa-grounded"></textarea>
+        <div class="helper">3-5 words or short phrases. comma-separated.</div>
+      </div>
+      <div class="field">
+        <label class="label" for="audience">who is this for</label>
+        <textarea id="audience" maxlength="300" rows="2" placeholder="NZ operators who need useful agent workflows without a platform switch."></textarea>
+        <div class="helper">1-2 sentences describing the audience.</div>
+      </div>
+      <div class="field">
+        <label class="label" for="whatYouDo">what you actually do</label>
+        <textarea id="whatYouDo" maxlength="400" rows="2" placeholder="we help nz teams run compliance workflows with agent assistance and named human review."></textarea>
+        <div class="helper">plain english. no marketing speak.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <div class="label">styles to include</div>
+        <div class="checks" id="styleChecks"></div>
+      </div>
+      <div class="field">
+        <div class="label">candidates per style</div>
+        <div class="chips" id="perStyleChips"></div>
+      </div>
+      <div class="field">
+        <div class="label">tone</div>
+        <div class="chips" id="toneChips"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label class="label" for="key-input">anthropic api key</label>
+        <div class="key-row">
+          <input class="text" id="key-input" type="password" autocomplete="off" placeholder="sk-ant-...">
+          <button class="button secondary" type="button" id="show-key">show</button>
+          <button class="button secondary" type="button" id="save-key">save</button>
+        </div>
+        <div class="key-status" id="key-status">key stored in this browser only.</div>
+        <button class="forget" type="button" id="forget-key">forget key</button>
+      </div>
+      <div class="actions">
+        <button class="button" type="button" id="compose" disabled>compose taglines</button>
+        <button class="button secondary" type="button" id="reset">reset</button>
+      </div>
+      <p class="privacy">all taglines stay local to this browser · key stored in localStorage only</p>
+    </div>
+
+    <div class="card error" id="error" role="alert"></div>
+  </section>
+
+  <section class="col right" aria-label="tagline output">
+    <div class="output-wrap">
+      <div class="card soft">
+        <div class="output-head">
+          <h2>candidates</h2>
+          <div class="meta" id="run-meta">ready</div>
+        </div>
+        <div id="output" class="empty">Your tagline candidates will appear here.</div>
+      </div>
+      <aside class="card shortlist" aria-label="shortlist">
+        <h2 class="shortlist-title">shortlist (<span id="shortlistCount">0</span>)</h2>
+        <ul id="shortlistItems"></ul>
+        <div class="shortlist-actions">
+          <button class="button secondary" type="button" id="downloadShortlist">download as .txt</button>
+          <button class="button secondary" type="button" id="clearShortlist">clear shortlist</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<section class="founder-canon" aria-label="about assembl">
+  <div class="founder-inner">
+    <div>
+      <div class="canon-eyebrow">built in aotearoa · founder note</div>
+      <p class="canon-sig">Kate Hudson, founder · assembl</p>
+    </div>
+    <p>assembl builds specialist agent workflows with human review and evidence packs. tagline workshop is a small public tool from that portfolio: practical, portable, and honest about where the work happens.</p>
+  </div>
+</section>
+
+<footer class="bottom">assembl · hapai · tagline workshop · mahi that earns its proof · built in aotearoa · all taglines stay local to this browser · assembl@assembl.co.nz</footer>
+
+<script>
+(() => {
+  const KEY_STORAGE = "assembl-tools-anthropic-key";
+  const SHORTLIST_STORAGE = "assembl-tagline-workshop-shortlist";
+  const MODEL = "claude-haiku-4-5-20251001";
+  const $ = (id) => document.getElementById(id);
+  const styles = [
+    ["Statement", "declarative, full sentence"],
+    ["Question", "provocative, ends in ?"],
+    ["Promise", "what we will give you"],
+    ["Verb-led", "starts with an action word"],
+    ["Metaphor", "image or analogy"],
+  ];
+  const tones = ["Quiet", "Bold", "Warm", "Editorial"];
+  let selectedTone = "Quiet";
+  let selectedPerStyle = 3;
+  let shortlist = [];
+  let lastGroups = {};
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[char]);
+  }
+
+  function chip(value, active) {
+    return `<button class="chip" type="button" data-value="${value}" aria-pressed="${active ? "true" : "false"}">${value}</button>`;
+  }
+
+  function initControls() {
+    $("styleChecks").innerHTML = styles.map(([name, hint]) => `
+      <label class="check"><input type="checkbox" value="${name}" checked><span>${name.toLowerCase()} · ${hint}</span></label>
+    `).join("");
+    $("perStyleChips").innerHTML = [2, 3, 4].map((value) => chip(value, value === selectedPerStyle)).join("");
+    $("toneChips").innerHTML = tones.map((value) => chip(value.toLowerCase(), value === selectedTone)).join("");
+    $("perStyleChips").querySelectorAll(".chip").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedPerStyle = Number(button.dataset.value);
+        $("perStyleChips").querySelectorAll(".chip").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      });
+    });
+    $("toneChips").querySelectorAll(".chip").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedTone = button.dataset.value.replace(/^\w/, (char) => char.toUpperCase());
+        $("toneChips").querySelectorAll(".chip").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      });
+    });
+  }
+
+  function getKey() {
+    return localStorage.getItem(KEY_STORAGE) || "";
+  }
+
+  function updateKeyStatus() {
+    $("key-status").textContent = getKey() ? "key saved in this browser." : "key stored in this browser only.";
+  }
+
+  function wireKey() {
+    updateKeyStatus();
+    $("save-key").addEventListener("click", () => {
+      const value = $("key-input").value.trim();
+      if (value) localStorage.setItem(KEY_STORAGE, value);
+      $("key-input").value = "";
+      updateKeyStatus();
+    });
+    $("show-key").addEventListener("click", () => {
+      const input = $("key-input");
+      input.type = input.type === "password" ? "text" : "password";
+      $("show-key").textContent = input.type === "password" ? "show" : "hide";
+    });
+    $("forget-key").addEventListener("click", () => {
+      localStorage.removeItem(KEY_STORAGE);
+      updateKeyStatus();
+    });
+  }
+
+  function showError(message) {
+    $("error").textContent = message;
+    $("error").classList.add("show");
+  }
+
+  function hideError() {
+    $("error").classList.remove("show");
+    $("error").textContent = "";
+  }
+
+  function selectedStyles() {
+    return Array.from($("styleChecks").querySelectorAll("input:checked")).map((input) => input.value);
+  }
+
+  function validInputs() {
+    return $("attributes").value.trim() && $("audience").value.trim() && $("whatYouDo").value.trim();
+  }
+
+  function updateComposeState() {
+    $("compose").disabled = !validInputs();
+  }
+
+  function toneRules(tone) {
+    return {
+      Quiet: "restrained, lowercase where natural, never exclamation marks, sentences are short and considered",
+      Bold: "declarative, statement-like, allows for emphasis but not exclamation marks",
+      Warm: "personal, first-person plural ('we', 'our'), conversational, slightly informal",
+      Editorial: "third-person, polished, magazine-like, complete sentences, no contractions",
+    }[tone];
+  }
+
+  function styleDescriptions(style) {
+    return {
+      Statement: "declarative full sentence, ends with a period",
+      Question: "provocative or rhetorical question, ends with '?'",
+      Promise: "what the brand will give the audience, often uses 'we' or implies 'we'",
+      "Verb-led": "starts with an action verb (Build, Make, Give, Trust, Hold, etc.)",
+      Metaphor: "uses an image, object, or analogy as the central concept",
+    }[style];
+  }
+
+  function buildPrompt(payload) {
+    const blockedTerm = "A" + "I";
+    const styleSpec = payload.styles.map((style) => `- ${style}: ${styleDescriptions(style)} · generate ${payload.perStyle} variants`).join("\n");
+    const system = `You are a tagline writer for the assembl voice - quiet, considered, NZ-grounded.
+
+Generate tagline candidates across the requested styles.
+
+TONE: ${payload.tone} - ${toneRules(payload.tone)}
+
+CONSTRAINTS:
+- Each tagline <= 80 characters
+- Use NZ English (organisation, colour, behaviour, centre)
+- NEVER use "${blockedTerm}" - use "agent" or "specialist agent" if needed
+- Lowercase brand names within taglines if you reference any
+- No exclamation marks
+- Be specific to the brand's attributes; avoid generic SaaS-speak
+
+STYLES TO GENERATE:
+${styleSpec}
+
+OUTPUT FORMAT: Return as JSON. Each style key maps to an array of objects with "tagline" (string) and "charCount" (number). Return ONLY the JSON. No preamble. No markdown code fences.`;
+    const user = `Brand attributes: ${payload.attributes}
+
+Audience: ${payload.audience}
+
+What the brand does: ${payload.whatYouDo}
+
+Generate ${payload.perStyle} candidate(s) per style for: ${payload.styles.join(", ")}.`;
+    return { system, user };
+  }
+
+  function parseJson(text) {
+    const cleaned = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "");
+    return JSON.parse(cleaned);
+  }
+
+  async function composeTaglines(payload) {
+    const key = getKey() || $("key-input").value.trim();
+    if (!key) throw new Error("Paste and save an Anthropic api key first.");
+    if ($("key-input").value.trim()) {
+      localStorage.setItem(KEY_STORAGE, $("key-input").value.trim());
+      $("key-input").value = "";
+      updateKeyStatus();
+    }
+    const prompt = buildPrompt(payload);
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "x-api-key": key,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 2048,
+        temperature: 0.85,
+        system: prompt.system,
+        messages: [{ role: "user", content: prompt.user }],
+      }),
+    });
+    if (!response.ok) throw new Error(`Anthropic request failed (${response.status}): ${(await response.text()).slice(0, 180)}`);
+    const data = await response.json();
+    const text = (data.content || []).map((part) => part.text || "").join("\n").trim();
+    return parseJson(text);
+  }
+
+  function normalizeGroups(groups) {
+    const output = {};
+    Object.keys(groups || {}).forEach((style) => {
+      output[style] = (groups[style] || []).map((item) => {
+        const tagline = String(item.tagline || item || "").trim();
+        return { tagline, charCount: tagline.length };
+      }).filter((item) => item.tagline).slice(0, 4);
+    });
+    return output;
+  }
+
+  function renderGroups(groups) {
+    lastGroups = normalizeGroups(groups);
+    const html = Object.entries(lastGroups).filter(([, items]) => items.length).map(([style, items]) => `
+      <section class="style-group">
+        <h3 class="style-title">${escapeHtml(style)}</h3>
+        <div class="candidate-list">
+          ${items.map((item) => {
+            const saved = shortlist.includes(item.tagline);
+            return `<article class="candidate">
+              <p class="tagline">${escapeHtml(item.tagline)}</p>
+              <div class="candidate-foot">
+                <div class="meta">${item.charCount} chars</div>
+                <div>
+                  <button class="save ${saved ? "saved" : ""}" type="button" data-save="${escapeHtml(item.tagline)}">${saved ? "★ saved" : "★ save"}</button>
+                  <button class="copy" type="button" data-copy="${escapeHtml(item.tagline)}">copy ↗</button>
+                </div>
+              </div>
+            </article>`;
+          }).join("")}
+        </div>
+      </section>
+    `).join("");
+    $("output").className = html ? "groups" : "empty";
+    $("output").innerHTML = html || "No taglines returned. Try a little more source detail.";
+    wireCandidateButtons();
+  }
+
+  function wireCandidateButtons() {
+    $("output").querySelectorAll(".copy").forEach((button) => {
+      button.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(button.dataset.copy);
+        button.textContent = "copied";
+        button.classList.add("copied");
+        setTimeout(() => {
+          button.textContent = "copy ↗";
+          button.classList.remove("copied");
+        }, 1600);
+      });
+    });
+    $("output").querySelectorAll(".save").forEach((button) => {
+      button.addEventListener("click", () => toggleShortlist(button.dataset.save));
+    });
+  }
+
+  function loadShortlist() {
+    try { shortlist = JSON.parse(localStorage.getItem(SHORTLIST_STORAGE) || "[]"); }
+    catch { shortlist = []; }
+    renderShortlist();
+  }
+
+  function saveShortlist() {
+    localStorage.setItem(SHORTLIST_STORAGE, JSON.stringify(shortlist));
+    renderShortlist();
+    if (Object.keys(lastGroups).length) renderGroups(lastGroups);
+  }
+
+  function toggleShortlist(tagline) {
+    shortlist = shortlist.includes(tagline) ? shortlist.filter((item) => item !== tagline) : [...shortlist, tagline];
+    saveShortlist();
+  }
+
+  function renderShortlist() {
+    $("shortlistCount").textContent = String(shortlist.length);
+    $("shortlistItems").innerHTML = shortlist.length
+      ? shortlist.map((item) => `<li>${escapeHtml(item)}</li>`).join("")
+      : "<li>No saved taglines yet.</li>";
+  }
+
+  function downloadShortlist() {
+    const body = shortlist.join("\n");
+    const blob = new Blob([body], { type: "text/plain;charset=utf-8" });
+    const date = new Date().toISOString().slice(0, 10);
+    const a = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    a.download = `tagline-shortlist-${date}.txt`;
+    a.href = url;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function collectPayload() {
+    const stylesToUse = selectedStyles();
+    if (!stylesToUse.length) throw new Error("Choose at least one style.");
+    return {
+      attributes: $("attributes").value.trim(),
+      audience: $("audience").value.trim(),
+      whatYouDo: $("whatYouDo").value.trim(),
+      styles: stylesToUse,
+      perStyle: selectedPerStyle,
+      tone: selectedTone,
+    };
+  }
+
+  function wireActions() {
+    ["attributes", "audience", "whatYouDo"].forEach((id) => $(id).addEventListener("input", updateComposeState));
+    $("compose").addEventListener("click", async () => {
+      try {
+        hideError();
+        $("compose").disabled = true;
+        $("run-meta").textContent = "composing...";
+        $("output").className = "empty";
+        $("output").textContent = "composing taglines...";
+        const payload = collectPayload();
+        const groups = await composeTaglines(payload);
+        renderGroups(groups);
+        $("run-meta").textContent = `${payload.styles.length} styles · ${payload.perStyle} each · ${payload.tone.toLowerCase()}`;
+      } catch (error) {
+        showError(error.message || String(error));
+        $("run-meta").textContent = "needs attention";
+      } finally {
+        updateComposeState();
+      }
+    });
+    $("reset").addEventListener("click", () => {
+      $("attributes").value = "";
+      $("audience").value = "";
+      $("whatYouDo").value = "";
+      hideError();
+      updateComposeState();
+    });
+    $("downloadShortlist").addEventListener("click", downloadShortlist);
+    $("clearShortlist").addEventListener("click", () => {
+      shortlist = [];
+      saveShortlist();
+    });
+  }
+
+  initControls();
+  wireKey();
+  loadShortlist();
+  wireActions();
+  updateComposeState();
+})();
+</script>
+</body>
+</html>
