@@ -291,7 +291,7 @@ function ShareCluster({
   sessions: number;
 }) {
   const [copied, setCopied] = useState(false);
-  const shareText = `My team sits at ${tier.slug} — ${tier.english} (~${sessions} sessions/month).\n\nThe HAPAI adoption framework from assembl maps where NZ teams actually are with intelligent tools vs where they paid to be. Try it:`;
+  const shareText = `My team sits at ${tier.slug} — ${tier.english} (~${sessions} sessions/month).\n\nThe HAPAI library from assembl maps where NZ teams actually are with intelligent tools vs where they paid to be. Try it:`;
 
   function copyLink() {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -305,7 +305,7 @@ function ShareCluster({
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({
-          title: "HAPAI — your team's adoption tier",
+          title: "HAPAI — your team's agent adoption tier",
           text: shareText,
           url: shareUrl,
         });

@@ -72,7 +72,7 @@ export default function ElectrifyFormPage() {
               <a href="#calculator" className="cta-primary inline-flex h-12 items-center gap-2 px-6">
                 Start calculator <ArrowRight className="h-4 w-4" aria-hidden />
               </a>
-              <Link href="/free-tools" className="btn-ghost inline-flex h-12 items-center px-6">
+              <Link href="/hapai" className="btn-ghost inline-flex h-12 items-center px-6">
                 View all tools
               </Link>
             </div>

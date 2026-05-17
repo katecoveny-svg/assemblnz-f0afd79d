@@ -34,6 +34,18 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
+      {
+        source: '/hapai/vessel-studio',
+        destination: '/hapai/vessel-studio/index.html',
+      },
+      {
+        source: '/hapai/caption-composer',
+        destination: '/hapai/caption-composer/index.html',
+      },
+      {
+        source: '/hapai/brief-generator',
+        destination: '/hapai/brief-generator/index.html',
+      },
       // Mana Receipts public keyring — canonical /.well-known/ path.
       // Implemented as an internal rewrite because Next.js App Router does
       // not love folder names that start with a dot.
@@ -48,6 +60,11 @@ const nextConfig: NextConfig = {
       // Existing: kete name correction (Tōroa → Tōro). Keep this in Next.js;
       // public SPA paths are handled by middleware rewrites before auth.
       { source: "/kete/toroa", destination: "/kete/toro", permanent: true },
+      { source: "/tools/vessel-studio/:path*", destination: "/hapai/vessel-studio/:path*", permanent: false },
+      { source: "/tools/caption-composer/:path*", destination: "/hapai/caption-composer/:path*", permanent: false },
+      { source: "/tools/brief-generator/:path*", destination: "/hapai/brief-generator/:path*", permanent: false },
+      { source: "/free-tools", destination: "/hapai", permanent: false },
+      { source: "/book-a-pilot", destination: "/pilot-sprint", permanent: false },
 
       // Admin & operations
       { source: "/admin", destination: "https://app.assembl.co.nz/admin", permanent: false },

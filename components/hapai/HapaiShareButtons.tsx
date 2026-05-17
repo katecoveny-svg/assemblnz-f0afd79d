@@ -9,7 +9,7 @@
 import { useState } from "react";
 
 const SHARE_TEXT =
-  "Most NZ businesses paid for intelligent tools. Almost nobody uses them. The HAPAI adoption framework from assembl. Take 60 seconds to find where your team sits.";
+  "Most NZ businesses paid for intelligent tools. Almost nobody uses them. The HAPAI library from assembl gives teams practical adoption tools.";
 
 const SHARE_URL = "https://www.assembl.co.nz/hapai";
 
@@ -28,7 +28,7 @@ export default function HapaiShareButtons() {
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({
-          title: "HAPAI — your team's adoption, made operational",
+          title: "HAPAI — agent adoption, made operational",
           text: SHARE_TEXT,
           url: SHARE_URL,
         });
