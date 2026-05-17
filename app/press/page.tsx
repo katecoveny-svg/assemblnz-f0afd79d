@@ -91,7 +91,7 @@ export default function PressPage() {
               download
               className="mt-2 inline-block text-sm underline underline-offset-2"
             >
-              Download PNG
+              Download WebP
             </a>
           </div>
           <div>
@@ -111,7 +111,7 @@ export default function PressPage() {
               download
               className="mt-2 inline-block text-sm underline underline-offset-2"
             >
-              Download PNG
+              Download WebP
             </a>
           </div>
         </div>
