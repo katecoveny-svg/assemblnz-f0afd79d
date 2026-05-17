@@ -180,6 +180,17 @@ const AGENT_REGISTRY: AgentConfig[] = [
     skills: ["holiday_programme_research", "kids_activities", "rainy_day_ideas"],
     keywords: ["school holidays", "july holidays", "term break", "oscar",
                "holiday programme", "kids activities", "rainy day"] },
+  // VOYAGE — multi-day overseas trip planning. agent_prompts row has the
+  // Italy-aware system prompt; structured writes go through the separate
+  // `voyage-agent` edge function (called from /app/voyage), not from chat.
+  { code: "ASM-047", name: "VOYAGE", pack: "toro", primaryModel: "claude",
+    skills: ["trip_planning", "itinerary_design", "activity_booking_flags",
+             "fx_aware_budgeting", "destination_research"],
+    keywords: ["trip", "travel", "italy", "europe", "rome", "florence", "venice",
+               "milan", "tuscany", "cinque terre", "amalfi", "destination",
+               "itinerary", "day plan", "vacation", "holiday overseas",
+               "schengen", "passport", "vatican", "uffizi", "trenitalia",
+               "flight", "accommodation", "voyage"] },
 ];
 
 // Canonical Industry Pack specialists exposed by the Next chat registry.
