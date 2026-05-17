@@ -123,7 +123,7 @@ function KeteSelector({
               onFocus={() => onSelect(kete.slug)}
               className={[
                 'group block rounded-[8px] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
-                'min-h-[86px] py-3 md:min-h-[108px]',
+                'min-h-[170px] py-3 md:min-h-[196px]',
                 active
                   ? 'border-[color:var(--tile-accent)] bg-white shadow-[0_8px_24px_rgba(35,33,31,0.08)]'
                   : 'border-[rgba(35,33,31,0.12)] bg-white/45 hover:border-[color:var(--tile-accent)] hover:bg-white/75',
@@ -131,7 +131,7 @@ function KeteSelector({
               aria-current={active ? 'true' : undefined}
             >
               <span
-                className="relative mb-3 block h-12 w-full overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)]"
+                className="relative mb-3 block aspect-[4/3] w-full overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)]"
                 aria-hidden
               >
                 <Image
@@ -140,6 +140,7 @@ function KeteSelector({
                   fill
                   sizes="170px"
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  style={{ objectPosition: "50% 35%" }}
                 />
                 <span
                   className="absolute inset-x-0 bottom-0 h-1 bg-[color:var(--tile-accent)]"

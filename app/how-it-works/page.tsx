@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
 import { StickyScrollNarrative } from '@/components/StickyScrollNarrative';
-import { pipelineStages, ketes as keteImagery } from '@/lib/site-config';
+import { pipelineStages } from '@/lib/site-config';
+import { getKete } from '@/lib/kete';
 
 export const metadata: Metadata = {
   title: 'How it works',
@@ -14,8 +15,11 @@ export const metadata: Metadata = {
 // Stage media — same Waihanga vessel for all five stages. The active stage
 // renders at full opacity; the others fade to 30% per Phase 1 brief §11.
 // Replace with AUAHA Phase 2 dedicated stage frames when delivered.
+// Uses the canonical 2026-05-17 kete hero WebP set (lib/kete.ts heroImage)
+// for a ~60 KB source instead of the legacy 985 KB pikau/manaaki JPGs.
+const WAIHANGA_HERO = getKete('waihanga').heroImage;
 const STAGE_MEDIA = pipelineStages.map((s) => ({
-  src: keteImagery.waihanga.wide,
+  src: WAIHANGA_HERO,
   alt: `${s.title} — ${s.subtitle}`,
 }));
 
@@ -82,9 +86,15 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* The 5 stages — sticky-side narrative */}
+      {/* The 5 stages — sticky-side narrative.
+          frameAspect=16/10 matches the wide kete hero source; the default
+          4/5 portrait was cropping the vessel to a narrow centre column. */}
       <section className="relative py-8 md:py-10">
-        <StickyScrollNarrative stages={pipelineStages} media={STAGE_MEDIA} />
+        <StickyScrollNarrative
+          stages={pipelineStages}
+          media={STAGE_MEDIA}
+          frameAspect="aspect-[16/10]"
+        />
       </section>
 
       {/* CTA */}
