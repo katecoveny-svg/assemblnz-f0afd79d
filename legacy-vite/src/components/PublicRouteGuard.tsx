@@ -1,7 +1,9 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { ArrowRight, Loader2, ShieldCheck } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+
+const PUBLIC_SITE_URL = "https://www.assembl.co.nz/";
 
 /**
  * PublicRouteGuard
@@ -9,6 +11,14 @@ import { useAuth } from "@/hooks/useAuth";
  * Restricts access to legacy / unlinked pages so they only resolve for admins,
  * and keeps the app subdomain from rendering tenant-specific demos before a
  * visitor has signed in.
+ *
+ * App-host anonymous redirect (option B from the 2026-05-17 audit brief):
+ * unauthenticated visitors landing on app.assembl.co.nz at anything other
+ * than an explicit anonymous path (/login, /signup, /auth, /admin) are
+ * hard-redirected to the marketing front door at www.assembl.co.nz. No
+ * "closed door" gate; auth flows still render normally when arrived at
+ * directly.
+ *
  * Anything outside the canonical public allowlist (BrandNav, BrandFooter,
  * MobileTabBar, plus auth/onboarding/sharing/utility surfaces) bounces
  * non-admin visitors to /admin?from=<path>.
@@ -136,47 +146,27 @@ function isAnonymousAppHostPath(pathname: string): boolean {
   return APP_HOST_ANONYMOUS_PREFIXES.some((prefix) => pathname === prefix.slice(0, -1) || pathname.startsWith(prefix));
 }
 
-function WorkspaceSignInGate() {
+/**
+ * Renders a minimal spinner while the browser performs the hard redirect
+ * to the marketing site. Keeps the page from flashing empty between the
+ * React mount and the navigation.
+ */
+function PublicSiteRedirect() {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.location.replace(PUBLIC_SITE_URL);
+    }
+  }, []);
+
   return (
-    <main className="min-h-screen bg-[#FAF7F2] text-[#183D35] flex items-center justify-center px-6 py-16">
-      <section className="w-full max-w-xl border border-[#2B6B57]/18 bg-white/80 p-8 shadow-[0_24px_80px_rgba(24,61,53,0.10)] backdrop-blur">
-        <div className="mb-8 flex items-center justify-between gap-4">
-          <a href="https://www.assembl.co.nz/" className="font-serif text-2xl tracking-[-0.02em] text-[#2B6B57]">
-            assembl
-          </a>
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#2B6B57]/20 bg-[#FAF7F2] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-[#2B6B57]">
-            <ShieldCheck size={14} aria-hidden="true" />
-            Workspace gate
-          </div>
-        </div>
-
-        <p className="mb-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[#2B6B57]/70">
-          app.assembl.co.nz
-        </p>
-        <h1 className="font-serif text-4xl leading-[1.05] tracking-[-0.02em] text-[#183D35] md:text-5xl">
-          Sign in to your workspace.
-        </h1>
-        <p className="mt-5 text-base leading-7 text-[#183D35]/72 md:text-lg md:leading-8">
-          This subdomain is for active Assembl workspaces. If you were looking for the public site, head back to the marketing home.
-        </p>
-
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="/login"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#2B6B57] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#235846]"
-          >
-            Sign in
-            <ArrowRight size={16} aria-hidden="true" />
-          </a>
-          <a
-            href="https://www.assembl.co.nz/"
-            className="inline-flex items-center justify-center rounded-full border border-[#2B6B57]/25 px-5 py-3 text-sm font-semibold text-[#2B6B57] transition hover:border-[#2B6B57]/50"
-          >
-            Visit the public site
-          </a>
-        </div>
-      </section>
-    </main>
+    <div
+      className="min-h-screen flex items-center justify-center bg-[#FAF7F2] text-[#2B6B57]"
+      role="status"
+      aria-live="polite"
+    >
+      <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
+      <span className="sr-only">Redirecting to assembl.co.nz</span>
+    </div>
   );
 }
 
@@ -198,7 +188,7 @@ export const PublicRouteGuard = ({ children }: PublicRouteGuardProps) => {
     }
 
     if (!user) {
-      return <WorkspaceSignInGate />;
+      return <PublicSiteRedirect />;
     }
   }
 
