@@ -21,7 +21,7 @@ const tools = [
   {
     name: 'HAPAI adoption score',
     slug: 'hapai_ai_adoption_assessment',
-    description: 'Run a 60-second gamified AI adoption check and see your team tier, session rhythm, and next play.',
+    description: 'Run a 60-second gamified intelligent-tool adoption check and see your team tier, session rhythm, and next play.',
     href: '/hapai#assessment',
     icon: Trophy,
     kete: 'Team enablement',
