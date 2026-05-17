@@ -38,3 +38,15 @@ next-env.d.ts
 *.njsproj
 *.sln
 *.sw?
+
+# Claude Code local state — never commit
+.claude/
+
+# macOS Finder duplicate artefacts (e.g. "PricingPage 2.tsx")
+* [0-9].*
+* [0-9][0-9].*
+
+# Backup files left from manual swaps
+*.legacy-rgb
+*.bak
+*.orig
