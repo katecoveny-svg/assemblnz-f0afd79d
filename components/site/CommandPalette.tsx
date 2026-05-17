@@ -2,7 +2,7 @@
 
 import * as Dialog from '@radix-ui/react-dialog';
 import { Command } from 'cmdk';
-import { FileText, Layers3, Search, Sparkles, X } from 'lucide-react';
+import { CornerDownLeft, FileText, Layers3, Search, Sparkles, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { AGENTS } from '@/lib/agents';
@@ -48,7 +48,7 @@ export function CommandPalette() {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-[rgba(35,33,31,0.24)] backdrop-blur-sm" />
         <Dialog.Content
-          className="fixed left-0 top-0 z-50 flex h-[100dvh] w-screen flex-col overflow-hidden bg-[color:var(--assembl-paper)] shadow-[0_32px_90px_rgba(35,33,31,0.24)] md:left-1/2 md:top-[12vh] md:h-auto md:w-[min(calc(100vw-2rem),720px)] md:-translate-x-1/2 md:rounded-[8px] md:border md:border-[rgba(35,33,31,0.14)]"
+          className="fixed left-0 top-0 z-50 flex h-[100dvh] w-screen flex-col overflow-hidden bg-[color:var(--assembl-paper)] shadow-[0_32px_90px_rgba(35,33,31,0.24)] duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 md:left-1/2 md:top-[12vh] md:h-auto md:w-[min(calc(100vw-2rem),720px)] md:-translate-x-1/2 md:rounded-[8px] md:border md:border-[rgba(35,33,31,0.14)]"
           style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
         >
           <Dialog.Title className="sr-only">Search assembl</Dialog.Title>
@@ -58,10 +58,11 @@ export function CommandPalette() {
               <Command.Input
                 autoFocus
                 placeholder="Find kete, specialist agents, or pages..."
+                aria-label="Search assembl"
                 className="h-11 flex-1 bg-transparent text-base outline-none placeholder:text-[color:var(--text-secondary)] md:text-body-md"
               />
               <Dialog.Close
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] hover:bg-[rgba(35,33,31,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] hover:bg-[rgba(35,33,31,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 aria-label="Close command palette"
               >
                 <X className="h-5 w-5" aria-hidden />
@@ -78,13 +79,17 @@ export function CommandPalette() {
                     key={kete.slug}
                     value={`${kete.name} ${kete.industry}`}
                     onSelect={() => go(`/kete/${kete.slug}`)}
-                    className="flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 aria-selected:bg-white"
+                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-white aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-black/5"
                     style={{ borderLeftColor: kete.accent }}
                   >
                     <img src={KETE_VESSEL_IMAGES[kete.slug]} alt="" className="h-8 w-8 rounded-sm object-cover" />
                     <Layers3 className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                     <span className="flex-1 text-body-md">{kete.name}</span>
-                    <span className="text-xs text-[color:var(--text-secondary)]">{kete.industry}</span>
+                    <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.industry}</span>
+                    <kbd className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
+                      <span>Press</span>
+                      <CornerDownLeft className="h-3 w-3" />
+                    </kbd>
                   </Command.Item>
                 ))}
               </Command.Group>
@@ -96,12 +101,16 @@ export function CommandPalette() {
                       key={agent.slug}
                       value={`${agent.name} ${agent.role} ${kete.name}`}
                       onSelect={() => go(`/agents/${agent.slug}`)}
-                      className="flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 aria-selected:bg-white"
+                      className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-white aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-black/5"
                       style={{ borderLeftColor: kete.accent }}
                     >
                       <Sparkles className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                       <span className="flex-1 text-body-md">{agent.name}</span>
-                      <span className="text-xs text-[color:var(--text-secondary)]">{kete.name}</span>
+                      <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.name}</span>
+                      <kbd className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
+                        <span>Press</span>
+                        <CornerDownLeft className="h-3 w-3" />
+                      </kbd>
                     </Command.Item>
                   );
                 })}
@@ -112,10 +121,14 @@ export function CommandPalette() {
                     key={page.href}
                     value={page.label}
                     onSelect={() => go(page.href)}
-                    className="flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 border-[color:var(--assembl-pounamu)] px-3 py-3 aria-selected:bg-white"
+                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 border-[color:var(--assembl-pounamu)] px-3 py-3 transition-all aria-selected:bg-white aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-black/5"
                   >
                     <FileText className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
-                    <span className="text-body-md">{page.label}</span>
+                    <span className="flex-1 text-body-md">{page.label}</span>
+                    <kbd className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
+                      <span>Press</span>
+                      <CornerDownLeft className="h-3 w-3" />
+                    </kbd>
                   </Command.Item>
                 ))}
               </Command.Group>

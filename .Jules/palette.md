@@ -33,3 +33,7 @@
 ## 2026-06-18 - [OS-Aware Keyboard Shortcuts]
 **Learning:** Hard-coding keyboard shortcut hints (like "press ⌘K") creates friction for non-Mac users. Implementing simple client-side OS detection ensures that Windows and Linux users see the appropriate hint (e.g., "CTRL K"), making the command palette more discoverable and intuitive for everyone.
 **Action:** Use `navigator.platform` in a `useEffect` to detect the OS and display appropriate keyboard shortcut hints in the UI.
+
+## 2026-06-25 - [Actionable Command Palette Interaction]
+**Learning:** Command palettes can feel disconnected if they lack entrance/exit animations and clear "actionability" hints. Adding subtle `tailwindcss-animate` transitions (fade/zoom) and a contextual "Press ↵" hint on the selected item makes the tool feel more responsive and intuitive, especially for keyboard-heavy workflows.
+**Action:** Always include entrance/exit animations for modal overlays and provide explicit keyboard hints for the primary action on list-based interactive elements.

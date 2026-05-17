@@ -228,7 +228,7 @@ export function ContactForm() {
         }
         .form-input:focus {
           outline: none;
-          border-color: rgba(43, 107, 87, 0.55);
+          border-color: var(--assembl-pounamu);
           box-shadow: 0 0 0 3px rgba(43, 107, 87, 0.18);
         }
         .form-input::placeholder {
