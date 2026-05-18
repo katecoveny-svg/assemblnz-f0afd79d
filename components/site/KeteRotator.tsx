@@ -18,6 +18,7 @@ export function KeteRotator({
   activeSlug,
   onActiveSlugChange,
   actions,
+  body,
 }: {
   ketes: Kete[];
   className?: string;
@@ -25,6 +26,7 @@ export function KeteRotator({
   activeSlug?: Kete['slug'];
   onActiveSlugChange?: (slug: Kete['slug']) => void;
   actions?: ReactNode;
+  body?: ReactNode;
 }) {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
@@ -59,7 +61,7 @@ export function KeteRotator({
       <div className="relative z-10 md:max-w-[50rem]">
         <h1
           className={[
-            'font-display font-light leading-[0.95] tracking-[-0.02em] text-[color:var(--text-primary)]',
+            'font-display font-light leading-[0.95] tracking-normal text-[color:var(--assembl-pounamu)]',
             scale === 'immersive'
               ? 'text-[clamp(3.3rem,15vw,6rem)] md:text-[clamp(5.6rem,8.8vw,10.5rem)]'
               : 'text-display-xl',
@@ -77,7 +79,7 @@ export function KeteRotator({
           >
             <div
               className={[
-                'mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-display font-light leading-[0.98] tracking-[-0.02em]',
+                'mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-display font-light italic leading-[0.98] tracking-normal',
                 scale === 'immersive'
                   ? 'min-h-[clamp(2.8rem,12vw,4.5rem)] text-[clamp(2.7rem,12vw,4.5rem)] md:min-h-[clamp(4.5rem,5.4vw,6.4rem)] md:text-[clamp(4.1rem,5.4vw,6.4rem)]'
                   : 'min-h-[3.5rem] text-display-lg',
@@ -97,6 +99,11 @@ export function KeteRotator({
             >
               {current.industry} specialist agents. Human review. Evidence packs.
             </p>
+            {body ? (
+              <div className="mt-5 max-w-[580px] text-body-md leading-relaxed text-[color:var(--text-body)]">
+                {body}
+              </div>
+            ) : null}
           </motion.div>
         </AnimatePresence>
         {actions}

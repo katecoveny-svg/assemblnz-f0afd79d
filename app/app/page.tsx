@@ -13,11 +13,17 @@ export const dynamic = 'force-dynamic';
 
 const LEGACY_APP_ORIGIN = 'https://app.assembl.co.nz';
 
+const ADMIN_EMAILS = new Set<string>([
+  'assembl@assembl.co.nz',
+  'kate@assembl.co.nz',
+]);
+
 /**
  * /app — the post-sign-in landing page.
  *
  * Redirect logic (Version A, 2026-05-14):
  *   • Not signed in                       → /login?redirect=/app
+ *   • Signed in + admin email             → /app/admin
  *   • Signed in + has a primary kete      → app.assembl.co.nz/{kete-slug}
  *   • Signed in + tenant but no kete yet  → /app/toro/{tenant-slug}
  *   • Signed in, no tenant                → /app/chat (start the conversation)
@@ -42,6 +48,11 @@ export default async function AdminLandingPage(): Promise<never> {
   const user = data.user;
   if (!user) {
     redirect('/login?redirect=/app');
+  }
+
+  const userEmail = user.email?.toLowerCase() ?? '';
+  if (ADMIN_EMAILS.has(userEmail)) {
+    redirect('/app/admin');
   }
 
   let tenantId: string | null = null;
