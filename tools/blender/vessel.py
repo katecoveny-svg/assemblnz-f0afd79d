@@ -362,6 +362,11 @@ if ANIMATE:
     pivot = bpy.context.object
     pivot.name = "turntable-pivot"
     cam.parent = pivot
+    # Preserve the camera's world transform when parenting. Without this,
+    # the pivot's (0, 0, 0.95) offset gets applied to the camera, lifting
+    # it by 0.95 in Z and breaking the orbit aim. matrix_parent_inverse
+    # is the Pythonic equivalent of "Set Parent (Keep Transform)".
+    cam.matrix_parent_inverse = pivot.matrix_world.inverted()
     pivot.rotation_euler = (0, 0, 0)
     pivot.keyframe_insert(data_path="rotation_euler", frame=1)
     pivot.rotation_euler = (0, 0, math.radians(360))
