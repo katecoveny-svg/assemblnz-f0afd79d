@@ -47,6 +47,13 @@ const tools = [
     visual: 'brief',
   },
   {
+    name: 'Energy calculator',
+    status: 'live',
+    description: 'NZ electrification savings and payback',
+    href: '/electrify',
+    visual: 'electrify',
+  },
+  {
     name: 'OG card generator',
     status: 'live',
     description: 'Branded 1200×630 share cards',
@@ -166,7 +173,7 @@ export default function HapaiPage() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {tools.map((tool) => (
               <article
                 key={tool.name}

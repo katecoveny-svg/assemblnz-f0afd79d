@@ -4,6 +4,7 @@ type HapaiToolVisual =
   | 'vessel'
   | 'caption'
   | 'brief'
+  | 'electrify'
   | 'og-card'
   | 'tagline'
   | 'project-picker';
@@ -94,6 +95,36 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
           </div>
           <div className="absolute bottom-5 left-5 right-5 border-t border-[rgba(35,33,31,0.12)] pt-4">
             <span className="block h-2 w-[44%] rounded-full bg-[#D4A853]" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === 'electrify') {
+    return (
+      <div className={previewClass}>
+        <Image
+          src="/img/hapai/tools/electrify-vessel.jpg"
+          alt=""
+          fill
+          sizes="(min-width: 1280px) 31vw, (min-width: 768px) 48vw, 100vw"
+          className="object-cover object-[50%_38%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#23211F]/44 via-transparent to-[#FAF7F2]/10" />
+        <div className="absolute bottom-4 left-4 right-4 rounded-[6px] border border-white/35 bg-[#FAF7F2]/78 p-3 shadow-[0_18px_42px_rgba(35,33,31,0.16)] backdrop-blur-sm">
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#2B6B57]">
+            energy calculator
+          </p>
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {['fleet', 'heat', 'solar'].map((label) => (
+              <span
+                key={label}
+                className="rounded-full border border-[rgba(35,33,31,0.14)] bg-white/54 px-2 py-1 text-center font-mono text-[8px] uppercase tracking-[0.12em] text-[#23211F]"
+              >
+                {label}
+              </span>
+            ))}
           </div>
         </div>
       </div>

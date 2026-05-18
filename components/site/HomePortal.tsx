@@ -40,6 +40,13 @@ const HAPAI_TOOLS = [
     visual: 'brief',
   },
   {
+    name: 'Energy calculator.',
+    description:
+      'A 90-second NZ electrification calculator for fleet, heat, solar, savings, and payback.',
+    href: '/electrify',
+    visual: 'electrify',
+  },
+  {
     name: 'OG card studio.',
     description:
       'Branded 1200×630 social share cards. Headline, accent, kete vessel, downloadable in a click.',
@@ -300,7 +307,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                   See the full library.
                 </span>
                 <span className="mt-4 block text-sm leading-relaxed text-[#FAF7F2]/82">
-                  Five live now. Five more shipping this month.
+                  Six live now. Four more shipping this month.
                 </span>
                 <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em]">
                   Open HAPAI <ArrowRight className="h-3.5 w-3.5" aria-hidden />

@@ -139,8 +139,8 @@ export default function ElectrifyFormPage() {
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-4 shadow-[0_20px_70px_rgba(35,33,31,0.10)]">
             <div className="relative aspect-[4/3] overflow-hidden rounded-[6px] bg-[#23211F]">
               <Image
-                src="/img/kete/pikau-vessel-blue.jpg"
-                alt="Blue sculptural vessel representing fleet electrification"
+                src="/img/hapai/tools/electrify-vessel.jpg"
+                alt="Sculptural vessel representing fleet electrification"
                 fill
                 sizes="(min-width: 1024px) 42vw, 100vw"
                 className="object-cover opacity-95"

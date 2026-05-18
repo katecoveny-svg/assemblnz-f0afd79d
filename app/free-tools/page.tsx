@@ -105,8 +105,8 @@ export default function FreeToolsPage() {
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-5 shadow-[0_20px_70px_rgba(35,33,31,0.08)]">
             <div className="relative mb-5 aspect-[16/9] overflow-hidden rounded-[6px]">
               <Image
-                src="/images/golden-nodes-square.webp"
-                alt="Golden network pattern representing practical business tools"
+                src="/img/hapai/tools/electrify-vessel.jpg"
+                alt="Sculptural vessel representing the electrification calculator"
                 fill
                 sizes="(min-width: 1024px) 42vw, 100vw"
                 className="object-cover"
