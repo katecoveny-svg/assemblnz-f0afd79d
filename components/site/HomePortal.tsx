@@ -9,6 +9,7 @@ import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import type { PearlLiveStats } from '@/lib/pearl-live';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
+import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import { KeteRotator } from './KeteRotator';
 
 interface HomePortalProps {
@@ -22,35 +23,35 @@ const HAPAI_TOOLS = [
     description:
       'A quiet prompt builder for hero imagery. Composes branded vessel still-lifes via flux 1.1 pro on fal.ai.',
     href: '/hapai/vessel-studio/vessel-studio.html',
-    image: '/og/og-assembl.png',
+    visual: 'vessel',
   },
   {
     name: 'Caption composer.',
     description:
       "LinkedIn, Instagram, X, Facebook captions tuned to each platform's native rhythm. In your voice, your length, your tone.",
     href: '/hapai/caption-composer/caption-composer.html',
-    image: '/og/og-manaaki.png',
+    visual: 'caption',
   },
   {
     name: 'Brief generator.',
     description:
       'Creative, pitch, and project briefs as a single-page PDF in your voice. Fill in eight fields, leave with a brief.',
     href: '/hapai/brief-generator/brief-generator.html',
-    image: '/og/og-auaha.png',
+    visual: 'brief',
   },
   {
     name: 'OG card studio.',
     description:
       'Branded 1200×630 social share cards. Headline, accent, kete vessel, downloadable in a click.',
     href: '/hapai/og-card-generator/og-card-generator.html',
-    image: '/og/og-pikau.png',
+    visual: 'og-card',
   },
   {
     name: 'Tagline workshop.',
     description:
       'Generate tagline candidates across five styles. Save the ones that land. Download the shortlist.',
     href: '/hapai/tagline-workshop/tagline-workshop.html',
-    image: '/og/og-hoko.png',
+    visual: 'tagline',
   },
 ] as const;
 
@@ -268,13 +269,9 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 className="group flex min-h-[390px] flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] transition-colors hover:border-[color:var(--assembl-pounamu)] hover:bg-white"
               >
                 <span className="relative block aspect-[16/10] border-b border-[rgba(35,33,31,0.10)] bg-white">
-                  <Image
-                    src={tool.image}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1280px) 31vw, (min-width: 768px) 48vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
-                  />
+                  <span className="block h-full transition-transform duration-500 group-hover:scale-[1.025]">
+                    <HapaiToolPreview visual={tool.visual} />
+                  </span>
                 </span>
                 <span className="flex flex-1 flex-col p-5">
                   <span className="w-fit rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#FAF7F2]">
