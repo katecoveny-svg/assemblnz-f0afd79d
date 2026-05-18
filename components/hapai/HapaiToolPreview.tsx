@@ -67,8 +67,15 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
   if (visual === 'brief') {
     return (
       <div className={previewClass}>
-        <div className="absolute inset-0 bg-[#FAF7F2]" />
-        <div className="absolute left-1/2 top-5 h-[82%] w-[64%] -translate-x-1/2 rounded-[3px] border border-[rgba(35,33,31,0.14)] bg-white p-5 shadow-[0_20px_48px_rgba(35,33,31,0.12)]">
+        <Image
+          src="/img/hapai/tools/brief-generator-auaha.jpg"
+          alt=""
+          fill
+          sizes="(min-width: 1280px) 31vw, (min-width: 768px) 48vw, 100vw"
+          className="object-cover object-[50%_42%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#23211F]/10 via-transparent to-[#FAF7F2]/18" />
+        <div className="absolute left-5 top-5 h-[78%] w-[52%] rounded-[3px] border border-white/48 bg-white/72 p-4 shadow-[0_20px_48px_rgba(35,33,31,0.16)] backdrop-blur-sm">
           <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-[#2B6B57]">
             one-page brief
           </p>
@@ -116,12 +123,19 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
   if (visual === 'tagline') {
     return (
       <div className={previewClass}>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_20%,rgba(212,168,83,0.24),transparent_32%),#FAF7F2]" />
+        <Image
+          src="/img/hapai/tools/tagline-workshop-auaha.jpg"
+          alt=""
+          fill
+          sizes="(min-width: 1280px) 31vw, (min-width: 768px) 48vw, 100vw"
+          className="object-cover object-[50%_38%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#23211F]/36 via-[#FAF7F2]/8 to-transparent" />
         <div className="absolute left-5 right-5 top-5 space-y-3">
           {['plainspoken', 'editorial', 'premium'].map((style, index) => (
             <div
               key={style}
-              className="rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-white/72 p-3"
+              className="rounded-[6px] border border-white/42 bg-white/72 p-3 shadow-[0_12px_28px_rgba(35,33,31,0.12)] backdrop-blur-sm"
             >
               <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#7B3F8F]">
                 {style}
