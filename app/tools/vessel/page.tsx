@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { VesselGenerator } from '@/components/tools/VesselGenerator';
 
 export const metadata: Metadata = {
-  title: 'Vessel generator · assembl',
+  title: 'vessel generator',
   description:
     'Generate an on-brand vessel image. Free for the first five per day; bring your own Fal.ai key to remove the cap.',
 };
@@ -15,7 +15,7 @@ export default function VesselToolPage() {
     <main className="min-h-screen bg-[color:var(--assembl-paper)]">
       <div className="mx-auto max-w-6xl px-6 pb-20 pt-12 md:px-10 md:pt-16">
         <header className="mb-10 max-w-3xl">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[10px] tracking-[0.28em] text-[color:var(--text-secondary)]">
             assembl · tools
           </p>
           <h1 className="font-display mt-2 text-4xl leading-tight text-[color:var(--text-primary)] md:text-5xl">

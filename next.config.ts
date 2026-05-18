@@ -71,7 +71,6 @@ const nextConfig: NextConfig = {
       { source: "/tools/vessel-studio/:path*", destination: "/hapai/vessel-studio/:path*", permanent: false },
       { source: "/tools/caption-composer/:path*", destination: "/hapai/caption-composer/:path*", permanent: false },
       { source: "/tools/brief-generator/:path*", destination: "/hapai/brief-generator/:path*", permanent: false },
-      { source: "/free-tools", destination: "/hapai", permanent: false },
       { source: "/book-a-pilot", destination: "/pilot-sprint", permanent: false },
 
       // Admin & operations

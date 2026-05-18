@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArrowRight, Car, Home, ShieldCheck, WalletCards } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Insurance gap analysis · assembl",
+  title: "Insurance gap analysis",
   description:
     "Five traffic lights for house, contents, vehicles, life, and income protection. Indicative NZ insurance gap analysis.",
 };
