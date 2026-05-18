@@ -42,6 +42,28 @@ type TenantRow = {
   metadata: Record<string, unknown> | null;
 };
 
+// iho-router response shape. Mirrors IhoResponse in supabase/functions/iho-router/index.ts.
+// We do not redeclare the full type — we only access the fields the public-chat
+// surface needs, with defensive parsing because edge-function output is JSON.
+type IhoRouterResponse = {
+  response?: string;
+  agentUsed?: { code?: string; name?: string; pack?: string; model?: string };
+  modelUsed?: string;
+  providerUsed?: 'anthropic' | 'gemini';
+  tokensUsed?: { input?: number; output?: number; total?: number };
+  cost?: { usd?: number; nzdAmount?: number };
+  complianceStatus?: {
+    passed?: boolean;
+    piiDetected?: boolean;
+    piiMasked?: boolean;
+    dataClassification?: string;
+    policies?: string[];
+    mana?: { passed?: boolean; blockers?: string[]; warnings?: string[] };
+  };
+  auditLog?: { requestId?: string };
+  error?: string;
+};
+
 function json(data: unknown, status = 200) {
   return Response.json(data, { status });
 }
@@ -173,19 +195,22 @@ async function logPublicAnalytics(args: {
   inputTokens: number;
   outputTokens: number;
   responseTimeMs: number;
+  costNzd?: number;
+  modelUsed?: string;
+  agentCode?: string;
   error?: string;
 }) {
   const service = getServiceClient();
   const base = {
     user_id: args.tenant.id,
-    agent_name: `agent-${args.kete}`,
+    agent_name: args.agentCode ?? `agent-${args.kete}`,
     session_id: args.sessionId,
     message_count: 1,
     input_tokens: args.inputTokens,
     output_tokens: args.outputTokens,
-    model_used: `agent-${args.kete}`,
+    model_used: args.modelUsed ?? `agent-${args.kete}`,
     complexity: 'public-widget',
-    estimated_cost_nzd: ESTIMATED_COST_PER_MESSAGE_NZD,
+    estimated_cost_nzd: args.costNzd ?? ESTIMATED_COST_PER_MESSAGE_NZD,
     response_time_ms: args.responseTimeMs,
     error: Boolean(args.error),
     error_message: args.error ?? null,
@@ -201,10 +226,10 @@ async function logPublicAnalytics(args: {
     user_id: null,
     organisation_id: args.tenant.id,
     session_id: args.sessionId,
-    agent_code: `agent-${args.kete}`,
+    agent_code: args.agentCode ?? `agent-${args.kete}`,
     kete_code: args.kete,
-    model_used: `agent-${args.kete}`,
-    model_tier: 'tenant-agent',
+    model_used: args.modelUsed ?? `agent-${args.kete}`,
+    model_tier: 'iho-router',
     intent_category: 'public_chat',
     input_tokens: args.inputTokens,
     output_tokens: args.outputTokens,
@@ -264,14 +289,14 @@ export async function POST(req: NextRequest) {
 
   const kete = pickKete(tenant, body.kete);
   const email = tenant.billing_email ?? (typeof tenant.metadata?.contact_email === 'string' ? tenant.metadata.contact_email : null);
-  const inputTokens = estimateTokens(message) + (body.history ?? []).reduce((sum, item) => sum + estimateTokens(item.content), 0);
+  const inputTokensEstimate = estimateTokens(message) + (body.history ?? []).reduce((sum, item) => sum + estimateTokens(item.content), 0);
   const usage = await sessionUsage(service, sessionId);
   const creditNzd = optionalNumber(tenant.metadata?.credit_nzd);
   const tenantSpend = creditNzd > 0 ? await tenantMonthSpend(service, tenant.id) : 0;
 
   if (
     usage.messages >= MAX_SESSION_MESSAGES ||
-    usage.tokens + inputTokens > MAX_SESSION_TOKENS ||
+    usage.tokens + inputTokensEstimate > MAX_SESSION_TOKENS ||
     (creditNzd > 0 && tenantSpend >= creditNzd)
   ) {
     const fallback = takingABreak(email);
@@ -279,7 +304,7 @@ export async function POST(req: NextRequest) {
       tenant,
       kete,
       sessionId,
-      inputTokens,
+      inputTokens: inputTokensEstimate,
       outputTokens: estimateTokens(fallback),
       responseTimeMs: Date.now() - started,
       error: 'public_chat_cap',
@@ -296,7 +321,7 @@ export async function POST(req: NextRequest) {
       tenant,
       kete,
       sessionId,
-      inputTokens,
+      inputTokens: inputTokensEstimate,
       outputTokens: estimateTokens(fallback),
       responseTimeMs: Date.now() - started,
       error: 'agent_endpoint_unavailable',
@@ -307,40 +332,110 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // Public chat backend: call the dedicated public-chat-llm edge function.
-  // The previous agent-${kete} invocation only handled kete-specific workflow
-  // actions (sync_calendar, plan_trip, etc) — not free-form public chat — so
-  // every session fell through to the "taking a break" fallback. The new
-  // public-chat-llm function loads the kete's system prompt from agent_prompts
-  // and calls Claude Haiku for a fast, cheap, demo-grade response.
+  // ── Track A.1 (locked 18 May 2026): wire /api/public-chat → iho-router ──
+  //
+  // Previously this surface called the `public-chat-llm` edge function — a
+  // direct passthrough to Claude Haiku that loaded the kete's system prompt
+  // from `agent_prompts` but bypassed the 11-step Iho pipeline (Kahu → Iho →
+  // Tā → Mahara → Mana). That meant public-chat answers had no compliance
+  // gate, no PII masking, no Mana-gate human-in-the-loop, no audit hash chain.
+  //
+  // iho-router is the canonical brain for both apex (Next.js) and legacy-vite
+  // (app.assembl.co.nz). Routing public-chat through it gives the widget the
+  // full pipeline that the operator dashboards already get.
+  //
+  // Body shape mapping:
+  //   chat widget body  →  iho-router IhoRequest
+  //   ──────────────────────────────────────────
+  //   kete              →  packId           (router classifies within pack)
+  //   message           →  message          (verbatim)
+  //   history (last 8)  →  context.previousMessages
+  //   tenantId          →  (not passed — iho-router uses Authorization header
+  //                          for user identity; public chat is anonymous and
+  //                          the router skips the trial gate accordingly)
+  //   sessionId         →  (not passed — analytics correlation handled here)
+  //
+  // Response shape mapping:
+  //   iho-router IhoResponse  →  public-chat surface
+  //   ────────────────────────────────────────────
+  //   .response               →  streamed body text
+  //   .tokensUsed.input/output →  agent_analytics input/output tokens
+  //   .cost.nzdAmount         →  estimated_cost_nzd
+  //   .modelUsed              →  model_used (e.g. "claude-haiku-4")
+  //   .agentUsed.code         →  agent_name
+  //   .complianceStatus       →  surfaced as response headers (X-Compliance-*)
+  //   .auditLog.requestId     →  surfaced as X-Audit-Request-Id header
+  //
+  // On 403 (Kahu compliance block): we fall back to takingABreak() so the
+  // user sees a friendly "chat is on a break" message rather than the raw
+  // "blocked by compliance engine" error. The block IS logged with the
+  // specific error code so we can audit blocked-input volume separately.
   const { data: agentData, error: invokeError } = await service.functions.invoke(
-    'public-chat-llm',
+    'iho-router',
     {
       body: {
-        kete,
         message,
-        history: body.history?.slice(-8) ?? [],
-        tenantId: tenant.id,
-        sessionId,
+        packId: kete,
+        mode: 'respond',
+        context: {
+          previousMessages: body.history?.slice(-8) ?? [],
+        },
       },
     },
   );
 
-  const responseText = invokeError
+  const iho = (agentData ?? {}) as IhoRouterResponse;
+  const ihoBlocked = typeof iho.error === 'string' && iho.complianceStatus?.passed === false;
+  const responseText = invokeError || ihoBlocked
     ? takingABreak(email)
     : agentText(agentData) || takingABreak(email);
+
+  // Use iho-router's real token counts when available; fall back to our
+  // word-count estimate when the router blocked or errored.
+  const realInputTokens = optionalNumber(iho.tokensUsed?.input);
+  const realOutputTokens = optionalNumber(iho.tokensUsed?.output);
+  const inputTokensForAnalytics = realInputTokens > 0 ? realInputTokens : inputTokensEstimate;
+  const outputTokensForAnalytics = realOutputTokens > 0 ? realOutputTokens : estimateTokens(responseText);
+  const realCostNzd = optionalNumber(iho.cost?.nzdAmount);
+
+  const errorCode = invokeError?.message
+    ?? (ihoBlocked ? `kahu_blocked:${iho.complianceStatus?.dataClassification ?? 'UNKNOWN'}` : undefined);
+
   await logPublicAnalytics({
     tenant,
     kete,
     sessionId,
-    inputTokens,
-    outputTokens: estimateTokens(responseText),
+    inputTokens: inputTokensForAnalytics,
+    outputTokens: outputTokensForAnalytics,
     responseTimeMs: Date.now() - started,
-    error: invokeError?.message,
+    costNzd: realCostNzd > 0 ? realCostNzd : undefined,
+    modelUsed: typeof iho.modelUsed === 'string' ? iho.modelUsed : undefined,
+    agentCode: typeof iho.agentUsed?.code === 'string' ? iho.agentUsed.code : undefined,
+    error: errorCode,
   });
 
-  return streamText(responseText, {
-    status: 200,
-    headers: { 'X-Chat-Id': chatId, 'X-Session-Id': sessionId },
-  });
+  const responseHeaders: Record<string, string> = {
+    'X-Chat-Id': chatId,
+    'X-Session-Id': sessionId,
+  };
+
+  // Surface pipeline metadata on the response so the widget (and any tooling
+  // that watches the network tab) can render a compliance badge.
+  if (iho.auditLog?.requestId) responseHeaders['X-Audit-Request-Id'] = iho.auditLog.requestId;
+  if (iho.modelUsed) responseHeaders['X-Model-Used'] = iho.modelUsed;
+  if (iho.providerUsed) responseHeaders['X-Provider-Used'] = iho.providerUsed;
+  if (iho.agentUsed?.code) responseHeaders['X-Agent-Code'] = iho.agentUsed.code;
+  if (iho.complianceStatus) {
+    if (typeof iho.complianceStatus.passed === 'boolean') {
+      responseHeaders['X-Compliance-Passed'] = String(iho.complianceStatus.passed);
+    }
+    if (iho.complianceStatus.dataClassification) {
+      responseHeaders['X-Data-Classification'] = iho.complianceStatus.dataClassification;
+    }
+    if (typeof iho.complianceStatus.piiMasked === 'boolean') {
+      responseHeaders['X-Pii-Masked'] = String(iho.complianceStatus.piiMasked);
+    }
+  }
+
+  return streamText(responseText, { status: 200, headers: responseHeaders });
 }
