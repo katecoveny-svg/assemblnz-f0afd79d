@@ -43,12 +43,12 @@ export function SiteHeader() {
       className="sticky top-0 z-40 w-full border-b border-[rgba(157,140,125,0.14)] bg-[rgba(247,243,238,0.78)] backdrop-blur-xl"
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
-      <div className="container flex h-16 items-center justify-between gap-4 md:gap-6">
+      <div className="flex h-[72px] w-full max-w-none items-center justify-between gap-4 px-6 md:gap-6 md:px-10 xl:px-14 2xl:px-20">
         <div className="flex min-w-0 items-baseline gap-3">
           <Link
             href="/"
             aria-label="assembl — home"
-            className="shrink-0 rounded-sm text-[30px] font-normal leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 md:text-[34px]"
+            className="shrink-0 rounded-sm text-[32px] font-normal leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 md:text-[38px]"
             style={{ fontFamily: 'var(--font-display), "Cormorant Garamond", Garamond, Georgia, serif' }}
           >
             assembl
@@ -57,7 +57,7 @@ export function SiteHeader() {
             {PROOF_LINE}
           </span>
         </div>
-        <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-7 md:flex xl:gap-8" aria-label="Primary">
           {nav.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -66,7 +66,7 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "rounded-sm text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2",
+                  "rounded-sm text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2",
                   isActive
                     ? "text-[color:var(--text-primary)] font-medium"
                     : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
@@ -103,7 +103,7 @@ export function SiteHeader() {
           <Link
             href="/login"
             className={cn(
-              "hidden rounded-sm text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 md:inline",
+              "hidden rounded-sm text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 md:inline",
               pathname === "/login"
                 ? "text-[color:var(--text-primary)] font-medium"
                 : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
@@ -113,7 +113,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href={navCta.href}
-            className="hidden cta-primary md:inline-flex h-10 items-center px-5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            className="hidden cta-primary md:inline-flex h-11 items-center px-6 text-[15px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
           >
             {navCta.label}
           </Link>

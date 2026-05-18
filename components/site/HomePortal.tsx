@@ -80,14 +80,17 @@ export function HomePortal({ ketes }: HomePortalProps) {
             />
           </motion.div>
 
-          <div className="mt-12 max-w-6xl md:mt-16">
-            <KeteSelector
-              ketes={ketes}
-              activeSlug={activeSlug}
-              onSelect={setActiveSlug}
-              reduceMotion={reduceMotion}
-            />
-          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-8 md:px-10 xl:px-14 2xl:px-20">
+        <div className="max-w-[72rem]">
+          <KeteSelector
+            ketes={ketes}
+            activeSlug={activeSlug}
+            onSelect={setActiveSlug}
+            reduceMotion={reduceMotion}
+          />
         </div>
       </section>
 
@@ -110,7 +113,7 @@ function KeteSelector({
   reduceMotion: boolean | null;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-2 md:grid-cols-9" aria-label="Choose a kete">
+    <div className="grid grid-cols-3 gap-2 md:grid-cols-9 md:gap-2.5" aria-label="Choose a kete">
       {ketes.map((kete) => {
         const active = kete.slug === activeSlug;
         return (
@@ -126,7 +129,7 @@ function KeteSelector({
               onFocus={() => onSelect(kete.slug)}
               className={[
                 'group block rounded-[8px] border px-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
-                'min-h-[170px] py-3 md:min-h-[196px]',
+                'min-h-[150px] py-3 md:min-h-[154px]',
                 active
                   ? 'border-[color:var(--tile-accent)] bg-white shadow-[0_8px_24px_rgba(35,33,31,0.08)]'
                   : 'border-[rgba(35,33,31,0.12)] bg-white/45 hover:border-[color:var(--tile-accent)] hover:bg-white/75',
@@ -134,7 +137,7 @@ function KeteSelector({
               aria-current={active ? 'true' : undefined}
             >
               <span
-                className="relative mb-3 block aspect-[4/3] w-full overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)]"
+                className="relative mb-3 block aspect-[4/3] w-full overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] md:mb-2"
                 aria-hidden
               >
                 <Image
@@ -150,10 +153,10 @@ function KeteSelector({
                   aria-hidden
                 />
               </span>
-              <span className="block font-display text-[1.18rem] font-light leading-none text-[color:var(--text-primary)] md:text-[1.35rem]">
+              <span className="block font-display text-[1.18rem] font-light leading-none text-[color:var(--text-primary)] md:text-[1.08rem]">
                 {kete.name}
               </span>
-              <span className="mt-2 block text-[10px] leading-snug text-[color:var(--text-secondary)] md:text-[11px]">
+              <span className="mt-2 block text-[10px] leading-snug text-[color:var(--text-secondary)] md:text-[10px]">
                 {kete.industry}
               </span>
             </Link>
