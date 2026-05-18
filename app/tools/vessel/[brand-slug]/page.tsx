@@ -38,10 +38,10 @@ export async function generateMetadata({
   const { 'brand-slug': slug } = await params;
   const preset = await loadPreset(slug);
   if (!preset) {
-    return { title: 'Vessel generator · assembl' };
+    return { title: 'vessel generator' };
   }
   return {
-    title: `${preset.brand_name} vessel generator · assembl`,
+    title: `${preset.brand_name} vessel generator`,
     description: `Generate an on-brand vessel image for ${preset.brand_name}. Pre-filled with their brand colour.`,
   };
 }
@@ -59,7 +59,7 @@ export default async function BrandedVesselToolPage({
     <main className="min-h-screen bg-[color:var(--assembl-paper)]">
       <div className="mx-auto max-w-6xl px-6 pb-20 pt-12 md:px-10 md:pt-16">
         <header className="mb-10 max-w-3xl">
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+          <p className="font-mono text-[10px] tracking-[0.28em] text-[color:var(--text-secondary)]">
             assembl · tools · {preset.brand_name.toLowerCase()}
           </p>
           <h1 className="font-display mt-2 text-4xl leading-tight text-[color:var(--text-primary)] md:text-5xl">

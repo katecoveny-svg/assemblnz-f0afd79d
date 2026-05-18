@@ -5,7 +5,7 @@ import InsuranceShareCard from "@/components/insurance/InsuranceShareCard";
 import { calculateInsuranceGap, type InsuranceInput } from "@/lib/insurance/coverage-rules";
 
 export const metadata: Metadata = {
-  title: "Insurance gap result · assembl",
+  title: "Insurance gap result",
   description: "Five traffic lights for an indicative NZ insurance cover check.",
 };
 

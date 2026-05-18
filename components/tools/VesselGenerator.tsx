@@ -158,7 +158,7 @@ export function VesselGenerator({ initialPreset }: Props) {
                 key={suggestion}
                 type="button"
                 onClick={() => setPrompt(suggestion)}
-                className="rounded-full border border-[rgba(35,33,31,0.12)] bg-white px-3 py-1 text-xs text-[color:var(--text-secondary)] hover:border-[rgba(35,33,31,0.32)] hover:text-[color:var(--text-primary)]"
+                className="min-h-11 rounded-full border border-[rgba(35,33,31,0.12)] bg-white px-3 py-2 text-xs text-[color:var(--text-secondary)] hover:border-[rgba(35,33,31,0.32)] hover:text-[color:var(--text-primary)]"
               >
                 {suggestion}
               </button>

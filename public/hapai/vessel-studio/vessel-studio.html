@@ -509,7 +509,7 @@
   /* Variants stepper */
   .stepper { display: flex; align-items: center; gap: 10px; }
   .stepper button {
-    width: 30px; height: 30px;
+    width: 44px; height: 44px;
     border: 1px solid var(--line);
     background: var(--paper);
     cursor: pointer;
@@ -1368,13 +1368,26 @@
 <meta name="description" content="vessel studio · hapai · assembl — a quiet prompt builder for hero imagery. Built in Aotearoa.">
 <link rel="stylesheet" href="/hapai/_scaffold/shell.css">
 </head>
-<body data-mode="image">
+<body data-mode="image" data-tool="vessel">
 
 <header class="top">
   <div class="brand">assembl <span class="dot">·</span> auaha <span class="dot">·</span> hapai <span class="dot">·</span> vessel studio</div>
   <h1 class="title">vessel studio</h1>
   <div class="subtitle">a quiet prompt builder for hero imagery · specialist agents · human review · evidence packs · flux 1.1 pro via fal.ai</div>
 </header>
+
+<section class="tool-hero" aria-label="vessel studio preview">
+  <div class="tool-hero-inner">
+    <div class="tool-hero-copy">
+      <div class="tool-hero-kicker">visual studio · assembl canon</div>
+      <p>Compose quiet, evidence-led vessel imagery for the kete system. The controls stay practical; the output stays anchored to pounamu, brass, cream paper, and human-reviewed mahi.</p>
+      <div class="tool-hero-proof">mobile ready · bring your own fal.ai key · prompts and reference images stay in this browser</div>
+    </div>
+    <div class="tool-hero-media">
+      <img src="/img/kete/waihanga-vessel.jpg" alt="Waihanga evidence vessel on a cream paper backdrop" loading="eager">
+    </div>
+  </div>
+</section>
 
 <main>
   <!-- LEFT: PROMPT BUILDER -->
