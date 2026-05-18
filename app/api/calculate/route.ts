@@ -66,7 +66,8 @@ export async function POST(req: Request) {
   };
 
   function redirectWithSnapshot(id: string) {
-    const response = NextResponse.redirect(new URL(`/electrify/results/${id}`, req.url), { status: 303 });
+    const origin = req.headers.get("origin") ?? new URL(req.url).origin;
+    const response = NextResponse.redirect(new URL(`/electrify/results/${id}`, origin), { status: 303 });
     response.cookies.set(`${RESULT_COOKIE_PREFIX}${id}`, encodeURIComponent(JSON.stringify({ ...resultSnapshot, id })), {
       httpOnly: true,
       sameSite: "lax",

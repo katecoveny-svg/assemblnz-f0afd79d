@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: "Electrify — count your fossil machines",
     description:
       "Real NZ prices. Deterministic maths. A 90-second electrification calculator from assembl.",
-    images: ["/og/og-assembl.png"],
+    images: ["/img/hapai/tools/electrify-share-card.png"],
   },
 };
 
@@ -68,7 +68,8 @@ const ROUTES: Array<{
   id: string;
   label: string;
   title: string;
-  status: "live" | "next";
+  status: "live";
+  body: string;
   icon: LucideIcon;
 }> = [
   {
@@ -76,38 +77,43 @@ const ROUTES: Array<{
     label: "Business",
     title: "SME switch sequence",
     status: "live",
+    body: "Vehicles, heat, power, and solar for small NZ operators.",
     icon: Building2,
   },
   {
     id: "household",
     label: "Household",
     title: "Home energy path",
-    status: "next",
+    status: "live",
+    body: "Cars, hot water, heating, and solar in one household estimate.",
     icon: Home,
   },
   {
     id: "landlord",
     label: "Landlord",
     title: "Rental property route",
-    status: "next",
+    status: "live",
+    body: "Split incentives, tenancy length, and heat-pump first moves.",
     icon: KeyRound,
   },
   {
     id: "new-build",
     label: "New build",
     title: "Do not connect gas",
-    status: "next",
+    status: "live",
+    body: "Design-stage choices before gas, generators, or diesel enter the plan.",
     icon: PlugZap,
   },
 ];
 
 const inputClass =
-  "h-11 w-full rounded-[6px] border border-[rgba(35,33,31,0.16)] bg-[#FAF7F2] px-3 text-sm text-[#23211F] outline-none transition focus:border-[#2B6B57] focus:ring-2 focus:ring-[#2B6B57]/18";
+  "h-11 w-full rounded-[10px] border border-white/45 bg-white/62 px-3 text-sm text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] outline-none transition backdrop-blur-xl focus:border-[#2B6B57] focus:ring-2 focus:ring-[#2B6B57]/18";
 
 export default function ElectrifyFormPage() {
   return (
-    <main className="min-h-screen bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
-      <section className="px-5 py-8 md:px-10 md:py-12">
+    <main className="min-h-screen overflow-hidden bg-[radial-gradient(ellipse_at_20%_0%,rgba(217,188,122,0.18),transparent_42%),radial-gradient(ellipse_at_78%_18%,rgba(43,107,87,0.14),transparent_46%),var(--assembl-paper)] text-[color:var(--text-primary)]">
+      <section className="relative px-5 py-8 md:px-10 md:py-12">
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-[linear-gradient(180deg,rgba(255,255,255,0.68),transparent)]" />
         <div className="mx-auto grid max-w-[1500px] gap-8 xl:grid-cols-[minmax(0,0.92fr)_minmax(460px,0.78fr)] xl:items-start">
           <div className="min-w-0">
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
@@ -125,7 +131,7 @@ export default function ElectrifyFormPage() {
                 </p>
               </div>
 
-              <div className="relative min-h-[280px] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#23211F] shadow-[0_22px_60px_rgba(35,33,31,0.12)]">
+              <div className="relative min-h-[280px] overflow-hidden rounded-[24px] border border-white/45 bg-[#23211F] shadow-[0_28px_90px_rgba(35,33,31,0.18)] [transform:perspective(1100px)_rotateX(1.6deg)_rotateY(-4deg)]">
                 <Image
                   src="/img/hapai/tools/electrify-vessel.jpg"
                   alt="Sculptural vessel representing electrification planning"
@@ -134,7 +140,7 @@ export default function ElectrifyFormPage() {
                   className="object-cover object-[50%_38%]"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#23211F]/76 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#23211F]/72 via-transparent to-white/10" />
                 <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-2 text-[#FAF7F2]">
                   <HeroChip icon={Car} label="Fleet" />
                   <HeroChip icon={BatteryCharging} label="Heat" />
@@ -149,22 +155,56 @@ export default function ElectrifyFormPage() {
             id="calculator"
             action="/api/calculate"
             method="POST"
-            className="scroll-mt-24 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/72 p-5 shadow-[0_22px_70px_rgba(35,33,31,0.08)] md:p-6 xl:sticky xl:top-24"
+            className="glass-card-elevated scroll-mt-24 p-5 shadow-[0_30px_100px_rgba(35,33,31,0.14)] md:p-6 xl:sticky xl:top-24"
           >
             <div className="border-b border-[rgba(35,33,31,0.10)] pb-5">
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
-                business · live calculator
+                route board · live calculator
               </p>
               <h2 className="mt-2 font-display text-4xl font-light leading-none">
                 Your Machine Count.
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-                Start with the fossil machines in the business. The result ranks
-                the switches by savings and payback.
+                Choose the route, then count the fossil machines. The result
+                ranks the switches by savings and payback.
               </p>
             </div>
 
             <div className="mt-5 grid gap-4">
+              <fieldset>
+                <legend className="text-sm font-medium text-[color:var(--text-primary)]">
+                  Choose your route
+                </legend>
+                <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                  {ROUTES.map((route, index) => {
+                    const Icon = route.icon;
+                    return (
+                      <label
+                        key={route.id}
+                        className="group flex cursor-pointer gap-3 rounded-[14px] border border-white/48 bg-white/54 p-3 shadow-[0_14px_34px_rgba(35,33,31,0.07)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-[#2B6B57]/34 hover:bg-white/78"
+                      >
+                        <input
+                          type="radio"
+                          name="routeType"
+                          value={route.id}
+                          defaultChecked={index === 0}
+                          className="mt-1"
+                        />
+                        <span>
+                          <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
+                            <Icon className="h-3.5 w-3.5" aria-hidden />
+                            {route.label}
+                          </span>
+                          <span className="mt-1 block font-display text-xl leading-none">
+                            {route.title}
+                          </span>
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </fieldset>
+
               <Field label="What does your business do?" name="businessType" required>
                 <select name="businessType" required className={inputClass}>
                   <option value="">Choose one</option>
@@ -240,7 +280,7 @@ export default function ElectrifyFormPage() {
                   {FUEL_TYPES.map((fuel) => (
                     <label
                       key={fuel.value}
-                      className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[6px] border border-[rgba(35,33,31,0.14)] bg-[#FAF7F2] px-3 py-2 text-sm transition hover:border-[#2B6B57]/45 hover:bg-white"
+                      className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#2B6B57]/45 hover:bg-white"
                     >
                       <input type="checkbox" name="fuelTypes" value={fuel.value} className="rounded" />
                       <span>{fuel.label}</span>
@@ -295,7 +335,7 @@ export default function ElectrifyFormPage() {
 
             <button
               type="submit"
-              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] px-6 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#245746]"
+              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] px-6 text-sm font-medium text-[#FAF7F2] shadow-[0_18px_36px_rgba(43,107,87,0.24)] transition hover:-translate-y-0.5 hover:bg-[#245746]"
             >
               Calculate my savings <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </button>
@@ -368,21 +408,24 @@ export default function ElectrifyFormPage() {
   );
 }
 
-function RoutePill({ label, title, status, icon: Icon }: (typeof ROUTES)[number]) {
+function RoutePill({ label, title, status, body, icon: Icon }: (typeof ROUTES)[number]) {
   const isLive = status === "live";
 
   return (
     <a
       href={isLive ? "#calculator" : undefined}
       aria-disabled={!isLive}
-      className="flex min-h-[92px] items-start gap-3 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/56 p-4 transition hover:bg-white"
+      className="group flex min-h-[118px] items-start gap-3 rounded-[18px] border border-white/45 bg-white/48 p-4 shadow-[0_18px_46px_rgba(35,33,31,0.08)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/72"
     >
       <Icon className="mt-0.5 h-5 w-5 flex-none text-[color:var(--assembl-pounamu)]" aria-hidden />
       <span>
         <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-          {label} · {isLive ? "live" : "next"}
+          {label} · live
         </span>
         <span className="mt-2 block font-display text-2xl leading-none">{title}</span>
+        <span className="mt-3 block text-xs leading-relaxed text-[color:var(--text-secondary)]">
+          {body}
+        </span>
       </span>
     </a>
   );
@@ -403,7 +446,7 @@ function Proof({ label, value }: { label: string; value: string }) {
 
 function HeroChip({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
   return (
-    <div className="rounded-[8px] border border-white/18 bg-white/14 px-3 py-2 backdrop-blur">
+    <div className="rounded-[12px] border border-white/24 bg-white/16 px-3 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] backdrop-blur">
       <Icon className="h-4 w-4" aria-hidden />
       <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.12em]">{label}</span>
     </div>
@@ -412,7 +455,7 @@ function HeroChip({ icon: Icon, label }: { icon: LucideIcon; label: string }) {
 
 function VisualNote({ icon: Icon, title, body }: { icon: LucideIcon; title: string; body: string }) {
   return (
-    <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/50 p-4">
+    <div className="rounded-[18px] border border-white/45 bg-white/48 p-4 shadow-[0_18px_46px_rgba(35,33,31,0.07)] backdrop-blur-xl">
       <Icon className="h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
       <h2 className="mt-3 font-display text-2xl leading-none">{title}</h2>
       <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">{body}</p>

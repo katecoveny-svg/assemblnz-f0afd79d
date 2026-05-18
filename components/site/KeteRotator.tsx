@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { Pause, Play } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Kete } from '@/lib/kete';
 import { TeReo } from './TeReo';
@@ -29,12 +29,21 @@ export function KeteRotator({
   body?: ReactNode;
 }) {
   const reduceMotion = useReducedMotion();
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const ordered = useMemo(() => ketes.filter((kete) => kete.slug !== 'toro').concat(ketes.filter((kete) => kete.slug === 'toro')), [ketes]);
   const controlledIndex = activeSlug ? ordered.findIndex((kete) => kete.slug === activeSlug) : -1;
   const currentIndex = controlledIndex >= 0 ? controlledIndex : index % ordered.length;
   const current = ordered[currentIndex];
+  const { scrollYProgress } = useScroll({
+    target: stageRef,
+    offset: ['start end', 'end start'],
+  });
+  const stageRotate = useTransform(scrollYProgress, [0, 0.5, 1], [-4, 0, 4]);
+  const stageY = useTransform(scrollYProgress, [0, 1], ['-5%', '7%']);
+  const vesselScale = useTransform(scrollYProgress, [0, 0.45, 1], [1.1, 1, 0.94]);
+  const sheenX = useTransform(scrollYProgress, [0, 1], ['-28%', '28%']);
 
   useEffect(() => {
     if (paused || reduceMotion || ordered.length < 2) return undefined;
@@ -58,7 +67,7 @@ export function KeteRotator({
         className,
       ].join(' ')}
     >
-      <div className="relative z-10 md:max-w-[50rem]">
+      <div className="relative z-10 order-2 md:order-1 md:max-w-[50rem]">
         <h1
           className={[
             'font-display font-light leading-[0.95] tracking-normal text-[color:var(--assembl-pounamu)]',
@@ -118,15 +127,41 @@ export function KeteRotator({
         </button>
       </div>
 
-      <div className="relative -mx-6 aspect-[5/4] overflow-hidden bg-[#FAF7F2] md:mx-0 md:-mr-10 md:min-h-[min(72svh,820px)] lg:-mr-14 xl:-mr-20">
+      <motion.div
+        ref={stageRef}
+        className="relative order-1 -mx-6 h-[42svh] min-h-[260px] max-h-[360px] overflow-hidden rounded-b-[34px] border-b border-[rgba(35,33,31,0.08)] bg-[#FAF7F2] shadow-[0_34px_120px_rgba(35,33,31,0.13)] [perspective:1400px] md:order-2 md:mx-0 md:-mr-10 md:h-auto md:max-h-none md:min-h-[min(76svh,860px)] md:rounded-[34px] md:border lg:-mr-14 xl:-mr-20"
+        style={reduceMotion ? undefined : { rotateY: stageRotate, y: stageY }}
+      >
+        <video
+          className="absolute inset-0 h-full w-full object-cover opacity-[0.16] mix-blend-multiply motion-reduce:hidden"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/videos/vessel-canon-landscape-poster.jpg"
+          aria-hidden
+        >
+          <source src="/videos/vessel-canon-landscape-720p.mp4" type="video/mp4" />
+        </video>
+        <motion.div
+          className="pointer-events-none absolute inset-y-[-12%] left-1/2 z-20 w-1/3 rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.52),transparent)] blur-xl"
+          style={reduceMotion ? undefined : { x: sheenX }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_54%_42%,transparent_0%,transparent_35%,rgba(250,247,242,0.32)_78%),linear-gradient(120deg,rgba(255,255,255,0.34),transparent_42%,rgba(35,33,31,0.08))]"
+          aria-hidden
+        />
         <AnimatePresence mode="wait">
           <motion.div
             key={current.heroImage}
-            className="absolute inset-0"
-            initial={reduceMotion ? false : { opacity: 0.6, scale: 1.015 }}
-            animate={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
-            exit={reduceMotion ? undefined : { opacity: 0.6, scale: 0.992 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 z-0"
+            initial={reduceMotion ? false : { opacity: 0.4, scale: 1.08, rotateX: 2 }}
+            animate={reduceMotion ? undefined : { opacity: 1, scale: 1, rotateX: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0.35, scale: 0.96, rotateX: -2 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={reduceMotion ? undefined : { scale: vesselScale }}
           >
             <Image
               src={current.heroImage}
@@ -140,7 +175,26 @@ export function KeteRotator({
             />
           </motion.div>
         </AnimatePresence>
-      </div>
+        <div className="absolute bottom-4 left-4 right-4 z-30 grid grid-cols-3 gap-2 text-[color:var(--text-primary)] md:bottom-6 md:left-6 md:right-6">
+          {[
+            ['01', current.accentName],
+            ['02', current.industry],
+            ['03', 'proof sealed'],
+          ].map(([label, value]) => (
+            <div
+              key={`${label}-${value}`}
+              className="rounded-[16px] border border-white/38 bg-[#FAF7F2]/58 px-3 py-3 shadow-[0_18px_48px_rgba(35,33,31,0.12)] backdrop-blur-xl"
+            >
+              <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                {label}
+              </span>
+              <span className="mt-1 block truncate font-display text-lg italic leading-none md:text-2xl">
+                {value}
+              </span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }
