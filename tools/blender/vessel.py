@@ -52,16 +52,28 @@ ANIMATE = False
 RESOLUTION = "4K"     # 4K | 2K | 1080p
 OUTPUT_PATH = None
 
-# Parse CLI args after `--`
+# Parse CLI args after `--`. Validates that flags requiring a value have one
+# rather than throwing IndexError when shell expansion produces an empty arg.
 if "--" in sys.argv:
     cli = sys.argv[sys.argv.index("--") + 1:]
     i = 0
     while i < len(cli):
-        if cli[i] == "--variant":     VARIANT = cli[i + 1]; i += 2
-        elif cli[i] == "--animate":   ANIMATE = True; i += 1
-        elif cli[i] == "--resolution":RESOLUTION = cli[i + 1]; i += 2
-        elif cli[i] == "--output":    OUTPUT_PATH = cli[i + 1]; i += 2
-        else: i += 1
+        arg = cli[i]
+        if arg == "--animate":
+            ANIMATE = True
+            i += 1
+            continue
+        if arg in ("--variant", "--resolution", "--output"):
+            if i + 1 >= len(cli):
+                sys.stderr.write(f"[vessel] {arg} requires a value.\n")
+                sys.exit(2)
+            value = cli[i + 1]
+            if arg == "--variant":      VARIANT = value
+            elif arg == "--resolution": RESOLUTION = value
+            elif arg == "--output":     OUTPUT_PATH = value
+            i += 2
+            continue
+        i += 1
 
 RES_MAP = {"4K": (3840, 2160), "2K": (2560, 1440), "1080p": (1920, 1080)}
 RES_X, RES_Y = RES_MAP.get(RESOLUTION, RES_MAP["4K"])
@@ -336,7 +348,14 @@ if ANIMATE:
     # 4-second turntable at 24 fps — 96 frames
     scene.frame_start = 1
     scene.frame_end = 96
+    # Position the camera straight out along +X so the turntable orbits
+    # cleanly around the vessel centre. Recompute the rotation so the
+    # camera looks at the same target after the move — otherwise the
+    # original off-axis aim from `cam.rotation_euler = ...` above would
+    # carry over and the orbit would be off-centre.
     cam.location = (4.0, 0.0, 1.6)
+    direction = target - Vector(cam.location)
+    cam.rotation_euler = direction.to_track_quat("-Z", "Y").to_euler()
     # Add an empty at the vessel centre and parent the camera to it,
     # then rotate the empty for a turntable.
     bpy.ops.object.empty_add(type="PLAIN_AXES", location=(0, 0, 0.95))
