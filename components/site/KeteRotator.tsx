@@ -52,16 +52,16 @@ export function KeteRotator({
   return (
     <div
       className={[
-        'grid items-center gap-10 md:grid-cols-[minmax(24rem,0.82fr)_minmax(0,1.22fr)] md:gap-8 lg:gap-12',
+        'grid items-center gap-10 md:grid-cols-[minmax(34rem,0.92fr)_minmax(0,1.08fr)] md:gap-10 lg:gap-14',
         className,
       ].join(' ')}
     >
-      <div className="relative z-10 md:max-w-[42rem]">
+      <div className="relative z-10 md:max-w-[50rem]">
         <h1
           className={[
             'font-display font-light leading-[0.95] tracking-[-0.02em] text-[color:var(--text-primary)]',
             scale === 'immersive'
-              ? 'text-[clamp(3.3rem,15vw,6rem)] md:text-[clamp(4rem,7.4vw,7.8rem)]'
+              ? 'text-[clamp(3.3rem,15vw,6rem)] md:text-[clamp(5.6rem,8.8vw,10.5rem)]'
               : 'text-display-xl',
           ].join(' ')}
         >
@@ -79,7 +79,7 @@ export function KeteRotator({
               className={[
                 'mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-display font-light leading-[0.98] tracking-[-0.02em]',
                 scale === 'immersive'
-                  ? 'min-h-[clamp(2.8rem,12vw,4.5rem)] text-[clamp(2.7rem,12vw,4.5rem)] md:min-h-[clamp(3.4rem,5vw,5.6rem)] md:text-[clamp(3rem,5vw,5.8rem)]'
+                  ? 'min-h-[clamp(2.8rem,12vw,4.5rem)] text-[clamp(2.7rem,12vw,4.5rem)] md:min-h-[clamp(4.5rem,5.4vw,6.4rem)] md:text-[clamp(4.1rem,5.4vw,6.4rem)]'
                   : 'min-h-[3.5rem] text-display-lg',
               ].join(' ')}
             >
@@ -92,7 +92,7 @@ export function KeteRotator({
             <p
               className={[
                 'mt-6 max-w-2xl text-[color:var(--text-body)]',
-                scale === 'immersive' ? 'text-body-md md:text-body-lg' : 'text-body-md',
+                scale === 'immersive' ? 'text-body-md md:text-[clamp(1.1rem,1vw,1.45rem)] md:leading-[1.55]' : 'text-body-md',
               ].join(' ')}
             >
               {current.industry} specialist agents. Human review. Evidence packs.
@@ -111,7 +111,7 @@ export function KeteRotator({
         </button>
       </div>
 
-      <div className="relative -mx-6 aspect-[5/4] overflow-hidden bg-[#FAF7F2] md:mx-0 md:-mr-10 md:min-h-[min(68svh,760px)] lg:-mr-14 xl:-mr-20">
+      <div className="relative -mx-6 aspect-[5/4] overflow-hidden bg-[#FAF7F2] md:mx-0 md:-mr-10 md:min-h-[min(72svh,820px)] lg:-mr-14 xl:-mr-20">
         <AnimatePresence mode="wait">
           <motion.div
             key={current.heroImage}
