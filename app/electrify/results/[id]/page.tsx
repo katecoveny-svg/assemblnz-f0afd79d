@@ -173,7 +173,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-4 shadow-[0_20px_70px_rgba(35,33,31,0.10)]">
             <div className="relative aspect-[4/3] overflow-hidden rounded-[6px] bg-pounamu-900">
               <Image
-                src="/img/kete/arataki-vessel-amber.jpg"
+                src="/img/hapai/tools/electrify-vessel.jpg"
                 alt="Sculptural vessel representing an electrification plan"
                 fill
                 sizes="(min-width: 1024px) 42vw, 100vw"

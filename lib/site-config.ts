@@ -71,6 +71,18 @@ export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
   },
 };
 
+export const footerKeteCutouts: Record<KeteSlug, string> = {
+  waihanga: '/img/kete/footer-cutouts/waihanga.png',
+  manaaki: '/img/kete/footer-cutouts/manaaki.png',
+  pikau: '/img/kete/footer-cutouts/pikau.png',
+  arataki: '/img/kete/footer-cutouts/arataki.png',
+  auaha: '/img/kete/footer-cutouts/auaha.png',
+  ako: '/img/kete/footer-cutouts/ako.png',
+  matauranga: '/img/kete/footer-cutouts/matauranga.png',
+  hoko: '/img/kete/footer-cutouts/hoko.png',
+  toro: '/img/kete/footer-cutouts/toro.png',
+};
+
 // ── Hero videos — moving backgrounds for major page heroes ───────────────────
 //
 // Map of route key → { src, poster }. `src` is null where Kate has not yet
