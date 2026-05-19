@@ -119,7 +119,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
   const pageRef = useRef<HTMLElement | null>(null);
   const [activeSlug, setActiveSlug] = useState<KeteSlug>('waihanga');
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: pageRef, offset: ['start start', 'end end'] });
+  const { scrollYProgress } = useScroll();
   const heroWashY = useTransform(scrollYProgress, [0, 0.2], ['0%', '18%']);
   const heroWashOpacity = useTransform(scrollYProgress, [0, 0.18], [0.72, 0]);
   const activeKete = useMemo(

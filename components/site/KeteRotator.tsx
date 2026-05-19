@@ -36,10 +36,7 @@ export function KeteRotator({
   const controlledIndex = activeSlug ? ordered.findIndex((kete) => kete.slug === activeSlug) : -1;
   const currentIndex = controlledIndex >= 0 ? controlledIndex : index % ordered.length;
   const current = ordered[currentIndex];
-  const { scrollYProgress } = useScroll({
-    target: stageRef,
-    offset: ['start end', 'end start'],
-  });
+  const { scrollYProgress } = useScroll();
   const stageRotate = useTransform(scrollYProgress, [0, 0.5, 1], [-4, 0, 4]);
   const stageY = useTransform(scrollYProgress, [0, 1], ['-5%', '7%']);
   const vesselScale = useTransform(scrollYProgress, [0, 0.45, 1], [1.1, 1, 0.94]);
@@ -63,97 +60,103 @@ export function KeteRotator({
 
   if (immersive) {
     return (
-      <div className={['relative min-h-[calc(100svh-5.5rem)] overflow-visible md:overflow-hidden', className].join(' ')}>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_34%,color-mix(in_srgb,var(--kete-accent)_17%,transparent),transparent_30%),linear-gradient(90deg,#FAF7F2_0%,#FAF7F2_38%,rgba(250,247,242,0.88)_55%,rgba(250,247,242,0.18)_100%)]" aria-hidden />
+      <div
+        className={[
+          'relative grid min-h-[calc(100svh-5.5rem)] items-center gap-8 overflow-hidden md:grid-cols-[minmax(26rem,0.78fr)_minmax(36rem,1.22fr)] md:gap-10 lg:gap-14',
+          className,
+        ].join(' ')}
+      >
+        <div
+          className="absolute inset-0 bg-[radial-gradient(circle_at_78%_34%,color-mix(in_srgb,var(--kete-accent)_18%,transparent),transparent_30%),linear-gradient(90deg,#FAF7F2_0%,#FAF7F2_44%,rgba(250,247,242,0.78)_66%,rgba(250,247,242,0.2)_100%)]"
+          aria-hidden
+        />
+
+        <div className="relative z-20 order-2 max-w-[42rem] pb-12 md:order-1 md:pb-0">
+          <h1 className="font-display text-[clamp(4rem,17vw,5.75rem)] font-light leading-[0.9] tracking-normal text-[#0F4A3E] md:text-[clamp(6.2rem,7.2vw,9.6rem)] md:leading-[0.88]">
+            <TeReo title="work">Mahi</TeReo> that earns its proof.
+          </h1>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.slug}
+              initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
+              animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0.72, y: -8 }}
+              transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <p className="mt-3 font-display text-[clamp(2.55rem,11vw,3.8rem)] font-light italic leading-[0.95] text-[color:var(--text-primary)] md:text-[clamp(3.6rem,4.5vw,5.8rem)] md:leading-[0.92]">
+                for <span lang="mi" style={{ color: current.accent }}>{current.name}</span>.
+              </p>
+              <p className="mt-6 max-w-[36rem] text-[clamp(1.05rem,4.7vw,1.35rem)] font-medium leading-[1.35] text-[#23211F] md:mt-7 md:text-[clamp(1.32rem,1.28vw,1.72rem)]">
+                Specialist agents for the admin work that drains your team. Built in Aotearoa.
+              </p>
+              {body ? (
+                <div className="mt-5 max-w-[34rem] text-[0.98rem] leading-[1.65] text-[#3D4250] md:text-[1.04rem] [&_p]:font-medium">
+                  {body}
+                </div>
+              ) : null}
+            </motion.div>
+          </AnimatePresence>
+          {actions}
+          <button
+            type="button"
+            onClick={() => setPaused((value) => !value)}
+            className="mt-7 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(35,33,31,0.16)] bg-white/58 text-[color:var(--text-secondary)] shadow-[0_14px_38px_rgba(35,33,31,0.08)] backdrop-blur-md transition hover:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            aria-pressed={paused || Boolean(reduceMotion)}
+            aria-label={paused || reduceMotion ? 'Resume animation' : 'Pause animation'}
+          >
+            {paused || reduceMotion ? <Play className="h-3.5 w-3.5" aria-hidden /> : <Pause className="h-3.5 w-3.5" aria-hidden />}
+          </button>
+        </div>
+
         <motion.div
           ref={stageRef}
-          className="pointer-events-none absolute inset-y-[5%] right-[-42vw] z-0 w-[142vw] min-w-0 sm:right-[-30vw] md:inset-y-[-10%] md:left-[47%] md:right-[-8vw] md:w-auto lg:left-[45%] xl:left-[43%] 2xl:left-[41%] 2xl:right-[-4vw]"
+          className="relative z-10 order-1 -mx-6 h-[46svh] min-h-[300px] overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[#F7F1E9] shadow-[0_34px_120px_rgba(35,33,31,0.1)] md:order-2 md:-mr-[7vw] md:mx-0 md:h-[min(78svh,850px)] md:min-h-[620px] md:rounded-l-[34px] md:border md:border-r-0 md:shadow-[0_46px_160px_rgba(35,33,31,0.14)]"
           style={reduceMotion ? undefined : { y: stageY, rotateY: stageRotate }}
-          aria-hidden
         >
+          <video
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.12] mix-blend-multiply motion-reduce:hidden"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/videos/vessel-canon-landscape-poster.jpg"
+            aria-hidden
+          >
+            <source src="/videos/vessel-canon-landscape-720p.mp4" type="video/mp4" />
+          </video>
           <AnimatePresence mode="wait">
             <motion.div
               key={current.heroImage}
               className="absolute inset-0"
-              initial={reduceMotion ? false : { opacity: 0.48, scale: 1.08, x: 28 }}
+              initial={reduceMotion ? false : { opacity: 0.6, scale: 1.05, x: 24 }}
               animate={reduceMotion ? undefined : { opacity: 1, scale: 1, x: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0.42, scale: 0.96, x: -22 }}
+              exit={reduceMotion ? undefined : { opacity: 0.52, scale: 0.98, x: -18 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               style={reduceMotion ? undefined : { scale: vesselScale }}
             >
               <Image
                 src={current.heroImage}
-                alt=""
+                alt={`${current.name} vessel — ${current.industry}`}
                 fill
                 priority={currentIndex === 0}
                 loading={currentIndex === 0 ? undefined : 'lazy'}
-                sizes="(min-width: 1280px) 72vw, (min-width: 768px) 84vw, 118vw"
-                className="object-cover opacity-[0.98]"
-                style={{
-                  objectPosition: current.slug === 'toro' ? '50% 42%' : '50% 50%',
-                  WebkitMaskImage:
-                    'linear-gradient(90deg,transparent 0%, black 14%, black 100%), linear-gradient(180deg,transparent 0%, black 6%, black 92%, transparent 100%)',
-                  maskImage:
-                    'linear-gradient(90deg,transparent 0%, black 14%, black 100%), linear-gradient(180deg,transparent 0%, black 6%, black 92%, transparent 100%)',
-                  WebkitMaskComposite: 'source-in',
-                  maskComposite: 'intersect',
-                }}
+                sizes="(min-width: 1280px) 58vw, (min-width: 768px) 54vw, 100vw"
+                className="object-cover"
+                style={{ objectPosition: current.slug === 'toro' ? '50% 44%' : '50% 50%' }}
               />
             </motion.div>
           </AnimatePresence>
-        </motion.div>
-
-        <motion.div
-          className="pointer-events-none absolute inset-y-0 right-[18vw] z-10 hidden w-[18vw] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent)] blur-2xl md:block"
-          style={reduceMotion ? undefined : { x: sheenX }}
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-[58%] bg-[linear-gradient(90deg,#FAF7F2_0%,#FAF7F2_58%,rgba(250,247,242,0.94)_78%,rgba(250,247,242,0)_100%)] md:block"
-          aria-hidden
-        />
-
-        <div className="relative z-20 flex min-h-[calc(100svh-5.5rem)] items-center px-0 py-14 md:py-10">
+          <motion.div
+            className="pointer-events-none absolute inset-y-[-12%] left-1/2 z-20 w-1/3 rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent)] blur-xl"
+            style={reduceMotion ? undefined : { x: sheenX }}
+            aria-hidden
+          />
           <div
-            className="w-full md:pr-0"
-            style={{ maxWidth: 'min(820px, calc(100vw - 48px))' }}
-          >
-            <h1 className="font-display text-[clamp(4.05rem,16vw,5.2rem)] font-light leading-[0.9] tracking-normal text-[#0F4A3E] md:text-[clamp(7rem,8.4vw,11.25rem)] md:leading-[0.88]">
-              <TeReo title="work">Mahi</TeReo> that earns its proof.
-            </h1>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current.slug}
-                initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
-                animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0.72, y: -8 }}
-                transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <p className="mt-3 font-display text-[clamp(2.55rem,11vw,3.8rem)] font-light italic leading-[0.95] text-[color:var(--text-primary)] md:text-[clamp(4.1rem,5vw,6.4rem)] md:leading-[0.92]">
-                  for <span lang="mi" style={{ color: current.accent }}>{current.name}</span>.
-                </p>
-                <p className="mt-6 max-w-[320px] text-[clamp(1.05rem,4.7vw,1.35rem)] font-medium leading-[1.35] text-[#23211F] md:mt-7 md:max-w-[680px] md:text-[clamp(1.45rem,1.55vw,2.05rem)]">
-                  Specialist agents for the admin work that drains your team. Built in Aotearoa.
-                </p>
-                {body ? (
-                  <div className="mt-5 max-w-[320px] text-[0.98rem] leading-[1.65] text-[#3D4250] md:max-w-[650px] md:text-[1.08rem] [&_p]:font-medium">
-                    {body}
-                  </div>
-                ) : null}
-              </motion.div>
-            </AnimatePresence>
-            {actions}
-            <button
-              type="button"
-              onClick={() => setPaused((value) => !value)}
-              className="mt-7 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(35,33,31,0.16)] bg-white/58 text-[color:var(--text-secondary)] shadow-[0_14px_38px_rgba(35,33,31,0.08)] backdrop-blur-md transition hover:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-              aria-pressed={paused || Boolean(reduceMotion)}
-              aria-label={paused || reduceMotion ? 'Resume animation' : 'Pause animation'}
-            >
-              {paused || reduceMotion ? <Play className="h-3.5 w-3.5" aria-hidden /> : <Pause className="h-3.5 w-3.5" aria-hidden />}
-            </button>
-          </div>
-        </div>
+            className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(90deg,rgba(250,247,242,0.22)_0%,transparent_28%,transparent_100%),radial-gradient(circle_at_48%_50%,transparent_0%,transparent_54%,rgba(35,33,31,0.08)_100%)]"
+            aria-hidden
+          />
+        </motion.div>
       </div>
     );
   }
