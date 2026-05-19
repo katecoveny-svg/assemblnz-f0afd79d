@@ -80,15 +80,17 @@ function takingABreak(email: string | null) {
 }
 
 function streamText(text: string, init?: ResponseInit) {
+  // 2026-05-19: removed per-word setTimeout(10) throttle. With long Pīkau /
+  // Tōro replies (~250 words) the 2.5s of cumulative delay pushed total
+  // function duration past Vercel's hobby-tier ~10s limit and the response
+  // was killed mid-stream with a 503. Flushing the whole body in one
+  // enqueue keeps the typewriter effect (Next.js still streams to the
+  // browser) without pinning the function alive long enough to be culled.
   const encoder = new TextEncoder();
-  const words = text.match(/\S+\s*/g) ?? [text];
   return new Response(
     new ReadableStream({
-      async start(controller) {
-        for (const word of words) {
-          controller.enqueue(encoder.encode(word));
-          await new Promise((resolve) => setTimeout(resolve, 10));
-        }
+      start(controller) {
+        controller.enqueue(encoder.encode(text));
         controller.close();
       },
     }),
