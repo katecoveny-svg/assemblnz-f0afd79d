@@ -75,6 +75,16 @@ function fallbackPrivacyHtml(input: PrivacyRequest) {
   return `<h1>${org} — Privacy Act 2020 one-pager</h1><p>${org} collects ${escapeHtml(data)} for ${escapeHtml(input.description || "business operations")}. The main privacy task is to tell people what is collected, keep it secure, and delete it when it is no longer needed.</p><h2>Which Information Privacy Principles apply most to you</h2><p>These IPPs are the most relevant from the details supplied.</p><h3><span class="ipp-pill">IPP 1</span> Purpose</h3><p>Only collect information you need for a lawful purpose connected to your work.</p><ul><li>Write down each data type and the reason it is needed.</li></ul><h3><span class="ipp-pill">IPP 3</span> Notification</h3><p>People should know what is collected, why, and who receives it.</p><ul><li>Update your collection notice for ${org} before the next intake or onboarding process.</li></ul>${ipp3a}<h3><span class="ipp-pill">IPP 5</span> Storage and security</h3><p>Personal information must be protected against loss, misuse, and unauthorised access.</p><ul><li>Check access controls for ${escapeHtml(input.storage || "your storage location")}.</li></ul><h3><span class="ipp-pill">IPP 9</span> Retention</h3><p>Do not keep personal information longer than needed.</p><ul><li>Set a retention rule of ${escapeHtml(input.retention || "a defined period")} and review old records.</li></ul>${ipp12}<h2>Your "what to do this week" list</h2><ul><li>Name your privacy officer.</li><li>Write or update your privacy notice.</li><li>Check who can access stored personal information.</li><li>Set a deletion date for old records.</li></ul><h2>If something goes wrong</h2><p>If a breach could cause serious harm, notify the Privacy Commissioner and affected people as soon as practicable. Serious harm depends on sensitivity, who has the information, possible misuse, and whether protections reduce the risk.</p><h2>People to know</h2><ul><li><strong>Privacy Commissioner:</strong> privacy.org.nz · 0800 803 909</li><li><strong>Their privacy officer:</strong> Every NZ business must appoint one — name TBC if not yet assigned.</li></ul>`;
 }
 
+function appendAssemblWatermark(html: string, toolLabel: string, toolPath: string) {
+  return (
+    html +
+    `<footer style="margin-top:28px;padding-top:16px;border-top:1px solid rgba(35,33,31,0.12);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(35,33,31,0.62);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;line-height:1.5;">` +
+    `<span><span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;text-transform:none;letter-spacing:0;font-size:14px;color:#2B6B57;">assembl</span> · ${escapeHtml(toolLabel)}</span>` +
+    `<a href="https://assembl.co.nz${toolPath}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">assembl.co.nz${escapeHtml(toolPath)} →</a>` +
+    `</footer>`
+  );
+}
+
 type PrivacyRequest = {
   organisationName: string;
   sector: string;
@@ -117,12 +127,15 @@ ${JSON.stringify(input, null, 2)}`;
         body: { kete: "auaha", message, sessionId: crypto.randomUUID() },
       });
       if (!error && typeof data?.response === "string" && data.response.trim()) {
-        return NextResponse.json({ html: sanitizeHtml(data.response) });
+        const cleaned = sanitizeHtml(data.response);
+        return NextResponse.json({ html: appendAssemblWatermark(cleaned, "privacy act one-pager", "/hapai/privacy-act") });
       }
     }
   } catch (error) {
     console.error("[hapai/privacy-act] generation failed", error);
   }
 
-  return NextResponse.json({ html: fallbackPrivacyHtml(input) });
+  return NextResponse.json({
+    html: appendAssemblWatermark(fallbackPrivacyHtml(input), "privacy act one-pager", "/hapai/privacy-act"),
+  });
 }

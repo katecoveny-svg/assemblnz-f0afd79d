@@ -31,18 +31,71 @@ function sanitizeHtml(input: string) {
     .trim();
 }
 
-function fallbackMeetingHtml(raw: string, title: string) {
+function fallbackMeetingHtml(raw: string, title: string, attendees: string) {
+  // Tokenise on newlines AND on sentence-ending dots so "we agreed X. Tom sends Y." both get picked up
   const lines = raw
-    .split(/\n+/)
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .slice(0, 8);
-  const summary = lines[0] ?? "Notes were captured for this meeting.";
-  const discussion = lines.length ? lines : ["Raw notes received."];
+    .split(/[\n\r]+|(?<=\.)\s+(?=[A-Z])/)
+    .map((line) => line.replace(/^[-•*\d.\s]+/, "").trim())
+    .filter((line) => line.length > 2);
 
-  return `<h2>Summary</h2><p>${escapeHtml(title || summary)}</p><h2>Decisions</h2><p>None recorded.</p><h2>Action items</h2><p>None recorded.</p><h2>Discussion</h2><ul>${discussion
-    .map((line) => `<li>${escapeHtml(line)}</li>`)
-    .join("")}</ul><h2>Next steps</h2><ul><li>Review and assign owners where needed.</li></ul>`;
+  const decisionPatterns = /\b(agreed|decided|decision|locked|signed[- ]?off|approved|chose|confirmed|going with)\b/i;
+  const actionPatterns = /\b(will|to send|to share|to draft|to chase|to follow up|action|owner|by (mon|tue|wed|thu|fri|sat|sun|tomorrow|today|next week|end of (?:day|week))|EOD|EOW|due )/i;
+  const nextStepsPatterns = /\b(next sync|next meeting|follow[- ]?up|park|parked|open question|tbc|tbd|to schedule)\b/i;
+
+  // Try to capture owner from "Tom sends X" or "Kate to draft Y" patterns
+  const attendeeList = attendees.split(/[,;]/).map((a) => a.trim()).filter(Boolean);
+  function tagOwner(line: string) {
+    for (const a of attendeeList) {
+      if (!a) continue;
+      const first = a.split(/\s+/)[0];
+      if (new RegExp(`\\b${first}\\b`, "i").test(line)) {
+        return `<strong>${escapeHtml(first)}:</strong> ${escapeHtml(line)}`;
+      }
+    }
+    // Generic "X to Y" or "X sends Y" pattern
+    const m = line.match(/^([A-Z][a-zāēīōū]+)\s+(to|sends|drafts|reviews|chases|signs|sets|blocks|emails)\b/);
+    if (m) return `<strong>${escapeHtml(m[1])}:</strong> ${escapeHtml(line)}`;
+    return `<strong>Unassigned:</strong> ${escapeHtml(line)}`;
+  }
+
+  const decisions: string[] = [];
+  const actions: string[] = [];
+  const nextSteps: string[] = [];
+  const discussion: string[] = [];
+
+  for (const line of lines) {
+    if (actionPatterns.test(line)) actions.push(tagOwner(line));
+    else if (decisionPatterns.test(line)) decisions.push(escapeHtml(line));
+    else if (nextStepsPatterns.test(line)) nextSteps.push(escapeHtml(line));
+    else discussion.push(escapeHtml(line));
+  }
+
+  const summary = title
+    ? `${escapeHtml(title)}. Captured from ${attendees ? "attendees: " + escapeHtml(attendees) : "the meeting notes"}.`
+    : "Notes captured from the meeting.";
+
+  const ul = (items: string[]) =>
+    items.length === 0
+      ? "<p>None recorded.</p>"
+      : `<ul>${items.map((line) => `<li>${line}</li>`).join("")}</ul>`;
+
+  return [
+    `<h2>Summary</h2><p>${summary}</p>`,
+    `<h2>Decisions</h2>${ul(decisions)}`,
+    `<h2>Action items</h2>${ul(actions)}`,
+    `<h2>Discussion</h2>${ul(discussion.slice(0, 12))}`,
+    `<h2>Next steps</h2>${ul(nextSteps.length ? nextSteps : ["Review and assign owners where needed."])}`,
+  ].join("");
+}
+
+function appendAssemblWatermark(html: string, toolLabel: string, toolPath: string) {
+  return (
+    html +
+    `<footer style="margin-top:28px;padding-top:16px;border-top:1px solid rgba(35,33,31,0.12);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(35,33,31,0.62);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;line-height:1.5;">` +
+    `<span><span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;text-transform:none;letter-spacing:0;font-size:14px;color:#2B6B57;">assembl</span> · ${escapeHtml(toolLabel)}</span>` +
+    `<a href="https://assembl.co.nz${toolPath}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">assembl.co.nz${escapeHtml(toolPath)} →</a>` +
+    `</footer>`
+  );
 }
 
 function escapeHtml(value: string) {
@@ -82,12 +135,15 @@ ${raw.slice(0, 18_000)}`;
         },
       });
       if (!error && typeof data?.response === "string" && data.response.trim()) {
-        return NextResponse.json({ html: sanitizeHtml(data.response) });
+        const cleaned = sanitizeHtml(data.response);
+        return NextResponse.json({ html: appendAssemblWatermark(cleaned, "meeting recorder", "/hapai/meeting-notes") });
       }
     }
   } catch (error) {
     console.error("[hapai/meeting-notes] polish failed", error);
   }
 
-  return NextResponse.json({ html: fallbackMeetingHtml(raw, title) });
+  return NextResponse.json({
+    html: appendAssemblWatermark(fallbackMeetingHtml(raw, title, attendees), "meeting recorder", "/hapai/meeting-notes"),
+  });
 }
