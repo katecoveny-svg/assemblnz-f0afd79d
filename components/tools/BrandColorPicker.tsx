@@ -42,7 +42,7 @@ export function BrandColorPicker({ value, onChange, id = 'brand-color' }: Props)
       <div className="flex items-center gap-3">
         <span
           aria-hidden
-          className="h-10 w-10 shrink-0 rounded-full border border-[rgba(35,33,31,0.12)]"
+          className="h-11 w-11 shrink-0 rounded-full border border-[rgba(35,33,31,0.12)]"
           style={{ backgroundColor: HEX_RE.test(draft) ? draft : value }}
         />
         <label htmlFor={id} className="sr-only">
@@ -56,14 +56,14 @@ export function BrandColorPicker({ value, onChange, id = 'brand-color' }: Props)
           spellCheck={false}
           maxLength={7}
           placeholder="#2B6B57"
-          className="font-mono w-32 rounded-md border border-[rgba(35,33,31,0.18)] bg-white px-3 py-2 text-sm tracking-wider text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2B6B57]"
+          className="font-mono min-h-11 w-32 rounded-md border border-[rgba(35,33,31,0.18)] bg-white px-3 py-2 text-sm tracking-wider text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2B6B57]"
         />
         <input
           type="color"
           aria-label="Brand colour swatch picker"
           value={HEX_RE.test(draft) ? draft : value}
           onChange={(e) => commit(e.target.value)}
-          className="h-10 w-12 cursor-pointer rounded-md border border-[rgba(35,33,31,0.18)] bg-white"
+          className="h-11 w-12 cursor-pointer rounded-md border border-[rgba(35,33,31,0.18)] bg-white"
         />
       </div>
       <fieldset className="flex flex-wrap gap-2">
@@ -76,7 +76,7 @@ export function BrandColorPicker({ value, onChange, id = 'brand-color' }: Props)
             type="button"
             onClick={() => commit(chip.color)}
             aria-label={`Use ${chip.label} (${chip.color})`}
-            className="group flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.12)] bg-white px-3 py-1.5 text-xs text-[color:var(--text-secondary)] hover:border-[rgba(35,33,31,0.32)] hover:text-[color:var(--text-primary)]"
+            className="group flex min-h-11 items-center gap-2 rounded-full border border-[rgba(35,33,31,0.12)] bg-white px-3 py-2 text-xs text-[color:var(--text-secondary)] hover:border-[rgba(35,33,31,0.32)] hover:text-[color:var(--text-primary)]"
           >
             <span
               aria-hidden

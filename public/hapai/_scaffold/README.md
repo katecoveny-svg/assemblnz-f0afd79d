@@ -24,7 +24,7 @@ The shell provides:
 
 For new tools, keep only tool-specific CSS and JS inline. Use the cached portrait asset for founder notes:
 
-`/img/about/kate-hudson-portrait-blue-shirt.png`
+`/img/about/kate-hudson-portrait-blue-shirt.webp`
 
 Canon checks:
 

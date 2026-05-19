@@ -39,12 +39,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { generationId } = await params;
   const row = await loadGeneration(generationId);
-  if (!row) return { title: 'Vessel · assembl' };
+  if (!row) return { title: 'vessel' };
   return {
-    title: `${row.brand_name} vessel · assembl`,
+    title: `${row.brand_name} vessel`,
     description: row.prompt,
     openGraph: {
-      title: `${row.brand_name} vessel · assembl`,
+      title: `${row.brand_name} vessel`,
       description: row.prompt,
       images: [{ url: row.image_url }],
     },

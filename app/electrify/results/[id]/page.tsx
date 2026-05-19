@@ -121,15 +121,15 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
   )} a year back from fossil machines. Run your own NZ estimate from assembl.`;
 
   return (
-    <main className="bg-[color:var(--assembl-paper)] font-inter text-taupe-900">
+    <main className="overflow-hidden bg-[radial-gradient(ellipse_at_18%_0%,rgba(217,188,122,0.18),transparent_42%),radial-gradient(ellipse_at_78%_12%,rgba(43,107,87,0.16),transparent_46%),var(--assembl-paper)] font-inter text-taupe-900">
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-6 py-12 lg:px-10 lg:py-18">
         <div className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
           <Image
-            src="/images/lattice-macro.webp"
+            src="/img/hapai/tools/electrify-share-card.png"
             alt=""
             fill
             sizes="50vw"
-            className="object-cover opacity-25 mix-blend-multiply"
+            className="object-cover opacity-[0.18] mix-blend-multiply"
             priority
           />
         </div>
@@ -170,10 +170,10 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
             </div>
           </header>
 
-          <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-4 shadow-[0_20px_70px_rgba(35,33,31,0.10)]">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[6px] bg-pounamu-900">
+          <div className="glass-card-elevated p-4 shadow-[0_30px_100px_rgba(35,33,31,0.14)] [transform:perspective(1100px)_rotateX(1.5deg)_rotateY(-3.5deg)]">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-pounamu-900">
               <Image
-                src="/img/kete/arataki-vessel-amber.jpg"
+                src="/img/hapai/tools/electrify-vessel.jpg"
                 alt="Sculptural vessel representing an electrification plan"
                 fill
                 sizes="(min-width: 1024px) 42vw, 100vw"
@@ -219,7 +219,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
           {lead.recommended_sequence.map((step) => (
             <li
               key={step.order}
-              className="flex gap-4 rounded-[8px] border border-taupe-200 bg-white/65 p-5 shadow-[0_10px_34px_rgba(35,33,31,0.05)]"
+              className="flex gap-4 rounded-[18px] border border-white/45 bg-white/58 p-5 shadow-[0_18px_52px_rgba(35,33,31,0.08)] backdrop-blur-xl"
             >
               <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-pounamu-100 text-sm font-medium text-pounamu-900">
                 {step.order}
@@ -239,7 +239,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
       </section>
 
       {lead.solar_recommendation && lead.solar_recommendation.recommended && (
-        <section className="mb-10 overflow-hidden rounded-[8px] border border-karaka-300 bg-karaka-50">
+        <section className="glass-card-elevated mb-10 overflow-hidden border-karaka-300 bg-karaka-50/78">
           <div className="grid lg:grid-cols-[0.72fr_1fr]">
             <div className="relative min-h-56">
               <Image
@@ -277,7 +277,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
         </section>
       )}
 
-      <section className="mb-10 rounded-[8px] border border-pounamu-300 bg-pounamu-50 p-6">
+      <section className="glass-card-elevated mb-10 border-pounamu-300 bg-pounamu-50/72 p-6">
         <h3 className="font-cormorant text-3xl text-pounamu-900 mb-2">
           Want help making it happen?
         </h3>
@@ -293,7 +293,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
         </Link>
       </section>
 
-      <section className="mb-10 rounded-[8px] border border-taupe-200 bg-white/55 p-6">
+      <section className="glass-card mb-10 p-6">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1fr] lg:items-center">
           <div>
             <h3 className="font-cormorant text-3xl text-pounamu-900">
@@ -313,7 +313,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
         </div>
       </section>
 
-      <section className="mb-10 rounded-[8px] border border-taupe-200 bg-white/55 p-6">
+      <section className="glass-card mb-10 p-6">
         <h3 className="font-medium text-taupe-900 mb-2">Email me the PDF</h3>
         <p className="text-sm text-taupe-600 mb-3">
           Branded PDF with the full breakdown + sources. We don't sell or share emails.
@@ -355,7 +355,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
 
 function Metric({ icon: Icon, label, value }: { icon: typeof PlugZap; label: string; value: string }) {
   return (
-    <div className="rounded-[8px] border border-taupe-200 bg-white/65 p-4">
+    <div className="rounded-[18px] border border-white/45 bg-white/58 p-4 shadow-[0_18px_52px_rgba(35,33,31,0.08)] backdrop-blur-xl">
       <Icon className="mb-4 h-5 w-5 text-pounamu-700" aria-hidden />
       <span className="block text-xs uppercase tracking-wider text-taupe-600 mb-1">
         {label}

@@ -66,9 +66,21 @@ export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
     wide:   '/img/kete/hoko-vessel-violet.jpg',
   },
   toro: {
-    square: '/img/kete/toro-vessel-charcoal.jpg',
-    wide:   '/img/kete/toro-vessel-charcoal.jpg',
+    square: '/img/brand/toro-brand-square-bird.png',
+    wide:   '/img/brand/toro-brand-square-bird.png',
   },
+};
+
+export const footerKeteCutouts: Record<KeteSlug, string> = {
+  waihanga: '/img/kete/footer-cutouts/waihanga.png',
+  manaaki: '/img/kete/footer-cutouts/manaaki.png',
+  pikau: '/img/kete/footer-cutouts/pikau.png',
+  arataki: '/img/kete/footer-cutouts/arataki.png',
+  auaha: '/img/kete/footer-cutouts/auaha.png',
+  ako: '/img/kete/footer-cutouts/ako.png',
+  matauranga: '/img/kete/footer-cutouts/matauranga.png',
+  hoko: '/img/kete/footer-cutouts/hoko.png',
+  toro: '/img/brand/toro-brand-square-bird.png',
 };
 
 // ── Hero videos — moving backgrounds for major page heroes ───────────────────
@@ -291,6 +303,7 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 export const nav = [
   { href: '/pilot-sprint',  label: 'Pilot Sprint' },
   { href: '/how-it-works',  label: 'How it works' },
+  { href: '/workflows',     label: 'Workflows' },
   { href: '/kete',          label: 'Kete' },
   { href: '/hapai',         label: 'HAPAI' },
   { href: '/pricing',       label: 'Pricing' },
