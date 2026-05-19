@@ -10,7 +10,8 @@ type HapaiToolVisual =
   | 'project-picker'
   | 'meeting'
   | 'privacy'
-  | 'fridge';
+  | 'fridge'
+  | 'food-temp';
 
 type HapaiToolPreviewProps = {
   visual: HapaiToolVisual;
@@ -197,6 +198,29 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
           <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#2B6B57]">kai planner</p>
           <div className="mt-3 grid grid-cols-2 gap-2">
             {['produce', 'pantry', 'dairy', 'meals'].map((item) => <span key={item} className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 text-center font-mono text-[8px] uppercase tracking-[0.12em]">{item}</span>)}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === 'food-temp') {
+    return (
+      <div className={previewClass}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_82%_12%,rgba(172,88,56,0.24),transparent_34%),#FAF7F2]" />
+        <div className="absolute inset-5 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/80 p-4 shadow-[0_18px_42px_rgba(35,33,31,0.10)]">
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#AC5838]">food safety log</p>
+          <div className="mt-5 space-y-3">
+            {[
+              ['Main fridge', '3.4°C', '#2B6B57'],
+              ['Freezer', '-19°C', '#2B6B57'],
+              ['Hot hold', '54°C', '#9A3412'],
+            ].map(([label, temp, colour]) => (
+              <div key={label} className="flex items-center justify-between rounded-[6px] border border-[rgba(35,33,31,0.08)] bg-[#FAF7F2] px-3 py-2">
+                <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#6B6661]">{label}</span>
+                <span className="text-sm font-medium" style={{ color: colour }}>{temp}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

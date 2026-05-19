@@ -95,6 +95,13 @@ const tools = [
     href: '/hapai/fridge-to-list',
     visual: 'fridge',
   },
+  {
+    name: 'Food temperature log',
+    status: 'live',
+    description: 'Daily fridge, freezer, hot-hold, cooking, and cleaning checks. Walk away with a Food Act 2014 record.',
+    href: '/hapai/food-temp-log',
+    visual: 'food-temp',
+  },
 ] as const;
 
 const reasons = [

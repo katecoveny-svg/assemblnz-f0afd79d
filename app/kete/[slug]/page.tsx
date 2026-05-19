@@ -220,6 +220,28 @@ function IndustryKetePage({
                   </div>
                 </SectionReveal>
               )}
+              {kete.slug === 'manaaki' && (
+                <SectionReveal delay={0.2}>
+                  <Link
+                    href="/kete/manaaki/food-temp-log"
+                    className="mt-10 inline-flex items-center gap-3 rounded-card border border-[rgba(35,33,31,0.10)] bg-white/50 px-5 py-3 transition hover:-translate-y-0.5 hover:shadow-md"
+                    style={{ borderColor: `${kete.accent}40` }}
+                  >
+                    <span
+                      className="h-1.5 w-1.5 rounded-full"
+                      style={{ backgroundColor: kete.accent }}
+                      aria-hidden
+                    />
+                    <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                      Free tool
+                    </span>
+                    <span className="text-sm text-[color:var(--text-primary)]">
+                      Food temperature log
+                    </span>
+                    <ArrowRight className="h-3.5 w-3.5 text-[color:var(--assembl-pounamu)]" aria-hidden />
+                  </Link>
+                </SectionReveal>
+              )}
             </div>
 
             <aside className="space-y-8">

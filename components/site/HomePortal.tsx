@@ -62,6 +62,13 @@ const HAPAI_TOOLS = [
     href: '/hapai/tagline-workshop/tagline-workshop.html',
     visual: 'tagline',
   },
+  {
+    name: 'Food temperature log.',
+    description:
+      'Daily hospitality temperature and cleaning checks. Flags failed readings and produces a Food Act 2014 record.',
+    href: '/hapai/food-temp-log',
+    visual: 'food-temp',
+  },
 ] as const;
 
 const PRICING_ENTRY_POINTS = [

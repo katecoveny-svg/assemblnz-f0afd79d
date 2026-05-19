@@ -51,6 +51,9 @@ export type LlmCallOptions = {
 };
 
 export type Provider = "google" | "openai-gateway" | "anthropic" | "perplexity";
+type OpenAiMediaBlock =
+  | { type: "text"; text: string }
+  | { type: "image_url"; image_url: { url: string; detail?: string } };
 
 export function detectProvider(model: string): Provider {
   if (model.startsWith("anthropic/")) return "anthropic";
@@ -170,7 +173,7 @@ async function callGoogleDirect(opts: LlmCallOptions): Promise<Response> {
       opts.systemPrompt,
       opts.messages.map((message) => ({
         role: message.role,
-        content: typeof message.content === "string" ? message.content : JSON.stringify(message.content),
+        content: message.content,
       })),
       { maxTokens: opts.maxTokens },
     );
@@ -237,7 +240,7 @@ async function callAnthropic(opts: LlmCallOptions): Promise<Response> {
     .filter(m => m.role === "user" || m.role === "assistant")
     .map(m => ({
       role: m.role,
-      content: typeof m.content === "string" ? m.content : JSON.stringify(m.content),
+      content: contentToAnthropic(m.content),
     }));
 
   const upstream = await fetch("https://api.anthropic.com/v1/messages", {
@@ -341,4 +344,39 @@ function jsonResponse(status: number, body: unknown, headers?: Record<string, st
 }
 function errResponse(status: number, message: string): Response {
   return jsonResponse(status, { error: message });
+}
+
+function dataUrlParts(url: string): { mimeType: string; data: string } | null {
+  const match = /^data:([^;,]+);base64,(.+)$/s.exec(url);
+  if (!match) return null;
+  return { mimeType: match[1], data: match[2] };
+}
+
+function contentToAnthropic(content: ChatMessage["content"]): string | unknown[] {
+  if (typeof content === "string") return content;
+  const blocks: unknown[] = [];
+  for (const block of content) {
+    if (!block || typeof block !== "object") continue;
+    const item = block as OpenAiMediaBlock;
+    if (item.type === "text" && typeof item.text === "string") {
+      blocks.push({ type: "text", text: item.text });
+      continue;
+    }
+    if (item.type === "image_url" && typeof item.image_url?.url === "string") {
+      const parsed = dataUrlParts(item.image_url.url);
+      if (!parsed) continue;
+      if (parsed.mimeType === "application/pdf") {
+        blocks.push({
+          type: "document",
+          source: { type: "base64", media_type: parsed.mimeType, data: parsed.data },
+        });
+      } else {
+        blocks.push({
+          type: "image",
+          source: { type: "base64", media_type: parsed.mimeType, data: parsed.data },
+        });
+      }
+    }
+  }
+  return blocks.length > 0 ? blocks : JSON.stringify(content);
 }

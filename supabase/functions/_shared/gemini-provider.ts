@@ -13,6 +13,14 @@ export const GEMINI_MODELS = {
 } as const;
 
 export type GeminiModelKey = keyof typeof GEMINI_MODELS;
+type GeminiContentBlock =
+  | { type?: "text"; text?: string }
+  | { type?: "image_url"; image_url?: { url?: string } };
+
+type GeminiChatMessage = {
+  role: string;
+  content: string | Array<GeminiContentBlock | unknown>;
+};
 
 function getApiKey(): string {
   const key = Deno.env.get("GEMINI_API_KEY");
@@ -21,12 +29,12 @@ function getApiKey(): string {
 }
 
 /**
- * Send a text chat message to Gemini directly (non-streaming).
+ * Send a chat message to Gemini directly (non-streaming).
  */
 export async function chatWithGemini(
   modelKey: GeminiModelKey,
   systemPrompt: string,
-  messages: Array<{ role: string; content: string }>,
+  messages: GeminiChatMessage[],
   options?: { temperature?: number; maxTokens?: number }
 ): Promise<string> {
   const apiKey = getApiKey();
@@ -34,7 +42,7 @@ export async function chatWithGemini(
 
   const geminiContents = messages.map((msg) => ({
     role: msg.role === "assistant" ? "model" : "user",
-    parts: [{ text: msg.content }],
+    parts: contentToGeminiParts(msg.content),
   }));
 
   const resp = await fetch(
@@ -60,6 +68,38 @@ export async function chatWithGemini(
 
   const data = await resp.json();
   return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+}
+
+function dataUrlParts(url: string): { mimeType: string; data: string } | null {
+  const match = /^data:([^;,]+);base64,(.+)$/s.exec(url);
+  if (!match) return null;
+  return { mimeType: match[1], data: match[2] };
+}
+
+function contentToGeminiParts(content: GeminiChatMessage["content"]): unknown[] {
+  if (typeof content === "string") return [{ text: content }];
+  const parts: unknown[] = [];
+  for (const block of content) {
+    if (!block || typeof block !== "object") continue;
+    const item = block as GeminiContentBlock;
+    if (item.type === "text" && typeof item.text === "string") {
+      parts.push({ text: item.text });
+      continue;
+    }
+    const dataUrl = item.type === "image_url" ? item.image_url?.url : undefined;
+    if (typeof dataUrl === "string") {
+      const parsed = dataUrlParts(dataUrl);
+      if (parsed) {
+        parts.push({
+          inline_data: {
+            mime_type: parsed.mimeType,
+            data: parsed.data,
+          },
+        });
+      }
+    }
+  }
+  return parts.length > 0 ? parts : [{ text: JSON.stringify(content) }];
 }
 
 /**
