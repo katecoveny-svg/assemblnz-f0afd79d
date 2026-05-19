@@ -30,6 +30,8 @@ type ChatRequest = {
   sessionId?: string;
   chatId?: string;
   history?: Array<{ role: 'user' | 'assistant'; content: string }>;
+  imageDataUrl?: string;
+  redactPii?: boolean;
 };
 
 type TenantRow = {
@@ -246,7 +248,9 @@ export async function POST(req: NextRequest) {
   const started = Date.now();
   const body = (await req.json().catch(() => ({}))) as ChatRequest;
   const slug = body.slug?.trim();
-  const message = body.message?.trim();
+  const message = body.message?.trim() ?? '';
+  const imageDataUrl = typeof body.imageDataUrl === 'string' ? body.imageDataUrl : '';
+  const redactPii = Boolean(body.redactPii);
   // Two downstream sinks (assembl_agent_analytics.session_id and
   // agent_cost_log.request_id) are typed `uuid`, and their inserts swallow
   // errors. A non-UUID id from a widget caller drops two of three analytics
@@ -254,7 +258,7 @@ export async function POST(req: NextRequest) {
   const sessionId = uuidOrNew(body.sessionId);
   const chatId = uuidOrNew(body.chatId);
 
-  if (!slug || !message) return json({ error: 'Missing tenant slug or message' }, 400);
+  if (!slug || (!message && !imageDataUrl)) return json({ error: 'Missing tenant slug or message' }, 400);
 
   let service: ReturnType<typeof getServiceClient>;
   try {
@@ -290,7 +294,7 @@ export async function POST(req: NextRequest) {
 
   const kete = pickKete(tenant, body.kete);
   const email = tenant.billing_email ?? (typeof tenant.metadata?.contact_email === 'string' ? tenant.metadata.contact_email : null);
-  const inputTokensEstimate = estimateTokens(message) + (body.history ?? []).reduce((sum, item) => sum + estimateTokens(item.content), 0);
+  const inputTokensEstimate = estimateTokens(message || 'Attached file') + (body.history ?? []).reduce((sum, item) => sum + estimateTokens(item.content), 0);
   const usage = await sessionUsage(service, sessionId);
   const creditNzd = optionalNumber(tenant.metadata?.credit_nzd);
   const tenantSpend = creditNzd > 0 ? await tenantMonthSpend(service, tenant.id) : 0;
@@ -331,6 +335,57 @@ export async function POST(req: NextRequest) {
       status: 200,
       headers: { 'X-Chat-Id': chatId, 'X-Session-Id': sessionId },
     });
+  }
+
+  if (imageDataUrl || redactPii) {
+    const { data: agentData, error: invokeError } = await service.functions.invoke(
+      'public-chat-llm',
+      {
+        body: {
+          kete,
+          agent: body.agent ? body.agent.toLowerCase() : undefined,
+          message,
+          history: body.history?.slice(-8) ?? [],
+          tenantId: tenant.id,
+          sessionId,
+          imageDataUrl: imageDataUrl || undefined,
+          redactPii,
+        },
+      },
+    );
+
+    const responseText = invokeError ? takingABreak(email) : agentText(agentData) || takingABreak(email);
+    const payload = (agentData ?? {}) as {
+      inputTokens?: number;
+      outputTokens?: number;
+      model?: string;
+      redactionSummary?: string;
+    };
+    const inputTokensForAnalytics = optionalNumber(payload.inputTokens) || inputTokensEstimate;
+    const outputTokensForAnalytics = optionalNumber(payload.outputTokens) || estimateTokens(responseText);
+
+    await logPublicAnalytics({
+      tenant,
+      kete,
+      sessionId,
+      inputTokens: inputTokensForAnalytics,
+      outputTokens: outputTokensForAnalytics,
+      responseTimeMs: Date.now() - started,
+      modelUsed: payload.model,
+      agentCode: `public-chat-${kete}`,
+      error: invokeError?.message,
+    });
+
+    const headers: Record<string, string> = {
+      'X-Chat-Id': chatId,
+      'X-Session-Id': sessionId,
+      'X-Agent-Code': `public-chat-${kete}`,
+    };
+    if (payload.model) headers['X-Model-Used'] = payload.model;
+    if (payload.redactionSummary) headers['X-Pii-Redaction'] = payload.redactionSummary;
+    if (redactPii) headers['X-Pii-Masked'] = 'true';
+    if (imageDataUrl) headers['X-Attachment-Read'] = 'true';
+    return streamText(responseText, { status: 200, headers });
   }
 
   // ── Track A.1 (locked 18 May 2026): wire /api/public-chat → iho-router ──

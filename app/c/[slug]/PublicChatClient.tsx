@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FileDown, Loader2, Send, ShieldCheck, X } from 'lucide-react';
+import { FileDown, Loader2, Paperclip, Send, ShieldCheck, X } from 'lucide-react';
 
 type Tenant = {
   slug: string;
@@ -17,6 +17,12 @@ type Message = {
   role: 'user' | 'assistant';
   body: string;
   createdAt: string;
+};
+
+type Attachment = {
+  name: string;
+  type: string;
+  dataUrl: string;
 };
 
 type Props = {
@@ -56,6 +62,8 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
   const [savingPack, setSavingPack] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [packError, setPackError] = useState<string | null>(null);
+  const [attachment, setAttachment] = useState<Attachment | null>(null);
+  const [redactPii, setRedactPii] = useState(false);
   const [chatId, setChatId] = useState<string>(() => newId());
   const [sessionId, setSessionId] = useState<string>(() => newId());
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -122,12 +130,40 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
     window.parent?.postMessage({ type: 'assembl:close' }, '*');
   }, []);
 
+  const attachFile = useCallback((file?: File) => {
+    setError(null);
+    if (!file) return;
+    if (file.size > 8 * 1024 * 1024) {
+      setError('Please attach an image or PDF under 8MB.');
+      return;
+    }
+    if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
+      setError('Please attach an image or PDF.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setAttachment({
+        name: file.name,
+        type: file.type,
+        dataUrl: String(reader.result ?? ''),
+      });
+    };
+    reader.onerror = () => setError('That file could not be read.');
+    reader.readAsDataURL(file);
+  }, []);
+
   const send = useCallback(async () => {
     const trimmed = draft.trim();
-    if (!trimmed || sending) return;
+    if ((!trimmed && !attachment) || sending) return;
 
     const now = new Date().toISOString();
-    const userMessage: Message = { id: newId(), role: 'user', body: trimmed, createdAt: now };
+    const userBody = [
+      trimmed,
+      attachment ? `Attached file: ${attachment.name}` : '',
+      redactPii ? 'PII redaction requested before processing.' : '',
+    ].filter(Boolean).join('\n');
+    const userMessage: Message = { id: newId(), role: 'user', body: userBody, createdAt: now };
     const assistantId = newId();
     setMessages((current) => [
       ...current,
@@ -135,6 +171,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
       { id: assistantId, role: 'assistant', body: '', createdAt: now },
     ]);
     setDraft('');
+    setAttachment(null);
     setSending(true);
     setError(null);
     setPackError(null);
@@ -148,6 +185,8 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
           kete: tenant.kete,
           agent: agentSlug || undefined,
           message: trimmed,
+          imageDataUrl: attachment?.dataUrl,
+          redactPii,
           sessionId,
           chatId,
           history,
@@ -181,12 +220,13 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
       const message = err instanceof Error ? err.message : 'Something went wrong.';
       setError(message);
       setDraft(trimmed);
+      setAttachment(attachment);
       setMessages((current) => current.filter((item) => item.id !== assistantId && item.id !== userMessage.id));
     } finally {
       setSending(false);
       requestAnimationFrame(() => inputRef.current?.focus());
     }
-  }, [chatId, draft, history, sending, sessionId, tenant.kete, tenant.slug]);
+  }, [agentSlug, attachment, chatId, draft, history, redactPii, sending, sessionId, tenant.kete, tenant.slug]);
 
   const saveEvidencePack = useCallback(async () => {
     if (transcriptMessages.length < 2 || savingPack) return;
@@ -334,6 +374,21 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
 
         <footer className="border-t border-[rgba(35,33,31,0.10)] bg-white px-4 py-3 sm:px-5">
           <div className="mx-auto max-w-3xl">
+            {attachment && (
+              <div className="mb-3 flex items-center justify-between gap-3 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-paper)] px-3 py-2 text-sm">
+                <span className="min-w-0 truncate text-[color:var(--text-body)]">
+                  {attachment.type === 'application/pdf' ? 'PDF' : 'Image'} attached: {attachment.name}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setAttachment(null)}
+                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[color:var(--text-secondary)] hover:bg-white hover:text-[color:var(--text-primary)]"
+                  aria-label="Remove attachment"
+                >
+                  <X className="h-3.5 w-3.5" aria-hidden />
+                </button>
+              </div>
+            )}
             <div className="grid grid-cols-[1fr_auto] gap-2">
               <textarea
                 ref={inputRef}
@@ -344,16 +399,48 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
                 placeholder="Ask a question..."
                 className="min-h-11 resize-none rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[color:var(--assembl-paper)] px-3 py-2.5 text-sm outline-none focus:border-[color:var(--tenant-accent)]"
               />
+              <div className="flex gap-2">
+              <label
+                className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[8px] border border-[rgba(35,33,31,0.14)] text-[color:var(--text-secondary)] transition hover:text-[color:var(--text-primary)]"
+                title="Attach an image or PDF"
+                aria-label="Attach an image or PDF"
+              >
+                <Paperclip className="h-4 w-4" aria-hidden />
+                <input
+                  type="file"
+                  accept="image/*,application/pdf"
+                  className="sr-only"
+                  onChange={(event) => {
+                    attachFile(event.target.files?.[0]);
+                    event.currentTarget.value = '';
+                  }}
+                />
+              </label>
+              <button
+                type="button"
+                onClick={() => setRedactPii((value) => !value)}
+                className={[
+                  'inline-flex h-11 w-11 items-center justify-center rounded-[8px] border transition',
+                  redactPii
+                    ? 'border-[#2B6B57]/35 bg-[#2B6B57]/10 text-[#2B6B57]'
+                    : 'border-[rgba(35,33,31,0.14)] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]',
+                ].join(' ')}
+                title={`Redact PII — ${redactPii ? 'on' : 'off'}. Scrub NZ phone numbers, IRDs, bank accounts, emails, and addresses before processing.`}
+                aria-label={`Redact PII — ${redactPii ? 'on' : 'off'}`}
+              >
+                <ShieldCheck className="h-4 w-4" aria-hidden />
+              </button>
               <button
                 type="button"
                 onClick={send}
-                disabled={sending || !draft.trim()}
+                disabled={sending || (!draft.trim() && !attachment)}
                 className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] text-white transition disabled:cursor-not-allowed disabled:opacity-50"
                 style={{ backgroundColor: tenant.brandColor }}
                 aria-label="Send message"
               >
                 {sending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Send className="h-4 w-4" aria-hidden />}
               </button>
+              </div>
             </div>
             {transcriptMessages.length >= 2 && (
               <div className="mt-3">

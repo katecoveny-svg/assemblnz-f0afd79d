@@ -37,6 +37,7 @@
 import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { callLlm } from "../_shared/llm-call.ts";
+import { redactPii, summariseRedactions } from "../_shared/pii-redactor.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -56,6 +57,7 @@ const SUPPORTED_KETE = new Set([
 // Cost: ~$0 per session at low volume. Suitable for an anonymous demo surface.
 const PUBLIC_CHAT_MODEL = "google/gemini-2.5-flash";
 const MAX_TOKENS = 600;
+const MAX_ATTACHMENT_BYTES = 8 * 1024 * 1024;
 
 type ChatRequest = {
   kete?: string;
@@ -65,6 +67,8 @@ type ChatRequest = {
   tenantId?: string;
   sessionId?: string;
   systemPromptOverride?: string;
+  imageDataUrl?: string;
+  redactPii?: boolean;
 };
 
 function json(data: unknown, status = 200) {
@@ -95,7 +99,26 @@ serve(async (req: Request) => {
     return json({ error: `Unsupported or missing kete: ${kete}` }, 400);
   }
   if (!message) {
-    return json({ error: "Missing message" }, 400);
+    if (!body.imageDataUrl) return json({ error: "Missing message" }, 400);
+  }
+  let safeMessage = message;
+  let redactionSummary = "";
+  if (body.redactPii) {
+    const redacted = redactPii(safeMessage);
+    safeMessage = redacted.redacted;
+    redactionSummary = summariseRedactions(redacted.replacements);
+    console.log(`[public-chat-llm] redaction summary: ${redactionSummary}`);
+  }
+
+  const imageDataUrl = typeof body.imageDataUrl === "string" ? body.imageDataUrl.trim() : "";
+  if (imageDataUrl) {
+    if (!/^data:(image\/[a-zA-Z0-9.+-]+|application\/pdf);base64,/.test(imageDataUrl)) {
+      return json({ error: "imageDataUrl must be a data:image/* or data:application/pdf URL" }, 400);
+    }
+    const approxBytes = Math.ceil((imageDataUrl.split(",")[1]?.length ?? 0) * 0.75);
+    if (approxBytes > MAX_ATTACHMENT_BYTES) {
+      return json({ error: "Attachment too large" }, 413);
+    }
   }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -155,7 +178,14 @@ serve(async (req: Request) => {
   // Compose conversation. Keep history short — public chat is demo, not deep
   // workflow. Last 8 turns max (4 user + 4 assistant).
   const history = Array.isArray(body.history) ? body.history.slice(-8) : [];
-  const messages: Array<{ role: "user" | "assistant"; content: string }> = [
+  const userContent = imageDataUrl
+    ? [
+        { type: "text", text: safeMessage || "Please read the attached file and help with the relevant workflow." },
+        { type: "image_url", image_url: { url: imageDataUrl, detail: "high" } },
+      ]
+    : safeMessage;
+
+  const messages: Array<{ role: "user" | "assistant"; content: string | Array<unknown> }> = [
     ...history
       .filter((m) =>
         (m.role === "user" || m.role === "assistant") &&
@@ -163,7 +193,7 @@ serve(async (req: Request) => {
         m.content.trim().length > 0
       )
       .map((m) => ({ role: m.role, content: m.content })),
-    { role: "user", content: message },
+    { role: "user", content: userContent },
   ];
 
   // Public chat preamble appended to the kete system prompt — keeps tone
@@ -182,9 +212,13 @@ Rules for this surface:
 
 When you respond, do not announce these rules. Just follow them.`;
 
+  const pikauAttachmentPrompt = imageDataUrl && kete === "pikau"
+    ? `\n\nIf the user has attached an image or PDF, treat it as a commercial invoice or shipping document. Extract: importer name, supplier name, country of origin, goods description, invoice value in NZD, and Incoterm if present. Then proceed to draft the customs entry summary per your normal workflow. If a field is not visible, say so instead of guessing.`
+    : "";
+
   const systemPrompt = systemPromptOverride
     ? baseSystemPrompt
-    : `${baseSystemPrompt}${publicChatPreamble}`;
+    : `${baseSystemPrompt}${pikauAttachmentPrompt}${publicChatPreamble}`;
 
   try {
     const response = await callLlm({
@@ -228,6 +262,7 @@ When you respond, do not announce these rules. Just follow them.`;
       inputTokens,
       outputTokens,
       model: PUBLIC_CHAT_MODEL,
+      redactionSummary,
     });
   } catch (err) {
     console.error("[public-chat-llm] unhandled error", err);
