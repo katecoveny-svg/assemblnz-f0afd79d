@@ -7,7 +7,10 @@ type HapaiToolVisual =
   | 'electrify'
   | 'og-card'
   | 'tagline'
-  | 'project-picker';
+  | 'project-picker'
+  | 'meeting'
+  | 'privacy'
+  | 'fridge';
 
 type HapaiToolPreviewProps = {
   visual: HapaiToolVisual;
@@ -146,6 +149,55 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
             <span className="mt-4 block h-2 w-[72%] rounded-full bg-[#23211F]/18" />
           </div>
           <div className="absolute bottom-8 right-8 h-20 w-20 rounded-full border border-[#D4A853] bg-[#EFEAE1]" />
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === 'meeting') {
+    return (
+      <div className={previewClass}>
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,#FAF7F2,#EFEAE1)]" />
+        <div className="absolute left-5 right-5 top-5 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/78 p-4 shadow-[0_18px_42px_rgba(35,33,31,0.10)]">
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#2B6B57]">record live</p>
+          <div className="mt-4 flex items-center gap-3">
+            <span className="h-10 w-10 rounded-full bg-[#B42828]" />
+            <span className="font-mono text-[10px] tracking-[0.16em] text-[#6B6661]">00:18</span>
+          </div>
+          <div className="mt-5 space-y-2">
+            {[88, 72, 94].map((width) => <span key={width} className="block h-2 rounded-full bg-[#23211F]/16" style={{ width: `${width}%` }} />)}
+          </div>
+        </div>
+        <p className="absolute bottom-6 left-5 font-display text-3xl italic leading-none">proper notes</p>
+      </div>
+    );
+  }
+
+  if (visual === 'privacy') {
+    return (
+      <div className={previewClass}>
+        <div className="absolute inset-0 bg-[#FAF7F2]" />
+        <div className="absolute inset-5 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/80 p-4 shadow-[0_18px_42px_rgba(35,33,31,0.10)]">
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#2B6B57]">privacy act</p>
+          <p className="mt-4 font-display text-3xl leading-none text-[#103F35]">IPP map</p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {['IPP 1', 'IPP 3A', 'IPP 5', 'IPP 12'].map((pill) => <span key={pill} className="rounded-full bg-[#2B6B57]/10 px-2 py-1 font-mono text-[9px] text-[#2B6B57]">{pill}</span>)}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === 'fridge') {
+    return (
+      <div className={previewClass}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(217,188,122,0.32),transparent_38%),#FAF7F2]" />
+        <div className="absolute left-5 top-5 h-24 w-24 rounded-[18px] border border-white bg-[#D9BC7A]/28 shadow-[0_18px_42px_rgba(35,33,31,0.12)]" />
+        <div className="absolute bottom-5 left-5 right-5 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/78 p-4">
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#2B6B57]">kai planner</p>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            {['produce', 'pantry', 'dairy', 'meals'].map((item) => <span key={item} className="rounded-full border border-[rgba(35,33,31,0.12)] px-2 py-1 text-center font-mono text-[8px] uppercase tracking-[0.12em]">{item}</span>)}
+          </div>
         </div>
       </div>
     );

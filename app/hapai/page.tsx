@@ -74,6 +74,27 @@ const tools = [
     href: '/hapai/projects',
     visual: 'project-picker',
   },
+  {
+    name: 'Meeting recorder',
+    status: 'live',
+    description: 'Record or paste. Walk away with proper notes — decisions, action items, next steps.',
+    href: '/hapai/meeting-notes',
+    visual: 'meeting',
+  },
+  {
+    name: 'Privacy Act one-pager',
+    status: 'live',
+    description: 'Generate a tailored Privacy Act 2020 summary for your organisation. Maps your data flows to the 13 IPPs including the new IPP 3A.',
+    href: '/hapai/privacy-act',
+    visual: 'privacy',
+  },
+  {
+    name: 'Fridge → shopping list',
+    status: 'live',
+    description: 'Photo of the fridge in. Meal plan + supermarket-aisle shopping list out. Tuned for NZ kai conventions.',
+    href: '/hapai/fridge-to-list',
+    visual: 'fridge',
+  },
 ] as const;
 
 const reasons = [
