@@ -61,6 +61,103 @@ export function KeteRotator({
     return () => window.clearTimeout(timer);
   }, [currentIndex, onActiveSlugChange, ordered, paused, reduceMotion]);
 
+  if (immersive) {
+    return (
+      <div className={['relative min-h-[calc(100svh-5.5rem)] overflow-visible md:overflow-hidden', className].join(' ')}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_34%,color-mix(in_srgb,var(--kete-accent)_17%,transparent),transparent_30%),linear-gradient(90deg,#FAF7F2_0%,#FAF7F2_38%,rgba(250,247,242,0.88)_55%,rgba(250,247,242,0.18)_100%)]" aria-hidden />
+        <motion.div
+          ref={stageRef}
+          className="pointer-events-none absolute inset-y-[5%] right-[-42vw] z-0 w-[142vw] min-w-0 sm:right-[-30vw] md:inset-y-[-10%] md:left-[47%] md:right-[-8vw] md:w-auto lg:left-[45%] xl:left-[43%] 2xl:left-[41%] 2xl:right-[-4vw]"
+          style={reduceMotion ? undefined : { y: stageY, rotateY: stageRotate }}
+          aria-hidden
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current.heroImage}
+              className="absolute inset-0"
+              initial={reduceMotion ? false : { opacity: 0.48, scale: 1.08, x: 28 }}
+              animate={reduceMotion ? undefined : { opacity: 1, scale: 1, x: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0.42, scale: 0.96, x: -22 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              style={reduceMotion ? undefined : { scale: vesselScale }}
+            >
+              <Image
+                src={current.heroImage}
+                alt=""
+                fill
+                priority={currentIndex === 0}
+                loading={currentIndex === 0 ? undefined : 'lazy'}
+                sizes="(min-width: 1280px) 72vw, (min-width: 768px) 84vw, 118vw"
+                className="object-cover opacity-[0.98]"
+                style={{
+                  objectPosition: current.slug === 'toro' ? '50% 42%' : '50% 50%',
+                  WebkitMaskImage:
+                    'linear-gradient(90deg,transparent 0%, black 14%, black 100%), linear-gradient(180deg,transparent 0%, black 6%, black 92%, transparent 100%)',
+                  maskImage:
+                    'linear-gradient(90deg,transparent 0%, black 14%, black 100%), linear-gradient(180deg,transparent 0%, black 6%, black 92%, transparent 100%)',
+                  WebkitMaskComposite: 'source-in',
+                  maskComposite: 'intersect',
+                }}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
+
+        <motion.div
+          className="pointer-events-none absolute inset-y-0 right-[18vw] z-10 hidden w-[18vw] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.55),transparent)] blur-2xl md:block"
+          style={reduceMotion ? undefined : { x: sheenX }}
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 hidden w-[58%] bg-[linear-gradient(90deg,#FAF7F2_0%,#FAF7F2_58%,rgba(250,247,242,0.94)_78%,rgba(250,247,242,0)_100%)] md:block"
+          aria-hidden
+        />
+
+        <div className="relative z-20 flex min-h-[calc(100svh-5.5rem)] items-center px-0 py-14 md:py-10">
+          <div
+            className="w-full md:pr-0"
+            style={{ maxWidth: 'min(820px, calc(100vw - 48px))' }}
+          >
+            <h1 className="font-display text-[clamp(4.05rem,16vw,5.2rem)] font-light leading-[0.9] tracking-normal text-[#0F4A3E] md:text-[clamp(7rem,8.4vw,11.25rem)] md:leading-[0.88]">
+              <TeReo title="work">Mahi</TeReo> that earns its proof.
+            </h1>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current.slug}
+                initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
+                animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0.72, y: -8 }}
+                transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <p className="mt-3 font-display text-[clamp(2.55rem,11vw,3.8rem)] font-light italic leading-[0.95] text-[color:var(--text-primary)] md:text-[clamp(4.1rem,5vw,6.4rem)] md:leading-[0.92]">
+                  for <span lang="mi" style={{ color: current.accent }}>{current.name}</span>.
+                </p>
+                <p className="mt-6 max-w-[320px] text-[clamp(1.05rem,4.7vw,1.35rem)] font-medium leading-[1.35] text-[#23211F] md:mt-7 md:max-w-[680px] md:text-[clamp(1.45rem,1.55vw,2.05rem)]">
+                  Specialist agents for the admin work that drains your team. Built in Aotearoa.
+                </p>
+                {body ? (
+                  <div className="mt-5 max-w-[320px] text-[0.98rem] leading-[1.65] text-[#3D4250] md:max-w-[650px] md:text-[1.08rem] [&_p]:font-medium">
+                    {body}
+                  </div>
+                ) : null}
+              </motion.div>
+            </AnimatePresence>
+            {actions}
+            <button
+              type="button"
+              onClick={() => setPaused((value) => !value)}
+              className="mt-7 inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(35,33,31,0.16)] bg-white/58 text-[color:var(--text-secondary)] shadow-[0_14px_38px_rgba(35,33,31,0.08)] backdrop-blur-md transition hover:border-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              aria-pressed={paused || Boolean(reduceMotion)}
+              aria-label={paused || reduceMotion ? 'Resume animation' : 'Pause animation'}
+            >
+              {paused || reduceMotion ? <Play className="h-3.5 w-3.5" aria-hidden /> : <Pause className="h-3.5 w-3.5" aria-hidden />}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={[

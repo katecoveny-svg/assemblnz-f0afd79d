@@ -160,10 +160,10 @@ export function HomePortal({ ketes }: HomePortalProps) {
       className="min-h-screen overflow-x-hidden bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]"
       style={activeStyle}
     >
-      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F4EFE7_100%)]">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F6F0E8_52%,#FAF7F2_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
         <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_76%_42%,color-mix(in_srgb,var(--kete-accent)_16%,transparent),transparent_36%),linear-gradient(90deg,rgba(250,247,242,0.99)_0%,rgba(250,247,242,0.9)_52%,rgba(250,247,242,0.58)_100%)]"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_78%_38%,color-mix(in_srgb,var(--kete-accent)_20%,transparent),transparent_34%),radial-gradient(circle_at_52%_76%,rgba(217,188,122,0.18),transparent_28%),linear-gradient(90deg,rgba(250,247,242,1)_0%,rgba(250,247,242,0.94)_44%,rgba(250,247,242,0.34)_100%)]"
           aria-hidden
         />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
@@ -178,7 +178,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
           style={reduceMotion ? undefined : { y: heroWashY, opacity: heroWashOpacity }}
           aria-hidden
         />
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-[1760px] flex-col justify-center px-6 py-12 md:px-10 md:py-10 xl:px-14 2xl:px-16">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-[1840px] flex-col justify-center px-6 py-8 md:px-12 md:py-6 xl:px-16 2xl:px-20">
           <motion.div
             className="w-full"
             initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
@@ -196,25 +196,28 @@ export function HomePortal({ ketes }: HomePortalProps) {
               onActiveSlugChange={setActiveSlug}
               body={(
                 <p>
-                  We help New Zealand teams run the work that has to be reviewed,
-                  trusted, and explained later. The kind of work that survives an
-                  audit, a board paper, an OIA request, three months from now.
+                  Every team has a layer of admin underneath the work that
+                  matters. Drafts, follow-ups, comparisons, write-ups. assembl is
+                  a fleet of specialist agents that handle that layer — so your
+                  people can do the work you actually hired them for. Each result
+                  is reviewed by a named person on your team and sealed with a
+                  record of how it was made.
                 </p>
               )}
               actions={(
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row md:mt-10">
                   <Link
-                    href="/book-a-pilot"
+                    href="#kete-workflows"
                     className="cta-primary inline-flex h-12 w-full items-center justify-center px-8 text-base sm:w-auto md:h-14"
                   >
-                    Book a pilot
+                    See the workflows
                     <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                   </Link>
                   <Link
-                    href="/evidence-pack"
+                    href={`/c/${activeSlug}`}
                     className="btn-ghost inline-flex h-12 w-full items-center justify-center bg-white/62 px-8 text-base backdrop-blur-md sm:w-auto md:h-14"
                   >
-                    See an evidence pack
+                    Try a kete chat
                     <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                   </Link>
                 </div>
@@ -232,26 +235,34 @@ export function HomePortal({ ketes }: HomePortalProps) {
               WHAT WE DO
             </p>
             <h2 className="mt-4 max-w-4xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              The work that doesn't survive a chatbot.
+              Less admin. More mahi.
             </h2>
           </div>
           <div>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Some work moves through your team fast and doesn't need a paper
-              trail. Other work has to be reviewed by a named person, filed
-              against a contract, sourced against legislation, and explained
-              three months later when someone asks how it was done. assembl is
-              built for the second kind. We run that work through specialist
-              agents, route it past a named reviewer in your team, and seal the
-              result in an evidence pack you can stand behind.
+              Hospitality teams shouldn't spend their best hour writing the
+              allergen incident report. Construction teams shouldn't spend their
+              best hour cross-referencing the variation against clause 24A of the
+              contract. Schools shouldn't spend their best hour rewording the
+              same notice for the fourth year group.
+            </p>
+            <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
+              Those are the jobs assembl picks up. Specialist agents — trained
+              on your industry's regulations and your business's voice — handle
+              the admin layer end-to-end. Your team reviews the output, signs it
+              off, and goes back to the work they care about.
+            </p>
+            <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
+              The output gets sealed with a trail of how it was made, so it
+              stands up later.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/how-it-works" className="cta-primary inline-flex h-12 items-center justify-center px-6">
-                How it works
+              <Link href="#kete-workflows" className="cta-primary inline-flex h-12 items-center justify-center px-6">
+                See the workflows
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
-              <Link href="/evidence-pack" className="btn-ghost inline-flex h-12 items-center justify-center px-6">
-                See an evidence pack
+              <Link href="/c/waihanga" className="btn-ghost inline-flex h-12 items-center justify-center px-6">
+                Try a kete chat
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
@@ -344,7 +355,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
         </div>
       </RevealSection>
 
-      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
+      <RevealSection id="kete-workflows" className="scroll-mt-24 border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto max-w-[1500px]">
           <div className="max-w-4xl">
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
@@ -519,13 +530,16 @@ function RevealSection({
   children,
   className,
   reduceMotion,
+  id,
 }: {
   children: React.ReactNode;
   className: string;
   reduceMotion: boolean | null;
+  id?: string;
 }) {
   return (
     <motion.section
+      id={id}
       className={className}
       initial={reduceMotion ? false : { opacity: 0.72, y: 34 }}
       whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
