@@ -153,11 +153,15 @@ export default function ElectrifyFormPage() {
           </div>
 
           <ElectrifyForm />
-          <form
+          {/* Legacy noop form removed 2026-05-19 — its hidden `required`
+              inputs were blocking the new ElectrifyForm submit because the
+              browser validates them even with display:none. The fields below
+              are dead code kept inside an unmounted fragment as a paper trail
+              for the Codex rebuild; nothing renders into the DOM. */}
+          {false && (<form
             style={{ display: 'none' }}
-            id="calculator-legacy-noop"
-            action="/api/calculate"
-            method="POST"
+            id="calculator-legacy-noop-removed"
+            aria-hidden
           >
             <div className="border-b border-[rgba(35,33,31,0.10)] pb-5">
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
@@ -357,7 +361,7 @@ export default function ElectrifyFormPage() {
             >
               Calculate my savings <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </button>
-          </form>
+          </form>)}
 
           <div className="xl:col-span-2">
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

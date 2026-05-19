@@ -97,13 +97,48 @@ export async function POST(req: Request) {
     ip_hash: ipHash,
   };
 
-  const { data, error } = await service.functions.invoke("vessel-generate", {
-    body: edgeBody,
-  });
+  // ── 2026-05-19 vessel-generate auth fix ──
+  // supabase.functions.invoke() inconsistently includes the service role key
+  // in the Authorization header — sometimes sends anon instead — so the
+  // vessel-generate Bearer check 401's. Switch to an explicit fetch with
+  // the shared secret (preferred) or service role key (fallback) in the
+  // Authorization header. Mirrors the exact path vessel-generate expects.
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const sharedSecret = process.env.VESSEL_STUDIO_SHARED_SECRET;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const bearer = sharedSecret || serviceKey;
+  if (!supabaseUrl || !bearer) {
+    console.error("[api/hapai/vessel-generate] missing Supabase URL or auth secret");
+    return NextResponse.json({ error: "Vessel Studio is not configured." }, { status: 500 });
+  }
 
-  if (error) {
-    console.error("[api/hapai/vessel-generate] edge function failed", error);
-    return NextResponse.json({ error: error.message || "Generation failed" }, { status: 502 });
+  let edgeResponse: Response;
+  try {
+    edgeResponse = await fetch(`${supabaseUrl}/functions/v1/vessel-generate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${bearer}`,
+        apikey: serviceKey ?? bearer,
+      },
+      body: JSON.stringify(edgeBody),
+    });
+  } catch (fetchError) {
+    console.error("[api/hapai/vessel-generate] edge fetch failed", fetchError);
+    return NextResponse.json({ error: "Vessel Studio is offline." }, { status: 502 });
+  }
+
+  if (!edgeResponse.ok) {
+    const errBody = await edgeResponse.text().catch(() => "");
+    console.error("[api/hapai/vessel-generate] edge function non-2xx", edgeResponse.status, errBody.slice(0, 300));
+    return NextResponse.json({ error: "Vessel generation failed", detail: errBody.slice(0, 300) }, { status: 502 });
+  }
+
+  let data: unknown;
+  try {
+    data = await edgeResponse.json();
+  } catch {
+    return NextResponse.json({ error: "Vessel Studio returned an unparseable response." }, { status: 502 });
   }
 
   const payload = data && typeof data === "object" ? data as Record<string, unknown> : {};
