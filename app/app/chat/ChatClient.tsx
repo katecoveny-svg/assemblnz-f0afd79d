@@ -550,54 +550,50 @@ export function ChatClient({
                 {shareStatus}
               </div>
             ) : null}
-            <div className="mt-4 grid gap-2 text-xs text-[color:var(--text-secondary)] md:grid-cols-3">
-              {agentExpertise ? (
-                <AgentTrait label="Expertise" value={agentExpertise} accent={accent} />
-              ) : null}
-              {agentMemoryScope ? (
-                <AgentTrait label="Memory" value={agentMemoryScope} accent={accent} />
-              ) : null}
-              {agentAmbientBrief ? (
-                <AgentTrait label="Ambient" value={agentAmbientBrief} accent={accent} />
-              ) : null}
-            </div>
-            {collaborators.length > 0 ? (
-              <p className="mt-3 max-w-2xl text-[12px] text-[color:var(--text-secondary)]">
-                Collaborates with {collaborators.join(', ')} when the mahi crosses disciplines.
-              </p>
-            ) : null}
-            <p className="mt-3 max-w-2xl text-[12px] italic text-[color:var(--text-secondary)]">
-              All replies are draft. You approve before anything happens elsewhere.
-            </p>
-            <div className="grid gap-3 xl:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
-              <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[rgba(250,247,242,0.62)] p-4">
-                <div className="flex items-center gap-2">
-                  <Layers3 size={16} style={{ color: accent }} aria-hidden />
-                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
-                    assembl layers
+            {/* Compact agent meta — kept as a single details/summary to declutter */}
+            {(agentExpertise || agentMemoryScope || agentAmbientBrief) ? (
+              <details className="mt-4 rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-white/45 px-4 py-2">
+                <summary className="cursor-pointer text-[12px] font-mono uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  About this specialist
+                </summary>
+                <div className="mt-3 grid gap-3 text-sm text-[color:var(--text-body)] md:grid-cols-3">
+                  {agentExpertise ? <AgentTrait label="Expertise" value={agentExpertise} accent={accent} /> : null}
+                  {agentMemoryScope ? <AgentTrait label="Memory" value={agentMemoryScope} accent={accent} /> : null}
+                  {agentAmbientBrief ? <AgentTrait label="Ambient" value={agentAmbientBrief} accent={accent} /> : null}
+                </div>
+                {collaborators.length > 0 ? (
+                  <p className="mt-3 text-[13px] text-[color:var(--text-secondary)]">
+                    Collaborates with {collaborators.join(', ')} when the mahi crosses disciplines.
                   </p>
-                </div>
-                <div className="mt-3 grid gap-2 md:grid-cols-5">
-                  {ASSEMBL_LAYERS.map((layer) => (
-                    <div key={layer.key} className="rounded-[8px] bg-white/55 p-3">
-                      <p className="font-display text-base text-[color:var(--text-primary)]">
-                        {layer.label}
-                      </p>
-                      <p className="mt-1 text-[11px] leading-relaxed text-[color:var(--text-body)]">
-                        {layer.role}
-                      </p>
-                      <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
-                        {layer.evidence}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-4">
+                ) : null}
+                <details className="mt-3">
+                  <summary className="cursor-pointer text-[11px] font-mono uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    assembl layers (how the work flows)
+                  </summary>
+                  <div className="mt-3 grid gap-2 md:grid-cols-5">
+                    {ASSEMBL_LAYERS.map((layer) => (
+                      <div key={layer.key} className="rounded-[8px] bg-white/55 p-3">
+                        <p className="font-display text-base text-[color:var(--text-primary)]">{layer.label}</p>
+                        <p className="mt-1 text-[12px] leading-relaxed text-[color:var(--text-body)]">{layer.role}</p>
+                        <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">{layer.evidence}</p>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+              </details>
+            ) : null}
+
+            <p className="mt-2 max-w-2xl text-[13px] italic text-[color:var(--text-secondary)]">
+              Every reply is a draft. You approve before anything happens elsewhere.
+            </p>
+
+            {/* PREMADE WORKFLOWS — now the only persistent card under the header */}
+            <div className="mt-4 grid gap-3">
+              <div className="rounded-[12px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-4">
                 <div className="flex items-center gap-2">
                   <Workflow size={16} style={{ color: accent }} aria-hidden />
-                  <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
-                    Premade workflows
+                  <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                    Premade workflows · tap to start
                   </p>
                 </div>
                 <div className="mt-3 space-y-2">

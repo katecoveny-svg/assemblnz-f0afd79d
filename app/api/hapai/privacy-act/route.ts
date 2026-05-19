@@ -115,16 +115,19 @@ export async function POST(req: Request) {
     retention: String(body.retention ?? "").trim().slice(0, 200),
   };
 
-  const message = `${SYSTEM_PROMPT}
-
-Organisation inputs:
+  const message = `Organisation inputs:
 ${JSON.stringify(input, null, 2)}`;
 
   try {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const service = getServiceClient();
       const { data, error } = await service.functions.invoke("public-chat-llm", {
-        body: { kete: "auaha", message, sessionId: crypto.randomUUID() },
+        body: {
+          kete: "auaha",
+          message,
+          systemPromptOverride: SYSTEM_PROMPT,
+          sessionId: crypto.randomUUID(),
+        },
       });
       if (!error && typeof data?.response === "string" && data.response.trim()) {
         const cleaned = sanitizeHtml(data.response);

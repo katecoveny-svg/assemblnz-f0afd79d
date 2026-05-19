@@ -47,6 +47,8 @@ export type FuelType = "petrol" | "diesel" | "lpg" | "natural_gas" | "coal";
 export type VehicleType = "passenger" | "light_commercial" | "heavy_commercial" | "mixed";
 export type PremisesType = "own_freehold" | "lease_long_term" | "lease_short_term";
 
+export type RouteType = "business" | "household" | "landlord" | "new-build";
+
 export interface ElectrifyInput {
   businessType: BusinessType;
   region: string;
@@ -57,6 +59,12 @@ export interface ElectrifyInput {
   premisesType: PremisesType;
   rooftopSolarSuitable: "yes" | "no" | "unsure";
   monthlyElectricitySpendNzd: number;
+  // Per-route extras — optional, used to tune the output framing.
+  routeType?: RouteType;
+  householdSize?: string;       // "1" | "2" | "3-4" | "5+"
+  rentalCount?: number;          // number of properties (landlord route)
+  tenancyLength?: string;        // "under_1_year" | "1_2_years" | "3_plus_years" | "lifetime"
+  buildType?: string;            // "residential_single" | "commercial_small" etc.
 }
 
 export interface SwitchStep {

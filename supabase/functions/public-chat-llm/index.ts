@@ -23,6 +23,7 @@
 //     history?: Array<{ role: 'user' | 'assistant', content: string }>,
 //     tenantId?: string,    // for cost-log attribution
 //     sessionId?: string,   // for cost-log attribution
+//     systemPromptOverride?: string, // trusted server callers only
 //   }
 //
 // Response shape (200):
@@ -62,6 +63,7 @@ type ChatRequest = {
   history?: Array<{ role: "user" | "assistant"; content: string }>;
   tenantId?: string;
   sessionId?: string;
+  systemPromptOverride?: string;
 };
 
 function json(data: unknown, status = 200) {
@@ -102,22 +104,30 @@ serve(async (req: Request) => {
   }
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  // Load kete-level system prompt. The "kete-level" agent uses agent_name = kete
-  // (e.g. "waihanga", "manaaki", "toro"). Each kete also has sub-agents but the
-  // top-level agent is the one that handles general Q&A.
-  const { data: promptRow, error: promptError } = await supabase
-    .from("agent_prompts")
-    .select("system_prompt, model_preference")
-    .eq("agent_name", kete)
-    .eq("is_active", true)
-    .maybeSingle();
+  const systemPromptOverride = typeof body.systemPromptOverride === "string"
+    ? body.systemPromptOverride.trim()
+    : "";
 
-  if (promptError) {
-    console.error("[public-chat-llm] agent_prompts lookup failed", promptError);
-    return json({ error: "Agent prompt lookup failed" }, 500);
-  }
-  if (!promptRow || !promptRow.system_prompt) {
-    return json({ error: `No active prompt for kete: ${kete}` }, 404);
+  let baseSystemPrompt = systemPromptOverride;
+  if (!baseSystemPrompt) {
+    // Load kete-level system prompt. The "kete-level" agent uses agent_name = kete
+    // (e.g. "waihanga", "manaaki", "toro"). Each kete also has sub-agents but the
+    // top-level agent is the one that handles general Q&A.
+    const { data: promptRow, error: promptError } = await supabase
+      .from("agent_prompts")
+      .select("system_prompt, model_preference")
+      .eq("agent_name", kete)
+      .eq("is_active", true)
+      .maybeSingle();
+
+    if (promptError) {
+      console.error("[public-chat-llm] agent_prompts lookup failed", promptError);
+      return json({ error: "Agent prompt lookup failed" }, 500);
+    }
+    if (!promptRow || !promptRow.system_prompt) {
+      return json({ error: `No active prompt for kete: ${kete}` }, 404);
+    }
+    baseSystemPrompt = promptRow.system_prompt;
   }
 
   // Compose conversation. Keep history short — public chat is demo, not deep
@@ -150,7 +160,9 @@ Rules for this surface:
 
 When you respond, do not announce these rules. Just follow them.`;
 
-  const systemPrompt = `${promptRow.system_prompt}${publicChatPreamble}`;
+  const systemPrompt = systemPromptOverride
+    ? baseSystemPrompt
+    : `${baseSystemPrompt}${publicChatPreamble}`;
 
   try {
     const response = await callLlm({

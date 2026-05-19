@@ -21,6 +21,7 @@
 //   - Provider error bodies sanitised before pass-through
 
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 type AspectRatio = "16:9" | "4:5" | "1:1" | "9:16";
 type Model = "flux" | "openai";
@@ -33,6 +34,7 @@ interface GenerateRequest {
   sref?: string;                 // accepted but ignored — Midjourney-only
   image_url?: string;            // hosted URL or data:image/...;base64,...
   image_prompt_strength: number; // 0..1, default 0.35
+  ip_hash?: string;
 }
 
 interface GeneratedImage {
@@ -46,6 +48,8 @@ interface GenerateResponse {
   images: GeneratedImage[];
   model: Model;
   cost_estimate_usd: number;
+  cost_usd_estimate?: number;
+  fal_request_id?: string;
   generated_at: string;
 }
 
@@ -223,6 +227,9 @@ function validateRequest(body: unknown): ValidationResult {
       sref,
       image_url,
       image_prompt_strength,
+      ip_hash: typeof r.ip_hash === "string" && r.ip_hash.length > 0
+        ? r.ip_hash
+        : undefined,
     },
   };
 }
@@ -256,6 +263,29 @@ function sanitizeProviderError(text: string): string {
 
 function truncate(s: string, max: number): string {
   return s.length > max ? s.slice(0, max) + "…" : s;
+}
+
+async function logVesselGeneration(req: GenerateRequest, falRequestId: string, cost: number) {
+  if (!req.ip_hash) return;
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!supabaseUrl || !supabaseKey) return;
+
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    await supabase.from("vessel_generations").insert({
+      ip_hash: req.ip_hash,
+      prompt: req.prompt.slice(0, 4000),
+      aspect_ratio: req.aspect_ratio,
+      model: typeof req.image_url === "string" && req.image_url.length > 0
+        ? "fal-ai/flux-pro/v1.1-ultra-redux"
+        : "fal-ai/flux-pro/v1.1",
+      fal_request_id: falRequestId || null,
+      cost_usd_estimate: cost,
+    });
+  } catch (err) {
+    console.error("[vessel-generate] generation log insert failed", err);
+  }
 }
 
 // ─── Provider implementations ──────────────────────────────────────────────
@@ -333,10 +363,25 @@ async function generateFlux(
     }
 
     const costPerVariant = useUltraRedux ? 0.06 : 0.04;
+    const cost = Number((variants * costPerVariant).toFixed(4));
+    const requestInfo = data?.request && typeof data.request === "object"
+      ? data.request as Record<string, unknown>
+      : {};
+    const falRequestId = String(
+      data?.request_id ??
+      data?.requestId ??
+      requestInfo.id ??
+      upstream.headers.get("x-fal-request-id") ??
+      "",
+    );
+    await logVesselGeneration(req, falRequestId, cost);
+
     const response: GenerateResponse = {
       images,
       model: "flux",
-      cost_estimate_usd: variants * costPerVariant,
+      cost_estimate_usd: cost,
+      cost_usd_estimate: cost,
+      fal_request_id: falRequestId,
       generated_at: new Date().toISOString(),
     };
     return jsonResponse(200, response, cors);
@@ -464,18 +509,22 @@ serve(async (req) => {
     return jsonResponse(405, { error: "Method not allowed; use POST" }, cors);
   }
 
-  // Auth: Bearer <VESSEL_STUDIO_SHARED_SECRET>
+  // Auth: Bearer <VESSEL_STUDIO_SHARED_SECRET> or internal service-role calls.
   const sharedSecret = Deno.env.get("VESSEL_STUDIO_SHARED_SECRET");
-  if (!sharedSecret) {
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!sharedSecret && !serviceRoleKey) {
     return jsonResponse(
       500,
-      { error: "Server misconfigured: VESSEL_STUDIO_SHARED_SECRET not set" },
+      { error: "Server misconfigured: no vessel function auth secret set" },
       cors,
     );
   }
   const auth = req.headers.get("authorization") ?? "";
-  const expected = `Bearer ${sharedSecret}`;
-  if (!timingSafeEqual(auth, expected)) {
+  const expected = sharedSecret ? `Bearer ${sharedSecret}` : "";
+  const expectedService = serviceRoleKey ? `Bearer ${serviceRoleKey}` : "";
+  const authorised = (expected.length > 0 && timingSafeEqual(auth, expected)) ||
+    (expectedService.length > 0 && timingSafeEqual(auth, expectedService));
+  if (!authorised) {
     return jsonResponse(401, { error: "Unauthorized" }, cors);
   }
 

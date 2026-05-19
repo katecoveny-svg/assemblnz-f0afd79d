@@ -1484,7 +1484,7 @@
         <span id="key-status" style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; color:var(--ink-faint);">not set</span>
       </div>
       <p style="margin:0 0 10px 0; font-family:'IBM Plex Mono',monospace; font-size:10.5px; line-height:1.5; letter-spacing:0.04em; color:var(--ink-soft);">
-        your key stays in this browser. needed for both image and video generation. get a key at <a href="https://fal.ai/dashboard/keys" target="_blank" rel="noopener" style="color:var(--ink);">fal.ai/dashboard/keys</a>.
+        image generation works with assembl's shared launch balance. save your own key here to bypass shared limits or generate video. get a key at <a href="https://fal.ai/dashboard/keys" target="_blank" rel="noopener" style="color:var(--ink);">fal.ai/dashboard/keys</a>.
       </p>
       <div style="display:flex; gap:6px; align-items:stretch;">
         <input id="key-input" class="text mono" type="password" placeholder="paste fal.ai api key" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter'){event.preventDefault();window.__assemblSaveKey&&window.__assemblSaveKey();}" style="flex:1; min-width:0; padding:8px 10px; border:1px solid var(--line); background:var(--paper); border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink);">
@@ -1494,6 +1494,9 @@
       <div style="margin-top:8px; font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.04em; color:var(--ink-faint);">
         cost: ~$0.04 / image (flux pro v1.1) · ~$0.05 / image (ultra/redux i2i) · ~$0.30–$3.00 / clip (video)
         <button id="key-forget" type="button" style="background:none; border:none; padding:0; margin-left:6px; color:var(--rust); font:inherit; cursor:pointer; text-decoration:underline; text-underline-offset:2px;">forget key</button>
+      </div>
+      <div id="shared-balance-status" style="margin-top:10px; padding:9px 10px; border:1px solid rgba(43,107,87,0.18); background:rgba(250,247,242,0.72); border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; line-height:1.45; color:var(--pounamu); text-transform:lowercase;">
+        shared image balance ready · save your own key only if you need more runs
       </div>
       <!-- Hidden node so existing wire() code that calls $('key-head') doesn't error. -->
       <span id="key-head" style="display:none;" aria-hidden="true"></span>
@@ -3303,10 +3306,21 @@
 
   function showError(msg) {
     const e = $('error-card');
-    e.textContent = `generation failed — ${msg}. check your key or try again.`;
+    const suffix = /limit reached|shared balance|try again in an hour/i.test(msg)
+      ? ''
+      : '. check your key or try again';
+    e.textContent = `generation failed — ${msg}${suffix}.`;
     e.classList.add('show');
   }
   function hideError() { $('error-card').classList.remove('show'); }
+
+  function setSharedBalanceStatus(message, tone = 'ok') {
+    const el = $('shared-balance-status');
+    if (!el) return;
+    el.textContent = message;
+    el.style.color = tone === 'error' ? 'var(--rust)' : 'var(--pounamu)';
+    el.style.borderColor = tone === 'error' ? 'rgba(159,74,54,0.28)' : 'rgba(43,107,87,0.18)';
+  }
 
   function flashKeyPanel() {
     openKeyPanel(true);
@@ -3324,7 +3338,6 @@
     hideError();
 
     const key = getKey();
-    if (!key) { flashKeyPanel(); return; }
 
     setGenerating(true);
 
@@ -3359,14 +3372,30 @@
         };
 
     try {
-      const resp = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Key ${key}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
+      const usingPersonalKey = !!key;
+      const resp = usingPersonalKey
+        ? await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Key ${key}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+          })
+        : await fetch('/api/hapai/vessel-generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              prompt: promptForFal,
+              aspectRatio: state.ar,
+              motion: state.motion,
+              sref: useRedux ? state.reference.dataUrl : '',
+              mode: useRedux ? 'redux' : 'text',
+              modelKey: useRedux ? 'flux-pro-v1.1-ultra-redux' : 'flux-pro-v1.1',
+              variants: state.variants,
+              imagePromptStrength: state.imagePromptStrength,
+            }),
+          });
 
       if (!resp.ok) {
         let detail = `${resp.status} ${resp.statusText}`;
@@ -3380,6 +3409,9 @@
         // Friendlier hint when the reference is too large.
         if (useRedux && /image_url|too large|payload|413|request entity/i.test(detail)) {
           detail = `${detail} — try a smaller reference image (under ~5 MB)`;
+        }
+        if (!usingPersonalKey && resp.status === 429) {
+          setSharedBalanceStatus('hourly limit reached · bring your own fal.ai key or try again in an hour', 'error');
         }
         throw new Error(detail.slice(0, 280));
       }
@@ -3403,6 +3435,14 @@
       });
 
       bumpCost(images.length, useRedux ? 'redux' : 'text');
+      if (usingPersonalKey) {
+        setSharedBalanceStatus('using your saved fal.ai key · shared balance not used');
+      } else {
+        const limit = Number(data.hourLimit || 3);
+        const remaining = Math.max(0, Number(data.remaining ?? 0));
+        const used = Math.max(1, limit - remaining);
+        setSharedBalanceStatus(`generated using assembl's shared fal.ai balance · ${used} of ${limit} runs this hour`);
+      }
     } catch (err) {
       showError((err && err.message) ? err.message : 'unknown error');
     } finally {
