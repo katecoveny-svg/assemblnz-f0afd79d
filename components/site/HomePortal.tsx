@@ -11,6 +11,8 @@ import type { PearlLiveStats } from '@/lib/pearl-live';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import { KeteRotator } from './KeteRotator';
+import { MarketplaceStrip } from './MarketplaceStrip';
+import { ThreeSteps } from './ThreeSteps';
 
 interface HomePortalProps {
   ketes: Kete[];
@@ -62,34 +64,6 @@ const HAPAI_TOOLS = [
   },
 ] as const;
 
-const PIPELINE_STEPS = [
-  [
-    '01',
-    'KAHU',
-    'A request lands. Kahu listens, transcribes, frames it. What is being asked, who is asking, what context already lives in your kete. The brief never starts blank.',
-  ],
-  [
-    '02',
-    'IHO',
-    'The router. Picks the specialist agent for the work, the model for the job, the cultural pass. Privacy Act 2020, tikanga, Te Tiriti — checked here.',
-  ],
-  [
-    '03',
-    'TĀ',
-    'The specialist agent drafts the work end to end. Every act, section, council document cited inline. Nothing invented. Nothing left unsourced.',
-  ],
-  [
-    '04',
-    'MAHARA',
-    'Your named reviewer accepts, edits, or rejects. Their reasoning is preserved with the edit, so the next reviewer — or the auditor — can see why.',
-  ],
-  [
-    '05',
-    'MANA',
-    'Sealed in an evidence pack. Hash chained. Timestamped. Filed against the contract. Forwarded to the inbox that has to read it.',
-  ],
-] as const;
-
 const PRICING_ENTRY_POINTS = [
   [
     'PILOT SPRINT',
@@ -118,15 +92,15 @@ const PRICING_ENTRY_POINTS = [
 ] as const;
 
 const KETE_CARD_COPY: Record<KeteSlug, string> = {
-  waihanga: 'RFIs, QA packs, site observations, consent compliance.',
-  manaaki: 'Food safety, incident logs, guest responses, supplier comparisons.',
-  pikau: 'Customs documentation, freight exceptions, carrier compliance.',
-  arataki: 'WoF and CoF prep, CGA disclosures, fleet compliance trails.',
-  auaha: 'Brand strategy, campaign concepts, creative reviews, asset trails.',
-  ako: 'School notices, parent updates, assessment summaries, staff planning.',
-  matauranga: 'Research synthesis, document comparison, source verification.',
-  hoko: 'Customer responses, returns triage, supplier comparison, pricing review.',
-  toro: 'School notices parsed. Gear lists. Meal plans. The week held in one place.',
+  waihanga: 'RFI drafter, variation pack builder, site observation logger, and six more.',
+  manaaki: 'Allergen incident logger, guest reply drafter, supplier comparison, and six more.',
+  pikau: 'Customs entry drafter, freight exception report, carrier compliance review, and six more.',
+  arataki: 'WoF readiness check, CGA disclosure generator, fleet defect log, and six more.',
+  auaha: 'Caption batch composer, brief drafter, tagline shortlist, and six more.',
+  ako: 'School notice rewriter, assessment summary, parent update drafter, and six more.',
+  matauranga: 'Source verifier, document comparison, submission drafter, and six more.',
+  hoko: 'Return triage, customer reply drafter, supplier comparison, and six more.',
+  toro: 'School notice parser, weekly plan, gear list generator, and six more.',
 };
 
 const KETE_ACCENT_NAMES: Record<KeteSlug, string> = {
@@ -196,25 +170,28 @@ export function HomePortal({ ketes }: HomePortalProps) {
               onActiveSlugChange={setActiveSlug}
               body={(
                 <p>
-                  We help New Zealand teams run the work that has to be reviewed,
-                  trusted, and explained later. The kind of work that survives an
-                  audit, a board paper, an OIA request, three months from now.
+                  Every team has a layer of admin underneath the work that
+                  matters. Drafts, follow-ups, comparisons, write-ups. assembl is
+                  a fleet of specialist agents that handle that layer — so your
+                  people can do the work you actually hired them for. Each result
+                  is reviewed by a named person on your team and sealed with a
+                  record of how it was made.
                 </p>
               )}
               actions={(
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row md:mt-10">
                   <Link
-                    href="/book-a-pilot"
+                    href="/workflows"
                     className="cta-primary inline-flex h-12 w-full items-center justify-center px-8 text-base sm:w-auto md:h-14"
                   >
-                    Book a pilot
+                    Browse the workflows
                     <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                   </Link>
                   <Link
-                    href="/evidence-pack"
+                    href="/c/waihanga"
                     className="btn-ghost inline-flex h-12 w-full items-center justify-center bg-white/62 px-8 text-base backdrop-blur-md sm:w-auto md:h-14"
                   >
-                    See an evidence pack
+                    Try a kete chat
                     <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                   </Link>
                 </div>
@@ -232,31 +209,47 @@ export function HomePortal({ ketes }: HomePortalProps) {
               WHAT WE DO
             </p>
             <h2 className="mt-4 max-w-4xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              The work that doesn't survive a chatbot.
+              Less admin. More mahi.
             </h2>
           </div>
           <div>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Some work moves through your team fast and doesn't need a paper
-              trail. Other work has to be reviewed by a named person, filed
-              against a contract, sourced against legislation, and explained
-              three months later when someone asks how it was done. assembl is
-              built for the second kind. We run that work through specialist
-              agents, route it past a named reviewer in your team, and seal the
-              result in an evidence pack you can stand behind.
+              Hospitality teams shouldn&apos;t spend their best hour writing the
+              allergen incident report. Construction teams shouldn&apos;t spend
+              their best hour cross-referencing the variation against clause 24A
+              of the contract. Schools shouldn&apos;t spend their best hour
+              rewording the same notice for the fourth year group.
+            </p>
+            <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
+              Those are the jobs assembl picks up. Specialist agents — trained
+              on your industry&apos;s regulations and your business&apos;s voice —
+              handle the admin layer end-to-end. Your team reviews the output,
+              signs it off, and goes back to the work they care about.
+            </p>
+            <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
+              The output gets sealed with a trail of how it was made, so it
+              stands up later.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/how-it-works" className="cta-primary inline-flex h-12 items-center justify-center px-6">
-                How it works
+              <Link href="/workflows" className="cta-primary inline-flex h-12 items-center justify-center px-6">
+                See the workflows
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
-              <Link href="/evidence-pack" className="btn-ghost inline-flex h-12 items-center justify-center px-6">
-                See an evidence pack
+              <Link href="/c/waihanga" className="btn-ghost inline-flex h-12 items-center justify-center px-6">
+                Try a kete chat
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
           </div>
         </div>
+      </RevealSection>
+
+      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-white/42 px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
+        <ThreeSteps />
+      </RevealSection>
+
+      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
+        <MarketplaceStrip />
       </RevealSection>
 
       <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-white/38 px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
@@ -266,15 +259,15 @@ export function HomePortal({ ketes }: HomePortalProps) {
               HAPAI · ADOPTION TOOLS
             </p>
             <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              The team's first taste of agentic work.
+              Small tools that lift the admin layer.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
               Hāpai (te reo Māori): to lift up, to elevate. HAPAI is a library
-              of single-purpose tools your team can open in thirty seconds. No
-              prompting. No training. No platform switch. Each one does one job
-              and produces work in your voice. Free. Bring your own API key.
-              Twelve more tools inside the Industry Pack, branded to your
-              organisation.
+              of single-purpose tools that take admin off marketing, ops, and
+              compliance plates. No prompting. No training. No platform switch.
+              Each one does one practical job and produces work in your voice.
+              Free. Bring your own API key. Twelve more tools inside the
+              Industry Pack, branded to your organisation.
             </p>
           </div>
 
@@ -367,45 +360,6 @@ export function HomePortal({ ketes }: HomePortalProps) {
             onSelect={setActiveSlug}
             reduceMotion={reduceMotion}
           />
-        </div>
-      </RevealSection>
-
-      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-white/40 px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
-        <div className="mx-auto max-w-[1500px]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-            HOW IT WORKS
-          </p>
-          <h2 className="mt-4 max-w-5xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-            Five stages. Nothing ships until a person says so.
-          </h2>
-          <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-            Every workflow assembl runs moves through the same five stages. The
-            pace changes. The shape does not. A named human in your team signs
-            off before anything leaves.
-          </p>
-          <div className="mt-10 grid gap-4 md:grid-cols-5">
-            {PIPELINE_STEPS.map(([number, title, body], index) => (
-              <motion.article
-                key={title}
-                className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5"
-                initial={reduceMotion ? false : { opacity: 0.64, y: 22 }}
-                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.34 }}
-                transition={{ duration: 0.5, delay: index * 0.055, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={reduceMotion ? undefined : { y: -3, scale: 1.01 }}
-              >
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
-                  {number} — {title}
-                </p>
-                <p className="mt-5 text-sm leading-relaxed text-[color:var(--text-body)]">
-                  {body}
-                </p>
-              </motion.article>
-            ))}
-          </div>
-          <Link href="/how-it-works" className="mt-8 inline-flex h-12 items-center rounded-[8px] bg-[color:var(--assembl-pounamu)] px-6 font-medium text-[#FAF7F2]">
-            See the full pipeline <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-          </Link>
         </div>
       </RevealSection>
 
@@ -549,7 +503,7 @@ function KeteCardGrid({
   reduceMotion: boolean | null;
 }) {
   return (
-    <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label="Choose a kete">
+    <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3" aria-label="Choose a kete">
       {ketes.map((kete, index) => {
         const active = kete.slug === activeSlug;
         return (
@@ -565,10 +519,10 @@ function KeteCardGrid({
             <article
               onMouseEnter={() => onSelect(kete.slug)}
               className={[
-                'group block min-h-[360px] overflow-hidden rounded-[8px] border bg-white/55 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
+                'group relative flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border bg-white/65 text-left shadow-[0_10px_36px_rgba(35,33,31,0.05)] backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
                 active
-                  ? 'border-[color:var(--tile-accent)] bg-white shadow-[0_8px_24px_rgba(35,33,31,0.08)]'
-                  : 'border-[rgba(35,33,31,0.12)] bg-white/45 hover:border-[color:var(--tile-accent)] hover:bg-white/75',
+                  ? 'border-[color:var(--tile-accent)] bg-white'
+                  : 'border-[rgba(35,33,31,0.12)] hover:border-[color:var(--tile-accent)] hover:bg-white/78',
               ].join(' ')}
               aria-current={active ? 'true' : undefined}
             >
@@ -589,30 +543,40 @@ function KeteCardGrid({
                   aria-hidden
                 />
               </span>
-              <span className="block p-5">
-                <span className="block font-display text-4xl font-light italic leading-none text-[color:var(--text-primary)]">
-                  {kete.name} · {kete.industry}
+              <span className="flex flex-1 flex-col p-7">
+                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  {kete.industry}
                 </span>
-                <span className="mt-2 block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                <span className="block font-display text-[28px] font-medium leading-none text-[color:var(--tile-accent)]">
+                  {kete.name}
+                </span>
+                <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                   {KETE_ACCENT_NAMES[kete.slug]}
                 </span>
-                <span className="mt-4 block min-h-[66px] text-sm leading-relaxed text-[color:var(--text-body)]">
+                <span className="mt-4 block min-h-[74px] text-[14.5px] leading-relaxed text-[#2A2825]">
                   {KETE_CARD_COPY[kete.slug]}
                 </span>
-                <span className="mt-6 flex flex-wrap gap-3">
+                <span className="mt-auto flex flex-wrap items-center gap-4 pt-6 text-[13px]">
                   <Link
                     href={`/kete/${kete.slug}`}
                     onFocus={() => onSelect(kete.slug)}
-                    className="inline-flex h-10 items-center rounded-[8px] bg-[color:var(--tile-accent)] px-4 text-sm font-medium text-white"
+                    className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:text-[color:var(--assembl-pounamu)] hover:underline"
                   >
-                    Learn more
+                    Learn more →
                   </Link>
                   <Link
                     href={`/c/${kete.slug}`}
                     onFocus={() => onSelect(kete.slug)}
-                    className="inline-flex h-10 items-center rounded-[8px] border border-[rgba(35,33,31,0.12)] px-4 text-sm font-medium text-[color:var(--text-primary)]"
+                    className="font-medium text-[color:var(--assembl-pounamu)] underline-offset-4 hover:underline"
                   >
-                    Try the chat
+                    Try the chat →
+                  </Link>
+                  <Link
+                    href={`/workflows?kete=${kete.slug}`}
+                    onFocus={() => onSelect(kete.slug)}
+                    className="text-[12px] text-[color:var(--text-secondary)] underline-offset-4 hover:underline"
+                  >
+                    See workflows →
                   </Link>
                 </span>
               </span>

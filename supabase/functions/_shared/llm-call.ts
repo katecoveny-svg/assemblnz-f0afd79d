@@ -1,14 +1,14 @@
 // ════════════════════════════════════════════════════════════════════════
 // Second routing layer — provider dispatcher.
 //
-// The Lovable AI Gateway only natively supports `google/*` and `openai/*`
+// The Lovable Gateway only natively supports `google/*` and `openai/*`
 // models. For agents whose `agent_prompts.model_preference` resolves to
 // `anthropic/*` or `perplexity/*`, we MUST call those providers directly
 // instead of routing through the gateway (which would 400 and silently
 // downgrade to gemini-flash-lite).
 //
 // This helper takes a fully-qualified resolved model string and returns a
-// normalised OpenAI-style chat completion response, regardless of which
+// normalised chat-completion response, regardless of which
 // underlying provider was used. The caller (chat/index.ts) is provider-
 // agnostic — it just inspects `data.choices[0].message` like before.
 //
@@ -19,6 +19,7 @@
 // ════════════════════════════════════════════════════════════════════════
 
 import { logCost } from "./cost-logger.ts";
+import { chatWithGemini, type GeminiModelKey } from "./gemini-provider.ts";
 
 export type ChatMessage = {
   role: "system" | "user" | "assistant" | "tool";
@@ -44,17 +45,18 @@ export type LlmCallOptions = {
   systemPrompt: string;
   messages: ChatMessage[];                // the user/assistant turn history (no system message)
   maxTokens?: number;
-  tools?: unknown[];                      // OpenAI-style tools — only forwarded for gateway calls
+  tools?: unknown[];                      // Tool definitions — only forwarded for gateway calls
   /** Optional cost-logging metadata. When provided, every call is logged. */
   meta?: LlmCallMeta;
 };
 
-export type Provider = "gateway" | "anthropic" | "perplexity";
+export type Provider = "google" | "openai-gateway" | "anthropic" | "perplexity";
 
 export function detectProvider(model: string): Provider {
   if (model.startsWith("anthropic/")) return "anthropic";
   if (model.startsWith("perplexity/")) return "perplexity";
-  return "gateway"; // google/* + openai/* + anything else
+  if (model.startsWith("google/")) return "google";
+  return "openai-gateway";
 }
 
 /**
@@ -77,7 +79,19 @@ export async function callLlm(opts: LlmCallOptions): Promise<Response> {
   switch (provider) {
     case "anthropic":  response = await callAnthropic(opts); break;
     case "perplexity": response = await callPerplexity(opts); break;
-    default:           response = await callGateway(opts); break;
+    case "google": {
+      response = await callGoogleDirect(opts);
+      if (response.status === 502 || response.status === 503) {
+        console.warn("[llm-call] Google direct returned", response.status, "— falling back to Lovable Gateway");
+        const fallback = await callGateway(opts);
+        const headers = new Headers(fallback.headers);
+        headers.set("X-LLM-Provider", "lovable-fallback");
+        response = new Response(fallback.body, { status: fallback.status, headers });
+      }
+      break;
+    }
+    case "openai-gateway":
+    default: response = await callGateway(opts); break;
   }
 
   // Cost logging — fire-and-forget. Never blocks the caller.
@@ -135,7 +149,66 @@ async function logCallCost(response: Response, opts: LlmCallOptions, latencyMs: 
   });
 }
 
-// ─── Lovable AI Gateway (google/* + openai/*) ─────────────────────────────
+async function callGoogleDirect(opts: LlmCallOptions): Promise<Response> {
+  const key = Deno.env.get("GEMINI_API_KEY");
+  if (!key) {
+    return jsonResponse(503, { error: "GEMINI_API_KEY_NOT_SET" });
+  }
+
+  const shortName = opts.model.replace(/^google\//, "");
+  const modelKey: GeminiModelKey =
+    shortName.includes("flash-image") ? "gemini-2.5-flash" :
+    shortName.includes("3.1-pro") ? "gemini-2.5-pro" :
+    shortName.includes("3-flash") ? "gemini-3-flash" :
+    shortName.includes("2.5-pro") ? "gemini-2.5-pro" :
+    shortName.includes("flash-lite") ? "gemini-2.5-flash" :
+    "gemini-2.5-flash";
+
+  try {
+    const text = await chatWithGemini(
+      modelKey,
+      opts.systemPrompt,
+      opts.messages.map((message) => ({
+        role: message.role,
+        content: typeof message.content === "string" ? message.content : JSON.stringify(message.content),
+      })),
+      { maxTokens: opts.maxTokens },
+    );
+
+    if (!text.trim()) {
+      return jsonResponse(502, { error: "GEMINI_DIRECT_EMPTY" });
+    }
+
+    const inputWords = opts.systemPrompt.split(/\s+/).length +
+      opts.messages.reduce((sum, message) => {
+        const content = typeof message.content === "string" ? message.content : "";
+        return sum + content.split(/\s+/).length;
+      }, 0);
+    const outputWords = text.split(/\s+/).length;
+    const normalised = {
+      id: `gemini-direct-${crypto.randomUUID()}`,
+      model: opts.model,
+      choices: [{
+        index: 0,
+        message: { role: "assistant", content: text },
+        finish_reason: "stop",
+      }],
+      usage: {
+        prompt_tokens: Math.ceil(inputWords * 1.35),
+        completion_tokens: Math.ceil(outputWords * 1.35),
+        total_tokens: Math.ceil((inputWords + outputWords) * 1.35),
+      },
+    };
+
+    return jsonResponse(200, normalised, { "X-LLM-Provider": "google-direct" });
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : "Unknown Google direct error";
+    console.error("[llm-call] Google direct failed, will fall back:", detail);
+    return jsonResponse(502, { error: "GEMINI_DIRECT_FAILED", detail });
+  }
+}
+
+// ─── Lovable Gateway (openai/* fallback path) ─────────────────────────────
 async function callGateway(opts: LlmCallOptions): Promise<Response> {
   const key = Deno.env.get("LOVABLE_API_KEY");
   if (!key) return errResponse(500, "LOVABLE_API_KEY not configured");
@@ -218,7 +291,7 @@ async function callPerplexity(opts: LlmCallOptions): Promise<Response> {
 
   const modelId = opts.model.replace(/^perplexity\//, "");
 
-  // Perplexity is OpenAI-compatible. It also rejects role:"tool" entries.
+  // Perplexity follows the same chat-completions shape. It also rejects role:"tool" entries.
   const cleanedMessages = opts.messages
     .filter(m => m.role === "user" || m.role === "assistant" || m.role === "system")
     .map(m => ({
@@ -242,7 +315,7 @@ async function callPerplexity(opts: LlmCallOptions): Promise<Response> {
     return errResponse(upstream.status, `Perplexity error: ${text.slice(0, 300)}`);
   }
 
-  // Perplexity already returns OpenAI-shaped JSON — pass through, but ensure
+  // Perplexity already returns chat-completion JSON — pass through, but ensure
   // citations (if any) are appended to the assistant content for transparency.
   const raw = await upstream.json();
   const msg = raw?.choices?.[0]?.message ?? { role: "assistant", content: "" };
@@ -260,10 +333,10 @@ async function callPerplexity(opts: LlmCallOptions): Promise<Response> {
 }
 
 // ─── helpers ──────────────────────────────────────────────────
-function jsonResponse(status: number, body: unknown): Response {
+function jsonResponse(status: number, body: unknown, headers?: Record<string, string>): Response {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...(headers ?? {}) },
   });
 }
 function errResponse(status: number, message: string): Response {
