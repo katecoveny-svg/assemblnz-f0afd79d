@@ -24,6 +24,19 @@ function htmlDraft(title: string, body: string) {
   ].join('');
 }
 
+// Append a visible assembl watermark to every workflow output so the result
+// can't be claimed as someone else's work. Lives inline so it survives copy/
+// paste, embed-into-other-sites, and PDF export. Visible on both the LLM-
+// generated path and the local-fallback draft.
+function appendAssemblWatermark(html: string, slug: string, title: string) {
+  const watermark = `
+<footer style="margin-top:28px;padding-top:16px;border-top:1px solid rgba(35,33,31,0.12);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(35,33,31,0.62);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;line-height:1.5;">
+  <span><span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;text-transform:none;letter-spacing:0;font-size:14px;color:#2B6B57;">assembl</span> · ${escapeHtml(title)}</span>
+  <a href="https://assembl.co.nz/workflows/${encodeURIComponent(slug)}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">assembl.co.nz/workflows/${escapeHtml(slug)} →</a>
+</footer>`;
+  return html + watermark;
+}
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, '&amp;')
@@ -153,6 +166,12 @@ export async function POST(req: NextRequest) {
       .map((input) => `${input.label}: ${Array.isArray(inputs[input.id]) ? (inputs[input.id] as unknown[]).join(', ') : inputs[input.id] ?? 'not supplied'}`)
       .join('; ');
     output = htmlDraft(workflow.title, supplied || workflow.description);
+  }
+
+  // Every output carries a visible assembl watermark — copy-paste, embed, or
+  // download, the brand stays attached. Skip only for json shape (handled by caller).
+  if (workflow.outputShape !== 'json') {
+    output = appendAssemblWatermark(output, workflow.slug, workflow.title);
   }
 
   await logRun({

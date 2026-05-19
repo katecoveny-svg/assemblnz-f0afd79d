@@ -121,91 +121,89 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
   )} a year back from fossil machines. Run your own NZ estimate from assembl.`;
 
   return (
-    <main className="overflow-hidden bg-[radial-gradient(ellipse_at_18%_0%,rgba(217,188,122,0.18),transparent_42%),radial-gradient(ellipse_at_78%_12%,rgba(43,107,87,0.16),transparent_46%),var(--assembl-paper)] font-inter text-taupe-900">
-      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.10)] px-6 py-12 lg:px-10 lg:py-18">
-        <div className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
+    <main className="overflow-hidden bg-[radial-gradient(ellipse_at_18%_0%,rgba(217,188,122,0.22),transparent_48%),radial-gradient(ellipse_at_82%_8%,rgba(43,107,87,0.18),transparent_50%),var(--assembl-paper)] font-inter text-taupe-900">
+      {/* HERO — full-bleed, share-worthy, centred */}
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] px-6 pt-14 pb-12 lg:px-10 lg:pt-20 lg:pb-16">
+        <div className="pointer-events-none absolute inset-y-0 right-[-6%] top-[-8%] hidden w-[46%] lg:block">
           <Image
-            src="/img/hapai/tools/electrify-share-card.png"
+            src="/img/hapai/tools/electrify-vessel.jpg"
             alt=""
             fill
-            sizes="50vw"
-            className="object-cover opacity-[0.18] mix-blend-multiply"
+            sizes="46vw"
+            className="object-contain object-right opacity-[0.18]"
             priority
           />
         </div>
-        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <header>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-taupe-600">
-              Electrify · your result
-            </p>
-            <h1 className="mt-5 font-cormorant text-[clamp(3.4rem,8vw,7rem)] leading-[0.88] text-pounamu-900">
-              {fmtNzd(lead.annual_savings_current_nzd)} a year back from the machines.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-taupe-700">
-              {lead.annual_savings_cheap_finance_nzd > lead.annual_savings_current_nzd ? (
-                <>
-                  With a 1% green loan scenario, that rises to{" "}
-                  <span className="font-medium text-pounamu-900">
-                    {fmtNzd(lead.annual_savings_cheap_finance_nzd)}
-                  </span>
-                  .{" "}
-                </>
-              ) : null}
-              Confidence: <ConfidenceBadge level={lead.result_confidence} />
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link href={cta.href} className="cta-primary inline-flex h-12 items-center gap-2 px-6">
-                {cta.label} <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-              <Link href="/electrify" className="btn-ghost inline-flex h-12 items-center px-6">
-                Run another estimate
-              </Link>
-            </div>
-            <div className="mt-5">
-              <ElectrifyShareButtons
-                title="My Electrify Machine Count"
-                text={shareText}
-                url={resultUrl}
-              />
-            </div>
-          </header>
 
-          <div className="glass-card-elevated p-4 shadow-[0_30px_100px_rgba(35,33,31,0.14)] [transform:perspective(1100px)_rotateX(1.5deg)_rotateY(-3.5deg)]">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[18px] bg-pounamu-900">
-              <Image
-                src="/img/hapai/tools/electrify-vessel.jpg"
-                alt="Sculptural vessel representing an electrification plan"
-                fill
-                sizes="(min-width: 1024px) 42vw, 100vw"
-                className="object-cover opacity-90"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#23211F]/80 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-5 text-mist-50">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-mist-50/75">First switch</p>
-                <p className="mt-2 text-xl font-medium leading-tight">{heroStep?.machine ?? "Start with the highest-confidence switch"}</p>
-              </div>
+        <div className="relative mx-auto max-w-5xl text-center">
+          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-taupe-600">
+            Electrify · your machine count
+          </p>
+          <h1 className="mt-6 font-cormorant text-[clamp(3rem,9vw,7rem)] leading-[0.92] text-pounamu-900">
+            {fmtNzd(lead.annual_savings_current_nzd)}<br />
+            <span className="text-taupe-800">a year back from</span><br />
+            <span className="text-taupe-800">the machines.</span>
+          </h1>
+
+          <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-taupe-700">
+            {lead.annual_savings_cheap_finance_nzd > lead.annual_savings_current_nzd ? (
+              <>
+                With a 1% green-loan scenario, that rises to{" "}
+                <span className="font-medium text-pounamu-900">
+                  {fmtNzd(lead.annual_savings_cheap_finance_nzd)}
+                </span>
+                .{" "}
+              </>
+            ) : null}
+            Confidence: <ConfidenceBadge level={lead.result_confidence} />
+          </p>
+
+          {heroStep ? (
+            <div className="mx-auto mt-8 inline-flex max-w-3xl items-center gap-3 rounded-full border border-pounamu-200 bg-white/65 px-5 py-3 text-sm backdrop-blur">
+              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-pounamu-700">First switch</span>
+              <span className="font-medium text-taupe-900">{heroStep.machine}</span>
             </div>
+          ) : null}
+
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <Link href={cta.href} className="cta-primary inline-flex h-12 items-center gap-2 px-7">
+              {cta.label} <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+            <Link href="/electrify" className="btn-ghost inline-flex h-12 items-center px-6">
+              Run another estimate
+            </Link>
+          </div>
+
+          <div className="mt-6 flex justify-center">
+            <ElectrifyShareButtons
+              title="My Electrify Machine Count"
+              text={shareText}
+              url={resultUrl}
+            />
           </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10 lg:py-16">
-      <section className="mb-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <Metric icon={PlugZap} label="Annual savings" value={fmtNzd(lead.annual_savings_current_nzd)} />
-        <Metric
-          icon={BatteryCharging}
-          label="Payback period"
-          value={lead.payback_years ? `${lead.payback_years} years` : "—"}
-        />
-        <Metric icon={Route} label="10-year savings" value={fmtNzd(lead.ten_year_savings_nzd)} />
-        <Metric
-          icon={Leaf}
-          label="CO₂e avoided"
-          value={`${lead.co2e_avoided_tonnes} t/yr`}
-        />
+      {/* HEADLINE METRICS — full-width glass strip */}
+      <section className="relative border-b border-[rgba(35,33,31,0.06)] px-6 py-10 lg:px-10 lg:py-12">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 lg:grid-cols-4">
+          <Metric icon={PlugZap} label="Annual savings" value={fmtNzd(lead.annual_savings_current_nzd)} />
+          <Metric
+            icon={BatteryCharging}
+            label="Payback period"
+            value={lead.payback_years ? `${lead.payback_years} years` : "—"}
+          />
+          <Metric icon={Route} label="10-year savings" value={fmtNzd(lead.ten_year_savings_nzd)} />
+          <Metric
+            icon={Leaf}
+            label="CO₂e avoided"
+            value={`${lead.co2e_avoided_tonnes} t/yr`}
+          />
+        </div>
       </section>
 
-      <section className="mb-10">
+      <div className="mx-auto max-w-6xl px-6 py-12 lg:px-10 lg:py-16">
+      <section className="mb-12">
         <h2 className="font-cormorant text-4xl text-pounamu-900 mb-5">
           Your Machine Count.
         </h2>
@@ -355,12 +353,12 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
 
 function Metric({ icon: Icon, label, value }: { icon: typeof PlugZap; label: string; value: string }) {
   return (
-    <div className="rounded-[18px] border border-white/45 bg-white/58 p-4 shadow-[0_18px_52px_rgba(35,33,31,0.08)] backdrop-blur-xl">
-      <Icon className="mb-4 h-5 w-5 text-pounamu-700" aria-hidden />
-      <span className="block text-xs uppercase tracking-wider text-taupe-600 mb-1">
+    <div className="rounded-[20px] border border-white/55 bg-white/65 p-5 shadow-[0_18px_52px_rgba(35,33,31,0.08)] backdrop-blur-xl lg:p-6">
+      <Icon className="mb-4 h-6 w-6 text-pounamu-700" aria-hidden />
+      <span className="block font-mono text-[10px] uppercase tracking-[0.22em] text-taupe-600 mb-2">
         {label}
       </span>
-      <span className="block font-cormorant text-3xl text-pounamu-900">{value}</span>
+      <span className="block font-cormorant text-[clamp(2rem,4vw,2.75rem)] leading-none text-pounamu-900">{value}</span>
     </div>
   );
 }
