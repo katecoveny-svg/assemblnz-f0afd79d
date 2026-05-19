@@ -303,6 +303,7 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 export const nav = [
   { href: '/pilot-sprint',  label: 'Pilot Sprint' },
   { href: '/how-it-works',  label: 'How it works' },
+  { href: '/workflows',     label: 'Workflows' },
   { href: '/kete',          label: 'Kete' },
   { href: '/hapai',         label: 'HAPAI' },
   { href: '/pricing',       label: 'Pricing' },

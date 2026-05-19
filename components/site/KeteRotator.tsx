@@ -106,7 +106,7 @@ export function KeteRotator({
                 scale === 'immersive' ? 'text-body-md md:text-[clamp(1.1rem,1vw,1.45rem)] md:leading-[1.55]' : 'text-body-md',
               ].join(' ')}
             >
-              {current.industry} specialist agents. Human review. Evidence packs.
+              Specialist agents for the admin work that drains your team. Built in Aotearoa.
             </p>
             {body ? (
               <div className="mt-5 max-w-[580px] text-body-md leading-relaxed text-[color:var(--text-body)]">
