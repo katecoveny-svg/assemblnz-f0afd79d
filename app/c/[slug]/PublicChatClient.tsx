@@ -33,6 +33,16 @@ function newId() {
 }
 
 export function PublicChatClient({ tenant, embed = false }: Props) {
+  // Sub-agent deep-link: read ?agent= from the URL so links like
+  // /c/toro?agent=VOYAGE load the Voyage prompt instead of the kete default.
+  const [agentSlug, setAgentSlug] = useState<string>('');
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const a = params.get('agent');
+    if (a) setAgentSlug(a.toLowerCase());
+  }, []);
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'hello',
@@ -136,6 +146,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
         body: JSON.stringify({
           slug: tenant.slug,
           kete: tenant.kete,
+          agent: agentSlug || undefined,
           message: trimmed,
           sessionId,
           chatId,

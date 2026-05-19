@@ -25,6 +25,7 @@ const FALLBACK_EMAIL = 'hello@assembl.co.nz';
 type ChatRequest = {
   slug?: string;
   kete?: string;
+  agent?: string;
   message?: string;
   sessionId?: string;
   chatId?: string;
@@ -376,6 +377,11 @@ export async function POST(req: NextRequest) {
       body: {
         message,
         packId: kete,
+        // Sub-agent deep-link support: if the chat link included ?agent=VOYAGE
+        // (or any sub-agent slug), tell iho-router to load that specific
+        // agent's prompt instead of classifying within the pack. Falls back
+        // to keyword classification if the slug isn't recognised.
+        agentId: body.agent ? body.agent.toLowerCase() : undefined,
         mode: 'respond',
         context: {
           previousMessages: body.history?.slice(-8) ?? [],

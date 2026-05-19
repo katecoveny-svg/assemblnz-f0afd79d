@@ -59,6 +59,7 @@ const MAX_TOKENS = 600;
 
 type ChatRequest = {
   kete?: string;
+  agent?: string; // optional sub-agent slug (e.g. "voyage" within Tōro)
   message?: string;
   history?: Array<{ role: "user" | "assistant"; content: string }>;
   tenantId?: string;
@@ -108,26 +109,47 @@ serve(async (req: Request) => {
     ? body.systemPromptOverride.trim()
     : "";
 
+  // Sub-agent support: if `body.agent` is provided (e.g. "voyage" inside Tōro),
+  // load that specific agent's prompt instead of the kete-level prompt. Falls
+  // back to kete-level prompt if the sub-agent isn't found in agent_prompts.
+  const requestedAgent = typeof body.agent === "string" ? body.agent.trim().toLowerCase() : "";
+
   let baseSystemPrompt = systemPromptOverride;
   if (!baseSystemPrompt) {
-    // Load kete-level system prompt. The "kete-level" agent uses agent_name = kete
-    // (e.g. "waihanga", "manaaki", "toro"). Each kete also has sub-agents but the
-    // top-level agent is the one that handles general Q&A.
-    const { data: promptRow, error: promptError } = await supabase
-      .from("agent_prompts")
-      .select("system_prompt, model_preference")
-      .eq("agent_name", kete)
-      .eq("is_active", true)
-      .maybeSingle();
+    // First try sub-agent lookup if `agent` was provided
+    if (requestedAgent && requestedAgent !== kete) {
+      const { data: subAgentRow } = await supabase
+        .from("agent_prompts")
+        .select("system_prompt, model_preference, agent_name")
+        .eq("agent_name", requestedAgent)
+        .eq("pack", kete)
+        .eq("is_active", true)
+        .maybeSingle();
+      if (subAgentRow?.system_prompt) {
+        baseSystemPrompt = subAgentRow.system_prompt;
+        console.log(`[public-chat-llm] loaded sub-agent prompt: ${requestedAgent} (pack=${kete})`);
+      }
+    }
 
-    if (promptError) {
-      console.error("[public-chat-llm] agent_prompts lookup failed", promptError);
-      return json({ error: "Agent prompt lookup failed" }, 500);
+    // Fallback: load kete-level system prompt. The "kete-level" agent uses
+    // agent_name = kete (e.g. "waihanga", "manaaki", "toro").
+    if (!baseSystemPrompt) {
+      const { data: promptRow, error: promptError } = await supabase
+        .from("agent_prompts")
+        .select("system_prompt, model_preference")
+        .eq("agent_name", kete)
+        .eq("is_active", true)
+        .maybeSingle();
+
+      if (promptError) {
+        console.error("[public-chat-llm] agent_prompts lookup failed", promptError);
+        return json({ error: "Agent prompt lookup failed" }, 500);
+      }
+      if (!promptRow || !promptRow.system_prompt) {
+        return json({ error: `No active prompt for kete: ${kete}` }, 404);
+      }
+      baseSystemPrompt = promptRow.system_prompt;
     }
-    if (!promptRow || !promptRow.system_prompt) {
-      return json({ error: `No active prompt for kete: ${kete}` }, 404);
-    }
-    baseSystemPrompt = promptRow.system_prompt;
   }
 
   // Compose conversation. Keep history short — public chat is demo, not deep

@@ -105,6 +105,7 @@ export async function POST(req: Request) {
   const { data, error } = await supabase
     .from("electrify_leads")
     .insert({
+      route_type: routeType,
       business_type: input.businessType,
       region: input.region,
       monthly_fuel_spend_nzd: input.monthlyFuelSpendNzd,
