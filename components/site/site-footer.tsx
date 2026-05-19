@@ -134,12 +134,26 @@ export function SiteFooter() {
             <p className="mt-4 text-sm text-[color:var(--text-secondary)]">
               {footerDisclaimer}
             </p>
-            <p className="mt-4 text-xs text-[color:var(--text-secondary)]">
+            <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs text-[color:var(--text-secondary)]">
               <Link
                 href="/legal/disclaimer"
                 className="rounded-sm underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
               >
-                Full disclaimer
+                Disclaimer
+              </Link>
+              <span aria-hidden>·</span>
+              <Link
+                href="/legal/privacy"
+                className="rounded-sm underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              >
+                Privacy Policy
+              </Link>
+              <span aria-hidden>·</span>
+              <Link
+                href="/legal/terms"
+                className="rounded-sm underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              >
+                Terms of Use
               </Link>
             </p>
           </div>
