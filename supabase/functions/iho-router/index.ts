@@ -562,8 +562,13 @@ async function dispatchAICall(
   }
 
   if (cfg.provider === "gemini") {
-    const apiKey = Deno.env.get("GEMINI_API_KEY");
-    if (!apiKey) throw new Error("GEMINI_API_KEY not configured");
+    // Soft-fall: prefer GEMINI_API_KEY, accept GOOGLE_API_KEY as alias.
+    // Belt-and-braces defence for the 19 May 2026 incident where the Gemini
+    // dispatch path 500'd because GEMINI_API_KEY wasn't provisioned in the
+    // edge function vault. The real fix is to provision the secret; this
+    // is a defensive fallback in case the env names diverge across functions.
+    const apiKey = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("GOOGLE_API_KEY");
+    if (!apiKey) throw new Error("GEMINI_API_KEY (or GOOGLE_API_KEY) not configured");
     return await callGeminiDirect(apiKey, cfg.model, messages, cfg.maxTokens);
   }
 
@@ -809,7 +814,7 @@ Deno.serve(async (req: Request) => {
         pikauRuntime = await buildPikauRuntimeContext({
           sb,
           message: safeMessage,
-          geminiKey: Deno.env.get("GEMINI_API_KEY") ?? null,
+          geminiKey: Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("GOOGLE_API_KEY") ?? null,
         });
         if (pikauRuntime.block) {
           systemPrompt = `${systemPrompt}\n\n${pikauRuntime.block}`;
