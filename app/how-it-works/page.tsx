@@ -8,7 +8,7 @@ import { ketes, pipelineStages } from '@/lib/site-config';
 export const metadata: Metadata = {
   title: 'How it works',
   description:
-    'Five stages. Nothing ships until a person says so. Kahu intent capture, Iho routing, Tā execution, Mahara review, Mana sign-off — every workflow assembl runs ends in a sealed evidence pack.',
+    'The marketplace is the front door. Underneath it, every assembl workflow runs through the same five-stage pipeline.',
 };
 
 const STAGE_MEDIA = [
@@ -68,12 +68,14 @@ export default function HowItWorksPage() {
             </SectionReveal>
             <SectionReveal delay={0.2}>
               <p className="mx-auto mt-8 max-w-3xl text-base leading-relaxed text-[color:var(--text-body)] md:text-xl">
-                Every workflow assembl runs moves through the same five stages.
+                The marketplace is the front door. Underneath it, every workflow
+                runs through the same five-stage pipeline. Most teams never need
+                to think about it — your team picks the workflow, the agent does
+                the draft, your reviewer signs off. But here&apos;s what&apos;s happening
+                under the surface, in case you want to know.
                 <span className="font-display italic text-[color:var(--text-primary)]">
                   {' '}Kahu, Iho, Tā, Mahara, Mana.
                 </span>{' '}
-                The pace changes. The shape does not. A named human in your team signs off
-                before anything ships.
               </p>
             </SectionReveal>
             <SectionReveal delay={0.3}>

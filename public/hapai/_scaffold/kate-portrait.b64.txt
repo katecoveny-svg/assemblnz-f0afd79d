@@ -1,6 +1,6 @@
 The shared scaffold no longer embeds Kate Hudson's portrait as base64.
 
 Use the cached public asset instead:
-/img/about/kate-hudson-portrait-blue-shirt.png
+/img/about/kate-hudson-portrait-blue-shirt.webp
 
 The requested white-shirt portrait was not present in public/img/about at extraction time.

@@ -591,17 +591,12 @@ function ToroPage({
       <section className="relative overflow-hidden">
         {/* Atmospheric layer — sits behind the radial gradient and content */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/images/lattice-texture.webp"
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.18] motion-reduce:hidden"
-          >
-            <source src="/video/kete-hero-lattice.mp4" type="video/mp4" />
-          </video>
+          <img
+            src="/img/brand/toro-brand-square-bird.png"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.16]"
+            style={{ objectPosition: '50% 52%' }}
+          />
         </div>
         <div
           aria-hidden
@@ -610,9 +605,10 @@ function ToroPage({
             background: `radial-gradient(ellipse at 50% 0%, ${kete.accent}33 0%, transparent 60%)`,
           }}
         />
-        <div className="container py-24 lg:py-32">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.15)] bg-white/50 px-4 py-1.5">
+        <div className="container py-20 lg:py-28">
+          <div className="grid items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
+            <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.15)] bg-white/60 px-4 py-1.5 backdrop-blur-xl">
               <span
                 className="h-2 w-2 rounded-full"
                 style={{ backgroundColor: kete.accent }}
@@ -628,11 +624,11 @@ function ToroPage({
               <span className="text-gradient-hero">— {detail.heroLead}</span>
             </h1>
 
-            <p className="mx-auto mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
+            <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               {detail.heroBody}
             </p>
 
-            <div className="mx-auto mt-6 flex max-w-2xl justify-center">
+            <div className="mt-6 flex max-w-2xl">
               <ComplianceChips kete={kete.slug} />
             </div>
 
@@ -648,7 +644,7 @@ function ToroPage({
               No setup · GST excl. · Cancel any time
             </p>
 
-            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/contact"
                 className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
@@ -662,6 +658,24 @@ function ToroPage({
               >
                 See all tiers
               </Link>
+            </div>
+          </div>
+            <div className="relative order-first min-h-[320px] overflow-hidden rounded-[28px] border border-white/45 bg-white/42 shadow-[0_34px_110px_rgba(35,33,31,0.16)] backdrop-blur-xl lg:order-none lg:min-h-[560px]">
+              <img
+                src="/img/brand/toro-brand-square-bird.png"
+                alt="Tōro bird-form family vessel"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ objectPosition: '50% 52%' }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#23211F]/40 via-transparent to-white/12" />
+              <div className="absolute bottom-5 left-5 right-5 rounded-[18px] border border-white/32 bg-[#FAF7F2]/74 p-4 shadow-[0_18px_48px_rgba(35,33,31,0.14)] backdrop-blur-xl">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
+                  family landing
+                </p>
+                <p className="mt-2 font-display text-3xl leading-none text-[color:var(--text-primary)]">
+                  School comms, routines, money, and the week ahead.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -731,8 +745,38 @@ function ToroPage({
           </div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-3">
+            <SectionReveal delay={0}>
+              <Link
+                href="/kete/toro/fridge"
+                className="glass-card-elevated group relative block h-full p-7"
+                style={{
+                  ['--kete-accent' as string]: kete.accent,
+                  borderTop: `3px solid ${kete.accent}`,
+                }}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--assembl-pounamu-paper)] px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu-deep)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-pounamu)]" aria-hidden />
+                    Live now
+                  </span>
+                </div>
+                <h3 className="mt-4 font-display text-2xl text-[color:var(--text-primary)]">
+                  Kai planner.
+                </h3>
+                <p className="mt-2 text-[15px] italic leading-snug text-[color:var(--text-primary)]">
+                  Take a photo of the fridge.
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                  Get a week&apos;s meal plan and a supermarket-aisle list for your whānau.
+                </p>
+                <span className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: kete.accent }}>
+                  Open kai planner
+                  <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden />
+                </span>
+              </Link>
+            </SectionReveal>
             {detail.subAgents.map((sub, i) => (
-              <SectionReveal key={sub.name} delay={i * 0.06}>
+              <SectionReveal key={sub.name} delay={(i + 1) * 0.06}>
                 <article
                   className="glass-card-elevated relative h-full p-7"
                   style={{

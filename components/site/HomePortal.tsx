@@ -3,13 +3,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import type { PearlLiveStats } from '@/lib/pearl-live';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
+import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import { KeteRotator } from './KeteRotator';
+import { MarketplaceStrip } from './MarketplaceStrip';
+import { ThreeSteps } from './ThreeSteps';
 
 interface HomePortalProps {
   ketes: Kete[];
@@ -22,64 +25,43 @@ const HAPAI_TOOLS = [
     description:
       'A quiet prompt builder for hero imagery. Composes branded vessel still-lifes via flux 1.1 pro on fal.ai.',
     href: '/hapai/vessel-studio/vessel-studio.html',
-    image: '/og/og-assembl.png',
+    visual: 'vessel',
   },
   {
     name: 'Caption composer.',
     description:
       "LinkedIn, Instagram, X, Facebook captions tuned to each platform's native rhythm. In your voice, your length, your tone.",
     href: '/hapai/caption-composer/caption-composer.html',
-    image: '/og/og-manaaki.png',
+    visual: 'caption',
   },
   {
     name: 'Brief generator.',
     description:
       'Creative, pitch, and project briefs as a single-page PDF in your voice. Fill in eight fields, leave with a brief.',
     href: '/hapai/brief-generator/brief-generator.html',
-    image: '/og/og-auaha.png',
+    visual: 'brief',
+  },
+  {
+    name: 'Energy calculator.',
+    description:
+      'A 90-second NZ electrification calculator for fleet, heat, solar, savings, and payback.',
+    href: '/electrify',
+    visual: 'electrify',
   },
   {
     name: 'OG card studio.',
     description:
       'Branded 1200×630 social share cards. Headline, accent, kete vessel, downloadable in a click.',
     href: '/hapai/og-card-generator/og-card-generator.html',
-    image: '/og/og-pikau.png',
+    visual: 'og-card',
   },
   {
     name: 'Tagline workshop.',
     description:
       'Generate tagline candidates across five styles. Save the ones that land. Download the shortlist.',
     href: '/hapai/tagline-workshop/tagline-workshop.html',
-    image: '/og/og-hoko.png',
+    visual: 'tagline',
   },
-] as const;
-
-const PIPELINE_STEPS = [
-  [
-    '01',
-    'KAHU',
-    'A request lands. Kahu listens, transcribes, frames it. What is being asked, who is asking, what context already lives in your kete. The brief never starts blank.',
-  ],
-  [
-    '02',
-    'IHO',
-    'The router. Picks the specialist agent for the work, the model for the job, the cultural pass. Privacy Act 2020, tikanga, Te Tiriti — checked here.',
-  ],
-  [
-    '03',
-    'TĀ',
-    'The specialist agent drafts the work end to end. Every act, section, council document cited inline. Nothing invented. Nothing left unsourced.',
-  ],
-  [
-    '04',
-    'MAHARA',
-    'Your named reviewer accepts, edits, or rejects. Their reasoning is preserved with the edit, so the next reviewer — or the auditor — can see why.',
-  ],
-  [
-    '05',
-    'MANA',
-    'Sealed in an evidence pack. Hash chained. Timestamped. Filed against the contract. Forwarded to the inbox that has to read it.',
-  ],
 ] as const;
 
 const PRICING_ENTRY_POINTS = [
@@ -110,15 +92,15 @@ const PRICING_ENTRY_POINTS = [
 ] as const;
 
 const KETE_CARD_COPY: Record<KeteSlug, string> = {
-  waihanga: 'RFIs, QA packs, site observations, consent compliance.',
-  manaaki: 'Food safety, incident logs, guest responses, supplier comparisons.',
-  pikau: 'Customs documentation, freight exceptions, carrier compliance.',
-  arataki: 'WoF and CoF prep, CGA disclosures, fleet compliance trails.',
-  auaha: 'Brand strategy, campaign concepts, creative reviews, asset trails.',
-  ako: 'School notices, parent updates, assessment summaries, staff planning.',
-  matauranga: 'Research synthesis, document comparison, source verification.',
-  hoko: 'Customer responses, returns triage, supplier comparison, pricing review.',
-  toro: 'School notices parsed. Gear lists. Meal plans. The week held in one place.',
+  waihanga: 'RFI drafter, variation pack builder, site observation logger, and six more.',
+  manaaki: 'Allergen incident logger, guest reply drafter, supplier comparison, and six more.',
+  pikau: 'Customs entry drafter, freight exception report, carrier compliance review, and six more.',
+  arataki: 'WoF readiness check, CGA disclosure generator, fleet defect log, and six more.',
+  auaha: 'Caption batch composer, brief drafter, tagline shortlist, and six more.',
+  ako: 'School notice rewriter, assessment summary, parent update drafter, and six more.',
+  matauranga: 'Source verifier, document comparison, submission drafter, and six more.',
+  hoko: 'Return triage, customer reply drafter, supplier comparison, and six more.',
+  toro: 'School notice parser, weekly plan, gear list generator, and six more.',
 };
 
 const KETE_ACCENT_NAMES: Record<KeteSlug, string> = {
@@ -134,8 +116,12 @@ const KETE_ACCENT_NAMES: Record<KeteSlug, string> = {
 };
 
 export function HomePortal({ ketes }: HomePortalProps) {
+  const pageRef = useRef<HTMLElement | null>(null);
   const [activeSlug, setActiveSlug] = useState<KeteSlug>('waihanga');
   const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: pageRef, offset: ['start start', 'end end'] });
+  const heroWashY = useTransform(scrollYProgress, [0, 0.2], ['0%', '18%']);
+  const heroWashOpacity = useTransform(scrollYProgress, [0, 0.18], [0.72, 0]);
   const activeKete = useMemo(
     () => ketes.find((kete) => kete.slug === activeSlug) ?? ketes[0],
     [activeSlug, ketes],
@@ -144,6 +130,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
 
   return (
     <main
+      ref={pageRef}
       className="min-h-screen overflow-x-hidden bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]"
       style={activeStyle}
     >
@@ -160,7 +147,12 @@ export function HomePortal({ ketes }: HomePortalProps) {
           animate={reduceMotion ? undefined : { opacity: [0.7, 1] }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         />
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-none flex-col justify-center px-6 py-14 md:px-10 xl:px-14 2xl:px-20">
+        <motion.div
+          className="pointer-events-none absolute inset-x-0 top-20 h-[42svh] bg-[linear-gradient(105deg,transparent_0%,color-mix(in_srgb,var(--kete-accent)_18%,transparent)_52%,transparent_100%)] blur-3xl"
+          style={reduceMotion ? undefined : { y: heroWashY, opacity: heroWashOpacity }}
+          aria-hidden
+        />
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-[1760px] flex-col justify-center px-6 py-12 md:px-10 md:py-10 xl:px-14 2xl:px-16">
           <motion.div
             className="w-full"
             initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
@@ -178,25 +170,28 @@ export function HomePortal({ ketes }: HomePortalProps) {
               onActiveSlugChange={setActiveSlug}
               body={(
                 <p>
-                  We help New Zealand teams run the work that has to be reviewed,
-                  trusted, and explained later. The kind of work that survives an
-                  audit, a board paper, an OIA request, three months from now.
+                  Every team has a layer of admin underneath the work that
+                  matters. Drafts, follow-ups, comparisons, write-ups. assembl is
+                  a fleet of specialist agents that handle that layer — so your
+                  people can do the work you actually hired them for. Each result
+                  is reviewed by a named person on your team and sealed with a
+                  record of how it was made.
                 </p>
               )}
               actions={(
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row md:mt-10">
                   <Link
-                    href="/book-a-pilot"
+                    href="/workflows"
                     className="cta-primary inline-flex h-12 w-full items-center justify-center px-8 text-base sm:w-auto md:h-14"
                   >
-                    Book a pilot
+                    Browse the workflows
                     <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                   </Link>
                   <Link
-                    href="/evidence-pack"
+                    href="/c/waihanga"
                     className="btn-ghost inline-flex h-12 w-full items-center justify-center bg-white/62 px-8 text-base backdrop-blur-md sm:w-auto md:h-14"
                   >
-                    See an evidence pack
+                    Try a kete chat
                     <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                   </Link>
                 </div>
@@ -207,114 +202,142 @@ export function HomePortal({ ketes }: HomePortalProps) {
         </div>
       </section>
 
-      <section className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40">
+      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto grid max-w-[1500px] gap-8 md:px-2 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               WHAT WE DO
             </p>
             <h2 className="mt-4 max-w-4xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              The work that doesn't survive a chatbot.
+              Less admin. More mahi.
             </h2>
           </div>
           <div>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Some work moves through your team fast and doesn't need a paper
-              trail. Other work has to be reviewed by a named person, filed
-              against a contract, sourced against legislation, and explained
-              three months later when someone asks how it was done. assembl is
-              built for the second kind. We run that work through specialist
-              agents, route it past a named reviewer in your team, and seal the
-              result in an evidence pack you can stand behind.
+              Hospitality teams shouldn&apos;t spend their best hour writing the
+              allergen incident report. Construction teams shouldn&apos;t spend
+              their best hour cross-referencing the variation against clause 24A
+              of the contract. Schools shouldn&apos;t spend their best hour
+              rewording the same notice for the fourth year group.
+            </p>
+            <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
+              Those are the jobs assembl picks up. Specialist agents — trained
+              on your industry&apos;s regulations and your business&apos;s voice —
+              handle the admin layer end-to-end. Your team reviews the output,
+              signs it off, and goes back to the work they care about.
+            </p>
+            <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
+              The output gets sealed with a trail of how it was made, so it
+              stands up later.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/how-it-works" className="cta-primary inline-flex h-12 items-center justify-center px-6">
-                How it works
+              <Link href="/workflows" className="cta-primary inline-flex h-12 items-center justify-center px-6">
+                See the workflows
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
-              <Link href="/evidence-pack" className="btn-ghost inline-flex h-12 items-center justify-center px-6">
-                See an evidence pack
+              <Link href="/c/waihanga" className="btn-ghost inline-flex h-12 items-center justify-center px-6">
+                Try a kete chat
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="border-b border-[rgba(35,33,31,0.08)] bg-white/38 px-6 py-32 md:px-12 md:py-40">
+      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-white/42 px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
+        <ThreeSteps />
+      </RevealSection>
+
+      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
+        <MarketplaceStrip />
+      </RevealSection>
+
+      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-white/38 px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto max-w-[1500px]">
           <div className="max-w-3xl">
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
               HAPAI · ADOPTION TOOLS
             </p>
             <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              The team's first taste of agentic work.
+              Small tools that lift the admin layer.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
               Hāpai (te reo Māori): to lift up, to elevate. HAPAI is a library
-              of single-purpose tools your team can open in thirty seconds. No
-              prompting. No training. No platform switch. Each one does one job
-              and produces work in your voice. Free. Bring your own API key.
-              Twelve more tools inside the Industry Pack, branded to your
-              organisation.
+              of single-purpose tools that take admin off marketing, ops, and
+              compliance plates. No prompting. No training. No platform switch.
+              Each one does one practical job and produces work in your voice.
+              Free. Bring your own API key. Twelve more tools inside the
+              Industry Pack, branded to your organisation.
             </p>
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {HAPAI_TOOLS.map((tool) => (
-              <Link
+            {HAPAI_TOOLS.map((tool, index) => (
+              <motion.div
                 key={tool.href}
-                href={tool.href}
-                className="group flex min-h-[390px] flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] transition-colors hover:border-[color:var(--assembl-pounamu)] hover:bg-white"
+                initial={reduceMotion ? false : { opacity: 0.64, y: 22 }}
+                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.26 }}
+                transition={{ duration: 0.52, delay: index * 0.045, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={reduceMotion ? undefined : { y: -4 }}
               >
-                <span className="relative block aspect-[16/10] border-b border-[rgba(35,33,31,0.10)] bg-white">
-                  <Image
-                    src={tool.image}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1280px) 31vw, (min-width: 768px) 48vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
-                  />
-                </span>
-                <span className="flex flex-1 flex-col p-5">
-                  <span className="w-fit rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#FAF7F2]">
-                    LIVE
+                <Link
+                  href={tool.href}
+                  className="group flex min-h-[390px] flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] transition-colors hover:border-[color:var(--assembl-pounamu)] hover:bg-white"
+                >
+                  <span className="relative block aspect-[16/10] border-b border-[rgba(35,33,31,0.10)] bg-white">
+                    <span className="block h-full transition-transform duration-500 group-hover:scale-[1.025]">
+                      <HapaiToolPreview visual={tool.visual} />
+                    </span>
                   </span>
-                  <span className="mt-5 block font-display text-2xl font-light italic leading-none">
-                    {tool.name}
+                  <span className="flex flex-1 flex-col p-5">
+                    <span className="w-fit rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#FAF7F2]">
+                      LIVE
+                    </span>
+                    <span className="mt-5 block font-display text-2xl font-light italic leading-none">
+                      {tool.name}
+                    </span>
+                    <span className="mt-4 block text-sm leading-relaxed text-[color:var(--text-body)]">
+                      {tool.description}
+                    </span>
+                    <span className="mt-auto inline-flex items-center gap-2 pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+                      Open the tool <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                    </span>
                   </span>
-                  <span className="mt-4 block text-sm leading-relaxed text-[color:var(--text-body)]">
-                    {tool.description}
+                </Link>
+              </motion.div>
+            ))}
+
+            <motion.div
+              initial={reduceMotion ? false : { opacity: 0.64, y: 22 }}
+              whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.26 }}
+              transition={{ duration: 0.52, delay: HAPAI_TOOLS.length * 0.045, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={reduceMotion ? undefined : { y: -4 }}
+            >
+              <Link
+              href="/hapai"
+              className="group flex min-h-[300px] flex-col justify-between rounded-[8px] border border-[rgba(43,107,87,0.28)] bg-[color:var(--assembl-pounamu)] p-6 text-[#FAF7F2] transition-transform hover:-translate-y-0.5"
+              >
+                <span aria-hidden />
+                <span>
+                  <span className="block font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+                    See the full library.
                   </span>
-                  <span className="mt-auto inline-flex items-center gap-2 pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
-                    Open the tool <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                  <span className="mt-4 block text-sm leading-relaxed text-[#FAF7F2]/82">
+                    Six live now. Four more shipping this month.
+                  </span>
+                  <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em]">
+                    Open HAPAI <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                   </span>
                 </span>
               </Link>
-            ))}
-
-            <Link
-              href="/hapai"
-              className="group flex min-h-[300px] flex-col justify-between rounded-[8px] border border-[rgba(43,107,87,0.28)] bg-[color:var(--assembl-pounamu)] p-6 text-[#FAF7F2] transition-transform hover:-translate-y-0.5"
-            >
-              <span aria-hidden />
-              <span>
-                <span className="block font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
-                  See the full library.
-                </span>
-                <span className="mt-4 block text-sm leading-relaxed text-[#FAF7F2]/82">
-                  Five live now. Five more shipping this month.
-                </span>
-                <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em]">
-                  Open HAPAI <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-                </span>
-              </span>
-            </Link>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40">
+      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto max-w-[1500px]">
           <div className="max-w-4xl">
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
@@ -338,40 +361,9 @@ export function HomePortal({ ketes }: HomePortalProps) {
             reduceMotion={reduceMotion}
           />
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="border-b border-[rgba(35,33,31,0.08)] bg-white/40 px-6 py-32 md:px-12 md:py-40">
-        <div className="mx-auto max-w-[1500px]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-            HOW IT WORKS
-          </p>
-          <h2 className="mt-4 max-w-5xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-            Five stages. Nothing ships until a person says so.
-          </h2>
-          <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-            Every workflow assembl runs moves through the same five stages. The
-            pace changes. The shape does not. A named human in your team signs
-            off before anything leaves.
-          </p>
-          <div className="mt-10 grid gap-4 md:grid-cols-5">
-            {PIPELINE_STEPS.map(([number, title, body]) => (
-              <article key={title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5">
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
-                  {number} — {title}
-                </p>
-                <p className="mt-5 text-sm leading-relaxed text-[color:var(--text-body)]">
-                  {body}
-                </p>
-              </article>
-            ))}
-          </div>
-          <Link href="/how-it-works" className="mt-8 inline-flex h-12 items-center rounded-[8px] bg-[color:var(--assembl-pounamu)] px-6 font-medium text-[#FAF7F2]">
-            See the full pipeline <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-          </Link>
-        </div>
-      </section>
-
-      <section className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40">
+      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
@@ -402,9 +394,9 @@ export function HomePortal({ ketes }: HomePortalProps) {
             />
           </div>
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="border-b border-[rgba(35,33,31,0.08)] bg-white/42 px-6 py-32 md:px-12 md:py-40">
+      <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-white/42 px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto max-w-[1500px]">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
             START HERE
@@ -415,11 +407,16 @@ export function HomePortal({ ketes }: HomePortalProps) {
             </h2>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {PRICING_ENTRY_POINTS.map(([name, price, body, cta, href, accent]) => (
-              <article
+            {PRICING_ENTRY_POINTS.map(([name, price, body, cta, href, accent], index) => (
+              <motion.article
                 key={name}
                 className="rounded-[8px] border border-[rgba(35,33,31,0.10)] border-t-[5px] bg-[color:var(--assembl-paper)] p-6"
                 style={{ borderTopColor: accent }}
+                initial={reduceMotion ? false : { opacity: 0.64, y: 22 }}
+                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.34 }}
+                transition={{ duration: 0.5, delay: index * 0.055, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={reduceMotion ? undefined : { y: -3 }}
               >
                 <h3 className="font-display text-4xl font-light italic leading-none">
                   {name}
@@ -433,16 +430,16 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 <Link href={href} className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                   {cta} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                 </Link>
-              </article>
+              </motion.article>
             ))}
           </div>
           <Link href="/pricing" className="mt-8 inline-flex h-12 items-center justify-center rounded-[8px] border border-[rgba(35,33,31,0.14)] px-6 font-medium text-[color:var(--text-primary)]">
             See full pricing <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
           </Link>
         </div>
-      </section>
+      </RevealSection>
 
-      <section className="bg-[color:var(--assembl-pounamu)] px-6 py-32 text-[#FAF7F2] md:px-12 md:py-40">
+      <RevealSection className="bg-[color:var(--assembl-pounamu)] px-6 py-32 text-[#FAF7F2] md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto flex max-w-[1500px] flex-col items-center gap-8 text-center">
           <h2 className="max-w-4xl font-display text-[clamp(3rem,7vw,6rem)] font-normal italic leading-tight text-[#FAF7F2]">
             Bring one workflow. Leave with proof.
@@ -463,12 +460,34 @@ export function HomePortal({ ketes }: HomePortalProps) {
             </Link>
           </div>
         </div>
-      </section>
+      </RevealSection>
 
       <div className="hidden md:block">
         <AssemblConciergeWidget />
       </div>
     </main>
+  );
+}
+
+function RevealSection({
+  children,
+  className,
+  reduceMotion,
+}: {
+  children: React.ReactNode;
+  className: string;
+  reduceMotion: boolean | null;
+}) {
+  return (
+    <motion.section
+      className={className}
+      initial={reduceMotion ? false : { opacity: 0.72, y: 34 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: false, amount: 0.12, margin: '-80px 0px' }}
+      transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.section>
   );
 }
 
@@ -484,23 +503,26 @@ function KeteCardGrid({
   reduceMotion: boolean | null;
 }) {
   return (
-    <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label="Choose a kete">
-      {ketes.map((kete) => {
+    <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3" aria-label="Choose a kete">
+      {ketes.map((kete, index) => {
         const active = kete.slug === activeSlug;
         return (
           <motion.div
             key={kete.slug}
             style={{ '--tile-accent': kete.accent } as CSSProperties}
+            initial={reduceMotion ? false : { opacity: 0.64, y: 24, scale: 0.985 }}
+            whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.24 }}
             whileHover={reduceMotion ? undefined : { y: -2 }}
-            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, delay: index * 0.035, ease: [0.16, 1, 0.3, 1] }}
           >
             <article
               onMouseEnter={() => onSelect(kete.slug)}
               className={[
-                'group block min-h-[360px] overflow-hidden rounded-[8px] border bg-white/55 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
+                'group relative flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border bg-white/65 text-left shadow-[0_10px_36px_rgba(35,33,31,0.05)] backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
                 active
-                  ? 'border-[color:var(--tile-accent)] bg-white shadow-[0_8px_24px_rgba(35,33,31,0.08)]'
-                  : 'border-[rgba(35,33,31,0.12)] bg-white/45 hover:border-[color:var(--tile-accent)] hover:bg-white/75',
+                  ? 'border-[color:var(--tile-accent)] bg-white'
+                  : 'border-[rgba(35,33,31,0.12)] hover:border-[color:var(--tile-accent)] hover:bg-white/78',
               ].join(' ')}
               aria-current={active ? 'true' : undefined}
             >
@@ -521,30 +543,40 @@ function KeteCardGrid({
                   aria-hidden
                 />
               </span>
-              <span className="block p-5">
-                <span className="block font-display text-4xl font-light italic leading-none text-[color:var(--text-primary)]">
-                  {kete.name} · {kete.industry}
+              <span className="flex flex-1 flex-col p-7">
+                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
+                  {kete.industry}
                 </span>
-                <span className="mt-2 block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
+                <span className="block font-display text-[28px] font-medium leading-none text-[color:var(--tile-accent)]">
+                  {kete.name}
+                </span>
+                <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                   {KETE_ACCENT_NAMES[kete.slug]}
                 </span>
-                <span className="mt-4 block min-h-[66px] text-sm leading-relaxed text-[color:var(--text-body)]">
+                <span className="mt-4 block min-h-[74px] text-[14.5px] leading-relaxed text-[#2A2825]">
                   {KETE_CARD_COPY[kete.slug]}
                 </span>
-                <span className="mt-6 flex flex-wrap gap-3">
+                <span className="mt-auto flex flex-wrap items-center gap-4 pt-6 text-[13px]">
                   <Link
                     href={`/kete/${kete.slug}`}
                     onFocus={() => onSelect(kete.slug)}
-                    className="inline-flex h-10 items-center rounded-[8px] bg-[color:var(--tile-accent)] px-4 text-sm font-medium text-white"
+                    className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:text-[color:var(--assembl-pounamu)] hover:underline"
                   >
-                    Learn more
+                    Learn more →
                   </Link>
                   <Link
                     href={`/c/${kete.slug}`}
                     onFocus={() => onSelect(kete.slug)}
-                    className="inline-flex h-10 items-center rounded-[8px] border border-[rgba(35,33,31,0.12)] px-4 text-sm font-medium text-[color:var(--text-primary)]"
+                    className="font-medium text-[color:var(--assembl-pounamu)] underline-offset-4 hover:underline"
                   >
-                    Try the chat
+                    Try the chat →
+                  </Link>
+                  <Link
+                    href={`/workflows?kete=${kete.slug}`}
+                    onFocus={() => onSelect(kete.slug)}
+                    className="text-[12px] text-[color:var(--text-secondary)] underline-offset-4 hover:underline"
+                  >
+                    See workflows →
                   </Link>
                 </span>
               </span>
