@@ -52,11 +52,12 @@ type ElectrifyLead = {
   assumptions_version: string;
 };
 
-const ROUTE_FRAMING: Record<string, { eyebrow: string; headlineLine2: string; subhead: string; ctaLabel: string; ctaHref: string }> = {
+const ROUTE_FRAMING: Record<string, { eyebrow: string; headlineLine2: string; subhead: string; ctaKete: string; ctaLabel: string; ctaHref: string }> = {
   business: {
     eyebrow: "Electrify · your machine count",
     headlineLine2: "a year back from the machines.",
     subhead: "Ranked switches by savings and payback for your operation.",
+    ctaKete: "Manaaki",
     ctaLabel: "Talk to Manaaki about kitchen-level electrification",
     ctaHref: "/kete/manaaki",
   },
@@ -64,6 +65,7 @@ const ROUTE_FRAMING: Record<string, { eyebrow: string; headlineLine2: string; su
     eyebrow: "Electrify · your home energy path",
     headlineLine2: "a year back, off your home bills.",
     subhead: "Ranked switches by savings and payback for your whānau.",
+    ctaKete: "Tōro",
     ctaLabel: "Talk to Tōro about your home plan",
     ctaHref: "/kete/toro",
   },
@@ -71,6 +73,7 @@ const ROUTE_FRAMING: Record<string, { eyebrow: string; headlineLine2: string; su
     eyebrow: "Electrify · your portfolio path",
     headlineLine2: "a year saved across the portfolio.",
     subhead: "Tenants save the bill. You hold the capex. Split-incentive view of the switch sequence below.",
+    ctaKete: "Manaaki",
     ctaLabel: "Talk to Manaaki about portfolio-level retrofits",
     ctaHref: "/kete/manaaki",
   },
@@ -78,6 +81,7 @@ const ROUTE_FRAMING: Record<string, { eyebrow: string; headlineLine2: string; su
     eyebrow: "Electrify · avoided cost",
     headlineLine2: "a year avoided by not connecting gas.",
     subhead: "Design-stage choices that save the gas connection, the diesel boiler, and the gen-set.",
+    ctaKete: "Waihanga",
     ctaLabel: "Talk to Waihanga about all-electric design",
     ctaHref: "/kete/waihanga",
   },
@@ -147,7 +151,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
 
   const routeFraming = ROUTE_FRAMING[lead.route_type ?? "business"] ?? ROUTE_FRAMING.business;
   const cta = lead.route_type && lead.route_type !== "business"
-    ? { label: routeFraming.ctaLabel, href: routeFraming.ctaHref }
+    ? { kete: routeFraming.ctaKete, label: routeFraming.ctaLabel, href: routeFraming.ctaHref }
     : (KETE_CTA[lead.business_type] ?? KETE_CTA.professional_other);
   const heroStep = lead.recommended_sequence[0];
   const resultUrl = `https://www.assembl.co.nz/electrify/results/${lead.id}`;

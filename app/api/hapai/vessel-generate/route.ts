@@ -38,6 +38,11 @@ export async function POST(req: Request) {
   if (!body || typeof body !== "object") {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
+  const input = body as Record<string, unknown>;
+  const prompt = typeof input.prompt === "string" ? input.prompt.trim() : "";
+  if (prompt.length < 10) {
+    return NextResponse.json({ error: "Prompt is too short" }, { status: 400 });
+  }
 
   const ipHash = hashIp(clientIp(req));
   const service = getServiceClient();
@@ -75,8 +80,25 @@ export async function POST(req: Request) {
     );
   }
 
+  const aspectRatio = typeof input.aspectRatio === "string" ? input.aspectRatio : "1:1";
+  const reference = typeof input.sref === "string" && input.sref.startsWith("data:image/")
+    ? input.sref
+    : undefined;
+  const edgeBody = {
+    model: "flux",
+    prompt,
+    aspect_ratio: aspectRatio,
+    variants: Math.min(4, Math.max(1, Number(input.variants ?? 1) || 1)),
+    image_url: reference,
+    image_prompt_strength: Math.min(
+      1,
+      Math.max(0, Number(input.imagePromptStrength ?? 0.35) || 0.35),
+    ),
+    ip_hash: ipHash,
+  };
+
   const { data, error } = await service.functions.invoke("vessel-generate", {
-    body: { ...body, ipHash },
+    body: edgeBody,
   });
 
   if (error) {
@@ -84,8 +106,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message || "Generation failed" }, { status: 502 });
   }
 
+  const payload = data && typeof data === "object" ? data as Record<string, unknown> : {};
+  const firstImage = Array.isArray(payload.images) ? payload.images[0] : null;
+  const firstImageUrl = firstImage && typeof firstImage === "object" && "url" in firstImage
+    ? String((firstImage as { url?: unknown }).url ?? "")
+    : "";
+  const url = payload.url ?? (firstImageUrl || undefined);
   return NextResponse.json({
-    ...data,
+    ...payload,
+    url,
     remaining: Math.max(0, HOURLY_LIMIT - hourlyCount - 1),
     hourLimit: HOURLY_LIMIT,
   });
