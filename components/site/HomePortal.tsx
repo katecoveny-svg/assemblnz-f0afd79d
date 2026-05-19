@@ -152,7 +152,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
           style={reduceMotion ? undefined : { y: heroWashY, opacity: heroWashOpacity }}
           aria-hidden
         />
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-none flex-col justify-center px-6 py-14 md:px-10 xl:px-14 2xl:px-20">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-[1760px] flex-col justify-center px-6 py-12 md:px-10 md:py-10 xl:px-14 2xl:px-16">
           <motion.div
             className="w-full"
             initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
