@@ -44,6 +44,7 @@ export function KeteRotator({
   const stageY = useTransform(scrollYProgress, [0, 1], ['-5%', '7%']);
   const vesselScale = useTransform(scrollYProgress, [0, 0.45, 1], [1.1, 1, 0.94]);
   const sheenX = useTransform(scrollYProgress, [0, 1], ['-28%', '28%']);
+  const immersive = scale === 'immersive';
 
   useEffect(() => {
     if (paused || reduceMotion || ordered.length < 2) return undefined;
@@ -63,16 +64,18 @@ export function KeteRotator({
   return (
     <div
       className={[
-        'grid items-center gap-10 md:grid-cols-[minmax(34rem,0.92fr)_minmax(0,1.08fr)] md:gap-10 lg:gap-14',
+        immersive
+          ? 'grid items-center gap-8 md:grid-cols-[minmax(26rem,0.82fr)_minmax(0,1.18fr)] md:gap-12 lg:gap-16 xl:gap-20'
+          : 'grid items-center gap-10 md:grid-cols-[minmax(34rem,0.92fr)_minmax(0,1.08fr)] md:gap-10 lg:gap-14',
         className,
       ].join(' ')}
     >
-      <div className="relative z-10 order-2 md:order-1 md:max-w-[50rem]">
+      <div className={immersive ? 'relative z-10 order-2 md:order-1 md:max-w-[44rem] xl:max-w-[48rem]' : 'relative z-10 order-2 md:order-1 md:max-w-[50rem]'}>
         <h1
           className={[
             'font-display font-light leading-[0.95] tracking-normal text-[color:var(--assembl-pounamu)]',
-            scale === 'immersive'
-              ? 'text-[clamp(3.3rem,15vw,6rem)] md:text-[clamp(5.6rem,8.8vw,10.5rem)]'
+            immersive
+              ? 'text-[clamp(4rem,17vw,6.5rem)] md:text-[clamp(6.2rem,7.5vw,9.4rem)] xl:text-[clamp(6.8rem,7vw,10rem)]'
               : 'text-display-xl',
           ].join(' ')}
         >
@@ -89,8 +92,8 @@ export function KeteRotator({
             <div
               className={[
                 'mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-display font-light italic leading-[0.98] tracking-normal',
-                scale === 'immersive'
-                  ? 'min-h-[clamp(2.8rem,12vw,4.5rem)] text-[clamp(2.7rem,12vw,4.5rem)] md:min-h-[clamp(4.5rem,5.4vw,6.4rem)] md:text-[clamp(4.1rem,5.4vw,6.4rem)]'
+                immersive
+                  ? 'min-h-[clamp(2.8rem,12vw,4.5rem)] text-[clamp(2.7rem,12vw,4.5rem)] md:min-h-[clamp(4.1rem,4.8vw,5.8rem)] md:text-[clamp(3.8rem,4.8vw,5.8rem)]'
                   : 'min-h-[3.5rem] text-display-lg',
               ].join(' ')}
             >
@@ -103,10 +106,10 @@ export function KeteRotator({
             <p
               className={[
                 'mt-6 max-w-2xl text-[color:var(--text-body)]',
-                scale === 'immersive' ? 'text-body-md md:text-[clamp(1.1rem,1vw,1.45rem)] md:leading-[1.55]' : 'text-body-md',
+                immersive ? 'text-body-md md:text-[clamp(1.05rem,0.92vw,1.28rem)] md:leading-[1.55]' : 'text-body-md',
               ].join(' ')}
             >
-              {current.industry} specialist agents. Human review. Evidence packs.
+              Specialist agents for the admin work that drains your team. Built in Aotearoa.
             </p>
             {body ? (
               <div className="mt-5 max-w-[580px] text-body-md leading-relaxed text-[color:var(--text-body)]">
@@ -129,7 +132,12 @@ export function KeteRotator({
 
       <motion.div
         ref={stageRef}
-        className="relative order-1 -mx-6 h-[42svh] min-h-[260px] max-h-[360px] overflow-hidden rounded-b-[34px] border-b border-[rgba(35,33,31,0.08)] bg-[#FAF7F2] shadow-[0_34px_120px_rgba(35,33,31,0.13)] [perspective:1400px] md:order-2 md:mx-0 md:-mr-10 md:h-auto md:max-h-none md:min-h-[min(76svh,860px)] md:rounded-[34px] md:border lg:-mr-14 xl:-mr-20"
+        className={[
+          'relative order-1 overflow-hidden bg-[#FAF7F2] [perspective:1400px] md:order-2',
+          immersive
+            ? '-mx-6 h-[42svh] min-h-[300px] rounded-b-[28px] border-b border-[rgba(35,33,31,0.08)] shadow-[0_34px_120px_rgba(35,33,31,0.10)] md:mx-0 md:-mr-10 md:h-[min(78svh,860px)] md:min-h-[620px] md:rounded-none md:border-0 md:bg-transparent md:shadow-none lg:-mr-16 xl:-mr-24 2xl:-mr-32'
+            : '-mx-6 h-[42svh] min-h-[260px] max-h-[360px] rounded-b-[34px] border-b border-[rgba(35,33,31,0.08)] shadow-[0_34px_120px_rgba(35,33,31,0.13)] md:mx-0 md:-mr-10 md:h-auto md:max-h-none md:min-h-[min(76svh,860px)] md:rounded-[34px] md:border lg:-mr-14 xl:-mr-20',
+        ].join(' ')}
         style={reduceMotion ? undefined : { rotateY: stageRotate, y: stageY }}
       >
         <video
@@ -183,7 +191,10 @@ export function KeteRotator({
           ].map(([label, value]) => (
             <div
               key={`${label}-${value}`}
-              className="rounded-[16px] border border-white/38 bg-[#FAF7F2]/58 px-3 py-3 shadow-[0_18px_48px_rgba(35,33,31,0.12)] backdrop-blur-xl"
+              className={[
+                'rounded-[16px] border border-white/38 bg-[#FAF7F2]/58 px-3 py-3 shadow-[0_18px_48px_rgba(35,33,31,0.12)] backdrop-blur-xl',
+                immersive ? 'md:bg-[#FAF7F2]/42 md:shadow-[0_16px_42px_rgba(35,33,31,0.08)]' : '',
+              ].join(' ')}
             >
               <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 {label}
