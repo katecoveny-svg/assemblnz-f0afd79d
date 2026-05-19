@@ -68,7 +68,7 @@ const ROUTES: Array<{
   id: string;
   label: string;
   title: string;
-  status: "live";
+  status: "live" | "soon";
   body: string;
   icon: LucideIcon;
 }> = [
@@ -84,7 +84,7 @@ const ROUTES: Array<{
     id: "household",
     label: "Household",
     title: "Home energy path",
-    status: "live",
+    status: "soon",
     body: "Cars, hot water, heating, and solar in one household estimate.",
     icon: Home,
   },
@@ -92,7 +92,7 @@ const ROUTES: Array<{
     id: "landlord",
     label: "Landlord",
     title: "Rental property route",
-    status: "live",
+    status: "soon",
     body: "Split incentives, tenancy length, and heat-pump first moves.",
     icon: KeyRound,
   },
@@ -100,7 +100,7 @@ const ROUTES: Array<{
     id: "new-build",
     label: "New build",
     title: "Do not connect gas",
-    status: "live",
+    status: "soon",
     body: "Design-stage choices before gas, generators, or diesel enter the plan.",
     icon: PlugZap,
   },
@@ -175,25 +175,41 @@ export default function ElectrifyFormPage() {
                 <legend className="text-sm font-medium text-[color:var(--text-primary)]">
                   Choose your route
                 </legend>
-                <div className="mt-2 grid gap-2 sm:grid-cols-2">
-                  {ROUTES.map((route, index) => {
+                <p className="mt-1 text-xs leading-relaxed text-[color:var(--text-secondary)]">
+                  The SME route is live with full NZ-data maths today. Household, Landlord, and New build routes ship this month — they share the same Machine Count frame, with EECA / Rewiring Aotearoa data tuned for each context.
+                </p>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  {ROUTES.map((route) => {
                     const Icon = route.icon;
+                    const isLive = route.status === "live";
                     return (
                       <label
                         key={route.id}
-                        className="group flex cursor-pointer gap-3 rounded-[14px] border border-white/48 bg-white/54 p-3 shadow-[0_14px_34px_rgba(35,33,31,0.07)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-[#2B6B57]/34 hover:bg-white/78"
+                        className={[
+                          "group flex gap-3 rounded-[14px] border p-3 shadow-[0_14px_34px_rgba(35,33,31,0.07)] backdrop-blur-xl transition",
+                          isLive
+                            ? "cursor-pointer border-white/48 bg-white/54 hover:-translate-y-0.5 hover:border-[#2B6B57]/34 hover:bg-white/78"
+                            : "cursor-not-allowed border-white/30 bg-white/35 opacity-65",
+                        ].join(" ")}
+                        aria-disabled={!isLive}
                       >
                         <input
                           type="radio"
                           name="routeType"
                           value={route.id}
-                          defaultChecked={index === 0}
+                          defaultChecked={isLive}
+                          disabled={!isLive}
                           className="mt-1"
                         />
-                        <span>
+                        <span className="min-w-0 flex-1">
                           <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--assembl-pounamu)]">
                             <Icon className="h-3.5 w-3.5" aria-hidden />
                             {route.label}
+                            {!isLive && (
+                              <span className="ml-auto rounded-full bg-[rgba(212,168,83,0.18)] px-2 py-0.5 text-[9px] tracking-[0.18em] text-[#8A6E2E]">
+                                COMING SOON
+                              </span>
+                            )}
                           </span>
                           <span className="mt-1 block font-display text-xl leading-none">
                             {route.title}
