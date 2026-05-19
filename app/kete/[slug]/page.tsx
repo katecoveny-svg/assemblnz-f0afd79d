@@ -645,13 +645,15 @@ function ToroPage({
             </p>
 
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/contact"
+              <a
+                href="https://buy.stripe.com/5kQ4gBa1CdkA1OReB83oA0g"
+                target="_blank"
+                rel="noopener"
                 className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
               >
                 Get started for NZ$29/month
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
+              </a>
               <Link
                 href="/pricing"
                 className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
@@ -920,13 +922,15 @@ function ToroPage({
               Self-serve via Stripe. NZ$29/month, no setup fee. Cancel any time.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link
-                href="/contact"
+              <a
+                href="https://buy.stripe.com/5kQ4gBa1CdkA1OReB83oA0g"
+                target="_blank"
+                rel="noopener"
                 className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
               >
                 Get started for NZ$29/month
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
