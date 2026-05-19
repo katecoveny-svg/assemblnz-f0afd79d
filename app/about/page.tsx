@@ -50,7 +50,7 @@ export default function AboutPage() {
       </section>
 
       {/* Principles — HTML version of the 9-card grid content. Canon labels only,
-          no "AI" word, accessible and editable. */}
+          accessible and editable. */}
       <section className="border-b border-[rgba(35,33,31,0.08)]">
         <div className="mx-auto max-w-[1500px] px-5 py-16 md:px-10 md:py-24 xl:px-16">
           <SectionReveal>
