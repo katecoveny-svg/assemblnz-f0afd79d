@@ -292,7 +292,7 @@ function IndustryKetePage({
             {fleetAgents.map((agent, i) => (
               <SectionReveal key={agent.slug} delay={i * 0.04}>
                 <Link
-                  href={`/app/chat?kete=${kete.slug}&agent=${agentChatId(agent)}`}
+                  href={`/c/${kete.slug}?agent=${agentChatId(agent)}`}
                   className="kete-card group block h-full p-6 transition-transform hover:-translate-y-0.5"
                   style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
                 >
@@ -844,7 +844,7 @@ function ToroPage({
             {liveFleetAgents.map((agent, i) => (
               <SectionReveal key={agent.slug} delay={i * 0.04}>
                 <Link
-                  href={`/app/chat?kete=${kete.slug}&agent=${agentChatId(agent)}`}
+                  href={`/c/${kete.slug}?agent=${agentChatId(agent)}`}
                   className="glass-card group block h-full p-6"
                   style={{ ['--kete-accent' as string]: kete.accent }}
                 >
