@@ -85,7 +85,7 @@ const ROUTES: Array<{
     id: "household",
     label: "Household",
     title: "Home energy path",
-    status: "soon",
+    status: "live",
     body: "Cars, hot water, heating, and solar in one household estimate.",
     icon: Home,
   },
@@ -93,7 +93,7 @@ const ROUTES: Array<{
     id: "landlord",
     label: "Landlord",
     title: "Rental property route",
-    status: "soon",
+    status: "live",
     body: "Split incentives, tenancy length, and heat-pump first moves.",
     icon: KeyRound,
   },
@@ -101,7 +101,7 @@ const ROUTES: Array<{
     id: "new-build",
     label: "New build",
     title: "Do not connect gas",
-    status: "soon",
+    status: "live",
     body: "Design-stage choices before gas, generators, or diesel enter the plan.",
     icon: PlugZap,
   },
@@ -430,12 +430,17 @@ export default function ElectrifyFormPage() {
   );
 }
 
-function RoutePill({ label, title, status, body, icon: Icon }: (typeof ROUTES)[number]) {
+function RoutePill({ id, label, title, status, body, icon: Icon }: (typeof ROUTES)[number]) {
   const isLive = status === "live";
+  // Deep-link to the calculator with the route pre-selected. ElectrifyForm
+  // reads ?route= on mount and applies it before render. Without this, the
+  // four bottom pills all dumped users back to the default Business route
+  // — making "Household · live" feel broken when nothing changed on click.
+  const href = isLive ? `?route=${id}#calculator` : undefined;
 
   return (
     <a
-      href={isLive ? "#calculator" : undefined}
+      href={href}
       aria-disabled={!isLive}
       className="group flex min-h-[118px] items-start gap-3 rounded-[18px] border border-white/45 bg-white/48 p-4 shadow-[0_18px_46px_rgba(35,33,31,0.08)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/72"
     >

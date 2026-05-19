@@ -12,11 +12,16 @@
  * result snapshot. The results page renders route-specific copy.
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { ArrowRight, BatteryCharging, Building2, Car, Home, KeyRound, PlugZap, SunMedium } from 'lucide-react';
 
 type RouteId = 'business' | 'household' | 'landlord' | 'new-build';
+const VALID_ROUTES: RouteId[] = ['business', 'household', 'landlord', 'new-build'];
+
+function isRouteId(value: string | null | undefined): value is RouteId {
+  return !!value && (VALID_ROUTES as string[]).includes(value);
+}
 
 const ROUTES: Array<{ id: RouteId; label: string; title: string; body: string; icon: LucideIcon }> = [
   { id: 'business', label: 'Business', title: 'SME switch sequence', body: 'Vehicles, heat, power, and solar for small NZ operators.', icon: Building2 },
@@ -77,6 +82,18 @@ const ROUTE_COPY: Record<RouteId, { eyebrow: string; title: string; sub: string;
 
 export function ElectrifyForm() {
   const [routeType, setRouteType] = useState<RouteId>('business');
+
+  // 2026-05-19 deep-link wiring: the four "RoutePill" cards at the bottom of
+  // the /electrify page link with ?route=household|landlord|new-build#calculator
+  // Pre-select the right route on mount so the click feels useful instead of
+  // just scrolling back to the default Business route.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('route');
+    if (isRouteId(raw)) setRouteType(raw);
+  }, []);
+
   const copy = ROUTE_COPY[routeType];
 
   return (
