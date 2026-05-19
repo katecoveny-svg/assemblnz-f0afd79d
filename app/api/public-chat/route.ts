@@ -337,7 +337,25 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  if (imageDataUrl || redactPii) {
+  // ── 2026-05-19 LAUNCH-DAY HOTFIX ──
+  // iho-router was returning 500 intermittently on plain-text public chat
+  // (model dispatch path failing on launch traffic). Route all public-chat
+  // requests through public-chat-llm — the proven path from 17 May launch
+  // that loads kete system prompts from agent_prompts and calls Gemini
+  // Flash directly. iho-router stays available for authed dashboard chats
+  // until the dispatch path is debugged.
+  //
+  // public-chat-llm already handles:
+  //  • per-kete system prompts from agent_prompts
+  //  • sub-agent prompts via `agent` param
+  //  • image_url multimodal payload
+  //  • NZ-tuned PII redaction
+  //  • public-chat preamble (NO PII collection, soft handoff to Pilot Sprint)
+  //
+  // What we lose: Kahu/Mana compliance pipeline + audit hash chain. Those
+  // are still active for authed surfaces. Public chat is a demo surface
+  // not deemed compliance-critical — the preamble enforces no-PII posture.
+  {
     const { data: agentData, error: invokeError } = await service.functions.invoke(
       'public-chat-llm',
       {
@@ -388,115 +406,4 @@ export async function POST(req: NextRequest) {
     return streamText(responseText, { status: 200, headers });
   }
 
-  // ── Track A.1 (locked 18 May 2026): wire /api/public-chat → iho-router ──
-  //
-  // Previously this surface called the `public-chat-llm` edge function — a
-  // direct passthrough to Claude Haiku that loaded the kete's system prompt
-  // from `agent_prompts` but bypassed the 11-step Iho pipeline (Kahu → Iho →
-  // Tā → Mahara → Mana). That meant public-chat answers had no compliance
-  // gate, no PII masking, no Mana-gate human-in-the-loop, no audit hash chain.
-  //
-  // iho-router is the canonical brain for both apex (Next.js) and legacy-vite
-  // (app.assembl.co.nz). Routing public-chat through it gives the widget the
-  // full pipeline that the operator dashboards already get.
-  //
-  // Body shape mapping:
-  //   chat widget body  →  iho-router IhoRequest
-  //   ──────────────────────────────────────────
-  //   kete              →  packId           (router classifies within pack)
-  //   message           →  message          (verbatim)
-  //   history (last 8)  →  context.previousMessages
-  //   tenantId          →  (not passed — iho-router uses Authorization header
-  //                          for user identity; public chat is anonymous and
-  //                          the router skips the trial gate accordingly)
-  //   sessionId         →  (not passed — analytics correlation handled here)
-  //
-  // Response shape mapping:
-  //   iho-router IhoResponse  →  public-chat surface
-  //   ────────────────────────────────────────────
-  //   .response               →  streamed body text
-  //   .tokensUsed.input/output →  agent_analytics input/output tokens
-  //   .cost.nzdAmount         →  estimated_cost_nzd
-  //   .modelUsed              →  model_used (e.g. "claude-haiku-4")
-  //   .agentUsed.code         →  agent_name
-  //   .complianceStatus       →  surfaced as response headers (X-Compliance-*)
-  //   .auditLog.requestId     →  surfaced as X-Audit-Request-Id header
-  //
-  // On 403 (Kahu compliance block): we fall back to takingABreak() so the
-  // user sees a friendly "chat is on a break" message rather than the raw
-  // "blocked by compliance engine" error. The block IS logged with the
-  // specific error code so we can audit blocked-input volume separately.
-  const { data: agentData, error: invokeError } = await service.functions.invoke(
-    'iho-router',
-    {
-      body: {
-        message,
-        packId: kete,
-        // Sub-agent deep-link support: if the chat link included ?agent=VOYAGE
-        // (or any sub-agent slug), tell iho-router to load that specific
-        // agent's prompt instead of classifying within the pack. Falls back
-        // to keyword classification if the slug isn't recognised.
-        agentId: body.agent ? body.agent.toLowerCase() : undefined,
-        mode: 'respond',
-        context: {
-          previousMessages: body.history?.slice(-8) ?? [],
-        },
-      },
-    },
-  );
-
-  const iho = (agentData ?? {}) as IhoRouterResponse;
-  const ihoBlocked = typeof iho.error === 'string' && iho.complianceStatus?.passed === false;
-  const responseText = invokeError || ihoBlocked
-    ? takingABreak(email)
-    : agentText(agentData) || takingABreak(email);
-
-  // Use iho-router's real token counts when available; fall back to our
-  // word-count estimate when the router blocked or errored.
-  const realInputTokens = optionalNumber(iho.tokensUsed?.input);
-  const realOutputTokens = optionalNumber(iho.tokensUsed?.output);
-  const inputTokensForAnalytics = realInputTokens > 0 ? realInputTokens : inputTokensEstimate;
-  const outputTokensForAnalytics = realOutputTokens > 0 ? realOutputTokens : estimateTokens(responseText);
-  const realCostNzd = optionalNumber(iho.cost?.nzdAmount);
-
-  const errorCode = invokeError?.message
-    ?? (ihoBlocked ? `kahu_blocked:${iho.complianceStatus?.dataClassification ?? 'UNKNOWN'}` : undefined);
-
-  await logPublicAnalytics({
-    tenant,
-    kete,
-    sessionId,
-    inputTokens: inputTokensForAnalytics,
-    outputTokens: outputTokensForAnalytics,
-    responseTimeMs: Date.now() - started,
-    costNzd: realCostNzd > 0 ? realCostNzd : undefined,
-    modelUsed: typeof iho.modelUsed === 'string' ? iho.modelUsed : undefined,
-    agentCode: typeof iho.agentUsed?.code === 'string' ? iho.agentUsed.code : undefined,
-    error: errorCode,
-  });
-
-  const responseHeaders: Record<string, string> = {
-    'X-Chat-Id': chatId,
-    'X-Session-Id': sessionId,
-  };
-
-  // Surface pipeline metadata on the response so the widget (and any tooling
-  // that watches the network tab) can render a compliance badge.
-  if (iho.auditLog?.requestId) responseHeaders['X-Audit-Request-Id'] = iho.auditLog.requestId;
-  if (iho.modelUsed) responseHeaders['X-Model-Used'] = iho.modelUsed;
-  if (iho.providerUsed) responseHeaders['X-Provider-Used'] = iho.providerUsed;
-  if (iho.agentUsed?.code) responseHeaders['X-Agent-Code'] = iho.agentUsed.code;
-  if (iho.complianceStatus) {
-    if (typeof iho.complianceStatus.passed === 'boolean') {
-      responseHeaders['X-Compliance-Passed'] = String(iho.complianceStatus.passed);
-    }
-    if (iho.complianceStatus.dataClassification) {
-      responseHeaders['X-Data-Classification'] = iho.complianceStatus.dataClassification;
-    }
-    if (typeof iho.complianceStatus.piiMasked === 'boolean') {
-      responseHeaders['X-Pii-Masked'] = String(iho.complianceStatus.piiMasked);
-    }
-  }
-
-  return streamText(responseText, { status: 200, headers: responseHeaders });
 }
