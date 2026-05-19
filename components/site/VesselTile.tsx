@@ -35,8 +35,8 @@ const LOCKED: Partial<Record<KeteSlug, { src: string; alt: string }>> = {
     alt: 'Hoko evidence vessel — violet sculptural vessel on warm paper.',
   },
   toro: {
-    src: '/img/kete/toro-vessel-charcoal.jpg',
-    alt: 'Tōro evidence vessel — charcoal and cream stacked vessel on warm paper.',
+    src: '/img/brand/toro-brand-square-bird.png',
+    alt: 'Tōro bird-form family vessel on warm paper.',
   },
 };
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays, CheckCircle2, ClipboardList, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "tōro school survival · assembl",
+  title: "tōro school survival",
   description:
     "Paste a school newsletter and tōro turns dates, payments, gear, and permission slips into a prioritised list with a calendar file.",
 };

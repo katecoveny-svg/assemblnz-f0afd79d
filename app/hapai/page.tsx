@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 
 export const metadata: Metadata = {
   title: 'hapai — agent adoption tools that lift your team',
@@ -28,43 +29,71 @@ const tools = [
     name: 'Vessel studio',
     status: 'live',
     description: 'Hero imagery generator',
-    href: '/hapai/vessel-studio',
-    image: '/og/og-auaha.png',
+    href: '/hapai/vessel-studio/vessel-studio.html',
+    visual: 'vessel',
   },
   {
     name: 'Caption composer',
     status: 'live',
     description: 'LinkedIn / IG / X / FB captions',
-    href: '/hapai/caption-composer',
-    image: '/og/og-hoko.png',
+    href: '/hapai/caption-composer/caption-composer.html',
+    visual: 'caption',
   },
   {
     name: 'Brief generator',
     status: 'live',
     description: 'Creative / pitch / project briefs',
-    href: '/hapai/brief-generator',
-    image: '/og/og-waihanga.png',
+    href: '/hapai/brief-generator/brief-generator.html',
+    visual: 'brief',
+  },
+  {
+    name: 'Energy calculator',
+    status: 'live',
+    description: 'NZ electrification savings and payback',
+    href: '/electrify',
+    visual: 'electrify',
   },
   {
     name: 'OG card generator',
     status: 'live',
     description: 'Branded 1200×630 share cards',
-    href: '/hapai/og-card-generator',
-    image: '/og/og-assembl.png',
+    href: '/hapai/og-card-generator/og-card-generator.html',
+    visual: 'og-card',
   },
   {
     name: 'Tagline workshop',
     status: 'live',
     description: 'Tagline candidates in five styles',
-    href: '/hapai/tagline-workshop',
-    image: '/og/og-matauranga.png',
+    href: '/hapai/tagline-workshop/tagline-workshop.html',
+    visual: 'tagline',
   },
   {
     name: 'Project picker',
     status: 'live',
     description: 'Three ranked candidate projects to build first',
     href: '/hapai/projects',
-    image: '/img/kete/matauranga-vessel-tall.jpg',
+    visual: 'project-picker',
+  },
+  {
+    name: 'Meeting recorder',
+    status: 'live',
+    description: 'Record or paste. Walk away with proper notes — decisions, action items, next steps.',
+    href: '/hapai/meeting-notes',
+    visual: 'meeting',
+  },
+  {
+    name: 'Privacy Act one-pager',
+    status: 'live',
+    description: 'Generate a tailored Privacy Act 2020 summary for your organisation. Maps your data flows to the 13 IPPs including the new IPP 3A.',
+    href: '/hapai/privacy-act',
+    visual: 'privacy',
+  },
+  {
+    name: 'Fridge → shopping list',
+    status: 'live',
+    description: 'Photo of the fridge in. Meal plan + supermarket-aisle shopping list out. Tuned for NZ kai conventions.',
+    href: '/hapai/fridge-to-list',
+    visual: 'fridge',
   },
 ] as const;
 
@@ -165,20 +194,14 @@ export default function HapaiPage() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {tools.map((tool) => (
               <article
                 key={tool.name}
                 className="flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58"
               >
                 <div className="relative aspect-[4/3] border-b border-[rgba(35,33,31,0.10)]">
-                  <Image
-                    src={tool.image}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1280px) 18vw, (min-width: 768px) 40vw, 100vw"
-                    className="object-cover"
-                  />
+                  <HapaiToolPreview visual={tool.visual} />
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <span

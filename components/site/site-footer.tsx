@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { KETES } from "@/lib/kete";
-import { footerDisclaimer, heroVessel, ketes as keteImagery } from "@/lib/site-config";
+import { footerDisclaimer, footerKeteCutouts } from "@/lib/site-config";
 
 export function SiteFooter() {
   return (
@@ -10,15 +10,15 @@ export function SiteFooter() {
           <div>
             <Link
               href="/"
-              className="inline-flex flex-col items-start gap-3 rounded-sm transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              className="inline-flex flex-col items-start gap-3 rounded-sm transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
             >
               <img
-                src={heroVessel.mark}
+                src={footerKeteCutouts.waihanga}
                 alt=""
                 aria-hidden
                 width={96}
                 height={96}
-                className="w-24 opacity-50 select-none pointer-events-none"
+                className="h-24 w-24 select-none object-contain opacity-80"
               />
               <span className="font-display text-2xl font-semibold lowercase text-[color:var(--text-primary)]">
                 assembl
@@ -38,17 +38,19 @@ export function SiteFooter() {
                 <li key={k.slug}>
                   <Link
                     href={`/kete/${k.slug}`}
-                    className="inline-flex items-center gap-3 rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                    className="inline-flex items-center gap-3 rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                   >
-                    <img
-                      src={keteImagery[k.slug].square}
-                      alt=""
-                      aria-hidden
-                      width={24}
-                      height={24}
-                      loading="lazy"
-                      className="h-6 w-6 flex-none rounded-[2px] object-cover"
-                    />
+                    <span className="flex h-8 w-8 flex-none items-center justify-center">
+                      <img
+                        src={footerKeteCutouts[k.slug]}
+                        alt=""
+                        aria-hidden
+                        width={32}
+                        height={32}
+                        loading="lazy"
+                        className="max-h-8 max-w-8 object-contain"
+                      />
+                    </span>
                     <span>
                       {k.name}
                       <span className="ml-2 text-xs text-[color:var(--text-secondary)]">
@@ -69,7 +71,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/pilot-sprint"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   Pilot Sprint
                 </Link>
@@ -77,7 +79,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/how-it-works"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   How it works
                 </Link>
@@ -85,7 +87,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/evidence-pack"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   Evidence pack
                 </Link>
@@ -93,7 +95,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/pricing"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   Pricing
                 </Link>
@@ -101,7 +103,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/about"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   About
                 </Link>
@@ -109,7 +111,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/contact"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   Contact
                 </Link>
@@ -117,7 +119,7 @@ export function SiteFooter() {
               <li>
                 <Link
                   href="/press"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   Press
                 </Link>
@@ -135,7 +137,7 @@ export function SiteFooter() {
             <p className="mt-4 text-xs text-[color:var(--text-secondary)]">
               <Link
                 href="/legal/disclaimer"
-                className="rounded-sm underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                className="rounded-sm underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
               >
                 Full disclaimer
               </Link>
