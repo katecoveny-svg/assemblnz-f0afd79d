@@ -35,12 +35,12 @@ export const metadata: Metadata = {
     template: '%s · assembl',
   },
   description:
-    'assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
+    'assembl is a fleet of specialist agents for the admin work that drains your team. Built in Aotearoa, reviewed by your people, and sealed with a record of how the work was made.',
   metadataBase: new URL('https://assembl.co.nz'),
   openGraph: {
     title: 'assembl — mahi that earns its proof',
     description:
-      'Specialist agents. Human review. Evidence packs.',
+      'Specialist agents for the admin work that drains your team.',
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
@@ -50,14 +50,14 @@ export const metadata: Metadata = {
         url: '/og/og-assembl.png',
         width: 1200,
         height: 630,
-        alt: 'assembl — Mahi that earns its proof. Specialist agents. Human review. Evidence packs.',
+        alt: 'assembl — Mahi that earns its proof. Specialist agents for the admin work that drains your team.',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'assembl — mahi that earns its proof',
-    description: 'Specialist agents. Human review. Evidence packs.',
+    description: 'Specialist agents for the admin work that drains your team.',
     images: ['/og/og-assembl.png'],
   },
   icons: {
