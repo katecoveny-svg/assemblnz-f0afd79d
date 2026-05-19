@@ -30,6 +30,7 @@ type SwitchStep = {
 
 type ElectrifyLead = {
   id: string;
+  route_type?: "business" | "household" | "landlord" | "new-build";
   business_type: string;
   region: string;
   annual_savings_current_nzd: number;
@@ -49,6 +50,37 @@ type ElectrifyLead = {
   } | null;
   result_confidence: "high" | "medium" | "low";
   assumptions_version: string;
+};
+
+const ROUTE_FRAMING: Record<string, { eyebrow: string; headlineLine2: string; subhead: string; ctaLabel: string; ctaHref: string }> = {
+  business: {
+    eyebrow: "Electrify · your machine count",
+    headlineLine2: "a year back from the machines.",
+    subhead: "Ranked switches by savings and payback for your operation.",
+    ctaLabel: "Talk to Manaaki about kitchen-level electrification",
+    ctaHref: "/kete/manaaki",
+  },
+  household: {
+    eyebrow: "Electrify · your home energy path",
+    headlineLine2: "a year back, off your home bills.",
+    subhead: "Ranked switches by savings and payback for your whānau.",
+    ctaLabel: "Talk to Tōro about your home plan",
+    ctaHref: "/kete/toro",
+  },
+  landlord: {
+    eyebrow: "Electrify · your portfolio path",
+    headlineLine2: "a year saved across the portfolio.",
+    subhead: "Tenants save the bill. You hold the capex. Split-incentive view of the switch sequence below.",
+    ctaLabel: "Talk to Manaaki about portfolio-level retrofits",
+    ctaHref: "/kete/manaaki",
+  },
+  "new-build": {
+    eyebrow: "Electrify · avoided cost",
+    headlineLine2: "a year avoided by not connecting gas.",
+    subhead: "Design-stage choices that save the gas connection, the diesel boiler, and the gen-set.",
+    ctaLabel: "Talk to Waihanga about all-electric design",
+    ctaHref: "/kete/waihanga",
+  },
 };
 
 const RESULT_COOKIE_PREFIX = "assembl_electrify_result_";
@@ -113,7 +145,10 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
 
   if (!lead) notFound();
 
-  const cta = KETE_CTA[lead.business_type] ?? KETE_CTA.professional_other;
+  const routeFraming = ROUTE_FRAMING[lead.route_type ?? "business"] ?? ROUTE_FRAMING.business;
+  const cta = lead.route_type && lead.route_type !== "business"
+    ? { label: routeFraming.ctaLabel, href: routeFraming.ctaHref }
+    : (KETE_CTA[lead.business_type] ?? KETE_CTA.professional_other);
   const heroStep = lead.recommended_sequence[0];
   const resultUrl = `https://www.assembl.co.nz/electrify/results/${lead.id}`;
   const shareText = `My Electrify Machine Count estimates ${fmtNzd(
@@ -137,13 +172,15 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
 
         <div className="relative mx-auto max-w-5xl text-center">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-taupe-600">
-            Electrify · your machine count
+            {routeFraming.eyebrow}
           </p>
           <h1 className="mt-6 font-cormorant text-[clamp(3rem,9vw,7rem)] leading-[0.92] text-pounamu-900">
             {fmtNzd(lead.annual_savings_current_nzd)}<br />
-            <span className="text-taupe-800">a year back from</span><br />
-            <span className="text-taupe-800">the machines.</span>
+            <span className="text-taupe-800">{routeFraming.headlineLine2}</span>
           </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-sm italic leading-relaxed text-taupe-700">
+            {routeFraming.subhead}
+          </p>
 
           <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-taupe-700">
             {lead.annual_savings_cheap_finance_nzd > lead.annual_savings_current_nzd ? (

@@ -116,9 +116,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Add a transcript or raw notes first." }, { status: 400 });
   }
 
-  const message = `${SYSTEM_PROMPT}
-
-Meeting title: ${title || "Untitled meeting"}
+  const message = `Meeting title: ${title || "Untitled meeting"}
 Attendees: ${attendees || "Not supplied"}
 
 Raw input:
@@ -131,6 +129,7 @@ ${raw.slice(0, 18_000)}`;
         body: {
           kete: "auaha",
           message,
+          systemPromptOverride: SYSTEM_PROMPT,
           sessionId: crypto.randomUUID(),
         },
       });

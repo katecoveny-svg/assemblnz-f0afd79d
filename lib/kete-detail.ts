@@ -690,7 +690,7 @@ export const KETE_DETAIL: Record<
     heroBody:
       "Tōro is the whānau assistant inside assembl. Forward the school newsletter, the kindo notice, the OSCAR confirmation — it reads them, pulls out what matters, and hands back a term-shaped plan you can act on. Three sub-plugins under one Family plan.",
     description: [
-      "Tōro is email-first by design. Each whānau gets their own private inbound address at toro.nz, so the school newsletter, the assembly note, the hot-lunch reminder all land in one place. SMS where it helps (school-bus alerts, sport-cancellation pings), WhatsApp where your whānau already lives. Tōro reads what arrives, drafts the response or the calendar entry, and waits for you to approve before anything goes out.",
+      "Tōro is email-first by design. Each whānau gets their own inbound forwarding address — coming with your first onboarding session — so the school newsletter, the assembly note, and the hot-lunch reminder can land in one place. Tōro reads what arrives, drafts the response or the calendar entry, and waits for you to approve before anything goes out.",
       "Nothing ships without a human click. Every draft is reviewable, every action is consent-gated, and every reply uses your voice not Tōro's. Privacy Act 2020 IPP 3A is honoured by default — children's data stays inside the whānau tenant.",
       "Three sub-plugins under one Family plan: Term Planner reads school comms, Kid Money runs the chores-and-pocket-money ledger, Holiday Ideas plans the term-break weeks (launching Q3 2026). Available now at NZ$29/month, no setup. Cancel any time.",
     ],
@@ -740,8 +740,8 @@ export const KETE_DETAIL: Record<
         body: 'Switch the voice to te reo Māori, English, or both — set per whānau member.',
       },
       {
-        name: 'Email-first, SMS where it helps',
-        body: 'Forward from any client — Gmail, Outlook, school portal, your phone. SMS for the bus-route and sport-cancellation pings, WhatsApp where your whānau already lives. No new app to install for the school comms you already get.',
+        name: 'Email-first, messaging roadmap',
+        body: 'Forward from any client — Gmail, Outlook, school portal, your phone. SMS and WhatsApp pings are available in the Industry Pack roadmap; Family onboarding starts with email forwarding and human-reviewed drafts.',
       },
     ],
     price: { monthly: 'NZ$29', setup: '—' },

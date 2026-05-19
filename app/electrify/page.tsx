@@ -20,6 +20,7 @@ import {
   SunMedium,
 } from "lucide-react";
 import ElectrifyShareButtons from "@/components/electrify/ElectrifyShareButtons";
+import { ElectrifyForm } from "@/components/electrify/ElectrifyForm";
 
 export const metadata: Metadata = {
   title: "Electrify — count your fossil machines",
@@ -151,11 +152,12 @@ export default function ElectrifyFormPage() {
 
           </div>
 
+          <ElectrifyForm />
           <form
-            id="calculator"
+            style={{ display: 'none' }}
+            id="calculator-legacy-noop"
             action="/api/calculate"
             method="POST"
-            className="glass-card-elevated scroll-mt-24 p-5 shadow-[0_30px_100px_rgba(35,33,31,0.14)] md:p-6 xl:sticky xl:top-24"
           >
             <div className="border-b border-[rgba(35,33,31,0.10)] pb-5">
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">

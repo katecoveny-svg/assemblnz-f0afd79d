@@ -17,18 +17,26 @@ const RESULT_COOKIE_PREFIX = "assembl_electrify_result_";
 export async function POST(req: Request) {
   const form = await req.formData();
 
-  const businessType = String(form.get("businessType") ?? "") as BusinessType;
+  const routeType = (String(form.get("routeType") ?? "business") || "business") as
+    | "business" | "household" | "landlord" | "new-build";
+  const businessType = String(form.get("businessType") ?? "professional_other") as BusinessType;
   const region = String(form.get("region") ?? "").trim();
   const monthlyFuelSpendNzd = Number(form.get("monthlyFuelSpendNzd") ?? 0);
   const fuelTypes = form.getAll("fuelTypes").map(String) as FuelType[];
   const vehicleCount = Number(form.get("vehicleCount") ?? 0);
   const vehicleType = (form.get("vehicleType") ? String(form.get("vehicleType")) : undefined) as VehicleType | undefined;
-  const premisesType = String(form.get("premisesType") ?? "") as PremisesType;
+  const premisesType = String(form.get("premisesType") ?? "own_freehold") as PremisesType;
   const rooftopSolarSuitable = String(form.get("rooftopSolarSuitable") ?? "unsure") as "yes" | "no" | "unsure";
   const monthlyElectricitySpendNzd = Number(form.get("monthlyElectricitySpendNzd") ?? 0);
 
-  // Minimal validation
-  if (!businessType || !region || !premisesType || fuelTypes.length === 0) {
+  // Per-route extras (passed to calculator for tuning)
+  const householdSize = String(form.get("householdSize") ?? "").trim();
+  const rentalCount = Number(form.get("rentalCount") ?? 0);
+  const tenancyLength = String(form.get("tenancyLength") ?? "").trim();
+  const buildType = String(form.get("buildType") ?? "").trim();
+
+  // Minimal validation — region + at least one fuel
+  if (!region || fuelTypes.length === 0) {
     return NextResponse.json(
       { error: "Required field missing. Please complete the form." },
       { status: 400 }
@@ -45,12 +53,18 @@ export async function POST(req: Request) {
     premisesType,
     rooftopSolarSuitable,
     monthlyElectricitySpendNzd,
+    routeType,
+    householdSize,
+    rentalCount,
+    tenancyLength,
+    buildType,
   };
 
   const result = calculateElectrification(input);
   const localResultId = crypto.randomUUID();
   const resultSnapshot = {
     id: localResultId,
+    route_type: routeType,
     business_type: input.businessType,
     region: input.region,
     annual_savings_current_nzd: result.annualSavingsCurrentNzd,
