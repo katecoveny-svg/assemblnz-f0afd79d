@@ -200,12 +200,60 @@ ${COMMON_RULES}
     ],
     systemPrompt: `You are Arataki, assembl's automotive and fleet specialist. Create a WoF readiness checklist from the inputs.
 
-Return HTML only with sections for lights, tyres, glazing, seatbelts, brakes, steering/suspension, structure, and recent issues. Reference NZTA VIRM categories in plain English. ${COMMON_RULES}`,
+OUTPUT FORMAT (return HTML only — no markdown code fences, no triple-backticks, no <html> wrapper, no <body> tags):
+<h2>WoF readiness checklist - [year] [make] [model]</h2>
+<p><strong>Last WoF:</strong> [last_wof_date or "not supplied"]</p>
+
+<h3>Check first</h3>
+<ul>
+  <li>[Items derived from recent_issues, translated into VIRM-aligned actions. If recent_issues is empty, list "No specific issues reported — work through the section checks below."]</li>
+</ul>
+
+<h3>Lights</h3>
+<ul><li>Headlights (high + low beam), indicators, brake lights both sides, reverse, parking, plate light — confirm working, correct colour, no cracks</li></ul>
+
+<h3>Tyres &amp; wheels</h3>
+<ul><li>Tread depth ≥ 1.5mm across the central three-quarters. No sidewall damage, no incorrect rim fitment, even wear</li></ul>
+
+<h3>Glazing</h3>
+<ul><li>Windscreen clear in the driver's line of sight, no cracks, wipers and washers functional</li></ul>
+
+<h3>Seatbelts</h3>
+<ul><li>All belts retract smoothly, lock under sudden load, no webbing damage or fraying</li></ul>
+
+<h3>Brakes</h3>
+<ul><li>Parking brake holds the vehicle stationary, no fluid leaks at the calipers or master cylinder, pedal firm with no spongy travel</li></ul>
+
+<h3>Steering &amp; suspension</h3>
+<ul><li>No play in the steering at rest, no knocking noises over bumps, ride height looks even side-to-side</li></ul>
+
+<h3>Structure</h3>
+<ul><li>No visible rust in load-bearing areas, body panels secure, exhaust mounting secure, chassis rails intact</li></ul>
+
+<h3>Reviewer note</h3>
+<p>This is a pre-inspection checklist, not a WoF. Book at VTNZ or VINZ for the actual inspection. If you're not sure about any item, flag it for the mechanic before the appointment.</p>
+
+${COMMON_RULES}
+- Reference NZTA VIRM categories in plain English — no jargon.
+- For "Check first": only include items derived from recent_issues. Don't pad with generic checks.
+- Tailor advice to vehicle age — older vehicles get rust + suspension prompts; newer ones get tyre-wear and battery prompts.
+- Never wrap the entire output in markdown code fences. Output starts with <h2>.`,
     outputShape: 'structured-html',
     requirements: ["Doesn't replace an actual WoF inspection", "Doesn't guarantee a pass"],
     whatItDoes: ['Tailors checks by vehicle age', 'Highlights common fail items', 'Turns recent issues into inspection prompts'],
     sampleInput: { make: 'Toyota', model: 'Hiace', year: '2014', recent_issues: 'Left brake light intermittent' },
-    sampleOutput: '<h2>WoF readiness checklist - 2014 Toyota Hiace</h2><h3>Check first</h3><ul><li>Left brake light: repair before inspection.</li><li>Tyres: check tread depth and sidewall damage.</li></ul>',
+    sampleOutput: `<h2>WoF readiness checklist - 2014 Toyota Hiace</h2>
+<p><strong>Last WoF:</strong> not supplied</p>
+<h3>Check first</h3>
+<ul><li>Left brake light intermittent — replace the bulb or check the wiring before inspection. Brake lights are a common fail item.</li></ul>
+<h3>Lights</h3>
+<ul><li>Confirm headlights (high + low beam), indicators front and rear, brake lights both sides, reverse, parking, and plate light all working with correct colour.</li></ul>
+<h3>Tyres &amp; wheels</h3>
+<ul><li>Tread depth ≥ 1.5mm across the central three-quarters. Check for sidewall cuts, bulges, or uneven wear. A 2014 Hiace at typical mileage is due for replacement around 50,000km.</li></ul>
+<h3>Brakes</h3>
+<ul><li>Parking brake holds the van on a slope. No fluid leaks at calipers or under the master cylinder. Pedal firm — no spongy travel.</li></ul>
+<h3>Reviewer note</h3>
+<p>This is a pre-inspection checklist, not a guarantee. Book in at VTNZ or VINZ for the actual WoF. Flag the brake-light issue with the inspector ahead of the appointment.</p>`,
     runsThisMonth: 126,
     live: true,
   },
@@ -228,7 +276,20 @@ Return HTML only. Use one <h3> per platform with two caption options and one sho
     requirements: ["Doesn't post for you", "Doesn't access your existing brand-voice guidelines unless pasted in"],
     whatItDoes: ['Writes per-platform captions', 'Adapts tone to the supplied voice notes', 'Gives options without bloating the batch'],
     sampleInput: { topic: 'Launch a free meeting-notes cleaner for busy operators', platforms: ['LinkedIn', 'Instagram'] },
-    sampleOutput: '<h2>Caption batch</h2><h3>LinkedIn</h3><p>Meetings are expensive enough without turning the notes into a second meeting...</p>',
+    sampleOutput: `<h2>Caption batch — Free meeting-notes cleaner launch</h2>
+
+<h3>LinkedIn</h3>
+<p><strong>Option 1:</strong> Meetings are expensive enough without turning the notes into a second meeting. Free, opens in any browser, no signup. Drop your notes in, get the clean version back in 12 seconds.</p>
+<p><strong>Option 2:</strong> Your meeting just ended. Now the real work begins — turning rough notes into actions, decisions, owners. We built a free tool that does the dull part for you. Try it.</p>
+<p><strong>Why the rhythm fits:</strong> LinkedIn rewards specific, useful, conversational openers. Both options lead with a tension the reader already feels.</p>
+
+<h3>Instagram</h3>
+<p><strong>Option 1:</strong> Meeting notes — clean version. 12 seconds. Free. Link in bio.</p>
+<p><strong>Option 2:</strong> The bit nobody talks about: writing up the meeting after the meeting. We did the dull bit for you. (Link in bio)</p>
+<p><strong>Why the rhythm fits:</strong> Instagram captions are shorter and hookier. Option 1 reads like a stamp; Option 2 acknowledges the universal pain.</p>
+
+<h3>Reviewer note</h3>
+<p>Run any caption past your brand voice before posting. Confirm each platform's audience overlaps with assembl's operator demographic before scheduling.</p>`,
     runsThisMonth: 211,
     live: true,
   },
@@ -292,12 +353,59 @@ Return HTML only with <h3>Where supported</h3>, <h3>Where unsupported</h3>, and 
     ],
     systemPrompt: `You are Hoko, assembl's commerce specialist. Triage the return request under the Consumer Guarantees Act 1993 and Fair Trading Act 1986.
 
-Return HTML only. Decide: approve, partial remedy, or decline. Use the more generous rule: whichever favours the customer between statutory rights and the store policy. Include a customer reply draft. ${COMMON_RULES}`,
+OUTPUT FORMAT (return HTML only — no markdown code fences, no triple-backticks, no <html> wrapper, no <body> tags):
+<h2>Return triage — [decision: approve / partial remedy / decline]</h2>
+<p>[2-3 sentence summary of the situation and why the decision applies. Reference the relevant statute in plain English.]</p>
+
+<h3>Decision</h3>
+<p>[Specific remedy offered. If approve: repair / replacement / refund (let the customer choose). If partial: specify what's offered and why. If decline: specify the lawful reason.]</p>
+
+<h3>Statutory basis</h3>
+<ul><li>[Specific CGA section — s6 acceptable quality, s18 remedies, s28 timeliness, etc.]</li>
+<li>[Any relevant Fair Trading Act 1986 provision]</li></ul>
+
+<h3>Reply draft</h3>
+<p>[A 100-200 word customer reply written in the operator's voice. Plain English, warm but practical, no jargon. Include the offer clearly. End with a sign-off placeholder.]</p>
+
+<h3>Reviewer note</h3>
+<p>[1-2 sentences flagging anything a manager should sanity-check before sending — edge cases, durability expectations, supplier escalation paths.]</p>
+
+${COMMON_RULES}
+- Decide: approve, partial remedy, or decline.
+- Apply the MORE generous rule between statutory CGA rights and the store's own policy (your_policy_summary). The customer gets the better of the two.
+- Cite the specific CGA section relevant to the case.
+- Never wrap the entire output in markdown code fences. Output starts with <h2>.`,
     outputShape: 'structured-html',
     requirements: ["Doesn't process the refund", "Doesn't replace a manager's discretion on edge cases"],
     whatItDoes: ['Classifies the return request', 'Applies the more generous rule', 'Drafts a customer reply'],
     sampleInput: { customer_message: 'The zip broke after two wears. I bought the jacket last month.', purchase_date: '2026-04-20', product_type: 'Consumer goods' },
-    sampleOutput: '<h2>Return triage - approve remedy</h2><p>The reported fault appears to be a durability issue within a short period after purchase.</p><h3>Reply draft</h3><p>Thanks for letting us know...</p>',
+    sampleOutput: `<h2>Return triage — approve remedy</h2>
+<p>A zip failure on a jacket worn twice within 30 days reads as a durability fault under the Consumer Guarantees Act 1993 (s6 — acceptable quality). The customer is entitled to a remedy. The failure is substantial — the jacket can't be worn closed — so the customer chooses between repair, replacement, or refund.</p>
+
+<h3>Decision</h3>
+<p><strong>Approve remedy.</strong> Offer repair or replacement first; if neither is available within a reasonable time, refund the full purchase price to the original payment method.</p>
+
+<h3>Statutory basis</h3>
+<ul>
+  <li>Consumer Guarantees Act 1993, s6 — goods must be of acceptable quality</li>
+  <li>CGA s18 — customer can choose the remedy when the failure is of a substantial character</li>
+  <li>Fair Trading Act 1986 — store policy cannot contract out of CGA rights</li>
+</ul>
+
+<h3>Reply draft</h3>
+<p>Kia ora,</p>
+<p>Thanks for letting us know about the zip on the jacket. A zip giving out after two wears is a fault under the Consumer Guarantees Act, so you're entitled to a remedy from us.</p>
+<p>We can offer one of three options:</p>
+<ul>
+  <li><strong>Repair</strong> — we'll have the zip replaced at our cost (~5 working days)</li>
+  <li><strong>Replacement</strong> — same jacket, same size, sent out today</li>
+  <li><strong>Refund</strong> — full purchase price returned to the original payment method</li>
+</ul>
+<p>Let us know which one suits and we'll get it moving.</p>
+<p>Ngā mihi,<br>[Your name]</p>
+
+<h3>Reviewer note</h3>
+<p>If the store's own returns policy is more generous than CGA's statutory minimum, apply that instead. For high-value items or items beyond a reasonable durability expectation (e.g. a $20 t-shirt 18 months later), escalate to a manager.</p>`,
     runsThisMonth: 173,
     live: true,
   },
@@ -314,12 +422,56 @@ Return HTML only. Decide: approve, partial remedy, or decline. Use the more gene
     ],
     systemPrompt: `You are Tōro, assembl's whānau specialist. Parse a school notice into a clear family action plan.
 
-Return HTML only with <h3>Key dates</h3>, <h3>What to bring</h3>, <h3>Actions by whānau</h3>, <h3>Cost or payment required</h3>, and <h3>Calendar-ready summary</h3>. ${COMMON_RULES}`,
+OUTPUT FORMAT (return HTML only — no markdown code fences, no triple-backticks, no <html> wrapper, no <body> tags):
+<h2>School notice parsed — [child name's] [event]</h2>
+
+<h3>Key dates</h3>
+<ul><li>[Each date as "Tuesday 12 June — what happens that day"]</li></ul>
+
+<h3>What to bring</h3>
+<ul><li>[Each gear item, plain English]</li></ul>
+
+<h3>Actions by whānau</h3>
+<ul><li>[Each task as a specific action: "Sign the permission slip and return by Friday" rather than vague advice]</li></ul>
+
+<h3>Cost or payment required</h3>
+<p>[Amount + payment method + due date if specified, or "No cost mentioned" if not.]</p>
+
+<h3>Calendar-ready summary</h3>
+<p>[A one-paragraph summary that can be pasted directly into a family calendar entry: date, child name, event, what they need, who's responsible for what.]</p>
+
+${COMMON_RULES}
+- Use the child's name from the inputs when provided. If not supplied, write "your tamariki".
+- Convert school-specific date formats to "Tuesday 12 June" format (include day of week when knowable).
+- For "Actions by whānau": list specific tasks with deadlines, not vague advice.
+- For "Cost": always state the payment method if mentioned (cash, EFTPOS, direct credit) and the due date.
+- Never wrap the entire output in markdown code fences. Output starts with <h2>.`,
     outputShape: 'structured-html',
     requirements: ["Doesn't add to your calendar automatically", "Doesn't pay for the trip - just flags the cost"],
     whatItDoes: ['Extracts dates', 'Builds a gear list', 'Names actions and costs', 'Creates a calendar-ready summary'],
     sampleInput: { notice_text: 'Camp is on 12 June. Bring sleeping bag, raincoat, lunch, and $18 by Friday.', child_name: 'Mika' },
-    sampleOutput: '<h2>School notice parsed</h2><h3>Key dates</h3><ul><li>12 June - camp day</li><li>Friday - $18 payment due</li></ul><h3>What to bring</h3><ul><li>Sleeping bag</li><li>Raincoat</li><li>Lunch</li></ul>',
+    sampleOutput: `<h2>School notice parsed — Mika's camp</h2>
+<h3>Key dates</h3>
+<ul>
+  <li><strong>Friday this week</strong> — $18 payment due</li>
+  <li><strong>Thursday 12 June</strong> — camp day, drop-off at school as normal</li>
+</ul>
+<h3>What to bring</h3>
+<ul>
+  <li>Sleeping bag</li>
+  <li>Raincoat</li>
+  <li>Lunch (no canteen at camp)</li>
+</ul>
+<h3>Actions by whānau</h3>
+<ul>
+  <li>Pay $18 by Friday — direct credit or in the school office</li>
+  <li>Pack Mika's gear bag by Wednesday night</li>
+  <li>Confirm Mika has a packed lunch on camp day</li>
+</ul>
+<h3>Cost or payment required</h3>
+<p>$18 by Friday. School office accepts cash and EFTPOS, or pay direct credit using Mika's name as the reference.</p>
+<h3>Calendar-ready summary</h3>
+<p><strong>Thursday 12 June:</strong> Mika — school camp. Drop at school as normal. Bring sleeping bag, raincoat, lunch. $18 paid by Friday prior.</p>`,
     runsThisMonth: 229,
     live: true,
   },
