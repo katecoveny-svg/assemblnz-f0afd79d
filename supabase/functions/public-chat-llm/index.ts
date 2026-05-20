@@ -38,6 +38,7 @@ import { serve } from "https://deno.land/std@0.208.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { callLlm } from "../_shared/llm-call.ts";
 import { redactPii, summariseRedactions } from "../_shared/pii-redactor.ts";
+import { buildKeteRuntimeContext } from "../_shared/kete/pikau/runtime-context.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -228,9 +229,32 @@ When you respond, do not announce these rules. Just follow them.`;
     ? `\n\nIf the user has attached an image or PDF, treat it as a commercial invoice or shipping document. Extract: importer name, supplier name, country of origin, goods description, invoice value in NZD, and Incoterm if present. Then proceed to draft the customs entry summary per your normal workflow. If a field is not visible, say so instead of guessing.`
     : "";
 
+  // Public-chat-llm is also used by workflow/tool routes and the attachment
+  // fallback path, so it needs the same live Knowledge Brain context as
+  // iho-router. Best-effort only: retrieval failures should never block the
+  // public surface or a workflow draft.
+  let liveRuntimeBlock = "";
+  try {
+    const runtime = await buildKeteRuntimeContext({
+      sb: supabase,
+      agentPack: kete,
+      message: safeMessage || "Attached document or image requiring kete workflow support.",
+      geminiKey: Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("GOOGLE_API_KEY") ?? null,
+      ragTopK: systemPromptOverride ? 6 : 4,
+    });
+    liveRuntimeBlock = runtime.block ? `\n\n${runtime.block}` : "";
+    if (runtime.ragHits || runtime.tariffHits) {
+      console.log(
+        `[public-chat-llm] runtime context kete=${kete} rag=${runtime.ragHits} tariff=${runtime.tariffHits}`,
+      );
+    }
+  } catch (err) {
+    console.warn("[public-chat-llm] runtime context failed", err);
+  }
+
   const systemPrompt = systemPromptOverride
-    ? baseSystemPrompt
-    : `${baseSystemPrompt}${pikauAttachmentPrompt}${publicChatPreamble}`;
+    ? `${baseSystemPrompt}${liveRuntimeBlock}`
+    : `${baseSystemPrompt}${liveRuntimeBlock}${pikauAttachmentPrompt}${publicChatPreamble}`;
 
   try {
     // Per-call maxTokens override. Workflows pass 2500 because their system

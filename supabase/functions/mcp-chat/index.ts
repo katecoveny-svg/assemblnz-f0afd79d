@@ -341,24 +341,52 @@ const CONTEXT_MAX_CHARS = 6000;
 
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
 
-interface KbSnippet { content: string; source?: string | null; score?: number | null }
+interface KbSnippet {
+  document_id?: string;
+  title?: string | null;
+  url?: string | null;
+  snippet?: string | null;
+  source_name?: string | null;
+  published_at?: string | null;
+  similarity?: number | null;
+  weighted_score?: number | null;
+}
 interface MemHit { summary?: string | null; content?: string | null; similarity?: number | null }
 
 async function loadKnowledgeContext(
   vec: number[],
   agentPack: string,
 ): Promise<KbSnippet[]> {
-  try {
+  async function queryPack(pack: string, topK: number): Promise<KbSnippet[]> {
     const { data, error } = await adminDb.rpc("match_kb_knowledge" as never, {
       query_embedding: vec,
-      agent_pack: agentPack ?? null,
-      top_k: KB_TOP_K,
+      agent_pack: pack,
+      top_k: topK,
     } as never);
     if (error) {
       console.warn("[mcp-chat] kb match error", error.message);
       return [];
     }
     return Array.isArray(data) ? (data as KbSnippet[]) : [];
+  }
+
+  try {
+    const pack = agentPack?.trim().toLowerCase() || "cross";
+    const direct = await queryPack(pack, KB_TOP_K);
+    const cross = pack === "cross" ? [] : await queryPack("cross", 2);
+    const seen = new Set<string>();
+    return [...direct, ...cross]
+      .filter((s) => {
+        const key = `${s.document_id ?? ""}:${String(s.snippet ?? "").slice(0, 80)}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      })
+      .sort((a, b) =>
+        Number(b.weighted_score ?? b.similarity ?? 0) -
+          Number(a.weighted_score ?? a.similarity ?? 0)
+      )
+      .slice(0, KB_TOP_K + (cross.length ? 2 : 0));
   } catch (e) {
     console.warn("[mcp-chat] kb context exception", (e as Error).message);
     return [];
@@ -405,8 +433,11 @@ function buildContextBlock(snippets: KbSnippet[], memories: MemHit[]): string {
   const sections: string[] = [];
   if (snippets.length) {
     const lines = snippets.map((s, i) => {
-      const src = s.source ? ` (${s.source})` : "";
-      return `${i + 1}.${src} ${String(s.content ?? "").trim()}`;
+      const title = s.title ? `${s.title} — ` : "";
+      const src = s.source_name ? ` (${s.source_name})` : "";
+      const date = s.published_at ? ` ${String(s.published_at).slice(0, 10)}` : "";
+      const url = s.url ? `\n→ ${s.url}` : "";
+      return `${i + 1}. ${title}${src}${date}\n${String(s.snippet ?? "").trim()}${url}`;
     });
     sections.push(`[Live knowledge — current as of this turn]\n${lines.join("\n")}`);
   }

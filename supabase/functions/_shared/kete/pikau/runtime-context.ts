@@ -199,17 +199,45 @@ async function retrieveRagChunks(opts: BuildOptions): Promise<KbChunk[]> {
 
   const topK = opts.ragTopK ?? 4;
   const minSim = opts.ragMinSimilarity ?? 0.55;
+  const pack = opts.agentPack.trim().toLowerCase();
 
+  const direct = await retrieveForPack(opts, embedding, pack, topK);
+  const cross = pack === "cross"
+    ? []
+    : await retrieveForPack(opts, embedding, "cross", Math.max(2, Math.ceil(topK / 2)));
+
+  const seen = new Set<string>();
+  return [...direct, ...cross]
+    .filter((c) => c.similarity >= minSim)
+    .filter((c) => {
+      const key = `${c.document_id}:${c.snippet.slice(0, 80)}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .sort((a, b) =>
+      Number(b.weighted_score ?? b.similarity) -
+        Number(a.weighted_score ?? a.similarity)
+    )
+    .slice(0, topK + (cross.length ? 2 : 0));
+}
+
+async function retrieveForPack(
+  opts: BuildOptions,
+  embedding: number[],
+  agentPack: string,
+  topK: number,
+): Promise<KbChunk[]> {
   try {
     const { data, error } = await opts.sb.rpc("match_kb_knowledge", {
       query_embedding: embedding,
-      agent_pack: opts.agentPack.trim().toLowerCase(),
+      agent_pack: agentPack,
       top_k: topK,
     });
     if (error || !data) return [];
-    return data.filter((c) => c.similarity >= minSim);
+    return data;
   } catch (err) {
-    console.error(`[${opts.agentPack}-rag] rpc failed`, (err as Error).message);
+    console.error(`[${agentPack}-rag] rpc failed`, (err as Error).message);
     return [];
   }
 }
