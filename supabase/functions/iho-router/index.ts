@@ -1,7 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { logAgentInteraction, detectWorkflowType, modelTierFromName } from "./analytics.ts";
-import { buildPikauRuntimeContext } from "../_shared/kete/pikau/runtime-context.ts";
+import { buildKeteRuntimeContext } from "../_shared/kete/pikau/runtime-context.ts";
 
 // ═══════════════════════════════════════════════════════════════
 // IHO ROUTER — The Central Brain of assembl
@@ -797,31 +797,30 @@ Deno.serve(async (req: Request) => {
         : buildSystemPrompt(intent.agent, businessContext);
     }
 
-    // ── PĪKAU runtime context injection ────────────────────────────
-    // For freight/customs requests, pre-flight the user's message against
-    // the curated NZ Working Tariff dataset (HS code lookup) and the Pīkau
-    // pgvector knowledge base (match_kb_knowledge RPC, Gemini 768-dim
-    // embeddings). Both blocks are appended after the system prompt so
-    // the model treats them as authoritative for HS codes, duty rates,
-    // FTA preferences, and statutory citations.
-    let pikauRuntime: { block: string; tariffHits: number; ragHits: number } = {
+    // ── KETE runtime context injection ────────────────────────────
+    // Pre-flight the user's message against the kete knowledge base
+    // (match_kb_knowledge RPC, Gemini 768-dim embeddings). Pīkau also
+    // receives the curated NZ Working Tariff lookup. The context block is
+    // appended after the system prompt so the model treats retrieved live
+    // and curated sources as authoritative, while staying honest when no
+    // source supports a claim.
+    let keteRuntime: { block: string; tariffHits: number; ragHits: number } = {
       block: "",
       tariffHits: 0,
       ragHits: 0,
     };
-    if (intent.agent.pack === "pikau") {
-      try {
-        pikauRuntime = await buildPikauRuntimeContext({
-          sb,
-          message: safeMessage,
-          geminiKey: Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("GOOGLE_API_KEY") ?? null,
-        });
-        if (pikauRuntime.block) {
-          systemPrompt = `${systemPrompt}\n\n${pikauRuntime.block}`;
-        }
-      } catch (err) {
-        console.error("[iho-router] pikau runtime context failed", (err as Error).message);
+    try {
+      keteRuntime = await buildKeteRuntimeContext({
+        sb,
+        agentPack: intent.agent.pack,
+        message: safeMessage,
+        geminiKey: Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("GOOGLE_API_KEY") ?? null,
+      });
+      if (keteRuntime.block) {
+        systemPrompt = `${systemPrompt}\n\n${keteRuntime.block}`;
       }
+    } catch (err) {
+      console.error("[iho-router] kete runtime context failed", (err as Error).message);
     }
 
     if (mode === "plan") {

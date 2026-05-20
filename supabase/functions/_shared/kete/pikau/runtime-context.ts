@@ -1,17 +1,17 @@
 // ═══════════════════════════════════════════════════════════════
-// Pīkau runtime context builder.
+// Kete runtime context builder.
 //
-// Called from iho-router for every chat request that resolves to the
-// pikau pack. Builds two blocks of authoritative runtime context which
-// are appended to the system prompt before the model call:
+// Called from iho-router for every chat request that resolves to a kete
+// pack. Builds authoritative runtime context appended to the system
+// prompt before the model call:
 //
-//   1. TARIFF LOOKUP — keyword-matched HS code entries from a curated
+//   1. PĪKAU TARIFF LOOKUP — keyword-matched HS code entries from a curated
 //      ~80-line NZ Working Tariff extract (consumer-goods bias). Used
 //      so the model never has to invent HS codes for the demo
-//      categories Aironaut Customs typically handles.
+//      categories Aironaut Customs typically handles. Pīkau only.
 //
 //   2. KNOWLEDGE BASE — top-K retrieved chunks from kb_doc_chunks,
-//      filtered to sources tagged with agent_pack='pikau' via the
+//      filtered to sources tagged with the agent pack via the
 //      existing match_kb_knowledge RPC (Gemini 768-dim embeddings).
 //      The model is instructed to cite documents by title.
 //
@@ -21,9 +21,9 @@
 //   a single pre-flight context injection, then dispatches to the
 //   model normally. Reversible: pull the call from iho-router and the
 //   chat reverts to the existing prompt-only behaviour.
-// • Tariff matching is keyword-substring, not LLM-based. Fast and
-//   predictable for the demo. Confidence is tracked so the system
-//   prompt can warn the model not to over-claim on partial matches.
+// • Pīkau tariff matching is keyword-substring, not LLM-based. Fast and
+//   predictable for the demo. Confidence is tracked so the prompt can
+//   warn the model not to over-claim on partial matches.
 // • RAG is best-effort. If embedding fails or the RPC returns nothing,
 //   we omit the block silently rather than block the whole response.
 // ═══════════════════════════════════════════════════════════════
@@ -49,6 +49,9 @@ type KbChunk = {
   source_name: string | null;
   published_at: string | null;
   similarity: number;
+  authority_tier?: number | null;
+  authority_weight?: number | null;
+  weighted_score?: number | null;
 };
 
 interface BuildOptions {
@@ -58,6 +61,7 @@ interface BuildOptions {
       error: unknown;
     }>;
   };
+  agentPack: string;
   message: string;
   geminiKey: string | null;
   /** Top-K chunks to retrieve. Default 4. */
@@ -67,30 +71,56 @@ interface BuildOptions {
 }
 
 /** Public entry point. Returns the runtime-context string (possibly empty). */
-export async function buildPikauRuntimeContext(
+export async function buildKeteRuntimeContext(
   opts: BuildOptions,
 ): Promise<{ block: string; tariffHits: number; ragHits: number }> {
-  const tariffMatches = matchTariff(opts.message);
+  const pack = opts.agentPack.trim().toLowerCase();
+  const tariffMatches = pack === "pikau" ? matchTariff(opts.message) : [];
   const tariffBlock = tariffMatches.length > 0 ? formatTariffBlock(tariffMatches) : "";
 
   const ragChunks = await retrieveRagChunks(opts);
-  const ragBlock = ragChunks.length > 0 ? formatRagBlock(ragChunks) : "";
+  const ragBlock = ragChunks.length > 0 ? formatRagBlock(pack, ragChunks) : "";
 
-  const guardrail = (tariffBlock || ragBlock)
-    ? "═══ RUNTIME CONTEXT — authoritative for this turn ═══\n" +
-      "The blocks below were injected from Pīkau's curated tariff schedule and " +
-      "knowledge base. Treat them as the source of truth for HS codes, duty " +
-      "rates, and NZ freight/customs regulation. Cite knowledge-base items by " +
-      "their **Document title**. If a user query falls outside the entries " +
-      "below, say so explicitly — do not invent HS codes or fabricate FTA " +
-      "preference rates.\n\n"
-    : "";
+  const guardrail = buildGuardrail(pack, Boolean(tariffBlock), Boolean(ragBlock));
 
   return {
     block: guardrail + [tariffBlock, ragBlock].filter(Boolean).join("\n\n"),
     tariffHits: tariffMatches.length,
     ragHits: ragChunks.length,
   };
+}
+
+export async function buildPikauRuntimeContext(
+  opts: Omit<BuildOptions, "agentPack">,
+): Promise<{ block: string; tariffHits: number; ragHits: number }> {
+  return buildKeteRuntimeContext({ ...opts, agentPack: "pikau" });
+}
+
+function buildGuardrail(pack: string, hasTariffBlock: boolean, hasRagBlock: boolean): string {
+  if (!hasTariffBlock && !hasRagBlock) return "";
+
+  const lines = [
+    "═══ RUNTIME CONTEXT — authoritative for this turn ═══",
+  ];
+
+  if (hasTariffBlock) {
+    lines.push(
+      "A Pīkau tariff block was injected from the curated NZ Working Tariff extract. Treat HS codes, duty rates, FTA preferences, and biosecurity flags in that block as authoritative for this turn.",
+    );
+  }
+
+  if (hasRagBlock) {
+    lines.push(
+      `A ${pack} knowledge-base block was injected from live and curated sources. Cite knowledge-base items by **Document title**. Prefer primary/regulator sources and more recent \`published_at\` dates when entries differ.`,
+    );
+  }
+
+  lines.push(
+    "If the user query falls outside the injected context, say so explicitly. Do not invent citations, rates, statutory sections, or regulator positions.",
+    "",
+  );
+
+  return lines.join("\n");
 }
 
 // ───────────────────────────────────────────────────────────────
@@ -173,26 +203,27 @@ async function retrieveRagChunks(opts: BuildOptions): Promise<KbChunk[]> {
   try {
     const { data, error } = await opts.sb.rpc("match_kb_knowledge", {
       query_embedding: embedding,
-      agent_pack: "pikau",
+      agent_pack: opts.agentPack.trim().toLowerCase(),
       top_k: topK,
     });
     if (error || !data) return [];
     return data.filter((c) => c.similarity >= minSim);
   } catch (err) {
-    console.error("[pikau-rag] rpc failed", (err as Error).message);
+    console.error(`[${opts.agentPack}-rag] rpc failed`, (err as Error).message);
     return [];
   }
 }
 
-function formatRagBlock(chunks: KbChunk[]): string {
+function formatRagBlock(pack: string, chunks: KbChunk[]): string {
   const lines: string[] = [
-    "## KNOWLEDGE BASE — Pīkau curated freight & customs corpus",
+    `## KNOWLEDGE BASE — ${pack} live and curated corpus`,
     "_Cite items by **Document title**. Do not paste long verbatim quotes — paraphrase and reference. If two entries conflict, prefer the more recent `published_at`._",
     "",
   ];
   for (const c of chunks) {
     const sim = (c.similarity * 100).toFixed(0);
-    lines.push(`**${c.title}** — _${c.source_name ?? "internal"}_ (relevance ${sim}%)`);
+    const authority = c.authority_tier ? ` · T${c.authority_tier}` : "";
+    lines.push(`**${c.title}** — _${c.source_name ?? "internal"}_ (relevance ${sim}%${authority})`);
     lines.push(c.snippet.trim().slice(0, 800));
     if (c.url) lines.push(`Source: ${c.url}`);
     lines.push("");
