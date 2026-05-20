@@ -68,13 +68,17 @@ export type ChatAgentRef = {
 export function findAgent(keteSlug: string, agentId: string): ChatAgentRef | null {
   const kete = CHAT_KETES.find((k) => k.slug === keteSlug);
   if (!kete) return null;
-  const agent = kete.agents.find((a) => a.agentId === agentId || a.slug === agentId);
+  const normalised = agentId.toLowerCase();
+  const agent = kete.agents.find(
+    (a) => a.agentId.toLowerCase() === normalised || a.slug.toLowerCase() === normalised,
+  );
   if (!agent) return null;
   return { kete, agent };
 }
 
 export function findAgentBySlug(slug: string, keteSlug?: string): ChatAgentRef | null {
-  const canonical = agentBySlug(slug);
+  const normalised = slug.toLowerCase();
+  const canonical = agentBySlug(normalised);
   if (!canonical) return null;
 
   const preferredKetes = keteSlug
@@ -82,7 +86,7 @@ export function findAgentBySlug(slug: string, keteSlug?: string): ChatAgentRef |
     : [canonical.kete, ...CHAT_KETES.map((kete) => kete.slug)];
 
   for (const candidate of preferredKetes) {
-    const found = findAgent(candidate, canonical.slug);
+    const found = findAgent(candidate, normalised);
     if (found) return found;
   }
 
