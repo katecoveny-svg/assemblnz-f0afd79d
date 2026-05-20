@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { CalculatorGallery } from '@/components/arataki/CalculatorGallery';
+import { KeteAgentWidget } from '@/components/chat/KeteAgentWidget';
 import { aratakiTools } from '@/lib/arataki/calculators';
 
 export const metadata = {
@@ -11,6 +12,7 @@ export const metadata = {
 export default function AratakiToolsPage() {
   return (
     <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(217,168,90,0.16),transparent_38%),radial-gradient(ellipse_at_86%_10%,rgba(43,107,87,0.13),transparent_34%),#FAF7F2] px-6 py-16 text-[#3D4250] md:px-12 md:py-24">
+      <KeteAgentWidget kete="arataki" accent="#2B6B57" />
       <div className="mx-auto max-w-[1280px]">
         <header className="max-w-5xl">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#2B6B57]">
