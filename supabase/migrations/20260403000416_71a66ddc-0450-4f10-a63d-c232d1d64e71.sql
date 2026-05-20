@@ -6,6 +6,7 @@ CREATE TABLE public.agent_prompts (
   display_name TEXT NOT NULL,
   icon TEXT,
   system_prompt TEXT NOT NULL,
+  model_preference TEXT,
   version INTEGER DEFAULT 1,
   is_active BOOLEAN DEFAULT true,
   created_at TIMESTAMPTZ DEFAULT now(),
