@@ -13,6 +13,7 @@ import { VesselTile } from '@/components/site/VesselTile';
 import { SectionReveal } from '@/components/SectionReveal';
 import { ComplianceChips } from '@/components/site/ComplianceChips';
 import { TeReo } from '@/components/site/TeReo';
+import { KeteAgentWidget } from '@/components/chat/KeteAgentWidget';
 
 type Params = { slug: string };
 
@@ -84,6 +85,8 @@ function IndustryKetePage({
 
   return (
     <>
+      <KeteAgentWidget kete={kete.slug} accent={kete.accent} />
+
       {/* Hero */}
       <section className="relative overflow-hidden">
         {/* Atmospheric layer — uses kete.heroImage (vessel still-life from
@@ -639,6 +642,8 @@ function ToroPage({
 
   return (
     <>
+      <KeteAgentWidget kete={kete.slug} accent={kete.accent} />
+
       <section className="relative overflow-hidden">
         {/* Atmospheric layer — sits behind the radial gradient and content */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
