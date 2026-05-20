@@ -39,8 +39,10 @@ export type TenantContext = {
 };
 
 export function normaliseLoanCarStatus(value: string | null | undefined): LoanCarStatus {
-  const status = String(value ?? '').toLowerCase().trim().replace(/\s+/g, '_');
+  const status = String(value ?? '').toLowerCase().trim().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
   if (status === 'on_loan' || status === 'overdue' || status === 'maintenance') return status;
+  if (['out', 'loaned', 'checked_out', 'in_use', 'borrowed', 'unavailable'].includes(status)) return 'on_loan';
+  if (['workshop', 'service', 'servicing', 'repair', 'repairs'].includes(status)) return 'maintenance';
   return 'available';
 }
 
@@ -189,6 +191,12 @@ function pick(row: Record<string, string>, keys: string[]) {
 
 function normaliseDateTime(value: string) {
   if (!value) return null;
+  const nzDate = value.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2}))?$/);
+  if (nzDate) {
+    const [, day, month, year, hour = '0', minute = '0'] = nzDate;
+    const date = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute)));
+    return Number.isNaN(date.getTime()) ? null : date.toISOString();
+  }
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
