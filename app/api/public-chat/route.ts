@@ -339,25 +339,19 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // ── 2026-05-19 LAUNCH-DAY HOTFIX ──
-  // iho-router was returning 500 intermittently on plain-text public chat
-  // (model dispatch path failing on launch traffic). Route all public-chat
-  // requests through public-chat-llm — the proven path from 17 May launch
-  // that loads kete system prompts from agent_prompts and calls Gemini
-  // Flash directly. iho-router stays available for authed dashboard chats
-  // until the dispatch path is debugged.
+  // ── 2026-05-20: REVERTED the launch-day bypass — full compliance pipeline restored ──
+  // The 19 May bypass routed all traffic through public-chat-llm because
+  // iho-router was 500-ing (GEMINI_API_KEY was missing from Edge Function
+  // Secrets). Key restored 2026-05-20 04:26 UTC and iho-router smoke-tested
+  // green (200 / 6.5s / gemini-2.5-flash). Default path is now iho-router
+  // again, giving public chat the full Kahu → Iho → Tā → Mahara → Mana
+  // compliance pipeline + audit hash chain.
   //
-  // public-chat-llm already handles:
-  //  • per-kete system prompts from agent_prompts
-  //  • sub-agent prompts via `agent` param
-  //  • image_url multimodal payload
-  //  • NZ-tuned PII redaction
-  //  • public-chat preamble (NO PII collection, soft handoff to Pilot Sprint)
-  //
-  // What we lose: Kahu/Mana compliance pipeline + audit hash chain. Those
-  // are still active for authed surfaces. Public chat is a demo surface
-  // not deemed compliance-critical — the preamble enforces no-PII posture.
-  {
+  // The imageDataUrl / redactPii branch still routes to public-chat-llm
+  // because iho-router doesn't handle multimodal image_url payloads natively
+  // and explicit PII redaction is a public-chat-llm feature.
+
+  if (imageDataUrl || redactPii) {
     const { data: agentData, error: invokeError } = await service.functions.invoke(
       'public-chat-llm',
       {
@@ -408,4 +402,72 @@ export async function POST(req: NextRequest) {
     return streamText(responseText, { status: 200, headers });
   }
 
+  // ── Default path: iho-router (full compliance pipeline) ──
+  const { data: agentData, error: invokeError } = await service.functions.invoke(
+    'iho-router',
+    {
+      body: {
+        message,
+        packId: kete,
+        // Sub-agent deep-link support: ?agent=VOYAGE etc. tells iho-router
+        // to load that specific agent's prompt instead of pack classification.
+        agentId: body.agent ? body.agent.toLowerCase() : undefined,
+        mode: 'respond',
+        context: {
+          previousMessages: body.history?.slice(-8) ?? [],
+        },
+      },
+    },
+  );
+
+  const iho = (agentData ?? {}) as IhoRouterResponse;
+  const ihoBlocked = typeof iho.error === 'string' && iho.complianceStatus?.passed === false;
+  const responseText = invokeError || ihoBlocked
+    ? takingABreak(email)
+    : agentText(agentData) || takingABreak(email);
+
+  const realInputTokens = optionalNumber(iho.tokensUsed?.input);
+  const realOutputTokens = optionalNumber(iho.tokensUsed?.output);
+  const inputTokensForAnalytics = realInputTokens > 0 ? realInputTokens : inputTokensEstimate;
+  const outputTokensForAnalytics = realOutputTokens > 0 ? realOutputTokens : estimateTokens(responseText);
+  const realCostNzd = optionalNumber(iho.cost?.nzdAmount);
+
+  const errorCode = invokeError?.message
+    ?? (ihoBlocked ? `kahu_blocked:${iho.complianceStatus?.dataClassification ?? 'UNKNOWN'}` : undefined);
+
+  await logPublicAnalytics({
+    tenant,
+    kete,
+    sessionId,
+    inputTokens: inputTokensForAnalytics,
+    outputTokens: outputTokensForAnalytics,
+    responseTimeMs: Date.now() - started,
+    costNzd: realCostNzd > 0 ? realCostNzd : undefined,
+    modelUsed: typeof iho.modelUsed === 'string' ? iho.modelUsed : undefined,
+    agentCode: typeof iho.agentUsed?.code === 'string' ? iho.agentUsed.code : undefined,
+    error: errorCode,
+  });
+
+  const responseHeaders: Record<string, string> = {
+    'X-Chat-Id': chatId,
+    'X-Session-Id': sessionId,
+  };
+
+  if (iho.auditLog?.requestId) responseHeaders['X-Audit-Request-Id'] = iho.auditLog.requestId;
+  if (iho.modelUsed) responseHeaders['X-Model-Used'] = iho.modelUsed;
+  if (iho.providerUsed) responseHeaders['X-Provider-Used'] = iho.providerUsed;
+  if (iho.agentUsed?.code) responseHeaders['X-Agent-Code'] = iho.agentUsed.code;
+  if (iho.complianceStatus) {
+    if (typeof iho.complianceStatus.passed === 'boolean') {
+      responseHeaders['X-Compliance-Passed'] = String(iho.complianceStatus.passed);
+    }
+    if (iho.complianceStatus.dataClassification) {
+      responseHeaders['X-Data-Classification'] = iho.complianceStatus.dataClassification;
+    }
+    if (typeof iho.complianceStatus.piiMasked === 'boolean') {
+      responseHeaders['X-Pii-Masked'] = String(iho.complianceStatus.piiMasked);
+    }
+  }
+
+  return streamText(responseText, { status: 200, headers: responseHeaders });
 }
