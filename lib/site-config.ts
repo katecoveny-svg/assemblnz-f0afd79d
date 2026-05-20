@@ -137,20 +137,20 @@ export const reo = {
     'assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
 
   heroHeadlineLines: [
-    'Mahi that earns',
+    'Work that earns',
     'its proof.',
   ] as const,
 
-  // Q3 — Homepage pull quote (canon: "Mahi that earns its proof." replaces older
+  // Q3 — Homepage pull quote.
   // "Time is the thing. We give it back." line retired 2026-05-17)
-  pullQuote: 'Mahi that earns its proof.',
+  pullQuote: 'Work that earns its proof.',
 
   // Q2 — Trust strip. Item 3 locked verbatim. Items 1 & 2 reframed 2026-05-09
   // under the vertical-agent strategy memo: surface the governance substrate
   // (Privacy Act 2020, tikanga + Te Tiriti) instead of geography.
   trustStrip: [
     'Privacy Act 2020 compliant',
-    'Tikanga + Te Tiriti governance',
+    'Cultural review when needed',
     'MBIE responsible automation guidance',
   ],
 
@@ -191,7 +191,7 @@ export const reo = {
   // /agents — positioning paragraph below the existing lede. Reframes the
   // marketplace as specialist kete on a shared NZ policy runtime.
   agentsPolicyRuntimeIntro:
-    'Each kete sits on the same NZ policy runtime — Privacy Act 2020 controls, tikanga and Te Tiriti governance, full audit trail, and signed receipts built into the substrate. What works for one industry is consistent across all nine kete.',
+    'Each pack sits on the same NZ policy runtime: Privacy Act 2020 controls, cultural review when needed, a full audit trail, and signed receipts built into the substrate. What works for one industry is consistent across all nine packs.',
 
   // /about — strategic positioning sentence per the vertical-agent strategy memo.
   aboutPositioning:

@@ -34,9 +34,9 @@ export function ContactForm() {
             aria-hidden
           />
         </div>
-        <h2 className="mt-6 font-display text-3xl">Kia ora — we'll be in touch.</h2>
+        <h2 className="mt-6 font-display text-3xl">Kia ora — we&apos;ll be in touch.</h2>
         <p className="mx-auto mt-4 max-w-md text-sm text-[color:var(--text-body)]">
-          We've logged your enquiry and someone from the team will reply
+          We&apos;ve logged your enquiry and someone from the team will reply
           within one working day. Reference for your records:
         </p>
         <div className="mt-4 flex items-center justify-center gap-3">
@@ -141,7 +141,7 @@ export function ContactForm() {
                   {k.name} — {k.industry}
                 </option>
               ))}
-              <option value="toroa">Tōro — for whānau</option>
+              <option value="toro">Tōro — for families</option>
             </select>
           </Field>
         </div>

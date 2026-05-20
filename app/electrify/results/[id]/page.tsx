@@ -98,7 +98,7 @@ const KETE_CTA: Record<string, { kete: string; label: string; href: string }> = 
   retail:             { kete: "Hoko",     label: "Talk to Hoko about retail electrification",                  href: "/kete/hoko" },
   creative:           { kete: "Auaha",    label: "Talk to Auaha about studio + workshop electrification",      href: "/kete/auaha" },
   ece:                { kete: "Ako",      label: "Talk to Ako about centre electrification",                   href: "/kete/ako" },
-  professional_other: { kete: "Tōro",     label: "Or — see how Tōro works for whānau electrification",         href: "/kete/toro" },
+  professional_other: { kete: "Tōro",     label: "Or — see how Tōro works for family electrification",         href: "/kete/toro" },
 };
 
 function fmtNzd(n: number): string {

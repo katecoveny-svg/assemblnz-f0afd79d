@@ -6,7 +6,6 @@ import { Pause, Play } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { Kete } from '@/lib/kete';
-import { TeReo } from './TeReo';
 
 const INITIAL_ROTATION_DELAY_MS = 11000;
 const ROTATION_DELAY_MS = 2500;
@@ -73,7 +72,7 @@ export function KeteRotator({
 
         <div className="relative z-20 order-2 max-w-[42rem] pb-12 md:order-1 md:pb-0">
           <h1 className="font-display text-[clamp(4rem,17vw,5.75rem)] font-light leading-[0.9] tracking-normal text-[#0F4A3E] md:text-[clamp(6.2rem,7.2vw,9.6rem)] md:leading-[0.88]">
-            <TeReo title="work">Mahi</TeReo> that earns its proof.
+            Work that earns its proof.
           </h1>
           <AnimatePresence mode="wait">
             <motion.div
@@ -87,7 +86,7 @@ export function KeteRotator({
                 for <span lang="mi" style={{ color: current.accent }}>{current.name}</span>.
               </p>
               <p className="mt-6 max-w-[36rem] text-[clamp(1.05rem,4.7vw,1.35rem)] font-medium leading-[1.35] text-[#23211F] md:mt-7 md:text-[clamp(1.32rem,1.28vw,1.72rem)]">
-                Specialist agents for the admin work that drains your team. Built in Aotearoa.
+                Practical assistants for the admin work that drains your team. Built in Aotearoa.
               </p>
               {body ? (
                 <div className="mt-5 max-w-[34rem] text-[0.98rem] leading-[1.65] text-[#3D4250] md:text-[1.04rem] [&_p]:font-medium">
@@ -179,7 +178,7 @@ export function KeteRotator({
               : 'text-display-xl',
           ].join(' ')}
         >
-          <TeReo title="work">Mahi</TeReo> that earns its proof.
+          Work that earns its proof.
         </h1>
         <AnimatePresence mode="wait">
           <motion.div
@@ -209,7 +208,7 @@ export function KeteRotator({
                 immersive ? 'text-body-md md:text-[clamp(1.05rem,0.92vw,1.28rem)] md:leading-[1.55]' : 'text-body-md',
               ].join(' ')}
             >
-              Specialist agents for the admin work that drains your team. Built in Aotearoa.
+              Practical assistants for the admin work that drains your team. Built in Aotearoa.
             </p>
             {body ? (
               <div className="mt-5 max-w-[580px] text-body-md leading-relaxed text-[color:var(--text-body)]">

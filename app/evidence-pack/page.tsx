@@ -116,7 +116,7 @@ export default function EvidencePackPage() {
               Audit-ready by design.
             </h2>
             <p className="mt-8 font-display text-[1.75rem] leading-[1.7] text-[color:var(--text-primary)]">
-              Work is only useful when someone can trust how it was made. Assembl treats the evidence pack as the finish line for every specialist agent run: what came in, which rule was checked, who reviewed the draft, what changed, and when the work was sealed. The pack gives operators a calm way to show their reasoning without reconstructing a week from email threads and memory.
+              Work is only useful when someone can trust how it was made. assembl treats the evidence pack as the finish line for every specialist run: what came in, which rule was checked, who reviewed the draft, what changed, and when the work was sealed. The pack gives operators a calm way to show their reasoning without reconstructing a week from email threads and memory.
             </p>
             <div className="mt-10">
               <Link href="/pilot-sprint" className="cta-primary inline-flex h-12 items-center px-7">

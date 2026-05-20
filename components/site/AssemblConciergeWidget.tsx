@@ -20,21 +20,21 @@ const KNOWLEDGE = [
   {
     match: ['price', 'cost', 'industry pack', 'pricing', 'pay'],
     answer:
-      'Industry Pack is NZ$5,000/mo flat, GST exclusive, for one industry kete with its specialist fleet, evidence inbox, and proof layer. Tōro is separate at NZ$29/mo for whānau. Pilot Sprint is NZ$5,000 once-off for two weeks, one workflow, and one evidence pack.',
+      'Industry Pack is NZ$5,000/mo flat, GST exclusive, for one industry pack with its specialist fleet, evidence inbox, and proof layer. Tōro is separate at NZ$29/mo for families. Pilot Sprint is NZ$5,000 once-off for two weeks, one workflow, and one evidence pack.',
     href: '/pricing',
     cta: 'See pricing',
   },
   {
     match: ['kete', 'industry', 'construction', 'hospitality', 'freight', 'automotive', 'creative', 'education', 'retail'],
     answer:
-      'assembl has nine kete: Waihanga, Manaaki, Pīkau, Arataki, Auaha, Ako, Mātauranga, Hoko, and Tōro. The eight industry kete run business workflows; Tōro is the whānau navigator.',
+      'assembl has nine packs: Waihanga, Manaaki, Pīkau, Arataki, Auaha, Ako, Mātauranga, Hoko, and Tōro. The eight industry packs run business workflows; Tōro is the family assistant.',
     href: '/kete',
     cta: 'Explore kete',
   },
   {
     match: ['agent', 'collaborate', 'handoff', 'fleet', 'together'],
     answer:
-      'Agents collaborate through Iho. Each specialist keeps its lane, uses remembered business context from Mahara, hands off when another phase is needed, and leaves a trace for the evidence pack.',
+      'Assistants collaborate behind the scenes. Each specialist keeps its lane, uses remembered business context when approved, hands off when another phase is needed, and leaves a trace for the evidence pack.',
     href: '/agents',
     cta: 'Browse agents',
   },

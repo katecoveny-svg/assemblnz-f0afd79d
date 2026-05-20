@@ -4,7 +4,7 @@ import { INDUSTRY_KETES, type KeteSlug } from '@/lib/kete';
 
 export const metadata: Metadata = {
   title: 'Start signup',
-  description: 'Create your Assembl account, choose a kete, and start Stripe checkout.',
+  description: 'Create your assembl account, choose a pack, and start Stripe checkout.',
   robots: { index: false, follow: false },
 };
 
@@ -25,7 +25,7 @@ export default async function StartSignupPage({
       <div className="mx-auto max-w-6xl">
         <div className="max-w-3xl">
           <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
-            Assembl Industry Pack
+            assembl Industry Pack
           </p>
           <h1 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-light leading-[0.9]">
             Start your tenant.

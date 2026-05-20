@@ -37,11 +37,11 @@ export function HeroAssembl() {
               className="mt-5 font-display leading-[0.98] tracking-tight text-[color:var(--text-primary)]"
               style={{ fontWeight: 300, fontSize: 'clamp(2.2rem, 4.4vw, 4.5rem)' }}
             >
-              Mahi that earns its proof.
+              Work that earns its proof.
             </h1>
 
             <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)] md:mt-7 md:text-lg">
-              Assembl runs operational compliance work in the open: every workflow is grounded
+              assembl runs operational compliance work in the open: every workflow is grounded
               in New Zealand legislation, reviewed by a named person on your team, and sealed
               with an evidence pack you can file, forward, or footnote.
             </p>

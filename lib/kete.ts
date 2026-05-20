@@ -119,7 +119,7 @@ export const KETES: Kete[] = [
     slug: 'toro',
     name: 'Tōro',
     industry: 'Family',
-    tagline: 'The whānau navigator for school, money, routines, and the week ahead.',
+    tagline: 'The family assistant for school, money, routines, and the week ahead.',
     accent: '#23211F',
     accentName: 'Mangū',
     type: 'whanau',

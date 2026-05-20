@@ -8,7 +8,7 @@ import { INDUSTRY_KETES, type KeteSlug } from '@/lib/kete';
 export const metadata: Metadata = {
   title: 'Start',
   description:
-    'Pick an Assembl industry kete, pay NZ$5,000/mo + GST, and start onboarding your operator fleet.',
+    'Pick an assembl industry pack, pay NZ$5,000/mo + GST, and start onboarding your operator fleet.',
 };
 
 const KETE_IMAGES: Record<KeteSlug, string> = {
@@ -36,7 +36,7 @@ export default function StartPage() {
         <div className="container grid min-h-[92vh] items-center gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_460px] lg:py-20">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
-              Assembl Industry Pack
+              assembl Industry Pack
             </p>
             <h1 className="mt-6 max-w-[12ch] font-display text-[clamp(3.4rem,7vw,6.8rem)] font-light leading-[0.9]">
               Pick your kete. Pay one flat number. Run your business.
