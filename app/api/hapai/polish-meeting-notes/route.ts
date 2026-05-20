@@ -135,7 +135,7 @@ ${raw.slice(0, 18_000)}`;
       });
       if (!error && typeof data?.response === "string" && data.response.trim()) {
         const cleaned = sanitizeHtml(data.response);
-        return NextResponse.json({ html: appendAssemblWatermark(cleaned, "meeting recorder", "/hapai/meeting-notes") });
+        return NextResponse.json({ html: appendAssemblWatermark(cleaned, "meeting recorder", "/hapai/meeting-recorder") });
       }
     }
   } catch (error) {
@@ -143,6 +143,6 @@ ${raw.slice(0, 18_000)}`;
   }
 
   return NextResponse.json({
-    html: appendAssemblWatermark(fallbackMeetingHtml(raw, title, attendees), "meeting recorder", "/hapai/meeting-notes"),
+    html: appendAssemblWatermark(fallbackMeetingHtml(raw, title, attendees), "meeting recorder", "/hapai/meeting-recorder"),
   });
 }

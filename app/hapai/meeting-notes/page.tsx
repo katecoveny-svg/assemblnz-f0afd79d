@@ -146,7 +146,10 @@ export default function MeetingNotesPage() {
         <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#6B6661]">HAPAI · meeting recorder</p>
         <h1 className="mt-3 font-display text-[38px] font-normal leading-tight md:text-[52px]">Record the meeting. Leave with the record.</h1>
         <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-[#5A5550]">
-          Record live or paste rough notes. Get a structured record with summary, decisions, action items, discussion, and next steps.
+          Record live or paste rough notes. Get a structured draft with summary, decisions, action items, discussion, and next steps.
+        </p>
+        <p className="mt-3 max-w-2xl rounded-[10px] border border-[rgba(212,168,83,0.34)] bg-white/60 px-4 py-3 text-sm leading-relaxed text-[#6B5A28]">
+          Draft-only. Live recording uses your browser&apos;s speech recognition, and polishing sends the transcript for structuring. Do not record private, employment, health, legal, or commercially sensitive meetings without consent and the right private setup.
         </p>
 
         <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-7">
@@ -197,13 +200,13 @@ export default function MeetingNotesPage() {
 
           <div className="mt-6 flex flex-wrap gap-3">
             <button type="button" onClick={polish} disabled={loading || activeRaw.length < 8} className="rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]">
-              {loading ? "Structuring notes..." : "Polish into record"}
+              {loading ? "Structuring notes..." : "Turn into EA record"}
             </button>
             <button type="button" onClick={() => { setTranscript(""); setRawNotes(""); setInterim(""); setSeconds(0); setHtml(""); }} className="rounded-full border border-[rgba(35,33,31,0.18)] px-6 py-3 text-sm text-[#5A5550] hover:text-[#23211F]">
               Clear
             </button>
           </div>
-          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm italic text-[#6B5A28]">The specialist is turning the rough record into something your team can use.</p>}
+          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm italic text-[#6B5A28]">The specialist is turning the rough record into decisions, owners, follow-ups, and calendar-ready next steps.</p>}
           {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
         </section>
 

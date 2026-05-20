@@ -78,7 +78,7 @@ const tools = [
     name: 'Meeting recorder',
     status: 'live',
     description: 'Record or paste. Walk away with proper notes — decisions, action items, next steps.',
-    href: '/hapai/meeting-notes',
+    href: '/hapai/meeting-recorder',
     visual: 'meeting',
   },
   {
@@ -118,7 +118,7 @@ const reasons = [
   {
     title: 'Privacy by default',
     body:
-      'Your work stays in your browser. Bring your own LLM API key. Nothing is sent to assembl. Everything generated belongs to your team.',
+      'Public tools are draft-only and should not receive sensitive material unless the tool explicitly says so. Industry Pack customers can add private processing, audit logs, and tenant-specific controls.',
   },
 ] as const;
 
