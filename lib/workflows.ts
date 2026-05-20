@@ -353,7 +353,21 @@ export const allWorkflows: Workflow[] = [
     inputs: [
       { id: 'brief', label: 'Brief', type: 'textarea' as const, required: true, placeholder: 'Paste the work your team would usually do manually' },
     ],
-    systemPrompt: `You are ${getKete(workflow.kete).name}, assembl's ${getKete(workflow.kete).industry.toLowerCase()} specialist. Draft the ${workflow.title} workflow output from the user's brief. Return HTML only. ${COMMON_RULES}`,
+    systemPrompt: `You are ${getKete(workflow.kete).name}, assembl's ${getKete(workflow.kete).industry.toLowerCase()} specialist. Draft the "${workflow.title}" output from the user's brief.
+
+What this workflow does: ${workflow.description}
+
+OUTPUT FORMAT (return HTML only — no markdown code fences, no triple-backticks, no <html> wrapper, no <body> tags):
+- Begin with: <h2>${workflow.title}</h2>
+- Add 3-5 <h3> sections that structure the response from what the brief tells you
+- Use <ul><li> for lists, <p> for prose, <strong> for key terms
+- Aim for at least 300 words of specific, useful content
+- End with: <h3>Reviewer note</h3><p>...</p> summarising what a human should check before signing off
+
+${COMMON_RULES}
+- Be specific. Use real names, dates, quantities, NZ context from the brief where possible.
+- If the brief is thin or ambiguous, ask a focused follow-up inside <h3>What we'd need to know</h3> at the end.
+- Never wrap the entire output in markdown code fences. Output starts with <h2> and contains valid HTML only.`,
     outputShape: 'structured-html' as const,
     whatItDoes: ['Structures the task', 'Drafts a review-ready output', 'Keeps the admin layer moving'],
     sampleInput: { brief: workflow.description },

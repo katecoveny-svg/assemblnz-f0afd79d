@@ -156,6 +156,17 @@ export async function POST(req: NextRequest) {
     });
     if (!error && data && typeof data.response === 'string') {
       output = data.response;
+      // Defensive fence stripping. Some models (especially when the system
+      // prompt is thin) wrap HTML output in ```html ... ``` markdown fences.
+      // dangerouslySetInnerHTML then renders the triple-backticks as literal
+      // text and the user sees "```html\nKia ora!\n```" instead of the page.
+      // Strip leading and trailing fences. Inline ``` inside body content
+      // is preserved (intentional — a workflow output may legitimately
+      // contain a code block).
+      output = output
+        .replace(/^\s*```(?:html|HTML)?\s*\r?\n/, '')   // opening fence
+        .replace(/\r?\n?\s*```\s*$/, '')                // closing fence
+        .trim();
     }
   } catch {
     // Fall through to local deterministic draft.
