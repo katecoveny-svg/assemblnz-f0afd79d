@@ -37,7 +37,8 @@ Deno.serve(async (req) => {
     if (error) throw error;
 
     const now = Date.now();
-    const dispatched: { id: string; adapter: string }[] = [];
+    const dispatched: { id: string; adapter: string; ok: boolean; status?: number; error?: string }[] = [];
+    const dispatches: Promise<void>[] = [];
 
     for (const src of due ?? []) {
       const last = src.last_checked_at ? new Date(src.last_checked_at).getTime() : 0;
@@ -47,15 +48,25 @@ Deno.serve(async (req) => {
       const adapter = ADAPTER_FOR[src.type as string];
       if (!adapter) continue;
 
-      // Fire-and-forget; adapter writes its own source_runs row
-      fetch(`${supabaseUrl}/functions/v1/${adapter}`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ source_id: src.id }),
-      }).catch((e) => console.error(`dispatch ${adapter} failed:`, e));
-
-      dispatched.push({ id: src.id, adapter });
+      dispatches.push(
+        fetch(`${supabaseUrl}/functions/v1/${adapter}`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ source_id: src.id }),
+        })
+          .then(async (res) => {
+            dispatched.push({ id: src.id, adapter, ok: res.ok, status: res.status });
+            if (!res.ok) console.error(`dispatch ${adapter} returned ${res.status}`, await res.text());
+          })
+          .catch((e) => {
+            const error = e instanceof Error ? e.message : "unknown";
+            dispatched.push({ id: src.id, adapter, ok: false, error });
+            console.error(`dispatch ${adapter} failed:`, error);
+          }),
+      );
     }
+
+    await Promise.allSettled(dispatches);
 
     return new Response(JSON.stringify({ ok: true, dispatched }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

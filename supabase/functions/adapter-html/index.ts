@@ -12,11 +12,54 @@ const corsHeaders = {
 };
 
 const FIRECRAWL_V2 = "https://api.firecrawl.dev/v2";
+const UA = "Mozilla/5.0 (compatible; AssemblBot/1.0; +https://assembl.co.nz)";
 
 async function sha256(s: string) {
   const buf = new TextEncoder().encode(s);
   const hash = await crypto.subtle.digest("SHA-256", buf);
   return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+function htmlToText(html: string): string {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<noscript[\s\S]*?<\/noscript>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, "\"")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+async function scrapeMarkdown(url: string, firecrawlKey?: string | null): Promise<string> {
+  if (firecrawlKey) {
+    const fc = await fetch(`${FIRECRAWL_V2}/scrape`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${firecrawlKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ url, formats: ["markdown"], onlyMainContent: true }),
+    });
+    const fj = await fc.json().catch(() => null);
+    if (!fc.ok) throw new Error(`Firecrawl ${fc.status}: ${fj?.error ?? "scrape failed"}`);
+    const markdown = (fj?.markdown ?? fj?.data?.markdown ?? "").toString().slice(0, 50_000);
+    if (markdown) return markdown;
+  }
+
+  const res = await fetch(url, {
+    headers: { "User-Agent": UA, Accept: "text/html, application/xhtml+xml, */*" },
+    redirect: "follow",
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status} fetching HTML`);
+  const contentType = res.headers.get("content-type") ?? "";
+  const body = await res.text();
+  const text = contentType.includes("html") ? htmlToText(body) : body;
+  const clipped = text.slice(0, 50_000);
+  if (!clipped) throw new Error("empty page content");
+  return clipped;
 }
 
 Deno.serve(async (req) => {
@@ -31,7 +74,6 @@ Deno.serve(async (req) => {
   let runId: number | null = null;
 
   try {
-    if (!firecrawlKey) throw new Error("FIRECRAWL_API_KEY not configured");
     const { source_id } = await req.json();
     sourceId = source_id;
     if (!sourceId) throw new Error("source_id required");
@@ -43,15 +85,7 @@ Deno.serve(async (req) => {
       .insert({ source_id: sourceId, status: "running" }).select("id").single();
     runId = run?.id ?? null;
 
-    const fc = await fetch(`${FIRECRAWL_V2}/scrape`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${firecrawlKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ url: source.url, formats: ["markdown"], onlyMainContent: true }),
-    });
-    const fj = await fc.json().catch(() => null);
-    if (!fc.ok) throw new Error(`Firecrawl ${fc.status}: ${fj?.error ?? "scrape failed"}`);
-    const markdown = (fj?.markdown ?? fj?.data?.markdown ?? "").toString().slice(0, 50_000);
-    if (!markdown) throw new Error("empty markdown");
+    const markdown = await scrapeMarkdown(source.url, firecrawlKey);
     const hash = await sha256(markdown);
 
     const externalId = source.url;
