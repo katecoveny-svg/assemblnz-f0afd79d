@@ -37,3 +37,7 @@
 ## 2026-06-25 - [Actionable Command Palette Interaction]
 **Learning:** Command palettes can feel disconnected if they lack entrance/exit animations and clear "actionability" hints. Adding subtle `tailwindcss-animate` transitions (fade/zoom) and a contextual "Press ↵" hint on the selected item makes the tool feel more responsive and intuitive, especially for keyboard-heavy workflows.
 **Action:** Always include entrance/exit animations for modal overlays and provide explicit keyboard hints for the primary action on list-based interactive elements.
+
+## 2026-06-28 - [Visual Anchoring and Dynamic State Feedback]
+**Learning:** Improving selection visibility in list components (like `CommandPalette`) requires more than just a ring; a tinted background (`bg-assembl-pounamu/10`) provides a clear visual anchor. Furthermore, dynamic `title` and `aria-label` updates (e.g., "Reference copied") are crucial for providing state-specific feedback that maintains parity for both sighted and screen-reader users.
+**Action:** Use brand-aligned tints for list selection states and ensure modal/dialog triggers have `aria-haspopup="dialog"`. Always use dynamic titles/labels for contextual feedback after successful user actions.

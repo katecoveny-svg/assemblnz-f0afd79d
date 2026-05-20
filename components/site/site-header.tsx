@@ -84,6 +84,7 @@ export function SiteHeader() {
             type="button"
             onClick={openCommandPalette}
             aria-label="Search"
+            aria-haspopup="dialog"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-white/60 hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:bg-white/60 focus-visible:text-[color:var(--text-primary)] lg:hidden"
           >
             <Search className="h-5 w-5" aria-hidden />
@@ -92,6 +93,7 @@ export function SiteHeader() {
           <button
             type="button"
             onClick={openCommandPalette}
+            aria-haspopup="dialog"
             className="hidden items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--text-primary)] lg:inline-flex"
           >
             <Search className="h-3.5 w-3.5" aria-hidden />

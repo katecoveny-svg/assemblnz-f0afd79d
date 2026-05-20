@@ -79,7 +79,7 @@ export function CommandPalette() {
                     key={kete.slug}
                     value={`${kete.name} ${kete.industry}`}
                     onSelect={() => go(`/kete/${kete.slug}`)}
-                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-white aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/20"
+                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/30"
                     style={{ borderLeftColor: kete.accent }}
                   >
                     <img src={KETE_VESSEL_IMAGES[kete.slug]} alt="" className="h-8 w-8 rounded-sm object-cover" />
@@ -101,7 +101,7 @@ export function CommandPalette() {
                       key={agent.slug}
                       value={`${agent.name} ${agent.role} ${kete.name}`}
                       onSelect={() => go(`/agents/${agent.slug}`)}
-                      className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-white aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/20"
+                      className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/30"
                       style={{ borderLeftColor: kete.accent }}
                     >
                       <Sparkles className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
@@ -121,7 +121,7 @@ export function CommandPalette() {
                     key={page.href}
                     value={page.label}
                     onSelect={() => go(page.href)}
-                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 border-[color:var(--assembl-pounamu)] px-3 py-3 transition-all aria-selected:bg-white aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/20"
+                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 border-[color:var(--assembl-pounamu)] px-3 py-3 transition-all aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/30"
                   >
                     <FileText className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                     <span className="flex-1 text-body-md">{page.label}</span>
