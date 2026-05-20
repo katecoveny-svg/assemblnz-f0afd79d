@@ -8,15 +8,19 @@ import { useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import type { PearlLiveStats } from '@/lib/pearl-live';
+import type { RegulatoryPulseStats } from '@/lib/regulatory-pulse';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import { KeteRotator } from './KeteRotator';
 import { MarketplaceStrip } from './MarketplaceStrip';
+import { PearlLive } from './PearlLive';
+import { RegulatoryPulse } from './RegulatoryPulse';
 import { ThreeSteps } from './ThreeSteps';
 
 interface HomePortalProps {
   ketes: Kete[];
   pearlLive: PearlLiveStats;
+  regulatoryPulse: RegulatoryPulseStats;
 }
 
 const HAPAI_TOOLS = [
@@ -122,7 +126,7 @@ const KETE_ACCENT_NAMES: Record<KeteSlug, string> = {
   toro: 'mangū',
 };
 
-export function HomePortal({ ketes }: HomePortalProps) {
+export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProps) {
   const pageRef = useRef<HTMLElement | null>(null);
   const [activeSlug, setActiveSlug] = useState<KeteSlug>('waihanga');
   const reduceMotion = useReducedMotion();
@@ -208,6 +212,10 @@ export function HomePortal({ ketes }: HomePortalProps) {
 
         </div>
       </section>
+
+      <PearlLive initial={pearlLive} />
+
+      <RegulatoryPulse initial={regulatoryPulse} />
 
       <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto grid max-w-[1500px] gap-8 md:px-2 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
