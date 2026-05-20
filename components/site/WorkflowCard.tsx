@@ -14,7 +14,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
 
   return (
     <article
-      className="group flex h-full flex-col rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5 shadow-[0_10px_40px_rgba(35,33,31,0.05)] backdrop-blur transition-all hover:-translate-y-1 hover:border-[color:var(--workflow-accent)] hover:bg-white hover:shadow-[0_18px_60px_rgba(35,33,31,0.10)]"
+      className="group flex h-full flex-col rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5 shadow-[0_10px_40px_rgba(35,33,31,0.05)] backdrop-blur transition-all hover:-translate-y-1 hover:border-[color:var(--workflow-accent)] hover:bg-white hover:shadow-[0_18px_60px_rgba(35,33,31,0.10)] focus-within:-translate-y-1 focus-within:border-[color:var(--workflow-accent)] focus-within:bg-white focus-within:shadow-[0_18px_60px_rgba(35,33,31,0.10)]"
       style={{ '--workflow-accent': kete.accent } as CSSProperties}
     >
       <div className="mb-4 flex items-center gap-2">
@@ -45,14 +45,14 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
       <div className={compact ? 'mt-5 flex gap-2' : 'mt-auto flex gap-2 pt-6'}>
         <Link
           href={`/workflows/${workflow.slug}`}
-          className="inline-flex h-10 flex-1 items-center justify-center rounded-full bg-[color:var(--workflow-accent)] px-4 text-sm font-medium text-white"
+          className="inline-flex h-10 flex-1 items-center justify-center rounded-full bg-[color:var(--workflow-accent)] px-4 text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <Plug className="mr-2 h-4 w-4" aria-hidden />
           Install
         </Link>
         <Link
           href={`/workflows/${workflow.slug}#preview`}
-          className="inline-flex h-10 flex-1 items-center justify-center rounded-full border border-[rgba(35,33,31,0.14)] px-4 text-sm font-medium text-[color:var(--text-primary)]"
+          className="inline-flex h-10 flex-1 items-center justify-center rounded-full border border-[rgba(35,33,31,0.14)] px-4 text-sm font-medium text-[color:var(--text-primary)] transition-colors hover:bg-[rgba(35,33,31,0.04)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <Eye className="mr-2 h-4 w-4" aria-hidden />
           Preview
@@ -60,7 +60,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
       </div>
       <Link
         href={`/workflows/${workflow.slug}`}
-        className="mt-4 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--workflow-accent)]"
+        className="mt-4 inline-flex items-center gap-2 rounded-sm font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--workflow-accent)] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4"
       >
         View details <ArrowRight className="h-3.5 w-3.5" aria-hidden />
       </Link>

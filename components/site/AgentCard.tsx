@@ -37,7 +37,7 @@ export function AgentCard({
       animate={{ opacity: 1, y: 0 }}
       whileHover={hoverLift}
       transition={{ ...CANON_TRANSITION, delay: Math.min(index * 0.035, 0.28) }}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-shadow duration-300 hover:shadow-[0_18px_44px_rgba(43,107,87,0.12)] ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_18px_44px_rgba(43,107,87,0.12)] focus-within:shadow-[0_18px_44px_rgba(43,107,87,0.12)] ${
         selected
           ? 'border-[color:var(--assembl-sage-mist)] ring-2 ring-[color:var(--assembl-sage-mist)]'
           : 'border-[rgba(35,33,31,0.10)]'
@@ -46,12 +46,12 @@ export function AgentCard({
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute left-0 top-0 h-full w-1 transition-all duration-300 group-hover:w-1.5"
+        className="pointer-events-none absolute left-0 top-0 h-full w-1 transition-all duration-300 group-hover:w-1.5 group-focus-within:w-1.5"
         style={{ backgroundColor: kete.accent }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-40"
+        className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-40 group-focus-within:opacity-40"
         style={{ background: kete.accent }}
       />
 
@@ -118,7 +118,7 @@ export function AgentCard({
       {onToggle && (
         <button
           onClick={onToggle}
-          className={`mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-full border px-5 text-sm font-medium transition-all ${
+          className={`mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-full border px-5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
             selected
               ? 'border-[color:var(--assembl-sage-mist)] bg-[color:var(--assembl-sage-mist)] text-[color:var(--assembl-paper)]'
               : 'border-[rgba(35,33,31,0.18)] bg-white/40 text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)]'
