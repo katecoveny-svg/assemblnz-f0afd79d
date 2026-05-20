@@ -176,6 +176,9 @@ comment on function public.dispatch_due_kb_sources(integer) is
 do $$
 begin
   if exists (select 1 from pg_extension where extname = 'pg_cron') then
+    perform cron.unschedule('kb-tick-every-10min')
+      where exists (select 1 from cron.job where jobname = 'kb-tick-every-10min');
+
     perform cron.unschedule('kb-adapter-dispatcher')
       where exists (select 1 from cron.job where jobname = 'kb-adapter-dispatcher');
 

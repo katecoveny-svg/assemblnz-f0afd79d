@@ -38,15 +38,22 @@ function htmlToText(html: string): string {
 
 async function scrapeMarkdown(url: string, firecrawlKey?: string | null): Promise<string> {
   if (firecrawlKey) {
-    const fc = await fetch(`${FIRECRAWL_V2}/scrape`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${firecrawlKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ url, formats: ["markdown"], onlyMainContent: true }),
-    });
-    const fj = await fc.json().catch(() => null);
-    if (!fc.ok) throw new Error(`Firecrawl ${fc.status}: ${fj?.error ?? "scrape failed"}`);
-    const markdown = (fj?.markdown ?? fj?.data?.markdown ?? "").toString().slice(0, 50_000);
-    if (markdown) return markdown;
+    try {
+      const fc = await fetch(`${FIRECRAWL_V2}/scrape`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${firecrawlKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ url, formats: ["markdown"], onlyMainContent: true }),
+      });
+      const fj = await fc.json().catch(() => null);
+      if (!fc.ok) {
+        console.warn(`Firecrawl ${fc.status}; falling back to direct HTML fetch`);
+      } else {
+        const markdown = (fj?.markdown ?? fj?.data?.markdown ?? "").toString().slice(0, 50_000);
+        if (markdown) return markdown;
+      }
+    } catch (err) {
+      console.warn("Firecrawl scrape failed; falling back to direct HTML fetch", err);
+    }
   }
 
   const res = await fetch(url, {
