@@ -152,6 +152,12 @@ export async function POST(req: NextRequest) {
         message: prompt,
         tenantId: tenantId ?? undefined,
         sessionId: randomUUID(),
+        // Workflows ask for 300+ words of structured HTML output (H2 + 3-5
+        // H3 sections + lists + reviewer note). That easily exceeds the
+        // default 600-token cap public-chat-llm uses for "3-5 sentence"
+        // visitor chat. Pass 2500 so workflows aren't truncated mid-sentence.
+        // The edge function caps this server-side at MAX_TOKENS_CEILING (4000).
+        maxTokens: 2500,
       },
     });
     if (!error && data && typeof data.response === 'string') {

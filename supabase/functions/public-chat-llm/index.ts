@@ -56,7 +56,11 @@ const SUPPORTED_KETE = new Set([
 // demo Q&A, and already the model_preference for 6 of 9 kete in agent_prompts.
 // Cost: ~$0 per session at low volume. Suitable for an anonymous demo surface.
 const PUBLIC_CHAT_MODEL = "google/gemini-2.5-flash";
+// Default cap. Suitable for public chat (3-5 sentences per preamble).
+// Workflow callers should override via the maxTokens field to 2500.
 const MAX_TOKENS = 600;
+// Hard server-side ceiling — prevents runaway cost from a malformed caller.
+const MAX_TOKENS_CEILING = 4000;
 const MAX_ATTACHMENT_BYTES = 8 * 1024 * 1024;
 
 type ChatRequest = {
@@ -69,6 +73,14 @@ type ChatRequest = {
   systemPromptOverride?: string;
   imageDataUrl?: string;
   redactPii?: boolean;
+  // Optional per-call max-tokens override. Public chat callers should
+  // omit this — they get the default MAX_TOKENS (600) which matches the
+  // "3-5 sentences typical" preamble. Workflow callers should pass a
+  // higher value (typically 2500) because the workflow system prompt
+  // asks for 300+ words of structured HTML output, which can easily
+  // exceed 600 tokens once you include H2 + H3 sections + lists + a
+  // reviewer note. Capped at MAX_TOKENS_CEILING to prevent runaway cost.
+  maxTokens?: number;
 };
 
 function json(data: unknown, status = 200) {
@@ -221,11 +233,21 @@ When you respond, do not announce these rules. Just follow them.`;
     : `${baseSystemPrompt}${pikauAttachmentPrompt}${publicChatPreamble}`;
 
   try {
+    // Per-call maxTokens override. Workflows pass 2500 because their system
+    // prompt asks for 300+ words of structured HTML; public chat omits the
+    // field and gets the default 600 (matches the "3-5 sentences" preamble).
+    // Hard ceiling MAX_TOKENS_CEILING prevents a malformed caller from
+    // requesting an unbounded budget.
+    const effectiveMaxTokens =
+      typeof body.maxTokens === "number" && body.maxTokens > 0
+        ? Math.min(body.maxTokens, MAX_TOKENS_CEILING)
+        : MAX_TOKENS;
+
     const response = await callLlm({
       model: PUBLIC_CHAT_MODEL,
       systemPrompt,
       messages,
-      maxTokens: MAX_TOKENS,
+      maxTokens: effectiveMaxTokens,
       meta: body.tenantId && body.sessionId
         ? {
             tenantId: body.tenantId,
