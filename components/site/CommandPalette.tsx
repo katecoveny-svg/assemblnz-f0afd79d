@@ -13,6 +13,7 @@ const PAGES = [
   { label: 'Pricing', href: '/pricing' },
   { label: 'How it works', href: '/how-it-works' },
   { label: 'Evidence pack', href: '/evidence-pack' },
+  { label: 'Arataki loan cars', href: '/operator/arataki/loan-cars' },
   { label: 'HAPAI library', href: '/hapai' },
   { label: 'Founder', href: '/about' },
 ];
