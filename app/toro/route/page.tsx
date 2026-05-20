@@ -27,7 +27,7 @@ export default function ToroRoutePage() {
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                Tōro · Whānau · Route + fuel
+                Tōro · Family route + fuel
               </p>
             </SectionReveal>
             <SectionReveal delay={0.1}>
@@ -42,10 +42,10 @@ export default function ToroRoutePage() {
             </SectionReveal>
             <SectionReveal delay={0.2}>
               <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Type where you're going. Get one calm sentence — how far, how long,
+                Type where you&apos;re going. Get one calm sentence — how far, how long,
                 roughly how much fuel — and the cheaper station nearby. Priced
-                against this week's MBIE national-average fuel monitoring. Routed
-                by MapBox.
+                against this week&apos;s MBIE national-average fuel monitoring. Routed
+                by Mapbox when available, with a built-in fallback for demos.
               </p>
             </SectionReveal>
           </div>
@@ -67,7 +67,7 @@ export default function ToroRoutePage() {
           <SectionReveal>
             <div className="mx-auto max-w-3xl text-center">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-                What it's pulling from
+                What it&apos;s pulling from
               </p>
               <h2
                 className="mt-4 font-display leading-[0.98] tracking-tight"
@@ -89,8 +89,8 @@ export default function ToroRoutePage() {
             <SourceCard
               icon={<MapPin className="h-5 w-5" />}
               label="Routing"
-              title="MapBox Directions API"
-              body="NZ road network routing with traffic-aware durations. 100k free requests / month covers a tenant of 30 families running 15 trips a week each. Falls back to haversine straight-line × 1.35 NZ road factor when MapBox is unreachable."
+              title="Mapbox Directions API"
+              body="NZ road network routing with traffic-aware durations. 100k free requests / month covers a tenant of 30 families running 15 trips a week each. Falls back to haversine straight-line × 1.35 NZ road factor when Mapbox is unreachable."
               url="mapbox.com/directions"
             />
             <SourceCard
@@ -104,7 +104,7 @@ export default function ToroRoutePage() {
         </div>
       </section>
 
-      {/* Other whānau features on the roadmap */}
+      {/* Other family features on the roadmap */}
       <section className="relative bg-[color:var(--assembl-paper)] py-20 md:py-28">
         <div className="container">
           <SectionReveal>
@@ -116,12 +116,11 @@ export default function ToroRoutePage() {
                 className="mt-4 font-display leading-[0.98] tracking-tight"
                 style={{ fontWeight: 300, fontSize: 'clamp(1.8rem, 4vw, 3rem)' }}
               >
-                Eight more whānau agents.{' '}
+                Eight more family assistants.{' '}
                 <em className="not-italic text-gradient-hero">All quiet, all useful.</em>
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-                Each one wires to a real NZ data source — no vibes, no scrapes,
-                no hallucinations. Full detail in <code className="font-mono text-sm">voyage-toro-features.md</code>.
+                Each one wires to a real NZ data source — maps, images, calendars, bank feeds, school notices, weather, and public datasets where available. No vibes, no hallucinations. Full detail in <code className="font-mono text-sm">voyage-toro-features.md</code>.
               </p>
             </div>
           </SectionReveal>
@@ -221,31 +220,31 @@ const ROADMAP = [
   },
   {
     id: 'A.4',
-    name: 'Hauora Whānau · Wellness cadence',
+    name: 'Family wellness cadence · Hauora',
     body:
       'Coordinates GP visits, vaccinations, dental, optometry across the household. Plays nicely with My Health Account. Surfaces overdue appointments before the school medical form is due.',
     source: 'Te Whatu Ora — My Health Account + Health NZ booking partners',
   },
   {
     id: 'A.5',
-    name: 'Pūtea Whānau · Household finance coach',
+    name: 'Household finance coach · Pūtea',
     body:
       'Akahu-powered bank-feed, Working-for-Families reconciliation, KiwiSaver projection, debt trajectory. Monthly Financial-Life statement (sealed pack).',
     source: 'Akahu Open Finance, IRD MyIR, MSD MyMSD',
   },
   {
     id: 'A.6',
-    name: 'Manaaki Tāone · Community connector',
+    name: 'Community connector · Manaaki Tāone',
     body:
       'Finds local kai-share, te reo classes, kura kaupapa, library events, free school-holiday programmes near you. Cross-references the weather and what the kids actually like doing.',
     source: 'Council event APIs (AT, Wellington, Christchurch), Eventfinda, RNZ events',
   },
   {
     id: 'A.7',
-    name: 'Whakapapa Keeper · Family memory',
+    name: 'Family memory keeper · Whakapapa',
     body:
-      'Helps the whānau gather, store, and pass on whakapapa. Birthday and anniversary reminders, bedtime story mode that reads ancestor stories aloud to the kids. Consent-gated; never used to train models.',
-    source: 'Iwi-authored content, the whānau\'s own uploads, Papers Past for context',
+      'Helps the family gather, store, and pass on whakapapa when they choose to. Birthday and anniversary reminders, bedtime story mode, and family-uploaded stories. Consent-gated; never used to train models.',
+    source: 'Family uploads, iwi-authored content where supplied, Papers Past for context',
   },
   {
     id: 'A.8',
@@ -256,7 +255,7 @@ const ROADMAP = [
   },
   {
     id: 'A.9',
-    name: 'Whakaata Whānau · The Sunday brief',
+    name: 'Sunday household brief · Whakaata',
     body:
       'One restrained note at 7pm Sunday: three things the household needs to know for the week. Who is on the school run, who is paying for what, what the weather looks like, what is in the fridge.',
     source: 'All of the above, composed into a single SMS or email.',

@@ -9,7 +9,7 @@ import { OAuthButtons } from './OAuthButtons';
 
 export const metadata: Metadata = {
   title: 'Onboarding',
-  description: 'Finish tenant onboarding before entering the Assembl inbox.',
+  description: 'Finish tenant onboarding before entering the assembl inbox.',
   robots: { index: false, follow: false },
 };
 

@@ -73,11 +73,11 @@ export const KETE_DETAIL: Record<
     slug: 'waihanga',
     heroLead: 'Fewer reworked consents. Faster council sign-off.',
     heroBody:
-      "assembl's construction kete bundles six specialist agents covering the full consent lifecycle — from site safety through to quality assurance. Each agent is grounded in NZ construction legislation and produces documentation your team can stand behind with a BCA.",
+      "assembl's construction operating layer helps architects, builders, and project teams turn plans, consent evidence, site safety notes, and completion records into review-ready packs. Waihanga is the named pack; the first job is fewer reworked consents and clearer council handoffs.",
     description: [
-      "Waihanga handles the work that sits between the design office and the BCA: consent applications, producer statements, site safety paperwork, variation packs, and the evidence trail that ends with a Code Compliance Certificate. The work that, when it goes well, nobody notices — and when it goes badly, costs you weeks.",
-      "Every agent in the kete cites the Building Act 2004, the Construction Contracts Act 2002, the Building Code, the Acceptable Solutions, NZS 3910:2013, and the relevant council process notes inline. Reviewers see exactly which clause each paragraph stands on. Auditors see the same trail months later. The pack does not drift.",
-      "Waihanga is the first live kete because it is where the cost of getting it wrong is most visible — every reworked consent is a fortnight of delay. The Pilot Sprint usually starts here.",
+      "Waihanga handles the work that sits between the design office and the BCA: consent applications, producer statements, plan checks, site safety paperwork, variation packs, and the evidence trail that ends with a Code Compliance Certificate.",
+      "The architecture flow is already in the stack: plan-to-3D analysis, BIM review, NZ Building Code checks, producer-statement scoping, and a council-ready evidence trail. Reviewers see exactly which clause each paragraph stands on. Auditors see the same trail months later.",
+      "Waihanga is the first live construction pack because the cost of getting it wrong is visible: every reworked consent is a fortnight of delay. The Pilot Sprint usually starts here.",
     ],
     legislation: [
       'Building Act 2004 (incl. s 14B, s 94)',
@@ -340,13 +340,13 @@ export const KETE_DETAIL: Record<
 
   arataki: {
     slug: 'arataki',
-    heroLead: 'Automotive (workshop, fleet, governance).',
+    heroLead: 'Automotive dealer operations in one view.',
     heroBody:
-      "assembl's automotive kete is built for NZ workshops, fleet operators, and dealerships. WoF/CoF schedules, driver endorsement currency, NZTA logbook checks, CCCFA disclosures, Consumer Guarantees warranty handling, and IPP 3A privacy obligations — every output cites the Act and section it stands on.",
+      "assembl's automotive operating layer is built for NZ dealers, workshops, and fleet operators. It connects loan cars, service bookings, sales follow-up, vehicle listings, finance disclosures, WoF/CoF schedules, and customer retention in a draft-only workflow your operator can review.",
     description: [
-      "Arataki sits across the workshop, the dealer floor, and the fleet office. WoF/CoF schedules, driver endorsement currency, NZTA logbook checks, incident triage to WorkSafe thresholds, and the insurance evidence packs that follow.",
-      "The kete grounds outputs in the Land Transport Act 1998, the relevant Land Transport Rules, the Consumer Guarantees Act 1993 (for sales), and HSWA 2015 (for the workshop floor). Each output stamps which clause it stands on.",
-      "Arataki is part of Industry Pack. Workshops and fleet operators can start with a Pilot Sprint, then run the kete as a live operating layer.",
+      "Arataki sits above the dealer's existing DMS. Day one is CSV-paste-first: loan cars, service appointments, sales conversations, finance dates, registrations, and listing checks can be demonstrated without waiting for a live integration.",
+      "The public tools turn hidden dealer pain into numbers: missed service calls, slow lead response, first-service retention, declined work, service-lane trade-ins, fleet uptime, workflow return, and listing compliance.",
+      "The operator dashboard is where the daily work happens. Loan Car Warden is live first; Service-to-Sales Matcher, Volume Tracker, F&I Maturity Watcher, Retention Identifier, and Korowai Pulse follow the same draft-only, human-reviewed posture.",
     ],
     legislation: [
       'Land Transport Act 1998',
@@ -383,7 +383,7 @@ export const KETE_DETAIL: Record<
       },
     ],
     pilotSprintPitch:
-      "Pick one fleet of vehicles or one workshop. assembl drafts the WoF/CoF schedule, driver endorsement register, and an insurance-grade incident bundle. By Friday: every vehicle and every driver in one auditable trail.",
+      "Pick one dealership workflow. assembl turns the current spreadsheet or DMS export into a working operator view, drafts the next actions, and leaves a reviewable audit trail. By Friday: a dealer-facing demo your team can actually use.",
     workflows: [
       {
         name: 'WoF / CoF tracking',
@@ -686,27 +686,27 @@ export const KETE_DETAIL: Record<
 
   toro: {
     slug: 'toro',
-    heroLead: 'Forward your school comms — get a structured plan back.',
+    heroLead: 'The active family assistant for the week ahead.',
     heroBody:
-      "Tōro is the whānau assistant inside assembl. Forward the school newsletter, the kindo notice, the OSCAR confirmation — it reads them, pulls out what matters, and hands back a term-shaped plan you can act on. Three sub-plugins under one Family plan.",
+      "Tōro is the family assistant inside assembl. Forward the school newsletter, the Kindo notice, the OSCAR confirmation, or a messy household note. It reads what matters, drafts the calendar entry or reply, and waits for a parent to approve.",
     description: [
-      "Tōro is email-first by design. Each whānau gets their own inbound forwarding address — coming with your first onboarding session — so the school newsletter, the assembly note, and the hot-lunch reminder can land in one place. Tōro reads what arrives, drafts the response or the calendar entry, and waits for you to approve before anything goes out.",
-      "Nothing ships without a human click. Every draft is reviewable, every action is consent-gated, and every reply uses your voice not Tōro's. Privacy Act 2020 IPP 3A is honoured by default — children's data stays inside the whānau tenant.",
-      "Three sub-plugins under one Family plan: Term Planner reads school comms, Kid Money runs the chores-and-pocket-money ledger, Holiday Ideas plans the term-break weeks (launching Q3 2026). Available now at NZ$29/month, no setup. Cancel any time.",
+      "Tōro is email-first by design. Each household gets an inbound forwarding address so newsletters, assembly notes, forms, hot-lunch reminders, invoices, and sports notices can land in one place. Tōro reads what arrives, drafts the response or calendar entry, and waits for approval before anything goes out.",
+      "The app is built to think ahead: pending approvals, this week's routines, trip plans, fridge-to-list meal ideas, school deadlines, and consent checks are surfaced before they become another evening admin scramble.",
+      "Nothing ships without a human click. Every draft is reviewable, every action is consent-gated, and every reply uses your voice. Privacy Act 2020 IPP 3A is honoured by default; children's data stays inside the family tenant.",
     ],
     legislation: ['Privacy Act 2020 + IPP 3A (1 May 2026)'],
     subAgents: [
       {
         name: 'Tōro Term Planner',
         pitch: 'Forward school newsletters, get a term-shaped plan back.',
-        body: "Drop the term newsletter, the assembly note, the permission slip — Tōro reads it, pulls the dates into a draft calendar, drafts the reply you would have sent, and waits for your tick before anything goes out. We're piloting with whānau on Kindo, Hero, Seesaw, and plain-email schools through a private beta — notices, sport, music, parent-teacher all surfaced when they are actually needed.",
+        body: "Drop the term newsletter, the assembly note, or the permission slip. Tōro pulls the dates into a draft calendar, drafts the reply you would have sent, and waits for your tick before anything goes out. Kindo, Hero, Seesaw, and plain-email schools all fit the same pattern.",
         status: 'live',
         statusLabel: 'Live now',
       },
       {
         name: 'Tōro Kid Money',
-        pitch: 'Pocket-money and chores ledger for whānau.',
-        body: "Set a chore, tamariki submit photo proof, you approve. Payments split across save / spend / koha so the four pou — mahi (the work), koha (the giving), kaitiakitanga (the keeping), manaakitanga (the looking after) — show up in the maths, not just the marketing. One ledger per whānau, kid-safe by default.",
+        pitch: 'Pocket-money and chores ledger for families.',
+        body: "Set a chore, kids submit photo proof, you approve. Payments can split across save, spend, and giving so the habit shows up in the maths, not just the marketing. One ledger per household, kid-safe by default.",
         status: 'live',
         statusLabel: 'Live now',
       },
@@ -733,11 +733,11 @@ export const KETE_DETAIL: Record<
       },
       {
         name: 'Kid-safe by default',
-        body: "Tōro is scoped to your whānau tenant. No public profile, no surfacing of children's data, no upsells inside the conversation.",
+        body: "Tōro is scoped to your family tenant. No public profile, no surfacing of children's data, no upsells inside the conversation.",
       },
       {
-        name: 'Te reo Māori, optional',
-        body: 'Switch the voice to te reo Māori, English, or both — set per whānau member.',
+        name: 'Language choice',
+        body: 'Use English, te reo Māori, or both. Set the voice per family member.',
       },
       {
         name: 'Email-first, messaging roadmap',

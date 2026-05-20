@@ -19,9 +19,9 @@ export const SUBSCRIBE_PLANS: SubscribePlan[] = [
     name: 'Tōro Family',
     monthly: 'NZ$29 / month',
     setup: '$0 setup',
-    summary: 'The whānau navigator for school, money, routines, and the week ahead.',
+    summary: 'The family assistant for school, money, routines, and the week ahead.',
     features: [
-      'Tōro whānau navigator',
+      'Tōro family assistant',
       'Reviewed family actions and records',
       'Month to month',
     ],

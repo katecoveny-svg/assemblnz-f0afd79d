@@ -91,7 +91,7 @@ const PRICING_ENTRY_POINTS = [
   [
     'TŌRO',
     '$29 / month',
-    'The whānau navigator. School notices parsed. Gear lists drafted. The week ahead held in one place. Built for families, sized for a household.',
+    'The family assistant. School notices parsed. Gear lists drafted. The week ahead held in one place. Tōro keeps the household ahead of the small admin pile-up.',
     'Try Tōro',
     '/kete/toro',
     '#23211F',
@@ -221,15 +221,15 @@ export function HomePortal({ ketes }: HomePortalProps) {
           </div>
           <div>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Hospitality teams shouldn't spend their best hour writing the
-              allergen incident report. Construction teams shouldn't spend their
+              Hospitality teams shouldn&apos;t spend their best hour writing the
+              allergen incident report. Construction teams shouldn&apos;t spend their
               best hour cross-referencing the variation against clause 24A of the
-              contract. Schools shouldn't spend their best hour rewording the
+              contract. Schools shouldn&apos;t spend their best hour rewording the
               same notice for the fourth year group.
             </p>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
               Those are the jobs assembl picks up. Specialist agents — trained
-              on your industry's regulations and your business's voice — handle
+              on your industry&apos;s regulations and your business&apos;s voice — handle
               the admin layer end-to-end. Your team reviews the output, signs it
               off, and goes back to the work they care about.
             </p>
@@ -354,11 +354,11 @@ export function HomePortal({ ketes }: HomePortalProps) {
               A specialist team for every kind of work.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Each kete is a vessel. In assembl, it holds a specialist team —
-              agents trained on the industry's regulations, policies, and
-              patterns of work; review points where a named person signs off;
-              evidence packs shaped for the audience that has to read them. Try
-              any of the nine in the public chat. No signup.
+              Each pack holds a specialist team: assistants trained on the
+              industry&apos;s regulations, policies, and patterns of work; review
+              points where a named person signs off; evidence packs shaped for
+              the audience that has to read them. Try any of the nine in the
+              public chat. No signup.
             </p>
           </div>
           <KeteCardGrid

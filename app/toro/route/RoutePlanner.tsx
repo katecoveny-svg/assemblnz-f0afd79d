@@ -44,7 +44,7 @@ const PRESETS: Array<{ label: string; origin: LatLon; destination: LatLon }> = [
     destination: { lat: -36.913, lon: 174.706, label: 'PaknSave Lynfield' },
   },
   {
-    label: 'Weekend whānau trip · Auckland → Hamilton',
+    label: 'Weekend family trip · Auckland → Hamilton',
     origin:      { lat: -36.848, lon: 174.763, label: 'Auckland CBD' },
     destination: { lat: -37.787, lon: 175.279, label: 'Hamilton CBD' },
   },

@@ -197,7 +197,7 @@ function KeteAgentCard({
 
       <div className="mt-5">
         <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
-          Live chat agents
+          Ready-to-run assistants
         </p>
         {canChat ? (
           <div className="mt-3 grid gap-2">

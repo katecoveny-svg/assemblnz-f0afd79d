@@ -31,14 +31,14 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl — mahi that earns its proof',
+    default: 'assembl — work that earns its proof',
     template: '%s · assembl',
   },
   description:
     'assembl is a fleet of specialist agents for the admin work that drains your team. Built in Aotearoa, reviewed by your people, and sealed with a record of how the work was made.',
   metadataBase: new URL('https://assembl.co.nz'),
   openGraph: {
-    title: 'assembl — mahi that earns its proof',
+    title: 'assembl — work that earns its proof',
     description:
       'Specialist agents for the admin work that drains your team.',
     type: 'website',
@@ -50,13 +50,13 @@ export const metadata: Metadata = {
         url: '/og/og-assembl.png',
         width: 1200,
         height: 630,
-        alt: 'assembl — Mahi that earns its proof. Specialist agents for the admin work that drains your team.',
+        alt: 'assembl — Work that earns its proof. Practical assistants for the admin work that drains your team.',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl — mahi that earns its proof',
+    title: 'assembl — work that earns its proof',
     description: 'Specialist agents for the admin work that drains your team.',
     images: ['/og/og-assembl.png'],
   },

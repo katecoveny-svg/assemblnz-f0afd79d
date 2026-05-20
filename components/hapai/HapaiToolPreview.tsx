@@ -145,7 +145,7 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
           </div>
           <div className="absolute bottom-8 left-7 right-28">
             <p className="font-display text-4xl font-semibold leading-[0.9] text-[#103F35]">
-              Mahi that earns its proof.
+              Work that earns its proof.
             </p>
             <span className="mt-4 block h-2 w-[72%] rounded-full bg-[#23211F]/18" />
           </div>

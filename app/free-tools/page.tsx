@@ -85,7 +85,7 @@ export default function FreeToolsPage() {
               Free NZ business tools
             </p>
             <h1 className="mt-5 max-w-4xl font-display text-[clamp(4rem,10vw,8.5rem)] font-light leading-[0.85]">
-              Mahi that earns its proof.
+              Work that earns its proof.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
               Practical calculators for operators who need a number they can

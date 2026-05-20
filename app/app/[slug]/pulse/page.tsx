@@ -9,7 +9,7 @@ import { BusinessPulseWidget } from '@/components/app/BusinessPulseWidget';
 
 export const metadata: Metadata = {
   title: 'Business Pulse',
-  description: 'Weekly operator brief for the Assembl Command Centre.',
+  description: 'Weekly operator brief for the assembl command centre.',
   robots: { index: false, follow: false },
 };
 

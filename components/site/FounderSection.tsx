@@ -8,7 +8,7 @@ export function FounderSection() {
           assembl · founder note
         </p>
         <h2 className="mt-6 font-display text-display-md font-light">
-          Why I&apos;m building Assembl in Aotearoa.
+          Why I&apos;m building assembl in Aotearoa.
         </h2>
         <div className="mt-8 space-y-6 text-body-lg leading-[1.7] text-[color:var(--text-body)]">
           {/* TODO(Kate): Replace this placeholder with the final first-person founder note. Keep it plain, specific, and around 400 words. */}
@@ -23,10 +23,9 @@ export function FounderSection() {
           </p>
         </div>
         <p className="mt-10 font-display text-xl italic tracking-[0.08em] text-[color:var(--text-primary)]">
-          — Kate Hudson, Founder, Assembl
+          — Kate Hudson, founder, assembl
         </p>
       </article>
     </section>
   );
 }
-
