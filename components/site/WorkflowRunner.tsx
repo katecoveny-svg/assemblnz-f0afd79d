@@ -155,10 +155,33 @@ export function WorkflowRunner({
           <Play className="mr-2 h-4 w-4" aria-hidden />
           {running ? 'Running...' : 'Run preview'}
         </button>
-        <div
-          className="prose prose-sm mt-6 max-w-none rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5 text-[color:var(--text-body)]"
-          dangerouslySetInnerHTML={{ __html: output || '<p>Drafting...</p>' }}
-        />
+        {workflow.outputShape === 'json' ? (
+          // Renderer guard: JSON outputs must NOT be passed to
+          // dangerouslySetInnerHTML — that would either render the raw JSON
+          // as broken text (the literal `{...}` syntax shown verbatim) or, if
+          // the JSON happened to contain HTML-like syntax, render that
+          // unintended HTML. No workflow currently uses outputShape: 'json',
+          // but the guard prevents a silent regression the moment one does.
+          <pre
+            className="prose prose-sm mt-6 max-w-none overflow-x-auto rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5 font-mono text-[12px] leading-relaxed text-[color:var(--text-body)]"
+          >
+            {(() => {
+              const raw = output || '{}';
+              try {
+                return JSON.stringify(JSON.parse(raw), null, 2);
+              } catch {
+                // Output isn't valid JSON despite outputShape declaring it
+                // should be. Show the raw string instead of crashing.
+                return raw;
+              }
+            })()}
+          </pre>
+        ) : (
+          <div
+            className="prose prose-sm mt-6 max-w-none rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5 text-[color:var(--text-body)]"
+            dangerouslySetInnerHTML={{ __html: output || '<p>Drafting...</p>' }}
+          />
+        )}
       </section>
 
       {!minimal && (
