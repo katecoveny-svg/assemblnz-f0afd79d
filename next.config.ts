@@ -76,7 +76,8 @@ const nextConfig: NextConfig = {
       // Admin & operations
       { source: "/admin", destination: "https://app.assembl.co.nz/admin", permanent: false },
       { source: "/admin/:path*", destination: "https://app.assembl.co.nz/admin/:path*", permanent: false },
-      { source: "/operator/:path*", destination: "https://app.assembl.co.nz/operator/:path*", permanent: false },
+      { source: "/operator", destination: "https://app.assembl.co.nz/operator", permanent: false },
+      { source: "/operator/:path((?!arataki).*)", destination: "https://app.assembl.co.nz/operator/:path*", permanent: false },
       { source: "/care/:path*", destination: "https://app.assembl.co.nz/care/:path*", permanent: false },
 
       // Chat & agents
