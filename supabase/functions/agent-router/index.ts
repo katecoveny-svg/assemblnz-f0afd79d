@@ -786,6 +786,7 @@ Trust & compliance:
         // Load pack-specific toolsets for industry packs
         const INDUSTRY_TOOLSETS: Record<string, string[]> = {
           manaaki: ["assembl_aura_fcp_daily_check", "assembl_aura_temp_logger", "assembl_aura_verifier_pack", "assembl_aura_liquor_licence_renewal"],
+          waihanga: ["assembl_apex_safety_plan", "assembl_kaupapa_progress_claim", "assembl_arai_hazard_register", "assembl_whakaae_consent_checklist"],
           hanga: ["assembl_apex_safety_plan", "assembl_kaupapa_progress_claim", "assembl_arai_hazard_register", "assembl_whakaae_consent_checklist"],
           auaha: ["assembl_prism_brand_scanner", "assembl_prism_campaign_engine", "assembl_echo_content_calendar", "assembl_echo_analytics_feedback"],
           arataki: ["assembl_forge_ruc_calculator", "assembl_forge_cin_generator", "assembl_forge_wof_tracker", "assembl_forge_service_reminder", "assembl_forge_fleet_dashboard"],
@@ -799,14 +800,15 @@ Trust & compliance:
         // Pack agents membership
         const PACK_AGENTS: Record<string, string[]> = {
           manaaki: ["aura", "saffron", "cellar", "luxe", "moana", "coast", "kura", "pau", "summit"],
-          hanga: ["arai", "kaupapa", "ata", "rawa", "whakaae", "pai", "arc", "terra", "pinnacle"],
+          waihanga: ["arai", "kaupapa", "ata", "rawa", "whakaae", "pai", "arc", "terra", "pinnacle", "waihanga", "waihanga-comply", "waihanga-subbies"],
+          hanga: ["arai", "kaupapa", "ata", "rawa", "whakaae", "pai", "arc", "terra", "pinnacle", "waihanga", "waihanga-comply", "waihanga-subbies"],
           auaha: ["prism", "muse", "pixel", "verse", "echo", "flux", "chromatic", "rhythm", "market"],
-          arataki: ["motor", "transit", "mariner"],
+          arataki: ["motor", "transit", "mariner", "axis", "driver-hours", "fleet-incident", "ruc", "warranty", "wof-cof"],
           pikau: ["gateway", "harvest", "grove"],
           ako: ["aroha", "ako-licence", "kaiako", "tamariki", "ero-pack"],
           matauranga: ["akonga", "kaiako-s", "reo", "ropu", "ero-s"],
           hoko: ["spark", "hoko-cga", "stock", "cellar", "pai", "putea"],
-          toro: ["toroa"],
+          toro: ["toro", "toroa", "toro-family", "harvest"],
         };
 
         for (const pack of activePacks) {
