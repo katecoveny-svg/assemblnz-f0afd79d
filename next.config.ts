@@ -67,6 +67,8 @@ const nextConfig: NextConfig = {
     return [
       // Existing: kete name correction (Tōroa → Tōro). Keep this in Next.js;
       // public SPA paths are handled by middleware rewrites before auth.
+      { source: "/toro", destination: "/kete/toro", permanent: false },
+      { source: "/toroa", destination: "/kete/toro", permanent: true },
       { source: "/kete/toroa", destination: "/kete/toro", permanent: true },
       { source: "/hapai/vessel-studio/vessel-studio.html", destination: "/hapai/vessel-studio", permanent: false },
       { source: "/hapai/vessel-studio/index.html", destination: "/hapai/vessel-studio", permanent: false },

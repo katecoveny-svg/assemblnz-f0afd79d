@@ -6,24 +6,15 @@ import { TeReo } from '@/components/site/TeReo';
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Tōro, Industry Pack, Pilot Sprint, and Outcome pricing. NZD, GST exclusive.',
+    'Pilot Sprint, Industry Pack, Outcome, and Tōro pricing. NZD, GST exclusive.',
 };
 
 const OFFERS = [
   {
-    eyebrow: 'Whānau',
-    name: 'Tōro',
-    price: '$29 / month',
-    body: 'Per whānau. School, money, routines, handovers, and the week ahead.',
-    cta: 'Install Tōro',
-    href: '/toro',
-    featured: false,
-  },
-  {
     eyebrow: 'Hero offer',
     name: 'Industry Pack',
     price: '$5,000 / month',
-    body: 'Per kete. Live specialist-agent fleet. Iho governance. Signal monitoring. Unlimited evidence packs.',
+    body: 'For one industry pack: specialist agents, live knowledge, human review points, and evidence packs your team can stand behind.',
     cta: 'See Industry Pack',
     href: '/industry-pack',
     featured: true,
@@ -32,7 +23,7 @@ const OFFERS = [
     eyebrow: 'Proof sprint',
     name: 'Pilot Sprint',
     price: '$5,000 once-off',
-    body: 'Two weeks. We run one workflow end-to-end against your own data and ship the evidence pack.',
+    body: 'Ten working days. Bring one real workflow; we build it, run it against your data, and leave you with a working proof.',
     cta: 'Book a sprint',
     href: '/pilot-sprint',
     featured: false,
@@ -41,9 +32,18 @@ const OFFERS = [
     eyebrow: 'Outcome',
     name: 'Outcome',
     price: 'Custom',
-    body: 'For operators who want us paid on signed evidence packs delivered, not seats.',
+    body: 'For operators who want a commercial model tied to reviewed work delivered, not seats.',
     cta: 'Talk to founder',
     href: '/contact',
+    featured: false,
+  },
+  {
+    eyebrow: 'Whānau',
+    name: 'Tōro',
+    price: '$29 / month',
+    body: 'The family product: school notices, routines, gear, appointments, and the week ahead.',
+    cta: 'See Tōro',
+    href: '/kete/toro',
     featured: false,
   },
 ] as const;
@@ -70,7 +70,7 @@ export default function PricingPage() {
               <TeReo title="work">Mahi</TeReo> that earns its proof.
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              Four clean ways in: family, flat-rate industry fleet, two-week proof sprint, or outcome-based work.
+              Start with one real task, or switch on a whole industry pack. Tōro is separate: the whānau product, not the business pilot path.
             </p>
           </div>
         </div>

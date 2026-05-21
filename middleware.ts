@@ -12,8 +12,6 @@ const SPA_PUBLIC_PREFIXES = [
   '/auaha',
   '/ako',
   '/hoko',
-  '/toro',
-  '/toroa',
   '/matauranga',
   '/demos',
   '/aaaip',
