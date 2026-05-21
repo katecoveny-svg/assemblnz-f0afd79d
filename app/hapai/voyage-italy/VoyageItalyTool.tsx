@@ -13,7 +13,9 @@ import {
   Euro,
   FileText,
   Hotel,
+  ImagePlus,
   MapPin,
+  MessageCircle,
   Plane,
   Sparkles,
   Train,
@@ -36,6 +38,19 @@ function htmlToMarkdown(html: string) {
 
 const cityOptions = ["Rome", "Florence", "Venice", "Milan", "Naples", "Bologna", "Siena", "Amalfi"];
 const STORAGE_KEY = "assembl:voyage-italy:trip-board:v1";
+const MOMENTS_KEY = "assembl:voyage-italy:moments:v1";
+
+type RouteWeather = {
+  city: string;
+  summary: string;
+};
+
+type TripMoment = {
+  id: string;
+  imageDataUrl: string;
+  caption: string;
+  createdAt: string;
+};
 
 const proofCards = [
   {
@@ -56,10 +71,10 @@ const proofCards = [
 ] as const;
 
 export function VoyageItalyTool() {
-  const [city, setCity] = useState("Rome");
+  const [city, setCity] = useState("Milan");
   const [travelers, setTravelers] = useState("Kate, Adrian");
   const [departureDate, setDepartureDate] = useState("2026-05-24");
-  const [routePlan, setRoutePlan] = useState("Rome — arrival and first base\nFlorence — galleries, food, walking\nCinque Terre — coastal reset\nVenice — final leg");
+  const [routePlan, setRoutePlan] = useState("Milan — arrival on Sunday\nRome — Vatican booked the following day\nFlorence — galleries, food, walking\nCinque Terre — coastal reset\nVenice — final leg");
   const [bookingVault, setBookingVault] = useState("");
   const [today, setToday] = useState("");
   const [bookings, setBookings] = useState("");
@@ -70,6 +85,9 @@ export function VoyageItalyTool() {
   const [html, setHtml] = useState("");
   const [weather, setWeather] = useState("");
   const [fx, setFx] = useState("");
+  const [routeWeather, setRouteWeather] = useState<RouteWeather[]>([]);
+  const [question, setQuestion] = useState("");
+  const [moments, setMoments] = useState<TripMoment[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -98,6 +116,12 @@ export function VoyageItalyTool() {
     } catch {
       // Local-only convenience cache; ignore corrupt values.
     }
+    try {
+      const savedMoments = window.localStorage.getItem(MOMENTS_KEY);
+      if (savedMoments) setMoments(JSON.parse(savedMoments) as TripMoment[]);
+    } catch {
+      // Ignore moment cache errors; uploads still work in-session.
+    }
   }, []);
 
   useEffect(() => {
@@ -111,6 +135,14 @@ export function VoyageItalyTool() {
     }
   }, [city, travelers, departureDate, routePlan, bookingVault, bookings, worries, notes]);
 
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(MOMENTS_KEY, JSON.stringify(moments.slice(0, 8)));
+    } catch {
+      // Large photos may exceed browser storage; the visible session still works.
+    }
+  }, [moments]);
+
   const hasInput = `${city}${travelers}${departureDate}${routePlan}${bookingVault}${today}${bookings}${worries}${notes}${imageDataUrl ? "image" : ""}`.trim().length >= 8;
 
   async function generateBrief() {
@@ -121,13 +153,27 @@ export function VoyageItalyTool() {
       const response = await fetch("/api/hapai/voyage-italy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ city, travelers, departureDate, routePlan, bookingVault, today, bookings, worries, notes, imageDataUrl }),
+        body: JSON.stringify({
+          city,
+          travelers,
+          departureDate,
+          routePlan,
+          bookingVault,
+          today,
+          bookings,
+          worries,
+          notes,
+          imageDataUrl,
+          question,
+          moments: moments.map((moment) => `${moment.caption || "Untitled moment"} (${moment.createdAt})`).join("\n"),
+        }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Could not draft the Italy desk.");
       setHtml(data.html);
       setWeather(data.weather ?? "");
       setFx(data.fx ?? "");
+      setRouteWeather(Array.isArray(data.routeWeather) ? data.routeWeather : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not draft the Italy desk.");
     } finally {
@@ -191,16 +237,41 @@ export function VoyageItalyTool() {
     reader.readAsText(file);
   }
 
+  function handleMomentUpload(file: File | null) {
+    setError("");
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setError("Upload a trip photo or screenshot image.");
+      return;
+    }
+    if (file.size > 1.4 * 1024 * 1024) {
+      setError("For the shareable version, keep trip moment photos under 1.4MB so they can stay in this browser. A cloud gallery comes next.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const moment: TripMoment = {
+        id: crypto.randomUUID(),
+        imageDataUrl: String(reader.result ?? ""),
+        caption: "",
+        createdAt: new Date().toISOString(),
+      };
+      setMoments((value) => [moment, ...value].slice(0, 8));
+    };
+    reader.onerror = () => setError("Could not read that photo. Try a smaller image.");
+    reader.readAsDataURL(file);
+  }
+
   function loadItalySample() {
-    setCity("Rome");
+    setCity("Milan");
     setTravelers("Kate, Adrian");
     setDepartureDate("2026-05-24");
-    setRoutePlan("Rome — arrival and first base\nFlorence — galleries, food, walking\nCinque Terre — coastal reset\nVenice — final leg");
-    setToday("First proper day in Rome. Need a calm plan that avoids overdoing it after the long flight from New Zealand.");
-    setBookings("Air New Zealand flight details to add. Hotel near Pantheon. Vatican Museums not booked yet. Train to Florence later in the week. Need restaurant ideas that are easy and not too touristy.");
-    setBookingVault("Paste Air New Zealand confirmation, hotel bookings, train tickets, restaurant bookings, museum tickets, and travel insurance notes here.\n\nKnown trip shell: Kate + Adrian leave New Zealand on Sunday 24 May 2026 for Italy.");
-    setWorries("Jet lag, heat, pickpockets around crowded sights, booking windows, and whether Sunday hours change things.");
-    setNotes("Prefer walking clusters, coffee breaks, galleries, pasta, no frantic crossing the city. Need what to bring before leaving the hotel.");
+    setRoutePlan("Milan — arrival on Sunday\nRome — Vatican booked the following day\nFlorence — galleries, food, walking\nCinque Terre — coastal reset\nVenice — final leg");
+    setToday("Flying into Milan on Sunday with Adrian. Need one calm place for flights, hotel, Vatican booking, weather, and first moves.");
+    setBookings("Air New Zealand flight details to add. Vatican booked for the following day — confirm exact date/time. Hotels and trains to paste in.");
+    setBookingVault("Paste Air New Zealand confirmation, hotel bookings, train tickets, restaurant bookings, museum tickets, and travel insurance notes here.\n\nKnown trip shell: Kate + Adrian leave New Zealand on Sunday 24 May 2026, fly into Milan, and have the Vatican booked for the following day.");
+    setWorries("Jet lag, airport transfer, Milan arrival timing, getting to Rome/Vatican without stress, booking windows, and weather across each city.");
+    setNotes("Prefer interesting local-feeling ideas, secret corners, photo moments, coffee breaks, food, no frantic crossing the city. Need what to bring before leaving the hotel.");
   }
 
   function copyOutput() {
@@ -237,7 +308,8 @@ export function VoyageItalyTool() {
               menu or train board, add worries, and leave with today&apos;s moves,
               weather-aware packing, timing risks, useful Italian, and draft
               actions to review before you step out. Built first for Kate and
-              Adrian&apos;s Italy trip leaving Sunday 24 May 2026.
+              Adrian&apos;s Italy trip leaving Sunday 24 May 2026, but shaped as a
+              reusable free travel companion.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {proofCards.map(({ icon: Icon, title, body }) => (
@@ -262,6 +334,7 @@ export function VoyageItalyTool() {
                   ["Today", "weather, bring-list, timings"],
                   ["Move", "trains, buffers, neighbourhood clusters"],
                   ["Read", "menus, signs, tickets, booking screenshots"],
+                  ["Spark", "less obvious places and local-feeling ideas"],
                   ["Remember", "draft messages, calendar holds, tomorrow checks"],
                 ].map(([label, value]) => (
                   <div key={label} className="grid grid-cols-[88px_1fr] gap-3 border-t border-white/15 pt-3 text-sm">
@@ -432,6 +505,72 @@ export function VoyageItalyTool() {
                   placeholder="Paste anything: places you want, food preferences, walking limits, family notes, things to avoid, or tomorrow's plan."
                 />
               </label>
+              <label className="md:col-span-2">
+                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Ask VOYAGE anything</span>
+                <div className="rounded-[10px] border border-[rgba(43,107,87,0.18)] bg-white/62 p-3">
+                  <div className="flex items-start gap-3">
+                    <MessageCircle className="mt-3 h-5 w-5 shrink-0 text-[#2B6B57]" aria-hidden />
+                    <textarea
+                      value={question}
+                      onChange={(event) => setQuestion(event.target.value)}
+                      className="min-h-[88px] flex-1 resize-y bg-transparent p-2 leading-relaxed outline-none"
+                      placeholder="e.g. We land in Milan Sunday and have the Vatican booked the next day. What should we do first, what could go wrong, and what is one less-obvious thing near us?"
+                    />
+                  </div>
+                </div>
+              </label>
+              <div className="md:col-span-2 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2]/78 p-4">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">trip moments</p>
+                    <p className="mt-2 text-sm leading-relaxed text-[#5A5550]">
+                      Keep a small local gallery of moments, screenshots, places, menus, or ideas. These captions feed the next VOYAGE brief.
+                    </p>
+                  </div>
+                  <label className="relative inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full bg-[#103F35] px-5 text-sm font-medium text-[#FAF7F2]">
+                    <ImagePlus className="h-4 w-4" aria-hidden />
+                    Add photo
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(event) => handleMomentUpload(event.target.files?.[0] ?? null)}
+                      className="absolute inset-0 cursor-pointer opacity-0"
+                      aria-label="Add a trip moment"
+                    />
+                  </label>
+                </div>
+                {moments.length ? (
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {moments.map((moment) => (
+                      <div key={moment.id} className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={moment.imageDataUrl} alt="" className="h-36 w-full object-cover" />
+                        <div className="p-3">
+                          <input
+                            value={moment.caption}
+                            onChange={(event) =>
+                              setMoments((value) =>
+                                value.map((item) =>
+                                  item.id === moment.id ? { ...item, caption: event.target.value } : item,
+                                ),
+                              )
+                            }
+                            className="w-full rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[#F7F4EE] px-3 py-2 text-sm outline-none focus:border-[#2B6B57]"
+                            placeholder="Caption this moment for the agent..."
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setMoments((value) => value.filter((item) => item.id !== moment.id))}
+                            className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[#8B4B3E] hover:text-[#23211F]"
+                          >
+                            remove
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3">
@@ -456,6 +595,8 @@ export function VoyageItalyTool() {
                   setHtml("");
                   setWeather("");
                   setFx("");
+                  setRouteWeather([]);
+                  setQuestion("");
                   setError("");
                 }}
                 className="rounded-full border border-[rgba(35,33,31,0.18)] px-6 py-3 text-sm text-[#5A5550] hover:text-[#23211F]"
@@ -506,8 +647,25 @@ export function VoyageItalyTool() {
                       </span>
                       <span className="text-[#FAF7F2]/86">{stop}</span>
                     </div>
-                  ))}
+                ))}
               </div>
+            </div>
+            <div className="mt-5 rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-4">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#2B6B57]">city weather</p>
+              {routeWeather.length ? (
+                <div className="mt-3 space-y-3">
+                  {routeWeather.map((item) => (
+                    <div key={item.city} className="rounded-[8px] border border-[rgba(43,107,87,0.13)] bg-[#FAF7F2]/72 p-3">
+                      <p className="font-display text-2xl font-light italic leading-none text-[#103F35]">{item.city}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-[#3D4250]">{item.summary}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-3 text-sm leading-relaxed text-[#5A5550]">
+                  Generate a travel desk to check weather across the cities named in your route.
+                </p>
+              )}
             </div>
             <p className="mt-7 font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what it can do now</p>
             <div className="mt-5 space-y-5">

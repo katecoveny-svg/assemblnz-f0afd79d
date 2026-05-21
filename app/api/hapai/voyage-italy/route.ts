@@ -17,6 +17,8 @@ const CITY_COORDS: Record<string, { name: string; lat: number; lon: number }> = 
   napoli: { name: "Naples", lat: 40.8518, lon: 14.2681 },
   bologna: { name: "Bologna", lat: 44.4949, lon: 11.3426 },
   siena: { name: "Siena", lat: 43.3188, lon: 11.3308 },
+  "cinque terre": { name: "Cinque Terre", lat: 44.1461, lon: 9.6546 },
+  "la spezia": { name: "La Spezia", lat: 44.1025, lon: 9.8241 },
   amalfi: { name: "Amalfi", lat: 40.634, lon: 14.6027 },
   positano: { name: "Positano", lat: 40.6281, lon: 14.4849 },
   sorrento: { name: "Sorrento", lat: 40.6263, lon: 14.3757 },
@@ -36,6 +38,7 @@ Sections in this exact order:
 <h2>Top 3 moves</h2> — exactly three bullets, each with why it matters today.
 <h2>Weather and what to bring</h2> — use supplied live weather when present; include shoes, layers, rain, sun, water, tickets, adapter, passport, or medication only when relevant.
 <h2>Bookings and timing risks</h2> — tickets, opening hours, train buffers, airport transfers, must-book galleries, check-in windows, queues, and Sunday/public-holiday risks.
+<h2>Local sparks</h2> — 3 specific, slightly less obvious ideas that fit the city, weather, energy level, route, and user's preferences. Make these feel like a good local friend, not a generic top-ten list. Do not invent secret access or unsafe advice.
 <h2>Photo or screenshot read</h2> — visible details from the image only. If no image, say <p>No image supplied.</p>.
 <h2>Useful Italian</h2> — 3 to 6 short phrases with English meaning, matched to the situation.
 <h2>Draft actions</h2> — bullets for messages, questions, calendar holds, or notes to review. Every item must be draft-only and human-approved.
@@ -126,6 +129,25 @@ async function getWeather(cityInput: string) {
   }
 }
 
+function routeCities(routePlan: string, currentCity: string) {
+  const text = `${currentCity}\n${routePlan}`.toLowerCase();
+  const found = new Map<string, { name: string; lat: number; lon: number }>();
+  for (const [key, city] of Object.entries(CITY_COORDS)) {
+    if (text.includes(key)) found.set(city.name, city);
+  }
+  if (found.size === 0) found.set(CITY_COORDS.rome.name, CITY_COORDS.rome);
+  return [...found.values()].slice(0, 8);
+}
+
+async function getRouteWeather(routePlan: string, currentCity: string) {
+  const cities = routeCities(routePlan, currentCity);
+  const weather = await Promise.all(cities.map((city) => getWeather(city.name)));
+  return weather.map((item) => ({
+    city: item.city.name,
+    summary: item.summary,
+  }));
+}
+
 function fallbackHtml(input: {
   city: string;
   travelers: string;
@@ -138,6 +160,9 @@ function fallbackHtml(input: {
   notes: string;
   weather: string;
   fx: string;
+  routeWeather: Array<{ city: string; summary: string }>;
+  question: string;
+  moments: string;
   imageAttached: boolean;
 }) {
   const context = [input.bookingVault, input.bookings, input.worries, input.notes]
@@ -158,6 +183,7 @@ function fallbackHtml(input: {
     `<h2>Top 3 moves</h2><ul>${priorityItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`,
     `<h2>Weather and what to bring</h2><p>${escapeHtml(input.weather || "Live weather unavailable.")}</p><ul><li>Comfortable walking shoes, charged phone, water, and a light layer.</li><li>Keep passport, ticket screenshots, and accommodation address available offline.</li></ul>`,
     `<h2>Bookings and timing risks</h2><ul><li>For major museums, galleries, trains, and airport transfers, check the booking window and queue buffer before leaving.</li><li>Sunday and public-holiday hours can be different in Italy; confirm before crossing town.</li></ul>`,
+    `<h2>Local sparks</h2><ul><li>Choose one slower neighbourhood wander near your base instead of crossing the city twice.</li><li>Save one cafe, piazza, or viewpoint as a low-effort reset if the main plan gets too hot or crowded.</li><li>Ask the hotel for one nearby dinner option they would send a friend to, then check the menu before walking over.</li></ul>`,
     `<h2>Photo or screenshot read</h2><p>${input.imageAttached ? "An image was attached. Generation was unavailable, so review the visible text manually before acting." : "No image supplied."}</p>`,
     `<h2>Useful Italian</h2><ul><li><strong>Dov'e la stazione?</strong> — Where is the station?</li><li><strong>Ho una prenotazione.</strong> — I have a booking.</li><li><strong>Quanto costa?</strong> — How much does it cost?</li><li><strong>Posso avere acqua naturale?</strong> — Could I have still water?</li></ul>`,
     `<h2>Draft actions</h2><ul><li>Draft a note with today's address, booking times, and must-bring items.</li><li>Draft any message to accommodation or tour provider for human review before sending.</li></ul>`,
@@ -172,6 +198,8 @@ export async function POST(req: Request) {
   const departureDate = String(body?.departureDate ?? "2026-05-24").trim().slice(0, 80);
   const routePlan = String(body?.routePlan ?? "").trim().slice(0, 4000);
   const bookingVault = String(body?.bookingVault ?? "").trim().slice(0, 12000);
+  const question = String(body?.question ?? "").trim().slice(0, 1600);
+  const moments = String(body?.moments ?? "").trim().slice(0, 4000);
   const today = String(body?.today ?? "").trim().slice(0, 1600);
   const bookings = String(body?.bookings ?? "").trim().slice(0, 5000);
   const worries = String(body?.worries ?? "").trim().slice(0, 4000);
@@ -188,9 +216,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Add a city, note, booking, or photo first." }, { status: 400 });
   }
 
-  const [fx, weather] = await Promise.all([getFx(), getWeather(city)]);
+  const [fx, weather, routeWeather] = await Promise.all([getFx(), getWeather(city), getRouteWeather(routePlan, city)]);
   const fxLine = fx ? `Live FX: 1 EUR = ${fx.rate.toFixed(3)} NZD (${fx.date}).` : "Live FX unavailable.";
   const weatherLine = weather.summary;
+  const routeWeatherBlock = routeWeather.map((item) => `- ${item.summary}`).join("\n");
 const message = `City/base:
 ${weather.city.name}
 
@@ -205,6 +234,12 @@ ${routePlan || "Not supplied"}
 
 Booking vault:
 ${bookingVault || "Not supplied"}
+
+Trip photos / moments captured:
+${moments || "Not supplied"}
+
+User question or request:
+${question || "No specific question. Draft the daily travel desk."}
 
 What is happening today:
 ${today || "Not supplied"}
@@ -221,6 +256,8 @@ ${notes || "Not supplied"}
 Live data:
 ${fxLine}
 ${weatherLine}
+Route weather:
+${routeWeatherBlock || "Route weather unavailable."}
 
 Attachment:
 ${imageDataUrl ? "A photo or screenshot is attached. Read visible signs, menus, train boards, booking emails, tickets, maps, dates, times, addresses, and prices. Do not guess unclear details." : "No image supplied."}`;
@@ -243,6 +280,7 @@ ${imageDataUrl ? "A photo or screenshot is attached. Read visible signs, menus, 
           html: appendWatermark(sanitizeHtml(data.response)),
           weather: weatherLine,
           fx: fxLine,
+          routeWeather,
         });
       }
     }
@@ -264,10 +302,14 @@ ${imageDataUrl ? "A photo or screenshot is attached. Read visible signs, menus, 
         notes,
         weather: weatherLine,
         fx: fxLine,
+        routeWeather,
+        question,
+        moments,
         imageAttached: Boolean(imageDataUrl),
       }),
     ),
     weather: weatherLine,
     fx: fxLine,
+    routeWeather,
   });
 }

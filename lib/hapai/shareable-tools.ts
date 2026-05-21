@@ -116,9 +116,9 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
   },
   {
     slug: 'voyage-italy',
-    name: 'Voyage Italy',
+    name: 'Voyage Travel Desk',
     status: 'live',
-    description: 'Italy travel desk with weather, FX, photo parsing, timing risks, useful phrases, and draft actions.',
+    description: 'Travel companion with weather, FX, booking vault, photo moments, local sparks, timing risks, and draft actions.',
     href: '/hapai/voyage-italy',
     visual: 'voyage',
     shareable: true,
