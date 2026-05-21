@@ -17,9 +17,7 @@ import { KeteAgentWidget } from '@/components/chat/KeteAgentWidget';
 
 type Params = { slug: string };
 
-export function generateStaticParams(): Params[] {
-  return KETES.map((k) => ({ slug: k.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,

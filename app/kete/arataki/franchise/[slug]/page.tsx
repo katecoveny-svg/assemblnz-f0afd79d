@@ -1,12 +1,10 @@
 import { notFound } from 'next/navigation';
 import { FranchisePage } from '@/components/arataki/FranchisePage';
-import { franchisePages, franchiseSlugs, type FranchiseSlug } from '@/lib/arataki/franchises';
+import { franchisePages, type FranchiseSlug } from '@/lib/arataki/franchises';
 
 type Params = { slug: string };
 
-export function generateStaticParams(): Params[] {
-  return franchiseSlugs.map((slug) => ({ slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<Params> }) {
   const { slug } = await params;

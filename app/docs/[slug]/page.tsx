@@ -6,9 +6,7 @@ import { getAllDocs, getDoc } from '@/lib/docs';
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
-  return getAllDocs().map((doc) => ({ slug: doc.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,

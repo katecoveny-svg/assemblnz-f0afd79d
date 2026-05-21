@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { getTranslations, setRequestLocale } from "next-intl/server";
 import { isLocale } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import enMessages from "@/messages/en.json";
+import miMessages from "@/messages/mi.json";
 
 export default async function LocaleHomePage({
   params,
@@ -11,8 +12,8 @@ export default async function LocaleHomePage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  setRequestLocale(locale);
-  const t = await getTranslations({ locale, namespace: "home" });
+  const messages = locale === "mi" ? miMessages : enMessages;
+  const t = (key: keyof typeof enMessages.home) => messages.home[key];
 
   return (
     <section className="relative overflow-hidden border-b border-[rgba(157,140,125,0.14)] bg-[color:var(--assembl-paper)]">

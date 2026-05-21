@@ -4,12 +4,9 @@ import { SectionReveal } from "@/components/SectionReveal";
 import {
   getPublicAssemblyPreview,
   isPublicAssemblyDemoEnabled,
-  PUBLIC_ASSEMBLY_PREVIEWS,
 } from "@/lib/government/public-assembly-previews";
 
-export function generateStaticParams() {
-  return PUBLIC_ASSEMBLY_PREVIEWS.map((preview) => ({ slug: preview.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
