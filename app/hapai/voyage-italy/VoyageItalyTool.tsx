@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
+  CalendarDays,
   Camera,
   CheckCircle2,
   CloudSun,
   Copy,
   Download,
   Euro,
+  FileText,
+  Hotel,
   MapPin,
   Plane,
   Sparkles,
@@ -32,6 +35,7 @@ function htmlToMarkdown(html: string) {
 }
 
 const cityOptions = ["Rome", "Florence", "Venice", "Milan", "Naples", "Bologna", "Siena", "Amalfi"];
+const STORAGE_KEY = "assembl:voyage-italy:trip-board:v1";
 
 const proofCards = [
   {
@@ -53,6 +57,10 @@ const proofCards = [
 
 export function VoyageItalyTool() {
   const [city, setCity] = useState("Rome");
+  const [travelers, setTravelers] = useState("Kate, Adrian");
+  const [departureDate, setDepartureDate] = useState("2026-05-24");
+  const [routePlan, setRoutePlan] = useState("Rome — arrival and first base\nFlorence — galleries, food, walking\nCinque Terre — coastal reset\nVenice — final leg");
+  const [bookingVault, setBookingVault] = useState("");
   const [today, setToday] = useState("");
   const [bookings, setBookings] = useState("");
   const [worries, setWorries] = useState("");
@@ -65,7 +73,45 @@ export function VoyageItalyTool() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const hasInput = `${city}${today}${bookings}${worries}${notes}${imageDataUrl ? "image" : ""}`.trim().length >= 8;
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(STORAGE_KEY);
+      if (!saved) return;
+      const parsed = JSON.parse(saved) as Partial<{
+        city: string;
+        travelers: string;
+        departureDate: string;
+        routePlan: string;
+        bookingVault: string;
+        bookings: string;
+        worries: string;
+        notes: string;
+      }>;
+      if (parsed.city) setCity(parsed.city);
+      if (parsed.travelers) setTravelers(parsed.travelers);
+      if (parsed.departureDate) setDepartureDate(parsed.departureDate);
+      if (parsed.routePlan) setRoutePlan(parsed.routePlan);
+      if (parsed.bookingVault) setBookingVault(parsed.bookingVault);
+      if (parsed.bookings) setBookings(parsed.bookings);
+      if (parsed.worries) setWorries(parsed.worries);
+      if (parsed.notes) setNotes(parsed.notes);
+    } catch {
+      // Local-only convenience cache; ignore corrupt values.
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ city, travelers, departureDate, routePlan, bookingVault, bookings, worries, notes }),
+      );
+    } catch {
+      // Private browsing or storage disabled; the tool still works.
+    }
+  }, [city, travelers, departureDate, routePlan, bookingVault, bookings, worries, notes]);
+
+  const hasInput = `${city}${travelers}${departureDate}${routePlan}${bookingVault}${today}${bookings}${worries}${notes}${imageDataUrl ? "image" : ""}`.trim().length >= 8;
 
   async function generateBrief() {
     setError("");
@@ -75,7 +121,7 @@ export function VoyageItalyTool() {
       const response = await fetch("/api/hapai/voyage-italy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ city, today, bookings, worries, notes, imageDataUrl }),
+        body: JSON.stringify({ city, travelers, departureDate, routePlan, bookingVault, today, bookings, worries, notes, imageDataUrl }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Could not draft the Italy desk.");
@@ -109,10 +155,50 @@ export function VoyageItalyTool() {
     reader.readAsDataURL(file);
   }
 
+  function handleBookingUpload(file: File | null) {
+    setError("");
+    if (!file) return;
+    if (file.type.startsWith("image/")) {
+      handleImageUpload(file);
+      setBookingVault((value) =>
+        `${value}${value ? "\n\n" : ""}[Image uploaded for parser: ${file.name}. Ask VOYAGE to read the visible booking details.]`,
+      );
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setError("For now, upload text/email/calendar files under 2MB, or take a screenshot of the booking.");
+      return;
+    }
+    const lower = file.name.toLowerCase();
+    const readable =
+      file.type.startsWith("text/") ||
+      lower.endsWith(".txt") ||
+      lower.endsWith(".eml") ||
+      lower.endsWith(".ics") ||
+      lower.endsWith(".csv") ||
+      lower.endsWith(".json") ||
+      lower.endsWith(".md");
+    if (!readable) {
+      setError("I can read screenshots/images, .eml, .ics, .txt, .csv, .json, and .md here. For Air NZ PDFs, upload a screenshot or paste the confirmation text.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = String(reader.result ?? "").slice(0, 9000);
+      setBookingVault((value) => `${value}${value ? "\n\n" : ""}--- ${file.name} ---\n${text}`);
+    };
+    reader.onerror = () => setError("Could not read that file. Paste the booking text or upload a screenshot.");
+    reader.readAsText(file);
+  }
+
   function loadItalySample() {
     setCity("Rome");
+    setTravelers("Kate, Adrian");
+    setDepartureDate("2026-05-24");
+    setRoutePlan("Rome — arrival and first base\nFlorence — galleries, food, walking\nCinque Terre — coastal reset\nVenice — final leg");
     setToday("First proper day in Rome. Need a calm plan that avoids overdoing it after the long flight from New Zealand.");
-    setBookings("Hotel near Pantheon. Vatican Museums not booked yet. Train to Florence later in the week. Need restaurant ideas that are easy and not too touristy.");
+    setBookings("Air New Zealand flight details to add. Hotel near Pantheon. Vatican Museums not booked yet. Train to Florence later in the week. Need restaurant ideas that are easy and not too touristy.");
+    setBookingVault("Paste Air New Zealand confirmation, hotel bookings, train tickets, restaurant bookings, museum tickets, and travel insurance notes here.\n\nKnown trip shell: Kate + Adrian leave New Zealand on Sunday 24 May 2026 for Italy.");
     setWorries("Jet lag, heat, pickpockets around crowded sights, booking windows, and whether Sunday hours change things.");
     setNotes("Prefer walking clusters, coffee breaks, galleries, pasta, no frantic crossing the city. Need what to bring before leaving the hotel.");
   }
@@ -150,7 +236,8 @@ export function VoyageItalyTool() {
               A practical travel desk for the trip: paste bookings, upload a
               menu or train board, add worries, and leave with today&apos;s moves,
               weather-aware packing, timing risks, useful Italian, and draft
-              actions to review before you step out.
+              actions to review before you step out. Built first for Kate and
+              Adrian&apos;s Italy trip leaving Sunday 24 May 2026.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {proofCards.map(({ icon: Icon, title, body }) => (
@@ -210,6 +297,24 @@ export function VoyageItalyTool() {
 
             <div className="grid gap-4 md:grid-cols-2">
               <label>
+                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Travellers</span>
+                <input
+                  value={travelers}
+                  onChange={(event) => setTravelers(event.target.value)}
+                  className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#2B6B57]"
+                  placeholder="Kate, Adrian"
+                />
+              </label>
+              <label>
+                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Departure from NZ</span>
+                <input
+                  type="date"
+                  value={departureDate}
+                  onChange={(event) => setDepartureDate(event.target.value)}
+                  className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#2B6B57]"
+                />
+              </label>
+              <label>
                 <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Where are you based?</span>
                 <select
                   value={city}
@@ -228,6 +333,45 @@ export function VoyageItalyTool() {
                   onChange={(event) => setToday(event.target.value)}
                   className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#2B6B57]"
                   placeholder="e.g. First day, jet lagged, want a gentle Rome loop."
+                />
+              </label>
+              <label className="md:col-span-2">
+                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Route board</span>
+                <textarea
+                  value={routePlan}
+                  onChange={(event) => setRoutePlan(event.target.value)}
+                  className="min-h-[112px] w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] p-3 leading-relaxed outline-none focus:border-[#2B6B57] focus:bg-white"
+                  placeholder="Rome — dates/nights&#10;Florence — dates/nights&#10;Venice — dates/nights"
+                />
+              </label>
+              <label className="md:col-span-2">
+                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Upload Air NZ, hotel, booking, calendar, or ticket file</span>
+                <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[rgba(43,107,87,0.32)] bg-[#F7F4EE] p-4">
+                  <input
+                    type="file"
+                    accept="image/*,.txt,.eml,.ics,.csv,.json,.md,text/*"
+                    onChange={(event) => handleBookingUpload(event.target.files?.[0] ?? null)}
+                    className="absolute inset-0 cursor-pointer opacity-0"
+                    aria-label="Upload flight, hotel, or booking details"
+                  />
+                  <div className="flex items-center gap-4">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#103F35] text-[#FAF7F2]">
+                      <FileText className="h-5 w-5" aria-hidden />
+                    </span>
+                    <div>
+                      <p className="font-medium text-[#23211F]">Add Air NZ emails, .ics calendar holds, booking text, or screenshots.</p>
+                      <p className="mt-1 text-sm text-[#6B6661]">PDF parsing comes next; for now, paste the text or upload a screenshot of the PDF/booking page.</p>
+                    </div>
+                  </div>
+                </div>
+              </label>
+              <label className="md:col-span-2">
+                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Trip booking vault</span>
+                <textarea
+                  value={bookingVault}
+                  onChange={(event) => setBookingVault(event.target.value)}
+                  className="min-h-[150px] w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] p-3 font-mono text-[12px] leading-relaxed outline-none focus:border-[#2B6B57] focus:bg-white"
+                  placeholder="Paste Air New Zealand flight numbers, departure/arrival times, hotel addresses, booking references, restaurant reservations, train tickets, museum bookings, insurance notes..."
                 />
               </label>
               <label className="md:col-span-2">
@@ -330,7 +474,42 @@ export function VoyageItalyTool() {
           </div>
 
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-[#FAF7F2]/78 p-6 shadow-[0_22px_80px_rgba(35,33,31,0.06)]">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what it can do now</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">your trip board</p>
+            <div className="mt-5 rounded-[8px] border border-[rgba(43,107,87,0.18)] bg-white/68 p-4">
+              <div className="grid gap-3 text-sm leading-relaxed text-[#3D4250]">
+                <p className="flex items-center gap-2">
+                  <Plane className="h-4 w-4 text-[#2B6B57]" aria-hidden />
+                  <strong className="text-[#23211F]">{travelers || "Kate, Adrian"}</strong>
+                </p>
+                <p className="flex items-center gap-2">
+                  <CalendarDays className="h-4 w-4 text-[#2B6B57]" aria-hidden />
+                  Leaving New Zealand {departureDate || "2026-05-24"}
+                </p>
+                <p className="flex items-center gap-2">
+                  <Hotel className="h-4 w-4 text-[#2B6B57]" aria-hidden />
+                  {bookingVault.trim() ? "Booking vault loaded in this browser" : "Add flights, hotels, trains, and tickets"}
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-[#103F35] p-4 text-[#FAF7F2]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#D9A85A]">route</p>
+              <div className="mt-4 space-y-3">
+                {routePlan
+                  .split(/\n+/)
+                  .map((stop) => stop.trim())
+                  .filter(Boolean)
+                  .slice(0, 6)
+                  .map((stop, index) => (
+                    <div key={`${stop}-${index}`} className="grid grid-cols-[24px_1fr] gap-3 text-sm">
+                      <span className="mt-1 flex h-5 w-5 items-center justify-center rounded-full border border-[#D9A85A]/60 font-mono text-[9px] text-[#D9A85A]">
+                        {index + 1}
+                      </span>
+                      <span className="text-[#FAF7F2]/86">{stop}</span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+            <p className="mt-7 font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what it can do now</p>
             <div className="mt-5 space-y-5">
               {[
                 [MapPin, "Cluster the day", "Turn a messy wish-list into a walkable plan."],

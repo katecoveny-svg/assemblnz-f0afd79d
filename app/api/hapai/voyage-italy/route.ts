@@ -32,6 +32,7 @@ OUTPUT FORMAT — return HTML using only these tags: <h2>, <p>, <ul>, <li>, <str
 
 Sections in this exact order:
 <h2>Today in plain English</h2> — one short paragraph that says what matters.
+<h2>Trip board</h2> — travellers, departure date, route, and key bookings supplied by the user.
 <h2>Top 3 moves</h2> — exactly three bullets, each with why it matters today.
 <h2>Weather and what to bring</h2> — use supplied live weather when present; include shoes, layers, rain, sun, water, tickets, adapter, passport, or medication only when relevant.
 <h2>Bookings and timing risks</h2> — tickets, opening hours, train buffers, airport transfers, must-book galleries, check-in windows, queues, and Sunday/public-holiday risks.
@@ -127,6 +128,10 @@ async function getWeather(cityInput: string) {
 
 function fallbackHtml(input: {
   city: string;
+  travelers: string;
+  departureDate: string;
+  routePlan: string;
+  bookingVault: string;
   today: string;
   bookings: string;
   worries: string;
@@ -135,7 +140,7 @@ function fallbackHtml(input: {
   fx: string;
   imageAttached: boolean;
 }) {
-  const context = [input.bookings, input.worries, input.notes]
+  const context = [input.bookingVault, input.bookings, input.worries, input.notes]
     .join("\n")
     .split(/[\n\r]+/)
     .map((line) => line.replace(/^[-•*\d.\s]+/, "").trim())
@@ -149,6 +154,7 @@ function fallbackHtml(input: {
 
   return [
     `<h2>Today in plain English</h2><p>${escapeHtml(input.today || `Use this as a calm travel desk for ${input.city || "Italy"}: check the plan, spot timing risks, and leave with the few things that matter.`)}</p>`,
+    `<h2>Trip board</h2><ul><li><strong>Travellers:</strong> ${escapeHtml(input.travelers || "Kate and Adrian")}</li><li><strong>Departure:</strong> ${escapeHtml(input.departureDate || "Sunday 24 May 2026")}</li><li><strong>Route:</strong> ${escapeHtml(input.routePlan || "Italy route not supplied yet.")}</li><li><strong>Booking vault:</strong> ${escapeHtml(input.bookingVault ? "Flight, hotel, and booking details supplied." : "No booking vault text supplied yet.")}</li></ul>`,
     `<h2>Top 3 moves</h2><ul>${priorityItems.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`,
     `<h2>Weather and what to bring</h2><p>${escapeHtml(input.weather || "Live weather unavailable.")}</p><ul><li>Comfortable walking shoes, charged phone, water, and a light layer.</li><li>Keep passport, ticket screenshots, and accommodation address available offline.</li></ul>`,
     `<h2>Bookings and timing risks</h2><ul><li>For major museums, galleries, trains, and airport transfers, check the booking window and queue buffer before leaving.</li><li>Sunday and public-holiday hours can be different in Italy; confirm before crossing town.</li></ul>`,
@@ -162,6 +168,10 @@ function fallbackHtml(input: {
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
   const city = String(body?.city ?? "Rome").trim().slice(0, 80);
+  const travelers = String(body?.travelers ?? "Kate, Adrian").trim().slice(0, 240);
+  const departureDate = String(body?.departureDate ?? "2026-05-24").trim().slice(0, 80);
+  const routePlan = String(body?.routePlan ?? "").trim().slice(0, 4000);
+  const bookingVault = String(body?.bookingVault ?? "").trim().slice(0, 12000);
   const today = String(body?.today ?? "").trim().slice(0, 1600);
   const bookings = String(body?.bookings ?? "").trim().slice(0, 5000);
   const worries = String(body?.worries ?? "").trim().slice(0, 4000);
@@ -174,15 +184,27 @@ export async function POST(req: Request) {
   if (imageDataUrl.length > 11_200_000) {
     return NextResponse.json({ error: "Please upload an image under 8MB." }, { status: 413 });
   }
-  if (`${city}${today}${bookings}${worries}${notes}${imageDataUrl ? "image" : ""}`.trim().length < 8) {
+  if (`${city}${travelers}${departureDate}${routePlan}${bookingVault}${today}${bookings}${worries}${notes}${imageDataUrl ? "image" : ""}`.trim().length < 8) {
     return NextResponse.json({ error: "Add a city, note, booking, or photo first." }, { status: 400 });
   }
 
   const [fx, weather] = await Promise.all([getFx(), getWeather(city)]);
   const fxLine = fx ? `Live FX: 1 EUR = ${fx.rate.toFixed(3)} NZD (${fx.date}).` : "Live FX unavailable.";
   const weatherLine = weather.summary;
-  const message = `City/base:
+const message = `City/base:
 ${weather.city.name}
+
+Travellers:
+${travelers || "Kate, Adrian"}
+
+Departure:
+${departureDate || "2026-05-24"} (user says they leave on Sunday; current NZ date context is Thursday 21 May 2026, so Sunday is 24 May 2026)
+
+Route / itinerary board:
+${routePlan || "Not supplied"}
+
+Booking vault:
+${bookingVault || "Not supplied"}
 
 What is happening today:
 ${today || "Not supplied"}
@@ -232,6 +254,10 @@ ${imageDataUrl ? "A photo or screenshot is attached. Read visible signs, menus, 
     html: appendWatermark(
       fallbackHtml({
         city: weather.city.name,
+        travelers,
+        departureDate,
+        routePlan,
+        bookingVault,
         today,
         bookings,
         worries,
