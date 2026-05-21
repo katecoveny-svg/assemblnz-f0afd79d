@@ -45,7 +45,6 @@ The governing skill for future copy passes is installed locally as `assembl-site
 | Tool | Route | Current job | Reset needed |
 | --- | --- | --- | --- |
 | Study Helper | `/hapai/study-helper` | Turn notes, prompts, or photos into an NZ Curriculum study plan. | Keep generic version shareable; add photo parser and clearer teenage language. |
-| Voyage Travel Desk | `/hapai/voyage-italy` | Trip planner with itinerary, weather, bookings, photo memory, and local suggestions. | Rebuild as a real travel app shell, not a static page. Add shared trip link for Kate and Adrian. |
 | Meeting Recorder | `/hapai/meeting-recorder` | Record/paste meeting input and produce notes/actions. | Rebuild as an EA-style tool: listen, transcribe, identify actions, prepare calendar/follow-up drafts. |
 | The 9am Brief | `/hapai/9am-brief` | Convert loose morning signals into priorities. | Make it feel preemptive: weather, diary, school/sport, reminders, risks, and actions. |
 | Vessel Studio | `/hapai/vessel-studio` | Generate brand vessel imagery. | Keep but make output path and draft-only signoff obvious. |

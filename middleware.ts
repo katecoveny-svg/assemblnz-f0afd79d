@@ -40,7 +40,7 @@ const productRedirect = (request: NextRequest) => {
   const url = request.nextUrl.clone();
 
   if (matchesPrefix(pathname, '/toro/route')) {
-    url.pathname = '/hapai/voyage-italy';
+    url.pathname = '/app/voyage/italy';
     return NextResponse.redirect(url, 307);
   }
 
