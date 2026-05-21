@@ -27,7 +27,7 @@ begin
         or last_checked_at < now() - make_interval(mins => cadence_minutes)
       )
       and url not like 'internal://%'
-    order by authority_tier asc nulls last, last_checked_at asc nulls first
+    order by tier asc nulls last, last_checked_at asc nulls first
     limit batch_size
   loop
     v_adapter := case
@@ -131,7 +131,7 @@ insert into public.kb_sources (
   active,
   status,
   consecutive_failures,
-  authority_tier,
+  tier,
   authority_weight,
   config
 )
@@ -152,7 +152,7 @@ select
     'search_term', seed.search_term,
     'search_field', 'title',
     'target_title', seed.target_title,
-    'legislation_status', 'current',
+    'legislation_status', 'in_force',
     'max_works', 1,
     'fetch_xml', true,
     'topic_tags', seed.tags

@@ -25,6 +25,12 @@ type PcoWork = {
   work_id?: string;
   legislation_status?: string;
   legislation_type?: string;
+  latest_matching_version?: {
+    title?: string;
+    version_id?: string;
+    is_latest_version?: boolean;
+    formats?: PcoFormat[];
+  };
 };
 
 type PcoVersion = PcoWork & {
@@ -85,7 +91,12 @@ function chooseFormat(formats: PcoFormat[] | undefined, type: "xml" | "html" | "
 
 function exactTitleMatch(work: PcoWork, targetTitle?: string): boolean {
   if (!targetTitle) return true;
-  return (work.title ?? "").trim().toLowerCase() === targetTitle.trim().toLowerCase();
+  const workTitle = work.title ?? work.latest_matching_version?.title ?? "";
+  return workTitle.trim().toLowerCase() === targetTitle.trim().toLowerCase();
+}
+
+function workTitle(work: PcoWork): string | undefined {
+  return work.title ?? work.latest_matching_version?.title;
 }
 
 async function pcoJson<T>(path: string, apiKey: string, params?: Record<string, string | undefined>): Promise<T> {
@@ -159,7 +170,7 @@ Deno.serve(async (req) => {
     const worksResponse = await pcoJson<{ results?: PcoWork[] }>("/works/", pcoApiKey, {
       search_term: searchTerm,
       search_field: cfg.search_field ?? "title",
-      legislation_status: cfg.legislation_status ?? "current",
+      legislation_status: cfg.legislation_status ?? "in_force",
       legislation_type: cfg.legislation_type,
     });
 
@@ -192,7 +203,7 @@ Deno.serve(async (req) => {
       const xmlText = cfg.fetch_xml !== false && xmlUrl ? await fetchXmlText(xmlUrl) : null;
 
       const contentParts = [
-        `${version.title ?? work.title}`,
+        `${version.title ?? workTitle(work)}`,
         `Work ID: ${version.work_id ?? work.work_id}`,
         `Version ID: ${version.version_id ?? versionSummary.version_id}`,
         `Status: ${version.legislation_status ?? work.legislation_status ?? "unknown"}`,
@@ -220,7 +231,7 @@ Deno.serve(async (req) => {
       const payload = {
         source_id: sourceId,
         external_id: externalId,
-        title: version.title ?? work.title ?? source.name,
+        title: version.title ?? workTitle(work) ?? source.name,
         url: htmlUrl ?? pdfUrl ?? xmlUrl ?? source.url,
         content,
         content_hash: contentHash,
