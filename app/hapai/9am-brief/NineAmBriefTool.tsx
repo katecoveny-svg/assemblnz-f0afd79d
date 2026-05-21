@@ -2,8 +2,26 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Copy, Download, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarCheck,
+  Camera,
+  CloudSun,
+  Copy,
+  Download,
+  ListChecks,
+  Mic,
+  Sparkles,
+  Upload,
+  X,
+} from "lucide-react";
 import { ShareableToolActions } from "@/components/hapai/ShareableToolActions";
+
+const proofCards = [
+  { icon: Camera, title: "photo parser", body: "read a notice, timetable, or screenshot" },
+  { icon: CloudSun, title: "preemptive", body: "spot gear, weather, and prep gaps" },
+  { icon: ListChecks, title: "action desk", body: "leave with a reviewed next list" },
+] as const;
 
 function htmlToMarkdown(html: string) {
   return html
@@ -23,6 +41,8 @@ export function NineAmBriefTool() {
   const [followUps, setFollowUps] = useState("");
   const [worries, setWorries] = useState("");
   const [notes, setNotes] = useState("");
+  const [imageDataUrl, setImageDataUrl] = useState("");
+  const [imageName, setImageName] = useState("");
   const [html, setHtml] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -35,7 +55,7 @@ export function NineAmBriefTool() {
       const response = await fetch("/api/hapai/9am-brief", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ today, meetings, followUps, worries, notes }),
+        body: JSON.stringify({ today, meetings, followUps, worries, notes, imageDataUrl }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Could not draft the brief.");
@@ -61,45 +81,153 @@ export function NineAmBriefTool() {
     URL.revokeObjectURL(url);
   }
 
-  const hasInput = `${today}${meetings}${followUps}${worries}${notes}`.trim().length >= 12;
+  function handleImageUpload(file: File | null) {
+    setError("");
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setError("Upload a photo or screenshot image.");
+      return;
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      setError("Please upload an image under 8MB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageDataUrl(String(reader.result ?? ""));
+      setImageName(file.name);
+    };
+    reader.onerror = () => setError("Could not read that image. Try a smaller screenshot.");
+    reader.readAsDataURL(file);
+  }
+
+  function loadFounderSample() {
+    setToday("Busy operator day. Need to close loose loops before travel and keep the important people warm.");
+    setMeetings("10am supplier check-in\n1pm internal build review\n4pm pilot follow-up window");
+    setFollowUps("Send Dad the Pīkau link\nSend Praveen the Arataki dealership note\nConfirm Nick has the Waihanga one-pager");
+    setWorries("HAPAI tools need to look more credible before sharing\nMeeting recorder needs to feel like a proper assistant, not a form");
+    setNotes("Turn scattered screenshots, emails, and whiteboard notes into one calm action desk. Keep everything draft-only.");
+  }
+
+  function loadSchoolSample() {
+    setToday("School and sport admin before the day gets away. Child can photo a timetable or say what is coming up.");
+    setMeetings("Tuesday: netball training after school\nThursday: cross-country trial\nFriday: spelling test and library day");
+    setFollowUps("Ask coach whether boots or trainers are needed\nCheck if permission slip is signed\nRemind child to pack library book");
+    setWorries("Rain forecast might change sports gear\nUniform and PE kit often get forgotten");
+    setNotes("Make a kid-friendly bring list, parent checks, and tomorrow reminder. In the connected version, check weather and calendar before breakfast.");
+  }
+
+  const hasInput = `${today}${meetings}${followUps}${worries}${notes}${imageDataUrl ? "image" : ""}`.trim().length >= 12;
 
   return (
-    <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
-      <div className="mx-auto max-w-[1040px]">
+    <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_78%_18%,rgba(43,107,87,0.14),transparent_32%),linear-gradient(180deg,#FAF7F2_0%,#F7F1E9_55%,#FAF7F2_100%)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
+      <div className="mx-auto max-w-[1500px]">
         <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]">
           <ArrowLeft className="h-3.5 w-3.5" /> HAPAI library
         </Link>
-        <div className="grid gap-8 lg:grid-cols-[0.92fr_0.58fr] lg:items-end">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_0.72fr] lg:items-stretch">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#2B6B57]">HAPAI · 9am brief</p>
-            <h1 className="mt-3 font-display text-[44px] font-normal italic leading-[0.95] md:text-[68px]">
-              What matters today.
+            <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.4rem,8.6vw,9.2rem)] font-normal italic leading-[0.82] text-[#103F35]">
+              The day, made obvious.
             </h1>
-            <p className="mt-5 max-w-2xl text-[17px] leading-relaxed text-[#5A5550]">
-              Paste the loose morning signals: meetings, reminders, follow-ups, worries, and scraps. The 9am Brief turns them into priorities, calendar risks, and review-ready actions.
+            <p className="mt-7 max-w-3xl text-[clamp(1.05rem,1.8vw,1.35rem)] leading-relaxed text-[#3D4250]">
+              Paste messy notes, talk-to-type a brain dump, or upload a photo of
+              a timetable, whiteboard, sports draw, school notice, or inbox
+              screenshot. The 9am Brief turns it into priorities, bring-lists,
+              follow-ups, calendar risks, and review-ready actions.
             </p>
-            <p className="mt-4 max-w-2xl rounded-[10px] border border-[rgba(212,168,83,0.34)] bg-white/60 px-4 py-3 text-sm leading-relaxed text-[#6B5A28]">
-              Draft-only. This public tool does not send messages, change calendars, file records, or make commitments. Use it to decide what to review first.
-            </p>
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              {proofCards.map(({ icon: Icon, title, body }) => (
+                <div key={title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 p-4 shadow-[0_18px_54px_rgba(35,33,31,0.06)]">
+                  <Icon className="h-5 w-5 text-[#2B6B57]" aria-hidden />
+                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57]">{title}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#5A5550]">{body}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/62 p-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">shareable tool</p>
-            <p className="mt-3 text-sm leading-relaxed text-[#5A5550]">
-              Send the link to another founder, EA, operator, or team lead. The value is the brief they can copy into their own day.
-            </p>
-            <div className="mt-5">
-              <ShareableToolActions
-                title="The 9am Brief by assembl"
-                text="Paste the day’s loose signals and leave with priorities, follow-ups, and review-ready actions."
-                path="/hapai/9am-brief"
-              />
+          <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#103F35] p-6 text-[#FAF7F2] shadow-[0_34px_110px_rgba(35,33,31,0.18)]">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(217,168,90,0.24),transparent_34%),linear-gradient(135deg,rgba(250,247,242,0.10),transparent_48%)]" />
+            <div className="relative">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">shareable tool</p>
+              <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+                The public version drafts. The connected version does.
+              </p>
+              <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FAF7F2]/82">
+                <li className="flex gap-3"><CalendarCheck className="mt-0.5 h-4 w-4 shrink-0" /> Private setup can read calendar, inbox, CRM, weather, and school/sports feeds.</li>
+                <li className="flex gap-3"><Sparkles className="mt-0.5 h-4 w-4 shrink-0" /> Public HAPAI stays draft-only so you can share it safely.</li>
+                <li className="flex gap-3"><Mic className="mt-0.5 h-4 w-4 shrink-0" /> Voice-style notes work now through dictation; live voice capture is the next tool pattern.</li>
+              </ul>
+              <div className="mt-5">
+                <ShareableToolActions
+                  title="The 9am Brief by assembl"
+                  text="Paste the day’s loose signals and leave with priorities, follow-ups, and review-ready actions."
+                  path="/hapai/9am-brief"
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        <section className="mt-8 grid gap-5 lg:grid-cols-[0.92fr_0.58fr]">
-          <div className="rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-7">
+        <section className="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.55fr]">
+          <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
+            <div className="mb-5 flex flex-wrap gap-3">
+              <button type="button" onClick={loadFounderSample} className="rounded-full border border-[rgba(43,107,87,0.24)] bg-[#FAF7F2] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#2B6B57] hover:bg-white">
+                Load founder day
+              </button>
+              <button type="button" onClick={loadSchoolSample} className="rounded-full border border-[rgba(43,107,87,0.24)] bg-[#FAF7F2] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#2B6B57] hover:bg-white">
+                Load school bag brief
+              </button>
+            </div>
             <div className="grid gap-4 md:grid-cols-2">
+              <label className="md:col-span-2">
+                <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Upload a timetable, note, or screenshot</span>
+                <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[rgba(43,107,87,0.32)] bg-[#F7F4EE] p-4">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => handleImageUpload(event.target.files?.[0] ?? null)}
+                    className="absolute inset-0 cursor-pointer opacity-0"
+                    aria-label="Upload an image for the 9am Brief"
+                  />
+                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex items-center gap-4">
+                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2B6B57] text-[#FAF7F2]">
+                        <Upload className="h-5 w-5" aria-hidden />
+                      </span>
+                      <div>
+                        <p className="font-medium text-[#23211F]">
+                          {imageName || "Drop in a school notice, sports draw, whiteboard, or inbox screenshot."}
+                        </p>
+                        <p className="mt-1 text-sm text-[#6B6661]">
+                          The parser reads visible text and turns it into actions. No guessing if the image is unclear.
+                        </p>
+                      </div>
+                    </div>
+                    {imageDataUrl ? (
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          setImageDataUrl("");
+                          setImageName("");
+                        }}
+                        className="relative z-10 inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[rgba(35,33,31,0.16)] bg-white px-4 text-sm text-[#5A5550]"
+                      >
+                        <X className="h-4 w-4" aria-hidden />
+                        Remove
+                      </button>
+                    ) : null}
+                  </div>
+                  {imageDataUrl ? (
+                    <div className="mt-4 overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={imageDataUrl} alt="" className="max-h-[260px] w-full object-contain" />
+                    </div>
+                  ) : null}
+                </div>
+              </label>
               <label className="md:col-span-2">
                 <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">What today feels like</span>
                 <input
@@ -133,6 +261,8 @@ export function NineAmBriefTool() {
                   setFollowUps("");
                   setWorries("");
                   setNotes("");
+                  setImageDataUrl("");
+                  setImageName("");
                   setHtml("");
                 }}
                 className="rounded-full border border-[rgba(35,33,31,0.18)] px-6 py-3 text-sm text-[#5A5550] hover:text-[#23211F]"
@@ -150,14 +280,14 @@ export function NineAmBriefTool() {
             ) : null}
           </div>
 
-          <aside className="rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what it can become</p>
-            <h2 className="mt-3 font-display text-4xl font-light italic leading-none">A proper action desk.</h2>
+          <aside className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what this proves</p>
+            <h2 className="mt-3 font-display text-4xl font-light italic leading-none">Preemptive thinking, visible.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
-              <li>Connect calendar, email, and CRM in a private Industry Pack setup.</li>
-              <li>Draft follow-up emails and agenda notes for named human review.</li>
-              <li>Flag calendar prep gaps before the meeting starts.</li>
-              <li>Show what changed overnight from live regulatory and business feeds.</li>
+              <li><strong>For founders:</strong> screenshots, inbox scraps, and loose follow-ups become a calm action queue.</li>
+              <li><strong>For kids:</strong> a timetable photo can become a pack list, parent checks, and tomorrow reminders.</li>
+              <li><strong>For sport:</strong> the connected version checks weather ahead of games and flags gear changes.</li>
+              <li><strong>For teams:</strong> calendar, email, and CRM actions stay draft-only until a named person approves.</li>
             </ul>
           </aside>
         </section>
