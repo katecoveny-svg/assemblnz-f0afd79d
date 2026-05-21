@@ -13,8 +13,8 @@ export const BRAND_COLORS = {
 export const KETE_ACCENTS: Record<KeteSlug, string> = {
   waihanga: '#2B6B57',
   manaaki: '#AC5838',
-  pikau: '#3B7CB5',
-  arataki: '#D4842A',
+  pikau: '#255F94',
+  arataki: '#8F4F13',
   auaha: '#5B4FA0',
   ako: '#6B5843',
   matauranga: '#3D5A7A',

@@ -30,9 +30,9 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Kete
-            </h4>
+            </h2>
             <ul className="mt-4 space-y-2 text-sm">
               {KETES.map((k) => (
                 <li key={k.slug}>
@@ -64,9 +64,9 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Company
-            </h4>
+            </h2>
             <ul className="mt-4 space-y-2 text-sm">
               <li>
                 <Link
@@ -128,9 +128,9 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h4 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               Aotearoa
-            </h4>
+            </h2>
             <p className="mt-4 text-sm text-[color:var(--text-secondary)]">
               {footerDisclaimer}
             </p>

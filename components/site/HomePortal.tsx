@@ -106,7 +106,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
         <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4.5rem)] w-full max-w-[1480px] items-center gap-10 px-6 py-10 md:px-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(28rem,1.1fr)] lg:gap-14 xl:px-14">
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0.92, y: 10 }}
+            initial={reduceMotion ? false : { opacity: 1, y: 10 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-20 max-w-[720px]"
@@ -145,7 +145,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
 
           <motion.div
             className="relative z-10 min-h-[360px] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#F7F1E9] shadow-[0_36px_120px_rgba(35,33,31,0.12)] md:min-h-[520px] lg:min-h-[min(76svh,780px)]"
-            initial={reduceMotion ? false : { opacity: 0.78, y: 16 }}
+            initial={reduceMotion ? false : { opacity: 1, y: 16 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.82, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           >
@@ -306,7 +306,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
             {FEATURED_HAPAI_TOOLS.map((tool, index) => (
               <motion.div
                 key={tool.href}
-                initial={reduceMotion ? false : { opacity: 0.64, y: 22 }}
+                initial={reduceMotion ? false : { opacity: 1, y: 22 }}
                 whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.26 }}
                 transition={{ duration: 0.52, delay: index * 0.045, ease: [0.16, 1, 0.3, 1] }}
@@ -340,7 +340,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
             ))}
 
             <motion.div
-              initial={reduceMotion ? false : { opacity: 0.64, y: 22 }}
+              initial={reduceMotion ? false : { opacity: 1, y: 22 }}
               whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.26 }}
               transition={{ duration: 0.52, delay: FEATURED_HAPAI_TOOLS.length * 0.045, ease: [0.16, 1, 0.3, 1] }}
@@ -477,7 +477,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
                 key={name}
                 className="rounded-[8px] border border-[rgba(35,33,31,0.10)] border-t-[5px] bg-[color:var(--assembl-paper)] p-6"
                 style={{ borderTopColor: accent }}
-                initial={reduceMotion ? false : { opacity: 0.64, y: 22 }}
+                initial={reduceMotion ? false : { opacity: 1, y: 22 }}
                 whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.34 }}
                 transition={{ duration: 0.5, delay: index * 0.055, ease: [0.16, 1, 0.3, 1] }}
@@ -549,7 +549,7 @@ function RevealSection({
     <motion.section
       id={id}
       className={className}
-      initial={reduceMotion ? false : { opacity: 0.72, y: 34 }}
+      initial={reduceMotion ? false : { opacity: 1, y: 34 }}
       whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: false, amount: 0.12, margin: '-80px 0px' }}
       transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
@@ -578,7 +578,7 @@ function KeteCardGrid({
           <motion.div
             key={kete.slug}
             style={{ '--tile-accent': kete.accent } as CSSProperties}
-            initial={reduceMotion ? false : { opacity: 0.64, y: 24, scale: 0.985 }}
+            initial={reduceMotion ? false : { opacity: 1, y: 24, scale: 0.985 }}
             whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.24 }}
             whileHover={reduceMotion ? undefined : { y: -2 }}
