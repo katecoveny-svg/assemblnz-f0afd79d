@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Copy, Download, Mic, Square } from "lucide-react";
+import { ShareableToolActions } from "@/components/hapai/ShareableToolActions";
 
 type RecognitionResult = {
   isFinal: boolean;
@@ -151,6 +152,13 @@ export default function MeetingNotesPage() {
         <p className="mt-3 max-w-2xl rounded-[10px] border border-[rgba(212,168,83,0.34)] bg-white/60 px-4 py-3 text-sm leading-relaxed text-[#6B5A28]">
           Draft-only. Live recording uses your browser&apos;s speech recognition, and polishing sends the transcript for structuring. Do not record private, employment, health, legal, or commercially sensitive meetings without consent and the right private setup.
         </p>
+        <div className="mt-5">
+          <ShareableToolActions
+            title="Meeting recorder by assembl"
+            text="Record or paste rough meeting notes, then turn them into a draft record with decisions, owners, and next steps."
+            path="/hapai/meeting-recorder"
+          />
+        </div>
 
         <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-7">
           <div className="grid gap-4 md:grid-cols-2">

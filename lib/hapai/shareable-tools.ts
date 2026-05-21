@@ -1,0 +1,165 @@
+export type HapaiToolVisual =
+  | 'vessel'
+  | 'caption'
+  | 'brief'
+  | 'morning-brief'
+  | 'electrify'
+  | 'og-card'
+  | 'tagline'
+  | 'project-picker'
+  | 'meeting'
+  | 'privacy'
+  | 'fridge'
+  | 'food-temp';
+
+export type HapaiTool = {
+  slug: string;
+  name: string;
+  status: 'live' | 'pilot' | 'soon';
+  description: string;
+  href: string;
+  visual: HapaiToolVisual;
+  shareable: boolean;
+  category: 'adoption' | 'operations' | 'marketing' | 'record' | 'lifestyle';
+  posture: string;
+};
+
+export const HAPAI_TOOLS: readonly HapaiTool[] = [
+  {
+    slug: 'vessel-studio',
+    name: 'Vessel studio',
+    status: 'live',
+    description: 'Hero imagery generator',
+    href: '/hapai/vessel-studio/vessel-studio.html',
+    visual: 'vessel',
+    shareable: true,
+    category: 'marketing',
+    posture: 'Draft imagery only. A named person picks and publishes the final asset.',
+  },
+  {
+    slug: 'caption-composer',
+    name: 'Caption composer',
+    status: 'live',
+    description: 'LinkedIn / IG / X / FB captions',
+    href: '/hapai/caption-composer/caption-composer.html',
+    visual: 'caption',
+    shareable: true,
+    category: 'marketing',
+    posture: 'Draft captions only. Check claims, permissions, and platform fit before posting.',
+  },
+  {
+    slug: 'brief-generator',
+    name: 'Brief generator',
+    status: 'live',
+    description: 'Creative / pitch / project briefs',
+    href: '/hapai/brief-generator/brief-generator.html',
+    visual: 'brief',
+    shareable: true,
+    category: 'record',
+    posture: 'Draft brief only. The owner signs off scope, budget, and deadlines.',
+  },
+  {
+    slug: '9am-brief',
+    name: 'The 9am Brief',
+    status: 'live',
+    description: 'Paste the day’s loose signals and leave with priorities, follow-ups, and review-ready actions.',
+    href: '/hapai/9am-brief',
+    visual: 'morning-brief',
+    shareable: true,
+    category: 'operations',
+    posture: 'Draft operating brief only. It does not send messages, change calendars, or make commitments.',
+  },
+  {
+    slug: 'electrify',
+    name: 'Energy calculator',
+    status: 'live',
+    description: 'NZ electrification savings and payback',
+    href: '/electrify',
+    visual: 'electrify',
+    shareable: true,
+    category: 'operations',
+    posture: 'Indicative calculator only. Confirm inputs before investment decisions.',
+  },
+  {
+    slug: 'og-card-generator',
+    name: 'OG card generator',
+    status: 'live',
+    description: 'Branded 1200x630 share cards',
+    href: '/hapai/og-card-generator/og-card-generator.html',
+    visual: 'og-card',
+    shareable: true,
+    category: 'marketing',
+    posture: 'Draft share cards only. Check copy and brand fit before publishing.',
+  },
+  {
+    slug: 'tagline-workshop',
+    name: 'Tagline workshop',
+    status: 'live',
+    description: 'Tagline candidates in five styles',
+    href: '/hapai/tagline-workshop/tagline-workshop.html',
+    visual: 'tagline',
+    shareable: true,
+    category: 'marketing',
+    posture: 'Draft language only. A human chooses and clears the final line.',
+  },
+  {
+    slug: 'project-picker',
+    name: 'Project picker',
+    status: 'live',
+    description: 'Three ranked candidate projects to build first',
+    href: '/hapai/projects',
+    visual: 'project-picker',
+    shareable: true,
+    category: 'adoption',
+    posture: 'Recommendation aid only. Final project choice sits with the operator.',
+  },
+  {
+    slug: 'meeting-recorder',
+    name: 'Meeting recorder',
+    status: 'live',
+    description: 'Record or paste. Walk away with proper notes: decisions, action items, next steps.',
+    href: '/hapai/meeting-recorder',
+    visual: 'meeting',
+    shareable: true,
+    category: 'record',
+    posture: 'Draft meeting record only. Get consent and review before sharing or filing.',
+  },
+  {
+    slug: 'privacy-act',
+    name: 'Privacy Act one-pager',
+    status: 'live',
+    description:
+      'Generate a tailored Privacy Act 2020 summary for your organisation. Maps your data flows to the 13 IPPs including IPP 3A.',
+    href: '/hapai/privacy-act',
+    visual: 'privacy',
+    shareable: true,
+    category: 'record',
+    posture: 'Plain-English draft only. It is not legal advice.',
+  },
+  {
+    slug: 'fridge-to-list',
+    name: 'Fridge to shopping list',
+    status: 'live',
+    description: 'Photo of the fridge in. Meal plan and supermarket-aisle shopping list out. Tuned for NZ kai conventions.',
+    href: '/hapai/fridge-to-list',
+    visual: 'fridge',
+    shareable: true,
+    category: 'lifestyle',
+    posture: 'Household planning aid only. Check allergies, budget, and preferences.',
+  },
+  {
+    slug: 'food-temp-log',
+    name: 'Food temperature log',
+    status: 'live',
+    description: 'Daily fridge, freezer, hot-hold, cooking, and cleaning checks. Walk away with a Food Act 2014 record.',
+    href: '/hapai/food-temp-log',
+    visual: 'food-temp',
+    shareable: true,
+    category: 'record',
+    posture: 'Draft operational record only. The food business operator remains responsible for verification.',
+  },
+] as const;
+
+export function getHapaiTool(slug: string): HapaiTool | undefined {
+  return HAPAI_TOOLS.find((tool) => tool.slug === slug);
+}

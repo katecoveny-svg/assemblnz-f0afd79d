@@ -1,17 +1,5 @@
 import Image from 'next/image';
-
-type HapaiToolVisual =
-  | 'vessel'
-  | 'caption'
-  | 'brief'
-  | 'electrify'
-  | 'og-card'
-  | 'tagline'
-  | 'project-picker'
-  | 'meeting'
-  | 'privacy'
-  | 'fridge'
-  | 'food-temp';
+import type { HapaiToolVisual } from '@/lib/hapai/shareable-tools';
 
 type HapaiToolPreviewProps = {
   visual: HapaiToolVisual;
@@ -100,6 +88,35 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
           <div className="absolute bottom-5 left-5 right-5 border-t border-[rgba(35,33,31,0.12)] pt-4">
             <span className="block h-2 w-[44%] rounded-full bg-[#D4A853]" />
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === 'morning-brief') {
+    return (
+      <div className={previewClass}>
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,#FAF7F2_0%,#EFEAE1_54%,#DCE8E1_100%)]" />
+        <div className="absolute left-5 right-5 top-5 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/82 p-4 shadow-[0_18px_42px_rgba(35,33,31,0.10)]">
+          <div className="flex items-center justify-between gap-3">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#2B6B57]">9am brief</p>
+            <span className="rounded-full bg-[#2B6B57] px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-[#FAF7F2]">
+              draft
+            </span>
+          </div>
+          <div className="mt-5 space-y-3">
+            {[1, 2, 3].map((rank) => (
+              <div key={rank} className="grid grid-cols-[22px_1fr] items-center gap-3">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-[#2B6B57]/28 font-mono text-[9px] text-[#2B6B57]">
+                  {rank}
+                </span>
+                <span className="h-2 rounded-full bg-[#23211F]/16" />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="absolute bottom-5 left-5 right-5 rounded-[8px] border border-[rgba(43,107,87,0.18)] bg-[#FAF7F2]/84 p-3">
+          <p className="font-display text-3xl italic leading-none text-[#103F35]">what matters today</p>
         </div>
       </div>
     );
