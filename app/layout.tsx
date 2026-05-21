@@ -7,6 +7,11 @@ import { CommandPalette } from '@/components/site/CommandPalette';
 import { KeteAccentProvider } from '@/components/KeteAccentContext';
 import './globals.css';
 
+// Next 16/Turbopack currently trips a prerender workStore invariant across
+// unrelated static routes in this app. Keep this branch on the dynamic path so
+// deploys stay reliable while the public-site rebuild is in flight.
+export const dynamic = 'force-dynamic';
+
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],

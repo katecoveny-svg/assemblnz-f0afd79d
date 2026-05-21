@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
+import { LanguageToggle } from "@/components/site/LanguageToggle";
 import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -78,6 +79,7 @@ export function SiteHeader() {
           })}
         </nav>
         <div className="flex items-center gap-2 md:gap-4 lg:gap-5">
+          <LanguageToggle />
           {/* Mobile + tablet: touch-friendly search icon. Opens the same
               CommandPalette dialog the desktop ⌘K pill triggers. */}
           <button

@@ -211,7 +211,13 @@ export default function MeetingNotesPage() {
           {mode === "record" ? (
             <div className="mt-6">
               <div className="flex items-center gap-5">
-                <button type="button" onClick={toggleRecording} disabled={!supported} className={`flex h-16 w-16 items-center justify-center rounded-full text-white shadow-lg transition ${recording ? "bg-[#B42828]" : "bg-[#2B6B57] hover:bg-[#23211F]"} disabled:bg-[#C8C2BC]`}>
+                <button
+                  type="button"
+                  onClick={toggleRecording}
+                  disabled={!supported}
+                  aria-label={recording ? "Stop recording" : "Start recording"}
+                  className={`flex h-16 w-16 items-center justify-center rounded-full text-white shadow-lg transition ${recording ? "bg-[#B42828]" : "bg-[#2B6B57] hover:bg-[#23211F]"} disabled:bg-[#C8C2BC]`}
+                >
                   {recording ? <Square className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
                 </button>
                 <div className="text-sm text-[#5A5550]">
@@ -223,7 +229,7 @@ export default function MeetingNotesPage() {
                 {transcript || interim ? (
                   <p>{transcript} <span className="text-[#8E867D]">{interim}</span></p>
                 ) : (
-                  <p className="italic text-[#9A938C]">Live transcript will appear here once you start recording. Chrome works best.</p>
+                  <p className="italic text-[#5A5550]">Live transcript will appear here once you start recording. Chrome works best.</p>
                 )}
               </div>
             </div>

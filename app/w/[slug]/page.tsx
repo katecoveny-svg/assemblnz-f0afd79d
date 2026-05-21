@@ -3,13 +3,11 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
 import { WorkflowRunner } from '@/components/site/WorkflowRunner';
-import { allWorkflows, getWorkflow } from '@/lib/workflows';
+import { getWorkflow } from '@/lib/workflows';
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
-  return allWorkflows.map((workflow) => ({ slug: workflow.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,

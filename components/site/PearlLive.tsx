@@ -89,7 +89,7 @@ export function PearlLive({ initial }: PearlLiveProps) {
         </div>
 
         {stats.degraded && (
-          <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-tertiary,#8E8A82)]">
+          <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
             Live ledger warming up — counters return as tenants come online
           </p>
         )}

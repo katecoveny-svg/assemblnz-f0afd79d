@@ -2,14 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight, CheckCircle2, MessageCircle, ShieldCheck, Workflow } from 'lucide-react';
-import { agentBySlug, AGENTS, CAPABILITY_LABELS, PHASE_LABELS } from '@/lib/agents';
+import { agentBySlug, CAPABILITY_LABELS, PHASE_LABELS } from '@/lib/agents';
 import { getKete } from '@/lib/kete';
 import { WORKFLOW_STARTERS, workflowById } from '@/lib/chat/workflows';
 import { AgentDemoPanel } from './AgentDemoPanel';
 
-export function generateStaticParams() {
-  return AGENTS.map((agent) => ({ slug: agent.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;

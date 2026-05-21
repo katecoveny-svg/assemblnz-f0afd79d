@@ -1,0 +1,40 @@
+{
+  "_draftNotice": "DRAFT ONLY: These te reo Māori translations are placeholders for product scaffolding. They must be reviewed by a fluent te reo Māori reviewer before public-sector or iwi-facing use.",
+  "nav": {
+    "pilotSprint": "Whakamātau tere",
+    "howItWorks": "Te āhua mahi",
+    "workflows": "Ngā rerengamahi",
+    "kete": "Kete",
+    "hapai": "Hāpai",
+    "pricing": "Utu",
+    "about": "Mō mātou",
+    "search": "Rapu",
+    "signIn": "Takiuru",
+    "bookPilot": "Tono whakamātau",
+    "openMenu": "Huaki tahua",
+    "closeMenu": "Katia tahua"
+  },
+  "home": {
+    "eyebrow": "He mea hanga ki Aotearoa",
+    "headline": "Mahi that earns its proof.",
+    "body": "Ka āwhina a assembl i ngā tīma ki ngā taputapu whaihua, ngā kete mātanga, me ngā rerengamahi whai taunakitanga. He hukihuki noa ngā putanga hira kia arotakengia rā anō e tētahi tangata whai ingoa.",
+    "primaryCta": "Huakina a Hāpai",
+    "secondaryCta": "Tirohia ngā kete"
+  },
+  "footer": {
+    "kete": "Kete",
+    "company": "Kamupene",
+    "compliance": "Whakaaetanga",
+    "aotearoa": "Aotearoa",
+    "privacy": "Tūmataiti",
+    "aiUse": "Te whakamahi pūnaha atamai",
+    "teTiriti": "Te Tiriti",
+    "rights": "Kua rāhuitia ngā motika katoa.",
+    "built": "He mea hanga ki Aotearoa"
+  },
+  "compliancePages": {
+    "privacyTitle": "Tauākī Tūmataiti",
+    "aiUseTitle": "Whakamārama mō te whakamahi pūnaha atamai",
+    "teTiritiTitle": "Herenga ki Te Tiriti o Waitangi"
+  }
+}

@@ -52,7 +52,7 @@
     --assembl-soft-gold: #D4A853;       /* alias — kept for backwards compat */
 
     --text-primary: #23211F;
-    --text-secondary: #6F6158;
+    --text-secondary: #5B5049;
     --text-body: #23211F;
 
     --shadow-soft: 0 8px 30px rgba(35, 33, 31, 0.08);
@@ -61,8 +61,8 @@
 
     --kete-waihanga: #2B6B57;
     --kete-manaaki: #AC5838;
-    --kete-pikau: #3B7CB5;
-    --kete-arataki: #D4842A;
+    --kete-pikau: #255F94;
+    --kete-arataki: #8F4F13;
     --kete-auaha: #5B4FA0;
     --kete-toro: #23211F;
     --kete-hoko: #7B3F8F;

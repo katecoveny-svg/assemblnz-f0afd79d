@@ -1,5 +1,5 @@
 /**
- * Pae — Manaakitanga Navigator agent spec.
+ * Public Assembly — Entitlement Navigator agent spec.
  * Spec doc: voyage-government-navigators.md §5.
  *
  * This file is the worked example. A concrete shape an MSD case manager
@@ -11,62 +11,17 @@
  * Pae repo unchanged; the shape is deliberately portable.
  */
 
-import type { Agent } from '@/lib/agents';
+import type { PaeAgent } from './types';
 
 // ─────────────────────────────────────────────────────────────────────────
-// Crown-side extension types — what differs from a standard Assembl agent
+// The Entitlement Navigator
 // ─────────────────────────────────────────────────────────────────────────
 
-export type CrownAgency = 'msd' | 'ird' | 'moe' | 'ot' | 'twe' | 'mbie';
-
-export type DataResidency = 'nz-only' | 'nz-or-au' | 'global';
-
-export interface PaeCertifications {
-  nzism: 'aligned' | 'pending' | 'not-required';
-  iso27001: 'certified' | 'in-progress' | 'planned';
-  soc2: 'type-ii' | 'type-i' | 'planned';
-  cloudCodeOfPractice: boolean;
-  meadsTested: boolean;
-  tiritiImpactStatement: 'completed' | 'in-progress' | 'planned';
-}
-
-export interface PaeAgent extends Agent {
-  agency: CrownAgency;
-  /** Crown-side legal basis the agent's outputs rely on. */
-  statutoryBasis: string[];
-  /** Always-present approver role on the human side. */
-  humanApprover: string;
-  /** Required PIA scope. */
-  privacyImpact: {
-    sensitiveDataKinds: string[];
-    consentModel: 'opt-in' | 'opt-in-with-revocation' | 'statutory';
-    retentionMonths: number;
-  };
-  dataResidency: DataResidency;
-  certifications: PaeCertifications;
-  /** RFC 3161 Time-Stamp Authority used for Crown-side timestamping. */
-  timestampAuthority: 'govtsa' | 'digicert-nz' | null;
-  /** SLA the Crown contract holds Pae to. */
-  serviceLevel: {
-    responseSeconds: number;
-    availabilityNinety: number; // e.g. 99.9
-  };
-  /** Iwi sponsorship — required for OT, MSD whānau work. */
-  iwiSponsor: {
-    required: boolean;
-    entity?: string;
-    advisorRoles: string[];
-  };
-}
-
-// ─────────────────────────────────────────────────────────────────────────
-// The Manaakitanga Navigator
-// ─────────────────────────────────────────────────────────────────────────
-
-export const MANAAKITANGA_NAVIGATOR: PaeAgent = {
-  slug: 'manaakitanga-navigator',
-  name: 'Manaakitanga',
-  role: 'Entitlement navigator · MSD frontline assistant',
+export const ENTITLEMENT_NAVIGATOR: PaeAgent = {
+  slug: 'entitlement-navigator',
+  name: 'Entitlement Navigator',
+  subtitle: 'Manaakitanga',
+  role: 'MSD frontline entitlement assistant',
   // 'toro' is the closest existing kete (whānau-facing). When Pae spins
   // out, kete schema will gain agency-keyed variants.
   kete: 'toro',
@@ -146,14 +101,14 @@ export const MANAAKITANGA_NAVIGATOR: PaeAgent = {
 // Workflow contract — what the agent actually does, end-to-end
 // ─────────────────────────────────────────────────────────────────────────
 
-export type ManaakitangaTrigger =
+export type EntitlementTrigger =
   | 'case-manager-opened-record'
   | 'income-changed'
   | 'household-composition-changed'
   | 'legislation-change-affecting-entitlement'
   | 'manual-request';
 
-export interface ManaakitangaInputs {
+export interface EntitlementInputs {
   /**
    * MSD case ID. Never a name, never an IRD number, never a NHI. PII is
    * masked by Kahu before this struct is constructed.
@@ -161,7 +116,7 @@ export interface ManaakitangaInputs {
   caseRef: string;
   /** Case-manager session id (RealMe / AD federated). */
   caseManagerSessionId: string;
-  trigger: ManaakitangaTrigger;
+  trigger: EntitlementTrigger;
   /** Snapshot of MSD-held facts, fetched via the agency API gateway. */
   caseSnapshot: {
     currentBenefit: string;
@@ -175,7 +130,7 @@ export interface ManaakitangaInputs {
   };
 }
 
-export interface ManaakitangaDraft {
+export interface EntitlementDraft {
   /** Entitlement not currently claimed. */
   entitlement: string;
   /** Plain-language reasoning, cite-anchored. */
@@ -190,9 +145,9 @@ export interface ManaakitangaDraft {
   flags: { severity: 1 | 2 | 3 | 4 | 5; description: string }[];
 }
 
-export interface ManaakitangaOutput {
+export interface EntitlementOutput {
   caseRef: string;
-  drafts: ManaakitangaDraft[];
+  drafts: EntitlementDraft[];
   /**
    * One-paragraph plain-language summary the case manager can scan in
    * <30 seconds before deciding whether to drill in.
@@ -210,8 +165,8 @@ export interface ManaakitangaOutput {
 // Prompt and tooling spec — what Iho calls when this agent runs
 // ─────────────────────────────────────────────────────────────────────────
 
-export const MANAAKITANGA_SYSTEM_PROMPT = `
-You are the Manaakitanga Navigator. You work alongside an MSD case
+export const ENTITLEMENT_NAVIGATOR_SYSTEM_PROMPT = `
+You are the Entitlement Navigator. You work alongside an MSD case
 manager. You never see un-masked personal information; Kahu has
 already redacted PII. You never act without the case manager's
 signature.
@@ -248,7 +203,7 @@ That signature is the only thing that makes a draft real.
  * The MCP tools the agent is allowed to call. Each one is mediated by
  * the Mana Trust Layer — Kahu pre-masks, Tā stamps, Mana post-rewrites.
  */
-export const MANAAKITANGA_TOOLS = [
+export const ENTITLEMENT_NAVIGATOR_TOOLS = [
   'msd.case.fetch_snapshot',
   'msd.entitlement.eligibility_check',
   'msd.letter.draft',

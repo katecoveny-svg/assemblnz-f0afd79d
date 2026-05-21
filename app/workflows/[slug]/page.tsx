@@ -6,13 +6,11 @@ import type { CSSProperties } from 'react';
 import { WorkflowCard } from '@/components/site/WorkflowCard';
 import { WorkflowRunner } from '@/components/site/WorkflowRunner';
 import { getKete } from '@/lib/kete';
-import { allWorkflows, getWorkflow, getWorkflowsByKete } from '@/lib/workflows';
+import { getWorkflow, getWorkflowsByKete } from '@/lib/workflows';
 
 type Params = { slug: string };
 
-export function generateStaticParams() {
-  return allWorkflows.map((workflow) => ({ slug: workflow.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,
