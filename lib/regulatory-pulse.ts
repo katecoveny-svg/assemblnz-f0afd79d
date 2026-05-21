@@ -52,10 +52,12 @@ type ChangeRow = {
     name: string | null;
     url: string | null;
     agent_packs: string[] | null;
+    authority_tier: number | null;
   } | {
     name: string | null;
     url: string | null;
     agent_packs: string[] | null;
+    authority_tier: number | null;
   }[] | null;
 };
 
@@ -115,10 +117,10 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
           document_id,
           source_id,
           kb_documents(title,url),
-          kb_sources(name,url,agent_packs)
+          kb_sources(name,url,agent_packs,authority_tier)
         `)
         .order('detected_at', { ascending: false })
-        .limit(4),
+        .limit(24),
     ]);
 
     const errored =
@@ -134,6 +136,14 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
 
     const rows = (latest.data ?? []) as ChangeRow[];
 
+    const latestRows = rows.filter((row) => {
+      const source = Array.isArray(row.kb_sources)
+        ? row.kb_sources[0] ?? null
+        : row.kb_sources ?? null;
+      return source?.authority_tier ? source.authority_tier <= 2 : false;
+    });
+    const displayRows = (latestRows.length > 0 ? latestRows : rows).slice(0, 4);
+
     return {
       changesLastDay: changesLastDay.count ?? 0,
       liveSources: liveSources.count ?? 0,
@@ -142,7 +152,7 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
       embeddedChunks: embeddedChunks.count ?? 0,
       pendingEmbeds: pendingEmbeds.count ?? 0,
       pcoSources: pcoSources.count ?? 0,
-      latest: rows.map((row) => {
+      latest: displayRows.map((row) => {
         const document = Array.isArray(row.kb_documents)
           ? row.kb_documents[0] ?? null
           : row.kb_documents ?? null;
