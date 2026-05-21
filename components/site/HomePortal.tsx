@@ -48,11 +48,11 @@ const PRICING_ENTRY_POINTS = [
     '#D4A853',
   ],
   [
-    'TŌRO',
-    '$29 / month',
-    'The family assistant. School notices parsed. Gear lists drafted. The week ahead held in one place. Tōro keeps the household ahead of the small admin pile-up.',
-    'Try Tōro',
-    '/kete/toro',
+    'HAPAI',
+    'Public tools',
+    'Small useful tools for real work: meeting notes, travel desk, 9am Brief, share cards, food logs, captions, and more.',
+    'Open HAPAI',
+    '/hapai',
     '#23211F',
   ],
 ] as const;
@@ -205,9 +205,9 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
               Three things, not one crowded catalogue.
             </h2>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              HAPAI is the public apps and tools shelf. Kete are the industry
-              packs you can pilot or subscribe to. Workflows are the specific
-              jobs inside a kete, each ending in review and an evidence pack.
+              HAPAI is the shareable tools page. Kete are specialist packs.
+              Workflows are the repeatable jobs inside each kete. Start with
+              one real task, then make the useful ones private and repeatable.
             </p>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
@@ -296,11 +296,9 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
               Give one real task to a small tool first.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Hāpai (te reo Māori): to lift up, to elevate. HAPAI is the apps
-              and tools page: single-purpose public tools for real work. Open
-              one before doing the work the old way. When it proves useful, a
-              Pilot Sprint can turn it into a private internal tool for the
-              team.
+              HAPAI is the apps and tools page: single-purpose public tools for
+              real work. Open one before doing the work the old way. If it helps,
+              turn it into a private internal tool for your team.
             </p>
           </div>
 

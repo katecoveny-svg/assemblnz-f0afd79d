@@ -6,7 +6,7 @@ import { TeReo } from '@/components/site/TeReo';
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Pilot Sprint, Industry Pack, Outcome, and Tōro pricing. NZD, GST exclusive.',
+    'Pilot Sprint, Industry Pack, HAPAI, and Outcome pricing. NZD, GST exclusive.',
 };
 
 const OFFERS = [
@@ -38,12 +38,12 @@ const OFFERS = [
     featured: false,
   },
   {
-    eyebrow: 'Whānau',
-    name: 'Tōro',
-    price: '$29 / month',
-    body: 'The family product: school notices, routines, gear, appointments, and the week ahead.',
-    cta: 'See Tōro',
-    href: '/kete/toro',
+    eyebrow: 'Adoption tools',
+    name: 'HAPAI',
+    price: 'Public tools',
+    body: 'Shareable tools for small real tasks: meeting notes, travel desk, 9am Brief, share cards, food records, captions, and more.',
+    cta: 'Open HAPAI',
+    href: '/hapai',
     featured: false,
   },
 ] as const;
@@ -70,7 +70,7 @@ export default function PricingPage() {
               <TeReo title="work">Mahi</TeReo> that earns its proof.
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              Start with one real task, or switch on a whole industry pack. Tōro is separate: the whānau product, not the business pilot path.
+              Start with one real task, open a public HAPAI tool, or switch on a whole industry pack once the workflow has earned its proof.
             </p>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function PricingPage() {
                   {offer.eyebrow}
                 </p>
                 <h2 className="mt-5 font-display text-display-md font-light">
-                  {offer.name === 'Tōro' ? <TeReo>Tōro</TeReo> : offer.name}
+                  {offer.name}
                 </h2>
                 <p className="mt-8 font-display text-display-md font-light">{offer.price}</p>
                 <p className="mt-6 text-body-md text-[color:var(--text-body)]">{offer.body}</p>

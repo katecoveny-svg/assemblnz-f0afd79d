@@ -139,35 +139,56 @@ export default function MeetingNotesPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
-      <div className="mx-auto max-w-[920px]">
+    <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_78%_12%,rgba(43,107,87,0.16),transparent_32%),linear-gradient(180deg,#FAF7F2_0%,#F7F1E9_58%,#FAF7F2_100%)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
+      <div className="mx-auto max-w-[1500px]">
         <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]">
           <ArrowLeft className="h-3.5 w-3.5" /> HAPAI library
         </Link>
-        <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#6B6661]">HAPAI · meeting recorder</p>
-        <h1 className="mt-3 font-display text-[38px] font-normal leading-tight md:text-[52px]">Record the meeting. Leave with the record.</h1>
-        <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-[#5A5550]">
-          Record live or paste rough notes. Get a structured draft with summary, decisions, action items, discussion, and next steps.
-        </p>
-        <p className="mt-3 max-w-2xl rounded-[10px] border border-[rgba(212,168,83,0.34)] bg-white/60 px-4 py-3 text-sm leading-relaxed text-[#6B5A28]">
-          Draft-only. Live recording uses your browser&apos;s speech recognition, and polishing sends the transcript for structuring. Do not record private, employment, health, legal, or commercially sensitive meetings without consent and the right private setup.
-        </p>
-        <div className="mt-5">
-          <ShareableToolActions
-            title="Meeting recorder by assembl"
-            text="Record or paste rough meeting notes, then turn them into a draft record with decisions, owners, and next steps."
-            path="/hapai/meeting-recorder"
-          />
-        </div>
-        <div className="mt-5 rounded-[10px] border border-[rgba(43,107,87,0.18)] bg-[#F7F4EE] px-4 py-3 text-sm leading-relaxed text-[#3D4250]">
-          Looking for the Italy travel desk?{" "}
-          <Link href="/hapai/voyage-italy" className="font-medium text-[#2B6B57] underline decoration-[#2B6B57]/30 underline-offset-4">
-            Open Voyage Italy
-          </Link>{" "}
-          for weather, FX, photo parsing, timing risks, useful phrases, and draft travel actions.
+        <div className="grid gap-8 lg:grid-cols-[1fr_0.56fr] lg:items-stretch">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#2B6B57]">HAPAI · meeting recorder</p>
+            <h1 className="mt-3 max-w-5xl font-display text-[clamp(4rem,8.6vw,9rem)] font-normal italic leading-[0.82] text-[#103F35]">
+              Record once. Leave with action.
+            </h1>
+            <p className="mt-7 max-w-3xl text-[clamp(1.05rem,1.8vw,1.35rem)] leading-relaxed text-[#3D4250]">
+              A proper EA desk for the meeting: capture live speech or paste rough notes, then turn them into decisions, owners, follow-ups, next steps, and a fileable record.
+            </p>
+            <p className="mt-4 max-w-3xl rounded-[8px] border border-[rgba(212,168,83,0.34)] bg-white/64 px-4 py-3 text-sm leading-relaxed text-[#6B5A28]">
+              Draft-only. Live recording uses your browser&apos;s speech recognition, and polishing sends the transcript for structuring. Get consent before recording, and do not use the public version for private, employment, health, legal, or commercially sensitive meetings.
+            </p>
+            <div className="mt-5">
+              <ShareableToolActions
+                title="Meeting recorder by assembl"
+                text="Record or paste rough meeting notes, then turn them into a draft record with decisions, owners, and next steps."
+                path="/hapai/meeting-recorder"
+              />
+            </div>
+          </div>
+
+          <aside className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#103F35] p-6 text-[#FAF7F2] shadow-[0_30px_100px_rgba(35,33,31,0.16)]">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_18%,rgba(217,168,90,0.26),transparent_34%),linear-gradient(135deg,rgba(250,247,242,0.12),transparent_50%)]" />
+            <div className="relative">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">what the private version becomes</p>
+              <h2 className="mt-4 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+                The best EA in the room.
+              </h2>
+              <ul className="mt-6 space-y-4 text-sm leading-relaxed text-[#FAF7F2]/82">
+                <li><strong className="text-[#FAF7F2]">Now:</strong> browser speech capture, transcript tidy-up, decisions, actions, owners, copy and download.</li>
+                <li><strong className="text-[#FAF7F2]">Next:</strong> calendar holds, follow-up drafts, CRM notes, agenda prep, and reminders queued for named human approval.</li>
+                <li><strong className="text-[#FAF7F2]">Rule:</strong> no email, invite, record, or external update is sent quietly.</li>
+              </ul>
+              <div className="mt-6 rounded-[8px] border border-[#FAF7F2]/18 bg-[#FAF7F2]/10 p-4 text-sm leading-relaxed">
+                Looking for the Italy travel desk?{" "}
+                <Link href="/hapai/voyage-italy" className="font-medium text-[#FAF7F2] underline decoration-[#D9A85A]/60 underline-offset-4">
+                  Open Voyage Italy
+                </Link>{" "}
+                for weather, FX, photo parsing, timing risks, useful phrases, and draft travel actions.
+              </div>
+            </div>
+          </aside>
         </div>
 
-        <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-7">
+        <section className="mt-8 rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/86 p-5 shadow-[0_24px_90px_rgba(35,33,31,0.08)] md:p-7">
           <div className="grid gap-4 md:grid-cols-2">
             <label>
               <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Meeting title</span>
@@ -226,7 +247,7 @@ export default function MeetingNotesPage() {
         </section>
 
         {html && (
-          <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-8">
+          <section className="mt-8 rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white p-8 shadow-[0_24px_90px_rgba(35,33,31,0.08)]">
             <div className="prose prose-neutral max-w-none [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-normal [&_h2]:text-[#2B6B57]" dangerouslySetInnerHTML={{ __html: html }} />
             <div className="mt-6 flex flex-wrap gap-3">
               <button type="button" onClick={copyOutput} className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#2B6B57]"><Copy className="h-4 w-4" /> Copy markdown</button>

@@ -21,23 +21,23 @@ export const metadata: Metadata = {
 const steps = [
   {
     eyebrow: '01',
-    title: 'Bring one messy workflow.',
+    title: 'Pick one real task.',
     body:
-      'Start with the actual material: emails, photos, CSV exports, notes, forms, meeting transcripts, DMS exports, rosters, supplier messages, or customer history.',
-    example: 'A service booking list, a food temperature log, a council RFI, or a school newsletter.',
+      'Use the work already on your desk: a meeting transcript, school notice, food record, customer reply, DMS export, supplier message, or council RFI.',
+    example: 'Not a platform tour. One task you would otherwise do by hand.',
     icon: ClipboardCheck,
   },
   {
     eyebrow: '02',
-    title: 'The right specialist drafts it.',
+    title: 'Give the tool first shot.',
     body:
-      'assembl routes the job to the relevant kete and specialist agent. Where the workflow needs it, the draft is grounded in live knowledge, source documents, and connected tools.',
-    example: 'Pīkau checks freight and customs context. Waihanga checks project evidence. Arataki checks dealer operations.',
+      'Open a HAPAI tool, a kete chat, or a private workflow. Where the job needs it, assembl grounds the draft in live sources, uploaded material, or connected tools.',
+    example: 'The first pass should save time even before it is perfect.',
     icon: DatabaseZap,
   },
   {
     eyebrow: '03',
-    title: 'You see the reasoning before you rely on it.',
+    title: 'Review the draft.',
     body:
       'The draft names what it used, what it assumed, what is missing, and what should be checked by a person. It does not quietly send, lodge, book, or commit on your behalf.',
     example: 'Citations, assumptions, missing documents, calendar risks, and next actions stay visible.',
@@ -45,15 +45,15 @@ const steps = [
   },
   {
     eyebrow: '04',
-    title: 'A named human reviews it.',
+    title: 'Turn wins into systems.',
     body:
-      'The operator, manager, advisor, or reviewer accepts, edits, rejects, or asks for a better draft. assembl stays draft-only until that person signs off.',
-    example: 'The duty manager, project manager, dealer operator, or founder remains accountable.',
+      'If the tool helps, the next step is a private version with your voice, your source material, scoped permissions, and the review points your team needs.',
+    example: 'One useful experiment becomes a repeatable internal tool.',
     icon: UserCheck,
   },
   {
     eyebrow: '05',
-    title: 'The evidence pack closes the loop.',
+    title: 'Keep the proof.',
     body:
       'The final output carries the work behind the work: sources, checks, reviewer notes, timestamps, and a tamper-evident audit trail.',
     example: 'File it. Forward it. Footnote it. Hand it to a customer, auditor, board, insurer, or regulator.',
@@ -113,14 +113,15 @@ export default function HowItWorksPage() {
             </SectionReveal>
             <SectionReveal delay={0.1}>
               <h1 className="mt-5 max-w-5xl font-display text-[clamp(4.3rem,9vw,10rem)] font-normal italic leading-[0.82] text-[#0E382F] [text-shadow:0_18px_70px_rgba(43,107,87,0.14)]">
-                Messy work in. Proof out.
+                Pick one real task. Give the tool first shot.
               </h1>
             </SectionReveal>
             <SectionReveal delay={0.2}>
               <p className="mt-8 max-w-3xl text-[clamp(1.12rem,2vw,1.55rem)] leading-relaxed text-[#2F3440]">
-                assembl sits above the systems a business already uses. It reads the
-                material for one workflow, drafts the next useful output, shows its
-                working, waits for a named human, then leaves an evidence trail.
+                Practical adoption does not come from chasing every model
+                announcement. It comes from using a small, useful tool on work
+                that already matters, then turning the good experiments into
+                repeatable systems.
               </p>
             </SectionReveal>
             <SectionReveal delay={0.3}>
@@ -143,10 +144,10 @@ export default function HowItWorksPage() {
           <SectionReveal>
             <div className="max-w-3xl">
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#2B6B57]">
-                The actual loop
+                The practical loop
               </p>
               <h2 className="mt-4 font-display text-[clamp(2.8rem,5.8vw,6.5rem)] font-normal italic leading-[0.88] text-[#23211F]">
-                From one workflow to one reviewed result.
+                From one task to one reviewed result.
               </h2>
             </div>
           </SectionReveal>

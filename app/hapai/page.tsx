@@ -105,17 +105,29 @@ export default async function HapaiPage() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/60 shadow-[0_24px_70px_rgba(35,33,31,0.10)]">
+          <div className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/60 shadow-[0_28px_90px_rgba(35,33,31,0.12)]">
             <div className="relative aspect-[4/3]">
+              <video
+                aria-hidden
+                className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/videos/assembl-brand-vessel-film-poster.jpg"
+              >
+                <source src="/videos/assembl-brand-vessel-film-720p.mp4" type="video/mp4" />
+              </video>
               <Image
-                src="/img/kete/waihanga-vessel.jpg"
+                src="/videos/assembl-brand-vessel-film-poster.jpg"
                 alt="assembl vessel composition"
                 fill
                 sizes="(min-width: 1024px) 46vw, 100vw"
-                className="object-cover"
+                className="object-cover motion-safe:opacity-0"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#23211F]/50 via-transparent to-[#FAF7F2]/20" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#23211F]/42 via-transparent to-[#FAF7F2]/18" />
               <div className="absolute bottom-5 left-5 right-5 rounded-[6px] border border-white/25 bg-[#FAF7F2]/88 p-4 backdrop-blur">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
                   public hapai
