@@ -159,6 +159,13 @@ export default function MeetingNotesPage() {
             path="/hapai/meeting-recorder"
           />
         </div>
+        <div className="mt-5 rounded-[10px] border border-[rgba(43,107,87,0.18)] bg-[#F7F4EE] px-4 py-3 text-sm leading-relaxed text-[#3D4250]">
+          Looking for the Italy travel desk?{" "}
+          <Link href="/hapai/voyage-italy" className="font-medium text-[#2B6B57] underline decoration-[#2B6B57]/30 underline-offset-4">
+            Open Voyage Italy
+          </Link>{" "}
+          for weather, FX, photo parsing, timing risks, useful phrases, and draft travel actions.
+        </div>
 
         <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-7">
           <div className="grid gap-4 md:grid-cols-2">

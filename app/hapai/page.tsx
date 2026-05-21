@@ -172,7 +172,7 @@ export default function HapaiPage() {
               Open the library.
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-[color:var(--text-body)]">
-              Twelve live public apps and tools, each with its own sharp share
+              Thirteen live public apps and tools, each with its own sharp share
               image for posting, emailing, or sending to someone who has one
               real job to try this week.
             </p>

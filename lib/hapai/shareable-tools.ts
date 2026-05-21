@@ -8,6 +8,7 @@ export type HapaiToolVisual =
   | 'tagline'
   | 'project-picker'
   | 'meeting'
+  | 'voyage'
   | 'privacy'
   | 'fridge'
   | 'food-temp';
@@ -112,6 +113,17 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     shareable: true,
     category: 'adoption',
     posture: 'Recommendation aid only. Final project choice sits with the operator.',
+  },
+  {
+    slug: 'voyage-italy',
+    name: 'Voyage Italy',
+    status: 'live',
+    description: 'Italy travel desk with weather, FX, photo parsing, timing risks, useful phrases, and draft actions.',
+    href: '/hapai/voyage-italy',
+    visual: 'voyage',
+    shareable: true,
+    category: 'lifestyle',
+    posture: 'Draft travel desk only. Check bookings, tickets, safety, and travel advice before acting.',
   },
   {
     slug: 'meeting-recorder',
