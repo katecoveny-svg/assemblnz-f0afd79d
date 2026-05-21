@@ -259,7 +259,7 @@ function Field({
       >
         {label}
         {required && (
-          <span className="ml-1 text-[color:var(--assembl-soft-gold)]" aria-hidden="true">
+          <span className="ml-1 text-[color:var(--assembl-pounamu)]" aria-hidden="true">
             *
           </span>
         )}

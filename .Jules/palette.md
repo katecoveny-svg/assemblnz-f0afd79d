@@ -41,3 +41,7 @@
 ## 2026-06-28 - [Visual Anchoring and Dynamic State Feedback]
 **Learning:** Improving selection visibility in list components (like `CommandPalette`) requires more than just a ring; a tinted background (`bg-assembl-pounamu/10`) provides a clear visual anchor. Furthermore, dynamic `title` and `aria-label` updates (e.g., "Reference copied") are crucial for providing state-specific feedback that maintains parity for both sighted and screen-reader users.
 **Action:** Use brand-aligned tints for list selection states and ensure modal/dialog triggers have `aria-haspopup="dialog"`. Always use dynamic titles/labels for contextual feedback after successful user actions.
+
+## 2026-06-30 - [High-Intent Indicators and Focus Parity]
+**Learning:** Secondary tokens like "Soft Gold" (~2.2:1 contrast) fail accessibility standards for high-intent signals like the required asterisk (*) in forms. Furthermore, keyboard users miss out on UI "delight" if hover-triggered elevation or scaling isn't mirrored on focus. Finally, containers with `overflow-hidden` clip standard `ring` indicators.
+**Action:** Use the primary "Pounamu" green (5.8:1 contrast) for all high-intent indicators including form required markers. Mirror all hover-lift and scale effects in `focus-within` or `focus-visible` states, and use `outline` with an offset for focus rings on `overflow-hidden` containers to prevent clipping.
