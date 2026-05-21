@@ -4,11 +4,15 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2, ImageIcon, Mail, Repeat2, Sparkles, Wrench } from 'lucide-react';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import { PainfulWorkflowCapture } from '@/components/hapai/PainfulWorkflowCapture';
+import { LivePulseWidget } from '@/components/site/LivePulseWidget';
 import {
   HAPAI_TOOLS,
   getHapaiToolEmailHref,
   getHapaiToolShareImagePath,
 } from '@/lib/hapai/shareable-tools';
+import { getRegulatoryPulse } from '@/lib/regulatory-pulse';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: 'HAPAI — practical internal tools for real work',
@@ -66,7 +70,9 @@ const adoptionLoop = [
   },
 ] as const;
 
-export default function HapaiPage() {
+export default async function HapaiPage() {
+  const regulatoryPulse = await getRegulatoryPulse();
+
   return (
     <div className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       <section className="border-b border-[rgba(35,33,31,0.10)] px-5 py-16 md:px-10 md:py-24">
@@ -132,6 +138,25 @@ export default function HapaiPage() {
               <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">{reason.body}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="border-b border-[rgba(35,33,31,0.10)] px-5 py-14 md:px-10 md:py-20">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.72fr_1fr] lg:items-center">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+              live proof layer
+            </p>
+            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.4rem)] font-light italic leading-[0.92]">
+              The tools are small. The source layer is serious.
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-[color:var(--text-body)]">
+              HAPAI is the easy entry point, but it sits on the same assembl
+              habit: use current sources, keep the trail, and make the output
+              reviewable before anyone acts on it.
+            </p>
+          </div>
+          <LivePulseWidget initial={regulatoryPulse} />
         </div>
       </section>
 

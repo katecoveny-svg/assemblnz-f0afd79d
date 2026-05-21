@@ -14,6 +14,10 @@ export interface RegulatoryPulseStats {
   changesLastDay: number;
   liveSources: number;
   staleSources: number;
+  totalDocuments: number;
+  embeddedChunks: number;
+  pendingEmbeds: number;
+  pcoSources: number;
   latest: RegulatoryPulseItem[];
   capturedAt: string;
   degraded: boolean;
@@ -23,6 +27,10 @@ const QUIET: Omit<RegulatoryPulseStats, 'capturedAt'> = {
   changesLastDay: 0,
   liveSources: 0,
   staleSources: 0,
+  totalDocuments: 0,
+  embeddedChunks: 0,
+  pendingEmbeds: 0,
+  pcoSources: 0,
   latest: [],
   degraded: true,
 };
@@ -52,7 +60,16 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-    const [changesLastDay, liveSources, staleSources, latest] = await Promise.all([
+    const [
+      changesLastDay,
+      liveSources,
+      staleSources,
+      totalDocuments,
+      embeddedChunks,
+      pendingEmbeds,
+      pcoSources,
+      latest,
+    ] = await Promise.all([
       supa
         .from('kb_changes')
         .select('id', { count: 'exact', head: true })
@@ -67,6 +84,21 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
         .select('id', { count: 'exact', head: true })
         .eq('active', true)
         .or(`last_successful_fetch.is.null,last_successful_fetch.lt.${sevenDaysAgo}`),
+      supa
+        .from('kb_documents')
+        .select('id', { count: 'exact', head: true }),
+      supa
+        .from('kb_doc_chunks')
+        .select('id', { count: 'exact', head: true }),
+      supa
+        .from('kb_embed_queue')
+        .select('id', { count: 'exact', head: true })
+        .in('status', ['pending', 'queued', 'processing']),
+      supa
+        .from('kb_sources')
+        .select('id', { count: 'exact', head: true })
+        .eq('active', true)
+        .or('name.ilike.%PCO%,url.ilike.%legislation%'),
       supa
         .from('kb_changes')
         .select(`
@@ -83,7 +115,14 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
     ]);
 
     const errored =
-      changesLastDay.error || liveSources.error || staleSources.error || latest.error;
+      changesLastDay.error ||
+      liveSources.error ||
+      staleSources.error ||
+      totalDocuments.error ||
+      embeddedChunks.error ||
+      pendingEmbeds.error ||
+      pcoSources.error ||
+      latest.error;
     if (errored) return { ...QUIET, capturedAt };
 
     const rows = (latest.data ?? []) as ChangeRow[];
@@ -92,6 +131,10 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
       changesLastDay: changesLastDay.count ?? 0,
       liveSources: liveSources.count ?? 0,
       staleSources: staleSources.count ?? 0,
+      totalDocuments: totalDocuments.count ?? 0,
+      embeddedChunks: embeddedChunks.count ?? 0,
+      pendingEmbeds: pendingEmbeds.count ?? 0,
+      pcoSources: pcoSources.count ?? 0,
       latest: rows.map((row) => {
         const document = row.kb_documents?.[0] ?? null;
         const source = row.kb_sources?.[0] ?? null;

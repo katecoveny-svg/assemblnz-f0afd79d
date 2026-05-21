@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import type { RegulatoryPulseStats } from '@/lib/regulatory-pulse';
+import { LivePulseWidget } from './LivePulseWidget';
 
 interface RegulatoryPulseProps {
   initial: RegulatoryPulseStats;
@@ -49,13 +50,8 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
           </p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[0.7fr_1.3fr]">
-          <div className="grid grid-cols-3 gap-3 lg:grid-cols-1">
-            <Stat value={stats.changesLastDay} label="changes · 24h" />
-            <Stat value={stats.liveSources} label="live sources" />
-            <Stat value={stats.staleSources} label="needs review" muted />
-          </div>
-
+        <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+          <LivePulseWidget initial={stats} compact />
           <div className="space-y-3">
             {stats.latest.length > 0 ? (
               stats.latest.map((item) => (
@@ -101,22 +97,6 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
         </div>
       </div>
     </section>
-  );
-}
-
-function Stat({ value, label, muted = false }: { value: number; label: string; muted?: boolean }) {
-  return (
-    <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] p-4">
-      <p
-        className="font-display text-4xl font-light leading-none tabular-nums"
-        style={{ color: muted ? 'var(--text-secondary)' : 'var(--assembl-pounamu)' }}
-      >
-        {value === 0 ? '-' : value.toLocaleString('en-NZ')}
-      </p>
-      <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
-        {label}
-      </p>
-    </div>
   );
 }
 
