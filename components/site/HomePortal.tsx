@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
@@ -11,7 +11,6 @@ import type { PearlLiveStats } from '@/lib/pearl-live';
 import type { RegulatoryPulseStats } from '@/lib/regulatory-pulse';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
-import { KeteRotator } from './KeteRotator';
 import { MarketplaceStrip } from './MarketplaceStrip';
 import { PearlLive } from './PearlLive';
 import { RegulatoryPulse } from './RegulatoryPulse';
@@ -130,9 +129,6 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
   const pageRef = useRef<HTMLElement | null>(null);
   const [activeSlug, setActiveSlug] = useState<KeteSlug>('waihanga');
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-  const heroWashY = useTransform(scrollYProgress, [0, 0.2], ['0%', '18%']);
-  const heroWashOpacity = useTransform(scrollYProgress, [0, 0.18], [0.72, 0]);
   const activeKete = useMemo(
     () => ketes.find((kete) => kete.slug === activeSlug) ?? ketes[0],
     [activeSlug, ketes],
@@ -145,71 +141,97 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
       className="min-h-screen overflow-x-hidden bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]"
       style={activeStyle}
     >
-      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F6F0E8_52%,#FAF7F2_100%)]">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F6F0E8_58%,#FAF7F2_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
         <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_78%_38%,color-mix(in_srgb,var(--kete-accent)_20%,transparent),transparent_34%),radial-gradient(circle_at_52%_76%,rgba(217,188,122,0.18),transparent_28%),linear-gradient(90deg,rgba(250,247,242,1)_0%,rgba(250,247,242,0.94)_44%,rgba(250,247,242,0.34)_100%)]"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_72%_32%,rgba(43,107,87,0.16),transparent_30%),radial-gradient(circle_at_50%_82%,rgba(212,168,83,0.18),transparent_28%),linear-gradient(90deg,rgba(250,247,242,1)_0%,rgba(250,247,242,0.94)_50%,rgba(250,247,242,0.66)_100%)]"
           aria-hidden
         />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
-        <motion.div
-          className="absolute inset-y-0 left-0 w-2 bg-[color:var(--kete-accent)]"
-          aria-hidden
-          animate={reduceMotion ? undefined : { opacity: [0.7, 1] }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        />
-        <motion.div
-          className="pointer-events-none absolute inset-x-0 top-20 h-[42svh] bg-[linear-gradient(105deg,transparent_0%,color-mix(in_srgb,var(--kete-accent)_18%,transparent)_52%,transparent_100%)] blur-3xl"
-          style={reduceMotion ? undefined : { y: heroWashY, opacity: heroWashOpacity }}
-          aria-hidden
-        />
-        <div className="relative z-10 mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-[1840px] flex-col justify-center px-6 py-8 md:px-12 md:py-6 xl:px-16 2xl:px-20">
+        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4.5rem)] w-full max-w-[1480px] items-center gap-10 px-6 py-10 md:px-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(28rem,1.1fr)] lg:gap-14 xl:px-14">
           <motion.div
-            className="w-full"
-            initial={reduceMotion ? false : { opacity: 0.92, y: 8 }}
+            initial={reduceMotion ? false : { opacity: 0.92, y: 10 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-20 max-w-[720px]"
           >
             <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/72 px-3 py-2 font-mono text-eyebrow uppercase text-[color:var(--text-secondary)] shadow-sm backdrop-blur-md">
               BUILT IN AOTEAROA
             </p>
-            <KeteRotator
-              ketes={ketes}
-              className="mt-6 md:mt-8"
-              scale="immersive"
-              activeSlug={activeSlug}
-              onActiveSlugChange={setActiveSlug}
-              body={(
-                <p>
-                  Every team has a layer of admin underneath the work that
-                  matters. Drafts, follow-ups, comparisons, write-ups. assembl is
-                  a fleet of specialist agents that handle that layer — so your
-                  people can do the work you actually hired them for. Each result
-                  is reviewed by a named person on your team and sealed with a
-                  record of how it was made.
-                </p>
-              )}
-              actions={(
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row md:mt-10">
-                  <Link
-                    href="#kete-workflows"
-                    className="cta-primary inline-flex h-12 w-full items-center justify-center px-8 text-base sm:w-auto md:h-14"
-                  >
-                    See the workflows
-                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                  </Link>
-                  <Link
-                    href={`/c/${activeSlug}`}
-                    className="btn-ghost inline-flex h-12 w-full items-center justify-center bg-white/62 px-8 text-base backdrop-blur-md sm:w-auto md:h-14"
-                  >
-                    Try a kete chat
-                    <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-                  </Link>
-                </div>
-              )}
-            />
+            <h1 className="mt-6 max-w-[780px] font-display text-[clamp(4.2rem,11vw,9.6rem)] font-light italic leading-[0.83] tracking-normal text-[#103F35] lg:text-[clamp(5.8rem,7.8vw,10.2rem)]">
+              Mahi that earns its proof.
+            </h1>
+            <p className="mt-6 max-w-[620px] text-[clamp(1.08rem,2vw,1.45rem)] font-medium leading-[1.42] text-[#23211F] md:mt-7">
+              Specialist agents for the admin work that drains your team. Built in Aotearoa, grounded in live knowledge, and reviewed by named people before anything leaves the building.
+            </p>
+            <div className="mt-5 max-w-[620px] text-[0.98rem] leading-[1.65] text-[#3D4250] md:text-[1.04rem]">
+              <p>
+                Drafts, follow-ups, comparisons, write-ups, evidence packs. assembl turns the invisible admin layer into work your team can review, file, forward, and stand behind.
+              </p>
+            </div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row md:mt-10">
+              <Link
+                href="#kete-workflows"
+                className="cta-primary inline-flex h-12 w-full items-center justify-center px-8 text-base sm:w-auto md:h-14"
+              >
+                See the workflows
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+              <Link
+                href="/hapai"
+                className="btn-ghost inline-flex h-12 w-full items-center justify-center bg-white/62 px-8 text-base backdrop-blur-md sm:w-auto md:h-14"
+              >
+                Open HAPAI tools
+                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+            </div>
           </motion.div>
 
+          <motion.div
+            className="relative z-10 min-h-[360px] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#F7F1E9] shadow-[0_36px_120px_rgba(35,33,31,0.12)] md:min-h-[520px] lg:min-h-[min(76svh,780px)]"
+            initial={reduceMotion ? false : { opacity: 0.78, y: 16 }}
+            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.82, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <video
+              className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster="/videos/assembl-brand-vessel-film-poster.jpg"
+              aria-hidden
+            >
+              <source src="/videos/assembl-brand-vessel-film-720p.mp4" type="video/mp4" />
+            </video>
+            <Image
+              src="/videos/assembl-brand-vessel-film-poster.jpg"
+              alt="assembl evidence vessel in motion on a warm cream background"
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover motion-safe:opacity-0"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(250,247,242,0.20)_0%,transparent_38%,rgba(35,33,31,0.04)_100%),linear-gradient(180deg,transparent_64%,rgba(250,247,242,0.58)_100%)]" aria-hidden />
+            <div className="absolute bottom-4 left-4 right-4 grid grid-cols-2 gap-2 md:bottom-6 md:left-6 md:right-6">
+              {[
+                ['01', 'draft only'],
+                ['02', 'human review'],
+                ['03', 'live knowledge'],
+                ['04', 'proof kept'],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-[8px] border border-white/38 bg-[#FAF7F2]/68 px-3 py-3 shadow-[0_18px_48px_rgba(35,33,31,0.10)] backdrop-blur-xl">
+                  <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                    {label}
+                  </span>
+                  <span className="mt-1 block truncate font-display text-xl italic leading-none text-[#103F35] md:text-2xl">
+                    {value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 

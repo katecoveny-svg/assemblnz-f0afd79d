@@ -137,13 +137,13 @@ export const reo = {
     'assembl runs operational compliance work in the open: every workflow is grounded in New Zealand legislation, reviewed by a named person on your team, and sealed with an evidence pack you can file, forward, or footnote.',
 
   heroHeadlineLines: [
-    'Work that earns',
+    'Mahi that earns',
     'its proof.',
   ] as const,
 
   // Q3 — Homepage pull quote.
   // "Time is the thing. We give it back." line retired 2026-05-17)
-  pullQuote: 'Work that earns its proof.',
+  pullQuote: 'Mahi that earns its proof.',
 
   // Q2 — Trust strip. Item 3 locked verbatim. Items 1 & 2 reframed 2026-05-09
   // under the vertical-agent strategy memo: surface the governance substrate

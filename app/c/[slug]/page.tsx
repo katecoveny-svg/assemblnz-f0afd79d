@@ -26,7 +26,7 @@ export async function generateMetadata({
           url: `/og/og-${tenant.kete}.png`,
           width: 1200,
           height: 630,
-          alt: `assembl — Work that earns its proof, for ${tenant.keteName}.`,
+          alt: `assembl — Mahi that earns its proof, for ${tenant.keteName}.`,
         },
       ],
     },

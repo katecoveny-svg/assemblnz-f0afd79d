@@ -7,7 +7,7 @@ import { Menu, Search, X } from "lucide-react";
 import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
-const PROOF_LINE = "Work that earns its proof.";
+const PROOF_LINE = "Mahi that earns its proof.";
 
 function openCommandPalette() {
   window.dispatchEvent(new Event("assembl:open-command"));

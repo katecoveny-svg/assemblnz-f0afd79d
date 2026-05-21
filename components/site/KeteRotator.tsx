@@ -72,7 +72,7 @@ export function KeteRotator({
 
         <div className="relative z-20 order-2 max-w-[42rem] pb-12 md:order-1 md:pb-0">
           <h1 className="font-display text-[clamp(4rem,17vw,5.75rem)] font-light leading-[0.9] tracking-normal text-[#0F4A3E] md:text-[clamp(6.2rem,7.2vw,9.6rem)] md:leading-[0.88]">
-            Work that earns its proof.
+            Mahi that earns its proof.
           </h1>
           <AnimatePresence mode="wait">
             <motion.div
@@ -178,7 +178,7 @@ export function KeteRotator({
               : 'text-display-xl',
           ].join(' ')}
         >
-          Work that earns its proof.
+          Mahi that earns its proof.
         </h1>
         <AnimatePresence mode="wait">
           <motion.div
