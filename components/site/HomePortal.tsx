@@ -24,7 +24,7 @@ interface HomePortalProps {
   regulatoryPulse: RegulatoryPulseStats;
 }
 
-const FEATURED_HAPAI_TOOL_SLUGS = ['meeting-recorder', '9am-brief', 'og-card-generator'] as const;
+const FEATURED_HAPAI_TOOL_SLUGS = ['study-helper', 'meeting-recorder', '9am-brief'] as const;
 
 const FEATURED_HAPAI_TOOLS = FEATURED_HAPAI_TOOL_SLUGS.map((slug) =>
   ALL_HAPAI_TOOLS.find((tool) => tool.slug === slug),
@@ -42,7 +42,7 @@ const PRICING_ENTRY_POINTS = [
   [
     'INDUSTRY PACK',
     '$5,000 / month',
-    'The full specialist fleet for your industry, plus HAPAI white-labelled to your organisation. Your wordmark, your voice. Twelve+ tools your team can open in thirty seconds.',
+    'The full specialist fleet for your industry, plus HAPAI white-labelled to your organisation. Your wordmark, your voice. Practical tools your team can open in thirty seconds.',
     'See industry packs',
     '/industry-pack',
     '#D4A853',
@@ -356,7 +356,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
                     See the full library.
                   </span>
                   <span className="mt-4 block text-sm leading-relaxed text-[#FAF7F2]/82">
-                    Twelve live tools your team can try on real work today.
+                    Live tools your team can try on real work today.
                   </span>
                   <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em]">
                     Open HAPAI <ArrowRight className="h-3.5 w-3.5" aria-hidden />

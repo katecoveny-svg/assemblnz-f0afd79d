@@ -19,6 +19,7 @@ const categoryLabels = {
   marketing: 'marketing',
   record: 'records',
   lifestyle: 'lifestyle',
+  education: 'education',
 } as const;
 
 async function loadGoogleFont(url: string): Promise<ArrayBuffer | null> {

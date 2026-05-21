@@ -9,6 +9,7 @@ export type HapaiToolVisual =
   | 'project-picker'
   | 'meeting'
   | 'voyage'
+  | 'study'
   | 'privacy'
   | 'fridge'
   | 'food-temp';
@@ -21,7 +22,7 @@ export type HapaiTool = {
   href: string;
   visual: HapaiToolVisual;
   shareable: boolean;
-  category: 'adoption' | 'operations' | 'marketing' | 'record' | 'lifestyle';
+  category: 'adoption' | 'operations' | 'marketing' | 'record' | 'lifestyle' | 'education';
   posture: string;
 };
 
@@ -124,6 +125,19 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     shareable: true,
     category: 'lifestyle',
     posture: 'Draft travel desk only. Check bookings, tickets, safety, and travel advice before acting.',
+  },
+  {
+    slug: 'study-helper',
+    name: 'Study Helper',
+    status: 'live',
+    description:
+      'A calm NZ study desk for exam prep: photo notes, essay plans, recall quizzes, and 20-minute study sprints.',
+    href: '/hapai/study-helper',
+    visual: 'study',
+    shareable: true,
+    category: 'education',
+    posture:
+      'Study support only. It coaches planning, recall, and essay structure; students write their own answer and verify quotes from the text.',
   },
   {
     slug: 'meeting-recorder',

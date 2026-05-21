@@ -221,6 +221,45 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
     );
   }
 
+  if (visual === 'study') {
+    return (
+      <div className={previewClass}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_20%,rgba(217,168,90,0.24),transparent_34%),linear-gradient(135deg,#FAF7F2_0%,#EFEAE1_58%,#DCE8E1_100%)]" />
+        <div className="absolute left-5 right-5 top-5 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/82 p-4 shadow-[0_18px_42px_rgba(35,33,31,0.10)]">
+          <div className="flex items-center justify-between gap-3">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#2B6B57]">study helper</p>
+            <span className="rounded-full bg-[#D9A85A]/24 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-[#8A5B10]">
+              exam
+            </span>
+          </div>
+          <p className="mt-4 font-display text-3xl italic leading-none text-[#103F35]">essay spine</p>
+          <div className="mt-4 space-y-2">
+            {['thesis', 'evidence', 'explain'].map((item, index) => (
+              <div key={item} className="grid grid-cols-[22px_1fr] items-center gap-3">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full border border-[#2B6B57]/28 font-mono text-[8px] text-[#2B6B57]">
+                  {index + 1}
+                </span>
+                <span className="rounded-full border border-[rgba(43,107,87,0.15)] bg-[#FAF7F2] px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-[#2B6B57]">
+                  {item}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="absolute bottom-5 left-5 right-5 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#103F35] p-4 text-[#FAF7F2] shadow-[0_18px_42px_rgba(35,33,31,0.12)]">
+          <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[#D9A85A]">20-minute sprint</p>
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {['recall', 'plan', 'write'].map((item) => (
+              <span key={item} className="rounded-full bg-[#FAF7F2]/12 px-2 py-1 text-center font-mono text-[8px] uppercase tracking-[0.12em]">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (visual === 'privacy') {
     return (
       <div className={previewClass}>
