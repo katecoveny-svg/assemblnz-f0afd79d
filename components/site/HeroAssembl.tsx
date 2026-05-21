@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 const BOTTOM_LABELS = ['signal in', 'evidence held', 'decision out', 'trail kept'];
 
-const VESSEL_HERO_SRC = '/img/kete/toro-vessel.png';
+const VESSEL_HERO_SRC = '/img/kete/home-vessel-pounamu.jpg';
 
 export function HeroAssembl() {
   return (

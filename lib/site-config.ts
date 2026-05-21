@@ -66,8 +66,8 @@ export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
     wide:   '/img/kete/hoko-vessel-violet.jpg',
   },
   toro: {
-    square: '/img/brand/toro-brand-square-bird.png',
-    wide:   '/img/brand/toro-brand-square-bird.png',
+    square: '/img/kete/toro-vessel.png',
+    wide:   '/img/kete/toro-vessel-charcoal.jpg',
   },
 };
 
@@ -80,7 +80,7 @@ export const footerKeteCutouts: Record<KeteSlug, string> = {
   ako: '/img/kete/footer-cutouts/ako.png',
   matauranga: '/img/kete/footer-cutouts/matauranga.png',
   hoko: '/img/kete/footer-cutouts/hoko.png',
-  toro: '/img/brand/toro-brand-square-bird.png',
+  toro: '/img/kete/footer-cutouts/toro.png',
 };
 
 // ── Hero videos — moving backgrounds for major page heroes ───────────────────

@@ -35,7 +35,7 @@ export default function ToroWelcomePage() {
         </div>
         <div className="relative min-h-[420px] overflow-hidden rounded-[28px] border border-white/45 bg-white/42 shadow-[0_34px_110px_rgba(35,33,31,0.16)] backdrop-blur-xl">
           <img
-            src="/img/brand/toro-brand-square-bird.png"
+            src="/img/kete/toro-vessel-charcoal.jpg"
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
             style={{ objectPosition: "50% 52%" }}

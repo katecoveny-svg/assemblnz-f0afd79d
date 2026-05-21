@@ -648,7 +648,7 @@ function ToroPage({
         {/* Atmospheric layer — sits behind the radial gradient and content */}
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
           <img
-            src="/img/brand/toro-brand-square-bird.png"
+            src="/img/kete/toro-vessel-charcoal.jpg"
             alt=""
             className="absolute inset-0 h-full w-full object-cover opacity-[0.16]"
             style={{ objectPosition: '50% 52%' }}
@@ -720,8 +720,8 @@ function ToroPage({
           </div>
             <div className="relative order-first min-h-[320px] overflow-hidden rounded-[28px] border border-white/45 bg-white/42 shadow-[0_34px_110px_rgba(35,33,31,0.16)] backdrop-blur-xl lg:order-none lg:min-h-[560px]">
               <img
-                src="/img/brand/toro-brand-square-bird.png"
-                alt="Tōro bird-form family vessel"
+                src="/img/kete/toro-vessel-charcoal.jpg"
+                alt="Tōro family evidence vessel"
                 className="absolute inset-0 h-full w-full object-cover"
                 style={{ objectPosition: '50% 52%' }}
               />

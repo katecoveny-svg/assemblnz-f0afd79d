@@ -31,5 +31,5 @@ export const KETE_VESSEL_IMAGES: Record<KeteSlug, string> = {
   ako: '/img/kete/ako-vessel-amber.jpg',
   matauranga: '/img/kete/matauranga-vessel-tall.jpg',
   hoko: '/img/kete/hoko-vessel-violet.jpg',
-  toro: '/img/brand/toro-brand-square-bird.png',
+  toro: '/img/kete/toro-vessel-charcoal.jpg',
 };

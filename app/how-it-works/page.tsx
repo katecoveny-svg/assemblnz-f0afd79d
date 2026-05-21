@@ -29,8 +29,8 @@ const STAGE_MEDIA = [
     alt: 'Mahara review — Mātauranga vessel on warm paper.',
   },
   {
-    src: ketes.toro.wide,
-    alt: 'Mana sign-off — Tōro vessel on warm paper.',
+    src: '/img/kete/home-vessel-pounamu.jpg',
+    alt: 'Mana sign-off — assembl evidence vessel on warm paper.',
   },
 ] satisfies ReadonlyArray<{ src: string; alt: string }>;
 
