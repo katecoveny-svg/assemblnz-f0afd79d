@@ -96,10 +96,7 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
     >
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[linear-gradient(180deg,#FAF7F2_0%,#F6F0E8_58%,#FAF7F2_100%)]">
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
-        <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_72%_32%,rgba(43,107,87,0.16),transparent_30%),radial-gradient(circle_at_50%_82%,rgba(212,168,83,0.18),transparent_28%),linear-gradient(90deg,rgba(250,247,242,1)_0%,rgba(250,247,242,0.94)_50%,rgba(250,247,242,0.66)_100%)]"
-          aria-hidden
-        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(250,247,242,1)_0%,rgba(250,247,242,0.95)_52%,rgba(246,240,232,0.74)_100%)]" aria-hidden />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
         <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4.5rem)] w-full max-w-[1480px] items-center gap-10 px-6 py-10 md:px-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(28rem,1.1fr)] lg:gap-14 xl:px-14">
           <motion.div
@@ -115,11 +112,14 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
               Mahi that earns its proof.
             </h1>
             <p className="mt-6 max-w-[620px] text-[clamp(1.08rem,2vw,1.45rem)] font-medium leading-[1.42] text-[#23211F] md:mt-7">
-              Specialist agents for the admin work that drains your team. Built in Aotearoa, grounded in live knowledge, and reviewed by named people before anything leaves the building.
+              assembl turns real work into reviewed outputs with sources, actions,
+              and a record you can stand behind.
             </p>
             <div className="mt-5 max-w-[620px] text-[0.98rem] leading-[1.65] text-[#3D4250] md:text-[1.04rem]">
               <p>
-                Drafts, follow-ups, comparisons, write-ups, evidence packs. assembl turns the invisible admin layer into work your team can review, file, forward, and stand behind.
+                Start with a public HAPAI tool, a specialist kete, or one workflow
+                your team repeats. The useful work becomes draft, review, sign-off,
+                and proof.
               </p>
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row md:mt-10">
@@ -153,13 +153,13 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
               loop
               playsInline
               preload="metadata"
-              poster="/videos/assembl-brand-vessel-film-poster.jpg"
+              poster="/videos/vessel-canon-landscape-poster.jpg"
               aria-hidden
             >
-              <source src="/videos/assembl-brand-vessel-film-720p.mp4" type="video/mp4" />
+              <source src="/videos/vessel-canon-landscape-720p.mp4" type="video/mp4" />
             </video>
             <Image
-              src="/videos/assembl-brand-vessel-film-poster.jpg"
+              src="/videos/vessel-canon-landscape-poster.jpg"
               alt="assembl evidence vessel in motion on a warm cream background"
               fill
               priority
@@ -217,20 +217,20 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
             HOW TO READ ASSEMBL
           </p>
           <div className="mt-4 grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
-            <h2 className="max-w-4xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              Three things, not one crowded catalogue.
+            <h2 className="max-w-4xl font-display text-[clamp(2.8rem,6vw,5rem)] font-normal italic leading-tight">
+              Pick the right door.
             </h2>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              HAPAI is the shareable tools page. Kete are specialist packs.
-              Workflows are the repeatable jobs inside each kete. Start with
-              one real task, then make the useful ones private and repeatable.
+              HAPAI is the shareable tool library. Kete are specialist packs.
+              Workflows are repeatable jobs with review and evidence. They are
+              different doors into the same operating layer.
             </p>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {[
-              ['HAPAI apps/tools', 'Open a single-purpose tool, make a useful draft, share it with someone today.', '/hapai', 'Try the tools'],
-              ['Kete industry packs', 'Choose the specialist fleet for construction, hospitality, freight, dealerships, education, whānau, and more.', '#kete-workflows', 'See the kete'],
-              ['Workflows + proof', 'Run a real job, review it, and keep the evidence trail behind the answer.', '/workflows', 'Browse workflows'],
+              ['HAPAI tools', 'Public one-task tools: study, meetings, travel, share cards, logs, briefs, and useful everyday jobs.', '/hapai', 'Try the tools'],
+              ['Kete packs', 'Specialist operating areas with agents, tools, live knowledge, and review rules.', '#kete-workflows', 'See the kete'],
+              ['Workflows', 'Repeatable jobs with inputs, reviewers, outputs, and evidence packs.', '/workflows', 'Browse workflows'],
             ].map(([title, body, href, cta]) => (
               <Link
                 key={title}
@@ -306,15 +306,15 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
         <div className="mx-auto max-w-[1500px]">
           <div className="max-w-3xl">
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
-              HAPAI · ADOPTION TOOLS
+              HAPAI · PUBLIC TOOLS
             </p>
-            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              Give one real task to a small tool first.
+            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-normal italic leading-tight">
+              Try one useful tool.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
               HAPAI is the apps and tools page: single-purpose public tools for
-              real work. Open one before doing the work the old way. If it helps,
-              turn it into a private internal tool for your team.
+              real work. Open one, get a useful result, then turn the win into a
+              private internal tool if it earns its keep.
             </p>
           </div>
 

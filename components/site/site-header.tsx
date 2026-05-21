@@ -44,21 +44,21 @@ export function SiteHeader() {
       className="sticky top-0 z-40 w-full border-b border-[rgba(157,140,125,0.14)] bg-[rgba(247,243,238,0.78)] backdrop-blur-xl"
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
-      <div className="flex h-[72px] w-full max-w-none items-center justify-between gap-4 px-6 md:gap-6 md:px-10 xl:px-14 2xl:px-20">
+      <div className="flex h-[72px] w-full max-w-none items-center justify-between gap-3 px-5 md:gap-4 md:px-8 xl:px-12 2xl:px-20">
         <div className="flex min-w-0 items-baseline gap-3">
           <Link
             href="/"
             aria-label="assembl — home"
-            className="shrink-0 rounded-sm text-[32px] font-normal leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 md:text-[38px]"
+            className="shrink-0 rounded-sm text-[31px] font-normal leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:text-[36px]"
             style={{ fontFamily: 'var(--font-display), "Cormorant Garamond", Garamond, Georgia, serif' }}
           >
             assembl
           </Link>
-          <span className="hidden truncate font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] lg:inline">
+          <span className="hidden whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
             {PROOF_LINE}
           </span>
         </div>
-        <nav className="hidden items-center gap-7 md:flex xl:gap-8" aria-label="Primary">
+        <nav className="hidden items-center gap-4 lg:flex xl:gap-5 2xl:gap-7" aria-label="Primary">
           {nav.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -67,7 +67,7 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "rounded-sm text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2",
+                  "whitespace-nowrap rounded-sm text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:text-[15px]",
                   isActive
                     ? "text-[color:var(--text-primary)] font-medium"
                     : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] focus-visible:text-[color:var(--text-primary)]"
@@ -107,7 +107,7 @@ export function SiteHeader() {
           <Link
             href="/login"
             className={cn(
-              "hidden rounded-sm text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 md:inline",
+              "hidden whitespace-nowrap rounded-sm text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 2xl:inline",
               pathname === "/login"
                 ? "text-[color:var(--text-primary)] font-medium"
                 : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
@@ -117,7 +117,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href={navCta.href}
-            className="hidden cta-primary md:inline-flex h-11 items-center px-6 text-[15px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            className="hidden cta-primary lg:inline-flex h-11 items-center whitespace-nowrap px-5 text-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:px-6 xl:text-[15px]"
           >
             {navCta.label}
           </Link>

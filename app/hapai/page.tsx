@@ -15,40 +15,40 @@ import { getRegulatoryPulse } from '@/lib/regulatory-pulse';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'HAPAI — practical internal tools for real work',
+  title: 'HAPAI — shareable tools for real work',
   description:
-    'HAPAI is assembl’s library of small internal tools for real work: pick one task, give the tool first shot, then turn what works into a repeatable system.',
+    'HAPAI is assembl’s public tool library: small shareable tools for study, meetings, travel, compliance logs, share cards, and everyday work.',
   openGraph: {
-    title: 'HAPAI — practical internal tools for real work',
+    title: 'HAPAI — shareable tools for real work',
     description:
-      'Open small branded tools your team can use on real work without learning prompting or switching platforms.',
+      'Open one useful tool, run one real task, and share the result.',
     type: 'website',
     url: 'https://www.assembl.co.nz/hapai',
     siteName: 'assembl',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'HAPAI — practical internal tools for real work',
+    title: 'HAPAI — shareable tools for real work',
     description:
-      'Give a real task to a small tool first. If it works, make it repeatable.',
+      'One task, one tool, one useful result.',
   },
 };
 
 const reasons = [
   {
-    title: 'Real work first',
+    title: 'One task at a time',
     body:
-      'Adoption does not come from memorising new jargon. It comes from giving a real task to a useful tool before muscle memory opens the old spreadsheet, inbox, or blank doc.',
+      'Each HAPAI tool does one job clearly: turn a photo, paste, recording, note, or brief into something useful enough to review.',
   },
   {
-    title: 'Everyone gets reps',
+    title: 'Useful without training',
     body:
-      'Each tool is one page, one purpose. No prompt engineering. No platform switch. The finance person, manager, EA, teacher, marketer, or operator can all get a useful first draft.',
+      'No prompt course, no platform tour. Open the page, add the thing you are stuck on, and get a draft, checklist, or plan.',
   },
   {
-    title: 'Wins become systems',
+    title: 'Wins become internal tools',
     body:
-      'When a one-off tool proves useful, it can become a private internal tool with your voice, your controls, connected data, and an evidence trail.',
+      'When a public tool proves useful, assembl can turn it into a private tool with your data, voice, permissions, and review trail.',
   },
 ] as const;
 
@@ -59,8 +59,8 @@ const adoptionLoop = [
     icon: Sparkles,
   },
   {
-    title: 'Give the tool first shot',
-    body: 'Run the task through a small HAPAI tool before doing it the old way. The point is practical fluency, not a training module.',
+    title: 'Run it through a tool',
+    body: 'Use the tool before you rebuild the spreadsheet, rewrite the email, or stare at a blank doc.',
     icon: Wrench,
   },
   {
@@ -79,21 +79,21 @@ export default async function HapaiPage() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
-              built in aotearoa · hapai
+              built in aotearoa · HAPAI
             </p>
-            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.8rem,8vw,7.5rem)] font-light italic leading-[0.88]">
-              Give the tool first shot.
+            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.2rem,6vw,5.8rem)] font-light italic leading-[0.92]">
+              Tools for the job in front of you.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
-              Hāpai (te reo): to lift up, to elevate, to support. HAPAI is a
-              library of small internal tools for real work. Pick one task,
-              run it through a tool before doing it the old way, then turn the
-              useful wins into repeatable systems your team can actually use.
+              HAPAI is assembl&apos;s public library of single-purpose tools. Upload
+              the note, paste the rough text, record the meeting, photograph the
+              thing, or choose the task. Get a draft, checklist, share card, plan,
+              or next action you can review.
             </p>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)]">
-              This is how practical adoption happens: not by chasing every new
-              model announcement, but by giving people safe, branded tools for
-              the work already on their desk.
+              This is how practical adoption starts: with real work, a visible
+              result, and a clear path to make the useful tools private for your
+              team.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href="#tools" className="cta-primary inline-flex h-12 items-center gap-2 px-6">
@@ -107,33 +107,21 @@ export default async function HapaiPage() {
 
           <div className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/60 shadow-[0_28px_90px_rgba(35,33,31,0.12)]">
             <div className="relative aspect-[4/3]">
-              <video
-                aria-hidden
-                className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                poster="/videos/assembl-brand-vessel-film-poster.jpg"
-              >
-                <source src="/videos/assembl-brand-vessel-film-720p.mp4" type="video/mp4" />
-              </video>
               <Image
-                src="/videos/assembl-brand-vessel-film-poster.jpg"
-                alt="assembl vessel composition"
+                src="/img/kete/home-vessel-pounamu.jpg"
+                alt="assembl evidence vessel on a warm cream background"
                 fill
                 sizes="(min-width: 1024px) 46vw, 100vw"
-                className="object-cover motion-safe:opacity-0"
+                className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#23211F]/42 via-transparent to-[#FAF7F2]/18" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F2]/8 via-transparent to-[#FAF7F2]/46" />
               <div className="absolute bottom-5 left-5 right-5 rounded-[6px] border border-white/25 bg-[#FAF7F2]/88 p-4 backdrop-blur">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
-                  public hapai
+                  public tool library
                 </p>
-                <p className="mt-2 font-display text-3xl font-light italic leading-none">
-                  internal tools, ready when the work starts.
+                <p className="mt-2 font-display text-2xl font-light italic leading-tight md:text-3xl">
+                  One task. One tool. One useful result.
                 </p>
               </div>
             </div>
@@ -157,15 +145,15 @@ export default async function HapaiPage() {
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.72fr_1fr] lg:items-center">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
-              live proof layer
+              live source layer
             </p>
-            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.4rem)] font-light italic leading-[0.92]">
-              The tools are small. The source layer is serious.
+            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,4.8rem)] font-light italic leading-[0.94]">
+              Small tools, serious sources.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-[color:var(--text-body)]">
-              HAPAI is the easy entry point, but it sits on the same assembl
-              habit: use current sources, keep the trail, and make the output
-              reviewable before anyone acts on it.
+              HAPAI is the easy entry point, but the serious tools use the same
+              habit as assembl: current sources where available, visible limits,
+              and review before anyone acts.
             </p>
           </div>
           <LivePulseWidget initial={regulatoryPulse} />
@@ -178,14 +166,13 @@ export default async function HapaiPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               practical adoption
             </p>
-            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-light italic leading-[0.9]">
-              Your team learns by using tools on their own work.
+            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-light italic leading-[0.94]">
+              The team learns by using the thing.
             </h2>
             <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)]">
-              The best internal tools do not feel like a platform rollout. They
-              feel like a shortcut someone was relieved to find. HAPAI makes
-              that visible: one useful task, one reviewed output, one repeatable
-              pattern.
+              The best adoption does not feel like a platform rollout. It feels
+              like someone found the shortcut for a job they already had to do.
+              HAPAI makes those shortcuts visible and shareable.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -206,13 +193,13 @@ export default async function HapaiPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               public library
             </p>
-            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.5rem)] font-light italic leading-[0.9]">
+            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,4.8rem)] font-light italic leading-[0.94]">
               Open the library.
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-[color:var(--text-body)]">
-              Live public apps and tools, each with its own sharp share
-              image for posting, emailing, or sending to someone who has one
-              real job to try this week.
+              Public tools you can post, email, or send to someone with one real
+              job to try. The useful ones can become private, branded tools for
+              a team.
             </p>
           </div>
 
