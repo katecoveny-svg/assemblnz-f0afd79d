@@ -27,21 +27,21 @@ const HAPAI_TOOLS = [
     name: 'Vessel studio.',
     description:
       'A quiet prompt builder for hero imagery. Composes branded vessel still-lifes via flux 1.1 pro on fal.ai.',
-    href: '/hapai/vessel-studio/vessel-studio.html',
+    href: '/hapai/vessel-studio',
     visual: 'vessel',
   },
   {
     name: 'Caption composer.',
     description:
       "LinkedIn, Instagram, X, Facebook captions tuned to each platform's native rhythm. In your voice, your length, your tone.",
-    href: '/hapai/caption-composer/caption-composer.html',
+    href: '/hapai/caption-composer',
     visual: 'caption',
   },
   {
     name: 'Brief generator.',
     description:
       'Creative, pitch, and project briefs as a single-page PDF in your voice. Fill in eight fields, leave with a brief.',
-    href: '/hapai/brief-generator/brief-generator.html',
+    href: '/hapai/brief-generator',
     visual: 'brief',
   },
   {
@@ -55,14 +55,14 @@ const HAPAI_TOOLS = [
     name: 'OG card studio.',
     description:
       'Branded 1200×630 social share cards. Headline, accent, kete vessel, downloadable in a click.',
-    href: '/hapai/og-card-generator/og-card-generator.html',
+    href: '/hapai/og-card-generator',
     visual: 'og-card',
   },
   {
     name: 'Tagline workshop.',
     description:
       'Generate tagline candidates across five styles. Save the ones that land. Download the shortlist.',
-    href: '/hapai/tagline-workshop/tagline-workshop.html',
+    href: '/hapai/tagline-workshop',
     visual: 'tagline',
   },
   {

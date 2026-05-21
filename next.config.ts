@@ -35,24 +35,24 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/hapai/vessel-studio',
-        destination: '/hapai/vessel-studio/index.html',
+        source: '/hapai/_legacy/vessel-studio/:path*',
+        destination: '/hapai/vessel-studio/:path*',
       },
       {
-        source: '/hapai/caption-composer',
-        destination: '/hapai/caption-composer/index.html',
+        source: '/hapai/_legacy/caption-composer/:path*',
+        destination: '/hapai/caption-composer/:path*',
       },
       {
-        source: '/hapai/brief-generator',
-        destination: '/hapai/brief-generator/index.html',
+        source: '/hapai/_legacy/brief-generator/:path*',
+        destination: '/hapai/brief-generator/:path*',
       },
       {
-        source: '/hapai/og-card-generator',
-        destination: '/hapai/og-card-generator/index.html',
+        source: '/hapai/_legacy/og-card-generator/:path*',
+        destination: '/hapai/og-card-generator/:path*',
       },
       {
-        source: '/hapai/tagline-workshop',
-        destination: '/hapai/tagline-workshop/index.html',
+        source: '/hapai/_legacy/tagline-workshop/:path*',
+        destination: '/hapai/tagline-workshop/:path*',
       },
       // Mana Receipts public keyring — canonical /.well-known/ path.
       // Implemented as an internal rewrite because Next.js App Router does
@@ -68,6 +68,16 @@ const nextConfig: NextConfig = {
       // Existing: kete name correction (Tōroa → Tōro). Keep this in Next.js;
       // public SPA paths are handled by middleware rewrites before auth.
       { source: "/kete/toroa", destination: "/kete/toro", permanent: true },
+      { source: "/hapai/vessel-studio/vessel-studio.html", destination: "/hapai/vessel-studio", permanent: false },
+      { source: "/hapai/vessel-studio/index.html", destination: "/hapai/vessel-studio", permanent: false },
+      { source: "/hapai/caption-composer/caption-composer.html", destination: "/hapai/caption-composer", permanent: false },
+      { source: "/hapai/caption-composer/index.html", destination: "/hapai/caption-composer", permanent: false },
+      { source: "/hapai/brief-generator/brief-generator.html", destination: "/hapai/brief-generator", permanent: false },
+      { source: "/hapai/brief-generator/index.html", destination: "/hapai/brief-generator", permanent: false },
+      { source: "/hapai/og-card-generator/og-card-generator.html", destination: "/hapai/og-card-generator", permanent: false },
+      { source: "/hapai/og-card-generator/index.html", destination: "/hapai/og-card-generator", permanent: false },
+      { source: "/hapai/tagline-workshop/tagline-workshop.html", destination: "/hapai/tagline-workshop", permanent: false },
+      { source: "/hapai/tagline-workshop/index.html", destination: "/hapai/tagline-workshop", permanent: false },
       { source: "/tools/vessel-studio/:path*", destination: "/hapai/vessel-studio/:path*", permanent: false },
       { source: "/tools/caption-composer/:path*", destination: "/hapai/caption-composer/:path*", permanent: false },
       { source: "/tools/brief-generator/:path*", destination: "/hapai/brief-generator/:path*", permanent: false },
