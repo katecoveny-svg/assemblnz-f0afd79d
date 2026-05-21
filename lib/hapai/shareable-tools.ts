@@ -131,7 +131,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     name: 'Study Helper',
     status: 'live',
     description:
-      'A calm NZ study desk for exam prep: photo notes, essay plans, recall quizzes, and 20-minute study sprints.',
+      'Upload notes or a teacher prompt. Get an essay plan, quote checklist, recall quiz, or study sprint mapped to NZ Curriculum skills.',
     href: '/hapai/study-helper',
     visual: 'study',
     shareable: true,

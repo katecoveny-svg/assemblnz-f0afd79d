@@ -4,11 +4,11 @@ import { StudyHelperTool } from "./StudyHelperTool";
 export const metadata: Metadata = {
   title: "Study Helper — assembl",
   description:
-    "A shareable HAPAI study desk for NZ students: photo notes, essay plans, recall quizzes, and calm 20-minute study sprints.",
+    "A shareable HAPAI tool for NZ students: upload notes or a teacher prompt and get an essay plan, quote checklist, recall quiz, or study sprint.",
   openGraph: {
     title: "Study Helper — assembl",
     description:
-      "Turn notes, teacher prompts, and rough ideas into a study plan, essay spine, quote checklist, and practice sprint.",
+      "Turn notes, teacher prompts, and rough ideas into an essay plan, quote checklist, recall quiz, or practice sprint mapped to NZ Curriculum skills.",
     type: "website",
     url: "https://www.assembl.co.nz/hapai/study-helper",
     siteName: "assembl",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Study Helper — assembl",
-    description: "A calm study coach for NZ students and parents, starting with novel study essays.",
+    description: "Photo notes and teacher prompts in. Essay plans, quote checks, quizzes, and study sprints out.",
   },
 };
 
