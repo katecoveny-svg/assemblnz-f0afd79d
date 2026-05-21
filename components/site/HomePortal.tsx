@@ -257,8 +257,8 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
               Those are the jobs assembl picks up. Specialist agents — trained
               on your industry&apos;s regulations and your business&apos;s voice — handle
-              the admin layer end-to-end. Your team reviews the output, signs it
-              off, and goes back to the work they care about.
+              the admin layer. Your team reviews the output, signs it off, and
+              goes back to the work they care about.
             </p>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
               The output gets sealed with a trail of how it was made, so it

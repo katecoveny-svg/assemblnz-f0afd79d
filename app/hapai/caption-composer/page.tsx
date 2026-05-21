@@ -14,7 +14,7 @@ export default function CaptionComposerPage() {
       description="Draft LinkedIn, Instagram, X, and Facebook captions tuned to each platform's rhythm."
       posture="Draft captions only. Check claims, permissions, and platform fit before posting."
       path="/hapai/caption-composer"
-      legacyPath="/hapai/_legacy/caption-composer/caption-composer.html"
+      legacyPath="/static-hapai/caption-composer/caption-composer.html"
     />
   );
 }

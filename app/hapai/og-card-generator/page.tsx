@@ -14,7 +14,7 @@ export default function OgCardGeneratorPage() {
       description="Build branded 1200x630 social share cards with headline, accent, vessel image, and export controls."
       posture="Draft share cards only. Check copy, image rights, and brand fit before publishing."
       path="/hapai/og-card-generator"
-      legacyPath="/hapai/_legacy/og-card-generator/og-card-generator.html"
+      legacyPath="/static-hapai/og-card-generator/og-card-generator.html"
     />
   );
 }

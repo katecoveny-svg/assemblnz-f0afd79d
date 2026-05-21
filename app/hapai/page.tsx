@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, ImageIcon, Mail, Repeat2, Sparkles, Wrench } from 'lucide-react';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
+import { PainfulWorkflowCapture } from '@/components/hapai/PainfulWorkflowCapture';
 import {
   HAPAI_TOOLS,
   getHapaiToolEmailHref,
@@ -240,6 +241,12 @@ export default function HapaiPage() {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="workflow-request" className="border-t border-[rgba(35,33,31,0.10)] bg-[#F7F1E9] px-5 py-16 md:px-10 md:py-24">
+        <div className="mx-auto max-w-7xl">
+          <PainfulWorkflowCapture />
         </div>
       </section>
 

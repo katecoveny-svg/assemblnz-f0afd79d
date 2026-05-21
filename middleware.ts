@@ -4,15 +4,18 @@ import { updateSession } from '@/lib/supabase/middleware';
 
 const SPA_ORIGIN = 'https://assembl-app.vercel.app';
 
+const PUBLIC_KETE_ROOTS = [
+  'manaaki',
+  'waihanga',
+  'pikau',
+  'arataki',
+  'auaha',
+  'ako',
+  'hoko',
+  'matauranga',
+];
+
 const SPA_PUBLIC_PREFIXES = [
-  '/manaaki',
-  '/waihanga',
-  '/pikau',
-  '/arataki',
-  '/auaha',
-  '/ako',
-  '/hoko',
-  '/matauranga',
   '/demos',
   '/aaaip',
   '/embed',
@@ -22,11 +25,39 @@ const SPA_PUBLIC_PREFIXES = [
 const matchesPrefix = (pathname: string, prefix: string) =>
   pathname === prefix || pathname.startsWith(`${prefix}/`);
 
-const shouldProxyToSpa = (pathname: string) => {
-  if (matchesPrefix(pathname, '/toro/school-survival')) {
-    return false;
+const legacyKeteRedirect = (request: NextRequest) => {
+  const pathname = request.nextUrl.pathname;
+  const [, root, ...rest] = pathname.split('/');
+  if (!PUBLIC_KETE_ROOTS.includes(root)) return null;
+
+  const url = request.nextUrl.clone();
+  url.pathname = `/kete/${root}${rest.length ? `/${rest.join('/')}` : ''}`;
+  return NextResponse.redirect(url, 308);
+};
+
+const productRedirect = (request: NextRequest) => {
+  const pathname = request.nextUrl.pathname;
+  const url = request.nextUrl.clone();
+
+  if (matchesPrefix(pathname, '/toro/route')) {
+    url.pathname = '/hapai/voyage-italy';
+    return NextResponse.redirect(url, 307);
   }
 
+  if (matchesPrefix(pathname, '/toro/school-survival')) {
+    url.pathname = '/hapai/9am-brief';
+    return NextResponse.redirect(url, 307);
+  }
+
+  if (matchesPrefix(pathname, '/free-tools')) {
+    url.pathname = '/hapai';
+    return NextResponse.redirect(url, 307);
+  }
+
+  return null;
+};
+
+const shouldProxyToSpa = (pathname: string) => {
   if (SPA_PUBLIC_PREFIXES.some((prefix) => matchesPrefix(pathname, prefix))) {
     return true;
   }
@@ -41,6 +72,12 @@ const shouldProxyToSpa = (pathname: string) => {
 };
 
 export async function middleware(request: NextRequest) {
+  const redirect = productRedirect(request);
+  if (redirect) return redirect;
+
+  const keteRedirect = legacyKeteRedirect(request);
+  if (keteRedirect) return keteRedirect;
+
   if (shouldProxyToSpa(request.nextUrl.pathname)) {
     return NextResponse.rewrite(
       new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, SPA_ORIGIN),

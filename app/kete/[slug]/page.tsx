@@ -835,7 +835,7 @@ function ToroPage({
             </SectionReveal>
             <SectionReveal delay={0.06}>
               <Link
-                href="/toro/route"
+                href="/hapai/voyage-italy"
                 className="glass-card-elevated group relative block h-full p-7"
                 style={{
                   ['--kete-accent' as string]: kete.accent,

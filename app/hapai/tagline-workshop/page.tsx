@@ -14,7 +14,7 @@ export default function TaglineWorkshopPage() {
       description="Generate tagline candidates across five styles, then shortlist the lines worth human review."
       posture="Draft language only. A human chooses and clears the final line."
       path="/hapai/tagline-workshop"
-      legacyPath="/hapai/_legacy/tagline-workshop/tagline-workshop.html"
+      legacyPath="/static-hapai/tagline-workshop/tagline-workshop.html"
     />
   );
 }

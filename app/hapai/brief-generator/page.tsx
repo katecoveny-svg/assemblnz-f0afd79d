@@ -14,7 +14,7 @@ export default function BriefGeneratorPage() {
       description="Turn a loose project idea into a clean draft brief with scope, audience, constraints, and next steps."
       posture="Draft brief only. The owner signs off scope, budget, claims, and deadlines."
       path="/hapai/brief-generator"
-      legacyPath="/hapai/_legacy/brief-generator/brief-generator.html"
+      legacyPath="/static-hapai/brief-generator/brief-generator.html"
     />
   );
 }

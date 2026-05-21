@@ -35,23 +35,23 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/hapai/_legacy/vessel-studio/:path*',
+        source: '/static-hapai/vessel-studio/:path*',
         destination: '/hapai/vessel-studio/:path*',
       },
       {
-        source: '/hapai/_legacy/caption-composer/:path*',
+        source: '/static-hapai/caption-composer/:path*',
         destination: '/hapai/caption-composer/:path*',
       },
       {
-        source: '/hapai/_legacy/brief-generator/:path*',
+        source: '/static-hapai/brief-generator/:path*',
         destination: '/hapai/brief-generator/:path*',
       },
       {
-        source: '/hapai/_legacy/og-card-generator/:path*',
+        source: '/static-hapai/og-card-generator/:path*',
         destination: '/hapai/og-card-generator/:path*',
       },
       {
-        source: '/hapai/_legacy/tagline-workshop/:path*',
+        source: '/static-hapai/tagline-workshop/:path*',
         destination: '/hapai/tagline-workshop/:path*',
       },
       // Mana Receipts public keyring — canonical /.well-known/ path.
@@ -68,8 +68,14 @@ const nextConfig: NextConfig = {
       // Existing: kete name correction (Tōroa → Tōro). Keep this in Next.js;
       // public SPA paths are handled by middleware rewrites before auth.
       { source: "/toro", destination: "/kete/toro", permanent: false },
+      { source: "/toro/route", destination: "/hapai/voyage-italy", permanent: false },
+      { source: "/toro/route/:path*", destination: "/hapai/voyage-italy", permanent: false },
+      { source: "/toro/school-survival", destination: "/hapai/9am-brief", permanent: false },
+      { source: "/toro/school-survival/:path*", destination: "/hapai/9am-brief", permanent: false },
       { source: "/toroa", destination: "/kete/toro", permanent: true },
       { source: "/kete/toroa", destination: "/kete/toro", permanent: true },
+      { source: "/free-tools", destination: "/hapai", permanent: false },
+      { source: "/free-tools/:path*", destination: "/hapai", permanent: false },
       { source: "/hapai/vessel-studio/vessel-studio.html", destination: "/hapai/vessel-studio", permanent: false },
       { source: "/hapai/vessel-studio/index.html", destination: "/hapai/vessel-studio", permanent: false },
       { source: "/hapai/caption-composer/caption-composer.html", destination: "/hapai/caption-composer", permanent: false },

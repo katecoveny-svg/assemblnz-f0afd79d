@@ -14,7 +14,7 @@ export default function VesselStudioPage() {
       description="A quiet prompt builder for branded hero imagery and vessel-led campaign assets."
       posture="Draft imagery only. A named person picks, checks, and publishes the final asset."
       path="/hapai/vessel-studio"
-      legacyPath="/hapai/_legacy/vessel-studio/vessel-studio.html"
+      legacyPath="/static-hapai/vessel-studio/vessel-studio.html"
     />
   );
 }
