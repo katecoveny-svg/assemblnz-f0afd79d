@@ -5,6 +5,11 @@ of Education, Ministry of Social Development, Inland Revenue, Oranga
 Tamariki, Te Whatu Ora, MBIE) could actually adopt and use — and the
 case for spinning it as a separate sub-business under common ownership.
 
+> **Naming gate, locked 21 May 2026:** Public Assembly navigator names
+> lead with plain English. Te reo Māori may appear only as a secondary
+> descriptor or tikanga concept in the supporting copy. The private-sector
+> assembl kete names remain unchanged.
+
 ---
 
 ## 1. The clear thesis
@@ -56,7 +61,7 @@ practical first agent, and the procurement vehicle that gets us in.
   on the relational and decision-making work the job actually requires.
 - **Their pain.** Welfare reform fatigue. Falling staff retention. The
   *Future of Public Services* programme has explicit AI funding lines.
-- **First agent — "Manaakitanga Navigator".** Continuously scans a
+- **First agent — "Entitlement Navigator" · Manaakitanga.** Continuously scans a
   beneficiary's record for entitlements they *aren't* claiming —
   Disability Allowance, Temporary Additional Support, Best Start,
   hardship grants. Drafts the application. The case manager approves
@@ -76,7 +81,7 @@ practical first agent, and the procurement vehicle that gets us in.
 - **Their pain.** START programme deployment is done; appetite for
   citizen-facing AI is high; Commissioner has publicly named AI as a
   2027 priority.
-- **First agent — "Tauira Tāke".** Continuous bank-feed and PAYE scan
+- **First agent — "Tax Navigator" · Tauira Tāke.** Continuous bank-feed and PAYE scan
   for changes that affect tax position. Drafts the IR3 / IR526 / WFF
   income re-estimate. The IRD officer (or the citizen's accountant)
   approves.
@@ -96,7 +101,7 @@ practical first agent, and the procurement vehicle that gets us in.
 - **Their pain.** Studylink call-centre volume is the highest-cost
   channel. ECE has just finished restructuring; appetite for tooling
   is real. Aotearoa New Zealand Curriculum refresh is also live.
-- **First agent — "Pae Ako".** For students: continuous eligibility
+- **First agent — "Study Navigator" · Pae Ako.** For students: continuous eligibility
   monitoring across allowance, loan, course costs, accommodation
   benefit, and parental income. For ECE centres: draft funding
   declarations against attendance data and licensing requirements.
@@ -113,7 +118,7 @@ practical first agent, and the procurement vehicle that gets us in.
   integrity — exactly what hash-chained evidence packs provide.
 - **Their pain.** Workforce retention crisis. Inquiry recommendations
   unfunded but politically mandatory.
-- **First agent — "Kaitiaki Mātāmua".** Drafts case-record entries
+- **First agent — "Case Navigator" · Kaitiaki Mātāmua.** Drafts case-record entries
   from a kaimahi's voice notes, scans for safety patterns across the
   whānau record, prepares the Family Group Conference brief. Always
   to a queued draft for the named worker to approve and sign.
@@ -196,7 +201,7 @@ The mGCDO programme is the wedge. Apply in Q3 2026.
 
 **Weeks 10–12 — Sandbox kickoff.**
 - If accepted, run the 8–12 week paid pilot with the anchor agency.
-- Pilot lands one Manaakitanga / Tauira Tāke / Pae Ako agent on a
+- Pilot lands one Entitlement Navigator / Tax Navigator / Study Navigator agent on a
   real (consented) caseload.
 - Deliverable: a sealed Pae evidence pack tendered to the Minister
   responsible.
@@ -257,7 +262,7 @@ the work is in the PIA, not the code.
 
 ## 5. The "what does an agent actually do" worked example
 
-Concrete: a Manaakitanga Navigator agent on MSD's caseload.
+Concrete: an Entitlement Navigator agent on MSD's caseload.
 
 **Inputs (consented and federated, not held by Pae):**
 - Case manager's voice note / typed shorthand of a beneficiary
@@ -269,7 +274,7 @@ Concrete: a Manaakitanga Navigator agent on MSD's caseload.
 
 **Loop:**
 1. Kahu masks all PII before any model sees it.
-2. Iho routes to the *Manaakitanga* specialist agent.
+2. Iho routes to the *Entitlement Navigator* specialist agent.
 3. Specialist agent drafts:
    - a re-estimate of household income,
    - a check against five entitlements the beneficiary is not currently
@@ -287,7 +292,7 @@ Concrete: a Manaakitanga Navigator agent on MSD's caseload.
 **Outputs:**
 - A draft set of applications the case manager can review in 4–6
   minutes instead of 45.
-- A Manaakitanga posture pack hash-chained for MSD's record.
+- An entitlement posture pack hash-chained for MSD's record.
 - A Crown-timestamped audit trail that survives an OIA request.
 
 The case manager is faster. The beneficiary is paid correctly. MSD has
@@ -358,8 +363,8 @@ faster than any of the rest of this work could teach us.
 To make the conversation in §8 concrete, this branch ships:
 
 - This document.
-- `lib/government/pae-navigator-agent.ts` — the agent spec for the
-  Manaakitanga Navigator (MSD), as the worked example from §5. Shape-
+- `lib/government/entitlement-navigator-agent.ts` — the agent spec for the
+  Entitlement Navigator (MSD), as the worked example from §5. Shape-
   compatible with the existing `lib/agents.ts` registry; can be moved
   to Pae's own repo when that lives.
 
