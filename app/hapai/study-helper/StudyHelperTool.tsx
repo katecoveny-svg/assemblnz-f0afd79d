@@ -138,7 +138,7 @@ export function StudyHelperTool() {
     setExamContext("First English exam tomorrow. Novel study essay.");
     setEssayQuestion("We do not know the exact question yet. Build an adaptable essay plan for a novel study essay.");
     setRoughIdeas(
-      "Jack is struggling and needs a calm plan for tonight. Help him remember plot, themes, characters, setting, and how to turn one scene into a paragraph. He needs confidence, not a full essay to memorise.",
+      "Jack needs a direct plan for tonight. Help him remember plot, themes, characters, setting, and how to turn one scene into a paragraph. He needs confidence, not a full essay to memorise.",
     );
     setQuoteBank("No exact quotes yet. Make a quote/evidence hunt list and remind him not to invent wording.");
     setMode("essay-plan");
@@ -157,18 +157,18 @@ export function StudyHelperTool() {
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#2B6B57]">HAPAI · study helper</p>
             <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.1rem,8.4vw,8.8rem)] font-normal italic leading-[0.84] text-[#103F35]">
-              Study without spiralling.
+              Turn notes into a plan.
             </h1>
             <p className="mt-7 max-w-3xl text-[clamp(1.05rem,1.8vw,1.35rem)] leading-relaxed text-[#3D4250]">
-              A calm exam desk for tonight: upload notes or a teacher prompt,
-              pick the kind of help needed, and leave with an essay spine,
-              recall drill, quote checklist, or timed study sprint.
+              Upload a teacher prompt, notes photo, rough paragraph, or quote bank.
+              Study Helper turns it into an essay plan, recall quiz, quote checklist,
+              or 20-minute drill mapped to NZ Curriculum English skills.
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {[
-                { icon: Camera, title: "photo notes", body: "read a handout, whiteboard, or rough page" },
-                { icon: BookOpen, title: "essay spine", body: "thesis, paragraphs, evidence to find" },
-                { icon: TimerReset, title: "short sprints", body: "tonight's plan in manageable blocks" },
+                { icon: Camera, title: "photo parser", body: "reads a handout, whiteboard, or rough notes page" },
+                { icon: BookOpen, title: "essay plan", body: "thesis options, paragraph moves, evidence to find" },
+                { icon: TimerReset, title: "20-min drills", body: "recall, quote hunt, and practice paragraph sprints" },
               ].map(({ icon: Icon, title, body }) => (
                 <div key={title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 p-4 shadow-[0_18px_54px_rgba(35,33,31,0.06)]">
                   <Icon className="h-5 w-5 text-[#2B6B57]" aria-hidden />
@@ -182,19 +182,19 @@ export function StudyHelperTool() {
           <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#103F35] p-6 text-[#FAF7F2] shadow-[0_34px_110px_rgba(35,33,31,0.18)]">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(217,168,90,0.24),transparent_34%),linear-gradient(135deg,rgba(250,247,242,0.10),transparent_48%)]" />
             <div className="relative">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">study posture</p>
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">how it helps</p>
               <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
-                It teaches the move, not the answer to copy.
+                It builds the plan. He writes the answer.
               </p>
               <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FAF7F2]/82">
-                <li className="flex gap-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> No invented quotes or page numbers.</li>
-                <li className="flex gap-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> Jack writes the final answer in his own words.</li>
-                <li className="flex gap-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> The reusable version can map tasks to NZ curriculum skills and teacher rubrics.</li>
+                <li className="flex gap-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> Reads photos of notes, teacher prompts, and rough drafts.</li>
+                <li className="flex gap-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> Maps the task to ideas, structure, language features, audience, purpose, and evidence.</li>
+                <li className="flex gap-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> No made-up quotes, page numbers, or ghostwritten final essays.</li>
               </ul>
               <div className="mt-5">
                 <ShareableToolActions
                   title="Study Helper by assembl"
-                  text="A calm NZ study desk for exam prep: notes in, essay spine and study sprint out."
+                  text="Upload notes or a teacher prompt. Get an essay plan, quote checklist, recall quiz, or study sprint mapped to NZ Curriculum skills."
                   path="/hapai/study-helper"
                 />
               </div>
@@ -333,7 +333,7 @@ export function StudyHelperTool() {
             </div>
             {loading ? (
               <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm italic text-[#6B5A28]">
-                Building a calm plan: no invented quotes, no full essay to copy, just the next useful study move.
+                Building the plan: no invented quotes, no full essay to copy, just the next useful study move.
               </p>
             ) : null}
             {error ? (
@@ -343,11 +343,11 @@ export function StudyHelperTool() {
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what this becomes</p>
-            <h2 className="mt-3 font-display text-4xl font-light italic leading-none">A NZ curriculum study desk.</h2>
+            <h2 className="mt-3 font-display text-4xl font-light italic leading-none">Mapped to NZ Curriculum skills.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
               <li><strong>Tonight:</strong> Year 9 English exam prep for Jack on <em>Falling into Rarohenga</em>.</li>
               <li><strong>Next:</strong> upload teacher rubrics, timetable photos, novel notes, and practice paragraphs.</li>
-              <li><strong>Generic version:</strong> connect year level, subject, assessment type, curriculum skills, reminders, and parent-facing plans.</li>
+              <li><strong>Generic version:</strong> share this with any NZ student for a prompt, notes photo, quote bank, or practice paragraph.</li>
               <li><strong>Guardrail:</strong> coaching and recall, not ghostwriting.</li>
             </ul>
           </aside>
