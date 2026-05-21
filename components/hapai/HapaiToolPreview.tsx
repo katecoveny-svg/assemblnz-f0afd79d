@@ -210,7 +210,7 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
     return (
       <div className={previewClass}>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(217,188,122,0.32),transparent_38%),#FAF7F2]" />
-        <div className="absolute left-5 top-5 h-24 w-24 rounded-[18px] border border-white bg-[#D9BC7A]/28 shadow-[0_18px_42px_rgba(35,33,31,0.12)]" />
+        <div className="absolute left-5 top-5 h-24 w-24 rounded-[18px] border border-white bg-[#D9A85A]/28 shadow-[0_18px_42px_rgba(35,33,31,0.12)]" />
         <div className="absolute bottom-5 left-5 right-5 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/78 p-4">
           <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#2B6B57]">kai planner</p>
           <div className="mt-3 grid grid-cols-2 gap-2">

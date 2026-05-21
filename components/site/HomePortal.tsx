@@ -36,7 +36,7 @@ const PRICING_ENTRY_POINTS = [
     '$5,000 + GST',
     'Bring one workflow. We map it, build the agent, set the review points, run a real job, seal it in an evidence pack. Ten working days. You leave with a working proof and a path forward.',
     'Book a pilot',
-    '/book-a-pilot',
+    '/pilot-sprint',
     '#2B6B57',
   ],
   [
@@ -293,13 +293,14 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
               HAPAI · ADOPTION TOOLS
             </p>
             <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              Small tools that lift the admin layer.
+              Give one real task to a small tool first.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
               Hāpai (te reo Māori): to lift up, to elevate. HAPAI is the apps
-              and tools page: single-purpose public tools for marketing,
-              meetings, records, household admin, and pilot conversations. The
-              full shelf lives on its own page so it can be shared cleanly.
+              and tools page: single-purpose public tools for real work. Open
+              one before doing the work the old way. When it proves useful, a
+              Pilot Sprint can turn it into a private internal tool for the
+              team.
             </p>
           </div>
 
@@ -357,7 +358,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
                     See the full library.
                   </span>
                   <span className="mt-4 block text-sm leading-relaxed text-[#FAF7F2]/82">
-                    Twelve live tools, each with a share image and email-ready link.
+                    Twelve live tools your team can try on real work today.
                   </span>
                   <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em]">
                     Open HAPAI <ArrowRight className="h-3.5 w-3.5" aria-hidden />
@@ -515,7 +516,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
             you can hand to anyone.
           </p>
           <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-            <Link href="/book-a-pilot" className="inline-flex h-12 items-center justify-center rounded-[8px] bg-[#FAF7F2] px-6 font-medium text-[color:var(--assembl-pounamu)]">
+            <Link href="/pilot-sprint" className="inline-flex h-12 items-center justify-center rounded-[8px] bg-[#FAF7F2] px-6 font-medium text-[color:var(--assembl-pounamu)]">
               Book a pilot <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
             <Link href="/hapai" className="inline-flex h-12 items-center justify-center rounded-[8px] border border-[#FAF7F2]/45 px-6 font-medium text-[#FAF7F2]">

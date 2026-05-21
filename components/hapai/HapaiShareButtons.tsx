@@ -9,7 +9,7 @@
 import { useState } from "react";
 
 const SHARE_TEXT =
-  "Most NZ businesses paid for intelligent tools. Almost nobody uses them. The HAPAI library from assembl gives teams practical adoption tools.";
+  "Most NZ teams do not need more jargon. They need one useful internal tool for one real job. HAPAI from assembl is the practical place to start.";
 
 const SHARE_URL = "https://www.assembl.co.nz/hapai";
 
@@ -28,7 +28,7 @@ export default function HapaiShareButtons() {
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({
-          title: "HAPAI — agent adoption, made operational",
+          title: "HAPAI — practical internal tools for real work",
           text: SHARE_TEXT,
           url: SHARE_URL,
         });
@@ -42,7 +42,7 @@ export default function HapaiShareButtons() {
 
   const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHARE_URL)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}&url=${encodeURIComponent(SHARE_URL)}`;
-  const emailUrl = `mailto:?subject=${encodeURIComponent("Worth 60 seconds: where your team sits on adoption")}&body=${encodeURIComponent(SHARE_TEXT + "\n\n" + SHARE_URL)}`;
+  const emailUrl = `mailto:?subject=${encodeURIComponent("Worth 60 seconds: one real task, one useful tool")}&body=${encodeURIComponent(SHARE_TEXT + "\n\n" + SHARE_URL)}`;
 
   return (
     <div className="flex flex-wrap items-center justify-center gap-3">

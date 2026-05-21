@@ -239,7 +239,7 @@ function ResultCard({
             <div
               key={i}
               className={`flex-1 h-[2px] rounded-sm ${
-                i <= tierIndex ? "bg-[#D9BC7A]/60" : "bg-transparent"
+                i <= tierIndex ? "bg-[#D9A85A]/60" : "bg-transparent"
               }`}
             />
           ))}
@@ -291,7 +291,7 @@ function ShareCluster({
   sessions: number;
 }) {
   const [copied, setCopied] = useState(false);
-  const shareText = `My team sits at ${tier.slug} — ${tier.english} (~${sessions} sessions/month).\n\nThe HAPAI library from assembl maps where NZ teams actually are with intelligent tools vs where they paid to be. Try it:`;
+  const shareText = `My team sits at ${tier.slug} — ${tier.english} (~${sessions} sessions/month).\n\nThe HAPAI library from assembl maps how ready a team is to turn one useful task into a repeatable internal tool. Try it:`;
 
   function copyLink() {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -305,7 +305,7 @@ function ShareCluster({
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({
-          title: "HAPAI — your team's agent adoption tier",
+          title: "HAPAI — your team's practical tools tier",
           text: shareText,
           url: shareUrl,
         });

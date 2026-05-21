@@ -339,15 +339,16 @@ export default function PilotSprintPage() {
                   className="mt-5 font-display leading-[0.98] tracking-tight"
                   style={{ fontWeight: 300, fontSize: 'clamp(2rem, 4vw, 3rem)' }}
                 >
-                  One workflow becomes a HAPAI tool.
+                  One useful rep becomes a HAPAI tool.
                 </h2>
                 <div className="mt-6 space-y-4 text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
                   <p>
                     A Pilot Sprint is hands-on. Your reviewer and I take one real
-                    workflow and turn it into a single-purpose HAPAI tool: branded to
-                    your team, draft-only, and built around named human review. By Friday
-                    of week two, your team has something they can open, use, and share
-                    internally — not a slide deck, not a sandbox.
+                    workflow, give the tool first shot, and turn the useful pattern
+                    into a single-purpose HAPAI tool: branded to your team, draft-only,
+                    and built around named human review. By Friday of week two, your
+                    team has something they can open, use, and share internally — not a
+                    slide deck, not a sandbox.
                   </p>
                   <p>
                     The point is adoption without theatre. Your people do not have to

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, ImageIcon, Mail } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ImageIcon, Mail, Repeat2, Sparkles, Wrench } from 'lucide-react';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import {
   HAPAI_TOOLS,
@@ -10,40 +10,58 @@ import {
 } from '@/lib/hapai/shareable-tools';
 
 export const metadata: Metadata = {
-  title: 'hapai — agent adoption tools that lift your team',
+  title: 'HAPAI — practical internal tools for real work',
   description:
-    'hapai is assembl’s library of single-purpose agent adoption tools: no prompting required, no training, no platform switch.',
+    'HAPAI is assembl’s library of small internal tools for real work: pick one task, give the tool first shot, then turn what works into a repeatable system.',
   openGraph: {
-    title: 'hapai — agent adoption tools that lift your team',
+    title: 'HAPAI — practical internal tools for real work',
     description:
-      'Open a curated library of branded utilities for captions, briefs, imagery, share cards, and more.',
+      'Open small branded tools your team can use on real work without learning prompting or switching platforms.',
     type: 'website',
     url: 'https://www.assembl.co.nz/hapai',
     siteName: 'assembl',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'hapai — agent adoption tools that lift your team',
+    title: 'HAPAI — practical internal tools for real work',
     description:
-      'Single-purpose tools any team member can open and use in 30 seconds.',
+      'Give a real task to a small tool first. If it works, make it repeatable.',
   },
 };
 
 const reasons = [
   {
-    title: 'Frictionless on entry',
+    title: 'Real work first',
     body:
-      'Each tool is one page, one purpose. No prompt engineering. No platform switch. Your team gets a usable output before the second cup of coffee.',
+      'Adoption does not come from memorising new jargon. It comes from giving a real task to a useful tool before muscle memory opens the old spreadsheet, inbox, or blank doc.',
   },
   {
-    title: 'Branded to your org',
+    title: 'Everyone gets reps',
     body:
-      'Industry Pack customers get the full HAPAI library white-labelled: your wordmark, your voice, your colours. Feels native because it is.',
+      'Each tool is one page, one purpose. No prompt engineering. No platform switch. The finance person, manager, EA, teacher, marketer, or operator can all get a useful first draft.',
   },
   {
-    title: 'Privacy by default',
+    title: 'Wins become systems',
     body:
-      'Public tools are draft-only and should not receive sensitive material unless the tool explicitly says so. Industry Pack customers can add private processing, audit logs, and tenant-specific controls.',
+      'When a one-off tool proves useful, it can become a private internal tool with your voice, your controls, connected data, and an evidence trail.',
+  },
+] as const;
+
+const adoptionLoop = [
+  {
+    title: 'Pick one task',
+    body: 'Use something ordinary and slightly tedious: meeting prep, a customer reply, a timetable, a food record, a share card, a brief.',
+    icon: Sparkles,
+  },
+  {
+    title: 'Give the tool first shot',
+    body: 'Run the task through a small HAPAI tool before doing it the old way. The point is practical fluency, not a training module.',
+    icon: Wrench,
+  },
+  {
+    title: 'Make the win repeatable',
+    body: 'If the result helps, turn it into an internal tool your team can open again tomorrow, branded and reviewed like the rest of your work.',
+    icon: Repeat2,
   },
 ] as const;
 
@@ -57,19 +75,24 @@ export default function HapaiPage() {
               built in aotearoa · hapai
             </p>
             <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.8rem,8vw,7.5rem)] font-light italic leading-[0.88]">
-              Adoption tools that lift your team.
+              Give the tool first shot.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
               Hāpai (te reo): to lift up, to elevate, to support. HAPAI is a
-              library of single-purpose tools that any team member can open and
-              use in 30 seconds: no prompting required, no training, no platform
-              switch.
+              library of small internal tools for real work. Pick one task,
+              run it through a tool before doing it the old way, then turn the
+              useful wins into repeatable systems your team can actually use.
+            </p>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)]">
+              This is how practical adoption happens: not by chasing every new
+              model announcement, but by giving people safe, branded tools for
+              the work already on their desk.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href="#tools" className="cta-primary inline-flex h-12 items-center gap-2 px-6">
                 Open the library <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
-              <Link href="/book-a-pilot" className="btn-ghost inline-flex h-12 items-center px-6">
+              <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center px-6">
                 Book a pilot
               </Link>
             </div>
@@ -91,7 +114,7 @@ export default function HapaiPage() {
                   public hapai
                 </p>
                 <p className="mt-2 font-display text-3xl font-light italic leading-none">
-                  single-purpose tools, ready when the work starts.
+                  internal tools, ready when the work starts.
                 </p>
               </div>
             </div>
@@ -111,6 +134,34 @@ export default function HapaiPage() {
         </div>
       </section>
 
+      <section className="border-b border-[rgba(35,33,31,0.10)] bg-[#F7F1E9] px-5 py-16 md:px-10 md:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
+              practical adoption
+            </p>
+            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-light italic leading-[0.9]">
+              Your team learns by using tools on their own work.
+            </h2>
+            <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)]">
+              The best internal tools do not feel like a platform rollout. They
+              feel like a shortcut someone was relieved to find. HAPAI makes
+              that visible: one useful task, one reviewed output, one repeatable
+              pattern.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {adoptionLoop.map(({ title, body, icon: Icon }) => (
+              <article key={title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] p-5 shadow-[0_20px_70px_rgba(35,33,31,0.06)]">
+                <Icon className="h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
+                <h3 className="mt-6 font-display text-3xl font-light italic leading-none">{title}</h3>
+                <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">{body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section id="tools" className="px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="max-w-3xl">
@@ -122,7 +173,8 @@ export default function HapaiPage() {
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-[color:var(--text-body)]">
               Twelve live public apps and tools, each with its own sharp share
-              image for posting, emailing, or sending to a pilot prospect.
+              image for posting, emailing, or sending to someone who has one
+              real job to try this week.
             </p>
           </div>
 
@@ -205,14 +257,15 @@ export default function HapaiPage() {
             <p className="text-lg leading-relaxed text-[color:var(--text-body)]">
               The full HAPAI library, branded to your org and available to every
               team member, is included in the Industry Pack at $5,000/month.
-              White-labelled wordmark, your colour, your voice. Plus 12+
-              additional tools available only to Industry Pack customers.
+              Your wordmark, your colour, your voice, your review rules. The
+              point is simple: every team should be able to create, open, and
+              share small internal tools for the work they actually do.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/pricing" className="cta-primary inline-flex h-12 items-center px-6">
                 See pricing
               </Link>
-              <Link href="/book-a-pilot" className="btn-ghost inline-flex h-12 items-center px-6">
+              <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center px-6">
                 Book a pilot
               </Link>
             </div>
@@ -239,16 +292,16 @@ export default function HapaiPage() {
               Why HAPAI exists.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-[color:var(--text-body)]">
-              I built HAPAI because agent adoption was failing for the same
-              reason in every organisation I talked to: one person tries a
-              generic chat tool, sees value, and cannot get the rest of the
-              team to switch tools and learn prompting.
+              I built HAPAI because adoption was failing for the same reason in
+              every organisation I talked to: one person tries a generic chat
+              tool, sees value, and cannot get the rest of the team to switch
+              tools and learn prompting.
             </p>
             <p className="mt-5 text-lg leading-relaxed text-[color:var(--text-body)]">
               The tools below remove that friction. Each one is single-purpose
               and branded: the kind of thing a marketing team can open in the
-              morning and an HR team can open in the afternoon, without ever
-              leaving their language.
+              morning, an operator can open after lunch, and a manager can turn
+              into a repeatable internal system by Friday.
             </p>
             <p className="mt-6 font-display text-2xl font-light italic text-[color:var(--text-primary)]">
               Kate Hudson, founder · assembl

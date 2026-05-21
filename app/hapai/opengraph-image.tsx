@@ -1,11 +1,10 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "hapai — agent adoption tools";
+export const alt = "hapai — practical internal tools";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Brand-locked hex values (Direction 4 — brand abstract / typographic poster).
-// kete.gold is not yet a tailwind token; using brief-supplied hex per Decision Point #2.
+// Brand-locked hex values.
 const MIST = "#F7F3EE";
 const POUNAMU_900 = "#0E5546";
 const POUNAMU_700 = "#2B6B57";
@@ -14,7 +13,7 @@ const TAUPE_700 = "#5C544B";
 const TAUPE_600 = "#7C7268";
 const TAUPE_500 = "#9A8F84";
 const TAUPE_200 = "#D9D2C8";
-const KETE_GOLD = "#D9BC7A";
+const KETE_GOLD = "#D9A85A";
 
 const TIERS = ["akoranga", "kaimahi", "tohunga", "rangatira", "pou"];
 const SESSIONS = ["0", "5", "25", "75", "200+"];
@@ -46,7 +45,7 @@ async function loadGoogleFont(
 export default async function HapaiOpengraphImage() {
   const headlineText = "hapai";
   const bodyText =
-    "assembl · agent adoption tools. " +
+    "assembl · practical internal tools. " +
     TIERS.join(" ") +
     " " +
     SESSIONS.join(" ") +
@@ -153,7 +152,7 @@ export default async function HapaiOpengraphImage() {
               fontWeight: 400,
             }}
           >
-            adoption for nz teams.
+            internal tools for real work.
           </div>
         </div>
 
