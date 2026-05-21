@@ -52,14 +52,15 @@ type ChangeRow = {
     name: string | null;
     url: string | null;
     agent_packs: string[] | null;
-    authority_tier: number | null;
   } | {
     name: string | null;
     url: string | null;
     agent_packs: string[] | null;
-    authority_tier: number | null;
   }[] | null;
 };
+
+const AUTHORITY_SOURCE_PATTERN =
+  /pco|legislation|parliament|beehive|privacy commissioner|worksafe|mpi|mbie|nzta|customs|gazette|ird|inland revenue|metservice|geonet|cert nz/i;
 
 export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
   const capturedAt = new Date().toISOString();
@@ -117,7 +118,7 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
           document_id,
           source_id,
           kb_documents(title,url),
-          kb_sources(name,url,agent_packs,authority_tier)
+          kb_sources(name,url,agent_packs)
         `)
         .order('detected_at', { ascending: false })
         .limit(24),
@@ -140,7 +141,7 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
       const source = Array.isArray(row.kb_sources)
         ? row.kb_sources[0] ?? null
         : row.kb_sources ?? null;
-      return source?.authority_tier ? source.authority_tier <= 2 : false;
+      return AUTHORITY_SOURCE_PATTERN.test(source?.name ?? '');
     });
     const displayRows = (latestRows.length > 0 ? latestRows : rows).slice(0, 4);
 
