@@ -44,8 +44,15 @@ type ChangeRow = {
   kb_documents?: {
     title: string | null;
     url: string | null;
+  } | {
+    title: string | null;
+    url: string | null;
   }[] | null;
   kb_sources?: {
+    name: string | null;
+    url: string | null;
+    agent_packs: string[] | null;
+  } | {
     name: string | null;
     url: string | null;
     agent_packs: string[] | null;
@@ -136,8 +143,12 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
       pendingEmbeds: pendingEmbeds.count ?? 0,
       pcoSources: pcoSources.count ?? 0,
       latest: rows.map((row) => {
-        const document = row.kb_documents?.[0] ?? null;
-        const source = row.kb_sources?.[0] ?? null;
+        const document = Array.isArray(row.kb_documents)
+          ? row.kb_documents[0] ?? null
+          : row.kb_documents ?? null;
+        const source = Array.isArray(row.kb_sources)
+          ? row.kb_sources[0] ?? null
+          : row.kb_sources ?? null;
 
         return {
           id: String(row.id),
