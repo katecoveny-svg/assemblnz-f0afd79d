@@ -6,7 +6,7 @@ export function SiteFooter() {
   return (
     <footer className="relative z-10 mt-24 border-t border-[rgba(157,140,125,0.14)] bg-[rgba(247,243,238,0.6)]">
       <div className="container py-16">
-        <div className="grid gap-12 md:grid-cols-4">
+        <div className="grid gap-12 md:grid-cols-5">
           <div>
             <Link
               href="/"
@@ -122,6 +122,38 @@ export function SiteFooter() {
                   className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   Press
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              Compliance
+            </h2>
+            <ul className="mt-4 space-y-2 text-sm">
+              <li>
+                <Link
+                  href="/privacy"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                >
+                  Privacy Statement
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/ai-use"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                >
+                  AI use disclosure
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/te-tiriti"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                >
+                  Te Tiriti statement
                 </Link>
               </li>
             </ul>
