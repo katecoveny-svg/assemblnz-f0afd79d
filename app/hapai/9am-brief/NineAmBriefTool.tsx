@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import {
-  ArrowLeft,
   CalendarCheck,
   Camera,
   CloudSun,
@@ -15,7 +13,7 @@ import {
   Upload,
   X,
 } from "lucide-react";
-import { ShareableToolActions } from "@/components/hapai/ShareableToolActions";
+import { HapaiToolShell } from "@/components/hapai/HapaiToolShell";
 
 const proofCards = [
   { icon: Camera, title: "photo parser", body: "read a notice, timetable, or screenshot" },
@@ -120,57 +118,34 @@ export function NineAmBriefTool() {
   const hasInput = `${today}${meetings}${followUps}${worries}${notes}${imageDataUrl ? "image" : ""}`.trim().length >= 12;
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_78%_18%,rgba(43,107,87,0.14),transparent_32%),linear-gradient(180deg,#FAF7F2_0%,#F7F1E9_55%,#FAF7F2_100%)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
-      <div className="mx-auto max-w-[1500px]">
-        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]">
-          <ArrowLeft className="h-3.5 w-3.5" /> HAPAI library
-        </Link>
-        <div className="grid gap-8 lg:grid-cols-[0.95fr_0.72fr] lg:items-stretch">
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#2B6B57]">HAPAI · 9am brief</p>
-            <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.4rem,8.6vw,9.2rem)] font-normal italic leading-[0.82] text-[#103F35]">
-              The day, made obvious.
-            </h1>
-            <p className="mt-7 max-w-3xl text-[clamp(1.05rem,1.8vw,1.35rem)] leading-relaxed text-[#3D4250]">
-              Paste messy notes, talk-to-type a brain dump, or upload a photo of
-              a timetable, whiteboard, sports draw, school notice, or inbox
-              screenshot. The 9am Brief turns it into priorities, bring-lists,
-              follow-ups, calendar risks, and review-ready actions.
-            </p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {proofCards.map(({ icon: Icon, title, body }) => (
-                <div key={title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 p-4 shadow-[0_18px_54px_rgba(35,33,31,0.06)]">
-                  <Icon className="h-5 w-5 text-[#2B6B57]" aria-hidden />
-                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57]">{title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-[#5A5550]">{body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#103F35] p-6 text-[#FAF7F2] shadow-[0_34px_110px_rgba(35,33,31,0.18)]">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(217,168,90,0.24),transparent_34%),linear-gradient(135deg,rgba(250,247,242,0.10),transparent_48%)]" />
-            <div className="relative">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">shareable tool</p>
-              <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
-                The public version drafts. The connected version does.
-              </p>
-              <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FAF7F2]/82">
-                <li className="flex gap-3"><CalendarCheck className="mt-0.5 h-4 w-4 shrink-0" /> Private setup can read calendar, inbox, CRM, weather, and school/sports feeds.</li>
-                <li className="flex gap-3"><Sparkles className="mt-0.5 h-4 w-4 shrink-0" /> Public HAPAI stays draft-only so you can share it safely.</li>
-                <li className="flex gap-3"><Mic className="mt-0.5 h-4 w-4 shrink-0" /> Voice-style notes work now through dictation; live voice capture is the next tool pattern.</li>
-              </ul>
-              <div className="mt-5">
-                <ShareableToolActions
-                  title="The 9am Brief by assembl"
-                  text="Paste the day’s loose signals and leave with priorities, follow-ups, and review-ready actions."
-                  path="/hapai/9am-brief"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <section className="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.55fr]">
+    <HapaiToolShell
+      kicker="HAPAI · 9am brief"
+      title="The day, made obvious."
+      description="Paste messy notes, talk-to-type a brain dump, or upload a photo of a timetable, whiteboard, sports draw, school notice, or inbox screenshot. The 9am Brief turns it into priorities, bring-lists, follow-ups, calendar risks, and review-ready actions."
+      toolPath="/hapai/9am-brief"
+      shareTitle="The 9am Brief by assembl"
+      shareText="Paste the day’s loose signals and leave with priorities, follow-ups, and review-ready actions."
+      posture="Draft operating brief only. It does not send messages, change calendars, or make commitments."
+      highlights={proofCards.map(({ icon: Icon, title, body }) => ({
+        title,
+        body,
+        icon: <Icon className="h-5 w-5" aria-hidden />,
+      }))}
+      aside={
+        <>
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">preemptive desk</p>
+          <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+            The public version drafts. The connected version does.
+          </p>
+          <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FAF7F2]/82">
+            <li className="flex gap-3"><CalendarCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Private setup can read calendar, inbox, CRM, weather, and school/sports feeds.</li>
+            <li className="flex gap-3"><Sparkles className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Public HAPAI stays draft-only so you can share it safely.</li>
+            <li className="flex gap-3"><Mic className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Voice-style notes work now through dictation; live voice capture is the next tool pattern.</li>
+          </ul>
+        </>
+      }
+    >
+        <div className="grid gap-5 lg:grid-cols-[1.05fr_0.55fr]">
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
             <div className="mb-5 flex flex-wrap gap-3">
               <button type="button" onClick={loadFounderSample} className="rounded-full border border-[rgba(43,107,87,0.24)] bg-[#FAF7F2] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#2B6B57] hover:bg-white">
@@ -290,7 +265,7 @@ export function NineAmBriefTool() {
               <li><strong>For teams:</strong> calendar, email, and CRM actions stay draft-only until a named person approves.</li>
             </ul>
           </aside>
-        </section>
+        </div>
 
         {html ? (
           <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-8">
@@ -305,8 +280,7 @@ export function NineAmBriefTool() {
             </div>
           </section>
         ) : null}
-      </div>
-    </main>
+    </HapaiToolShell>
   );
 }
 

@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import {
-  ArrowLeft,
   CalendarDays,
   Camera,
   CheckCircle2,
@@ -26,7 +24,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { ShareableToolActions } from "@/components/hapai/ShareableToolActions";
+import { HapaiToolShell } from "@/components/hapai/HapaiToolShell";
 
 function htmlToMarkdown(html: string) {
   return html
@@ -464,107 +462,78 @@ export function VoyageItalyTool() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_78%_14%,rgba(217,168,90,0.22),transparent_33%),radial-gradient(circle_at_12%_80%,rgba(43,107,87,0.13),transparent_34%),linear-gradient(180deg,#FAF7F2_0%,#F4EEE5_54%,#FAF7F2_100%)] px-5 py-12 text-[#23211F] md:px-10 md:py-16">
-      <div className="mx-auto max-w-[1500px]">
-        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]">
-          <ArrowLeft className="h-3.5 w-3.5" /> HAPAI library
-        </Link>
-
-        <section className="grid gap-8 lg:grid-cols-[0.96fr_0.78fr] lg:items-stretch">
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#2B6B57]">
-              HAPAI · voyage italy
-            </p>
-            <h1 className="mt-3 max-w-5xl font-display text-[clamp(4.2rem,8.4vw,9rem)] font-normal italic leading-[0.82] text-[#103F35]">
-              Italy, made easier to move through.
-            </h1>
-            <p className="mt-7 max-w-3xl text-[clamp(1.05rem,1.7vw,1.32rem)] leading-relaxed text-[#3D4250]">
-              A practical travel desk for the trip: paste bookings, upload a
-              menu or train board, add worries, and leave with today&apos;s moves,
-              weather-aware packing, timing risks, useful Italian, and draft
-              actions to review before you step out. Built first for Kate and
-              Adrian&apos;s Italy trip leaving Sunday 24 May 2026, but shaped as a
-              reusable free travel companion.
-            </p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {proofCards.map(({ icon: Icon, title, body }) => (
-                <div key={title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 p-4 shadow-[0_18px_54px_rgba(35,33,31,0.06)]">
-                  <Icon className="h-5 w-5 text-[#2B6B57]" aria-hidden />
-                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57]">{title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-[#5A5550]">{body}</p>
-                </div>
-              ))}
-            </div>
+    <HapaiToolShell
+      kicker="HAPAI · voyage italy"
+      title="Italy, made easier to move through."
+      description="A practical travel desk for the trip: paste bookings, upload a menu or train board, add worries, and leave with today’s moves, weather-aware packing, timing risks, useful Italian, and draft actions to review before you step out. Built first for Kate and Adrian’s Italy trip leaving Sunday 24 May 2026, but shaped as a reusable free travel companion."
+      toolPath="/hapai/voyage-italy"
+      shareTitle="Voyage Italy by assembl"
+      shareText="A practical Italy travel desk: weather, FX, photo parser, timing risks, useful Italian, and draft actions."
+      posture="Draft travel desk only. Check bookings, tickets, safety, weather, official travel advice, and opening hours before acting."
+      highlights={proofCards.map(({ icon: Icon, title, body }) => ({
+        title,
+        body,
+        icon: <Icon className="h-5 w-5" aria-hidden />,
+      }))}
+      aside={
+        <>
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">travel companion</p>
+          <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+            The public version drafts. A connected version could watch the whole trip.
+          </p>
+          <div className="mt-6 grid gap-3">
+            {[
+              ["Today", "weather, bring-list, timings"],
+              ["Move", "trains, buffers, neighbourhood clusters"],
+              ["Read", "menus, signs, tickets, booking screenshots"],
+              ["Spark", "less obvious places and local-feeling ideas"],
+              ["Remember", "draft messages, calendar holds, tomorrow checks"],
+            ].map(([label, value]) => (
+              <div key={label} className="grid grid-cols-[88px_1fr] gap-3 border-t border-white/15 pt-3 text-sm">
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#D9A85A]">{label}</span>
+                <span className="text-[#FAF7F2]/84">{value}</span>
+              </div>
+            ))}
           </div>
-
-          <aside className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#103F35] p-6 text-[#FAF7F2] shadow-[0_34px_110px_rgba(35,33,31,0.18)]">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_72%_18%,rgba(217,168,90,0.30),transparent_32%),linear-gradient(135deg,rgba(250,247,242,0.12),transparent_48%)]" />
-            <div className="relative">
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">travel companion</p>
-              <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
-                The public version drafts. A connected version could watch the whole trip.
-              </p>
-              <div className="mt-6 grid gap-3">
-                {[
-                  ["Today", "weather, bring-list, timings"],
-                  ["Move", "trains, buffers, neighbourhood clusters"],
-                  ["Read", "menus, signs, tickets, booking screenshots"],
-                  ["Spark", "less obvious places and local-feeling ideas"],
-                  ["Remember", "draft messages, calendar holds, tomorrow checks"],
-                ].map(([label, value]) => (
-                  <div key={label} className="grid grid-cols-[88px_1fr] gap-3 border-t border-white/15 pt-3 text-sm">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#D9A85A]">{label}</span>
-                    <span className="text-[#FAF7F2]/84">{value}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-6">
-                <ShareableToolActions
-                  title="Voyage Italy by assembl"
-                  text="A practical Italy travel desk: weather, FX, photo parser, timing risks, useful Italian, and draft actions."
-                  path="/hapai/voyage-italy"
-                />
-              </div>
-              <div className="mt-5 rounded-[8px] border border-white/15 bg-white/10 p-4">
-                <div className="flex items-start gap-3">
-                  <Users className="mt-1 h-5 w-5 shrink-0 text-[#D9A85A]" aria-hidden />
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#D9A85A]">private trip link</p>
-                    <p className="mt-2 text-sm leading-relaxed text-[#FAF7F2]/84">
-                      Save this board to an obscure assembl link so you and Adrian can open the same trip, add notes, and keep the travel desk in sync.
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={saveSharedTrip}
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#FAF7F2] px-4 py-3 text-sm font-medium text-[#103F35] transition hover:bg-white"
-                >
-                  <Share2 className="h-4 w-4" aria-hidden />
-                  {shareSlug ? "Save shared trip" : "Create Adrian link"}
-                </button>
-                {shareUrl ? (
-                  <button
-                    type="button"
-                    onClick={() => navigator.clipboard.writeText(shareUrl)}
-                    className="mt-3 flex w-full items-center gap-2 rounded-[8px] border border-white/15 bg-[#103F35]/70 px-3 py-2 text-left font-mono text-[11px] leading-relaxed text-[#FAF7F2]/88"
-                  >
-                    <Link2 className="h-4 w-4 shrink-0 text-[#D9A85A]" aria-hidden />
-                    <span className="truncate">{shareUrl}</span>
-                  </button>
-                ) : null}
-                {shareStatus ? <p className="mt-3 text-sm text-[#FAF7F2]/76">{shareStatus}</p> : null}
-                {sharedUpdatedAt ? (
-                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#D9A85A]/86">
-                    Updated {new Date(sharedUpdatedAt).toLocaleString("en-NZ")}
-                  </p>
-                ) : null}
+          <div className="mt-5 rounded-[8px] border border-white/15 bg-white/10 p-4">
+            <div className="flex items-start gap-3">
+              <Users className="mt-1 h-5 w-5 shrink-0 text-[#D9A85A]" aria-hidden />
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#D9A85A]">private trip link</p>
+                <p className="mt-2 text-sm leading-relaxed text-[#FAF7F2]/84">
+                  Save this board to an obscure assembl link so you and Adrian can open the same trip, add notes, and keep the travel desk in sync.
+                </p>
               </div>
             </div>
-          </aside>
-        </section>
-
-        <section className="mt-8 grid gap-5 lg:grid-cols-[1.04fr_0.58fr]">
+            <button
+              type="button"
+              onClick={saveSharedTrip}
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#FAF7F2] px-4 py-3 text-sm font-medium text-[#103F35] transition hover:bg-white"
+            >
+              <Share2 className="h-4 w-4" aria-hidden />
+              {shareSlug ? "Save shared trip" : "Create Adrian link"}
+            </button>
+            {shareUrl ? (
+              <button
+                type="button"
+                onClick={() => navigator.clipboard.writeText(shareUrl)}
+                className="mt-3 flex w-full items-center gap-2 rounded-[8px] border border-white/15 bg-[#103F35]/70 px-3 py-2 text-left font-mono text-[11px] leading-relaxed text-[#FAF7F2]/88"
+              >
+                <Link2 className="h-4 w-4 shrink-0 text-[#D9A85A]" aria-hidden />
+                <span className="truncate">{shareUrl}</span>
+              </button>
+            ) : null}
+            {shareStatus ? <p className="mt-3 text-sm text-[#FAF7F2]/76">{shareStatus}</p> : null}
+            {sharedUpdatedAt ? (
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#D9A85A]/86">
+                Updated {new Date(sharedUpdatedAt).toLocaleString("en-NZ")}
+              </p>
+            ) : null}
+          </div>
+        </>
+      }
+    >
+        <div className="grid gap-5 lg:grid-cols-[1.04fr_0.58fr]">
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
             <div className="mb-5 flex flex-wrap items-center gap-3">
               <button type="button" onClick={loadItalySample} className="rounded-full border border-[rgba(43,107,87,0.24)] bg-[#FAF7F2] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#2B6B57] hover:bg-white">
@@ -948,7 +917,7 @@ export function VoyageItalyTool() {
               </div>
             ) : null}
           </div>
-        </section>
+        </div>
 
         {html ? (
           <section className="mt-8 rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/88 p-6 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-8">
@@ -966,8 +935,7 @@ export function VoyageItalyTool() {
             </div>
           </section>
         ) : null}
-      </div>
-    </main>
+    </HapaiToolShell>
   );
 }
 
