@@ -11,53 +11,7 @@
  * Pae repo unchanged; the shape is deliberately portable.
  */
 
-import type { Agent } from '@/lib/agents';
-
-// ─────────────────────────────────────────────────────────────────────────
-// Crown-side extension types — what differs from a standard Assembl agent
-// ─────────────────────────────────────────────────────────────────────────
-
-export type CrownAgency = 'msd' | 'ird' | 'moe' | 'ot' | 'twe' | 'mbie';
-
-export type DataResidency = 'nz-only' | 'nz-or-au' | 'global';
-
-export interface PaeCertifications {
-  nzism: 'aligned' | 'pending' | 'not-required';
-  iso27001: 'certified' | 'in-progress' | 'planned';
-  soc2: 'type-ii' | 'type-i' | 'planned';
-  cloudCodeOfPractice: boolean;
-  meadsTested: boolean;
-  tiritiImpactStatement: 'completed' | 'in-progress' | 'planned';
-}
-
-export interface PaeAgent extends Agent {
-  agency: CrownAgency;
-  /** Crown-side legal basis the agent's outputs rely on. */
-  statutoryBasis: string[];
-  /** Always-present approver role on the human side. */
-  humanApprover: string;
-  /** Required PIA scope. */
-  privacyImpact: {
-    sensitiveDataKinds: string[];
-    consentModel: 'opt-in' | 'opt-in-with-revocation' | 'statutory';
-    retentionMonths: number;
-  };
-  dataResidency: DataResidency;
-  certifications: PaeCertifications;
-  /** RFC 3161 Time-Stamp Authority used for Crown-side timestamping. */
-  timestampAuthority: 'govtsa' | 'digicert-nz' | null;
-  /** SLA the Crown contract holds Pae to. */
-  serviceLevel: {
-    responseSeconds: number;
-    availabilityNinety: number; // e.g. 99.9
-  };
-  /** Iwi sponsorship — required for OT, MSD whānau work. */
-  iwiSponsor: {
-    required: boolean;
-    entity?: string;
-    advisorRoles: string[];
-  };
-}
+import type { PaeAgent } from './types';
 
 // ─────────────────────────────────────────────────────────────────────────
 // The Entitlement Navigator
@@ -66,6 +20,7 @@ export interface PaeAgent extends Agent {
 export const ENTITLEMENT_NAVIGATOR: PaeAgent = {
   slug: 'entitlement-navigator',
   name: 'Entitlement Navigator',
+  subtitle: 'Manaakitanga',
   role: 'MSD frontline entitlement assistant',
   // 'toro' is the closest existing kete (whānau-facing). When Pae spins
   // out, kete schema will gain agency-keyed variants.
