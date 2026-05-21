@@ -10,6 +10,7 @@ import type { Kete, KeteSlug } from '@/lib/kete';
 import type { PearlLiveStats } from '@/lib/pearl-live';
 import type { RegulatoryPulseStats } from '@/lib/regulatory-pulse';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
+import { EvidencePackPreview } from './EvidencePackPreview';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import { MarketplaceStrip } from './MarketplaceStrip';
 import { PearlLive } from './PearlLive';
@@ -421,14 +422,48 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
               See an evidence pack <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
           </div>
-          <div className="relative aspect-[16/11] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white shadow-[0_24px_80px_rgba(35,33,31,0.10)]">
-            <Image
-              src="/og/og-assembl.png"
-              alt="assembl evidence pack preview"
-              fill
-              sizes="(min-width: 1024px) 48vw, 100vw"
-              className="object-cover"
+          <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#EFEAE1]/58 p-4 shadow-[0_24px_80px_rgba(35,33,31,0.10)] md:p-6">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  'radial-gradient(ellipse at 82% 18%, rgba(43,107,87,0.10), transparent 42%), linear-gradient(180deg, rgba(250,247,242,0.88), rgba(239,234,225,0.54))',
+              }}
             />
+            <div className="relative grid gap-4">
+              <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2]/88 p-5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+                  sealed example
+                </p>
+                <h3 className="mt-3 max-w-lg font-display text-[clamp(2.2rem,4vw,4.2rem)] font-light italic leading-[0.94]">
+                  Consent variation pack.
+                </h3>
+                <p className="mt-4 max-w-xl text-sm leading-relaxed text-[color:var(--text-body)]">
+                  A fileable record of the inputs, checks, draft, reviewer notes,
+                  and the final sign-off trail.
+                </p>
+              </div>
+              <EvidencePackPreview
+                title="Kitchen extract consent response"
+                workflowId="ASM-MAN-0429"
+                reviewer="Mere Wilson"
+                generatedAt="21 May 2026 · 09:42 NZST"
+                citations={['Building Act 2004', 'Food Act 2014', 'Privacy Act 2020']}
+                checks={['Source documents attached', 'Reviewer note recorded', 'Hash-chain entry sealed']}
+                className="bg-white/82"
+              />
+              <div className="grid gap-3 sm:grid-cols-3">
+                {['inputs logged', 'citations inline', 'human signed off'].map((label) => (
+                  <div
+                    key={label}
+                    className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]"
+                  >
+                    {label}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </RevealSection>
