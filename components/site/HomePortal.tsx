@@ -12,6 +12,7 @@ import type { RegulatoryPulseStats } from '@/lib/regulatory-pulse';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
 import { EvidencePackPreview } from './EvidencePackPreview';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
+import { HAPAI_TOOLS as ALL_HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 import { MarketplaceStrip } from './MarketplaceStrip';
 import { PearlLive } from './PearlLive';
 import { RegulatoryPulse } from './RegulatoryPulse';
@@ -23,57 +24,11 @@ interface HomePortalProps {
   regulatoryPulse: RegulatoryPulseStats;
 }
 
-const HAPAI_TOOLS = [
-  {
-    name: 'Vessel studio.',
-    description:
-      'A quiet prompt builder for hero imagery. Composes branded vessel still-lifes via flux 1.1 pro on fal.ai.',
-    href: '/hapai/vessel-studio',
-    visual: 'vessel',
-  },
-  {
-    name: 'Caption composer.',
-    description:
-      "LinkedIn, Instagram, X, Facebook captions tuned to each platform's native rhythm. In your voice, your length, your tone.",
-    href: '/hapai/caption-composer',
-    visual: 'caption',
-  },
-  {
-    name: 'Brief generator.',
-    description:
-      'Creative, pitch, and project briefs as a single-page PDF in your voice. Fill in eight fields, leave with a brief.',
-    href: '/hapai/brief-generator',
-    visual: 'brief',
-  },
-  {
-    name: 'Energy calculator.',
-    description:
-      'A 90-second NZ electrification calculator for fleet, heat, solar, savings, and payback.',
-    href: '/electrify',
-    visual: 'electrify',
-  },
-  {
-    name: 'OG card studio.',
-    description:
-      'Branded 1200×630 social share cards. Headline, accent, kete vessel, downloadable in a click.',
-    href: '/hapai/og-card-generator',
-    visual: 'og-card',
-  },
-  {
-    name: 'Tagline workshop.',
-    description:
-      'Generate tagline candidates across five styles. Save the ones that land. Download the shortlist.',
-    href: '/hapai/tagline-workshop',
-    visual: 'tagline',
-  },
-  {
-    name: 'Food temperature log.',
-    description:
-      'Daily hospitality temperature and cleaning checks. Flags failed readings and produces a Food Act 2014 record.',
-    href: '/hapai/food-temp-log',
-    visual: 'food-temp',
-  },
-] as const;
+const FEATURED_HAPAI_TOOL_SLUGS = ['meeting-recorder', '9am-brief', 'og-card-generator'] as const;
+
+const FEATURED_HAPAI_TOOLS = FEATURED_HAPAI_TOOL_SLUGS.map((slug) =>
+  ALL_HAPAI_TOOLS.find((tool) => tool.slug === slug),
+).filter((tool): tool is (typeof ALL_HAPAI_TOOLS)[number] => Boolean(tool));
 
 const PRICING_ENTRY_POINTS = [
   [
@@ -172,10 +127,10 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row md:mt-10">
               <Link
-                href="#kete-workflows"
+                href="#product-map"
                 className="cta-primary inline-flex h-12 w-full items-center justify-center px-8 text-base sm:w-auto md:h-14"
               >
-                See the workflows
+                See what to use
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link
@@ -240,6 +195,47 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
 
       <RegulatoryPulse initial={regulatoryPulse} />
 
+      <RevealSection id="product-map" className="scroll-mt-24 border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-28 md:px-12 md:py-36" reduceMotion={reduceMotion}>
+        <div className="mx-auto max-w-[1500px]">
+          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+            HOW TO READ ASSEMBL
+          </p>
+          <div className="mt-4 grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+            <h2 className="max-w-4xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
+              Three things, not one crowded catalogue.
+            </h2>
+            <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
+              HAPAI is the public apps and tools shelf. Kete are the industry
+              packs you can pilot or subscribe to. Workflows are the specific
+              jobs inside a kete, each ending in review and an evidence pack.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {[
+              ['HAPAI apps/tools', 'Open a single-purpose tool, make a useful draft, share it with someone today.', '/hapai', 'Try the tools'],
+              ['Kete industry packs', 'Choose the specialist fleet for construction, hospitality, freight, dealerships, education, whānau, and more.', '#kete-workflows', 'See the kete'],
+              ['Workflows + proof', 'Run a real job, review it, and keep the evidence trail behind the answer.', '/workflows', 'Browse workflows'],
+            ].map(([title, body, href, cta]) => (
+              <Link
+                key={title}
+                href={href}
+                className="group rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/54 p-6 transition-all hover:-translate-y-0.5 hover:border-[color:var(--assembl-pounamu)] hover:bg-white hover:shadow-[0_22px_70px_rgba(35,33,31,0.08)]"
+              >
+                <span className="block font-display text-3xl font-light italic leading-none text-[#103F35]">
+                  {title}
+                </span>
+                <span className="mt-4 block min-h-[96px] text-sm leading-relaxed text-[color:var(--text-body)]">
+                  {body}
+                </span>
+                <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+                  {cta} <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </RevealSection>
+
       <RevealSection className="border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-32 md:px-12 md:py-40" reduceMotion={reduceMotion}>
         <div className="mx-auto grid max-w-[1500px] gap-8 md:px-2 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
           <div>
@@ -269,8 +265,8 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
               stands up later.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="#kete-workflows" className="cta-primary inline-flex h-12 items-center justify-center px-6">
-                See the workflows
+              <Link href="/hapai" className="cta-primary inline-flex h-12 items-center justify-center px-6">
+                Open HAPAI tools
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link href="/c/waihanga" className="btn-ghost inline-flex h-12 items-center justify-center px-6">
@@ -300,17 +296,15 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
               Small tools that lift the admin layer.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Hāpai (te reo Māori): to lift up, to elevate. HAPAI is a library
-              of single-purpose tools that take admin off marketing, ops, and
-              compliance plates. No prompting. No training. No platform switch.
-              Each one does one practical job and produces work in your voice.
-              Free. Bring your own API key. Twelve more tools inside the
-              Industry Pack, branded to your organisation.
+              Hāpai (te reo Māori): to lift up, to elevate. HAPAI is the apps
+              and tools page: single-purpose public tools for marketing,
+              meetings, records, household admin, and pilot conversations. The
+              full shelf lives on its own page so it can be shared cleanly.
             </p>
           </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {HAPAI_TOOLS.map((tool, index) => (
+            {FEATURED_HAPAI_TOOLS.map((tool, index) => (
               <motion.div
                 key={tool.href}
                 initial={reduceMotion ? false : { opacity: 0.64, y: 22 }}
@@ -350,7 +344,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
               initial={reduceMotion ? false : { opacity: 0.64, y: 22 }}
               whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.26 }}
-              transition={{ duration: 0.52, delay: HAPAI_TOOLS.length * 0.045, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.52, delay: FEATURED_HAPAI_TOOLS.length * 0.045, ease: [0.16, 1, 0.3, 1] }}
               whileHover={reduceMotion ? undefined : { y: -4 }}
             >
               <Link
@@ -363,7 +357,7 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
                     See the full library.
                   </span>
                   <span className="mt-4 block text-sm leading-relaxed text-[#FAF7F2]/82">
-                    Six live now. Four more shipping this month.
+                    Twelve live tools, each with a share image and email-ready link.
                   </span>
                   <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em]">
                     Open HAPAI <ArrowRight className="h-3.5 w-3.5" aria-hidden />

@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ImageIcon, Mail } from 'lucide-react';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
-import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
+import {
+  HAPAI_TOOLS,
+  getHapaiToolEmailHref,
+  getHapaiToolShareImagePath,
+} from '@/lib/hapai/shareable-tools';
 
 export const metadata: Metadata = {
   title: 'hapai — agent adoption tools that lift your team',
@@ -117,8 +121,8 @@ export default function HapaiPage() {
               Open the library.
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-[color:var(--text-body)]">
-              Tools shipping over the next 30 days. Each is free to use with
-              your own API key.
+              Twelve live public apps and tools, each with its own sharp share
+              image for posting, emailing, or sending to a pilot prospect.
             </p>
           </div>
 
@@ -149,12 +153,32 @@ export default function HapaiPage() {
                     </p>
                   ) : null}
                   {tool.href ? (
-                    <Link
-                      href={tool.href}
-                      className="mt-auto inline-flex items-center gap-2 pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]"
-                    >
-                      Open the tool <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-                    </Link>
+                    <div className="mt-auto grid gap-2 pt-6">
+                      <Link
+                        href={tool.href}
+                        className="inline-flex h-10 items-center justify-center gap-2 rounded-[8px] bg-[color:var(--assembl-pounamu)] px-4 font-mono text-[10px] uppercase tracking-[0.14em] text-[#FAF7F2]"
+                      >
+                        Open <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                      </Link>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Link
+                          href={getHapaiToolShareImagePath(tool.slug)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex h-10 items-center justify-center gap-2 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/52 px-3 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-primary)]"
+                        >
+                          <ImageIcon className="h-3.5 w-3.5" aria-hidden />
+                          Image
+                        </Link>
+                        <a
+                          href={getHapaiToolEmailHref(tool)}
+                          className="inline-flex h-10 items-center justify-center gap-2 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/52 px-3 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-primary)]"
+                        >
+                          <Mail className="h-3.5 w-3.5" aria-hidden />
+                          Email
+                        </a>
+                      </div>
+                    </div>
                   ) : (
                     <p className="mt-auto pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
                       shipping soon

@@ -163,3 +163,32 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
 export function getHapaiTool(slug: string): HapaiTool | undefined {
   return HAPAI_TOOLS.find((tool) => tool.slug === slug);
 }
+
+export function getHapaiToolShareImagePath(slug: string): string {
+  return `/hapai/${slug}/opengraph-image`;
+}
+
+export function getHapaiToolShareImageUrl(slug: string): string {
+  return `https://www.assembl.co.nz${getHapaiToolShareImagePath(slug)}`;
+}
+
+export function getHapaiToolUrl(tool: HapaiTool): string {
+  return `https://www.assembl.co.nz${tool.href}`;
+}
+
+export function getHapaiToolEmailHref(tool: HapaiTool): string {
+  const subject = `${tool.name} — a shareable assembl HAPAI tool`;
+  const body = [
+    'Kia ora,',
+    '',
+    `I thought this assembl HAPAI tool might be useful: ${tool.name}.`,
+    tool.description,
+    '',
+    `Open it here: ${getHapaiToolUrl(tool)}`,
+    `Share image: ${getHapaiToolShareImageUrl(tool.slug)}`,
+    '',
+    tool.posture,
+  ].join('\n');
+
+  return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
