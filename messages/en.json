@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "pilotSprint": "Pilot Sprint",
+    "howItWorks": "How it works",
+    "workflows": "Workflows",
+    "kete": "Kete",
+    "hapai": "HAPAI",
+    "pricing": "Pricing",
+    "about": "About",
+    "search": "Search",
+    "signIn": "Sign in",
+    "bookPilot": "Book a pilot",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "home": {
+    "eyebrow": "Built in Aotearoa",
+    "headline": "Mahi that earns its proof.",
+    "body": "assembl gives teams practical tools, specialist kete, and evidence-backed workflows. Every consequential output is draft-only until a named person reviews it.",
+    "primaryCta": "Open HAPAI",
+    "secondaryCta": "Explore the kete"
+  },
+  "footer": {
+    "kete": "Kete",
+    "company": "Company",
+    "compliance": "Compliance",
+    "aotearoa": "Aotearoa",
+    "privacy": "Privacy",
+    "aiUse": "AI use",
+    "teTiriti": "Te Tiriti",
+    "rights": "All rights reserved.",
+    "built": "Built in Aotearoa"
+  },
+  "compliancePages": {
+    "privacyTitle": "Privacy Statement",
+    "aiUseTitle": "AI use disclosure",
+    "teTiritiTitle": "Te Tiriti o Waitangi commitment"
+  }
+}
