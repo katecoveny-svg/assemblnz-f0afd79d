@@ -7,20 +7,17 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
-import type { PearlLiveStats } from '@/lib/pearl-live';
 import type { RegulatoryPulseStats } from '@/lib/regulatory-pulse';
 import { AssemblConciergeWidget } from './AssemblConciergeWidget';
 import { EvidencePackPreview } from './EvidencePackPreview';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import { HAPAI_TOOLS as ALL_HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 import { MarketplaceStrip } from './MarketplaceStrip';
-import { PearlLive } from './PearlLive';
 import { RegulatoryPulse } from './RegulatoryPulse';
 import { ThreeSteps } from './ThreeSteps';
 
 interface HomePortalProps {
   ketes: Kete[];
-  pearlLive: PearlLiveStats;
   regulatoryPulse: RegulatoryPulseStats;
 }
 
@@ -81,7 +78,7 @@ const KETE_ACCENT_NAMES: Record<KeteSlug, string> = {
   toro: 'mangū',
 };
 
-export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProps) {
+export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
   const pageRef = useRef<HTMLElement | null>(null);
   const [activeSlug, setActiveSlug] = useState<KeteSlug>('waihanga');
   const reduceMotion = useReducedMotion();
@@ -191,7 +188,26 @@ export function HomePortal({ ketes, pearlLive, regulatoryPulse }: HomePortalProp
         </div>
       </section>
 
-      <PearlLive initial={pearlLive} />
+      <section
+        aria-label="Legislation trust signal"
+        className="border-b border-[rgba(35,33,31,0.08)] bg-[rgba(255,255,255,0.42)] px-6 py-6 md:px-12"
+      >
+        <div className="mx-auto flex max-w-[1500px] flex-col gap-3 text-sm leading-7 text-[color:var(--text-secondary)] md:flex-row md:items-center md:justify-between">
+          <p>
+            Grounded in PCO&apos;s New Zealand Legislation API. Live legal retrieval
+            supports the Privacy Act, Building Act, HSWA, Customs and Excise Act,
+            Food Act, Fair Trading Act, CCCFA, CGA, and Construction Contracts Act.
+          </p>
+          <a
+            className="inline-flex rounded-sm font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            href="https://www.legislation.govt.nz"
+            rel="noreferrer"
+            target="_blank"
+          >
+            legislation.govt.nz
+          </a>
+        </div>
+      </section>
 
       <RegulatoryPulse initial={regulatoryPulse} />
 
