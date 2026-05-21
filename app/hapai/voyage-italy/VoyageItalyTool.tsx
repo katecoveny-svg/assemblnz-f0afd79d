@@ -14,12 +14,16 @@ import {
   FileText,
   Hotel,
   ImagePlus,
+  Link2,
   MapPin,
   MessageCircle,
   Plane,
+  Save,
+  Share2,
   Sparkles,
   Train,
   Upload,
+  Users,
   X,
 } from "lucide-react";
 import { ShareableToolActions } from "@/components/hapai/ShareableToolActions";
@@ -36,9 +40,71 @@ function htmlToMarkdown(html: string) {
     .trim();
 }
 
-const cityOptions = ["Rome", "Florence", "Venice", "Milan", "Naples", "Bologna", "Siena", "Amalfi"];
+const cityOptions = ["Milan", "Lake Garda", "Florence", "Tuscany", "Rome", "Praiano", "Amalfi", "Como", "Venice", "Naples", "Bologna", "Siena"];
 const STORAGE_KEY = "assembl:voyage-italy:trip-board:v1";
 const MOMENTS_KEY = "assembl:voyage-italy:moments:v1";
+
+const kateAdrianRoute = [
+  "Milan — 25-28 May · 3 nights · Crowne Plaza Milan City · arrive 6:30am, Como day trip, Duomo rooftops",
+  "Lake Garda — 28-30 May · 2 nights · Bellerive Lifestyle Hotel · Monte Baldo, Verona, lakeside reset",
+  "Florence — 30 May-1 Jun · 2 nights · Dimora Collection - Le Logge · Uffizi, David, food, walking",
+  "Tuscany — 1-3 Jun · 2 nights · Villa Mami · Chianti, Siena, Val d'Orcia, slower days",
+  "Rome — 3-5 Jun · 2 nights · Indigo Hotel - Rome · Colosseum, Vatican, neighbourhood dinners",
+  "Praiano & Amalfi — 5-9 Jun · 4 nights · Hotel Piccolo Sant'Andrea · coast, Path of the Gods, Capri/Positano options",
+  "Rome flight leg — 9 Jun · final transfer and departure buffer",
+].join("\n");
+
+const itineraryStops = [
+  {
+    stop: "01",
+    city: "Milan",
+    dates: "25-28 May",
+    hotel: "Crowne Plaza Milan City",
+    note: "Arrive 6:30am, recover gently, Como day trip, Duomo rooftop sunset, Navigli aperitivo.",
+  },
+  {
+    stop: "02",
+    city: "Lake Garda",
+    dates: "28-30 May",
+    hotel: "Bellerive Lifestyle Hotel",
+    note: "Monte Baldo, Verona option, lake weather, easy shoes, road buffer.",
+  },
+  {
+    stop: "03",
+    city: "Florence",
+    dates: "30 May-1 Jun",
+    hotel: "Dimora Collection - Le Logge",
+    note: "Uffizi, David, galleries, food, short walks between heat and queues.",
+  },
+  {
+    stop: "04",
+    city: "Tuscany",
+    dates: "1-3 Jun",
+    hotel: "Villa Mami",
+    note: "Chianti, Siena, Val d'Orcia, slower drives and one excellent lunch.",
+  },
+  {
+    stop: "05",
+    city: "Rome",
+    dates: "3-5 Jun",
+    hotel: "Indigo Hotel - Rome",
+    note: "Vatican, Colosseum, neighbourhood evenings, ticket timing checks.",
+  },
+  {
+    stop: "06",
+    city: "Praiano",
+    dates: "5-9 Jun",
+    hotel: "Hotel Piccolo Sant'Andrea",
+    note: "Amalfi Coast, Path of the Gods, ferries/boats only if weather makes sense.",
+  },
+  {
+    stop: "07",
+    city: "Rome",
+    dates: "9 Jun",
+    hotel: "flight leg",
+    note: "Transfer buffer, repack, documents, departure day calm.",
+  },
+] as const;
 
 type RouteWeather = {
   city: string;
@@ -50,6 +116,29 @@ type TripMoment = {
   imageDataUrl: string;
   caption: string;
   createdAt: string;
+};
+
+type VoyageSharedPayload = {
+  city?: string;
+  travelers?: string;
+  departureDate?: string;
+  routePlan?: string;
+  bookingVault?: string;
+  today?: string;
+  bookings?: string;
+  worries?: string;
+  notes?: string;
+  question?: string;
+  moments?: TripMoment[];
+};
+
+type VoyageSharedTrip = {
+  shareSlug: string;
+  shareUrl: string;
+  title: string;
+  payload: VoyageSharedPayload;
+  updatedBy?: string;
+  updatedAt?: string;
 };
 
 const proofCards = [
@@ -74,7 +163,7 @@ export function VoyageItalyTool() {
   const [city, setCity] = useState("Milan");
   const [travelers, setTravelers] = useState("Kate, Adrian");
   const [departureDate, setDepartureDate] = useState("2026-05-24");
-  const [routePlan, setRoutePlan] = useState("Milan — arrival on Sunday\nRome — Vatican booked the following day\nFlorence — galleries, food, walking\nCinque Terre — coastal reset\nVenice — final leg");
+  const [routePlan, setRoutePlan] = useState(kateAdrianRoute);
   const [bookingVault, setBookingVault] = useState("");
   const [today, setToday] = useState("");
   const [bookings, setBookings] = useState("");
@@ -88,8 +177,46 @@ export function VoyageItalyTool() {
   const [routeWeather, setRouteWeather] = useState<RouteWeather[]>([]);
   const [question, setQuestion] = useState("");
   const [moments, setMoments] = useState<TripMoment[]>([]);
+  const [shareSlug, setShareSlug] = useState("");
+  const [shareUrl, setShareUrl] = useState("");
+  const [shareStatus, setShareStatus] = useState("");
+  const [sharedUpdatedAt, setSharedUpdatedAt] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  function currentSharedPayload(): VoyageSharedPayload {
+    return {
+      city,
+      travelers,
+      departureDate,
+      routePlan,
+      bookingVault,
+      today,
+      bookings,
+      worries,
+      notes,
+      question,
+      moments: moments.slice(0, 8),
+    };
+  }
+
+  function applySharedTrip(trip: VoyageSharedTrip) {
+    const payload = trip.payload ?? {};
+    setShareSlug(trip.shareSlug);
+    setShareUrl(trip.shareUrl);
+    setSharedUpdatedAt(trip.updatedAt ?? "");
+    if (payload.city) setCity(payload.city);
+    if (payload.travelers) setTravelers(payload.travelers);
+    if (payload.departureDate) setDepartureDate(payload.departureDate);
+    if (payload.routePlan) setRoutePlan(payload.routePlan);
+    if (payload.bookingVault) setBookingVault(payload.bookingVault);
+    if (payload.today) setToday(payload.today);
+    if (payload.bookings) setBookings(payload.bookings);
+    if (payload.worries) setWorries(payload.worries);
+    if (payload.notes) setNotes(payload.notes);
+    if (payload.question) setQuestion(payload.question);
+    if (Array.isArray(payload.moments)) setMoments(payload.moments.slice(0, 8));
+  }
 
   useEffect(() => {
     try {
@@ -104,6 +231,7 @@ export function VoyageItalyTool() {
         bookings: string;
         worries: string;
         notes: string;
+        question: string;
       }>;
       if (parsed.city) setCity(parsed.city);
       if (parsed.travelers) setTravelers(parsed.travelers);
@@ -113,6 +241,7 @@ export function VoyageItalyTool() {
       if (parsed.bookings) setBookings(parsed.bookings);
       if (parsed.worries) setWorries(parsed.worries);
       if (parsed.notes) setNotes(parsed.notes);
+      if (parsed.question) setQuestion(parsed.question);
     } catch {
       // Local-only convenience cache; ignore corrupt values.
     }
@@ -125,15 +254,33 @@ export function VoyageItalyTool() {
   }, []);
 
   useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("trip")?.toLowerCase().trim();
+    if (!slug) return;
+    setShareStatus("Loading shared trip...");
+    fetch(`/api/hapai/voyage-italy/shared?slug=${encodeURIComponent(slug)}`)
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error ?? "Could not load that shared trip.");
+        applySharedTrip(data.trip as VoyageSharedTrip);
+        setShareStatus("Shared trip loaded for Kate and Adrian.");
+      })
+      .catch((err) => {
+        setShareStatus("");
+        setError(err instanceof Error ? err.message : "Could not load that shared trip.");
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     try {
       window.localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ city, travelers, departureDate, routePlan, bookingVault, bookings, worries, notes }),
+        JSON.stringify({ city, travelers, departureDate, routePlan, bookingVault, bookings, worries, notes, question }),
       );
     } catch {
       // Private browsing or storage disabled; the tool still works.
     }
-  }, [city, travelers, departureDate, routePlan, bookingVault, bookings, worries, notes]);
+  }, [city, travelers, departureDate, routePlan, bookingVault, bookings, worries, notes, question]);
 
   useEffect(() => {
     try {
@@ -266,12 +413,40 @@ export function VoyageItalyTool() {
     setCity("Milan");
     setTravelers("Kate, Adrian");
     setDepartureDate("2026-05-24");
-    setRoutePlan("Milan — arrival on Sunday\nRome — Vatican booked the following day\nFlorence — galleries, food, walking\nCinque Terre — coastal reset\nVenice — final leg");
+    setRoutePlan(kateAdrianRoute);
     setToday("Flying into Milan on Sunday with Adrian. Need one calm place for flights, hotel, Vatican booking, weather, and first moves.");
-    setBookings("Air New Zealand flight details to add. Vatican booked for the following day — confirm exact date/time. Hotels and trains to paste in.");
-    setBookingVault("Paste Air New Zealand confirmation, hotel bookings, train tickets, restaurant bookings, museum tickets, and travel insurance notes here.\n\nKnown trip shell: Kate + Adrian leave New Zealand on Sunday 24 May 2026, fly into Milan, and have the Vatican booked for the following day.");
-    setWorries("Jet lag, airport transfer, Milan arrival timing, getting to Rome/Vatican without stress, booking windows, and weather across each city.");
+    setBookings("Air New Zealand flight details to add. Vatican booked early in the trip — confirm exact date/time. Hotels from the old app: Crowne Plaza Milan City, Bellerive Lifestyle Hotel, Dimora Collection - Le Logge, Villa Mami, Indigo Hotel Rome, Hotel Piccolo Sant'Andrea.");
+    setBookingVault("Paste Air New Zealand confirmation, hotel bookings, train tickets, restaurant bookings, museum tickets, and travel insurance notes here.\n\nKnown trip shell from the old app:\n" + kateAdrianRoute);
+    setWorries("Jet lag, airport transfer, Milan arrival timing, Vatican/Colosseum queues, hotel check-in windows, driving buffers, ferry/weather on the coast, and weather across each city.");
     setNotes("Prefer interesting local-feeling ideas, secret corners, photo moments, coffee breaks, food, no frantic crossing the city. Need what to bring before leaving the hotel.");
+  }
+
+  async function saveSharedTrip() {
+    setError("");
+    setShareStatus("Saving shared trip...");
+    try {
+      const response = await fetch("/api/hapai/voyage-italy/shared", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          shareSlug: shareSlug || undefined,
+          title: "Kate + Adrian · Italia 2026",
+          updatedBy: travelers.includes("Adrian") ? "Kate or Adrian" : "Kate",
+          payload: currentSharedPayload(),
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? "Could not save shared trip.");
+      const trip = data.trip as VoyageSharedTrip;
+      applySharedTrip(trip);
+      setShareStatus("Shared trip saved. Send this link to Adrian.");
+      if (trip.shareUrl) {
+        await navigator.clipboard.writeText(trip.shareUrl).catch(() => undefined);
+      }
+    } catch (err) {
+      setShareStatus("");
+      setError(err instanceof Error ? err.message : "Could not save shared trip.");
+    }
   }
 
   function copyOutput() {
@@ -350,6 +525,41 @@ export function VoyageItalyTool() {
                   path="/hapai/voyage-italy"
                 />
               </div>
+              <div className="mt-5 rounded-[8px] border border-white/15 bg-white/10 p-4">
+                <div className="flex items-start gap-3">
+                  <Users className="mt-1 h-5 w-5 shrink-0 text-[#D9A85A]" aria-hidden />
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#D9A85A]">private trip link</p>
+                    <p className="mt-2 text-sm leading-relaxed text-[#FAF7F2]/84">
+                      Save this board to an obscure assembl link so you and Adrian can open the same trip, add notes, and keep the travel desk in sync.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={saveSharedTrip}
+                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#FAF7F2] px-4 py-3 text-sm font-medium text-[#103F35] transition hover:bg-white"
+                >
+                  <Share2 className="h-4 w-4" aria-hidden />
+                  {shareSlug ? "Save shared trip" : "Create Adrian link"}
+                </button>
+                {shareUrl ? (
+                  <button
+                    type="button"
+                    onClick={() => navigator.clipboard.writeText(shareUrl)}
+                    className="mt-3 flex w-full items-center gap-2 rounded-[8px] border border-white/15 bg-[#103F35]/70 px-3 py-2 text-left font-mono text-[11px] leading-relaxed text-[#FAF7F2]/88"
+                  >
+                    <Link2 className="h-4 w-4 shrink-0 text-[#D9A85A]" aria-hidden />
+                    <span className="truncate">{shareUrl}</span>
+                  </button>
+                ) : null}
+                {shareStatus ? <p className="mt-3 text-sm text-[#FAF7F2]/76">{shareStatus}</p> : null}
+                {sharedUpdatedAt ? (
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#D9A85A]/86">
+                    Updated {new Date(sharedUpdatedAt).toLocaleString("en-NZ")}
+                  </p>
+                ) : null}
+              </div>
             </div>
           </aside>
         </section>
@@ -358,7 +568,7 @@ export function VoyageItalyTool() {
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
             <div className="mb-5 flex flex-wrap items-center gap-3">
               <button type="button" onClick={loadItalySample} className="rounded-full border border-[rgba(43,107,87,0.24)] bg-[#FAF7F2] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#2B6B57] hover:bg-white">
-                Load Rome sample
+                Load Kate + Adrian trip
               </button>
               <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#6B6661]">
                 <Euro className="h-3.5 w-3.5" /> live FX
@@ -585,6 +795,14 @@ export function VoyageItalyTool() {
               </button>
               <button
                 type="button"
+                onClick={saveSharedTrip}
+                className="inline-flex items-center gap-2 rounded-full border border-[rgba(43,107,87,0.24)] bg-white/72 px-6 py-3 text-sm font-medium text-[#2B6B57] transition hover:bg-white"
+              >
+                <Save className="h-4 w-4" aria-hidden />
+                {shareSlug ? "Save shared board" : "Create shared link"}
+              </button>
+              <button
+                type="button"
                 onClick={() => {
                   setToday("");
                   setBookings("");
@@ -647,6 +865,44 @@ export function VoyageItalyTool() {
                       </span>
                       <span className="text-[#FAF7F2]/86">{stop}</span>
                     </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-5 rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/68 p-4">
+              <div className="flex items-center justify-between gap-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#2B6B57]">Kate + Adrian map board</p>
+                <span className="rounded-full bg-[#FAF7F2] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#6B6661]">
+                  7 stops
+                </span>
+              </div>
+              <div className="mt-4 overflow-hidden rounded-[8px] border border-[rgba(43,107,87,0.16)] bg-[#F4EEE5]">
+                <div className="relative h-44 bg-[radial-gradient(circle_at_20%_36%,rgba(43,107,87,0.22),transparent_20%),radial-gradient(circle_at_52%_42%,rgba(217,168,90,0.32),transparent_19%),radial-gradient(circle_at_68%_72%,rgba(103,65,53,0.20),transparent_18%),linear-gradient(135deg,#FAF7F2,#E8DDD0)]">
+                  <div className="absolute left-[14%] top-[25%] h-1.5 w-[72%] rotate-[18deg] rounded-full bg-[#2B6B57]/18" />
+                  {itineraryStops.map((item, index) => (
+                    <div
+                      key={item.city + item.dates}
+                      className="absolute flex h-8 w-8 items-center justify-center rounded-full border border-white/80 bg-[#103F35] font-mono text-[10px] text-[#FAF7F2] shadow-[0_10px_24px_rgba(35,33,31,0.20)]"
+                      style={{
+                        left: `${12 + index * 11.8}%`,
+                        top: `${index < 2 ? 28 + index * 5 : index < 5 ? 38 + index * 7 : 72 - (index - 5) * 6}%`,
+                      }}
+                      title={`${item.city} · ${item.dates}`}
+                    >
+                      {item.stop}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-4 space-y-3">
+                {itineraryStops.map((item) => (
+                  <div key={`${item.stop}-${item.city}`} className="grid grid-cols-[34px_1fr] gap-3 border-t border-[rgba(35,33,31,0.08)] pt-3">
+                    <span className="mt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[#2B6B57]">{item.stop}</span>
+                    <div>
+                      <p className="font-medium text-[#23211F]">{item.city} <span className="font-normal text-[#6B6661]">· {item.dates}</span></p>
+                      <p className="mt-1 text-sm leading-relaxed text-[#5A5550]">{item.hotel}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-[#6B6661]">{item.note}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
