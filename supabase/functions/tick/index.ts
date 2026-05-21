@@ -20,6 +20,11 @@ const ADAPTER_FOR: Record<string, string> = {
   arcgis: "adapter-jsonapi",
 };
 
+function adapterForSource(source: { type: string; config?: Record<string, unknown> | null }) {
+  if (source.config?.adapter === "pco") return "adapter-pco";
+  return ADAPTER_FOR[source.type];
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   try {
@@ -45,7 +50,7 @@ Deno.serve(async (req) => {
       const dueAt = last + src.cadence_minutes * 60_000;
       if (last && dueAt > now) continue;
 
-      const adapter = ADAPTER_FOR[src.type as string];
+      const adapter = adapterForSource(src as { type: string; config?: Record<string, unknown> | null });
       if (!adapter) continue;
 
       dispatches.push(

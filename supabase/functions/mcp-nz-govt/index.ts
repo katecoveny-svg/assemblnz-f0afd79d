@@ -22,7 +22,7 @@ type Action =
 interface RequestBody {
   action: Action;
   query?: string;
-  type?: "act" | "regulation" | "bill";
+  type?: "act" | "regulation" | "bill" | "secondary";
   limit?: number;
 }
 
@@ -68,6 +68,14 @@ async function fetchJson(url: string, init?: RequestInit) {
   return { status: res.status, body: parsed };
 }
 
+function mapLegislationType(type?: RequestBody["type"]): string | undefined {
+  if (!type) return undefined;
+  if (type === "act") return "act";
+  if (type === "bill") return "bill";
+  if (type === "secondary" || type === "regulation") return "secondary-legislation";
+  return undefined;
+}
+
 async function fetchText(url: string) {
   const res = await fetch(url);
   return { status: res.status, text: await res.text() };
@@ -94,22 +102,42 @@ function parseRss(xml: string, limit: number) {
 }
 
 async function handleLegislationSearch(query: string, type: string | undefined) {
-  // Try the API; fall back to lookup URL if it doesn't return JSON.
-  const apiUrl = `https://legislation.govt.nz/api/search?search=${encodeURIComponent(query)}${type ? `&type=${type}` : ""}`;
-  try {
-    const result = await fetchJson(apiUrl);
+  const apiKey = Deno.env.get("PCO_API_KEY");
+  if (apiKey) {
+    const apiUrl = new URL("https://api.legislation.govt.nz/v0/works/");
+    apiUrl.searchParams.set("search_term", query);
+    apiUrl.searchParams.set("search_field", "title");
+    const mappedType = mapLegislationType(type as RequestBody["type"]);
+    if (mappedType) apiUrl.searchParams.set("legislation_type", mappedType);
+
+    const result = await fetchJson(apiUrl.toString(), {
+      headers: {
+        Accept: "application/json",
+        "X-Api-Key": apiKey,
+        "User-Agent": "assembl-mcp-nz-govt/1.0 (+https://www.assembl.co.nz)",
+      },
+    });
+
     if (result.status < 400 && result.body && typeof result.body === "object") {
-      return result;
+      return {
+        status: result.status,
+        body: {
+          query,
+          provider: "Parliamentary Counsel Office",
+          api: "New Zealand Legislation API v0",
+          search_url: apiUrl.toString().replace(/([?&]api_key=)[^&]+/i, "$1REDACTED"),
+          result: result.body,
+        },
+      };
     }
-  } catch {
-    // fall through to fallback
   }
+
   return {
     status: 200,
     body: {
       query,
       search_url: `https://www.legislation.govt.nz/search?search=${encodeURIComponent(query)}`,
-      note: "Direct legislation API being configured. Use search URL for now.",
+      note: "PCO_API_KEY is not configured or the PCO API did not return JSON. Use search URL for manual verification.",
     },
   };
 }

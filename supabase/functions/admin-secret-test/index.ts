@@ -234,6 +234,29 @@ async function testSecret(name: string): Promise<TestResult> {
       return { ok, latency_ms: t.ms, status_code: r.status, message: ok ? "Authenticated · scrape reachable" : `HTTP ${r.status}` };
     }
 
+    case "PCO_API_KEY": {
+      const url = new URL("https://api.legislation.govt.nz/v0/works/");
+      url.searchParams.set("search_term", "Privacy Act 2020");
+      url.searchParams.set("search_field", "title");
+      const t = await timed(() =>
+        fetch(url.toString(), {
+          headers: {
+            "X-Api-Key": v,
+            Accept: "application/json",
+            "User-Agent": "assembl-admin-secret-test/1.0 (+https://www.assembl.co.nz)",
+          },
+        })
+      );
+      if (t.error) return { ok: false, latency_ms: t.ms, message: String(t.error) };
+      const r = t.result!;
+      return {
+        ok: r.ok,
+        latency_ms: t.ms,
+        status_code: r.status,
+        message: r.ok ? "Authenticated · PCO works search returned JSON" : `HTTP ${r.status}`,
+      };
+    }
+
     default:
       return { ok: false, latency_ms: 0, message: `No live test implemented for ${name}` };
   }

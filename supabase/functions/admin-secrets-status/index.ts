@@ -95,6 +95,7 @@ const CATALOGUE: Array<{
       { name: "XERO_CLIENT_ID", label: "Xero Client ID", purpose: "Accounting integration", required: false },
       { name: "XERO_CLIENT_SECRET", label: "Xero Client Secret", purpose: "Xero OAuth", required: false },
       { name: "FIRECRAWL_API_KEY", label: "Firecrawl", purpose: "Web scraping for compliance scanner", required: false, test_supported: true },
+      { name: "PCO_API_KEY", label: "PCO Legislation API", purpose: "Authoritative New Zealand legislation retrieval and change monitoring", required: false, docs_url: "https://api.legislation.govt.nz/docs/", test_supported: true },
       { name: "STITCH_API_KEY", label: "Stitch (image gen)", purpose: "Stitch image router", required: false },
       { name: "MESHY_API_KEY", label: "Meshy (3D)", purpose: "3D mesh generation", required: false },
       { name: "FLINT_API_KEY", label: "Flint", purpose: "ABM proposal templates", required: false },
