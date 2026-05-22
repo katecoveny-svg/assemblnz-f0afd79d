@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { getServiceClient } from "@/lib/supabase/service";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,11 +20,14 @@ RULES:
 - Do not invent details. If the input is sparse, the output should be sparse.
 - Use "agent" or "specialist" if the input mentions automated tools.
 - Keep tone clear and businesslike, not breezy.
-- Strip filler words and false starts from the transcript.`;
+- Strip filler words and false starts from the transcript.
+- Never mention injected context, runtime context, knowledge retrieval, or whether the query is inside or outside context.`;
 
 function sanitizeHtml(input: string) {
   return input
     .replace(/```[\s\S]*?```/g, "")
+    .replace(/<p>\s*The user query falls outside the injected context\.?\s*<\/p>/gi, "")
+    .replace(/\bThe user query falls outside the injected context\.?\b/gi, "")
     .replace(/<\/?(?!h2\b|p\b|ul\b|li\b|strong\b)[a-z][^>]*>/gi, "")
     .replace(/\bonly an ai\b/gi, "only a specialist")
     .trim();
@@ -98,6 +100,31 @@ function appendAssemblWatermark(html: string, toolLabel: string, toolPath: strin
   );
 }
 
+async function invokePublicChatLlm(body: Record<string, unknown>) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) return null;
+
+  const response = await fetch(`${supabaseUrl}/functions/v1/public-chat-llm`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) return null;
+  return (await response.json().catch(() => null)) as { response?: unknown } | null;
+}
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -111,38 +138,46 @@ export async function POST(req: Request) {
   const raw = String(body?.raw ?? "").trim();
   const title = String(body?.title ?? "").trim().slice(0, 140);
   const attendees = String(body?.attendees ?? "").trim().slice(0, 300);
+  const imageDataUrl = String(body?.imageDataUrl ?? "").trim();
 
-  if (raw.length < 8) {
-    return NextResponse.json({ error: "Add a transcript or raw notes first." }, { status: 400 });
+  if (raw.length < 8 && !imageDataUrl.startsWith("data:image/")) {
+    return NextResponse.json({ error: "Add a transcript, raw notes, or a meeting photo first." }, { status: 400 });
   }
 
   const message = `Meeting title: ${title || "Untitled meeting"}
 Attendees: ${attendees || "Not supplied"}
 
 Raw input:
-${raw.slice(0, 18_000)}`;
+${raw.slice(0, 18_000)}
+
+${imageDataUrl ? "An agenda, whiteboard, screenshot, or meeting-room photo is attached. Read visible text and combine it with the raw input." : ""}`;
 
   try {
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      const service = getServiceClient();
-      const { data, error } = await service.functions.invoke("public-chat-llm", {
-        body: {
-          kete: "auaha",
-          message,
-          systemPromptOverride: SYSTEM_PROMPT,
-          sessionId: crypto.randomUUID(),
-        },
-      });
-      if (!error && typeof data?.response === "string" && data.response.trim()) {
-        const cleaned = sanitizeHtml(data.response);
-        return NextResponse.json({ html: appendAssemblWatermark(cleaned, "meeting recorder", "/hapai/meeting-recorder") });
-      }
+    const data = await invokePublicChatLlm({
+      kete: "auaha",
+      message,
+      imageDataUrl: imageDataUrl || undefined,
+      systemPromptOverride: SYSTEM_PROMPT,
+      sessionId: crypto.randomUUID(),
+      maxTokens: 2500,
+    });
+    if (typeof data?.response === "string" && data.response.trim()) {
+      const cleaned = sanitizeHtml(data.response);
+      return NextResponse.json({ html: appendAssemblWatermark(cleaned, "meeting recorder", "/hapai/meeting-recorder") });
     }
   } catch (error) {
     console.error("[hapai/meeting-notes] polish failed", error);
   }
 
   return NextResponse.json({
-    html: appendAssemblWatermark(fallbackMeetingHtml(raw, title, attendees), "meeting recorder", "/hapai/meeting-recorder"),
+    html: appendAssemblWatermark(
+      fallbackMeetingHtml(
+        raw || (imageDataUrl ? "Meeting photo received, but the visible text could not be read clearly." : ""),
+        title,
+        attendees,
+      ),
+      "meeting recorder",
+      "/hapai/meeting-recorder",
+    ),
   });
 }

@@ -36,6 +36,10 @@ function dataUrlToFile(dataUrl?: string, filename = 'school-notice.jpg') {
   return new File([buffer], filename.includes('.') ? filename : `${filename}.${extension}`, { type: mediaType });
 }
 
+function dataUrlMediaType(dataUrl?: string) {
+  return dataUrl?.match(/^data:([^;]+);base64,/)?.[1] ?? '';
+}
+
 function formatSchoolDate(value: string) {
   const date = new Date(`${value}T12:00:00+12:00`);
   if (Number.isNaN(date.getTime())) return value;
@@ -53,6 +57,169 @@ function compactUnique(values: Array<string | undefined | null>) {
 function renderList(items: string[], fallback: string) {
   if (!items.length) return `<p>${escapeHtml(fallback)}</p>`;
   return `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
+}
+
+function parseModelJson(text: string) {
+  const cleaned = text
+    .trim()
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/```\s*$/i, '');
+  try {
+    return JSON.parse(cleaned) as unknown;
+  } catch {
+    const objectMatch = cleaned.match(/\{[\s\S]*\}/);
+    if (!objectMatch) return null;
+    try {
+      return JSON.parse(objectMatch[0]) as unknown;
+    } catch {
+      return null;
+    }
+  }
+}
+
+async function invokePublicChatLlm(body: Record<string, unknown>) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) return null;
+
+  const response = await fetch(`${supabaseUrl}/functions/v1/public-chat-llm`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      apikey: supabaseKey,
+      Authorization: `Bearer ${supabaseKey}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) return null;
+  return (await response.json().catch(() => null)) as { response?: unknown } | null;
+}
+
+function normaliseSchoolItems(value: unknown): SchoolSurvivalItem[] {
+  const rows =
+    value && typeof value === 'object' && Array.isArray((value as { items?: unknown }).items)
+      ? ((value as { items: unknown[] }).items)
+      : Array.isArray(value)
+        ? value
+        : [];
+
+  return rows
+    .map((row): SchoolSurvivalItem | null => {
+      if (!row || typeof row !== 'object') return null;
+      const item = row as Record<string, unknown>;
+      const sourceParagraph = String(item.source_paragraph ?? item.source ?? item.notes ?? item.title ?? '').trim();
+      const title = String(item.title ?? sourceParagraph ?? 'School notice item').trim();
+      const kind = String(item.kind ?? 'notice') as SchoolSurvivalItem['kind'];
+      const date = String(item.date ?? '').trim();
+      if (!title && !sourceParagraph) return null;
+      const normalised: SchoolSurvivalItem = {
+        kind: ['event', 'deadline', 'payment', 'gear', 'permission', 'sport', 'music', 'notice'].includes(kind) ? kind : 'notice',
+        title: title || 'School notice item',
+        date,
+        source_paragraph: sourceParagraph || title,
+      };
+      if (typeof item.time === 'string' && item.time.trim()) normalised.time = item.time.trim();
+      if (typeof item.amount === 'number') normalised.amount = item.amount;
+      if (typeof item.item === 'string' && item.item.trim()) normalised.item = item.item.trim();
+      if (typeof item.child_year_level === 'string' && item.child_year_level.trim()) {
+        normalised.child_year_level = item.child_year_level.trim();
+      }
+      return normalised;
+    })
+    .filter((item): item is SchoolSurvivalItem => Boolean(item));
+}
+
+function normaliseVisionLines(text: string): SchoolSurvivalItem[] {
+  const allowedKinds: SchoolSurvivalItem['kind'][] = ['event', 'deadline', 'payment', 'gear', 'permission', 'sport', 'music', 'notice'];
+  return text
+    .replace(/```[\s\S]*?```/g, (match) => match.replace(/^```[a-z]*\s*/i, '').replace(/```\s*$/i, ''))
+    .split(/\r?\n/)
+    .map((line): SchoolSurvivalItem | null => {
+      const parts = line
+        .replace(/^[-*]\s*/, '')
+        .split('|')
+        .map((part) => part.trim());
+      if (parts.length < 3) return null;
+      const kind = allowedKinds.includes(parts[0] as SchoolSurvivalItem['kind'])
+        ? (parts[0] as SchoolSurvivalItem['kind'])
+        : 'notice';
+      const title = parts[1] || parts[3] || 'School notice item';
+      const rawDate = parts[2]?.toLowerCase() === 'blank' ? '' : parts[2] || '';
+      const detail = parts.slice(3).join(' - ').trim();
+      const item: SchoolSurvivalItem = {
+        kind,
+        title,
+        date: /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : '',
+        source_paragraph: detail || title,
+      };
+      if (kind === 'gear') item.item = detail || title;
+      const amount = (detail || title).match(/\$\s?(\d+(?:,\d{3})*(?:\.\d{1,2})?)/);
+      if (amount) item.amount = Number(amount[1].replace(/,/g, ''));
+      const time = (detail || title).match(/\b([01]?\d|2[0-3])(?::([0-5]\d))?\s*(am|pm)?\b/i);
+      if (time) {
+        let hour = Number(time[1]);
+        const minute = Number(time[2] ?? 0);
+        const meridiem = time[3]?.toLowerCase();
+        if (meridiem === 'pm' && hour < 12) hour += 12;
+        if (meridiem === 'am' && hour === 12) hour = 0;
+        item.time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      }
+      return item;
+    })
+    .filter((item): item is SchoolSurvivalItem => Boolean(item));
+}
+
+async function extractSchoolNoticeViaVision({
+  imageDataUrl,
+  childName,
+  noticeText,
+}: {
+  imageDataUrl?: string;
+  childName: string;
+  noticeText: string;
+}) {
+  if (!imageDataUrl) return null;
+  try {
+    const data = await invokePublicChatLlm({
+      kete: 'toro',
+      message: [
+        `Read the attached school notice, timetable, sports draw, form, or screenshot for ${childName || 'the child'}.`,
+        noticeText ? `Extra typed context:\n${noticeText}` : '',
+        'Return only up to 12 lines in this exact pipe format: kind|title|yyyy-mm-dd or blank|detail.',
+        'Prioritise money, permission/forms, dated events, then gear. Extract sport, exams, timetable subjects, and actions. No prose.',
+      ]
+        .filter(Boolean)
+        .join('\n\n'),
+      imageDataUrl,
+      sessionId: randomUUID(),
+      maxTokens: 2500,
+      systemPromptOverride: `School logistics extractor for NZ parents.
+Output terse pipe lines only. No JSON. No markdown.
+Format: kind|title|yyyy-mm-dd or blank|detail.
+kind must be event, deadline, payment, gear, permission, sport, music, or notice.
+Convert visible NZ dates to 2026 ISO when year is omitted and the date is current/future.
+If a date is not visible, write blank.
+Never invent a school requirement that is not visible or supplied in typed context.`,
+    });
+    const response = typeof data?.response === 'string' ? data.response : '';
+    if (!response.trim()) return null;
+    const items = normaliseSchoolItems(parseModelJson(response));
+    if (items.length) return items;
+    const lineItems = normaliseVisionLines(response);
+    if (lineItems.length) return lineItems;
+    const fallback = await parseSchoolNewsletter({ newsletterText: response });
+    return fallback.items.length ? fallback.items : null;
+  } catch (error) {
+    console.error('[workflow school notice] vision fallback failed', error);
+    return null;
+  }
 }
 
 function visibleTime(item: SchoolSurvivalItem) {
@@ -90,7 +257,7 @@ function schoolNoticeOutput({
   const sorted = [...items].sort((a, b) => `${a.date} ${a.time ?? ''}`.localeCompare(`${b.date} ${b.time ?? ''}`));
   const sourceText = rawSourceText || sorted.map((item) => item.source_paragraph).join('\n');
   const dateLines = compactUnique(
-    sorted.map((item) => {
+    sorted.filter((item) => item.kind !== 'gear').map((item) => {
       if (!item.date) return null;
       const time = visibleTime(item);
       return `${formatSchoolDate(item.date)}${time} - ${item.title}`;
@@ -122,6 +289,7 @@ function schoolNoticeOutput({
       if (item.kind === 'permission') return `Sign or return permission for ${item.title}${item.date ? ` by ${formatSchoolDate(item.date)}` : ''}`;
       if (item.kind === 'payment') return `Pay for ${item.title}${item.date ? ` by ${formatSchoolDate(item.date)}` : ''}`;
       if (item.kind === 'gear') return `Pack or check: ${item.item || item.title}`;
+      if (!item.date && item.title) return `Check or action: ${item.title}`;
       return item.date ? `Add to family calendar: ${formatSchoolDate(item.date)} - ${item.title}` : item.title;
     }),
   ).slice(0, 12);
@@ -276,8 +444,19 @@ export async function POST(req: NextRequest) {
     const uploadedName = typeof inputs.uploaded_notice_name === 'string' ? inputs.uploaded_notice_name : 'school-notice.jpg';
     const file = dataUrlToFile(body.imageDataUrl, uploadedName);
     const imageResult = file ? await parseSchoolNewsletter({ file }) : null;
-    const textResult = !imageResult?.items.length && noticeText ? await parseSchoolNewsletter({ newsletterText: noticeText }) : null;
-    const result = imageResult?.items.length ? imageResult : textResult;
+    const visionItems = !imageResult?.items.length
+      ? await extractSchoolNoticeViaVision({ imageDataUrl: body.imageDataUrl, childName, noticeText })
+      : null;
+    const textResult = !imageResult?.items.length && !visionItems?.length && noticeText ? await parseSchoolNewsletter({ newsletterText: noticeText }) : null;
+    const result = imageResult?.items.length
+      ? imageResult
+      : visionItems?.length
+        ? {
+            items: visionItems,
+            sourceType: dataUrlMediaType(body.imageDataUrl).includes('pdf') ? 'pdf' : 'image',
+            sourceText: noticeText || uploadedName,
+          }
+        : textResult;
 
     let output = result?.items.length
       ? schoolNoticeOutput({

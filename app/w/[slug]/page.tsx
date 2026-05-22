@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
+import { ShareableToolActions } from '@/components/hapai/ShareableToolActions';
 import { WorkflowRunner } from '@/components/site/WorkflowRunner';
 import { getWorkflow } from '@/lib/workflows';
 
@@ -59,6 +60,14 @@ export default async function StandaloneWorkflowPage({
           <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-[color:var(--text-body)]">
             {workflow.description}
           </p>
+          <div className="mt-5">
+            <ShareableToolActions
+              title={`${workflow.title} by assembl`}
+              text={workflow.description}
+              path={`/w/${workflow.slug}`}
+              embed={false}
+            />
+          </div>
         </div>
         <WorkflowRunner workflow={workflow} minimal />
       </main>

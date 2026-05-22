@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CalendarCheck, Copy, Download, FileCheck2, MailCheck, Mic, Square } from "lucide-react";
+import { CalendarCheck, Camera, Copy, Download, FileCheck2, MailCheck, Mic, Square, Upload } from "lucide-react";
 import { HapaiToolShell } from "@/components/hapai/HapaiToolShell";
 
 type RecognitionResult = {
@@ -49,6 +50,8 @@ export default function MeetingNotesPage() {
   const [rawNotes, setRawNotes] = useState("");
   const [title, setTitle] = useState("");
   const [attendees, setAttendees] = useState("");
+  const [imageDataUrl, setImageDataUrl] = useState("");
+  const [imageName, setImageName] = useState("");
   const [html, setHtml] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -86,6 +89,7 @@ export default function MeetingNotesPage() {
   }, [recording]);
 
   const activeRaw = mode === "record" ? `${transcript} ${interim}`.trim() : rawNotes.trim();
+  const hasInput = activeRaw.length >= 8 || Boolean(imageDataUrl);
   const formattedTime = useMemo(() => {
     const mins = Math.floor(seconds / 60).toString().padStart(2, "0");
     const secs = (seconds % 60).toString().padStart(2, "0");
@@ -111,7 +115,7 @@ export default function MeetingNotesPage() {
       const response = await fetch("/api/hapai/polish-meeting-notes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ raw: activeRaw, title, attendees }),
+        body: JSON.stringify({ raw: activeRaw, title, attendees, imageDataUrl }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Could not polish the notes.");
@@ -121,6 +125,26 @@ export default function MeetingNotesPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleImageUpload(file?: File | null) {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setError("Upload a photo or screenshot image.");
+      return;
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      setError("Please upload an image under 8MB.");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageDataUrl(String(reader.result ?? ""));
+      setImageName(file.name);
+      setError("");
+    };
+    reader.onerror = () => setError("Could not read that image. Try a clearer screenshot.");
+    reader.readAsDataURL(file);
   }
 
   function copyOutput() {
@@ -189,6 +213,52 @@ export default function MeetingNotesPage() {
             ))}
           </div>
 
+          <section className="mt-6 rounded-[18px] border border-white/70 bg-[linear-gradient(145deg,rgba(255,255,255,0.78),rgba(250,247,242,0.62))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.82),0_18px_48px_rgba(35,33,31,0.06)]">
+            <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#2B6B57]">
+                  Photo, whiteboard, or agenda
+                </p>
+                <p className="mt-1 text-sm leading-relaxed text-[#5A5550]">
+                  Add a whiteboard photo, agenda screenshot, sticky-note wall, or meeting-room board.
+                  The recorder combines visible text with speech or pasted notes.
+                </p>
+              </div>
+              <label className="inline-flex h-10 cursor-pointer items-center rounded-full border border-white/70 bg-white/58 px-4 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_12px_30px_rgba(35,33,31,0.06)] transition hover:-translate-y-0.5 hover:bg-white/78">
+                <Upload className="mr-2 h-4 w-4 text-[#2B6B57]" aria-hidden />
+                Add photo
+                <input
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  className="sr-only"
+                  onChange={(event) => handleImageUpload(event.target.files?.[0])}
+                />
+              </label>
+            </div>
+            {imageDataUrl ? (
+              <div className="mt-4 grid gap-3 rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/64 p-3 md:grid-cols-[112px_1fr]">
+                <Image
+                  src={imageDataUrl}
+                  alt={`Uploaded meeting image preview: ${imageName || "meeting photo"}`}
+                  width={224}
+                  height={224}
+                  unoptimized
+                  className="h-28 w-full rounded-[10px] object-cover md:w-28"
+                />
+                <div className="flex flex-col justify-center">
+                  <p className="flex items-center text-sm font-medium text-[#23211F]">
+                    <Camera className="mr-2 h-4 w-4 text-[#2B6B57]" aria-hidden />
+                    {imageName || "Meeting photo ready"}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-[#5A5550]">
+                    This will be read alongside the transcript or rough notes.
+                  </p>
+                </div>
+              </div>
+            ) : null}
+          </section>
+
           {mode === "record" ? (
             <div className="mt-6">
               <div className="flex items-center gap-5">
@@ -222,10 +292,10 @@ export default function MeetingNotesPage() {
           )}
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <button type="button" onClick={polish} disabled={loading || activeRaw.length < 8} className="rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]">
+            <button type="button" onClick={polish} disabled={loading || !hasInput} className="rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]">
               {loading ? "Structuring notes..." : "Turn into EA record"}
             </button>
-            <button type="button" onClick={() => { setTranscript(""); setRawNotes(""); setInterim(""); setSeconds(0); setHtml(""); }} className="rounded-full border border-[rgba(35,33,31,0.18)] px-6 py-3 text-sm text-[#5A5550] hover:text-[#23211F]">
+            <button type="button" onClick={() => { setTranscript(""); setRawNotes(""); setInterim(""); setSeconds(0); setImageDataUrl(""); setImageName(""); setHtml(""); }} className="rounded-full border border-[rgba(35,33,31,0.18)] px-6 py-3 text-sm text-[#5A5550] hover:text-[#23211F]">
               Clear
             </button>
           </div>
