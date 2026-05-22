@@ -121,13 +121,7 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
           fill
           priority
           sizes="(min-width: 1024px) 46vw, 100vw"
-          className="object-contain opacity-[0.96] mix-blend-multiply"
-          style={{
-            maskImage:
-              'radial-gradient(ellipse at center, black 58%, rgba(0,0,0,0.82) 70%, transparent 86%)',
-            WebkitMaskImage:
-              'radial-gradient(ellipse at center, black 58%, rgba(0,0,0,0.82) 70%, transparent 86%)',
-          }}
+          className="object-contain"
         />
       </motion.div>
 
