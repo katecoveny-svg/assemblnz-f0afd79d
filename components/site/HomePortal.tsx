@@ -4,8 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
-import * as THREE from 'three';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import type { RegulatoryPulseStats } from '@/lib/regulatory-pulse';
@@ -98,229 +97,41 @@ const KETE_ACCENT_NAMES: Record<KeteSlug, string> = {
 };
 
 function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const layerAnimation = reduceMotion
-    ? undefined
-    : {
-        rotateY: [-7, 8, -7],
-        rotateX: [7, 2, 7],
-        y: [0, -10, 0],
-      };
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.28;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-    camera.position.set(0, 1.05, 6.65);
-    camera.lookAt(0, -0.08, 0);
-
-    const group = new THREE.Group();
-    group.rotation.x = -0.22;
-    group.scale.setScalar(1.28);
-    scene.add(group);
-
-    const whiteGlass = new THREE.MeshPhysicalMaterial({
-      color: 0xfaf7f2,
-      roughness: 0.04,
-      metalness: 0,
-      transparent: true,
-      opacity: 0.82,
-      transmission: 0.78,
-      thickness: 1.15,
-      clearcoat: 1,
-      clearcoatRoughness: 0.03,
-      side: THREE.DoubleSide,
-    });
-    const pounamuGlass = new THREE.MeshPhysicalMaterial({
-      color: 0x8fb7a6,
-      roughness: 0.12,
-      transparent: true,
-      opacity: 0.62,
-      transmission: 0.66,
-      thickness: 0.72,
-      clearcoat: 0.8,
-      side: THREE.DoubleSide,
-    });
-    const amberGlass = new THREE.MeshPhysicalMaterial({
-      color: 0xd9a85a,
-      roughness: 0.16,
-      transparent: true,
-      opacity: 0.58,
-      transmission: 0.54,
-      thickness: 0.62,
-      clearcoat: 0.8,
-      side: THREE.DoubleSide,
-    });
-    const threadMaterial = new THREE.MeshBasicMaterial({
-      color: 0xf3d79d,
-      transparent: true,
-      opacity: 0.74,
-    });
-    const whiteThreadMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.82,
-    });
-
-    const addDisc = (y: number, material: THREE.Material, scaleX: number, scaleZ: number, rotationZ: number) => {
-      const disc = new THREE.Mesh(new THREE.CircleGeometry(1.25, 96), material);
-      disc.rotation.x = -Math.PI / 2;
-      disc.rotation.z = rotationZ;
-      disc.position.y = y;
-      disc.scale.set(scaleX, scaleZ, 1);
-      group.add(disc);
-
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(1.25, 0.014, 16, 160), threadMaterial);
-      ring.rotation.x = -Math.PI / 2;
-      ring.rotation.z = rotationZ;
-      ring.position.y = y + 0.008;
-      ring.scale.set(scaleX, scaleZ, 1);
-      group.add(ring);
-      return { disc, ring };
-    };
-
-    const plates = [
-      addDisc(-0.44, amberGlass, 1.24, 0.6, -0.07),
-      addDisc(-0.25, pounamuGlass, 1.38, 0.54, 0.07),
-      addDisc(-0.06, whiteGlass, 1.1, 0.48, -0.02),
-    ];
-
-    const bowlGeometry = new THREE.SphereGeometry(1, 64, 18, 0, Math.PI * 2, Math.PI * 0.56, Math.PI * 0.34);
-    const bowl = new THREE.Mesh(bowlGeometry, whiteGlass);
-    bowl.position.set(0, -0.58, 0.02);
-    bowl.scale.set(1.02, 0.3, 0.56);
-    bowl.rotation.set(0.05, 0.1, 0);
-    group.add(bowl);
-
-    const sheetGeometry = new THREE.PlaneGeometry(1.72, 0.58, 52, 14);
-    const position = sheetGeometry.attributes.position;
-    for (let index = 0; index < position.count; index += 1) {
-      const x = position.getX(index);
-      const y = position.getY(index);
-      const z = Math.sin(x * 2.2) * 0.18 + Math.cos(y * 4.4) * 0.08;
-      position.setZ(index, z);
-    }
-    position.needsUpdate = true;
-    sheetGeometry.computeVertexNormals();
-    const sheet = new THREE.Mesh(sheetGeometry, whiteGlass);
-    sheet.rotation.set(-0.2, -0.26, 0.16);
-    sheet.position.set(0.06, 0.34, 0.08);
-    sheet.scale.set(1.05, 1, 1);
-    group.add(sheet);
-
-    const threads: THREE.Mesh[] = [];
-    for (let index = 0; index < 10; index += 1) {
-      const z = -0.42 + index * 0.09;
-      const curve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-1.28, -0.16 + Math.sin(index) * 0.04, z),
-        new THREE.Vector3(-0.44, 0.04 + Math.cos(index) * 0.06, z + 0.05),
-        new THREE.Vector3(0.46, -0.04 + Math.sin(index * 0.7) * 0.06, z - 0.02),
-        new THREE.Vector3(1.26, 0.06 + Math.cos(index * 0.4) * 0.05, z),
-      ]);
-      const tube = new THREE.Mesh(
-        new THREE.TubeGeometry(curve, 32, index % 3 === 0 ? 0.006 : 0.004, 8, false),
-        index % 4 === 0 ? whiteThreadMaterial : threadMaterial,
-      );
-      tube.rotation.x = -0.16;
-      tube.position.y = -0.04;
-      group.add(tube);
-      threads.push(tube);
-    }
-
-    const glintMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.88 });
-    const glints: THREE.Mesh[] = [];
-    for (let index = 0; index < 13; index += 1) {
-      const glint = new THREE.Mesh(new THREE.SphereGeometry(0.018 + (index % 3) * 0.006, 12, 12), glintMaterial);
-      glint.position.set(-1.08 + index * 0.18, 0.18 + Math.sin(index * 1.3) * 0.34, -0.36 + Math.cos(index) * 0.34);
-      group.add(glint);
-      glints.push(glint);
-    }
-
-    scene.add(new THREE.AmbientLight(0xffffff, 2.65));
-    const key = new THREE.DirectionalLight(0xffffff, 3);
-    key.position.set(-3, 4, 4);
-    scene.add(key);
-    const rim = new THREE.DirectionalLight(0xdce8e1, 2.4);
-    rim.position.set(3.4, 1.2, -2.8);
-    scene.add(rim);
-    const warm = new THREE.PointLight(0xd9a85a, 2.4, 8);
-    warm.position.set(2, 1.5, 2.5);
-    scene.add(warm);
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      const width = Math.max(1, rect.width);
-      const height = Math.max(1, rect.height);
-      renderer.setSize(width, height, false);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-    };
-    resize();
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(canvas);
-
-    let frame = 0;
-    let animationFrame = 0;
-    const render = () => {
-      frame += 0.01;
-      if (!reduceMotion) {
-        group.rotation.y = Math.sin(frame * 0.6) * 0.26;
-        group.rotation.z = Math.sin(frame * 0.38) * 0.025;
-        sheet.rotation.z = 0.12 + Math.sin(frame * 0.8) * 0.035;
-        bowl.rotation.z = Math.sin(frame * 0.42) * 0.018;
-        plates.forEach((plate, index) => {
-          plate.disc.rotation.z += 0.0018 + index * 0.0007;
-          plate.ring.rotation.z += 0.0022 + index * 0.0008;
-        });
-        threads.forEach((thread, index) => {
-          thread.position.y = -0.1 + Math.sin(frame * 1.4 + index * 0.4) * 0.025;
-        });
-        glints.forEach((glint, index) => {
-          glint.scale.setScalar(0.8 + Math.sin(frame * 3 + index) * 0.32);
-        });
-      }
-      renderer.render(scene, camera);
-      animationFrame = window.requestAnimationFrame(render);
-    };
-    render();
-
-    return () => {
-      window.cancelAnimationFrame(animationFrame);
-      resizeObserver.disconnect();
-      renderer.dispose();
-      [bowlGeometry, sheetGeometry, ...plates.flatMap((plate) => [plate.disc.geometry, plate.ring.geometry]), ...threads.map((thread) => thread.geometry), ...glints.map((glint) => glint.geometry)].forEach((geometry) => geometry.dispose());
-      [whiteGlass, pounamuGlass, amberGlass, threadMaterial, whiteThreadMaterial, glintMaterial].forEach((material) => material.dispose());
-    };
-  }, [reduceMotion]);
-
   return (
-    <div className="relative min-h-[430px] overflow-hidden rounded-[38px] border border-white/64 bg-[radial-gradient(circle_at_52%_35%,rgba(255,255,255,0.98),rgba(232,239,233,0.50)_38%,rgba(250,247,242,0.28)_68%,rgba(217,168,90,0.16)_100%)] shadow-[0_48px_150px_rgba(35,33,31,0.13)] backdrop-blur-2xl md:min-h-[600px] lg:min-h-[min(78svh,820px)]">
-      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-0" aria-hidden />
-      <video
-        className="absolute inset-0 z-10 h-full w-full object-cover object-[38%_50%]"
-        src="/videos/vessel-rotate-720p.mp4"
-        poster="/videos/vessel-canon-landscape-poster.jpg"
-        autoPlay={!reduceMotion}
-        loop
-        muted
-        playsInline
+    <div className="relative min-h-[430px] overflow-visible md:min-h-[600px] lg:min-h-[min(78svh,820px)]">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_52%_42%,rgba(255,255,255,0.90),rgba(232,239,233,0.28)_32%,rgba(217,168,90,0.12)_58%,transparent_82%)]" aria-hidden />
+      <div className="pointer-events-none absolute bottom-[13%] left-1/2 z-0 h-[18%] w-[72%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(35,33,31,0.24),rgba(35,33,31,0.07)_56%,transparent_78%)] blur-xl" aria-hidden />
+      <motion.div
+        className="pointer-events-none absolute inset-[-2%] z-20 drop-shadow-[0_48px_80px_rgba(35,33,31,0.18)]"
+        animate={
+          reduceMotion
+            ? undefined
+            : {
+                y: [0, -8, 0],
+                rotate: [-0.8, 0.8, -0.8],
+                scale: [1, 1.018, 1],
+              }
+        }
+        transition={{ duration: 8.5, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden
-      />
-      <div className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(circle_at_42%_42%,transparent_0%,transparent_48%,rgba(250,247,242,0.22)_72%,rgba(250,247,242,0.62)_100%)]" aria-hidden />
-      <div className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(250,247,242,0.20),transparent_28%,transparent_70%,rgba(250,247,242,0.36))]" aria-hidden />
-      <div className="pointer-events-none absolute left-[14%] top-[9%] h-24 w-24 rounded-full bg-white/80 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute right-[18%] top-[18%] h-32 w-32 rounded-full bg-[#D4A853]/20 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute bottom-[12%] left-1/2 h-[18%] w-[72%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(35,33,31,0.20),rgba(35,33,31,0.06)_54%,transparent_78%)] blur-xl" aria-hidden />
+      >
+        <Image
+          src="/img/home/assembl-hero-vessel-original.png"
+          alt=""
+          fill
+          priority
+          sizes="(min-width: 1024px) 52vw, 100vw"
+          className="object-contain opacity-[0.96] mix-blend-multiply"
+          style={{
+            maskImage:
+              'radial-gradient(ellipse at center, black 58%, rgba(0,0,0,0.82) 70%, transparent 86%)',
+            WebkitMaskImage:
+              'radial-gradient(ellipse at center, black 58%, rgba(0,0,0,0.82) 70%, transparent 86%)',
+          }}
+        />
+      </motion.div>
 
-      <div className="pointer-events-none absolute inset-0 z-20">
+      <div className="pointer-events-none absolute inset-0 z-30">
         {Array.from({ length: 11 }).map((_, index) => (
           <motion.span
             key={`hero-spark-${index}`}
@@ -337,8 +148,8 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
           />
         ))}
       </div>
-      <div className="pointer-events-none absolute inset-x-12 top-8 h-px bg-gradient-to-r from-transparent via-white/82 to-transparent" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-12 bottom-8 h-px bg-gradient-to-r from-transparent via-[#D4A853]/44 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-16 top-10 z-30 h-px bg-gradient-to-r from-transparent via-white/82 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-16 bottom-10 z-30 h-px bg-gradient-to-r from-transparent via-[#D4A853]/44 to-transparent" aria-hidden />
       <div className="relative z-30 flex min-h-[430px] items-end justify-center p-6 md:min-h-[600px] md:p-10 lg:min-h-[min(78svh,820px)]">
         <div className="h-[1px] w-[74%] rounded-full bg-white/70 shadow-[0_0_44px_rgba(255,255,255,0.70)]" aria-hidden />
       </div>
