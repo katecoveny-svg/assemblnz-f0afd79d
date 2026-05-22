@@ -34,8 +34,8 @@ export default async function StandaloneWorkflowPage({
   if (!workflow) notFound();
 
   return (
-    <section className="min-h-screen bg-[color:var(--assembl-paper)] px-5 py-6 md:px-8">
-      <header className="mx-auto flex max-w-[1180px] items-center justify-between gap-4">
+    <section className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#FAF7F2_0%,#F5EEE5_48%,#FAF7F2_100%)] px-4 py-5 text-[color:var(--text-primary)] md:px-8 md:py-7">
+      <header className="mx-auto flex max-w-[1500px] items-center justify-between gap-4">
         <Link
           href="/"
           className="font-display text-3xl font-normal lowercase leading-none text-[color:var(--text-primary)]"
@@ -49,29 +49,43 @@ export default async function StandaloneWorkflowPage({
           View workflow details <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       </header>
-      <main className="mx-auto mt-8 max-w-[1180px]">
-        <div className="mb-6">
-          <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
-            Shared workflow
-          </p>
-          <h1 className="mt-3 max-w-4xl font-display text-[clamp(3rem,7vw,5.2rem)] font-light italic leading-[0.95]">
-            {workflow.title}
-          </h1>
-          <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-[color:var(--text-body)]">
-            {workflow.description}
-          </p>
-          <div className="mt-5">
-            <ShareableToolActions
-              title={`${workflow.title} by assembl`}
-              text={workflow.description}
-              path={`/w/${workflow.slug}`}
-              embed={false}
-            />
+      <main className="mx-auto mt-6 max-w-[1500px] md:mt-10">
+        <section className="relative mb-6 overflow-hidden rounded-[24px] border border-white/70 bg-white/58 p-5 shadow-[0_30px_120px_rgba(35,33,31,0.10)] backdrop-blur md:mb-8 md:p-8">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_8%,rgba(217,168,90,0.20),transparent_28%),linear-gradient(135deg,rgba(43,107,87,0.08),transparent_42%)]" aria-hidden />
+          <div className="relative grid gap-7 lg:grid-cols-[minmax(0,0.72fr)_minmax(420px,0.58fr)] lg:items-end">
+            <div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
+                Shared Tōro tool
+              </p>
+              <h1 className="mt-4 max-w-4xl font-display text-[clamp(3.8rem,7vw,7.8rem)] font-light italic leading-[0.86] text-[#103F35]">
+                {workflow.title}
+              </h1>
+              <p className="mt-5 max-w-3xl text-[clamp(1.05rem,1.45vw,1.35rem)] leading-relaxed text-[color:var(--text-body)]">
+                {workflow.description}
+              </p>
+            </div>
+            <div className="rounded-[18px] border border-white/80 bg-[#FAF7F2]/72 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_22px_70px_rgba(35,33,31,0.08)] md:p-5">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+                Send this to another parent
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-secondary)]">
+                Opens directly to the live parser. Works on mobile camera upload, typed text, and supported browser speech capture.
+              </p>
+              <div className="mt-4">
+                <ShareableToolActions
+                  title={`${workflow.title} by assembl`}
+                  text={workflow.description}
+                  path={`/w/${workflow.slug}`}
+                  embed={false}
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
+
         <WorkflowRunner workflow={workflow} minimal />
       </main>
-      <footer className="mx-auto mt-10 max-w-[1180px] border-t border-[rgba(35,33,31,0.10)] py-5 text-sm text-[color:var(--text-secondary)]">
+      <footer className="mx-auto mt-10 max-w-[1500px] border-t border-[rgba(35,33,31,0.10)] py-5 text-sm text-[color:var(--text-secondary)]">
         <Link href="/">Powered by assembl</Link>
       </footer>
     </section>

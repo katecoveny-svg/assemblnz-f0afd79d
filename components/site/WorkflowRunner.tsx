@@ -55,7 +55,7 @@ export function WorkflowRunner({
     }, {});
   }, [workflow]);
   const [inputs, setInputs] = useState<Inputs>(initialInputs);
-  const [output, setOutput] = useState(workflow.sampleOutput);
+  const [output, setOutput] = useState(workflow.slug === 'school-notice-parser' ? '' : workflow.sampleOutput);
   const [running, setRunning] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
   const [imageDataUrl, setImageDataUrl] = useState('');
@@ -153,12 +153,12 @@ export function WorkflowRunner({
 
   return (
     <div
-      className={minimal ? 'mx-auto w-full max-w-[920px]' : 'grid gap-6 lg:grid-cols-[1.08fr_0.92fr]'}
+      className={minimal ? 'mx-auto w-full max-w-[1320px]' : 'grid gap-6 lg:grid-cols-[1.08fr_0.92fr]'}
       style={{ '--workflow-accent': kete.accent } as CSSProperties}
     >
       <section
         id="preview"
-        className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-5 shadow-[0_18px_60px_rgba(35,33,31,0.07)] backdrop-blur"
+        className="rounded-[18px] border border-white/70 bg-white/72 p-5 shadow-[0_24px_90px_rgba(35,33,31,0.10)] backdrop-blur md:p-7"
       >
         <div className="flex items-center justify-between gap-4">
           <div>
@@ -336,8 +336,10 @@ export function WorkflowRunner({
           </pre>
         ) : (
           <div
-            className="prose prose-sm mt-6 max-w-none rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5 text-[color:var(--text-body)]"
-            dangerouslySetInnerHTML={{ __html: output || '<p>Drafting...</p>' }}
+            className="prose prose-sm mt-6 max-w-none rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5 text-[color:var(--text-body)] md:p-6"
+            dangerouslySetInnerHTML={{
+              __html: output || '<p class="text-sm italic text-[#6B6661]">Upload a notice, speak what the teacher said, or paste the text, then run the preview.</p>',
+            }}
           />
         )}
       </section>
