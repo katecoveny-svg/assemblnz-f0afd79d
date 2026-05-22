@@ -28,6 +28,24 @@ const FEATURED_HAPAI_TOOLS = FEATURED_HAPAI_TOOL_SLUGS.map((slug) =>
   ALL_HAPAI_TOOLS.find((tool) => tool.slug === slug),
 ).filter((tool): tool is (typeof ALL_HAPAI_TOOLS)[number] => Boolean(tool));
 
+const HAPAI_CARD_STYLES = [
+  {
+    label: 'school night',
+    glow: 'rgba(43,107,87,0.20)',
+    wash: 'radial-gradient(circle at 22% 10%, rgba(255,255,255,0.94), transparent 34%), linear-gradient(135deg, rgba(232,239,233,0.82), rgba(250,247,242,0.70) 52%, rgba(217,168,90,0.16))',
+  },
+  {
+    label: 'meeting room',
+    glow: 'rgba(37,95,148,0.18)',
+    wash: 'radial-gradient(circle at 80% 0%, rgba(255,255,255,0.96), transparent 38%), linear-gradient(135deg, rgba(239,234,225,0.92), rgba(250,247,242,0.72) 46%, rgba(220,232,225,0.62))',
+  },
+  {
+    label: 'morning desk',
+    glow: 'rgba(217,168,90,0.22)',
+    wash: 'radial-gradient(circle at 18% 14%, rgba(255,255,255,0.96), transparent 36%), linear-gradient(135deg, rgba(250,247,242,0.86), rgba(232,239,233,0.70) 54%, rgba(217,168,90,0.22))',
+  },
+] as const;
+
 const PRICING_ENTRY_POINTS = [
   [
     'PILOT SPRINT',
@@ -96,34 +114,38 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.28;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-    camera.position.set(0, 0.28, 7.4);
+    camera.position.set(0, 1.05, 6.65);
+    camera.lookAt(0, -0.08, 0);
 
     const group = new THREE.Group();
-    group.rotation.x = -0.18;
+    group.rotation.x = -0.22;
+    group.scale.setScalar(1.28);
     scene.add(group);
 
     const whiteGlass = new THREE.MeshPhysicalMaterial({
       color: 0xfaf7f2,
-      roughness: 0.08,
+      roughness: 0.04,
       metalness: 0,
       transparent: true,
-      opacity: 0.56,
-      transmission: 0.72,
-      thickness: 0.9,
+      opacity: 0.82,
+      transmission: 0.78,
+      thickness: 1.15,
       clearcoat: 1,
-      clearcoatRoughness: 0.08,
+      clearcoatRoughness: 0.03,
       side: THREE.DoubleSide,
     });
     const pounamuGlass = new THREE.MeshPhysicalMaterial({
       color: 0x8fb7a6,
       roughness: 0.12,
       transparent: true,
-      opacity: 0.34,
-      transmission: 0.58,
-      thickness: 0.6,
+      opacity: 0.62,
+      transmission: 0.66,
+      thickness: 0.72,
       clearcoat: 0.8,
       side: THREE.DoubleSide,
     });
@@ -131,9 +153,9 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
       color: 0xd9a85a,
       roughness: 0.16,
       transparent: true,
-      opacity: 0.38,
-      transmission: 0.46,
-      thickness: 0.5,
+      opacity: 0.58,
+      transmission: 0.54,
+      thickness: 0.62,
       clearcoat: 0.8,
       side: THREE.DoubleSide,
     });
@@ -166,12 +188,19 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
     };
 
     const plates = [
-      addDisc(-0.64, amberGlass, 1.72, 0.28, -0.07),
-      addDisc(-0.38, pounamuGlass, 1.9, 0.24, 0.07),
-      addDisc(-0.13, whiteGlass, 1.62, 0.21, -0.02),
+      addDisc(-0.44, amberGlass, 1.24, 0.6, -0.07),
+      addDisc(-0.25, pounamuGlass, 1.38, 0.54, 0.07),
+      addDisc(-0.06, whiteGlass, 1.1, 0.48, -0.02),
     ];
 
-    const sheetGeometry = new THREE.PlaneGeometry(3.35, 1.32, 52, 14);
+    const bowlGeometry = new THREE.SphereGeometry(1, 64, 18, 0, Math.PI * 2, Math.PI * 0.56, Math.PI * 0.34);
+    const bowl = new THREE.Mesh(bowlGeometry, whiteGlass);
+    bowl.position.set(0, -0.58, 0.02);
+    bowl.scale.set(1.02, 0.3, 0.56);
+    bowl.rotation.set(0.05, 0.1, 0);
+    group.add(bowl);
+
+    const sheetGeometry = new THREE.PlaneGeometry(1.72, 0.58, 52, 14);
     const position = sheetGeometry.attributes.position;
     for (let index = 0; index < position.count; index += 1) {
       const x = position.getX(index);
@@ -182,25 +211,26 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
     position.needsUpdate = true;
     sheetGeometry.computeVertexNormals();
     const sheet = new THREE.Mesh(sheetGeometry, whiteGlass);
-    sheet.rotation.set(-0.28, -0.24, 0.12);
-    sheet.position.set(0, 0.58, 0.1);
+    sheet.rotation.set(-0.2, -0.26, 0.16);
+    sheet.position.set(0.06, 0.34, 0.08);
+    sheet.scale.set(1.05, 1, 1);
     group.add(sheet);
 
     const threads: THREE.Mesh[] = [];
-    for (let index = 0; index < 18; index += 1) {
-      const z = -0.92 + index * 0.11;
+    for (let index = 0; index < 10; index += 1) {
+      const z = -0.42 + index * 0.09;
       const curve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(-1.95, -0.1 + Math.sin(index) * 0.08, z),
-        new THREE.Vector3(-0.7, 0.22 + Math.cos(index) * 0.1, z + 0.08),
-        new THREE.Vector3(0.62, 0.03 + Math.sin(index * 0.7) * 0.1, z - 0.03),
-        new THREE.Vector3(1.9, 0.18 + Math.cos(index * 0.4) * 0.09, z),
+        new THREE.Vector3(-1.28, -0.16 + Math.sin(index) * 0.04, z),
+        new THREE.Vector3(-0.44, 0.04 + Math.cos(index) * 0.06, z + 0.05),
+        new THREE.Vector3(0.46, -0.04 + Math.sin(index * 0.7) * 0.06, z - 0.02),
+        new THREE.Vector3(1.26, 0.06 + Math.cos(index * 0.4) * 0.05, z),
       ]);
       const tube = new THREE.Mesh(
         new THREE.TubeGeometry(curve, 32, index % 3 === 0 ? 0.006 : 0.004, 8, false),
         index % 4 === 0 ? whiteThreadMaterial : threadMaterial,
       );
       tube.rotation.x = -0.16;
-      tube.position.y = -0.1;
+      tube.position.y = -0.04;
       group.add(tube);
       threads.push(tube);
     }
@@ -209,15 +239,18 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
     const glints: THREE.Mesh[] = [];
     for (let index = 0; index < 13; index += 1) {
       const glint = new THREE.Mesh(new THREE.SphereGeometry(0.018 + (index % 3) * 0.006, 12, 12), glintMaterial);
-      glint.position.set(-1.6 + index * 0.28, 0.58 + Math.sin(index * 1.3) * 0.48, -0.6 + Math.cos(index) * 0.52);
+      glint.position.set(-1.08 + index * 0.18, 0.18 + Math.sin(index * 1.3) * 0.34, -0.36 + Math.cos(index) * 0.34);
       group.add(glint);
       glints.push(glint);
     }
 
-    scene.add(new THREE.AmbientLight(0xffffff, 2.2));
+    scene.add(new THREE.AmbientLight(0xffffff, 2.65));
     const key = new THREE.DirectionalLight(0xffffff, 3);
     key.position.set(-3, 4, 4);
     scene.add(key);
+    const rim = new THREE.DirectionalLight(0xdce8e1, 2.4);
+    rim.position.set(3.4, 1.2, -2.8);
+    scene.add(rim);
     const warm = new THREE.PointLight(0xd9a85a, 2.4, 8);
     warm.position.set(2, 1.5, 2.5);
     scene.add(warm);
@@ -239,9 +272,10 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
     const render = () => {
       frame += 0.01;
       if (!reduceMotion) {
-        group.rotation.y = Math.sin(frame * 0.6) * 0.22;
+        group.rotation.y = Math.sin(frame * 0.6) * 0.26;
         group.rotation.z = Math.sin(frame * 0.38) * 0.025;
         sheet.rotation.z = 0.12 + Math.sin(frame * 0.8) * 0.035;
+        bowl.rotation.z = Math.sin(frame * 0.42) * 0.018;
         plates.forEach((plate, index) => {
           plate.disc.rotation.z += 0.0018 + index * 0.0007;
           plate.ring.rotation.z += 0.0022 + index * 0.0008;
@@ -262,115 +296,51 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
       window.cancelAnimationFrame(animationFrame);
       resizeObserver.disconnect();
       renderer.dispose();
-      [sheetGeometry, ...plates.flatMap((plate) => [plate.disc.geometry, plate.ring.geometry]), ...threads.map((thread) => thread.geometry), ...glints.map((glint) => glint.geometry)].forEach((geometry) => geometry.dispose());
+      [bowlGeometry, sheetGeometry, ...plates.flatMap((plate) => [plate.disc.geometry, plate.ring.geometry]), ...threads.map((thread) => thread.geometry), ...glints.map((glint) => glint.geometry)].forEach((geometry) => geometry.dispose());
       [whiteGlass, pounamuGlass, amberGlass, threadMaterial, whiteThreadMaterial, glintMaterial].forEach((material) => material.dispose());
     };
   }, [reduceMotion]);
 
   return (
-    <div className="relative min-h-[420px] overflow-hidden rounded-[30px] border border-white/58 bg-[linear-gradient(145deg,rgba(255,255,255,0.66)_0%,rgba(250,247,242,0.30)_46%,rgba(232,239,233,0.48)_100%)] p-4 shadow-[0_42px_130px_rgba(35,33,31,0.12)] backdrop-blur-2xl md:min-h-[540px] md:p-8 lg:min-h-[min(72svh,720px)]">
-      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 z-10 h-full w-full" aria-hidden />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(43,107,87,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(43,107,87,0.03)_1px,transparent_1px)] bg-[size:42px_42px]" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-10 top-8 h-px bg-gradient-to-r from-transparent via-[#D4A853]/58 to-transparent" aria-hidden />
-      <div className="pointer-events-none absolute inset-x-10 bottom-8 h-px bg-gradient-to-r from-transparent via-[#2B6B57]/24 to-transparent" aria-hidden />
+    <div className="relative min-h-[430px] overflow-hidden rounded-[38px] border border-white/64 bg-[radial-gradient(circle_at_52%_35%,rgba(255,255,255,0.98),rgba(232,239,233,0.50)_38%,rgba(250,247,242,0.28)_68%,rgba(217,168,90,0.16)_100%)] shadow-[0_48px_150px_rgba(35,33,31,0.13)] backdrop-blur-2xl md:min-h-[560px] lg:min-h-[min(74svh,760px)]">
+      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-0" aria-hidden />
+      <video
+        className="absolute inset-0 z-10 h-full w-full object-cover object-[38%_50%]"
+        src="/videos/vessel-rotate-720p.mp4"
+        poster="/videos/vessel-canon-landscape-poster.jpg"
+        autoPlay={!reduceMotion}
+        loop
+        muted
+        playsInline
+        aria-hidden
+      />
+      <div className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(circle_at_42%_42%,transparent_0%,transparent_48%,rgba(250,247,242,0.22)_72%,rgba(250,247,242,0.62)_100%)]" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(90deg,rgba(250,247,242,0.20),transparent_28%,transparent_70%,rgba(250,247,242,0.36))]" aria-hidden />
+      <div className="pointer-events-none absolute left-[14%] top-[9%] h-24 w-24 rounded-full bg-white/80 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute right-[18%] top-[18%] h-32 w-32 rounded-full bg-[#D4A853]/20 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute bottom-[12%] left-1/2 h-[18%] w-[72%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(35,33,31,0.20),rgba(35,33,31,0.06)_54%,transparent_78%)] blur-xl" aria-hidden />
 
-      <div className="relative flex h-full min-h-[392px] items-center justify-center md:min-h-[500px]">
-        <div className="relative mx-auto flex min-h-[350px] w-full max-w-[720px] items-center justify-center [perspective:1400px] md:min-h-[470px]">
-          <div className="absolute left-1/2 top-1/2 h-[70%] w-[86%] -translate-x-1/2 -translate-y-[28%] rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.82),rgba(43,107,87,0.22)_42%,rgba(217,168,90,0.16)_62%,transparent_78%)] blur-2xl" aria-hidden />
-          <div className="absolute bottom-[12%] left-1/2 h-[16%] w-[74%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(35,33,31,0.22),rgba(35,33,31,0.07)_52%,transparent_76%)] blur-xl" aria-hidden />
-
-          <motion.div
-            className="relative h-[330px] w-[min(84vw,620px)] [transform-style:preserve-3d] md:h-[430px]"
-            animate={layerAnimation}
-            transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            {Array.from({ length: 18 }).map((_, index) => {
-              const left = 12 + index * 4.3;
-              const height = 42 + (index % 5) * 8;
-              const delay = index * 0.18;
-              return (
-                <motion.span
-                  key={`loom-thread-${index}`}
-                  aria-hidden
-                  className="absolute top-[18%] w-px rounded-full bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.82),rgba(212,168,83,0.56),rgba(43,107,87,0.28),transparent)] shadow-[0_0_14px_rgba(255,255,255,0.62)]"
-                  style={{
-                    left: `${left}%`,
-                    height: `${height}%`,
-                    transform: `rotate(${index % 2 === 0 ? -13 : 16}deg) translateZ(${50 + index * 3}px)`,
-                    opacity: 0.22 + (index % 4) * 0.08,
-                  }}
-                  animate={reduceMotion ? undefined : { opacity: [0.2, 0.62, 0.2], y: [0, -4, 0] }}
-                  transition={{ duration: 4.8, delay, repeat: Infinity, ease: 'easeInOut' }}
-                />
-              );
-            })}
-            {Array.from({ length: 9 }).map((_, index) => (
-              <motion.span
-                key={`glint-${index}`}
-                aria-hidden
-                className="absolute h-px rounded-full bg-white shadow-[0_0_20px_rgba(255,255,255,0.95),0_0_34px_rgba(212,168,83,0.40)]"
-                style={{
-                  left: `${18 + index * 7.5}%`,
-                  top: `${19 + (index % 4) * 13}%`,
-                  width: `${22 + (index % 3) * 16}px`,
-                  transform: `rotate(${index % 2 === 0 ? 34 : -28}deg) translateZ(${140 + index * 4}px)`,
-                }}
-                animate={reduceMotion ? undefined : { opacity: [0.05, 0.9, 0.05], scaleX: [0.55, 1.25, 0.55] }}
-                transition={{ duration: 3.6, delay: index * 0.34, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            ))}
-            <motion.div
-              className="absolute left-[11%] top-[58%] h-[21%] w-[78%] rounded-[50%] border border-[#8B765F]/34 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(157,140,125,0.26))] shadow-[0_34px_58px_rgba(35,33,31,0.20)] backdrop-blur-md [transform:rotateX(64deg)_translateZ(-82px)]"
-              animate={reduceMotion ? undefined : { x: [0, 5, 0] }}
-              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              className="absolute left-[4%] top-[49%] h-[17%] w-[92%] rounded-[50%] border border-[#D4A853]/58 bg-[linear-gradient(90deg,rgba(212,168,83,0.38),rgba(255,255,255,0.82),rgba(212,168,83,0.30))] shadow-[0_30px_70px_rgba(212,168,83,0.22)] backdrop-blur-xl [transform:rotateX(68deg)_rotateZ(-5deg)_translateZ(-26px)]"
-              animate={reduceMotion ? undefined : { rotateZ: [-5, -1, -5] }}
-              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              className="absolute left-[2%] top-[40%] h-[16%] w-[96%] rounded-[50%] border border-[#2B6B57]/46 bg-[linear-gradient(90deg,rgba(202,222,214,0.42),rgba(255,255,255,0.84),rgba(43,107,87,0.30))] shadow-[0_28px_80px_rgba(43,107,87,0.18)] backdrop-blur-xl [transform:rotateX(66deg)_rotateZ(4deg)_translateZ(18px)]"
-              animate={reduceMotion ? undefined : { rotateZ: [4, 8, 4] }}
-              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              className="absolute left-[18%] top-[12%] h-[42%] w-[64%] rounded-[42%_58%_48%_52%] border border-white/86 bg-[linear-gradient(135deg,rgba(255,255,255,0.78),rgba(250,247,242,0.20)_46%,rgba(232,239,233,0.42))] shadow-[inset_0_0_74px_rgba(255,255,255,0.94),0_42px_96px_rgba(35,33,31,0.14)] backdrop-blur-xl [transform:rotateX(10deg)_rotateY(-16deg)_rotateZ(7deg)_translateZ(84px)]"
-              animate={reduceMotion ? undefined : { rotateZ: [7, 12, 7], y: [0, -5, 0] }}
-              transition={{ duration: 8.5, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              className="absolute left-[49%] top-[16%] h-[52%] w-[2px] rounded-full bg-[linear-gradient(180deg,rgba(212,168,83,0),rgba(255,255,255,0.92),rgba(212,168,83,0.70),rgba(212,168,83,0))] shadow-[0_0_24px_rgba(212,168,83,0.46)] [transform:rotateZ(22deg)_translateZ(142px)]"
-              animate={reduceMotion ? undefined : { rotateZ: [22, 28, 22] }}
-              transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              className="absolute left-[8%] top-[11%] h-[64%] w-[84%] rounded-[50%] border border-[#D4A853]/34 opacity-80 [transform:rotateX(70deg)_rotateZ(22deg)_translateZ(96px)]"
-              animate={reduceMotion ? undefined : { rotateZ: [22, 42, 22] }}
-              transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              className="absolute left-[21%] top-[7%] h-[72%] w-[58%] rounded-[50%] border border-[#2B6B57]/22 opacity-70 [transform:rotateX(74deg)_rotateZ(-24deg)_translateZ(124px)]"
-              animate={reduceMotion ? undefined : { rotateZ: [-24, -44, -24] }}
-              transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            {Array.from({ length: 14 }).map((_, index) => (
-              <motion.span
-                key={`front-thread-${index}`}
-                aria-hidden
-                className="absolute left-[12%] h-px rounded-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.92),rgba(212,168,83,0.68),rgba(43,107,87,0.34),transparent)] shadow-[0_0_18px_rgba(255,255,255,0.88),0_0_30px_rgba(212,168,83,0.24)]"
-                style={{
-                  top: `${24 + index * 3.4}%`,
-                  width: `${58 + (index % 3) * 8}%`,
-                  transform: `rotate(${index % 2 === 0 ? -8 : 10}deg) translateZ(${170 + index * 5}px)`,
-                  opacity: 0.26 + (index % 5) * 0.08,
-                }}
-                animate={reduceMotion ? undefined : { opacity: [0.18, 0.72, 0.18], x: [0, index % 2 === 0 ? 8 : -8, 0] }}
-                transition={{ duration: 5.8, delay: index * 0.16, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            ))}
-          </motion.div>
-        </div>
+      <div className="pointer-events-none absolute inset-0 z-20">
+        {Array.from({ length: 11 }).map((_, index) => (
+          <motion.span
+            key={`hero-spark-${index}`}
+            aria-hidden
+            className="absolute h-px rounded-full bg-white shadow-[0_0_18px_rgba(255,255,255,0.96),0_0_34px_rgba(212,168,83,0.42)]"
+            style={{
+              left: `${18 + index * 6.7}%`,
+              top: `${18 + (index % 5) * 13}%`,
+              width: `${20 + (index % 4) * 13}px`,
+              transform: `rotate(${index % 2 === 0 ? 32 : -26}deg)`,
+            }}
+            animate={reduceMotion ? undefined : { opacity: [0, 0.9, 0], scaleX: [0.52, 1.25, 0.52] }}
+            transition={{ duration: 3.2, delay: index * 0.28, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        ))}
+      </div>
+      <div className="pointer-events-none absolute inset-x-12 top-8 h-px bg-gradient-to-r from-transparent via-white/82 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-12 bottom-8 h-px bg-gradient-to-r from-transparent via-[#D4A853]/44 to-transparent" aria-hidden />
+      <div className="relative z-30 flex min-h-[430px] items-end justify-center p-6 md:min-h-[560px] md:p-10 lg:min-h-[min(74svh,760px)]">
+        <div className="h-[1px] w-[74%] rounded-full bg-white/70 shadow-[0_0_44px_rgba(255,255,255,0.70)]" aria-hidden />
       </div>
     </div>
   );
@@ -591,25 +561,41 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
               >
                 <Link
                   href={tool.href}
-                  className="group flex min-h-[390px] flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] transition-colors hover:border-[color:var(--assembl-pounamu)] hover:bg-white"
+                  className="group relative flex min-h-[460px] flex-col overflow-hidden rounded-[30px] border border-white/68 p-3 shadow-[0_24px_90px_rgba(35,33,31,0.09)] transition-all duration-300 hover:-translate-y-1 hover:border-white hover:shadow-[0_34px_120px_rgba(35,33,31,0.13)]"
+                  style={{
+                    background: HAPAI_CARD_STYLES[index % HAPAI_CARD_STYLES.length].wash,
+                    boxShadow: `0 24px 90px rgba(35,33,31,0.09), 0 0 70px ${HAPAI_CARD_STYLES[index % HAPAI_CARD_STYLES.length].glow}`,
+                  }}
                 >
-                  <span className="relative block aspect-[16/10] border-b border-[rgba(35,33,31,0.10)] bg-white">
-                    <span className="block h-full transition-transform duration-500 group-hover:scale-[1.025]">
+                  <span className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" aria-hidden />
+                  <span className="relative block aspect-[16/11] overflow-hidden rounded-[24px] border border-white/72 bg-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_18px_55px_rgba(35,33,31,0.08)] backdrop-blur-xl">
+                    <span className="block h-full transition-transform duration-700 group-hover:scale-[1.035]">
                       <HapaiToolPreview visual={tool.visual} />
                     </span>
+                    <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.18),transparent_42%,rgba(35,33,31,0.04))]" aria-hidden />
                   </span>
-                  <span className="flex flex-1 flex-col p-5">
-                    <span className="w-fit rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#FAF7F2]">
-                      LIVE
+                  <span className="flex flex-1 flex-col px-4 pb-4 pt-5">
+                    <span className="flex items-center justify-between gap-3">
+                      <span className="w-fit rounded-full border border-white/70 bg-white/58 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57] shadow-sm backdrop-blur-md">
+                        {HAPAI_CARD_STYLES[index % HAPAI_CARD_STYLES.length].label}
+                      </span>
+                      <span className="rounded-full border border-[rgba(43,107,87,0.16)] bg-white/50 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57] backdrop-blur-md">
+                        live
+                      </span>
                     </span>
-                    <span className="mt-5 block font-display text-2xl font-light italic leading-none">
+                    <span className="mt-6 block font-display text-[clamp(2rem,3.2vw,3rem)] font-light italic leading-[0.9] text-[#103F35]">
                       {tool.name}
                     </span>
-                    <span className="mt-4 block text-sm leading-relaxed text-[color:var(--text-body)]">
+                    <span className="mt-4 block min-h-[74px] text-[15px] leading-relaxed text-[#23211F]/82">
                       {tool.description}
                     </span>
-                    <span className="mt-auto inline-flex items-center gap-2 pt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
-                      Open the tool <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                    <span className="mt-auto flex items-center justify-between gap-4 pt-7">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
+                        shareable · draft only
+                      </span>
+                      <span className="inline-flex h-11 items-center gap-2 rounded-full border border-white/70 bg-white/60 px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_12px_30px_rgba(43,107,87,0.10)] backdrop-blur-md transition-colors group-hover:bg-white">
+                        Open <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                      </span>
                     </span>
                   </span>
                 </Link>
@@ -625,17 +611,21 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
             >
               <Link
               href="/hapai"
-              className="group flex min-h-[300px] flex-col justify-between rounded-[8px] border border-[rgba(43,107,87,0.28)] bg-[color:var(--assembl-pounamu)] p-6 text-[#FAF7F2] transition-transform hover:-translate-y-0.5"
+              className="group relative flex min-h-[460px] flex-col justify-between overflow-hidden rounded-[30px] border border-white/50 bg-[radial-gradient(circle_at_22%_14%,rgba(255,255,255,0.34),transparent_34%),linear-gradient(135deg,#2B6B57,#153F35_62%,#0D2822)] p-7 text-[#FAF7F2] shadow-[0_30px_100px_rgba(43,107,87,0.24)] transition-transform hover:-translate-y-1"
               >
-                <span aria-hidden />
+                <span className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/14" aria-hidden />
+                <span className="pointer-events-none absolute bottom-0 left-0 h-44 w-full bg-[linear-gradient(0deg,rgba(255,255,255,0.16),transparent)]" aria-hidden />
+                <span className="relative font-mono text-[10px] uppercase tracking-[0.20em] text-[#D9A85A]">
+                  full HAPAI library
+                </span>
                 <span>
-                  <span className="block font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+                  <span className="relative block font-display text-[clamp(2.7rem,4vw,4.2rem)] font-light italic leading-[0.88] text-[#FAF7F2]">
                     See the full library.
                   </span>
-                  <span className="mt-4 block text-sm leading-relaxed text-[#FAF7F2]/82">
-                    Live tools your team can try on real work today.
+                  <span className="relative mt-5 block max-w-sm text-base leading-relaxed text-[#FAF7F2]/82">
+                    Tools for study, meetings, travel, school notices, food logs, cards, briefs, and the jobs people actually need done.
                   </span>
-                  <span className="mt-5 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em]">
+                  <span className="relative mt-7 inline-flex h-11 items-center gap-2 rounded-full border border-white/30 bg-white/16 px-4 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.28)] backdrop-blur-md">
                     Open HAPAI <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                   </span>
                 </span>
