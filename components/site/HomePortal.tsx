@@ -15,6 +15,7 @@ import { HAPAI_TOOLS as ALL_HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 import { MarketplaceStrip } from './MarketplaceStrip';
 import { RegulatoryPulse } from './RegulatoryPulse';
 import { ThreeSteps } from './ThreeSteps';
+import { AssemblHeroVesselScene } from './AssemblHeroVesselScene';
 
 interface HomePortalProps {
   ketes: Kete[];
@@ -101,30 +102,7 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
     <div className="relative min-h-[340px] overflow-visible md:min-h-[520px] lg:min-h-[min(64svh,660px)]">
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_52%_42%,rgba(255,255,255,0.90),rgba(232,239,233,0.28)_32%,rgba(217,168,90,0.12)_58%,transparent_82%)]" aria-hidden />
       <div className="pointer-events-none absolute bottom-[13%] left-1/2 z-0 h-[18%] w-[72%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(35,33,31,0.24),rgba(35,33,31,0.07)_56%,transparent_78%)] blur-xl" aria-hidden />
-      <motion.div
-        className="pointer-events-none absolute inset-[2%] z-20 drop-shadow-[0_36px_70px_rgba(35,33,31,0.16)] md:inset-[-1%]"
-        animate={
-          reduceMotion
-            ? undefined
-            : {
-                y: [0, -8, 0],
-                rotate: [-0.8, 0.8, -0.8],
-                scale: [1, 1.018, 1],
-              }
-        }
-        transition={{ duration: 8.5, repeat: Infinity, ease: 'easeInOut' }}
-        aria-hidden
-      >
-        <Image
-          src="/img/home/assembl-hero-vessel-original.png"
-          alt=""
-          fill
-          priority
-          unoptimized
-          sizes="(min-width: 1024px) 820px, 100vw"
-          className="object-contain"
-        />
-      </motion.div>
+      <AssemblHeroVesselScene reduceMotion={Boolean(reduceMotion)} />
 
       <div className="pointer-events-none absolute inset-0 z-30">
         {Array.from({ length: 11 }).map((_, index) => (
