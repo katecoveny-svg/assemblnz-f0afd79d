@@ -120,7 +120,8 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
           alt=""
           fill
           priority
-          sizes="(min-width: 1024px) 46vw, 100vw"
+          unoptimized
+          sizes="(min-width: 1024px) 820px, 100vw"
           className="object-contain"
         />
       </motion.div>
