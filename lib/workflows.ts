@@ -411,13 +411,18 @@ ${COMMON_RULES}
   },
   {
     slug: 'school-notice-parser',
-    title: 'School notice parser',
+    title: 'School notice and timetable parser',
     kete: 'toro',
-    description: 'Paste the notice from school. Get the dates, gear list, and what your whānau need to do.',
+    description: 'Photograph a notice or timetable, speak what the teacher said, or paste the text. Get dates, payments, forms, and a gear list for the kids.',
     timeSavedMin: 8,
     priceLabel: 'Free in Tōro ($29/mo)',
     inputs: [
-      { id: 'notice_text', label: 'Notice text', type: 'textarea', required: true },
+      {
+        id: 'notice_text',
+        label: 'Extra notes or pasted text',
+        type: 'textarea',
+        placeholder: 'Optional: paste the notice text, or add context like "Jack has PE on Tuesday and rugby after school".',
+      },
       { id: 'child_name', label: 'Child name', type: 'text' },
     ],
     systemPrompt: `You are Tōro, assembl's whānau specialist. Parse a school notice into a clear family action plan.
@@ -447,10 +452,10 @@ ${COMMON_RULES}
 - For "Cost": always state the payment method if mentioned (cash, EFTPOS, direct credit) and the due date.
 - Never wrap the entire output in markdown code fences. Output starts with <h2>.`,
     outputShape: 'structured-html',
-    requirements: ["Doesn't add to your calendar automatically", "Doesn't pay for the trip - just flags the cost"],
-    whatItDoes: ['Extracts dates', 'Builds a gear list', 'Names actions and costs', 'Creates a calendar-ready summary'],
+    requirements: ["Doesn't add to your calendar automatically", "Doesn't pay for the trip - just flags the cost", 'Needs a human check before relying on a school deadline'],
+    whatItDoes: ['Reads a notice photo or timetable', 'Extracts dates, payments, and forms', 'Builds a pack / wear / bring list', 'Creates a calendar-ready summary'],
     sampleInput: { notice_text: 'Camp is on 12 June. Bring sleeping bag, raincoat, lunch, and $18 by Friday.', child_name: 'Mika' },
-    sampleOutput: `<h2>School notice parsed — Mika's camp</h2>
+    sampleOutput: `<h2>School notice parsed — Mika</h2>
 <h3>Key dates</h3>
 <ul>
   <li><strong>Friday this week</strong> — $18 payment due</li>

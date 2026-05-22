@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'crypto';
 import { NextRequest } from 'next/server';
 import { getServiceClient } from '@/lib/supabase/service';
+import { parseSchoolNewsletter, type SchoolSurvivalItem } from '@/lib/toro/newsletter-parser';
 import { getWorkflow, workflowMessage } from '@/lib/workflows';
 
 export const runtime = 'nodejs';
@@ -10,6 +11,7 @@ type WorkflowRunRequest = {
   slug?: string;
   tenant?: string;
   inputs?: Record<string, unknown>;
+  imageDataUrl?: string;
 };
 
 function htmlDraft(title: string, body: string) {
@@ -21,6 +23,128 @@ function htmlDraft(title: string, body: string) {
     '<p>Reviewed by: [named person] · Date: [today]</p>',
     '<h3>Filed record</h3>',
     '<p>Sources, assumptions, edits, timestamp, and hash-chain entry are captured when your team signs off.</p>',
+  ].join('');
+}
+
+function dataUrlToFile(dataUrl?: string, filename = 'school-notice.jpg') {
+  if (!dataUrl) return null;
+  const match = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+  if (!match) return null;
+  const [, mediaType, base64] = match;
+  const extension = mediaType.split('/')[1]?.split('+')[0] ?? 'jpg';
+  const buffer = Buffer.from(base64, 'base64');
+  return new File([buffer], filename.includes('.') ? filename : `${filename}.${extension}`, { type: mediaType });
+}
+
+function formatSchoolDate(value: string) {
+  const date = new Date(`${value}T12:00:00+12:00`);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat('en-NZ', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  }).format(date);
+}
+
+function compactUnique(values: Array<string | undefined | null>) {
+  return [...new Set(values.map((value) => value?.trim()).filter((value): value is string => Boolean(value)))];
+}
+
+function renderList(items: string[], fallback: string) {
+  if (!items.length) return `<p>${escapeHtml(fallback)}</p>`;
+  return `<ul>${items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
+}
+
+function visibleTime(item: SchoolSurvivalItem) {
+  if (!item.time) return '';
+  if (item.time === '12:00' && !/\b(?:[01]?\d|2[0-3])(?::[0-5]\d)?\s*(?:am|pm)\b|[01]?\d:[0-5]\d/i.test(item.source_paragraph)) {
+    return '';
+  }
+  return `, ${item.time}`;
+}
+
+function extractBringItems(text: string) {
+  const matches = [...text.matchAll(/\b(?:bring|pack|wear)\b\s+([^.!?;]+)/gi)];
+  return compactUnique(
+    matches.flatMap((match) =>
+      match[1]
+        .split(/,|\band\b/gi)
+        .map((part) => part.replace(/\b(by|on|for|to)\b.*$/i, '').trim())
+        .filter((part) => part.length > 2 && !/^\$/.test(part)),
+    ),
+  );
+}
+
+function schoolNoticeOutput({
+  childName,
+  items,
+  sourceType,
+  sourceText: rawSourceText,
+}: {
+  childName: string;
+  items: SchoolSurvivalItem[];
+  sourceType: string;
+  sourceText?: string;
+}) {
+  const safeName = childName || 'your tamariki';
+  const sorted = [...items].sort((a, b) => `${a.date} ${a.time ?? ''}`.localeCompare(`${b.date} ${b.time ?? ''}`));
+  const sourceText = rawSourceText || sorted.map((item) => item.source_paragraph).join('\n');
+  const dateLines = compactUnique(
+    sorted.map((item) => {
+      if (!item.date) return null;
+      const time = visibleTime(item);
+      return `${formatSchoolDate(item.date)}${time} - ${item.title}`;
+    }),
+  );
+  const gear = compactUnique(
+    [
+      ...sorted
+        .filter((item) => item.kind === 'gear' || /\b(bring|wear|pack|gear|lunch|water|uniform|togs|shoes|device)\b/i.test(item.source_paragraph))
+        .flatMap((item) => [item.item, item.title]),
+      ...extractBringItems(sourceText),
+    ],
+  );
+  const paymentMatches = [...sourceText.matchAll(/\$\s?(\d+(?:,\d{3})*(?:\.\d{1,2})?)/g)].map((match) => `$${match[1]}`);
+  const payments = compactUnique(
+    [
+      ...sorted
+        .filter((item) => item.kind === 'payment' || typeof item.amount === 'number')
+        .map((item) => {
+          const amount = typeof item.amount === 'number' ? `$${item.amount.toFixed(item.amount % 1 ? 2 : 0)}` : 'Payment';
+          return `${amount} - ${item.title}${item.date ? ` (${formatSchoolDate(item.date)})` : ''}`;
+        }),
+      ...paymentMatches.map((amount) => `${amount} mentioned in the notice${/\bby Friday\b/i.test(sourceText) ? ' - due Friday' : ''}`),
+      /\b(permission|consent|slip|form|signed)\b/i.test(sourceText) ? 'Permission or consent form mentioned - check the original notice' : undefined,
+    ],
+  );
+  const actions = compactUnique(
+    sorted.map((item) => {
+      if (item.kind === 'permission') return `Sign or return permission for ${item.title}${item.date ? ` by ${formatSchoolDate(item.date)}` : ''}`;
+      if (item.kind === 'payment') return `Pay for ${item.title}${item.date ? ` by ${formatSchoolDate(item.date)}` : ''}`;
+      if (item.kind === 'gear') return `Pack or check: ${item.item || item.title}`;
+      return item.date ? `Add to family calendar: ${formatSchoolDate(item.date)} - ${item.title}` : item.title;
+    }),
+  ).slice(0, 12);
+
+  const tomorrowCheck = compactUnique([
+    gear.length ? `Pack ${safeName}'s gear bag the night before.` : undefined,
+    payments.length ? 'Check the school app or notice for the exact payment method before paying.' : undefined,
+    'If a date looks wrong, check the original notice before relying on this draft.',
+  ]);
+
+  return [
+    `<h2>School notice parsed - ${escapeHtml(safeName)}</h2>`,
+    `<p><strong>Source:</strong> ${escapeHtml(sourceType === 'image' ? 'photo upload' : sourceType === 'pdf' ? 'PDF upload' : 'typed or spoken note')}</p>`,
+    '<h3>Key dates</h3>',
+    renderList(dateLines, 'No dates found. Photograph the full notice, or paste the dates in the box and run it again.'),
+    '<h3>Pack / wear / bring</h3>',
+    renderList(gear, 'No gear list found. If this was a timetable, add the activity names or photograph the full page.'),
+    '<h3>Payments and forms</h3>',
+    renderList(payments, 'No payment or permission form found.'),
+    '<h3>Actions for whānau</h3>',
+    renderList(actions, 'Nothing actionable found yet.'),
+    '<h3>Tonight / tomorrow check</h3>',
+    renderList(tomorrowCheck, 'Check the school notice before relying on this draft.'),
   ].join('');
 }
 
@@ -142,6 +266,52 @@ export async function POST(req: NextRequest) {
   const tenantId = await resolveTenantId(body.tenant);
   const rateOk = await checkRateLimit({ slug: workflow.slug, tenantId, ipHash });
   if (!rateOk) return json({ error: 'Rate limit exceeded' }, 429);
+
+  if (workflow.slug === 'school-notice-parser') {
+    const childName = typeof inputs.child_name === 'string' ? inputs.child_name.trim() : '';
+    const noticeText = [inputs.notice_text, inputs.spoken_notice]
+      .map((value) => (typeof value === 'string' ? value.trim() : ''))
+      .filter(Boolean)
+      .join('\n\n');
+    const uploadedName = typeof inputs.uploaded_notice_name === 'string' ? inputs.uploaded_notice_name : 'school-notice.jpg';
+    const file = dataUrlToFile(body.imageDataUrl, uploadedName);
+    const imageResult = file ? await parseSchoolNewsletter({ file }) : null;
+    const textResult = !imageResult?.items.length && noticeText ? await parseSchoolNewsletter({ newsletterText: noticeText }) : null;
+    const result = imageResult?.items.length ? imageResult : textResult;
+
+    let output = result?.items.length
+      ? schoolNoticeOutput({
+          childName,
+          items: result.items,
+          sourceType: result.sourceType,
+          sourceText: result.sourceText || noticeText,
+        })
+      : htmlDraft(
+          workflow.title,
+          noticeText ||
+            (file
+              ? 'The photo was received, but no dates or gear could be read. Try a clearer photo of the full notice.'
+              : 'Add a notice photo, timetable, or spoken note, then run the parser.'),
+        );
+    output = appendAssemblWatermark(output, workflow.slug, workflow.title);
+    await logRun({
+      slug: workflow.slug,
+      tenantId,
+      origin,
+      inputs: { ...inputs, has_image_upload: Boolean(file) },
+      inputTokens: estimateTokens(noticeText || uploadedName),
+      outputTokens: estimateTokens(output),
+      ipHash,
+    });
+    return new Response(output, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-store',
+        'X-Workflow-Run-Id': randomUUID(),
+      },
+    });
+  }
 
   let output = '';
   try {

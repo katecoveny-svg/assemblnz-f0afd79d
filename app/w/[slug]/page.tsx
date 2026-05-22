@@ -34,7 +34,7 @@ export default async function StandaloneWorkflowPage({
 
   return (
     <section className="min-h-screen bg-[color:var(--assembl-paper)] px-5 py-6 md:px-8">
-      <header className="mx-auto flex max-w-[920px] items-center justify-between gap-4">
+      <header className="mx-auto flex max-w-[1180px] items-center justify-between gap-4">
         <Link
           href="/"
           className="font-display text-3xl font-normal lowercase leading-none text-[color:var(--text-primary)]"
@@ -48,12 +48,12 @@ export default async function StandaloneWorkflowPage({
           View workflow details <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       </header>
-      <main className="mx-auto mt-8 max-w-[920px]">
+      <main className="mx-auto mt-8 max-w-[1180px]">
         <div className="mb-6">
           <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
             Shared workflow
           </p>
-          <h1 className="mt-3 font-display text-[clamp(3rem,8vw,5.8rem)] font-light italic leading-none">
+          <h1 className="mt-3 max-w-4xl font-display text-[clamp(3rem,7vw,5.2rem)] font-light italic leading-[0.95]">
             {workflow.title}
           </h1>
           <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-[color:var(--text-body)]">
@@ -62,7 +62,7 @@ export default async function StandaloneWorkflowPage({
         </div>
         <WorkflowRunner workflow={workflow} minimal />
       </main>
-      <footer className="mx-auto mt-10 max-w-[920px] border-t border-[rgba(35,33,31,0.10)] py-5 text-sm text-[color:var(--text-secondary)]">
+      <footer className="mx-auto mt-10 max-w-[1180px] border-t border-[rgba(35,33,31,0.10)] py-5 text-sm text-[color:var(--text-secondary)]">
         <Link href="/">Powered by assembl</Link>
       </footer>
     </section>

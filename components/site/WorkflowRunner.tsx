@@ -1,12 +1,43 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import Image from 'next/image';
+import { useMemo, useRef, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
-import { Check, Copy, ExternalLink, LayoutDashboard, Link as LinkIcon, Play, Code2 } from 'lucide-react';
+import {
+  Camera,
+  Check,
+  Code2,
+  Copy,
+  ExternalLink,
+  LayoutDashboard,
+  Link as LinkIcon,
+  Mic,
+  Play,
+  Upload,
+} from 'lucide-react';
 import type { Workflow } from '@/lib/workflows';
 import { getKete } from '@/lib/kete';
 
 type Inputs = Record<string, string | string[]>;
+type WorkflowRecognitionResult = {
+  [index: number]: { transcript: string };
+  isFinal: boolean;
+};
+
+type BrowserSpeechRecognition = {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: { resultIndex: number; results: WorkflowRecognitionResult[] }) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+};
+
+type BrowserWindowWithSpeech = Window & {
+  SpeechRecognition?: new () => BrowserSpeechRecognition;
+  webkitSpeechRecognition?: new () => BrowserSpeechRecognition;
+};
 
 export function WorkflowRunner({
   workflow,
@@ -18,7 +49,8 @@ export function WorkflowRunner({
   const kete = getKete(workflow.kete);
   const initialInputs = useMemo(() => {
     return workflow.inputs.reduce<Inputs>((acc, input) => {
-      acc[input.id] = input.type === 'checkboxes' ? [] : String(workflow.sampleInput[input.id] ?? '');
+      const sampleValue = workflow.slug === 'school-notice-parser' ? '' : workflow.sampleInput[input.id];
+      acc[input.id] = input.type === 'checkboxes' ? [] : String(sampleValue ?? '');
       return acc;
     }, {});
   }, [workflow]);
@@ -26,9 +58,65 @@ export function WorkflowRunner({
   const [output, setOutput] = useState(workflow.sampleOutput);
   const [running, setRunning] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+  const [imageDataUrl, setImageDataUrl] = useState('');
+  const [imageName, setImageName] = useState('');
+  const [voiceText, setVoiceText] = useState('');
+  const [listening, setListening] = useState(false);
+  const recognitionRef = useRef<BrowserSpeechRecognition | null>(null);
   const installOrigin = 'https://assembl.co.nz';
   const shareUrl = `${installOrigin}/w/${workflow.slug}?org=your-org`;
   const embedCode = `<script src="${installOrigin}/embed/w/${workflow.slug}.js" data-org="your-org" defer></script>`;
+  const isSchoolNoticeTool = workflow.slug === 'school-notice-parser';
+
+  async function handleImageUpload(file?: File | null) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageDataUrl(typeof reader.result === 'string' ? reader.result : '');
+      setImageName(file.name);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function toggleSpeechCapture() {
+    const speechWindow = window as BrowserWindowWithSpeech;
+    const SpeechRecognition = speechWindow.SpeechRecognition ?? speechWindow.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setVoiceText((current) =>
+        current || 'Speech capture is not available in this browser. Type or photograph the notice instead.',
+      );
+      return;
+    }
+
+    if (listening) {
+      recognitionRef.current?.stop();
+      setListening(false);
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-NZ';
+    recognition.onresult = (event) => {
+      const transcript = event.results
+        .map((result) => result[0]?.transcript ?? '')
+        .join(' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+      setVoiceText(transcript);
+      if (transcript) {
+        setInputs((current) => ({
+          ...current,
+          notice_text: `${String(current.notice_text ?? '').trim()}\n${transcript}`.trim(),
+        }));
+      }
+    };
+    recognition.onend = () => setListening(false);
+    recognition.start();
+    setListening(true);
+  }
 
   async function runWorkflow() {
     setRunning(true);
@@ -37,7 +125,15 @@ export function WorkflowRunner({
       const response = await fetch('/api/workflows/run', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ slug: workflow.slug, inputs }),
+        body: JSON.stringify({
+          slug: workflow.slug,
+          inputs: {
+            ...inputs,
+            spoken_notice: voiceText,
+            uploaded_notice_name: imageName,
+          },
+          imageDataUrl: imageDataUrl || undefined,
+        }),
       });
       if (!response.ok) throw new Error('Workflow run failed');
       const text = await response.text();
@@ -70,7 +166,7 @@ export function WorkflowRunner({
               Live sandbox
             </p>
             <h2 className="mt-2 font-display text-4xl font-light italic leading-none">
-              Try the workflow.
+              {isSchoolNoticeTool ? 'Turn the notice into a plan.' : 'Try the workflow.'}
             </h2>
           </div>
           <span className="rounded-full border border-[rgba(35,33,31,0.10)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
@@ -78,6 +174,68 @@ export function WorkflowRunner({
           </span>
         </div>
         <div className="mt-6 space-y-4">
+          {isSchoolNoticeTool ? (
+            <section className="rounded-[18px] border border-white/70 bg-[linear-gradient(145deg,rgba(255,255,255,0.78),rgba(250,247,242,0.62))] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.82),0_18px_48px_rgba(35,33,31,0.06)]">
+              <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--workflow-accent)]">
+                    Photo, timetable, or voice
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-[color:var(--text-secondary)]">
+                    Photograph a school notice or timetable, or speak what the teacher said.
+                    Tōro turns it into dates, gear, payments, and a packing list.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <label className="inline-flex h-10 cursor-pointer items-center rounded-full border border-white/70 bg-white/58 px-4 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_12px_30px_rgba(35,33,31,0.06)] transition hover:-translate-y-0.5 hover:bg-white/78">
+                    <Upload className="mr-2 h-4 w-4 text-[color:var(--workflow-accent)]" aria-hidden />
+                    Add photo
+                    <input
+                      type="file"
+                      accept="image/*,.pdf"
+                      capture="environment"
+                      className="sr-only"
+                      onChange={(event) => handleImageUpload(event.target.files?.[0])}
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    onClick={toggleSpeechCapture}
+                    className="inline-flex h-10 items-center rounded-full border border-white/70 bg-white/58 px-4 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_12px_30px_rgba(35,33,31,0.06)] transition hover:-translate-y-0.5 hover:bg-white/78"
+                  >
+                    <Mic className="mr-2 h-4 w-4 text-[color:var(--workflow-accent)]" aria-hidden />
+                    {listening ? 'Listening...' : 'Speak notice'}
+                  </button>
+                </div>
+              </div>
+              {imageDataUrl ? (
+                <div className="mt-4 grid gap-3 rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/64 p-3 md:grid-cols-[112px_1fr]">
+                  <Image
+                    src={imageDataUrl}
+                    alt={`Uploaded notice preview: ${imageName || 'school notice'}`}
+                    width={224}
+                    height={224}
+                    unoptimized
+                    className="h-28 w-full rounded-[10px] object-cover md:w-28"
+                  />
+                  <div className="flex flex-col justify-center">
+                    <p className="flex items-center text-sm font-medium text-[color:var(--text-primary)]">
+                      <Camera className="mr-2 h-4 w-4 text-[color:var(--workflow-accent)]" aria-hidden />
+                      {imageName || 'Notice photo ready'}
+                    </p>
+                    <p className="mt-1 text-sm leading-relaxed text-[color:var(--text-secondary)]">
+                      The parser will read the image first. Add child name or extra context below if helpful.
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+              {voiceText ? (
+                <div className="mt-3 rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/64 p-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+                  <span className="font-medium text-[color:var(--text-primary)]">Heard:</span> {voiceText}
+                </div>
+              ) : null}
+            </section>
+          ) : null}
           {workflow.inputs.map((input) => (
             <label key={input.id} className="block">
               <span className="text-sm font-medium text-[color:var(--text-primary)]">
@@ -150,7 +308,7 @@ export function WorkflowRunner({
           type="button"
           onClick={runWorkflow}
           disabled={running}
-          className="mt-6 inline-flex h-12 items-center rounded-full bg-[color:var(--workflow-accent)] px-6 font-medium text-white disabled:cursor-wait disabled:opacity-70"
+          className="cta-primary mt-6 inline-flex h-12 items-center px-6 font-medium disabled:cursor-wait disabled:opacity-70"
         >
           <Play className="mr-2 h-4 w-4" aria-hidden />
           {running ? 'Running...' : 'Run preview'}

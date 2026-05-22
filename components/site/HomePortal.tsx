@@ -4,7 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { useMemo, useRef, useState } from 'react';
+import * as THREE from 'three';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
 import type { RegulatoryPulseStats } from '@/lib/regulatory-pulse';
@@ -78,6 +79,303 @@ const KETE_ACCENT_NAMES: Record<KeteSlug, string> = {
   toro: 'mangū',
 };
 
+function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const layerAnimation = reduceMotion
+    ? undefined
+    : {
+        rotateY: [-7, 8, -7],
+        rotateX: [7, 2, 7],
+        y: [0, -10, 0],
+      };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+    camera.position.set(0, 0.28, 7.4);
+
+    const group = new THREE.Group();
+    group.rotation.x = -0.18;
+    scene.add(group);
+
+    const whiteGlass = new THREE.MeshPhysicalMaterial({
+      color: 0xfaf7f2,
+      roughness: 0.08,
+      metalness: 0,
+      transparent: true,
+      opacity: 0.56,
+      transmission: 0.72,
+      thickness: 0.9,
+      clearcoat: 1,
+      clearcoatRoughness: 0.08,
+      side: THREE.DoubleSide,
+    });
+    const pounamuGlass = new THREE.MeshPhysicalMaterial({
+      color: 0x8fb7a6,
+      roughness: 0.12,
+      transparent: true,
+      opacity: 0.34,
+      transmission: 0.58,
+      thickness: 0.6,
+      clearcoat: 0.8,
+      side: THREE.DoubleSide,
+    });
+    const amberGlass = new THREE.MeshPhysicalMaterial({
+      color: 0xd9a85a,
+      roughness: 0.16,
+      transparent: true,
+      opacity: 0.38,
+      transmission: 0.46,
+      thickness: 0.5,
+      clearcoat: 0.8,
+      side: THREE.DoubleSide,
+    });
+    const threadMaterial = new THREE.MeshBasicMaterial({
+      color: 0xf3d79d,
+      transparent: true,
+      opacity: 0.74,
+    });
+    const whiteThreadMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.82,
+    });
+
+    const addDisc = (y: number, material: THREE.Material, scaleX: number, scaleZ: number, rotationZ: number) => {
+      const disc = new THREE.Mesh(new THREE.CircleGeometry(1.25, 96), material);
+      disc.rotation.x = -Math.PI / 2;
+      disc.rotation.z = rotationZ;
+      disc.position.y = y;
+      disc.scale.set(scaleX, scaleZ, 1);
+      group.add(disc);
+
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(1.25, 0.014, 16, 160), threadMaterial);
+      ring.rotation.x = -Math.PI / 2;
+      ring.rotation.z = rotationZ;
+      ring.position.y = y + 0.008;
+      ring.scale.set(scaleX, scaleZ, 1);
+      group.add(ring);
+      return { disc, ring };
+    };
+
+    const plates = [
+      addDisc(-0.64, amberGlass, 1.72, 0.28, -0.07),
+      addDisc(-0.38, pounamuGlass, 1.9, 0.24, 0.07),
+      addDisc(-0.13, whiteGlass, 1.62, 0.21, -0.02),
+    ];
+
+    const sheetGeometry = new THREE.PlaneGeometry(3.35, 1.32, 52, 14);
+    const position = sheetGeometry.attributes.position;
+    for (let index = 0; index < position.count; index += 1) {
+      const x = position.getX(index);
+      const y = position.getY(index);
+      const z = Math.sin(x * 2.2) * 0.18 + Math.cos(y * 4.4) * 0.08;
+      position.setZ(index, z);
+    }
+    position.needsUpdate = true;
+    sheetGeometry.computeVertexNormals();
+    const sheet = new THREE.Mesh(sheetGeometry, whiteGlass);
+    sheet.rotation.set(-0.28, -0.24, 0.12);
+    sheet.position.set(0, 0.58, 0.1);
+    group.add(sheet);
+
+    const threads: THREE.Mesh[] = [];
+    for (let index = 0; index < 18; index += 1) {
+      const z = -0.92 + index * 0.11;
+      const curve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(-1.95, -0.1 + Math.sin(index) * 0.08, z),
+        new THREE.Vector3(-0.7, 0.22 + Math.cos(index) * 0.1, z + 0.08),
+        new THREE.Vector3(0.62, 0.03 + Math.sin(index * 0.7) * 0.1, z - 0.03),
+        new THREE.Vector3(1.9, 0.18 + Math.cos(index * 0.4) * 0.09, z),
+      ]);
+      const tube = new THREE.Mesh(
+        new THREE.TubeGeometry(curve, 32, index % 3 === 0 ? 0.006 : 0.004, 8, false),
+        index % 4 === 0 ? whiteThreadMaterial : threadMaterial,
+      );
+      tube.rotation.x = -0.16;
+      tube.position.y = -0.1;
+      group.add(tube);
+      threads.push(tube);
+    }
+
+    const glintMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.88 });
+    const glints: THREE.Mesh[] = [];
+    for (let index = 0; index < 13; index += 1) {
+      const glint = new THREE.Mesh(new THREE.SphereGeometry(0.018 + (index % 3) * 0.006, 12, 12), glintMaterial);
+      glint.position.set(-1.6 + index * 0.28, 0.58 + Math.sin(index * 1.3) * 0.48, -0.6 + Math.cos(index) * 0.52);
+      group.add(glint);
+      glints.push(glint);
+    }
+
+    scene.add(new THREE.AmbientLight(0xffffff, 2.2));
+    const key = new THREE.DirectionalLight(0xffffff, 3);
+    key.position.set(-3, 4, 4);
+    scene.add(key);
+    const warm = new THREE.PointLight(0xd9a85a, 2.4, 8);
+    warm.position.set(2, 1.5, 2.5);
+    scene.add(warm);
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.max(1, rect.width);
+      const height = Math.max(1, rect.height);
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    };
+    resize();
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(canvas);
+
+    let frame = 0;
+    let animationFrame = 0;
+    const render = () => {
+      frame += 0.01;
+      if (!reduceMotion) {
+        group.rotation.y = Math.sin(frame * 0.6) * 0.22;
+        group.rotation.z = Math.sin(frame * 0.38) * 0.025;
+        sheet.rotation.z = 0.12 + Math.sin(frame * 0.8) * 0.035;
+        plates.forEach((plate, index) => {
+          plate.disc.rotation.z += 0.0018 + index * 0.0007;
+          plate.ring.rotation.z += 0.0022 + index * 0.0008;
+        });
+        threads.forEach((thread, index) => {
+          thread.position.y = -0.1 + Math.sin(frame * 1.4 + index * 0.4) * 0.025;
+        });
+        glints.forEach((glint, index) => {
+          glint.scale.setScalar(0.8 + Math.sin(frame * 3 + index) * 0.32);
+        });
+      }
+      renderer.render(scene, camera);
+      animationFrame = window.requestAnimationFrame(render);
+    };
+    render();
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      resizeObserver.disconnect();
+      renderer.dispose();
+      [sheetGeometry, ...plates.flatMap((plate) => [plate.disc.geometry, plate.ring.geometry]), ...threads.map((thread) => thread.geometry), ...glints.map((glint) => glint.geometry)].forEach((geometry) => geometry.dispose());
+      [whiteGlass, pounamuGlass, amberGlass, threadMaterial, whiteThreadMaterial, glintMaterial].forEach((material) => material.dispose());
+    };
+  }, [reduceMotion]);
+
+  return (
+    <div className="relative min-h-[420px] overflow-hidden rounded-[30px] border border-white/58 bg-[linear-gradient(145deg,rgba(255,255,255,0.66)_0%,rgba(250,247,242,0.30)_46%,rgba(232,239,233,0.48)_100%)] p-4 shadow-[0_42px_130px_rgba(35,33,31,0.12)] backdrop-blur-2xl md:min-h-[540px] md:p-8 lg:min-h-[min(72svh,720px)]">
+      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 z-10 h-full w-full" aria-hidden />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(43,107,87,0.035)_1px,transparent_1px),linear-gradient(180deg,rgba(43,107,87,0.03)_1px,transparent_1px)] bg-[size:42px_42px]" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-10 top-8 h-px bg-gradient-to-r from-transparent via-[#D4A853]/58 to-transparent" aria-hidden />
+      <div className="pointer-events-none absolute inset-x-10 bottom-8 h-px bg-gradient-to-r from-transparent via-[#2B6B57]/24 to-transparent" aria-hidden />
+
+      <div className="relative flex h-full min-h-[392px] items-center justify-center md:min-h-[500px]">
+        <div className="relative mx-auto flex min-h-[350px] w-full max-w-[720px] items-center justify-center [perspective:1400px] md:min-h-[470px]">
+          <div className="absolute left-1/2 top-1/2 h-[70%] w-[86%] -translate-x-1/2 -translate-y-[28%] rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.82),rgba(43,107,87,0.22)_42%,rgba(217,168,90,0.16)_62%,transparent_78%)] blur-2xl" aria-hidden />
+          <div className="absolute bottom-[12%] left-1/2 h-[16%] w-[74%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(35,33,31,0.22),rgba(35,33,31,0.07)_52%,transparent_76%)] blur-xl" aria-hidden />
+
+          <motion.div
+            className="relative h-[330px] w-[min(84vw,620px)] [transform-style:preserve-3d] md:h-[430px]"
+            animate={layerAnimation}
+            transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            {Array.from({ length: 18 }).map((_, index) => {
+              const left = 12 + index * 4.3;
+              const height = 42 + (index % 5) * 8;
+              const delay = index * 0.18;
+              return (
+                <motion.span
+                  key={`loom-thread-${index}`}
+                  aria-hidden
+                  className="absolute top-[18%] w-px rounded-full bg-[linear-gradient(180deg,transparent,rgba(255,255,255,0.82),rgba(212,168,83,0.56),rgba(43,107,87,0.28),transparent)] shadow-[0_0_14px_rgba(255,255,255,0.62)]"
+                  style={{
+                    left: `${left}%`,
+                    height: `${height}%`,
+                    transform: `rotate(${index % 2 === 0 ? -13 : 16}deg) translateZ(${50 + index * 3}px)`,
+                    opacity: 0.22 + (index % 4) * 0.08,
+                  }}
+                  animate={reduceMotion ? undefined : { opacity: [0.2, 0.62, 0.2], y: [0, -4, 0] }}
+                  transition={{ duration: 4.8, delay, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              );
+            })}
+            {Array.from({ length: 9 }).map((_, index) => (
+              <motion.span
+                key={`glint-${index}`}
+                aria-hidden
+                className="absolute h-px rounded-full bg-white shadow-[0_0_20px_rgba(255,255,255,0.95),0_0_34px_rgba(212,168,83,0.40)]"
+                style={{
+                  left: `${18 + index * 7.5}%`,
+                  top: `${19 + (index % 4) * 13}%`,
+                  width: `${22 + (index % 3) * 16}px`,
+                  transform: `rotate(${index % 2 === 0 ? 34 : -28}deg) translateZ(${140 + index * 4}px)`,
+                }}
+                animate={reduceMotion ? undefined : { opacity: [0.05, 0.9, 0.05], scaleX: [0.55, 1.25, 0.55] }}
+                transition={{ duration: 3.6, delay: index * 0.34, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            ))}
+            <motion.div
+              className="absolute left-[11%] top-[58%] h-[21%] w-[78%] rounded-[50%] border border-[#8B765F]/34 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(157,140,125,0.26))] shadow-[0_34px_58px_rgba(35,33,31,0.20)] backdrop-blur-md [transform:rotateX(64deg)_translateZ(-82px)]"
+              animate={reduceMotion ? undefined : { x: [0, 5, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute left-[4%] top-[49%] h-[17%] w-[92%] rounded-[50%] border border-[#D4A853]/58 bg-[linear-gradient(90deg,rgba(212,168,83,0.38),rgba(255,255,255,0.82),rgba(212,168,83,0.30))] shadow-[0_30px_70px_rgba(212,168,83,0.22)] backdrop-blur-xl [transform:rotateX(68deg)_rotateZ(-5deg)_translateZ(-26px)]"
+              animate={reduceMotion ? undefined : { rotateZ: [-5, -1, -5] }}
+              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute left-[2%] top-[40%] h-[16%] w-[96%] rounded-[50%] border border-[#2B6B57]/46 bg-[linear-gradient(90deg,rgba(202,222,214,0.42),rgba(255,255,255,0.84),rgba(43,107,87,0.30))] shadow-[0_28px_80px_rgba(43,107,87,0.18)] backdrop-blur-xl [transform:rotateX(66deg)_rotateZ(4deg)_translateZ(18px)]"
+              animate={reduceMotion ? undefined : { rotateZ: [4, 8, 4] }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute left-[18%] top-[12%] h-[42%] w-[64%] rounded-[42%_58%_48%_52%] border border-white/86 bg-[linear-gradient(135deg,rgba(255,255,255,0.78),rgba(250,247,242,0.20)_46%,rgba(232,239,233,0.42))] shadow-[inset_0_0_74px_rgba(255,255,255,0.94),0_42px_96px_rgba(35,33,31,0.14)] backdrop-blur-xl [transform:rotateX(10deg)_rotateY(-16deg)_rotateZ(7deg)_translateZ(84px)]"
+              animate={reduceMotion ? undefined : { rotateZ: [7, 12, 7], y: [0, -5, 0] }}
+              transition={{ duration: 8.5, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute left-[49%] top-[16%] h-[52%] w-[2px] rounded-full bg-[linear-gradient(180deg,rgba(212,168,83,0),rgba(255,255,255,0.92),rgba(212,168,83,0.70),rgba(212,168,83,0))] shadow-[0_0_24px_rgba(212,168,83,0.46)] [transform:rotateZ(22deg)_translateZ(142px)]"
+              animate={reduceMotion ? undefined : { rotateZ: [22, 28, 22] }}
+              transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute left-[8%] top-[11%] h-[64%] w-[84%] rounded-[50%] border border-[#D4A853]/34 opacity-80 [transform:rotateX(70deg)_rotateZ(22deg)_translateZ(96px)]"
+              animate={reduceMotion ? undefined : { rotateZ: [22, 42, 22] }}
+              transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              className="absolute left-[21%] top-[7%] h-[72%] w-[58%] rounded-[50%] border border-[#2B6B57]/22 opacity-70 [transform:rotateX(74deg)_rotateZ(-24deg)_translateZ(124px)]"
+              animate={reduceMotion ? undefined : { rotateZ: [-24, -44, -24] }}
+              transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            {Array.from({ length: 14 }).map((_, index) => (
+              <motion.span
+                key={`front-thread-${index}`}
+                aria-hidden
+                className="absolute left-[12%] h-px rounded-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.92),rgba(212,168,83,0.68),rgba(43,107,87,0.34),transparent)] shadow-[0_0_18px_rgba(255,255,255,0.88),0_0_30px_rgba(212,168,83,0.24)]"
+                style={{
+                  top: `${24 + index * 3.4}%`,
+                  width: `${58 + (index % 3) * 8}%`,
+                  transform: `rotate(${index % 2 === 0 ? -8 : 10}deg) translateZ(${170 + index * 5}px)`,
+                  opacity: 0.26 + (index % 5) * 0.08,
+                }}
+                animate={reduceMotion ? undefined : { opacity: [0.18, 0.72, 0.18], x: [0, index % 2 === 0 ? 8 : -8, 0] }}
+                transition={{ duration: 5.8, delay: index * 0.16, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            ))}
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
   const pageRef = useRef<HTMLElement | null>(null);
   const [activeSlug, setActiveSlug] = useState<KeteSlug>('waihanga');
@@ -141,49 +439,12 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
           </motion.div>
 
           <motion.div
-            className="relative z-10 min-h-[360px] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#F7F1E9] shadow-[0_36px_120px_rgba(35,33,31,0.12)] md:min-h-[520px] lg:min-h-[min(76svh,780px)]"
+            className="relative z-10"
             initial={reduceMotion ? false : { opacity: 1, y: 16 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.82, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           >
-            <video
-              className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster="/videos/vessel-canon-landscape-poster.jpg"
-              aria-hidden
-            >
-              <source src="/videos/vessel-canon-landscape-720p.mp4" type="video/mp4" />
-            </video>
-            <Image
-              src="/videos/vessel-canon-landscape-poster.jpg"
-              alt="assembl evidence vessel in motion on a warm cream background"
-              fill
-              priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover motion-safe:opacity-0"
-            />
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(250,247,242,0.20)_0%,transparent_38%,rgba(35,33,31,0.04)_100%),linear-gradient(180deg,transparent_64%,rgba(250,247,242,0.58)_100%)]" aria-hidden />
-            <div className="absolute bottom-4 left-4 right-4 grid grid-cols-2 gap-2 md:bottom-6 md:left-6 md:right-6">
-              {[
-                ['01', 'draft only'],
-                ['02', 'human review'],
-                ['03', 'live knowledge'],
-                ['04', 'proof kept'],
-              ].map(([label, value]) => (
-                <div key={label} className="rounded-[8px] border border-white/38 bg-[#FAF7F2]/68 px-3 py-3 shadow-[0_18px_48px_rgba(35,33,31,0.10)] backdrop-blur-xl">
-                  <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-                    {label}
-                  </span>
-                  <span className="mt-1 block truncate font-display text-xl italic leading-none text-[#103F35] md:text-2xl">
-                    {value}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <AssemblHeroObject reduceMotion={reduceMotion} />
           </motion.div>
         </div>
       </section>
