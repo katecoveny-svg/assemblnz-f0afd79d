@@ -41,22 +41,22 @@ export function LegacyHapaiToolShell({
         },
         {
           title: "native shell",
-          body: "legacy studio carried inside the new HAPAI frame",
+          body: "open the focused workspace when you need more room",
           icon: <ExternalLink className="h-5 w-5" aria-hidden />,
         },
       ]}
       aside={
         <>
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">
-            porting status
+            focused workspace
           </p>
           <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
-            The frame is native. The studio is next.
+            Make the asset. Keep the record.
           </p>
           <p className="mt-5 text-sm leading-relaxed text-[#FAF7F2]/82">
-            This version uses the shared HAPAI page shell, share controls, and
-            draft-only posture while the older studio is ported into proper
-            React controls.
+            Use the studio when you want the full working surface. The output
+            stays draft-only until a named person checks, chooses, and publishes
+            it.
           </p>
           <Link
             href={legacyPath}
@@ -77,7 +77,8 @@ export function LegacyHapaiToolShell({
               HAPAI workspace
             </p>
             <p className="mt-1 text-sm text-[#FAF7F2]/78">
-              Legacy studio preview. The next pass ports these controls into the native HAPAI app framework.
+              Open the full workspace below, or launch it full-screen when you
+              need more room.
             </p>
           </div>
           <Link
