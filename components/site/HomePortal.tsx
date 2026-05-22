@@ -302,7 +302,7 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
   }, [reduceMotion]);
 
   return (
-    <div className="relative min-h-[430px] overflow-hidden rounded-[38px] border border-white/64 bg-[radial-gradient(circle_at_52%_35%,rgba(255,255,255,0.98),rgba(232,239,233,0.50)_38%,rgba(250,247,242,0.28)_68%,rgba(217,168,90,0.16)_100%)] shadow-[0_48px_150px_rgba(35,33,31,0.13)] backdrop-blur-2xl md:min-h-[560px] lg:min-h-[min(74svh,760px)]">
+    <div className="relative min-h-[430px] overflow-hidden rounded-[38px] border border-white/64 bg-[radial-gradient(circle_at_52%_35%,rgba(255,255,255,0.98),rgba(232,239,233,0.50)_38%,rgba(250,247,242,0.28)_68%,rgba(217,168,90,0.16)_100%)] shadow-[0_48px_150px_rgba(35,33,31,0.13)] backdrop-blur-2xl md:min-h-[600px] lg:min-h-[min(78svh,820px)]">
       <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-0" aria-hidden />
       <video
         className="absolute inset-0 z-10 h-full w-full object-cover object-[38%_50%]"
@@ -339,7 +339,7 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
       </div>
       <div className="pointer-events-none absolute inset-x-12 top-8 h-px bg-gradient-to-r from-transparent via-white/82 to-transparent" aria-hidden />
       <div className="pointer-events-none absolute inset-x-12 bottom-8 h-px bg-gradient-to-r from-transparent via-[#D4A853]/44 to-transparent" aria-hidden />
-      <div className="relative z-30 flex min-h-[430px] items-end justify-center p-6 md:min-h-[560px] md:p-10 lg:min-h-[min(74svh,760px)]">
+      <div className="relative z-30 flex min-h-[430px] items-end justify-center p-6 md:min-h-[600px] md:p-10 lg:min-h-[min(78svh,820px)]">
         <div className="h-[1px] w-[74%] rounded-full bg-white/70 shadow-[0_0_44px_rgba(255,255,255,0.70)]" aria-hidden />
       </div>
     </div>
@@ -366,7 +366,7 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(250,247,242,1)_0%,rgba(250,247,242,0.95)_52%,rgba(246,240,232,0.74)_100%)]" aria-hidden />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
-        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4.5rem)] w-full max-w-[1480px] items-center gap-10 px-6 py-10 md:px-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(28rem,1.1fr)] lg:gap-14 xl:px-14">
+        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4.5rem)] w-full max-w-[1680px] items-center gap-10 px-5 py-10 md:px-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(34rem,1.18fr)] lg:gap-12 xl:px-10 2xl:px-12">
           <motion.div
             initial={reduceMotion ? false : { opacity: 1, y: 10 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -409,7 +409,7 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
           </motion.div>
 
           <motion.div
-            className="relative z-10"
+            className="relative z-10 lg:min-w-[720px]"
             initial={reduceMotion ? false : { opacity: 1, y: 16 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.82, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
