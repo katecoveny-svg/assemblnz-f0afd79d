@@ -41,11 +41,11 @@ export function KeteVesselCard({
       }
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.4, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-      className="focus-within:scale-[1.02] transition-transform duration-300"
+      className="focus-within:-translate-y-0.5 focus-within:scale-[1.02] transition-transform duration-300"
     >
       <Link
         href={`/kete/${kete.slug}`}
-        className="kete-card group block overflow-hidden rounded-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-4"
+        className="kete-card group block overflow-hidden rounded-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-4"
         style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
       >
         <div className="relative aspect-square overflow-hidden">

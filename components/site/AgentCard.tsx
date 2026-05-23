@@ -37,7 +37,7 @@ export function AgentCard({
       animate={{ opacity: 1, y: 0 }}
       whileHover={hoverLift}
       transition={{ ...CANON_TRANSITION, delay: Math.min(index * 0.035, 0.28) }}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_18px_44px_rgba(43,107,87,0.12)] focus-within:shadow-[0_18px_44px_rgba(43,107,87,0.12)] ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_18px_44px_rgba(43,107,87,0.12)] focus-within:-translate-y-1 focus-within:shadow-[0_18px_44px_rgba(43,107,87,0.12)] ${
         selected
           ? 'border-[color:var(--assembl-sage-mist)] ring-2 ring-[color:var(--assembl-sage-mist)]'
           : 'border-[rgba(35,33,31,0.10)]'

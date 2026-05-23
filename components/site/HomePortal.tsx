@@ -613,7 +613,7 @@ function KeteCardGrid({
             <article
               onMouseEnter={() => onSelect(kete.slug)}
               className={[
-                'group relative flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border bg-white/65 text-left shadow-[0_10px_36px_rgba(35,33,31,0.05)] backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2',
+                'group relative flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border bg-white/65 text-left shadow-[0_10px_36px_rgba(35,33,31,0.05)] backdrop-blur transition-all hover:-translate-y-0.5 hover:shadow-lg focus-within:-translate-y-0.5 focus-visible:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--tile-accent)] focus-visible:outline-offset-2',
                 active
                   ? 'border-[color:var(--tile-accent)] bg-white'
                   : 'border-[rgba(35,33,31,0.12)] hover:border-[color:var(--tile-accent)] hover:bg-white/78',
@@ -654,21 +654,21 @@ function KeteCardGrid({
                   <Link
                     href={`/kete/${kete.slug}`}
                     onFocus={() => onSelect(kete.slug)}
-                    className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:text-[color:var(--assembl-pounamu)] hover:underline"
+                    className="rounded-sm font-medium text-[color:var(--text-primary)] underline-offset-4 hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2"
                   >
                     Learn more →
                   </Link>
                   <Link
                     href={`/c/${kete.slug}`}
                     onFocus={() => onSelect(kete.slug)}
-                    className="font-medium text-[color:var(--assembl-pounamu)] underline-offset-4 hover:underline"
+                    className="rounded-sm font-medium text-[color:var(--assembl-pounamu)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2"
                   >
                     Try the chat →
                   </Link>
                   <Link
                     href={`/workflows?kete=${kete.slug}`}
                     onFocus={() => onSelect(kete.slug)}
-                    className="text-[12px] text-[color:var(--text-secondary)] underline-offset-4 hover:underline"
+                    className="rounded-sm text-[12px] text-[color:var(--text-secondary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--tile-accent)] focus-visible:ring-offset-2"
                   >
                     See workflows →
                   </Link>
