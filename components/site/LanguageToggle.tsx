@@ -30,6 +30,8 @@ export function LanguageToggle() {
           key={locale}
           href={hrefFor(locale, pathname)}
           aria-current={active === locale ? "page" : undefined}
+          aria-label={locale === "en" ? "Switch to English" : "Huri ki te Reo Māori"}
+          title={locale === "en" ? "English" : "Te Reo Māori"}
           className={cn(
             "rounded-full px-2.5 py-1 font-mono uppercase tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2",
             active === locale
