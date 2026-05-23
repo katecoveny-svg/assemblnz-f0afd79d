@@ -99,7 +99,7 @@ const KETE_ACCENT_NAMES: Record<KeteSlug, string> = {
 
 function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
   return (
-    <div className="relative min-h-[340px] overflow-visible md:min-h-[520px] lg:min-h-[min(64svh,660px)]">
+    <div className="relative min-h-[360px] overflow-visible md:min-h-[560px] lg:min-h-[min(76svh,820px)]">
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_52%_42%,rgba(255,255,255,0.90),rgba(232,239,233,0.28)_32%,rgba(217,168,90,0.12)_58%,transparent_82%)]" aria-hidden />
       <div className="pointer-events-none absolute bottom-[11%] left-1/2 z-0 h-[18%] w-[72%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(16,63,53,0.22),rgba(35,33,31,0.12)_48%,transparent_76%)] blur-xl" aria-hidden />
       <div className="pointer-events-none absolute bottom-[18%] left-1/2 z-0 h-[10%] w-[54%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(217,168,90,0.22),rgba(43,107,87,0.10)_52%,transparent_78%)] blur-lg" aria-hidden />
@@ -124,7 +124,7 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
       </div>
       <div className="pointer-events-none absolute inset-x-16 top-10 z-30 h-px bg-gradient-to-r from-transparent via-white/82 to-transparent" aria-hidden />
       <div className="pointer-events-none absolute inset-x-16 bottom-10 z-30 h-px bg-gradient-to-r from-transparent via-[#D4A853]/44 to-transparent" aria-hidden />
-      <div className="relative z-30 flex min-h-[340px] items-end justify-center p-6 md:min-h-[520px] md:p-10 lg:min-h-[min(64svh,660px)]">
+      <div className="relative z-30 flex min-h-[360px] items-end justify-center p-6 md:min-h-[560px] md:p-10 lg:min-h-[min(76svh,820px)]">
         <div className="h-[1px] w-[74%] rounded-full bg-white/70 shadow-[0_0_44px_rgba(255,255,255,0.70)]" aria-hidden />
       </div>
     </div>
@@ -151,24 +151,24 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
         <div className="absolute inset-x-0 top-0 h-px bg-[color:var(--assembl-gold-thread)] opacity-80" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(250,247,242,1)_0%,rgba(250,247,242,0.95)_52%,rgba(246,240,232,0.74)_100%)]" aria-hidden />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#FAF7F2] to-transparent" aria-hidden />
-        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4.5rem)] w-full max-w-[1500px] items-center gap-10 px-5 py-10 md:px-8 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-8 xl:gap-12 xl:px-10 2xl:px-12">
+        <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4.5rem)] w-full max-w-[1760px] items-center gap-10 px-5 py-10 md:px-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-10 xl:gap-14 xl:px-12 2xl:px-16">
           <motion.div
             initial={reduceMotion ? false : { opacity: 1, y: 10 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="relative z-20 max-w-[620px]"
+            className="relative z-20 max-w-[720px] 2xl:max-w-[820px]"
           >
             <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/72 px-3 py-2 font-mono text-eyebrow uppercase text-[color:var(--text-secondary)] shadow-sm backdrop-blur-md">
               BUILT IN AOTEAROA
             </p>
-            <h1 className="mt-6 max-w-[720px] font-display text-[clamp(3.7rem,10vw,8.4rem)] font-light italic leading-[0.86] tracking-normal text-[#103F35] lg:text-[clamp(4.9rem,6.6vw,8.8rem)]">
+            <h1 className="mt-6 max-w-[820px] font-display text-[clamp(3.7rem,10vw,8.4rem)] font-light italic leading-[0.86] tracking-normal text-[#103F35] lg:text-[clamp(5.4rem,7.1vw,10.5rem)]">
               Mahi that earns its proof.
             </h1>
-            <p className="mt-6 max-w-[620px] text-[clamp(1.08rem,2vw,1.45rem)] font-medium leading-[1.42] text-[#23211F] md:mt-7">
+            <p className="mt-6 max-w-[700px] text-[clamp(1.08rem,2vw,1.55rem)] font-medium leading-[1.42] text-[#23211F] md:mt-7">
               assembl turns real work into reviewed outputs with sources, actions,
               and a record you can stand behind.
             </p>
-            <div className="mt-5 max-w-[620px] text-[0.98rem] leading-[1.65] text-[#3D4250] md:text-[1.04rem]">
+            <div className="mt-5 max-w-[700px] text-[0.98rem] leading-[1.65] text-[#3D4250] md:text-[1.08rem]">
               <p>
                 Start with a public HAPAI tool, a specialist kete, or one workflow
                 your team repeats. The useful work becomes draft, review, sign-off,
@@ -194,7 +194,7 @@ export function HomePortal({ ketes, regulatoryPulse }: HomePortalProps) {
           </motion.div>
 
           <motion.div
-            className="relative z-10 w-full max-w-[820px] justify-self-center lg:justify-self-end"
+            className="relative z-10 w-full max-w-[980px] justify-self-center lg:justify-self-end 2xl:max-w-[1080px]"
             initial={reduceMotion ? false : { opacity: 1, y: 16 }}
             animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.82, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}

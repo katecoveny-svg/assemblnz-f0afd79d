@@ -278,7 +278,7 @@ export function AssemblHeroVesselScene({ reduceMotion }: AssemblHeroVesselSceneP
   return (
     <div
       ref={hostRef}
-      className="absolute inset-y-[-3%] left-1/2 z-20 w-[82vw] max-w-[760px] -translate-x-1/2 md:w-[54vw] md:max-w-[860px]"
+      className="absolute inset-y-[-3%] left-1/2 z-20 w-[88vw] max-w-[840px] -translate-x-1/2 md:w-[58vw] md:max-w-[1100px]"
       aria-hidden
     >
       <Image
