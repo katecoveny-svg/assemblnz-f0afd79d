@@ -1,5 +1,9 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import type { Metadata } from 'next';
+
+import { MotionAssetView } from '@/components/brand/MotionAssetView';
+import { FEATURED_ASSET_ID, getMotionAsset } from '@/lib/brand/motion-assets';
 
 export const metadata: Metadata = {
   title: 'Press kit',
@@ -7,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function PressPage() {
+  const featured = getMotionAsset(FEATURED_ASSET_ID);
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-24">
       <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
@@ -66,6 +72,45 @@ export default function PressPage() {
           </div>
         </div>
       </section>
+
+      {featured && (
+        <section className="mt-16">
+          <div className="flex items-end justify-between gap-6">
+            <div>
+              <h2 className="font-display text-display-sm">3D motion</h2>
+              <p className="mt-3 max-w-2xl text-body-md text-[color:var(--text-body)]">
+                Interactive 3D scenes from the assembl Spline library. Free to embed
+                in editorial coverage with attribution to &quot;assembl&quot;
+                (lowercase).
+              </p>
+            </div>
+            <Link
+              href="/press/motion"
+              className="shrink-0 text-sm underline underline-offset-2"
+            >
+              See all motion assets →
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-6 md:grid-cols-[2fr,1fr] md:items-start">
+            <MotionAssetView asset={featured} />
+            <div className="space-y-3 text-sm text-[color:var(--text-body)]">
+              <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
+                {featured.name}
+              </p>
+              <p>{featured.description}</p>
+              {featured.kind === 'glb' && (
+                <a
+                  href={featured.src}
+                  download
+                  className="inline-block underline underline-offset-2"
+                >
+                  Download .glb
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="mt-16">
         <h2 className="font-display text-display-sm">Founder portraits</h2>
