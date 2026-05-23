@@ -54,21 +54,23 @@ function enhanceAuthoredMaterial(source: THREE.Material | THREE.Material[], inde
   const materials = Array.isArray(source) ? source : [source];
   const enhanced = materials.map((material) => {
     if (material instanceof THREE.MeshStandardMaterial || material instanceof THREE.MeshPhysicalMaterial) {
-      const color = material.color.clone().lerp(new THREE.Color('#65B58E'), 0.48);
+      const color = material.color.clone().lerp(new THREE.Color('#4F9F7E'), 0.68);
 
       return new THREE.MeshPhysicalMaterial({
         color,
         metalness: 0.01,
-        roughness: 0.045,
-        transmission: 0.54,
-        thickness: 0.86,
+        roughness: 0.065,
+        transmission: 0.34,
+        thickness: 1.18,
         ior: 1.48,
-        reflectivity: 0.82,
+        reflectivity: 0.9,
         clearcoat: 1,
         clearcoatRoughness: 0.045,
         transparent: true,
-        opacity: 0.74,
-        envMapIntensity: 2.45,
+        opacity: 0.88,
+        envMapIntensity: 2.25,
+        attenuationColor: new THREE.Color('#2B6B57'),
+        attenuationDistance: 1.8,
         side: THREE.DoubleSide,
       });
     }
@@ -84,9 +86,9 @@ function addGlassEdges(mesh: THREE.Mesh, index: number) {
   const line = new THREE.LineSegments(
     edges,
     new THREE.LineBasicMaterial({
-      color: index % 3 === 0 ? '#FFFFFF' : '#B5DAC5',
+      color: index % 3 === 0 ? '#FFFFFF' : '#6FAF8F',
       transparent: true,
-      opacity: 0.13,
+      opacity: 0.32,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     }),
@@ -133,28 +135,28 @@ export function AssemblHeroVesselScene({ reduceMotion }: AssemblHeroVesselSceneP
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.86;
+    renderer.toneMappingExposure = 0.78;
     host.appendChild(renderer.domElement);
 
     const pmrem = new THREE.PMREMGenerator(renderer);
     scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
-    const ambient = new THREE.HemisphereLight(0xfffbef, 0x92baa2, 1.08);
+    const ambient = new THREE.HemisphereLight(0xfffbef, 0x557a67, 0.84);
     scene.add(ambient);
 
-    const key = new THREE.DirectionalLight(0xffffff, 3.55);
+    const key = new THREE.DirectionalLight(0xffffff, 3.85);
     key.position.set(-3.2, 3.2, 4.4);
     scene.add(key);
 
-    const rim = new THREE.DirectionalLight(0x8bd7aa, 4.8);
+    const rim = new THREE.DirectionalLight(0x6fd29d, 5.8);
     rim.position.set(3.6, 2.3, -2.6);
     scene.add(rim);
 
-    const gold = new THREE.PointLight(0xffc468, 28, 9);
+    const gold = new THREE.PointLight(0xffc468, 34, 9);
     gold.position.set(1.9, -0.7, 2.2);
     scene.add(gold);
 
-    const pearl = new THREE.PointLight(0xffffff, 16, 7);
+    const pearl = new THREE.PointLight(0xffffff, 22, 7);
     pearl.position.set(-2.2, 1.2, 2.8);
     scene.add(pearl);
 

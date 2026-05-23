@@ -101,7 +101,8 @@ function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
   return (
     <div className="relative min-h-[340px] overflow-visible md:min-h-[520px] lg:min-h-[min(64svh,660px)]">
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_52%_42%,rgba(255,255,255,0.90),rgba(232,239,233,0.28)_32%,rgba(217,168,90,0.12)_58%,transparent_82%)]" aria-hidden />
-      <div className="pointer-events-none absolute bottom-[13%] left-1/2 z-0 h-[18%] w-[72%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(35,33,31,0.24),rgba(35,33,31,0.07)_56%,transparent_78%)] blur-xl" aria-hidden />
+      <div className="pointer-events-none absolute bottom-[11%] left-1/2 z-0 h-[18%] w-[72%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(16,63,53,0.22),rgba(35,33,31,0.12)_48%,transparent_76%)] blur-xl" aria-hidden />
+      <div className="pointer-events-none absolute bottom-[18%] left-1/2 z-0 h-[10%] w-[54%] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(ellipse_at_center,rgba(217,168,90,0.22),rgba(43,107,87,0.10)_52%,transparent_78%)] blur-lg" aria-hidden />
       <AssemblHeroVesselScene reduceMotion={Boolean(reduceMotion)} />
 
       <div className="pointer-events-none absolute inset-0 z-30">
