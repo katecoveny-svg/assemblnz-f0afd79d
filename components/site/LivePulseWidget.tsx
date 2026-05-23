@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Activity, ArrowRight, DatabaseZap, Scale, ShieldCheck } from 'lucide-react';
 import type { RegulatoryPulseStats } from '@/lib/regulatory-pulse';
 
@@ -52,7 +53,7 @@ export function LivePulseWidget({ initial, compact = false }: LivePulseWidgetPro
               />
             </span>
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
-              live knowledge pulse
+              source status
             </p>
           </div>
           <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
@@ -60,37 +61,37 @@ export function LivePulseWidget({ initial, compact = false }: LivePulseWidgetPro
           </p>
         </div>
         <h3 className="mt-4 font-display text-[clamp(2rem,4vw,3.5rem)] font-light italic leading-[0.95] text-[color:var(--text-primary)]">
-          The source layer is awake.
+          Live sources are connected.
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-          Trusted feeds are checked, changes are logged, documents are embedded,
-          and kete chats retrieve from the live corpus before drafting.
+          PCO legislation and trusted NZ feeds are checked on schedule. Relevant
+          updates can be retrieved by reviewed tools before they draft.
         </p>
       </div>
 
       <div className={compact ? 'grid grid-cols-2 gap-px bg-[rgba(35,33,31,0.08)]' : 'grid gap-px bg-[rgba(35,33,31,0.08)] md:grid-cols-4'}>
-        <PulseMetric icon={Activity} value={stats.changesLastDay} label="changes · 24h" />
-        <PulseMetric icon={ShieldCheck} value={stats.liveSources} label="live sources" />
-        <PulseMetric icon={DatabaseZap} value={stats.embeddedChunks} label="embedded chunks" />
-        <PulseMetric icon={Scale} value={stats.pcoSources} label="PCO sources" />
+        <PulseMetric icon={Activity} value={stats.changesLastDay} label="updates · 24h" />
+        <PulseMetric icon={ShieldCheck} value={stats.liveSources} label="active feeds" />
+        <PulseMetric icon={DatabaseZap} value={stats.embeddedChunks} label="retrieval chunks" />
+        <PulseMetric icon={Scale} value={stats.pcoSources} label="PCO Acts" />
       </div>
 
       <div className="grid gap-3 p-5 md:grid-cols-[1fr_auto] md:items-center">
         <p className="text-xs leading-relaxed text-[color:var(--text-body)]">
           {stats.pendingEmbeds > 0
-            ? `${stats.pendingEmbeds.toLocaleString('en-NZ')} source items are waiting to embed.`
-            : `${stats.totalDocuments.toLocaleString('en-NZ')} source documents are in the live corpus.`}
+            ? `${stats.pendingEmbeds.toLocaleString('en-NZ')} source items are being prepared for retrieval.`
+            : `${stats.totalDocuments.toLocaleString('en-NZ')} source documents are available for retrieval.`}
           {stats.staleSources > 0
-            ? ` ${stats.staleSources.toLocaleString('en-NZ')} sources need endpoint review.`
+            ? ` ${stats.staleSources.toLocaleString('en-NZ')} feeds are flagged for review.`
             : ' All active sources are fresh.'}
         </p>
-        <a
-          href="/api/regulatory-pulse"
+        <Link
+          href="/how-it-works"
           className="inline-flex h-9 w-fit items-center justify-center rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/58 px-4 font-mono text-[9px] uppercase tracking-[0.13em] text-[color:var(--text-primary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--assembl-pounamu)]"
         >
-          inspect
+          how it works
           <ArrowRight className="ml-2 h-3.5 w-3.5" aria-hidden />
-        </a>
+        </Link>
       </div>
     </aside>
   );

@@ -38,15 +38,16 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
           <div className="flex items-center gap-3">
             <PulseDot active={!stats.degraded && stats.liveSources > 0} />
             <p className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              Live regulatory pulse · captured {formatTime(stats.capturedAt)}
+              Live NZ source check · updated {formatTime(stats.capturedAt)}
             </p>
           </div>
           <h2 className="mt-4 max-w-xl font-display text-[clamp(2.4rem,5vw,4.6rem)] font-normal italic leading-tight text-[color:var(--text-primary)]">
-            Current source checks, not stale memory.
+            Checked against current New Zealand sources.
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-[color:var(--text-body)] md:text-base">
-            assembl watches trusted NZ source feeds, records changes, embeds the
-            new material, and routes agent answers through the live knowledge layer.
+            assembl checks PCO legislation and trusted NZ government feeds before
+            drafting. When a source changes, it is logged and made available to
+            the tools and kete that have permission to use it.
           </p>
         </div>
 
@@ -89,7 +90,8 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
             ) : (
               <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] p-5">
                 <p className="text-sm leading-relaxed text-[color:var(--text-body)]">
-                  The live source queue is warming up. New source changes will appear here as the adapters run.
+                  Source checks are running. New legislation and regulator updates
+                  will appear here as they are found.
                 </p>
               </div>
             )}
