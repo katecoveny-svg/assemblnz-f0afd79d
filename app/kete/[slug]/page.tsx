@@ -831,36 +831,6 @@ function ToroPage({
                 </span>
               </Link>
             </SectionReveal>
-            <SectionReveal delay={0.06}>
-              <Link
-                href="/hapai/voyage-italy"
-                className="glass-card-elevated group relative block h-full p-7"
-                style={{
-                  ['--kete-accent' as string]: kete.accent,
-                  borderTop: `3px solid ${kete.accent}`,
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--assembl-pounamu-paper)] px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu-deep)]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-pounamu)]" aria-hidden />
-                    Live now
-                  </span>
-                </div>
-                <h3 className="mt-4 font-display text-2xl text-[color:var(--text-primary)]">
-                  Route + fuel planner.
-                </h3>
-                <p className="mt-2 text-[15px] italic leading-snug text-[color:var(--text-primary)]">
-                  Plan the next drive.
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-                  Pick a common NZ trip and get time, distance, estimated fuel cost, and cheaper-station guidance.
-                </p>
-                <span className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: kete.accent }}>
-                  Open route planner
-                  <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden />
-                </span>
-              </Link>
-            </SectionReveal>
             {detail.subAgents.map((sub, i) => (
               <SectionReveal key={sub.name} delay={(i + 2) * 0.06}>
                 <article

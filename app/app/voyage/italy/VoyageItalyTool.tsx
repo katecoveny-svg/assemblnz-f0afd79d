@@ -12,16 +12,12 @@ import {
   FileText,
   Hotel,
   ImagePlus,
-  Link2,
   MapPin,
   MessageCircle,
   Plane,
-  Save,
-  Share2,
   Sparkles,
   Train,
   Upload,
-  Users,
   X,
 } from "lucide-react";
 import { HapaiToolShell } from "@/components/hapai/HapaiToolShell";
@@ -116,29 +112,6 @@ type TripMoment = {
   createdAt: string;
 };
 
-type VoyageSharedPayload = {
-  city?: string;
-  travelers?: string;
-  departureDate?: string;
-  routePlan?: string;
-  bookingVault?: string;
-  today?: string;
-  bookings?: string;
-  worries?: string;
-  notes?: string;
-  question?: string;
-  moments?: TripMoment[];
-};
-
-type VoyageSharedTrip = {
-  shareSlug: string;
-  shareUrl: string;
-  title: string;
-  payload: VoyageSharedPayload;
-  updatedBy?: string;
-  updatedAt?: string;
-};
-
 const proofCards = [
   {
     icon: CloudSun,
@@ -175,46 +148,8 @@ export function VoyageItalyTool() {
   const [routeWeather, setRouteWeather] = useState<RouteWeather[]>([]);
   const [question, setQuestion] = useState("");
   const [moments, setMoments] = useState<TripMoment[]>([]);
-  const [shareSlug, setShareSlug] = useState("");
-  const [shareUrl, setShareUrl] = useState("");
-  const [shareStatus, setShareStatus] = useState("");
-  const [sharedUpdatedAt, setSharedUpdatedAt] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  function currentSharedPayload(): VoyageSharedPayload {
-    return {
-      city,
-      travelers,
-      departureDate,
-      routePlan,
-      bookingVault,
-      today,
-      bookings,
-      worries,
-      notes,
-      question,
-      moments: moments.slice(0, 8),
-    };
-  }
-
-  function applySharedTrip(trip: VoyageSharedTrip) {
-    const payload = trip.payload ?? {};
-    setShareSlug(trip.shareSlug);
-    setShareUrl(trip.shareUrl);
-    setSharedUpdatedAt(trip.updatedAt ?? "");
-    if (payload.city) setCity(payload.city);
-    if (payload.travelers) setTravelers(payload.travelers);
-    if (payload.departureDate) setDepartureDate(payload.departureDate);
-    if (payload.routePlan) setRoutePlan(payload.routePlan);
-    if (payload.bookingVault) setBookingVault(payload.bookingVault);
-    if (payload.today) setToday(payload.today);
-    if (payload.bookings) setBookings(payload.bookings);
-    if (payload.worries) setWorries(payload.worries);
-    if (payload.notes) setNotes(payload.notes);
-    if (payload.question) setQuestion(payload.question);
-    if (Array.isArray(payload.moments)) setMoments(payload.moments.slice(0, 8));
-  }
 
   useEffect(() => {
     try {
@@ -252,24 +187,6 @@ export function VoyageItalyTool() {
   }, []);
 
   useEffect(() => {
-    const slug = new URLSearchParams(window.location.search).get("trip")?.toLowerCase().trim();
-    if (!slug) return;
-    setShareStatus("Loading shared trip...");
-    fetch(`/api/hapai/voyage-italy/shared?slug=${encodeURIComponent(slug)}`)
-      .then(async (response) => {
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error ?? "Could not load that shared trip.");
-        applySharedTrip(data.trip as VoyageSharedTrip);
-        setShareStatus("Shared trip loaded for Kate and Adrian.");
-      })
-      .catch((err) => {
-        setShareStatus("");
-        setError(err instanceof Error ? err.message : "Could not load that shared trip.");
-      });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     try {
       window.localStorage.setItem(
         STORAGE_KEY,
@@ -295,7 +212,7 @@ export function VoyageItalyTool() {
     setHtml("");
     setLoading(true);
     try {
-      const response = await fetch("/api/hapai/voyage-italy", {
+      const response = await fetch("/api/voyage/italy", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -390,7 +307,7 @@ export function VoyageItalyTool() {
       return;
     }
     if (file.size > 1.4 * 1024 * 1024) {
-      setError("For the shareable version, keep trip moment photos under 1.4MB so they can stay in this browser. A cloud gallery comes next.");
+      setError("Keep trip moment photos under 1.4MB so they fit in browser storage.");
       return;
     }
     const reader = new FileReader();
@@ -419,34 +336,6 @@ export function VoyageItalyTool() {
     setNotes("Prefer interesting local-feeling ideas, secret corners, photo moments, coffee breaks, food, no frantic crossing the city. Need what to bring before leaving the hotel.");
   }
 
-  async function saveSharedTrip() {
-    setError("");
-    setShareStatus("Saving shared trip...");
-    try {
-      const response = await fetch("/api/hapai/voyage-italy/shared", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          shareSlug: shareSlug || undefined,
-          title: "Kate + Adrian · Italia 2026",
-          updatedBy: travelers.includes("Adrian") ? "Kate or Adrian" : "Kate",
-          payload: currentSharedPayload(),
-        }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error ?? "Could not save shared trip.");
-      const trip = data.trip as VoyageSharedTrip;
-      applySharedTrip(trip);
-      setShareStatus("Shared trip saved. Send this link to Adrian.");
-      if (trip.shareUrl) {
-        await navigator.clipboard.writeText(trip.shareUrl).catch(() => undefined);
-      }
-    } catch (err) {
-      setShareStatus("");
-      setError(err instanceof Error ? err.message : "Could not save shared trip.");
-    }
-  }
-
   function copyOutput() {
     navigator.clipboard.writeText(htmlToMarkdown(html));
   }
@@ -463,75 +352,18 @@ export function VoyageItalyTool() {
 
   return (
     <HapaiToolShell
-      kicker="HAPAI · voyage italy"
+      kicker="voyage · italy"
       title="Italy, made easier to move through."
-      description="A practical travel desk for the trip: paste bookings, upload a menu or train board, add worries, and leave with today’s moves, weather-aware packing, timing risks, useful Italian, and draft actions to review before you step out. Built first for Kate and Adrian’s Italy trip leaving Sunday 24 May 2026, but shaped as a reusable free travel companion."
-      toolPath="/hapai/voyage-italy"
-      shareTitle="Voyage Italy by assembl"
-      shareText="A practical Italy travel desk: weather, FX, photo parser, timing risks, useful Italian, and draft actions."
+      description="Private travel desk for the signed-in traveller. Paste bookings, upload a menu or train board, add worries, and leave with today's moves, weather-aware packing, timing risks, useful Italian, and draft actions to review before you step out."
+      toolPath="/app/voyage/italy"
+      shareTitle="voyage italy"
+      shareText="Private Italy travel desk."
       posture="Draft travel desk only. Check bookings, tickets, safety, weather, official travel advice, and opening hours before acting."
       highlights={proofCards.map(({ icon: Icon, title, body }) => ({
         title,
         body,
         icon: <Icon className="h-5 w-5" aria-hidden />,
       }))}
-      aside={
-        <>
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">travel companion</p>
-          <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
-            The public version drafts. A connected version could watch the whole trip.
-          </p>
-          <div className="mt-6 grid gap-3">
-            {[
-              ["Today", "weather, bring-list, timings"],
-              ["Move", "trains, buffers, neighbourhood clusters"],
-              ["Read", "menus, signs, tickets, booking screenshots"],
-              ["Spark", "less obvious places and local-feeling ideas"],
-              ["Remember", "draft messages, calendar holds, tomorrow checks"],
-            ].map(([label, value]) => (
-              <div key={label} className="grid grid-cols-[88px_1fr] gap-3 border-t border-white/15 pt-3 text-sm">
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#D9A85A]">{label}</span>
-                <span className="text-[#FAF7F2]/84">{value}</span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-5 rounded-[8px] border border-white/15 bg-white/10 p-4">
-            <div className="flex items-start gap-3">
-              <Users className="mt-1 h-5 w-5 shrink-0 text-[#D9A85A]" aria-hidden />
-              <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#D9A85A]">private trip link</p>
-                <p className="mt-2 text-sm leading-relaxed text-[#FAF7F2]/84">
-                  Save this board to an obscure assembl link so you and Adrian can open the same trip, add notes, and keep the travel desk in sync.
-                </p>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={saveSharedTrip}
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#FAF7F2] px-4 py-3 text-sm font-medium text-[#103F35] transition hover:bg-white"
-            >
-              <Share2 className="h-4 w-4" aria-hidden />
-              {shareSlug ? "Save shared trip" : "Create Adrian link"}
-            </button>
-            {shareUrl ? (
-              <button
-                type="button"
-                onClick={() => navigator.clipboard.writeText(shareUrl)}
-                className="mt-3 flex w-full items-center gap-2 rounded-[8px] border border-white/15 bg-[#103F35]/70 px-3 py-2 text-left font-mono text-[11px] leading-relaxed text-[#FAF7F2]/88"
-              >
-                <Link2 className="h-4 w-4 shrink-0 text-[#D9A85A]" aria-hidden />
-                <span className="truncate">{shareUrl}</span>
-              </button>
-            ) : null}
-            {shareStatus ? <p className="mt-3 text-sm text-[#FAF7F2]/76">{shareStatus}</p> : null}
-            {sharedUpdatedAt ? (
-              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#D9A85A]/86">
-                Updated {new Date(sharedUpdatedAt).toLocaleString("en-NZ")}
-              </p>
-            ) : null}
-          </div>
-        </>
-      }
     >
         <div className="grid gap-5 lg:grid-cols-[1.04fr_0.58fr]">
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
@@ -761,14 +593,6 @@ export function VoyageItalyTool() {
               >
                 <Sparkles className="mr-2 h-4 w-4" aria-hidden />
                 {loading ? "Checking Italy..." : "Make my travel desk"}
-              </button>
-              <button
-                type="button"
-                onClick={saveSharedTrip}
-                className="inline-flex items-center gap-2 rounded-full border border-[rgba(43,107,87,0.24)] bg-white/72 px-6 py-3 text-sm font-medium text-[#2B6B57] transition hover:bg-white"
-              >
-                <Save className="h-4 w-4" aria-hidden />
-                {shareSlug ? "Save shared board" : "Create shared link"}
               </button>
               <button
                 type="button"
