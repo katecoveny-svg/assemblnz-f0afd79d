@@ -41,7 +41,7 @@ const reasons = [
   {
     title: 'Useful without training',
     body:
-      'No prompt course, no platform tour. Open the page, add the thing you are stuck on, and get a draft, checklist, or plan.',
+      'No prompt course, no platform tour. Open the page, add the task in front of you, and get a draft, checklist, or plan.',
   },
   {
     title: 'Wins become internal tools',
@@ -83,7 +83,7 @@ export default function HapaiPage() {
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
               HAPAI is assembl&apos;s public library of single-purpose tools. Upload
               the note, paste the rough text, record the meeting, photograph the
-              thing, or choose the task. Get a draft, checklist, share card, plan,
+              notice, or choose the task. Get a draft, checklist, share card, plan,
               or next action you can review.
             </p>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)]">
@@ -144,12 +144,14 @@ export default function HapaiPage() {
               practical adoption
             </p>
             <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-light italic leading-[0.94]">
-              The team learns by using the thing.
+              Teams learn by trying one real task.
             </h2>
             <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)]">
-              The best adoption does not feel like a platform rollout. It feels
-              like someone found the shortcut for a job they already had to do.
-              HAPAI makes those shortcuts visible and shareable.
+              The best adoption does not start with a platform rollout. It starts
+              when someone runs a meeting note, school notice, customer reply, or
+              spreadsheet chore through a tool and gets a useful first draft.
+              HAPAI makes those small wins visible, shareable, and easy to turn
+              into private tools for the team.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
