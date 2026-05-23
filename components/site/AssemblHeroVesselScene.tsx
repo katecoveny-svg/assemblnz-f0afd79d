@@ -54,26 +54,46 @@ function enhanceAuthoredMaterial(source: THREE.Material | THREE.Material[], inde
   const materials = Array.isArray(source) ? source : [source];
   const enhanced = materials.map((material) => {
     if (material instanceof THREE.MeshStandardMaterial || material instanceof THREE.MeshPhysicalMaterial) {
-      const clone = material.clone();
-      clone.transparent = true;
-      clone.opacity = Math.min(0.94, Math.max(clone.opacity, 0.82));
-      clone.roughness = Math.min(clone.roughness, 0.18);
-      clone.metalness = Math.min(clone.metalness, 0.04);
-      clone.envMapIntensity = Math.max(clone.envMapIntensity, 1.75);
+      const color = material.color.clone().lerp(new THREE.Color('#65B58E'), 0.48);
 
-      if (clone instanceof THREE.MeshPhysicalMaterial) {
-        clone.clearcoat = Math.max(clone.clearcoat, 0.84);
-        clone.clearcoatRoughness = Math.min(clone.clearcoatRoughness, 0.08);
-        clone.reflectivity = Math.max(clone.reflectivity, 0.62);
-      }
-
-      return clone;
+      return new THREE.MeshPhysicalMaterial({
+        color,
+        metalness: 0.01,
+        roughness: 0.045,
+        transmission: 0.54,
+        thickness: 0.86,
+        ior: 1.48,
+        reflectivity: 0.82,
+        clearcoat: 1,
+        clearcoatRoughness: 0.045,
+        transparent: true,
+        opacity: 0.74,
+        envMapIntensity: 2.45,
+        side: THREE.DoubleSide,
+      });
     }
 
     return makeGlassMaterial(index, material);
   });
 
   return Array.isArray(source) ? enhanced : enhanced[0];
+}
+
+function addGlassEdges(mesh: THREE.Mesh, index: number) {
+  const edges = new THREE.EdgesGeometry(mesh.geometry, 18);
+  const line = new THREE.LineSegments(
+    edges,
+    new THREE.LineBasicMaterial({
+      color: index % 3 === 0 ? '#FFFFFF' : '#B5DAC5',
+      transparent: true,
+      opacity: 0.13,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    }),
+  );
+
+  line.renderOrder = 1000 + index;
+  mesh.add(line);
 }
 
 function frameObject(object: THREE.Object3D) {
@@ -113,26 +133,30 @@ export function AssemblHeroVesselScene({ reduceMotion }: AssemblHeroVesselSceneP
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.92;
+    renderer.toneMappingExposure = 0.86;
     host.appendChild(renderer.domElement);
 
     const pmrem = new THREE.PMREMGenerator(renderer);
     scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
-    const ambient = new THREE.HemisphereLight(0xfffbef, 0xc2d8b4, 1.45);
+    const ambient = new THREE.HemisphereLight(0xfffbef, 0x92baa2, 1.08);
     scene.add(ambient);
 
-    const key = new THREE.DirectionalLight(0xffffff, 3.2);
+    const key = new THREE.DirectionalLight(0xffffff, 3.55);
     key.position.set(-3.2, 3.2, 4.4);
     scene.add(key);
 
-    const rim = new THREE.DirectionalLight(0x9fdfb0, 3.7);
+    const rim = new THREE.DirectionalLight(0x8bd7aa, 4.8);
     rim.position.set(3.6, 2.3, -2.6);
     scene.add(rim);
 
-    const gold = new THREE.PointLight(0xffc468, 24, 9);
+    const gold = new THREE.PointLight(0xffc468, 28, 9);
     gold.position.set(1.9, -0.7, 2.2);
     scene.add(gold);
+
+    const pearl = new THREE.PointLight(0xffffff, 16, 7);
+    pearl.position.set(-2.2, 1.2, 2.8);
+    scene.add(pearl);
 
     const sparkleGeometry = new THREE.BufferGeometry();
     const sparkleCount = 46;
@@ -181,6 +205,7 @@ export function AssemblHeroVesselScene({ reduceMotion }: AssemblHeroVesselSceneP
             child.castShadow = false;
             child.receiveShadow = false;
             child.renderOrder = meshIndex;
+            addGlassEdges(child, meshIndex);
             meshIndex += 1;
           }
         });
@@ -214,6 +239,7 @@ export function AssemblHeroVesselScene({ reduceMotion }: AssemblHeroVesselSceneP
       if (model && !reduceMotion) {
         group.rotation.y = Math.sin(time * 0.34) * 0.18;
         group.rotation.x = Math.sin(time * 0.28) * 0.035;
+        group.rotation.z = Math.sin(time * 0.21) * 0.018;
         group.position.y = Math.sin(time * 0.72) * 0.055;
         sparkles.rotation.y = time * 0.08;
         sparkleMaterial.opacity = 0.52 + Math.sin(time * 1.35) * 0.16;
