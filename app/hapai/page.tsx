@@ -182,53 +182,57 @@ export default function HapaiPage() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {HAPAI_TOOLS.map((tool) => (
               <article
                 key={tool.name}
-                className="flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58"
+                className="group flex min-h-[420px] flex-col overflow-hidden rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/62 shadow-[0_18px_64px_rgba(35,33,31,0.06)] transition duration-300 hover:-translate-y-1 hover:bg-white/78 hover:shadow-[0_28px_90px_rgba(35,33,31,0.10)]"
               >
-                <div className="relative aspect-[4/3] border-b border-[rgba(35,33,31,0.10)]">
+                <div className="relative aspect-[16/10] border-b border-[rgba(35,33,31,0.08)]">
                   <HapaiToolPreview visual={tool.visual} />
                 </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <span
-                    className={
-                      tool.status === 'live'
-                        ? 'w-fit rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#FAF7F2]'
-                        : 'w-fit rounded-full border border-[rgba(35,33,31,0.14)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]'
-                    }
-                  >
-                    {tool.status}
-                  </span>
-                  <h3 className="mt-5 font-display text-3xl font-light italic leading-none">{tool.name}</h3>
-                  <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">{tool.description}</p>
-                  {tool.shareable ? (
-                    <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
-                      shareable tool · {tool.category}
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                      {tool.category}
                     </p>
-                  ) : null}
+                    <span
+                      className={
+                        tool.status === 'live'
+                          ? 'rounded-full border border-[rgba(43,107,87,0.24)] bg-[#E8EFE9] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#2B6B57]'
+                          : 'rounded-full border border-[rgba(35,33,31,0.14)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]'
+                      }
+                    >
+                      {tool.status}
+                    </span>
+                  </div>
+                  <h3 className="mt-5 font-display text-[2rem] font-light italic leading-none text-[#23211F]">
+                    {tool.name}
+                  </h3>
+                  <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
+                    {tool.description}
+                  </p>
                   {tool.href ? (
-                    <div className="mt-auto grid gap-2 pt-6">
+                    <div className="mt-auto pt-7">
                       <Link
                         href={tool.href}
-                        className="inline-flex h-10 items-center justify-center gap-2 rounded-[8px] bg-[color:var(--assembl-pounamu)] px-4 font-mono text-[10px] uppercase tracking-[0.14em] text-[#FAF7F2]"
+                        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[rgba(43,107,87,0.24)] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(232,239,233,0.70))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[rgba(43,107,87,0.44)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_18px_46px_rgba(43,107,87,0.14)]"
                       >
-                        Open <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                        Open tool <ArrowRight className="h-4 w-4" aria-hidden />
                       </Link>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
                         <Link
                           href={getHapaiToolShareImagePath(tool.slug)}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex h-10 items-center justify-center gap-2 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/52 px-3 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-primary)]"
+                          className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)] transition hover:text-[color:var(--assembl-pounamu)]"
                         >
                           <ImageIcon className="h-3.5 w-3.5" aria-hidden />
-                          Image
+                          Share image
                         </Link>
                         <a
                           href={getHapaiToolEmailHref(tool)}
-                          className="inline-flex h-10 items-center justify-center gap-2 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/52 px-3 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-primary)]"
+                          className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)] transition hover:text-[color:var(--assembl-pounamu)]"
                         >
                           <Mail className="h-3.5 w-3.5" aria-hidden />
                           Email
