@@ -45,3 +45,7 @@
 ## 2026-06-30 - [High-Intent Indicators and Focus Parity]
 **Learning:** Secondary tokens like "Soft Gold" (~2.2:1 contrast) fail accessibility standards for high-intent signals like the required asterisk (*) in forms. Furthermore, keyboard users miss out on UI "delight" if hover-triggered elevation or scaling isn't mirrored on focus. Finally, containers with `overflow-hidden` clip standard `ring` indicators.
 **Action:** Use the primary "Pounamu" green (5.8:1 contrast) for all high-intent indicators including form required markers. Mirror all hover-lift and scale effects in `focus-within` or `focus-visible` states, and use `outline` with an offset for focus rings on `overflow-hidden` containers to prevent clipping.
+
+## 2026-07-02 - [Dynamic Chat Accessibility and Flow]
+**Learning:** Chat-like interfaces (e.g., `AssemblConciergeWidget`) feel broken if new messages appear off-screen. Implementing auto-scroll-to-bottom logic is essential for interaction flow. Additionally, these dynamic regions require `aria-live="polite"` to announce new messages to screen reader users and a `role="dialog"` to correctly define the widget's boundary when open.
+**Action:** Always implement auto-scrolling for message-based history views and use `aria-live` for real-time state updates. Ensure floating widgets that capture focus or interaction are marked with `role="dialog"` and `aria-haspopup="dialog"` on their triggers.
