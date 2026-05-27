@@ -6,7 +6,7 @@ import { allWorkflows } from '@/lib/workflows';
 export const metadata: Metadata = {
   title: 'Workflow marketplace',
   description:
-    'Pre-made assembl workflows for admin-heavy work: install with a link, a line of code, or open in your dashboard.',
+    'Pre-made assembl workflows for admin-heavy work: open a workflow, run a sample, or turn it into a reviewed internal tool.',
 };
 
 export default async function WorkflowsPage({
@@ -30,12 +30,12 @@ export default async function WorkflowsPage({
           KETE WORKFLOW MARKETPLACE
         </p>
         <h1 className="mt-5 max-w-5xl font-display text-[clamp(3.6rem,8vw,7.8rem)] font-light italic leading-none">
-          Pre-made workflows. One-click install.
+          Pre-made workflows for real admin.
         </h1>
         <p className="mt-6 max-w-3xl text-[17px] leading-[1.65] text-[color:var(--text-body)] md:text-xl">
           Every workflow on this page is a real job a New Zealand team is already
-          doing manually today. Install one with a link, a line of code, or open
-          it in your dashboard.
+          doing manually today. Open one, run the sample, and turn the useful
+          ones into reviewed internal tools.
         </p>
         <MarketplaceClient workflows={allWorkflows} initialKete={initialKete} />
       </div>
