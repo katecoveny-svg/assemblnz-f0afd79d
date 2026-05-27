@@ -76,8 +76,9 @@ export function MarketplaceClient({
               type="button"
               onClick={() => setKete(item.slug)}
               className={chipClass(kete === item.slug)}
+              title={`${item.name}: ${item.englishName}. ${item.meaning}.`}
             >
-              {item.name}
+              {item.name} · {item.englishName}
             </button>
           ))}
         </div>

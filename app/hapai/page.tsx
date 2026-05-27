@@ -15,7 +15,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'HAPAI — shareable tools for real work',
   description:
-    'HAPAI is assembl’s public tool library: small shareable tools for study, meetings, travel, compliance logs, share cards, and everyday work.',
+    'HAPAI means to lift or support. It is assembl’s public tool library: small shareable tools for study, meetings, travel, compliance logs, share cards, and everyday work.',
   openGraph: {
     title: 'HAPAI — shareable tools for real work',
     description:
@@ -81,10 +81,11 @@ export default function HapaiPage() {
               Tools for the job in front of you.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
-              HAPAI is assembl&apos;s public library of single-purpose tools. Upload
-              the note, paste the rough text, record the meeting, photograph the
-              notice, or choose the task. Get a draft, checklist, share card, plan,
-              or next action you can review.
+              HAPAI comes from hāpai: to lift or support. It is assembl&apos;s
+              public library of single-purpose tools. Upload the note, paste the
+              rough text, record the meeting, photograph the notice, or choose
+              the task. Get a draft, checklist, share card, plan, or next action
+              you can review.
             </p>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)]">
               This is how practical adoption starts: with real work, a visible
@@ -270,7 +271,7 @@ export default function HapaiPage() {
           <div>
             <p className="text-lg leading-relaxed text-[color:var(--text-body)]">
               The full HAPAI library, branded to your org and available to every
-              team member, is included in the Industry Pack at $5,000/month.
+              team member, is included in a kete pack at $5,000/month.
               Your wordmark, your colour, your voice, your review rules. The
               point is simple: every team should be able to create, open, and
               share small internal tools for the work they actually do.

@@ -304,8 +304,8 @@ export const nav = [
   { href: '/pilot-sprint',  label: 'Pilot Sprint' },
   { href: '/how-it-works',  label: 'How it works' },
   { href: '/workflows',     label: 'Workflows' },
-  { href: '/kete',          label: 'Kete' },
-  { href: '/hapai',         label: 'HAPAI' },
+  { href: '/kete',          label: 'Kete packs' },
+  { href: '/hapai',         label: 'HAPAI tools' },
   { href: '/pricing',       label: 'Pricing' },
   { href: '/about',         label: 'About' },
 ] as const;

@@ -14,7 +14,7 @@ const PAGES = [
   { label: 'How it works', href: '/how-it-works' },
   { label: 'Evidence pack', href: '/evidence-pack' },
   { label: 'Arataki loan cars', href: '/operator/arataki/loan-cars' },
-  { label: 'HAPAI library', href: '/hapai' },
+  { label: 'HAPAI tools', href: '/hapai' },
   { label: 'Founder', href: '/about' },
 ];
 
@@ -58,7 +58,7 @@ export function CommandPalette() {
               <Search className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
               <Command.Input
                 autoFocus
-                placeholder="Find kete, specialist agents, or pages..."
+                placeholder="Find HAPAI tools, kete packs, agents, or pages..."
                 aria-label="Search assembl"
                 className="h-11 flex-1 bg-transparent text-base outline-none placeholder:text-[color:var(--text-secondary)] md:text-body-md"
               />
@@ -74,11 +74,11 @@ export function CommandPalette() {
               style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom, 0px))" }}
             >
               <Command.Empty className="px-4 py-8 text-center text-body-md text-[color:var(--text-secondary)]">No result found.</Command.Empty>
-              <Command.Group heading="Kete">
+              <Command.Group heading="Kete packs">
                 {KETES.map((kete) => (
                   <Command.Item
                     key={kete.slug}
-                    value={`${kete.name} ${kete.industry}`}
+                    value={`${kete.name} ${kete.englishName} ${kete.industry} ${kete.meaning}`}
                     onSelect={() => go(`/kete/${kete.slug}`)}
                     className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/30"
                     style={{ borderLeftColor: kete.accent }}
@@ -86,7 +86,7 @@ export function CommandPalette() {
                     <img src={KETE_VESSEL_IMAGES[kete.slug]} alt="" className="h-8 w-8 rounded-sm object-cover" />
                     <Layers3 className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                     <span className="flex-1 text-body-md">{kete.name}</span>
-                    <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.industry}</span>
+                    <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.englishName}</span>
                     <kbd className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
                       <span>Press</span>
                       <CornerDownLeft className="h-3 w-3" />
@@ -100,14 +100,14 @@ export function CommandPalette() {
                   return (
                     <Command.Item
                       key={agent.slug}
-                      value={`${agent.name} ${agent.role} ${kete.name}`}
+                      value={`${agent.name} ${agent.role} ${kete.name} ${kete.englishName}`}
                       onSelect={() => go(`/agents/${agent.slug}`)}
                       className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/30"
                       style={{ borderLeftColor: kete.accent }}
                     >
                       <Sparkles className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                       <span className="flex-1 text-body-md">{agent.name}</span>
-                      <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.name}</span>
+                      <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.englishName}</span>
                       <kbd className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
                         <span>Press</span>
                         <CornerDownLeft className="h-3 w-3" />

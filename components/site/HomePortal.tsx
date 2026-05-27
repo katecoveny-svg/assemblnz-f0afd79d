@@ -44,31 +44,42 @@ const HAPAI_CARD_STYLES = [
 ] as const;
 
 const PRICING_ENTRY_POINTS = [
-  [
-    'PILOT SPRINT',
-    '$5,000 + GST',
-    'Bring one workflow. We map it, build the agent, set the review points, run a real job, seal it in an evidence pack. Ten working days. You leave with a working proof and a path forward.',
-    'Book a pilot',
-    '/pilot-sprint',
-    '#2B6B57',
-  ],
-  [
-    'INDUSTRY PACK',
-    '$5,000 / month',
-    'The full specialist fleet for your industry, plus HAPAI white-labelled to your organisation. Your wordmark, your voice. Practical tools your team can open in thirty seconds.',
-    'See industry packs',
-    '/industry-pack',
-    '#D4A853',
-  ],
-  [
-    'HAPAI',
-    'Public tools',
-    'Small useful tools for real work: meeting notes, travel desk, 9am Brief, share cards, food logs, captions, and more.',
-    'Open HAPAI',
-    '/hapai',
-    '#23211F',
-  ],
-] as const;
+  {
+    name: 'Pilot Sprint',
+    price: '$5,000 + GST',
+    bestFor: 'Use this to prove one workflow inside your business.',
+    body: 'We map the job, build the first agent-assisted workflow, set the human review points, run it on real work, and package the result as an evidence pack. Ten working days.',
+    cta: 'Book a pilot',
+    href: '/pilot-sprint',
+    accent: '#2B6B57',
+  },
+  {
+    name: 'Kete pack',
+    price: '$5,000 / month',
+    bestFor: 'Use this when you need a specialist pack for one operating area.',
+    body: 'Kete means basket or kit. A kete pack covers one area such as construction, hospitality, freight, automotive, education, commerce, or family operations. Each pack includes agents, tools, live knowledge, workflows, and review rules.',
+    cta: 'See kete packs',
+    href: '/kete',
+    accent: '#D4A853',
+  },
+  {
+    name: 'HAPAI tools',
+    price: 'Public tools',
+    bestFor: 'Use this when you want to try one useful task now.',
+    body: 'HAPAI comes from hāpai: to lift or support. These are public one-task tools for study, meetings, school notices, privacy checks, food logs, share cards, and briefs.',
+    cta: 'Open HAPAI tools',
+    href: '/hapai',
+    accent: '#23211F',
+  },
+] satisfies readonly {
+  name: string;
+  price: string;
+  bestFor: string;
+  body: string;
+  cta: string;
+  href: string;
+  accent: string;
+}[];
 
 const KETE_CARD_COPY: Record<KeteSlug, string> = {
   waihanga: 'RFI drafter, variation pack builder, site observation logger, and six more.',
@@ -80,18 +91,6 @@ const KETE_CARD_COPY: Record<KeteSlug, string> = {
   matauranga: 'Source verifier, document comparison, submission drafter, and six more.',
   hoko: 'Return triage, customer reply drafter, supplier comparison, and six more.',
   toro: 'School notice parser, weekly plan, gear list generator, and six more.',
-};
-
-const KETE_ACCENT_NAMES: Record<KeteSlug, string> = {
-  waihanga: 'pounamu',
-  manaaki: 'kōkōwai',
-  pikau: 'kikorangi',
-  arataki: 'karaka',
-  auaha: 'kahurangi',
-  ako: 'parauri',
-  matauranga: 'pōuriuri',
-  hoko: 'waiporoporo',
-  toro: 'mangū',
 };
 
 function AssemblHeroObject({ reduceMotion }: { reduceMotion: boolean | null }) {
@@ -167,8 +166,9 @@ export function HomePortal({ ketes }: HomePortalProps) {
             </p>
             <div className="mt-5 max-w-[700px] text-[0.98rem] leading-[1.65] text-[#3D4250] md:text-[1.08rem]">
               <p>
-                Start with a public HAPAI tool, a specialist kete, or one workflow
-                your team repeats. The useful work becomes draft, review, sign-off,
+                Start with a public HAPAI tool, a specialist kete pack, or one
+                repeatable workflow. HAPAI means lift or support. Kete means
+                basket or kit. The useful work becomes draft, review, sign-off,
                 and proof.
               </p>
             </div>
@@ -211,16 +211,16 @@ export function HomePortal({ ketes }: HomePortalProps) {
               Start with the work in front of you.
             </h2>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Use HAPAI for a quick public tool. Use a kete when the work needs
-              specialist knowledge. Use workflows when the same job needs to run
-              the same way every time.
+              Use HAPAI for one quick public tool. Use a kete pack for a
+              specialist operating area. Use workflows for repeatable jobs with
+              inputs, reviewers, outputs, and evidence.
             </p>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {[
-              ['HAPAI tools', 'Public one-task tools: study, meetings, travel, share cards, logs, briefs, and useful everyday jobs.', '/hapai', 'Try the tools'],
-              ['Kete packs', 'Specialist operating areas with agents, tools, live knowledge, and review rules.', '#kete-workflows', 'See the kete'],
-              ['Workflows', 'Repeatable jobs with inputs, reviewers, outputs, and evidence packs.', '/workflows', 'Browse workflows'],
+              ['HAPAI tools', 'HAPAI means to lift or support. These are public one-task tools: study, meetings, travel, share cards, logs, briefs, and useful everyday jobs.', '/hapai', 'Try the tools'],
+              ['Kete packs', 'Kete means a basket or kit. Each kete is a specialist pack for one operating area, with agents, tools, live knowledge, and review rules.', '#kete-workflows', 'See the packs'],
+              ['Workflows', 'Repeatable jobs with inputs, reviewers, outputs, and evidence packs. This is where one useful tool becomes a system your team can run again.', '/workflows', 'Browse workflows'],
             ].map(([title, body, href, cta]) => (
               <Link
                 key={title}
@@ -302,7 +302,8 @@ export function HomePortal({ ketes }: HomePortalProps) {
               Try one useful tool.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              HAPAI is the apps and tools page: single-purpose public tools for
+              HAPAI means to lift or support. It is the apps and tools page:
+              single-purpose public tools for
               real work. Open one, get a useful result, then turn the win into a
               private internal tool if it earns its keep.
             </p>
@@ -398,17 +399,17 @@ export function HomePortal({ ketes }: HomePortalProps) {
         <div className="mx-auto max-w-[1500px]">
           <div className="max-w-4xl">
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              NINE KETE · NINE INDUSTRIES
+              KETE PACKS · SPECIALIST INDUSTRY KITS
             </p>
             <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              A specialist team for every kind of work.
+              Pick the pack that matches the work.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Each pack holds a specialist team: assistants trained on the
-              industry&apos;s regulations, policies, and patterns of work; review
-              points where a named person signs off; evidence packs shaped for
-              the audience that has to read them. Try any of the nine in the
-              public chat. No signup.
+              Kete means a basket or kit. In assembl, a kete pack is a specialist
+              operating area: construction, hospitality, freight, automotive,
+              education, commerce, family, and more. Each pack has agents, tools,
+              live knowledge, review points, and evidence packs shaped for that
+              work.
             </p>
           </div>
           <KeteCardGrid
@@ -494,14 +495,19 @@ export function HomePortal({ ketes }: HomePortalProps) {
           </p>
           <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <h2 className="max-w-2xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
-              Three ways in.
+              Choose the right starting point.
             </h2>
+            <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
+              Use a HAPAI tool for one task, a Pilot Sprint to prove one workflow,
+              or a kete pack when you want a whole specialist operating area with
+              agents, live knowledge, review rules, and evidence packs.
+            </p>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {PRICING_ENTRY_POINTS.map(([name, price, body, cta, href, accent], index) => (
+            {PRICING_ENTRY_POINTS.map(({ name, price, bestFor, body, cta, href, accent }, index) => (
               <motion.article
                 key={name}
-                className="rounded-[8px] border border-[rgba(35,33,31,0.10)] border-t-[5px] bg-[color:var(--assembl-paper)] p-6"
+                className="rounded-[8px] border border-[rgba(35,33,31,0.10)] border-t-[5px] bg-[color:var(--assembl-paper)] p-6 shadow-[0_18px_58px_rgba(35,33,31,0.06)]"
                 style={{ borderTopColor: accent }}
                 initial={reduceMotion ? false : { opacity: 1, y: 22 }}
                 whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
@@ -514,6 +520,9 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 </h3>
                 <p className="mt-5 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                   {price}
+                </p>
+                <p className="mt-4 text-[15px] font-semibold leading-relaxed text-[color:var(--text-primary)]">
+                  {bestFor}
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
                   {body}
@@ -597,7 +606,7 @@ function KeteCardGrid({
   reduceMotion: boolean | null;
 }) {
   return (
-    <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3" aria-label="Choose a kete">
+    <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3" aria-label="Choose a specialist kete pack">
       {ketes.map((kete, index) => {
         const active = kete.slug === activeSlug;
         return (
@@ -639,13 +648,13 @@ function KeteCardGrid({
               </span>
               <span className="flex flex-1 flex-col p-7">
                 <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  {kete.industry}
+                  {kete.industry} · {kete.meaning}
                 </span>
                 <span className="block font-display text-[28px] font-medium leading-none text-[color:var(--tile-accent)]">
                   {kete.name}
                 </span>
                 <span className="mt-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
-                  {KETE_ACCENT_NAMES[kete.slug]}
+                  {kete.englishName}
                 </span>
                 <span className="mt-4 block min-h-[74px] text-[14.5px] leading-relaxed text-[#2A2825]">
                   {KETE_CARD_COPY[kete.slug]}

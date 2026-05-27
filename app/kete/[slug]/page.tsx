@@ -29,7 +29,7 @@ export async function generateMetadata({
   if (!kete) return {};
   const detail = KETE_DETAIL[kete.slug as KeteSlug];
   return {
-    title: `${kete.name} — ${kete.industry}`,
+    title: `${kete.name} — ${kete.englishName}`,
     description: detail.heroBody,
     openGraph: {
       images: [
@@ -37,7 +37,7 @@ export async function generateMetadata({
           url: `/og/og-${kete.slug}.png`,
           width: 1200,
           height: 630,
-          alt: `assembl — Mahi that earns its proof, for ${kete.name}.`,
+          alt: `assembl — ${kete.name}, the ${kete.englishName}.`,
         },
       ],
     },
@@ -117,17 +117,23 @@ function IndustryKetePage({
                   aria-hidden
                 />
                 <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                  {kete.industry} · {kete.accentName}
+                  {kete.industry} · {kete.meaning}
                 </span>
               </div>
 
               <h1 className="mt-6 font-display text-display-xl">
                 <TeReo className="text-[color:var(--text-primary)]">{kete.name}</TeReo>{' '}
-                <span className="text-gradient-hero">— {detail.heroLead}</span>
+                <span className="text-gradient-hero">— {kete.englishName}</span>
               </h1>
 
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[color:var(--text-secondary)]">
+                Kete means basket or kit. This is the assembl specialist pack
+                for {kete.industry.toLowerCase()} work: agents, tools, live
+                knowledge, review rules, and evidence packs.
+              </p>
+
               <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-                {detail.heroBody}
+                {detail.heroLead}. {detail.heroBody}
               </p>
 
               <div className="mt-6">
@@ -392,7 +398,7 @@ function IndustryKetePage({
         <section className="relative">
           <div className="container pb-16 md:pb-24">
             <SectionReveal>
-              <a
+              <Link
                 href="/hapai/vessel-studio"
                 className="glass-card-elevated group relative block overflow-hidden p-8 text-left md:p-10"
                 style={{
@@ -425,7 +431,7 @@ function IndustryKetePage({
                     Open Vessel Studio →
                   </span>
                 </div>
-              </a>
+              </Link>
             </SectionReveal>
           </div>
         </section>
@@ -440,7 +446,7 @@ function IndustryKetePage({
                 Sample workflows
               </span>
               <h2 className="mt-3 font-display text-display-md">
-                What {kete.name} handles end-to-end
+                What {kete.englishName} handles end-to-end
               </h2>
             </div>
 
@@ -548,7 +554,7 @@ function IndustryKetePage({
               <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-12">
                 <div className="lg:w-1/3">
                   <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                    Pilot Sprint for {kete.name}
+                    Pilot Sprint for {kete.name} · {kete.englishName}
                   </p>
                   <p
                     className="mt-3 font-display leading-[1] text-[color:var(--text-primary)]"
@@ -572,7 +578,7 @@ function IndustryKetePage({
                       href="/contact"
                       className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base"
                     >
-                      Pilot {kete.name}
+                      Pilot {kete.englishName}
                       <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
                     </Link>
                     <Link
@@ -597,7 +603,7 @@ function IndustryKetePage({
             style={{ ['--kete-accent' as string]: kete.accent }}
           >
             <h2 className="font-display text-display-md">
-                  <>Start with <TeReo>{kete.name}</TeReo>.</>
+              Start with <TeReo>{kete.name}</TeReo>, the {kete.englishName}.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
               The Pilot Sprint — NZ$5,000 + GST for two weeks — is the fastest way to see your work drafted, reviewed, and sealed with proof.
@@ -669,7 +675,7 @@ function ToroPage({
                 aria-hidden
               />
               <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                Family assistant · Tōro
+                Family organiser · Tōro means to reach out or explore
               </span>
             </div>
 
@@ -679,7 +685,7 @@ function ToroPage({
             </h1>
 
             <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              {detail.heroBody}
+              Tōro means to reach out or explore. {detail.heroBody}
             </p>
 
             <div className="mt-6 flex max-w-2xl">
@@ -747,7 +753,7 @@ function ToroPage({
                   What this app does
                 </span>
                 <h2 className="mt-3 font-display text-display-md">
-                  How <TeReo>Tōro</TeReo> helps the household stay ahead.
+                  How <TeReo>Tōro</TeReo>, the Family organiser, helps the household stay ahead.
                 </h2>
               </SectionReveal>
               <div className="mt-8 space-y-5 text-body-md text-[color:var(--text-body)] md:text-body-lg">
@@ -973,7 +979,7 @@ function ToroPage({
             style={{ ['--kete-accent' as string]: kete.accent }}
           >
             <h2 className="font-display text-display-md">
-              <TeReo>Tōro</TeReo> is available now at the Family tier.
+              <TeReo>Tōro</TeReo>, the Family organiser, is available now.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
               Self-serve via Stripe. NZ$29/month, no setup fee. Cancel any time.

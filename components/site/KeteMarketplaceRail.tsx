@@ -35,14 +35,16 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
             <h2 className="font-display text-3xl leading-none text-[color:var(--text-primary)]">
               <span lang="mi">{kete.name}</span>
             </h2>
-            <p className="mt-1 text-sm text-[color:var(--text-secondary)]">{kete.industry}</p>
+            <p className="mt-1 text-sm text-[color:var(--text-secondary)]">
+              {kete.englishName} · {kete.meaning}
+            </p>
           </div>
         </Link>
         <Link
           href={`/kete/${kete.slug}`}
           className="hidden shrink-0 items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)] sm:inline-flex"
         >
-          View all in this kete
+          View this pack
           <ArrowRight className="h-3.5 w-3.5" aria-hidden />
         </Link>
       </div>
@@ -50,7 +52,7 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
         tabIndex={0}
         onKeyDown={onKeyDown}
         className="flex gap-4 overflow-x-auto pb-4 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]"
-        aria-label={`${kete.name} specialist agents`}
+        aria-label={`${kete.name} ${kete.englishName} specialist agents`}
       >
         {agents.map((agent) => (
           <Link

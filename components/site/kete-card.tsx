@@ -123,7 +123,7 @@ export function KeteCard({
           <div>
             <div className="flex items-baseline justify-between">
               <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                {kete.industry}
+                {kete.industry} · {kete.meaning}
               </span>
               <ArrowUpRight
                 className="h-5 w-5 text-[color:var(--text-secondary)] transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-[color:var(--text-primary)] group-focus-visible:translate-x-1 group-focus-visible:-translate-y-1 group-focus-visible:text-[color:var(--text-primary)]"
@@ -138,6 +138,9 @@ export function KeteCard({
             >
               {kete.name}
             </h3>
+            <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+              {kete.englishName}
+            </p>
 
             <p
               className={`mt-4 leading-relaxed text-[color:var(--text-body)] ${

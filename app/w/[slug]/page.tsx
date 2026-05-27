@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { InstallPwaButton } from '@/components/hapai/InstallPwaButton';
 import { ShareableToolActions } from '@/components/hapai/ShareableToolActions';
 import { WorkflowRunner } from '@/components/site/WorkflowRunner';
+import { getKete } from '@/lib/kete';
 import { getWorkflow } from '@/lib/workflows';
 
 type Params = { slug: string };
@@ -39,6 +40,7 @@ export default async function StandaloneWorkflowPage({
   const { slug } = await params;
   const workflow = getWorkflow(slug);
   if (!workflow) notFound();
+  const kete = getKete(workflow.kete);
 
   return (
     <section className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#FAF7F2_0%,#F5EEE5_48%,#FAF7F2_100%)] px-4 py-5 text-[color:var(--text-primary)] md:px-8 md:py-7">
@@ -62,7 +64,7 @@ export default async function StandaloneWorkflowPage({
           <div className="relative grid gap-7 lg:grid-cols-[minmax(0,0.72fr)_minmax(420px,0.58fr)] lg:items-end">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
-                Shared Tōro tool
+                Shared workflow · {kete.englishName}
               </p>
               <h1 className="mt-4 max-w-4xl font-display text-[clamp(3.8rem,7vw,7.8rem)] font-light italic leading-[0.86] text-[#103F35]">
                 {workflow.title}

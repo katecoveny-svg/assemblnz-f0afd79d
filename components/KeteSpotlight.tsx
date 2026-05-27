@@ -45,7 +45,7 @@ export function KeteSpotlight({
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <span className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              {kete.industry}
+              {kete.industry} · {kete.meaning}
             </span>
             <h2
               className="mt-5 font-display text-6xl leading-[0.95] tracking-tight text-[color:var(--text-primary)] md:text-7xl lg:text-8xl"
@@ -53,6 +53,9 @@ export function KeteSpotlight({
             >
               {kete.name}
             </h2>
+            <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              {kete.englishName}
+            </p>
             <p
               className="mt-6 max-w-xl font-display text-2xl leading-snug text-[color:var(--text-body)] md:text-3xl"
               style={{ fontWeight: 300 }}
@@ -69,7 +72,7 @@ export function KeteSpotlight({
                 className="group inline-flex items-center gap-3 font-mono text-xs uppercase tracking-[0.28em] text-[color:var(--text-primary)]"
               >
                 <span className="border-b border-[color:var(--text-primary)] pb-1 transition-all duration-300 group-hover:border-[color:var(--assembl-pounamu)] group-hover:text-[color:var(--assembl-pounamu)]">
-                  Explore {kete.name}
+                  Explore {kete.englishName}
                 </span>
                 <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden />
               </Link>

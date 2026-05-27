@@ -54,7 +54,7 @@ export default async function WorkflowDetailPage({
           </Link>
           <span>/</span>
           <Link href={`/workflows?kete=${workflow.kete}`} className="hover:text-[color:var(--text-primary)]">
-            {kete.name}
+            {kete.name} · {kete.englishName}
           </Link>
           <span>/</span>
           <span className="text-[color:var(--text-primary)]">{workflow.title}</span>
@@ -62,7 +62,7 @@ export default async function WorkflowDetailPage({
 
         <header className="mt-8">
           <span className="inline-flex rounded-full border border-[rgba(35,33,31,0.12)] bg-white/62 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--workflow-accent)]">
-            {kete.name} · {kete.industry}
+            {kete.name} · {kete.englishName} · {kete.meaning}
           </span>
           <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.4rem,7vw,7rem)] font-light italic leading-none">
             {workflow.title}
@@ -73,7 +73,7 @@ export default async function WorkflowDetailPage({
           <div className="mt-5 flex flex-wrap gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
             <span>~{workflow.timeSavedMin} min saved per run</span>
             <span>·</span>
-            <span>{workflow.priceLabel}</span>
+            <span>{workflow.priceLabel === 'Industry Pack' ? 'Kete pack' : workflow.priceLabel}</span>
             <span>·</span>
             <span>{workflow.runsThisMonth} runs this month</span>
           </div>
@@ -91,14 +91,14 @@ export default async function WorkflowDetailPage({
                   Related workflows
                 </p>
                 <h2 className="mt-3 font-display text-5xl font-light italic leading-none">
-                  More from {kete.name}.
+                  More from {kete.name}, the {kete.englishName}.
                 </h2>
               </div>
               <Link
                 href={`/workflows?kete=${workflow.kete}`}
                 className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--workflow-accent)]"
               >
-                See all {kete.name} workflows <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                See all {kete.englishName} workflows <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
             </div>
             <div className="mt-8 grid gap-5 md:grid-cols-3">

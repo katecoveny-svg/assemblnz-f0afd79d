@@ -29,7 +29,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--workflow-accent)] shadow-[0_0_18px_rgba(43,107,87,0.22)]" aria-hidden />
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
-            {kete.name}
+            {kete.name} · {kete.englishName}
           </span>
         </div>
         <span className="rounded-full border border-white/68 bg-white/48 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.13em] text-[color:var(--text-secondary)] shadow-sm backdrop-blur-md">
@@ -47,7 +47,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
           ~{workflow.timeSavedMin} min saved per run
         </span>
         <span className="rounded-full border border-white/64 bg-white/42 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[color:var(--workflow-accent)] backdrop-blur-md">
-          {workflow.priceLabel}
+          {workflow.priceLabel === 'Industry Pack' ? 'Kete pack' : workflow.priceLabel}
         </span>
       </div>
       <div className={compact ? 'relative mt-6 grid gap-2 sm:grid-cols-2' : 'relative mt-auto grid gap-2 pt-7 sm:grid-cols-2'}>

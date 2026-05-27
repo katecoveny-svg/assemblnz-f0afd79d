@@ -6,16 +6,16 @@ import { TeReo } from '@/components/site/TeReo';
 export const metadata: Metadata = {
   title: 'Pricing',
   description:
-    'Pilot Sprint, Industry Pack, HAPAI, and Outcome pricing. NZD, GST exclusive.',
+    'Pilot Sprint, kete pack, HAPAI tools, and Outcome pricing. NZD, GST exclusive.',
 };
 
 const OFFERS = [
   {
     eyebrow: 'Hero offer',
-    name: 'Industry Pack',
+    name: 'Kete pack',
     price: '$5,000 / month',
-    body: 'For one industry pack: specialist agents, live knowledge, human review points, and evidence packs your team can stand behind.',
-    cta: 'See Industry Pack',
+    body: 'Kete means basket or kit. This is one specialist operating pack: agents, tools, live knowledge, human review points, and evidence packs your team can stand behind.',
+    cta: 'See kete packs',
     href: '/industry-pack',
     featured: true,
   },
@@ -39,9 +39,9 @@ const OFFERS = [
   },
   {
     eyebrow: 'Adoption tools',
-    name: 'HAPAI',
+    name: 'HAPAI tools',
     price: 'Public tools',
-    body: 'Shareable tools for small real tasks: meeting notes, travel desk, 9am Brief, share cards, food records, captions, and more.',
+    body: 'HAPAI comes from hāpai: to lift or support. These are public one-task tools for meeting notes, travel planning, 9am Brief, share cards, food records, captions, and more.',
     cta: 'Open HAPAI',
     href: '/hapai',
     featured: false,
@@ -70,7 +70,8 @@ export default function PricingPage() {
               <TeReo title="work">Mahi</TeReo> that earns its proof.
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              Start with one real task, open a public HAPAI tool, or switch on a whole industry pack once the workflow has earned its proof.
+              Start with one real task, open a public HAPAI tool, or switch on a
+              specialist kete pack once the workflow has earned its proof.
             </p>
           </div>
         </div>

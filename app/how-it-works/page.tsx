@@ -23,7 +23,7 @@ const steps = [
     eyebrow: '01',
     title: 'Bring the real input.',
     body:
-      'Start with the thing already on your desk: a meeting transcript, school notice, food record, customer reply, DMS export, supplier message, or council RFI.',
+      'Start with the real material already on your desk: a meeting transcript, school notice, food record, customer reply, DMS export, supplier message, or council RFI.',
     example: 'One actual job beats a platform tour.',
     icon: ClipboardCheck,
   },
@@ -65,7 +65,7 @@ const modes = [
   {
     title: 'HAPAI tools',
     body:
-      'Small public tools for one task: study planning, meeting notes, travel planning, share cards, food logs, and more.',
+      'HAPAI comes from hāpai: to lift or support. These are small public tools for one task: study planning, meeting notes, travel planning, share cards, food logs, and more.',
   },
   {
     title: 'Pilot Sprint',
@@ -73,9 +73,9 @@ const modes = [
       'One workflow rebuilt against your own material. The goal is a working proof in days, not months of requirements theatre.',
   },
   {
-    title: 'Operating layer',
+    title: 'Kete packs',
     body:
-      'Once the pilot earns its keep, assembl connects the relevant inboxes, exports, live sources, and tools with clear review rules.',
+      'Kete means basket or kit. A kete pack is a specialist operating area with agents, tools, live knowledge, workflows, and clear review rules.',
   },
 ] as const;
 
@@ -185,9 +185,10 @@ export default function HowItWorksPage() {
                 Tools, pilots, then the operating layer.
               </h2>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-[#3D4250]">
-                This is the part that should be obvious everywhere: HAPAI is the
-                shareable tool library, kete are specialist operating areas, and
-                workflows are the repeatable jobs that become internal systems.
+                HAPAI means lift or support: it is the shareable public tool
+                library. Kete means basket or kit: each kete pack is a specialist
+                operating area. Workflows are the repeatable jobs that become
+                internal systems once they prove useful.
               </p>
             </div>
           </SectionReveal>

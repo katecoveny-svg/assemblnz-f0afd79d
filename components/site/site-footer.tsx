@@ -31,7 +31,7 @@ export function SiteFooter() {
 
           <div>
             <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-              Kete
+              Kete packs
             </h2>
             <ul className="mt-4 space-y-2 text-sm">
               {KETES.map((k) => (
@@ -52,9 +52,9 @@ export function SiteFooter() {
                       />
                     </span>
                     <span>
-                      {k.name}
-                      <span className="ml-2 text-xs text-[color:var(--text-secondary)]">
-                        {k.industry}
+                      <span className="block">{k.name}</span>
+                      <span className="block text-xs text-[color:var(--text-secondary)]">
+                        {k.englishName}
                       </span>
                     </span>
                   </Link>
