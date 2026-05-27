@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     'The terms governing use of assembl.co.nz, app.assembl.co.nz, the HAPAI tools, the workflow marketplace, and any embedded assembl widget.',
 };
 
-const LAST_REVIEWED = '19 May 2026';
+const LAST_REVIEWED = '27 May 2026';
 
 export default function TermsPage() {
   return (
@@ -35,7 +35,7 @@ export default function TermsPage() {
           <div className="mt-12 space-y-10 text-base leading-relaxed text-[color:var(--text-body)] md:text-[17px]">
             <SectionReveal delay={0.2}>
               <p>
-                These terms ("Terms") govern your use of assembl.co.nz, app.assembl.co.nz, the HAPAI tools, the workflow marketplace, the embed widgets, the kete chats, and any other surface operated by assembl Ltd ("assembl", "we", "us", "our"). By using any of them you agree to these Terms. If you do not agree, stop using the service.
+                These terms (&quot;Terms&quot;) govern your use of assembl.co.nz, app.assembl.co.nz, the HAPAI tools, the workflow marketplace, the embed widgets, the kete chats, and any other surface operated by assembl Ltd (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By using any of them you agree to these Terms. If you do not agree, stop using the service.
               </p>
             </SectionReveal>
 
@@ -64,7 +64,7 @@ export default function TermsPage() {
                 <li className="list-disc">Generate content that you then claim was authored by a human, where the authorship matters legally or professionally (e.g. signed affidavits, regulated professional advice).</li>
                 <li className="list-disc">Strip the visible assembl branding from outputs. Every workflow output carries a watermark and the embed widget displays the assembl wordmark — you may not remove, hide, or obscure either.</li>
                 <li className="list-disc">Resell assembl access or embed our widgets on a site that masks the assembl provenance.</li>
-                <li className="list-disc">Submit personal information about identifiable third parties without a lawful basis under the Privacy Act 2020.</li>
+                <li className="list-disc">Submit personal information about identifiable third parties without a lawful basis under the Privacy Act 2020, including the IPP 3A indirect-collection notification duties where they apply.</li>
                 <li className="list-disc">Generate content that defames, harasses, threatens, or discriminates against any person or group, or that is unlawful under New Zealand law.</li>
                 <li className="list-disc">Attempt to extract our model weights, reverse-engineer the platform, or use the platform to train a competing product.</li>
                 <li className="list-disc">Generate karakia, whaikōrero, mihimihi, pepeha, or waiata — these are matters for human cultural sign-off, not for our agents.</li>
@@ -120,7 +120,7 @@ export default function TermsPage() {
             <SectionReveal delay={0.6}>
               <h2 className="font-display text-2xl font-light italic md:text-3xl">8. Privacy.</h2>
               <p className="mt-3">
-                Our handling of personal information is governed by the <Link href="/legal/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Policy</Link>, which is incorporated into these Terms by reference. By using assembl you confirm you have read and accept it.
+                Our handling of personal information is governed by the <Link href="/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Statement</Link> and <Link href="/legal/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Policy</Link>, which are incorporated into these Terms by reference. By using assembl you confirm you have read and accept them.
               </p>
             </SectionReveal>
 
@@ -130,7 +130,7 @@ export default function TermsPage() {
                 The Consumer Guarantees Act 1993 and Fair Trading Act 1986 may apply to consumers under New Zealand law. Where those Acts apply, nothing in these Terms limits your statutory rights.
               </p>
               <p className="mt-3">
-                Outside those statutory protections, assembl is provided "as is". We do not warrant that outputs will be accurate, complete, fit for any particular purpose, or free of errors. We do not warrant uninterrupted service. Your reviewer is the safeguard, per the <Link href="/legal/disclaimer" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Disclaimer</Link>.
+                Outside those statutory protections, assembl is provided &quot;as is&quot;. We do not warrant that outputs will be accurate, complete, fit for any particular purpose, or free of errors. We do not warrant uninterrupted service. Your reviewer is the safeguard, per the <Link href="/legal/disclaimer" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Disclaimer</Link>.
               </p>
             </SectionReveal>
 
@@ -158,7 +158,7 @@ export default function TermsPage() {
             <SectionReveal delay={0.8}>
               <h2 className="font-display text-2xl font-light italic md:text-3xl">12. Changes.</h2>
               <p className="mt-3">
-                We&apos;ll update this page as the platform matures. Substantive changes get a new "last reviewed" date at the top. Material changes that affect your obligations under an active contract will be communicated in writing at least 14 days before they take effect.
+                We&apos;ll update this page as the platform matures. Substantive changes get a new &quot;last reviewed&quot; date at the top. Material changes that affect your obligations under an active contract will be communicated in writing at least 14 days before they take effect.
               </p>
               <p className="mt-3 text-sm text-[color:var(--text-secondary)]">
                 See also: <Link href="/legal/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Policy</Link> · <Link href="/legal/disclaimer" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Disclaimer</Link>

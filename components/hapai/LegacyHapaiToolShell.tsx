@@ -36,7 +36,7 @@ export function LegacyHapaiToolShell({
         },
         {
           title: "draft",
-          body: "make the thing, then review before publishing",
+          body: "create the draft, then review before publishing",
           icon: <Sparkles className="h-5 w-5" aria-hidden />,
         },
         {

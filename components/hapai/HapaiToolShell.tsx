@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
+import { InstallPwaButton } from "@/components/hapai/InstallPwaButton";
 import { ShareableToolActions } from "@/components/hapai/ShareableToolActions";
 
 type HapaiToolShellProps = {
@@ -130,6 +131,9 @@ export function HapaiToolShell({
                     path={toolPath}
                   />
                 </div>
+                <div className="mt-4">
+                  <InstallPwaButton label="Save to home screen" compact />
+                </div>
               </div>
               <div className="mt-6 rounded-[8px] border border-[#FAF7F2]/16 bg-[#FAF7F2]/10 p-4">
                 <div className="flex items-start gap-3">
@@ -149,6 +153,19 @@ export function HapaiToolShell({
                 Suggest a better workflow
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden />
               </Link>
+              <p className="mt-5 flex flex-wrap gap-x-3 gap-y-1 text-[11px] leading-relaxed text-[#FAF7F2]/58">
+                <Link href="/privacy" className="hover:text-[#FAF7F2]">
+                  Privacy
+                </Link>
+                <span aria-hidden>·</span>
+                <Link href="/legal/terms" className="hover:text-[#FAF7F2]">
+                  Terms
+                </Link>
+                <span aria-hidden>·</span>
+                <Link href="/legal/disclaimer" className="hover:text-[#FAF7F2]">
+                  Draft-only disclaimer
+                </Link>
+              </p>
               </div>
             </div>
           </aside>

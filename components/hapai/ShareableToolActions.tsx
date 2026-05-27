@@ -43,7 +43,7 @@ export function ShareableToolActions({ title, text, path, embed = true }: Sharea
       <button
         type="button"
         onClick={share}
-        className="inline-flex h-11 items-center gap-2 rounded-full bg-[#23211F] px-5 text-sm font-medium text-white transition hover:bg-[#2B6B57]"
+        className="inline-flex h-11 items-center gap-2 rounded-full border border-white/20 bg-[linear-gradient(180deg,rgba(250,247,242,0.20),rgba(250,247,242,0.08))] px-5 text-sm font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_14px_34px_rgba(0,0,0,0.18)] backdrop-blur transition hover:-translate-y-0.5 hover:bg-[#FAF7F2]/18"
       >
         <Share2 className="h-4 w-4" aria-hidden />
         Share
@@ -51,7 +51,7 @@ export function ShareableToolActions({ title, text, path, embed = true }: Sharea
       <button
         type="button"
         onClick={() => copy(url, "link")}
-        className="inline-flex h-11 items-center gap-2 rounded-full border border-[rgba(35,33,31,0.16)] px-5 text-sm text-[#5A5550] transition hover:text-[#23211F]"
+        className="inline-flex h-11 items-center gap-2 rounded-full border border-white/18 bg-white/8 px-5 text-sm text-white/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur transition hover:-translate-y-0.5 hover:text-white"
       >
         {copied === "link" ? <Check className="h-4 w-4" aria-hidden /> : <Copy className="h-4 w-4" aria-hidden />}
         {copied === "link" ? "Copied" : "Copy link"}
@@ -60,7 +60,7 @@ export function ShareableToolActions({ title, text, path, embed = true }: Sharea
         <button
           type="button"
           onClick={() => copy(embedCode, "embed")}
-          className="inline-flex h-11 items-center gap-2 rounded-full border border-[rgba(35,33,31,0.16)] px-5 text-sm text-[#5A5550] transition hover:text-[#23211F]"
+          className="inline-flex h-11 items-center gap-2 rounded-full border border-white/18 bg-white/8 px-5 text-sm text-white/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur transition hover:-translate-y-0.5 hover:text-white"
         >
           {copied === "embed" ? <Check className="h-4 w-4" aria-hidden /> : <Code2 className="h-4 w-4" aria-hidden />}
           {copied === "embed" ? "Embed copied" : "Copy embed"}

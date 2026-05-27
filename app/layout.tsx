@@ -5,6 +5,7 @@ import { SiteFooter } from '@/components/site/site-footer';
 import { ScrollProgress } from '@/components/site/scroll-progress';
 import { CommandPalette } from '@/components/site/CommandPalette';
 import { KeteAccentProvider } from '@/components/KeteAccentContext';
+import { PwaRegister } from '@/components/site/PwaRegister';
 import './globals.css';
 
 // Next 16/Turbopack currently trips a prerender workStore invariant across
@@ -90,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <KeteAccentProvider>
           <ScrollProgress />
           <CommandPalette />
+          <PwaRegister />
           <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
             <main id="main-content" className="relative z-10 flex-1 outline-none" tabIndex={-1}>

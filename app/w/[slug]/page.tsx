@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
+import { InstallPwaButton } from '@/components/hapai/InstallPwaButton';
 import { ShareableToolActions } from '@/components/hapai/ShareableToolActions';
 import { WorkflowRunner } from '@/components/site/WorkflowRunner';
 import { getWorkflow } from '@/lib/workflows';
@@ -21,6 +22,12 @@ export async function generateMetadata({
   return {
     title: `${workflow.title} runner`,
     robots: { index: false, follow: false },
+    manifest: `/w/${workflow.slug}/manifest.json`,
+    appleWebApp: {
+      capable: true,
+      title: `${workflow.title} · assembl`,
+      statusBarStyle: 'default',
+    },
   };
 }
 
@@ -79,6 +86,9 @@ export default async function StandaloneWorkflowPage({
                   embed={false}
                 />
               </div>
+              <div className="mt-4 border-t border-[rgba(35,33,31,0.08)] pt-4">
+                <InstallPwaButton label="Save this tool" compact />
+              </div>
             </div>
           </div>
         </section>
@@ -86,7 +96,22 @@ export default async function StandaloneWorkflowPage({
         <WorkflowRunner workflow={workflow} minimal />
       </main>
       <footer className="mx-auto mt-10 max-w-[1500px] border-t border-[rgba(35,33,31,0.10)] py-5 text-sm text-[color:var(--text-secondary)]">
-        <Link href="/">Powered by assembl</Link>
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <Link href="/">Powered by assembl</Link>
+          <p className="flex flex-wrap gap-x-3 gap-y-1 text-xs">
+            <Link href="/privacy" className="hover:text-[color:var(--assembl-pounamu)]">
+              Privacy
+            </Link>
+            <span aria-hidden>·</span>
+            <Link href="/legal/terms" className="hover:text-[color:var(--assembl-pounamu)]">
+              Terms
+            </Link>
+            <span aria-hidden>·</span>
+            <Link href="/legal/disclaimer" className="hover:text-[color:var(--assembl-pounamu)]">
+              Draft-only disclaimer
+            </Link>
+          </p>
+        </div>
       </footer>
     </section>
   );

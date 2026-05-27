@@ -1,21 +1,43 @@
 {
   "name": "assembl",
   "short_name": "assembl",
-  "description": "Specialist agents. Human review. Evidence packs.",
+  "description": "Mahi that earns its proof. HAPAI tools, specialist kete, workflows, human review, and evidence packs.",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "background_color": "#FAF7F2",
   "theme_color": "#2B6B57",
+  "categories": ["business", "productivity", "education"],
   "icons": [
     {
       "src": "/icons/assembl-icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/icons/assembl-icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Open HAPAI tools",
+      "short_name": "HAPAI",
+      "description": "Open the shareable assembl tool library.",
+      "url": "/hapai",
+      "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Open workflows",
+      "short_name": "Workflows",
+      "description": "Open the workflow marketplace.",
+      "url": "/workflows",
+      "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
     }
   ]
 }

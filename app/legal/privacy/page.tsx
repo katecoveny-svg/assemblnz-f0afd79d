@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "How assembl collects, uses, stores, and discloses personal information under the New Zealand Privacy Act 2020, including the new IPP 3A (effective 1 May 2026).",
 };
 
-const LAST_REVIEWED = '19 May 2026';
+const LAST_REVIEWED = '27 May 2026';
 
 export default function PrivacyPage() {
   return (
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
           <div className="mt-12 space-y-10 text-base leading-relaxed text-[color:var(--text-body)] md:text-[17px]">
             <SectionReveal delay={0.2}>
               <p>
-                assembl Ltd ("assembl", "we", "us", "our") is a New Zealand company that operates the platform at assembl.co.nz and the app at app.assembl.co.nz. We handle personal information in accordance with the Privacy Act 2020 and the thirteen Information Privacy Principles (IPPs), including IPP 3A (indirect collection notification) which came into force on 1 May 2026.
+                assembl Ltd (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is a New Zealand company that operates the platform at assembl.co.nz and the app at app.assembl.co.nz. We handle personal information in accordance with the Privacy Act 2020 and the thirteen Information Privacy Principles (IPPs), including IPP 3A (indirect collection notification) which came into force on 1 May 2026.
               </p>
               <p className="mt-3">
                 Our nominated Privacy Officer is the assembl founder, Kate Hudson. You can reach the Privacy Officer at{' '}
@@ -57,7 +57,7 @@ export default function PrivacyPage() {
                 <li className="list-disc"><strong>Communications</strong> — emails, support messages, contact-form submissions.</li>
               </ul>
               <p className="mt-3">
-                We do not collect special categories of information (health, biometric, children&apos;s data) unless your specific Industry Pack requires it and you have given explicit consent. The Tōro family kete may collect information about tamariki — that data is scoped to your whānau tenant and never surfaced outside it.
+                We do not collect sensitive information (health, biometric, children&apos;s data, or similarly high-care records) unless the specific workflow requires it and you have a lawful basis to provide it. Tōro and education tools may involve information about tamariki or students. Those workflows are draft-only, scoped to the user or tenant, and must be reviewed by the responsible adult before being shared or acted on.
               </p>
             </SectionReveal>
 
@@ -81,10 +81,10 @@ export default function PrivacyPage() {
                 When you give us information directly — through a signup form, a Pilot Sprint enquiry, a workflow submission — we tell you what we&apos;re collecting and why, at the point of collection. That&apos;s IPP 3.
               </p>
               <p className="mt-3">
-                Under <strong>IPP 3A</strong>, which came into force on 1 May 2026, when we collect personal information about you from someone else (for example, a teammate adds you to their assembl tenant, or your accountant Xero shares your details so we can issue invoices), we will notify you as soon as practicable — usually by email — that we&apos;ve received your information, what we&apos;re using it for, and how you can correct it.
+                Under <strong>IPP 3A</strong>, which came into force on 1 May 2026, when we collect personal information about you from someone else (for example, a teammate adds you to their assembl tenant, a parent uploads a school notice naming a child, or an operator uploads a meeting transcript naming attendees), assembl designs the workflow to keep the source and purpose visible and support notification where required.
               </p>
               <p className="mt-3">
-                Exceptions: we don&apos;t send an IPP 3A notification when the information comes from a regulator (Inland Revenue, WorkSafe, the Privacy Commissioner) or when notification would prejudice the maintenance of the law.
+                We do not automatically send IPP 3A notices from public tools. The person using the tool remains responsible for deciding whether notification is required before sharing or relying on the output. Tenant workflows can add explicit notification tasks and evidence-pack records.
               </p>
             </SectionReveal>
 
@@ -112,7 +112,7 @@ export default function PrivacyPage() {
                 <li className="list-disc"><strong>Cloudflare</strong> (United States) — DNS and DDoS protection.</li>
               </ul>
               <p className="mt-3">
-                Under IPP 12 (cross-border disclosure), we have taken reasonable steps to ensure each of the above provides comparable safeguards to the Privacy Act 2020 — through their published data-processing agreements, ISO 27001 certifications, and Privacy Shield / Standard Contractual Clauses where applicable.
+                Under IPP 12 (cross-border disclosure), we take reasonable steps to satisfy ourselves that providers used for personal information processing offer comparable safeguards to the Privacy Act 2020. We do this through published data-processing terms, security documentation, contractual controls, regional hosting where available, and minimisation or masking before model calls where practicable.
               </p>
               <p className="mt-3">
                 We do not share personal information with marketers, data brokers, advertisers, or any third party that has not been listed above. If we needed to add a new provider, this page would be updated and material changes communicated to active tenants.
@@ -169,7 +169,7 @@ export default function PrivacyPage() {
             <SectionReveal delay={0.7}>
               <h2 className="font-display text-2xl font-light italic md:text-3xl">Changes to this policy</h2>
               <p className="mt-3">
-                We&apos;ll update this page as the platform changes. Substantive changes get a new "last reviewed" date at the top. Material changes that affect your obligations under an active contract will be communicated to you in writing at least 14 days before they take effect.
+                We&apos;ll update this page as the platform changes. Substantive changes get a new &quot;last reviewed&quot; date at the top. Material changes that affect your obligations under an active contract will be communicated to you in writing at least 14 days before they take effect.
               </p>
               <p className="mt-3 text-sm text-[color:var(--text-secondary)]">
                 See also: <Link href="/legal/disclaimer" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Disclaimer</Link> · <Link href="/legal/terms" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Terms of Use</Link>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "assembl produces drafts and evidence packs reviewed by a named person on your team. We do not provide legal, tax, medical, or financial advice.",
 };
 
-const LAST_REVIEWED = '19 May 2026';
+const LAST_REVIEWED = '27 May 2026';
 
 export default function DisclaimerPage() {
   return (
@@ -91,7 +91,7 @@ export default function DisclaimerPage() {
             <SectionReveal delay={0.55}>
               <h2 className="font-display text-2xl font-light italic md:text-3xl">Updates to this disclaimer.</h2>
               <p className="mt-3">
-                We may update this page as the platform matures. Substantive changes are recorded with a new "last reviewed" date at the top. Material changes that affect your obligations under an active contract will be communicated to you in writing.
+                We may update this page as the platform matures. Substantive changes are recorded with a new &quot;last reviewed&quot; date at the top. Material changes that affect your obligations under an active contract will be communicated to you in writing.
               </p>
             </SectionReveal>
 
