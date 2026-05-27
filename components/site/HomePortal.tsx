@@ -612,6 +612,7 @@ function KeteCardGrid({
     <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3" aria-label="Choose a specialist kete pack">
       {ketes.map((kete, index) => {
         const active = kete.slug === activeSlug;
+        const isToro = kete.slug === 'toro';
         return (
           <motion.div
             key={kete.slug}
@@ -633,16 +634,24 @@ function KeteCardGrid({
               aria-current={active ? 'true' : undefined}
             >
               <span
-                className="relative block aspect-[16/10] w-full overflow-hidden border-b border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)]"
+                className={[
+                  'relative block aspect-[16/10] w-full overflow-hidden border-b border-[rgba(35,33,31,0.10)]',
+                  isToro
+                    ? 'bg-[linear-gradient(135deg,#F7F1E8_0%,#E9EEE7_52%,#F4EFE8_100%)]'
+                    : 'bg-[color:var(--assembl-paper)]',
+                ].join(' ')}
                 aria-hidden
               >
                 <Image
                   src={kete.heroImage}
                   alt=""
                   fill
-                  sizes="170px"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                  style={{ objectPosition: "50% 35%" }}
+                  sizes="(min-width: 1280px) 30vw, (min-width: 768px) 46vw, 100vw"
+                  className={[
+                    'transition-transform duration-500 group-hover:scale-[1.04]',
+                    isToro ? 'object-contain p-7 sm:p-8' : 'object-cover',
+                  ].join(' ')}
+                  style={{ objectPosition: isToro ? '50% 50%' : '50% 35%' }}
                 />
                 <span
                   className="absolute inset-x-0 top-0 h-1.5 bg-[color:var(--tile-accent)]"
