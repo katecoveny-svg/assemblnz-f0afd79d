@@ -539,23 +539,26 @@ export function HomePortal({ ketes }: HomePortalProps) {
         </div>
       </RevealSection>
 
-      <RevealSection className="bg-[color:var(--assembl-pounamu)] px-6 py-32 text-[#FAF7F2] md:px-12 md:py-40" reduceMotion={reduceMotion}>
-        <div className="mx-auto flex max-w-[1500px] flex-col items-center gap-8 text-center">
-          <h2 className="max-w-4xl font-display text-[clamp(3rem,7vw,6rem)] font-normal italic leading-tight text-[#FAF7F2]">
+      <RevealSection className="relative overflow-hidden border-y border-[rgba(43,107,87,0.16)] bg-[linear-gradient(135deg,rgba(250,247,242,0.92),rgba(232,239,233,0.70)_48%,rgba(250,247,242,0.88))] px-6 py-32 text-[#103F35] md:px-12 md:py-40" reduceMotion={reduceMotion}>
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_20%,rgba(255,255,255,0.88),transparent_34%),radial-gradient(circle_at_76%_78%,rgba(43,107,87,0.18),transparent_42%)]" aria-hidden />
+        <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent" aria-hidden />
+        <div className="pointer-events-none absolute inset-x-10 bottom-0 h-px bg-gradient-to-r from-transparent via-[rgba(43,107,87,0.36)] to-transparent" aria-hidden />
+        <div className="relative mx-auto flex max-w-[1500px] flex-col items-center gap-8 rounded-[34px] border border-white/58 bg-white/30 px-5 py-14 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.82),0_32px_110px_rgba(43,107,87,0.13)] backdrop-blur-2xl md:px-12 md:py-18">
+          <h2 className="max-w-4xl font-display text-[clamp(3rem,7vw,6rem)] font-normal italic leading-tight text-[#103F35]">
             Bring one workflow. Leave with proof.
           </h2>
-          <p className="max-w-[620px] text-[17px] leading-[1.6] text-[#FAF7F2]/86 md:text-base">
+          <p className="max-w-[620px] text-[17px] leading-[1.6] text-[#2F3440] md:text-base">
             Ten working days. One job your team actually runs. An evidence pack
             you can hand to anyone.
           </p>
           <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
-            <Link href="/pilot-sprint" className="inline-flex h-12 items-center justify-center rounded-[8px] bg-[#FAF7F2] px-6 font-medium text-[color:var(--assembl-pounamu)]">
+            <Link href="/pilot-sprint" className="inline-flex h-12 items-center justify-center rounded-full border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(232,239,233,0.64))] px-6 font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_16px_42px_rgba(43,107,87,0.13)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-white hover:bg-white/80">
               Book a pilot <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
-            <Link href="/hapai" className="inline-flex h-12 items-center justify-center rounded-[8px] border border-[#FAF7F2]/45 px-6 font-medium text-[#FAF7F2]">
+            <Link href="/hapai" className="inline-flex h-12 items-center justify-center rounded-full border border-[rgba(43,107,87,0.20)] bg-white/36 px-6 font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/58">
               Try a HAPAI tool <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
-            <Link href="/evidence-pack" className="inline-flex h-12 items-center justify-center rounded-[8px] border border-[#FAF7F2]/45 px-6 font-medium text-[#FAF7F2]">
+            <Link href="/evidence-pack" className="inline-flex h-12 items-center justify-center rounded-full border border-[rgba(43,107,87,0.20)] bg-white/36 px-6 font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/58">
               See an evidence pack <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
           </div>
