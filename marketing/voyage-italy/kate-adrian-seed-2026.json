@@ -1,0 +1,154 @@
+{
+  "$comment": "Kate + Adrian Italy 2026 trip seed. Used by scripts/seed-kate-italy-2026.ts to populate a private voyage_shared_trips row. Generated 2026-05-21 from existing italiaitalia.lovable.app build. NOT public — the share_slug generated at seed time is the only auth.",
+  "externalId": "kate-italy-2026",
+  "title": "Kate + Adrian · Italia 2026",
+  "travellers": [
+    { "id": "kate", "name": "Kate" },
+    { "id": "adrian", "name": "Adrian" }
+  ],
+  "departDate": "2026-05-24",
+  "departFrom": "AKL",
+  "tripStartDate": "2026-05-25",
+  "tripEndDate": "2026-06-10",
+  "totalNights": 17,
+  "budget": {
+    "currency": "NZD",
+    "accommodationNzd": 4428,
+    "flightsNzd": 9700,
+    "estimatedTotalNzd": 15987,
+    "activitiesBudgetNzd": null
+  },
+  "stops": [
+    {
+      "id": "milan",
+      "label": "Milan",
+      "order": 1,
+      "checkIn": "2026-05-25",
+      "checkOut": "2026-05-28",
+      "nights": 3,
+      "hotel": { "name": "Crowne Plaza Milan City", "status": "booked" },
+      "highlights": [
+        "Day trip Como",
+        "Navigli District",
+        "Duomo Rooftop Terraces",
+        "Galleria Vittorio Emanuele"
+      ]
+    },
+    {
+      "id": "lake-garda",
+      "label": "Lake Garda",
+      "order": 2,
+      "checkIn": "2026-05-28",
+      "checkOut": "2026-05-30",
+      "nights": 2,
+      "hotel": { "name": "Bellerive Lifestyle Hotel", "status": "booked" },
+      "highlights": ["Monte Baldo", "Verona"],
+      "driveFromPrevious": { "from": "Milan", "approxHours": "1.5–2" }
+    },
+    {
+      "id": "florence",
+      "label": "Florence",
+      "order": 3,
+      "checkIn": "2026-05-30",
+      "checkOut": "2026-06-01",
+      "nights": 2,
+      "hotel": {
+        "name": "Dimora Collection – Le Logge (Historic Boutique Luxury Suites)",
+        "status": "booked"
+      },
+      "highlights": ["Uffizi", "David"],
+      "driveFromPrevious": { "from": "Lake Garda", "approxHours": "3" }
+    },
+    {
+      "id": "tuscany",
+      "label": "Tuscany",
+      "order": 4,
+      "checkIn": "2026-06-01",
+      "checkOut": "2026-06-03",
+      "nights": 2,
+      "hotel": { "name": "Villa Mami", "status": "booked" },
+      "highlights": ["Chianti", "Siena", "Val d'Orcia"],
+      "driveFromPrevious": { "from": "Florence", "approxHours": "1–1.5" }
+    },
+    {
+      "id": "rome",
+      "label": "Rome",
+      "order": 5,
+      "checkIn": "2026-06-03",
+      "checkOut": "2026-06-05",
+      "nights": 2,
+      "hotel": { "name": "TODO — confirm from booking", "status": "booked" },
+      "highlights": ["Colosseum", "Vatican"]
+    },
+    {
+      "id": "praiano-amalfi",
+      "label": "Praiano & Amalfi",
+      "order": 6,
+      "checkIn": "2026-06-05",
+      "checkOut": "2026-06-09",
+      "nights": 4,
+      "hotel": { "name": "NS Praiano", "status": "booked" },
+      "highlights": ["Capri", "Positano", "Path of the Gods"]
+    },
+    {
+      "id": "rome-fly",
+      "label": "Rome (departure)",
+      "order": 7,
+      "checkIn": "2026-06-09",
+      "checkOut": "2026-06-10",
+      "nights": 1,
+      "hotel": { "name": "TODO — confirm from booking", "status": "booked" },
+      "highlights": ["Final night before flight home"]
+    }
+  ],
+  "sampleActivities": [
+    {
+      "stopId": "milan",
+      "date": "2026-05-25",
+      "label": "Arrive Malpensa 6:30am",
+      "note": "Malpensa Express to Centrale (~50min, ~€13). Taxi ~€100. Milan = walk + metro. No car needed.",
+      "category": "logistics"
+    },
+    {
+      "stopId": "milan",
+      "label": "Navigli District",
+      "note": "Canalside walk, first espresso",
+      "category": "free",
+      "costEur": 0
+    },
+    {
+      "stopId": "milan",
+      "label": "Duomo Rooftop Terraces",
+      "note": "Book elevator, sunset views",
+      "category": "ticket",
+      "costEur": 22
+    },
+    {
+      "stopId": "milan",
+      "label": "Aperitivo Galleria V. Emanuele",
+      "note": "World's oldest shopping mall",
+      "category": "dine",
+      "costEur": 15
+    }
+  ],
+  "translatorPreferences": {
+    "fromLocale": "en-NZ",
+    "toLocale": "it-IT",
+    "voicePersona": "natural-female",
+    "ttsAutoSpeak": true,
+    "phrasebookCategories": [
+      "greetings",
+      "restaurant",
+      "directions",
+      "emergencies",
+      "shopping",
+      "transport"
+    ]
+  },
+  "costSplitterPreferences": {
+    "currency": "EUR",
+    "homeCurrency": "NZD",
+    "splitMode": "equal-default",
+    "categories": ["food", "transport", "lodging", "tickets", "shopping", "other"]
+  }
+}
