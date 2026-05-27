@@ -45,3 +45,7 @@
 ## 2026-06-30 - [High-Intent Indicators and Focus Parity]
 **Learning:** Secondary tokens like "Soft Gold" (~2.2:1 contrast) fail accessibility standards for high-intent signals like the required asterisk (*) in forms. Furthermore, keyboard users miss out on UI "delight" if hover-triggered elevation or scaling isn't mirrored on focus. Finally, containers with `overflow-hidden` clip standard `ring` indicators.
 **Action:** Use the primary "Pounamu" green (5.8:1 contrast) for all high-intent indicators including form required markers. Mirror all hover-lift and scale effects in `focus-within` or `focus-visible` states, and use `outline` with an offset for focus rings on `overflow-hidden` containers to prevent clipping.
+
+## 2026-07-05 - [Real-time Chat Accessibility]
+**Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
+**Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
