@@ -431,12 +431,10 @@ export function HomePortal({ ketes }: HomePortalProps) {
               Not just an answer. A record.
             </h2>
             <p className="mt-6 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Every workflow ends in a single document with the work and its
-              working. Sources cited inline. Assumptions made explicit. Checks
-              logged. Review notes attached. A timestamp on every step. A hash
-              chain that proves nothing has been changed since the reviewer
-              signed off. File it. Forward it. Footnote it. Hand it to your
-              auditor, your insurer, your board.
+              Every workflow ends with a review-ready record: what was asked,
+              what sources were used, what changed, who checked it, and when
+              it was signed off. It is built for the person who needs to stand
+              behind the work later.
             </p>
             <Link href="/evidence-pack" className="mt-8 inline-flex h-12 items-center rounded-[8px] bg-[color:var(--assembl-pounamu)] px-6 font-medium text-[#FAF7F2]">
               See an evidence pack <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
@@ -460,8 +458,8 @@ export function HomePortal({ ketes }: HomePortalProps) {
                   Consent variation pack.
                 </h3>
                 <p className="mt-4 max-w-xl text-sm leading-relaxed text-[color:var(--text-body)]">
-                  A fileable record of the inputs, checks, draft, reviewer notes,
-                  and the final sign-off trail.
+                  A plain record of the source documents, draft response,
+                  reviewer notes, and final sign-off trail.
                 </p>
               </div>
               <EvidencePackPreview
@@ -470,7 +468,8 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 reviewer="Mere Wilson"
                 generatedAt="21 May 2026 · 09:42 NZST"
                 citations={['Building Act 2004', 'Food Act 2014', 'Privacy Act 2020']}
-                checks={['Source documents attached', 'Reviewer note recorded', 'Hash-chain entry sealed']}
+                checks={['Source documents attached', 'Reviewer note recorded', 'Audit trail captured']}
+                statusLabel="Human reviewed"
                 className="bg-white/82"
               />
               <div className="grid gap-3 sm:grid-cols-3">

@@ -9,6 +9,7 @@ export type EvidencePackPreviewProps = {
   accent?: string;
   citations?: string[];
   checks?: string[];
+  statusLabel?: string;
   className?: string;
 };
 
@@ -19,7 +20,8 @@ export function EvidencePackPreview({
   generatedAt = 'Generated at review time',
   accent = 'var(--assembl-pounamu)',
   citations = ['Privacy Act 2020', 'Health and Safety at Work Act 2015', 'Building Act 2004'],
-  checks = ['Source record attached', 'Human review required', 'Mana seal pending'],
+  checks = ['Source record attached', 'Named human reviewer', 'Audit record kept'],
+  statusLabel = 'Reviewed',
   className = '',
 }: EvidencePackPreviewProps) {
   return (
@@ -38,7 +40,7 @@ export function EvidencePackPreview({
             </h3>
           </div>
           <div className="rounded-full border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em]" style={{ borderColor: `${accent}55`, color: accent }}>
-            Mana seal
+            {statusLabel}
           </div>
         </div>
 
@@ -46,7 +48,7 @@ export function EvidencePackPreview({
 
         <dl className="grid gap-3 text-sm text-[color:var(--text-body)] sm:grid-cols-3">
           <div>
-            <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">Workflow</dt>
+            <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">Record ID</dt>
             <dd className="mt-1">{workflowId}</dd>
           </div>
           <div>
