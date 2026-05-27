@@ -204,16 +204,16 @@ export function HomePortal({ ketes }: HomePortalProps) {
       <RevealSection id="product-map" className="scroll-mt-24 border-b border-[rgba(35,33,31,0.08)] bg-[color:var(--assembl-paper)] px-6 py-28 md:px-12 md:py-36" reduceMotion={reduceMotion}>
         <div className="mx-auto max-w-[1500px]">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-            HOW TO READ ASSEMBL
+            WHAT TO USE
           </p>
           <div className="mt-4 grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
             <h2 className="max-w-4xl font-display text-[clamp(2.8rem,6vw,5rem)] font-normal italic leading-tight">
-              Pick the right door.
+              Start with the work in front of you.
             </h2>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              HAPAI is the shareable tool library. Kete are specialist packs.
-              Workflows are repeatable jobs with review and evidence. They are
-              different doors into the same operating layer.
+              Use HAPAI for a quick public tool. Use a kete when the work needs
+              specialist knowledge. Use workflows when the same job needs to run
+              the same way every time.
             </p>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
