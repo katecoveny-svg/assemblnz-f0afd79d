@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, Send, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type Message = {
   role: 'user' | 'agent';
@@ -64,6 +65,17 @@ export function AssemblConciergeWidget() {
         'Kia ora. I know the assembl offer, kete, pricing, evidence packs, and agent fleet. Ask me where to start.',
     },
   ]);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom whenever messages change or widget opens
+  useEffect(() => {
+    if (open && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [messages, open]);
 
   const latestMatch = useMemo(() => {
     const last = [...messages].reverse().find((message) => message.role === 'user');
@@ -106,7 +118,8 @@ export function AssemblConciergeWidget() {
           </div>
 
           <div
-            className="max-h-[420px] space-y-3 overflow-y-auto p-4"
+            ref={scrollContainerRef}
+            className="max-h-[420px] space-y-3 overflow-y-auto p-4 scroll-smooth"
             aria-live="polite"
           >
             {messages.map((message, index) => (
@@ -146,26 +159,47 @@ export function AssemblConciergeWidget() {
                 event.preventDefault();
                 send();
               }}
-              className="flex items-center gap-2"
+              className="flex flex-col gap-2"
             >
-              <label htmlFor="assembl-guide-input" className="sr-only">
-                Ask assembl guide
-              </label>
-              <input
-                id="assembl-guide-input"
-                value={draft}
-                onChange={(event) => setDraft(event.target.value)}
-                placeholder="Ask about assembl..."
-                className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] outline-none transition-all focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/20"
-              />
-              <button
-                type="submit"
-                aria-label="Send"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)] transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 disabled:opacity-40"
-                disabled={!draft.trim()}
-              >
-                <Send className="h-4 w-4" aria-hidden />
-              </button>
+              <div className="flex items-center gap-2">
+                <label htmlFor="assembl-guide-input" className="sr-only">
+                  Ask assembl guide
+                </label>
+                <input
+                  id="assembl-guide-input"
+                  value={draft}
+                  onChange={(event) => setDraft(event.target.value)}
+                  placeholder="Ask about assembl..."
+                  maxLength={1000}
+                  aria-describedby="concierge-counter"
+                  className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] outline-none transition-all focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/20"
+                />
+                <button
+                  type="submit"
+                  aria-label="Send"
+                  title="Send message"
+                  className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)] transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 disabled:opacity-40"
+                  disabled={!draft.trim()}
+                >
+                  <Send className="h-4 w-4" aria-hidden />
+                </button>
+              </div>
+              {draft.length > 0 && (
+                <div className="flex justify-end">
+                  <span
+                    id="concierge-counter"
+                    className={cn(
+                      "font-mono text-[9px] uppercase tracking-[0.1em]",
+                      draft.length > 900
+                        ? "text-destructive font-medium"
+                        : "text-[color:var(--text-secondary)]"
+                    )}
+                    aria-live="polite"
+                  >
+                    {draft.length} / 1000
+                  </span>
+                </div>
+              )}
             </form>
             <Link
               href={latestMatch.href}
