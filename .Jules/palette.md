@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-10 - [Chat Interaction Continuity]
+**Learning:** In streaming or multi-turn chat interfaces, failing to automatically scroll to the latest message forces the user to manually track progress, breaking the conversational flow. Using a `scrollContainerRef` within a `useEffect` triggered by message updates ensures the most recent interaction is always anchored in the viewport.
+**Action:** Always implement automatic scrolling to the latest content in chat-like components, and use `scroll-smooth` to provide a non-jarring visual transition for new messages.

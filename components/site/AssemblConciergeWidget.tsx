@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, Send, X } from 'lucide-react';
 
@@ -57,6 +57,7 @@ const KNOWLEDGE = [
 export function AssemblConciergeWidget() {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'agent',
@@ -72,7 +73,7 @@ export function AssemblConciergeWidget() {
 
   const send = (text = draft) => {
     const trimmed = text.trim();
-    if (!trimmed) return;
+    if (!trimmed || trimmed.length > 1000) return;
     const found = findAnswer(trimmed);
     setMessages((current) => [
       ...current,
@@ -81,6 +82,12 @@ export function AssemblConciergeWidget() {
     ]);
     setDraft('');
   };
+
+  useEffect(() => {
+    if (open && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
+    }
+  }, [messages, open]);
 
   return (
     <aside className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 md:bottom-6 md:right-6">
@@ -106,7 +113,8 @@ export function AssemblConciergeWidget() {
           </div>
 
           <div
-            className="max-h-[420px] space-y-3 overflow-y-auto p-4"
+            ref={scrollContainerRef}
+            className="max-h-[420px] space-y-3 overflow-y-auto p-4 scroll-smooth"
             aria-live="polite"
           >
             {messages.map((message, index) => (
@@ -151,13 +159,23 @@ export function AssemblConciergeWidget() {
               <label htmlFor="assembl-guide-input" className="sr-only">
                 Ask assembl guide
               </label>
-              <input
-                id="assembl-guide-input"
-                value={draft}
-                onChange={(event) => setDraft(event.target.value)}
-                placeholder="Ask about assembl..."
-                className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] outline-none transition-all focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/20"
-              />
+              <div className="relative flex-1">
+                <input
+                  id="assembl-guide-input"
+                  value={draft}
+                  onChange={(event) => setDraft(event.target.value.slice(0, 1000))}
+                  placeholder="Ask about assembl..."
+                  className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 pr-16 text-sm text-[color:var(--text-primary)] outline-none transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                  aria-describedby="concierge-counter"
+                />
+                <span
+                  id="concierge-counter"
+                  className={["absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[9px] uppercase tracking-wider", draft.length >= 1000 ? "text-destructive font-bold" : "text-[color:var(--text-secondary)]"].join(" ")}
+                  aria-live="polite"
+                >
+                  {draft.length}/1k
+                </span>
+              </div>
               <button
                 type="submit"
                 aria-label="Send"
@@ -183,6 +201,7 @@ export function AssemblConciergeWidget() {
         onClick={() => setOpen((value) => !value)}
         className="inline-flex h-14 items-center gap-3 rounded-full border border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-pounamu)] px-5 text-sm font-medium text-[color:var(--assembl-paper)] shadow-[0_16px_50px_rgba(35,33,31,0.20)] transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
         aria-expanded={open}
+        aria-haspopup="dialog"
       >
         <MessageCircle className="h-5 w-5" aria-hidden />
         Ask assembl
