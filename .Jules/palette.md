@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-10 - [Concierge Interaction and Scroll Management]
+**Learning:** Dynamic chat widgets require explicit state management to remain intuitive. Without auto-scroll, new messages are hidden "below the fold," breaking the conversational flow. Furthermore, providing a character limit on chat inputs prevents silent failures and helps users calibrate their queries.
+**Action:** Always implement `useEffect`-driven scroll management for message-based interfaces to keep the latest interaction in view. Pair limited inputs with real-time character counters and appropriate ARIA roles (`role="dialog"`, `aria-live="polite"`) to ensure the widget is accessible and responsive to user input.
