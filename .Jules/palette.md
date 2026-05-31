@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-10 - [Dialog Focus Management and Layout Constraints]
+**Learning:** Custom dialog-like components (such as concierge widgets) require manual focus restoration to prevent the user's keyboard focus from being lost when the widget is dismissed. Furthermore, placing absolute-positioned elements like character counters near the edges of `overflow-hidden` containers will cause visual clipping.
+**Action:** Use a `triggerRef` to restore focus to the opening element when a dialog closes, and ensure auxiliary information like counters are placed within the internal flow or padding of a container rather than relying on absolute positioning that might exceed bounds.
