@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-10 - [Concierge Widget Focus Management]
+**Learning:** When implementing manual focus management (like focusing an input when a widget opens), it's critical to guard against focus-stealing on initial mount. Using an `isFirstRender` ref ensures that programmatic focus only triggers on user-initiated state changes (e.g., opening the widget) and not during the page's initial hydration, which could disrupt the user's expected tab order or accessibility experience. Furthermore, restoring focus to the trigger element on close is essential for maintaining a coherent navigation flow.
+**Action:** Always use an `isFirstRender` guard when adding programmatic `focus()` calls in `useEffect` hooks and ensure focus is restored to the initiating element when a modal or widget is dismissed.

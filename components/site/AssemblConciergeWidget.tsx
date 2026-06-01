@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, Send, X } from 'lucide-react';
 
@@ -54,9 +54,14 @@ const KNOWLEDGE = [
   },
 ] as const;
 
+const CHAR_LIMIT = 1000;
+
 export function AssemblConciergeWidget() {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'agent',
@@ -69,6 +74,38 @@ export function AssemblConciergeWidget() {
     const last = [...messages].reverse().find((message) => message.role === 'user');
     return last ? findAnswer(last.body) : KNOWLEDGE[2];
   }, [messages]);
+
+  useEffect(() => {
+    if (open) {
+      scrollRef.current?.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [messages, open]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (!open) {
+      triggerRef.current?.focus();
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open]);
 
   const send = (text = draft) => {
     const trimmed = text.trim();
@@ -85,13 +122,21 @@ export function AssemblConciergeWidget() {
   return (
     <aside className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 md:bottom-6 md:right-6">
       {open ? (
-        <div className="w-[min(calc(100vw-2rem),390px)] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[color:var(--assembl-paper)] shadow-[0_24px_80px_rgba(35,33,31,0.22)]">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="assembl-guide-title"
+          className="w-[min(calc(100vw-2rem),390px)] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[color:var(--assembl-paper)] shadow-[0_24px_80px_rgba(35,33,31,0.22)]"
+        >
           <div className="flex items-start justify-between gap-4 border-b border-[rgba(35,33,31,0.10)] bg-white/60 p-4">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
                 assembl guide
               </p>
-              <h2 className="mt-1 font-display text-2xl font-light leading-none text-[color:var(--text-primary)]">
+              <h2
+                id="assembl-guide-title"
+                className="mt-1 font-display text-2xl font-light leading-none text-[color:var(--text-primary)]"
+              >
                 Ask about the mahi.
               </h2>
             </div>
@@ -106,6 +151,7 @@ export function AssemblConciergeWidget() {
           </div>
 
           <div
+            ref={scrollRef}
             className="max-h-[420px] space-y-3 overflow-y-auto p-4"
             aria-live="polite"
           >
@@ -151,13 +197,24 @@ export function AssemblConciergeWidget() {
               <label htmlFor="assembl-guide-input" className="sr-only">
                 Ask assembl guide
               </label>
-              <input
-                id="assembl-guide-input"
-                value={draft}
-                onChange={(event) => setDraft(event.target.value)}
-                placeholder="Ask about assembl..."
-                className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] outline-none transition-all focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/20"
-              />
+              <div className="relative flex-1">
+                <input
+                  id="assembl-guide-input"
+                  autoFocus
+                  value={draft}
+                  onChange={(event) => setDraft(event.target.value.slice(0, CHAR_LIMIT))}
+                  placeholder="Ask about assembl..."
+                  maxLength={CHAR_LIMIT}
+                  className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 pr-16 text-sm text-[color:var(--text-primary)] outline-none transition-all focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/20"
+                />
+                <span
+                  className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[9px] uppercase tracking-wider text-[color:var(--text-secondary)]"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {draft.length}/{CHAR_LIMIT}
+                </span>
+              </div>
               <button
                 type="submit"
                 aria-label="Send"
@@ -179,6 +236,7 @@ export function AssemblConciergeWidget() {
       ) : null}
 
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((value) => !value)}
         className="inline-flex h-14 items-center gap-3 rounded-full border border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-pounamu)] px-5 text-sm font-medium text-[color:var(--assembl-paper)] shadow-[0_16px_50px_rgba(35,33,31,0.20)] transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
