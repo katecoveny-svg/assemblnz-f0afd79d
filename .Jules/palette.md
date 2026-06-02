@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-08 - [Custom Dialog Focus Management]
+**Learning:** Custom interactive widgets (like the AssemblConciergeWidget) that function as dialogs but are implemented as separate aside components often miss critical accessibility features like Escape key dismissal and focus restoration. Without these, keyboard users can become "trapped" or lose their place in the UI.
+**Action:** Always implement Escape key dismissal and use a ref to restore focus to the trigger button when closing custom dialogs or aside-based widgets.
