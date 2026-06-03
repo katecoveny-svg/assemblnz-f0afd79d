@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-10 - [Dialog Focus and Status Clarity]
+**Learning:** `autoFocus` can be unreliable for screen readers in complex Next.js dialogs, especially when combined with entrance animations. Programmatic focus (`ref.current?.focus()`) inside a `useEffect` ensures the input is reliably focused when the dialog is ready. Additionally, visual-only status indicators (like typing spinners) must have `sr-only` descriptions to maintain interaction parity.
+**Action:** Prefer programmatic focus management for modals and always accompany visual status indicators with screen-reader-only context.
