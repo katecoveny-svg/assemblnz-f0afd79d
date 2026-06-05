@@ -58,8 +58,15 @@ export default function AgentsPage() {
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/app/chat"
+                href="/agents/pick"
                 className="cta-primary inline-flex h-12 items-center justify-center px-7 text-sm md:text-base"
+              >
+                Pick your crew
+                <MessageCircle className="ml-2 h-4 w-4" aria-hidden />
+              </Link>
+              <Link
+                href="/app/chat"
+                className="btn-ghost inline-flex h-12 items-center justify-center px-7 text-sm md:text-base"
               >
                 Talk to a specialist
                 <MessageCircle className="ml-2 h-4 w-4" aria-hidden />
