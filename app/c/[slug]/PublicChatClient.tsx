@@ -9,6 +9,7 @@ type Tenant = {
   name: string;
   kete: string;
   keteName: string;
+  keteDomain: string;
   logoUrl: string | null;
   brandColor: string;
 };
@@ -101,7 +102,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
     {
       id: 'hello',
       role: 'assistant',
-      body: `Kia ora. Ask ${tenant.name} a question and this ${tenant.keteName} fleet will draft a grounded reply for review.`,
+      body: `Kia ora. Ask ${tenant.name} — ${tenant.keteDomain} a question and the ${tenant.keteName} pack will draft a grounded reply for review.`,
       createdAt: new Date().toISOString(),
     },
   ]);
@@ -360,7 +361,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
               {tenant.name}
             </h1>
             <p className="mt-1 truncate font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-              {tenant.keteName} fleet
+              {tenant.keteName} · {tenant.keteDomain}
             </p>
           </div>
         </div>

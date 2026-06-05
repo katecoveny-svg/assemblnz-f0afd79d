@@ -16,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { ShareableToolActions } from "@/components/hapai/ShareableToolActions";
+import { ToolLeadCapture } from "@/components/hapai/ToolLeadCapture";
 
 const modes = [
   { id: "essay-plan", label: "Essay plan", icon: BookOpen },
@@ -363,6 +364,13 @@ export function StudyHelperTool() {
               <button type="button" onClick={downloadMarkdown} className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550] hover:text-[#23211F]">
                 <Download className="h-4 w-4" /> Download .md
               </button>
+            </div>
+            <div className="mt-6">
+              <ToolLeadCapture
+                toolSlug="study-helper"
+                title="Email me this study plan"
+                blurb="Optional. We’ll send a copy of this plan. The tool works either way."
+              />
             </div>
           </section>
         ) : null}

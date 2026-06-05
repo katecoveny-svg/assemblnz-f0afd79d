@@ -223,7 +223,7 @@ export default function HapaiPage() {
                       </Link>
                       <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
                         <Link
-                          href={getHapaiToolShareImagePath(tool.slug)}
+                          href={getHapaiToolShareImagePath(tool)}
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)] transition hover:text-[color:var(--assembl-pounamu)]"

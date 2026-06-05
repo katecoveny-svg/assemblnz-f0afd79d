@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Camera, Copy, Download } from "lucide-react";
+import { ToolLeadCapture } from "@/components/hapai/ToolLeadCapture";
 
 type FridgeResult = {
   spotted: string[];
@@ -175,6 +176,14 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
               <button type="button" className="rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550]">Add to Tōro week plan</button>
             </div>
             {/* TODO 2026-Q3: post the meal plan to Tōro week-view via tenant_kete_data — link this tool into the broader Tōro family workflow when Tōro tenant onboarding is shipped. For now it's standalone at both routes. */}
+            <div className="mt-6">
+              <ToolLeadCapture
+                toolSlug="fridge-to-list"
+                title="Email me this kai plan"
+                blurb="Optional. We’ll send your meal plan and shopping list. The tool works either way."
+                payload={{ meals: result.meals.length, shoppingSections: result.shoppingList.length }}
+              />
+            </div>
           </section>
         )}
       </div>
