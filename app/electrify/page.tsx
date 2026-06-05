@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: "Electrify — count your fossil machines",
     description:
       "Real NZ prices. Deterministic maths. A 90-second electrification calculator from assembl.",
-    images: ["/img/hapai/tools/electrify-share-card.png"],
+    images: ["/electrify/opengraph-image"],
   },
 };
 

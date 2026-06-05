@@ -6,6 +6,13 @@ export const metadata: Metadata = {
   title: "hapai project picker · assembl",
   description:
     "Answer three questions and get three ranked candidate projects for your team’s next intelligent automation build.",
+  openGraph: {
+    images: ["/hapai/projects/opengraph-image"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/hapai/projects/opengraph-image"],
+  },
 };
 
 const tiers = [

@@ -1,3 +1,5 @@
+import type { KeteSlug } from '@/lib/kete';
+
 export type HapaiToolVisual =
   | 'vessel'
   | 'caption'
@@ -12,7 +14,9 @@ export type HapaiToolVisual =
   | 'study'
   | 'privacy'
   | 'fridge'
-  | 'food-temp';
+  | 'food-temp'
+  | 'customs'
+  | 'admin-tax';
 
 export type HapaiTool = {
   slug: string;
@@ -24,9 +28,38 @@ export type HapaiTool = {
   shareable: boolean;
   category: 'adoption' | 'operations' | 'marketing' | 'record' | 'lifestyle' | 'education';
   posture: string;
+  /** The kete this tool belongs to, when it maps to one. Drives the "open the
+   *  matching kete chat" link and library grouping. */
+  kete?: KeteSlug;
 };
 
 export const HAPAI_TOOLS: readonly HapaiTool[] = [
+  {
+    slug: 'customs-entry',
+    name: 'Customs entry drafter',
+    status: 'live',
+    description:
+      'Paste a commercial invoice and walk away with a broker-ready customs entry draft — structured, evidence-listed, and never lodged.',
+    href: '/hapai/customs-entry',
+    visual: 'customs',
+    shareable: true,
+    category: 'operations',
+    kete: 'pikau',
+    posture:
+      'Draft only. It structures your invoice into entry fields, never invents an HS code, and never lodges to TSW. Your broker confirms classification and files.',
+  },
+  {
+    slug: 'admin-tax',
+    name: 'Admin tax calculator',
+    status: 'live',
+    description:
+      'Add up the unbilled admin hours your team loses each week and see the annual cost — then where a kete pack would claw it back.',
+    href: '/hapai/admin-tax',
+    visual: 'admin-tax',
+    shareable: true,
+    category: 'operations',
+    posture: 'Indicative calculator only. Confirm your own rates and hours before acting on the numbers.',
+  },
   {
     slug: 'vessel-studio',
     name: 'Vessel studio',
@@ -105,7 +138,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     posture: 'Draft language only. A human chooses and clears the final line.',
   },
   {
-    slug: 'project-picker',
+    slug: 'projects',
     name: 'Project picker',
     status: 'live',
     description: 'Three ranked candidate projects to build first',
@@ -179,12 +212,19 @@ export function getHapaiTool(slug: string): HapaiTool | undefined {
   return HAPAI_TOOLS.find((tool) => tool.slug === slug);
 }
 
-export function getHapaiToolShareImagePath(slug: string): string {
-  return `/hapai/${slug}/opengraph-image`;
+/**
+ * The share-card path is always derived from the tool's own path, so a tool's
+ * page and its `og:image` are guaranteed to live on the same slug. Tools under
+ * `/hapai/<slug>` are served by the dynamic `/hapai/[slug]/opengraph-image`
+ * route; tools with their own path (e.g. `/electrify`) ship a co-located
+ * `opengraph-image` route at that same path.
+ */
+export function getHapaiToolShareImagePath(tool: HapaiTool): string {
+  return `${tool.href.replace(/\/$/, '')}/opengraph-image`;
 }
 
-export function getHapaiToolShareImageUrl(slug: string): string {
-  return `https://www.assembl.co.nz${getHapaiToolShareImagePath(slug)}`;
+export function getHapaiToolShareImageUrl(tool: HapaiTool): string {
+  return `https://www.assembl.co.nz${getHapaiToolShareImagePath(tool)}`;
 }
 
 export function getHapaiToolUrl(tool: HapaiTool): string {
@@ -200,7 +240,7 @@ export function getHapaiToolEmailHref(tool: HapaiTool): string {
     tool.description,
     '',
     `Open it here: ${getHapaiToolUrl(tool)}`,
-    `Share image: ${getHapaiToolShareImageUrl(tool.slug)}`,
+    `Share image: ${getHapaiToolShareImageUrl(tool)}`,
     '',
     tool.posture,
   ].join('\n');

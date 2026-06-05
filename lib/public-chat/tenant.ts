@@ -9,6 +9,7 @@ export type PublicChatTenant = {
   name: string;
   kete: KeteSlug;
   keteName: string;
+  keteDomain: string;
   logoUrl: string | null;
   brandColor: string;
   contactEmail: string | null;
@@ -78,6 +79,7 @@ function fallbackTenant(slug: string): PublicChatTenant | null {
     name: slug === 'toro' ? 'Tōro Whānau' : kete.name,
     kete: slug,
     keteName: kete.name,
+    keteDomain: kete.industry,
     logoUrl: null,
     brandColor: slug === 'toro' ? FALLBACK_BRAND : kete.accent,
     contactEmail: 'hello@assembl.co.nz',
@@ -134,6 +136,7 @@ export async function getPublicChatTenant(slug: string): Promise<PublicChatTenan
     name: tenant.name,
     kete,
     keteName: keteDef.name,
+    keteDomain: keteDef.industry,
     logoUrl: optionalString(metadata.logo_url),
     brandColor: normaliseBrandColor(tenant.brand_color ?? metadata.brand_color),
     contactEmail:

@@ -16,7 +16,7 @@ export async function generateMetadata({
 
   return {
     title: `${tenant.name} chat`,
-    description: `Chat with ${tenant.name}'s ${tenant.keteName} fleet.`,
+    description: `Chat with ${tenant.name}'s ${tenant.keteName} pack.`,
     manifest: `/c/${tenant.slug}/manifest.json`,
     themeColor: tenant.brandColor,
     robots: { index: false, follow: false },
