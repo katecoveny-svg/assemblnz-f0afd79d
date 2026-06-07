@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, Send, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type Message = {
   role: 'user' | 'agent';
@@ -15,6 +16,8 @@ const QUICK_PROMPTS = [
   'How do agents collaborate?',
   'What is an evidence pack?',
 ] as const;
+
+const MAX_CHARS = 1000;
 
 const KNOWLEDGE = [
   {
@@ -65,13 +68,46 @@ export function AssemblConciergeWidget() {
     },
   ]);
 
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const isFirstRender = useRef(true);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    if (open) {
+      scrollToBottom();
+      // Focus the input when the widget opens, but not on initial page load
+      if (!isFirstRender.current) {
+        inputRef.current?.focus();
+      }
+    } else if (!isFirstRender.current) {
+      // Restore focus to trigger when closing
+      triggerRef.current?.focus();
+    }
+    isFirstRender.current = false;
+  }, [messages, open]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && open) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open]);
+
   const latestMatch = useMemo(() => {
     const last = [...messages].reverse().find((message) => message.role === 'user');
     return last ? findAnswer(last.body) : KNOWLEDGE[2];
   }, [messages]);
 
   const send = (text = draft) => {
-    const trimmed = text.trim();
+    const trimmed = text.slice(0, MAX_CHARS).trim();
     if (!trimmed) return;
     const found = findAnswer(trimmed);
     setMessages((current) => [
@@ -85,13 +121,21 @@ export function AssemblConciergeWidget() {
   return (
     <aside className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 md:bottom-6 md:right-6">
       {open ? (
-        <div className="w-[min(calc(100vw-2rem),390px)] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[color:var(--assembl-paper)] shadow-[0_24px_80px_rgba(35,33,31,0.22)]">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="concierge-title"
+          className="w-[min(calc(100vw-2rem),390px)] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[color:var(--assembl-paper)] shadow-[0_24px_80px_rgba(35,33,31,0.22)] animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-300"
+        >
           <div className="flex items-start justify-between gap-4 border-b border-[rgba(35,33,31,0.10)] bg-white/60 p-4">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
                 assembl guide
               </p>
-              <h2 className="mt-1 font-display text-2xl font-light leading-none text-[color:var(--text-primary)]">
+              <h2
+                id="concierge-title"
+                className="mt-1 font-display text-2xl font-light leading-none text-[color:var(--text-primary)]"
+              >
                 Ask about the mahi.
               </h2>
             </div>
@@ -115,17 +159,18 @@ export function AssemblConciergeWidget() {
                 className={message.role === 'user' ? 'flex justify-end' : 'flex justify-start'}
               >
                 <p
-                  className={[
+                  className={cn(
                     'max-w-[86%] rounded-[8px] px-3 py-2 text-sm leading-relaxed',
                     message.role === 'user'
                       ? 'bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
-                      : 'border border-[rgba(35,33,31,0.10)] bg-white/70 text-[color:var(--text-body)]',
-                  ].join(' ')}
+                      : 'border border-[rgba(35,33,31,0.10)] bg-white/70 text-[color:var(--text-body)]'
+                  )}
                 >
                   {message.body}
                 </p>
               </div>
             ))}
+            <div ref={messagesEndRef} />
           </div>
 
           <div className="border-t border-[rgba(35,33,31,0.10)] p-4">
@@ -152,21 +197,37 @@ export function AssemblConciergeWidget() {
                 Ask assembl guide
               </label>
               <input
+                ref={inputRef}
                 id="assembl-guide-input"
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
                 placeholder="Ask about assembl..."
+                maxLength={MAX_CHARS}
+                aria-describedby="char-counter"
                 className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] outline-none transition-all focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/20"
               />
               <button
                 type="submit"
-                aria-label="Send"
+                aria-label="Send message"
                 className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)] transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 disabled:opacity-40"
                 disabled={!draft.trim()}
               >
                 <Send className="h-4 w-4" aria-hidden />
               </button>
             </form>
+            <div className="mt-2 flex justify-end">
+              <span
+                id="char-counter"
+                className={cn(
+                  'font-mono text-[9px] uppercase tracking-[0.1em]',
+                  draft.length >= MAX_CHARS * 0.9
+                    ? 'font-medium text-[color:var(--assembl-clay)]'
+                    : 'text-[color:var(--text-secondary)]'
+                )}
+              >
+                {draft.length} / {MAX_CHARS}
+              </span>
+            </div>
             <Link
               href={latestMatch.href}
               className="mt-3 inline-flex items-center rounded-sm font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
@@ -179,10 +240,12 @@ export function AssemblConciergeWidget() {
       ) : null}
 
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((value) => !value)}
         className="inline-flex h-14 items-center gap-3 rounded-full border border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-pounamu)] px-5 text-sm font-medium text-[color:var(--assembl-paper)] shadow-[0_16px_50px_rgba(35,33,31,0.20)] transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
         aria-expanded={open}
+        aria-haspopup="dialog"
       >
         <MessageCircle className="h-5 w-5" aria-hidden />
         Ask assembl
