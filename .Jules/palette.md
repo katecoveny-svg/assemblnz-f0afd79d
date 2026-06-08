@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-10 - [Non-Intrusive Focus Restoration]
+**Learning:** Automatically restoring focus to a trigger button when a widget closes is essential for accessibility, but if implemented naively in a `useEffect` that runs on mount, it can hijack the initial page focus even when the widget is closed. Using an `isFirstRender` ref ensures that focus is only restored after an actual "close" interaction.
+**Action:** Use an `isFirstRender` ref guard in `useEffect` hooks that handle focus restoration to prevent accidental focus shifts during the initial component mount.
