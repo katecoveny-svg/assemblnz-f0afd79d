@@ -109,7 +109,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     name: 'Energy calculator',
     status: 'live',
     description: 'NZ electrification savings and payback',
-    href: '/electrify',
+    href: '/hapai/electrify',
     visual: 'electrify',
     shareable: true,
     category: 'operations',

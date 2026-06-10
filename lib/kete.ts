@@ -144,7 +144,7 @@ export const KETES: Kete[] = [
     accentName: 'Mangū',
     type: 'whanau',
     status: 'active',
-    heroImage: '/img/brand/toro-brand-square-bird.png',
+    heroImage: '/img/kete/heroes-vessel/toro-hero-vessel.jpg',
   },
 ];
 

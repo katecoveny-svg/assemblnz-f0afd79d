@@ -91,6 +91,10 @@ const nextConfig: NextConfig = {
       { source: "/tools/brief-generator/:path*", destination: "/hapai/brief-generator/:path*", permanent: false },
       { source: "/book-a-pilot", destination: "/pilot-sprint", permanent: false },
 
+      // Energy calculator moved under the /hapai library for path consistency.
+      { source: "/electrify", destination: "/hapai/electrify", permanent: true },
+      { source: "/electrify/:path*", destination: "/hapai/electrify/:path*", permanent: true },
+
       // Admin & operations
       { source: "/admin", destination: "https://app.assembl.co.nz/admin", permanent: false },
       { source: "/admin/:path*", destination: "https://app.assembl.co.nz/admin/:path*", permanent: false },

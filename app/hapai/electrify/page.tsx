@@ -1,8 +1,8 @@
 /**
- * /electrify — switch-to-electric calculator form
+ * /hapai/electrify — switch-to-electric calculator form
  *
  * Public lead-magnet tool. The form posts to /api/calculate and redirects to
- * /electrify/results/[id].
+ * /hapai/electrify/results/[id]. The old /electrify path 301s here.
  */
 
 import type { Metadata } from "next";
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: "Electrify — count your fossil machines",
     description:
       "Real NZ prices. Deterministic maths. A 90-second electrification calculator from assembl.",
-    images: ["/electrify/opengraph-image"],
+    images: ["/hapai/electrify/opengraph-image"],
   },
 };
 
@@ -379,7 +379,7 @@ export default function ElectrifyFormPage() {
               <ElectrifyShareButtons
                 title="Electrify — count your fossil machines"
                 text="A NZ electrification calculator from assembl: count your fossil machines and switch the ones that pay back fastest."
-                url="https://www.assembl.co.nz/electrify"
+                url="https://www.assembl.co.nz/hapai/electrify"
               />
             </div>
 

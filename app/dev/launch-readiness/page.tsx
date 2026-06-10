@@ -54,7 +54,7 @@ const checks: Array<{
   {
     area: 'Electrify calculator',
     status: 'working',
-    route: '/electrify',
+    route: '/hapai/electrify',
     claim: 'Free energy-cost tool works end-to-end without auth.',
     notes: 'Calculator now falls back to a secure short-lived result snapshot if lead persistence fails.',
   },
