@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2, ImageIcon, Mail, Repeat2, Sparkles, Wrench } from 'lucide-react';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import { PainfulWorkflowCapture } from '@/components/hapai/PainfulWorkflowCapture';
+import { ToolLeadCapture } from '@/components/hapai/ToolLeadCapture';
 import {
   HAPAI_TOOLS,
   getHapaiToolEmailHref,
@@ -99,6 +100,15 @@ export default function HapaiPage() {
               <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center px-6">
                 Book a pilot
               </Link>
+            </div>
+            <div className="mt-8 max-w-md">
+              <ToolLeadCapture
+                toolSlug="hapai-library"
+                source="hapai-library"
+                title="One new free tool each fortnight"
+                blurb="Get one new free tool in your inbox each fortnight. Short, useful, unsubscribe anytime."
+                successMessage="Ka pai. You’re on the list — one tool each fortnight."
+              />
             </div>
           </div>
 

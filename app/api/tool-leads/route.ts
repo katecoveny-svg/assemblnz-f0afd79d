@@ -1,7 +1,8 @@
 /**
- * POST /api/tool-leads — optional "email me my result" capture for free HAPAI tools.
+ * POST /api/tool-leads — email capture for the free HAPAI tools and the
+ * /hapai library page.
  *
- * Writes a row to public.tool_leads. Fail-closed and non-blocking by design:
+ * Writes a row to public.hapai_leads. Fail-closed and non-blocking by design:
  * the tool itself never depends on capture succeeding, so the client treats a
  * non-2xx here as a soft failure and keeps showing the result.
  *
@@ -41,8 +42,8 @@ export async function POST(req: Request) {
 
   const { email, toolSlug, payload, consentMarketing, source } = parsed.data;
 
-  // Soft guard: only accept slugs we recognise as real tools.
-  if (!getHapaiTool(toolSlug)) {
+  // Soft guard: accept registered HAPAI tools plus the library page capture.
+  if (toolSlug !== "hapai-library" && !getHapaiTool(toolSlug)) {
     return NextResponse.json({ error: "Unknown tool" }, { status: 400 });
   }
 
@@ -59,13 +60,13 @@ export async function POST(req: Request) {
   }
 
   const { data, error } = await service
-    .from("tool_leads")
+    .from("hapai_leads")
     .insert({
       email: email.trim().toLowerCase(),
       tool_slug: toolSlug,
-      payload: payload ?? {},
-      consent_marketing: consentMarketing ?? false,
       source: source ?? null,
+      consent: consentMarketing ?? false,
+      payload: payload ?? {},
     })
     .select("id")
     .single();

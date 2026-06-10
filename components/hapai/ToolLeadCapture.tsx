@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Check, Loader2, Mail } from "lucide-react";
 
 type ToolLeadCaptureProps = {
@@ -12,6 +13,10 @@ type ToolLeadCaptureProps = {
   title?: string;
   /** Supporting line under the heading. */
   blurb?: string;
+  /** Message shown after a successful submit. */
+  successMessage?: string;
+  /** Overrides the captured source (defaults to the current path). */
+  source?: string;
   /** Visual theme — light sits on a pale card, dark sits on a pounamu panel. */
   tone?: "light" | "dark";
   className?: string;
@@ -24,6 +29,8 @@ export function ToolLeadCapture({
   payload,
   title = "Email me my result",
   blurb = "Optional. Leave an email and we’ll send a copy of this result. We never share it, and the tool works either way.",
+  successMessage = "Saved. We’ll be in touch with your result.",
+  source,
   tone = "light",
   className,
 }: ToolLeadCaptureProps) {
@@ -55,7 +62,7 @@ export function ToolLeadCapture({
           toolSlug,
           payload: payload ?? {},
           consentMarketing: consent,
-          source: typeof window !== "undefined" ? window.location.pathname : undefined,
+          source: source ?? (typeof window !== "undefined" ? window.location.pathname : undefined),
         }),
       });
       if (!response.ok) {
@@ -81,7 +88,7 @@ export function ToolLeadCapture({
         ].join(" ")}
       >
         <Check className="h-5 w-5 shrink-0 text-[#2B6B57]" aria-hidden />
-        <span>Saved. We’ll be in touch with your result.</span>
+        <span>{successMessage}</span>
       </div>
     );
   }
@@ -143,6 +150,14 @@ export function ToolLeadCapture({
         />
         <span>Okay to send occasional assembl updates. Unsubscribe anytime.</span>
       </label>
+      <p className={["mt-2 text-[11px] leading-relaxed", bodyColour].join(" ")}>
+        Your email is collected only to send this result and, if you tick the box, occasional
+        updates — held under the Privacy Act 2020.{" "}
+        <Link href="/privacy" className="underline underline-offset-2 hover:opacity-80">
+          Privacy
+        </Link>
+        .
+      </p>
       {message ? (
         <p className={["mt-2 text-xs", dark ? "text-[#F3C98B]" : "text-[#9A3412]"].join(" ")}>{message}</p>
       ) : null}
