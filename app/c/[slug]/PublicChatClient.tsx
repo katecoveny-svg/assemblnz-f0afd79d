@@ -102,7 +102,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
     {
       id: 'hello',
       role: 'assistant',
-      body: `Kia ora. Ask ${tenant.name} a question and the ${tenant.keteName} pack will draft a grounded reply for review.`,
+      body: `Kia ora. Tell ${tenant.name} the job in front of you — it’ll draft a grounded reply for your review.`,
       createdAt: new Date().toISOString(),
     },
   ]);

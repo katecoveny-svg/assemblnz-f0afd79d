@@ -94,8 +94,7 @@ export default async function AgentDetailPage({
               </div>
             ) : (
               <div className="mt-5 grid gap-3">
-                <StatusRow title="Public page" body="Live. This route now resolves to a real agent page." />
-                <StatusRow title="Chat handoff" body="Available after sign-in through the assembl chat surface." />
+                <StatusRow title="Chat handoff" body="Open this specialist in its kete chat to draft from a real task." />
                 <StatusRow title="Human review" body="All outputs are positioned as drafts for named reviewer sign-off." />
               </div>
             )}
