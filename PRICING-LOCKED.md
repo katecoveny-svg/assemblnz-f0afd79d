@@ -14,6 +14,8 @@ Use code `ANNUAL12` for 12% off annual prepay.
 | Offer | Price | Setup | Includes | Audience |
 | --- | ---: | ---: | --- | --- |
 | Tōro Family | $29/mo | $0 | Tōro whānau navigator · reviewed family actions and records · month to month | Households |
+| Solo (self-serve) | $49/mo | $0 | One industry kete's workflows · single user · draft-only · HAPAI tools · cancel any time | Free-tool users converting |
+| Team (self-serve) | $149/mo | $0 | All kete workflows · up to 5 users · draft-only · HAPAI tools · cancel any time | Small teams converting |
 | Pilot Sprint | $5,000 once-off | $0 | Two weeks · one workflow · one evidence pack · money-back if no real time saved by week two | Try before you buy |
 | Industry Pack | $5,000/mo | $0 | One industry kete · six to eight specialist agents · one operating loop · no usage limits · switch kete any time · cancel any time | NZ operators |
 | Outcome | from $5,000 | Scoped | Bespoke workflow engagements with the evidence pack and commercial model agreed up front | High-value bespoke work |
@@ -28,7 +30,9 @@ Do not publish:
 - Operator — NZ$1,490/mo + setup
 - Leader — NZ$1,990/mo + setup
 - Enterprise — from NZ$2,990/mo + setup
-- Any copy that frames kete access as one/two/all kete by tier
+- Any copy that frames kete access as one/two/all kete by tier **for the
+  retired Operator/Leader/Enterprise structure**. (The 2026-06-05 self-serve
+  Solo/Team tiers above are the only sanctioned one-kete/all-kete framing.)
 
 ## Industry Pack Canon
 
@@ -44,6 +48,24 @@ Industry Pack is the off-the-shelf operating fleet:
 - Cancel any time
 
 Pilot Sprint is the try-before-you-buy path into Industry Pack.
+
+## Self-Serve Tiers (added 2026-06-05, confirmed by Kate)
+
+A self-serve step sits between the free HAPAI tools and the $5,000/mo kete pack,
+so free-tool users can convert with a card and no sales call. This is a
+deliberate, confirmed change to the 2026-05-15 lock.
+
+- **Solo — NZ$49/month**: one industry kete's workflows, single user.
+- **Team — NZ$149/month**: all kete workflows, up to 5 users.
+- Both: GST exclusive, no setup fee, cancel any time, HAPAI tools included.
+- Draft-only is absolute on both — paying never unlocks auto-lodging or
+  auto-send.
+- Self-serve does **not** include the done-for-you Pilot Sprint or the human
+  review service. Those protect the $5k Pilot Sprint and Industry Pack.
+
+Runtime source: `lib/billing/tiers.ts`. Stripe price ids come from env
+(`STRIPE_PRICE_SOLO`, `STRIPE_PRICE_TEAM`) created by
+`scripts/setup-self-serve-stripe.ts` — never hardcoded.
 
 ### Fleet Wiring Branch Decision
 

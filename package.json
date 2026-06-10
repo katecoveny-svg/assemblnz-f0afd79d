@@ -9,6 +9,8 @@
     "lint": "eslint app/kete/arataki components/arataki lib/arataki --max-warnings=0",
     "lint:all": "eslint . --max-warnings=0",
     "lint:macrons": "tsx scripts/lint-macrons.ts",
+    "build:agents-catalog": "tsx scripts/build-agents-catalog.ts",
+    "setup:self-serve-stripe": "tsx scripts/setup-self-serve-stripe.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"

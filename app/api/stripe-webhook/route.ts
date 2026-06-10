@@ -33,6 +33,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { createServiceClient } from '@/lib/stripe/supabase-service';
 import { writeAuditRow } from '@/lib/stripe/audit';
 import { loadCustomerByStripeId } from '@/lib/stripe/customer';
+import { tierForPriceId } from '@/lib/billing/tiers';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -192,6 +193,8 @@ async function onSubscriptionUpsert(sub: Stripe.Subscription): Promise<void> {
       subscription_current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
     })
     .eq('stripe_customer_id', customerId);
+
+  await syncSelfServeSubscription(sub, customerId, periodEnd);
 }
 
 async function onSubscriptionDeleted(sub: Stripe.Subscription): Promise<void> {
@@ -205,6 +208,47 @@ async function onSubscriptionDeleted(sub: Stripe.Subscription): Promise<void> {
       subscription_current_period_end: null,
     })
     .eq('stripe_customer_id', customerId);
+
+  // Drop self-serve entitlement: mark the row canceled so requireTier falls
+  // back to free. We update rather than delete to keep an audit trail.
+  await supabase
+    .from('subscriptions')
+    .update({ status: 'canceled', cancel_at_period_end: false })
+    .eq('stripe_subscription_id', sub.id);
+}
+
+/**
+ * Mirror a self-serve subscription into public.subscriptions. Only runs for
+ * prices that map to a self-serve tier (Solo/Team) — other subscriptions (e.g.
+ * the legacy kete-pack price) are left untouched here. Tier is derived from the
+ * Stripe price id, never trusted from the client.
+ */
+async function syncSelfServeSubscription(
+  sub: Stripe.Subscription,
+  customerId: string,
+  periodEnd: number | null,
+): Promise<void> {
+  const priceId = sub.items?.data?.[0]?.price?.id ?? null;
+  const tier = tierForPriceId(priceId);
+  if (!tier) return; // Not a self-serve price — nothing to mirror.
+
+  const mapping = await loadCustomerByStripeId(customerId);
+  if (!mapping?.tenant_id) return; // No tenant mapping — fail closed.
+
+  const supabase = createServiceClient();
+  await supabase.from('subscriptions').upsert(
+    {
+      tenant_id: mapping.tenant_id,
+      tier,
+      status: sub.status,
+      stripe_customer_id: customerId,
+      stripe_subscription_id: sub.id,
+      stripe_price_id: priceId,
+      current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
+      cancel_at_period_end: sub.cancel_at_period_end ?? false,
+    },
+    { onConflict: 'stripe_subscription_id', ignoreDuplicates: false },
+  );
 }
 
 async function onSetupIntentSucceeded(si: Stripe.SetupIntent): Promise<void> {

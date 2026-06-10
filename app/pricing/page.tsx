@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { TeReo } from '@/components/site/TeReo';
+import { SelfServePlans } from '@/components/billing/SelfServePlans';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -73,6 +74,26 @@ export default function PricingPage() {
               Start with one real task, open a public HAPAI tool, or switch on a
               specialist kete pack once the workflow has earned its proof.
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[rgba(35,33,31,0.08)] py-20 lg:py-24">
+        <div className="container">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
+              Self-serve · between the free tools and a kete pack
+            </p>
+            <h2 className="mt-5 font-display text-display-lg font-light">
+              Convert with a card, no sales call.
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-body-lg text-[color:var(--text-body)]">
+              Liked a HAPAI tool? Turn it on for real work. Solo is one kete for one
+              person; Team is every kete for up to five. Cancel any time.
+            </p>
+          </div>
+          <div className="mx-auto mt-12 max-w-4xl">
+            <SelfServePlans />
           </div>
         </div>
       </section>

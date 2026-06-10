@@ -6,7 +6,10 @@
 -- This migration is committed but NOT auto-applied. Apply via Supabase migration
 -- workflow when canon Day 7 is unblocked for production.
 
-create table public.assembl_audit_log (
+-- Idempotent: this table is also defined by the duplicate 20260508120000
+-- migration, so a clean replay (e.g. Supabase preview branches) must not fail
+-- with "relation already exists".
+create table if not exists public.assembl_audit_log (
   id uuid primary key default gen_random_uuid(),
   org_id uuid not null,
   user_id uuid not null,
@@ -22,16 +25,20 @@ create table public.assembl_audit_log (
   created_at timestamptz not null default now()
 );
 
-create index on public.assembl_audit_log(org_id, created_at desc);
-create index on public.assembl_audit_log(agent_slug, created_at desc);
+create index if not exists assembl_audit_log_org_id_created_at_idx
+  on public.assembl_audit_log(org_id, created_at desc);
+create index if not exists assembl_audit_log_agent_slug_created_at_idx
+  on public.assembl_audit_log(agent_slug, created_at desc);
 
 alter table public.assembl_audit_log enable row level security;
 
+drop policy if exists "users see own org audit log" on public.assembl_audit_log;
 create policy "users see own org audit log"
   on public.assembl_audit_log
   for select
   using (org_id = (auth.jwt() ->> 'org_id')::uuid);
 
+drop policy if exists "users insert own org audit log" on public.assembl_audit_log;
 create policy "users insert own org audit log"
   on public.assembl_audit_log
   for insert
