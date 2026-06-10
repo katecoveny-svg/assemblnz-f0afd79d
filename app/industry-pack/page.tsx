@@ -22,32 +22,32 @@ type IndustryKeteSlug = Exclude<KeteSlug, 'toro'>;
 const ADD_ONS = [
   {
     title: 'Extra compliance layer',
-    price: '$X/mo',
+    price: '$750/mo',
     body: "Add a specific Act, regulation, or industry standard to your agents' grounding. We ingest the source, hash it, and cite it.",
   },
   {
     title: 'Gamified team adoption',
-    price: '$X/mo',
+    price: '$500/mo',
     body: 'Leaderboards, streaks, weekly briefings tuned for team-wide uptake. Adoption is the hardest part of specialist-agent work. Make it fun.',
   },
   {
     title: 'Custom voice training',
-    price: '$X/mo',
+    price: '$500/mo',
     body: "Train your outreach agent on your real emails, your real tone. Your customers won't hear a machine.",
   },
   {
     title: 'Multi-site or multi-team',
-    price: '$X/mo per location',
+    price: '$900/mo per location',
     body: 'Each location gets its own workspace, its own evidence packs. Roll-up reporting at the parent level.',
   },
   {
     title: 'Dedicated support hours',
-    price: '$X/mo',
+    price: '$1,200/mo',
     body: 'Direct access to our team, weekday business hours, two-hour SLA.',
   },
   {
     title: 'On-call incident response',
-    price: '$X/mo',
+    price: '$2,000/mo',
     body: "Pager + human on call. For consents, customs, food-safety emergencies that can't wait until morning.",
   },
 ] as const;

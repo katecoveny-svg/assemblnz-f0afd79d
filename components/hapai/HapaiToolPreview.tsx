@@ -346,11 +346,11 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
   if (visual === 'customs') {
     return (
       <div className={previewClass}>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_16%,rgba(37,95,148,0.22),transparent_36%),linear-gradient(135deg,#FAF7F2_0%,#EFEAE1_56%,#DCE6F0_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_16%,rgba(58,125,110,0.22),transparent_36%),linear-gradient(135deg,#FAF7F2_0%,#EFEAE1_56%,#D7E7E0_100%)]" />
         <div className="absolute inset-5 rounded-[8px] border border-[rgba(35,33,31,0.1)] bg-white/82 p-4 shadow-[0_18px_42px_rgba(35,33,31,0.1)]">
           <div className="flex items-center justify-between gap-3">
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#255F94]">customs entry</p>
-            <span className="rounded-full bg-[#255F94]/12 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-[#255F94]">
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#3A7D6E]">customs entry</p>
+            <span className="rounded-full bg-[#3A7D6E]/12 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-[#3A7D6E]">
               draft
             </span>
           </div>
@@ -358,7 +358,7 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
             {['invoice', 'line items', 'customs value'].map((item) => (
               <div key={item} className="flex items-center justify-between rounded-[6px] border border-[rgba(35,33,31,0.08)] bg-[#F7F4EE] px-3 py-1.5">
                 <span className="font-mono text-[8px] uppercase tracking-[0.12em] text-[#6B6661]">{item}</span>
-                <span className="h-1.5 w-12 rounded-full bg-[#255F94]/40" />
+                <span className="h-1.5 w-12 rounded-full bg-[#3A7D6E]/40" />
               </div>
             ))}
           </div>

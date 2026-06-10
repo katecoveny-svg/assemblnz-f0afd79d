@@ -66,7 +66,7 @@ export async function POST(req: Request) {
       customer: customer.stripe_customer_id,
       line_items: [{ price: priceId, quantity: 1 }],
       allow_promotion_codes: true,
-      success_url: `${origin}/app/billing?status=active`,
+      success_url: `${origin}/welcome?status=active`,
       cancel_url: `${origin}/pricing?checkout=cancelled`,
       subscription_data: {
         metadata: { assembl_tenant_id: tenantId, assembl_tier: tier },
