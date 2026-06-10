@@ -49,7 +49,7 @@ export async function POST(req: Request) {
   //   email signed URL via Brevo. For now: redirect back to results with a
   //   query string the page can read for a confirmation toast.
   return NextResponse.redirect(
-    new URL(`/electrify/results/${leadId}?pdf=sent`, req.url),
+    new URL(`/hapai/electrify/results/${leadId}?pdf=sent`, req.url),
     { status: 303 }
   );
 }

@@ -1,5 +1,5 @@
 /**
- * /electrify/results/[id] — results display for a saved electrify_leads row
+ * /hapai/electrify/results/[id] — results display for a saved electrify_leads row
  *
  * Reads the snapshot from Supabase (RLS allows update-within-60min, no SELECT
  * for anon, so we use server-side query with anon key + cookie that came from
@@ -154,7 +154,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
     ? { kete: routeFraming.ctaKete, label: routeFraming.ctaLabel, href: routeFraming.ctaHref }
     : (KETE_CTA[lead.business_type] ?? KETE_CTA.professional_other);
   const heroStep = lead.recommended_sequence[0];
-  const resultUrl = `https://www.assembl.co.nz/electrify/results/${lead.id}`;
+  const resultUrl = `https://www.assembl.co.nz/hapai/electrify/results/${lead.id}`;
   const shareText = `My Electrify Machine Count estimates ${fmtNzd(
     lead.annual_savings_current_nzd,
   )} a year back from fossil machines. Run your own NZ estimate from assembl.`;
@@ -210,7 +210,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
             <Link href={cta.href} className="cta-primary inline-flex h-12 items-center gap-2 px-7">
               {cta.label} <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
-            <Link href="/electrify" className="btn-ghost inline-flex h-12 items-center px-6">
+            <Link href="/hapai/electrify" className="btn-ghost inline-flex h-12 items-center px-6">
               Run another estimate
             </Link>
           </div>

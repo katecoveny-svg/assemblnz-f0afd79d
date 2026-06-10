@@ -3,8 +3,6 @@
 import { useEffect } from "react";
 
 function manifestForPath(pathname: string) {
-  if (pathname === "/electrify") return "/hapai/electrify/manifest.json";
-
   const hapaiMatch = pathname.match(/^\/hapai\/([^/]+)$/);
   if (hapaiMatch?.[1]) return `/hapai/${hapaiMatch[1]}/manifest.json`;
 
