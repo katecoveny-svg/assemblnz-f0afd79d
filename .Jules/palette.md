@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-10 - [Focus Indicator Clipping and Redundant Titles]
+**Learning:** Tailwind `ring` utilities are implemented as box-shadows and are clipped by `overflow-hidden` containers, a common issue in widgets and cards. Native CSS `outline` with `outline-offset` is the reliable alternative. Additionally, `title` attributes on buttons with visible text are redundant and can be noisy for screen readers.
+**Action:** Always use `outline` for focus indicators in components with clipped boundaries. Audit buttons for visible text before adding `title` attributes to ensure they provide unique, non-redundant information.
