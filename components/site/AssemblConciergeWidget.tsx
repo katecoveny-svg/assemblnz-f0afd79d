@@ -148,6 +148,7 @@ export function AssemblConciergeWidget() {
             <button
               type="button"
               aria-label="Close assembl guide"
+              title="Close"
               onClick={() => setOpen(false)}
               className="rounded-full p-2 text-[color:var(--text-secondary)] transition-all hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
             >
@@ -222,10 +223,11 @@ export function AssemblConciergeWidget() {
                   ref={inputRef}
                   value={draft}
                   onChange={(event) => setDraft(event.target.value.slice(0, MAX_CHARS))}
+                  maxLength={MAX_CHARS}
                   placeholder="Ask about assembl..."
                   disabled={isTyping}
                   aria-describedby="concierge-counter"
-                  className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] outline-none transition-all focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/20 disabled:opacity-60"
+                  className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] transition-all focus:border-[color:var(--assembl-pounamu)] focus:outline focus:outline-2 focus:outline-[color:var(--assembl-pounamu)]/20 focus:outline-offset-[-2px] disabled:opacity-60"
                 />
                 <button
                   type="submit"
@@ -239,10 +241,17 @@ export function AssemblConciergeWidget() {
               <div className="flex justify-end">
                 <span
                   id="concierge-counter"
-                  className="font-mono text-[9px] uppercase tracking-[0.1em] text-[color:var(--text-secondary)]"
-                  aria-hidden="true"
+                  className={cn(
+                    'font-mono text-[9px] uppercase tracking-[0.1em] transition-colors',
+                    draft.length > MAX_CHARS * 0.9
+                      ? 'font-medium text-destructive'
+                      : 'text-[color:var(--text-secondary)]',
+                  )}
                 >
                   {draft.length} / {MAX_CHARS}
+                </span>
+                <span className="sr-only" aria-live="polite">
+                  {draft.length > MAX_CHARS * 0.9 ? `${draft.length} characters used` : ''}
                 </span>
               </div>
             </form>

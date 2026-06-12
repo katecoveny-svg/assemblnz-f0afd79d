@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-10 - [Robust Focus and Smart Counters]
+**Learning:** Standard focus rings (Tailwind `ring`) are easily clipped in components using `overflow-hidden`. Native CSS `outline` combined with a negative `outline-offset` creates a reliable inner-focus state that remains visible regardless of container constraints. Furthermore, accessibility "smart counters" that only trigger `aria-live` announcements once a significant threshold (e.g., 90% of capacity) is reached provide essential feedback without overwhelming the user with constant status updates.
+**Action:** Default to negative-offset `outline` for interactive elements inside `overflow-hidden` wrappers, and apply threshold-based live regions for character limits to improve the signal-to-noise ratio for screen reader users.
