@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
+import { LanguageToggle } from "./LanguageToggle";
 
 const PROOF_LINE = "Mahi that earns its proof.";
 
@@ -78,6 +79,7 @@ export function SiteHeader() {
           })}
         </nav>
         <div className="flex items-center gap-2 md:gap-4 lg:gap-5">
+          <LanguageToggle />
           {/* Mobile + tablet: touch-friendly search icon. Opens the same
               CommandPalette dialog the desktop ⌘K pill triggers. */}
           <button

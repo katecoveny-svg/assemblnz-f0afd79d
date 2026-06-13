@@ -49,3 +49,7 @@
 ## 2026-07-05 - [Real-time Chat Accessibility]
 **Learning:** Interactive guide or concierge widgets that dynamically update with agent responses are invisible to screen readers unless the message container is explicitly marked as a live region.
 **Action:** Always apply `aria-live="polite"` to containers where new chat messages or status updates are appended to ensure parity for non-sighted users.
+
+## 2026-07-10 - [Mobile Internationalization Parity]
+**Learning:** Components like language toggles are often hidden on mobile to save space, but this creates a "functional dead-end" for users needing different locales on the go. Furthermore, compact toggles designed for mouse-precision (e.g., 10-11px text) require explicit minimum touch target overrides to remain usable on touchscreens.
+**Action:** Ensure locale-switching controls maintain parity across all breakpoints and apply explicit `min-h-[32px]` or `min-w-[44px]` overrides for touch targets in compact UI elements.
