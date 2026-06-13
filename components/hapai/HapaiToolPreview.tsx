@@ -368,6 +368,24 @@ export function HapaiToolPreview({ visual }: HapaiToolPreviewProps) {
     );
   }
 
+  if (visual === 'wishlist') {
+    return (
+      <div className={previewClass}>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_16%,rgba(217,168,90,0.26),transparent_38%),linear-gradient(135deg,#FAF7F2_0%,#EFEAE1_58%,#E3EFE7_100%)]" />
+        <div className="absolute inset-5 rounded-[8px] border border-[rgba(35,33,31,0.1)] bg-white/82 p-4 shadow-[0_18px_42px_rgba(35,33,31,0.1)]">
+          <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#2B6B57]">the wishlist</p>
+          <p className="mt-3 font-display text-3xl font-light italic leading-none text-[#103F35]">one job, handed off</p>
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {['Pīkau', 'Manaaki', 'Waihanga', 'Core'].map((k) => (
+              <span key={k} className="rounded-full border border-[rgba(43,107,87,0.2)] bg-[#F0F5F1] px-2 py-1 font-mono text-[8px] uppercase tracking-[0.1em] text-[#2B6B57]">{k}</span>
+            ))}
+          </div>
+          <span className="mt-4 inline-flex items-center gap-1 rounded-full border border-[rgba(217,168,90,0.4)] bg-[#FBF3E2] px-2 py-1 font-mono text-[8px] uppercase tracking-[0.1em] text-[#8A5B10]">sealed evidence</span>
+        </div>
+      </div>
+    );
+  }
+
   if (visual === 'admin-tax') {
     return (
       <div className={previewClass}>
