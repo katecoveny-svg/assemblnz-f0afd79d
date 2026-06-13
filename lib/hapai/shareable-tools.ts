@@ -16,7 +16,8 @@ export type HapaiToolVisual =
   | 'fridge'
   | 'food-temp'
   | 'customs'
-  | 'admin-tax';
+  | 'admin-tax'
+  | 'wishlist';
 
 export type HapaiTool = {
   slug: string;
@@ -34,6 +35,18 @@ export type HapaiTool = {
 };
 
 export const HAPAI_TOOLS: readonly HapaiTool[] = [
+  {
+    slug: 'wishlist',
+    name: 'The wishlist',
+    status: 'live',
+    description:
+      'Name one job you wish you could hand off. We draft the spec for the specialist Assembl would build you — tailored to your business and grounded in the right NZ law.',
+    href: '/hapai/wishlist',
+    visual: 'wishlist',
+    shareable: true,
+    category: 'adoption',
+    posture: 'Draft only. A named person reviews the spec; nothing auto-lodges. Not legal, financial, or medical advice.',
+  },
   {
     slug: 'customs-entry',
     name: 'Customs entry drafter',
