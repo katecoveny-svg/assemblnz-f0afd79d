@@ -22,7 +22,7 @@ export function LanguageToggle() {
 
   return (
     <div
-      className="hidden items-center rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 p-1 text-[11px] md:inline-flex"
+      className="inline-flex items-center rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 p-1 text-[10px] animate-in fade-in zoom-in-95 duration-500"
       aria-label="Language"
     >
       {(["en", "mi"] as const).map((locale) => (
@@ -33,7 +33,7 @@ export function LanguageToggle() {
           aria-label={locale === "en" ? "Switch to English" : "Huri ki te Reo Māori"}
           title={locale === "en" ? "English" : "Te Reo Māori"}
           className={cn(
-            "rounded-full px-2.5 py-1 font-mono uppercase tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2",
+            "flex min-h-[32px] min-w-[36px] items-center justify-center rounded-full px-2.5 py-1 font-mono uppercase tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 md:min-h-0 md:min-w-0",
             active === locale
               ? "bg-[color:var(--assembl-pounamu)] text-[#FAF7F2]"
               : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]",
