@@ -53,3 +53,7 @@
 ## 2026-07-10 - [Mobile Internationalization Parity]
 **Learning:** Components like language toggles are often hidden on mobile to save space, but this creates a "functional dead-end" for users needing different locales on the go. Furthermore, compact toggles designed for mouse-precision (e.g., 10-11px text) require explicit minimum touch target overrides to remain usable on touchscreens.
 **Action:** Ensure locale-switching controls maintain parity across all breakpoints and apply explicit `min-h-[32px]` or `min-w-[44px]` overrides for touch targets in compact UI elements.
+
+## 2026-07-15 - [Threshold-Based Counter Accessibility]
+**Learning:** Real-time character counters are vital for UX but can be extremely noisy for screen reader users if every keystroke triggers an announcement. For high-limit inputs (e.g., 4000 characters), persistent live updates are more distracting than helpful.
+**Action:** Use a "threshold-based" announcement pattern: hide the visual counter from ARIA and use a separate `sr-only` live region that only starts announcing the count once a significant threshold (e.g., 90%) is reached.

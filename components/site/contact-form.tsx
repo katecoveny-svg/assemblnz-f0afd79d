@@ -168,14 +168,19 @@ export function ContactForm() {
             <span
               id="message-counter"
               className={cn(
-                "font-mono text-[10px] uppercase tracking-[0.1em]",
-                messageLength > 3800
+                "font-mono text-[9px] uppercase tracking-[0.1em]",
+                messageLength > 4000 * 0.9
                   ? "text-destructive font-medium"
                   : "text-[color:var(--text-secondary)]"
               )}
-              aria-live="polite"
+              aria-hidden="true"
             >
               {messageLength} / 4000 characters
+            </span>
+            <span className="sr-only" aria-live="polite">
+              {messageLength > 4000 * 0.9
+                ? `${messageLength} of 4000 characters used`
+                : ""}
             </span>
           </div>
         </Field>
