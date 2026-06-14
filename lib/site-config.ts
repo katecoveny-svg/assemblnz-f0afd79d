@@ -301,13 +301,10 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 // ── Site-wide nav (multi-page only — anchors are BANNED per canon §2.1) ──────
 
 export const nav = [
-  { href: '/pilot-sprint',  label: 'Pilot Sprint' },
   { href: '/how-it-works',  label: 'How it works' },
-  { href: '/workflows',     label: 'Workflows' },
   { href: '/kete',          label: 'Kete packs' },
   { href: '/hapai',         label: 'HAPAI tools' },
   { href: '/pricing',       label: 'Pricing' },
-  { href: '/about',         label: 'About' },
 ] as const;
 
 export const navCta = { href: '/pilot-sprint', label: 'Book a pilot' };

@@ -1,8 +1,7 @@
-import { HomePortal } from '@/components/site/HomePortal';
-import { KETES } from '@/lib/kete';
+import { HomeLaunch } from '@/components/site/HomeLaunch';
 
 export const revalidate = 30;
 
 export default function HomePage() {
-  return <HomePortal ketes={KETES} />;
+  return <HomeLaunch />;
 }
