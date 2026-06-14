@@ -23,11 +23,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['var(--font-display)', 'Cormorant Garamond', 'serif'],
-        serif: ['var(--font-display)', 'Cormorant Garamond', 'serif'],
-        body: ['var(--font-body)', 'Inter', 'sans-serif'],
-        sans: ['var(--font-body)', 'Inter', 'sans-serif'],
-        mono: ['var(--font-mono)', 'IBM Plex Mono', 'monospace'],
+        display: ['var(--font-display)', 'Fraunces', 'Georgia', 'serif'],
+        serif: ['var(--font-display)', 'Fraunces', 'Georgia', 'serif'],
+        body: ['var(--font-body)', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-body)', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
       },
       fontSize: {
         'display-xl': ['clamp(3rem, 7vw, 4.5rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],

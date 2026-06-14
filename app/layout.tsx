@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, Inter, IBM_Plex_Mono } from 'next/font/google';
+import { Fraunces, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { ScrollProgress } from '@/components/site/scroll-progress';
@@ -13,24 +13,25 @@ import './globals.css';
 // deploys stay reliable while the public-site rebuild is in flight.
 export const dynamic = 'force-dynamic';
 
-const cormorant = Cormorant_Garamond({
+// Site type system (design-system pass): Fraunces (display + prices),
+// Plus Jakarta Sans (body), JetBrains Mono (labels/eyebrows). All variable
+// fonts — exposed as the existing --font-* tokens so the whole token-driven
+// site adopts them at once.
+const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
   style: ['normal', 'italic'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const inter = Inter({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
   variable: '--font-body',
   display: 'swap',
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
+const jetBrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  weight: ['400', '500'],
   variable: '--font-mono',
   display: 'swap',
 });
@@ -80,7 +81,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-NZ" className={`${cormorant.variable} ${inter.variable} ${ibmPlexMono.variable}`}>
+    <html lang="en-NZ" className={`${fraunces.variable} ${plusJakarta.variable} ${jetBrainsMono.variable}`}>
       <body>
         <a
           href="#main-content"

@@ -49,7 +49,7 @@ export function SiteHeader() {
             href="/"
             aria-label="assembl — home"
             className="shrink-0 rounded-sm text-[31px] font-normal leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:text-[36px]"
-            style={{ fontFamily: 'var(--font-display), "Cormorant Garamond", Garamond, Georgia, serif' }}
+            style={{ fontFamily: 'var(--font-display), "Fraunces", Georgia, serif' }}
           >
             assembl
           </Link>
@@ -151,7 +151,7 @@ export function SiteHeader() {
               href="/"
               aria-label="assembl — home"
               className="text-[30px] font-normal leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)]"
-              style={{ fontFamily: 'var(--font-display), "Cormorant Garamond", Garamond, Georgia, serif' }}
+              style={{ fontFamily: 'var(--font-display), "Fraunces", Georgia, serif' }}
               onClick={() => setMobileNavOpen(false)}
             >
               assembl

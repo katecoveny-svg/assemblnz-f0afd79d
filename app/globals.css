@@ -92,7 +92,7 @@
   body {
     background: var(--assembl-mist);
     color: var(--text-body);
-    font-family: var(--font-body), 'Inter', system-ui, sans-serif;
+    font-family: var(--font-body), 'Plus Jakarta Sans', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
@@ -110,7 +110,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+    font-family: var(--font-display), 'Fraunces', Georgia, serif;
     font-weight: 300;
     letter-spacing: 0;
     line-height: 0.95;
@@ -123,7 +123,7 @@
   }
 
   code, pre, .font-mono {
-    font-family: var(--font-mono), 'IBM Plex Mono', monospace;
+    font-family: var(--font-mono), 'JetBrains Mono', monospace;
   }
 
   :lang(mi) {
@@ -183,7 +183,7 @@
     color: #FAF7F2;
     border: 1px solid rgba(255, 255, 255, 0.26);
     border-radius: 999px;
-    font-family: var(--font-body), 'Inter', sans-serif;
+    font-family: var(--font-body), 'Plus Jakarta Sans', sans-serif;
     font-weight: 500;
     letter-spacing: 0.01em;
     box-shadow:
@@ -224,7 +224,7 @@
     color: var(--text-primary);
     border: 1px solid rgba(35, 33, 31, 0.18);
     border-radius: 999px;
-    font-family: var(--font-body), 'Inter', sans-serif;
+    font-family: var(--font-body), 'Plus Jakarta Sans', sans-serif;
     font-weight: 500;
     letter-spacing: 0.01em;
     box-shadow:
