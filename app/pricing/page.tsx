@@ -8,10 +8,9 @@ export const metadata: Metadata = {
   description: 'Free tools, a Pilot Sprint, a kete pack, and Tōro for whānau. NZD, GST where shown.',
 };
 
-// Each tier reads pay-this → receive-this: a clear price and one concrete
-// deliverable with its timeframe. The Sprint is a one-off; the Kete pack is
-// recurring — the price labels make that distinction explicit so the two
-// $5,000 figures can't be confused.
+// Each tier states a clear price and what the customer gets for it. The Sprint
+// is a one-off; the Kete pack is recurring — and a Sprint rolls into month one
+// of a pack, so the upsell note appears on both.
 const TIERS = [
   {
     name: 'Free tools',
@@ -22,16 +21,18 @@ const TIERS = [
   },
   {
     name: 'Pilot Sprint',
-    price: '$5,000 + GST · one-off',
-    body: 'One workflow, proven on your own data and reviewed by your team, inside ten working days.',
+    price: '$5,000 + GST · once',
+    body: 'Ten working days. One workflow drafted, run on your data, and sealed in an evidence pack.',
+    note: 'Continue to a Kete pack and your Sprint covers month one — then $3,500/month.',
     cta: 'Book a Pilot Sprint',
     href: '/pilot-sprint',
     featured: true,
   },
   {
     name: 'Kete pack',
-    price: '$5,000 + GST / month',
-    body: 'A full pack of specialist agents for your industry — live, maintained, and reporting every month.',
+    price: '$3,500 + GST / month',
+    body: 'The full specialist pack, live for the team: agents, workflows, live knowledge, and an evidence pack every week. Cancel any month.',
+    note: 'Sprint first and your Sprint covers month one — then $3,500/month.',
     cta: 'See kete packs',
     href: '/industry-pack',
   },
@@ -69,6 +70,11 @@ export default function PricingPage() {
                   <p className="mt-4 font-display text-2xl font-light text-[color:var(--text-primary)]">{tier.price}</p>
                 ) : null}
                 <p className="mt-5 text-body-md text-[color:var(--text-body)]">{tier.body}</p>
+                {'note' in tier && tier.note ? (
+                  <p className="mt-4 rounded-[12px] bg-[rgba(43,107,87,0.07)] px-3 py-2 font-mono text-[10.5px] uppercase tracking-[0.12em] leading-relaxed text-[color:var(--assembl-pounamu)]">
+                    {tier.note}
+                  </p>
+                ) : null}
                 <Link
                   href={tier.href}
                   className={

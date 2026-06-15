@@ -174,7 +174,7 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Sometimes' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
+    availableOn: 'Industry Pack — NZ$3,500/mo + GST flat.',
   },
 
   manaaki: {
@@ -255,7 +255,7 @@ export const KETE_DETAIL: Record<
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
     availableOn:
-      'Industry Pack — NZ$5,000/mo + GST flat.',
+      'Industry Pack — NZ$3,500/mo + GST flat.',
   },
 
   pikau: {
@@ -335,7 +335,7 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Sometimes' },
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
-    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
+    availableOn: 'Industry Pack — NZ$3,500/mo + GST flat.',
   },
 
   arataki: {
@@ -415,7 +415,7 @@ export const KETE_DETAIL: Record<
       { capability: 'Cites legislation in outputs', assembl: true, legacy: false },
     ],
     availableOn:
-      'Industry Pack — NZ$5,000/mo + GST flat.',
+      'Industry Pack — NZ$3,500/mo + GST flat.',
   },
 
   auaha: {
@@ -495,7 +495,7 @@ export const KETE_DETAIL: Record<
       { capability: 'NZ data residency', assembl: true, legacy: 'Rarely' },
     ],
     availableOn:
-      'Industry Pack — NZ$5,000/mo + GST flat.',
+      'Industry Pack — NZ$3,500/mo + GST flat.',
   },
 
   hoko: {
@@ -548,7 +548,7 @@ export const KETE_DETAIL: Record<
       { capability: 'Consumer Guarantees Act documentation', assembl: true, legacy: 'Manual' },
       { capability: 'Fair Trading Act compliance checks', assembl: true, legacy: 'Manual' },
     ],
-    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
+    availableOn: 'Industry Pack — NZ$3,500/mo + GST flat.',
   },
 
   ako: {
@@ -602,7 +602,7 @@ export const KETE_DETAIL: Record<
       { capability: 'Privacy Act 2020 IPP 3A documentation', assembl: true, legacy: 'Manual' },
       { capability: 'Licensing compliance records', assembl: true, legacy: 'Manual' },
     ],
-    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
+    availableOn: 'Industry Pack — NZ$3,500/mo + GST flat.',
   },
 
   matauranga: {
@@ -681,7 +681,7 @@ export const KETE_DETAIL: Record<
       { capability: 'IPP 3A parental-consent record', assembl: true, legacy: 'Manual' },
       { capability: 'NZ data residency', assembl: true, legacy: 'Sometimes' },
     ],
-    availableOn: 'Industry Pack — NZ$5,000/mo + GST flat.',
+    availableOn: 'Industry Pack — NZ$3,500/mo + GST flat.',
   },
 
   toro: {

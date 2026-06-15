@@ -55,7 +55,7 @@ const PRICING_ENTRY_POINTS = [
   },
   {
     name: 'Kete pack',
-    price: '$5,000 / month',
+    price: '$3,500 / month',
     bestFor: 'Use this when you need a specialist pack for one operating area.',
     body: 'Kete means basket or kit. A kete pack covers one area such as construction, hospitality, freight, automotive, education, commerce, or family operations. Each pack includes agents, tools, live knowledge, workflows, and review rules.',
     cta: 'See kete packs',

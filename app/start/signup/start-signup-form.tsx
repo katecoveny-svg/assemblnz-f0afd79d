@@ -532,7 +532,7 @@ function CheckoutStep({
             Monthly subscription
           </p>
           <p className="mt-4 font-display text-5xl font-light leading-none">
-            NZ$5,000
+            NZ$3,500
           </p>
           <p className="mt-2 text-sm text-[color:var(--text-secondary)]">
             + GST · no setup fee · cancel any time

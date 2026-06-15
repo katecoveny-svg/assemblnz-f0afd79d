@@ -41,7 +41,7 @@ describe('Industry Pack smoke contracts', () => {
 
   it('keeps /start locked to the flat Industry Pack offer and no customer-facing AI copy', () => {
     const source = readFileSync(join(root, 'app/start/page.tsx'), 'utf8');
-    expect(source).toContain('NZ$5,000/mo + GST');
+    expect(source).toContain('NZ$3,500/mo + GST');
     expect(source).toContain('No setup fee');
     expect(source).toContain('/start/signup?kete=');
     expect(source).not.toMatch(/\bAI\b/i);
