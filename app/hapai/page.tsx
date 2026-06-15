@@ -139,7 +139,7 @@ export default function HapaiPage() {
       <section className="border-b border-[rgba(35,33,31,0.10)] px-5 py-14 md:px-10 md:py-20">
         <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
           {reasons.map((reason) => (
-            <article key={reason.title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
+            <article key={reason.title} className="glass-card p-6">
               <CheckCircle2 className="h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
               <h2 className="mt-5 font-display text-3xl font-light italic">{reason.title}</h2>
               <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">{reason.body}</p>
@@ -167,7 +167,7 @@ export default function HapaiPage() {
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {adoptionLoop.map(({ title, body, icon: Icon }) => (
-              <article key={title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] p-5 shadow-[0_20px_70px_rgba(35,33,31,0.06)]">
+              <article key={title} className="glass-card p-5">
                 <Icon className="h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
                 <h3 className="mt-6 font-display text-3xl font-light italic leading-none">{title}</h3>
                 <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">{body}</p>
@@ -197,7 +197,7 @@ export default function HapaiPage() {
             {HAPAI_TOOLS.map((tool) => (
               <article
                 key={tool.name}
-                className="group flex min-h-[420px] flex-col overflow-hidden rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/62 shadow-[0_18px_64px_rgba(35,33,31,0.06)] transition duration-300 hover:-translate-y-1 hover:bg-white/78 hover:shadow-[0_28px_90px_rgba(35,33,31,0.10)]"
+                className="glass-card glass-card-hover group flex min-h-[420px] flex-col overflow-hidden"
               >
                 <div className="relative aspect-[16/10] border-b border-[rgba(35,33,31,0.08)]">
                   <HapaiToolPreview tool={tool} />

@@ -47,7 +47,7 @@ export default function EvidencePackPage() {
             </div>
           </div>
 
-          <div className="rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/60 p-6 lg:p-8">
+          <div className="glass-card p-6 lg:p-8">
             <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
               What’s inside · example — a hospitality allergen response
             </p>
