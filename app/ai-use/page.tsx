@@ -13,7 +13,7 @@ const commitments = [
   "No customer workflow input is used to train public foundation models.",
   "Personally identifiable information is minimised or masked before model calls where the workflow permits it.",
   "Every evidence pack records sources, assumptions, reviewer decisions, timestamps, and audit metadata.",
-  "Users can see when output is grounded in live data, static policy, uploaded files, or model reasoning.",
+  "Users can see when output draws on live data, static policy, uploaded files, or model reasoning.",
 ];
 
 export default function AIUseDisclosurePage() {
@@ -30,8 +30,8 @@ export default function AIUseDisclosurePage() {
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[color:var(--text-secondary)]">
               assembl uses language models as drafting and retrieval tools. The
-              product promise is not autonomy. It is a better first pass, grounded
-              in sources, reviewed by people, and sealed with proof.
+              product promise is not autonomy. It is a better first pass, drawn
+              from sources, reviewed by people, and sealed with proof.
             </p>
           </SectionReveal>
 

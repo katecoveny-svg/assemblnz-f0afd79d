@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 export function HeroSignature({
   eyebrow = 'assembl evidence vessel',
-  children = 'Built in Aotearoa. Grounded in proof.',
+  children = 'Built in Aotearoa. Proven in the record.',
   className = '',
 }: {
   eyebrow?: string;

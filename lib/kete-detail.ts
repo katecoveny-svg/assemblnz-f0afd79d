@@ -103,7 +103,7 @@ export const KETE_DETAIL: Record<
       },
       {
         name: 'Ārai',
-        description: 'Site safety — SSSPs, hazard register, and toolbox-talk records grounded in HSWA 2015.',
+        description: 'Site safety — SSSPs, hazard register, and toolbox-talk records built on HSWA 2015.',
       },
       {
         name: 'Ata',
@@ -262,7 +262,7 @@ export const KETE_DETAIL: Record<
     slug: 'pikau',
     heroLead: 'The audit trail your broker needs.',
     heroBody:
-      "assembl's freight and customs kete covers customs declarations, tariff classification, and trade compliance documentation — grounded in the Customs and Excise Act 2018 and NZ Customs requirements.",
+      "assembl's freight and customs kete covers customs declarations, tariff classification, and trade compliance documentation — built on the Customs and Excise Act 2018 and NZ Customs requirements.",
     description: [
       "Pīkau handles the paperwork at the border: Trade Single Window lodgements, tariff classification reviews against the Working Tariff Document, MPI biosecurity declarations, and the dangerous-goods chain of custody from origin to release.",
       "Every entry cites the Customs and Excise Act 2018, the relevant Import Health Standard, and the Land Transport Rule for DG. Brokers see the working they expect; auditors see the trail months later. Reclassification rework drops to zero on the lines assembl runs.",
@@ -614,7 +614,7 @@ export const KETE_DETAIL: Record<
       "Mātauranga sits inside the secondary-school admin office, not the classroom. The work a deputy principal or registrar does on a Friday afternoon to keep NZQA, MoE, the board, and ERO satisfied — without rewriting the same paragraph three times. Distinct from the whānau-facing NCEA layer that lives inside Tōro: Mātauranga reports the cohort upward; Tōro tracks one tamariki for the family.",
       "Expected scope on day one: weekly NCEA report parsing (Achievement Standards progress and UE Literacy / Numeracy gaps surfaced before the term ends), attendance reconciliation against MoE thresholds, board minutes drafted in a format the chair will sign, ERO secondary review evidence bundles assembled from the same data already on file. Pastoral notes inform the cohort view but are read-only — kaiako write them; intelligent automation does not.",
       "Mātauranga covers state and state-integrated secondary schools, Years 9–13. Kura kaupapa Māori, wharekura, and Māori-medium pathways are intentionally out of scope — those carry tikanga and curriculum obligations that warrant a separate pilot, not coverage by default. Ako next door covers early childhood education; together the two kete shape the schooling layer, alone they each stay in their lane.",
-      "Mātauranga is live as an Industry Pack kete. Schools can start with a Pilot Sprint against their own exports, minutes, and attendance records so the first evidence pack is grounded in the way the office already works.",
+      "Mātauranga is live as an Industry Pack kete. Schools can start with a Pilot Sprint against their own exports, minutes, and attendance records so the first evidence pack is built on the way the office already works.",
     ],
     legislation: [
       'Education and Training Act 2020 (Part 4 — secondary)',

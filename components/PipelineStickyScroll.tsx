@@ -8,7 +8,7 @@ const STAGES = [
   {
     icon: CheckCircle,
     title: 'Agents draft',
-    body: 'Specialist agents — each grounded in NZ legislation for your industry — produce compliance documentation, consent applications, and audit reports. They draft. You do not start from a blank page.',
+    body: 'Specialist agents — each built on NZ legislation for your industry — produce compliance documentation, consent applications, and audit reports. They draft. You do not start from a blank page.',
   },
   {
     icon: Workflow,

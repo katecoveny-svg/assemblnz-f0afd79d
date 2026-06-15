@@ -223,7 +223,7 @@ const RULES: Rule[] = [
 
 const CORE_RULE: Omit<Rule, 'keywords'> = {
   kete: 'Core',
-  specialistName: 'an Assembl specialist drafter',
+  specialistName: 'an assembl specialist drafter',
   drafts: [
     'a first draft of the work you described',
     'a checklist of what evidence is still missing',
@@ -248,7 +248,7 @@ export function buildFallbackSpec(business: string, wish: string): WishlistSpec 
     specialistName: rule.specialistName,
     drafts: rule.drafts,
     checks: [
-      `Grounded in ${rule.law}`,
+      `Built on ${rule.law}`,
       'A tikanga check appropriate to the work',
       PRIVACY_CHECK,
     ],

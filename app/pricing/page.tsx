@@ -8,33 +8,37 @@ export const metadata: Metadata = {
   description: 'Free tools, a Pilot Sprint, a kete pack, and Tōro for whānau. NZD, GST where shown.',
 };
 
+// Each tier reads pay-this → receive-this: a clear price and one concrete
+// deliverable with its timeframe. The Sprint is a one-off; the Kete pack is
+// recurring — the price labels make that distinction explicit so the two
+// $5,000 figures can't be confused.
 const TIERS = [
   {
     name: 'Free tools',
-    price: '',
-    body: 'Try the work, no sign-up.',
+    price: 'Free',
+    body: 'Open any HAPAI tool and run one real task. No sign-up.',
     cta: 'Try a free tool',
     href: '/hapai',
   },
   {
     name: 'Pilot Sprint',
-    price: '$5,000 + GST',
-    body: 'One workflow, proven on your data in ten working days.',
+    price: '$5,000 + GST · one-off',
+    body: 'One workflow, proven on your own data and reviewed by your team, inside ten working days.',
     cta: 'Book a Pilot Sprint',
     href: '/pilot-sprint',
     featured: true,
   },
   {
     name: 'Kete pack',
-    price: '$5,000 / month',
-    body: 'A full pack of agents for your industry, live and maintained.',
+    price: '$5,000 + GST / month',
+    body: 'A full pack of specialist agents for your industry — live, maintained, and reporting every month.',
     cta: 'See kete packs',
     href: '/industry-pack',
   },
   {
     name: 'Tōro (family)',
-    price: '$29 / month',
-    body: 'The family organiser — school notices, weekly plans, gear lists.',
+    price: '$29 + GST / month',
+    body: 'The family pack — school notices, weekly plans, and gear lists in one place.',
     cta: 'See Tōro',
     href: '/kete/toro',
   },

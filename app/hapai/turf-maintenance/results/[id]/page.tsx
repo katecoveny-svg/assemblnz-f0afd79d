@@ -173,7 +173,7 @@ export default async function TurfResultPage({ params }: Params) {
           )}
 
           <p className="mt-10 font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">
-            Built in Aotearoa · HSWA 2015 + HSNO 1996 grounded · Privacy Act
+            Built in Aotearoa · built on HSWA 2015 + HSNO 1996 · Privacy Act
             2020 compliant. assembl.co.nz
           </p>
         </section>

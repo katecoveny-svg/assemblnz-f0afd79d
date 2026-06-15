@@ -39,7 +39,7 @@ const LANDING_COPY: Record<string, {
 }> = {
   pikau: {
     title: 'Freight and customs work with the evidence trail built in.',
-    body: 'Pīkau drafts broker-ready customs, tariff, biosecurity, and freight documentation. Every reply is a draft for human review, grounded in live Knowledge Brain sources where available.',
+    body: 'Pīkau drafts broker-ready customs, tariff, biosecurity, and freight documentation. Every reply is a draft for human review, drawn from live Knowledge Brain sources where available.',
     prompts: [
       'Review a tariff classification question',
       'Draft a broker-ready customs evidence summary',
@@ -69,7 +69,7 @@ const LANDING_COPY: Record<string, {
 function landingCopy(tenant: Tenant) {
   return LANDING_COPY[tenant.kete] ?? {
     title: `${tenant.keteName} support, ready for review.`,
-    body: `Ask ${tenant.name} a practical question. assembl will draft a grounded reply and keep the output in review posture.`,
+    body: `Ask ${tenant.name} a practical question. assembl will draft a reply and keep the output in review posture.`,
     prompts: [
       'Draft the first version',
       'Check what evidence is missing',
@@ -102,7 +102,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
     {
       id: 'hello',
       role: 'assistant',
-      body: `Kia ora. Tell ${tenant.name} the job in front of you — it’ll draft a grounded reply for your review.`,
+      body: `Kia ora. Tell me the job in front of you — I’ll draft a reply for your review.`,
       createdAt: new Date().toISOString(),
     },
   ]);
@@ -527,15 +527,9 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
               <span>View {tenant.keteName} kete</span>
               <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              {tenant.keteName} live draft desk
-            </p>
-            <h1 className="mt-4 max-w-2xl font-display text-[clamp(3rem,7vw,6.5rem)] font-light leading-[0.9] tracking-normal text-[color:var(--text-primary)]">
-              {tenant.name}
-            </h1>
-            <p className="mt-6 max-w-xl font-display text-3xl font-light leading-tight text-[color:var(--text-primary)] md:text-4xl">
+            <h1 className="max-w-xl font-display text-[clamp(2.6rem,5vw,4rem)] font-light leading-tight text-[color:var(--text-primary)]">
               {copy.title}
-            </p>
+            </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-[color:var(--text-body)] md:text-lg">
               {copy.body}
             </p>

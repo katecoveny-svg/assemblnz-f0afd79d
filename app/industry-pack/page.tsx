@@ -23,7 +23,7 @@ const ADD_ONS = [
   {
     title: 'Extra compliance layer',
     price: '$750/mo',
-    body: "Add a specific Act, regulation, or industry standard to your agents' grounding. We ingest the source, hash it, and cite it.",
+    body: "Add a specific Act, regulation, or industry standard to your agents' sources. We ingest the source, hash it, and cite it.",
   },
   {
     title: 'Gamified team adoption',

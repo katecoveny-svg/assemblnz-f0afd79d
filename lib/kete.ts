@@ -84,7 +84,7 @@ export const KETES: Kete[] = [
   {
     slug: 'auaha',
     name: 'Auaha',
-    englishName: 'Creative workflow pack',
+    englishName: 'Creative pack',
     meaning: 'to create or innovate',
     industry: 'Creative',
     tagline: 'Brand work that is compliant by default.',
@@ -136,7 +136,7 @@ export const KETES: Kete[] = [
   {
     slug: 'toro',
     name: 'Tōro',
-    englishName: 'Family organiser',
+    englishName: 'Family pack',
     meaning: 'to reach out or explore',
     industry: 'Family',
     tagline: 'The family assistant for school, money, routines, and the week ahead.',

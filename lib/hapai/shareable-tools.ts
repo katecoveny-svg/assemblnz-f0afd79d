@@ -40,7 +40,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     name: 'The wishlist',
     status: 'live',
     description:
-      'Name one job you wish you could hand off. We draft the spec for the specialist Assembl would build you — tailored to your business and grounded in the right NZ law.',
+      'Name one job you wish you could hand off. We draft the spec for the specialist assembl would build you — tailored to your business and built on the right NZ law.',
     href: '/hapai/wishlist',
     visual: 'wishlist',
     shareable: true,
