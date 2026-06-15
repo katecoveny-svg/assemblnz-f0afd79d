@@ -330,7 +330,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                   <span className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" aria-hidden />
                   <span className="relative block aspect-[16/11] overflow-hidden rounded-[24px] border border-white/72 bg-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.72),0_18px_55px_rgba(35,33,31,0.08)] backdrop-blur-xl">
                     <span className="block h-full transition-transform duration-700 group-hover:scale-[1.035]">
-                      <HapaiToolPreview visual={tool.visual} />
+                      <HapaiToolPreview tool={tool} />
                     </span>
                     <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.18),transparent_42%,rgba(35,33,31,0.04))]" aria-hidden />
                   </span>
