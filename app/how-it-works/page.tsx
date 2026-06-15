@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
+import { Eyebrow } from '@/components/site/Eyebrow';
 
 export const metadata: Metadata = {
   title: 'How assembl works',
@@ -36,8 +37,10 @@ export default function HowItWorksPage() {
       <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
         <div className="container">
           <SectionReveal>
-            <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">How it works</p>
-            <h1 className="mt-6 max-w-4xl font-display text-display-xl font-light">How assembl works.</h1>
+            <Eyebrow label="How it works" />
+            <h1 className="mt-6 max-w-4xl font-display text-display-xl font-light">
+              How assembl <em className="italic text-[color:var(--assembl-pounamu)]">works.</em>
+            </h1>
             <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               Specialist agents do the first draft. A person signs it off. You get a record of how it
               was made. Here’s what that looks like.

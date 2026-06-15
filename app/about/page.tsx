@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
+import { Eyebrow } from '@/components/site/Eyebrow';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -27,9 +28,9 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1500px] px-5 py-12 md:px-10 md:py-16 xl:px-16">
           <div className="grid items-center gap-10 md:grid-cols-[1fr_1fr] md:gap-14 xl:gap-20">
             <SectionReveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#625A52]">About assembl</p>
-              <h1 className="mt-5 font-display text-4xl font-light leading-[1.04] text-[color:var(--text-primary)] md:text-6xl">
-                Mahi that earns its proof.
+              <Eyebrow label="About assembl" />
+              <h1 className="mt-5 font-display text-display-xl font-light leading-[1.04] text-[color:var(--text-primary)]">
+                Mahi that earns <em className="italic text-[color:var(--assembl-pounamu)]">its proof.</em>
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-[#5F5A55] md:text-lg">
                 Document-heavy work eats people’s days. The reports, the customs entries, the

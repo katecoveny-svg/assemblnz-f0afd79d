@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Mail, Clock, MapPin } from 'lucide-react';
 import { ContactForm } from '@/components/site/contact-form';
+import { Eyebrow } from '@/components/site/Eyebrow';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -32,9 +33,9 @@ export default function ContactPage() {
         />
         <div className="container py-20 md:py-24">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="badge-gold inline-flex">Get in touch</span>
-            <h1 className="mt-6 font-display text-5xl md:text-6xl">
-              Let&apos;s talk.
+            <Eyebrow label="Get in touch" className="justify-center" />
+            <h1 className="mt-6 font-display text-display-xl font-light">
+              Let&apos;s <em className="italic text-[color:var(--assembl-pounamu)]">talk.</em>
             </h1>
             <p className="mt-6 text-lg text-[color:var(--text-body)]">
               Whether you are ready for a pilot or just want to understand what assembl does for
