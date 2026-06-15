@@ -52,28 +52,14 @@ begin;
 
 do $$
 declare
-  new_count    int;
-  legacy_count int;
+  new_count int;
 begin
   select count(*) into new_count
     from public.agent_prompts
    where agent_name in ('kid-money', 'term-planner', 'holiday-ideas')
      and pack = 'toro';
 
-  select count(*) into legacy_count
-    from public.agent_prompts
-   where pack in ('toro', 'TORO')
-     and agent_name in (
-       'toro', 'toro-education', 'toro-family', 'toro-health',
-       'toro-home', 'toro-homework', 'toro-logistics'
-     );
-
-  -- Only a footgun when there ARE legacy agents to deactivate but the canonical
-  -- replacements were never registered. On a fresh/empty env (no legacy toro-*
-  -- rows — e.g. a preview branch with no prod data, where the canonical agents
-  -- are registered at runtime from assembl-plugins rather than by any migration)
-  -- every UPDATE below no-ops, so the guard must not hard-fail.
-  if legacy_count > 0 and new_count < 3 then
+  if new_count < 3 then
     raise exception
       'Refusing to flip Tōro legacy agents: only % of 3 canonical replacements present in agent_prompts under pack=''toro''. Register the new agents first per assembl-plugins commit 3696629.',
       new_count;

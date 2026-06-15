@@ -89,7 +89,9 @@ create index if not exists reasoning_traces_quality_idx
   where flagged or quality_score is not null;
 
 comment on table public.reasoning_traces is
-  'Per-tenant ledger of every model invocation: request, draft, thinking trace, tool calls, confidence signals, and hash-chain stamp. Source dataset for the eval harness and Assembl''s own judgement layer.';
+  'Per-tenant ledger of every model invocation: request, draft, thinking ' ||
+  'trace, tool calls, confidence signals, and hash-chain stamp. Source ' ||
+  'dataset for the eval harness and Assembl''s own judgement layer.';
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- outcome_events
@@ -143,7 +145,9 @@ create index if not exists outcome_events_trace_ids_gin
   on public.outcome_events using gin (trace_ids);
 
 comment on table public.outcome_events is
-  'Append-only log of real-world outcomes (BCA accepts, Customs accepts, client signed, court directions met). Bound to reasoning_traces by trace_ids. The "did Assembl actually help" ledger.';
+  'Append-only log of real-world outcomes (BCA accepts, Customs accepts, ' ||
+  'client signed, court directions met). Bound to reasoning_traces by ' ||
+  'trace_ids. The "did Assembl actually help" ledger.';
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- View: reasoning_outcomes
@@ -181,7 +185,9 @@ left join public.outcome_events o
   and t.tenant_id = o.tenant_id;
 
 comment on view public.reasoning_outcomes is
-  'Flat trace-to-outcome join. The eval harness reads this to compute per-agent / per-model accuracy, regression deltas, and the time-to-outcome distribution.';
+  'Flat trace-to-outcome join. The eval harness reads this to compute ' ||
+  'per-agent / per-model accuracy, regression deltas, and the time-to-' ||
+  'outcome distribution.';
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- RLS — deny-by-default; service_role bypasses for the

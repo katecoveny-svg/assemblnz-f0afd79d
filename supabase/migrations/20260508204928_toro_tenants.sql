@@ -17,14 +17,6 @@ create table if not exists public.tenants (
   chatwoot_inbox_ids integer[]
 );
 
--- An earlier migration (20260331025828) created public.tenants without
--- created_by, so the `create table if not exists` above no-ops on a fresh
--- replay and the column is missing when the RLS policies below reference it.
--- Add it idempotently so the migration history replays cleanly. No-op on any
--- project that already has the column (e.g. production).
-alter table public.tenants
-  add column if not exists created_by uuid references auth.users(id);
-
 create table if not exists public.tenant_members (
   id uuid primary key default gen_random_uuid(),
   tenant_id uuid not null references public.tenants(id) on delete cascade,
