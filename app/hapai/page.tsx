@@ -280,7 +280,7 @@ export default function HapaiPage() {
           <div>
             <p className="text-lg leading-relaxed text-[color:var(--text-body)]">
               The full HAPAI library, branded to your org and available to every
-              team member, is included in a kete pack at $5,000/month.
+              team member, is included in a kete pack at $3,500/month.
               Your wordmark, your colour, your voice, your review rules. The
               point is simple: every team should be able to create, open, and
               share small internal tools for the work they actually do.

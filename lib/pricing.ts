@@ -29,7 +29,7 @@ export const SUBSCRIBE_PLANS: SubscribePlan[] = [
   {
     slug: 'industry-pack',
     name: 'Industry Pack',
-    monthly: 'NZ$5,000 / month',
+    monthly: 'NZ$3,500 / month',
     setup: '$0 setup',
     summary:
       'A live specialist-agent fleet sequenced into one operating loop for one industry kete.',
@@ -53,7 +53,7 @@ export const PILOT_SPRINT = {
   bannerCopy:
     'NZ$5,000 + GST · two weeks · one workflow · one evidence pack · money-back if no time saved by week two.',
   creditBack:
-    'Pilot Sprint is the try-before-you-buy path into Industry Pack. Then you decide whether to go monthly.',
+    'Pilot Sprint is the try-before-you-buy path into Industry Pack: continue to a pack and your Sprint covers month one, then NZ$3,500/month.',
 };
 
 export const OUTCOME_OFFER = {

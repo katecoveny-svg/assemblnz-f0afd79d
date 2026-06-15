@@ -21,7 +21,7 @@ const KNOWLEDGE = [
   {
     match: ['price', 'cost', 'industry pack', 'pricing', 'pay'],
     answer:
-      'Industry Pack is NZ$5,000/mo flat, GST exclusive, for one industry pack with its specialist fleet, evidence inbox, and proof layer. Tōro is separate at NZ$29/mo for families. Pilot Sprint is NZ$5,000 once-off for two weeks, one workflow, and one evidence pack.',
+      'Industry Pack is NZ$3,500/mo flat, GST exclusive, for one industry pack with its specialist fleet, evidence inbox, and proof layer. Tōro is separate at NZ$29/mo for families. Pilot Sprint is NZ$5,000 once-off for two weeks, one workflow, and one evidence pack.',
     href: '/pricing',
     cta: 'See pricing',
   },

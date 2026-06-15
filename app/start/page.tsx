@@ -8,7 +8,7 @@ import { INDUSTRY_KETES, type KeteSlug } from '@/lib/kete';
 export const metadata: Metadata = {
   title: 'Start',
   description:
-    'Pick an assembl industry pack, pay NZ$5,000/mo + GST, and start onboarding your operator fleet.',
+    'Pick an assembl industry pack, pay NZ$3,500/mo + GST, and start onboarding your operator fleet.',
 };
 
 const KETE_IMAGES: Record<KeteSlug, string> = {
@@ -42,7 +42,7 @@ export default function StartPage() {
               Pick your kete. Pay one flat number. Run your business.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-[1.75] text-[color:var(--text-body)] md:text-xl">
-              NZ$5,000/mo + GST. No setup fee. Cancel any time. Choose the
+              NZ$3,500/mo + GST. No setup fee. Cancel any time. Choose the
               industry kete, create your account, then checkout with Stripe.
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -67,7 +67,7 @@ export default function StartPage() {
               Flat monthly pack
             </p>
             <p className="mt-5 font-display text-6xl font-light leading-none">
-              NZ$5,000
+              NZ$3,500
             </p>
             <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               per month + GST

@@ -1,6 +1,6 @@
 /**
  * Self-serve subscription tiers — the conversion step between the free HAPAI
- * tools and the $5,000/mo kete pack.
+ * tools and the $3,500/mo kete pack.
  *
  * Locked numbers (confirmed by Kate, June 2026): Solo NZ$49/mo, Team NZ$149/mo.
  * Both are GST exclusive, in line with PRICING-LOCKED.md.

@@ -86,7 +86,7 @@ export default function TermsPage() {
               <h2 className="font-display text-2xl font-light italic md:text-3xl">5. Pricing.</h2>
               <ul className="mt-3 space-y-2 pl-5">
                 <li className="list-disc"><strong>Pilot Sprint</strong> — NZ$5,000 + GST per workflow. Ten working days. One workflow, one evidence pack. Invoice on engagement; refundable until day one.</li>
-                <li className="list-disc"><strong>Industry Pack</strong> — NZ$5,000 + GST per month per tenant. Includes the kete&apos;s specialist fleet plus white-labelled HAPAI tools. Monthly billing via Stripe. Cancel any time; charges already invoiced are non-refundable.</li>
+                <li className="list-disc"><strong>Industry Pack</strong> — NZ$3,500 + GST per month per tenant. Includes the kete&apos;s specialist fleet plus white-labelled HAPAI tools. Monthly billing via Stripe. Cancel any time; charges already invoiced are non-refundable.</li>
                 <li className="list-disc"><strong>Tōro family</strong> — NZ$29 + GST per month per whānau. Monthly billing via Stripe. Cancel any time.</li>
                 <li className="list-disc"><strong>Outcome work</strong> — from NZ$5,000 + GST. Scope, schedule, and invoice terms are specified in the signed Statement of Work.</li>
               </ul>

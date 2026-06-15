@@ -32,7 +32,7 @@ export default async function StartSignupPage({
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
             Create the operator account, confirm the business slug, choose the
-            first kete, then checkout for NZ$5,000/mo + GST.
+            first kete, then checkout for NZ$3,500/mo + GST.
           </p>
         </div>
         <div className="mt-10">
