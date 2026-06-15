@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SelfServePlans } from '@/components/billing/SelfServePlans';
+import { Eyebrow } from '@/components/site/Eyebrow';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -51,8 +52,10 @@ export default function PricingPage() {
       <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
         <div className="container">
           <div className="mx-auto max-w-4xl text-center">
-            <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">Pricing</p>
-            <h1 className="mt-6 font-display text-display-xl font-light">Simple pricing.</h1>
+            <Eyebrow label="Pricing" className="justify-center" />
+            <h1 className="mt-6 font-display text-display-xl font-light">
+              Simple <em className="italic text-[color:var(--assembl-pounamu)]">pricing.</em>
+            </h1>
           </div>
 
           <div className="mt-14 grid gap-4 lg:grid-cols-4">
@@ -96,10 +99,10 @@ export default function PricingPage() {
       <section className="py-20 lg:py-28">
         <div className="container">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
-              Self-serve · between the free tools and a kete pack
-            </p>
-            <h2 className="mt-5 font-display text-display-lg font-light">Convert with a card, no sales call.</h2>
+            <Eyebrow label="Self-serve · between the free tools and a kete pack" accent="var(--assembl-gold)" className="justify-center" />
+            <h2 className="mt-5 font-display text-display-lg font-light">
+              Convert with a card, <em className="italic text-[color:var(--assembl-pounamu)]">no sales call.</em>
+            </h2>
             <p className="mx-auto mt-6 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               Liked a HAPAI tool? Turn it on for real work. Solo is one kete for one person; Team is
               every kete for up to five. Cancel any time.

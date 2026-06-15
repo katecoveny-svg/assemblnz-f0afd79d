@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { Eyebrow } from '@/components/site/Eyebrow';
 
 export const metadata: Metadata = {
   title: 'What’s an evidence pack?',
@@ -20,8 +21,10 @@ export default function EvidencePackPage() {
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
         <div className="container">
-          <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">Evidence pack</p>
-          <h1 className="mt-6 max-w-4xl font-display text-display-xl font-light">What’s an evidence pack?</h1>
+          <Eyebrow label="Evidence pack" />
+          <h1 className="mt-6 max-w-4xl font-display text-display-xl font-light">
+            What’s an <em className="italic text-[color:var(--assembl-pounamu)]">evidence pack?</em>
+          </h1>
           <p className="mt-8 max-w-3xl text-body-lg text-[color:var(--text-body)]">
             It’s the receipt for a piece of work. When an agent drafts something and a person signs
             it off, the evidence pack records what was asked, the sources it drew on, the assumptions
