@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assembl — Direction B · Atelier (refined)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Plus+Jakarta+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bone:#F1EADE; --ink:#171310; --muted:#7c7164;
+    --clay:#B5533A; --pounamu:#3A7D6E; --line:rgba(23,19,16,0.10);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bone);color:var(--ink);
+    font-family:"Plus Jakarta Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .label{font-family:"JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:0.26em;font-size:11px;color:var(--muted)}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 30px}
+
+  /* nav */
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:30;
+    background:linear-gradient(to bottom,rgba(241,234,222,0.9),rgba(241,234,222,0));backdrop-filter:blur(6px)}
+  header.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .word{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:25px;letter-spacing:-0.02em}
+  nav.top{display:flex;gap:30px}
+  nav.top a{color:#5d5347;text-decoration:none;font-size:14px;transition:color .2s}
+  nav.top a:hover{color:var(--ink)}
+
+  /* hero — tonal stage, vessel up top, copy in clean space below */
+  .stage{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:120px 24px 70px;
+    background:radial-gradient(130% 80% at 50% 18%, #fbf6ee 0%, #ece3d4 46%, #ddd2c0 100%)}
+  .vstage{position:relative;width:min(560px,86vw);height:min(440px,52vh)}
+  #scene{position:absolute;inset:0;width:100%;height:100%}
+  .eyebrow{margin-top:6px}
+  h1.head{font-family:"Fraunces",Georgia,serif;font-weight:300;
+    font-size:clamp(2.9rem,7.4vw,6.2rem);line-height:0.96;letter-spacing:-0.025em;margin:18px 0 0;color:#191510}
+  h1.head em{font-style:italic;color:#2b2620}
+  p.sub{margin:22px auto 0;max-width:520px;font-size:1.1rem;line-height:1.62;color:#4b423a}
+  .row{margin-top:30px;display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .cta{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 28px;border-radius:40px;
+    background:#191510;color:#f3ede2;text-decoration:none;font-size:15px;box-shadow:0 16px 44px rgba(20,14,8,0.24);
+    transition:transform .25s, box-shadow .25s}
+  .cta:hover{transform:translateY(-3px);box-shadow:0 24px 60px rgba(20,14,8,0.32)}
+  .cta .dot{width:7px;height:7px;border-radius:50%;background:var(--pounamu);box-shadow:0 0 12px var(--pounamu)}
+  .ghost{color:#3f372d;text-decoration:none;font-size:15px;border-bottom:1px solid rgba(23,19,16,0.25);padding-bottom:3px;transition:border-color .2s}
+  .ghost:hover{border-color:var(--ink)}
+  .scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%)}
+
+  /* glass chips, anchored to the 3D scene */
+  .chip{position:absolute;z-index:20;transform:translate(-50%,-50%);
+    background:rgba(255,255,255,0.42);border:1px solid rgba(255,255,255,0.6);backdrop-filter:blur(14px) saturate(140%);
+    border-radius:999px;padding:8px 14px;display:flex;gap:9px;align-items:center;color:#2e271f;font-size:12.5px;white-space:nowrap;
+    box-shadow:0 10px 34px rgba(40,30,18,0.12);transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s;will-change:left,top}
+  .chip .sw{width:8px;height:8px;border-radius:50%;box-shadow:0 0 9px currentColor}
+  .chip b{font-weight:500}
+  .chip small{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.04em;color:var(--muted)}
+  .chip:hover{transform:translate(-50%,-50%) translateY(-8px) scale(1.05);box-shadow:0 22px 54px rgba(40,30,18,0.22)}
+
+  /* sections */
+  section.band{padding:108px 0}
+  .shead{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:34px;gap:20px;flex-wrap:wrap}
+  .shead h2{font-family:"Fraunces",Georgia,serif;font-weight:300;font-size:clamp(2rem,4vw,3rem);margin:0;letter-spacing:-0.015em;max-width:18ch}
+
+  /* glassmorphic cards (no flat fills) */
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+  .glass{position:relative;border-radius:22px;padding:24px 22px 26px;min-height:218px;
+    background:linear-gradient(160deg,rgba(255,255,255,0.55),rgba(255,255,255,0.28));
+    border:1px solid rgba(255,255,255,0.65);backdrop-filter:blur(16px) saturate(135%);
+    box-shadow:0 18px 50px rgba(40,30,18,0.07), inset 0 1px 0 rgba(255,255,255,0.6);
+    display:flex;flex-direction:column;justify-content:space-between;
+    transition:transform .35s, box-shadow .35s, background .35s}
+  .glass:hover{transform:translateY(-7px);background:linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.4));
+    box-shadow:0 34px 80px rgba(40,30,18,0.14)}
+  .glass .badge{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.7)}
+  .glass .badge i{width:11px;height:11px;border-radius:50%}
+  .glass h3{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:1.3rem;margin:18px 0 3px;letter-spacing:-0.01em}
+  .glass .reo{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+  .glass p{margin:14px 0 0;font-size:13px;line-height:1.5;color:#5b5246}
+
+  /* how-it-works mini */
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .step .n{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:2.4rem;color:#b9ad9c;line-height:1}
+  .step h4{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:1.25rem;margin:10px 0 6px}
+  .step p{font-size:14px;line-height:1.55;color:#5b5246;margin:0;max-width:34ch}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 60px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+
+  /* scroll reveal */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal[data-d="1"]{transition-delay:.08s}.reveal[data-d="2"]{transition-delay:.16s}
+  .reveal[data-d="3"]{transition-delay:.24s}.reveal[data-d="4"]{transition-delay:.32s}
+
+  @media(max-width:900px){
+    .vstage{height:42vh}
+    .grid{grid-template-columns:repeat(2,1fr)} .three{grid-template-columns:1fr}
+    nav.top{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <div class="word">assembl</div>
+  <nav class="top"><a href="#kete">Kete packs</a><a href="#how">How it works</a><a href="#">Free tools</a><a href="#">Pricing</a></nav>
+  <span class="label">Direction B · refined</span>
+</div></header>
+
+<section class="stage">
+  <div class="vstage">
+    <canvas id="scene"></canvas>
+    <div id="chips"></div>
+  </div>
+  <span class="label eyebrow">Built in Aotearoa</span>
+  <h1 class="head">Mahi that earns <em>its proof.</em></h1>
+  <p class="sub">Specialist agents draft the admin-heavy work. A named person signs it off. Every output is sealed in an evidence pack — the receipt.</p>
+  <div class="row">
+    <a class="cta" href="#"><span class="dot"></span> Try a free tool</a>
+    <a class="ghost" href="#">Book a Pilot Sprint</a>
+  </div>
+  <span class="label scrollcue">Scroll</span>
+</section>
+
+<section class="band" id="kete"><div class="wrap">
+  <div class="shead reveal"><h2>Pick the pack for your work.</h2><span class="label">Nine kete</span></div>
+  <div class="grid" id="keterow"></div>
+</div></section>
+
+<section class="band" id="how" style="background:radial-gradient(120% 70% at 50% 0%, #f6efe4, transparent 60%)"><div class="wrap">
+  <div class="shead reveal"><h2>Draft. Sign off. Sealed receipt.</h2><span class="label">How it works</span></div>
+  <div class="three">
+    <div class="step glass reveal" data-d="1"><div><div class="n">i</div><h4>Agents draft it</h4><p>The slow, repetitive writing — done in seconds, grounded in your industry's rules.</p></div></div>
+    <div class="step glass reveal" data-d="2"><div><div class="n">ii</div><h4>You sign off</h4><p>Nothing sends, files, or lodges until a named person on your team approves it.</p></div></div>
+    <div class="step glass reveal" data-d="3"><div><div class="n">iii</div><h4>The receipt</h4><p>Every output carries an evidence pack: sources, assumptions, and who approved it.</p></div></div>
+  </div>
+</div></section>
+
+<footer class="wrap reveal">
+  <span class="word">assembl</span>
+  <a class="cta" href="#"><span class="dot"></span> Book a Pilot Sprint</a>
+  <span class="label">Mahi that earns its proof</span>
+</footer>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---- kete data (English first, te reo second; muted earthy accents) ----
+const KETE=[
+  {en:'Construction',reo:'Waihanga',acc:'#5E7E62',drafts:'RFIs, variation packs, site logs'},
+  {en:'Hospitality',reo:'Manaaki',acc:'#B5533A',drafts:'Allergen reports, guest replies'},
+  {en:'Freight & Customs',reo:'Pīkau',acc:'#3A7D6E',drafts:'Customs entries, freight exceptions'},
+  {en:'Automotive & Fleet',reo:'Arataki',acc:'#9A6A3C',drafts:'WoF readiness, CGA disclosures'},
+  {en:'Creative',reo:'Auaha',acc:'#6E6796',drafts:'Caption batches, briefs, taglines'},
+];
+const row=document.getElementById('keterow');
+KETE.forEach((k,i)=>{const c=document.createElement('div');c.className='glass reveal';c.dataset.d=String((i%4)+1);
+  c.innerHTML=`<div class="badge" style="box-shadow:inset 0 0 0 1px ${k.acc}22"><i style="background:${k.acc}"></i></div>
+    <div><h3>${k.en}</h3><div class="reo">${k.reo}</div><p>${k.drafts}</p></div>`;row.appendChild(c);});
+
+// ---- scroll reveal ----
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ---- 3D: delicate sparkling pounamu vessel ----
+const canvas=document.getElementById('scene');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.15;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(34,1,0.1,100); camera.position.set(0,0.15,6.4);
+const pmrem=new THREE.PMREMGenerator(renderer);
+scene.environment=pmrem.fromScene(new RoomEnvironment(),0.02).texture;
+
+// delicate stemmed silhouette with a flared, shell-like rim (solid + very transparent → reads as crystal glass)
+const prof=[[0.0,-1.18],[0.20,-1.16],[0.30,-1.02],[0.20,-0.86],[0.135,-0.62],[0.165,-0.42],
+  [0.32,-0.18],[0.46,0.10],[0.515,0.40],[0.45,0.64],[0.50,0.84],[0.60,1.02],
+  [0.70,1.18],[0.78,1.30],[0.60,1.30],[0.50,1.16],[0.40,0.96],[0.0,0.92]]
+  .map(p=>new THREE.Vector2(p[0],p[1]));
+const vgeo=new THREE.LatheGeometry(prof,160); vgeo.computeVertexNormals();
+const glass=new THREE.MeshPhysicalMaterial({
+  color:0xcdeede, transmission:1.0, thickness:0.42, roughness:0.025, ior:1.5,
+  clearcoat:1.0, clearcoatRoughness:0.03, metalness:0.0,
+  attenuationColor:new THREE.Color(0x3a7d6e), attenuationDistance:3.6,
+  iridescence:0.34, iridescenceIOR:1.32, specularIntensity:1.0,
+  envMapIntensity:1.7, transparent:true
+});
+const vessel=new THREE.Mesh(vgeo,glass); vessel.scale.setScalar(1.0);
+const group=new THREE.Group(); group.add(vessel); scene.add(group);
+
+// soft glow texture
+function glowTex(soft){const s=64,cv=document.createElement('canvas');cv.width=cv.height=s;const g=cv.getContext('2d');
+  const grd=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);grd.addColorStop(0,'rgba(255,255,255,1)');
+  grd.addColorStop(soft?0.4:0.28,'rgba(190,240,216,0.85)');grd.addColorStop(1,'rgba(120,210,175,0)');
+  g.fillStyle=grd;g.fillRect(0,0,s,s);return new THREE.CanvasTexture(cv);}
+
+// ~450 drifting data nodes inside the vessel
+const N=450,pos=new Float32Array(N*3);
+for(let i=0;i<N;i++){const r=Math.cbrt(Math.random())*0.7,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);
+  pos[i*3]=r*Math.sin(ph)*Math.cos(th);pos[i*3+1]=r*Math.cos(ph)*1.7-0.02;pos[i*3+2]=r*Math.sin(ph)*Math.sin(th);}
+const ngeo=new THREE.BufferGeometry();ngeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+const nmat=new THREE.PointsMaterial({size:0.085,map:glowTex(true),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,color:0xaff0d2,opacity:0.8});
+const nodes=new THREE.Points(ngeo,nmat); group.add(nodes);
+
+// sparkle: tiny bright twinkles sampled on the glass surface
+const SParr=vgeo.attributes.position.array; const SN=70, sp=new Float32Array(SN*3), sphase=[];
+for(let i=0;i<SN;i++){const v=(Math.floor(Math.random()*(SParr.length/3)))*3;
+  sp[i*3]=SParr[v]*1.0; sp[i*3+1]=SParr[v+1]; sp[i*3+2]=SParr[v+2]; sphase.push(Math.random()*Math.PI*2);}
+const sgeo=new THREE.BufferGeometry();sgeo.setAttribute('position',new THREE.BufferAttribute(sp,3));
+const sgeoOpac=new Float32Array(SN).fill(1);
+const smat=new THREE.PointsMaterial({size:0.12,map:glowTex(false),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,color:0xffffff,opacity:0.95});
+const sparkles=new THREE.Points(sgeo,smat); vessel.add(sparkles);
+
+// lighting — soft studio + a moving glint light so the glass glistens
+const key=new THREE.SpotLight(0xfff3e4,16,22,0.6,0.55,1.2); key.position.set(3,6,5); scene.add(key);
+const rim=new THREE.DirectionalLight(0x7fe6c4,0.9); rim.position.set(-4,-1,-3); scene.add(rim);
+scene.add(new THREE.AmbientLight(0xffffff,0.18));
+const glint=new THREE.PointLight(0xffffff,8,12,2); scene.add(glint);
+
+// glass kete chips anchored to scene points
+const anchors=[
+  {v:new THREE.Vector3(0.95,0.95,0.4),k:KETE[2]},
+  {v:new THREE.Vector3(-1.05,0.35,0.5),k:KETE[1]},
+  {v:new THREE.Vector3(0.8,-0.85,0.6),k:KETE[0]},
+  {v:new THREE.Vector3(-0.8,-0.55,-0.3),k:KETE[4]},
+];
+const chips=document.getElementById('chips');
+anchors.forEach(a=>{const el=document.createElement('div');el.className='chip';
+  el.innerHTML=`<span class="sw" style="background:${a.k.acc};color:${a.k.acc}"></span><b>${a.k.en}</b><small>${a.k.reo}</small>`;chips.appendChild(el);a.el=el;});
+
+let mx=0,my=0,scrollY=0;
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-0.5;my=e.clientY/innerHeight-0.5;});
+addEventListener('scroll',()=>{scrollY=window.scrollY;});
+function resize(){const r=canvas.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
+addEventListener('resize',resize);resize();
+
+const clock=new THREE.Clock();
+function tick(){const t=clock.getElapsedTime();
+  if(!reduce){
+    group.rotation.y=t*0.13;
+    group.rotation.x=THREE.MathUtils.lerp(group.rotation.x,-my*0.22,0.05);
+    group.position.y=-scrollY*0.0014;                 // gentle scroll parallax
+    camera.position.x=THREE.MathUtils.lerp(camera.position.x,mx*0.8,0.05);
+    camera.lookAt(0,0,0);
+    nodes.rotation.y=-t*0.05; nmat.opacity=0.66+Math.sin(t*1.5)*0.12;
+    glint.position.set(Math.cos(t*0.8)*4.2,2.6,Math.sin(t*0.8)*4.2);   // moving glisten
+    // twinkle sparkles
+    smat.opacity=0.85; sparkles.material.size=0.11+Math.sin(t*3)*0.03;
+  }
+  group.updateMatrixWorld();
+  const r=canvas.getBoundingClientRect();
+  anchors.forEach(a=>{const p=a.v.clone().applyMatrix4(group.matrixWorld).project(camera);
+    a.el.style.left=(r.left+(p.x*0.5+0.5)*r.width)+'px';a.el.style.top=(r.top+(-p.y*0.5+0.5)*r.height)+'px';
+    a.el.style.opacity=p.z<1?1:0;});
+  renderer.render(scene,camera);requestAnimationFrame(tick);
+}
+group.updateMatrixWorld();tick();
+</script>
+</body>
+</html>
