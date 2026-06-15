@@ -88,7 +88,4 @@ grant select on public.toro_draft_transitions to authenticated;
 -- ─────────────────────────────────────────────────────────────────────────────
 
 comment on table public.toro_draft_transitions is
-  'Audit chain for Tōro draft state machine (spec §4.4). Every status ' ||
-  'change on toro_drafts writes one row here. Read-only via RLS for ' ||
-  'tenant members; writes happen in the same transaction as the parent ' ||
-  'draft update from lib/toro/state-machine.ts.';
+  'Audit chain for Tōro draft state machine (spec §4.4). Every status change on toro_drafts writes one row here. Read-only via RLS for tenant members; writes happen in the same transaction as the parent draft update from lib/toro/state-machine.ts.';
