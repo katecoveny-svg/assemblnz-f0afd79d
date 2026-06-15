@@ -68,7 +68,7 @@ export default async function AgentDetailPage({
             </div>
           </div>
 
-          <aside className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-5 shadow-[0_18px_56px_rgba(35,33,31,0.08)]">
+          <aside className="glass-card p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
               {workflow ? 'Shared workflow' : 'Demo status'}
             </p>
@@ -125,7 +125,7 @@ export default async function AgentDetailPage({
         />
 
         <div className="mx-auto mt-8 grid max-w-7xl gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
+          <section className="glass-card p-6">
             <h2 className="font-display text-4xl font-light">What this specialist does.</h2>
             <p className="mt-5 text-base leading-relaxed text-[color:var(--text-body)]">
               {agent.expertise ?? agent.oneLiner}
@@ -137,7 +137,7 @@ export default async function AgentDetailPage({
             ) : null}
           </section>
 
-          <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
+          <section className="glass-card p-6">
             <h2 className="font-display text-4xl font-light">Proof inputs.</h2>
             <div className="mt-5 space-y-5">
               <div>
@@ -169,7 +169,7 @@ export default async function AgentDetailPage({
         </div>
 
         {workflowOptions.length > 0 ? (
-          <section className="mx-auto mt-8 max-w-7xl rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
+          <section className="glass-card mx-auto mt-8 max-w-7xl p-6">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
@@ -214,7 +214,7 @@ export default async function AgentDetailPage({
 
 function Panel({ title, body }: { title: string; body: string }) {
   return (
-    <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-5">
+    <div className="glass-card p-5">
       <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">{title}</p>
       <p className="mt-3 font-display text-3xl font-light capitalize">{body}</p>
     </div>
