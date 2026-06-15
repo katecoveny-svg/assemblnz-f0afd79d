@@ -4,29 +4,20 @@
  * VesselHero — the Assembl signature 3D piece, Direction B "stacked".
  *
  * A balanced stack of cream-ceramic and translucent pounamu/teal/amber glass
- * forms, floating on a thin gold easel — the "mahi that earns its proof" idea
- * made physical (evidence, stacked and balanced).
+ * forms, floating on a thin gold easel. As you scroll the hero the stack gently
+ * separates and turns — a small interactive motion-graphic moment.
  *
  * Client-only and self-contained: three.js is dynamically imported inside the
  * effect so it never touches the server bundle, and WebGL only runs after mount.
  * Falls back to a calm static surface when WebGL is unavailable or the visitor
- * prefers reduced motion. Floating kete chips are projected from 3D anchors.
+ * prefers reduced motion.
  */
 
 import { useEffect, useRef, useState } from "react";
 
-type Chip = { en: string; reo: string; acc: string; x: number; y: number; z: number };
-
-const CHIPS: Chip[] = [
-  { en: "Freight & Customs", reo: "Pīkau", acc: "#3A7D6E", x: 1.15, y: -0.74, z: 0.2 },
-  { en: "Hospitality", reo: "Manaaki", acc: "#B5533A", x: -1.15, y: -0.16, z: 0.2 },
-  { en: "Construction", reo: "Waihanga", acc: "#5E7E62", x: 1.0, y: 0.5, z: 0.2 },
-];
-
 export function VesselHero() {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const chipRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
@@ -103,12 +94,11 @@ export function VesselHero() {
         bowl(0.6, 1.1, glass(0x2f6f5a, 1.4)),
       ];
       const ys = [-1.45, -1.06, -0.74, -0.46, -0.16, 0.18, 0.5];
-      items.forEach((m, i) => { m.position.y = ys[i]; m.userData.phase = i * 0.7; stack.add(m); });
+      items.forEach((m, i) => { m.position.y = ys[i]; m.userData.phase = i * 0.7; m.userData.baseY = ys[i]; stack.add(m); });
       const shell = lens(0.62, 0.42, ceramic(CREAM));
-      shell.position.set(0.02, 0.92, 0); shell.rotation.z = 0.18; shell.userData.phase = 4.9; stack.add(shell);
+      shell.position.set(0.02, 0.92, 0); shell.rotation.z = 0.18; shell.userData.phase = 4.9; shell.userData.baseY = 0.92; stack.add(shell);
       const floaters = [...items, shell];
 
-      // thin gold easel
       const bar = (a: number[], b: number[], r = 0.018) => {
         const A = new THREE.Vector3(a[0], a[1], a[2]), B = new THREE.Vector3(b[0], b[1], b[2]);
         const g = new THREE.CylinderGeometry(r, r, A.distanceTo(B), 12);
@@ -123,7 +113,6 @@ export function VesselHero() {
       bar([xL, yBot, zF], [xL, yTop, zF]); bar([xL, yBot, zB], [xL, yTop, zB]);
       bar([xL, yTop, zF], [xL, yTop, zB]); bar([xL, yTop, zF], [-0.1, yTop, 0.0]);
 
-      // contact shadow
       const s = 128, cv = document.createElement("canvas"); cv.width = cv.height = s;
       const g2 = cv.getContext("2d")!;
       const grd = g2.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
@@ -138,13 +127,16 @@ export function VesselHero() {
       scene.add(new THREE.AmbientLight(0xfff3e3, 0.35));
       const glint = new THREE.PointLight(0xffffff, 5, 14, 2); scene.add(glint);
 
-      const anchors = CHIPS.map((c) => new THREE.Vector3(c.x, c.y, c.z));
-
-      let mx = 0, my = 0, scrollY = 0;
+      let mx = 0, my = 0, heroProgress = 0;
       const onMove = (e: PointerEvent) => { mx = e.clientX / window.innerWidth - 0.5; my = e.clientY / window.innerHeight - 0.5; };
-      const onScroll = () => { scrollY = window.scrollY; };
+      const onScroll = () => {
+        const r = wrap.getBoundingClientRect();
+        // 0 while the hero fills the viewport, → 1 as it scrolls away
+        heroProgress = Math.min(Math.max(-r.top / Math.max(r.height, 1), 0), 1);
+      };
       window.addEventListener("pointermove", onMove);
       window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
       cleanups.push(() => { window.removeEventListener("pointermove", onMove); window.removeEventListener("scroll", onScroll); });
 
       const resize = () => {
@@ -159,28 +151,20 @@ export function VesselHero() {
       const tick = () => {
         if (disposed) return;
         const t = clock.getElapsedTime();
-        if (!reduce) {
-          stack.rotation.y = t * 0.18 + mx * 0.4;
-          stack.rotation.x += ((-my * 0.12) - stack.rotation.x) * 0.05;
-          stack.position.y = -scrollY * 0.0016;
-          floaters.forEach((m) => { m.position.x = Math.sin(t * 0.6 + (m.userData.phase as number)) * 0.012; });
-          glint.position.set(Math.cos(t * 0.7) * 5, 3, Math.sin(t * 0.7) * 5);
-        }
-        stack.updateMatrixWorld();
-        const r = wrap.getBoundingClientRect();
-        anchors.forEach((v, i) => {
-          const p = v.clone().applyMatrix4(stack.matrixWorld).project(camera);
-          const el = chipRefs.current[i];
-          if (el) {
-            el.style.left = ((p.x * 0.5 + 0.5) * r.width) + "px";
-            el.style.top = ((-p.y * 0.5 + 0.5) * r.height) + "px";
-            el.style.opacity = p.z < 1 ? "1" : "0";
-          }
+        const spread = reduce ? 0 : heroProgress * 0.45;          // discs separate on scroll
+        stack.rotation.y = (reduce ? 0 : t * 0.18) + mx * 0.4 + heroProgress * 0.9;
+        stack.rotation.x += ((-my * 0.12) - stack.rotation.x) * 0.05;
+        stack.position.y = -heroProgress * 0.6;
+        floaters.forEach((m) => {
+          const baseY = m.userData.baseY as number;
+          m.position.y = baseY * (1 + spread);
+          m.position.x = reduce ? 0 : Math.sin(t * 0.6 + (m.userData.phase as number)) * 0.012;
         });
+        if (!reduce) glint.position.set(Math.cos(t * 0.7) * 5, 3, Math.sin(t * 0.7) * 5);
         renderer.render(scene, camera);
         raf = requestAnimationFrame(tick);
       };
-      stack.updateMatrixWorld(); tick();
+      tick();
 
       cleanups.push(() => {
         cancelAnimationFrame(raf);
@@ -212,18 +196,6 @@ export function VesselHero() {
       ) : (
         <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
       )}
-      {!failed &&
-        CHIPS.map((c, i) => (
-          <div
-            key={c.en}
-            ref={(el) => { chipRefs.current[i] = el; }}
-            className="pointer-events-none absolute z-20 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-white/60 bg-white/40 px-3.5 py-2 text-[12.5px] text-[#2e271f] shadow-[0_10px_34px_rgba(40,30,18,0.12)] backdrop-blur-md"
-          >
-            <span className="h-2 w-2 rounded-full" style={{ background: c.acc, boxShadow: `0 0 9px ${c.acc}` }} />
-            <b className="font-medium">{c.en}</b>
-            <small className="font-mono text-[10px] tracking-[0.04em] text-[color:var(--text-secondary)]">{c.reo}</small>
-          </div>
-        ))}
     </div>
   );
 }
