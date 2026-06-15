@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { normalizeKetePacks } from '@/lib/live-feed/kete-relevance';
 
 export interface RegulatoryPulseItem {
   id: string;
@@ -166,7 +167,7 @@ export async function getRegulatoryPulse(): Promise<RegulatoryPulseStats> {
           title: document?.title ?? 'Source update detected',
           sourceName: source?.name ?? 'Knowledge source',
           sourceUrl: document?.url ?? source?.url ?? null,
-          kete: source?.agent_packs ?? [],
+          kete: normalizeKetePacks(source?.agent_packs ?? []),
           detectedAt: row.detected_at,
           changeType: row.change_type,
         };

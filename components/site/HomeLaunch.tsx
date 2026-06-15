@@ -12,6 +12,7 @@ import {
 import { ArrowRight } from 'lucide-react';
 import { KETES } from '@/lib/kete';
 import { VesselHero } from '@/components/hero/VesselHero';
+import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
 
 // "Pick your area" — one link per kete. English first, te reo second.
 const KETE_ROWS = [
@@ -323,6 +324,9 @@ export function HomeLaunch() {
           </motion.div>
         </div>
       </section>
+
+      {/* 4.5 · Live regulation — the proof number, customer-readable */}
+      <LiveRegulationBlock />
 
       {/* 5 · Pricing teaser */}
       <section className="py-24 lg:py-32">
