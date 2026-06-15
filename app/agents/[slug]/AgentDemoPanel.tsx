@@ -104,7 +104,7 @@ export function AgentDemoPanel({
   }, [agentName, shareText, workflowTitle]);
 
   return (
-    <section className="mx-auto mt-8 max-w-7xl overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/70 shadow-[0_24px_80px_rgba(35,33,31,0.08)]">
+    <section className="glass-card mx-auto mt-8 max-w-7xl overflow-hidden">
       <div className="grid gap-0 lg:grid-cols-[0.86fr_1.14fr]">
         <div className="border-b border-[rgba(35,33,31,0.10)] bg-[rgba(250,247,242,0.72)] p-6 lg:border-b-0 lg:border-r">
           <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.12)] bg-white/70 px-3 py-1 text-xs">
@@ -174,7 +174,7 @@ export function AgentDemoPanel({
               <p className="mt-1">{response.error}</p>
             </div>
           ) : response?.response ? (
-            <div className="mt-5 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/75 p-5">
+            <div className="glass-card mt-5 p-5">
               <div className="flex flex-wrap items-center gap-2">
                 <ShieldCheck className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
