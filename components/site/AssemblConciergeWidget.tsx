@@ -239,10 +239,18 @@ export function AssemblConciergeWidget() {
               <div className="flex justify-end">
                 <span
                   id="concierge-counter"
-                  className="font-mono text-[9px] uppercase tracking-[0.1em] text-[color:var(--text-secondary)]"
+                  className={cn(
+                    "font-mono text-[9px] uppercase tracking-[0.1em]",
+                    draft.length > MAX_CHARS * 0.9
+                      ? "text-destructive font-medium"
+                      : "text-[color:var(--text-secondary)]"
+                  )}
                   aria-hidden="true"
                 >
                   {draft.length} / {MAX_CHARS}
+                </span>
+                <span className="sr-only" aria-live="polite">
+                  {draft.length > MAX_CHARS * 0.9 ? `${draft.length} / ${MAX_CHARS} characters` : ""}
                 </span>
               </div>
             </form>
