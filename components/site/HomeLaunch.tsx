@@ -85,6 +85,16 @@ function RevealWords({ text, className }: { text: string; className?: string }) 
   );
 }
 
+/** A small mono kicker with an accent rule — gives each header a lead-in. */
+function Eyebrow({ label, accent, className = '' }: { label: string; accent: string; className?: string }) {
+  return (
+    <motion.div variants={item} className={`mb-5 flex items-center gap-3 ${className}`}>
+      <span className="h-[2px] w-9 rounded-full" style={{ backgroundColor: accent }} aria-hidden />
+      <span className="font-mono text-eyebrow uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">{label}</span>
+    </motion.div>
+  );
+}
+
 export function HomeLaunch() {
   const reduce = useReducedMotion();
   const heroRef = useRef<HTMLElement | null>(null);
@@ -194,9 +204,11 @@ export function HomeLaunch() {
       <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
         <div className="container">
           <motion.div variants={container} initial="hidden" whileInView="show" viewport={VIEWPORT}>
-            <motion.h2 variants={item} className="max-w-3xl font-display text-display-lg font-light">
-              Less admin, more mahi.
-            </motion.h2>
+            <Eyebrow label="The promise" accent="var(--assembl-pounamu)" />
+            <h2 className="max-w-3xl font-display text-display-lg font-light leading-[1.02]">
+              <RevealWords text="Less admin," className="block" />
+              <RevealWords text="more mahi." className="block italic text-[color:var(--assembl-pounamu)]" />
+            </h2>
             <motion.p variants={item} className="mt-8 max-w-3xl text-body-lg text-[color:var(--text-body)]">
               Hospitality teams shouldn’t spend their best hour writing the allergen report. Builders
               shouldn’t spend it checking a variation against clause 24A. Schools shouldn’t spend it
@@ -217,11 +229,12 @@ export function HomeLaunch() {
             viewport={VIEWPORT}
             className="mb-12"
           >
-            <motion.div variants={item} className="mb-3 flex items-baseline justify-between gap-4">
-              <h2 className="font-display text-display-lg font-light">Pick the pack for your work.</h2>
-              <span className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">Nine kete</span>
-            </motion.div>
-            <motion.p variants={item} className="max-w-2xl text-body-lg text-[color:var(--text-body)]">
+            <Eyebrow label="Nine kete" accent="var(--assembl-gold)" />
+            <h2 className="font-display text-display-lg font-light leading-[1.02]">
+              <RevealWords text="Pick the pack" className="block" />
+              <RevealWords text="for your work." className="block italic text-[color:var(--assembl-pounamu)]" />
+            </h2>
+            <motion.p variants={item} className="mt-6 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               A kete is a kit for one kind of work — the agents, tools, and rules shaped for it.
             </motion.p>
           </motion.div>
@@ -276,14 +289,13 @@ export function HomeLaunch() {
             initial="hidden"
             whileInView="show"
             viewport={VIEWPORT}
-            className="mb-10 flex items-baseline justify-between gap-4"
+            className="mb-10"
           >
-            <motion.h2 variants={item} className="font-display text-display-lg font-light">
-              Draft. Sign off. Sealed receipt.
-            </motion.h2>
-            <motion.span variants={item} className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
-              How it works
-            </motion.span>
+            <Eyebrow label="How it works" accent="var(--assembl-clay)" />
+            <h2 className="font-display text-display-lg font-light leading-[1.02]">
+              <RevealWords text="Draft. Sign off." className="block" />
+              <RevealWords text="Sealed receipt." className="block italic text-[color:var(--assembl-clay)]" />
+            </h2>
           </motion.div>
           <motion.div
             className="grid gap-4 lg:grid-cols-3"
@@ -319,12 +331,11 @@ export function HomeLaunch() {
             viewport={VIEWPORT}
             className="mx-auto max-w-3xl text-center"
           >
-            <motion.p variants={item} className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
-              Pricing
-            </motion.p>
-            <motion.h2 variants={item} className="mt-5 font-display text-display-lg font-light">
-              Start with the work in front of you.
-            </motion.h2>
+            <Eyebrow label="Pricing" accent="var(--assembl-pounamu)" className="justify-center" />
+            <h2 className="font-display text-display-lg font-light leading-[1.02]">
+              <RevealWords text="Start with the work" className="block" />
+              <RevealWords text="in front of you." className="block italic text-[color:var(--assembl-pounamu)]" />
+            </h2>
             <motion.p variants={item} className="mx-auto mt-6 max-w-xl text-body-lg text-[color:var(--text-body)]">
               Free tools, a Pilot Sprint proven on your data, a kete pack for your industry, and a
               Tōro option for whānau. Simple and honest.

@@ -20,7 +20,10 @@ export function SiteFooter() {
                 height={96}
                 className="h-24 w-24 select-none object-contain opacity-80"
               />
-              <span className="font-display text-2xl font-normal lowercase tracking-[-0.02em] text-[color:var(--text-primary)]">
+              <span
+                className="font-display text-2xl font-light lowercase tracking-[-0.02em] text-[color:var(--text-primary)]"
+                style={{ fontWeight: 300, fontVariationSettings: '"opsz" 40, "wght" 300' }}
+              >
                 assembl
               </span>
             </Link>
