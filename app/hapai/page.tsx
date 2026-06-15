@@ -157,11 +157,10 @@ export default function HapaiPage() {
               Teams learn by trying one real task.
             </h2>
             <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)]">
-              The best adoption does not start with a platform rollout. It starts
-              when someone runs a meeting note, school notice, customer reply, or
-              spreadsheet chore through a tool and gets a useful first draft.
-              HAPAI makes those small wins visible, shareable, and easy to turn
-              into private tools for the team.
+              Adoption starts small: someone runs a meeting note, school notice,
+              or customer reply through a tool and gets a useful first draft.
+              HAPAI makes those wins visible, shareable, and easy to turn into
+              private tools for the team.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">

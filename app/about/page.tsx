@@ -38,10 +38,9 @@ export default function AboutPage() {
                 to your whānau.
               </p>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-[#5F5A55] md:text-lg">
-                assembl takes that load off. Specialist agents write the first draft of the admin. Someone on your
-                team checks it and signs it off. And every piece of work comes with an evidence pack
-                — a plain record of how it was made, so you can trust it, file it, or hand it to
-                whoever asks.
+                assembl takes that load off. Specialist agents write the first draft; someone on your
+                team checks it and signs it off. Every piece of work comes with an evidence pack — a
+                plain record of how it was made, so you can trust it, file it, or hand it on.
               </p>
             </SectionReveal>
             <SectionReveal delay={0.1}>

@@ -28,7 +28,7 @@ const ADD_ONS = [
   {
     title: 'Gamified team adoption',
     price: '$500/mo',
-    body: 'Leaderboards, streaks, weekly briefings tuned for team-wide uptake. Adoption is the hardest part of specialist-agent work. Make it fun.',
+    body: 'Leaderboards, streaks, and weekly briefings tuned for team-wide uptake. Make it fun.',
   },
   {
     title: 'Custom voice training',
