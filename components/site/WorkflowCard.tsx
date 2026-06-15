@@ -36,7 +36,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
           {workflow.live ? 'live' : 'preview'}
         </span>
       </div>
-      <h3 className="relative font-display text-[clamp(2rem,4vw,2.65rem)] font-light italic leading-[0.98] text-[color:var(--text-primary)]">
+      <h3 className="relative font-display text-[clamp(2rem,4vw,2.65rem)] font-light leading-[0.98] text-[color:var(--text-primary)]">
         {workflow.title}
       </h3>
       <p className="relative mt-4 line-clamp-3 text-[15px] leading-relaxed text-[#2A2825]">

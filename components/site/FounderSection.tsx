@@ -22,7 +22,7 @@ export function FounderSection() {
             Building this in Aotearoa matters. <TeReo title="guardianship">Kaitiakitanga</TeReo>, <TeReo title="authority">mana</TeReo>, Te Tiriti, privacy, and practical operator trust are not decorative words to me. They are constraints on how the product should behave when the work is messy and the stakes are real.
           </p>
         </div>
-        <p className="mt-10 font-display text-xl italic tracking-[0.08em] text-[color:var(--text-primary)]">
+        <p className="mt-10 font-display text-xl tracking-[0.08em] text-[color:var(--text-primary)]">
           — Kate Hudson, founder, assembl
         </p>
       </article>

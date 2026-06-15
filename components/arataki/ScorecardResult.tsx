@@ -15,7 +15,7 @@ export function ScorecardResult({ scores, encoded }: { scores: Record<ScoreCateg
     <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
       <aside className="rounded-[8px] border border-[#2B6B57]/45 bg-white/72 p-6">
         <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#2B6B57]">Total score</p>
-        <p className="mt-4 font-display text-[clamp(4rem,10vw,7rem)] font-light italic leading-none text-[#3D4250]">
+        <p className="mt-4 font-display text-[clamp(4rem,10vw,7rem)] font-light leading-none text-[#3D4250]">
           {total} / 80
         </p>
         <p className="mt-4 text-sm leading-relaxed text-[#5C6273]">
@@ -36,7 +36,7 @@ export function ScorecardResult({ scores, encoded }: { scores: Record<ScoreCateg
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">Category {category}</p>
-                <h2 className="mt-2 font-display text-4xl font-light italic leading-none">{categoryLabels[category]}</h2>
+                <h2 className="mt-2 font-display text-4xl font-light leading-none">{categoryLabels[category]}</h2>
               </div>
               <span className="rounded-full border border-[#C8BBA9]/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[#5C6273]">
                 {categoryBand(scores[category])}

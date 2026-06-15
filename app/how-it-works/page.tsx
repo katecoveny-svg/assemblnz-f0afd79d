@@ -39,7 +39,7 @@ export default function HowItWorksPage() {
           <SectionReveal>
             <Eyebrow label="How it works" />
             <h1 className="mt-6 max-w-4xl font-display text-display-xl font-light">
-              How assembl <em className="italic text-[color:var(--assembl-pounamu)]">works.</em>
+              How assembl <em className="text-[color:var(--assembl-pounamu)]">works.</em>
             </h1>
             <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               Specialist agents do the first draft. A person signs it off. You get a record of how it

@@ -14,7 +14,7 @@ export function ToolCard({ tool }: { tool: ToolLink }) {
           {tool.timeToRun}
         </span>
       </div>
-      <h2 className="mt-5 font-display text-4xl font-light italic leading-none text-[#3D4250]">
+      <h2 className="mt-5 font-display text-4xl font-light leading-none text-[#3D4250]">
         {tool.title}
       </h2>
       <p className="mt-3 flex-1 text-sm leading-relaxed text-[#5C6273]">{tool.description}</p>

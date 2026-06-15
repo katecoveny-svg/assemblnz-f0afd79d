@@ -48,8 +48,8 @@ export function SiteHeader() {
           <Link
             href="/"
             aria-label="assembl — home"
-            className="shrink-0 rounded-sm text-[31px] font-light leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:text-[36px]"
-            style={{ fontFamily: 'var(--font-display), "Fraunces", Georgia, serif', fontWeight: 300, fontVariationSettings: '"opsz" 40, "wght" 300' }}
+            className="shrink-0 rounded-sm text-[31px] font-light italic leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:text-[36px]"
+            style={{ fontFamily: 'var(--font-display), "Fraunces", Georgia, serif', fontWeight: 300, fontStyle: 'italic', fontVariationSettings: '"opsz" 40, "wght" 300' }}
           >
             assembl
           </Link>
@@ -150,8 +150,8 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="assembl — home"
-              className="text-[30px] font-light leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)]"
-              style={{ fontFamily: 'var(--font-display), "Fraunces", Georgia, serif', fontWeight: 300, fontVariationSettings: '"opsz" 40, "wght" 300' }}
+              className="text-[30px] font-light italic leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)]"
+              style={{ fontFamily: 'var(--font-display), "Fraunces", Georgia, serif', fontWeight: 300, fontStyle: 'italic', fontVariationSettings: '"opsz" 40, "wght" 300' }}
               onClick={() => setMobileNavOpen(false)}
             >
               assembl

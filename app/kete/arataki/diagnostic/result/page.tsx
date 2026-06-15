@@ -24,7 +24,7 @@ export default async function AratakiDiagnosticResultPage({
         </Link>
         <header className="mb-10 max-w-4xl">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#2B6B57]">Arataki · diagnostic result</p>
-          <h1 className="mt-5 font-display text-[clamp(3.4rem,8vw,6rem)] font-light italic leading-none text-[#3D4250]">
+          <h1 className="mt-5 font-display text-[clamp(3.4rem,8vw,6rem)] font-light leading-none text-[#3D4250]">
             Your dealer operations score.
           </h1>
         </header>

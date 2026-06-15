@@ -134,7 +134,7 @@ export function NineAmBriefTool() {
       aside={
         <>
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">preemptive desk</p>
-          <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+          <p className="mt-3 font-display text-4xl font-light leading-none text-[#FAF7F2]">
             The public version drafts. The connected version does.
           </p>
           <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FAF7F2]/82">
@@ -246,7 +246,7 @@ export function NineAmBriefTool() {
               </button>
             </div>
             {loading ? (
-              <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm italic text-[#6B5A28]">
+              <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
                 The specialist is turning the day into priorities, follow-ups, and review-ready next steps.
               </p>
             ) : null}
@@ -257,7 +257,7 @@ export function NineAmBriefTool() {
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what this proves</p>
-            <h2 className="mt-3 font-display text-4xl font-light italic leading-none">Preemptive thinking, visible.</h2>
+            <h2 className="mt-3 font-display text-4xl font-light leading-none">Preemptive thinking, visible.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
               <li><strong>For founders:</strong> screenshots, inbox scraps, and loose follow-ups become a calm action queue.</li>
               <li><strong>For kids:</strong> a timetable photo can become a pack list, parent checks, and tomorrow reminders.</li>

@@ -31,7 +31,7 @@ export function CalculatorShell({
           <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#2B6B57]">
             Arataki · calculator
           </p>
-          <h1 className="mt-4 max-w-[19rem] break-words font-display text-[2.25rem] font-light italic leading-[0.92] text-[#3D4250] [overflow-wrap:anywhere] md:max-w-full md:text-[clamp(3.2rem,8vw,6rem)]">
+          <h1 className="mt-4 max-w-[19rem] break-words font-display text-[2.25rem] font-light leading-[0.92] text-[#3D4250] [overflow-wrap:anywhere] md:max-w-full md:text-[clamp(3.2rem,8vw,6rem)]">
             {title}
           </h1>
           <p className="mt-5 max-w-[19rem] text-[17px] leading-relaxed text-[#5C6273] md:max-w-3xl md:text-xl">

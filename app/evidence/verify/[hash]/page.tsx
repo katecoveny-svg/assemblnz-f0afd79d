@@ -103,7 +103,7 @@ function VerifierResult({
         <header>
           <p
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "'Fraunces', serif",
               fontWeight: 600,
               fontSize: '2.2rem',
               lineHeight: 1,
@@ -115,7 +115,7 @@ function VerifierResult({
           <p
             className="mt-3"
             style={{
-              fontFamily: "'IBM Plex Mono', monospace",
+              fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.72rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -140,7 +140,7 @@ function VerifierResult({
             <StatusGlyph ok={integrityOk} />
             <p
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: "'Fraunces', serif",
                 fontWeight: 400,
                 fontSize: '1.8rem',
                 lineHeight: 1.1,
@@ -165,7 +165,7 @@ function VerifierResult({
         <section className="mt-10">
           <p
             style={{
-              fontFamily: "'IBM Plex Mono', monospace",
+              fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.7rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -177,7 +177,7 @@ function VerifierResult({
           <h1
             className="mt-3"
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "'Fraunces', serif",
               fontWeight: 300,
               fontSize: 'clamp(2rem, 4vw, 2.8rem)',
               lineHeight: 1.1,
@@ -190,7 +190,7 @@ function VerifierResult({
           <p
             className="mt-1"
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "'Fraunces', serif",
               fontWeight: 400,
               fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
               color: '#5C5852',
@@ -201,7 +201,7 @@ function VerifierResult({
           <p
             className="mt-4"
             style={{
-              fontFamily: "'IBM Plex Mono', monospace",
+              fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.78rem',
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
@@ -216,7 +216,7 @@ function VerifierResult({
         <section className="mt-10">
           <p
             style={{
-              fontFamily: "'IBM Plex Mono', monospace",
+              fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.7rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -266,7 +266,7 @@ function VerifierResult({
         >
           <p
             style={{
-              fontFamily: "'IBM Plex Mono', monospace",
+              fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.65rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -305,7 +305,7 @@ function VerifierResult({
         >
           <p
             style={{
-              fontFamily: "'IBM Plex Mono', monospace",
+              fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.62rem',
               color: '#8E8A82',
               letterSpacing: '0.14em',
@@ -317,7 +317,7 @@ function VerifierResult({
             href="/"
             className="text-xs"
             style={{
-              fontFamily: "'IBM Plex Mono', monospace",
+              fontFamily: "'JetBrains Mono', monospace",
               fontSize: '0.65rem',
               color: '#2B6B57',
               letterSpacing: '0.18em',
@@ -341,7 +341,7 @@ function VerifierFail({ hash }: { hash: string }) {
       <div className="mx-auto max-w-2xl">
         <p
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Fraunces', serif",
             fontWeight: 600,
             fontSize: '2.2rem',
             lineHeight: 1,
@@ -353,7 +353,7 @@ function VerifierFail({ hash }: { hash: string }) {
         <p
           className="mt-3"
           style={{
-            fontFamily: "'IBM Plex Mono', monospace",
+            fontFamily: "'JetBrains Mono', monospace",
             fontSize: '0.72rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
@@ -374,7 +374,7 @@ function VerifierFail({ hash }: { hash: string }) {
             <StatusGlyph ok={false} />
             <p
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: "'Fraunces', serif",
                 fontWeight: 400,
                 fontSize: '1.8rem',
                 lineHeight: 1.1,
@@ -388,7 +388,7 @@ function VerifierFail({ hash }: { hash: string }) {
             className="mt-3"
             style={{ fontSize: '0.9rem', lineHeight: 1.65, color: '#5C5852' }}
           >
-            The hash you supplied — <code style={{ fontFamily: "'IBM Plex Mono', monospace" }}>{shortHash(hash)}</code> —
+            The hash you supplied — <code style={{ fontFamily: "'JetBrains Mono', monospace" }}>{shortHash(hash)}</code> —
             does not match any sealed assembl evidence pack. Either the
             document is not an assembl pack, the hash was transcribed in
             error, or the pack you hold is still in Draft.
@@ -403,7 +403,7 @@ function Term({ children }: { children: React.ReactNode }) {
   return (
     <dt
       style={{
-        fontFamily: "'IBM Plex Mono', monospace",
+        fontFamily: "'JetBrains Mono', monospace",
         fontSize: '0.66rem',
         color: '#8E8A82',
         letterSpacing: '0.18em',
@@ -419,7 +419,7 @@ function Val({ children }: { children: React.ReactNode }) {
   return (
     <dd
       style={{
-        fontFamily: "'Inter', system-ui, sans-serif",
+        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
         fontSize: '0.88rem',
         color: '#23211F',
         margin: 0,
@@ -434,7 +434,7 @@ function ValMono({ children, breakAll }: { children: React.ReactNode; breakAll?:
   return (
     <dd
       style={{
-        fontFamily: "'IBM Plex Mono', monospace",
+        fontFamily: "'JetBrains Mono', monospace",
         fontSize: '0.74rem',
         color: '#23211F',
         wordBreak: breakAll ? 'break-all' : 'normal',

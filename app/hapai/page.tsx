@@ -78,7 +78,7 @@ export default function HapaiPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               built in aotearoa · HAPAI
             </p>
-            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.2rem,6vw,5.8rem)] font-light italic leading-[0.92]">
+            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.2rem,6vw,5.8rem)] font-light leading-[0.92]">
               Tools for the job in front of you.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
@@ -126,7 +126,7 @@ export default function HapaiPage() {
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
                   public tool library
                 </p>
-                <p className="mt-2 font-display text-2xl font-light italic leading-tight md:text-3xl">
+                <p className="mt-2 font-display text-2xl font-light leading-tight md:text-3xl">
                   One task. One tool. One useful result.
                 </p>
               </div>
@@ -140,7 +140,7 @@ export default function HapaiPage() {
           {reasons.map((reason) => (
             <article key={reason.title} className="glass-card p-6">
               <CheckCircle2 className="h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
-              <h2 className="mt-5 font-display text-3xl font-light italic">{reason.title}</h2>
+              <h2 className="mt-5 font-display text-3xl font-light">{reason.title}</h2>
               <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">{reason.body}</p>
             </article>
           ))}
@@ -153,7 +153,7 @@ export default function HapaiPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               practical adoption
             </p>
-            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-light italic leading-[0.94]">
+            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-light leading-[0.94]">
               Teams learn by trying one real task.
             </h2>
             <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)]">
@@ -167,7 +167,7 @@ export default function HapaiPage() {
             {adoptionLoop.map(({ title, body, icon: Icon }) => (
               <article key={title} className="glass-card p-5">
                 <Icon className="h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
-                <h3 className="mt-6 font-display text-3xl font-light italic leading-none">{title}</h3>
+                <h3 className="mt-6 font-display text-3xl font-light leading-none">{title}</h3>
                 <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">{body}</p>
               </article>
             ))}
@@ -181,7 +181,7 @@ export default function HapaiPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               public library
             </p>
-            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,4.8rem)] font-light italic leading-[0.94]">
+            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,4.8rem)] font-light leading-[0.94]">
               Open the library.
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-[color:var(--text-body)]">
@@ -215,7 +215,7 @@ export default function HapaiPage() {
                       {tool.status}
                     </span>
                   </div>
-                  <h3 className="mt-5 font-display text-[2rem] font-light italic leading-none text-[#23211F]">
+                  <h3 className="mt-5 font-display text-[2rem] font-light leading-none text-[#23211F]">
                     {tool.name}
                   </h3>
                   <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -272,7 +272,7 @@ export default function HapaiPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
               industry pack
             </p>
-            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.5rem)] font-light italic leading-[0.9]">
+            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.5rem)] font-light leading-[0.9]">
               Bring HAPAI to your team.
             </h2>
           </div>
@@ -311,7 +311,7 @@ export default function HapaiPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               founder note
             </p>
-            <h2 className="mt-4 font-display text-5xl font-light italic leading-none">
+            <h2 className="mt-4 font-display text-5xl font-light leading-none">
               Why HAPAI exists.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-[color:var(--text-body)]">
@@ -326,7 +326,7 @@ export default function HapaiPage() {
               morning, an operator can open after lunch, and a manager can turn
               into a repeatable internal system by Friday.
             </p>
-            <p className="mt-6 font-display text-2xl font-light italic text-[color:var(--text-primary)]">
+            <p className="mt-6 font-display text-2xl font-light text-[color:var(--text-primary)]">
               Kate Hudson, founder · assembl
             </p>
           </div>

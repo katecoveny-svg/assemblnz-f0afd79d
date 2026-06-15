@@ -390,7 +390,7 @@ export function MultiSizeExport({
           >
             {groups.map(([groupName, sizes]) => (
               <div key={groupName} className="flex flex-col gap-2">
-                <div className="border-b border-[color:var(--assembl-cloud)] pb-1 font-display text-base font-light italic tracking-[0.01em] text-[color:var(--text-secondary)]">
+                <div className="border-b border-[color:var(--assembl-cloud)] pb-1 font-display text-base font-light tracking-[0.01em] text-[color:var(--text-secondary)]">
                   {groupName}
                 </div>
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3">

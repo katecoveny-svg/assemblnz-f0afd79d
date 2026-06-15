@@ -111,16 +111,16 @@ export default async function KaupapaPage() {
         </p>
         <div className="mt-6 flex items-center gap-6 text-sm">
           <span className="text-taupe-600">
-            <span className="font-semibold text-pounamu-900">{open.length}</span> open
+            <span className="font-medium text-pounamu-900">{open.length}</span> open
           </span>
           <span className="text-taupe-600">
-            <span className="font-semibold text-pounamu-900">{inProgress.length}</span> in progress
+            <span className="font-medium text-pounamu-900">{inProgress.length}</span> in progress
           </span>
           <span className="text-taupe-600">
-            <span className="font-semibold text-pounamu-900">{shipped.length}</span> shipped
+            <span className="font-medium text-pounamu-900">{shipped.length}</span> shipped
           </span>
           <span className="text-taupe-600">
-            <span className="font-semibold text-pounamu-900">{totalXp.toLocaleString()}</span> XP earned
+            <span className="font-medium text-pounamu-900">{totalXp.toLocaleString()}</span> XP earned
           </span>
         </div>
         <Link

@@ -42,7 +42,7 @@ export default async function HapaiRecipePage({ params }: { params: Promise<{ sl
             hapai · one-page recipe
           </p>
           <h1
-            className="mt-5 font-display italic leading-[0.9] text-[color:var(--assembl-pounamu)]"
+            className="mt-5 font-display leading-[0.9] text-[color:var(--assembl-pounamu)]"
             style={{ fontWeight: 300, fontSize: "clamp(3rem, 7vw, 6rem)" }}
           >
             {project.title}
@@ -65,7 +65,7 @@ export default async function HapaiRecipePage({ params }: { params: Promise<{ sl
           </aside>
 
           <article className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/65 p-6 md:p-8">
-            <h2 className="font-display text-4xl italic text-[color:var(--assembl-pounamu)]">
+            <h2 className="font-display text-4xl text-[color:var(--assembl-pounamu)]">
               How to build it.
             </h2>
             <ol className="mt-6 space-y-5 text-sm leading-relaxed text-[color:var(--text-body)]">

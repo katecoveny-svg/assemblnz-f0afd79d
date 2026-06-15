@@ -140,7 +140,7 @@ export function BusinessPulseWidget() {
               {thing.source}
             </p>
             <p className="mt-1 text-body-md text-[color:var(--text-primary)]">{thing.headline}</p>
-            <p className="mt-1 text-body-md italic text-[color:var(--text-body)]">{thing.recommended_action}</p>
+            <p className="mt-1 text-body-md text-[color:var(--text-body)]">{thing.recommended_action}</p>
             {thing.staged_action != null && (
               <p className="mt-2 inline-flex rounded-full bg-[color:var(--assembl-paper)] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--assembl-pounamu)]">
                 Action staged — review to send

@@ -95,13 +95,13 @@ export default async function TendersPage() {
         </p>
         <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
           <span className="text-taupe-600">
-            <span className="font-semibold text-pounamu-900">{high.length}</span> high
+            <span className="font-medium text-pounamu-900">{high.length}</span> high
           </span>
           <span className="text-taupe-600">
-            <span className="font-semibold text-pounamu-900">{medium.length}</span> medium
+            <span className="font-medium text-pounamu-900">{medium.length}</span> medium
           </span>
           <span className="text-taupe-600">
-            <span className="font-semibold text-pounamu-900">{low.length}</span> low
+            <span className="font-medium text-pounamu-900">{low.length}</span> low
           </span>
           <span className="text-taupe-600">
             last successful poll{' '}

@@ -50,7 +50,7 @@ export default function AIUseDisclosurePage() {
 
           <div className="mt-14 grid gap-10 md:grid-cols-2">
             <SectionReveal delay={0.15}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">Models we may call</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">Models we may call</h2>
               <p className="mt-3 text-base leading-8 text-[color:var(--text-secondary)]">
                 Current production workflows may call Claude Sonnet 4.6, Gemini 2.5
                 Flash, Gemini embedding models, OpenAI models where configured, or
@@ -59,7 +59,7 @@ export default function AIUseDisclosurePage() {
               </p>
             </SectionReveal>
             <SectionReveal delay={0.2}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">The four pou</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">The four pou</h2>
               <p className="mt-3 text-base leading-8 text-[color:var(--text-secondary)]">
                 Rangatiratanga means people keep agency. Kaitiakitanga means data is
                 cared for. Manaakitanga means tools are useful without being pushy.
@@ -67,7 +67,7 @@ export default function AIUseDisclosurePage() {
               </p>
             </SectionReveal>
             <SectionReveal delay={0.25}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">What we do not do</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">What we do not do</h2>
               <p className="mt-3 text-base leading-8 text-[color:var(--text-secondary)]">
                 assembl does not make final legal, financial, employment, health, or
                 entitlement decisions. It does not auto-send messages, auto-file
@@ -76,7 +76,7 @@ export default function AIUseDisclosurePage() {
               </p>
             </SectionReveal>
             <SectionReveal delay={0.3}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">Public-sector posture</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">Public-sector posture</h2>
               <p className="mt-3 text-base leading-8 text-[color:var(--text-secondary)]">
                 Our AI use is shaped by New Zealand public-service expectations for
                 safe, transparent, and responsible use of generative AI. We design

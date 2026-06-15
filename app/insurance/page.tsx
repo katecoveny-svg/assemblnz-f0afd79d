@@ -31,7 +31,7 @@ export default function InsurancePage() {
               insurance gap analysis
             </p>
             <h1
-              className="mt-6 font-display italic leading-[0.9] text-[color:var(--assembl-pounamu)]"
+              className="mt-6 font-display leading-[0.9] text-[color:var(--assembl-pounamu)]"
               style={{ fontWeight: 300, fontSize: "clamp(3.4rem, 7vw, 6.6rem)" }}
             >
               Five questions. Five traffic lights.
@@ -158,7 +158,7 @@ export default function InsurancePage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="border-b border-taupe-200 py-6 first:pt-0">
-      <h2 className="mb-5 font-display text-3xl italic text-[color:var(--assembl-pounamu)]">{title}</h2>
+      <h2 className="mb-5 font-display text-3xl text-[color:var(--assembl-pounamu)]">{title}</h2>
       {children}
     </section>
   );
@@ -197,7 +197,7 @@ function Signal({ icon: Icon, title, body }: { icon: typeof Home; title: string;
   return (
     <article className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-5">
       <Icon className="h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
-      <h2 className="mt-4 font-display text-3xl italic leading-none text-[color:var(--assembl-pounamu)]">{title}</h2>
+      <h2 className="mt-4 font-display text-3xl leading-none text-[color:var(--assembl-pounamu)]">{title}</h2>
       <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">{body}</p>
     </article>
   );

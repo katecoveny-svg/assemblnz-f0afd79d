@@ -142,7 +142,7 @@ export function ReferenceUpload({
             </div>
           </>
         ) : (
-          <span className="px-4 font-mono text-xs italic font-light tracking-[0.04em] text-[color:var(--text-secondary)]">
+          <span className="px-4 font-mono text-xs font-light tracking-[0.04em] text-[color:var(--text-secondary)]">
             drag an image here, or click to upload
           </span>
         )}

@@ -176,7 +176,7 @@ export default function PrivacyActPage() {
             </div>
           </div>
           <button type="button" onClick={generate} disabled={loading} className="mt-6 rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]">{loading ? "Generating..." : "Generate one-pager"}</button>
-          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm italic text-[#6B5A28]">Mapping your data flows to the Privacy Act 2020.</p>}
+          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">Mapping your data flows to the Privacy Act 2020.</p>}
           {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
         </section>
 

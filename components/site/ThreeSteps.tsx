@@ -26,7 +26,7 @@ export function ThreeSteps() {
         <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
           HOW IT WORKS
         </p>
-        <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
+        <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
           Three steps to a working agent on your team.
         </h2>
       </div>
@@ -39,7 +39,7 @@ export function ThreeSteps() {
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
               {step.number}
             </p>
-            <h3 className="mt-5 font-display text-4xl font-light italic leading-none">
+            <h3 className="mt-5 font-display text-4xl font-light leading-none">
               {step.title}
             </h3>
             <p className="mt-5 text-sm leading-relaxed text-[color:var(--text-body)]">

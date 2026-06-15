@@ -841,7 +841,7 @@ function ToroPage({
                 <h3 className="mt-4 font-display text-2xl text-[color:var(--text-primary)]">
                   Kai planner.
                 </h3>
-                <p className="mt-2 text-[15px] italic leading-snug text-[color:var(--text-primary)]">
+                <p className="mt-2 text-[15px] leading-snug text-[color:var(--text-primary)]">
                   Take a photo of the fridge.
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -886,7 +886,7 @@ function ToroPage({
                   <h3 className="mt-4 font-display text-2xl text-[color:var(--text-primary)]">
                     {sub.name}
                   </h3>
-                  <p className="mt-2 text-[15px] italic leading-snug text-[color:var(--text-primary)]">
+                  <p className="mt-2 text-[15px] leading-snug text-[color:var(--text-primary)]">
                     {sub.pitch}
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">

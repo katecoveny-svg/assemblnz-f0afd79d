@@ -42,7 +42,7 @@ export default function PickYourCrewPage() {
           <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
             Pick your crew
           </p>
-          <h1 className="mt-4 font-display text-[clamp(3rem,7vw,6rem)] font-light italic leading-[0.9]">
+          <h1 className="mt-4 font-display text-[clamp(3rem,7vw,6rem)] font-light leading-[0.9]">
             Choose a specialist. Open its kete chat.
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-[color:var(--text-body)]">
@@ -65,7 +65,7 @@ export default function PickYourCrewPage() {
                     style={{ backgroundColor: kete.accent }}
                     aria-hidden
                   />
-                  <h2 id={`kete-${kete.slug}`} className="font-display text-3xl font-light italic">
+                  <h2 id={`kete-${kete.slug}`} className="font-display text-3xl font-light">
                     {kete.name}
                   </h2>
                   <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">

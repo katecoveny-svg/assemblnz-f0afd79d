@@ -47,7 +47,7 @@ export function EvidencePackFrame({ activeIndex }: { activeIndex: number }) {
         {/* Header — always visible */}
         <header className="relative">
           <div className="flex items-baseline justify-between">
-            <p className="font-display text-xl font-semibold lowercase text-[color:var(--text-primary)]">
+            <p className="font-display text-xl font-medium lowercase text-[color:var(--text-primary)]">
               assembl
             </p>
             <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">

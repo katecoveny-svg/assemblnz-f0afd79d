@@ -64,7 +64,7 @@ export default function PrivacyStatementPage() {
             {sections.map((section, index) => (
               <SectionReveal key={section.title} delay={0.05 * index}>
                 <article className="border-t border-[rgba(157,140,125,0.22)] py-7">
-                  <h2 className="font-display text-2xl font-light italic text-[color:var(--text-primary)] md:text-3xl">
+                  <h2 className="font-display text-2xl font-light text-[color:var(--text-primary)] md:text-3xl">
                     {section.title}
                   </h2>
                   <p className="mt-3 text-base leading-8 text-[color:var(--text-secondary)]">

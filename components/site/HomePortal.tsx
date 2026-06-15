@@ -157,7 +157,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             <p className="inline-flex border border-[rgba(43,107,87,0.22)] bg-white/72 px-3 py-2 font-mono text-eyebrow uppercase text-[color:var(--text-secondary)] shadow-sm backdrop-blur-md">
               BUILT IN AOTEAROA
             </p>
-            <h1 className="mt-6 max-w-[820px] font-display text-[clamp(3.7rem,10vw,8.4rem)] font-light italic leading-[0.86] tracking-normal text-[#103F35] lg:text-[clamp(5.4rem,7.1vw,10.5rem)]">
+            <h1 className="mt-6 max-w-[820px] font-display text-[clamp(3.7rem,10vw,8.4rem)] font-light leading-[0.86] tracking-normal text-[#103F35] lg:text-[clamp(5.4rem,7.1vw,10.5rem)]">
               Mahi that earns its proof.
             </h1>
             <p className="mt-6 max-w-[700px] text-[clamp(1.08rem,2vw,1.55rem)] font-medium leading-[1.42] text-[#23211F] md:mt-7">
@@ -207,7 +207,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             WHAT TO USE
           </p>
           <div className="mt-4 grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
-            <h2 className="max-w-4xl font-display text-[clamp(2.8rem,6vw,5rem)] font-normal italic leading-tight">
+            <h2 className="max-w-4xl font-display text-[clamp(2.8rem,6vw,5rem)] font-normal leading-tight">
               Start with the work in front of you.
             </h2>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
@@ -227,7 +227,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 href={href}
                 className="group rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/54 p-6 transition-all hover:-translate-y-0.5 hover:border-[color:var(--assembl-pounamu)] hover:bg-white hover:shadow-[0_22px_70px_rgba(35,33,31,0.08)]"
               >
-                <span className="block font-display text-3xl font-light italic leading-none text-[#103F35]">
+                <span className="block font-display text-3xl font-light leading-none text-[#103F35]">
                   {title}
                 </span>
                 <span className="mt-4 block min-h-[96px] text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -248,7 +248,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               WHAT WE DO
             </p>
-            <h2 className="mt-4 max-w-4xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
+            <h2 className="mt-4 max-w-4xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
               Less admin. More mahi.
             </h2>
           </div>
@@ -298,7 +298,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
               HAPAI · PUBLIC TOOLS
             </p>
-            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-normal italic leading-tight">
+            <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-normal leading-tight">
               Try one useful tool.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
@@ -343,7 +343,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                         live
                       </span>
                     </span>
-                    <span className="mt-6 block font-display text-[clamp(2rem,3.2vw,3rem)] font-light italic leading-[0.9] text-[#103F35]">
+                    <span className="mt-6 block font-display text-[clamp(2rem,3.2vw,3rem)] font-light leading-[0.9] text-[#103F35]">
                       {tool.name}
                     </span>
                     <span className="mt-4 block min-h-[74px] text-[15px] leading-relaxed text-[#23211F]/82">
@@ -379,7 +379,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                   full HAPAI library
                 </span>
                 <span>
-                  <span className="relative block font-display text-[clamp(2.7rem,4vw,4.2rem)] font-light italic leading-[0.88] text-[#FAF7F2]">
+                  <span className="relative block font-display text-[clamp(2.7rem,4vw,4.2rem)] font-light leading-[0.88] text-[#FAF7F2]">
                     See the full library.
                   </span>
                   <span className="relative mt-5 block max-w-sm text-base leading-relaxed text-[#FAF7F2]/82">
@@ -401,7 +401,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               KETE PACKS · SPECIALIST INDUSTRY KITS
             </p>
-            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
+            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
               Pick the pack that matches the work.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
@@ -427,7 +427,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
               EVIDENCE PACK
             </p>
-            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
+            <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
               Not just an answer. A record.
             </h2>
             <p className="mt-6 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
@@ -454,7 +454,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
                   sealed example
                 </p>
-                <h3 className="mt-3 max-w-lg font-display text-[clamp(2.2rem,4vw,4.2rem)] font-light italic leading-[0.94]">
+                <h3 className="mt-3 max-w-lg font-display text-[clamp(2.2rem,4vw,4.2rem)] font-light leading-[0.94]">
                   Consent variation pack.
                 </h3>
                 <p className="mt-4 max-w-xl text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -493,7 +493,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             START HERE
           </p>
           <div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <h2 className="max-w-2xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
+            <h2 className="max-w-2xl font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
               Choose the right starting point.
             </h2>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
@@ -514,13 +514,13 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 transition={{ duration: 0.5, delay: index * 0.055, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={reduceMotion ? undefined : { y: -3 }}
               >
-                <h3 className="font-display text-4xl font-light italic leading-none">
+                <h3 className="font-display text-4xl font-light leading-none">
                   {name}
                 </h3>
                 <p className="mt-5 font-mono text-[12px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                   {price}
                 </p>
-                <p className="mt-4 text-[15px] font-semibold leading-relaxed text-[color:var(--text-primary)]">
+                <p className="mt-4 text-[15px] font-medium leading-relaxed text-[color:var(--text-primary)]">
                   {bestFor}
                 </p>
                 <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -543,7 +543,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
         <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent" aria-hidden />
         <div className="pointer-events-none absolute inset-x-10 bottom-0 h-px bg-gradient-to-r from-transparent via-[rgba(43,107,87,0.36)] to-transparent" aria-hidden />
         <div className="relative mx-auto flex max-w-[1500px] flex-col items-center gap-8 rounded-[34px] border border-white/58 bg-white/30 px-5 py-14 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.82),0_32px_110px_rgba(43,107,87,0.13)] backdrop-blur-2xl md:px-12 md:py-18">
-          <h2 className="max-w-4xl font-display text-[clamp(3rem,7vw,6rem)] font-normal italic leading-tight text-[#103F35]">
+          <h2 className="max-w-4xl font-display text-[clamp(3rem,7vw,6rem)] font-normal leading-tight text-[#103F35]">
             Bring one workflow. Leave with proof.
           </h2>
           <p className="max-w-[620px] text-[17px] leading-[1.6] text-[#2F3440] md:text-base">

@@ -178,7 +178,7 @@ export default function MeetingNotesPage() {
       aside={
         <>
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">what the private version becomes</p>
-          <h2 className="mt-4 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+          <h2 className="mt-4 font-display text-4xl font-light leading-none text-[#FAF7F2]">
             The best EA in the room.
           </h2>
           <ul className="mt-6 space-y-4 text-sm leading-relaxed text-[#FAF7F2]/82">
@@ -280,7 +280,7 @@ export default function MeetingNotesPage() {
                 {transcript || interim ? (
                   <p>{transcript} <span className="text-[#8E867D]">{interim}</span></p>
                 ) : (
-                  <p className="italic text-[#5A5550]">Live transcript will appear here once you start recording. Chrome works best.</p>
+                  <p className="text-[#5A5550]">Live transcript will appear here once you start recording. Chrome works best.</p>
                 )}
               </div>
             </div>
@@ -299,7 +299,7 @@ export default function MeetingNotesPage() {
               Clear
             </button>
           </div>
-          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm italic text-[#6B5A28]">The specialist is turning the rough record into decisions, owners, follow-ups, and calendar-ready next steps.</p>}
+          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">The specialist is turning the rough record into decisions, owners, follow-ups, and calendar-ready next steps.</p>}
           {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
         </section>
 

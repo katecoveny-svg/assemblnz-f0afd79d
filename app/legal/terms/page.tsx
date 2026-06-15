@@ -40,14 +40,14 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.25}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">1. Who we are.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">1. Who we are.</h2>
               <p className="mt-3">
                 assembl Ltd is a New Zealand limited liability company, registered and operating in Tāmaki Makaurau (Auckland), Aotearoa New Zealand. These Terms are governed by New Zealand law and any dispute is subject to the exclusive jurisdiction of the New Zealand courts.
               </p>
             </SectionReveal>
 
             <SectionReveal delay={0.3}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">2. What you can use it for.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">2. What you can use it for.</h2>
               <p className="mt-3">You may use assembl to:</p>
               <ul className="mt-3 space-y-2 pl-5">
                 <li className="list-disc">Try the public chats at <Link href="/c/waihanga" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/c/[kete]</Link> and the HAPAI tools at <Link href="/hapai" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/hapai</Link> without signup, for personal evaluation.</li>
@@ -58,7 +58,7 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.35}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">3. What you can&apos;t use it for.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">3. What you can&apos;t use it for.</h2>
               <p className="mt-3">You may not use assembl to:</p>
               <ul className="mt-3 space-y-2 pl-5">
                 <li className="list-disc">Generate content that you then claim was authored by a human, where the authorship matters legally or professionally (e.g. signed affidavits, regulated professional advice).</li>
@@ -73,7 +73,7 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.4}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">4. Rate limits and fair use.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">4. Rate limits and fair use.</h2>
               <p className="mt-3">
                 The public marketplace and HAPAI tools are free to evaluate. Default limits: <strong>3 runs per IP per workflow per hour</strong> for anonymous users; <strong>100 runs per tenant per day</strong> for signed-in tenants. Higher limits are available under Industry Pack or Outcome contracts.
               </p>
@@ -83,7 +83,7 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.45}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">5. Pricing.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">5. Pricing.</h2>
               <ul className="mt-3 space-y-2 pl-5">
                 <li className="list-disc"><strong>Pilot Sprint</strong> — NZ$5,000 + GST per workflow. Ten working days. One workflow, one evidence pack. Invoice on engagement; refundable until day one.</li>
                 <li className="list-disc"><strong>Industry Pack</strong> — NZ$3,500 + GST per month per tenant. Includes the kete&apos;s specialist fleet plus white-labelled HAPAI tools. Monthly billing via Stripe. Cancel any time; charges already invoiced are non-refundable.</li>
@@ -96,7 +96,7 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.5}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">6. Intellectual property.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">6. Intellectual property.</h2>
               <p className="mt-3">
                 The assembl platform, the brand, the kete naming, the design language, the agent system prompts, the workflow registry, the evidence-pack format, and the underlying code are owned by assembl Ltd. You may not copy, reproduce, or redistribute them without our written permission.
               </p>
@@ -109,7 +109,7 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.55}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">7. Copyright complaints.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">7. Copyright complaints.</h2>
               <p className="mt-3">
                 If you believe an assembl output infringes your copyright, email{' '}
                 <a href="mailto:copyright@assembl.co.nz" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">copyright@assembl.co.nz</a>{' '}
@@ -118,14 +118,14 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.6}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">8. Privacy.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">8. Privacy.</h2>
               <p className="mt-3">
                 Our handling of personal information is governed by the <Link href="/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Statement</Link> and <Link href="/legal/privacy" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Privacy Policy</Link>, which are incorporated into these Terms by reference. By using assembl you confirm you have read and accept them.
               </p>
             </SectionReveal>
 
             <SectionReveal delay={0.65}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">9. No warranties beyond the law.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">9. No warranties beyond the law.</h2>
               <p className="mt-3">
                 The Consumer Guarantees Act 1993 and Fair Trading Act 1986 may apply to consumers under New Zealand law. Where those Acts apply, nothing in these Terms limits your statutory rights.
               </p>
@@ -135,7 +135,7 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.7}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">10. Liability.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">10. Liability.</h2>
               <p className="mt-3">
                 To the maximum extent permitted by law, assembl&apos;s aggregate liability to you arising out of or relating to these Terms is limited to the fees you have paid us in the 12 months immediately preceding the event giving rise to the claim. We are not liable for indirect, consequential, or punitive damages, including loss of profit, loss of opportunity, or loss of goodwill.
               </p>
@@ -145,7 +145,7 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.75}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">11. Termination.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">11. Termination.</h2>
               <p className="mt-3">
                 You can cancel a subscription at any time from your account settings, or by emailing{' '}
                 <a href="mailto:hello@assembl.co.nz" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">hello@assembl.co.nz</a>.
@@ -156,7 +156,7 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.8}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">12. Changes.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">12. Changes.</h2>
               <p className="mt-3">
                 We&apos;ll update this page as the platform matures. Substantive changes get a new &quot;last reviewed&quot; date at the top. Material changes that affect your obligations under an active contract will be communicated in writing at least 14 days before they take effect.
               </p>
@@ -166,7 +166,7 @@ export default function TermsPage() {
             </SectionReveal>
 
             <SectionReveal delay={0.85}>
-              <h2 className="font-display text-2xl font-light italic md:text-3xl">13. Contact.</h2>
+              <h2 className="font-display text-2xl font-light md:text-3xl">13. Contact.</h2>
               <p className="mt-3">
                 General: <a href="mailto:hello@assembl.co.nz" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">hello@assembl.co.nz</a><br />
                 Privacy: <a href="mailto:privacy@assembl.co.nz" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">privacy@assembl.co.nz</a><br />

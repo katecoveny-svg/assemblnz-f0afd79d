@@ -69,7 +69,7 @@ export default function InsuranceShareCard({ categories }: { categories: Coverag
 
   return (
     <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-5">
-      <h2 className="font-display text-3xl italic text-[color:var(--assembl-pounamu)]">
+      <h2 className="font-display text-3xl text-[color:var(--assembl-pounamu)]">
         Shareable traffic lights.
       </h2>
       <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">

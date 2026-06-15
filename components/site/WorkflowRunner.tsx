@@ -165,7 +165,7 @@ export function WorkflowRunner({
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--workflow-accent)]">
               Live sandbox
             </p>
-            <h2 className="mt-2 font-display text-4xl font-light italic leading-none">
+            <h2 className="mt-2 font-display text-4xl font-light leading-none">
               {isSchoolNoticeTool ? 'Turn the notice into a plan.' : 'Try the workflow.'}
             </h2>
           </div>
@@ -338,7 +338,7 @@ export function WorkflowRunner({
           <div
             className="prose prose-sm mt-6 max-w-none rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5 text-[color:var(--text-body)] md:p-6"
             dangerouslySetInnerHTML={{
-              __html: output || '<p class="text-sm italic text-[#6B6661]">Upload a notice, speak what the teacher said, or paste the text, then run the preview.</p>',
+              __html: output || '<p class="text-sm text-[#6B6661]">Upload a notice, speak what the teacher said, or paste the text, then run the preview.</p>',
             }}
           />
         )}
@@ -350,7 +350,7 @@ export function WorkflowRunner({
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--workflow-accent)]">
               Install
             </p>
-            <h2 className="mt-2 font-display text-4xl font-light italic leading-none">
+            <h2 className="mt-2 font-display text-4xl font-light leading-none">
               Pick how you want to use it.
             </h2>
             <InstallOption
@@ -432,7 +432,7 @@ function InstallOption({
 function InfoBlock({ title, items }: { title: string; items: string[] }) {
   return (
     <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 p-5 backdrop-blur">
-      <h2 className="font-display text-3xl font-light italic leading-none">{title}</h2>
+      <h2 className="font-display text-3xl font-light leading-none">{title}</h2>
       <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[color:var(--text-body)]">
         {items.map((item) => (
           <li key={item} className="flex gap-2">

@@ -69,25 +69,25 @@ export async function renderHapaiToolOgImage(tool: HapaiTool) {
   const accent = CATEGORY_ACCENT[tool.category] ?? POUNAMU;
   const fontText = `assembl HAPAI live tool ${tool.name} ${tool.description} ${tool.posture} ${route}`;
   const [cormorantNormal, cormorantItalic, inter] = await Promise.all([
-    loadGoogleFont(`https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&text=${encodeURIComponent(fontText)}`),
-    loadGoogleFont(`https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&text=${encodeURIComponent(fontText)}`),
-    loadGoogleFont(`https://fonts.googleapis.com/css2?family=Inter:wght@400;500&text=${encodeURIComponent(fontText)}`),
+    loadGoogleFont(`https://fonts.googleapis.com/css2?family=Fraunces:wght@400&text=${encodeURIComponent(fontText)}`),
+    loadGoogleFont(`https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,400&text=${encodeURIComponent(fontText)}`),
+    loadGoogleFont(`https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500&text=${encodeURIComponent(fontText)}`),
   ]);
-  const headlineFont = cormorantNormal || cormorantItalic ? 'Cormorant Garamond' : 'serif';
-  const bodyFont = inter ? 'Inter' : 'sans-serif';
+  const headlineFont = cormorantNormal || cormorantItalic ? 'Fraunces' : 'serif';
+  const bodyFont = inter ? 'Plus Jakarta Sans' : 'sans-serif';
   const fonts: { name: string; data: ArrayBuffer; weight: 400 | 500; style: 'normal' | 'italic' }[] = [];
 
   if (cormorantNormal) {
-    fonts.push({ name: 'Cormorant Garamond', data: cormorantNormal, weight: 400, style: 'normal' });
+    fonts.push({ name: 'Fraunces', data: cormorantNormal, weight: 400, style: 'normal' });
   }
 
   if (cormorantItalic) {
-    fonts.push({ name: 'Cormorant Garamond', data: cormorantItalic, weight: 400, style: 'italic' });
+    fonts.push({ name: 'Fraunces', data: cormorantItalic, weight: 400, style: 'italic' });
   }
 
   if (inter) {
-    fonts.push({ name: 'Inter', data: inter, weight: 400, style: 'normal' });
-    fonts.push({ name: 'Inter', data: inter, weight: 500, style: 'normal' });
+    fonts.push({ name: 'Plus Jakarta Sans', data: inter, weight: 400, style: 'normal' });
+    fonts.push({ name: 'Plus Jakarta Sans', data: inter, weight: 500, style: 'normal' });
   }
 
   return new ImageResponse(
@@ -183,7 +183,7 @@ export async function renderHapaiToolOgImage(tool: HapaiTool) {
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 32 }}>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex', color: INK, fontFamily: headlineFont, fontSize: 58, lineHeight: 1 }}>
+              <div style={{ display: 'flex', color: INK, fontFamily: headlineFont, fontStyle: 'italic', fontSize: 58, lineHeight: 1 }}>
                 assembl
               </div>
               <div
@@ -222,7 +222,6 @@ export async function renderHapaiToolOgImage(tool: HapaiTool) {
                 display: 'flex',
                 color: POUNAMU_DARK,
                 fontFamily: headlineFont,
-                fontStyle: 'italic',
                 fontSize: tool.name.length > 23 ? 82 : 104,
                 lineHeight: 0.92,
               }}

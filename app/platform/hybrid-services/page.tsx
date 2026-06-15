@@ -380,7 +380,7 @@ export default function HybridServicesPage() {
                     </div>
 
                     <div className="mt-6 border-t border-[rgba(35,33,31,0.10)] pt-4">
-                      <p className="text-sm italic leading-relaxed text-[color:var(--text-secondary)]">
+                      <p className="text-sm leading-relaxed text-[color:var(--text-secondary)]">
                         Example — {a.example}
                       </p>
                     </div>
