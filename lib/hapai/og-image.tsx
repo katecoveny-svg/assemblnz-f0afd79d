@@ -15,12 +15,24 @@ export const ogContentType = 'image/png';
 export const ogAlt = 'assembl HAPAI share card';
 
 const CREAM = '#FAF7F2';
+const CREAM2 = '#EFE3CE'; // ceramic disc tone, shows against the cream field
 const POUNAMU = '#2B6B57';
 const POUNAMU_DARK = '#103F35';
 const INK = '#23211F';
 const TAUPE = '#7C7268';
 const LINE = '#DED7CD';
 const AMBER = '#D9A85A';
+
+// One accent per category — the same map the on-site tool cover uses, so the
+// share card's vessel mark matches the card a visitor sees on /hapai.
+const CATEGORY_ACCENT = {
+  adoption: '#C9A24B',
+  operations: '#2B6B57',
+  marketing: '#AC5838',
+  record: '#5B4FA0',
+  lifestyle: '#D4842A',
+  education: '#3B7CB5',
+} as const;
 
 const categoryLabels = {
   adoption: 'adoption',
@@ -54,6 +66,7 @@ function truncate(text: string, max: number) {
 
 export async function renderHapaiToolOgImage(tool: HapaiTool) {
   const route = `assembl.co.nz${tool.href}`;
+  const accent = CATEGORY_ACCENT[tool.category] ?? POUNAMU;
   const fontText = `assembl HAPAI live tool ${tool.name} ${tool.description} ${tool.posture} ${route}`;
   const [cormorantNormal, cormorantItalic, inter] = await Promise.all([
     loadGoogleFont(`https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&text=${encodeURIComponent(fontText)}`),
@@ -100,43 +113,59 @@ export async function renderHapaiToolOgImage(tool: HapaiTool) {
               'radial-gradient(circle at 76% 27%, rgba(43,107,87,0.16), transparent 34%), radial-gradient(circle at 86% 82%, rgba(217,168,90,0.18), transparent 30%)',
           }}
         />
+        {/* soft accent ring behind the mark */}
         <div
           style={{
             position: 'absolute',
-            right: 74,
-            top: 74,
-            width: 340,
-            height: 340,
+            right: 78,
+            top: 70,
+            width: 320,
+            height: 320,
             border: `1px solid ${LINE}`,
             borderRadius: 999,
-            opacity: 0.86,
+            opacity: 0.8,
           }}
         />
+        {/* Vessel mark — the flat echo of the on-site tool cover, tinted by the
+            tool's category accent so the share card matches the live card. */}
         <div
           style={{
             position: 'absolute',
-            right: 146,
-            top: 140,
-            width: 196,
-            height: 196,
-            border: `1px solid ${AMBER}`,
-            borderRadius: 999,
-            opacity: 0.52,
+            right: 96,
+            top: 96,
+            width: 284,
+            height: 300,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            gap: 9,
           }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            right: 122,
-            top: 268,
-            width: 300,
-            height: 92,
-            border: `2px solid ${POUNAMU}`,
-            borderTop: 'none',
-            borderRadius: '0 0 150px 150px',
-            opacity: 0.54,
-          }}
-        />
+        >
+          {[
+            { w: 22, h: 22, bg: accent, border: false },
+            { w: 86, h: 42, bg: CREAM2, border: true },
+            { w: 152, h: 28, bg: accent, border: false },
+            { w: 130, h: 24, bg: CREAM2, border: true },
+            { w: 170, h: 28, bg: accent, border: false },
+            { w: 150, h: 26, bg: CREAM2, border: true },
+            { w: 180, h: 34, bg: CREAM2, border: true },
+          ].map((d, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                width: d.w,
+                height: d.h,
+                background: d.bg,
+                borderRadius: 999,
+                border: d.border ? `1px solid ${LINE}` : 'none',
+              }}
+            />
+          ))}
+          {/* gold easel base line */}
+          <div style={{ display: 'flex', width: 150, height: 4, background: AMBER, borderRadius: 999, marginTop: 6 }} />
+        </div>
 
         <div
           style={{
