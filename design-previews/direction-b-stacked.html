@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assembl — Direction B · Stacked</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Plus+Jakarta+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{ --bone:#EFE7D6; --ink:#1A150F; --muted:#7c7164; --clay:#B5533A; --pounamu:#3A7D6E; --gold:#C9A24B; --line:rgba(26,21,15,0.10); }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bone);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .label{font-family:"JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:0.26em;font-size:11px;color:var(--muted)}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 30px}
+
+  header.bar{position:fixed;top:0;left:0;right:0;z-index:30;background:linear-gradient(to bottom,rgba(239,231,214,0.92),rgba(239,231,214,0));backdrop-filter:blur(6px)}
+  header.bar .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .word{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:25px;letter-spacing:-0.02em}
+  nav.top{display:flex;gap:30px}
+  nav.top a{color:#5d5347;text-decoration:none;font-size:14px;transition:color .2s}
+  nav.top a:hover{color:var(--ink)}
+
+  /* split hero — sculpture left, copy right (echoes the reference) */
+  .stage{min-height:100vh;display:grid;grid-template-columns:1.02fr 0.98fr;align-items:center;gap:10px;
+    background:radial-gradient(120% 90% at 28% 32%, #f7f0e3 0%, #ece3d2 52%, #ddd2bd 100%)}
+  .vstage{position:relative;height:88vh}
+  #scene{position:absolute;inset:0;width:100%;height:100%}
+  .copy{position:relative;z-index:5;max-width:520px;padding:90px 10px 40px}
+  .copy h1{font-family:"Fraunces",Georgia,serif;font-weight:300;font-size:clamp(2.9rem,6vw,5.6rem);line-height:0.98;letter-spacing:-0.025em;margin:18px 0 0;color:#191510}
+  .copy h1 em{font-style:italic;color:#2b2620}
+  .copy p.sub{margin:24px 0 0;max-width:440px;font-size:1.1rem;line-height:1.62;color:#4b423a}
+  .row{margin-top:32px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .cta{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 28px;border-radius:40px;background:#191510;color:#f3ede2;text-decoration:none;font-size:15px;box-shadow:0 16px 44px rgba(20,14,8,0.22);transition:transform .25s,box-shadow .25s}
+  .cta:hover{transform:translateY(-3px);box-shadow:0 24px 60px rgba(20,14,8,0.3)}
+  .cta .dot{width:7px;height:7px;border-radius:50%;background:var(--pounamu);box-shadow:0 0 12px var(--pounamu)}
+  .ghost{color:#3f372d;text-decoration:none;font-size:15px;border-bottom:1px solid rgba(26,21,15,0.25);padding-bottom:3px;transition:border-color .2s}
+  .ghost:hover{border-color:var(--ink)}
+
+  /* glass chips */
+  .chip{position:absolute;z-index:20;transform:translate(-50%,-50%);background:rgba(255,255,255,0.42);border:1px solid rgba(255,255,255,0.6);backdrop-filter:blur(14px) saturate(140%);border-radius:999px;padding:8px 14px;display:flex;gap:9px;align-items:center;color:#2e271f;font-size:12.5px;white-space:nowrap;box-shadow:0 10px 34px rgba(40,30,18,0.12);transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s;will-change:left,top}
+  .chip .sw{width:8px;height:8px;border-radius:50%;box-shadow:0 0 9px currentColor}
+  .chip b{font-weight:500}
+  .chip small{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.04em;color:var(--muted)}
+  .chip:hover{transform:translate(-50%,-50%) translateY(-8px) scale(1.05);box-shadow:0 22px 54px rgba(40,30,18,0.22)}
+
+  section.band{padding:108px 0}
+  .shead{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:34px;gap:20px;flex-wrap:wrap}
+  .shead h2{font-family:"Fraunces",Georgia,serif;font-weight:300;font-size:clamp(2rem,4vw,3rem);margin:0;letter-spacing:-0.015em;max-width:18ch}
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+  .glass{border-radius:22px;padding:24px 22px 26px;min-height:218px;background:linear-gradient(160deg,rgba(255,255,255,0.55),rgba(255,255,255,0.28));border:1px solid rgba(255,255,255,0.65);backdrop-filter:blur(16px) saturate(135%);box-shadow:0 18px 50px rgba(40,30,18,0.07),inset 0 1px 0 rgba(255,255,255,0.6);display:flex;flex-direction:column;justify-content:space-between;transition:transform .35s,box-shadow .35s,background .35s}
+  .glass:hover{transform:translateY(-7px);background:linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.4));box-shadow:0 34px 80px rgba(40,30,18,0.14)}
+  .glass .badge{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.7)}
+  .glass .badge i{width:11px;height:11px;border-radius:50%}
+  .glass h3{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:1.3rem;margin:18px 0 3px;letter-spacing:-0.01em}
+  .glass .reo{font-family:"JetBrains Mono",monospace;font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+  .glass p{margin:14px 0 0;font-size:13px;line-height:1.5;color:#5b5246}
+
+  footer{border-top:1px solid var(--line);padding:40px 0 60px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal[data-d="1"]{transition-delay:.08s}.reveal[data-d="2"]{transition-delay:.16s}.reveal[data-d="3"]{transition-delay:.24s}.reveal[data-d="4"]{transition-delay:.32s}
+
+  @media(max-width:900px){
+    .stage{grid-template-columns:1fr;min-height:auto;padding-top:60px}
+    .vstage{height:56vh;order:-1}.copy{padding:18px 0 40px;text-align:center;margin:0 auto}
+    .row{justify-content:center}.grid{grid-template-columns:repeat(2,1fr)} nav.top{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <div class="word">assembl</div>
+  <nav class="top"><a href="#kete">Kete packs</a><a href="#how">How it works</a><a href="#">Free tools</a><a href="#">Pricing</a></nav>
+  <span class="label">Direction B · stacked</span>
+</div></header>
+
+<section class="stage">
+  <div class="vstage"><canvas id="scene"></canvas><div id="chips"></div></div>
+  <div class="copy">
+    <span class="label">Built in Aotearoa</span>
+    <h1>Mahi that earns <em>its proof.</em></h1>
+    <p class="sub">Specialist agents draft the admin-heavy work. A named person signs it off. Every output is sealed in an evidence pack — the receipt.</p>
+    <div class="row">
+      <a class="cta" href="#"><span class="dot"></span> Try a free tool</a>
+      <a class="ghost" href="#">Book a Pilot Sprint</a>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="kete"><div class="wrap">
+  <div class="shead reveal"><h2>Pick the pack for your work.</h2><span class="label">Nine kete</span></div>
+  <div class="grid" id="keterow"></div>
+</div></section>
+
+<section class="band" id="how" style="background:radial-gradient(120% 70% at 50% 0%, #f6efe4, transparent 60%)"><div class="wrap">
+  <div class="shead reveal"><h2>Draft. Sign off. Sealed receipt.</h2><span class="label">How it works</span></div>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="glass reveal" data-d="1"><div><div style="font-family:Fraunces,serif;font-style:italic;font-size:2.2rem;color:#b9ad9c">i</div><h3>Agents draft it</h3><p>The slow, repetitive writing — done in seconds, grounded in your industry's rules.</p></div></div>
+    <div class="glass reveal" data-d="2"><div><div style="font-family:Fraunces,serif;font-style:italic;font-size:2.2rem;color:#b9ad9c">ii</div><h3>You sign off</h3><p>Nothing sends, files, or lodges until a named person on your team approves it.</p></div></div>
+    <div class="glass reveal" data-d="3"><div><div style="font-family:Fraunces,serif;font-style:italic;font-size:2.2rem;color:#b9ad9c">iii</div><h3>The receipt</h3><p>Every output carries an evidence pack: sources, assumptions, and who approved it.</p></div></div>
+  </div>
+</div></section>
+
+<footer class="wrap reveal"><span class="word">assembl</span><a class="cta" href="#"><span class="dot"></span> Book a Pilot Sprint</a><span class="label">Mahi that earns its proof</span></footer>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const KETE=[
+  {en:'Construction',reo:'Waihanga',acc:'#5E7E62',drafts:'RFIs, variation packs, site logs'},
+  {en:'Hospitality',reo:'Manaaki',acc:'#B5533A',drafts:'Allergen reports, guest replies'},
+  {en:'Freight & Customs',reo:'Pīkau',acc:'#3A7D6E',drafts:'Customs entries, freight exceptions'},
+  {en:'Automotive & Fleet',reo:'Arataki',acc:'#9A6A3C',drafts:'WoF readiness, CGA disclosures'},
+  {en:'Creative',reo:'Auaha',acc:'#6E6796',drafts:'Caption batches, briefs, taglines'},
+];
+const row=document.getElementById('keterow');
+KETE.forEach((k,i)=>{const c=document.createElement('div');c.className='glass reveal';c.dataset.d=String((i%4)+1);
+  c.innerHTML=`<div class="badge" style="box-shadow:inset 0 0 0 1px ${k.acc}22"><i style="background:${k.acc}"></i></div><div><h3>${k.en}</h3><div class="reo">${k.reo}</div><p>${k.drafts}</p></div>`;row.appendChild(c);});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.16});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ===== 3D : a balanced stack of ceramic + glass forms on a thin gold frame =====
+const canvas=document.getElementById('scene');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.1;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(32,1,0.1,100); camera.position.set(0,0.2,8.4);
+const pmrem=new THREE.PMREMGenerator(renderer); scene.environment=pmrem.fromScene(new RoomEnvironment(),0.03).texture;
+
+const stack=new THREE.Group(); scene.add(stack);
+
+// --- materials ---
+const ceramic=(c)=>new THREE.MeshStandardMaterial({color:c,roughness:0.85,metalness:0.0,envMapIntensity:0.5});
+const glass=(tint,att)=>new THREE.MeshPhysicalMaterial({color:0xeaf5ef,transmission:1.0,thickness:0.45,roughness:0.06,ior:1.5,
+  clearcoat:1.0,clearcoatRoughness:0.05,metalness:0.0,attenuationColor:new THREE.Color(tint),attenuationDistance:att,
+  envMapIntensity:1.5,transparent:true,side:THREE.DoubleSide});
+const gold=new THREE.MeshStandardMaterial({color:0xC9A24B,metalness:1.0,roughness:0.34,envMapIntensity:1.2});
+
+// a smooth shallow disc / lens (flattened sphere) — reads as a plate or glass lens
+function lens(r, flat, mat){const g=new THREE.SphereGeometry(r,72,40); g.scale(1,flat,1); const m=new THREE.Mesh(g,mat); return m;}
+// an open bowl (bottom hemisphere)
+function bowl(r, flat, mat){const g=new THREE.SphereGeometry(r,72,40,0,Math.PI*2,Math.PI*0.5,Math.PI*0.5); g.scale(1,flat,1); const m=new THREE.Mesh(g,mat); return m;}
+
+// stack definition (bottom -> top): alternate ceramic / pounamu glass, gentle taper
+const CREAM=0xF2EAD8, CREAM2=0xEFE3CE;
+const items=[
+  bowl(1.18,1.15, ceramic(CREAM)),                 //  big cream base bowl
+  lens(0.96,0.16, ceramic(CREAM2)),                //  cream plate
+  lens(1.02,0.13, glass(0x2f6f5a,1.5)),            //  pounamu glass disc
+  lens(0.82,0.15, glass(0x7a5a2a,1.3)),            //  warm amber-olive glass
+  lens(0.96,0.12, glass(0x356a86,1.6)),            //  teal glass disc
+  lens(0.78,0.16, ceramic(CREAM)),                 //  cream plate
+  bowl(0.6,1.1,  glass(0x2f6f5a,1.4)),             //  small pounamu glass bowl
+];
+const ys=[-1.45,-1.06,-0.74,-0.46,-0.16,0.18,0.5];
+items.forEach((m,i)=>{m.position.y=ys[i]; m.userData.phase=i*0.7; stack.add(m);});
+// top "shell" — a soft cream ovoid, gently tilted
+const shell=lens(0.62,0.42, ceramic(CREAM)); shell.position.set(0.02,0.92,0); shell.rotation.z=0.18; shell.userData.phase=7*0.7; stack.add(shell);
+
+// --- thin gold wire frame (an easel that cradles the stack) ---
+function bar(a,b,r=0.018){const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b);const len=A.distanceTo(B);
+  const g=new THREE.CylinderGeometry(r,r,len,12);const m=new THREE.Mesh(g,gold);
+  m.position.copy(A).lerp(B,0.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),B.clone().sub(A).normalize());stack.add(m);}
+const xL=-1.25,xR=1.25,zF=0.95,zB=-0.95,yBot=-1.78,yTop=1.18;
+// base rectangle
+bar([xL,yBot,zF],[xR,yBot,zF]);bar([xL,yBot,zB],[xR,yBot,zB]);bar([xL,yBot,zF],[xL,yBot,zB]);bar([xR,yBot,zF],[xR,yBot,zB]);
+// two left uprights rising to the top, with a top cross bar (the "easel")
+bar([xL,yBot,zF],[xL,yTop,zF]);bar([xL,yBot,zB],[xL,yTop,zB]);bar([xL,yTop,zF],[xL,yTop,zB]);
+bar([xL,yTop,zF],[ -0.1,yTop,0.0]);  // arm reaching toward the top shell
+
+// faint contact shadow under the base bowl
+function shadowTex(){const s=128,cv=document.createElement('canvas');cv.width=cv.height=s;const g=cv.getContext('2d');
+  const grd=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);grd.addColorStop(0,'rgba(50,38,20,0.35)');grd.addColorStop(0.55,'rgba(50,38,20,0.16)');grd.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=grd;g.fillRect(0,0,s,s);return new THREE.CanvasTexture(cv);}
+const sh=new THREE.Mesh(new THREE.PlaneGeometry(4,4),new THREE.MeshBasicMaterial({map:shadowTex(),transparent:true,depthWrite:false}));
+sh.rotation.x=-Math.PI/2; sh.position.y=-1.86; scene.add(sh);
+
+// lighting — soft studio
+const key=new THREE.DirectionalLight(0xfff3e3,2.1); key.position.set(3.5,5,4); scene.add(key);
+const fill=new THREE.DirectionalLight(0xbfe3d2,0.6); fill.position.set(-4,1,2); scene.add(fill);
+const back=new THREE.DirectionalLight(0xffffff,1.1); back.position.set(-1,2,-4); scene.add(back); // backlight so glass glows
+scene.add(new THREE.AmbientLight(0xfff3e3,0.35));
+const glint=new THREE.PointLight(0xffffff,5,14,2); scene.add(glint);
+
+// kete chips anchored to glass layers
+const anchors=[
+  {v:new THREE.Vector3(1.15,-0.74,0.2),k:KETE[2]},
+  {v:new THREE.Vector3(-1.15,-0.16,0.2),k:KETE[1]},
+  {v:new THREE.Vector3(1.0,0.5,0.2),k:KETE[0]},
+];
+const chips=document.getElementById('chips');
+anchors.forEach(a=>{const el=document.createElement('div');el.className='chip';
+  el.innerHTML=`<span class="sw" style="background:${a.k.acc};color:${a.k.acc}"></span><b>${a.k.en}</b><small>${a.k.reo}</small>`;chips.appendChild(el);a.el=el;});
+
+let mx=0,my=0,scrollY=0;
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-0.5;my=e.clientY/innerHeight-0.5;});
+addEventListener('scroll',()=>{scrollY=scrollY*0+window.scrollY;});
+function resize(){const r=canvas.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
+addEventListener('resize',resize);resize();
+const clock=new THREE.Clock();
+function tick(){const t=clock.getElapsedTime();
+  if(!reduce){
+    stack.rotation.y=t*0.18 + mx*0.4;
+    stack.rotation.x=THREE.MathUtils.lerp(stack.rotation.x,-my*0.12,0.05);
+    stack.position.y=-scrollY*0.0016;
+    // gentle "balanced/afloat" bob per layer
+    [...items,shell].forEach(m=>{ m.position.x = Math.sin(t*0.6+m.userData.phase)*0.012; });
+    glint.position.set(Math.cos(t*0.7)*5,3,Math.sin(t*0.7)*5);
+  }
+  stack.updateMatrixWorld();
+  const r=canvas.getBoundingClientRect();
+  anchors.forEach(a=>{const p=a.v.clone().applyMatrix4(stack.matrixWorld).project(camera);
+    a.el.style.left=(r.left+(p.x*0.5+0.5)*r.width)+'px';a.el.style.top=(r.top+(-p.y*0.5+0.5)*r.height)+'px';a.el.style.opacity=p.z<1?1:0;});
+  renderer.render(scene,camera);requestAnimationFrame(tick);
+}
+stack.updateMatrixWorld();tick();
+</script>
+</body>
+</html>
