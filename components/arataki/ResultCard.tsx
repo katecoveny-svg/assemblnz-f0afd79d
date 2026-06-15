@@ -43,7 +43,7 @@ export function ResultCard({
       <p className="font-mono text-[10px] uppercase tracking-[0.24em]" style={{ color: accent }}>
         {eyebrow}
       </p>
-      <p className="mt-4 break-words font-display text-[2rem] font-light italic leading-none text-[#3D4250] [overflow-wrap:anywhere] md:text-[clamp(3rem,8vw,5rem)]">
+      <p className="mt-4 break-words font-display text-[2rem] font-light leading-none text-[#3D4250] [overflow-wrap:anywhere] md:text-[clamp(3rem,8vw,5rem)]">
         {headline}
       </p>
       <div className="mt-6 divide-y divide-[#C8BBA9]/60 rounded-[8px] border border-[#C8BBA9]/60 bg-[#FAF7F2]/80">

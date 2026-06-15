@@ -16,7 +16,7 @@ export default function AratakiDiagnosticPage() {
         </Link>
         <header className="mb-10 max-w-4xl">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#2B6B57]">Arataki · diagnostic</p>
-          <h1 className="mt-5 font-display text-[clamp(3.4rem,8vw,6rem)] font-light italic leading-none text-[#3D4250]">
+          <h1 className="mt-5 font-display text-[clamp(3.4rem,8vw,6rem)] font-light leading-none text-[#3D4250]">
             Twenty questions. One operator read.
           </h1>
           <p className="mt-6 max-w-3xl text-[17px] leading-relaxed text-[#5C6273] md:text-xl">

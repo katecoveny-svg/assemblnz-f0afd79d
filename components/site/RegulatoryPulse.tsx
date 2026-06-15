@@ -41,7 +41,7 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
               Live NZ source check · updated {formatTime(stats.capturedAt)}
             </p>
           </div>
-          <h2 className="mt-4 max-w-xl font-display text-[clamp(2.4rem,5vw,4.6rem)] font-normal italic leading-tight text-[color:var(--text-primary)]">
+          <h2 className="mt-4 max-w-xl font-display text-[clamp(2.4rem,5vw,4.6rem)] font-normal leading-tight text-[color:var(--text-primary)]">
             Checked against current New Zealand sources.
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-[color:var(--text-body)] md:text-base">

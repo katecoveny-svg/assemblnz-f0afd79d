@@ -65,7 +65,7 @@ export default async function InsuranceResultsPage({
             insurance gap analysis
           </p>
           <h1
-            className="mt-5 max-w-4xl font-display italic leading-[0.9] text-[color:var(--assembl-pounamu)]"
+            className="mt-5 max-w-4xl font-display leading-[0.9] text-[color:var(--assembl-pounamu)]"
             style={{ fontWeight: 300, fontSize: "clamp(3.2rem, 7vw, 6.4rem)" }}
           >
             Your largest visible gap is {fmtNzd(result.largestGapNzd)}.
@@ -90,7 +90,7 @@ export default async function InsuranceResultsPage({
                     <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                       {category.label}
                     </p>
-                    <h2 className="mt-2 font-display text-4xl italic text-[color:var(--assembl-pounamu)]">
+                    <h2 className="mt-2 font-display text-4xl text-[color:var(--assembl-pounamu)]">
                       {category.gapNzd > 0 ? `${fmtNzd(category.gapNzd)} gap` : "Looks covered"}
                     </h2>
                   </div>
@@ -122,7 +122,7 @@ export default async function InsuranceResultsPage({
             <InsuranceShareCard categories={result.categories} />
             <section className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-5">
               <ShieldAlert className="h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
-              <h2 className="mt-4 font-display text-3xl italic text-[color:var(--assembl-pounamu)]">
+              <h2 className="mt-4 font-display text-3xl text-[color:var(--assembl-pounamu)]">
                 Take this to an adviser.
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -137,7 +137,7 @@ export default async function InsuranceResultsPage({
         </div>
 
         <section className="mx-auto mt-10 max-w-7xl border-t border-taupe-200 pt-8">
-          <h2 className="font-display text-3xl italic text-[color:var(--assembl-pounamu)]">
+          <h2 className="font-display text-3xl text-[color:var(--assembl-pounamu)]">
             Sources and assumptions.
           </h2>
           <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">

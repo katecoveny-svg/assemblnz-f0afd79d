@@ -100,7 +100,7 @@ export function PromptOutput({
       </div>
 
       {k.portrait && (
-        <p className="border-l-2 border-[color:var(--assembl-gold-thread)] py-1 pl-3 font-mono text-[11px] italic font-light leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
+        <p className="border-l-2 border-[color:var(--assembl-gold-thread)] py-1 pl-3 font-mono text-[11px] font-light leading-[1.6] tracking-[0.04em] text-[color:var(--text-secondary)]">
           tip: upload one of your existing brand portraits as a reference image for style
           consistency. anchor strength 0.45–0.6 works well for founder content.
         </p>

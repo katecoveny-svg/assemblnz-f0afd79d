@@ -60,7 +60,7 @@ export function LivePulseWidget({ initial, compact = false }: LivePulseWidgetPro
             {formatTime(stats.capturedAt)}
           </p>
         </div>
-        <h3 className="mt-4 font-display text-[clamp(2rem,4vw,3.5rem)] font-light italic leading-[0.95] text-[color:var(--text-primary)]">
+        <h3 className="mt-4 font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-[0.95] text-[color:var(--text-primary)]">
           Live sources are connected.
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">

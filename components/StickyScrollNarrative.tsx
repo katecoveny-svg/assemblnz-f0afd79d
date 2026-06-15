@@ -121,7 +121,7 @@ export function StickyScrollNarrative({
                     <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                       Example
                     </p>
-                    <p className="mt-1 font-display text-lg italic leading-snug text-[color:var(--text-primary)]">
+                    <p className="mt-1 font-display text-lg leading-snug text-[color:var(--text-primary)]">
                       {stage.example}
                     </p>
                   </div>

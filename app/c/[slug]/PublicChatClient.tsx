@@ -490,7 +490,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
                 type="button"
                 onClick={saveEvidencePack}
                 disabled={savingPack}
-                className="group inline-flex items-center gap-2 font-display text-lg italic leading-none text-[color:var(--tenant-accent)] decoration-[color:var(--tenant-accent)] underline-offset-4 transition hover:underline disabled:cursor-wait disabled:opacity-60"
+                className="group inline-flex items-center gap-2 font-display text-lg leading-none text-[color:var(--tenant-accent)] decoration-[color:var(--tenant-accent)] underline-offset-4 transition hover:underline disabled:cursor-wait disabled:opacity-60"
               >
                 {savingPack ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

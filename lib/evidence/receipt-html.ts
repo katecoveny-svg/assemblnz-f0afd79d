@@ -61,7 +61,7 @@ export function renderReceiptHtml(receipt: ManaReceipt): string {
   @page { margin: 22mm 18mm; }
   :root { --ink:#1a1a1a; --muted:#6b6b6b; --paper:#faf7f2; --line:#e5e0d6; --good:#2a7a3e; --bad:#b3261e; --accent:#2d4a3e; }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; color: var(--ink); background: var(--paper); }
+  body { margin: 0; font-family: 'Fraunces', Georgia, serif; color: var(--ink); background: var(--paper); }
   header, section { padding: 10px 0; }
   h1 { font-size: 28px; margin: 0 0 6px; font-weight: 300; letter-spacing: -0.01em; }
   h2 { font-size: 12px; margin: 22px 0 8px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 600; }

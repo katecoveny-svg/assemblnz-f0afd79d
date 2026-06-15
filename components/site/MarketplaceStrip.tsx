@@ -15,7 +15,7 @@ export function MarketplaceStrip() {
         <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
           WORKFLOW PREVIEW
         </p>
-        <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal italic leading-tight">
+        <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.8rem)] font-normal leading-tight">
           Try a repeatable job.
         </h2>
         <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">

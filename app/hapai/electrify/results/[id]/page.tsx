@@ -182,7 +182,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
             {fmtNzd(lead.annual_savings_current_nzd)}<br />
             <span className="text-taupe-800">{routeFraming.headlineLine2}</span>
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-sm italic leading-relaxed text-taupe-700">
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-taupe-700">
             {routeFraming.subhead}
           </p>
 

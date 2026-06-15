@@ -48,8 +48,8 @@ type Props = {
  * • Left rail: kete list (8 industry + 1 cross-pack), each with its accent.
  *   Tap a kete to expand its agents.
  * • Main: chat window. User messages right-aligned, agent messages left.
- *   Editorial typography (Cormorant Garamond for headlines + agent labels,
- *   Inter for body).
+ *   Editorial typography (Fraunces for headlines + agent labels,
+ *   Plus Jakarta Sans for body).
  * • Footer input: textarea + send. Submits to `iho-router` via
  *   supabase.functions.invoke — the user JWT is attached automatically so
  *   RLS + the trial limiter apply.
@@ -390,7 +390,7 @@ export function ChatClient({
         <div className="flex items-center justify-between px-6 pt-7 md:pt-9">
           <Link
             href="/"
-            className="font-display text-xl font-semibold lowercase tracking-tight text-[color:var(--text-primary)]"
+            className="font-display text-xl font-medium lowercase tracking-tight text-[color:var(--text-primary)]"
           >
             assembl
           </Link>

@@ -123,7 +123,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               HAPAI travel tool · Voyage
             </p>
-            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.4rem,7vw,7.4rem)] font-light italic leading-[0.88] tracking-tight text-[#103F35]">
+            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.4rem,7vw,7.4rem)] font-light leading-[0.88] tracking-tight text-[#103F35]">
               {isTemplate ? 'Plan the trip before you land.' : payload.title}
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#2F3440] md:text-xl">
@@ -147,7 +147,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
             <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--text-secondary)]">
               Trip snapshot
             </p>
-            <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3.5rem)] font-light italic leading-none">
+            <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3.5rem)] font-light leading-none">
               {payload.title}
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -173,7 +173,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 Budget rollup
               </p>
-              <h2 className="mt-3 font-display text-4xl font-light italic leading-none text-[#103F35]">
+              <h2 className="mt-3 font-display text-4xl font-light leading-none text-[#103F35]">
                 Costs in one view.
               </h2>
             </div>
@@ -191,7 +191,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
               <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
                 Itinerary
               </p>
-              <h2 className="mt-3 font-display text-[clamp(2.8rem,6vw,5rem)] font-light italic leading-none">
+              <h2 className="mt-3 font-display text-[clamp(2.8rem,6vw,5rem)] font-light leading-none">
                 The route at a glance.
               </h2>
             </div>
@@ -208,7 +208,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
                 <li key={stop.id}>
                   <article className="group flex h-full flex-col rounded-[22px] border border-white/62 bg-white/50 p-5 shadow-[0_18px_60px_rgba(35,33,31,0.06)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-white/70 hover:shadow-[0_26px_90px_rgba(43,107,87,0.11)]">
                     <header className="flex flex-wrap items-baseline justify-between gap-2">
-                      <h3 className="font-display text-3xl font-light italic leading-none text-[#103F35]">
+                      <h3 className="font-display text-3xl font-light leading-none text-[#103F35]">
                         {idx + 1}. {stop.label}
                       </h3>
                       <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
@@ -277,7 +277,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               Travel tools
             </p>
-            <h2 className="mt-3 font-display text-[clamp(2.6rem,5vw,4.6rem)] font-light italic leading-none">
+            <h2 className="mt-3 font-display text-[clamp(2.6rem,5vw,4.6rem)] font-light leading-none">
               Ask, split, translate, decide.
             </h2>
           </div>
@@ -301,7 +301,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
             className="rounded-[28px] border border-[rgba(43,107,87,0.16)] bg-[linear-gradient(135deg,rgba(255,255,255,0.74),rgba(232,239,233,0.58))] p-8 text-center shadow-[0_22px_80px_rgba(35,33,31,0.08)] backdrop-blur-xl"
           >
             <Sparkles className="mx-auto h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
-            <h2 className="mt-4 font-display text-4xl font-light italic leading-none text-[color:var(--text-primary)]">
+            <h2 className="mt-4 font-display text-4xl font-light leading-none text-[color:var(--text-primary)]">
               Want your own trip board?
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -364,7 +364,7 @@ function BudgetItem({
       <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {label}
       </dt>
-      <dd className={strong ? 'mt-3 font-mono text-2xl font-semibold text-[#103F35]' : 'mt-3 font-mono text-xl text-[color:var(--text-primary)]'}>
+      <dd className={strong ? 'mt-3 font-mono text-2xl font-medium text-[#103F35]' : 'mt-3 font-mono text-xl text-[color:var(--text-primary)]'}>
         {value}
       </dd>
     </div>

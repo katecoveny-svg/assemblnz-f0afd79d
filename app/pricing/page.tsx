@@ -54,7 +54,7 @@ export default function PricingPage() {
           <div className="mx-auto max-w-4xl text-center">
             <Eyebrow label="Pricing" className="justify-center" />
             <h1 className="mt-6 font-display text-display-xl font-light">
-              Simple <em className="italic text-[color:var(--assembl-pounamu)]">pricing.</em>
+              Simple <em className="text-[color:var(--assembl-pounamu)]">pricing.</em>
             </h1>
           </div>
 
@@ -101,7 +101,7 @@ export default function PricingPage() {
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow label="Self-serve · between the free tools and a kete pack" accent="var(--assembl-gold)" className="justify-center" />
             <h2 className="mt-5 font-display text-display-lg font-light">
-              Convert with a card, <em className="italic text-[color:var(--assembl-pounamu)]">no sales call.</em>
+              Convert with a card, <em className="text-[color:var(--assembl-pounamu)]">no sales call.</em>
             </h2>
             <p className="mx-auto mt-6 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               Liked a HAPAI tool? Turn it on for real work. Solo is one kete for one person; Team is

@@ -7,7 +7,7 @@ export default function HapaiNextStep() {
       <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
         Next step
       </p>
-      <h2 className="mt-3 font-display text-3xl italic leading-none text-[color:var(--assembl-pounamu)]">
+      <h2 className="mt-3 font-display text-3xl leading-none text-[color:var(--assembl-pounamu)]">
         What should your team build first?
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">

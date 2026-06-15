@@ -30,7 +30,7 @@ export default function AboutPage() {
             <SectionReveal>
               <Eyebrow label="About assembl" />
               <h1 className="mt-5 font-display text-display-xl font-light leading-[1.04] text-[color:var(--text-primary)]">
-                Mahi that earns <em className="italic text-[color:var(--assembl-pounamu)]">its proof.</em>
+                Mahi that earns <em className="text-[color:var(--assembl-pounamu)]">its proof.</em>
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-[#5F5A55] md:text-lg">
                 Document-heavy work eats people’s days. The reports, the customs entries, the
@@ -77,7 +77,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#625A52]">From the founder</p>
-                <p className="mt-5 font-display text-3xl font-light italic leading-tight text-[color:var(--text-primary)] md:text-4xl">
+                <p className="mt-5 font-display text-3xl font-light leading-tight text-[color:var(--text-primary)] md:text-4xl">
                   I started assembl to give people their time back — for the work that matters, and
                   the life around it.
                 </p>

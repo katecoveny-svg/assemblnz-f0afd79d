@@ -53,7 +53,7 @@ export function HapaiToolShell({
               <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#2B6B57]">
                 {kicker}
               </p>
-              <h1 className="mt-4 max-w-5xl font-display text-[clamp(3.4rem,7vw,7.2rem)] font-light italic leading-[0.88] text-[#103F35]">
+              <h1 className="mt-4 max-w-5xl font-display text-[clamp(3.4rem,7vw,7.2rem)] font-light leading-[0.88] text-[#103F35]">
                 {title}
               </h1>
               <p className="mt-6 max-w-3xl text-[clamp(1.05rem,1.65vw,1.28rem)] leading-relaxed text-[#3D4250]">

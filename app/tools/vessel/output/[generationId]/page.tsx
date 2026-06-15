@@ -93,7 +93,7 @@ export default async function VesselOutputPage({
             className="block w-full"
           />
           <figcaption className="border-t border-[rgba(35,33,31,0.10)] px-5 py-4 text-sm text-[color:var(--text-secondary)]">
-            <span className="font-display italic text-[color:var(--text-primary)]">
+            <span className="font-display text-[color:var(--text-primary)]">
               {row.prompt}
             </span>
             <span className="ml-3 inline-flex items-center gap-2 align-middle">

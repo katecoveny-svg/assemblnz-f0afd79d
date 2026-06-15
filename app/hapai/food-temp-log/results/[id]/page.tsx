@@ -162,7 +162,7 @@ function ReadingTable({ title, target, readings, pass }: { title: string; target
               {reading.tempC}°C · {pass(reading.tempC) ? "PASS" : "FAIL"}
             </span>
           </div>
-        )) : <p className="bg-white px-4 py-3 text-sm italic text-[#6B6661]">No readings entered.</p>}
+        )) : <p className="bg-white px-4 py-3 text-sm text-[#6B6661]">No readings entered.</p>}
       </div>
     </section>
   );
@@ -184,7 +184,7 @@ function CookingTable({ readings }: { readings: Array<{ dish: string; tempC: num
               </span>
             </div>
           );
-        }) : <p className="bg-white px-4 py-3 text-sm italic text-[#6B6661]">No cooking readings entered.</p>}
+        }) : <p className="bg-white px-4 py-3 text-sm text-[#6B6661]">No cooking readings entered.</p>}
       </div>
     </section>
   );

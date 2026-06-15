@@ -52,21 +52,21 @@ export default async function HapaiOpengraphImage() {
     " assembl.co.nz";
 
   const [cormorant, inter] = await Promise.all([
-    loadGoogleFont("Cormorant Garamond", "400", headlineText),
-    loadGoogleFont("Inter", "400;500", bodyText),
+    loadGoogleFont("Fraunces", "400", headlineText),
+    loadGoogleFont("Plus Jakarta Sans", "400;500", bodyText),
   ]);
 
   const fonts: { name: string; data: ArrayBuffer; weight: 400 | 500; style: "normal" }[] = [];
   if (cormorant) {
-    fonts.push({ name: "Cormorant Garamond", data: cormorant, weight: 400, style: "normal" });
+    fonts.push({ name: "Fraunces", data: cormorant, weight: 400, style: "normal" });
   }
   if (inter) {
-    fonts.push({ name: "Inter", data: inter, weight: 400, style: "normal" });
-    fonts.push({ name: "Inter", data: inter, weight: 500, style: "normal" });
+    fonts.push({ name: "Plus Jakarta Sans", data: inter, weight: 400, style: "normal" });
+    fonts.push({ name: "Plus Jakarta Sans", data: inter, weight: 500, style: "normal" });
   }
 
-  const headlineFont = cormorant ? "Cormorant Garamond" : "serif";
-  const bodyFont = inter ? "Inter" : "sans-serif";
+  const headlineFont = cormorant ? "Fraunces" : "serif";
+  const bodyFont = inter ? "Plus Jakarta Sans" : "sans-serif";
 
   return new ImageResponse(
     (

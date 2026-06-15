@@ -29,7 +29,7 @@ export default async function WorkflowsPage({
         <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
           KETE WORKFLOWS · SPECIALIST PACKS
         </p>
-        <h1 className="mt-5 max-w-5xl font-display text-[clamp(3.6rem,8vw,7.8rem)] font-light italic leading-none">
+        <h1 className="mt-5 max-w-5xl font-display text-[clamp(3.6rem,8vw,7.8rem)] font-light leading-none">
           Pre-made workflows for real admin.
         </h1>
         <p className="mt-6 max-w-3xl text-[17px] leading-[1.65] text-[color:var(--text-body)] md:text-xl">

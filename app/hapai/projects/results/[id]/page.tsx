@@ -55,7 +55,7 @@ export default async function HapaiProjectResultsPage({
             hapai · project picker
           </p>
           <h1
-            className="mt-5 max-w-4xl font-display italic leading-[0.9] text-[color:var(--assembl-pounamu)]"
+            className="mt-5 max-w-4xl font-display leading-[0.9] text-[color:var(--assembl-pounamu)]"
             style={{ fontWeight: 300, fontSize: "clamp(3.2rem, 7vw, 6.4rem)" }}
           >
             Three projects to build first.
@@ -86,7 +86,7 @@ export default async function HapaiProjectResultsPage({
               <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
                 Candidate {index + 1}
               </p>
-              <h2 className="mt-4 font-display text-4xl italic leading-none text-[color:var(--assembl-pounamu)]">
+              <h2 className="mt-4 font-display text-4xl leading-none text-[color:var(--assembl-pounamu)]">
                 {candidate.title}
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -123,7 +123,7 @@ export default async function HapaiProjectResultsPage({
         </div>
 
         <div className="mx-auto mt-10 max-w-4xl rounded-[8px] border border-[rgba(212,168,83,0.42)] bg-white/50 p-6">
-          <h2 className="font-display text-3xl italic text-[color:var(--assembl-pounamu)]">
+          <h2 className="font-display text-3xl text-[color:var(--assembl-pounamu)]">
             Pilot Sprint fit.
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">

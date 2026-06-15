@@ -79,7 +79,7 @@ function appendAssemblWatermark(html: string, toolLabel: string, toolPath: strin
   return (
     html +
     `<footer style="margin-top:28px;padding-top:16px;border-top:1px solid rgba(35,33,31,0.12);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(35,33,31,0.62);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;line-height:1.5;">` +
-    `<span><span style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;text-transform:none;letter-spacing:0;font-size:14px;color:#2B6B57;">assembl</span> · ${escapeHtml(toolLabel)}</span>` +
+    `<span><span style="font-family:'Fraunces',Georgia,serif;font-style:italic;text-transform:none;letter-spacing:0;font-size:14px;color:#2B6B57;">assembl</span> · ${escapeHtml(toolLabel)}</span>` +
     `<a href="https://assembl.co.nz${toolPath}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">assembl.co.nz${escapeHtml(toolPath)} →</a>` +
     `</footer>`
   );

@@ -348,7 +348,7 @@ export function VesselStudio({
                   vessel form for the pillar
                 </span>
               </div>
-              <p className="font-mono text-[10.5px] italic font-light tracking-[0.04em] text-[color:var(--text-secondary)]">
+              <p className="font-mono text-[10.5px] font-light tracking-[0.04em] text-[color:var(--text-secondary)]">
                 {k.portrait
                   ? 'founder portrait — warm cream interior, soft natural light, calm editorial portrait, dachshund optional'
                   : 'each kete is a stacked still-life — cream stoneware top + base, kete-coloured translucent glass plates between them, on a small brass wire display stand. cream paper backdrop only.'}

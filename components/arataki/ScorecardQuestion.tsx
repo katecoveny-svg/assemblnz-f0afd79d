@@ -13,7 +13,7 @@ export function ScorecardQuestion({
 }) {
   return (
     <fieldset className="rounded-[8px] border border-[#C8BBA9]/70 bg-white/64 p-5">
-      <legend className="font-display text-2xl font-light italic leading-tight text-[#3D4250]">
+      <legend className="font-display text-2xl font-light leading-tight text-[#3D4250]">
         {question.id}. {question.prompt}
       </legend>
       <div className="mt-4 grid gap-2 sm:grid-cols-2">

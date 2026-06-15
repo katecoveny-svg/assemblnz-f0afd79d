@@ -103,7 +103,7 @@ export function VesselTile({
         }}
       />
       <p
-        className="relative z-10 font-display italic"
+        className="relative z-10 font-display"
         style={{
           color: 'var(--text-primary)',
           fontWeight: 300,

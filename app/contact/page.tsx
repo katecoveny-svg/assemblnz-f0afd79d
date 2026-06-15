@@ -35,7 +35,7 @@ export default function ContactPage() {
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow label="Get in touch" className="justify-center" />
             <h1 className="mt-6 font-display text-display-xl font-light">
-              Let&apos;s <em className="italic text-[color:var(--assembl-pounamu)]">talk.</em>
+              Let&apos;s <em className="text-[color:var(--assembl-pounamu)]">talk.</em>
             </h1>
             <p className="mt-6 text-lg text-[color:var(--text-body)]">
               Whether you are ready for a pilot or just want to understand what assembl does for

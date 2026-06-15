@@ -158,7 +158,7 @@ export function WishlistTool() {
                 </span>
               </div>
 
-              <h2 className="mt-4 font-display text-3xl font-light italic leading-tight text-[#103F35]">
+              <h2 className="mt-4 font-display text-3xl font-light leading-tight text-[#103F35]">
                 {spec.specialistName}
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-[#3D4250]">{spec.forLine}</p>

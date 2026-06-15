@@ -82,7 +82,7 @@ export function KeteRotator({
               exit={reduceMotion ? undefined : { opacity: 0.72, y: -8 }}
               transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
             >
-              <p className="mt-3 font-display text-[clamp(2.55rem,11vw,3.8rem)] font-light italic leading-[0.95] text-[color:var(--text-primary)] md:text-[clamp(3.6rem,4.5vw,5.8rem)] md:leading-[0.92]">
+              <p className="mt-3 font-display text-[clamp(2.55rem,11vw,3.8rem)] font-light leading-[0.95] text-[color:var(--text-primary)] md:text-[clamp(3.6rem,4.5vw,5.8rem)] md:leading-[0.92]">
                 for <span lang="mi" style={{ color: current.accent }}>{current.name}</span>.
               </p>
               <p className="mt-6 max-w-[36rem] text-[clamp(1.05rem,4.7vw,1.35rem)] font-medium leading-[1.35] text-[#23211F] md:mt-7 md:text-[clamp(1.32rem,1.28vw,1.72rem)]">
@@ -190,7 +190,7 @@ export function KeteRotator({
           >
             <div
               className={[
-                'mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-display font-light italic leading-[0.98] tracking-normal',
+                'mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-display font-light leading-[0.98] tracking-normal',
                 immersive
                   ? 'min-h-[clamp(2.8rem,12vw,4.5rem)] text-[clamp(2.7rem,12vw,4.5rem)] md:min-h-[clamp(4.1rem,4.8vw,5.8rem)] md:text-[clamp(3.8rem,4.8vw,5.8rem)]'
                   : 'min-h-[3.5rem] text-display-lg',
@@ -298,7 +298,7 @@ export function KeteRotator({
               <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
                 {label}
               </span>
-              <span className="mt-1 block truncate font-display text-lg italic leading-none md:text-2xl">
+              <span className="mt-1 block truncate font-display text-lg leading-none md:text-2xl">
                 {value}
               </span>
             </div>

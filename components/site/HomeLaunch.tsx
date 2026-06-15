@@ -152,7 +152,7 @@ export function HomeLaunch() {
               </motion.p>
               <h1 className="mt-5 font-display text-[clamp(3.5rem,7vw,6rem)] font-light leading-[0.96] tracking-[-0.025em]">
                 <RevealWords text="Mahi that earns" className="block" />
-                <RevealWords text="its proof." className="mt-1 block italic text-[color:var(--assembl-pounamu)]" />
+                <RevealWords text="its proof." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
               </h1>
               <motion.p
                 variants={item}
@@ -210,7 +210,7 @@ export function HomeLaunch() {
             <Eyebrow label="The promise" accent="var(--assembl-pounamu)" />
             <h2 className="max-w-3xl font-display text-display-lg font-light leading-[1.02]">
               <RevealWords text="Less admin," className="block" />
-              <RevealWords text="more mahi." className="block italic text-[color:var(--assembl-pounamu)]" />
+              <RevealWords text="more mahi." className="block text-[color:var(--assembl-pounamu)]" />
             </h2>
             <motion.p variants={item} className="mt-8 max-w-3xl text-body-lg text-[color:var(--text-body)]">
               Hospitality teams shouldn’t spend their best hour writing the allergen report. Builders
@@ -235,7 +235,7 @@ export function HomeLaunch() {
             <Eyebrow label="Nine kete" accent="var(--assembl-gold)" />
             <h2 className="font-display text-display-lg font-light leading-[1.02]">
               <RevealWords text="Pick the pack" className="block" />
-              <RevealWords text="for your work." className="block italic text-[color:var(--assembl-pounamu)]" />
+              <RevealWords text="for your work." className="block text-[color:var(--assembl-pounamu)]" />
             </h2>
             <motion.p variants={item} className="mt-6 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               A kete is a kit for one kind of work — the agents, tools, and rules shaped for it.
@@ -297,7 +297,7 @@ export function HomeLaunch() {
             <Eyebrow label="How it works" accent="var(--assembl-clay)" />
             <h2 className="font-display text-display-lg font-light leading-[1.02]">
               <RevealWords text="Draft. Sign off." className="block" />
-              <RevealWords text="Sealed receipt." className="block italic text-[color:var(--assembl-clay)]" />
+              <RevealWords text="Sealed receipt." className="block text-[color:var(--assembl-clay)]" />
             </h2>
           </motion.div>
           <motion.div
@@ -315,7 +315,7 @@ export function HomeLaunch() {
                 transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                 className={`h-full p-7 ${GLASS}`}
               >
-                <p className="font-display text-4xl font-light italic text-[#b9ad9c]">{n}</p>
+                <p className="font-display text-4xl font-light text-[#b9ad9c]">{n}</p>
                 <h3 className="mt-3 font-display text-display-md font-light">{title}</h3>
                 <p className="mt-4 text-body-md text-[color:var(--text-body)]">{body}</p>
               </motion.article>
@@ -337,7 +337,7 @@ export function HomeLaunch() {
             <Eyebrow label="Pricing" accent="var(--assembl-pounamu)" className="justify-center" />
             <h2 className="font-display text-display-lg font-light leading-[1.02]">
               <RevealWords text="Start with the work" className="block" />
-              <RevealWords text="in front of you." className="block italic text-[color:var(--assembl-pounamu)]" />
+              <RevealWords text="in front of you." className="block text-[color:var(--assembl-pounamu)]" />
             </h2>
             <motion.p variants={item} className="mx-auto mt-6 max-w-xl text-body-lg text-[color:var(--text-body)]">
               Free tools, a Pilot Sprint proven on your data, a kete pack for your industry, and a

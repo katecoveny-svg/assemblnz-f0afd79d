@@ -53,7 +53,7 @@ export default function TeTiritiPage() {
             {pou.map((item, index) => (
               <SectionReveal key={item.name} delay={0.06 * index}>
                 <article className="h-full border border-[rgba(157,140,125,0.22)] bg-[rgba(255,255,255,0.45)] p-6">
-                  <h2 className="font-display text-2xl font-light italic text-[color:var(--text-primary)]">
+                  <h2 className="font-display text-2xl font-light text-[color:var(--text-primary)]">
                     {item.name}
                   </h2>
                   <p className="mt-3 text-sm leading-7 text-[color:var(--text-secondary)]">{item.text}</p>
@@ -65,7 +65,7 @@ export default function TeTiritiPage() {
           <SectionReveal delay={0.3}>
             <div className="mt-12 space-y-8 text-base leading-8 text-[color:var(--text-secondary)]">
               <section>
-                <h2 className="font-display text-2xl font-light italic text-[color:var(--text-primary)] md:text-3xl">
+                <h2 className="font-display text-2xl font-light text-[color:var(--text-primary)] md:text-3xl">
                   Product gates
                 </h2>
                 <p className="mt-3">
@@ -76,7 +76,7 @@ export default function TeTiritiPage() {
                 </p>
               </section>
               <section>
-                <h2 className="font-display text-2xl font-light italic text-[color:var(--text-primary)] md:text-3xl">
+                <h2 className="font-display text-2xl font-light text-[color:var(--text-primary)] md:text-3xl">
                   MEADS-alignment posture
                 </h2>
                 <p className="mt-3">
@@ -87,7 +87,7 @@ export default function TeTiritiPage() {
                 </p>
               </section>
               <section>
-                <h2 className="font-display text-2xl font-light italic text-[color:var(--text-primary)] md:text-3xl">
+                <h2 className="font-display text-2xl font-light text-[color:var(--text-primary)] md:text-3xl">
                   Truth before polish
                 </h2>
                 <p className="mt-3">

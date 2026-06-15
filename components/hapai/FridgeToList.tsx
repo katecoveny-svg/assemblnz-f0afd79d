@@ -148,7 +148,7 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
             </div>
           </fieldset>
           <button type="button" onClick={generate} disabled={loading || !imageBase64} className="mt-6 rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]">{loading ? "Reading the photo..." : copy.button}</button>
-          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm italic text-[#6B5A28]">Building a kai plan from the photo.</p>}
+          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">Building a kai plan from the photo.</p>}
           {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
         </section>
 
@@ -204,7 +204,7 @@ function ResultList({ title, items, empty, compact = false }: { title: string; i
   return (
     <div className={compact ? "rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#F7F4EE] p-4" : "mt-6"}>
       <h2 className="font-display text-2xl font-normal text-[#2B6B57]">{title}</h2>
-      {items.length ? <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-[#2A2825]">{items.map((item) => <li key={item}>{item}</li>)}</ul> : <p className="mt-2 text-sm italic text-[#6B6661]">{empty}</p>}
+      {items.length ? <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-[#2A2825]">{items.map((item) => <li key={item}>{item}</li>)}</ul> : <p className="mt-2 text-sm text-[#6B6661]">{empty}</p>}
     </div>
   );
 }

@@ -290,7 +290,7 @@ function Scene1() {
               {note.tag}
             </div>
             <div
-              className="font-display text-sm italic leading-[1.2]"
+              className="font-display text-sm leading-[1.2]"
               style={{ color: 'var(--text-primary)', fontWeight: 400 }}
             >
               {note.name}
@@ -468,7 +468,7 @@ function Scene2() {
                 <PulseDot size={5} />
                 {n.k}
                 <span
-                  className="font-display text-[13px] italic"
+                  className="font-display text-[13px]"
                   style={{
                     color: 'var(--text-primary)',
                     fontWeight: 400,
@@ -741,7 +741,7 @@ function Scene5() {
 
           {/* title */}
           <h3
-            className="mb-[18px] font-display italic leading-[1.15]"
+            className="mb-[18px] font-display leading-[1.15]"
             style={{
               color: 'var(--text-primary)',
               fontWeight: 300,
@@ -760,7 +760,7 @@ function Scene5() {
 
           {/* body */}
           <p
-            className="border-b pb-[22px] font-display italic text-[15px] leading-[1.6]"
+            className="border-b pb-[22px] font-display text-[15px] leading-[1.6]"
             style={{
               color: 'var(--text-body)',
               opacity: 0.78,

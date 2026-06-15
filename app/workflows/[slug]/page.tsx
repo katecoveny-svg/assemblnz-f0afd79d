@@ -64,7 +64,7 @@ export default async function WorkflowDetailPage({
           <span className="inline-flex rounded-full border border-[rgba(35,33,31,0.12)] bg-white/62 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--workflow-accent)]">
             {kete.name} · {kete.englishName} · {kete.meaning}
           </span>
-          <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.4rem,7vw,7rem)] font-light italic leading-none">
+          <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.4rem,7vw,7rem)] font-light leading-none">
             {workflow.title}
           </h1>
           <p className="mt-6 max-w-3xl text-[17px] leading-[1.65] text-[color:var(--text-body)] md:text-xl">
@@ -90,7 +90,7 @@ export default async function WorkflowDetailPage({
                 <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">
                   Related workflows
                 </p>
-                <h2 className="mt-3 font-display text-5xl font-light italic leading-none">
+                <h2 className="mt-3 font-display text-5xl font-light leading-none">
                   More from {kete.name}, the {kete.englishName}.
                 </h2>
               </div>

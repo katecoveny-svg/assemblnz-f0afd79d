@@ -60,7 +60,7 @@ export default async function PublicAssemblyPreviewPage({
           <div className="mt-14 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <SectionReveal delay={0.15}>
               <section className="border border-[rgba(157,140,125,0.22)] bg-[rgba(255,255,255,0.45)] p-6">
-                <h2 className="font-display text-2xl font-light italic">Statutory basis</h2>
+                <h2 className="font-display text-2xl font-light">Statutory basis</h2>
                 <ul className="mt-4 space-y-3 text-sm leading-7 text-[color:var(--text-secondary)]">
                   {preview.statutoryBasis.map((item) => (
                     <li key={item} className="border-t border-[rgba(157,140,125,0.16)] pt-3">
@@ -73,7 +73,7 @@ export default async function PublicAssemblyPreviewPage({
 
             <SectionReveal delay={0.2}>
               <section className="border border-[rgba(157,140,125,0.22)] bg-[rgba(255,255,255,0.45)] p-6">
-                <h2 className="font-display text-2xl font-light italic">Sample evidence pack</h2>
+                <h2 className="font-display text-2xl font-light">Sample evidence pack</h2>
                 <pre className="mt-4 max-h-[360px] overflow-auto bg-[rgba(61,66,80,0.05)] p-4 font-mono text-xs leading-6 text-[color:var(--text-primary)]">
                   {JSON.stringify(preview.sampleEvidencePack, null, 2)}
                 </pre>
@@ -84,7 +84,7 @@ export default async function PublicAssemblyPreviewPage({
           <div className="mt-8 grid gap-8 lg:grid-cols-2">
             <SectionReveal delay={0.25}>
               <section className="border border-[rgba(157,140,125,0.22)] bg-[rgba(255,255,255,0.45)] p-6">
-                <h2 className="font-display text-2xl font-light italic">Tools declared</h2>
+                <h2 className="font-display text-2xl font-light">Tools declared</h2>
                 <ul className="mt-4 space-y-3 font-mono text-xs uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
                   {preview.tools.map((tool) => (
                     <li key={tool}>{tool}</li>
@@ -94,11 +94,11 @@ export default async function PublicAssemblyPreviewPage({
             </SectionReveal>
             <SectionReveal delay={0.3}>
               <section className="border border-[rgba(157,140,125,0.22)] bg-[rgba(255,255,255,0.45)] p-6">
-                <h2 className="font-display text-2xl font-light italic">Procurement questions</h2>
+                <h2 className="font-display text-2xl font-light">Procurement questions</h2>
                 <div className="mt-4 space-y-5 text-sm leading-7 text-[color:var(--text-secondary)]">
                   {preview.procurementFaq.map((item) => (
                     <div key={item.q}>
-                      <h3 className="font-semibold text-[color:var(--text-primary)]">{item.q}</h3>
+                      <h3 className="font-medium text-[color:var(--text-primary)]">{item.q}</h3>
                       <p className="mt-1">{item.a}</p>
                     </div>
                   ))}

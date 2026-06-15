@@ -50,7 +50,7 @@ export function PainfulWorkflowCapture() {
           <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
             suggestions box
           </p>
-          <h3 className="mt-4 font-display text-[clamp(2.6rem,5vw,4.8rem)] font-light italic leading-[0.92]">
+          <h3 className="mt-4 font-display text-[clamp(2.6rem,5vw,4.8rem)] font-light leading-[0.92]">
             Tell us the task you stare at.
           </h3>
           <p className="mt-5 text-sm leading-relaxed text-[color:var(--text-body)] md:text-base">

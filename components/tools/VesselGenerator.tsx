@@ -259,7 +259,7 @@ export function VesselGenerator({ initialPreset }: Props) {
               </a>
             ) : (
               <div className="flex h-full w-full items-center justify-center px-8 text-center">
-                <p className="font-display max-w-xs text-lg italic leading-snug text-[color:var(--text-secondary)]">
+                <p className="font-display max-w-xs text-lg leading-snug text-[color:var(--text-secondary)]">
                   {submitting
                     ? 'Casting the vessel — about 8 to 12 seconds.'
                     : 'Your vessel will appear here. A4 backdrop, ceramic form, brand colour cast inside.'}

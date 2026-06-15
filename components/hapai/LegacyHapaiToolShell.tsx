@@ -50,7 +50,7 @@ export function LegacyHapaiToolShell({
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">
             focused workspace
           </p>
-          <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+          <p className="mt-3 font-display text-4xl font-light leading-none text-[#FAF7F2]">
             Make the asset. Keep the record.
           </p>
           <p className="mt-5 text-sm leading-relaxed text-[#FAF7F2]/82">

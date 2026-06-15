@@ -157,7 +157,7 @@ export function StudyHelperTool() {
         <div className="grid gap-8 lg:grid-cols-[0.95fr_0.72fr] lg:items-stretch">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#2B6B57]">HAPAI · study helper</p>
-            <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.1rem,8.4vw,8.8rem)] font-normal italic leading-[0.84] text-[#103F35]">
+            <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.1rem,8.4vw,8.8rem)] font-normal leading-[0.84] text-[#103F35]">
               Turn notes into a plan.
             </h1>
             <p className="mt-7 max-w-3xl text-[clamp(1.05rem,1.8vw,1.35rem)] leading-relaxed text-[#3D4250]">
@@ -184,7 +184,7 @@ export function StudyHelperTool() {
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(217,168,90,0.24),transparent_34%),linear-gradient(135deg,rgba(250,247,242,0.10),transparent_48%)]" />
             <div className="relative">
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">how it helps</p>
-              <p className="mt-3 font-display text-4xl font-light italic leading-none text-[#FAF7F2]">
+              <p className="mt-3 font-display text-4xl font-light leading-none text-[#FAF7F2]">
                 It builds the plan. He writes the answer.
               </p>
               <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FAF7F2]/82">
@@ -333,7 +333,7 @@ export function StudyHelperTool() {
               </button>
             </div>
             {loading ? (
-              <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm italic text-[#6B5A28]">
+              <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
                 Building the plan: no invented quotes, no full essay to copy, just the next useful study move.
               </p>
             ) : null}
@@ -344,7 +344,7 @@ export function StudyHelperTool() {
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what this becomes</p>
-            <h2 className="mt-3 font-display text-4xl font-light italic leading-none">Mapped to NZ Curriculum skills.</h2>
+            <h2 className="mt-3 font-display text-4xl font-light leading-none">Mapped to NZ Curriculum skills.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
               <li><strong>Tonight:</strong> Year 9 English exam prep for Jack on <em>Falling into Rarohenga</em>.</li>
               <li><strong>Next:</strong> upload teacher rubrics, timetable photos, novel notes, and practice paragraphs.</li>
