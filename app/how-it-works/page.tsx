@@ -6,13 +6,13 @@ import { SectionReveal } from '@/components/SectionReveal';
 export const metadata: Metadata = {
   title: 'How assembl works',
   description:
-    'AI does the first draft. A person signs it off. You get a record of how it was made — the evidence pack. Here’s what that looks like.',
+    'Specialist agents draft it first. A person signs it off. You get a record of how it was made — the evidence pack. Here’s what that looks like.',
 };
 
 const STEPS = [
   {
     n: '1',
-    title: 'AI drafts it.',
+    title: 'Agents draft it.',
     body:
       'Bring a job your team does by hand — an RFI, an allergen report, a customs entry. The agent for that work writes the first draft in seconds, trained on your industry’s rules and your way of doing things.',
   },
@@ -39,8 +39,8 @@ export default function HowItWorksPage() {
             <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">How it works</p>
             <h1 className="mt-6 max-w-4xl font-display text-display-xl font-light">How assembl works.</h1>
             <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              AI does the first draft. A person signs it off. You get a record of how it was made.
-              Here’s what that looks like.
+              Specialist agents do the first draft. A person signs it off. You get a record of how it
+              was made. Here’s what that looks like.
             </p>
           </SectionReveal>
         </div>
@@ -50,7 +50,7 @@ export default function HowItWorksPage() {
         <div className="container grid gap-6 lg:grid-cols-3">
           {STEPS.map((step, index) => (
             <SectionReveal key={step.n} delay={index * 0.05}>
-              <article className="h-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/55 p-7">
+              <article className="glass-card h-full p-7">
                 <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">{step.n}</p>
                 <h2 className="mt-5 font-display text-display-md font-light">{step.title}</h2>
                 <p className="mt-5 text-body-md text-[color:var(--text-body)]">{step.body}</p>

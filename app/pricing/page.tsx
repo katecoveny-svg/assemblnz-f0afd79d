@@ -56,8 +56,8 @@ export default function PricingPage() {
                 key={tier.name}
                 className={
                   'featured' in tier && tier.featured
-                    ? 'flex min-h-[340px] flex-col rounded-[8px] border border-[color:var(--assembl-pounamu)] bg-white/70 p-8 shadow-card-hover'
-                    : 'flex min-h-[340px] flex-col rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/45 p-8'
+                    ? 'glass-card glass-card-hover flex min-h-[340px] flex-col p-8 ring-1 ring-[color:var(--assembl-pounamu)]'
+                    : 'glass-card glass-card-hover flex min-h-[340px] flex-col p-8'
                 }
               >
                 <h2 className="font-display text-display-md font-light">{tier.name}</h2>

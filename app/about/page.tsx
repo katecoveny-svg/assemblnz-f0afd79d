@@ -7,11 +7,11 @@ import { SectionReveal } from '@/components/SectionReveal';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'assembl takes the document-heavy admin off New Zealand teams. AI writes the first draft, a named person signs it off, and every piece of work comes with an evidence pack.',
+    'assembl takes the document-heavy admin off New Zealand teams. Specialist agents write the first draft, a named person signs it off, and every piece of work comes with an evidence pack.',
 };
 
 const HOW_IT_WORKS = [
-  ['AI drafts it.', 'The slow, repetitive writing, done in seconds.'],
+  ['Agents draft it.', 'The slow, repetitive writing, done in seconds.'],
   ['You decide.', 'Nothing sends or publishes until a named person approves it.'],
   [
     'You get the receipts.',
@@ -37,7 +37,7 @@ export default function AboutPage() {
                 to your whānau.
               </p>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-[#5F5A55] md:text-lg">
-                assembl takes that load off. AI writes the first draft of the admin. Someone on your
+                assembl takes that load off. Specialist agents write the first draft of the admin. Someone on your
                 team checks it and signs it off. And every piece of work comes with an evidence pack
                 — a plain record of how it was made, so you can trust it, file it, or hand it to
                 whoever asks.
