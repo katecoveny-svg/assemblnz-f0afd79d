@@ -64,8 +64,7 @@ create index if not exists escalation_policies_tenant_active_idx
   on public.escalation_policies (tenant_id, is_active);
 
 comment on table public.escalation_policies is
-  'Hybrid-services escalation rules. Evaluated by the Tā layer in-flight; ' ||
-  'firings recorded in escalation_events.';
+  'Hybrid-services escalation rules. Evaluated by the Tā layer in-flight; firings recorded in escalation_events.';
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- escalation_events
@@ -122,8 +121,7 @@ create index if not exists escalation_events_status_idx
   on public.escalation_events (tenant_id, status, severity desc, created_at desc);
 
 comment on table public.escalation_events is
-  'Append-only firings of escalation_policies. Idempotent on (policy_id, ' ||
-  'trigger_hash). Integrity is preserved via the SIGNAL hash-chain stamp.';
+  'Append-only firings of escalation_policies. Idempotent on (policy_id, trigger_hash). Integrity is preserved via the SIGNAL hash-chain stamp.';
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- updated_at trigger for escalation_policies

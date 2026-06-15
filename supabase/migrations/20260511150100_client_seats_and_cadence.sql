@@ -67,9 +67,7 @@ create index if not exists client_seats_next_run_idx
   where is_active and billing_status = 'active';
 
 comment on table public.client_seats is
-  'Operator-side roster of downstream clients (families, learners, ' ||
-  'households, SMEs). One row per billable subscription the operator ' ||
-  'runs on top of Assembl.';
+  'Operator-side roster of downstream clients (families, learners, households, SMEs). One row per billable subscription the operator runs on top of Assembl.';
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- cadence_runs
@@ -118,9 +116,7 @@ create index if not exists cadence_runs_pending_idx
   where status = 'scheduled';
 
 comment on table public.cadence_runs is
-  'Append-only log of every scheduled cadence touchpoint per client_seat. ' ||
-  'Billable-unit ledger for the operator and Subscribe-quota source for ' ||
-  'the Assembl tenant.';
+  'Append-only log of every scheduled cadence touchpoint per client_seat. Billable-unit ledger for the operator and Subscribe-quota source for the Assembl tenant.';
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Touch triggers
