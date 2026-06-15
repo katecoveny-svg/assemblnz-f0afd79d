@@ -422,7 +422,7 @@ function selectModel(agent: AgentConfig, taskType: string, hasAttachments: boole
   // Explicit model hint from caller
   if (modelHint) {
     const hint = modelHint.trim().toLowerCase();
-    if (hint.includes("opus")) return { model: "claude-opus-4-20250514", provider: "anthropic", maxTokens: 4096, tier: "opus" };
+    if (hint.includes("opus")) return { model: "claude-opus-4-8", provider: "anthropic", maxTokens: 4096, tier: "opus" };
     if (hint.includes("haiku")) return { model: "claude-haiku-4-5-20251001", provider: "anthropic", maxTokens: 4096, tier: "haiku" };
     if (hint.includes("sonnet")) return { model: "claude-sonnet-4-6", provider: "anthropic", maxTokens: 4096, tier: "sonnet" };
     if (hint.includes("gemini")) return { model: "gemini-2.5-flash", provider: "gemini", maxTokens: 4096, tier: "gemini-flash" };
@@ -433,7 +433,7 @@ function selectModel(agent: AgentConfig, taskType: string, hasAttachments: boole
 
   // Compliance, legal reasoning, calculation → Claude Opus (best accuracy)
   if (["compliance", "calculation"].includes(taskType)) {
-    return { model: "claude-opus-4-20250514", provider: "anthropic", maxTokens: 4096, tier: "opus" };
+    return { model: "claude-opus-4-8", provider: "anthropic", maxTokens: 4096, tier: "opus" };
   }
 
   // Claude-flagged agents → Sonnet (good balance of speed + quality)
@@ -629,7 +629,7 @@ function manaGate(response: string, context: { isInternalComms?: boolean; isFata
 
 function estimateCost(model: string, inputTokens: number, outputTokens: number): { usd: number; nzd: number } {
   const rates: Record<string, { input: number; output: number }> = {
-    "claude-opus-4-20250514":       { input: 15.00 / 1_000_000, output: 75.00 / 1_000_000 },
+    "claude-opus-4-8":       { input: 15.00 / 1_000_000, output: 75.00 / 1_000_000 },
     "claude-sonnet-4-6":   { input: 3.00 / 1_000_000, output: 15.00 / 1_000_000 },
     "claude-haiku-4-5-20251001":    { input: 0.80 / 1_000_000, output: 4.00 / 1_000_000 },
     "gemini-2.5-flash":             { input: 0.075 / 1_000_000, output: 0.30 / 1_000_000 },
