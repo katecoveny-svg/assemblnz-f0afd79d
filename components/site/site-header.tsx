@@ -107,7 +107,7 @@ export function SiteHeader() {
           <Link
             href="/login"
             className={cn(
-              "hidden whitespace-nowrap rounded-sm text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 2xl:inline",
+              "hidden whitespace-nowrap rounded-sm text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 lg:inline xl:text-[15px]",
               pathname === "/login"
                 ? "text-[color:var(--text-primary)] font-medium"
                 : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
