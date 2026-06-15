@@ -37,7 +37,7 @@ const FACETS: Facet[] = [
     id: 'intervention',
     number: '02',
     label: 'Intervention',
-    body: 'The agents step in. Specialist drafts grounded in NZ legislation. Your team reviews; the agents do the typing.',
+    body: 'The agents step in. Specialist drafts built on NZ legislation. Your team reviews; the agents do the typing.',
   },
   {
     id: 'guardrails',

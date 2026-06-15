@@ -41,8 +41,8 @@ export function HeroAssembl() {
             </h1>
 
             <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)] md:mt-7 md:text-lg">
-              assembl runs operational compliance work in the open: every workflow is grounded
-              in New Zealand legislation, reviewed by a named person on your team, and sealed
+              assembl runs operational compliance work in the open: every workflow is built
+              on New Zealand legislation, reviewed by a named person on your team, and sealed
               with an evidence pack you can file, forward, or footnote.
             </p>
 

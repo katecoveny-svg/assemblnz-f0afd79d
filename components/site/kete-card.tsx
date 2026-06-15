@@ -152,7 +152,7 @@ export function KeteCard({
 
             {featured && (
               <p className="mt-4 max-w-xl text-sm text-[color:var(--text-secondary)]">
-                Live now. Every agent grounded in current NZ legislation. Click through for the
+                Live now. Every agent built on current NZ legislation. Click through for the
                 full agent list and the legislation each one cites.
               </p>
             )}

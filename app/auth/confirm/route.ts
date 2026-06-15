@@ -30,6 +30,21 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
+  // Fallback: if the Supabase email template emits a default PKCE `?code=`
+  // link instead of a `token_hash`, exchange it here so same-browser sign-in
+  // still completes rather than bouncing to /login with an error.
+  const code = url.searchParams.get('code');
+  if (code) {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error) {
+      return NextResponse.redirect(new URL(next, url.origin));
+    }
+    const loginUrl = new URL('/login', url.origin);
+    loginUrl.searchParams.set('error', error.message);
+    return NextResponse.redirect(loginUrl);
+  }
+
   const loginUrl = new URL('/login', url.origin);
   loginUrl.searchParams.set('error', 'Missing or invalid confirmation parameters.');
   return NextResponse.redirect(loginUrl);

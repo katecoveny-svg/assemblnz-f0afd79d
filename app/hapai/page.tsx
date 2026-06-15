@@ -82,8 +82,7 @@ export default function HapaiPage() {
               Tools for the job in front of you.
             </h1>
             <p className="mt-7 max-w-2xl text-lg leading-relaxed text-[color:var(--text-body)] md:text-xl">
-              HAPAI comes from hāpai: to lift or support. It is assembl&apos;s
-              public library of single-purpose tools. Upload the note, paste the
+              assembl&apos;s public library of single-purpose tools. Upload the note, paste the
               rough text, record the meeting, photograph the notice, or choose
               the task. Get a draft, checklist, share card, plan, or next action
               you can review.

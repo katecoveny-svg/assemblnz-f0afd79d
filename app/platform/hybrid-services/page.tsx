@@ -151,7 +151,7 @@ const PRIMITIVES = [
   },
   {
     name: '46 specialist agents + Iho router',
-    body: 'Domain prompts, grounded recall, per-agent settings. Pick three to five agents per workflow instead of building from scratch.',
+    body: 'Domain prompts, recall from your sources, per-agent settings. Pick three to five agents per workflow instead of building from scratch.',
   },
   {
     name: 'AROHA / SIGNAL / SENTINEL',

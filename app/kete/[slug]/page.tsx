@@ -79,7 +79,11 @@ function IndustryKetePage({
   kete: ReturnType<typeof getKete>;
   detail: IndustryKeteDetail;
 }) {
-  const fleetAgents = agentsForKete(kete.slug);
+  const allAgents = agentsForKete(kete.slug);
+  // Iho + Signal are cross-cutting platform agents (phase 'infra'); keep them
+  // out of the domain grid and list them in a small footnote instead.
+  const fleetAgents = allAgents.filter((agent) => agent.phase !== 'infra');
+  const platformAgents = allAgents.filter((agent) => agent.phase === 'infra');
 
   return (
     <>
@@ -125,12 +129,6 @@ function IndustryKetePage({
                 <TeReo className="text-[color:var(--text-primary)]">{kete.name}</TeReo>{' '}
                 <span className="text-gradient-hero">— {kete.englishName}</span>
               </h1>
-
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-[color:var(--text-secondary)]">
-                Kete means basket or kit. This is the assembl specialist pack
-                for {kete.industry.toLowerCase()} work: agents, tools, live
-                knowledge, review rules, and evidence packs.
-              </p>
 
               <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
                 {detail.heroLead}. {detail.heroBody}
@@ -287,7 +285,7 @@ function IndustryKetePage({
               <SectionReveal delay={0.1}>
                 <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
                   <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                    Grounded in
+                    Built on
                   </p>
                   <ul className="mt-3 space-y-2 text-sm text-[color:var(--text-body)]">
                     {detail.legislation.map((law) => (
@@ -346,6 +344,9 @@ function IndustryKetePage({
               <p className="mt-5 text-body-md text-[color:var(--text-body)]">
                 Pick the task you need: prepare a draft, check the evidence, review the rules, or package the record. The internal agent names stay visible, but the work comes first.
               </p>
+              <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+                Every assistant drafts for a named reviewer, with an evidence-pack trail.
+              </p>
             </SectionReveal>
           </div>
 
@@ -390,6 +391,17 @@ function IndustryKetePage({
               </SectionReveal>
             ))}
           </div>
+          {platformAgents.length > 0 ? (
+            <p className="mx-auto mt-8 max-w-7xl font-mono text-[11px] leading-relaxed text-[color:var(--text-secondary)]">
+              Platform agents, available across all kete:{' '}
+              {platformAgents.map((agent, i) => (
+                <span key={agent.slug}>
+                  {i > 0 ? ' · ' : ''}
+                  <span className="text-[color:var(--text-primary)]">{agent.name}</span> ({agent.role.toLowerCase()})
+                </span>
+              ))}
+            </p>
+          ) : null}
         </div>
       </section>
 
@@ -641,7 +653,11 @@ function ToroPage({
   kete: ReturnType<typeof getKete>;
   detail: WhanauKeteDetail;
 }) {
-  const fleetAgents = agentsForKete(kete.slug);
+  const allAgents = agentsForKete(kete.slug);
+  // Iho + Signal are cross-cutting platform agents (phase 'infra'); keep them
+  // out of the domain grid and list them in a small footnote instead.
+  const fleetAgents = allAgents.filter((agent) => agent.phase !== 'infra');
+  const platformAgents = allAgents.filter((agent) => agent.phase === 'infra');
   const liveFleetAgents = fleetAgents.filter((agent) => agent.status === 'live');
 
   return (
@@ -675,7 +691,7 @@ function ToroPage({
                 aria-hidden
               />
               <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                Family organiser · Tōro means to reach out or explore
+                Family pack · Tōro means to reach out or explore
               </span>
             </div>
 
@@ -753,7 +769,7 @@ function ToroPage({
                   What this app does
                 </span>
                 <h2 className="mt-3 font-display text-display-md">
-                  How <TeReo>Tōro</TeReo>, the Family organiser, helps the household stay ahead.
+                  How <TeReo>Tōro</TeReo>, the Family pack, helps the household stay ahead.
                 </h2>
               </SectionReveal>
               <div className="mt-8 space-y-5 text-body-md text-[color:var(--text-body)] md:text-body-lg">
@@ -768,7 +784,7 @@ function ToroPage({
               <SectionReveal delay={0.1}>
                 <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
                   <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-                    Grounded in
+                    Built on
                   </p>
                   <ul className="mt-3 space-y-2 text-sm text-[color:var(--text-body)]">
                     {detail.legislation.map((law) => (
@@ -934,6 +950,17 @@ function ToroPage({
               </SectionReveal>
             ))}
           </div>
+          {platformAgents.length > 0 ? (
+            <p className="mx-auto mt-8 max-w-5xl text-center font-mono text-[11px] leading-relaxed text-[color:var(--text-secondary)]">
+              Platform agents, available across all kete:{' '}
+              {platformAgents.map((agent, i) => (
+                <span key={agent.slug}>
+                  {i > 0 ? ' · ' : ''}
+                  <span className="text-[color:var(--text-primary)]">{agent.name}</span> ({agent.role.toLowerCase()})
+                </span>
+              ))}
+            </p>
+          ) : null}
         </div>
       </section>
 
@@ -979,7 +1006,7 @@ function ToroPage({
             style={{ ['--kete-accent' as string]: kete.accent }}
           >
             <h2 className="font-display text-display-md">
-              <TeReo>Tōro</TeReo>, the Family organiser, is available now.
+              <TeReo>Tōro</TeReo>, the Family pack, is available now.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[color:var(--text-body)]">
               Self-serve via Stripe. NZ$29/month, no setup fee. Cancel any time.

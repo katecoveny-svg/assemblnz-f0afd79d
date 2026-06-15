@@ -29,7 +29,7 @@ const KETE_ROWS = [
 const ACCENT = Object.fromEntries(KETES.map((k) => [k.slug, k.accent])) as Record<string, string>;
 
 const HOW_STEPS = [
-  ['i', 'Agents draft it', 'The slow, repetitive writing — done in seconds, grounded in your industry’s rules.'],
+  ['i', 'Agents draft it', 'The slow, repetitive writing — done in seconds, built on your industry’s rules.'],
   ['ii', 'You sign off', 'Nothing sends, files, or lodges until a named person on your team approves it.'],
   ['iii', 'The receipt', 'Every output carries an evidence pack: the sources used, the assumptions made, and who approved it.'],
 ] as const;

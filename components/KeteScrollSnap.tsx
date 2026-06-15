@@ -24,12 +24,12 @@ const KETE_TAGLINE: Record<string, { lead: string; body: string }> = {
   manaaki: {
     lead: 'From liquor licensing to food safety.',
     body:
-      'Hospitality compliance grounded in Food Act 2014, Sale and Supply of Alcohol Act 2012, and health-and-safety obligations. Compliance that does not slow your kitchen down.',
+      'Hospitality compliance built on Food Act 2014, Sale and Supply of Alcohol Act 2012, and health-and-safety obligations. Compliance that does not slow your kitchen down.',
   },
   arataki: {
     lead: 'Workshop, fleet, dealer governance.',
     body:
-      'Automotive compliance grounded in the Land Transport Act 1998, HSWA 2015, Consumer Guarantees Act 1993, CCCFA, and Privacy Act 2020 (IPP 3A). WoF/CoF, driver endorsements, warranty claims, customer data — every output cites the Act and section it stands on.',
+      'Automotive compliance built on the Land Transport Act 1998, HSWA 2015, Consumer Guarantees Act 1993, CCCFA, and Privacy Act 2020 (IPP 3A). WoF/CoF, driver endorsements, warranty claims, customer data — every output cites the Act and section it stands on.',
   },
   auaha: {
     lead: 'Brand work that is compliant by default.',
@@ -39,12 +39,12 @@ const KETE_TAGLINE: Record<string, { lead: string; body: string }> = {
   hoko: {
     lead: 'Consumer protection on the floor.',
     body:
-      'Retail compliance grounded in Consumer Guarantees Act 1993, Fair Trading Act 1986, product safety obligations, and customer privacy.',
+      'Retail compliance built on Consumer Guarantees Act 1993, Fair Trading Act 1986, product safety obligations, and customer privacy.',
   },
   ako: {
     lead: 'Early Childhood Education — ratios, kaiako, ERO.',
     body:
-      'ECE compliance grounded in the Education and Training Act 2020, ECE Services Regulations 2008, Te Whāriki, ERO review cycles, and Privacy Act 2020 (IPP 3A) on tamariki data.',
+      'ECE compliance built on the Education and Training Act 2020, ECE Services Regulations 2008, Te Whāriki, ERO review cycles, and Privacy Act 2020 (IPP 3A) on tamariki data.',
   },
   toro: {
     lead: 'Your family’s quiet assistant.',

@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     '4. Mahara: identify what should be remembered or watched.',
     '5. Mana: state the named human review gate before sending, filing, lodging, or relying on the output.',
     '',
-    'Keep the answer demo-friendly: expert, concise, grounded in Aotearoa New Zealand, and clear about the evidence pack.',
+    'Keep the answer demo-friendly: expert, concise, specific to Aotearoa New Zealand, and clear about the evidence pack.',
     '',
     'Visitor message:',
     message,
