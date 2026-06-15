@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { LoginForm } from './login-form';
 
 export const metadata: Metadata = {
@@ -25,7 +26,7 @@ export default async function LoginPage({
   );
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center bg-[color:var(--assembl-paper)] px-6 py-16">
+    <main className="relative flex min-h-[calc(100vh-72px)] items-center justify-center bg-[color:var(--assembl-paper)] px-6 py-12">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
@@ -35,40 +36,54 @@ export default async function LoginPage({
         }}
       />
       <div className="w-full max-w-md">
-        <div className="mb-10 text-center">
-          <p className="font-mono text-[11px] lowercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-            assembl · admin
-          </p>
-          <h1
-            className="mt-4 font-display leading-[0.95] tracking-tight text-[color:var(--text-primary)]"
-            style={{ fontWeight: 300, fontSize: 'clamp(2rem, 5vw, 3rem)' }}
-          >
-            Sign in.
-          </h1>
-          <p className="mt-3 text-sm text-[color:var(--text-body)]">
-            We send a magic link to your inbox. No passwords.
-          </p>
-        </div>
-
-        {!envConfigured ? (
-          <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6">
-            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
-              Configuration missing
+        <div className="glass-card p-8 sm:p-10">
+          <div className="text-center">
+            <p className="font-mono text-[11px] lowercase tracking-[0.32em] text-[color:var(--text-secondary)]">
+              assembl · admin
             </p>
-            <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
-              <code className="font-mono">NEXT_PUBLIC_SUPABASE_URL</code> and{' '}
-              <code className="font-mono">NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code> are not set. Set
-              them in the Vercel project env (and <code className="font-mono">.env.local</code>{' '}
-              for local dev) — see <code className="font-mono">.env.local.example</code>.
+            <h1
+              className="mt-4 font-display leading-[0.95] tracking-tight text-[color:var(--text-primary)]"
+              style={{ fontWeight: 300, fontSize: 'clamp(2.25rem, 5vw, 3rem)' }}
+            >
+              Sign in.
+            </h1>
+            <p className="mx-auto mt-3 max-w-xs text-base leading-relaxed text-[color:var(--text-body)]">
+              We send a magic link to your inbox. No passwords.
             </p>
           </div>
-        ) : (
-          <LoginForm
-            redirectTo={redirectTo}
-            sent={sp.sent === '1'}
-            errorMsg={typeof sp.error === 'string' ? sp.error : null}
-          />
-        )}
+
+          <div className="mt-8">
+            {!envConfigured ? (
+              <div className="rounded-[14px] border border-[rgba(172,88,56,0.30)] bg-[rgba(172,88,56,0.06)] p-5">
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-clay)]">
+                  Configuration missing
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
+                  <code className="font-mono">NEXT_PUBLIC_SUPABASE_URL</code> and{' '}
+                  <code className="font-mono">NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code> are not set. Set
+                  them in the Vercel project env (and <code className="font-mono">.env.local</code>{' '}
+                  for local dev) — see <code className="font-mono">.env.local.example</code>.
+                </p>
+              </div>
+            ) : (
+              <LoginForm
+                redirectTo={redirectTo}
+                sent={sp.sent === '1'}
+                errorMsg={typeof sp.error === 'string' ? sp.error : null}
+              />
+            )}
+          </div>
+        </div>
+
+        <p className="mt-6 text-center text-sm text-[color:var(--text-secondary)]">
+          New here?{' '}
+          <Link
+            href="/pilot-sprint"
+            className="font-medium text-[color:var(--assembl-pounamu)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+          >
+            Book a pilot to get an account →
+          </Link>
+        </p>
       </div>
     </main>
   );
