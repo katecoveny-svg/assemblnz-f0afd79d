@@ -24,17 +24,23 @@ export type MatchBand = 'high' | 'medium' | 'low';
  * `cross` bucket for cross-cutting sources). The canonical names themselves
  * pass through unchanged. Used on the read side and by the one-shot backfill.
  */
-const CANONICAL_KETE = new Set<string>([
+/** The canonical kete tags: the 9 ketes plus `cross` for cross-cutting. */
+export const CANONICAL_KETE_PACKS = [
   'manaaki', 'waihanga', 'auaha', 'arataki', 'pikau', 'ako', 'matauranga', 'hoko', 'toro', 'cross',
-]);
+] as const;
 
+const CANONICAL_KETE = new Set<string>(CANONICAL_KETE_PACKS);
+
+// Legacy / non-canonical pack names → canonical. The named sources behind
+// these were general or cross-cutting (news, government, security), so they
+// resolve to `cross` rather than a specialist kete.
 const KETE_PACK_ALIASES: Record<string, string> = {
-  pakihi: 'hoko',      // business → commerce
-  muse: 'auaha',       // creative
-  hangarau: 'cross',   // technology → cross-cutting
-  kahu: 'cross',
-  flux: 'cross',
-  whenua: 'cross',
+  pakihi: 'cross',     // old general-business codename
+  hangarau: 'cross',   // old technology codename
+  muse: 'cross',       // general media
+  kahu: 'cross',       // general / regional news
+  flux: 'cross',       // general / finance news
+  whenua: 'cross',     // land / hazard, cross-cutting
 };
 
 /** Map a single pack name to its canonical equivalent. */
@@ -53,6 +59,16 @@ export function normalizeKetePacks(packs: readonly string[]): string[] {
     if (CANONICAL_KETE.has(mapped) && !out.includes(mapped)) out.push(mapped);
   }
   return out;
+}
+
+/**
+ * Validate raw pack tags against the canonical allow-list. Ingest paths should
+ * reject (HTTP 400) any payload whose tags aren't canonical, echoing the
+ * allow-list so the source-side tagger can correct itself.
+ */
+export function validateKetePacks(packs: readonly string[]): { ok: boolean; invalid: string[] } {
+  const invalid = packs.filter((p) => !CANONICAL_KETE.has(p));
+  return { ok: invalid.length === 0, invalid };
 }
 
 /**
