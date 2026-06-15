@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assembl — Direction C · Whenua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Plus+Jakarta+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bone:#EEE6D6; --paper:#F3ECDD; --ink:#23190F; --muted:#7a6a55;
+    --clay:#B5533A; --pounamu:#3A7D6E; --line:rgba(35,25,15,0.12);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bone);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+  /* paper / linen grain over everything */
+  body::after{content:"";position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0.07;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>")}
+  .label{font-family:"JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:0.22em;font-size:11px;color:var(--muted)}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 30px}
+
+  header.bar{display:flex;align-items:center;justify-content:space-between;padding:26px 0}
+  .word{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:26px;letter-spacing:-0.02em}
+  nav.top{display:flex;gap:30px}
+  nav.top a{color:var(--muted);text-decoration:none;font-size:14px}
+
+  .hero{position:relative;display:grid;grid-template-columns:0.92fr 1.08fr;align-items:center;gap:20px;min-height:80vh}
+  .copy{position:relative;z-index:2;max-width:520px}
+  .copy h1{font-family:"Fraunces",Georgia,serif;font-weight:300;font-size:clamp(3rem,6.6vw,6rem);line-height:1.0;letter-spacing:-0.02em;margin:16px 0 0}
+  .copy h1 em{font-style:italic}
+  .copy p.sub{margin:24px 0 0;font-size:1.12rem;line-height:1.62;color:#4f4334;max-width:420px}
+  .cta{display:inline-flex;align-items:center;gap:10px;margin-top:32px;height:52px;padding:0 26px;border-radius:14px;
+    background:var(--clay);color:#fbf4e8;text-decoration:none;font-size:15px;box-shadow:0 14px 34px rgba(150,60,40,0.22)}
+  .cta .dot{width:7px;height:7px;border-radius:50%;background:#fbf4e8;opacity:.85}
+  .ghost{margin-left:14px;color:var(--muted);text-decoration:none;font-size:15px;border-bottom:1px solid var(--line);padding-bottom:2px}
+  .stagewrap{position:relative;min-height:62vh}
+  #scene{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+
+  .chip{position:absolute;z-index:3;transform:translate(-50%,-50%);background:rgba(243,236,221,0.86);
+    border:1px solid var(--line);border-radius:14px;padding:9px 14px;display:flex;gap:9px;align-items:center;
+    font-size:12.5px;color:#3a2e1f;white-space:nowrap;box-shadow:0 10px 28px rgba(60,40,20,0.10);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+  .chip .sw{width:9px;height:9px;border-radius:3px}
+  .chip b{font-weight:500}
+  .chip small{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.04em;color:var(--muted)}
+  .chip:hover{transform:translate(-50%,-50%) translateY(-7px);box-shadow:0 20px 48px rgba(60,40,20,0.18)}
+
+  .seam{border-top:1px solid var(--line);margin-top:30px}
+  .kete-head{display:flex;align-items:baseline;justify-content:space-between;margin:60px 0 22px}
+  .kete-head h2{font-family:"Fraunces",Georgia,serif;font-weight:300;font-size:2rem;margin:0}
+  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px 20px 24px;min-height:196px;
+    display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 10px 26px rgba(60,40,20,0.05);transition:transform .3s, box-shadow .3s}
+  .card:hover{transform:translateY(-4px);box-shadow:0 22px 50px rgba(60,40,20,0.12)}
+  .card .acc{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+  .card .acc span{width:10px;height:10px;border-radius:3px;background:#fff;opacity:.85}
+  .card h3{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:1.28rem;margin:16px 0 4px}
+  .card .reo{font-family:"JetBrains Mono",monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+  .card p{margin:13px 0 0;font-size:13px;line-height:1.5;color:#5e5240}
+  footer{margin:84px 0 50px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:22px}
+
+  @media(max-width:900px){
+    .hero{grid-template-columns:1fr;min-height:auto}
+    .stagewrap{min-height:0}#scene{position:relative;height:52vh;order:-1}
+    .row{grid-template-columns:repeat(2,1fr)} nav.top{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <div class="word">assembl</div>
+    <nav class="top"><a>How it works</a><a>Kete packs</a><a>Free tools</a><a>Pricing</a></nav>
+    <span class="label">Direction C · Whenua</span>
+  </header>
+
+  <section class="hero">
+    <div class="copy">
+      <span class="label">Built in Aotearoa</span>
+      <h1>Mahi that earns <em>its proof.</em></h1>
+      <p class="sub">Specialist agents draft the admin-heavy work. A named person signs it off. Every output is sealed in an evidence pack — the receipt.</p>
+      <div>
+        <a class="cta" href="#"><span class="dot"></span> Try a free tool</a>
+        <a class="ghost" href="#">Book a Pilot Sprint</a>
+      </div>
+    </div>
+    <div class="stagewrap"><canvas id="scene"></canvas></div>
+  </section>
+
+  <div class="seam"></div>
+  <div class="kete-head"><h2>Pick the pack for your work.</h2><span class="label">Nine kete</span></div>
+  <div class="row" id="keterow"></div>
+
+  <footer><span>assembl · Aotearoa New Zealand</span><span class="label">Mahi that earns its proof</span></footer>
+</div>
+<div id="chips"></div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const KETE=[
+  {en:'Construction',reo:'Waihanga',acc:'#5E7E62',drafts:'RFIs, variation packs, site logs'},
+  {en:'Hospitality',reo:'Manaaki',acc:'#B5533A',drafts:'Allergen reports, guest replies'},
+  {en:'Freight & Customs',reo:'Pīkau',acc:'#3A7D6E',drafts:'Customs entries, freight exceptions'},
+  {en:'Automotive & Fleet',reo:'Arataki',acc:'#9A6A3C',drafts:'WoF readiness, CGA disclosures'},
+  {en:'Creative',reo:'Auaha',acc:'#6E6796',drafts:'Caption batches, briefs, taglines'},
+];
+const row=document.getElementById('keterow');
+KETE.forEach(k=>{const c=document.createElement('div');c.className='card';
+  c.innerHTML=`<div class="acc" style="background:${k.acc}"><span></span></div><div><h3>${k.en}</h3><div class="reo">${k.reo}</div><p>${k.drafts}</p></div>`;row.appendChild(c);});
+
+const canvas=document.getElementById('scene');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.08;
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(40,1,0.1,100); camera.position.set(0,0.55,5.6);
+
+const pmrem=new THREE.PMREMGenerator(renderer); scene.environment=pmrem.fromScene(new RoomEnvironment(),0.05).texture;
+
+const group=new THREE.Group(); scene.add(group);
+
+// plinth (matte clay) + faked contact shadow
+const plinth=new THREE.Mesh(new THREE.CylinderGeometry(1.05,1.15,0.28,64),
+  new THREE.MeshStandardMaterial({color:0xcdb79b,roughness:0.95,metalness:0.0}));
+plinth.position.y=-1.5; group.add(plinth);
+function shadowTex(){const s=128,cv=document.createElement('canvas');cv.width=cv.height=s;const g=cv.getContext('2d');
+  const grd=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);grd.addColorStop(0,'rgba(50,32,16,0.5)');grd.addColorStop(0.55,'rgba(50,32,16,0.22)');grd.addColorStop(1,'rgba(50,32,16,0)');g.fillStyle=grd;g.fillRect(0,0,s,s);return new THREE.CanvasTexture(cv);}
+const shadow=new THREE.Mesh(new THREE.PlaneGeometry(3.2,3.2),new THREE.MeshBasicMaterial({map:shadowTex(),transparent:true,depthWrite:false}));
+shadow.rotation.x=-Math.PI/2; shadow.position.y=-1.345; group.add(shadow);
+
+// vessel resting on plinth
+const pts=[[0.0,-1.22],[0.46,-1.2],[0.58,-0.96],[0.47,-0.5],[0.40,-0.06],[0.47,0.38],[0.58,0.74],[0.55,1.02],[0.46,1.14],[0.30,1.16],[0.0,1.14]].map(p=>new THREE.Vector2(p[0],p[1]));
+const vgeo=new THREE.LatheGeometry(pts,112); vgeo.computeVertexNormals();
+const glass=new THREE.MeshPhysicalMaterial({color:0x9ccbb7,transmission:0.96,thickness:1.2,roughness:0.11,ior:1.5,clearcoat:0.8,clearcoatRoughness:0.15,metalness:0.0,attenuationColor:new THREE.Color(0x2e6f5a),attenuationDistance:2.2,envMapIntensity:0.95,transparent:true});
+const vessel=new THREE.Mesh(vgeo,glass); vessel.position.y=-0.28; vessel.scale.setScalar(0.95); group.add(vessel);
+
+function glowTex(){const s=64,cv=document.createElement('canvas');cv.width=cv.height=s;const g=cv.getContext('2d');
+  const grd=g.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);grd.addColorStop(0,'rgba(255,248,232,1)');grd.addColorStop(0.32,'rgba(210,228,190,0.85)');grd.addColorStop(1,'rgba(150,190,140,0)');g.fillStyle=grd;g.fillRect(0,0,s,s);return new THREE.CanvasTexture(cv);}
+const N=460,pos=new Float32Array(N*3);
+for(let i=0;i<N;i++){const r=Math.cbrt(Math.random())*0.82,th=Math.random()*Math.PI*2,ph=Math.acos(2*Math.random()-1);
+  pos[i*3]=r*Math.sin(ph)*Math.cos(th);pos[i*3+1]=r*Math.cos(ph)*1.6-0.28;pos[i*3+2]=r*Math.sin(ph)*Math.sin(th);}
+const ngeo=new THREE.BufferGeometry();ngeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+const nmat=new THREE.PointsMaterial({size:0.085,map:glowTex(),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,color:0xe8e0c0,opacity:0.8});
+const nodes=new THREE.Points(ngeo,nmat); nodes.position.y=-0.28; group.add(nodes);
+
+// warm lighting
+const key=new THREE.DirectionalLight(0xffe7c2,1.5); key.position.set(2.5,4,3); scene.add(key);
+const fill=new THREE.DirectionalLight(0xbfe3cf,0.5); fill.position.set(-3,1,-2); scene.add(fill);
+scene.add(new THREE.AmbientLight(0xfff1dc,0.5));
+
+const anchors=[
+  {v:new THREE.Vector3(0.95,0.7,0.5),k:KETE[2]},
+  {v:new THREE.Vector3(-1.0,0.05,0.5),k:KETE[1]},
+  {v:new THREE.Vector3(0.75,-0.55,0.6),k:KETE[3]},
+];
+const chips=document.getElementById('chips');
+anchors.forEach(a=>{const el=document.createElement('div');el.className='chip';
+  el.innerHTML=`<span class="sw" style="background:${a.k.acc}"></span><b>${a.k.en}</b><small>${a.k.reo}</small>`;chips.appendChild(el);a.el=el;});
+
+let mx=0,my=0;
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth-0.5;my=e.clientY/innerHeight-0.5;});
+function resize(){const r=canvas.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
+addEventListener('resize',resize);resize();
+const clock=new THREE.Clock();
+function tick(){const t=clock.getElapsedTime();
+  if(!reduce){vessel.rotation.y=t*0.16;nodes.rotation.y=t*0.16;
+    group.rotation.x=THREE.MathUtils.lerp(group.rotation.x,-my*0.16,0.05);
+    group.rotation.y=THREE.MathUtils.lerp(group.rotation.y,mx*0.28,0.05);
+    nmat.opacity=0.66+Math.sin(t*1.2)*0.12;}
+  group.updateMatrixWorld();
+  const r=canvas.getBoundingClientRect();
+  anchors.forEach(a=>{const p=a.v.clone().applyMatrix4(group.matrixWorld).project(camera);
+    a.el.style.left=(r.left+(p.x*0.5+0.5)*r.width)+'px';a.el.style.top=(r.top+(-p.y*0.5+0.5)*r.height)+'px';a.el.style.opacity=p.z<1?1:0;});
+  renderer.render(scene,camera);requestAnimationFrame(tick);}
+group.updateMatrixWorld();tick();
+</script>
+</body>
+</html>
