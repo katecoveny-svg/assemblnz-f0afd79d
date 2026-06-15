@@ -133,19 +133,13 @@ export function HomeLaunch() {
           </>
         )}
 
-        <div className="container relative grid min-h-[92vh] items-center gap-6 py-24 lg:grid-cols-[1.02fr_0.98fr]">
-          <motion.div
-            className="relative h-[46vh] min-h-[320px] lg:h-[78vh]"
-            initial={reduce ? false : { opacity: 0, scale: 0.92 }}
-            animate={reduce ? undefined : { opacity: 1, scale: 1 }}
-            transition={{ duration: 1.1, ease: EASE }}
-          >
-            <VesselHero />
-          </motion.div>
-
+        {/* Text leads on the left; the vessel is the accent on the right,
+            capped so it never dominates. Copy is first in the DOM, so on
+            mobile the headline sits above the vessel. */}
+        <div className="container relative grid min-h-[76vh] items-center gap-10 py-20 lg:grid-cols-[1fr_minmax(0,460px)] lg:gap-16 lg:py-24">
           <motion.div style={{ y: copyY, opacity: copyOpacity }}>
             <motion.div
-              className="max-w-xl"
+              className="max-w-2xl"
               variants={container}
               initial="hidden"
               animate="show"
@@ -156,7 +150,7 @@ export function HomeLaunch() {
               >
                 Built in Aotearoa
               </motion.p>
-              <h1 className="mt-5 font-display text-[clamp(2.9rem,6vw,5.6rem)] font-light leading-[0.98] tracking-[-0.025em]">
+              <h1 className="mt-5 font-display text-[clamp(3.5rem,7vw,6rem)] font-light leading-[0.96] tracking-[-0.025em]">
                 <RevealWords text="Mahi that earns" className="block" />
                 <RevealWords text="its proof." className="mt-1 block italic text-[color:var(--assembl-pounamu)]" />
               </h1>
@@ -176,6 +170,15 @@ export function HomeLaunch() {
                 </Link>
               </motion.div>
             </motion.div>
+          </motion.div>
+
+          <motion.div
+            className="relative h-[38vh] min-h-[300px] lg:h-[460px]"
+            initial={reduce ? false : { opacity: 0, scale: 0.92 }}
+            animate={reduce ? undefined : { opacity: 1, scale: 1 }}
+            transition={{ duration: 1.1, ease: EASE }}
+          >
+            <VesselHero />
           </motion.div>
         </div>
 
