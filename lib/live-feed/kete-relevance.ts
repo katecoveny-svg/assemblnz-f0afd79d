@@ -19,6 +19,43 @@ import {
 export type MatchBand = 'high' | 'medium' | 'low';
 
 /**
+ * Canonical kete tagging. Incoming feed/source tags historically used a few
+ * non-canonical pack names; map them to the canonical 9 (or the shared
+ * `cross` bucket for cross-cutting sources). The canonical names themselves
+ * pass through unchanged. Used on the read side and by the one-shot backfill.
+ */
+const CANONICAL_KETE = new Set<string>([
+  'manaaki', 'waihanga', 'auaha', 'arataki', 'pikau', 'ako', 'matauranga', 'hoko', 'toro', 'cross',
+]);
+
+const KETE_PACK_ALIASES: Record<string, string> = {
+  pakihi: 'hoko',      // business → commerce
+  muse: 'auaha',       // creative
+  hangarau: 'cross',   // technology → cross-cutting
+  kahu: 'cross',
+  flux: 'cross',
+  whenua: 'cross',
+};
+
+/** Map a single pack name to its canonical equivalent. */
+export function normalizeKetePack(pack: string): string {
+  return KETE_PACK_ALIASES[pack] ?? pack;
+}
+
+/**
+ * Normalise a list of pack tags to the canonical set, de-duplicated and with
+ * any unknown tokens dropped so non-canonical names can never surface.
+ */
+export function normalizeKetePacks(packs: readonly string[]): string[] {
+  const out: string[] = [];
+  for (const raw of packs) {
+    const mapped = normalizeKetePack(raw);
+    if (CANONICAL_KETE.has(mapped) && !out.includes(mapped)) out.push(mapped);
+  }
+  return out;
+}
+
+/**
  * Map a 0..100 capability score to a discrete band. Thresholds are defined
  * once in ./types and used everywhere — change them there if calibration
  * shifts.
