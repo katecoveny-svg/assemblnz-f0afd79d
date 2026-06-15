@@ -200,7 +200,7 @@ export default function HapaiPage() {
                 className="group flex min-h-[420px] flex-col overflow-hidden rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/62 shadow-[0_18px_64px_rgba(35,33,31,0.06)] transition duration-300 hover:-translate-y-1 hover:bg-white/78 hover:shadow-[0_28px_90px_rgba(35,33,31,0.10)]"
               >
                 <div className="relative aspect-[16/10] border-b border-[rgba(35,33,31,0.08)]">
-                  <HapaiToolPreview visual={tool.visual} />
+                  <HapaiToolPreview tool={tool} />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <div className="flex items-center justify-between gap-3">
