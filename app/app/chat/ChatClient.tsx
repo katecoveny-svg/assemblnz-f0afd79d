@@ -269,7 +269,11 @@ export function ChatClient({
           agentId: selection.agent.agentId,
           packId: selection.kete.slug,
           mode: 'respond',
-          modelHint: 'gemini',
+          // No model override: let iho-router's selectModel() pick the tier from
+          // the agent's configured model + task type (compliance/calculation →
+          // Opus 4.8; other Claude agents → Sonnet; simple agents → Gemini).
+          // Previously hardcoded to 'gemini', which forced every agent onto the
+          // budget model regardless of configuration.
           context: {
             previousMessages,
             workflow: activeWorkflow
