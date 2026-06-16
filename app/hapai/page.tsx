@@ -229,22 +229,26 @@ export default function HapaiPage() {
                       >
                         Open tool <ArrowRight className="h-4 w-4" aria-hidden />
                       </Link>
-                      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+                      {/* Secondary actions as icons — drop the repeated per-card
+                          "Share image / Email" labels (audit). Label kept for a11y. */}
+                      <div className="mt-4 flex items-center gap-3">
                         <Link
                           href={getHapaiToolShareImagePath(tool)}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)] transition hover:text-[color:var(--assembl-pounamu)]"
+                          aria-label={`Share image for ${tool.name}`}
+                          title="Share image"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(43,107,87,0.08)] hover:text-[color:var(--assembl-pounamu)]"
                         >
-                          <ImageIcon className="h-3.5 w-3.5" aria-hidden />
-                          Share image
+                          <ImageIcon className="h-4 w-4" aria-hidden />
                         </Link>
                         <a
                           href={getHapaiToolEmailHref(tool)}
-                          className="inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)] transition hover:text-[color:var(--assembl-pounamu)]"
+                          aria-label={`Email the ${tool.name} tool`}
+                          title="Email"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(43,107,87,0.08)] hover:text-[color:var(--assembl-pounamu)]"
                         >
-                          <Mail className="h-3.5 w-3.5" aria-hidden />
-                          Email
+                          <Mail className="h-4 w-4" aria-hidden />
                         </a>
                       </div>
                     </div>
