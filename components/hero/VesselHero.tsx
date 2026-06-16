@@ -196,7 +196,7 @@ export function VesselHero() {
         const aspect = r.width / Math.max(r.height, 1);
         camera.aspect = aspect; camera.updateProjectionMatrix();
 
-        const margin = 1.32;
+        const margin = 1.16;
         const halfFov = (FOV * Math.PI) / 360;
         const fitH = (size.y / 2) / Math.tan(halfFov);
         const fitW = (size.x / 2) / Math.tan(halfFov) / aspect;
@@ -253,6 +253,19 @@ export function VesselHero() {
 
   return (
     <div ref={wrapRef} className="absolute inset-0">
+      {/* A soft jade bloom sits behind the canvas so the slot reads as a
+          deliberate, glowing form during the moment WebGL takes to light the
+          sculpture — never an empty box or a bare wireframe. The transparent
+          canvas paints over it once ready. */}
+      <div
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
+        aria-hidden
+      >
+        <div
+          className="h-[64%] w-[64%] rounded-full blur-2xl"
+          style={{ background: "radial-gradient(circle at 42% 34%, rgba(207,230,218,0.85), rgba(155,193,177,0.5) 55%, rgba(111,154,138,0) 100%)" }}
+        />
+      </div>
       {failed ? (
         <div className="absolute inset-0 flex items-center justify-center">
           <div

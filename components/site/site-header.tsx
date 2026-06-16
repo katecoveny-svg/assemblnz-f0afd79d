@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
+import { AssemblWordmark } from "@/components/site/AssemblWordmark";
 
 const PROOF_LINE = "Mahi that earns its proof.";
 
@@ -48,10 +49,9 @@ export function SiteHeader() {
           <Link
             href="/"
             aria-label="assembl — home"
-            className="shrink-0 rounded-sm text-[31px] font-light italic leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:text-[36px]"
-            style={{ fontFamily: 'var(--font-display), "Fraunces", Georgia, serif', fontWeight: 300, fontStyle: 'italic', fontVariationSettings: '"opsz" 40, "wght" 300' }}
+            className="shrink-0 rounded-sm text-[31px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:text-[36px]"
           >
-            assembl
+            <AssemblWordmark />
           </Link>
           <span className="hidden whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
             {PROOF_LINE}
@@ -149,11 +149,10 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="assembl — home"
-              className="text-[30px] font-light italic leading-none lowercase tracking-[-0.03em] text-[color:var(--text-primary)]"
-              style={{ fontFamily: 'var(--font-display), "Fraunces", Georgia, serif', fontWeight: 300, fontStyle: 'italic', fontVariationSettings: '"opsz" 40, "wght" 300' }}
+              className="text-[30px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)]"
               onClick={() => setMobileNavOpen(false)}
             >
-              assembl
+              <AssemblWordmark />
             </Link>
             <button
               type="button"
