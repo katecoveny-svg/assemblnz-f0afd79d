@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   motion,
@@ -73,14 +74,18 @@ function RevealWords({ text, className }: { text: string; className?: string }) 
       viewport={VIEWPORT}
       aria-label={text}
     >
-      {text.split(' ').map((w, i) => (
-        <span key={i} className="inline-block overflow-hidden align-bottom" aria-hidden>
-          <motion.span variants={word} className="inline-block">
-            {w}
-            {i < text.split(' ').length - 1 ? ' ' : ''}
-          </motion.span>
-        </span>
-      ))}
+      {text.split(' ').flatMap((w, i, arr) => {
+        const span = (
+          <span key={i} className="inline-block overflow-hidden align-bottom" aria-hidden>
+            <motion.span variants={word} className="inline-block">
+              {w}
+            </motion.span>
+          </span>
+        );
+        // The inter-word space is a plain text node between the clip spans, so
+        // it is never swallowed by overflow-hidden.
+        return i < arr.length - 1 ? [span, ' '] : [span];
+      })}
     </motion.span>
   );
 }
@@ -92,6 +97,44 @@ function Eyebrow({ label, accent, className = '' }: { label: string; accent: str
       <span className="h-[2px] w-9 rounded-full" style={{ backgroundColor: accent }} aria-hidden />
       <span className="font-mono text-eyebrow uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">{label}</span>
     </motion.div>
+  );
+}
+
+// Translucent sparkles around the vessel — points of light read as live data
+// nodes. Subtle ~3s pulse; positions are deterministic so they don't reflow.
+const SPARKS = [
+  { left: '14%', top: '20%', size: 5, delay: 0 },
+  { left: '30%', top: '12%', size: 3, delay: 0.5 },
+  { left: '52%', top: '8%', size: 4, delay: 1.1 },
+  { left: '74%', top: '16%', size: 6, delay: 0.3 },
+  { left: '86%', top: '32%', size: 3, delay: 1.6 },
+  { left: '90%', top: '58%', size: 5, delay: 0.9 },
+  { left: '78%', top: '78%', size: 4, delay: 0.2 },
+  { left: '58%', top: '88%', size: 3, delay: 1.4 },
+  { left: '34%', top: '84%', size: 5, delay: 0.7 },
+  { left: '16%', top: '66%', size: 4, delay: 1.9 },
+  { left: '8%', top: '42%', size: 3, delay: 1.2 },
+  { left: '44%', top: '46%', size: 4, delay: 2.2 },
+] as const;
+
+function HeroSparkles({ reduce }: { reduce: boolean | null }) {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-10" aria-hidden>
+      {SPARKS.map((s, i) => (
+        <motion.span
+          key={i}
+          className="absolute rounded-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.9),0_0_22px_rgba(212,168,83,0.45)]"
+          style={{ left: s.left, top: s.top, width: s.size, height: s.size }}
+          initial={reduce ? { opacity: 0.4 } : { opacity: 0, scale: 0.6 }}
+          animate={reduce ? undefined : { opacity: [0, 0.95, 0], scale: [0.6, 1.25, 0.6] }}
+          transition={
+            reduce
+              ? undefined
+              : { duration: 3, delay: s.delay, repeat: Infinity, ease: 'easeInOut' }
+          }
+        />
+      ))}
+    </div>
   );
 }
 
@@ -110,10 +153,11 @@ export function HomeLaunch() {
 
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
-      {/* 1 · Hero — the stacked vessel + the line, in clean space */}
+      {/* 1 · Hero — the stacked vessel, larger and present, with live data-node
+          sparkles. Copy leads on the left in strong ink. */}
       <section
         ref={heroRef}
-        className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_28%_30%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)]"
+        className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)]"
       >
         {/* Slow ambient light blooms — the "motion graphic" backdrop */}
         {!reduce && (
@@ -133,10 +177,10 @@ export function HomeLaunch() {
           </>
         )}
 
-        {/* Text leads on the left; the vessel is the accent on the right,
-            capped so it never dominates. Copy is first in the DOM, so on
+        {/* Text leads on the left; the vessel is a dominant presence on the
+            right — roughly 40% of the row. Copy is first in the DOM, so on
             mobile the headline sits above the vessel. */}
-        <div className="container relative grid min-h-[76vh] items-center gap-10 py-20 lg:grid-cols-[1fr_minmax(0,460px)] lg:gap-16 lg:py-24">
+        <div className="container relative grid min-h-[82vh] items-center gap-8 py-16 lg:grid-cols-[1fr_minmax(0,640px)] lg:gap-14 lg:py-20">
           <motion.div style={{ y: copyY, opacity: copyOpacity }}>
             <motion.div
               className="max-w-2xl"
@@ -146,17 +190,17 @@ export function HomeLaunch() {
             >
               <motion.p
                 variants={item}
-                className="font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--text-secondary)]"
+                className="font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]"
               >
                 Built in Aotearoa
               </motion.p>
-              <h1 className="mt-5 font-display text-[clamp(3.5rem,7vw,6rem)] font-light leading-[0.96] tracking-[-0.025em]">
+              <h1 className="mt-5 font-display text-[clamp(3.5rem,7vw,6rem)] font-light leading-[0.94] tracking-[-0.025em]">
                 <RevealWords text="Mahi that earns" className="block" />
                 <RevealWords text="its proof." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
               </h1>
               <motion.p
                 variants={item}
-                className="mt-6 max-w-md text-body-lg leading-relaxed text-[color:var(--text-body)]"
+                className="mt-6 max-w-lg text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--assembl-pounamu-deep)]"
               >
                 Specialist agents draft the admin-heavy work. A named person signs it off. Every
                 output is sealed in an evidence pack — the receipt.
@@ -173,11 +217,12 @@ export function HomeLaunch() {
           </motion.div>
 
           <motion.div
-            className="relative h-[38vh] min-h-[300px] lg:h-[460px]"
+            className="relative h-[46vh] min-h-[360px] lg:h-[600px]"
             initial={reduce ? false : { opacity: 0, scale: 0.92 }}
             animate={reduce ? undefined : { opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, ease: EASE }}
           >
+            <HeroSparkles reduce={reduce} />
             <VesselHero />
           </motion.div>
         </div>
@@ -203,7 +248,7 @@ export function HomeLaunch() {
         )}
       </section>
 
-      {/* 2 · The promise */}
+      {/* 2 · The promise (cream paper) */}
       <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
         <div className="container">
           <motion.div variants={container} initial="hidden" whileInView="show" viewport={VIEWPORT}>
@@ -222,8 +267,8 @@ export function HomeLaunch() {
         </div>
       </section>
 
-      {/* 3 · Pick your area — the nine kete, glass cards, one link each */}
-      <section className="py-24 lg:py-32">
+      {/* 3 · Pick your area — the nine kete, glass cards (off-white tint) */}
+      <section className="bg-[#F4EFE6] py-24 lg:py-32">
         <div className="container">
           <motion.div
             variants={container}
@@ -232,7 +277,7 @@ export function HomeLaunch() {
             viewport={VIEWPORT}
             className="mb-12"
           >
-            <Eyebrow label="Nine kete" accent="var(--assembl-gold)" />
+            <Eyebrow label="Nine kete" accent="var(--assembl-gold-thread)" />
             <h2 className="font-display text-display-lg font-light leading-[1.02]">
               <RevealWords text="Pick the pack" className="block" />
               <RevealWords text="for your work." className="block text-[color:var(--assembl-pounamu)]" />
@@ -284,8 +329,20 @@ export function HomeLaunch() {
         </div>
       </section>
 
-      {/* 4 · How it works */}
-      <section className="border-y border-[rgba(212,168,83,0.36)] bg-[radial-gradient(120%_70%_at_50%_0%,#f6efe4,transparent_60%)] py-24 lg:py-32">
+      {/* 3.5 · Whenua band — a landscape moment + transition into the dark bar.
+          PLACEHOLDER: an original layered-ridgeline motif in Whenua tones,
+          sized to a 21:9 photographic slot.
+          TODO (Kate): swap for a licensed Aotearoa landscape via the CMS —
+          Kaipara harbour, Wairarapa hills, or a pounamu-river shot. Do not
+          commit copyrighted imagery. Search terms: "New Zealand landscape",
+          "Aotearoa", "Kaipara", "Tongariro". */}
+      <WhenuaBand />
+
+      {/* 4 · Live regulation — the one dark pounamu band + big stat */}
+      <LiveRegulationBlock />
+
+      {/* 5 · How it works (cream paper) */}
+      <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
         <div className="container">
           <motion.div
             variants={container}
@@ -294,10 +351,10 @@ export function HomeLaunch() {
             viewport={VIEWPORT}
             className="mb-10"
           >
-            <Eyebrow label="How it works" accent="var(--assembl-clay)" />
+            <Eyebrow label="How it works" accent="var(--assembl-gold-thread)" />
             <h2 className="font-display text-display-lg font-light leading-[1.02]">
               <RevealWords text="Draft. Sign off." className="block" />
-              <RevealWords text="Sealed receipt." className="block text-[color:var(--assembl-clay)]" />
+              <RevealWords text="Sealed receipt." className="block text-assembl-clay" />
             </h2>
           </motion.div>
           <motion.div
@@ -324,11 +381,11 @@ export function HomeLaunch() {
         </div>
       </section>
 
-      {/* 4.5 · Live regulation — the proof number, customer-readable */}
-      <LiveRegulationBlock />
+      {/* 6 · Built by — founder credibility marker */}
+      <FounderBand />
 
-      {/* 5 · Pricing teaser */}
-      <section className="py-24 lg:py-32">
+      {/* 7 · Pricing teaser (off-white tint) */}
+      <section className="bg-[#F4EFE6] py-24 lg:py-32">
         <div className="container">
           <motion.div
             variants={container}
@@ -356,5 +413,123 @@ export function HomeLaunch() {
         </div>
       </section>
     </main>
+  );
+}
+
+/**
+ * Whenua band — placeholder landscape moment.
+ *
+ * An original, layered ridgeline drawn in Whenua tones (cream sky → pounamu
+ * hills → a hairline gold horizon), sized to a 21:9 photographic slot. This is
+ * intentionally not a photo: see the TODO above to swap in a licensed Aotearoa
+ * landscape via the CMS. Nothing copyrighted is committed.
+ */
+function WhenuaBand() {
+  return (
+    <section aria-hidden data-todo="swap-for-licensed-nz-landscape" className="relative">
+      <div className="relative h-[34vw] max-h-[440px] min-h-[220px] w-full overflow-hidden">
+        <svg
+          className="absolute inset-0 h-full w-full"
+          viewBox="0 0 1440 480"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <linearGradient id="whenua-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#F7F0E3" />
+              <stop offset="1" stopColor="#ECE3D2" />
+            </linearGradient>
+            <linearGradient id="whenua-far" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#9DB3A6" />
+              <stop offset="1" stopColor="#86A294" />
+            </linearGradient>
+            <linearGradient id="whenua-mid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#4F8472" />
+              <stop offset="1" stopColor="#3C6F5E" />
+            </linearGradient>
+            <linearGradient id="whenua-near" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="#28604F" />
+              <stop offset="1" stopColor="#1F4F40" />
+            </linearGradient>
+          </defs>
+          <rect width="1440" height="480" fill="url(#whenua-sky)" />
+          {/* far ridge */}
+          <path
+            d="M0,300 C220,250 360,288 560,262 C760,236 900,290 1100,260 C1260,236 1360,272 1440,256 L1440,480 L0,480 Z"
+            fill="url(#whenua-far)"
+            opacity="0.75"
+          />
+          {/* hairline gold horizon thread */}
+          <path
+            d="M0,300 C220,250 360,288 560,262 C760,236 900,290 1100,260 C1260,236 1360,272 1440,256"
+            fill="none"
+            stroke="#D4A853"
+            strokeOpacity="0.55"
+            strokeWidth="1.5"
+          />
+          {/* mid ridge */}
+          <path
+            d="M0,360 C200,322 380,360 600,338 C820,316 980,366 1180,340 C1320,322 1400,352 1440,344 L1440,480 L0,480 Z"
+            fill="url(#whenua-mid)"
+            opacity="0.92"
+          />
+          {/* near ridge */}
+          <path
+            d="M0,420 C240,392 420,420 660,406 C880,393 1060,424 1260,408 C1360,400 1410,416 1440,412 L1440,480 L0,480 Z"
+            fill="url(#whenua-near)"
+          />
+        </svg>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Founder band — "Built by Kate Hudson, Aotearoa". A small credibility marker
+ * with a real founder portrait already in the repo.
+ */
+function FounderBand() {
+  return (
+    <section className="border-b border-[rgba(35,33,31,0.08)] py-20 lg:py-24">
+      <div className="container">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={VIEWPORT}
+          className={`mx-auto flex max-w-3xl flex-col items-center gap-7 p-8 text-center sm:flex-row sm:gap-9 sm:p-10 sm:text-left ${GLASS}`}
+        >
+          <motion.div variants={item} className="shrink-0">
+            <div className="relative h-28 w-28 overflow-hidden rounded-full border border-white/70 shadow-[0_14px_40px_rgba(40,30,18,0.16)] sm:h-32 sm:w-32">
+              <Image
+                src="/img/about/kate-hudson-portrait-blue-shirt.webp"
+                alt="Kate Hudson, founder of assembl"
+                fill
+                sizes="128px"
+                className="object-cover"
+              />
+            </div>
+          </motion.div>
+          <motion.div variants={item}>
+            <p className="font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
+              Built in Aotearoa
+            </p>
+            <h2 className="mt-3 font-display text-display-md font-light leading-[1.04]">
+              Built by Kate Hudson.
+            </h2>
+            <p className="mt-3 max-w-md text-body-md text-[color:var(--text-body)]">
+              assembl is made in Aotearoa, for the work New Zealand teams actually do — with NZ rules,
+              NZ sources, and a human signing off every output.
+            </p>
+            <Link
+              href="/about"
+              className="mt-5 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5"
+            >
+              Read the story <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
   );
 }
