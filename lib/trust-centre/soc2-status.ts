@@ -38,30 +38,32 @@ export interface Soc2Status {
 }
 
 /**
- * Current honest position (16 June 2026): pre-attestation. No auditor formally
- * engaged yet; no firm attestation dates committed. The page therefore leads
- * with what is true and verifiable today — NZ data residency, the Privacy Act
- * 2020 / IPP 3A posture, and the per-output evidence pack — and is candid that
- * the formal SOC 2 audit is on the roadmap, not complete.
+ * Current honest position (17 June 2026, confirmed by Kate): SOC 2 is on the
+ * roadmap, not underway. We are a focused NZ startup with no auditor engaged
+ * and no committed audit dates — and we will not pretend otherwise. The page
+ * therefore LEADS with what is true and verifiable today — the Privacy Act 2020
+ * / IPP 3A posture, Sydney (ap-southeast-2) data residency, Te Tiriti-shaped
+ * prompt design, and the per-output evidence pack — and treats SOC 2 as a
+ * smaller, honest "on the roadmap" section.
  *
- * Kate: if a real auditor + dates exist, update the flags below and the page
- * upgrades its language automatically. See the PR description for the three
- * posture options and pick the one that matches reality before merge.
+ * Kate: when a real customer deal blocks on SOC 2, update the flags below and
+ * the page upgrades its language automatically. The PR description carries the
+ * "how to actually get SOC 2 when ready" path.
  */
 export const soc2Status: Soc2Status = {
-  // No auditor formally engaged yet — keep false until a contract is signed.
+  // No auditor engaged. No committed dates. Roadmap posture by design.
   auditorSelected: false,
   auditorName: "",
   engagedMonth: "",
-  // Targets only — the planning sequence from the gap-fill brief, surfaced as
-  // intentions, NOT as attestation dates. The page labels these "target".
-  targetType1Date: "2026-09-30",
-  targetType2Date: "2027-03-31",
+  targetType1Date: null,
+  targetType2Date: null,
   type1Attested: false,
   type1AttestedDate: null,
   type2Attested: false,
   type2AttestedDate: null,
-  criteriaScope: ["Security"],
+  // Our practice maps to all four relevant Trust Services Criteria, even though
+  // the formal audit has not started.
+  criteriaScope: ["Security", "Availability", "Confidentiality", "Privacy"],
   securityContact: "security@assembl.co.nz",
 };
 
@@ -75,7 +77,11 @@ export function deriveSoc2Posture(status: Soc2Status = soc2Status): Soc2Posture 
   if (status.type2Attested) return "type2";
   if (status.type1Attested) return "type1";
   if (status.auditorSelected && status.targetType1Date) return "audit-planned";
-  if (status.targetType1Date || status.criteriaScope.length > 0) return "controls-aligned";
+  // Only claim "controls-aligned, audit in planning" once there is a real
+  // target date on the board. Mapping controls to the TSC on paper is not the
+  // same as having an audit in motion — without a date, the honest posture is
+  // "on the roadmap".
+  if (status.targetType1Date) return "controls-aligned";
   return "roadmap";
 }
 
