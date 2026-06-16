@@ -7,9 +7,12 @@ import { warmTransfer } from '@/lib/voice/tools/warm_transfer';
 import { appendToolCall, upsertSession } from '@/lib/voice/clients/supabase';
 import { checkWebhookSecret, unauthorized } from '@/lib/voice/api-auth';
 
+import { isVoiceAgentEnabled, voiceDisabledResponse } from '@/lib/voice/flags';
+
 export const runtime = 'nodejs';
 
 export async function POST(req: Request) {
+  if (!isVoiceAgentEnabled()) return voiceDisabledResponse();
   if (!checkWebhookSecret(req).ok) return unauthorized();
 
   let callSid: string | undefined;

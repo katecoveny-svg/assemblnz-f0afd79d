@@ -21,7 +21,7 @@ describe('integration — happy path: consent → booking → SMS → evidence p
     // Inbound: session opens.
     await upsertSession({
       call_sid: CALL,
-      agent_id: 'aroha.manaaki@demo',
+      agent_id: 'aria.manaaki@demo',
       customer_id: 'whetu',
       caller_number: '+6421234999',
       status: 'in_progress',

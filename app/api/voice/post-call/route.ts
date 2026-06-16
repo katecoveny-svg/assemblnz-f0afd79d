@@ -19,6 +19,8 @@ import { finalizeReceipt } from '@/lib/voice/receipts/mana-receipt';
 import { storeReceiptArtifact } from '@/lib/voice/receipts/receipt-pdf';
 import { CUSTOMER_ID } from '@/lib/voice/config';
 
+import { isVoiceAgentEnabled, voiceDisabledResponse } from '@/lib/voice/flags';
+
 export const runtime = 'nodejs';
 
 interface ElevenLabsPostCall {
@@ -50,6 +52,7 @@ function resolveCallSid(body: ElevenLabsPostCall): string | null {
 }
 
 export async function POST(req: Request) {
+  if (!isVoiceAgentEnabled()) return voiceDisabledResponse();
   if (!checkWebhookSecret(req).ok) return unauthorized();
 
   const body = (await req.json()) as ElevenLabsPostCall;

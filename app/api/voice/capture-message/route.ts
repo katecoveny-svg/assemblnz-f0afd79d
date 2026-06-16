@@ -8,9 +8,12 @@ import { captureMessage } from '@/lib/voice/tools/capture_message';
 import { appendToolCall } from '@/lib/voice/clients/supabase';
 import { checkWebhookSecret, unauthorized } from '@/lib/voice/api-auth';
 
+import { isVoiceAgentEnabled, voiceDisabledResponse } from '@/lib/voice/flags';
+
 export const runtime = 'nodejs';
 
 export async function POST(req: Request) {
+  if (!isVoiceAgentEnabled()) return voiceDisabledResponse();
   if (!checkWebhookSecret(req).ok) return unauthorized();
 
   const body = (await req.json()) as {

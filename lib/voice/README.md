@@ -1,7 +1,7 @@
 # Voice Agent — Run & Deploy (Manaaki Phase 1)
 
-How to run, deploy, and redeploy the NZ voice-booking agent **Aroha**
-(`aroha.manaaki@demo`) for the demo customer **Whetū**.
+How to run, deploy, and redeploy the NZ voice-booking agent **Aria**
+(`aria.manaaki@demo`) for the demo customer **Whetū**.
 
 > Built by Assembl. Founder: **Kate Hudson**.
 

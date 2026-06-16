@@ -12,7 +12,7 @@ describe('integration — after-hours / no availability → message captured', (
 
   it('captures a message-only call and the receipt reflects it', async () => {
     const CALL = 'CA_afterhours';
-    await upsertSession({ call_sid: CALL, agent_id: 'aroha.manaaki@demo', customer_id: 'whetu', caller_number: '+6421777333', status: 'in_progress' });
+    await upsertSession({ call_sid: CALL, agent_id: 'aria.manaaki@demo', customer_id: 'whetu', caller_number: '+6421777333', status: 'in_progress' });
 
     await appendToolCall(CALL, { tool: 'capture_message', args: { length: 42 }, result_summary: 'message captured', ok: true, ts: new Date().toISOString() });
     await captureMessage({ call_sid: CALL, message: 'Hoping to book a table for Sunday, please call me back.' });

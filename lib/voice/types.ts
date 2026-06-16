@@ -1,7 +1,7 @@
 /**
- * Shared domain types for the Manaaki phase-1 voice agent (Aroha).
+ * Shared domain types for the Manaaki phase-1 voice agent (Aria).
  *
- * One agent (`aroha.manaaki@demo`), one demo customer (`whetu`), one NZ DID.
+ * One agent (`aria.manaaki@demo`), one demo customer (`whetu`), one NZ DID.
  * These types are the contract between the pure tool logic (lib/voice/tools),
  * the HTTP surface (app/api/voice/*), the receipt builder (lib/voice/receipts)
  * and the Kahu dashboard (components/kahu).
@@ -104,7 +104,7 @@ export interface SmsResult {
 }
 
 // ---------------------------------------------------------------------------
-// Tool-call audit trail — every server-tool invocation Aroha makes is logged
+// Tool-call audit trail — every server-tool invocation Aria makes is logged
 // and folded into the Mana Receipt payload.
 // ---------------------------------------------------------------------------
 

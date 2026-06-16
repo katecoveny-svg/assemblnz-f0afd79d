@@ -12,7 +12,7 @@ describe('integration — caller declines recording → transfer, no recording',
 
   it('records consent declined, transfers, and the receipt notes both', async () => {
     const CALL = 'CA_no';
-    await upsertSession({ call_sid: CALL, agent_id: 'aroha.manaaki@demo', customer_id: 'whetu', caller_number: '+6421000222', status: 'in_progress' });
+    await upsertSession({ call_sid: CALL, agent_id: 'aria.manaaki@demo', customer_id: 'whetu', caller_number: '+6421000222', status: 'in_progress' });
 
     const consent = await captureConsent({
       call_sid: CALL,

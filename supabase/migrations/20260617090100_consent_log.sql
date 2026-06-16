@@ -1,7 +1,7 @@
 -- On-call consent capture — the recording-notice exchange, verbatim.
 --
 -- IPP 3 (Privacy Act 2020) requires that we tell the caller we are recording
--- and why. Aroha's opening line includes the recording notice; the
+-- and why. Aria's opening line includes the recording notice; the
 -- capture_consent tool writes one row here per consent prompt, storing the
 -- exact words spoken back ("yes" / "no" / anything ambiguous) so the Mana
 -- Receipt can prove informed consent — or prove the caller declined, in which

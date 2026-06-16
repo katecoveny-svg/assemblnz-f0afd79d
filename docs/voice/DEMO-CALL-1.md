@@ -11,19 +11,19 @@
 
 ## Transcript
 
-**Aroha:** Kia ora, you’ve reached Whetū — I’m Aroha, the booking assistant. I record calls just to confirm your booking; is that OK?
+**Aria:** Kia ora, you’ve reached Whetū — I’m Aria, the booking assistant. I record calls just to confirm your booking; is that OK?
 **Caller:** Yeah, that’s fine.
-**Aroha:** Ka pai, ngā mihi. What name’s the booking under, and how many of you?
+**Aria:** Ka pai, ngā mihi. What name’s the booking under, and how many of you?
 **Caller:** Mere, table for four.
-**Aroha:** Lovely. What night were you thinking?
+**Aria:** Lovely. What night were you thinking?
 **Caller:** Saturday the 20th, around seven if you’ve got it.
-**Aroha:** *(check_availability → 8 slots)* We’ve got 7:00 pm on Saturday the 20th for four — shall I lock that in?
+**Aria:** *(check_availability → 8 slots)* We’ve got 7:00 pm on Saturday the 20th for four — shall I lock that in?
 **Caller:** Yes please.
-**Aroha:** *(book_reservation → evt_9af3demo)* Done — four guests, Saturday 20 June at 7:00 pm. What’s the best mobile for your confirmation text?
+**Aria:** *(book_reservation → evt_9af3demo)* Done — four guests, Saturday 20 June at 7:00 pm. What’s the best mobile for your confirmation text?
 **Caller:** Oh-two-one… two-three-four, nine-nine-nine.
-**Aroha:** *(send_sms → ***999)* Sent. You’ll have a text confirming it. Anything else I can help with?
+**Aria:** *(send_sms → ***999)* Sent. You’ll have a text confirming it. Anything else I can help with?
 **Caller:** No, that’s all. Cheers.
-**Aroha:** Ka kite, see you Saturday. Ngā mihi.
+**Aria:** Ka kite, see you Saturday. Ngā mihi.
 
 **Confirmation SMS sent:** “Kia ora Mere, your table at Whetū is booked: Sat 20 Jun at 7:00 pm, 4 guests. Need to change it? Just reply or call us back. Ngā mihi.”
 
@@ -36,7 +36,7 @@ chain below makes it tamper-evident.
 ```json
 {
   "schema_version": "voice-1",
-  "agent": "aroha.manaaki@demo",
+  "agent": "aria.manaaki@demo",
   "agent_version": "manaaki-phase1-0.1.0",
   "customer_id": "whetu",
   "call_sid": "CA-demo-0001",
@@ -124,14 +124,14 @@ chain below makes it tamper-evident.
 
 | field | value |
 |---|---|
-| sha256 (payload) | `4e43aec9f06b7e4dfa932cfef674052c866e95819c202b6961bd9b4289b8a047` |
+| sha256 (payload) | `1473f265dc4feb332e4b65c7337bba905ad78adfa86103aa6cb7417b5990767d` |
 | prev_hash (genesis — receipt #1) | `0000000000000000000000000000000000000000000000000000000000000000` |
-| chain_hash | `d89d5859b598c6f5a1997e8f6fcd15bff720216575e2a1cb69068e9b68a61936` |
+| chain_hash | `c2d2b833f5c36524ffc81a6d6ed254ad553b9a017b9d40d2436f1f272ae60975` |
 
 Verify independently:
 
 ```
 chain_hash == sha256( prev_hash + sha256 )
-d89d5859b598c6f5a1997e8f6fcd15bff720216575e2a1cb69068e9b68a61936
-  == sha256("0000000000000000000000000000000000000000000000000000000000000000" + "4e43aec9f06b7e4dfa932cfef674052c866e95819c202b6961bd9b4289b8a047")  ✓
+c2d2b833f5c36524ffc81a6d6ed254ad553b9a017b9d40d2436f1f272ae60975
+  == sha256("0000000000000000000000000000000000000000000000000000000000000000" + "1473f265dc4feb332e4b65c7337bba905ad78adfa86103aa6cb7417b5990767d")  ✓
 ```

@@ -20,7 +20,7 @@ export const IPP_MAPPING: IppCoverage[] = [
   {
     ipp: 'IPP 1',
     title: 'Purpose of collection',
-    how: 'Aroha only collects name, mobile, party size, and booking notes — the minimum to make and confirm a reservation. Purpose stated in the opening line.',
+    how: 'Aria only collects name, mobile, party size, and booking notes — the minimum to make and confirm a reservation. Purpose stated in the opening line.',
   },
   {
     ipp: 'IPP 2',

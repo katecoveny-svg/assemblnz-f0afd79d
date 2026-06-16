@@ -1,6 +1,6 @@
 # Runbook — Voice Agent Down (Manaaki Phase 1)
 
-Operational runbook for `aroha.manaaki@demo` (customer **Whetū**) covering three
+Operational runbook for `aria.manaaki@demo` (customer **Whetū**) covering three
 named failure modes. For each: **detection signals → immediate mitigation →
 recovery**. Keep this beside the on-call rotation.
 
@@ -28,7 +28,7 @@ via Twilio, but the agent can't converse.
 **Immediate mitigation**
 1. Confirm it's ElevenLabs (not Twilio or our routes) via the status page + logs.
 2. Verify the Twilio voicemail fallback is actually answering — place a test call.
-3. Post a short status note to the team channel: "Aroha live booking down,
+3. Post a short status note to the team channel: "Aria live booking down,
    voicemail capturing — team to call back."
 4. If the team is on shift, consider pointing the DID's failover at
    `TWILIO_TRANSFER_TO` so callers reach a person directly.

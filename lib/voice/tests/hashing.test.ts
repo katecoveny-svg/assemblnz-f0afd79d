@@ -9,8 +9,8 @@ describe('hashing — canonical JSON stability', () => {
   });
 
   it('changes the hash when any value changes', () => {
-    const base = { name: 'Aroha', party: 4 };
-    const changed = { name: 'Aroha', party: 5 };
+    const base = { name: 'Aria', party: 4 };
+    const changed = { name: 'Aria', party: 5 };
     expect(hashPayload(base)).not.toBe(hashPayload(changed));
   });
 

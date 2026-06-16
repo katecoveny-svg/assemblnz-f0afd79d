@@ -8,7 +8,7 @@
  * lives in the knowledge docs (whetu-policies.md).
  */
 
-export const AGENT_ID = 'aroha.manaaki@demo';
+export const AGENT_ID = 'aria.manaaki@demo';
 export const AGENT_VERSION = 'manaaki-phase1-0.1.0';
 export const CUSTOMER_ID = 'whetu';
 export const TIMEZONE = 'Pacific/Auckland';

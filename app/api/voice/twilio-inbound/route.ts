@@ -13,6 +13,8 @@ import { inboundTwiml } from '@/lib/voice/clients/twilio';
 import { upsertSession } from '@/lib/voice/clients/supabase';
 import { AGENT_ID, CUSTOMER_ID } from '@/lib/voice/config';
 
+import { isVoiceAgentEnabled, voiceDisabledResponse } from '@/lib/voice/flags';
+
 export const runtime = 'nodejs';
 
 function streamUrl(): string {
@@ -23,6 +25,7 @@ function streamUrl(): string {
 }
 
 export async function POST(req: Request) {
+  if (!isVoiceAgentEnabled()) return voiceDisabledResponse();
   const form = await req.formData();
   const callSid = String(form.get('CallSid') ?? '');
   const from = String(form.get('From') ?? '');
