@@ -4,13 +4,13 @@ import { Languages, Lock, ShieldCheck, Sparkles, Stamp } from "lucide-react";
 import HuiStudio from "@/components/hui/HuiStudio";
 
 export const metadata: Metadata = {
-  title: "Hui — the meeting agent that hands you an evidence pack",
+  title: "Hui — you ran the meeting, let us write it up",
   description:
-    "Record, upload, or paste a meeting. Hui turns it into a kete-specific record — toolbox-talk minutes, shift handovers, ERO-prep notes — and a downloadable evidence pack. Built in Aotearoa, Privacy Act first.",
+    "You ran the hui. You shouldn't have to write it up too. Drop the recording and walk away with the minutes, the actions, and an evidence pack you can file — toolbox-talk minutes, shift handovers, ERO-ready notes. Built in Aotearoa, consent-first.",
   openGraph: {
-    title: "Hui — meeting records you can prove",
+    title: "Hui — walk out with the minutes already written",
     description:
-      "Audio in, evidence pack out. Te reo on the roadmap, Privacy Act 2020 baked in, every record carries a Mana Receipt. A meeting agent by assembl.",
+      "You ran the hui; we'll write it up. Drop a recording, walk away with the minutes, the actions, and an evidence pack you can file. A meeting agent by assembl, built in Aotearoa.",
     type: "website",
     url: "https://www.assembl.co.nz/hui",
     siteName: "assembl",
@@ -26,7 +26,7 @@ const DIFFERENTIATORS = [
   {
     icon: ShieldCheck,
     title: "Privacy Act, not a checkbox",
-    body: "Consent before the mic goes on. We transcribe your audio and discard it — we never store the recording. Who's in the room, where it lives, how long we keep it: in the product, under the Privacy Act 2020 (IPP 3 & 3A).",
+    body: "Consent before the mic goes on. We transcribe your audio, then it's gone — we never keep the recording. Record a hard kōrero and never wonder where it ended up. That's the Privacy Act 2020 (IPP 3 & 3A), doing its job.",
   },
   {
     icon: Stamp,
@@ -46,9 +46,9 @@ const DIFFERENTIATORS = [
 ];
 
 const STEPS = [
-  { n: "01", t: "Capture", d: "Record in the browser, upload an audio file, or paste a transcript." },
-  { n: "02", t: "Choose the output", d: "Pick the kete-specific record — toolbox talk, shift handover, ERO-prep notes." },
-  { n: "03", t: "Get the evidence pack", d: "Hui structures the record and hands you a downloadable evidence pack to review and file." },
+  { n: "01", t: "Hand it over", d: "Hit record, drop in an audio file, or paste the transcript. However the meeting reached you." },
+  { n: "02", t: "Say what you need", d: "Toolbox-talk minutes. A shift handover. ERO-ready notes. Pick the record for your world." },
+  { n: "03", t: "Walk away with proof", d: "Read it, tweak it, file it — an evidence pack you'd put your name to." },
 ];
 
 export default function HuiPage() {
@@ -67,13 +67,14 @@ export default function HuiPage() {
               Hui · the meeting agent
             </p>
             <h1 className="mt-5 font-display text-4xl font-light leading-[1.05] text-[color:var(--text-primary)] md:text-6xl">
-              Record the hui.
+              You ran the hui.
               <br />
-              Leave with proof.
+              Let us write it up.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-[color:var(--text-secondary)]">
-              Audio in, evidence pack out. Hui turns a meeting into the record your industry actually needs — and
-              hands you a downloadable evidence pack you can file. Built in Aotearoa, Privacy Act first.
+              The meeting's over and someone still has to type it all out. Not tonight. Drop the recording and walk
+              away with the minutes, the action list, and an evidence pack ready to file — before everyone's out the
+              door.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -89,6 +90,10 @@ export default function HuiPage() {
                 How it works
               </a>
             </div>
+            <p className="mt-5 text-sm leading-relaxed text-[color:var(--text-secondary)]">
+              Consent first, always. Your audio is transcribed, then gone — we never keep the recording. Built in
+              Aotearoa.
+            </p>
           </div>
           <div className="relative mx-auto w-full max-w-md">
             <Image
