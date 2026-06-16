@@ -107,18 +107,19 @@ Both have locked prompts + reference media UUIDs saved in the
 
 ---
 
-## DEPRECATED files — please delete via Finder
+## DEPRECATED files — removed
 
-Cowork doesn't have delete permission, so these were left in place. They
-were generated against an earlier (now-superseded) brief and **must not
-ship**. Delete in Finder before the next build:
+Five off-brand files from an earlier (superseded) generation pass were deleted
+in the homepage-visuals PR (2026-06-17). They must not return:
 
-- `hero-vessel-primary.png` — old translucent shell hero on cream (off-brand
-  vessel form, not the stacked-disc reference)
+- `hero-vessel-primary.png` — old translucent shell hero (off-brand vessel form)
 - `hero-vessel-secondary.png` — old jade-spiral on dark pounamu (wrong palette)
 - `hero-vessel-dark-v1.png` — old koru/feather form (wrong vessel concept)
-- `vessel-divider-sparkles.png` — dark-pounamu sparkle band (wrong palette — replaced by `signal-threads-band-horizontal.png`)
+- `vessel-divider-sparkles.png` — dark-pounamu sparkle band (replaced by `signal-threads-band-horizontal.png`)
 - `landscape-coastal-kaipara.jpg` — earlier Kaipara take (replaced by `landscape-coast-aotearoa.png`)
+
+Note: `hero-vessel-secondary.png` is also a **deferred** slot above — the name
+will be reused for a new, on-brand render in a follow-up PR.
 
 ---
 
