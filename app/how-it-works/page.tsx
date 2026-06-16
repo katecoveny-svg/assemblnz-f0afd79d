@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
 import { Eyebrow } from '@/components/site/Eyebrow';
+import { HowAPackWorks } from '@/components/site/HowAPackWorks';
 
 export const metadata: Metadata = {
   title: 'How assembl works',
@@ -49,6 +50,9 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
+      {/* How a pack works in your business — Kate's verbatim 3-step section */}
+      <HowAPackWorks />
+
       <section className="py-24 lg:py-32">
         <div className="container grid gap-6 lg:grid-cols-3">
           {STEPS.map((step, index) => (
@@ -68,7 +72,7 @@ export default function HowItWorksPage() {
           <SectionReveal>
             <p className="max-w-2xl text-body-lg text-[color:var(--text-body)]">
               <span className="font-medium text-[color:var(--text-primary)]">Built for NZ.</span> Each
-              pack has NZ law, council and sector rules, and tikanga built in from the start.
+              pack has NZ law, council and sector rules built in from the start.
             </p>
             <div className="mt-10">
               <Link href="/pilot-sprint" className="cta-primary inline-flex h-12 items-center px-7">

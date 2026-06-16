@@ -186,6 +186,9 @@ export async function renderHapaiToolOgImage(tool: HapaiTool) {
               <div style={{ display: 'flex', color: INK, fontFamily: headlineFont, fontStyle: 'italic', fontSize: 58, lineHeight: 1 }}>
                 assembl
               </div>
+              <div style={{ display: 'flex', marginTop: 10, color: TAUPE, fontSize: 20 }}>
+                Mahi that earns its proof.
+              </div>
               <div
                 style={{
                   display: 'flex',

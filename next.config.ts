@@ -67,7 +67,8 @@ const nextConfig: NextConfig = {
     return [
       // Existing: kete name correction (Tōroa → Tōro). Keep this in Next.js;
       // public SPA paths are handled by middleware rewrites before auth.
-      { source: "/toro", destination: "/kete/toro", permanent: false },
+      // Tōro now has its own whānau page; the business kete detail redirects to it.
+      { source: "/kete/toro", destination: "/toro", permanent: true },
       { source: "/toro/route", destination: "/app/voyage/italy", permanent: false },
       { source: "/toro/route/:path*", destination: "/app/voyage/italy", permanent: false },
       { source: "/toro/school-survival", destination: "/hapai/9am-brief", permanent: false },

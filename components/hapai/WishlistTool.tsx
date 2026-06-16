@@ -99,7 +99,7 @@ export function WishlistTool() {
       posture="Draft only. The spec is a starting point a named person reviews. Nothing the specialist drafts is ever lodged automatically — a licensed person lodges. Not legal, financial, or medical advice."
       highlights={[
         { title: "Tailored to you", body: "Describe your business and the job; the spec is drafted for that exact work.", icon: <Sparkles className="h-5 w-5" aria-hidden /> },
-        { title: "Built on NZ law", body: "Names the relevant legislation, a tikanga check, and the Privacy Act 2020.", icon: <Stamp className="h-5 w-5" aria-hidden /> },
+        { title: "Built on NZ law", body: "Names the relevant legislation, a cultural check, and the Privacy Act 2020.", icon: <Stamp className="h-5 w-5" aria-hidden /> },
         { title: "Draft-only", body: "A named reviewer signs off; nothing auto-lodges to any government system.", icon: <ArrowRight className="h-5 w-5" aria-hidden /> },
       ]}
     >

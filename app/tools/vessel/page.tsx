@@ -5,7 +5,7 @@ import { VesselGenerator } from '@/components/tools/VesselGenerator';
 export const metadata: Metadata = {
   title: 'vessel generator',
   description:
-    'Generate an on-brand vessel image. Free for the first five per day; bring your own Fal.ai key to remove the cap.',
+    'Generate an on-brand vessel image. Five per IP per day — assembl covers generation.',
 };
 
 export const dynamic = 'force-dynamic';
@@ -24,7 +24,7 @@ export default function VesselToolPage() {
           <p className="mt-4 text-base leading-relaxed text-[color:var(--text-secondary)]">
             Pick a colour, name your brand, describe what should sit inside the vessel. The
             generator returns an editorial, paper-backdrop image you can share. Five per IP per
-            day; bring your own Fal.ai key to remove the cap and the watermark.
+            day — assembl covers generation.
           </p>
         </header>
 

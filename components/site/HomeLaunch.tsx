@@ -24,7 +24,6 @@ const KETE_ROWS = [
   { slug: 'ako', name: 'Ako', area: 'Education', drafts: 'Notice rewrites, assessment summaries, parent updates' },
   { slug: 'matauranga', name: 'Mātauranga', area: 'Knowledge & Research', drafts: 'Source checks, document comparisons, submissions' },
   { slug: 'hoko', name: 'Hoko', area: 'Commerce', drafts: 'Return triage, customer replies, supplier comparisons' },
-  { slug: 'toro', name: 'Tōro', area: 'Family', drafts: 'School notices, weekly plans, gear lists' },
 ] as const;
 
 const ACCENT = Object.fromEntries(KETES.map((k) => [k.slug, k.accent])) as Record<string, string>;

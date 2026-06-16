@@ -18,8 +18,8 @@ const STORAGE_BUCKET = 'vessel-generations';
  * (Fal Flux often garbles requested text). Output stays the same encoding
  * as the input: jpeg → jpeg, png → png, webp → webp.
  *
- * Skipped entirely for BYOK callers — they paid for the call, they get
- * a clean image.
+ * Applied to every generation — assembl pays for the model call, so every
+ * shared image carries the assembl.co.nz mark.
  */
 async function applyWatermark(
   bytes: ArrayBuffer,
@@ -73,8 +73,8 @@ async function applyWatermark(
 /**
  * Download a Fal.ai-hosted image and re-upload it to the
  * `vessel-generations` Supabase Storage bucket so the public share link
- * survives Fal's CDN expiry. Applies a server-side watermark unless the
- * caller is BYOK. Returns the bucket public URL on success.
+ * survives Fal's CDN expiry. Applies the server-side assembl watermark to
+ * every image. Returns the bucket public URL on success.
  * Throws on any fetch / upload / watermark error so the caller can
  * record `mirror_failed=true` and fall back to the Fal URL.
  */
@@ -82,7 +82,6 @@ async function mirrorToStorage(
   service: ReturnType<typeof getServiceClient>,
   generationId: string,
   remoteUrl: string,
-  byok: boolean,
 ): Promise<string> {
   const res = await fetch(remoteUrl);
   if (!res.ok) {
@@ -91,11 +90,9 @@ async function mirrorToStorage(
   let contentType = res.headers.get('content-type') ?? 'image/jpeg';
   let bytes: ArrayBuffer | Buffer = await res.arrayBuffer();
 
-  if (!byok) {
-    const watermarked = await applyWatermark(bytes, contentType);
-    bytes = watermarked.bytes;
-    contentType = watermarked.contentType;
-  }
+  const watermarked = await applyWatermark(bytes, contentType);
+  bytes = watermarked.bytes;
+  contentType = watermarked.contentType;
 
   const ext = contentType.includes('png')
     ? 'png'
@@ -120,7 +117,6 @@ type GenerateBody = {
   brandColor?: string;
   logoUrl?: string;
   prompt?: string;
-  byok?: string;
 };
 
 function json(data: unknown, status = 200) {
@@ -171,8 +167,6 @@ export async function POST(req: NextRequest) {
   const brandName = cleanString(body.brandName) || 'assembl';
   const brandColor = safeBrandColor(cleanString(body.brandColor));
   const userPrompt = cleanString(body.prompt);
-  const byokKey = cleanString(body.byok);
-  const byok = byokKey.length > 0;
 
   if (!userPrompt) {
     return json({ error: 'A prompt is required.' }, 400);
@@ -181,12 +175,10 @@ export async function POST(req: NextRequest) {
     return json({ error: 'Prompt must be under 600 characters.' }, 400);
   }
 
-  // Rate limit only for non-BYOK calls. BYOK pays its own way.
+  // assembl covers every generation, so every call is rate-limited.
   const ip = clientIp(req.headers);
-  if (!byok) {
-    const verdict = await checkPublicRateLimit(ip);
-    if (!verdict.allowed) return rateLimitedResponse(verdict);
-  }
+  const verdict = await checkPublicRateLimit(ip);
+  if (!verdict.allowed) return rateLimitedResponse(verdict);
 
   const supabaseUrl =
     process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
@@ -202,83 +194,47 @@ export async function POST(req: NextRequest) {
   // and the eventual DB row id matches the storage path.
   const generationId = crypto.randomUUID();
 
-  // Two call paths:
-  //   - BYOK: hit Fal.ai directly with the visitor's key so the platform
-  //     key never sees their prompt and we don't bill platform Fal.
-  //   - Platform: go through the vessel-generate edge function so the
-  //     shared secret + platform key stay server-side.
+  // All generations go through the vessel-generate edge function so the
+  // shared secret + platform FAL_API_KEY stay server-side. assembl pays for
+  // the call — there is no bring-your-own-key path.
   let imageUrl = '';
   let costEstimateUsd = 0;
 
-  if (byok) {
-    const falRes = await fetch('https://fal.run/fal-ai/flux-pro/v1.1', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Key ${byokKey}`,
-      },
-      body: JSON.stringify({
-        prompt,
-        image_size: 'portrait_4_5',
-        num_inference_steps: 28,
-        guidance_scale: 3.5,
-        num_images: 1,
-        enable_safety_checker: true,
-        output_format: 'jpeg',
-      }),
-    });
-    if (!falRes.ok) {
-      const text = await falRes.text().catch(() => '');
-      return json(
-        { error: `Fal.ai (BYOK) returned ${falRes.status}: ${text.slice(0, 300)}` },
-        502,
-      );
-    }
-    const data = await falRes.json();
-    imageUrl =
-      Array.isArray(data?.images) && typeof data.images[0]?.url === 'string'
-        ? data.images[0].url
-        : '';
-    costEstimateUsd = 0; // visitor's account, not ours
-  } else {
-    // FAL_API_KEY lives on the Supabase edge function (vessel-generate);
-    // Vercel only needs the shared secret to authenticate to it.
-    if (!sharedSecret) {
-      return json(
-        { error: 'Platform vessel generation is not configured on this deployment.' },
-        500,
-      );
-    }
-    const edgeRes = await fetch(`${supabaseUrl.replace(/\/$/, '')}/functions/v1/vessel-generate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${sharedSecret}`,
-        Origin: 'https://www.assembl.co.nz',
-      },
-      body: JSON.stringify({
-        model: 'flux',
-        prompt,
-        aspect_ratio: '4:5',
-        variants: 1,
-        image_prompt_strength: 0.35,
-      }),
-    });
-    if (!edgeRes.ok) {
-      const text = await edgeRes.text().catch(() => '');
-      return json(
-        { error: `Vessel edge function returned ${edgeRes.status}: ${text.slice(0, 300)}` },
-        502,
-      );
-    }
-    const data = await edgeRes.json();
-    imageUrl =
-      Array.isArray(data?.images) && typeof data.images[0]?.url === 'string'
-        ? data.images[0].url
-        : '';
-    costEstimateUsd =
-      typeof data?.cost_estimate_usd === 'number' ? data.cost_estimate_usd : 0.04;
+  if (!sharedSecret) {
+    return json(
+      { error: 'Vessel generation is not configured on this deployment.' },
+      500,
+    );
   }
+  const edgeRes = await fetch(`${supabaseUrl.replace(/\/$/, '')}/functions/v1/vessel-generate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${sharedSecret}`,
+      Origin: 'https://www.assembl.co.nz',
+    },
+    body: JSON.stringify({
+      model: 'flux',
+      prompt,
+      aspect_ratio: '4:5',
+      variants: 1,
+      image_prompt_strength: 0.35,
+    }),
+  });
+  if (!edgeRes.ok) {
+    const text = await edgeRes.text().catch(() => '');
+    return json(
+      { error: `Vessel edge function returned ${edgeRes.status}: ${text.slice(0, 300)}` },
+      502,
+    );
+  }
+  const data = await edgeRes.json();
+  imageUrl =
+    Array.isArray(data?.images) && typeof data.images[0]?.url === 'string'
+      ? data.images[0].url
+      : '';
+  costEstimateUsd =
+    typeof data?.cost_estimate_usd === 'number' ? data.cost_estimate_usd : 0.04;
 
   if (!imageUrl) {
     return json({ error: 'Image provider returned no image.' }, 502);
@@ -292,7 +248,7 @@ export async function POST(req: NextRequest) {
   // the row so a future retry cron can pick it up.
   const service = getServiceClient();
   try {
-    imageUrl = await mirrorToStorage(service, generationId, falImageUrl, byok);
+    imageUrl = await mirrorToStorage(service, generationId, falImageUrl);
   } catch (err) {
     mirrorFailed = true;
     imageUrl = falImageUrl;
@@ -304,9 +260,6 @@ export async function POST(req: NextRequest) {
 
   // Log the generation. Best-effort — the visitor's image returns either way.
   try {
-    const verdict = byok
-      ? { ipHash: null as string | null }
-      : await checkPublicRateLimit(ip);
     await service.from('vessel_generations').insert({
       id: generationId,
       brand_slug: brandSlug || null,
@@ -315,8 +268,8 @@ export async function POST(req: NextRequest) {
       prompt: userPrompt,
       image_url: imageUrl,
       cost_estimate_usd: costEstimateUsd,
-      byok,
-      ip_hash: byok ? null : verdict.ipHash,
+      byok: false,
+      ip_hash: verdict.ipHash,
       user_agent: req.headers.get('user-agent')?.slice(0, 240) ?? null,
       mirror_failed: mirrorFailed,
     });
@@ -332,6 +285,5 @@ export async function POST(req: NextRequest) {
     imageUrl,
     brandName,
     brandColor,
-    byok,
   });
 }

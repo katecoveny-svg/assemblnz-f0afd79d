@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { KETES } from "@/lib/kete";
+import { INDUSTRY_KETES } from "@/lib/kete";
 import { footerDisclaimer, footerKeteCutouts } from "@/lib/site-config";
 
 export function SiteFooter() {
@@ -37,7 +37,7 @@ export function SiteFooter() {
               Kete packs
             </h2>
             <ul className="mt-4 space-y-2 text-sm">
-              {KETES.map((k) => (
+              {INDUSTRY_KETES.map((k) => (
                 <li key={k.slug}>
                   <Link
                     href={`/kete/${k.slug}`}
@@ -64,6 +64,14 @@ export function SiteFooter() {
                 </li>
               ))}
             </ul>
+            <p className="mt-5 text-sm">
+              <Link
+                href="/toro"
+                className="rounded-sm text-[color:var(--text-secondary)] underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              >
+                Looking for whānau life? Meet Tōro →
+              </Link>
+            </p>
           </div>
 
           <div>

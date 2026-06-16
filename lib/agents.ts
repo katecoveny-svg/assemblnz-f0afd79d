@@ -507,7 +507,7 @@ export const AGENTS: Agent[] = [
     ['retail-privacy', 'Retail Privacy', 'Customer-data privacy check', 'hoko', 'execution', ['Privacy Act 2020'], ['compliance', 'audit']],
 
     ['term-planner', 'Term Planner', 'School-term planning', 'toro', 'hunt', ['Privacy Act 2020'], ['planning', 'communications']],
-    ['kid-money', 'Kid Money', 'Family money conversations', 'toro', 'execution', ['Privacy Act 2020'], ['planning', 'communications']],
+    ['kid-money', 'Family Budget', 'Family money conversations', 'toro', 'execution', ['Privacy Act 2020'], ['planning', 'communications']],
     ['holiday-ideas', 'Holiday Ideas', 'Family holiday planning', 'toro', 'hunt', ['Privacy Act 2020'], ['planning', 'booking']],
     ['routines', 'Routines', 'Household routine planning', 'toro', 'execution', ['Privacy Act 2020'], ['planning', 'communications']],
     ['school-comms', 'School Comms', 'School message drafting', 'toro', 'pitch', ['Privacy Act 2020'], ['communications', 'planning']],

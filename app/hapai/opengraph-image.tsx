@@ -152,7 +152,7 @@ export default async function HapaiOpengraphImage() {
               fontWeight: 400,
             }}
           >
-            internal tools for real work.
+            Mahi that earns its proof.
           </div>
         </div>
 

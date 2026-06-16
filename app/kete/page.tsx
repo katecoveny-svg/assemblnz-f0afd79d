@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { KETES } from '@/lib/kete';
+import { INDUSTRY_KETES } from '@/lib/kete';
 import { KeteVesselCard } from '@/components/KeteVesselCard';
 import { KETE_VESSEL_IMAGES } from '@/lib/brand-tokens';
-import { TeReo } from '@/components/site/TeReo';
+import { KeteDefinition } from '@/components/site/KeteDefinition';
 
 export const metadata: Metadata = {
   title: 'Kete packs',
   description:
-    'Browse nine specialist kete packs. Each pack has agents, tools, workflows, review points, and evidence packs.',
+    'Browse eight specialist kete packs. Each pack has agents, tools, workflows, review points, and evidence packs.',
 };
 
 export default function KeteIndexPage() {
@@ -18,7 +18,7 @@ export default function KeteIndexPage() {
       <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
         <div className="container">
           <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
-            <TeReo title="basket or kit">Kete</TeReo> packs · specialist kits
+            Kete packs · specialist kits
           </p>
           <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-end">
             <div>
@@ -26,11 +26,10 @@ export default function KeteIndexPage() {
                 Choose the specialist pack.
               </h1>
               <p className="mt-6 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-                Kete means basket or kit. In assembl, each kete is a specialist
-                pack for one operating area: construction, hospitality, freight,
-                automotive, education, commerce, family operations, and more.
-                Each pack includes agents, tools, workflows, review points, live
-                knowledge, and evidence packs.
+                In assembl, each <KeteDefinition /> is a specialist pack for one
+                operating area: construction, hospitality, freight, automotive,
+                education, commerce, and more. Each pack includes agents, tools,
+                workflows, review points, live knowledge, and evidence packs.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
@@ -49,7 +48,7 @@ export default function KeteIndexPage() {
       <section className="py-24 lg:py-32">
         <div className="container">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {KETES.map((kete, i) => (
+            {INDUSTRY_KETES.map((kete, i) => (
               <KeteVesselCard
                 key={kete.slug}
                 kete={kete}

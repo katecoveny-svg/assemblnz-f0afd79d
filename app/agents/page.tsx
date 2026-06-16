@@ -34,7 +34,7 @@ const KETE_SUMMARY: Record<KeteSlug, string> = {
   ako: 'ECE licensing, Te Whāriki, ratios, kaiako, ERO, and tamariki safety.',
   matauranga: 'Secondary-school operator workflows: NCEA, reporting, and board prep.',
   hoko: 'Retail and consumer-protection workflows: returns, stock, claims, and daily trading.',
-  toro: 'Whānau navigator: Term Planner, Kid Money, Holiday Ideas, and parent approval.',
+  toro: 'Whānau navigator: Term Planner, Family Budget, Holiday Ideas, and parent approval.',
 };
 
 export default function AgentsPage() {

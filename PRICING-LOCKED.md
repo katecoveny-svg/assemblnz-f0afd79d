@@ -1,5 +1,21 @@
 # PRICING LOCKED — 2026-05-15
 
+> **SUPERSEDED IN PART — 2026-06-16 strategic reset (Kate, autonomous authority).**
+> The public `/pricing` page now shows exactly three tiers + Outcome:
+> - **Pilot Sprint** — $5,000 once-off + GST (covers month one of Starter or Pack)
+> - **Starter** — $799/month + GST · one specialist workflow · all HAPAI tools · email support
+> - **Pack** — $3,500/month + GST · the whole industry kete · all HAPAI tools · named support
+> - **Outcome** — custom; commercial model tied to reviewed work delivered, not seats
+>
+> This intentionally overrides the 2026-05-15 lock below: the Solo $49 / Team $149
+> self-serve tiers are **removed from `/pricing`**, and **$799 is no longer a
+> forbidden price** (it is now the sanctioned Starter price). Tōro ($29/mo) is
+> removed from `/pricing` and lives on its own page at `/toro`.
+>
+> Stripe is NOT yet wired for the new prices — see the PR action list. Until new
+> Prices exist, monthly-tier CTAs route through the Pilot Sprint / contact, not a
+> live checkout, so no customer is charged the wrong amount.
+
 This file is the single source of truth for assembl pricing.
 Code (`lib/pricing.ts`, `app/pricing/page.tsx`), copy
 (`legacy-vite/src/pages/PricingPage.tsx`, homepage pricing teasers), and
