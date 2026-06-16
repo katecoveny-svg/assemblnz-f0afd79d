@@ -14,6 +14,7 @@ import { ArrowRight } from 'lucide-react';
 import { KETES } from '@/lib/kete';
 import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
 import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
+import { LogoWall } from '@/components/site/LogoWall';
 
 // "Pick your area" — one link per kete. English first, te reo second.
 const KETE_ROWS = [
@@ -397,6 +398,10 @@ export function HomeLaunch() {
           </motion.figure>
         </div>
       </section>
+
+      {/* 5.5 · Trusted by — customer / pilot logo wall (honest invitation state
+          until a real, consented customer is on file). */}
+      <LogoWall />
 
       {/* 6 · Built by — founder credibility marker */}
       <FounderBand />
