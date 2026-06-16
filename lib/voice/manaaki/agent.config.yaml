@@ -1,0 +1,114 @@
+# ============================================================================
+# Aroha — ElevenLabs Agents declarative config (Manaaki Phase 1)
+# ----------------------------------------------------------------------------
+# This is the CANONICAL declarative config for the voice agent. It is POSTed to
+# the ElevenLabs Agents API by the deploy script (`pnpm voice:deploy:manaaki`),
+# which also uploads the knowledge_base files. Do not hand-edit the agent in the
+# ElevenLabs dashboard — this file is the source of truth.
+#
+# ${VARS} are resolved from the environment at deploy time. See lib/voice/README.md.
+# Keep this consistent with lib/voice/config.ts (hours, party size, slot length).
+# ============================================================================
+
+name: aroha.manaaki@demo
+
+# --- Voice -------------------------------------------------------------------
+voice:
+  provider: elevenlabs
+  voice_id: ${ELEVENLABS_VOICE_ID}
+  # Phase 1 ships in NZ-English with occasional embedded kupu Māori.
+  # te reo Māori is NOT supported by ElevenLabs for TTS / Agents. A true te reo
+  # voice is a PHASE 2 item, routed to a kaitiakitanga-licensed provider
+  # (e.g. Te Hiku Media / Papa Reo) for te reo data sovereignty — NOT ElevenLabs.
+  language: en-NZ
+
+# --- Brain (Custom LLM = Tōro) ----------------------------------------------
+llm:
+  type: custom_llm          # OpenAI-compatible /v1/chat/completions endpoint
+  endpoint: ${TORO_ENDPOINT}
+  model: claude-haiku-4-5   # Claude Haiku 4.5 behind an OpenAI-compatible shim;
+                            # SSE streaming + tool-use are REQUIRED.
+  api_key_env: CLAUDE_API_KEY
+
+# --- Conversation setup ------------------------------------------------------
+first_message: >-
+  Kia ora, you've reached Whetū — I'm Aroha, the restaurant's AI booking
+  assistant. This call is recorded so we get your booking right; are you happy
+  to carry on?
+
+system_prompt_ref: ./system-prompt.md
+
+knowledge_base:
+  - ./knowledge/whetu-menu.md
+  - ./knowledge/whetu-policies.md
+
+# --- Server tools ------------------------------------------------------------
+# Each tool is a Next.js API route (NOT a Supabase edge function) called over
+# HTTPS by the agent. URL pattern: ${VOICE_PUBLIC_BASE_URL}/api/voice/<tool>.
+tools:
+  - name: capture_consent
+    description: >-
+      Log the caller's recording-consent answer (verbatim). Call immediately
+      after asking the recording question, before any booking details.
+    webhook: ${VOICE_PUBLIC_BASE_URL}/api/voice/capture_consent
+    params:
+      granted: boolean            # true if the caller agreed to recording
+      verbatim_response: string   # the caller's exact words
+
+  - name: check_availability
+    description: >-
+      Return bookable slots for a date and party size, within Whetū's hours.
+    webhook: ${VOICE_PUBLIC_BASE_URL}/api/voice/check_availability
+    params:
+      date: string                # ISO date (Pacific/Auckland)
+      party_size: integer         # 1–10
+
+  - name: book_reservation
+    description: >-
+      Create the reservation as a Google Calendar event. Only call after the
+      caller confirms a specific slot. Returns a booking_id on success.
+    webhook: ${VOICE_PUBLIC_BASE_URL}/api/voice/book_reservation
+    params:
+      name: string
+      mobile: string
+      date: string                # ISO date
+      time: string                # HH:MM, 24h, Pacific/Auckland
+      party_size: integer         # 1–10
+      notes: string               # dietary / occasion / accessibility (optional)
+
+  - name: send_sms
+    description: >-
+      Send the confirmation SMS to the caller. Call only after book_reservation
+      succeeds, passing the returned booking_id.
+    webhook: ${VOICE_PUBLIC_BASE_URL}/api/voice/send_sms
+    params:
+      to: string                  # caller mobile (E.164)
+      booking_id: string
+
+  - name: warm_transfer
+    description: >-
+      Hand the call to a human (returns TwiML Dial to TWILIO_TRANSFER_TO).
+      Use for parties >10, declined consent, human requests, or complaints.
+    webhook: ${VOICE_PUBLIC_BASE_URL}/api/voice/warm_transfer
+    params: {}
+
+  - name: capture_message
+    description: >-
+      Voicemail fallback — record a message for the team to call back. Use when
+      there's no availability, after hours, or the caller wants a callback.
+    webhook: ${VOICE_PUBLIC_BASE_URL}/api/voice/capture_message
+    params:
+      message: string
+
+# --- Telephony ---------------------------------------------------------------
+telephony:
+  provider: twilio
+  integration: native_import   # ElevenLabs native Twilio number import — no custom TwiML
+  did_env: TWILIO_NZ_DID
+  region: AU1                  # Media Streams terminate in AU1 (lowest latency for NZ)
+
+# --- Post-call webhook -------------------------------------------------------
+# Receives post_call_transcription (transcript turns + metadata + analysis) and
+# post_call_audio (base64 MP3 of the whole call). Finalises the kete_session and
+# builds the Mana Receipt.
+post_call_webhook: ${VOICE_PUBLIC_BASE_URL}/api/voice/post-call
