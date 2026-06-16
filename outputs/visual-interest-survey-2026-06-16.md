@@ -4,6 +4,8 @@
 
 This is a placement plan, not an implementation. The marketing site reads clinical because most surfaces are headline + body copy stacked over glass cards, with motion (framer reveals, ambient blooms) standing in for actual imagery. A handful of pages (`/about`, `/hapai`, `/press`, `/kete`, `/kete/[slug]`, `/toro`) already carry real images; the high-traffic conversion pages (`/`, `/pricing`, `/how-it-works`, `/pilot-sprint`, `/platform`, `/evidence-pack`) carry almost none. Below is every user-facing surface, what it renders today, and where warmth should land. No chatbot/robot imagery anywhere (brand rule). Vessel renders are for business/marketing surfaces only — never the `/toro` whānau page, which gets warm family editorial or illustration.
 
+**North star:** Kate's visual direction — see `outputs/visual-direction-2026-06-16.md` (+ `…-direction-2026-06-16.png`). Key moves: an **alternating dark-pounamu / cream rhythm where cream is the base and dark is the measured accent** (hero, stat callouts, the close — never dominant); **vessel renders whose gold "data-node glints" are the metaphor** (vessel = evidence pack, each glint = a piece of evidence held); cream Cormorant headlines on dark green; real **NZ landscape** photography at breaks; real **NZ human/working** photography at the close + About; **big stat callouts** (`35K` / `$8M` / `98%` / `100%`); clean kete-card grids in cream; a dark footer with a prominent `assembl` wordmark. The "Visual-direction layer" section below maps this onto every surface (background rhythm · imagery type · position).
+
 ---
 
 ## Full surface table
@@ -33,6 +35,36 @@ This is a placement plan, not an implementation. The marketing site reads clinic
 | `/ai-use` | 0 (commitment text cards) | **y** | one hero-side or section illustration of the draft → review → receipt flow | illustration (process diagram, non-robot) |
 
 **Other marketing surfaces found:** `/insurance`, `/electrify` (industry/campaign landing pages — both worth a hero image + per-section break, type: editorial photo / illustration); `/start` + `/start/signup` (conversion — light hero illustration or vessel render); `/docs` + `/docs/[slug]` (reference — icon set / illustration only as needed). Legal pages (`/legal/*`, `/privacy`) intentionally left bare — clinical is acceptable there.
+
+---
+
+## Visual-direction layer — background rhythm + imagery per surface
+
+Maps Kate's direction onto each surface. **Rhythm rules:** cream (`#FAF7F2` / `#F7F3EE`) is the base; dark pounamu (`#0E5546` / `#2B6B57`) is the **measured accent** — reserved for the hero on product pages, big stat callouts, the "Let's build what's next" close, and the footer. Aim ~1 dark band per 2 cream sections; never two dark sections back-to-back except hero + footer. Vessel renders carry **gold data-node glints** (vessel = evidence pack, each glint = a piece of evidence held). Cream Cormorant headlines on every dark band.
+
+| Route | Section background rhythm (cream base · dark accents) | Imagery slots — type · position |
+|---|---|---|
+| `/` (home) — *canonical reference, matches the mockup* | **dark hero** → cream (stat row) → **dark** (from-work-to-proof) → cream (kete grid) → cream/photo (coast + founder) → **dark footer** | vessel render w/ **data-node glints** (hero + proof band) · **stat callout** `35K/$8M/98%/100%` (cream band) · vessel-or-icon per kete card (cream grid) · **NZ coast photo** + **founder-at-desk photo** (pre-footer) · wordmark (dark footer) |
+| `/pricing` | cream hero → cream (Sprint) → **dark "How a pack works"** accent → cream (3 tiers) → cream (Tōro cross-sell) → **dark CTA close** | light vessel accent per tier (cream) · **stat callout** (dark band, e.g. hours saved) · **family editorial photo** (Tōro band, no vessel) · cream Cormorant on the dark close |
+| `/how-it-works` | cream hero → cream (3 steps, **dark step-2** for emphasis) → **NZ landscape** break → **dark CTA close** | 3-step illustration (draft/sign-off/receipt) · **NZ bush/landscape** half-bleed (break) · vessel glint motif (dark CTA) |
+| `/kete` | cream hero (vessel composite) → cream (card grid, already vessels) → **dark CTA band** | vessel hero composite w/ data-node glints · existing per-card vessels · wordmark/CTA (dark) |
+| `/kete/[slug]` | **dark hero** (sector vessel) → cream (body) → **NZ landscape** sector break → **dark CTA** | sector vessel render w/ glints (dark hero) · **NZ landscape** matched to the sector (break) · stat callout (optional) |
+| `/toro` | **cream throughout** (warm, light) — at most one soft accent at the price CTA | **family/whānau editorial photo or illustration ONLY — no vessel, no dark dominance** · per-feature card thumbnail (warm) |
+| `/hapai` | cream base · vessel hero · optional single dark divider before the industry-pack band | vessel hero (glints) · existing tool previews · optional **dark** divider |
+| `/workflows` | cream hero (vessel) → cream (cards) → **dark CTA** | vessel hero · per-card illustration thumbnail · dark CTA |
+| `/agents` | **dark hero** (vessel) → cream (kete groups) → **dark CTA** | vessel hero w/ glints · per-agent sigil/icon (cream) · vessel band (dark CTA) |
+| `/industry-pack` | **dark hero** (vessel) → cream (included/add-ons) → cream **stat callouts** → **dark pricing CTA** | vessel hero w/ glints · add-on icon set (cream) · **stat callouts** · dark pricing close |
+| `/about` | cream base (founder portraits) → **dark "Let's build what's next" close** | existing founder portraits · **NZ human/working photo** on the dark close (Cormorant cream headline) |
+| `/pilot-sprint` | cream hero → cream (3 "how it runs" steps) → **NZ landscape** break → **dark price/CTA close** | editorial hero · step illustration · **NZ landscape** break · stat callout (time saved) · dark CTA |
+| `/platform` | **dark hero** (vessel or landscape) → cream ("what's included") → **dark CTA** | vessel-or-landscape hero · included-block illustration (cream) · dark CTA |
+| `/platform/hybrid-services` | cream hero → cream (archetype cards) → **dark CTA** | archetype icon set (cream) · dark CTA |
+| `/evidence-pack` | cream hero → cream (pack visual + example) → **dark proof/stat band** | **evidence-pack/receipt visual** (the artefact, shown) · **stat callout** on the dark band |
+| `/te-tiriti` | cream base → **NZ native-bush** break → cream (four pou, culturally-led motifs) | **NZ native bush/landscape** (break) · per-pou accent motif (culturally led, non-figurative) |
+| `/ai-use` | cream base → one process illustration | draft → review → receipt illustration (non-robot) |
+| `/contact` | cream base → strengthened form-side image | **NZ human/place photo** beside the form |
+| `/press` | cream base → **dark footer wordmark** | existing wordmarks/portraits · dark footer brand moment |
+
+**Stat-callout sourcing note:** the `35K/$8M/98%/100%` style numbers in the mockup are placeholders. Real figures must be backed by a register row before publishing (per `PRICING-LOCKED.md` forbidden-claims rule) — flag any unbacked stat to Kate rather than inventing one.
 
 ---
 
@@ -75,4 +107,4 @@ Ranked by how much each reduces the "clinical" feel relative to traffic and effo
 
 ---
 
-*Survey only. No imagery or code added, generated, or wired. Lowercase `assembl` throughout; vessel imagery reserved for business/marketing surfaces; `/toro` gets warm whānau editorial or illustration; no chatbot/robot imagery anywhere.*
+*Survey only. No imagery or code added, generated, or wired. North star: `outputs/visual-direction-2026-06-16.md` (+ `.png`). Cream is the base; dark pounamu is the measured accent, never dominant (Kate refinement 1). Every vessel render carries gold **data-node glints** — the vessel is the evidence pack and each glint is a piece of evidence held (Kate refinement 2). Lowercase `assembl` throughout; vessel imagery reserved for business/marketing surfaces; `/toro` gets warm whānau editorial or illustration; no chatbot/robot imagery anywhere.*
