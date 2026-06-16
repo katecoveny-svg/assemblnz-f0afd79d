@@ -84,9 +84,9 @@ export function HapaiToolShell({
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(43,107,87,0.08)_1px,transparent_1px),linear-gradient(180deg,rgba(43,107,87,0.06)_1px,transparent_1px)] bg-[size:42px_42px] opacity-40" aria-hidden />
               <div className="relative flex items-start justify-between gap-4">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">live tool surface</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">how it works</p>
                   <p className="mt-2 max-w-[14rem] text-sm leading-relaxed text-[#5A5550]">
-                    One task, one share link, one review-ready result.
+                    One task. One share link. A draft you check before you use it.
                   </p>
                 </div>
                 <div className="rounded-full border border-[rgba(43,107,87,0.16)] bg-white/74 px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[#2B6B57] shadow-[0_14px_40px_rgba(35,33,31,0.08)]">
@@ -104,7 +104,7 @@ export function HapaiToolShell({
               </div>
 
               <div className="absolute bottom-5 left-5 right-5 grid gap-2">
-                {["paste or upload", "draft the action", "review and share"].map((label, index) => (
+                {["paste or upload", "get the draft", "check and use"].map((label, index) => (
                   <div
                     key={label}
                     className="flex items-center justify-between rounded-[6px] border border-white/70 bg-white/66 px-3 py-2 text-xs text-[#3D4250] shadow-[0_14px_32px_rgba(35,33,31,0.08)] backdrop-blur"
@@ -122,7 +122,7 @@ export function HapaiToolShell({
               {aside}
               <div className={aside ? "mt-6" : ""}>
                 <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">
-                  shareable tool
+                  share this
                 </p>
                 <div className="mt-4">
                   <ShareableToolActions

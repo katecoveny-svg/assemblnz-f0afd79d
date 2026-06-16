@@ -117,7 +117,7 @@ export function FoodTempLog({ context = "hapai" }: { context?: "hapai" | "manaak
             <p className="mt-5 max-w-2xl text-[17px] leading-relaxed text-[#2A2825]">{copy.body}</p>
             <div className="mt-8 rounded-[14px] border border-[rgba(172,88,56,0.22)] bg-white/64 p-5 text-sm leading-relaxed text-[#2A2825]">
               <p className="font-medium text-[#23211F]">Food Act 2014 record posture</p>
-              <p className="mt-2">This tool creates a review-ready daily record. Failed readings are flagged with corrective actions so the Duty Manager can file the record against the venue Food Control Plan.</p>
+              <p className="mt-2">This tool creates a daily record you can file. Failed readings are flagged with corrective actions so the Duty Manager can file the record against the venue Food Control Plan.</p>
             </div>
           </header>
 

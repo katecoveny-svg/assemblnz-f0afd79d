@@ -120,7 +120,7 @@ export function TurfMaintenanceLog() {
               HAPAI · turf maintenance log
             </p>
             <h1 className="mt-4 max-w-3xl font-display text-[clamp(3.2rem,7vw,6rem)] font-light leading-[0.9]">
-              Match-ready ground. Audit-ready record.
+              A pitch that’s ready to play. A record you can file.
             </h1>
             <p className="mt-5 max-w-2xl text-[17px] leading-relaxed text-[#2A2825]">
               A free tool for NZ sports clubs, school grounds, and community

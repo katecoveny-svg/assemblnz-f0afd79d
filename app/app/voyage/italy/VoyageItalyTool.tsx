@@ -120,7 +120,7 @@ const proofCards = [
   },
   {
     icon: Camera,
-    title: "photo parser",
+    title: "reads a photo",
     body: "menus, signs, tickets, booking emails, and train boards made useful",
   },
   {

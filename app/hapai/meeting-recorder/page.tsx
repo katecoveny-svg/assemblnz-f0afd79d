@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Meeting recorder — assembl",
     description:
-      "A HAPAI tool for turning meeting transcripts and rough notes into review-ready actions.",
+      "Turn a recording or rough notes into clear notes: decisions, action items, next steps. A free HAPAI tool.",
     type: "website",
     url: "https://www.assembl.co.nz/hapai/meeting-recorder",
     siteName: "assembl",

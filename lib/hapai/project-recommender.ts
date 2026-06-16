@@ -128,7 +128,7 @@ export const PROJECT_CANDIDATES: ProjectCandidate[] = [
   },
   {
     slug: "finance-narrative-pack",
-    title: "Board-ready finance narrative",
+    title: "Finance narrative for the board",
     tier: ["kaimahi", "tohunga"],
     functions: ["finance", "ops"],
     sizes: ["small", "medium", "large"],
@@ -176,7 +176,7 @@ export const PROJECT_CANDIDATES: ProjectCandidate[] = [
     sizes: ["medium", "large"],
     effortHours: 16,
     hoursSavedPerWeek: 12,
-    summary: "Collect onboarding inputs, draft setup tasks, and produce a customer-ready kickoff note.",
+    summary: "Collect onboarding inputs, draft setup tasks, and produce a kickoff note you can send the customer.",
     buildHint: "Use human review before anything reaches the customer.",
     tools: ["Form", "CRM", "Task manager", "Claude"],
     prompts: ["Turn these onboarding answers into setup tasks, risks, and a kickoff email."],
@@ -198,7 +198,7 @@ export const PROJECT_CANDIDATES: ProjectCandidate[] = [
   },
   {
     slug: "evaluation-harness",
-    title: "Custom evaluation harness",
+    title: "Custom evaluation suite",
     tier: ["rangatira", "pou"],
     functions: ["ops", "support", "finance", "other"],
     sizes: ["medium", "large"],
