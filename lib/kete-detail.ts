@@ -181,7 +181,7 @@ export const KETE_DETAIL: Record<
     slug: 'manaaki',
     heroLead: 'From liquor licensing to food safety.',
     heroBody:
-      "assembl's hospitality kete covers food safety (Food Act 2014), liquor licensing (Sale and Supply of Alcohol Act 2012), health and safety, and guest privacy — purpose-built for restaurants, hotels, bars, and tourism operators across Aotearoa.",
+      "assembl's hospitality kete covers food safety (Food Act 2014), liquor licensing (Sale and Supply of Alcohol Act 2012), health and safety, and guest privacy — purpose-built for restaurants, hotels, bars, and tourism operators across Aotearoa. Every output ends in an evidence pack — the sources, the assumptions, and the named person who signed it off — one file for when WorkSafe or the licensing inspector asks.",
     description: [
       "Manaaki keeps the kitchen running. Food Control Plans, alcohol licences, host responsibility logs, allergen records, employment paperwork — the operational compliance layer that keeps verifiers, DLCs, and WorkSafe inspectors satisfied.",
       "Every output cites the Food Act 2014, the Sale and Supply of Alcohol Act 2012, the Holidays Act 2003, and the relevant MPI / DLC guidance inline. Verifiers see a clean trail; managers spend an hour reviewing instead of a week reconstructing.",
@@ -502,7 +502,7 @@ export const KETE_DETAIL: Record<
     slug: 'hoko',
     heroLead: 'Consumer protection compliance for NZ retailers.',
     heroBody:
-      "assembl's retail kete covers consumer protection (Consumer Guarantees Act 1993, Fair Trading Act 1986), product safety, and retail employment compliance for New Zealand retailers.",
+      "assembl's retail kete covers consumer protection (Consumer Guarantees Act 1993, Fair Trading Act 1986), product safety, and retail employment compliance for New Zealand retailers. Every output ends in an evidence pack you can stand behind in writing — what was promised, who promised it, and where the customer's data sits.",
     description: [
       "Hoko handles the compliance layer underneath the till: Consumer Guarantees Act remedies, Fair Trading Act claims review, product safety recalls, and the privacy obligations on customer data captured at checkout or online.",
       "Each output cites the relevant Act and section inline. Returns workflows, gift-card terms, and refund policies all hold up under Disputes Tribunal scrutiny because the trail is in the box.",

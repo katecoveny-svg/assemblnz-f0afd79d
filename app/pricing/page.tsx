@@ -19,7 +19,7 @@ const MONTHLY = [
   {
     name: 'Starter',
     price: '$799 + GST / month',
-    body: 'One specialist workflow live in your team. All HAPAI tools. Email support.',
+    body: 'One agent live for your team — say, the food-safety draft for a single café, or the WoF readiness check for a three-vehicle fleet. All HAPAI tools. Email support, reply within one working day.',
     note: 'A Pilot Sprint covers your first month.',
     cta: 'Book a Pilot Sprint',
     href: '/pilot-sprint',
@@ -27,7 +27,7 @@ const MONTHLY = [
   {
     name: 'Pack',
     price: '$3,500 + GST / month',
-    body: 'The whole industry kete — every agent, every workflow, live NZ data feeds. All HAPAI tools. Named support.',
+    body: 'The whole kete for your industry. For Manaaki that is the eight hospitality agents — allergens, licensing, rostering, incident log, supplier compare, guest reply, food safety, manager certificates. Live NZ source feeds. All HAPAI tools. A named human on the assembl side.',
     note: 'A Pilot Sprint covers your first month.',
     cta: 'See the pack',
     href: '/industry-pack',
@@ -36,7 +36,7 @@ const MONTHLY = [
   {
     name: 'Outcome',
     price: 'Custom',
-    body: 'A commercial model tied to reviewed work delivered, not seats.',
+    body: 'We charge per signed-off output, not per seat — a known unit cost per piece of compliance work (per allergen report, per RFI pack, per submission). Useful when you would rather pay by the output than by the seat.',
     cta: 'Talk to us',
     href: '/contact',
   },
@@ -51,7 +51,7 @@ export default function PricingPage() {
           <div className="mx-auto max-w-4xl text-center">
             <Eyebrow label="Pricing" className="justify-center" />
             <h1 className="mt-6 font-display text-display-xl font-light">
-              Simple <em className="text-[color:var(--assembl-pounamu)]">pricing.</em>
+              Simple <em className="not-italic text-[color:var(--assembl-pounamu)]">pricing.</em>
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               One way in, two ways to run, and a custom path for bespoke work. All prices NZD, GST
@@ -103,7 +103,7 @@ export default function PricingPage() {
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow label="Run it month to month" accent="var(--assembl-gold)" className="justify-center" />
             <h2 className="mt-5 font-display text-display-lg font-light">
-              Two ways to run, <em className="text-[color:var(--assembl-pounamu)]">cancel any month.</em>
+              Two ways to run, <em className="not-italic text-[color:var(--assembl-pounamu)]">cancel any month.</em>
             </h2>
           </div>
           <div className="mt-12 grid gap-4 lg:grid-cols-3">

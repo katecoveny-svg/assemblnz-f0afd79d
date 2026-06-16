@@ -49,12 +49,13 @@ export default function ToroPage() {
             <SectionReveal>
               <Eyebrow label="Tōro · for whānau" accent="var(--assembl-gold)" />
               <h1 className="mt-6 font-display text-display-xl font-light">
-                Less of the evening on <em className="text-[color:var(--assembl-pounamu)]">school admin.</em>
+                Less of the evening on <em className="not-italic text-[color:var(--assembl-pounamu)]">school admin.</em>
               </h1>
               <p className="mt-8 max-w-xl text-body-lg text-[color:var(--text-body)]">
                 Tōro reads the school newsletters, the notices, and the messy household notes — then
-                drafts the reply, the calendar entry, and the plan. You give the nod. Built for the
-                week ahead, in your voice.
+                drafts the reply, the calendar entry, and the plan. One shared memory for everyone who
+                runs the house: the timetable, the pick-up roster, the dietary list — asked once,
+                remembered for whoever asks next, in English or te reo Māori. You give the nod.
               </p>
               <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
                 <Link href="/start" className="cta-primary inline-flex h-12 items-center px-7">
@@ -87,7 +88,7 @@ export default function ToroPage() {
           <SectionReveal>
             <Eyebrow label="What Tōro does" accent="var(--assembl-pounamu)" />
             <h2 className="mt-5 max-w-2xl font-display text-display-lg font-light">
-              Three things off your plate, <em className="text-[color:var(--assembl-pounamu)]">every week.</em>
+              Three things off your plate, <em className="not-italic text-[color:var(--assembl-pounamu)]">every week.</em>
             </h2>
           </SectionReveal>
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
