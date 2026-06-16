@@ -142,7 +142,7 @@ export function HomeLaunch() {
         {/* Text leads on the left; the vessel is a dominant presence on the
             right — roughly 40% of the row. Copy is first in the DOM, so on
             mobile the headline sits above the vessel. */}
-        <div className="container relative grid min-h-[82vh] items-center gap-8 py-16 lg:grid-cols-[1fr_minmax(0,640px)] lg:gap-14 lg:py-20">
+        <div className="container relative grid min-h-[82vh] items-center gap-8 py-16 lg:grid-cols-[1fr_minmax(0,700px)] lg:gap-14 lg:py-20">
           <motion.div style={{ y: copyY, opacity: copyOpacity }}>
             <motion.div
               className="max-w-2xl"
@@ -157,8 +157,8 @@ export function HomeLaunch() {
                 Built in Aotearoa
               </motion.p>
               <h1 className="mt-5 font-display text-[clamp(3.5rem,7vw,6rem)] font-light leading-[0.94] tracking-[-0.025em]">
-                <RevealWords text="Mahi that earns" className="block" />
-                <RevealWords text="its proof." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
+                <RevealWords text="We draft the slow paperwork." className="block" />
+                <RevealWords text="You sign it off and go home." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
               </h1>
               <motion.p
                 variants={item}
@@ -200,7 +200,7 @@ export function HomeLaunch() {
               procedural overlay. Sits on the right; its own negative space and
               thread-trail lean toward the headline on the left. */}
           <motion.div
-            className="relative h-[clamp(360px,48vh,600px)] w-full overflow-hidden"
+            className="relative h-[clamp(420px,56vh,680px)] w-full overflow-hidden"
             initial={reduce ? false : { opacity: 0, scale: 0.96 }}
             animate={reduce ? undefined : { opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, ease: EASE }}
@@ -256,7 +256,7 @@ export function HomeLaunch() {
         </div>
       </section>
 
-      {/* 3 · Pick your area — the nine kete, glass cards (off-white tint).
+      {/* 3 · Pick your area — the eight industry kete, glass cards (off-white tint).
           Kate's signal-threads texture sits underneath at low opacity — a
           delicate data-flow whisper, cream-on-cream, never loud. */}
       <section className="relative overflow-hidden bg-[#F4EFE6] py-24 lg:py-32">
@@ -276,7 +276,7 @@ export function HomeLaunch() {
             viewport={VIEWPORT}
             className="mb-12"
           >
-            <Eyebrow label="Nine kete" accent="var(--assembl-gold-thread)" />
+            <Eyebrow label="Eight kete" accent="var(--assembl-gold-thread)" />
             <h2 className="font-display text-display-lg font-light leading-[1.02]">
               <RevealWords text="Pick the pack" className="block" />
               <RevealWords text="for your work." className="block text-[color:var(--assembl-pounamu)]" />

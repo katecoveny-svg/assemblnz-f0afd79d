@@ -50,7 +50,7 @@ export function HowAPackWorks({ defineKete = true }: { defineKete?: boolean }) {
         <SectionReveal>
           <Eyebrow label="How a pack works in your business" accent="var(--assembl-pounamu)" />
           <h2 className="mt-6 max-w-3xl font-display text-display-lg font-light">
-            Install once. Run every day. <em className="text-[color:var(--assembl-pounamu)]">Show the proof.</em>
+            Install once. Run every day. <em className="not-italic text-[color:var(--assembl-pounamu)]">Show the proof.</em>
           </h2>
         </SectionReveal>
         <div className="mt-12 grid gap-6 lg:grid-cols-3">

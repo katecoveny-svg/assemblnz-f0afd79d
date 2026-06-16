@@ -4,12 +4,6 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { Kete } from '@/lib/kete';
 
-const LOCAL_VESSELS: Partial<Record<Kete['slug'], string>> = {
-  manaaki: '/img/kete/manaaki-vessel.png',
-  pikau: '/img/kete/pikau-vessel.jpg',
-  toro: '/img/kete/toro-vessel.png',
-};
-
 /**
  * KeteVesselCard — single 1:1 kete card with locked vessel imagery.
  * Hovers lift + tints the kete accent. Status pill renders the public launch state.
@@ -24,7 +18,6 @@ export function KeteVesselCard({
   index?: number;
 }) {
   const reduce = useReducedMotion();
-  const localVessel = LOCAL_VESSELS[kete.slug];
 
   return (
     <motion.div
@@ -49,9 +42,9 @@ export function KeteVesselCard({
         style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
       >
         <div className="relative aspect-square overflow-hidden">
-          {localVessel || vesselSrc ? (
+          {vesselSrc ? (
             <img
-              src={localVessel ?? vesselSrc}
+              src={vesselSrc}
               alt={`${kete.name} vessel — ${kete.industry}`}
               loading="lazy"
               className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04] group-focus-visible:scale-[1.04]"

@@ -23,7 +23,7 @@ export default function EvidencePackPage() {
         <div className="container">
           <Eyebrow label="Evidence pack" />
           <h1 className="mt-6 max-w-4xl font-display text-display-xl font-light">
-            What’s an <em className="text-[color:var(--assembl-pounamu)]">evidence pack?</em>
+            What’s an <em className="not-italic text-[color:var(--assembl-pounamu)]">evidence pack?</em>
           </h1>
           <p className="mt-8 max-w-3xl text-body-lg text-[color:var(--text-body)]">
             It’s the receipt for a piece of work. When an agent drafts something and a person signs

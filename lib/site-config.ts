@@ -29,45 +29,48 @@ export const heroVessel = {
 };
 
 // Painterly anchor — /about hero only.
-export const painterlyAnchor = '/img/kete/waihanga-vessel.jpg';
+export const painterlyAnchor = '/img/kete/heroes-vessel/waihanga-hero-vessel.jpg';
 
-// Nine kete vessels — 1:1 (card) + 16:9 (page hero)
+// Nine kete vessels — 1:1 (card) + 16:9 (page hero). All on the locked
+// `heroes-vessel` set: one cream/sage/gold stacked-disc form per kete, so every
+// surface (cards, hero stills, social) reads as one brand. (Manaaki, Pīkau,
+// Auaha, Hoko previously drifted to red/blue/purple renders — now retired.)
 export const ketes: Record<KeteSlug, { square: string; wide: string }> = {
   waihanga: {
-    square: '/img/kete/waihanga-vessel-square.jpg',
-    wide:   '/img/kete/waihanga-vessel.jpg',
+    square: '/img/kete/heroes-vessel/waihanga-hero-vessel.jpg',
+    wide:   '/img/kete/heroes-vessel/waihanga-hero-vessel.jpg',
   },
   manaaki: {
-    square: '/img/kete/manaaki-vessel-warm-square.jpg',
-    wide:   '/img/kete/manaaki-vessel-warm.jpg',
+    square: '/img/kete/heroes-vessel/manaaki-hero-vessel.jpg',
+    wide:   '/img/kete/heroes-vessel/manaaki-hero-vessel.jpg',
   },
   pikau: {
-    square: '/img/kete/pikau-vessel-blue-square.jpg',
-    wide:   '/img/kete/pikau-vessel-blue.jpg',
+    square: '/img/kete/heroes-vessel/pikau-hero-vessel.jpg',
+    wide:   '/img/kete/heroes-vessel/pikau-hero-vessel.jpg',
   },
   arataki: {
-    square: '/img/kete/arataki-vessel-amber-square.jpg',
-    wide:   '/img/kete/arataki-vessel-amber.jpg',
+    square: '/img/kete/heroes-vessel/arataki-hero-vessel.jpg',
+    wide:   '/img/kete/heroes-vessel/arataki-hero-vessel.jpg',
   },
   auaha: {
-    square: '/img/kete/auaha-vessel-purple-square.jpg',
-    wide:   '/img/kete/auaha-vessel-purple.jpg',
+    square: '/img/kete/heroes-vessel/auaha-hero-vessel.jpg',
+    wide:   '/img/kete/heroes-vessel/auaha-hero-vessel.jpg',
   },
   ako: {
-    square: '/img/kete/ako-vessel-amber.jpg',
-    wide:   '/img/kete/ako-vessel-amber.jpg',
+    square: '/img/kete/heroes-vessel/ako-hero-vessel.jpg',
+    wide:   '/img/kete/heroes-vessel/ako-hero-vessel.jpg',
   },
   matauranga: {
-    square: '/img/kete/matauranga-vessel-tall.jpg',
-    wide:   '/img/kete/matauranga-vessel-tall.jpg',
+    square: '/img/kete/heroes-vessel/matauranga-hero-vessel.jpg',
+    wide:   '/img/kete/heroes-vessel/matauranga-hero-vessel.jpg',
   },
   hoko: {
-    square: '/img/kete/hoko-vessel-violet.jpg',
-    wide:   '/img/kete/hoko-vessel-violet.jpg',
+    square: '/img/kete/heroes-vessel/hoko-hero-vessel.jpg',
+    wide:   '/img/kete/heroes-vessel/hoko-hero-vessel.jpg',
   },
   toro: {
-    square: '/img/kete/toro-vessel.png',
-    wide:   '/img/kete/toro-vessel-charcoal.jpg',
+    square: '/img/kete/heroes-vessel/toro-hero-vessel.jpg',
+    wide:   '/img/kete/heroes-vessel/toro-hero-vessel.jpg',
   },
 };
 
