@@ -5,8 +5,8 @@ import { getServiceClient } from '@/lib/supabase/service';
 /**
  * Public vessel generator rate limit.
  *
- * 5 generations per IP per day for anonymous (non-BYOK) calls. BYOK callers
- * are uncapped — they pay their own Fal.ai costs.
+ * 5 generations per IP per day. assembl covers the Fal.ai cost, so the cap
+ * protects platform spend — there is no bring-your-own-key bypass.
  *
  * "Day" is a 24-hour rolling window, not a calendar day — simpler reasoning
  * and avoids midnight-NZT bursts.
@@ -81,7 +81,7 @@ export async function checkPublicRateLimit(ip: string): Promise<RateLimitVerdict
 export function rateLimitedResponse(verdict: RateLimitVerdict) {
   return Response.json(
     {
-      error: `Daily limit reached (${PUBLIC_DAILY_CAP} generations per day). Bring your own Fal.ai key to remove the cap.`,
+      error: `Daily limit reached (${PUBLIC_DAILY_CAP} generations per day). Try again tomorrow.`,
       remaining: 0,
       resetSeconds: verdict.resetSeconds,
     },

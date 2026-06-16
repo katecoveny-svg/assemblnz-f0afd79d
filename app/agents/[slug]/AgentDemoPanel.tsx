@@ -115,8 +115,8 @@ export function AgentDemoPanel({
             Fire {agentName} now.
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">
-            This panel calls the real assembl Iho router. The reply is draft-only, cites its
-            review gate, and can be copied or emailed straight to a client after you run it.
+            This panel calls the real assembl Iho router. Copy or email the reply straight to a
+            client after you run it.
           </p>
 
           <div className="mt-6 grid gap-3 text-sm">

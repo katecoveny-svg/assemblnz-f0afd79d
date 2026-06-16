@@ -704,7 +704,7 @@ export const KETE_DETAIL: Record<
         statusLabel: 'Live now',
       },
       {
-        name: 'Tōro Kid Money',
+        name: 'Tōro Family Budget',
         pitch: 'Pocket-money and chores ledger for families.',
         body: "Set a chore, kids submit photo proof, you approve. Payments can split across save, spend, and giving so the habit shows up in the maths, not just the marketing. One ledger per household, kid-safe by default.",
         status: 'live',

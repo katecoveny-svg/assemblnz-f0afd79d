@@ -14,6 +14,7 @@ const commitments = [
   "Personally identifiable information is minimised or masked before model calls where the workflow permits it.",
   "Every evidence pack records sources, assumptions, reviewer decisions, timestamps, and audit metadata.",
   "Users can see when output draws on live data, static policy, uploaded files, or model reasoning.",
+  "assembl pays for the model calls. We never ask for or store your own model API keys, and the right model is chosen automatically for each task.",
 ];
 
 export default function AIUseDisclosurePage() {

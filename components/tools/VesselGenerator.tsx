@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Loader2, Sparkles, KeyRound, Share2, Download } from 'lucide-react';
+import { Loader2, Sparkles, Share2, Download } from 'lucide-react';
 import { BrandColorPicker } from './BrandColorPicker';
 
 type Preset = {
@@ -17,7 +17,6 @@ type GenerationResult = {
   imageUrl: string;
   brandName: string;
   brandColor: string;
-  byok: boolean;
 };
 
 type Props = {
@@ -36,8 +35,6 @@ export function VesselGenerator({ initialPreset }: Props) {
   const [brandName, setBrandName] = useState(initialPreset?.brandName ?? 'assembl');
   const [brandColor, setBrandColor] = useState(initialPreset?.brandColor ?? '#2B6B57');
   const [prompt, setPrompt] = useState(initialPreset?.defaultPrompt ?? '');
-  const [byok, setByok] = useState('');
-  const [byokRevealed, setByokRevealed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<GenerationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -65,7 +62,6 @@ export function VesselGenerator({ initialPreset }: Props) {
           brandName,
           brandColor,
           prompt: prompt.trim(),
-          byok: byok.trim() || undefined,
         }),
       });
       const data = (await res.json().catch(() => null)) as
@@ -86,13 +82,14 @@ export function VesselGenerator({ initialPreset }: Props) {
     } finally {
       setSubmitting(false);
     }
-  }, [brandColor, brandName, byok, initialPreset?.slug, prompt, submitting]);
+  }, [brandColor, brandName, initialPreset?.slug, prompt, submitting]);
 
   const share = useCallback(async () => {
     if (!result) return;
+    // UTM-tag shared links so visits back to assembl.co.nz are attributable.
     const url =
       typeof window !== 'undefined'
-        ? `${window.location.origin}/tools/vessel/output/${result.generationId}`
+        ? `${window.location.origin}/tools/vessel/output/${result.generationId}?utm_source=share&utm_medium=vessel&utm_campaign=assembl_vessel`
         : '';
     if (!url) return;
     try {
@@ -166,48 +163,6 @@ export function VesselGenerator({ initialPreset }: Props) {
           </div>
         </div>
 
-        <details
-          className="group rounded-lg border border-[rgba(35,33,31,0.12)] bg-white/60 px-4 py-3"
-          open={byokRevealed}
-          onToggle={(e) => setByokRevealed((e.target as HTMLDetailsElement).open)}
-        >
-          <summary className="cursor-pointer list-none">
-            <span className="inline-flex items-center gap-2 text-sm text-[color:var(--text-primary)]">
-              <KeyRound className="h-4 w-4" aria-hidden />
-              Bring your own Fal.ai key
-              <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
-                optional — removes the daily cap + watermark
-              </span>
-            </span>
-          </summary>
-          <div className="mt-3">
-            <label htmlFor="byok-input" className="sr-only">
-              Fal.ai API key
-            </label>
-            <input
-              id="byok-input"
-              type="password"
-              autoComplete="off"
-              value={byok}
-              onChange={(e) => setByok(e.target.value)}
-              placeholder="fal-... (paste your key)"
-              className="font-mono w-full rounded-md border border-[rgba(35,33,31,0.18)] bg-white px-3 py-2 text-sm tracking-wide text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2B6B57]"
-            />
-            <p className="mt-2 text-xs text-[color:var(--text-secondary)]">
-              Your key is sent once per generation and never stored. Get one at{' '}
-              <a
-                href="https://fal.ai/dashboard/keys"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline-offset-2 hover:underline"
-              >
-                fal.ai/dashboard/keys
-              </a>
-              .
-            </p>
-          </div>
-        </details>
-
         <button
           type="button"
           onClick={generate}
@@ -237,7 +192,7 @@ export function VesselGenerator({ initialPreset }: Props) {
         <div className="sticky top-8 space-y-4">
           <div className="font-mono flex items-center justify-between text-[10px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
             <span>Vessel preview</span>
-            {result?.byok && <span className="text-[#2B6B57]">BYOK · no watermark</span>}
+            <span className="text-[color:var(--text-secondary)]">assembl covers generation</span>
           </div>
           <div
             className="relative aspect-[4/5] w-full overflow-hidden rounded-md border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)]"

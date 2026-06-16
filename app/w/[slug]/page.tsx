@@ -110,7 +110,7 @@ export default async function StandaloneWorkflowPage({
             </Link>
             <span aria-hidden>·</span>
             <Link href="/legal/disclaimer" className="hover:text-[color:var(--assembl-pounamu)]">
-              Draft-only disclaimer
+              Disclaimer
             </Link>
           </p>
         </div>

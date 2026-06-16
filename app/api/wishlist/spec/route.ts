@@ -9,6 +9,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { buildFallbackSpec, parseWishlistSpec } from '@/lib/tools/wishlist';
+import { gate, gateBlockedResponse } from '@/lib/gating/server';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -65,6 +66,12 @@ export async function POST(req: Request) {
     );
   }
   const { business, wish } = parsed.data;
+
+  // Access gate: assembl pays for the model call, so consume one unit of the
+  // visitor's quota first. Anonymous gets 1 free run; an email lifts it to 5/day;
+  // a paid login (wired when auth reaches this route) is unlimited.
+  const verdict = await gate(req, 'hapai', 'wishlist');
+  if (!verdict.allowed) return gateBlockedResponse(verdict);
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {

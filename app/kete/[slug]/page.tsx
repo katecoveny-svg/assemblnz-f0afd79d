@@ -433,7 +433,7 @@ function IndustryKetePage({
                       Vessel Studio
                     </h2>
                     <p className="mt-5 max-w-2xl text-body-md text-[color:var(--text-body)] md:text-body-lg">
-                      Generate evidence-vessel imagery for any kete, any workflow, any campaign. Bring your own fal.ai key. Cormorant typography, pounamu palette, locked brand direction.
+                      Generate evidence-vessel imagery for any kete, any workflow, any campaign. assembl covers generation. Cormorant typography, pounamu palette, locked brand direction.
                     </p>
                   </div>
                   <span className="inline-flex h-12 items-center justify-center rounded-full bg-[#5B4FA0] px-7 text-sm font-medium text-white transition-transform duration-300 group-hover:translate-x-1 md:text-base">

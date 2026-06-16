@@ -67,7 +67,7 @@ export default async function BrandedVesselToolPage({
           </h1>
           <p className="mt-4 text-base leading-relaxed text-[color:var(--text-secondary)]">
             Brand colour and starter prompt pre-filled. Tweak the subject, generate, share. Five
-            per IP per day on the platform; bring your own Fal.ai key to remove the cap.
+            per IP per day — assembl covers generation.
           </p>
         </header>
 

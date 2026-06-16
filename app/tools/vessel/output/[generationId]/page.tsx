@@ -118,7 +118,7 @@ export default async function VesselOutputPage({
             >
               the assembl vessel generator
             </Link>
-            .{row.byok && ' BYOK · no watermark.'}
+            .
           </span>
           <Link href="/pilot-sprint" className="underline-offset-2 hover:underline">
             Run this on your real work in a Pilot Sprint →

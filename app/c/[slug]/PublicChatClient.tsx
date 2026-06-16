@@ -551,10 +551,6 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
                 </button>
               ))}
             </div>
-
-            <div className="mt-8 max-w-xl rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/55 p-4 text-sm leading-6 text-[color:var(--text-secondary)]">
-              Draft-only. A named person reviews outputs before external use. Conversations can be saved as demo evidence packs for review.
-            </div>
           </aside>
 
           <div className="flex min-h-[560px] md:h-[calc(100vh-160px)] md:max-h-[720px] md:min-h-[560px] py-2">
