@@ -17,7 +17,7 @@ import {
 export const metadata: Metadata = {
   title: "Trust Centre | assembl",
   description:
-    "assembl's security, privacy, data-residency, and compliance posture in plain English. NZ-resident data, PII masked before any third-party model call, and verifiable evidence packs.",
+    "Where your data lives, who can touch it, and what we can prove today — in plain English. Data in Sydney (an NZ option is coming), PII masked before any model call, and a receipt behind every output.",
   alternates: { canonical: "/trust" },
   robots: { index: true, follow: true },
 };
@@ -108,9 +108,9 @@ export default function TrustCentrePage() {
               Sovereign by default. Evidence-ready by design.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:var(--text-secondary)]">
-              assembl is built for Aotearoa New Zealand regulators and the teams who answer
-              to them. This page lays out where your data lives, who touches it, what we can
-              prove today, and how to get the full security pack — in plain English.
+              This is the plain version — for the procurement officer who has read a hundred
+              glossy compliance pages and just wants the facts. Where your data lives. Who can
+              touch it. What we can prove today. How to get the full pack.
             </p>
             <LastUpdated />
           </SectionReveal>
@@ -120,16 +120,16 @@ export default function TrustCentrePage() {
             <ul className="mt-10 grid gap-4 sm:grid-cols-3">
               {[
                 {
-                  head: "NZ data residency",
-                  body: "An NZ-resident storage option is in progress. Your data is tenant-scoped, and only masked content ever reaches an offshore model — never raw PII.",
+                  head: "Your data stays close",
+                  body: "Your data lives in Sydney today, not the US. An NZ-resident option is on the way. Only masked content ever reaches a model.",
                 },
                 {
-                  head: "PII never leaves unmasked",
-                  body: "Personal information is masked before any third-party model call. Models see masked content, not raw PII.",
+                  head: "Models never see real names",
+                  body: "We strip the personal details before any model call. The model reads masked text. The names stay with you.",
                 },
                 {
-                  head: "Verifiable evidence",
-                  body: "Every output ends in an evidence pack — a downloadable bundle anyone can independently verify.",
+                  head: "Proof you can hand over",
+                  body: "Every output ends in an evidence pack — a downloadable bundle of PDFs. Hand it to an auditor and they can check it themselves.",
                 },
               ].map((item) => (
                 <li
@@ -177,14 +177,13 @@ export default function TrustCentrePage() {
             <SectionReveal>
               <SectionHeading eyebrow="Architecture" title="The Mana Trust Layer" id="architecture" />
               <p className="mt-6 text-base leading-7 text-[color:var(--text-secondary)]">
-                Every output runs through one governance pipeline: Kahu → Iho → Tā → Mahara →
-                Mana. Kahu captures the request and masks personal information before anything
-                else happens. Iho routes the work to the right specialist agent and model. Tā
-                drafts the work with every source cited inline. Mahara is where a named human
-                in your team reviews, edits, or rejects. Mana captures the sign-off and seals
-                the evidence pack. <strong className="font-medium text-[color:var(--text-primary)]">
-                Personal information is masked before any third-party model call</strong> — model
-                vendors receive masked content, not raw PII.
+                Every output runs the same five steps: Kahu → Iho → Tā → Mahara → Mana. Kahu
+                takes the request and masks the personal details first. Iho picks the right
+                agent and model. Tā drafts the work with every source cited inline. Mahara is
+                where someone in your team reads it and decides. Mana seals the receipt with
+                their name on it. <strong className="font-medium text-[color:var(--text-primary)]">
+                The personal details are masked before any model call</strong> — the model
+                never sees a real name.
               </p>
               <div className="mt-8 overflow-x-auto rounded-2xl border border-[color:var(--assembl-cloud)] bg-white p-5 md:p-8">
                 <div className="min-w-[640px]">
@@ -199,11 +198,10 @@ export default function TrustCentrePage() {
             <SectionReveal>
               <SectionHeading eyebrow="Where your data lives" title="Data residency" id="data-residency" />
               <p className="mt-6 text-base leading-7 text-[color:var(--text-secondary)]">
-                assembl is standing up a New Zealand–resident option for customer data. Our
-                primary database, authentication, and file storage run on Supabase, and we are
-                confirming an NZ-resident hosting region with our infrastructure team. Model
-                inference may call providers based offshore, but personal information is masked
-                before it reaches them — never raw PII.
+                Your data lives in Sydney today. Not in the US. It is the closest major cloud
+                region to Aotearoa, and an NZ-resident option is on the way — we are confirming
+                the region with our infra team now. Models may sit offshore, but they only ever
+                see masked content. Your raw data stays put.
               </p>
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div className="rounded-2xl border border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu-paper)] p-6">
@@ -211,11 +209,11 @@ export default function TrustCentrePage() {
                     assembl
                   </p>
                   <p className="mt-3 font-display text-xl font-light text-[color:var(--text-primary)]">
-                    Built to keep your data in-region.
+                    Your data sits in Sydney, not the US.
                   </p>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--text-secondary)]">
-                    An NZ-resident storage option is in progress. Your data is tenant-scoped,
-                    and masked content is the only thing that ever reaches an offshore model.
+                    An NZ option is on the way. Everything is fenced to your tenant, and only
+                    masked content ever reaches a model.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-[color:var(--assembl-cloud)] bg-white p-6">
@@ -226,8 +224,8 @@ export default function TrustCentrePage() {
                     Routed offshore by default.
                   </p>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--text-secondary)]">
-                    Most AI tools store and process your data overseas with no NZ-resident
-                    option and no masking before the model sees it.
+                    Most AI tools ship your data to the US the moment you paste it. No regional
+                    option. No masking. The model sees everything.
                   </p>
                 </div>
               </div>
@@ -239,9 +237,9 @@ export default function TrustCentrePage() {
             <SectionReveal>
               <SectionHeading eyebrow="Who touches your data" title="Sub-processors" id="sub-processors" />
               <p className="mt-6 text-base leading-7 text-[color:var(--text-secondary)]">
-                Every third party that can touch customer data, with its location, purpose, and
-                data-processing agreement. We review this list weekly and version-stamp every
-                change in the log below.
+                Here is every company that can touch your data — where they sit, what they do,
+                and the contract that binds them. We check this list every week. Every change
+                shows up in the log below.
               </p>
               <div className="mt-8 overflow-x-auto rounded-2xl border border-[color:var(--assembl-cloud)] bg-white">
                 <table className="w-full min-w-[680px] border-collapse text-left text-sm">
@@ -296,8 +294,8 @@ export default function TrustCentrePage() {
             <SectionReveal>
               <SectionHeading eyebrow="What we can prove today" title="Compliance posture" id="compliance" />
               <p className="mt-6 text-base leading-7 text-[color:var(--text-secondary)]">
-                Current state, not aspiration. Where a certification is on the roadmap we say
-                so plainly — we will not claim an attestation we do not hold.
+                What is true today, not what we hope for. If a certification is not done, we
+                say so. We would rather tell you we are on the way than pretend we have arrived.
               </p>
               <ul className="mt-8 space-y-4">
                 {COMPLIANCE_POSTURE.map((item) => (
@@ -330,15 +328,13 @@ export default function TrustCentrePage() {
             <SectionReveal>
               <SectionHeading eyebrow="Verifiable by anyone" title="Evidence packs" id="receipts" />
               <p className="mt-6 text-base leading-7 text-[color:var(--text-secondary)]">
-                Every output ends in an evidence pack — a downloadable bundle of PDFs and files
-                you can show a regulator, an auditor, or a client. It records the sources, the
-                decisions, the reviewer, and the timestamps, so the work can be checked without
-                taking anyone&rsquo;s word for it.
+                Every output ends in an evidence pack — a downloadable bundle of PDFs. Sources,
+                decisions, who signed off, and when. Show it to a regulator, an auditor, or a
+                client, and they don&rsquo;t have to take your word for anything.
               </p>
               <p className="mt-4 text-base leading-7 text-[color:var(--text-secondary)]">
-                Underneath, we call this a Mana Receipt — Ed25519-signed and cryptographically
-                tamper-evident. A regulator can paste a receipt into our public verifier and
-                confirm it hasn&rsquo;t been altered.
+                Under the hood we call it a Mana Receipt. It&rsquo;s Ed25519-signed, so any
+                tampering shows. Paste one into our public verifier and check it yourself.
               </p>
               <div className="mt-6">
                 <Link
@@ -357,11 +353,11 @@ export default function TrustCentrePage() {
               <SectionHeading eyebrow="How it's protected" title="Encryption" id="encryption" />
               <ul className="mt-8 grid gap-4 sm:grid-cols-3">
                 {[
-                  { head: "At rest", body: "Customer data is encrypted at rest with AES-256." },
-                  { head: "In transit", body: "All traffic is encrypted in transit with TLS 1.3." },
+                  { head: "At rest", body: "Stored data is encrypted with AES-256. A stolen disk reads as noise." },
+                  { head: "In transit", body: "Every connection runs on TLS 1.3. Nothing travels in the clear." },
                   {
                     head: "Key management",
-                    body: "Encryption keys are managed by our infrastructure providers, separated from the data they protect, and never exposed to application code.",
+                    body: "Our infra providers hold the keys, kept apart from the data they unlock. The app code never sees them.",
                   },
                 ].map((item) => (
                   <li key={item.head} className="rounded-2xl border border-[color:var(--assembl-cloud)] bg-white p-5">
@@ -381,9 +377,9 @@ export default function TrustCentrePage() {
               <SectionHeading eyebrow="When something goes wrong" title="Incident response" id="incident-response" />
               <div className="mt-8 grid gap-4 sm:grid-cols-3">
                 {[
-                  { head: "Detect", body: "Operational logging and audit trails let us spot anomalous access and surface it for review." },
-                  { head: "Contain", body: "Affected credentials and access paths are revoked, and the scope is established before anything else." },
-                  { head: "Notify", body: "We notify affected customers and, where required, the Office of the Privacy Commissioner." },
+                  { head: "Detect", body: "Logs and audit trails flag access that looks wrong, fast." },
+                  { head: "Contain", body: "We kill the affected access first, then map exactly how far it reached." },
+                  { head: "Notify", body: "We tell you — and the Privacy Commissioner when the law says we must." },
                 ].map((item) => (
                   <div key={item.head} className="rounded-2xl border border-[color:var(--assembl-cloud)] bg-white p-5">
                     <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
@@ -394,10 +390,10 @@ export default function TrustCentrePage() {
                 ))}
               </div>
               <p className="mt-6 rounded-2xl border border-[color:var(--assembl-gold-thread)] bg-[#FBF3E2] p-5 text-sm leading-6 text-[color:var(--text-primary)]">
-                <strong className="font-medium">72-hour commitment.</strong> The Privacy Act
-                2020 requires notifiable breaches to be reported as soon as practicable. We
-                hold ourselves to a tighter bar: notifying affected people and the Privacy
-                Commissioner within 72 hours of becoming aware.
+                <strong className="font-medium">72 hours, not &ldquo;eventually.&rdquo;</strong>{" "}
+                The Privacy Act 2020 asks for notice &ldquo;as soon as practicable.&rdquo; We
+                hold ourselves tighter: you and the Privacy Commissioner hear from us within 72
+                hours of us knowing.
               </p>
             </SectionReveal>
           </section>
@@ -407,15 +403,14 @@ export default function TrustCentrePage() {
             <SectionReveal>
               <SectionHeading eyebrow="Your data, your terms" title="Deletion & retention" id="retention" />
               <p className="mt-6 text-base leading-7 text-[color:var(--text-secondary)]">
-                Retention is customer-configurable. By default, evidence packs are retained for
-                the period agreed in your contract — typically aligned to your own tax, audit, or
-                regulatory record-keeping obligations. Deletion requests are honoured unless
-                another law requires us to retain a record.
+                You decide how long we keep things. By default, evidence packs stay as long as
+                your contract needs — usually to match your own tax or audit rules. Ask us to
+                delete your data and we do, unless a law makes us hold it.
               </p>
               <ul className="mt-6 space-y-2 text-sm leading-6 text-[color:var(--text-secondary)]">
-                <li>• <strong className="font-medium text-[color:var(--text-primary)]">Default retention:</strong> aligned to contract and regulatory record-keeping.</li>
-                <li>• <strong className="font-medium text-[color:var(--text-primary)]">Configurable:</strong> set a shorter or longer window per workspace.</li>
-                <li>• <strong className="font-medium text-[color:var(--text-primary)]">Deletion:</strong> request removal of your data; we confirm once complete.</li>
+                <li>• <strong className="font-medium text-[color:var(--text-primary)]">By default:</strong> kept as long as your contract and record-keeping rules need.</li>
+                <li>• <strong className="font-medium text-[color:var(--text-primary)]">Your call:</strong> dial the window up or down per workspace.</li>
+                <li>• <strong className="font-medium text-[color:var(--text-primary)]">Deletion:</strong> ask, we remove it, then confirm it&rsquo;s gone.</li>
               </ul>
             </SectionReveal>
           </section>
@@ -426,9 +421,9 @@ export default function TrustCentrePage() {
               <SectionHeading eyebrow="Who can see what" title="Access controls" id="access" />
               <ul className="mt-8 grid gap-4 sm:grid-cols-3">
                 {[
-                  { head: "Row-level security", body: "Supabase row-level security scopes every record to its tenant. One customer can never read another's data." },
-                  { head: "Role-based access", body: "Access inside a workspace is role-based, so people only see what their role allows." },
-                  { head: "Founder allowlist", body: "High-stakes outputs sit behind a founder allowlist — a named human gate before anything sensitive ships." },
+                  { head: "Row-level security", body: "Every record is fenced to its tenant. One customer simply can't read another's." },
+                  { head: "Role-based access", body: "Inside your workspace, people see what their role allows — and nothing past it." },
+                  { head: "Founder allowlist", body: "The riskiest outputs wait behind a named person. Nothing sensitive ships without them." },
                 ].map((item) => (
                   <li key={item.head} className="rounded-2xl border border-[color:var(--assembl-cloud)] bg-white p-5">
                     <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
@@ -446,15 +441,15 @@ export default function TrustCentrePage() {
             <SectionReveal>
               <SectionHeading eyebrow="How the agents are governed" title="AI governance" id="ai-governance" />
               <p className="mt-6 text-base leading-7 text-[color:var(--text-secondary)]">
-                assembl&rsquo;s agents draft; people decide. Te Tiriti commitments and tikanga
-                values shape how the agents are built and how they handle data.
+                The agents draft. People decide. Te Tiriti commitments and tikanga values shape
+                how we build them and how they handle your data.
               </p>
               <ul className="mt-6 space-y-3">
                 {[
-                  "Draft-only autonomy. No agent takes an external action on its own.",
-                  "Human-in-the-loop. A named reviewer accepts, edits, or rejects before anything ships.",
-                  "No auto-send. Nothing leaves your workspace until a person signs it off.",
-                  "No training on customer data. We never use your workflow content to train public models.",
+                  "Draft-only. No agent sends, posts, or files anything on its own.",
+                  "A named person reads every draft and accepts, edits, or bins it.",
+                  "Nothing leaves your workspace until someone signs it off.",
+                  "Your data never trains a public model. Ever.",
                 ].map((line) => (
                   <li key={line} className="flex items-start gap-3 text-base leading-7 text-[color:var(--text-secondary)]">
                     <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--assembl-pounamu)]" />
@@ -490,15 +485,15 @@ export default function TrustCentrePage() {
             <SectionReveal>
               <SectionHeading eyebrow="Get the full pack" title="Request the security pack" id="request" />
               <p className="mt-6 max-w-2xl text-base leading-7 text-[color:var(--text-secondary)]">
-                Need the full set of artefacts for a vendor review? Tell us a little about your
-                request and our security team will reply from security@assembl.co.nz.
+                Running a vendor review? Tell us who you are and what you need. Our security team
+                replies straight from security@assembl.co.nz.
               </p>
               <div className="mt-8 rounded-3xl border border-[color:var(--assembl-cloud)] bg-white p-6 md:p-8">
                 <SecurityPackForm />
               </div>
               <p className="mt-8 text-sm leading-6 text-[color:var(--text-secondary)]">
-                This Trust Centre is reviewed and signed off by Kate Hudson, founder, Aotearoa.
-                Spotted something that needs correcting? Email{" "}
+                Kate Hudson, our founder, reads and signs off this page herself. See something
+                that&rsquo;s not right? Email{" "}
                 <a
                   href="mailto:security@assembl.co.nz"
                   className="rounded-sm text-[color:var(--assembl-pounamu)] underline underline-offset-2 hover:text-[color:var(--assembl-pounamu-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]"
