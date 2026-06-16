@@ -40,6 +40,17 @@ export default function DisclaimerPage() {
               </p>
             </SectionReveal>
 
+            <SectionReveal delay={0.22}>
+              <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6 md:p-8">
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">In plain English</p>
+                <ul className="mt-4 space-y-2 text-[color:var(--text-body)]">
+                  <li>assembl drafts work and assembles an evidence pack — it does not give you legal, financial, or professional advice.</li>
+                  <li>Every output is a draft until a named human reviews and approves it.</li>
+                  <li>You stay responsible for what you file, send, or rely on — check it before you use it.</li>
+                </ul>
+              </div>
+            </SectionReveal>
+
             <SectionReveal delay={0.25}>
               <h2 className="font-display text-2xl font-light md:text-3xl">What assembl is not.</h2>
               <p className="mt-3">

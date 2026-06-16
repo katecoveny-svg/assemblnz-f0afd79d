@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Eye, Play } from 'lucide-react';
+import { Eye, Play } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import type { Workflow } from '@/lib/workflows';
 import { getKete } from '@/lib/kete';
@@ -43,9 +43,6 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
         {workflow.description}
       </p>
       <div className="relative mt-5 flex flex-wrap items-center gap-2 text-[12.5px]">
-        <span className="rounded-full border border-white/64 bg-white/42 px-3 py-1 text-[color:var(--text-secondary)] backdrop-blur-md">
-          ~{workflow.timeSavedMin} min saved per run
-        </span>
         <span className="rounded-full border border-white/64 bg-white/42 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-[color:var(--workflow-accent)] backdrop-blur-md">
           {workflow.priceLabel === 'Industry Pack' ? 'Kete pack' : workflow.priceLabel}
         </span>
@@ -53,25 +50,23 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
       <div className={compact ? 'relative mt-6 grid gap-2 sm:grid-cols-2' : 'relative mt-auto grid gap-2 pt-7 sm:grid-cols-2'}>
         <Link
           href={`/workflows/${workflow.slug}`}
-          className="inline-flex h-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.70)] bg-[linear-gradient(180deg,rgba(255,255,255,0.76),rgba(232,239,233,0.62))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[color:var(--workflow-accent)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.94),0_18px_48px_rgba(43,107,87,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          aria-label={`Open workflow ${workflow.title}`}
+          title={`Open workflow ${workflow.title}`}
+          className="group/btn inline-flex h-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.70)] bg-[linear-gradient(180deg,rgba(255,255,255,0.76),rgba(232,239,233,0.62))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[color:var(--workflow-accent)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.94),0_18px_48px_rgba(43,107,87,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
-          <Play className="mr-2 h-4 w-4" aria-hidden />
-          Open workflow
+          <Play className="h-4 w-4" aria-hidden />
+          <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-200 group-hover/btn:ml-2 group-hover/btn:max-w-[8rem] group-hover/btn:opacity-100 group-focus-visible/btn:ml-2 group-focus-visible/btn:max-w-[8rem] group-focus-visible/btn:opacity-100">Open workflow</span>
         </Link>
         <Link
           href={`/workflows/${workflow.slug}#preview`}
-          className="inline-flex h-11 items-center justify-center rounded-full border border-[rgba(35,33,31,0.12)] bg-white/38 px-4 text-sm font-medium text-[color:var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-md transition hover:border-[color:var(--workflow-accent)] hover:bg-white/58 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          aria-label={`Preview ${workflow.title}`}
+          title={`Preview ${workflow.title}`}
+          className="group/btn inline-flex h-11 items-center justify-center rounded-full border border-[rgba(35,33,31,0.12)] bg-white/38 px-4 text-sm font-medium text-[color:var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-md transition hover:border-[color:var(--workflow-accent)] hover:bg-white/58 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
-          <Eye className="mr-2 h-4 w-4" aria-hidden />
-          Preview sample
+          <Eye className="h-4 w-4" aria-hidden />
+          <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-200 group-hover/btn:ml-2 group-hover/btn:max-w-[8rem] group-hover/btn:opacity-100 group-focus-visible/btn:ml-2 group-focus-visible/btn:max-w-[8rem] group-focus-visible/btn:opacity-100">Preview sample</span>
         </Link>
       </div>
-      <Link
-        href={`/workflows/${workflow.slug}`}
-        className="relative mt-4 inline-flex w-fit items-center gap-2 rounded-sm font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--workflow-accent)] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4"
-      >
-        Setup and limits <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-      </Link>
     </article>
   );
 }

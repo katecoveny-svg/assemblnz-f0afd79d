@@ -377,9 +377,6 @@ function IndustryKetePage({
                   <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                     Agent: {agent.name}
                   </p>
-                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-                    {agent.oneLiner}
-                  </p>
                   <span
                     className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]"
                     style={{ color: kete.accent }}
@@ -935,9 +932,6 @@ function ToroPage({
                   </h3>
                   <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
                     Agent: {agent.name}
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-                    {agent.oneLiner}
                   </p>
                   <span
                     className="mt-5 inline-flex items-center font-mono text-[10px] uppercase tracking-[0.18em]"

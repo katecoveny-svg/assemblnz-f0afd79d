@@ -45,6 +45,17 @@ export default function PrivacyPage() {
               </p>
             </SectionReveal>
 
+            <SectionReveal delay={0.22}>
+              <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6 md:p-8">
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">In plain English</p>
+                <ul className="mt-4 space-y-2 text-[color:var(--text-body)]">
+                  <li>We collect only what we need to run assembl for you, and we tell you when we do.</li>
+                  <li>Your data stays inside your tenant — we never sell it, and human review sits in front of every action.</li>
+                  <li>You can ask to see, correct, or delete your information any time — email privacy@assembl.co.nz.</li>
+                </ul>
+              </div>
+            </SectionReveal>
+
             <SectionReveal delay={0.25}>
               <h2 className="font-display text-2xl font-light md:text-3xl">What we collect <span className="text-base text-[color:var(--text-secondary)]">(IPP 1, IPP 2)</span></h2>
               <p className="mt-3">We collect the minimum personal information needed to run the platform:</p>

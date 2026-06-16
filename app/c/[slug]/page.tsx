@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { getPublicChatTenant } from '@/lib/public-chat/tenant';
+import { keteHeadline } from '@/lib/public-chat/headlines';
 import { PublicChatClient } from './PublicChatClient';
 
 export const dynamic = 'force-dynamic';
@@ -13,10 +14,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const tenant = await getPublicChatTenant(slug);
+  const headline = keteHeadline(tenant.kete);
 
   return {
     title: `${tenant.name} chat`,
-    description: `Chat with ${tenant.name}'s ${tenant.keteName} pack.`,
+    description: headline || `Chat with ${tenant.name}'s ${tenant.keteName} pack.`,
     manifest: `/c/${tenant.slug}/manifest.json`,
     themeColor: tenant.brandColor,
     robots: { index: false, follow: false },
