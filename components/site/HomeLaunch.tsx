@@ -14,6 +14,7 @@ import { ArrowRight } from 'lucide-react';
 import { KETES } from '@/lib/kete';
 import { VesselHero } from '@/components/hero/VesselHero';
 import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
+import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
 
 // "Pick your area" — one link per kete. English first, te reo second.
 const KETE_ROWS = [
@@ -213,6 +214,23 @@ export function HomeLaunch() {
                   Book a Pilot Sprint
                 </Link>
               </motion.div>
+
+              {/* Proof strip — a little of the dark band's evidence brought up
+                  to the first screen, so the hero reads as substantiated, not
+                  just a promise. Honest, standing facts only. */}
+              <motion.ul
+                variants={item}
+                className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[rgba(43,107,87,0.18)] pt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]"
+              >
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
+                  {WATCHED_SOURCE_COUNT} NZ government sources watched
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
+                  Every output signed off
+                </li>
+              </motion.ul>
             </motion.div>
           </motion.div>
 

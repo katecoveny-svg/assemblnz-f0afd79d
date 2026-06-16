@@ -1,15 +1,21 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
 
 /**
  * Live regulation — the dark pounamu proof bar.
  *
  * The one dark moment on the home page (Whenua pounamu #2B6B57, cream text),
- * anchored by a single big stat pulled live from /api/regulatory-pulse. The
- * number is the proof: every draft is checked against current NZ government
- * sources before it's written. No timestamps-with-seconds, no dev language —
- * just the count, the payoff, and an honest fallback when the pulse is quiet.
+ * anchored by a single big stat. The number is the proof: every draft is
+ * checked against current NZ government sources before it's written.
+ *
+ * The big number always shows. When the live pipeline is healthy we use the
+ * live source count from /api/regulatory-pulse (and add the live document and
+ * change figures beneath it). When the pulse is quiet — local dev, or a
+ * degraded database — we fall back to the standing count of government sources
+ * assembl watches (see lib/watched-sources). We never invent document totals:
+ * those only appear when the live data backs them.
  */
 type Pulse = {
   liveSources: number;
@@ -43,9 +49,12 @@ export function LiveRegulationBlock() {
     };
   }, []);
 
-  // Only show the big number once we have a healthy reading. If the pulse is
-  // unavailable we keep the claim without a fabricated figure — never "0".
-  const hasData = !!pulse && pulse.liveSources > 0;
+  // The live pipeline is "healthy" once it reports sources. When it is, the big
+  // number and the supporting document/change figures are all live. When it
+  // isn't, the big number falls back to the standing count of sources we watch
+  // — an honest figure — and we drop the document line rather than fake it.
+  const live = !!pulse && pulse.liveSources > 0;
+  const sourceCount = live ? pulse!.liveSources : WATCHED_SOURCE_COUNT;
 
   return (
     <section className="relative overflow-hidden bg-[color:var(--assembl-pounamu)] py-24 text-[color:var(--assembl-paper)] lg:py-32">
@@ -72,45 +81,37 @@ export function LiveRegulationBlock() {
             Live NZ regulation
           </p>
 
-          {hasData ? (
-            <>
-              <p className="mt-10 font-display font-light leading-[0.86] tracking-[-0.02em] text-[color:var(--assembl-paper)] text-[clamp(5rem,15vw,11rem)]">
-                {nz(pulse!.liveSources)}
-              </p>
-              <p className="mt-4 font-display text-[clamp(1.6rem,3.4vw,2.6rem)] font-light leading-tight text-[color:var(--assembl-paper)]/92">
-                live New Zealand government sources, watched in real time.
-              </p>
-              <p className="mx-auto mt-7 max-w-2xl text-body-md leading-relaxed text-[color:var(--assembl-paper)]/80">
-                Every assembl draft is checked against them — the NZ Gazette, the PCO Legislation API,
-                Beehive releases, WorkSafe enforcement and more — before it&apos;s written. The agent that
-                drafts your reply has read them all.
-              </p>
-              <p className="mx-auto mt-9 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)]/70">
-                <span className="text-[color:var(--assembl-paper)]">{nz(pulse!.totalDocuments)} source documents</span>
-                <span aria-hidden className="text-[color:var(--assembl-gold-thread)]">·</span>
-                <span className="text-[color:var(--assembl-paper)]">
-                  {nz(pulse!.changesLastDay)} {pulse!.changesLastDay === 1 ? 'change' : 'changes'} yesterday
-                </span>
-                <span aria-hidden className="text-[color:var(--assembl-gold-thread)]">·</span>
-                <span>Updated overnight</span>
-              </p>
-            </>
+          {/* The big number — always present. Live source count when the
+              pipeline is healthy, the standing count of watched sources when
+              it is quiet. */}
+          <p className="mt-10 font-display font-light leading-[0.86] tracking-[-0.02em] text-[color:var(--assembl-paper)] text-[clamp(5rem,15vw,11rem)]">
+            {nz(sourceCount)}
+          </p>
+          <p className="mt-4 font-display text-[clamp(1.6rem,3.4vw,2.6rem)] font-light leading-tight text-[color:var(--assembl-paper)]/92">
+            New Zealand government and authority sources, watched in real time.
+          </p>
+          <p className="mx-auto mt-7 max-w-2xl text-body-md leading-relaxed text-[color:var(--assembl-paper)]/80">
+            Every assembl draft is checked against them — the NZ Gazette, the PCO Legislation API,
+            Beehive releases, WorkSafe enforcement and more — before it&apos;s written. The agent that
+            drafts your reply has read them all.
+          </p>
+
+          {/* Supporting figures only appear when live data backs them — never
+              fabricated document totals. */}
+          {live ? (
+            <p className="mx-auto mt-9 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)]/70">
+              <span className="text-[color:var(--assembl-paper)]">{nz(pulse!.totalDocuments)} source documents</span>
+              <span aria-hidden className="text-[color:var(--assembl-gold-thread)]">·</span>
+              <span className="text-[color:var(--assembl-paper)]">
+                {nz(pulse!.changesLastDay)} {pulse!.changesLastDay === 1 ? 'change' : 'changes'} yesterday
+              </span>
+              <span aria-hidden className="text-[color:var(--assembl-gold-thread)]">·</span>
+              <span>Updated overnight</span>
+            </p>
           ) : (
-            <>
-              <h2 className="mt-8 font-display text-[clamp(2.4rem,5vw,3.6rem)] font-light leading-[1.04] text-[color:var(--assembl-paper)]">
-                Checked against current law.
-                <br />
-                Updated today.
-              </h2>
-              <p className="mx-auto mt-6 max-w-2xl text-body-lg leading-relaxed text-[color:var(--assembl-paper)]/82">
-                Every assembl draft is checked against current New Zealand government sources — the NZ
-                Gazette, the PCO Legislation API, Beehive releases, WorkSafe enforcement and more —
-                before it&apos;s written. The agent that drafts your reply has read them all.
-              </p>
-              <p className="mx-auto mt-8 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)]/70">
-                Updated overnight
-              </p>
-            </>
+            <p className="mx-auto mt-9 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-paper)]/70">
+              Updated overnight
+            </p>
           )}
         </div>
       </div>
