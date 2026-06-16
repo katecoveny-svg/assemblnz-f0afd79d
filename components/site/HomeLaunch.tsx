@@ -157,9 +157,8 @@ export function HomeLaunch() {
                 Built in Aotearoa
               </motion.p>
               <h1 className="mt-5 font-display text-[clamp(3.5rem,7vw,6rem)] font-light leading-[0.94] tracking-[-0.025em]">
-                <RevealWords text="We draft the" className="block" />
-                <RevealWords text="slow paperwork." className="block" />
-                <RevealWords text="You sign it off." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
+                <RevealWords text="We draft the slow paperwork." className="block" />
+                <RevealWords text="You sign it off and go home." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
               </h1>
               <motion.p
                 variants={item}

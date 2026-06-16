@@ -19,7 +19,7 @@ const MONTHLY = [
   {
     name: 'Starter',
     price: '$799 + GST / month',
-    body: 'One agent live for your team — say, the food-safety draft for a single café, or the WoF readiness check for a three-vehicle fleet. All HAPAI tools. Email support, reply within one working day.',
+    body: 'One agent live for your team — say, the food-safety draft for a single café, or the WoF readiness check for a three-vehicle fleet. All HAPAI tools, and a reply from us within a working day.',
     note: 'A Pilot Sprint covers your first month.',
     cta: 'Book a Pilot Sprint',
     href: '/pilot-sprint',
@@ -36,7 +36,7 @@ const MONTHLY = [
   {
     name: 'Outcome',
     price: 'Custom',
-    body: 'We charge per signed-off output, not per seat — a known unit cost per piece of compliance work (per allergen report, per RFI pack, per submission). Useful when you would rather pay by the output than by the seat.',
+    body: 'Pay per signed-off output — a set price for each allergen report, RFI pack, or submission. A known cost on every piece of compliance you hand over.',
     cta: 'Talk to us',
     href: '/contact',
   },
