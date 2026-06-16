@@ -12,7 +12,6 @@ import {
 } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { KETES } from '@/lib/kete';
-import { VesselHero } from '@/components/hero/VesselHero';
 import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
 import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
 
@@ -101,44 +100,6 @@ function Eyebrow({ label, accent, className = '' }: { label: string; accent: str
   );
 }
 
-// Translucent sparkles around the vessel — points of light read as live data
-// nodes. Subtle ~3s pulse; positions are deterministic so they don't reflow.
-const SPARKS = [
-  { left: '14%', top: '20%', size: 5, delay: 0 },
-  { left: '30%', top: '12%', size: 3, delay: 0.5 },
-  { left: '52%', top: '8%', size: 4, delay: 1.1 },
-  { left: '74%', top: '16%', size: 6, delay: 0.3 },
-  { left: '86%', top: '32%', size: 3, delay: 1.6 },
-  { left: '90%', top: '58%', size: 5, delay: 0.9 },
-  { left: '78%', top: '78%', size: 4, delay: 0.2 },
-  { left: '58%', top: '88%', size: 3, delay: 1.4 },
-  { left: '34%', top: '84%', size: 5, delay: 0.7 },
-  { left: '16%', top: '66%', size: 4, delay: 1.9 },
-  { left: '8%', top: '42%', size: 3, delay: 1.2 },
-  { left: '44%', top: '46%', size: 4, delay: 2.2 },
-] as const;
-
-function HeroSparkles({ reduce }: { reduce: boolean | null }) {
-  return (
-    <div className="pointer-events-none absolute inset-0 z-10" aria-hidden>
-      {SPARKS.map((s, i) => (
-        <motion.span
-          key={i}
-          className="absolute rounded-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.9),0_0_22px_rgba(212,168,83,0.45)]"
-          style={{ left: s.left, top: s.top, width: s.size, height: s.size }}
-          initial={reduce ? { opacity: 0.4 } : { opacity: 0, scale: 0.6 }}
-          animate={reduce ? undefined : { opacity: [0, 0.95, 0], scale: [0.6, 1.25, 0.6] }}
-          transition={
-            reduce
-              ? undefined
-              : { duration: 3, delay: s.delay, repeat: Infinity, ease: 'easeInOut' }
-          }
-        />
-      ))}
-    </div>
-  );
-}
-
 export function HomeLaunch() {
   const reduce = useReducedMotion();
   const heroRef = useRef<HTMLElement | null>(null);
@@ -201,7 +162,7 @@ export function HomeLaunch() {
               </h1>
               <motion.p
                 variants={item}
-                className="mt-6 max-w-lg text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--assembl-pounamu-deep)]"
+                className="mt-6 max-w-lg text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--text-primary)]"
               >
                 Specialist agents draft the admin-heavy work. A named person signs it off. Every
                 output is sealed in an evidence pack — the receipt.
@@ -234,14 +195,24 @@ export function HomeLaunch() {
             </motion.div>
           </motion.div>
 
+          {/* The signature evidence-vessel — Kate's canonical hero image. The
+              gold-thread sparkles are baked into the asset, so there is no
+              procedural overlay. Sits on the right; its own negative space and
+              thread-trail lean toward the headline on the left. */}
           <motion.div
-            className="relative h-[46vh] min-h-[360px] lg:h-[600px]"
-            initial={reduce ? false : { opacity: 0, scale: 0.92 }}
+            className="relative h-[clamp(360px,48vh,600px)] w-full overflow-hidden"
+            initial={reduce ? false : { opacity: 0, scale: 0.96 }}
             animate={reduce ? undefined : { opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, ease: EASE }}
           >
-            <HeroSparkles reduce={reduce} />
-            <VesselHero />
+            <Image
+              src="/images/site/hero-evidence-vessel.png"
+              alt="A stack of translucent glass discs held in a fine gold wire frame, threads of gold light connecting points across them — assembl's evidence vessel."
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="select-none object-cover object-[68%_center]"
+            />
           </motion.div>
         </div>
 
@@ -285,9 +256,19 @@ export function HomeLaunch() {
         </div>
       </section>
 
-      {/* 3 · Pick your area — the nine kete, glass cards (off-white tint) */}
-      <section className="bg-[#F4EFE6] py-24 lg:py-32">
-        <div className="container">
+      {/* 3 · Pick your area — the nine kete, glass cards (off-white tint).
+          Kate's signal-threads texture sits underneath at low opacity — a
+          delicate data-flow whisper, cream-on-cream, never loud. */}
+      <section className="relative overflow-hidden bg-[#F4EFE6] py-24 lg:py-32">
+        <Image
+          src="/images/site/signal-threads-background.png"
+          alt=""
+          fill
+          aria-hidden
+          sizes="100vw"
+          className="pointer-events-none select-none object-cover opacity-[0.22] mix-blend-multiply"
+        />
+        <div className="container relative">
           <motion.div
             variants={container}
             initial="hidden"
@@ -347,13 +328,9 @@ export function HomeLaunch() {
         </div>
       </section>
 
-      {/* 3.5 · Whenua band — a landscape moment + transition into the dark bar.
-          PLACEHOLDER: an original layered-ridgeline motif in Whenua tones,
-          sized to a 21:9 photographic slot.
-          TODO (Kate): swap for a licensed Aotearoa landscape via the CMS —
-          Kaipara harbour, Wairarapa hills, or a pounamu-river shot. Do not
-          commit copyrighted imagery. Search terms: "New Zealand landscape",
-          "Aotearoa", "Kaipara", "Tongariro". */}
+      {/* 3.5 · Aotearoa landscape band — full-bleed golden-hour coast, the
+          grounded "made here" moment and the transition into the dark stat
+          bar that follows. */}
       <WhenuaBand />
 
       {/* 4 · Live regulation — the one dark pounamu band + big stat */}
@@ -396,13 +373,36 @@ export function HomeLaunch() {
               </motion.article>
             ))}
           </motion.div>
+
+          {/* Evidence detail — the proof points as a constellation on the
+              glass. Kate's macro reference, framed. */}
+          <motion.figure
+            variants={item}
+            initial="hidden"
+            whileInView="show"
+            viewport={VIEWPORT}
+            className="mt-10 overflow-hidden rounded-[22px] border border-white/60 shadow-[0_18px_50px_rgba(40,30,18,0.08)]"
+          >
+            <Image
+              src="/images/site/vessel-macro-proof-detail.png"
+              alt="Macro detail of the evidence vessel — antique-gold nodes connected by fine gold thread across the glass discs, a constellation of proof points."
+              width={1448}
+              height={1086}
+              sizes="(min-width: 768px) 100vw, 100vw"
+              className="h-[clamp(220px,30vw,360px)] w-full object-cover object-center"
+            />
+            <figcaption className="bg-white/55 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              Every output carries its evidence — the sources, the assumptions, the sign-off.
+            </figcaption>
+          </motion.figure>
         </div>
       </section>
 
       {/* 6 · Built by — founder credibility marker */}
       <FounderBand />
 
-      {/* 7 · Pricing teaser (off-white tint) */}
+      {/* 7 · Closing CTA — the vessel motif with a thread of light running out
+          of it, paired with the invitation to start. */}
       <section className="bg-[#F4EFE6] py-24 lg:py-32">
         <div className="container">
           <motion.div
@@ -410,22 +410,35 @@ export function HomeLaunch() {
             initial="hidden"
             whileInView="show"
             viewport={VIEWPORT}
-            className="mx-auto max-w-3xl text-center"
+            className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,560px)] lg:gap-16"
           >
-            <Eyebrow label="Pricing" accent="var(--assembl-pounamu)" className="justify-center" />
-            <h2 className="font-display text-display-lg font-light leading-[1.02]">
-              <RevealWords text="Start with the work" className="block" />
-              <RevealWords text="in front of you." className="block text-[color:var(--assembl-pounamu)]" />
-            </h2>
-            <motion.p variants={item} className="mx-auto mt-6 max-w-xl text-body-lg text-[color:var(--text-body)]">
-              Free tools, a Pilot Sprint proven on your data, a kete pack for your industry, and a
-              Tōro option for whānau. Simple and honest.
-            </motion.p>
-            <motion.div variants={item} className="mt-9 flex flex-wrap items-center justify-center gap-4">
-              <Link href="/hapai" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
-                Try a free tool <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-              <Link href="/pricing" className="btn-ghost inline-flex h-12 items-center px-6">See pricing</Link>
+            <div>
+              <Eyebrow label="Start" accent="var(--assembl-pounamu)" />
+              <h2 className="font-display text-display-lg font-light leading-[1.02]">
+                <RevealWords text="Let's build" className="block" />
+                <RevealWords text="what's next." className="block text-[color:var(--assembl-pounamu)]" />
+              </h2>
+              <motion.p variants={item} className="mt-6 max-w-xl text-body-lg text-[color:var(--text-body)]">
+                Free tools, a Pilot Sprint proven on your data, a kete pack for your industry, and a
+                Tōro option for whānau. Simple and honest — start with the work in front of you.
+              </motion.p>
+              <motion.div variants={item} className="mt-9 flex flex-wrap items-center gap-4">
+                <Link href="/hapai" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
+                  Try a free tool <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
+                <Link href="/pricing" className="btn-ghost inline-flex h-12 items-center px-6">See pricing</Link>
+              </motion.div>
+            </div>
+            <motion.div variants={item} className="relative">
+              <Image
+                src="/images/site/vessel-cta-motif.png"
+                alt=""
+                aria-hidden
+                width={1672}
+                height={941}
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="h-auto w-full select-none"
+              />
             </motion.div>
           </motion.div>
         </div>
@@ -435,69 +448,24 @@ export function HomeLaunch() {
 }
 
 /**
- * Whenua band — placeholder landscape moment.
+ * Aotearoa landscape band — Kate's canonical full-bleed coast image.
  *
- * An original, layered ridgeline drawn in Whenua tones (cream sky → pounamu
- * hills → a hairline gold horizon), sized to a 21:9 photographic slot. This is
- * intentionally not a photo: see the TODO above to swap in a licensed Aotearoa
- * landscape via the CMS. Nothing copyrighted is committed.
+ * Full viewport width, ≥400px tall on desktop, sitting as a substantial
+ * mid-page divider between the kete grid and the dark stat bar. Hairline gold
+ * threads top and bottom tie it to the rest of the page.
  */
 function WhenuaBand() {
   return (
-    <section aria-hidden data-todo="swap-for-licensed-nz-landscape" className="relative">
-      <div className="relative h-[34vw] max-h-[440px] min-h-[220px] w-full overflow-hidden">
-        <svg
-          className="absolute inset-0 h-full w-full"
-          viewBox="0 0 1440 480"
-          preserveAspectRatio="xMidYMid slice"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <linearGradient id="whenua-sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#F7F0E3" />
-              <stop offset="1" stopColor="#ECE3D2" />
-            </linearGradient>
-            <linearGradient id="whenua-far" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#9DB3A6" />
-              <stop offset="1" stopColor="#86A294" />
-            </linearGradient>
-            <linearGradient id="whenua-mid" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#4F8472" />
-              <stop offset="1" stopColor="#3C6F5E" />
-            </linearGradient>
-            <linearGradient id="whenua-near" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#28604F" />
-              <stop offset="1" stopColor="#1F4F40" />
-            </linearGradient>
-          </defs>
-          <rect width="1440" height="480" fill="url(#whenua-sky)" />
-          {/* far ridge */}
-          <path
-            d="M0,300 C220,250 360,288 560,262 C760,236 900,290 1100,260 C1260,236 1360,272 1440,256 L1440,480 L0,480 Z"
-            fill="url(#whenua-far)"
-            opacity="0.75"
-          />
-          {/* hairline gold horizon thread */}
-          <path
-            d="M0,300 C220,250 360,288 560,262 C760,236 900,290 1100,260 C1260,236 1360,272 1440,256"
-            fill="none"
-            stroke="#D4A853"
-            strokeOpacity="0.55"
-            strokeWidth="1.5"
-          />
-          {/* mid ridge */}
-          <path
-            d="M0,360 C200,322 380,360 600,338 C820,316 980,366 1180,340 C1320,322 1400,352 1440,344 L1440,480 L0,480 Z"
-            fill="url(#whenua-mid)"
-            opacity="0.92"
-          />
-          {/* near ridge */}
-          <path
-            d="M0,420 C240,392 420,420 660,406 C880,393 1060,424 1260,408 C1360,400 1410,416 1440,412 L1440,480 L0,480 Z"
-            fill="url(#whenua-near)"
-          />
-        </svg>
-      </div>
+    <section aria-hidden className="relative h-[58vw] max-h-[560px] min-h-[400px] w-full overflow-hidden">
+      <Image
+        src="/images/site/landscape-coast-aotearoa.png"
+        alt=""
+        fill
+        sizes="100vw"
+        className="object-cover object-center"
+      />
+      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.5),transparent)]" />
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.5),transparent)]" />
     </section>
   );
 }

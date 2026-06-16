@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { INDUSTRY_KETES } from "@/lib/kete";
 import { footerDisclaimer, footerKeteCutouts } from "@/lib/site-config";
+import { AssemblWordmark } from "@/components/site/AssemblWordmark";
 
 export function SiteFooter() {
   return (
@@ -20,12 +21,7 @@ export function SiteFooter() {
                 height={96}
                 className="h-24 w-24 select-none object-contain opacity-80"
               />
-              <span
-                className="font-display text-2xl font-light italic lowercase tracking-[-0.02em] text-[color:var(--text-primary)]"
-                style={{ fontWeight: 300, fontStyle: 'italic', fontVariationSettings: '"opsz" 40, "wght" 300' }}
-              >
-                assembl
-              </span>
+              <AssemblWordmark className="text-2xl tracking-[-0.02em] text-[color:var(--text-primary)]" />
             </Link>
             <p className="mt-3 max-w-xs text-sm text-[color:var(--text-secondary)]">
               Mahi that earns its proof. Built in Aotearoa.
