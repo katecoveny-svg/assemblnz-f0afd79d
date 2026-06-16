@@ -18,6 +18,7 @@ export default async function WorkflowsPage({
   const initialKete: 'all' | KeteSlug = KETES.some((item) => item.slug === kete)
     ? (kete as KeteSlug)
     : 'all';
+  const avgMinSaved = allWorkflows.length ? Math.round(allWorkflows.reduce((sum, w) => sum + w.timeSavedMin, 0) / allWorkflows.length) : 0;
 
   return (
     <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] px-6 py-20 md:px-12 md:py-28">
@@ -37,6 +38,9 @@ export default async function WorkflowsPage({
           specialist kete packs: construction, hospitality, freight, automotive,
           education, commerce, family operations, and more. Open one, run the
           sample, and turn the useful ones into reviewed internal tools.
+        </p>
+        <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+          {allWorkflows.length} workflows · ~{avgMinSaved} min saved per run on average
         </p>
         <MarketplaceClient workflows={allWorkflows} initialKete={initialKete} />
       </div>

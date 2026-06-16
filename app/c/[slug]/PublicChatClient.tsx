@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, FileDown, Loader2, Paperclip, Send, ShieldCheck, X } from 'lucide-react';
+import { keteHeadline } from '@/lib/public-chat/headlines';
 
 type Tenant = {
   slug: string;
@@ -68,7 +69,7 @@ const LANDING_COPY: Record<string, {
 
 function landingCopy(tenant: Tenant) {
   return LANDING_COPY[tenant.kete] ?? {
-    title: `${tenant.keteName} support, ready for review.`,
+    title: keteHeadline(tenant.kete) || `${tenant.keteName} support, ready for review.`,
     body: `Ask ${tenant.name} a practical question. assembl will draft a reply and keep the output in review posture.`,
     prompts: [
       'Draft the first version',

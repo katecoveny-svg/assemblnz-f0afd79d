@@ -39,6 +39,17 @@ export default function TermsPage() {
               </p>
             </SectionReveal>
 
+            <SectionReveal delay={0.22}>
+              <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6 md:p-8">
+                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">In plain English</p>
+                <ul className="mt-4 space-y-2 text-[color:var(--text-body)]">
+                  <li>Use assembl to draft work and build evidence packs — the public chats and HAPAI tools are free to try.</li>
+                  <li>Outputs are drafts: a named human on your team reviews and signs off before anything leaves your organisation.</li>
+                  <li>Be fair — stay inside the rate limits, don&apos;t misuse the service, and we can suspend accounts that do.</li>
+                </ul>
+              </div>
+            </SectionReveal>
+
             <SectionReveal delay={0.25}>
               <h2 className="font-display text-2xl font-light md:text-3xl">1. Who we are.</h2>
               <p className="mt-3">

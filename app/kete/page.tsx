@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { agentsForKete } from '@/lib/agents';
 import { KETES } from '@/lib/kete';
-import { KeteMarketplaceRail } from '@/components/site/KeteMarketplaceRail';
+import { KeteVesselCard } from '@/components/KeteVesselCard';
+import { KETE_VESSEL_IMAGES } from '@/lib/brand-tokens';
 import { TeReo } from '@/components/site/TeReo';
 
 export const metadata: Metadata = {
@@ -47,14 +47,17 @@ export default function KeteIndexPage() {
       </section>
 
       <section className="py-24 lg:py-32">
-        <div className="container space-y-16">
-          {KETES.map((kete) => (
-            <KeteMarketplaceRail
-              key={kete.slug}
-              kete={kete}
-              agents={agentsForKete(kete.slug)}
-            />
-          ))}
+        <div className="container">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {KETES.map((kete, i) => (
+              <KeteVesselCard
+                key={kete.slug}
+                kete={kete}
+                vesselSrc={KETE_VESSEL_IMAGES[kete.slug]}
+                index={i}
+              />
+            ))}
+          </div>
         </div>
       </section>
     </main>

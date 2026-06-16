@@ -29,6 +29,7 @@ export function AgentCard({
 }) {
   const kete = KETE_BY_SLUG[agent.kete];
   const agentHref = href ?? `/agents/${agent.slug}`;
+  const showRole = agent.role.trim().toLowerCase() !== agent.name.trim().toLowerCase();
 
   return (
     <motion.article
@@ -75,7 +76,9 @@ export function AgentCard({
           {agent.status ?? 'live'}
         </span>
       </div>
-      <p className="mt-1 font-mono text-xs text-[color:var(--text-secondary)]">{agent.role}</p>
+      {showRole && (
+        <p className="mt-1 font-mono text-xs text-[color:var(--text-secondary)]">{agent.role}</p>
+      )}
 
       <p className="mt-4 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">
         {agent.oneLiner}

@@ -74,6 +74,7 @@ const nextConfig: NextConfig = {
       { source: "/toro/school-survival/:path*", destination: "/hapai/9am-brief", permanent: false },
       { source: "/toroa", destination: "/kete/toro", permanent: true },
       { source: "/kete/toroa", destination: "/kete/toro", permanent: true },
+      { source: "/privacy", destination: "/legal/privacy", permanent: true },
       { source: "/free-tools", destination: "/hapai", permanent: false },
       { source: "/free-tools/:path*", destination: "/hapai", permanent: false },
       { source: "/hapai/vessel-studio/vessel-studio.html", destination: "/hapai/vessel-studio", permanent: false },
