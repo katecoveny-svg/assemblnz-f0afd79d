@@ -136,27 +136,27 @@ export const COMPLIANCE_POSTURE: CompliancePosture[] = [
     framework: "Privacy Act 2020 (NZ)",
     status: "live",
     detail:
-      "assembl operates under the Privacy Act 2020, including the IPP 3A indirect-collection rules in force from 1 May 2026. Our published Privacy Statement sets out collection, use, storage, and complaint channels.",
+      "This is the law your data actually lives under. We run to the Privacy Act 2020, including the new IPP 3A rules from 1 May 2026. Our Privacy Statement spells out what we collect and how to complain.",
   },
   {
     framework: "NZISM alignment",
     status: "in-progress",
     detail:
-      "We align our controls to the New Zealand Information Security Manual where applicable. This is a self-assessed alignment, not a government certification.",
+      "We line our controls up against the NZ Information Security Manual. It is our own honest read, not a government tick.",
   },
   {
     framework: "SOC 2 Type 1",
     status: "planned",
     detail:
-      "Not yet attested. We are scoping a SOC 2 Type 1 readiness assessment. We will name the auditor and target date here once engaged.",
-    target: "Auditor + target date to be confirmed.",
+      "Not done yet, and we won't pretend otherwise. We are scoping a SOC 2 Type 1 readiness check. The moment we engage an auditor, their name and the date land right here.",
+    target: "Auditor and date: coming.",
   },
   {
     framework: "ISO 27001",
     status: "planned",
     detail:
-      "Not yet certified. On the roadmap after SOC 2. We will not claim ISO 27001 conformance until a certification body has audited us.",
-    target: "Sequenced after SOC 2 readiness.",
+      "Not certified. It is next after SOC 2. We won't claim it until an auditor has signed off — full stop.",
+    target: "Lined up after SOC 2.",
   },
 ];
 
@@ -172,7 +172,7 @@ export interface ChangeLogEntry {
 export const CHANGE_LOG: ChangeLogEntry[] = [
   {
     date: "2026-06-17",
-    summary: "Initial publication of the public Trust Centre and sub-processor register.",
+    summary: "First publication of this Trust Centre and the sub-processor list.",
   },
 ];
 

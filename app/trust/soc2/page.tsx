@@ -57,10 +57,9 @@ export default function CompliancePosturePage() {
               Compliance, the honest version.
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[color:var(--text-secondary)]">
-              assembl is a focused Aotearoa startup. Here is exactly how we handle
-              your data and where we sit on the questions a procurement team asks —
-              starting with the compliance that actually governs your information in
-              New Zealand, and an honest read on SOC 2 further down.
+              We&rsquo;re a small Aotearoa team, so here&rsquo;s the straight version: how we
+              handle your data, and where we land on the questions procurement always asks. The
+              law that governs your data comes first. An honest read on SOC 2 sits below.
             </p>
           </SectionReveal>
 
