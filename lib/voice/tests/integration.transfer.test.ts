@@ -13,7 +13,7 @@ describe('integration — caller asks for a human → warm transfer', () => {
 
   it('emits Dial TwiML and the receipt notes the transfer', async () => {
     const CALL = 'CA_transfer';
-    await upsertSession({ call_sid: CALL, agent_id: 'aroha.manaaki@demo', customer_id: 'whetu', caller_number: '+6421555888', status: 'in_progress' });
+    await upsertSession({ call_sid: CALL, agent_id: 'aria.manaaki@demo', customer_id: 'whetu', caller_number: '+6421555888', status: 'in_progress' });
 
     await captureConsent({ call_sid: CALL, prompt_text: 'is that OK?', verbatim_response: 'yes' });
 

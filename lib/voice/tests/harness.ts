@@ -41,7 +41,7 @@ function blankSession(call_sid: string): KeteSession {
   return {
     id: `sess_${call_sid}`,
     call_sid,
-    agent_id: 'aroha.manaaki@demo',
+    agent_id: 'aria.manaaki@demo',
     customer_id: 'whetu',
     caller_number: null,
     status: 'ringing',

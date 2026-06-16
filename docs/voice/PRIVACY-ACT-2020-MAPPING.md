@@ -1,6 +1,6 @@
 # Privacy Act 2020 (NZ) — IPP Mapping (Voice Agent)
 
-How the Manaaki Phase 1 voice agent (`aroha.manaaki@demo`, customer **Whetū**)
+How the Manaaki Phase 1 voice agent (`aria.manaaki@demo`, customer **Whetū**)
 satisfies each engaged Information Privacy Principle. This document **mirrors
 `lib/voice/privacy-act.ts`** — if the code changes, update this table.
 
@@ -13,7 +13,7 @@ satisfies each engaged Information Privacy Principle. This document **mirrors
 
 | IPP | Title | How the build satisfies it |
 |---|---|---|
-| **IPP 1** | Purpose of collection | Aroha collects only **name, mobile, party size, and booking notes** — the minimum to make and confirm a reservation. Purpose is stated in the opening line. |
+| **IPP 1** | Purpose of collection | Aria collects only **name, mobile, party size, and booking notes** — the minimum to make and confirm a reservation. Purpose is stated in the opening line. |
 | **IPP 2** | Source of information | Collected **directly from the caller** during the call. No third-party enrichment or lookup. |
 | **IPP 3** | Collection from subject — notification | Recording notice + purpose are spoken **before any recording**. `consent_log` stores the **verbatim** exchange. Decline → **no recording**, warm transfer. |
 | **IPP 4** | Manner of collection | No deceptive or unfair means. The agent **identifies itself as an AI booking assistant for Whetū up front**. |

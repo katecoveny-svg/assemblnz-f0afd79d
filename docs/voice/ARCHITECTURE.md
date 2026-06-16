@@ -1,6 +1,6 @@
 # Voice Agent — Architecture (Manaaki Phase 1)
 
-One agent (`aroha.manaaki@demo`) on a real NZ +64 number, taking dinner-booking
+One agent (`aria.manaaki@demo`) on a real NZ +64 number, taking dinner-booking
 calls for one demo customer, **Whetū**. This doc describes the end-to-end call
 flow, components, data model, the Mana Receipt hash chain, and the deliberate
 deviations from a default Supabase-edge build.

@@ -16,9 +16,10 @@ export interface TwilioConfig {
 export function twilioConfigFromEnv(): TwilioConfig {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const fromNumber = process.env.TWILIO_NZ_DID;
+  // Kate sets TWILIO_PHONE_NUMBER in Vercel; TWILIO_NZ_DID kept as an alias.
+  const fromNumber = process.env.TWILIO_PHONE_NUMBER ?? process.env.TWILIO_NZ_DID;
   if (!accountSid || !authToken || !fromNumber) {
-    throw new Error('TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_NZ_DID must be set');
+    throw new Error('TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER must be set');
   }
   return { accountSid, authToken, fromNumber };
 }

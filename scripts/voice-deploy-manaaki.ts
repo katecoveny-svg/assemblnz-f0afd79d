@@ -1,5 +1,5 @@
 /**
- * Deploy the Manaaki voice agent (Aroha) to ElevenLabs Agents.
+ * Deploy the Manaaki voice agent (Aria) to ElevenLabs Agents.
  *
  *   pnpm voice:deploy:manaaki
  *
@@ -49,7 +49,7 @@ async function main() {
   ]);
 
   const body = {
-    name: 'aroha.manaaki@demo',
+    name: 'aria.manaaki@demo',
     conversation_config: {
       agent: {
         prompt: {
@@ -72,7 +72,7 @@ async function main() {
         },
         language: 'en',
         first_message:
-          'Kia ora, you’ve reached Whetū — I’m Aroha, the booking assistant. I record calls just to confirm your booking; is that OK?',
+          'Kia ora, you’ve reached Whetū — I’m Aria, the booking assistant. I record calls just to confirm your booking; is that OK?',
       },
       tts: { voice_id: process.env.ELEVENLABS_VOICE_ID },
     },
@@ -86,7 +86,7 @@ async function main() {
   console.log('Upserting agent…');
   const { agent_id } = await upsertAgent(apiKey, body, process.env.ELEVENLABS_AGENT_ID || undefined);
 
-  console.log('\n✓ Deployed Aroha (Manaaki phase 1)');
+  console.log('\n✓ Deployed Aria (Manaaki phase 1)');
   console.log(`  ELEVENLABS_AGENT_ID=${agent_id}`);
   console.log('  → paste that into your env (and Vercel project env) and re-run to update.');
 }

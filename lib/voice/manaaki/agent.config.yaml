@@ -1,5 +1,5 @@
 # ============================================================================
-# Aroha — ElevenLabs Agents declarative config (Manaaki Phase 1)
+# Aria — ElevenLabs Agents declarative config (Manaaki Phase 1)
 # ----------------------------------------------------------------------------
 # This is the CANONICAL declarative config for the voice agent. It is POSTed to
 # the ElevenLabs Agents API by the deploy script (`pnpm voice:deploy:manaaki`),
@@ -10,7 +10,7 @@
 # Keep this consistent with lib/voice/config.ts (hours, party size, slot length).
 # ============================================================================
 
-name: aroha.manaaki@demo
+name: aria.manaaki@demo
 
 # --- Voice -------------------------------------------------------------------
 voice:
@@ -32,7 +32,7 @@ llm:
 
 # --- Conversation setup ------------------------------------------------------
 first_message: >-
-  Kia ora, you've reached Whetū — I'm Aroha, the restaurant's AI booking
+  Kia ora, you've reached Whetū — I'm Aria, the restaurant's AI booking
   assistant. This call is recorded so we get your booking right; are you happy
   to carry on?
 

@@ -28,7 +28,8 @@ export function renderConfirmation(req: Pick<BookingRequest, 'name' | 'date' | '
   const guests = req.party_size === 1 ? '1 guest' : `${req.party_size} guests`;
   return (
     `Kia ora ${req.name}, your table at ${RESTAURANT} is booked: ${when}, ${guests}. ` +
-    `Need to change it? Just reply or call us back. Ngā mihi.`
+    `Need to change it? Just reply or call us back. Ngā mihi.\n` +
+    `This booking was handled by Aria, a voice agent from assembl.`
   );
 }
 

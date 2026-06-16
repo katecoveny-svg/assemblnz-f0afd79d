@@ -1,7 +1,7 @@
 -- Voice agent call sessions — one row per inbound call to the Manaaki DID.
 --
 -- A "kete session" is the lifecycle record of a single phone call handled by
--- the Aroha voice agent: when it started/ended, which ElevenLabs agent and
+-- the Aria voice agent: when it started/ended, which ElevenLabs agent and
 -- demo customer it belonged to, the Twilio call SID, and pointers to the
 -- transcript + recording once ElevenLabs fires its post-call webhook.
 --
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS public.kete_session (
   transcript_uri text,
   recording_uri text,
   notes text,
-  -- Append-only log of every server tool Aroha invoked on the call. Folded
+  -- Append-only log of every server tool Aria invoked on the call. Folded
   -- into the Mana Receipt payload at finalize time.
   tool_calls jsonb NOT NULL DEFAULT '[]'::jsonb,
   created_at timestamptz NOT NULL DEFAULT now(),
@@ -46,5 +46,5 @@ COMMIT;
 
 -- Verification:
 -- INSERT INTO public.kete_session (call_sid, agent_id, customer_id)
---   VALUES ('CA_test', 'aroha.manaaki@demo', 'whetu');
+--   VALUES ('CA_test', 'aria.manaaki@demo', 'whetu');
 -- SELECT call_sid, status, started_at FROM public.kete_session ORDER BY started_at DESC;
