@@ -120,8 +120,8 @@ export default function TrustCentrePage() {
             <ul className="mt-10 grid gap-4 sm:grid-cols-3">
               {[
                 {
-                  head: "NZ-resident data",
-                  body: "Your customer data can stay in New Zealand. It isn't routed offshore by default.",
+                  head: "NZ data residency",
+                  body: "An NZ-resident storage option is in progress. Your data is tenant-scoped, and only masked content ever reaches an offshore model — never raw PII.",
                 },
                 {
                   head: "PII never leaves unmasked",
@@ -199,11 +199,11 @@ export default function TrustCentrePage() {
             <SectionReveal>
               <SectionHeading eyebrow="Where your data lives" title="Data residency" id="data-residency" />
               <p className="mt-6 text-base leading-7 text-[color:var(--text-secondary)]">
-                assembl offers a New Zealand–resident option for customer data. Our primary
-                database, authentication, and file storage run on Supabase; an NZ-resident
-                hosting region is being confirmed with our infrastructure team. Model inference
-                may call providers based offshore, but personal information is masked before it
-                reaches them.
+                assembl is standing up a New Zealand–resident option for customer data. Our
+                primary database, authentication, and file storage run on Supabase, and we are
+                confirming an NZ-resident hosting region with our infrastructure team. Model
+                inference may call providers based offshore, but personal information is masked
+                before it reaches them — never raw PII.
               </p>
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div className="rounded-2xl border border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu-paper)] p-6">
@@ -211,11 +211,11 @@ export default function TrustCentrePage() {
                     assembl
                   </p>
                   <p className="mt-3 font-display text-xl font-light text-[color:var(--text-primary)]">
-                    Your customer data stays in NZ.
+                    Built to keep your data in-region.
                   </p>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--text-secondary)]">
-                    NZ-resident storage option, tenant-scoped, with masked content the only
-                    thing that ever reaches an offshore model.
+                    An NZ-resident storage option is in progress. Your data is tenant-scoped,
+                    and masked content is the only thing that ever reaches an offshore model.
                   </p>
                 </div>
                 <div className="rounded-2xl border border-[color:var(--assembl-cloud)] bg-white p-6">
@@ -394,10 +394,10 @@ export default function TrustCentrePage() {
                 ))}
               </div>
               <p className="mt-6 rounded-2xl border border-[color:var(--assembl-gold-thread)] bg-[#FBF3E2] p-5 text-sm leading-6 text-[color:var(--text-primary)]">
-                <strong className="font-medium">72-hour commitment.</strong> For a notifiable
-                privacy breach we commit to notifying affected people and the Privacy
-                Commissioner within 72 hours of becoming aware, in line with the Privacy Act
-                2020.
+                <strong className="font-medium">72-hour commitment.</strong> The Privacy Act
+                2020 requires notifiable breaches to be reported as soon as practicable. We
+                hold ourselves to a tighter bar: notifying affected people and the Privacy
+                Commissioner within 72 hours of becoming aware.
               </p>
             </SectionReveal>
           </section>
