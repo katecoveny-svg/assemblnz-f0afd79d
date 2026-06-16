@@ -57,7 +57,7 @@ export default function DisclaimerPage() {
                 We do not provide legal advice, tax advice, medical advice, financial advice, structural-engineering judgments, or any other professional service that requires a qualified, licensed practitioner in Aotearoa New Zealand. Where outputs reference legislation (the Privacy Act 2020, the Construction Contracts Act 2002, the Food Act 2014, the Consumer Guarantees Act 1993, and so on), those references are summary-only and must be verified by a qualified person before relying on them.
               </p>
               <p className="mt-3">
-                We do not generate karakia, whaikōrero, mihimihi, pepeha, or waiata. Some forms of mātauranga Māori are not ours to generate. Where cultural sign-off matters, we defer to mana whenua, kaumātua, and Te Hiku frameworks.
+                We do not generate karakia, whaikōrero, mihimihi, pepeha, or waiata. Some forms of mātauranga Māori are not ours to generate. Where cultural sign-off matters, we defer to the tikanga values built into the prompt design and to human review — final cultural sign-off sits with people, not the agent. assembl does not claim a mana whenua relationship or endorsement.
               </p>
             </SectionReveal>
 

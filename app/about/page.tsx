@@ -30,7 +30,7 @@ export default function AboutPage() {
             <SectionReveal>
               <Eyebrow label="About assembl" />
               <h1 className="mt-5 font-display text-display-xl font-light leading-[1.04] text-[color:var(--text-primary)]">
-                Mahi that earns <em className="text-[color:var(--assembl-pounamu)]">its proof.</em>
+                Mahi that earns <em className="not-italic text-[color:var(--assembl-pounamu)]">its proof.</em>
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-[#5F5A55] md:text-lg">
                 Document-heavy work eats people’s days. The reports, the customs entries, the

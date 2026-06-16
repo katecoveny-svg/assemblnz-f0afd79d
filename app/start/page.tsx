@@ -3,24 +3,13 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Check, Mail, ShieldCheck, Sparkles } from 'lucide-react';
-import { INDUSTRY_KETES, type KeteSlug } from '@/lib/kete';
+import { INDUSTRY_KETES } from '@/lib/kete';
+import { KETE_VESSEL_IMAGES } from '@/lib/brand-tokens';
 
 export const metadata: Metadata = {
   title: 'Start',
   description:
     'Pick an assembl industry pack, pay NZ$3,500/mo + GST, and start onboarding your operator fleet.',
-};
-
-const KETE_IMAGES: Record<KeteSlug, string> = {
-  waihanga: '/img/kete/waihanga-vessel.jpg',
-  manaaki: '/img/kete/manaaki-vessel-warm.jpg',
-  pikau: '/img/kete/pikau-vessel-blue.jpg',
-  arataki: '/img/kete/arataki-vessel-amber.jpg',
-  auaha: '/img/kete/auaha-vessel-purple.jpg',
-  ako: '/img/kete/ako-vessel-amber.jpg',
-  matauranga: '/img/kete/matauranga-vessel-tall.jpg',
-  hoko: '/img/kete/hoko-vessel-violet.jpg',
-  toro: '/img/kete/toro-vessel-charcoal.jpg',
 };
 
 const PROMISES = [
@@ -116,7 +105,7 @@ export default function StartPage() {
               >
                 <div className="relative aspect-[4/3] bg-[color:var(--assembl-cloud)]">
                   <Image
-                    src={KETE_IMAGES[kete.slug]}
+                    src={KETE_VESSEL_IMAGES[kete.slug]}
                     alt={`${kete.name} vessel`}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"

@@ -22,14 +22,18 @@ export const KETE_ACCENTS: Record<KeteSlug, string> = {
   toro: '#23211F',
 };
 
+// On-brand vessel renders — the locked cream/sage/gold stacked-disc form in a
+// brass wire frame, with only a subtle per-kete tonal hint. This is the
+// `heroes-vessel` set used on the kete detail pages; the grid, command palette,
+// and marketplace rail all share it so every kete card reads as one brand.
 export const KETE_VESSEL_IMAGES: Record<KeteSlug, string> = {
-  waihanga: '/img/kete/waihanga-vessel.jpg',
-  manaaki: '/img/kete/manaaki-vessel-warm.jpg',
-  pikau: '/img/kete/pikau-vessel-blue.jpg',
-  arataki: '/img/kete/arataki-vessel-amber.jpg',
-  auaha: '/img/kete/auaha-vessel-purple.jpg',
-  ako: '/img/kete/ako-vessel-amber.jpg',
-  matauranga: '/img/kete/matauranga-vessel-tall.jpg',
-  hoko: '/img/kete/hoko-vessel-violet.jpg',
-  toro: '/img/kete/toro-vessel-charcoal.jpg',
+  waihanga: '/img/kete/heroes-vessel/waihanga-hero-vessel.jpg',
+  manaaki: '/img/kete/heroes-vessel/manaaki-hero-vessel.jpg',
+  pikau: '/img/kete/heroes-vessel/pikau-hero-vessel.jpg',
+  arataki: '/img/kete/heroes-vessel/arataki-hero-vessel.jpg',
+  auaha: '/img/kete/heroes-vessel/auaha-hero-vessel.jpg',
+  ako: '/img/kete/heroes-vessel/ako-hero-vessel.jpg',
+  matauranga: '/img/kete/heroes-vessel/matauranga-hero-vessel.jpg',
+  hoko: '/img/kete/heroes-vessel/hoko-hero-vessel.jpg',
+  toro: '/img/kete/heroes-vessel/toro-hero-vessel.jpg',
 };
