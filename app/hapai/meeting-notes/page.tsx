@@ -299,7 +299,7 @@ export default function MeetingNotesPage() {
               Clear
             </button>
           </div>
-          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">The specialist is turning the rough record into decisions, owners, follow-ups, and calendar-ready next steps.</p>}
+          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">Turning the rough record into decisions, owners, follow-ups, and clear next steps.</p>}
           {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
         </section>
 

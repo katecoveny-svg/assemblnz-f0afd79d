@@ -16,9 +16,9 @@ import {
 import { HapaiToolShell } from "@/components/hapai/HapaiToolShell";
 
 const proofCards = [
-  { icon: Camera, title: "photo parser", body: "read a notice, timetable, or screenshot" },
-  { icon: CloudSun, title: "preemptive", body: "spot gear, weather, and prep gaps" },
-  { icon: ListChecks, title: "action desk", body: "leave with a reviewed next list" },
+  { icon: Camera, title: "reads a photo", body: "a school notice, timetable, or inbox screenshot" },
+  { icon: CloudSun, title: "flags the gaps", body: "what's missing or about to slip" },
+  { icon: ListChecks, title: "your next list", body: "what to do, who to chase, what to pack" },
 ] as const;
 
 function htmlToMarkdown(html: string) {
@@ -104,7 +104,7 @@ export function NineAmBriefTool() {
     setMeetings("10am supplier check-in\n1pm internal build review\n4pm pilot follow-up window");
     setFollowUps("Send Dad the Pīkau link\nSend Praveen the Arataki dealership note\nConfirm Nick has the Waihanga one-pager");
     setWorries("HAPAI tools need to look more credible before sharing\nMeeting recorder needs to feel like a proper assistant, not a form");
-    setNotes("Turn scattered screenshots, emails, and whiteboard notes into one calm action desk. Keep everything draft-only.");
+    setNotes("Turn scattered screenshots, emails, and whiteboard notes into one calm list. Keep everything draft-only.");
   }
 
   function loadSchoolSample() {
@@ -120,11 +120,11 @@ export function NineAmBriefTool() {
   return (
     <HapaiToolShell
       kicker="HAPAI · 9am brief"
-      title="The day, made obvious."
-      description="Paste messy notes, talk-to-type a brain dump, or upload a photo of a timetable, whiteboard, sports draw, school notice, or inbox screenshot. The 9am Brief turns it into priorities, bring-lists, follow-ups, calendar risks, and review-ready actions."
+      title="The whole day, sorted before 9am."
+      description="Paste your messy notes, talk it in like a voice note, or photograph a timetable, whiteboard, sports draw, school notice, or inbox screenshot. You get back what matters today, what to pack, who to follow up, and what might slip — as a draft you check before you act."
       toolPath="/hapai/9am-brief"
       shareTitle="The 9am Brief by assembl"
-      shareText="Paste the day’s loose signals and leave with priorities, follow-ups, and review-ready actions."
+      shareText="Paste the day’s mess and get back a clear list: what matters, who to chase, what to pack."
       posture="Draft operating brief only. It does not send messages, change calendars, or make commitments."
       highlights={proofCards.map(({ icon: Icon, title, body }) => ({
         title,
@@ -133,14 +133,14 @@ export function NineAmBriefTool() {
       }))}
       aside={
         <>
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">preemptive desk</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">free vs connected</p>
           <p className="mt-3 font-display text-4xl font-light leading-none text-[#FAF7F2]">
-            The public version drafts. The connected version does.
+            The connected version reads your day for you.
           </p>
           <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FAF7F2]/82">
-            <li className="flex gap-3"><CalendarCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Private setup can read calendar, inbox, CRM, weather, and school/sports feeds.</li>
-            <li className="flex gap-3"><Sparkles className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Public HAPAI stays draft-only so you can share it safely.</li>
-            <li className="flex gap-3"><Mic className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Voice-style notes work now through dictation; live voice capture is the next tool pattern.</li>
+            <li className="flex gap-3"><CalendarCheck className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Connect your calendar, inbox, and the school portal. It reads them. You don’t have to.</li>
+            <li className="flex gap-3"><Sparkles className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> The free version only drafts — nothing gets sent without you.</li>
+            <li className="flex gap-3"><Mic className="mt-0.5 h-4 w-4 shrink-0" aria-hidden /> Talk into it like a voice note. Live voice is coming.</li>
           </ul>
         </>
       }
@@ -176,7 +176,7 @@ export function NineAmBriefTool() {
                           {imageName || "Drop in a school notice, sports draw, whiteboard, or inbox screenshot."}
                         </p>
                         <p className="mt-1 text-sm text-[#6B6661]">
-                          The parser reads visible text and turns it into actions. No guessing if the image is unclear.
+                          It reads the visible text and turns it into actions. If the image is unclear, it won’t guess.
                         </p>
                       </div>
                     </div>
@@ -247,7 +247,7 @@ export function NineAmBriefTool() {
             </div>
             {loading ? (
               <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
-                The specialist is turning the day into priorities, follow-ups, and review-ready next steps.
+                Turning your day into a clear list: what matters, who to chase, what’s next.
               </p>
             ) : null}
             {error ? (
@@ -256,8 +256,8 @@ export function NineAmBriefTool() {
           </div>
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what this proves</p>
-            <h2 className="mt-3 font-display text-4xl font-light leading-none">Preemptive thinking, visible.</h2>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">who it's for</p>
+            <h2 className="mt-3 font-display text-4xl font-light leading-none">One tool, every kind of morning.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
               <li><strong>For founders:</strong> screenshots, inbox scraps, and loose follow-ups become a calm action queue.</li>
               <li><strong>For kids:</strong> a timetable photo can become a pack list, parent checks, and tomorrow reminders.</li>

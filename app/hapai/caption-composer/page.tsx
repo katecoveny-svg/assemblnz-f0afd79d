@@ -3,7 +3,7 @@ import { LegacyHapaiToolShell } from "@/components/hapai/LegacyHapaiToolShell";
 
 export const metadata: Metadata = {
   title: "Caption composer — assembl",
-  description: "Draft LinkedIn, Instagram, X, and Facebook captions in a review-ready assembl surface.",
+  description: "Draft a caption for LinkedIn, Instagram, X, or Facebook. You check it before you post.",
 };
 
 export default function CaptionComposerPage() {

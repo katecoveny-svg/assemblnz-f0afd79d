@@ -167,7 +167,7 @@ export function StudyHelperTool() {
             </p>
             <div className="mt-8 grid gap-3 sm:grid-cols-3">
               {[
-                { icon: Camera, title: "photo parser", body: "reads a handout, whiteboard, or rough notes page" },
+                { icon: Camera, title: "reads a photo", body: "a handout, whiteboard, or rough notes page" },
                 { icon: BookOpen, title: "essay plan", body: "thesis options, paragraph moves, evidence to find" },
                 { icon: TimerReset, title: "20-min drills", body: "recall, quote hunt, and practice paragraph sprints" },
               ].map(({ icon: Icon, title, body }) => (

@@ -4,11 +4,11 @@ import { NineAmBriefTool } from "./NineAmBriefTool";
 export const metadata: Metadata = {
   title: "The 9am Brief — assembl",
   description:
-    "A shareable HAPAI tool that turns loose morning signals into priorities, follow-ups, calendar risks, and review-ready actions.",
+    "Paste your morning mess and get back a clear list: what matters today, who to chase, and what might slip. A free HAPAI tool from assembl.",
   openGraph: {
     title: "The 9am Brief — assembl",
     description:
-      "Paste the day’s loose signals and leave with priorities, follow-ups, and review-ready actions.",
+      "Paste the day’s mess and get back a clear list: what matters, who to chase, what to pack.",
     type: "website",
     url: "https://www.assembl.co.nz/hapai/9am-brief",
     siteName: "assembl",
