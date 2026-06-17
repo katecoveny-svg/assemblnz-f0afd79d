@@ -121,12 +121,12 @@ export function HomeLaunch() {
           </>
         )}
 
-        {/* Two-column row on desktop: ~60% copy / ~40% vessel. Copy is first in
+        {/* Two-column row on desktop: ~55% copy / ~45% vessel. Copy is first in
             the DOM, so on mobile the headline sits above the vessel. */}
-        <div className="container relative grid min-h-[78vh] items-center gap-10 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12 lg:py-20">
+        <div className="container relative grid min-h-[78vh] items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-20">
           <motion.div style={{ y: copyY, opacity: copyOpacity }} className="max-w-2xl lg:max-w-none">
             <p className="rise font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
-              Aotearoa-built AI
+              Built in Aotearoa
             </p>
             <h1 className="mt-5 font-display text-[clamp(2.75rem,8.5vw,7rem)] font-semibold not-italic leading-[0.92] tracking-[-0.025em]">
               <RevealWords text="Less admin." className="block" />
@@ -164,7 +164,7 @@ export function HomeLaunch() {
               gold-thread sparkles are baked into the asset, so there is no
               procedural overlay. Sits on the right and fills its column. */}
           <motion.div
-            className="relative h-[clamp(440px,60vh,720px)] w-full overflow-hidden"
+            className="relative h-[clamp(440px,60vh,720px)] w-full overflow-hidden lg:min-w-[400px]"
             initial={reduce ? false : { opacity: 0, scale: 0.96 }}
             animate={reduce ? undefined : { opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, ease: EASE }}

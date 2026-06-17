@@ -9,7 +9,7 @@ import { LandscapeBand } from '@/components/site/LandscapeBand';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'assembl is an Aotearoa-built AI platform that solves the real reason AI adoption stalls in NZ businesses: not the technology, but trust and uptake.',
+    'assembl is an AI platform built in Aotearoa that solves the real reason AI adoption stalls in NZ businesses: not the technology, but trust and uptake.',
 };
 
 const HOW_IT_WORKS = [
@@ -85,7 +85,7 @@ export default function AboutPage() {
             <div className="mx-auto max-w-[68ch]">
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#625A52]">What assembl is</p>
               <p className="mt-6 text-xl leading-[1.6] text-[color:var(--text-primary)] md:text-2xl">
-                assembl is an Aotearoa-built AI platform that solves the real reason AI adoption
+                assembl is an AI platform built in Aotearoa that solves the real reason AI adoption
                 stalls in NZ businesses: not the technology, but trust and uptake. Instead of asking
                 teams to learn prompting and switch tools, assembl ships HAPAI — a public library of
                 single-purpose tools that each do one ordinary job (a customs entry draft, a Food Act
