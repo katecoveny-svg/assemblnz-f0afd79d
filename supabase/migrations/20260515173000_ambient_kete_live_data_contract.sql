@@ -138,6 +138,11 @@ create index if not exists morning_briefing_runs_tenant_started_idx
 comment on column public.toro_drafts.source is
   'Where this draft was created from: chatwoot, agentmail, or ambient. Ambient rows are operator-held briefing drafts.';
 
+-- An earlier migration (20260425145148) defined pick_due_thoughts with a
+-- narrower RETURNS TABLE(...). create-or-replace cannot change a function's
+-- return type (SQLSTATE 42P13), so drop the old signature first on a fresh
+-- replay. No-op where it doesn't exist.
+drop function if exists public.pick_due_thoughts(integer);
 create or replace function public.pick_due_thoughts(_limit integer default 5)
 returns table (
   id uuid,
