@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { ShareableToolActions } from "@/components/hapai/ShareableToolActions";
 import { ToolLeadCapture } from "@/components/hapai/ToolLeadCapture";
+import { useToolGate } from "@/lib/hapai/use-tool-gate";
 
 const modes = [
   { id: "essay-plan", label: "Essay plan", icon: BookOpen },
@@ -63,13 +64,14 @@ export function StudyHelperTool() {
   const [html, setHtml] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const gate = useToolGate("study-helper");
 
   async function generateStudyPlan() {
     setError("");
     setHtml("");
     setLoading(true);
     try {
-      const response = await fetch("/api/hapai/study-helper", {
+      const response = await gate.fetch("/api/hapai/study-helper", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -86,6 +88,7 @@ export function StudyHelperTool() {
           imageDataUrl,
         }),
       });
+      if (!response) return; // gated — the email-capture modal is showing
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Could not draft the study plan.");
       setHtml(data.html);
@@ -317,6 +320,8 @@ export function StudyHelperTool() {
                 <Sparkles className="mr-2 h-4 w-4" aria-hidden />
                 {loading ? "Drafting study help..." : "Draft study help"}
               </button>
+              <span className="flex items-center">{gate.counter}</span>
+              {gate.modal}
               <button
                 type="button"
                 onClick={() => {

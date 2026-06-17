@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase/service";
+import { gate, gateBlockedResponse } from "@/lib/gating/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -125,6 +126,11 @@ export async function POST(req: Request) {
   if (`${today}${meetings}${followUps}${worries}${notes}${imageDataUrl ? "image" : ""}`.trim().length < 12) {
     return NextResponse.json({ error: "Add a few notes or upload a photo first." }, { status: 400 });
   }
+
+  // Access gate: assembl pays for the model call, so consume one unit of quota
+  // once the input is valid. Anonymous gets 1 free run; an email lifts it to 5/day.
+  const gateVerdict = await gate(req, "hapai", "9am-brief");
+  if (!gateVerdict.allowed) return gateBlockedResponse(gateVerdict);
 
   const message = `What today feels like:
 ${today || "Not supplied"}
