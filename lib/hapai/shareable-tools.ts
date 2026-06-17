@@ -176,10 +176,10 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
   },
   {
     slug: 'meeting-recorder',
-    name: 'Meeting recorder',
+    name: 'Hui — the meeting agent',
     status: 'live',
-    description: 'Record or paste. Walk away with proper notes: decisions, action items, next steps.',
-    href: '/hapai/meeting-recorder',
+    description: 'Record, upload, or paste. Walk away with the minutes, the actions, and an evidence pack you can file.',
+    href: '/hui',
     visual: 'meeting',
     shareable: true,
     category: 'record',

@@ -93,6 +93,14 @@ const nextConfig: NextConfig = {
       { source: "/tools/brief-generator/:path*", destination: "/hapai/brief-generator/:path*", permanent: false },
       { source: "/book-a-pilot", destination: "/pilot-sprint", permanent: false },
 
+      // Meeting tool unified at /hui (canonical). The old HAPAI meeting-recorder
+      // and its underlying meeting-notes page were the same tool at two URLs —
+      // both now 308 to /hui.
+      { source: "/hapai/meeting-recorder", destination: "/hui", permanent: true },
+      { source: "/hapai/meeting-recorder/:path*", destination: "/hui", permanent: true },
+      { source: "/hapai/meeting-notes", destination: "/hui", permanent: true },
+      { source: "/hapai/meeting-notes/:path*", destination: "/hui", permanent: true },
+
       // Energy calculator moved under the /hapai library for path consistency.
       { source: "/electrify", destination: "/hapai/electrify", permanent: true },
       { source: "/electrify/:path*", destination: "/hapai/electrify/:path*", permanent: true },
