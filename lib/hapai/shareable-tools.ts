@@ -112,7 +112,8 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     slug: '9am-brief',
     name: 'The 9am Brief',
     status: 'live',
-    description: 'Paste the day’s mess and get back a clear list: what matters, who to chase, what to pack.',
+    description:
+      'Turns the school notice, the sports draw, and tomorrow’s weather into a five-line morning brief. So you stop forgetting the rugby boots.',
     href: '/hapai/9am-brief',
     visual: 'morning-brief',
     shareable: true,
@@ -124,7 +125,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     name: 'Energy calculator',
     status: 'live',
     description:
-      'See what going electric saves you, appliance by appliance, with the payback years for each switch. Indicative figures for NZ homes and small businesses.',
+      'See what going electric saves you, appliance by appliance — and how many years until each switch pays for itself.',
     href: '/hapai/electrify',
     visual: 'electrify',
     shareable: true,
@@ -227,7 +228,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     name: 'Turf maintenance log',
     status: 'live',
     description:
-      'Log weekly mowing, irrigation, line marking, sprays, and hazards. Walk away with a grounds record mapped to HSWA 2015 and HSNO 1996.',
+      'Log the week’s mowing, spraying, and hazards. Walk away with a grounds record that holds up under HSWA 2015.',
     href: '/hapai/turf-maintenance',
     visual: 'turf',
     shareable: true,
@@ -240,7 +241,7 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     name: 'KiwiSaver for kids calculator',
     status: 'live',
     description:
-      'See what $1,000 invested at birth could grow to by 65 — and what contributions from age 16 add on top. Built for Aotearoa.',
+      'See what $1,000 at birth could grow into by the time they’re 65 — and what a few years of teenage contributions add on top.',
     href: '/hapai/kiwisaver-kids',
     visual: 'kiwisaver',
     shareable: true,
