@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Copy, Download, Printer } from "lucide-react";
+import { useToolGate } from "@/lib/hapai/use-tool-gate";
 
 const DATA_TYPES = [
   "Names and contact details",
@@ -51,17 +52,19 @@ export default function PrivacyActPage() {
   const [html, setHtml] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const gate = useToolGate("privacy-act");
 
   async function generate() {
     setError("");
     setLoading(true);
     setHtml("");
     try {
-      const response = await fetch("/api/hapai/privacy-act", {
+      const response = await gate.fetch("/api/hapai/privacy-act", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ organisationName, sector, description, dataTypes, otherData, collectionSource, sharedWith, storage, retention }),
       });
+      if (!response) return; // gated — the email-capture modal is showing
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Could not generate the one-pager.");
       setHtml(data.html);
@@ -176,6 +179,8 @@ export default function PrivacyActPage() {
             </div>
           </div>
           <button type="button" onClick={generate} disabled={loading} className="mt-6 rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]">{loading ? "Generating..." : "Generate one-pager"}</button>
+          <div className="mt-3">{gate.counter}</div>
+          {gate.modal}
           {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">Mapping your data flows to the Privacy Act 2020.</p>}
           {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
         </section>

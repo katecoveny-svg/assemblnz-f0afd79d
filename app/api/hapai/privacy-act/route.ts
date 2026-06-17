@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase/service";
+import { gate, gateBlockedResponse } from "@/lib/gating/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -102,6 +103,10 @@ export async function POST(req: Request) {
   if (!body?.organisationName || !body?.sector || !body?.description) {
     return NextResponse.json({ error: "Complete the organisation details first." }, { status: 400 });
   }
+
+  // Access gate: 1 free run for anonymous visitors, 5/day once an email lifts it.
+  const gateVerdict = await gate(req, "hapai", "privacy-act");
+  if (!gateVerdict.allowed) return gateBlockedResponse(gateVerdict);
 
   const input: PrivacyRequest = {
     organisationName: String(body.organisationName).trim().slice(0, 120),

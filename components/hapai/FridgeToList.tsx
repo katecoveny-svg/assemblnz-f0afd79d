@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useToolGate } from "@/lib/hapai/use-tool-gate";
 import Link from "next/link";
 import { ArrowLeft, Camera, Copy, Download } from "lucide-react";
 import { ToolLeadCapture } from "@/components/hapai/ToolLeadCapture";
@@ -71,16 +72,19 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
     reader.readAsDataURL(file);
   }
 
+  const gate = useToolGate("fridge-to-list");
+
   async function generate() {
     setError("");
     setLoading(true);
     setResult(null);
     try {
-      const response = await fetch("/api/hapai/fridge-to-list", {
+      const response = await gate.fetch("/api/hapai/fridge-to-list", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ imageBase64, householdSize, daysToCover, dietaryNotes, budget }),
       });
+      if (!response) return; // gated — the email-capture modal is showing
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Could not read the photo.");
       setResult(data);
@@ -148,6 +152,8 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
             </div>
           </fieldset>
           <button type="button" onClick={generate} disabled={loading || !imageBase64} className="mt-6 rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]">{loading ? "Reading the photo..." : copy.button}</button>
+          <div className="mt-3">{gate.counter}</div>
+          {gate.modal}
           {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">Building a kai plan from the photo.</p>}
           {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
         </section>

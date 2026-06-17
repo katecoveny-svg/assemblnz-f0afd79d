@@ -17,6 +17,8 @@ export type HapaiToolVisual =
   | 'food-temp'
   | 'customs'
   | 'admin-tax'
+  | 'turf'
+  | 'kiwisaver'
   | 'wishlist';
 
 export type HapaiTool = {
@@ -121,7 +123,8 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     slug: 'electrify',
     name: 'Energy calculator',
     status: 'live',
-    description: 'NZ electrification savings and payback',
+    description:
+      'See what going electric saves you, appliance by appliance, with the payback years for each switch. Indicative figures for NZ homes and small businesses.',
     href: '/hapai/electrify',
     visual: 'electrify',
     shareable: true,
@@ -218,6 +221,32 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     shareable: true,
     category: 'record',
     posture: 'Draft operational record only. The food business operator remains responsible for verification.',
+  },
+  {
+    slug: 'turf-maintenance',
+    name: 'Turf maintenance log',
+    status: 'live',
+    description:
+      'Log weekly mowing, irrigation, line marking, sprays, and hazards. Walk away with a grounds record mapped to HSWA 2015 and HSNO 1996.',
+    href: '/hapai/turf-maintenance',
+    visual: 'turf',
+    shareable: true,
+    category: 'record',
+    posture:
+      'Draft operational record only. The club or school stays responsible for verification and safe chemical handling.',
+  },
+  {
+    slug: 'kiwisaver-kids',
+    name: 'KiwiSaver for kids calculator',
+    status: 'live',
+    description:
+      'See what $1,000 invested at birth could grow to by 65 — and what contributions from age 16 add on top. Built for Aotearoa.',
+    href: '/hapai/kiwisaver-kids',
+    visual: 'kiwisaver',
+    shareable: true,
+    category: 'lifestyle',
+    posture:
+      'Indicative calculator only. Returns are assumptions, not advice — confirm with a licensed financial adviser.',
   },
 ] as const;
 

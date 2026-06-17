@@ -54,15 +54,26 @@ async function resolveTier(paid: boolean): Promise<{ gid: string; tier: GateTier
 }
 
 async function currentCount(identity: string, surface: string): Promise<number> {
-  const service = getServiceClient();
-  const { data } = await service
-    .from('assembl_usage_counters')
-    .select('count')
-    .eq('identity_hash', identity)
-    .eq('surface', surface)
-    .eq('window_date', todayUtc())
-    .maybeSingle();
-  return data?.count ?? 0;
+  // Fail open: if the counter backend (or its env) is unavailable, report 0 so
+  // the gate allows the run rather than 500-ing a free tool. A gating-infra
+  // outage must never be worse for the visitor than no gate at all.
+  try {
+    const service = getServiceClient();
+    const { data } = await service
+      .from('assembl_usage_counters')
+      .select('count')
+      .eq('identity_hash', identity)
+      .eq('surface', surface)
+      .eq('window_date', todayUtc())
+      .maybeSingle();
+    return data?.count ?? 0;
+  } catch (error) {
+    console.error('[gating] currentCount unavailable — failing open', {
+      surface,
+      message: error instanceof Error ? error.message : String(error),
+    });
+    return 0;
+  }
 }
 
 /**
@@ -113,12 +124,22 @@ export async function gate(
   if (current >= limit) {
     return { allowed: false, remaining: 0, limit, tier, surface };
   }
-  const service = getServiceClient();
-  const { data } = await service.rpc('assembl_bump_usage', {
-    p_identity: identity,
-    p_surface: surface,
-  });
-  const newCount = typeof data === 'number' ? data : current + 1;
+  // Best-effort consume. If the bump (or its env) fails, still allow the run —
+  // fail open — and report the optimistic remaining so the tool never breaks.
+  let newCount = current + 1;
+  try {
+    const service = getServiceClient();
+    const { data } = await service.rpc('assembl_bump_usage', {
+      p_identity: identity,
+      p_surface: surface,
+    });
+    if (typeof data === 'number') newCount = data;
+  } catch (error) {
+    console.error('[gating] bump unavailable — failing open', {
+      surface,
+      message: error instanceof Error ? error.message : String(error),
+    });
+  }
   return {
     allowed: true,
     remaining: Math.max(0, limit - newCount),

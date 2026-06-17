@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { HapaiToolShell } from "@/components/hapai/HapaiToolShell";
+import { useToolGate } from "@/lib/hapai/use-tool-gate";
 
 const proofCards = [
   { icon: Camera, title: "reads a photo", body: "a school notice, timetable, or inbox screenshot" },
@@ -44,17 +45,19 @@ export function NineAmBriefTool() {
   const [html, setHtml] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const gate = useToolGate("9am-brief");
 
   async function generateBrief() {
     setError("");
     setHtml("");
     setLoading(true);
     try {
-      const response = await fetch("/api/hapai/9am-brief", {
+      const response = await gate.fetch("/api/hapai/9am-brief", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ today, meetings, followUps, worries, notes, imageDataUrl }),
       });
+      if (!response) return; // gated — the email-capture modal is showing
       const data = await response.json();
       if (!response.ok) throw new Error(data.error ?? "Could not draft the brief.");
       setHtml(data.html);
@@ -244,6 +247,7 @@ export function NineAmBriefTool() {
               >
                 Clear
               </button>
+              <span className="flex items-center">{gate.counter}</span>
             </div>
             {loading ? (
               <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
@@ -280,6 +284,7 @@ export function NineAmBriefTool() {
             </div>
           </section>
         ) : null}
+        {gate.modal}
     </HapaiToolShell>
   );
 }

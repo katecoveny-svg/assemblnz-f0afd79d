@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase/service";
+import { gate, gateBlockedResponse } from "@/lib/gating/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -167,6 +168,10 @@ export async function POST(req: Request) {
   if (`${essayQuestion}${roughIdeas}${quoteBank}${imageDataUrl ? "image" : ""}`.trim().length < 8) {
     return NextResponse.json({ error: "Add a likely question, rough notes, a quote bank, or upload a photo first." }, { status: 400 });
   }
+
+  // Access gate: 1 free run for anonymous students, 5/day once an email lifts it.
+  const gateVerdict = await gate(req, "hapai", "study-helper");
+  if (!gateVerdict.allowed) return gateBlockedResponse(gateVerdict);
 
   const message = `Student: ${student}
 Year / school: ${yearLevel}, ${school}

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceClient } from "@/lib/supabase/service";
+import { gate, gateBlockedResponse } from "@/lib/gating/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -74,6 +75,10 @@ export async function POST(req: Request) {
   if (!["tight", "normal", "generous"].includes(budget)) {
     return NextResponse.json({ error: "Choose a budget setting." }, { status: 400 });
   }
+
+  // Access gate: 1 free run for anonymous visitors, 5/day once an email lifts it.
+  const gateVerdict = await gate(req, "hapai", "fridge-to-list");
+  if (!gateVerdict.allowed) return gateBlockedResponse(gateVerdict);
 
   const payload = {
     imageBase64,
