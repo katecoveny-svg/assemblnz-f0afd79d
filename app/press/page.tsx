@@ -7,7 +7,7 @@ import { FEATURED_ASSET_ID, getMotionAsset } from '@/lib/brand/motion-assets';
 
 export const metadata: Metadata = {
   title: 'Press kit',
-  description: 'Logos, wordmarks, founder portraits, and brand assets for media use.',
+  description: 'Logos, wordmarks, and brand assets for media use.',
 };
 
 export default function PressPage() {
@@ -22,7 +22,7 @@ export default function PressPage() {
         Press kit
       </h1>
       <p className="mt-4 max-w-2xl text-body-md text-[color:var(--text-body)]">
-        Logos, wordmarks, founder portraits, and brand assets for media use. Please
+        Logos, wordmarks, and brand assets for media use. Please
         attribute as &quot;assembl&quot; (lowercase). For interviews or commentary, email{' '}
         <a
           href="mailto:hello@assembl.co.nz"
@@ -111,56 +111,6 @@ export default function PressPage() {
           </div>
         </section>
       )}
-
-      <section className="mt-16">
-        <h2 className="font-display text-display-sm">Founder portraits</h2>
-        <p className="mt-3 max-w-2xl text-body-md text-[color:var(--text-body)]">
-          Press-ready portraits of Kate Hudson, founder of assembl. Please credit as
-          &quot;Kate Hudson, founder · assembl&quot;.
-        </p>
-        <div className="mt-6 grid gap-12 md:grid-cols-2">
-          <div>
-            <h3 className="font-display text-2xl">Editorial</h3>
-            <div className="relative mt-4 aspect-[4/5] overflow-hidden rounded-md bg-[#F4EFE7]">
-              <Image
-                src="/img/press/kate-hudson-portrait-tan-blazer-shelves.webp"
-                alt="Kate Hudson, founder of assembl"
-                fill
-                sizes="(min-width: 768px) 480px, 100vw"
-                quality={82}
-                className="object-cover"
-              />
-            </div>
-            <a
-              href="/img/press/kate-hudson-portrait-tan-blazer-shelves.webp"
-              download
-              className="mt-2 inline-block text-sm underline underline-offset-2"
-            >
-              Download WebP
-            </a>
-          </div>
-          <div>
-            <h3 className="font-display text-2xl">Headshot</h3>
-            <div className="relative mt-4 aspect-[4/5] overflow-hidden rounded-md bg-[#F4EFE7]">
-              <Image
-                src="/img/press/kate-hudson-portrait-white-shirt.webp"
-                alt="Kate Hudson, founder of assembl"
-                fill
-                sizes="(min-width: 768px) 480px, 100vw"
-                quality={82}
-                className="object-cover"
-              />
-            </div>
-            <a
-              href="/img/press/kate-hudson-portrait-white-shirt.webp"
-              download
-              className="mt-2 inline-block text-sm underline underline-offset-2"
-            >
-              Download WebP
-            </a>
-          </div>
-        </div>
-      </section>
 
       <section className="mt-16">
         <h2 className="font-display text-display-sm">One-page pitch</h2>
