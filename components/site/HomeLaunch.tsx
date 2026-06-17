@@ -53,40 +53,35 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
 };
 
-// Headline words: each word lifts from below, clipped by its row.
-const word: Variants = {
-  hidden: { opacity: 0, y: '0.9em' },
-  show: { opacity: 1, y: '0em', transition: { duration: 0.6, ease: EASE } },
-};
-
 const VIEWPORT = { once: true, margin: '-12% 0px -12% 0px' } as const;
 
-/** A heading whose words rise one-by-one as it enters the viewport. */
+/**
+ * A heading whose words rise one-by-one as the page loads.
+ *
+ * Deliberately pure CSS (see `.reveal-word` in globals.css) rather than a
+ * scroll-triggered framer-motion reveal. The earlier version hid every word at
+ * `opacity: 0` and depended on an IntersectionObserver firing after hydration —
+ * which it did NOT do reliably for the hero (content already in view at mount),
+ * leaving the headline frozen and invisible. CSS runs on load without JS, and
+ * the resting state is fully visible, so the words can never get stuck.
+ */
 function RevealWords({ text, className }: { text: string; className?: string }) {
-  const reduce = useReducedMotion();
-  if (reduce) return <span className={className}>{text}</span>;
+  const words = text.split(' ');
   return (
-    <motion.span
-      className={className}
-      variants={container}
-      initial="hidden"
-      whileInView="show"
-      viewport={VIEWPORT}
-      aria-label={text}
-    >
-      {text.split(' ').flatMap((w, i, arr) => {
+    <span className={className} aria-label={text}>
+      {words.flatMap((w, i, arr) => {
         const span = (
           <span key={i} className="inline-block overflow-hidden align-bottom" aria-hidden>
-            <motion.span variants={word} className="inline-block">
+            <span className="reveal-word" style={{ animationDelay: `${0.05 + i * 0.06}s` }}>
               {w}
-            </motion.span>
+            </span>
           </span>
         );
         // The inter-word space is a plain text node between the clip spans, so
         // it is never swallowed by overflow-hidden.
         return i < arr.length - 1 ? [span, ' '] : [span];
       })}
-    </motion.span>
+    </span>
   );
 }
 
@@ -156,7 +151,7 @@ export function HomeLaunch() {
               >
                 Built in Aotearoa
               </motion.p>
-              <h1 className="mt-5 font-display text-[clamp(3.5rem,7vw,6rem)] font-light leading-[0.94] tracking-[-0.025em]">
+              <h1 className="mt-5 font-display text-[clamp(2.5rem,7vw,6rem)] font-light leading-[0.94] tracking-[-0.025em]">
                 <RevealWords text="We draft the slow paperwork." className="block" />
                 <RevealWords text="You sign it off and go home." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
               </h1>

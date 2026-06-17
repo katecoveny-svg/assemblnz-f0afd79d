@@ -415,3 +415,33 @@
     font-size: 17px;
   }
 }
+
+/* Word-by-word headline reveal — pure CSS so the words are ALWAYS visible.
+   This runs on load without JavaScript, framer-motion, or an Intersection
+   Observer, so a headline can never freeze half-revealed if hydration is slow
+   or fails. The resting state (and the reduced-motion / no-JS fallback) is
+   fully visible; the animation only enhances it. */
+@keyframes assembl-word-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.9em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-word {
+  display: inline-block;
+  opacity: 1;
+  animation: assembl-word-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-word {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
