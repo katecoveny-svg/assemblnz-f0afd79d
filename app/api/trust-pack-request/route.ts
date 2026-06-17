@@ -18,6 +18,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getServiceClient } from "@/lib/supabase/service";
+import { notifyLead, clientIpFromHeaders } from "@/lib/lead-capture";
 
 export const dynamic = "force-dynamic";
 
@@ -98,12 +99,21 @@ export async function POST(req: Request) {
     });
   }
 
-  // 2. Live notification (fail-soft).
+  // 2. Live notification (fail-soft): Slack ping + email to Kate's inbox.
   await notifySlack(data);
-
-  // TODO: send a transactional email to SECURITY_INBOX once an email provider
-  //   (e.g. Brevo) is wired. The Slack ping + Supabase row are the durable
-  //   record in the meantime.
+  await notifyLead({
+    formName: "Trust Centre — security pack request",
+    name: data.name,
+    fields: {
+      org: data.org,
+      role: data.role,
+      ndaSigned: data.ndaSigned,
+      intendedUse: data.intendedUse,
+      routeTo: SECURITY_INBOX,
+    },
+    sourceUrl: req.headers.get("referer"),
+    ip: clientIpFromHeaders(req.headers),
+  });
 
   return NextResponse.json({ ok: true });
 }

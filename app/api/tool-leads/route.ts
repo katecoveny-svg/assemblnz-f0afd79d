@@ -13,6 +13,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getHapaiTool } from "@/lib/hapai/shareable-tools";
 import { getServiceClient } from "@/lib/supabase/service";
+import { recordLead, clientIpFromHeaders } from "@/lib/lead-capture";
 
 export const dynamic = "force-dynamic";
 
@@ -75,6 +76,21 @@ export async function POST(req: Request) {
     console.error("tool-leads insert failed", { toolSlug, message: error?.message });
     return NextResponse.json({ error: "Capture failed" }, { status: 500 });
   }
+
+  // Notify Kate + mirror into the unified leads table. Fail-soft: the tool keeps
+  // working even if the email or the mirror write fails.
+  const tool = getHapaiTool(toolSlug);
+  await recordLead({
+    formName: `HAPAI tool — ${tool?.name ?? toolSlug}`,
+    email,
+    fields: {
+      tool: toolSlug,
+      consentMarketing: consentMarketing ?? false,
+      ...(payload ?? {}),
+    },
+    sourceUrl: source ?? req.headers.get("referer"),
+    ip: clientIpFromHeaders(req.headers),
+  });
 
   return NextResponse.json({ ok: true, id: data.id }, { status: 201 });
 }

@@ -9,6 +9,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { notifyLead, clientIpFromHeaders } from "@/lib/lead-capture";
 
 export async function POST(req: Request) {
   const form = await req.formData();
@@ -44,6 +45,15 @@ export async function POST(req: Request) {
     console.error("electrify capture-lead update failed", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  // Notify Kate this lead asked for their electrify PDF. Fail-soft.
+  await notifyLead({
+    formName: "Electrify — PDF request",
+    email,
+    fields: { leadId },
+    sourceUrl: req.headers.get("referer"),
+    ip: clientIpFromHeaders(req.headers),
+  });
 
   // TODO v1.1: generate PDF via @react-pdf/renderer, store in Supabase storage,
   //   email signed URL via Brevo. For now: redirect back to results with a
