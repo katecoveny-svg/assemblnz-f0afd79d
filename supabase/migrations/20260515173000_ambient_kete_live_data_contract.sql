@@ -107,6 +107,16 @@ create table if not exists public.morning_briefing_runs (
   unique (tenant_id, briefing_date)
 );
 
+-- An earlier migration (20260515100000) created public.morning_briefing_runs
+-- without started_at/completed_at/error_message/drafts_created, so the
+-- `create table if not exists` above no-ops on a fresh replay and the index
+-- below would reference columns that don't exist. Add them idempotently so the
+-- history replays cleanly. No-op where the columns already exist.
+alter table public.morning_briefing_runs add column if not exists drafts_created integer not null default 0;
+alter table public.morning_briefing_runs add column if not exists error_message text;
+alter table public.morning_briefing_runs add column if not exists started_at timestamptz not null default now();
+alter table public.morning_briefing_runs add column if not exists completed_at timestamptz;
+
 alter table public.morning_briefing_runs enable row level security;
 
 drop policy if exists "morning_briefing_runs_tenant_select" on public.morning_briefing_runs;
@@ -128,6 +138,11 @@ create index if not exists morning_briefing_runs_tenant_started_idx
 comment on column public.toro_drafts.source is
   'Where this draft was created from: chatwoot, agentmail, or ambient. Ambient rows are operator-held briefing drafts.';
 
+-- An earlier migration (20260425145148) defined pick_due_thoughts with a
+-- narrower RETURNS TABLE(...). create-or-replace cannot change a function's
+-- return type (SQLSTATE 42P13), so drop the old signature first on a fresh
+-- replay. No-op where it doesn't exist.
+drop function if exists public.pick_due_thoughts(integer);
 create or replace function public.pick_due_thoughts(_limit integer default 5)
 returns table (
   id uuid,

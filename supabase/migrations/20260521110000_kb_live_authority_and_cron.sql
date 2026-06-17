@@ -136,3 +136,4 @@ begin
 exception when others then
   raise notice 'Knowledge Brain cron registration skipped: %', sqlerrm;
 end;
+$$;
