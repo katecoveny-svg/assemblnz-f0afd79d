@@ -107,6 +107,16 @@ create table if not exists public.morning_briefing_runs (
   unique (tenant_id, briefing_date)
 );
 
+-- An earlier migration (20260515100000) created public.morning_briefing_runs
+-- without started_at/completed_at/error_message/drafts_created, so the
+-- `create table if not exists` above no-ops on a fresh replay and the index
+-- below would reference columns that don't exist. Add them idempotently so the
+-- history replays cleanly. No-op where the columns already exist.
+alter table public.morning_briefing_runs add column if not exists drafts_created integer not null default 0;
+alter table public.morning_briefing_runs add column if not exists error_message text;
+alter table public.morning_briefing_runs add column if not exists started_at timestamptz not null default now();
+alter table public.morning_briefing_runs add column if not exists completed_at timestamptz;
+
 alter table public.morning_briefing_runs enable row level security;
 
 drop policy if exists "morning_briefing_runs_tenant_select" on public.morning_briefing_runs;

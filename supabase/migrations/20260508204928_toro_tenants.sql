@@ -24,6 +24,13 @@ create table if not exists public.tenants (
 -- project that already has the column (e.g. production).
 alter table public.tenants
   add column if not exists created_by uuid references auth.users(id);
+-- Same reason: the earlier tenants table also lacked slug + the chatwoot
+-- columns, so tenants_slug_idx below would fail on a fresh replay. Added
+-- nullable (the original def's `unique not null` can't be retro-applied to an
+-- already-populated table). No-op where they already exist.
+alter table public.tenants add column if not exists slug text;
+alter table public.tenants add column if not exists chatwoot_account_id integer;
+alter table public.tenants add column if not exists chatwoot_inbox_ids integer[];
 
 create table if not exists public.tenant_members (
   id uuid primary key default gen_random_uuid(),

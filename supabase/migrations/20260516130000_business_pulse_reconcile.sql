@@ -34,6 +34,14 @@ create table if not exists public.business_pulse_pilot_health (
   unique (tenant_id, name)
 );
 
+-- An earlier migration (20260516111500) created public.business_pulse_pilot_health
+-- with org_id (not tenant_id), so the `create table if not exists` above no-ops
+-- on a fresh replay and the tenant_id index/policy below would reference a
+-- missing column. Add tenant_id idempotently and backfill from org_id. No-op
+-- where tenant_id already exists.
+alter table public.business_pulse_pilot_health add column if not exists tenant_id uuid references public.tenants(id) on delete cascade;
+update public.business_pulse_pilot_health set tenant_id = org_id where tenant_id is null and org_id is not null;
+
 create index if not exists business_pulse_pilot_health_tenant_idx
   on public.business_pulse_pilot_health(tenant_id, updated_at desc);
 
