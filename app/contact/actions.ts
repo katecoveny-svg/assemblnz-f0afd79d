@@ -15,6 +15,7 @@
  */
 
 import { z } from "zod";
+import { persistLead } from "@/lib/lead-capture";
 
 const ContactSchema = z.object({
   name: z.string().min(1, "Name is required").max(120),
@@ -54,6 +55,21 @@ export async function submitContact(
   }
 
   const ref = `ASB-${Date.now().toString(36).toUpperCase()}`;
+
+  // Belt-and-braces: a durable row lands BEFORE we attempt email, so even a
+  // total email outage leaves Kate a queryable record. Fail-soft.
+  await persistLead({
+    formName: "Contact form",
+    name: parsed.data.name,
+    email: parsed.data.email,
+    fields: {
+      ref,
+      intent: parsed.data.intent,
+      business: parsed.data.business,
+      kete: parsed.data.kete,
+      message: parsed.data.message,
+    },
+  });
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;

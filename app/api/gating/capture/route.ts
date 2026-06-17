@@ -11,6 +11,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getServiceClient } from '@/lib/supabase/service';
 import { markCaptured } from '@/lib/gating/server';
+import { recordLead, clientIpFromHeaders } from '@/lib/lead-capture';
 
 export const dynamic = 'force-dynamic';
 
@@ -65,6 +66,15 @@ export async function POST(req: Request) {
     console.error('gating/capture insert failed', { surface, message: error.message });
     return NextResponse.json({ error: 'Capture failed' }, { status: 500 });
   }
+
+  // Notify Kate + mirror into the unified leads table. Fail-soft.
+  await recordLead({
+    formName: `Gating wall — ${surface}`,
+    email,
+    fields: { surface, consent, capturedVia: 'gating-wall' },
+    sourceUrl: req.headers.get('referer'),
+    ip: clientIpFromHeaders(req.headers),
+  });
 
   // Unlock the email tier for this browser immediately.
   await markCaptured();
