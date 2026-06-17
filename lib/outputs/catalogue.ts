@@ -1377,7 +1377,7 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'Record or paste a meeting; walk away with proper notes — decisions, action items, next steps.',
     group: 'cross-cutting',
-    producedBy: 'HAPAI — Meeting recorder',
+    producedBy: 'Hui — the meeting agent',
     type: 'Brief/summary',
     frameworks: [],
     channels: ['Web', 'Voice'],
@@ -1389,7 +1389,7 @@ export const OUTPUTS: OutputDefinition[] = [
       'Next steps',
       'Full summary',
     ],
-    toolHref: '/hapai/meeting-recorder',
+    toolHref: '/hui',
   },
   {
     slug: 'admin-tax-calculator',
