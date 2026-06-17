@@ -5,6 +5,7 @@ import { INDUSTRY_KETES } from '@/lib/kete';
 import { KeteVesselCard } from '@/components/KeteVesselCard';
 import { KETE_VESSEL_IMAGES } from '@/lib/brand-tokens';
 import { KeteDefinition } from '@/components/site/KeteDefinition';
+import { LandscapeBand } from '@/components/site/LandscapeBand';
 
 export const metadata: Metadata = {
   title: 'Kete packs',
@@ -59,6 +60,9 @@ export default function KeteIndexPage() {
           </div>
         </div>
       </section>
+
+      {/* Aotearoa landscape divider — grounds the pack grid before the footer. */}
+      <LandscapeBand />
     </main>
   );
 }

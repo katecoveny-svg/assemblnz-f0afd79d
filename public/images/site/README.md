@@ -50,12 +50,24 @@ gold thread — a constellation / data-graph laid onto the vessel.
 **Slot:** `/toro` evidence pages · "How proof flows" detail card ·
 hover-state imagery for kete-pack cards.
 
-### `landscape-coast-aotearoa.png` — Aotearoa landscape band
-Soft golden-hour NZ coast. Painterly editorial photography, sea fog,
-dune-grass foreground, mountain headlands fading into mist.
+### `landscape-tapeka-bay-of-islands.png` — canonical Aotearoa landscape band ✓
+Tapeka Point, Bay of Islands at golden hour — pōhutukawa in bloom over a
+calm rocky bay, painterly editorial cream / sage / gold palette. The
+strongest landscape in the set and the **canonical divider**.
 
-**Slot:** full-bleed mid-page band on `/` · `/about` hero · the warm
-"grounded in Aotearoa" moment on any page.
+**Slot (live):** full-bleed mid-page divider on `/` (the `LandscapeBand`
+between the kete grid and the live-regulation bar) · pre-footer band on
+`/about` and `/kete`. Rendered via `components/site/LandscapeBand.tsx`,
+which defaults to this asset — drop it on any page for the same band.
+
+### `landscape-coast-aotearoa.png` — secondary landscape band
+Soft golden-hour NZ coast. Painterly editorial photography, sea fog,
+dune-grass foreground, mountain headlands fading into mist. **Superseded
+as the canonical divider by `landscape-tapeka-bay-of-islands.png`**; kept
+as an alternate — pass it via `<LandscapeBand src="…" />` where a second
+landscape is wanted.
+
+**Slot:** alternate full-bleed band on secondary pages.
 
 ### `signal-threads-background.png` — section background texture
 Cream background with flowing antique gold + pale sage signal threads and
