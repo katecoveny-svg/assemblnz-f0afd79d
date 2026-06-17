@@ -14,6 +14,14 @@ function openCommandPalette() {
   window.dispatchEvent(new Event("assembl:open-command"));
 }
 
+/** True on the public Beat by assembl microsite routes, which carry their own
+ * chrome. /beat/admin (operator dashboard) keeps the standard site chrome. */
+export function isBeatMicrosite(pathname: string | null): boolean {
+  if (!pathname) return false;
+  if (pathname === "/beat") return true;
+  return pathname.startsWith("/beat/") && !pathname.startsWith("/beat/admin");
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMac, setIsMac] = useState(true);
@@ -39,6 +47,10 @@ export function SiteHeader() {
     }
   }, [mobileNavOpen]);
 
+  // The /beat microsite (Beat by assembl) ships its own nav + footer; suppress
+  // the global site chrome there. /beat/admin keeps the standard chrome.
+  if (isBeatMicrosite(pathname)) return null;
+
   return (
     <header
       className="sticky top-0 z-40 w-full border-b border-[rgba(157,140,125,0.14)] bg-[rgba(247,243,238,0.78)] backdrop-blur-xl"
@@ -53,7 +65,7 @@ export function SiteHeader() {
           >
             <AssemblWordmark />
           </Link>
-          <span className="hidden whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
+          <span className="hidden whitespace-nowrap font-mono text-[9px] font-light uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
             {PROOF_LINE}
           </span>
         </div>

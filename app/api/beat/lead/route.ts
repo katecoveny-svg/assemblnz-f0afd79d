@@ -1,13 +1,14 @@
 /**
- * POST /api/beat/lead — "Become a publisher" / "Become an advertiser" capture
- * for the /beat landing page.
+ * POST /api/beat/lead — "I'm a publisher" / "I want to advertise" capture for
+ * the /beat (Beat by assembl) landing page.
  *
- * Routes through the shared recordLead() pipeline (emails assembl@assembl.co.nz
- * AND writes a durable public.lead_inquiries row). NOTE: the brief said
- * "→ public.leads", but `public.leads` is an unrelated owner-scoped CRM table
- * (see the leads_unified migration); recordLead → lead_inquiries is the site's
- * canonical, fail-soft lead path, so every Beat inquiry lands beside every
- * other site lead. Fail-soft: 200 on a captured lead, 503 only if BOTH legs fail.
+ * Routes through the shared recordLead() pipeline: it emails assembl@assembl.co.nz
+ * AND writes a durable row to public.lead_inquiries AND adds the lead to the
+ * single assembl Brevo mailing list. NOTE: the brief said "→ public.leads", but
+ * `public.leads` is an unrelated owner-scoped CRM table; recordLead →
+ * lead_inquiries is the site's canonical, fail-soft lead path, so every Beat
+ * inquiry lands beside every other site lead. Fail-soft: 200 once a lead is
+ * captured, 503 only if BOTH the email and the durable write fail.
  *
  * Body: { role: 'publisher' | 'advertiser', email, name?, organisation?, message? }
  */
@@ -26,8 +27,8 @@ const BodySchema = z.object({
 });
 
 const ROLE_LABEL = {
-  publisher: 'Beat — become a publisher',
-  advertiser: 'Beat — become an advertiser',
+  publisher: 'Beat by assembl — become a publisher',
+  advertiser: 'Beat by assembl — become an advertiser',
 } as const;
 
 export async function POST(req: Request) {
