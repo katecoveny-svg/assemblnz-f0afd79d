@@ -65,7 +65,7 @@ export function SiteHeader() {
           >
             <AssemblWordmark />
           </Link>
-          <span className="hidden whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
+          <span className="hidden whitespace-nowrap font-mono text-[9px] font-light uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
             {PROOF_LINE}
           </span>
         </div>
