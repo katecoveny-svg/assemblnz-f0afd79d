@@ -4,22 +4,23 @@
  * Does three legs of the safety net, independently and fail-soft:
  *   1. notifyLead  → emails assembl@assembl.co.nz (via the proven send-contact-email edge fn)
  *   2. persistLead → writes a durable row to public.lead_inquiries
- *   3. subscribeToKlaviyo → adds the lead to the single assembl mailing list
+ *   3. subscribeToBrevoList → adds the lead to the single assembl mailing list
  *
  * No leg can throw into the caller, and the result tells you what landed so
  * the per-form table can be enriched if needed. Existing per-form writes
  * (hapai_leads, electrify_leads, …) are left untouched — this is additive. The
- * Klaviyo leg is a silent no-op until KLAVIYO_API_KEY + KLAVIYO_LIST_ID are set.
+ * Brevo leg is a silent no-op until BREVO_API_KEY + BREVO_LIST_ID are set, and
+ * reuses the same ESP the notify leg already talks to.
  */
 import "server-only";
 import { notifyLead, type NotifyLeadInput } from "./notify";
 import { persistLead } from "./persist";
-import { subscribeToKlaviyo } from "./klaviyo";
+import { subscribeToBrevoList } from "./brevo-list";
 
 export type { NotifyLeadInput, LeadFields } from "./notify";
 export { notifyLead } from "./notify";
 export { persistLead } from "./persist";
-export { subscribeToKlaviyo } from "./klaviyo";
+export { subscribeToBrevoList } from "./brevo-list";
 
 export interface RecordLeadResult {
   notified: boolean;
@@ -32,11 +33,11 @@ export async function recordLead(input: NotifyLeadInput): Promise<RecordLeadResu
   const notified = await notifyLead(input);
   const persisted = await persistLead({ ...input, notified });
   // Mailing-list subscribe is a third, independent fail-soft leg. A missing
-  // KLAVIYO_* env (or an explicit consent: false) makes this a silent no-op.
-  const subscribed = await subscribeToKlaviyo({
+  // BREVO_* env (or an explicit consent: false) makes this a silent no-op.
+  // No custom attributes are sent — unknown Brevo attributes would 400 the call.
+  const subscribed = await subscribeToBrevoList({
     email: input.email,
     consent: input.fields?.consent !== false,
-    properties: { source: input.formName, ...(input.fields ?? {}) },
   });
   return { notified, persisted, subscribed };
 }
