@@ -14,6 +14,7 @@ export default defineConfig({
       'lib/**/*.test.ts',
       'lib/**/__tests__/**/*.test.ts',
       'app/**/*.test.ts',
+      'packages/**/*.test.ts',
     ],
     // Exclude self-contained tsx-runner scripts that pre-date vitest in this
     // repo. They live under __tests__ for proximity to the code they test but

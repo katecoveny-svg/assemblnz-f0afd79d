@@ -1,138 +1,253 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowRight, Check, Code2, Radio, ShieldCheck, Zap } from 'lucide-react';
+import { Eyebrow } from '@/components/site/Eyebrow';
+import { LandscapeBand } from '@/components/site/LandscapeBand';
 import { BeatLeadForm } from '@/components/site/beat/BeatLeadForm';
-import styles from './beat.module.css';
 
 export const metadata: Metadata = {
-  title: 'Beat by assembl — get paid for the wait.',
+  title: 'Beat by assembl — the ad network for NZ software’s quiet moments',
   description:
-    "An NZ-built ad network for the 'thinking…' moment inside NZ software. Publishers earn 55%. Privacy Act 2020 native. Built by Kate Hudson, Aotearoa.",
+    'An ad network for the wait-state inside NZ software. Publishers earn 55% of ad revenue. Advertisers reach verified NZ B2B attention. assembl operates the network — and never reads your users’ data.',
   alternates: { canonical: '/beat' },
-  openGraph: {
-    title: 'Beat by assembl — get paid for the wait.',
-    description:
-      "An NZ-built ad network for the 'thinking…' moment inside NZ software. Publishers earn 55%.",
-    type: 'website',
-    url: 'https://assembl.co.nz/beat',
-    locale: 'en_NZ',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Beat by assembl — get paid for the wait.',
-    description:
-      "An NZ-built ad network for the 'thinking…' moment inside NZ software. Publishers earn 55%.",
-  },
 };
+
+// Beat wordmark amber (locked). Distinct from the site gold-thread accent.
+const BEAT_AMBER = '#D9A85A';
+
+const PUBLISHER_POINTS = [
+  'Earn 55% of every ad served in your tool — 60% for our first anchor publishers.',
+  'Two lines of code. The SDK is under 5KB and drops into any web, Electron or CLI surface.',
+  'We never read your prompts, content, code, files or user data. That promise is in writing.',
+  'Fail-open by design: if the auction is empty, your own loading line shows. Never a blank.',
+];
+
+const ADVERTISER_POINTS = [
+  'Reach NZ business decision-makers mid-task, paying attention — not scrolling past a banner.',
+  'One calm, brand-safe line of text in the wait state. No video, no pop-up, no cookie chase.',
+  'NZ-only inventory, verified human attention, second-price auction so you never overpay.',
+  'Brand-safety controls on by default: no gambling, alcohol or weapons inventory, ever.',
+];
+
+const STEPS = [
+  {
+    icon: Code2,
+    title: 'Publishers install the SDK',
+    body: 'beat.init() then beat.show() in your loading state. We send back one line of sponsored text, or nothing — your call what shows when it is nothing.',
+  },
+  {
+    icon: Zap,
+    title: 'Advertisers bid for the moment',
+    body: 'A second-price auction runs per impression against live NZ campaigns, filtered by surface, budget and brand-safety rules. The best fit wins, and pays fairly.',
+  },
+  {
+    icon: Radio,
+    title: 'assembl operates the network',
+    body: 'We run the auction, the fraud checks and the payouts, and we hold the trust contract. Built and run from Aotearoa, accountable to a named human.',
+  },
+] as const;
 
 export default function BeatPage() {
   return (
-    <>
-      <section className={styles.hero}>
-        <div className={styles.eyebrow}>Built in Aotearoa</div>
-        <h1 className={styles.heroTitle}>Get paid for the wait.</h1>
-        <p className={styles.heroSub}>
-          When your software says &ldquo;thinking…&rdquo;, we turn it into NZ ad revenue.{' '}
-          <strong>Publishers keep 55%.</strong>
-        </p>
+    <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
+      {/* Hero */}
+      <section className="relative overflow-hidden py-20 lg:py-28">
+        <div className="container">
+          <Eyebrow label="Beat by assembl" accent={BEAT_AMBER} />
+          <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.6rem,6vw,4.6rem)] font-light leading-[1.04] text-[color:var(--text-primary)]">
+            <span style={{ color: BEAT_AMBER }}>Beat</span> by assembl — the ad network for NZ
+            software’s quiet moments.
+          </h1>
+          <p className="mt-7 max-w-2xl text-[color:var(--text-body)] text-[clamp(1.05rem,1.6vw,1.25rem)] leading-relaxed">
+            An ad network for the wait-state inside NZ software. Publishers earn 55% of ad revenue.
+            Advertisers reach verified NZ B2B attention. assembl operates the network.
+          </p>
 
-        <div className={styles.demo}>
-          <div className={`${styles.demoCard} ${styles.before}`}>
-            <div className={styles.label}>Without Beat</div>
-            <div className={styles.line}>Drafting your reply</div>
+          <div className="mt-9 flex flex-wrap items-center gap-4">
+            <Link
+              href="#get-started"
+              className="inline-flex items-center gap-2 rounded-full bg-[color:var(--assembl-pounamu)] px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[color:var(--assembl-pounamu-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            >
+              Become a publisher
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+            <Link
+              href="#get-started"
+              className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-7 py-3.5 text-sm font-medium text-[color:var(--text-primary)] transition-colors hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--assembl-pounamu)]"
+            >
+              Become an advertiser
+            </Link>
           </div>
-          <div className={`${styles.demoCard} ${styles.after}`}>
-            <div className={styles.label}>With Beat</div>
-            <div className={styles.line}>
-              Drafting your reply
-              <span className={styles.sep}>·</span>
-              <span className={styles.brand}>Westpac — visit our small business hubs</span>
+
+          {/* The mock: an ad rendering in a spinner line */}
+          <div className="mt-14 max-w-xl rounded-[12px] border border-[rgba(35,33,31,0.12)] bg-white/70 p-5 shadow-[0_24px_70px_rgba(35,33,31,0.08)]">
+            <div className="flex items-center gap-3">
+              <span
+                className="h-3.5 w-3.5 shrink-0 animate-spin rounded-full border-2 border-[color:var(--assembl-pounamu)] border-t-transparent"
+                aria-hidden
+              />
+              <p className="text-sm text-[color:var(--text-body)]">
+                Drafting your reply{' '}
+                <span className="text-[color:var(--text-secondary)]">·</span>{' '}
+                <span style={{ color: BEAT_AMBER }}>
+                  Air New Zealand Business — fly the main centres for less.
+                </span>
+              </p>
+            </div>
+            <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
+              One quiet line, in the moment people already wait
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <LandscapeBand />
+
+      {/* For publishers / For advertisers */}
+      <section className="py-20 lg:py-28">
+        <div className="container">
+          <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+            <TwoSide
+              eyebrow="For publishers"
+              heading="Your spinner is inventory."
+              lead="Every time your tool thinks, your user waits. That dead air is worth money — and you keep the majority of it."
+              points={PUBLISHER_POINTS}
+            />
+            <TwoSide
+              eyebrow="For advertisers"
+              heading="The most attentive moment in NZ media."
+              lead="Not a banner anyone can ignore. One line, in the exact moment an NZ professional is mid-task and paying attention."
+              points={ADVERTISER_POINTS}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="border-y border-[rgba(35,33,31,0.08)] bg-white/40 py-20 lg:py-28">
+        <div className="container">
+          <div className="max-w-2xl">
+            <Eyebrow label="How it works" accent={BEAT_AMBER} />
+            <h2 className="mt-5 font-display text-[clamp(2rem,4vw,3.2rem)] font-light leading-tight">
+              Three parts. One quiet line.
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {STEPS.map(({ icon: Icon, title, body }) => (
+              <article
+                key={title}
+                className="flex flex-col rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#FAF7F2] p-6"
+              >
+                <span
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full"
+                  style={{ backgroundColor: 'rgba(217,168,90,0.16)' }}
+                >
+                  <Icon className="h-5 w-5" style={{ color: BEAT_AMBER }} aria-hidden />
+                </span>
+                <h3 className="mt-5 font-display text-xl font-normal leading-snug">{title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">{body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trust promise */}
+      <section className="py-16">
+        <div className="container">
+          <div className="flex max-w-3xl items-start gap-4 rounded-[12px] border border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu-paper)] p-6 md:p-8">
+            <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-[color:var(--assembl-pounamu)]" aria-hidden />
+            <div>
+              <h2 className="font-display text-xl font-normal text-[color:var(--text-primary)]">
+                The trust contract
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">
+                The SDK sends us only your publisher id, the surface, and a coarse context tag. It
+                never reads — and has no way to read — prompts, content, code, files or user data.
+                Privacy Act 2020 native. No raw IP is ever stored. Kate Hudson is the named,
+                accountable owner of that promise.
+              </p>
             </div>
           </div>
         </div>
+      </section>
 
-        <div className={styles.install}>
-          <div className={styles.installLabel}>
-            Two lines of code. Live in seven days.{' '}
-            <span className={styles.installFlag}>Public 27 Jun 2026</span>
+      {/* Get started — lead capture */}
+      <section className="pb-24 pt-4 lg:pb-32">
+        <div className="container">
+          <div className="grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+            <div className="max-w-md">
+              <Eyebrow label="Get started" accent={BEAT_AMBER} />
+              <h2 className="mt-5 font-display text-[clamp(2rem,4vw,3rem)] font-light leading-tight">
+                Two ways in.
+              </h2>
+              <p className="mt-4 text-[color:var(--text-body)] leading-relaxed">
+                Run a tool with a wait state, or want to reach the people inside one. Tell us which,
+                and we will take it from there.
+              </p>
+              <dl className="mt-8 space-y-5">
+                <div>
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: BEAT_AMBER }}>
+                    The split
+                  </dt>
+                  <dd className="mt-1 text-sm leading-relaxed text-[color:var(--text-body)]">
+                    Publishers keep 55% of ad revenue — 60% as a launch incentive for our first
+                    anchor publishers.
+                  </dd>
+                </div>
+                <div>
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: BEAT_AMBER }}>
+                    Where it runs first
+                  </dt>
+                  <dd className="mt-1 text-sm leading-relaxed text-[color:var(--text-body)]">
+                    On assembl&rsquo;s own tools today. We prove fill, fraud detection and reporting
+                    against ourselves before we ship to anyone else.
+                  </dd>
+                </div>
+              </dl>
+            </div>
+
+            <BeatLeadForm />
           </div>
-          <div className={styles.installCmd}>
-            <span>
-              <span className={styles.pkg}>npm</span> install @assembl/beat-sdk
-            </span>
-            <a href="#contact" className={styles.copy}>
-              Reserve a pilot
+
+          <p className="mt-12 text-sm text-[color:var(--text-secondary)]">
+            Beat by assembl is an assembl venture. Accountable owner: Kate Hudson ·{' '}
+            <a href="mailto:assembl@assembl.co.nz" className="underline hover:text-[color:var(--assembl-pounamu)]">
+              assembl@assembl.co.nz
             </a>
-          </div>
+          </p>
         </div>
       </section>
+    </main>
+  );
+}
 
-      <section className={styles.pillars}>
-        <div className={styles.pillarsGrid}>
-          <div className={styles.pillar}>
-            <h3>NZ-only</h3>
-            <p>NZ brands. NZ attention. NZ rates.</p>
-          </div>
-          <div className={styles.pillar}>
-            <h3>Privacy-first</h3>
-            <p>We never read prompts, content, code or files.</p>
-          </div>
-          <div className={styles.pillar}>
-            <h3>Named accountability</h3>
-            <p>Kate Hudson signs the rules. Not a click-through.</p>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.how}>
-        <h2 className={styles.sectionTitle}>How a 7-day publisher pilot works</h2>
-        <div className={styles.steps}>
-          <div className={styles.step}>
-            <div className={styles.num}>01</div>
-            <h4>You install</h4>
-            <p>Two lines. Two minutes.</p>
-          </div>
-          <div className={styles.step}>
-            <div className={styles.num}>02</div>
-            <h4>We serve</h4>
-            <p>One NZ-brand line in the spinner. Five seconds max.</p>
-          </div>
-          <div className={styles.step}>
-            <div className={styles.num}>03</div>
-            <h4>You earn</h4>
-            <p>55% of net rev, paid monthly. First three anchors get 60% for life.</p>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.bulletin}>
-        <div className={styles.bulletinBox}>
-          <h3>Updates from Kate</h3>
-          <div className={styles.from}>Founder · ASSEMBL NZ LIMITED · last updated 17 June 2026</div>
-          <ul>
-            <li>
-              <span className={styles.date}>17 Jun</span>SDK shipping into our own HAPAI tools first
-              — we&rsquo;re publisher zero.
-            </li>
-            <li>
-              <span className={styles.date}>17 Jun</span>NZ tool founders: 3 anchor slots open. 60%
-              rev share for life.
-            </li>
-            <li>
-              <span className={styles.date}>17 Jun</span>NZ advertisers: NZ$45 average CPM. Five
-              pilot slots open in July.
-            </li>
-            <li>
-              <span className={styles.date}>17 Jun</span>Built in Aotearoa. No marketplace politics.
-              No middleman.
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <section className={styles.cta} id="contact">
-        <h2>First three publishers earn 60%. Forever.</h2>
-        <p className={styles.sub}>Build NZ software? Market a NZ brand? Let&rsquo;s talk this week.</p>
-        <BeatLeadForm />
-      </section>
-    </>
+function TwoSide({
+  eyebrow,
+  heading,
+  lead,
+  points,
+}: {
+  eyebrow: string;
+  heading: string;
+  lead: string;
+  points: readonly string[];
+}) {
+  return (
+    <div>
+      <Eyebrow label={eyebrow} accent={BEAT_AMBER} />
+      <h2 className="mt-5 font-display text-[clamp(1.8rem,3.4vw,2.6rem)] font-light leading-tight">
+        {heading}
+      </h2>
+      <p className="mt-4 text-[color:var(--text-body)] leading-relaxed">{lead}</p>
+      <ul className="mt-7 space-y-3.5">
+        {points.map((p) => (
+          <li key={p} className="flex items-start gap-3 text-sm leading-relaxed text-[color:var(--text-body)]">
+            <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BEAT_AMBER }} aria-hidden />
+            <span>{p}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

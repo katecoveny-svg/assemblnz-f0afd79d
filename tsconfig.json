@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@assembl/beat-sdk": [
+        "./packages/beat-sdk/src/index.ts"
       ]
     }
   },
