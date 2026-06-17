@@ -251,15 +251,14 @@ export function HomeLaunch() {
               >
                 <Link
                   href={`/kete/${row.slug}`}
-                  className={`group flex h-full flex-col justify-between p-6 transition-[box-shadow,background] duration-300 hover:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] hover:shadow-[0_34px_80px_rgba(40,30,18,0.14)] ${GLASS}`}
+                  className={`group flex h-full flex-col justify-between p-6 transition-all duration-300 hover:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] hover:shadow-[0_34px_80px_rgba(40,30,18,0.14)] focus-visible:-translate-y-2 focus-visible:scale-[1.015] focus-visible:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] focus-visible:shadow-[0_34px_80px_rgba(40,30,18,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-4 ${GLASS}`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">{row.area}</span>
-                    <motion.span
-                      className="h-2.5 w-2.5 rounded-full"
+                    <span
+                      className="h-2.5 w-2.5 rounded-full transition-transform duration-300 group-hover:scale-150 group-focus-visible:scale-150"
                       style={{ backgroundColor: ACCENT[row.slug] }}
                       aria-hidden
-                      whileHover={{ scale: 1.6 }}
                     />
                   </div>
                   <div className="mt-8">
@@ -268,7 +267,7 @@ export function HomeLaunch() {
                     </h3>
                     <p className="mt-3 text-body-md text-[color:var(--text-body)]">{row.drafts}</p>
                   </div>
-                  <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5">
+                  <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5 group-focus-visible:gap-2.5">
                     Open <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                   </span>
                 </Link>
@@ -393,7 +392,7 @@ function FounderBand() {
           <div>
             <Link
               href="/about"
-              className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5"
+              className="inline-flex items-center gap-1.5 rounded-sm font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
             >
               Read the story <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
