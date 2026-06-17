@@ -5,12 +5,12 @@ import {
   runAuction,
   spentToday,
   type AuctionContext,
-  type PulseCampaign,
+  type BeatCampaign,
 } from './auction';
 
 const TODAY = '2026-06-17';
 
-function campaign(over: Partial<PulseCampaign> = {}): PulseCampaign {
+function campaign(over: Partial<BeatCampaign> = {}): BeatCampaign {
   return {
     id: 'c1',
     ad_text: 'A quiet line.',

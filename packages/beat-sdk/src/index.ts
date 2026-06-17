@@ -1,5 +1,5 @@
 /**
- * @assembl/pulse-sdk — the client for assembl Pulse, the NZ in-product ad network.
+ * @assembl/beat-sdk — the client for Beat by assembl, the NZ in-product ad network.
  *
  * The whole pitch is the trust contract: this SDK sends us ONLY
  * { publisherId, surface, context }. It never reads — and has no way to read —
@@ -7,26 +7,26 @@
  * caller-supplied bag (e.g. { tool: 'manaaki' }). Pass nothing sensitive.
  *
  * Two-line install:
- *   import { pulse } from '@assembl/pulse-sdk';
- *   pulse.init({ publisherId: 'xero-app' });
- *   const ad = await pulse.show({ surface: 'spinner' });
+ *   import { beat } from '@assembl/beat-sdk';
+ *   beat.init({ publisherId: 'xero-app' });
+ *   const ad = await beat.show({ surface: 'spinner' });
  */
 
-export interface PulseConfig {
+export interface BeatConfig {
   /** Your publisher id, issued by assembl (e.g. 'xero-app'). */
   publisherId: string;
-  /** Ad-server base URL. Defaults to the live assembl Pulse endpoint. */
+  /** Ad-server base URL. Defaults to the live Beat by assembl endpoint. */
   endpoint?: string;
 }
 
-export interface PulseShowOptions {
+export interface BeatShowOptions {
   /** Where the ad renders — e.g. 'spinner', 'chat', 'report'. */
   surface: string;
   /** Coarse, non-sensitive context only. Never content/prompts/user data. */
   context?: Record<string, string | number | boolean>;
 }
 
-export interface PulseAd {
+export interface BeatAd {
   /** The ad (campaign) id. */
   id: string;
   /** The single quiet line to show in the wait state. */
@@ -37,19 +37,19 @@ export interface PulseAd {
   impressionId: string;
 }
 
-const DEFAULT_ENDPOINT = 'https://www.assembl.co.nz/api/pulse';
+const DEFAULT_ENDPOINT = 'https://www.assembl.co.nz/api/beat';
 
-let config: Required<PulseConfig> | null = null;
+let config: Required<BeatConfig> | null = null;
 
 function endpointBase(): string {
-  if (!config) throw new Error('[pulse] call pulse.init({ publisherId }) before show().');
+  if (!config) throw new Error('[beat] call beat.init({ publisherId }) before show().');
   return config.endpoint.replace(/\/$/, '');
 }
 
-export const pulse = {
+export const beat = {
   /** Configure the SDK once, at startup. */
-  init(cfg: PulseConfig): void {
-    if (!cfg?.publisherId) throw new Error('[pulse] publisherId is required.');
+  init(cfg: BeatConfig): void {
+    if (!cfg?.publisherId) throw new Error('[beat] publisherId is required.');
     config = { publisherId: cfg.publisherId, endpoint: cfg.endpoint || DEFAULT_ENDPOINT };
   },
 
@@ -58,8 +58,8 @@ export const pulse = {
    * is empty (the caller should then show its own fallback line — fail-open).
    * Never throws: any network/parse error resolves to null.
    */
-  async show(opts: PulseShowOptions): Promise<PulseAd | null> {
-    if (!opts?.surface) throw new Error('[pulse] show({ surface }) is required.');
+  async show(opts: BeatShowOptions): Promise<BeatAd | null> {
+    if (!opts?.surface) throw new Error('[beat] show({ surface }) is required.');
     const base = endpointBase(); // throws loudly if init() was never called
     try {
       const res = await fetch(`${base}/serve`, {
@@ -72,9 +72,9 @@ export const pulse = {
         }),
       });
       if (!res.ok) return null; // 204 (no fill) or any error → fail-open
-      const ad = (await res.json()) as Partial<PulseAd> | null;
+      const ad = (await res.json()) as Partial<BeatAd> | null;
       if (!ad || !ad.impressionId || !ad.text || !ad.ctaUrl || !ad.id) return null;
-      return ad as PulseAd;
+      return ad as BeatAd;
     } catch {
       return null;
     }
@@ -103,4 +103,4 @@ export const pulse = {
   },
 };
 
-export default pulse;
+export default beat;

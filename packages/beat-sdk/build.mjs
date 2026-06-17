@@ -1,4 +1,4 @@
-// Build the Pulse SDK to ESM + CJS and assert the minified public bundle stays
+// Build the Beat SDK to ESM + CJS and assert the minified public bundle stays
 // under the 5KB trust-and-footprint budget. Run via `node build.mjs`.
 import { build } from 'esbuild';
 import { gzipSync } from 'node:zlib';
@@ -22,7 +22,7 @@ await build({ ...common, format: 'cjs', outfile: 'dist/index.cjs' });
 const min = readFileSync('dist/index.mjs');
 const gz = gzipSync(min);
 const kb = (n) => (n / 1024).toFixed(2);
-console.log(`\nPulse SDK minified: ${kb(min.byteLength)} KB  (gzip ${kb(gz.byteLength)} KB)`);
+console.log(`\nBeat SDK minified: ${kb(min.byteLength)} KB  (gzip ${kb(gz.byteLength)} KB)`);
 
 if (min.byteLength > SIZE_BUDGET_BYTES) {
   console.error(`\n✗ Bundle ${kb(min.byteLength)} KB exceeds the ${kb(SIZE_BUDGET_BYTES)} KB budget.`);

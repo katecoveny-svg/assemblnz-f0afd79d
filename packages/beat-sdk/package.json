@@ -1,7 +1,7 @@
 {
-  "name": "@assembl/pulse-sdk",
+  "name": "@assembl/beat-sdk",
   "version": "0.1.0",
-  "description": "Client SDK for assembl Pulse — the NZ in-product ad network. Sends only { publisherId, surface, context }. Never reads prompts, content, code, files, or user data.",
+  "description": "Client SDK for Beat by assembl — the NZ in-product ad network. Sends only { publisherId, surface, context }. Never reads prompts, content, code, files, or user data.",
   "license": "UNLICENSED",
   "author": "Kate Hudson <assembl@assembl.co.nz>",
   "type": "module",
@@ -21,7 +21,7 @@
     "build": "node build.mjs && tsc -p tsconfig.build.json",
     "test": "vitest run"
   },
-  "keywords": ["assembl", "pulse", "ad-network", "nz", "advertising"],
+  "keywords": ["assembl", "beat", "ad-network", "nz", "advertising"],
   "publishConfig": {
     "access": "restricted"
   }

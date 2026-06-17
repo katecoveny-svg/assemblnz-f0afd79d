@@ -1,4 +1,4 @@
 # pnpm workspace — the Next.js app lives at the repo root; shippable packages
-# (currently just the assembl Pulse SDK) live under packages/*.
+# (currently just the Beat by assembl SDK) live under packages/*.
 packages:
   - 'packages/*'

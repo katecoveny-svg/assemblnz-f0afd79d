@@ -3,17 +3,17 @@ import Link from 'next/link';
 import { ArrowRight, Check, Code2, Radio, ShieldCheck, Zap } from 'lucide-react';
 import { Eyebrow } from '@/components/site/Eyebrow';
 import { LandscapeBand } from '@/components/site/LandscapeBand';
-import { PulseLeadForm } from '@/components/site/pulse/PulseLeadForm';
+import { BeatLeadForm } from '@/components/site/beat/BeatLeadForm';
 
 export const metadata: Metadata = {
-  title: 'assembl Pulse — the heartbeat of NZ software, monetised',
+  title: 'Beat by assembl — the ad network for NZ software’s quiet moments',
   description:
     'An ad network for the wait-state inside NZ software. Publishers earn 55% of ad revenue. Advertisers reach verified NZ B2B attention. assembl operates the network — and never reads your users’ data.',
-  alternates: { canonical: '/pulse' },
+  alternates: { canonical: '/beat' },
 };
 
-// Pulse wordmark amber (locked). Distinct from the site gold-thread accent.
-const PULSE_AMBER = '#D9A85A';
+// Beat wordmark amber (locked). Distinct from the site gold-thread accent.
+const BEAT_AMBER = '#D9A85A';
 
 const PUBLISHER_POINTS = [
   'Earn 55% of every ad served in your tool — 60% for our first anchor publishers.',
@@ -33,7 +33,7 @@ const STEPS = [
   {
     icon: Code2,
     title: 'Publishers install the SDK',
-    body: 'pulse.init() then pulse.show() in your loading state. We send back one line of sponsored text, or nothing — your call what shows when it is nothing.',
+    body: 'beat.init() then beat.show() in your loading state. We send back one line of sponsored text, or nothing — your call what shows when it is nothing.',
   },
   {
     icon: Zap,
@@ -47,16 +47,16 @@ const STEPS = [
   },
 ] as const;
 
-export default function PulsePage() {
+export default function BeatPage() {
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       {/* Hero */}
       <section className="relative overflow-hidden py-20 lg:py-28">
         <div className="container">
-          <Eyebrow label="assembl Pulse" accent={PULSE_AMBER} />
+          <Eyebrow label="Beat by assembl" accent={BEAT_AMBER} />
           <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.6rem,6vw,4.6rem)] font-light leading-[1.04] text-[color:var(--text-primary)]">
-            assembl <span style={{ color: PULSE_AMBER }}>Pulse</span> — the heartbeat of NZ
-            software, monetised.
+            <span style={{ color: BEAT_AMBER }}>Beat</span> by assembl — the ad network for NZ
+            software’s quiet moments.
           </h1>
           <p className="mt-7 max-w-2xl text-[color:var(--text-body)] text-[clamp(1.05rem,1.6vw,1.25rem)] leading-relaxed">
             An ad network for the wait-state inside NZ software. Publishers earn 55% of ad revenue.
@@ -89,7 +89,7 @@ export default function PulsePage() {
               <p className="text-sm text-[color:var(--text-body)]">
                 Drafting your reply{' '}
                 <span className="text-[color:var(--text-secondary)]">·</span>{' '}
-                <span style={{ color: PULSE_AMBER }}>
+                <span style={{ color: BEAT_AMBER }}>
                   Air New Zealand Business — fly the main centres for less.
                 </span>
               </p>
@@ -127,7 +127,7 @@ export default function PulsePage() {
       <section className="border-y border-[rgba(35,33,31,0.08)] bg-white/40 py-20 lg:py-28">
         <div className="container">
           <div className="max-w-2xl">
-            <Eyebrow label="How it works" accent={PULSE_AMBER} />
+            <Eyebrow label="How it works" accent={BEAT_AMBER} />
             <h2 className="mt-5 font-display text-[clamp(2rem,4vw,3.2rem)] font-light leading-tight">
               Three parts. One quiet line.
             </h2>
@@ -142,7 +142,7 @@ export default function PulsePage() {
                   className="inline-flex h-10 w-10 items-center justify-center rounded-full"
                   style={{ backgroundColor: 'rgba(217,168,90,0.16)' }}
                 >
-                  <Icon className="h-5 w-5" style={{ color: PULSE_AMBER }} aria-hidden />
+                  <Icon className="h-5 w-5" style={{ color: BEAT_AMBER }} aria-hidden />
                 </span>
                 <h3 className="mt-5 font-display text-xl font-normal leading-snug">{title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">{body}</p>
@@ -177,7 +177,7 @@ export default function PulsePage() {
         <div className="container">
           <div className="grid items-start gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
             <div className="max-w-md">
-              <Eyebrow label="Get started" accent={PULSE_AMBER} />
+              <Eyebrow label="Get started" accent={BEAT_AMBER} />
               <h2 className="mt-5 font-display text-[clamp(2rem,4vw,3rem)] font-light leading-tight">
                 Two ways in.
               </h2>
@@ -187,7 +187,7 @@ export default function PulsePage() {
               </p>
               <dl className="mt-8 space-y-5">
                 <div>
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: PULSE_AMBER }}>
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: BEAT_AMBER }}>
                     The split
                   </dt>
                   <dd className="mt-1 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -196,7 +196,7 @@ export default function PulsePage() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: PULSE_AMBER }}>
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.14em]" style={{ color: BEAT_AMBER }}>
                     Where it runs first
                   </dt>
                   <dd className="mt-1 text-sm leading-relaxed text-[color:var(--text-body)]">
@@ -207,11 +207,11 @@ export default function PulsePage() {
               </dl>
             </div>
 
-            <PulseLeadForm />
+            <BeatLeadForm />
           </div>
 
           <p className="mt-12 text-sm text-[color:var(--text-secondary)]">
-            assembl Pulse is an assembl venture. Accountable owner: Kate Hudson ·{' '}
+            Beat by assembl is an assembl venture. Accountable owner: Kate Hudson ·{' '}
             <a href="mailto:assembl@assembl.co.nz" className="underline hover:text-[color:var(--assembl-pounamu)]">
               assembl@assembl.co.nz
             </a>
@@ -235,7 +235,7 @@ function TwoSide({
 }) {
   return (
     <div>
-      <Eyebrow label={eyebrow} accent={PULSE_AMBER} />
+      <Eyebrow label={eyebrow} accent={BEAT_AMBER} />
       <h2 className="mt-5 font-display text-[clamp(1.8rem,3.4vw,2.6rem)] font-light leading-tight">
         {heading}
       </h2>
@@ -243,7 +243,7 @@ function TwoSide({
       <ul className="mt-7 space-y-3.5">
         {points.map((p) => (
           <li key={p} className="flex items-start gap-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-            <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: PULSE_AMBER }} aria-hidden />
+            <Check className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BEAT_AMBER }} aria-hidden />
             <span>{p}</span>
           </li>
         ))}

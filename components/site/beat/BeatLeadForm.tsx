@@ -1,9 +1,9 @@
 'use client';
 
 /**
- * PulseLeadForm — the "Become a publisher" / "Become an advertiser" capture for
- * the /pulse landing page. One form, two roles (segmented toggle), posting to
- * POST /api/pulse/lead (recordLead → email + lead_inquiries). Fail-soft.
+ * BeatLeadForm — the "Become a publisher" / "Become an advertiser" capture for
+ * the /beat landing page. One form, two roles (segmented toggle), posting to
+ * POST /api/beat/lead (recordLead → email + lead_inquiries). Fail-soft.
  */
 
 import { useId, useState } from 'react';
@@ -18,7 +18,7 @@ const COPY: Record<Role, { heading: string; sub: string; cta: string; orgLabel: 
     sub: 'Turn your "thinking…" moment into revenue. Earn 55% of every ad served in your tool. Two lines of code to install.',
     cta: 'Talk to us about publishing',
     orgLabel: 'Your product or company',
-    msgLabel: 'Where would Pulse run? (optional)',
+    msgLabel: 'Where would Beat run? (optional)',
     msgPlaceholder: 'e.g. the report-generation spinner in our accounting app',
   },
   advertiser: {
@@ -31,7 +31,7 @@ const COPY: Record<Role, { heading: string; sub: string; cta: string; orgLabel: 
   },
 };
 
-export function PulseLeadForm() {
+export function BeatLeadForm() {
   const [role, setRole] = useState<Role>('publisher');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -59,7 +59,7 @@ export function PulseLeadForm() {
     setError(null);
 
     try {
-      const res = await fetch('/api/pulse/lead', {
+      const res = await fetch('/api/beat/lead', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({

@@ -1,6 +1,6 @@
-# @assembl/pulse-sdk
+# @assembl/beat-sdk
 
-The client for **assembl Pulse** — the NZ in-product ad network. Fills the
+The client for **Beat by assembl** — the NZ in-product ad network. Fills the
 "thinking…" wait state inside NZ software with one quiet, brand-safe line of
 sponsored text. Publishers earn 55% of ad revenue.
 
@@ -14,22 +14,22 @@ nothing sensitive. That promise is the whole pitch; the code keeps it.
 ## Install (two lines)
 
 ```ts
-import { pulse } from '@assembl/pulse-sdk';
+import { beat } from '@assembl/beat-sdk';
 
-pulse.init({ publisherId: 'xero-app' });
-const ad = await pulse.show({ surface: 'spinner' });
+beat.init({ publisherId: 'xero-app' });
+const ad = await beat.show({ surface: 'spinner' });
 ```
 
 ## API
 
 | Call | Returns | Notes |
 |---|---|---|
-| `pulse.init({ publisherId, endpoint? })` | `void` | Call once at startup. `endpoint` defaults to the live assembl Pulse server. |
-| `pulse.show({ surface, context? })` | `Promise<PulseAd \| null>` | `null` when the auction is empty — show your own fallback line (fail-open). Never throws. |
-| `pulse.click(impressionId)` | `void` | Records the click and navigates the browser to the ad's destination via the tracking redirect. |
-| `pulse.dismiss(impressionId)` | `void` | Fire-and-forget dismissal beacon. |
+| `beat.init({ publisherId, endpoint? })` | `void` | Call once at startup. `endpoint` defaults to the live Beat by assembl server. |
+| `beat.show({ surface, context? })` | `Promise<BeatAd \| null>` | `null` when the auction is empty — show your own fallback line (fail-open). Never throws. |
+| `beat.click(impressionId)` | `void` | Records the click and navigates the browser to the ad's destination via the tracking redirect. |
+| `beat.dismiss(impressionId)` | `void` | Fire-and-forget dismissal beacon. |
 
-`PulseAd` = `{ id, text, ctaUrl, impressionId }`. Render `text` in the wait
+`BeatAd` = `{ id, text, ctaUrl, impressionId }`. Render `text` in the wait
 state; pass `impressionId` to `click()` / `dismiss()`.
 
 ## Build

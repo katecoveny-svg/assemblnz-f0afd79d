@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config';
 
-// Package-local config so `pnpm --filter @assembl/pulse-sdk test` (or `vitest
+// Package-local config so `pnpm --filter @assembl/beat-sdk test` (or `vitest
 // run` from this dir) finds the SDK's own tests. The root config also picks
 // these up via its `packages/**/*.test.ts` include when run from the repo root.
 export default defineConfig({

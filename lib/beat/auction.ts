@@ -1,8 +1,8 @@
 /**
- * assembl Pulse — the second-price auction core.
+ * Beat by assembl — the second-price auction core.
  *
  * Pure, dependency-free, and unit-tested in auction.test.ts. The serve route
- * (app/api/pulse/serve) does the I/O — load publisher + campaigns, then call
+ * (app/api/beat/serve) does the I/O — load publisher + campaigns, then call
  * these — so the money logic can be reasoned about in isolation.
  *
  * All money is integer NZ cents. Bids are CPM (cost per 1000 impressions).
@@ -13,7 +13,7 @@ export const FLOOR_CPM_CENTS = 2500;
 /** The second-price increment: NZ$0.01 per CPM. */
 export const INCREMENT_CPM_CENTS = 1;
 
-export interface PulseCampaign {
+export interface BeatCampaign {
   id: string;
   ad_text: string;
   cta_url: string;
@@ -40,12 +40,12 @@ export interface AuctionContext {
  * Effective spend for a campaign on the NZ day `nzToday`. A campaign whose
  * recorded spend belongs to a previous day has effectively spent 0 today.
  */
-export function spentToday(c: PulseCampaign, nzToday: string): number {
+export function spentToday(c: BeatCampaign, nzToday: string): number {
   return c.spent_today_date === nzToday ? c.spent_today : 0;
 }
 
 /** Is this campaign eligible to bid for this impression? */
-export function isEligible(c: PulseCampaign, ctx: AuctionContext): boolean {
+export function isEligible(c: BeatCampaign, ctx: AuctionContext): boolean {
   if (c.status !== 'active') return false;
   if (c.bid_cpm_nzd_cents < FLOOR_CPM_CENTS) return false;
 
@@ -68,7 +68,7 @@ export function isEligible(c: PulseCampaign, ctx: AuctionContext): boolean {
 }
 
 export interface AuctionResult {
-  winner: PulseCampaign;
+  winner: BeatCampaign;
   /** Clearing CPM in cents (second price + increment, floored, capped at own bid). */
   clearingCpmCents: number;
   /** What THIS single impression costs, in NZ cents (clearing CPM / 1000). */
@@ -88,7 +88,7 @@ export interface AuctionResult {
  * nearest cent. At the network's NZ$45 CPM target that is ~5c per impression;
  * exact sub-cent accounting is a Phase-1 ledger concern, not a Phase-0 one.
  */
-export function runAuction(campaigns: PulseCampaign[], ctx: AuctionContext): AuctionResult | null {
+export function runAuction(campaigns: BeatCampaign[], ctx: AuctionContext): AuctionResult | null {
   const eligible = campaigns
     .filter((c) => isEligible(c, ctx))
     .sort((a, b) => b.bid_cpm_nzd_cents - a.bid_cpm_nzd_cents);

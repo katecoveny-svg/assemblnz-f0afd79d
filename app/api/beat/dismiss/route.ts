@@ -1,5 +1,5 @@
 /**
- * POST /api/pulse/dismiss — record that a user dismissed an ad.
+ * POST /api/beat/dismiss — record that a user dismissed an ad.
  *
  * Called via navigator.sendBeacon (body may arrive as text/plain) or fetch
  * keepalive. Always 204s; dismissal is best-effort telemetry, never blocking.
@@ -27,12 +27,12 @@ export async function POST(req: Request) {
   try {
     const service = getServiceClient();
     await service
-      .from('pulse_impressions')
+      .from('beat_impressions')
       .update({ dismissed: true, dismissed_at: new Date().toISOString() })
       .eq('id', impressionId)
       .eq('dismissed', false); // idempotent: only the first dismissal stamps
   } catch (err) {
-    console.error('[pulse/dismiss] update failed:', err);
+    console.error('[beat/dismiss] update failed:', err);
   }
 
   return NO_CONTENT;

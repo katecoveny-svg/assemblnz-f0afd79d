@@ -1,5 +1,5 @@
 /**
- * /pulse/admin — the assembl Pulse operator dashboard.
+ * /beat/admin — the Beat by assembl operator dashboard.
  *
  * Gated to Kate via the site's existing Supabase auth + the same email
  * allowlist used by the other /internal admin pages. Reads with the service
@@ -9,12 +9,12 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getServiceClient } from '@/lib/supabase/service';
-import { nzTodayString } from '@/lib/pulse/auction';
+import { nzTodayString } from '@/lib/beat/auction';
 
 export const dynamic = 'force-dynamic';
 
 const ALLOWED_EMAILS = new Set<string>(['assembl@assembl.co.nz', 'kate@assembl.co.nz']);
-const PULSE_AMBER = '#D9A85A';
+const BEAT_AMBER = '#D9A85A';
 
 type Campaign = {
   id: string;
@@ -40,17 +40,17 @@ const nzd = (cents: number) =>
   `NZ$${(cents / 100).toLocaleString('en-NZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 const pct = (n: number, d: number) => (d === 0 ? '—' : `${((n / d) * 100).toFixed(1)}%`);
 
-export default async function PulseAdminPage() {
+export default async function BeatAdminPage() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   const user = data.user;
-  if (!user) redirect('/login?redirect=/pulse/admin');
+  if (!user) redirect('/login?redirect=/beat/admin');
   const email = (user.email ?? '').toLowerCase();
   if (!ALLOWED_EMAILS.has(email)) {
     return (
       <main style={page}>
         <h1 style={h1}>Not authorised</h1>
-        <p style={muted}>{user.email} is not on the Pulse operator allowlist.</p>
+        <p style={muted}>{user.email} is not on the Beat operator allowlist.</p>
       </main>
     );
   }
@@ -62,11 +62,11 @@ export default async function PulseAdminPage() {
     const service = getServiceClient();
     const [c, i] = await Promise.all([
       service
-        .from('pulse_campaigns')
+        .from('beat_campaigns')
         .select('id, name, advertiser_email, bid_cpm_nzd_cents, daily_budget_nzd_cents, spent_today, spent_today_date, status, category')
         .order('created_at', { ascending: false }),
       service
-        .from('pulse_impressions')
+        .from('beat_impressions')
         .select('campaign_id, clicked, dismissed, charged_nzd_cents, served_at')
         .order('served_at', { ascending: false })
         .limit(5000),
@@ -99,8 +99,8 @@ export default async function PulseAdminPage() {
   return (
     <main style={page}>
       <header style={{ marginBottom: 28 }}>
-        <span style={{ color: PULSE_AMBER, fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase' }}>
-          assembl Pulse · operator
+        <span style={{ color: BEAT_AMBER, fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase' }}>
+          Beat by assembl · operator
         </span>
         <h1 style={h1}>Network dashboard</h1>
         <p style={muted}>

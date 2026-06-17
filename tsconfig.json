@@ -26,8 +26,8 @@
       "@/*": [
         "./*"
       ],
-      "@assembl/pulse-sdk": [
-        "./packages/pulse-sdk/src/index.ts"
+      "@assembl/beat-sdk": [
+        "./packages/beat-sdk/src/index.ts"
       ]
     }
   },
