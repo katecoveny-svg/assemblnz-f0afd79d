@@ -46,7 +46,9 @@ export function HapaiToolShell({
           HAPAI library
         </Link>
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,0.98fr)_minmax(360px,0.62fr)] lg:items-stretch">
+        {/* Single column until there is genuinely room for two — below 1280px
+            the aside stacks under the hero card instead of crowding it. */}
+        <section className="mt-8 grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(340px,0.58fr)] xl:items-stretch">
           <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/62 p-6 shadow-[0_28px_90px_rgba(35,33,31,0.08)] md:p-8">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(43,107,87,0.08),transparent_38%),radial-gradient(circle_at_86%_8%,rgba(217,168,90,0.16),transparent_30%)]" aria-hidden />
             <div className="relative">
