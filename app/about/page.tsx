@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
 import { Eyebrow } from '@/components/site/Eyebrow';
+import { LandscapeBand } from '@/components/site/LandscapeBand';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -138,6 +139,9 @@ export default function AboutPage() {
           </SectionReveal>
         </div>
       </section>
+
+      {/* "Built in Aotearoa" — full-bleed Bay of Islands band before the footer. */}
+      <LandscapeBand />
     </main>
   );
 }

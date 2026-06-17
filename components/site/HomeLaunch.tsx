@@ -13,6 +13,7 @@ import {
 import { ArrowRight } from 'lucide-react';
 import { KETES } from '@/lib/kete';
 import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
+import { LandscapeBand } from '@/components/site/LandscapeBand';
 import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
 
 // "Pick your area" — one link per kete. English first, te reo second.
@@ -323,10 +324,10 @@ export function HomeLaunch() {
         </div>
       </section>
 
-      {/* 3.5 · Aotearoa landscape band — full-bleed golden-hour coast, the
-          grounded "made here" moment and the transition into the dark stat
+      {/* 3.5 · Aotearoa landscape band — full-bleed Bay of Islands golden hour,
+          the grounded "made here" moment and the transition into the dark stat
           bar that follows. */}
-      <WhenuaBand />
+      <LandscapeBand />
 
       {/* 4 · Live regulation — the one dark pounamu band + big stat */}
       <LiveRegulationBlock />
@@ -439,29 +440,6 @@ export function HomeLaunch() {
         </div>
       </section>
     </main>
-  );
-}
-
-/**
- * Aotearoa landscape band — Kate's canonical full-bleed coast image.
- *
- * Full viewport width, ≥400px tall on desktop, sitting as a substantial
- * mid-page divider between the kete grid and the dark stat bar. Hairline gold
- * threads top and bottom tie it to the rest of the page.
- */
-function WhenuaBand() {
-  return (
-    <section aria-hidden className="relative h-[58vw] max-h-[560px] min-h-[400px] w-full overflow-hidden">
-      <Image
-        src="/images/site/landscape-coast-aotearoa.png"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover object-center"
-      />
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.5),transparent)]" />
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.5),transparent)]" />
-    </section>
   );
 }
 
