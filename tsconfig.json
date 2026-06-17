@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@assembl/pulse-sdk": [
+        "./packages/pulse-sdk/src/index.ts"
       ]
     }
   },

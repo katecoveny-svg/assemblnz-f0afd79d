@@ -1,0 +1,28 @@
+{
+  "name": "@assembl/pulse-sdk",
+  "version": "0.1.0",
+  "description": "Client SDK for assembl Pulse — the NZ in-product ad network. Sends only { publisherId, surface, context }. Never reads prompts, content, code, files, or user data.",
+  "license": "UNLICENSED",
+  "author": "Kate Hudson <assembl@assembl.co.nz>",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "node build.mjs && tsc -p tsconfig.build.json",
+    "test": "vitest run"
+  },
+  "keywords": ["assembl", "pulse", "ad-network", "nz", "advertising"],
+  "publishConfig": {
+    "access": "restricted"
+  }
+}
