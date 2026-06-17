@@ -27,7 +27,7 @@ begin
         or last_checked_at < now() - make_interval(mins => cadence_minutes)
       )
       and url not like 'internal://%'
-    order by tier asc nulls last, last_checked_at asc nulls first
+    order by authority_tier asc nulls last, last_checked_at asc nulls first
     limit batch_size
   loop
     v_adapter := case
@@ -131,7 +131,7 @@ insert into public.kb_sources (
   active,
   status,
   consecutive_failures,
-  tier,
+  authority_tier,
   authority_weight,
   config
 )
