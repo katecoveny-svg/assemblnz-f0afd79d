@@ -33,10 +33,29 @@ export function PwaRegister() {
     if (!("serviceWorker" in navigator)) return;
     if (process.env.NODE_ENV !== "production") return;
 
-    navigator.serviceWorker.register("/sw.js").catch(() => {
-      // Installation should never block the site. If registration fails, the
-      // app remains a normal website and can be retried on the next visit.
+    // Reload exactly once when a new worker takes control, so a visitor still
+    // being served by a stale (legacy) worker lands on the fresh app without a
+    // manual hard-refresh.
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (reloaded) return;
+      reloaded = true;
+      window.location.reload();
     });
+
+    navigator.serviceWorker
+      .register("/sw.js", { scope: "/", updateViaCache: "none" })
+      .then((registration) => {
+        // Force an update check on every load. This is what evicts the legacy
+        // "assembl-agent-*" worker that some returning visitors are still stuck
+        // on — it re-fetches /sw.js from the network (updateViaCache: "none"),
+        // installs the new worker, which skipWaiting()s and claims the page.
+        registration.update().catch(() => undefined);
+      })
+      .catch(() => {
+        // Installation should never block the site. If registration fails, the
+        // app remains a normal website and can be retried on the next visit.
+      });
   }, []);
 
   return null;
