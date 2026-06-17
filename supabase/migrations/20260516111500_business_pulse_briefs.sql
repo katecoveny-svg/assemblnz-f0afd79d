@@ -19,6 +19,14 @@ create table if not exists public.business_pulse_briefs (
   unique (org_id, brief_date)
 );
 
+-- An earlier migration (20260516080000) created public.business_pulse_briefs
+-- with tenant_id (not org_id), so the `create table if not exists` above no-ops
+-- on a fresh replay and the org_id index/policy below would reference a missing
+-- column. Add org_id idempotently and backfill from tenant_id. No-op where
+-- org_id already exists.
+alter table public.business_pulse_briefs add column if not exists org_id uuid references public.tenants(id) on delete cascade;
+update public.business_pulse_briefs set org_id = tenant_id where org_id is null and tenant_id is not null;
+
 create index if not exists idx_business_pulse_org_date
   on public.business_pulse_briefs (org_id, brief_date desc);
 

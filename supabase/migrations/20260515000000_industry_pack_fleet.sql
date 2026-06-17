@@ -68,7 +68,20 @@ SET pack = canon.pack,
     is_draft = false,
     updated_at = now()
 FROM canon
-WHERE lower(ap.agent_name) = canon.agent_name;
+WHERE lower(ap.agent_name) = canon.agent_name
+  -- Conflict-safe: skip a row whose move to (agent_name, canon.pack) would
+  -- collide with a row that already holds that (agent_name, pack) slot — e.g.
+  -- on a fresh-from-zero replay where an earlier seed already created the
+  -- canonical pack row. No-op against the production data state where this
+  -- migration first applied (no such pre-existing collision existed), so the
+  -- end state is unchanged there; this only prevents the
+  -- agent_prompts_name_pack_unique duplicate-key error on a clean rebuild.
+  AND NOT EXISTS (
+    SELECT 1 FROM public.agent_prompts ap2
+    WHERE ap2.agent_name = ap.agent_name
+      AND ap2.pack = canon.pack
+      AND ap2.id <> ap.id
+  );
 
 WITH placeholders(agent_name, pack, display_name, icon, kete_slug, phase) AS (
   VALUES

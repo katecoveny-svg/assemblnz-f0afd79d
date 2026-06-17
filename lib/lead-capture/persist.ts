@@ -1,5 +1,7 @@
 /**
- * persistLead — belt-and-braces durable write of every lead to public.leads.
+ * persistLead — belt-and-braces durable write of every lead to
+ * public.lead_inquiries (NOT public.leads — that name belongs to the unrelated
+ * CRM pipeline table).
  *
  * Additive: surfaces keep their existing per-form tables. This is the single
  * place to query "every lead, newest first". Fail-soft — a missing table or
@@ -28,7 +30,7 @@ export async function persistLead(
     if (v !== undefined && v !== null && String(v).trim() !== "") fields[k] = String(v);
   }
 
-  const { error } = await service.from("leads").insert({
+  const { error } = await service.from("lead_inquiries").insert({
     form_name: input.formName,
     email: input.email?.trim().toLowerCase() || null,
     name: input.name?.trim() || null,

@@ -52,6 +52,23 @@ CREATE TABLE IF NOT EXISTS public.vessel_generations (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
+-- An earlier migration (20260507100000) already created a DIFFERENT
+-- public.vessel_generations (the user-scoped image studio), so the
+-- `create table if not exists` above no-ops on a fresh replay and the indexes
+-- below would reference columns that don't exist. Add the columns this
+-- migration needs idempotently (NOT NULL ones carry safe defaults so the add is
+-- safe against an already-populated table). No-op where they already exist.
+alter table public.vessel_generations add column if not exists brand_slug text;
+alter table public.vessel_generations add column if not exists brand_name text not null default '';
+alter table public.vessel_generations add column if not exists brand_color text not null default '#2B6B57';
+alter table public.vessel_generations add column if not exists prompt text not null default '';
+alter table public.vessel_generations add column if not exists image_url text not null default '';
+alter table public.vessel_generations add column if not exists cost_estimate_usd numeric(10,4) not null default 0;
+alter table public.vessel_generations add column if not exists byok boolean not null default false;
+alter table public.vessel_generations add column if not exists ip_hash text;
+alter table public.vessel_generations add column if not exists user_agent text;
+alter table public.vessel_generations add column if not exists created_at timestamptz not null default now();
+
 COMMENT ON TABLE public.vessel_generations IS
   'Append-only audit trail of public vessel generations. ip_hash is SHA-256(ip), never the raw IP.';
 
