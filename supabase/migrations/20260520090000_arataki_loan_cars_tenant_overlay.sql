@@ -10,31 +10,38 @@ set expected_return_at = return_date::timestamptz
 where expected_return_at is null
   and return_date is not null;
 
+-- A LATERAL in UPDATE ... FROM cannot correlate to the UPDATE target (lc) —
+-- Postgres raises 42P10 on a fresh replay. Equivalent correlated scalar
+-- subquery instead (earliest membership by created_at).
 update public.loan_cars lc
-set tenant_id = tm.tenant_id
-from lateral (
-  select tenant_id
-  from public.tenant_members
-  where user_id = lc.user_id
-  order by created_at asc
+set tenant_id = (
+  select tm.tenant_id
+  from public.tenant_members tm
+  where tm.user_id = lc.user_id
+  order by tm.created_at asc
   limit 1
-) tm
-where lc.tenant_id is null;
+)
+where lc.tenant_id is null
+  and exists (
+    select 1 from public.tenant_members tm where tm.user_id = lc.user_id
+  );
 
 do $$
 begin
   if to_regclass('public.platform_org_members') is not null then
     execute $sql$
       update public.loan_cars lc
-      set tenant_id = pom.tenant_id
-      from lateral (
-        select tenant_id
-        from public.platform_org_members
-        where user_id = lc.user_id
-        order by created_at asc
+      set tenant_id = (
+        select pom.tenant_id
+        from public.platform_org_members pom
+        where pom.user_id = lc.user_id
+        order by pom.created_at asc
         limit 1
-      ) pom
+      )
       where lc.tenant_id is null
+        and exists (
+          select 1 from public.platform_org_members pom where pom.user_id = lc.user_id
+        )
     $sql$;
   end if;
 end $$;
