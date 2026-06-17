@@ -3,7 +3,7 @@
  *
  * Does both legs of the safety net, independently and fail-soft:
  *   1. notifyLead  → emails assembl@assembl.co.nz (via the proven send-contact-email edge fn)
- *   2. persistLead → writes a durable row to public.leads
+ *   2. persistLead → writes a durable row to public.lead_inquiries
  *
  * Neither leg can throw into the caller, and the result tells you what landed so
  * the per-form table can be enriched if needed. Existing per-form writes
