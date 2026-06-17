@@ -152,17 +152,16 @@ export function HomeLaunch() {
               >
                 Aotearoa-built AI
               </motion.p>
-              <h1 className="mt-5 font-display text-[clamp(2.5rem,7vw,6rem)] font-light leading-[0.94] tracking-[-0.025em]">
-                <RevealWords text="Built in Aotearoa for the real bottleneck —" className="block" />
-                <RevealWords text="trust and uptake." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
+              <h1 className="mt-5 font-display text-[clamp(2.75rem,8vw,6.5rem)] font-semibold not-italic leading-[0.92] tracking-[-0.025em]">
+                <RevealWords text="Less admin." className="block" />
+                <RevealWords text="More mahi." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
               </h1>
               <motion.p
                 variants={item}
                 className="mt-6 max-w-xl text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--text-primary)]"
               >
-                assembl ships HAPAI: a public library of single-purpose tools that each do one
-                ordinary job — draft-only, reviewed by a named human, with a downloadable evidence
-                pack on every output.
+                assembl ships HAPAI — a library of single-purpose NZ tools that get one ordinary job
+                done, draft-only, with a downloadable evidence pack.
               </motion.p>
               <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-4">
                 <Link href="/hapai" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
@@ -240,8 +239,8 @@ export function HomeLaunch() {
           <motion.div variants={container} initial="hidden" whileInView="show" viewport={VIEWPORT}>
             <Eyebrow label="The promise" accent="var(--assembl-pounamu)" />
             <h2 className="max-w-3xl font-display text-display-lg font-light leading-[1.02]">
-              <RevealWords text="Less admin," className="block" />
-              <RevealWords text="more mahi." className="block text-[color:var(--assembl-pounamu)]" />
+              <RevealWords text="Your best hour," className="block" />
+              <RevealWords text="better spent." className="block text-[color:var(--assembl-pounamu)]" />
             </h2>
             <motion.p variants={item} className="mt-8 max-w-3xl text-body-lg text-[color:var(--text-body)]">
               Hospitality teams shouldn’t spend their best hour writing the allergen report. Builders
