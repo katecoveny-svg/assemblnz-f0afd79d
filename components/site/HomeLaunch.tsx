@@ -150,18 +150,19 @@ export function HomeLaunch() {
                 variants={item}
                 className="font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]"
               >
-                Built in Aotearoa
+                Aotearoa-built AI
               </motion.p>
               <h1 className="mt-5 font-display text-[clamp(2.5rem,7vw,6rem)] font-light leading-[0.94] tracking-[-0.025em]">
-                <RevealWords text="We draft the slow paperwork." className="block" />
-                <RevealWords text="You sign it off and go home." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
+                <RevealWords text="Built in Aotearoa for the real bottleneck —" className="block" />
+                <RevealWords text="trust and uptake." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
               </h1>
               <motion.p
                 variants={item}
-                className="mt-6 max-w-lg text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--text-primary)]"
+                className="mt-6 max-w-xl text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--text-primary)]"
               >
-                Specialist agents draft the admin-heavy work. A named person signs it off. Every
-                output is sealed in an evidence pack — the receipt.
+                assembl ships HAPAI: a public library of single-purpose tools that each do one
+                ordinary job — draft-only, reviewed by a named human, with a downloadable evidence
+                pack on every output.
               </motion.p>
               <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-4">
                 <Link href="/hapai" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
@@ -444,8 +445,9 @@ export function HomeLaunch() {
 }
 
 /**
- * Founder band — "Built by Kate Hudson, Aotearoa". A small credibility marker
- * with a real founder portrait already in the repo.
+ * Founder band — "Built by Kate Hudson, Aotearoa". A small credibility marker.
+ * Text only by design: the one founder portrait site-wide lives on /about, so
+ * this band carries the name and links through rather than repeating the photo.
  */
 function FounderBand() {
   return (
@@ -456,33 +458,25 @@ function FounderBand() {
           initial="hidden"
           whileInView="show"
           viewport={VIEWPORT}
-          className={`mx-auto flex max-w-3xl flex-col items-center gap-7 p-8 text-center sm:flex-row sm:gap-9 sm:p-10 sm:text-left ${GLASS}`}
+          className={`mx-auto flex max-w-2xl flex-col items-center gap-4 p-8 text-center sm:p-10 ${GLASS}`}
         >
-          <motion.div variants={item} className="shrink-0">
-            <div className="relative h-28 w-28 overflow-hidden rounded-full border border-white/70 shadow-[0_14px_40px_rgba(40,30,18,0.16)] sm:h-32 sm:w-32">
-              <Image
-                src="/img/about/kate-hudson-portrait-blue-shirt.webp"
-                alt="Kate Hudson, founder of assembl"
-                fill
-                sizes="128px"
-                className="object-cover"
-              />
-            </div>
-          </motion.div>
+          <motion.p
+            variants={item}
+            className="font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]"
+          >
+            Built in Aotearoa
+          </motion.p>
+          <motion.h2 variants={item} className="font-display text-display-md font-light leading-[1.04]">
+            Built by Kate Hudson.
+          </motion.h2>
+          <motion.p variants={item} className="max-w-md text-body-md text-[color:var(--text-body)]">
+            assembl is made in Aotearoa, for the work New Zealand teams actually do — with NZ rules,
+            NZ sources, and a human signing off every output.
+          </motion.p>
           <motion.div variants={item}>
-            <p className="font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
-              Built in Aotearoa
-            </p>
-            <h2 className="mt-3 font-display text-display-md font-light leading-[1.04]">
-              Built by Kate Hudson.
-            </h2>
-            <p className="mt-3 max-w-md text-body-md text-[color:var(--text-body)]">
-              assembl is made in Aotearoa, for the work New Zealand teams actually do — with NZ rules,
-              NZ sources, and a human signing off every output.
-            </p>
             <Link
               href="/about"
-              className="mt-5 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5"
             >
               Read the story <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>

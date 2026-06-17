@@ -42,6 +42,14 @@ const MONTHLY = [
   },
 ] as const;
 
+// The upgrade ladder — why the tiers exist. A free public tool proves useful,
+// becomes a private branded tool in a Pack, then a system the team keeps.
+const ADOPTION_LADDER = [
+  ['Free public tool', 'Anyone on your team opens a HAPAI tool and gets a reviewable result. No cost, no login, no training.'],
+  ['Private, branded tool', 'In a Pack, that tool becomes private and branded to your org — your voice, your data, your review rules.'],
+  ['Repeatable internal system', 'The tools your team keeps reaching for become the system you run every week. That is what a Pack is for.'],
+] as const;
+
 export default function PricingPage() {
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
@@ -96,6 +104,29 @@ export default function PricingPage() {
 
       {/* How a pack works in your business — sits between the Sprint and the Pack */}
       <HowAPackWorks />
+
+      {/* The upgrade ladder — free public tool → private branded → internal system */}
+      <section className="border-t border-[rgba(35,33,31,0.08)] py-20 lg:py-28">
+        <div className="container">
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow label="The upgrade ladder" accent="var(--assembl-gold)" className="justify-center" />
+            <h2 className="mt-5 font-display text-display-lg font-light">
+              How a free tool becomes <em className="not-italic text-[color:var(--assembl-pounamu)]">your system.</em>
+            </h2>
+          </div>
+          <ol className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-3 md:gap-10">
+            {ADOPTION_LADDER.map(([title, body], i) => (
+              <li key={title} className="border-t border-[rgba(35,33,31,0.14)] pt-6">
+                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+                  Step {i + 1}
+                </span>
+                <h3 className="mt-4 font-display text-2xl font-light text-[color:var(--text-primary)]">{title}</h3>
+                <p className="mt-3 text-body-md text-[color:var(--text-body)]">{body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
       {/* The two monthly ways to run + Outcome */}
       <section className="py-20 lg:py-28">

@@ -51,6 +51,31 @@ const reasons = [
   },
 ] as const;
 
+// The four lede examples — one ordinary job each, a reviewable result in
+// minutes. These open the page so the idea is concrete before the full grid.
+const ledeExamples = [
+  {
+    name: 'Customs entry draft',
+    job: 'Turn a commercial invoice into a checked import entry draft.',
+    href: '/hapai/customs-entry',
+  },
+  {
+    name: 'Food Act temperature log',
+    job: 'Log a fridge or cook temp and get a compliant record, dated and filed.',
+    href: '/hapai/food-temp-log',
+  },
+  {
+    name: 'Meeting record',
+    job: 'Drop in a recording or notes; get minutes, decisions, and actions.',
+    href: '/hui',
+  },
+  {
+    name: 'Admin-cost calculator',
+    job: 'Add up the unbilled admin hours your team loses and see the yearly cost.',
+    href: '/hapai/admin-tax',
+  },
+] as const;
+
 const adoptionLoop = [
   {
     title: 'Pick one task',
@@ -86,11 +111,6 @@ export default function HapaiPage() {
               rough text, record the meeting, photograph the notice, or choose
               the task. Get a draft, checklist, share card, plan, or next action
               you can review.
-            </p>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)]">
-              This is how practical adoption starts: with real work, a visible
-              result, and a clear path to make the useful tools private for your
-              team.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href="#tools" className="cta-primary inline-flex h-12 items-center gap-2 px-6">
@@ -135,15 +155,46 @@ export default function HapaiPage() {
         </div>
       </section>
 
-      <section className="border-b border-[rgba(35,33,31,0.10)] px-5 py-14 md:px-10 md:py-20">
-        <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-3">
-          {reasons.map((reason) => (
-            <article key={reason.title} className="glass-card p-6">
-              <CheckCircle2 className="h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
-              <h2 className="mt-5 font-display text-3xl font-light">{reason.title}</h2>
-              <p className="mt-4 text-sm leading-relaxed text-[color:var(--text-body)]">{reason.body}</p>
-            </article>
-          ))}
+      {/* Lede examples — lead with four ordinary jobs so the idea is concrete. */}
+      <section className="border-b border-[rgba(35,33,31,0.10)] px-5 py-16 md:px-10 md:py-24">
+        <div className="mx-auto max-w-7xl">
+          <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">
+            four ordinary jobs
+          </p>
+          <h2 className="mt-4 max-w-3xl font-display text-[clamp(2.4rem,5vw,3.6rem)] font-light leading-[0.96]">
+            Each tool does one job. Here are four.
+          </h2>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {ledeExamples.map((tool) => (
+              <Link
+                key={tool.name}
+                href={tool.href}
+                className="glass-card glass-card-hover group flex flex-col p-6"
+              >
+                <h3 className="font-display text-2xl font-light leading-tight text-[#23211F]">
+                  {tool.name}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-[color:var(--text-body)]">
+                  {tool.job}
+                </p>
+                <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5">
+                  Open tool <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                </span>
+              </Link>
+            ))}
+          </div>
+          {/* Trust lines — collapsed from stacked cards to one plain row. */}
+          <ul className="mt-12 grid gap-x-8 gap-y-4 border-t border-[rgba(35,33,31,0.12)] pt-8 text-base leading-relaxed text-[color:var(--text-body)] md:grid-cols-3">
+            {reasons.map((reason) => (
+              <li key={reason.title} className="flex gap-3">
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--assembl-pounamu)]" aria-hidden />
+                <span>
+                  <span className="font-medium text-[color:var(--text-primary)]">{reason.title}.</span>{' '}
+                  {reason.body}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -300,42 +351,6 @@ export default function HapaiPage() {
         </div>
       </section>
 
-      <section className="px-5 py-16 md:px-10 md:py-24">
-        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.72fr_1fr] lg:items-center">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/50 shadow-[0_18px_56px_rgba(35,33,31,0.10)]">
-            <Image
-              src="/img/about/kate-hudson-portrait-blue-shirt.webp"
-              alt="Kate Hudson, founder of assembl"
-              fill
-              sizes="(min-width: 1024px) 34vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
-              founder note
-            </p>
-            <h2 className="mt-4 font-display text-5xl font-light leading-none">
-              Why HAPAI exists.
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed text-[color:var(--text-body)]">
-              I built HAPAI because adoption was failing for the same reason in
-              every organisation I talked to: one person tries a generic chat
-              tool, sees value, and cannot get the rest of the team to switch
-              tools and learn prompting.
-            </p>
-            <p className="mt-5 text-lg leading-relaxed text-[color:var(--text-body)]">
-              The tools below remove that friction. Each one is single-purpose
-              and branded: the kind of thing a marketing team can open in the
-              morning, an operator can open after lunch, and a manager can turn
-              into a repeatable internal system by Friday.
-            </p>
-            <p className="mt-6 font-display text-2xl font-light text-[color:var(--text-primary)]">
-              Kate Hudson, founder · assembl
-            </p>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
