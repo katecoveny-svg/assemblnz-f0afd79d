@@ -26,8 +26,8 @@
       "@/*": [
         "./*"
       ],
-      "@assembl/beat-sdk": [
-        "./packages/beat-sdk/src/index.ts"
+      "@assembl/dash-sdk": [
+        "./packages/dash-sdk/src/index.ts"
       ]
     }
   },

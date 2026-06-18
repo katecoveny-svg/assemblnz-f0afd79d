@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { HapaiToolShell } from "@/components/hapai/HapaiToolShell";
 import { useToolGate } from "@/lib/hapai/use-tool-gate";
-import { useBeatAd } from "@/components/site/beat/useBeatAd";
+import { useDashAd } from "@/components/site/dash/useDashAd";
 
 const proofCards = [
   { icon: Camera, title: "reads a photo", body: "a school notice, timetable, or inbox screenshot" },
@@ -47,16 +47,16 @@ export function NineAmBriefTool() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const gate = useToolGate("9am-brief");
-  // Beat by assembl: one quiet sponsored line while the brief drafts. Coarse
+  // Dash by assembl: one quiet sponsored line while the brief drafts. Coarse
   // context only (the tool name) — never the user's day. Fail-open.
-  const { ad: beatAd, request: requestBeatAd, clear: clearBeatAd, click: clickBeatAd } =
-    useBeatAd("spinner");
+  const { ad: dashAd, request: requestDashAd, clear: clearDashAd, click: clickDashAd } =
+    useDashAd("spinner");
 
   async function generateBrief() {
     setError("");
     setHtml("");
     setLoading(true);
-    void requestBeatAd({ tool: "9am-brief" });
+    void requestDashAd({ tool: "9am-brief" });
     try {
       const response = await gate.fetch("/api/hapai/9am-brief", {
         method: "POST",
@@ -71,7 +71,7 @@ export function NineAmBriefTool() {
       setError(err instanceof Error ? err.message : "Could not draft the brief.");
     } finally {
       setLoading(false);
-      clearBeatAd();
+      clearDashAd();
     }
   }
 
@@ -304,18 +304,18 @@ export function NineAmBriefTool() {
             {loading ? (
               <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
                 Turning your day into a clear list: what matters, who to chase, what’s next.
-                {beatAd ? (
+                {dashAd ? (
                   <>
                     {" "}
                     <span aria-hidden>·</span>{" "}
                     <button
                       type="button"
-                      onClick={() => clickBeatAd(beatAd.impressionId)}
-                      title="Sponsored — Beat by assembl"
+                      onClick={() => clickDashAd(dashAd.impressionId)}
+                      title="Sponsored — Dash by assembl"
                       className="underline decoration-dotted underline-offset-2"
                       style={{ color: "#B08423" }}
                     >
-                      {beatAd.text}
+                      {dashAd.text}
                     </button>
                   </>
                 ) : null}

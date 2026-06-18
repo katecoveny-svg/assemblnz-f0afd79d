@@ -65,6 +65,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Brand rename: "Beat by assembl" → "Dash by assembl" (19 Jun 2026). The
+      // ad-network microsite moved from /beat to /dash; 301 the old paths so
+      // saved links and any indexed pages don't 404 during the migration window.
+      { source: "/beat", destination: "/dash", permanent: true },
+      { source: "/beat/:path*", destination: "/dash/:path*", permanent: true },
+
       // Existing: kete name correction (Tōroa → Tōro). Keep this in Next.js;
       // public SPA paths are handled by middleware rewrites before auth.
       // Tōro now has its own whānau page; the business kete detail redirects to it.
