@@ -184,6 +184,16 @@ export function DashLeadForm() {
           </p>
         </form>
       )}
+
+      <p style={{ marginTop: 16, fontFamily: 'var(--ff-sans)', fontSize: 14, color: 'var(--muted)' }}>
+        Or email{' '}
+        <a
+          href={`mailto:assembl@assembl.co.nz?subject=${encodeURIComponent(`Dash waitlist — ${role}`)}`}
+          style={{ color: 'inherit', textDecoration: 'underline' }}
+        >
+          assembl@assembl.co.nz
+        </a>
+      </p>
     </div>
   );
 }
