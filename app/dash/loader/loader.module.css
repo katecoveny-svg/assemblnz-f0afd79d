@@ -1,0 +1,98 @@
+/* /dash/loader — consumer landing demo. Reads [data-dash] tokens. */
+.shell {
+  background: var(--d-bg);
+  color: var(--d-fg);
+  min-height: 100vh;
+  padding: 64px 24px 90px;
+}
+.inner {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 40px;
+  align-items: center;
+}
+@media (max-width: 820px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.eyebrow {
+  font-family: var(--d-ff-sans);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--d-muted);
+}
+.title {
+  font-family: var(--d-ff-serif);
+  font-weight: 500;
+  font-size: clamp(40px, 6vw, 58px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--d-fg);
+  margin: 14px 0 16px;
+}
+.lead {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--d-muted);
+  max-width: 460px;
+}
+.taglines {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tag {
+  font-family: var(--d-ff-sans);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: var(--d-r-pill);
+  background: var(--d-sage-pale);
+  color: var(--d-accent);
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.stage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.runBtn {
+  font-family: var(--d-ff-sans);
+  font-weight: 700;
+  font-size: 16px;
+  min-height: 44px;
+  padding: 13px 26px;
+  color: var(--d-on-accent);
+  background: var(--d-accent);
+  border: 1.5px solid transparent;
+  border-radius: var(--d-r-pill);
+  cursor: pointer;
+  transition:
+    background 0.18s var(--d-ease),
+    transform 0.18s var(--d-ease);
+}
+.runBtn:hover {
+  background: var(--d-forest-2);
+  transform: translateY(-1px);
+}
+.runBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+.runBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--d-focus-ring);
+}

@@ -1,0 +1,43 @@
+/* /dash/demo page shell. [data-dash] scopes the Dash palette here only. */
+.shell {
+  background: var(--d-bg);
+  color: var(--d-fg);
+  min-height: 100vh;
+  padding: 56px 24px 80px;
+}
+.header {
+  max-width: 1140px;
+  margin: 0 auto 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.eyebrow {
+  font-family: var(--d-ff-sans);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--d-muted);
+}
+.title {
+  font-family: var(--d-ff-sans);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: clamp(40px, 7vw, 64px);
+  line-height: 1;
+  color: var(--d-fg);
+}
+.dot {
+  color: var(--d-gold);
+}
+.sub {
+  max-width: 640px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--d-muted);
+}
+.labWrap {
+  max-width: 1140px;
+  margin: 0 auto;
+}
