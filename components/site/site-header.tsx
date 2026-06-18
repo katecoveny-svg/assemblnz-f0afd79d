@@ -14,12 +14,12 @@ function openCommandPalette() {
   window.dispatchEvent(new Event("assembl:open-command"));
 }
 
-/** True on the public Beat by assembl microsite routes, which carry their own
- * chrome. /beat/admin (operator dashboard) keeps the standard site chrome. */
-export function isBeatMicrosite(pathname: string | null): boolean {
+/** True on the public Dash by assembl microsite routes, which carry their own
+ * chrome. /dash/admin (operator dashboard) keeps the standard site chrome. */
+export function isDashMicrosite(pathname: string | null): boolean {
   if (!pathname) return false;
-  if (pathname === "/beat") return true;
-  return pathname.startsWith("/beat/") && !pathname.startsWith("/beat/admin");
+  if (pathname === "/dash") return true;
+  return pathname.startsWith("/dash/") && !pathname.startsWith("/dash/admin");
 }
 
 export function SiteHeader() {
@@ -47,9 +47,9 @@ export function SiteHeader() {
     }
   }, [mobileNavOpen]);
 
-  // The /beat microsite (Beat by assembl) ships its own nav + footer; suppress
-  // the global site chrome there. /beat/admin keeps the standard chrome.
-  if (isBeatMicrosite(pathname)) return null;
+  // The /dash microsite (Dash by assembl) ships its own nav + footer; suppress
+  // the global site chrome there. /dash/admin keeps the standard chrome.
+  if (isDashMicrosite(pathname)) return null;
 
   return (
     <header

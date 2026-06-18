@@ -1,0 +1,524 @@
+/* ============================================================
+   dash by assembl — design kit (scoped to the /dash route)
+   Source of truth: design_handoff_dash_kit/dash-kit.css (Gemini handoff).
+   EVERY selector is namespaced under .dash-kit so these tokens and
+   component styles never bleed into the rest of assembl.co.nz, which
+   keeps its own mārama-whenua palette. Fonts come from next/font
+   (--font-dash-sans = Mulish, --font-dash-serif = Cormorant Garamond),
+   wired in app/dash/layout.tsx.
+   ============================================================ */
+
+.dash-kit {
+  /* raw palette */
+  --d-cream: #f2efe6;
+  --d-cream-2: #eae6d8;
+  --d-forest: #163a23;
+  --d-forest-2: #0f2a19;
+  --d-sage: #a6ba9e;
+  --d-sage-2: #c2d0b8;
+  --d-sage-pale: #dde4d2;
+  --d-gold: #e0b16e;
+  --d-ink: #16271a;
+
+  /* semantic (cream / light theme) */
+  --bg: #f2efe6;
+  --fg: #16271a;
+  --muted: #5e6b5c;
+  --surface: #fbfaf3;
+  --surface-2: #eeede2;
+  --line: #ded9c8;
+  --accent: #163a23;
+  --on-accent: #f2efe6;
+  --gold: #e0b16e;
+  --sage: #a6ba9e;
+  --sage-pale: #dde4d2;
+
+  --ff-serif: var(--font-dash-serif), "Cormorant Garamond", Georgia, serif;
+  --ff-sans: var(--font-dash-sans), "Mulish", system-ui, -apple-system, sans-serif;
+
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+  --r-pill: 999px;
+  --shadow-sm: 0 2px 10px rgba(22, 42, 28, 0.05);
+  --shadow-md: 0 14px 40px rgba(22, 42, 28, 0.08);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--ff-sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+
+  /* Back-compat aliases so the legal pages' dash.module.css (which still
+     references the older --dash-* fonts and pounamu/amber palette) inherits
+     the new Dash kit values from this wrapper — no edits needed to those files. */
+  --dash-display: var(--ff-serif);
+  --dash-body: var(--ff-sans);
+  --dash-mono: var(--ff-sans);
+  --cream: #f2efe6;
+  --cream-2: #fbfaf3;
+  --pounamu: #163a23;
+  --pounamu-dark: #0f2a19;
+  --amber: #e0b16e;
+  --amber-dim: #8a6320;
+  --ink: #16271a;
+  --ink-soft: #5e6b5c;
+}
+
+.dash-kit *,
+.dash-kit *::before,
+.dash-kit *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- type ---------- */
+.dash-kit .eyebrow {
+  font-family: var(--ff-sans);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.dash-kit .display {
+  font-family: var(--ff-serif);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  text-wrap: balance;
+}
+.dash-kit .serif {
+  font-family: var(--ff-serif);
+}
+.dash-kit .lead {
+  font-size: 20px;
+  color: var(--fg);
+  line-height: 1.45;
+  font-weight: 500;
+}
+.dash-kit .body {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.dash-kit .muted {
+  color: var(--muted);
+}
+
+/* ---------- wordmark: lowercase "dash" + gold full-stop ---------- */
+.dash-kit .wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 0.92;
+}
+.dash-kit .wordmark b {
+  font-family: var(--ff-sans);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  font-size: 34px;
+}
+.dash-kit .wordmark b i {
+  color: var(--gold);
+  font-style: normal;
+}
+.dash-kit .wordmark span {
+  font-family: var(--ff-sans);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+  margin-top: 3px;
+}
+
+/* ---------- buttons ---------- */
+.dash-kit .btn {
+  font-family: var(--ff-sans);
+  font-weight: 700;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 26px;
+  border-radius: var(--r-pill);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: transform 0.18s var(--ease), background 0.18s var(--ease),
+    box-shadow 0.18s var(--ease), color 0.18s var(--ease);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.dash-kit .btn svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.18s var(--ease);
+}
+.dash-kit .btn:active {
+  transform: scale(0.97);
+}
+.dash-kit .btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(224, 177, 110, 0.85);
+}
+.dash-kit .btn--primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.dash-kit .btn--primary:hover {
+  background: var(--d-forest-2);
+  transform: translateY(-1px);
+}
+.dash-kit .btn--primary:hover svg {
+  transform: translateX(4px);
+}
+.dash-kit .btn--ghost {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--line);
+}
+.dash-kit .btn--ghost:hover {
+  background: var(--surface-2);
+  transform: translateY(-1px);
+}
+.dash-kit .btn--cream {
+  background: var(--d-cream);
+  color: var(--d-forest);
+}
+.dash-kit .btn--cream:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+.dash-kit .btn--lg {
+  font-size: 18px;
+  padding: 18px 32px;
+}
+.dash-kit .btn--sm {
+  font-size: 14px;
+  padding: 11px 18px;
+}
+
+/* ---------- fields ---------- */
+.dash-kit .field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.dash-kit .field-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fg);
+}
+.dash-kit .field {
+  font-family: var(--ff-sans);
+  font-size: 16px;
+  color: var(--fg);
+  padding: 14px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+  width: 100%;
+}
+.dash-kit .field::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+.dash-kit .field:hover {
+  border-color: var(--sage);
+}
+.dash-kit .field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(224, 177, 110, 0.32);
+}
+.dash-kit .field-hint {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- pills / badges ---------- */
+.dash-kit .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--ff-sans);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 15px;
+  border-radius: var(--r-pill);
+  background: var(--sage-pale);
+  color: var(--accent);
+}
+.dash-kit .pill--gold {
+  background: rgba(224, 177, 110, 0.2);
+  color: #8a6320;
+}
+.dash-kit .tag {
+  font-size: 12px;
+  padding: 5px 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- icon badge ---------- */
+.dash-kit .icon-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-pill);
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: var(--sage-pale);
+  color: var(--accent);
+}
+.dash-kit .icon-badge svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.6;
+}
+
+/* ---------- card ---------- */
+.dash-kit .card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.dash-kit .card--hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.dash-kit .card h3 {
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+  color: var(--fg);
+}
+.dash-kit .card p {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* ---------- trust row ---------- */
+.dash-kit .trust {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+.dash-kit .trust .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* ============================================================
+   Site chrome (the /dash microsite ships its own nav + footer;
+   the global SiteHeader/SiteFooter are suppressed on /dash)
+   ============================================================ */
+.dash-kit .wrap {
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+}
+.dash-kit .dashNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 0;
+}
+.dash-kit .dashNav nav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+.dash-kit .dashNav nav a {
+  font-family: var(--ff-sans);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--fg);
+  text-decoration: none;
+  opacity: 0.78;
+  transition: opacity 0.15s var(--ease);
+}
+.dash-kit .dashNav nav a:hover {
+  opacity: 1;
+}
+.dash-kit .dashNav nav a.btn {
+  opacity: 1;
+}
+.dash-kit .dashFoot {
+  border-top: 1px solid var(--line);
+  padding: 40px 0 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dash-kit .dashFoot .footRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.dash-kit .dashFoot .footLinks {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.dash-kit .dashFoot .footLinks a {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.15s var(--ease);
+}
+.dash-kit .dashFoot .footLinks a:hover {
+  color: var(--fg);
+}
+.dash-kit .dashFoot .footFine {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .dash-kit .dashNav nav a:not(.btn) {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.dash-kit .hero {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 78% 12%, #fbf4e6 0%, #f4efe3 42%, #ede7d8 100%);
+}
+.dash-kit .heroStage {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.dash-kit .heroEyebrow {
+  margin-bottom: 22px;
+}
+.dash-kit .heroTitle {
+  font-family: var(--ff-serif);
+  font-weight: 500;
+  font-size: clamp(54px, 7vw, 104px);
+  line-height: 0.94;
+  letter-spacing: -0.018em;
+  color: var(--fg);
+}
+.dash-kit .heroTitle .l {
+  display: block;
+}
+.dash-kit .heroTitle .em {
+  font-style: italic;
+  color: var(--gold);
+}
+.dash-kit .heroSub {
+  font-size: 21px;
+  color: var(--muted);
+  margin-top: 26px;
+  max-width: 460px;
+  line-height: 1.45;
+}
+.dash-kit .heroCta {
+  display: flex;
+  gap: 14px;
+  margin-top: 34px;
+  flex-wrap: wrap;
+}
+.dash-kit .heroTrust {
+  margin-top: 24px;
+}
+
+/* dog + halo + float + body loader */
+.dash-kit .dogWrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.dash-kit .dogHalo {
+  position: absolute;
+  inset: -6% -4%;
+  background: radial-gradient(50% 50% at 50% 52%, rgba(224, 177, 110, 0.34), rgba(224, 177, 110, 0) 70%);
+  filter: blur(6px);
+  z-index: 0;
+}
+.dash-kit .dogFloat {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 520px);
+  animation: dashFloat 6.5s ease-in-out infinite;
+}
+@keyframes dashFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.dash-kit .dogSvg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+/* the dog body IS the loader — segments fill forest left→right, ~6s loop */
+.dash-kit .dseg {
+  fill: #1c5a33;
+  opacity: 0;
+}
+.dash-kit .dseg:nth-of-type(1) { animation: dashFill 5.4s var(--ease) infinite; }
+.dash-kit .dseg:nth-of-type(2) { animation: dashFill 5.4s var(--ease) infinite 0.5s; }
+.dash-kit .dseg:nth-of-type(3) { animation: dashFill 5.4s var(--ease) infinite 1s; }
+.dash-kit .dseg:nth-of-type(4) { animation: dashFill 5.4s var(--ease) infinite 1.5s; }
+.dash-kit .dseg:nth-of-type(5) { animation: dashFill 5.4s var(--ease) infinite 2s; }
+@keyframes dashFill {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  64% { opacity: 1; }
+  80% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ---------- section rhythm ---------- */
+.dash-kit .section {
+  padding: 88px 0;
+}
+.dash-kit .sectionTitle {
+  font-family: var(--ff-serif);
+  font-weight: 500;
+  font-size: clamp(32px, 4vw, 46px);
+  line-height: 1.02;
+  letter-spacing: -0.014em;
+  color: var(--fg);
+}
+
+@media (max-width: 860px) {
+  .dash-kit .heroStage {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 8px;
+  }
+  .dash-kit .heroCopy { order: 2; }
+  .dash-kit .dogWrap { order: 1; }
+  .dash-kit .heroCta { justify-content: center; }
+  .dash-kit .heroSub { margin-inline: auto; }
+  .dash-kit .heroTrust { justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-kit .dogFloat { animation: none; }
+  .dash-kit .dseg { opacity: 0.5; animation: none; }
+}

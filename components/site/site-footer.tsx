@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation";
 import { INDUSTRY_KETES } from "@/lib/kete";
 import { footerDisclaimer, footerKeteCutouts } from "@/lib/site-config";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
-import { isBeatMicrosite } from "@/components/site/site-header";
+import { isDashMicrosite } from "@/components/site/site-header";
 
 export function SiteFooter() {
   const pathname = usePathname();
-  // The /beat microsite ships its own footer; suppress the global one there.
-  if (isBeatMicrosite(pathname)) return null;
+  // The /dash microsite ships its own footer; suppress the global one there.
+  if (isDashMicrosite(pathname)) return null;
 
   return (
     <footer className="relative z-10 mt-24 border-t border-[rgba(157,140,125,0.14)] bg-[rgba(247,243,238,0.6)]">

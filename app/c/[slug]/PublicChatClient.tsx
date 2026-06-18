@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, FileDown, Loader2, Paperclip, Send, ShieldCheck, X } from 'lucide-react';
 import { keteHeadline } from '@/lib/public-chat/headlines';
-import { useBeatAd } from '@/components/site/beat/useBeatAd';
+import { useDashAd } from '@/components/site/dash/useDashAd';
 
 type Tenant = {
   slug: string;
@@ -120,10 +120,10 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // Beat by assembl: fill the "Drafting…" wait state with one quiet sponsored
+  // Dash by assembl: fill the "Drafting…" wait state with one quiet sponsored
   // line when the auction returns an ad; otherwise the normal loading text.
-  const { ad: beatAd, request: requestBeatAd, clear: clearBeatAd, click: clickBeatAd } =
-    useBeatAd('spinner');
+  const { ad: dashAd, request: requestDashAd, clear: clearDashAd, click: clickDashAd } =
+    useDashAd('spinner');
 
   const history = useMemo(
     () =>
@@ -232,11 +232,11 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
     setError(null);
     setPackError(null);
 
-    // Beat: ask for an ad to fill this wait state. Coarse context only — the
+    // Dash: ask for an ad to fill this wait state. Coarse context only — the
     // tool (slug), kete, and agent the user is in. Never the prompt or any
     // content. Fail-open. Surface is 'spinner' to match the brief's canonical
     // wait-state surface, so a {spinner}-targeted campaign serves here.
-    void requestBeatAd({ tool: tenant.slug, kete: tenant.kete, agent: agentSlug || tenant.slug });
+    void requestDashAd({ tool: tenant.slug, kete: tenant.kete, agent: agentSlug || tenant.slug });
 
     try {
       const response = await fetch('/api/public-chat', {
@@ -286,10 +286,10 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
       setMessages((current) => current.filter((item) => item.id !== assistantId && item.id !== userMessage.id));
     } finally {
       setSending(false);
-      clearBeatAd();
+      clearDashAd();
       requestAnimationFrame(() => inputRef.current?.focus());
     }
-  }, [agentSlug, attachment, chatId, draft, history, redactPii, sending, sessionId, tenant.kete, tenant.slug, requestBeatAd, clearBeatAd]);
+  }, [agentSlug, attachment, chatId, draft, history, redactPii, sending, sessionId, tenant.kete, tenant.slug, requestDashAd, clearDashAd]);
 
   const saveEvidencePack = useCallback(async () => {
     if (transcriptMessages.length < 2 || savingPack) return;
@@ -411,19 +411,19 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
             >
               {message.body ? (
                 <p className="whitespace-pre-wrap">{message.body}</p>
-              ) : beatAd ? (
+              ) : dashAd ? (
                 <span className="inline-flex items-center gap-2 text-[color:var(--text-secondary)]">
                   <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
                   <span>
                     Drafting your reply <span aria-hidden>·</span>{' '}
                     <button
                       type="button"
-                      onClick={() => clickBeatAd(beatAd.impressionId)}
+                      onClick={() => clickDashAd(dashAd.impressionId)}
                       className="text-left underline decoration-dotted underline-offset-2 transition-colors hover:text-[color:var(--text-primary)]"
                       style={{ color: '#D9A85A' }}
-                      title="Sponsored — Beat by assembl"
+                      title="Sponsored — Dash by assembl"
                     >
-                      {beatAd.text}
+                      {dashAd.text}
                     </button>
                   </span>
                 </span>
