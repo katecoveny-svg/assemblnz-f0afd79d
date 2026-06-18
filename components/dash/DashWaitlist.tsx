@@ -137,6 +137,16 @@ export function DashWaitlist() {
             </button>
           </form>
         )}
+
+        <p className="mt-4 text-center" style={{ fontFamily: 'var(--ff-sans)', fontSize: 14, color: 'var(--muted)' }}>
+          Or email{' '}
+          <a
+            href={`mailto:assembl@assembl.co.nz?subject=${encodeURIComponent(`Dash waitlist — ${active.label.toLowerCase()}`)}`}
+            style={{ color: 'inherit', textDecoration: 'underline' }}
+          >
+            assembl@assembl.co.nz
+          </a>
+        </p>
       </div>
     </div>
   );
