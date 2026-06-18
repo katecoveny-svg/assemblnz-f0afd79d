@@ -31,31 +31,30 @@ export function PwaRegister() {
     setManifestLink(window.location.pathname);
 
     if (!("serviceWorker" in navigator)) return;
-    if (process.env.NODE_ENV !== "production") return;
 
-    // Reload exactly once when a new worker takes control, so a visitor still
-    // being served by a stale (legacy) worker lands on the fresh app without a
-    // manual hard-refresh.
-    let reloaded = false;
-    navigator.serviceWorker.addEventListener("controllerchange", () => {
-      if (reloaded) return;
-      reloaded = true;
-      window.location.reload();
-    });
-
+    // We no longer ship a caching service worker. A worker at scope "/" is what
+    // repeatedly served returning visitors a stale app shell (the homepage
+    // rendering as the old narrow-strip layout); see public/sw.js and PRs #398
+    // and #418. Instead of registering one, we proactively tear down any worker
+    // that is still registered on this origin and purge every cache, so each
+    // load comes straight from the live network build. /sw.js itself is now a
+    // self-unregistering kill switch that covers visitors who never reach this
+    // code (their browser auto-updates the worker script on navigation).
     navigator.serviceWorker
-      .register("/sw.js", { scope: "/", updateViaCache: "none" })
-      .then((registration) => {
-        // Force an update check on every load. This is what evicts the legacy
-        // "assembl-agent-*" worker that some returning visitors are still stuck
-        // on — it re-fetches /sw.js from the network (updateViaCache: "none"),
-        // installs the new worker, which skipWaiting()s and claims the page.
-        registration.update().catch(() => undefined);
+      .getRegistrations()
+      .then((registrations) => {
+        registrations.forEach((registration) => {
+          registration.unregister().catch(() => undefined);
+        });
       })
-      .catch(() => {
-        // Installation should never block the site. If registration fails, the
-        // app remains a normal website and can be retried on the next visit.
-      });
+      .catch(() => undefined);
+
+    if (typeof caches !== "undefined") {
+      caches
+        .keys()
+        .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+        .catch(() => undefined);
+    }
   }, []);
 
   return null;
