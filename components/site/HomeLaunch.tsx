@@ -9,8 +9,7 @@ import { KETES } from '@/lib/kete';
 import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
 import { LandscapeBand } from '@/components/site/LandscapeBand';
 import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
-import { CountUp } from '@/components/site/CountUp';
-import { HeroThreads } from '@/components/site/HeroThreads';
+import { getHapaiTool, HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 
 // "Pick your area" — one link per kete. English first, te reo second.
 const KETE_ROWS = [
@@ -26,6 +25,27 @@ const KETE_ROWS = [
 
 const ACCENT = Object.fromEntries(KETES.map((k) => [k.slug, k.accent])) as Record<string, string>;
 
+// "Try a tool right now" — a deliberate six pulled from the /hapai source of
+// truth (HAPAI_TOOLS), so name, link, and live status never drift from the
+// library. The card blurb is a homepage-tight one-liner; the canonical longer
+// description lives on /hapai.
+const HOME_TOOL_PICKS = [
+  ['customs-entry', 'Paste a commercial invoice. Get a structured entry draft your broker can check and file.'],
+  ['meeting-recorder', 'Record or paste a hui. Walk away with the minutes, the actions, and an evidence pack.'],
+  ['admin-tax', 'Add up the admin hours your team loses each week. See the yearly cost in one number.'],
+  ['9am-brief', 'Turn the school notice, the sports draw, and the weather into a five-line morning brief.'],
+  ['food-temp-log', 'Log the day’s fridge and cook temps. Get a Food Act 2014 record, dated and filed.'],
+  ['privacy-act', 'Map your data flows to the 13 privacy principles. Get a plain-English one-pager.'],
+] as const;
+
+const HOME_TOOLS = HOME_TOOL_PICKS.map(([slug, blurb]) => {
+  const tool = getHapaiTool(slug);
+  if (!tool) throw new Error(`HomeLaunch: unknown HAPAI tool slug "${slug}"`);
+  return { name: tool.name, href: tool.href, blurb };
+});
+
+const TOOL_COUNT = HAPAI_TOOLS.length;
+
 const HOW_STEPS = [
   ['i', 'Agents draft it', 'The slow, repetitive writing — done in seconds, built on your industry’s rules.'],
   ['ii', 'You sign off', 'Nothing sends, files, or lodges until a named person on your team approves it.'],
@@ -35,6 +55,17 @@ const HOW_STEPS = [
 const GLASS =
   'rounded-[22px] border border-white/65 bg-[linear-gradient(160deg,rgba(255,255,255,0.55),rgba(255,255,255,0.28))] ' +
   'backdrop-blur-xl shadow-[0_18px_50px_rgba(40,30,18,0.07),inset_0_1px_0_rgba(255,255,255,0.6)]';
+
+// A sample sealed receipt — the proof that rides with every output. Drawn from
+// a real hospitality allergen reply so the fields are concrete, not abstract.
+const RECEIPT_FIELDS = [
+  ['Signature', 'ed25519 · verified'],
+  ['Sources', 'Food Act 2014, MPI allergen guidance, your menu'],
+  ['Tikanga check', 'Passed'],
+  ['Consent', '3-gate record · captured'],
+  ['Format', 'Citation-ready PDF'],
+  ['Signed off by', 'A named person · 19 Jun 2026'],
+] as const;
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -123,14 +154,9 @@ export function HomeLaunch() {
           </>
         )}
 
-        {/* Woven gold-thread mesh — echoes the evidence-vessel motif, drifting
-            behind the hero and brightening toward the pointer. Self-disables
-            under reduced-motion. */}
-        <HeroThreads className="pointer-events-none absolute inset-0 z-0" />
-
-        {/* Two-column row on desktop: ~55% copy / ~45% vessel. Copy is first in
+        {/* Two-column row on desktop: ~60% copy / ~40% vessel. Copy is first in
             the DOM, so on mobile the headline sits above the vessel. */}
-        <div className="container relative z-10 grid min-h-[78vh] items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-20">
+        <div className="container relative grid min-h-[78vh] items-center gap-10 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-12 lg:py-20">
           <motion.div style={{ y: copyY, opacity: copyOpacity }} className="max-w-2xl lg:max-w-none">
             <p className="rise font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
               Built in Aotearoa
@@ -140,8 +166,8 @@ export function HomeLaunch() {
               <RevealWords text="More mahi." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
             </h1>
             <p className="rise mt-6 max-w-xl text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--text-primary)]">
-              assembl ships HAPAI — a library of single-purpose NZ tools that get one ordinary job
-              done, draft-only, with a downloadable evidence pack.
+              A library of single-purpose tools for NZ teams. Each one does a single ordinary job.
+              Every output you can file, forward, or footnote.
             </p>
             <div className="rise mt-8 flex flex-wrap items-center gap-4">
               <Link href="/hapai" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
@@ -158,7 +184,7 @@ export function HomeLaunch() {
             <ul className="rise mt-9 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[rgba(43,107,87,0.18)] pt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
               <li className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
-                <CountUp value={WATCHED_SOURCE_COUNT} /> NZ government sources watched
+                {WATCHED_SOURCE_COUNT} NZ government sources watched
               </li>
               <li className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
@@ -171,7 +197,7 @@ export function HomeLaunch() {
               gold-thread sparkles are baked into the asset, so there is no
               procedural overlay. Sits on the right and fills its column. */}
           <motion.div
-            className="relative h-[clamp(440px,60vh,720px)] w-full overflow-hidden lg:min-w-[400px]"
+            className="relative h-[clamp(440px,60vh,720px)] w-full overflow-hidden"
             initial={reduce ? false : { opacity: 0, scale: 0.96 }}
             animate={reduce ? undefined : { opacity: 1, scale: 1 }}
             transition={{ duration: 1.1, ease: EASE }}
@@ -208,24 +234,154 @@ export function HomeLaunch() {
         )}
       </section>
 
-      {/* 2 · The promise (cream paper) */}
+      {/* 2 · The receipt — amplified, directly after the hero. The strongest
+          part of the page: draft, sign off, sealed receipt. Larger vessel image
+          paired with a live sample receipt and a route into /evidence-pack. */}
+      <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
+        <div className="container">
+          <div className="mb-12 max-w-3xl">
+            <Eyebrow label="The receipt" accent="var(--assembl-gold-thread)" />
+            <h2 className="rise font-display text-display-lg font-light leading-[1.02]">
+              <RevealWords text="Draft. Sign off." className="block" />
+              <RevealWords text="Sealed receipt." className="block text-assembl-clay" />
+            </h2>
+            <p className="rise mt-6 text-body-lg text-[color:var(--text-body)]">
+              Every output leaves with its proof: the sources it drew on, the assumptions it made,
+              and the person who approved it. One file to keep, forward, or footnote.
+            </p>
+          </div>
+
+          {/* The three moves — draft, sign off, receipt. */}
+          <div className="mb-10 grid gap-4 lg:grid-cols-3">
+            {HOW_STEPS.map(([n, title, body]) => (
+              <motion.article
+                key={title}
+                className={`rise h-full p-7 ${GLASS}`}
+                whileHover={reduce ? undefined : { y: -6 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+              >
+                <p className="font-display text-4xl font-light text-[#b9ad9c]">{n}</p>
+                <h3 className="mt-3 font-display text-display-md font-light">{title}</h3>
+                <p className="mt-4 text-body-md text-[color:var(--text-body)]">{body}</p>
+              </motion.article>
+            ))}
+          </div>
+
+          {/* Larger vessel image + a live sample receipt, side by side. */}
+          <div className="grid items-stretch gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+            <figure className="rise relative overflow-hidden rounded-[22px] border border-white/60 shadow-[0_18px_50px_rgba(40,30,18,0.08)]">
+              <Image
+                src="/images/site/vessel-macro-proof-detail.png"
+                alt="Macro detail of the evidence vessel — antique-gold nodes connected by fine gold thread across the glass discs, a constellation of proof points."
+                width={1448}
+                height={1086}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="h-full min-h-[320px] w-full object-cover object-center"
+              />
+              <figcaption className="absolute inset-x-0 bottom-0 bg-white/55 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)] backdrop-blur">
+                One output. Every proof point threaded back to its source.
+              </figcaption>
+            </figure>
+
+            <div className={`rise flex flex-col p-7 lg:p-8 ${GLASS}`}>
+              <div className="flex items-center gap-2.5">
+                <span className="h-2 w-2 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
+                  Evidence pack · sealed
+                </p>
+              </div>
+              <p className="mt-4 text-body-md text-[color:var(--text-body)]">
+                Sample: a hospitality reply to a guest’s nut-allergy query.
+              </p>
+              <dl className="mt-5 divide-y divide-[rgba(35,33,31,0.10)]">
+                {RECEIPT_FIELDS.map(([label, value]) => (
+                  <div key={label} className="flex items-baseline justify-between gap-4 py-2.5">
+                    <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-[color:var(--text-secondary)]">
+                      {label}
+                    </dt>
+                    <dd className="text-right text-sm font-medium text-[color:var(--text-primary)]">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="mt-auto pt-7">
+                <Link
+                  href="/evidence-pack"
+                  className="cta-primary inline-flex h-12 items-center gap-2 px-7"
+                >
+                  See a receipt <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3 · Try a tool right now — surface the HAPAI library on the homepage.
+          Six tools pulled from the /hapai source of truth; the full set lives
+          one click away. */}
+      <section className="relative overflow-hidden bg-[#F4EFE6] py-24 lg:py-32">
+        <div className="container">
+          <div className="mb-12 max-w-3xl">
+            <Eyebrow label="Public tools" accent="var(--assembl-pounamu)" />
+            <h2 className="rise font-display text-display-lg font-light leading-[1.02]">
+              <RevealWords text="Try a tool" className="block" />
+              <RevealWords text="right now." className="block text-[color:var(--assembl-pounamu)]" />
+            </h2>
+            <p className="rise mt-6 text-body-lg text-[color:var(--text-body)]">
+              No sign-up, no demo. Open one, run a real job, keep the result.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {HOME_TOOLS.map((tool) => (
+              <motion.div
+                key={tool.href}
+                className="rise"
+                whileHover={reduce ? undefined : { y: -8, scale: 1.015 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 26 }}
+              >
+                <Link
+                  href={tool.href}
+                  className={`group flex h-full flex-col p-6 transition-[box-shadow,background] duration-300 hover:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] hover:shadow-[0_34px_80px_rgba(40,30,18,0.14)] ${GLASS}`}
+                >
+                  <h3 className="font-display text-2xl font-light leading-tight text-[color:var(--assembl-pounamu)]">
+                    {tool.name}
+                  </h3>
+                  <p className="mt-3 flex-1 text-body-md text-[color:var(--text-body)]">{tool.blurb}</p>
+                  <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5">
+                    Open tool <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+          <div className="rise mt-10">
+            <Link
+              href="/hapai"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5"
+            >
+              See all {TOOL_COUNT} tools <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 4 · The promise (cream paper) — rewritten plain warm-direct. */}
       <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
         <div className="container">
           <Eyebrow label="The promise" accent="var(--assembl-pounamu)" />
           <h2 className="rise max-w-3xl font-display text-display-lg font-light leading-[1.02]">
-            <RevealWords text="Your best hour," className="block" />
-            <RevealWords text="better spent." className="block text-[color:var(--assembl-pounamu)]" />
+            <RevealWords text="The slow writing," className="block" />
+            <RevealWords text="done in minutes." className="block text-[color:var(--assembl-pounamu)]" />
           </h2>
           <p className="rise mt-8 max-w-3xl text-body-lg text-[color:var(--text-body)]">
-            Hospitality teams shouldn’t spend their best hour writing the allergen report. Builders
-            shouldn’t spend it checking a variation against clause 24A. Schools shouldn’t spend it
-            rewording the same notice for a fourth year group. That’s the work assembl picks up — so
-            your people get those hours back.
+            Hospitality teams shouldn’t lose their best hour to the allergen report. Builders
+            shouldn’t lose it checking a variation against clause 24A. assembl drafts that work —
+            checked, sourced, and signed off before it goes anywhere.
           </p>
         </div>
       </section>
 
-      {/* 3 · Pick your area — the eight industry kete, glass cards (off-white tint).
+      {/* 5 · Pick your area — the eight industry kete, glass cards (off-white tint).
           Kate's signal-threads texture sits underneath at low opacity — a
           delicate data-flow whisper, cream-on-cream, never loud. */}
       <section className="relative overflow-hidden bg-[#F4EFE6] py-24 lg:py-32">
@@ -241,11 +397,11 @@ export function HomeLaunch() {
           <div className="mb-12">
             <Eyebrow label="Eight kete" accent="var(--assembl-gold-thread)" />
             <h2 className="rise font-display text-display-lg font-light leading-[1.02]">
-              <RevealWords text="Pick the pack" className="block" />
-              <RevealWords text="for your work." className="block text-[color:var(--assembl-pounamu)]" />
+              <RevealWords text="A kete for" className="block" />
+              <RevealWords text="your industry." className="block text-[color:var(--assembl-pounamu)]" />
             </h2>
             <p className="rise mt-6 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              A kete is a kit for one kind of work — the agents, tools, and rules shaped for it.
+              Each kete groups the tools, agents, and NZ rules for one kind of work.
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -258,14 +414,15 @@ export function HomeLaunch() {
               >
                 <Link
                   href={`/kete/${row.slug}`}
-                  className={`group flex h-full flex-col justify-between p-6 transition-all duration-300 hover:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] hover:shadow-[0_34px_80px_rgba(40,30,18,0.14)] focus-visible:-translate-y-2 focus-visible:scale-[1.015] focus-visible:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] focus-visible:shadow-[0_34px_80px_rgba(40,30,18,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-4 ${GLASS}`}
+                  className={`group flex h-full flex-col justify-between p-6 transition-[box-shadow,background] duration-300 hover:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] hover:shadow-[0_34px_80px_rgba(40,30,18,0.14)] ${GLASS}`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">{row.area}</span>
-                    <span
-                      className="h-2.5 w-2.5 rounded-full transition-transform duration-300 group-hover:scale-150 group-focus-visible:scale-150"
+                    <motion.span
+                      className="h-2.5 w-2.5 rounded-full"
                       style={{ backgroundColor: ACCENT[row.slug] }}
                       aria-hidden
+                      whileHover={{ scale: 1.6 }}
                     />
                   </div>
                   <div className="mt-8">
@@ -274,7 +431,7 @@ export function HomeLaunch() {
                     </h3>
                     <p className="mt-3 text-body-md text-[color:var(--text-body)]">{row.drafts}</p>
                   </div>
-                  <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5 group-focus-visible:gap-2.5">
+                  <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5">
                     Open <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                   </span>
                 </Link>
@@ -289,53 +446,10 @@ export function HomeLaunch() {
           bar that follows. */}
       <LandscapeBand />
 
-      {/* 4 · Live regulation — the one dark pounamu band + big stat */}
+      {/* Live regulation — the one dark pounamu band + big stat */}
       <LiveRegulationBlock />
 
-      {/* 5 · How it works (cream paper) */}
-      <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
-        <div className="container">
-          <div className="mb-10">
-            <Eyebrow label="How it works" accent="var(--assembl-gold-thread)" />
-            <h2 className="rise font-display text-display-lg font-light leading-[1.02]">
-              <RevealWords text="Draft. Sign off." className="block" />
-              <RevealWords text="Sealed receipt." className="block text-assembl-clay" />
-            </h2>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {HOW_STEPS.map(([n, title, body]) => (
-              <motion.article
-                key={title}
-                className={`rise h-full p-7 ${GLASS}`}
-                whileHover={reduce ? undefined : { y: -6 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-              >
-                <p className="font-display text-4xl font-light text-[#b9ad9c]">{n}</p>
-                <h3 className="mt-3 font-display text-display-md font-light">{title}</h3>
-                <p className="mt-4 text-body-md text-[color:var(--text-body)]">{body}</p>
-              </motion.article>
-            ))}
-          </div>
-
-          {/* Evidence detail — the proof points as a constellation on the
-              glass. Kate's macro reference, framed. */}
-          <figure className="rise mt-10 overflow-hidden rounded-[22px] border border-white/60 shadow-[0_18px_50px_rgba(40,30,18,0.08)]">
-            <Image
-              src="/images/site/vessel-macro-proof-detail.png"
-              alt="Macro detail of the evidence vessel — antique-gold nodes connected by fine gold thread across the glass discs, a constellation of proof points."
-              width={1448}
-              height={1086}
-              sizes="(min-width: 768px) 100vw, 100vw"
-              className="h-[clamp(220px,30vw,360px)] w-full object-cover object-center"
-            />
-            <figcaption className="bg-white/55 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-              Every output carries its evidence — the sources, the assumptions, the sign-off.
-            </figcaption>
-          </figure>
-        </div>
-      </section>
-
-      {/* 6 · Built by — founder credibility marker */}
+      {/* Built by — founder credibility marker */}
       <FounderBand />
 
       {/* 7 · Closing CTA — the vessel motif with a thread of light running out
@@ -346,12 +460,12 @@ export function HomeLaunch() {
             <div>
               <Eyebrow label="Start" accent="var(--assembl-pounamu)" />
               <h2 className="rise font-display text-display-lg font-light leading-[1.02]">
-                <RevealWords text="Let's build" className="block" />
-                <RevealWords text="what's next." className="block text-[color:var(--assembl-pounamu)]" />
+                <RevealWords text="Start with" className="block" />
+                <RevealWords text="one tool." className="block text-[color:var(--assembl-pounamu)]" />
               </h2>
               <p className="rise mt-6 max-w-xl text-body-lg text-[color:var(--text-body)]">
-                Free tools, a Pilot Sprint proven on your data, a kete pack for your industry, and a
-                Tōro option for whānau. Simple and honest — start with the work in front of you.
+                Open a free tool today. When it earns its place, we make it your team’s — branded,
+                private, reviewed. Build the system from there.
               </p>
               <div className="rise mt-9 flex flex-wrap items-center gap-4">
                 <Link href="/hapai" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
@@ -399,7 +513,7 @@ function FounderBand() {
           <div>
             <Link
               href="/about"
-              className="inline-flex items-center gap-1.5 rounded-sm font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5"
             >
               Read the story <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>
