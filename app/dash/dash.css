@@ -1,0 +1,479 @@
+/* ============================================================
+   dash by assembl — scoped kit stylesheet
+   Recreated from the design handoff (dash-kit.css) for the
+   assembl.co.nz/dash route. Everything is namespaced under
+   `.dash-scope` so the Dash tokens never leak into the wider
+   Evidence-Vessel design system.
+   Cream · forest · sage. Cormorant Garamond display, Mulish UI.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;500;600;700;800&display=swap');
+
+.dash-scope {
+  /* raw palette */
+  --d-cream: #f2efe6;
+  --d-cream-2: #eae6d8;
+  --d-forest: #163a23;
+  --d-forest-2: #0f2a19;
+  --d-sage: #a6ba9e;
+  --d-sage-2: #c2d0b8;
+  --d-sage-pale: #dde4d2;
+  --d-gold: #e0b16e;
+  --d-ink: #16271a;
+
+  /* semantic (cream / light theme) */
+  --bg: #f2efe6;
+  --fg: #16271a;
+  --muted: #5e6b5c;
+  --surface: #fbfaf3;
+  --surface-2: #eeede2;
+  --line: #ded9c8;
+  --accent: #163a23; /* buttons, ink accents */
+  --on-accent: #f2efe6;
+  --gold: #e0b16e;
+  --sage: #a6ba9e;
+  --sage-pale: #dde4d2;
+
+  --ff-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --ff-sans: 'Mulish', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+  --r-pill: 999px;
+  --shadow-sm: 0 2px 10px rgba(22, 42, 28, 0.05);
+  --shadow-md: 0 14px 40px rgba(22, 42, 28, 0.08);
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--ff-sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dash-scope.dash-forest {
+  --bg: #163a23;
+  --fg: #f4f1e8;
+  --muted: #a9bba6;
+  --surface: #1e4a2e;
+  --surface-2: #21512f;
+  --line: #2d5a3b;
+  --accent: #f2efe6;
+  --on-accent: #163a23;
+  --sage-pale: #23512f;
+}
+
+/* ---------- type ---------- */
+.dash-scope .d-eyebrow {
+  font-family: var(--ff-sans);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.dash-scope .d-display {
+  font-family: var(--ff-serif);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.012em;
+  color: var(--fg);
+  text-wrap: balance;
+}
+.dash-scope .d-serif {
+  font-family: var(--ff-serif);
+}
+.dash-scope .d-lead {
+  font-size: 20px;
+  color: var(--fg);
+  line-height: 1.45;
+  font-weight: 500;
+}
+.dash-scope .d-body {
+  color: var(--muted);
+  line-height: 1.6;
+}
+.dash-scope .d-gold {
+  color: var(--gold);
+}
+
+/* ---------- wordmark ---------- */
+.dash-scope .d-wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 0.92;
+}
+.dash-scope .d-wordmark b {
+  font-family: var(--ff-sans);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  font-size: 30px;
+  text-transform: lowercase;
+}
+.dash-scope .d-wordmark b i {
+  color: var(--gold);
+  font-style: normal;
+}
+.dash-scope .d-wordmark span {
+  font-family: var(--ff-sans);
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+  margin-top: 3px;
+}
+
+/* ---------- buttons ---------- */
+.dash-scope .d-btn {
+  font-family: var(--ff-sans);
+  font-weight: 700;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 26px;
+  border-radius: var(--r-pill);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: transform 0.18s var(--ease), background 0.18s var(--ease),
+    box-shadow 0.18s var(--ease), color 0.18s var(--ease);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.dash-scope .d-btn svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.18s var(--ease);
+}
+.dash-scope .d-btn:active {
+  transform: scale(0.97);
+}
+.dash-scope .d-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(224, 177, 110, 0.85);
+}
+.dash-scope .d-btn--primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.dash-scope .d-btn--primary:hover {
+  background: var(--d-forest-2);
+  transform: translateY(-1px);
+}
+.dash-scope.dash-forest .d-btn--primary:hover {
+  background: #fffdf5;
+}
+.dash-scope .d-btn--primary:hover svg {
+  transform: translateX(4px);
+}
+.dash-scope .d-btn--ghost {
+  background: transparent;
+  color: var(--fg);
+  border-color: var(--line);
+}
+.dash-scope .d-btn--ghost:hover {
+  background: var(--surface-2);
+  transform: translateY(-1px);
+}
+.dash-scope .d-btn--cream {
+  background: var(--d-cream);
+  color: var(--d-forest);
+}
+.dash-scope .d-btn--cream:hover {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+.dash-scope .d-btn--cream:hover svg {
+  transform: translateX(4px);
+}
+.dash-scope .d-btn--lg {
+  font-size: 18px;
+  padding: 18px 32px;
+}
+.dash-scope .d-btn--sm {
+  font-size: 14px;
+  padding: 11px 18px;
+}
+
+/* ---------- fields ---------- */
+.dash-scope .d-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.dash-scope .d-field-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--fg);
+}
+.dash-scope .d-field {
+  font-family: var(--ff-sans);
+  font-size: 16px;
+  color: var(--fg);
+  padding: 14px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+  width: 100%;
+}
+.dash-scope .d-field::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+.dash-scope .d-field:hover {
+  border-color: var(--sage);
+}
+.dash-scope .d-field:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(224, 177, 110, 0.32);
+}
+.dash-scope .d-field-hint {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- pills / badges ---------- */
+.dash-scope .d-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--ff-sans);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 15px;
+  border-radius: var(--r-pill);
+  background: var(--sage-pale);
+  color: var(--accent);
+}
+.dash-scope.dash-forest .d-pill {
+  color: var(--fg);
+}
+.dash-scope .d-pill--gold {
+  background: rgba(224, 177, 110, 0.2);
+  color: #8a6320;
+}
+.dash-scope .d-pill--outline {
+  background: transparent;
+  border: 1.5px solid var(--line);
+  color: var(--fg);
+}
+
+/* ---------- card ---------- */
+.dash-scope .d-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- icon badge ---------- */
+.dash-scope .d-icon-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--r-pill);
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: var(--sage-pale);
+  color: var(--accent);
+}
+.dash-scope.dash-forest .d-icon-badge {
+  color: var(--fg);
+}
+.dash-scope .d-icon-badge svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.6;
+}
+
+/* ============================================================
+   Motion — all gated behind prefers-reduced-motion below.
+   ============================================================ */
+
+/* Floating dog in the hero */
+@keyframes dash-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+.dash-scope .dash-float {
+  animation: dash-bob 6.5s var(--ease) infinite;
+}
+
+/* Gold radial halo pulse behind the dog */
+@keyframes dash-halo {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(0.92);
+    opacity: 0.7;
+  }
+}
+.dash-scope .dash-halo {
+  animation: dash-halo 7s var(--ease) infinite;
+}
+
+/* Shine sweep across the dog body */
+@keyframes dash-shine {
+  0% {
+    transform: translateX(-130%);
+  }
+  60%,
+  100% {
+    transform: translateX(230%);
+  }
+}
+.dash-scope .dash-shine {
+  animation: dash-shine 5.5s var(--ease) infinite;
+}
+
+/* Loader segment fill (the dog's body bar fills forest left -> right) */
+@keyframes dash-fillstep {
+  0% {
+    opacity: 0.14;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes dash-wave {
+  0%,
+  100% {
+    opacity: 0.14;
+  }
+  22% {
+    opacity: 1;
+  }
+}
+
+/* Animated ad loop: dog body segments fill, message reveals, reward pops.
+   One 6s loop, faithful to the handoff's segCycle / msgCycle / rewardCycle. */
+@keyframes dash-seg-cycle {
+  0% {
+    opacity: 0.14;
+  }
+  12% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 1;
+  }
+  82%,
+  100% {
+    opacity: 0.14;
+  }
+}
+@keyframes dash-msg-cycle {
+  0%,
+  28% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  40%,
+  74% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  84%,
+  100% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes dash-reward-cycle {
+  0%,
+  58% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  66% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  72%,
+  80% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  88%,
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.dash-scope .dash-ad-seg {
+  opacity: 0.14;
+  fill: var(--d-forest);
+  animation: dash-seg-cycle 6s var(--ease) infinite;
+}
+.dash-scope .dash-ad-seg:nth-of-type(1) {
+  animation-delay: 0s;
+}
+.dash-scope .dash-ad-seg:nth-of-type(2) {
+  animation-delay: 0.45s;
+}
+.dash-scope .dash-ad-seg:nth-of-type(3) {
+  animation-delay: 0.9s;
+}
+.dash-scope .dash-ad-seg:nth-of-type(4) {
+  animation-delay: 1.35s;
+}
+.dash-scope .dash-ad-msg {
+  animation: dash-msg-cycle 6s var(--ease) infinite;
+}
+.dash-scope .dash-ad-reward {
+  opacity: 0;
+  animation: dash-reward-cycle 6s var(--ease) infinite;
+}
+
+/* Word-rise entrance for headlines (visible at rest — never gets stuck) */
+@keyframes dash-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0.5em);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.dash-scope .dash-rise-word {
+  display: inline-block;
+  animation: dash-rise 0.7s var(--ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-scope .dash-float,
+  .dash-scope .dash-halo,
+  .dash-scope .dash-shine,
+  .dash-scope .dash-ad-seg,
+  .dash-scope .dash-ad-msg,
+  .dash-scope .dash-ad-reward,
+  .dash-scope .dash-rise-word {
+    animation: none !important;
+  }
+  /* Resting states that read correctly with motion off */
+  .dash-scope .dash-ad-seg {
+    opacity: 1;
+  }
+  .dash-scope .dash-ad-msg {
+    opacity: 1;
+    transform: none;
+  }
+  .dash-scope .dash-rise-word {
+    opacity: 1;
+    transform: none;
+  }
+}

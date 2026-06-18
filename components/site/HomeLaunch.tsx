@@ -9,6 +9,8 @@ import { KETES } from '@/lib/kete';
 import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
 import { LandscapeBand } from '@/components/site/LandscapeBand';
 import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
+import { CountUp } from '@/components/site/CountUp';
+import { HeroThreads } from '@/components/site/HeroThreads';
 
 // "Pick your area" — one link per kete. English first, te reo second.
 const KETE_ROWS = [
@@ -121,9 +123,14 @@ export function HomeLaunch() {
           </>
         )}
 
+        {/* Woven gold-thread mesh — echoes the evidence-vessel motif, drifting
+            behind the hero and brightening toward the pointer. Self-disables
+            under reduced-motion. */}
+        <HeroThreads className="pointer-events-none absolute inset-0 z-0" />
+
         {/* Two-column row on desktop: ~55% copy / ~45% vessel. Copy is first in
             the DOM, so on mobile the headline sits above the vessel. */}
-        <div className="container relative grid min-h-[78vh] items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-20">
+        <div className="container relative z-10 grid min-h-[78vh] items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-20">
           <motion.div style={{ y: copyY, opacity: copyOpacity }} className="max-w-2xl lg:max-w-none">
             <p className="rise font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
               Built in Aotearoa
@@ -151,7 +158,7 @@ export function HomeLaunch() {
             <ul className="rise mt-9 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[rgba(43,107,87,0.18)] pt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
               <li className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
-                {WATCHED_SOURCE_COUNT} NZ government sources watched
+                <CountUp value={WATCHED_SOURCE_COUNT} /> NZ government sources watched
               </li>
               <li className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
