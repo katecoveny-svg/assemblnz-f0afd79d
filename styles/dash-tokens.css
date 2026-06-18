@@ -1,0 +1,66 @@
+/* ============================================================
+   dash by assembl — design tokens (LOCKED)
+   Lifted verbatim from the design handoff kit (dash-kit.css).
+   Sub-brand of assembl: cream · forest · sage, gold accent.
+
+   SCOPED to a [data-dash] wrapper so the Dash palette never bleeds
+   into the rest of assembl.co.nz, which runs the Mārama Whenua
+   (Evidence Vessel) palette. Every Dash surface must live inside
+   an element carrying the `data-dash` attribute.
+
+   Type variables (--font-dash-display / --font-dash-body) are
+   provided by next/font loaders on the page wrapper (Cormorant
+   Garamond + Mulish); this file only falls back to system fonts so
+   the tokens are usable even outside Next.
+   ============================================================ */
+
+[data-dash] {
+  /* raw palette */
+  --d-cream: #f2efe6;
+  --d-cream-2: #eae6d8;
+  --d-forest: #163a23;
+  --d-forest-2: #0f2a19;
+  --d-sage: #a6ba9e;
+  --d-sage-2: #c2d0b8;
+  --d-sage-pale: #dde4d2;
+  --d-gold: #e0b16e;
+  --d-ink: #16271a;
+
+  /* semantic (cream / light theme) */
+  --d-bg: #f2efe6;
+  --d-fg: #16271a;
+  --d-muted: #5e6b5c;
+  --d-surface: #fbfaf3;
+  --d-surface-2: #eeede2;
+  --d-line: #ded9c8;
+  --d-accent: #163a23; /* buttons, ink accents */
+  --d-on-accent: #f2efe6;
+
+  /* the dog's groove lines + sponsor-block fills */
+  --d-groove: #8da382;
+  --d-dog-ink: #14301a;
+
+  /* status */
+  --d-error: #9a4b3f;
+
+  --d-ff-serif: var(--font-dash-display, 'Cormorant Garamond', Georgia, 'Times New Roman', serif);
+  --d-ff-sans: var(--font-dash-body, 'Mulish', system-ui, -apple-system, 'Helvetica Neue', sans-serif);
+
+  --d-r-sm: 10px;
+  --d-r-md: 16px;
+  --d-r-lg: 22px;
+  --d-r-xl: 30px;
+  --d-r-pill: 999px;
+
+  --d-shadow-sm: 0 2px 10px rgba(22, 42, 28, 0.05);
+  --d-shadow-md: 0 14px 40px rgba(22, 42, 28, 0.08);
+
+  /* LOCKED easing — no bounce / spring */
+  --d-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* gold focus ring (a11y) */
+  --d-focus-ring: 0 0 0 3px var(--d-bg), 0 0 0 6px rgba(224, 177, 110, 0.85);
+
+  color: var(--d-fg);
+  font-family: var(--d-ff-sans);
+}
