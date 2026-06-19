@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 
 import { MotionAssetView } from '@/components/brand/MotionAssetView';
 import { FEATURED_ASSET_ID, getMotionAsset } from '@/lib/brand/motion-assets';
+import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 
 export const metadata: Metadata = {
   title: 'Press kit',
@@ -14,25 +15,33 @@ export default function PressPage() {
   const featured = getMotionAsset(FEATURED_ASSET_ID);
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-24">
-      <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
-        Media
-      </p>
-      <h1 className="mt-3 font-display text-display-lg text-[color:var(--assembl-pounamu)]">
-        Press kit
-      </h1>
-      <p className="mt-4 max-w-2xl text-body-md text-[color:var(--text-body)]">
-        Logos, wordmarks, and brand assets for media use. Please
-        attribute as &quot;assembl&quot; (lowercase). For interviews or commentary, email{' '}
-        <a
-          href="mailto:hello@assembl.co.nz"
-          className="text-[color:var(--assembl-pounamu)] underline-offset-2 hover:underline"
-        >
-          hello@assembl.co.nz
-        </a>
-        .
-      </p>
+    <>
+      <section className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] py-24 lg:py-28">
+        <ShaderHeroBackdrop />
+        <div className="container relative z-10">
+          <div className="mx-auto max-w-5xl">
+            <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">
+              Media
+            </p>
+            <h1 className="mt-3 font-display text-[clamp(2.75rem,7vw,5.5rem)] font-light leading-[0.92] tracking-[-0.03em] text-[color:var(--assembl-pounamu)]">
+              Press kit
+            </h1>
+            <p className="mt-4 max-w-2xl text-body-md text-[color:var(--text-body)]">
+              Logos, wordmarks, and brand assets for media use. Please
+              attribute as &quot;assembl&quot; (lowercase). For interviews or commentary, email{' '}
+              <a
+                href="mailto:hello@assembl.co.nz"
+                className="text-[color:var(--assembl-pounamu)] underline-offset-2 hover:underline"
+              >
+                hello@assembl.co.nz
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
 
+      <main className="mx-auto max-w-5xl px-6 pb-24 pt-12">
       <section className="mt-12">
         <h2 className="font-display text-display-sm">Wordmarks</h2>
         <div className="mt-6 grid gap-12 md:grid-cols-2">
@@ -125,6 +134,7 @@ export default function PressPage() {
           Download PDF
         </a>
       </section>
-    </main>
+      </main>
+    </>
   );
 }

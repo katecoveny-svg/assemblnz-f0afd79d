@@ -6,6 +6,7 @@ import { KeteVesselCard } from '@/components/KeteVesselCard';
 import { KETE_VESSEL_IMAGES } from '@/lib/brand-tokens';
 import { KeteDefinition } from '@/components/site/KeteDefinition';
 import { LandscapeBand } from '@/components/site/LandscapeBand';
+import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 
 export const metadata: Metadata = {
   title: 'Kete packs',
@@ -16,15 +17,16 @@ export const metadata: Metadata = {
 export default function KeteIndexPage() {
   return (
     <main className="paper-noise min-h-screen text-[color:var(--text-primary)]">
-      <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
-        <div className="container">
-          <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] py-28 lg:py-36">
+        <ShaderHeroBackdrop />
+        <div className="container relative z-10">
+          <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">
             Kete packs · specialist kits
           </p>
           <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-end">
             <div>
-              <h1 className="font-display text-display-lg font-light">
-                Choose the specialist pack.
+              <h1 className="font-display text-[clamp(2.75rem,7vw,5.5rem)] font-light leading-[0.92] tracking-[-0.03em]">
+                Choose the <em className="not-italic text-[color:var(--assembl-pounamu)]">specialist pack.</em>
               </h1>
               <p className="mt-6 max-w-2xl text-body-lg text-[color:var(--text-body)]">
                 In assembl, each <KeteDefinition /> is a specialist pack for one
