@@ -4,7 +4,7 @@
 -- rename "Beat by assembl" → "Dash by assembl"). With 20260617140000_beat_network
 -- now neutered to a no-op, there are no beat_* tables to rename. The unified
 -- dash_* schema comes from 20260619034901_dash_schema +
--- 20260619070000_dash_unify_schema instead.
+-- 20260619045657_dash_unify_schema instead.
 --
 -- Neutered (rather than deleted) to preserve migration history and to keep
 -- `supabase db push` clean: prod's history lacks this migration, and the old

@@ -8,11 +8,11 @@
 -- tables. The earlier "beat" serving migrations (20260617140000_beat_network,
 -- 20260619000000_rename_beat_to_dash) are neutered to no-ops, and the SERVING
 -- columns (slug, active, brand_safety_blocklist, *_cents bids, served_at, …) are
--- added onto these uuid tables by 20260619070000_dash_unify_schema. So one uuid
+-- added onto these uuid tables by 20260619045657_dash_unify_schema. So one uuid
 -- schema serves both ad-serving and payouts.
 --
 -- The dash_connect_accounts.publisher_id FK is intentionally omitted HERE (it was
--- dropped from the prod-applied version); 20260619070000 restores it once the
+-- dropped from the prod-applied version); 20260619045657 restores it once the
 -- unified publishers table is guaranteed uuid on both prod and a fresh apply.
 
 CREATE TABLE IF NOT EXISTS public.dash_waitlist (
