@@ -3,7 +3,7 @@
 /**
  * DashLeadForm — the "Become a publisher" / "Become an advertiser" capture for
  * the /dash landing page (the #waitlist section). One form, two roles (segmented
- * toggle), posting to POST /api/dash/lead (recordLead → email + lead_inquiries +
+ * toggle), posting to POST /api/dash-waitlist (dash_waitlist row + email +
  * Brevo). Fail-soft. Styled with the dash-kit classes (.card / .field / .btn /
  * .pill) so it sits inside the new cream·forest·sage design system.
  */
@@ -64,7 +64,7 @@ export function DashLeadForm() {
     setError(null);
 
     try {
-      const res = await fetch('/api/dash/lead', {
+      const res = await fetch('/api/dash-waitlist', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
