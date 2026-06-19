@@ -116,7 +116,7 @@ export function HomeLaunch() {
         {/* Legibility wash on the copy side + a soft fade into the page below. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(250,247,242,0.78)_0%,rgba(250,247,242,0.32)_38%,transparent_64%)]"
+          className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(250,247,242,0.95)_0%,rgba(250,247,242,0.82)_32%,rgba(250,247,242,0.45)_54%,transparent_76%)]"
         />
         <div
           aria-hidden
@@ -378,6 +378,14 @@ export function HomeLaunch() {
                 height={941}
                 sizes="(min-width: 1024px) 40vw, 100vw"
                 className="h-auto w-full select-none"
+                // Feather the rectangular edges so the motif melts into the
+                // gradient rather than reading as a pasted square.
+                style={{
+                  WebkitMaskImage:
+                    'radial-gradient(ellipse 80% 84% at 52% 50%, #000 42%, transparent 82%)',
+                  maskImage:
+                    'radial-gradient(ellipse 80% 84% at 52% 50%, #000 42%, transparent 82%)',
+                }}
               />
             </div>
           </div>

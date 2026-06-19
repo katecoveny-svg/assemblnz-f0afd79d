@@ -63,6 +63,15 @@ export function HeroVessel() {
       >
         <motion.div
           className="relative h-full w-full overflow-hidden"
+          // Feather the image's rectangular edges into transparency so the
+          // vessel reads as a floating object dissolving into the gradient —
+          // not a hard cream square pasted on top.
+          style={{
+            WebkitMaskImage:
+              'radial-gradient(ellipse 72% 86% at 60% 48%, #000 38%, rgba(0,0,0,0.6) 60%, transparent 80%)',
+            maskImage:
+              'radial-gradient(ellipse 72% 86% at 60% 48%, #000 38%, rgba(0,0,0,0.6) 60%, transparent 80%)',
+          }}
           animate={reduce ? undefined : { y: [0, -14, 0] }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
         >
