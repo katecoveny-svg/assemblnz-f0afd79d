@@ -29,7 +29,7 @@ const COPY: Record<
 > = {
   publisher: {
     heading: 'Become a publisher',
-    sub: 'Turn your “thinking…” moment into revenue. Keep 55% of every ad served in your tool. Two lines of code to install.',
+    sub: 'Your spinner is inventory. Keep 55% of every line it earns. Two lines of code to start.',
     cta: 'Talk to us about publishing',
     orgLabel: 'Your product or company',
     msgLabel: 'Where would dash. run? (optional)',
@@ -37,11 +37,11 @@ const COPY: Record<
   },
   advertiser: {
     heading: 'Become an advertiser',
-    sub: 'Reach verified NZ B2B attention in the exact moment people wait inside the tools they work in. Calm, brand-safe, NZ-only.',
+    sub: 'Reach real NZ professionals in the one second they’re waiting on their tool. One calm line. NZ-only.',
     cta: 'Talk to us about advertising',
     orgLabel: 'Your brand or agency',
     msgLabel: 'What would you want to reach? (optional)',
-    msgPlaceholder: 'e.g. NZ finance decision-makers, a Q3 brand campaign',
+    msgPlaceholder: 'e.g. NZ finance teams, a Q3 brand campaign',
   },
 };
 

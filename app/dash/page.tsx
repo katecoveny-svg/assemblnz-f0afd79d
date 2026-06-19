@@ -23,9 +23,12 @@ import { DashLeadForm } from '@/components/site/dash/DashLeadForm';
 export const metadata: Metadata = {
   title: 'dash. by assembl — get paid to wait',
   description:
-    'The in-product attention network for Aotearoa. We turn the wait inside every NZ digital service into time worth spending — and revenue worth sharing. Publishers keep 55%.',
+    'Every NZ tool has a wait. dash. makes it earn. Your spinner is inventory — and publishers keep 55%.',
   alternates: { canonical: '/dash' },
   openGraph: {
+    title: 'dash. by assembl — get paid to wait',
+    description:
+      'Every NZ tool has a wait. dash. makes it earn. Your spinner is inventory — and publishers keep 55%.',
     title: 'Dash by assembl — get paid to wait',
     description: 'The in-product attention network for Aotearoa. Stretch the value, not the wait.',
     type: 'website',
@@ -50,13 +53,17 @@ export const metadata: Metadata = {
 };
 
 const PUBLISHER_POINTS = [
-  'Keep 55% of every dollar your wait states earn — 60% for our first anchor publishers.',
-  'Two lines of code. The SDK is under 5KB and drops into any web, Electron or CLI surface.',
-  'We never read your prompts, content, code, files or user data. That promise is in writing.',
-  'Fail-open by design: if the auction is empty, your own loading line shows. Never a blank.',
+  'Keep 55% of every dollar the wait earns. 60% if you’re one of our first three.',
+  'Two lines of code. Drops in anywhere you’ve got a spinner.',
+  'No prompts read. No content read. No files, no code. The promise is in writing — Kate Hudson’s name is on it.',
+  'If the auction’s empty, your own line shows. Never a blank.',
 ];
 
 const ADVERTISER_POINTS = [
+  'NZ professionals, waiting on their tool. The one moment they’re not scrolling past.',
+  'One calm line of text in the wait. No video. No pop-up. No cookie chase.',
+  'NZ-only. Real people, really watching. You never overpay.',
+  'No gambling. No alcohol. No weapons. Ever.',
   'Reach NZ business decision-makers mid-task, paying attention — not scrolling past a banner.',
   'One calm, brand-safe line of text in the wait state. No video, no pop-up, no cookie chase.',
   'Reach NZ decision-makers mid-task, paying attention — not scrolling past a banner.',
@@ -68,6 +75,8 @@ const ADVERTISER_POINTS = [
 const STEPS = [
   {
     icon: Code2,
+    title: 'Drop in two lines',
+    body: 'Two lines in your loading state. We send back one quiet line. Or nothing — then your own line shows.',
     title: 'Publishers install the SDK',
     body: 'dash.init() then dash.show() in your loading state. We send back one line of sponsored text, or nothing — your call what shows when it is nothing.',
   },
@@ -145,13 +154,13 @@ export default function DashPage() {
   },
   {
     icon: Sparkles,
-    title: 'A second-price auction runs',
-    body: 'Per impression, against live NZ campaigns, filtered by surface, budget and brand-safety. The best fit wins, and pays fairly.',
+    title: 'An auction runs in the wait',
+    body: 'Live NZ campaigns bid for that one second. Best fit wins. Nobody overpays.',
   },
   {
     icon: Coins,
     title: 'You earn while they wait',
-    body: '55% of net revenue, paid monthly through Stripe Connect. The seconds already exist — dash. makes them earn.',
+    body: '55% of the money, every month, straight to your bank. The seconds already exist. dash. makes them earn.',
   },
 ] as const;
 
@@ -214,7 +223,7 @@ export default function DashPage() {
         <div className="wrap">
           <div className="heroStage" style={{ padding: '56px 0 72px' }}>
             <div className="heroCopy">
-              <p className="eyebrow heroEyebrow">The in-product attention network for Aotearoa</p>
+              <p className="eyebrow heroEyebrow">An ad network that lives in the wait. NZ-only.</p>
               <h1 className="heroTitle">
                 <span className="l">Get paid</span>
                 <span className="l">
@@ -222,8 +231,7 @@ export default function DashPage() {
                 </span>
               </h1>
               <p className="heroSub">
-                We turn the wait inside every NZ digital service into time worth spending — and
-                revenue worth sharing.
+                Every NZ tool has a wait. dash. makes it earn. Most of the money goes to you.
               </p>
               <div className="heroCta">
                 <Link href="#waitlist" className="btn btn--primary btn--lg">
@@ -238,9 +246,9 @@ export default function DashPage() {
                 <span className="dot" />
                 Private by design
                 <span className="dot" />
-                NZ data residency
+                Your data stays in NZ
                 <span className="dot" />
-                Enterprise grade
+                No prompts read
               </p>
             </div>
 
@@ -311,14 +319,14 @@ export default function DashPage() {
               id="publishers"
               eyebrow="For publishers"
               heading="Your spinner is inventory."
-              lead="Every time your tool thinks, your user waits. That wait is worth money — and you keep the majority of it."
+              lead="Your tool thinks. Your user waits. That wait is worth money. Most of it goes to you."
               points={PUBLISHER_POINTS}
             />
             <TwoSide
               id="advertisers"
               eyebrow="For advertisers"
-              heading="The most attentive moment in NZ media."
-              lead="Not a banner anyone can ignore. One line, in the exact moment an NZ professional is mid-task and paying attention."
+              heading="The one second they’re actually watching."
+              lead="Not a banner they scroll past. One line, in the second they’re waiting on their tool — and watching it."
               points={ADVERTISER_POINTS}
             />
           </div>
@@ -373,13 +381,13 @@ export default function DashPage() {
             </span>
             <div>
               <h3 className="serif" style={{ fontSize: 24, marginBottom: 8, fontWeight: 600 }}>
-                The trust contract
+                The promise, in writing
               </h3>
               <p className="body" style={{ fontSize: 15.5 }}>
-                The SDK sends us only your publisher id, the surface, and a coarse context tag. It
-                never reads — and has no way to read — prompts, content, code, files or user data.
-                Privacy Act 2020 native. No raw IP is ever stored. Kate Hudson is the named,
-                accountable owner of that promise.
+                The SDK sends us three things: who you are, what kind of screen it is, a rough topic.
+                That’s all. It can’t read your prompts, your content, your code or your files. It
+                never sees a user. No raw IP is ever stored. Built to the Privacy Act 2020. Kate
+                Hudson’s name is on that promise.
               </p>
             </div>
           </div>
@@ -448,11 +456,11 @@ export default function DashPage() {
               </p>
               <h2 className="sectionTitle">Two ways in.</h2>
               <p className="body" style={{ marginTop: 16, fontSize: 16 }}>
-                Run a tool with a wait state, or want to reach the people inside one. Tell us which,
-                and we&rsquo;ll take it from there.
+                Got a tool with a wait? Or want to reach the people inside one? Tell us which.
+                We&rsquo;ll take it from there.
               </p>
               <p className="pill pill--gold" style={{ marginTop: 24 }}>
-                Publishers keep 55% — 60% for the first three anchors
+                Publishers keep 55%. 60% for the first three.
               </p>
             </div>
             <DashLeadForm />
