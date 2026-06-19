@@ -200,7 +200,7 @@ export function AssemblConciergeWidget() {
                   type="button"
                   onClick={() => send(prompt)}
                   disabled={isTyping}
-                  className="rounded-full border border-[rgba(35,33,31,0.12)] bg-white/60 px-3 py-1 text-xs text-[color:var(--text-secondary)] transition-all hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 disabled:opacity-40"
+                  className="rounded-full border border-[rgba(35,33,31,0.12)] bg-white/60 px-3 py-1 text-xs text-[color:var(--text-secondary)] transition-all hover:bg-white/90 hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--text-primary)] focus-visible:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 disabled:opacity-40"
                 >
                   {prompt}
                 </button>

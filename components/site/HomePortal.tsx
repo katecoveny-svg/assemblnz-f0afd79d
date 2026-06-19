@@ -7,7 +7,6 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { Kete, KeteSlug } from '@/lib/kete';
-import { AssemblConciergeWidget } from './AssemblConciergeWidget';
 import { EvidencePackPreview } from './EvidencePackPreview';
 import { HapaiToolPreview } from '@/components/hapai/HapaiToolPreview';
 import { HAPAI_TOOLS as ALL_HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
@@ -564,9 +563,6 @@ export function HomePortal({ ketes }: HomePortalProps) {
         </div>
       </RevealSection>
 
-      <div className="hidden md:block">
-        <AssemblConciergeWidget />
-      </div>
     </main>
   );
 }
