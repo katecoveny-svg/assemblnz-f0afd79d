@@ -6,6 +6,10 @@
     {
       "path": "/api/business-pulse/scheduled",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/dash/payouts/run",
+      "schedule": "0 2 * * *"
     }
   ]
 }
