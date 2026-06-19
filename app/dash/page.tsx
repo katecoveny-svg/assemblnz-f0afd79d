@@ -41,17 +41,17 @@ const PUBLISHER_POINTS = [
 ];
 
 const ADVERTISER_POINTS = [
-  'NZ professionals, waiting on their tool. The one moment they’re not scrolling past.',
-  'One calm line of text in the wait. No video. No pop-up. No cookie chase.',
-  'NZ-only. Real people, really watching. You never overpay.',
-  'No gambling. No alcohol. No weapons. Ever.',
+  'NZ-only inventory. NZ users, NZ-licensed software.',
+  'Text only — no video, no pop-up, no cookies.',
+  'Second-price auction. You pay one cent above the next bid, never more.',
+  'No gambling, alcohol, or weapons inventory.',
 ];
 
 const STEPS = [
   {
     icon: Code2,
     title: 'Drop in two lines',
-    body: 'Two lines in your loading state. We send back one quiet line. Or nothing — then your own line shows.',
+    body: 'Two lines in your loading state. We send back one line of text. Or nothing — then your own line shows.',
   },
   {
     icon: Sparkles,
@@ -215,8 +215,8 @@ export default function DashPage() {
             <TwoSide
               id="advertisers"
               eyebrow="For advertisers"
-              heading="The one second they’re actually watching."
-              lead="Not a banner they scroll past. One line, in the second they’re waiting on their tool — and watching it."
+              heading="Ads in the wait."
+              lead="A single line of text shown inside NZ-built tools while users wait for an action to complete."
               points={ADVERTISER_POINTS}
             />
           </div>
@@ -235,10 +235,10 @@ export default function DashPage() {
                 The promise, in writing
               </h3>
               <p className="body" style={{ fontSize: 15.5 }}>
-                The SDK sends us three things: who you are, what kind of screen it is, a rough topic.
-                That’s all. It can’t read your prompts, your content, your code or your files. It
-                never sees a user. No raw IP is ever stored. Built to the Privacy Act 2020. Kate
-                Hudson’s name is on that promise.
+                The SDK sends us three things: your publisher ID, the screen type, a rough topic tag.
+                That’s it. It can’t read prompts, content, code or files. It never sees a user. It
+                never stores a raw IP. Privacy Act 2020 native. Kate Hudson is the named accountable
+                owner.
               </p>
             </div>
           </div>
@@ -261,10 +261,10 @@ export default function DashPage() {
               <p className="eyebrow" style={{ marginBottom: 12 }}>
                 Join the waitlist
               </p>
-              <h2 className="sectionTitle">Two ways in.</h2>
+              <h2 className="sectionTitle">Sign up.</h2>
               <p className="body" style={{ marginTop: 16, fontSize: 16 }}>
-                Got a tool with a wait? Or want to reach the people inside one? Tell us which.
-                We&rsquo;ll take it from there.
+                Are you a publisher with a tool that has a wait state, or a NZ brand that wants to
+                reach people inside one? Pick one. We reply within two working days.
               </p>
               <p className="pill pill--gold" style={{ marginTop: 24 }}>
                 Publishers keep 55%. 60% for the first three.
