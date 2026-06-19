@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
+import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 import { PRICING_NOTE } from '@/lib/pricing';
 
 export const metadata: Metadata = {
@@ -27,16 +28,9 @@ export default function PlatformPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[color:var(--assembl-paper)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              'radial-gradient(ellipse at 50% 0%, rgba(74, 165, 168, 0.10) 0%, transparent 65%)',
-          }}
-        />
-        <div className="relative container py-24 md:py-36">
+      <section className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_50%_18%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)]">
+        <ShaderHeroBackdrop />
+        <div className="relative z-10 container py-28 md:py-40">
           <div className="mx-auto max-w-3xl text-center">
             <SectionReveal>
               <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--text-secondary)]">

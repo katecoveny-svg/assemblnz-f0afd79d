@@ -137,7 +137,7 @@ export function HomeLaunch() {
             </p>
             <h1 className="mt-5 font-display text-[clamp(3rem,9.5vw,8.5rem)] font-light not-italic leading-[0.88] tracking-[-0.03em]">
               <RevealWords text="Less admin." className="block" />
-              <RevealWords text="More mahi." className="shimmer-pounamu mt-1 block" />
+              <RevealWords text="More mahi." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
             </h1>
             <p className="rise mt-6 max-w-xl text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--text-primary)]">
               assembl ships HAPAI — a library of single-purpose NZ tools that get one ordinary job
@@ -350,7 +350,7 @@ export function HomeLaunch() {
               <Eyebrow label="Start" accent="var(--assembl-pounamu)" />
               <h2 className="rise font-display text-[clamp(2.5rem,6vw,5rem)] font-light leading-[0.98] tracking-[-0.02em]">
                 <RevealWords text="Let's build" className="block" />
-                <RevealWords text="what's next." className="shimmer-pounamu block" />
+                <RevealWords text="what's next." className="block text-[color:var(--assembl-pounamu)]" />
               </h2>
               <p className="rise mt-6 max-w-xl text-body-lg text-[color:var(--text-body)]">
                 Free tools, a Pilot Sprint proven on your data, a kete pack for your industry, and a
