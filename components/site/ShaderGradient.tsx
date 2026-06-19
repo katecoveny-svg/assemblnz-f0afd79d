@@ -74,20 +74,16 @@ export function ShaderGradient({ className }: { className?: string }) {
         vec3 gold    = vec3(0.831, 0.659, 0.325);
         vec3 clay    = vec3(0.674, 0.345, 0.220);
 
-        vec3 col = mix(cream, sage, smoothstep(0.0, 0.52, f));
-        col = mix(col, pounamu, smoothstep(0.26, 0.82, f + r.x*0.42));
-        col = mix(col, gold, smoothstep(0.40, 0.92, q.y*1.05 + f*0.48));
-        col = mix(col, clay, smoothstep(0.60, 1.0, r.y + q.x*0.45) * 0.85);
-
-        // gentle saturation lift so the colour reads bold, not washed out
-        float lum = dot(col, vec3(0.299, 0.587, 0.114));
-        col = clamp(mix(vec3(lum), col, 1.28), 0.0, 1.0);
+        vec3 col = mix(cream, sage, smoothstep(0.0, 0.7, f));
+        col = mix(col, pounamu, smoothstep(0.35, 0.95, f + r.x*0.35));
+        col = mix(col, gold, smoothstep(0.55, 1.0, q.y*0.9 + f*0.4));
+        col = mix(col, clay, smoothstep(0.78, 1.05, r.y + q.x*0.4) * 0.6);
 
         // keep the left (where hero copy sits) lighter for legibility
-        float leftLift = smoothstep(0.66, 0.0, uv.x);
-        col = mix(col, cream, leftLift * 0.5);
+        float leftLift = smoothstep(0.62, 0.0, uv.x);
+        col = mix(col, cream, leftLift * 0.55);
         // soft top fade into the page
-        col = mix(col, cream, smoothstep(0.62, 1.0, uv.y) * 0.2);
+        col = mix(col, cream, smoothstep(0.6, 1.0, uv.y) * 0.25);
 
         // subtle grain
         float g = (hash(gl_FragCoord.xy + u_time) - 0.5) * 0.03;
