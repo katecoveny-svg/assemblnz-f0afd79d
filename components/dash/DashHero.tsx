@@ -196,7 +196,7 @@ export function DashHero() {
             </a>
           </div>
           <ul className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t pt-6" style={{ borderColor: 'var(--line)' }}>
-            {['Private by design', 'NZ data residency', 'Enterprise grade'].map((t) => (
+            {['Private by design', 'Hosted in AWS Sydney', 'Enterprise grade'].map((t) => (
               <li
                 key={t}
                 className="d-eyebrow flex items-center gap-2"

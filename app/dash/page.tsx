@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Check, Code2, Coins, ShieldCheck, Sparkles } from 'lucide-react';
 import { DashLeadForm } from '@/components/site/dash/DashLeadForm';
+import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 
 export const metadata: Metadata = {
   title: 'dash. by assembl — get paid to wait',
@@ -120,7 +121,9 @@ export default function DashPage() {
     <main>
       {/* ---------- HERO ---------- */}
       <section className="hero">
-        <div className="wrap">
+        {/* live flowing-gradient + gold-thread mesh, matching assembl.co.nz */}
+        <ShaderHeroBackdrop />
+        <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="heroStage" style={{ padding: '56px 0 72px' }}>
             <div className="heroCopy">
               <p className="eyebrow heroEyebrow">An ad network that lives in the wait. NZ-only.</p>
@@ -146,7 +149,7 @@ export default function DashPage() {
                 <span className="dot" />
                 Private by design
                 <span className="dot" />
-                Your data stays in NZ
+                Hosted in AWS Sydney
                 <span className="dot" />
                 No prompts read
               </p>
