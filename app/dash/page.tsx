@@ -10,11 +10,25 @@ export const metadata: Metadata = {
   alternates: { canonical: '/dash' },
   openGraph: {
     title: 'Dash by assembl — get paid to wait',
-    description:
-      'The in-product attention network for Aotearoa. We turn the wait inside every NZ digital service into time worth spending — and revenue worth sharing.',
+    description: 'The in-product attention network for Aotearoa. Stretch the value, not the wait.',
     type: 'website',
+    siteName: 'Dash by assembl',
     url: 'https://assembl.co.nz/dash',
     locale: 'en_NZ',
+    images: [
+      {
+        url: 'https://assembl.co.nz/images/dash/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Dash by assembl — get paid to wait',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dash by assembl — get paid to wait',
+    description: 'The in-product attention network for Aotearoa. Stretch the value, not the wait.',
+    images: ['https://assembl.co.nz/images/dash/og-image.png'],
   },
 };
 
