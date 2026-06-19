@@ -68,20 +68,22 @@ export async function POST(req: Request) {
     return NO_FILL; // fail open — never break the publisher's wait state
   }
 
-  // 1. Publisher must exist and be active.
+  // 1. Publisher must exist and be active. The SDK sends the publisher's slug
+  //    ('assembl-hapai'); the unified table keys on a uuid, so resolve it here.
   const { data: publisher } = await service
     .from('dash_publishers')
     .select('id, active, brand_safety_blocklist')
-    .eq('id', publisherId)
+    .eq('slug', publisherId)
     .maybeSingle();
   if (!publisher || !publisher.active) return NO_FILL;
+  const publisherUuid = publisher.id as string;
 
   // 2. Per-publisher hourly cap (fraud / spend guard).
   const hourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
   const { count } = await service
     .from('dash_impressions')
     .select('id', { count: 'exact', head: true })
-    .eq('publisher_id', publisherId)
+    .eq('publisher_id', publisherUuid)
     .gte('served_at', hourAgo);
   if (typeof count === 'number' && count >= HOURLY_CAP) return NO_FILL;
 
@@ -110,11 +112,12 @@ export async function POST(req: Request) {
   if (!result) {
     await service.from('dash_impressions').insert({
       campaign_id: null,
-      publisher_id: publisherId,
+      publisher_id: publisherUuid,
       surface,
       context,
       ip_hash: ipHash,
       charged_nzd_cents: 0,
+      revenue_nzd: 0,
     });
     return NO_FILL;
   }
@@ -126,11 +129,12 @@ export async function POST(req: Request) {
     .from('dash_impressions')
     .insert({
       campaign_id: winner.id,
-      publisher_id: publisherId,
+      publisher_id: publisherUuid,
       surface,
       context,
       ip_hash: ipHash,
       charged_nzd_cents: chargedCents,
+      revenue_nzd: chargedCents / 100,
     })
     .select('id')
     .single();
