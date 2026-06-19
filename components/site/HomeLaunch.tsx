@@ -135,7 +135,7 @@ export function HomeLaunch() {
             <p className="rise font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
               Built in Aotearoa
             </p>
-            <h1 className="mt-5 font-display text-[clamp(2.75rem,8.5vw,7rem)] font-light not-italic leading-[0.92] tracking-[-0.025em]">
+            <h1 className="mt-5 font-display text-[clamp(3rem,9.5vw,8.5rem)] font-light not-italic leading-[0.88] tracking-[-0.03em]">
               <RevealWords text="Less admin." className="block" />
               <RevealWords text="More mahi." className="shimmer-pounamu mt-1 block" />
             </h1>
