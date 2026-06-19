@@ -4,20 +4,16 @@
 -- (Supabase version 20260619034901, name "dash_schema") out of band and was
 -- never committed to the repo. This file commits it so repo == prod.
 --
--- ⚠️ KNOWN, DEFERRED conflict — there are two generations of dash_* schema:
---   • "beat" generation (20260617140000_beat_network + 20260619000000_rename):
---     dash_publishers.id = TEXT, dash_campaigns.bid_cpm_nzd_cents, etc. The
---     shipped ad-serving code (app/api/dash/serve, lib/dash/auction) uses this.
---   • "payout" generation (THIS file): dash_publishers.id = UUID, rev_share,
---     is_anchor, the ledger/payout/connect/charity tables. Production runs THIS.
--- On a FRESH apply the beat migrations run first, so the three shared tables
--- (dash_publishers / dash_campaigns / dash_impressions) keep their beat shape and
--- the CREATE TABLE IF NOT EXISTS statements below no-op for them — the new payout
--- tables are still created. Reconciling the three shared tables onto one schema
--- (and updating the serving code) is a tracked follow-up. To keep a fresh apply
--- from failing, the dash_connect_accounts.publisher_id FK to dash_publishers(id)
--- is dropped here (uuid column, app-enforced) since beat's dash_publishers.id is
--- text. Production already has that FK; this file is a no-op there.
+-- RECONCILED (2026-06-19): this is the single source of truth for the dash_*
+-- tables. The earlier "beat" serving migrations (20260617140000_beat_network,
+-- 20260619000000_rename_beat_to_dash) are neutered to no-ops, and the SERVING
+-- columns (slug, active, brand_safety_blocklist, *_cents bids, served_at, …) are
+-- added onto these uuid tables by 20260619070000_dash_unify_schema. So one uuid
+-- schema serves both ad-serving and payouts.
+--
+-- The dash_connect_accounts.publisher_id FK is intentionally omitted HERE (it was
+-- dropped from the prod-applied version); 20260619070000 restores it once the
+-- unified publishers table is guaranteed uuid on both prod and a fresh apply.
 
 CREATE TABLE IF NOT EXISTS public.dash_waitlist (
   id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),
