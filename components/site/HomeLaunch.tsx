@@ -11,6 +11,7 @@ import { LandscapeBand } from '@/components/site/LandscapeBand';
 import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
 import { CountUp } from '@/components/site/CountUp';
 import { HeroThreads } from '@/components/site/HeroThreads';
+import { ShaderGradient } from '@/components/site/ShaderGradient';
 import { HeroVessel } from '@/components/site/HeroVessel';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
@@ -106,39 +107,30 @@ export function HomeLaunch() {
         ref={heroRef}
         className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)]"
       >
-        {/* Living aurora backdrop — large coloured light blooms that drift,
-            breathe and shift, turning the hero into a slow motion graphic. */}
-        {!reduce && (
-          <>
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute -left-40 top-0 h-[42rem] w-[42rem] rounded-full bg-[radial-gradient(circle,rgba(43,107,87,0.32),transparent_66%)] blur-3xl"
-              animate={{ x: [0, 60, 0], y: [0, -40, 0], scale: [1, 1.15, 1] }}
-              transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute -right-32 -bottom-10 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(circle,rgba(201,162,75,0.34),transparent_66%)] blur-3xl"
-              animate={{ x: [0, -54, 0], y: [0, 34, 0], scale: [1.1, 0.95, 1.1] }}
-              transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/3 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(172,88,56,0.20),transparent_68%)] blur-3xl"
-              animate={{ x: [0, 40, -30, 0], y: [0, -24, 20, 0], scale: [0.9, 1.2, 1] }}
-              transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </>
-        )}
+        {/* Signature backdrop — a live WebGL flowing-gradient (domain-warped
+            noise mixing pounamu, gold, clay and cream). Falls back to the
+            section's CSS gradient if WebGL is unavailable; paints one static
+            frame under reduced-motion. */}
+        <ShaderGradient className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
+
+        {/* Legibility wash on the copy side + a soft fade into the page below. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(250,247,242,0.78)_0%,rgba(250,247,242,0.32)_38%,transparent_64%)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-40 bg-[linear-gradient(to_bottom,transparent,var(--assembl-paper))]"
+        />
 
         {/* Woven gold-thread mesh — echoes the evidence-vessel motif, drifting
-            behind the hero and brightening toward the pointer. Self-disables
+            over the gradient and brightening toward the pointer. Self-disables
             under reduced-motion. */}
         <HeroThreads className="pointer-events-none absolute inset-0 z-0" />
 
         {/* Two-column row on desktop: ~55% copy / ~45% vessel. Copy is first in
             the DOM, so on mobile the headline sits above the vessel. */}
-        <div className="container relative z-10 grid min-h-[78vh] items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-20">
+        <div className="container relative z-10 grid min-h-[88vh] items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-20">
           <motion.div style={{ y: copyY, opacity: copyOpacity }} className="max-w-2xl lg:max-w-none">
             <p className="rise font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
               Built in Aotearoa
