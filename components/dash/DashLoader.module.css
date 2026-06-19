@@ -1,0 +1,629 @@
+/* ════════════════════════════════════════════════════════════════
+   DashLoader — component styles (scoped CSS module).
+   Reads the [data-dash] tokens from styles/dash-tokens.css. Motion uses
+   the LOCKED easing var(--d-ease); no bounce / spring. All focus-visible
+   states use the gold token ring. Honours prefers-reduced-motion.
+   ════════════════════════════════════════════════════════════════ */
+
+.loader {
+  /* dog tint defaults — whitelabel overrides --dog-body inline */
+  --dog-body: var(--d-sage, #a6ba9e);
+  --dog-groove: var(--d-groove, #8da382);
+  --dog-ink: var(--d-dog-ink, #14301a);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  background: var(--d-surface);
+  border: 1px solid var(--d-line);
+  border-radius: var(--d-r-xl);
+  box-shadow: var(--d-shadow-sm);
+  font-family: var(--d-ff-sans);
+  color: var(--d-fg);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── stage + dog ─────────────────────────────────────────────── */
+.stage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.customerLogo {
+  max-height: 34px;
+  width: auto;
+  margin-bottom: 2px;
+}
+.dogWrap {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+}
+.dog {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+/* segment fill */
+.seg {
+  fill: var(--d-forest, #163a23);
+  opacity: 0.14;
+  transition: opacity 0.3s var(--d-ease);
+}
+.loader[data-status='processing'] .seg {
+  animation: dashWave 1.8s ease-in-out infinite;
+}
+.loader[data-status='processing'] .seg:nth-of-type(1) {
+  animation-delay: 0s;
+}
+.loader[data-status='processing'] .seg:nth-of-type(2) {
+  animation-delay: 0.45s;
+}
+.loader[data-status='processing'] .seg:nth-of-type(3) {
+  animation-delay: 0.9s;
+}
+.loader[data-status='processing'] .seg:nth-of-type(4) {
+  animation-delay: 1.35s;
+}
+@keyframes dashWave {
+  0%,
+  100% {
+    opacity: 0.14;
+  }
+  22% {
+    opacity: 1;
+  }
+}
+.loader[data-status='success'] .seg {
+  opacity: 1;
+}
+
+/* tail wag on success (finite — ~1.2s) */
+.tail {
+  transform-box: fill-box;
+  transform-origin: 100% 100%;
+}
+.loader[data-status='success'] .tail {
+  animation: dashWag 0.3s ease-in-out 0s 4;
+}
+@keyframes dashWag {
+  0%,
+  100% {
+    transform: rotate(-16deg);
+  }
+  50% {
+    transform: rotate(14deg);
+  }
+}
+
+/* ear droop on error */
+.ear {
+  transform-box: fill-box;
+  transform-origin: 50% 4%;
+  transition: transform 0.4s var(--d-ease);
+}
+.loader[data-status='error'] .ear {
+  transform: rotate(-26deg) translateY(8px);
+}
+.loader[data-status='error'] .dog {
+  filter: grayscale(0.25) saturate(0.8);
+}
+
+/* success check */
+.check {
+  opacity: 0;
+  transform: scale(0.6);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.35s var(--d-ease),
+    transform 0.35s var(--d-ease);
+}
+.loader[data-status='success'] .check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* gold shine sweep */
+.shine {
+  position: absolute;
+  inset: 8% 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 36%,
+    rgba(224, 177, 110, 0.55) 50%,
+    transparent 64%
+  );
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  animation: dashShine 4s var(--d-ease) infinite;
+}
+@keyframes dashShine {
+  0% {
+    background-position: -80% 0;
+  }
+  60%,
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ── in-body blocks ──────────────────────────────────────────── */
+.sponsorBlock,
+.brandBlock {
+  position: absolute;
+  left: 17%;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 48%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--d-forest);
+  color: var(--d-on-accent);
+  border-radius: var(--d-r-pill);
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.1;
+  box-shadow: var(--d-shadow-sm);
+}
+.sponsorDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6fcf97;
+  flex: none;
+}
+.sponsorName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* ASA "Sponsored" pill — always ≥12px, opacity 1, never obscured */
+.sponsoredPill {
+  flex: none;
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--d-r-pill);
+  background: var(--d-gold);
+  color: var(--d-forest-2);
+  opacity: 1;
+}
+.brandBlock {
+  font-weight: 600;
+  max-width: 56%;
+}
+
+/* ── messages ────────────────────────────────────────────────── */
+.belowMsg {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--d-fg);
+  text-align: center;
+}
+.fadeText {
+  animation: dashFade 0.35s var(--d-ease);
+}
+@keyframes dashFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.errMsg {
+  color: var(--d-error);
+  font-weight: 600;
+}
+
+/* destination chip */
+.destChip {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 12px;
+  font-family: var(--d-ff-sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--d-accent);
+  background: var(--d-sage-pale);
+  border: 1px solid var(--d-line);
+  border-radius: var(--d-r-pill);
+  cursor: pointer;
+  transition: background 0.18s var(--d-ease);
+}
+.destChip:hover {
+  background: var(--d-sage-2);
+}
+
+/* success toast */
+.toast {
+  display: inline-flex;
+  align-items: center;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--d-on-accent);
+  background: var(--d-accent);
+  border-radius: var(--d-r-pill);
+  box-shadow: var(--d-shadow-md);
+  animation: dashFade 0.35s var(--d-ease);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Opt-in surface
+   ════════════════════════════════════════════════════════════════ */
+.optIn {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 26px 24px;
+  background: var(--d-surface);
+  border: 1px solid var(--d-line);
+  border-radius: var(--d-r-lg);
+  box-shadow: var(--d-shadow-sm);
+  font-family: var(--d-ff-sans);
+  color: var(--d-fg);
+}
+.optInTitle {
+  font-family: var(--d-ff-serif);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--d-fg);
+}
+.optInBody {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--d-fg);
+}
+.swapRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.swapLabel {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* accessible switch — 44px tall hit area, 30px visual track */
+.switch {
+  position: relative;
+  flex: none;
+  width: 52px;
+  height: 44px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+.switch::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 30px;
+  border-radius: var(--d-r-pill);
+  background: #d7d2c2;
+  transition: background 0.2s var(--d-ease);
+}
+.switch[aria-checked='true']::before {
+  background: var(--d-accent);
+}
+.switch::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translate(0, -50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s var(--d-ease);
+}
+.switch[aria-checked='true']::after {
+  transform: translate(22px, -50%);
+}
+
+/* destination picker */
+.destPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.segControl {
+  display: flex;
+  gap: 6px;
+  background: var(--d-bg);
+  border: 1px solid var(--d-line);
+  border-radius: var(--d-r-pill);
+  padding: 4px;
+}
+.segBtn {
+  flex: 1;
+  border: 0;
+  background: none;
+  font-family: var(--d-ff-sans);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--d-muted);
+  min-height: 40px;
+  padding: 8px 6px;
+  border-radius: var(--d-r-pill);
+  cursor: pointer;
+  transition:
+    background 0.15s var(--d-ease),
+    color 0.15s var(--d-ease);
+}
+.segBtn[aria-checked='true'] {
+  background: var(--d-accent);
+  color: var(--d-on-accent);
+}
+
+.charityGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.methodGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.charityCard,
+.methodCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 14px 8px;
+  text-align: center;
+  background: var(--d-bg);
+  border: 1.5px solid var(--d-line);
+  border-radius: var(--d-r-md);
+  cursor: pointer;
+  transition:
+    border-color 0.15s var(--d-ease),
+    background 0.15s var(--d-ease);
+}
+.charityCard:hover,
+.methodCard:hover {
+  border-color: var(--d-sage);
+}
+.charityCard[aria-pressed='true'],
+.methodCard[aria-checked='true'] {
+  border-color: var(--d-accent);
+  background: var(--d-sage-pale);
+}
+.charityEmoji,
+.methodEmoji {
+  font-size: 22px;
+  line-height: 1;
+}
+.charityName,
+.methodLabel {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--d-fg);
+  line-height: 1.2;
+}
+.charitySub {
+  font-size: 11.5px;
+  color: var(--d-muted);
+  line-height: 1.3;
+}
+
+.disclosure {
+  font-size: 12px;
+  color: var(--d-muted);
+  line-height: 1.5;
+}
+.consentRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--d-fg);
+  line-height: 1.4;
+  cursor: pointer;
+}
+.consentBox {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  accent-color: var(--d-accent);
+  cursor: pointer;
+}
+
+.optInCtas {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.primaryBtn {
+  font-family: var(--d-ff-sans);
+  font-weight: 700;
+  font-size: 16px;
+  min-height: 44px;
+  padding: 13px 24px;
+  color: var(--d-on-accent);
+  background: var(--d-accent);
+  border: 1.5px solid transparent;
+  border-radius: var(--d-r-pill);
+  cursor: pointer;
+  transition:
+    background 0.18s var(--d-ease),
+    transform 0.18s var(--d-ease);
+}
+.primaryBtn:hover {
+  background: var(--d-forest-2);
+  transform: translateY(-1px);
+}
+.primaryBtn:disabled,
+.primaryBtn[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+.textBtn {
+  font-family: var(--d-ff-sans);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--d-accent);
+  background: none;
+  border: 0;
+  padding: 6px 2px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.textBtn:hover {
+  text-decoration: underline;
+}
+
+/* ── focus-visible (gold ring) on every interactive element ───── */
+.switch:focus-visible,
+.segBtn:focus-visible,
+.charityCard:focus-visible,
+.methodCard:focus-visible,
+.primaryBtn:focus-visible,
+.textBtn:focus-visible,
+.destChip:focus-visible,
+.consentBox:focus-visible {
+  outline: none;
+  box-shadow: var(--d-focus-ring);
+}
+
+/* ── dialog (how it works) ───────────────────────────────────── */
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 42, 25, 0.45);
+  animation: dashFade 0.2s var(--d-ease);
+  z-index: 60;
+}
+.dialogContent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(92vw, 460px);
+  max-height: 85vh;
+  overflow: auto;
+  padding: 28px;
+  background: var(--d-surface);
+  border: 1px solid var(--d-line);
+  border-radius: var(--d-r-lg);
+  box-shadow: var(--d-shadow-md);
+  font-family: var(--d-ff-sans);
+  color: var(--d-fg);
+  z-index: 61;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dialogTitle {
+  font-family: var(--d-ff-serif);
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 1.05;
+}
+.dialogDesc {
+  font-size: 15px;
+  color: var(--d-muted);
+}
+.dialogList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.dialogList strong {
+  color: var(--d-fg);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Reduced motion — static dog, no shine, no rotation.
+   Sponsor + destination still shown (handled in JS). Defence-in-depth:
+   both the data-reduced flag and the media query.
+   ════════════════════════════════════════════════════════════════ */
+.loader[data-reduced='true'] .seg,
+.loader[data-reduced='true'][data-status='processing'] .seg {
+  animation: none;
+  opacity: 1;
+}
+.loader[data-reduced='true'] .shine,
+.loader[data-reduced='true'] .tail,
+.loader[data-reduced='true'] .fadeText {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader[data-status='processing'] .seg {
+    animation: none;
+    opacity: 1;
+  }
+  .shine,
+  .tail,
+  .fadeText,
+  .toast,
+  .dialogOverlay {
+    animation: none !important;
+  }
+  .seg,
+  .ear,
+  .check,
+  .primaryBtn,
+  .destChip {
+    transition: none !important;
+  }
+}

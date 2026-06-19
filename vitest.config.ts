@@ -15,6 +15,9 @@ export default defineConfig({
       'lib/**/__tests__/**/*.test.ts',
       'app/**/*.test.ts',
       'packages/**/*.test.ts',
+      // Dash Loader pure-logic tests live beside the component under
+      // components/ (node env — no DOM needed; the logic is framework-free).
+      'components/**/*.test.ts',
     ],
     // Exclude self-contained tsx-runner scripts that pre-date vitest in this
     // repo. They live under __tests__ for proximity to the code they test but

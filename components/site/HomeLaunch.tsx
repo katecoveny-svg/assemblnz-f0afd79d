@@ -9,6 +9,11 @@ import { KETES } from '@/lib/kete';
 import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
 import { LandscapeBand } from '@/components/site/LandscapeBand';
 import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
+import { CountUp } from '@/components/site/CountUp';
+import { HeroThreads } from '@/components/site/HeroThreads';
+import { HeroVessel } from '@/components/site/HeroVessel';
+import { Reveal } from '@/components/site/Reveal';
+import { MagneticButton } from '@/components/site/MagneticButton';
 
 // "Pick your area" — one link per kete. English first, te reo second.
 const KETE_ROWS = [
@@ -33,8 +38,6 @@ const HOW_STEPS = [
 const GLASS =
   'rounded-[22px] border border-white/65 bg-[linear-gradient(160deg,rgba(255,255,255,0.55),rgba(255,255,255,0.28))] ' +
   'backdrop-blur-xl shadow-[0_18px_50px_rgba(40,30,18,0.07),inset_0_1px_0_rgba(255,255,255,0.6)]';
-
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
  * A heading whose words rise one-by-one as the page loads.
@@ -103,46 +106,62 @@ export function HomeLaunch() {
         ref={heroRef}
         className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)]"
       >
-        {/* Slow ambient light blooms — the "motion graphic" backdrop */}
+        {/* Living aurora backdrop — large coloured light blooms that drift,
+            breathe and shift, turning the hero into a slow motion graphic. */}
         {!reduce && (
           <>
             <motion.div
               aria-hidden
-              className="pointer-events-none absolute -left-32 top-10 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgba(58,125,110,0.16),transparent_68%)] blur-2xl"
-              animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
-              transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+              className="pointer-events-none absolute -left-40 top-0 h-[42rem] w-[42rem] rounded-full bg-[radial-gradient(circle,rgba(43,107,87,0.32),transparent_66%)] blur-3xl"
+              animate={{ x: [0, 60, 0], y: [0, -40, 0], scale: [1, 1.15, 1] }}
+              transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
             />
             <motion.div
               aria-hidden
-              className="pointer-events-none absolute -right-24 bottom-0 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(201,162,75,0.18),transparent_68%)] blur-2xl"
-              animate={{ x: [0, -36, 0], y: [0, 26, 0] }}
-              transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+              className="pointer-events-none absolute -right-32 -bottom-10 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(circle,rgba(201,162,75,0.34),transparent_66%)] blur-3xl"
+              animate={{ x: [0, -54, 0], y: [0, 34, 0], scale: [1.1, 0.95, 1.1] }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/3 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(172,88,56,0.20),transparent_68%)] blur-3xl"
+              animate={{ x: [0, 40, -30, 0], y: [0, -24, 20, 0], scale: [0.9, 1.2, 1] }}
+              transition={{ duration: 26, repeat: Infinity, ease: 'easeInOut' }}
             />
           </>
         )}
 
+        {/* Woven gold-thread mesh — echoes the evidence-vessel motif, drifting
+            behind the hero and brightening toward the pointer. Self-disables
+            under reduced-motion. */}
+        <HeroThreads className="pointer-events-none absolute inset-0 z-0" />
+
         {/* Two-column row on desktop: ~55% copy / ~45% vessel. Copy is first in
             the DOM, so on mobile the headline sits above the vessel. */}
-        <div className="container relative grid min-h-[78vh] items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-20">
+        <div className="container relative z-10 grid min-h-[78vh] items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-20">
           <motion.div style={{ y: copyY, opacity: copyOpacity }} className="max-w-2xl lg:max-w-none">
             <p className="rise font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
               Built in Aotearoa
             </p>
-            <h1 className="mt-5 font-display text-[clamp(2.75rem,8.5vw,7rem)] font-semibold not-italic leading-[0.92] tracking-[-0.025em]">
+            <h1 className="mt-5 font-display text-[clamp(2.75rem,8.5vw,7rem)] font-light not-italic leading-[0.92] tracking-[-0.025em]">
               <RevealWords text="Less admin." className="block" />
-              <RevealWords text="More mahi." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
+              <RevealWords text="More mahi." className="shimmer-pounamu mt-1 block" />
             </h1>
             <p className="rise mt-6 max-w-xl text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--text-primary)]">
               assembl ships HAPAI — a library of single-purpose NZ tools that get one ordinary job
               done, draft-only, with a downloadable evidence pack.
             </p>
             <div className="rise mt-8 flex flex-wrap items-center gap-4">
-              <Link href="/hapai" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
-                Try a free tool <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-              <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center px-6">
-                Book a Pilot Sprint
-              </Link>
+              <MagneticButton>
+                <Link href="/hapai" className="cta-primary cta-glow inline-flex h-12 items-center gap-2 px-7">
+                  Try a free tool <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
+              </MagneticButton>
+              <MagneticButton>
+                <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center px-6">
+                  Book a Pilot Sprint
+                </Link>
+              </MagneticButton>
             </div>
 
             {/* Proof strip — a little of the dark band's evidence brought up to
@@ -151,7 +170,7 @@ export function HomeLaunch() {
             <ul className="rise mt-9 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[rgba(43,107,87,0.18)] pt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
               <li className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
-                {WATCHED_SOURCE_COUNT} NZ government sources watched
+                <CountUp value={WATCHED_SOURCE_COUNT} /> NZ government sources watched
               </li>
               <li className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
@@ -160,24 +179,9 @@ export function HomeLaunch() {
             </ul>
           </motion.div>
 
-          {/* The signature evidence-vessel — Kate's canonical hero image. The
-              gold-thread sparkles are baked into the asset, so there is no
-              procedural overlay. Sits on the right and fills its column. */}
-          <motion.div
-            className="relative h-[clamp(440px,60vh,720px)] w-full overflow-hidden lg:min-w-[400px]"
-            initial={reduce ? false : { opacity: 0, scale: 0.96 }}
-            animate={reduce ? undefined : { opacity: 1, scale: 1 }}
-            transition={{ duration: 1.1, ease: EASE }}
-          >
-            <Image
-              src="/images/site/hero-evidence-vessel.png"
-              alt="A stack of translucent glass discs held in a fine gold wire frame, threads of gold light connecting points across them — assembl's evidence vessel."
-              fill
-              priority
-              sizes="(min-width: 1024px) 42vw, 100vw"
-              className="select-none object-cover object-[62%_center]"
-            />
-          </motion.div>
+          {/* The signature evidence-vessel — the canonical hero image, brought
+              to life with float, pointer-parallax tilt and a sweeping glint. */}
+          <HeroVessel />
         </div>
 
         {/* Scroll cue */}
@@ -242,24 +246,28 @@ export function HomeLaunch() {
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {KETE_ROWS.map((row) => (
-              <motion.div
-                key={row.slug}
-                className="rise"
-                whileHover={reduce ? undefined : { y: -8, scale: 1.015 }}
-                transition={{ type: 'spring', stiffness: 320, damping: 26 }}
-              >
+            {KETE_ROWS.map((row, i) => (
+              <Reveal key={row.slug} delay={i * 0.07} className="h-full">
+                <motion.div
+                  className="h-full"
+                  whileHover={reduce ? undefined : { y: -10, scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 320, damping: 24 }}
+                >
                 <Link
                   href={`/kete/${row.slug}`}
-                  className={`group flex h-full flex-col justify-between p-6 transition-[box-shadow,background] duration-300 hover:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] hover:shadow-[0_34px_80px_rgba(40,30,18,0.14)] ${GLASS}`}
+                  className={`group relative flex h-full flex-col justify-between overflow-hidden p-6 transition-all duration-300 hover:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] hover:shadow-[0_34px_80px_rgba(40,30,18,0.18)] focus-visible:-translate-y-2 focus-visible:scale-[1.015] focus-visible:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] focus-visible:shadow-[0_34px_80px_rgba(40,30,18,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-4 ${GLASS}`}
                 >
+                  {/* sheen sweep on hover */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(105deg,transparent,rgba(255,255,255,0.55),transparent)] transition-transform duration-700 ease-out group-hover:translate-x-full"
+                  />
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">{row.area}</span>
-                    <motion.span
-                      className="h-2.5 w-2.5 rounded-full"
+                    <span
+                      className="h-2.5 w-2.5 rounded-full transition-transform duration-300 group-hover:scale-150 group-focus-visible:scale-150"
                       style={{ backgroundColor: ACCENT[row.slug] }}
                       aria-hidden
-                      whileHover={{ scale: 1.6 }}
                     />
                   </div>
                   <div className="mt-8">
@@ -268,11 +276,12 @@ export function HomeLaunch() {
                     </h3>
                     <p className="mt-3 text-body-md text-[color:var(--text-body)]">{row.drafts}</p>
                   </div>
-                  <span className="mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5">
+                  <span className="relative mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5 group-focus-visible:gap-2.5">
                     Open <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                   </span>
                 </Link>
-              </motion.div>
+                </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -297,17 +306,18 @@ export function HomeLaunch() {
             </h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-3">
-            {HOW_STEPS.map(([n, title, body]) => (
-              <motion.article
-                key={title}
-                className={`rise h-full p-7 ${GLASS}`}
-                whileHover={reduce ? undefined : { y: -6 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-              >
-                <p className="font-display text-4xl font-light text-[#b9ad9c]">{n}</p>
-                <h3 className="mt-3 font-display text-display-md font-light">{title}</h3>
-                <p className="mt-4 text-body-md text-[color:var(--text-body)]">{body}</p>
-              </motion.article>
+            {HOW_STEPS.map(([n, title, body], i) => (
+              <Reveal key={title} delay={i * 0.12} className="h-full">
+                <motion.article
+                  className={`h-full p-7 ${GLASS}`}
+                  whileHover={reduce ? undefined : { y: -8 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                >
+                  <p className="font-display text-4xl font-light text-[#b9ad9c]">{n}</p>
+                  <h3 className="mt-3 font-display text-display-md font-light">{title}</h3>
+                  <p className="mt-4 text-body-md text-[color:var(--text-body)]">{body}</p>
+                </motion.article>
+              </Reveal>
             ))}
           </div>
 
@@ -373,9 +383,8 @@ export function HomeLaunch() {
 }
 
 /**
- * Founder band — "Built by Kate Hudson, Aotearoa". A small credibility marker.
- * Text only by design: the one founder portrait site-wide lives on /about, so
- * this band carries the name and links through rather than repeating the photo.
+ * "Made here" band — a small Aotearoa credibility marker. Carries the place,
+ * not a personal name; the founder story lives on /about for anyone who wants it.
  */
 function FounderBand() {
   return (
@@ -383,9 +392,9 @@ function FounderBand() {
       <div className="container">
         <div className={`rise mx-auto flex max-w-2xl flex-col items-center gap-4 p-8 text-center sm:p-10 ${GLASS}`}>
           <p className="font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
-            Built in Aotearoa
+            Made here
           </p>
-          <h2 className="font-display text-display-md font-light leading-[1.04]">Built by Kate Hudson.</h2>
+          <h2 className="font-display text-display-md font-light leading-[1.04]">Built in Aotearoa.</h2>
           <p className="max-w-md text-body-md text-[color:var(--text-body)]">
             assembl is made in Aotearoa, for the work New Zealand teams actually do — with NZ rules,
             NZ sources, and a human signing off every output.
@@ -393,7 +402,7 @@ function FounderBand() {
           <div>
             <Link
               href="/about"
-              className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5"
+              className="inline-flex items-center gap-1.5 rounded-sm font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all hover:gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
             >
               Read the story <ArrowRight className="h-3.5 w-3.5" aria-hidden />
             </Link>

@@ -1,0 +1,97 @@
+/* /dash/demo — three-mode lab layout. Reads [data-dash] tokens. */
+.lab {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.segCtl {
+  display: flex;
+  gap: 6px;
+  background: var(--d-surface);
+  border: 1px solid var(--d-line);
+  border-radius: var(--d-r-pill);
+  padding: 4px;
+}
+.segCtlBtn {
+  border: 0;
+  background: none;
+  font-family: var(--d-ff-sans);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--d-muted);
+  min-height: 40px;
+  padding: 8px 16px;
+  border-radius: var(--d-r-pill);
+  cursor: pointer;
+  transition: 0.15s var(--d-ease);
+}
+.segCtlBtn[aria-pressed='true'] {
+  background: var(--d-accent);
+  color: var(--d-on-accent);
+}
+.autoBtn {
+  font-family: var(--d-ff-sans);
+  font-weight: 700;
+  font-size: 13px;
+  min-height: 40px;
+  padding: 8px 16px;
+  color: var(--d-accent);
+  background: var(--d-sage-pale);
+  border: 1px solid var(--d-line);
+  border-radius: var(--d-r-pill);
+  cursor: pointer;
+}
+.segCtlBtn:focus-visible,
+.autoBtn:focus-visible {
+  outline: none;
+  box-shadow: var(--d-focus-ring);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  background: var(--d-bg);
+  border: 1px solid var(--d-line);
+  border-radius: var(--d-r-xl);
+}
+.panelHead {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.panelTitle {
+  font-family: var(--d-ff-serif);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.05;
+  color: var(--d-fg);
+}
+.panelNote {
+  font-size: 13.5px;
+  color: var(--d-muted);
+  line-height: 1.45;
+}
+.panelStage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
