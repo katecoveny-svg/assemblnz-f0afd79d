@@ -156,7 +156,7 @@ export function DashLanding() {
             <span>by assembl</span>
           </span>
           <p className="d-body text-[13px]">
-            Made in Aotearoa · Private by design · NZ data residency
+            Made in Aotearoa · Private by design · Hosted in AWS Sydney
           </p>
         </div>
       </footer>
