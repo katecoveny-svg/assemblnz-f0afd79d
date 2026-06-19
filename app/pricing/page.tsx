@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { Eyebrow } from '@/components/site/Eyebrow';
 import { SectionReveal } from '@/components/SectionReveal';
 import { HowAPackWorks } from '@/components/site/HowAPackWorks';
+import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 
 export const metadata: Metadata = {
   title: 'Pricing',
@@ -54,11 +55,12 @@ export default function PricingPage() {
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
       {/* Hero */}
-      <section className="py-24 lg:py-32">
-        <div className="container">
+      <section className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_50%_18%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] py-28 lg:py-36">
+        <ShaderHeroBackdrop />
+        <div className="container relative z-10">
           <div className="mx-auto max-w-4xl text-center">
             <Eyebrow label="Pricing" className="justify-center" />
-            <h1 className="mt-6 font-display text-display-xl font-light">
+            <h1 className="mt-6 font-display text-[clamp(2.75rem,7vw,5.5rem)] font-light leading-[0.92] tracking-[-0.03em]">
               Simple <em className="not-italic text-[color:var(--assembl-pounamu)]">pricing.</em>
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">

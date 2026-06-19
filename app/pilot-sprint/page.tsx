@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
+import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 
 export const metadata: Metadata = {
   title: 'Pilot Sprint',
@@ -18,12 +19,13 @@ const HOW_IT_RUNS = [
 export default function PilotSprintPage() {
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
-      <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
-        <div className="container">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] py-28 lg:py-36">
+        <ShaderHeroBackdrop />
+        <div className="container relative z-10">
           <SectionReveal>
-            <p className="font-mono text-eyebrow uppercase text-[color:var(--text-secondary)]">Pilot Sprint</p>
-            <h1 className="mt-6 max-w-4xl font-display text-display-xl font-light">
-              See assembl on your own work.
+            <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">Pilot Sprint</p>
+            <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.75rem,7vw,5.5rem)] font-light leading-[0.92] tracking-[-0.03em]">
+              See assembl on <em className="not-italic text-[color:var(--assembl-pounamu)]">your own work.</em>
             </h1>
             <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               Bring one real, messy workflow. In ten working days we turn it into draft-ready output

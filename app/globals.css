@@ -484,8 +484,13 @@
 
 /* Flowing gold shimmer over a pounamu word. Fail-safe: the resting state is a
    solid, fully-visible pounamu fill. The animated gradient-clip only kicks in
-   where background-clip:text is supported AND motion is allowed — so the
-   headline can never be left transparent/invisible. */
+   where background-clip:text is supported AND motion is allowed.
+
+   IMPORTANT: only apply this to an element that holds the text DIRECTLY. Do not
+   put it on a <RevealWords> wrapper — that renders each word in a nested
+   inline-block, so background-clip:text clips to nothing and the inherited
+   transparent fill leaves the words invisible. For RevealWords accents, use a
+   solid colour (text-[color:var(--assembl-pounamu)]) instead. */
 .shimmer-pounamu {
   color: var(--assembl-pounamu);
 }

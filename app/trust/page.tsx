@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionReveal } from "@/components/SectionReveal";
+import { ShaderHeroBackdrop } from "@/components/site/ShaderHeroBackdrop";
 import { ManaTrustLayerDiagram } from "@/components/trust/ManaTrustLayerDiagram";
 import { SecurityPackForm } from "@/components/trust/SecurityPackForm";
 import {
@@ -98,14 +99,16 @@ export default function TrustCentrePage() {
   return (
     <main className="bg-[color:var(--assembl-paper)]">
       {/* ── Headline panel ─────────────────────────────────────────────── */}
-      <section className="container pt-24 pb-12 md:pt-32 md:pb-16">
-        <div className="mx-auto max-w-4xl">
+      <section className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_22%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] pt-28 pb-12 md:pt-36 md:pb-16">
+        <ShaderHeroBackdrop />
+        <div className="container relative z-10">
+          <div className="mx-auto max-w-4xl">
           <SectionReveal>
             <p className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
               Trust Centre · {TRUST_CENTRE_VERSION}
             </p>
             <h1 className="mt-5 font-display text-[clamp(2.1rem,6.2vw,5.25rem)] font-light leading-[0.98] text-[color:var(--text-primary)]">
-              Sovereign by default. Evidence-ready by design.
+              Sovereign by default. <em className="not-italic text-[color:var(--assembl-pounamu)]">Evidence-ready by design.</em>
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:var(--text-secondary)]">
               This is the plain version — for the procurement officer who has read a hundred
@@ -167,6 +170,7 @@ export default function TrustCentrePage() {
               </ul>
             </nav>
           </SectionReveal>
+          </div>
         </div>
       </section>
 
