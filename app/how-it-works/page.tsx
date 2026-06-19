@@ -4,6 +4,8 @@ import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
 import { Eyebrow } from '@/components/site/Eyebrow';
 import { HowAPackWorks } from '@/components/site/HowAPackWorks';
+import { ShaderGradient } from '@/components/site/ShaderGradient';
+import { HeroThreads } from '@/components/site/HeroThreads';
 
 export const metadata: Metadata = {
   title: 'How assembl works',
@@ -35,12 +37,24 @@ const STEPS = [
 export default function HowItWorksPage() {
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
-      <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
-        <div className="container">
+      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] py-28 lg:py-36">
+        {/* Signature flowing-gradient + gold-thread mesh, matching the homepage
+            hero. WebGL falls back to the CSS gradient above if unavailable. */}
+        <ShaderGradient className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(250,247,242,0.95)_0%,rgba(250,247,242,0.8)_34%,rgba(250,247,242,0.4)_58%,transparent_80%)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-32 bg-[linear-gradient(to_bottom,transparent,var(--assembl-paper))]"
+        />
+        <HeroThreads className="pointer-events-none absolute inset-0 z-0" />
+        <div className="container relative z-10">
           <SectionReveal>
             <Eyebrow label="How it works" />
-            <h1 className="mt-6 max-w-4xl font-display text-display-xl font-light">
-              How assembl <em className="not-italic text-[color:var(--assembl-pounamu)]">works.</em>
+            <h1 className="mt-6 max-w-4xl font-display text-[clamp(3rem,8vw,7rem)] font-light leading-[0.9] tracking-[-0.03em]">
+              How assembl <em className="shimmer-pounamu not-italic">works.</em>
             </h1>
             <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
               Specialist agents do the first draft. A person signs it off. You get a record of how it

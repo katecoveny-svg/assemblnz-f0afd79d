@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
+import { ShaderGradient } from '@/components/site/ShaderGradient';
 
 /**
  * Live regulation — the dark pounamu proof bar.
@@ -58,6 +59,15 @@ export function LiveRegulationBlock() {
 
   return (
     <section className="relative overflow-hidden bg-[color:var(--assembl-pounamu)] py-24 text-[color:var(--assembl-paper)] lg:py-32">
+      {/* Signature flowing-gradient, dark variant — the same live motion as the
+          hero, kept deep-pounamu so the cream text stays legible. Falls back to
+          the flat pounamu background if WebGL is unavailable. */}
+      <ShaderGradient variant="dark" className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
+      {/* Pounamu wash to tame the brightest filaments under the centred text. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 bg-[color:var(--assembl-pounamu)]/35"
+      />
       {/* Hairline gold threads top and bottom — the only gold on the page. */}
       <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.55),transparent)]" aria-hidden />
       <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.55),transparent)]" aria-hidden />
@@ -71,7 +81,7 @@ export function LiveRegulationBlock() {
         aria-hidden
       />
 
-      <div className="container relative">
+      <div className="container relative z-10">
         <div className="mx-auto max-w-4xl text-center">
           <p className="inline-flex items-center justify-center gap-2 font-mono text-eyebrow uppercase tracking-[0.28em] text-[color:var(--assembl-paper)]/75">
             <span className="relative flex h-2 w-2">

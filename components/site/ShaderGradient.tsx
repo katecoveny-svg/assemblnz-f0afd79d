@@ -14,7 +14,19 @@ import { useEffect, useRef } from 'react';
  *  - Under prefers-reduced-motion it paints a single static frame (no loop).
  *  - pointer-events-none + aria-hidden; the pointer gently warps the flow.
  */
-export function ShaderGradient({ className }: { className?: string }) {
+export function ShaderGradient({
+  className,
+  variant = 'light',
+}: {
+  className?: string;
+  /**
+   * 'light' (default) — the cream/sage/pounamu/gold hero aurora, lifted toward
+   * cream on the left for copy legibility.
+   * 'dark' — a deep pounamu flow (same motion) for sitting behind a dark green
+   * band, kept dark enough that cream text stays readable on top.
+   */
+  variant?: 'light' | 'dark';
+}) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -38,6 +50,7 @@ export function ShaderGradient({ className }: { className?: string }) {
       uniform vec2 u_res;
       uniform float u_time;
       uniform vec2 u_ptr;
+      uniform float u_dark;
 
       // hash + value noise
       float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
@@ -79,11 +92,26 @@ export function ShaderGradient({ className }: { className?: string }) {
         col = mix(col, gold, smoothstep(0.55, 1.0, q.y*0.9 + f*0.4));
         col = mix(col, clay, smoothstep(0.78, 1.05, r.y + q.x*0.4) * 0.6);
 
-        // keep the left (where hero copy sits) lighter for legibility
-        float leftLift = smoothstep(0.62, 0.0, uv.x);
-        col = mix(col, cream, leftLift * 0.55);
-        // soft top fade into the page
-        col = mix(col, cream, smoothstep(0.6, 1.0, uv.y) * 0.25);
+        if (u_dark > 0.5) {
+          // Deep pounamu flow for dark bands. Same warped motion, but the base
+          // is deep green with only restrained gold/clay filaments, so cream
+          // text stays legible over the top.
+          vec3 deep = vec3(0.050, 0.170, 0.135);
+          vec3 mid  = vec3(0.105, 0.300, 0.245);
+          vec3 d = mix(deep, mid, smoothstep(0.0, 0.78, f));
+          d = mix(d, pounamu, smoothstep(0.45, 1.05, f + r.x*0.30));
+          d = mix(d, gold, smoothstep(0.74, 1.10, q.y*0.9 + f*0.4) * 0.45);
+          d = mix(d, clay * 0.85, smoothstep(0.88, 1.12, r.y + q.x*0.4) * 0.30);
+          // gentle centre-bias vignette so a centred headline keeps contrast
+          float vig = smoothstep(1.25, 0.20, distance(uv, vec2(0.5)));
+          col = d * mix(0.80, 1.05, vig);
+        } else {
+          // keep the left (where hero copy sits) lighter for legibility
+          float leftLift = smoothstep(0.62, 0.0, uv.x);
+          col = mix(col, cream, leftLift * 0.55);
+          // soft top fade into the page
+          col = mix(col, cream, smoothstep(0.6, 1.0, uv.y) * 0.25);
+        }
 
         // subtle grain
         float g = (hash(gl_FragCoord.xy + u_time) - 0.5) * 0.03;
@@ -126,6 +154,8 @@ export function ShaderGradient({ className }: { className?: string }) {
     const uRes = gl.getUniformLocation(prog, 'u_res');
     const uTime = gl.getUniformLocation(prog, 'u_time');
     const uPtr = gl.getUniformLocation(prog, 'u_ptr');
+    const uDark = gl.getUniformLocation(prog, 'u_dark');
+    gl.uniform1f(uDark, variant === 'dark' ? 1 : 0);
 
     const ptr = { x: 0.5, y: 0.5 };
     const tptr = { x: 0.5, y: 0.5 };
@@ -175,7 +205,7 @@ export function ShaderGradient({ className }: { className?: string }) {
       const ext = gl.getExtension('WEBGL_lose_context');
       ext?.loseContext();
     };
-  }, []);
+  }, [variant]);
 
   return <canvas ref={canvasRef} aria-hidden className={className} />;
 }
