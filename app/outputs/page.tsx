@@ -7,11 +7,11 @@ import { SectionReveal } from '@/components/SectionReveal';
 import { OutputsBrowser } from './OutputsBrowser';
 
 export const metadata: Metadata = {
-  title: 'Outputs — every named thing assembl produces',
+  title: 'Outputs you can file — every assembl tool ends in a signed evidence pack',
   description:
     'Browse the assembl output catalogue: named deliverables, kete by kete. Producer statements, food control plan packs, customs entry drafts, CGA remedy memos — each built on NZ legislation and sealed with a downloadable evidence pack.',
   openGraph: {
-    title: 'Outputs — every named thing assembl produces',
+    title: 'Outputs you can file — every assembl tool ends in a signed evidence pack',
     description:
       'Named deliverables across nine kete and the HAPAI tools. Filter by industry, output type, framework, and channel.',
     type: 'website',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Outputs — every named thing assembl produces',
+    title: 'Outputs you can file — every assembl tool ends in a signed evidence pack',
     description:
       'Browse named assembl deliverables, kete by kete. Built on NZ law.',
     images: ['/og/og-evidence-pack.png'],
@@ -67,15 +67,11 @@ export default function OutputsPage() {
               The catalogue · {OUTPUTS.length} named outputs
             </span>
             <h1 className="mt-5 font-display text-display-xl">
-              Every named thing{' '}
-              <span className="text-gradient-hero">assembl produces.</span>
+              Outputs you can{' '}
+              <span className="text-gradient-hero">file.</span>
             </h1>
             <p className="mt-7 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              Not &ldquo;we draft replies and build evidence packs&rdquo; — the actual
-              list. Across nine kete and the HAPAI tools, here is each named output, what
-              it is, the NZ legislation it stands on, and how it reaches you. Every
-              workflow is drafted for a named reviewer and ends in a downloadable evidence
-              pack — a bundle of PDFs you can show a regulator, an auditor, or a client.
+              Every assembl tool ends in a signed evidence pack.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
               <span>9 kete + cross-cutting</span>
