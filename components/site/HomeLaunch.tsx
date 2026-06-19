@@ -201,7 +201,7 @@ export function HomeLaunch() {
       <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
         <div className="container">
           <Eyebrow label="The promise" accent="var(--assembl-pounamu)" />
-          <h2 className="rise max-w-3xl font-display text-display-lg font-light leading-[1.02]">
+          <h2 className="rise max-w-3xl font-display text-[clamp(2.5rem,5.5vw,4.25rem)] font-light leading-[0.99] tracking-[-0.02em]">
             <RevealWords text="Your best hour," className="block" />
             <RevealWords text="better spent." className="block text-[color:var(--assembl-pounamu)]" />
           </h2>
@@ -229,7 +229,7 @@ export function HomeLaunch() {
         <div className="container relative">
           <div className="mb-12">
             <Eyebrow label="Eight kete" accent="var(--assembl-gold-thread)" />
-            <h2 className="rise font-display text-display-lg font-light leading-[1.02]">
+            <h2 className="rise font-display text-[clamp(2.5rem,5.5vw,4.25rem)] font-light leading-[0.99] tracking-[-0.02em]">
               <RevealWords text="Pick the pack" className="block" />
               <RevealWords text="for your work." className="block text-[color:var(--assembl-pounamu)]" />
             </h2>
@@ -292,7 +292,7 @@ export function HomeLaunch() {
         <div className="container">
           <div className="mb-10">
             <Eyebrow label="How it works" accent="var(--assembl-gold-thread)" />
-            <h2 className="rise font-display text-display-lg font-light leading-[1.02]">
+            <h2 className="rise font-display text-[clamp(2.5rem,5.5vw,4.25rem)] font-light leading-[0.99] tracking-[-0.02em]">
               <RevealWords text="Draft. Sign off." className="block" />
               <RevealWords text="Sealed receipt." className="block text-assembl-clay" />
             </h2>
@@ -334,26 +334,39 @@ export function HomeLaunch() {
       {/* 6 · Built by — founder credibility marker */}
       <FounderBand />
 
-      {/* 7 · Closing CTA — the vessel motif with a thread of light running out
-          of it, paired with the invitation to start. */}
-      <section className="bg-[#F4EFE6] py-24 lg:py-32">
-        <div className="container">
+      {/* 7 · Closing CTA — bookends the hero with the same live flowing-gradient,
+          the vessel motif, and the invitation to start. */}
+      <section className="relative overflow-hidden bg-[#F4EFE6] py-24 lg:py-32">
+        {/* signature gradient backdrop (calmer than the hero) */}
+        <ShaderGradient className="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-90" />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(244,239,230,0.82)_0%,rgba(244,239,230,0.4)_42%,transparent_70%)]"
+        />
+        <HeroThreads className="pointer-events-none absolute inset-0 z-0" />
+        <div className="container relative z-10">
           <div className="grid items-center gap-10 lg:grid-cols-[1fr_minmax(0,560px)] lg:gap-16">
             <div>
               <Eyebrow label="Start" accent="var(--assembl-pounamu)" />
-              <h2 className="rise font-display text-display-lg font-light leading-[1.02]">
+              <h2 className="rise font-display text-[clamp(2.5rem,6vw,5rem)] font-light leading-[0.98] tracking-[-0.02em]">
                 <RevealWords text="Let's build" className="block" />
-                <RevealWords text="what's next." className="block text-[color:var(--assembl-pounamu)]" />
+                <RevealWords text="what's next." className="shimmer-pounamu block" />
               </h2>
               <p className="rise mt-6 max-w-xl text-body-lg text-[color:var(--text-body)]">
                 Free tools, a Pilot Sprint proven on your data, a kete pack for your industry, and a
                 Tōro option for whānau. Simple and honest — start with the work in front of you.
               </p>
               <div className="rise mt-9 flex flex-wrap items-center gap-4">
-                <Link href="/hapai" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
-                  Try a free tool <ArrowRight className="h-4 w-4" aria-hidden />
-                </Link>
-                <Link href="/pricing" className="btn-ghost inline-flex h-12 items-center px-6">See pricing</Link>
+                <MagneticButton>
+                  <Link href="/hapai" className="cta-primary cta-glow inline-flex h-12 items-center gap-2 px-7">
+                    Try a free tool <ArrowRight className="h-4 w-4" aria-hidden />
+                  </Link>
+                </MagneticButton>
+                <MagneticButton>
+                  <Link href="/pricing" className="btn-ghost inline-flex h-12 items-center px-6">
+                    See pricing
+                  </Link>
+                </MagneticButton>
               </div>
             </div>
             <div className="rise relative">
