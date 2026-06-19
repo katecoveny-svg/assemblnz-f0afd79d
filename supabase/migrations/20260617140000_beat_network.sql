@@ -5,7 +5,7 @@
 -- *_cents bids). It was NEVER applied to production: prod's dash_* tables came
 -- from 20260619034901_dash_schema (the uuid "payout" generation), and the two
 -- generations have since been unified onto that uuid schema by
--- 20260619070000_dash_unify_schema (the serving columns are added there).
+-- 20260619045657_dash_unify_schema (the serving columns are added there).
 --
 -- It is neutered to a no-op so that:
 --   • a fresh apply produces the single unified uuid schema (not the old text
