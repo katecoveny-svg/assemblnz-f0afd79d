@@ -2,6 +2,8 @@
 
 /**
  * DashLeadForm — the "Become a publisher" / "Become an advertiser" capture for
+ * the /dash landing page. One form, two roles (segmented toggle), posting to
+ * POST /api/dash/lead (recordLead → email + lead_inquiries). Fail-soft.
  * the /dash landing page (the #waitlist section). One form, two roles (segmented
  * toggle), posting to POST /api/dash/lead (recordLead → email + lead_inquiries +
  * Brevo). Fail-soft. Styled with the dash-kit classes (.card / .field / .btn /
@@ -14,6 +16,13 @@ import { ArrowRight, Check } from 'lucide-react';
 type Role = 'publisher' | 'advertiser';
 type Status = 'idle' | 'submitting' | 'done' | 'error';
 
+const COPY: Record<Role, { heading: string; sub: string; cta: string; orgLabel: string; msgLabel: string; msgPlaceholder: string }> = {
+  publisher: {
+    heading: 'Become a publisher',
+    sub: 'Turn your "thinking…" moment into revenue. Earn 55% of every ad served in your tool. Two lines of code to install.',
+    cta: 'Talk to us about publishing',
+    orgLabel: 'Your product or company',
+    msgLabel: 'Where would Dash run? (optional)',
 const COPY: Record<
   Role,
   { heading: string; sub: string; cta: string; orgLabel: string; msgLabel: string; msgPlaceholder: string }
@@ -91,6 +100,14 @@ export function DashLeadForm() {
   }
 
   return (
+    <div
+      id="get-started"
+      className="rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white/60 p-6 md:p-8"
+    >
+      <div
+        role="tablist"
+        aria-label="Choose how to get started"
+        className="inline-flex rounded-full border border-[rgba(35,33,31,0.14)] bg-[#FAF7F2] p-1"
     <div className="card" style={{ padding: 28 }}>
       <div
         role="tablist"
@@ -113,6 +130,11 @@ export function DashLeadForm() {
               role="tab"
               aria-selected={active}
               onClick={() => switchRole(value)}
+              className={`rounded-full px-4 py-2 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors ${
+                active
+                  ? 'bg-[color:var(--assembl-pounamu)] text-white'
+                  : 'text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]'
+              }`}
               className={active ? 'btn btn--primary btn--sm' : 'btn btn--sm'}
               style={
                 active
@@ -126,6 +148,16 @@ export function DashLeadForm() {
         })}
       </div>
 
+      <h3 className="mt-6 font-display text-2xl font-normal text-[color:var(--text-primary)]">
+        {copy.heading}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-[color:var(--text-body)]">{copy.sub}</p>
+
+      {status === 'done' ? (
+        <div className="mt-6 flex items-start gap-3 rounded-[8px] border border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu-paper)] p-4">
+          <Check className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--assembl-pounamu)]" aria-hidden />
+          <p className="text-sm leading-relaxed text-[color:var(--text-body)]">
+            Got it — thank you. Kate reads these herself and will be in touch, usually within a
       <h3 className="serif" style={{ fontSize: 26, fontWeight: 600, marginTop: 22, color: 'var(--fg)' }}>
         {copy.heading}
       </h3>
@@ -153,6 +185,12 @@ export function DashLeadForm() {
           </p>
         </div>
       ) : (
+        <form onSubmit={onSubmit} className="mt-6 space-y-4">
+          <Field id={nameId} name="name" label="Your name (optional)" autoComplete="name" />
+          <Field id={emailId} name="email" label="Email" type="email" required autoComplete="email" />
+          <Field id={orgId} name="organisation" label={copy.orgLabel} />
+          <div>
+            <label htmlFor={msgId} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
         <form onSubmit={onSubmit} style={{ marginTop: 22, display: 'grid', gap: 16 }}>
           <Field id={nameId} name="name" label="Your name (optional)" autoComplete="name" />
           <Field id={emailId} name="email" label="Email" type="email" required autoComplete="email" />
@@ -166,6 +204,21 @@ export function DashLeadForm() {
               name="message"
               rows={3}
               placeholder={copy.msgPlaceholder}
+              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-white px-3.5 py-2.5 text-sm text-[color:var(--text-primary)] outline-none transition-colors placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)]"
+            />
+          </div>
+
+          {error && <p className="text-sm text-[#9A3412]">{error}</p>}
+
+          <button
+            type="submit"
+            disabled={status === 'submitting'}
+            className="inline-flex items-center gap-2 rounded-full bg-[color:var(--assembl-pounamu)] px-7 py-3.5 text-sm font-medium text-white transition-colors hover:bg-[color:var(--assembl-pounamu-deep)] disabled:opacity-60"
+          >
+            {status === 'submitting' ? 'Sending…' : copy.cta}
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </button>
+          <p className="text-xs leading-relaxed text-[color:var(--text-secondary)]">
               className="field"
               style={{ resize: 'vertical', minHeight: 92 }}
             />
@@ -214,6 +267,8 @@ function Field({
   autoComplete?: string;
 }) {
   return (
+    <div>
+      <label htmlFor={id} className="block font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]">
     <div className="field-group">
       <label htmlFor={id} className="field-label">
         {label}
@@ -224,6 +279,7 @@ function Field({
         type={type}
         required={required}
         autoComplete={autoComplete}
+        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-white px-3.5 py-2.5 text-sm text-[color:var(--text-primary)] outline-none transition-colors placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)]"
         className="field"
       />
     </div>
