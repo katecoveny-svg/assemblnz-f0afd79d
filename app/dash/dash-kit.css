@@ -443,9 +443,12 @@
 }
 .dash-kit .heroStage {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 48px;
   align-items: center;
+  /* A full hero, so the flowing-gradient reads as an intentional backdrop rather
+     than a thin empty banner on wide desktops. */
+  min-height: min(80vh, 780px);
 }
 .dash-kit .heroEyebrow {
   margin-bottom: 22px;
@@ -498,7 +501,7 @@
 .dash-kit .dogFloat {
   position: relative;
   z-index: 1;
-  width: min(100%, 520px);
+  width: min(100%, 580px);
   animation: dashFloat 6.5s ease-in-out infinite;
 }
 @keyframes dashFloat {

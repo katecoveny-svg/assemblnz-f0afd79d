@@ -28,7 +28,7 @@ const COPY: Record<
   },
   advertiser: {
     heading: 'Become an advertiser',
-    sub: 'Reach real NZ professionals in the one second they’re waiting on their tool. One calm line. NZ-only.',
+    sub: 'Reach NZ professionals in the one second they’re waiting on their tool. One line of text. NZ-only.',
     cta: 'Talk to us about advertising',
     orgLabel: 'Your brand or agency',
     msgLabel: 'What would you want to reach? (optional)',
