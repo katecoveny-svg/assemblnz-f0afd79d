@@ -24,8 +24,10 @@ export function ShaderGradient({
    * cream on the left for copy legibility.
    * 'dark' — a deep pounamu flow (same motion) for sitting behind a dark green
    * band, kept dark enough that cream text stays readable on top.
+   * 'airy' — a bright cream/sage flow with no gold and only soft green, for the
+   * dash microsite (lighter, no yellow).
    */
-  variant?: 'light' | 'dark';
+  variant?: 'light' | 'dark' | 'airy';
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -50,7 +52,7 @@ export function ShaderGradient({
       uniform vec2 u_res;
       uniform float u_time;
       uniform vec2 u_ptr;
-      uniform float u_dark;
+      uniform float u_variant;
 
       // hash + value noise
       float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123); }
@@ -92,7 +94,15 @@ export function ShaderGradient({
         col = mix(col, gold, smoothstep(0.55, 1.0, q.y*0.9 + f*0.4));
         col = mix(col, clay, smoothstep(0.78, 1.05, r.y + q.x*0.4) * 0.6);
 
-        if (u_dark > 0.5) {
+        if (u_variant > 1.5) {
+          // Airy (dash): bright cream → sage with only soft green. No gold, no
+          // clay — keeps the dash microsite light and free of yellow.
+          vec3 a = mix(cream, sage, smoothstep(0.0, 0.88, f));
+          a = mix(a, vec3(0.30, 0.50, 0.40), smoothstep(0.5, 1.08, f + r.x*0.3) * 0.5);
+          a = mix(a, cream, 0.22);                                   // overall lift
+          a = mix(a, cream, smoothstep(0.5, 1.0, uv.y) * 0.3);       // bright top
+          col = a;
+        } else if (u_variant > 0.5) {
           // Deep pounamu flow for dark bands. Same warped motion, but the base
           // is deep green with only restrained gold/clay filaments, so cream
           // text stays legible over the top.
@@ -154,8 +164,8 @@ export function ShaderGradient({
     const uRes = gl.getUniformLocation(prog, 'u_res');
     const uTime = gl.getUniformLocation(prog, 'u_time');
     const uPtr = gl.getUniformLocation(prog, 'u_ptr');
-    const uDark = gl.getUniformLocation(prog, 'u_dark');
-    gl.uniform1f(uDark, variant === 'dark' ? 1 : 0);
+    const uVariant = gl.getUniformLocation(prog, 'u_variant');
+    gl.uniform1f(uVariant, variant === 'airy' ? 2 : variant === 'dark' ? 1 : 0);
 
     const ptr = { x: 0.5, y: 0.5 };
     const tptr = { x: 0.5, y: 0.5 };

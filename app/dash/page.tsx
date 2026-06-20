@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, Check, Code2, Coins, ShieldCheck, Sparkles } from 'lucide-react';
 import { DashLeadForm } from '@/components/site/dash/DashLeadForm';
 import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
+import { Sparkles as SparkleLayer } from '@/components/site/Sparkles';
 
 export const metadata: Metadata = {
   title: 'dash. by assembl — get paid to wait',
@@ -39,59 +40,59 @@ const AUDIENCES = [
   {
     icon: Coins,
     who: 'For people',
-    line: 'Get paid to wait. Earn points, cash or perks for the seconds you already spend waiting.',
+    line: 'Get paid to wait. Points, cash or perks for seconds you’d spend waiting anyway.',
     href: '#people',
   },
   {
     icon: Code2,
     who: 'For publishers',
-    line: 'Your wait state is ad space. Keep 55% of what it earns — in two lines of code.',
+    line: 'Your wait state is ad space. Keep 55% of what it earns, in two lines of code.',
     href: '#publishers',
   },
   {
     icon: Sparkles,
     who: 'For advertisers',
-    line: 'Own the moment before the result. Reach high-intent NZ users in the one second they’re watching.',
+    line: 'Own the space between click and result. Reach NZ users while they watch the screen.',
     href: '#advertisers',
   },
 ] as const;
 
 const PEOPLE_POINTS = [
-  'A short, calm line of text while your tool loads — that’s the whole ad.',
-  'Earn points, cash or perks for waits you’d have spent anyway.',
-  'No extra effort, no new app — it just happens in the NZ tools you already use.',
-  'Private by design: no prompts, content or files are ever read.',
+  'One line of text while your tool loads — that’s the whole ad.',
+  'Points, cash or perks for waits you’d sit through regardless.',
+  'No new app and no sign-up: it runs inside the NZ tools you already open.',
+  'Private by design — no prompts, content or files are read.',
 ];
 
 const PUBLISHER_POINTS = [
-  'Keep 55% of every dollar the wait earns. 60% if you’re one of our first three.',
-  'Two lines of code. Drops in anywhere you’ve got a spinner.',
-  'No prompts read. No content read. No files, no code — privacy is built in, in writing.',
-  'If the auction’s empty, your own line shows. Never a blank.',
+  'Keep 55% of every dollar the wait earns. 60% for the first three publishers.',
+  'Two lines of code. It drops in wherever you already show a spinner.',
+  'No prompts, content, files or code read — the privacy terms are in writing.',
+  'Empty auction? Your own line runs instead. Never a blank.',
 ];
 
 const ADVERTISER_POINTS = [
-  'High-intent NZ audiences, caught in the one second they’re actually watching.',
-  'Text only — no video, no pop-up, no cookies. One clean line.',
-  'Second-price auction. You pay one cent above the next bid, never more.',
-  'NZ-only inventory. No gambling, alcohol, or weapons.',
+  'NZ users on NZ-licensed software, reached mid-task.',
+  'Text only — no video, no pop-up, no cookies. One line.',
+  'Second-price auction: you pay one cent above the next bid, never more.',
+  'NZ-only inventory. No gambling, alcohol or weapons.',
 ];
 
 const STEPS = [
   {
     icon: Code2,
     title: 'You click',
-    body: 'You use an NZ tool like always. It starts working, and there’s a short wait while it loads.',
+    body: 'You use an NZ tool the way you always do. It works, and you wait the second it takes to load.',
   },
   {
     icon: Sparkles,
-    title: 'A short line shows in the wait',
-    body: 'One calm line of text appears while you wait — no video, no pop-up, nothing to close.',
+    title: 'A line runs in the wait',
+    body: 'One line of text shows while the tool loads. No video, no pop-up, nothing to close.',
   },
   {
     icon: Coins,
     title: 'Everyone earns',
-    body: 'You pick up rewards, the publisher keeps 55%, and the brand lands. The seconds already existed — dash. makes them count.',
+    body: 'You take the reward, the publisher keeps 55%, the brand lands its line. The second was always there — dash. makes it pay.',
   },
 ] as const;
 
@@ -151,8 +152,9 @@ export default function DashPage() {
     <main>
       {/* ---------- HERO ---------- */}
       <section className="hero">
-        {/* live flowing-gradient + gold-thread mesh, matching assembl.co.nz */}
-        <ShaderHeroBackdrop />
+        {/* bright cream/sage flowing-gradient (no gold) + drifting sparkle */}
+        <ShaderHeroBackdrop variant="airy" />
+        <SparkleLayer className="z-0" />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="heroStage" style={{ padding: '56px 0 72px' }}>
             <div className="heroCopy">
@@ -164,8 +166,8 @@ export default function DashPage() {
                 </span>
               </h1>
               <p className="heroSub">
-                Every NZ tool has a wait. dash. turns it into rewards for people, revenue for
-                publishers, and one clean moment for brands.
+                Every NZ tool has a wait. dash. pays it out — to the people who watch, the publishers
+                who host it, and the brands that bid for the second.
               </p>
               <div className="heroCta">
                 <Link href="#waitlist" className="btn btn--primary btn--lg">
@@ -203,7 +205,7 @@ export default function DashPage() {
             Who it’s for
           </p>
           <h2 className="sectionTitle" style={{ maxWidth: 620 }}>
-            One quiet second. Three ways to win.
+            One second. Three ways it pays.
           </h2>
           <div
             style={{
@@ -230,32 +232,25 @@ export default function DashPage() {
         </div>
       </section>
 
-      {/* ---------- HOW IT WORKS ---------- */}
+      {/* ---------- HOW IT WORKS — brand kit's numbered "Watch. Wait. Earn." ---------- */}
       <section className="section" id="how">
         <div className="wrap">
-          <p className="eyebrow" style={{ marginBottom: 12 }}>
-            How it works
-          </p>
-          <h2 className="sectionTitle" style={{ maxWidth: 620 }}>
-            Watch. Wait. Earn.
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: 20,
-              marginTop: 40,
-            }}
-          >
-            {STEPS.map(({ icon: Icon, title, body }) => (
-              <article key={title} className="card card--hover">
-                <span className="icon-badge" style={{ marginBottom: 18 }}>
-                  <Icon aria-hidden />
-                </span>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </article>
-            ))}
+          <div className="howPanel">
+            <p className="eyebrow" style={{ marginBottom: 12 }}>
+              How it works
+            </p>
+            <h2 className="sectionTitle howTitle">
+              Watch. Wait. <em>Earn.</em>
+            </h2>
+            <div className="steps">
+              {STEPS.map(({ title, body }, i) => (
+                <div key={title} className="step">
+                  <span className="stepNo">{i + 1}</span>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

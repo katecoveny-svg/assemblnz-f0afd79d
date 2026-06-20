@@ -162,29 +162,31 @@
   outline: none;
   box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(224, 177, 110, 0.85);
 }
-/* Glass 3D morphism — a glossy forest pill with a bright top sheen, an inner
-   bottom shadow for depth, and a soft drop shadow that lifts it off the page. */
+/* Light glass — a fresh, glossy green pill. Brighter greens, a strong top sheen
+   and a soft lift (no heavy dark inner shadow), so it reads as lit glass rather
+   than a flat dark slab. */
 .dash-kit .btn--primary {
   color: #fff;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 46%),
-    linear-gradient(180deg, #23613b 0%, #163a23 58%, #0f2a19 100%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 38%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, #3a7d52 0%, #2c7048 55%, #235a39 100%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -3px 8px rgba(0, 0, 0, 0.28),
-    0 10px 26px rgba(15, 42, 25, 0.32),
-    0 2px 5px rgba(15, 42, 25, 0.4);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 8px 20px rgba(36, 92, 57, 0.26),
+    0 1px 2px rgba(36, 92, 57, 0.3);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 .dash-kit .btn--primary:hover {
   transform: translateY(-2px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0) 62%),
+    linear-gradient(180deg, #44915f 0%, #347a4f 55%, #29643f 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -3px 8px rgba(0, 0, 0, 0.3),
-    0 16px 36px rgba(15, 42, 25, 0.4),
-    0 0 28px 3px rgba(224, 177, 110, 0.5);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 14px 30px rgba(36, 92, 57, 0.32),
+    0 0 22px 2px rgba(224, 177, 110, 0.35);
 }
 .dash-kit .btn--primary:hover svg {
   transform: translateX(4px);
@@ -369,29 +371,27 @@
   align-items: center;
   gap: 26px;
 }
+/* Brand-kit pill nav — muted links that fill with a soft surface on hover. */
 .dash-kit .dashNav nav a {
   font-family: var(--ff-sans);
   font-weight: 600;
-  font-size: 14.5px;
-  color: var(--fg);
+  font-size: 14px;
+  color: var(--muted);
   text-decoration: none;
-  opacity: 0.78;
-  transition: opacity 0.15s var(--ease);
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
 }
-.dash-kit .dashNav nav a:hover {
-  opacity: 1;
+.dash-kit .dashNav nav a:not(.btn):hover {
+  background: var(--surface-2);
+  color: var(--fg);
 }
-.dash-kit .dashNav nav a.btn {
-  opacity: 1;
-}
-/* Nav CTA keeps the glass-3D base and adds a constant soft gold glow so it reads
-   as the page's primary action even at small size. */
+/* Nav CTA uses the light-glass primary with a gentler lift at small size. */
 .dash-kit .dashNav nav a.btn--primary {
+  padding: 11px 18px;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -3px 8px rgba(0, 0, 0, 0.28),
-    0 8px 22px rgba(15, 42, 25, 0.3),
-    0 0 20px 1px rgba(224, 177, 110, 0.45);
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    0 6px 16px rgba(36, 92, 57, 0.24);
 }
 .dash-kit .dashFoot {
   border-top: 1px solid var(--line);
@@ -443,9 +443,12 @@
 }
 .dash-kit .heroStage {
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 48px;
   align-items: center;
+  /* A full hero, so the flowing-gradient reads as an intentional backdrop rather
+     than a thin empty banner on wide desktops. */
+  min-height: min(80vh, 780px);
 }
 .dash-kit .heroEyebrow {
   margin-bottom: 22px;
@@ -498,7 +501,7 @@
 .dash-kit .dogFloat {
   position: relative;
   z-index: 1;
-  width: min(100%, 520px);
+  width: min(100%, 580px);
   animation: dashFloat 6.5s ease-in-out infinite;
 }
 @keyframes dashFloat {
@@ -539,6 +542,77 @@
   line-height: 1.02;
   letter-spacing: -0.014em;
   color: var(--fg);
+}
+
+/* ---------- drifting sparkle ("woven light") ---------- */
+.dash-kit .sparkle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 70%);
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  animation-name: dashSparkle;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+.dash-kit .sparkle--gold {
+  background: radial-gradient(circle, rgba(224, 177, 110, 0.95) 0%, rgba(224, 177, 110, 0) 70%);
+  box-shadow: 0 0 6px 1px rgba(224, 177, 110, 0.5);
+}
+@keyframes dashSparkle {
+  0%, 100% { opacity: 0; transform: scale(0.4); }
+  50% { opacity: 0.9; transform: scale(1); }
+}
+
+/* ---------- "Watch. Wait. Earn." numbered steps (brand-kit component) ---------- */
+.dash-kit .howPanel {
+  background: var(--sage-pale);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: clamp(30px, 5vw, 60px);
+}
+.dash-kit .howTitle em {
+  font-style: italic;
+  color: var(--accent);
+}
+.dash-kit .steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 38px;
+}
+.dash-kit .stepNo {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 14px rgba(22, 42, 28, 0.18);
+}
+.dash-kit .step h3 {
+  font-family: var(--ff-serif);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+.dash-kit .step p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+@media (max-width: 720px) {
+  .dash-kit .steps { grid-template-columns: 1fr; gap: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-kit .sparkle { animation: none; opacity: 0.4; }
 }
 
 @media (max-width: 860px) {

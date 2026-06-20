@@ -15,10 +15,10 @@ import { HeroThreads } from '@/components/site/HeroThreads';
  * (ideally with a `bg-[radial-gradient(...)]` fallback for no-WebGL), then put
  * the hero content in a sibling with `relative z-10`.
  */
-export function ShaderHeroBackdrop() {
+export function ShaderHeroBackdrop({ variant = 'light' }: { variant?: 'light' | 'airy' }) {
   return (
     <>
-      <ShaderGradient className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
+      <ShaderGradient variant={variant} className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(250,247,242,0.95)_0%,rgba(250,247,242,0.8)_34%,rgba(250,247,242,0.4)_58%,transparent_80%)]"
@@ -27,7 +27,9 @@ export function ShaderHeroBackdrop() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-32 bg-[linear-gradient(to_bottom,transparent,var(--assembl-paper))]"
       />
-      <HeroThreads className="pointer-events-none absolute inset-0 z-0" />
+      {/* The gold-thread mesh is the warm "woven light" — skip it for the airy
+          variant, which is deliberately gold-free. */}
+      {variant !== 'airy' && <HeroThreads className="pointer-events-none absolute inset-0 z-0" />}
     </>
   );
 }
