@@ -1,25 +1,16 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
-
 /**
- * Route transition — soft cross-fade between top-level pages.
- * Honours prefers-reduced-motion (renders static).
+ * Route wrapper.
+ *
+ * Deliberately renders its children directly — no opacity/transform animation.
+ *
+ * An earlier version cross-faded each route in from `opacity: 0.7`. Because that
+ * is also the server-rendered / pre-hydration state, any stall in hydration left
+ * the ENTIRE site stuck at 70% opacity — a washed-out page with no motion, on
+ * every route. A page-transition flourish is never worth a site-wide dimming
+ * risk: the resting state must always be fully visible.
  */
 export default function Template({ children }: { children: React.ReactNode }) {
-  const reduce = useReducedMotion();
-
-  if (reduce) {
-    return <>{children}</>;
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0.7 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+  return <>{children}</>;
 }
