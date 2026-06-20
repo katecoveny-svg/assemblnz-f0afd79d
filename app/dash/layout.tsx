@@ -67,6 +67,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
           </Link>
           <nav>
             <Link href="/dash#how">How it works</Link>
+            <Link href="/dash#people">For people</Link>
             <Link href="/dash#publishers">For publishers</Link>
             <Link href="/dash#advertisers">For advertisers</Link>
             <Link href="/dash#waitlist" className="btn btn--primary btn--sm">

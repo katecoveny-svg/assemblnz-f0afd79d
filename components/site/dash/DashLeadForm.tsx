@@ -148,8 +148,8 @@ export function DashLeadForm() {
         >
           <Check size={20} color="var(--accent)" style={{ flex: 'none', marginTop: 1 }} aria-hidden />
           <p className="body" style={{ fontSize: 15, color: 'var(--fg)' }}>
-            Got it — thank you. Kate Hudson reads these herself and will be in touch, usually within a
-            working day.
+            Got it — thank you. We read every one of these ourselves and will be in touch, usually
+            within a working day.
           </p>
         </div>
       ) : (
