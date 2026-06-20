@@ -10,28 +10,28 @@
 
 .dash-kit {
   /* raw palette */
-  --d-cream: #f2efe6;
-  --d-cream-2: #eae6d8;
+  --d-cream: #f7f5ef;
+  --d-cream-2: #f0ece1;
   --d-forest: #163a23;
   --d-forest-2: #0f2a19;
   --d-sage: #a6ba9e;
   --d-sage-2: #c2d0b8;
-  --d-sage-pale: #dde4d2;
+  --d-sage-pale: #e3e9da;
   --d-gold: #e0b16e;
   --d-ink: #16271a;
 
-  /* semantic (cream / light theme) */
-  --bg: #f2efe6;
+  /* semantic (brighter, whiter light theme) */
+  --bg: #f8f7f2;
   --fg: #16271a;
   --muted: #5e6b5c;
-  --surface: #fbfaf3;
-  --surface-2: #eeede2;
-  --line: #ded9c8;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --line: #e7e2d5;
   --accent: #163a23;
-  --on-accent: #f2efe6;
+  --on-accent: #ffffff;
   --gold: #e0b16e;
   --sage: #a6ba9e;
-  --sage-pale: #dde4d2;
+  --sage-pale: #e3e9da;
 
   --ff-serif: var(--font-dash-serif), "Cormorant Garamond", Georgia, serif;
   --ff-sans: var(--font-dash-sans), "Mulish", system-ui, -apple-system, sans-serif;
@@ -162,25 +162,52 @@
   outline: none;
   box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(224, 177, 110, 0.85);
 }
+/* Glass 3D morphism — a glossy forest pill with a bright top sheen, an inner
+   bottom shadow for depth, and a soft drop shadow that lifts it off the page. */
 .dash-kit .btn--primary {
-  background: var(--accent);
-  color: var(--on-accent);
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26) 0%, rgba(255, 255, 255, 0) 46%),
+    linear-gradient(180deg, #23613b 0%, #163a23 58%, #0f2a19 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.28),
+    0 10px 26px rgba(15, 42, 25, 0.32),
+    0 2px 5px rgba(15, 42, 25, 0.4);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 }
 .dash-kit .btn--primary:hover {
-  background: var(--d-forest-2);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.3),
+    0 16px 36px rgba(15, 42, 25, 0.4),
+    0 0 28px 3px rgba(224, 177, 110, 0.5);
 }
 .dash-kit .btn--primary:hover svg {
   transform: translateX(4px);
 }
+/* Frosted clear glass for the secondary pill. */
 .dash-kit .btn--ghost {
-  background: transparent;
   color: var(--fg);
-  border-color: var(--line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.38) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 8px 22px rgba(22, 42, 28, 0.1);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 .dash-kit .btn--ghost:hover {
-  background: var(--surface-2);
-  transform: translateY(-1px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.55) 100%);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 12px 28px rgba(22, 42, 28, 0.14);
 }
 .dash-kit .btn--cream {
   background: var(--d-cream);
@@ -357,25 +384,14 @@
 .dash-kit .dashNav nav a.btn {
   opacity: 1;
 }
-/* Glassy, more-visible nav CTA — a glossy forest gradient with a light rim and
-   a soft gold glow so it stands out against the cream header. */
+/* Nav CTA keeps the glass-3D base and adds a constant soft gold glow so it reads
+   as the page's primary action even at small size. */
 .dash-kit .dashNav nav a.btn--primary {
-  background: linear-gradient(135deg, var(--d-forest-2) 0%, var(--accent) 55%, #1e4a2e 100%);
-  border-color: rgba(255, 255, 255, 0.3);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.28),
     0 8px 22px rgba(15, 42, 25, 0.3),
-    0 0 20px 1px rgba(224, 177, 110, 0.4);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-}
-.dash-kit .dashNav nav a.btn--primary:hover {
-  background: linear-gradient(135deg, var(--accent) 0%, #1e4a2e 100%);
-  transform: translateY(-1px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 12px 28px rgba(15, 42, 25, 0.36),
-    0 0 26px 4px rgba(224, 177, 110, 0.55);
+    0 0 20px 1px rgba(224, 177, 110, 0.45);
 }
 .dash-kit .dashFoot {
   border-top: 1px solid var(--line);

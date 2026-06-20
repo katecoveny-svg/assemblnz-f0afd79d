@@ -33,35 +33,65 @@ export const metadata: Metadata = {
   },
 };
 
+// The three audiences, said plainly — shown as a row right under the hero so
+// it's instantly obvious who dash. is for.
+const AUDIENCES = [
+  {
+    icon: Coins,
+    who: 'For people',
+    line: 'Get paid to wait. Earn points, cash or perks for the seconds you already spend waiting.',
+    href: '#people',
+  },
+  {
+    icon: Code2,
+    who: 'For publishers',
+    line: 'Your wait state is ad space. Keep 55% of what it earns — in two lines of code.',
+    href: '#publishers',
+  },
+  {
+    icon: Sparkles,
+    who: 'For advertisers',
+    line: 'Own the moment before the result. Reach high-intent NZ users in the one second they’re watching.',
+    href: '#advertisers',
+  },
+] as const;
+
+const PEOPLE_POINTS = [
+  'A short, calm line of text while your tool loads — that’s the whole ad.',
+  'Earn points, cash or perks for waits you’d have spent anyway.',
+  'No extra effort, no new app — it just happens in the NZ tools you already use.',
+  'Private by design: no prompts, content or files are ever read.',
+];
+
 const PUBLISHER_POINTS = [
   'Keep 55% of every dollar the wait earns. 60% if you’re one of our first three.',
   'Two lines of code. Drops in anywhere you’ve got a spinner.',
-  'No prompts read. No content read. No files, no code. The promise is in writing — Kate Hudson’s name is on it.',
+  'No prompts read. No content read. No files, no code — privacy is built in, in writing.',
   'If the auction’s empty, your own line shows. Never a blank.',
 ];
 
 const ADVERTISER_POINTS = [
-  'NZ-only inventory. NZ users, NZ-licensed software.',
-  'Text only — no video, no pop-up, no cookies.',
+  'High-intent NZ audiences, caught in the one second they’re actually watching.',
+  'Text only — no video, no pop-up, no cookies. One clean line.',
   'Second-price auction. You pay one cent above the next bid, never more.',
-  'No gambling, alcohol, or weapons inventory.',
+  'NZ-only inventory. No gambling, alcohol, or weapons.',
 ];
 
 const STEPS = [
   {
     icon: Code2,
-    title: 'Drop in two lines',
-    body: 'Two lines in your loading state. We send back one line of text. Or nothing — then your own line shows.',
+    title: 'You click',
+    body: 'You use an NZ tool like always. It starts working, and there’s a short wait while it loads.',
   },
   {
     icon: Sparkles,
-    title: 'An auction runs in the wait',
-    body: 'Live NZ campaigns bid for that one second. Best fit wins. Nobody overpays.',
+    title: 'A short line shows in the wait',
+    body: 'One calm line of text appears while you wait — no video, no pop-up, nothing to close.',
   },
   {
     icon: Coins,
-    title: 'You earn while they wait',
-    body: '55% of the money, every month, straight to your bank. The seconds already exist. dash. makes them earn.',
+    title: 'Everyone earns',
+    body: 'You pick up rewards, the publisher keeps 55%, and the brand lands. The seconds already existed — dash. makes them count.',
   },
 ] as const;
 
@@ -134,7 +164,8 @@ export default function DashPage() {
                 </span>
               </h1>
               <p className="heroSub">
-                Every NZ tool has a wait. dash. makes it earn. Most of the money goes to you.
+                Every NZ tool has a wait. dash. turns it into rewards for people, revenue for
+                publishers, and one clean moment for brands.
               </p>
               <div className="heroCta">
                 <Link href="#waitlist" className="btn btn--primary btn--lg">
@@ -161,6 +192,40 @@ export default function DashPage() {
                 <DashDog />
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- WHO IT'S FOR ---------- */}
+      <section className="section" id="who" style={{ paddingBottom: 0 }}>
+        <div className="wrap">
+          <p className="eyebrow" style={{ marginBottom: 12 }}>
+            Who it’s for
+          </p>
+          <h2 className="sectionTitle" style={{ maxWidth: 620 }}>
+            One quiet second. Three ways to win.
+          </h2>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: 20,
+              marginTop: 40,
+            }}
+          >
+            {AUDIENCES.map(({ icon: Icon, who, line, href }) => (
+              <Link key={who} href={href} className="card card--hover" style={{ textDecoration: 'none' }}>
+                <span className="icon-badge" style={{ marginBottom: 18 }}>
+                  <Icon aria-hidden />
+                </span>
+                <h3 className="serif" style={{ fontSize: 22, fontWeight: 600, marginBottom: 8 }}>
+                  {who}
+                </h3>
+                <p className="body" style={{ fontSize: 15.5, color: 'var(--muted)' }}>
+                  {line}
+                </p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -206,17 +271,24 @@ export default function DashPage() {
             }}
           >
             <TwoSide
+              id="people"
+              eyebrow="For people"
+              heading="Watch. Wait. Earn."
+              lead="Get rewarded for the moments you already spend waiting."
+              points={PEOPLE_POINTS}
+            />
+            <TwoSide
               id="publishers"
               eyebrow="For publishers"
-              heading="Your spinner is inventory."
-              lead="Your tool thinks. Your user waits. That wait is worth money. Most of it goes to you."
+              heading="Your wait state is ad space."
+              lead="Your tool thinks. Your user waits. That wait is worth money — and most of it goes to you."
               points={PUBLISHER_POINTS}
             />
             <TwoSide
               id="advertisers"
               eyebrow="For advertisers"
-              heading="Ads in the wait."
-              lead="A single line of text shown inside NZ-built tools while users wait for an action to complete."
+              heading="Own the space between click and result."
+              lead="Run smarter campaigns. Reach high-intent NZ users in the one second they’re actually watching."
               points={ADVERTISER_POINTS}
             />
           </div>
@@ -237,8 +309,8 @@ export default function DashPage() {
               <p className="body" style={{ fontSize: 15.5 }}>
                 The SDK sends us three things: your publisher ID, the screen type, a rough topic tag.
                 That’s it. It can’t read prompts, content, code or files. It never sees a user. It
-                never stores a raw IP. Privacy Act 2020 native. Kate Hudson is the named accountable
-                owner.
+                never stores a raw IP. Privacy Act 2020 native — and assembl stands behind every line
+                of it.
               </p>
             </div>
           </div>
