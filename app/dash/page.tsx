@@ -4,6 +4,9 @@ import { ArrowRight, Check, Code2, Coins, ShieldCheck, Sparkles } from 'lucide-r
 import { DashLeadForm } from '@/components/site/dash/DashLeadForm';
 import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 import { Sparkles as SparkleLayer } from '@/components/site/Sparkles';
+import { DashAppScreens } from '@/components/dash/DashAppScreens';
+import { DashDogVariations } from '@/components/dash/DashDogVariations';
+import { DashDogMark } from '@/components/dash/DashDogMark';
 
 export const metadata: Metadata = {
   title: 'dash. by assembl — get paid to wait',
@@ -287,6 +290,75 @@ export default function DashPage() {
               points={ADVERTISER_POINTS}
             />
           </div>
+        </div>
+      </section>
+
+      {/* ---------- MONETIZE THE WAIT — brand kit's forest publisher card ---------- */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <div className="monetize">
+            <div className="left">
+              <span className="bloom" aria-hidden />
+              <h3>
+                Monetize <span className="em">the wait.</span>
+              </h3>
+              <p className="sub">Turn loading time into premium inventory you own.</p>
+              <DashDogMark className="dog" coat="#7e9a74" groove="#5f7d57" />
+              <Link href="#waitlist" className="btn btn--cream">
+                Book a demo
+                <ArrowRight aria-hidden />
+              </Link>
+            </div>
+            <div className="right">
+              <p className="eyebrow" style={{ marginBottom: 14 }}>
+                For publishers
+              </p>
+              <ul style={{ listStyle: 'none', display: 'grid', gap: 16 }}>
+                {['High-intent NZ audiences', 'Premium placement, never a banner', 'Real outcomes you keep 55% of'].map(
+                  (t) => (
+                    <li key={t} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+                      <Check size={18} strokeWidth={2} color="var(--accent)" style={{ flex: 'none', marginTop: 3 }} aria-hidden />
+                      <span className="body" style={{ fontSize: 16, color: 'var(--fg)' }}>
+                        {t}
+                      </span>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- DASH IN YOUR POCKET — app screen mocks ---------- */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <p className="eyebrow" style={{ marginBottom: 12 }}>
+            Product · mobile app
+          </p>
+          <h2 className="sectionTitle" style={{ maxWidth: 620 }}>
+            dash. in your pocket.
+          </h2>
+          <p className="body" style={{ marginTop: 14, maxWidth: 560, fontSize: 17 }}>
+            Onboard, watch your balance grow as you wait, and see the in-app loader fund the SPCA.
+          </p>
+          <DashAppScreens />
+        </div>
+      </section>
+
+      {/* ---------- MEET THE DOGS — parametric variations ---------- */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <p className="eyebrow" style={{ marginBottom: 12 }}>
+            The mark
+          </p>
+          <h2 className="sectionTitle" style={{ maxWidth: 620 }}>
+            One dog, three lengths.
+          </h2>
+          <p className="body" style={{ marginTop: 14, maxWidth: 560, fontSize: 17 }}>
+            The dachshund’s segmented body is the loading bar. Pick the length to fit the wait.
+          </p>
+          <DashDogVariations />
         </div>
       </section>
 
