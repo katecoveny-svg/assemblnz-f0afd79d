@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, Check, Code2, Coins, ShieldCheck, Sparkles } from 'lucide-react';
 import { DashLeadForm } from '@/components/site/dash/DashLeadForm';
 import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
+import { Sparkles as SparkleLayer } from '@/components/site/Sparkles';
 
 export const metadata: Metadata = {
   title: 'dash. by assembl — get paid to wait',
@@ -151,8 +152,9 @@ export default function DashPage() {
     <main>
       {/* ---------- HERO ---------- */}
       <section className="hero">
-        {/* live flowing-gradient + gold-thread mesh, matching assembl.co.nz */}
-        <ShaderHeroBackdrop />
+        {/* bright cream/sage flowing-gradient (no gold) + drifting sparkle */}
+        <ShaderHeroBackdrop variant="airy" />
+        <SparkleLayer className="z-0" />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
           <div className="heroStage" style={{ padding: '56px 0 72px' }}>
             <div className="heroCopy">
@@ -230,32 +232,25 @@ export default function DashPage() {
         </div>
       </section>
 
-      {/* ---------- HOW IT WORKS ---------- */}
+      {/* ---------- HOW IT WORKS — brand kit's numbered "Watch. Wait. Earn." ---------- */}
       <section className="section" id="how">
         <div className="wrap">
-          <p className="eyebrow" style={{ marginBottom: 12 }}>
-            How it works
-          </p>
-          <h2 className="sectionTitle" style={{ maxWidth: 620 }}>
-            How dash. works.
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: 20,
-              marginTop: 40,
-            }}
-          >
-            {STEPS.map(({ icon: Icon, title, body }) => (
-              <article key={title} className="card card--hover">
-                <span className="icon-badge" style={{ marginBottom: 18 }}>
-                  <Icon aria-hidden />
-                </span>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </article>
-            ))}
+          <div className="howPanel">
+            <p className="eyebrow" style={{ marginBottom: 12 }}>
+              How it works
+            </p>
+            <h2 className="sectionTitle howTitle">
+              Watch. Wait. <em>Earn.</em>
+            </h2>
+            <div className="steps">
+              {STEPS.map(({ title, body }, i) => (
+                <div key={title} className="step">
+                  <span className="stepNo">{i + 1}</span>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
