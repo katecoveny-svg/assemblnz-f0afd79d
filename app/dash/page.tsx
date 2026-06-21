@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Check, Code2, Coins, ShieldCheck, Sparkles } from 'lucide-react';
+import '@/styles/dash-tokens.css';
 import { DashLeadForm } from '@/components/site/dash/DashLeadForm';
 import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 import { Sparkles as SparkleLayer } from '@/components/site/Sparkles';
+import { DashLoaderLiveDemo } from '@/components/dash/DashLoaderLiveDemo';
+import { dashFontVars } from './fonts';
 
 export const metadata: Metadata = {
   title: 'dash. by assembl — get paid to wait',
@@ -254,6 +257,30 @@ export default function DashPage() {
                   <p>{body}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- SEE IT LIVE — the real consumer-mode loader, working ---------- */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <div style={{ display: 'grid', gap: 40, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', alignItems: 'center' }}>
+            <div>
+              <p className="eyebrow" style={{ marginBottom: 12 }}>
+                See it live
+              </p>
+              <h2 className="sectionTitle" style={{ maxWidth: 520 }}>
+                This is the wait, working.
+              </h2>
+              <p className="body" style={{ marginTop: 16, maxWidth: 460, fontSize: 17 }}>
+                A real NZ-brand line runs while the tool loads — labelled, private, and earning. Here
+                it’s donating every cent to SPCA NZ.
+              </p>
+            </div>
+            {/* The loader uses the [data-dash] token scope + its own font vars. */}
+            <div data-dash="" className={dashFontVars} style={{ display: 'grid', placeItems: 'center' }}>
+              <DashLoaderLiveDemo />
             </div>
           </div>
         </div>
