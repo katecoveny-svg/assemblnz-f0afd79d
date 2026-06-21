@@ -67,13 +67,16 @@
   @media(max-width:860px){.nav-links{display:none}}
 
   /* ---------- HERO ---------- */
-  .hero{position:relative;background:var(--yellow);padding:170px 0 90px;overflow:hidden;border-bottom:3px solid var(--ink)}
+  .hero{position:relative;background:var(--yellow);padding:190px 0 120px;overflow:hidden;border-bottom:3px solid var(--ink)}
   .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--ink) 1px,transparent 1px),linear-gradient(90deg,var(--ink) 1px,transparent 1px);background-size:54px 54px;opacity:.05;pointer-events:none}
   .glow{position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;pointer-events:none}
   .glow.g1{width:520px;height:520px;background:#FFEE8A;top:-160px;right:-120px}
   .glow.g2{width:360px;height:360px;background:#FFC400;bottom:-120px;left:-80px}
 
-  .hero-inner{position:relative;z-index:3;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center}
+  .hero-inner{position:relative;z-index:3;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:center}
+  .hero-copy{position:relative;padding-left:30px}
+  .hero-copy::before{content:"";position:absolute;left:0;top:6px;bottom:16px;width:4px;background:var(--ink);border-radius:2px}
+  .hero-index{font-family:'Space Grotesk';font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);opacity:.55;margin-bottom:14px;display:block}
   .tagpill{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:var(--yellow);font-weight:800;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;padding:9px 16px;border-radius:50px;margin-bottom:26px}
   .tagpill .live{width:8px;height:8px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 0 rgba(74,222,128,.7);animation:pulse 1.8s infinite}
   h1.hero-title{font-size:clamp(50px,9vw,118px);color:var(--ink)}
@@ -87,34 +90,70 @@
   .hero-meta .m .n{font-family:'Lexend Mega';font-weight:900;font-size:30px;line-height:1}
   .hero-meta .m .l{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:6px;color:var(--ink)}
 
-  /* ---------- 3D COIN ---------- */
-  .stage{position:relative;height:440px;display:grid;place-items:center;perspective:1200px}
-  .coin-scene{transform-style:preserve-3d;transition:transform .15s ease-out}
-  .coin{
-    width:230px;height:230px;border-radius:50%;position:relative;transform-style:preserve-3d;
-    animation:coinspin 7s linear infinite;
-  }
-  .coin .face{
-    position:absolute;inset:0;border-radius:50%;border:5px solid var(--ink);
-    background:radial-gradient(circle at 32% 28%,#FFF3B0,var(--yellow) 55%,var(--yellow-deep));
-    display:grid;place-items:center;backface-visibility:hidden;box-shadow:inset 0 0 0 9px rgba(10,10,10,.08)
-  }
-  .coin .face.back{transform:rotateY(180deg);background:radial-gradient(circle at 32% 28%,#FFF3B0,var(--yellow) 55%,var(--yellow-deep))}
-  .coin .face .sym{font-family:'Lexend Mega';font-weight:900;font-size:78px;color:var(--ink)}
-  .coin .edge{position:absolute;inset:0;border-radius:50%;background:var(--ink);transform:translateZ(-13px)}
-  .float-card{
-    position:absolute;background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:13px 16px;
-    box-shadow:6px 6px 0 var(--ink);font-weight:800;font-size:13.5px;display:flex;align-items:center;gap:9px;z-index:5;
-  }
-  .float-card .ic{width:30px;height:30px;border-radius:9px;background:var(--yellow);border:2.5px solid var(--ink);display:grid;place-items:center;font-family:'Lexend Mega';font-size:14px}
-  .fc1{top:8%;left:-2%;animation:bob 4s ease-in-out infinite}
-  .fc2{bottom:14%;right:-6%;animation:bob 4.6s ease-in-out infinite .4s}
-  .fc3{bottom:-2%;left:14%;animation:bob 5.2s ease-in-out infinite .8s}
+  /* ---------- 3D DACHSHUND LOADER ---------- */
+  .stage{position:relative;height:500px;display:grid;place-items:center;perspective:1000px;perspective-origin:55% 42%}
+  .dog-scene{position:relative;transform-style:preserve-3d;transition:transform .18s var(--ease);will-change:transform}
+  .dog{position:relative;width:480px;height:300px;transform-style:preserve-3d;transform:rotateX(12deg) rotateY(-22deg);animation:dogfloat 6s ease-in-out infinite}
+
+  /* glossy clay shading (bear/banana render style) */
+  .clay{background:radial-gradient(125% 125% at 30% 20%,#4c4c4c 0%,#1f1f1f 46%,#050505 100%);
+    box-shadow:0 28px 44px -12px rgba(0,0,0,.6), inset 0 7px 11px rgba(255,255,255,.22), inset 0 -12px 18px rgba(0,0,0,.6);}
+
+  /* ground contact shadow */
+  .dog-shadow{position:absolute;left:50%;bottom:0;width:400px;height:64px;
+    background:radial-gradient(ellipse at center,rgba(0,0,0,.45),transparent 68%);
+    transform:translateX(-50%) rotateX(86deg) translateZ(-70px);filter:blur(4px);animation:shadowpulse 6s ease-in-out infinite}
+
+  /* BODY = the loading bar (long sausage) */
+  .dog-body{position:absolute;left:80px;top:118px;width:300px;height:94px;border-radius:50px;overflow:hidden;transform:translateZ(0)}
+  .dog-body .track{position:absolute;inset:0;border-radius:50px}
+  .dog-body .fill{position:absolute;left:0;top:0;bottom:0;width:14%;border-radius:50px;
+    background:linear-gradient(90deg,#FFE680,var(--yellow) 55%,var(--yellow-deep));
+    box-shadow:inset 0 7px 11px rgba(255,255,255,.55),inset 0 -9px 13px rgba(170,115,0,.55);animation:dogload 3.4s var(--ease) infinite}
+  .dog-body .gloss{position:absolute;left:0;right:0;top:5px;height:40%;border-radius:50px;
+    background:linear-gradient(180deg,rgba(255,255,255,.38),transparent);pointer-events:none}
+  .dog-body .pct{position:absolute;top:50%;left:20px;transform:translateY(-50%);font-family:'Lexend Mega';font-weight:900;font-size:34px;color:#1a1200;mix-blend-mode:soft-light;z-index:2}
+
+  /* legs (front/back, near/far for depth) */
+  .leg{position:absolute;top:190px;width:32px;height:80px;border-radius:16px}
+  .leg::after{content:"";position:absolute;bottom:-3px;left:-2px;width:36px;height:18px;border-radius:11px;background:#080808;box-shadow:0 7px 9px rgba(0,0,0,.45)}
+  .leg.back-far{left:112px;transform:translateZ(-38px);filter:brightness(.58)}
+  .leg.front-far{left:300px;transform:translateZ(-38px);filter:brightness(.58)}
+  .leg.back-near{left:130px;transform:translateZ(38px)}
+  .leg.front-near{left:322px;transform:translateZ(38px)}
+
+  /* tail */
+  .dog-tail{position:absolute;left:46px;top:106px;width:78px;height:24px;border-radius:14px;
+    transform-origin:right center;transform:rotate(-34deg) translateZ(8px);animation:wag 1.5s ease-in-out infinite}
+
+  /* head group */
+  .dog-head{position:absolute;left:330px;top:66px;width:130px;height:124px;
+    border-radius:54% 60% 50% 56%/58% 56% 54% 56%;transform:translateZ(42px)}
+  .dog-snout{position:absolute;left:420px;top:120px;width:80px;height:56px;border-radius:30px 42px 42px 30px;transform:translateZ(50px)}
+  .dog-nose{position:absolute;left:490px;top:126px;width:26px;height:24px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,#5e5e5e,#000 70%);transform:translateZ(64px);box-shadow:0 5px 7px rgba(0,0,0,.5)}
+  .dog-ear{position:absolute;left:332px;top:90px;width:48px;height:112px;border-radius:26px;
+    transform-origin:top center;transform:translateZ(60px) rotate(8deg);animation:earsway 6s ease-in-out infinite}
+  .dog-eye{position:absolute;left:396px;top:106px;width:19px;height:19px;border-radius:50%;background:#fff;transform:translateZ(66px);box-shadow:inset 0 0 0 2px #000}
+  .dog-eye::after{content:"";position:absolute;right:2px;top:5px;width:10px;height:10px;border-radius:50%;background:#0a0a0a}
+  .dog-collar{position:absolute;left:354px;top:118px;width:18px;height:82px;border-radius:6px;
+    background:linear-gradient(90deg,var(--yellow-deep),var(--yellow));transform:translateZ(46px) rotate(6deg);box-shadow:0 0 0 3px rgba(0,0,0,.28)}
+  .dog-collar::after{content:"";position:absolute;left:0;top:58px;width:16px;height:16px;border-radius:50%;background:#FFD400;border:3px solid #0a0a0a}
+
+  /* floating depth chips */
+  .float-card{position:absolute;background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:12px 15px;
+    box-shadow:7px 7px 0 var(--ink);font-weight:800;font-size:13px;display:flex;align-items:center;gap:9px;z-index:6;white-space:nowrap}
+  .float-card .ic{width:28px;height:28px;border-radius:9px;background:var(--yellow);border:2.5px solid var(--ink);display:grid;place-items:center;font-family:'Lexend Mega';font-size:13px}
+  .fc1{top:-2%;left:-8%;--tz:70px;transform:translateZ(70px);animation:bob 4s ease-in-out infinite}
+  .fc2{top:42%;right:-12%;--tz:100px;transform:translateZ(100px);animation:bob 4.6s ease-in-out infinite .4s}
+  .fc3{bottom:2%;left:2%;--tz:55px;transform:translateZ(55px);animation:bob 5.2s ease-in-out infinite .8s}
+
   @media(max-width:960px){
     .hero-inner{grid-template-columns:1fr}
-    .stage{height:340px;margin-top:10px}
-    .coin{width:180px;height:180px}
+    .hero-copy{padding-left:22px}
+    .stage{height:380px;margin-top:24px;transform:scale(.8)}
   }
+  @media(max-width:520px){.stage{transform:scale(.58);height:300px}}
 
   /* ---------- MARQUEE ---------- */
   .marquee{background:var(--ink);color:var(--yellow);border-bottom:3px solid var(--ink);overflow:hidden;padding:18px 0}
@@ -236,8 +275,12 @@
   .reveal.in{opacity:1;transform:none}
 
   @keyframes spin{to{transform:rotate(360deg)}}
-  @keyframes coinspin{to{transform:rotateY(360deg)}}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  @keyframes dogfloat{0%,100%{transform:rotateX(12deg) rotateY(-22deg) translateY(0)}50%{transform:rotateX(12deg) rotateY(-22deg) translateY(-18px)}}
+  @keyframes wag{0%,100%{transform:rotate(-34deg) translateZ(8px)}50%{transform:rotate(-12deg) translateZ(8px)}}
+  @keyframes earsway{0%,100%{transform:translateZ(60px) rotate(8deg)}50%{transform:translateZ(60px) rotate(17deg)}}
+  @keyframes shadowpulse{0%,100%{opacity:.5;width:400px}50%{opacity:.32;width:344px}}
+  @keyframes dogload{0%{width:12%}65%{width:90%}80%{width:95%}100%{width:12%}}
+  @keyframes bob{0%,100%{transform:translateZ(var(--tz,0)) translateY(0)}50%{transform:translateZ(var(--tz,0)) translateY(-14px)}}
   @keyframes scrollx{to{transform:translateX(-50%)}}
   @keyframes load{0%{width:8%}70%{width:96%}100%{width:8%}}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(74,222,128,.7)}70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
@@ -245,7 +288,8 @@
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
     .reveal{opacity:1;transform:none}
-    .coin-scene{transform:none!important}
+    .dog-scene{transform:none!important}
+    .dog{transform:rotateX(12deg) rotateY(-22deg)!important}
   }
 </style>
 </head>
@@ -272,7 +316,8 @@
   <div class="hero-grid-bg"></div>
   <div class="glow g1"></div><div class="glow g2"></div>
   <div class="wrap hero-inner">
-    <div>
+    <div class="hero-copy">
+      <span class="hero-index">(01) — Meet Dash, the long dog of ad networks</span>
       <span class="tagpill"><span class="live"></span>The ad network for the wait · Aotearoa NZ</span>
       <h1 class="hero-title display">Get<br>paid to<br><span class="stroke">wait.</span></h1>
       <p class="hero-sub">Every NZ digital product already owns one moment nobody has ever monetised — <b>the loading spinner.</b> Dash turns that quiet second into a revenue stream. Two lines of SDK. You keep <b>55¢ of every dollar</b>.</p>
@@ -289,18 +334,33 @@
       </div>
     </div>
 
-    <!-- 3D STAGE -->
+    <!-- 3D DACHSHUND STAGE -->
     <div class="stage" id="stage">
-      <div class="coin-scene" id="coinScene">
-        <div class="coin">
-          <div class="edge"></div>
-          <div class="face"><span class="sym">$</span></div>
-          <div class="face back"><span class="sym">⏳</span></div>
+      <div class="dog-scene" id="dogScene">
+        <div class="dog" role="img" aria-label="Dash the dachshund — a glossy 3D sausage dog whose long body is a loading bar filling up with gold">
+          <div class="dog-shadow"></div>
+          <div class="dog-tail clay"></div>
+          <div class="leg back-far clay"></div>
+          <div class="leg front-far clay"></div>
+          <div class="dog-body">
+            <div class="track clay"></div>
+            <div class="fill"></div>
+            <div class="gloss"></div>
+            <div class="pct">$</div>
+          </div>
+          <div class="leg back-near clay"></div>
+          <div class="leg front-near clay"></div>
+          <div class="dog-collar"></div>
+          <div class="dog-head clay"></div>
+          <div class="dog-ear clay"></div>
+          <div class="dog-snout clay"></div>
+          <div class="dog-eye"></div>
+          <div class="dog-nose"></div>
         </div>
+        <div class="float-card fc1"><span class="ic">⏳</span> Loading…</div>
+        <div class="float-card fc2"><span class="ic">$</span> +$0.04 earned</div>
+        <div class="float-card fc3"><span class="ic">✓</span> 0 data harvested</div>
       </div>
-      <div class="float-card fc1"><span class="ic">⏳</span> Spinner shown</div>
-      <div class="float-card fc2"><span class="ic">$</span> +$0.04 earned</div>
-      <div class="float-card fc3"><span class="ic">✓</span> 0 data harvested</div>
     </div>
   </div>
 </header>
@@ -551,15 +611,15 @@
   },{threshold:.6});
   counters.forEach(c=>cio.observe(c));
 
-  // Mouse-parallax 3D coin + tilt
+  // Mouse-parallax — rotate the whole 3D dachshund scene
   if(!reduce){
-    const scene=document.getElementById('coinScene'), stage=document.getElementById('stage');
+    const scene=document.getElementById('dogScene'), stage=document.getElementById('stage');
     stage.addEventListener('mousemove',(ev)=>{
       const r=stage.getBoundingClientRect();
       const x=(ev.clientX-r.left)/r.width-.5, y=(ev.clientY-r.top)/r.height-.5;
-      scene.style.transform=`rotateY(${x*26}deg) rotateX(${-y*26}deg)`;
+      scene.style.transform=`rotateY(${x*34}deg) rotateX(${-y*30}deg)`;
     });
-    stage.addEventListener('mouseleave',()=>{ scene.style.transform='rotateY(0) rotateX(0)'; });
+    stage.addEventListener('mouseleave',()=>{ scene.style.transform='rotateY(0deg) rotateX(0deg)'; });
   }
 </script>
 </body>
