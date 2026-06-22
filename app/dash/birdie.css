@@ -85,6 +85,14 @@
   .bd-footer-row { flex-direction: column !important; gap: 18px !important; text-align: center }
 }
 
+/* SDK Reference doc */
+.sdk-cols { display: flex; gap: 20px }
+@media (max-width: 760px) {
+  .sdk-pad { padding-left: 24px !important; padding-right: 24px !important }
+  .sdk-head { padding: 28px 24px !important }
+  .sdk-cols { flex-direction: column }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bd-marquee-track, .bd-floaty, .bd-floaty--demo, .bd-glow, .bd-spark, .bd-spark--2,
   .bd-tick, .bd-countpop, .bd-dot, .bd-fillrise { animation: none !important }
