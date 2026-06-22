@@ -26,6 +26,13 @@
   ],
   "shortcuts": [
     {
+      "name": "Browse agents",
+      "short_name": "Agents",
+      "description": "Open the assembl agent marketplace.",
+      "url": "/agents",
+      "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
       "name": "Open HAPAI tools",
       "short_name": "HAPAI",
       "description": "Open the shareable assembl tool library.",

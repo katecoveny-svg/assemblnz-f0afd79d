@@ -540,3 +540,29 @@
     animation: assembl-cta-glow 3.2s ease-in-out infinite;
   }
 }
+
+/* Dash dachshund "thinking" loader (marketplace chat). Pure CSS so it can never
+   stick on a hydration hiccup; resting state is fully visible. */
+@keyframes dash-trot {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-2px) rotate(-1.5deg);
+  }
+  75% {
+    transform: translateY(-2px) rotate(1.5deg);
+  }
+}
+
+.dash-trot {
+  animation: dash-trot 0.9s ease-in-out infinite;
+  transform-origin: 60% 80%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-trot {
+    animation: none;
+  }
+}
