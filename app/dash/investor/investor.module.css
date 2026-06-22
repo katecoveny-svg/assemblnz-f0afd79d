@@ -1,0 +1,27 @@
+/* Investor one-pager — fixed-width printable reference canvas.
+   The prototype has no hover/animation; styling lives inline for exact pixels.
+   This module carries page-frame + print-friendliness only. */
+
+.stage {
+  background: #e7e5df;
+  padding: 40px 0;
+  font-family: var(--font-dash-sans), "Lato", sans-serif;
+}
+
+.page {
+  width: 1000px;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(120, 100, 40, 0.14);
+}
+
+@media print {
+  .stage {
+    padding: 0;
+    background: #fff;
+  }
+  .page {
+    box-shadow: none;
+    width: 100%;
+  }
+}
