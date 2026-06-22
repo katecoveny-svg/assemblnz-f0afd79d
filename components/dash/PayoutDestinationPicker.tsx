@@ -3,8 +3,8 @@
 /**
  * PayoutDestinationPicker — where the consumer's micro-revenue goes.
  *
- *   Keep it  → Prezzy / Airpoints / Bank (Stripe Connect)
- *   Donate it → SPCA NZ (default) / Trees That Count / Foodbank NZ
+ *   Reward me → Airpoints / KiwiSaver / Prezzy (no cash-out)
+ *   Give it   → SPCA NZ (default) / Trees That Count / Foodbank NZ
  *
  * Revealed only when the opt-in toggle is ON. Fully keyboard-navigable; the
  * segmented control is a radiogroup, the keep-it methods are radio cards, the
@@ -21,9 +21,9 @@ interface PayoutDestinationPickerProps {
 }
 
 const SELF_METHODS: { method: SelfMethod; emoji: string; label: string }[] = [
-  { method: 'prezzy', emoji: '🎁', label: 'Prezzy' },
   { method: 'airpoints', emoji: '✈️', label: 'Airpoints' },
-  { method: 'stripe-connect', emoji: '🏦', label: 'Bank' },
+  { method: 'kiwisaver', emoji: '🌱', label: 'KiwiSaver' },
+  { method: 'prezzy', emoji: '🎁', label: 'Prezzy' },
 ];
 
 export function PayoutDestinationPicker({ destination, onChange }: PayoutDestinationPickerProps) {
@@ -41,9 +41,9 @@ export function PayoutDestinationPicker({ destination, onChange }: PayoutDestina
           role="radio"
           aria-checked={!isDonate}
           className={styles.segBtn}
-          onClick={() => onChange({ kind: 'self', method: 'prezzy' })}
+          onClick={() => onChange({ kind: 'self', method: 'airpoints' })}
         >
-          Keep it
+          Reward me
         </button>
         <button
           type="button"
@@ -52,7 +52,7 @@ export function PayoutDestinationPicker({ destination, onChange }: PayoutDestina
           className={styles.segBtn}
           onClick={() => onChange({ kind: 'charity', charityId: 'spca-nz' })}
         >
-          Donate it
+          Give it
         </button>
       </div>
 
