@@ -1,0 +1,40 @@
+/* Video-page styles. The timeline keyframes it animates (spin, vFloaty,
+   wiggle, vFillRise, prog, coin, vTick, sc1–sc5) live in globals.css so inline
+   `animation: name ...` strings resolve. */
+
+.paused * {
+  animation-play-state: paused !important;
+}
+
+.ctrlPrimary {
+  background: var(--dash-canary);
+  color: var(--dash-ink);
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 12px 26px;
+  border-radius: 99px;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(255, 212, 42, 0.45);
+  transition: transform 0.16s;
+}
+.ctrlPrimary:hover {
+  transform: translateY(-2px);
+}
+
+.ctrlGhost {
+  background: #fff;
+  color: var(--dash-ink);
+  border: 1px solid #e7e1d2;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 12px 26px;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: transform 0.16s;
+}
+.ctrlGhost:hover {
+  transform: translateY(-2px);
+}

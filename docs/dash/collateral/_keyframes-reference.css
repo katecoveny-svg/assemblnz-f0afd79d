@@ -1,0 +1,116 @@
+}
+
+/* ============================================================
+   keyframes (carried from the prototypes)
+   ============================================================ */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(-1deg);
+  }
+}
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+@keyframes tick {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes spark {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.4);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-16px) scale(1);
+  }
+}
+@keyframes countPop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+/* the fill-the-dog loader: colour rises bottom-up */
+@keyframes fillRise {
+  0% {
+    height: 7%;
+  }
+  12% {
+    height: 17%;
+  }
+  66% {
+    height: 90%;
+  }
+  84% {
+    height: 100%;
+  }
+  93% {
+    height: 100%;
+  }
+  100% {
+    height: 7%;
+  }
+}
+@keyframes dashFill {
+  0% {
+    transform: scaleX(0.2);
+  }
+  55% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0.2);
+  }
+}
+
+/* ---- social ads ---- */
+@keyframes hazard {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 64px 0;
+  }
+}
+
+/* ---- interactive page ---- */
+@keyframes floatSoft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
