@@ -6,6 +6,10 @@ import { DashLeadForm } from '@/components/site/dash/DashLeadForm';
 import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 import { Sparkles as SparkleLayer } from '@/components/site/Sparkles';
 import { DashLoaderLiveDemo } from '@/components/dash/DashLoaderLiveDemo';
+import { GlossyMascotHero } from '@/components/dash/GlossyMascotHero';
+import { Marquee } from '@/components/dash/Marquee';
+import { PhoneMock } from '@/components/dash/PhoneMock';
+import { StickyCta } from '@/components/dash/StickyCta';
 import { dashFontVars } from './fonts';
 
 export const metadata: Metadata = {
@@ -105,53 +109,11 @@ const STEPS = [
   },
 ] as const;
 
-/** The dachshund mark (lifted from the kit's dash-dog.svg) whose segmented body
- *  doubles as the loader — forest segments fill left→right on a ~5.4s loop, then
- *  reset. Pure CSS via the .dseg class in dash-kit.css; static at 50% under
- *  prefers-reduced-motion. */
-function DashDog() {
-  return (
-    <svg
-      className="dogSvg"
-      viewBox="0 0 1040 470"
-      role="img"
-      aria-label="the dash dachshund — its body fills as it waits"
-    >
-      <defs>
-        <clipPath id="dashBodyClip">
-          <rect x="185" y="206" width="548" height="128" rx="22" />
-        </clipPath>
-      </defs>
-      <ellipse cx="560" cy="432" rx="372" ry="20" fill="#0a0a0a" opacity="0.1" />
-      <path d="M206 250 C 158 252 128 228 120 190" stroke="#0a0a0a" strokeWidth="26" strokeLinecap="round" />
-      <rect x="214" y="298" width="48" height="118" rx="22" fill="#0a0a0a" />
-      <rect x="650" y="298" width="48" height="118" rx="22" fill="#0a0a0a" />
-      <rect x="185" y="206" width="548" height="128" rx="22" fill="#0a0a0a" />
-      {/* body loader segments (yellow), clipped to the rounded body — no hazard seams */}
-      <g clipPath="url(#dashBodyClip)">
-        <rect className="dseg" x="185" y="206" width="187" height="128" />
-        <rect className="dseg" x="380" y="206" width="72" height="128" />
-        <rect className="dseg" x="460" y="206" width="72" height="128" />
-        <rect className="dseg" x="540" y="206" width="72" height="128" />
-        <rect className="dseg" x="620" y="206" width="113" height="128" />
-      </g>
-      <rect x="712" y="156" width="150" height="178" rx="52" fill="#0a0a0a" />
-      <rect x="842" y="214" width="156" height="84" rx="34" fill="#0a0a0a" />
-      <path
-        d="M768 166 C 732 168 714 204 718 250 C 720 290 740 320 776 322 C 812 320 822 290 822 248 C 822 202 804 166 768 166 Z"
-        fill="#0a0a0a"
-        stroke="#fffdf5"
-        strokeWidth="7"
-      />
-      <rect x="962" y="222" width="38" height="48" rx="19" fill="#0a0a0a" />
-      <circle cx="838" cy="200" r="13" fill="#fffdf5" />
-    </svg>
-  );
-}
-
 export default function DashPage() {
   return (
     <main>
+      <Marquee />
+
       {/* ---------- HERO ---------- */}
       <section className="hero">
         {/* bright cream/sage flowing-gradient (no gold) + drifting sparkle */}
@@ -176,30 +138,27 @@ export default function DashPage() {
                 reward the person actually gets. Airpoints, KiwiSaver or charity. Opt-in, and the
                 publisher keeps 55%.
               </p>
+              <ul className="heroBullets">
+                <li>Two lines of SDK — drops onto the wait you already show</li>
+                <li>Rewards, not cash — Airpoints, KiwiSaver, charity</li>
+                <li>Private by design — no prompts, content or files read</li>
+              </ul>
               <div className="heroCta">
                 <Link href="#waitlist" className="btn btn--primary btn--lg">
                   Join the waitlist
                   <ArrowRight aria-hidden />
                 </Link>
-                <Link href="#how" className="btn btn--ghost btn--lg">
-                  How it works
+                <Link href="/dash/for-ai-builders" className="btn btn--ghost btn--lg">
+                  For AI builders
                 </Link>
               </div>
-              <p className="trust heroTrust">
-                <span className="dot" />
-                Private by design
-                <span className="dot" />
-                Hosted in AWS Sydney
-                <span className="dot" />
-                No prompts read
-              </p>
+              <span className="heroProof">
+                ★ 4.9/5 — paid out to KiwiSaver, Airpoints &amp; charity
+              </span>
             </div>
 
             <div className="dogWrap">
-              <span className="dogHalo" aria-hidden />
-              <div className="dogFloat">
-                <DashDog />
-              </div>
+              <GlossyMascotHero />
             </div>
           </div>
         </div>
@@ -284,6 +243,45 @@ export default function DashPage() {
             <div data-dash="" className={dashFontVars} style={{ display: 'grid', placeItems: 'center' }}>
               <DashLoaderLiveDemo />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- IN THE APPS YOU ALREADY OPEN ---------- */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <p className="eyebrow" style={{ marginBottom: 12 }}>
+            Inside the NZ tools you already open
+          </p>
+          <h2 className="sectionTitle" style={{ maxWidth: 560, marginBottom: 36 }}>
+            No new app. It runs in the wait.
+          </h2>
+          <div
+            style={{
+              display: 'grid',
+              gap: 28,
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              justifyItems: 'center',
+            }}
+          >
+            <PhoneMock
+              hostName="an AI agent"
+              adLine="Air New Zealand Business — fly the main centres for less."
+              rewardText="+$0.04 → Airpoints"
+              fillPct={64}
+            />
+            <PhoneMock
+              hostName="a quote engine"
+              adLine="Mitre 10 — winter project sorted, in-store now."
+              rewardText="+$0.03 → KiwiSaver"
+              fillPct={38}
+            />
+            <PhoneMock
+              hostName="a search tool"
+              adLine="Kathmandu — gear up for the long weekend."
+              rewardText="+$0.05 → SPCA NZ"
+              fillPct={82}
+            />
           </div>
         </div>
       </section>
@@ -404,6 +402,7 @@ export default function DashPage() {
           </div>
         </div>
       </section>
+      <StickyCta />
     </main>
   );
 }
