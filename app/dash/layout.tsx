@@ -2,19 +2,21 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import './dash-kit.css';
+import './birdie.css';
 import { dashFontVars } from './fonts';
 
 /**
- * Dash by assembl microsite shell. Self-contained chrome (its own nav + footer);
- * the global SiteHeader/SiteFooter are suppressed on /dash routes.
+ * Dash by assembl microsite shell — Birdie Direction chrome.
  *
- * Type is Lato across the board (display + UI), exposed as --font-dash-sans and
- * read by dash-kit.css under the .dash-kit namespace. Palette: white + yellow,
- * charcoal text — scoped here so it never bleeds into the rest of assembl.co.nz.
+ * Faithful to the design handoff: a top scroll-progress bar, the slim canary
+ * marquee, a blurred white sticky nav (dash wordmark + canary bar), and the
+ * minimal footer. Self-contained — the global SiteHeader/SiteFooter are
+ * suppressed on /dash routes. Type is Lato + Space Mono via next/font.
+ * Palette: white + canary + charcoal text. No black, no green.
  */
 
 export const viewport: Viewport = {
-  themeColor: '#fbf8ef',
+  themeColor: '#FFFFFF',
 };
 
 export const metadata: Metadata = {
@@ -29,55 +31,197 @@ export const metadata: Metadata = {
   },
 };
 
-function Wordmark() {
+const MARQUEE_ITEMS = [
+  'Opt-in & earn while your agent works',
+  'NZ-built · Assembl-governed',
+  'Points · KiwiSaver · Charity',
+];
+
+function Wordmark({ size = 28 }: { size?: number }) {
+  const barW = Math.round(size * 0.93);
+  const barH = Math.round(size * 0.29);
   return (
-    <span className="wordmark">
-      <b>
-        dash<i className="dashbar" aria-hidden />
-      </b>
-      <span>by assembl</span>
+    <span style={{ display: 'flex', alignItems: 'flex-end', gap: Math.round(size * 0.32) }}>
+      <span
+        style={{
+          fontWeight: 900,
+          fontSize: size,
+          letterSpacing: '-.045em',
+          color: '#3a3832',
+          lineHeight: 0.8,
+        }}
+      >
+        dash
+      </span>
+      <span
+        aria-hidden
+        style={{
+          width: barW,
+          height: barH,
+          borderRadius: Math.round(barH * 0.6),
+          background: '#FFD42A',
+          marginBottom: Math.round(size * 0.18),
+        }}
+      />
     </span>
   );
 }
 
 export default function DashLayout({ children }: { children: ReactNode }) {
   return (
-    <div className={`dash-kit ${dashFontVars}`}>
-      <div className="wrap">
-        <header className="dashNav">
+    <div className={`dash-kit ${dashFontVars}`} style={{ background: '#FFFFFF' }}>
+      {/* scroll progress */}
+      <div className="bd-progress" aria-hidden />
+
+      {/* slim canary marquee */}
+      <div style={{ background: '#FFD42A', overflow: 'hidden', whiteSpace: 'nowrap', padding: '9px 0' }}>
+        <div
+          className="bd-marquee-track bd-mono"
+          style={{ fontSize: 11.5, letterSpacing: '.1em', color: '#3a3408', textTransform: 'uppercase' }}
+        >
+          {[0, 1].map((dup) =>
+            MARQUEE_ITEMS.map((item, i) => (
+              <span key={`${dup}-${i}`}>
+                <span style={{ padding: '0 30px' }}>{item}</span>
+                <span style={{ opacity: 0.4 }}>✦</span>
+              </span>
+            )),
+          )}
+        </div>
+      </div>
+
+      {/* nav */}
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 50,
+          background: 'rgba(255,255,255,.72)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(58,56,50,.07)',
+        }}
+      >
+        <div
+          className="bd-nav-inner"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '18px 72px',
+            maxWidth: 1500,
+            margin: '0 auto',
+          }}
+        >
           <Link href="/dash" aria-label="dash by assembl — home" style={{ textDecoration: 'none' }}>
             <Wordmark />
           </Link>
-          <nav>
-            <Link href="/dash#how">How it works</Link>
-            <Link href="/dash#people">For people</Link>
-            <Link href="/dash#publishers">For publishers</Link>
-            <Link href="/dash#advertisers">For advertisers</Link>
-            <Link href="/dash#waitlist" className="btn btn--primary btn--sm">
-              Join the waitlist
+          <div
+            className="bd-nav-links"
+            style={{ display: 'flex', alignItems: 'center', gap: 38, fontSize: 15, fontWeight: 500 }}
+          >
+            <Link href="/dash#flagship" className="bd-nav-link">
+              How it works
             </Link>
-          </nav>
-        </header>
+            <Link href="/dash#rewards" className="bd-nav-link">
+              Rewards
+            </Link>
+            <Link href="/dash/for-ai-builders" className="bd-nav-link">
+              For builders
+            </Link>
+            <a href="https://assembl.co.nz" className="bd-nav-link">
+              About
+            </a>
+          </div>
+          <Link
+            href="/dash/for-ai-builders"
+            className="bd-switch"
+            style={{
+              background: '#FFD42A',
+              color: '#3a3832',
+              padding: '12px 26px',
+              borderRadius: 99,
+              fontWeight: 700,
+              fontSize: 14,
+              textDecoration: 'none',
+              boxShadow: '0 6px 20px rgba(255,212,42,.5)',
+            }}
+          >
+            Switch on
+          </Link>
+        </div>
       </div>
 
       {children}
 
-      <div className="wrap">
-        <footer className="dashFoot">
-          <div className="footRow">
-            <Wordmark />
-            <p className="footLinks">
-              <Link href="/dash/terms">Terms</Link>
-              <Link href="/dash/privacy">Privacy</Link>
-              <Link href="/dash/copyright">Copyright</Link>
-              <a href="https://assembl.co.nz">assembl.co.nz</a>
-            </p>
+      {/* footer */}
+      <div style={{ borderTop: '1px solid #EFEADC', padding: '48px 72px' }}>
+        <div
+          className="bd-footer-row"
+          style={{
+            maxWidth: 1500,
+            margin: '0 auto',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 18,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <Wordmark size={24} />
+            <span className="bd-mono" style={{ fontSize: 12, color: '#a8a698' }}>
+              by assembl
+            </span>
           </div>
-          <p className="footFine">
-            © 2026 ASSEMBL NZ LIMITED · dash. is an assembl venture · Built in Aotearoa · Privacy Act
-            2020 native · NZ-only inventory
-          </p>
-        </footer>
+          <div
+            className="bd-mono"
+            style={{
+              fontSize: 11.5,
+              letterSpacing: '.1em',
+              color: '#bdb592',
+              textTransform: 'uppercase',
+            }}
+          >
+            Quiet intelligence, woven to give time back.
+          </div>
+          <a
+            href="https://assembl.co.nz"
+            className="bd-mono"
+            style={{ fontSize: 12, color: '#a8a698', textDecoration: 'none' }}
+          >
+            dash.assembl.co.nz
+          </a>
+        </div>
+
+        {/* legal sub-row (kept so /dash/terms etc. remain reachable) */}
+        <div
+          className="bd-footer-row"
+          style={{
+            maxWidth: 1500,
+            margin: '24px auto 0',
+            paddingTop: 18,
+            borderTop: '1px solid #F4EFE4',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 12,
+            fontSize: 12,
+            color: '#a8a698',
+          }}
+        >
+          <span>© 2026 ASSEMBL NZ LIMITED · dash. is an assembl venture · Built in Aotearoa</span>
+          <span style={{ display: 'flex', gap: 18 }}>
+            <Link href="/dash/terms" className="bd-textlink" style={{ color: '#a8a698' }}>
+              Terms
+            </Link>
+            <Link href="/dash/privacy" className="bd-textlink" style={{ color: '#a8a698' }}>
+              Privacy
+            </Link>
+            <Link href="/dash/copyright" className="bd-textlink" style={{ color: '#a8a698' }}>
+              Copyright
+            </Link>
+          </span>
+        </div>
       </div>
     </div>
   );

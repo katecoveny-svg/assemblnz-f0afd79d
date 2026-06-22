@@ -1,0 +1,93 @@
+/*
+ * Birdie Direction — faithful reproduction of the design handoff
+ * ("Dash - Birdie Direction.dc.html"). Keyframes, hover lifts, scroll-driven
+ * reveals and responsive collapse for the /dash marketing surface.
+ *
+ * Static layout/colour values live inline on the markup (mirroring the design
+ * 1:1); this file holds only the bits that can't be inline: @keyframes, :hover,
+ * scroll/view timelines, media queries and reduced-motion fallbacks.
+ *
+ * Fonts come from the .dash-kit wrapper (next/font → --font-dash-sans / -mono);
+ * never hard-code 'Lato'/'Space Mono' family names — use the vars below.
+ */
+
+@keyframes bdMarquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+@keyframes bdFloaty { 0%,100% { transform: translateY(0) rotate(0deg) } 50% { transform: translateY(-16px) rotate(-1deg) } }
+@keyframes bdGlow { 0%,100% { opacity:.55; transform: translate(-50%,-50%) scale(1) } 50% { opacity:.8; transform: translate(-50%,-50%) scale(1.05) } }
+@keyframes bdTick { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+@keyframes bdSpark { 0% { opacity:0; transform: translateY(6px) scale(.4) } 40% { opacity:1 } 100% { opacity:0; transform: translateY(-16px) scale(1) } }
+@keyframes bdReveal { from { opacity:0; transform: translateY(32px) } to { opacity:1; transform: translateY(0) } }
+@keyframes bdCountPop { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }
+@keyframes bdFillRise { 0% { height:7% } 12% { height:17% } 66% { height:90% } 84% { height:100% } 93% { height:100% } 100% { height:7% } }
+@keyframes bdScrollProg { from { transform: scaleX(0) } to { transform: scaleX(1) } }
+
+.bd-mono { font-family: var(--font-dash-mono), 'Space Mono', monospace }
+
+/* top scroll-progress bar */
+.bd-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px;
+  transform-origin: left; transform: scaleX(0);
+  background: #FFD42A; z-index: 60; box-shadow: 0 0 10px rgba(255,212,42,.7);
+  pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  .bd-progress { animation: bdScrollProg linear both; animation-timeline: scroll(root) }
+}
+
+/* looping ambient motion */
+.bd-marquee-track { display: inline-block; animation: bdMarquee 30s linear infinite }
+.bd-floaty { animation: bdFloaty 5.5s ease-in-out infinite }
+.bd-floaty--demo { animation: bdFloaty 4.6s ease-in-out infinite }
+.bd-glow { animation: bdGlow 6.5s ease-in-out infinite }
+.bd-spark { animation: bdSpark 3.6s ease-in-out infinite }
+.bd-spark--2 { animation: bdSpark 4.4s ease-in-out 1.1s infinite }
+.bd-tick { animation: bdTick 1.6s ease-in-out infinite }
+.bd-countpop { animation: bdCountPop 1.6s ease-in-out infinite }
+.bd-dot { animation: bdCountPop 1.4s ease-in-out infinite }
+.bd-fillrise { animation: bdFillRise 5.2s cubic-bezier(.45,0,.2,1) infinite }
+
+/* scroll-revealed sections (degrades to a one-shot reveal on load) */
+.bd-reveal { animation: bdReveal both }
+@supports (animation-timeline: view()) {
+  .bd-reveal { animation-timeline: view(); animation-range: entry 0% cover 22% }
+}
+
+/* hover lifts */
+.bd-switch { transition: transform .18s, box-shadow .18s }
+.bd-switch:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(255,212,42,.66) }
+.bd-cta-primary { transition: transform .18s, box-shadow .18s }
+.bd-cta-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 34px rgba(255,212,42,.7) }
+.bd-cta-dark { transition: transform .18s, box-shadow .18s }
+.bd-cta-dark:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 16px 38px rgba(58,56,50,.4) }
+.bd-door { transition: transform .22s cubic-bezier(.22,.61,.36,1), box-shadow .22s }
+.bd-door:hover { transform: translateY(-7px); box-shadow: 0 30px 54px rgba(180,150,40,.2) }
+.bd-chip { transition: transform .16s, box-shadow .16s }
+.bd-chip:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(180,150,40,.18) }
+.bd-nav-link { text-decoration: none; color: #46443c; transition: color .16s }
+.bd-nav-link:hover { color: #3a3832 }
+.bd-textlink { text-decoration: none }
+.bd-textlink:hover { color: #3a3832 }
+
+/* responsive collapse */
+@media (max-width: 920px) {
+  .bd-nav-inner { padding: 16px 24px !important }
+  .bd-nav-links { display: none !important }
+  .bd-hero { flex-direction: column !important; padding: 40px 24px 80px !important; gap: 16px !important }
+  .bd-hero-copy { width: 100% !important }
+  .bd-hero-title { font-size: clamp(46px, 13vw, 70px) !important }
+  .bd-section { padding-left: 24px !important; padding-right: 24px !important }
+  .bd-doors { grid-template-columns: 1fr !important }
+  .bd-demo-card { flex-direction: column !important; text-align: center }
+  .bd-demo-dog { width: 220px !important; margin: 0 auto }
+  .bd-h2 { font-size: clamp(32px, 8vw, 48px) !important }
+  .bd-cta-h2 { font-size: clamp(38px, 10vw, 62px) !important }
+  .bd-cta-inner { padding: 52px 24px !important }
+  .bd-footer-row { flex-direction: column !important; gap: 18px !important; text-align: center }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-marquee-track, .bd-floaty, .bd-floaty--demo, .bd-glow, .bd-spark, .bd-spark--2,
+  .bd-tick, .bd-countpop, .bd-dot, .bd-fillrise { animation: none !important }
+  .bd-reveal { animation: none !important; opacity: 1 !important; transform: none !important }
+  .bd-progress { animation: none !important }
+}
