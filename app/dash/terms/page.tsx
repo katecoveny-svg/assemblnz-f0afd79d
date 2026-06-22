@@ -2,11 +2,29 @@ import type { Metadata } from 'next';
 import styles from '../dash.module.css';
 
 export const metadata: Metadata = {
-  title: 'Dash by assembl — Terms of Service',
+  title: 'Dash terms · assembl',
   description:
     'The terms that govern Dash by assembl, the NZ in-product ad network. Revenue split, advertising standards, governing law and liability.',
   alternates: { canonical: '/dash/terms' },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: 'Dash terms · assembl',
+    description:
+      'The terms that govern Dash by assembl — revenue split, advertising standards, governing law and liability.',
+    type: 'website',
+    siteName: 'dash. by assembl',
+    url: '/dash/terms',
+    locale: 'en_NZ',
+    images: [
+      { url: '/images/dash/og-image.png', width: 1200, height: 630, alt: 'Dash terms · assembl' },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dash terms · assembl',
+    description: 'The terms that govern Dash by assembl, the NZ in-product ad network.',
+    images: ['/images/dash/og-image.png'],
+  },
 };
 
 export default function DashTermsPage() {

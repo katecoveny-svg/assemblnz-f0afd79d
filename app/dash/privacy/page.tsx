@@ -2,11 +2,29 @@ import type { Metadata } from 'next';
 import styles from '../dash.module.css';
 
 export const metadata: Metadata = {
-  title: 'Dash by assembl — Privacy Policy',
+  title: 'Dash privacy · assembl',
   description:
     'How Dash by assembl handles data under the Privacy Act 2020. No prompt or content collection, salted IP hashing, Sydney data residency, and retention periods.',
   alternates: { canonical: '/dash/privacy' },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: 'Dash privacy · assembl',
+    description:
+      'How Dash by assembl handles data under the Privacy Act 2020 — what we collect, what we never do, salted IP hashing and Sydney residency.',
+    type: 'website',
+    siteName: 'dash. by assembl',
+    url: '/dash/privacy',
+    locale: 'en_NZ',
+    images: [
+      { url: '/images/dash/og-image.png', width: 1200, height: 630, alt: 'Dash privacy · assembl' },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dash privacy · assembl',
+    description: 'How Dash by assembl handles data under the Privacy Act 2020.',
+    images: ['/images/dash/og-image.png'],
+  },
 };
 
 export default function DashPrivacyPage() {

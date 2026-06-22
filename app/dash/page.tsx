@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { FillDogLoader } from '@/components/dash/FillDogLoader';
 import './birdie.css';
 
 /**
@@ -18,19 +19,20 @@ import './birdie.css';
 export const metadata: Metadata = {
   title: 'dash. by assembl — get paid for the wait',
   description:
-    'While your AI agent works, Dash turns the wait into something you keep — Airpoints, KiwiSaver or charity. Opt-in, NZ-built, Assembl-governed.',
+    'While your AI agent works, Dash turns the wait into a reward you keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners come on. Opt-in, NZ-built, Assembl-governed.',
+  // Relative urls/images resolve against the dash layout metadataBase (www host).
   alternates: { canonical: '/dash' },
   openGraph: {
     title: 'dash. by assembl — get paid for the wait',
     description:
-      'While your AI agent works, Dash turns the wait into something you keep. Opt-in, NZ-built.',
+      'While your AI agent works, Dash turns the wait into a reward you keep. Opt-in, NZ-built.',
     type: 'website',
     siteName: 'dash. by assembl',
-    url: 'https://assembl.co.nz/dash',
+    url: '/dash',
     locale: 'en_NZ',
     images: [
       {
-        url: 'https://assembl.co.nz/images/dash/og-image.png',
+        url: '/images/dash/og-image.png',
         width: 1200,
         height: 630,
         alt: 'dash. by assembl — get paid for the wait',
@@ -40,8 +42,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'dash. by assembl — get paid for the wait',
-    description: 'While your AI agent works, Dash turns the wait into something you keep.',
-    images: ['https://assembl.co.nz/images/dash/og-image.png'],
+    description: 'While your AI agent works, Dash turns the wait into a reward you keep.',
+    images: ['/images/dash/og-image.png'],
   },
 };
 
@@ -100,8 +102,9 @@ export default function DashPage() {
               maxWidth: 408,
             }}
           >
-            Your app makes people wait while it works. Dash pays them for it — Airpoints, KiwiSaver
-            or charity, for waits they sit through anyway. One line of code to add. You keep 55%.
+            Your app makes people wait while it works. Dash turns that wait into a reward they
+            keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners
+            come on. One line of code to add. You keep 55%.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
             <Link
@@ -295,53 +298,11 @@ export default function DashPage() {
             alignItems: 'center',
           }}
         >
-          {/* fill-the-dog */}
-          <div
-            className="bd-demo-dog bd-floaty--demo"
-            style={{ flex: 'none', position: 'relative', width: 288 }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={MASCOT}
-              alt=""
-              aria-hidden
-              style={{
-                display: 'block',
-                width: '100%',
-                height: 'auto',
-                filter: 'grayscale(.75) brightness(1.22) opacity(.28)',
-              }}
-            />
-            <div
-              className="bd-fillrise"
-              style={{ position: 'absolute', left: 0, right: 0, bottom: 0, overflow: 'hidden' }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={MASCOT}
-                alt="Dash mascot filling as it loads"
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  bottom: 0,
-                  width: 288,
-                  height: 'auto',
-                  filter: 'drop-shadow(0 0 12px rgba(255,212,42,.45))',
-                }}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  height: 3,
-                  background:
-                    'linear-gradient(90deg,rgba(255,230,128,0),#ffffff,rgba(255,230,128,0))',
-                  boxShadow: '0 0 12px rgba(255,212,42,.95)',
-                }}
-              />
-            </div>
+          {/* fill-the-dog — the dachshund IS the loader. Routed through the
+              shared FillDogLoader component (the working dog-as-loading-bar from
+              the loader build) rather than re-inlining the mascot twice here. */}
+          <div className="bd-demo-dog bd-floaty--demo" style={{ flex: 'none', width: 288 }}>
+            <FillDogLoader />
           </div>
 
           {/* status */}
@@ -545,10 +506,11 @@ export default function DashPage() {
         >
           Pick where the money goes.
         </h2>
-        <p style={{ margin: '0 0 44px', fontSize: 17, color: '#56544b' }}>
+        <p style={{ margin: '0 0 32px', fontSize: 17, color: '#56544b' }}>
           One tap to choose. Switch any time.
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'center' }}>
+          {/* Charity is the live default at launch (SPCA NZ). */}
           <span
             style={{
               background: '#FFD42A',
@@ -559,39 +521,33 @@ export default function DashPage() {
               color: '#3a3832',
             }}
           >
-            Charity
+            Charity · live
           </span>
-          {['KiwiSaver', 'Airpoints', 'Everyday Rewards', 'Power bill'].map((r) => (
+          {/* Every other rail is an unsigned partner integration — labelled
+              "planned" so we never present a third-party reward (KiwiSaver,
+              Airpoints, etc.) as already available. Fair Trading Act 1986. */}
+          {['KiwiSaver', 'Airpoints', 'Everyday Rewards', 'Power bill', 'Cash'].map((r) => (
             <span
               key={r}
               className="bd-chip"
               style={{
                 background: '#fff',
-                border: '1.5px solid #E7E1D2',
+                border: '1.5px dashed #D6CEB8',
                 borderRadius: 99,
                 padding: '15px 28px',
                 fontWeight: 700,
                 fontSize: 15,
-                color: '#3a382f',
+                color: '#a89f80',
               }}
             >
-              {r}
+              {r} · planned
             </span>
           ))}
-          <span
-            style={{
-              background: '#fff',
-              border: '1.5px dashed #D6CEB8',
-              borderRadius: 99,
-              padding: '15px 28px',
-              fontWeight: 700,
-              fontSize: 15,
-              color: '#a89f80',
-            }}
-          >
-            Cash · soon
-          </span>
         </div>
+        <p style={{ margin: '28px auto 0', maxWidth: 560, fontSize: 14.5, lineHeight: 1.6, color: '#8a887e' }}>
+          Charity payouts live at launch. Cash and rewards roll out as partner integrations land —
+          each one subject to partner availability.
+        </p>
       </div>
 
       {/* ---------------- BIG CTA ---------------- */}

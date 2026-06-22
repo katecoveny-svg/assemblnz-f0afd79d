@@ -12,10 +12,33 @@ import { InteractivePlayground } from '@/components/dash/InteractivePlayground';
  */
 
 export const metadata: Metadata = {
-  title: 'dash. — make the wait fun',
+  title: 'Dash interactive demo · assembl',
   description:
-    'Scratch to see what you earned, or play Dash Dash and catch coins while you wait. The engagement surfaces behind the Dash reward layer.',
+    'A playable demo of the Dash engagement surfaces — scratch to see what you earned, or play Dash Dash and catch coins while you wait. A taste of the reward layer, not the product itself.',
   alternates: { canonical: '/dash/interactive' },
+  openGraph: {
+    title: 'Dash interactive demo · assembl',
+    description:
+      'A playable demo of the Dash engagement surfaces — scratch-to-reveal rewards and the Dash Dash mini-game.',
+    type: 'website',
+    siteName: 'dash. by assembl',
+    url: '/dash/interactive',
+    locale: 'en_NZ',
+    images: [
+      {
+        url: '/images/dash/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Dash interactive demo · assembl',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dash interactive demo · assembl',
+    description: 'A playable demo of the Dash engagement surfaces.',
+    images: ['/images/dash/og-image.png'],
+  },
 };
 
 export default function DashInteractivePage() {
@@ -33,12 +56,12 @@ export default function DashInteractivePage() {
             color: '#c79b1f',
           }}
         >
-          Dash · interactive
+          Dash · interactive demo
         </div>
         <h1
           style={{
             textAlign: 'center',
-            margin: '0 0 44px',
+            margin: '0 0 14px',
             fontWeight: 700,
             fontSize: 44,
             letterSpacing: '-.03em',
@@ -47,6 +70,19 @@ export default function DashInteractivePage() {
         >
           Make the wait fun.
         </h1>
+        <p
+          style={{
+            textAlign: 'center',
+            margin: '0 auto 44px',
+            maxWidth: 520,
+            fontSize: 16,
+            lineHeight: 1.6,
+            color: '#56544b',
+          }}
+        >
+          A playground, not the product — a taste of the engagement surfaces Dash can show in the
+          wait. The real reward layer drops into your app in one line.
+        </p>
 
         <InteractivePlayground />
       </div>

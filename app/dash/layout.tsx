@@ -20,6 +20,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  // Production 301s to the www host, so every /dash canonical + OG url must
+  // resolve to www. Overriding metadataBase here (deeper than the root layout's
+  // non-www value) makes all relative canonicals/OG on /dash routes use www.
+  metadataBase: new URL('https://www.assembl.co.nz'),
   icons: {
     icon: [
       { url: '/images/dash/favicons/favicon-16.png', sizes: '16x16', type: 'image/png' },
@@ -34,8 +38,9 @@ export const metadata: Metadata = {
 const MARQUEE_ITEMS = [
   'Get paid to wait',
   'One line to install',
-  'Airpoints · KiwiSaver · Charity',
-  'NZ-only · opt-in · no data read',
+  'Charity at launch · more rewards rolling out',
+  'NZ-only · opt-in',
+  'Never reads prompts, content, files or code',
 ];
 
 function Wordmark({ size = 28 }: { size?: number }) {

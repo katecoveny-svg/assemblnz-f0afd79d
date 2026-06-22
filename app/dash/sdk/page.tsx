@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { CSSProperties, ReactNode } from 'react';
+import { DashKeyRequest } from '@/components/site/dash/DashKeyRequest';
 import '../birdie.css';
 
 /**
@@ -13,10 +14,28 @@ import '../birdie.css';
  */
 
 export const metadata: Metadata = {
-  title: 'dash. SDK Reference — @assembl/dash',
+  title: 'Dash SDK · assembl',
   description:
-    'Add a reward layer to your agent’s working state in one call. Install, init, show, drive the session, events, surfaces, white-label theming and signed webhooks.',
+    'The Dash SDK reference — add a reward layer to your agent’s working state in one call. In early access: request a key to get started.',
   alternates: { canonical: '/dash/sdk' },
+  openGraph: {
+    title: 'Dash SDK · assembl',
+    description:
+      'The Dash SDK reference — add a reward layer to your agent’s working state in one call. In early access.',
+    type: 'website',
+    siteName: 'dash. by assembl',
+    url: '/dash/sdk',
+    locale: 'en_NZ',
+    images: [
+      { url: '/images/dash/og-image.png', width: 1200, height: 630, alt: 'Dash SDK · assembl' },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dash SDK · assembl',
+    description: 'The Dash SDK reference. In early access — request a key.',
+    images: ['/images/dash/og-image.png'],
+  },
 };
 
 const mono: CSSProperties = { fontFamily: 'var(--font-dash-mono), "Space Mono", monospace' };
@@ -128,11 +147,28 @@ export default function DashSdkPage() {
             <div style={{ fontWeight: 700, fontSize: 24, letterSpacing: '-.02em', color: '#3a3832' }}>
               SDK Reference
             </div>
+            <div
+              style={{
+                ...mono,
+                display: 'inline-block',
+                marginTop: 12,
+                background: '#3a3832',
+                color: '#FFD42A',
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '.12em',
+                textTransform: 'uppercase',
+                padding: '6px 12px',
+                borderRadius: 99,
+              }}
+            >
+              Early access — request a key
+            </div>
           </div>
           <div style={{ ...mono, fontSize: 11, color: '#5a4a00', textAlign: 'right', lineHeight: 1.7 }}>
             for AI builders &amp; hosts
             <br />
-            v0.1 · @assembl/dash
+            v0.1 preview · @assembl/dash
           </div>
         </div>
 
@@ -141,22 +177,17 @@ export default function DashSdkPage() {
           <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, color: '#56544b' }}>
             Add a reward layer to your agent&apos;s working state in one call. Dash renders a
             sponsored line + the fill-the-dog loader beneath your own status, banks value to the
-            user, and fires events you can react to. Drop-in <span style={mono}>&lt;script&gt;</span>{' '}
-            or npm.
+            user, and fires events you can react to. This is the reference for that API — the
+            package is in early access, so request a key and we&apos;ll send you the install.
           </p>
         </div>
 
-        {/* 01 install */}
+        {/* 01 request a key — the SDK isn't published yet, so we capture an email
+            here instead of showing an npm/CDN install that 404s. Swap back for the
+            real install snippet once @assembl/dash ships. */}
         <div className="sdk-pad" style={{ padding: '24px 48px 8px' }}>
-          <Eyebrow>01 — Install</Eyebrow>
-          <Code
-            tokens={[
-              ['# npm', 'c'], '\n',
-              ['npm install '], ['@assembl/dash', 's'], '\n', '\n',
-              ['<!-- or script tag -->', 'c'], '\n',
-              ['<script src='], ['"https://cdn.dash.assembl.co.nz/v0/dash.js"', 's'], ['></script>'],
-            ]}
-          />
+          <Eyebrow>01 — Request a key</Eyebrow>
+          <DashKeyRequest />
         </div>
 
         {/* 02 init */}
