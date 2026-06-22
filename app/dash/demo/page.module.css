@@ -22,7 +22,7 @@
 }
 .title {
   font-family: var(--d-ff-sans);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.02em;
   font-size: clamp(40px, 7vw, 64px);
   line-height: 1;

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * dash– wallet — the consumer (earner) side.
+ * Dash wallet — the consumer (earner) side.
  *
  * Shows the balance earned from waits and lets the user send it to a REWARD —
  * Airpoints, a KiwiSaver top-up, or a donation to charity. Never cash-out.
@@ -96,11 +96,15 @@ export default function DashWalletPage() {
   return (
     <section className="wrap" style={{ paddingBlock: '56px', maxWidth: 720 }}>
       <Link href="/dash" className="eyebrow" style={{ display: 'inline-block', marginBottom: 18 }}>
-        ← dash–
+        ← Back to dash
       </Link>
 
       <h1 className="display" style={{ fontSize: 'clamp(2.4rem, 6vw, 3.6rem)', marginBottom: 8 }}>
-        your dash<span style={{ background: 'linear-gradient(transparent 58%, var(--hivis) 58%)', padding: '0 0.06em' }}>–</span> wallet
+        Your{' '}
+        <span style={{ background: 'linear-gradient(transparent 58%, var(--hivis) 58%)', padding: '0 0.06em' }}>
+          dash
+        </span>{' '}
+        wallet
       </h1>
       <p className="lead" style={{ marginBottom: 28 }}>
         Everything you’ve earned waiting. Send it to a reward — never cash.
