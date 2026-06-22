@@ -39,6 +39,7 @@
 
   --ff-serif: var(--font-dash-serif), "Cormorant Garamond", Georgia, serif;
   --ff-sans: var(--font-dash-sans), "Mulish", system-ui, -apple-system, sans-serif;
+  --ff-mono: ui-monospace, "SF Mono", "Space Mono", Menlo, Consolas, monospace;
 
   --r-sm: 10px;
   --r-md: 16px;
