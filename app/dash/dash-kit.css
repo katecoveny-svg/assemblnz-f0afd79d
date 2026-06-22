@@ -9,52 +9,55 @@
    ============================================================ */
 
 .dash-kit {
-  /* raw palette — dash. white + yellow, charcoal text (no black) */
-  --d-cream: #fffdf3;
-  --d-cream-2: #fff7d6;
-  --d-forest: #353027;
-  --d-forest-2: #2a261f;
-  --d-sage: #353027;
-  --d-sage-2: #4a443a;
-  --d-sage-pale: #fff3b0;
-  --d-gold: #ffc400;
-  --d-hivis: #ffe600;
-  --d-mint: #ffc400;
-  --d-ink: #353027;
+  /* raw palette — dash design handoff (canary · ink · cream) */
+  --d-cream: #fff7ec;
+  --d-cream-2: #fffaf2;
+  --d-forest: #3a3832;
+  --d-forest-2: #2c2a25;
+  --d-sage: #3a3832;
+  --d-sage-2: #56544b;
+  --d-sage-pale: #fff7ec;
+  --d-gold: #ffd42a;
+  --d-hivis: #ffe27a;
+  --d-mint: #ffd42a;
+  --d-ink: #3a3832;
 
-  /* semantic — white canvas, charcoal text, yellow accents */
+  /* semantic — white canvas, charcoal ink, canary accent */
   --bg: #ffffff;
-  --fg: #353027;
-  --muted: #7c766a;
+  --fg: #3a3832;
+  --muted: #56544b;
   --surface: #ffffff;
-  --surface-2: #fff6d6;
-  --line: #ece6d6;
-  --accent: #353027;
+  --surface-2: #fff7ec;
+  --line: #efeadc;
+  --accent: #3a3832;
   --on-accent: #ffffff;
-  --gold: #ffc400;
-  --pop: #ffc400;
-  --hivis: #ffe600;
-  --mint: #ffc400;
-  --sage: #353027;
-  --sage-pale: #fff6d6;
+  --gold: #ffd42a;
+  --pop: #ffd42a;
+  --canary-2: #ffe27a;
+  --hivis: #ffe27a;
+  --gold-text: #c79b1f;
+  --mono-muted: #8a8678;
+  --mint: #ffd42a;
+  --sage: #3a3832;
+  --sage-pale: #fff7ec;
 
   --ff-serif: var(--font-dash-sans), "Lato", system-ui, -apple-system, sans-serif;
   --ff-sans: var(--font-dash-sans), "Lato", system-ui, -apple-system, sans-serif;
-  --ff-mono: ui-monospace, "SF Mono", "Space Mono", Menlo, Consolas, monospace;
+  --ff-mono: var(--font-dash-mono), "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  --r-sm: 10px;
+  --r-sm: 12px;
   --r-md: 16px;
-  --r-lg: 22px;
-  --r-xl: 30px;
-  --r-pill: 999px;
-  --shadow-sm: 0 6px 22px rgba(53, 48, 39, 0.07), 0 1px 3px rgba(53, 48, 39, 0.05);
-  --shadow-md: 0 24px 54px rgba(53, 48, 39, 0.1), 0 4px 12px rgba(53, 48, 39, 0.05);
+  --r-lg: 26px;
+  --r-xl: 40px;
+  --r-pill: 99px;
+  --shadow-sm: 0 8px 24px rgba(180, 150, 40, 0.08), 0 1px 3px rgba(58, 56, 50, 0.05);
+  --shadow-md: 0 24px 60px rgba(180, 150, 40, 0.1), 0 4px 12px rgba(58, 56, 50, 0.05);
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
-  /* airy white wash with a soft yellow glow */
+  /* airy white wash with a soft canary glow */
   background:
-    radial-gradient(60% 50% at 86% -6%, rgba(255, 196, 0, 0.14), transparent 60%),
-    radial-gradient(46% 40% at -2% 8%, rgba(255, 196, 0, 0.07), transparent 60%),
+    radial-gradient(60% 50% at 86% -6%, rgba(255, 212, 42, 0.16), transparent 60%),
+    radial-gradient(46% 40% at -2% 8%, rgba(255, 212, 42, 0.08), transparent 60%),
     var(--bg);
   color: var(--fg);
   font-family: var(--ff-sans);
@@ -64,15 +67,15 @@
   /* Back-compat aliases for the legal pages' dash.module.css. */
   --dash-display: var(--ff-serif);
   --dash-body: var(--ff-sans);
-  --dash-mono: var(--ff-sans);
-  --cream: #fffdf3;
+  --dash-mono: var(--ff-mono);
+  --cream: #fff7ec;
   --cream-2: #ffffff;
-  --pounamu: #353027;
-  --pounamu-dark: #2a261f;
-  --amber: #ffc400;
-  --amber-dim: #8a6a00;
-  --ink: #353027;
-  --ink-soft: #7c766a;
+  --pounamu: #3a3832;
+  --pounamu-dark: #2c2a25;
+  --amber: #ffd42a;
+  --amber-dim: #c79b1f;
+  --ink: #3a3832;
+  --ink-soft: #56544b;
 }
 
 .dash-kit *,
@@ -83,12 +86,12 @@
 
 /* ---------- type ---------- */
 .dash-kit .eyebrow {
-  font-family: var(--ff-sans);
+  font-family: var(--ff-mono);
   font-weight: 700;
   font-size: 12px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--gold-text);
 }
 .dash-kit .display {
   font-family: var(--ff-serif);
@@ -128,9 +131,15 @@
   color: var(--fg);
   font-size: 34px;
 }
-.dash-kit .wordmark b i {
-  color: var(--gold);
-  font-style: normal;
+/* the canary dash-bar — closes the wordmark; doubles as the loading bar */
+.dash-kit .wordmark b i.dashbar {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.16em;
+  margin-left: 0.14em;
+  border-radius: 99px;
+  background: var(--gold);
+  vertical-align: 0.16em;
 }
 .dash-kit .wordmark span {
   font-family: var(--ff-sans);
@@ -168,7 +177,7 @@
 }
 .dash-kit .btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 196, 0, 0.85);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 212, 42, 0.85);
 }
 /* Light glass — a fresh, glossy green pill. Brighter greens, a strong top sheen
    and a soft lift (no heavy dark inner shadow), so it reads as lit glass rather
@@ -177,13 +186,13 @@
   color: #fff;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 38%, rgba(255, 255, 255, 0) 60%),
-    linear-gradient(180deg, #4a443a 0%, #3a352c 55%, #353027 100%);
+    linear-gradient(180deg, #56544b 0%, #2c2a25 55%, #3a3832 100%);
   border: 1px solid rgba(255, 255, 255, 0.55);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 8px 20px rgba(53, 48, 39, 0.26),
-    0 0 22px rgba(255, 196, 0, 0.28),
-    0 1px 2px rgba(53, 48, 39, 0.3);
+    0 8px 20px rgba(58, 56, 50, 0.26),
+    0 0 22px rgba(255, 212, 42, 0.28),
+    0 1px 2px rgba(58, 56, 50, 0.3);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
@@ -191,11 +200,11 @@
   transform: translateY(-2px);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0) 62%),
-    linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 55%, #3a352c 100%);
+    linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 55%, #2c2a25 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 14px 30px rgba(53, 48, 39, 0.32),
-    0 0 22px 2px rgba(255, 196, 0, 0.35);
+    0 14px 30px rgba(58, 56, 50, 0.32),
+    0 0 22px 2px rgba(255, 212, 42, 0.35);
 }
 .dash-kit .btn--primary:hover svg {
   transform: translateX(4px);
@@ -208,7 +217,7 @@
   border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 8px 22px rgba(53, 48, 39, 0.1);
+    0 8px 22px rgba(58, 56, 50, 0.1);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
@@ -218,7 +227,7 @@
   transform: translateY(-2px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 1),
-    0 12px 28px rgba(53, 48, 39, 0.14);
+    0 12px 28px rgba(58, 56, 50, 0.14);
 }
 .dash-kit .btn--cream {
   background: var(--d-cream);
@@ -269,7 +278,7 @@
 .dash-kit .field:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(255, 196, 0, 0.32);
+  box-shadow: 0 0 0 4px rgba(255, 212, 42, 0.32);
 }
 .dash-kit .field-hint {
   font-size: 13px;
@@ -290,8 +299,8 @@
   color: var(--accent);
 }
 .dash-kit .pill--gold {
-  background: rgba(255, 196, 0, 0.2);
-  color: #8a6320;
+  background: rgba(255, 212, 42, 0.2);
+  color: #c79b1f;
 }
 .dash-kit .tag {
   font-size: 12px;
@@ -331,7 +340,7 @@
   transform: translateY(-4px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 24px 54px rgba(53, 48, 39, 0.1),
+    0 24px 54px rgba(58, 56, 50, 0.1),
     0 0 26px 2px rgba(166, 186, 158, 0.4);
 }
 .dash-kit .card h3 {
@@ -404,11 +413,11 @@
   color: var(--on-accent);
   padding: 12px 20px;
   background: var(--accent);
-  box-shadow: 0 6px 16px rgba(53, 48, 39, 0.18);
+  box-shadow: 0 6px 16px rgba(58, 56, 50, 0.18);
 }
 .dash-kit .dashNav nav a.btn--primary:hover {
   color: var(--on-accent);
-  background: #4a443a;
+  background: #56544b;
 }
 .dash-kit .dashFoot {
   border-top: 1px solid var(--line);
@@ -456,7 +465,7 @@
 .dash-kit .hero {
   position: relative;
   overflow: hidden;
-  background: radial-gradient(120% 90% at 78% 12%, #ffffff 0%, #fffdf3 46%, #fff6d6 100%);
+  background: radial-gradient(120% 90% at 78% 12%, #ffffff 0%, #fff7ec 46%, #fff7ec 100%);
 }
 .dash-kit .heroStage {
   display: grid;
@@ -550,7 +559,7 @@
 .dash-kit .dogHalo {
   position: absolute;
   inset: -6% -4%;
-  background: radial-gradient(50% 50% at 50% 52%, rgba(255, 196, 0, 0.34), rgba(255, 196, 0, 0) 70%);
+  background: radial-gradient(50% 50% at 50% 52%, rgba(255, 212, 42, 0.34), rgba(255, 212, 42, 0) 70%);
   filter: blur(6px);
   z-index: 0;
 }
@@ -574,7 +583,7 @@
   max-width: 600px;
   aspect-ratio: 1 / 1;
   border-radius: 40px;
-  background: radial-gradient(120% 120% at 50% 28%, #fffdf5 0%, var(--surface-2) 68%, #ece3cf 100%);
+  background: radial-gradient(120% 120% at 50% 28%, #ffffff 0%, var(--surface-2) 68%, #ece3cf 100%);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-md);
   display: grid;
@@ -593,7 +602,7 @@
 }
 .dash-kit .mascotGlow {
   position: absolute; inset: 14% 8% 18%;
-  background: radial-gradient(50% 50% at 50% 55%, rgba(255, 196, 0, 0.5), rgba(255, 196, 0, 0) 70%);
+  background: radial-gradient(50% 50% at 50% 55%, rgba(255, 212, 42, 0.5), rgba(255, 212, 42, 0) 70%);
   filter: blur(10px);
 }
 .dash-kit .mascotScene {
@@ -606,7 +615,7 @@
 }
 .dash-kit .mascotImg {
   width: 100%; height: auto; display: block;
-  filter: drop-shadow(0 30px 30px rgba(53, 48, 39, 0.28));
+  filter: drop-shadow(0 30px 30px rgba(58, 56, 50, 0.28));
 }
 .dash-kit .mascotChip {
   position: absolute; z-index: 2;
@@ -621,11 +630,41 @@
 .dash-kit .mascotChip--b { bottom: 17%; left: -4%; animation: dashFloat 4.6s ease-in-out infinite 0.4s; }
 .dash-kit .mascotChip--c { bottom: 5%; right: 9%; animation: dashFloat 5.2s ease-in-out infinite 0.8s; }
 
+/* ---------- fill-the-dog loader (signature) — dog fills bottom→top ---------- */
+.dash-kit .filldog { position: relative; width: 100%; max-width: 440px; margin: 0 auto; aspect-ratio: 984 / 914; }
+.dash-kit .filldog__ghost {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain;
+  filter: grayscale(0.75) brightness(1.2) opacity(0.28);
+}
+.dash-kit .filldog__fill {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 60%;
+  overflow: hidden;
+  animation: dashFillRise 4.2s var(--ease) infinite;
+}
+.dash-kit .filldog__fillimg {
+  position: absolute; left: 0; bottom: 0; width: 100%; height: auto;
+  filter: drop-shadow(0 0 16px rgba(255, 212, 42, 0.55));
+}
+.dash-kit .filldog__water {
+  position: absolute; left: 6%; right: 6%; top: 0; height: 3px;
+  border-radius: 99px; background: #fff;
+  box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.85);
+}
+@keyframes dashFillRise {
+  0% { height: 8%; }
+  70% { height: 92%; }
+  100% { height: 8%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dash-kit .filldog__fill { animation: none; height: 62%; }
+}
+
 /* ---------- announcement marquee (birdie-style top bar) ---------- */
 .dashMarquee {
-  background: var(--pop, #ffc400);
-  color: var(--accent, #353027);
-  border-bottom: 2px solid var(--accent, #353027);
+  background: var(--pop, #ffd42a);
+  color: var(--accent, #3a3832);
+  border-bottom: 2px solid var(--accent, #3a3832);
   overflow: hidden;
   white-space: nowrap;
 }
@@ -651,8 +690,8 @@
   position: sticky;
   bottom: 0;
   z-index: 40;
-  background: var(--pop, #ffc400);
-  border-top: 2px solid var(--accent, #353027);
+  background: var(--pop, #ffd42a);
+  border-top: 2px solid var(--accent, #3a3832);
 }
 .dashSticky__inner {
   display: flex;
@@ -671,7 +710,7 @@
 }
 /* the dog body IS the loader — segments fill yellow left→right, ~6s loop */
 .dash-kit .dseg {
-  fill: var(--d-hivis, #ffe600);
+  fill: var(--d-hivis, #ffe27a);
   opacity: 0;
 }
 .dash-kit .dseg:nth-of-type(1) { animation: dashFill 5.4s var(--ease) infinite; }
@@ -725,8 +764,8 @@
   animation-timing-function: ease-in-out;
 }
 .dash-kit .sparkle--gold {
-  background: radial-gradient(circle, rgba(255, 196, 0, 0.95) 0%, rgba(255, 196, 0, 0) 70%);
-  box-shadow: 0 0 6px 1px rgba(255, 196, 0, 0.5);
+  background: radial-gradient(circle, rgba(255, 212, 42, 0.95) 0%, rgba(255, 212, 42, 0) 70%);
+  box-shadow: 0 0 6px 1px rgba(255, 212, 42, 0.5);
 }
 @keyframes dashSparkle {
   0%, 100% { opacity: 0; transform: scale(0.4); }
@@ -762,7 +801,7 @@
   font-weight: 600;
   font-size: 20px;
   margin-bottom: 16px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 14px rgba(53, 48, 39, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 14px rgba(58, 56, 50, 0.18);
 }
 .dash-kit .step h3 {
   font-family: var(--ff-serif);
@@ -812,7 +851,7 @@
   align-items: center;
   gap: 9px;
   background: rgba(166, 186, 158, 0.22);
-  border: 1px solid rgba(255, 196, 0, 0.28);
+  border: 1px solid rgba(255, 212, 42, 0.28);
   color: var(--accent);
   font-weight: 700;
   font-size: 12.5px;
@@ -820,7 +859,7 @@
   padding: 7px 15px;
   border-radius: var(--r-pill);
   margin-bottom: 20px;
-  box-shadow: 0 4px 16px rgba(255, 196, 0, 0.14);
+  box-shadow: 0 4px 16px rgba(255, 212, 42, 0.14);
 }
 .dash-kit .launchPill .ping {
   position: relative;
@@ -828,12 +867,12 @@
   height: 8px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 0 rgba(255, 196, 0, 0.5);
+  box-shadow: 0 0 0 0 rgba(255, 212, 42, 0.5);
   animation: dashPing 1.8s ease-out infinite;
 }
 @keyframes dashPing {
-  0% { box-shadow: 0 0 0 0 rgba(255, 196, 0, 0.5); }
-  70%, 100% { box-shadow: 0 0 0 8px rgba(255, 196, 0, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(255, 212, 42, 0.5); }
+  70%, 100% { box-shadow: 0 0 0 8px rgba(255, 212, 42, 0); }
 }
 
 .dash-kit .ctaBand {
@@ -842,9 +881,9 @@
   text-align: center;
   border-radius: var(--r-xl);
   padding: clamp(48px, 7vw, 96px) clamp(24px, 5vw, 72px);
-  background: radial-gradient(120% 130% at 50% 0%, #ffffff 0%, #fffdf3 52%, #fff6d6 100%);
+  background: radial-gradient(120% 130% at 50% 0%, #ffffff 0%, #fff7ec 52%, #fff7ec 100%);
   border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px rgba(53, 48, 39, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px rgba(58, 56, 50, 0.1);
 }
 .dash-kit .ctaGlow {
   position: absolute;

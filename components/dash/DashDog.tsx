@@ -13,7 +13,7 @@ type DashDogProps = {
   title?: string;
 };
 
-export function DashDog({ className, tone = '#353027', title = 'dash dachshund' }: DashDogProps) {
+export function DashDog({ className, tone = '#3a3832', title = 'dash dachshund' }: DashDogProps) {
   return (
     <svg
       className={className}
@@ -23,13 +23,13 @@ export function DashDog({ className, tone = '#353027', title = 'dash dachshund' 
       aria-label={title}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <ellipse cx="560" cy="432" rx="372" ry="20" fill="#353027" opacity="0.1" />
+      <ellipse cx="560" cy="432" rx="372" ry="20" fill="#3a3832" opacity="0.1" />
       <path d="M206 250 C 158 252 128 228 120 190" stroke={tone} strokeWidth="26" strokeLinecap="round" />
       <rect x="214" y="298" width="48" height="118" rx="22" fill={tone} />
       <rect x="650" y="298" width="48" height="118" rx="22" fill={tone} />
       <rect x="185" y="206" width="548" height="128" rx="22" fill={tone} />
       {/* loader fill — one clean hi-vis dash, no hazard seams */}
-      <rect x="185" y="206" width="360" height="128" rx="22" fill="#ffe600" />
+      <rect x="185" y="206" width="360" height="128" rx="22" fill="#ffe27a" />
       <rect x="712" y="156" width="150" height="178" rx="52" fill={tone} />
       <rect x="842" y="214" width="156" height="84" rx="34" fill={tone} />
       <path
@@ -38,7 +38,7 @@ export function DashDog({ className, tone = '#353027', title = 'dash dachshund' 
         stroke="#fffdf5"
         strokeWidth="7"
       />
-      <rect x="962" y="222" width="38" height="48" rx="19" fill="#353027" />
+      <rect x="962" y="222" width="38" height="48" rx="19" fill="#3a3832" />
       <circle cx="838" cy="200" r="13" fill="#fffdf5" />
     </svg>
   );
