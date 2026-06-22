@@ -17,19 +17,23 @@
   --d-sage: #0a0a0a;
   --d-sage-2: #1a1a1a;
   --d-sage-pale: #fff3b0;
-  --d-gold: #ffd400;
+  --d-gold: #ffc400;
+  --d-hivis: #ffe600;
+  --d-mint: #00e6a8;
   --d-ink: #0a0a0a;
 
   /* semantic — yellow canvas, black ink */
-  --bg: #ffd400;
+  --bg: #ffc400;
   --fg: #0a0a0a;
   --muted: #4a4633;
   --surface: #fffdf5;
   --surface-2: #fff3b0;
   --line: #0a0a0a;
   --accent: #0a0a0a;
-  --on-accent: #ffd400;
-  --gold: #ffd400;
+  --on-accent: #ffc400;
+  --gold: #ffc400;
+  --hivis: #ffe600;
+  --mint: #00e6a8;
   --sage: #0a0a0a;
   --sage-pale: #fff3b0;
 
@@ -64,7 +68,7 @@
   --cream-2: #fffdf5;
   --pounamu: #0a0a0a;
   --pounamu-dark: #000000;
-  --amber: #ffd400;
+  --amber: #ffc400;
   --amber-dim: #8a6a00;
   --ink: #0a0a0a;
   --ink-soft: #4a4633;
@@ -163,7 +167,7 @@
 }
 .dash-kit .btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 212, 0, 0.85);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 196, 0, 0.85);
 }
 /* Light glass — a fresh, glossy green pill. Brighter greens, a strong top sheen
    and a soft lift (no heavy dark inner shadow), so it reads as lit glass rather
@@ -177,7 +181,7 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
     0 8px 20px rgba(10, 10, 10, 0.26),
-    0 0 22px rgba(255, 212, 0, 0.28),
+    0 0 22px rgba(255, 196, 0, 0.28),
     0 1px 2px rgba(10, 10, 10, 0.3);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -190,7 +194,7 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
     0 14px 30px rgba(10, 10, 10, 0.32),
-    0 0 22px 2px rgba(255, 212, 0, 0.35);
+    0 0 22px 2px rgba(255, 196, 0, 0.35);
 }
 .dash-kit .btn--primary:hover svg {
   transform: translateX(4px);
@@ -264,7 +268,7 @@
 .dash-kit .field:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(255, 212, 0, 0.32);
+  box-shadow: 0 0 0 4px rgba(255, 196, 0, 0.32);
 }
 .dash-kit .field-hint {
   font-size: 13px;
@@ -285,7 +289,7 @@
   color: var(--accent);
 }
 .dash-kit .pill--gold {
-  background: rgba(255, 212, 0, 0.2);
+  background: rgba(255, 196, 0, 0.2);
   color: #8a6320;
 }
 .dash-kit .tag {
@@ -406,7 +410,7 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.85),
     0 6px 16px rgba(10, 10, 10, 0.24),
-    0 0 16px rgba(255, 212, 0, 0.28);
+    0 0 16px rgba(255, 196, 0, 0.28);
 }
 .dash-kit .dashNav nav a.btn--primary:hover {
   color: #fff;
@@ -512,7 +516,7 @@
 .dash-kit .dogHalo {
   position: absolute;
   inset: -6% -4%;
-  background: radial-gradient(50% 50% at 50% 52%, rgba(255, 212, 0, 0.34), rgba(255, 212, 0, 0) 70%);
+  background: radial-gradient(50% 50% at 50% 52%, rgba(255, 196, 0, 0.34), rgba(255, 196, 0, 0) 70%);
   filter: blur(6px);
   z-index: 0;
 }
@@ -533,7 +537,7 @@
 }
 /* the dog body IS the loader — segments fill yellow left→right, ~6s loop */
 .dash-kit .dseg {
-  fill: #ffd400;
+  fill: var(--d-hivis, #ffe600);
   opacity: 0;
 }
 .dash-kit .dseg:nth-of-type(1) { animation: dashFill 5.4s var(--ease) infinite; }
@@ -541,6 +545,19 @@
 .dash-kit .dseg:nth-of-type(3) { animation: dashFill 5.4s var(--ease) infinite 1s; }
 .dash-kit .dseg:nth-of-type(4) { animation: dashFill 5.4s var(--ease) infinite 1.5s; }
 .dash-kit .dseg:nth-of-type(5) { animation: dashFill 5.4s var(--ease) infinite 2s; }
+
+/* ---------- dash-rule: the recurring "– – –" divider motif (replaces hazard stripe) ---------- */
+.dash-kit .dash-rule {
+  height: 0;
+  border: 0;
+  border-top: 3px dashed var(--accent);
+  opacity: 0.55;
+  margin: 8px 0;
+}
+.dash-kit .dash-rule--hivis {
+  border-top-color: var(--hivis);
+  opacity: 1;
+}
 @keyframes dashFill {
   0% { opacity: 0; }
   12% { opacity: 1; }
@@ -574,8 +591,8 @@
   animation-timing-function: ease-in-out;
 }
 .dash-kit .sparkle--gold {
-  background: radial-gradient(circle, rgba(255, 212, 0, 0.95) 0%, rgba(255, 212, 0, 0) 70%);
-  box-shadow: 0 0 6px 1px rgba(255, 212, 0, 0.5);
+  background: radial-gradient(circle, rgba(255, 196, 0, 0.95) 0%, rgba(255, 196, 0, 0) 70%);
+  box-shadow: 0 0 6px 1px rgba(255, 196, 0, 0.5);
 }
 @keyframes dashSparkle {
   0%, 100% { opacity: 0; transform: scale(0.4); }
@@ -657,7 +674,7 @@
   align-items: center;
   gap: 9px;
   background: rgba(166, 186, 158, 0.22);
-  border: 1px solid rgba(255, 212, 0, 0.28);
+  border: 1px solid rgba(255, 196, 0, 0.28);
   color: var(--accent);
   font-weight: 700;
   font-size: 12.5px;
@@ -665,7 +682,7 @@
   padding: 7px 15px;
   border-radius: var(--r-pill);
   margin-bottom: 20px;
-  box-shadow: 0 4px 16px rgba(255, 212, 0, 0.14);
+  box-shadow: 0 4px 16px rgba(255, 196, 0, 0.14);
 }
 .dash-kit .launchPill .ping {
   position: relative;
@@ -673,12 +690,12 @@
   height: 8px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 0 rgba(255, 212, 0, 0.5);
+  box-shadow: 0 0 0 0 rgba(255, 196, 0, 0.5);
   animation: dashPing 1.8s ease-out infinite;
 }
 @keyframes dashPing {
-  0% { box-shadow: 0 0 0 0 rgba(255, 212, 0, 0.5); }
-  70%, 100% { box-shadow: 0 0 0 8px rgba(255, 212, 0, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(255, 196, 0, 0.5); }
+  70%, 100% { box-shadow: 0 0 0 8px rgba(255, 196, 0, 0); }
 }
 
 .dash-kit .ctaBand {

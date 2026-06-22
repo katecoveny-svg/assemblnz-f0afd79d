@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Check, Code2, Coins, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowRight, Bot, Check, Code2, Coins, ShieldCheck, Sparkles } from 'lucide-react';
 import '@/styles/dash-tokens.css';
 import { DashLeadForm } from '@/components/site/dash/DashLeadForm';
 import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
@@ -41,21 +41,27 @@ export const metadata: Metadata = {
 // it's instantly obvious who dash. is for.
 const AUDIENCES = [
   {
+    icon: Bot,
+    who: 'For AI builders',
+    line: 'Your agent makes people wait while it works. Add a reward layer to that wait in one line — opt-in, NZ-built.',
+    href: '#publishers',
+  },
+  {
     icon: Coins,
     who: 'For people',
-    line: 'Get rewarded to wait. Airpoints, KiwiSaver top-ups or charity for seconds you’d spend waiting anyway.',
+    line: 'Get rewarded while your AI agent works. Airpoints, KiwiSaver top-ups or charity for time you’d wait anyway.',
     href: '#people',
   },
   {
     icon: Code2,
     who: 'For publishers',
-    line: 'Your wait state is ad space. Keep 55% of what it earns, in two lines of code.',
+    line: 'Every wait state is inventory — agent runs, search, checkout. Keep 55% of what it earns, in two lines of code.',
     href: '#publishers',
   },
   {
     icon: Sparkles,
     who: 'For advertisers',
-    line: 'Own the space between click and result. Reach NZ users while they watch the screen.',
+    line: 'Own the space between click and result. Reach NZ users while they watch their agent work.',
     href: '#advertisers',
   },
 ] as const;
@@ -158,7 +164,7 @@ export default function DashPage() {
                 <span className="ping" aria-hidden />
                 Now onboarding founding NZ publishers
               </span>
-              <p className="eyebrow heroEyebrow">An ad network that lives in the wait. NZ-only.</p>
+              <p className="eyebrow heroEyebrow">The reward layer for the wait AI creates. NZ-built.</p>
               <h1 className="heroTitle">
                 <span className="l">Get paid</span>
                 <span className="l">
@@ -166,8 +172,9 @@ export default function DashPage() {
                 </span>
               </h1>
               <p className="heroSub">
-                Every NZ tool has a wait. dash. pays it out — to the people who watch, the publishers
-                who host it, and the brands that bid for the second.
+                When your AI agent is working — step 4 of 6, ETA 4 min — dash– turns that wait into a
+                reward the person actually gets. Airpoints, KiwiSaver or charity. Opt-in, and the
+                publisher keeps 55%.
               </p>
               <div className="heroCta">
                 <Link href="#waitlist" className="btn btn--primary btn--lg">
@@ -205,7 +212,7 @@ export default function DashPage() {
             Who it’s for
           </p>
           <h2 className="sectionTitle" style={{ maxWidth: 620 }}>
-            One second. Three ways it pays.
+            One wait. Four ways it pays.
           </h2>
           <div
             style={{
@@ -231,6 +238,8 @@ export default function DashPage() {
           </div>
         </div>
       </section>
+
+      <div className="wrap"><hr className="dash-rule" aria-hidden /></div>
 
       {/* ---------- HOW IT WORKS — brand kit's numbered "Watch. Wait. Earn." ---------- */}
       <section className="section" id="how">

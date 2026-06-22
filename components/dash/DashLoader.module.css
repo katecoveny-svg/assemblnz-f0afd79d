@@ -65,9 +65,9 @@
   overflow: visible;
 }
 
-/* segment fill — yellow loader glowing on the black dog body */
+/* segment fill — hi-vis yellow loader glowing on the black dog body */
 .seg {
-  fill: var(--d-gold, #ffd400);
+  fill: var(--d-hivis, #ffe600);
   opacity: 0.16;
   transition: opacity 0.3s var(--d-ease);
 }
@@ -96,6 +96,7 @@
   }
 }
 .loader[data-status='success'] .seg {
+  fill: var(--d-mint, #00e6a8);
   opacity: 1;
 }
 

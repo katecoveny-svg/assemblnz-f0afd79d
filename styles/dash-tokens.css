@@ -23,7 +23,9 @@
   --d-sage: #0a0a0a;
   --d-sage-2: #1a1a1a;
   --d-sage-pale: #fff3b0;
-  --d-gold: #ffd400;
+  --d-gold: #ffc400;
+  --d-hivis: #ffe600;
+  --d-mint: #00e6a8;
   --d-ink: #0a0a0a;
 
   /* semantic — light surface, black ink, yellow accent */
@@ -34,7 +36,7 @@
   --d-surface-2: #fff3b0;
   --d-line: #0a0a0a;
   --d-accent: #0a0a0a; /* buttons, ink accents */
-  --d-on-accent: #ffd400;
+  --d-on-accent: #ffc400;
 
   /* dog ink (groove seams removed for the no-hazard-lines look) */
   --d-groove: #0a0a0a;
@@ -59,7 +61,7 @@
   --d-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   /* gold focus ring (a11y) */
-  --d-focus-ring: 0 0 0 3px var(--d-bg), 0 0 0 6px rgba(255, 212, 0, 0.85);
+  --d-focus-ring: 0 0 0 3px var(--d-bg), 0 0 0 6px rgba(255, 196, 0, 0.85);
 
   color: var(--d-fg);
   font-family: var(--d-ff-sans);
