@@ -23,9 +23,8 @@ export const metadata: Metadata = {
   // Relative urls/images resolve against the dash layout metadataBase (www host).
   alternates: { canonical: '/dash' },
   openGraph: {
-    title: 'dash. by assembl — get paid for the wait',
-    description:
-      'While your AI agent works, Dash turns the wait into a reward you keep. Opt-in, NZ-built.',
+    title: 'dash — Get paid for the wait.',
+    description: 'The reward layer for the agentic wait, by assembl.',
     type: 'website',
     siteName: 'dash. by assembl',
     url: '/dash',
@@ -35,14 +34,14 @@ export const metadata: Metadata = {
         url: '/images/dash/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'dash. by assembl — get paid for the wait',
+        alt: 'dash — Get paid for the wait.',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'dash. by assembl — get paid for the wait',
-    description: 'While your AI agent works, Dash turns the wait into a reward you keep.',
+    title: 'dash — Get paid for the wait.',
+    description: 'The reward layer for the agentic wait, by assembl.',
     images: ['/images/dash/og-image.png'],
   },
 };
