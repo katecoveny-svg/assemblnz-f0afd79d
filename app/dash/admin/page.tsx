@@ -19,7 +19,7 @@ const DASH_AMBER = '#D9A85A';
 type Campaign = {
   id: string;
   name: string;
-  advertiser_email: string;
+  advertiser: { company: string } | { company: string }[] | null;
   bid_cpm_nzd_cents: number;
   daily_budget_nzd_cents: number;
   spent_today: number;
@@ -35,6 +35,32 @@ type ImpressionRow = {
   charged_nzd_cents: number;
   served_at: string;
 };
+
+type LedgerRow = {
+  created_at: string;
+  party_type: string;
+  party_id: string;
+  direction: 'credit' | 'debit';
+  amount_nzd: number;
+  reason: string;
+};
+
+type PayoutRow = {
+  created_at: string;
+  party_type: string;
+  party_id: string;
+  amount_nzd: number;
+  method: string;
+  destination: string | null;
+  status: string;
+};
+
+// Supabase embeds a to-one relation as an object or (in some typings) an array.
+function advertiserName(a: Campaign['advertiser']): string {
+  if (!a) return '—';
+  const row = Array.isArray(a) ? a[0] : a;
+  return row?.company ?? '—';
+}
 
 const nzd = (cents: number) =>
   `NZ$${(cents / 100).toLocaleString('en-NZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -57,25 +83,47 @@ export default async function DashAdminPage() {
 
   let campaigns: Campaign[] = [];
   let impressions: ImpressionRow[] = [];
+  let ledger: LedgerRow[] = [];
+  let payouts: PayoutRow[] = [];
   let error = '';
   try {
     const service = getServiceClient();
-    const [c, i] = await Promise.all([
+    const [c, i, l, p] = await Promise.all([
       service
         .from('dash_campaigns')
-        .select('id, name, advertiser_email, bid_cpm_nzd_cents, daily_budget_nzd_cents, spent_today, spent_today_date, status, category')
+        .select('id, name, bid_cpm_nzd_cents, daily_budget_nzd_cents, spent_today, spent_today_date, status, category, advertiser:dash_advertisers(company)')
         .order('created_at', { ascending: false }),
       service
         .from('dash_impressions')
         .select('campaign_id, clicked, dismissed, charged_nzd_cents, served_at')
         .order('served_at', { ascending: false })
         .limit(5000),
+      service
+        .from('dash_payout_ledger')
+        .select('created_at, party_type, party_id, direction, amount_nzd, reason')
+        .order('created_at', { ascending: false })
+        .limit(100),
+      service
+        .from('dash_payouts')
+        .select('created_at, party_type, party_id, amount_nzd, method, destination, status')
+        .order('created_at', { ascending: false })
+        .limit(100),
     ]);
     campaigns = (c.data as Campaign[]) ?? [];
     impressions = (i.data as ImpressionRow[]) ?? [];
+    ledger = (l.data as LedgerRow[]) ?? [];
+    payouts = (p.data as PayoutRow[]) ?? [];
   } catch (e) {
     error = e instanceof Error ? e.message : 'Unknown error';
   }
+
+  // Ledger balances by party type (credits − debits).
+  const balanceByType = ledger.reduce<Record<string, number>>((acc, r) => {
+    const delta = (r.direction === 'credit' ? 1 : -1) * Number(r.amount_nzd ?? 0);
+    acc[r.party_type] = (acc[r.party_type] ?? 0) + delta;
+    return acc;
+  }, {});
+  const pendingPayouts = payouts.filter((p) => p.status === 'pending');
 
   // Counters over the loaded impression window.
   const requests = impressions.length;
@@ -142,7 +190,7 @@ export default async function DashAdminPage() {
                 return (
                   <tr key={c.id} style={tr}>
                     <td style={td}>{c.name}</td>
-                    <td style={td}>{c.advertiser_email}</td>
+                    <td style={td}>{advertiserName(c.advertiser)}</td>
                     <td style={{ ...td, color: c.status === 'active' ? '#3A7D6E' : '#6B6B66' }}>{c.status}</td>
                     <td style={td}>{nzd(c.bid_cpm_nzd_cents)}</td>
                     <td style={td}>{nzd(c.daily_budget_nzd_cents)}</td>
@@ -151,6 +199,88 @@ export default async function DashAdminPage() {
                   </tr>
                 );
               })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* ---------------- LEDGER ---------------- */}
+      <h2 style={h2}>Ledger</h2>
+      <section style={{ ...statGrid, marginBottom: 14 }}>
+        {(['publisher', 'earner', 'charity'] as const).map((t) => (
+          <div key={t} style={statCard}>
+            <div style={statLabel}>{t} balance</div>
+            <div style={statValue}>{nzd(Math.round((balanceByType[t] ?? 0) * 100))}</div>
+            <div style={statHint}>credits − debits, all time</div>
+          </div>
+        ))}
+      </section>
+      {ledger.length === 0 ? (
+        <p style={muted}>No ledger entries yet. They appear as waits accrue and rewards redeem.</p>
+      ) : (
+        <div style={tableWrap}>
+          <table style={table}>
+            <thead>
+              <tr>
+                {['When', 'Party', 'ID', 'Dir', 'Amount', 'Reason'].map((h) => (
+                  <th key={h} style={th}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {ledger.map((r, idx) => (
+                <tr key={idx} style={tr}>
+                  <td style={td}>{new Date(r.created_at).toLocaleString('en-NZ')}</td>
+                  <td style={td}>{r.party_type}</td>
+                  <td style={{ ...td, fontFamily: 'monospace', fontSize: 12 }}>{r.party_id}</td>
+                  <td style={{ ...td, color: r.direction === 'credit' ? '#3A7D6E' : '#B5533A' }}>
+                    {r.direction}
+                  </td>
+                  <td style={td}>{nzd(Math.round(Number(r.amount_nzd) * 100))}</td>
+                  <td style={td}>{r.reason}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* ---------------- PAYOUTS ---------------- */}
+      <h2 style={h2}>
+        Payouts{pendingPayouts.length > 0 ? ` · ${pendingPayouts.length} pending` : ''}
+      </h2>
+      {payouts.length === 0 ? (
+        <p style={muted}>No payouts yet. Redemptions and the payouts cron write here.</p>
+      ) : (
+        <div style={tableWrap}>
+          <table style={table}>
+            <thead>
+              <tr>
+                {['When', 'Party', 'ID', 'Amount', 'Method', 'Destination', 'Status'].map((h) => (
+                  <th key={h} style={th}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {payouts.map((r, idx) => (
+                <tr key={idx} style={tr}>
+                  <td style={td}>{new Date(r.created_at).toLocaleString('en-NZ')}</td>
+                  <td style={td}>{r.party_type}</td>
+                  <td style={{ ...td, fontFamily: 'monospace', fontSize: 12 }}>{r.party_id}</td>
+                  <td style={td}>{nzd(Math.round(Number(r.amount_nzd) * 100))}</td>
+                  <td style={td}>{r.method}</td>
+                  <td style={td}>{r.destination ?? '—'}</td>
+                  <td
+                    style={{
+                      ...td,
+                      color:
+                        r.status === 'paid' ? '#3A7D6E' : r.status === 'failed' ? '#B5533A' : '#6B6B66',
+                    }}
+                  >
+                    {r.status}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
