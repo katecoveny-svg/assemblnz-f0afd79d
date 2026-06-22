@@ -16,31 +16,31 @@
 
 [data-dash] {
   /* raw palette — dash. white + yellow, charcoal text (no black) */
-  --d-cream: #fffdf3;
+  --d-cream: #fff7ec;
   --d-cream-2: #fff7d6;
-  --d-forest: #353027;
-  --d-forest-2: #2a261f;
-  --d-sage: #353027;
-  --d-sage-2: #4a443a;
-  --d-sage-pale: #fff6d6;
-  --d-gold: #ffc400;
-  --d-hivis: #ffe600;
-  --d-mint: #ffc400;
-  --d-ink: #353027;
+  --d-forest: #3a3832;
+  --d-forest-2: #2c2a25;
+  --d-sage: #3a3832;
+  --d-sage-2: #56544b;
+  --d-sage-pale: #fff7ec;
+  --d-gold: #ffd42a;
+  --d-hivis: #ffe27a;
+  --d-mint: #ffd42a;
+  --d-ink: #3a3832;
 
   /* semantic — white surface, charcoal ink, yellow accent */
   --d-bg: #ffffff;
-  --d-fg: #353027;
-  --d-muted: #7c766a;
+  --d-fg: #3a3832;
+  --d-muted: #56544b;
   --d-surface: #ffffff;
-  --d-surface-2: #fff6d6;
-  --d-line: #ece6d6;
-  --d-accent: #353027; /* buttons, ink accents */
+  --d-surface-2: #fff7ec;
+  --d-line: #efeadc;
+  --d-accent: #3a3832; /* buttons, ink accents */
   --d-on-accent: #ffffff;
 
   /* dog ink */
-  --d-groove: #353027;
-  --d-dog-ink: #353027;
+  --d-groove: #3a3832;
+  --d-dog-ink: #3a3832;
 
   /* status */
   --d-error: #9a4b3f;
@@ -54,14 +54,14 @@
   --d-r-xl: 30px;
   --d-r-pill: 999px;
 
-  --d-shadow-sm: 0 2px 10px rgba(53, 48, 39, 0.05);
-  --d-shadow-md: 0 14px 40px rgba(53, 48, 39, 0.08);
+  --d-shadow-sm: 0 2px 10px rgba(58, 56, 50, 0.05);
+  --d-shadow-md: 0 14px 40px rgba(58, 56, 50, 0.08);
 
   /* LOCKED easing — no bounce / spring */
   --d-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   /* gold focus ring (a11y) */
-  --d-focus-ring: 0 0 0 3px var(--d-bg), 0 0 0 6px rgba(255, 196, 0, 0.85);
+  --d-focus-ring: 0 0 0 3px var(--d-bg), 0 0 0 6px rgba(255, 212, 42, 0.85);
 
   color: var(--d-fg);
   font-family: var(--d-ff-sans);

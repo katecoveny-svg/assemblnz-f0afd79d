@@ -10,32 +10,32 @@
 
 .dash-scope {
   /* raw palette — dash. yellow + black poster colourway */
-  --d-cream: #fff8dc;
-  --d-cream-2: #fdf3c4;
-  --d-forest: #353027;
-  --d-forest-2: #2a261f;
-  --d-sage: #353027;
-  --d-sage-2: #4a443a;
-  --d-sage-pale: #fff3b0;
-  --d-gold: #ffc400;
-  --d-hivis: #ffe600;
-  --d-mint: #ffc400;
-  --d-ink: #353027;
+  --d-cream: #fff7ec;
+  --d-cream-2: #fffaf2;
+  --d-forest: #3a3832;
+  --d-forest-2: #2c2a25;
+  --d-sage: #3a3832;
+  --d-sage-2: #56544b;
+  --d-sage-pale: #fff7ec;
+  --d-gold: #ffd42a;
+  --d-hivis: #ffe27a;
+  --d-mint: #ffd42a;
+  --d-ink: #3a3832;
 
   /* semantic — white canvas, charcoal text, yellow accents */
   --bg: #ffffff;
-  --fg: #353027;
-  --muted: #7c766a;
+  --fg: #3a3832;
+  --muted: #56544b;
   --surface: #ffffff;
-  --surface-2: #fff6d6;
-  --line: #ece6d6;
-  --accent: #353027; /* buttons, ink accents */
+  --surface-2: #fff7ec;
+  --line: #efeadc;
+  --accent: #3a3832; /* buttons, ink accents */
   --on-accent: #ffffff;
-  --gold: #ffc400;
-  --hivis: #ffe600;
-  --mint: #ffc400;
-  --sage: #353027;
-  --sage-pale: #fff6d6;
+  --gold: #ffd42a;
+  --hivis: #ffe27a;
+  --mint: #ffd42a;
+  --sage: #3a3832;
+  --sage-pale: #fff7ec;
 
   --ff-serif: var(--font-dash-sans), 'Lato', system-ui, -apple-system, sans-serif;
   --ff-sans: var(--font-dash-sans), 'Lato', system-ui, -apple-system, sans-serif;
@@ -45,8 +45,8 @@
   --r-lg: 22px;
   --r-xl: 30px;
   --r-pill: 999px;
-  --shadow-sm: 0 2px 10px rgba(53, 48, 39, 0.05);
-  --shadow-md: 0 14px 40px rgba(53, 48, 39, 0.08);
+  --shadow-sm: 0 2px 10px rgba(58, 56, 50, 0.05);
+  --shadow-md: 0 14px 40px rgba(58, 56, 50, 0.08);
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   background: var(--bg);
@@ -57,15 +57,15 @@
 }
 
 .dash-scope.dash-forest {
-  --bg: #353027;
-  --fg: #fffdf5;
+  --bg: #3a3832;
+  --fg: #ffffff;
   --muted: #c9c4ad;
-  --surface: #3a352c;
-  --surface-2: #4a443a;
-  --line: #ffc400;
-  --accent: #ffc400;
-  --on-accent: #353027;
-  --sage-pale: #4a443a;
+  --surface: #2c2a25;
+  --surface-2: #56544b;
+  --line: #ffd42a;
+  --accent: #ffd42a;
+  --on-accent: #3a3832;
+  --sage-pale: #56544b;
 }
 
 /* ---------- type ---------- */
@@ -156,7 +156,7 @@
 }
 .dash-scope .d-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 196, 0, 0.85);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 212, 42, 0.85);
 }
 .dash-scope .d-btn--primary {
   background: var(--accent);
@@ -167,7 +167,7 @@
   transform: translateY(-1px);
 }
 .dash-scope.dash-forest .d-btn--primary:hover {
-  background: #fffdf5;
+  background: #ffffff;
 }
 .dash-scope .d-btn--primary:hover svg {
   transform: translateX(4px);
@@ -233,7 +233,7 @@
 .dash-scope .d-field:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(255, 196, 0, 0.32);
+  box-shadow: 0 0 0 4px rgba(255, 212, 42, 0.32);
 }
 .dash-scope .d-field-hint {
   font-size: 13px;
@@ -257,8 +257,8 @@
   color: var(--fg);
 }
 .dash-scope .d-pill--gold {
-  background: rgba(255, 196, 0, 0.2);
-  color: #8a6320;
+  background: rgba(255, 212, 42, 0.2);
+  color: #c79b1f;
 }
 .dash-scope .d-pill--outline {
   background: transparent;

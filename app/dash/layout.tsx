@@ -33,7 +33,7 @@ function Wordmark() {
   return (
     <span className="wordmark">
       <b>
-        dash<i>–</i>
+        dash<i className="dashbar" aria-hidden />
       </b>
       <span>by assembl</span>
     </span>

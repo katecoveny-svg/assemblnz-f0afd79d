@@ -7,9 +7,9 @@
 
 .loader {
   /* dog tint defaults — whitelabel overrides --dog-body inline */
-  --dog-body: var(--d-sage, #353027);
-  --dog-groove: var(--d-groove, #353027);
-  --dog-ink: var(--d-dog-ink, #353027);
+  --dog-body: var(--d-sage, #3a3832);
+  --dog-groove: var(--d-groove, #3a3832);
+  --dog-ink: var(--d-dog-ink, #3a3832);
 
   position: relative;
   display: flex;
@@ -67,7 +67,7 @@
 
 /* segment fill — hi-vis yellow loader glowing on the black dog body */
 .seg {
-  fill: var(--d-hivis, #ffe600);
+  fill: var(--d-hivis, #ffe27a);
   opacity: 0.16;
   transition: opacity 0.3s var(--d-ease);
 }
@@ -96,7 +96,7 @@
   }
 }
 .loader[data-status='success'] .seg {
-  fill: var(--d-mint, #ffc400);
+  fill: var(--d-mint, #ffd42a);
   opacity: 1;
 }
 
@@ -195,7 +195,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--d-gold, #ffc400);
+  background: var(--d-gold, #ffd42a);
   flex: none;
 }
 .sponsorName {
