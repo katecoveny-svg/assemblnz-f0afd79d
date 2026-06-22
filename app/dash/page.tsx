@@ -1,25 +1,29 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Bot, Check, Code2, Coins, ShieldCheck, Sparkles } from 'lucide-react';
-import '@/styles/dash-tokens.css';
-import { DashLeadForm } from '@/components/site/dash/DashLeadForm';
-import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
-import { Sparkles as SparkleLayer } from '@/components/site/Sparkles';
-import { DashLoaderLiveDemo } from '@/components/dash/DashLoaderLiveDemo';
-import { GlossyMascotHero } from '@/components/dash/GlossyMascotHero';
-import { Marquee } from '@/components/dash/Marquee';
-import { PhoneMock } from '@/components/dash/PhoneMock';
-import { StickyCta } from '@/components/dash/StickyCta';
-import { dashFontVars } from './fonts';
+import './birdie.css';
+
+/**
+ * /dash — the Birdie Direction marketing home.
+ *
+ * A faithful build of the design handoff ("Dash - Birdie Direction.dc.html"):
+ * hero with the floaty dachshund + earning chip, the flagship "wait is the
+ * canvas" fill-the-dog demo, three audience doors, the reward ladder, and the
+ * big "Sit. Stay. Get paid." CTA. Chrome (marquee + nav + footer) lives in
+ * layout.tsx. Motion/hover/responsive rules live in birdie.css.
+ *
+ * Palette is locked: white + canary (#FFD42A) + charcoal text (#3a3832).
+ * No black, no green. See docs/dash-design-system.md.
+ */
 
 export const metadata: Metadata = {
-  title: 'dash. by assembl — get paid to wait',
+  title: 'dash. by assembl — get paid for the wait',
   description:
-    'Every NZ tool has a wait. dash. makes it earn. Your spinner is inventory — and publishers keep 55%.',
+    'While your AI agent works, Dash turns the wait into something you keep — Airpoints, KiwiSaver or charity. Opt-in, NZ-built, Assembl-governed.',
   alternates: { canonical: '/dash' },
   openGraph: {
-    title: 'dash. by assembl — get paid to wait',
-    description: 'Every NZ tool has a wait. dash. makes it earn. Your spinner is inventory.',
+    title: 'dash. by assembl — get paid for the wait',
+    description:
+      'While your AI agent works, Dash turns the wait into something you keep. Opt-in, NZ-built.',
     type: 'website',
     siteName: 'dash. by assembl',
     url: 'https://assembl.co.nz/dash',
@@ -29,418 +33,648 @@ export const metadata: Metadata = {
         url: 'https://assembl.co.nz/images/dash/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'dash. by assembl — get paid to wait',
+        alt: 'dash. by assembl — get paid for the wait',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'dash. by assembl — get paid to wait',
-    description: 'Every NZ tool has a wait. dash. makes it earn. Your spinner is inventory.',
+    title: 'dash. by assembl — get paid for the wait',
+    description: 'While your AI agent works, Dash turns the wait into something you keep.',
     images: ['https://assembl.co.nz/images/dash/og-image.png'],
   },
 };
 
-// The three audiences, said plainly — shown as a row right under the hero so
-// it's instantly obvious who dash. is for.
-const AUDIENCES = [
-  {
-    icon: Bot,
-    who: 'For AI builders',
-    line: 'Your agent makes people wait while it works. Add a reward layer to that wait in one line — opt-in, NZ-built.',
-    href: '/dash/for-ai-builders',
-  },
-  {
-    icon: Coins,
-    who: 'For people',
-    line: 'Get rewarded while your AI agent works. Airpoints, KiwiSaver top-ups or charity for time you’d wait anyway.',
-    href: '#people',
-  },
-  {
-    icon: Code2,
-    who: 'For publishers',
-    line: 'Every wait state is inventory — agent runs, search, checkout. Keep 55% of what it earns, in two lines of code.',
-    href: '#publishers',
-  },
-  {
-    icon: Sparkles,
-    who: 'For advertisers',
-    line: 'Own the space between click and result. Reach NZ users while they watch their agent work.',
-    href: '#advertisers',
-  },
-] as const;
-
-const PEOPLE_POINTS = [
-  'One line of text while your tool loads — that’s the whole ad.',
-  'Airpoints, KiwiSaver top-ups or a donation to charity — for waits you’d sit through regardless.',
-  'No new app and no sign-up: it runs inside the NZ tools you already open.',
-  'Private by design — no prompts, content or files are read.',
-];
-
-const PUBLISHER_POINTS = [
-  'Keep 55% of every dollar the wait earns. 60% for the first three publishers.',
-  'Two lines of code. It drops in wherever you already show a spinner.',
-  'No prompts, content, files or code read — the privacy terms are in writing.',
-  'Empty auction? Your own line runs instead. Never a blank.',
-];
-
-const ADVERTISER_POINTS = [
-  'NZ users on NZ-licensed software, reached mid-task.',
-  'Text only — no video, no pop-up, no cookies. One line.',
-  'Second-price auction: you pay one cent above the next bid, never more.',
-  'NZ-only inventory. No gambling, alcohol or weapons.',
-];
-
-const STEPS = [
-  {
-    icon: Code2,
-    title: 'You click',
-    body: 'You use an NZ tool the way you always do. It works, and you wait the second it takes to load.',
-  },
-  {
-    icon: Sparkles,
-    title: 'A line runs in the wait',
-    body: 'One line of text shows while the tool loads. No video, no pop-up, nothing to close.',
-  },
-  {
-    icon: Coins,
-    title: 'Everyone earns',
-    body: 'You take the reward, the publisher keeps 55%, the brand lands its line. The second was always there — dash. makes it pay.',
-  },
-] as const;
+const MASCOT = '/dash/mascot-dog.png';
 
 export default function DashPage() {
   return (
-    <main>
-      <Marquee />
-
-      {/* ---------- HERO ---------- */}
-      <section className="hero">
-        {/* bright cream/sage flowing-gradient (no gold) + drifting sparkle */}
-        <ShaderHeroBackdrop variant="airy" />
-        <SparkleLayer className="z-0" />
-        <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="heroStage" style={{ padding: '96px 0 112px' }}>
-            <div className="heroCopy">
-              <span className="launchPill">
-                <span className="ping" aria-hidden />
-                Now onboarding founding NZ publishers
-              </span>
-              <p className="eyebrow heroEyebrow">Long dog. Short wait. NZ-built.</p>
-              <h1 className="heroTitle">
-                <span className="l">Get paid</span>
-                <span className="l">
-                  to <span className="em">wait.</span>
-                </span>
-              </h1>
-              <p className="heroSub">
-                The few minutes your AI agent spends working? That’s the most-watched, least-used
-                screen in software. dash– turns it into a reward the person actually keeps —
-                Airpoints, KiwiSaver or charity. Two lines of SDK. You keep 55%.
-              </p>
-              <ul className="heroBullets">
-                <li>Two lines of SDK — drops onto the wait you already show</li>
-                <li>Rewards, not cash — Airpoints, KiwiSaver, charity</li>
-                <li>Private by design — no prompts, content or files read</li>
-              </ul>
-              <div className="heroCta">
-                <Link href="#waitlist" className="btn btn--primary btn--lg">
-                  Join the waitlist
-                  <ArrowRight aria-hidden />
-                </Link>
-                <Link href="/dash/for-ai-builders" className="btn btn--ghost btn--lg">
-                  For AI builders
-                </Link>
-              </div>
-              <span className="heroProof">
-                ★ 4.9/5 — paid out to KiwiSaver, Airpoints &amp; charity
-              </span>
-            </div>
-
-            <div className="dogWrap">
-              <GlossyMascotHero />
-            </div>
+    <div style={{ background: '#FFFFFF', color: '#3a3832' }}>
+      {/* ---------------- HERO ---------------- */}
+      <div
+        className="bd-hero bd-section"
+        style={{
+          maxWidth: 1500,
+          margin: '0 auto',
+          padding: '64px 72px 116px',
+          display: 'flex',
+          gap: 40,
+          alignItems: 'center',
+        }}
+      >
+        {/* copy */}
+        <div className="bd-hero-copy" style={{ flex: 'none', width: 392 }}>
+          <div
+            className="bd-mono"
+            style={{
+              fontSize: 12,
+              letterSpacing: '.18em',
+              textTransform: 'uppercase',
+              color: '#c79b1f',
+              marginBottom: 26,
+            }}
+          >
+            Reward layer for the agentic wait
           </div>
-        </div>
-      </section>
-
-      {/* ---------- WHO IT'S FOR ---------- */}
-      <section className="section" id="who" style={{ paddingBottom: 0 }}>
-        <div className="wrap">
-          <p className="eyebrow" style={{ marginBottom: 12 }}>
-            Who it’s for
+          <h1
+            className="bd-hero-title"
+            style={{
+              margin: 0,
+              fontWeight: 900,
+              fontSize: 70,
+              lineHeight: 0.92,
+              letterSpacing: '-.04em',
+              color: '#3a3832',
+            }}
+          >
+            Get paid
+            <br />
+            for the wait.
+          </h1>
+          <p
+            style={{
+              margin: '28px 0 36px',
+              fontSize: 18,
+              lineHeight: 1.62,
+              color: '#56544b',
+              maxWidth: 400,
+            }}
+          >
+            While your AI agent works, Dash quietly turns the wait into something you keep. You opt
+            in, you pick the reward — a very long dog handles the rest.
           </p>
-          <h2 className="sectionTitle" style={{ maxWidth: 620 }}>
-            One wait. Four ways it pays.
-          </h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+            <Link
+              href="/dash/for-ai-builders"
+              className="bd-cta-primary"
+              style={{
+                background: '#FFD42A',
+                color: '#3a3832',
+                padding: '17px 32px',
+                borderRadius: 99,
+                fontWeight: 700,
+                fontSize: 17,
+                textDecoration: 'none',
+                boxShadow: '0 8px 26px rgba(255,212,42,.5)',
+              }}
+            >
+              Switch Dash on
+            </Link>
+            <Link
+              href="#flagship"
+              className="bd-textlink"
+              style={{ fontSize: 15, fontWeight: 600, color: '#46443c' }}
+            >
+              See how it works →
+            </Link>
+          </div>
+          <div style={{ marginTop: 46, display: 'flex', gap: 40 }}>
+            <Stat value="60-sec" label="setup, one line" />
+            <Stat value="5.06M" label="Kiwis online daily" />
+            <Stat value="NZ" label="data residency" />
+          </div>
+        </div>
+
+        {/* mascot stage */}
+        <div
+          style={{
+            flex: 1,
+            position: 'relative',
+            minHeight: 520,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'visible',
+          }}
+        >
+          <div
+            className="bd-glow"
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              width: 440,
+              height: 440,
+              borderRadius: '50%',
+              transform: 'translate(-50%,-50%)',
+              background:
+                'radial-gradient(circle,rgba(255,212,42,.3),rgba(255,212,42,0) 62%)',
+            }}
+          />
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: 20,
-              marginTop: 40,
+              position: 'absolute',
+              left: '50%',
+              top: '72%',
+              width: 330,
+              height: 80,
+              borderRadius: '50%',
+              transform: 'translateX(-50%)',
+              background: 'radial-gradient(circle at 50% 36%,#FFFFFF,#F4EFE4 72%)',
+              boxShadow: '0 26px 46px rgba(190,160,40,.12)',
             }}
-          >
-            {AUDIENCES.map(({ icon: Icon, who, line, href }) => (
-              <Link key={who} href={href} className="card card--hover" style={{ textDecoration: 'none' }}>
-                <span className="icon-badge" style={{ marginBottom: 18 }}>
-                  <Icon aria-hidden />
-                </span>
-                <h3 className="serif" style={{ fontSize: 22, fontWeight: 600, marginBottom: 8 }}>
-                  {who}
-                </h3>
-                <p className="body" style={{ fontSize: 15.5, color: 'var(--muted)' }}>
-                  {line}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+          />
+          <span
+            className="bd-spark"
+            style={{
+              position: 'absolute',
+              right: 46,
+              top: 54,
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: '#FFD42A',
+            }}
+          />
+          <span
+            className="bd-spark--2"
+            style={{
+              position: 'absolute',
+              right: 120,
+              top: 24,
+              width: 5,
+              height: 5,
+              borderRadius: '50%',
+              background: '#FFD42A',
+            }}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={MASCOT}
+            alt="Dash — the dachshund mascot"
+            className="bd-floaty"
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: 470,
+              height: 'auto',
+              filter: 'drop-shadow(0 28px 30px rgba(180,150,40,.22))',
+            }}
+          />
 
-      <div className="wrap"><hr className="dash-rule" aria-hidden /></div>
-
-      {/* ---------- HOW IT WORKS — brand kit's numbered "Watch. Wait. Earn." ---------- */}
-      <section className="section" id="how">
-        <div className="wrap">
-          <div className="howPanel">
-            <p className="eyebrow" style={{ marginBottom: 12 }}>
-              How it works
-            </p>
-            <h2 className="sectionTitle howTitle">
-              Watch. Wait. <em>Earn.</em>
-            </h2>
-            <div className="steps">
-              {STEPS.map(({ title, body }, i) => (
-                <div key={title} className="step">
-                  <span className="stepNo">{i + 1}</span>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- SEE IT LIVE — the real consumer-mode loader, working ---------- */}
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div style={{ display: 'grid', gap: 40, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', alignItems: 'center' }}>
-            <div>
-              <p className="eyebrow" style={{ marginBottom: 12 }}>
-                See it live
-              </p>
-              <h2 className="sectionTitle" style={{ maxWidth: 520 }}>
-                This is the wait, working.
-              </h2>
-              <p className="body" style={{ marginTop: 16, maxWidth: 460, fontSize: 17 }}>
-                A real NZ-brand line runs while the tool loads — labelled, private, and earning. Here
-                it’s donating every cent to SPCA NZ.
-              </p>
-            </div>
-            {/* The loader uses the [data-dash] token scope + its own font vars. */}
-            <div data-dash="" className={dashFontVars} style={{ display: 'grid', placeItems: 'center' }}>
-              <DashLoaderLiveDemo />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- IN THE APPS YOU ALREADY OPEN ---------- */}
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <p className="eyebrow" style={{ marginBottom: 12 }}>
-            Inside the NZ tools you already open
-          </p>
-          <h2 className="sectionTitle" style={{ maxWidth: 560, marginBottom: 36 }}>
-            No new app. It runs in the wait.
-          </h2>
+          {/* earning chip */}
           <div
             style={{
-              display: 'grid',
-              gap: 28,
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              justifyItems: 'center',
+              position: 'absolute',
+              left: 6,
+              bottom: 30,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              background: '#fff',
+              border: '1px solid #F0EBDD',
+              padding: '11px 18px',
+              borderRadius: 99,
+              boxShadow: '0 12px 28px rgba(180,150,40,.16)',
             }}
           >
-            <PhoneMock
-              hostName="an AI agent"
-              adLine="Air New Zealand Business — fly the main centres for less."
-              rewardText="+$0.04 → Airpoints"
-              fillPct={64}
-            />
-            <PhoneMock
-              hostName="a quote engine"
-              adLine="Mitre 10 — winter project sorted, in-store now."
-              rewardText="+$0.03 → KiwiSaver"
-              fillPct={38}
-            />
-            <PhoneMock
-              hostName="a search tool"
-              adLine="Kathmandu — gear up for the long weekend."
-              rewardText="+$0.05 → SPCA NZ"
-              fillPct={82}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- PUBLISHERS / ADVERTISERS ---------- */}
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div
-            style={{
-              display: 'grid',
-              gap: 48,
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            }}
-          >
-            <TwoSide
-              id="people"
-              eyebrow="For people"
-              heading="Watch. Wait. Earn."
-              lead="Get rewarded for the moments you already spend waiting."
-              points={PEOPLE_POINTS}
-            />
-            <TwoSide
-              id="publishers"
-              eyebrow="For publishers"
-              heading="Your wait state is ad space."
-              lead="Your tool thinks. Your user waits. That wait is worth money — and most of it goes to you."
-              points={PUBLISHER_POINTS}
-            />
-            <TwoSide
-              id="advertisers"
-              eyebrow="For advertisers"
-              heading="Own the space between click and result."
-              lead="Run smarter campaigns. Reach high-intent NZ users in the one second they’re actually watching."
-              points={ADVERTISER_POINTS}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- TRUST ---------- */}
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div className="card" style={{ display: 'flex', alignItems: 'flex-start', gap: 18, maxWidth: 760 }}>
-            <span className="icon-badge" style={{ flex: 'none' }}>
-              <ShieldCheck aria-hidden />
+            <span className="bd-mono" style={{ fontSize: 12, color: '#9a988e' }}>
+              earning
             </span>
-            <div>
-              <h3 className="serif" style={{ fontSize: 24, marginBottom: 8, fontWeight: 600 }}>
-                The promise, in writing
-              </h3>
-              <p className="body" style={{ fontSize: 15.5 }}>
-                The SDK sends us three things: your publisher ID, the screen type, a rough topic tag.
-                That’s it. It can’t read prompts, content, code or files. It never sees a user. It
-                never stores a raw IP. Privacy Act 2020 native — and assembl stands behind every line
-                of it.
-              </p>
-            </div>
+            <span
+              className="bd-mono bd-tick"
+              style={{ fontSize: 13, fontWeight: 700, color: '#c0890d' }}
+            >
+              + $0.14
+            </span>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ---------- CLOSING CTA — the conversion push ---------- */}
-      <section className="section" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div className="ctaBand">
-            <span className="ctaGlow" aria-hidden />
-            <p className="eyebrow" style={{ color: 'var(--accent)', marginBottom: 14 }}>
-              Founding spots · NZ launch
-            </p>
-            <h2 className="ctaTitle">
-              The wait is already happening.
-              <br />
-              <em>Start earning from it.</em>
-            </h2>
-            <p className="ctaSub">
-              First three publishers keep <strong>60% for life</strong>. Two lines of code, live
-              before your next release.
-            </p>
-            <div className="ctaActions">
-              <Link href="#waitlist" className="btn btn--primary btn--lg">
-                Join the waitlist
-                <ArrowRight aria-hidden />
-              </Link>
-              <Link href="#how" className="btn btn--ghost btn--lg">
-                See how it works
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- WAITLIST ---------- */}
-      <section className="section" id="waitlist" style={{ paddingTop: 0 }}>
-        <div className="wrap">
+      {/* ---------------- FLAGSHIP: the wait is the canvas ---------------- */}
+      <div
+        id="flagship"
+        className="bd-section"
+        style={{ maxWidth: 1180, margin: '0 auto', padding: '40px 72px 130px', scrollMarginTop: 90 }}
+      >
+        <div className="bd-reveal" style={{ textAlign: 'center', marginBottom: 56 }}>
           <div
-            className="waitlistGrid"
+            className="bd-mono"
             style={{
-              display: 'grid',
-              gap: 48,
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              alignItems: 'start',
+              fontSize: 12,
+              letterSpacing: '.18em',
+              textTransform: 'uppercase',
+              color: '#c79b1f',
+              marginBottom: 14,
             }}
           >
-            <div style={{ maxWidth: 420 }}>
-              <p className="eyebrow" style={{ marginBottom: 12 }}>
-                Join the waitlist
-              </p>
-              <h2 className="sectionTitle">Sign up.</h2>
-              <p className="body" style={{ marginTop: 16, fontSize: 16 }}>
-                Are you a publisher with a tool that has a wait state, or a NZ brand that wants to
-                reach people inside one? Pick one. We reply within two working days.
-              </p>
-              <p className="pill pill--gold" style={{ marginTop: 24 }}>
-                Publishers keep 55%. 60% for the first three.
-              </p>
+            The flagship moment
+          </div>
+          <h2
+            className="bd-h2"
+            style={{ margin: 0, fontWeight: 900, fontSize: 48, letterSpacing: '-.035em', color: '#3a3832' }}
+          >
+            The wait is the canvas.
+          </h2>
+          <p
+            style={{
+              margin: '18px auto 0',
+              fontSize: 17,
+              lineHeight: 1.6,
+              color: '#56544b',
+              maxWidth: 480,
+            }}
+          >
+            Dash sits quietly beneath your agent&apos;s status. One sponsored line, value banking in
+            real time, a clean &ldquo;you earned&rdquo; when it&apos;s done.
+          </p>
+        </div>
+
+        <div
+          className="bd-demo-card bd-reveal"
+          style={{
+            maxWidth: 700,
+            margin: '0 auto',
+            background: '#fff',
+            border: '1px solid #EFEADC',
+            borderRadius: 26,
+            padding: '24px 34px 24px 18px',
+            boxShadow: '0 26px 64px rgba(180,150,40,.12)',
+            display: 'flex',
+            gap: 18,
+            alignItems: 'center',
+          }}
+        >
+          {/* fill-the-dog */}
+          <div
+            className="bd-demo-dog bd-floaty--demo"
+            style={{ flex: 'none', position: 'relative', width: 288 }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={MASCOT}
+              alt=""
+              aria-hidden
+              style={{
+                display: 'block',
+                width: '100%',
+                height: 'auto',
+                filter: 'grayscale(.75) brightness(1.22) opacity(.28)',
+              }}
+            />
+            <div
+              className="bd-fillrise"
+              style={{ position: 'absolute', left: 0, right: 0, bottom: 0, overflow: 'hidden' }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={MASCOT}
+                alt="Dash mascot filling as it loads"
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  bottom: 0,
+                  width: 288,
+                  height: 'auto',
+                  filter: 'drop-shadow(0 0 12px rgba(255,212,42,.45))',
+                }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  height: 3,
+                  background:
+                    'linear-gradient(90deg,rgba(255,230,128,0),#ffffff,rgba(255,230,128,0))',
+                  boxShadow: '0 0 12px rgba(255,212,42,.95)',
+                }}
+              />
             </div>
-            <DashLeadForm />
+          </div>
+
+          {/* status */}
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 8 }}>
+              <div
+                className="bd-dot"
+                style={{
+                  width: 9,
+                  height: 9,
+                  borderRadius: '50%',
+                  background: '#FFD42A',
+                  boxShadow: '0 0 0 4px rgba(255,212,42,.22)',
+                }}
+              />
+              <div style={{ fontWeight: 700, fontSize: 17, color: '#3a3832' }}>
+                Your agent is working
+              </div>
+            </div>
+            <div className="bd-mono" style={{ fontSize: 12, color: '#9a988e', marginBottom: 20 }}>
+              step 4 of 6 · ETA 4 min · value banking in his belly
+            </div>
+            <div
+              style={{
+                borderTop: '1px solid #EFEADC',
+                paddingTop: 16,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: 14,
+              }}
+            >
+              <div style={{ textAlign: 'left' }}>
+                <div
+                  className="bd-mono"
+                  style={{
+                    fontSize: 10,
+                    letterSpacing: '.14em',
+                    textTransform: 'uppercase',
+                    color: '#bdb592',
+                    marginBottom: 5,
+                  }}
+                >
+                  sponsored · while you wait
+                </div>
+                <div style={{ fontSize: 13, color: '#56544b' }}>
+                  Whittaker&apos;s — a little something for the wait.
+                </div>
+              </div>
+              <div
+                className="bd-mono bd-countpop"
+                style={{
+                  flex: 'none',
+                  background: '#FFD42A',
+                  color: '#3a3832',
+                  fontWeight: 700,
+                  fontSize: 13,
+                  padding: '8px 15px',
+                  borderRadius: 99,
+                  boxShadow: '0 6px 18px rgba(255,212,42,.45)',
+                }}
+              >
+                + $0.14
+              </div>
+            </div>
           </div>
         </div>
-      </section>
-      <StickyCta />
-    </main>
+      </div>
+
+      {/* ---------------- AUDIENCE DOORS ---------------- */}
+      <div className="bd-section" style={{ maxWidth: 1300, margin: '0 auto', padding: '0 72px 130px' }}>
+        <div className="bd-reveal" style={{ textAlign: 'center', marginBottom: 56 }}>
+          <div
+            className="bd-mono"
+            style={{
+              fontSize: 12,
+              letterSpacing: '.18em',
+              textTransform: 'uppercase',
+              color: '#c79b1f',
+              marginBottom: 14,
+            }}
+          >
+            Three ways in
+          </div>
+          <h2
+            className="bd-h2"
+            style={{ margin: 0, fontWeight: 900, fontSize: 48, letterSpacing: '-.035em', color: '#3a3832' }}
+          >
+            One wait. Everyone wins.
+          </h2>
+        </div>
+        <div
+          className="bd-doors bd-reveal"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}
+        >
+          {/* AI builders — canary */}
+          <Link
+            href="/dash/for-ai-builders"
+            className="bd-door"
+            style={{
+              background: '#FFD42A',
+              borderRadius: 28,
+              padding: 34,
+              minHeight: 240,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              textDecoration: 'none',
+            }}
+          >
+            <div className="bd-mono" style={{ fontSize: 12, color: '#7a6b00' }}>
+              01 / AI builders
+            </div>
+            <div>
+              <div
+                style={{ fontWeight: 700, fontSize: 25, color: '#3a3832', marginBottom: 10, lineHeight: 1.05 }}
+              >
+                Add a reward layer in one line.
+              </div>
+              <div className="bd-mono" style={{ fontSize: 14, color: '#5a5208' }}>
+                dash.show()
+              </div>
+            </div>
+          </Link>
+
+          {/* Hosts — white */}
+          <div
+            className="bd-door"
+            style={{
+              background: '#fff',
+              border: '1px solid #EFEADC',
+              borderRadius: 28,
+              padding: 34,
+              minHeight: 240,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div className="bd-mono" style={{ fontSize: 12, color: '#bdb592' }}>
+              02 / Hosts
+            </div>
+            <div>
+              <div
+                style={{ fontWeight: 700, fontSize: 25, color: '#3a3832', marginBottom: 10, lineHeight: 1.05 }}
+              >
+                Make your loading screen pay.
+              </div>
+              <div style={{ fontSize: 14, color: '#6a675c' }}>
+                Keep a revenue share. White-label ready.
+              </div>
+            </div>
+          </div>
+
+          {/* Advertisers — white */}
+          <div
+            className="bd-door"
+            style={{
+              background: '#fff',
+              border: '1px solid #EFEADC',
+              borderRadius: 28,
+              padding: 34,
+              minHeight: 240,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+            }}
+          >
+            <div className="bd-mono" style={{ fontSize: 12, color: '#bdb592' }}>
+              03 / Advertisers
+            </div>
+            <div>
+              <div
+                style={{ fontWeight: 700, fontSize: 25, color: '#3a3832', marginBottom: 10, lineHeight: 1.05 }}
+              >
+                Buy NZ&apos;s most-viewed five seconds.
+              </div>
+              <div style={{ fontSize: 14, color: '#6a675c' }}>
+                One sponsor per slot. Brand-safe, opt-in.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ---------------- REWARD LADDER ---------------- */}
+      <div
+        id="rewards"
+        className="bd-section"
+        style={{ maxWidth: 1300, margin: '0 auto', padding: '0 72px 130px', textAlign: 'center', scrollMarginTop: 90 }}
+      >
+        <h2
+          className="bd-h2 bd-reveal"
+          style={{
+            margin: '0 0 14px',
+            fontWeight: 900,
+            fontSize: 48,
+            letterSpacing: '-.035em',
+            color: '#3a3832',
+          }}
+        >
+          You choose where your wait goes.
+        </h2>
+        <p style={{ margin: '0 0 44px', fontSize: 17, color: '#56544b' }}>
+          Pick one. Switch any time. Your minutes, your call.
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'center' }}>
+          <span
+            style={{
+              background: '#FFD42A',
+              borderRadius: 99,
+              padding: '15px 28px',
+              fontWeight: 700,
+              fontSize: 15,
+              color: '#3a3832',
+            }}
+          >
+            Charity
+          </span>
+          {['KiwiSaver', 'Airpoints', 'Everyday Rewards', 'Power bill'].map((r) => (
+            <span
+              key={r}
+              className="bd-chip"
+              style={{
+                background: '#fff',
+                border: '1.5px solid #E7E1D2',
+                borderRadius: 99,
+                padding: '15px 28px',
+                fontWeight: 700,
+                fontSize: 15,
+                color: '#3a382f',
+              }}
+            >
+              {r}
+            </span>
+          ))}
+          <span
+            style={{
+              background: '#fff',
+              border: '1.5px dashed #D6CEB8',
+              borderRadius: 99,
+              padding: '15px 28px',
+              fontWeight: 700,
+              fontSize: 15,
+              color: '#a89f80',
+            }}
+          >
+            Cash · soon
+          </span>
+        </div>
+      </div>
+
+      {/* ---------------- BIG CTA ---------------- */}
+      <div className="bd-section" style={{ maxWidth: 1300, margin: '0 auto', padding: '0 72px 130px' }}>
+        <div
+          className="bd-reveal"
+          style={{
+            position: 'relative',
+            background: 'radial-gradient(120% 150% at 50% -10%,#FFE27A,#FFD42A)',
+            borderRadius: 40,
+            padding: 18,
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage:
+                'repeating-linear-gradient(90deg,rgba(58,56,50,.05) 0 24px,transparent 24px 42px)',
+            }}
+          />
+          <div
+            className="bd-cta-inner"
+            style={{
+              position: 'relative',
+              background: 'rgba(255,255,255,.5)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,.7)',
+              boxShadow: 'inset 0 1px 0 rgba(255,255,255,.9),0 30px 70px rgba(180,150,40,.28)',
+              borderRadius: 30,
+              padding: '78px 56px',
+              textAlign: 'center',
+            }}
+          >
+            <h2
+              className="bd-cta-h2"
+              style={{
+                margin: '0 0 14px',
+                fontWeight: 900,
+                fontSize: 62,
+                letterSpacing: '-.04em',
+                color: '#3a3832',
+              }}
+            >
+              Sit. Stay. Get paid.
+            </h2>
+            <p
+              className="bd-mono"
+              style={{ margin: '0 0 36px', fontSize: 13, letterSpacing: '.06em', color: '#7a6b1f' }}
+            >
+              OPT-IN · NZ-BUILT · ASSEMBL-GOVERNED
+            </p>
+            <Link
+              href="/dash/for-ai-builders"
+              className="bd-cta-dark"
+              style={{
+                background: '#3a3832',
+                color: '#FFD42A',
+                padding: '18px 38px',
+                borderRadius: 99,
+                fontWeight: 700,
+                fontSize: 18,
+                display: 'inline-block',
+                textDecoration: 'none',
+                boxShadow: '0 12px 30px rgba(58,56,50,.3)',
+              }}
+            >
+              Switch Dash on →
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
-function TwoSide({
-  id,
-  eyebrow,
-  heading,
-  lead,
-  points,
-}: {
-  id: string;
-  eyebrow: string;
-  heading: string;
-  lead: string;
-  points: readonly string[];
-}) {
+function Stat({ value, label }: { value: string; label: string }) {
   return (
-    <div id={id} style={{ scrollMarginTop: 90 }}>
-      <p className="eyebrow" style={{ marginBottom: 12 }}>
-        {eyebrow}
-      </p>
-      <h2 className="sectionTitle" style={{ fontSize: 'clamp(28px, 3.2vw, 38px)' }}>
-        {heading}
-      </h2>
-      <p className="lead" style={{ marginTop: 16, color: 'var(--muted)' }}>
-        {lead}
-      </p>
-      <ul style={{ listStyle: 'none', marginTop: 26, display: 'grid', gap: 14 }}>
-        {points.map((p) => (
-          <li key={p} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-            <Check size={18} strokeWidth={2} color="var(--gold)" style={{ flex: 'none', marginTop: 3 }} aria-hidden />
-            <span className="body" style={{ fontSize: 15.5, color: 'var(--fg)' }}>
-              {p}
-            </span>
-          </li>
-        ))}
-      </ul>
+    <div>
+      <div style={{ fontWeight: 700, fontSize: 24, color: '#3a3832' }}>{value}</div>
+      <div style={{ fontSize: 13, color: '#8a887e' }}>{label}</div>
     </div>
   );
 }
