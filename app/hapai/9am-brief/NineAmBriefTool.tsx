@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { DashAgentLoader } from "@/components/dash/DashAgentLoader";
 import {
   CalendarCheck,
   Camera,
@@ -301,6 +302,7 @@ export function NineAmBriefTool() {
               </button>
               <span className="flex items-center">{gate.counter}</span>
             </div>
+            {loading ? <DashAgentLoader label="9am Brief" /> : null}
             {loading ? (
               <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
                 Turning your day into a clear list: what matters, who to chase, what’s next.

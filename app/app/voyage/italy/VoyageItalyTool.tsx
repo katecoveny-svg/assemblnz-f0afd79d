@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { DashAgentLoader } from "@/components/dash/DashAgentLoader";
 import {
   CalendarDays,
   Camera,
@@ -615,6 +616,7 @@ export function VoyageItalyTool() {
                 Clear
               </button>
             </div>
+            {loading ? <DashAgentLoader label="VOYAGE" /> : null}
             {loading ? (
               <p className="mt-4 rounded-[10px] border border-[#D9A85A]/35 bg-[#FFF9EC] px-4 py-3 text-sm italic text-[#6B5A28]">
                 VOYAGE is checking weather, FX, visible image details, and travel risks before drafting.
