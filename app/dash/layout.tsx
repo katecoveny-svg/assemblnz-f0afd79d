@@ -32,9 +32,10 @@ export const metadata: Metadata = {
 };
 
 const MARQUEE_ITEMS = [
-  'Opt-in & earn while your agent works',
-  'NZ-built · Assembl-governed',
-  'Points · KiwiSaver · Charity',
+  'Get paid to wait',
+  'One line to install',
+  'Airpoints · KiwiSaver · Charity',
+  'NZ-only · opt-in · no data read',
 ];
 
 function Wordmark({ size = 28 }: { size?: number }) {
@@ -182,7 +183,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
               textTransform: 'uppercase',
             }}
           >
-            Quiet intelligence, woven to give time back.
+            A reward layer for the wait.
           </div>
           <a
             href="https://assembl.co.nz"

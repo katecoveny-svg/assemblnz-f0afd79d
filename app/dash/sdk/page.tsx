@@ -125,7 +125,7 @@ export default function DashSdkPage() {
               </div>
               <div style={{ width: 28, height: 9, borderRadius: 5, background: '#3a3832', marginBottom: 7 }} />
             </div>
-            <div style={{ fontWeight: 900, fontSize: 24, letterSpacing: '-.02em', color: '#3a3832' }}>
+            <div style={{ fontWeight: 700, fontSize: 24, letterSpacing: '-.02em', color: '#3a3832' }}>
               SDK Reference
             </div>
           </div>
@@ -226,7 +226,7 @@ export default function DashSdkPage() {
               ['session.'], ['update', 's'], ['({ current: '], ['5', 'n'], [' });'], [" // advance the dog's fill", 'c'], '\n',
               ['session.'], ['setStatus', 's'], ['('], ["'Almost there…'", 's'], [');'], '\n',
               ['session.'], ['complete', 's'], ['();'], [' // shows "you earned $X" + banks it', 'c'], '\n',
-              ['session.'], ['dismiss', 's'], ['();'], [' // cancel quietly, no payout', 'c'],
+              ['session.'], ['dismiss', 's'], ['();'], [' // cancel, no payout', 'c'],
             ]}
           />
         </div>

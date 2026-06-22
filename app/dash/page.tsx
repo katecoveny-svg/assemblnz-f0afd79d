@@ -74,13 +74,13 @@ export default function DashPage() {
               marginBottom: 26,
             }}
           >
-            Reward layer for the agentic wait
+            A reward layer for the wait
           </div>
           <h1
             className="bd-hero-title"
             style={{
               margin: 0,
-              fontWeight: 900,
+              fontWeight: 700,
               fontSize: 70,
               lineHeight: 0.92,
               letterSpacing: '-.04em',
@@ -89,7 +89,7 @@ export default function DashPage() {
           >
             Get paid
             <br />
-            for the wait.
+            to wait.
           </h1>
           <p
             style={{
@@ -97,11 +97,11 @@ export default function DashPage() {
               fontSize: 18,
               lineHeight: 1.62,
               color: '#56544b',
-              maxWidth: 400,
+              maxWidth: 408,
             }}
           >
-            While your AI agent works, Dash quietly turns the wait into something you keep. You opt
-            in, you pick the reward — a very long dog handles the rest.
+            Your app makes people wait while it works. Dash pays them for it — Airpoints, KiwiSaver
+            or charity, for waits they sit through anyway. One line of code to add. You keep 55%.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
             <Link
@@ -129,9 +129,9 @@ export default function DashPage() {
             </Link>
           </div>
           <div style={{ marginTop: 46, display: 'flex', gap: 40 }}>
-            <Stat value="60-sec" label="setup, one line" />
-            <Stat value="5.06M" label="Kiwis online daily" />
-            <Stat value="NZ" label="data residency" />
+            <Stat value="1 line" label="to install" />
+            <Stat value="55%" label="you keep" />
+            <Stat value="NZ" label="data stays here" />
           </div>
         </div>
 
@@ -258,13 +258,13 @@ export default function DashPage() {
               marginBottom: 14,
             }}
           >
-            The flagship moment
+            What people see
           </div>
           <h2
             className="bd-h2"
-            style={{ margin: 0, fontWeight: 900, fontSize: 48, letterSpacing: '-.035em', color: '#3a3832' }}
+            style={{ margin: 0, fontWeight: 700, fontSize: 48, letterSpacing: '-.035em', color: '#3a3832' }}
           >
-            The wait is the canvas.
+            A line, a loader, a payout.
           </h2>
           <p
             style={{
@@ -275,8 +275,8 @@ export default function DashPage() {
               maxWidth: 480,
             }}
           >
-            Dash sits quietly beneath your agent&apos;s status. One sponsored line, value banking in
-            real time, a clean &ldquo;you earned&rdquo; when it&apos;s done.
+            Dash shows one sponsored line and a loader under your agent&apos;s status. The longer it
+            runs, the more they bank. When it finishes, they see exactly what they earned.
           </p>
         </div>
 
@@ -428,7 +428,7 @@ export default function DashPage() {
           </div>
           <h2
             className="bd-h2"
-            style={{ margin: 0, fontWeight: 900, fontSize: 48, letterSpacing: '-.035em', color: '#3a3832' }}
+            style={{ margin: 0, fontWeight: 700, fontSize: 48, letterSpacing: '-.035em', color: '#3a3832' }}
           >
             One wait. Everyone wins.
           </h2>
@@ -537,16 +537,16 @@ export default function DashPage() {
           className="bd-h2 bd-reveal"
           style={{
             margin: '0 0 14px',
-            fontWeight: 900,
+            fontWeight: 700,
             fontSize: 48,
             letterSpacing: '-.035em',
             color: '#3a3832',
           }}
         >
-          You choose where your wait goes.
+          Pick where the money goes.
         </h2>
         <p style={{ margin: '0 0 44px', fontSize: 17, color: '#56544b' }}>
-          Pick one. Switch any time. Your minutes, your call.
+          One tap to choose. Switch any time.
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, justifyContent: 'center' }}>
           <span
@@ -632,7 +632,7 @@ export default function DashPage() {
               className="bd-cta-h2"
               style={{
                 margin: '0 0 14px',
-                fontWeight: 900,
+                fontWeight: 700,
                 fontSize: 62,
                 letterSpacing: '-.04em',
                 color: '#3a3832',
