@@ -5,7 +5,6 @@ import '@/styles/dash-tokens.css';
 import { AgentWorkingHero } from '@/components/dash/AgentWorkingHero';
 import { CodeSnippet } from '@/components/dash/CodeSnippet';
 import { StatCallout } from '@/components/dash/StatCallout';
-import { BrandColourwayStrip } from '@/components/dash/BrandColourwayStrip';
 
 export const metadata: Metadata = {
   title: 'dash– for AI builders — add a reward layer to your agent in one line',
@@ -133,10 +132,13 @@ export default function DashForAiBuildersPage() {
           <p className="eyebrow" style={{ marginBottom: 12 }}>
             White-label, first-class
           </p>
-          <h2 className="sectionTitle" style={{ maxWidth: 520, marginBottom: 28 }}>
-            Dash in your brand’s colours.
+          <h2 className="sectionTitle" style={{ maxWidth: 560, marginBottom: 18 }}>
+            Your agents. Your logo. Our reward layer.
           </h2>
-          <BrandColourwayStrip />
+          <p className="body" style={{ maxWidth: 560, color: 'var(--muted)', fontSize: 17 }}>
+            Run dash– in your own UI and wordmark — the wait still pays your users, and you ship a
+            reward feature without building one. One integration, opt-in, NZ-built, Assembl-governed.
+          </p>
         </div>
       </section>
 

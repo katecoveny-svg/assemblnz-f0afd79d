@@ -399,22 +399,16 @@
   background: var(--surface-2);
   color: var(--fg);
 }
-/* Nav CTA. NB: `.dashNav nav a { color: var(--muted) }` out-specifies
-   `.btn--primary { color:#fff }`, so the white label must be restated here or it
-   renders muted grey-green on green (illegible). Also a touch brighter/lighter. */
+/* Nav CTA — on-brand: black pill, yellow label. */
 .dash-kit .dashNav nav a.btn--primary {
-  color: #fff;
-  padding: 11px 18px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0) 62%),
-    linear-gradient(180deg, #41895c 0%, #2f7349 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 6px 16px rgba(10, 10, 10, 0.24),
-    0 0 16px rgba(255, 196, 0, 0.28);
+  color: var(--on-accent);
+  padding: 12px 20px;
+  background: var(--accent);
+  box-shadow: 0 6px 16px rgba(10, 10, 10, 0.18);
 }
 .dash-kit .dashNav nav a.btn--primary:hover {
-  color: #fff;
+  color: var(--on-accent);
+  background: #1a1a1a;
 }
 .dash-kit .dashFoot {
   border-top: 1px solid var(--line);
@@ -466,12 +460,12 @@
 }
 .dash-kit .heroStage {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 48px;
+  grid-template-columns: 1fr 0.92fr;
+  gap: 72px;
   align-items: center;
   /* A full hero, so the flowing-gradient reads as an intentional backdrop rather
      than a thin empty banner on wide desktops. */
-  min-height: min(80vh, 780px);
+  min-height: min(92vh, 880px);
 }
 .dash-kit .heroEyebrow {
   margin-bottom: 22px;
@@ -706,7 +700,7 @@
 
 /* ---------- section rhythm ---------- */
 .dash-kit .section {
-  padding: 88px 0;
+  padding: 132px 0;
 }
 .dash-kit .sectionTitle {
   font-family: var(--ff-serif);

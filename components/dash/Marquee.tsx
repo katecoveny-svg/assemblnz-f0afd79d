@@ -5,11 +5,13 @@
  */
 const DEFAULT_ITEMS = [
   'Get paid to wait',
+  'Long dog, short wait',
+  'Sit. Stay. Get paid.',
   'Airpoints · KiwiSaver · charity',
   'Two lines of SDK',
-  'Opt-in, NZ-built',
-  'Privacy Act 2020 native',
+  'Rewards, not cash',
   'Publishers keep 55%',
+  'Privacy Act 2020 native',
 ];
 
 export function Marquee({ items = DEFAULT_ITEMS }: { items?: string[] }) {
