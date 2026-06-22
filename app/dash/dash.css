@@ -17,19 +17,23 @@
   --d-sage: #0a0a0a;
   --d-sage-2: #1a1a1a;
   --d-sage-pale: #fff3b0;
-  --d-gold: #ffd400;
+  --d-gold: #ffc400;
+  --d-hivis: #ffe600;
+  --d-mint: #00e6a8;
   --d-ink: #0a0a0a;
 
   /* semantic — yellow canvas, black ink */
-  --bg: #ffd400;
+  --bg: #ffc400;
   --fg: #0a0a0a;
   --muted: #4a4633;
   --surface: #fffdf5;
   --surface-2: #fff3b0;
   --line: #0a0a0a;
   --accent: #0a0a0a; /* buttons, ink accents */
-  --on-accent: #ffd400;
-  --gold: #ffd400;
+  --on-accent: #ffc400;
+  --gold: #ffc400;
+  --hivis: #ffe600;
+  --mint: #00e6a8;
   --sage: #0a0a0a;
   --sage-pale: #fff3b0;
 
@@ -58,8 +62,8 @@
   --muted: #c9c4ad;
   --surface: #141414;
   --surface-2: #1c1c1c;
-  --line: #ffd400;
-  --accent: #ffd400;
+  --line: #ffc400;
+  --accent: #ffc400;
   --on-accent: #0a0a0a;
   --sage-pale: #1c1c1c;
 }
@@ -152,7 +156,7 @@
 }
 .dash-scope .d-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 212, 0, 0.85);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 196, 0, 0.85);
 }
 .dash-scope .d-btn--primary {
   background: var(--accent);
@@ -229,7 +233,7 @@
 .dash-scope .d-field:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(255, 212, 0, 0.32);
+  box-shadow: 0 0 0 4px rgba(255, 196, 0, 0.32);
 }
 .dash-scope .d-field-hint {
   font-size: 13px;
@@ -253,7 +257,7 @@
   color: var(--fg);
 }
 .dash-scope .d-pill--gold {
-  background: rgba(255, 212, 0, 0.2);
+  background: rgba(255, 196, 0, 0.2);
   color: #8a6320;
 }
 .dash-scope .d-pill--outline {
@@ -415,7 +419,7 @@
 
 .dash-scope .dash-ad-seg {
   opacity: 0.14;
-  fill: var(--d-gold);
+  fill: var(--d-hivis);
   animation: dash-seg-cycle 6s var(--ease) infinite;
 }
 .dash-scope .dash-ad-seg:nth-of-type(1) {

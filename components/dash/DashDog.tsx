@@ -28,8 +28,8 @@ export function DashDog({ className, tone = '#0a0a0a', title = 'dash dachshund' 
       <rect x="214" y="298" width="48" height="118" rx="22" fill={tone} />
       <rect x="650" y="298" width="48" height="118" rx="22" fill={tone} />
       <rect x="185" y="206" width="548" height="128" rx="22" fill={tone} />
-      {/* loader fill — one clean yellow dash, no hazard seams */}
-      <rect x="185" y="206" width="360" height="128" rx="22" fill="#ffd400" />
+      {/* loader fill — one clean hi-vis dash, no hazard seams */}
+      <rect x="185" y="206" width="360" height="128" rx="22" fill="#ffe600" />
       <rect x="712" y="156" width="150" height="178" rx="52" fill={tone} />
       <rect x="842" y="214" width="156" height="84" rx="34" fill={tone} />
       <path
