@@ -19,6 +19,7 @@ import {
 import { createClient } from '@/lib/supabase/client';
 import { findAgent, type ChatKete } from '@/lib/chat/registry';
 import { ASSEMBL_LAYERS, WORKFLOW_STARTERS, workflowById, type WorkflowStarter } from '@/lib/chat/workflows';
+import { DashAgentLoader } from '@/components/dash/DashAgentLoader';
 
 type ChatMessage = {
   role: 'user' | 'agent' | 'system';
@@ -662,9 +663,8 @@ export function ChatClient({
             ))}
 
             {sending && (
-              <div className="flex items-center gap-2 text-sm text-[color:var(--text-secondary)]">
-                <Loader2 size={14} className="animate-spin" aria-hidden />
-                <span>{agentLabel} is drafting…</span>
+              <div aria-label={`${agentLabel} is working`}>
+                <DashAgentLoader label={agentLabel} />
               </div>
             )}
 
