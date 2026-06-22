@@ -74,14 +74,22 @@ export const CATEGORY_LABELS: Record<MarketplaceCategory, string> = Object.fromE
   CATEGORIES.map((c) => [c.slug, c.label]),
 ) as Record<MarketplaceCategory, string>;
 
-// Dash-aligned palette tokens reused across the marketplace.
+// Dash brand palette (locked 2026-06-23). Canary-forward; see HANDOFF.md §2.
 export const PALETTE = {
-  cream: '#F2EFE6',
-  forest: '#163A23',
-  sage: '#A6BA9E',
-  gold: '#E0B16E',
-  ink: '#14301A',
+  canary: '#FFD42A', // primary
+  canary2: '#FFE27A', // light canary / gradients
+  ink: '#3A3832', // charcoal — headlines, dark surfaces, body ink
+  body: '#56544B', // body text
+  paper: '#FFFFFF', // canvas
+  cream: '#FFF7EC', // soft fill / nested tiles
+  hairline: '#EFEADC', // borders
+  gold: '#C79B1F', // eyebrow / accent text
+  muted: '#8A8678', // mono labels
 } as const;
+
+/** The dash motif — a row of dashes that replaces hazard stripes everywhere. */
+export const DASH_MOTIF =
+  'repeating-linear-gradient(90deg, #FFD42A 0 20px, transparent 20px 32px)';
 
 const REVIEW_LINE =
   'Every reply is a draft for a human to check before it is sent, filed, or lodged. Not legal, financial, or medical advice.';
@@ -111,7 +119,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'cheap',
     pricingTier: 'free',
     icon: 'Refrigerator',
-    accent: '#A6BA9E',
+    accent: '#FFD42A',
     greeting: 'Kia ora! Tell me what is in your fridge — or paste a photo description — and I will turn it into a shopping list and a week of dinners.',
     starters: [
       'Half a cabbage, mince, eggs, two carrots and some cheese.',
@@ -144,7 +152,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'cheap',
     pricingTier: 'free',
     icon: 'School',
-    accent: '#E0B16E',
+    accent: '#FFE27A',
     greeting: 'Kia ora! Paste the school notice, newsletter, or email and I will pull out the dates, costs, and what you actually need to do.',
     starters: [
       'Paste a newsletter and find every date and cost.',
@@ -176,7 +184,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'cheap',
     pricingTier: 'free',
     icon: 'PiggyBank',
-    accent: '#A6BA9E',
+    accent: '#FFD42A',
     greeting: 'Kia ora! Tell me a child\'s age and how much you could put aside each week, and I will show how it might grow.',
     starters: [
       '$15 a week for a newborn — show me age 18 and 65.',
@@ -209,7 +217,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'mid',
     pricingTier: 'freemium',
     icon: 'Wallet',
-    accent: '#163A23',
+    accent: '#C79B1F',
     greeting: 'Kia ora. Let\'s look at the household money together — tell me what comes in and the main things going out. No judgement, just a clear picture.',
     starters: [
       'We bring in about $1,600 a fortnight — help me map the costs.',
@@ -241,7 +249,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'mid',
     pricingTier: 'freemium',
     icon: 'Plane',
-    accent: '#E0B16E',
+    accent: '#FFE27A',
     greeting: 'Kia ora! Where are you headed, who is going, and roughly when? I will sketch a day-by-day plan with the must-book-ahead bits flagged.',
     starters: [
       'Two weeks in Italy in September, family of four.',
@@ -276,7 +284,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'mid',
     pricingTier: 'freemium',
     icon: 'Sunrise',
-    accent: '#E0B16E',
+    accent: '#FFE27A',
     greeting: 'Kia ora! Tell me your industry and region and I will shape a 9am Brief around what actually moves for you.',
     starters: [
       'I run a small build firm in Waikato — what changed this week?',
@@ -309,7 +317,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'cheap',
     pricingTier: 'free',
     icon: 'Calculator',
-    accent: '#163A23',
+    accent: '#C79B1F',
     greeting: 'Kia ora! Give me your numbers — sales, expenses, whether you are GST registered — and I will work out what to set aside.',
     starters: [
       'I invoiced $8,000 + GST this month, $1,200 of expenses.',
@@ -342,7 +350,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'cheap',
     pricingTier: 'free',
     icon: 'Zap',
-    accent: '#E0B16E',
+    accent: '#FFE27A',
     greeting: 'Kia ora! Tell me what you are thinking of electrifying and roughly how much you use it, and I will run the numbers.',
     starters: [
       'A work van doing 25,000 km a year.',
@@ -375,7 +383,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'premium',
     pricingTier: 'paid',
     icon: 'Container',
-    accent: '#163A23',
+    accent: '#C79B1F',
     greeting: 'Kia ora! Paste the commercial invoice or describe the shipment, and I will draft a structured customs entry for your broker to check. Nothing is ever lodged.',
     starters: [
       'Paste an invoice for a container of homeware from China.',
@@ -408,7 +416,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'mid',
     pricingTier: 'free',
     icon: 'Sparkles',
-    accent: '#A6BA9E',
+    accent: '#FFD42A',
     greeting: 'Kia ora! Name one job you wish you could just hand off. I will turn it into a spec for the agent assembl could build you.',
     starters: [
       'I waste hours chasing unpaid invoices each month.',
@@ -443,7 +451,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'mid',
     pricingTier: 'freemium',
     icon: 'Type',
-    accent: '#E0B16E',
+    accent: '#FFE27A',
     greeting: 'Kia ora! Tell me what your business does and who it is for, and I will workshop a shortlist of taglines.',
     starters: [
       'A plumbing business that turns up on time.',
@@ -476,7 +484,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'mid',
     pricingTier: 'freemium',
     icon: 'Image',
-    accent: '#A6BA9E',
+    accent: '#FFD42A',
     greeting: 'Kia ora! Describe the image you need — what it is for and the feeling you want — and I will shape an on-brand visual concept.',
     starters: [
       'A hero image for our website homepage.',
@@ -509,7 +517,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'cheap',
     pricingTier: 'freemium',
     icon: 'MessageSquare',
-    accent: '#E0B16E',
+    accent: '#FFE27A',
     greeting: 'Kia ora! Tell me what you want to post about and where, and I will batch out captions in your voice.',
     starters: [
       'Five captions announcing weekend opening hours.',
@@ -542,7 +550,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'cheap',
     pricingTier: 'free',
     icon: 'LayoutTemplate',
-    accent: '#A6BA9E',
+    accent: '#FFD42A',
     greeting: 'Kia ora! Paste a link or describe what you are announcing, and I will draft a clean share card.',
     starters: [
       'A share card for our new pricing page.',
@@ -575,7 +583,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'mid',
     pricingTier: 'freemium',
     icon: 'FileText',
-    accent: '#163A23',
+    accent: '#C79B1F',
     greeting: 'Kia ora! Describe the idea or project, however rough, and I will shape it into a brief the team can run with.',
     starters: [
       'We want to promote our new weekend service.',
@@ -610,7 +618,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'cheap',
     pricingTier: 'freemium',
     icon: 'Thermometer',
-    accent: '#163A23',
+    accent: '#C79B1F',
     greeting: 'Kia ora! Read me your temperature checks and I will log them, flag anything out of range, and keep it audit-ready.',
     starters: [
       'Fridge 1 is 3°C, Fridge 2 is 6°C, freezer is -18°C.',
@@ -643,7 +651,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'mid',
     pricingTier: 'freemium',
     icon: 'ShieldCheck',
-    accent: '#A6BA9E',
+    accent: '#FFD42A',
     greeting: 'Kia ora! Tell me what personal information your business collects and why, and I will draft a Privacy Act 2020 one-pager.',
     starters: [
       'An online store that ships nationwide.',
@@ -676,7 +684,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'cheap',
     pricingTier: 'free',
     icon: 'Sprout',
-    accent: '#A6BA9E',
+    accent: '#FFD42A',
     greeting: 'Kia ora! Tell me what you did on the grounds today and I will keep a tidy, traceable maintenance log.',
     starters: [
       'Mowed the main field and sprayed the cricket block.',
@@ -711,7 +719,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'premium',
     pricingTier: 'paid',
     icon: 'Mic',
-    accent: '#163A23',
+    accent: '#C79B1F',
     greeting: 'Kia ora! Paste a transcript or describe the meeting and I will turn it into clean notes, decisions, and actions.',
     starters: [
       'Paste a transcript and pull out the actions.',
@@ -746,7 +754,7 @@ export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
     modelTier: 'mid',
     pricingTier: 'freemium',
     icon: 'GraduationCap',
-    accent: '#E0B16E',
+    accent: '#FFE27A',
     greeting: 'Kia ora! What are you studying? I will explain it clearly, then we will practise together — I won\'t just hand over answers.',
     starters: [
       'Help me understand NCEA Level 1 algebra.',

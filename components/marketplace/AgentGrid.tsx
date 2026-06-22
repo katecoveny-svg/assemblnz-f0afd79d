@@ -38,7 +38,7 @@ export function AgentGrid({ agents }: { agents: PublicMarketplaceAgent[] }) {
         <Search
           className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2"
           size={18}
-          style={{ color: PALETTE.forest, opacity: 0.4 }}
+          style={{ color: PALETTE.muted }}
           aria-hidden
         />
         <input
@@ -47,8 +47,8 @@ export function AgentGrid({ agents }: { agents: PublicMarketplaceAgent[] }) {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search agents — fridge, tax, captions, meetings…"
           aria-label="Search agents"
-          className="w-full rounded-full border bg-white/70 py-3 pl-11 pr-4 text-base outline-none transition focus:bg-white"
-          style={{ borderColor: 'rgba(22,58,35,0.15)', color: PALETTE.forest }}
+          className="w-full rounded-full border bg-white py-3 pl-11 pr-4 text-base outline-none transition focus:border-[color:#FFD42A]"
+          style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
         />
       </div>
 
@@ -66,7 +66,7 @@ export function AgentGrid({ agents }: { agents: PublicMarketplaceAgent[] }) {
 
       {/* Grid */}
       {visible.length === 0 ? (
-        <p className="py-16 text-center text-base" style={{ color: PALETTE.forest, opacity: 0.6 }}>
+        <p className="py-16 text-center text-base" style={{ color: PALETTE.body }}>
           No agents match that. Try a different word.
         </p>
       ) : (
@@ -93,11 +93,11 @@ function FilterChip({
     <button
       type="button"
       onClick={onClick}
-      className="rounded-full border px-4 py-1.5 text-sm font-medium transition"
+      className="rounded-full border px-4 py-1.5 text-sm font-bold transition"
       style={
         active
-          ? { backgroundColor: PALETTE.forest, color: PALETTE.cream, borderColor: PALETTE.forest }
-          : { backgroundColor: 'transparent', color: PALETTE.forest, borderColor: 'rgba(22,58,35,0.18)' }
+          ? { backgroundColor: PALETTE.canary, color: PALETTE.ink, borderColor: PALETTE.canary }
+          : { backgroundColor: 'transparent', color: PALETTE.ink, borderColor: PALETTE.hairline }
       }
     >
       {children}
@@ -108,32 +108,35 @@ function FilterChip({
 function AgentCard({ agent }: { agent: PublicMarketplaceAgent }) {
   return (
     <div
-      className="group relative flex flex-col rounded-2xl border bg-white/75 p-5 transition hover:bg-white hover:shadow-[0_18px_40px_rgba(22,58,35,0.08)]"
-      style={{ borderColor: 'rgba(22,58,35,0.12)' }}
+      className="group relative flex flex-col rounded-[26px] border bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(180,150,40,0.12)]"
+      style={{ borderColor: PALETTE.hairline }}
     >
       <div className="mb-4 flex items-start justify-between">
         <div
-          className="flex h-12 w-12 items-center justify-center rounded-xl"
-          style={{ backgroundColor: `${agent.accent}33` }}
+          className="flex h-12 w-12 items-center justify-center rounded-2xl"
+          style={{ backgroundColor: `${agent.accent}55` }}
         >
           <AgentIcon name={agent.icon} className="h-6 w-6" />
         </div>
         <span
-          className="rounded-full px-2.5 py-1 text-xs font-medium"
-          style={{ backgroundColor: 'rgba(22,58,35,0.06)', color: PALETTE.forest }}
+          className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
+          style={{ backgroundColor: PALETTE.cream, color: PALETTE.gold }}
         >
           {PRICING_TIER_LABELS[agent.pricingTier]}
         </span>
       </div>
 
       <Link href={`/agents/${agent.slug}`} className="flex-1">
-        <h3 className="font-display text-xl leading-tight" style={{ color: PALETTE.forest }}>
+        <h3
+          className="text-xl leading-tight"
+          style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.ink }}
+        >
           {agent.name}
         </h3>
-        <p className="mt-0.5 text-xs font-medium uppercase tracking-wide" style={{ color: PALETTE.forest, opacity: 0.5 }}>
+        <p className="mk-mono mt-1 text-[11px] uppercase tracking-wide" style={{ color: PALETTE.muted }}>
           {agent.teReo}
         </p>
-        <p className="mt-3 text-sm leading-relaxed" style={{ color: PALETTE.forest, opacity: 0.8 }}>
+        <p className="mt-3 text-sm leading-relaxed" style={{ color: PALETTE.body }}>
           {agent.description}
         </p>
       </Link>
@@ -141,16 +144,16 @@ function AgentCard({ agent }: { agent: PublicMarketplaceAgent }) {
       <div className="mt-5 flex items-center gap-2">
         <Link
           href={`/agents/${agent.slug}/chat`}
-          className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition hover:opacity-90"
-          style={{ backgroundColor: PALETTE.forest, color: PALETTE.cream }}
+          className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold transition hover:brightness-95"
+          style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
         >
           Install
           <ArrowRight size={15} aria-hidden />
         </Link>
         <Link
           href={`/agents/${agent.slug}`}
-          className="rounded-full px-3 py-2 text-sm font-medium transition hover:opacity-70"
-          style={{ color: PALETTE.forest }}
+          className="rounded-full px-3 py-2 text-sm font-bold transition hover:opacity-70"
+          style={{ color: PALETTE.ink }}
         >
           Details
         </Link>
