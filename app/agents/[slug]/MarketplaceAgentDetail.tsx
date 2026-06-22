@@ -1,0 +1,182 @@
+import Link from 'next/link';
+import { ArrowLeft, ArrowRight, Check, ExternalLink, MessageCircle } from 'lucide-react';
+import {
+  CATEGORY_LABELS,
+  MODEL_TIER_LABELS,
+  PALETTE,
+  PRICING_TIER_LABELS,
+  type MarketplaceAgent,
+} from '@/lib/marketplace/agents';
+import { AgentIcon } from '@/components/marketplace/AgentIcon';
+import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
+
+export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: PALETTE.cream }}>
+      <MarketplaceHeader />
+
+      <div className="mx-auto max-w-5xl px-5 py-10 md:px-8 md:py-14">
+        <Link
+          href="/agents"
+          className="inline-flex items-center gap-1.5 text-sm font-medium hover:opacity-70"
+          style={{ color: PALETTE.forest, opacity: 0.7 }}
+        >
+          <ArrowLeft size={15} aria-hidden /> All agents
+        </Link>
+
+        {/* Header card */}
+        <div
+          className="mt-6 flex flex-col gap-6 rounded-3xl border bg-white/70 p-6 md:flex-row md:items-center md:p-8"
+          style={{ borderColor: 'rgba(22,58,35,0.12)' }}
+        >
+          <div
+            className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl"
+            style={{ backgroundColor: `${agent.accent}33` }}
+          >
+            <AgentIcon name={agent.icon} className="h-10 w-10" />
+          </div>
+          <div className="flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className="rounded-full px-2.5 py-1 text-xs font-medium"
+                style={{ backgroundColor: 'rgba(22,58,35,0.06)', color: PALETTE.forest }}
+              >
+                {CATEGORY_LABELS[agent.category]}
+              </span>
+              <span
+                className="rounded-full px-2.5 py-1 text-xs font-medium"
+                style={{ backgroundColor: `${PALETTE.gold}33`, color: PALETTE.forest }}
+              >
+                {PRICING_TIER_LABELS[agent.pricingTier]}
+              </span>
+            </div>
+            <h1 className="mt-3 font-display text-4xl leading-tight md:text-5xl" style={{ color: PALETTE.forest }}>
+              {agent.name}
+            </h1>
+            <p className="mt-1 text-sm font-medium uppercase tracking-wide" style={{ color: PALETTE.forest, opacity: 0.5 }}>
+              {agent.teReo}
+            </p>
+            <p className="mt-3 text-lg leading-relaxed" style={{ color: PALETTE.forest, opacity: 0.85 }}>
+              {agent.description}
+            </p>
+          </div>
+        </div>
+
+        {/* CTAs */}
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <Link
+            href={`/agents/${agent.slug}/chat`}
+            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-semibold transition hover:opacity-90"
+            style={{ backgroundColor: PALETTE.forest, color: PALETTE.cream }}
+          >
+            <MessageCircle size={18} aria-hidden /> Open chat
+          </Link>
+          <Link
+            href={`/agents/${agent.slug}/chat`}
+            className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-base font-semibold transition hover:bg-white"
+            style={{ borderColor: 'rgba(22,58,35,0.2)', color: PALETTE.forest }}
+          >
+            Install <ArrowRight size={16} aria-hidden />
+          </Link>
+          {agent.toolHref ? (
+            <Link
+              href={agent.toolHref}
+              className="inline-flex items-center gap-1.5 text-sm font-medium hover:opacity-70"
+              style={{ color: PALETTE.forest, opacity: 0.7 }}
+            >
+              See the full tool <ExternalLink size={14} aria-hidden />
+            </Link>
+          ) : null}
+        </div>
+
+        {/* What it does / what you get */}
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <Card title="What it does">
+            <BulletList items={agent.whatItDoes} />
+          </Card>
+          <Card title="What you get">
+            <BulletList items={agent.whatYouGet} />
+          </Card>
+        </div>
+
+        {/* Sample outputs */}
+        <div className="mt-6">
+          <Card title="Sample outputs">
+            <div className="space-y-3">
+              {agent.sampleOutputs.map((sample, i) => (
+                <p
+                  key={i}
+                  className="rounded-xl border px-4 py-3 text-sm italic"
+                  style={{
+                    borderColor: 'rgba(22,58,35,0.12)',
+                    backgroundColor: PALETTE.cream,
+                    color: PALETTE.forest,
+                  }}
+                >
+                  “{sample}”
+                </p>
+              ))}
+            </div>
+          </Card>
+        </div>
+
+        {/* Pricing + meta */}
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <Meta label="Pricing" value={PRICING_TIER_LABELS[agent.pricingTier]} />
+          <Meta label="Model" value={MODEL_TIER_LABELS[agent.modelTier]} />
+          <Meta label="Category" value={CATEGORY_LABELS[agent.category]} />
+        </div>
+
+        <p className="mt-8 text-sm" style={{ color: PALETTE.forest, opacity: 0.6 }}>
+          Every reply is a draft for a human to check before it is sent, filed, or lodged. Not legal,
+          financial, or medical advice.
+        </p>
+      </div>
+
+      <MarketplaceFooter />
+    </div>
+  );
+}
+
+function Card({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section
+      className="rounded-2xl border bg-white/70 p-6"
+      style={{ borderColor: 'rgba(22,58,35,0.12)' }}
+    >
+      <h2 className="font-display text-2xl" style={{ color: PALETTE.forest }}>
+        {title}
+      </h2>
+      <div className="mt-4">{children}</div>
+    </section>
+  );
+}
+
+function BulletList({ items }: { items: string[] }) {
+  return (
+    <ul className="space-y-3">
+      {items.map((item, i) => (
+        <li key={i} className="flex gap-3 text-sm leading-relaxed" style={{ color: PALETTE.forest, opacity: 0.85 }}>
+          <Check size={18} className="mt-0.5 shrink-0" style={{ color: PALETTE.sage }} aria-hidden />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Meta({ label, value }: { label: string; value: string }) {
+  return (
+    <div
+      className="rounded-xl border bg-white/60 px-4 py-3"
+      style={{ borderColor: 'rgba(22,58,35,0.12)' }}
+    >
+      <p className="text-xs font-medium uppercase tracking-wide" style={{ color: PALETTE.forest, opacity: 0.5 }}>
+        {label}
+      </p>
+      <p className="mt-1 text-base font-semibold" style={{ color: PALETTE.forest }}>
+        {value}
+      </p>
+    </div>
+  );
+}
