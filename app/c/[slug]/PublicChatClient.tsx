@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, FileDown, Loader2, Paperclip, Send, ShieldCheck, X } from 'lucide-react';
 import { keteHeadline } from '@/lib/public-chat/headlines';
 import { useDashAd } from '@/components/site/dash/useDashAd';
+import { DashAgentLoader } from '@/components/dash/DashAgentLoader';
 
 type Tenant = {
   slug: string;
@@ -428,10 +429,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
                   </span>
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-2 text-[color:var(--text-secondary)]">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-                  Drafting
-                </span>
+                <DashAgentLoader maxWidth={300} />
               )}
             </div>
           ))}
