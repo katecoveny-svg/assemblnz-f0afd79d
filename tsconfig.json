@@ -40,6 +40,8 @@
   ],
   "exclude": [
     "node_modules",
+    "dash-app",
+    "dash-landing",
     "legacy-vite",
     "assembl-legacy-vite",
     "assemblnz-canon",

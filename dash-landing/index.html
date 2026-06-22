@@ -90,70 +90,33 @@
   .hero-meta .m .n{font-family:'Lexend Mega';font-weight:900;font-size:30px;line-height:1}
   .hero-meta .m .l{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:6px;color:var(--ink)}
 
-  /* ---------- 3D DACHSHUND LOADER ---------- */
-  .stage{position:relative;height:500px;display:grid;place-items:center;perspective:1000px;perspective-origin:55% 42%}
+  /* ---------- 3D MASCOT (real render) ---------- */
+  .stage{position:relative;height:500px;display:grid;place-items:center;perspective:1100px;perspective-origin:55% 42%}
   .dog-scene{position:relative;transform-style:preserve-3d;transition:transform .18s var(--ease);will-change:transform}
-  .dog{position:relative;width:480px;height:300px;transform-style:preserve-3d;transform:rotateX(12deg) rotateY(-22deg);animation:dogfloat 6s ease-in-out infinite}
-
-  /* glossy clay shading (bear/banana render style) */
-  .clay{background:radial-gradient(125% 125% at 30% 20%,#4c4c4c 0%,#1f1f1f 46%,#050505 100%);
-    box-shadow:0 28px 44px -12px rgba(0,0,0,.6), inset 0 7px 11px rgba(255,255,255,.22), inset 0 -12px 18px rgba(0,0,0,.6);}
-
-  /* ground contact shadow */
-  .dog-shadow{position:absolute;left:50%;bottom:0;width:400px;height:64px;
-    background:radial-gradient(ellipse at center,rgba(0,0,0,.45),transparent 68%);
-    transform:translateX(-50%) rotateX(86deg) translateZ(-70px);filter:blur(4px);animation:shadowpulse 6s ease-in-out infinite}
-
-  /* BODY = the loading bar (long sausage) */
-  .dog-body{position:absolute;left:80px;top:118px;width:300px;height:94px;border-radius:50px;overflow:hidden;transform:translateZ(0)}
-  .dog-body .track{position:absolute;inset:0;border-radius:50px}
-  .dog-body .fill{position:absolute;left:0;top:0;bottom:0;width:14%;border-radius:50px;
-    background:linear-gradient(90deg,#FFE680,var(--yellow) 55%,var(--yellow-deep));
-    box-shadow:inset 0 7px 11px rgba(255,255,255,.55),inset 0 -9px 13px rgba(170,115,0,.55);animation:dogload 3.4s var(--ease) infinite}
-  .dog-body .gloss{position:absolute;left:0;right:0;top:5px;height:40%;border-radius:50px;
-    background:linear-gradient(180deg,rgba(255,255,255,.38),transparent);pointer-events:none}
-  .dog-body .pct{position:absolute;top:50%;left:20px;transform:translateY(-50%);font-family:'Lexend Mega';font-weight:900;font-size:34px;color:#1a1200;mix-blend-mode:soft-light;z-index:2}
-
-  /* legs (front/back, near/far for depth) */
-  .leg{position:absolute;top:190px;width:32px;height:80px;border-radius:16px}
-  .leg::after{content:"";position:absolute;bottom:-3px;left:-2px;width:36px;height:18px;border-radius:11px;background:#080808;box-shadow:0 7px 9px rgba(0,0,0,.45)}
-  .leg.back-far{left:112px;transform:translateZ(-38px);filter:brightness(.58)}
-  .leg.front-far{left:300px;transform:translateZ(-38px);filter:brightness(.58)}
-  .leg.back-near{left:130px;transform:translateZ(38px)}
-  .leg.front-near{left:322px;transform:translateZ(38px)}
-
-  /* tail */
-  .dog-tail{position:absolute;left:46px;top:106px;width:78px;height:24px;border-radius:14px;
-    transform-origin:right center;transform:rotate(-34deg) translateZ(8px);animation:wag 1.5s ease-in-out infinite}
-
-  /* head group */
-  .dog-head{position:absolute;left:330px;top:66px;width:130px;height:124px;
-    border-radius:54% 60% 50% 56%/58% 56% 54% 56%;transform:translateZ(42px)}
-  .dog-snout{position:absolute;left:420px;top:120px;width:80px;height:56px;border-radius:30px 42px 42px 30px;transform:translateZ(50px)}
-  .dog-nose{position:absolute;left:490px;top:126px;width:26px;height:24px;border-radius:50%;
-    background:radial-gradient(circle at 35% 30%,#5e5e5e,#000 70%);transform:translateZ(64px);box-shadow:0 5px 7px rgba(0,0,0,.5)}
-  .dog-ear{position:absolute;left:332px;top:90px;width:48px;height:112px;border-radius:26px;
-    transform-origin:top center;transform:translateZ(60px) rotate(8deg);animation:earsway 6s ease-in-out infinite}
-  .dog-eye{position:absolute;left:396px;top:106px;width:19px;height:19px;border-radius:50%;background:#fff;transform:translateZ(66px);box-shadow:inset 0 0 0 2px #000}
-  .dog-eye::after{content:"";position:absolute;right:2px;top:5px;width:10px;height:10px;border-radius:50%;background:#0a0a0a}
-  .dog-collar{position:absolute;left:354px;top:118px;width:18px;height:82px;border-radius:6px;
-    background:linear-gradient(90deg,var(--yellow-deep),var(--yellow));transform:translateZ(46px) rotate(6deg);box-shadow:0 0 0 3px rgba(0,0,0,.28)}
-  .dog-collar::after{content:"";position:absolute;left:0;top:58px;width:16px;height:16px;border-radius:50%;background:#FFD400;border:3px solid #0a0a0a}
+  .dog{position:relative;width:min(560px,46vw);transform-style:preserve-3d;transform:rotateX(8deg) rotateY(-10deg);animation:dogfloat 6s ease-in-out infinite}
+  .dog img{display:block;width:100%;height:auto;filter:drop-shadow(0 40px 40px rgba(0,0,0,.45));transform:translateZ(40px)}
+  /* glow pulsing behind the loader-belly */
+  .dog .belly-glow{position:absolute;left:46%;top:54%;width:34%;height:22%;transform:translate(-50%,-50%) translateZ(10px);
+    background:radial-gradient(ellipse at center,rgba(255,212,0,.85),rgba(255,212,0,0) 70%);filter:blur(14px);animation:bellypulse 2.6s ease-in-out infinite;pointer-events:none}
+  .dog-shadow{position:absolute;left:50%;bottom:30px;width:60%;height:46px;
+    background:radial-gradient(ellipse at center,rgba(0,0,0,.4),transparent 68%);
+    transform:translateX(-50%) translateZ(-40px);filter:blur(6px);animation:shadowpulse 6s ease-in-out infinite}
 
   /* floating depth chips */
   .float-card{position:absolute;background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:12px 15px;
     box-shadow:7px 7px 0 var(--ink);font-weight:800;font-size:13px;display:flex;align-items:center;gap:9px;z-index:6;white-space:nowrap}
   .float-card .ic{width:28px;height:28px;border-radius:9px;background:var(--yellow);border:2.5px solid var(--ink);display:grid;place-items:center;font-family:'Lexend Mega';font-size:13px}
-  .fc1{top:-2%;left:-8%;--tz:70px;transform:translateZ(70px);animation:bob 4s ease-in-out infinite}
-  .fc2{top:42%;right:-12%;--tz:100px;transform:translateZ(100px);animation:bob 4.6s ease-in-out infinite .4s}
-  .fc3{bottom:2%;left:2%;--tz:55px;transform:translateZ(55px);animation:bob 5.2s ease-in-out infinite .8s}
+  .fc1{top:4%;left:-6%;--tz:80px;transform:translateZ(80px);animation:bob 4s ease-in-out infinite}
+  .fc2{top:46%;right:-9%;--tz:110px;transform:translateZ(110px);animation:bob 4.6s ease-in-out infinite .4s}
+  .fc3{bottom:8%;left:4%;--tz:60px;transform:translateZ(60px);animation:bob 5.2s ease-in-out infinite .8s}
 
   @media(max-width:960px){
     .hero-inner{grid-template-columns:1fr}
     .hero-copy{padding-left:22px}
-    .stage{height:380px;margin-top:24px;transform:scale(.8)}
+    .stage{height:380px;margin-top:24px}
+    .dog{width:min(440px,80vw)}
   }
-  @media(max-width:520px){.stage{transform:scale(.58);height:300px}}
+  @media(max-width:520px){.stage{height:300px}.dog{width:84vw}}
 
   /* ---------- MARQUEE ---------- */
   .marquee{background:var(--ink);color:var(--yellow);border-bottom:3px solid var(--ink);overflow:hidden;padding:18px 0}
@@ -275,11 +238,9 @@
   .reveal.in{opacity:1;transform:none}
 
   @keyframes spin{to{transform:rotate(360deg)}}
-  @keyframes dogfloat{0%,100%{transform:rotateX(12deg) rotateY(-22deg) translateY(0)}50%{transform:rotateX(12deg) rotateY(-22deg) translateY(-18px)}}
-  @keyframes wag{0%,100%{transform:rotate(-34deg) translateZ(8px)}50%{transform:rotate(-12deg) translateZ(8px)}}
-  @keyframes earsway{0%,100%{transform:translateZ(60px) rotate(8deg)}50%{transform:translateZ(60px) rotate(17deg)}}
-  @keyframes shadowpulse{0%,100%{opacity:.5;width:400px}50%{opacity:.32;width:344px}}
-  @keyframes dogload{0%{width:12%}65%{width:90%}80%{width:95%}100%{width:12%}}
+  @keyframes dogfloat{0%,100%{transform:rotateX(8deg) rotateY(-10deg) translateY(0)}50%{transform:rotateX(8deg) rotateY(-10deg) translateY(-18px)}}
+  @keyframes bellypulse{0%,100%{opacity:.55;transform:translate(-50%,-50%) translateZ(10px) scale(.92)}50%{opacity:1;transform:translate(-50%,-50%) translateZ(10px) scale(1.08)}}
+  @keyframes shadowpulse{0%,100%{opacity:.42}50%{opacity:.28}}
   @keyframes bob{0%,100%{transform:translateZ(var(--tz,0)) translateY(0)}50%{transform:translateZ(var(--tz,0)) translateY(-14px)}}
   @keyframes scrollx{to{transform:translateX(-50%)}}
   @keyframes load{0%{width:8%}70%{width:96%}100%{width:8%}}
@@ -289,7 +250,7 @@
     *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
     .reveal{opacity:1;transform:none}
     .dog-scene{transform:none!important}
-    .dog{transform:rotateX(12deg) rotateY(-22deg)!important}
+    .dog{transform:rotateX(8deg) rotateY(-10deg)!important}
   }
 </style>
 </head>
@@ -334,28 +295,13 @@
       </div>
     </div>
 
-    <!-- 3D DACHSHUND STAGE -->
+    <!-- 3D MASCOT STAGE -->
     <div class="stage" id="stage">
       <div class="dog-scene" id="dogScene">
-        <div class="dog" role="img" aria-label="Dash the dachshund — a glossy 3D sausage dog whose long body is a loading bar filling up with gold">
+        <div class="dog">
           <div class="dog-shadow"></div>
-          <div class="dog-tail clay"></div>
-          <div class="leg back-far clay"></div>
-          <div class="leg front-far clay"></div>
-          <div class="dog-body">
-            <div class="track clay"></div>
-            <div class="fill"></div>
-            <div class="gloss"></div>
-            <div class="pct">$</div>
-          </div>
-          <div class="leg back-near clay"></div>
-          <div class="leg front-near clay"></div>
-          <div class="dog-collar"></div>
-          <div class="dog-head clay"></div>
-          <div class="dog-ear clay"></div>
-          <div class="dog-snout clay"></div>
-          <div class="dog-eye"></div>
-          <div class="dog-nose"></div>
+          <div class="belly-glow"></div>
+          <img src="assets/dash-mascot-hero.png" alt="Dash — a glossy black dachshund mascot whose long body glows with a golden loading bar" />
         </div>
         <div class="float-card fc1"><span class="ic">⏳</span> Loading…</div>
         <div class="float-card fc2"><span class="ic">$</span> +$0.04 earned</div>
