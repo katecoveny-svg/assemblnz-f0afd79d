@@ -22,6 +22,15 @@ export function isDashMicrosite(pathname: string | null): boolean {
   return pathname.startsWith("/dash/") && !pathname.startsWith("/dash/admin");
 }
 
+/** True on the agent marketplace (App Store-style surface), which ships its own
+ * Dash-aligned chrome. The legacy /agents/pick fleet browser keeps the standard
+ * site chrome. */
+export function isAgentMarketplace(pathname: string | null): boolean {
+  if (!pathname) return false;
+  if (pathname === "/agents/pick") return false;
+  return pathname === "/agents" || pathname.startsWith("/agents/");
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMac, setIsMac] = useState(true);
@@ -47,9 +56,10 @@ export function SiteHeader() {
     }
   }, [mobileNavOpen]);
 
-  // The /dash microsite (Dash by assembl) ships its own nav + footer; suppress
-  // the global site chrome there. /dash/admin keeps the standard chrome.
-  if (isDashMicrosite(pathname)) return null;
+  // The /dash microsite (Dash by assembl) and the /agents marketplace ship their
+  // own nav + footer; suppress the global site chrome there. /dash/admin and
+  // /agents/pick keep the standard chrome.
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname)) return null;
 
   return (
     <header

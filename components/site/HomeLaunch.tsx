@@ -145,13 +145,13 @@ export function HomeLaunch() {
             </p>
             <div className="rise mt-8 flex flex-wrap items-center gap-4">
               <MagneticButton>
-                <Link href="/hapai" className="cta-primary cta-glow inline-flex h-12 items-center gap-2 px-7">
-                  Try a free tool <ArrowRight className="h-4 w-4" aria-hidden />
+                <Link href="/agents" className="cta-primary cta-glow inline-flex h-12 items-center gap-2 px-7">
+                  Browse the agents <ArrowRight className="h-4 w-4" aria-hidden />
                 </Link>
               </MagneticButton>
               <MagneticButton>
-                <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center px-6">
-                  Book a Pilot Sprint
+                <Link href="/hapai" className="btn-ghost inline-flex h-12 items-center px-6">
+                  Try a free tool
                 </Link>
               </MagneticButton>
             </div>
