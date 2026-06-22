@@ -81,7 +81,7 @@ function destinationLabel(destination: PayoutDestination): string {
   if (destination.kind === 'charity') {
     return CHARITIES.find((c) => c.id === destination.charityId)?.name ?? 'a charity';
   }
-  const labels = { prezzy: 'Prezzy', airpoints: 'Airpoints', 'stripe-connect': 'your bank' };
+  const labels = { airpoints: 'Airpoints', kiwisaver: 'KiwiSaver', prezzy: 'Prezzy' };
   return labels[destination.method];
 }
 

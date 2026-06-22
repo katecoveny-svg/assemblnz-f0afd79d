@@ -9,29 +9,29 @@
    ============================================================ */
 
 .dash-kit {
-  /* raw palette */
-  --d-cream: #f7f5ef;
-  --d-cream-2: #f0ece1;
-  --d-forest: #163a23;
-  --d-forest-2: #0f2a19;
-  --d-sage: #a6ba9e;
-  --d-sage-2: #c2d0b8;
-  --d-sage-pale: #e3e9da;
-  --d-gold: #e0b16e;
-  --d-ink: #16271a;
+  /* raw palette — dash. yellow + black poster colourway */
+  --d-cream: #fff8dc;
+  --d-cream-2: #fdf3c4;
+  --d-forest: #0a0a0a;
+  --d-forest-2: #000000;
+  --d-sage: #0a0a0a;
+  --d-sage-2: #1a1a1a;
+  --d-sage-pale: #fff3b0;
+  --d-gold: #ffd400;
+  --d-ink: #0a0a0a;
 
-  /* semantic (brighter, whiter light theme) */
-  --bg: #faf9f5;
-  --fg: #16271a;
-  --muted: #5e6b5c;
-  --surface: #ffffff;
-  --surface-2: #f3f1ea;
-  --line: #e7e2d5;
-  --accent: #163a23;
-  --on-accent: #ffffff;
-  --gold: #e0b16e;
-  --sage: #a6ba9e;
-  --sage-pale: #e3e9da;
+  /* semantic — yellow canvas, black ink */
+  --bg: #ffd400;
+  --fg: #0a0a0a;
+  --muted: #4a4633;
+  --surface: #fffdf5;
+  --surface-2: #fff3b0;
+  --line: #0a0a0a;
+  --accent: #0a0a0a;
+  --on-accent: #ffd400;
+  --gold: #ffd400;
+  --sage: #0a0a0a;
+  --sage-pale: #fff3b0;
 
   --ff-serif: var(--font-dash-serif), "Cormorant Garamond", Georgia, serif;
   --ff-sans: var(--font-dash-sans), "Mulish", system-ui, -apple-system, sans-serif;
@@ -41,36 +41,33 @@
   --r-lg: 22px;
   --r-xl: 30px;
   --r-pill: 999px;
-  --shadow-sm: 0 6px 22px rgba(22, 42, 28, 0.06), 0 1px 3px rgba(22, 42, 28, 0.04);
-  --shadow-md: 0 24px 54px rgba(22, 42, 28, 0.1), 0 4px 12px rgba(22, 42, 28, 0.05);
+  --shadow-sm: 0 6px 22px rgba(10, 10, 10, 0.08), 0 1px 3px rgba(10, 10, 10, 0.06);
+  --shadow-md: 0 24px 54px rgba(10, 10, 10, 0.14), 0 4px 12px rgba(10, 10, 10, 0.06);
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
-  /* soft sage/cream ambient light so the page reads bright and dimensional
-     rather than flat — no yellow. */
+  /* warm yellow ambient wash (poster canvas) */
   background:
-    radial-gradient(55% 45% at 82% 1%, rgba(166, 186, 158, 0.22), transparent 70%),
-    radial-gradient(48% 42% at 6% 20%, rgba(194, 208, 184, 0.18), transparent 72%),
-    radial-gradient(60% 50% at 50% 100%, rgba(166, 186, 158, 0.12), transparent 72%),
+    radial-gradient(58% 48% at 82% 1%, rgba(255, 235, 130, 0.6), transparent 70%),
+    radial-gradient(50% 44% at 6% 18%, rgba(255, 244, 170, 0.5), transparent 72%),
+    radial-gradient(64% 52% at 50% 100%, rgba(255, 230, 110, 0.4), transparent 72%),
     var(--bg);
   color: var(--fg);
   font-family: var(--ff-sans);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 
-  /* Back-compat aliases so the legal pages' dash.module.css (which still
-     references the older --dash-* fonts and pounamu/amber palette) inherits
-     the new Dash kit values from this wrapper — no edits needed to those files. */
+  /* Back-compat aliases for the legal pages' dash.module.css. */
   --dash-display: var(--ff-serif);
   --dash-body: var(--ff-sans);
   --dash-mono: var(--ff-sans);
-  --cream: #f2efe6;
-  --cream-2: #fbfaf3;
-  --pounamu: #163a23;
-  --pounamu-dark: #0f2a19;
-  --amber: #e0b16e;
-  --amber-dim: #8a6320;
-  --ink: #16271a;
-  --ink-soft: #5e6b5c;
+  --cream: #fff8dc;
+  --cream-2: #fffdf5;
+  --pounamu: #0a0a0a;
+  --pounamu-dark: #000000;
+  --amber: #ffd400;
+  --amber-dim: #8a6a00;
+  --ink: #0a0a0a;
+  --ink-soft: #4a4633;
 }
 
 .dash-kit *,
@@ -166,7 +163,7 @@
 }
 .dash-kit .btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(224, 177, 110, 0.85);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 212, 0, 0.85);
 }
 /* Light glass — a fresh, glossy green pill. Brighter greens, a strong top sheen
    and a soft lift (no heavy dark inner shadow), so it reads as lit glass rather
@@ -175,13 +172,13 @@
   color: #fff;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 38%, rgba(255, 255, 255, 0) 60%),
-    linear-gradient(180deg, #3a7d52 0%, #2c7048 55%, #235a39 100%);
+    linear-gradient(180deg, #1a1a1a 0%, #141414 55%, #0a0a0a 100%);
   border: 1px solid rgba(255, 255, 255, 0.55);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 8px 20px rgba(36, 92, 57, 0.26),
-    0 0 22px rgba(58, 125, 82, 0.28),
-    0 1px 2px rgba(36, 92, 57, 0.3);
+    0 8px 20px rgba(10, 10, 10, 0.26),
+    0 0 22px rgba(255, 212, 0, 0.28),
+    0 1px 2px rgba(10, 10, 10, 0.3);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
@@ -189,11 +186,11 @@
   transform: translateY(-2px);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0) 62%),
-    linear-gradient(180deg, #44915f 0%, #347a4f 55%, #29643f 100%);
+    linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 55%, #141414 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 14px 30px rgba(36, 92, 57, 0.32),
-    0 0 22px 2px rgba(224, 177, 110, 0.35);
+    0 14px 30px rgba(10, 10, 10, 0.32),
+    0 0 22px 2px rgba(255, 212, 0, 0.35);
 }
 .dash-kit .btn--primary:hover svg {
   transform: translateX(4px);
@@ -206,7 +203,7 @@
   border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 8px 22px rgba(22, 42, 28, 0.1);
+    0 8px 22px rgba(10, 10, 10, 0.1);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
@@ -216,7 +213,7 @@
   transform: translateY(-2px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 1),
-    0 12px 28px rgba(22, 42, 28, 0.14);
+    0 12px 28px rgba(10, 10, 10, 0.14);
 }
 .dash-kit .btn--cream {
   background: var(--d-cream);
@@ -267,7 +264,7 @@
 .dash-kit .field:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(224, 177, 110, 0.32);
+  box-shadow: 0 0 0 4px rgba(255, 212, 0, 0.32);
 }
 .dash-kit .field-hint {
   font-size: 13px;
@@ -288,7 +285,7 @@
   color: var(--accent);
 }
 .dash-kit .pill--gold {
-  background: rgba(224, 177, 110, 0.2);
+  background: rgba(255, 212, 0, 0.2);
   color: #8a6320;
 }
 .dash-kit .tag {
@@ -329,7 +326,7 @@
   transform: translateY(-4px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 24px 54px rgba(22, 42, 28, 0.1),
+    0 24px 54px rgba(10, 10, 10, 0.1),
     0 0 26px 2px rgba(166, 186, 158, 0.4);
 }
 .dash-kit .card h3 {
@@ -408,8 +405,8 @@
     linear-gradient(180deg, #41895c 0%, #2f7349 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 6px 16px rgba(36, 92, 57, 0.24),
-    0 0 16px rgba(58, 125, 82, 0.28);
+    0 6px 16px rgba(10, 10, 10, 0.24),
+    0 0 16px rgba(255, 212, 0, 0.28);
 }
 .dash-kit .dashNav nav a.btn--primary:hover {
   color: #fff;
@@ -515,7 +512,7 @@
 .dash-kit .dogHalo {
   position: absolute;
   inset: -6% -4%;
-  background: radial-gradient(50% 50% at 50% 52%, rgba(224, 177, 110, 0.34), rgba(224, 177, 110, 0) 70%);
+  background: radial-gradient(50% 50% at 50% 52%, rgba(255, 212, 0, 0.34), rgba(255, 212, 0, 0) 70%);
   filter: blur(6px);
   z-index: 0;
 }
@@ -534,9 +531,9 @@
   height: auto;
   overflow: visible;
 }
-/* the dog body IS the loader — segments fill forest left→right, ~6s loop */
+/* the dog body IS the loader — segments fill yellow left→right, ~6s loop */
 .dash-kit .dseg {
-  fill: #1c5a33;
+  fill: #ffd400;
   opacity: 0;
 }
 .dash-kit .dseg:nth-of-type(1) { animation: dashFill 5.4s var(--ease) infinite; }
@@ -577,8 +574,8 @@
   animation-timing-function: ease-in-out;
 }
 .dash-kit .sparkle--gold {
-  background: radial-gradient(circle, rgba(224, 177, 110, 0.95) 0%, rgba(224, 177, 110, 0) 70%);
-  box-shadow: 0 0 6px 1px rgba(224, 177, 110, 0.5);
+  background: radial-gradient(circle, rgba(255, 212, 0, 0.95) 0%, rgba(255, 212, 0, 0) 70%);
+  box-shadow: 0 0 6px 1px rgba(255, 212, 0, 0.5);
 }
 @keyframes dashSparkle {
   0%, 100% { opacity: 0; transform: scale(0.4); }
@@ -614,7 +611,7 @@
   font-weight: 600;
   font-size: 20px;
   margin-bottom: 16px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 14px rgba(22, 42, 28, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 14px rgba(10, 10, 10, 0.18);
 }
 .dash-kit .step h3 {
   font-family: var(--ff-serif);
@@ -660,7 +657,7 @@
   align-items: center;
   gap: 9px;
   background: rgba(166, 186, 158, 0.22);
-  border: 1px solid rgba(58, 125, 82, 0.28);
+  border: 1px solid rgba(255, 212, 0, 0.28);
   color: var(--accent);
   font-weight: 700;
   font-size: 12.5px;
@@ -668,7 +665,7 @@
   padding: 7px 15px;
   border-radius: var(--r-pill);
   margin-bottom: 20px;
-  box-shadow: 0 4px 16px rgba(58, 125, 82, 0.14);
+  box-shadow: 0 4px 16px rgba(255, 212, 0, 0.14);
 }
 .dash-kit .launchPill .ping {
   position: relative;
@@ -676,12 +673,12 @@
   height: 8px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 0 rgba(58, 125, 82, 0.5);
+  box-shadow: 0 0 0 0 rgba(255, 212, 0, 0.5);
   animation: dashPing 1.8s ease-out infinite;
 }
 @keyframes dashPing {
-  0% { box-shadow: 0 0 0 0 rgba(58, 125, 82, 0.5); }
-  70%, 100% { box-shadow: 0 0 0 8px rgba(58, 125, 82, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(255, 212, 0, 0.5); }
+  70%, 100% { box-shadow: 0 0 0 8px rgba(255, 212, 0, 0); }
 }
 
 .dash-kit .ctaBand {
@@ -692,7 +689,7 @@
   padding: clamp(48px, 7vw, 96px) clamp(24px, 5vw, 72px);
   background: radial-gradient(120% 130% at 50% 0%, #ffffff 0%, #f4f7ef 52%, #e8efe0 100%);
   border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px rgba(22, 42, 28, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px rgba(10, 10, 10, 0.1);
 }
 .dash-kit .ctaGlow {
   position: absolute;

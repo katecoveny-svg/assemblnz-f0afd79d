@@ -16,7 +16,7 @@ export type DashStatus = 'idle' | 'processing' | 'success' | 'error';
 // ─── Consumer mode ───────────────────────────────────────────────
 
 export type CharityId = 'spca-nz' | 'trees-that-count' | 'foodbank-nz';
-export type SelfMethod = 'prezzy' | 'airpoints' | 'stripe-connect';
+export type SelfMethod = 'airpoints' | 'kiwisaver' | 'prezzy';
 
 export type PayoutDestination =
   | { kind: 'self'; method: SelfMethod }

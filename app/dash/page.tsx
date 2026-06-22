@@ -43,7 +43,7 @@ const AUDIENCES = [
   {
     icon: Coins,
     who: 'For people',
-    line: 'Get paid to wait. Points, cash or perks for seconds you’d spend waiting anyway.',
+    line: 'Get rewarded to wait. Airpoints, KiwiSaver top-ups or charity for seconds you’d spend waiting anyway.',
     href: '#people',
   },
   {
@@ -62,7 +62,7 @@ const AUDIENCES = [
 
 const PEOPLE_POINTS = [
   'One line of text while your tool loads — that’s the whole ad.',
-  'Points, cash or perks for waits you’d sit through regardless.',
+  'Airpoints, KiwiSaver top-ups or a donation to charity — for waits you’d sit through regardless.',
   'No new app and no sign-up: it runs inside the NZ tools you already open.',
   'Private by design — no prompts, content or files are read.',
 ];
@@ -116,12 +116,12 @@ function DashDog() {
           <rect x="185" y="206" width="548" height="128" rx="22" />
         </clipPath>
       </defs>
-      <ellipse cx="560" cy="432" rx="372" ry="20" fill="#1a2a1c" opacity="0.06" />
-      <path d="M206 250 C 158 252 128 228 120 190" stroke="#A6BA9E" strokeWidth="26" strokeLinecap="round" />
-      <rect x="214" y="298" width="48" height="118" rx="22" fill="#A6BA9E" />
-      <rect x="650" y="298" width="48" height="118" rx="22" fill="#A6BA9E" />
-      <rect x="185" y="206" width="548" height="128" rx="22" fill="#A6BA9E" />
-      {/* body loader segments (forest), clipped to the rounded body */}
+      <ellipse cx="560" cy="432" rx="372" ry="20" fill="#0a0a0a" opacity="0.1" />
+      <path d="M206 250 C 158 252 128 228 120 190" stroke="#0a0a0a" strokeWidth="26" strokeLinecap="round" />
+      <rect x="214" y="298" width="48" height="118" rx="22" fill="#0a0a0a" />
+      <rect x="650" y="298" width="48" height="118" rx="22" fill="#0a0a0a" />
+      <rect x="185" y="206" width="548" height="128" rx="22" fill="#0a0a0a" />
+      {/* body loader segments (yellow), clipped to the rounded body — no hazard seams */}
       <g clipPath="url(#dashBodyClip)">
         <rect className="dseg" x="185" y="206" width="187" height="128" />
         <rect className="dseg" x="380" y="206" width="72" height="128" />
@@ -129,23 +129,16 @@ function DashDog() {
         <rect className="dseg" x="540" y="206" width="72" height="128" />
         <rect className="dseg" x="620" y="206" width="113" height="128" />
       </g>
-      {/* division grooves sit above the fill */}
-      <g fill="#8DA382">
-        <rect x="372" y="206" width="8" height="128" />
-        <rect x="452" y="206" width="8" height="128" />
-        <rect x="532" y="206" width="8" height="128" />
-        <rect x="612" y="206" width="8" height="128" />
-      </g>
-      <rect x="712" y="156" width="150" height="178" rx="52" fill="#A6BA9E" />
-      <rect x="842" y="214" width="156" height="84" rx="34" fill="#A6BA9E" />
+      <rect x="712" y="156" width="150" height="178" rx="52" fill="#0a0a0a" />
+      <rect x="842" y="214" width="156" height="84" rx="34" fill="#0a0a0a" />
       <path
         d="M768 166 C 732 168 714 204 718 250 C 720 290 740 320 776 322 C 812 320 822 290 822 248 C 822 202 804 166 768 166 Z"
-        fill="#A6BA9E"
-        stroke="#F2EFE6"
+        fill="#0a0a0a"
+        stroke="#fffdf5"
         strokeWidth="7"
       />
-      <rect x="962" y="222" width="38" height="48" rx="19" fill="#14301A" />
-      <circle cx="838" cy="200" r="13" fill="#14301A" />
+      <rect x="962" y="222" width="38" height="48" rx="19" fill="#0a0a0a" />
+      <circle cx="838" cy="200" r="13" fill="#fffdf5" />
     </svg>
   );
 }

@@ -15,30 +15,30 @@
    ============================================================ */
 
 [data-dash] {
-  /* raw palette */
-  --d-cream: #f2efe6;
-  --d-cream-2: #eae6d8;
-  --d-forest: #163a23;
-  --d-forest-2: #0f2a19;
-  --d-sage: #a6ba9e;
-  --d-sage-2: #c2d0b8;
-  --d-sage-pale: #dde4d2;
-  --d-gold: #e0b16e;
-  --d-ink: #16271a;
+  /* raw palette — dash. yellow + black poster colourway */
+  --d-cream: #fff8dc;
+  --d-cream-2: #fdf3c4;
+  --d-forest: #0a0a0a;
+  --d-forest-2: #000000;
+  --d-sage: #0a0a0a;
+  --d-sage-2: #1a1a1a;
+  --d-sage-pale: #fff3b0;
+  --d-gold: #ffd400;
+  --d-ink: #0a0a0a;
 
-  /* semantic (cream / light theme) */
-  --d-bg: #f2efe6;
-  --d-fg: #16271a;
-  --d-muted: #5e6b5c;
-  --d-surface: #fbfaf3;
-  --d-surface-2: #eeede2;
-  --d-line: #ded9c8;
-  --d-accent: #163a23; /* buttons, ink accents */
-  --d-on-accent: #f2efe6;
+  /* semantic — light surface, black ink, yellow accent */
+  --d-bg: #fffdf5;
+  --d-fg: #0a0a0a;
+  --d-muted: #4a4633;
+  --d-surface: #ffffff;
+  --d-surface-2: #fff3b0;
+  --d-line: #0a0a0a;
+  --d-accent: #0a0a0a; /* buttons, ink accents */
+  --d-on-accent: #ffd400;
 
-  /* the dog's groove lines + sponsor-block fills */
-  --d-groove: #8da382;
-  --d-dog-ink: #14301a;
+  /* dog ink (groove seams removed for the no-hazard-lines look) */
+  --d-groove: #0a0a0a;
+  --d-dog-ink: #0a0a0a;
 
   /* status */
   --d-error: #9a4b3f;
@@ -59,7 +59,7 @@
   --d-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   /* gold focus ring (a11y) */
-  --d-focus-ring: 0 0 0 3px var(--d-bg), 0 0 0 6px rgba(224, 177, 110, 0.85);
+  --d-focus-ring: 0 0 0 3px var(--d-bg), 0 0 0 6px rgba(255, 212, 0, 0.85);
 
   color: var(--d-fg);
   font-family: var(--d-ff-sans);

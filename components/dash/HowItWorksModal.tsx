@@ -31,8 +31,8 @@ export function HowItWorksModal({ trigger }: { trigger: ReactNode }) {
               the revenue. It&rsquo;s always labelled &ldquo;Sponsored&rdquo;.
             </li>
             <li>
-              <strong>You choose where it goes.</strong> Keep it, or donate it to SPCA NZ, Trees
-              That Count or Foodbank NZ.
+              <strong>You choose your reward.</strong> Airpoints, a KiwiSaver top-up, or donate it
+              to SPCA NZ, Trees That Count or Foodbank NZ.
             </li>
             <li>
               <strong>Your data stays yours.</strong> Dash never reads your content, prompts, files

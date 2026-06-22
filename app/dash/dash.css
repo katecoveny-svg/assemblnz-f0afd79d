@@ -9,29 +9,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;500;600;700;800&display=swap');
 
 .dash-scope {
-  /* raw palette */
-  --d-cream: #f2efe6;
-  --d-cream-2: #eae6d8;
-  --d-forest: #163a23;
-  --d-forest-2: #0f2a19;
-  --d-sage: #a6ba9e;
-  --d-sage-2: #c2d0b8;
-  --d-sage-pale: #dde4d2;
-  --d-gold: #e0b16e;
-  --d-ink: #16271a;
+  /* raw palette — dash. yellow + black poster colourway */
+  --d-cream: #fff8dc;
+  --d-cream-2: #fdf3c4;
+  --d-forest: #0a0a0a;
+  --d-forest-2: #000000;
+  --d-sage: #0a0a0a;
+  --d-sage-2: #1a1a1a;
+  --d-sage-pale: #fff3b0;
+  --d-gold: #ffd400;
+  --d-ink: #0a0a0a;
 
-  /* semantic (cream / light theme) */
-  --bg: #f2efe6;
-  --fg: #16271a;
-  --muted: #5e6b5c;
-  --surface: #fbfaf3;
-  --surface-2: #eeede2;
-  --line: #ded9c8;
-  --accent: #163a23; /* buttons, ink accents */
-  --on-accent: #f2efe6;
-  --gold: #e0b16e;
-  --sage: #a6ba9e;
-  --sage-pale: #dde4d2;
+  /* semantic — yellow canvas, black ink */
+  --bg: #ffd400;
+  --fg: #0a0a0a;
+  --muted: #4a4633;
+  --surface: #fffdf5;
+  --surface-2: #fff3b0;
+  --line: #0a0a0a;
+  --accent: #0a0a0a; /* buttons, ink accents */
+  --on-accent: #ffd400;
+  --gold: #ffd400;
+  --sage: #0a0a0a;
+  --sage-pale: #fff3b0;
 
   --ff-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   --ff-sans: 'Mulish', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
@@ -53,15 +53,15 @@
 }
 
 .dash-scope.dash-forest {
-  --bg: #163a23;
-  --fg: #f4f1e8;
-  --muted: #a9bba6;
-  --surface: #1e4a2e;
-  --surface-2: #21512f;
-  --line: #2d5a3b;
-  --accent: #f2efe6;
-  --on-accent: #163a23;
-  --sage-pale: #23512f;
+  --bg: #0a0a0a;
+  --fg: #fffdf5;
+  --muted: #c9c4ad;
+  --surface: #141414;
+  --surface-2: #1c1c1c;
+  --line: #ffd400;
+  --accent: #ffd400;
+  --on-accent: #0a0a0a;
+  --sage-pale: #1c1c1c;
 }
 
 /* ---------- type ---------- */
@@ -152,7 +152,7 @@
 }
 .dash-scope .d-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(224, 177, 110, 0.85);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px rgba(255, 212, 0, 0.85);
 }
 .dash-scope .d-btn--primary {
   background: var(--accent);
@@ -229,7 +229,7 @@
 .dash-scope .d-field:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(224, 177, 110, 0.32);
+  box-shadow: 0 0 0 4px rgba(255, 212, 0, 0.32);
 }
 .dash-scope .d-field-hint {
   font-size: 13px;
@@ -253,7 +253,7 @@
   color: var(--fg);
 }
 .dash-scope .d-pill--gold {
-  background: rgba(224, 177, 110, 0.2);
+  background: rgba(255, 212, 0, 0.2);
   color: #8a6320;
 }
 .dash-scope .d-pill--outline {
@@ -415,7 +415,7 @@
 
 .dash-scope .dash-ad-seg {
   opacity: 0.14;
-  fill: var(--d-forest);
+  fill: var(--d-gold);
   animation: dash-seg-cycle 6s var(--ease) infinite;
 }
 .dash-scope .dash-ad-seg:nth-of-type(1) {

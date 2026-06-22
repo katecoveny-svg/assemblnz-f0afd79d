@@ -90,7 +90,7 @@ function round4(n: number): number {
 
 // ─── Consumer settings (de)serialization ─────────────────────────
 
-const SELF_METHODS = new Set<string>(['prezzy', 'airpoints', 'stripe-connect']);
+const SELF_METHODS = new Set<string>(['airpoints', 'kiwisaver', 'prezzy']);
 const CHARITY_IDS = new Set<string>(CHARITIES.map((c) => c.id));
 
 function isPayoutDestination(value: unknown): value is PayoutDestination {
