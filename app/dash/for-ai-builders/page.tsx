@@ -20,23 +20,6 @@ dash.init({ publisherId: 'your-agent' });
 // when your agent starts a long task:
 const ad = await dash.show({ surface: 'agent_working' });`;
 
-const ENABLERS = [
-  {
-    tier: 'Host #0',
-    name: 'Assembl’s own agents',
-    line: 'Every “agent is working” screen on Iho / HAPAI is a Dash surface we control. We prove the loop here first — no cold start.',
-  },
-  {
-    tier: 'Tier 1 — enablers',
-    name: 'Ambit, Datacom',
-    line: 'One integration with an enabler inherits all their downstream agent waits — Warehouse, Vector, Tower, One NZ. Most reach from one build.',
-  },
-  {
-    tier: 'Tier 2 — big surfaces',
-    name: 'Xero (JAX), Yabble, Ideally',
-    line: 'Genuine multi-minute generative waits, large audiences. Land one, then open the self-serve SDK to the long tail.',
-  },
-] as const;
 
 export default function DashForAiBuildersPage() {
   return (
@@ -146,34 +129,13 @@ export default function DashForAiBuildersPage() {
         </div>
       </section>
 
-      {/* ENABLER SEQUENCE */}
+      {/* CLOSING CTA */}
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
-          <p className="eyebrow" style={{ marginBottom: 12 }}>
-            How we roll out
-          </p>
           <h2 className="sectionTitle" style={{ maxWidth: 560, marginBottom: 28 }}>
             One integration, many waits.
           </h2>
-          <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
-            {ENABLERS.map(({ tier, name, line }) => (
-              <div key={name} className="card" style={{ padding: 24 }}>
-                <span
-                  className="eyebrow"
-                  style={{ fontSize: 11, color: 'var(--muted)', display: 'block', marginBottom: 10 }}
-                >
-                  {tier}
-                </span>
-                <h3 className="serif" style={{ fontSize: 21, fontWeight: 600, marginBottom: 8 }}>
-                  {name}
-                </h3>
-                <p className="body" style={{ fontSize: 15, color: 'var(--muted)' }}>
-                  {line}
-                </p>
-              </div>
-            ))}
-          </div>
-          <div className="heroCta" style={{ marginTop: 36 }}>
+          <div className="heroCta">
             <Link href="/dash/sdk" className="btn btn--primary btn--lg">
               Read the SDK <ArrowRight aria-hidden />
             </Link>
