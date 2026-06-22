@@ -13,7 +13,7 @@ type DashDogProps = {
   title?: string;
 };
 
-export function DashDog({ className, tone = '#0a0a0a', title = 'dash dachshund' }: DashDogProps) {
+export function DashDog({ className, tone = '#353027', title = 'dash dachshund' }: DashDogProps) {
   return (
     <svg
       className={className}
@@ -23,7 +23,7 @@ export function DashDog({ className, tone = '#0a0a0a', title = 'dash dachshund' 
       aria-label={title}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <ellipse cx="560" cy="432" rx="372" ry="20" fill="#0a0a0a" opacity="0.1" />
+      <ellipse cx="560" cy="432" rx="372" ry="20" fill="#353027" opacity="0.1" />
       <path d="M206 250 C 158 252 128 228 120 190" stroke={tone} strokeWidth="26" strokeLinecap="round" />
       <rect x="214" y="298" width="48" height="118" rx="22" fill={tone} />
       <rect x="650" y="298" width="48" height="118" rx="22" fill={tone} />
@@ -38,7 +38,7 @@ export function DashDog({ className, tone = '#0a0a0a', title = 'dash dachshund' 
         stroke="#fffdf5"
         strokeWidth="7"
       />
-      <rect x="962" y="222" width="38" height="48" rx="19" fill="#0a0a0a" />
+      <rect x="962" y="222" width="38" height="48" rx="19" fill="#353027" />
       <circle cx="838" cy="200" r="13" fill="#fffdf5" />
     </svg>
   );

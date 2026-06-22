@@ -15,38 +15,38 @@
    ============================================================ */
 
 [data-dash] {
-  /* raw palette — dash. yellow + black poster colourway */
-  --d-cream: #fff8dc;
-  --d-cream-2: #fdf3c4;
-  --d-forest: #0a0a0a;
-  --d-forest-2: #000000;
-  --d-sage: #0a0a0a;
-  --d-sage-2: #1a1a1a;
-  --d-sage-pale: #fff3b0;
+  /* raw palette — dash. white + yellow, charcoal text (no black) */
+  --d-cream: #fffdf3;
+  --d-cream-2: #fff7d6;
+  --d-forest: #353027;
+  --d-forest-2: #2a261f;
+  --d-sage: #353027;
+  --d-sage-2: #4a443a;
+  --d-sage-pale: #fff6d6;
   --d-gold: #ffc400;
   --d-hivis: #ffe600;
-  --d-mint: #00e6a8;
-  --d-ink: #0a0a0a;
+  --d-mint: #ffc400;
+  --d-ink: #353027;
 
-  /* semantic — light surface, black ink, yellow accent */
-  --d-bg: #fffdf5;
-  --d-fg: #0a0a0a;
-  --d-muted: #4a4633;
+  /* semantic — white surface, charcoal ink, yellow accent */
+  --d-bg: #ffffff;
+  --d-fg: #353027;
+  --d-muted: #7c766a;
   --d-surface: #ffffff;
-  --d-surface-2: #fff3b0;
-  --d-line: #0a0a0a;
-  --d-accent: #0a0a0a; /* buttons, ink accents */
-  --d-on-accent: #ffc400;
+  --d-surface-2: #fff6d6;
+  --d-line: #ece6d6;
+  --d-accent: #353027; /* buttons, ink accents */
+  --d-on-accent: #ffffff;
 
-  /* dog ink (groove seams removed for the no-hazard-lines look) */
-  --d-groove: #0a0a0a;
-  --d-dog-ink: #0a0a0a;
+  /* dog ink */
+  --d-groove: #353027;
+  --d-dog-ink: #353027;
 
   /* status */
   --d-error: #9a4b3f;
 
-  --d-ff-serif: var(--font-dash-display, 'Cormorant Garamond', Georgia, 'Times New Roman', serif);
-  --d-ff-sans: var(--font-dash-body, 'Mulish', system-ui, -apple-system, 'Helvetica Neue', sans-serif);
+  --d-ff-serif: var(--font-dash-sans, 'Lato', system-ui, -apple-system, sans-serif);
+  --d-ff-sans: var(--font-dash-sans, 'Lato', system-ui, -apple-system, sans-serif);
 
   --d-r-sm: 10px;
   --d-r-md: 16px;
@@ -54,8 +54,8 @@
   --d-r-xl: 30px;
   --d-r-pill: 999px;
 
-  --d-shadow-sm: 0 2px 10px rgba(22, 42, 28, 0.05);
-  --d-shadow-md: 0 14px 40px rgba(22, 42, 28, 0.08);
+  --d-shadow-sm: 0 2px 10px rgba(53, 48, 39, 0.05);
+  --d-shadow-md: 0 14px 40px rgba(53, 48, 39, 0.08);
 
   /* LOCKED easing — no bounce / spring */
   --d-ease: cubic-bezier(0.22, 0.61, 0.36, 1);

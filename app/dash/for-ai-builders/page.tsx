@@ -57,7 +57,11 @@ export default function DashForAiBuildersPage() {
                 For AI builders
               </p>
               <h1 className="display" style={{ fontSize: 'clamp(2.6rem, 7vw, 4.6rem)' }}>
-                Reward the time your <span style={{ color: 'var(--gold)' }}>agent</span> spends working.
+                Reward the time your{' '}
+                <span style={{ background: 'linear-gradient(transparent 58%, var(--hivis) 58%)', padding: '0 0.08em' }}>
+                  agent
+                </span>{' '}
+                spends working.
               </h1>
               <p className="lead" style={{ marginTop: 18, maxWidth: 540 }}>
                 Your agent makes people wait while it runs. dash– turns that wait into a reward they

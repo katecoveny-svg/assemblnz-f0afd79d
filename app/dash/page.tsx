@@ -348,7 +348,7 @@ export default function DashPage() {
         <div className="wrap">
           <div className="ctaBand">
             <span className="ctaGlow" aria-hidden />
-            <p className="eyebrow" style={{ color: 'var(--gold)', marginBottom: 14 }}>
+            <p className="eyebrow" style={{ color: 'var(--accent)', marginBottom: 14 }}>
               Founding spots · NZ launch
             </p>
             <h2 className="ctaTitle">

@@ -6,47 +6,47 @@
    Evidence-Vessel design system.
    Cream · forest · sage. Cormorant Garamond display, Mulish UI.
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Mulish:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap');
 
 .dash-scope {
   /* raw palette — dash. yellow + black poster colourway */
   --d-cream: #fff8dc;
   --d-cream-2: #fdf3c4;
-  --d-forest: #0a0a0a;
-  --d-forest-2: #000000;
-  --d-sage: #0a0a0a;
-  --d-sage-2: #1a1a1a;
+  --d-forest: #353027;
+  --d-forest-2: #2a261f;
+  --d-sage: #353027;
+  --d-sage-2: #4a443a;
   --d-sage-pale: #fff3b0;
   --d-gold: #ffc400;
   --d-hivis: #ffe600;
   --d-mint: #ffc400;
-  --d-ink: #0a0a0a;
+  --d-ink: #353027;
 
-  /* semantic — yellow canvas, black ink */
-  --bg: #ffc400;
-  --fg: #0a0a0a;
-  --muted: #4a4633;
-  --surface: #fffdf5;
-  --surface-2: #fff3b0;
-  --line: #0a0a0a;
-  --accent: #0a0a0a; /* buttons, ink accents */
-  --on-accent: #ffc400;
+  /* semantic — white canvas, charcoal text, yellow accents */
+  --bg: #ffffff;
+  --fg: #353027;
+  --muted: #7c766a;
+  --surface: #ffffff;
+  --surface-2: #fff6d6;
+  --line: #ece6d6;
+  --accent: #353027; /* buttons, ink accents */
+  --on-accent: #ffffff;
   --gold: #ffc400;
   --hivis: #ffe600;
   --mint: #ffc400;
-  --sage: #0a0a0a;
-  --sage-pale: #fff3b0;
+  --sage: #353027;
+  --sage-pale: #fff6d6;
 
-  --ff-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --ff-sans: 'Mulish', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --ff-serif: var(--font-dash-sans), 'Lato', system-ui, -apple-system, sans-serif;
+  --ff-sans: var(--font-dash-sans), 'Lato', system-ui, -apple-system, sans-serif;
 
   --r-sm: 10px;
   --r-md: 16px;
   --r-lg: 22px;
   --r-xl: 30px;
   --r-pill: 999px;
-  --shadow-sm: 0 2px 10px rgba(22, 42, 28, 0.05);
-  --shadow-md: 0 14px 40px rgba(22, 42, 28, 0.08);
+  --shadow-sm: 0 2px 10px rgba(53, 48, 39, 0.05);
+  --shadow-md: 0 14px 40px rgba(53, 48, 39, 0.08);
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   background: var(--bg);
@@ -57,15 +57,15 @@
 }
 
 .dash-scope.dash-forest {
-  --bg: #0a0a0a;
+  --bg: #353027;
   --fg: #fffdf5;
   --muted: #c9c4ad;
-  --surface: #141414;
-  --surface-2: #1c1c1c;
+  --surface: #3a352c;
+  --surface-2: #4a443a;
   --line: #ffc400;
   --accent: #ffc400;
-  --on-accent: #0a0a0a;
-  --sage-pale: #1c1c1c;
+  --on-accent: #353027;
+  --sage-pale: #4a443a;
 }
 
 /* ---------- type ---------- */

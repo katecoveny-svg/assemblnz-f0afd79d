@@ -9,37 +9,37 @@
    ============================================================ */
 
 .dash-kit {
-  /* raw palette — dash. yellow + black poster colourway */
-  --d-cream: #fff8dc;
-  --d-cream-2: #fdf3c4;
-  --d-forest: #0a0a0a;
-  --d-forest-2: #000000;
-  --d-sage: #0a0a0a;
-  --d-sage-2: #1a1a1a;
+  /* raw palette — dash. white + yellow, charcoal text (no black) */
+  --d-cream: #fffdf3;
+  --d-cream-2: #fff7d6;
+  --d-forest: #353027;
+  --d-forest-2: #2a261f;
+  --d-sage: #353027;
+  --d-sage-2: #4a443a;
   --d-sage-pale: #fff3b0;
   --d-gold: #ffc400;
   --d-hivis: #ffe600;
   --d-mint: #ffc400;
-  --d-ink: #0a0a0a;
+  --d-ink: #353027;
 
-  /* semantic — airy cream canvas, black ink, bold yellow accents */
-  --bg: #fbf8ef;
-  --fg: #0a0a0a;
-  --muted: #6b6552;
+  /* semantic — white canvas, charcoal text, yellow accents */
+  --bg: #ffffff;
+  --fg: #353027;
+  --muted: #7c766a;
   --surface: #ffffff;
-  --surface-2: #f5efe0;
-  --line: #e7e0cf;
-  --accent: #0a0a0a;
-  --on-accent: #ffc400;
+  --surface-2: #fff6d6;
+  --line: #ece6d6;
+  --accent: #353027;
+  --on-accent: #ffffff;
   --gold: #ffc400;
   --pop: #ffc400;
   --hivis: #ffe600;
   --mint: #ffc400;
-  --sage: #0a0a0a;
-  --sage-pale: #fff3b0;
+  --sage: #353027;
+  --sage-pale: #fff6d6;
 
-  --ff-serif: var(--font-dash-serif), "Cormorant Garamond", Georgia, serif;
-  --ff-sans: var(--font-dash-sans), "Mulish", system-ui, -apple-system, sans-serif;
+  --ff-serif: var(--font-dash-sans), "Lato", system-ui, -apple-system, sans-serif;
+  --ff-sans: var(--font-dash-sans), "Lato", system-ui, -apple-system, sans-serif;
   --ff-mono: ui-monospace, "SF Mono", "Space Mono", Menlo, Consolas, monospace;
 
   --r-sm: 10px;
@@ -47,14 +47,14 @@
   --r-lg: 22px;
   --r-xl: 30px;
   --r-pill: 999px;
-  --shadow-sm: 0 6px 22px rgba(10, 10, 10, 0.08), 0 1px 3px rgba(10, 10, 10, 0.06);
-  --shadow-md: 0 24px 54px rgba(10, 10, 10, 0.14), 0 4px 12px rgba(10, 10, 10, 0.06);
+  --shadow-sm: 0 6px 22px rgba(53, 48, 39, 0.07), 0 1px 3px rgba(53, 48, 39, 0.05);
+  --shadow-md: 0 24px 54px rgba(53, 48, 39, 0.1), 0 4px 12px rgba(53, 48, 39, 0.05);
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
-  /* airy warm wash — cream with a soft yellow glow */
+  /* airy white wash with a soft yellow glow */
   background:
-    radial-gradient(60% 50% at 86% -6%, rgba(255, 196, 0, 0.16), transparent 60%),
-    radial-gradient(46% 40% at -2% 8%, rgba(255, 196, 0, 0.08), transparent 60%),
+    radial-gradient(60% 50% at 86% -6%, rgba(255, 196, 0, 0.14), transparent 60%),
+    radial-gradient(46% 40% at -2% 8%, rgba(255, 196, 0, 0.07), transparent 60%),
     var(--bg);
   color: var(--fg);
   font-family: var(--ff-sans);
@@ -65,14 +65,14 @@
   --dash-display: var(--ff-serif);
   --dash-body: var(--ff-sans);
   --dash-mono: var(--ff-sans);
-  --cream: #fff8dc;
-  --cream-2: #fffdf5;
-  --pounamu: #0a0a0a;
-  --pounamu-dark: #000000;
+  --cream: #fffdf3;
+  --cream-2: #ffffff;
+  --pounamu: #353027;
+  --pounamu-dark: #2a261f;
   --amber: #ffc400;
   --amber-dim: #8a6a00;
-  --ink: #0a0a0a;
-  --ink-soft: #4a4633;
+  --ink: #353027;
+  --ink-soft: #7c766a;
 }
 
 .dash-kit *,
@@ -92,7 +92,7 @@
 }
 .dash-kit .display {
   font-family: var(--ff-serif);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: -0.01em;
   color: var(--fg);
@@ -177,13 +177,13 @@
   color: #fff;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.1) 38%, rgba(255, 255, 255, 0) 60%),
-    linear-gradient(180deg, #1a1a1a 0%, #141414 55%, #0a0a0a 100%);
+    linear-gradient(180deg, #4a443a 0%, #3a352c 55%, #353027 100%);
   border: 1px solid rgba(255, 255, 255, 0.55);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    0 8px 20px rgba(10, 10, 10, 0.26),
+    0 8px 20px rgba(53, 48, 39, 0.26),
     0 0 22px rgba(255, 196, 0, 0.28),
-    0 1px 2px rgba(10, 10, 10, 0.3);
+    0 1px 2px rgba(53, 48, 39, 0.3);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
@@ -191,10 +191,10 @@
   transform: translateY(-2px);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0) 62%),
-    linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 55%, #141414 100%);
+    linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 55%, #3a352c 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 14px 30px rgba(10, 10, 10, 0.32),
+    0 14px 30px rgba(53, 48, 39, 0.32),
     0 0 22px 2px rgba(255, 196, 0, 0.35);
 }
 .dash-kit .btn--primary:hover svg {
@@ -208,7 +208,7 @@
   border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 8px 22px rgba(10, 10, 10, 0.1);
+    0 8px 22px rgba(53, 48, 39, 0.1);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
@@ -218,7 +218,7 @@
   transform: translateY(-2px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 1),
-    0 12px 28px rgba(10, 10, 10, 0.14);
+    0 12px 28px rgba(53, 48, 39, 0.14);
 }
 .dash-kit .btn--cream {
   background: var(--d-cream);
@@ -331,7 +331,7 @@
   transform: translateY(-4px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 24px 54px rgba(10, 10, 10, 0.1),
+    0 24px 54px rgba(53, 48, 39, 0.1),
     0 0 26px 2px rgba(166, 186, 158, 0.4);
 }
 .dash-kit .card h3 {
@@ -404,11 +404,11 @@
   color: var(--on-accent);
   padding: 12px 20px;
   background: var(--accent);
-  box-shadow: 0 6px 16px rgba(10, 10, 10, 0.18);
+  box-shadow: 0 6px 16px rgba(53, 48, 39, 0.18);
 }
 .dash-kit .dashNav nav a.btn--primary:hover {
   color: var(--on-accent);
-  background: #1a1a1a;
+  background: #4a443a;
 }
 .dash-kit .dashFoot {
   border-top: 1px solid var(--line);
@@ -456,7 +456,7 @@
 .dash-kit .hero {
   position: relative;
   overflow: hidden;
-  background: radial-gradient(120% 90% at 78% 12%, #fbf4e6 0%, #f4efe3 42%, #ede7d8 100%);
+  background: radial-gradient(120% 90% at 78% 12%, #ffffff 0%, #fffdf3 46%, #fff6d6 100%);
 }
 .dash-kit .heroStage {
   display: grid;
@@ -472,7 +472,7 @@
 }
 .dash-kit .heroTitle {
   font-family: var(--ff-serif);
-  font-weight: 500;
+  font-weight: 700;
   font-size: clamp(54px, 7vw, 104px);
   line-height: 0.94;
   letter-spacing: -0.018em;
@@ -483,7 +483,9 @@
 }
 .dash-kit .heroTitle .em {
   font-style: italic;
-  color: var(--gold);
+  color: var(--fg);
+  background: linear-gradient(transparent 58%, var(--hivis) 58%);
+  padding: 0 0.08em;
 }
 .dash-kit .heroSub {
   font-size: 21px;
@@ -604,7 +606,7 @@
 }
 .dash-kit .mascotImg {
   width: 100%; height: auto; display: block;
-  filter: drop-shadow(0 30px 30px rgba(10, 10, 10, 0.28));
+  filter: drop-shadow(0 30px 30px rgba(53, 48, 39, 0.28));
 }
 .dash-kit .mascotChip {
   position: absolute; z-index: 2;
@@ -622,8 +624,8 @@
 /* ---------- announcement marquee (birdie-style top bar) ---------- */
 .dashMarquee {
   background: var(--pop, #ffc400);
-  color: var(--accent, #0a0a0a);
-  border-bottom: 2px solid var(--accent, #0a0a0a);
+  color: var(--accent, #353027);
+  border-bottom: 2px solid var(--accent, #353027);
   overflow: hidden;
   white-space: nowrap;
 }
@@ -650,7 +652,7 @@
   bottom: 0;
   z-index: 40;
   background: var(--pop, #ffc400);
-  border-top: 2px solid var(--accent, #0a0a0a);
+  border-top: 2px solid var(--accent, #353027);
 }
 .dashSticky__inner {
   display: flex;
@@ -704,7 +706,7 @@
 }
 .dash-kit .sectionTitle {
   font-family: var(--ff-serif);
-  font-weight: 500;
+  font-weight: 700;
   font-size: clamp(32px, 4vw, 46px);
   line-height: 1.02;
   letter-spacing: -0.014em;
@@ -760,7 +762,7 @@
   font-weight: 600;
   font-size: 20px;
   margin-bottom: 16px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 14px rgba(10, 10, 10, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 14px rgba(53, 48, 39, 0.18);
 }
 .dash-kit .step h3 {
   font-family: var(--ff-serif);
@@ -840,9 +842,9 @@
   text-align: center;
   border-radius: var(--r-xl);
   padding: clamp(48px, 7vw, 96px) clamp(24px, 5vw, 72px);
-  background: radial-gradient(120% 130% at 50% 0%, #ffffff 0%, #f4f7ef 52%, #e8efe0 100%);
+  background: radial-gradient(120% 130% at 50% 0%, #ffffff 0%, #fffdf3 52%, #fff6d6 100%);
   border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px rgba(10, 10, 10, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px rgba(53, 48, 39, 0.1);
 }
 .dash-kit .ctaGlow {
   position: absolute;
@@ -855,7 +857,7 @@
 .dash-kit .ctaTitle {
   position: relative;
   font-family: var(--ff-serif);
-  font-weight: 500;
+  font-weight: 700;
   font-size: clamp(36px, 5.5vw, 66px);
   line-height: 1;
   letter-spacing: -0.015em;
