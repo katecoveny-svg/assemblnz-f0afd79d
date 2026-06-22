@@ -482,87 +482,57 @@
   }
 }
 
-/* Flowing gold shimmer over a pounamu word. Fail-safe: the resting state is a
-   solid, fully-visible pounamu fill. The animated gradient-clip only kicks in
-   where background-clip:text is supported AND motion is allowed.
-
-   IMPORTANT: only apply this to an element that holds the text DIRECTLY. Do not
-   put it on a <RevealWords> wrapper — that renders each word in a nested
-   inline-block, so background-clip:text clips to nothing and the inherited
-   transparent fill leaves the words invisible. For RevealWords accents, use a
-   solid colour (text-[color:var(--assembl-pounamu)]) instead. */
-.shimmer-pounamu {
-  color: var(--assembl-pounamu);
+/* ── Agent marketplace (Dash brand) ──────────────────────────────────────
+   Scoped to .mk-root (see app/agents/layout.tsx). Lato display + Space Mono,
+   charcoal body ink. Keeps the Dash type system off the rest of the site. */
+.mk-root {
+  font-family: var(--mk-display), system-ui, sans-serif;
+  color: #56544b;
+  -webkit-font-smoothing: antialiased;
+}
+.mk-root .mk-mono {
+  font-family: var(--mk-mono), ui-monospace, monospace;
 }
 
-@keyframes assembl-shimmer {
-  from {
-    background-position: 200% 0;
+/* The signature fill-the-dog loader: the dog charges up bottom-to-top.
+   Pure-CSS demo loop; bind `height` to real progress for controlled fills. */
+@keyframes fillRise {
+  0% {
+    height: 7%;
   }
-  to {
-    background-position: -200% 0;
+  12% {
+    height: 17%;
   }
-}
-
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  @media (prefers-reduced-motion: no-preference) {
-    .shimmer-pounamu {
-      background-image: linear-gradient(
-        100deg,
-        var(--assembl-pounamu) 0%,
-        var(--assembl-pounamu) 38%,
-        var(--assembl-gold-thread) 50%,
-        var(--assembl-pounamu) 62%,
-        var(--assembl-pounamu) 100%
-      );
-      background-size: 220% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: assembl-shimmer 6.5s linear infinite;
-    }
+  66% {
+    height: 90%;
   }
-}
-
-/* Breathing gold glow on the primary CTA — a soft pulse that draws the eye. */
-@keyframes assembl-cta-glow {
-  0%,
+  84% {
+    height: 100%;
+  }
+  93% {
+    height: 100%;
+  }
   100% {
-    box-shadow: 0 8px 24px rgba(43, 107, 87, 0.28), 0 0 0 0 rgba(212, 168, 83, 0);
-  }
-  50% {
-    box-shadow: 0 12px 32px rgba(43, 107, 87, 0.38), 0 0 26px 3px rgba(212, 168, 83, 0.5);
+    height: 7%;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .cta-glow {
-    animation: assembl-cta-glow 3.2s ease-in-out infinite;
-  }
-}
-
-/* Dash dachshund "thinking" loader (marketplace chat). Pure CSS so it can never
-   stick on a hydration hiccup; resting state is fully visible. */
-@keyframes dash-trot {
+@keyframes floaty {
   0%,
   100% {
     transform: translateY(0) rotate(0deg);
   }
-  25% {
-    transform: translateY(-2px) rotate(-1.5deg);
+  50% {
+    transform: translateY(-12px) rotate(-1deg);
   }
-  75% {
-    transform: translateY(-2px) rotate(1.5deg);
-  }
-}
-
-.dash-trot {
-  animation: dash-trot 0.9s ease-in-out infinite;
-  transform-origin: 60% 80%;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dash-trot {
-    animation: none;
+  .mk-fill-anim {
+    animation: none !important;
+    height: 78% !important;
+  }
+  .mk-floaty {
+    animation: none !important;
   }
 }

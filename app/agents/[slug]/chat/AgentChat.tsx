@@ -46,42 +46,42 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
     setInput('');
   }
 
-  // Is the assistant streaming but hasn't emitted visible text yet? Show the dog.
+  // Is the assistant streaming but hasn't emitted visible text yet? Fill the dog.
   const last = messages[messages.length - 1];
   const waitingForText = busy && (!last || last.role !== 'assistant' || messageText(last).length === 0);
 
   return (
-    <div className="flex h-[100dvh] flex-col" style={{ backgroundColor: PALETTE.cream }}>
+    <div className="mk-root flex h-[100dvh] flex-col" style={{ backgroundColor: PALETTE.cream }}>
       {/* Header */}
       <header
         className="flex items-center justify-between border-b px-4 py-3 md:px-6"
-        style={{ borderColor: 'rgba(22,58,35,0.10)' }}
+        style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}
       >
         <div className="flex items-center gap-3">
           <Link
             href={`/agents/${agent.slug}`}
             aria-label="Back to agent details"
             className="rounded-full p-1.5 hover:bg-black/5"
-            style={{ color: PALETTE.forest }}
+            style={{ color: PALETTE.ink }}
           >
             <ArrowLeft size={18} aria-hidden />
           </Link>
           <div
-            className="flex h-9 w-9 items-center justify-center rounded-lg"
-            style={{ backgroundColor: `${agent.accent}33` }}
+            className="flex h-9 w-9 items-center justify-center rounded-xl"
+            style={{ backgroundColor: `${agent.accent}55` }}
           >
             <AgentIcon name={agent.icon} className="h-5 w-5" />
           </div>
           <div className="leading-tight">
-            <p className="font-display text-lg" style={{ color: PALETTE.forest }}>
+            <p className="text-lg" style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.ink }}>
               {agent.name}
             </p>
-            <p className="text-xs" style={{ color: PALETTE.forest, opacity: 0.5 }}>
+            <p className="mk-mono text-[11px] uppercase tracking-wide" style={{ color: PALETTE.muted }}>
               {agent.teReo}
             </p>
           </div>
         </div>
-        <Wordmark className="text-lg" href="/agents" />
+        <Wordmark size={18} href="/agents" />
       </header>
 
       {/* Messages */}
@@ -94,13 +94,13 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
             return (
               <div
                 key={m.id}
-                className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                className={`max-w-[85%] rounded-[20px] px-4 py-3 text-sm leading-relaxed ${
                   isUser ? 'self-end' : 'self-start'
                 }`}
                 style={
                   isUser
-                    ? { backgroundColor: PALETTE.forest, color: PALETTE.cream }
-                    : { backgroundColor: 'white', color: PALETTE.forest, border: '1px solid rgba(22,58,35,0.10)' }
+                    ? { backgroundColor: PALETTE.canary, color: PALETTE.ink }
+                    : { backgroundColor: PALETTE.paper, color: PALETTE.body, border: `1px solid ${PALETTE.hairline}` }
                 }
               >
                 <p className="whitespace-pre-wrap">{text}</p>
@@ -109,14 +109,14 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
           })}
 
           {waitingForText ? (
-            <div className="self-start rounded-2xl border bg-white px-4 py-3" style={{ borderColor: 'rgba(22,58,35,0.10)' }}>
-              <DashLoader label={`${agent.name} is thinking…`} />
+            <div className="self-start rounded-[20px] border px-4 py-3" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
+              <DashLoader label={`${agent.name} is thinking…`} width={64} />
             </div>
           ) : null}
 
           {error ? (
             <div
-              className="self-start rounded-2xl border px-4 py-3 text-sm"
+              className="self-start rounded-[20px] border px-4 py-3 text-sm"
               style={{ borderColor: 'rgba(180,60,40,0.3)', backgroundColor: 'rgba(180,60,40,0.06)', color: '#7a2a1a' }}
             >
               Something went wrong: {error.message || 'the agent could not reply.'} The chat may not be
@@ -132,8 +132,8 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
                   key={s}
                   type="button"
                   onClick={() => submit(s)}
-                  className="self-start rounded-full border px-4 py-2 text-left text-sm transition hover:bg-white"
-                  style={{ borderColor: 'rgba(22,58,35,0.18)', color: PALETTE.forest }}
+                  className="self-start rounded-full border px-4 py-2 text-left text-sm font-bold transition hover:bg-white"
+                  style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
                 >
                   {s}
                 </button>
@@ -144,7 +144,7 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
       </div>
 
       {/* Composer */}
-      <div className="border-t px-4 py-3 md:px-6" style={{ borderColor: 'rgba(22,58,35,0.10)' }}>
+      <div className="border-t px-4 py-3 md:px-6" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -163,20 +163,20 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
             }}
             rows={1}
             placeholder={`Message ${agent.name}…`}
-            className="max-h-40 flex-1 resize-none rounded-2xl border bg-white px-4 py-3 text-sm outline-none"
-            style={{ borderColor: 'rgba(22,58,35,0.15)', color: PALETTE.forest }}
+            className="max-h-40 flex-1 resize-none rounded-[20px] border bg-white px-4 py-3 text-sm outline-none"
+            style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
           />
           <button
             type="submit"
             disabled={busy || !input.trim()}
             aria-label="Send"
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition disabled:opacity-40"
-            style={{ backgroundColor: PALETTE.forest, color: PALETTE.cream }}
+            style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
           >
             <ArrowUp size={18} aria-hidden />
           </button>
         </form>
-        <p className="mx-auto mt-2 max-w-2xl text-center text-xs" style={{ color: PALETTE.forest, opacity: 0.45 }}>
+        <p className="mk-mono mx-auto mt-2 max-w-2xl text-center text-[11px]" style={{ color: PALETTE.muted }}>
           A draft for you to check. Not legal, financial, or medical advice.
         </p>
       </div>
