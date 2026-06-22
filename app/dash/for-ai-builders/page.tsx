@@ -7,9 +7,9 @@ import { CodeSnippet } from '@/components/dash/CodeSnippet';
 import { StatCallout } from '@/components/dash/StatCallout';
 
 export const metadata: Metadata = {
-  title: 'dash– for AI builders — add a reward layer to your agent in one line',
+  title: 'Dash for AI builders — add a reward layer to your agent in one line',
   description:
-    'Your AI agent makes people wait while it works. dash– turns that wait into a reward your users actually get — Airpoints, KiwiSaver, charity. Opt-in, white-label, NZ-built, Assembl-governed.',
+    'Your AI agent makes people wait while it works. Dash turns that wait into a reward your users actually get — Airpoints, KiwiSaver, charity. Opt-in, white-label, NZ-built, Assembl-governed.',
   alternates: { canonical: '/dash/for-ai-builders' },
 };
 
@@ -29,7 +29,7 @@ const ENABLERS = [
   {
     tier: 'Tier 1 — enablers',
     name: 'Ambit, Datacom',
-    line: 'One integration with an enabler inherits all their downstream agent waits — Warehouse, Vector, Tower, One NZ. Highest leverage.',
+    line: 'One integration with an enabler inherits all their downstream agent waits — Warehouse, Vector, Tower, One NZ. Most reach from one build.',
   },
   {
     tier: 'Tier 2 — big surfaces',
@@ -64,13 +64,13 @@ export default function DashForAiBuildersPage() {
                 spends working.
               </h1>
               <p className="lead" style={{ marginTop: 18, maxWidth: 540 }}>
-                Your agent makes people wait while it runs. dash– turns that wait into a reward they
+                Your agent makes people wait while it runs. Dash turns that wait into a reward they
                 actually get — Airpoints, KiwiSaver, charity — in one line. Opt-in, white-label,
                 Assembl-governed.
               </p>
               <div className="heroCta" style={{ marginTop: 28 }}>
-                <Link href="/dash#waitlist" className="btn btn--primary btn--lg">
-                  Add it to your agent <ArrowRight aria-hidden />
+                <Link href="/dash/sdk" className="btn btn--primary btn--lg">
+                  Read the SDK <ArrowRight aria-hidden />
                 </Link>
                 <Link href="/dash/rewards" className="btn btn--ghost btn--lg">
                   See the rewards
@@ -140,7 +140,7 @@ export default function DashForAiBuildersPage() {
             Your agents. Your logo. Our reward layer.
           </h2>
           <p className="body" style={{ maxWidth: 560, color: 'var(--muted)', fontSize: 17 }}>
-            Run dash– in your own UI and wordmark — the wait still pays your users, and you ship a
+            Run Dash in your own UI and wordmark — the wait still pays your users, and you ship a
             reward feature without building one. One integration, opt-in, NZ-built, Assembl-governed.
           </p>
         </div>
@@ -174,8 +174,8 @@ export default function DashForAiBuildersPage() {
             ))}
           </div>
           <div className="heroCta" style={{ marginTop: 36 }}>
-            <Link href="/dash#waitlist" className="btn btn--primary btn--lg">
-              Join the waitlist <ArrowRight aria-hidden />
+            <Link href="/dash/sdk" className="btn btn--primary btn--lg">
+              Read the SDK <ArrowRight aria-hidden />
             </Link>
           </div>
         </div>
