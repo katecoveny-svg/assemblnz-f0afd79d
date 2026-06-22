@@ -51,6 +51,8 @@ project_id = "wurwcrgxjjwqdaxqceey"
     verify_jwt = false
   [functions.health-check]
     verify_jwt = false
+  [functions.health-check-cron]
+    verify_jwt = false
   [functions.integration-proxy]
     verify_jwt = false
   [functions.iot-agri-satellite]
