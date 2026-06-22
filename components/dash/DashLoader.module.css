@@ -7,9 +7,9 @@
 
 .loader {
   /* dog tint defaults — whitelabel overrides --dog-body inline */
-  --dog-body: var(--d-sage, #a6ba9e);
-  --dog-groove: var(--d-groove, #8da382);
-  --dog-ink: var(--d-dog-ink, #14301a);
+  --dog-body: var(--d-sage, #0a0a0a);
+  --dog-groove: var(--d-groove, #0a0a0a);
+  --dog-ink: var(--d-dog-ink, #0a0a0a);
 
   position: relative;
   display: flex;
@@ -96,7 +96,7 @@
   }
 }
 .loader[data-status='success'] .seg {
-  fill: var(--d-mint, #00e6a8);
+  fill: var(--d-mint, #ffc400);
   opacity: 1;
 }
 
@@ -195,7 +195,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #6fcf97;
+  background: var(--d-gold, #ffc400);
   flex: none;
 }
 .sponsorName {
