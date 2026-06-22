@@ -1,27 +1,39 @@
 'use client';
 
 /**
- * GlossyMascotHero — the birdie-style hero: the glossy 3D dachshund render
- * (public/dash/dash-mascot-hero.png) floating inside a soft rounded panel,
- * with pointer-parallax tilt and playful floating reward chips.
+ * GlossyMascotHero — the birdie-style hero: the new 3D/4D glossy white + canary
+ * dachshund (a looping, muted video) inside a soft rounded panel, with a subtle
+ * pointer-parallax tilt and playful floating reward chips.
  *
- * Reduced-motion: holds a static, level pose with no float/parallax.
- * See docs/dash-components-brief.md (GlossyMascotHero).
+ * Reduced-motion: the video is paused (shows the poster frame) and the tilt is
+ * disabled. See docs/dash-components-brief.md (GlossyMascotHero).
  */
 import { useEffect, useRef } from 'react';
 
 export function GlossyMascotHero() {
-  const sceneRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const reduce =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return;
+
+    // Reduced motion: hold the poster frame, no autoplay, no tilt.
+    if (reduce) {
+      const v = videoRef.current;
+      if (v) {
+        v.autoplay = false;
+        v.pause();
+        v.removeAttribute('autoplay');
+      }
+      return;
+    }
+
     const stage = stageRef.current;
-    const scene = sceneRef.current;
-    if (!stage || !scene) return;
+    const panel = panelRef.current;
+    if (!stage || !panel) return;
 
     let raf = 0;
     function onMove(e: PointerEvent) {
@@ -30,11 +42,11 @@ export function GlossyMascotHero() {
       const y = (e.clientY - r.top) / r.height - 0.5;
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        scene!.style.transform = `perspective(1100px) rotateY(${x * 14}deg) rotateX(${-y * 12}deg)`;
+        panel!.style.transform = `perspective(1100px) rotateY(${x * 10}deg) rotateX(${-y * 8}deg)`;
       });
     }
     function reset() {
-      scene!.style.transform = 'perspective(1100px) rotateY(0deg) rotateX(0deg)';
+      panel!.style.transform = 'perspective(1100px) rotateY(0deg) rotateX(0deg)';
     }
     stage.addEventListener('pointermove', onMove);
     stage.addEventListener('pointerleave', reset);
@@ -47,22 +59,26 @@ export function GlossyMascotHero() {
 
   return (
     <div ref={stageRef} className="mascotStage">
-      <div className="mascotPanel">
-        <span className="mascotGlow" aria-hidden />
-        <div ref={sceneRef} className="mascotScene">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className="mascotImg"
-            src="/dash/dash-mascot-hero.png"
-            alt="Dash — a glossy black dachshund whose long body glows with a golden loading bar"
-          />
-        </div>
-
-        {/* floating reward chips — the imagination */}
-        <span className="mascotChip mascotChip--a">+$0.04 → KiwiSaver</span>
-        <span className="mascotChip mascotChip--b">✈ Airpoints</span>
-        <span className="mascotChip mascotChip--c">♥ to charity</span>
+      <div ref={panelRef} className="mascotPanel">
+        <video
+          ref={videoRef}
+          className="mascotVid"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/dash/dash-mascot-poster.jpg"
+          aria-label="Dash — a glossy white and canary-yellow dachshund mascot, slowly turning"
+        >
+          <source src="/dash/dash-mascot.webm" type="video/webm" />
+          <source src="/dash/dash-mascot.mp4" type="video/mp4" />
+        </video>
       </div>
+
+      {/* floating reward chips — the imagination */}
+      <span className="mascotChip mascotChip--a">+$0.04 → KiwiSaver</span>
+      <span className="mascotChip mascotChip--b">✈ Airpoints</span>
+      <span className="mascotChip mascotChip--c">♥ to charity</span>
     </div>
   );
 }

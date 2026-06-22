@@ -12,7 +12,7 @@
  * RPC added in the earner-wallet migration) is the follow-up — see
  * supabase/migrations/*_dash_earner_wallet.sql.
  */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
 import { PayoutDestinationPicker } from '@/components/dash/PayoutDestinationPicker';
@@ -33,18 +33,64 @@ function destinationLabel(d: PayoutDestination): string {
 }
 
 export default function DashWalletPage() {
-  // Demo seed — in live mode this comes from `dash_earner_balances`.
+  // Demo seed; replaced by the real `dash_earner_balances` value when signed in.
   const [balanceCents, setBalanceCents] = useState(420);
   const [destination, setDestination] = useState<PayoutDestination>(DEFAULT_DESTINATION);
   const [done, setDone] = useState<string | null>(null);
+  const [live, setLive] = useState(false);
+  const [busy, setBusy] = useState(false);
 
-  const canRedeem = balanceCents >= REDEEM_THRESHOLD_CENTS;
+  useEffect(() => {
+    let active = true;
+    fetch('/api/dash/wallet')
+      .then((r) => r.json())
+      .then((d) => {
+        if (!active || !d?.live) return;
+        setLive(true);
+        setBalanceCents(Math.round((d.balanceNzd ?? 0) * 100));
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
-  function redeem() {
-    if (!canRedeem) return;
+  const canRedeem = balanceCents >= REDEEM_THRESHOLD_CENTS && !busy;
+
+  async function redeem() {
+    if (balanceCents < REDEEM_THRESHOLD_CENTS || busy) return;
     const sent = formatNZD(balanceCents);
-    setDone(`${sent} on its way to ${destinationLabel(destination)}.`);
-    setBalanceCents(0);
+    const label = destinationLabel(destination);
+
+    if (!live) {
+      setDone(`${sent} on its way to ${label}.`);
+      setBalanceCents(0);
+      return;
+    }
+
+    setBusy(true);
+    const payload =
+      destination.kind === 'charity'
+        ? { amountNzd: balanceCents / 100, destinationKind: 'charity', destination: destination.charityId }
+        : { amountNzd: balanceCents / 100, destinationKind: 'self', destination: destination.method };
+    try {
+      const res = await fetch('/api/dash/wallet', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const d = await res.json();
+      if (d?.ok) {
+        setDone(`${sent} on its way to ${label}.`);
+        setBalanceCents(0);
+      } else {
+        setDone(`Couldn’t redeem: ${d?.error ?? 'please try again'}.`);
+      }
+    } catch {
+      setDone('Couldn’t redeem right now — please try again.');
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -81,7 +127,9 @@ export default function DashWalletPage() {
           {formatNZD(balanceCents)}
         </p>
         <p className="muted" style={{ marginTop: 8, fontSize: 14 }}>
-          Earned from {Math.max(1, Math.round(balanceCents / 4))} waits · accrues a few cents at a time.
+          {live
+            ? 'Your live balance · accrues a few cents per wait.'
+            : 'Demo balance · sign in to see your real earnings.'}
         </p>
       </div>
 
