@@ -13,9 +13,9 @@ import {
 import '@/styles/dash-tokens.css';
 
 export const metadata: Metadata = {
-  title: 'dash– rewards — you choose where your wait goes',
+  title: 'Dash rewards — you choose where your wait goes',
   description:
-    'Your dash– balance accrues while AI works, then you redeem it to a reward — Everyday Rewards, Airpoints, power-bill credit, KiwiSaver or charity. Never cash-per-wait. Cash is a later, gated tier.',
+    'Your Dash balance accrues while AI works, then you redeem it to a reward — Everyday Rewards, Airpoints, power-bill credit, KiwiSaver or charity. Never cash-per-wait. Cash is a later, gated tier.',
   alternates: { canonical: '/dash/rewards' },
 };
 
@@ -69,7 +69,7 @@ const HOW = [
   {
     n: 1,
     title: 'It accrues',
-    body: 'Every qualifying wait adds a few cents to your dash– balance, server-side. No money moves per wait — that keeps it honest and fee-free.',
+    body: 'Every qualifying wait adds a few cents to your Dash balance, server-side. No money moves per wait — that keeps it honest and fee-free.',
   },
   {
     n: 2,
@@ -79,7 +79,7 @@ const HOW = [
   {
     n: 3,
     title: 'Cash is the top of the ladder',
-    body: 'Cash unlocks only above a sensible minimum (NZ$10–20), batched, KYC at withdrawal. Cash may be taxable income — we’ll show a note.',
+    body: 'Cash opens only above a sensible minimum (NZ$10–20), batched, KYC at withdrawal. Cash may be taxable income — we’ll show a note.',
   },
 ] as const;
 
@@ -94,7 +94,7 @@ const FAQ = [
   },
   {
     q: 'What’s the minimum?',
-    a: 'Non-cash rewards redeem from NZ$5. Cash (coming soon) unlocks higher, around NZ$10–20, batched.',
+    a: 'Non-cash rewards redeem from NZ$5. Cash (coming soon) opens higher, around NZ$10–20, batched.',
   },
   {
     q: 'How long until I see it?',
@@ -118,7 +118,7 @@ export default function DashRewardsPage() {
             goes.
           </h1>
           <p className="lead" style={{ marginTop: 18, maxWidth: 620 }}>
-            dash– pays you in rewards, not cash-per-wait. Your balance builds while AI works, then you
+            Dash pays you in rewards, not cash-per-wait. Your balance builds while AI works, then you
             send it wherever you like — give it away, grow it, or spend it.
           </p>
         </div>
@@ -182,7 +182,7 @@ export default function DashRewardsPage() {
             </div>
             <p className="body" style={{ marginTop: 24, color: 'var(--muted)', maxWidth: 680 }}>
               Why not cash per wait? Card rails charge a fixed fee per transaction and need every
-              recipient KYC-verified — paying a few cents per wait is impossible. So dash– is a
+              recipient KYC-verified — paying a few cents per wait is impossible. So Dash is a
               ledger, not a payments firehose: it builds, you redeem.
             </p>
           </div>
@@ -209,8 +209,8 @@ export default function DashRewardsPage() {
             <Link href="/dash/wallet" className="btn btn--primary btn--lg">
               See your wallet <ArrowRight aria-hidden />
             </Link>
-            <Link href="/dash#waitlist" className="btn btn--ghost btn--lg">
-              Join the waitlist
+            <Link href="/dash#flagship" className="btn btn--ghost btn--lg">
+              See how it works
             </Link>
           </div>
         </div>

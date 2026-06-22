@@ -130,6 +130,9 @@ export default function DashLayout({ children }: { children: ReactNode }) {
             <Link href="/dash/for-ai-builders" className="bd-nav-link">
               For builders
             </Link>
+            <Link href="/dash/interactive" className="bd-nav-link">
+              Play
+            </Link>
             <a href="https://assembl.co.nz" className="bd-nav-link">
               About
             </a>
