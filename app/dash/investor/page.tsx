@@ -1,6 +1,13 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 import styles from "./investor.module.css";
+
+// Contains the business plan + the ask + partner names — NOT public. Gated to
+// the operator allowlist (same as /dash/admin) and excluded from indexing.
+export const dynamic = "force-dynamic";
+const ALLOWED_EMAILS = new Set<string>(["assembl@assembl.co.nz", "kate@assembl.co.nz"]);
 
 /**
  * /dash/investor — Investor one-pager, ported from the design handoff /
@@ -14,6 +21,7 @@ export const metadata: Metadata = {
   description:
     "Dash by assembl — the reward layer for the agentic wait. Market, model, traction plan and the ask, on one page.",
   alternates: { canonical: "/dash/investor" },
+  robots: { index: false, follow: false },
 };
 
 const LATO = "var(--font-dash-sans), 'Lato', sans-serif";
@@ -124,7 +132,25 @@ const rmBody: CSSProperties = {
   lineHeight: 1.4,
 };
 
-export default function InvestorPage() {
+export default async function InvestorGate() {
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  const email = (data.user?.email ?? "").toLowerCase();
+  if (!data.user) redirect("/login?redirect=/dash/investor");
+  if (!ALLOWED_EMAILS.has(email)) {
+    return (
+      <div style={{ minHeight: "60vh", display: "grid", placeItems: "center", padding: 40, textAlign: "center", color: "#3a3832" }}>
+        <div>
+          <h1 style={{ fontWeight: 700, fontSize: 28, margin: "0 0 8px" }}>Not authorised</h1>
+          <p style={{ color: "#56544b" }}>This page is private to the Dash operator team.</p>
+        </div>
+      </div>
+    );
+  }
+  return <InvestorPage />;
+}
+
+function InvestorPage() {
   return (
     <div className={styles.stage}>
       <div className={styles.page}>
