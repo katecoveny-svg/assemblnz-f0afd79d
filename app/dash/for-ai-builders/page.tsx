@@ -7,10 +7,33 @@ import { CodeSnippet } from '@/components/dash/CodeSnippet';
 import { StatCallout } from '@/components/dash/StatCallout';
 
 export const metadata: Metadata = {
-  title: 'Dash for AI builders — add a reward layer to your agent in one line',
+  title: 'Dash for AI builders · assembl',
   description:
-    'Your AI agent makes people wait while it works. Dash turns that wait into a reward your users actually get — Airpoints, KiwiSaver, charity. Opt-in, white-label, NZ-built, Assembl-governed.',
+    'Your AI agent makes people wait while it works. Dash turns that wait into a reward your users keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners come on. Opt-in, white-label, NZ-built, Assembl-governed.',
   alternates: { canonical: '/dash/for-ai-builders' },
+  openGraph: {
+    title: 'Dash for AI builders · assembl',
+    description:
+      'Add a reward layer to your agent in one line. Charity at launch, more rewards rolling out. Opt-in, white-label, NZ-built.',
+    type: 'website',
+    siteName: 'dash. by assembl',
+    url: '/dash/for-ai-builders',
+    locale: 'en_NZ',
+    images: [
+      {
+        url: '/images/dash/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Dash for AI builders · assembl',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dash for AI builders · assembl',
+    description: 'Add a reward layer to your agent in one line. Opt-in, white-label, NZ-built.',
+    images: ['/images/dash/og-image.png'],
+  },
 };
 
 const INSTALL = `import { dash } from '@assembl/dash-sdk';
@@ -48,8 +71,8 @@ export default function DashForAiBuildersPage() {
               </h1>
               <p className="lead" style={{ marginTop: 18, maxWidth: 540 }}>
                 Your agent makes people wait while it runs. Dash turns that wait into a reward they
-                actually get — Airpoints, KiwiSaver, charity — in one line. Opt-in, white-label,
-                Assembl-governed.
+                keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners
+                come on — in one line. Opt-in, white-label, Assembl-governed.
               </p>
               <div className="heroCta" style={{ marginTop: 28 }}>
                 <Link href="/dash/sdk" className="btn btn--primary btn--lg">

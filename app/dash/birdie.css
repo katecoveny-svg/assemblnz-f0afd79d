@@ -118,3 +118,21 @@
   .bd-reveal { animation: none !important; opacity: 1 !important; transform: none !important }
   .bd-progress { animation: none !important }
 }
+
+/* Keyboard focus — the Birdie surface is all inline-styled links/buttons, so
+   give every interactive element a visible, AA-contrast focus ring. Charcoal
+   ring with a white offset reads on both white and canary backgrounds. */
+.dash-kit a:focus-visible,
+.dash-kit button:focus-visible,
+.dash-kit [role='tab']:focus-visible,
+.dash-kit input:focus-visible,
+.dash-kit textarea:focus-visible {
+  outline: 3px solid #3a3832;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+/* On the charcoal CTA the dark ring would vanish — flip it to canary. */
+.dash-kit .bd-cta-dark:focus-visible,
+.dash-kit .sdk-foot a:focus-visible {
+  outline-color: #FFD42A;
+}

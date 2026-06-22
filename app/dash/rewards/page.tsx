@@ -13,10 +13,28 @@ import {
 import '@/styles/dash-tokens.css';
 
 export const metadata: Metadata = {
-  title: 'Dash rewards — you choose where your wait goes',
+  title: 'Dash rewards · assembl',
   description:
-    'Your Dash balance accrues while AI works, then you redeem it to a reward — Everyday Rewards, Airpoints, power-bill credit, KiwiSaver or charity. Never cash-per-wait. Cash is a later, gated tier.',
+    'Your Dash balance accrues while AI works, then you redeem it. Charity is live at launch; KiwiSaver, Airpoints, Everyday Rewards, power-bill credit and more roll out as partner integrations land. Never cash-per-wait; cash is a later, gated tier.',
   alternates: { canonical: '/dash/rewards' },
+  openGraph: {
+    title: 'Dash rewards · assembl',
+    description:
+      'You choose where your wait goes. Charity at launch, with more rewards rolling out as partners come on.',
+    type: 'website',
+    siteName: 'dash. by assembl',
+    url: '/dash/rewards',
+    locale: 'en_NZ',
+    images: [
+      { url: '/images/dash/og-image.png', width: 1200, height: 630, alt: 'Dash rewards · assembl' },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dash rewards · assembl',
+    description: 'You choose where your wait goes. Charity at launch, more rewards rolling out.',
+    images: ['/images/dash/og-image.png'],
+  },
 };
 
 // The reward ladder — non-cash rails lead (no card fees, AML-light), cash last + gated.
@@ -31,13 +49,13 @@ const LADDER = [
     icon: Sprout,
     name: 'KiwiSaver / investing',
     line: 'Drip your earnings into your future (e.g. Sharesies).',
-    tag: 'Live',
+    tag: 'Planned',
   },
   {
     icon: Plane,
     name: 'Airpoints',
     line: 'For Air NZ contexts — earn Airpoints Dollars as you wait.',
-    tag: 'Live',
+    tag: 'Planned',
   },
   {
     icon: ShoppingCart,
@@ -127,6 +145,10 @@ export default function DashRewardsPage() {
       {/* the ladder */}
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
+          <p className="body" style={{ marginBottom: 20, color: 'var(--muted)', maxWidth: 620 }}>
+            Charity payouts are live at launch. Every other reward is planned — each one subject to
+            partner availability as integrations land.
+          </p>
           <div
             style={{
               display: 'grid',
