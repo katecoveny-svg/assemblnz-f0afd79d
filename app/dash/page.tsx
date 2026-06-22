@@ -120,13 +120,13 @@ export default function DashPage() {
         <ShaderHeroBackdrop variant="airy" />
         <SparkleLayer className="z-0" />
         <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="heroStage" style={{ padding: '56px 0 72px' }}>
+          <div className="heroStage" style={{ padding: '96px 0 112px' }}>
             <div className="heroCopy">
               <span className="launchPill">
                 <span className="ping" aria-hidden />
                 Now onboarding founding NZ publishers
               </span>
-              <p className="eyebrow heroEyebrow">The reward layer for the wait AI creates. NZ-built.</p>
+              <p className="eyebrow heroEyebrow">Long dog. Short wait. NZ-built.</p>
               <h1 className="heroTitle">
                 <span className="l">Get paid</span>
                 <span className="l">
@@ -134,9 +134,9 @@ export default function DashPage() {
                 </span>
               </h1>
               <p className="heroSub">
-                When your AI agent is working — step 4 of 6, ETA 4 min — dash– turns that wait into a
-                reward the person actually gets. Airpoints, KiwiSaver or charity. Opt-in, and the
-                publisher keeps 55%.
+                The few minutes your AI agent spends working? That’s the most-watched, least-used
+                screen in software. dash– turns it into a reward the person actually keeps —
+                Airpoints, KiwiSaver or charity. Two lines of SDK. You keep 55%.
               </p>
               <ul className="heroBullets">
                 <li>Two lines of SDK — drops onto the wait you already show</li>
