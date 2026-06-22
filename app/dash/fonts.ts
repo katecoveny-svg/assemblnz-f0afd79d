@@ -1,29 +1,17 @@
 /**
- * Dash type system, loaded via next/font/google and exposed as CSS variables
- * that styles/dash-tokens.css reads (--font-dash-display / --font-dash-body).
- *
- *   Cormorant Garamond — display (weight 500; never italic on the wordmark)
- *   Mulish             — UI / body (400–800)
- *
- * Scoped to /dash routes: apply `dashFontVars` to a wrapper that also carries
- * `data-dash`, so neither the fonts nor the palette bleed into the rest of the
- * Mārama Whenua site.
+ * Dash type system — Lato, loaded via next/font/google and exposed as a CSS
+ * variable that dash-kit.css + styles/dash-tokens.css read. One refined,
+ * premium sans across everything (display + body): charcoal text on white,
+ * with yellow accents.
  */
-import { Cormorant_Garamond, Mulish } from 'next/font/google';
+import { Lato } from 'next/font/google';
 
-const cormorant = Cormorant_Garamond({
+export const dashFont = Lato({
   subsets: ['latin'],
-  weight: ['500', '600'],
-  style: ['normal'],
-  variable: '--font-dash-display',
+  weight: ['400', '700', '900'],
+  style: ['normal', 'italic'],
+  variable: '--font-dash-sans',
   display: 'swap',
 });
 
-const mulish = Mulish({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-dash-body',
-  display: 'swap',
-});
-
-export const dashFontVars = `${cormorant.variable} ${mulish.variable}`;
+export const dashFontVars = dashFont.variable;

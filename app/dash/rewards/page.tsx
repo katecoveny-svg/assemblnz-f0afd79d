@@ -111,7 +111,11 @@ export default function DashRewardsPage() {
             Rewards
           </p>
           <h1 className="display" style={{ fontSize: 'clamp(2.6rem, 7vw, 4.6rem)', maxWidth: 720 }}>
-            You choose where your <span style={{ color: 'var(--gold)' }}>wait</span> goes.
+            You choose where your{' '}
+            <span style={{ background: 'linear-gradient(transparent 58%, var(--hivis) 58%)', padding: '0 0.08em' }}>
+              wait
+            </span>{' '}
+            goes.
           </h1>
           <p className="lead" style={{ marginTop: 18, maxWidth: 620 }}>
             dash– pays you in rewards, not cash-per-wait. Your balance builds while AI works, then you

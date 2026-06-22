@@ -65,7 +65,7 @@ export function PhoneMock({
             width: '100%',
             height: 8,
             borderRadius: 999,
-            background: 'rgba(10,10,10,0.08)',
+            background: 'rgba(53, 48, 39,0.08)',
             overflow: 'hidden',
           }}
         >

@@ -1,34 +1,17 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { Cormorant_Garamond, Mulish } from 'next/font/google';
 import './dash-kit.css';
+import { dashFontVars } from './fonts';
 
 /**
  * Dash by assembl microsite shell. Self-contained chrome (its own nav + footer);
- * the global SiteHeader/SiteFooter are suppressed on /dash routes (see
- * components/site/site-header + site-footer → isDashMicrosite).
+ * the global SiteHeader/SiteFooter are suppressed on /dash routes.
  *
- * Implements the Gemini "design_handoff_dash_kit" canon, scoped to this subtree:
- * Cormorant Garamond (display, incl. italic for the gold "wait.") + Mulish 400–800
- * (UI/body, incl. the 800 wordmark). Exposed as --font-dash-serif / --font-dash-sans
- * and read by dash-kit.css under the .dash-kit namespace so the new cream/forest/sage
- * palette never bleeds into the rest of assembl.co.nz.
+ * Type is Lato across the board (display + UI), exposed as --font-dash-sans and
+ * read by dash-kit.css under the .dash-kit namespace. Palette: white + yellow,
+ * charcoal text — scoped here so it never bleeds into the rest of assembl.co.nz.
  */
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-dash-serif',
-  display: 'swap',
-});
-
-const mulish = Mulish({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-dash-sans',
-  display: 'swap',
-});
 
 export const viewport: Viewport = {
   themeColor: '#fbf8ef',
@@ -59,7 +42,7 @@ function Wordmark() {
 
 export default function DashLayout({ children }: { children: ReactNode }) {
   return (
-    <div className={`dash-kit ${cormorant.variable} ${mulish.variable}`}>
+    <div className={`dash-kit ${dashFontVars}`}>
       <div className="wrap">
         <header className="dashNav">
           <Link href="/dash" aria-label="dash by assembl — home" style={{ textDecoration: 'none' }}>

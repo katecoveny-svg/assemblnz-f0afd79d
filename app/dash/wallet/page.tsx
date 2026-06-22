@@ -100,7 +100,7 @@ export default function DashWalletPage() {
       </Link>
 
       <h1 className="display" style={{ fontSize: 'clamp(2.4rem, 6vw, 3.6rem)', marginBottom: 8 }}>
-        your dash<span style={{ color: 'var(--gold)' }}>–</span> wallet
+        your dash<span style={{ background: 'linear-gradient(transparent 58%, var(--hivis) 58%)', padding: '0 0.06em' }}>–</span> wallet
       </h1>
       <p className="lead" style={{ marginBottom: 28 }}>
         Everything you’ve earned waiting. Send it to a reward — never cash.
@@ -146,7 +146,7 @@ export default function DashWalletPage() {
             alignItems: 'flex-start',
           }}
         >
-          <Check aria-hidden style={{ color: 'var(--gold)', flex: 'none', marginTop: 2 }} />
+          <Check aria-hidden style={{ color: 'var(--accent)', flex: 'none', marginTop: 2 }} />
           <div>
             <p style={{ fontWeight: 700, marginBottom: 4 }}>Sorted.</p>
             <p className="muted">{done}</p>

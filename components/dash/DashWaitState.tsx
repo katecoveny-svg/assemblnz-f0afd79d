@@ -27,11 +27,11 @@ export function DashWaitState() {
       {/* the loader dog */}
       <div className="relative grid place-items-center py-7">
         <svg viewBox="0 0 1040 470" className="w-full max-w-[320px]" fill="none" role="img" aria-label="dash loader filling">
-          <ellipse cx="560" cy="432" rx="372" ry="20" fill="#0a0a0a" opacity="0.1" />
-          <path d="M206 250 C 158 252 128 228 120 190" stroke="#0a0a0a" strokeWidth="26" strokeLinecap="round" />
-          <rect x="214" y="298" width="48" height="118" rx="22" fill="#0a0a0a" />
-          <rect x="650" y="298" width="48" height="118" rx="22" fill="#0a0a0a" />
-          <rect x="185" y="206" width="548" height="128" rx="22" fill="#0a0a0a" />
+          <ellipse cx="560" cy="432" rx="372" ry="20" fill="#353027" opacity="0.1" />
+          <path d="M206 250 C 158 252 128 228 120 190" stroke="#353027" strokeWidth="26" strokeLinecap="round" />
+          <rect x="214" y="298" width="48" height="118" rx="22" fill="#353027" />
+          <rect x="650" y="298" width="48" height="118" rx="22" fill="#353027" />
+          <rect x="185" y="206" width="548" height="128" rx="22" fill="#353027" />
           {/* the four yellow fill segments (no hazard seams) */}
           <g>
             <rect className="dash-ad-seg" x="296" y="206" width="92.75" height="128" />
@@ -39,15 +39,15 @@ export function DashWaitState() {
             <rect className="dash-ad-seg" x="499.5" y="206" width="92.75" height="128" />
             <rect className="dash-ad-seg" x="601.25" y="206" width="92.75" height="128" />
           </g>
-          <rect x="712" y="156" width="150" height="178" rx="52" fill="#0a0a0a" />
-          <rect x="842" y="214" width="156" height="84" rx="34" fill="#0a0a0a" />
+          <rect x="712" y="156" width="150" height="178" rx="52" fill="#353027" />
+          <rect x="842" y="214" width="156" height="84" rx="34" fill="#353027" />
           <path
             d="M768 166 C 732 168 714 204 718 250 C 720 290 740 320 776 322 C 812 320 822 290 822 248 C 822 202 804 166 768 166 Z"
-            fill="#0a0a0a"
+            fill="#353027"
             stroke="#fffdf5"
             strokeWidth="7"
           />
-          <rect x="962" y="222" width="38" height="48" rx="19" fill="#0a0a0a" />
+          <rect x="962" y="222" width="38" height="48" rx="19" fill="#353027" />
           <circle cx="838" cy="200" r="13" fill="#fffdf5" />
         </svg>
       </div>
