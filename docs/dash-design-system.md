@@ -56,3 +56,14 @@ for locked copy/vocabulary. Lead = **Dashhound Loader SDK**, never "ad network".
 ## Surfaces (design reference: the .dc.html files in the handoff package)
 Marketing site (Birdie Direction) · Brand Guidelines · Logo System · App Wireframes · Social Ads ·
 Interactive (scratch + mini-game) · Short Video · Investor One-Pager · SDK Reference · Email Kit.
+
+### What's live vs. archived
+- **Live, integrated routes** (`app/dash/*`, canonical): `/dash` (Birdie home),
+  `/dash/sdk`, `/dash/interactive`, plus `/dash/for-ai-builders`, `/dash/rewards`,
+  `/dash/wallet`, `/dash/loader`, `/dash/demo`.
+- **Collateral, archived (not routes):** Social Ads, Short Video and Email Kit
+  source live in `docs/dash/collateral/` — reachable reference, never built.
+- A separate standalone **`dash-site`** build (branch `dash-site-implementation`,
+  commit `e8e5e42`) also implements every surface; it is **not canonical** — the
+  integrated `/dash` above is the source of truth. Brand Guidelines, Logo System
+  and the Investor One-Pager are candidates to port into `/dash` from it.

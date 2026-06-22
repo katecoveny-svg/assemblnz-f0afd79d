@@ -1,0 +1,8 @@
+/* Social Ads reference canvas. The `hazard` keyframe used by the story-frame
+   dash-line bar lives in globals.css (global scope) so inline
+   `animation: hazard ...` resolves. */
+
+/* marker so the module import is referenced; visually inert */
+.canvas {
+  position: relative;
+}
