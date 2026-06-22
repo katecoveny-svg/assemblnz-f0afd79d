@@ -44,7 +44,7 @@ const AUDIENCES = [
     icon: Bot,
     who: 'For AI builders',
     line: 'Your agent makes people wait while it works. Add a reward layer to that wait in one line — opt-in, NZ-built.',
-    href: '#publishers',
+    href: '/dash/for-ai-builders',
   },
   {
     icon: Coins,
