@@ -8,8 +8,3 @@ plugins/
 plugins/mcp-servers/
 plugins/managed-agent-cookbooks/
 plugins/partner-built/
-
-# Standalone reference apps / static design pages — not part of the deployed
-# Next.js site (each is self-contained; dash-app is its own Next 14 project).
-dash-app/
-dash-landing/
