@@ -510,6 +510,42 @@ Server-only secrets live in Lovable Cloud → **Connectors / Secrets**:
 
 ---
 
+## Agent marketplace — Stripe setup
+
+The consumer agent marketplace bills through Stripe (account
+`acct_1TCqv7PXAX9ohARR`, NZD). Four subscription plans live in
+`lib/marketplace/plans.ts`; per-agent revenue is paid out via Stripe Connect.
+
+**One-time product/price creation.** Export the live secret key and run the
+idempotent setup script — it creates the Product + recurring NZD Price for each
+plan (reusing any that already exist by `lookup_key`) and prints the price ids:
+
+```bash
+STRIPE_SECRET_KEY=sk_live_... npm run stripe:setup
+```
+
+Paste the four printed `NEXT_PUBLIC_STRIPE_PRICE_*` ids into Vercel env
+(Production + Preview + Development), then redeploy. Run it against `sk_test_`
+first to verify. Re-running never duplicates products. The existing Pulse and
+Solo/Team prices are left untouched.
+
+**Webhook.** Point a Stripe webhook endpoint at
+`https://assembl.co.nz/api/stripe/webhooks` and set its signing secret as
+`STRIPE_WEBHOOK_SECRET`. It handles `checkout.session.completed`,
+`customer.subscription.updated`, `customer.subscription.deleted`,
+`account.updated`, and `payout.paid`. (The legacy `/api/stripe-webhook`
+endpoint serves the separate Tōro commerce flow and is unaffected.)
+
+**Connect payouts.** Recipients onboard at `/onboarding/connect` (Stripe Express,
+NZ entity). Their account id + capability flags are stored in
+`agent_payout_accounts` and kept in sync by the `account.updated` webhook.
+
+Required env vars (all scopes): `STRIPE_SECRET_KEY`,
+`NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`, and the four
+`NEXT_PUBLIC_STRIPE_PRICE_*` ids. See `.env.local.example`.
+
+---
+
 ## Testing & quality
 
 - **Unit + component**: `npm run test` (Vitest + Testing Library, jsdom).
