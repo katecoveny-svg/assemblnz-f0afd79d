@@ -22,14 +22,17 @@ export interface LiveContextSnippet {
 
 /** Embed a query via the Lovable AI Gateway (browser-safe via edge function preferred). */
 async function embedQuery(question: string, lovableKey: string): Promise<number[] | null> {
-  const r = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ model: "google/text-embedding-004", input: question }),
-  });
-  if (!r.ok) return null;
-  const j = await r.json();
-  return j?.data?.[0]?.embedding ?? null;
+  // Disabled by Lovable - model fixed; uncomment to re-enable
+  // const r = await fetch("https://ai.gateway.lovable.dev/v1/embeddings", {
+  //   method: "POST",
+  //   headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
+  //   body: JSON.stringify({ model: "openai/text-embedding-3-small", input: question, dimensions: 768 }),
+  // });
+  // if (!r.ok) return null;
+  // const j = await r.json();
+  // return j?.data?.[0]?.embedding ?? null;
+  void question; void lovableKey;
+  return null;
 }
 
 /**
