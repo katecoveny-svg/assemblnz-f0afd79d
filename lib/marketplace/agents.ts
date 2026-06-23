@@ -21,6 +21,7 @@
  */
 
 import { AGENT_PROMPTS, SHARED_BRAND_PREFIX } from './agent-prompts';
+import { agentPriceLabel } from '@/lib/billing/agent-pricing';
 
 export type ModelTier = 'cheap' | 'mid' | 'premium';
 /** Coarse pricing bucket mirrored to the DB `pricing_tier` enum. */
@@ -1645,10 +1646,14 @@ export const PRICE_TIER_LABELS: Record<PriceTier, string> = {
   business: 'Business',
 };
 
-/** Card/detail price chip, e.g. "Free", "Tōro · $9.99", "Business · $199". */
-export function priceLabel(agent: Pick<MarketplaceAgent, 'priceTier' | 'priceNzd'>): string {
-  if (agent.priceTier === 'free' || agent.priceNzd === 0) return 'Free';
-  return `${PRICE_TIER_LABELS[agent.priceTier]} · $${agent.priceNzd}`;
+/**
+ * Card/detail price chip. Flat per-agent pricing: every agent is the same
+ * monthly price, with the first 3 messages free. (The old per-tier ladder —
+ * Tōro/Whānau/Pro/Business — was retired June 2026; priceTier/priceNzd are kept
+ * on the registry for model-tier authoring but no longer drive the price shown.)
+ */
+export function priceLabel(_agent?: Pick<MarketplaceAgent, 'priceTier' | 'priceNzd'>): string {
+  return agentPriceLabel();
 }
 
 /**

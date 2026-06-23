@@ -30,14 +30,14 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
     parts: [{ type: 'text', text: agent.greeting }],
   };
 
-  // Custom fetch so we can intercept the demo-mode paywall (HTTP 402) and show
-  // an unlock card instead of a generic error.
+  // Custom fetch so we can intercept the free-tier paywall (HTTP 402 once the
+  // 3 free messages are spent) and show a subscribe card instead of an error.
   const [paywall, setPaywall] = useState<Paywall>(null);
   const chatFetch = useCallback<typeof fetch>(async (input, init) => {
     const res = await fetch(input, init);
     if (res.status === 402) {
       const data = (await res.clone().json().catch(() => null)) as { message?: string } | null;
-      setPaywall({ message: data?.message ?? 'You have used your free answers with this agent.' });
+      setPaywall({ message: data?.message ?? 'You have used your free messages with this agent.' });
     }
     return res;
   }, []);
@@ -189,18 +189,27 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
             >
               <div className="flex items-center gap-2 font-bold">
                 <Lock size={15} aria-hidden />
-                Free demo limit reached
+                Free messages used up
               </div>
               <p className="mt-1.5" style={{ color: PALETTE.body }}>
                 {paywall.message}
               </p>
-              <Link
-                href={`/agents/${agent.slug}`}
-                className="mt-3 inline-flex h-9 items-center rounded-full px-4 text-xs font-bold"
-                style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
-              >
-                See plans
-              </Link>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <Link
+                  href={`/agents/checkout?plan=per_agent&agent=${agent.slug}`}
+                  className="inline-flex h-9 items-center rounded-full px-4 text-xs font-bold"
+                  style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+                >
+                  Subscribe · NZ$15/mo
+                </Link>
+                <Link
+                  href="/agents/pricing"
+                  className="inline-flex h-9 items-center rounded-full border px-4 text-xs font-bold"
+                  style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
+                >
+                  See all plans
+                </Link>
+              </div>
             </div>
           ) : error ? (
             <div

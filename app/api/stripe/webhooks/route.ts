@@ -28,7 +28,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { createServiceClient } from '@/lib/stripe/supabase-service';
 import { writeAuditRow } from '@/lib/stripe/audit';
 import { syncAccountStatus } from '@/lib/stripe/connect';
-import { planForPriceId } from '@/lib/marketplace/plans';
+import { ALL_ACCESS_SLUG, isAgentPlan, planForPriceId } from '@/lib/billing/agent-pricing';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -123,33 +123,45 @@ async function processEvent(event: Stripe.Event): Promise<void> {
 }
 
 /**
- * A successful checkout. The session metadata carries our user_id, the agent
- * slug, and the plan — set when the checkout session is created (follow-up
- * checkout route). We record the install best-effort: if the marketplace
- * agent_installs table isn't deployed yet, we degrade gracefully (audit row was
- * already written above).
+ * A successful checkout. The session metadata (set by /api/agents/checkout)
+ * carries our user_id, the plan, and the comma-joined agent slugs the customer
+ * picked. We write one agent_installs row per picked agent — or a single
+ * all-access row (agent_slug = '*') for the all-access plan. Best-effort: if the
+ * agent_installs table isn't deployed yet, we degrade gracefully (the audit row
+ * was already written above).
  */
 async function onCheckoutCompleted(session: Stripe.Checkout.Session): Promise<void> {
   const userId = session.metadata?.user_id ?? session.client_reference_id ?? null;
-  const agentSlug = session.metadata?.agent_slug ?? null;
-  const planId = session.metadata?.plan ?? null;
+  const plan = session.metadata?.plan ?? null;
   const subscriptionId =
     typeof session.subscription === 'string'
       ? session.subscription
       : session.subscription?.id ?? null;
 
-  if (!userId || !agentSlug) return; // Nothing to install — account-level only.
+  if (!userId || !plan || !isAgentPlan(plan)) return; // Not an agent subscription.
+
+  // All-access → one sentinel row; bundles/per-agent → one row per picked slug.
+  const slugs =
+    plan === 'all_access'
+      ? [ALL_ACCESS_SLUG]
+      : (session.metadata?.agent_slugs ?? '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+
+  if (slugs.length === 0) return; // No agents picked — nothing to grant.
+
+  const rows = slugs.map((agentSlug) => ({
+    user_id: userId,
+    agent_slug: agentSlug,
+    plan,
+    stripe_subscription_id: subscriptionId,
+  }));
 
   const supabase = createServiceClient();
-  const { error } = await supabase.from('agent_installs').upsert(
-    {
-      user_id: userId,
-      agent_slug: agentSlug,
-      plan: planId === 'free' || planId === 'freemium' ? planId : 'paid',
-      stripe_subscription_id: subscriptionId,
-    },
-    { onConflict: 'user_id,agent_slug', ignoreDuplicates: false },
-  );
+  const { error } = await supabase
+    .from('agent_installs')
+    .upsert(rows, { onConflict: 'user_id,agent_slug', ignoreDuplicates: false });
 
   if (error && !isMissingTable(error)) {
     // eslint-disable-next-line no-console
@@ -160,15 +172,16 @@ async function onCheckoutCompleted(session: Stripe.Checkout.Session): Promise<vo
 async function onSubscriptionUpdated(sub: Stripe.Subscription): Promise<void> {
   const priceId = sub.items?.data?.[0]?.price?.id ?? null;
   const plan = planForPriceId(priceId);
-  if (!plan) return; // Not one of our marketplace plans — leave untouched.
+  if (!plan) return; // Not one of our flat-ladder plans — leave untouched.
 
-  // Reflect status onto any install carrying this subscription id. Cancelled /
-  // unpaid subscriptions drop the install back to free entitlement.
+  // Reflect status onto every install carrying this subscription id. Cancelled /
+  // unpaid subscriptions drop the install back to free entitlement; active ones
+  // are restamped with the concrete plan id.
   const entitled = sub.status === 'active' || sub.status === 'trialing';
   const supabase = createServiceClient();
   const { error } = await supabase
     .from('agent_installs')
-    .update({ plan: entitled ? 'paid' : 'free' })
+    .update({ plan: entitled ? plan : 'free' })
     .eq('stripe_subscription_id', sub.id);
 
   if (error && !isMissingTable(error)) {
@@ -178,10 +191,12 @@ async function onSubscriptionUpdated(sub: Stripe.Subscription): Promise<void> {
 }
 
 async function onSubscriptionDeleted(sub: Stripe.Subscription): Promise<void> {
+  // Remove the entitlement rows tied to this subscription. Deleting (rather than
+  // downgrading) keeps the table clean; the user falls back to the free tier.
   const supabase = createServiceClient();
   const { error } = await supabase
     .from('agent_installs')
-    .update({ plan: 'free', stripe_subscription_id: null })
+    .delete()
     .eq('stripe_subscription_id', sub.id);
 
   if (error && !isMissingTable(error)) {

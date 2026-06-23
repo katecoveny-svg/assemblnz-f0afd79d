@@ -12,7 +12,7 @@
     "build:agents-catalog": "tsx scripts/build-agents-catalog.ts",
     "voice:deploy:manaaki": "tsx scripts/voice-deploy-manaaki.ts",
     "setup:self-serve-stripe": "tsx scripts/setup-self-serve-stripe.ts",
-    "stripe:setup": "tsx scripts/create-dash-stripe-products.ts",
+    "stripe:setup": "tsx scripts/setup-flat-pricing-stripe.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
