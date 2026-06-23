@@ -209,6 +209,18 @@ function paths(name: string, ink: string): ReactElement[] {
         <path key={5} d="M44 16c3.3 0 6 2.7 6 6 0 4-6 9-6 9s-6-5-6-9c0-3.3 2.7-6 6-6z" fill={GOLD} />,
         <circle key={6} cx={44} cy={22} r={2.2} fill={CREAM} />,
       ];
+    case 'pilot':
+      // Pilot · Kaiurungi — a compass: charcoal ring, cream face, a canary
+      // needle pointing the way and a gold pivot.
+      return [
+        <circle key={1} cx={32} cy={32} r={20} fill={CREAM} stroke={ink} strokeWidth={3} />,
+        <path key={2} d="M32 16l5 16-5 16-5-16z" fill={CAN} stroke={ink} strokeWidth={2} strokeLinejoin="round" />,
+        <circle key={3} cx={32} cy={32} r={3} fill={GOLD} />,
+        <line key={4} x1={32} y1={10} x2={32} y2={14} stroke={ink} strokeWidth={2.4} strokeLinecap="round" />,
+        <line key={5} x1={32} y1={50} x2={32} y2={54} stroke={ink} strokeWidth={2.4} strokeLinecap="round" />,
+        <line key={6} x1={10} y1={32} x2={14} y2={32} stroke={ink} strokeWidth={2.4} strokeLinecap="round" />,
+        <line key={7} x1={50} y1={32} x2={54} y2={32} stroke={ink} strokeWidth={2.4} strokeLinecap="round" />,
+      ];
     default:
       return [<circle key={1} cx={32} cy={32} r={14} fill={CAN} />];
   }
