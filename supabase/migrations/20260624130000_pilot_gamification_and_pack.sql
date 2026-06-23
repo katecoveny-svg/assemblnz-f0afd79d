@@ -12,6 +12,8 @@
 --      (dedupe on the draft id) via the existing point_events ledger.
 --
 -- Self-healing: ADD COLUMN IF NOT EXISTS; the INSERT upserts.
+-- MUST run after 20260624121000 (creates point_rules) and 20260624093000
+-- (creates pilot_agents) — hence the 130000 timestamp.
 
 BEGIN;
 
