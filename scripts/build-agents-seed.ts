@@ -91,7 +91,6 @@ const updateAssignments = COLUMNS.filter((c) => c !== 'slug')
 const slugList = MARKETPLACE_AGENTS.map((a) => s(a.slug)).join(', ');
 
 const sql = `-- Seed — live agent roster (${MARKETPLACE_AGENTS.length} agents).
-const sql = `-- Seed — CANON roster + Auaha + 4 re-adds (28 agents, 2026-06-23).
 --
 -- AUTO-GENERATED from lib/marketplace/agents.ts by scripts/build-agents-seed.ts.
 -- Do not hand-edit; regenerate with: pnpm tsx scripts/build-agents-seed.ts
