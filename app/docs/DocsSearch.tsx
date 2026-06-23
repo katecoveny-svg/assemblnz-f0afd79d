@@ -40,7 +40,7 @@ export function DocsSearch({ docs }: { docs: SearchDoc[] }) {
           <Link
             key={doc.slug}
             href={`/docs/${doc.slug}`}
-            className="block rounded-[8px] border border-transparent px-3 py-2 transition-colors hover:border-[rgba(43,107,87,0.20)] hover:bg-white"
+            className="block rounded-[8px] border border-transparent px-3 py-2 transition-colors hover:border-[rgba(58,56,50,0.20)] hover:bg-white"
           >
             <span className="font-display text-2xl font-light leading-none">{doc.title}</span>
             <span className="mt-1 block text-xs leading-relaxed text-[color:var(--text-secondary)]">

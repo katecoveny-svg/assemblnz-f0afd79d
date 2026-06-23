@@ -106,11 +106,11 @@ export function WishlistTool() {
       <div className="grid gap-6 p-5 md:p-7 lg:grid-cols-[0.9fr_1.1fr]">
         {/* ── FORM ─────────────────────────────────────────────── */}
         <form onSubmit={submit} className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/70 p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#2B6B57]">Your wish</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3A3832]">Your wish</p>
           <label className="mt-4 block">
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">Your business</span>
             <input
-              className="mt-1.5 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 text-sm outline-none focus:border-[#2B6B57]"
+              className="mt-1.5 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 text-sm outline-none focus:border-[#3A3832]"
               value={business}
               onChange={(e) => setBusiness(e.target.value)}
               placeholder="e.g. a Tauranga cafe, a Pīkau freight broker, a Waikato sparky"
@@ -119,7 +119,7 @@ export function WishlistTool() {
           <label className="mt-4 block">
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6B6661]">One job you wish you could hand off</span>
             <textarea
-              className="mt-1.5 min-h-[96px] w-full resize-none rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#2B6B57]"
+              className="mt-1.5 min-h-[96px] w-full resize-none rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white px-3 py-2.5 text-sm outline-none focus:border-[#3A3832]"
               value={wish}
               onChange={(e) => setWish(e.target.value)}
               placeholder="e.g. chasing allergen info from suppliers and keeping our menu matrix current"
@@ -128,7 +128,7 @@ export function WishlistTool() {
           <button
             type="submit"
             disabled={status === "loading" || !business.trim() || !wish.trim()}
-            className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#2B6B57] px-5 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#103F35] disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[10px] bg-[#3A3832] px-5 text-sm font-medium text-[#FFF7EC] transition hover:bg-[#103F35] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Sparkles className="h-4 w-4" aria-hidden />}
             Draft my specialist spec
@@ -150,7 +150,7 @@ export function WishlistTool() {
           ) : (
             <div>
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="rounded-full border border-[rgba(43,107,87,0.24)] bg-[#E8EFE9] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#2B6B57]">
+                <span className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#E8EFE9] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#3A3832]">
                   {spec.kete} kete
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(217,168,90,0.4)] bg-[#FBF3E2] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#8A5B10]">
@@ -163,8 +163,8 @@ export function WishlistTool() {
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-[#3D4250]">{spec.forLine}</p>
 
-              <div className="mt-5 rounded-[12px] border border-[rgba(43,107,87,0.24)] bg-gradient-to-br from-[#FAF7F2] to-[#EDF3EE] p-5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#2B6B57]">Hours back, each week</p>
+              <div className="mt-5 rounded-[12px] border border-[rgba(58,56,50,0.24)] bg-gradient-to-br from-[#FFF7EC] to-[#EDF3EE] p-5">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3A3832]">Hours back, each week</p>
                 <p className="mt-1 font-display text-[clamp(2.4rem,5vw,3.4rem)] font-light leading-none text-[#103F35] tabular-nums">
                   {hours}<span className="ml-1 align-top text-base text-[#5A5550]">hrs</span>
                 </p>
@@ -173,18 +173,18 @@ export function WishlistTool() {
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57]">It would draft</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#3A3832]">It would draft</p>
                   <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-[#3D4250]">
                     {spec.drafts.map((d) => (
-                      <li key={d} className="flex gap-2"><span aria-hidden className="text-[#2B6B57]">·</span><span>{d}</span></li>
+                      <li key={d} className="flex gap-2"><span aria-hidden className="text-[#3A3832]">·</span><span>{d}</span></li>
                     ))}
                   </ul>
                 </div>
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57]">Checks on every output</p>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#3A3832]">Checks on every output</p>
                   <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-[#3D4250]">
                     {spec.checks.map((c) => (
-                      <li key={c} className="flex gap-2"><span aria-hidden className="text-[#2B6B57]">✓</span><span>{c}</span></li>
+                      <li key={c} className="flex gap-2"><span aria-hidden className="text-[#3A3832]">✓</span><span>{c}</span></li>
                     ))}
                   </ul>
                 </div>
@@ -199,12 +199,12 @@ export function WishlistTool() {
               <div className="mt-5 rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-white/70 p-4">
                 {claimStatus === "done" ? (
                   <p className="flex items-center gap-2 text-sm text-[#103F35]">
-                    <Check className="h-5 w-5 shrink-0 text-[#2B6B57]" aria-hidden />
+                    <Check className="h-5 w-5 shrink-0 text-[#3A3832]" aria-hidden />
                     Ka pai. We’ll be in touch with your spec.
                   </p>
                 ) : (
                   <form onSubmit={submitClaim}>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#2B6B57]">Claim this spec</p>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#3A3832]">Claim this spec</p>
                     <p className="mt-2 text-xs leading-relaxed text-[#5A5550]">
                       Leave an email and we’ll send this spec and what it would take to build it. Draft-only, no obligation.
                     </p>
@@ -216,12 +216,12 @@ export function WishlistTool() {
                         value={email}
                         onChange={(e) => { setEmail(e.target.value); if (claimStatus === "error") setClaimStatus("idle"); }}
                         placeholder="you@business.co.nz"
-                        className="h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.14)] bg-white px-3 text-sm outline-none focus:border-[#2B6B57]"
+                        className="h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.14)] bg-white px-3 text-sm outline-none focus:border-[#3A3832]"
                       />
                       <button
                         type="submit"
                         disabled={claimStatus === "saving"}
-                        className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#2B6B57] px-5 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#103F35] disabled:cursor-wait disabled:opacity-60"
+                        className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#3A3832] px-5 text-sm font-medium text-[#FFF7EC] transition hover:bg-[#103F35] disabled:cursor-wait disabled:opacity-60"
                       >
                         {claimStatus === "saving" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
                         Send it to me

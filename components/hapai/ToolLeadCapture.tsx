@@ -82,22 +82,22 @@ export function ToolLeadCapture({
         className={[
           "flex items-center gap-3 rounded-[10px] border p-4 text-sm",
           dark
-            ? "border-[#FAF7F2]/16 bg-[#FAF7F2]/10 text-[#FAF7F2]"
-            : "border-[rgba(43,107,87,0.24)] bg-[#E8EFE9] text-[#103F35]",
+            ? "border-[#FFF7EC]/16 bg-[#FFF7EC]/10 text-[#FFF7EC]"
+            : "border-[rgba(58,56,50,0.24)] bg-[#E8EFE9] text-[#103F35]",
           className ?? "",
         ].join(" ")}
       >
-        <Check className="h-5 w-5 shrink-0 text-[#2B6B57]" aria-hidden />
+        <Check className="h-5 w-5 shrink-0 text-[#3A3832]" aria-hidden />
         <span>{successMessage}</span>
       </div>
     );
   }
 
-  const labelColour = dark ? "text-[#D9A85A]" : "text-[#2B6B57]";
-  const bodyColour = dark ? "text-[#FAF7F2]/82" : "text-[#5A5550]";
+  const labelColour = dark ? "text-[#D9A85A]" : "text-[#3A3832]";
+  const bodyColour = dark ? "text-[#FFF7EC]/82" : "text-[#5A5550]";
   const inputClass = dark
-    ? "h-11 w-full rounded-[10px] border border-[#FAF7F2]/20 bg-[#FAF7F2]/10 px-3 text-sm text-[#FAF7F2] placeholder:text-[#FAF7F2]/40 outline-none focus:border-[#D9A85A]"
-    : "h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.14)] bg-white px-3 text-sm text-[#23211F] outline-none focus:border-[#2B6B57]";
+    ? "h-11 w-full rounded-[10px] border border-[#FFF7EC]/20 bg-[#FFF7EC]/10 px-3 text-sm text-[#FFF7EC] placeholder:text-[#FFF7EC]/40 outline-none focus:border-[#D9A85A]"
+    : "h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.14)] bg-white px-3 text-sm text-[#23211F] outline-none focus:border-[#3A3832]";
 
   return (
     <form
@@ -105,7 +105,7 @@ export function ToolLeadCapture({
       className={[
         "rounded-[10px] border p-4",
         dark
-          ? "border-[#FAF7F2]/16 bg-[#FAF7F2]/8"
+          ? "border-[#FFF7EC]/16 bg-[#FFF7EC]/8"
           : "border-[rgba(35,33,31,0.12)] bg-white/70",
         className ?? "",
       ].join(" ")}
@@ -135,7 +135,7 @@ export function ToolLeadCapture({
         <button
           type="submit"
           disabled={status === "saving"}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#2B6B57] px-5 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#103F35] disabled:cursor-wait disabled:opacity-60"
+          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#3A3832] px-5 text-sm font-medium text-[#FFF7EC] transition hover:bg-[#103F35] disabled:cursor-wait disabled:opacity-60"
         >
           {status === "saving" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
           Send it to me

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Fraunces, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
+import { Lato, Space_Mono } from 'next/font/google';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { ScrollProgress } from '@/components/site/scroll-progress';
@@ -13,25 +13,27 @@ import './globals.css';
 // deploys stay reliable while the public-site rebuild is in flight.
 export const dynamic = 'force-dynamic';
 
-// Site type system (design-system pass): Fraunces (display + prices),
-// Plus Jakarta Sans (body), JetBrains Mono (labels/eyebrows). All variable
-// fonts — exposed as the existing --font-* tokens so the whole token-driven
-// site adopts them at once.
-const fraunces = Fraunces({
+// Site type system (canary brand): Lato (display 900/700 + body 400) and
+// Space Mono (labels/eyebrows). Exposed as the --font-* tokens so the whole
+// token-driven site adopts them at once. Mirrors the /agents marketplace
+// (which sets --mk-display/--mk-mono to the same faces).
+const lato = Lato({
   subsets: ['latin'],
-  style: ['normal', 'italic'],
+  weight: ['400', '700', '900'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const plusJakarta = Plus_Jakarta_Sans({
+const latoBody = Lato({
   subsets: ['latin'],
+  weight: ['400', '700'],
   variable: '--font-body',
   display: 'swap',
 });
 
-const jetBrainsMono = JetBrains_Mono({
+const spaceMono = Space_Mono({
   subsets: ['latin'],
+  weight: ['400', '700'],
   variable: '--font-mono',
   display: 'swap',
 });
@@ -81,11 +83,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-NZ" className={`${fraunces.variable} ${plusJakarta.variable} ${jetBrainsMono.variable}`}>
+    <html lang="en-NZ" className={`${lato.variable} ${latoBody.variable} ${spaceMono.variable}`}>
       <body>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[color:var(--assembl-pounamu)] focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[#FAF7F2] focus:shadow-brand focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)] focus:ring-offset-2"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[color:var(--assembl-pounamu)] focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[#FFF7EC] focus:shadow-brand focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)] focus:ring-offset-2"
         >
           Skip to main content
         </a>

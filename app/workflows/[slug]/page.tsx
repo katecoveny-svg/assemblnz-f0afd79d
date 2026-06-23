@@ -43,7 +43,7 @@ export default async function WorkflowDetailPage({
   return (
     <section className="relative overflow-hidden bg-[color:var(--assembl-paper)] px-6 py-16 md:px-12 md:py-24">
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_6%,color-mix(in_srgb,var(--workflow-accent)_16%,transparent),transparent_34%),radial-gradient(circle_at_85%_12%,rgba(212,168,83,0.13),transparent_30%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_6%,color-mix(in_srgb,var(--workflow-accent)_16%,transparent),transparent_34%),radial-gradient(circle_at_85%_12%,rgba(199,155,31,0.13),transparent_30%)]"
         style={{ '--workflow-accent': kete.accent } as CSSProperties}
         aria-hidden
       />

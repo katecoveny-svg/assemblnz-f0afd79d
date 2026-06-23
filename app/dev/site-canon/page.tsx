@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
@@ -18,6 +19,11 @@ import {
 import { KeteCard } from '@/components/site/kete-card';
 import { AGENTS } from '@/lib/agents';
 import { KETES } from '@/lib/kete';
+
+// Internal design-canon reference page — never index.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 const narrativeStages = [
   {

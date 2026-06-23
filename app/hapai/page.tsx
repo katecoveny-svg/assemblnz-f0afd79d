@@ -141,8 +141,8 @@ export default function HapaiPage() {
                 className="object-cover transition-transform duration-700 hover:scale-[1.02]"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F2]/8 via-transparent to-[#FAF7F2]/46" />
-              <div className="absolute bottom-5 left-5 right-5 rounded-[6px] border border-white/25 bg-[#FAF7F2]/88 p-4 backdrop-blur">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#FFF7EC]/8 via-transparent to-[#FFF7EC]/46" />
+              <div className="absolute bottom-5 left-5 right-5 rounded-[6px] border border-white/25 bg-[#FFF7EC]/88 p-4 backdrop-blur">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
                   public tool library
                 </p>
@@ -259,7 +259,7 @@ export default function HapaiPage() {
                     <span
                       className={
                         tool.status === 'live'
-                          ? 'rounded-full border border-[rgba(43,107,87,0.24)] bg-[#E8EFE9] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#2B6B57]'
+                          ? 'rounded-full border border-[rgba(58,56,50,0.24)] bg-[#E8EFE9] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#3A3832]'
                           : 'rounded-full border border-[rgba(35,33,31,0.14)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]'
                       }
                     >
@@ -276,7 +276,7 @@ export default function HapaiPage() {
                     <div className="mt-auto pt-7">
                       <Link
                         href={tool.href}
-                        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[rgba(43,107,87,0.24)] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(232,239,233,0.70))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[rgba(43,107,87,0.44)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_18px_46px_rgba(43,107,87,0.14)]"
+                        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[rgba(58,56,50,0.24)] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(232,239,233,0.70))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[rgba(58,56,50,0.44)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_18px_46px_rgba(58,56,50,0.14)]"
                       >
                         Open tool <ArrowRight className="h-4 w-4" aria-hidden />
                       </Link>
@@ -289,7 +289,7 @@ export default function HapaiPage() {
                           rel="noreferrer"
                           aria-label={`Share image for ${tool.name}`}
                           title="Share image"
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(43,107,87,0.08)] hover:text-[color:var(--assembl-pounamu)]"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(58,56,50,0.08)] hover:text-[color:var(--assembl-pounamu)]"
                         >
                           <ImageIcon className="h-4 w-4" aria-hidden />
                         </Link>
@@ -297,7 +297,7 @@ export default function HapaiPage() {
                           href={getHapaiToolEmailHref(tool)}
                           aria-label={`Email the ${tool.name} tool`}
                           title="Email"
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(43,107,87,0.08)] hover:text-[color:var(--assembl-pounamu)]"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(58,56,50,0.08)] hover:text-[color:var(--assembl-pounamu)]"
                         >
                           <Mail className="h-4 w-4" aria-hidden />
                         </a>
@@ -321,7 +321,7 @@ export default function HapaiPage() {
         </div>
       </section>
 
-      <section className="border-y border-[rgba(212,168,83,0.36)] bg-white/45 px-5 py-16 md:px-10 md:py-24">
+      <section className="border-y border-[rgba(199,155,31,0.36)] bg-white/45 px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1fr] lg:items-center">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--text-secondary)]">

@@ -5,6 +5,7 @@ import { AlertTriangle, CheckCircle2, CircleDashed, ExternalLink } from 'lucide-
 export const metadata: Metadata = {
   title: 'Launch readiness',
   description: 'Operator-facing checklist of what is functioning, degraded, and still needs proof before public launch claims are repeated.',
+  robots: { index: false, follow: false },
 };
 
 type Status = 'working' | 'degraded' | 'needs-proof';

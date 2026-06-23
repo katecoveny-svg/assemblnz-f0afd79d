@@ -73,7 +73,7 @@ export function VesselTile({
     return (
       <div
         className={`relative w-full overflow-hidden rounded-sm bg-[color:var(--assembl-mist)]/40 ${aspectClass} ${className}`}
-        style={{ border: '1px solid rgba(43,107,87,0.18)' }}
+        style={{ border: '1px solid rgba(58,56,50,0.18)' }}
       >
         <Image
           src={locked.src}
@@ -91,7 +91,7 @@ export function VesselTile({
   return (
     <div
       className={`relative flex w-full flex-col items-center justify-center overflow-hidden rounded-sm bg-[color:var(--assembl-paper)] ${aspectClass} ${className}`}
-      style={{ border: '1px solid rgba(212,168,83,0.32)' }}
+      style={{ border: '1px solid rgba(199,155,31,0.32)' }}
       aria-label={`${name} vessel — placeholder`}
     >
       <div

@@ -75,7 +75,7 @@ export function InstallPwaButton({ label = "Save to home screen", compact = fals
       <button
         type="button"
         onClick={install}
-        className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.74),rgba(232,239,233,0.58))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.88),0_12px_30px_rgba(43,107,87,0.10)] transition hover:-translate-y-0.5 hover:border-[rgba(43,107,87,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2B6B57] focus-visible:ring-offset-2"
+        className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.74),rgba(232,239,233,0.58))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.88),0_12px_30px_rgba(58,56,50,0.10)] transition hover:-translate-y-0.5 hover:border-[rgba(58,56,50,0.34)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A3832] focus-visible:ring-offset-2"
       >
         {promptEvent ? <Download className="h-4 w-4" aria-hidden /> : <Smartphone className="h-4 w-4" aria-hidden />}
         {label}

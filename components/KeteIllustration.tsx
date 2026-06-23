@@ -6,7 +6,7 @@
  * so each one reads as visually distinct, not just a colour-tinted card.
  *
  * Use:
- *   <KeteIllustration slug="waihanga" accent="#2B6B57" className="h-32 w-auto" />
+ *   <KeteIllustration slug="waihanga" accent="#3A3832" className="h-32 w-auto" />
  */
 
 import type { KeteSlug } from '@/lib/kete';
@@ -18,7 +18,7 @@ type Props = {
   decorative?: boolean;
 };
 
-const DEFAULT_ACCENT = '#D4A853';
+const DEFAULT_ACCENT = '#C79B1F';
 
 export function KeteIllustration({
   slug,

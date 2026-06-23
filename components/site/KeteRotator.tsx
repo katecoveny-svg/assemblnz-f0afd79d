@@ -66,7 +66,7 @@ export function KeteRotator({
         ].join(' ')}
       >
         <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_78%_34%,color-mix(in_srgb,var(--kete-accent)_18%,transparent),transparent_30%),linear-gradient(90deg,#FAF7F2_0%,#FAF7F2_44%,rgba(250,247,242,0.78)_66%,rgba(250,247,242,0.2)_100%)]"
+          className="absolute inset-0 bg-[radial-gradient(circle_at_78%_34%,color-mix(in_srgb,var(--kete-accent)_18%,transparent),transparent_30%),linear-gradient(90deg,#FFF7EC_0%,#FFF7EC_44%,rgba(250,247,242,0.78)_66%,rgba(250,247,242,0.2)_100%)]"
           aria-hidden
         />
 
@@ -232,7 +232,7 @@ export function KeteRotator({
       <motion.div
         ref={stageRef}
         className={[
-          'relative order-1 overflow-hidden bg-[#FAF7F2] [perspective:1400px] md:order-2',
+          'relative order-1 overflow-hidden bg-[#FFF7EC] [perspective:1400px] md:order-2',
           immersive
             ? '-mx-6 h-[42svh] min-h-[300px] rounded-b-[28px] border-b border-[rgba(35,33,31,0.08)] shadow-[0_34px_120px_rgba(35,33,31,0.10)] md:mx-0 md:-mr-10 md:h-[min(78svh,860px)] md:min-h-[620px] md:rounded-none md:border-0 md:bg-transparent md:shadow-none lg:-mr-16 xl:-mr-24 2xl:-mr-32'
             : '-mx-6 h-[42svh] min-h-[260px] max-h-[360px] rounded-b-[34px] border-b border-[rgba(35,33,31,0.08)] shadow-[0_34px_120px_rgba(35,33,31,0.13)] md:mx-0 md:-mr-10 md:h-auto md:max-h-none md:min-h-[min(76svh,860px)] md:rounded-[34px] md:border lg:-mr-14 xl:-mr-20',
@@ -291,8 +291,8 @@ export function KeteRotator({
             <div
               key={`${label}-${value}`}
               className={[
-                'rounded-[16px] border border-white/38 bg-[#FAF7F2]/58 px-3 py-3 shadow-[0_18px_48px_rgba(35,33,31,0.12)] backdrop-blur-xl',
-                immersive ? 'md:bg-[#FAF7F2]/42 md:shadow-[0_16px_42px_rgba(35,33,31,0.08)]' : '',
+                'rounded-[16px] border border-white/38 bg-[#FFF7EC]/58 px-3 py-3 shadow-[0_18px_48px_rgba(35,33,31,0.12)] backdrop-blur-xl',
+                immersive ? 'md:bg-[#FFF7EC]/42 md:shadow-[0_16px_42px_rgba(35,33,31,0.08)]' : '',
               ].join(' ')}
             >
               <span className="block font-mono text-[9px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">

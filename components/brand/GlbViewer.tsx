@@ -103,7 +103,7 @@ export function GlbViewer({ asset, className, forceMotion = false }: GlbViewerPr
     };
   }, [inView, elementReady]);
 
-  const background = asset.background ?? '#FAF7F2';
+  const background = asset.background ?? '#FFF7EC';
   const showViewer = elementReady && !loadFailed;
 
   return (

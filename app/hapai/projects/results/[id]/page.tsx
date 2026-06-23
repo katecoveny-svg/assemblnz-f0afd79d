@@ -122,7 +122,7 @@ export default async function HapaiProjectResultsPage({
           ))}
         </div>
 
-        <div className="mx-auto mt-10 max-w-4xl rounded-[8px] border border-[rgba(212,168,83,0.42)] bg-white/50 p-6">
+        <div className="mx-auto mt-10 max-w-4xl rounded-[8px] border border-[rgba(199,155,31,0.42)] bg-white/50 p-6">
           <h2 className="font-display text-3xl text-[color:var(--assembl-pounamu)]">
             Pilot Sprint fit.
           </h2>

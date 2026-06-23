@@ -27,7 +27,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
 
       <div className="relative mb-5 flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--workflow-accent)] shadow-[0_0_18px_rgba(43,107,87,0.22)]" aria-hidden />
+          <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--workflow-accent)] shadow-[0_0_18px_rgba(58,56,50,0.22)]" aria-hidden />
           <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--text-secondary)]">
             {kete.name} · {kete.englishName}
           </span>
@@ -52,7 +52,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
           href={`/workflows/${workflow.slug}`}
           aria-label={`Open workflow ${workflow.title}`}
           title={`Open workflow ${workflow.title}`}
-          className="group/btn inline-flex h-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.70)] bg-[linear-gradient(180deg,rgba(255,255,255,0.76),rgba(232,239,233,0.62))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[color:var(--workflow-accent)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.94),0_18px_48px_rgba(43,107,87,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="group/btn inline-flex h-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.70)] bg-[linear-gradient(180deg,rgba(255,255,255,0.76),rgba(232,239,233,0.62))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[color:var(--workflow-accent)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.94),0_18px_48px_rgba(58,56,50,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <Play className="h-4 w-4" aria-hidden />
           <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-200 group-hover/btn:ml-2 group-hover/btn:max-w-[8rem] group-hover/btn:opacity-100 group-focus-visible/btn:ml-2 group-focus-visible/btn:max-w-[8rem] group-focus-visible/btn:opacity-100">Open workflow</span>

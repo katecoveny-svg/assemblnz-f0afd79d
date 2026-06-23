@@ -87,7 +87,7 @@ export function ManaTrustLayerDiagram() {
               textAnchor="middle"
               fontSize="20"
               fontWeight="600"
-              fill={isLast ? "#FAF7F2" : "var(--assembl-pounamu-deep)"}
+              fill={isLast ? "#FFF7EC" : "var(--assembl-pounamu-deep)"}
             >
               {stage.label}
             </text>

@@ -52,7 +52,7 @@ export default function PressPage() {
               alt="assembl wordmark"
               width={600}
               height={200}
-              className="mt-4 rounded-md bg-[#FAF7F2] p-8"
+              className="mt-4 rounded-md bg-[#FFF7EC] p-8"
             />
             <a
               href="/img/press/assembl-wordmark.png"
@@ -69,7 +69,7 @@ export default function PressPage() {
               alt="tōro wordmark"
               width={600}
               height={200}
-              className="mt-4 rounded-md bg-[#FAF7F2] p-8"
+              className="mt-4 rounded-md bg-[#FFF7EC] p-8"
             />
             <a
               href="/img/press/toro-wordmark.png"

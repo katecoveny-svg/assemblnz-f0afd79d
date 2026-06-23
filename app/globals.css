@@ -1,8 +1,10 @@
 /**
- * assembl — Evidence Vessel design system
- * Palette: Evidence Vessel (warm light + pounamu primary)
- * Light theme only
- * Updated: 2026-05-07 — Evidence Vessel pivot
+ * assembl — canary brand design system
+ * Palette: canary #FFD42A · charcoal #3A3832 · body #56544B · cream #FFF7EC
+ *          paper white #FFFFFF · hairline #EFEADC · gold eyebrows #C79B1F
+ * Type: Lato 900/700/400 + Space Mono. Lowercase assembl/dash wordmark.
+ * Light theme only.
+ * Updated: 2026-06-23 — sitewide canary retheme (was Evidence Vessel pounamu)
  */
 
 @tailwind base;
@@ -11,49 +13,55 @@
 
 @layer base {
   :root {
-    --background: 37 44% 96%;
-    --foreground: 30 6% 13%;
-    --card: 36 18% 89%;
-    --card-foreground: 30 6% 13%;
+    --background: 35 100% 96%;          /* cream #FFF7EC */
+    --foreground: 45 7% 21%;            /* charcoal #3A3832 */
+    --card: 0 0% 100%;                  /* paper white */
+    --card-foreground: 45 7% 21%;
     --popover: 0 0% 100%;
-    --popover-foreground: 30 6% 13%;
-    --primary: 161 43% 29%;
+    --popover-foreground: 45 7% 21%;
+    --primary: 45 7% 21%;              /* charcoal — interactive ink */
     --primary-foreground: 0 0% 100%;
-    --secondary: 36 18% 89%;
-    --secondary-foreground: 30 6% 13%;
-    --muted: 36 18% 89%;
-    --muted-foreground: 22 12% 39%;
-    --accent: 161 43% 29%;
-    --accent-foreground: 0 0% 100%;
+    --secondary: 44 37% 90%;           /* hairline #EFEADC */
+    --secondary-foreground: 45 7% 21%;
+    --muted: 44 37% 90%;
+    --muted-foreground: 49 7% 32%;     /* body #56544B */
+    --accent: 48 100% 58%;             /* canary #FFD42A — highlight/CTA pop */
+    --accent-foreground: 45 7% 21%;    /* charcoal sits ON canary, never white */
     --destructive: 0 50% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 30 6% 13% / 0.14;
-    --input: 30 6% 13% / 0.14;
-    --ring: 161 43% 29%;
+    --border: 44 37% 90%;              /* hairline #EFEADC */
+    --input: 44 37% 90%;
+    --ring: 45 7% 21%;                 /* charcoal focus ring (canary too pale to ring) */
     --radius: 24px;
 
-    --assembl-paper: #FAF7F2;           /* base canvas */
-    --assembl-mist: #FAF7F2;
-    --assembl-cloud: #E8E4DE;
-    --assembl-cloud-legacy: #E8E4DE;
-    --assembl-sand: #B8B2A8;
-    --assembl-taupe: #B8B2A8;
-    --assembl-taupe-deep: #23211F;
+    --assembl-paper: #FFF7EC;           /* base canvas — cream */
+    --assembl-mist: #FFF7EC;
+    --assembl-cloud: #FFFFFF;           /* cards — paper white */
+    --assembl-cloud-legacy: #EFEADC;
+    --assembl-sand: #EFEADC;            /* hairline / dividers */
+    --assembl-taupe: #EFEADC;
+    --assembl-taupe-deep: #3A3832;
 
-    /* POUNAMU — primary accent (Evidence Vessel pivot 2026-05-07) */
-    --assembl-pounamu: #2B6B57;         /* PRIMARY — deep forest jade */
-    --assembl-pounamu-deep: #1F4F40;    /* hover, focus rings, deep accents */
-    --assembl-pounamu-soft: #6E957F;    /* subtle washes, sage tint */
-    --assembl-pounamu-paper: #E8EFE9;   /* very pale green tint for bg */
-    --assembl-sage-mist: #2B6B57;       /* alias — kept for backwards compat */
+    /* CANARY — brand pop (CTA fills, highlights, underlines). Charcoal text on top. */
+    --assembl-canary: #FFD42A;
+    --assembl-canary-soft: #FFE894;     /* pale wash */
+    --assembl-canary-deep: #E6BD16;     /* hover on canary fills */
 
-    /* GOLD — punctuation thread only (hairlines, dividers, chapter numerals) */
-    --assembl-gold-thread: #D4A853;     /* NOT primary — thin accents only */
-    --assembl-soft-gold: #D4A853;       /* alias — kept for backwards compat */
+    /* CHARCOAL — primary interactive ink. The former pounamu tokens now map here
+       so every focus ring, link, and solid CTA inherits the new ink in one move. */
+    --assembl-pounamu: #3A3832;         /* alias → charcoal ink */
+    --assembl-pounamu-deep: #23211F;    /* hover, deep accents */
+    --assembl-pounamu-soft: #D9D3C5;    /* subtle warm wash (was sage tint) */
+    --assembl-pounamu-paper: #FBF3DF;   /* very pale canary tint for bg */
+    --assembl-sage-mist: #3A3832;       /* alias — kept for backwards compat */
 
-    --text-primary: #23211F;
-    --text-secondary: #5B5049;
-    --text-body: #23211F;
+    /* GOLD — eyebrows, hairlines, chapter numerals (readable gold-on-cream) */
+    --assembl-gold-thread: #C79B1F;     /* gold eyebrows */
+    --assembl-soft-gold: #C79B1F;       /* alias — kept for backwards compat */
+
+    --text-primary: #3A3832;            /* charcoal — headings */
+    --text-secondary: #56544B;          /* body muted */
+    --text-body: #56544B;
 
     --shadow-soft: 0 8px 30px rgba(35, 33, 31, 0.08);
     --shadow-card: 0 4px 20px rgba(35, 33, 31, 0.06);
@@ -92,7 +100,7 @@
   body {
     background: var(--assembl-mist);
     color: var(--text-body);
-    font-family: var(--font-body), 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: var(--font-body), 'Lato', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
@@ -110,20 +118,20 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display), 'Fraunces', Georgia, serif;
-    font-weight: 300;
-    letter-spacing: 0;
-    line-height: 0.95;
+    font-family: var(--font-display), 'Lato', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.02;
     color: var(--text-primary);
   }
 
   h1 {
-    font-weight: 300;
-    letter-spacing: 0;
+    font-weight: 900;
+    letter-spacing: -0.02em;
   }
 
   code, pre, .font-mono {
-    font-family: var(--font-mono), 'JetBrains Mono', monospace;
+    font-family: var(--font-mono), 'Space Mono', ui-monospace, monospace;
   }
 
   :lang(mi) {
@@ -183,10 +191,10 @@
 
   .kete-card:hover {
     transform: translateY(-4px);
-    border-color: var(--kete-accent, rgba(43, 107, 87, 0.35));
+    border-color: var(--kete-accent, rgba(58, 56, 50, 0.30));
     box-shadow:
       0 12px 48px rgba(35, 33, 31, 0.10),
-      0 0 0 1px var(--kete-accent, rgba(43, 107, 87, 0.2));
+      0 0 0 1px var(--kete-accent, rgba(58, 56, 50, 0.18));
   }
 
   .cta-primary {
@@ -195,19 +203,19 @@
     overflow: hidden;
     isolation: isolate;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 48%),
-      radial-gradient(circle at 24% 0%, rgba(255, 255, 255, 0.38), transparent 38%),
-      linear-gradient(135deg, rgba(43, 107, 87, 0.94) 0%, rgba(31, 79, 64, 0.88) 52%, rgba(18, 57, 48, 0.96) 100%);
-    color: #FAF7F2;
-    border: 1px solid rgba(255, 255, 255, 0.26);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 48%),
+      radial-gradient(circle at 24% 0%, rgba(255, 255, 255, 0.45), transparent 38%),
+      linear-gradient(135deg, #FFD42A 0%, #FBC81E 52%, #E6BD16 100%);
+    color: #3A3832;
+    border: 1px solid rgba(58, 56, 50, 0.14);
     border-radius: 999px;
-    font-family: var(--font-body), 'Plus Jakarta Sans', sans-serif;
-    font-weight: 500;
+    font-family: var(--font-body), 'Lato', sans-serif;
+    font-weight: 700;
     letter-spacing: 0.01em;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.34),
-      inset 0 -12px 30px rgba(18, 57, 48, 0.18),
-      0 14px 34px rgba(43, 107, 87, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -12px 30px rgba(230, 189, 22, 0.22),
+      0 14px 34px rgba(58, 56, 50, 0.16),
       0 2px 0 rgba(255, 255, 255, 0.22);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
@@ -227,23 +235,23 @@
 
   .cta-primary:hover {
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.42),
-      inset 0 -12px 30px rgba(18, 57, 48, 0.12),
-      0 20px 48px rgba(43, 107, 87, 0.28),
-      0 0 0 1px rgba(255, 255, 255, 0.20);
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      inset 0 -12px 30px rgba(230, 189, 22, 0.16),
+      0 20px 48px rgba(58, 56, 50, 0.22),
+      0 0 0 1px rgba(58, 56, 50, 0.12);
     transform: translateY(-2px);
   }
 
   .btn-ghost {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(250, 247, 242, 0.46)),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 247, 236, 0.46)),
       radial-gradient(circle at 22% 0%, rgba(255, 255, 255, 0.55), transparent 36%);
     color: var(--text-primary);
-    border: 1px solid rgba(35, 33, 31, 0.18);
+    border: 1px solid rgba(58, 56, 50, 0.18);
     border-radius: 999px;
-    font-family: var(--font-body), 'Plus Jakarta Sans', sans-serif;
-    font-weight: 500;
+    font-family: var(--font-body), 'Lato', sans-serif;
+    font-weight: 700;
     letter-spacing: 0.01em;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.74),
@@ -254,35 +262,38 @@
   }
 
   .btn-ghost:hover {
-    border-color: rgba(43, 107, 87, 0.28);
+    border-color: rgba(58, 56, 50, 0.30);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(232, 239, 233, 0.48)),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 243, 223, 0.48)),
       radial-gradient(circle at 22% 0%, rgba(255, 255, 255, 0.64), transparent 36%);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.78),
-      0 18px 42px rgba(43, 107, 87, 0.12);
+      0 18px 42px rgba(58, 56, 50, 0.10);
     transform: translateY(-2px);
   }
 
+  /* Gold eyebrow/chip — readable gold-on-cream */
   .badge-gold {
-    background: rgba(212, 168, 83, 0.12);
-    color: #7A5C1E;
-    border: 1px solid rgba(212, 168, 83, 0.25);
+    background: rgba(199, 155, 31, 0.12);
+    color: #8A6B12;
+    border: 1px solid rgba(199, 155, 31, 0.28);
     border-radius: 16px;
     padding: 4px 12px;
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 700;
     letter-spacing: 0.02em;
   }
 
+  /* Canary chip — the brand pop. Charcoal ink on a pale canary wash.
+     (Legacy class name kept so existing markup picks up the new look.) */
   .badge-sage {
-    background: rgba(43, 107, 87, 0.10);
-    color: #2B6B57;
-    border: 1px solid rgba(43, 107, 87, 0.25);
+    background: rgba(255, 212, 42, 0.18);
+    color: #3A3832;
+    border: 1px solid rgba(58, 56, 50, 0.18);
     border-radius: 16px;
     padding: 4px 12px;
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 700;
     letter-spacing: 0.02em;
   }
 
@@ -290,8 +301,8 @@
     background-image: linear-gradient(
       135deg,
       #23211F 0%,
-      #2B6B57 50%,
-      #B8B2A8 100%
+      #3A3832 55%,
+      #C79B1F 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -304,9 +315,9 @@
   }
 
   .paper-noise {
-    background-color: #FAF7F2;
+    background-color: #FFF7EC;
     background-image:
-      linear-gradient(rgba(250, 247, 242, 0.96), rgba(250, 247, 242, 0.96)),
+      linear-gradient(rgba(255, 247, 236, 0.96), rgba(255, 247, 236, 0.96)),
       url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
   }
 }
@@ -332,7 +343,7 @@
 
 @media print {
   html, body {
-    background: #FAF7F2 !important;
+    background: #FFF7EC !important;
     margin: 0 !important;
     padding: 0 !important;
     -webkit-print-color-adjust: exact;
@@ -541,4 +552,21 @@
   .mk-floaty {
     animation: none !important;
   }
+}
+
+/* ── Canary retheme: heading weight bridge ───────────────────────────────────
+   The old Evidence Vessel look leant on Fraunces-light headings (font-light /
+   font-extralight / font-thin on .font-display). The canary brand is Lato 900.
+   We only load Lato 400/700/900, so those thin utilities would fall back to a
+   browser default. These bare, higher-specificity rules promote thin display
+   headings to the brand's heavy weight in one move — no per-page class sweep.
+   Scoped to .font-display so body copy using font-light is untouched, and
+   excluded inside .mk-root (the /agents marketplace owns its own weights). */
+:where(:not(.mk-root)) .font-display.font-thin,
+:where(:not(.mk-root)) .font-display.font-extralight,
+:where(:not(.mk-root)) .font-display.font-light {
+  font-weight: 900;
+}
+:where(:not(.mk-root)) .font-display.font-normal {
+  font-weight: 700;
 }

@@ -240,13 +240,13 @@ export default function HuiStudio() {
   return (
     <div className="rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/90 p-5 shadow-[0_24px_90px_rgba(35,33,31,0.08)] md:p-8">
       {/* Consent gate */}
-      <div className="rounded-[10px] border border-[#2B6B57]/25 bg-[#F2F6F2] p-4">
+      <div className="rounded-[10px] border border-[#3A3832]/25 bg-[#F2F6F2] p-4">
         <label className="flex items-start gap-3 text-sm leading-relaxed text-[#23211F]">
           <input
             type="checkbox"
             checked={consent}
             onChange={(e) => setConsent(e.target.checked)}
-            className="mt-1 h-4 w-4 accent-[#2B6B57]"
+            className="mt-1 h-4 w-4 accent-[#3A3832]"
           />
           <span>
             <strong>Recording consent.</strong> I confirm everyone in this meeting has been told it is being
@@ -268,13 +268,13 @@ export default function HuiStudio() {
               onClick={() => setTemplateId(t.id)}
               className={`rounded-[10px] border p-4 text-left transition ${
                 t.id === templateId
-                  ? "border-[#2B6B57] bg-[#F2F6F2] shadow-[0_8px_24px_rgba(43,107,87,0.10)]"
-                  : "border-[rgba(35,33,31,0.12)] bg-white hover:border-[#2B6B57]/50"
+                  ? "border-[#3A3832] bg-[#F2F6F2] shadow-[0_8px_24px_rgba(58,56,50,0.10)]"
+                  : "border-[rgba(35,33,31,0.12)] bg-white hover:border-[#3A3832]/50"
               }`}
             >
               <p className="text-sm font-medium text-[#23211F]">{t.label}</p>
               <p className="mt-1 text-xs leading-relaxed text-[#5A5550]">{t.blurb}</p>
-              <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.14em] text-[#2B6B57]">{t.framework}</p>
+              <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.14em] text-[#3A3832]">{t.framework}</p>
             </button>
           ))}
         </div>
@@ -288,7 +288,7 @@ export default function HuiStudio() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Friday site toolbox talk"
-            className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#2B6B57]"
+            className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#3A3832]"
           />
         </label>
         <label>
@@ -297,7 +297,7 @@ export default function HuiStudio() {
             value={attendees}
             onChange={(e) => setAttendees(e.target.value)}
             placeholder="Names, comma separated"
-            className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#2B6B57]"
+            className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#3A3832]"
           />
         </label>
       </div>
@@ -310,7 +310,7 @@ export default function HuiStudio() {
             type="button"
             onClick={() => setMode(tab)}
             className={`-mb-px px-4 py-3 text-sm font-medium ${
-              mode === tab ? "border-b-2 border-[#2B6B57] text-[#2B6B57]" : "text-[#6B6661]"
+              mode === tab ? "border-b-2 border-[#3A3832] text-[#3A3832]" : "text-[#6B6661]"
             }`}
           >
             {tab === "paste" ? "Paste transcript" : tab === "upload" ? "Upload audio" : "Record"}
@@ -327,21 +327,21 @@ export default function HuiStudio() {
             <textarea
               value={transcript}
               onChange={(e) => setTranscript(e.target.value)}
-              className="min-h-[220px] w-full rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#F7F4EE] p-4 leading-relaxed outline-none focus:border-[#2B6B57] focus:bg-white"
+              className="min-h-[220px] w-full rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-[#F7F4EE] p-4 leading-relaxed outline-none focus:border-[#3A3832] focus:bg-white"
               placeholder="Paste a meeting transcript, or rough notes: decisions, names, follow-ups, times."
             />
           </label>
         )}
 
         {mode === "upload" && (
-          <div className="rounded-[10px] border border-dashed border-[#2B6B57]/40 bg-[#F7F4EE] p-6 text-center">
+          <div className="rounded-[10px] border border-dashed border-[#3A3832]/40 bg-[#F7F4EE] p-6 text-center">
             {recordDisabled ? (
               <p className="text-sm leading-relaxed text-[#5A5550]">
                 Audio transcription is coming online shortly. For now, paste a transcript and Hui will structure
                 it into the same evidence pack.
               </p>
             ) : (
-              <label className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#2B6B57]">
+              <label className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#3A3832]">
                 <Upload className="h-4 w-4" /> Choose audio file
                 <input
                   type="file"
@@ -369,7 +369,7 @@ export default function HuiStudio() {
                   onClick={toggleRecording}
                   aria-label={recording ? "Stop recording" : "Start recording"}
                   className={`flex h-16 w-16 items-center justify-center rounded-full text-white shadow-lg transition ${
-                    recording ? "bg-[#B42828]" : "bg-[#2B6B57] hover:bg-[#23211F]"
+                    recording ? "bg-[#B42828]" : "bg-[#3A3832] hover:bg-[#23211F]"
                   }`}
                 >
                   {recording ? <Square className="h-6 w-6" /> : <Mic className="h-6 w-6" />}
@@ -392,7 +392,7 @@ export default function HuiStudio() {
           type="button"
           onClick={generate}
           disabled={loading || !consent}
-          className="rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#2B6B57] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]"
+          className="rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#3A3832] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]"
         >
           {loading ? busyLabel || "Working…" : "Generate meeting record"}
         </button>
@@ -411,7 +411,7 @@ export default function HuiStudio() {
       </div>
 
       {loading && busyLabel && (
-        <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">{busyLabel}</p>
+        <p className="mt-4 rounded-[10px] border border-[#C79B1F]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">{busyLabel}</p>
       )}
       {error && (
         <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>
@@ -419,7 +419,7 @@ export default function HuiStudio() {
 
       {/* Email gate */}
       {showGate && !unlocked && (
-        <div className="mt-5 rounded-[10px] border border-[#2B6B57]/30 bg-[#F2F6F2] p-5">
+        <div className="mt-5 rounded-[10px] border border-[#3A3832]/30 bg-[#F2F6F2] p-5">
           <p className="text-sm font-medium text-[#23211F]">Add your email to keep using Hui</p>
           <p className="mt-1 text-sm leading-relaxed text-[#5A5550]">
             Your first run is on us. Drop an email to keep generating records and evidence packs.
@@ -430,12 +430,12 @@ export default function HuiStudio() {
               value={gateEmail}
               onChange={(e) => setGateEmail(e.target.value)}
               placeholder="you@organisation.co.nz"
-              className="h-11 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white px-3 outline-none focus:border-[#2B6B57]"
+              className="h-11 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white px-3 outline-none focus:border-[#3A3832]"
             />
             <button
               type="button"
               onClick={unlockWithEmail}
-              className="rounded-full bg-[#2B6B57] px-6 py-3 text-sm font-medium text-white hover:bg-[#23211F]"
+              className="rounded-full bg-[#3A3832] px-6 py-3 text-sm font-medium text-white hover:bg-[#23211F]"
             >
               Unlock Hui
             </button>
@@ -447,13 +447,13 @@ export default function HuiStudio() {
       {html && (
         <section className="mt-6 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-white p-6 md:p-8">
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F2F6F2] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57]">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F2F6F2] px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#3A3832]">
               <CheckCircle2 className="h-3.5 w-3.5" /> {template.label}
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#6B6661]">{template.framework}</span>
           </div>
           <div
-            className="prose prose-neutral max-w-none [&_h2]:mt-6 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-normal [&_h2]:text-[#2B6B57] [&_h2:first-child]:mt-0"
+            className="prose prose-neutral max-w-none [&_h2]:mt-6 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-normal [&_h2]:text-[#3A3832] [&_h2:first-child]:mt-0"
             dangerouslySetInnerHTML={{ __html: html }}
           />
           <div className="mt-6 flex flex-wrap gap-3 border-t border-[rgba(35,33,31,0.08)] pt-6">
@@ -461,12 +461,12 @@ export default function HuiStudio() {
               type="button"
               onClick={downloadEvidencePack}
               disabled={downloading}
-              className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]"
+              className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#3A3832] disabled:bg-[#C8C2BC]"
             >
               <Download className="h-4 w-4" /> {downloading ? "Building evidence pack…" : "Download evidence pack (PDF)"}
             </button>
             <span className="inline-flex items-center gap-2 text-xs leading-relaxed text-[#6B6661]">
-              <FileCheck2 className="h-4 w-4 text-[#2B6B57]" />
+              <FileCheck2 className="h-4 w-4 text-[#3A3832]" />
               Draft record. Each pack carries a Mana Receipt hash — verifiable once a named reviewer seals it.
             </span>
           </div>

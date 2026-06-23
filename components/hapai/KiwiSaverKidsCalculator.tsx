@@ -72,7 +72,7 @@ export function KiwiSaverKidsCalculator() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(184,149,106,0.18),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(43,107,87,0.12),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
+    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(184,149,106,0.18),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(58,56,50,0.12),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
       <div className="mx-auto max-w-[1120px]">
         <Link
           href="/hapai"
@@ -285,7 +285,7 @@ export function KiwiSaverKidsCalculator() {
             </div>
 
             {/* ── HERO RESULT ───────────────────────────────────── */}
-            <div className="mt-7 rounded-[14px] border border-[rgba(184,149,106,0.32)] bg-gradient-to-br from-[#FAF7F2] to-[#F3EEE4] p-6">
+            <div className="mt-7 rounded-[14px] border border-[rgba(184,149,106,0.32)] bg-gradient-to-br from-[#FFF7EC] to-[#F3EEE4] p-6">
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#B8956A]">
                 Projected balance at age {retirementAge}
               </p>
@@ -334,8 +334,8 @@ export function KiwiSaverKidsCalculator() {
 
             {/* ── COMPARE ──────────────────────────────────────── */}
             {monthlyContribution > 0 && (
-              <div className="mt-5 rounded-[12px] border border-[rgba(43,107,87,0.22)] bg-[#F0F5F1] p-4">
-                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">
+              <div className="mt-5 rounded-[12px] border border-[rgba(58,56,50,0.22)] bg-[#F0F5F1] p-4">
+                <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#3A3832]">
                   <Sparkles className="-mt-1 mr-1 inline h-3.5 w-3.5" aria-hidden />
                   Top-ups vs policy alone
                 </p>
@@ -381,7 +381,7 @@ export function KiwiSaverKidsCalculator() {
                             ? formatNzd(row.contributionsThisYear)
                             : "—"}
                         </td>
-                        <td className="py-1.5 text-right tabular-nums text-[#2B6B57]">
+                        <td className="py-1.5 text-right tabular-nums text-[#3A3832]">
                           {formatNzd(row.growthThisYear)}
                         </td>
                         <td className="py-1.5 text-right tabular-nums font-medium">

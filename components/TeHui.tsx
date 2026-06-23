@@ -46,11 +46,11 @@ interface RingPoint {
 }
 
 const PALETTE = {
-  paper: '#FAF7F2',
+  paper: '#FFF7EC',
   ink: '#23211F',
   inkSecondary: '#5C5852',
   inkTertiary: '#8E8A82',
-  pounamu: '#2B6B57',
+  pounamu: '#3A3832',
   softGold: '#D9BC7A',
 };
 
@@ -87,7 +87,7 @@ export function TeHui({
       <defs>
         <radialGradient id="te-hui-paper" cx="50%" cy="50%" r="55%">
           <stop offset="0%" stopColor="#FFFEFB" />
-          <stop offset="85%" stopColor="#FAF7F2" />
+          <stop offset="85%" stopColor="#FFF7EC" />
           <stop offset="100%" stopColor="#ECE6DC" />
         </radialGradient>
         <radialGradient id="te-hui-iho" cx="50%" cy="50%" r="50%">

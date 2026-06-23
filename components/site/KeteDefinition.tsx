@@ -21,7 +21,7 @@ export function KeteDefinition({ children }: { children?: ReactNode }) {
       >
         {children ?? 'kete'}
       </summary>
-      <span className="mt-3 block rounded-[14px] border border-[rgba(43,107,87,0.18)] bg-[rgba(43,107,87,0.05)] px-4 py-3 text-body-sm not-italic text-[color:var(--text-body)]">
+      <span className="mt-3 block rounded-[14px] border border-[rgba(58,56,50,0.18)] bg-[rgba(58,56,50,0.05)] px-4 py-3 text-body-sm not-italic text-[color:var(--text-body)]">
         <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
           /ˈkɛteɪ/
         </span>{' '}

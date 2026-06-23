@@ -24,7 +24,7 @@ export default function HuiPage() {
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
-          style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(43,107,87,0.10) 0%, transparent 65%)" }}
+          style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(58,56,50,0.10) 0%, transparent 65%)" }}
         />
         <div className="relative container grid items-center gap-10 py-16 md:grid-cols-2 md:py-20">
           <div>
@@ -44,7 +44,7 @@ export default function HuiPage() {
             <div className="mt-8">
               <a
                 href="#try"
-                className="inline-block rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#2B6B57]"
+                className="inline-block rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#3A3832]"
               >
                 Try it now — 1 free run
               </a>

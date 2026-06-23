@@ -63,7 +63,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className="sticky top-0 z-40 w-full border-b border-[rgba(157,140,125,0.14)] bg-[rgba(247,243,238,0.78)] backdrop-blur-xl"
+      className="sticky top-0 z-40 w-full border-b border-[rgba(58,56,50,0.10)] bg-[rgba(255,247,236,0.78)] backdrop-blur-xl"
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
       <div className="flex h-[72px] w-full max-w-none items-center justify-between gap-3 px-5 md:gap-4 md:px-8 xl:px-12 2xl:px-20">

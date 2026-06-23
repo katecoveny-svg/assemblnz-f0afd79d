@@ -24,8 +24,8 @@ export function LandscapeBand({
       className={`relative h-[58vw] max-h-[560px] min-h-[400px] w-full overflow-hidden ${className}`}
     >
       <Image src={src} alt="" fill sizes="100vw" className="object-cover object-center" />
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.5),transparent)]" />
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.5),transparent)]" />
+      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(199,155,31,0.5),transparent)]" />
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(199,155,31,0.5),transparent)]" />
     </section>
   );
 }

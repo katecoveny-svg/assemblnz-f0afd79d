@@ -43,7 +43,7 @@ export default async function StandaloneWorkflowPage({
   const kete = getKete(workflow.kete);
 
   return (
-    <section className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#FAF7F2_0%,#F5EEE5_48%,#FAF7F2_100%)] px-4 py-5 text-[color:var(--text-primary)] md:px-8 md:py-7">
+    <section className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#FFF7EC_0%,#F5EEE5_48%,#FFF7EC_100%)] px-4 py-5 text-[color:var(--text-primary)] md:px-8 md:py-7">
       <header className="mx-auto flex max-w-[1500px] items-center justify-between gap-4">
         <Link
           href="/"
@@ -60,7 +60,7 @@ export default async function StandaloneWorkflowPage({
       </header>
       <main className="mx-auto mt-6 max-w-[1500px] md:mt-10">
         <section className="relative mb-6 overflow-hidden rounded-[24px] border border-white/70 bg-white/58 p-5 shadow-[0_30px_120px_rgba(35,33,31,0.10)] backdrop-blur md:mb-8 md:p-8">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_8%,rgba(217,168,90,0.20),transparent_28%),linear-gradient(135deg,rgba(43,107,87,0.08),transparent_42%)]" aria-hidden />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_8%,rgba(217,168,90,0.20),transparent_28%),linear-gradient(135deg,rgba(58,56,50,0.08),transparent_42%)]" aria-hidden />
           <div className="relative grid gap-7 lg:grid-cols-[minmax(0,0.72fr)_minmax(420px,0.58fr)] lg:items-end">
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
@@ -73,7 +73,7 @@ export default async function StandaloneWorkflowPage({
                 {workflow.description}
               </p>
             </div>
-            <div className="rounded-[18px] border border-white/80 bg-[#FAF7F2]/72 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_22px_70px_rgba(35,33,31,0.08)] md:p-5">
+            <div className="rounded-[18px] border border-white/80 bg-[#FFF7EC]/72 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.85),0_22px_70px_rgba(35,33,31,0.08)] md:p-5">
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
                 Send this to another parent
               </p>

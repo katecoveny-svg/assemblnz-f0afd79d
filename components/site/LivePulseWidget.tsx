@@ -33,7 +33,7 @@ export function LivePulseWidget({ initial, compact = false }: LivePulseWidgetPro
   return (
     <aside
       aria-label="Live knowledge pulse"
-      className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#FAF7F2]/86 shadow-[0_24px_76px_rgba(35,33,31,0.10)] backdrop-blur"
+      className="overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#FFF7EC]/86 shadow-[0_24px_76px_rgba(35,33,31,0.10)] backdrop-blur"
     >
       <div className="border-b border-[rgba(35,33,31,0.10)] bg-white/46 p-5">
         <div className="flex items-center justify-between gap-4">
@@ -107,7 +107,7 @@ function PulseMetric({
   label: string;
 }) {
   return (
-    <div className="bg-[#FAF7F2] p-4">
+    <div className="bg-[#FFF7EC] p-4">
       <Icon className="h-4 w-4 text-[color:var(--assembl-pounamu)]" aria-hidden />
       <p className="mt-4 font-display text-4xl font-light leading-none tabular-nums text-[color:var(--assembl-pounamu)]">
         {value === 0 ? '-' : value.toLocaleString('en-NZ')}

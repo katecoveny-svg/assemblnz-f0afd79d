@@ -108,7 +108,7 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
       <div className="mx-auto max-w-[920px]">
-        <Link href={copy.backHref} className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]">
+        <Link href={copy.backHref} className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]">
           <ArrowLeft className="h-3.5 w-3.5" /> {copy.backLabel}
         </Link>
         <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#6B6661]">{copy.eyebrow}</p>
@@ -125,7 +125,7 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
                 <img src={imageBase64} alt="Uploaded fridge preview" className="max-h-[320px] rounded-[10px] object-contain" />
               ) : (
                 <>
-                  <Camera className="h-10 w-10 text-[#2B6B57]" />
+                  <Camera className="h-10 w-10 text-[#3A3832]" />
                   <span className="mt-3 text-sm text-[#5A5550]">Tap to upload or take a photo</span>
                 </>
               )}
@@ -138,23 +138,23 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
           </div>
           <label className="mt-5 block">
             <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Dietary notes</span>
-            <textarea value={dietaryNotes} onChange={(event) => setDietaryNotes(event.target.value)} className="min-h-[96px] w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] p-3 outline-none focus:border-[#2B6B57] focus:bg-white" placeholder="vegetarian, no dairy, kid-friendly, school lunches..." />
+            <textarea value={dietaryNotes} onChange={(event) => setDietaryNotes(event.target.value)} className="min-h-[96px] w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] p-3 outline-none focus:border-[#3A3832] focus:bg-white" placeholder="vegetarian, no dairy, kid-friendly, school lunches..." />
           </label>
           <fieldset className="mt-5">
             <legend className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Budget</legend>
             <div className="flex flex-wrap gap-2">
               {(["tight", "normal", "generous"] as const).map((option) => (
-                <label key={option} className={`cursor-pointer rounded-full border px-4 py-2 text-sm ${budget === option ? "border-[#2B6B57] bg-[#2B6B57] text-white" : "border-[rgba(35,33,31,0.16)] text-[#5A5550]"}`}>
+                <label key={option} className={`cursor-pointer rounded-full border px-4 py-2 text-sm ${budget === option ? "border-[#3A3832] bg-[#3A3832] text-white" : "border-[rgba(35,33,31,0.16)] text-[#5A5550]"}`}>
                   <input type="radio" checked={budget === option} onChange={() => setBudget(option)} className="sr-only" />
                   {option}
                 </label>
               ))}
             </div>
           </fieldset>
-          <button type="button" onClick={generate} disabled={loading || !imageBase64} className="mt-6 rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]">{loading ? "Reading the photo..." : copy.button}</button>
+          <button type="button" onClick={generate} disabled={loading || !imageBase64} className="mt-6 rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white hover:bg-[#3A3832] disabled:bg-[#C8C2BC]">{loading ? "Reading the photo..." : copy.button}</button>
           <div className="mt-3">{gate.counter}</div>
           {gate.modal}
-          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">Building a kai plan from the photo.</p>}
+          {loading && <p className="mt-4 rounded-[10px] border border-[#C79B1F]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">Building a kai plan from the photo.</p>}
           {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
         </section>
 
@@ -162,7 +162,7 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
           <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-7">
             <ResultList title="What's in your fridge" items={result.spotted} empty="Nothing confidently spotted." />
             <ResultList title="Running low / replace this week" items={result.runningLow} empty="Nothing obvious." />
-            <h2 className="mt-8 font-display text-2xl font-normal text-[#2B6B57]">Suggested meals</h2>
+            <h2 className="mt-8 font-display text-2xl font-normal text-[#3A3832]">Suggested meals</h2>
             <div className="mt-3 grid gap-3">
               {result.meals.map((meal) => (
                 <article key={meal.name} className="rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#F7F4EE] p-4">
@@ -172,12 +172,12 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
                 </article>
               ))}
             </div>
-            <h2 className="mt-8 font-display text-2xl font-normal text-[#2B6B57]">Shopping list</h2>
+            <h2 className="mt-8 font-display text-2xl font-normal text-[#3A3832]">Shopping list</h2>
             <div className="mt-3 grid gap-3 md:grid-cols-2">
               {result.shoppingList.map((section) => <ResultList key={section.aisle} title={section.aisle} items={section.items} empty="No items." compact />)}
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <button type="button" onClick={() => navigator.clipboard.writeText(textOutput)} className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#2B6B57]"><Copy className="h-4 w-4" /> Copy list</button>
+              <button type="button" onClick={() => navigator.clipboard.writeText(textOutput)} className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#3A3832]"><Copy className="h-4 w-4" /> Copy list</button>
               <button type="button" onClick={downloadTxt} className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550] hover:text-[#23211F]"><Download className="h-4 w-4" /> Download .txt</button>
               <button type="button" className="rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550]">Add to Tōro week plan</button>
             </div>
@@ -201,7 +201,7 @@ function Slider({ label, value, min, max, onChange }: { label: string; value: nu
   return (
     <label>
       <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">{label}: {value}</span>
-      <input type="range" min={min} max={max} value={value} onChange={(event) => onChange(Number(event.target.value))} className="w-full accent-[#2B6B57]" />
+      <input type="range" min={min} max={max} value={value} onChange={(event) => onChange(Number(event.target.value))} className="w-full accent-[#3A3832]" />
     </label>
   );
 }
@@ -209,7 +209,7 @@ function Slider({ label, value, min, max, onChange }: { label: string; value: nu
 function ResultList({ title, items, empty, compact = false }: { title: string; items: string[]; empty: string; compact?: boolean }) {
   return (
     <div className={compact ? "rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#F7F4EE] p-4" : "mt-6"}>
-      <h2 className="font-display text-2xl font-normal text-[#2B6B57]">{title}</h2>
+      <h2 className="font-display text-2xl font-normal text-[#3A3832]">{title}</h2>
       {items.length ? <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-[#2A2825]">{items.map((item) => <li key={item}>{item}</li>)}</ul> : <p className="mt-2 text-sm text-[#6B6661]">{empty}</p>}
     </div>
   );
