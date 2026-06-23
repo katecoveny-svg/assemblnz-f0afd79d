@@ -303,14 +303,16 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 
 // ── Site-wide nav (multi-page only — anchors are BANNED per canon §2.1) ──────
 
+// Locked canon nav (2026-06-23) — the marketplace front door. The
+// pre-marketplace items are retired here per CANON-LOCKED-2026-06-23.md §Nav.
 export const nav = [
-  { href: '/agents',         label: 'Marketplace' },
-  { href: '/agents#pricing', label: 'Bundles' },
-  { href: '/how-it-works',   label: 'How it works' },
-  { href: '/about',          label: 'Built in NZ' },
+  { href: '/agents',  label: 'Agents' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/trust',   label: 'Trust' },
+  { href: '/about',   label: 'About' },
 ] as const;
 
-export const navCta = { href: '/pilot-sprint', label: 'Book a pilot' };
+export const navCta = { href: '/agents', label: 'Browse agents' };
 
 // ── Footer disclaimer — Plugin Architecture Canon §4 (verbatim) ──────────────
 

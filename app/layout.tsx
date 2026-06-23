@@ -1,5 +1,12 @@
 import type { Metadata } from 'next';
-import { Fraunces, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
+import {
+  Fraunces,
+  Plus_Jakarta_Sans,
+  JetBrains_Mono,
+  Cormorant_Garamond,
+  Lato,
+  Space_Mono,
+} from 'next/font/google';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { ScrollProgress } from '@/components/site/scroll-progress';
@@ -33,6 +40,33 @@ const plusJakarta = Plus_Jakarta_Sans({
 const jetBrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
+  display: 'swap',
+});
+
+// Locked canon type system (2026-06-23) — exposed as ADDITIVE CSS variables so
+// the homepage hero can adopt them without disturbing the rest of the site's
+// existing --font-display/body/mono tokens. Cormorant Garamond is the assembl
+// wordmark + display face, Lato the body/UI face, Space Mono the eyebrow/label
+// face. See CANON-LOCKED-2026-06-23.md.
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-cormorant',
+  display: 'swap',
+});
+
+const lato = Lato({
+  subsets: ['latin'],
+  weight: ['400', '700', '900'],
+  variable: '--font-lato',
+  display: 'swap',
+});
+
+const spaceMono = Space_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-space-mono',
   display: 'swap',
 });
 
@@ -81,7 +115,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-NZ" className={`${fraunces.variable} ${plusJakarta.variable} ${jetBrainsMono.variable}`}>
+    <html
+      lang="en-NZ"
+      className={`${fraunces.variable} ${plusJakarta.variable} ${jetBrainsMono.variable} ${cormorant.variable} ${lato.variable} ${spaceMono.variable}`}
+    >
       <body>
         <a
           href="#main-content"
