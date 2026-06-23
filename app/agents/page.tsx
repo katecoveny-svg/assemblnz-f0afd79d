@@ -7,7 +7,7 @@ import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/M
 export const metadata: Metadata = {
   title: 'Agents — assembl',
   description:
-    'Pick an agent, chat with it, install it on your phone. A shelf of NZ-built agents for whānau, work, and admin. Every reply is a draft for a human to check.',
+    'Pick an agent, chat with it, install it on your phone. A shelf of NZ-built agents for family, work, and admin. Every reply is a draft for a human to check.',
 };
 
 export default function AgentsMarketplacePage() {
@@ -33,7 +33,7 @@ export default function AgentsMarketplacePage() {
           {/* dash motif underline */}
           <div className="mt-5 h-1.5 w-40 rounded-full" style={{ background: DASH_MOTIF }} aria-hidden />
           <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: PALETTE.body }}>
-            A shelf of NZ-built agents for the jobs you keep putting off — whānau, work, and admin.
+            A shelf of NZ-built agents for the jobs you keep putting off — family, work, and admin.
             Open one, talk to it, keep the ones that earn their place.
           </p>
 

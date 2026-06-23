@@ -88,7 +88,7 @@ const sql = `-- Seed — 30 hero agents into the marketplace catalogue.
 -- analytics, and admin views have the catalogue. Idempotent: re-running the
 -- generator and re-applying keeps the table in sync. The system_prompt column
 -- is seeded here but is NOT publicly readable — see
--- 20260623140000_agent_catalogue_columns.sql (column-level GRANTs).
+-- 20260623140050_agent_catalogue_columns.sql (column-level GRANTs).
 
 BEGIN;
 

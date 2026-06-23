@@ -133,9 +133,6 @@ function AgentCard({ agent }: { agent: PublicMarketplaceAgent }) {
         >
           {agent.name}
         </h3>
-        <p className="mk-mono mt-1 text-[11px] uppercase tracking-wide" style={{ color: PALETTE.muted }}>
-          {agent.teReo}
-        </p>
         <p className="mt-3 text-sm leading-relaxed" style={{ color: PALETTE.body }}>
           {agent.description}
         </p>

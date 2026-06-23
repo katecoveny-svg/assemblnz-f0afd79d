@@ -83,7 +83,7 @@ export type MarketplaceAgent = {
 };
 
 export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: string }[] = [
-  { slug: 'family', label: 'Family & Whānau', teReo: 'Whānau' },
+  { slug: 'family', label: 'Family & Home', teReo: 'Whānau' },
   { slug: 'business', label: 'Business & SME', teReo: 'Pakihi' },
   { slug: 'trades', label: 'Trades & Construction', teReo: 'Hanga' },
   { slug: 'creative', label: 'Marketing & Creative', teReo: 'Auaha' },
@@ -160,11 +160,11 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Tōro',
     teReo: 'Whānau Tāhuhu',
     description:
-      'The family-life navigator. SMS-first help for school notices, kai, the calendar, elder check-ins and the household admin you keep forgetting.',
+      'The family-life navigator. SMS-first help for school notices, meals, the calendar, elder check-ins and the household admin you keep forgetting.',
     whatItDoes: [
       'Triages school notices, GP recalls and daycare emails — surfaces every date and drafts a reply.',
       "Runs the family calendar: bus routes, school terms, who's collecting who, a morning brief and an evening look-ahead.",
-      'Plans the week\'s kai from a pantry photo, tracks renewals (rego, WoF, power, insurance), and keeps a quiet family memory.',
+      'Plans the week\'s meals from a pantry photo, tracks renewals (rego, WoF, power, insurance), and keeps a quiet family memory.',
     ],
     whatYouGet: [
       'SMS messages and drafted bookings — never auto-sent.',
@@ -190,7 +190,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Users',
     accent: '#FFD42A',
     greeting:
-      "Kia ora! I'm Tōro — the friend on the other end of a text who remembers everything for the whānau. What's on today?",
+      "I'm Tōro — the friend on the other end of a text who remembers everything for the family. What's on today?",
     starters: [
       'Paste a school notice and pull out the dates.',
       "Plan the week's dinners from what's in the fridge.",
@@ -202,7 +202,7 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Study Buddy',
     teReo: 'Ako Hoa',
     description:
-      'A patient NCEA and curriculum coach for tamariki and rangatahi. Explains, drills and predicts the question — never hands over the answer.',
+      'A patient NCEA and curriculum coach for Kiwi kids and teens. Explains, drills and predicts the question — never hands over the answer.',
     whatItDoes: [
       'Coaches NZ Curriculum (Years 1–10), Te Marautanga, and NCEA Levels 1–3 across every subject.',
       'Builds essay plans, quote checklists, recall quizzes and study sprints at the target grade band.',
@@ -229,7 +229,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'GraduationCap',
     accent: '#FFE27A',
     greeting:
-      "Kia ora! I'm your study coach. Tell me the subject, level and what you're stuck on — I'll explain it, then we practise. I won't write it for you.",
+      "I'm your study coach. Tell me the subject, level and what you're stuck on — I'll explain it, then we practise. I won't write it for you.",
     starters: [
       'Help me plan an NCEA Level 2 English essay.',
       'Quiz me on photosynthesis.',
@@ -267,7 +267,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'ChefHat',
     accent: '#FFD42A',
     greeting:
-      "Kia ora! Send a photo or a list of what's in the fridge, your household size and budget — I'll plan the week's kai and the shop.",
+      "Send a photo or a list of what's in the fridge, your household size and budget — I'll plan the week's meals and the shop.",
     starters: [
       'Plan a week of dinners for a family of four on a tight budget.',
       'Half a cabbage, mince, eggs and two carrots — what can we make?',
@@ -290,7 +290,7 @@ const AGENT_DEFS: AgentDef[] = [
       "A clear escalation message when something's triggered.",
     ],
     sampleOutputs: [
-      'Morning, Pā! Did you sleep okay last night — yes or not really?',
+      'Morning! Did you sleep okay last night — yes or not really?',
       'Caregiver alert: no reply by 11am, second day running. Suggest a call.',
     ],
     nzKnowledge: [
@@ -306,7 +306,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'HeartHandshake',
     accent: '#C79B1F',
     greeting:
-      "Kia ora. I'll check in on your loved one each day and let you know if anything looks off. Who am I checking in with, and when?",
+      "I'll check in on your loved one each day and let you know if anything looks off. Who am I checking in with, and when?",
     starters: ['Set up a 9am check-in with my dad.', "What happens if he doesn't reply?"],
   },
 
@@ -343,7 +343,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Calculator',
     accent: '#C79B1F',
     greeting:
-      "Kia ora. Connect Xero or MYOB read-only, or paste your numbers — I'll draft the GST return and tax position. Nothing gets filed without your sign-off.",
+      "Connect Xero or MYOB read-only, or paste your numbers — I'll draft the GST return and tax position. Nothing gets filed without your sign-off.",
     starters: ['Draft my two-monthly GST return.', 'How much provisional tax should I set aside?'],
   },
   {
@@ -379,7 +379,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'HeartPulse',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Upload your payroll export and I'll sense-check holiday pay and KiwiSaver against the Holidays Act 2003. It's fixable — I'll show the path.",
+      "Upload your payroll export and I'll sense-check holiday pay and KiwiSaver against the Holidays Act 2003. It's fixable — I'll show the path.",
     starters: [
       'Sense-check our holiday pay.',
       'Audit our KiwiSaver contributions.',
@@ -419,7 +419,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Compass',
     accent: '#FFE27A',
     greeting:
-      "Kia ora. Tell me the role, salary, the applicant's nationality and current visa — I'll map the pathways. Drafts for a licensed adviser to confirm.",
+      "Tell me the role, salary, the applicant's nationality and current visa — I'll map the pathways. Drafts for a licensed adviser to confirm.",
     starters: ['Map an AEWV pathway for a chef on $30/hr.', 'What does employer accreditation need?'],
   },
   {
@@ -454,7 +454,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Headset',
     accent: '#C79B1F',
     greeting:
-      "Kia ora. I'm Helm — your voice line. Give me your hours, top five FAQs and the number to transfer to, and I'll start answering calls.",
+      "I'm Helm — your voice line. Give me your hours, top five FAQs and the number to transfer to, and I'll start answering calls.",
     starters: ['Set up after-hours reception for a trades business.', 'What do you say when you answer?'],
   },
 
@@ -491,7 +491,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'HardHat',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Tell me the site, the scope and who's on it — I'll draft the safety plan and the SWMS. You're the PCBU; these are drafts you own.",
+      "Tell me the site, the scope and who's on it — I'll draft the safety plan and the SWMS. You're the PCBU; these are drafts you own.",
     starters: [
       'Draft an SSSP for a residential reroof.',
       'Toolbox talk on working at height.',
@@ -529,7 +529,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'ClipboardList',
     accent: '#C79B1F',
     greeting:
-      "Kia ora. Tell me the contract type, value and this month's work — I'll draft the payment claim and keep the variation register straight.",
+      "Tell me the contract type, value and this month's work — I'll draft the payment claim and keep the variation register straight.",
     starters: [
       "Draft this month's payment claim.",
       'Log a variation for extra excavation.',
@@ -568,7 +568,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'BadgeCheck',
     accent: '#FFE27A',
     greeting:
-      "Kia ora. Give me the trade list and milestones — I'll draft the ITPs, track defects, and build the producer-statement pack.",
+      "Give me the trade list and milestones — I'll draft the ITPs, track defects, and build the producer-statement pack.",
     starters: [
       'Build an ITP for the concrete pour.',
       'Start an NCR for a waterproofing defect.',
@@ -608,7 +608,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Building2',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Give me the site, the scope and your drawings — I'll pre-fill the consent application for your council and chase the CCC.",
+      "Give me the site, the scope and your drawings — I'll pre-fill the consent application for your council and chase the CCC.",
     starters: [
       'Pre-fill a building consent for a deck.',
       'Draft an RFI response for the council.',
@@ -650,7 +650,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Palette',
     accent: '#FFE27A',
     greeting:
-      "Kia ora! I'm Auaha — your creative studio. Tell me the brand, the audience and the channel, and we'll go brief → copy → image → video → schedule.",
+      "I'm Auaha — your creative studio. Tell me the brand, the audience and the channel, and we'll go brief → copy → image → video → schedule.",
     starters: [
       'Brief and design a launch campaign.',
       'Write three ad headlines in our voice.',
@@ -689,7 +689,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Megaphone',
     accent: '#C79B1F',
     greeting:
-      "Kia ora. Paste 10 examples of your best copy and I'll learn your voice — then send me anything new and I'll keep it on-tone and slop-free.",
+      "Paste 10 examples of your best copy and I'll learn your voice — then send me anything new and I'll keep it on-tone and slop-free.",
     starters: [
       'Learn our voice from these examples.',
       "Rewrite this 'About' page in our tone.",
@@ -729,7 +729,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'ScanEye',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Send the ad — image, copy, video or landing page — plus the offer and your evidence. I'll tell you if it ships, and how to fix it if not.",
+      "Send the ad — image, copy, video or landing page — plus the offer and your evidence. I'll tell you if it ships, and how to fix it if not.",
     starters: [
       'Check this ad before we run it.',
       'Is this comparison claim safe?',
@@ -772,7 +772,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Stethoscope',
     accent: '#C79B1F',
     greeting:
-      "Kia ora. With per-visit consent captured, paste or record the consult — I'll draft the SOAP note and suggest codes. Clinical sign-off stays with you.",
+      "With per-visit consent captured, paste or record the consult — I'll draft the SOAP note and suggest codes. Clinical sign-off stays with you.",
     starters: [
       'Draft a SOAP note from this consult.',
       'Write a referral letter to cardiology.',
@@ -812,7 +812,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'ClipboardPlus',
     accent: '#FFE27A',
     greeting:
-      "Kia ora. Tell me your clinicians and recall criteria — I'll track APCs, draft the recalls, and keep you audit-ready.",
+      "Tell me your clinicians and recall criteria — I'll track APCs, draft the recalls, and keep you audit-ready.",
     starters: [
       'Track our APC renewal dates.',
       'Draft a recall for overdue immunisations.',
@@ -851,7 +851,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Activity',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Tell me your headcount and sector — I'll set up an anonymous pulse, navigate ACC, and draft return-to-work plans. The agent enables; you act.",
+      "Tell me your headcount and sector — I'll set up an anonymous pulse, navigate ACC, and draft return-to-work plans. The agent enables; you act.",
     starters: [
       'Run a wellbeing pulse survey.',
       'Help me navigate an ACC claim.',
@@ -894,7 +894,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Anchor',
     accent: '#C79B1F',
     greeting:
-      "Kia ora. Give me your vessel, skipper details and the trip — I'll build the pre-departure brief and draft the Coastguard trip report. You stay the skipper.",
+      "Give me your vessel, skipper details and the trip — I'll build the pre-departure brief and draft the Coastguard trip report. You stay the skipper.",
     starters: [
       'Build a pre-departure brief for a Hauraki Gulf run.',
       'Draft a Coastguard trip report.',
@@ -935,7 +935,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Sailboat',
     accent: '#FFE27A',
     greeting:
-      "Kia ora. Tell me the vessel, the charter type and the manifest — I'll build the safety brief, the manifest and the insurance pack. Safety first, adventure second.",
+      "Tell me the vessel, the charter type and the manifest — I'll build the safety brief, the manifest and the insurance pack. Safety first, adventure second.",
     starters: [
       'Build a customer safety brief for a fishing charter.',
       "Make a manifest for tomorrow's trip.",
@@ -976,7 +976,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'School',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Tell me your provider type, NZQA category and programmes — I'll build the EER evidence and the approval submissions.",
+      "Tell me your provider type, NZQA category and programmes — I'll build the EER evidence and the approval submissions.",
     starters: [
       'Build our EER evidence pack.',
       'Draft a micro-credential application.',
@@ -1014,7 +1014,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Languages',
     accent: '#FFE27A',
     greeting:
-      "Kia ora! I'll help you practise te reo Māori every day — phrases, pronunciation, household kupu. For karakia, waiata or your pepeha, see a kaiako.",
+      "I'll help you practise te reo Māori every day — phrases, pronunciation, household kupu. For karakia, waiata or your pepeha, see a kaiako.",
     starters: [
       'Teach me a phrase a day for the kitchen.',
       'Help me with my pronunciation.',
@@ -1056,7 +1056,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Shield',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Describe your systems and data flows — I'll run the IPP audit, draft your IPP 3A notices, and prep a breach pack if you need one.",
+      "Describe your systems and data flows — I'll run the IPP audit, draft your IPP 3A notices, and prep a breach pack if you need one.",
     starters: [
       'Run a Privacy Act audit on our systems.',
       'Draft an IPP 3A notice for our app.',
@@ -1095,7 +1095,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Feather',
     accent: '#FFE27A',
     greeting:
-      "Kia ora. Send the content and where it'll be used — I'll run Mead's five tests and flag anything that needs to go to mana whenua. Quiet and careful, not preachy.",
+      "Send the content and where it'll be used — I'll run Mead's five tests and flag anything that needs to go to mana whenua. Quiet and careful, not preachy.",
     starters: [
       'Review this campaign for cultural safety.',
       'Is this use of a koru okay?',
@@ -1134,7 +1134,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'ClipboardCheck',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Tell me the areas to cover and the period — I'll plan the audit, pick the samples, and build the evidence binder for your board or auditor.",
+      "Tell me the areas to cover and the period — I'll plan the audit, pick the samples, and build the evidence binder for your board or auditor.",
     starters: [
       'Plan a quarterly internal audit.',
       'Sample our payroll controls.',
@@ -1176,7 +1176,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Gavel',
     accent: '#C79B1F',
     greeting:
-      "Kia ora. Paste the timeline and the key documents — I'll get you ready for the tribunal or mediation. For advice, I'll point you to a lawyer or community law.",
+      "Paste the timeline and the key documents — I'll get you ready for the tribunal or mediation. For advice, I'll point you to a lawyer or community law.",
     starters: [
       'Prep a Disputes Tribunal claim.',
       'Help with a Tenancy Tribunal application.',
@@ -1217,7 +1217,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'FileSearch',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Paste the contract and your playbook (or use the default NZ SaaS one) — I'll triage it and draft your redlines. For a legal opinion, see your lawyer.",
+      "Paste the contract and your playbook (or use the default NZ SaaS one) — I'll triage it and draft your redlines. For a legal opinion, see your lawyer.",
     starters: ['Triage this NDA.', 'Redline an MSA against our playbook.', 'Flag the risky clauses in this agreement.'],
   },
 
@@ -1255,7 +1255,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'ScrollText',
     accent: '#C79B1F',
     greeting:
-      "Kia ora. Tell me the company, the directors and your last AGM date — I'll build the AGM pack, draft the minutes, and keep the conflict register straight.",
+      "Tell me the company, the directors and your last AGM date — I'll build the AGM pack, draft the minutes, and keep the conflict register straight.",
     starters: [
       'Build our AGM pack.',
       'Draft board minutes from these notes.',
@@ -1295,7 +1295,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'Vault',
     accent: '#FFE27A',
     greeting:
-      "Kia ora. Send your current policy schedule and your real revenue, staff and assets — I'll flag the gaps and the exclusions, and draft the renewal.",
+      "Send your current policy schedule and your real revenue, staff and assets — I'll flag the gaps and the exclusions, and draft the renewal.",
     starters: [
       'Review our insurance schedule for gaps.',
       'Are we under-insured for business interruption?',
@@ -1335,7 +1335,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'TrendingUp',
     accent: '#FFD42A',
     greeting:
-      "Kia ora. Tell me your age, income, KiwiSaver balance and your goal — I'll lay out the options. I'm not a Financial Advice Provider, so the call stays yours.",
+      "Tell me your age, income, KiwiSaver balance and your goal — I'll lay out the options. I'm not a Financial Advice Provider, so the call stays yours.",
     starters: [
       'Which KiwiSaver fund type fits me?',
       'Project my retirement income.',
