@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { marketplaceAgentBySlug, MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
 import { FALLBACK_DISCLOSURE, pickRung, resolveModelLadder } from '@/lib/ai/router';
 import { recordModelFallback } from '@/lib/ai/fallback-log';
+import { checkDemoQuota, paywallPayload, spendDemoMessage } from '@/lib/billing/demo-mode';
+import { MARITIME_KNOWLEDGE, marineWeatherTool } from '@/lib/agents/maritime-knowledge';
 
 export const maxDuration = 30;
 
@@ -83,6 +85,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     );
   }
 
+  // Demo-mode metering — N free answers per agent, then the paywall (HTTP 402).
+  // Fail-open: any metering hiccup never blocks a genuine user.
+  const quota = checkDemoQuota(req, slug);
+  if (!quota.allowed) {
+    return Response.json(paywallPayload(agent.name, slug, quota.limit), { status: 402 });
+  }
+
   let body: { messages?: UIMessage[] };
   try {
     body = await req.json();
@@ -95,7 +104,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
   // When the primary is unavailable and we're starting on a fallback rung, the
   // agent self-discloses and we log the selection-time fallback.
-  const system = rung.isPrimary ? agent.systemPrompt : `${agent.systemPrompt}\n\n${FALLBACK_DISCLOSURE}`;
+  const baseSystem = rung.isPrimary ? agent.systemPrompt : `${agent.systemPrompt}\n\n${FALLBACK_DISCLOSURE}`;
   if (!rung.isPrimary) {
     void recordModelFallback({
       agentSlug: agent.slug,
@@ -105,11 +114,21 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     });
   }
 
+  // Maritime agents get the deep maritime knowledge block + a live (keyless
+  // Open-Meteo Marine) sea-state tool on top of the NZ knowledge stubs;
+  // everyone else just gets the stubs and their own (possibly fallback-disclosed)
+  // system prompt.
+  const isMaritime = agent.category === 'maritime';
+  const tools = isMaritime
+    ? { ...nzKnowledgeTools, marineWeather: marineWeatherTool }
+    : nzKnowledgeTools;
+  const system = isMaritime ? `${baseSystem}\n\n${MARITIME_KNOWLEDGE}` : baseSystem;
+
   const result = streamText({
     model: rung.model,
     system,
     messages: modelMessages,
-    tools: nzKnowledgeTools,
+    tools,
     // Allow a couple of tool round-trips before the final answer.
     stopWhen: stepCountIs(4),
     // Mid-stream provider error: log it as a fallback signal (best-effort). True
@@ -125,5 +144,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     },
   });
 
-  return result.toUIMessageStreamResponse();
+  // Count this answer against the agent's free allowance and refresh the meter
+  // cookie on the streaming response.
+  const setCookie = spendDemoMessage(req, slug);
+  return result.toUIMessageStreamResponse(
+    setCookie ? { headers: { 'Set-Cookie': setCookie } } : undefined,
+  );
 }
