@@ -51,7 +51,7 @@ const FUEL_TYPES = [
 ];
 
 const inputClass =
-  'h-11 w-full rounded-[10px] border border-white/45 bg-white/62 px-3 text-sm text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] outline-none transition backdrop-blur-xl focus:border-[#2B6B57] focus:ring-2 focus:ring-[#2B6B57]/18';
+  'h-11 w-full rounded-[10px] border border-white/45 bg-white/62 px-3 text-sm text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] outline-none transition backdrop-blur-xl focus:border-[#3A3832] focus:ring-2 focus:ring-[#3A3832]/18';
 
 const ROUTE_COPY: Record<RouteId, { eyebrow: string; title: string; sub: string; cta: string }> = {
   business: {
@@ -130,8 +130,8 @@ export function ElectrifyForm() {
                   className={[
                     'group flex cursor-pointer gap-3 rounded-[14px] border p-3 shadow-[0_14px_34px_rgba(35,33,31,0.07)] backdrop-blur-xl transition',
                     active
-                      ? 'border-[#2B6B57] bg-white/90'
-                      : 'border-white/48 bg-white/54 hover:-translate-y-0.5 hover:border-[#2B6B57]/34 hover:bg-white/78',
+                      ? 'border-[#3A3832] bg-white/90'
+                      : 'border-white/48 bg-white/54 hover:-translate-y-0.5 hover:border-[#3A3832]/34 hover:bg-white/78',
                   ].join(' ')}
                 >
                   <input
@@ -164,7 +164,7 @@ export function ElectrifyForm() {
 
       <button
         type="submit"
-        className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] px-6 text-sm font-medium text-[#FAF7F2] shadow-[0_18px_36px_rgba(43,107,87,0.24)] transition hover:-translate-y-0.5 hover:bg-[#245746]"
+        className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[color:var(--assembl-pounamu)] px-6 text-sm font-medium text-[#FFF7EC] shadow-[0_18px_36px_rgba(58,56,50,0.24)] transition hover:-translate-y-0.5 hover:bg-[#245746]"
       >
         {copy.cta} <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
       </button>
@@ -265,7 +265,7 @@ function HouseholdFields() {
             { value: 'diesel', label: 'Diesel car' },
             { value: 'coal', label: 'Wood / coal fire' },
           ].map((fuel) => (
-            <label key={fuel.value} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#2B6B57]/45 hover:bg-white">
+            <label key={fuel.value} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#3A3832]/45 hover:bg-white">
               <input type="checkbox" name="fuelTypes" value={fuel.value} className="rounded" />
               <span>{fuel.label}</span>
             </label>
@@ -340,7 +340,7 @@ function LandlordFields() {
             { value: 'coal', label: 'Wood / coal fire' },
             { value: 'petrol', label: 'No central heat' },
           ].map((fuel) => (
-            <label key={fuel.value} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#2B6B57]/45 hover:bg-white">
+            <label key={fuel.value} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#3A3832]/45 hover:bg-white">
               <input type="checkbox" name="fuelTypes" value={fuel.value} className="rounded" />
               <span>{fuel.label}</span>
             </label>
@@ -386,7 +386,7 @@ function NewBuildFields() {
             { value: 'diesel', label: 'Diesel boiler' },
             { value: 'coal', label: 'Wood / pellet' },
           ].map((fuel) => (
-            <label key={fuel.value} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#2B6B57]/45 hover:bg-white">
+            <label key={fuel.value} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#3A3832]/45 hover:bg-white">
               <input type="checkbox" name="fuelTypes" value={fuel.value} className="rounded" />
               <span>{fuel.label}</span>
             </label>
@@ -415,7 +415,7 @@ function FuelsField() {
     <Field label="Which fuels?" name="fuelTypes" required hint="Tick all that apply.">
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
         {FUEL_TYPES.map((fuel) => (
-          <label key={fuel.value} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#2B6B57]/45 hover:bg-white">
+          <label key={fuel.value} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[10px] border border-white/45 bg-white/58 px-3 py-2 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.58)] transition hover:border-[#3A3832]/45 hover:bg-white">
             <input type="checkbox" name="fuelTypes" value={fuel.value} className="rounded" />
             <span>{fuel.label}</span>
           </label>
@@ -473,7 +473,7 @@ function Field({
     <label className="block">
       <span className="text-sm font-medium text-[color:var(--text-primary)]">
         {label}
-        {required && <span className="ml-1 text-[#2B6B57]">*</span>}
+        {required && <span className="ml-1 text-[#3A3832]">*</span>}
       </span>
       {hint && <span className="mt-0.5 block text-xs text-[color:var(--text-secondary)]">{hint}</span>}
       <div className="mt-1.5">{children}</div>

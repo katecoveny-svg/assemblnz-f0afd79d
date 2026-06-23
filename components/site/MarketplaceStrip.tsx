@@ -29,7 +29,7 @@ export function MarketplaceStrip() {
       </div>
       <Link
         href="/workflows"
-        className="mt-8 inline-flex h-12 items-center rounded-full border border-[rgba(43,107,87,0.22)] bg-[linear-gradient(180deg,rgba(255,255,255,0.80),rgba(232,239,233,0.62))] px-6 font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_16px_42px_rgba(43,107,87,0.12)] transition hover:-translate-y-0.5 hover:border-[rgba(43,107,87,0.38)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_22px_56px_rgba(43,107,87,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        className="mt-8 inline-flex h-12 items-center rounded-full border border-[rgba(58,56,50,0.22)] bg-[linear-gradient(180deg,rgba(255,255,255,0.80),rgba(232,239,233,0.62))] px-6 font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_16px_42px_rgba(58,56,50,0.12)] transition hover:-translate-y-0.5 hover:border-[rgba(58,56,50,0.38)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_22px_56px_rgba(58,56,50,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       >
         Browse all workflows <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
       </Link>

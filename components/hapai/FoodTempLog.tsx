@@ -105,7 +105,7 @@ export function FoodTempLog({ context = "hapai" }: { context?: "hapai" | "manaak
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(172,88,56,0.14),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(212,168,83,0.14),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
+    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(172,88,56,0.14),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(199,155,31,0.14),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
       <div className="mx-auto max-w-[1120px]">
         <Link href={copy.backHref} className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#AC5838]">
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> {copy.backLabel}

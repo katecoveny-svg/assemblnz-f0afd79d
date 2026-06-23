@@ -40,7 +40,7 @@ const ADOPTION_PATH = [
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#FAF7F2] text-[color:var(--text-primary)]">
+    <main className="min-h-screen overflow-x-hidden bg-[#FFF7EC] text-[color:var(--text-primary)]">
       {/* Hero — the one founder portrait site-wide lives here. */}
       <section className="border-b border-[rgba(35,33,31,0.08)]">
         <div className="mx-auto max-w-[1500px] px-5 py-12 md:px-10 md:py-16 xl:px-16">

@@ -64,7 +64,7 @@ export function EvidencePackClosing({ pack }: ClosingProps) {
         </p>
         <div
           className="mt-5 h-px"
-          style={{ background: 'rgba(212, 168, 83, 0.45)' }}
+          style={{ background: 'rgba(199,155,31, 0.45)' }}
         />
       </header>
 
@@ -148,7 +148,7 @@ export function EvidencePackClosing({ pack }: ClosingProps) {
                 style={{
                   fontFamily: "'IBM Plex Mono', monospace",
                   fontSize: '0.78rem',
-                  color: '#2B6B57',
+                  color: '#3A3832',
                   letterSpacing: '0.08em',
                 }}
               >
@@ -167,9 +167,9 @@ export function EvidencePackClosing({ pack }: ClosingProps) {
         className="mt-10 rounded-[4px] px-6 py-5"
         style={{
           background: pack.status === 'sealed'
-            ? 'rgba(43, 107, 87, 0.05)'
+            ? 'rgba(58,56,50, 0.05)'
             : 'rgba(163, 59, 44, 0.05)',
-          border: `1px solid ${pack.status === 'sealed' ? 'rgba(43,107,87,0.35)' : 'rgba(163,59,44,0.30)'}`,
+          border: `1px solid ${pack.status === 'sealed' ? 'rgba(58,56,50,0.35)' : 'rgba(163,59,44,0.30)'}`,
         }}
       >
         <p
@@ -178,7 +178,7 @@ export function EvidencePackClosing({ pack }: ClosingProps) {
             fontSize: '0.65rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
-            color: pack.status === 'sealed' ? '#2B6B57' : '#A33B2C',
+            color: pack.status === 'sealed' ? '#3A3832' : '#A33B2C',
           }}
         >
           Mōkihi · Hash chain proof

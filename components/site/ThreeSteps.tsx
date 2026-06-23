@@ -50,7 +50,7 @@ export function ThreeSteps() {
       </div>
       <Link
         href="/workflows"
-        className="mt-8 inline-flex h-12 items-center rounded-full bg-[color:var(--assembl-pounamu)] px-6 font-medium text-[#FAF7F2]"
+        className="mt-8 inline-flex h-12 items-center rounded-full bg-[color:var(--assembl-pounamu)] px-6 font-medium text-[#FFF7EC]"
       >
         Browse the marketplace <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
       </Link>

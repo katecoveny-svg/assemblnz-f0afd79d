@@ -303,8 +303,9 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 
 // ── Site-wide nav (multi-page only — anchors are BANNED per canon §2.1) ──────
 
-// Locked canon nav (2026-06-23) — the marketplace front door. The
-// pre-marketplace items are retired here per CANON-LOCKED-2026-06-23.md §Nav.
+// CANON-LOCKED-2026-06-23: nav is Agents · Pricing · Trust · About + a
+// "Browse agents" CTA. No "Kete packs" / "Outputs" / "HAPAI tools" — those are
+// pre-marketplace surfaces.
 export const nav = [
   { href: '/agents',  label: 'Agents' },
   { href: '/pricing', label: 'Pricing' },

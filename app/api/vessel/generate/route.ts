@@ -45,7 +45,7 @@ async function applyWatermark(
       font-family="'Helvetica Neue', Arial, sans-serif"
       font-size="${fontSize}"
       font-weight="500"
-      fill="#2B6B57"
+      fill="#3A3832"
       fill-opacity="0.88"
       letter-spacing="0.04em">${text}</text>
   </svg>`;
@@ -131,7 +131,7 @@ function cleanString(value: unknown): string {
 }
 
 function safeBrandColor(value: string): string {
-  return /^#[0-9a-f]{6}$/i.test(value) ? value : '#2B6B57';
+  return /^#[0-9a-f]{6}$/i.test(value) ? value : '#3A3832';
 }
 
 /**
@@ -151,7 +151,7 @@ function buildPrompt(args: {
     `ceramic still-life vessel in ${args.brandColor},`,
     'cast from inside vessel mouth,',
     'A4 paper backdrop in soft warm cream',
-    `(#FAF7F2), ${args.brandName} subtly visible on vessel surface,`,
+    `(#FFF7EC), ${args.brandName} subtly visible on vessel surface,`,
     args.userPrompt + ',',
     'soft natural light, editorial fine-art photography',
   ]

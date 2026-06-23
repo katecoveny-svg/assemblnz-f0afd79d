@@ -58,7 +58,7 @@ export default function PilotSprintPage() {
         </div>
       </section>
 
-      <section className="border-t border-[rgba(212,168,83,0.36)] py-20 lg:py-28">
+      <section className="border-t border-[rgba(199,155,31,0.36)] py-20 lg:py-28">
         <div className="container">
           <SectionReveal>
             <p className="font-display text-display-md font-light">$5,000 + GST · ten working days.</p>

@@ -50,11 +50,11 @@ function formatNzst(iso: string | undefined): string {
 }
 
 const C = {
-  paper: '#FAF7F2',
+  paper: '#FFF7EC',
   ink: '#23211F',
   inkSecondary: '#5C5852',
   inkTertiary: '#8E8A82',
-  pounamu: '#2B6B57',
+  pounamu: '#3A3832',
   softGold: '#D9BC7A',
 };
 

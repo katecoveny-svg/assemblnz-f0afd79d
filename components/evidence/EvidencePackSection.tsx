@@ -68,7 +68,7 @@ export function EvidencePackSection({ section, index }: SectionProps) {
 
         <div
           className="mt-5 h-px"
-          style={{ background: 'rgba(212, 168, 83, 0.45)' }}
+          style={{ background: 'rgba(199,155,31, 0.45)' }}
         />
       </header>
 
@@ -134,7 +134,7 @@ function BlockRenderer({ block }: { block: Block }) {
               <span
                 aria-hidden
                 className="absolute left-0 top-3 h-1 w-1 rounded-full"
-                style={{ background: '#2B6B57' }}
+                style={{ background: '#3A3832' }}
               />
               {item}
             </li>
@@ -151,7 +151,7 @@ function BlockRenderer({ block }: { block: Block }) {
       return (
         <blockquote
           className="my-4 border-l-2 pl-6"
-          style={{ borderColor: '#2B6B57' }}
+          style={{ borderColor: '#3A3832' }}
         >
           <p
             style={{
@@ -185,7 +185,7 @@ function BlockRenderer({ block }: { block: Block }) {
 
     case 'callout': {
       const palette = {
-        pounamu: { bg: 'rgba(43, 107, 87, 0.06)', border: '#2B6B57', ink: '#23211F' },
+        pounamu: { bg: 'rgba(58,56,50, 0.06)', border: '#3A3832', ink: '#23211F' },
         draft: { bg: 'rgba(163, 59, 44, 0.06)', border: '#A33B2C', ink: '#23211F' },
         sealed: { bg: 'rgba(217, 188, 122, 0.10)', border: '#D9BC7A', ink: '#23211F' },
       }[block.tone];
@@ -316,7 +316,7 @@ function CitationMarks({ cites }: { cites: number[] }) {
       style={{
         fontFamily: "'IBM Plex Mono', monospace",
         fontSize: '0.65em',
-        color: '#2B6B57',
+        color: '#3A3832',
         fontWeight: 500,
       }}
     >

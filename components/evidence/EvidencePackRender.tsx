@@ -82,7 +82,7 @@ function PackPage({
       className="pack-page mx-auto w-full max-w-[640px] overflow-hidden"
       style={{
         aspectRatio: '210 / 297',
-        background: '#FAF7F2',
+        background: '#FFF7EC',
         boxShadow:
           mode === 'print'
             ? 'none'

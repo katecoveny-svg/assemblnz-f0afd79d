@@ -111,7 +111,7 @@ export default function CompliancePosturePage() {
 
           {/* 2 — Secondary, smaller: SOC 2 honestly */}
           <SectionReveal delay={0.15}>
-            <div className="mt-16 border-l-2 border-[color:var(--assembl-pounamu)] bg-[rgba(43,107,87,0.05)] p-6 md:p-8">
+            <div className="mt-16 border-l-2 border-[color:var(--assembl-pounamu)] bg-[rgba(58,56,50,0.05)] p-6 md:p-8">
               <p className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
                 02 · SOC 2 — on the roadmap
               </p>
@@ -153,7 +153,7 @@ export default function CompliancePosturePage() {
                 what is in place today.
               </p>
 
-              <div className="mt-8 flex flex-col gap-4 border border-[color:var(--assembl-pounamu)] bg-[rgba(43,107,87,0.06)] p-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="mt-8 flex flex-col gap-4 border border-[color:var(--assembl-pounamu)] bg-[rgba(58,56,50,0.06)] p-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h3 className="font-display text-xl font-light text-[color:var(--text-primary)]">
                     Request the security pack
@@ -168,7 +168,7 @@ export default function CompliancePosturePage() {
                   )}&body=${encodeURIComponent(
                     "Kia ora assembl team,\n\nWe are evaluating assembl and would like your security pack under NDA.\n\nCompany:\nName:\nRole:\nWhat we need it for:\n\nNgā mihi,",
                   )}`}
-                  className="inline-flex flex-none items-center justify-center rounded-sm bg-[color:var(--assembl-pounamu)] px-6 py-3 text-sm font-medium text-[#FAF7F2] transition-colors hover:bg-[color:var(--assembl-pounamu-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                  className="inline-flex flex-none items-center justify-center rounded-sm bg-[color:var(--assembl-pounamu)] px-6 py-3 text-sm font-medium text-[#FFF7EC] transition-colors hover:bg-[color:var(--assembl-pounamu-deep)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   Email {soc2Status.securityContact}
                 </a>

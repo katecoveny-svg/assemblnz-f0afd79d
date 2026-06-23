@@ -116,14 +116,14 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
       <section className="relative border-b border-[rgba(35,33,31,0.08)] px-5 py-16 md:px-10 md:py-24">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(43,107,87,0.12),transparent_30%),radial-gradient(circle_at_76%_18%,rgba(217,168,90,0.18),transparent_34%),linear-gradient(180deg,rgba(250,247,242,0.96),rgba(247,241,233,0.76))]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(58,56,50,0.12),transparent_30%),radial-gradient(circle_at_76%_18%,rgba(217,168,90,0.18),transparent_34%),linear-gradient(180deg,rgba(250,247,242,0.96),rgba(247,241,233,0.76))]"
         />
         <div className="relative mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
           <header>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
               HAPAI travel tool · Voyage
             </p>
-            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.4rem,7vw,7.4rem)] font-light leading-[0.88] tracking-tight text-[#103F35]">
+            <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.4rem,7vw,7.4rem)] font-light leading-[0.88] tracking-tight text-[#23211F]">
               {isTemplate ? 'Plan the trip before you land.' : payload.title}
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#2F3440] md:text-xl">
@@ -137,7 +137,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
                   sample template · no real traveller data
                 </span>
               ) : null}
-              <span className="rounded-full border border-[rgba(43,107,87,0.18)] bg-white/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#2B6B57] shadow-sm backdrop-blur">
+              <span className="rounded-full border border-[rgba(58,56,50,0.18)] bg-white/60 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#3A3832] shadow-sm backdrop-blur">
                 draft travel assistant
               </span>
             </div>
@@ -173,7 +173,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
               <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
                 Budget rollup
               </p>
-              <h2 className="mt-3 font-display text-4xl font-light leading-none text-[#103F35]">
+              <h2 className="mt-3 font-display text-4xl font-light leading-none text-[#23211F]">
                 Costs in one view.
               </h2>
             </div>
@@ -206,9 +206,9 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
               const hotelIsTodo = stop.hotel.name.startsWith('TODO');
               return (
                 <li key={stop.id}>
-                  <article className="group flex h-full flex-col rounded-[22px] border border-white/62 bg-white/50 p-5 shadow-[0_18px_60px_rgba(35,33,31,0.06)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-white/70 hover:shadow-[0_26px_90px_rgba(43,107,87,0.11)]">
+                  <article className="group flex h-full flex-col rounded-[22px] border border-white/62 bg-white/50 p-5 shadow-[0_18px_60px_rgba(35,33,31,0.06)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-white/70 hover:shadow-[0_26px_90px_rgba(58,56,50,0.11)]">
                     <header className="flex flex-wrap items-baseline justify-between gap-2">
-                      <h3 className="font-display text-3xl font-light leading-none text-[#103F35]">
+                      <h3 className="font-display text-3xl font-light leading-none text-[#23211F]">
                         {idx + 1}. {stop.label}
                       </h3>
                       <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">
@@ -239,7 +239,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
                         {stop.highlights.map((h) => (
                           <li
                             key={h}
-                            className="rounded-full border border-[rgba(43,107,87,0.12)] bg-[#E8EFE9]/70 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#103F35]"
+                            className="rounded-full border border-[rgba(58,56,50,0.12)] bg-[#FBF3DF]/70 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[#23211F]"
                           >
                             {h}
                           </li>
@@ -298,7 +298,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
         {isTemplate ? (
           <section
             aria-label="Template CTA"
-            className="rounded-[28px] border border-[rgba(43,107,87,0.16)] bg-[linear-gradient(135deg,rgba(255,255,255,0.74),rgba(232,239,233,0.58))] p-8 text-center shadow-[0_22px_80px_rgba(35,33,31,0.08)] backdrop-blur-xl"
+            className="rounded-[28px] border border-[rgba(58,56,50,0.16)] bg-[linear-gradient(135deg,rgba(255,255,255,0.74),rgba(232,239,233,0.58))] p-8 text-center shadow-[0_22px_80px_rgba(35,33,31,0.08)] backdrop-blur-xl"
           >
             <Sparkles className="mx-auto h-5 w-5 text-[color:var(--assembl-pounamu)]" aria-hidden />
             <h2 className="mt-4 font-display text-4xl font-light leading-none text-[color:var(--text-primary)]">
@@ -311,7 +311,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
             </p>
             <Link
               href="/app/chat?kete=toro&amp;agent=VOYAGE"
-              className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(232,239,233,0.64))] px-5 font-mono text-[11px] uppercase tracking-[0.16em] text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_16px_42px_rgba(43,107,87,0.13)] backdrop-blur-xl transition hover:-translate-y-0.5"
+              className="mt-6 inline-flex h-11 items-center justify-center rounded-full border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(232,239,233,0.64))] px-5 font-mono text-[11px] uppercase tracking-[0.16em] text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_16px_42px_rgba(58,56,50,0.13)] backdrop-blur-xl transition hover:-translate-y-0.5"
             >
               Open voyage in chat
             </Link>
@@ -364,7 +364,7 @@ function BudgetItem({
       <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {label}
       </dt>
-      <dd className={strong ? 'mt-3 font-mono text-2xl font-medium text-[#103F35]' : 'mt-3 font-mono text-xl text-[color:var(--text-primary)]'}>
+      <dd className={strong ? 'mt-3 font-mono text-2xl font-medium text-[#23211F]' : 'mt-3 font-mono text-xl text-[color:var(--text-primary)]'}>
         {value}
       </dd>
     </div>

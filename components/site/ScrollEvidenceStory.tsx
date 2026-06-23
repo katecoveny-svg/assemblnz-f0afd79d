@@ -75,7 +75,7 @@ export function ScrollEvidenceStory() {
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background:
-            'radial-gradient(ellipse 80% 60% at 20% 10%, rgba(212,168,83,0.04), transparent 60%), radial-gradient(ellipse 80% 60% at 90% 80%, rgba(43,107,87,0.04), transparent 60%)',
+            'radial-gradient(ellipse 80% 60% at 20% 10%, rgba(199,155,31,0.04), transparent 60%), radial-gradient(ellipse 80% 60% at 90% 80%, rgba(58,56,50,0.04), transparent 60%)',
         }}
       />
 
@@ -97,7 +97,7 @@ export function ScrollEvidenceStory() {
                   : 'rgba(35,33,31,0.18)',
               boxShadow:
                 activeIndex === i
-                  ? '0 0 10px rgba(212,168,83,0.5)'
+                  ? '0 0 10px rgba(199,155,31,0.5)'
                   : 'none',
               transform: activeIndex === i ? 'scale(1.4)' : 'scale(1)',
             }}
@@ -248,7 +248,7 @@ function Scene1() {
               top: note.top,
               left: note.left,
               backgroundColor: 'var(--assembl-paper)',
-              border: '0.5px solid rgba(212,168,83,0.32)',
+              border: '0.5px solid rgba(199,155,31,0.32)',
               boxShadow:
                 '0 12px 24px -12px rgba(35,33,31,0.18), 0 2px 4px rgba(35,33,31,0.04)',
               transform: `rotate(${note.rot}deg)`,
@@ -459,7 +459,7 @@ function Scene2() {
                 className="flex items-center gap-2 whitespace-nowrap rounded-[2px] px-3 py-2 font-mono text-[9px] uppercase tracking-[0.14em]"
                 style={{
                   backgroundColor: 'var(--assembl-paper)',
-                  border: '0.5px solid rgba(212,168,83,0.32)',
+                  border: '0.5px solid rgba(199,155,31,0.32)',
                   boxShadow: '0 8px 16px -10px rgba(35,33,31,0.16)',
                   color: 'var(--text-secondary)',
                   transform: `rotate(${ni % 2 === 0 ? -1 : 1}deg)`,
@@ -799,7 +799,7 @@ function Scene5() {
                     left: `${left}%`,
                     background:
                       'radial-gradient(circle, rgba(232,199,122,1), var(--assembl-gold-thread) 70%, transparent)',
-                    boxShadow: '0 0 8px 1px rgba(212,168,83,0.5)',
+                    boxShadow: '0 0 8px 1px rgba(199,155,31,0.5)',
                   }}
                 />
               ))}
@@ -809,7 +809,7 @@ function Scene5() {
                   left: '75%',
                   background:
                     'radial-gradient(circle, rgba(232,199,122,1), var(--assembl-gold-thread) 70%, transparent)',
-                  boxShadow: '0 0 14px 2px rgba(212,168,83,0.6)',
+                  boxShadow: '0 0 14px 2px rgba(199,155,31,0.6)',
                 }}
                 aria-label="now"
               />
@@ -899,7 +899,7 @@ function WaihangaVessel({
   return (
     <motion.div
       className="absolute overflow-hidden rounded-sm bg-[color:var(--assembl-paper)]"
-      style={{ inset, border: '1px solid rgba(43,107,87,0.18)' }}
+      style={{ inset, border: '1px solid rgba(58,56,50,0.18)' }}
       animate={breathe && !reduce ? { scale: [1, 1.012, 1] } : undefined}
       transition={
         breathe && !reduce
@@ -991,10 +991,10 @@ function PulseDot({
       ? 'radial-gradient(circle, rgba(232,199,122,1), var(--assembl-gold-thread) 50%, transparent)'
       : 'radial-gradient(circle, rgba(232,199,122,1), var(--assembl-gold-thread) 70%, transparent)';
   const shadow = pounamu
-    ? '0 0 8px rgba(43,107,87,0.5)'
+    ? '0 0 8px rgba(58,56,50,0.5)'
     : bright
-      ? '0 0 14px 3px rgba(212,168,83,0.45), 0 0 4px rgba(232,199,122,0.8)'
-      : '0 0 8px 1px rgba(212,168,83,0.55)';
+      ? '0 0 14px 3px rgba(199,155,31,0.45), 0 0 4px rgba(232,199,122,0.8)'
+      : '0 0 8px 1px rgba(199,155,31,0.55)';
   return (
     <span
       aria-hidden

@@ -83,21 +83,21 @@ export default function PrivacyActPage() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, "#FAF7F2");
+    gradient.addColorStop(0, "#FFF7EC");
     gradient.addColorStop(1, "#EFEAE1");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
-    ctx.strokeStyle = "#D4A853";
+    ctx.strokeStyle = "#C79B1F";
     ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.moveTo(width * 0.11, height * 0.18);
     ctx.lineTo(width * 0.11, height * 0.82);
     ctx.stroke();
-    ctx.fillStyle = "#2B6B57";
+    ctx.fillStyle = "#3A3832";
     ctx.font = `${Math.round(width * 0.035)}px monospace`;
     ctx.letterSpacing = "8px";
     ctx.fillText("HAPAI · PRIVACY ACT 2020", width * 0.16, height * 0.2);
-    ctx.fillStyle = "#103F35";
+    ctx.fillStyle = "#23211F";
     ctx.font = `${Math.round(width * 0.075)}px Georgia, serif`;
     wrap(ctx, "Know which rules apply. Hand it to your team.", width * 0.16, height * 0.34, width * 0.68, Math.round(width * 0.083));
     ctx.fillStyle = "#5A5550";
@@ -147,7 +147,7 @@ export default function PrivacyActPage() {
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
       <div className="mx-auto max-w-[920px]">
-        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]">
+        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]">
           <ArrowLeft className="h-3.5 w-3.5" /> HAPAI library
         </Link>
         <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#6B6661]">HAPAI · Privacy Act 2020 one-pager</p>
@@ -155,7 +155,7 @@ export default function PrivacyActPage() {
         <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-[#5A5550]">Generate a one-page Privacy Act 2020 summary for your organisation. Maps your data flows to the 13 Information Privacy Principles. Includes the new IPP 3A.</p>
 
         <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-7">
-          <h2 className="border-b border-[#2B6B57]/20 pb-2 font-display text-2xl font-normal text-[#2B6B57]">About your organisation</h2>
+          <h2 className="border-b border-[#3A3832]/20 pb-2 font-display text-2xl font-normal text-[#3A3832]">About your organisation</h2>
           <div className="mt-6 grid gap-5">
             <Field label="Organisation name"><input value={organisationName} onChange={(event) => setOrganisationName(event.target.value)} className="field-input" placeholder="e.g. Hāpai Workshops Ltd" /></Field>
             <Field label="Sector"><select value={sector} onChange={(event) => setSector(event.target.value)} className="field-input"><option value="">Choose one...</option>{SECTORS.map((item) => <option key={item}>{item}</option>)}</select></Field>
@@ -178,10 +178,10 @@ export default function PrivacyActPage() {
               <Field label="Retention period"><input value={retention} onChange={(event) => setRetention(event.target.value)} className="field-input" placeholder="e.g. 7 years, duration of project" /></Field>
             </div>
           </div>
-          <button type="button" onClick={generate} disabled={loading} className="mt-6 rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]">{loading ? "Generating..." : "Generate one-pager"}</button>
+          <button type="button" onClick={generate} disabled={loading} className="mt-6 rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white hover:bg-[#3A3832] disabled:bg-[#C8C2BC]">{loading ? "Generating..." : "Generate one-pager"}</button>
           <div className="mt-3">{gate.counter}</div>
           {gate.modal}
-          {loading && <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">Mapping your data flows to the Privacy Act 2020.</p>}
+          {loading && <p className="mt-4 rounded-[10px] border border-[#C79B1F]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">Mapping your data flows to the Privacy Act 2020.</p>}
           {error && <p className="mt-4 rounded-[10px] border border-[#B42828]/25 bg-[#FCEDED] px-4 py-3 text-sm text-[#7A1F1F]">{error}</p>}
         </section>
 
@@ -189,17 +189,17 @@ export default function PrivacyActPage() {
           <>
             <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-8 print:p-0">
               <div className="privacy-output" dangerouslySetInnerHTML={{ __html: html }} />
-              <div className="mt-6 border-l-4 border-[#D4A853] bg-[#F7F4EE] p-4 text-xs leading-relaxed text-[#5A5550]">
+              <div className="mt-6 border-l-4 border-[#C79B1F] bg-[#F7F4EE] p-4 text-xs leading-relaxed text-[#5A5550]">
                 This is general information, not legal advice. Use it as a practical starting point and get specialist advice for high-risk data flows or incidents.
               </div>
               <div className="mt-6 flex flex-wrap gap-3 print:hidden">
-                <button type="button" onClick={() => window.print()} className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#2B6B57]"><Printer className="h-4 w-4" /> Print / save PDF</button>
+                <button type="button" onClick={() => window.print()} className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#3A3832]"><Printer className="h-4 w-4" /> Print / save PDF</button>
                 <button type="button" onClick={copyMarkdown} className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550] hover:text-[#23211F]"><Copy className="h-4 w-4" /> Copy markdown</button>
               </div>
             </section>
 
-            <section className="mt-8 rounded-[14px] border border-[#2B6B57]/20 bg-[#F7F4EE] p-7">
-              <h2 className="font-display text-2xl font-normal text-[#2B6B57]">Share this tool</h2>
+            <section className="mt-8 rounded-[14px] border border-[#3A3832]/20 bg-[#F7F4EE] p-7">
+              <h2 className="font-display text-2xl font-normal text-[#3A3832]">Share this tool</h2>
               <div className="mt-5 grid gap-4 md:grid-cols-2">
                 <ShareTile title="Instagram · 1080×1080" canvasRef={squareCanvas} onDownload={() => downloadCanvas(squareCanvas.current, "privacy-act-instagram.png")} />
                 <ShareTile title="LinkedIn · 1200×627" canvasRef={linkedInCanvas} onDownload={() => downloadCanvas(linkedInCanvas.current, "privacy-act-linkedin.png")} />
@@ -214,13 +214,13 @@ export default function PrivacyActPage() {
       </div>
       <style jsx global>{`
         .field-input { width: 100%; border-radius: 8px; border: 1px solid rgba(35,33,31,0.12); background: #F7F4EE; padding: 10px 14px; outline: none; }
-        .field-input:focus { border-color: #2B6B57; background: white; }
+        .field-input:focus { border-color: #3A3832; background: white; }
         .privacy-output h1 { font-family: var(--font-display), Georgia, serif; font-size: 28px; font-weight: 400; color: #23211F; }
-        .privacy-output h2 { margin-top: 24px; border-bottom: 1px solid rgba(43,107,87,0.18); padding-bottom: 6px; font-family: var(--font-display), Georgia, serif; font-size: 24px; font-weight: 400; color: #2B6B57; }
+        .privacy-output h2 { margin-top: 24px; border-bottom: 1px solid rgba(58,56,50,0.18); padding-bottom: 6px; font-family: var(--font-display), Georgia, serif; font-size: 24px; font-weight: 400; color: #3A3832; }
         .privacy-output h3 { margin-top: 18px; font-weight: 600; color: #23211F; }
         .privacy-output p, .privacy-output li { margin-top: 8px; font-size: 14.5px; line-height: 1.65; color: #2A2825; }
         .privacy-output ul { margin-left: 22px; }
-        .privacy-output .ipp-pill { display: inline-block; border-radius: 999px; background: rgba(43,107,87,0.10); padding: 2px 8px; font-family: var(--font-mono), monospace; font-size: 11px; color: #2B6B57; }
+        .privacy-output .ipp-pill { display: inline-block; border-radius: 999px; background: rgba(58,56,50,0.10); padding: 2px 8px; font-family: var(--font-mono), monospace; font-size: 11px; color: #3A3832; }
       `}</style>
     </main>
   );
@@ -245,7 +245,7 @@ function CaptionBox({ title, text }: { title: string; text: string }) {
     <div className="rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-white p-4">
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">{title}</p>
       <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-[#2A2825]">{text}</p>
-      <button type="button" onClick={() => navigator.clipboard.writeText(text)} className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#23211F] px-4 py-2 text-sm text-white hover:bg-[#2B6B57]"><Copy className="h-4 w-4" /> Copy caption</button>
+      <button type="button" onClick={() => navigator.clipboard.writeText(text)} className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#23211F] px-4 py-2 text-sm text-white hover:bg-[#3A3832]"><Copy className="h-4 w-4" /> Copy caption</button>
     </div>
   );
 }

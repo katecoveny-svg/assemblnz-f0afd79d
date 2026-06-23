@@ -32,7 +32,7 @@ export default async function LoginPage({
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.08) 0%, transparent 60%)',
+            'radial-gradient(ellipse at 50% 0%, rgba(58,56,50, 0.08) 0%, transparent 60%)',
         }}
       />
       <div className="w-full max-w-md">

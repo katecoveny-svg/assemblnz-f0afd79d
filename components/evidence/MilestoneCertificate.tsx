@@ -58,7 +58,7 @@ export function MilestoneCertificate({ certificate }: CertificateProps) {
       style={{
         width: 'min(640px, 100vw - 32px)',
         aspectRatio: '210 / 297',
-        background: '#FAF7F2',
+        background: '#FFF7EC',
         padding: '64px 56px',
         boxShadow: '0 28px 80px rgba(35,33,31,.10), 0 2px 12px rgba(35,33,31,.06)',
         overflow: 'hidden',
@@ -192,14 +192,14 @@ export function MilestoneCertificate({ certificate }: CertificateProps) {
           <svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true">
             <g fill="#D9BC7A">
               <path d="M24 2 L26.5 21.5 L46 24 L26.5 26.5 L24 46 L21.5 26.5 L2 24 L21.5 21.5 Z" />
-              <circle cx="24" cy="24" r="1.6" fill="#FAF7F2" />
+              <circle cx="24" cy="24" r="1.6" fill="#FFF7EC" />
             </g>
             <circle
               cx="24"
               cy="24"
               r="22"
               fill="none"
-              stroke="#2B6B57"
+              stroke="#3A3832"
               strokeWidth="0.6"
             />
           </svg>

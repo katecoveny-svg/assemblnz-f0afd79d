@@ -28,9 +28,9 @@ export interface ManaReceiptCardSummary {
 
 /** Status pill colour, on-brand. completed → pounamu, failures → clay. */
 const STATUS_STYLE: Record<CallStatus, { bg: string; fg: string }> = {
-  ringing: { bg: 'rgba(212,168,83,0.12)', fg: 'var(--assembl-gold-thread)' },
-  in_progress: { bg: 'rgba(212,168,83,0.12)', fg: 'var(--assembl-gold-thread)' },
-  completed: { bg: 'rgba(43,107,87,0.10)', fg: 'var(--assembl-pounamu)' },
+  ringing: { bg: 'rgba(199,155,31,0.12)', fg: 'var(--assembl-gold-thread)' },
+  in_progress: { bg: 'rgba(199,155,31,0.12)', fg: 'var(--assembl-gold-thread)' },
+  completed: { bg: 'rgba(58,56,50,0.10)', fg: 'var(--assembl-pounamu)' },
   transferred: { bg: 'rgba(59,124,181,0.12)', fg: '#3B7CB5' },
   voicemail: { bg: 'rgba(91,80,73,0.10)', fg: 'var(--text-secondary)' },
   failed: { bg: 'rgba(172,88,56,0.10)', fg: 'var(--assembl-clay)' },
@@ -82,7 +82,7 @@ function Badge({
   children: React.ReactNode;
 }) {
   const styles = {
-    pounamu: { bg: 'rgba(43,107,87,0.10)', fg: 'var(--assembl-pounamu)' },
+    pounamu: { bg: 'rgba(58,56,50,0.10)', fg: 'var(--assembl-pounamu)' },
     clay: { bg: 'rgba(172,88,56,0.10)', fg: 'var(--assembl-clay)' },
     muted: { bg: 'rgba(91,80,73,0.08)', fg: 'var(--text-secondary)' },
   }[tone];
@@ -102,7 +102,7 @@ export function ManaReceiptCard({ receipt }: { receipt: ManaReceiptCardSummary }
   return (
     <Link
       href={`/internal/kahu/receipts/${receipt.id}`}
-      className="block rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5 transition-all hover:border-[rgba(43,107,87,0.35)] hover:shadow-card"
+      className="block rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-[color:var(--assembl-paper)] p-5 transition-all hover:border-[rgba(58,56,50,0.35)] hover:shadow-card"
     >
       <div className="flex items-start justify-between gap-4">
         <div>

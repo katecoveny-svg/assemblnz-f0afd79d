@@ -71,16 +71,34 @@ const nextConfig: NextConfig = {
       { source: "/beat", destination: "/dash", permanent: true },
       { source: "/beat/:path*", destination: "/dash/:path*", permanent: true },
 
-      // Existing: kete name correction (Tōroa → Tōro). Keep this in Next.js;
-      // public SPA paths are handled by middleware rewrites before auth.
-      // Tōro now has its own whānau page; the business kete detail redirects to it.
-      { source: "/kete/toro", destination: "/toro", permanent: true },
+      // ── Stale pre-pivot surfaces → the /agents marketplace (hidden 2026-06-23)
+      // The marketplace replaces the old kete packs and the one-off vertical /
+      // operator landing pages. Source files are KEPT (copy may be reused) but
+      // unlinked from nav/footer + noindexed, and 301'd here so saved links and
+      // any indexed pages land on the marketplace instead of 404ing.
+      //
+      // NOTE: the functional /toro deep links (route, school-survival) keep their
+      // own destinations and are declared ABOVE the /toro catch-all so they win.
       { source: "/toro/route", destination: "/app/voyage/italy", permanent: false },
       { source: "/toro/route/:path*", destination: "/app/voyage/italy", permanent: false },
       { source: "/toro/school-survival", destination: "/hapai/9am-brief", permanent: false },
       { source: "/toro/school-survival/:path*", destination: "/hapai/9am-brief", permanent: false },
-      { source: "/toroa", destination: "/kete/toro", permanent: true },
-      { source: "/kete/toroa", destination: "/kete/toro", permanent: true },
+      { source: "/toro", destination: "/agents", permanent: true },
+      { source: "/toroa", destination: "/agents", permanent: true },
+      { source: "/kete", destination: "/agents", permanent: true },
+      { source: "/kete/:path*", destination: "/agents", permanent: true },
+      { source: "/industry-pack", destination: "/agents", permanent: true },
+      { source: "/industry-pack/:path*", destination: "/agents", permanent: true },
+      { source: "/insurance", destination: "/agents", permanent: true },
+      { source: "/insurance/:path*", destination: "/agents", permanent: true },
+      { source: "/platform", destination: "/agents", permanent: true },
+      { source: "/platform/:path*", destination: "/agents", permanent: true },
+      { source: "/outputs", destination: "/agents", permanent: true },
+      { source: "/outputs/:path*", destination: "/agents", permanent: true },
+      { source: "/tools/vessel", destination: "/agents", permanent: true },
+      { source: "/tools/vessel/:path*", destination: "/agents", permanent: true },
+      { source: "/operator/arataki", destination: "/agents", permanent: true },
+      { source: "/operator/arataki/:path*", destination: "/agents", permanent: true },
       { source: "/privacy", destination: "/legal/privacy", permanent: true },
       { source: "/free-tools", destination: "/hapai", permanent: false },
       { source: "/free-tools/:path*", destination: "/hapai", permanent: false },

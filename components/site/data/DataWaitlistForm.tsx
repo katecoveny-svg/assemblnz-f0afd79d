@@ -102,7 +102,7 @@ export function DataWaitlistForm() {
       <div
         role="tablist"
         aria-label="Choose how to get started"
-        className="inline-flex rounded-full border border-[rgba(35,33,31,0.14)] bg-[#FAF7F2] p-1"
+        className="inline-flex rounded-full border border-[rgba(35,33,31,0.14)] bg-[#FFF7EC] p-1"
       >
         {(['api-key', 'talk-to-kate'] as const).map((value) => {
           const active = intent === value;
@@ -133,7 +133,7 @@ export function DataWaitlistForm() {
       </p>
 
       {status === 'done' ? (
-        <div className="mt-6 flex items-start gap-3 rounded-[8px] border border-[rgba(43,107,87,0.3)] bg-[color:var(--assembl-pounamu-paper)] p-5">
+        <div className="mt-6 flex items-start gap-3 rounded-[8px] border border-[rgba(58,56,50,0.3)] bg-[color:var(--assembl-pounamu-paper)] p-5">
           <Check className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--assembl-pounamu)]" aria-hidden />
           <div>
             <p className="text-sm font-medium text-[color:var(--text-primary)]">
@@ -162,7 +162,7 @@ export function DataWaitlistForm() {
               name="useCase"
               rows={2}
               placeholder={copy.useCasePlaceholder}
-              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FAF7F2] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+              className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
             />
           </div>
 
@@ -219,7 +219,7 @@ function Field({
         required={required}
         placeholder={placeholder}
         autoComplete={autoComplete}
-        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FAF7F2] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
+        className="mt-2 w-full rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#FFF7EC] px-4 py-3 text-sm text-[color:var(--text-primary)] placeholder:text-[color:var(--text-secondary)]/70 focus:border-[color:var(--assembl-pounamu)] focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/30"
       />
     </div>
   );

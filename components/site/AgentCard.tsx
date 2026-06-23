@@ -38,7 +38,7 @@ export function AgentCard({
       animate={{ opacity: 1, y: 0 }}
       whileHover={hoverLift}
       transition={{ ...CANON_TRANSITION, delay: Math.min(index * 0.035, 0.28) }}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_18px_44px_rgba(43,107,87,0.12)] focus-within:-translate-y-1 focus-within:shadow-[0_18px_44px_rgba(43,107,87,0.12)] ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_18px_44px_rgba(58,56,50,0.12)] focus-within:-translate-y-1 focus-within:shadow-[0_18px_44px_rgba(58,56,50,0.12)] ${
         selected
           ? 'border-[color:var(--assembl-sage-mist)] ring-2 ring-[color:var(--assembl-sage-mist)]'
           : 'border-[rgba(35,33,31,0.10)]'
@@ -72,7 +72,7 @@ export function AgentCard({
             {agent.name}
           </h3>
         </Link>
-        <span className="rounded-full border border-[rgba(43,107,87,0.28)] bg-[rgba(43,107,87,0.08)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+        <span className="rounded-full border border-[rgba(58,56,50,0.28)] bg-[rgba(58,56,50,0.08)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
           {agent.status ?? 'live'}
         </span>
       </div>

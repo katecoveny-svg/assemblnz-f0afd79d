@@ -23,8 +23,8 @@ export function ScorecardQuestion({
             className={[
               'cursor-pointer rounded-[8px] border px-4 py-3 text-sm transition',
               value === option.points
-                ? 'border-[#2B6B57] bg-[#2B6B57] text-[#FAF7F2]'
-                : 'border-[#C8BBA9]/70 bg-white/58 text-[#3D4250] hover:border-[#2B6B57]/50',
+                ? 'border-[#3A3832] bg-[#3A3832] text-[#FFF7EC]'
+                : 'border-[#C8BBA9]/70 bg-white/58 text-[#3D4250] hover:border-[#3A3832]/50',
             ].join(' ')}
           >
             <input

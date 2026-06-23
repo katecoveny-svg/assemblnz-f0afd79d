@@ -52,7 +52,7 @@ export function EvidencePackCitations({ citations }: CitationsProps) {
         </p>
         <div
           className="mt-5 h-px"
-          style={{ background: 'rgba(212, 168, 83, 0.45)' }}
+          style={{ background: 'rgba(199,155,31, 0.45)' }}
         />
       </header>
 
@@ -63,7 +63,7 @@ export function EvidencePackCitations({ citations }: CitationsProps) {
               style={{
                 fontFamily: "'IBM Plex Mono', monospace",
                 fontSize: '0.7rem',
-                color: '#2B6B57',
+                color: '#3A3832',
                 fontWeight: 500,
                 letterSpacing: '0.12em',
                 paddingTop: '0.15rem',

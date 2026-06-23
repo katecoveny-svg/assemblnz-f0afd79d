@@ -22,7 +22,7 @@ export function ResultCard({
   children,
 }: ResultCardProps) {
   const [copied, setCopied] = useState(false);
-  const accent = tone === 'amber' ? '#D9A85A' : '#2B6B57';
+  const accent = tone === 'amber' ? '#D9A85A' : '#3A3832';
   const link = useMemo(() => {
     if (typeof window === 'undefined') return '';
     const url = new URL(window.location.href);
@@ -46,7 +46,7 @@ export function ResultCard({
       <p className="mt-4 break-words font-display text-[2rem] font-light leading-none text-[#3D4250] [overflow-wrap:anywhere] md:text-[clamp(3rem,8vw,5rem)]">
         {headline}
       </p>
-      <div className="mt-6 divide-y divide-[#C8BBA9]/60 rounded-[8px] border border-[#C8BBA9]/60 bg-[#FAF7F2]/80">
+      <div className="mt-6 divide-y divide-[#C8BBA9]/60 rounded-[8px] border border-[#C8BBA9]/60 bg-[#FFF7EC]/80">
         {rows.map((row) => (
           <div key={`${row.label}-${row.value}`} className="grid gap-1 px-4 py-3 text-sm md:grid-cols-[1fr_auto] md:items-center">
             <span className="text-[#5C6273]">{row.label}</span>
@@ -58,7 +58,7 @@ export function ResultCard({
       <button
         type="button"
         onClick={copyLink}
-        className="mt-5 inline-flex h-10 items-center rounded-full border border-[#C8BBA9] px-4 text-sm font-medium text-[#3D4250] transition hover:border-[#2B6B57] hover:text-[#2B6B57]"
+        className="mt-5 inline-flex h-10 items-center rounded-full border border-[#C8BBA9] px-4 text-sm font-medium text-[#3D4250] transition hover:border-[#3A3832] hover:text-[#3A3832]"
       >
         <Copy className="mr-2 h-4 w-4" aria-hidden />
         {copied ? 'Copied' : 'Copy result link'}
