@@ -83,7 +83,7 @@ export function ToolLeadCapture({
           "flex items-center gap-3 rounded-[10px] border p-4 text-sm",
           dark
             ? "border-[#FFF7EC]/16 bg-[#FFF7EC]/10 text-[#FFF7EC]"
-            : "border-[rgba(58,56,50,0.24)] bg-[#E8EFE9] text-[#103F35]",
+            : "border-[rgba(58,56,50,0.24)] bg-[#FBF3DF] text-[#23211F]",
           className ?? "",
         ].join(" ")}
       >
@@ -135,7 +135,7 @@ export function ToolLeadCapture({
         <button
           type="submit"
           disabled={status === "saving"}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#3A3832] px-5 text-sm font-medium text-[#FFF7EC] transition hover:bg-[#103F35] disabled:cursor-wait disabled:opacity-60"
+          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[10px] bg-[#3A3832] px-5 text-sm font-medium text-[#FFF7EC] transition hover:bg-[#23211F] disabled:cursor-wait disabled:opacity-60"
         >
           {status === "saving" ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
           Send it to me

@@ -62,7 +62,7 @@ export function LegacyHapaiToolShell({
             href={legacyPath}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#FFF7EC] px-5 text-sm font-medium text-[#103F35] transition hover:bg-white"
+            className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#FFF7EC] px-5 text-sm font-medium text-[#23211F] transition hover:bg-white"
           >
             Open full-screen studio
             <ExternalLink className="h-4 w-4" aria-hidden />
@@ -71,7 +71,7 @@ export function LegacyHapaiToolShell({
       }
     >
       <div className="overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.10)] bg-[#F7F1E9]">
-        <div className="flex flex-col gap-3 border-b border-[rgba(35,33,31,0.10)] bg-[#103F35] px-4 py-4 text-[#FFF7EC] md:flex-row md:items-center md:justify-between md:px-5">
+        <div className="flex flex-col gap-3 border-b border-[rgba(35,33,31,0.10)] bg-[#23211F] px-4 py-4 text-[#FFF7EC] md:flex-row md:items-center md:justify-between md:px-5">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#D9A85A]">
               HAPAI workspace

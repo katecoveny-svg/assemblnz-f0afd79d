@@ -105,15 +105,15 @@ export function NineAmBriefTool() {
   :root { color-scheme: light; }
   body { margin: 0; background: #FFF7EC; color: #23211F; font: 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 40px; }
-  .mark { font-weight: 600; letter-spacing: -0.01em; color: #103F35; font-size: 20px; }
+  .mark { font-weight: 600; letter-spacing: -0.01em; color: #23211F; font-size: 20px; }
   .eyebrow { font: 600 11px/1 ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #3A3832; }
-  h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 10px 0 4px; color: #103F35; }
+  h1 { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 10px 0 4px; color: #23211F; }
   .meta { color: #6B6661; font-size: 13px; margin-bottom: 28px; }
   .rule { border: 0; border-top: 1px solid rgba(35,33,31,0.12); margin: 24px 0; }
   .brief h2 { font-size: 18px; color: #3A3832; margin: 22px 0 8px; }
   .brief ul { margin: 0 0 12px; padding-left: 20px; }
   .brief p { margin: 0 0 12px; }
-  .foot { margin-top: 32px; padding: 16px 18px; background: #103F35; color: #FFF7EC; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+  .foot { margin-top: 32px; padding: 16px 18px; background: #23211F; color: #FFF7EC; border-radius: 10px; font-size: 13px; line-height: 1.5; }
   .foot b { color: #D9A85A; }
   @media print { body { background: #fff; } .wrap { padding: 0; } }
 </style></head>

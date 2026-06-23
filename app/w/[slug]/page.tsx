@@ -66,7 +66,7 @@ export default async function StandaloneWorkflowPage({
               <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
                 Shared workflow · {kete.englishName}
               </p>
-              <h1 className="mt-4 max-w-4xl font-display text-[clamp(3.8rem,7vw,7.8rem)] font-light leading-[0.86] text-[#103F35]">
+              <h1 className="mt-4 max-w-4xl font-display text-[clamp(3.8rem,7vw,7.8rem)] font-light leading-[0.86] text-[#23211F]">
                 {workflow.title}
               </h1>
               <p className="mt-5 max-w-3xl text-[clamp(1.05rem,1.45vw,1.35rem)] leading-relaxed text-[color:var(--text-body)]">

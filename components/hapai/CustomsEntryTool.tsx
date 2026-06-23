@@ -194,7 +194,7 @@ export function CustomsEntryTool() {
         <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/78 p-5">
           <div className="flex flex-wrap items-center gap-2">
             {TRUST_BADGES.map((badge) => (
-              <span key={badge} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,56,50,0.24)] bg-[#E8EFE9] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#3A3832]">
+              <span key={badge} className="inline-flex items-center gap-1.5 rounded-full border border-[rgba(58,56,50,0.24)] bg-[#FBF3DF] px-3 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-[#3A3832]">
                 <ShieldCheck className="h-3 w-3" aria-hidden /> {badge}
               </span>
             ))}
@@ -304,7 +304,7 @@ function Meta({ label, value, strong = false }: { label: string; value: string; 
   return (
     <div>
       <dt className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#6B6661]">{label}</dt>
-      <dd className={["mt-0.5", strong ? "font-medium text-[#103F35]" : "text-[#23211F]"].join(" ")}>{value}</dd>
+      <dd className={["mt-0.5", strong ? "font-medium text-[#23211F]" : "text-[#23211F]"].join(" ")}>{value}</dd>
     </div>
   );
 }

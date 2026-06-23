@@ -160,7 +160,7 @@ export function StudyHelperTool() {
         <div className="grid gap-8 lg:grid-cols-[0.95fr_0.72fr] lg:items-stretch">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3A3832]">HAPAI · study helper</p>
-            <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.1rem,8.4vw,8.8rem)] font-normal leading-[0.84] text-[#103F35]">
+            <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.1rem,8.4vw,8.8rem)] font-normal leading-[0.84] text-[#23211F]">
               Turn notes into a plan.
             </h1>
             <p className="mt-7 max-w-3xl text-[clamp(1.05rem,1.8vw,1.35rem)] leading-relaxed text-[#3D4250]">
@@ -183,7 +183,7 @@ export function StudyHelperTool() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#103F35] p-6 text-[#FFF7EC] shadow-[0_34px_110px_rgba(35,33,31,0.18)]">
+          <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#23211F] p-6 text-[#FFF7EC] shadow-[0_34px_110px_rgba(35,33,31,0.18)]">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(217,168,90,0.24),transparent_34%),linear-gradient(135deg,rgba(250,247,242,0.10),transparent_48%)]" />
             <div className="relative">
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">how it helps</p>

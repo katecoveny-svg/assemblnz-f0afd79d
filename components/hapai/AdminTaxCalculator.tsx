@@ -75,7 +75,7 @@ export function AdminTaxCalculator() {
         <div className="rounded-[10px] border border-[rgba(35,33,31,0.1)] bg-white/78 p-5">
           <div className="rounded-[12px] border border-[rgba(58,56,50,0.24)] bg-gradient-to-br from-[#FFF7EC] to-[#EDF3EE] p-6">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#3A3832]">Your admin tax, per year</p>
-            <p className="mt-2 font-display text-[clamp(2.6rem,5.5vw,4.2rem)] font-light leading-none text-[#103F35]">
+            <p className="mt-2 font-display text-[clamp(2.6rem,5.5vw,4.2rem)] font-light leading-none text-[#23211F]">
               {formatNzd(result.annualCostNzd)}
             </p>
             <p className="mt-3 text-sm leading-relaxed text-[#5A5550]">

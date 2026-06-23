@@ -259,7 +259,7 @@ export default function HapaiPage() {
                     <span
                       className={
                         tool.status === 'live'
-                          ? 'rounded-full border border-[rgba(58,56,50,0.24)] bg-[#E8EFE9] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#3A3832]'
+                          ? 'rounded-full border border-[rgba(58,56,50,0.24)] bg-[#FBF3DF] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#3A3832]'
                           : 'rounded-full border border-[rgba(35,33,31,0.14)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--text-secondary)]'
                       }
                     >
@@ -276,7 +276,7 @@ export default function HapaiPage() {
                     <div className="mt-auto pt-7">
                       <Link
                         href={tool.href}
-                        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[rgba(58,56,50,0.24)] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(232,239,233,0.70))] px-4 text-sm font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[rgba(58,56,50,0.44)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_18px_46px_rgba(58,56,50,0.14)]"
+                        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[rgba(58,56,50,0.24)] bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(232,239,233,0.70))] px-4 text-sm font-medium text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.86),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[rgba(58,56,50,0.44)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_18px_46px_rgba(58,56,50,0.14)]"
                       >
                         Open tool <ArrowRight className="h-4 w-4" aria-hidden />
                       </Link>

@@ -304,9 +304,8 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 // ── Site-wide nav (multi-page only — anchors are BANNED per canon §2.1) ──────
 
 export const nav = [
+  { href: '/agents',        label: 'Marketplace' },
   { href: '/how-it-works',  label: 'How it works' },
-  { href: '/kete',          label: 'Kete packs' },
-  { href: '/outputs',       label: 'Outputs' },
   { href: '/hapai',         label: 'HAPAI tools' },
   { href: '/pricing',       label: 'Pricing' },
 ] as const;

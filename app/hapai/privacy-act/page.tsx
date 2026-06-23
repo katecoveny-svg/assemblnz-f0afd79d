@@ -97,7 +97,7 @@ export default function PrivacyActPage() {
     ctx.font = `${Math.round(width * 0.035)}px monospace`;
     ctx.letterSpacing = "8px";
     ctx.fillText("HAPAI · PRIVACY ACT 2020", width * 0.16, height * 0.2);
-    ctx.fillStyle = "#103F35";
+    ctx.fillStyle = "#23211F";
     ctx.font = `${Math.round(width * 0.075)}px Georgia, serif`;
     wrap(ctx, "Know which rules apply. Hand it to your team.", width * 0.16, height * 0.34, width * 0.68, Math.round(width * 0.083));
     ctx.fillStyle = "#5A5550";

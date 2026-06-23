@@ -55,7 +55,7 @@ export function HapaiToolShell({
               <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3A3832]">
                 {kicker}
               </p>
-              <h1 className="mt-4 max-w-5xl font-display text-[clamp(3.4rem,7vw,7.2rem)] font-light leading-[0.88] text-[#103F35]">
+              <h1 className="mt-4 max-w-5xl font-display text-[clamp(3.4rem,7vw,7.2rem)] font-light leading-[0.88] text-[#23211F]">
                 {title}
               </h1>
               <p className="mt-6 max-w-3xl text-[clamp(1.05rem,1.65vw,1.28rem)] leading-relaxed text-[#3D4250]">
@@ -82,7 +82,7 @@ export function HapaiToolShell({
           </div>
 
           <aside className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/64 p-3 shadow-[0_34px_110px_rgba(35,33,31,0.14)]">
-            <div className="relative min-h-[270px] overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.08)] bg-[radial-gradient(circle_at_70%_18%,rgba(217,168,90,0.24),transparent_30%),linear-gradient(145deg,#FFF7EC_0%,#F3E9DC_48%,#E8EFEA_100%)] p-5">
+            <div className="relative min-h-[270px] overflow-hidden rounded-[6px] border border-[rgba(35,33,31,0.08)] bg-[radial-gradient(circle_at_70%_18%,rgba(217,168,90,0.24),transparent_30%),linear-gradient(145deg,#FFF7EC_0%,#F3E9DC_48%,#FBF3DF_100%)] p-5">
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(58,56,50,0.08)_1px,transparent_1px),linear-gradient(180deg,rgba(58,56,50,0.06)_1px,transparent_1px)] bg-[size:42px_42px] opacity-40" aria-hidden />
               <div className="relative flex items-start justify-between gap-4">
                 <div>
@@ -100,7 +100,7 @@ export function HapaiToolShell({
                 <div className="absolute left-4 top-20 h-12 w-32 rounded-[50%] bg-[#3A3832]/20 blur-xl" />
                 <div className="absolute left-5 top-24 h-6 w-[7.5rem] rounded-[50%] border border-[#9D8C7D]/28 bg-[#F4EFE7] shadow-[0_22px_34px_rgba(35,33,31,0.14)]" />
                 <div className="absolute left-4 top-[4.5rem] h-7 w-[8.5rem] rotate-[-5deg] rounded-[50%] border border-[#D9A85A]/42 bg-[#D9A85A]/34 backdrop-blur" />
-                <div className="absolute left-2 top-12 h-8 w-36 rotate-[4deg] rounded-[50%] border border-[#3A3832]/28 bg-[#C9DAD2]/52 backdrop-blur" />
+                <div className="absolute left-2 top-12 h-8 w-36 rotate-[4deg] rounded-[50%] border border-[#3A3832]/28 bg-[#EFEADC]/52 backdrop-blur" />
                 <div className="absolute left-7 top-4 h-24 w-24 rotate-[12deg] rounded-[42%_58%_46%_54%] border border-white/70 bg-white/64 shadow-[inset_0_0_26px_rgba(255,255,255,0.78),0_24px_48px_rgba(35,33,31,0.16)]" />
                 <div className="absolute left-[4.25rem] top-8 h-20 w-1 rotate-[22deg] rounded-full bg-[#D9A85A]/70" />
               </div>
@@ -118,7 +118,7 @@ export function HapaiToolShell({
               </div>
             </div>
 
-            <div className="relative mt-3 overflow-hidden rounded-[6px] bg-[#103F35] p-5 text-[#FFF7EC]">
+            <div className="relative mt-3 overflow-hidden rounded-[6px] bg-[#23211F] p-5 text-[#FFF7EC]">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_74%_14%,rgba(217,168,90,0.24),transparent_32%),linear-gradient(135deg,rgba(250,247,242,0.10),transparent_48%)]" aria-hidden />
               <div className="relative">
               {aside}
