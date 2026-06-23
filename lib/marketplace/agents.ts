@@ -57,8 +57,14 @@ export type MarketplaceAgent = {
   whatYouGet: string[];
   /** two short sample outputs shown on the detail page */
   sampleOutputs: string[];
-  /** the live NZ sources / APIs this agent is wired into */
+  /** the live NZ sources / APIs this agent is wired into (human-readable) */
   nzKnowledge: string[];
+  /** tool/MCP ids this agent may call (see lib/ai/skill-router tool registry) */
+  tools: string[];
+  /** Claude Skill ids this agent layers on */
+  skills: string[];
+  /** ordered free-fallback model ladder after the tier primary (lib/ai/router) */
+  fallbackModels: string[];
   category: MarketplaceCategory;
   modelTier: ModelTier;
   /** coarse bucket (DB enum) — derived from priceTier */
@@ -135,11 +141,50 @@ const PRICE_TIER_TO_PRICING: Record<PriceTier, PricingTier> = {
   business: 'paid',
 };
 
+/**
+ * Free-fallback model ladder after the tier primary (the amendment's spec).
+ * The router (lib/ai/router.ts) resolves these ids to concrete providers and
+ * only includes rungs whose API key is configured. Same ladder for every agent.
+ */
+export const FALLBACK_MODELS = [
+  'gemini-2.5-flash', // Gemini free tier
+  'groq:llama-3.3-70b-versatile', // Groq free tier
+  'ollama:llama3.3', // local Ollama (on-prem / power users)
+] as const;
+
+/** Tools every agent shares (the NZ-knowledge stubs wired in the chat route). */
+const DEFAULT_TOOLS = ['nz-gazette', 'nz-legislation', 'beehive'];
+
+/** Per-agent tool/MCP ids beyond the shared default (from the roster "wired to"). */
+const TOOLS_BY_SLUG: Record<string, string[]> = {
+  toro: ['gtfs-at', 'gtfs-metlink', 'metservice', 'calendar', 'whatsapp', 'twilio-nz'],
+  helm: ['twilio-nz', 'calendar', 'crm', 'elevenlabs'],
+  ledger: ['xero', 'myob', 'ird', 'nzbn', 'companies-office'],
+  mariner: ['metservice-marine', 'niwa', 'linz-tides', 'coastguard-trip-report', 'ais'],
+  auaha: ['recraft', 'ideogram', 'flux', 'runway', 'elevenlabs-studio', 'buffer'],
+  chief: ['gmail', 'outlook-graph', 'google-calendar', 'ms-calendar', 'calendly', 'expensify'],
+  roster: ['hubspot', 'pipedrive', 'capsule', 'zoho-crm', 'salesforce', 'companies-office'],
+  'social-manager': ['buffer', 'meta-graph', 'linkedin-marketing', 'tiktok-business', 'x-api', 'youtube-data', 'google-trends'],
+  'customs-freight': ['customs-tsw', 'mpi-bacc', 'mfat-trade', 'nzbn', 'ird-gst', 'mnz'],
+  counter: ['vend', 'lightspeed', 'shopify-pos', 'xero', 'nzbn'],
+};
+
+/** Per-agent Claude Skill ids (assembl skill library) layered on the prompt. */
+const SKILLS_BY_SLUG: Record<string, string[]> = {
+  'site-safety': ['arai-site-safety'],
+  'project-manager': ['kaupapa-project-mgmt'],
+  'quality-defects': ['pai-quality'],
+  'building-consent': ['whakaaee-consenting'],
+  'te-reo-tutor': ['te-reo-tikanga-advisory'],
+  'tikanga-guard': ['tikanga-compliance'],
+  shield: ['nz-privacy-act-2020'],
+};
+
 /** Authoring shape — the full MarketplaceAgent is derived from this. */
 type AgentDef = Omit<
   MarketplaceAgent,
-  'systemPrompt' | 'pricingTier' | 'priceNzd' | 'status'
-> & { status?: AgentStatus };
+  'systemPrompt' | 'pricingTier' | 'priceNzd' | 'status' | 'tools' | 'skills' | 'fallbackModels'
+> & { status?: AgentStatus; tools?: string[]; skills?: string[] };
 
 function buildAgent(def: AgentDef): MarketplaceAgent {
   const body = AGENT_PROMPTS[def.slug];
@@ -149,6 +194,9 @@ function buildAgent(def: AgentDef): MarketplaceAgent {
     status: def.status ?? 'live',
     priceNzd: PRICE_TIER_NZD[def.priceTier],
     pricingTier: PRICE_TIER_TO_PRICING[def.priceTier],
+    tools: def.tools ?? TOOLS_BY_SLUG[def.slug] ?? DEFAULT_TOOLS,
+    skills: def.skills ?? SKILLS_BY_SLUG[def.slug] ?? [],
+    fallbackModels: [...FALLBACK_MODELS],
     // Compose the locked prompt: substitute the shared brand prefix.
     systemPrompt: body.replace('[SHARED BRAND PREFIX]', SHARED_BRAND_PREFIX),
   };
@@ -1341,6 +1389,207 @@ const AGENT_DEFS: AgentDef[] = [
       'Which KiwiSaver fund type fits me?',
       'Project my retirement income.',
       'Am I ready for a first home?',
+    ],
+  },
+
+  // ── Amendment (35-agent roster) ──────────────────────────────────────
+  {
+    slug: 'chief',
+    name: 'Chief',
+    teReo: 'Rangatira',
+    description:
+      'A chief of staff for one person. Reads your inbox, drafts replies, runs your calendar and expenses — and never sends without your nod.',
+    whatItDoes: [
+      'Triages your inbox and drafts replies in your voice — nothing auto-sends.',
+      'Runs your calendar: holds, rooms, and a briefing pack for every meeting.',
+      'Processes expense receipts and drafts standing reports, ready to file.',
+    ],
+    whatYouGet: [
+      'A triaged inbox with drafted replies waiting for your nod.',
+      'Calendar holds and a one-page brief before each meeting.',
+      'Expense submissions ready to file and an end-of-day digest.',
+    ],
+    sampleOutputs: [
+      '3 emails need you: drafted replies attached. 11 handled, 2 escalated.',
+      'Tomorrow 10am with Acme — brief: last thread, open actions, their news.',
+    ],
+    nzKnowledge: [
+      'Gmail / Outlook (Graph)',
+      'Google + Microsoft Calendar',
+      'Calendly',
+      'Expensify / Pleo',
+      'Companies Office (context)',
+    ],
+    category: 'business',
+    modelTier: 'premium',
+    priceTier: 'pro',
+    icon: 'Briefcase',
+    accent: '#C79B1F',
+    greeting:
+      "I'm Chief — your chief of staff. Connect your inbox and calendar, tell me your priorities and your 'always escalate' rules, and I'll run the day with you.",
+    starters: [
+      'Triage my inbox and draft the replies.',
+      'Brief me for my next meeting.',
+      'Hold focus time on my calendar this week.',
+    ],
+  },
+  {
+    slug: 'roster',
+    name: 'Roster',
+    teReo: 'Rārangi',
+    description:
+      'Your CRM and pipeline, kept current. Logs activity, drafts follow-ups, moves deals, and flags the leads going cold.',
+    whatItDoes: [
+      'Connects your CRM and email/calendar and logs activity automatically.',
+      'Drafts follow-ups on your cadence and moves deals through stages.',
+      'Flags cold leads and runs the weekly pipeline review.',
+    ],
+    whatYouGet: [
+      'Auto-logged activity and drafted follow-up emails.',
+      'A weekly pipeline brief with deal-coaching prompts.',
+      'Lost-deal reasons tracked over time.',
+    ],
+    sampleOutputs: [
+      '4 deals untouched 14+ days — drafted nudges ready to send.',
+      'Pipeline brief: $48k weighted, 2 deals slipping, 1 ready to close.',
+    ],
+    nzKnowledge: [
+      'HubSpot / Pipedrive / Capsule / Zoho / Salesforce',
+      'NZ Companies Office (lead enrichment)',
+      'LinkedIn Sales Navigator (where licensed)',
+    ],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'Handshake',
+    accent: '#FFD42A',
+    greeting:
+      "I'm Roster — your pipeline keeper. Connect your CRM and tell me your stages and win criteria, and I'll log the activity, draft the follow-ups, and keep deals moving.",
+    starters: [
+      'Draft follow-ups for my stalled deals.',
+      "Run this week's pipeline review.",
+      'Which leads have gone cold?',
+    ],
+  },
+  {
+    slug: 'social-manager',
+    name: 'Social Manager',
+    teReo: 'Pāpāho',
+    description:
+      'The always-on half of your social. Publishes, watches the comments, drafts replies, and runs the weekly review. Auaha makes it; Social Manager runs it.',
+    whatItDoes: [
+      'Schedules and publishes posts across your channels.',
+      'Watches comments and DMs and drafts replies in your tone.',
+      'Runs the weekly performance + sentiment review and flags trends.',
+    ],
+    whatYouGet: [
+      'Scheduled posts and drafted comment/DM replies.',
+      'A weekly performance + sentiment digest.',
+      'Viral-content and competitor-mention alerts.',
+    ],
+    sampleOutputs: [
+      '12 comments overnight — 9 drafted replies, 1 flagged for you, 2 spam.',
+      'Weekly: reach +18%, sentiment steady, your reel is trending — boost it?',
+    ],
+    nzKnowledge: [
+      'Buffer',
+      'Meta Graph (FB + IG)',
+      'LinkedIn / TikTok / X / YouTube APIs',
+      'Google Trends',
+      'NZ news feed',
+    ],
+    category: 'creative',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'Share2',
+    accent: '#FFE27A',
+    greeting:
+      "I'm Social Manager — the always-on half of your social. Connect your accounts and your tone guide, and I'll publish, watch the comments, and draft the replies. Auaha makes it; I run it.",
+    starters: [
+      "Schedule this week's posts.",
+      "Draft replies to today's comments.",
+      'Run my weekly social review.',
+    ],
+  },
+  {
+    slug: 'customs-freight',
+    name: 'Customs + Freight',
+    teReo: 'Pīkau',
+    description:
+      'Customs entries, tariff classification and freight coordination for importers and brokers. Drafts the entry; your broker checks and lodges.',
+    whatItDoes: [
+      'Drafts a structured customs entry from your invoice and packing list.',
+      'Suggests HS tariff classifications and drafts certificates of origin.',
+      'Coordinates freight and flags NZTA/MPI compliance — nothing is lodged.',
+    ],
+    whatYouGet: [
+      'A broker-ready customs entry draft with HS classifications.',
+      'A certificate-of-origin draft and freight booking summary.',
+      'A compliance flag pack before lodging.',
+    ],
+    sampleOutputs: [
+      'Line 1: LED fittings → HS 9405.11 (confirm), duty 5%, GST on landed cost.',
+      "Missing: supplier's country-of-origin declaration — flagged before lodging.",
+    ],
+    nzKnowledge: [
+      'NZ Customs Trade Single Window (read-only)',
+      'MPI BACC',
+      'MFAT trade agreements register',
+      'NZBN',
+      'IRD GST registry',
+      'Maritime NZ (sea freight)',
+    ],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'Ship',
+    accent: '#C79B1F',
+    greeting:
+      "I'm Customs + Freight. Paste the commercial invoice and packing list and I'll draft the customs entry, classify the tariff, and coordinate the freight. Your broker checks and lodges — I never lodge.",
+    starters: [
+      'Draft a customs entry from this invoice.',
+      'Classify the HS tariff for these goods.',
+      'Draft a certificate of origin.',
+    ],
+  },
+  {
+    slug: 'counter',
+    name: 'Counter',
+    teReo: 'Toa Hoko',
+    description:
+      'Retail ops in one place. Reads the POS, drafts supplier reorders, triages returns and customer queries, and writes the weekly retail brief.',
+    whatItDoes: [
+      'Reads daily POS data and writes a sales + margin brief.',
+      'Drafts supplier reorder POs and triages returns for sign-off.',
+      'Triages customer queries across web, email and Instagram DM.',
+    ],
+    whatYouGet: [
+      'A daily sales + margin brief.',
+      'Drafted supplier reorder POs and returns decisions for your sign-off.',
+      'Drafted customer replies and a weekly retail performance pack.',
+    ],
+    sampleOutputs: [
+      'Yesterday: $4,120 sales, 38% margin — restock the two best-sellers (PO drafted).',
+      'Return: faulty kettle, 3 weeks old — CGA remedy: repair, replace or refund.',
+    ],
+    nzKnowledge: [
+      'Vend / Lightspeed / Shopify POS',
+      'Xero retail feed',
+      'Consumer Guarantees Act 1993',
+      'Sale of Goods Act 1908',
+      'NZBN supplier lookup',
+    ],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'business',
+    icon: 'Store',
+    accent: '#FFD42A',
+    greeting:
+      "I'm Counter — your retail ops desk. Connect your POS and supplier list, and I'll write the daily brief, draft the reorders, and triage returns and customer queries for your sign-off.",
+    starters: [
+      "Write today's sales brief.",
+      'Draft a reorder for low stock.',
+      'Triage this customer return.',
     ],
   },
 ];

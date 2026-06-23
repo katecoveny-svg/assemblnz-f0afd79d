@@ -1,7 +1,9 @@
-import { anthropic } from '@ai-sdk/anthropic';
 import { convertToModelMessages, stepCountIs, streamText, tool, type UIMessage } from 'ai';
 import { z } from 'zod';
 import { marketplaceAgentBySlug, MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
+import { FALLBACK_DISCLOSURE, pickRung, resolveModelLadder } from '@/lib/ai/router';
+import { recordModelFallback } from '@/lib/ai/fallback-log';
+import { MARITIME_KNOWLEDGE, marineWeatherTool } from '@/lib/agents/maritime-knowledge';
 import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
 import { getEntitlementStatus, incrementFreeUsage } from '@/lib/billing/agent-entitlement';
 import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billing/chat-identity';
@@ -81,11 +83,18 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     return Response.json({ error: 'Unknown agent.' }, { status: 404 });
   }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
+  // Resolve the free-fallback ladder: the tier primary (Claude) then Gemini →
+  // Groq → Ollama, filtered to whatever credentials are configured. If the
+  // primary's key is missing but a fallback's is set, the agent still answers.
+  const primaryModelId = MODEL_TIER_TO_ANTHROPIC[agent.modelTier];
+  const ladder = resolveModelLadder(primaryModelId, agent.fallbackModels);
+  const rung = pickRung(ladder);
+
+  if (!rung) {
     return Response.json(
       {
         error:
-          'Chat is not configured yet — set ANTHROPIC_API_KEY in the environment (see .env.local.example).',
+          'Chat is not configured yet — set ANTHROPIC_API_KEY (primary) or a fallback key (GEMINI_API_KEY / GROQ_API_KEY / OLLAMA_BASE_URL). See .env.local.example.',
       },
       { status: 503 },
     );
@@ -122,13 +131,46 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const messages = body.messages ?? [];
   const modelMessages = await convertToModelMessages(messages);
 
+  // When the primary is unavailable and we're starting on a fallback rung, the
+  // agent self-discloses and we log the selection-time fallback.
+  const baseSystem = rung.isPrimary ? agent.systemPrompt : `${agent.systemPrompt}\n\n${FALLBACK_DISCLOSURE}`;
+  if (!rung.isPrimary) {
+    void recordModelFallback({
+      agentSlug: agent.slug,
+      primaryModel: primaryModelId,
+      fallbackModel: rung.id,
+      reason: 'primary provider not configured; started on fallback',
+    });
+  }
+
+  // Maritime agents get the deep maritime knowledge block + a live (keyless
+  // Open-Meteo Marine) sea-state tool on top of the NZ knowledge stubs;
+  // everyone else just gets the stubs and their own (possibly fallback-disclosed)
+  // system prompt.
+  const isMaritime = agent.category === 'maritime';
+  const tools = isMaritime
+    ? { ...nzKnowledgeTools, marineWeather: marineWeatherTool }
+    : nzKnowledgeTools;
+  const system = isMaritime ? `${baseSystem}\n\n${MARITIME_KNOWLEDGE}` : baseSystem;
+
   const result = streamText({
-    model: anthropic(MODEL_TIER_TO_ANTHROPIC[agent.modelTier]),
-    system: agent.systemPrompt,
+    model: rung.model,
+    system,
     messages: modelMessages,
-    tools: nzKnowledgeTools,
+    tools,
     // Allow a couple of tool round-trips before the final answer.
     stopWhen: stepCountIs(4),
+    // Mid-stream provider error: log it as a fallback signal (best-effort). True
+    // mid-stream model failover is a follow-up; selection-time fallback above
+    // already covers the common "primary key absent / provider down at start".
+    onError: ({ error }) => {
+      void recordModelFallback({
+        agentSlug: agent.slug,
+        primaryModel: rung.id,
+        fallbackModel: ladder[1]?.id ?? null,
+        reason: error instanceof Error ? error.message : String(error),
+      });
+    },
   });
 
   return result.toUIMessageStreamResponse(
