@@ -12,13 +12,12 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { MARKETPLACE_AGENTS } from '../lib/marketplace/agents';
 
-// Current canonical seed. Lands AFTER 20260623180000 (which relaxes the
-// pricing_tier CHECK to admit 'per_agent'), so it must carry a later version
-// than the superseded 20260623140100 (30 agents) / 20260623160100 (35 agents,
-// pre-flat-pricing) seeds.
+// Current canonical seed — LOCKED CANON 23-agent roster (2026-06-23). Lands
+// after all prior agent migrations and PRUNES agents no longer in the roster
+// (the 35→23 cut), then upserts the 23.
 const OUT = join(
   process.cwd(),
-  'supabase/migrations/20260623180100_seed_hero_agents.sql',
+  'supabase/migrations/20260623200000_seed_canon_23_agents.sql',
 );
 
 /** Escape a value as a SQL string literal. */
@@ -89,19 +88,25 @@ const updateAssignments = COLUMNS.filter((c) => c !== 'slug')
   .concat('  updated_at = now()')
   .join(',\n');
 
-const sql = `-- Seed — 35 hero agents into the marketplace catalogue (incl. tools, skills,
--- and the free-fallback model ladder).
+const slugList = MARKETPLACE_AGENTS.map((a) => s(a.slug)).join(', ');
+
+const sql = `-- Seed — LOCKED CANON 23-agent roster (2026-06-23).
 --
 -- AUTO-GENERATED from lib/marketplace/agents.ts by scripts/build-agents-seed.ts.
 -- Do not hand-edit; regenerate with: pnpm tsx scripts/build-agents-seed.ts
 --
--- Supersedes the 20260623140100 / 20260623160100 seeds. Runs after
--- 20260623160000 so the tools/skills/fallback_models columns exist. Mirrors the
--- code registry (the source of truth) into public.agents; idempotent
--- (ON CONFLICT (slug) DO UPDATE). system_prompt + fallback_models are seeded but
--- NOT publicly readable — see 20260623140050 / 20260623160000 (column GRANTs).
+-- Supersedes every prior agent seed. PRUNES catalogue rows no longer in the
+-- roster (the 35→23 cut) and dependent per-user rows referencing them, then
+-- upserts the 23 (ON CONFLICT (slug) DO UPDATE). system_prompt + fallback_models
+-- are seeded but NOT publicly readable (see 20260623140050 / 20260623160000).
 
 BEGIN;
+
+-- Prune agents that left the roster. Per-user tables key by agent_slug (text)
+-- or agent_id (uuid → agents.id ON DELETE CASCADE), so clean both.
+DELETE FROM public.agent_installs WHERE agent_slug NOT IN (${slugList});
+DELETE FROM public.agent_chat_sessions WHERE agent_slug NOT IN (${slugList});
+DELETE FROM public.agents WHERE slug NOT IN (${slugList});
 
 INSERT INTO public.agents (
   ${COLUMNS.join(',\n  ')}
@@ -113,9 +118,9 @@ ${updateAssignments};
 COMMIT;
 
 -- Verify:
--- SELECT count(*) FROM public.agents;                       -- expect 35
+-- SELECT count(*) FROM public.agents;                       -- expect 23
 -- SELECT category, count(*) FROM public.agents GROUP BY category ORDER BY 1;
--- SELECT slug, name, price_tier, price_monthly_nzd, status
+-- SELECT slug, name, te_reo, price_tier, price_monthly_nzd
 --   FROM public.agents ORDER BY category, name;
 `;
 
