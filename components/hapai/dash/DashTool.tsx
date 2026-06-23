@@ -141,7 +141,6 @@ export function DashTool({ config }: { config: DashToolConfig }) {
   return (
     <DashToolShell
       eyebrow={config.eyebrow}
-      teReo={config.teReo}
       title={config.title}
       intro={config.intro}
       toolPath={`/hapai/${config.slug}`}

@@ -17,6 +17,7 @@ import { getDashTool, type DashToolConfig } from '@/lib/hapai/dash/tools';
 const COMMON_RULES = `
 RULES:
 - Use New Zealand English and a calm, plain, useful tone. No American corporate filler.
+- Write in English. Do not use te reo Māori words or greetings (no "kia ora", "ngā mihi", "whānau", etc.); established proper nouns like Aotearoa are fine.
 - Write "assembl" in lowercase if it appears.
 - Only use what the person supplied. Never invent figures, dates, names, or obligations.
 - If you genuinely cannot tell, say so plainly rather than guessing.
@@ -109,7 +110,7 @@ ${COMMON_RULES}`,
         `<h2>3 things this week</h2>${ul(top)}`,
         `<h3>Dates to diary</h3>${dates.length ? ul(dates) : '<p>No clear dates in what was supplied — check the original notice.</p>'}`,
         `<h3>What to send or bring</h3>${bring.length ? ul(bring) : '<p>Nothing obvious to send from what was supplied.</p>'}`,
-        `<h3>Drafted reply</h3><p>Kia ora, thanks for the notice${child ? ` about ${esc(child)}` : ''} — got it, we’ll be sorted for the dates above. Please let me know if anything else is needed. Ngā mihi.</p>`,
+        `<h3>Drafted reply</h3><p>Hi, thanks for the notice${child ? ` about ${esc(child)}` : ''} — got it, we’ll be sorted for the dates above. Please let me know if anything else is needed. Thanks.</p>`,
         img ? '<p><strong>Note:</strong> a photo was attached; the connected version reads it directly.</p>' : '',
       ].join('');
     },
@@ -152,7 +153,7 @@ ${COMMON_RULES}`,
         `<p>Based on your answers${notes ? ` and your notes (${esc(notes.slice(0, 160))})` : ''}${img ? ' and the photo supplied' : ''}. This is a plain-English guide, not a compliance certificate.</p>`,
         `<h3>Standard by standard</h3><ul>${rows.map((r) => `<li>${r}</li>`).join('')}</ul>`,
         `<h3>What to ask your landlord for</h3>${asks.length ? ul(asks) : '<p>Looks like all five are covered — keep the records in case you need them.</p>'}`,
-        `<h3>A letter you can send</h3><p>Kia ora, I’m doing a quick Healthy Homes check on the property. Could you confirm the status of ${esc(map.filter((m) => v[m.key] !== 'yes').map((m) => m.name.toLowerCase()).join(', ') || 'the five standards')}? Happy to talk it through. Ngā mihi.</p>`,
+        `<h3>A letter you can send</h3><p>Hi, I’m doing a quick Healthy Homes check on the property. Could you confirm the status of ${esc(map.filter((m) => v[m.key] !== 'yes').map((m) => m.name.toLowerCase()).join(', ') || 'the five standards')}? Happy to talk it through. Thanks.</p>`,
       ].join('');
     },
   },
