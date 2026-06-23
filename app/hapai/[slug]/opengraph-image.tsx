@@ -13,8 +13,11 @@ export const contentType = ogContentType;
 export function generateStaticParams() {
   // Only tools that actually live under /hapai/<slug> are served by this
   // dynamic route. Tools with their own path (e.g. /electrify) ship their own
-  // same-slug OG route instead.
-  return HAPAI_TOOLS.filter((tool) => tool.href.startsWith('/hapai/')).map((tool) => ({
+  // same-slug OG route instead. Dash-brand tools also ship a co-located OG
+  // route, so exclude them here to avoid a build-time path collision.
+  return HAPAI_TOOLS.filter(
+    (tool) => tool.href.startsWith('/hapai/') && tool.brand !== 'dash',
+  ).map((tool) => ({
     slug: tool.slug,
   }));
 }

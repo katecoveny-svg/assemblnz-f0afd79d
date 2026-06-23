@@ -493,6 +493,12 @@
 .mk-root .mk-mono {
   font-family: var(--mk-mono), ui-monospace, monospace;
 }
+/* The global base rule sets all headings to Fraunces; inside the Dash subtree
+   they must use the Dash display face (Lato 900). Element-targeted so it wins
+   over the inherited mk-root font. */
+.mk-root :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--mk-display), system-ui, sans-serif;
+}
 
 /* The signature fill-the-dog loader: the dog charges up bottom-to-top.
    Pure-CSS demo loop; bind `height` to real progress for controlled fills. */
