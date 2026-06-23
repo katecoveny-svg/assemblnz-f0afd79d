@@ -304,11 +304,10 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 // ── Site-wide nav (multi-page only — anchors are BANNED per canon §2.1) ──────
 
 export const nav = [
-  { href: '/how-it-works',  label: 'How it works' },
-  { href: '/kete',          label: 'Kete packs' },
-  { href: '/outputs',       label: 'Outputs' },
-  { href: '/hapai',         label: 'HAPAI tools' },
-  { href: '/pricing',       label: 'Pricing' },
+  { href: '/agents',         label: 'Marketplace' },
+  { href: '/agents#pricing', label: 'Bundles' },
+  { href: '/how-it-works',   label: 'How it works' },
+  { href: '/about',          label: 'Built in NZ' },
 ] as const;
 
 export const navCta = { href: '/pilot-sprint', label: 'Book a pilot' };
