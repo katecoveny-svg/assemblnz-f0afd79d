@@ -108,7 +108,7 @@ function CounterCell({ spec, delay }: { spec: CountSpec; delay: number }) {
       <CountUp value={spec.value} />
       <p
         className="mt-3 font-mono text-[10px] uppercase tracking-[0.22em]"
-        style={{ color: 'var(--assembl-pounamu, #2B6B57)' }}
+        style={{ color: 'var(--assembl-pounamu, #3A3832)' }}
       >
         {spec.label}
       </p>
@@ -173,11 +173,11 @@ function PulseDot({ active }: { active: boolean }) {
     >
       <span
         className="absolute inset-0 animate-ping rounded-full opacity-60"
-        style={{ background: 'var(--assembl-pounamu, #2B6B57)' }}
+        style={{ background: 'var(--assembl-pounamu, #3A3832)' }}
       />
       <span
         className="relative inline-flex h-2 w-2 rounded-full"
-        style={{ background: 'var(--assembl-pounamu, #2B6B57)' }}
+        style={{ background: 'var(--assembl-pounamu, #3A3832)' }}
       />
     </span>
   );

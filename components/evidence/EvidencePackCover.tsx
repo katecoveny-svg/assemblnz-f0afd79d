@@ -74,7 +74,7 @@ export function EvidencePackCover({ pack, mode = 'screen' }: EvidencePackCoverPr
       data-mode={mode}
       className="relative isolate mx-auto aspect-[210/297] w-full max-w-[640px] overflow-hidden"
       style={{
-        background: '#FAF7F2',
+        background: '#FFF7EC',
         color: '#23211F',
         fontFamily: "'Inter', system-ui, sans-serif",
         boxShadow:
@@ -269,7 +269,7 @@ function SealMark({ sealed }: { sealed: boolean }) {
         {/* Four-pointed star */}
         <path d="M24 2 L26.5 21.5 L46 24 L26.5 26.5 L24 46 L21.5 26.5 L2 24 L21.5 21.5 Z" />
         {/* Inner dot for weight */}
-        <circle cx="24" cy="24" r="1.6" fill="#FAF7F2" />
+        <circle cx="24" cy="24" r="1.6" fill="#FFF7EC" />
       </g>
       {sealed && (
         <circle
@@ -277,7 +277,7 @@ function SealMark({ sealed }: { sealed: boolean }) {
           cy="24"
           r="22"
           fill="none"
-          stroke="#2B6B57"
+          stroke="#3A3832"
           strokeWidth="0.6"
         />
       )}

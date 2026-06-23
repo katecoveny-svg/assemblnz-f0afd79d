@@ -46,7 +46,7 @@ export function MarketplaceClient({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search workflows..."
-            className="h-12 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/78 px-5 text-base outline-none transition focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[rgba(43,107,87,0.14)]"
+            className="h-12 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/78 px-5 text-base outline-none transition focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[rgba(58,56,50,0.14)]"
           />
           <label className="sr-only" htmlFor="workflow-sort">
             Sort workflows
@@ -97,7 +97,7 @@ function chipClass(active: boolean) {
   return [
     'h-10 shrink-0 rounded-full border px-4 font-mono text-[10px] uppercase tracking-[0.14em] transition',
     active
-      ? 'border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] text-[#FAF7F2]'
+      ? 'border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu)] text-[#FFF7EC]'
       : 'border-[rgba(35,33,31,0.14)] bg-white/68 text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]',
   ].join(' ');
 }

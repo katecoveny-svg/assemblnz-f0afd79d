@@ -33,7 +33,7 @@ export function ScorecardForm() {
   return (
     <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
       <aside className="rounded-[8px] border border-[#C8BBA9]/70 bg-white/62 p-5 lg:sticky lg:top-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#2B6B57]">Live score</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-[#3A3832]">Live score</p>
         <div className="mt-5 space-y-4">
           {(Object.keys(categoryLabels) as ScoreCategory[]).map((category) => (
             <div key={category}>
@@ -42,7 +42,7 @@ export function ScorecardForm() {
                 <span className="font-medium text-[#3D4250]">{scores[category]} / 16</span>
               </div>
               <div className="mt-2 h-2 rounded-full bg-[#C8BBA9]/45">
-                <div className="h-full rounded-full bg-[#2B6B57]" style={{ width: `${(scores[category] / 16) * 100}%` }} />
+                <div className="h-full rounded-full bg-[#3A3832]" style={{ width: `${(scores[category] / 16) * 100}%` }} />
               </div>
             </div>
           ))}

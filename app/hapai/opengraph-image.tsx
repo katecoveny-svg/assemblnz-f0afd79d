@@ -7,7 +7,7 @@ export const contentType = "image/png";
 // Brand-locked hex values.
 const MIST = "#F7F3EE";
 const POUNAMU_900 = "#0E5546";
-const POUNAMU_700 = "#2B6B57";
+const POUNAMU_700 = "#3A3832";
 const TAUPE_900 = "#23211F";
 const TAUPE_700 = "#5C544B";
 const TAUPE_600 = "#7C7268";
@@ -52,21 +52,23 @@ export default async function HapaiOpengraphImage() {
     " assembl.co.nz";
 
   const [cormorant, inter] = await Promise.all([
-    loadGoogleFont("Fraunces", "400", headlineText),
-    loadGoogleFont("Plus Jakarta Sans", "400;500", bodyText),
+    loadGoogleFont("Lato", "900", headlineText),
+    loadGoogleFont("Lato", "400;700", bodyText),
   ]);
 
+  // Register the heavy Lato buffer under a distinct family at weight 400 so the
+  // OG headline (which renders at the default weight) matches it and prints bold.
   const fonts: { name: string; data: ArrayBuffer; weight: 400 | 500; style: "normal" }[] = [];
   if (cormorant) {
-    fonts.push({ name: "Fraunces", data: cormorant, weight: 400, style: "normal" });
+    fonts.push({ name: "Lato Display", data: cormorant, weight: 400, style: "normal" });
   }
   if (inter) {
-    fonts.push({ name: "Plus Jakarta Sans", data: inter, weight: 400, style: "normal" });
-    fonts.push({ name: "Plus Jakarta Sans", data: inter, weight: 500, style: "normal" });
+    fonts.push({ name: "Lato", data: inter, weight: 400, style: "normal" });
+    fonts.push({ name: "Lato", data: inter, weight: 500, style: "normal" });
   }
 
-  const headlineFont = cormorant ? "Fraunces" : "serif";
-  const bodyFont = inter ? "Plus Jakarta Sans" : "sans-serif";
+  const headlineFont = cormorant ? "Lato Display" : "sans-serif";
+  const bodyFont = inter ? "Lato" : "sans-serif";
 
   return new ImageResponse(
     (

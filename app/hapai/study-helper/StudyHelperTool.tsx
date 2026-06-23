@@ -151,16 +151,16 @@ export function StudyHelperTool() {
   const hasInput = `${essayQuestion}${roughIdeas}${quoteBank}${imageDataUrl ? "image" : ""}`.trim().length >= 8;
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_78%_18%,rgba(43,107,87,0.13),transparent_32%),linear-gradient(180deg,#FAF7F2_0%,#F7F1E9_55%,#FAF7F2_100%)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
+    <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_78%_18%,rgba(58,56,50,0.13),transparent_32%),linear-gradient(180deg,#FFF7EC_0%,#F7F1E9_55%,#FFF7EC_100%)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
       <div className="mx-auto max-w-[1500px]">
-        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]">
+        <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]">
           <ArrowLeft className="h-3.5 w-3.5" /> HAPAI library
         </Link>
 
         <div className="grid gap-8 lg:grid-cols-[0.95fr_0.72fr] lg:items-stretch">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#2B6B57]">HAPAI · study helper</p>
-            <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.1rem,8.4vw,8.8rem)] font-normal leading-[0.84] text-[#103F35]">
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3A3832]">HAPAI · study helper</p>
+            <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.1rem,8.4vw,8.8rem)] font-normal leading-[0.84] text-[#23211F]">
               Turn notes into a plan.
             </h1>
             <p className="mt-7 max-w-3xl text-[clamp(1.05rem,1.8vw,1.35rem)] leading-relaxed text-[#3D4250]">
@@ -175,22 +175,22 @@ export function StudyHelperTool() {
                 { icon: TimerReset, title: "20-min drills", body: "recall, quote hunt, and practice paragraph sprints" },
               ].map(({ icon: Icon, title, body }) => (
                 <div key={title} className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/58 p-4 shadow-[0_18px_54px_rgba(35,33,31,0.06)]">
-                  <Icon className="h-5 w-5 text-[#2B6B57]" aria-hidden />
-                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#2B6B57]">{title}</p>
+                  <Icon className="h-5 w-5 text-[#3A3832]" aria-hidden />
+                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-[#3A3832]">{title}</p>
                   <p className="mt-2 text-sm leading-relaxed text-[#5A5550]">{body}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#103F35] p-6 text-[#FAF7F2] shadow-[0_34px_110px_rgba(35,33,31,0.18)]">
+          <div className="relative overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#23211F] p-6 text-[#FFF7EC] shadow-[0_34px_110px_rgba(35,33,31,0.18)]">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_76%_20%,rgba(217,168,90,0.24),transparent_34%),linear-gradient(135deg,rgba(250,247,242,0.10),transparent_48%)]" />
             <div className="relative">
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9A85A]">how it helps</p>
-              <p className="mt-3 font-display text-4xl font-light leading-none text-[#FAF7F2]">
+              <p className="mt-3 font-display text-4xl font-light leading-none text-[#FFF7EC]">
                 It builds the plan. He writes the answer.
               </p>
-              <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FAF7F2]/82">
+              <ul className="mt-6 space-y-3 text-sm leading-relaxed text-[#FFF7EC]/82">
                 <li className="flex gap-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> Reads photos of notes, teacher prompts, and rough drafts.</li>
                 <li className="flex gap-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> Maps the task to ideas, structure, language features, audience, purpose, and evidence.</li>
                 <li className="flex gap-3"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> No made-up quotes, page numbers, or ghostwritten final essays.</li>
@@ -209,7 +209,7 @@ export function StudyHelperTool() {
         <section className="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.55fr]">
           <div className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/84 p-5 shadow-[0_22px_80px_rgba(35,33,31,0.08)] md:p-7">
             <div className="mb-5 flex flex-wrap gap-3">
-              <button type="button" onClick={loadJackTonight} className="rounded-full border border-[rgba(43,107,87,0.24)] bg-[#FAF7F2] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#2B6B57] hover:bg-white">
+              <button type="button" onClick={loadJackTonight} className="rounded-full border border-[rgba(58,56,50,0.24)] bg-[#FFF7EC] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#3A3832] hover:bg-white">
                 Load Jack tonight
               </button>
               {modes.map(({ id, label, icon: Icon }) => (
@@ -219,8 +219,8 @@ export function StudyHelperTool() {
                   onClick={() => setMode(id)}
                   className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] ${
                     mode === id
-                      ? "border-[#2B6B57] bg-[#2B6B57] text-[#FAF7F2]"
-                      : "border-[rgba(35,33,31,0.14)] bg-[#FAF7F2] text-[#5A5550] hover:bg-white"
+                      ? "border-[#3A3832] bg-[#3A3832] text-[#FFF7EC]"
+                      : "border-[rgba(35,33,31,0.14)] bg-[#FFF7EC] text-[#5A5550] hover:bg-white"
                   }`}
                 >
                   <Icon className="h-3.5 w-3.5" aria-hidden />
@@ -239,7 +239,7 @@ export function StudyHelperTool() {
 
               <label className="md:col-span-2">
                 <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#6B6661]">Upload notes, handout, or whiteboard photo</span>
-                <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[rgba(43,107,87,0.32)] bg-[#F7F4EE] p-4">
+                <div className="relative overflow-hidden rounded-[10px] border border-dashed border-[rgba(58,56,50,0.32)] bg-[#F7F4EE] p-4">
                   <input
                     type="file"
                     accept="image/*"
@@ -249,7 +249,7 @@ export function StudyHelperTool() {
                   />
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-4">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#2B6B57] text-[#FAF7F2]">
+                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3A3832] text-[#FFF7EC]">
                         <ImagePlus className="h-5 w-5" aria-hidden />
                       </span>
                       <div>
@@ -297,7 +297,7 @@ export function StudyHelperTool() {
                         key={chip}
                         type="button"
                         onClick={() => setRoughIdeas((current) => `${current}${current ? "\n" : ""}Focus on ${chip}.`)}
-                        className="rounded-full border border-[rgba(43,107,87,0.20)] bg-white/72 px-3 py-2 text-left text-xs text-[#2B6B57] hover:bg-white"
+                        className="rounded-full border border-[rgba(58,56,50,0.20)] bg-white/72 px-3 py-2 text-left text-xs text-[#3A3832] hover:bg-white"
                       >
                         {chip}
                       </button>
@@ -315,7 +315,7 @@ export function StudyHelperTool() {
                 type="button"
                 onClick={generateStudyPlan}
                 disabled={loading || !hasInput}
-                className="inline-flex rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#2B6B57] disabled:bg-[#C8C2BC]"
+                className="inline-flex rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#3A3832] disabled:bg-[#C8C2BC]"
               >
                 <Sparkles className="mr-2 h-4 w-4" aria-hidden />
                 {loading ? "Drafting study help..." : "Draft study help"}
@@ -338,7 +338,7 @@ export function StudyHelperTool() {
               </button>
             </div>
             {loading ? (
-              <p className="mt-4 rounded-[10px] border border-[#D4A853]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
+              <p className="mt-4 rounded-[10px] border border-[#C79B1F]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
                 Building the plan: no invented quotes, no full essay to copy, just the next useful study move.
               </p>
             ) : null}
@@ -348,7 +348,7 @@ export function StudyHelperTool() {
           </div>
 
           <aside className="rounded-[8px] border border-[rgba(35,33,31,0.08)] bg-white/64 p-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#2B6B57]">what this becomes</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#3A3832]">what this becomes</p>
             <h2 className="mt-3 font-display text-4xl font-light leading-none">Mapped to NZ Curriculum skills.</h2>
             <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#5A5550]">
               <li><strong>Tonight:</strong> Year 9 English exam prep for Jack on <em>Falling into Rarohenga</em>.</li>
@@ -361,9 +361,9 @@ export function StudyHelperTool() {
 
         {html ? (
           <section className="mt-8 rounded-[14px] border border-[rgba(35,33,31,0.08)] bg-white p-8">
-            <div className="prose prose-neutral max-w-none [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-normal [&_h2]:text-[#2B6B57]" dangerouslySetInnerHTML={{ __html: html }} />
+            <div className="prose prose-neutral max-w-none [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-normal [&_h2]:text-[#3A3832]" dangerouslySetInnerHTML={{ __html: html }} />
             <div className="mt-6 flex flex-wrap gap-3">
-              <button type="button" onClick={copyOutput} className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#2B6B57]">
+              <button type="button" onClick={copyOutput} className="inline-flex items-center gap-2 rounded-full bg-[#23211F] px-5 py-3 text-sm font-medium text-white hover:bg-[#3A3832]">
                 <Copy className="h-4 w-4" /> Copy markdown
               </button>
               <button type="button" onClick={downloadMarkdown} className="inline-flex items-center gap-2 rounded-full border border-[rgba(35,33,31,0.18)] px-5 py-3 text-sm text-[#5A5550] hover:text-[#23211F]">
@@ -399,7 +399,7 @@ function SmallInput({
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#2B6B57] focus:bg-white"
+        className="h-11 w-full rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 outline-none focus:border-[#3A3832] focus:bg-white"
       />
     </label>
   );
@@ -422,7 +422,7 @@ function Field({
       <textarea
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="min-h-[170px] w-full rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#F7F4EE] p-4 text-sm leading-relaxed outline-none focus:border-[#2B6B57] focus:bg-white"
+        className="min-h-[170px] w-full rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#F7F4EE] p-4 text-sm leading-relaxed outline-none focus:border-[#3A3832] focus:bg-white"
         placeholder={placeholder}
       />
     </label>

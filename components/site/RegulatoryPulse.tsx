@@ -58,7 +58,7 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
               stats.latest.map((item) => (
                 <article
                   key={item.id}
-                  className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] p-4"
+                  className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FFF7EC] p-4"
                 >
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                     <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--assembl-pounamu)]">
@@ -88,7 +88,7 @@ export function RegulatoryPulse({ initial }: RegulatoryPulseProps) {
                 </article>
               ))
             ) : (
-              <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] p-5">
+              <div className="rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-[#FFF7EC] p-5">
                 <p className="text-sm leading-relaxed text-[color:var(--text-body)]">
                   Source checks are running. New legislation and regulator updates
                   will appear here as they are found.

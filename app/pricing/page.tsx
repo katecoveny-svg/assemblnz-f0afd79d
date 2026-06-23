@@ -86,7 +86,7 @@ export default function PricingPage() {
                   Ten working days. One workflow your team already does by hand, drafted from your
                   data, sealed in an evidence pack.
                 </p>
-                <p className="mt-4 inline-block rounded-[12px] bg-[rgba(43,107,87,0.07)] px-3 py-2 font-mono text-[10.5px] uppercase tracking-[0.12em] leading-relaxed text-[color:var(--assembl-pounamu)]">
+                <p className="mt-4 inline-block rounded-[12px] bg-[rgba(58,56,50,0.07)] px-3 py-2 font-mono text-[10.5px] uppercase tracking-[0.12em] leading-relaxed text-[color:var(--assembl-pounamu)]">
                   {CREDIT_NOTE}
                 </p>
               </div>
@@ -155,7 +155,7 @@ export default function PricingPage() {
                 </p>
                 <p className="mt-5 text-body-md text-[color:var(--text-body)]">{tier.body}</p>
                 {'note' in tier && tier.note ? (
-                  <p className="mt-4 rounded-[12px] bg-[rgba(43,107,87,0.07)] px-3 py-2 font-mono text-[10.5px] uppercase tracking-[0.12em] leading-relaxed text-[color:var(--assembl-pounamu)]">
+                  <p className="mt-4 rounded-[12px] bg-[rgba(58,56,50,0.07)] px-3 py-2 font-mono text-[10.5px] uppercase tracking-[0.12em] leading-relaxed text-[color:var(--assembl-pounamu)]">
                     {tier.note}
                   </p>
                 ) : null}

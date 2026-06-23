@@ -55,7 +55,7 @@ function Select({ label, value, onChange, options }: { label: string; value: str
   return (
     <label className="block">
       <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.22em] text-[#5C6273]">{label}</span>
-      <select value={value} onChange={(event) => onChange(event.target.value)} className="h-12 w-full rounded-[8px] border border-[#C8BBA9]/70 bg-white/78 px-3 text-[#3D4250] outline-none focus:border-[#2B6B57]">
+      <select value={value} onChange={(event) => onChange(event.target.value)} className="h-12 w-full rounded-[8px] border border-[#C8BBA9]/70 bg-white/78 px-3 text-[#3D4250] outline-none focus:border-[#3A3832]">
         {options.map(([optionValue, optionLabel]) => <option key={optionValue} value={optionValue}>{optionLabel}</option>)}
       </select>
     </label>
@@ -66,7 +66,7 @@ function Toggle({ label, value, onChange }: { label: string; value: boolean; onC
   return (
     <label className="flex items-center justify-between gap-4 rounded-[8px] border border-[#C8BBA9]/70 bg-white/58 px-4 py-3 text-sm text-[#3D4250]">
       <span>{label}</span>
-      <input type="checkbox" checked={value} onChange={(event) => onChange(event.target.checked)} className="h-5 w-5 accent-[#2B6B57]" />
+      <input type="checkbox" checked={value} onChange={(event) => onChange(event.target.checked)} className="h-5 w-5 accent-[#3A3832]" />
     </label>
   );
 }

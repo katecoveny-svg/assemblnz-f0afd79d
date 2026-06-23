@@ -23,7 +23,7 @@ export type AgentStatus = 'live' | 'coming_soon';
 /** Avatar tile colourway (canon). */
 export type TileTone = 'cream' | 'canary' | 'ink';
 
-export type MarketplaceCategory = 'family' | 'business' | 'trades' | 'health';
+export type MarketplaceCategory = 'start-here' | 'family' | 'business' | 'creative' | 'trades' | 'health' | 'build';
 
 export type MarketplaceAgent = {
   slug: string;
@@ -55,13 +55,18 @@ export type MarketplaceAgent = {
   greeting: string;
   starters: string[];
   toolHref?: string;
+  /** featured in the marketplace — surfaces as the lead "Start here" card */
+  featured: boolean;
 };
 
 export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: string }[] = [
+  { slug: 'start-here', label: 'Start here', teReo: 'Mahere' },
   { slug: 'family', label: 'Family & Whānau', teReo: 'Whānau' },
   { slug: 'business', label: 'Business & SME', teReo: 'Pakihi' },
+  { slug: 'creative', label: 'Marketing & Creative', teReo: 'Auaha' },
   { slug: 'trades', label: 'Trades, Ops & Coast', teReo: 'Mahi' },
   { slug: 'health', label: 'Health & Service', teReo: 'Hauora' },
+  { slug: 'build', label: 'Build', teReo: 'Hanga' },
 ];
 
 export const CATEGORY_LABELS: Record<MarketplaceCategory, string> = Object.fromEntries(
@@ -120,7 +125,8 @@ type AgentDef = Omit<
   | 'skills'
   | 'fallbackModels'
   | 'accent'
-> & { status?: AgentStatus; tools?: string[]; skills?: string[] };
+  | 'featured'
+> & { status?: AgentStatus; tools?: string[]; skills?: string[]; featured?: boolean };
 
 function buildAgent(def: AgentDef): MarketplaceAgent {
   const body = AGENT_PROMPTS[def.slug];
@@ -135,11 +141,48 @@ function buildAgent(def: AgentDef): MarketplaceAgent {
     skills: def.skills ?? [],
     fallbackModels: [...FALLBACK_MODELS],
     accent: TILE_BG[def.tile],
+    featured: def.featured ?? false,
     systemPrompt: body.replace('[SHARED BRAND PREFIX]', SHARED_BRAND_PREFIX),
   };
 }
 
 const AGENT_DEFS: AgentDef[] = [
+  // ── Start here ───────────────────────────────────────────────────────
+  {
+    slug: 'atlas',
+    name: 'Atlas',
+    teReo: 'Mahere',
+    description:
+      'The free AI adoption coach. Maps your week, points you to the agents that fit, and walks you from idea to your first built workflow — honest about where AI will not help.',
+    whatItDoes: [
+      'Learns your week through plain questions, then finds and scores where AI could help.',
+      'Recommends one to three agents from the shelf, or picks one low-risk first build and hands it to Pilot.',
+      'Teaches as it goes — eight expert lenses, the Privacy Act 2020 and tikanga, and an honest read on what AI cannot do.',
+    ],
+    whatYouGet: [
+      'A short, honest read on where AI fits your week — and where it does not.',
+      'One to three agent picks you can open and try for free, or a first build handed to Pilot.',
+      'A one-page roadmap to save or share, and a journey map that tracks your progress, badges and streak.',
+    ],
+    sampleOutputs: [
+      'For school notices and the family calendar, start with Pānui Parser and 9am Brief — both free.',
+      'AI will not fix a messy roster on its own. Tidy the availability first, then Roster Sorter can hold it.',
+    ],
+    nzKnowledge: ['Privacy Act 2020 (IPP 3A, from 1 May 2026)', 'The assembl agent shelf', 'Tikanga considerations for whānau and Māori data'],
+    category: 'start-here',
+    modelTier: 'mid',
+    priceTier: 'free',
+    icon: 'atlas',
+    tile: 'ink',
+    featured: true,
+    greeting:
+      'I am Atlas, the free AI adoption coach. I will not sell you anything. Tell me what you do most days, and we will find one useful thing to build — starting small and low-risk.',
+    starters: [
+      'What do you do most days?',
+      'What do you repeat every week that feels slow?',
+      'Help me find one thing to automate.',
+    ],
+  },
   // ── Family & Whānau ──────────────────────────────────────────────────
   {
     slug: '9am-brief',
@@ -821,6 +864,214 @@ const AGENT_DEFS: AgentDef[] = [
     tile: 'canary',
     greeting: 'Give me the brief — product, audience, channel — and I will draft the copy and concepts. You approve before anything ships.',
     starters: ['Draft a campaign from this brief.', 'Give me three taglines.', 'Storyboard a short promo.'],
+
+  // ── Marketing & Creative ─────────────────────────────────────────────
+  {
+    // English-first name that happens to be the te reo word (Kate's call — a
+    // known sub-brand from the kete days). No separate te reo label.
+    slug: 'auaha',
+    name: 'Auaha',
+    teReo: '',
+    description: 'Full creative shop — brief → copy → image → video → podcast → one-shot apps.',
+    whatItDoes: [
+      'Turns a brief into a creative direction, then drafts the copy.',
+      'Writes image prompts, video scripts and podcast outlines from the same brief.',
+      'Drafts a one-shot landing page ready to drop in.',
+    ],
+    whatYouGet: [
+      'A few options per asset, in your brand voice, for you to choose.',
+      'Copy, image prompts, a video script and a podcast outline.',
+      'A flags list: claims to substantiate and anything for cultural review.',
+    ],
+    sampleOutputs: [
+      'Three headline options in your voice, plus an image prompt for each.',
+      'A 30-second video script and a two-line podcast outline.',
+    ],
+    nzKnowledge: ['Fair Trading Act 1986', 'ASA advertising codes'],
+    category: 'creative',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'spark',
+    tile: 'canary',
+    greeting: 'Tell me the brief — the brand, the audience, the channel — and I will draft the copy, image prompts, video and more for you to review.',
+    starters: [
+      'Brief and draft a launch campaign.',
+      'Write three ad headlines in our voice.',
+      'Draft a one-shot landing page.',
+    ],
+  },
+  {
+    slug: 'social-manager',
+    name: 'Social Manager',
+    teReo: '',
+    description: 'The always-on half of your social — publishes, watches comments, drafts replies.',
+    whatItDoes: [
+      'Schedules and publishes approved posts across your channels.',
+      'Watches comments and DMs and drafts replies in your voice.',
+      'Runs the weekly performance and sentiment review.',
+    ],
+    whatYouGet: [
+      'Scheduled posts and drafted comment and DM replies.',
+      'A weekly performance and sentiment digest.',
+      'Trend and brand-mention alerts.',
+    ],
+    sampleOutputs: [
+      '12 comments overnight — 9 drafted replies, 1 flagged for you, 2 spam.',
+      'Weekly: reach up 18%, sentiment steady, your reel is trending.',
+    ],
+    nzKnowledge: ['Fair Trading Act 1986', 'ASA advertising codes'],
+    category: 'creative',
+    modelTier: 'mid',
+    priceTier: 'business',
+    icon: 'social',
+    tile: 'canary',
+    greeting: 'Connect your accounts and tone guide, and I will publish, watch the comments, and draft the replies. Auaha makes it; I run it.',
+    starters: [
+      'Schedule this week’s posts.',
+      'Draft replies to today’s comments.',
+      'Run my weekly social review.',
+    ],
+  },
+
+  // ── Business & SME (re-adds) ──────────────────────────────────────────
+  {
+    slug: 'chief',
+    name: 'Chief',
+    teReo: '',
+    description: 'A chief of staff for one — inbox, calendar, expenses, drafted and ready for your nod.',
+    whatItDoes: [
+      'Triages your inbox and drafts replies in your voice.',
+      'Runs your calendar: holds, clashes, a one-page brief per meeting.',
+      'Processes expense receipts and drafts standing reports.',
+    ],
+    whatYouGet: [
+      'A triaged inbox with drafted replies waiting for your nod.',
+      'Calendar holds and a brief before each meeting.',
+      'An end-of-day digest: handled / needs you / scheduled.',
+    ],
+    sampleOutputs: [
+      '3 emails need you: drafted replies attached. 11 handled, 2 escalated.',
+      'Tomorrow 10am with Acme — brief: last thread, open actions, their news.',
+    ],
+    nzKnowledge: ['Privacy Act 2020'],
+    category: 'business',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'chief',
+    tile: 'ink',
+    greeting: 'Connect your inbox and calendar and tell me your priorities and escalate rules, and I will run the day with you. Nothing sends without your nod.',
+    starters: [
+      'Triage my inbox and draft the replies.',
+      'Brief me for my next meeting.',
+      'Hold focus time this week.',
+    ],
+  },
+  {
+    slug: 'roster',
+    name: 'Roster',
+    teReo: '',
+    description: 'Your CRM and pipeline, kept current — logs activity, drafts follow-ups, flags cold leads.',
+    whatItDoes: [
+      'Logs activity from email and calendar against the right deal.',
+      'Drafts follow-ups on your cadence and suggests stage moves.',
+      'Flags cold leads and runs the weekly pipeline review.',
+    ],
+    whatYouGet: [
+      'Auto-logged activity and drafted follow-up emails.',
+      'A weekly pipeline brief with the top three actions.',
+      'Lost-deal reasons tracked over time.',
+    ],
+    sampleOutputs: [
+      '4 deals untouched 14+ days — drafted nudges ready to send.',
+      'Pipeline brief: $48k weighted, 2 deals slipping, 1 ready to close.',
+    ],
+    nzKnowledge: ['Fair Trading Act 1986', 'Privacy Act 2020'],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'toro',
+    icon: 'people',
+    tile: 'cream',
+    greeting: 'Connect your CRM and tell me your stages and win criteria, and I will log the activity, draft the follow-ups, and keep deals moving.',
+    starters: [
+      'Draft follow-ups for my stalled deals.',
+      'Run this week’s pipeline review.',
+      'Which leads have gone cold?',
+    ],
+  },
+  {
+    slug: 'counter',
+    name: 'Counter',
+    teReo: '',
+    description: 'Retail ops in one place — POS brief, supplier reorders, returns and customer queries.',
+    whatItDoes: [
+      'Reads daily POS data and writes a sales and margin brief.',
+      'Drafts supplier reorder POs and triages returns under the CGA.',
+      'Triages customer queries across web, email and social.',
+    ],
+    whatYouGet: [
+      'A daily sales and margin brief.',
+      'Drafted reorder POs and returns decisions for your sign-off.',
+      'Drafted customer replies and a weekly retail pack.',
+    ],
+    sampleOutputs: [
+      'Yesterday: $4,120 sales, 38% margin — restock two best-sellers (PO drafted).',
+      'Return: faulty kettle, 3 weeks old — CGA remedy: repair, replace or refund.',
+    ],
+    nzKnowledge: ['Consumer Guarantees Act 1993', 'Sale of Goods Act 1908', 'Fair Trading Act 1986'],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'business',
+    icon: 'store',
+    tile: 'ink',
+    greeting: 'Connect your POS and supplier list, and I will write the daily brief, draft the reorders, and triage returns and customer queries for your sign-off.',
+    starters: [
+      'Write today’s sales brief.',
+      'Draft a reorder for low stock.',
+      'Triage this customer return.',
+    ],
+  },
+
+  // ── Build ────────────────────────────────────────────────────────────
+  {
+    slug: 'pilot',
+    name: 'Pilot',
+    teReo: 'Kaiurungi',
+    description:
+      'Your step-by-step agent maker. Pilot walks you through naming, building, testing and shipping your own agent — no code, no jargon. First one free.',
+    whatItDoes: [
+      'Guides you through seven plain-English steps: name, goal, inputs, tools, voice and safety, a test drive, then ship.',
+      'Writes the system prompt for you against the locked assembl voice — sentence case, English-first, no slop — and adds the right NZ Acts for your category.',
+      'Suggests an icon, an optional te reo label, the tools that fit, and a price tier — you edit anything you like.',
+    ],
+    whatYouGet: [
+      'A working agent you can test in a sandbox before it goes anywhere.',
+      'A draft saved to My Agents for your own use, free.',
+      'An optional path to submit it for marketplace review, signed with a Mana Receipt.',
+    ],
+    sampleOutputs: [
+      'Built “Lease Reader” — reads a tenancy agreement, flags the clauses that matter, cites the Residential Tenancies Act 1986. Saved as a draft.',
+      'Suggested icon: scroll. Te reo label: none that fits naturally. Model: Claude Sonnet for the reasoning.',
+    ],
+    nzKnowledge: [
+      'assembl voice canon (English-first, slop blacklist, draft-only)',
+      'Privacy Act 2020 (IPP 3A) compliance prompts',
+      'Fair Trading Act + ASA advertising rules',
+      'Holidays Act + Employment Relations Act',
+      'Health and Safety at Work Act 2015',
+      'Health and Disability Commissioner code',
+    ],
+    category: 'build',
+    modelTier: 'premium',
+    priceTier: 'free',
+    icon: 'pilot',
+    tile: 'ink',
+    greeting:
+      'I am Pilot. I will help you build your own agent, one step at a time — no code. To start: what do you want to call it, and what should it do in one line?',
+    starters: [
+      'Build me an agent that reads my tenancy agreements.',
+      'I want an agent that drafts replies to customer reviews.',
+      'I am not sure what to build — help me figure it out.',
+    ],
   },
 ];
 

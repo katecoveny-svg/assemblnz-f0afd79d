@@ -99,7 +99,7 @@ export function SplineScene({ asset, className, forceMotion = false }: SplineSce
       )}
 
       {asset.placeholder && (
-        <div className="absolute bottom-3 left-3 right-3 rounded-sm bg-[rgba(35,33,31,0.78)] px-3 py-2 font-mono text-eyebrow uppercase text-[#FAF7F2]">
+        <div className="absolute bottom-3 left-3 right-3 rounded-sm bg-[rgba(35,33,31,0.78)] px-3 py-2 font-mono text-eyebrow uppercase text-[#FFF7EC]">
           Awaiting prod.spline.design export — see lib/brand/motion-assets.ts
         </div>
       )}

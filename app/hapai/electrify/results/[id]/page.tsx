@@ -160,7 +160,7 @@ export default async function ElectrifyResultsPage({ params }: { params: Promise
   )} a year back from fossil machines. Run your own NZ estimate from assembl.`;
 
   return (
-    <main className="overflow-hidden bg-[radial-gradient(ellipse_at_18%_0%,rgba(217,188,122,0.22),transparent_48%),radial-gradient(ellipse_at_82%_8%,rgba(43,107,87,0.18),transparent_50%),var(--assembl-paper)] font-inter text-taupe-900">
+    <main className="overflow-hidden bg-[radial-gradient(ellipse_at_18%_0%,rgba(217,188,122,0.22),transparent_48%),radial-gradient(ellipse_at_82%_8%,rgba(58,56,50,0.18),transparent_50%),var(--assembl-paper)] font-inter text-taupe-900">
       {/* HERO — full-bleed, share-worthy, centred */}
       <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] px-6 pt-14 pb-12 lg:px-10 lg:pt-20 lg:pb-16">
         <div className="pointer-events-none absolute inset-y-0 right-[-6%] top-[-8%] hidden w-[46%] lg:block">

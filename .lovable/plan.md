@@ -1,72 +1,55 @@
+## Scope
 
+The user's rule: only touch embeddings calls hitting the **Lovable AI Gateway** (`https://ai.gateway.lovable.dev/v1/embeddings`) that use an **unsupported** model. Leave everything else alone.
 
-# Brand & Functionality Audit — Single Pass to Launch-Ready
+### Audit of every embedding call in the repo
 
-Goal: by end of today, every kete visual on the site matches the Brand Guidelines v1.0 sheet (the fluffy white feathered kete with subtle accent rim wash), all SMS + WhatsApp paths are verified working, and all retired-kete code is fully removed.
+| File | Endpoint | Model | Verdict |
+|---|---|---|---|
+| `legacy-vite/src/lib/knowledgeBrain.ts` (line 25-29) | **Lovable Gateway** | `google/text-embedding-004` | **Unsupported — fix + disable** |
+| `supabase/functions/ikb-ingest/index.ts` (lines 32, 73-84) | **Lovable Gateway** | `google/text-embedding-004` | **Unsupported — fix + disable** |
+| `supabase/functions/_shared/embed.ts` | Google native `generativelanguage.googleapis.com` | `gemini-embedding-001:embedContent` | Direct provider, NOT Gateway — leave alone |
+| `supabase/functions/haven-ai/index.ts`, `odyssey-travel/index.ts` | Google native API | `gemini-embedding-001:embedContent` | Direct provider, NOT Gateway — leave alone |
+| `supabase/functions/memory-backfill-embeddings/index.ts` | `openrouter.ai/api/v1/embeddings` | `openai/text-embedding-3-small` | OpenRouter direct, NOT Gateway — leave alone |
+| `supabase/functions/memory-extractor/index.ts` | `openrouter.ai/api/v1/embeddings` | `openai/text-embedding-3-small` | OpenRouter direct, NOT Gateway — leave alone |
+| `supabase/functions/ikb-search/kb-context/memory-recall/embed-worker` | All route through `_shared/embed.ts` | (Google native) | Not Gateway — leave alone |
 
-This plan splits the work into **four sequential passes**. Each pass is small enough to ship and verify before moving to the next.
+Only the first two are in scope.
 
----
+## Why `openai/text-embedding-3-small` with `dimensions: 768`
 
-## Pass 1 — Logo & nav cohesion (top-left fix + global)
+- pgvector columns on both call paths are `vector(768)` (the existing schema and the comments in `_shared/embed.ts` / `embed-worker` confirm 768-dim).
+- Per the AI-Gateway knowledge: `google/gemini-embedding-001` defaults to 3072 and **rejects** the `dimensions` field — cannot truncate to 768.
+- `openai/text-embedding-3-small` is a supported Gateway model and accepts `"dimensions": 768`, keeping the existing `vector(768)` column shape intact. This is the documented escape hatch for non-default dimensions.
+- No DB migrations needed — column shape preserved.
 
-**Issue:** `Nav3DKeteLogo` (used in `BrandNav`) renders the cinematic **master kete** PNG (`src/assets/kete-master/kete-1024.png`). At 36px in the header it reads as a generic blob, not the canonical feathered kete from the brand sheet. The brand bible memory says "hero kete = ONLY interactive kete; grid kete = static + twinkle only" — the nav should use a *static* canonical mark, not the hero asset.
+## Disabling convention
 
-**Fix:**
-1. Replace `Nav3DKeteLogo` with a tiny static `<FeatherKete variant="base" size={36} drift="none" />` (or a pre-rasterised 72×72 PNG of that exact silhouette) so the header mark is identical in form to every grid kete.
-2. Audit all 8 `kete/index.ts` accent values vs the brand sheet hex codes — confirm the per-industry tint matches (PIKAU `#B8C7B1`, HOKO `#D8C3C2`, AKO `#C7D6C7`, TORO `#C7D9E8`, MANAAKI `#E6D8C6`, WAIHANGA `#CBB8A4`, ARATAKI `#D5C0C8`, AUAHA `#C8DDD8`).
-3. Confirm `BrandNav` `KETE` array `color` values are pulled from the same source-of-truth rather than hard-coded teals (`#4AA5A8` is used for Manaaki, Waihanga, Toro today — wrong per the sheet).
+Per the user's instruction, the corrected call stays in the file but is commented out with the marker `// Disabled by Lovable - model fixed; uncomment to re-enable`. The function still exists and returns a safe failure (`null` for the browser helper, `throw` for the ingest worker) so callers behave predictably — both call sites already handle the null/throw paths today (knowledgeBrain returns `[]` on null; ikb-ingest wraps each doc in a try/catch and writes status `error`).
 
-## Pass 2 — Remove retired kete code
+## Changes
 
-The brand memory and `scripts/check-kete-names.ts` lock the 8 ketes. The codebase still ships several retired marks and a full `hanga/` component folder. These leak into bundles and risk regressions:
+### 1. `legacy-vite/src/lib/knowledgeBrain.ts` (function `embedQuery`, ~lines 22-34)
 
-- Retired SVG marks to delete: `hanga-mark.svg`, `pakihi-mark.svg`, `hangarau-mark.svg`, `te-kahui-reo-mark.svg`, `te-kahui-reo-logo.svg`, `toroa-mark.svg`, `toroa-logo.svg`, `toroa-logo-2.svg` (TORO has its own kete photo now).
-- Component folder to remove: `src/components/hanga/` (e.g. `WhakaaeDashboard.tsx` still uses Lato + JetBrains Mono + retired #1A1D29 black text).
-- Run `scripts/check-kete-names.ts` in CI mode to confirm zero remaining `hanga` / `pakihi` / `hangarau` / retired-name references.
+- Replace the model in the corrected body with `openai/text-embedding-3-small` and add `dimensions: 768`.
+- Comment out the entire `fetch` → `r.json()` → `embedding` block with the marker.
+- Make the function return `null` while disabled. `getLiveContextServer` already handles `null` by returning `[]`, so the UI silently degrades to "no fresh sources matched this query".
 
-## Pass 3 — Typography sweep (Plus Jakarta → Inter)
+### 2. `supabase/functions/ikb-ingest/index.ts`
 
-The brand bible bans Plus Jakarta Sans, Lato, and JetBrains Mono. Search shows **1,745 hits across 89 files** still referencing `Plus Jakarta Sans` (including `TextUsButton`, every legacy hanga dashboard, etc.).
+- Change `EMBED_MODEL` constant (line 32) to `openai/text-embedding-3-small` and add a sibling `EMBED_DIMENSIONS = 768` constant.
+- In `embedBatch` (lines 73-84): leave the corrected `fetch` body in place (with `dimensions: EMBED_DIMENSIONS` in the JSON), but comment out the `fetch` call + response parsing with the marker, and `throw new Error("ikb-ingest embedBatch disabled by Lovable - uncomment in supabase/functions/ikb-ingest/index.ts to re-enable")` from the active code path.
+- Each per-doc ingest already runs in a try/catch and records `status: "error"`, so the function continues to respond without crashing the batch loop.
 
-**Strategy** (low-risk, high-coverage):
-1. Add a single global CSS shim in `src/index.css` that aliases `'Plus Jakarta Sans'`, `'Lato'`, `'JetBrains Mono'` to `'Inter'` / `'IBM Plex Mono'` so every legacy inline `style={{ fontFamily: ... }}` instantly inherits the right family without per-file rewrites. (Mirrors the existing `pearl-alignment-shim` pattern in memory.)
-2. Codemod `TextUsButton.tsx` and the 8 industry landing pages to use `'Inter'` directly so new code reads correctly.
-3. Replace any hard-coded `#1A1D29` / `#000` text colour with Twilight Taupe `#6F6158` via the same shim.
+## Out of scope / explicitly NOT touched
 
-## Pass 4 — Messaging end-to-end verification (SMS + WhatsApp)
+- `_shared/embed.ts` and every function that uses it (`ikb-search`, `kb-context`, `memory-recall`, `embed-worker`, `haven-ai`, `odyssey-travel`) — these are direct Google API calls, not Gateway calls.
+- `memory-backfill-embeddings/index.ts` and `memory-extractor/index.ts` — direct OpenRouter calls with a supported model.
+- pgvector schema, RPCs (`match_kb_knowledge`, `search_industry_kb`, `match_agent_memory`), and any UI.
+- No new edge-function deploys are triggered by editing the source — code change only.
 
-The infrastructure is in place but has not been smoke-tested in this session. Required checks:
+## Verification after build mode
 
-| Path | Component → Function → Provider | Verify |
-|------|----------------------------------|--------|
-| SMS outbound | `TextUsButton` `sms:` link → device handler | Link opens with prefilled body on iOS/Android |
-| SMS inbound | TNZ → `tnz-webhook` → `tnz-inbound` → kete handler → `tnz-send` | `TNZ_AUTH_TOKEN`, `TNZ_API_BASE`, `TNZ_FROM_NUMBER` set; webhook URL registered in TNZ portal |
-| WhatsApp outbound (deep link) | `TextUsButton` → `wa.me/<number>` | `kete_channel_config.whatsapp_enabled = true` for each of the 8 ketes |
-| WhatsApp outbound (server) | `AdminMessagesPage` / `food-safety-diary` → `send-whatsapp` → Twilio | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WHATSAPP_NUMBER` set; sandbox approved |
-| Fallback number | `TextUsButton` `FALLBACK_PHONE = "+6448879880"` | Confirm this is the correct live Twilio NZ number, not a stale stub |
-
-**Action:** I'll run `secrets fetch` to confirm all 6 secrets are present, query `kete_channel_config` for the 8 rows, and ping `tnz-send` + `send-whatsapp` with a dry-run payload to confirm 200 responses. Anything missing gets a masked-input form per the security memory.
-
----
-
-## Acceptance criteria (the "done today" bar)
-
-- [ ] Header kete (top-left, every page) is visually identical in silhouette to the 8 grid kete on the brand sheet.
-- [ ] All 8 industry kete cards show the correct accent rim hex from the sheet.
-- [ ] No `Plus Jakarta Sans` / `Lato` / `JetBrains Mono` / `#1A1D29` references render in the user-visible UI (shim catches legacy inline styles).
-- [ ] `scripts/check-kete-names.ts` exits 0 (no retired kete names anywhere).
-- [ ] SMS deep link prefills correctly on a real phone; WhatsApp deep link opens the right number.
-- [ ] `tnz-send` and `send-whatsapp` both return `200` with valid Twilio/TNZ message IDs in a smoke test.
-
-## Technical implementation notes
-
-- The kete master PNG (`src/assets/kete-master/kete-1024.png`) stays — it's correct for the cinematic hero. The change is *only* swapping what the **nav** renders to the matched-silhouette static feathered kete.
-- The font shim goes at the bottom of `src/index.css` (same place as the existing pearl alignment shim) using `@layer utilities { [style*="Plus Jakarta Sans"] { font-family: 'Inter', sans-serif !important; } }` etc. — zero per-file edits needed.
-- Deleting `src/components/hanga/` will require checking `App.tsx` for orphaned routes; the guard script will surface any remaining imports.
-- Messaging verification uses `supabase--curl_edge_functions` in dry-run mode (no live SMS sent unless you give the green light).
-
-## What I need from you to start
-
-Reply **"go"** and I'll execute Pass 1 → Pass 4 in order, pausing only if a secret is missing or the smoke test fails.
-
+- `grep -n "google/text-embedding-004" -r .` → returns no matches outside `.next/` build cache and `.md` docs.
+- `grep -rn "Disabled by Lovable - model fixed" -r .` → returns the two expected hits.
+- TypeScript compile of both files (`tsgo` is run automatically by harness).

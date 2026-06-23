@@ -25,13 +25,18 @@ const SPA_PUBLIC_PREFIXES = [
 const matchesPrefix = (pathname: string, prefix: string) =>
   pathname === prefix || pathname.startsWith(`${prefix}/`);
 
+// Legacy bare kete slugs (/manaaki, /arataki, …) are pre-pivot surfaces. They
+// now redirect straight to the /agents marketplace that replaced the kete packs
+// (the old behaviour rewrote them to /kete/<root>, which itself now 301s to
+// /agents — short-circuit that here so it's a single hop).
 const legacyKeteRedirect = (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;
-  const [, root, ...rest] = pathname.split('/');
+  const [, root] = pathname.split('/');
   if (!PUBLIC_KETE_ROOTS.includes(root)) return null;
 
   const url = request.nextUrl.clone();
-  url.pathname = `/kete/${root}${rest.length ? `/${rest.join('/')}` : ''}`;
+  url.pathname = '/agents';
+  url.search = '';
   return NextResponse.redirect(url, 308);
 };
 

@@ -35,7 +35,7 @@ export function LanguageToggle() {
           className={cn(
             "flex min-h-[32px] min-w-[36px] items-center justify-center rounded-full px-2.5 py-1 font-mono uppercase tracking-[0.08em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 md:min-h-0 md:min-w-0",
             active === locale
-              ? "bg-[color:var(--assembl-pounamu)] text-[#FAF7F2]"
+              ? "bg-[color:var(--assembl-pounamu)] text-[#FFF7EC]"
               : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]",
           )}
         >

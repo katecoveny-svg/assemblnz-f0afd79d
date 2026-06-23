@@ -20,6 +20,12 @@ import { MARKETPLACE_AGENTS } from '../lib/marketplace/agents';
 const OUT = join(
   process.cwd(),
   'supabase/migrations/20260623210000_seed_roster_with_creative_studio.sql',
+// Current canonical seed — CANON roster + Auaha + Chief/Roster/Counter/Social Manager (28 agents, 2026-06-23). Lands
+// after all prior agent migrations, PRUNES any agent no longer in the roster,
+// then upserts the full set.
+const OUT = join(
+  process.cwd(),
+  'supabase/migrations/20260623220000_seed_canon_28_agents.sql',
 );
 
 /** Escape a value as a SQL string literal. */
@@ -93,6 +99,7 @@ const updateAssignments = COLUMNS.filter((c) => c !== 'slug')
 const slugList = MARKETPLACE_AGENTS.map((a) => s(a.slug)).join(', ');
 
 const sql = `-- Seed — live agent roster (${MARKETPLACE_AGENTS.length} agents).
+const sql = `-- Seed — CANON roster + Auaha + 4 re-adds (28 agents, 2026-06-23).
 --
 -- AUTO-GENERATED from lib/marketplace/agents.ts by scripts/build-agents-seed.ts.
 -- Do not hand-edit; regenerate with: pnpm tsx scripts/build-agents-seed.ts
@@ -122,6 +129,7 @@ COMMIT;
 
 -- Verify:
 -- SELECT count(*) FROM public.agents;                       -- expect ${MARKETPLACE_AGENTS.length}
+-- SELECT count(*) FROM public.agents;                       -- expect 28
 -- SELECT category, count(*) FROM public.agents GROUP BY category ORDER BY 1;
 -- SELECT slug, name, te_reo, price_tier, price_monthly_nzd
 --   FROM public.agents ORDER BY category, name;

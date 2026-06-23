@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function HapaiNextStep() {
   return (
-    <section className="rounded-[8px] border border-[rgba(212,168,83,0.42)] bg-white/60 p-6">
+    <section className="rounded-[8px] border border-[rgba(199,155,31,0.42)] bg-white/60 p-6">
       <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-pounamu)]">
         Next step
       </p>

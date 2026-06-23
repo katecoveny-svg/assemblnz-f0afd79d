@@ -49,28 +49,28 @@ function DemoPanel({ phase }: { phase: number }) {
       initial={{ opacity: 0.6, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-      className="rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#1f211f] p-5 text-[#FAF7F2] shadow-[0_28px_80px_rgba(35,33,31,0.22)]"
+      className="rounded-[8px] border border-[rgba(35,33,31,0.16)] bg-[#1f211f] p-5 text-[#FFF7EC] shadow-[0_28px_80px_rgba(35,33,31,0.22)]"
     >
       <div className="flex items-center gap-2 border-b border-white/10 pb-4 font-mono text-[11px] uppercase tracking-[0.08em] text-white/60">
-        <span className="h-2 w-2 rounded-full bg-[#D4A853]" />
+        <span className="h-2 w-2 rounded-full bg-[#C79B1F]" />
         assembl run terminal
       </div>
       <div className="mt-6 flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2B6B57]">
+        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#3A3832]">
           <Icon className="h-5 w-5" aria-hidden />
         </span>
         <div>
           <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-white/55">Phase {String(phase + 1).padStart(2, '0')}</p>
-          <h3 className="mt-1 font-display text-3xl leading-none text-[#FAF7F2]">{content[0]}</h3>
+          <h3 className="mt-1 font-display text-3xl leading-none text-[#FFF7EC]">{content[0]}</h3>
         </div>
       </div>
       <div className="mt-8 space-y-3 font-mono text-[12px] leading-relaxed">
         <p className="rounded-[6px] bg-white/8 p-3">{content[1]}</p>
-        <p className="rounded-[6px] bg-white/8 p-3 text-[#D4A853]">{content[2]}</p>
+        <p className="rounded-[6px] bg-white/8 p-3 text-[#C79B1F]">{content[2]}</p>
       </div>
-      <div className="mt-8 rounded-[6px] border border-white/10 bg-[#FAF7F2] p-4 text-[#23211F]">
+      <div className="mt-8 rounded-[6px] border border-white/10 bg-[#FFF7EC] p-4 text-[#23211F]">
         <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#6F6158]">Visible output</p>
-        <div className="mt-4 h-28 border-l-4 border-[#2B6B57] bg-white p-4">
+        <div className="mt-4 h-28 border-l-4 border-[#3A3832] bg-white p-4">
           <p className="font-display text-2xl leading-none">{content[0]}</p>
           <p className="mt-3 text-sm leading-relaxed text-[#6F6158]">{content[1]}</p>
         </div>
@@ -85,7 +85,7 @@ export function PipelineStickyScroll() {
   const active = useTransform(scrollYProgress, [0, 0.2, 0.4, 0.6, 0.8, 1], [0, 1, 2, 3, 4, 4]);
 
   return (
-    <section ref={ref} className="border-y border-[rgba(212,168,83,0.36)] bg-[color:var(--assembl-paper)]">
+    <section ref={ref} className="border-y border-[rgba(199,155,31,0.36)] bg-[color:var(--assembl-paper)]">
       <div className="container py-24 lg:grid lg:grid-cols-2 lg:gap-16 lg:py-32">
         <div className="space-y-8 lg:space-y-0">
           {PHASES.map((phase, index) => (

@@ -28,7 +28,22 @@ export function isDashMicrosite(pathname: string | null): boolean {
 export function isAgentMarketplace(pathname: string | null): boolean {
   if (!pathname) return false;
   if (pathname === "/agents/pick") return false;
+  // Pilot (the agent maker) uses the marketplace chrome.
+  if (pathname === "/pilot" || pathname.startsWith("/pilot/")) return true;
   return pathname === "/agents" || pathname.startsWith("/agents/");
+}
+
+/** Atlas — the free AI literacy coach — and its /journey game scene are
+ *  immersive standalone surfaces with their own chrome (locked canon
+ *  2026-06-23). Suppress the global site nav. */
+export function isAtlas(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return (
+    pathname === "/atlas" ||
+    pathname.startsWith("/atlas/") ||
+    pathname === "/journey" ||
+    pathname.startsWith("/journey/")
+  );
 }
 
 export function SiteHeader() {
@@ -60,11 +75,11 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /dash/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || pathname === "/") return null;
 
   return (
     <header
-      className="sticky top-0 z-40 w-full border-b border-[rgba(157,140,125,0.14)] bg-[rgba(247,243,238,0.78)] backdrop-blur-xl"
+      className="sticky top-0 z-40 w-full border-b border-[rgba(58,56,50,0.10)] bg-[rgba(255,247,236,0.78)] backdrop-blur-xl"
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
       <div className="flex h-[72px] w-full max-w-none items-center justify-between gap-3 px-5 md:gap-4 md:px-8 xl:px-12 2xl:px-20">

@@ -23,10 +23,10 @@ export function EvidencePackFrame({ activeIndex }: { activeIndex: number }) {
       }}
     >
       <div
-        className="relative h-full w-full max-w-[420px] overflow-hidden rounded-[6px] border border-[rgba(212,168,83,0.35)] bg-[#FAF7F2] p-6 transition-shadow duration-700"
+        className="relative h-full w-full max-w-[420px] overflow-hidden rounded-[6px] border border-[rgba(199,155,31,0.35)] bg-[#FFF7EC] p-6 transition-shadow duration-700"
         style={{
           boxShadow: sealed
-            ? '0 24px 60px rgba(43,107,87,0.18), 0 0 0 1px rgba(43,107,87,0.20)'
+            ? '0 24px 60px rgba(58,56,50,0.18), 0 0 0 1px rgba(58,56,50,0.20)'
             : '0 12px 36px rgba(35,33,31,0.10)',
         }}
       >
@@ -57,7 +57,7 @@ export function EvidencePackFrame({ activeIndex }: { activeIndex: number }) {
           <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
             Variation pack · 14 King St, Auckland
           </p>
-          <div className="mt-3 h-px bg-[rgba(212,168,83,0.45)]" />
+          <div className="mt-3 h-px bg-[rgba(199,155,31,0.45)]" />
         </header>
 
         {/* Document body — paragraph lines */}
@@ -73,13 +73,13 @@ export function EvidencePackFrame({ activeIndex }: { activeIndex: number }) {
 
         {/* Attribution block — Stage 02 */}
         <div
-          className="relative mt-5 rounded-[4px] border bg-[rgba(43,107,87,0.04)] p-3 transition-all duration-700"
+          className="relative mt-5 rounded-[4px] border bg-[rgba(58,56,50,0.04)] p-3 transition-all duration-700"
           style={{
             opacity: showAttribution ? 1 : 0,
             transform: showAttribution ? 'translateY(0)' : 'translateY(8px)',
             borderColor: showAttribution
-              ? 'rgba(43,107,87,0.35)'
-              : 'rgba(43,107,87,0)',
+              ? 'rgba(58,56,50,0.35)'
+              : 'rgba(58,56,50,0)',
           }}
         >
           <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">

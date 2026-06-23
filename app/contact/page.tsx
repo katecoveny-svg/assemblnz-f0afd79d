@@ -28,7 +28,7 @@ export default function ContactPage() {
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              'radial-gradient(ellipse at 50% 0%, rgba(43, 107, 87, 0.10) 0%, transparent 55%), radial-gradient(ellipse at 80% 60%, rgba(184, 178, 168, 0.12) 0%, transparent 50%)',
+              'radial-gradient(ellipse at 50% 0%, rgba(58,56,50, 0.10) 0%, transparent 55%), radial-gradient(ellipse at 80% 60%, rgba(184, 178, 168, 0.12) 0%, transparent 50%)',
           }}
         />
         <div className="container py-20 md:py-24">
@@ -114,8 +114,8 @@ function ContactCard({
         <div
           className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full"
           style={{
-            background: 'rgba(43, 107, 87, 0.10)',
-            border: '1px solid rgba(43, 107, 87, 0.20)',
+            background: 'rgba(58,56,50, 0.10)',
+            border: '1px solid rgba(58,56,50, 0.20)',
           }}
         >
           <Icon

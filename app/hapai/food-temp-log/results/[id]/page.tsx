@@ -66,12 +66,12 @@ export default async function FoodAuditResultPage({ params }: { params: Promise<
             <Meta label="Record ID" value={record.id.slice(0, 8)} />
           </div>
 
-          <section className="mt-8 rounded-[12px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] p-5">
+          <section className="mt-8 rounded-[12px] border border-[rgba(35,33,31,0.10)] bg-[#FFF7EC] p-5">
             <div className="flex items-center gap-3">
               {failed.length ? (
                 <AlertTriangle className="h-5 w-5 text-[#9A3412]" aria-hidden />
               ) : (
-                <CheckCircle2 className="h-5 w-5 text-[#2B6B57]" aria-hidden />
+                <CheckCircle2 className="h-5 w-5 text-[#3A3832]" aria-hidden />
               )}
               <h2 className="font-display text-3xl font-light leading-none">
                 {failed.length ? "Action required" : "All recorded readings passed"}
@@ -109,7 +109,7 @@ export default async function FoodAuditResultPage({ params }: { params: Promise<
           </section>
 
           {record.notes && (
-            <section className="mt-8 rounded-[12px] border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] p-5">
+            <section className="mt-8 rounded-[12px] border border-[rgba(35,33,31,0.10)] bg-[#FFF7EC] p-5">
               <h2 className="font-display text-3xl font-light leading-none">Notes</h2>
               <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-[#2A2825]">{record.notes}</p>
             </section>
@@ -142,7 +142,7 @@ function formatDate(value: string) {
 
 function Meta({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#FAF7F2] p-3">
+    <div className="rounded-[10px] border border-[rgba(35,33,31,0.08)] bg-[#FFF7EC] p-3">
       <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#6B6661]">{label}</p>
       <p className="mt-1 text-sm font-medium">{value}</p>
     </div>
@@ -158,7 +158,7 @@ function ReadingTable({ title, target, readings, pass }: { title: string; target
         {readings.length ? readings.map((reading) => (
           <div key={`${reading.label}-${reading.tempC}`} className="flex items-center justify-between gap-3 bg-white px-4 py-3 text-sm">
             <span>{reading.label}</span>
-            <span className={pass(reading.tempC) ? "font-medium text-[#2B6B57]" : "font-medium text-[#9A3412]"}>
+            <span className={pass(reading.tempC) ? "font-medium text-[#3A3832]" : "font-medium text-[#9A3412]"}>
               {reading.tempC}°C · {pass(reading.tempC) ? "PASS" : "FAIL"}
             </span>
           </div>
@@ -179,7 +179,7 @@ function CookingTable({ readings }: { readings: Array<{ dish: string; tempC: num
           return (
             <div key={`${reading.dish}-${reading.tempC}`} className="flex items-center justify-between gap-3 bg-white px-4 py-3 text-sm">
               <span>{reading.dish}{reading.cookedToTime ? ` · ${reading.cookedToTime}` : ""}</span>
-              <span className={pass ? "font-medium text-[#2B6B57]" : "font-medium text-[#9A3412]"}>
+              <span className={pass ? "font-medium text-[#3A3832]" : "font-medium text-[#9A3412]"}>
                 {reading.tempC}°C · {pass ? "PASS" : "FAIL"}
               </span>
             </div>
@@ -194,7 +194,7 @@ function CheckRow({ label, value }: { label: string; value?: boolean }) {
   return (
     <div className="flex items-center justify-between gap-3 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-white px-4 py-3 text-sm">
       <span>{label}</span>
-      <span className={value ? "font-medium text-[#2B6B57]" : "font-medium text-[#9A3412]"}>
+      <span className={value ? "font-medium text-[#3A3832]" : "font-medium text-[#9A3412]"}>
         {value ? "DONE" : "NOT RECORDED"}
       </span>
     </div>

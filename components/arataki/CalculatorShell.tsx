@@ -19,16 +19,16 @@ export function CalculatorShell({
   children,
 }: CalculatorShellProps) {
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[radial-gradient(ellipse_at_14%_0%,rgba(217,168,90,0.16),transparent_38%),radial-gradient(ellipse_at_86%_6%,rgba(43,107,87,0.14),transparent_34%),#FAF7F2] px-6 py-12 text-[#3D4250] md:px-12 md:py-16">
+    <main className="min-h-screen overflow-x-hidden bg-[radial-gradient(ellipse_at_14%_0%,rgba(217,168,90,0.16),transparent_38%),radial-gradient(ellipse_at_86%_6%,rgba(58,56,50,0.14),transparent_34%),#FFF7EC] px-6 py-12 text-[#3D4250] md:px-12 md:py-16">
       <div className="mx-auto w-full max-w-[calc(100vw-3rem)] md:max-w-[1180px]">
         <Link
           href="/kete/arataki/tools"
-          className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#5C6273] hover:text-[#2B6B57]"
+          className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#5C6273] hover:text-[#3A3832]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> Arataki tools
         </Link>
         <header className="max-w-4xl">
-          <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#2B6B57]">
+          <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-[#3A3832]">
             Arataki · calculator
           </p>
           <h1 className="mt-4 max-w-[19rem] break-words font-display text-[2.25rem] font-light leading-[0.92] text-[#3D4250] [overflow-wrap:anywhere] md:max-w-full md:text-[clamp(3.2rem,8vw,6rem)]">

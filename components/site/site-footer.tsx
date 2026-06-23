@@ -2,19 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { INDUSTRY_KETES } from "@/lib/kete";
 import { footerDisclaimer, footerKeteCutouts } from "@/lib/site-config";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
-import { isAgentMarketplace, isDashMicrosite } from "@/components/site/site-header";
+import { isAgentMarketplace, isAtlas, isDashMicrosite } from "@/components/site/site-header";
 
 export function SiteFooter() {
   const pathname = usePathname();
-  // The /dash microsite and /agents marketplace ship their own footer; suppress
-  // the global one there.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname)) return null;
+  // The /dash microsite, /agents marketplace and /atlas coach ship their own
+  // footer; suppress the global one there.
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname)) return null;
 
   return (
-    <footer className="relative z-10 mt-24 border-t border-[rgba(157,140,125,0.14)] bg-[rgba(247,243,238,0.6)]">
+    <footer className="relative z-10 mt-24 border-t border-[rgba(58,56,50,0.10)] bg-[rgba(255,247,236,0.6)]">
       <div className="container py-16">
         <div className="grid gap-12 md:grid-cols-5">
           <div>
@@ -39,44 +38,25 @@ export function SiteFooter() {
 
           <div>
             <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-              Kete packs
+              Marketplace
             </h2>
             <ul className="mt-4 space-y-2 text-sm">
-              {INDUSTRY_KETES.map((k) => (
-                <li key={k.slug}>
+              {[
+                { href: "/agents", label: "Browse all agents" },
+                { href: "/agents#pricing", label: "Bundles & pricing" },
+                { href: "/hapai", label: "Free tools" },
+                { href: "/hui", label: "Meeting notes" },
+              ].map((item) => (
+                <li key={item.label}>
                   <Link
-                    href={`/kete/${k.slug}`}
-                    className="inline-flex items-center gap-3 rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                    href={item.href}
+                    className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                   >
-                    <span className="flex h-8 w-8 flex-none items-center justify-center">
-                      <img
-                        src={footerKeteCutouts[k.slug]}
-                        alt=""
-                        aria-hidden
-                        width={32}
-                        height={32}
-                        loading="lazy"
-                        className="max-h-8 max-w-8 object-contain"
-                      />
-                    </span>
-                    <span>
-                      <span className="block">{k.name}</span>
-                      <span className="block text-xs text-[color:var(--text-secondary)]">
-                        {k.englishName}
-                      </span>
-                    </span>
+                    {item.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            <p className="mt-5 text-sm">
-              <Link
-                href="/toro"
-                className="rounded-sm text-[color:var(--text-secondary)] underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-              >
-                Looking for whānau life? Meet Tōro →
-              </Link>
-            </p>
           </div>
 
           <div>
