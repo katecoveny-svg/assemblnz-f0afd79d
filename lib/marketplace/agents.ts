@@ -23,7 +23,7 @@ export type AgentStatus = 'live' | 'coming_soon';
 /** Avatar tile colourway (canon). */
 export type TileTone = 'cream' | 'canary' | 'ink';
 
-export type MarketplaceCategory = 'family' | 'business' | 'creative' | 'trades' | 'health';
+export type MarketplaceCategory = 'start-here' | 'family' | 'business' | 'creative' | 'trades' | 'health';
 
 export type MarketplaceAgent = {
   slug: string;
@@ -55,9 +55,12 @@ export type MarketplaceAgent = {
   greeting: string;
   starters: string[];
   toolHref?: string;
+  /** featured in the marketplace — surfaces as the lead "Start here" card */
+  featured: boolean;
 };
 
 export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: string }[] = [
+  { slug: 'start-here', label: 'Start here', teReo: 'Mahere' },
   { slug: 'family', label: 'Family & Whānau', teReo: 'Whānau' },
   { slug: 'business', label: 'Business & SME', teReo: 'Pakihi' },
   { slug: 'creative', label: 'Marketing & Creative', teReo: 'Auaha' },
@@ -121,7 +124,8 @@ type AgentDef = Omit<
   | 'skills'
   | 'fallbackModels'
   | 'accent'
-> & { status?: AgentStatus; tools?: string[]; skills?: string[] };
+  | 'featured'
+> & { status?: AgentStatus; tools?: string[]; skills?: string[]; featured?: boolean };
 
 function buildAgent(def: AgentDef): MarketplaceAgent {
   const body = AGENT_PROMPTS[def.slug];
@@ -136,11 +140,48 @@ function buildAgent(def: AgentDef): MarketplaceAgent {
     skills: def.skills ?? [],
     fallbackModels: [...FALLBACK_MODELS],
     accent: TILE_BG[def.tile],
+    featured: def.featured ?? false,
     systemPrompt: body.replace('[SHARED BRAND PREFIX]', SHARED_BRAND_PREFIX),
   };
 }
 
 const AGENT_DEFS: AgentDef[] = [
+  // ── Start here ───────────────────────────────────────────────────────
+  {
+    slug: 'atlas',
+    name: 'Atlas',
+    teReo: 'Mahere',
+    description:
+      'The free AI coach. Maps your week, points you to the agents that fit, and is honest about where AI will not help.',
+    whatItDoes: [
+      'Asks plain questions about your week and the work that takes too long.',
+      'Recommends one to three agents from the shelf, with an honest reason for each.',
+      'Names what AI is good at and where it will let you down — and flags the Privacy Act 2020 and tikanga bits you need to know.',
+    ],
+    whatYouGet: [
+      'A short, honest read on where AI fits your week — and where it does not.',
+      'One to three agent picks you can open and try for free.',
+      'A one-page roadmap you can save or share: here is where AI can help you this month.',
+    ],
+    sampleOutputs: [
+      'For school notices and the family calendar, start with Pānui Parser and 9am Brief — both free.',
+      'AI will not fix a messy roster on its own. Tidy the availability first, then Roster Sorter can hold it.',
+    ],
+    nzKnowledge: ['Privacy Act 2020 (IPP 3A, from 1 May 2026)', 'The assembl agent shelf', 'Tikanga considerations for whānau and Māori data'],
+    category: 'start-here',
+    modelTier: 'mid',
+    priceTier: 'free',
+    icon: 'atlas',
+    tile: 'ink',
+    featured: true,
+    greeting:
+      'I am Atlas, the free AI coach. I will not sell you anything. Tell me what kind of work fills most of your days, and we will find the bits where AI actually helps.',
+    starters: [
+      'What kind of work do you do most days?',
+      'Where could AI save me time this week?',
+      'Is AI even the right tool for my problem?',
+    ],
+  },
   // ── Family & Whānau ──────────────────────────────────────────────────
   {
     slug: '9am-brief',

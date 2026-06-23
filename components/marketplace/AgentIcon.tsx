@@ -199,6 +199,16 @@ function paths(name: string, ink: string): ReactElement[] {
         <path key={1} d="M10 18h28a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H22l-8 6v-6h-4a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4z" fill={CAN} stroke={ink} strokeWidth={2.6} strokeLinejoin="round" />,
         <path key={2} d="M32 34h18a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-2v5l-6-5h-10a4 4 0 0 1-4-4" fill={CREAM} stroke={ink} strokeWidth={2.6} strokeLinejoin="round" />,
       ];
+    case 'atlas':
+      // Atlas · Mahere — a folded map with a canary route and a gold marker.
+      return [
+        <path key={1} d="M12 18l13-4 14 4 13-4v32l-13 4-14-4-13 4z" fill={CREAM} stroke={ink} strokeWidth={3} strokeLinejoin="round" />,
+        <line key={2} x1={25} y1={14} x2={25} y2={46} stroke={ink} strokeWidth={2.2} />,
+        <line key={3} x1={39} y1={18} x2={39} y2={50} stroke={ink} strokeWidth={2.2} />,
+        <path key={4} d="M18 40c6 0 6-12 14-12s8 8 14 6" stroke={CAN} strokeWidth={3} fill="none" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 5" />,
+        <path key={5} d="M44 16c3.3 0 6 2.7 6 6 0 4-6 9-6 9s-6-5-6-9c0-3.3 2.7-6 6-6z" fill={GOLD} />,
+        <circle key={6} cx={44} cy={22} r={2.2} fill={CREAM} />,
+      ];
     default:
       return [<circle key={1} cx={32} cy={32} r={14} fill={CAN} />];
   }

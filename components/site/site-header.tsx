@@ -31,6 +31,13 @@ export function isAgentMarketplace(pathname: string | null): boolean {
   return pathname === "/agents" || pathname.startsWith("/agents/");
 }
 
+/** Atlas — the free AI literacy coach — is an immersive standalone surface with
+ *  its own chrome (locked canon 2026-06-23). Suppress the global site nav. */
+export function isAtlas(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === "/atlas" || pathname.startsWith("/atlas/");
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMac, setIsMac] = useState(true);
@@ -60,7 +67,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /dash/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || pathname === "/") return null;
 
   return (
     <header
