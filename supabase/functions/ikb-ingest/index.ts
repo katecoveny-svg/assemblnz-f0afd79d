@@ -29,7 +29,8 @@ const corsHeaders = {
 
 const FIRECRAWL_V2 = "https://api.firecrawl.dev/v2";
 const LOVABLE_AI_BASE = "https://ai.gateway.lovable.dev/v1";
-const EMBED_MODEL = "google/text-embedding-004"; // 768-dim
+const EMBED_MODEL = "openai/text-embedding-3-small"; // 768-dim via dimensions param
+const EMBED_DIMENSIONS = 768;
 const CHUNK_SIZE = 1200;
 const CHUNK_OVERLAP = 150;
 const EMBED_BATCH = 32;
