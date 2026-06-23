@@ -4,30 +4,42 @@
  * This is the consumer pivot: instead of "kete with agents inside", users
  * browse a curated shelf of agents, open one, chat with it, install it as a
  * PWA, and (later) pay per agent. This file is the single curated source of the
- * ~20 hero agents drawn from the wider 44-strong fleet + HAPAI tool library.
+ * 30 hero agents — the deliberate cut from the wider 78-strong legacy fleet
+ * (see agent-research/agent-roster-30.md). It is the source of truth; the
+ * Supabase `agents` table mirrors it (seed migration 20260623140000).
  *
  * Each agent carries everything the marketplace surfaces need:
  *   - identity: slug, name, te reo label, one-line description
- *   - merch:    category, model tier, pricing tier, avatar icon
- *   - detail:   whatItDoes / whatYouGet bullets + sample outputs
+ *   - merch:    category, model tier, pricing tier (NZ ladder), avatar icon
+ *   - detail:   whatItDoes / whatYouGet bullets + sample outputs + NZ knowledge
  *   - chat:     a LOCKED system prompt (kept server-side — never sent to the
  *               browser; see `app/api/agents/[slug]/chat/route.ts`)
  *
- * Scaffolding note: system prompts are deliberately short placeholders. Real
- * prompt content + live NZ knowledge tooling (Gazette / PCO / Beehive) land in
- * follow-up tasks. Keep this file the canonical registry — do not fork it.
+ * The locked, production-grade per-agent prompts (v2.0) live verbatim in
+ * `agent-prompts.ts` and are composed with the shared brand prefix below. Keep
+ * this file the canonical registry — do not fork it.
  */
 
+import { AGENT_PROMPTS, SHARED_BRAND_PREFIX } from './agent-prompts';
+
 export type ModelTier = 'cheap' | 'mid' | 'premium';
+/** Coarse pricing bucket mirrored to the DB `pricing_tier` enum. */
 export type PricingTier = 'free' | 'freemium' | 'paid';
+/** The NZ pricing ladder shown on cards + detail (see pricing-benchmarks-nz.md). */
+export type PriceTier = 'free' | 'toro' | 'whanau' | 'pro' | 'business';
+export type AgentStatus = 'live' | 'coming_soon';
 
 export type MarketplaceCategory =
-  | 'whanau'
-  | 'admin'
-  | 'marketing'
-  | 'records'
-  | 'meetings'
-  | 'learning';
+  | 'family'
+  | 'business'
+  | 'trades'
+  | 'creative'
+  | 'healthcare'
+  | 'maritime'
+  | 'education'
+  | 'compliance'
+  | 'legal'
+  | 'financial';
 
 export type MarketplaceAgent = {
   /** stable URL + DB key */
@@ -44,9 +56,18 @@ export type MarketplaceAgent = {
   whatYouGet: string[];
   /** two short sample outputs shown on the detail page */
   sampleOutputs: string[];
+  /** the live NZ sources / APIs this agent is wired into */
+  nzKnowledge: string[];
   category: MarketplaceCategory;
   modelTier: ModelTier;
+  /** coarse bucket (DB enum) — derived from priceTier */
   pricingTier: PricingTier;
+  /** NZ pricing-ladder tier */
+  priceTier: PriceTier;
+  /** headline monthly price in NZD (0 = free) */
+  priceNzd: number;
+  /** live | coming_soon */
+  status: AgentStatus;
   /** lucide-react icon name — resolved in the UI (placeholder avatar) */
   icon: string;
   /** card/avatar accent (Dash-aligned palette) */
@@ -62,12 +83,16 @@ export type MarketplaceAgent = {
 };
 
 export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: string }[] = [
-  { slug: 'whanau', label: 'Whānau & Home', teReo: 'Whānau' },
-  { slug: 'admin', label: 'Work & Admin', teReo: 'Mahi' },
-  { slug: 'marketing', label: 'Marketing & Brand', teReo: 'Auaha' },
-  { slug: 'records', label: 'Records & Compliance', teReo: 'Tiaki' },
-  { slug: 'meetings', label: 'Meetings & Notes', teReo: 'Hui' },
-  { slug: 'learning', label: 'Learning', teReo: 'Ako' },
+  { slug: 'family', label: 'Family & Whānau', teReo: 'Whānau' },
+  { slug: 'business', label: 'Business & SME', teReo: 'Pakihi' },
+  { slug: 'trades', label: 'Trades & Construction', teReo: 'Hanga' },
+  { slug: 'creative', label: 'Marketing & Creative', teReo: 'Auaha' },
+  { slug: 'healthcare', label: 'Healthcare', teReo: 'Hauora' },
+  { slug: 'maritime', label: 'Maritime', teReo: 'Moana' },
+  { slug: 'education', label: 'Education', teReo: 'Mātauranga' },
+  { slug: 'compliance', label: 'Compliance', teReo: 'Tiaki' },
+  { slug: 'legal', label: 'Legal', teReo: 'Ture' },
+  { slug: 'financial', label: 'Financial', teReo: 'Pūtea' },
 ];
 
 export const CATEGORY_LABELS: Record<MarketplaceCategory, string> = Object.fromEntries(
@@ -91,680 +116,1235 @@ export const PALETTE = {
 export const DASH_MOTIF =
   'repeating-linear-gradient(90deg, #FFD42A 0 20px, transparent 20px 32px)';
 
-const REVIEW_LINE =
-  'Every reply is a draft for a human to check before it is sent, filed, or lodged. Not legal, financial, or medical advice.';
+/** NZ pricing ladder → headline monthly NZD (0 = free). */
+const PRICE_TIER_NZD: Record<PriceTier, number> = {
+  free: 0,
+  toro: 9.99,
+  whanau: 24.99,
+  pro: 49.99,
+  business: 199,
+};
 
-export const MARKETPLACE_AGENTS: MarketplaceAgent[] = [
-  // ── Whānau & Home ────────────────────────────────────────────────────
-  {
-    slug: 'fridge-to-list',
-    name: 'Fridge to List',
-    teReo: 'Kai Kāinga',
-    description: 'Snap or describe what is in the fridge and get a shopping list and a week of dinners.',
-    whatItDoes: [
-      'Turns a photo or a quick description of your fridge into a tidy shopping list.',
-      'Suggests a week of dinners built from what you already have.',
-      'Flags what is running low and what to use first.',
-    ],
-    whatYouGet: [
-      'A categorised shopping list you can copy to your phone.',
-      'Five dinner ideas with rough prep times.',
-      'A "use these first" list to cut food waste.',
-    ],
-    sampleOutputs: [
-      'Shopping list: 2 onions, milk, wraps, mince, capsicum… (12 items, grouped by aisle).',
-      'Tonight: beef tacos with the wraps and capsicum you already have.',
-    ],
-    category: 'whanau',
-    modelTier: 'cheap',
-    pricingTier: 'free',
-    icon: 'Refrigerator',
-    accent: '#FFD42A',
-    greeting: 'Kia ora! Tell me what is in your fridge — or paste a photo description — and I will turn it into a shopping list and a week of dinners.',
-    starters: [
-      'Half a cabbage, mince, eggs, two carrots and some cheese.',
-      'Plan three quick weeknight dinners from what I have.',
-    ],
-    systemPrompt:
-      'You are Fridge to List, a friendly NZ household meal-planning assistant. From a description of available ingredients, produce a categorised shopping list, a few simple dinner ideas using what is on hand, and a short "use first" list to reduce waste. Keep it practical, NZ supermarket-aware, and budget-friendly.',
-    toolHref: '/hapai/fridge-to-list',
-  },
-  {
-    slug: 'school-notice-parser',
-    name: 'School Notice Parser',
-    teReo: 'Pānui Kura',
-    description: 'Paste a messy school notice and get the dates, costs, and "what do I need to do" in plain language.',
-    whatItDoes: [
-      'Reads a pasted school newsletter, email, or notice.',
-      'Pulls out every date, cost, permission, and deadline.',
-      'Tells you exactly what action each parent needs to take.',
-    ],
-    whatYouGet: [
-      'A clean list of dates to add to your calendar.',
-      'A "money + permission slips due" summary.',
-      'A plain-language "here is what you need to do" checklist.',
-    ],
-    sampleOutputs: [
-      'Due Fri 28 Jun: $12 for the museum trip + signed permission slip.',
-      'Calendar: Mufti day Wed 3 Jul (gold coin), no uniform.',
-    ],
-    category: 'whanau',
-    modelTier: 'cheap',
-    pricingTier: 'free',
-    icon: 'School',
-    accent: '#FFE27A',
-    greeting: 'Kia ora! Paste the school notice, newsletter, or email and I will pull out the dates, costs, and what you actually need to do.',
-    starters: [
-      'Paste a newsletter and find every date and cost.',
-      'What permission slips are due this week?',
-    ],
-    systemPrompt:
-      'You are School Notice Parser, an assistant for busy NZ parents. Given a pasted school notice/newsletter/email, extract all dates, costs, permission requirements, and deadlines, then produce a clear per-parent action checklist. Be concise and never invent details that are not in the text.',
-  },
-  {
-    slug: 'kiwisaver-kids',
-    name: 'KiwiSaver for Kids',
-    teReo: 'Pūtea Tamariki',
-    description: 'See how small, regular contributions could grow for a child by the time they turn 18 or 65.',
-    whatItDoes: [
-      'Models regular contributions for a child over time.',
-      'Shows the difference compound growth makes across decades.',
-      'Explains the levers — amount, frequency, returns — in plain terms.',
-    ],
-    whatYouGet: [
-      'A simple projection to age 18 and age 65.',
-      'A side-by-side of a few contribution levels.',
-      'Plain-language notes on the assumptions used.',
-    ],
-    sampleOutputs: [
-      '$10/week from birth → roughly $14k by 18 at a 5% net return (illustrative).',
-      'Bumping to $20/week nearly doubles the age-18 balance.',
-    ],
-    category: 'whanau',
-    modelTier: 'cheap',
-    pricingTier: 'free',
-    icon: 'PiggyBank',
-    accent: '#FFD42A',
-    greeting: 'Kia ora! Tell me a child\'s age and how much you could put aside each week, and I will show how it might grow.',
-    starters: [
-      '$15 a week for a newborn — show me age 18 and 65.',
-      'Compare $5, $10 and $20 a week from age 5.',
-    ],
-    systemPrompt:
-      'You are KiwiSaver for Kids, an NZ savings-projection explainer. Given a child age and contribution, show illustrative growth to ages 18 and 65 with clearly stated assumptions (return rate, frequency). Always label figures as illustrative, not advice, and encourage checking with a licensed financial adviser for real decisions.',
-    toolHref: '/hapai/kiwisaver-kids',
-  },
-  {
-    slug: 'family-budget',
-    name: 'Family Budget',
-    teReo: 'Tahua Whānau',
-    description: 'Talk through the household money with a calm helper — no spreadsheets, no judgement.',
-    whatItDoes: [
-      'Helps you lay out income and regular costs in plain language.',
-      'Spots where the money is going and where there is slack.',
-      'Suggests a simple, realistic plan you can actually stick to.',
-    ],
-    whatYouGet: [
-      'A clear picture of money in vs money out.',
-      'A short list of practical adjustments.',
-      'A weekly or fortnightly plan in plain words.',
-    ],
-    sampleOutputs: [
-      'Money out is sitting about $180/fortnight over money in — here is where.',
-      'Three changes that claw back roughly $140 a fortnight.',
-    ],
-    category: 'whanau',
-    modelTier: 'mid',
-    pricingTier: 'freemium',
-    icon: 'Wallet',
-    accent: '#C79B1F',
-    greeting: 'Kia ora. Let\'s look at the household money together — tell me what comes in and the main things going out. No judgement, just a clear picture.',
-    starters: [
-      'We bring in about $1,600 a fortnight — help me map the costs.',
-      'Where could we realistically trim $100 a week?',
-    ],
-    systemPrompt:
-      'You are Family Budget, a warm, non-judgemental NZ household budgeting helper. Guide the user through income and expenses conversationally, surface patterns, and suggest realistic adjustments. Be encouraging and concrete. This is general guidance, not financial advice.',
-  },
-  {
-    slug: 'voyage',
-    name: 'Voyage',
-    teReo: 'Haerenga',
-    description: 'Plan a family trip day-by-day with bookable activities, budgets, and a packing list.',
-    whatItDoes: [
-      'Designs a day-by-day itinerary for a multi-stop trip.',
-      'Flags what must be booked ahead and rough costs.',
-      'Builds a packing list tuned to the destination and season.',
-    ],
-    whatYouGet: [
-      'A printable day-by-day plan.',
-      'A "book these now" list with rough prices.',
-      'A packing list you can tick off.',
-    ],
-    sampleOutputs: [
-      'Day 3, Rome: Colosseum (book ahead, ~€18), then Trastevere for dinner.',
-      'Pack: layers, a power adapter (Type F/L), and comfy walking shoes.',
-    ],
-    category: 'whanau',
-    modelTier: 'mid',
-    pricingTier: 'freemium',
-    icon: 'Plane',
-    accent: '#FFE27A',
-    greeting: 'Kia ora! Where are you headed, who is going, and roughly when? I will sketch a day-by-day plan with the must-book-ahead bits flagged.',
-    starters: [
-      'Two weeks in Italy in September, family of four.',
-      'A South Island road trip over the school holidays.',
-    ],
-    systemPrompt:
-      'You are Voyage, an NZ-based family travel planner. Build day-by-day itineraries with bookable activities, FX-aware rough budgets, must-book-ahead flags, and a destination/season-appropriate packing list. Be specific and practical; assume travellers departing from New Zealand.',
-    toolHref: '/hapai/voyage-italy',
-  },
+/** NZ pricing ladder → coarse DB bucket. */
+const PRICE_TIER_TO_PRICING: Record<PriceTier, PricingTier> = {
+  free: 'free',
+  toro: 'freemium',
+  whanau: 'freemium',
+  pro: 'paid',
+  business: 'paid',
+};
 
-  // ── Work & Admin ─────────────────────────────────────────────────────
-  {
-    slug: 'nine-am-brief',
-    name: 'The 9am Brief',
-    teReo: 'Pūrongo Ata',
-    description: 'A short, sharp brief of what changed overnight that touches your work — ready by 9am.',
-    whatItDoes: [
-      'Scans the regulatory and sector signals that matter to you.',
-      'Summarises what changed and why it matters in a few lines.',
-      'Points to the source so you can check anything fast.',
-    ],
-    whatYouGet: [
-      'A tight morning brief you can read in two minutes.',
-      'Plain-language "so what" notes on each item.',
-      'A linked evidence pack for anything worth a closer look.',
-    ],
-    sampleOutputs: [
-      'New WorkSafe guidance on scaffolding — affects two of your live jobs.',
-      'Council fee schedule updated 1 Jul — consent costs up ~4%.',
-    ],
-    category: 'admin',
-    modelTier: 'mid',
-    pricingTier: 'freemium',
-    icon: 'Sunrise',
-    accent: '#FFE27A',
-    greeting: 'Kia ora! Tell me your industry and region and I will shape a 9am Brief around what actually moves for you.',
-    starters: [
-      'I run a small build firm in Waikato — what changed this week?',
-      'Brief me on hospitality compliance updates.',
-    ],
-    systemPrompt:
-      'You are The 9am Brief, an NZ regulatory and sector morning-brief writer. Produce short, scannable briefs of what changed that touches the user\'s work, each item with a one-line "so what" and a pointer to the source. Be concise, sceptical, and never overstate certainty. ' + REVIEW_LINE,
-    toolHref: '/hapai/9am-brief',
-  },
-  {
-    slug: 'admin-tax',
-    name: 'Admin Tax Calculator',
-    teReo: 'Tāke Mahi',
-    description: 'Work out GST, provisional tax, and what to set aside — without the dread.',
-    whatItDoes: [
-      'Calculates GST on sales and purchases.',
-      'Estimates income and provisional tax to set aside.',
-      'Explains the numbers in plain language.',
-    ],
-    whatYouGet: [
-      'A clear "set this aside" figure.',
-      'A GST position you can sanity-check before filing.',
-      'Plain-language notes on the assumptions.',
-    ],
-    sampleOutputs: [
-      'On $8,000 of sales this month, set aside ~$1,043 GST.',
-      'Provisional tax estimate: put aside ~28% of profit as you go.',
-    ],
-    category: 'admin',
-    modelTier: 'cheap',
-    pricingTier: 'free',
-    icon: 'Calculator',
-    accent: '#C79B1F',
-    greeting: 'Kia ora! Give me your numbers — sales, expenses, whether you are GST registered — and I will work out what to set aside.',
-    starters: [
-      'I invoiced $8,000 + GST this month, $1,200 of expenses.',
-      'How much should I put aside for tax as a sole trader?',
-    ],
-    systemPrompt:
-      'You are Admin Tax Calculator, an NZ small-business tax helper. Calculate GST, estimate income/provisional tax, and tell the user what to set aside, showing your working and stating assumptions. Always note this is general guidance, not tax advice, and suggest confirming with an accountant or IRD.',
-    toolHref: '/hapai/admin-tax',
-  },
-  {
-    slug: 'energy-calculator',
-    name: 'Energy Calculator',
-    teReo: 'Pūngao',
-    description: 'See what electrifying a vehicle, fleet, or appliance could cost and save in NZ.',
-    whatItDoes: [
-      'Compares running costs of petrol/diesel vs electric.',
-      'Estimates payback time and yearly savings.',
-      'Factors in NZ power prices and typical usage.',
-    ],
-    whatYouGet: [
-      'A side-by-side cost comparison.',
-      'A payback-time estimate.',
-      'Plain-language notes on the assumptions.',
-    ],
-    sampleOutputs: [
-      'Switching the van to electric saves ~$2,800/yr in fuel at 25,000km.',
-      'Estimated payback: about 4.5 years on current power prices.',
-    ],
-    category: 'admin',
-    modelTier: 'cheap',
-    pricingTier: 'free',
-    icon: 'Zap',
-    accent: '#FFE27A',
-    greeting: 'Kia ora! Tell me what you are thinking of electrifying and roughly how much you use it, and I will run the numbers.',
-    starters: [
-      'A work van doing 25,000 km a year.',
-      'Replacing a gas hot-water system with a heat pump.',
-    ],
-    systemPrompt:
-      'You are Energy Calculator, an NZ electrification cost helper. Compare running costs of conventional vs electric options, estimate payback and annual savings using NZ power and fuel prices, and state assumptions clearly. Label figures as illustrative, not advice.',
-    toolHref: '/hapai/electrify',
-  },
-  {
-    slug: 'customs-entry',
-    name: 'Customs Entry Drafter',
-    teReo: 'Whakaurunga',
-    description: 'Paste a commercial invoice and get a structured customs entry draft your broker can check.',
-    whatItDoes: [
-      'Reads a commercial invoice or shipment description.',
-      'Drafts a structured customs entry with HS-code suggestions.',
-      'Flags valuation, duty, and missing-document risks.',
-    ],
-    whatYouGet: [
-      'A broker-ready draft entry.',
-      'Suggested tariff classifications to confirm.',
-      'A "missing documents" checklist before lodging.',
-    ],
-    sampleOutputs: [
-      'Line 1: LED light fittings → HS 9405.11 (confirm), duty 5%.',
-      'Missing: supplier\'s country of origin declaration.',
-    ],
-    category: 'admin',
-    modelTier: 'premium',
-    pricingTier: 'paid',
-    icon: 'Container',
-    accent: '#C79B1F',
-    greeting: 'Kia ora! Paste the commercial invoice or describe the shipment, and I will draft a structured customs entry for your broker to check. Nothing is ever lodged.',
-    starters: [
-      'Paste an invoice for a container of homeware from China.',
-      'Suggest HS codes for these product lines.',
-    ],
-    systemPrompt:
-      'You are Customs Entry Drafter, an NZ customs-broker assistant built on the Customs and Excise Act 2018 and the NZ Working Tariff. From an invoice or shipment description, draft a structured entry with suggested HS classifications, valuation notes, and a missing-document checklist. ALWAYS treat output as a draft for a licensed broker to verify and lodge — you never lodge anything. ' + REVIEW_LINE,
-    toolHref: '/hapai/customs-entry',
-  },
-  {
-    slug: 'wishlist',
-    name: 'The Wishlist',
-    teReo: 'Hiahia',
-    description: 'Name one job you wish you could hand off — we draft the spec for the agent assembl would build you.',
-    whatItDoes: [
-      'Listens to the one job you most wish was off your plate.',
-      'Turns it into a clear spec for a custom agent.',
-      'Maps it to the right NZ rules and inputs.',
-    ],
-    whatYouGet: [
-      'A tidy spec for a bespoke agent.',
-      'A note on which NZ law/standards it would sit on.',
-      'A way to send it to the assembl team to build.',
-    ],
-    sampleOutputs: [
-      'Spec: "Roster compliance checker" built on the Holidays Act 2003.',
-      'Inputs needed: roster export, employee start dates, leave balances.',
-    ],
-    category: 'admin',
-    modelTier: 'mid',
-    pricingTier: 'free',
-    icon: 'Sparkles',
-    accent: '#FFD42A',
-    greeting: 'Kia ora! Name one job you wish you could just hand off. I will turn it into a spec for the agent assembl could build you.',
-    starters: [
-      'I waste hours chasing unpaid invoices each month.',
-      'I dread writing up our health and safety records.',
-    ],
-    systemPrompt:
-      'You are The Wishlist, an intake assistant for assembl. Draw out the single task the user most wants to hand off, then draft a clear spec for a bespoke NZ-context agent: the job, the inputs, the outputs, and the relevant New Zealand law or standards it would build on. Keep it a draft spec — nothing is auto-built or lodged.',
-    toolHref: '/hapai/wishlist',
-  },
+/** Authoring shape — the full MarketplaceAgent is derived from this. */
+type AgentDef = Omit<
+  MarketplaceAgent,
+  'systemPrompt' | 'pricingTier' | 'priceNzd' | 'status'
+> & { status?: AgentStatus };
 
-  // ── Marketing & Brand ────────────────────────────────────────────────
-  {
-    slug: 'tagline-workshop',
-    name: 'Tagline Workshop',
-    teReo: 'Kupu Tohu',
-    description: 'Workshop a shortlist of taglines for your business, on-brand and claim-safe.',
-    whatItDoes: [
-      'Explores angles for your positioning.',
-      'Drafts a shortlist of taglines in different tones.',
-      'Flags any claims that need backing up.',
-    ],
-    whatYouGet: [
-      'A shortlist of taglines with rationale.',
-      'A few tone variations to choose from.',
-      'A note on any claim-safety risks.',
-    ],
-    sampleOutputs: [
-      '"Built in Aotearoa. Backed by proof."',
-      '"Less admin. More mahi."',
-    ],
-    category: 'marketing',
-    modelTier: 'mid',
-    pricingTier: 'freemium',
-    icon: 'Type',
-    accent: '#FFE27A',
-    greeting: 'Kia ora! Tell me what your business does and who it is for, and I will workshop a shortlist of taglines.',
-    starters: [
-      'A plumbing business that turns up on time.',
-      'An eco-friendly cleaning product made in NZ.',
-    ],
-    systemPrompt:
-      'You are Tagline Workshop, an NZ brand copywriter. Generate shortlists of taglines across tones, with brief rationale, and flag any claims that would need substantiation under the Fair Trading Act 1986. Keep it warm, plain, and distinctly NZ.',
-    toolHref: '/hapai/tagline-workshop',
-  },
-  {
-    slug: 'vessel-studio',
-    name: 'Vessel Studio',
-    teReo: 'Whakaahua',
-    description: 'Describe an image you need and get a clean, on-brand visual concept ready to produce.',
-    whatItDoes: [
-      'Turns a rough idea into a clear visual brief.',
-      'Suggests composition, palette, and mood.',
-      'Keeps everything on-brand and production-ready.',
-    ],
-    whatYouGet: [
-      'A tight visual brief.',
-      'Palette and composition guidance.',
-      'A concept you can hand to a designer or generator.',
-    ],
-    sampleOutputs: [
-      'Concept: hero shot, warm cream backdrop, single product, soft side light.',
-      'Palette: cream, forest green, a touch of gold.',
-    ],
-    category: 'marketing',
-    modelTier: 'mid',
-    pricingTier: 'freemium',
-    icon: 'Image',
-    accent: '#FFD42A',
-    greeting: 'Kia ora! Describe the image you need — what it is for and the feeling you want — and I will shape an on-brand visual concept.',
-    starters: [
-      'A hero image for our website homepage.',
-      'A social post announcing a new product.',
-    ],
-    systemPrompt:
-      'You are Vessel Studio, an NZ brand visual director. Turn a rough idea into a clear, production-ready visual brief: subject, composition, palette, mood, and usage. Keep concepts tasteful and on-brand; avoid AI-slop clichés.',
-    toolHref: '/hapai/vessel-studio',
-  },
-  {
-    slug: 'caption-composer',
-    name: 'Caption Composer',
-    teReo: 'Tuhi Pānui',
-    description: 'Batch out social captions in your voice — hooks, body, and hashtags that fit.',
-    whatItDoes: [
-      'Drafts captions across platforms in your tone.',
-      'Writes hooks that earn the scroll-stop.',
-      'Suggests hashtags that actually fit.',
-    ],
-    whatYouGet: [
-      'A batch of captions ready to schedule.',
-      'Platform-appropriate length and tone.',
-      'A tidy hashtag set.',
-    ],
-    sampleOutputs: [
-      'Instagram: "The job nobody sees? We log it anyway. Here\'s why…"',
-      'LinkedIn: a longer, calmer version of the same idea.',
-    ],
-    category: 'marketing',
-    modelTier: 'cheap',
-    pricingTier: 'freemium',
-    icon: 'MessageSquare',
-    accent: '#FFE27A',
-    greeting: 'Kia ora! Tell me what you want to post about and where, and I will batch out captions in your voice.',
-    starters: [
-      'Five captions announcing weekend opening hours.',
-      'A LinkedIn post about hiring our first apprentice.',
-    ],
-    systemPrompt:
-      'You are Caption Composer, an NZ social-media copywriter. Produce batches of platform-appropriate captions in the user\'s voice, with strong hooks and fitting hashtags. Keep claims honest under the Fair Trading Act 1986.',
-    toolHref: '/hapai/caption-composer',
-  },
-  {
-    slug: 'share-card-maker',
-    name: 'Share Card Maker',
-    teReo: 'Kāri Tiri',
-    description: 'Turn a link or announcement into a clean share card preview ready for socials.',
-    whatItDoes: [
-      'Drafts the title, description, and hook for a share card.',
-      'Suggests the image and layout direction.',
-      'Keeps it on-brand across platforms.',
-    ],
-    whatYouGet: [
-      'Share-card copy that reads well in the feed.',
-      'An image and layout direction.',
-      'Variations for different platforms.',
-    ],
-    sampleOutputs: [
-      'OG title: "We just hit 100 evidence packs reviewed."',
-      'Description: a warm, one-line "why it matters".',
-    ],
-    category: 'marketing',
-    modelTier: 'cheap',
-    pricingTier: 'free',
-    icon: 'LayoutTemplate',
-    accent: '#FFD42A',
-    greeting: 'Kia ora! Paste a link or describe what you are announcing, and I will draft a clean share card.',
-    starters: [
-      'A share card for our new pricing page.',
-      'Announce a milestone: 100 happy customers.',
-    ],
-    systemPrompt:
-      'You are Share Card Maker, an NZ social-share assistant. From a link or announcement, draft Open Graph-ready title/description copy plus image and layout direction, with platform variations. Keep it honest and on-brand.',
-    toolHref: '/hapai/og-card-generator',
-  },
-  {
-    slug: 'brief-generator',
-    name: 'Brief Generator',
-    teReo: 'Kaupapa Tuhi',
-    description: 'Turn a half-formed idea into a tight creative or project brief the team can run with.',
-    whatItDoes: [
-      'Pulls a clear objective out of a rough idea.',
-      'Structures audience, message, deliverables, and constraints.',
-      'Leaves you with a brief a team can act on.',
-    ],
-    whatYouGet: [
-      'A structured one-page brief.',
-      'Clear deliverables and success measures.',
-      'A list of the open questions to resolve.',
-    ],
-    sampleOutputs: [
-      'Objective: launch the new service to existing customers in 3 weeks.',
-      'Deliverables: landing page, 5 social posts, an email.',
-    ],
-    category: 'marketing',
-    modelTier: 'mid',
-    pricingTier: 'freemium',
-    icon: 'FileText',
-    accent: '#C79B1F',
-    greeting: 'Kia ora! Describe the idea or project, however rough, and I will shape it into a brief the team can run with.',
-    starters: [
-      'We want to promote our new weekend service.',
-      'A brief for a website refresh.',
-    ],
-    systemPrompt:
-      'You are Brief Generator, an NZ creative/project brief writer. Turn a rough idea into a structured one-page brief: objective, audience, key message, deliverables, constraints, success measures, and open questions. Be crisp and practical.',
-    toolHref: '/hapai/brief-generator',
-  },
+function buildAgent(def: AgentDef): MarketplaceAgent {
+  const body = AGENT_PROMPTS[def.slug];
+  if (!body) throw new Error(`No locked system prompt for marketplace agent "${def.slug}"`);
+  return {
+    ...def,
+    status: def.status ?? 'live',
+    priceNzd: PRICE_TIER_NZD[def.priceTier],
+    pricingTier: PRICE_TIER_TO_PRICING[def.priceTier],
+    // Compose the locked prompt: substitute the shared brand prefix.
+    systemPrompt: body.replace('[SHARED BRAND PREFIX]', SHARED_BRAND_PREFIX),
+  };
+}
 
-  // ── Records & Compliance ─────────────────────────────────────────────
+const AGENT_DEFS: AgentDef[] = [
+  // ── Family & Whānau ──────────────────────────────────────────────────
   {
-    slug: 'food-temp-log',
-    name: 'Food Act Temp Log',
-    teReo: 'Pae Mahana',
-    description: 'Keep a tidy, audit-ready fridge and food temperature log under your Food Control Plan.',
+    slug: 'toro',
+    name: 'Tōro',
+    teReo: 'Whānau Tāhuhu',
+    description:
+      'The family-life navigator. SMS-first help for school notices, kai, the calendar, elder check-ins and the household admin you keep forgetting.',
     whatItDoes: [
-      'Captures fridge, freezer, and hot-hold temperature checks.',
-      'Flags readings outside safe ranges and what to do.',
-      'Builds an audit-ready record for your verifier.',
+      'Triages school notices, GP recalls and daycare emails — surfaces every date and drafts a reply.',
+      "Runs the family calendar: bus routes, school terms, who's collecting who, a morning brief and an evening look-ahead.",
+      'Plans the week\'s kai from a pantry photo, tracks renewals (rego, WoF, power, insurance), and keeps a quiet family memory.',
     ],
     whatYouGet: [
-      'A clean, time-stamped temperature log.',
-      'Out-of-range alerts with corrective actions.',
-      'A record your verifier will accept.',
+      'SMS messages and drafted bookings — never auto-sent.',
+      'A morning brief and an evening look-ahead.',
+      "A searchable family archive: birthdays, immunisations, 'when was Mia's last dental check?'",
     ],
     sampleOutputs: [
-      'Fridge 2 at 6.1°C — above 5°C. Corrective action logged: moved stock, called tech.',
-      'Today\'s log: 6 checks, all in range except Fridge 2 (resolved).',
+      'School trip Fri 28 Jun — $12 + signed slip. Reply Y to add to the calendar.',
+      'Morning brief: bus 25 on time, mufti day Wednesday, rego due in 6 days.',
     ],
-    category: 'records',
-    modelTier: 'cheap',
-    pricingTier: 'freemium',
-    icon: 'Thermometer',
-    accent: '#C79B1F',
-    greeting: 'Kia ora! Read me your temperature checks and I will log them, flag anything out of range, and keep it audit-ready.',
-    starters: [
-      'Fridge 1 is 3°C, Fridge 2 is 6°C, freezer is -18°C.',
-      'What do I do if a fridge is too warm?',
+    nzKnowledge: [
+      'AT / Metlink / ORC GTFS feeds',
+      'MetService',
+      'NZ Curriculum + Te Marautanga',
+      'Well Child Tamariki Ora schedule',
+      'Oranga Tamariki Act 1989 safeguarding',
+      'Privacy Act 2020 (IPP 1, 11, 3A)',
+      'MoE school term calendars',
     ],
-    systemPrompt:
-      'You are Food Act Temp Log, an NZ food-safety record-keeper aligned to the Food Act 2014 and Food Control Plan requirements. Capture temperature checks, flag out-of-safe-range readings with corrective actions, and maintain an audit-ready log. ' + REVIEW_LINE,
-    toolHref: '/hapai/food-temp-log',
-  },
-  {
-    slug: 'privacy-act-onepager',
-    name: 'Privacy Act One-pager',
-    teReo: 'Tūmataiti',
-    description: 'Get a plain-language privacy summary for your business under the Privacy Act 2020.',
-    whatItDoes: [
-      'Asks what personal information you collect and why.',
-      'Maps it to the Privacy Act 2020 principles.',
-      'Drafts a clear one-page privacy summary.',
-    ],
-    whatYouGet: [
-      'A plain-language privacy one-pager.',
-      'A note on where you might have gaps.',
-      'A starting point to share with customers.',
-    ],
-    sampleOutputs: [
-      'You collect names, emails, and payment details for orders and support.',
-      'Gap: no stated retention period for old customer records.',
-    ],
-    category: 'records',
+    category: 'family',
     modelTier: 'mid',
-    pricingTier: 'freemium',
-    icon: 'ShieldCheck',
+    priceTier: 'toro',
+    icon: 'Users',
     accent: '#FFD42A',
-    greeting: 'Kia ora! Tell me what personal information your business collects and why, and I will draft a Privacy Act 2020 one-pager.',
+    greeting:
+      "Kia ora! I'm Tōro — the friend on the other end of a text who remembers everything for the whānau. What's on today?",
     starters: [
-      'An online store that ships nationwide.',
-      'A café with a loyalty programme.',
+      'Paste a school notice and pull out the dates.',
+      "Plan the week's dinners from what's in the fridge.",
+      'Set up a daily check-in with my mum.',
     ],
-    systemPrompt:
-      'You are Privacy Act One-pager, an NZ privacy assistant built on the Privacy Act 2020 and its 13 information privacy principles. Help the user describe what they collect and why, map it to the principles, and draft a plain-language one-page summary, flagging likely gaps. This is general guidance, not legal advice.',
-    toolHref: '/hapai/privacy-act',
   },
   {
-    slug: 'turf-maintenance',
-    name: 'Turf Maintenance Log',
-    teReo: 'Pae Taratua',
-    description: 'Log mowing, spraying, and ground checks for sports turf and grounds — tidy and traceable.',
+    slug: 'study-buddy',
+    name: 'Study Buddy',
+    teReo: 'Ako Hoa',
+    description:
+      'A patient NCEA and curriculum coach for tamariki and rangatahi. Explains, drills and predicts the question — never hands over the answer.',
     whatItDoes: [
-      'Records mowing, fertiliser, spraying, and inspections.',
-      'Tracks what was done, when, and by whom.',
-      'Keeps a traceable maintenance history.',
+      'Coaches NZ Curriculum (Years 1–10), Te Marautanga, and NCEA Levels 1–3 across every subject.',
+      'Builds essay plans, quote checklists, recall quizzes and study sprints at the target grade band.',
+      'Marks only against the published Achievement Standards, citing the standard number and year.',
     ],
     whatYouGet: [
-      'A clean, dated maintenance log.',
-      'A record of products and rates used.',
-      'A history you can show at handover or audit.',
+      'A goal, three tasks and an exemplar (in a different topic) every session.',
+      'Recall quizzes and exam-style practice with hints.',
+      'A parent-friendly weekly summary: what was practised, where the gap is, what to ask the teacher.',
     ],
     sampleOutputs: [
-      'Mowed main field 18mm, edges trimmed — 2.5 hrs, J. Smith.',
-      'Applied fertiliser at 25g/m², logged batch and date.',
+      "Here's quadratics with one worked example, then three for you — show me your working.",
+      'Parent note: strong on Pythagoras, shaky on surds — ask the teacher about AS91027.',
     ],
-    category: 'records',
-    modelTier: 'cheap',
-    pricingTier: 'free',
-    icon: 'Sprout',
-    accent: '#FFD42A',
-    greeting: 'Kia ora! Tell me what you did on the grounds today and I will keep a tidy, traceable maintenance log.',
-    starters: [
-      'Mowed the main field and sprayed the cricket block.',
-      'Log a fertiliser application at 25g per square metre.',
+    nzKnowledge: [
+      'NZQA Achievement Standards (NCEA)',
+      'NZ Curriculum / Te Marautanga',
+      'Te Aka Māori Dictionary',
+      'ERO guidance',
     ],
-    systemPrompt:
-      'You are Turf Maintenance Log, a record-keeper for NZ sports-turf and grounds teams. Capture mowing, fertiliser, spraying, and inspection activities with dates, rates, products, and who did the work, keeping a traceable history. Note any product use that may need a record under NZ rules.',
-    toolHref: '/hapai/turf-maintenance',
-  },
-
-  // ── Meetings & Notes ─────────────────────────────────────────────────
-  {
-    slug: 'hui',
-    name: 'Hui',
-    teReo: 'Hui',
-    description: 'Record a meeting and get clean notes, decisions, and a clear list of who-does-what.',
-    whatItDoes: [
-      'Captures the meeting and turns it into clean notes.',
-      'Pulls out decisions and action items with owners.',
-      'Keeps a record you can search later.',
-    ],
-    whatYouGet: [
-      'Tidy meeting notes.',
-      'A decisions + action-items list with owners.',
-      'A searchable record of the kōrero.',
-    ],
-    sampleOutputs: [
-      'Decision: ship the pricing change on Monday.',
-      'Action: Kate to update the landing page by Friday.',
-    ],
-    category: 'meetings',
-    modelTier: 'premium',
-    pricingTier: 'paid',
-    icon: 'Mic',
-    accent: '#C79B1F',
-    greeting: 'Kia ora! Paste a transcript or describe the meeting and I will turn it into clean notes, decisions, and actions.',
-    starters: [
-      'Paste a transcript and pull out the actions.',
-      'Summarise this meeting into decisions and owners.',
-    ],
-    systemPrompt:
-      'You are Hui, an NZ meeting-notes assistant. From a transcript or description, produce clean structured notes, a list of decisions, and action items with owners and due dates where stated. Be faithful to the source and never invent commitments. ' + REVIEW_LINE,
-    toolHref: '/hui',
-  },
-
-  // ── Learning ─────────────────────────────────────────────────────────
-  {
-    slug: 'study-helper',
-    name: 'Study Helper',
-    teReo: 'Ako Tautoko',
-    description: 'A patient tutor for NCEA and homework — explains, quizzes, and never just hands over answers.',
-    whatItDoes: [
-      'Explains tricky topics in plain language.',
-      'Builds practice questions and quizzes.',
-      'Coaches rather than dumping the answer.',
-    ],
-    whatYouGet: [
-      'Clear explanations at the right level.',
-      'Practice questions with worked steps.',
-      'A study plan for the week.',
-    ],
-    sampleOutputs: [
-      'Here is quadratics explained with one worked example, then your turn.',
-      'A 5-question quiz on photosynthesis with hints.',
-    ],
-    category: 'learning',
+    category: 'family',
     modelTier: 'mid',
-    pricingTier: 'freemium',
+    priceTier: 'free',
     icon: 'GraduationCap',
     accent: '#FFE27A',
-    greeting: 'Kia ora! What are you studying? I will explain it clearly, then we will practise together — I won\'t just hand over answers.',
+    greeting:
+      "Kia ora! I'm your study coach. Tell me the subject, level and what you're stuck on — I'll explain it, then we practise. I won't write it for you.",
     starters: [
-      'Help me understand NCEA Level 1 algebra.',
-      'Quiz me on the water cycle.',
+      'Help me plan an NCEA Level 2 English essay.',
+      'Quiz me on photosynthesis.',
+      'Explain standard deviation simply.',
     ],
-    systemPrompt:
-      'You are Study Helper, a patient NZ tutor aligned to NCEA and the NZ Curriculum. Explain concepts clearly, build practice questions, and coach the learner through problems rather than simply giving answers. Encourage and adapt to the learner\'s level.',
-    toolHref: '/hapai/study-helper',
+  },
+  {
+    slug: 'kai-planner',
+    name: 'Kai Planner',
+    teReo: 'Kai Whakatō',
+    description:
+      'A week of dinners from a photo of the fridge — budget kept honest, shopping list ordered by supermarket aisle.',
+    whatItDoes: [
+      "Reads a fridge or pantry photo and lists what you've got.",
+      'Builds a 7-day plan with a leftover plan baked in — day-1 cook feeds day-3.',
+      "Orders the shopping list by Pak'nSave / New World / Countdown aisle with a running total.",
+    ],
+    whatYouGet: [
+      'A day-by-day meal table with dietary tags (gluten-free, halal, kai Māori, kid-friendly).',
+      'An aisle-ordered shopping list with an NZD estimate.',
+      'Three leftover hacks and a share card for the week.',
+    ],
+    sampleOutputs: [
+      'Tonight: beef tacos from the mince and capsicum you already have.',
+      "Shop: 12 items grouped by aisle, about $74 at Pak'nSave.",
+    ],
+    nzKnowledge: [
+      'Grocer NZ price feed / supermarket specials',
+      'MPI food-safety guidance',
+      'Heart Foundation Tick reference',
+    ],
+    category: 'family',
+    modelTier: 'cheap',
+    priceTier: 'free',
+    icon: 'ChefHat',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora! Send a photo or a list of what's in the fridge, your household size and budget — I'll plan the week's kai and the shop.",
+    starters: [
+      'Plan a week of dinners for a family of four on a tight budget.',
+      'Half a cabbage, mince, eggs and two carrots — what can we make?',
+    ],
+  },
+  {
+    slug: 'care-captain',
+    name: 'Care Captain',
+    teReo: 'Kaitiaki Kaumātua',
+    description:
+      'A daily check-in with a nominated elder. If something looks off — no reply, distress, a pattern change — it escalates to the named caregiver.',
+    whatItDoes: [
+      'Sends a warm daily SMS or voice check-in at a chosen time.',
+      'Learns the elder\'s baseline and escalates on no-reply, distress words, or a pattern shift.',
+      'Optionally reminds about GP, pharmacy and podiatry appointments.',
+    ],
+    whatYouGet: [
+      'A check-in reply log, visible to both elder and caregiver.',
+      'A daily digest to the caregiver: replied / time / mood / flag.',
+      "A clear escalation message when something's triggered.",
+    ],
+    sampleOutputs: [
+      'Morning, Pā! Did you sleep okay last night — yes or not really?',
+      'Caregiver alert: no reply by 11am, second day running. Suggest a call.',
+    ],
+    nzKnowledge: [
+      'Healthline 0800 611 116 / Whakarongorau 1737',
+      'ACC injury claim triggers',
+      'St John ambulance triggers',
+      'Age Concern referral paths',
+      'SuperGold benefits',
+    ],
+    category: 'family',
+    modelTier: 'mid',
+    priceTier: 'toro',
+    icon: 'HeartHandshake',
+    accent: '#C79B1F',
+    greeting:
+      "Kia ora. I'll check in on your loved one each day and let you know if anything looks off. Who am I checking in with, and when?",
+    starters: ['Set up a 9am check-in with my dad.', "What happens if he doesn't reply?"],
+  },
+
+  // ── Business & SME ───────────────────────────────────────────────────
+  {
+    slug: 'ledger',
+    name: 'Ledger',
+    teReo: 'Pūkete',
+    description:
+      'Tax and GST for NZ business. Reads the books in Xero or MYOB, drafts the return, and never files without your sign-off.',
+    whatItDoes: [
+      'Drafts the GST101A return — every line traced to a source transaction.',
+      'Projects provisional tax (standard, estimation, AIM, ratio) in best / likely / cautious scenarios.',
+      'Prepares the end-of-year balance-date pack and flags FBT/RWT/NRWT edges for your accountant.',
+    ],
+    whatYouGet: [
+      'A drafted GST return ready for your accountant to check.',
+      'A provisional tax projection with assumptions stated.',
+      'An end-of-year pack: P&L and balance-sheet read-out, positions, questions for the CA.',
+    ],
+    sampleOutputs: [
+      'GST101A draft: output tax $4,120, input tax $1,380, to pay $2,740 — every line referenced.',
+      'Income Tax Act 2007 s CB 4 may apply here — flagged for CA review.',
+    ],
+    nzKnowledge: [
+      'IRD tax-rate tables + Tax Information Bulletins',
+      'IRD interpretation statements',
+      'NZBN registry',
+      'Companies Office filings',
+    ],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'Calculator',
+    accent: '#C79B1F',
+    greeting:
+      "Kia ora. Connect Xero or MYOB read-only, or paste your numbers — I'll draft the GST return and tax position. Nothing gets filed without your sign-off.",
+    starters: ['Draft my two-monthly GST return.', 'How much provisional tax should I set aside?'],
+  },
+  {
+    slug: 'pulse',
+    name: 'Pulse',
+    teReo: 'Manawa',
+    description:
+      'The Holidays Act 2003 sense-checker. Calculates leave the way the Act actually requires and flags where your payroll system is likely off.',
+    whatItDoes: [
+      'Reviews holiday pay line-by-line against the Holidays Act 2003, citing the section.',
+      'Audits KiwiSaver employer contributions and reconciles PAYE against IRD.',
+      'Prepares the April-1 rate-update memo and pay-equity readiness.',
+    ],
+    whatYouGet: [
+      "A per-employee 'likely correct / under / over' sense-check pack.",
+      'A KiwiSaver audit with dollar exposure by employee.',
+      'A one-page April-1 memo covering every rate change that hits your payroll.',
+    ],
+    sampleOutputs: [
+      'Likely underpaid: 3 staff on alternative holidays (s56) — total exposure ~$2,400.',
+      'KiwiSaver gap: employer 3% missed on a bonus for 2 employees.',
+    ],
+    nzKnowledge: [
+      'Holidays Act 2003 + MBIE guidance',
+      'KiwiSaver Act 2006',
+      'Employment Relations Act 2000',
+      'IRD PAYE/KiwiSaver tables',
+      'Employment Court decisions',
+    ],
+    category: 'business',
+    modelTier: 'premium',
+    priceTier: 'pro',
+    icon: 'HeartPulse',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Upload your payroll export and I'll sense-check holiday pay and KiwiSaver against the Holidays Act 2003. It's fixable — I'll show the path.",
+    starters: [
+      'Sense-check our holiday pay.',
+      'Audit our KiwiSaver contributions.',
+      'Prep the April 1 rate memo.',
+    ],
+  },
+  {
+    slug: 'compass',
+    name: 'Compass',
+    teReo: 'Kāwhena',
+    description:
+      'Maps an employee or applicant to a viable NZ visa pathway and the documents needed. Checks the live INZ source, never memory.',
+    whatItDoes: [
+      'Maps AEWV accreditation, job check and work-visa steps.',
+      'Covers post-study, partnership, residence-from-work and skilled-migrant pathways.',
+      'Pulls live median wage, Green List and Skills Shortage settings before advising.',
+    ],
+    whatYouGet: [
+      'A ranked pathway map with eligible options.',
+      'A document checklist per option and an accreditation gap report.',
+      "A risk register and a 'refer to a licensed adviser' line on every output.",
+    ],
+    sampleOutputs: [
+      'Likely eligible: AEWV via Green List Tier 1 — accreditation gap: no advertising evidence.',
+      'INZ Operational Manual WK3.10 — confirm against the current amendment.',
+    ],
+    nzKnowledge: [
+      'INZ Operational Manual (live)',
+      'Immigration Act 2009',
+      'AEWV settings + median wage gazette',
+      'INZ Green List / Skills Shortage List',
+      'NZQA recognition',
+    ],
+    category: 'business',
+    modelTier: 'premium',
+    priceTier: 'pro',
+    icon: 'Compass',
+    accent: '#FFE27A',
+    greeting:
+      "Kia ora. Tell me the role, salary, the applicant's nationality and current visa — I'll map the pathways. Drafts for a licensed adviser to confirm.",
+    starters: ['Map an AEWV pathway for a chef on $30/hr.', 'What does employer accreditation need?'],
+  },
+  {
+    slug: 'helm',
+    name: 'Helm',
+    teReo: 'Helm',
+    description:
+      'A voice receptionist any SME can stand up in 30 minutes. Answers calls, captures leads, books appointments, and transfers when it matters.',
+    whatItDoes: [
+      'Answers with your greeting and a Privacy Act collection notice, then captures name, number, intent and urgency.',
+      'Books appointments, test drives or tables to your linked calendar.',
+      "Transfers to the on-call human on your 'always escalate' rules.",
+    ],
+    whatYouGet: [
+      'Answered calls with full transcripts and intent classification.',
+      'Captured leads and drafted bookings in your CRM.',
+      'An end-of-day digest: missed / booked / leads / needs-human.',
+    ],
+    sampleOutputs: [
+      'Booked: Friday 2pm test drive, called back the lead, texted a confirmation.',
+      'Needs human: caller asked for a $5,000 refund — outside scope, transferred.',
+    ],
+    nzKnowledge: [
+      'Twilio NZ regulatory bundle (TCF verified caller ID)',
+      'Privacy Act 2020 IPP 3 collection notice',
+      'Telco numbering plan',
+      'Fair Trading Act 1986',
+    ],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'business',
+    icon: 'Headset',
+    accent: '#C79B1F',
+    greeting:
+      "Kia ora. I'm Helm — your voice line. Give me your hours, top five FAQs and the number to transfer to, and I'll start answering calls.",
+    starters: ['Set up after-hours reception for a trades business.', 'What do you say when you answer?'],
+  },
+
+  // ── Trades & Construction ────────────────────────────────────────────
+  {
+    slug: 'site-safety',
+    name: 'Site Safety',
+    teReo: 'Ārai',
+    description:
+      'H&S plans, SWMS, toolbox talks and the notifiable-event procedure — drafted for the PCBU under the Health and Safety at Work Act 2015.',
+    whatItDoes: [
+      'Drafts a Site-Specific Safety Plan and a SWMS per high-risk task.',
+      'Builds a hazard register with the hierarchy of controls applied in order.',
+      'Drafts the notifiable-event flowchart and WorkSafe notification.',
+    ],
+    whatYouGet: [
+      'An SSSP, SWMS pack and weekly toolbox talk slides.',
+      'A severity-rated hazard register.',
+      'A notifiable-event draft matched to the WorkSafe form fields.',
+    ],
+    sampleOutputs: [
+      'Working at height — controls: edge protection (isolation) before harness (PPE), HSWA s36.',
+      'Notifiable event under HSWA s56: report to WorkSafe — call 0800 030 040 now.',
+    ],
+    nzKnowledge: [
+      'Health and Safety at Work Act 2015 + General Risk Regs 2016',
+      'WorkSafe Approved Codes of Practice',
+      'LBP register lookups',
+      'ACC ClaimsManager guidance',
+    ],
+    category: 'trades',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'HardHat',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Tell me the site, the scope and who's on it — I'll draft the safety plan and the SWMS. You're the PCBU; these are drafts you own.",
+    starters: [
+      'Draft an SSSP for a residential reroof.',
+      'Toolbox talk on working at height.',
+      "What's a notifiable event?",
+    ],
+  },
+  {
+    slug: 'project-manager',
+    name: 'Project Manager',
+    teReo: 'Kaupapa',
+    description:
+      'Payment claims, schedules, variations and EOTs under the Construction Contracts Act 2002 and NZS 3910:2023.',
+    whatItDoes: [
+      'Drafts a CCA-compliant payment claim and validates it against s20(2).',
+      'Tracks variations, retentions (CCA Part 2A) and the critical path.',
+      'Drafts Extension of Time claims and an adjudication-readiness pack.',
+    ],
+    whatYouGet: [
+      'A standardised, fully-referenced payment claim.',
+      'A payment schedule and variation register.',
+      'An EOT pack: cause, contractual entitlement, time claimed, mitigation.',
+    ],
+    sampleOutputs: [
+      'Payment claim #7 validated under CCA s20(2) — all six requirements met.',
+      'Payment schedule overdue: 20 working days passed, claimed amount now due (s21).',
+    ],
+    nzKnowledge: [
+      'Construction Contracts Act 2002',
+      'NZS 3910:2023 / 3915 / 3916',
+      'MBIE construction sector reports',
+    ],
+    category: 'trades',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'ClipboardList',
+    accent: '#C79B1F',
+    greeting:
+      "Kia ora. Tell me the contract type, value and this month's work — I'll draft the payment claim and keep the variation register straight.",
+    starters: [
+      "Draft this month's payment claim.",
+      'Log a variation for extra excavation.',
+      'Prep an EOT for the weather delay.',
+    ],
+  },
+  {
+    slug: 'quality-defects',
+    name: 'Quality + Defects',
+    teReo: 'Pai',
+    description:
+      'ITPs, hold points, NCRs, the practical-completion punch list and producer-statement packs — drafted and tracked to the Building Code.',
+    whatItDoes: [
+      'Builds an Inspection and Test Plan per trade with hold points.',
+      'Runs the NCR register and the PC punch list room-by-room.',
+      'Assembles the producer-statement pack (PS1/PS3/PS4) and CCC prerequisites.',
+    ],
+    whatYouGet: [
+      'An ITP per trade and a live NCR register.',
+      'A photo-backed practical-completion punch list.',
+      'A producer-statement pack checked for completeness.',
+    ],
+    sampleOutputs: [
+      'NCR #12: cladding clearance below E2/AS1 — corrective action logged, awaiting sign-off.',
+      'CCC prerequisites: 3 of 14 outstanding, PS3 still to assemble.',
+    ],
+    nzKnowledge: [
+      'NZ Building Code (B1–H1)',
+      'BRANZ Bulletins',
+      'MBIE Determinations database',
+      'Council acceptable-solutions guidance',
+    ],
+    category: 'trades',
+    modelTier: 'mid',
+    priceTier: 'business',
+    icon: 'BadgeCheck',
+    accent: '#FFE27A',
+    greeting:
+      "Kia ora. Give me the trade list and milestones — I'll draft the ITPs, track defects, and build the producer-statement pack.",
+    starters: [
+      'Build an ITP for the concrete pour.',
+      'Start an NCR for a waterproofing defect.',
+      "What's needed before CCC?",
+    ],
+  },
+  {
+    slug: 'building-consent',
+    name: 'Building Consent',
+    teReo: 'Whakaaē',
+    description:
+      "Building and resource consent applications, amendments and RFI responses — pre-filled to each council's quirks under the Building Act 2004.",
+    whatItDoes: [
+      'Pre-fills the consent application pack per BCA (Auckland vs Christchurch vs Wellington).',
+      'Drafts amendments, RFI responses and the CCC prerequisites checklist.',
+      'Checks Schedule 1 exemptions and heritage overlays before advising.',
+    ],
+    whatYouGet: [
+      'An application pack cover sheet with drawings, specs and PS lists.',
+      'Numbered RFI responses, each tied to a Code clause and drawing.',
+      'A council inspection booking message and CCC checklist.',
+    ],
+    sampleOutputs: [
+      'RFI 3 response: H1 compliance shown on drawing A-204, calc sheet 6.',
+      'Auckland Council: this needs a PIM — not exempt under Schedule 1 item 2.',
+    ],
+    nzKnowledge: [
+      'Building Act 2004 + NZ Building Code',
+      'Resource Management Act 1991',
+      'Council e-services APIs (AC, CCC, WCC, TCC, HCC, QLDC)',
+      'MBIE Determinations',
+      'LINZ property records',
+    ],
+    category: 'trades',
+    modelTier: 'premium',
+    priceTier: 'pro',
+    icon: 'Building2',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Give me the site, the scope and your drawings — I'll pre-fill the consent application for your council and chase the CCC.",
+    starters: [
+      'Pre-fill a building consent for a deck.',
+      'Draft an RFI response for the council.',
+      'Is this work exempt under Schedule 1?',
+    ],
+  },
+
+  // ── Marketing & Creative ─────────────────────────────────────────────
+  {
+    slug: 'auaha',
+    name: 'Auaha',
+    teReo: 'Auaha',
+    description:
+      'The full creative shop in one chat: brief → copy → image → video → podcast → schedule. Every render previews inline.',
+    whatItDoes: [
+      'Turns a conversation into a creative brief, then writes copy in your brand voice.',
+      'Generates images and video across the vendor stack, gated by Brand Voice and Ad Compliance.',
+      'Schedules to Buffer / Meta / Google as drafts — publishes only with your sign-off.',
+    ],
+    whatYouGet: [
+      'A brief, copy variants, image options and video cuts — previewed in chat.',
+      'Ad sets and scheduled posts with projected reach.',
+      'A post-performance digest with the next iteration.',
+    ],
+    sampleOutputs: [
+      'Three hero images on your cream-and-canary palette — pick one to animate.',
+      'Campaign pack: 5 posts scheduled as drafts, Ad Compliance passed.',
+    ],
+    nzKnowledge: [
+      'ASA Codes (live)',
+      'Fair Trading Act 1986',
+      'Copyright Act 1994',
+      'NZ On Air voice guidance',
+      'Te Mātāwai te reo references',
+    ],
+    category: 'creative',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'Palette',
+    accent: '#FFE27A',
+    greeting:
+      "Kia ora! I'm Auaha — your creative studio. Tell me the brand, the audience and the channel, and we'll go brief → copy → image → video → schedule.",
+    starters: [
+      'Brief and design a launch campaign.',
+      'Write three ad headlines in our voice.',
+      'Make a social video for the weekend special.',
+    ],
+  },
+  {
+    slug: 'brand-voice',
+    name: 'Brand Voice',
+    teReo: 'Muse',
+    description:
+      'Learns your best copy, then enforces your tone on every new piece — flagging AI-slop sentences and fixing them in place.',
+    whatItDoes: [
+      'Builds a voice profile from 10+ examples of your best copy.',
+      "Passes any new piece through the profile and redlines it with a 'why' per change.",
+      'Flags slop, NZ-spelling slips and missing macrons every time.',
+    ],
+    whatYouGet: [
+      'Original / redline / why, paragraph by paragraph.',
+      'A voice-profile snapshot of what it learned.',
+      'A word-frequency anomaly list when a piece drifts off-voice.',
+    ],
+    sampleOutputs: [
+      "Cut 'leverage our seamless platform' → 'use the tool'. Slop blacklist, line 1.",
+      'Voice profile: short sentences, no rule-of-three, macrons on every kupu.',
+    ],
+    nzKnowledge: [
+      'elite-copywriter ruleset (anti-AI patterns)',
+      'NZ English spelling',
+      'Te reo correctness gate',
+      'Te Aka Māori Dictionary',
+    ],
+    category: 'creative',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'Megaphone',
+    accent: '#C79B1F',
+    greeting:
+      "Kia ora. Paste 10 examples of your best copy and I'll learn your voice — then send me anything new and I'll keep it on-tone and slop-free.",
+    starters: [
+      'Learn our voice from these examples.',
+      "Rewrite this 'About' page in our tone.",
+      'Audit this page for slop.',
+    ],
+  },
+  {
+    slug: 'ad-compliance',
+    name: 'Ad Compliance',
+    teReo: 'Pae',
+    description:
+      'Reads any ad before it ships — flags substantiation gaps, misleading claims and code breaches, then drafts a defensible substantiation pack.',
+    whatItDoes: [
+      'Gives a pass / flag / fail call against the ASA Codes and Fair Trading Act 1986.',
+      'Checks comparative claims, kids-marketing, alcohol, therapeutic and financial rules.',
+      'Checks the current ASA decisions database before passing.',
+    ],
+    whatYouGet: [
+      'A pass/flag/fail summary with a rule-by-rule breakdown.',
+      'A substantiation pack: every claim matched to its evidence.',
+      'Suggested edits to convert a flag into a pass.',
+    ],
+    sampleOutputs: [
+      "FLAG: '#1 in NZ' needs like-for-like, current substantiation (FTA s9).",
+      'Alcohol post: drinking depicted too rapidly — Alcohol Promotion Code breach.',
+    ],
+    nzKnowledge: [
+      'ASA Codes (Advertising, Children, Therapeutic, Financial, Alcohol, Vehicle, Gambling)',
+      'Fair Trading Act 1986',
+      'Commerce Commission guidance',
+      'Medicines Act 1981',
+      'Vaping Reform Act 2020',
+    ],
+    category: 'creative',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'ScanEye',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Send the ad — image, copy, video or landing page — plus the offer and your evidence. I'll tell you if it ships, and how to fix it if not.",
+    starters: [
+      'Check this ad before we run it.',
+      'Is this comparison claim safe?',
+      'Build a substantiation pack for our specials.',
+    ],
+  },
+
+  // ── Healthcare ───────────────────────────────────────────────────────
+  {
+    slug: 'scribe',
+    name: 'Scribe',
+    teReo: 'Tā Kōrero',
+    description:
+      'Clinical-note capture for GPs and allied health. Consult in, SOAP note out, ICD-10-AM coded — supports the clinician, never diagnoses.',
+    whatItDoes: [
+      'Captures the consult (live or transcript) into SOAP, DAP, SBAR or a discharge summary.',
+      'Suggests ICD-10-AM v12 codes for the coder to confirm.',
+      'Runs a drug-interaction sanity check and refers to the pharmacist.',
+    ],
+    whatYouGet: [
+      'A structured note with the assessment and plan.',
+      'Suggested codes with reasoning in a separate section.',
+      'A plain-language patient summary the clinician can send.',
+    ],
+    sampleOutputs: [
+      'SOAP drafted; differential ranked; ICD-10-AM J06.9 suggested — clinician to confirm.',
+      'Patient summary: what we talked about, what we agreed, when to come back.',
+    ],
+    nzKnowledge: [
+      'Health Information Privacy Code 2020',
+      'HPCAA 2003',
+      'Medical Council of NZ standards',
+      'NZ ePrescription Service readiness',
+      'ICD-10-AM v12',
+      'Whakarongorau triage triggers',
+    ],
+    category: 'healthcare',
+    modelTier: 'premium',
+    priceTier: 'pro',
+    icon: 'Stethoscope',
+    accent: '#C79B1F',
+    greeting:
+      "Kia ora. With per-visit consent captured, paste or record the consult — I'll draft the SOAP note and suggest codes. Clinical sign-off stays with you.",
+    starters: [
+      'Draft a SOAP note from this consult.',
+      'Write a referral letter to cardiology.',
+      'Suggest ICD-10-AM codes.',
+    ],
+  },
+  {
+    slug: 'practice-manager',
+    name: 'Practice Manager',
+    teReo: 'Remedy',
+    description:
+      'The non-clinical heart of a practice: APC renewals, patient recalls, HDC complaint prep and audit readiness.',
+    whatItDoes: [
+      "Tracks every clinician's Annual Practising Certificate to the day.",
+      'Runs the recall system and drafts the recall letters, SMS and email.',
+      'Drafts HDC complaint responses per the relevant Right and preps CORNERSTONE audits.',
+    ],
+    whatYouGet: [
+      'An APC tracker by clinician and registration body.',
+      'A recall list with drafted messages.',
+      'An HDC complaint response with a per-Right rebuttal and evidence pack.',
+    ],
+    sampleOutputs: [
+      "APC alert: Dr Patel's certificate expires in 21 days — renewal not yet lodged.",
+      'Recall: 38 patients due for cervical screening, draft SMS ready.',
+    ],
+    nzKnowledge: [
+      'HPCAA 2003',
+      'HDC Code of Rights',
+      'Medical / Dental / Nursing Council registers',
+      'RNZCGP CORNERSTONE audit framework',
+      'Pharmac formulary',
+    ],
+    category: 'healthcare',
+    modelTier: 'mid',
+    priceTier: 'business',
+    icon: 'ClipboardPlus',
+    accent: '#FFE27A',
+    greeting:
+      "Kia ora. Tell me your clinicians and recall criteria — I'll track APCs, draft the recalls, and keep you audit-ready.",
+    starters: [
+      'Track our APC renewal dates.',
+      'Draft a recall for overdue immunisations.',
+      'Prep an HDC complaint response.',
+    ],
+  },
+  {
+    slug: 'workplace-wellbeing',
+    name: 'Workplace Wellbeing',
+    teReo: 'Vitals',
+    description:
+      'Employer-side wellbeing: HSWA on the people side, ACC claim navigation, return-to-work plans and anonymous pulse surveys.',
+    whatItDoes: [
+      'Runs an anonymised wellbeing pulse (minimum cell size 5) and surfaces themes.',
+      'Navigates the employer side of ACC claims and drafts return-to-work plans.',
+      'Flags fatigue and bullying patterns and drafts EAP referral letters.',
+    ],
+    whatYouGet: [
+      'A monthly wellbeing pack: summary, themes, actions, top three risks.',
+      'An ACC claim pack with key dates and employer responsibilities.',
+      'A graduated return-to-work plan with review dates.',
+    ],
+    sampleOutputs: [
+      'This month: workload the top theme across 3 teams (cell size respected).',
+      'RTW plan: 4-week graduated return, lifting limit, review at week 2.',
+    ],
+    nzKnowledge: [
+      'Health and Safety at Work Act 2015 (people side)',
+      'ACC Act 2001',
+      'MentalHealth.org.nz resources',
+      'MBIE bullying and harassment guidance',
+    ],
+    category: 'healthcare',
+    modelTier: 'mid',
+    priceTier: 'business',
+    icon: 'Activity',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Tell me your headcount and sector — I'll set up an anonymous pulse, navigate ACC, and draft return-to-work plans. The agent enables; you act.",
+    starters: [
+      'Run a wellbeing pulse survey.',
+      'Help me navigate an ACC claim.',
+      'Draft a return-to-work plan.',
+    ],
+  },
+
+  // ── Maritime ─────────────────────────────────────────────────────────
+  {
+    slug: 'mariner',
+    name: 'Mariner',
+    teReo: 'Mariner',
+    description:
+      'The vessel-side companion for NZ skippers: pre-departure briefs, MOSS readiness, MNZ drafts and Coastguard trip reports.',
+    whatItDoes: [
+      'Builds a pre-departure brief from live weather, tides, fuel and a crew check.',
+      'Drafts the Coastguard trip report — ready, never auto-sent.',
+      'Preps MOSS inspections and drafts MNZ correspondence and incident reports.',
+    ],
+    whatYouGet: [
+      'A pre-departure brief: weather window, tides, sunrise/sunset, fuel calc, contingency.',
+      'A drafted Coastguard trip report you send when ready.',
+      'A MOSS inspection prep pack, section by section.',
+    ],
+    sampleOutputs: [
+      'Pre-departure: 1.2m swell easing, high tide 13:40, fuel +20% reserve — good window.',
+      'Trip report drafted: vessel, POB 4, intended track, ETA 17:00 — reply SEND to file.',
+    ],
+    nzKnowledge: [
+      'Maritime Transport Act 1994 + Maritime Rules',
+      'MNZ MOSS framework',
+      'LINZ tides API',
+      'MetService Marine / NIWA wave forecast',
+      'Coastguard NZ trip-report endpoint',
+      'AIS live feed',
+    ],
+    category: 'maritime',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'Anchor',
+    accent: '#C79B1F',
+    greeting:
+      "Kia ora. Give me your vessel, skipper details and the trip — I'll build the pre-departure brief and draft the Coastguard trip report. You stay the skipper.",
+    starters: [
+      'Build a pre-departure brief for a Hauraki Gulf run.',
+      'Draft a Coastguard trip report.',
+      'Prep my MOSS inspection.',
+    ],
+  },
+  {
+    slug: 'skipper',
+    name: 'Skipper',
+    teReo: 'Kaihautū',
+    description:
+      'The charter-operator companion: customer safety briefs, manifests, insurance evidence and Adventure Activities compliance.',
+    whatItDoes: [
+      'Builds the customer pre-trip pack: safety, what to bring, weather contingency, refunds.',
+      'Produces a Coastguard-shareable manifest and an insurance evidence pack.',
+      'Keeps the Adventure Activities Regulations 2016 compliance pack and post-trip log.',
+    ],
+    whatYouGet: [
+      'A one-page customer-facing pre-trip PDF.',
+      'A trip manifest and an insurance evidence schedule.',
+      'A post-trip log with consented photos.',
+    ],
+    sampleOutputs: [
+      'Pre-trip pack: bring layers and closed shoes, trip runs if swell stays under 1.5m.',
+      'Manifest: skipper, POB 9, emergency contacts, ETD 09:00, ETA 14:00.',
+    ],
+    nzKnowledge: [
+      'Adventure Activities Regulations 2016',
+      'HSW (Adventure Activities) Regulations 2016',
+      'MNZ MOSS Operator Safety Audits',
+      'DOC permits / marine reserves',
+      'AIS feed',
+      'MetService Marine',
+    ],
+    category: 'maritime',
+    modelTier: 'mid',
+    priceTier: 'business',
+    icon: 'Sailboat',
+    accent: '#FFE27A',
+    greeting:
+      "Kia ora. Tell me the vessel, the charter type and the manifest — I'll build the safety brief, the manifest and the insurance pack. Safety first, adventure second.",
+    starters: [
+      'Build a customer safety brief for a fishing charter.',
+      "Make a manifest for tomorrow's trip.",
+      'What does Adventure Activities certification need?',
+    ],
+  },
+
+  // ── Education ────────────────────────────────────────────────────────
+  {
+    slug: 'scholar',
+    name: 'Scholar',
+    teReo: 'Scholar',
+    description:
+      'The NZQA compliance companion for training providers: EER evidence, programme approval and micro-credential application packs.',
+    whatItDoes: [
+      'Builds the External Evaluation and Review evidence pack around the 6 key questions.',
+      'Drafts programme-approval and micro-credential submissions.',
+      'Summarises learner consultation and tracks Category 1–4 evidence.',
+    ],
+    whatYouGet: [
+      'An EER pack with evidence and a self-rating per question.',
+      'A programme-approval submission: outcomes, structure, assessment, support.',
+      'A micro-credential pack linked to a real skill need.',
+    ],
+    sampleOutputs: [
+      'EER self-rating: Confident in educational performance, Adequate in capability — evidence attached.',
+      "Micro-credential: 'Scaffolding Safety', Level 3, 10 credits, mapped to the WDC priority.",
+    ],
+    nzKnowledge: [
+      'NZQA rules + EER methodology',
+      'Education and Training Act 2020',
+      'Pastoral Care Codes 2021',
+      'Workforce Development Council priorities',
+    ],
+    category: 'education',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'School',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Tell me your provider type, NZQA category and programmes — I'll build the EER evidence and the approval submissions.",
+    starters: [
+      'Build our EER evidence pack.',
+      'Draft a micro-credential application.',
+      'Prep a programme approval submission.',
+    ],
+  },
+  {
+    slug: 'te-reo-tutor',
+    name: 'Te Reo Tutor',
+    teReo: 'Te Reo',
+    description:
+      'A daily-practice te reo Māori companion for families, beginners and professionals returning. Never substitutes for a kaiako.',
+    whatItDoes: [
+      'Runs daily phrase practice with pronunciation feedback (voice in / voice out).',
+      'Teaches household- and workplace-scoped vocabulary and greeting drills.',
+      'Gives a mihimihi skeleton — you fill the personal pepeha content.',
+    ],
+    whatYouGet: [
+      'A daily phrase: kupu, English, pronunciation guide, example.',
+      'A 5-prompt drill with immediate correction.',
+      'A weekly progress note and Te Aka lookups.',
+    ],
+    sampleOutputs: [
+      "Kupu o te rā: 'tūru' — chair. 'Homai te tūru, koa.' (Pass the chair, please.)",
+      'Marked: review by a competent reo speaker required before use.',
+    ],
+    nzKnowledge: [
+      'Te Aka Māori Dictionary',
+      'Te Taura Whiri guidance',
+      'Te Hiku Media papa reo (with permission)',
+    ],
+    category: 'education',
+    modelTier: 'mid',
+    priceTier: 'toro',
+    icon: 'Languages',
+    accent: '#FFE27A',
+    greeting:
+      "Kia ora! I'll help you practise te reo Māori every day — phrases, pronunciation, household kupu. For karakia, waiata or your pepeha, see a kaiako.",
+    starters: [
+      'Teach me a phrase a day for the kitchen.',
+      'Help me with my pronunciation.',
+      'Give me a mihimihi structure.',
+    ],
+  },
+
+  // ── Compliance ───────────────────────────────────────────────────────
+  {
+    slug: 'shield',
+    name: 'Shield',
+    teReo: 'Shield',
+    description:
+      'The Privacy Act 2020 and IPP 3A companion. Runs the assessment, drafts the disclosures, and reads the breach.',
+    whatItDoes: [
+      'Runs an IPP-by-IPP audit (all 13 plus IPP 3A).',
+      'Drafts the IPP 3A automated-decision disclosure per system.',
+      'Drafts breach-notification packs for the OPC and affected individuals.',
+    ],
+    whatYouGet: [
+      'A per-IPP audit: pass / gap / breach, with evidence and actions.',
+      'An IPP 3A notice drafted for each user-facing system.',
+      'A Privacy Impact Assessment and a breach pack.',
+    ],
+    sampleOutputs: [
+      'IPP 12 gap: customer data flows to a US processor with no s22 safeguard.',
+      'Breach pack: serious-harm threshold met — notify the OPC as soon as practicable (s114).',
+    ],
+    nzKnowledge: [
+      'Privacy Act 2020 + IPP 3A (live 1 May 2026)',
+      'Health Information Privacy Code 2020',
+      'Credit Reporting Privacy Code',
+      'Office of the Privacy Commissioner guidance',
+      'GCSB cross-border guidance',
+    ],
+    category: 'compliance',
+    modelTier: 'premium',
+    priceTier: 'pro',
+    icon: 'Shield',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Describe your systems and data flows — I'll run the IPP audit, draft your IPP 3A notices, and prep a breach pack if you need one.",
+    starters: [
+      'Run a Privacy Act audit on our systems.',
+      'Draft an IPP 3A notice for our app.',
+      "We've had a breach — what now?",
+    ],
+  },
+  {
+    slug: 'tikanga-guard',
+    name: 'Tikanga Guard',
+    teReo: 'Tikanga',
+    description:
+      "A cultural-compliance review on copy, branding or product names against Professor Mead's five tests. Never substitutes for mana whenua.",
+    whatItDoes: [
+      'Runs a five-test pass / refer report (Tika, Pono, Aroha, Tikanga, Mana) on any content.',
+      'Reviews te reo correctness, cultural-symbol use and place-names.',
+      'Audits Māori data sovereignty under Te Mana Raraunga.',
+    ],
+    whatYouGet: [
+      'A five-test pass / refer / fail report with reasons.',
+      'Suggested edits and a glossary of correct te reo.',
+      "A list of items to refer to mana whenua — with an explicit 'we cannot make this call'.",
+    ],
+    sampleOutputs: [
+      'REFER: koru used as a brand mark — who holds the authority to approve this? Not us.',
+      "Glossary: 'whānau' not 'whanau' — macron required; 'kai' correct.",
+    ],
+    nzKnowledge: [
+      'Te Aka Māori Dictionary',
+      'Te Taura Whiri / Te Mātāwai guidance',
+      'Te Mana Raraunga (Māori Data Sovereignty)',
+      'Treaty of Waitangi Act 1975 + Waitangi Tribunal reports',
+    ],
+    category: 'compliance',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'Feather',
+    accent: '#FFE27A',
+    greeting:
+      "Kia ora. Send the content and where it'll be used — I'll run Mead's five tests and flag anything that needs to go to mana whenua. Quiet and careful, not preachy.",
+    starters: [
+      'Review this campaign for cultural safety.',
+      'Is this use of a koru okay?',
+      'Check our te reo is correct.',
+    ],
+  },
+  {
+    slug: 'risk-audit',
+    name: 'Risk + Audit',
+    teReo: 'Audit',
+    description:
+      'A quarterly internal audit pack for boards, auditors and regulators. Picks samples, drafts findings, builds the evidence binder.',
+    whatItDoes: [
+      'Builds an audit plan per scope area with materiality thresholds.',
+      'Selects samples (statistical or risk-based) and drafts findings.',
+      'Assembles a cross-referenced evidence binder and a quarterly trend report.',
+    ],
+    whatYouGet: [
+      'An audit plan: scope, period, methodology, sample, materiality.',
+      'Findings in a condition / criteria / cause / effect / recommendation format.',
+      'A cover sheet with ratings a board or regulator can read.',
+    ],
+    sampleOutputs: [
+      'Finding: 3 of 20 invoices lacked approval — control gap, recommend dual sign-off.',
+      "Rating: payroll 'needs improvement', customer data 'acceptable'.",
+    ],
+    nzKnowledge: [
+      'XRB / NZICA audit standards',
+      'ISO 27001 (where claimed)',
+      'NZISM controls',
+      'ISACA frameworks',
+    ],
+    category: 'compliance',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'ClipboardCheck',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Tell me the areas to cover and the period — I'll plan the audit, pick the samples, and build the evidence binder for your board or auditor.",
+    starters: [
+      'Plan a quarterly internal audit.',
+      'Sample our payroll controls.',
+      'Draft findings for the board.',
+    ],
+  },
+
+  // ── Legal ────────────────────────────────────────────────────────────
+  {
+    slug: 'arbiter',
+    name: 'Arbiter',
+    teReo: 'Arbiter',
+    description:
+      'A navigator for the Disputes Tribunal, Tenancy Tribunal, employment problems and mediation. Not a lawyer — a guide who gets you ready.',
+    whatItDoes: [
+      'Builds a dated timeline and an evidence binder from your facts.',
+      'Pre-fills tribunal applications (Disputes, Tenancy, ERA mediation).',
+      'Drafts a mediation script and three negotiating positions.',
+    ],
+    whatYouGet: [
+      'A timeline of facts and an evidence list with provenance.',
+      'A tribunal application pre-fill and a 300-word opening statement.',
+      'Aspiration / realistic / walk-away negotiating positions.',
+    ],
+    sampleOutputs: [
+      'Disputes Tribunal application drafted — claim $4,200, under the $30,000 cap.',
+      'Opening statement (300 words) plus an A/B/C settlement ladder.',
+    ],
+    nzKnowledge: [
+      'Disputes Tribunal Act 1988',
+      'Residential Tenancies Act 1986',
+      'Employment Relations Act 2000 (personal grievance)',
+      'Fencing Act 1978',
+      'MoJ tribunal forms',
+    ],
+    category: 'legal',
+    modelTier: 'premium',
+    priceTier: 'pro',
+    icon: 'Gavel',
+    accent: '#C79B1F',
+    greeting:
+      "Kia ora. Paste the timeline and the key documents — I'll get you ready for the tribunal or mediation. For advice, I'll point you to a lawyer or community law.",
+    starters: [
+      'Prep a Disputes Tribunal claim.',
+      'Help with a Tenancy Tribunal application.',
+      'Draft a mediation opening statement.',
+    ],
+  },
+  {
+    slug: 'contract-reader',
+    name: 'Contract Reader',
+    teReo: 'Pou',
+    description:
+      'Reads any NDA, MSA or SLA, triages it green/yellow/red against your playbook, and drafts the redlines. Not legal advice.',
+    whatItDoes: [
+      'Triages a contract GREEN (sign), YELLOW (counsel), RED (full legal review).',
+      'Redlines clause by clause against your playbook.',
+      'Flags NZ-specific risks: pay-when-paid, uncapped indemnities, personal guarantees.',
+    ],
+    whatYouGet: [
+      'A cover sheet: GREEN / YELLOW / RED plus the top five issues.',
+      'A clause-by-clause redline: original / proposed / why.',
+      'A deviation report and A/B/C fallback positions.',
+    ],
+    sampleOutputs: [
+      'RED: personal guarantee in clause 14 — always escalate to the director.',
+      'Pay-when-paid clause is usually void under the Construction Contracts Act 2002 — flagged.',
+    ],
+    nzKnowledge: [
+      'Contract and Commercial Law Act 2017',
+      'Consumer Guarantees Act 1993',
+      'Fair Trading Act 1986',
+      'Construction Contracts Act 2002',
+      'Privacy Act 2020 / IPP 3A clauses',
+      'Companies Office filings',
+    ],
+    category: 'legal',
+    modelTier: 'premium',
+    priceTier: 'pro',
+    icon: 'FileSearch',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Paste the contract and your playbook (or use the default NZ SaaS one) — I'll triage it and draft your redlines. For a legal opinion, see your lawyer.",
+    starters: ['Triage this NDA.', 'Redline an MSA against our playbook.', 'Flag the risky clauses in this agreement.'],
+  },
+
+  // ── Financial ────────────────────────────────────────────────────────
+  {
+    slug: 'charter',
+    name: 'Charter',
+    teReo: 'Charter',
+    description:
+      'The Companies Act 1993 companion: director duties, AGM packs, board minutes and conflict-of-interest registers.',
+    whatItDoes: [
+      'Builds the AGM pack: notice, agenda, financial summary, minutes template.',
+      'Drafts board minutes from your notes and maintains the conflict register.',
+      'Refreshes director duties (s131–s138) and pre-fills the annual return.',
+    ],
+    whatYouGet: [
+      'An AGM pack with the correct notice timeframe.',
+      'Board minutes: attendees, decisions, action register.',
+      'A conflict-of-interest register: interest, declared, recused.',
+    ],
+    sampleOutputs: [
+      's131 reminder: act in good faith and in the best interests of the company.',
+      'Solvency concern flagged under s135/s136 — refer to an insolvency lawyer.',
+    ],
+    nzKnowledge: [
+      'Companies Act 1993',
+      'Financial Reporting Act 2013',
+      'Companies Office register',
+      'IRD director-duties guidance',
+      'Institute of Directors NZ',
+    ],
+    category: 'financial',
+    modelTier: 'mid',
+    priceTier: 'pro',
+    icon: 'ScrollText',
+    accent: '#C79B1F',
+    greeting:
+      "Kia ora. Tell me the company, the directors and your last AGM date — I'll build the AGM pack, draft the minutes, and keep the conflict register straight.",
+    starters: [
+      'Build our AGM pack.',
+      'Draft board minutes from these notes.',
+      'Remind me of my director duties.',
+    ],
+  },
+  {
+    slug: 'vault',
+    name: 'Vault',
+    teReo: 'Vault',
+    description:
+      'Reads your business insurance schedule, compares it to your actual risk, and flags under-insurance and the exclusions that matter.',
+    whatItDoes: [
+      'Reviews each policy: type, insurer, sum insured, premium, key exclusions.',
+      'Does the sum-insured maths against your real revenue, staff, assets and sites.',
+      'Drafts the renewal email and a claim-navigation pack.',
+    ],
+    whatYouGet: [
+      'A policy-by-policy gap report with dollar exposure.',
+      'An exclusion alert list, quoting the wording where it matters.',
+      'A renewal email requesting three quotes.',
+    ],
+    sampleOutputs: [
+      'Under-insured: business interruption covers 3 months, your recovery is ~6 — gap ~$80k.',
+      'Exclusion alert: cyber policy excludes social-engineering fraud.',
+    ],
+    nzKnowledge: [
+      'ICNZ industry standards',
+      'IBANZ broker guidance',
+      'EQC natural-hazards guidance',
+      'NZ ComCom merger thresholds (D&O)',
+      'FMA disclosure rules',
+    ],
+    category: 'financial',
+    modelTier: 'premium',
+    priceTier: 'pro',
+    icon: 'Vault',
+    accent: '#FFE27A',
+    greeting:
+      "Kia ora. Send your current policy schedule and your real revenue, staff and assets — I'll flag the gaps and the exclusions, and draft the renewal.",
+    starters: [
+      'Review our insurance schedule for gaps.',
+      'Are we under-insured for business interruption?',
+      'Draft a renewal email for three quotes.',
+    ],
+  },
+  {
+    slug: 'wealth-coach',
+    name: 'Wealth Coach',
+    teReo: 'Pūtea',
+    description:
+      'Personal finance for NZ: KiwiSaver fit, first-home steps, mortgage scenarios. Explains the options — never gives advice.',
+    whatItDoes: [
+      'Matches a KiwiSaver fund category to your risk and time horizon.',
+      'Projects retirement income (with NZ Super) and models mortgage scenarios.',
+      'Builds a first-home checklist: KiwiSaver withdrawal, First Home Grant, Kāinga Ora.',
+    ],
+    whatYouGet: [
+      "A KiwiSaver fit read-out with a clear 'this is not advice' footer.",
+      'A retirement projection in best / likely / cautious scenarios.',
+      'A first-home checklist and mortgage scenario pack.',
+    ],
+    sampleOutputs: [
+      'A growth fund category fits a 30-year horizon — discuss with a Financial Advice Provider.',
+      'First home: KiwiSaver withdrawal eligible, First Home Grant likely — steps attached.',
+    ],
+    nzKnowledge: [
+      'Sorted.org.nz fund tracker',
+      'FMA KiwiSaver tracker',
+      'MBIE first-home guidance',
+      'Kāinga Ora HomeStart eligibility',
+      'IRD KiwiSaver Member Tax Credit rules',
+    ],
+    category: 'financial',
+    modelTier: 'mid',
+    priceTier: 'toro',
+    icon: 'TrendingUp',
+    accent: '#FFD42A',
+    greeting:
+      "Kia ora. Tell me your age, income, KiwiSaver balance and your goal — I'll lay out the options. I'm not a Financial Advice Provider, so the call stays yours.",
+    starters: [
+      'Which KiwiSaver fund type fits me?',
+      'Project my retirement income.',
+      'Am I ready for a first home?',
+    ],
   },
 ];
+
+export const MARKETPLACE_AGENTS: MarketplaceAgent[] = AGENT_DEFS.map(buildAgent);
 
 /**
  * Client-safe projection of an agent — everything EXCEPT the locked system
@@ -807,6 +1387,20 @@ export const PRICING_TIER_LABELS: Record<PricingTier, string> = {
   freemium: 'Free to try',
   paid: 'Paid',
 };
+
+export const PRICE_TIER_LABELS: Record<PriceTier, string> = {
+  free: 'Free',
+  toro: 'Tōro',
+  whanau: 'Whānau',
+  pro: 'Pro',
+  business: 'Business',
+};
+
+/** Card/detail price chip, e.g. "Free", "Tōro · $9.99", "Business · $199". */
+export function priceLabel(agent: Pick<MarketplaceAgent, 'priceTier' | 'priceNzd'>): string {
+  if (agent.priceTier === 'free' || agent.priceNzd === 0) return 'Free';
+  return `${PRICE_TIER_LABELS[agent.priceTier]} · $${agent.priceNzd}`;
+}
 
 /**
  * Maps a marketplace model tier to a concrete model id for the chat route.
