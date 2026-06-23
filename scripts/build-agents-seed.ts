@@ -12,9 +12,12 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { MARKETPLACE_AGENTS } from '../lib/marketplace/agents';
 
+// Current canonical seed. Lands AFTER 20260623160000 (which adds the
+// tools/skills/fallback_models columns), so it must carry a later version than
+// the original 30-agent seed (20260623140100, now superseded).
 const OUT = join(
   process.cwd(),
-  'supabase/migrations/20260623140100_seed_hero_agents.sql',
+  'supabase/migrations/20260623160100_seed_hero_agents.sql',
 );
 
 /** Escape a value as a SQL string literal. */
@@ -41,6 +44,9 @@ const COLUMNS = [
   'price_monthly_nzd',
   'nz_knowledge_apis',
   'sample_outputs',
+  'tools',
+  'skills',
+  'fallback_models',
   'icon',
   'accent',
   'greeting',
@@ -64,6 +70,9 @@ const rows = MARKETPLACE_AGENTS.map((a) => {
     String(a.priceNzd),
     j(a.nzKnowledge),
     j(a.sampleOutputs),
+    j(a.tools),
+    j(a.skills),
+    j(a.fallbackModels),
     s(a.icon),
     s(a.accent),
     s(a.greeting),
@@ -79,16 +88,17 @@ const updateAssignments = COLUMNS.filter((c) => c !== 'slug')
   .concat('  updated_at = now()')
   .join(',\n');
 
-const sql = `-- Seed — 30 hero agents into the marketplace catalogue.
+const sql = `-- Seed — 35 hero agents into the marketplace catalogue (incl. tools, skills,
+-- and the free-fallback model ladder).
 --
 -- AUTO-GENERATED from lib/marketplace/agents.ts by scripts/build-agents-seed.ts.
 -- Do not hand-edit; regenerate with: pnpm tsx scripts/build-agents-seed.ts
 --
--- Mirrors the code registry (the source of truth) into public.agents so joins,
--- analytics, and admin views have the catalogue. Idempotent: re-running the
--- generator and re-applying keeps the table in sync. The system_prompt column
--- is seeded here but is NOT publicly readable — see
--- 20260623140050_agent_catalogue_columns.sql (column-level GRANTs).
+-- Supersedes the original 30-agent seed (20260623140100). Runs after
+-- 20260623160000 so the tools/skills/fallback_models columns exist. Mirrors the
+-- code registry (the source of truth) into public.agents; idempotent
+-- (ON CONFLICT (slug) DO UPDATE). system_prompt + fallback_models are seeded but
+-- NOT publicly readable — see 20260623140050 / 20260623160000 (column GRANTs).
 
 BEGIN;
 
@@ -102,7 +112,7 @@ ${updateAssignments};
 COMMIT;
 
 -- Verify:
--- SELECT count(*) FROM public.agents;                       -- expect 30
+-- SELECT count(*) FROM public.agents;                       -- expect 35
 -- SELECT category, count(*) FROM public.agents GROUP BY category ORDER BY 1;
 -- SELECT slug, name, price_tier, price_monthly_nzd, status
 --   FROM public.agents ORDER BY category, name;
