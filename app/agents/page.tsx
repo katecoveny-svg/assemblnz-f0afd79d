@@ -39,7 +39,7 @@ export default function AgentsMarketplacePage() {
 
           <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold" style={{ color: PALETTE.ink }}>
             <span className="inline-flex items-center gap-2">
-              <Sparkles size={16} style={{ color: PALETTE.gold }} aria-hidden /> 30 agents, ready now
+              <Sparkles size={16} style={{ color: PALETTE.gold }} aria-hidden /> 35 agents, ready now
             </span>
             <span className="inline-flex items-center gap-2">
               <Zap size={16} style={{ color: PALETTE.gold }} aria-hidden /> Free to try
