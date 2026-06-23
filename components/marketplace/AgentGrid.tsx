@@ -6,10 +6,10 @@ import { ArrowRight, Search } from 'lucide-react';
 import {
   CATEGORIES,
   PALETTE,
-  priceLabel,
   type MarketplaceCategory,
   type PublicMarketplaceAgent,
 } from '@/lib/marketplace/agents';
+import { agentPriceLabel } from '@/lib/billing/agent-pricing';
 import { AgentIcon } from './AgentIcon';
 
 type Filter = 'all' | MarketplaceCategory;
@@ -122,7 +122,7 @@ function AgentCard({ agent }: { agent: PublicMarketplaceAgent }) {
           className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
           style={{ backgroundColor: PALETTE.cream, color: PALETTE.gold }}
         >
-          {priceLabel(agent)}
+          From {agentPriceLabel()}
         </span>
       </div>
 
