@@ -5,7 +5,7 @@ import {
   DASH_MOTIF,
   MODEL_TIER_LABELS,
   PALETTE,
-  PRICING_TIER_LABELS,
+  priceLabel,
   type MarketplaceAgent,
 } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
@@ -54,7 +54,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
                 className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
                 style={{ backgroundColor: `${PALETTE.canary}66`, color: PALETTE.ink }}
               >
-                {PRICING_TIER_LABELS[agent.pricingTier]}
+                {priceLabel(agent)}
               </span>
             </div>
             <h1 className="mt-3 text-4xl leading-tight md:text-5xl" style={{ ...DISPLAY, color: PALETTE.ink }}>
@@ -127,7 +127,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
 
         {/* Pricing + meta */}
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <Meta label="Pricing" value={PRICING_TIER_LABELS[agent.pricingTier]} />
+          <Meta label="Pricing" value={priceLabel(agent)} />
           <Meta label="Model" value={MODEL_TIER_LABELS[agent.modelTier]} />
           <Meta label="Category" value={CATEGORY_LABELS[agent.category]} />
         </div>
