@@ -87,7 +87,7 @@ export function ManaTrustLayerDiagram() {
               textAnchor="middle"
               fontSize="20"
               fontWeight="600"
-              fill={isLast ? "#FAF7F2" : "var(--assembl-pounamu-deep)"}
+              fill={isLast ? "#FFF7EC" : "var(--assembl-pounamu-deep)"}
             >
               {stage.label}
             </text>
@@ -96,7 +96,7 @@ export function ManaTrustLayerDiagram() {
               y={nodeY + 54}
               textAnchor="middle"
               fontSize="12.5"
-              fill={isLast ? "#E8EFE9" : "var(--text-secondary)"}
+              fill={isLast ? "#FBF3DF" : "var(--text-secondary)"}
             >
               {stage.sub}
             </text>

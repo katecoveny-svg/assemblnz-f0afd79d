@@ -31,7 +31,7 @@ export function KeteAgentWidget({
   kete,
   agent,
   mode = 'marketing',
-  accent = '#2B6B57',
+  accent = '#3A3832',
 }: KeteAgentWidgetProps) {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
@@ -127,7 +127,7 @@ export function KeteAgentWidget({
       style={{ '--kete-widget-accent': accent } as React.CSSProperties}
     >
       {open ? (
-        <section className="w-[min(calc(100vw-2rem),420px)] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[#FAF7F2] shadow-[0_24px_80px_rgba(35,33,31,0.24)]">
+        <section className="w-[min(calc(100vw-2rem),420px)] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[#FFF7EC] shadow-[0_24px_80px_rgba(35,33,31,0.24)]">
           <header className="flex items-start justify-between gap-4 border-b border-[rgba(35,33,31,0.10)] bg-white/70 p-4">
             <div className="min-w-0">
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--kete-widget-accent)]">
@@ -160,8 +160,8 @@ export function KeteAgentWidget({
                   className={[
                     'max-w-[88%] rounded-[8px] px-3 py-2 text-sm leading-relaxed',
                     message.role === 'user'
-                      ? 'bg-[color:var(--kete-widget-accent)] text-[#FAF7F2]'
-                      : 'border border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] text-[#3D4250]',
+                      ? 'bg-[color:var(--kete-widget-accent)] text-[#FFF7EC]'
+                      : 'border border-[rgba(35,33,31,0.10)] bg-[#FFF7EC] text-[#3D4250]',
                   ].join(' ')}
                 >
                   {message.body ? (
@@ -177,7 +177,7 @@ export function KeteAgentWidget({
             ))}
           </div>
 
-          <footer className="border-t border-[rgba(35,33,31,0.10)] bg-[#FAF7F2] p-4">
+          <footer className="border-t border-[rgba(35,33,31,0.10)] bg-[#FFF7EC] p-4">
             {error ? <p className="mb-3 text-sm text-[#9A3412]">{error}</p> : null}
             <form
               className="flex items-center gap-2"
@@ -200,7 +200,7 @@ export function KeteAgentWidget({
                 type="submit"
                 aria-label="Send message"
                 disabled={sending || !draft.trim()}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] bg-[color:var(--kete-widget-accent)] text-[#FAF7F2] disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] bg-[color:var(--kete-widget-accent)] text-[#FFF7EC] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {sending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Send className="h-4 w-4" aria-hidden />}
               </button>
@@ -225,7 +225,7 @@ export function KeteAgentWidget({
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-14 items-center gap-3 rounded-full border border-[rgba(35,33,31,0.12)] bg-[color:var(--kete-widget-accent)] px-5 text-sm font-medium text-[#FAF7F2] shadow-[0_16px_50px_rgba(35,33,31,0.22)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kete-widget-accent)] focus-visible:ring-offset-2"
+        className="inline-flex h-14 items-center gap-3 rounded-full border border-[rgba(35,33,31,0.12)] bg-[color:var(--kete-widget-accent)] px-5 text-sm font-medium text-[#FFF7EC] shadow-[0_16px_50px_rgba(35,33,31,0.22)] transition hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--kete-widget-accent)] focus-visible:ring-offset-2"
         aria-expanded={open}
       >
         <MessageCircle className="h-5 w-5" aria-hidden />

@@ -187,7 +187,7 @@ export default async function DataApiPage() {
                 className={`flex flex-col rounded-[12px] border p-6 ${
                   tier.featured
                     ? 'border-[color:var(--assembl-pounamu)] bg-[color:var(--assembl-pounamu-paper)] shadow-[0_24px_70px_rgba(35,33,31,0.12)]'
-                    : 'border-[rgba(35,33,31,0.12)] bg-[#FAF7F2]'
+                    : 'border-[rgba(35,33,31,0.12)] bg-[#FFF7EC]'
                 }`}
               >
                 {tier.featured ? (

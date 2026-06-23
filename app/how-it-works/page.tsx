@@ -81,7 +81,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      <section className="border-t border-[rgba(212,168,83,0.36)] py-20 lg:py-28">
+      <section className="border-t border-[rgba(199,155,31,0.36)] py-20 lg:py-28">
         <div className="container">
           <SectionReveal>
             <p className="max-w-2xl text-body-lg text-[color:var(--text-body)]">

@@ -60,10 +60,10 @@ const FACETS: Facet[] = [
 ];
 
 const COLORS = {
-  paper: '#FAF7F2',
+  paper: '#FFF7EC',
   ink: '#23211F',
-  pounamu: '#2B6B57',
-  gold: '#D4A853',
+  pounamu: '#3A3832',
+  gold: '#C79B1F',
   mist: '#E8E4DE',
 } as const;
 
@@ -84,7 +84,7 @@ export function EvidenceVessel() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at 80% 10%, rgba(212,168,83,0.08) 0%, transparent 55%), radial-gradient(ellipse at 15% 90%, rgba(43,107,87,0.07) 0%, transparent 55%)',
+            'radial-gradient(ellipse at 80% 10%, rgba(199,155,31,0.08) 0%, transparent 55%), radial-gradient(ellipse at 15% 90%, rgba(58,56,50,0.07) 0%, transparent 55%)',
         }}
       />
 
@@ -475,18 +475,18 @@ function FacetCard({
       tabIndex={0}
       className="group cursor-default rounded-2xl border p-7 transition-all duration-500 outline-none focus-visible:ring-2 md:p-9"
       style={{
-        borderColor: isActive ? `${COLORS.pounamu}55` : 'rgba(35, 33, 31, 0.10)',
+        borderColor: isActive ? `${COLORS.pounamu}55` : 'rgba(35,33,31, 0.10)',
         backgroundColor: isActive ? `${COLORS.mist}` : 'rgba(255, 255, 255, 0.55)',
         boxShadow: isActive
           ? `0 24px 48px -12px ${COLORS.pounamu}22`
-          : '0 1px 0 rgba(35, 33, 31, 0.04)',
+          : '0 1px 0 rgba(35,33,31, 0.04)',
         transform: isActive ? 'translateX(-6px)' : 'translateX(0)',
       }}
     >
       <div className="flex items-baseline gap-4">
         <span
           className="font-mono text-[11px] uppercase tracking-[0.32em]"
-          style={{ color: isActive ? COLORS.pounamu : 'rgba(35, 33, 31, 0.45)' }}
+          style={{ color: isActive ? COLORS.pounamu : 'rgba(35,33,31, 0.45)' }}
         >
           {facet.number}
         </span>
@@ -495,14 +495,14 @@ function FacetCard({
           style={{
             backgroundColor: isActive
               ? COLORS.pounamu
-              : 'rgba(35, 33, 31, 0.10)',
+              : 'rgba(35,33,31, 0.10)',
           }}
         />
         <motion.span
           aria-hidden
           className="block h-2 w-2 rounded-full"
           animate={{
-            backgroundColor: isActive ? COLORS.gold : 'rgba(35, 33, 31, 0.20)',
+            backgroundColor: isActive ? COLORS.gold : 'rgba(35,33,31, 0.20)',
             scale: isActive ? 1.4 : 1,
           }}
           transition={{ duration: 0.4 }}

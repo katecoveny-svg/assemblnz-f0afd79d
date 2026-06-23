@@ -46,7 +46,7 @@ export default async function TurfResultPage({ params }: Params) {
         <div className="mx-auto max-w-3xl">
           <Link
             href="/hapai/turf-maintenance"
-            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]"
+            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> Create another record
           </Link>
@@ -72,14 +72,14 @@ export default async function TurfResultPage({ params }: Params) {
         <div className="mb-6 flex items-center justify-between gap-3">
           <Link
             href="/hapai/turf-maintenance"
-            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]"
+            className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> Create another record
           </Link>
         </div>
 
         <section className="rounded-[14px] border border-[rgba(35,33,31,0.10)] bg-white/78 p-6 shadow-[0_18px_60px_rgba(35,33,31,0.08)] md:p-8">
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#2B6B57]">
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[#3A3832]">
             HSWA 2015 · daily ground record
           </p>
           <h1 className="mt-4 font-display text-[clamp(2.4rem,5vw,3.6rem)] font-light leading-[1.05]">

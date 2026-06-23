@@ -97,13 +97,13 @@ function VerifierResult({
   return (
     <main
       className="min-h-screen px-6 py-20"
-      style={{ background: '#FAF7F2', color: '#23211F' }}
+      style={{ background: '#FFF7EC', color: '#23211F' }}
     >
       <div className="mx-auto max-w-2xl">
         <header>
           <p
             style={{
-              fontFamily: "'Fraunces', serif",
+              fontFamily: "'Lato', sans-serif",
               fontWeight: 600,
               fontSize: '2.2rem',
               lineHeight: 1,
@@ -115,7 +115,7 @@ function VerifierResult({
           <p
             className="mt-3"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Space Mono', monospace",
               fontSize: '0.72rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -131,20 +131,20 @@ function VerifierResult({
           className="mt-10 rounded-[6px] px-7 py-6"
           style={{
             background: integrityOk
-              ? 'rgba(43, 107, 87, 0.06)'
+              ? 'rgba(58,56,50, 0.06)'
               : 'rgba(163, 59, 44, 0.06)',
-            border: `1px solid ${integrityOk ? 'rgba(43,107,87,0.35)' : 'rgba(163,59,44,0.35)'}`,
+            border: `1px solid ${integrityOk ? 'rgba(58,56,50,0.35)' : 'rgba(163,59,44,0.35)'}`,
           }}
         >
           <div className="flex items-center gap-3">
             <StatusGlyph ok={integrityOk} />
             <p
               style={{
-                fontFamily: "'Fraunces', serif",
+                fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
                 fontSize: '1.8rem',
                 lineHeight: 1.1,
-                color: integrityOk ? '#2B6B57' : '#A33B2C',
+                color: integrityOk ? '#3A3832' : '#A33B2C',
               }}
             >
               {integrityOk ? 'Pack verified · sealed and intact' : 'Pack tampered or unrecognised'}
@@ -165,7 +165,7 @@ function VerifierResult({
         <section className="mt-10">
           <p
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Space Mono', monospace",
               fontSize: '0.7rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -177,7 +177,7 @@ function VerifierResult({
           <h1
             className="mt-3"
             style={{
-              fontFamily: "'Fraunces', serif",
+              fontFamily: "'Lato', sans-serif",
               fontWeight: 300,
               fontSize: 'clamp(2rem, 4vw, 2.8rem)',
               lineHeight: 1.1,
@@ -190,7 +190,7 @@ function VerifierResult({
           <p
             className="mt-1"
             style={{
-              fontFamily: "'Fraunces', serif",
+              fontFamily: "'Lato', sans-serif",
               fontWeight: 400,
               fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
               color: '#5C5852',
@@ -201,7 +201,7 @@ function VerifierResult({
           <p
             className="mt-4"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Space Mono', monospace",
               fontSize: '0.78rem',
               letterSpacing: '0.14em',
               textTransform: 'uppercase',
@@ -216,7 +216,7 @@ function VerifierResult({
         <section className="mt-10">
           <p
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Space Mono', monospace",
               fontSize: '0.7rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -266,7 +266,7 @@ function VerifierResult({
         >
           <p
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Space Mono', monospace",
               fontSize: '0.65rem',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -305,7 +305,7 @@ function VerifierResult({
         >
           <p
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Space Mono', monospace",
               fontSize: '0.62rem',
               color: '#8E8A82',
               letterSpacing: '0.14em',
@@ -317,9 +317,9 @@ function VerifierResult({
             href="/"
             className="text-xs"
             style={{
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "'Space Mono', monospace",
               fontSize: '0.65rem',
-              color: '#2B6B57',
+              color: '#3A3832',
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
             }}
@@ -336,12 +336,12 @@ function VerifierFail({ hash }: { hash: string }) {
   return (
     <main
       className="min-h-screen px-6 py-20"
-      style={{ background: '#FAF7F2', color: '#23211F' }}
+      style={{ background: '#FFF7EC', color: '#23211F' }}
     >
       <div className="mx-auto max-w-2xl">
         <p
           style={{
-            fontFamily: "'Fraunces', serif",
+            fontFamily: "'Lato', sans-serif",
             fontWeight: 600,
             fontSize: '2.2rem',
             lineHeight: 1,
@@ -353,7 +353,7 @@ function VerifierFail({ hash }: { hash: string }) {
         <p
           className="mt-3"
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
+            fontFamily: "'Space Mono', monospace",
             fontSize: '0.72rem',
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
@@ -374,7 +374,7 @@ function VerifierFail({ hash }: { hash: string }) {
             <StatusGlyph ok={false} />
             <p
               style={{
-                fontFamily: "'Fraunces', serif",
+                fontFamily: "'Lato', sans-serif",
                 fontWeight: 400,
                 fontSize: '1.8rem',
                 lineHeight: 1.1,
@@ -388,7 +388,7 @@ function VerifierFail({ hash }: { hash: string }) {
             className="mt-3"
             style={{ fontSize: '0.9rem', lineHeight: 1.65, color: '#5C5852' }}
           >
-            The hash you supplied — <code style={{ fontFamily: "'JetBrains Mono', monospace" }}>{shortHash(hash)}</code> —
+            The hash you supplied — <code style={{ fontFamily: "'Space Mono', monospace" }}>{shortHash(hash)}</code> —
             does not match any sealed assembl evidence pack. Either the
             document is not an assembl pack, the hash was transcribed in
             error, or the pack you hold is still in Draft.
@@ -403,7 +403,7 @@ function Term({ children }: { children: React.ReactNode }) {
   return (
     <dt
       style={{
-        fontFamily: "'JetBrains Mono', monospace",
+        fontFamily: "'Space Mono', monospace",
         fontSize: '0.66rem',
         color: '#8E8A82',
         letterSpacing: '0.18em',
@@ -419,7 +419,7 @@ function Val({ children }: { children: React.ReactNode }) {
   return (
     <dd
       style={{
-        fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
+        fontFamily: "'Lato', system-ui, sans-serif",
         fontSize: '0.88rem',
         color: '#23211F',
         margin: 0,
@@ -434,7 +434,7 @@ function ValMono({ children, breakAll }: { children: React.ReactNode; breakAll?:
   return (
     <dd
       style={{
-        fontFamily: "'JetBrains Mono', monospace",
+        fontFamily: "'Space Mono', monospace",
         fontSize: '0.74rem',
         color: '#23211F',
         wordBreak: breakAll ? 'break-all' : 'normal',
@@ -450,15 +450,15 @@ function StatusGlyph({ ok }: { ok: boolean }) {
   if (ok) {
     return (
       <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden>
-        <circle cx="12" cy="12" r="11" fill="#2B6B57" />
-        <path d="M7 12.5 L10.5 16 L17 8.5" stroke="#FAF7F2" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="12" r="11" fill="#3A3832" />
+        <path d="M7 12.5 L10.5 16 L17 8.5" stroke="#FFF7EC" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     );
   }
   return (
     <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden>
       <circle cx="12" cy="12" r="11" fill="#A33B2C" />
-      <path d="M8 8 L16 16 M16 8 L8 16" stroke="#FAF7F2" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M8 8 L16 16 M16 8 L8 16" stroke="#FFF7EC" strokeWidth="2" fill="none" strokeLinecap="round" />
     </svg>
   );
 }

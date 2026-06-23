@@ -492,7 +492,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
                 className={[
                   'inline-flex h-11 w-11 items-center justify-center rounded-[8px] border transition',
                   redactPii
-                    ? 'border-[#2B6B57]/35 bg-[#2B6B57]/10 text-[#2B6B57]'
+                    ? 'border-[#3A3832]/35 bg-[#3A3832]/10 text-[#3A3832]'
                     : 'border-[rgba(35,33,31,0.14)] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]',
                 ].join(' ')}
                 title={`Redact PII — ${redactPii ? 'on' : 'off'}. Scrub NZ phone numbers, IRDs, bank accounts, emails, and addresses before processing.`}

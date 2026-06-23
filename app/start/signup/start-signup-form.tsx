@@ -384,7 +384,7 @@ function AccountStep({
         ) : null}
       </div>
       {magicSent ? (
-        <p className="mt-5 rounded-[8px] border border-[rgba(43,107,87,0.22)] bg-[rgba(43,107,87,0.08)] p-3 text-sm text-[color:var(--assembl-pounamu)]">
+        <p className="mt-5 rounded-[8px] border border-[rgba(58,56,50,0.22)] bg-[rgba(58,56,50,0.08)] p-3 text-sm text-[color:var(--assembl-pounamu)]">
           Magic link sent. Open it, then return to finish business details and
           checkout.
         </p>
@@ -527,7 +527,7 @@ function CheckoutStep({
             </div>
           ))}
         </dl>
-        <div className="rounded-[8px] border border-[rgba(43,107,87,0.22)] bg-[rgba(43,107,87,0.08)] p-5">
+        <div className="rounded-[8px] border border-[rgba(58,56,50,0.22)] bg-[rgba(58,56,50,0.08)] p-5">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
             Monthly subscription
           </p>
@@ -606,7 +606,7 @@ function TextField({
       <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
         {label}
       </span>
-      <span className="mt-2 flex overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white focus-within:border-[color:var(--assembl-pounamu)] focus-within:ring-2 focus-within:ring-[rgba(43,107,87,0.20)]">
+      <span className="mt-2 flex overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white focus-within:border-[color:var(--assembl-pounamu)] focus-within:ring-2 focus-within:ring-[rgba(58,56,50,0.20)]">
         {prefix ? (
           <span className="flex items-center bg-[color:var(--assembl-paper)] px-3 font-mono text-[11px] text-[color:var(--text-secondary)]">
             {prefix}

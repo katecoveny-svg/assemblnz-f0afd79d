@@ -232,7 +232,7 @@ export function ContactForm() {
         .form-input:focus {
           outline: none;
           border-color: var(--assembl-pounamu);
-          box-shadow: 0 0 0 3px rgba(43, 107, 87, 0.18);
+          box-shadow: 0 0 0 3px rgba(58,56,50, 0.18);
         }
         .form-input::placeholder {
           color: var(--text-secondary);

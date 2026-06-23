@@ -45,7 +45,7 @@ const STEPS = [
 
 export function HowAPackWorks({ defineKete = true }: { defineKete?: boolean }) {
   return (
-    <section className="border-y border-[rgba(35,33,31,0.08)] bg-[rgba(43,107,87,0.03)] py-20 lg:py-28">
+    <section className="border-y border-[rgba(35,33,31,0.08)] bg-[rgba(58,56,50,0.03)] py-20 lg:py-28">
       <div className="container">
         <SectionReveal>
           <Eyebrow label="How a pack works in your business" accent="var(--assembl-pounamu)" />

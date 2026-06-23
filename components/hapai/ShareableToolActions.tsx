@@ -43,7 +43,7 @@ export function ShareableToolActions({ title, text, path, embed = true }: Sharea
       <button
         type="button"
         onClick={share}
-        className="inline-flex h-11 items-center gap-2 rounded-full border border-white/20 bg-[linear-gradient(180deg,rgba(250,247,242,0.20),rgba(250,247,242,0.08))] px-5 text-sm font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_14px_34px_rgba(0,0,0,0.18)] backdrop-blur transition hover:-translate-y-0.5 hover:bg-[#FAF7F2]/18"
+        className="inline-flex h-11 items-center gap-2 rounded-full border border-white/20 bg-[linear-gradient(180deg,rgba(250,247,242,0.20),rgba(250,247,242,0.08))] px-5 text-sm font-medium text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_14px_34px_rgba(0,0,0,0.18)] backdrop-blur transition hover:-translate-y-0.5 hover:bg-[#FFF7EC]/18"
       >
         <Share2 className="h-4 w-4" aria-hidden />
         Share

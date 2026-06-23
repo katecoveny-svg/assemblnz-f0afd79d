@@ -7,7 +7,7 @@ import { ShaderGradient } from '@/components/site/ShaderGradient';
 /**
  * Live regulation — the dark pounamu proof bar.
  *
- * The one dark moment on the home page (Whenua pounamu #2B6B57, cream text),
+ * The one dark moment on the home page (Whenua pounamu #3A3832, cream text),
  * anchored by a single big stat. The number is the proof: every draft is
  * checked against current NZ government sources before it's written.
  *
@@ -69,15 +69,15 @@ export function LiveRegulationBlock() {
         className="pointer-events-none absolute inset-0 z-0 bg-[color:var(--assembl-pounamu)]/35"
       />
       {/* Hairline gold threads top and bottom — the only gold on the page. */}
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.55),transparent)]" aria-hidden />
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(212,168,83,0.55),transparent)]" aria-hidden />
+      <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(199,155,31,0.55),transparent)]" aria-hidden />
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(199,155,31,0.55),transparent)]" aria-hidden />
       {/* Soft interior bloom so the flat green has depth. */}
       <span
         className="pointer-events-none absolute -right-32 -top-24 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.12),transparent_68%)] blur-2xl"
         aria-hidden
       />
       <span
-        className="pointer-events-none absolute -bottom-32 -left-24 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(212,168,83,0.14),transparent_68%)] blur-2xl"
+        className="pointer-events-none absolute -bottom-32 -left-24 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(199,155,31,0.14),transparent_68%)] blur-2xl"
         aria-hidden
       />
 

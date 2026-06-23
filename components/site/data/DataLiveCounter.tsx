@@ -44,7 +44,7 @@ export function DataLiveCounter({ initial }: DataLiveCounterProps) {
   const sourceCount = healthy ? stats.liveSources : WATCHED_SOURCE_COUNT;
 
   return (
-    <div className="overflow-hidden rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#FAF7F2] shadow-[0_24px_76px_rgba(35,33,31,0.10)]">
+    <div className="overflow-hidden rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#FFF7EC] shadow-[0_24px_76px_rgba(35,33,31,0.10)]">
       <div className="flex items-center justify-between gap-4 border-b border-[rgba(35,33,31,0.10)] bg-white/55 px-5 py-4">
         <div className="flex items-center gap-3">
           <span aria-hidden className="relative flex h-3 w-3">
@@ -113,7 +113,7 @@ function Metric({
   label: string;
 }) {
   return (
-    <div className="bg-[#FAF7F2] px-5 py-5">
+    <div className="bg-[#FFF7EC] px-5 py-5">
       <Icon
         className="h-4 w-4 text-[color:var(--assembl-pounamu)]"
         aria-hidden

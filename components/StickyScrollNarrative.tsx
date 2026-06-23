@@ -32,7 +32,7 @@ export type Stage = {
 export function StickyScrollNarrative({
   stages,
   media,
-  accent = '#2B6B57',
+  accent = '#3A3832',
   renderFrame,
   frameAspect = 'aspect-[4/5]',
 }: {
@@ -175,7 +175,7 @@ export function StickyScrollNarrative({
                             <div
                               className="absolute inset-0"
                               style={{
-                                background: `linear-gradient(135deg, ${accent} 0%, #1F4F40 100%)`,
+                                background: `linear-gradient(135deg, ${accent} 0%, #23211F 100%)`,
                               }}
                             />
                           )}
@@ -189,7 +189,7 @@ export function StickyScrollNarrative({
                     {stages[active] && (
                       <div
                         key={stages[active].id}
-                        className="absolute bottom-8 left-8 right-8 text-[#FAF7F2] transition-opacity duration-500 ease-out"
+                        className="absolute bottom-8 left-8 right-8 text-[#FFF7EC] transition-opacity duration-500 ease-out"
                       >
                         <p className="font-mono text-[11px] uppercase tracking-[0.32em] opacity-70">
                           {stages[active].number}

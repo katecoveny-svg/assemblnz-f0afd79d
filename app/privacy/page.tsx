@@ -76,7 +76,7 @@ export default function PrivacyStatementPage() {
           </div>
 
           <SectionReveal delay={0.35}>
-            <div className="mt-10 border-l-2 border-[color:var(--assembl-pounamu)] bg-[rgba(43,107,87,0.06)] p-5 text-sm leading-7 text-[color:var(--text-secondary)]">
+            <div className="mt-10 border-l-2 border-[color:var(--assembl-pounamu)] bg-[rgba(58,56,50,0.06)] p-5 text-sm leading-7 text-[color:var(--text-secondary)]">
               Contact:{" "}
               <a className="underline-offset-2 hover:underline" href="mailto:assembl@assembl.co.nz">
                 assembl@assembl.co.nz

@@ -106,17 +106,17 @@ export function TurfMaintenanceLog() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(106,138,111,0.14),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(43,107,87,0.12),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
+    <main className="min-h-screen bg-[radial-gradient(ellipse_at_16%_0%,rgba(106,138,111,0.14),transparent_42%),radial-gradient(ellipse_at_80%_10%,rgba(58,56,50,0.12),transparent_40%),var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
       <div className="mx-auto max-w-[1120px]">
         <Link
           href="/hapai"
-          className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#2B6B57]"
+          className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> HAPAI library
         </Link>
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <header>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#2B6B57]">
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3A3832]">
               HAPAI · turf maintenance log
             </p>
             <h1 className="mt-4 max-w-3xl font-display text-[clamp(3.2rem,7vw,6rem)] font-light leading-[0.9]">
@@ -127,7 +127,7 @@ export function TurfMaintenanceLog() {
               trusts. Weekly mowing, irrigation, line marking, hazard walk,
               chemical sprays — log in 30 seconds, file with confidence.
             </p>
-            <div className="mt-8 rounded-[14px] border border-[rgba(43,107,87,0.22)] bg-white/64 p-5 text-sm leading-relaxed text-[#2A2825]">
+            <div className="mt-8 rounded-[14px] border border-[rgba(58,56,50,0.22)] bg-white/64 p-5 text-sm leading-relaxed text-[#2A2825]">
               <p className="font-medium text-[#23211F]">
                 Compliance posture
               </p>
@@ -400,7 +400,7 @@ export function TurfMaintenanceLog() {
               type="button"
               disabled={!canSubmit}
               onClick={submit}
-              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#2B6B57] px-6 text-sm font-medium text-white transition hover:bg-[#245746] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]"
+              className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#3A3832] px-6 text-sm font-medium text-white transition hover:bg-[#245746] disabled:cursor-not-allowed disabled:bg-[#C8C2BC]"
             >
               {submitting ? "Saving record..." : "Create turf maintenance record"}
             </button>
@@ -412,7 +412,7 @@ export function TurfMaintenanceLog() {
 }
 
 const inputClass =
-  "mt-2 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 text-sm text-[#23211F] outline-none transition focus:border-[#2B6B57] focus:bg-white";
+  "mt-2 h-11 w-full rounded-[10px] border border-[rgba(35,33,31,0.12)] bg-[#F7F4EE] px-3 text-sm text-[#23211F] outline-none transition focus:border-[#3A3832] focus:bg-white";
 
 function Field({
   label,

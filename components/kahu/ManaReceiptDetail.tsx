@@ -145,7 +145,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
                   className="inline-flex items-center rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em]"
                   style={
                     consent.granted
-                      ? { background: 'rgba(43,107,87,0.10)', color: 'var(--assembl-pounamu)' }
+                      ? { background: 'rgba(58,56,50,0.10)', color: 'var(--assembl-pounamu)' }
                       : { background: 'rgba(172,88,56,0.10)', color: 'var(--assembl-clay)' }
                   }
                 >
@@ -172,7 +172,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
                 </p>
               </div>
               {/* Consent timestamp is the load-bearing fact — highlight it. */}
-              <div className="inline-flex items-center gap-2 rounded-[10px] border border-[rgba(43,107,87,0.30)] bg-[color:var(--assembl-pounamu-paper)] px-3 py-2">
+              <div className="inline-flex items-center gap-2 rounded-[10px] border border-[rgba(58,56,50,0.30)] bg-[color:var(--assembl-pounamu-paper)] px-3 py-2">
                 <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
                   Consent captured
                 </span>
@@ -256,7 +256,7 @@ export function ManaReceiptDetail({ receipt, session }: ManaReceiptDetailProps) 
                     className="mt-1 inline-flex items-center rounded-full px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em]"
                     style={
                       tc.ok
-                        ? { background: 'rgba(43,107,87,0.10)', color: 'var(--assembl-pounamu)' }
+                        ? { background: 'rgba(58,56,50,0.10)', color: 'var(--assembl-pounamu)' }
                         : { background: 'rgba(172,88,56,0.10)', color: 'var(--assembl-clay)' }
                     }
                   >

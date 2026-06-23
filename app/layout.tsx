@@ -1,12 +1,5 @@
 import type { Metadata } from 'next';
-import {
-  Fraunces,
-  Plus_Jakarta_Sans,
-  JetBrains_Mono,
-  Cormorant_Garamond,
-  Lato,
-  Space_Mono,
-} from 'next/font/google';
+import { Cormorant_Garamond, Lato, Space_Mono } from 'next/font/google';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { ScrollProgress } from '@/components/site/scroll-progress';
@@ -21,53 +14,33 @@ import './globals.css';
 // deploys stay reliable while the public-site rebuild is in flight.
 export const dynamic = 'force-dynamic';
 
-// Site type system (design-system pass): Fraunces (display + prices),
-// Plus Jakarta Sans (body), JetBrains Mono (labels/eyebrows). All variable
-// fonts — exposed as the existing --font-* tokens so the whole token-driven
-// site adopts them at once.
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  style: ['normal', 'italic'],
-  variable: '--font-display',
-  display: 'swap',
-});
-
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-body',
-  display: 'swap',
-});
-
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
-
-// Locked canon type system (2026-06-23) — exposed as ADDITIVE CSS variables so
-// the homepage hero can adopt them without disturbing the rest of the site's
-// existing --font-display/body/mono tokens. Cormorant Garamond is the assembl
-// wordmark + display face, Lato the body/UI face, Space Mono the eyebrow/label
-// face. See CANON-LOCKED-2026-06-23.md.
+// Site type system (assembl canon, CANON-LOCKED-2026-06-23):
+//   Display / wordmark / headlines → Cormorant Garamond (serif). NOT Lato.
+//   Body / UI / buttons             → Lato.
+//   Labels / eyebrows / mono        → Space Mono.
+// Exposed as the --font-* tokens so the whole token-driven site adopts them.
+// The /agents marketplace and /dash sibling brand scope their OWN Lato display
+// face (--mk-display / --font-dash-sans), so Cormorant never leaks into them —
+// dash keeps its Lato 900 wordmark, which is where the two brands diverge.
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
-  variable: '--font-cormorant',
+  variable: '--font-display',
   display: 'swap',
 });
 
 const lato = Lato({
   subsets: ['latin'],
   weight: ['400', '700', '900'],
-  variable: '--font-lato',
+  variable: '--font-body',
   display: 'swap',
 });
 
 const spaceMono = Space_Mono({
   subsets: ['latin'],
   weight: ['400', '700'],
-  variable: '--font-space-mono',
+  variable: '--font-mono',
   display: 'swap',
 });
 
@@ -116,14 +89,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en-NZ"
-      className={`${fraunces.variable} ${plusJakarta.variable} ${jetBrainsMono.variable} ${cormorant.variable} ${lato.variable} ${spaceMono.variable}`}
-    >
+    <html lang="en-NZ" className={`${cormorant.variable} ${lato.variable} ${spaceMono.variable}`}>
+
       <body>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[color:var(--assembl-pounamu)] focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[#FAF7F2] focus:shadow-brand focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)] focus:ring-offset-2"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[color:var(--assembl-pounamu)] focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[#FFF7EC] focus:shadow-brand focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)] focus:ring-offset-2"
         >
           Skip to main content
         </a>

@@ -20,7 +20,7 @@ export async function GET(
       start_url: `/c/${tenant.slug}`,
       scope: `/c/${tenant.slug}`,
       display: 'standalone',
-      background_color: '#FAF7F2',
+      background_color: '#FFF7EC',
       theme_color: tenant.brandColor,
       icons: [
         { src: icon, sizes: '192x192', type: 'image/png', purpose: 'any' },

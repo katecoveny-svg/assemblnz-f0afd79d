@@ -38,7 +38,7 @@ export function LoginForm({
 
   if (sent) {
     return (
-      <div className="rounded-card border border-[rgba(43,107,87,0.25)] bg-white/55 p-6 text-center">
+      <div className="rounded-card border border-[rgba(58,56,50,0.25)] bg-white/55 p-6 text-center">
         <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
           Check your inbox
         </p>
@@ -78,7 +78,7 @@ export function LoginForm({
           onChange={(e) => setEmail(e.target.value)}
           autoComplete="email"
           autoFocus
-          className="mt-2 w-full rounded-card border border-[rgba(35,33,31,0.18)] bg-white px-4 py-3 font-mono text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[rgba(43,107,87,0.25)]"
+          className="mt-2 w-full rounded-card border border-[rgba(35,33,31,0.18)] bg-white px-4 py-3 font-mono text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[rgba(58,56,50,0.25)]"
           placeholder="you@assembl.co.nz"
         />
       </label>

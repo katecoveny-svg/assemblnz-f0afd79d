@@ -150,7 +150,7 @@ export function BusinessPulseWidget() {
         ))}
       </ol>
       {brief.cash_position?.threshold_breach && (
-        <p className="mt-5 rounded-[6px] border border-[rgba(212,168,83,0.5)] bg-[rgba(212,168,83,0.08)] p-3 text-body-md text-[color:var(--text-primary)]">
+        <p className="mt-5 rounded-[6px] border border-[rgba(199,155,31,0.5)] bg-[rgba(199,155,31,0.08)] p-3 text-body-md text-[color:var(--text-primary)]">
           Cash forecast crosses your threshold within 14 days. Tap through to the full brief for the
           source breakdown.
         </p>
