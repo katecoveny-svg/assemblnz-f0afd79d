@@ -1,18 +1,15 @@
 'use client';
 
-import { useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { KETES } from '@/lib/kete';
+import { HeroGolden } from '@/components/homepage/HeroGolden';
 import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
 import { LandscapeBand } from '@/components/site/LandscapeBand';
-import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
-import { CountUp } from '@/components/site/CountUp';
 import { HeroThreads } from '@/components/site/HeroThreads';
 import { ShaderGradient } from '@/components/site/ShaderGradient';
-import { HeroVessel } from '@/components/site/HeroVessel';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
 
@@ -87,115 +84,12 @@ function Eyebrow({ label, accent, className = '' }: { label: string; accent: str
 
 export function HomeLaunch() {
   const reduce = useReducedMotion();
-  const heroRef = useRef<HTMLElement | null>(null);
-
-  // Scroll-linked parallax: the hero copy drifts up and fades a touch as you
-  // scroll past it, so the section feels layered rather than flat. The resting
-  // value is fully visible (opacity 1), so the copy shows even without JS.
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  });
-  const copyY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -80]);
-  const copyOpacity = useTransform(scrollYProgress, [0, 0.7], [1, reduce ? 1 : 0.15]);
 
   return (
     <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
-      {/* 1 · Hero — copy fills the left ~60%, the signature evidence-vessel holds
-          the right ~40%. Both expand to use the full desktop width. */}
-      <section
-        ref={heroRef}
-        className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)]"
-      >
-        {/* Signature backdrop — a live WebGL flowing-gradient (domain-warped
-            noise mixing pounamu, gold, clay and cream). Falls back to the
-            section's CSS gradient if WebGL is unavailable; paints one static
-            frame under reduced-motion. */}
-        <ShaderGradient className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
-
-        {/* Legibility wash on the copy side + a soft fade into the page below. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(250,247,242,0.95)_0%,rgba(250,247,242,0.82)_32%,rgba(250,247,242,0.45)_54%,transparent_76%)]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-40 bg-[linear-gradient(to_bottom,transparent,var(--assembl-paper))]"
-        />
-
-        {/* Woven gold-thread mesh — echoes the evidence-vessel motif, drifting
-            over the gradient and brightening toward the pointer. Self-disables
-            under reduced-motion. */}
-        <HeroThreads className="pointer-events-none absolute inset-0 z-0" />
-
-        {/* Two-column row on desktop: ~55% copy / ~45% vessel. Copy is first in
-            the DOM, so on mobile the headline sits above the vessel. */}
-        <div className="container relative z-10 grid min-h-[88vh] items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:py-20">
-          <motion.div style={{ y: copyY, opacity: copyOpacity }} className="max-w-2xl lg:max-w-none">
-            <p className="rise font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
-              Built in Aotearoa
-            </p>
-            <h1 className="mt-5 font-display text-[clamp(3rem,9.5vw,8.5rem)] font-light not-italic leading-[0.88] tracking-[-0.03em]">
-              <RevealWords text="Less admin." className="block" />
-              <RevealWords text="More mahi." className="mt-1 block text-[color:var(--assembl-pounamu)]" />
-            </h1>
-            <p className="rise mt-6 max-w-xl text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--text-primary)]">
-              assembl ships HAPAI — a library of single-purpose NZ tools that get one ordinary job
-              done, draft-only, with a downloadable evidence pack.
-            </p>
-            <div className="rise mt-8 flex flex-wrap items-center gap-4">
-              <MagneticButton>
-                <Link href="/agents" className="cta-primary cta-glow inline-flex h-12 items-center gap-2 px-7">
-                  Browse the agents <ArrowRight className="h-4 w-4" aria-hidden />
-                </Link>
-              </MagneticButton>
-              <MagneticButton>
-                <Link href="/hapai" className="btn-ghost inline-flex h-12 items-center px-6">
-                  Try a free tool
-                </Link>
-              </MagneticButton>
-            </div>
-
-            {/* Proof strip — a little of the dark band's evidence brought up to
-                the first screen, so the hero reads as substantiated. Honest,
-                standing facts only. */}
-            <ul className="rise mt-9 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[rgba(43,107,87,0.18)] pt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
-                <CountUp value={WATCHED_SOURCE_COUNT} /> NZ government sources watched
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
-                Every output signed off
-              </li>
-            </ul>
-          </motion.div>
-
-          {/* The signature evidence-vessel — the canonical hero image, brought
-              to life with float, pointer-parallax tilt and a sweeping glint. */}
-          <HeroVessel />
-        </div>
-
-        {/* Scroll cue */}
-        {!reduce && (
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute bottom-7 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.4, duration: 0.8 }}
-          >
-            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[color:var(--text-secondary)]">
-              Scroll
-            </span>
-            <motion.span
-              className="h-9 w-[1px] origin-top bg-[rgba(35,33,31,0.3)]"
-              animate={{ scaleY: [0.2, 1, 0.2] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </motion.div>
-        )}
-      </section>
+      {/* 1 · Hero — Kate's golden-spheres Three.js scene with the brand headline
+          overlaid. Client-only + a static snapshot on mobile / reduced-motion. */}
+      <HeroGolden />
 
       {/* 2 · The promise (cream paper) */}
       <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
