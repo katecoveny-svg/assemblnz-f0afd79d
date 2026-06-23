@@ -5,12 +5,17 @@
 -- (20260623140050). Adds the cross-cutting capability tables every agent uses,
 -- and three catalogue columns for the per-agent tool/skill/fallback config.
 --
+-- SELF-HEALING by design. The canonical project carries tables from parallel
+-- builds, so `CREATE TABLE IF NOT EXISTS` can silently no-op against a
+-- pre-existing table with a narrower shape (cf. the public.leads collision).
+-- Every table is therefore created IF NOT EXISTS *and then* each column is
+-- ensured with ADD COLUMN IF NOT EXISTS, so indexes/policies never reference a
+-- missing column whether the table is fresh or pre-existing.
+--
 -- Reference convention: the original per-user tables (agent_installs,
--- agent_chat_sessions, agent_chat_messages, from 20260623120000) key agents by
--- stable text `agent_slug`. These NEW tables key by `agent_id uuid` →
--- public.agents(id), per the locked spec — safe now that the catalogue is
--- seeded with stable ids (the seed upserts ON CONFLICT (slug), so an agent's id
--- never changes once inserted). App code maps slug↔id via public.agents.
+-- agent_chat_sessions, agent_chat_messages) key agents by stable text
+-- `agent_slug`. These NEW tables key by `agent_id uuid` → public.agents(id),
+-- per the locked spec — safe now that the catalogue is seeded with stable ids.
 --
 -- RLS is enforced from day one: every per-user row is owner-scoped
 -- (user_id = auth.uid()); the two telemetry tables are owner-readable and
@@ -25,8 +30,7 @@ ALTER TABLE public.agents
   ADD COLUMN IF NOT EXISTS fallback_models jsonb NOT NULL DEFAULT '[]'::jsonb;
 
 -- tools + skills are marketable capabilities → public-readable. fallback_models
--- is infra → stays server-only (NOT granted to anon/authenticated), like
--- system_prompt (see 20260623140050).
+-- is infra → stays server-only (NOT granted), like system_prompt (140050).
 GRANT SELECT (tools, skills) ON public.agents TO anon, authenticated;
 
 -- ── Per-agent memory (per-user × per-agent, opt-in cross-agent share) ─────
@@ -36,17 +40,28 @@ CREATE TABLE IF NOT EXISTS public.agent_memory (
   agent_id uuid NOT NULL REFERENCES public.agents (id) ON DELETE CASCADE,
   key text NOT NULL,
   value jsonb NOT NULL DEFAULT '{}'::jsonb,
-  -- 'personal' = visible only to this agent; 'shared' = readable by the user's
-  -- other agents when they opt in (enforced in app code, still owner-scoped).
-  scope text NOT NULL DEFAULT 'personal' CHECK (scope IN ('personal', 'shared')),
+  scope text NOT NULL DEFAULT 'personal',
   created_at timestamptz NOT NULL DEFAULT now(),
-  redacted_at timestamptz,
-  UNIQUE (user_id, agent_id, key)
+  redacted_at timestamptz
 );
+ALTER TABLE public.agent_memory
+  ADD COLUMN IF NOT EXISTS user_id uuid,
+  ADD COLUMN IF NOT EXISTS agent_id uuid,
+  ADD COLUMN IF NOT EXISTS key text,
+  ADD COLUMN IF NOT EXISTS value jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS scope text NOT NULL DEFAULT 'personal',
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS redacted_at timestamptz;
+-- 'personal' = visible only to this agent; 'shared' = readable by the user's
+-- other agents when they opt in (enforced in app code, still owner-scoped).
+ALTER TABLE public.agent_memory DROP CONSTRAINT IF EXISTS agent_memory_scope_check;
+ALTER TABLE public.agent_memory
+  ADD CONSTRAINT agent_memory_scope_check CHECK (scope IN ('personal', 'shared'));
+DROP INDEX IF EXISTS agent_memory_user_agent_key_uniq;
+CREATE UNIQUE INDEX IF NOT EXISTS agent_memory_user_agent_key_uniq
+  ON public.agent_memory (user_id, agent_id, key);
 CREATE INDEX IF NOT EXISTS agent_memory_user_agent_idx
   ON public.agent_memory (user_id, agent_id);
-CREATE INDEX IF NOT EXISTS agent_memory_shared_idx
-  ON public.agent_memory (user_id, scope) WHERE scope = 'shared';
 
 -- ── Tool consents (IPP 3A acknowledgement per tool) ──────────────────────
 CREATE TABLE IF NOT EXISTS public.agent_tool_consents (
@@ -55,9 +70,16 @@ CREATE TABLE IF NOT EXISTS public.agent_tool_consents (
   agent_id uuid NOT NULL REFERENCES public.agents (id) ON DELETE CASCADE,
   tool_id text NOT NULL,
   ipp3a_acknowledged_at timestamptz,
-  created_at timestamptz NOT NULL DEFAULT now(),
-  UNIQUE (user_id, agent_id, tool_id)
+  created_at timestamptz NOT NULL DEFAULT now()
 );
+ALTER TABLE public.agent_tool_consents
+  ADD COLUMN IF NOT EXISTS user_id uuid,
+  ADD COLUMN IF NOT EXISTS agent_id uuid,
+  ADD COLUMN IF NOT EXISTS tool_id text,
+  ADD COLUMN IF NOT EXISTS ipp3a_acknowledged_at timestamptz,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now();
+CREATE UNIQUE INDEX IF NOT EXISTS agent_tool_consents_uniq
+  ON public.agent_tool_consents (user_id, agent_id, tool_id);
 CREATE INDEX IF NOT EXISTS agent_tool_consents_user_idx
   ON public.agent_tool_consents (user_id, agent_id);
 
@@ -70,11 +92,23 @@ CREATE TABLE IF NOT EXISTS public.agent_handoffs (
   to_agent_id uuid NOT NULL REFERENCES public.agents (id) ON DELETE CASCADE,
   reason text,
   payload jsonb NOT NULL DEFAULT '{}'::jsonb,
-  status text NOT NULL DEFAULT 'pending'
-    CHECK (status IN ('pending', 'accepted', 'completed', 'rejected', 'failed')),
+  status text NOT NULL DEFAULT 'pending',
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
+ALTER TABLE public.agent_handoffs
+  ADD COLUMN IF NOT EXISTS user_id uuid,
+  ADD COLUMN IF NOT EXISTS from_agent_id uuid,
+  ADD COLUMN IF NOT EXISTS to_agent_id uuid,
+  ADD COLUMN IF NOT EXISTS reason text,
+  ADD COLUMN IF NOT EXISTS payload jsonb NOT NULL DEFAULT '{}'::jsonb,
+  ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'pending',
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+ALTER TABLE public.agent_handoffs DROP CONSTRAINT IF EXISTS agent_handoffs_status_check;
+ALTER TABLE public.agent_handoffs
+  ADD CONSTRAINT agent_handoffs_status_check
+  CHECK (status IN ('pending', 'accepted', 'completed', 'rejected', 'failed'));
 CREATE INDEX IF NOT EXISTS agent_handoffs_user_idx ON public.agent_handoffs (user_id);
 CREATE INDEX IF NOT EXISTS agent_handoffs_status_idx
   ON public.agent_handoffs (user_id, status);
@@ -84,14 +118,24 @@ CREATE TABLE IF NOT EXISTS public.ambient_subscriptions (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES auth.users (id) ON DELETE CASCADE,
   agent_id uuid NOT NULL REFERENCES public.agents (id) ON DELETE CASCADE,
-  channel text NOT NULL CHECK (channel IN ('push', 'sms', 'email', 'slack', 'whatsapp')),
+  channel text NOT NULL,
   enabled boolean NOT NULL DEFAULT true,
   created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now(),
-  UNIQUE (user_id, agent_id, channel)
+  updated_at timestamptz NOT NULL DEFAULT now()
 );
-CREATE INDEX IF NOT EXISTS ambient_subscriptions_user_idx
-  ON public.ambient_subscriptions (user_id, agent_id);
+ALTER TABLE public.ambient_subscriptions
+  ADD COLUMN IF NOT EXISTS user_id uuid,
+  ADD COLUMN IF NOT EXISTS agent_id uuid,
+  ADD COLUMN IF NOT EXISTS channel text,
+  ADD COLUMN IF NOT EXISTS enabled boolean NOT NULL DEFAULT true,
+  ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT now(),
+  ADD COLUMN IF NOT EXISTS updated_at timestamptz NOT NULL DEFAULT now();
+ALTER TABLE public.ambient_subscriptions DROP CONSTRAINT IF EXISTS ambient_subscriptions_channel_check;
+ALTER TABLE public.ambient_subscriptions
+  ADD CONSTRAINT ambient_subscriptions_channel_check
+  CHECK (channel IN ('push', 'sms', 'email', 'slack', 'whatsapp'));
+CREATE UNIQUE INDEX IF NOT EXISTS ambient_subscriptions_uniq
+  ON public.ambient_subscriptions (user_id, agent_id, channel);
 
 -- ── Fallback telemetry (model + skill) ───────────────────────────────────
 CREATE TABLE IF NOT EXISTS public.model_fallback_events (
@@ -103,6 +147,13 @@ CREATE TABLE IF NOT EXISTS public.model_fallback_events (
   reason text,
   occurred_at timestamptz NOT NULL DEFAULT now()
 );
+ALTER TABLE public.model_fallback_events
+  ADD COLUMN IF NOT EXISTS user_id uuid,
+  ADD COLUMN IF NOT EXISTS agent_id uuid,
+  ADD COLUMN IF NOT EXISTS primary_model text,
+  ADD COLUMN IF NOT EXISTS fallback_model text,
+  ADD COLUMN IF NOT EXISTS reason text,
+  ADD COLUMN IF NOT EXISTS occurred_at timestamptz NOT NULL DEFAULT now();
 CREATE INDEX IF NOT EXISTS model_fallback_events_agent_idx
   ON public.model_fallback_events (agent_id, occurred_at);
 CREATE INDEX IF NOT EXISTS model_fallback_events_user_idx
@@ -117,6 +168,13 @@ CREATE TABLE IF NOT EXISTS public.skill_fallback_events (
   reason text,
   occurred_at timestamptz NOT NULL DEFAULT now()
 );
+ALTER TABLE public.skill_fallback_events
+  ADD COLUMN IF NOT EXISTS user_id uuid,
+  ADD COLUMN IF NOT EXISTS agent_id uuid,
+  ADD COLUMN IF NOT EXISTS primary_skill text,
+  ADD COLUMN IF NOT EXISTS fallback_skill text,
+  ADD COLUMN IF NOT EXISTS reason text,
+  ADD COLUMN IF NOT EXISTS occurred_at timestamptz NOT NULL DEFAULT now();
 CREATE INDEX IF NOT EXISTS skill_fallback_events_agent_idx
   ON public.skill_fallback_events (agent_id, occurred_at);
 CREATE INDEX IF NOT EXISTS skill_fallback_events_user_idx
@@ -164,10 +222,9 @@ CREATE POLICY skill_fallback_events_owner_read ON public.skill_fallback_events
 
 COMMIT;
 
--- Verify:
--- SELECT table_name FROM information_schema.tables
---   WHERE table_schema='public' AND table_name IN
---   ('agent_memory','agent_tool_consents','agent_handoffs',
---    'ambient_subscriptions','model_fallback_events','skill_fallback_events');
--- SELECT column_name FROM information_schema.columns
---   WHERE table_name='agents' AND column_name IN ('tools','skills','fallback_models');
+-- Verify (run after apply):
+--   SELECT count(*) FROM public.agents WHERE tools IS NOT NULL;  -- 35 once seeded
+--   SELECT table_name FROM information_schema.tables WHERE table_schema='public'
+--     AND table_name IN ('agent_memory','agent_tool_consents','agent_handoffs',
+--     'ambient_subscriptions','model_fallback_events','skill_fallback_events');
+--   SELECT relrowsecurity FROM pg_class WHERE relname='agent_memory';  -- t (RLS on)
