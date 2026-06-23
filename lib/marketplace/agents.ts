@@ -23,7 +23,7 @@ export type AgentStatus = 'live' | 'coming_soon';
 /** Avatar tile colourway (canon). */
 export type TileTone = 'cream' | 'canary' | 'ink';
 
-export type MarketplaceCategory = 'start-here' | 'family' | 'business' | 'creative' | 'trades' | 'health';
+export type MarketplaceCategory = 'start-here' | 'family' | 'business' | 'creative' | 'trades' | 'health' | 'build';
 
 export type MarketplaceAgent = {
   slug: string;
@@ -66,6 +66,7 @@ export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: stri
   { slug: 'creative', label: 'Marketing & Creative', teReo: 'Auaha' },
   { slug: 'trades', label: 'Trades, Ops & Coast', teReo: 'Mahi' },
   { slug: 'health', label: 'Health & Service', teReo: 'Hauora' },
+  { slug: 'build', label: 'Build', teReo: 'Hanga' },
 ];
 
 export const CATEGORY_LABELS: Record<MarketplaceCategory, string> = Object.fromEntries(
@@ -997,6 +998,49 @@ const AGENT_DEFS: AgentDef[] = [
       'Write today’s sales brief.',
       'Draft a reorder for low stock.',
       'Triage this customer return.',
+    ],
+  },
+
+  // ── Build ────────────────────────────────────────────────────────────
+  {
+    slug: 'pilot',
+    name: 'Pilot',
+    teReo: 'Kaiurungi',
+    description:
+      'Your step-by-step agent maker. Pilot walks you through naming, building, testing and shipping your own agent — no code, no jargon. First one free.',
+    whatItDoes: [
+      'Guides you through seven plain-English steps: name, goal, inputs, tools, voice and safety, a test drive, then ship.',
+      'Writes the system prompt for you against the locked assembl voice — sentence case, English-first, no slop — and adds the right NZ Acts for your category.',
+      'Suggests an icon, an optional te reo label, the tools that fit, and a price tier — you edit anything you like.',
+    ],
+    whatYouGet: [
+      'A working agent you can test in a sandbox before it goes anywhere.',
+      'A draft saved to My Agents for your own use, free.',
+      'An optional path to submit it for marketplace review, signed with a Mana Receipt.',
+    ],
+    sampleOutputs: [
+      'Built “Lease Reader” — reads a tenancy agreement, flags the clauses that matter, cites the Residential Tenancies Act 1986. Saved as a draft.',
+      'Suggested icon: scroll. Te reo label: none that fits naturally. Model: Claude Sonnet for the reasoning.',
+    ],
+    nzKnowledge: [
+      'assembl voice canon (English-first, slop blacklist, draft-only)',
+      'Privacy Act 2020 (IPP 3A) compliance prompts',
+      'Fair Trading Act + ASA advertising rules',
+      'Holidays Act + Employment Relations Act',
+      'Health and Safety at Work Act 2015',
+      'Health and Disability Commissioner code',
+    ],
+    category: 'build',
+    modelTier: 'premium',
+    priceTier: 'free',
+    icon: 'pilot',
+    tile: 'ink',
+    greeting:
+      'I am Pilot. I will help you build your own agent, one step at a time — no code. To start: what do you want to call it, and what should it do in one line?',
+    starters: [
+      'Build me an agent that reads my tenancy agreements.',
+      'I want an agent that drafts replies to customer reviews.',
+      'I am not sure what to build — help me figure it out.',
     ],
   },
 ];
