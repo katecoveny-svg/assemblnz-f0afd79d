@@ -29,7 +29,8 @@ const corsHeaders = {
 
 const FIRECRAWL_V2 = "https://api.firecrawl.dev/v2";
 const LOVABLE_AI_BASE = "https://ai.gateway.lovable.dev/v1";
-const EMBED_MODEL = "google/text-embedding-004"; // 768-dim
+const EMBED_MODEL = "openai/text-embedding-3-small"; // 768-dim via dimensions param
+const EMBED_DIMENSIONS = 768;
 const CHUNK_SIZE = 1200;
 const CHUNK_OVERLAP = 150;
 const EMBED_BATCH = 32;
@@ -71,16 +72,19 @@ function chunkMarkdown(md: string): string[] {
 interface EmbedResp { data?: Array<{ embedding: number[] }>; error?: { message?: string } }
 
 async function embedBatch(texts: string[], lovableKey: string): Promise<number[][]> {
-  const res = await fetch(`${LOVABLE_AI_BASE}/embeddings`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ model: EMBED_MODEL, input: texts }),
-  });
-  const json = (await res.json().catch(() => null)) as EmbedResp | null;
-  if (!res.ok || !json?.data) {
-    throw new Error(`Embed call failed [${res.status}]: ${json?.error?.message ?? "unknown"}`);
-  }
-  return json.data.map((d) => d.embedding);
+  // Disabled by Lovable - model fixed; uncomment to re-enable
+  // const res = await fetch(`${LOVABLE_AI_BASE}/embeddings`, {
+  //   method: "POST",
+  //   headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
+  //   body: JSON.stringify({ model: EMBED_MODEL, input: texts, dimensions: EMBED_DIMENSIONS }),
+  // });
+  // const json = (await res.json().catch(() => null)) as EmbedResp | null;
+  // if (!res.ok || !json?.data) {
+  //   throw new Error(`Embed call failed [${res.status}]: ${json?.error?.message ?? "unknown"}`);
+  // }
+  // return json.data.map((d) => d.embedding);
+  void texts; void lovableKey;
+  throw new Error("ikb-ingest embedBatch disabled by Lovable - uncomment in supabase/functions/ikb-ingest/index.ts to re-enable");
 }
 
 interface IkbRow {
