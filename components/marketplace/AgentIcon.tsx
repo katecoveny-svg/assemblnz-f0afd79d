@@ -164,62 +164,20 @@ function paths(name: string, ink: string): ReactElement[] {
         <circle key={1} cx={32} cy={32} r={18} stroke={ink} strokeWidth={3.5} fill="none" />,
         <circle key={2} cx={32} cy={32} r={8} fill={CAN} />,
       ];
-    case 'spark':
-      // Auaha — asymmetric starburst (a big canary spark + a small gold one).
+    case 'palette':
+      // creative studio — artist's palette with a canary daub.
       return [
-        <path key={1} d="M30 8 L35 25 L52 30 L35 35 L30 54 L25 35 L8 30 L25 25 Z" fill={CAN} stroke={ink} strokeWidth={2.6} strokeLinejoin="round" />,
-        <path key={2} d="M48 36 L50.5 43 L58 45 L50.5 47 L48 54 L45.5 47 L38 45 L45.5 43 Z" fill={GOLD} />,
-      ];
-    case 'chief':
-      // Chief (EA) — briefcase.
-      return [
-        <path key={1} d="M24 24v-4a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v4" stroke={ink} strokeWidth={3} fill="none" strokeLinecap="round" />,
-        <rect key={2} x={12} y={24} width={40} height={26} rx={3} fill={CREAM} stroke={ink} strokeWidth={3} />,
-        <line key={3} x1={12} y1={35} x2={52} y2={35} stroke={ink} strokeWidth={2.4} />,
-        <rect key={4} x={28} y={32} width={8} height={6} rx={1.5} fill={CAN} />,
-      ];
-    case 'people':
-      // Roster (CRM) — contacts.
-      return [
-        <circle key={1} cx={32} cy={24} r={9} fill={ink} />,
-        <path key={2} d="M14 52c0-11 8-16 18-16s18 5 18 16z" fill={CAN} />,
-        <path key={3} d="M14 52c0-11 8-16 18-16s18 5 18 16" stroke={ink} strokeWidth={3} fill="none" strokeLinecap="round" />,
-      ];
-    case 'store':
-      // Counter (retail) — storefront.
-      return [
-        <path key={1} d="M12 22h40v8H12z" fill={CAN} />,
-        <line key={2} x1={12} y1={22} x2={52} y2={22} stroke={ink} strokeWidth={3} strokeLinecap="round" />,
-        <path key={3} d="M14 30h36v22H14z" fill={CREAM} stroke={ink} strokeWidth={3} strokeLinejoin="round" />,
-        <rect key={4} x={28} y={38} width={10} height={14} fill={CAN} />,
-      ];
-    case 'social':
-      // Social Manager — two speech bubbles.
-      return [
-        <path key={1} d="M10 18h28a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H22l-8 6v-6h-4a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4z" fill={CAN} stroke={ink} strokeWidth={2.6} strokeLinejoin="round" />,
-        <path key={2} d="M32 34h18a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-2v5l-6-5h-10a4 4 0 0 1-4-4" fill={CREAM} stroke={ink} strokeWidth={2.6} strokeLinejoin="round" />,
-      ];
-    case 'atlas':
-      // Atlas · Mahere — a folded map with a canary route and a gold marker.
-      return [
-        <path key={1} d="M12 18l13-4 14 4 13-4v32l-13 4-14-4-13 4z" fill={CREAM} stroke={ink} strokeWidth={3} strokeLinejoin="round" />,
-        <line key={2} x1={25} y1={14} x2={25} y2={46} stroke={ink} strokeWidth={2.2} />,
-        <line key={3} x1={39} y1={18} x2={39} y2={50} stroke={ink} strokeWidth={2.2} />,
-        <path key={4} d="M18 40c6 0 6-12 14-12s8 8 14 6" stroke={CAN} strokeWidth={3} fill="none" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 5" />,
-        <path key={5} d="M44 16c3.3 0 6 2.7 6 6 0 4-6 9-6 9s-6-5-6-9c0-3.3 2.7-6 6-6z" fill={GOLD} />,
-        <circle key={6} cx={44} cy={22} r={2.2} fill={CREAM} />,
-      ];
-    case 'pilot':
-      // Pilot · Kaiurungi — a compass: charcoal ring, cream face, a canary
-      // needle pointing the way and a gold pivot.
-      return [
-        <circle key={1} cx={32} cy={32} r={20} fill={CREAM} stroke={ink} strokeWidth={3} />,
-        <path key={2} d="M32 16l5 16-5 16-5-16z" fill={CAN} stroke={ink} strokeWidth={2} strokeLinejoin="round" />,
-        <circle key={3} cx={32} cy={32} r={3} fill={GOLD} />,
-        <line key={4} x1={32} y1={10} x2={32} y2={14} stroke={ink} strokeWidth={2.4} strokeLinecap="round" />,
-        <line key={5} x1={32} y1={50} x2={32} y2={54} stroke={ink} strokeWidth={2.4} strokeLinecap="round" />,
-        <line key={6} x1={10} y1={32} x2={14} y2={32} stroke={ink} strokeWidth={2.4} strokeLinecap="round" />,
-        <line key={7} x1={50} y1={32} x2={54} y2={32} stroke={ink} strokeWidth={2.4} strokeLinecap="round" />,
+        <path
+          key={1}
+          d="M32 12c12 0 20 8 20 18 0 6-5 8-9 8h-4c-3 0-5 2-5 5 0 2 1 3 1 5 0 2-2 4-5 4-11 0-20-9-20-20s10-20 27-20z"
+          fill="none"
+          stroke={ink}
+          strokeWidth={3.5}
+          strokeLinejoin="round"
+        />,
+        <circle key={2} cx={22} cy={26} r={3} fill={GOLD} />,
+        <circle key={3} cx={31} cy={21} r={3} fill={CAN} />,
+        <circle key={4} cx={41} cy={24} r={3} fill={ink} />,
       ];
     default:
       return [<circle key={1} cx={32} cy={32} r={14} fill={CAN} />];
