@@ -23,7 +23,7 @@ export type AgentStatus = 'live' | 'coming_soon';
 /** Avatar tile colourway (canon). */
 export type TileTone = 'cream' | 'canary' | 'ink';
 
-export type MarketplaceCategory = 'family' | 'business' | 'trades' | 'health';
+export type MarketplaceCategory = 'family' | 'business' | 'creative' | 'trades' | 'health';
 
 export type MarketplaceAgent = {
   slug: string;
@@ -60,6 +60,7 @@ export type MarketplaceAgent = {
 export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: string }[] = [
   { slug: 'family', label: 'Family & Whānau', teReo: 'Whānau' },
   { slug: 'business', label: 'Business & SME', teReo: 'Pakihi' },
+  { slug: 'creative', label: 'Marketing & Creative', teReo: 'Auaha' },
   { slug: 'trades', label: 'Trades, Ops & Coast', teReo: 'Mahi' },
   { slug: 'health', label: 'Health & Service', teReo: 'Hauora' },
 ];
@@ -790,6 +791,42 @@ const AGENT_DEFS: AgentDef[] = [
     tile: 'cream',
     greeting: 'Give me your greeting, your escalation rules and the number to transfer to, and I will answer the phones after hours.',
     starters: ['Set up after-hours reception.', 'What do you say when you answer?'],
+  },
+
+  // ── Marketing & Creative ─────────────────────────────────────────────
+  {
+    // English-first name that happens to be the te reo word (Kate's call — a
+    // known sub-brand from the kete days). No separate te reo label.
+    slug: 'auaha',
+    name: 'Auaha',
+    teReo: '',
+    description: 'Full creative shop — brief → copy → image → video → podcast → one-shot apps.',
+    whatItDoes: [
+      'Turns a brief into a creative direction, then drafts the copy.',
+      'Writes image prompts, video scripts and podcast outlines from the same brief.',
+      'Drafts a one-shot landing page ready to drop in.',
+    ],
+    whatYouGet: [
+      'A few options per asset, in your brand voice, for you to choose.',
+      'Copy, image prompts, a video script and a podcast outline.',
+      'A flags list: claims to substantiate and anything for cultural review.',
+    ],
+    sampleOutputs: [
+      'Three headline options in your voice, plus an image prompt for each.',
+      'A 30-second video script and a two-line podcast outline.',
+    ],
+    nzKnowledge: ['Fair Trading Act 1986', 'ASA advertising codes'],
+    category: 'creative',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'spark',
+    tile: 'canary',
+    greeting: 'Tell me the brief — the brand, the audience, the channel — and I will draft the copy, image prompts, video and more for you to review.',
+    starters: [
+      'Brief and draft a launch campaign.',
+      'Write three ad headlines in our voice.',
+      'Draft a one-shot landing page.',
+    ],
   },
 ];
 

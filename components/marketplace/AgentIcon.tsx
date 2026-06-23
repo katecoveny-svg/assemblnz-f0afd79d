@@ -164,6 +164,12 @@ function paths(name: string, ink: string): ReactElement[] {
         <circle key={1} cx={32} cy={32} r={18} stroke={ink} strokeWidth={3.5} fill="none" />,
         <circle key={2} cx={32} cy={32} r={8} fill={CAN} />,
       ];
+    case 'spark':
+      // Auaha — asymmetric starburst (a big canary spark + a small gold one).
+      return [
+        <path key={1} d="M30 8 L35 25 L52 30 L35 35 L30 54 L25 35 L8 30 L25 25 Z" fill={CAN} stroke={ink} strokeWidth={2.6} strokeLinejoin="round" />,
+        <path key={2} d="M48 36 L50.5 43 L58 45 L50.5 47 L48 54 L45.5 47 L38 45 L45.5 43 Z" fill={GOLD} />,
+      ];
     default:
       return [<circle key={1} cx={32} cy={32} r={14} fill={CAN} />];
   }
