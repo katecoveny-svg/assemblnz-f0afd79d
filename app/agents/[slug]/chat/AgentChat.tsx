@@ -1,14 +1,17 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
-import { ArrowLeft, ArrowUp } from 'lucide-react';
+import { ArrowLeft, ArrowUp, FileDown, Lock } from 'lucide-react';
 import { PALETTE, type PublicMarketplaceAgent } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { DashLoader } from '@/components/marketplace/DashLoader';
 import { Wordmark } from '@/components/marketplace/Wordmark';
+import { ShareToPhone } from '@/components/marketplace/ShareToPhone';
+import { AgentVisual, parseVisuals } from '@/components/marketplace/AgentVisual';
+import { downloadConversationPack, type ConversationTurn } from '@/lib/export/pdf';
 
 /** Pull the rendered text out of a UIMessage's parts. */
 function messageText(message: UIMessage): string {
@@ -18,6 +21,8 @@ function messageText(message: UIMessage): string {
     .join('');
 }
 
+type Paywall = { message: string } | null;
+
 export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
   const greeting: UIMessage = {
     id: 'greeting',
@@ -25,8 +30,20 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
     parts: [{ type: 'text', text: agent.greeting }],
   };
 
+  // Custom fetch so we can intercept the demo-mode paywall (HTTP 402) and show
+  // an unlock card instead of a generic error.
+  const [paywall, setPaywall] = useState<Paywall>(null);
+  const chatFetch = useCallback<typeof fetch>(async (input, init) => {
+    const res = await fetch(input, init);
+    if (res.status === 402) {
+      const data = (await res.clone().json().catch(() => null)) as { message?: string } | null;
+      setPaywall({ message: data?.message ?? 'You have used your free answers with this agent.' });
+    }
+    return res;
+  }, []);
+
   const { messages, sendMessage, status, error } = useChat({
-    transport: new DefaultChatTransport({ api: `/api/agents/${agent.slug}/chat` }),
+    transport: new DefaultChatTransport({ api: `/api/agents/${agent.slug}/chat`, fetch: chatFetch }),
     messages: [greeting],
   });
 
@@ -41,10 +58,32 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
 
   function submit(text: string) {
     const trimmed = text.trim();
-    if (!trimmed || busy) return;
+    if (!trimmed || busy || paywall) return;
     sendMessage({ text: trimmed });
     setInput('');
   }
+
+  // The conversation as plain turns — feeds the PDF pack + the share text.
+  const turns = useMemo<ConversationTurn[]>(
+    () =>
+      messages
+        .map((m) => ({ role: m.role === 'user' ? ('user' as const) : ('assistant' as const), text: messageText(m) }))
+        .filter((t) => t.text.trim().length > 0 && (t.role === 'user' || t.role === 'assistant')),
+    [messages],
+  );
+
+  const hasConversation = turns.length > 1; // more than just the greeting
+  const lastAssistant = [...turns].reverse().find((t) => t.role === 'assistant');
+
+  const onDownload = useCallback(() => {
+    if (!hasConversation) return;
+    downloadConversationPack({
+      agentName: agent.name,
+      agentSlug: agent.slug,
+      accent: agent.accent,
+      turns,
+    });
+  }, [agent.accent, agent.name, agent.slug, hasConversation, turns]);
 
   // Is the assistant streaming but hasn't emitted visible text yet? Fill the dog.
   const last = messages[messages.length - 1];
@@ -78,29 +117,61 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
             </p>
           </div>
         </div>
-        <Wordmark size={18} href="/agents" />
+        <div className="flex items-center gap-2">
+          {hasConversation ? (
+            <>
+              <button
+                type="button"
+                onClick={onDownload}
+                className="inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-bold transition hover:bg-white"
+                style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
+                aria-label="Download evidence pack"
+              >
+                <FileDown size={14} aria-hidden />
+                Pack
+              </button>
+              {lastAssistant ? (
+                <ShareToPhone
+                  title={`${agent.name} · assembl`}
+                  text={lastAssistant.text}
+                  label="Save"
+                />
+              ) : null}
+            </>
+          ) : null}
+          <Wordmark size={18} href="/agents" />
+        </div>
       </header>
 
       {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-6 md:px-6">
         <div className="mx-auto flex max-w-2xl flex-col gap-4">
           {messages.map((m) => {
-            const text = messageText(m);
-            if (!text) return null;
+            const raw = messageText(m);
+            if (!raw) return null;
             const isUser = m.role === 'user';
+            const { text, visuals } = isUser ? { text: raw, visuals: [] } : parseVisuals(raw);
             return (
-              <div
-                key={m.id}
-                className={`max-w-[85%] rounded-[20px] px-4 py-3 text-sm leading-relaxed ${
-                  isUser ? 'self-end' : 'self-start'
-                }`}
-                style={
-                  isUser
-                    ? { backgroundColor: PALETTE.canary, color: PALETTE.ink }
-                    : { backgroundColor: PALETTE.paper, color: PALETTE.body, border: `1px solid ${PALETTE.hairline}` }
-                }
-              >
-                <p className="whitespace-pre-wrap">{text}</p>
+              <div key={m.id} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
+                {text ? (
+                  <div
+                    className="max-w-[85%] rounded-[20px] px-4 py-3 text-sm leading-relaxed"
+                    style={
+                      isUser
+                        ? { backgroundColor: PALETTE.canary, color: PALETTE.ink }
+                        : { backgroundColor: PALETTE.paper, color: PALETTE.body, border: `1px solid ${PALETTE.hairline}` }
+                    }
+                  >
+                    <p className="whitespace-pre-wrap">{text}</p>
+                  </div>
+                ) : null}
+                {visuals.length > 0 ? (
+                  <div className="w-full max-w-[85%]">
+                    {visuals.map((spec, i) => (
+                      <AgentVisual key={i} spec={spec} />
+                    ))}
+                  </div>
+                ) : null}
               </div>
             );
           })}
@@ -111,7 +182,27 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
             </div>
           ) : null}
 
-          {error ? (
+          {paywall ? (
+            <div
+              className="self-start rounded-[20px] border px-4 py-4 text-sm"
+              style={{ borderColor: PALETTE.canary, backgroundColor: PALETTE.cream, color: PALETTE.ink }}
+            >
+              <div className="flex items-center gap-2 font-bold">
+                <Lock size={15} aria-hidden />
+                Free demo limit reached
+              </div>
+              <p className="mt-1.5" style={{ color: PALETTE.body }}>
+                {paywall.message}
+              </p>
+              <Link
+                href={`/agents/${agent.slug}`}
+                className="mt-3 inline-flex h-9 items-center rounded-full px-4 text-xs font-bold"
+                style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+              >
+                See plans
+              </Link>
+            </div>
+          ) : error ? (
             <div
               className="self-start rounded-[20px] border px-4 py-3 text-sm"
               style={{ borderColor: 'rgba(180,60,40,0.3)', backgroundColor: 'rgba(180,60,40,0.06)', color: '#7a2a1a' }}
@@ -122,7 +213,7 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
           ) : null}
 
           {/* Starters — only on the fresh, greeting-only state */}
-          {messages.length <= 1 && !busy ? (
+          {messages.length <= 1 && !busy && !paywall ? (
             <div className="mt-2 flex flex-col gap-2">
               {agent.starters.map((s) => (
                 <button
@@ -159,13 +250,14 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
               }
             }}
             rows={1}
-            placeholder={`Message ${agent.name}…`}
-            className="max-h-40 flex-1 resize-none rounded-[20px] border bg-white px-4 py-3 text-sm outline-none"
+            disabled={!!paywall}
+            placeholder={paywall ? 'Free demo limit reached' : `Message ${agent.name}…`}
+            className="max-h-40 flex-1 resize-none rounded-[20px] border bg-white px-4 py-3 text-sm outline-none disabled:opacity-60"
             style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
           />
           <button
             type="submit"
-            disabled={busy || !input.trim()}
+            disabled={busy || !input.trim() || !!paywall}
             aria-label="Send"
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition disabled:opacity-40"
             style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}

@@ -2,6 +2,8 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { convertToModelMessages, stepCountIs, streamText, tool, type UIMessage } from 'ai';
 import { z } from 'zod';
 import { marketplaceAgentBySlug, MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
+import { checkDemoQuota, paywallPayload, spendDemoMessage } from '@/lib/billing/demo-mode';
+import { MARITIME_KNOWLEDGE, marineWeatherTool } from '@/lib/agents/maritime-knowledge';
 
 export const maxDuration = 30;
 
@@ -75,6 +77,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     );
   }
 
+  // Demo-mode metering — N free answers per agent, then the paywall (HTTP 402).
+  // Fail-open: any metering hiccup never blocks a genuine user.
+  const quota = checkDemoQuota(req, slug);
+  if (!quota.allowed) {
+    return Response.json(paywallPayload(agent.name, slug, quota.limit), { status: 402 });
+  }
+
   let body: { messages?: UIMessage[] };
   try {
     body = await req.json();
@@ -85,14 +94,28 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const messages = body.messages ?? [];
   const modelMessages = await convertToModelMessages(messages);
 
+  // Maritime agents get the deep maritime knowledge block + a live (keyless
+  // Open-Meteo Marine) sea-state tool on top of the NZ knowledge stubs;
+  // everyone else just gets the stubs and their own system prompt.
+  const isMaritime = agent.category === 'maritime';
+  const tools = isMaritime
+    ? { ...nzKnowledgeTools, marineWeather: marineWeatherTool }
+    : nzKnowledgeTools;
+  const system = isMaritime ? `${agent.systemPrompt}\n\n${MARITIME_KNOWLEDGE}` : agent.systemPrompt;
+
   const result = streamText({
     model: anthropic(MODEL_TIER_TO_ANTHROPIC[agent.modelTier]),
-    system: agent.systemPrompt,
+    system,
     messages: modelMessages,
-    tools: nzKnowledgeTools,
+    tools,
     // Allow a couple of tool round-trips before the final answer.
     stopWhen: stepCountIs(4),
   });
 
-  return result.toUIMessageStreamResponse();
+  // Count this answer against the agent's free allowance and refresh the meter
+  // cookie on the streaming response.
+  const setCookie = spendDemoMessage(req, slug);
+  return result.toUIMessageStreamResponse(
+    setCookie ? { headers: { 'Set-Cookie': setCookie } } : undefined,
+  );
 }
