@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: `${tool.name} — assembl`,
   description: tool.description,
   openGraph: {
-    title: `${tool.name} (${tool.teReo}) — assembl`,
+    title: `${tool.name} — assembl`,
     description: tool.description,
     type: 'website',
     url: `https://www.assembl.co.nz/hapai/${tool.slug}`,

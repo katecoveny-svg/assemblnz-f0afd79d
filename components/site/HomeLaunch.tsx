@@ -208,7 +208,7 @@ export function HomeLaunch() {
                     />
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
-                        {tool.teReo}
+                        Free tool
                       </span>
                       <span
                         className="h-2.5 w-2.5 rounded-full bg-[#FFD42A] transition-transform duration-300 group-hover:scale-150 group-focus-visible:scale-150"

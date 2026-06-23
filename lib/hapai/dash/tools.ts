@@ -22,7 +22,6 @@ export type DashField = {
 export type DashToolConfig = {
   slug: string;
   name: string;
-  teReo: string;
   /** Mono eyebrow, e.g. "HAPAI tool · live". */
   eyebrow: string;
   /** Hero headline. */
@@ -70,7 +69,6 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
   {
     slug: 'rates-reader',
     name: 'Rates Reader',
-    teReo: 'Tatauranga Reiti',
     eyebrow: 'HAPAI tool · live',
     title: 'Your rates notice, in plain English.',
     description:
@@ -130,7 +128,6 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
   {
     slug: 'school-notice',
     name: 'School Notice Translator',
-    teReo: 'Whakamāori Pānui',
     eyebrow: 'HAPAI tool · live',
     title: 'The school notice, sorted.',
     description:
@@ -174,13 +171,12 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
     sample: {
       child: 'Mia, Year 4',
       notice:
-        'Kia ora whānau! A few reminders. Mufti Day is next Friday 4 July — gold coin donation, sports theme. Year 4 trip to MOTAT is Tuesday 8 July, permission slips and $12 due by Monday. Cross-country is Thursday 10 July, wear house colours. Book Fair runs all of week 9. Please return library books. Ngā mihi, Room 12.',
+        'Hi everyone! A few reminders. Mufti Day is next Friday 4 July — gold coin donation, sports theme. Year 4 trip to MOTAT is Tuesday 8 July, permission slips and $12 due by Monday. Cross-country is Thursday 10 July, wear house colours. Book Fair runs all of week 9. Please return library books. Thanks, Room 12.',
     },
   },
   {
     slug: 'healthy-homes',
     name: 'Healthy Homes Checker',
-    teReo: 'Kāinga Hauora',
     eyebrow: 'HAPAI tool · live',
     title: 'Does your rental meet the standards?',
     description:
@@ -256,7 +252,6 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
   {
     slug: 'fare-optimiser',
     name: 'Fare Optimiser',
-    teReo: 'Tiki Pahi',
     eyebrow: 'HAPAI tool · live',
     title: 'Stop overpaying for the bus.',
     description:
@@ -325,7 +320,6 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
   {
     slug: 'holidays-act',
     name: 'Holidays Act Sense-Check',
-    teReo: 'Tirohia Hararei',
     eyebrow: 'HAPAI tool · live',
     title: 'Does your holiday pay look right?',
     description:

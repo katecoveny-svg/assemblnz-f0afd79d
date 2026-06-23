@@ -44,7 +44,7 @@ function truncate(text: string, max: number) {
 
 export async function renderDashToolOgImage(tool: DashToolConfig) {
   const route = `assembl.co.nz/hapai/${tool.slug}`;
-  const fontText = `${tool.name} ${tool.teReo} ${tool.description} ${tool.eyebrow} ${tool.ogFigure ?? ''} ${tool.ogFigureLabel ?? ''} ${route} HAPAI tool live assembl`;
+  const fontText = `${tool.name} ${tool.description} ${tool.eyebrow} ${tool.ogFigure ?? ''} ${tool.ogFigureLabel ?? ''} ${route} HAPAI tool live assembl`;
   const [lato900, lato700, mono] = await Promise.all([
     loadGoogleFont(`https://fonts.googleapis.com/css2?family=Lato:wght@900&text=${encodeURIComponent(fontText)}`),
     loadGoogleFont(`https://fonts.googleapis.com/css2?family=Lato:wght@400;700&text=${encodeURIComponent(fontText)}`),
@@ -135,7 +135,7 @@ export async function renderDashToolOgImage(tool: DashToolConfig) {
         {numbersLed ? (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', fontFamily: monoFont, fontWeight: 700, fontSize: 20, letterSpacing: '0.16em', textTransform: 'uppercase', color: MUTED }}>
-              {tool.name} · {tool.teReo}
+              {tool.name}
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end', marginTop: 8 }}>
               <div style={{ display: 'flex', fontFamily: display, fontWeight: 900, fontSize: 220, lineHeight: 0.9, letterSpacing: '-0.03em', color: INK }}>
@@ -151,7 +151,7 @@ export async function renderDashToolOgImage(tool: DashToolConfig) {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 960 }}>
             <div style={{ display: 'flex', fontFamily: monoFont, fontWeight: 700, fontSize: 20, letterSpacing: '0.16em', textTransform: 'uppercase', color: MUTED }}>
-              {tool.name} · {tool.teReo}
+              {tool.name}
             </div>
             <div
               style={{

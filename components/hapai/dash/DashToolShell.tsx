@@ -19,7 +19,6 @@ const spaceMono = Space_Mono({ subsets: ['latin'], weight: ['400', '700'], varia
 
 type DashToolShellProps = {
   eyebrow: string;
-  teReo: string;
   title: string;
   intro: string;
   toolPath: string;
@@ -32,7 +31,6 @@ type DashToolShellProps = {
 
 export function DashToolShell({
   eyebrow,
-  teReo,
   title,
   intro,
   toolPath,
@@ -65,7 +63,6 @@ export function DashToolShell({
             />
             <div className="relative">
               <p className="mk-mono text-[11px] font-bold uppercase tracking-[0.24em] text-[#C79B1F]">{eyebrow}</p>
-              <p className="mk-mono mt-3 text-[12px] uppercase tracking-[0.18em] text-[#8A8678]">{teReo}</p>
               <h1 className="mt-4 max-w-3xl text-[clamp(2.6rem,5.4vw,4.6rem)] font-black leading-[0.96] tracking-[-0.02em] text-[#3A3832]">
                 {title}
               </h1>
