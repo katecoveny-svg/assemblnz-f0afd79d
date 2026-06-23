@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:dev": "next build",
     "start": "next start",
     "lint": "eslint app/kete/arataki components/arataki lib/arataki --max-warnings=0",
     "lint:all": "eslint . --max-warnings=0",
