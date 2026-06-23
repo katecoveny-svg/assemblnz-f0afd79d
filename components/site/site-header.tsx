@@ -33,11 +33,17 @@ export function isAgentMarketplace(pathname: string | null): boolean {
   return pathname === "/agents" || pathname.startsWith("/agents/");
 }
 
-/** Atlas — the free AI literacy coach — is an immersive standalone surface with
- *  its own chrome (locked canon 2026-06-23). Suppress the global site nav. */
+/** Atlas — the free AI literacy coach — and its /journey game scene are
+ *  immersive standalone surfaces with their own chrome (locked canon
+ *  2026-06-23). Suppress the global site nav. */
 export function isAtlas(pathname: string | null): boolean {
   if (!pathname) return false;
-  return pathname === "/atlas" || pathname.startsWith("/atlas/");
+  return (
+    pathname === "/atlas" ||
+    pathname.startsWith("/atlas/") ||
+    pathname === "/journey" ||
+    pathname.startsWith("/journey/")
+  );
 }
 
 export function SiteHeader() {

@@ -153,16 +153,16 @@ const AGENT_DEFS: AgentDef[] = [
     name: 'Atlas',
     teReo: 'Mahere',
     description:
-      'The free AI coach. Maps your week, points you to the agents that fit, and is honest about where AI will not help.',
+      'The free AI adoption coach. Maps your week, points you to the agents that fit, and walks you from idea to your first built workflow — honest about where AI will not help.',
     whatItDoes: [
-      'Asks plain questions about your week and the work that takes too long.',
-      'Recommends one to three agents from the shelf, with an honest reason for each.',
-      'Names what AI is good at and where it will let you down — and flags the Privacy Act 2020 and tikanga bits you need to know.',
+      'Learns your week through plain questions, then finds and scores where AI could help.',
+      'Recommends one to three agents from the shelf, or picks one low-risk first build and hands it to Pilot.',
+      'Teaches as it goes — eight expert lenses, the Privacy Act 2020 and tikanga, and an honest read on what AI cannot do.',
     ],
     whatYouGet: [
       'A short, honest read on where AI fits your week — and where it does not.',
-      'One to three agent picks you can open and try for free.',
-      'A one-page roadmap you can save or share: here is where AI can help you this month.',
+      'One to three agent picks you can open and try for free, or a first build handed to Pilot.',
+      'A one-page roadmap to save or share, and a journey map that tracks your progress, badges and streak.',
     ],
     sampleOutputs: [
       'For school notices and the family calendar, start with Pānui Parser and 9am Brief — both free.',
@@ -176,11 +176,11 @@ const AGENT_DEFS: AgentDef[] = [
     tile: 'ink',
     featured: true,
     greeting:
-      'I am Atlas, the free AI coach. I will not sell you anything. Tell me what kind of work fills most of your days, and we will find the bits where AI actually helps.',
+      'I am Atlas, the free AI adoption coach. I will not sell you anything. Tell me what you do most days, and we will find one useful thing to build — starting small and low-risk.',
     starters: [
-      'What kind of work do you do most days?',
-      'Where could AI save me time this week?',
-      'Is AI even the right tool for my problem?',
+      'What do you do most days?',
+      'What do you repeat every week that feels slow?',
+      'Help me find one thing to automate.',
     ],
   },
   // ── Family & Whānau ──────────────────────────────────────────────────
