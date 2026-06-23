@@ -12,14 +12,6 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { MARKETPLACE_AGENTS } from '../lib/marketplace/agents';
 
-// Current canonical seed. Lands after all prior agent migrations and PRUNES
-// agents no longer in the roster, then upserts the live roster. The 23-agent
-// canon seed (20260623200000) is already applied and immutable, so the generator
-// now emits a later, additive migration: re-adding Auaha (Creative Studio) takes
-// the roster to 24. Re-run after any registry change; it is idempotent.
-const OUT = join(
-  process.cwd(),
-  'supabase/migrations/20260623210000_seed_roster_with_creative_studio.sql',
 // Current canonical seed — CANON roster + Auaha + Chief/Roster/Counter/Social Manager (28 agents, 2026-06-23). Lands
 // after all prior agent migrations, PRUNES any agent no longer in the roster,
 // then upserts the full set.
