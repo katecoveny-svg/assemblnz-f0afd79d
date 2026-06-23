@@ -73,14 +73,14 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
             className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
             style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
           >
-            <MessageCircle size={18} aria-hidden /> Open chat
+            <MessageCircle size={18} aria-hidden /> Try free
           </Link>
           <Link
-            href={`/agents/${agent.slug}/chat`}
+            href={`/agents/checkout?plan=per_agent&agent=${agent.slug}`}
             className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-base font-bold transition hover:bg-white"
             style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
           >
-            Install <ArrowRight size={16} aria-hidden />
+            Subscribe · {priceLabel(agent)} <ArrowRight size={16} aria-hidden />
           </Link>
           {agent.toolHref ? (
             <Link

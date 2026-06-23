@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
-import { ArrowLeft, ArrowUp } from 'lucide-react';
+import { ArrowLeft, ArrowUp, Lock } from 'lucide-react';
 import { PALETTE, type PublicMarketplaceAgent } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { DashLoader } from '@/components/marketplace/DashLoader';
@@ -35,13 +35,42 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
 
   const busy = status === 'submitted' || status === 'streaming';
 
+  // Free-tier entitlement: how many free messages are left (or unlimited if the
+  // user has a paid install). Source of truth is the server; the chat POST
+  // re-checks and returns 402 if exhausted — this just drives the UI.
+  type Entitlement = { entitled: boolean; remaining: number; freeLimit: number };
+  const [ent, setEnt] = useState<Entitlement | null>(null);
+
+  const refreshEnt = useCallback(async () => {
+    try {
+      const r = await fetch(`/api/agents/${agent.slug}/entitlement`, { cache: 'no-store' });
+      if (r.ok) setEnt((await r.json()) as Entitlement);
+    } catch {
+      /* leave prior value */
+    }
+  }, [agent.slug]);
+
+  useEffect(() => {
+    void refreshEnt();
+  }, [refreshEnt]);
+
+  // Re-check the allowance each time a reply finishes streaming.
+  const prevBusy = useRef(false);
+  useEffect(() => {
+    if (prevBusy.current && !busy) void refreshEnt();
+    prevBusy.current = busy;
+  }, [busy, refreshEnt]);
+
+  const paywalled = ent ? !ent.entitled && ent.remaining <= 0 : false;
+  const freeLeft = ent && !ent.entitled ? ent.remaining : null;
+
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [messages, busy]);
 
   function submit(text: string) {
     const trimmed = text.trim();
-    if (!trimmed || busy) return;
+    if (!trimmed || busy || paywalled) return;
     sendMessage({ text: trimmed });
     setInput('');
   }
@@ -137,43 +166,89 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
               ))}
             </div>
           ) : null}
+
+          {/* Paywall — free messages used up */}
+          {paywalled ? (
+            <div
+              className="self-stretch rounded-[20px] border p-5 text-center"
+              style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}
+            >
+              <div
+                className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full"
+                style={{ backgroundColor: `${PALETTE.canary}66` }}
+              >
+                <Lock size={18} style={{ color: PALETTE.ink }} aria-hidden />
+              </div>
+              <p className="text-base font-bold" style={{ color: PALETTE.ink }}>
+                You&apos;ve used your {ent?.freeLimit ?? 3} free messages with {agent.name}.
+              </p>
+              <p className="mt-1 text-sm" style={{ color: PALETTE.body }}>
+                Subscribe to keep going — or add this agent to a bundle.
+              </p>
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+                <Link
+                  href={`/agents/checkout?plan=per_agent&agent=${agent.slug}`}
+                  className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition hover:brightness-95"
+                  style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+                >
+                  Subscribe · NZ$15/mo
+                </Link>
+                <Link
+                  href="/agents/pricing"
+                  className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-bold transition hover:bg-white"
+                  style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
+                >
+                  See all plans
+                </Link>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
 
       {/* Composer */}
       <div className="border-t px-4 py-3 md:px-6" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            submit(input);
-          }}
-          className="mx-auto flex max-w-2xl items-end gap-2"
-        >
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                submit(input);
-              }
+        {paywalled ? (
+          <p className="mx-auto max-w-2xl text-center text-sm font-bold" style={{ color: PALETTE.ink }}>
+            Subscribe above to keep chatting with {agent.name}.
+          </p>
+        ) : (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              submit(input);
             }}
-            rows={1}
-            placeholder={`Message ${agent.name}…`}
-            className="max-h-40 flex-1 resize-none rounded-[20px] border bg-white px-4 py-3 text-sm outline-none"
-            style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
-          />
-          <button
-            type="submit"
-            disabled={busy || !input.trim()}
-            aria-label="Send"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition disabled:opacity-40"
-            style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+            className="mx-auto flex max-w-2xl items-end gap-2"
           >
-            <ArrowUp size={18} aria-hidden />
-          </button>
-        </form>
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  submit(input);
+                }
+              }}
+              rows={1}
+              placeholder={`Message ${agent.name}…`}
+              className="max-h-40 flex-1 resize-none rounded-[20px] border bg-white px-4 py-3 text-sm outline-none"
+              style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
+            />
+            <button
+              type="submit"
+              disabled={busy || !input.trim()}
+              aria-label="Send"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition disabled:opacity-40"
+              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+            >
+              <ArrowUp size={18} aria-hidden />
+            </button>
+          </form>
+        )}
         <p className="mk-mono mx-auto mt-2 max-w-2xl text-center text-[11px]" style={{ color: PALETTE.muted }}>
+          {freeLeft !== null && !paywalled
+            ? `${freeLeft} free ${freeLeft === 1 ? 'message' : 'messages'} left · `
+            : ''}
           A draft for you to check. Not legal, financial, or medical advice.
         </p>
       </div>
