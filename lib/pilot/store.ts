@@ -2,28 +2,26 @@
  * Pilot draft store — server-side CRUD for public.pilot_agents.
  *
  * Uses the cookie-aware Supabase server client so RLS (owner_id = auth.uid())
- * does the authorisation. Callers must be authenticated; getOwner() returns the
- * current user id or null.
+ * does the authorisation. getOwner() is fail-safe (returns null when Supabase is
+ * unconfigured or there is no session) so the guided flow renders for everyone;
+ * auth is only needed to save or ship.
+ *
+ * The row carries the structured `spec` (steps 1–7) and the generated `pack`
+ * (19 items), plus the lightweight identity fields used by the marketplace card.
  *
  * Server-only.
  */
 import 'server-only';
 import { createClient } from '@/lib/supabase/server';
-import type { PilotDraft, DraftStatus } from './types';
+import type { PilotDraft, DraftStatus, PilotSpec, AgentPack } from './types';
+import { emptyDraft } from './types';
 
-/** Shape returned to the UI for the My Agents list + flow hydration. */
 export interface StoredDraft extends PilotDraft {
   id: string;
   status: DraftStatus;
   updatedAt: string;
 }
 
-/**
- * The current authenticated user's id, or null. Fail-safe: if Supabase is not
- * configured (e.g. local dev without env) or there is no session, returns null
- * so the guided Pilot flow still renders for everyone — auth is only needed to
- * save or ship.
- */
 export async function getOwner(): Promise<string | null> {
   try {
     const supabase = await createClient();
@@ -35,6 +33,9 @@ export async function getOwner(): Promise<string | null> {
 }
 
 function rowToDraft(row: Record<string, unknown>): StoredDraft {
+  const base = emptyDraft();
+  const specRow = row.spec as PilotSpec | undefined;
+  const packRow = row.pack as AgentPack | undefined;
   return {
     id: row.id as string,
     slug: (row.slug as string) ?? '',
@@ -44,19 +45,15 @@ function rowToDraft(row: Record<string, unknown>): StoredDraft {
     category: (row.category as string) ?? 'build',
     icon: (row.icon as string) ?? 'spark',
     accent: (row.accent as string) ?? '#FFD42A',
-    goal: (row.goal as PilotDraft['goal']) ?? { output: '', audience: '', frequency: '' },
-    inputs: (row.inputs as PilotDraft['inputs']) ?? { needs: [], access: [] },
-    tools: (row.tools as string[]) ?? [],
-    compliance: (row.compliance as string[]) ?? [],
+    spec: specRow && Object.keys(specRow).length ? specRow : base.spec,
+    pack: packRow && Object.keys(packRow).length ? packRow : null,
     modelPreference: (row.model_preference as PilotDraft['modelPreference']) ?? 'claude',
-    systemPrompt: (row.system_prompt as string) ?? '',
     priceTier: (row.price_tier as PilotDraft['priceTier']) ?? 'free',
     status: (row.status as DraftStatus) ?? 'draft',
     updatedAt: (row.updated_at as string) ?? '',
   };
 }
 
-/** List the current user's drafts, newest first. */
 export async function listDrafts(): Promise<StoredDraft[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -67,7 +64,6 @@ export async function listDrafts(): Promise<StoredDraft[]> {
   return data.map(rowToDraft);
 }
 
-/** Fetch one draft owned by the current user. */
 export async function getDraft(id: string): Promise<StoredDraft | null> {
   const supabase = await createClient();
   const { data, error } = await supabase.from('pilot_agents').select('*').eq('id', id).maybeSingle();
@@ -75,18 +71,9 @@ export async function getDraft(id: string): Promise<StoredDraft | null> {
   return rowToDraft(data);
 }
 
-/**
- * Upsert a draft for the current user. Returns the stored draft (with id), or
- * null if not authenticated / the write was denied by RLS.
- */
-export async function saveDraft(
-  ownerId: string,
-  draft: PilotDraft,
-  status: DraftStatus = 'draft',
-): Promise<StoredDraft | null> {
-  const supabase = await createClient();
-
-  const record = {
+/** Map a draft to the DB row shape. */
+function toRecord(ownerId: string, draft: PilotDraft, status: DraftStatus) {
+  return {
     owner_id: ownerId,
     slug: draft.slug || 'my-agent',
     name: draft.name,
@@ -95,19 +82,27 @@ export async function saveDraft(
     category: draft.category || 'build',
     icon: draft.icon || 'spark',
     accent: draft.accent || '#FFD42A',
-    goal: draft.goal,
-    inputs: draft.inputs,
-    tools: draft.tools,
-    compliance: draft.compliance,
+    spec: draft.spec,
+    pack: draft.pack ?? {},
+    agent_type: draft.spec?.agentType ?? null,
     model_preference: draft.modelPreference,
-    system_prompt: draft.systemPrompt,
+    // Mirror the system prompt in its own column for the sandbox/server.
+    system_prompt: draft.pack?.systemPrompt ?? '',
     price_tier: draft.priceTier,
     status,
     updated_at: new Date().toISOString(),
   };
+}
 
-  // Update in place when we already have an id; otherwise insert. (We avoid a
-  // blind upsert on (owner_id, slug) so renaming an agent doesn't collide.)
+/** Upsert a draft for the current user. */
+export async function saveDraft(
+  ownerId: string,
+  draft: PilotDraft,
+  status: DraftStatus = 'draft',
+): Promise<StoredDraft | null> {
+  const supabase = await createClient();
+  const record = toRecord(ownerId, draft, status);
+
   if (draft.id) {
     const { data, error } = await supabase
       .from('pilot_agents')
@@ -128,7 +123,6 @@ export async function saveDraft(
   return rowToDraft(data);
 }
 
-/** Update Stripe + receipt linkage + status after a ship. Service-side fields. */
 export async function attachShipMetadata(
   draftId: string,
   patch: { status?: DraftStatus; stripeProductId?: string | null; stripePriceId?: string | null; manaReceiptId?: string },
