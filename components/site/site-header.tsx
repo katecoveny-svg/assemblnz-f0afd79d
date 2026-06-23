@@ -56,10 +56,11 @@ export function SiteHeader() {
     }
   }, [mobileNavOpen]);
 
-  // The /dash microsite (Dash by assembl) and the /agents marketplace ship their
-  // own nav + footer; suppress the global site chrome there. /dash/admin and
-  // /agents/pick keep the standard chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname)) return null;
+  // The /dash microsite (Dash by assembl), the /agents marketplace, and the
+  // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
+  // global site chrome there. /dash/admin and /agents/pick keep the standard
+  // chrome.
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || pathname === "/") return null;
 
   return (
     <header
