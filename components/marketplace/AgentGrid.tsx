@@ -6,7 +6,7 @@ import { ArrowRight, Search } from 'lucide-react';
 import {
   CATEGORIES,
   PALETTE,
-  PRICING_TIER_LABELS,
+  priceLabel,
   type MarketplaceCategory,
   type PublicMarketplaceAgent,
 } from '@/lib/marketplace/agents';
@@ -122,7 +122,7 @@ function AgentCard({ agent }: { agent: PublicMarketplaceAgent }) {
           className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
           style={{ backgroundColor: PALETTE.cream, color: PALETTE.gold }}
         >
-          {PRICING_TIER_LABELS[agent.pricingTier]}
+          {priceLabel(agent)}
         </span>
       </div>
 
