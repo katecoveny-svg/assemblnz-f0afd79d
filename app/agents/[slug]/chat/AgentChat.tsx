@@ -76,9 +76,6 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
             <p className="text-lg" style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.ink }}>
               {agent.name}
             </p>
-            <p className="mk-mono text-[11px] uppercase tracking-wide" style={{ color: PALETTE.muted }}>
-              {agent.teReo}
-            </p>
           </div>
         </div>
         <Wordmark size={18} href="/agents" />

@@ -60,9 +60,6 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
             <h1 className="mt-3 text-4xl leading-tight md:text-5xl" style={{ ...DISPLAY, color: PALETTE.ink }}>
               {agent.name}
             </h1>
-            <p className="mk-mono mt-1 text-xs uppercase tracking-wide" style={{ color: PALETTE.muted }}>
-              {agent.teReo}
-            </p>
             <p className="mt-3 text-lg leading-relaxed" style={{ color: PALETTE.body }}>
               {agent.description}
             </p>
