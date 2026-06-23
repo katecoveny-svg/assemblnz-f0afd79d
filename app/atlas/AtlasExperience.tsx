@@ -22,10 +22,15 @@ import { downloadRoadmap } from '@/lib/atlas/roadmap-pdf';
  *  route may 404; the secondary link to the shelf always works. */
 const PILOT_HREF = '/pilot';
 
-const LEVELS = ['beginner', 'familiar', 'fluent', 'builder'] as const;
+const LEVELS = ['beginner', 'familiar', 'fluent', 'builder', 'sensei', 'kaitiaki'] as const;
 type Level = (typeof LEVELS)[number];
 
-type Profile = { signedIn: boolean; level: Level; badges: { id: string; label: string }[] };
+type Profile = {
+  signedIn: boolean;
+  level: Level;
+  points: number;
+  badges: { id: string; label?: string }[];
+};
 
 /** Minimal shape of the Web Speech API recogniser we use (no DOM lib types). */
 type SpeechRecognitionLike = {
@@ -77,7 +82,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
   const [voiceOn, setVoiceOn] = useState(false);
   const [listening, setListening] = useState(false);
   const [sttSupported, setSttSupported] = useState(false);
-  const [profile, setProfile] = useState<Profile>({ signedIn: false, level: 'beginner', badges: [] });
+  const [profile, setProfile] = useState<Profile>({ signedIn: false, level: 'beginner', points: 0, badges: [] });
   const [badgeToast, setBadgeToast] = useState<string | null>(null);
 
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -85,6 +90,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const spokenRef = useRef<Set<string>>(new Set());
   const awardedRef = useRef(false);
+  const diagnosticAwardedRef = useRef(false);
 
   const busy = status === 'submitted' || status === 'streaming';
 
@@ -103,11 +109,18 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
   );
   const flags = useMemo(() => detectFlags(userText), [userText]);
 
-  // ── Profile (level + badges) ───────────────────────────────────────────
+  // ── Profile (points + level + badges) ──────────────────────────────────
   const loadProfile = useCallback(async () => {
     try {
-      const res = await fetch('/api/atlas/badge');
-      if (res.ok) setProfile(await res.json());
+      const res = await fetch('/api/game/state');
+      if (!res.ok) return;
+      const s = await res.json();
+      setProfile({
+        signedIn: !!s.signedIn,
+        level: (s.level ?? 'beginner') as Level,
+        points: s.points ?? 0,
+        badges: Array.isArray(s.badges) ? s.badges : [],
+      });
     } catch {
       /* keep the default beginner profile */
     }
@@ -228,25 +241,36 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
       sendMessage({ text: trimmed });
       setInput('');
 
-      // First message → award the "First step" badge (no-op when signed out).
+      // Points (no-op when signed out). First message → first-conversation;
+      // once the diagnostic has real depth (3+ turns) → diagnostic-complete.
+      const userTurns = messages.filter((m) => m.role === 'user').length + 1;
+      const award = async (action: string, toast: string) => {
+        try {
+          const res = await fetch('/api/game/award', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action }),
+          });
+          const data = await res.json();
+          if (data.signedIn && data.awarded > 0) {
+            setBadgeToast(`${toast} · +${data.awarded}`);
+            setTimeout(() => setBadgeToast(null), 4000);
+            void loadProfile();
+          }
+        } catch {
+          /* gamification is best-effort */
+        }
+      };
       if (!awardedRef.current) {
         awardedRef.current = true;
-        void (async () => {
-          try {
-            const res = await fetch('/api/atlas/badge', { method: 'POST' });
-            const data = await res.json();
-            if (data.awarded) {
-              setBadgeToast('First step badge earned');
-              setTimeout(() => setBadgeToast(null), 4000);
-              void loadProfile();
-            }
-          } catch {
-            /* gamification is best-effort */
-          }
-        })();
+        void award('first-conversation', 'First step');
+      }
+      if (userTurns >= 3 && !diagnosticAwardedRef.current) {
+        diagnosticAwardedRef.current = true;
+        void award('diagnostic-complete', 'Week mapped');
       }
     },
-    [busy, sendMessage, loadProfile],
+    [busy, sendMessage, loadProfile, messages],
   );
 
   const saveRoadmap = useCallback(() => {
@@ -293,10 +317,12 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
             <span style={{ width: 20, height: 6, borderRadius: 4, background: PALETTE.canary, marginBottom: 5 }} />
           </Link>
           <div className="flex items-center gap-3">
-            <LevelPill level={profile.level} badgeCount={profile.badges.length} />
+            <Link href="/journey" aria-label="Your journey">
+              <LevelPill level={profile.level} points={profile.points} badgeCount={profile.badges.length} />
+            </Link>
             <Link
               href="/agents"
-              className="text-sm font-bold hover:opacity-70"
+              className="hidden text-sm font-bold hover:opacity-70 sm:inline"
               style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.body }}
             >
               All agents
@@ -562,24 +588,25 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
   );
 }
 
-function LevelPill({ level, badgeCount }: { level: Level; badgeCount: number }) {
+function LevelPill({ level, points, badgeCount }: { level: Level; points: number; badgeCount: number }) {
   const idx = LEVELS.indexOf(level);
   return (
     <span
-      className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold"
+      className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold transition hover:brightness-95"
       style={{ backgroundColor: PALETTE.paper, color: PALETTE.ink, border: `1px solid ${PALETTE.hairline}`, fontFamily: 'var(--font-body), sans-serif' }}
-      title={`AI literacy: ${level}`}
+      title={`AI literacy: ${level} · ${points} points · view your journey`}
     >
       <span className="flex gap-0.5" aria-hidden>
         {LEVELS.map((_, i) => (
           <span
             key={i}
-            style={{ width: 6, height: 6, borderRadius: 99, backgroundColor: i <= idx ? PALETTE.canary : PALETTE.hairline }}
+            style={{ width: 5, height: 5, borderRadius: 99, backgroundColor: i <= idx ? PALETTE.canary : PALETTE.hairline }}
           />
         ))}
       </span>
       <span className="capitalize">{level}</span>
-      {badgeCount > 0 ? <span style={{ color: PALETTE.gold }}>· {badgeCount}</span> : null}
+      {points > 0 ? <span style={{ color: PALETTE.gold }}>· {points.toLocaleString('en-NZ')}</span> : null}
+      {badgeCount > 0 ? <span style={{ color: PALETTE.muted }}>· {badgeCount}★</span> : null}
     </span>
   );
 }
