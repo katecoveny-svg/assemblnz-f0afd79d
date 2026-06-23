@@ -12,12 +12,12 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { MARKETPLACE_AGENTS } from '../lib/marketplace/agents';
 
-// Current canonical seed — LOCKED CANON 23-agent roster (2026-06-23). Lands
-// after all prior agent migrations and PRUNES agents no longer in the roster
-// (the 35→23 cut), then upserts the 23.
+// Current canonical seed — CANON roster + Auaha (24 agents, 2026-06-23). Lands
+// after all prior agent migrations, PRUNES any agent no longer in the roster,
+// then upserts the full set.
 const OUT = join(
   process.cwd(),
-  'supabase/migrations/20260623200000_seed_canon_23_agents.sql',
+  'supabase/migrations/20260623210000_seed_canon_24_agents.sql',
 );
 
 /** Escape a value as a SQL string literal. */
@@ -90,7 +90,7 @@ const updateAssignments = COLUMNS.filter((c) => c !== 'slug')
 
 const slugList = MARKETPLACE_AGENTS.map((a) => s(a.slug)).join(', ');
 
-const sql = `-- Seed — LOCKED CANON 23-agent roster (2026-06-23).
+const sql = `-- Seed — CANON roster + Auaha (24 agents, 2026-06-23).
 --
 -- AUTO-GENERATED from lib/marketplace/agents.ts by scripts/build-agents-seed.ts.
 -- Do not hand-edit; regenerate with: pnpm tsx scripts/build-agents-seed.ts
@@ -118,7 +118,7 @@ ${updateAssignments};
 COMMIT;
 
 -- Verify:
--- SELECT count(*) FROM public.agents;                       -- expect 23
+-- SELECT count(*) FROM public.agents;                       -- expect 24
 -- SELECT category, count(*) FROM public.agents GROUP BY category ORDER BY 1;
 -- SELECT slug, name, te_reo, price_tier, price_monthly_nzd
 --   FROM public.agents ORDER BY category, name;
