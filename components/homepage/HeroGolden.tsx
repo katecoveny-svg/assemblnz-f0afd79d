@@ -66,15 +66,17 @@ export function HeroGolden() {
       {/* Scene layer — fills the hero, sits behind the copy. */}
       <div className="absolute inset-0 -z-10">
         {live === null ? <StaticScene /> : live ? <GoldenScene className="h-full w-full" /> : <StaticScene />}
-        {/* Cream scrim: keeps the charcoal headline legible over the bright
-            cluster on the left, fades to clear so the spheres show on the right. */}
+        {/* Cream scrim: protects the charcoal headline on the left, then clears
+            fully so the single golden orb stays crisp in the right third. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(100deg,#FFFDE8_0%,rgba(255,253,232,0.86)_34%,rgba(255,253,232,0.35)_58%,transparent_78%)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(95deg,#FFFDE8_0%,#FFFDE8_30%,rgba(255,253,232,0.55)_50%,transparent_66%)]"
         />
       </div>
 
-      <div className="container relative flex min-h-[82vh] flex-col justify-center py-20 lg:py-28">
+      {/* pointer-events-none so the mouse passes through to the scene iframe
+          (its repulsion/drift listens on its own document); CTAs re-enable it. */}
+      <div className="container pointer-events-none relative flex min-h-[82vh] flex-col justify-center py-20 lg:py-28">
         <div className="max-w-2xl">
           <p className="font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
             Built in Aotearoa
@@ -95,10 +97,10 @@ export function HeroGolden() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Link href="/agents" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
+            <Link href="/agents" className="cta-primary pointer-events-auto inline-flex h-12 items-center gap-2 px-7">
               Browse the agents <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
-            <Link href="/hapai" className="btn-ghost inline-flex h-12 items-center px-6">
+            <Link href="/hapai" className="btn-ghost pointer-events-auto inline-flex h-12 items-center px-6">
               Try a free tool
             </Link>
           </div>
