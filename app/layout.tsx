@@ -11,6 +11,7 @@ import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { ScrollProgress } from '@/components/site/scroll-progress';
 import { CommandPalette } from '@/components/site/CommandPalette';
+import { AssemblConciergeWidget } from '@/components/site/AssemblConciergeWidget';
 import { KeteAccentProvider } from '@/components/KeteAccentContext';
 import { PwaRegister } from '@/components/site/PwaRegister';
 import './globals.css';
@@ -129,6 +130,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <KeteAccentProvider>
           <ScrollProgress />
           <CommandPalette />
+          <div className="hidden md:block">
+            <AssemblConciergeWidget />
+          </div>
           <PwaRegister />
           <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
