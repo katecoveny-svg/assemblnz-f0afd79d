@@ -50,6 +50,17 @@ export const GAME_ACTIONS: GameAction[] = [
   { action: 'pilot-tested', points: 100, dailyCap: null, once: false, label: 'Ran the generated tests in Pilot' },
   { action: 'pilot-launch-plan', points: 75, dailyCap: null, once: false, label: 'Generated a launch checklist' },
   { action: 'diagnostic-complete', points: 75, dailyCap: null, once: true, label: 'Mapped your week with Atlas' },
+  // Pilot per-step micro-rewards (steps 1–9 of the 13-step build). Each pays
+  // once per draft (dedupe on the draft id) so revisiting a step never refarms.
+  { action: 'pilot-step-goal', points: 50, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Chose a goal in Pilot' },
+  { action: 'pilot-step-workflow', points: 50, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Mapped the workflow in Pilot' },
+  { action: 'pilot-step-agent-type', points: 50, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Chose the agent type in Pilot' },
+  { action: 'pilot-step-user', points: 50, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Defined the user in Pilot' },
+  { action: 'pilot-step-knowledge', points: 50, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Chose knowledge sources in Pilot' },
+  { action: 'pilot-step-tools', points: 50, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Picked tools in Pilot' },
+  { action: 'pilot-step-guardrails', points: 50, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Set guardrails in Pilot' },
+  { action: 'pilot-step-pack', points: 100, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Drafted the agent pack in Pilot' },
+  { action: 'pilot-step-system-prompt', points: 100, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Generated the system prompt in Pilot' },
 ];
 
 export const ACTION_BY_KEY: Record<string, GameAction> = Object.fromEntries(

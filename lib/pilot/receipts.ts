@@ -30,11 +30,14 @@ export interface PilotReceiptPayload {
     name: string;
     te_reo: string;
     category: string;
+    agent_type: string;
     model_preference: string;
     price_tier: string;
     tools: string[];
-    compliance: string[];
-    /** hash of the system prompt, not the prompt itself */
+    knowledge: string[];
+    guardrails: string[];
+    /** the Mana Receipt signs the WHOLE 19-item pack, by hash */
+    pack_sha256: string;
     system_prompt_sha256: string;
   };
   owner_id: string;
@@ -84,11 +87,14 @@ export async function signPilotReceipt(opts: {
       name: draft.name,
       te_reo: draft.teReo,
       category: draft.category,
+      agent_type: draft.spec.agentType,
       model_preference: draft.modelPreference,
       price_tier: draft.priceTier,
-      tools: [...draft.tools].sort(),
-      compliance: [...draft.compliance].sort(),
-      system_prompt_sha256: hashPayload(draft.systemPrompt),
+      tools: [...draft.spec.tools].sort(),
+      knowledge: [...draft.spec.knowledge].sort(),
+      guardrails: [...(draft.pack?.guardrails ?? [])].sort(),
+      pack_sha256: hashPayload(draft.pack ?? {}),
+      system_prompt_sha256: hashPayload(draft.pack?.systemPrompt ?? ''),
     },
     owner_id: ownerId,
     signed_at: signedAt,

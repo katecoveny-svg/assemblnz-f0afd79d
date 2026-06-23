@@ -13,8 +13,9 @@
  *      review).
  *   4. Stage an inactive Stripe product for paid tiers (never live until
  *      published through review).
- *   5. Sign a hash-chained Mana Receipt.
- *   6. Mark first_pilot_agent_free_used so the next one is gated.
+ *   5. Sign a hash-chained Mana Receipt over the WHOLE 19-item pack.
+ *   6. Award game points via the shared award_points() RPC (build-first-agent +
+ *      ship-personal, or submit-marketplace) and mark first_pilot_agent_free_used.
  *
  * Every output stays a DRAFT until a human signs off — 'submit' only flags it
  * for review; it does not publish.
@@ -44,6 +45,22 @@ async function markFreeFirstUsed(): Promise<void> {
   await supabase.from('profiles').update({ first_pilot_agent_free_used: true }).eq('id', id);
 }
 
+/**
+ * Award a game action through the shared award_points() RPC (Atlas's game
+ * layer). Fail-open: gamification never blocks a ship. Returns the awarded
+ * points for the client to surface, or 0.
+ */
+async function award(action: string, meta: Record<string, unknown>): Promise<number> {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.rpc('award_points', { _action: action, _meta: meta });
+    const r = (data ?? {}) as Record<string, unknown>;
+    return Number(r.awarded ?? 0);
+  } catch {
+    return 0;
+  }
+}
+
 export async function POST(req: Request): Promise<Response> {
   const owner = await getOwner();
   if (!owner) return Response.json({ error: 'Sign in to ship your agent.' }, { status: 401 });
@@ -59,8 +76,8 @@ export async function POST(req: Request): Promise<Response> {
   const mode = body.mode === 'submit' ? 'submit' : 'mine';
   if (!draft) return Response.json({ error: 'No draft supplied.' }, { status: 400 });
   if (!draft.name?.trim()) return Response.json({ error: 'Give your agent a name first.' }, { status: 400 });
-  if (!draft.systemPrompt?.trim())
-    return Response.json({ error: 'Generate a system prompt before shipping.' }, { status: 400 });
+  if (!draft.pack?.systemPrompt?.trim())
+    return Response.json({ error: 'Draft the agent pack before shipping.' }, { status: 400 });
 
   // Free-first gate. The first ship is free; after that Pilot is $9.99/mo.
   const alreadyUsed = await freeFirstUsed();
@@ -116,6 +133,17 @@ export async function POST(req: Request): Promise<Response> {
     manaReceiptId: receiptId,
   });
 
+  // Award game points via the shared layer. "build-first-agent" is once-ever
+  // (500 + first-build badge); ship/submit award each time.
+  const wasFirstBuild = !alreadyUsed;
+  let pointsAwarded = 0;
+  if (wasFirstBuild) pointsAwarded += await award('build-first-agent', { agent: stored.id });
+  if (mode === 'submit') {
+    pointsAwarded += await award('submit-marketplace', { agent: stored.id });
+  } else {
+    pointsAwarded += await award('ship-personal', { agent: stored.id });
+  }
+
   // First free agent now consumed.
   await markFreeFirstUsed();
 
@@ -123,6 +151,7 @@ export async function POST(req: Request): Promise<Response> {
     ok: true,
     mode,
     agentId: stored.id,
+    pointsAwarded,
     receipt: receiptId
       ? { id: receiptId, number: receiptNumber, chainHash: chainHashOut, signedAt }
       : null,

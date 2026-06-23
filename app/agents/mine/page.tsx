@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { ArrowRight, Plus, Compass } from 'lucide-react';
+import { ArrowRight, Plus, Compass, Map } from 'lucide-react';
 import { MarketplaceHeader, MarketplaceFooter } from '@/components/marketplace/MarketplaceChrome';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { PALETTE, PUBLIC_MARKETPLACE_AGENTS, priceLabel } from '@/lib/marketplace/agents';
@@ -49,13 +49,22 @@ export default async function MyAgentsPage() {
               My agents
             </h1>
           </div>
-          <Link
-            href="/pilot"
-            className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold"
-            style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
-          >
-            <Plus size={16} /> Build a new agent
-          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/journey"
+              className="inline-flex items-center gap-2 rounded-full border px-5 py-3 text-sm font-bold"
+              style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
+            >
+              <Map size={16} /> View your journey
+            </Link>
+            <Link
+              href="/pilot"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold"
+              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+            >
+              <Plus size={16} /> Build a new agent
+            </Link>
+          </div>
         </div>
 
         {/* Drafts built with Pilot */}
@@ -143,7 +152,7 @@ function DraftCard({ draft }: { draft: StoredDraft }) {
           {draft.description || 'No description yet.'}
         </p>
         <p className="mk-mono mt-2 text-[10px] uppercase tracking-[0.14em]" style={{ color: PALETTE.muted }}>
-          {draft.tools.length} tools · {draft.compliance.length} NZ rules
+          {draft.spec.tools.length} tools · {draft.pack ? '19-item pack' : 'in progress'}
         </p>
       </div>
     </div>
