@@ -32,7 +32,7 @@ export default async function LocaleHomePage({
             <Link href="/hapai" className="cta-primary inline-flex h-12 items-center px-7">
               {t("primaryCta")}
             </Link>
-            <Link href="/kete" className="btn-secondary inline-flex h-12 items-center px-7">
+            <Link href="/kete" className="btn-ghost inline-flex h-12 items-center px-7">
               {t("secondaryCta")}
             </Link>
           </div>
