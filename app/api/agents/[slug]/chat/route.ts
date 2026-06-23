@@ -4,6 +4,11 @@ import { marketplaceAgentBySlug, MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketpla
 import { FALLBACK_DISCLOSURE, pickRung, resolveModelLadder } from '@/lib/ai/router';
 import { recordModelFallback } from '@/lib/ai/fallback-log';
 import { MARITIME_KNOWLEDGE, marineWeatherTool } from '@/lib/agents/maritime-knowledge';
+import { WHANAU_KNOWLEDGE, isFamilyAgent } from '@/lib/agents/whanau-knowledge';
+import { CLINICAL_NOTE_KNOWLEDGE } from '@/lib/agents/clinical-notes';
+import { CREATIVE_KNOWLEDGE, creativeTools } from '@/lib/agents/creative';
+import { VOICE_RECEPTIONIST_KNOWLEDGE, isVoiceAgent } from '@/lib/voice/agent-voice';
+import { handoffPromptBlock } from '@/lib/agents/handoffs';
 import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
 import { getEntitlementStatus, incrementFreeUsage } from '@/lib/billing/agent-entitlement';
 import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billing/chat-identity';
@@ -143,15 +148,35 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     });
   }
 
-  // Maritime agents get the deep maritime knowledge block + a live (keyless
-  // Open-Meteo Marine) sea-state tool on top of the NZ knowledge stubs;
-  // everyone else just gets the stubs and their own (possibly fallback-disclosed)
-  // system prompt.
+  // Flagship deep-port augmentation: append the ported knowledge block for the
+  // agent's family, add any extra tools it needs, and end with its cross-agent
+  // handoff hints. All additive to the locked v2.0 system prompt — never a
+  // rewrite. (Maritime: deep MNZ knowledge + a live keyless Open-Meteo Marine
+  // sea-state tool. Family: the Tōro whānau-navigator workflows + safety gates.
+  // Care Scribe: the SOAP/ICD clinical-note layer. Creative Studio: the Auaha
+  // pipeline + creative-gen tools. Voice CS: the after-hours receptionist block.)
   const isMaritime = ['maritime-brief', 'tide-weather', 'catch-log'].includes(agent.slug);
-  const tools = isMaritime
-    ? { ...nzKnowledgeTools, marineWeather: marineWeatherTool }
-    : nzKnowledgeTools;
-  const system = isMaritime ? `${baseSystem}\n\n${MARITIME_KNOWLEDGE}` : baseSystem;
+  const isCreative = agent.slug === 'creative-studio';
+
+  const tools = {
+    ...nzKnowledgeTools,
+    ...(isMaritime ? { marineWeather: marineWeatherTool } : {}),
+    ...(isCreative ? creativeTools : {}),
+  };
+
+  const knowledgeBlocks: string[] = [];
+  if (isMaritime) knowledgeBlocks.push(MARITIME_KNOWLEDGE);
+  if (isFamilyAgent(agent.slug)) knowledgeBlocks.push(WHANAU_KNOWLEDGE);
+  if (agent.slug === 'care-scribe') knowledgeBlocks.push(CLINICAL_NOTE_KNOWLEDGE);
+  if (isCreative) knowledgeBlocks.push(CREATIVE_KNOWLEDGE);
+  if (isVoiceAgent(agent.slug)) knowledgeBlocks.push(VOICE_RECEPTIONIST_KNOWLEDGE);
+
+  const handoffBlock = handoffPromptBlock(agent.slug);
+  if (handoffBlock) knowledgeBlocks.push(handoffBlock);
+
+  const system = knowledgeBlocks.length
+    ? [baseSystem, ...knowledgeBlocks].join('\n\n')
+    : baseSystem;
 
   const result = streamText({
     model: rung.model,

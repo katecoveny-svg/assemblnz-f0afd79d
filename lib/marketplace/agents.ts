@@ -791,6 +791,37 @@ const AGENT_DEFS: AgentDef[] = [
     greeting: 'Give me your greeting, your escalation rules and the number to transfer to, and I will answer the phones after hours.',
     starters: ['Set up after-hours reception.', 'What do you say when you answer?'],
   },
+  // ── Creative (re-added 2026-06-23) ───────────────────────────────────
+  // Auaha was pruned from the locked 23; re-added at Kate's call as an
+  // English-first creative agent (te reo label "Auaha"), category business.
+  {
+    slug: 'creative-studio',
+    name: 'Creative Studio',
+    teReo: 'Auaha',
+    description: 'Brief to finished asset, in one chat.',
+    whatItDoes: [
+      'Takes a brief through copy, image, video, podcast and one-shot apps.',
+      'Writes campaign copy, captions, taglines and scripts in NZ English.',
+      'Keeps the work on brand and flags what needs a licence or consent.',
+    ],
+    whatYouGet: [
+      'Drafted copy and produced assets, marked by pipeline stage.',
+      'A list of approvals and licences needed before anything ships.',
+      'A hand-off to scheduling once an asset is signed off.',
+    ],
+    sampleOutputs: [
+      'Three tagline options, plus a 1:1 hero concept brief for sign-off.',
+      'Storyboard + script for an 8-second promo; render is a follow-up.',
+    ],
+    nzKnowledge: ['Copyright Act 1994', 'Advertising Standards Authority Code', 'Privacy Act 2020'],
+    category: 'business',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'palette',
+    tile: 'canary',
+    greeting: 'Give me the brief — product, audience, channel — and I will draft the copy and concepts. You approve before anything ships.',
+    starters: ['Draft a campaign from this brief.', 'Give me three taglines.', 'Storyboard a short promo.'],
+  },
 ];
 
 export const MARKETPLACE_AGENTS: MarketplaceAgent[] = AGENT_DEFS.map(buildAgent);

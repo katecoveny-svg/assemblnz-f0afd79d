@@ -12,12 +12,14 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { MARKETPLACE_AGENTS } from '../lib/marketplace/agents';
 
-// Current canonical seed — LOCKED CANON 23-agent roster (2026-06-23). Lands
-// after all prior agent migrations and PRUNES agents no longer in the roster
-// (the 35→23 cut), then upserts the 23.
+// Current canonical seed. Lands after all prior agent migrations and PRUNES
+// agents no longer in the roster, then upserts the live roster. The 23-agent
+// canon seed (20260623200000) is already applied and immutable, so the generator
+// now emits a later, additive migration: re-adding Auaha (Creative Studio) takes
+// the roster to 24. Re-run after any registry change; it is idempotent.
 const OUT = join(
   process.cwd(),
-  'supabase/migrations/20260623200000_seed_canon_23_agents.sql',
+  'supabase/migrations/20260623210000_seed_roster_with_creative_studio.sql',
 );
 
 /** Escape a value as a SQL string literal. */
@@ -90,15 +92,16 @@ const updateAssignments = COLUMNS.filter((c) => c !== 'slug')
 
 const slugList = MARKETPLACE_AGENTS.map((a) => s(a.slug)).join(', ');
 
-const sql = `-- Seed — LOCKED CANON 23-agent roster (2026-06-23).
+const sql = `-- Seed — live agent roster (${MARKETPLACE_AGENTS.length} agents).
 --
 -- AUTO-GENERATED from lib/marketplace/agents.ts by scripts/build-agents-seed.ts.
 -- Do not hand-edit; regenerate with: pnpm tsx scripts/build-agents-seed.ts
 --
--- Supersedes every prior agent seed. PRUNES catalogue rows no longer in the
--- roster (the 35→23 cut) and dependent per-user rows referencing them, then
--- upserts the 23 (ON CONFLICT (slug) DO UPDATE). system_prompt + fallback_models
--- are seeded but NOT publicly readable (see 20260623140050 / 20260623160000).
+-- Supersedes every prior agent seed (incl. the 23-agent canon seed, which is
+-- already applied). PRUNES catalogue rows no longer in the roster and dependent
+-- per-user rows referencing them, then upserts the roster
+-- (ON CONFLICT (slug) DO UPDATE). system_prompt + fallback_models are seeded but
+-- NOT publicly readable (see 20260623140050 / 20260623160000).
 
 BEGIN;
 
@@ -118,7 +121,7 @@ ${updateAssignments};
 COMMIT;
 
 -- Verify:
--- SELECT count(*) FROM public.agents;                       -- expect 23
+-- SELECT count(*) FROM public.agents;                       -- expect ${MARKETPLACE_AGENTS.length}
 -- SELECT category, count(*) FROM public.agents GROUP BY category ORDER BY 1;
 -- SELECT slug, name, te_reo, price_tier, price_monthly_nzd
 --   FROM public.agents ORDER BY category, name;

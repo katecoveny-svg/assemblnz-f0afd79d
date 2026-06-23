@@ -164,6 +164,21 @@ function paths(name: string, ink: string): ReactElement[] {
         <circle key={1} cx={32} cy={32} r={18} stroke={ink} strokeWidth={3.5} fill="none" />,
         <circle key={2} cx={32} cy={32} r={8} fill={CAN} />,
       ];
+    case 'palette':
+      // creative studio — artist's palette with a canary daub.
+      return [
+        <path
+          key={1}
+          d="M32 12c12 0 20 8 20 18 0 6-5 8-9 8h-4c-3 0-5 2-5 5 0 2 1 3 1 5 0 2-2 4-5 4-11 0-20-9-20-20s10-20 27-20z"
+          fill="none"
+          stroke={ink}
+          strokeWidth={3.5}
+          strokeLinejoin="round"
+        />,
+        <circle key={2} cx={22} cy={26} r={3} fill={GOLD} />,
+        <circle key={3} cx={31} cy={21} r={3} fill={CAN} />,
+        <circle key={4} cx={41} cy={24} r={3} fill={ink} />,
+      ];
     default:
       return [<circle key={1} cx={32} cy={32} r={14} fill={CAN} />];
   }
