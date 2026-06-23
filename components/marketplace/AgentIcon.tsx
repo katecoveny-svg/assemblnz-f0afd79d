@@ -170,6 +170,35 @@ function paths(name: string, ink: string): ReactElement[] {
         <path key={1} d="M30 8 L35 25 L52 30 L35 35 L30 54 L25 35 L8 30 L25 25 Z" fill={CAN} stroke={ink} strokeWidth={2.6} strokeLinejoin="round" />,
         <path key={2} d="M48 36 L50.5 43 L58 45 L50.5 47 L48 54 L45.5 47 L38 45 L45.5 43 Z" fill={GOLD} />,
       ];
+    case 'chief':
+      // Chief (EA) — briefcase.
+      return [
+        <path key={1} d="M24 24v-4a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v4" stroke={ink} strokeWidth={3} fill="none" strokeLinecap="round" />,
+        <rect key={2} x={12} y={24} width={40} height={26} rx={3} fill={CREAM} stroke={ink} strokeWidth={3} />,
+        <line key={3} x1={12} y1={35} x2={52} y2={35} stroke={ink} strokeWidth={2.4} />,
+        <rect key={4} x={28} y={32} width={8} height={6} rx={1.5} fill={CAN} />,
+      ];
+    case 'people':
+      // Roster (CRM) — contacts.
+      return [
+        <circle key={1} cx={32} cy={24} r={9} fill={ink} />,
+        <path key={2} d="M14 52c0-11 8-16 18-16s18 5 18 16z" fill={CAN} />,
+        <path key={3} d="M14 52c0-11 8-16 18-16s18 5 18 16" stroke={ink} strokeWidth={3} fill="none" strokeLinecap="round" />,
+      ];
+    case 'store':
+      // Counter (retail) — storefront.
+      return [
+        <path key={1} d="M12 22h40v8H12z" fill={CAN} />,
+        <line key={2} x1={12} y1={22} x2={52} y2={22} stroke={ink} strokeWidth={3} strokeLinecap="round" />,
+        <path key={3} d="M14 30h36v22H14z" fill={CREAM} stroke={ink} strokeWidth={3} strokeLinejoin="round" />,
+        <rect key={4} x={28} y={38} width={10} height={14} fill={CAN} />,
+      ];
+    case 'social':
+      // Social Manager — two speech bubbles.
+      return [
+        <path key={1} d="M10 18h28a4 4 0 0 1 4 4v12a4 4 0 0 1-4 4H22l-8 6v-6h-4a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4z" fill={CAN} stroke={ink} strokeWidth={2.6} strokeLinejoin="round" />,
+        <path key={2} d="M32 34h18a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-2v5l-6-5h-10a4 4 0 0 1-4-4" fill={CREAM} stroke={ink} strokeWidth={2.6} strokeLinejoin="round" />,
+      ];
     default:
       return [<circle key={1} cx={32} cy={32} r={14} fill={CAN} />];
   }
