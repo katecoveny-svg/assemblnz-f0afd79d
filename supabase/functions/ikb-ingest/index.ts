@@ -72,16 +72,19 @@ function chunkMarkdown(md: string): string[] {
 interface EmbedResp { data?: Array<{ embedding: number[] }>; error?: { message?: string } }
 
 async function embedBatch(texts: string[], lovableKey: string): Promise<number[][]> {
-  const res = await fetch(`${LOVABLE_AI_BASE}/embeddings`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ model: EMBED_MODEL, input: texts }),
-  });
-  const json = (await res.json().catch(() => null)) as EmbedResp | null;
-  if (!res.ok || !json?.data) {
-    throw new Error(`Embed call failed [${res.status}]: ${json?.error?.message ?? "unknown"}`);
-  }
-  return json.data.map((d) => d.embedding);
+  // Disabled by Lovable - model fixed; uncomment to re-enable
+  // const res = await fetch(`${LOVABLE_AI_BASE}/embeddings`, {
+  //   method: "POST",
+  //   headers: { Authorization: `Bearer ${lovableKey}`, "Content-Type": "application/json" },
+  //   body: JSON.stringify({ model: EMBED_MODEL, input: texts, dimensions: EMBED_DIMENSIONS }),
+  // });
+  // const json = (await res.json().catch(() => null)) as EmbedResp | null;
+  // if (!res.ok || !json?.data) {
+  //   throw new Error(`Embed call failed [${res.status}]: ${json?.error?.message ?? "unknown"}`);
+  // }
+  // return json.data.map((d) => d.embedding);
+  void texts; void lovableKey;
+  throw new Error("ikb-ingest embedBatch disabled by Lovable - uncomment in supabase/functions/ikb-ingest/index.ts to re-enable");
 }
 
 interface IkbRow {
