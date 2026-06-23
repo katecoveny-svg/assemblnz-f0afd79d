@@ -138,7 +138,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href={navCta.href}
-            className="hidden cta-primary lg:inline-flex h-11 items-center whitespace-nowrap px-5 text-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:px-6 xl:text-[15px]"
+            className="hidden cta-charcoal lg:inline-flex h-11 items-center whitespace-nowrap px-5 text-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:px-6 xl:text-[15px]"
           >
             {navCta.label}
           </Link>
@@ -217,7 +217,7 @@ export function SiteHeader() {
             </ul>
             <Link
               href={navCta.href}
-              className="cta-primary mt-8 inline-flex h-12 items-center justify-center px-7 text-base"
+              className="cta-charcoal mt-8 inline-flex h-12 items-center justify-center px-7 text-base"
             >
               {navCta.label}
             </Link>

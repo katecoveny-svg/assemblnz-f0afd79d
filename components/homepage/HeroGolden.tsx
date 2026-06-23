@@ -1,26 +1,36 @@
 'use client';
 
 /**
- * HeroGolden — the homepage hero. Kate's golden-spheres Three.js scene fills the
- * section; the brand headline + CTAs + trust row sit on top.
+ * HeroGolden — the homepage hero, marketplace direction.
+ *
+ * Editorial gallery split: the left half is the text (left-aligned), the right
+ * half is Kate's golden-spheres Three.js scene, framed as a plate. Below the
+ * split sits a thin pricing strip.
  *
  * The WebGL scene (GoldenScene) is dynamically imported with `ssr: false` —
  * Three.js + WebGL cannot run on the server. On coarse-pointer or sub-720px
  * viewports, or when the visitor prefers reduced motion, we never mount the
  * scene at all and show a static snapshot instead (public/images/hero/
  * golden-scene-static.jpg). That keeps phones cheap and respects motion prefs.
+ *
+ * The scene reads its own container's dimensions (ResizeObserver + clientWidth/
+ * clientHeight in GoldenScene), so it sits happily inside the right-half plate.
  */
 
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Lato } from 'next/font/google';
+import { Lato, Space_Mono } from 'next/font/google';
 import { ArrowRight } from 'lucide-react';
-import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
 
-// The headline is set in Lato 900, the Dash brand display weight, charcoal.
+// Headline set in Lato 900, the Dash brand display weight, in charcoal.
 const lato = Lato({ subsets: ['latin'], weight: ['400', '900'], display: 'swap' });
+// Eyebrow set in Space Mono, matching the marketplace surfaces.
+const spaceMono = Space_Mono({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
+
+const CANARY = '#FFD42A';
+const CHARCOAL = '#3A3832';
 
 const GoldenScene = dynamic(() => import('@/components/homepage/GoldenScene'), {
   ssr: false,
@@ -36,7 +46,7 @@ function StaticScene() {
       alt=""
       fill
       priority
-      sizes="100vw"
+      sizes="(min-width: 1024px) 50vw, 100vw"
       className="select-none object-cover"
     />
   );
@@ -58,60 +68,89 @@ function useLiveScene(): boolean | null {
   return live;
 }
 
+const PRICING = [
+  '$15 per agent',
+  '$50 for 5',
+  '$90 for 10',
+  '$250 all-access',
+  'Free demo on every agent',
+] as const;
+
 export function HeroGolden() {
   const live = useLiveScene();
 
   return (
-    <section className="relative isolate overflow-hidden bg-[#FFFDE8]">
-      {/* Scene layer — fills the hero, sits behind the copy. */}
-      <div className="absolute inset-0 -z-10">
-        {live === null ? <StaticScene /> : live ? <GoldenScene className="h-full w-full" /> : <StaticScene />}
-        {/* Cream scrim: keeps the charcoal headline legible over the bright
-            cluster on the left, fades to clear so the spheres show on the right. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(100deg,#FFFDE8_0%,rgba(255,253,232,0.86)_34%,rgba(255,253,232,0.35)_58%,transparent_78%)]"
-        />
-      </div>
+    <section className="border-b border-[rgba(58,56,50,0.10)] bg-white">
+      <div className="container py-14 lg:py-20">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          {/* Left — the text */}
+          <div className="max-w-xl">
+            <p
+              className={`${spaceMono.className} text-[12px] uppercase tracking-[0.32em]`}
+              style={{ color: CHARCOAL }}
+            >
+              Built in Aotearoa
+            </p>
 
-      <div className="container relative flex min-h-[82vh] flex-col justify-center py-20 lg:py-28">
-        <div className="max-w-2xl">
-          <p className="font-mono text-eyebrow uppercase tracking-[0.26em] text-[color:var(--assembl-pounamu)]">
-            Built in Aotearoa
-          </p>
+            <h1
+              className={`${lato.className} mt-6 text-[clamp(2.6rem,5.6vw,4.75rem)] font-black leading-[0.98] tracking-[-0.02em]`}
+              style={{ color: CHARCOAL }}
+            >
+              Specialist NZ agents.
+              <br />
+              One marketplace.
+            </h1>
 
-          {/* Pointer-events-none so the cursor falls through to the scene. */}
-          <h1
-            className={`${lato.className} pointer-events-none mt-5 text-[clamp(2.75rem,8.5vw,7rem)] font-black leading-[0.92] tracking-[-0.02em] text-[#23211F]`}
-          >
-            Less admin.
-            <br />
-            More mahi.
-          </h1>
+            <p className="mt-6 max-w-lg text-[clamp(1.05rem,1.6vw,1.3rem)] leading-[1.55] text-[color:var(--text-body)]">
+              An app store of agents tuned for New Zealand work — payroll, BCA
+              submissions, GP notes, customs entries, family logistics. Install
+              one. Or bundle five.
+            </p>
 
-          <p className="mt-6 max-w-xl text-[clamp(1.15rem,2vw,1.4rem)] font-medium leading-[1.5] text-[color:var(--text-primary)]">
-            assembl ships HAPAI — a library of single-purpose NZ tools that get one ordinary job
-            done, draft-only, with a downloadable evidence pack.
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-4">
-            <Link href="/agents" className="cta-primary inline-flex h-12 items-center gap-2 px-7">
-              Browse the agents <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-            <Link href="/hapai" className="btn-ghost inline-flex h-12 items-center px-6">
-              Try a free tool
-            </Link>
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <Link
+                href="/agents"
+                className="cta-charcoal inline-flex h-12 items-center gap-2 px-7 text-[15px]"
+              >
+                Browse the marketplace <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+              <Link
+                href="/how-it-works"
+                className="btn-ghost inline-flex h-12 items-center px-6 text-[15px]"
+              >
+                How it works
+              </Link>
+            </div>
           </div>
 
-          <ul className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-[rgba(43,107,87,0.18)] pt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)]">
-            <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
-              {WATCHED_SOURCE_COUNT} NZ government sources watched
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--assembl-gold-thread)]" aria-hidden />
-              Every output signed off
-            </li>
+          {/* Right — the golden-spheres scene, framed as a plate */}
+          <div className="relative h-[340px] overflow-hidden rounded-[26px] border border-[rgba(58,56,50,0.12)] bg-[#FFFDE8] shadow-[0_30px_70px_rgba(58,56,50,0.10)] sm:h-[440px] lg:h-[clamp(460px,60vh,620px)]">
+            {live === null ? (
+              <StaticScene />
+            ) : live ? (
+              <GoldenScene className="h-full w-full" />
+            ) : (
+              <StaticScene />
+            )}
+          </div>
+        </div>
+
+        {/* Below the split — the pricing strip */}
+        <div className="mt-12 border-t border-[rgba(58,56,50,0.10)] pt-6">
+          <ul
+            className={`${spaceMono.className} flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] uppercase tracking-[0.14em]`}
+            style={{ color: CHARCOAL }}
+          >
+            {PRICING.map((item, i) => (
+              <li key={item} className="flex items-center gap-4">
+                {i > 0 && (
+                  <span aria-hidden style={{ color: CANARY }}>
+                    ·
+                  </span>
+                )}
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
       </div>
