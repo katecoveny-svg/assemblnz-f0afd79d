@@ -221,3 +221,10 @@ CREATE POLICY skill_fallback_events_owner_read ON public.skill_fallback_events
   FOR SELECT TO authenticated USING (user_id = auth.uid());
 
 COMMIT;
+
+-- Verify (run after apply):
+--   SELECT count(*) FROM public.agents WHERE tools IS NOT NULL;  -- 35 once seeded
+--   SELECT table_name FROM information_schema.tables WHERE table_schema='public'
+--     AND table_name IN ('agent_memory','agent_tool_consents','agent_handoffs',
+--     'ambient_subscriptions','model_fallback_events','skill_fallback_events');
+--   SELECT relrowsecurity FROM pg_class WHERE relname='agent_memory';  -- t (RLS on)
