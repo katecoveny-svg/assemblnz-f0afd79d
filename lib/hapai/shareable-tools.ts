@@ -19,7 +19,12 @@ export type HapaiToolVisual =
   | 'admin-tax'
   | 'turf'
   | 'kiwisaver'
-  | 'wishlist';
+  | 'wishlist'
+  | 'rates'
+  | 'school-notice'
+  | 'healthy-homes'
+  | 'fare'
+  | 'holidays';
 
 export type HapaiTool = {
   slug: string;
@@ -31,12 +36,89 @@ export type HapaiTool = {
   shareable: boolean;
   category: 'adoption' | 'operations' | 'marketing' | 'record' | 'lifestyle' | 'education';
   posture: string;
+  /** 'dash' tools ship the locked Dash canary/charcoal brand + their own
+   *  co-located opengraph-image route, so they are excluded from the green
+   *  dynamic [slug] OG route. Defaults to the original green HAPAI brand. */
+  brand?: 'dash';
   /** The kete this tool belongs to, when it maps to one. Drives the "open the
    *  matching kete chat" link and library grouping. */
   kete?: KeteSlug;
 };
 
 export const HAPAI_TOOLS: readonly HapaiTool[] = [
+  {
+    slug: 'rates-reader',
+    name: 'Rates Reader',
+    status: 'live',
+    description:
+      'Snap or paste your rates notice and get a plain-English breakdown — what you pay for, how your area compares, where the council actually spends it.',
+    href: '/hapai/rates-reader',
+    visual: 'rates',
+    shareable: true,
+    category: 'lifestyle',
+    brand: 'dash',
+    kete: 'matauranga',
+    posture:
+      'Indicative breakdown only. It reads what you give it and explains the categories; confirm exact figures against your council’s long-term plan.',
+  },
+  {
+    slug: 'school-notice',
+    name: 'School Notice Translator',
+    status: 'live',
+    description:
+      'Paste or photograph the newsletter, the Hero post, or that PDF the teacher sent. Get back the dates, what’s needed, and a drafted RSVP.',
+    href: '/hapai/school-notice',
+    visual: 'school-notice',
+    shareable: true,
+    category: 'education',
+    brand: 'dash',
+    kete: 'ako',
+    posture:
+      'Draft summary only. It reads the notice you supply and never invents dates; check anything important against the original before you act.',
+  },
+  {
+    slug: 'healthy-homes',
+    name: 'Healthy Homes Checker',
+    status: 'live',
+    description:
+      'Answer a few questions room by room. Get a pass/fail on each Healthy Homes Standard, and a plain-English letter you can send your landlord.',
+    href: '/hapai/healthy-homes',
+    visual: 'healthy-homes',
+    shareable: true,
+    category: 'lifestyle',
+    brand: 'dash',
+    posture:
+      'Plain-English guide only. It is not legal advice or a compliance certificate; Tenancy Services and a healthy homes assessor are the formal authorities.',
+  },
+  {
+    slug: 'fare-optimiser',
+    name: 'Fare Optimiser',
+    status: 'live',
+    description:
+      'Type your usual trips and get the cheapest fare combo — HOP cap, Bee Card weekly, daily deals — and a dollar figure you can hand your parents.',
+    href: '/hapai/fare-optimiser',
+    visual: 'fare',
+    shareable: true,
+    category: 'lifestyle',
+    brand: 'dash',
+    kete: 'arataki',
+    posture:
+      'Indicative estimate only. Fares and caps change; confirm the current price on AT, Metlink, ORC, or Metro before you rely on it.',
+  },
+  {
+    slug: 'holidays-act',
+    name: 'Holidays Act Sense-Check',
+    status: 'live',
+    description:
+      'Paste your pay details and recent leave. Get a yes / no / can’t-tell on whether the holiday pay maths looks right — with the part of the Act it should match.',
+    href: '/hapai/holidays-act',
+    visual: 'holidays',
+    shareable: true,
+    category: 'record',
+    brand: 'dash',
+    posture:
+      'Plain-English sense-check only — not legal or payroll advice, and not a calculation of what you are owed. If something looks off, talk to your employer, a union, or Employment NZ.',
+  },
   {
     slug: 'wishlist',
     name: 'The wishlist',

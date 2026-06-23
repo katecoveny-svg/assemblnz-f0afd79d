@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { KETES } from '@/lib/kete';
+import { DASH_TOOLS } from '@/lib/hapai/dash/tools';
 import { LiveRegulationBlock } from '@/components/site/LiveRegulationBlock';
 import { LandscapeBand } from '@/components/site/LandscapeBand';
 import { WATCHED_SOURCE_COUNT } from '@/lib/watched-sources';
@@ -272,6 +273,62 @@ export function HomeLaunch() {
                     Open <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                   </span>
                 </Link>
+                </motion.div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3.25 · New free HAPAI tools — five Kiwi-specific tools, the public
+          shareable library's newest hits. A nod to the Dash canary accent. */}
+      <section className="border-b border-[rgba(35,33,31,0.08)] py-24 lg:py-32">
+        <div className="container">
+          <div className="mb-12 max-w-3xl">
+            <Eyebrow label="New free tools" accent="#FFD42A" />
+            <h2 className="rise font-display text-[clamp(2.5rem,5.5vw,4.25rem)] font-light leading-[0.99] tracking-[-0.02em]">
+              <RevealWords text="Five new tools," className="block" />
+              <RevealWords text="built for here." className="block text-[color:var(--assembl-pounamu)]" />
+            </h2>
+            <p className="rise mt-6 text-body-lg text-[color:var(--text-body)]">
+              Free, shareable, and tuned for Aotearoa — the rates notice, the school
+              newsletter, your rental, the bus fare, the holiday pay. One task, one
+              result you can send.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {DASH_TOOLS.map((tool, i) => (
+              <Reveal key={tool.slug} delay={i * 0.07} className="h-full">
+                <motion.div
+                  className="h-full"
+                  whileHover={reduce ? undefined : { y: -10, scale: 1.02 }}
+                  transition={{ type: 'spring', stiffness: 320, damping: 24 }}
+                >
+                  <Link
+                    href={`/hapai/${tool.slug}`}
+                    className={`group relative flex h-full flex-col justify-between overflow-hidden p-6 transition-all duration-300 hover:bg-[linear-gradient(160deg,rgba(255,255,255,0.72),rgba(255,255,255,0.42))] hover:shadow-[0_34px_80px_rgba(40,30,18,0.18)] ${GLASS}`}
+                  >
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 -translate-x-full bg-[linear-gradient(105deg,transparent,rgba(255,255,255,0.55),transparent)] transition-transform duration-700 ease-out group-hover:translate-x-full"
+                    />
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[color:var(--text-secondary)]">
+                        {tool.teReo}
+                      </span>
+                      <span
+                        className="h-2.5 w-2.5 rounded-full bg-[#FFD42A] transition-transform duration-300 group-hover:scale-150"
+                        aria-hidden
+                      />
+                    </div>
+                    <div className="mt-8">
+                      <h3 className="font-display text-2xl font-light">{tool.name}</h3>
+                      <p className="mt-3 text-body-md text-[color:var(--text-body)]">{tool.description}</p>
+                    </div>
+                    <span className="relative mt-6 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--assembl-pounamu)] transition-all group-hover:gap-2.5">
+                      Open tool <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                    </span>
+                  </Link>
                 </motion.div>
               </Reveal>
             ))}
