@@ -107,14 +107,19 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
           </Link>
           <div
             className="flex h-9 w-9 items-center justify-center rounded-xl"
-            style={{ backgroundColor: `${agent.accent}55` }}
+            style={{ backgroundColor: agent.accent }}
           >
-            <AgentIcon name={agent.icon} className="h-5 w-5" />
+            <AgentIcon name={agent.icon} tone={agent.tile} className="h-6 w-6" />
           </div>
-          <div className="leading-tight">
+          <div className="flex items-baseline gap-2 leading-tight">
             <p className="text-lg" style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.ink }}>
               {agent.name}
             </p>
+            {agent.teReo ? (
+              <span className="mk-mono text-[11px]" style={{ color: PALETTE.muted }}>
+                {agent.teReo}
+              </span>
+            ) : null}
           </div>
         </div>
         <div className="flex items-center gap-2">

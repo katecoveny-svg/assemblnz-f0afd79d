@@ -147,7 +147,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   // Open-Meteo Marine) sea-state tool on top of the NZ knowledge stubs;
   // everyone else just gets the stubs and their own (possibly fallback-disclosed)
   // system prompt.
-  const isMaritime = agent.category === 'maritime';
+  const isMaritime = ['maritime-brief', 'tide-weather', 'catch-log'].includes(agent.slug);
   const tools = isMaritime
     ? { ...nzKnowledgeTools, marineWeather: marineWeatherTool }
     : nzKnowledgeTools;

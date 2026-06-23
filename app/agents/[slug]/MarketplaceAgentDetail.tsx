@@ -5,9 +5,9 @@ import {
   DASH_MOTIF,
   MODEL_TIER_LABELS,
   PALETTE,
+  priceLabel,
   type MarketplaceAgent,
 } from '@/lib/marketplace/agents';
-import { AGENT_PLANS, FREE_MESSAGE_LIMIT, agentPriceLabel } from '@/lib/billing/agent-pricing';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
 
@@ -38,9 +38,9 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
         >
           <div
             className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[20px]"
-            style={{ backgroundColor: `${agent.accent}55` }}
+            style={{ backgroundColor: agent.accent }}
           >
-            <AgentIcon name={agent.icon} className="h-10 w-10" />
+            <AgentIcon name={agent.icon} tone={agent.tile} className="h-12 w-12" />
           </div>
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
@@ -54,12 +54,19 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
                 className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
                 style={{ backgroundColor: `${PALETTE.canary}66`, color: PALETTE.ink }}
               >
-                From {agentPriceLabel()}
+                {priceLabel(agent)}
               </span>
             </div>
-            <h1 className="mt-3 text-4xl leading-tight md:text-5xl" style={{ ...DISPLAY, color: PALETTE.ink }}>
-              {agent.name}
-            </h1>
+            <div className="mt-3 flex flex-wrap items-baseline gap-x-3">
+              <h1 className="text-4xl leading-tight md:text-5xl" style={{ ...DISPLAY, color: PALETTE.ink }}>
+                {agent.name}
+              </h1>
+              {agent.teReo ? (
+                <span className="mk-mono text-sm" style={{ color: PALETTE.muted }}>
+                  {agent.teReo}
+                </span>
+              ) : null}
+            </div>
             <p className="mt-3 text-lg leading-relaxed" style={{ color: PALETTE.body }}>
               {agent.description}
             </p>
@@ -75,13 +82,15 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
           >
             <MessageCircle size={18} aria-hidden /> Try free
           </Link>
-          <Link
-            href={`/agents/checkout?plan=per_agent&agent=${agent.slug}`}
-            className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-base font-bold transition hover:bg-white"
-            style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
-          >
-            Subscribe · {agentPriceLabel()} <ArrowRight size={16} aria-hidden />
-          </Link>
+          {agent.priceNzd > 0 ? (
+            <Link
+              href={`/agents/checkout?plan=per_agent&agent=${agent.slug}`}
+              className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-base font-bold transition hover:bg-white"
+              style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
+            >
+              Subscribe · {priceLabel(agent)} <ArrowRight size={16} aria-hidden />
+            </Link>
+          ) : null}
           {agent.toolHref ? (
             <Link
               href={agent.toolHref}
@@ -122,52 +131,19 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
           </Card>
         </div>
 
-        {/* Plans — flat per-agent + bundles (price is set by your plan, not the agent) */}
-        <div className="mt-6">
-          <Card title="Plans">
-            <p className="text-sm leading-relaxed" style={{ color: PALETTE.body }}>
-              One flat price per agent, or pick a bundle and choose your agents. The first{' '}
-              {FREE_MESSAGE_LIMIT} messages with any agent are free.
-            </p>
-            <ul className="mt-4 space-y-2">
-              {AGENT_PLANS.map((plan) => (
-                <li
-                  key={plan.id}
-                  className="flex items-baseline justify-between gap-4 rounded-2xl border px-4 py-3"
-                  style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.cream }}
-                >
-                  <span>
-                    <span className="text-base font-bold" style={{ color: PALETTE.ink }}>
-                      {plan.name}
-                    </span>
-                    <span className="block text-sm" style={{ color: PALETTE.body }}>
-                      {plan.summary}
-                    </span>
-                  </span>
-                  <span className="shrink-0 text-base font-bold" style={{ color: PALETTE.ink }}>
-                    NZ${plan.monthlyNzd}
-                    <span className="text-xs font-normal" style={{ color: PALETTE.muted }}>
-                      /mo
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/agents/pricing"
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold hover:opacity-70"
-              style={{ color: PALETTE.ink }}
-            >
-              See full pricing <ArrowRight size={14} aria-hidden />
-            </Link>
-          </Card>
-        </div>
-
-        {/* Meta */}
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        {/* Meta — per-agent price (the first 3 messages with any agent are free) */}
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <Meta label="Price" value={priceLabel(agent)} />
           <Meta label="Model" value={MODEL_TIER_LABELS[agent.modelTier]} />
           <Meta label="Category" value={CATEGORY_LABELS[agent.category]} />
         </div>
+        <p className="mt-3 text-sm" style={{ color: PALETTE.muted }}>
+          The first 3 messages with any agent are free. Bundles available on the{' '}
+          <Link href="/agents/pricing" className="font-bold underline" style={{ color: PALETTE.ink }}>
+            pricing page
+          </Link>
+          .
+        </p>
 
         <p className="mt-8 text-sm" style={{ color: PALETTE.muted }}>
           Every reply is a draft for a human to check before it is sent, filed, or lodged. Not legal,

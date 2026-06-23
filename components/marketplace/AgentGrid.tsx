@@ -6,10 +6,10 @@ import { ArrowRight, Search } from 'lucide-react';
 import {
   CATEGORIES,
   PALETTE,
+  priceLabel,
   type MarketplaceCategory,
   type PublicMarketplaceAgent,
 } from '@/lib/marketplace/agents';
-import { agentPriceLabel } from '@/lib/billing/agent-pricing';
 import { AgentIcon } from './AgentIcon';
 
 type Filter = 'all' | MarketplaceCategory;
@@ -114,25 +114,32 @@ function AgentCard({ agent }: { agent: PublicMarketplaceAgent }) {
       <div className="mb-4 flex items-start justify-between">
         <div
           className="flex h-12 w-12 items-center justify-center rounded-2xl"
-          style={{ backgroundColor: `${agent.accent}55` }}
+          style={{ backgroundColor: agent.accent }}
         >
-          <AgentIcon name={agent.icon} className="h-6 w-6" />
+          <AgentIcon name={agent.icon} tone={agent.tile} className="h-7 w-7" />
         </div>
         <span
           className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
           style={{ backgroundColor: PALETTE.cream, color: PALETTE.gold }}
         >
-          From {agentPriceLabel()}
+          {priceLabel(agent)}
         </span>
       </div>
 
       <Link href={`/agents/${agent.slug}`} className="flex-1">
-        <h3
-          className="text-xl leading-tight"
-          style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.ink }}
-        >
-          {agent.name}
-        </h3>
+        <div className="flex flex-wrap items-baseline gap-x-2">
+          <h3
+            className="text-xl leading-tight"
+            style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.ink }}
+          >
+            {agent.name}
+          </h3>
+          {agent.teReo ? (
+            <span className="mk-mono text-[11px]" style={{ color: PALETTE.muted }}>
+              {agent.teReo}
+            </span>
+          ) : null}
+        </div>
         <p className="mt-3 text-sm leading-relaxed" style={{ color: PALETTE.body }}>
           {agent.description}
         </p>
