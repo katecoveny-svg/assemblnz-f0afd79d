@@ -25,7 +25,10 @@ import { agentPriceLabel } from '@/lib/billing/agent-pricing';
 
 export type ModelTier = 'cheap' | 'mid' | 'premium';
 /** Coarse pricing bucket mirrored to the DB `pricing_tier` enum. */
-export type PricingTier = 'free' | 'freemium' | 'paid';
+// Pricing is now flat (NZ$15/agent + bundles, set by the user's plan — see
+// lib/billing/agent-pricing.ts). Every agent carries pricing_tier='per_agent';
+// the legacy free/freemium/paid buckets are kept only for back-compat reads.
+export type PricingTier = 'per_agent' | 'free' | 'freemium' | 'paid';
 /** The NZ pricing ladder shown on cards + detail (see pricing-benchmarks-nz.md). */
 export type PriceTier = 'free' | 'toro' | 'whanau' | 'pro' | 'business';
 export type AgentStatus = 'live' | 'coming_soon';
@@ -132,15 +135,6 @@ const PRICE_TIER_NZD: Record<PriceTier, number> = {
   business: 199,
 };
 
-/** NZ pricing ladder → coarse DB bucket. */
-const PRICE_TIER_TO_PRICING: Record<PriceTier, PricingTier> = {
-  free: 'free',
-  toro: 'freemium',
-  whanau: 'freemium',
-  pro: 'paid',
-  business: 'paid',
-};
-
 /**
  * Free-fallback model ladder after the tier primary (the amendment's spec).
  * The router (lib/ai/router.ts) resolves these ids to concrete providers and
@@ -193,7 +187,8 @@ function buildAgent(def: AgentDef): MarketplaceAgent {
     ...def,
     status: def.status ?? 'live',
     priceNzd: PRICE_TIER_NZD[def.priceTier],
-    pricingTier: PRICE_TIER_TO_PRICING[def.priceTier],
+    // Flat pricing: every agent is per_agent; the user's plan sets the price.
+    pricingTier: 'per_agent',
     tools: def.tools ?? TOOLS_BY_SLUG[def.slug] ?? DEFAULT_TOOLS,
     skills: def.skills ?? SKILLS_BY_SLUG[def.slug] ?? [],
     fallbackModels: [...FALLBACK_MODELS],
@@ -1633,6 +1628,7 @@ export const MODEL_TIER_LABELS: Record<ModelTier, string> = {
 };
 
 export const PRICING_TIER_LABELS: Record<PricingTier, string> = {
+  per_agent: 'Per agent',
   free: 'Free',
   freemium: 'Free to try',
   paid: 'Paid',

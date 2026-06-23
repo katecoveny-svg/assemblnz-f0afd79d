@@ -12,12 +12,13 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { MARKETPLACE_AGENTS } from '../lib/marketplace/agents';
 
-// Current canonical seed. Lands AFTER 20260623160000 (which adds the
-// tools/skills/fallback_models columns), so it must carry a later version than
-// the original 30-agent seed (20260623140100, now superseded).
+// Current canonical seed. Lands AFTER 20260623180000 (which relaxes the
+// pricing_tier CHECK to admit 'per_agent'), so it must carry a later version
+// than the superseded 20260623140100 (30 agents) / 20260623160100 (35 agents,
+// pre-flat-pricing) seeds.
 const OUT = join(
   process.cwd(),
-  'supabase/migrations/20260623160100_seed_hero_agents.sql',
+  'supabase/migrations/20260623180100_seed_hero_agents.sql',
 );
 
 /** Escape a value as a SQL string literal. */
@@ -94,7 +95,7 @@ const sql = `-- Seed — 35 hero agents into the marketplace catalogue (incl. to
 -- AUTO-GENERATED from lib/marketplace/agents.ts by scripts/build-agents-seed.ts.
 -- Do not hand-edit; regenerate with: pnpm tsx scripts/build-agents-seed.ts
 --
--- Supersedes the original 30-agent seed (20260623140100). Runs after
+-- Supersedes the 20260623140100 / 20260623160100 seeds. Runs after
 -- 20260623160000 so the tools/skills/fallback_models columns exist. Mirrors the
 -- code registry (the source of truth) into public.agents; idempotent
 -- (ON CONFLICT (slug) DO UPDATE). system_prompt + fallback_models are seeded but
