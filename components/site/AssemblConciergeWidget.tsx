@@ -240,7 +240,7 @@ export function AssemblConciergeWidget() {
                 <span
                   id="concierge-counter"
                   className={cn(
-                    "font-mono text-[9px] uppercase tracking-[0.1em]",
+                    "font-mono text-[10px] uppercase tracking-[0.1em]",
                     draft.length > MAX_CHARS * 0.9
                       ? "text-destructive font-medium"
                       : "text-[color:var(--text-secondary)]"
