@@ -1042,6 +1042,35 @@ const AGENT_DEFS: AgentDef[] = [
       'I am not sure what to build — help me figure it out.',
     ],
   },
+  // ── Service / concierge ──────────────────────
+  {
+    slug: 'echo',
+    name: 'Echo',
+    teReo: '',
+    description: 'Answers your website visitors and points them to the right place.',
+    whatItDoes: [
+      'Greets visitors and answers common questions in your voice.',
+      'Works out what the person needs and routes them to the right agent or page.',
+      'Hands off to a human when a question needs one — and says so plainly.',
+    ],
+    whatYouGet: [
+      'A concierge on your site that replies in seconds.',
+      'A tidy log of what people asked and where they were sent.',
+      'Clear hand-offs for anything it should not answer itself.',
+    ],
+    sampleOutputs: [
+      'Routed a consent question to Building Consent; pointed, booked nothing.',
+      'Escalated a billing dispute to a human, with the details captured.',
+    ],
+    nzKnowledge: ['Privacy Act 2020 (IPP 3 collection notice)'],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'toro',
+    icon: 'voice',
+    tile: 'cream',
+    greeting: 'I am Echo, your website concierge. Tell me what your visitors usually ask, and I will answer and route them. I never promise or commit on your behalf — I hand those to you.',
+    starters: ['What do my visitors usually need?', 'Set up the homepage concierge.'],
+  },
 ];
 
 export const MARKETPLACE_AGENTS: MarketplaceAgent[] = AGENT_DEFS.map(buildAgent);
