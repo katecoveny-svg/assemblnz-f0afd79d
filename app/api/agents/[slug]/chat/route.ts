@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { marketplaceAgentBySlug, MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
 import { FALLBACK_DISCLOSURE, pickRung, resolveModelLadder } from '@/lib/ai/router';
 import { recordModelFallback } from '@/lib/ai/fallback-log';
+import { createClient } from '@supabase/supabase-js';
+import { citeFromPCO, type SupabaseRpcClient } from '@/lib/government/types';
 import { MARITIME_KNOWLEDGE, marineWeatherTool } from '@/lib/agents/maritime-knowledge';
 import { WHANAU_KNOWLEDGE, isFamilyAgent } from '@/lib/agents/whanau-knowledge';
 import { CLINICAL_NOTE_KNOWLEDGE } from '@/lib/agents/clinical-notes';
@@ -59,41 +61,53 @@ const nzKnowledgeTools = {
     }),
     execute: async ({ query }) => {
       const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
-      const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-      if (!base || !key) {
+      const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      const geminiKey = process.env.GEMINI_API_KEY;
+      if (!base || !serviceKey || !geminiKey) {
         return {
           status: 'unavailable',
           note: 'The NZ knowledge base is not reachable right now. Answer from general knowledge and clearly say it was not checked against the live source.',
         };
       }
       try {
-        const res = await fetch(`${base}/functions/v1/ikb-search`, {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${key}`, apikey: key, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query, limit: 6, minSimilarity: 0.2 }),
-        });
-        if (!res.ok) {
-          return {
-            status: 'error',
-            note: `Live source search failed (${res.status}). Answer from general knowledge and flag that it was not verified against the live source.`,
-          };
+        // 1. Embed the query — Gemini gemini-embedding-001 at 768 dims, matching
+        //    the kb_doc_chunks pgvector schema the live KB is stored in.
+        const er = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: { parts: [{ text: query.slice(0, 8000) }] }, outputDimensionality: 768 }),
+          },
+        );
+        if (!er.ok) {
+          return { status: 'error', note: 'Could not search the live source right now. Answer from general knowledge and flag it was not verified.' };
         }
-        const data = (await res.json()) as {
-          hits?: Array<{ doc_title?: string; source_url?: string; chunk_text?: string; similarity?: number; tier?: number }>;
-        };
-        const hits = (data.hits ?? []).slice(0, 6).map((h) => ({
-          title: h.doc_title ?? 'NZ source',
-          url: h.source_url ?? null,
-          snippet: (h.chunk_text ?? '').slice(0, 700),
-          similarity: typeof h.similarity === 'number' ? Number(h.similarity.toFixed(3)) : undefined,
-        }));
-        if (hits.length === 0) {
+        const ej = (await er.json()) as { embedding?: { values?: number[] } };
+        const embedding = ej.embedding?.values;
+        if (!Array.isArray(embedding) || embedding.length === 0) {
+          return { status: 'error', note: 'The live source search returned no embedding. Answer from general knowledge and flag it was not verified.' };
+        }
+        // 2. Retrieve from the live KB via match_kb_knowledge (kb_doc_chunks),
+        //    reusing the proven citeFromPCO helper.
+        const supabase = createClient(base, serviceKey) as unknown as SupabaseRpcClient;
+        const citations = await citeFromPCO(supabase, embedding, null, 6);
+        if (!citations.length) {
           return {
             status: 'no_results',
-            note: 'Nothing close in the NZ knowledge base. Answer from general knowledge and flag that it was not found in the live source.',
+            note: 'Nothing close in the live NZ knowledge base. Answer from general knowledge and flag that it was not found in the live source.',
           };
         }
-        return { status: 'ok', hits, retrievedAt: new Date().toISOString().slice(0, 10) };
+        return {
+          status: 'ok',
+          sources: citations.map((c) => ({
+            title: c.title,
+            url: c.url,
+            snippet: c.snippet.slice(0, 700),
+            similarity: Number.isFinite(c.similarity) ? Number(c.similarity.toFixed(3)) : undefined,
+          })),
+          retrievedAt: new Date().toISOString().slice(0, 10),
+        };
       } catch (e) {
         return {
           status: 'error',
