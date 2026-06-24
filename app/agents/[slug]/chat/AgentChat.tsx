@@ -13,6 +13,7 @@ import { ShareToPhone } from '@/components/marketplace/ShareToPhone';
 import { AgentVisual, parseVisuals } from '@/components/marketplace/AgentVisual';
 import { downloadConversationPack, type ConversationTurn } from '@/lib/export/pdf';
 import { InstallPwaButton } from '@/components/hapai/InstallPwaButton';
+import { MicButton } from '@/components/marketplace/MicButton';
 
 /** Pull the rendered text out of a UIMessage's parts. */
 function messageText(message: UIMessage): string {
@@ -50,6 +51,11 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
 
   const [input, setInput] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Voice input appends the spoken text to the composer for the user to review.
+  const handleTranscript = useCallback((text: string) => {
+    setInput((prev) => (prev ? `${prev} ${text}` : text));
+  }, []);
 
   const busy = status === 'submitted' || status === 'streaming';
 
@@ -277,6 +283,7 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
             className="max-h-40 flex-1 resize-none rounded-[20px] border bg-white px-4 py-3 text-sm outline-none disabled:opacity-60"
             style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
           />
+          <MicButton onTranscript={handleTranscript} disabled={!!paywall} ink={PALETTE.ink} />
           <button
             type="submit"
             disabled={busy || !input.trim() || !!paywall}
