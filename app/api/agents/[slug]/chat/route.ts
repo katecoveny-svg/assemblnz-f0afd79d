@@ -6,14 +6,14 @@ import { recordModelFallback } from '@/lib/ai/fallback-log';
 import { MARITIME_KNOWLEDGE, marineWeatherTool } from '@/lib/agents/maritime-knowledge';
 import { WHANAU_KNOWLEDGE, isFamilyAgent } from '@/lib/agents/whanau-knowledge';
 import { CLINICAL_NOTE_KNOWLEDGE } from '@/lib/agents/clinical-notes';
-import { CREATIVE_KNOWLEDGE, creativeTools } from '@/lib/agents/creative';
+import { CREATIVE_KNOWLEDGE, creativeTools, generateImageTool, IMAGE_RENDER_KNOWLEDGE } from '@/lib/agents/creative';
 import { VOICE_RECEPTIONIST_KNOWLEDGE, isVoiceAgent } from '@/lib/voice/agent-voice';
 import { handoffPromptBlock } from '@/lib/agents/handoffs';
 import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
 import { getEntitlementStatus, incrementFreeUsage } from '@/lib/billing/agent-entitlement';
 import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billing/chat-identity';
 
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 /** Build a Set-Cookie header string from our anon cookie options. */
 function anonSetCookie(value: string): string {
@@ -157,11 +157,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   // pipeline + creative-gen tools. Voice CS: the after-hours receptionist block.)
   const isMaritime = ['maritime-brief', 'tide-weather', 'catch-log'].includes(agent.slug);
   const isCreative = agent.slug === 'creative-studio';
+  // Real image generation for every creative-category agent (Prism, Auaha,
+  // Creative Studio, Social Manager) — calls the generate-image edge function.
+  const canMakeImages = agent.category === 'creative';
 
   const tools = {
     ...nzKnowledgeTools,
     ...(isMaritime ? { marineWeather: marineWeatherTool } : {}),
     ...(isCreative ? creativeTools : {}),
+    ...(canMakeImages ? { generateImage: generateImageTool } : {}),
   };
 
   const knowledgeBlocks: string[] = [];
@@ -169,6 +173,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   if (isFamilyAgent(agent.slug)) knowledgeBlocks.push(WHANAU_KNOWLEDGE);
   if (agent.slug === 'care-scribe') knowledgeBlocks.push(CLINICAL_NOTE_KNOWLEDGE);
   if (isCreative) knowledgeBlocks.push(CREATIVE_KNOWLEDGE);
+  if (canMakeImages) knowledgeBlocks.push(IMAGE_RENDER_KNOWLEDGE);
   if (isVoiceAgent(agent.slug)) knowledgeBlocks.push(VOICE_RECEPTIONIST_KNOWLEDGE);
 
   const handoffBlock = handoffPromptBlock(agent.slug);

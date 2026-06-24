@@ -85,22 +85,65 @@ export const CREATIVE_GUARDRAIL_IDS = AUAHA_POLICY_METADATA.map((p) => p.id);
  * note so the agent can describe what it *would* produce and offer the copy/brief
  * it can do now, instead of failing the turn.
  */
-export const creativeTools = {
-  generateImage: tool({
-    description:
-      'Generate a marketing image from a prompt (Recraft / Ideogram / Flux / fal.ai). Use when the user wants a visual asset.',
-    inputSchema: z.object({
-      prompt: z.string().describe('What the image should show'),
-      aspect: z.string().optional().describe('Aspect ratio, e.g. "1:1", "16:9"'),
-    }),
-    execute: async ({ prompt, aspect }) => ({
-      status: 'stub',
-      note: 'Live image generation is not wired in this build yet. Describe the image you would create and offer to draft the brief, copy or alt-text now; flag that the render is a follow-up.',
-      prompt,
-      aspect: aspect ?? '1:1',
-      vendors: CREATIVE_VENDORS.image,
-    }),
+/**
+ * Real image generation — calls the `generate-image` edge function (Fal-routed)
+ * and returns the hosted image URL. The agent then shows it inline via an
+ * assembl-visual image block (see IMAGE_RENDER_KNOWLEDGE).
+ */
+export const generateImageTool = tool({
+  description:
+    'Generate a real image from a prompt (Fal / Flux). Use when the user asks for a visual, poster, logo concept, social graphic or any image. Returns a hosted imageUrl; you then show it with an assembl-visual image block.',
+  inputSchema: z.object({
+    prompt: z.string().describe('A detailed description of the image to create'),
+    style: z.enum(['photorealistic', 'illustration', '3d', 'default']).optional().describe('Visual style'),
   }),
+  execute: async ({ prompt, style }) => {
+    const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!base || !key) {
+      return {
+        status: 'error' as const,
+        note: 'Image generation is not configured. Describe the image and offer the brief or copy instead.',
+      };
+    }
+    try {
+      const res = await fetch(`${base}/functions/v1/generate-image`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${key}`, apikey: key, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, provider: 'fal', style: style ?? 'default' }),
+      });
+      if (!res.ok) {
+        const detail = await res.text().catch(() => '');
+        return {
+          status: 'error' as const,
+          note: `Image generation failed (${res.status}). Offer to retry or draft the brief instead.`,
+          detail: detail.slice(0, 200),
+        };
+      }
+      const data = (await res.json()) as { imageUrl?: string; provider?: string };
+      if (!data.imageUrl) {
+        return { status: 'error' as const, note: 'No image came back — suggest a simpler prompt and offer to retry.' };
+      }
+      return { status: 'ok' as const, imageUrl: data.imageUrl, provider: data.provider ?? 'fal' };
+    } catch (e) {
+      return {
+        status: 'error' as const,
+        note: `Image generation error: ${e instanceof Error ? e.message : 'unknown'}. Offer to retry.`,
+      };
+    }
+  },
+});
+
+/** Tells image-capable agents how to display a generated image inline. */
+export const IMAGE_RENDER_KNOWLEDGE = `# Showing a generated image
+When generateImage returns status "ok" with an imageUrl, show it to the user straight away by emitting a fenced block exactly like this, with nothing else inside the fence:
+\`\`\`assembl-visual
+{"type":"image","url":"THE_EXACT_IMAGE_URL","title":"a short caption"}
+\`\`\`
+Use the exact imageUrl the tool returned. Then add one short line offering a tweak or another option. If status is "error", say so plainly and offer to retry or draft the brief — never paste a raw image URL as text.`;
+
+/** Video stays a clearly-marked stub until its gen edge function is wired. */
+export const creativeTools = {
   generateVideo: tool({
     description:
       'Generate a short marketing video from a prompt (Runway / Pika / Kling / HeyGen). Use when the user wants a video asset.',
