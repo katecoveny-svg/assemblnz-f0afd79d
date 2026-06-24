@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FillDogLoader } from '@/components/dash/FillDogLoader';
+import { DashWaitlistForm } from './DashWaitlistForm';
 import './birdie.css';
 
 /**
@@ -107,7 +108,7 @@ export default function DashPage() {
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
             <Link
-              href="/dash/for-ai-builders"
+              href="#waitlist"
               className="bd-cta-primary"
               style={{
                 background: '#FFD42A',
@@ -120,7 +121,7 @@ export default function DashPage() {
                 boxShadow: '0 8px 26px rgba(255,212,42,.5)',
               }}
             >
-              Switch Dash on
+              Join the waitlist
             </Link>
             <Link
               href="#flagship"
@@ -134,6 +135,11 @@ export default function DashPage() {
             <Stat value="1 line" label="to install" />
             <Stat value="55%" label="you keep" />
             <Stat value="NZ" label="data stays here" />
+          </div>
+
+          {/* Pre-launch waitlist capture — the one actionable thing on the page. */}
+          <div style={{ marginTop: 40 }}>
+            <DashWaitlistForm />
           </div>
         </div>
 
@@ -602,7 +608,7 @@ export default function DashPage() {
               OPT-IN · NZ-BUILT · ASSEMBL-GOVERNED
             </p>
             <Link
-              href="/dash/for-ai-builders"
+              href="#waitlist"
               className="bd-cta-dark"
               style={{
                 background: '#3a3832',
@@ -616,7 +622,7 @@ export default function DashPage() {
                 boxShadow: '0 12px 30px rgba(58,56,50,.3)',
               }}
             >
-              Switch Dash on →
+              Join the waitlist →
             </Link>
           </div>
         </div>

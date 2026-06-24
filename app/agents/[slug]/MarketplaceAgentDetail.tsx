@@ -11,9 +11,18 @@ import {
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
 
+// Agent NAME face (CANON-LOCKED-2026-06-23): agent names stay Lato 900, matching
+// the card spec, so an agent reads the same on its card, chat header and detail.
 const DISPLAY: React.CSSProperties = {
   fontFamily: 'var(--mk-display), sans-serif',
   fontWeight: 900,
+  letterSpacing: '-0.02em',
+};
+
+// Section headline face: the assembl display, Cormorant Garamond.
+const HEADLINE: React.CSSProperties = {
+  fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif',
+  fontWeight: 600,
   letterSpacing: '-0.02em',
 };
 
@@ -159,7 +168,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="rounded-[26px] border bg-white p-6" style={{ borderColor: PALETTE.hairline }}>
-      <h2 className="text-2xl" style={{ ...DISPLAY, color: PALETTE.ink }}>
+      <h2 className="text-2xl" style={{ ...HEADLINE, color: PALETTE.ink }}>
         {title}
       </h2>
       <div className="mt-4">{children}</div>

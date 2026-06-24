@@ -143,7 +143,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
             </a>
           </div>
           <Link
-            href="/dash/for-ai-builders"
+            href="/dash#waitlist"
             className="bd-switch"
             style={{
               background: '#FFD42A',
@@ -156,7 +156,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
               boxShadow: '0 6px 20px rgba(255,212,42,.5)',
             }}
           >
-            Switch on
+            Join the waitlist
           </Link>
         </div>
       </div>

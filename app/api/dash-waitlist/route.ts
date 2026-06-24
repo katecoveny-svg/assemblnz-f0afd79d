@@ -15,7 +15,10 @@
  * egress from rotating IPs and the allowlist silently breaks every send (the
  * 17 Jun outage). notifyLead retries as a stopgap.
  *
- * Body: { role: 'publisher' | 'advertiser', email, name?, organisation?, message? }
+ * Body: { role?: 'publisher' | 'advertiser' | 'earner', email, name?, organisation?, message? }
+ * `role` defaults to 'earner' — the general pre-launch "tell me when dash is
+ * live" signup from the /dash hero form (dash is pre-launch; this is the only
+ * actionable thing on the page until then).
  */
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -25,7 +28,7 @@ import { getServiceClient } from '@/lib/supabase/service';
 export const dynamic = 'force-dynamic';
 
 const BodySchema = z.object({
-  role: z.enum(['publisher', 'advertiser']),
+  role: z.enum(['publisher', 'advertiser', 'earner']).default('earner'),
   email: z.string().email('A valid email is required').max(254),
   name: z.string().max(120).optional(),
   organisation: z.string().max(160).optional(),
@@ -35,6 +38,7 @@ const BodySchema = z.object({
 const ROLE_LABEL = {
   publisher: 'Dash by assembl — become a publisher',
   advertiser: 'Dash by assembl — become an advertiser',
+  earner: 'Dash by assembl — waitlist (notify me at launch)',
 } as const;
 
 export async function POST(req: Request) {

@@ -30,7 +30,7 @@ export default function AgentsMarketplacePage() {
           </p>
           <h1
             className="mt-3 max-w-3xl text-4xl leading-[1.02] md:text-6xl"
-            style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.03em', color: PALETTE.ink }}
+            style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em', color: PALETTE.ink }}
           >
             Pick an agent. Chat with it. Install it on your phone.
           </h1>
@@ -85,7 +85,7 @@ export default function AgentsMarketplacePage() {
                 </p>
                 <h2
                   className="mt-2 text-2xl md:text-3xl"
-                  style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.paper }}
+                  style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em', color: PALETTE.paper }}
                 >
                   New to this? Talk to Atlas.
                 </h2>

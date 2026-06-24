@@ -535,11 +535,14 @@
 .mk-root .mk-mono {
   font-family: var(--mk-mono), ui-monospace, monospace;
 }
-/* The global base rule sets all headings to Fraunces; inside the Dash subtree
-   they must use the Dash display face (Lato 900). Element-targeted so it wins
-   over the inherited mk-root font. */
+/* CANON-LOCKED-2026-06-23: the /agents marketplace is an *assembl* surface, so
+   its page + section headlines are Cormorant Garamond (the assembl display
+   face), NOT Lato. Lato (var(--mk-display)) stays the marketplace body/UI face
+   and the agent-NAME face (agent names are Lato 900 per the card spec, applied
+   inline so they win over this rule). Element-targeted so it beats the inherited
+   mk-root body font. dash (.dash-kit) keeps its own Lato heading rule below. */
 .mk-root :is(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--mk-display), system-ui, sans-serif;
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
 }
 
 /* The signature fill-the-dog loader: the dog charges up bottom-to-top.

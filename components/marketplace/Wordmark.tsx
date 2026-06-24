@@ -4,9 +4,11 @@ import { PALETTE } from '@/lib/marketplace/agents';
 type Variant = 'primary' | 'reversed' | 'on-canary';
 
 /**
- * The Dash brand wordmark: lowercase Lato 900 (-0.045em) that always closes
- * with a canary pill-dash (≈0.6× cap height). The dash doubles as the loading
- * bar. Spec: HANDOFF.md §4. Defaults to the marketplace word "assembl".
+ * The assembl marketplace wordmark: lowercase Cormorant Garamond 600 (-0.01em,
+ * CANON-LOCKED-2026-06-23) closing with a canary pill-dash (≈0.6× cap height).
+ * Defaults to the marketplace word "assembl". NOTE: this is the *assembl*
+ * wordmark — the sibling *dash* wordmark (Lato 900, -0.045em) is its own local
+ * component in app/dash/layout.tsx; do not unify them.
  */
 export function Wordmark({
   word = 'assembl',
@@ -39,10 +41,10 @@ export function Wordmark({
     >
       <span
         style={{
-          fontFamily: 'var(--mk-display), system-ui, sans-serif',
-          fontWeight: 900,
+          fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif',
+          fontWeight: 600,
           fontSize: size,
-          letterSpacing: '-0.045em',
+          letterSpacing: '-0.01em',
           lineHeight: 0.8,
           color: wordColor,
         }}
