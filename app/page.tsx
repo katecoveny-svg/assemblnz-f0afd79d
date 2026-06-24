@@ -125,7 +125,7 @@ export default function HomePage() {
             <div>
               <div className={styles.marketEyebrow}>002 — The marketplace</div>
               <h2 className={styles.marketTitle}>
-                Twenty-three quiet <em>specialists.</em>
+                Agents <em>tuned</em> for New Zealand work.
               </h2>
             </div>
             <div className={styles.marketFilters}>
