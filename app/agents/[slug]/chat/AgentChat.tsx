@@ -12,6 +12,7 @@ import { Wordmark } from '@/components/marketplace/Wordmark';
 import { ShareToPhone } from '@/components/marketplace/ShareToPhone';
 import { AgentVisual, parseVisuals } from '@/components/marketplace/AgentVisual';
 import { downloadConversationPack, type ConversationTurn } from '@/lib/export/pdf';
+import { InstallPwaButton } from '@/components/hapai/InstallPwaButton';
 
 /** Pull the rendered text out of a UIMessage's parts. */
 function messageText(message: UIMessage): string {
@@ -240,6 +241,13 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
                   {s}
                 </button>
               ))}
+            </div>
+          ) : null}
+
+          {/* Install this agent as its own app */}
+          {messages.length <= 1 && !busy && !paywall ? (
+            <div className="mt-1">
+              <InstallPwaButton label={`Add ${agent.name} to your home screen`} compact />
             </div>
           ) : null}
         </div>
