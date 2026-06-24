@@ -693,6 +693,37 @@ const AGENT_DEFS: AgentDef[] = [
     starters: ['What is expiring soon?', 'Track our certifications.'],
   },
   {
+    slug: 'building-consent',
+    name: 'Consent',
+    teReo: 'Whakaaetanga',
+    description:
+      'NZ Building Code specifications, product technical statements and consent-package QA/QC — drafted for your architect to review.',
+    whatItDoes: [
+      'Writes specifications in the Masterspec three-part format, referencing the current Building Code Acceptable Solutions.',
+      'Runs QA/QC on a consent package: flags missing documents, drawing-to-spec mismatches and code gaps with a risk rating.',
+      'Cross-references Building Code clauses to spec sections and reviews material choices against the Te Aranga design principles.',
+    ],
+    whatYouGet: [
+      'A three-part specification (General, Products, Execution) ready for a licensed architect to review.',
+      'A QA/QC flag table: item, risk, code reference, remediation.',
+      'A Te Aranga review and an authentication block on every draft.',
+    ],
+    sampleOutputs: [
+      'HIGH risk: cladding specified but no E2/AS1 weathertightness documentation in the package.',
+      'Spec section 4.2 meets H1/AS1 6th edition; the bracing schedule is missing — flag before lodgement.',
+    ],
+    nzKnowledge: ['NZ Building Code Acceptable Solutions (B1, B2, E2, E3, G4, H1)', 'NZS 3604', 'Building Act 2004 (Clause 14G)', 'Auckland Unitary Plan', 'Te Aranga Māori Design Principles'],
+    skills: ['masterspec-specification-agent'],
+    category: 'build',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'shield',
+    tile: 'ink',
+    greeting:
+      'Give me your project and I will draft the specification in Masterspec format and flag what is missing from the consent package. Everything I produce is a draft for your licensed architect to review.',
+    starters: ['Write a basic residential specification.', 'QA my consent package.'],
+  },
+  {
     slug: 'maritime-brief',
     name: 'Maritime Brief',
     teReo: 'Moana',
