@@ -2,11 +2,18 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, ShieldCheck, Sparkles, Zap } from 'lucide-react';
 import { PUBLIC_MARKETPLACE_AGENTS, DASH_MOTIF, PALETTE } from '@/lib/marketplace/agents';
+import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 import { AgentGrid } from '@/components/marketplace/AgentGrid';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
 
 const FEATURED = PUBLIC_MARKETPLACE_AGENTS.find((a) => a.featured);
+
+// The free, single-use HAPAI tools — no install, no chat, just open and use.
+// We lead with the polished Dash-branded set; "See all" links through to the
+// full library at /hapai. These are a *different product* from the agents
+// above (installable, chat-based), so they get their own labelled section.
+const FREE_TOOLS = HAPAI_TOOLS.filter((t) => t.brand === 'dash' && t.status === 'live');
 
 export const metadata: Metadata = {
   title: 'Agents — assembl',
@@ -106,10 +113,99 @@ export default function AgentsMarketplacePage() {
         </section>
       ) : null}
 
-      {/* Grid */}
-      <section className="px-5 pb-20 pt-6 md:px-8">
+      {/* Grid — the installable, chat-based agents */}
+      <section className="px-5 pb-16 pt-6 md:px-8">
         <div className="mx-auto max-w-6xl">
+          <header className="mb-6">
+            <p
+              className="mk-mono text-xs font-bold uppercase tracking-[0.18em]"
+              style={{ color: PALETTE.gold }}
+            >
+              Agents · install &amp; chat
+            </p>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: PALETTE.body }}>
+              Installable, chat-based, and yours to keep. Free to try, then $9.99 or $199 a month for
+              the ones you keep.
+            </p>
+          </header>
           <AgentGrid agents={PUBLIC_MARKETPLACE_AGENTS} />
+        </div>
+      </section>
+
+      {/* HAPAI tools — free, single-use, no install. A different product from the
+          agents above, so it gets its own clearly-labelled section. */}
+      <section className="px-5 pb-20 md:px-8">
+        <div className="mx-auto max-w-6xl">
+          <header className="mb-6 flex flex-wrap items-end justify-between gap-4 border-t pt-12" style={{ borderColor: PALETTE.hairline }}>
+            <div>
+              <p
+                className="mk-mono text-xs font-bold uppercase tracking-[0.18em]"
+                style={{ color: PALETTE.gold }}
+              >
+                HAPAI tools · free, no install
+              </p>
+              <h2
+                className="mt-2 text-3xl md:text-4xl"
+                style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em', color: PALETTE.ink }}
+              >
+                Need something quick? Use a free tool.
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: PALETTE.body }}>
+                No sign-up, no install — open one, do the one job, share the result. The rates notice,
+                the school newsletter, your rental, the bus fare, the holiday pay.
+              </p>
+            </div>
+            <Link
+              href="/hapai"
+              className="inline-flex shrink-0 items-center gap-1.5 text-sm font-bold transition hover:opacity-70"
+              style={{ color: PALETTE.ink }}
+            >
+              See all free tools
+              <ArrowRight size={15} aria-hidden />
+            </Link>
+          </header>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {FREE_TOOLS.map((tool) => (
+              <Link
+                key={tool.slug}
+                href={tool.href}
+                className="group flex flex-col rounded-[26px] border bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(180,150,40,0.12)]"
+                style={{ borderColor: PALETTE.hairline }}
+              >
+                <div className="mb-4 flex items-start justify-between gap-3">
+                  <span
+                    className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
+                    style={{ backgroundColor: PALETTE.ink, color: PALETTE.canary }}
+                  >
+                    HAPAI tool
+                  </span>
+                  <span
+                    className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
+                    style={{ backgroundColor: PALETTE.cream, color: PALETTE.gold }}
+                  >
+                    Free
+                  </span>
+                </div>
+                <h3
+                  className="text-xl leading-tight"
+                  style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.ink }}
+                >
+                  {tool.name}
+                </h3>
+                <p className="mt-3 flex-1 text-sm leading-relaxed" style={{ color: PALETTE.body }}>
+                  {tool.description}
+                </p>
+                <span
+                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold transition group-hover:gap-2.5"
+                  style={{ color: PALETTE.ink }}
+                >
+                  Open tool
+                  <ArrowRight size={15} aria-hidden />
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
