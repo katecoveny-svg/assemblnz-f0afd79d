@@ -5,14 +5,27 @@ import Link from 'next/link';
 import { ArrowRight, Search } from 'lucide-react';
 import {
   CATEGORIES,
-  PALETTE,
+  CATEGORY_LABELS,
   priceLabel,
   type MarketplaceCategory,
   type PublicMarketplaceAgent,
 } from '@/lib/marketplace/agents';
 import { AgentIcon } from './AgentIcon';
+import styles from './orbGrid.module.css';
 
 type Filter = 'all' | MarketplaceCategory;
+
+// Gold orb shades, cycled per card — matches the homepage marketplace grid
+// (app/page.tsx ORB_GOLDS) so the two surfaces read identically.
+const ORB_GOLDS: [string, string][] = [
+  ['#FFD42A', '#E0A800'],
+  ['#FFE066', '#F2C200'],
+  ['#FFCB1F', '#D89A00'],
+  ['#FFD96B', '#E0A800'],
+  ['#FFE680', '#E0A800'],
+  ['#FFDD55', '#D89A00'],
+  ['#FFCF3A', '#E0A800'],
+];
 
 export function AgentGrid({ agents }: { agents: PublicMarketplaceAgent[] }) {
   const [query, setQuery] = useState('');
@@ -34,45 +47,46 @@ export function AgentGrid({ agents }: { agents: PublicMarketplaceAgent[] }) {
   return (
     <div>
       {/* Search */}
-      <div className="relative mb-6">
-        <Search
-          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2"
-          size={18}
-          style={{ color: PALETTE.muted }}
-          aria-hidden
-        />
+      <div className={styles.search}>
+        <Search className={styles.searchIcon} size={18} aria-hidden />
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search agents — fridge, tax, captions, meetings…"
           aria-label="Search agents"
-          className="w-full rounded-full border bg-white py-3 pl-11 pr-4 text-base outline-none transition focus:border-[color:#FFD42A]"
-          style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
+          className={styles.searchInput}
         />
       </div>
 
       {/* Category filter */}
-      <div className="mb-8 flex flex-wrap gap-2">
-        <FilterChip active={filter === 'all'} onClick={() => setFilter('all')}>
+      <div className={styles.filters}>
+        <button
+          type="button"
+          onClick={() => setFilter('all')}
+          className={filter === 'all' ? styles.filterActive : styles.filter}
+        >
           All
-        </FilterChip>
+        </button>
         {CATEGORIES.map((c) => (
-          <FilterChip key={c.slug} active={filter === c.slug} onClick={() => setFilter(c.slug)}>
+          <button
+            key={c.slug}
+            type="button"
+            onClick={() => setFilter(c.slug)}
+            className={filter === c.slug ? styles.filterActive : styles.filter}
+          >
             {c.label}
-          </FilterChip>
+          </button>
         ))}
       </div>
 
       {/* Grid */}
       {visible.length === 0 ? (
-        <p className="py-16 text-center text-base" style={{ color: PALETTE.body }}>
-          No agents match that. Try a different word.
-        </p>
+        <p className={styles.empty}>No agents match that. Try a different word.</p>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((agent) => (
-            <AgentCard key={agent.slug} agent={agent} />
+        <div className={styles.grid}>
+          {visible.map((agent, i) => (
+            <AgentCard key={agent.slug} agent={agent} index={i} />
           ))}
         </div>
       )}
@@ -80,87 +94,45 @@ export function AgentGrid({ agents }: { agents: PublicMarketplaceAgent[] }) {
   );
 }
 
-function FilterChip({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="rounded-full border px-4 py-1.5 text-sm font-bold transition"
-      style={
-        active
-          ? { backgroundColor: PALETTE.canary, color: PALETTE.ink, borderColor: PALETTE.canary }
-          : { backgroundColor: 'transparent', color: PALETTE.ink, borderColor: PALETTE.hairline }
-      }
-    >
-      {children}
-    </button>
-  );
-}
+function AgentCard({ agent, index }: { agent: PublicMarketplaceAgent; index: number }) {
+  // Featured agents get the dark editorial tile, mirroring the home grid.
+  const dark = agent.featured;
+  const [tone, deep] = ORB_GOLDS[index % ORB_GOLDS.length];
 
-function AgentCard({ agent }: { agent: PublicMarketplaceAgent }) {
   return (
-    <div
-      className="group relative flex flex-col rounded-[26px] border bg-white p-5 transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(180,150,40,0.12)]"
-      style={{ borderColor: PALETTE.hairline }}
-    >
-      <div className="mb-4 flex items-start justify-between">
-        <div
-          className="flex h-12 w-12 items-center justify-center rounded-2xl"
-          style={{ backgroundColor: agent.accent }}
-        >
-          <AgentIcon name={agent.icon} tone={agent.tile} className="h-7 w-7" />
-        </div>
+    <div className={dark ? `${styles.card} ${styles.cardDark}` : styles.card}>
+      <span className={styles.cardGlow} aria-hidden />
+
+      <Link href={`/agents/${agent.slug}`} className={styles.head} aria-label={`${agent.name} — details`}>
         <span
-          className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
-          style={{ backgroundColor: PALETTE.cream, color: PALETTE.gold }}
+          className={styles.orb}
+          style={{ background: `radial-gradient(circle at 33% 26%, #FFFDF7 0%, ${tone} 52%, ${deep} 100%)` }}
+          aria-hidden
         >
-          {priceLabel(agent)}
+          <span className={styles.orbSpec} aria-hidden />
+          <AgentIcon name={agent.icon} className={styles.orbIcon} />
         </span>
-      </div>
-
-      <Link href={`/agents/${agent.slug}`} className="flex-1">
-        <div className="flex flex-wrap items-baseline gap-x-2">
-          <h3
-            className="text-xl leading-tight"
-            style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.ink }}
-          >
-            {agent.name}
-          </h3>
-          {agent.teReo ? (
-            <span className="mk-mono text-[11px]" style={{ color: PALETTE.muted }}>
-              {agent.teReo}
-            </span>
-          ) : null}
-        </div>
-        <p className="mt-3 text-sm leading-relaxed" style={{ color: PALETTE.body }}>
-          {agent.description}
-        </p>
+        <span className={styles.nameWrap}>
+          <span className={styles.name}>{agent.name}</span>
+          <span className={styles.tag}>{agent.teReo || CATEGORY_LABELS[agent.category]}</span>
+        </span>
       </Link>
 
-      <div className="mt-5 flex items-center gap-2">
-        <Link
-          href={`/agents/${agent.slug}/chat`}
-          className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold transition hover:brightness-95"
-          style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
-        >
-          Install
-          <ArrowRight size={15} aria-hidden />
-        </Link>
-        <Link
-          href={`/agents/${agent.slug}`}
-          className="rounded-full px-3 py-2 text-sm font-bold transition hover:opacity-70"
-          style={{ color: PALETTE.ink }}
-        >
-          Details
-        </Link>
+      <Link href={`/agents/${agent.slug}`} className={styles.blurb}>
+        {agent.description}
+      </Link>
+
+      <div className={styles.foot}>
+        <span className={styles.price}>{priceLabel(agent)}</span>
+        <span className={styles.footActions}>
+          <Link href={`/agents/${agent.slug}`} className={styles.details}>
+            Details
+          </Link>
+          <Link href={`/agents/${agent.slug}/chat`} className={styles.installPill}>
+            Install
+            <ArrowRight size={14} aria-hidden />
+          </Link>
+        </span>
       </div>
     </div>
   );

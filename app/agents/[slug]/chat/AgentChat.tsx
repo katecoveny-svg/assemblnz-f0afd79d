@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
 import { ArrowLeft, ArrowUp, FileDown, ImagePlus, Lock, X } from 'lucide-react';
-import { PALETTE, type PublicMarketplaceAgent } from '@/lib/marketplace/agents';
+import { PALETTE, priceLabel, type PublicMarketplaceAgent } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { DashLoader } from '@/components/marketplace/DashLoader';
 import { Wordmark } from '@/components/marketplace/Wordmark';
@@ -14,6 +14,7 @@ import { AgentVisual, parseVisuals } from '@/components/marketplace/AgentVisual'
 import { downloadConversationPack, type ConversationTurn } from '@/lib/export/pdf';
 import { InstallPwaButton } from '@/components/hapai/InstallPwaButton';
 import { MicButton } from '@/components/marketplace/MicButton';
+import orb from '@/components/marketplace/orbGrid.module.css';
 
 /** Pull the rendered text out of a UIMessage's parts. */
 function messageText(message: UIMessage): string {
@@ -122,7 +123,7 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
       {/* Header */}
       <header
         className="flex items-center justify-between border-b px-4 py-3 md:px-6"
-        style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}
+        style={{ borderColor: PALETTE.hairline, backgroundColor: 'rgba(255,255,255,0.78)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}
       >
         <div className="flex items-center gap-3">
           <Link
@@ -133,14 +134,16 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
           >
             <ArrowLeft size={18} aria-hidden />
           </Link>
-          <div
-            className="flex h-9 w-9 items-center justify-center rounded-xl"
-            style={{ backgroundColor: agent.accent }}
+          <span
+            className={orb.orb}
+            style={{ width: 40, height: 40, background: 'radial-gradient(circle at 33% 26%, #FFFDF7 0%, #FFD42A 52%, #E0A800 100%)' }}
+            aria-hidden
           >
-            <AgentIcon name={agent.icon} tone={agent.tile} className="h-6 w-6" />
-          </div>
+            <span className={orb.orbSpec} aria-hidden />
+            <AgentIcon name={agent.icon} className="relative h-5 w-5" />
+          </span>
           <div className="flex items-baseline gap-2 leading-tight">
-            <p className="text-lg" style={{ fontFamily: 'var(--mk-display), sans-serif', fontWeight: 900, letterSpacing: '-0.02em', color: PALETTE.ink }}>
+            <p className="text-xl" style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif', fontWeight: 600, letterSpacing: '-0.01em', color: PALETTE.ink }}>
               {agent.name}
             </p>
             {agent.teReo ? (
@@ -200,11 +203,22 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
                 ) : null}
                 {text ? (
                   <div
-                    className="max-w-[85%] rounded-[20px] px-4 py-3 text-sm leading-relaxed"
+                    className={`max-w-[85%] px-4 py-3 text-sm leading-relaxed ${
+                      isUser ? 'rounded-[22px] rounded-br-md' : 'rounded-[22px] rounded-bl-md'
+                    }`}
                     style={
                       isUser
-                        ? { backgroundColor: PALETTE.canary, color: PALETTE.ink }
-                        : { backgroundColor: PALETTE.paper, color: PALETTE.body, border: `1px solid ${PALETTE.hairline}` }
+                        ? {
+                            background: 'linear-gradient(180deg, #FFE27A, #FFD42A)',
+                            color: PALETTE.ink,
+                            boxShadow: '0 8px 20px rgba(255,200,30,0.22)',
+                          }
+                        : {
+                            backgroundColor: 'rgba(255,255,255,0.92)',
+                            color: PALETTE.body,
+                            border: `1px solid ${PALETTE.hairline}`,
+                            boxShadow: '0 10px 30px rgba(180,140,0,0.06)',
+                          }
                     }
                   >
                     <p className="whitespace-pre-wrap">{text}</p>
@@ -242,10 +256,10 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <Link
                   href={`/agents/checkout?plan=per_agent&agent=${agent.slug}`}
-                  className="inline-flex h-9 items-center rounded-full px-4 text-xs font-bold"
-                  style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+                  className={orb.installPill}
+                  style={{ padding: '8px 16px', fontSize: 12 }}
                 >
-                  Subscribe · NZ$15/mo
+                  Subscribe · {priceLabel(agent)}
                 </Link>
                 <Link
                   href="/agents/pricing"
@@ -293,7 +307,7 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
       </div>
 
       {/* Composer */}
-      <div className="border-t px-4 py-3 md:px-6" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
+      <div className="border-t px-4 py-3 md:px-6" style={{ borderColor: PALETTE.hairline, backgroundColor: 'rgba(255,255,255,0.78)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
         {imageFile ? (
           <div className="mx-auto mb-2 flex max-w-2xl items-center gap-2">
             <div
@@ -364,8 +378,12 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
             type="submit"
             disabled={busy || (!input.trim() && !imageFile) || !!paywall}
             aria-label="Send"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition disabled:opacity-40"
-            style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition hover:-translate-y-0.5 disabled:opacity-40 disabled:hover:translate-y-0"
+            style={{
+              background: 'linear-gradient(180deg, #FFE27A, #FFD42A)',
+              color: PALETTE.ink,
+              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 18px rgba(255,200,30,0.28)',
+            }}
           >
             <ArrowUp size={18} aria-hidden />
           </button>
