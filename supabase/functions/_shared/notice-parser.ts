@@ -292,7 +292,7 @@ export function stripJsonFences(raw: string): string {
  *                    parent still sees the inbound and can act manually
  */
 export async function parseNotice(opts: ParseOptions): Promise<ParseResult> {
-  const model = opts.model ?? "anthropic/claude-opus-4-7";
+  const model = opts.model ?? "gemini-2.5-pro";
 
   const messages: ChatMessage[] = [
     { role: "user", content: buildUserPrompt(opts) },

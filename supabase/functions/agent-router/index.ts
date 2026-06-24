@@ -208,7 +208,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
     const supabase = createClient(
@@ -664,13 +664,13 @@ Trust & compliance:
 
     // Model selection from DB preference (used as the hint to Iho)
     const MODEL_MAP: Record<string, string> = {
-      "gemini-2.5-flash": "google/gemini-2.5-flash",
-      "gemini-2.5-pro": "google/gemini-2.5-pro",
-      "gemini-3.1-pro-preview": "google/gemini-3.1-pro-preview",
-      "gemini-3-flash-preview": "google/gemini-3-flash-preview",
-      "gemini-2.5-flash-lite": "google/gemini-2.5-flash-lite",
-      "gpt-5": "openai/gpt-5",
-      "gpt-5-mini": "openai/gpt-5-mini",
+      "gemini-2.5-flash": "gemini-2.5-flash",
+      "gemini-2.5-pro": "gemini-2.5-pro",
+      "gemini-3.1-pro-preview": "gemini-2.5-pro",
+      "gemini-3-flash-preview": "gemini-2.5-flash",
+      "gemini-2.5-flash-lite": "gemini-2.5-flash-lite",
+      "gpt-5": "gemini-2.5-pro",
+      "gpt-5-mini": "gemini-2.5-flash",
     };
     const rawPref = agentPrompt?.model_preference || "gemini-3-flash-preview";
     let model = MODEL_MAP[rawPref] || `google/${rawPref}`;
@@ -885,7 +885,7 @@ Trust & compliance:
     }
 
     // ═══ PRIMARY: Lovable AI Gateway ═══
-    let response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    let response = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${LOVABLE_API_KEY}`,
@@ -911,15 +911,15 @@ Trust & compliance:
 
         // Map Lovable model names to OpenRouter equivalents
         const OPENROUTER_MODEL_MAP: Record<string, string> = {
-          "google/gemini-2.5-flash": "google/gemini-2.5-flash",
-          "google/gemini-2.5-pro": "google/gemini-2.5-pro",
-          "google/gemini-3.1-pro-preview": "google/gemini-2.5-pro",
-          "google/gemini-3-flash-preview": "google/gemini-2.5-flash",
-          "google/gemini-2.5-flash-lite": "google/gemini-2.5-flash",
-          "openai/gpt-5": "openai/gpt-4o",
-          "openai/gpt-5-mini": "openai/gpt-4o-mini",
+          "gemini-2.5-flash": "gemini-2.5-flash",
+          "gemini-2.5-pro": "gemini-2.5-pro",
+          "gemini-2.5-pro": "gemini-2.5-pro",
+          "gemini-2.5-flash": "gemini-2.5-flash",
+          "gemini-2.5-flash-lite": "gemini-2.5-flash",
+          "gemini-2.5-pro": "gemini-2.5-flash",
+          "gemini-2.5-flash": "gemini-2.5-flash",
         };
-        const fallbackModel = OPENROUTER_MODEL_MAP[model] || "google/gemini-2.5-flash";
+        const fallbackModel = OPENROUTER_MODEL_MAP[model] || "gemini-2.5-flash";
 
         const fallbackBody = { ...aiRequestBody, model: fallbackModel };
         // Remove tools if not supported by fallback model

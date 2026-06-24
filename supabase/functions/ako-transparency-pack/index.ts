@@ -28,7 +28,7 @@ const corsHeaders = {
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.4";
 import { resolveModel, DEFAULT_MODEL } from "../_shared/model-router.ts";
 
-const LOVABLE_AI_BASE = "https://ai.gateway.lovable.dev/v1";
+const LOVABLE_AI_BASE = "https://generativelanguage.googleapis.com/v1beta/openai";
 // Resolved at request time via resolveModel("ako", supabase). Constant
 // retained as a safe fallback if the helper or DB are unreachable.
 const MODEL = DEFAULT_MODEL;
@@ -157,7 +157,7 @@ Deno.serve(async (req) => {
     const voice = ["warm", "plain", "formal"].includes(body?.voice) ? body.voice : "warm";
     const centreName = centre.name?.trim() || "Your centre";
 
-    const lovableKey = Deno.env.get("LOVABLE_API_KEY");
+    const lovableKey = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     let docs: DocSet | null = null;
     let usedFallback = false;
     let modelMsg = "";

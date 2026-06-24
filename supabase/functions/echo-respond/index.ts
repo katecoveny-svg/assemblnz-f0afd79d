@@ -73,7 +73,7 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY");
     const ADMIN_EMAIL = Deno.env.get("ADMIN_EMAIL") || "kia.ora@assembl.co.nz";
 
@@ -122,7 +122,7 @@ Deno.serve(async (req) => {
 
 Write a warm, personalised email reply (plain text). Acknowledge their business by name. Suggest the most relevant Assembl kete + 1-2 specific agents. Invite them to either book a discovery call (assembl.co.nz/contact) or text +64 21 538 962. Sign off with "Ngā mihi, ECHO — your Assembl concierge".`;
 
-        const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        const aiResp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -216,7 +216,7 @@ ${echoReply}`,
       await sb.from("audit_log").insert({
         agent_code: "echo",
         agent_name: "ECHO",
-        model_used: "google/gemini-2.5-flash",
+        model_used: "gemini-2.5-flash",
         user_id: "00000000-0000-0000-0000-000000000000",
         request_summary: `[WEBSITE ENQUIRY ${source}] ${name} <${email}> (${industry || "?"}/${interest || "?"})`,
         response_summary: echoReply.substring(0, 300),

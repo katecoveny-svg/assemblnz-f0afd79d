@@ -38,7 +38,7 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-  const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+  const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
 
   try {
     const body: AlexaDirective = await req.json();
@@ -183,7 +183,7 @@ Deno.serve(async (req) => {
             .map((e: any) => `${e.title} on ${e.event_date}${e.event_time ? " at " + e.event_time : ""}`)
             .join("; ");
 
-          const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+          const aiResp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
             method: "POST",
             headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
             body: JSON.stringify({

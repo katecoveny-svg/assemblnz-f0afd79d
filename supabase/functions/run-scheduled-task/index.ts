@@ -10,7 +10,7 @@ const corsHeaders = {
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
+const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY")!;
 
 // ─── SMS/WhatsApp notification helper ──────────────────
 async function sendNotification(
@@ -139,8 +139,8 @@ function getNextRun(cron: string, from: Date = new Date()): Date {
 }
 
 // ─── AI helper ─────────────────────────────────────────
-async function callAI(systemPrompt: string, userPrompt: string, model = "google/gemini-2.5-flash-lite"): Promise<string | null> {
-  const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+async function callAI(systemPrompt: string, userPrompt: string, model = "gemini-2.5-flash-lite"): Promise<string | null> {
+  const aiResp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${LOVABLE_API_KEY}`,
@@ -261,7 +261,7 @@ Include:
 Format for WhatsApp delivery: use emojis (⚠️ 🌧️ ✅ 🔒 🏗️), keep under 1000 chars.
 Current date: ${new Date().toLocaleDateString("en-NZ")}`,
           `Active project data:\n${siteData || "No active project data — generate generic NZ construction safety brief."}`,
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (briefing) {
@@ -298,7 +298,7 @@ Include:
 Keep under 500 chars. Be direct and actionable.
 Current date: ${new Date().toLocaleDateString("en-NZ")}`,
           projectData || "No project retention data available — generate generic CCA 2002 progress claim reminder.",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (claimSummary) {
@@ -335,7 +335,7 @@ Include the documentation checklist:
 Note: CCC must be applied for within 2 years of code compliance per Building Act 2004 s93.
 Keep under 500 chars. Format as a checklist.`,
           consentInfo || "No consent data available — generate generic CCC checklist reminder.",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (alert) {
@@ -388,7 +388,7 @@ Consider:
 Keep total under 1000 chars. Use emojis for quick scanning.
 Week of: ${weekStart.toLocaleDateString("en-NZ")} – ${weekEnd.toLocaleDateString("en-NZ")}`,
           brandData || "No brand data available — generate generic NZ small business content calendar.",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (calendar) {
@@ -434,7 +434,7 @@ Rules:
 Format for WhatsApp delivery. Keep under 800 chars.
 Today: ${dayOfWeek}, ${new Date().toLocaleDateString("en-NZ")}`,
           dnaData || "No brand DNA available — generate a generic NZ business post with professional tone.",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (post) {
@@ -471,7 +471,7 @@ Include:
 Be direct and actionable. This is for a busy NZ business owner.
 Keep under 600 chars. Format for WhatsApp.`,
           perfData || "No performance data available yet — generate a starter performance framework and suggest what metrics to begin tracking.",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (review) {
@@ -515,7 +515,7 @@ Flag anything overdue as ⚠️ OVERDUE.
 Current date: ${new Date().toLocaleDateString("en-NZ")}
 Format as a one-page status report. Keep under 1200 chars.`,
           farmData || "No farm data available — generate a generic NZ farm compliance checklist.",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (sweep) {
@@ -557,7 +557,7 @@ Also include:
 Format for WhatsApp/SMS delivery. Use emojis. Keep under 800 chars.
 Current date: ${new Date().toLocaleDateString("en-NZ")}`,
           farmInfo || "No farm data — generate generic NZ autumn/winter farming advisory.",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (advisory) {
@@ -594,7 +594,7 @@ Penalties: Up to $5,000 per infringement, $100,000 court fine.
 Be direct and helpful. Keep under 500 chars.
 Current date: ${new Date().toLocaleDateString("en-NZ")}`,
           naitInfo || "No NAIT data — generate generic NAIT compliance reminder for NZ farmer.",
-          "google/gemini-2.5-flash-lite"
+          "gemini-2.5-flash-lite"
         );
 
         if (reminder) {
@@ -635,7 +635,7 @@ Write a brief, non-intrusive wellbeing message:
 
 Keep under 400 chars. Format for SMS/WhatsApp.`,
           context || "Generic NZ farmer",
-          "google/gemini-2.5-flash-lite"
+          "gemini-2.5-flash-lite"
         );
 
         if (checkin) {
@@ -672,7 +672,7 @@ Include:
 Keep under 600 chars. Be factual and specific. Use $/kgMS format.
 Current date: ${new Date().toLocaleDateString("en-NZ")}`,
           dairyInfo || "No dairy data — generate generic Fonterra season update.",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (update) {
@@ -708,7 +708,7 @@ Include:
 Keep under 600 chars. Be actionable. Use $/kg carcass weight format.
 Current date: ${new Date().toLocaleDateString("en-NZ")}`,
           meatInfo || "No livestock data — generate generic NZ meat schedule overview.",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (alert) {
@@ -741,7 +741,7 @@ Keep under 500 chars. Use ✅ and 📝 emojis.
 Current date: ${new Date().toLocaleDateString("en-NZ")}
 Day: ${new Date().toLocaleDateString("en-NZ", { weekday: "long" })}`,
           "Generate daily opening FCP check prompt",
-          "google/gemini-2.5-flash-lite"
+          "gemini-2.5-flash-lite"
         );
 
         if (alert && user_id) {
@@ -787,7 +787,7 @@ Include:
 Flag any gaps. Keep under 800 chars. Be specific and actionable.
 Current date: ${new Date().toLocaleDateString("en-NZ")}`,
           hospInfo || "Generate generic verification prep pack",
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         if (pack) {
@@ -829,7 +829,7 @@ Include:
 
 Keep under 500 chars. Be specific.`,
           licenceInfo || "Generate generic liquor licence renewal alert",
-          "google/gemini-2.5-flash-lite"
+          "gemini-2.5-flash-lite"
         );
 
         if (renewal) {
@@ -872,7 +872,7 @@ Include:
 Keep under 500 chars. Practical and actionable.
 Current date: ${new Date().toLocaleDateString("en-NZ")}`,
           opsInfo || "Generate generic weekend prep brief",
-          "google/gemini-2.5-flash-lite"
+          "gemini-2.5-flash-lite"
         );
 
         if (brief) {
@@ -930,7 +930,7 @@ Rules:
 - Return empty array [] if no significant changes
 - Current date: ${new Date().toISOString()}`,
           `Scan all ${sources.length} NZ government and industry sources.`,
-          "google/gemini-2.5-flash"
+          "gemini-2.5-flash"
         );
 
         let changesInserted = 0;
@@ -1013,7 +1013,7 @@ Identify:
 
 Keep under 300 chars. Be specific and actionable.`,
               `Analyse feedback patterns for ${agentId}`,
-              "google/gemini-2.5-flash-lite"
+              "gemini-2.5-flash-lite"
             );
 
             if (insight) {

@@ -7,10 +7,10 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
+const GATEWAY = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
 
 /* ── Gemini helper ── */
-async function callGemini(apiKey: string, systemPrompt: string, userContent: any[], model = "google/gemini-2.5-pro"): Promise<string> {
+async function callGemini(apiKey: string, systemPrompt: string, userContent: any[], model = "gemini-2.5-pro"): Promise<string> {
   const res = await fetch(GATEWAY, {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
@@ -136,7 +136,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
     const body = await req.json();
@@ -211,7 +211,7 @@ Deno.serve(async (req) => {
         modelPrompt = await callGemini(LOVABLE_API_KEY, MODEL_PROMPT_PROMPT, [
           { type: "text", text: "Analyse this plan for 3D generation:" },
           { type: "image_url", image_url: { url: imageBase64 } },
-        ], "google/gemini-2.5-flash");
+        ], "gemini-2.5-flash");
       }
       if (!modelPrompt) throw new Error("Provide imageBase64 or prompt for generation");
 

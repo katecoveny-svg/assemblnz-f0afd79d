@@ -32,7 +32,7 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
 
     // Verify user
     const userClient = createClient(supabaseUrl, anonKey, {
@@ -92,14 +92,14 @@ Deno.serve(async (req) => {
     // Get AI response
     let aiResponse = "";
     try {
-      const aiRes = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const aiRes = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${LOVABLE_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash-lite",
+          model: "gemini-2.5-flash-lite",
           messages: [
             {
               role: "system",
@@ -151,7 +151,7 @@ Deno.serve(async (req) => {
       overall_verdict: overallVerdict,
       audit_entry: {
         duration_ms: durationMs,
-        model: "google/gemini-2.5-flash-lite",
+        model: "gemini-2.5-flash-lite",
         stages: verdicts,
         timestamp: new Date().toISOString(),
       },

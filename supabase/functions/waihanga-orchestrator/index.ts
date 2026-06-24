@@ -13,7 +13,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const LOVABLE_AI = "https://ai.gateway.lovable.dev/v1/chat/completions";
+const LOVABLE_AI = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
 
 type WorkflowType =
   | "retention_compliance_loop" | "payment_claim_generator" | "daily_site_safety" | "consent_readiness_precheck"
@@ -97,7 +97,7 @@ function getSupabase(authHeader?: string) {
 }
 
 async function callAgent(agent: string, userPrompt: string, kbContext: string, supabase: ReturnType<typeof getSupabase>): Promise<string> {
-  const apiKey = Deno.env.get("LOVABLE_API_KEY");
+  const apiKey = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
   if (!apiKey) throw new Error("LOVABLE_API_KEY missing");
   const role = AGENT_ROLES[agent] || `You are ${agent}, a NZ specialist agent.`;
   const sys = `${role}\n\nGROUNDING (cite where relevant):\n${kbContext}\n\nHARD RULES: Never invent statute sections. Never authorise payments or send emails autonomously — always draft for human review. Use NZD and NZ English spelling.`;
@@ -246,7 +246,7 @@ serve(async (req) => {
     }).eq("id", run.id);
 
     await supabase.from("audit_log").insert({
-      user_id: userId, agent_code: "MANA", agent_name: "MANA", model_used: "google/gemini-2.5-flash",
+      user_id: userId, agent_code: "MANA", agent_name: "MANA", model_used: "gemini-2.5-flash",
       compliance_passed: true, request_summary: `${chain.sector}: ${workflow}`,
       response_summary: final.slice(0, 500), policies_checked: chain.kbTopics, pii_detected: false, pii_masked: false,
     }).then(() => {}).catch((e) => console.warn("audit_log write failed:", e?.message));

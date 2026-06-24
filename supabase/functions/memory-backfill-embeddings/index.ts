@@ -24,7 +24,7 @@ async function embed(text: string): Promise<number[]> {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "openai/text-embedding-3-small",
+      model: "text-embedding-004",
       input: text,
     }),
   });

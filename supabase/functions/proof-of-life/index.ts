@@ -24,7 +24,7 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+    const lovableApiKey = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     const supabase = createClient(supabaseUrl, serviceKey);
 
     // Accept either a specific tenant_id or process all pending
@@ -121,14 +121,14 @@ Respond in JSON:
 }`;
 
           try {
-            const res = await fetch("https://ai.lovable.dev/chat/completions", {
+            const res = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${lovableApiKey}`,
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                model: "google/gemini-2.5-flash",
+                model: "gemini-2.5-flash",
                 messages: [{ role: "user", content: prompt }],
                 response_format: { type: "json_object" },
               }),

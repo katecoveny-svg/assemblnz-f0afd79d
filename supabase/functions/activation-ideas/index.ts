@@ -23,21 +23,21 @@ Deno.serve(async (req) => {
 
     const { charityName, matchScore, dimensions, whyMatched } = await req.json();
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
 
     const systemPrompt = `You are an activation strategist for corporate-charity partnerships in New Zealand. Given a corporate sponsor matched with a charity, suggest exactly 5 activation ideas across these categories: Co-Branded Campaign, Event Activation, Digital & Social, Community Engagement, Employee Programme. For each idea provide: title, category, description (2 sentences max), estimatedReach (e.g. "5,000-10,000 people"), budgetRange (e.g. "$2,000-$5,000"), and timeline (e.g. "4-6 weeks").`;
 
     const userPrompt = `The corporate sponsor has been matched with "${charityName}" (${matchScore}% match). Match dimensions: ${dimensions.map((d: any) => `${d.label}: ${d.score}%`).join(", ")}. Why matched: ${whyMatched}. Generate 5 activation ideas.`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: userPrompt },

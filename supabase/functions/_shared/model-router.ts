@@ -12,7 +12,7 @@
 //
 //   import { resolveModel } from "../_shared/model-router.ts";
 //   const model = await resolveModel("flux", supabase);
-//   // → e.g. "google/gemini-3-flash-preview" or DEFAULT_MODEL
+//   // → e.g. "gemini-2.5-flash" or DEFAULT_MODEL
 //
 // When Iho Level C (full router) ships in `_shared/iho.ts`, this helper
 // becomes a thin sub-call of that router. For now it is the only Level B
@@ -21,23 +21,23 @@
 
 import type { SupabaseClient } from "jsr:@supabase/supabase-js@2";
 
-export const DEFAULT_MODEL = "google/gemini-2.5-flash";
+export const DEFAULT_MODEL = "gemini-2.5-flash";
 
 // Maps DB-stored short names ("gemini-2.5-flash") to fully-qualified
-// gateway model strings ("google/gemini-2.5-flash"). Mirrors the prefix
+// gateway model strings ("gemini-2.5-flash"). Mirrors the prefix
 // normaliser in agent-router/index.ts (Map A) so behaviour is consistent.
 const PREFIX_MAP: Record<string, string> = {
-  "gemini-2.5-flash": "google/gemini-2.5-flash",
-  "gemini-2.5-pro": "google/gemini-2.5-pro",
-  "gemini-3.1-pro-preview": "google/gemini-3.1-pro-preview",
-  "gemini-3-flash-preview": "google/gemini-3-flash-preview",
-  "gemini-2.5-flash-lite": "google/gemini-2.5-flash-lite",
-  "gemini-2.5-flash-image": "google/gemini-2.5-flash-image",
-  "gpt-5": "openai/gpt-5",
-  "gpt-5-mini": "openai/gpt-5-mini",
-  "gpt-5-nano": "openai/gpt-5-nano",
-  "gpt-5.2": "openai/gpt-5.2",
-  "claude-sonnet-4-5": "anthropic/claude-sonnet-4-5",
+  "gemini-2.5-flash": "gemini-2.5-flash",
+  "gemini-2.5-pro": "gemini-2.5-pro",
+  "gemini-3.1-pro-preview": "gemini-2.5-pro",
+  "gemini-3-flash-preview": "gemini-2.5-flash",
+  "gemini-2.5-flash-lite": "gemini-2.5-flash-lite",
+  "gemini-2.5-flash-image": "gemini-2.5-flash-image",
+  "gpt-5": "gemini-2.5-pro",
+  "gpt-5-mini": "gemini-2.5-flash",
+  "gpt-5-nano": "gemini-2.5-flash",
+  "gpt-5.2": "gemini-2.5-pro",
+  "claude-sonnet-4-5": "gemini-2.5-pro",
 };
 
 function normalise(pref: string | null | undefined): string {

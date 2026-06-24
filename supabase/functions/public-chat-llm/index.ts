@@ -56,7 +56,7 @@ const SUPPORTED_KETE = new Set([
 // Free through the gateway (vs $0.0008/req for Haiku), proven good enough for
 // demo Q&A, and already the model_preference for 6 of 9 kete in agent_prompts.
 // Cost: ~$0 per session at low volume. Suitable for an anonymous demo surface.
-const PUBLIC_CHAT_MODEL = "google/gemini-2.5-flash";
+const PUBLIC_CHAT_MODEL = "gemini-2.5-flash";
 // Default cap. Suitable for public chat (3-5 sentences per preamble).
 // Workflow callers should override via the maxTokens field to 2500.
 const MAX_TOKENS = 600;

@@ -109,7 +109,7 @@ Deno.serve(async (req) => {
     });
   }
 
-  const apiKey = Deno.env.get("LOVABLE_API_KEY");
+  const apiKey = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
   if (!apiKey) {
     return new Response(JSON.stringify({ error: "LOVABLE_API_KEY not configured" }), {
       status: 500,
@@ -156,11 +156,11 @@ Deno.serve(async (req) => {
   const hintIsThin = !topicHint || topicHint.trim().length < 8;
   if (imageDataUrl && hintIsThin) {
     try {
-      const labelResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const labelResp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
         method: "POST",
         headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "google/gemini-3-flash-preview",
+          model: "gemini-2.5-flash",
           messages: [
             {
               role: "system",
@@ -220,14 +220,14 @@ Deno.serve(async (req) => {
   if (imageDataUrl) userParts.push({ type: "image_url", image_url: { url: imageDataUrl, detail: "high" } });
 
   try {
-    const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const aiResp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
+        model: "gemini-2.5-flash",
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
           { role: "user", content: userParts },
