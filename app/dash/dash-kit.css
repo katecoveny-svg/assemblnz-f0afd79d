@@ -4,7 +4,8 @@
    EVERY selector is namespaced under .dash-kit so these tokens and
    component styles never bleed into the rest of assembl.co.nz, which
    keeps its own mārama-whenua palette. Fonts come from next/font
-   (--font-dash-sans = Mulish, --font-dash-serif = Cormorant Garamond),
+   (--font-dash-sans = Lato 900 wordmark + UI, --font-dash-mono = Space Mono);
+   dash NEVER uses Cormorant — both --ff-serif and --ff-sans map to Lato below.
    wired in app/dash/layout.tsx.
    ============================================================ */
 
@@ -82,6 +83,16 @@
 .dash-kit *::before,
 .dash-kit *::after {
   box-sizing: border-box;
+}
+
+/* CANON-LOCKED-2026-06-23: dash diverges from assembl — its wordmark and every
+   headline is Lato 900, NEVER Cormorant. The global h1–h6 rule (app/globals.css)
+   sets the assembl display face (Cormorant); this element-targeted reset pulls
+   every heading inside the dash subtree back to the dash sans face, so bare
+   <h1>/<h2> (e.g. the hero "Get paid to wait.") render in Lato. Mirrors the
+   .mk-root heading rule that keeps assembl surfaces on Cormorant. */
+.dash-kit :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--ff-sans);
 }
 
 /* ---------- type ---------- */

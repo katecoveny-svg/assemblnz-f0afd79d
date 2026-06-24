@@ -23,9 +23,10 @@ type PlanProps = {
   agentCount: number | null;
 };
 
+// assembl marketplace headline (CANON-LOCKED-2026-06-23): Cormorant Garamond.
 const DISPLAY: React.CSSProperties = {
-  fontFamily: 'var(--mk-display), sans-serif',
-  fontWeight: 900,
+  fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif',
+  fontWeight: 600,
   letterSpacing: '-0.02em',
 };
 
