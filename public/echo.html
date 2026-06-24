@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Echo</title>
+<meta name="theme-color" content="#3A3832" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Echo" />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="manifest" href="/echo-manifest.webmanifest" />
+<link rel="apple-touch-icon" href="/echo-icon-180.png" />
+<link rel="icon" href="/echo-icon-192.png" />
+<style>
+  :root { --ink:#3A3832; --ink2:#2E2C28; --can:#FFD42A; --gold:#C79B1F; --cream:#FFF7EC; --muted:#A8A498; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { margin:0; height:100%; }
+  body {
+    background:radial-gradient(120% 80% at 50% -10%, #46443d 0%, var(--ink) 55%, var(--ink2) 100%);
+    color:var(--cream); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    min-height:100%; padding:max(env(safe-area-inset-top),22px) 20px calc(env(safe-area-inset-bottom) + 28px);
+    display:flex; flex-direction:column; gap:22px;
+  }
+  header { display:flex; flex-direction:column; gap:6px; }
+  .mark { display:flex; align-items:center; gap:10px; }
+  .mark svg { width:34px; height:34px; }
+  .word { font-size:30px; font-weight:600; letter-spacing:-0.02em; }
+  .greet { color:var(--muted); font-size:15px; }
+  .meta { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-top:2px; }
+  .date { font-size:15px; color:var(--cream); }
+  .mode { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--ink); background:var(--can); padding:3px 9px; border-radius:999px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+  a.tile {
+    display:flex; flex-direction:column; justify-content:space-between; min-height:118px;
+    padding:15px; border-radius:18px; text-decoration:none; color:var(--cream);
+    background:rgba(255,247,236,0.06); border:1px solid rgba(255,247,236,0.10);
+    transition:transform .08s ease, background .15s ease;
+  }
+  a.tile:active { transform:scale(0.97); background:rgba(255,247,236,0.11); }
+  a.tile.accent { background:var(--can); color:var(--ink); border-color:transparent; }
+  .ti { font-size:24px; line-height:1; }
+  .tl { font-size:15px; font-weight:600; letter-spacing:-0.01em; }
+  .ts { font-size:12px; color:var(--muted); margin-top:2px; }
+  a.tile.accent .ts { color:rgba(58,56,50,0.7); }
+  footer { margin-top:auto; color:var(--muted); font-size:12px; text-align:center; }
+  .full { grid-column:1 / -1; min-height:auto; flex-direction:row; align-items:center; gap:12px; }
+  .full .ti { font-size:20px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="mark">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke-width="4.8" stroke-linecap="round">
+        <path d="M8 14 H32" stroke="#FFD42A"/><path d="M8 26 H32" stroke="#C79B1F"/>
+        <path d="M14 8 V32" stroke="#FFF1C2"/><path d="M26 8 V32" stroke="#FFD42A"/></g></svg>
+      <span class="word">echo</span>
+    </div>
+    <div class="greet">kia ora, Kate — your private co-pilot</div>
+    <div class="meta"><span class="date" id="date"></span><span class="mode" id="mode"></span></div>
+  </header>
+
+  <div class="grid">
+    <a class="tile accent" href="https://mail.google.com/mail/u/0/#search/Echo+brief">
+      <div class="ti">📥</div><div><div class="tl">Today's brief</div><div class="ts">Read it in Gmail</div></div>
+    </a>
+    <a class="tile" href="https://claude.ai/new">
+      <div class="ti">💬</div><div><div class="tl">Talk to Echo</div><div class="ts">Open Claude</div></div>
+    </a>
+    <a class="tile" href="mailto:assembl@assembl.co.nz?subject=Idea%20for%20Echo&body=Idea%3A%0A%0AWhy%20it%20matters%3A%0A%0ANext%20step%3A">
+      <div class="ti">💡</div><div><div class="tl">Capture an idea</div><div class="ts">Echo picks it up</div></div>
+    </a>
+    <a class="tile" href="https://assembl.co.nz/agents">
+      <div class="ti">✦</div><div><div class="tl">assembl</div><div class="ts">Your agents</div></div>
+    </a>
+    <a class="tile full" href="https://assembl.co.nz/dash">
+      <div class="ti">▦</div><div><div class="tl">Dash by assembl</div><div class="ts">Open the dashboard</div></div>
+    </a>
+  </div>
+
+  <footer>Echo runs every morning at 9:30 and emails your brief. Drafts only — nothing's sent without you.</footer>
+
+<script>
+  // Date + week mode (focus week vs family week). Anchor: Monday 22 June 2026 = focus week.
+  (function () {
+    var now = new Date();
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('date').textContent =
+      days[now.getDay()] + ' ' + now.getDate() + ' ' + months[now.getMonth()];
+    // Monday of the current week
+    var d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var dow = (d.getDay() + 6) % 7; // 0 = Monday
+    var monday = new Date(d); monday.setDate(d.getDate() - dow);
+    var anchor = new Date(2026, 5, 22); // 22 Jun 2026 (focus week)
+    var weeks = Math.round((monday - anchor) / (7 * 24 * 3600 * 1000));
+    var focus = (((weeks % 2) + 2) % 2) === 0;
+    document.getElementById('mode').textContent = focus ? 'Focus week' : 'Family week';
+  })();
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/echo-sw.js').catch(function(){});
+  }
+</script>
+</body>
+</html>
