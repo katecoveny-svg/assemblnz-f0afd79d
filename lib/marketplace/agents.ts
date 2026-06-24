@@ -1073,6 +1073,37 @@ const AGENT_DEFS: AgentDef[] = [
       'I am not sure what to build — help me figure it out.',
     ],
   },
+  {
+    slug: 'prism',
+    name: 'Prism',
+    teReo: '',
+    description:
+      'The creative studio in one chat — brand DNA, campaigns, social, video and design direction, drafted on-brand for you to approve.',
+    whatItDoes: [
+      'Reads your site into a Brand DNA, then keeps every piece on-brand.',
+      'Turns a one-line brief into a full cross-platform campaign, content calendar or video storyboard.',
+      'Gives real design direction — palettes with hex, type, composition — and presents distinct directions to choose from.',
+    ],
+    whatYouGet: [
+      'Campaign sets: Instagram, Story, Reel script, LinkedIn, Facebook, email and ad copy.',
+      'A monthly content calendar mapped to the NZ calendar, with a brief per post.',
+      'Logo and design directions, and video storyboards — all drafts for you to approve.',
+    ],
+    sampleOutputs: [
+      'Three directions for "fresh and edgy", each with palette, type and a sample post.',
+      'A Matariki series — respectful, in te reo where genuine, flagged for kaitiaki review.',
+    ],
+    nzKnowledge: ['NZ social trends and posting times', 'Matariki, Waitangi, ANZAC (handled with care)', 'Copyright Act 1994', 'Fair Trading Act 1986 and ASA codes', 'te reo Māori with macrons'],
+    skills: ['prism-creative-studio'],
+    category: 'creative',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'spark',
+    tile: 'canary',
+    greeting:
+      'Kia ora. Before I make anything, tell me about your brand — the real version — and your site or socials if you have them. I will build your Brand DNA so everything I draft is unmistakably yours. I draft and direct; you approve before anything is published.',
+    starters: ['Build a campaign from one line.', 'Plan our content for next month.'],
+  },
 ];
 
 export const MARKETPLACE_AGENTS: MarketplaceAgent[] = AGENT_DEFS.map(buildAgent);
