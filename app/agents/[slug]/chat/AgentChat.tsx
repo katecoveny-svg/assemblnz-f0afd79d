@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
-import { ArrowLeft, ArrowUp, FileDown, Lock } from 'lucide-react';
+import { ArrowLeft, ArrowUp, FileDown, ImagePlus, Lock, X } from 'lucide-react';
 import { PALETTE, type PublicMarketplaceAgent } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { DashLoader } from '@/components/marketplace/DashLoader';
@@ -21,6 +21,15 @@ function messageText(message: UIMessage): string {
     .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
     .map((p) => p.text)
     .join('');
+}
+
+/** Pull image attachment URLs (data URLs) out of a UIMessage's file parts. */
+function messageImages(message: UIMessage): string[] {
+  return message.parts
+    .filter((p) => p.type === 'file')
+    .map((p) => p as unknown as { url?: string; mediaType?: string })
+    .filter((p) => typeof p.url === 'string' && (p.mediaType ?? '').startsWith('image/'))
+    .map((p) => p.url as string);
 }
 
 type Paywall = { message: string } | null;
@@ -50,6 +59,8 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
   });
 
   const [input, setInput] = useState('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Voice input appends the spoken text to the composer for the user to review.
@@ -65,8 +76,18 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
 
   function submit(text: string) {
     const trimmed = text.trim();
-    if (!trimmed || busy || paywall) return;
-    sendMessage({ text: trimmed });
+    if ((!trimmed && !imageFile) || busy || paywall) return;
+    if (imageFile) {
+      const dt = new DataTransfer();
+      dt.items.add(imageFile);
+      sendMessage({
+        text: trimmed || 'Please read this photo and pull out the important details.',
+        files: dt.files,
+      });
+      setImageFile(null);
+    } else {
+      sendMessage({ text: trimmed });
+    }
     setInput('');
   }
 
@@ -160,11 +181,23 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
         <div className="mx-auto flex max-w-2xl flex-col gap-4">
           {messages.map((m) => {
             const raw = messageText(m);
-            if (!raw) return null;
+            const imgs = m.role === 'user' ? messageImages(m) : [];
+            if (!raw && imgs.length === 0) return null;
             const isUser = m.role === 'user';
             const { text, visuals } = isUser ? { text: raw, visuals: [] } : parseVisuals(raw);
             return (
               <div key={m.id} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
+                {imgs.length > 0 ? (
+                  <div className="mb-1 flex w-full max-w-[85%] flex-col gap-1">
+                    {imgs.map((src, i) => (
+                      <div
+                        key={i}
+                        className="w-full rounded-[16px] border bg-cover bg-center"
+                        style={{ borderColor: PALETTE.hairline, backgroundImage: `url(${src})`, height: 200 }}
+                      />
+                    ))}
+                  </div>
+                ) : null}
                 {text ? (
                   <div
                     className="max-w-[85%] rounded-[20px] px-4 py-3 text-sm leading-relaxed"
@@ -261,6 +294,26 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
 
       {/* Composer */}
       <div className="border-t px-4 py-3 md:px-6" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
+        {imageFile ? (
+          <div className="mx-auto mb-2 flex max-w-2xl items-center gap-2">
+            <div
+              className="h-12 w-12 shrink-0 rounded-lg border bg-cover bg-center"
+              style={{ borderColor: PALETTE.hairline, backgroundImage: `url(${URL.createObjectURL(imageFile)})` }}
+            />
+            <span className="truncate text-xs" style={{ color: PALETTE.muted }}>
+              {imageFile.name}
+            </span>
+            <button
+              type="button"
+              onClick={() => setImageFile(null)}
+              aria-label="Remove photo"
+              className="rounded-full p-1 hover:bg-black/5"
+              style={{ color: PALETTE.ink }}
+            >
+              <X size={14} aria-hidden />
+            </button>
+          </div>
+        ) : null}
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -268,6 +321,29 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
           }}
           className="mx-auto flex max-w-2xl items-end gap-2"
         >
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) setImageFile(f);
+              e.target.value = '';
+            }}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={!!paywall}
+            aria-label="Add a photo"
+            title="Add a photo"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition disabled:opacity-40"
+            style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
+          >
+            <ImagePlus size={18} aria-hidden />
+          </button>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -286,7 +362,7 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
           <MicButton onTranscript={handleTranscript} disabled={!!paywall} ink={PALETTE.ink} />
           <button
             type="submit"
-            disabled={busy || !input.trim() || !!paywall}
+            disabled={busy || (!input.trim() && !imageFile) || !!paywall}
             aria-label="Send"
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition disabled:opacity-40"
             style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
