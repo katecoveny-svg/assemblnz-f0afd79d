@@ -38,7 +38,7 @@ const corsHeaders = {
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY") ?? "";
+const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY") ?? "";
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
 
 const adminDb = createClient(SUPABASE_URL, SERVICE_ROLE, {
@@ -98,7 +98,7 @@ async function callGateway(
   if (!LOVABLE_API_KEY) {
     return { ok: false, status: 503, error: "gateway_not_configured" };
   }
-  const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const r = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -185,7 +185,7 @@ async function processOne(t: DueThought): Promise<{ id: string; ok: boolean; ms:
     "[Live data snapshot]",
     JSON.stringify(liveSnapshot).slice(0, 12000),
   ].join("\n");
-  const result = await callGateway(spec.systemPrompt + contextBlock, userPrompt, "openai/gpt-5");
+  const result = await callGateway(spec.systemPrompt + contextBlock, userPrompt, "gemini-2.5-pro");
   const ms = Date.now() - start;
 
   if (!result.ok) {

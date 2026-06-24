@@ -370,7 +370,7 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
 
     // --- PARSE INBOUND PAYLOAD (multi-source: TextBee + Chatwoot + TNZ) ---
     const payload = await req.json();
@@ -824,7 +824,7 @@ Deno.serve(async (req) => {
 
     // --- STEP 8: DISPATCH TO HANDLER OR DEFAULT PATH ---
     let aiReply = "Kia ora! I'm having trouble processing that right now. Please try again shortly.";
-    let modelUsed = "google/gemini-2.5-flash";
+    let modelUsed = "gemini-2.5-flash";
     let agentUsed = selectedKete.slug;
 
     let actualMessage = messageBody;
@@ -903,7 +903,7 @@ Deno.serve(async (req) => {
         const fullPrompt = `${systemPrompt}${SMS_BEHAVIOUR}\nCurrent NZ date/time: ${nzTime}\n\nEnd every response with your signature: ${signature}`;
 
         try {
-          const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+          const aiResp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

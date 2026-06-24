@@ -47,7 +47,7 @@ async function extractFacts(conversationText: string): Promise<any[]> {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "anthropic/claude-haiku-4-5",
+      model: "gemini-2.5-flash",
       messages: [
         { role: "system", content: EXTRACTION_PROMPT },
         { role: "user", content: conversationText.slice(0, 30000) },
@@ -75,7 +75,7 @@ async function embed(text: string): Promise<number[]> {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "openai/text-embedding-3-small",
+      model: "text-embedding-004",
       input: text,
     }),
   });

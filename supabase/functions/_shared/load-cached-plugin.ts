@@ -24,7 +24,7 @@ export interface LoadedCachedPlugin {
   slug: string;
   pack: string;
   systemPrompt: string;
-  /** Fully-qualified model id (e.g. "anthropic/claude-haiku-4-5-20251001"). */
+  /** Fully-qualified model id (e.g. "gemini-2.5-flash"). */
   model: string;
   /** Schema version of the cached row (for cache invalidation). */
   version: number;
@@ -75,7 +75,7 @@ export async function loadCachedPlugin(
       pack: data.pack as string,
       systemPrompt: data.system_prompt as string,
       model: (data.model_preference as string | null)
-        ?? "anthropic/claude-haiku-4-5-20251001",
+        ?? "gemini-2.5-flash",
       version: (data.version as number | null) ?? 1,
     };
   } catch {

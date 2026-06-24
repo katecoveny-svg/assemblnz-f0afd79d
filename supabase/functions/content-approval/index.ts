@@ -264,7 +264,7 @@ Deno.serve(async (req) => {
     // ═══ ACTION: GENERATE — AI generates content and sends for approval ═══
     if (action === "generate") {
       const { platform: targetPlatform, topic, brandDna } = body;
-      const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+      const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
       if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
       // Load brand profile
@@ -281,7 +281,7 @@ Deno.serve(async (req) => {
         }
       }
 
-      const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const aiResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

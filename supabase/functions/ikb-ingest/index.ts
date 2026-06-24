@@ -28,8 +28,8 @@ const corsHeaders = {
 };
 
 const FIRECRAWL_V2 = "https://api.firecrawl.dev/v2";
-const LOVABLE_AI_BASE = "https://ai.gateway.lovable.dev/v1";
-const EMBED_MODEL = "openai/text-embedding-3-small"; // 768-dim via dimensions param
+const LOVABLE_AI_BASE = "https://generativelanguage.googleapis.com/v1beta/openai";
+const EMBED_MODEL = "text-embedding-004"; // 768-dim via dimensions param
 const EMBED_DIMENSIONS = 768;
 const CHUNK_SIZE = 1200;
 const CHUNK_OVERLAP = 150;
@@ -220,7 +220,7 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const firecrawlKey = Deno.env.get("FIRECRAWL_API_KEY");
-    const lovableKey = Deno.env.get("LOVABLE_API_KEY");
+    const lovableKey = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
 
     if (!firecrawlKey) {
       return new Response(JSON.stringify({ error: "FIRECRAWL_API_KEY is not configured" }), {

@@ -23,7 +23,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const AI_GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
+const AI_GATEWAY = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
 const FAL_BASE = "https://queue.fal.run/fal-ai/kling-video/v1/standard/text-to-video";
 
 function respond(body: Record<string, unknown>, status = 200) {
@@ -41,7 +41,7 @@ async function generatePrompts(apiKey: string, topic: string, count: number, aud
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
+      model: "gemini-2.5-flash",
       messages: [
         { role: "system", content: sys },
         { role: "user", content: user },
@@ -129,7 +129,7 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     const FAL_API_KEY = Deno.env.get("FAL_API_KEY");
 
     if (!FAL_API_KEY) return respond({ error: "FAL_API_KEY not configured" }, 500);

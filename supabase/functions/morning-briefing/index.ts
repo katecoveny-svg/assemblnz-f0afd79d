@@ -22,7 +22,7 @@ const corsHeaders = {
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY") ?? "";
+const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY") ?? "";
 const FROM_DOMAIN = Deno.env.get("ASSEMBL_EMAIL_FROM_DOMAIN") ?? "assembl.co.nz";
 const SENDER_DOMAIN = Deno.env.get("RESEND_SENDER_DOMAIN") ?? FROM_DOMAIN;
 
@@ -170,11 +170,11 @@ async function callGatewayDraft(
     live_context: liveContext,
     metadata: { endpoint_signal: endpointSignal },
   }, agent);
-  const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const response = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "openai/gpt-5",
+      model: "gemini-2.5-pro",
       messages: [
         {
           role: "system",

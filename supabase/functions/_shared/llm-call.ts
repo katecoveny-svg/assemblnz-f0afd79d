@@ -41,7 +41,7 @@ export type LlmCallMeta = {
 };
 
 export type LlmCallOptions = {
-  model: string;                          // fully-qualified, e.g. "anthropic/claude-opus-4-6"
+  model: string;                          // fully-qualified, e.g. "gemini-2.5-pro"
   systemPrompt: string;
   messages: ChatMessage[];                // the user/assistant turn history (no system message)
   maxTokens?: number;
@@ -213,9 +213,9 @@ async function callGoogleDirect(opts: LlmCallOptions): Promise<Response> {
 
 // ─── Lovable Gateway (openai/* fallback path) ─────────────────────────────
 async function callGateway(opts: LlmCallOptions): Promise<Response> {
-  const key = Deno.env.get("LOVABLE_API_KEY");
+  const key = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
   if (!key) return errResponse(500, "LOVABLE_API_KEY not configured");
-  return await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  return await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
     body: JSON.stringify({

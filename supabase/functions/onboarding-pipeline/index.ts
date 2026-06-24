@@ -148,7 +148,7 @@ Deno.serve(async (req) => {
     // ─── STAGE 2: IHO — Classification ────────────────────────────
     console.log("[IHO] Classifying business…");
 
-    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+    const lovableApiKey = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     let classification = {
       kete_primary: intake.kete_requested !== "not-sure" ? intake.kete_requested : "ARATAKI",
       kete_secondary: null as string | null,
@@ -183,7 +183,7 @@ Respond in JSON only:
   "reasoning": "One sentence plain English explanation"
 }`;
 
-        const classifyRes = await fetch("https://ai.lovable.dev/chat/completions", {
+        const classifyRes = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${lovableApiKey}`,
@@ -241,7 +241,7 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
   "price": { "monthly_nzd": 890, "setup_nzd": 0, "includes": ["..."] }
 }`;
 
-        const planRes = await fetch("https://ai.lovable.dev/chat/completions", {
+        const planRes = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${lovableApiKey}`,
@@ -452,7 +452,7 @@ Write in plain English. No jargon. No buzzwords. Respond in JSON:
     }
 
     // 6f. Send magic link
-    const siteUrl = Deno.env.get("SITE_URL") || "https://assemblnz.lovable.app";
+    const siteUrl = Deno.env.get("SITE_URL") || "https://www.assembl.co.nz";
     const { error: magicLinkErr } = await supabase.auth.admin.generateLink({
       type: "magiclink",
       email: intake.contact_email,

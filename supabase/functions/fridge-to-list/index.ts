@@ -53,7 +53,7 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
-  const key = Deno.env.get("LOVABLE_API_KEY");
+  const key = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
   if (!key) return json({ error: "LOVABLE_API_KEY not configured" }, 500);
 
   const body = await req.json().catch(() => null);
@@ -67,11 +67,11 @@ serve(async (req) => {
     budget: String(body?.budget ?? "normal"),
   };
 
-  const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
+      model: "gemini-2.5-flash",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         {

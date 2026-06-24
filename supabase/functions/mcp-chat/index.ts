@@ -58,13 +58,13 @@ const MessageSchema = z.object({
 // Whitelisted gateway models the user can pick from in the in-chat settings
 // panel. Anything else falls back to the agent's default model.
 const ALLOWED_GATEWAY_MODELS = new Set([
-  "openai/gpt-5",
-  "openai/gpt-5-mini",
-  "openai/gpt-5-nano",
-  "google/gemini-2.5-pro",
-  "google/gemini-2.5-flash",
-  "google/gemini-2.5-flash-lite",
-  "google/gemini-3-flash-preview",
+  "gemini-2.5-pro",
+  "gemini-2.5-flash",
+  "gemini-2.5-flash",
+  "gemini-2.5-pro",
+  "gemini-2.5-flash",
+  "gemini-2.5-flash-lite",
+  "gemini-2.5-flash",
 ]);
 const ParamsSchema = z
   .object({
@@ -148,7 +148,7 @@ const corsHeaders = {
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
+const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY")!;
 
 const adminDb = createClient(SUPABASE_URL, SERVICE_ROLE, {
   auth: { persistSession: false },
@@ -166,37 +166,37 @@ type AgentSpec = {
 const AGENTS: Record<string, AgentSpec> = {
   toro: {
     toolset: "core",
-    model: "openai/gpt-5",
+    model: "gemini-2.5-pro",
     prompt:
       "You are Tōro, the Assembl family life navigator. You help busy NZ whānau coordinate school, pets, appointments, uniforms, shopping, and homework. Be warm, brief, practical. Use plain English with light te reo (kia ora, whānau, mahi). Never invent facts about the family — ask if you don't know.",
   },
   manaaki: {
     toolset: "manaaki",
-    model: "openai/gpt-5",
+    model: "gemini-2.5-pro",
     prompt:
       "You are Manaaki, Assembl's hospitality kete agent. You help NZ accommodation and food operators with bookings, guest comms, food safety, and rosters. Tikanga-aware. Always honour tapu/noa boundaries.",
   },
   waihanga: {
     toolset: "waihanga",
-    model: "openai/gpt-5",
+    model: "gemini-2.5-pro",
     prompt:
       "You are Waihanga, Assembl's construction kete agent. You help NZ builders with subbie compliance (LBP, SiteSafe, insurance), H&S, and procurement. Cite Building Act references when relevant.",
   },
   auaha: {
     toolset: "auaha",
-    model: "openai/gpt-5",
+    model: "gemini-2.5-pro",
     prompt:
       "You are Auaha, Assembl's creative kete agent. You generate brand-aligned copy, social posts, and creative briefs for NZ businesses. Use macrons correctly. Avoid AI-cliché phrasing.",
   },
   pakihi: {
     toolset: "pakihi",
-    model: "openai/gpt-5",
+    model: "gemini-2.5-pro",
     prompt:
       "You are Pakihi, Assembl's small business kete agent. You help NZ operators with contracts (CCA 2002), invoicing, and basic compliance. Always cite the legislation when giving legal-adjacent guidance.",
   },
   pikau: {
     toolset: "pikau",
-    model: "openai/gpt-5",
+    model: "gemini-2.5-pro",
     prompt:
       "You are Pikau, Assembl's freight & customs kete agent. You help NZ importers/exporters with declarations, MPI biosecurity, and shipment tracking. Be precise with HS codes and tariff rates.",
   },
@@ -663,7 +663,7 @@ Deno.serve(async (req) => {
     status: number;
     body: string;
   }> {
-    const upstream = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const upstream = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
       method: "POST",
       headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -6807,13 +6807,13 @@ function getCacheTTL(message: string): number {
 function calculateCost(model: string, usage: any): number {
   // Approximate costs via Lovable gateway (NZD)
   const rates: Record<string, { input: number; output: number }> = {
-    "google/gemini-3-flash-preview": { input: 0.0001, output: 0.0004 },
-    "google/gemini-2.5-flash-lite": { input: 0.00005, output: 0.0002 },
-    "google/gemini-2.5-pro": { input: 0.002, output: 0.01 },
-    "openai/gpt-5-mini": { input: 0.0005, output: 0.002 },
-    "openai/gpt-5": { input: 0.003, output: 0.015 },
+    "gemini-2.5-flash": { input: 0.0001, output: 0.0004 },
+    "gemini-2.5-flash-lite": { input: 0.00005, output: 0.0002 },
+    "gemini-2.5-pro": { input: 0.002, output: 0.01 },
+    "gemini-2.5-flash": { input: 0.0005, output: 0.002 },
+    "gemini-2.5-pro": { input: 0.003, output: 0.015 },
   };
-  const rate = rates[model] || rates["google/gemini-3-flash-preview"];
+  const rate = rates[model] || rates["gemini-2.5-flash"];
   const inputCost = (usage?.prompt_tokens || usage?.input_tokens || 0) / 1000 * rate.input;
   const outputCost = (usage?.completion_tokens || usage?.output_tokens || 0) / 1000 * rate.output;
   return (inputCost + outputCost) * 1.65;
@@ -6845,7 +6845,7 @@ Deno.serve(async (req) => {
  });
  }
 
- const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+ const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
  if (!LOVABLE_API_KEY) {
  return new Response(
  JSON.stringify({ error: "LOVABLE_API_KEY is not configured" }),
@@ -7147,11 +7147,11 @@ IMAGERY STYLE: When generating images, use the 'Dark Cosmic Aotearoa' aesthetic 
 
   // Allowed models whitelist for explicit user overrides only.
   const ALLOWED_MODELS_MAP: Record<string, string> = {
-   "gemini-flash": "google/gemini-3-flash-preview",
-   "gemini-pro": "google/gemini-2.5-pro",
-   "gemini-flash-lite": "google/gemini-2.5-flash-lite",
-   "gpt-5-mini": "openai/gpt-5-mini",
-   "gpt-5": "openai/gpt-5",
+   "gemini-flash": "gemini-2.5-flash",
+   "gemini-pro": "gemini-2.5-pro",
+   "gemini-flash-lite": "gemini-2.5-flash-lite",
+   "gpt-5-mini": "gemini-2.5-flash",
+   "gpt-5": "gemini-2.5-pro",
    };
 
   let selectedModel: string;
@@ -7573,7 +7573,7 @@ In Receptionist Mode, do NOT default to content creation or marketing strategy. 
  // callLlm dispatches directly to that provider. Gateway models (google/*,
  // openai/*) continue to flow through the Lovable AI Gateway as before.
  // Fallback chain stays on the gateway because flash-lite is always available.
- const FALLBACK_MODELS = [selectedModel, "google/gemini-2.5-flash-lite", "google/gemini-2.5-flash-lite"];
+ const FALLBACK_MODELS = [selectedModel, "gemini-2.5-flash-lite", "gemini-2.5-flash-lite"];
  let response: Response | null = null;
  let actualModelUsed = selectedModel;
  let attempts = 0;

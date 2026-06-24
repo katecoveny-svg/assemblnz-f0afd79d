@@ -22,8 +22,8 @@ const corsHeaders = {
  * regardless of the agent's normal model_preference.
  */
 
-const FORCED_MODEL = "google/gemini-2.5-flash-lite";
-const GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
+const FORCED_MODEL = "gemini-2.5-flash-lite";
+const GATEWAY_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
 
 interface E2EBody {
   agent_id?: string;
@@ -183,7 +183,7 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
 
     const userClient = createClient(supabaseUrl, anonKey, {
       global: { headers: { Authorization: authHeader } },

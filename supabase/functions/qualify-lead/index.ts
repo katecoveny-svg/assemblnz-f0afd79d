@@ -39,20 +39,20 @@ Deno.serve(async (req) => {
     }
 
     // Score lead using Lovable AI Gateway (Gemini)
-    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+    const lovableApiKey = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     let score = 50;
     let reasoning = "Default score - AI unavailable";
     let leadStatus = "warm";
 
     if (lovableApiKey) {
-      const aiRes = await fetch("https://ai-gateway.lovable.dev/v1/chat/completions", {
+      const aiRes = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${lovableApiKey}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: "gemini-2.5-flash",
           messages: [
             {
               role: "system",
@@ -123,7 +123,7 @@ hot = score > 70, warm = 50-70, cold = < 50`,
 <p>Thanks for getting in touch with Assembl. Your message stood out and I wanted to personally follow up.</p>
 <p>Based on what you've shared, I think our AI agents could make a real difference for your business. I'd love to have a quick chat about your needs.</p>
 <p>Would you be available for a 15-minute call this week? Just reply to this email and we can lock in a time.</p>
-<p>In the meantime, feel free to explore our agents at <a href="https://assemblnz.lovable.app" style="color:#00E5A0">assemblnz.lovable.app</a></p>
+<p>In the meantime, feel free to explore our agents at <a href="https://www.assembl.co.nz" style="color:#00E5A0">assemblnz.lovable.app</a></p>
 <p>Cheers,<br/>Kate<br/>Founder, Assembl</p>
 </div>`,
           }),

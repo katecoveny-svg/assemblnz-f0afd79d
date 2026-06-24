@@ -1,7 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
-const DEFAULT_MODEL = "google/gemini-2.5-flash";
+const DEFAULT_MODEL = "gemini-2.5-flash";
 const PROVIDER_PREFIXES = ["google/", "anthropic/", "openai/", "meta/", "deepseek/", "qwen/", "sambanova/", "perplexity/", "mistral/", "cohere/", "xai/"];
 
 const corsHeaders = {

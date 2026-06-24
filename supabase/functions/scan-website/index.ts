@@ -189,7 +189,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       return new Response(JSON.stringify({ error: "AI gateway not configured" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
@@ -404,11 +404,11 @@ IMPORTANT COLOUR RULES:
 - The primary_color should be the most prominent BRAND colour, not a background or text gray
 Be factual. Prioritise ACTUAL distinctive brand colours and fonts over guesses. brand_score = confidence 0-100.`;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${LOVABLE_API_KEY}` },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "gemini-2.5-flash",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Analyse this website and create a Brand DNA profile:\n\n${extractedDataContext}\n\nWEBSITE TEXT CONTENT:\n${words}${extraContext}` },

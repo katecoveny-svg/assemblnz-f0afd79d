@@ -44,7 +44,7 @@ const NZ_REGIONS = [
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
-  const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+  const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
   if (!LOVABLE_API_KEY) {
     return new Response(JSON.stringify({ error: "LOVABLE_API_KEY not configured" }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -86,11 +86,11 @@ OUTPUT: Return ONLY valid JSON: { "itinerary": [...days], "summary": "2-sentence
       const grounding = await gatherLiveGrounding(`Travel to ${destination} ${(interests || []).join(" ")}`, "voyage", sb);
       const groundedSystem = systemPrompt + grounding;
 
-      const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const aiResp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
         method: "POST",
         headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: "gemini-2.5-flash",
           messages: [
             { role: "system", content: groundedSystem },
             { role: "user", content: `Plan a ${dayCount}-day trip to ${destination || "South Island"} for ${travellers || 2} travellers. Budget: NZ$${budgetNzd || 2000}. Interests: ${(interests || []).join(", ") || "adventure, nature, food"}.` },
@@ -229,11 +229,11 @@ OUTPUT: Return ONLY valid JSON: { "itinerary": [...days], "summary": "2-sentence
     if (action === "discover") {
       const { region, interests, season } = params;
 
-      const aiResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      const aiResp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
         method: "POST",
         headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash-lite",
+          model: "gemini-2.5-flash-lite",
           messages: [
             { role: "system", content: "You are ODYSSEY. Return 6 NZ destination recommendations as JSON array: [{ name, region, description, highlights: string[], bestSeason, budgetRange, imageQuery }]. Use real places. Include hidden gems alongside popular spots." },
             { role: "user", content: `Suggest destinations in ${region || "all of NZ"} for someone interested in ${(interests || []).join(", ") || "general travel"} during ${season || "any season"}.` },

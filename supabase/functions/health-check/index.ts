@@ -54,7 +54,7 @@ Deno.serve(async (req) => {
 
     // Core services
     const checks = await Promise.all([
-      checkService("assembl_website", "https://assemblnz.lovable.app", { category: "frontend" }),
+      checkService("assembl_website", "https://www.assembl.co.nz", { category: "frontend" }),
       checkService("supabase_api", `${supabaseUrl}/rest/v1/`, {
         headers: { apikey: anonKey, Authorization: `Bearer ${anonKey}` },
         treatAuthAsOk: true,
@@ -85,7 +85,7 @@ Deno.serve(async (req) => {
       }),
       // TNZ API removed from health checks — endpoint returns errors and floods alert emails
       // AI Gateway (Lovable AI)
-      checkService("lovable_ai_gateway", "https://ai.gateway.lovable.dev/v1/chat/completions", {
+      checkService("lovable_ai_gateway", "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
         method: "OPTIONS",
         treatAuthAsOk: true,
         category: "ai",
@@ -226,7 +226,7 @@ Deno.serve(async (req) => {
                 <div style="margin-top:16px;padding:12px;background:#1a1a2e;border-radius:8px;font-size:12px">
                   <p style="margin:0;color:#71717A"><strong style="color:#D4A843">Healthy services:</strong> ${checks.filter(c => c.status === "ok").map(c => c.service_name).join(", ") || "None"}</p>
                 </div>
-                <p style="margin-top:16px;font-size:11px;color:#52525B">Check the <a href="https://assemblnz.lovable.app/admin/health" style="color:#D4A843">admin health dashboard</a> for details.</p>
+                <p style="margin-top:16px;font-size:11px;color:#52525B">Check the <a href="https://www.assembl.co.nz/admin/health" style="color:#D4A843">admin health dashboard</a> for details.</p>
               </div>`,
           }),
         });

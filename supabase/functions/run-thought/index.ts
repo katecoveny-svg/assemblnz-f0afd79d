@@ -26,7 +26,7 @@ const corsHeaders = {
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY")!;
+const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY")!;
 const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? "";
 
 const adminDb = createClient(SUPABASE_URL, SERVICE_ROLE, {
@@ -36,12 +36,12 @@ const adminDb = createClient(SUPABASE_URL, SERVICE_ROLE, {
 const Body = z.object({ thought_id: z.string().uuid() });
 
 const AGENT_MODEL: Record<string, { toolset: string; model: string; prompt: string }> = {
-  toro:     { toolset: "core",     model: "openai/gpt-5", prompt: "You are Tōro, the Assembl family life navigator. Be warm, brief, practical." },
-  manaaki:  { toolset: "manaaki",  model: "openai/gpt-5", prompt: "You are Manaaki, Assembl's hospitality kete agent. Tikanga-aware." },
-  waihanga: { toolset: "waihanga", model: "openai/gpt-5", prompt: "You are Waihanga, Assembl's construction kete agent. Cite Building Act references." },
-  auaha:    { toolset: "auaha",    model: "openai/gpt-5", prompt: "You are Auaha, Assembl's creative kete agent. Use macrons; avoid AI cliché." },
-  pakihi:   { toolset: "pakihi",   model: "openai/gpt-5", prompt: "You are Pakihi, Assembl's small business kete agent. Cite legislation." },
-  pikau:    { toolset: "pikau",    model: "openai/gpt-5", prompt: "You are Pikau, Assembl's freight & customs kete agent. Be precise with HS codes." },
+  toro:     { toolset: "core",     model: "gemini-2.5-pro", prompt: "You are Tōro, the Assembl family life navigator. Be warm, brief, practical." },
+  manaaki:  { toolset: "manaaki",  model: "gemini-2.5-pro", prompt: "You are Manaaki, Assembl's hospitality kete agent. Tikanga-aware." },
+  waihanga: { toolset: "waihanga", model: "gemini-2.5-pro", prompt: "You are Waihanga, Assembl's construction kete agent. Cite Building Act references." },
+  auaha:    { toolset: "auaha",    model: "gemini-2.5-pro", prompt: "You are Auaha, Assembl's creative kete agent. Use macrons; avoid AI cliché." },
+  pakihi:   { toolset: "pakihi",   model: "gemini-2.5-pro", prompt: "You are Pakihi, Assembl's small business kete agent. Cite legislation." },
+  pikau:    { toolset: "pikau",    model: "gemini-2.5-pro", prompt: "You are Pikau, Assembl's freight & customs kete agent. Be precise with HS codes." },
 };
 
 interface KbSnippet { content: string; source?: string | null }
@@ -86,7 +86,7 @@ function buildContextBlock(snippets: KbSnippet[], memories: MemHit[]): string {
 }
 
 async function callGateway(systemPrompt: string, userPrompt: string, model: string) {
-  const r = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const r = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({

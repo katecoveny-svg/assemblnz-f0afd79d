@@ -200,7 +200,7 @@ function runGuardCheck(pageId: string, region: string, flintResult: any) {
 
 // ── Fallback: Lovable AI copy generation ──────────────────────
 async function generateFallbackCopy(pageId: string, region: string, currentContent: string, instructions: string, seoTarget: string, page: any) {
-  const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+  const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
   if (!LOVABLE_API_KEY) return { result: { content: "Flint unavailable and no fallback AI configured" } };
 
   const prompt = `You are an expert NZ marketing copywriter for Assembl (assembl.co.nz), a SaaS platform providing AI agents for NZ businesses.
@@ -220,11 +220,11 @@ Write compelling, conversion-focused copy for this region. Requirements:
 
 Return ONLY the copy text, no explanations.`;
 
-  const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const resp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "google/gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       messages: [{ role: "user", content: prompt }],
     }),
   });
@@ -236,7 +236,7 @@ Return ONLY the copy text, no explanations.`;
 
 // ── Fallback: Lovable AI SEO audit ────────────────────────────
 async function generateFallbackSeoAudit(pageId: string, page: any, seoTarget: string) {
-  const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+  const LOVABLE_API_KEY = Deno.env.get("GEMINI_API_KEY") ?? Deno.env.get("LOVABLE_API_KEY");
   if (!LOVABLE_API_KEY) return { error: "No AI configured for fallback" };
 
   const prompt = `You are an SEO expert. Audit this NZ SaaS landing page for SEO performance.
@@ -254,11 +254,11 @@ Provide a JSON object with:
 - technicalSeo: { issues: string[], score }
 - recommendations: string[] (top 5 actionable items)`;
 
-  const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+  const resp = await fetch("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${LOVABLE_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model: "google/gemini-3-flash-preview",
+      model: "gemini-2.5-flash",
       messages: [{ role: "user", content: prompt }],
     }),
   });
