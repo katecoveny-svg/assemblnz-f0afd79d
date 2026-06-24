@@ -41,42 +41,66 @@ function anonSetCookie(value: string): string {
  * lands in a follow-up task.
  */
 
+/**
+ * Live NZ knowledge search — grounds agents in assembl's Industry Knowledge
+ * Base (legislation, regulations, official guidance, government sources) via the
+ * deployed `ikb-search` edge function, which embeds the query (Gemini, 768-dim)
+ * and runs the `search_industry_kb` pgvector RPC. Returns real ranked snippets
+ * with titles + URLs for the agent to cite. Fails safe: on any problem it tells
+ * the agent to answer from general knowledge and flag that the live source was
+ * not checked.
+ */
 const nzKnowledgeTools = {
-  searchGazette: tool({
+  searchNZKnowledge: tool({
     description:
-      'Search the New Zealand Gazette for official notices (appointments, regulations, authorisations). Use for "has anything been gazetted about…" questions.',
+      "Search assembl's New Zealand knowledge base (legislation, regulations, standards, official government guidance) for grounding. Use whenever the answer turns on NZ law, a statutory reference, compliance, entitlements, or official guidance. Returns real source snippets with titles and URLs — cite the ones you use, with their retrieval date.",
     inputSchema: z.object({
-      query: z.string().describe('What to search the NZ Gazette for'),
+      query: z.string().describe('The NZ legal / regulatory / government question or topic to look up'),
     }),
-    execute: async ({ query }) => ({
-      status: 'stub',
-      note: 'Live NZ Gazette search is not wired up yet (follow-up task). Answer from general knowledge and clearly flag that this was not checked against the live Gazette.',
-      query,
-    }),
-  }),
-  searchLegislation: tool({
-    description:
-      'Look up current New Zealand legislation via the PCO Legislation source (Acts, regulations, sections). Use to confirm a specific statutory reference.',
-    inputSchema: z.object({
-      query: z.string().describe('Act, regulation, or section to look up'),
-    }),
-    execute: async ({ query }) => ({
-      status: 'stub',
-      note: 'Live PCO Legislation lookup is not wired up yet (follow-up task). Cite the relevant Act from general knowledge but flag that it was not verified against the live source.',
-      query,
-    }),
-  }),
-  searchBeehive: tool({
-    description:
-      'Search Beehive.govt.nz for recent New Zealand Government announcements and ministerial releases.',
-    inputSchema: z.object({
-      query: z.string().describe('What government announcement to search for'),
-    }),
-    execute: async ({ query }) => ({
-      status: 'stub',
-      note: 'Live Beehive search is not wired up yet (follow-up task). Flag that the live source was not checked.',
-      query,
-    }),
+    execute: async ({ query }) => {
+      const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+      const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      if (!base || !key) {
+        return {
+          status: 'unavailable',
+          note: 'The NZ knowledge base is not reachable right now. Answer from general knowledge and clearly say it was not checked against the live source.',
+        };
+      }
+      try {
+        const res = await fetch(`${base}/functions/v1/ikb-search`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${key}`, apikey: key, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query, limit: 6, minSimilarity: 0.2 }),
+        });
+        if (!res.ok) {
+          return {
+            status: 'error',
+            note: `Live source search failed (${res.status}). Answer from general knowledge and flag that it was not verified against the live source.`,
+          };
+        }
+        const data = (await res.json()) as {
+          hits?: Array<{ doc_title?: string; source_url?: string; chunk_text?: string; similarity?: number; tier?: number }>;
+        };
+        const hits = (data.hits ?? []).slice(0, 6).map((h) => ({
+          title: h.doc_title ?? 'NZ source',
+          url: h.source_url ?? null,
+          snippet: (h.chunk_text ?? '').slice(0, 700),
+          similarity: typeof h.similarity === 'number' ? Number(h.similarity.toFixed(3)) : undefined,
+        }));
+        if (hits.length === 0) {
+          return {
+            status: 'no_results',
+            note: 'Nothing close in the NZ knowledge base. Answer from general knowledge and flag that it was not found in the live source.',
+          };
+        }
+        return { status: 'ok', hits, retrievedAt: new Date().toISOString().slice(0, 10) };
+      } catch (e) {
+        return {
+          status: 'error',
+          note: `NZ knowledge search error: ${e instanceof Error ? e.message : 'unknown'}. Answer from general knowledge and flag that it was not verified.`,
+        };
+      }
+    },
   }),
 };
 
