@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, Send, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -58,6 +59,11 @@ const KNOWLEDGE = [
 const MAX_CHARS = 1000;
 
 export function AssemblConciergeWidget() {
+  const pathname = usePathname();
+  // True on an agent's own chat page (/agents/<slug>/chat) — where this global
+  // concierge would overlap the agent's own chat surface.
+  const isAgentChatPage = !!pathname && /^\/agents\/[^/]+\/chat(\/|$)/.test(pathname);
+
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -126,6 +132,11 @@ export function AssemblConciergeWidget() {
       setIsTyping(false);
     }, 1200);
   };
+
+  // Don't render the global concierge on an agent's own chat page.
+  if (isAgentChatPage) {
+    return null;
+  }
 
   return (
     <aside className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 md:bottom-6 md:right-6">
