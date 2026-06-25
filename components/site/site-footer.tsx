@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { footerDisclaimer, footerKeteCutouts } from "@/lib/site-config";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
-import { isAgentMarketplace, isAtlas, isDashMicrosite, isEcho } from "@/components/site/site-header";
+import { isAgentMarketplace, isAtlas, isAuthSurface, isDashMicrosite, isEcho } from "@/components/site/site-header";
 
 export function SiteFooter() {
   const pathname = usePathname();
-  // The /dash microsite, /agents marketplace and /atlas coach ship their own
-  // footer; suppress the global one there.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname)) return null;
+  // The /dash microsite, /agents marketplace, /atlas coach and signed-out auth
+  // surfaces ship their own footer; suppress the global one there. (Auth pages
+  // get the canon AuthFooter — no old kete-cutout mark.)
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname)) return null;
 
   return (
     <footer className="relative z-10 mt-24 border-t border-[rgba(58,56,50,0.10)] bg-[rgba(255,247,236,0.6)]">
