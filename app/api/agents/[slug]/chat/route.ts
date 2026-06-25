@@ -199,8 +199,65 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   // Creative Studio, Social Manager) — calls the generate-image edge function.
   const canMakeImages = agent.category === 'creative';
 
+  // Every agent can set up an SMS reminder. Saved to agent_text_reminders and
+  // sent by the send-text-reminders worker (via Twilio, once keys are set).
+  // Consent-gated; recipient in international format.
+  const reminderUserId = 'userId' in identity ? identity.userId : null;
+  const scheduleTextReminder = tool({
+    description:
+      "Schedule a text (SMS) reminder for the user. Call ONLY after the user has given the message, when to send it, the recipient's mobile number in international format (e.g. +64211234567), AND confirmed they have permission to text that number. Use for 'text me every morning…', 'text this number every Monday…', etc.",
+    inputSchema: z.object({
+      message: z.string().describe('The exact reminder text to send'),
+      recipient: z.string().describe('Recipient mobile in international format, e.g. +64211234567'),
+      recipientLabel: z.string().optional().describe("Who it is, e.g. 'me' or 'Mila'"),
+      consentConfirmed: z.boolean().describe('True only if the user confirmed permission to text this number'),
+      scheduleKind: z.enum(['daily', 'weekly', 'once']),
+      atHour: z.number().min(0).max(23).describe('Send hour, 24h, NZ time'),
+      atMinute: z.number().min(0).max(59).optional(),
+      weekday: z.number().min(0).max(6).optional().describe('0=Sun..6=Sat; required for weekly'),
+      fireOn: z.string().optional().describe('YYYY-MM-DD; required for once'),
+    }),
+    execute: async (input) => {
+      if (!input.consentConfirmed) {
+        return { status: 'needs_consent', note: 'Confirm with the user they have permission to text that number, then call again with consentConfirmed true.' };
+      }
+      const sbBase = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+      const sbKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      if (!sbBase || !sbKey) return { status: 'error', note: 'Reminders are not configured right now.' };
+      try {
+        const supabase = createClient(sbBase, sbKey);
+        const { error } = await supabase.from('agent_text_reminders').insert({
+          user_id: reminderUserId,
+          agent_slug: slug,
+          recipient: input.recipient,
+          recipient_label: input.recipientLabel ?? null,
+          recipient_consent: true,
+          message: input.message,
+          schedule_kind: input.scheduleKind,
+          at_hour: input.atHour,
+          at_minute: input.atMinute ?? 0,
+          weekday: input.weekday ?? null,
+          fire_on: input.fireOn ?? null,
+          timezone: 'Pacific/Auckland',
+        });
+        if (error) return { status: 'error', note: `Could not save the reminder: ${error.message}` };
+        const mm = String(input.atMinute ?? 0).padStart(2, '0');
+        const when =
+          input.scheduleKind === 'daily'
+            ? `every day at ${input.atHour}:${mm}`
+            : input.scheduleKind === 'weekly'
+              ? `every week at ${input.atHour}:${mm} (day ${input.weekday})`
+              : `on ${input.fireOn} at ${input.atHour}:${mm}`;
+        return { status: 'ok', note: `Reminder saved: "${input.message}" to ${input.recipientLabel ?? input.recipient}, ${when} NZ time.` };
+      } catch (e) {
+        return { status: 'error', note: `Could not save the reminder: ${e instanceof Error ? e.message : 'unknown'}` };
+      }
+    },
+  });
+
   const tools = {
     ...nzKnowledgeTools,
+    scheduleTextReminder,
     ...(isMaritime ? { marineWeather: marineWeatherTool } : {}),
     ...(isCreative ? creativeTools : {}),
     ...(canMakeImages ? { generateImage: generateImageTool } : {}),
@@ -216,6 +273,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
   const handoffBlock = handoffPromptBlock(agent.slug);
   if (handoffBlock) knowledgeBlocks.push(handoffBlock);
+
+  knowledgeBlocks.push(
+    "Text reminders: you can set up an SMS reminder for the user with the scheduleTextReminder tool. Only do it once they have given you the message, the timing, and the recipient's mobile number in international format (e.g. +64211234567), and have confirmed they have permission to text that number. After saving, tell them it will arrive by text on that schedule once assembl's texting is switched on. Keep reminders short and friendly.",
+  );
 
   const system = knowledgeBlocks.length
     ? [baseSystem, ...knowledgeBlocks].join('\n\n')
