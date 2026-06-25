@@ -13,6 +13,7 @@
  */
 
 import { AGENT_PROMPTS, SHARED_BRAND_PREFIX } from './agent-prompts';
+import { PER_AGENT_PRICE_NZD } from '@/lib/billing/agent-pricing';
 
 export type ModelTier = 'cheap' | 'mid' | 'premium';
 /** Coarse DB bucket — uniformly 'per_agent' (price set by the catalogue tier). */
@@ -1192,7 +1193,10 @@ export const PRICE_TIER_LABELS: Record<PriceTier, string> = {
  */
 export function priceLabel(agent?: Pick<MarketplaceAgent, 'priceNzd'>): string {
   if (!agent || agent.priceNzd === 0) return 'Free';
-  return `$${agent.priceNzd}/mo`;
+  // Canonical, charged price is the flat per-agent rate (NZ$15/mo) — the same
+  // price the per_agent Stripe checkout uses. The old tier numbers (priceNzd)
+  // are retained only for the legacy /agents/pricing grouping.
+  return `$${PER_AGENT_PRICE_NZD}/mo`;
 }
 
 /**
