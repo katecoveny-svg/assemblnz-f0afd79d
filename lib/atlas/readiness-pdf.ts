@@ -10,7 +10,7 @@
 import { jsPDF } from 'jspdf';
 import { BRAND, WORDMARK, buildWatermark, exportDisclaimer, hexToRgb } from '@/lib/brand/wordmark';
 import type { AgentMatch } from './recommend';
-import type { ComplianceNote, ReadinessBand } from './readiness';
+import type { Archetype, ComplianceNote, ReadinessBand } from './readiness';
 
 const A4 = { w: 210, h: 297 };
 const MARGIN = 18;
@@ -25,6 +25,9 @@ const CREAM = hexToRgb(BRAND.cream);
 const GOLD = hexToRgb(BRAND.gold);
 
 export type ReadinessReportInput = {
+  /** the primary axis — the situation archetype. */
+  archetype: Archetype;
+  /** the secondary axis — AI skill band. */
   band: ReadinessBand;
   /** plain-words summary of their situation. */
   summary: string;
@@ -84,24 +87,29 @@ export function buildReadinessReport(input: ReadinessReportInput): ReadinessRepo
   doc.text('AI READINESS REPORT', A4.w - MARGIN, 12, { align: 'right' });
   doc.text(today, A4.w - MARGIN, 16, { align: 'right' });
 
-  // Title + band chip.
+  // Title — the archetype is the headline; the skill band is a chip on the right.
   let y = my + 14;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(...INK);
-  doc.text('Your AI readiness', MARGIN, y);
+  doc.text(input.archetype.label, MARGIN, y);
 
-  // Band chip on the right.
-  const chipLabel = input.band.label.toUpperCase();
+  // Skill-band chip on the right (secondary axis).
+  const chipLabel = `AI SKILL · ${input.band.label.toUpperCase()}`;
   doc.setFont('courier', 'bold');
-  doc.setFontSize(9);
-  const chipW = doc.getTextWidth(chipLabel) + 10;
+  doc.setFontSize(8);
+  const chipW = doc.getTextWidth(chipLabel) + 8;
   doc.setFillColor(...CANARY);
   doc.roundedRect(A4.w - MARGIN - chipW, y - 5, chipW, 7, 1.5, 1.5, 'F');
   doc.setTextColor(...INK);
   doc.text(chipLabel, A4.w - MARGIN - chipW / 2, y, { align: 'center' });
 
   y += 5;
+  doc.setFont('courier', 'normal');
+  doc.setFontSize(7.5);
+  doc.setTextColor(...GOLD);
+  doc.text(input.archetype.tagline, MARGIN, y);
+  y += 4;
   doc.setFont('courier', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(...MUTED);
@@ -112,9 +120,8 @@ export function buildReadinessReport(input: ReadinessReportInput): ReadinessRepo
   doc.line(MARGIN, y, A4.w - MARGIN, y);
   y += 9;
 
-  // Band blurb.
-  y = heading(doc, `You’re at: ${input.band.label}`, y);
-  y = paragraph(doc, input.band.blurb, y) + 4;
+  // Archetype framing.
+  y = paragraph(doc, input.archetype.blurb, y) + 4;
 
   // Their situation.
   y = heading(doc, 'Your situation, in short', y);
@@ -122,6 +129,7 @@ export function buildReadinessReport(input: ReadinessReportInput): ReadinessRepo
 
   // The picks.
   y = heading(doc, 'Three agents that fit you', y);
+  y = paragraph(doc, input.archetype.recsIntro, y, 8.5) + 3;
   input.picks.forEach((pick, i) => {
     const reason = input.reasons[i] ?? pick.description;
     const reasonLines = doc.splitTextToSize(reason, CONTENT_W - 12);
@@ -151,10 +159,11 @@ export function buildReadinessReport(input: ReadinessReportInput): ReadinessRepo
   });
   y += 2;
 
-  // Privacy + compliance.
+  // Privacy + compliance (framed by the archetype).
   const notes = [...input.privacy, ...input.sector];
   if (notes.length > 0) {
-    y = heading(doc, 'Before you start — what to keep in mind', y);
+    y = heading(doc, 'Before you start — the NZ rules', y);
+    y = paragraph(doc, input.archetype.complianceLede, y, 8.5) + 2;
     for (const note of notes) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
@@ -166,10 +175,18 @@ export function buildReadinessReport(input: ReadinessReportInput): ReadinessRepo
     y += 2;
   }
 
-  // First build (Builders only).
+  // Your first move (framed by the archetype).
+  y = heading(doc, input.firstBuild ? 'Your suggested first build' : 'Your first move', y);
+  y = paragraph(doc, input.archetype.firstMove, y, 9) + 2;
   if (input.firstBuild) {
-    y = heading(doc, 'Your suggested first build', y);
-    y = paragraph(doc, input.firstBuild, y, 9) + 1;
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(8.5);
+    doc.setTextColor(...BODY);
+    for (const line of doc.splitTextToSize(`“${input.firstBuild}”`, CONTENT_W)) {
+      doc.text(line, MARGIN, y);
+      y += 4;
+    }
+    y += 1;
     doc.setFont('courier', 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(...MUTED);

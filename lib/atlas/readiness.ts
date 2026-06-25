@@ -245,6 +245,112 @@ export function bandForAnswers(answers: ReadinessAnswers): ReadinessBand {
   return BANDS.beginner;
 }
 
+// ── Result archetype (the PRIMARY axis — a situation, not a skill level) ─────
+// The band above (Beginner→Builder) measures skill; it now sits underneath as a
+// secondary axis used for gamification. The archetype describes the user's
+// *situation* and drives the whole shape of the report — different framing,
+// different first move, different compliance emphasis. Inspired by the foxbyte
+// "Ready to Scale / Too Busy to Innovate / Keen to Start" cut, re-rooted for NZ.
+
+export type ArchetypeKey = 'keen-to-start' | 'too-busy' | 'ready-to-scale' | 'tikanga-first';
+
+export type Archetype = {
+  key: ArchetypeKey;
+  label: string;
+  /** one-line description of the situation. */
+  tagline: string;
+  /** two sentences of framing for the top of the report. */
+  blurb: string;
+  /** the line above the agent recommendations. */
+  recsIntro: string;
+  /** the "your first move" framing. */
+  firstMove: string;
+  /** which action leads as the primary (canary) CTA on the report. */
+  primaryCta: 'pilot' | 'atlas' | 'browse';
+  /** how to frame the NZ-rules section. */
+  complianceLede: string;
+  /** extra keywords folded into the recommendation query for this situation. */
+  recKeywords: string;
+};
+
+export const ARCHETYPES: Record<ArchetypeKey, Archetype> = {
+  'keen-to-start': {
+    key: 'keen-to-start',
+    label: 'Keen to Start',
+    tagline: 'New to AI, and ready to learn the safe way.',
+    blurb:
+      'You haven’t leaned on AI much yet — which means you get to start clean. The trick is one small, low-risk task where a mistake costs nothing, so you learn how it behaves before you trust it with more.',
+    recsIntro: 'Start with one of these — pick the one that matches a task you already do every week:',
+    firstMove:
+      'Keep your first build tiny: one repetitive task, an output you can eyeball in seconds. Confidence comes from doing, not from reading about it.',
+    primaryCta: 'atlas',
+    complianceLede: 'A couple of NZ rules worth knowing before you start:',
+    recKeywords: '',
+  },
+  'too-busy': {
+    key: 'too-busy',
+    label: 'Too Busy to Innovate',
+    tagline: 'Drowning in the work — AI could free you, if you had the headspace.',
+    blurb:
+      'You don’t need a course. You need one thing taken off your plate this week. We’ll point at the single highest-leverage task and let an agent carry it, so you get the time back before you invest any more.',
+    recsIntro: 'Don’t shop around — start with the top one. It’s the fastest hour back:',
+    firstMove:
+      'Use the first agent above on a real task today, and judge it on one thing: did it actually save you time? If it did, add the next. If it didn’t, drop it — no harm done.',
+    primaryCta: 'browse',
+    complianceLede: 'Quick guardrails so the time you save doesn’t cost you later:',
+    recKeywords: '',
+  },
+  'ready-to-scale': {
+    key: 'ready-to-scale',
+    label: 'Ready to Scale',
+    tagline: 'Already using AI — now standardise it and roll it out.',
+    blurb:
+      'You’re past experimenting. The win now is consistency: turning the workflow that works for you into something your whole team can run the same way, every time. That’s a build, not a chat.',
+    recsIntro: 'These fit your work — but your real next move is building a repeatable one for the team:',
+    firstMove:
+      'Take your best workflow to Pilot and turn it into an agent with guardrails and approval points. Run a one-week pilot with one person before you roll it out wide.',
+    primaryCta: 'pilot',
+    complianceLede: 'Rolling out to a team raises the stakes — get these right before you scale:',
+    recKeywords: 'roster team chief',
+  },
+  'tikanga-first': {
+    key: 'tikanga-first',
+    label: 'Tikanga First',
+    tagline: 'You want AI adopted safely — NZ-rooted, governed, accountable.',
+    blurb:
+      'You’re handling information that matters, in a space with rules. The right adoption keeps a person accountable for every call, makes the AI’s reasoning visible, and signs the work off — Mana Receipts, not black boxes. Get the governance right and the rest follows.',
+    recsIntro: 'These fit your work. Choose the one where a human stays firmly in the loop:',
+    firstMove:
+      'Start where approval is built in: the agent drafts, a person signs. Make the Mana Receipt — who decided, on what basis — visible from day one, not bolted on later.',
+    primaryCta: 'atlas',
+    complianceLede: 'These are the NZ rules your adoption has to honour — front and centre, not footnotes:',
+    recKeywords: 'compliance care safety',
+  },
+};
+
+/**
+ * The archetype for a set of answers. Priority is deliberate: a strong
+ * governance signal wins (safe adoption is their primary concern regardless of
+ * skill); then confident + team/scale; then genuinely new; else the busy middle.
+ */
+export function archetypeForAnswers(a: ReadinessAnswers): Archetype {
+  const conf = CONFIDENCE_SCORE[a['ai-confidence'] ?? ''] ?? 0;
+  const cautious = a.risk === 'check-all';
+  const sensitive = a.privacy === 'personal-health';
+  const regulated = !!a.compliance && a.compliance !== 'none';
+  const teamish = ['6-20', '21-100', '100+'].includes(a['team-size'] ?? '');
+  const scaleGoal = a.success === 'independent' || a.success === 'opportunities';
+
+  // 1. Governance-first — sensitive or regulated work, and wants to check everything.
+  if ((regulated || sensitive) && cautious) return ARCHETYPES['tikanga-first'];
+  // 2. Genuinely new to AI — never or barely used it.
+  if (conf <= 1) return ARCHETYPES['keen-to-start'];
+  // 3. Confident + a team or a scale goal — standardise and roll out.
+  if (conf >= 3 && (teamish || scaleGoal)) return ARCHETYPES['ready-to-scale'];
+  // 4. The busy middle — uses AI sometimes, drowning in the work.
+  return ARCHETYPES['too-busy'];
+}
+
 // ── Recommendation mapping ──────────────────────────────────────────────────
 // Map the answers to a free-text need string, then reuse the shelf scorer.
 
@@ -291,6 +397,8 @@ export function recommendationQuery(answers: ReadinessAnswers): string {
     ROLE_KEYWORDS[answers.role ?? ''] ?? '',
     TIME_LOSS_KEYWORDS[answers['time-loss'] ?? ''] ?? '',
     SECTOR_KEYWORDS[answers.compliance ?? ''] ?? '',
+    // The situation archetype nudges the shelf toward its kind of agent.
+    archetypeForAnswers(answers).recKeywords,
   ];
   // Dedupe tokens so the scorer sees each signal once.
   const seen = new Set<string>();

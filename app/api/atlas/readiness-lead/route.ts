@@ -11,7 +11,8 @@
  * list id are present — the lead still lands via the email + persist legs. We
  * NEVER touch Brevo's "Authorised IPs" allowlist (that stays off by policy).
  *
- * Body: { email, band?, role?, timeLoss?, consent? }
+ * Body: { email, name?, stage?, archetype?, band?, role?, timeLoss?, consent? }
+ *   stage 'signup' = captured before Q1 (soft signup); 'report' = at the end.
  */
 import { NextResponse } from 'next/server';
 import { recordLead, clientIpFromHeaders, subscribeToBrevoList } from '@/lib/lead-capture';
@@ -21,6 +22,9 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: Request) {
   let body: {
     email?: string;
+    name?: string;
+    stage?: string;
+    archetype?: string;
     band?: string;
     role?: string;
     timeLoss?: string;
@@ -37,11 +41,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'A valid email is required.' }, { status: 400 });
   }
 
+  const stage = body.stage === 'signup' ? 'signup' : 'report';
+
   // Email + persist legs (each independently fail-soft).
   await recordLead({
-    formName: 'Atlas — readiness report',
+    formName: stage === 'signup' ? 'Atlas — readiness signup' : 'Atlas — readiness report',
     email,
+    name: body.name?.trim() || undefined,
     fields: {
+      stage,
+      name: body.name ?? '',
+      archetype: body.archetype ?? '',
       band: body.band ?? '',
       role: body.role ?? '',
       timeLoss: body.timeLoss ?? '',

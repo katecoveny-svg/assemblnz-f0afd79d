@@ -20,6 +20,7 @@ import { recommendForAnswers, whyFits } from '@/lib/atlas/readiness';
 import {
   QUESTIONS,
   TOTAL_QUESTIONS,
+  archetypeForAnswers,
   bandForAnswers,
   decodeAnswers,
   encodeAnswers,
@@ -28,6 +29,7 @@ import {
   privacyNotes,
   sectorNotes,
   summaryFor,
+  type Archetype,
   type ReadinessAnswers,
   type ReadinessOption,
 } from '@/lib/atlas/readiness';
@@ -37,7 +39,9 @@ const D = 'var(--font-display), Georgia, serif';
 const B = 'var(--font-body), sans-serif';
 const M = 'var(--font-mono), monospace';
 
-type Phase = 'intro' | 'quiz' | 'report';
+type Phase = 'welcome' | 'quiz' | 'report';
+
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 /** Minimal Web Speech recogniser shape (no DOM lib types). */
 type SpeechRecognitionLike = {
@@ -73,7 +77,7 @@ function matchSpokenOption(transcript: string, options: ReadinessOption[]): stri
 }
 
 export function ReadinessDiagnostic() {
-  const [phase, setPhase] = useState<Phase>('intro');
+  const [phase, setPhase] = useState<Phase>('welcome');
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<ReadinessAnswers>({});
   const [shared, setShared] = useState(false);
@@ -82,8 +86,12 @@ export function ReadinessDiagnostic() {
   const [listening, setListening] = useState(false);
   const [sttSupported, setSttSupported] = useState(false);
 
+  // Lead — captured at Q0 (soft signup) when given, else at the report.
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [captured, setCaptured] = useState(false);
   const [leadStatus, setLeadStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+
   const [copied, setCopied] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -223,15 +231,43 @@ export function ReadinessDiagnostic() {
 
   const back = useCallback(() => setIndex((i) => Math.max(0, i - 1)), []);
 
-  // ── Report derivations ────────────────────────────────────────────────────
+  // ── Q0 soft signup — capture the lead before the quiz, list it from the start
+  const captureSignup = useCallback(async (): Promise<boolean> => {
+    if (!EMAIL_RE.test(email)) {
+      setLeadStatus('error');
+      return false;
+    }
+    setCaptured(true);
+    setLeadStatus('idle');
+    // Fire-and-forget: subscribe to the atlas-readiness list immediately so the
+    // lead lands even if they abandon mid-quiz.
+    void fetch('/api/atlas/readiness-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name, stage: 'signup', consent: true }),
+    }).catch(() => {});
+    return true;
+  }, [email, name]);
+
+  const startWithEmail = useCallback(async () => {
+    const ok = await captureSignup();
+    if (ok) setPhase('quiz');
+  }, [captureSignup]);
+
+  const skipSignup = useCallback(() => setPhase('quiz'), []);
+
+  // ── Send ──────────────────────────────────────────────────────────────────
   const band = useMemo(() => bandForAnswers(answers), [answers]);
+  const archetype = useMemo(() => archetypeForAnswers(answers), [answers]);
   const picks = useMemo(() => (phase === 'report' ? recommendForAnswers(answers, 3) : []), [answers, phase]);
   const reasons = useMemo(() => picks.map((p) => whyFits(p, answers)), [picks, answers]);
   const privacy = useMemo(() => privacyNotes(answers), [answers]);
   const sector = useMemo(() => sectorNotes(answers), [answers]);
   const summary = useMemo(() => summaryFor(answers), [answers]);
-  const isBuilder = band.key === 'builder';
-  const firstBuild = isBuilder ? pilotBrief(answers) : null;
+  // A Pilot brief shows when the situation points at building (ready-to-scale)
+  // or skill has reached Builder.
+  const firstBuild =
+    archetype.primaryCta === 'pilot' || band.key === 'builder' ? pilotBrief(answers) : null;
 
   // Award points + speak the verdict once, when the report first lands (not on a shared view).
   useEffect(() => {
@@ -262,13 +298,13 @@ export function ReadinessDiagnostic() {
       }
     })();
 
-    void speak(`You're at ${band.label}. ${band.blurb}`);
-  }, [phase, shared, answers, band, summary, speak]);
+    void speak(`You're ${archetype.label}. ${archetype.tagline}`);
+  }, [phase, shared, answers, archetype, summary, speak]);
 
   const savePdf = useCallback(async () => {
     const { downloadReadinessReport } = await import('@/lib/atlas/readiness-pdf');
-    downloadReadinessReport({ band, summary, picks, reasons, privacy, sector, firstBuild });
-  }, [band, summary, picks, reasons, privacy, sector, firstBuild]);
+    downloadReadinessReport({ archetype, band, summary, picks, reasons, privacy, sector, firstBuild });
+  }, [archetype, band, summary, picks, reasons, privacy, sector, firstBuild]);
 
   const share = useCallback(async () => {
     const url = `${window.location.origin}/atlas/readiness?r=${encodeAnswers(answers)}`;
@@ -277,7 +313,6 @@ export function ReadinessDiagnostic() {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2500);
     } catch {
-      // Clipboard blocked — fall back to a native share sheet if present.
       const nav = navigator as Navigator & { share?: (d: { url: string }) => Promise<void> };
       if (nav.share) await nav.share({ url }).catch(() => {});
     }
@@ -286,7 +321,7 @@ export function ReadinessDiagnostic() {
   const submitLead = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      if (!EMAIL_RE.test(email)) {
         setLeadStatus('error');
         return;
       }
@@ -297,6 +332,9 @@ export function ReadinessDiagnostic() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             email,
+            name,
+            stage: 'report',
+            archetype: archetype.label,
             band: band.label,
             role: answers.role ?? '',
             timeLoss: answers['time-loss'] ?? '',
@@ -308,17 +346,17 @@ export function ReadinessDiagnostic() {
         setLeadStatus('error');
       }
     },
-    [email, band, answers],
+    [email, name, archetype, band, answers],
   );
 
   const restart = useCallback(() => {
     setAnswers({});
     setIndex(0);
     setShared(false);
+    setCaptured(false);
     awardedRef.current = false;
     spokenRef.current = -1;
-    setPhase('quiz');
-    // Clear a shared ?r= from the URL so a fresh run is clean.
+    setPhase('welcome');
     window.history.replaceState(null, '', '/atlas/readiness');
   }, []);
 
@@ -362,8 +400,16 @@ export function ReadinessDiagnostic() {
       </header>
 
       <main className="mx-auto max-w-3xl px-5 py-10">
-        {phase === 'intro' ? (
-          <IntroScreen onStart={() => setPhase('quiz')} />
+        {phase === 'welcome' ? (
+          <WelcomeScreen
+            name={name}
+            setName={setName}
+            email={email}
+            setEmail={setEmail}
+            leadError={leadStatus === 'error'}
+            onStartWithEmail={startWithEmail}
+            onSkip={skipSignup}
+          />
         ) : phase === 'quiz' ? (
           <QuizScreen
             question={current}
@@ -378,6 +424,7 @@ export function ReadinessDiagnostic() {
           />
         ) : (
           <ReportScreen
+            archetype={archetype}
             band={band}
             summary={summary}
             picks={picks}
@@ -385,8 +432,8 @@ export function ReadinessDiagnostic() {
             privacy={privacy}
             sector={sector}
             firstBuild={firstBuild}
-            isBuilder={isBuilder}
             shared={shared}
+            captured={captured}
             email={email}
             setEmail={setEmail}
             leadStatus={leadStatus}
@@ -412,8 +459,24 @@ export function ReadinessDiagnostic() {
   );
 }
 
-// ── Intro ────────────────────────────────────────────────────────────────────
-function IntroScreen({ onStart }: { onStart: () => void }) {
+// ── Welcome + soft signup (Q0) ───────────────────────────────────────────────
+function WelcomeScreen({
+  name,
+  setName,
+  email,
+  setEmail,
+  leadError,
+  onStartWithEmail,
+  onSkip,
+}: {
+  name: string;
+  setName: (v: string) => void;
+  email: string;
+  setEmail: (v: string) => void;
+  leadError: boolean;
+  onStartWithEmail: () => void;
+  onSkip: () => void;
+}) {
   return (
     <div className="mx-auto max-w-xl text-center">
       <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.2em', color: PALETTE.gold }}>
@@ -424,24 +487,59 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
       </h1>
       <p className="mx-auto mt-4 max-w-md text-lg leading-relaxed" style={{ fontFamily: B, color: PALETTE.body }}>
         Ten plain questions. At the end, Atlas reads your readiness, points you to the agents that fit your work, and
-        flags the NZ rules you need to keep in mind. No sign-up to start.
+        flags the NZ rules you need to keep in mind.
       </p>
-      <div className="mt-8 flex flex-col items-center gap-3">
+
+      {/* Soft signup */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onStartWithEmail();
+        }}
+        className="mx-auto mt-7 flex max-w-md flex-col gap-2.5 rounded-[20px] border p-5 text-left"
+        style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.cream }}
+      >
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="First name"
+          autoComplete="given-name"
+          className="rounded-full border bg-white px-4 py-2.5 text-sm outline-none"
+          style={{ borderColor: PALETTE.hairline, color: PALETTE.ink, fontFamily: B }}
+          aria-label="First name"
+        />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@work.co.nz"
+          autoComplete="email"
+          className="rounded-full border bg-white px-4 py-2.5 text-sm outline-none"
+          style={{ borderColor: leadError ? '#c2603f' : PALETTE.hairline, color: PALETTE.ink, fontFamily: B }}
+          aria-label="Your email"
+        />
         <button
-          type="button"
-          onClick={onStart}
-          className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-base font-bold transition hover:brightness-95"
+          type="submit"
+          className="mt-1 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
           style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: B }}
         >
-          Take the readiness check <ArrowRight size={18} aria-hidden />
+          Start the check <ArrowRight size={17} aria-hidden />
         </button>
-        <Link href="/atlas" className="text-sm font-bold hover:opacity-70" style={{ fontFamily: B, color: PALETTE.body }}>
-          Or skip straight to talking with Atlas →
+        <p className="mt-1 text-center text-[11px] leading-relaxed" style={{ fontFamily: M, color: PALETTE.muted }}>
+          {leadError ? 'Pop in a valid email, or skip below.' : 'We’ll save your progress and send you the report.'}
+          {' '}No spam · unsubscribe any time · your data lives in Sydney.
+        </p>
+      </form>
+
+      <div className="mt-5 flex flex-col items-center gap-2">
+        <button type="button" onClick={onSkip} className="text-sm font-bold hover:opacity-70" style={{ fontFamily: B, color: PALETTE.body }}>
+          Skip for now — just take the check →
+        </button>
+        <Link href="/atlas" className="text-sm font-bold hover:opacity-70" style={{ fontFamily: B, color: PALETTE.muted }}>
+          Or talk it through with Atlas instead →
         </Link>
       </div>
-      <p className="mt-10 text-[11px]" style={{ fontFamily: M, color: PALETTE.muted }}>
-        A coach, not advice. Your data lives in Sydney.
-      </p>
     </div>
   );
 }
@@ -577,6 +675,7 @@ function QuizScreen({
 
 // ── Report ───────────────────────────────────────────────────────────────────
 function ReportScreen({
+  archetype,
   band,
   summary,
   picks,
@@ -584,8 +683,8 @@ function ReportScreen({
   privacy,
   sector,
   firstBuild,
-  isBuilder,
   shared,
+  captured,
   email,
   setEmail,
   leadStatus,
@@ -595,6 +694,7 @@ function ReportScreen({
   copied,
   onRestart,
 }: {
+  archetype: Archetype;
   band: ReturnType<typeof bandForAnswers>;
   summary: string;
   picks: ReturnType<typeof recommendForAnswers>;
@@ -602,8 +702,8 @@ function ReportScreen({
   privacy: ReturnType<typeof privacyNotes>;
   sector: ReturnType<typeof sectorNotes>;
   firstBuild: string | null;
-  isBuilder: boolean;
   shared: boolean;
+  captured: boolean;
   email: string;
   setEmail: (v: string) => void;
   leadStatus: 'idle' | 'saving' | 'saved' | 'error';
@@ -616,35 +716,51 @@ function ReportScreen({
   const bandIndex = ['beginner', 'familiar', 'fluent', 'builder'].indexOf(band.key);
   const notes = [...privacy, ...sector];
 
+  // Action buttons, ordered so the archetype's primary CTA leads (canary).
+  const talkBtn = (
+    <Link
+      key="atlas"
+      href="/atlas"
+      className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition"
+      style={
+        archetype.primaryCta === 'atlas'
+          ? { backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: B }
+          : { border: `1px solid ${PALETTE.hairline}`, color: PALETTE.ink, fontFamily: B }
+      }
+    >
+      Talk it through with Atlas <ArrowRight size={15} aria-hidden />
+    </Link>
+  );
+
   return (
     <div className="mx-auto max-w-2xl">
-      {/* Band header */}
+      {/* Archetype header (primary axis) */}
       <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.2em', color: PALETTE.gold }}>
-        Your readiness
+        Your situation
       </p>
       <div className="mt-2 flex flex-wrap items-baseline gap-3">
-        <h1 className="text-5xl md:text-6xl" style={{ fontFamily: D, fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 0.98 }}>
-          {band.label}
+        <h1 className="text-4xl md:text-5xl" style={{ fontFamily: D, fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 1 }}>
+          {archetype.label}
         </h1>
         <span
           className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold uppercase"
-          style={{ fontFamily: M, letterSpacing: '0.1em', backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+          style={{ fontFamily: M, letterSpacing: '0.08em', backgroundColor: PALETTE.cream, color: PALETTE.body, border: `1px solid ${PALETTE.hairline}` }}
+          title={band.blurb}
         >
-          Step {bandIndex + 1} of 4
+          AI skill · {band.label}
         </span>
       </div>
-      {/* Band ladder */}
+      <p className="mt-2 text-lg" style={{ fontFamily: D, fontStyle: 'italic', color: PALETTE.gold }}>
+        {archetype.tagline}
+      </p>
+      {/* Skill ladder (secondary axis) */}
       <div className="mt-4 flex gap-1.5" aria-hidden>
         {['beginner', 'familiar', 'fluent', 'builder'].map((k, i) => (
-          <span
-            key={k}
-            className="h-1.5 flex-1 rounded-full"
-            style={{ backgroundColor: i <= bandIndex ? PALETTE.canary : PALETTE.hairline }}
-          />
+          <span key={k} className="h-1 flex-1 rounded-full" style={{ backgroundColor: i <= bandIndex ? PALETTE.canary : PALETTE.hairline }} />
         ))}
       </div>
       <p className="mt-5 text-lg leading-relaxed" style={{ fontFamily: B, color: PALETTE.body }}>
-        {band.blurb}
+        {archetype.blurb}
       </p>
       <p className="mt-3 text-sm leading-relaxed" style={{ fontFamily: B, color: PALETTE.muted }}>
         {summary}
@@ -654,13 +770,19 @@ function ReportScreen({
       <h2 className="mt-10 text-2xl" style={{ fontFamily: D, fontWeight: 600, letterSpacing: '-0.01em' }}>
         Three agents that fit you
       </h2>
+      <p className="mt-1.5 text-sm leading-relaxed" style={{ fontFamily: B, color: PALETTE.body }}>
+        {archetype.recsIntro}
+      </p>
       <div className="mt-4 flex flex-col gap-3">
         {picks.map((rec, i) => (
           <Link
             key={rec.slug}
             href={`/agents/${rec.slug}`}
             className="group flex items-start gap-4 rounded-[18px] border p-4 transition hover:-translate-y-0.5"
-            style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.cream }}
+            style={{
+              borderColor: i === 0 && archetype.key === 'too-busy' ? PALETTE.canary : PALETTE.hairline,
+              backgroundColor: PALETTE.cream,
+            }}
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: PALETTE.paper }}>
               <AgentIcon name={rec.icon} className="h-6 w-6" tone={rec.tile} />
@@ -687,11 +809,14 @@ function ReportScreen({
         ))}
       </div>
 
-      {/* Privacy & compliance */}
+      {/* Privacy & compliance (framed by the archetype) */}
       {notes.length > 0 ? (
         <div className="mt-8 rounded-[18px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
           <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.gold }}>
             Before you start — the NZ rules
+          </p>
+          <p className="mt-2 text-sm leading-relaxed" style={{ fontFamily: B, color: PALETTE.body }}>
+            {archetype.complianceLede}
           </p>
           <div className="mt-3 flex flex-col gap-4">
             {notes.map((n) => (
@@ -708,15 +833,23 @@ function ReportScreen({
         </div>
       ) : null}
 
-      {/* First build (Builders) */}
-      {isBuilder && firstBuild ? (
-        <div className="mt-8 rounded-[18px] border p-5" style={{ borderColor: PALETTE.canary, backgroundColor: PALETTE.cream }}>
-          <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.gold }}>
-            Your suggested first build
-          </p>
-          <p className="mt-2 text-base leading-relaxed" style={{ fontFamily: B, color: PALETTE.body }}>
+      {/* Your first move (framed by the archetype) */}
+      <div
+        className="mt-8 rounded-[18px] border p-5"
+        style={{ borderColor: archetype.primaryCta === 'pilot' ? PALETTE.canary : PALETTE.hairline, backgroundColor: PALETTE.cream }}
+      >
+        <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.gold }}>
+          {firstBuild ? 'Your suggested first build' : 'Your first move'}
+        </p>
+        <p className="mt-2 text-base leading-relaxed" style={{ fontFamily: B, color: PALETTE.body }}>
+          {archetype.firstMove}
+        </p>
+        {firstBuild ? (
+          <p className="mt-3 text-base leading-relaxed" style={{ fontFamily: D, fontStyle: 'italic', color: PALETTE.ink }}>
             “{firstBuild}”
           </p>
+        ) : null}
+        {archetype.primaryCta === 'pilot' ? (
           <Link
             href="/pilot"
             prefetch={false}
@@ -725,11 +858,20 @@ function ReportScreen({
           >
             <Sparkles size={15} aria-hidden /> Build it with Pilot
           </Link>
-        </div>
-      ) : null}
+        ) : archetype.primaryCta === 'browse' ? (
+          <Link
+            href="/agents"
+            className="mt-3 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition hover:brightness-95"
+            style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: B }}
+          >
+            Browse the shelf <ArrowRight size={15} aria-hidden />
+          </Link>
+        ) : null}
+      </div>
 
       {/* Actions */}
       <div className="mt-9 flex flex-wrap items-center gap-3">
+        {archetype.primaryCta === 'atlas' ? talkBtn : null}
         <button
           type="button"
           onClick={onSavePdf}
@@ -747,17 +889,11 @@ function ReportScreen({
           {copied ? <Check size={15} aria-hidden /> : <Share2 size={15} aria-hidden />}
           {copied ? 'Link copied' : 'Share with my team'}
         </button>
-        <Link
-          href="/atlas"
-          className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-bold transition hover:bg-[color:#FFF7EC]"
-          style={{ borderColor: PALETTE.hairline, color: PALETTE.ink, fontFamily: B }}
-        >
-          Talk it through with Atlas <ArrowRight size={15} aria-hidden />
-        </Link>
+        {archetype.primaryCta !== 'atlas' ? talkBtn : null}
       </div>
 
-      {/* Lead capture */}
-      {!shared ? (
+      {/* Lead capture — only when not captured at Q0 and not a shared view */}
+      {!shared && !captured ? (
         <div className="mt-8 rounded-[18px] border p-5" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.cream }}>
           {leadStatus === 'saved' ? (
             <p className="text-sm font-bold" style={{ fontFamily: B, color: PALETTE.ink }}>
@@ -800,15 +936,17 @@ function ReportScreen({
             </>
           )}
         </div>
+      ) : !shared && captured ? (
+        <div className="mt-8 rounded-[18px] border p-4" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.cream }}>
+          <p className="text-sm font-bold" style={{ fontFamily: B, color: PALETTE.ink }}>
+            <Check size={15} style={{ display: 'inline', verticalAlign: '-2px', color: PALETTE.gold }} aria-hidden /> We’ve got your email — your
+            report and a follow-up will land in a week. Save the PDF above for now.
+          </p>
+        </div>
       ) : null}
 
       <div className="mt-8 text-center">
-        <button
-          type="button"
-          onClick={onRestart}
-          className="text-sm font-bold hover:opacity-70"
-          style={{ fontFamily: B, color: PALETTE.body }}
-        >
+        <button type="button" onClick={onRestart} className="text-sm font-bold hover:opacity-70" style={{ fontFamily: B, color: PALETTE.body }}>
           {shared ? 'Take the check yourself →' : 'Start over'}
         </button>
       </div>
