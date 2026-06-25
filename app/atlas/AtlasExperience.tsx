@@ -347,12 +347,6 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
               style={{ fontFamily: 'var(--font-display), Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 0.95 }}
             >
               <span className="text-5xl md:text-6xl">Atlas</span>
-              <span
-                className="text-base"
-                style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted, fontWeight: 400 }}
-              >
-                Mahere
-              </span>
             </h1>
             <p
               className="mt-3 max-w-xl text-lg leading-relaxed"
@@ -638,11 +632,6 @@ function RecommendationRail({ recommendations }: { recommendations: AgentMatch[]
                   <span className="text-base font-bold" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.ink }}>
                     {rec.name}
                   </span>
-                  {rec.teReo ? (
-                    <span className="text-[10px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
-                      {rec.teReo}
-                    </span>
-                  ) : null}
                   <span className="ml-auto text-[11px] font-bold" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.gold }}>
                     {rec.price}
                   </span>

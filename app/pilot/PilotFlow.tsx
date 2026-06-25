@@ -216,7 +216,7 @@ export function PilotFlow({ voiceConfigured, signedIn }: { voiceConfigured: bool
           </span>
           <div>
             <p className="text-lg leading-none" style={{ fontWeight: 900, color: C.ink }}>Pilot</p>
-            <p className="mk-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>Kaiurungi · agent maker</p>
+            <p className="mk-mono text-[10px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>Agent maker</p>
           </div>
         </div>
 
@@ -714,7 +714,7 @@ function StepShip({ draft, set, busy, signedIn, result, onShip }: {
       <div className="flex items-start gap-4 rounded-[22px] border p-5" style={{ borderColor: C.hairline, backgroundColor: C.paper }}>
         <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl" style={{ backgroundColor: `${C.canary}55` }}><AgentIcon name={draft.icon} className="h-7 w-7" /></span>
         <div className="flex-1">
-          <p className="text-xl leading-tight" style={{ color: C.ink, fontWeight: 900 }}>{draft.name || 'Untitled agent'}{draft.teReo && <span className="mk-mono text-xs" style={{ color: C.muted }}> · {draft.teReo}</span>}</p>
+          <p className="text-xl leading-tight" style={{ color: C.ink, fontWeight: 900 }}>{draft.name || 'Untitled agent'}</p>
           <p className="mt-1 text-sm" style={{ color: C.body }}>{draft.description}</p>
           <p className="mk-mono mt-2 text-[10px] uppercase tracking-[0.16em]" style={{ color: C.muted }}>
             19-item pack · {draft.spec.tools.length} tools · {pack?.testCases.length ?? 6} tests · {MODEL_CHOICES.find((m) => m.id === draft.modelPreference)?.label}
