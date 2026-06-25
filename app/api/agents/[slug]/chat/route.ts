@@ -14,6 +14,7 @@ import { handoffPromptBlock } from '@/lib/agents/handoffs';
 import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
 import { getEntitlementStatus, incrementFreeUsage } from '@/lib/billing/agent-entitlement';
 import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billing/chat-identity';
+import { canAccessHiddenAgent } from '@/lib/marketplace/private-access';
 
 export const maxDuration = 60;
 
@@ -123,6 +124,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const agent = marketplaceAgentBySlug(slug);
 
   if (!agent) {
+    return Response.json({ error: 'Unknown agent.' }, { status: 404 });
+  }
+
+  // Private agents (e.g. Echo) are owner-only — hide existence from everyone else.
+  if (agent.hidden && !(await canAccessHiddenAgent())) {
     return Response.json({ error: 'Unknown agent.' }, { status: 404 });
   }
 
