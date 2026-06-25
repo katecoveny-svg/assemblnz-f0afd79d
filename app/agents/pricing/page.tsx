@@ -30,7 +30,7 @@ const GOLD_TEXT: React.CSSProperties = {
 // never drift from the cards. Names only — the registry's server-side prompts
 // never reach the client.
 const sample = (price: number) =>
-  MARKETPLACE_AGENTS.filter((a) => a.priceNzd === price && !a.hidden).map((a) => a.name);
+  MARKETPLACE_AGENTS.filter((a) => a.priceNzd === price).map((a) => a.name);
 
 const FREE_AGENTS = sample(0);
 const EVERYDAY_AGENTS = sample(9.99);

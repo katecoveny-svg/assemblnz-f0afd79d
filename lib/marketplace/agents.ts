@@ -58,8 +58,6 @@ export type MarketplaceAgent = {
   toolHref?: string;
   /** featured in the marketplace — surfaces as the lead "Start here" card */
   featured: boolean;
-  /** hidden from public listings (private agents like Echo); still resolvable by slug for gated access */
-  hidden: boolean;
 };
 
 export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: string }[] = [
@@ -129,8 +127,7 @@ type AgentDef = Omit<
   | 'fallbackModels'
   | 'accent'
   | 'featured'
-  | 'hidden'
-> & { status?: AgentStatus; tools?: string[]; skills?: string[]; featured?: boolean; hidden?: boolean };
+> & { status?: AgentStatus; tools?: string[]; skills?: string[]; featured?: boolean };
 
 function buildAgent(def: AgentDef): MarketplaceAgent {
   const body = AGENT_PROMPTS[def.slug];
@@ -146,49 +143,11 @@ function buildAgent(def: AgentDef): MarketplaceAgent {
     fallbackModels: [...FALLBACK_MODELS],
     accent: TILE_BG[def.tile],
     featured: def.featured ?? false,
-    hidden: def.hidden ?? false,
     systemPrompt: body.replace('[SHARED BRAND PREFIX]', SHARED_BRAND_PREFIX),
   };
 }
 
 const AGENT_DEFS: AgentDef[] = [
-  // ── Private (hidden from public listings; gated to the owner) ─────────
-  {
-    slug: 'echo',
-    name: 'Echo',
-    teReo: '',
-    description:
-      'A private founder co-pilot for Kate — chief of staff, marketer and calm operator for running assembl alongside family life. Private; not for sale.',
-    whatItDoes: [
-      'Plans the week, surfaces the one or two things that actually matter today, and drafts outreach, posts and emails for review.',
-      'Scouts funding and tracks the AI landscape, and pressure-tests ideas like a sharp co-founder.',
-      'Protects family time and keeps work light when the home week is heavy.',
-    ],
-    whatYouGet: [
-      'A tight daily read on what moves the needle.',
-      'Drafts ready to send — never sent for you.',
-      'An honest sounding board with NZ-startup and AI expertise.',
-    ],
-    sampleOutputs: [
-      'Quiet week ahead — a good window to ship the assembl post. Want a draft?',
-      'RDTI evidence is light this month; here are three activities worth logging.',
-    ],
-    nzKnowledge: ['NZ startup funding (NZGCP, Callaghan, R&D Tax Incentive, grants)', 'assembl brand voice', 'Privacy Act 2020'],
-    category: 'business',
-    modelTier: 'premium',
-    priceTier: 'free',
-    icon: 'atlas',
-    tile: 'ink',
-    hidden: true,
-    greeting:
-      'What are we moving today, Kate — assembl, the week, or something on your mind?',
-    starters: [
-      'What should I focus on today?',
-      'Draft a post about what we shipped this week.',
-      'Any funding worth chasing right now?',
-      'Pressure-test an idea with me.',
-    ],
-  },
   // ── Start here ───────────────────────────────────────────────────────
   {
     slug: 'atlas',
@@ -1191,7 +1150,7 @@ export function toPublicAgent(agent: MarketplaceAgent): PublicMarketplaceAgent {
 }
 
 export const PUBLIC_MARKETPLACE_AGENTS: PublicMarketplaceAgent[] =
-  MARKETPLACE_AGENTS.filter((a) => !a.hidden).map(toPublicAgent);
+  MARKETPLACE_AGENTS.map(toPublicAgent);
 
 const BY_SLUG = new Map(MARKETPLACE_AGENTS.map((a) => [a.slug, a]));
 

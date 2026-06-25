@@ -3,6 +3,7 @@ import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
 import { FALLBACK_DISCLOSURE, pickRung, resolveModelLadder } from '@/lib/ai/router';
 import { recordModelFallback } from '@/lib/ai/fallback-log';
 import { ECHO_MODEL_TIER, ECHO_PUBLIC, ECHO_SYSTEM_PROMPT } from '@/lib/echo/persona';
+import { canAccessHiddenAgent } from '@/lib/marketplace/private-access';
 
 export const maxDuration = 60;
 
@@ -19,6 +20,11 @@ export const maxDuration = 60;
  * appears on the shelf.
  */
 export async function POST(req: Request) {
+  // Owner-only: Echo is Kate's private co-pilot. Reject anyone else.
+  if (!(await canAccessHiddenAgent())) {
+    return Response.json({ error: 'unauthorized' }, { status: 401 });
+  }
+
   const primaryModelId = MODEL_TIER_TO_ANTHROPIC[ECHO_MODEL_TIER];
   const ladder = resolveModelLadder(primaryModelId, ECHO_PUBLIC.fallbackModels);
   const rung = pickRung(ladder);
