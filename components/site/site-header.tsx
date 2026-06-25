@@ -47,6 +47,13 @@ export function isAtlas(pathname: string | null): boolean {
   );
 }
 
+/** Echo — Kate's private founder co-pilot — is a full-screen chat with its own
+ *  in-page header (it reuses the marketplace AgentChat). Suppress global chrome. */
+export function isEcho(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === "/echo" || pathname.startsWith("/echo/");
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMac, setIsMac] = useState(true);
@@ -76,7 +83,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /dash/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || pathname === "/") return null;
 
   return (
     <header

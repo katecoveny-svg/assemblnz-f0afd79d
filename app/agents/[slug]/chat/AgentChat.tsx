@@ -35,7 +35,19 @@ function messageImages(message: UIMessage): string[] {
 
 type Paywall = { message: string } | null;
 
-export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
+export function AgentChat({
+  agent,
+  apiPath,
+  backHref,
+}: {
+  agent: PublicMarketplaceAgent;
+  /** Override the chat API endpoint (default: the marketplace agent route). */
+  apiPath?: string;
+  /** Override the header back link (default: the agent detail page). */
+  backHref?: string;
+}) {
+  const chatApi = apiPath ?? `/api/agents/${agent.slug}/chat`;
+  const back = backHref ?? `/agents/${agent.slug}`;
   const greeting: UIMessage = {
     id: 'greeting',
     role: 'assistant',
@@ -55,7 +67,7 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
   }, []);
 
   const { messages, sendMessage, status, error } = useChat({
-    transport: new DefaultChatTransport({ api: `/api/agents/${agent.slug}/chat`, fetch: chatFetch }),
+    transport: new DefaultChatTransport({ api: chatApi, fetch: chatFetch }),
     messages: [greeting],
   });
 
@@ -127,7 +139,7 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
       >
         <div className="flex items-center gap-3">
           <Link
-            href={`/agents/${agent.slug}`}
+            href={back}
             aria-label="Back to agent details"
             className="rounded-full p-1.5 hover:bg-black/5"
             style={{ color: PALETTE.ink }}
