@@ -54,6 +54,19 @@ export function isEcho(pathname: string | null): boolean {
   return pathname === "/echo" || pathname.startsWith("/echo/");
 }
 
+/** Signed-out auth surfaces (/login, /start/signup, anything under /auth/*) ship
+ *  their own canon chrome (AuthHeader/AuthFooter) with an always-clickable
+ *  wordmark — see app/login/layout.tsx. Suppress the global site chrome there so
+ *  we never double up or leak the old kete-cutout footer mark onto auth pages. */
+export function isAuthSurface(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return (
+    pathname === "/login" ||
+    pathname === "/start/signup" ||
+    pathname.startsWith("/auth/")
+  );
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMac, setIsMac] = useState(true);
@@ -83,7 +96,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /dash/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || pathname === "/") return null;
 
   return (
     <header
