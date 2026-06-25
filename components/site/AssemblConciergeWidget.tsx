@@ -11,26 +11,26 @@ type Message = {
 };
 
 const QUICK_PROMPTS = [
-  'Which kete fits construction?',
-  'What does Industry Pack cost?',
+  'Which agent fits my work?',
+  'What do agents cost?',
   'How do agents collaborate?',
   'What is an evidence pack?',
 ] as const;
 
 const KNOWLEDGE = [
   {
-    match: ['price', 'cost', 'industry pack', 'pricing', 'pay'],
+    match: ['price', 'cost', 'pricing', 'pay', 'how much', 'subscription', 'plan'],
     answer:
-      'Industry Pack is NZ$3,500/mo flat, GST exclusive, for one industry pack with its specialist fleet, evidence inbox, and proof layer. Tōro is separate at NZ$29/mo for families. Pilot Sprint is NZ$5,000 once-off for two weeks, one workflow, and one evidence pack.',
+      'assembl agents are priced per agent. Many are free, most are NZ$9.99/month, and the specialist Trades, Build, Health and Creative agents are NZ$199/month — GST exclusive. Each agent card shows its price, and you can install one to your phone and try it before you pay.',
     href: '/pricing',
     cta: 'See pricing',
   },
   {
-    match: ['kete', 'industry', 'construction', 'hospitality', 'freight', 'automotive', 'creative', 'education', 'retail'],
+    match: ['which', 'agent', 'fit', 'family', 'whanau', 'business', 'trades', 'health', 'build', 'creative', 'find', 'recommend'],
     answer:
-      'assembl has nine packs: Waihanga, Manaaki, Pīkau, Arataki, Auaha, Ako, Mātauranga, Hoko, and Tōro. The eight industry packs run business workflows; Tōro is the family assistant.',
-    href: '/kete',
-    cta: 'Explore kete',
+      'assembl is a marketplace of specialist Aotearoa agents across Family & Whānau, Business & SME, Trades, Ops & Coast, Build, Health and Creative. Tell me your trade or the admin that drains your week and I will point you to the right one.',
+    href: '/agents',
+    cta: 'Browse agents',
   },
   {
     match: ['agent', 'collaborate', 'handoff', 'fleet', 'together'],
@@ -65,7 +65,7 @@ export function AssemblConciergeWidget() {
     {
       role: 'agent',
       body:
-        'Kia ora. I know the assembl offer, kete, pricing, evidence packs, and agent fleet. Ask me where to start.',
+        'Kia ora. I can help you find the right assembl agent, explain pricing, and show how evidence packs work. Where would you like to start?',
     },
   ]);
 
@@ -286,7 +286,7 @@ function findAnswer(input: string) {
     KNOWLEDGE.find((entry) => entry.match.some((needle) => lower.includes(needle))) ??
     {
       answer:
-        'The short version: assembl gives NZ operators specialist agents, live business context, reviewable drafts, and evidence packs. For a precise answer, start with the kete or workflow you care about.',
+        'The short version: assembl is a marketplace of specialist Aotearoa agents for the admin work that drains your team — reviewable drafts, live NZ context, and an evidence pack behind every output. Tell me your trade and I will point you to the right agent.',
       href: '/agents',
       cta: 'Browse agents',
     }

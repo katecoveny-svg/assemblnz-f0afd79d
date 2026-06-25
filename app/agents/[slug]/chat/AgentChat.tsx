@@ -339,7 +339,6 @@ export function AgentChat({ agent }: { agent: PublicMarketplaceAgent }) {
             ref={fileInputRef}
             type="file"
             accept="image/*"
-            capture="environment"
             className="hidden"
             onChange={(e) => {
               const f = e.target.files?.[0];
