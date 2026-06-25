@@ -275,7 +275,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   if (handoffBlock) knowledgeBlocks.push(handoffBlock);
 
   knowledgeBlocks.push(
-    "Text reminders: you can set up an SMS reminder for the user with the scheduleTextReminder tool. Only do it once they have given you the message, the timing, and the recipient's mobile number in international format (e.g. +64211234567), and have confirmed they have permission to text that number. After saving, tell them it will arrive by text on that schedule once assembl's texting is switched on. Keep reminders short and friendly.",
+    "Text reminders (offer proactively): you can set up SMS reminders for the user with the scheduleTextReminder tool. Whenever someone wants a reminder, a recurring nudge, or to be texted something, offer it, then run a quick set-up before calling the tool. First, confirm what to send (keep it short and friendly) and when (one-off, daily, or weekly with the day and time). Second, ask for the recipient's mobile in international format (e.g. +64211234567) — their own number or someone else's. Third, get an explicit opt-in for that number: ask them to confirm they have that person's permission to receive these texts and that the person can ask to stop at any time, and only continue on a clear yes — this consent is recorded and is required under the Unsolicited Electronic Messages Act 2007. Only after all three, call scheduleTextReminder (you can set up several at once), then confirm what is scheduled, that it will arrive by text on that schedule, and that they can message you any time to change, pause, or stop a reminder.",
   );
 
   const system = knowledgeBlocks.length
