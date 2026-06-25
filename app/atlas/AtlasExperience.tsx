@@ -132,6 +132,21 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
     void loadProfile();
   }, [loadProfile]);
 
+  // ── Readiness handoff — pick the conversation up where the quiz left off ──
+  useEffect(() => {
+    let summary: string | null = null;
+    try {
+      summary = sessionStorage.getItem('atlas-readiness-summary');
+      if (summary) sessionStorage.removeItem('atlas-readiness-summary');
+    } catch {
+      /* private mode — start fresh */
+    }
+    if (summary) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setInput(`From my readiness check: ${summary} Where should I start?`);
+    }
+  }, []);
+
   // ── Voice toggle persistence ───────────────────────────────────────────
   useEffect(() => {
     // localStorage is unavailable during SSR, so this read must happen on mount,
@@ -361,6 +376,27 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
               The free AI coach. Tell me about your week and I will point you to the agents that fit — and tell
               you straight where AI will not help. I will not sell you anything.
             </p>
+
+            {/* On-ramp: the structured readiness check is the quick way in */}
+            <Link
+              href="/atlas/readiness"
+              prefetch={false}
+              className="mt-5 flex items-center gap-3 rounded-[18px] border p-4 transition hover:-translate-y-0.5"
+              style={{ borderColor: PALETTE.canary, backgroundColor: PALETTE.cream }}
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: PALETTE.canary }}>
+                <Sparkles size={18} style={{ color: PALETTE.ink }} aria-hidden />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-base font-bold" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.ink }}>
+                  New here? Take the 5-minute readiness check
+                </span>
+                <span className="block text-sm" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.body }}>
+                  Ten plain questions → your AI readiness, the agents that fit, and the NZ rules to know.
+                </span>
+              </span>
+              <ArrowUp size={18} style={{ transform: 'rotate(45deg)', color: PALETTE.gold }} aria-hidden />
+            </Link>
 
             {/* Voice controls */}
             <div className="mt-5 flex flex-wrap items-center gap-2">
