@@ -50,6 +50,7 @@ export const GAME_ACTIONS: GameAction[] = [
   { action: 'pilot-tested', points: 100, dailyCap: null, once: false, label: 'Ran the generated tests in Pilot' },
   { action: 'pilot-launch-plan', points: 75, dailyCap: null, once: false, label: 'Generated a launch checklist' },
   { action: 'diagnostic-complete', points: 75, dailyCap: null, once: true, label: 'Mapped your week with Atlas' },
+  { action: 'readiness-complete', points: 200, dailyCap: null, once: true, badge: 'discover-1', label: 'Completed the AI readiness diagnostic' },
   // Pilot per-step micro-rewards (steps 1–9 of the 13-step build). Each pays
   // once per draft (dedupe on the draft id) so revisiting a step never refarms.
   { action: 'pilot-step-goal', points: 50, dailyCap: null, once: true, dedupeMeta: 'draft', label: 'Chose a goal in Pilot' },
