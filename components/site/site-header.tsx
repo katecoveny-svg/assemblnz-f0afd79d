@@ -112,7 +112,7 @@ export function SiteHeader() {
           >
             <AssemblWordmark />
           </Link>
-          <span className="hidden whitespace-nowrap font-mono text-[9px] font-light uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
+          <span className="hidden whitespace-nowrap font-mono text-[10px] font-light uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
             {PROOF_LINE}
           </span>
         </div>
@@ -159,7 +159,7 @@ export function SiteHeader() {
           >
             <Search className="h-3.5 w-3.5" aria-hidden />
             <span>Search</span>
-            <kbd className="ml-1 rounded-sm border border-[rgba(35,33,31,0.12)] bg-white/60 px-1.5 py-0.5 font-mono text-[9px]">
+            <kbd className="ml-1 rounded-sm border border-[rgba(35,33,31,0.12)] bg-white/60 px-1.5 py-0.5 font-mono text-[10px]">
               {isMac ? "⌘K" : "Ctrl K"}
             </kbd>
           </button>
@@ -211,7 +211,7 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="assembl — home"
-              className="text-[30px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)]"
+              className="rounded-sm text-[30px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
               onClick={() => setMobileNavOpen(false)}
             >
               <AssemblWordmark />
