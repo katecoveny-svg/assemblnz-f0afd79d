@@ -16,14 +16,21 @@ import 'server-only';
 import { getServiceClient } from '@/lib/supabase/service';
 import { ALL_ACCESS_SLUG, FREE_MESSAGE_LIMIT } from './agent-pricing';
 
-/** Plans on an agent_installs row that grant unlimited (paid) access. */
+/**
+ * Plans on an agent_installs row that grant unlimited (paid) access. The locked
+ * ladder uses everyday/specialist/all_access; the flat per_agent + bundle ids
+ * are kept so grandfathered subscriptions stay entitled.
+ */
 const PAID_INSTALL_PLANS = [
   'paid', // legacy
+  'everyday',
+  'specialist',
+  'all_access',
+  // legacy (grandfathered) — flat per-agent + bundle ladder
   'per_agent',
   'bundle_5',
   'bundle_10',
   'bundle_20',
-  'all_access',
 ];
 
 /** Who we are counting / entitling. Exactly one field is set. */

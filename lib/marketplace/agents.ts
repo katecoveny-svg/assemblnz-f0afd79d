@@ -14,9 +14,9 @@
 
 import { AGENT_PROMPTS, SHARED_BRAND_PREFIX } from './agent-prompts';
 import {
-  PER_AGENT_PRICE_NZD,
   ALL_ACCESS_PLAN,
   getAgentPlan,
+  planForAgentPriceNzd,
 } from '@/lib/billing/agent-pricing';
 
 export type ModelTier = 'cheap' | 'mid' | 'premium';
@@ -1280,10 +1280,9 @@ export const PRICE_TIER_LABELS: Record<PriceTier, string> = {
  */
 export function priceLabel(agent?: Pick<MarketplaceAgent, 'priceNzd'>): string {
   if (!agent || agent.priceNzd === 0) return 'Free';
-  // Canonical, charged price is the flat per-agent rate (NZ$15/mo) — the same
-  // price the per_agent Stripe checkout uses. The old tier numbers (priceNzd)
-  // are retained only for the legacy /agents/pricing grouping.
-  return `$${PER_AGENT_PRICE_NZD}/mo`;
+  // The locked ladder: each agent is charged at its tier price — $9.99 for the
+  // everyday agents, $199 for the specialists. GST inclusive.
+  return `$${agent.priceNzd}/mo`;
 }
 
 /** All-Access monthly price (NZD) — the plan that includes vertical agents. */
@@ -1292,8 +1291,8 @@ export const ALL_ACCESS_PRICE_NZD =
 
 /**
  * Price label for a card or detail header. Industry-vertical agents are sold
- * through the All-Access plan, not the flat per-agent rate, so they show the
- * All-Access price; every other agent shows the flat per-agent label.
+ * through the All-Access plan, so they show the All-Access price; every other
+ * agent shows its per-agent tier price ($9.99 / $199, GST inclusive).
  */
 export function agentPriceLabel(
   agent?: Pick<MarketplaceAgent, 'priceNzd' | 'vertical'>,
@@ -1303,13 +1302,17 @@ export function agentPriceLabel(
   return priceLabel(agent);
 }
 
-/** Checkout href for an agent's Subscribe CTA — All-Access for verticals. */
+/**
+ * Checkout href for an agent's Subscribe CTA. Verticals route to All-Access;
+ * every other agent routes to the plan that charges its tier ($9.99 everyday or
+ * $199 specialist).
+ */
 export function agentCheckoutHref(
-  agent: Pick<MarketplaceAgent, 'slug' | 'vertical'>,
+  agent: Pick<MarketplaceAgent, 'slug' | 'priceNzd' | 'vertical'>,
 ): string {
-  return agent.vertical
-    ? `/agents/checkout?plan=${ALL_ACCESS_PLAN}`
-    : `/agents/checkout?plan=per_agent&agent=${agent.slug}`;
+  if (agent.vertical) return `/agents/checkout?plan=${ALL_ACCESS_PLAN}`;
+  const plan = planForAgentPriceNzd(agent.priceNzd);
+  return `/agents/checkout?plan=${plan}&agent=${agent.slug}`;
 }
 
 /**

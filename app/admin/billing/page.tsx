@@ -60,7 +60,7 @@ export default async function BillingPage() {
       <SectionTitle>How billing works</SectionTitle>
       <Card>
         <ul style={{ fontFamily: BODY, color: C.body, fontSize: 14, lineHeight: 1.6, margin: 0, paddingLeft: 18 }}>
-          <li>Agents bill at a flat NZ$15 each, with bundle prices for 5/10/20 and all-access.</li>
+          <li>Agents bill per tier — NZ$9.99/mo everyday, NZ$199/mo specialist, NZ$250/mo all-access (GST inclusive).</li>
           <li>Three free messages per agent, then the paywall — counted in agent chat sessions.</li>
           <li>
             Failed charges show up as <code style={{ fontFamily: MONO, fontSize: 12.5 }}>past_due</code> /{' '}

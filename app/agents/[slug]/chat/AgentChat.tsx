@@ -5,7 +5,12 @@ import Link from 'next/link';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
 import { ArrowLeft, ArrowUp, FileDown, ImagePlus, Lock, X } from 'lucide-react';
-import { PALETTE, priceLabel, type PublicMarketplaceAgent } from '@/lib/marketplace/agents';
+import {
+  agentCheckoutHref,
+  PALETTE,
+  priceLabel,
+  type PublicMarketplaceAgent,
+} from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { DashLoader } from '@/components/marketplace/DashLoader';
 import { Wordmark } from '@/components/marketplace/Wordmark';
@@ -262,7 +267,7 @@ export function AgentChat({
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <Link
-                  href={`/agents/checkout?plan=per_agent&agent=${agent.slug}`}
+                  href={agentCheckoutHref(agent)}
                   className={orb.installPill}
                   style={{ padding: '8px 16px', fontSize: 12 }}
                 >

@@ -235,7 +235,7 @@ export function AgentCheckout({
         </div>
 
         <p className="mt-8 text-sm" style={{ color: PALETTE.muted }}>
-          You&apos;ll be taken to Stripe to enter payment. Prices in NZD, GST exclusive. Cancel any
+          You&apos;ll be taken to Stripe to enter payment. Prices in NZD, GST inclusive. Cancel any
           time.
         </p>
       </div>

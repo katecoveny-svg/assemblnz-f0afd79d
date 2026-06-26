@@ -334,13 +334,13 @@ export default function HapaiPage() {
           <div>
             <p className="text-lg leading-relaxed text-[color:var(--text-body)]">
               The full HAPAI library, branded to your org and available to every
-              team member, is included in a kete pack at $3,500/month.
+              team member, comes with All-Access — every agent we make, NZ$250/month.
               Your wordmark, your colour, your voice, your review rules. The
               point is simple: every team should be able to create, open, and
               share small internal tools for the work they actually do.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/pricing" className="cta-primary inline-flex h-12 items-center px-6">
+              <Link href="/agents/pricing" className="cta-primary inline-flex h-12 items-center px-6">
                 See pricing
               </Link>
               <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center px-6">
