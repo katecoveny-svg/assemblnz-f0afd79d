@@ -38,7 +38,7 @@ export function AgentCard({
       animate={{ opacity: 1, y: 0 }}
       whileHover={hoverLift}
       transition={{ ...CANON_TRANSITION, delay: Math.min(index * 0.035, 0.28) }}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_18px_44px_rgba(58,56,50,0.12)] focus-within:-translate-y-1 focus-within:shadow-[0_18px_44px_rgba(58,56,50,0.12)] ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_18px_44px_rgba(58,56,50,0.12)] focus-within:-translate-y-1 focus-within:scale-[1.01] focus-within:shadow-[0_18px_44px_rgba(58,56,50,0.12)] ${
         selected
           ? 'border-[color:var(--assembl-sage-mist)] ring-2 ring-[color:var(--assembl-sage-mist)]'
           : 'border-[rgba(35,33,31,0.10)]'
@@ -60,19 +60,19 @@ export function AgentCard({
         <span className="h-2 w-2 rounded-full" style={{ backgroundColor: kete.accent }} aria-hidden />
         <Link
           href={`/kete/${kete.slug}`}
-          className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+          className="rounded-sm font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] transition-colors hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-2"
         >
           {kete.name} · {kete.industry}
         </Link>
       </div>
 
       <div className="mt-4 flex items-start justify-between gap-3">
-        <Link href={agentHref} className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-4">
+        <Link href={agentHref} className="rounded-sm focus-visible:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-4">
           <h3 className="font-display text-3xl font-light leading-none text-[color:var(--text-primary)]">
             {agent.name}
           </h3>
         </Link>
-        <span className="rounded-full border border-[rgba(58,56,50,0.28)] bg-[rgba(58,56,50,0.08)] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
+        <span className="rounded-full border border-[rgba(58,56,50,0.28)] bg-[rgba(58,56,50,0.08)] px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-[color:var(--assembl-pounamu)]">
           {agent.status ?? 'live'}
         </span>
       </div>
