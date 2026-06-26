@@ -99,7 +99,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href="/pricing"
+                  href="/agents/pricing"
                   className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   Pricing

@@ -1,7 +1,7 @@
 /**
- * POST /api/agents/checkout — subscribe to the flat agent ladder.
+ * POST /api/agents/checkout — subscribe to the agent ladder.
  *
- * Body: { plan: 'per_agent' | 'bundle_5' | 'bundle_10' | 'bundle_20' | 'all_access',
+ * Body: { plan: 'everyday' | 'specialist' | 'all_access',
  *         agents: string[] }   // the agent slugs the customer picked
  *
  * Auth-gated. We validate the pick count matches the plan, resolve a Stripe
@@ -19,6 +19,7 @@ import {
   agentCountForPlan,
   getAgentPlan,
   isAgentPlan,
+  planForAgentPriceNzd,
   priceIdForPlan,
 } from '@/lib/billing/agent-pricing';
 import { marketplaceAgentBySlug } from '@/lib/marketplace/agents';
@@ -55,6 +56,18 @@ export async function POST(req: Request) {
     const unknown = picked.find((slug) => !marketplaceAgentBySlug(slug));
     if (unknown) {
       return NextResponse.json({ error: `Unknown agent: ${unknown}` }, { status: 400 });
+    }
+    // The plan must charge the picked agent's tier — a $9.99 everyday agent
+    // can't be bought on the $199 specialist plan, and vice versa.
+    const mismatch = picked.find((slug) => {
+      const agent = marketplaceAgentBySlug(slug);
+      return agent ? planForAgentPriceNzd(agent.priceNzd) !== plan : false;
+    });
+    if (mismatch) {
+      return NextResponse.json(
+        { error: `That agent isn't on the ${getAgentPlan(plan)?.name ?? plan} plan.` },
+        { status: 400 },
+      );
     }
   }
 

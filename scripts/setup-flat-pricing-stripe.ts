@@ -1,5 +1,6 @@
 /**
- * One-off (idempotent) setup for the flat per-agent + bundle Stripe ladder.
+ * One-off (idempotent) setup for the locked agent Stripe ladder
+ * (Everyday $9.99 / Specialist $199 / All-Access $250).
  *
  *   # verify against test first, then run with the live key
  *   STRIPE_SECRET_KEY=sk_test_... pnpm tsx scripts/setup-flat-pricing-stripe.ts
@@ -9,12 +10,13 @@
  *   1. Creates a product + recurring monthly NZD price for each plan in
  *      AGENT_PLANS, using a stable lookup_key. Re-running reuses the existing
  *      price for each lookup_key instead of creating duplicates.
- *   2. ARCHIVES (never deletes) the old per-agent ladder — Tōro $9.99,
- *      Whānau $24.99, Pro $49.99, Business $199 — by matching their recurring
- *      NZD amounts and setting active=false on the price (and its product when
- *      no active price remains). Archiving keeps existing subscriptions running;
- *      it only hides the price from new checkouts. Self-serve Solo ($49) and
- *      Team ($149) are left untouched.
+ *   2. ARCHIVES (never deletes) the retired ladders — the flat per-agent $15 +
+ *      bundles ($50 / $90 / $150), plus the never-used Whānau $24.99 / Pro
+ *      $49.99 tiers — by matching their recurring NZD amounts and setting
+ *      active=false on the price (and its product when no active price remains).
+ *      Archiving keeps existing subscriptions running; it only hides the price
+ *      from new checkouts. Self-serve Solo ($49) and Team ($149) are left
+ *      untouched.
  *   3. Prints the new price ids to paste into Vercel env (and .env.local).
  *
  * Per PRICING-LOCKED.md, we never delete a price id — this only adds + archives.
@@ -22,10 +24,11 @@
 import Stripe from 'stripe';
 import { AGENT_PLANS } from '../lib/billing/agent-pricing';
 
-// Old per-agent ladder amounts to archive, in cents (NZD). Matched precisely so
-// we never touch the new ladder (1500/5000/9000/15000/25000) or self-serve
-// Solo (4900) / Team (14900).
-const ARCHIVE_AMOUNTS_CENTS = new Set([999, 2499, 4999, 19900]);
+// Retired ladder amounts to archive, in cents (NZD): the flat per-agent $15
+// (1500) + bundles $50/$90/$150 (5000/9000/15000) and the unused Whānau $24.99
+// (2499) / Pro $49.99 (4999) tiers. Matched precisely so we never touch the
+// locked ladder (999/19900/25000) or self-serve Solo (4900) / Team (14900).
+const ARCHIVE_AMOUNTS_CENTS = new Set([1500, 5000, 9000, 15000, 2499, 4999]);
 
 async function main() {
   const key = process.env.STRIPE_SECRET_KEY;
@@ -34,7 +37,7 @@ async function main() {
   }
   const stripe = new Stripe(key, { appInfo: { name: 'assembl-flat-pricing-setup' } });
   const mode = key.startsWith('sk_live') ? 'LIVE' : 'TEST';
-  console.log(`Setting up the flat per-agent + bundle ladder in ${mode} mode…\n`);
+  console.log(`Setting up the locked agent ladder ($9.99 / $199 / $250) in ${mode} mode…\n`);
 
   // ── 1 + 3. Create (or reuse) the new plans ───────────────────────────────
   const results: Record<string, string> = {};
@@ -71,8 +74,8 @@ async function main() {
     results[plan.id] = priceId;
   }
 
-  // ── 2. Archive the old ladder ─────────────────────────────────────────────
-  console.log('\nArchiving the old per-agent ladder (matching recurring NZD amounts)…');
+  // ── 2. Archive the retired ladders ────────────────────────────────────────
+  console.log('\nArchiving the retired flat + bundle ladder (matching recurring NZD amounts)…');
   const newLookupKeys = new Set(AGENT_PLANS.map((p) => p.stripeLookupKey));
   let archivedPrices = 0;
   let archivedProducts = 0;

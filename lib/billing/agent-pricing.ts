@@ -1,20 +1,19 @@
 /**
- * Flat per-agent + bundle pricing — the agent-marketplace ladder.
+ * The locked agent-marketplace pricing ladder.
  *
- * Locked by Kate (June 2026). One flat price per agent, plus bundles that let a
- * customer pick a fixed number of agents, plus an all-access plan. This replaces
- * the old per-agent tier ladder (Tōro $9.99 / Whānau $24.99 / Pro $49.99 /
- * Business $199), whose Stripe products are archived (never deleted) by
- * scripts/setup-flat-pricing-stripe.ts so existing subs keep working.
+ * Locked by Kate (2026-06-27 pricing sweep): one consistent ladder across the
+ * whole site. Each agent carries a per-agent price (Free / $9.99 / $199); the
+ * checkout charges that tier, and All-Access unlocks the lot. This replaces the
+ * earlier flat $15/agent + bundle model (Per-Agent $15 / Bundle 5 $50 / Bundle
+ * 10 $90 / Bundle 20 $150), whose Stripe products are archived (never deleted)
+ * by scripts/setup-flat-pricing-stripe.ts so existing subs keep working.
  *
- *   Per-Agent    NZ$15/mo   1 agent
- *   Bundle 5     NZ$50/mo   pick 5 agents
- *   Bundle 10    NZ$90/mo   pick 10 agents
- *   Bundle 20    NZ$150/mo  pick 20 agents
- *   All-Access   NZ$250/mo  every agent
+ *   Everyday     NZ$9.99/mo   one everyday agent
+ *   Specialist   NZ$199/mo    one specialist agent
+ *   All-Access   NZ$250/mo    every agent
  *
- * Free tier (no Stripe product): the first 3 messages per agent are free, then
- * the paywall. See FREE_MESSAGE_LIMIT.
+ * Prices are GST inclusive (NZ consumer). Free tier (no Stripe product): the
+ * first 3 messages per agent are free, then the paywall. See FREE_MESSAGE_LIMIT.
  *
  * Stripe price IDs are NOT hardcoded — they come from env so the same code runs
  * against test and live keys. Create the products/prices with
@@ -25,16 +24,13 @@
 /** Free messages allowed per agent before the paywall. */
 export const FREE_MESSAGE_LIMIT = 3;
 
-/** Flat headline price for a single agent, in NZD. */
-export const PER_AGENT_PRICE_NZD = 15;
+/** The paid plans on the ladder. `free` is in-app only (no Stripe price). */
+export type AgentPlan = 'everyday' | 'specialist' | 'all_access';
 
-/** The paid plans on the flat ladder. `free` is in-app only (no Stripe price). */
-export type AgentPlan =
-  | 'per_agent'
-  | 'bundle_5'
-  | 'bundle_10'
-  | 'bundle_20'
-  | 'all_access';
+/** Per-agent NZD price → the plan that charges it. Falls back to everyday. */
+export function planForAgentPriceNzd(priceNzd: number): AgentPlan {
+  return priceNzd >= 199 ? 'specialist' : 'everyday';
+}
 
 /** Plans whose entitlement covers every agent (no per-agent pick). */
 export const ALL_ACCESS_PLAN: AgentPlan = 'all_access';
@@ -48,7 +44,7 @@ export const ALL_ACCESS_SLUG = '*';
 export type AgentPlanDef = {
   id: AgentPlan;
   name: string;
-  /** Monthly price in NZD, GST exclusive. */
+  /** Monthly price in NZD, GST inclusive. */
   monthlyNzd: number;
   /** Stable Stripe lookup_key (shared across test + live). */
   stripeLookupKey: string;
@@ -65,40 +61,22 @@ export type AgentPlanDef = {
 
 export const AGENT_PLANS: readonly AgentPlanDef[] = [
   {
-    id: 'per_agent',
-    name: 'Per-Agent',
-    monthlyNzd: 15,
-    stripeLookupKey: 'assembl_per_agent_1500',
-    envVar: 'NEXT_PUBLIC_STRIPE_PRICE_PER_AGENT_1500',
+    id: 'everyday',
+    name: 'Everyday',
+    monthlyNzd: 9.99,
+    stripeLookupKey: 'assembl_everyday_999',
+    envVar: 'NEXT_PUBLIC_STRIPE_PRICE_EVERYDAY_999',
     agentCount: 1,
-    summary: 'One agent, all yours. Add more any time.',
+    summary: 'One everyday agent — the daily admin, cleared. Add more any time.',
   },
   {
-    id: 'bundle_5',
-    name: 'Bundle 5',
-    monthlyNzd: 50,
-    stripeLookupKey: 'assembl_bundle_5_5000',
-    envVar: 'NEXT_PUBLIC_STRIPE_PRICE_BUNDLE_5_5000',
-    agentCount: 5,
-    summary: 'Pick any 5 agents. $10 each — save a third.',
-  },
-  {
-    id: 'bundle_10',
-    name: 'Bundle 10',
-    monthlyNzd: 90,
-    stripeLookupKey: 'assembl_bundle_10_9000',
-    envVar: 'NEXT_PUBLIC_STRIPE_PRICE_BUNDLE_10_9000',
-    agentCount: 10,
-    summary: 'Pick any 10 agents. $9 each.',
-  },
-  {
-    id: 'bundle_20',
-    name: 'Bundle 20',
-    monthlyNzd: 150,
-    stripeLookupKey: 'assembl_bundle_20_15000',
-    envVar: 'NEXT_PUBLIC_STRIPE_PRICE_BUNDLE_20_15000',
-    agentCount: 20,
-    summary: 'Pick any 20 agents. $7.50 each.',
+    id: 'specialist',
+    name: 'Specialist',
+    monthlyNzd: 199,
+    stripeLookupKey: 'assembl_specialist_19900',
+    envVar: 'NEXT_PUBLIC_STRIPE_PRICE_SPECIALIST_19900',
+    agentCount: 1,
+    summary: 'One specialist agent — regulated, high-stakes work on live NZ sources.',
   },
   {
     id: 'all_access',
@@ -156,9 +134,4 @@ export function planForPriceId(
     if (priceId === priceIdForPlan(def.id, env)) return def.id;
   }
   return null;
-}
-
-/** Card/detail price chip for a single agent under flat pricing. */
-export function agentPriceLabel(): string {
-  return `NZ$${PER_AGENT_PRICE_NZD}/mo`;
 }
