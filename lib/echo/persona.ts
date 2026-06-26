@@ -77,4 +77,5 @@ export const ECHO_PUBLIC: PublicMarketplaceAgent = {
     'Draft something in assembl’s voice.',
   ],
   featured: false,
+  vertical: false,
 };

@@ -6,7 +6,7 @@ import { ArrowRight, Search } from 'lucide-react';
 import {
   CATEGORIES,
   CATEGORY_LABELS,
-  priceLabel,
+  agentPriceLabel,
   type MarketplaceCategory,
   type PublicMarketplaceAgent,
 } from '@/lib/marketplace/agents';
@@ -123,7 +123,7 @@ function AgentCard({ agent, index }: { agent: PublicMarketplaceAgent; index: num
       </Link>
 
       <div className={styles.foot}>
-        <span className={styles.price}>{priceLabel(agent)}</span>
+        <span className={styles.price}>{agentPriceLabel(agent)}</span>
         <span className={styles.footActions}>
           <Link href={`/agents/${agent.slug}`} className={styles.details}>
             Details

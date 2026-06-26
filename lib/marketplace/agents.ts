@@ -13,7 +13,11 @@
  */
 
 import { AGENT_PROMPTS, SHARED_BRAND_PREFIX } from './agent-prompts';
-import { PER_AGENT_PRICE_NZD } from '@/lib/billing/agent-pricing';
+import {
+  PER_AGENT_PRICE_NZD,
+  ALL_ACCESS_PLAN,
+  getAgentPlan,
+} from '@/lib/billing/agent-pricing';
 
 export type ModelTier = 'cheap' | 'mid' | 'premium';
 /** Coarse DB bucket — uniformly 'per_agent' (price set by the catalogue tier). */
@@ -58,6 +62,13 @@ export type MarketplaceAgent = {
   toolHref?: string;
   /** featured in the marketplace — surfaces as the lead "Start here" card */
   featured: boolean;
+  /**
+   * Industry-vertical premium agent (owns a whole industry, e.g. Arataki for
+   * automotive). Verticals are not sold at the flat per-agent rate — they are
+   * included in the All-Access plan, so their price label and Subscribe CTA
+   * point at All-Access rather than the $15 per-agent checkout.
+   */
+  vertical: boolean;
 };
 
 export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: string }[] = [
@@ -127,7 +138,8 @@ type AgentDef = Omit<
   | 'fallbackModels'
   | 'accent'
   | 'featured'
-> & { status?: AgentStatus; tools?: string[]; skills?: string[]; featured?: boolean };
+  | 'vertical'
+> & { status?: AgentStatus; tools?: string[]; skills?: string[]; featured?: boolean; vertical?: boolean };
 
 function buildAgent(def: AgentDef): MarketplaceAgent {
   const body = AGENT_PROMPTS[def.slug];
@@ -143,6 +155,7 @@ function buildAgent(def: AgentDef): MarketplaceAgent {
     fallbackModels: [...FALLBACK_MODELS],
     accent: TILE_BG[def.tile],
     featured: def.featured ?? false,
+    vertical: def.vertical ?? false,
     systemPrompt: body.replace('[SHARED BRAND PREFIX]', SHARED_BRAND_PREFIX),
   };
 }
@@ -613,6 +626,7 @@ const AGENT_DEFS: AgentDef[] = [
     category: 'trades',
     modelTier: 'premium',
     priceTier: 'business',
+    vertical: true,
     icon: 'car',
     tile: 'ink',
     greeting:
@@ -1270,6 +1284,32 @@ export function priceLabel(agent?: Pick<MarketplaceAgent, 'priceNzd'>): string {
   // price the per_agent Stripe checkout uses. The old tier numbers (priceNzd)
   // are retained only for the legacy /agents/pricing grouping.
   return `$${PER_AGENT_PRICE_NZD}/mo`;
+}
+
+/** All-Access monthly price (NZD) — the plan that includes vertical agents. */
+export const ALL_ACCESS_PRICE_NZD =
+  getAgentPlan(ALL_ACCESS_PLAN)?.monthlyNzd ?? 250;
+
+/**
+ * Price label for a card or detail header. Industry-vertical agents are sold
+ * through the All-Access plan, not the flat per-agent rate, so they show the
+ * All-Access price; every other agent shows the flat per-agent label.
+ */
+export function agentPriceLabel(
+  agent?: Pick<MarketplaceAgent, 'priceNzd' | 'vertical'>,
+): string {
+  if (!agent || agent.priceNzd === 0) return 'Free';
+  if (agent.vertical) return `All-Access · $${ALL_ACCESS_PRICE_NZD}/mo`;
+  return priceLabel(agent);
+}
+
+/** Checkout href for an agent's Subscribe CTA — All-Access for verticals. */
+export function agentCheckoutHref(
+  agent: Pick<MarketplaceAgent, 'slug' | 'vertical'>,
+): string {
+  return agent.vertical
+    ? `/agents/checkout?plan=${ALL_ACCESS_PLAN}`
+    : `/agents/checkout?plan=per_agent&agent=${agent.slug}`;
 }
 
 /**

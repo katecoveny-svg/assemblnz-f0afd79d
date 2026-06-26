@@ -5,7 +5,8 @@ import {
   DASH_MOTIF,
   MODEL_TIER_LABELS,
   PALETTE,
-  priceLabel,
+  agentPriceLabel,
+  agentCheckoutHref,
   type MarketplaceAgent,
 } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
@@ -71,7 +72,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
                 className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
                 style={{ backgroundColor: `${PALETTE.canary}66`, color: PALETTE.ink }}
               >
-                {priceLabel(agent)}
+                {agentPriceLabel(agent)}
               </span>
             </div>
             <div className="mt-3 flex flex-wrap items-baseline gap-x-3">
@@ -92,11 +93,11 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
           </Link>
           {agent.priceNzd > 0 ? (
             <Link
-              href={`/agents/checkout?plan=per_agent&agent=${agent.slug}`}
+              href={agentCheckoutHref(agent)}
               className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-base font-bold transition hover:bg-white"
               style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
             >
-              Subscribe · {priceLabel(agent)} <ArrowRight size={16} aria-hidden />
+              {agent.vertical ? 'Get' : 'Subscribe ·'} {agentPriceLabel(agent)} <ArrowRight size={16} aria-hidden />
             </Link>
           ) : null}
           {agent.toolHref ? (
@@ -141,7 +142,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
 
         {/* Meta — per-agent price (the first 3 messages with any agent are free) */}
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <Meta label="Price" value={priceLabel(agent)} />
+          <Meta label="Price" value={agentPriceLabel(agent)} />
           <Meta label="Model" value={MODEL_TIER_LABELS[agent.modelTier]} />
           <Meta label="Category" value={CATEGORY_LABELS[agent.category]} />
         </div>
