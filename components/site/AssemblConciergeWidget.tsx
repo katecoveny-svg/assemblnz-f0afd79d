@@ -63,6 +63,8 @@ export function AssemblConciergeWidget() {
   // True on an agent's own chat page (/agents/<slug>/chat) — where this global
   // concierge would overlap the agent's own chat surface.
   const isAgentChatPage = !!pathname && /^\/agents\/[^/]+\/chat(\/|$)/.test(pathname);
+  // The /admin operator hub is an internal surface — keep the public concierge off it.
+  const isAdminHub = !!pathname && (pathname === '/admin' || pathname.startsWith('/admin/'));
 
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
@@ -133,8 +135,9 @@ export function AssemblConciergeWidget() {
     }, 1200);
   };
 
-  // Don't render the global concierge on an agent's own chat page.
-  if (isAgentChatPage) {
+  // Don't render the global concierge on an agent's own chat page or the
+  // internal /admin operator hub.
+  if (isAgentChatPage || isAdminHub) {
     return null;
   }
 

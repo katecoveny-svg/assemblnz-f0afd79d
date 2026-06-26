@@ -132,8 +132,9 @@ const nextConfig: NextConfig = {
       { source: "/electrify/:path*", destination: "/hapai/electrify/:path*", permanent: true },
 
       // Admin & operations
-      { source: "/admin", destination: "https://app.assembl.co.nz/admin", permanent: false },
-      { source: "/admin/:path*", destination: "https://app.assembl.co.nz/admin/:path*", permanent: false },
+      // /admin is now the marketplace-era operator hub served by this app
+      // (app/admin/*, gated by ensureAdmin) — no longer proxied to the legacy
+      // Vite app. /operator stays on legacy until it is migrated.
       { source: "/operator", destination: "https://app.assembl.co.nz/operator", permanent: false },
       { source: "/operator/:path((?!arataki).*)", destination: "https://app.assembl.co.nz/operator/:path*", permanent: false },
       { source: "/care/:path*", destination: "https://app.assembl.co.nz/care/:path*", permanent: false },
