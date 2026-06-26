@@ -12,6 +12,8 @@ import {
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
 import orb from '@/components/marketplace/orbGrid.module.css';
+import { agentEmailAddress } from '@/lib/agent-email/addresses';
+import { EmailAgentLine } from './EmailAgentLine';
 
 // Headline + name face: the assembl display, Cormorant Garamond — matches the
 // homepage orb cards and the restyled marketplace grid so an agent reads the
@@ -119,6 +121,10 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
             </Link>
           ) : null}
         </div>
+
+        {agentEmailAddress(agent.slug) ? (
+          <EmailAgentLine address={agentEmailAddress(agent.slug)!} />
+        ) : null}
 
         <div className="mt-6 h-1.5 w-full rounded-full" style={{ background: DASH_MOTIF }} aria-hidden />
 
