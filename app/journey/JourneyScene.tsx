@@ -118,7 +118,7 @@ export function JourneyScene() {
         {/* ── The map ──────────────────────────────────────────────────── */}
         <section>
           <p className="text-[11px] font-bold uppercase" style={{ fontFamily: 'var(--font-mono), monospace', letterSpacing: '0.2em', color: PALETTE.gold }}>
-            Your journey · Mahere
+            Your journey
           </p>
           <h1 className="mt-1 text-4xl md:text-5xl" style={{ fontFamily: 'var(--font-display), Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em', lineHeight: 0.98 }}>
             Learn AI by doing

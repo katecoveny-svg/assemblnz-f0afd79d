@@ -114,7 +114,7 @@ function AgentCard({ agent, index }: { agent: PublicMarketplaceAgent; index: num
         </span>
         <span className={styles.nameWrap}>
           <span className={styles.name}>{agent.name}</span>
-          <span className={styles.tag}>{agent.teReo || CATEGORY_LABELS[agent.category]}</span>
+          <span className={styles.tag}>{CATEGORY_LABELS[agent.category]}</span>
         </span>
       </Link>
 

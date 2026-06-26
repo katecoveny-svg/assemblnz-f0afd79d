@@ -158,11 +158,6 @@ export function AgentChat({
             <p className="text-xl" style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif', fontWeight: 600, letterSpacing: '-0.01em', color: PALETTE.ink }}>
               {agent.name}
             </p>
-            {agent.teReo ? (
-              <span className="mk-mono text-[11px]" style={{ color: PALETTE.muted }}>
-                {agent.teReo}
-              </span>
-            ) : null}
           </div>
         </div>
         <div className="flex items-center gap-2">

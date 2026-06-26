@@ -71,7 +71,7 @@ export function AssemblConciergeWidget() {
     {
       role: 'agent',
       body:
-        'Kia ora. I can help you find the right assembl agent, explain pricing, and show how evidence packs work. Where would you like to start?',
+        'Hi. I can help you find the right assembl agent, explain pricing, and show how evidence packs work. Where would you like to start?',
     },
   ]);
 
