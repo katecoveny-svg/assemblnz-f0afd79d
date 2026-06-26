@@ -257,7 +257,8 @@ export default function AgentPricingPage() {
             <span className="font-bold" style={{ color: PALETTE.ink }}>
               Building a team?
             </span>{' '}
-            Bundle 5, 10 or 20 agents at a lower per-seat rate.
+            All-access covers every agent for NZ${ALL_ACCESS?.monthlyNzd ?? 250}/mo — or talk to us
+            about volume pricing across your crew.
           </p>
           <Link
             href="/contact"
@@ -270,7 +271,7 @@ export default function AgentPricingPage() {
         </div>
 
         <p className="mt-10 text-sm" style={{ color: PALETTE.muted }}>
-          Prices in NZD, GST exclusive. The first {FREE_MESSAGE_LIMIT} messages with any agent are
+          Prices in NZD, GST inclusive. The first {FREE_MESSAGE_LIMIT} messages with any agent are
           free. Every reply is a draft for a human to check before it is sent, filed, or lodged. Not
           legal, financial, or medical advice.
         </p>

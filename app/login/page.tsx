@@ -38,17 +38,17 @@ export default async function LoginPage({
       <div className="w-full max-w-md">
         <div className="glass-card p-8 sm:p-10">
           <div className="text-center">
-            <p className="font-mono text-[11px] lowercase tracking-[0.32em] text-[color:var(--text-secondary)]">
-              assembl · admin
+            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--dash-gold,#C79B1F)]">
+              Welcome back
             </p>
             <h1
               className="mt-4 font-display leading-[0.95] tracking-tight text-[color:var(--text-primary)]"
-              style={{ fontWeight: 300, fontSize: 'clamp(2.25rem, 5vw, 3rem)' }}
+              style={{ fontWeight: 500, fontSize: 'clamp(2.25rem, 5vw, 3rem)' }}
             >
               Sign in.
             </h1>
             <p className="mx-auto mt-3 max-w-xs text-base leading-relaxed text-[color:var(--text-body)]">
-              We send a magic link to your inbox. No passwords.
+              A magic link, or your password. Whichever is quicker for you.
             </p>
           </div>
 
@@ -79,7 +79,7 @@ export default async function LoginPage({
           New here?{' '}
           <Link
             href="/pilot-sprint"
-            className="font-medium text-[color:var(--assembl-pounamu)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--dash-canary,#FFD42A)] focus-visible:ring-offset-2"
           >
             Book a pilot to get an account →
           </Link>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, Send, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -11,26 +12,26 @@ type Message = {
 };
 
 const QUICK_PROMPTS = [
-  'Which kete fits construction?',
-  'What does Industry Pack cost?',
+  'Which agent fits my work?',
+  'What do agents cost?',
   'How do agents collaborate?',
   'What is an evidence pack?',
 ] as const;
 
 const KNOWLEDGE = [
   {
-    match: ['price', 'cost', 'industry pack', 'pricing', 'pay'],
+    match: ['price', 'cost', 'pricing', 'pay', 'how much', 'subscription', 'plan'],
     answer:
-      'Industry Pack is NZ$3,500/mo flat, GST exclusive, for one industry pack with its specialist fleet, evidence inbox, and proof layer. Tōro is separate at NZ$29/mo for families. Pilot Sprint is NZ$5,000 once-off for two weeks, one workflow, and one evidence pack.',
+      'assembl agents are priced per agent. Many are free, most are NZ$9.99/month, and the specialist Trades, Build, Health and Creative agents are NZ$199/month — GST exclusive. Each agent card shows its price, and you can install one to your phone and try it before you pay.',
     href: '/pricing',
     cta: 'See pricing',
   },
   {
-    match: ['kete', 'industry', 'construction', 'hospitality', 'freight', 'automotive', 'creative', 'education', 'retail'],
+    match: ['which', 'agent', 'fit', 'family', 'whanau', 'business', 'trades', 'health', 'build', 'creative', 'find', 'recommend'],
     answer:
-      'assembl has nine packs: Waihanga, Manaaki, Pīkau, Arataki, Auaha, Ako, Mātauranga, Hoko, and Tōro. The eight industry packs run business workflows; Tōro is the family assistant.',
-    href: '/kete',
-    cta: 'Explore kete',
+      'assembl is a marketplace of specialist Aotearoa agents across Family & Whānau, Business & SME, Trades, Ops & Coast, Build, Health and Creative. Tell me your trade or the admin that drains your week and I will point you to the right one.',
+    href: '/agents',
+    cta: 'Browse agents',
   },
   {
     match: ['agent', 'collaborate', 'handoff', 'fleet', 'together'],
@@ -58,6 +59,13 @@ const KNOWLEDGE = [
 const MAX_CHARS = 1000;
 
 export function AssemblConciergeWidget() {
+  const pathname = usePathname();
+  // True on an agent's own chat page (/agents/<slug>/chat) — where this global
+  // concierge would overlap the agent's own chat surface.
+  const isAgentChatPage = !!pathname && /^\/agents\/[^/]+\/chat(\/|$)/.test(pathname);
+  // The /admin operator hub is an internal surface — keep the public concierge off it.
+  const isAdminHub = !!pathname && (pathname === '/admin' || pathname.startsWith('/admin/'));
+
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -65,7 +73,7 @@ export function AssemblConciergeWidget() {
     {
       role: 'agent',
       body:
-        'Kia ora. I know the assembl offer, kete, pricing, evidence packs, and agent fleet. Ask me where to start.',
+        'Hi. I can help you find the right assembl agent, explain pricing, and show how evidence packs work. Where would you like to start?',
     },
   ]);
 
@@ -126,6 +134,12 @@ export function AssemblConciergeWidget() {
       setIsTyping(false);
     }, 1200);
   };
+
+  // Don't render the global concierge on an agent's own chat page or the
+  // internal /admin operator hub.
+  if (isAgentChatPage || isAdminHub) {
+    return null;
+  }
 
   return (
     <aside className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 md:bottom-6 md:right-6">
@@ -240,7 +254,7 @@ export function AssemblConciergeWidget() {
                 <span
                   id="concierge-counter"
                   className={cn(
-                    "font-mono text-[9px] uppercase tracking-[0.1em]",
+                    "font-mono text-[10px] uppercase tracking-[0.1em]",
                     draft.length > MAX_CHARS * 0.9
                       ? "text-destructive font-medium"
                       : "text-[color:var(--text-secondary)]"
@@ -286,7 +300,7 @@ function findAnswer(input: string) {
     KNOWLEDGE.find((entry) => entry.match.some((needle) => lower.includes(needle))) ??
     {
       answer:
-        'The short version: assembl gives NZ operators specialist agents, live business context, reviewable drafts, and evidence packs. For a precise answer, start with the kete or workflow you care about.',
+        'The short version: assembl is a marketplace of specialist Aotearoa agents for the admin work that drains your team — reviewable drafts, live NZ context, and an evidence pack behind every output. Tell me your trade and I will point you to the right agent.',
       href: '/agents',
       cta: 'Browse agents',
     }

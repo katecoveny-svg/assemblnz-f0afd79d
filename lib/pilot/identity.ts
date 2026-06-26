@@ -1,11 +1,10 @@
 /**
- * Pilot step-1 identity suggestions — icon + optional te reo label.
+ * Pilot step-1 identity suggestions — icon only.
  *
- * Deterministic keyword matching, not an AI call: it is instant, reliable, and
- * — for the te reo label — respects tikanga by only ever suggesting from a
- * small, curated set of common, uncontested everyday words. It NEVER invents
- * te reo, and skips the suggestion entirely when nothing fits (per the brief
- * and the English-first voice canon). The user can always edit or clear it.
+ * Deterministic keyword matching, not an AI call: instant and reliable. Te reo
+ * labels are no longer auto-suggested (English-first canon, 2026-06-24): a
+ * drafted agent ships English-only and the user can add a te reo label by hand
+ * if the word genuinely fits. See suggestTeReo below.
  *
  * Icon names map to the keys in components/marketplace/AgentIcon.tsx.
  */
@@ -53,29 +52,14 @@ export function suggestIcon(text: string): string {
   return 'spark';
 }
 
-// Curated, uncontested everyday te reo. Each is a common noun in daily use,
-// not a tikanga-loaded term. Only suggested when the domain clearly fits.
-const TE_REO_RULES: { tags: string[]; teReo: string }[] = [
-  { tags: ['family', 'household', 'whānau', 'whanau', 'home'], teReo: 'Whānau' },
-  { tags: ['meeting', 'hui', 'minutes'], teReo: 'Hui' },
-  { tags: ['school', 'class', 'kura', 'teacher'], teReo: 'Kura' },
-  { tags: ['study', 'learn', 'tutor', 'ako'], teReo: 'Ako' },
-  { tags: ['marine', 'sea', 'ocean', 'moana', 'tide'], teReo: 'Moana' },
-  { tags: ['fishing', 'fish', 'catch', 'ika'], teReo: 'Ika' },
-  { tags: ['travel', 'trip', 'journey', 'haerenga'], teReo: 'Haerenga' },
-  { tags: ['notice', 'newsletter', 'pānui', 'panui', 'announcement'], teReo: 'Pānui' },
-  { tags: ['health', 'wellbeing', 'hauora', 'care'], teReo: 'Hauora' },
-];
-
 /**
- * Suggest a quiet te reo label if — and only if — the domain naturally fits.
- * Returns '' to mean "skip" (per the English-first canon: never force it).
+ * Te reo labels are no longer auto-suggested (2026-06-24 English-first canon:
+ * te reo only where it earns its place, and never machine-applied). Always
+ * returns '' so a freshly drafted agent ships English-only; the user can add
+ * a te reo label by hand if the word is genuinely the right one. The signature
+ * is kept so callers (the identity route, the draft form) stay unchanged.
  */
-export function suggestTeReo(text: string): string {
-  const hay = text.toLowerCase();
-  for (const rule of TE_REO_RULES) {
-    if (rule.tags.some((t) => hay.includes(t))) return rule.teReo;
-  }
+export function suggestTeReo(_text: string): string {
   return '';
 }
 

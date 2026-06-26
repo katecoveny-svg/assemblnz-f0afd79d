@@ -1,5 +1,25 @@
 # PRICING LOCKED — 2026-05-15
 
+> **🔒 SUPERSEDED — 2026-06-27 pricing sweep (Kate, autonomous authority).**
+> The whole site is locked to ONE consumer agent-marketplace ladder. Everything
+> below (kete packs, Pilot Sprint cross-sell, Starter/Pack/Outcome, Solo/Team
+> self-serve) is retired for customer-facing pricing copy. The locked ladder is:
+> - **Free** — the utility agents stay free; every paid agent gives 3 free messages first.
+> - **Everyday agent** — NZ$9.99/month per agent.
+> - **Specialist agent** — NZ$199/month per agent.
+> - **All-Access** — NZ$250/month, every agent we make.
+> - **GST inclusive everywhere** (NZ consumer). Never show "+ GST" on these prices.
+>
+> Canonical pricing page: `/agents/pricing` (`/pricing` redirects to it). Runtime
+> source of truth in code: `lib/billing/agent-pricing.ts` (`AGENT_PLANS`) and the
+> per-agent `priceTier` in `lib/marketplace/agents.ts`. Pilot Sprint survives only
+> as a B2B professional-services engagement priced per signed Statement of Work
+> (no fixed public price). Old Stripe SKUs ($799 / $3,500 / $15 / $50 / $90 /
+> $150 / $24.99 / $49.99) are archived (never deleted) by
+> `scripts/setup-flat-pricing-stripe.ts` so grandfathered subs keep working.
+>
+> ---
+>
 > **SUPERSEDED IN PART — 2026-06-16 strategic reset (Kate, autonomous authority).**
 > The public `/pricing` page now shows exactly three tiers + Outcome:
 > - **Pilot Sprint** — $5,000 once-off + GST (covers month one of Starter or Pack)

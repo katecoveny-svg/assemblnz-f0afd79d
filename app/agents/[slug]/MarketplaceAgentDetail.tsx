@@ -1,29 +1,34 @@
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Check, ExternalLink, MessageCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, ExternalLink, MessageCircle, CalendarClock } from 'lucide-react';
 import {
   CATEGORY_LABELS,
   DASH_MOTIF,
   MODEL_TIER_LABELS,
   PALETTE,
-  priceLabel,
+  agentPriceLabel,
+  agentCheckoutHref,
   type MarketplaceAgent,
 } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
+import orb from '@/components/marketplace/orbGrid.module.css';
+import { agentEmailAddress } from '@/lib/agent-email/addresses';
+import { EmailAgentLine } from './EmailAgentLine';
 
-// Agent NAME face (CANON-LOCKED-2026-06-23): agent names stay Lato 900, matching
-// the card spec, so an agent reads the same on its card, chat header and detail.
-const DISPLAY: React.CSSProperties = {
-  fontFamily: 'var(--mk-display), sans-serif',
-  fontWeight: 900,
-  letterSpacing: '-0.02em',
-};
-
-// Section headline face: the assembl display, Cormorant Garamond.
+// Headline + name face: the assembl display, Cormorant Garamond — matches the
+// homepage orb cards and the restyled marketplace grid so an agent reads the
+// same on its card, detail and chat header (one continuous glass surface).
 const HEADLINE: React.CSSProperties = {
   fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif',
   fontWeight: 600,
   letterSpacing: '-0.02em',
+};
+
+// Soft gold-glow card surface — the orb-card look, reused for the detail panels.
+const SURFACE: React.CSSProperties = {
+  backgroundColor: PALETTE.paper,
+  border: `1px solid ${PALETTE.hairline}`,
+  boxShadow: '0 16px 44px rgba(180, 140, 0, 0.08)',
 };
 
 export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
@@ -42,15 +47,21 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
 
         {/* Header card */}
         <div
-          className="mt-6 flex flex-col gap-6 rounded-[26px] border bg-white p-6 md:flex-row md:items-center md:p-8"
-          style={{ borderColor: PALETTE.hairline }}
+          className="mt-6 flex flex-col gap-6 rounded-[26px] p-6 md:flex-row md:items-center md:p-8"
+          style={SURFACE}
         >
-          <div
-            className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[20px]"
-            style={{ backgroundColor: agent.accent }}
+          <span
+            className={`${orb.orb} shrink-0`}
+            style={{
+              width: 88,
+              height: 88,
+              background: 'radial-gradient(circle at 33% 26%, #FFFDF7 0%, #FFD42A 52%, #E0A800 100%)',
+            }}
+            aria-hidden
           >
-            <AgentIcon name={agent.icon} tone={agent.tile} className="h-12 w-12" />
-          </div>
+            <span className={orb.orbSpec} aria-hidden />
+            <AgentIcon name={agent.icon} className="relative h-11 w-11" />
+          </span>
           <div className="flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <span
@@ -63,18 +74,13 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
                 className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
                 style={{ backgroundColor: `${PALETTE.canary}66`, color: PALETTE.ink }}
               >
-                {priceLabel(agent)}
+                {agentPriceLabel(agent)}
               </span>
             </div>
             <div className="mt-3 flex flex-wrap items-baseline gap-x-3">
-              <h1 className="text-4xl leading-tight md:text-5xl" style={{ ...DISPLAY, color: PALETTE.ink }}>
+              <h1 className="text-4xl leading-tight md:text-5xl" style={{ ...HEADLINE, color: PALETTE.ink }}>
                 {agent.name}
               </h1>
-              {agent.teReo ? (
-                <span className="mk-mono text-sm" style={{ color: PALETTE.muted }}>
-                  {agent.teReo}
-                </span>
-              ) : null}
             </div>
             <p className="mt-3 text-lg leading-relaxed" style={{ color: PALETTE.body }}>
               {agent.description}
@@ -84,21 +90,26 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
 
         {/* CTAs */}
         <div className="mt-6 flex flex-wrap items-center gap-3">
-          <Link
-            href={`/agents/${agent.slug}/chat`}
-            className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
-            style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
-          >
+          <Link href={`/agents/${agent.slug}/chat`} className={orb.installPill} style={{ padding: '13px 26px', fontSize: 15 }}>
             <MessageCircle size={18} aria-hidden /> Try free
           </Link>
           {agent.priceNzd > 0 ? (
             <Link
-              href={`/agents/checkout?plan=per_agent&agent=${agent.slug}`}
+              href={agentCheckoutHref(agent)}
               className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-base font-bold transition hover:bg-white"
               style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
             >
-              Subscribe · {priceLabel(agent)} <ArrowRight size={16} aria-hidden />
+              {agent.vertical ? 'Get' : 'Subscribe ·'} {agentPriceLabel(agent)} <ArrowRight size={16} aria-hidden />
             </Link>
+          ) : null}
+          {agent.vertical ? (
+            <a
+              href={pilotBriefMailto(agent.name)}
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
+              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+            >
+              <CalendarClock size={17} aria-hidden /> Book a pilot brief
+            </a>
           ) : null}
           {agent.toolHref ? (
             <Link
@@ -110,6 +121,10 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
             </Link>
           ) : null}
         </div>
+
+        {agentEmailAddress(agent.slug) ? (
+          <EmailAgentLine address={agentEmailAddress(agent.slug)!} />
+        ) : null}
 
         <div className="mt-6 h-1.5 w-full rounded-full" style={{ background: DASH_MOTIF }} aria-hidden />
 
@@ -140,9 +155,36 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
           </Card>
         </div>
 
+        {/* Pilot brief — for vertical agents, a way for a group to talk through
+            a custom deployment before subscribing. */}
+        {agent.vertical ? (
+          <div className="mt-6">
+            <section className="rounded-[26px] p-6 md:p-8" style={SURFACE}>
+              <p className="mk-mono text-[11px] font-bold uppercase tracking-wide" style={{ color: PALETTE.muted }}>
+                For groups
+              </p>
+              <h2 className="mt-2 text-2xl" style={{ ...HEADLINE, color: PALETTE.ink }}>
+                Run {agent.name} across your group
+              </h2>
+              <p className="mt-3 text-base leading-relaxed" style={{ color: PALETTE.body }}>
+                {agent.name} is a whole-business agent, set up per rooftop with your own data,
+                users and compliance trail. Book a pilot brief and we will scope a deployment for
+                your group — what it connects to, who reviews each draft, and how it proves its work.
+              </p>
+              <a
+                href={pilotBriefMailto(agent.name)}
+                className="mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
+                style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+              >
+                <CalendarClock size={17} aria-hidden /> Book a pilot brief
+              </a>
+            </section>
+          </div>
+        ) : null}
+
         {/* Meta — per-agent price (the first 3 messages with any agent are free) */}
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <Meta label="Price" value={priceLabel(agent)} />
+          <Meta label="Price" value={agentPriceLabel(agent)} />
           <Meta label="Model" value={MODEL_TIER_LABELS[agent.modelTier]} />
           <Meta label="Category" value={CATEGORY_LABELS[agent.category]} />
         </div>
@@ -165,9 +207,25 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
   );
 }
 
+/** Prefilled mailto for a vertical agent's "Book a pilot brief" CTA. */
+function pilotBriefMailto(agentName: string): string {
+  const subject = `Pilot brief — ${agentName}`;
+  const body = [
+    `Hello,`,
+    ``,
+    `We would like to talk through running ${agentName} across our group.`,
+    ``,
+    `Business / group name:`,
+    `Number of sites / rooftops:`,
+    `What we would want it to handle first:`,
+    `Best contact + phone:`,
+  ].join('\n');
+  return `mailto:assembl@assembl.co.nz?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-[26px] border bg-white p-6" style={{ borderColor: PALETTE.hairline }}>
+    <section className="rounded-[26px] p-6" style={SURFACE}>
       <h2 className="text-2xl" style={{ ...HEADLINE, color: PALETTE.ink }}>
         {title}
       </h2>
@@ -196,7 +254,7 @@ function BulletList({ items }: { items: string[] }) {
 
 function Meta({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border bg-white px-4 py-3" style={{ borderColor: PALETTE.hairline }}>
+    <div className="rounded-2xl px-4 py-3" style={SURFACE}>
       <p className="mk-mono text-[11px] font-bold uppercase tracking-wide" style={{ color: PALETTE.muted }}>
         {label}
       </p>

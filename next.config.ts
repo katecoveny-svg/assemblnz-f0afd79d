@@ -97,8 +97,10 @@ const nextConfig: NextConfig = {
       { source: "/outputs/:path*", destination: "/agents", permanent: true },
       { source: "/tools/vessel", destination: "/agents", permanent: true },
       { source: "/tools/vessel/:path*", destination: "/agents", permanent: true },
-      { source: "/operator/arataki", destination: "/agents", permanent: true },
-      { source: "/operator/arataki/:path*", destination: "/agents", permanent: true },
+      // NOTE: /operator/arataki/* is NO LONGER stale — Arataki is a live
+      // marketplace agent (slug `arataki`) whose toolHref routes here after
+      // install. The pages are auth-gated + noindexed, so they need no SEO
+      // redirect. Re-adding a redirect here would dead-end the install flow.
       { source: "/privacy", destination: "/legal/privacy", permanent: true },
       { source: "/free-tools", destination: "/hapai", permanent: false },
       { source: "/free-tools/:path*", destination: "/hapai", permanent: false },
@@ -130,8 +132,9 @@ const nextConfig: NextConfig = {
       { source: "/electrify/:path*", destination: "/hapai/electrify/:path*", permanent: true },
 
       // Admin & operations
-      { source: "/admin", destination: "https://app.assembl.co.nz/admin", permanent: false },
-      { source: "/admin/:path*", destination: "https://app.assembl.co.nz/admin/:path*", permanent: false },
+      // /admin is now the marketplace-era operator hub served by this app
+      // (app/admin/*, gated by ensureAdmin) — no longer proxied to the legacy
+      // Vite app. /operator stays on legacy until it is migrated.
       { source: "/operator", destination: "https://app.assembl.co.nz/operator", permanent: false },
       { source: "/operator/:path((?!arataki).*)", destination: "https://app.assembl.co.nz/operator/:path*", permanent: false },
       { source: "/care/:path*", destination: "https://app.assembl.co.nz/care/:path*", permanent: false },

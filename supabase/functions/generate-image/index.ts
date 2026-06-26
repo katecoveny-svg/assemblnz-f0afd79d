@@ -120,7 +120,12 @@ Deno.serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const FAL_API_KEY = Deno.env.get("FAL_API_KEY");
     const RUNWAY_API_KEY = Deno.env.get("RUNWAY_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    // Lovable is optional now — Fal (FAL_API_KEY) is the default image provider.
+    // Only require that SOME provider is available so we never hard-fail on a
+    // cancelled Lovable account.
+    if (!FAL_API_KEY && !LOVABLE_API_KEY && !RUNWAY_API_KEY) {
+      throw new Error("No image provider configured (set FAL_API_KEY).");
+    }
 
     const { prompt, platform, contentType, topic, agentContext, quality, brandContext, provider, style } = await req.json();
 
@@ -160,7 +165,15 @@ IMPORTANT: Generate an actual high-resolution image.`;
     }
 
     // Fallback chain: Lovable AI models
-    if (!imageUrl) {
+    // Default provider: Fal (flux). Lovable is only a backup, and only when its key is set.
+    if (!imageUrl && FAL_API_KEY && provider !== "fal") {
+      console.log("Default: Fal.ai");
+      imageUrl = await generateWithFal(FAL_API_KEY, prompt, style || "default");
+      if (imageUrl) usedProvider = "fal";
+    }
+
+    // Lovable AI image models — backup only, skipped entirely if LOVABLE_API_KEY is unset.
+    if (!imageUrl && LOVABLE_API_KEY) {
       const selectedModel = quality === "pro" ? LOVABLE_MODELS.pro
         : quality === "flash_pro" ? LOVABLE_MODELS.flash_pro
         : LOVABLE_MODELS.fast;

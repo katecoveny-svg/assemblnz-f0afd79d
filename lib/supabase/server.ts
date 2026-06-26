@@ -5,6 +5,7 @@
  */
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { REMEMBER_COOKIE, isRemembered, tuneAuthCookieOptions } from './session-policy';
 
 export async function createClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -25,8 +26,11 @@ export async function createClient() {
       },
       setAll(cookiesToSet) {
         try {
+          // "Stay signed in on this device" — stamp the chosen lifetime onto
+          // the Supabase session cookies as they roll forward.
+          const remember = isRemembered(cookieStore.get(REMEMBER_COOKIE)?.value);
           cookiesToSet.forEach(({ name, value, options }) => {
-            cookieStore.set(name, value, options);
+            cookieStore.set(name, value, tuneAuthCookieOptions(name, options ?? {}, remember));
           });
         } catch {
           // Called from a Server Component — cookies cannot be mutated here.

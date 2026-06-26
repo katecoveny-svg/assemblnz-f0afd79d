@@ -168,7 +168,11 @@ Deno.serve(async (req) => {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const FAL_API_KEY = Deno.env.get("FAL_API_KEY");
     const RUNWAY_API_KEY = Deno.env.get("RUNWAY_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    // Video generation runs on Fal (Kling) / Runway — Lovable is only used for the
+    // optional scene-frame path. Never hard-fail on a cancelled Lovable account.
+    if (!FAL_API_KEY && !RUNWAY_API_KEY && !LOVABLE_API_KEY) {
+      throw new Error("No video provider configured (set FAL_API_KEY).");
+    }
 
     const body = await req.json();
     const { action, scenes, aspectRatio, title, videoType, provider, prompt: videoPrompt, requestId } = body;
@@ -249,7 +253,9 @@ Deno.serve(async (req) => {
     for (let i = 0; i < maxScenes; i++) {
       const scene = scenes[i];
       const scenePrompt = scene.visual || scene.description || scene.prompt || `Scene ${i + 1}`;
-      const imageUrl = await generateSceneWithLovable(LOVABLE_API_KEY, scenePrompt, aspectRatio || "16:9");
+      const imageUrl = LOVABLE_API_KEY
+        ? await generateSceneWithLovable(LOVABLE_API_KEY, scenePrompt, aspectRatio || "16:9")
+        : null;
       results.push({ sceneIndex: i, imageUrl, prompt: scenePrompt });
       if (i < maxScenes - 1) await new Promise(r => setTimeout(r, 1000));
     }

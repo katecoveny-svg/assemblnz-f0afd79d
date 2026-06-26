@@ -87,7 +87,7 @@ export function CommandPalette() {
                     <Layers3 className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                     <span className="flex-1 text-body-md">{kete.name}</span>
                     <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.englishName}</span>
-                    <kbd className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
+                    <kbd className="hidden items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
                       <span>Press</span>
                       <CornerDownLeft className="h-3 w-3" />
                     </kbd>
@@ -108,7 +108,7 @@ export function CommandPalette() {
                       <Sparkles className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                       <span className="flex-1 text-body-md">{agent.name}</span>
                       <span className="text-xs text-[color:var(--text-secondary)] group-aria-selected:hidden">{kete.englishName}</span>
-                      <kbd className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
+                      <kbd className="hidden items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
                         <span>Press</span>
                         <CornerDownLeft className="h-3 w-3" />
                       </kbd>
@@ -126,7 +126,7 @@ export function CommandPalette() {
                   >
                     <FileText className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                     <span className="flex-1 text-body-md">{page.label}</span>
-                    <kbd className="hidden items-center gap-1 font-mono text-[9px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
+                    <kbd className="hidden items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--text-secondary)] group-aria-selected:flex">
                       <span>Press</span>
                       <CornerDownLeft className="h-3 w-3" />
                     </kbd>

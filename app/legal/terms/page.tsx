@@ -63,7 +63,7 @@ export default function TermsPage() {
               <ul className="mt-3 space-y-2 pl-5">
                 <li className="list-disc">Try the public chats at <Link href="/c/waihanga" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/c/[kete]</Link> and the HAPAI tools at <Link href="/hapai" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/hapai</Link> without signup, for personal evaluation.</li>
                 <li className="list-disc">Run workflows from the marketplace at <Link href="/workflows" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/workflows</Link>, share workflow links, and embed workflow widgets on your own website, subject to the rate limits in clause 4.</li>
-                <li className="list-disc">Book a Pilot Sprint or subscribe to an Industry Pack or Tōro to run real workflows against your team&apos;s data.</li>
+                <li className="list-disc">Subscribe to an agent (or All-Access), or book a Pilot Sprint, to run real workflows against your team&apos;s data.</li>
                 <li className="list-disc">Use the outputs as drafts. Every draft must be reviewed and signed off by a named human in your team before it leaves your organisation (see <Link href="/legal/disclaimer" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Disclaimer</Link>).</li>
               </ul>
             </SectionReveal>
@@ -86,7 +86,7 @@ export default function TermsPage() {
             <SectionReveal delay={0.4}>
               <h2 className="font-display text-2xl font-light md:text-3xl">4. Rate limits and fair use.</h2>
               <p className="mt-3">
-                The public marketplace and HAPAI tools are free to evaluate. Default limits: <strong>3 runs per IP per workflow per hour</strong> for anonymous users; <strong>100 runs per tenant per day</strong> for signed-in tenants. Higher limits are available under Industry Pack or Outcome contracts.
+                The public marketplace and HAPAI tools are free to evaluate. Default limits: <strong>3 runs per IP per workflow per hour</strong> for anonymous users; <strong>100 runs per tenant per day</strong> for signed-in tenants. Higher limits come with a paid agent subscription, All-Access, or a custom contract.
               </p>
               <p className="mt-3">
                 We may throttle or temporarily suspend access if usage looks abusive or appears designed to bypass these limits. We&apos;ll tell you why before doing so where reasonably possible.
@@ -96,10 +96,11 @@ export default function TermsPage() {
             <SectionReveal delay={0.45}>
               <h2 className="font-display text-2xl font-light md:text-3xl">5. Pricing.</h2>
               <ul className="mt-3 space-y-2 pl-5">
-                <li className="list-disc"><strong>Pilot Sprint</strong> — NZ$5,000 + GST per workflow. Ten working days. One workflow, one evidence pack. Invoice on engagement; refundable until day one.</li>
-                <li className="list-disc"><strong>Industry Pack</strong> — NZ$3,500 + GST per month per tenant. Includes the kete&apos;s specialist fleet plus white-labelled HAPAI tools. Monthly billing via Stripe. Cancel any time; charges already invoiced are non-refundable.</li>
-                <li className="list-disc"><strong>Tōro family</strong> — NZ$29 + GST per month per whānau. Monthly billing via Stripe. Cancel any time.</li>
-                <li className="list-disc"><strong>Outcome work</strong> — from NZ$5,000 + GST. Scope, schedule, and invoice terms are specified in the signed Statement of Work.</li>
+                <li className="list-disc"><strong>Free</strong> — the utility agents stay free, and every paid agent gives you 3 free messages before the paywall. No card to start.</li>
+                <li className="list-disc"><strong>Everyday agent</strong> — NZ$9.99 per month per agent, GST inclusive. Monthly billing via Stripe. Cancel any time.</li>
+                <li className="list-disc"><strong>Specialist agent</strong> — NZ$199 per month per agent, GST inclusive. Monthly billing via Stripe. Cancel any time.</li>
+                <li className="list-disc"><strong>All-Access</strong> — NZ$250 per month, GST inclusive. Every agent we make, now and as we add them. Monthly billing via Stripe. Cancel any time.</li>
+                <li className="list-disc"><strong>Pilot Sprint</strong> — a fixed-scope professional-services engagement, priced per the signed Statement of Work. Refundable until day one.</li>
               </ul>
               <p className="mt-3">
                 Prices can change. If we change the price of a service you&apos;re using, we&apos;ll give you at least 30 days&apos; written notice before the new price applies.

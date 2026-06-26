@@ -7,6 +7,7 @@ import { Menu, Search, X } from "lucide-react";
 import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
+import { LanguageToggle } from "@/components/site/LanguageToggle";
 
 const PROOF_LINE = "Mahi that earns its proof.";
 
@@ -46,6 +47,33 @@ export function isAtlas(pathname: string | null): boolean {
   );
 }
 
+/** Echo — Kate's private founder co-pilot — is a full-screen chat with its own
+ *  in-page header (it reuses the marketplace AgentChat). Suppress global chrome. */
+export function isEcho(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === "/echo" || pathname.startsWith("/echo/");
+}
+
+/** Signed-out auth surfaces (/login, /start/signup, anything under /auth/*) ship
+ *  their own canon chrome (AuthHeader/AuthFooter) with an always-clickable
+ *  wordmark — see app/login/layout.tsx. Suppress the global site chrome there so
+ *  we never double up or leak the old kete-cutout footer mark onto auth pages. */
+export function isAuthSurface(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return (
+    pathname === "/login" ||
+    pathname === "/start/signup" ||
+    pathname.startsWith("/auth/")
+  );
+}
+
+/** The /admin operator hub (marketplace era) ships its own canon top nav and
+ *  is gated to admins — suppress the global public site chrome there. */
+export function isAdminHub(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === "/admin" || pathname.startsWith("/admin/");
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMac, setIsMac] = useState(true);
@@ -75,7 +103,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /dash/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || pathname === "/") return null;
 
   return (
     <header
@@ -91,7 +119,7 @@ export function SiteHeader() {
           >
             <AssemblWordmark />
           </Link>
-          <span className="hidden whitespace-nowrap font-mono text-[9px] font-light uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
+          <span className="hidden whitespace-nowrap font-mono text-[10px] font-light uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
             {PROOF_LINE}
           </span>
         </div>
@@ -138,10 +166,13 @@ export function SiteHeader() {
           >
             <Search className="h-3.5 w-3.5" aria-hidden />
             <span>Search</span>
-            <kbd className="ml-1 rounded-sm border border-[rgba(35,33,31,0.12)] bg-white/60 px-1.5 py-0.5 font-mono text-[9px]">
+            <kbd className="ml-1 rounded-sm border border-[rgba(35,33,31,0.12)] bg-white/60 px-1.5 py-0.5 font-mono text-[10px]">
               {isMac ? "⌘K" : "Ctrl K"}
             </kbd>
           </button>
+          <div className="hidden lg:block">
+            <LanguageToggle />
+          </div>
           <Link
             href="/login"
             aria-current={pathname === "/login" ? "page" : undefined}
@@ -187,7 +218,7 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="assembl — home"
-              className="text-[30px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)]"
+              className="rounded-sm text-[30px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
               onClick={() => setMobileNavOpen(false)}
             >
               <AssemblWordmark />
@@ -231,6 +262,9 @@ export function SiteHeader() {
                 </Link>
               </li>
             </ul>
+            <div className="mt-8 flex justify-center">
+              <LanguageToggle />
+            </div>
             <Link
               href={navCta.href}
               className="cta-charcoal mt-8 inline-flex h-12 items-center justify-center px-7 text-base"

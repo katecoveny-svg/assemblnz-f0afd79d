@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { footerDisclaimer, footerKeteCutouts } from "@/lib/site-config";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
-import { isAgentMarketplace, isAtlas, isDashMicrosite } from "@/components/site/site-header";
+import { isAdminHub, isAgentMarketplace, isAtlas, isAuthSurface, isDashMicrosite, isEcho } from "@/components/site/site-header";
 
 export function SiteFooter() {
   const pathname = usePathname();
-  // The /dash microsite, /agents marketplace and /atlas coach ship their own
-  // footer; suppress the global one there.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname)) return null;
+  // The /dash microsite, /agents marketplace, /atlas coach, signed-out auth
+  // surfaces and the /admin operator hub ship their own footer (or none);
+  // suppress the global one there.
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname)) return null;
 
   return (
     <footer className="relative z-10 mt-24 border-t border-[rgba(58,56,50,0.10)] bg-[rgba(255,247,236,0.6)]">
@@ -98,7 +99,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link
-                  href="/pricing"
+                  href="/agents/pricing"
                   className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
                   Pricing
