@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Check, ExternalLink, MessageCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, ExternalLink, MessageCircle, CalendarClock } from 'lucide-react';
 import {
   CATEGORY_LABELS,
   DASH_MOTIF,
@@ -100,6 +100,15 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
               {agent.vertical ? 'Get' : 'Subscribe ·'} {agentPriceLabel(agent)} <ArrowRight size={16} aria-hidden />
             </Link>
           ) : null}
+          {agent.vertical ? (
+            <a
+              href={pilotBriefMailto(agent.name)}
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
+              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+            >
+              <CalendarClock size={17} aria-hidden /> Book a pilot brief
+            </a>
+          ) : null}
           {agent.toolHref ? (
             <Link
               href={agent.toolHref}
@@ -140,6 +149,33 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
           </Card>
         </div>
 
+        {/* Pilot brief — for vertical agents, a way for a group to talk through
+            a custom deployment before subscribing. */}
+        {agent.vertical ? (
+          <div className="mt-6">
+            <section className="rounded-[26px] p-6 md:p-8" style={SURFACE}>
+              <p className="mk-mono text-[11px] font-bold uppercase tracking-wide" style={{ color: PALETTE.muted }}>
+                For groups
+              </p>
+              <h2 className="mt-2 text-2xl" style={{ ...HEADLINE, color: PALETTE.ink }}>
+                Run {agent.name} across your group
+              </h2>
+              <p className="mt-3 text-base leading-relaxed" style={{ color: PALETTE.body }}>
+                {agent.name} is a whole-business agent, set up per rooftop with your own data,
+                users and compliance trail. Book a pilot brief and we will scope a deployment for
+                your group — what it connects to, who reviews each draft, and how it proves its work.
+              </p>
+              <a
+                href={pilotBriefMailto(agent.name)}
+                className="mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
+                style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+              >
+                <CalendarClock size={17} aria-hidden /> Book a pilot brief
+              </a>
+            </section>
+          </div>
+        ) : null}
+
         {/* Meta — per-agent price (the first 3 messages with any agent are free) */}
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
           <Meta label="Price" value={agentPriceLabel(agent)} />
@@ -163,6 +199,22 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
       <MarketplaceFooter />
     </div>
   );
+}
+
+/** Prefilled mailto for a vertical agent's "Book a pilot brief" CTA. */
+function pilotBriefMailto(agentName: string): string {
+  const subject = `Pilot brief — ${agentName}`;
+  const body = [
+    `Hello,`,
+    ``,
+    `We would like to talk through running ${agentName} across our group.`,
+    ``,
+    `Business / group name:`,
+    `Number of sites / rooftops:`,
+    `What we would want it to handle first:`,
+    `Best contact + phone:`,
+  ].join('\n');
+  return `mailto:assembl@assembl.co.nz?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {

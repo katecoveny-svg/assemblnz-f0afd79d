@@ -97,8 +97,10 @@ const nextConfig: NextConfig = {
       { source: "/outputs/:path*", destination: "/agents", permanent: true },
       { source: "/tools/vessel", destination: "/agents", permanent: true },
       { source: "/tools/vessel/:path*", destination: "/agents", permanent: true },
-      { source: "/operator/arataki", destination: "/agents", permanent: true },
-      { source: "/operator/arataki/:path*", destination: "/agents", permanent: true },
+      // NOTE: /operator/arataki/* is NO LONGER stale — Arataki is a live
+      // marketplace agent (slug `arataki`) whose toolHref routes here after
+      // install. The pages are auth-gated + noindexed, so they need no SEO
+      // redirect. Re-adding a redirect here would dead-end the install flow.
       { source: "/privacy", destination: "/legal/privacy", permanent: true },
       { source: "/free-tools", destination: "/hapai", permanent: false },
       { source: "/free-tools/:path*", destination: "/hapai", permanent: false },
