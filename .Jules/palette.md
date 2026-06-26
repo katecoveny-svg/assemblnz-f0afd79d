@@ -53,3 +53,7 @@
 ## 2026-07-10 - [Mobile Internationalization Parity]
 **Learning:** Components like language toggles are often hidden on mobile to save space, but this creates a "functional dead-end" for users needing different locales on the go. Furthermore, compact toggles designed for mouse-precision (e.g., 10-11px text) require explicit minimum touch target overrides to remain usable on touchscreens.
 **Action:** Ensure locale-switching controls maintain parity across all breakpoints and apply explicit `min-h-[32px]` or `min-w-[44px]` overrides for touch targets in compact UI elements.
+
+## 2026-07-15 - [Legibility and Mobile Focus Parity]
+**Learning:** Mono labels for metadata and keyboard hints (e.g., `kbd` tags) that are set to 9px often fail legibility tests and feel "disconnected" from the UI. Standardizing to a 10px minimum maintains the compact editorial look while significantly improving readability. Additionally, missing focus-visible and hover states on critical mobile navigation elements (like the wordmark) creates an inconsistent and less accessible experience compared to desktop.
+**Action:** Always default small Mono labels to at least `text-[10px]` and ensure all primary navigation entry points, including the wordmark in mobile drawers, have standardized `focus-visible:ring-2` and `hover:opacity-80` states.

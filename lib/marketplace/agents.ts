@@ -13,6 +13,7 @@
  */
 
 import { AGENT_PROMPTS, SHARED_BRAND_PREFIX } from './agent-prompts';
+import { PER_AGENT_PRICE_NZD } from '@/lib/billing/agent-pricing';
 
 export type ModelTier = 'cheap' | 'mid' | 'premium';
 /** Coarse DB bucket — uniformly 'per_agent' (price set by the catalogue tier). */
@@ -1073,6 +1074,68 @@ const AGENT_DEFS: AgentDef[] = [
       'I am not sure what to build — help me figure it out.',
     ],
   },
+  {
+    slug: 'prism',
+    name: 'Prism',
+    teReo: '',
+    description:
+      'The creative studio in one chat — brand DNA, campaigns, social, video and design direction, drafted on-brand for you to approve.',
+    whatItDoes: [
+      'Reads your site into a Brand DNA, then keeps every piece on-brand.',
+      'Turns a one-line brief into a full cross-platform campaign, content calendar or video storyboard.',
+      'Gives real design direction — palettes with hex, type, composition — and presents distinct directions to choose from.',
+    ],
+    whatYouGet: [
+      'Campaign sets: Instagram, Story, Reel script, LinkedIn, Facebook, email and ad copy.',
+      'A monthly content calendar mapped to the NZ calendar, with a brief per post.',
+      'Logo and design directions, and video storyboards — all drafts for you to approve.',
+    ],
+    sampleOutputs: [
+      'Three directions for "fresh and edgy", each with palette, type and a sample post.',
+      'A Matariki series — respectful, in te reo where genuine, flagged for kaitiaki review.',
+    ],
+    nzKnowledge: ['NZ social trends and posting times', 'Matariki, Waitangi, ANZAC (handled with care)', 'Copyright Act 1994', 'Fair Trading Act 1986 and ASA codes', 'te reo Māori with macrons'],
+    skills: ['prism-creative-studio'],
+    category: 'creative',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'spark',
+    tile: 'canary',
+    greeting:
+      'Kia ora. Before I make anything, tell me about your brand — the real version — and your site or socials if you have them. I will build your Brand DNA so everything I draft is unmistakably yours. I draft and direct; you approve before anything is published.',
+    starters: ['Build a campaign from one line.', 'Plan our content for next month.'],
+  },
+  {
+    slug: 'aroha',
+    name: 'Aroha',
+    teReo: '',
+    description:
+      'NZ HR and employment law — agreements, disciplinary process, leave, and the true cost of a hire, drafted for you to check.',
+    whatItDoes: [
+      'Walks you through hiring, managing, disciplinary process and restructuring the NZ way — process and people both.',
+      'Drafts employment and contractor agreements and variation letters, with the clauses that need customising flagged.',
+      'Calculates the true cost of a hire, and flags the leave, minimum-wage and KiwiSaver changes that affect your team.',
+    ],
+    whatYouGet: [
+      'Compliant draft agreements and letters for you (and a lawyer where it matters) to review.',
+      'Step-by-step disciplinary and restructuring guidance: what to do, say and put in writing.',
+      'A true-employment-cost breakdown and proactive flags on what is coming up.',
+    ],
+    sampleOutputs: [
+      'A $65,000 salary works out around $80,000 once leave, KiwiSaver and on-costs are in — here is the breakdown.',
+      'Three staff sit just under the new minimum wage before 1 April — want the variation letters?',
+    ],
+    nzKnowledge: ['Employment Relations Act 2000', 'Holidays Act 2003', 'Health and Safety at Work Act 2015', 'minimum wage + KiwiSaver settings (confirmed current)', 'MBIE mediation + Employment NZ'],
+    skills: ['aroha-hr-specialist'],
+    category: 'business',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'people',
+    tile: 'ink',
+    greeting:
+      'Kia ora. Before we dive in — how many people are on your team, and is there something specific on your mind? NZ employment law changed a lot recently, so if your agreements are not up to date, that is a good place to start. I draft and guide; for high-stakes calls I will tell you when you need an employment lawyer.',
+    starters: ['What does this hire really cost?', 'Draft an employment agreement.'],
+  },
 ];
 
 export const MARKETPLACE_AGENTS: MarketplaceAgent[] = AGENT_DEFS.map(buildAgent);
@@ -1130,7 +1193,10 @@ export const PRICE_TIER_LABELS: Record<PriceTier, string> = {
  */
 export function priceLabel(agent?: Pick<MarketplaceAgent, 'priceNzd'>): string {
   if (!agent || agent.priceNzd === 0) return 'Free';
-  return `$${agent.priceNzd}/mo`;
+  // Canonical, charged price is the flat per-agent rate (NZ$15/mo) — the same
+  // price the per_agent Stripe checkout uses. The old tier numbers (priceNzd)
+  // are retained only for the legacy /agents/pricing grouping.
+  return `$${PER_AGENT_PRICE_NZD}/mo`;
 }
 
 /**

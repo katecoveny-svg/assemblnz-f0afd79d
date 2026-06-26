@@ -12,6 +12,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `Chat with ${agent.name} — assembl`,
     description: agent.description,
+    manifest: `/agents/${slug}/manifest.json`,
+    appleWebApp: { capable: true, title: agent.name, statusBarStyle: 'default' },
+    icons: { apple: `/agents/${slug}/icon?size=180` },
   };
 }
 

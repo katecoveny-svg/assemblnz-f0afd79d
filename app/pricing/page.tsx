@@ -8,14 +8,43 @@ import { ShaderHeroBackdrop } from '@/components/site/ShaderHeroBackdrop';
 
 export const metadata: Metadata = {
   title: 'Pricing',
-  description: 'A Pilot Sprint to start, Starter and Pack to run, and Outcome for bespoke work. NZD, GST exclusive.',
+  description:
+    'Start with a single agent — free, $9.99 or $199 a month. Or run a whole-team pack: Pilot Sprint, Pack, and Outcome. NZD, GST exclusive.',
 };
 
-// A Pilot Sprint is the once-off way in. Starter and Pack are the two monthly
-// ways to run. Outcome is bespoke. A Sprint covers month one of Starter or Pack,
-// so that credit is stated on the Sprint and on both monthly tiers.
-const CREDIT_NOTE = 'Your Sprint covers your first month of Starter or Pack.';
+// Marketplace-led pricing. Individuals and small teams start with a single
+// agent (Free / $9.99 / $199). Whole teams run a Pack. A Pilot Sprint is the
+// once-off way in for teams and covers month one of a Pack.
+const CREDIT_NOTE = 'Your Sprint covers your first month of a Pack.';
 
+// The lead offer: install a single specialist agent.
+const MARKETPLACE = [
+  {
+    name: 'Free agents',
+    price: 'Free',
+    body: 'Agents like Atlas, 9am Brief, Power Watch and Tide & Weather. Install one to your phone, try it on real work — no card, no login.',
+    cta: 'Browse free agents',
+    href: '/agents',
+  },
+  {
+    name: 'Everyday agents',
+    price: '$9.99 + GST / month',
+    body: 'Per agent. The Family & Whānau and Business agents you reach for daily — Pānui Parser, Hui Notes, Invoice Tidy, Roster, Travel Logs and more.',
+    cta: 'Browse agents',
+    href: '/agents',
+    featured: true,
+  },
+  {
+    name: 'Specialist agents',
+    price: '$199 + GST / month',
+    body: 'Per agent. The deep Trades, Build, Health and Creative specialists — Consent, Customs Entry, Care Scribe, Prism, Aroha — grounded in live NZ sources.',
+    cta: 'See specialist agents',
+    href: '/agents',
+  },
+] as const;
+
+// The whole-team path. Kept below the marketplace for businesses that want a
+// full operating pack rather than single agents.
 const MONTHLY = [
   {
     name: 'Starter',
@@ -64,23 +93,78 @@ export default function PricingPage() {
               Simple <em className="not-italic text-[color:var(--assembl-pounamu)]">pricing.</em>
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              One way in, two ways to run, and a custom path for bespoke work. All prices NZD, GST
-              exclusive.
+              Start with a single agent — free, $9.99, or $199 a month. Or run a whole-team pack when
+              the workflow has earned its proof. All prices NZD, GST exclusive.
             </p>
           </div>
         </div>
       </section>
 
-      {/* The way in — Pilot Sprint */}
+      {/* Lead offer — the marketplace: install a single agent */}
+      <section className="py-20 lg:py-28">
+        <div className="container">
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow label="Start with one agent" accent="var(--assembl-gold)" className="justify-center" />
+            <h2 className="mt-5 font-display text-display-lg font-light">
+              Install a specialist agent, <em className="not-italic text-[color:var(--assembl-pounamu)]">cancel any month.</em>
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-body-md text-[color:var(--text-body)]">
+              Every agent installs to your phone as its own app — and chats, listens, sees and creates.
+              Each card shows its price; many are free to try.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-4 lg:grid-cols-3">
+            {MARKETPLACE.map((tier) => (
+              <article
+                key={tier.name}
+                className={
+                  'featured' in tier && tier.featured
+                    ? 'glass-card glass-card-hover flex min-h-[320px] flex-col p-8 ring-1 ring-[color:var(--assembl-pounamu)]'
+                    : 'glass-card glass-card-hover flex min-h-[320px] flex-col p-8'
+                }
+              >
+                <h3 className="font-display text-display-md font-light">{tier.name}</h3>
+                <p className="mt-4 font-display text-2xl font-light text-[color:var(--text-primary)]">
+                  {tier.price}
+                </p>
+                <p className="mt-5 text-body-md text-[color:var(--text-body)]">{tier.body}</p>
+                <Link
+                  href={tier.href}
+                  className={
+                    'featured' in tier && tier.featured
+                      ? 'cta-primary mt-auto inline-flex h-12 items-center justify-center px-6'
+                      : 'btn-ghost mt-auto inline-flex h-12 items-center justify-center px-6'
+                  }
+                >
+                  {tier.cta}
+                  <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+                </Link>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* For whole teams — the way in: Pilot Sprint */}
       <section className="border-t border-[rgba(35,33,31,0.08)] py-16 lg:py-20">
         <div className="container">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <Eyebrow label="For whole teams" accent="var(--assembl-gold)" className="justify-center" />
+            <h2 className="mt-5 font-display text-display-lg font-light">
+              Or run a <em className="not-italic text-[color:var(--assembl-pounamu)]">whole-team pack.</em>
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-body-md text-[color:var(--text-body)]">
+              When a workflow has earned its proof, switch on a full operating pack for your industry —
+              with live NZ source feeds and a named human on the assembl side.
+            </p>
+          </div>
           <SectionReveal>
             <article className="glass-card glass-card-hover mx-auto flex max-w-4xl flex-col gap-8 p-8 ring-1 ring-[color:var(--assembl-pounamu)] lg:flex-row lg:items-center lg:p-10">
               <div className="lg:flex-1">
                 <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">
                   Start here
                 </p>
-                <h2 className="mt-4 font-display text-display-lg font-light">Pilot Sprint</h2>
+                <h3 className="mt-4 font-display text-display-lg font-light">Pilot Sprint</h3>
                 <p className="mt-3 font-display text-2xl font-light">$5,000 + GST · once</p>
                 <p className="mt-5 max-w-xl text-body-md text-[color:var(--text-body)]">
                   Ten working days. One workflow your team already does by hand, drafted from your
@@ -104,39 +188,16 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* How a pack works in your business — sits between the Sprint and the Pack */}
+      {/* How a pack works in your business */}
       <HowAPackWorks />
 
-      {/* The upgrade ladder — free public tool → private branded → internal system */}
-      <section className="border-t border-[rgba(35,33,31,0.08)] py-20 lg:py-28">
-        <div className="container">
-          <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow label="The upgrade ladder" accent="var(--assembl-gold)" className="justify-center" />
-            <h2 className="mt-5 font-display text-display-lg font-light">
-              How a free tool becomes <em className="not-italic text-[color:var(--assembl-pounamu)]">your system.</em>
-            </h2>
-          </div>
-          <ol className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-3 md:gap-10">
-            {ADOPTION_LADDER.map(([title, body], i) => (
-              <li key={title} className="border-t border-[rgba(35,33,31,0.14)] pt-6">
-                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
-                  Step {i + 1}
-                </span>
-                <h3 className="mt-4 font-display text-2xl font-light text-[color:var(--text-primary)]">{title}</h3>
-                <p className="mt-3 text-body-md text-[color:var(--text-body)]">{body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* The two monthly ways to run + Outcome */}
+      {/* The two monthly ways to run a pack + Outcome */}
       <section className="py-20 lg:py-28">
         <div className="container">
           <div className="mx-auto max-w-3xl text-center">
-            <Eyebrow label="Run it month to month" accent="var(--assembl-gold)" className="justify-center" />
+            <Eyebrow label="Run a pack month to month" accent="var(--assembl-gold)" className="justify-center" />
             <h2 className="mt-5 font-display text-display-lg font-light">
-              Two ways to run, <em className="not-italic text-[color:var(--assembl-pounamu)]">cancel any month.</em>
+              Two ways to run a pack, <em className="not-italic text-[color:var(--assembl-pounamu)]">cancel any month.</em>
             </h2>
           </div>
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
@@ -173,6 +234,29 @@ export default function PricingPage() {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* The upgrade ladder */}
+      <section className="border-t border-[rgba(35,33,31,0.08)] py-20 lg:py-28">
+        <div className="container">
+          <div className="mx-auto max-w-3xl text-center">
+            <Eyebrow label="The upgrade ladder" accent="var(--assembl-gold)" className="justify-center" />
+            <h2 className="mt-5 font-display text-display-lg font-light">
+              How a free tool becomes <em className="not-italic text-[color:var(--assembl-pounamu)]">your system.</em>
+            </h2>
+          </div>
+          <ol className="mx-auto mt-12 grid max-w-5xl gap-8 md:grid-cols-3 md:gap-10">
+            {ADOPTION_LADDER.map(([title, body], i) => (
+              <li key={title} className="border-t border-[rgba(35,33,31,0.14)] pt-6">
+                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
+                  Step {i + 1}
+                </span>
+                <h3 className="mt-4 font-display text-2xl font-light text-[color:var(--text-primary)]">{title}</h3>
+                <p className="mt-3 text-body-md text-[color:var(--text-body)]">{body}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
