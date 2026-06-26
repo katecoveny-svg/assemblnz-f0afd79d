@@ -29,16 +29,22 @@ export interface BrevoLeadInput {
   consent?: boolean;
   /** Free-form attributes stored on the Brevo contact (e.g. source, tool slug). */
   attributes?: Record<string, unknown>;
+  /** Override the target list id (e.g. an Atlas-readiness segment). When unset
+   *  the lead lands on the single default assembl list (BREVO_LIST_ID). */
+  listId?: number | null;
 }
 
 export async function subscribeToBrevoList(input: BrevoLeadInput): Promise<boolean> {
   const apiKey = process.env.BREVO_API_KEY;
   const listIdRaw = process.env.BREVO_LIST_ID;
   const email = input.email?.trim().toLowerCase();
-  const listId = Number(listIdRaw);
+  // A caller-supplied list id wins; otherwise fall back to the default list.
+  const listId = Number.isFinite(input.listId) && (input.listId as number) > 0
+    ? (input.listId as number)
+    : Number(listIdRaw);
 
-  // No-op unless fully configured with a real email and granted consent.
-  if (!apiKey || !listIdRaw || !Number.isFinite(listId) || !email) return false;
+  // No-op unless fully configured with a real email, a target list and consent.
+  if (!apiKey || !Number.isFinite(listId) || listId <= 0 || !email) return false;
   if (input.consent === false) return false;
 
   try {

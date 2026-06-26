@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Echo · assembl</title>
+<meta name="theme-color" content="#FFF7EC" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Echo" />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="manifest" href="/echo-manifest.webmanifest" />
+<link rel="apple-touch-icon" href="/echo-icon-180.png" />
+<link rel="icon" href="/echo-icon-192.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600;1,700&family=Lato:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink:#3A3832; --ink2:#23211F; --body:#56544B; --muted:#8A8678;
+    --cream:#FFF7EC; --paper:#FFFFFF; --canary:#FFD42A; --gold:#C79B1F; --hairline:#EFEADC;
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { margin:0; height:100%; }
+  body {
+    background:
+      radial-gradient(120% 80% at 85% -10%, rgba(255,212,42,0.18) 0%, transparent 46%),
+      radial-gradient(120% 90% at 0% 100%, rgba(255,212,42,0.10) 0%, transparent 50%),
+      var(--cream);
+    color:var(--ink);
+    font-family:var(--lato,'Lato'),-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    min-height:100%;
+    padding:max(env(safe-area-inset-top),26px) 22px calc(env(safe-area-inset-bottom) + 30px);
+    display:flex; flex-direction:column; gap:26px;
+  }
+  header { display:flex; flex-direction:column; gap:8px; }
+  .mark { display:flex; align-items:center; gap:12px; }
+  .mark svg { width:38px; height:38px; }
+  .word { font-family:'Cormorant Garamond',Georgia,serif; font-size:40px; font-weight:600; letter-spacing:-0.01em; color:var(--ink); line-height:0.8; }
+  .greet { color:var(--body); font-size:15px; }
+  .meta { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-top:4px; }
+  .date { font-family:'Space Mono',monospace; font-size:13px; letter-spacing:0.04em; color:var(--body); }
+  .mode { font-family:'Space Mono',monospace; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--ink); background:var(--canary); padding:4px 11px; border-radius:999px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
+  a.tile {
+    display:flex; flex-direction:column; justify-content:space-between; min-height:122px;
+    padding:17px; border-radius:22px; text-decoration:none; color:var(--ink);
+    background:linear-gradient(160deg, rgba(255,255,255,0.78), rgba(255,255,255,0.5));
+    -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.7);
+    box-shadow:0 14px 40px rgba(180,140,0,0.07), inset 0 1px 0 rgba(255,255,255,0.7);
+    transition:transform .14s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  a.tile:active { transform:scale(0.975); }
+  a.tile:hover { transform:translateY(-3px); box-shadow:0 22px 52px rgba(230,180,0,0.16); border-color:rgba(255,205,40,0.6); }
+  a.tile.accent {
+    background:linear-gradient(180deg, rgba(255,224,103,0.92), rgba(255,205,40,0.94));
+    border:1px solid rgba(255,255,255,0.85); color:var(--ink);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,0.9), 0 14px 34px rgba(255,200,30,0.26);
+  }
+  .ti { font-size:24px; line-height:1; }
+  .tl { font-family:'Cormorant Garamond',Georgia,serif; font-size:21px; font-weight:600; letter-spacing:-0.01em; }
+  .ts { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:0.03em; text-transform:uppercase; color:var(--muted); margin-top:3px; }
+  a.tile.accent .ts { color:rgba(58,56,50,0.62); }
+  footer { margin-top:auto; color:var(--muted); font-size:12px; text-align:center; line-height:1.5; }
+  .full { grid-column:1 / -1; min-height:auto; flex-direction:row; align-items:center; gap:12px; }
+  .full .ti { font-size:20px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="mark">
+      <svg viewBox="0 0 40 40" aria-hidden="true">
+        <g fill="none" stroke-width="4.8" stroke-linecap="round">
+          <path d="M8 14 H32" stroke="#FFD42A"/><path d="M8 26 H32" stroke="#C79B1F"/>
+          <path d="M14 8 V32" stroke="#3A3832"/><path d="M26 8 V32" stroke="#FFD42A"/>
+        </g>
+      </svg>
+      <span class="word">echo</span>
+    </div>
+    <div class="greet">kia ora, Kate — your founder co-pilot</div>
+    <div class="meta"><span class="date" id="date"></span><span class="mode" id="mode"></span></div>
+  </header>
+
+  <div class="grid">
+    <a class="tile accent" href="/echo">
+      <div class="ti">💬</div><div><div class="tl">Talk to Echo</div><div class="ts">Your founder co-pilot</div></div>
+    </a>
+    <a class="tile" href="https://mail.google.com/mail/u/0/#search/Echo+brief">
+      <div class="ti">📥</div><div><div class="tl">Today's brief</div><div class="ts">Read it in Gmail</div></div>
+    </a>
+    <a class="tile" href="mailto:assembl@assembl.co.nz?subject=Idea%20for%20Echo&body=Idea%3A%0A%0AWhy%20it%20matters%3A%0A%0ANext%20step%3A">
+      <div class="ti">💡</div><div><div class="tl">Capture an idea</div><div class="ts">Echo picks it up</div></div>
+    </a>
+    <a class="tile" href="https://assembl.co.nz/agents">
+      <div class="ti">✦</div><div><div class="tl">assembl</div><div class="ts">Your agents</div></div>
+    </a>
+    <a class="tile full" href="https://assembl.co.nz/dash">
+      <div class="ti">▦</div><div><div class="tl">Dash by assembl</div><div class="ts">Open the dashboard</div></div>
+    </a>
+  </div>
+
+  <footer>Echo runs every morning at 9:30 and emails your brief. Drafts only — nothing's sent without you.</footer>
+
+<script>
+  // Date + week mode (focus week vs family week). Anchor: Monday 22 June 2026 = focus week.
+  (function () {
+    var now = new Date();
+    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('date').textContent =
+      days[now.getDay()] + ' ' + now.getDate() + ' ' + months[now.getMonth()];
+    var d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var dow = (d.getDay() + 6) % 7; // 0 = Monday
+    var monday = new Date(d); monday.setDate(d.getDate() - dow);
+    var anchor = new Date(2026, 5, 22); // 22 Jun 2026 (focus week)
+    var weeks = Math.round((monday - anchor) / (7 * 24 * 3600 * 1000));
+    var focus = (((weeks % 2) + 2) % 2) === 0;
+    document.getElementById('mode').textContent = focus ? 'Focus week' : 'Family week';
+  })();
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/echo-sw.js').catch(function(){});
+  }
+</script>
+</body>
+</html>

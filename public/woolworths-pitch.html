@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>assembl × Woolworths — Agentic ordering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --wool:#0C8B44; --wool-dk:#0A6E37; --wool-deep:#06401f;
+    --er:#F36F21; --er-dk:#E25C12; --mint:#A9E6CC; --mint-soft:#EBF8F1;
+    --charcoal:#1E2421; --grey:#6C7670; --line:#E7ECE9; --paper:#fff;
+    --cream:#FFF7EC; --canary:#FFD42A; --ink:#3A3832;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--charcoal);
+    background:radial-gradient(120%_120% at 50% 0%,#f3f6f4 0%,#e8ece9 100%);padding:28px 16px;
+    -webkit-font-smoothing:antialiased;line-height:1.5}
+  .ic{width:1em;height:1em;display:inline-block;vertical-align:-0.14em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .ic.fill{fill:currentColor;stroke:none}
+  .mono{font-family:'Space Mono',monospace}
+
+  .wrap{max-width:880px;margin:0 auto;background:var(--paper);border-radius:26px;overflow:hidden;
+    box-shadow:0 30px 80px rgba(12,40,24,.16),0 2px 8px rgba(0,0,0,.04)}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;padding:42px 50px 46px;color:#fff;overflow:hidden;
+    background:linear-gradient(150deg,#0E9A4C 0%,var(--wool) 42%,var(--wool-dk) 78%,var(--wool-deep) 100%)}
+  .hero .glow{position:absolute;border-radius:50%;filter:blur(2px);opacity:.5}
+  .hero .g1{width:340px;height:340px;right:-90px;top:-120px;background:radial-gradient(circle,rgba(255,255,255,.18),transparent 68%)}
+  .hero .g2{width:240px;height:240px;left:-70px;bottom:-120px;background:radial-gradient(circle,rgba(255,212,42,.20),transparent 70%)}
+  .lockup{display:flex;align-items:center;gap:11px;position:relative;z-index:2;margin-bottom:34px}
+  .brand{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;letter-spacing:-.01em}
+  .chip{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-weight:800;font-size:15px;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+  .chip.w{background:#fff;color:var(--wool)} .chip.a{background:var(--canary);color:var(--ink)}
+  .tms{opacity:.65;font-weight:500}
+  .conceptTag{margin-left:auto;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.4);
+    border-radius:999px;padding:6px 12px;font-size:9.5px;letter-spacing:.16em}
+  .conceptTag .ic{width:12px;height:12px}
+  .hero h1{position:relative;z-index:2;font-size:clamp(32px,5.4vw,52px);line-height:1.02;font-weight:800;letter-spacing:-.025em;max-width:15ch}
+  .hero h1 em{font-style:normal;color:var(--canary)}
+  .hero .sub{position:relative;z-index:2;margin-top:18px;font-size:16.5px;line-height:1.55;max-width:52ch;color:#eafff2}
+  .feats{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:9px;margin-top:28px}
+  .feat{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.13);
+    border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:9px 15px;font-size:13px;font-weight:600}
+  .feat .ic{width:16px;height:16px}
+  .feat .star{color:var(--canary)}
+
+  /* ---------- BODY SECTIONS ---------- */
+  .sec{padding:44px 50px}
+  .kick{display:inline-flex;align-items:center;gap:8px;color:var(--wool);font-size:11.5px;letter-spacing:.18em;
+    text-transform:uppercase;font-family:'Space Mono',monospace;font-weight:700;margin-bottom:12px}
+  .kick .ic{width:15px;height:15px}
+  .lead{font-size:25px;font-weight:800;letter-spacing:-.015em;line-height:1.18;max-width:24ch}
+  .lead .o{color:var(--er)}
+
+  .split{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+
+  /* phone */
+  .phone{background:#f3f6f4;border:1px solid #e2e7e4;border-radius:30px;padding:10px;box-shadow:0 18px 44px rgba(12,40,24,.16)}
+  .screen{background:#fbfcfb;border-radius:23px;overflow:hidden}
+  .appbar{background:var(--wool);padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+  .appbar .nm{color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;gap:7px}
+  .appbar .nm .chip{width:22px;height:22px;border-radius:6px;font-size:13px}
+  .pts{display:inline-flex;align-items:center;gap:5px;color:#fff;font-size:12px;font-weight:700;
+    background:rgba(255,255,255,.16);padding:5px 9px;border-radius:999px}
+  .pts .ic{width:13px;height:13px;color:var(--canary)}
+  .scrollpad{padding:14px}
+  .bubble{display:flex;gap:9px;background:#fff;border:1px solid #e7ece9;border-radius:14px;padding:12px 13px;font-size:12.5px;color:#37423c;line-height:1.45}
+  .bubble .ava{flex:0 0 auto;width:22px;height:22px;border-radius:7px;background:var(--canary);color:var(--ink);
+    display:grid;place-items:center;font-weight:800;font-size:12px}
+  .items{margin-top:12px;background:#fff;border:1px solid #e7ece9;border-radius:14px;overflow:hidden}
+  .row{display:flex;align-items:center;gap:11px;padding:11px 13px;border-bottom:1px solid #f1f4f2;font-size:12.5px}
+  .row:last-child{border-bottom:none}
+  .row .pic{flex:0 0 auto;width:30px;height:30px;border-radius:9px;background:var(--mint-soft);color:var(--wool-dk);display:grid;place-items:center}
+  .row .pic .ic{width:17px;height:17px}
+  .row .nmt{flex:1;color:#37423c}
+  .row .price{font-weight:700;color:#2a322d}
+  .row .price.m{color:var(--wool-dk)}
+  .tagm{display:inline-flex;align-items:center;gap:4px;background:var(--mint-soft);color:var(--wool-dk);font-size:9.5px;
+    font-weight:700;padding:2px 7px;border-radius:6px;margin-left:6px}
+  .erbar{margin-top:12px;background:var(--er);border-radius:13px;padding:12px 14px;display:flex;align-items:center;
+    justify-content:space-between;color:#fff}
+  .erbar .l{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:12.5px}
+  .erbar .l .ic{width:15px;height:15px}
+  .erbar .r{font-size:11.5px;font-weight:600;opacity:.96}
+  .confirm{margin-top:12px;background:var(--wool);color:#fff;border-radius:13px;padding:14px;text-align:center;
+    font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+  .confirm .ic{width:17px;height:17px}
+  .micro{margin-top:9px;text-align:center;font-size:10.5px;color:#9aa3a0}
+
+  /* steps list */
+  .steps{display:flex;flex-direction:column;gap:18px}
+  .stp{display:flex;gap:15px}
+  .stp .ico{flex:0 0 auto;width:46px;height:46px;border-radius:13px;display:grid;place-items:center;
+    background:var(--mint-soft);color:var(--wool-dk);border:1px solid #d6efe2}
+  .stp.er .ico{background:#FFF1E7;color:var(--er-dk);border-color:#fbd9c2}
+  .stp .ico .ic{width:23px;height:23px}
+  .stp h3{font-size:15.5px;font-weight:800;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+  .stp h3 .num{font-family:'Space Mono',monospace;font-size:11px;color:var(--grey);font-weight:700}
+  .stp p{font-size:13px;color:var(--grey);line-height:1.5}
+
+  /* safe band */
+  .safe{background:var(--charcoal);color:#fff;padding:32px 50px;display:flex;gap:30px;align-items:center;flex-wrap:wrap}
+  .safe .hd{flex:1;min-width:260px;font-size:19px;font-weight:800;line-height:1.32}
+  .safe .hd em{font-style:normal;color:var(--canary)}
+  .safe .pts2{display:flex;flex-direction:column;gap:13px}
+  .safe .p{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:1.4;max-width:230px;opacity:.94}
+  .safe .p .ic{width:17px;height:17px;color:var(--mint);flex:0 0 auto;margin-top:1px}
+
+  /* double banger */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}
+  .card{border-radius:18px;padding:26px;border:1px solid var(--line);position:relative;overflow:hidden}
+  .card.c1{background:linear-gradient(165deg,#F2FBF6,#E6F7EF);border-color:#cfeede}
+  .card.c2{background:linear-gradient(165deg,#FFFAF0,#FFF1D6);border-color:#f3e4bd}
+  .card .ct{display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:10px;
+    letter-spacing:.1em;text-transform:uppercase;padding:6px 11px;border-radius:999px;margin-bottom:14px}
+  .card.c1 .ct{background:var(--wool);color:#fff}
+  .card.c2 .ct{background:var(--canary);color:var(--ink)}
+  .card .ct .ic{width:13px;height:13px}
+  .card h3{font-size:19px;font-weight:800;margin-bottom:8px}
+  .card p{font-size:13px;line-height:1.55;color:#46514a}
+  .card .drives{margin-top:14px;padding-top:13px;border-top:1px dashed rgba(0,0,0,.12);font-size:12px;color:#3a443d;line-height:1.7}
+  .card .drives b{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--grey)}
+
+  /* ask */
+  .ask{margin:0 50px 0;padding:34px 36px;border-radius:20px;color:#fff;display:flex;gap:26px;align-items:center;flex-wrap:wrap;
+    background:linear-gradient(135deg,var(--er),var(--er-dk));box-shadow:0 18px 40px rgba(226,92,18,.28)}
+  .ask .l{flex:1;min-width:260px}
+  .ask .k{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.18em;opacity:.9}
+  .ask h2{font-size:27px;font-weight:800;letter-spacing:-.01em;margin:7px 0 9px}
+  .ask p{font-size:13.5px;line-height:1.55;opacity:.96;max-width:46ch}
+  .cta{display:inline-flex;align-items:center;gap:9px;background:#fff;color:var(--er-dk);border-radius:13px;
+    padding:15px 22px;font-weight:800;font-size:15px;text-decoration:none;white-space:nowrap}
+  .cta .ic{width:18px;height:18px}
+
+  .foot{padding:22px 50px 30px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .foot .b{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--charcoal);font-weight:700}
+  .foot .b .ic{width:16px;height:16px;color:var(--wool)}
+  .foot .dis{font-family:'Space Mono',monospace;font-size:9.5px;color:#9aa3a0;max-width:54ch;line-height:1.5}
+
+  @media (max-width:760px){
+    .split{grid-template-columns:1fr;gap:30px}.two{grid-template-columns:1fr}
+    .hero,.sec,.safe,.foot{padding-left:26px;padding-right:26px}.ask{margin-left:26px;margin-right:26px}
+    .phone{max-width:330px;margin:0 auto}
+  }
+  @media print{
+    body{background:#fff !important;padding:0}
+    .wrap{box-shadow:none;border-radius:0;max-width:100%;width:100%}
+    .hero,.sec,.safe,.foot,.two,.split,.stp,.card,.phone,.ask{break-inside:avoid}
+    @page{size:250mm 515mm;margin:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== custom SVG icon sprite ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M3.5 8.5a2 2 0 0 1 2-2h1l1-1.6a1 1 0 0 1 .8-.4h3.4a1 1 0 0 1 .8.4l1 1.6h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2z"/><circle cx="10" cy="12" r="3"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0M12 17v4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5c.45 4.7 1.8 6.05 6.5 6.5-4.7.45-6.05 1.8-6.5 6.5-.45-4.7-1.8-6.05-6.5-6.5 4.7-.45 6.05-1.8 6.5-6.5z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7"/></symbol>
+  <symbol id="i-fridge" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2.4"/><path d="M6 10.2h12M9.2 6.2v1.8M9.2 12.6v3"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5.2" width="16" height="14.8" rx="2.4"/><path d="M4 9.5h16M8.2 3v4M15.8 3v4"/></symbol>
+  <symbol id="i-bottle" viewBox="0 0 24 24"><path d="M9.6 3h4.8v2.3l1.4 2.1a3 3 0 0 1 .5 1.66V19a2 2 0 0 1-2 2H9.7a2 2 0 0 1-2-2V9.06a3 3 0 0 1 .5-1.66l1.4-2.1z"/><path d="M7.7 12.4h8.6"/></symbol>
+  <symbol id="i-egg" viewBox="0 0 24 24"><path d="M12 3c3.4 0 6 4.9 6 9a6 6 0 0 1-12 0c0-4.1 2.6-9 6-9z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19.2C5 11 11 6 19 6c0 8.2-6 13.2-14 13.2z"/><path d="M5.2 19C9 14.4 13 11.4 17 9.4"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.2l2.1 11.1a1.1 1.1 0 0 0 1.08.9h8.1a1.1 1.1 0 0 0 1.07-.86L19.4 7.5H6.2"/><circle cx="9.2" cy="20" r="1.3" class="fill"/><circle cx="17" cy="20" r="1.3" class="fill"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 2.8v5.4c0 4.9-3 7.9-7 9.8-4-1.9-7-4.9-7-9.8V5.8z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path class="fill" d="M13.2 2.2L4.5 13.6a.6.6 0 0 0 .48.96H10l-1 8.2a.4.4 0 0 0 .72.3l8.78-11.4a.6.6 0 0 0-.48-.96H14l1-7.9a.4.4 0 0 0-.72-.3z"/></symbol>
+  <symbol id="i-koru" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8c4.4 0 7 3.2 7 6.5a4.6 4.6 0 0 1-9.2 0c0-1.9 1.4-3.4 3.3-3.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M12.5 6l6 6-6 6"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.7 4.3L18 9l-4.3 1.7L12 15l-1.7-4.3L6 9l4.3-1.7z"/><path d="M18 14l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7.6v8.8M9.7 9.4c0-1 1-1.6 2.3-1.6s2.3.5 2.3 1.5c0 2-4.6 1-4.6 3.1 0 1 1 1.6 2.3 1.6s2.3-.6 2.3-1.6"/></symbol>
+  <symbol id="i-dog" viewBox="0 0 32 24"><path class="fill" d="M3 10.2c.5-.8 1.6-.7 2 .1.6-1.3 1.9-2.1 3.4-2.1h10.2c1.2-1.7 2.8-2.7 4.4-2.7.6 0 .9.7.5 1.2-.4.4-.6.9-.6 1.5h2.3c2.3 0 4.1 1.8 4.1 4.1 0 .7-.6 1.3-1.3 1.3h-.6c-.3 0-.5.1-.6.4l-.5 1c-.2.4-.6.6-1 .6h-.5l.2 2.3c0 .5-.4.9-.9.9h-.3c-.5 0-.8-.3-.9-.8l-.3-2.7H10.6l-.3 2.7c0 .5-.4.8-.9.8h-.3c-.5 0-.9-.4-.9-.9l.2-2.4C6 15.7 4.2 13.9 3.6 11.6 3.5 11.2 2.7 10.8 3 10.2z"/><circle cx="25" cy="9.4" r=".7" fill="#fff"/></symbol>
+</svg>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="glow g1"></span><span class="glow g2"></span>
+    <div class="lockup">
+      <span class="brand"><span class="chip w">W</span>Woolworths</span>
+      <span class="tms">×</span>
+      <span class="brand"><span class="chip a">a</span>assembl</span>
+      <span class="conceptTag mono"><svg class="ic"><use href="#i-spark"/></svg>CONCEPT · NOT AFFILIATED</span>
+    </div>
+    <h1>Make the app <em>order itself.</em></h1>
+    <p class="sub">An agentic shopping layer inside the Woolworths app: snap the fridge, talk the list, and let it pre-fill the trolley for a busy week — Everyday Rewards applied, the shopper taps once to confirm.</p>
+    <div class="feats">
+      <span class="feat"><svg class="ic"><use href="#i-cam"/></svg>Snap → trolley</span>
+      <span class="feat"><svg class="ic"><use href="#i-mic"/></svg>Talk your list</span>
+      <span class="feat"><svg class="ic star"><use href="#i-star"/></svg>Everyday Rewards, automatic</span>
+      <span class="feat"><svg class="ic"><use href="#i-check"/></svg>Shopper confirms</span>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS + PHONE -->
+  <section class="sec">
+    <div class="kick"><svg class="ic"><use href="#i-cart"/></svg>How it works</div>
+    <div class="lead">Four taps from an <span class="o">empty fridge</span> to a checked-out trolley.</div>
+    <div class="split" style="margin-top:30px">
+
+      <!-- phone -->
+      <div class="phone">
+        <div class="screen">
+          <div class="appbar">
+            <span class="nm"><span class="chip w">W</span>Woolworths</span>
+            <span class="pts"><svg class="ic"><use href="#i-star"/></svg>2,480 pts</span>
+          </div>
+          <div class="scrollpad">
+            <div class="bubble">
+              <span class="ava">a</span>
+              <span>Snapped your fridge — here's the usual, plus 3 quick dinners for a busy week.</span>
+            </div>
+            <div class="items">
+              <div class="row"><span class="pic"><svg class="ic"><use href="#i-bottle"/></svg></span><span class="nmt">Milk 2L ×2</span><span class="price">$7.60</span></div>
+              <div class="row"><span class="pic"><svg class="ic"><use href="#i-egg"/></svg></span><span class="nmt">Free-range eggs <span class="tagm"><svg class="ic"><use href="#i-star"/></svg>member</span></span><span class="price m">$6.20</span></div>
+              <div class="row"><span class="pic"><svg class="ic"><use href="#i-leaf"/></svg></span><span class="nmt">Greens &amp; salad</span><span class="price">$8.10</span></div>
+              <div class="row"><span class="pic"><svg class="ic"><use href="#i-fridge"/></svg></span><span class="nmt">Tue dinner: pasta bake</span><span class="price">$12.90</span></div>
+            </div>
+            <div class="erbar">
+              <span class="l"><svg class="ic"><use href="#i-star"/></svg>Everyday Rewards</span>
+              <span class="r">+148 pts · voucher applied</span>
+            </div>
+            <div class="confirm"><svg class="ic"><use href="#i-check"/></svg>Confirm &amp; checkout — $46.30</div>
+            <div class="micro">The shopper always taps to confirm. Nothing buys itself.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- steps -->
+      <div class="steps">
+        <div class="stp">
+          <div class="ico"><svg class="ic"><use href="#i-cam"/></svg></div>
+          <div><h3><span class="num">01</span> Snap or say</h3><p>A photo of the fridge, or "we're out of the usual." The agent reads it and drafts the trolley — right brands, right sizes.</p></div>
+        </div>
+        <div class="stp">
+          <div class="ico"><svg class="ic"><use href="#i-cal"/></svg></div>
+          <div><h3><span class="num">02</span> It knows the week</h3><p>Calendar-aware — a packed week, the kids' lunches, the Sunday roast. It suggests before they have to think.</p></div>
+        </div>
+        <div class="stp er">
+          <div class="ico"><svg class="ic"><use href="#i-star"/></svg></div>
+          <div><h3><span class="num">03</span> Rewards, automatic</h3><p>Everyday Rewards points, vouchers and member prices apply as the trolley builds — the reason they keep coming back.</p></div>
+        </div>
+        <div class="stp er">
+          <div class="ico"><svg class="ic"><use href="#i-check"/></svg></div>
+          <div><h3><span class="num">04</span> One tap to confirm</h3><p>The shopper reviews and checks out in your app. The human signs off every trolley — evidence trail attached.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SAFE BAND -->
+  <section class="safe">
+    <div class="hd">Built in Aotearoa. <em>Every trolley is a draft the shopper signs off</em> — never an order placed behind their back.</div>
+    <div class="pts2">
+      <div class="p"><svg class="ic"><use href="#i-shield"/></svg>Runs inside your app, your checkout, your data</div>
+      <div class="p"><svg class="ic"><use href="#i-spark"/></svg>An evidence trail behind every suggestion</div>
+      <div class="p"><svg class="ic"><use href="#i-koru"/></svg>Privacy Act 2020 by default</div>
+    </div>
+  </section>
+
+  <!-- DOUBLE BANGER -->
+  <section class="sec">
+    <div class="kick"><svg class="ic"><use href="#i-grid"/></svg>Two surfaces, one partner</div>
+    <div class="lead">The trolley — and the <span class="o">reward</span> for every wait.</div>
+    <div class="two">
+      <div class="card c1">
+        <span class="ct"><svg class="ic"><use href="#i-cart"/></svg>For your shoppers</span>
+        <h3>Agentic ordering</h3>
+        <p>The app layer above — snap, talk, pre-fill, confirm — lifting basket size and repeat shops while making Everyday Rewards the reason to stay.</p>
+        <div class="drives"><b>Drives</b><br>Bigger trolleys · weekly habit · app daily-actives · rewards attach</div>
+      </div>
+      <div class="card c2">
+        <span class="ct"><svg class="ic" style="width:1.45em"><use href="#i-dog"/></svg>Dash · get paid to wait</span>
+        <h3>Everyday Rewards, on every wait</h3>
+        <p>Dash is assembl's reward layer for the agentic wait — one line of code turns any AI app's loading screen into a payout people keep (the dachshund fills up as it banks). Make <b>Everyday Rewards</b> where that reward lands — across the whole NZ agentic ecosystem, not just your app.</p>
+        <div class="drives"><b>Drives</b><br>Everyday Rewards reach · new earning moments · own NZ's most-viewed five seconds</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASK -->
+  <section style="padding:0 0 6px">
+    <div class="ask">
+      <div class="l">
+        <div class="k">THE WAY IN</div>
+        <h2>A 10-day Pilot Sprint.</h2>
+        <p>One real workflow — fridge-to-trolley for a cohort of Everyday Rewards members — built on your data, run live, and left with you as working proof. Low risk, no platform commitment.</p>
+      </div>
+      <a class="cta" href="https://www.assembl.co.nz/pilot-sprint">Book the sprint<svg class="ic"><use href="#i-arrow"/></svg></a>
+    </div>
+  </section>
+
+  <!-- FOOT -->
+  <section class="foot">
+    <span class="b"><svg class="ic"><use href="#i-koru"/></svg>assembl · mahi that earns its proof · built in Aotearoa</span>
+    <span class="dis">Concept proposal. assembl is independent and not affiliated with, authorised by, or endorsed by Woolworths NZ. Woolworths &amp; Everyday Rewards colours shown to illustrate the concept only.</span>
+  </section>
+
+</div>
+</body>
+</html>

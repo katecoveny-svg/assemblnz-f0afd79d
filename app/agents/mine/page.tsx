@@ -138,8 +138,7 @@ function DraftCard({ draft }: { draft: StoredDraft }) {
       <div className="flex-1">
         <div className="flex items-center justify-between gap-2">
           <span className="text-sm" style={{ color: PALETTE.ink, fontWeight: 900 }}>
-            {draft.name || 'Untitled'}{' '}
-            {draft.teReo && <span className="mk-mono text-[11px]" style={{ color: PALETTE.muted }}>· {draft.teReo}</span>}
+            {draft.name || 'Untitled'}
           </span>
           <span
             className="mk-mono rounded-full px-2 py-0.5 text-[9px] uppercase tracking-[0.14em]"

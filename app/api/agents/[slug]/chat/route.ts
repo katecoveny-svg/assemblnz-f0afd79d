@@ -3,17 +3,19 @@ import { z } from 'zod';
 import { marketplaceAgentBySlug, MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
 import { FALLBACK_DISCLOSURE, pickRung, resolveModelLadder } from '@/lib/ai/router';
 import { recordModelFallback } from '@/lib/ai/fallback-log';
+import { createClient } from '@supabase/supabase-js';
+import { citeFromPCO, type SupabaseRpcClient } from '@/lib/government/types';
 import { MARITIME_KNOWLEDGE, marineWeatherTool } from '@/lib/agents/maritime-knowledge';
 import { WHANAU_KNOWLEDGE, isFamilyAgent } from '@/lib/agents/whanau-knowledge';
 import { CLINICAL_NOTE_KNOWLEDGE } from '@/lib/agents/clinical-notes';
-import { CREATIVE_KNOWLEDGE, creativeTools } from '@/lib/agents/creative';
+import { CREATIVE_KNOWLEDGE, creativeTools, generateImageTool, IMAGE_RENDER_KNOWLEDGE } from '@/lib/agents/creative';
 import { VOICE_RECEPTIONIST_KNOWLEDGE, isVoiceAgent } from '@/lib/voice/agent-voice';
 import { handoffPromptBlock } from '@/lib/agents/handoffs';
 import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
 import { getEntitlementStatus, incrementFreeUsage } from '@/lib/billing/agent-entitlement';
 import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billing/chat-identity';
 
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 /** Build a Set-Cookie header string from our anon cookie options. */
 function anonSetCookie(value: string): string {
@@ -41,42 +43,78 @@ function anonSetCookie(value: string): string {
  * lands in a follow-up task.
  */
 
+/**
+ * Live NZ knowledge search — grounds agents in assembl's Industry Knowledge
+ * Base (legislation, regulations, official guidance, government sources) via the
+ * deployed `ikb-search` edge function, which embeds the query (Gemini, 768-dim)
+ * and runs the `search_industry_kb` pgvector RPC. Returns real ranked snippets
+ * with titles + URLs for the agent to cite. Fails safe: on any problem it tells
+ * the agent to answer from general knowledge and flag that the live source was
+ * not checked.
+ */
 const nzKnowledgeTools = {
-  searchGazette: tool({
+  searchNZKnowledge: tool({
     description:
-      'Search the New Zealand Gazette for official notices (appointments, regulations, authorisations). Use for "has anything been gazetted about…" questions.',
+      "Search assembl's New Zealand knowledge base (legislation, regulations, standards, official government guidance) for grounding. Use whenever the answer turns on NZ law, a statutory reference, compliance, entitlements, or official guidance. Returns real source snippets with titles and URLs — cite the ones you use, with their retrieval date.",
     inputSchema: z.object({
-      query: z.string().describe('What to search the NZ Gazette for'),
+      query: z.string().describe('The NZ legal / regulatory / government question or topic to look up'),
     }),
-    execute: async ({ query }) => ({
-      status: 'stub',
-      note: 'Live NZ Gazette search is not wired up yet (follow-up task). Answer from general knowledge and clearly flag that this was not checked against the live Gazette.',
-      query,
-    }),
-  }),
-  searchLegislation: tool({
-    description:
-      'Look up current New Zealand legislation via the PCO Legislation source (Acts, regulations, sections). Use to confirm a specific statutory reference.',
-    inputSchema: z.object({
-      query: z.string().describe('Act, regulation, or section to look up'),
-    }),
-    execute: async ({ query }) => ({
-      status: 'stub',
-      note: 'Live PCO Legislation lookup is not wired up yet (follow-up task). Cite the relevant Act from general knowledge but flag that it was not verified against the live source.',
-      query,
-    }),
-  }),
-  searchBeehive: tool({
-    description:
-      'Search Beehive.govt.nz for recent New Zealand Government announcements and ministerial releases.',
-    inputSchema: z.object({
-      query: z.string().describe('What government announcement to search for'),
-    }),
-    execute: async ({ query }) => ({
-      status: 'stub',
-      note: 'Live Beehive search is not wired up yet (follow-up task). Flag that the live source was not checked.',
-      query,
-    }),
+    execute: async ({ query }) => {
+      const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+      const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      const geminiKey = process.env.GEMINI_API_KEY;
+      if (!base || !serviceKey || !geminiKey) {
+        return {
+          status: 'unavailable',
+          note: 'The NZ knowledge base is not reachable right now. Answer from general knowledge and clearly say it was not checked against the live source.',
+        };
+      }
+      try {
+        // 1. Embed the query — Gemini gemini-embedding-001 at 768 dims, matching
+        //    the kb_doc_chunks pgvector schema the live KB is stored in.
+        const er = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=${geminiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: { parts: [{ text: query.slice(0, 8000) }] }, outputDimensionality: 768 }),
+          },
+        );
+        if (!er.ok) {
+          return { status: 'error', note: 'Could not search the live source right now. Answer from general knowledge and flag it was not verified.' };
+        }
+        const ej = (await er.json()) as { embedding?: { values?: number[] } };
+        const embedding = ej.embedding?.values;
+        if (!Array.isArray(embedding) || embedding.length === 0) {
+          return { status: 'error', note: 'The live source search returned no embedding. Answer from general knowledge and flag it was not verified.' };
+        }
+        // 2. Retrieve from the live KB via match_kb_knowledge (kb_doc_chunks),
+        //    reusing the proven citeFromPCO helper.
+        const supabase = createClient(base, serviceKey) as unknown as SupabaseRpcClient;
+        const citations = await citeFromPCO(supabase, embedding, null, 6);
+        if (!citations.length) {
+          return {
+            status: 'no_results',
+            note: 'Nothing close in the live NZ knowledge base. Answer from general knowledge and flag that it was not found in the live source.',
+          };
+        }
+        return {
+          status: 'ok',
+          sources: citations.map((c) => ({
+            title: c.title,
+            url: c.url,
+            snippet: c.snippet.slice(0, 700),
+            similarity: Number.isFinite(c.similarity) ? Number(c.similarity.toFixed(3)) : undefined,
+          })),
+          retrievedAt: new Date().toISOString().slice(0, 10),
+        };
+      } catch (e) {
+        return {
+          status: 'error',
+          note: `NZ knowledge search error: ${e instanceof Error ? e.message : 'unknown'}. Answer from general knowledge and flag that it was not verified.`,
+        };
+      }
+    },
   }),
 };
 
@@ -157,11 +195,72 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   // pipeline + creative-gen tools. Voice CS: the after-hours receptionist block.)
   const isMaritime = ['maritime-brief', 'tide-weather', 'catch-log'].includes(agent.slug);
   const isCreative = agent.slug === 'creative-studio';
+  // Real image generation for every creative-category agent (Prism, Auaha,
+  // Creative Studio, Social Manager) — calls the generate-image edge function.
+  const canMakeImages = agent.category === 'creative';
+
+  // Every agent can set up an SMS reminder. Saved to agent_text_reminders and
+  // sent by the send-text-reminders worker (via Twilio, once keys are set).
+  // Consent-gated; recipient in international format.
+  const reminderUserId = 'userId' in identity ? identity.userId : null;
+  const scheduleTextReminder = tool({
+    description:
+      "Schedule a text (SMS) reminder for the user. Call ONLY after the user has given the message, when to send it, the recipient's mobile number in international format (e.g. +64211234567), AND confirmed they have permission to text that number. Use for 'text me every morning…', 'text this number every Monday…', etc.",
+    inputSchema: z.object({
+      message: z.string().describe('The exact reminder text to send'),
+      recipient: z.string().describe('Recipient mobile in international format, e.g. +64211234567'),
+      recipientLabel: z.string().optional().describe("Who it is, e.g. 'me' or 'Mila'"),
+      consentConfirmed: z.boolean().describe('True only if the user confirmed permission to text this number'),
+      scheduleKind: z.enum(['daily', 'weekly', 'once']),
+      atHour: z.number().min(0).max(23).describe('Send hour, 24h, NZ time'),
+      atMinute: z.number().min(0).max(59).optional(),
+      weekday: z.number().min(0).max(6).optional().describe('0=Sun..6=Sat; required for weekly'),
+      fireOn: z.string().optional().describe('YYYY-MM-DD; required for once'),
+    }),
+    execute: async (input) => {
+      if (!input.consentConfirmed) {
+        return { status: 'needs_consent', note: 'Confirm with the user they have permission to text that number, then call again with consentConfirmed true.' };
+      }
+      const sbBase = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+      const sbKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+      if (!sbBase || !sbKey) return { status: 'error', note: 'Reminders are not configured right now.' };
+      try {
+        const supabase = createClient(sbBase, sbKey);
+        const { error } = await supabase.from('agent_text_reminders').insert({
+          user_id: reminderUserId,
+          agent_slug: slug,
+          recipient: input.recipient,
+          recipient_label: input.recipientLabel ?? null,
+          recipient_consent: true,
+          message: input.message,
+          schedule_kind: input.scheduleKind,
+          at_hour: input.atHour,
+          at_minute: input.atMinute ?? 0,
+          weekday: input.weekday ?? null,
+          fire_on: input.fireOn ?? null,
+          timezone: 'Pacific/Auckland',
+        });
+        if (error) return { status: 'error', note: `Could not save the reminder: ${error.message}` };
+        const mm = String(input.atMinute ?? 0).padStart(2, '0');
+        const when =
+          input.scheduleKind === 'daily'
+            ? `every day at ${input.atHour}:${mm}`
+            : input.scheduleKind === 'weekly'
+              ? `every week at ${input.atHour}:${mm} (day ${input.weekday})`
+              : `on ${input.fireOn} at ${input.atHour}:${mm}`;
+        return { status: 'ok', note: `Reminder saved: "${input.message}" to ${input.recipientLabel ?? input.recipient}, ${when} NZ time.` };
+      } catch (e) {
+        return { status: 'error', note: `Could not save the reminder: ${e instanceof Error ? e.message : 'unknown'}` };
+      }
+    },
+  });
 
   const tools = {
     ...nzKnowledgeTools,
+    scheduleTextReminder,
     ...(isMaritime ? { marineWeather: marineWeatherTool } : {}),
     ...(isCreative ? creativeTools : {}),
+    ...(canMakeImages ? { generateImage: generateImageTool } : {}),
   };
 
   const knowledgeBlocks: string[] = [];
@@ -169,10 +268,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   if (isFamilyAgent(agent.slug)) knowledgeBlocks.push(WHANAU_KNOWLEDGE);
   if (agent.slug === 'care-scribe') knowledgeBlocks.push(CLINICAL_NOTE_KNOWLEDGE);
   if (isCreative) knowledgeBlocks.push(CREATIVE_KNOWLEDGE);
+  if (canMakeImages) knowledgeBlocks.push(IMAGE_RENDER_KNOWLEDGE);
   if (isVoiceAgent(agent.slug)) knowledgeBlocks.push(VOICE_RECEPTIONIST_KNOWLEDGE);
 
   const handoffBlock = handoffPromptBlock(agent.slug);
   if (handoffBlock) knowledgeBlocks.push(handoffBlock);
+
+  knowledgeBlocks.push(
+    "Text reminders (offer proactively): you can set up SMS reminders for the user with the scheduleTextReminder tool. Whenever someone wants a reminder, a recurring nudge, or to be texted something, offer it, then run a quick set-up before calling the tool. First, confirm what to send (keep it short and friendly) and when (one-off, daily, or weekly with the day and time). Second, ask for the recipient's mobile in international format (e.g. +64211234567) — their own number or someone else's. Third, get an explicit opt-in for that number: ask them to confirm they have that person's permission to receive these texts and that the person can ask to stop at any time, and only continue on a clear yes — this consent is recorded and is required under the Unsolicited Electronic Messages Act 2007. Only after all three, call scheduleTextReminder (you can set up several at once), then confirm what is scheduled, that it will arrive by text on that schedule, and that they can message you any time to change, pause, or stop a reminder.",
+  );
 
   const system = knowledgeBlocks.length
     ? [baseSystem, ...knowledgeBlocks].join('\n\n')
