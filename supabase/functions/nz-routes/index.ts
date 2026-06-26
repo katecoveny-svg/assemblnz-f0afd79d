@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const MAPBOX_TOKEN = Deno.env.get("MAPBOX_ACCESS_TOKEN");
+    const MAPBOX_TOKEN = Deno.env.get("MAPBOX_ACCESS_TOKEN") || Deno.env.get("VITE_MAPBOX_TOKEN");
 
     if (MAPBOX_TOKEN) {
       try {
