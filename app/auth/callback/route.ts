@@ -1,6 +1,8 @@
+import { cookies } from 'next/headers';
 import { NextResponse, type NextRequest } from 'next/server';
 import type { EmailOtpType } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
+import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-policy';
 
 /**
  * Supabase auth callback. Accepts two flows:
@@ -23,6 +25,14 @@ export async function GET(request: NextRequest) {
   const type = url.searchParams.get('type') as EmailOtpType | null;
   const redirectParam = url.searchParams.get('redirect') ?? url.searchParams.get('next');
   const next = redirectParam && redirectParam.startsWith('/') ? redirectParam : '/app';
+
+  // Honour an explicit "stay signed in" choice carried on the link, before any
+  // session cookies are written.
+  const rememberParam = url.searchParams.get('remember');
+  if (rememberParam === '1' || rememberParam === '0') {
+    const cookieStore = await cookies();
+    cookieStore.set(REMEMBER_COOKIE, rememberParam, rememberCookieOptions(rememberParam === '1'));
+  }
 
   const supabase = await createClient();
 

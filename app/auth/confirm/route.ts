@@ -1,6 +1,21 @@
+import { cookies } from 'next/headers';
 import { NextResponse, type NextRequest } from 'next/server';
 import type { EmailOtpType } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
+import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-policy';
+
+/**
+ * Honour an explicit "stay signed in" choice carried on the magic-link URL.
+ * Covers the cross-device case (submit on desktop, click on phone) where the
+ * `assembl-remember` cookie set at sign-in does not reach this request. Must
+ * run before verifyOtp so the session cookies pick up the chosen lifetime.
+ */
+async function applyRememberParam(url: URL) {
+  const remember = url.searchParams.get('remember');
+  if (remember !== '1' && remember !== '0') return;
+  const cookieStore = await cookies();
+  cookieStore.set(REMEMBER_COOKIE, remember, rememberCookieOptions(remember === '1'));
+}
 
 /**
  * Magic-link / OTP confirmation. Uses `verifyOtp` against a `token_hash` so the
@@ -18,6 +33,8 @@ export async function GET(request: NextRequest) {
   const type = url.searchParams.get('type') as EmailOtpType | null;
   const nextParam = url.searchParams.get('next');
   const next = nextParam && nextParam.startsWith('/') ? nextParam : '/app';
+
+  await applyRememberParam(url);
 
   if (token_hash && type) {
     const supabase = await createClient();
