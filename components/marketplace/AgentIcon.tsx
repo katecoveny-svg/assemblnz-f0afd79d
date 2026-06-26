@@ -179,6 +179,25 @@ function paths(name: string, ink: string): ReactElement[] {
         <circle key={3} cx={31} cy={21} r={3} fill={CAN} />,
         <circle key={4} cx={41} cy={24} r={3} fill={ink} />,
       ];
+    case 'car':
+      // automotive vertical — a side-on car with canary body and ink wheels.
+      return [
+        <path
+          key={1}
+          d="M10 40l4-12a6 6 0 0 1 5.6-4h24.8a6 6 0 0 1 5.6 4l4 12z"
+          fill={CAN}
+          stroke={ink}
+          strokeWidth={3}
+          strokeLinejoin="round"
+        />,
+        <rect key={2} x={8} y={38} width={48} height={8} rx={3} fill={ink} />,
+        <line key={3} x1={26} y1={24} x2={26} y2={38} stroke={ink} strokeWidth={2.4} />,
+        <line key={4} x1={38} y1={24} x2={38} y2={38} stroke={ink} strokeWidth={2.4} />,
+        <circle key={5} cx={20} cy={48} r={5} fill={ink} />,
+        <circle key={6} cx={20} cy={48} r={2} fill={CREAM} />,
+        <circle key={7} cx={44} cy={48} r={5} fill={ink} />,
+        <circle key={8} cx={44} cy={48} r={2} fill={CREAM} />,
+      ];
     default:
       return [<circle key={1} cx={32} cy={32} r={14} fill={CAN} />];
   }

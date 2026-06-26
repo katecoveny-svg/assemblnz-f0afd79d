@@ -80,7 +80,7 @@ export function ServiceMatchWorkspace({ tenant, matches }: Props) {
           type="button"
           onClick={refresh}
           disabled={isPending}
-          className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[8px] border border-[rgba(61,66,80,0.16)] bg-white/70 px-4 text-sm font-medium text-[#3D4250] transition hover:border-[#2B6B57] hover:text-[#2B6B57] disabled:opacity-60"
+          className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[8px] border border-[rgba(61,66,80,0.16)] bg-white/70 px-4 text-sm font-medium text-[#3D4250] transition hover:border-[#C79B1F] hover:text-[#C79B1F] disabled:opacity-60"
         >
           <RefreshCw className="h-4 w-4" aria-hidden />
           Refresh scoring
@@ -90,7 +90,7 @@ export function ServiceMatchWorkspace({ tenant, matches }: Props) {
             className={`rounded-[8px] border p-4 text-sm leading-relaxed ${
               error
                 ? 'border-[rgba(217,168,90,0.38)] bg-[rgba(217,168,90,0.12)]'
-                : 'border-[rgba(43,107,87,0.24)] bg-[rgba(43,107,87,0.08)] text-[#2B6B57]'
+                : 'border-[rgba(43,107,87,0.24)] bg-[rgba(43,107,87,0.08)] text-[#C79B1F]'
             }`}
           >
             {error ?? message}
@@ -147,7 +147,7 @@ function ImportBox({
         type="button"
         onClick={onImport}
         disabled={disabled}
-        className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[8px] bg-[#2B6B57] px-4 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#245746] disabled:opacity-60"
+        className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[8px] bg-[#C79B1F] px-4 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#9A7818] disabled:opacity-60"
       >
         <FileUp className="h-4 w-4" aria-hidden />
         Import CSV
@@ -191,14 +191,14 @@ function MatchCard({ match, tenantId }: { match: ServiceSalesMatch; tenantId: st
         </div>
         <span className={`rounded-full border px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] ${
           match.tier === 'strong'
-            ? 'border-[rgba(43,107,87,0.30)] bg-[rgba(43,107,87,0.10)] text-[#2B6B57]'
+            ? 'border-[rgba(43,107,87,0.30)] bg-[rgba(43,107,87,0.10)] text-[#C79B1F]'
             : 'border-[rgba(217,168,90,0.45)] bg-[rgba(217,168,90,0.16)] text-[#8A6324]'
         }`}>
           {match.score}
         </span>
       </div>
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-[rgba(61,66,80,0.10)]">
-        <div className="h-full rounded-full bg-[#2B6B57]" style={{ width: `${match.score}%` }} />
+        <div className="h-full rounded-full bg-[#C79B1F]" style={{ width: `${match.score}%` }} />
       </div>
       <p className="mt-4 text-sm leading-relaxed">{match.openingLine}</p>
       <p className="mt-3 rounded-[8px] bg-[#FAF7F2] p-3 text-xs leading-relaxed">{match.handoffDraft}</p>
@@ -206,13 +206,13 @@ function MatchCard({ match, tenantId }: { match: ServiceSalesMatch; tenantId: st
         type="button"
         onClick={handOffToSales}
         disabled={isHandingOff}
-        className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[8px] bg-[#2B6B57] px-4 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#245746] disabled:opacity-60"
+        className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[8px] bg-[#C79B1F] px-4 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#9A7818] disabled:opacity-60"
       >
         <SendHorizontal className="h-4 w-4" aria-hidden />
         Hand off to sales
       </button>
       {(handoffMessage || handoffError) && (
-        <p className={`mt-2 text-xs ${handoffError ? 'text-[#8A6324]' : 'text-[#2B6B57]'}`}>
+        <p className={`mt-2 text-xs ${handoffError ? 'text-[#8A6324]' : 'text-[#C79B1F]'}`}>
           {handoffError ?? handoffMessage}
         </p>
       )}
@@ -220,7 +220,7 @@ function MatchCard({ match, tenantId }: { match: ServiceSalesMatch; tenantId: st
         {match.signals.map((signal) => (
           <li key={signal.label} className="flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.12em] text-[#9D8C7D]">
             <span>{signal.label}</span>
-            <span className="text-[#2B6B57]">+{signal.points}</span>
+            <span className="text-[#C79B1F]">+{signal.points}</span>
           </li>
         ))}
       </ul>

@@ -582,6 +582,50 @@ const AGENT_DEFS: AgentDef[] = [
 
   // ── Trades, Ops & Coast ──────────────────────────────────────────────
   {
+    slug: 'arataki',
+    name: 'Arataki',
+    teReo: 'Arataki',
+    description:
+      'The automotive agent that runs a dealership end to end — sales compliance, finance disclosure, the service lane, courtesy cars, and heavy-transport operations.',
+    whatItDoes: [
+      'Prepares the Consumer Information Notice and CCCFA finance disclosure for every sale, and checks trader registration, PPSR and odometer history.',
+      'Runs the service lane: VIRM-based WoF/CoF checks, workshop job cards, LVV modification tracking, and courtesy-car logistics.',
+      'Keeps the commercial fleet legal — Transport Service Licence, work-time and logbooks, Road User Charges and VDAM mass and load.',
+    ],
+    whatYouGet: [
+      'A complete, accurate CIN and a CCCFA disclosure statement ready for the trader to issue.',
+      'WoF/CoF inspection records with the specific VIRM references, and job cards with the customer approval trail.',
+      'A Motor Vehicle Disputes Tribunal response pack, and TSL / work-time / RUC records ready for an auditor.',
+    ],
+    sampleOutputs: [
+      'CIN drafted: 2018 Mazda CX-5, odometer 84,210km (confirm against service history), WoF expires 12 Aug — recall check clear.',
+      'Finance: $28,990 over 48 months at 12.9% — disclosure drafted with total payable, fees and payment schedule; affordability inquiry and 5-day cancellation right noted.',
+      'Courtesy car DEAL-4471 is 2 days overdue. The customer is also service-due — one call covers both.',
+    ],
+    nzKnowledge: [
+      'Motor Vehicle Sales Act 2003',
+      'Consumer Guarantees Act 1993',
+      'Fair Trading Act 1986',
+      'Credit Contracts and Consumer Finance Act 2003',
+      'Land Transport Act 1998 + VIRM',
+      'Road User Charges Act 2012',
+    ],
+    category: 'trades',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'car',
+    tile: 'ink',
+    greeting:
+      'Tell me the vehicle, the customer, or the job and I will prepare it — a compliant CIN, a finance disclosure, a WoF record, or a fleet check. A registered trader, inspector or broker reviews and acts; I never lodge or issue.',
+    starters: [
+      'Draft a Consumer Information Notice for this trade-in.',
+      'Prepare the CCCFA disclosure for a $24,990 finance deal.',
+      'What does this vehicle need to pass its WoF?',
+      'Is my driver within work-time limits this week?',
+    ],
+    toolHref: '/operator/arataki/service-match',
+  },
+  {
     slug: 'customs-entry',
     name: 'Customs Entry',
     teReo: '',
@@ -1102,6 +1146,7 @@ const AGENT_DEFS: AgentDef[] = [
     tile: 'cream',
     greeting: 'I am Echo, your website concierge. Tell me what your visitors usually ask, and I will answer and route them. I never promise or commit on your behalf — I hand those to you.',
     starters: ['What do my visitors usually need?', 'Set up the homepage concierge.'],
+  },
   {
     slug: 'prism',
     name: 'Prism',

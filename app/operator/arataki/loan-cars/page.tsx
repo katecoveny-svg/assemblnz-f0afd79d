@@ -49,7 +49,7 @@ export default async function LoanCarsPage({
       <div className="mx-auto max-w-7xl">
         <header className="grid gap-7 border-b border-[rgba(61,66,80,0.12)] pb-7 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-end">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#2B6B57]">
+            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[#C79B1F]">
               assembl · Arataki · Loan Car Warden
             </p>
             <h1 className="mt-4 max-w-4xl font-display text-[clamp(3.2rem,7vw,6.4rem)] font-light leading-[0.9]">
@@ -61,7 +61,7 @@ export default async function LoanCarsPage({
           </div>
           <aside className="rounded-[8px] border border-[rgba(61,66,80,0.12)] bg-white/75 p-5 shadow-[0_10px_30px_rgba(61,66,80,0.06)]">
             <div className="flex items-start gap-3">
-              <ShieldCheck className="mt-1 h-5 w-5 text-[#2B6B57]" aria-hidden />
+              <ShieldCheck className="mt-1 h-5 w-5 text-[#C79B1F]" aria-hidden />
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#9D8C7D]">
                   Warden draft
@@ -108,7 +108,7 @@ function MetricCard({
   value: number;
   tone?: 'pounamu' | 'amber';
 }) {
-  const color = tone === 'amber' ? '#D9A85A' : '#2B6B57';
+  const color = tone === 'amber' ? '#D9A85A' : '#C79B1F';
   return (
     <div className="rounded-[8px] border border-[rgba(61,66,80,0.12)] bg-white/70 p-4">
       <div className="flex items-center justify-between">

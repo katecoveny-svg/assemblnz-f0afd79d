@@ -111,7 +111,7 @@ export function LoanCarsWorkspace({ cars, tenant }: Props) {
             type="button"
             onClick={importCsv}
             disabled={isPending}
-            className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[8px] bg-[#2B6B57] px-4 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#245746] disabled:opacity-60"
+            className="mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-[8px] bg-[#C79B1F] px-4 text-sm font-medium text-[#FAF7F2] transition hover:bg-[#9A7818] disabled:opacity-60"
           >
             <FileUp className="h-4 w-4" aria-hidden />
             Import CSV
@@ -128,7 +128,7 @@ export function LoanCarsWorkspace({ cars, tenant }: Props) {
                 onClick={() => setFilter(item)}
                 className={`min-h-10 rounded-[8px] border px-3 text-left font-mono text-[10px] uppercase tracking-[0.16em] transition ${
                   filter === item
-                    ? 'border-[#2B6B57] bg-[rgba(43,107,87,0.10)] text-[#2B6B57]'
+                    ? 'border-[#C79B1F] bg-[rgba(43,107,87,0.10)] text-[#C79B1F]'
                     : 'border-[rgba(61,66,80,0.12)] bg-[#FAF7F2] text-[#9D8C7D] hover:text-[#3D4250]'
                 }`}
               >
@@ -143,7 +143,7 @@ export function LoanCarsWorkspace({ cars, tenant }: Props) {
             className={`rounded-[8px] border p-4 text-sm leading-relaxed ${
               error
                 ? 'border-[rgba(217,168,90,0.38)] bg-[rgba(217,168,90,0.12)] text-[#3D4250]'
-                : 'border-[rgba(43,107,87,0.24)] bg-[rgba(43,107,87,0.08)] text-[#2B6B57]'
+                : 'border-[rgba(43,107,87,0.24)] bg-[rgba(43,107,87,0.08)] text-[#C79B1F]'
             }`}
           >
             {error ?? message}
@@ -205,7 +205,7 @@ function LoanCarCard({
           className={`rounded-full border px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] ${
             overdue
               ? 'border-[rgba(217,168,90,0.45)] bg-[rgba(217,168,90,0.16)] text-[#8A6324]'
-              : 'border-[rgba(43,107,87,0.26)] bg-[rgba(43,107,87,0.08)] text-[#2B6B57]'
+              : 'border-[rgba(43,107,87,0.26)] bg-[rgba(43,107,87,0.08)] text-[#C79B1F]'
           }`}
         >
           {statusLabel}
@@ -227,7 +227,7 @@ function LoanCarCard({
         <button
           type="button"
           onClick={() => onStatus(car.id, status === 'available' ? 'on_loan' : 'available')}
-          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] border border-[rgba(61,66,80,0.16)] px-3 text-xs font-medium text-[#3D4250] transition hover:border-[#2B6B57] hover:text-[#2B6B57]"
+          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] border border-[rgba(61,66,80,0.16)] px-3 text-xs font-medium text-[#3D4250] transition hover:border-[#C79B1F] hover:text-[#C79B1F]"
         >
           {status === 'available' ? <RotateCcw className="h-3.5 w-3.5" aria-hidden /> : <Check className="h-3.5 w-3.5" aria-hidden />}
           {status === 'available' ? 'Mark out' : 'Returned'}
@@ -235,7 +235,7 @@ function LoanCarCard({
         <button
           type="button"
           onClick={() => onStatus(car.id, 'maintenance')}
-          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] border border-[rgba(61,66,80,0.16)] px-3 text-xs font-medium text-[#3D4250] transition hover:border-[#2B6B57] hover:text-[#2B6B57]"
+          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] border border-[rgba(61,66,80,0.16)] px-3 text-xs font-medium text-[#3D4250] transition hover:border-[#C79B1F] hover:text-[#C79B1F]"
         >
           <Wrench className="h-3.5 w-3.5" aria-hidden />
           Workshop
@@ -243,7 +243,7 @@ function LoanCarCard({
         <button
           type="button"
           onClick={() => onHandoff(car.id)}
-          className="col-span-2 inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] bg-[#2B6B57] px-3 text-xs font-medium text-[#FAF7F2] transition hover:bg-[#245746]"
+          className="col-span-2 inline-flex min-h-10 items-center justify-center gap-2 rounded-[8px] bg-[#C79B1F] px-3 text-xs font-medium text-[#FAF7F2] transition hover:bg-[#9A7818]"
         >
           <ClipboardList className="h-3.5 w-3.5" aria-hidden />
           Hand off to operator

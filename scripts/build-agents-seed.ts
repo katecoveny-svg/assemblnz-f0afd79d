@@ -12,12 +12,12 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { MARKETPLACE_AGENTS } from '../lib/marketplace/agents';
 
-// Current canonical seed — CANON roster + Auaha + Chief/Roster/Counter/Social Manager (28 agents, 2026-06-23). Lands
-// after all prior agent migrations, PRUNES any agent no longer in the roster,
-// then upserts the full set.
+// Current canonical seed — full live roster + the Arataki automotive vertical
+// (35 agents, 2026-06-26). Lands after all prior agent migrations, PRUNES any
+// agent no longer in the roster, then upserts the full set.
 const OUT = join(
   process.cwd(),
-  'supabase/migrations/20260623220000_seed_canon_28_agents.sql',
+  'supabase/migrations/20260626150000_seed_canon_35_agents.sql',
 );
 
 /** Escape a value as a SQL string literal. */
