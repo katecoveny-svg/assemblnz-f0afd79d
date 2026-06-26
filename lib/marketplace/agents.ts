@@ -13,7 +13,11 @@
  */
 
 import { AGENT_PROMPTS, SHARED_BRAND_PREFIX } from './agent-prompts';
-import { PER_AGENT_PRICE_NZD } from '@/lib/billing/agent-pricing';
+import {
+  PER_AGENT_PRICE_NZD,
+  ALL_ACCESS_PLAN,
+  getAgentPlan,
+} from '@/lib/billing/agent-pricing';
 
 export type ModelTier = 'cheap' | 'mid' | 'premium';
 /** Coarse DB bucket — uniformly 'per_agent' (price set by the catalogue tier). */
@@ -58,6 +62,13 @@ export type MarketplaceAgent = {
   toolHref?: string;
   /** featured in the marketplace — surfaces as the lead "Start here" card */
   featured: boolean;
+  /**
+   * Industry-vertical premium agent (owns a whole industry, e.g. Arataki for
+   * automotive). Verticals are not sold at the flat per-agent rate — they are
+   * included in the All-Access plan, so their price label and Subscribe CTA
+   * point at All-Access rather than the $15 per-agent checkout.
+   */
+  vertical: boolean;
 };
 
 export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: string }[] = [
@@ -127,7 +138,8 @@ type AgentDef = Omit<
   | 'fallbackModels'
   | 'accent'
   | 'featured'
-> & { status?: AgentStatus; tools?: string[]; skills?: string[]; featured?: boolean };
+  | 'vertical'
+> & { status?: AgentStatus; tools?: string[]; skills?: string[]; featured?: boolean; vertical?: boolean };
 
 function buildAgent(def: AgentDef): MarketplaceAgent {
   const body = AGENT_PROMPTS[def.slug];
@@ -143,6 +155,7 @@ function buildAgent(def: AgentDef): MarketplaceAgent {
     fallbackModels: [...FALLBACK_MODELS],
     accent: TILE_BG[def.tile],
     featured: def.featured ?? false,
+    vertical: def.vertical ?? false,
     systemPrompt: body.replace('[SHARED BRAND PREFIX]', SHARED_BRAND_PREFIX),
   };
 }
@@ -581,6 +594,51 @@ const AGENT_DEFS: AgentDef[] = [
   },
 
   // ── Trades, Ops & Coast ──────────────────────────────────────────────
+  {
+    slug: 'arataki',
+    name: 'Arataki',
+    teReo: 'Arataki',
+    description:
+      'The automotive agent that runs a dealership end to end — sales compliance, finance disclosure, the service lane, courtesy cars, and heavy-transport operations.',
+    whatItDoes: [
+      'Prepares the Consumer Information Notice and CCCFA finance disclosure for every sale, and checks trader registration, PPSR and odometer history.',
+      'Runs the service lane: VIRM-based WoF/CoF checks, workshop job cards, LVV modification tracking, and courtesy-car logistics.',
+      'Keeps the commercial fleet legal — Transport Service Licence, work-time and logbooks, Road User Charges and VDAM mass and load.',
+    ],
+    whatYouGet: [
+      'A complete, accurate CIN and a CCCFA disclosure statement ready for the trader to issue.',
+      'WoF/CoF inspection records with the specific VIRM references, and job cards with the customer approval trail.',
+      'A Motor Vehicle Disputes Tribunal response pack, and TSL / work-time / RUC records ready for an auditor.',
+    ],
+    sampleOutputs: [
+      'CIN drafted: 2018 Mazda CX-5, odometer 84,210km (confirm against service history), WoF expires 12 Aug — recall check clear.',
+      'Finance: $28,990 over 48 months at 12.9% — disclosure drafted with total payable, fees and payment schedule; affordability inquiry and 5-day cancellation right noted.',
+      'Courtesy car DEAL-4471 is 2 days overdue. The customer is also service-due — one call covers both.',
+    ],
+    nzKnowledge: [
+      'Motor Vehicle Sales Act 2003',
+      'Consumer Guarantees Act 1993',
+      'Fair Trading Act 1986',
+      'Credit Contracts and Consumer Finance Act 2003',
+      'Land Transport Act 1998 + VIRM',
+      'Road User Charges Act 2012',
+    ],
+    category: 'trades',
+    modelTier: 'premium',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'car',
+    tile: 'ink',
+    greeting:
+      'Tell me the vehicle, the customer, or the job and I will prepare it — a compliant CIN, a finance disclosure, a WoF record, or a fleet check. A registered trader, inspector or broker reviews and acts; I never lodge or issue.',
+    starters: [
+      'Draft a Consumer Information Notice for this trade-in.',
+      'Prepare the CCCFA disclosure for a $24,990 finance deal.',
+      'What does this vehicle need to pass its WoF?',
+      'Is my driver within work-time limits this week?',
+    ],
+    toolHref: '/operator/arataki/service-match',
+  },
   {
     slug: 'customs-entry',
     name: 'Customs Entry',
@@ -1102,6 +1160,7 @@ const AGENT_DEFS: AgentDef[] = [
     tile: 'cream',
     greeting: 'I am Echo, your website concierge. Tell me what your visitors usually ask, and I will answer and route them. I never promise or commit on your behalf — I hand those to you.',
     starters: ['What do my visitors usually need?', 'Set up the homepage concierge.'],
+  },
   {
     slug: 'prism',
     name: 'Prism',
@@ -1225,6 +1284,32 @@ export function priceLabel(agent?: Pick<MarketplaceAgent, 'priceNzd'>): string {
   // price the per_agent Stripe checkout uses. The old tier numbers (priceNzd)
   // are retained only for the legacy /agents/pricing grouping.
   return `$${PER_AGENT_PRICE_NZD}/mo`;
+}
+
+/** All-Access monthly price (NZD) — the plan that includes vertical agents. */
+export const ALL_ACCESS_PRICE_NZD =
+  getAgentPlan(ALL_ACCESS_PLAN)?.monthlyNzd ?? 250;
+
+/**
+ * Price label for a card or detail header. Industry-vertical agents are sold
+ * through the All-Access plan, not the flat per-agent rate, so they show the
+ * All-Access price; every other agent shows the flat per-agent label.
+ */
+export function agentPriceLabel(
+  agent?: Pick<MarketplaceAgent, 'priceNzd' | 'vertical'>,
+): string {
+  if (!agent || agent.priceNzd === 0) return 'Free';
+  if (agent.vertical) return `All-Access · $${ALL_ACCESS_PRICE_NZD}/mo`;
+  return priceLabel(agent);
+}
+
+/** Checkout href for an agent's Subscribe CTA — All-Access for verticals. */
+export function agentCheckoutHref(
+  agent: Pick<MarketplaceAgent, 'slug' | 'vertical'>,
+): string {
+  return agent.vertical
+    ? `/agents/checkout?plan=${ALL_ACCESS_PLAN}`
+    : `/agents/checkout?plan=per_agent&agent=${agent.slug}`;
 }
 
 /**
