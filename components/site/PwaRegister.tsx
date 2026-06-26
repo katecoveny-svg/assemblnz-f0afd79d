@@ -9,6 +9,10 @@ function manifestForPath(pathname: string) {
   const workflowMatch = pathname.match(/^\/w\/([^/]+)$/);
   if (workflowMatch?.[1]) return `/w/${workflowMatch[1]}/manifest.json`;
 
+  // Each marketplace agent's chat installs as its own app.
+  const agentChatMatch = pathname.match(/^\/agents\/([^/]+)\/chat$/);
+  if (agentChatMatch?.[1]) return `/agents/${agentChatMatch[1]}/manifest.json`;
+
   return "/manifest.webmanifest";
 }
 

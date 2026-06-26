@@ -95,6 +95,7 @@ export default function HomePage() {
             <Link href="/pricing">Pricing</Link>
             <Link href="/trust">Trust</Link>
             <Link href="/about">About</Link>
+            <Link href="/login">Sign in</Link>
           </div>
           <Link className={styles.navCta} href="/agents">
             Browse agents
