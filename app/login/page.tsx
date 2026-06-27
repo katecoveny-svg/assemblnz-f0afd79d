@@ -4,7 +4,7 @@ import { LoginForm } from './login-form';
 
 export const metadata: Metadata = {
   title: 'Sign in',
-  description: 'Sign in to assembl admin.',
+  description: 'Sign in to your assembl account.',
   robots: { index: false, follow: false },
 };
 
