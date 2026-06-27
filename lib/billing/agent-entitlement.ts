@@ -109,7 +109,14 @@ async function readFreeUsed(identity: ChatIdentity, agentSlug: string): Promise<
 export async function getEntitlementStatus(
   identity: ChatIdentity,
   agentSlug: string,
+  opts?: { freeForever?: boolean },
 ): Promise<EntitlementStatus> {
+  // Free-forever agents (priceNzd 0 — the everyday utility agents) are never
+  // message-capped, so they never hit the paywall. The pricing page promises
+  // they are "free forever"; capping them showed a nonsensical "Subscribe · Free".
+  if (opts?.freeForever) {
+    return { entitled: true, freeUsed: 0, freeLimit: FREE_MESSAGE_LIMIT, remaining: FREE_MESSAGE_LIMIT };
+  }
   const entitled = await isAgentEntitled(identity.userId ?? null, agentSlug);
   if (entitled) {
     return { entitled: true, freeUsed: 0, freeLimit: FREE_MESSAGE_LIMIT, remaining: FREE_MESSAGE_LIMIT };

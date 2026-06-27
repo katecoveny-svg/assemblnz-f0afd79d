@@ -16,6 +16,7 @@ import { DashLoader } from '@/components/marketplace/DashLoader';
 import { Wordmark } from '@/components/marketplace/Wordmark';
 import { ShareToPhone } from '@/components/marketplace/ShareToPhone';
 import { AgentVisual, parseVisuals } from '@/components/marketplace/AgentVisual';
+import { AgentMarkdown } from '@/components/marketplace/AgentMarkdown';
 import { downloadConversationPack, type ConversationTurn } from '@/lib/export/pdf';
 import { InstallPwaButton } from '@/components/hapai/InstallPwaButton';
 import { MicButton } from '@/components/marketplace/MicButton';
@@ -233,7 +234,11 @@ export function AgentChat({
                           }
                     }
                   >
-                    <p className="whitespace-pre-wrap">{text}</p>
+                    {isUser ? (
+                      <p className="whitespace-pre-wrap">{text}</p>
+                    ) : (
+                      <AgentMarkdown text={text} />
+                    )}
                   </div>
                 ) : null}
                 {visuals.length > 0 ? (

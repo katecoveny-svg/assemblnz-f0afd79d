@@ -154,7 +154,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   // Entitled (paid) callers skip the limit. Otherwise this user/device gets
   // FREE_MESSAGE_LIMIT messages on this agent, then the paywall.
   const { identity, setAnonId } = await resolveChatIdentity();
-  const status = await getEntitlementStatus(identity, slug);
+  const status = await getEntitlementStatus(identity, slug, { freeForever: agent.priceNzd === 0 });
   if (!status.entitled && status.remaining <= 0) {
     return Response.json(
       {

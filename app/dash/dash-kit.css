@@ -492,7 +492,7 @@
 }
 .dash-kit .heroTitle {
   font-family: var(--ff-serif);
-  font-weight: 700;
+  font-weight: 900;
   font-size: clamp(54px, 7vw, 104px);
   line-height: 0.94;
   letter-spacing: -0.018em;
