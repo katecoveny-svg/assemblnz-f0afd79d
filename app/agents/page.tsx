@@ -124,8 +124,8 @@ export default function AgentsMarketplacePage() {
               Agents · install &amp; chat
             </p>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: PALETTE.body }}>
-              Installable, chat-based, and yours to keep. Free to try, then $9.99 or $199 a month for
-              the ones you keep.
+              Installable, chat-based, and yours to keep. Free to try, then $15/mo each — or
+              All-Access for every agent, including the industry specialists.
             </p>
           </header>
           <AgentGrid agents={PUBLIC_MARKETPLACE_AGENTS} />

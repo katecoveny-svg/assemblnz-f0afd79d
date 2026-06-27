@@ -7,7 +7,6 @@ import { Menu, Search, X } from "lucide-react";
 import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
-import { LanguageToggle } from "@/components/site/LanguageToggle";
 
 const PROOF_LINE = "Mahi that earns its proof.";
 
@@ -170,9 +169,6 @@ export function SiteHeader() {
               {isMac ? "⌘K" : "Ctrl K"}
             </kbd>
           </button>
-          <div className="hidden lg:block">
-            <LanguageToggle />
-          </div>
           <Link
             href="/login"
             aria-current={pathname === "/login" ? "page" : undefined}
@@ -262,9 +258,6 @@ export function SiteHeader() {
                 </Link>
               </li>
             </ul>
-            <div className="mt-8 flex justify-center">
-              <LanguageToggle />
-            </div>
             <Link
               href={navCta.href}
               className="cta-charcoal mt-8 inline-flex h-12 items-center justify-center px-7 text-base"

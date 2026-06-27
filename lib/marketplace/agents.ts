@@ -1,5 +1,14 @@
 /**
- * Agent marketplace registry — LOCKED CANON 23-agent roster (2026-06-23).
+ * Agent marketplace registry — LOCKED CANON, unified roster (updated 2026-06-27).
+ *
+ * 2026-06-27 unification: this registry is now the SINGLE source of truth for
+ * both the public /agents grid AND the signed-in detail/chat surfaces. The 19
+ * fleet specialists previously only in lib/agents.ts (construction, automotive,
+ * freight/customs, hospitality and whānau) were absorbed here with full
+ * MarketplaceAgent data + locked prompts. Industry verticals carry
+ * `vertical: true` (All-Access $250); consumer agents are flat per-agent. All
+ * tiles are cream/canary (no ink) and greetings are English-first per the
+ * brand canon. Base roster: LOCKED CANON (2026-06-23).
  *
  * Source of truth, read first: ~/Downloads/dash-gemini/CANON-LOCKED-2026-06-23.md.
  * English name headlines; te reo is a quiet label beside the name (never the
@@ -187,7 +196,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'mid',
     priceTier: 'free',
     icon: 'atlas',
-    tile: 'ink',
+    tile: 'cream',
     featured: true,
     greeting:
       'I am Atlas, the free AI adoption coach. I will not sell you anything. Tell me what you do most days, and we will find one useful thing to build — starting small and low-risk.',
@@ -420,7 +429,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'mid',
     priceTier: 'toro',
     icon: 'hui',
-    tile: 'ink',
+    tile: 'cream',
     greeting: 'Paste a transcript or your notes and I will leave clean minutes — decisions and actions with owners.',
     starters: ['Turn this transcript into minutes.', 'Pull out the actions and owners.'],
   },
@@ -628,7 +637,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     vertical: true,
     icon: 'car',
-    tile: 'ink',
+    tile: 'cream',
     greeting:
       'Tell me the vehicle, the customer, or the job and I will prepare it — a compliant CIN, a finance disclosure, a WoF record, or a fleet check. A registered trader, inspector or broker reviews and acts; I never lodge or issue.',
     starters: [
@@ -663,7 +672,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'premium',
     priceTier: 'business',
     icon: 'container',
-    tile: 'ink',
+    tile: 'cream',
     greeting: 'Paste the invoice and packing list and I will draft the import entry. A licensed broker checks and lodges — I never lodge.',
     starters: ['Draft an entry from this invoice.', 'Classify the HS tariff.'],
   },
@@ -747,7 +756,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'mid',
     priceTier: 'business',
     icon: 'shield',
-    tile: 'ink',
+    tile: 'cream',
     greeting: 'Give me your certs and obligations and I will track the expiries and flag what is due. I never renew or certify.',
     starters: ['What is expiring soon?', 'Track our certifications.'],
   },
@@ -777,7 +786,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'premium',
     priceTier: 'business',
     icon: 'shield',
-    tile: 'ink',
+    tile: 'cream',
     greeting:
       'Give me your project and I will draft the specification in Masterspec format and flag what is missing from the consent package. Everything I produce is a draft for your licensed architect to review.',
     starters: ['Write a basic residential specification.', 'QA my consent package.'],
@@ -892,7 +901,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'premium',
     priceTier: 'business',
     icon: 'scribe',
-    tile: 'ink',
+    tile: 'cream',
     greeting: 'With per-visit consent in place, paste or record the consult and I will draft the clinical note. I never diagnose — sign-off stays with you.',
     starters: ['Draft a SOAP note from this consult.', 'Write a referral letter.'],
   },
@@ -1017,7 +1026,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'premium',
     priceTier: 'business',
     icon: 'chief',
-    tile: 'ink',
+    tile: 'cream',
     greeting: 'Connect your inbox and calendar and tell me your priorities and escalate rules, and I will run the day with you. Nothing sends without your nod.',
     starters: [
       'Triage my inbox and draft the replies.',
@@ -1081,7 +1090,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'mid',
     priceTier: 'business',
     icon: 'store',
-    tile: 'ink',
+    tile: 'cream',
     greeting: 'Connect your POS and supplier list, and I will write the daily brief, draft the reorders, and triage returns and customer queries for your sign-off.',
     starters: [
       'Write today’s sales brief.',
@@ -1123,7 +1132,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'premium',
     priceTier: 'free',
     icon: 'pilot',
-    tile: 'ink',
+    tile: 'cream',
     greeting:
       'I am Pilot. I will help you build your own agent, one step at a time — no code. To start: what do you want to call it, and what should it do in one line?',
     starters: [
@@ -1189,7 +1198,7 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'spark',
     tile: 'canary',
     greeting:
-      'Kia ora. Before I make anything, tell me about your brand — the real version — and your site or socials if you have them. I will build your Brand DNA so everything I draft is unmistakably yours. I draft and direct; you approve before anything is published.',
+      'Before I make anything, tell me about your brand — the real version — and your site or socials if you have them. I will build your Brand DNA so everything I draft is unmistakably yours. I draft and direct; you approve before anything is published.',
     starters: ['Build a campaign from one line.', 'Plan our content for next month.'],
   },
   {
@@ -1218,10 +1227,686 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'premium',
     priceTier: 'business',
     icon: 'people',
-    tile: 'ink',
+    tile: 'cream',
     greeting:
-      'Kia ora. Before we dive in — how many people are on your team, and is there something specific on your mind? NZ employment law changed a lot recently, so if your agreements are not up to date, that is a good place to start. I draft and guide; for high-stakes calls I will tell you when you need an employment lawyer.',
+      'Before we dive in — how many people are on your team, and is there something specific on your mind? NZ employment law changed a lot recently, so if your agreements are not up to date, that is a good place to start. I draft and guide; for high-stakes calls I will tell you when you need an employment lawyer.',
     starters: ['What does this hire really cost?', 'Draft an employment agreement.'],
+  },
+
+  // ── Build (construction vertical specialists) ─────────────────────────
+  {
+    slug: 'kaupapa',
+    name: 'Kaupapa',
+    teReo: '',
+    description:
+      'The construction project director — scope, programme, contract administration, payment claims and the consent pathway, drafted for your reviewer to act on.',
+    whatItDoes: [
+      'Defines scope and maps the building- and resource-consent pathway for the build.',
+      'Administers the contract: payment claims and schedules, variations, retentions and extension-of-time claims under the Construction Contracts Act 2002.',
+      'Tracks the programme and critical path, surfacing delay and cost risk before it bites.',
+    ],
+    whatYouGet: [
+      'Payment claim and schedule packs that respect the statutory CCA timeframes.',
+      'A live variation register and EOT claims with the evidence attached.',
+      'A programme update and a consent-pathway plan your client can read.',
+    ],
+    sampleOutputs: [
+      'Payment schedule due in 3 working days — draft ready; miss it and the claimed $84,200 falls due in full.',
+      'Variation V-017 is verbal only. Not instructed until it is in writing — draft sent for sign-off.',
+    ],
+    nzKnowledge: ['Construction Contracts Act 2002', 'NZS 3910:2013', 'Building Act 2004', 'Resource Management Act 1991'],
+    skills: ['kaupapa-project-mgmt'],
+    category: 'build',
+    modelTier: 'premium',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'koru',
+    tile: 'canary',
+    greeting:
+      'Tell me the project, the contract, or the claim and I will prepare it — a payment schedule, a variation, an EOT claim, or a consent pathway. A licensed practitioner or your project manager reviews and acts; I never lodge or certify.',
+    starters: [
+      'Draft a payment schedule for this claim.',
+      'Set up the variation register for this build.',
+      'Map the consent pathway for a new dwelling.',
+    ],
+  },
+  {
+    slug: 'ata',
+    name: 'Ata',
+    teReo: '',
+    description:
+      'BIM and plan review — clash detection, Building Code compliance and accessibility, drafted to the NZ BIM Handbook for your designer to sign.',
+    whatItDoes: [
+      'Reviews models and plan sets against the NZ Building Code and NZS 4121:2001 accessibility.',
+      'Runs clash and coordination checks across disciplines, each finding clause-referenced.',
+      'Tracks Level of Development and assembles as-built and handover documentation.',
+    ],
+    whatYouGet: [
+      'Clash reports and coordination notes tied to the specific drawing and discipline.',
+      'Code-compliance review notes that cite the clause (B1, E2, D1).',
+      'LOD trackers and a handover bundle ready for the next stage.',
+    ],
+    sampleOutputs: [
+      'Clash: HVAC duct vs structural beam at grid C4 — flagged for the designer to resolve.',
+      'Accessibility: corridor width 1100mm at level 2 falls short of NZS 4121 — note raised.',
+    ],
+    nzKnowledge: ['NZ Building Code', 'NZS 4121:2001', 'Building Product Specifications 2025', 'NZ BIM Handbook / ISO 19650'],
+    skills: ['ata-bim'],
+    category: 'build',
+    modelTier: 'premium',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'list',
+    tile: 'cream',
+    greeting:
+      'Share the model or plan set and I will review it — clashes, Building Code compliance, accessibility, coordination. A Licensed Building Practitioner or chartered professional reviews and signs; I prepare the findings.',
+    starters: [
+      'Run a clash check on this model.',
+      'Review these plans for Building Code compliance.',
+      'Check accessibility against NZS 4121.',
+    ],
+  },
+  {
+    slug: 'rawa',
+    name: 'Rawa',
+    teReo: '',
+    description:
+      'Materials, products and procurement — checked against the Building Product Specifications 2025 and the Building Code, with supplier evidence held for your reviewer.',
+    whatItDoes: [
+      'Checks specified and substituted products against BPS 2025 and the relevant Building Code clause.',
+      'Holds supplier evidence — CodeMark, Appraisals, BRANZ, manufacturer documentation.',
+      'Runs substitution control, flagging swaps that change the compliance basis or warranty.',
+    ],
+    whatYouGet: [
+      'Product schedules with the compliance evidence attached.',
+      'Substitution approvals with the durability (B2) and weathertightness (E2) risk noted.',
+      'A supplier-evidence bundle ready for the evidence pack.',
+    ],
+    sampleOutputs: [
+      'Substitution: cladding swap changes the E2 basis — needs written approval before use; draft raised.',
+      'Missing: CodeMark for the specified membrane — flagged before the BCA asks.',
+    ],
+    nzKnowledge: ['Building Product Specifications 2025', 'NZ Building Code (B2, E2)', 'CodeMark / BRANZ Appraisals'],
+    skills: ['rawa-resources'],
+    category: 'build',
+    modelTier: 'premium',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'stock',
+    tile: 'cream',
+    greeting:
+      'Tell me the product or the substitution and I will check it against BPS 2025 and the Building Code, and hold the supplier evidence. Your reviewer approves substitutions; I prepare the record.',
+    starters: [
+      'Check this product against BPS 2025.',
+      'Is this substitution a like-for-like or does it change compliance?',
+      'Build the supplier-evidence bundle for this job.',
+    ],
+  },
+  {
+    slug: 'whakaae',
+    name: 'Whakaaē',
+    teReo: '',
+    description:
+      'Building and resource consents — applications, AEEs and council RFI responses citing the Building Act 2004, drafted for your LBP to lodge.',
+    whatItDoes: [
+      'Drafts building-consent applications and Assessments of Environmental Effects on the right pathway.',
+      'Responds to council Requests for Information and tracks producer statements (PS1–PS4).',
+      'Maps consent conditions and inspection hold points into the programme.',
+    ],
+    whatYouGet: [
+      'A consent application that identifies the Acceptable Solution or Alternative Solution.',
+      'RFI responses that answer the council before it asks twice.',
+      'A producer-statement register and a CCC readiness checklist.',
+    ],
+    sampleOutputs: [
+      'RFI response drafted: E2 weathertightness detail at the parapet — citing the Acceptable Solution.',
+      'PS4 outstanding for the structural steel — flagged before the CCC application.',
+    ],
+    nzKnowledge: ['Building Act 2004 (s14B)', 'Acceptable Solutions / Verification Methods', 'Resource Management Act 1991'],
+    skills: ['whakaaee-consenting'],
+    category: 'build',
+    modelTier: 'premium',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'panui',
+    tile: 'cream',
+    greeting:
+      'Tell me the build and I will draft the consent — application, AEE, or an RFI response — on the right pathway. A Licensed Building Practitioner or agent lodges and signs; I prepare, I never lodge.',
+    starters: [
+      'Draft a building consent application for this dwelling.',
+      'Respond to this council RFI.',
+      'What producer statements does this build need?',
+    ],
+  },
+  {
+    slug: 'pai',
+    name: 'Pai',
+    teReo: '',
+    description:
+      'Construction quality assurance — inspection and test plans, non-conformance and defect tracking, and the sealed evidence pack for your reviewer to sign.',
+    whatItDoes: [
+      'Builds and runs Inspection and Test Plans, hold and witness points, and non-conformance reports.',
+      'Tracks defects to close-out and manages practical completion and handover punch lists.',
+      'Assembles the Evidence Pack — provenance, citations, reviewer sign-off, regulator-ready.',
+    ],
+    whatYouGet: [
+      'ITPs and hold-point records that gate the work properly.',
+      'A live NCR and defect register with corrective actions verified.',
+      'A sealed evidence pack ready for the regulator to review.',
+    ],
+    sampleOutputs: [
+      'NCR-009 open: waterproofing test failed at the wet area — corrective action pending verification.',
+      'Hold point: pre-line inspection not signed — work cannot proceed until the reviewer clears it.',
+    ],
+    nzKnowledge: ['Building Act 2004', 'NZS 3910:2013', 'AS/NZS ISO 9001'],
+    skills: ['pai-quality'],
+    category: 'build',
+    modelTier: 'premium',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'shield',
+    tile: 'cream',
+    greeting:
+      'Tell me the job and I will prepare the quality record — an ITP, an NCR, a defect register, or a sealed evidence pack. A named reviewer signs off; I prepare and seal, I never sign for you.',
+    starters: [
+      'Build an inspection and test plan for this build.',
+      'Log a non-conformance for this defect.',
+      'Assemble the handover evidence pack.',
+    ],
+  },
+  {
+    slug: 'arai',
+    name: 'Ārai',
+    teReo: '',
+    description:
+      'Construction health and safety — Site-Specific Safety Plans, risk registers and incident records built on the Health and Safety at Work Act 2015, drafted for a competent person to act on.',
+    whatItDoes: [
+      'Drafts SSSPs, Safe Work Method Statements, risk registers, inductions and toolbox talks.',
+      'Triages incidents and near-misses and identifies notifiable events and the WorkSafe pathway.',
+      'Tracks worker competency, LBP verification and PPE/fall/scaffold/confined-space requirements.',
+    ],
+    whatYouGet: [
+      'An SSSP and SWMS built on the hierarchy of controls, not just PPE.',
+      'A risk register and induction records ready for the site.',
+      'Incident reports and notifiable-event notifications drafted for a competent person to send.',
+    ],
+    sampleOutputs: [
+      'Notifiable event: fall from height over 3m — report to WorkSafe immediately and preserve the site; notification drafted.',
+      'Control gap: working at height relies on PPE only — elimination and fall-arrest options raised first.',
+    ],
+    nzKnowledge: ['Health and Safety at Work Act 2015 (s36–46)', 'WorkSafe Codes of Practice', 'Hierarchy of controls'],
+    skills: ['arai-site-safety'],
+    category: 'build',
+    modelTier: 'premium',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'shield',
+    tile: 'canary',
+    greeting:
+      'Tell me the site, the task, or the incident and I will prepare it — an SSSP, a SWMS, a risk register, or a notifiable-event notification. A competent person reviews and acts; for a notifiable event I draft the notice, you send it.',
+    starters: [
+      'Draft an SSSP for this site.',
+      'Build a SWMS for working at height.',
+      'Is this incident a notifiable event?',
+    ],
+  },
+
+  // ── Trades (automotive + freight specialists) ────────────────────────
+  {
+    slug: 'motor',
+    name: 'Motor',
+    teReo: '',
+    description:
+      'Workshop safety, equipment compliance and dealership obligations — job cards and CGA records under the Motor Vehicle Sales Act, drafted for a registered trader to act on.',
+    whatItDoes: [
+      'Manages workshop safety and equipment compliance — hoist certification, hazardous substances, technician competency.',
+      'Holds dealership obligations under the MVSA and Consumer Guarantees Act 1993.',
+      'Captures job cards with diagnosis, itemised quote, customer approval and road-test result.',
+    ],
+    whatYouGet: [
+      'Job cards with the customer-approval trail before any work starts.',
+      'An equipment-certification register that flags lapses early.',
+      'CGA decision records that hold up if a repair is disputed.',
+    ],
+    sampleOutputs: [
+      'Additional work found mid-service — fresh approval required (CGA s28); customer message drafted.',
+      'Hoist certification expires in 9 days — flagged before it lapses.',
+    ],
+    nzKnowledge: ['Consumer Guarantees Act 1993', 'Motor Vehicle Sales Act 2003', 'Health and Safety at Work Act 2015'],
+    category: 'trades',
+    modelTier: 'premium',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'car',
+    tile: 'cream',
+    greeting:
+      'Tell me the job, the vehicle, or the workshop and I will prepare the record — a job card, an equipment check, or a CGA decision. A registered trader or competent person reviews and acts; I prepare, I never certify.',
+    starters: [
+      'Open a job card for this repair.',
+      'What does the customer need to approve before we start?',
+      'Check our workshop equipment certifications.',
+    ],
+  },
+  {
+    slug: 'transit',
+    name: 'Transit',
+    teReo: '',
+    description:
+      'Freight movement and transport compliance — chain-of-custody, work-time and TSL records under the Land Transport Act 1998, drafted for your operator to act on.',
+    whatItDoes: [
+      'Tracks carrier handoffs, ETAs, proof-of-delivery and exceptions with a full movement record.',
+      'Monitors work-time and logbook limits, Transport Service Licence currency and load security.',
+      'Drafts operator and customer updates for delays, holds and documentation gaps.',
+    ],
+    whatYouGet: [
+      'A chain-of-custody record from pickup to delivery.',
+      'Work-time and logbook checks that flag a breach before it happens.',
+      'Customer-update drafts ready before the phone rings.',
+    ],
+    sampleOutputs: [
+      'Driver approaching the 13-hour work-time limit — flagged; reschedule or rest break drafted.',
+      'POD missing for consignment 4471 — surfaced, not assumed delivered.',
+    ],
+    nzKnowledge: ['Land Transport Act 1998', 'Work Time and Logbooks Rule 2007', 'NZTA transport rules'],
+    category: 'trades',
+    modelTier: 'mid',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'container',
+    tile: 'cream',
+    greeting:
+      'Tell me the movement, the driver, or the exception and I will prepare the record — chain-of-custody, a work-time check, or a customer update. Your operator acts; I prepare and flag.',
+    starters: [
+      'Track this consignment and flag any exceptions.',
+      'Are my drivers within work-time limits this week?',
+      'Draft a delay update for the customer.',
+    ],
+  },
+  {
+    slug: 'transit-freight',
+    name: 'Transit-Freight',
+    teReo: '',
+    description:
+      'Freight documentation — commercial docs, packing lists and BOL/AWB packs with audit trails for customs and brokers, drafted for a licensed broker to lodge.',
+    whatItDoes: [
+      'Assembles commercial documents, packing lists and Bills of Lading / Air Waybills.',
+      'Builds broker-ready evidence: missing-document checklists, origin declarations, correction history.',
+      'Coordinates documentation deadlines against shipment cut-offs.',
+    ],
+    whatYouGet: [
+      'A complete, consignee-correct document set per shipment.',
+      'A missing-document checklist before the deadline bites.',
+      'A broker-ready pack that clears faster because it is already right.',
+    ],
+    sampleOutputs: [
+      'Missing: supplier country-of-origin declaration for shipment SH-2208 — flagged before lodging.',
+      'BOL drafted and cross-checked against the packing list — discrepancy on carton count raised.',
+    ],
+    nzKnowledge: ['Customs and Excise Act 2018', 'Maritime NZ requirements', 'IMO IMDG (dangerous goods)'],
+    category: 'trades',
+    modelTier: 'mid',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'container',
+    tile: 'cream',
+    greeting:
+      'Send the shipment details and I will assemble the documentation — commercial docs, packing list, BOL or AWB, and a missing-document checklist. A licensed broker lodges; I prepare the pack.',
+    starters: [
+      'Build the document set for this shipment.',
+      'What documents are missing before we can lodge?',
+      'Draft the Bill of Lading from this packing list.',
+    ],
+  },
+  {
+    slug: 'pikau',
+    name: 'Pīkau',
+    teReo: '',
+    description:
+      'Customs declarations — import entries drafted from the invoice and packing list under the Customs and Excise Act 2018, ready for a licensed broker to check and lodge.',
+    whatItDoes: [
+      'Reads the commercial invoice, packing list and Incoterms and drafts the import entry.',
+      'Calculates duty and import GST and flags permits, preferences and missing documents.',
+      'Maintains the importer profile and audit-ready records for the broker handoff.',
+    ],
+    whatYouGet: [
+      'A draft entry with line items, values and origin.',
+      'A clear list of assumptions the broker must confirm.',
+      'A missing-documents checklist before lodging.',
+    ],
+    sampleOutputs: [
+      'Line 1: LED fittings → HS 9405.11 (confirm), duty 5%, GST on landed value.',
+      'Missing: the supplier’s country-of-origin declaration — flagged before lodging.',
+    ],
+    nzKnowledge: ['Customs and Excise Act 2018', 'NZ Working Tariff', 'Import GST rules'],
+    category: 'trades',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'container',
+    tile: 'cream',
+    greeting:
+      'Paste the invoice and packing list and I will draft the import entry — line items, duty, GST, and a list of what to confirm. A licensed customs broker checks and lodges; I never lodge.',
+    starters: [
+      'Draft an entry from this invoice.',
+      'Calculate the duty and GST for this shipment.',
+      'What documents are missing before we lodge?',
+    ],
+  },
+  {
+    slug: 'gateway',
+    name: 'Gateway',
+    teReo: '',
+    description:
+      'Tariff classification — HS codes and duty assessed against the NZ Working Tariff and the WCO Harmonised System, with reasoning a broker or Customs can rely on.',
+    whatItDoes: [
+      'Suggests HS classifications with the General Rules of Interpretation applied.',
+      'Assesses duty rates, preference eligibility and the valuation basis.',
+      'Flags where a binding tariff ruling would reduce risk.',
+    ],
+    whatYouGet: [
+      'A classification suggestion with the tariff heading and the GRI logic.',
+      'A duty and preference assessment with the evidence noted.',
+      'A clear recommendation on when to seek a ruling.',
+    ],
+    sampleOutputs: [
+      'Classification: HS 8544.42 (confirm) — GRI 1 and 3(b) applied; duty free under the relevant FTA if origin proven.',
+      'Preference claim needs a certificate of origin — flagged before lodging.',
+    ],
+    nzKnowledge: ['Customs and Excise Act 2018', 'NZ Working Tariff', 'WCO Harmonised System'],
+    category: 'trades',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'container',
+    tile: 'cream',
+    greeting:
+      'Describe the goods and I will classify them — an HS suggestion with the reasoning, the duty rate, and any preference. A licensed broker confirms and lodges; my classification is a reasoned suggestion.',
+    starters: [
+      'Classify the HS tariff for these goods.',
+      'What duty applies to this product?',
+      'Do these goods qualify for a preference rate?',
+    ],
+  },
+
+  // ── Hospitality & retail specialists ─────────────────────────────────
+  {
+    slug: 'aura',
+    name: 'Aura',
+    teReo: '',
+    description:
+      'Guest experience and service compliance for hospitality — host-responsibility records and service standards under the Sale and Supply of Alcohol Act 2012, drafted for your duty manager.',
+    whatItDoes: [
+      'Holds guest-experience standards, service-recovery drafts and the venue’s approved voice.',
+      'Tracks host-responsibility obligations — intoxication management, ID checks, food and signage.',
+      'Summarises bookings, incidents and review patterns before the shift.',
+    ],
+    whatYouGet: [
+      'Service-standard notes and on-brand guest replies.',
+      'Host-responsibility records that keep the licence safe.',
+      'An incident log that escalates the right things to the duty manager.',
+    ],
+    sampleOutputs: [
+      'Incident: intoxicated patron refused service — recorded with time and action for the duty manager.',
+      'Booking review: three one-star reviews mention wait times — service-recovery reply drafted.',
+    ],
+    nzKnowledge: ['Sale and Supply of Alcohol Act 2012', 'Health Act 1956', 'Privacy Act 2020'],
+    category: 'health',
+    modelTier: 'mid',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'bell',
+    tile: 'cream',
+    greeting:
+      'Tell me about the shift, the guest, or the incident and I will prepare it — a service-recovery reply, a host-responsibility record, or an incident log. Your duty manager acts; I prepare and flag.',
+    starters: [
+      'Draft a reply to this guest review.',
+      'Log a host-responsibility incident.',
+      'Brief me on tonight’s bookings and risks.',
+    ],
+  },
+  {
+    slug: 'cellar',
+    name: 'Cellar',
+    teReo: '',
+    description:
+      'Product and licence records for retail — restricted-goods checks and supplier traceability under the Sale and Supply of Alcohol Act 2012, drafted for an auditor or inspector.',
+    whatItDoes: [
+      'Maintains the product register, supplier certifications and licence-condition tracking.',
+      'Runs traceability and evidence trails for provenance and recalls.',
+      'Flags restricted-goods, age-restriction and supplier-document gaps.',
+    ],
+    whatYouGet: [
+      'A product register with supplier evidence attached.',
+      'Restricted-goods checks tied to your licence conditions.',
+      'A traceability bundle ready for a licensing inspector.',
+    ],
+    sampleOutputs: [
+      'Licence condition: single-area sales only — a product placed outside the area; flagged.',
+      'Recall: batch trace for the affected product assembled for the supplier and inspector.',
+    ],
+    nzKnowledge: ['Sale and Supply of Alcohol Act 2012', 'Consumer Guarantees Act 1993', 'Food Act 2014'],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'stock',
+    tile: 'cream',
+    greeting:
+      'Tell me the product or the licence question and I will prepare the record — a product register, a restricted-goods check, or a traceability bundle. The licensee acts; I prepare and flag.',
+    starters: [
+      'Check this product against our licence conditions.',
+      'Build a traceability trail for this batch.',
+      'What supplier evidence is missing from the register?',
+    ],
+  },
+  {
+    slug: 'hoko-cga',
+    name: 'Hoko-CGA',
+    teReo: '',
+    description:
+      'Consumer-protection compliance for retail — returns, remedies and dispute records under the Consumer Guarantees Act 1993 and Fair Trading Act 1986, drafted for you to decide.',
+    whatItDoes: [
+      'Assesses returns and complaints against the CGA guarantees and the right remedy.',
+      'Checks advertising and pricing claims against the Fair Trading Act.',
+      'Builds dispute-ready records for the Disputes Tribunal.',
+    ],
+    whatYouGet: [
+      'A CGA remedy assessment — repair, replace or refund — with the reasoning.',
+      'A Fair Trading claim check that flags misleading conduct before it costs you.',
+      'A Disputes Tribunal response pack with the evidence in order.',
+    ],
+    sampleOutputs: [
+      'Major failure: the customer may reject and choose a refund or replacement — their choice, not ours.',
+      '“No refunds” signage is unlawful for faulty goods — flagged for correction.',
+    ],
+    nzKnowledge: ['Consumer Guarantees Act 1993', 'Fair Trading Act 1986', 'Disputes Tribunal process'],
+    category: 'business',
+    modelTier: 'mid',
+    priceTier: 'business',
+    icon: 'invoice',
+    tile: 'cream',
+    greeting:
+      'Tell me the return, the complaint, or the claim and I will assess it against the CGA and Fair Trading Act, with the remedy and the reasoning. You decide the remedy; I prepare the assessment.',
+    starters: [
+      'Is this return covered by the CGA?',
+      'Check this promotion against the Fair Trading Act.',
+      'Build a Disputes Tribunal response pack.',
+    ],
+  },
+
+  // ── Creative specialists ─────────────────────────────────────────────
+  {
+    slug: 'muse',
+    name: 'Muse',
+    teReo: '',
+    description:
+      'Copywriting and communications — on-brand, claim-safe copy across every channel under the Fair Trading Act 1986 and ASA codes, drafted for you to approve.',
+    whatItDoes: [
+      'Drafts copy across web, email, social and ads in your approved voice.',
+      'Keeps a claim register and flags any claim that needs substantiation.',
+      'Fits each draft to its channel and audience.',
+    ],
+    whatYouGet: [
+      'Channel-ready copy drafts that sound like you.',
+      'A claim register with substantiation flags so nothing oversteps.',
+      'A publish-review checklist before anything goes live.',
+    ],
+    sampleOutputs: [
+      'Claim “NZ’s most trusted” needs evidence or it breaches the Fair Trading Act — flagged with safer alternatives.',
+      'Three subject-line options for the launch email, each under 45 characters.',
+    ],
+    nzKnowledge: ['Fair Trading Act 1986', 'ASA Codes', 'te reo Māori with macrons (used only where genuine)'],
+    category: 'creative',
+    modelTier: 'mid',
+    priceTier: 'whanau',
+    icon: 'scribe',
+    tile: 'canary',
+    greeting:
+      'Tell me what you need written and who it is for, and I will draft it in your voice — claim-safe and ready to publish. You approve before anything goes live.',
+    starters: [
+      'Write the copy for this landing page.',
+      'Draft three ad variations for this offer.',
+      'Check this claim against the Fair Trading Act.',
+    ],
+  },
+  {
+    slug: 'saffron',
+    name: 'Saffron',
+    teReo: '',
+    description:
+      'Campaign and content production — production plans, asset schedules and handoff records, claim-safe under the ASA codes, drafted for you to approve.',
+    whatItDoes: [
+      'Drafts content-production plans, asset schedules and channel sequencing for a campaign.',
+      'Manages approval gates and handoff records between brief, production and publishing.',
+      'Surfaces blocked work and the next batch of assets or approvals.',
+    ],
+    whatYouGet: [
+      'A production plan that keeps the campaign on time.',
+      'An asset schedule with the approval gate on every piece.',
+      'A handoff pack so nothing falls between brief and publish.',
+    ],
+    sampleOutputs: [
+      'Reel script and three carousel posts drafted; all sitting at the approval gate for your sign-off.',
+      'Blocked: the launch video needs final copy before it can be scheduled — flagged with the owner.',
+    ],
+    nzKnowledge: ['Fair Trading Act 1986', 'ASA Codes', 'NZ campaign calendar (Matariki, Waitangi handled with care)'],
+    category: 'creative',
+    modelTier: 'mid',
+    priceTier: 'business',
+    vertical: true,
+    icon: 'palette',
+    tile: 'cream',
+    greeting:
+      'Tell me the campaign and I will plan the production — assets, sequencing, and the approval gates. Nothing publishes until you sign it off; I prepare and keep it moving.',
+    starters: [
+      'Plan the production for this campaign.',
+      'Build the asset schedule for next month.',
+      'What is blocking the launch?',
+    ],
+  },
+
+  // ── Whānau (consumer) ────────────────────────────────────────────────
+  {
+    slug: 'toro',
+    name: 'Tōro',
+    teReo: '',
+    description:
+      'The whānau operations navigator — household admin, school comms, appointments, money and travel, drafted for a parent to approve.',
+    whatItDoes: [
+      'Reads the week ahead and prepares drafts for school comms, routines, appointments and travel.',
+      'Pulls dates, costs, permissions and deadlines out of school notices and emails.',
+      'Holds household preferences, calendars and consent boundaries.',
+    ],
+    whatYouGet: [
+      'A weekly brief that puts the time-sensitive things first.',
+      'School-comms and appointment drafts ready for a parent to send.',
+      'A permissions and allowance record so nothing slips.',
+    ],
+    sampleOutputs: [
+      'This week: school assembly Wednesday 9am, dentist Friday 2pm, mufti-day gold-coin Thursday.',
+      'Permission slip due tomorrow for the class trip — draft reply ready for you to send.',
+    ],
+    nzKnowledge: ['NZ school term calendars (MoE)', 'Privacy Act 2020', 'NZ public holidays'],
+    category: 'family',
+    modelTier: 'mid',
+    priceTier: 'whanau',
+    icon: 'whanau',
+    tile: 'canary',
+    greeting:
+      'Tell me what is on this week — school notices, appointments, the family calendar — and I will sort it into drafts and reminders. You approve before anything is sent or booked.',
+    starters: [
+      'Brief my week.',
+      'Pull the dates out of this school notice.',
+      'Draft a reply to the teacher.',
+    ],
+  },
+  {
+    slug: 'voyage',
+    name: 'Voyage',
+    teReo: '',
+    description:
+      'Trip planning for New Zealanders heading away — day-by-day itineraries, FX-aware budgets and packing lists, drafted for you to book.',
+    whatItDoes: [
+      'Builds day-by-day itineraries with must-book-ahead activities flagged and realistic timing.',
+      'Budgets in NZD with foreign-exchange awareness and surfaces where costs add up.',
+      'Produces packing lists and pre-departure checklists.',
+    ],
+    whatYouGet: [
+      'A day-by-day plan that actually works on the ground.',
+      'A budget in NZD with the big costs called out.',
+      'A must-book list and a packing checklist before you go.',
+    ],
+    sampleOutputs: [
+      'Day 4 Florence: book the Uffizi now — timed entry sells out two weeks ahead.',
+      'Budget: 10 days, two adults, ~NZ$6,400 incl. flights — accommodation is the swing factor.',
+    ],
+    nzKnowledge: ['NZ passport and overseas entry timing', 'NZD foreign-exchange awareness', 'Privacy Act 2020'],
+    category: 'family',
+    modelTier: 'mid',
+    priceTier: 'whanau',
+    icon: 'anchor',
+    tile: 'cream',
+    greeting:
+      'Tell me where you are going, for how long, and who with, and I will plan it day by day — with the must-book-ahead bits flagged and a real NZD budget. You confirm and book; I plan.',
+    starters: [
+      'Plan a 10-day Italy trip for two.',
+      'What do I need to book ahead?',
+      'Build a packing list for this trip.',
+    ],
+  },
+
+  // ── Early childhood (service business) ───────────────────────────────
+  {
+    slug: 'ako-licence',
+    name: 'Ako-Licence',
+    teReo: '',
+    description:
+      'Early-childhood-education licensing and compliance — ratios, qualifications, child safety and ERO readiness under the Education and Training Act 2020, drafted for your centre manager.',
+    whatItDoes: [
+      'Tracks ratios, staffing and kaiako qualifications against the ECE regulations.',
+      'Maintains child-safety records, curriculum documentation (Te Whāriki) and ERO evidence.',
+      'Drafts whānau communications in the centre’s approved voice.',
+    ],
+    whatYouGet: [
+      'A ratio and qualification tracker that flags a shortfall before the day starts.',
+      'Child-safety and ERO evidence kept current and confidential.',
+      'Whānau-comms drafts ready for the manager to send.',
+    ],
+    sampleOutputs: [
+      'Ratio risk Thursday afternoon: one qualified teacher short for the under-2s — flagged with options.',
+      'ERO evidence: curriculum documentation for term 2 assembled and indexed.',
+    ],
+    nzKnowledge: ['Education and Training Act 2020', 'Education (Early Childhood Services) Regulations 2008', 'Children’s Act 2014', 'Privacy Act 2020 (IPP 3A)'],
+    category: 'business',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'koru',
+    tile: 'cream',
+    greeting:
+      'Tell me about the centre, the roster, or the ERO visit and I will prepare it — a ratio check, child-safety records, or an evidence bundle. Your manager acts; a safeguarding concern always routes to a person, never advice.',
+    starters: [
+      'Check our ratios for this week.',
+      'Assemble the ERO evidence bundle.',
+      'Draft a whānau update about the term.',
+    ],
   },
 ];
 
