@@ -41,9 +41,9 @@ export default async function ChatPage({
 
   const greeting = (() => {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Ata mārie';
-    if (hour < 18) return 'Kia ora';
-    return 'Pō mārie';
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
   })();
 
   return (

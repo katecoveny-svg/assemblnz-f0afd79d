@@ -12,12 +12,14 @@ import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { MARKETPLACE_AGENTS } from '../lib/marketplace/agents';
 
-// Current canonical seed — full live roster + the Arataki automotive vertical
-// (35 agents, 2026-06-26). Lands after all prior agent migrations, PRUNES any
-// agent no longer in the roster, then upserts the full set.
+// Current canonical seed — full live roster + the unified fleet agents
+// (construction, automotive, freight, hospitality and whānau specialists),
+// 2026-06-27. Lands after all prior agent migrations, PRUNES any agent no
+// longer in the roster, then upserts the full set. Re-generated whenever the
+// registry changes — DO NOT edit an already-applied migration in place.
 const OUT = join(
   process.cwd(),
-  'supabase/migrations/20260626150000_seed_canon_35_agents.sql',
+  'supabase/migrations/20260627120000_seed_canon_unified_roster.sql',
 );
 
 /** Escape a value as a SQL string literal. */
@@ -120,7 +122,6 @@ COMMIT;
 
 -- Verify:
 -- SELECT count(*) FROM public.agents;                       -- expect ${MARKETPLACE_AGENTS.length}
--- SELECT count(*) FROM public.agents;                       -- expect 28
 -- SELECT category, count(*) FROM public.agents GROUP BY category ORDER BY 1;
 -- SELECT slug, name, te_reo, price_tier, price_monthly_nzd
 --   FROM public.agents ORDER BY category, name;

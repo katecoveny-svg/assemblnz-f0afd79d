@@ -203,7 +203,11 @@ const CANONICAL_AGENT_REGISTRY: AgentConfig[] = [
   { code: "CAN-WAI-KAUPAPA", name: "KAUPAPA", pack: "waihanga", primaryModel: "claude", skills: ["project_scoping", "construction_contracts", "programme", "variation_management"], keywords: ["scope", "programme", "payment claim", "variation", "retention", "subcontractor"] },
   { code: "CAN-WAI-RAWA", name: "RAWA", pack: "waihanga", primaryModel: "claude", skills: ["materials", "procurement", "building_product_specifications"], keywords: ["materials", "substitution", "supplier", "product", "warranty", "bps"] },
   { code: "CAN-WAI-PAI", name: "PAI", pack: "waihanga", primaryModel: "claude", skills: ["quality_assurance", "evidence_pack", "final_review"], keywords: ["quality", "evidence pack", "seal", "review", "defect", "handover"] },
+  { code: "CAN-WAI-ATA", name: "ATA", pack: "waihanga", primaryModel: "claude", skills: ["bim", "plan_review", "clash_detection", "accessibility"], keywords: ["bim", "model", "clash", "plan review", "accessibility", "code compliance", "as-built"] },
+  { code: "CAN-WAI-WHAKAAE", name: "WHAKAAE", pack: "waihanga", primaryModel: "claude", skills: ["building_consents", "resource_consents", "rfi", "producer_statements"], keywords: ["consent", "building consent", "resource consent", "rfi", "producer statement", "ccc", "acceptable solution"] },
+  { code: "CAN-WAI-ARAI", name: "ARAI", pack: "waihanga", primaryModel: "claude", skills: ["health_safety", "sssp", "incident_triage", "notifiable_events"], keywords: ["safety", "sssp", "swms", "hazard", "incident", "near miss", "worksafe", "notifiable", "toolbox"] },
 
+  { code: "CAN-MAN-AURA", name: "AURA", pack: "manaaki", primaryModel: "claude", skills: ["guest_experience", "host_responsibility", "service_compliance"], keywords: ["guest experience", "service", "host responsibility", "intoxication", "venue standard"] },
   { code: "CAN-MAN-MANUHIRI", name: "MANUHIRI", pack: "manaaki", primaryModel: "gemini", skills: ["guest_intake", "booking_triage", "service_recovery"], keywords: ["guest", "booking", "reservation", "review", "complaint", "check-in"] },
   { code: "CAN-MAN-KAI", name: "KAI", pack: "manaaki", primaryModel: "claude", skills: ["food_safety", "fcp_records", "allergen_controls"], keywords: ["food", "kitchen", "allergen", "fcp", "temperature", "mpi", "verifier"] },
   { code: "CAN-MAN-HAU", name: "HAU", pack: "manaaki", primaryModel: "claude", skills: ["venue_safety", "wellbeing", "incident_records"], keywords: ["incident", "safety", "wellbeing", "hazard", "host responsibility"] },
@@ -214,6 +218,7 @@ const CANONICAL_AGENT_REGISTRY: AgentConfig[] = [
   { code: "CAN-PIK-GATEWAY", name: "GATEWAY", pack: "pikau", primaryModel: "claude", skills: ["tariff_classification", "duty", "rules_of_origin"], keywords: ["hs code", "tariff", "duty", "origin", "preference", "classification"] },
   { code: "CAN-PIK-TRANSIT", name: "TRANSIT", pack: "pikau", primaryModel: "claude", skills: ["transport_handoff", "eta_watch", "chain_of_custody"], keywords: ["eta", "tracking", "carrier", "handoff", "pod", "delay"] },
   { code: "CAN-PIK-DOCS", name: "TRANSIT-FREIGHT", pack: "pikau", primaryModel: "claude", skills: ["shipping_documents", "broker_pack", "customs_evidence"], keywords: ["invoice", "packing list", "bill of lading", "awb", "broker pack"] },
+  { code: "CAN-PIK-PIKAU", name: "PIKAU", pack: "pikau", primaryModel: "claude", skills: ["customs_entry", "import_declaration", "valuation"], keywords: ["customs entry", "import entry", "declaration", "tsw", "import gst", "lodge"] },
 
   { code: "CAN-ARA-MOTOR", name: "MOTOR", pack: "arataki", primaryModel: "claude", skills: ["workshop_compliance", "wof_cof", "dealer_governance"], keywords: ["wof", "cof", "workshop", "dealer", "vehicle", "warranty"] },
   { code: "CAN-ARA-WHAIKORERO", name: "WHAIKORERO", pack: "arataki", primaryModel: "claude", skills: ["customer_narrative", "insurer_response", "service_handoff"], keywords: ["customer", "insurer", "narrative", "response", "handover"] },
@@ -240,6 +245,9 @@ const CANONICAL_AGENT_REGISTRY: AgentConfig[] = [
   { code: "CAN-HOK-CGA", name: "HOKO-CGA", pack: "hoko", primaryModel: "claude", skills: ["consumer_guarantees", "returns", "fair_trading"], keywords: ["refund", "return", "cga", "consumer guarantees", "faulty"] },
   { code: "CAN-HOK-STOCK", name: "STOCK", pack: "hoko", primaryModel: "claude", skills: ["inventory", "supplier_records", "replenishment"], keywords: ["stock", "inventory", "supplier", "replenish", "purchase order"] },
   { code: "CAN-HOK-CELLAR", name: "CELLAR", pack: "hoko", primaryModel: "claude", skills: ["product_records", "restricted_goods", "licence_records"], keywords: ["restricted goods", "alcohol", "licence", "product record", "traceability"] },
+
+  { code: "CAN-TOR-TORO", name: "TORO", pack: "toro", primaryModel: "claude", skills: ["family_admin", "school_comms", "appointments", "routines"], keywords: ["family", "whānau", "school notice", "appointment", "routine", "household", "permission slip"] },
+  { code: "CAN-TOR-VOYAGE", name: "VOYAGE", pack: "toro", primaryModel: "claude", skills: ["trip_planning", "itinerary", "travel_budget"], keywords: ["trip", "travel", "itinerary", "holiday", "packing", "flight", "booking"] },
 ];
 
 const SIGNAL_PACKS = ["waihanga", "manaaki", "pikau", "arataki", "auaha", "ako", "matauranga", "hoko", "toro"] as const;
