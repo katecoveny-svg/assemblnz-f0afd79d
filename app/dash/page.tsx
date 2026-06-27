@@ -82,7 +82,7 @@ export default function DashPage() {
             className="bd-hero-title"
             style={{
               margin: 0,
-              fontWeight: 700,
+              fontWeight: 900,
               fontSize: 70,
               lineHeight: 0.92,
               letterSpacing: '-.04em',
