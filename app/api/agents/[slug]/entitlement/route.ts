@@ -17,12 +17,13 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  if (!marketplaceAgentBySlug(slug)) {
+  const agent = marketplaceAgentBySlug(slug);
+  if (!agent) {
     return NextResponse.json({ error: 'Unknown agent.' }, { status: 404 });
   }
 
   const { identity, setAnonId } = await resolveChatIdentity();
-  const status = await getEntitlementStatus(identity, slug);
+  const status = await getEntitlementStatus(identity, slug, { freeForever: agent.priceNzd === 0 });
 
   const res = NextResponse.json(status);
   if (setAnonId) res.cookies.set(ANON_COOKIE, setAnonId, anonCookieOptions());
