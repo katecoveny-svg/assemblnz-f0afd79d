@@ -35,6 +35,7 @@ export default {
         'display-md': ['2.5rem', { lineHeight: '3rem', letterSpacing: '0' }],
         'body-lg': ['1.25rem', { lineHeight: '2rem', letterSpacing: '0' }],
         'body-md': ['1rem', { lineHeight: '1.625rem', letterSpacing: '0' }],
+        'body-sm': ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '0' }],
         eyebrow: ['0.8125rem', { lineHeight: '1rem', letterSpacing: '0.08em' }],
       },
       colors: {
