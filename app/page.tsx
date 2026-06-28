@@ -2,7 +2,7 @@ import Link from 'next/link';
 import {
   PUBLIC_MARKETPLACE_AGENTS,
   CATEGORY_LABELS,
-  priceLabel,
+  agentPriceLabel,
 } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import styles from './home.module.css';
@@ -154,7 +154,7 @@ export default function HomePage() {
               // one dark featured tile — the .dc.html's featured-card slot.
               const featured = i === 0;
               const [tone, deep] = ORB_GOLDS[i % ORB_GOLDS.length];
-              const price = priceLabel(a);
+              const price = agentPriceLabel(a);
               return (
                 <Link
                   key={a.slug}

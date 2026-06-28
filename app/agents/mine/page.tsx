@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { ArrowRight, Plus, Compass, Map } from 'lucide-react';
 import { MarketplaceHeader, MarketplaceFooter } from '@/components/marketplace/MarketplaceChrome';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
-import { PALETTE, PUBLIC_MARKETPLACE_AGENTS, priceLabel } from '@/lib/marketplace/agents';
+import { PALETTE, PUBLIC_MARKETPLACE_AGENTS, agentPriceLabel } from '@/lib/marketplace/agents';
 import { createClient } from '@/lib/supabase/server';
 import { listDrafts, getOwner, type StoredDraft } from '@/lib/pilot/store';
 
@@ -113,7 +113,7 @@ export default async function MyAgentsPage() {
                       {a.name}
                     </span>
                     <span className="mk-mono block text-[10px] uppercase tracking-[0.14em]" style={{ color: PALETTE.muted }}>
-                      {priceLabel(a)}
+                      {agentPriceLabel(a)}
                     </span>
                   </span>
                   <ArrowRight size={15} style={{ color: PALETTE.muted }} />
