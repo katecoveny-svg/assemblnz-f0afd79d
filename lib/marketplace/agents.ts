@@ -1756,7 +1756,7 @@ const AGENT_DEFS: AgentDef[] = [
     nzKnowledge: ['Fair Trading Act 1986', 'ASA Codes', 'te reo Māori with macrons (used only where genuine)'],
     category: 'creative',
     modelTier: 'mid',
-    priceTier: 'whanau',
+    priceTier: 'toro',
     icon: 'scribe',
     tile: 'canary',
     greeting:
@@ -1827,7 +1827,7 @@ const AGENT_DEFS: AgentDef[] = [
     nzKnowledge: ['NZ school term calendars (MoE)', 'Privacy Act 2020', 'NZ public holidays'],
     category: 'family',
     modelTier: 'mid',
-    priceTier: 'whanau',
+    priceTier: 'toro',
     icon: 'whanau',
     tile: 'canary',
     greeting:
@@ -1861,7 +1861,7 @@ const AGENT_DEFS: AgentDef[] = [
     nzKnowledge: ['NZ passport and overseas entry timing', 'NZD foreign-exchange awareness', 'Privacy Act 2020'],
     category: 'family',
     modelTier: 'mid',
-    priceTier: 'whanau',
+    priceTier: 'toro',
     icon: 'anchor',
     tile: 'cream',
     greeting:
@@ -1965,9 +1965,11 @@ export const PRICE_TIER_LABELS: Record<PriceTier, string> = {
  */
 export function priceLabel(agent?: Pick<MarketplaceAgent, 'priceNzd'>): string {
   if (!agent || agent.priceNzd === 0) return 'Free';
-  // The locked ladder: each agent is charged at its tier price — $9.99 for the
-  // everyday agents, $199 for the specialists. GST inclusive.
-  return `$${agent.priceNzd}/mo`;
+  // The locked ladder has exactly two non-free, non-vertical rungs: $9.99 for the
+  // everyday agents and $199 for the specialists (GST inclusive). Snap whatever
+  // tier price the registry carries onto the nearest canon rung so a card can
+  // never surface an off-ladder figure (e.g. a legacy $24.99 / $49.99 tier).
+  return agent.priceNzd >= 100 ? '$199/mo' : '$9.99/mo';
 }
 
 /** All-Access monthly price (NZD) — the plan that includes vertical agents. */

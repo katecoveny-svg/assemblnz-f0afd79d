@@ -8,7 +8,7 @@ import { ArrowLeft, ArrowUp, FileDown, ImagePlus, Lock, X } from 'lucide-react';
 import {
   agentCheckoutHref,
   PALETTE,
-  priceLabel,
+  agentPriceLabel,
   type PublicMarketplaceAgent,
 } from '@/lib/marketplace/agents';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
@@ -276,7 +276,7 @@ export function AgentChat({
                   className={orb.installPill}
                   style={{ padding: '8px 16px', fontSize: 12 }}
                 >
-                  Subscribe · {priceLabel(agent)}
+                  Subscribe · {agentPriceLabel(agent)}
                 </Link>
                 <Link
                   href="/agents/pricing"
