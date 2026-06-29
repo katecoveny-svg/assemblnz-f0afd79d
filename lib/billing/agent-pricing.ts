@@ -3,27 +3,26 @@
  *
  * Read CANON-LOCKED-2026-06-23.md before touching any pricing surface.
  *
- * July 2026 rollout (Juno's Pro Stack): the customer-facing ladder is four
- * tiers — Free → Everyday ($9.99) → Pro Stack ($49) → All-Access ($250).
- * Pro Stack bundles a handful of $9.99 everyday agents into one monthly price.
+ * July 2026 rollout (Juno's locked ladder). The pricing page shows four cards:
+ * Free → Everyday ($9.99) → Pro Stack ($49) → Specialist ($199). All-Access
+ * ($250) sits in its own strip below the grid (not a card).
  *
  *   Free         NZ$0          try any agent, some stay free for good
  *   Everyday     NZ$9.99/mo    one everyday agent
- *   Pro Stack    NZ$49/mo      a bundle of everyday agents (see PROSTACK_BUNDLE_SLUGS)
+ *   Pro Stack    NZ$49/mo      pick 3 everyday agents + 1 specialist
+ *   Specialist   NZ$199/mo     one specialist agent (regulated, live NZ sources)
  *   All-Access   NZ$250/mo     every agent
  *
- * `Specialist` ($199/mo) stays in the registry below as plumbing, not as a
- * headline marketing card: 31 agents on the locked 54-agent roster carry the
- * $199 price and check out through this plan, so removing it would break those
- * agents (and the brief says don't touch the roster). The pricing PAGE renders
- * the four marketing tiers; the specialist price is surfaced as a footnote.
+ * Pro Stack is the "taste the shelf" middle rung — 3 everyday + 1 specialist for
+ * $49 instead of the $199 specialist jump. The customer picks the four agents
+ * (3 with priceNzd < 100 + 1 with priceNzd >= 100); the checkout route enforces
+ * that mix and the webhook grants the four picked slugs.
  *
  * Prices are GST inclusive (NZ consumer). Never show "+ GST".
  *
  * Stripe price IDs are NOT hardcoded — they come from env so the same code runs
- * against test and live keys. Create the products/prices with
- * scripts/setup-flat-pricing-stripe.ts (and scripts/stripe-prostack-setup.ts
- * for Pro Stack + the JULYLAUNCH50 coupon), then set the
+ * against test and live keys. Create the products/prices/coupon with
+ * scripts/stripe-setup-commands.sh (or `pnpm stripe:setup`), then set the
  * NEXT_PUBLIC_STRIPE_PRICE_* vars below in Vercel.
  */
 
@@ -43,7 +42,7 @@ export const freeTrial = {
 } as const;
 
 /** The paid + free plans on the ladder. `free` carries no Stripe price. */
-export type AgentPlan = 'free' | 'everyday' | 'prostack' | 'specialist' | 'all_access';
+export type AgentPlan = 'free' | 'everyday' | 'pro_stack' | 'specialist' | 'all_access';
 
 /** Per-agent NZD price → the plan that charges it. Falls back to everyday. */
 export function planForAgentPriceNzd(priceNzd: number): AgentPlan {
@@ -60,17 +59,12 @@ export const ALL_ACCESS_PLAN: AgentPlan = 'all_access';
 export const ALL_ACCESS_SLUG = '*';
 
 /**
- * The everyday agents bundled into Pro Stack. Server-authoritative: the checkout
- * route grants exactly these (the customer doesn't pick), and the webhook falls
- * back to them when the metadata is empty. Juno will refine the composition;
- * these four are the launch placeholders.
+ * Pro Stack composition: the customer picks this many everyday agents
+ * (priceNzd < 100) plus this many specialists (priceNzd >= 100). The checkout
+ * route enforces the mix; the total equals the Pro Stack plan's agentCount.
  */
-export const PROSTACK_BUNDLE_SLUGS = [
-  'hui-notes',
-  'invoice-tidy',
-  'inbox-triage',
-  'travel-logs',
-] as const;
+export const PRO_STACK_EVERYDAY_COUNT = 3;
+export const PRO_STACK_SPECIALIST_COUNT = 1;
 
 export type AgentPlanDef = {
   id: AgentPlan;
@@ -137,23 +131,22 @@ export const AGENT_PLANS: readonly AgentPlanDef[] = [
     agentCount: 1,
   },
   {
-    id: 'prostack',
+    id: 'pro_stack',
     name: 'Pro Stack',
     label: 'Pro Stack — $49/mo',
     monthlyNzd: 49,
-    blurb: 'A bundle of everyday agents that work together — the small-business stack.',
+    blurb: '3 everyday agents + 1 specialist',
     perks: [
-      'Four everyday agents in one subscription',
-      'Hui Notes, Invoice Tidy, Inbox Triage and Travel Logs',
-      'Unlimited messages across the stack',
+      '3 everyday agents + 1 specialist',
+      'Unlimited messages on each',
+      'Taste the shelf without the $199 jump',
       `${freeTrial.label}`,
-      'Cheaper than the agents bought one by one',
-      'Cancel any month',
+      'Change agents any month',
     ],
     stripePriceId: '',
-    stripeLookupKey: 'assembl_prostack_4900',
-    envVar: 'NEXT_PUBLIC_STRIPE_PRICE_PROSTACK_4900',
-    agentCount: null,
+    stripeLookupKey: 'assembl_pro_stack_4900',
+    envVar: 'NEXT_PUBLIC_STRIPE_PRICE_PRO_STACK_4900',
+    agentCount: PRO_STACK_EVERYDAY_COUNT + PRO_STACK_SPECIALIST_COUNT,
   },
   {
     id: 'specialist',
@@ -193,6 +186,9 @@ export const AGENT_PLANS: readonly AgentPlanDef[] = [
 ] as const;
 
 const PLAN_BY_ID = new Map(AGENT_PLANS.map((p) => [p.id, p]));
+
+/** The Pro Stack plan definition, for callers that need it directly. */
+export const PRO_STACK_PLAN = PLAN_BY_ID.get('pro_stack')!;
 
 export function isAgentPlan(value: string): value is AgentPlan {
   return PLAN_BY_ID.has(value as AgentPlan);
@@ -259,8 +255,9 @@ export function planForPriceId(
 
 /**
  * The July launch promo: 50% off the first month for the first 20 businesses,
- * applied via the Stripe coupon JULYLAUNCH50. Created by
- * scripts/stripe-prostack-setup.ts.
+ * targeting All-Access ($250 → $125 the first month). Applied via the Stripe
+ * coupon JULYLAUNCH50, attached to checkout's `discounts` when the customer
+ * arrives with `?promo=JULYLAUNCH50`. Created by scripts/stripe-setup-commands.sh.
  */
 export const JULY_PROMO = {
   code: 'JULYLAUNCH50',
@@ -269,19 +266,12 @@ export const JULY_PROMO = {
   /** Stripe coupon `duration` — only the first invoice is discounted. */
   duration: 'once' as const,
   firstMonthOnly: true,
-  blurb: 'First 20 businesses get 50% off the first month — code JULYLAUNCH50',
+  /** The plan the promo headlines on the pricing page. */
+  appliesToPlan: 'all_access' as AgentPlan,
+  blurb: 'First 20 businesses get 50% off the first month of All-Access — code JULYLAUNCH50',
 } as const;
 
-export type PromoEligibility = {
-  /** True while the coupon still has redemptions left (or we can't reach Stripe). */
-  eligible: boolean;
-  /** Redemptions remaining. Falls back to maxRedemptions when Stripe is unknown. */
-  remaining: number;
-  /** False when we couldn't read live state from Stripe (transient/unconfigured). */
-  known: boolean;
-};
-
-// NOTE: the live Stripe check `eligibleForPromo()` lives in the server-only
-// sibling `lib/billing/promo.ts`. It can't live here because this module is also
-// imported by client components (via lib/marketplace/agents.ts), and importing
-// the server-only Stripe client would poison the client bundle.
+/** True when this promo code is the live July launch code (checkout guard). */
+export function isJulyPromoCode(code: string | null | undefined): boolean {
+  return typeof code === 'string' && code.toUpperCase() === JULY_PROMO.code;
+}
