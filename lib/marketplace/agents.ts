@@ -26,13 +26,14 @@ import {
   ALL_ACCESS_PLAN,
   getAgentPlan,
   planForAgentPriceNzd,
+  priceLabelForNzd,
 } from '@/lib/billing/agent-pricing';
 
 export type ModelTier = 'cheap' | 'mid' | 'premium';
 /** Coarse DB bucket — uniformly 'per_agent' (price set by the catalogue tier). */
 export type PricingTier = 'per_agent' | 'free' | 'freemium' | 'paid';
-/** Canon price tiers: Free / $9.99 / $199 (legacy values kept for the enum). */
-export type PriceTier = 'free' | 'toro' | 'whanau' | 'pro' | 'business';
+/** Canon price tiers: Free / $9.99 / $199. */
+export type PriceTier = 'free' | 'toro' | 'business';
 export type AgentStatus = 'live' | 'coming_soon';
 /** Avatar tile colourway (canon). */
 export type TileTone = 'cream' | 'canary' | 'ink';
@@ -123,8 +124,6 @@ const DEFAULT_TOOLS = ['nz-gazette', 'nz-legislation', 'beehive'];
 const PRICE_TIER_NZD: Record<PriceTier, number> = {
   free: 0,
   toro: 9.99,
-  whanau: 24.99,
-  pro: 49.99,
   business: 199,
 };
 
@@ -1954,22 +1953,17 @@ export const PRICING_TIER_LABELS: Record<PricingTier, string> = {
 export const PRICE_TIER_LABELS: Record<PriceTier, string> = {
   free: 'Free',
   toro: '$9.99',
-  whanau: '$24.99',
-  pro: '$49.99',
   business: '$199',
 };
 
 /**
  * Canon card/detail price label — per agent: Free / $9.99/mo / $199/mo.
+ * Delegates to the single source of truth in lib/billing/agent-pricing.ts so a
+ * card can never surface an off-ladder figure.
  * (The first 3 messages with any agent are free before the paywall.)
  */
 export function priceLabel(agent?: Pick<MarketplaceAgent, 'priceNzd'>): string {
-  if (!agent || agent.priceNzd === 0) return 'Free';
-  // The locked ladder has exactly two non-free, non-vertical rungs: $9.99 for the
-  // everyday agents and $199 for the specialists (GST inclusive). Snap whatever
-  // tier price the registry carries onto the nearest canon rung so a card can
-  // never surface an off-ladder figure (e.g. a legacy $24.99 / $49.99 tier).
-  return agent.priceNzd >= 100 ? '$199/mo' : '$9.99/mo';
+  return priceLabelForNzd(agent?.priceNzd ?? 0);
 }
 
 /** All-Access monthly price (NZD) — the plan that includes vertical agents. */

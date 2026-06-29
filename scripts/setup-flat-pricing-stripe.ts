@@ -37,11 +37,16 @@ async function main() {
   }
   const stripe = new Stripe(key, { appInfo: { name: 'assembl-flat-pricing-setup' } });
   const mode = key.startsWith('sk_live') ? 'LIVE' : 'TEST';
-  console.log(`Setting up the locked agent ladder ($9.99 / $199 / $250) in ${mode} mode…\n`);
+  console.log(
+    `Setting up the locked agent ladder ($9.99 / Pro Stack $49 / $199 / $250) in ${mode} mode…\n`,
+  );
 
   // ── 1 + 3. Create (or reuse) the new plans ───────────────────────────────
   const results: Record<string, string> = {};
   for (const plan of AGENT_PLANS) {
+    // The free tier has no Stripe price (no lookup key / env var) — skip it.
+    if (!plan.stripeLookupKey || !plan.envVar) continue;
+
     const existing = await stripe.prices.list({
       lookup_keys: [plan.stripeLookupKey],
       active: true,
@@ -55,7 +60,7 @@ async function main() {
     } else {
       const product = await stripe.products.create({
         name: `assembl ${plan.name}`,
-        description: plan.summary,
+        description: plan.blurb,
         metadata: { assembl_plan: plan.id },
       });
       const price = await stripe.prices.create({
@@ -76,7 +81,9 @@ async function main() {
 
   // ── 2. Archive the retired ladders ────────────────────────────────────────
   console.log('\nArchiving the retired flat + bundle ladder (matching recurring NZD amounts)…');
-  const newLookupKeys = new Set(AGENT_PLANS.map((p) => p.stripeLookupKey));
+  const newLookupKeys = new Set(
+    AGENT_PLANS.map((p) => p.stripeLookupKey).filter((k): k is string => Boolean(k)),
+  );
   let archivedPrices = 0;
   let archivedProducts = 0;
 
@@ -113,6 +120,7 @@ async function main() {
   // ── 3. Output env ─────────────────────────────────────────────────────────
   console.log('\nSet these in Vercel project env (and .env.local):');
   for (const plan of AGENT_PLANS) {
+    if (!plan.envVar) continue; // free tier has no price
     console.log(`  ${plan.envVar}=${results[plan.id] ?? '<missing>'}`);
   }
 }

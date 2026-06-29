@@ -1,15 +1,24 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Check } from 'lucide-react';
-import { FREE_MESSAGE_LIMIT, getAgentPlan } from '@/lib/billing/agent-pricing';
-import { MARKETPLACE_AGENTS, PALETTE, DASH_MOTIF } from '@/lib/marketplace/agents';
+import {
+  FREE_MESSAGE_LIMIT,
+  JULY_PROMO,
+  getAgentPlan,
+  type AgentPlan,
+} from '@/lib/billing/agent-pricing';
+import { eligibleForPromo } from '@/lib/billing/promo';
+import { PALETTE, DASH_MOTIF } from '@/lib/marketplace/agents';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
 
 export const metadata: Metadata = {
   title: 'Agent pricing — assembl',
   description:
-    'From free. $9.99 for most agents. $199 for the specialists. Try any agent free first, then keep the ones you use. All-access for the lot.',
+    'From free. $9.99 for most agents, $49 for the Pro Stack bundle, $250 for all-access. Try any agent free first, then keep the ones you use.',
 };
+
+// The promo count is read live from Stripe per request.
+export const dynamic = 'force-dynamic';
 
 // Canon type roles (locked 2026-06-23): Cormorant Garamond for display,
 // Lato for body, Space Mono for eyebrows + labels.
@@ -26,76 +35,78 @@ const GOLD_TEXT: React.CSSProperties = {
   fontWeight: 700,
 };
 
-// Example agents per tier, read straight from the registry so the page can
-// never drift from the cards. Names only — the registry's server-side prompts
-// never reach the client.
-const sample = (price: number) =>
-  MARKETPLACE_AGENTS.filter((a) => a.priceNzd === price).map((a) => a.name);
-
-const FREE_AGENTS = sample(0);
-const EVERYDAY_AGENTS = sample(9.99);
-const SPECIALIST_AGENTS = sample(199);
-
-type Tier = {
-  name: string;
-  price: string;
-  cadence?: string;
-  who: string;
-  examples: string[];
-  bullets: string[];
+// The four customer-facing tiers, in canon order. Names / prices / blurbs /
+// perks all come from AGENT_PLANS so this page can never drift from checkout.
+// (Specialist stays in AGENT_PLANS as plumbing for the $199 roster agents; it
+// is surfaced as a footnote below, not as a fifth card.)
+type CardSpec = {
+  id: AgentPlan;
   cta: string;
   href: string;
   featured?: boolean;
+  pill?: string;
 };
 
-const TIERS: Tier[] = [
+const CARDS: CardSpec[] = [
+  { id: 'free', cta: 'Browse free agents', href: '/agents' },
+  { id: 'everyday', cta: 'Browse $9.99 agents', href: '/agents' },
   {
-    name: 'Free',
-    price: 'Free',
-    who: 'Try any agent before you pay — and some stay free for good.',
-    examples: FREE_AGENTS,
-    bullets: [
-      `Your first ${FREE_MESSAGE_LIMIT} messages with any agent are on us`,
-      'The everyday utility agents are free forever',
-      'No card to start',
-    ],
-    cta: 'Browse free agents',
-    href: '/agents',
-  },
-  {
-    name: 'Everyday',
-    price: '$9.99',
-    cadence: '/mo',
-    who: 'Most agents — the ones that clear the daily admin.',
-    examples: EVERYDAY_AGENTS,
-    bullets: ['One agent, all yours', 'Unlimited messages', 'Drafts only — you stay in control'],
-    cta: 'Browse $9.99 agents',
-    href: '/agents',
+    id: 'prostack',
+    cta: 'Get the Pro Stack',
+    href: '/agents/checkout?plan=prostack',
     featured: true,
+    pill: 'Most popular',
   },
-  {
-    name: 'Specialist',
-    price: '$199',
-    cadence: '/mo',
-    who: 'The regulated, high-stakes work — health, customs, compliance, the coast.',
-    examples: SPECIALIST_AGENTS,
-    bullets: ['One specialist agent', 'Unlimited messages', 'Wired to the live NZ sources it needs'],
-    cta: 'Browse $199 agents',
-    href: '/agents',
-  },
+  { id: 'all_access', cta: 'Get all-access', href: '/agents/checkout?plan=all_access' },
 ];
 
-const ALL_ACCESS = getAgentPlan('all_access');
+function priceDisplay(monthlyNzd: number): { amount: string; cadence?: string } {
+  if (!monthlyNzd) return { amount: 'Free' };
+  return { amount: `$${monthlyNzd}`, cadence: '/mo' };
+}
 
-export default function AgentPricingPage() {
+export default async function AgentPricingPage() {
+  const promo = await eligibleForPromo();
+  const specialist = getAgentPlan('specialist');
+
+  // Banner copy: show the live count when we have it and spots remain; soften
+  // when the coupon is genuinely exhausted; drop the count if Stripe is unknown.
+  const spotsLine =
+    promo.known && !promo.eligible
+      ? 'First-month promo now closed.'
+      : promo.known
+        ? `${promo.remaining} of ${JULY_PROMO.maxRedemptions} spots left.`
+        : null;
+
   return (
     <div className="mk-root min-h-screen overflow-x-hidden" style={{ backgroundColor: PALETTE.cream }}>
       <MarketplaceHeader />
 
-      <div className="mx-auto max-w-5xl px-5 py-12 md:px-8 md:py-16">
+      <div className="mx-auto max-w-5xl px-5 py-10 md:px-8 md:py-14">
+        {/* Amber July promo banner */}
+        <div
+          className="flex flex-col gap-2 rounded-[20px] border px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+          style={{
+            background: 'linear-gradient(135deg, #FFF1C2 0%, #FFE27A 100%)',
+            borderColor: PALETTE.canary,
+          }}
+        >
+          <p className="text-sm leading-relaxed" style={{ color: PALETTE.ink }}>
+            <span className="font-bold">First 20 businesses get 50% off the first month.</span>{' '}
+            Use code{' '}
+            <span
+              className="rounded-md px-1.5 py-0.5 text-[13px] font-bold"
+              style={{ fontFamily: SPACE_MONO, backgroundColor: PALETTE.ink, color: PALETTE.canary }}
+            >
+              {JULY_PROMO.code}
+            </span>{' '}
+            at checkout.{spotsLine ? <span className="font-bold"> {spotsLine}</span> : null}
+          </p>
+        </div>
+
         {/* Eyebrow */}
         <span
-          className="text-[12px] font-bold uppercase tracking-[0.18em]"
+          className="mt-10 block text-[12px] font-bold uppercase tracking-[0.18em]"
           style={{ fontFamily: SPACE_MONO, color: PALETTE.gold }}
         >
           Pricing
@@ -107,168 +118,113 @@ export default function AgentPricingPage() {
           style={{ fontFamily: CORMORANT, fontWeight: 500, color: PALETTE.ink, letterSpacing: '-0.02em' }}
         >
           From free. <span style={GOLD_TEXT}>$9.99</span> for most.
-          <br className="hidden sm:block" /> <span style={GOLD_TEXT}>$199</span> for the specialists.
+          <br className="hidden sm:block" /> The <span style={GOLD_TEXT}>Pro Stack</span> for a team.
         </h1>
 
         <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: PALETTE.body }}>
-          Pay per agent — pick the ones you need, leave the rest. Try any of them free first.
+          Pay per agent, or bundle the everyday ones into the Pro Stack. Try any of them free first.
           Cancel any month.
         </p>
 
         <div className="mt-7 h-1.5 w-full rounded-full" style={{ background: DASH_MOTIF }} aria-hidden />
 
-        {/* Three per-agent tiers — matches the prices on the cards */}
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {TIERS.map((tier) => (
-            <div
-              key={tier.name}
-              className="relative flex flex-col rounded-[26px] border bg-white p-6"
-              style={{
-                borderColor: tier.featured ? PALETTE.canary : PALETTE.hairline,
-                boxShadow: tier.featured ? `0 24px 60px ${PALETTE.canary}33` : undefined,
-              }}
-            >
-              {tier.featured ? (
-                <span
-                  className="absolute -top-3 left-6 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide"
-                  style={{ fontFamily: SPACE_MONO, backgroundColor: PALETTE.canary, color: PALETTE.ink }}
-                >
-                  Most agents
-                </span>
-              ) : null}
-
-              <h2 className="text-2xl" style={{ fontFamily: CORMORANT, fontWeight: 600, color: PALETTE.ink }}>
-                {tier.name}
-              </h2>
-
-              <div className="mt-1 flex items-baseline gap-1">
-                <span
-                  className="text-4xl"
-                  style={{ fontFamily: CORMORANT, fontWeight: 600, color: PALETTE.ink, letterSpacing: '-0.01em' }}
-                >
-                  {tier.price}
-                </span>
-                {tier.cadence ? (
-                  <span className="text-sm" style={{ fontFamily: SPACE_MONO, color: PALETTE.muted }}>
-                    {tier.cadence}
+        {/* Four tiers — Free / Everyday / Pro Stack / All-Access */}
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {CARDS.map((card) => {
+            const plan = getAgentPlan(card.id);
+            if (!plan) return null;
+            const { amount, cadence } = priceDisplay(plan.monthlyNzd);
+            return (
+              <div
+                key={card.id}
+                className="relative flex flex-col rounded-[26px] border bg-white p-6"
+                style={{
+                  borderColor: card.featured ? PALETTE.canary : PALETTE.hairline,
+                  boxShadow: card.featured ? `0 24px 60px ${PALETTE.canary}33` : undefined,
+                }}
+              >
+                {card.pill ? (
+                  <span
+                    className="absolute -top-3 left-6 rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-wide"
+                    style={{ fontFamily: SPACE_MONO, backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+                  >
+                    {card.pill}
                   </span>
                 ) : null}
-              </div>
 
-              <p className="mt-3 text-sm leading-relaxed" style={{ color: PALETTE.body }}>
-                {tier.who}
-              </p>
+                <h2 className="text-2xl" style={{ fontFamily: CORMORANT, fontWeight: 600, color: PALETTE.ink }}>
+                  {plan.name}
+                </h2>
 
-              <ul className="mt-4 space-y-2 text-sm" style={{ color: PALETTE.body }}>
-                {tier.bullets.map((b) => (
-                  <Feature key={b}>{b}</Feature>
-                ))}
-              </ul>
-
-              {/* Example agents in this tier, pulled from the registry */}
-              {tier.examples.length ? (
-                <div className="mt-5">
-                  <p
-                    className="text-[10.5px] font-bold uppercase tracking-[0.16em]"
-                    style={{ fontFamily: SPACE_MONO, color: PALETTE.muted }}
+                <div className="mt-1 flex items-baseline gap-1">
+                  <span
+                    className="text-4xl"
+                    style={{
+                      fontFamily: CORMORANT,
+                      fontWeight: 600,
+                      color: PALETTE.ink,
+                      letterSpacing: '-0.01em',
+                    }}
                   >
-                    For example
-                  </p>
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {tier.examples.slice(0, 5).map((name) => (
-                      <span
-                        key={name}
-                        className="rounded-full px-2.5 py-1 text-[12px] font-medium"
-                        style={{ backgroundColor: PALETTE.cream, color: PALETTE.ink }}
-                      >
-                        {name}
-                      </span>
-                    ))}
-                    {tier.examples.length > 5 ? (
-                      <span className="px-1 py-1 text-[12px]" style={{ color: PALETTE.muted }}>
-                        +{tier.examples.length - 5} more
-                      </span>
-                    ) : null}
-                  </div>
+                    {amount}
+                  </span>
+                  {cadence ? (
+                    <span className="text-sm" style={{ fontFamily: SPACE_MONO, color: PALETTE.muted }}>
+                      {cadence}
+                    </span>
+                  ) : null}
                 </div>
-              ) : null}
 
-              <Link
-                href={tier.href}
-                className="mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold transition hover:brightness-95"
-                style={
-                  tier.featured
-                    ? { backgroundColor: PALETTE.canary, color: PALETTE.ink }
-                    : { border: `1px solid ${PALETTE.ink}`, color: PALETTE.ink }
-                }
-              >
-                {tier.cta}
-                <ArrowRight size={15} aria-hidden />
-              </Link>
-            </div>
-          ))}
+                <p className="mt-3 text-sm leading-relaxed" style={{ color: PALETTE.body }}>
+                  {plan.blurb}
+                </p>
+
+                <ul className="mt-4 flex-1 space-y-2 text-sm" style={{ color: PALETTE.body }}>
+                  {plan.perks.map((perk) => (
+                    <Feature key={perk}>{perk}</Feature>
+                  ))}
+                </ul>
+
+                <Link
+                  href={card.href}
+                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold transition hover:brightness-95"
+                  style={
+                    card.featured
+                      ? { backgroundColor: PALETTE.canary, color: PALETTE.ink }
+                      : { border: `1px solid ${PALETTE.ink}`, color: PALETTE.ink }
+                  }
+                >
+                  {card.cta}
+                  <ArrowRight size={15} aria-hidden />
+                </Link>
+              </div>
+            );
+          })}
         </div>
 
-        {/* All-access — one price for the whole shelf */}
-        {ALL_ACCESS ? (
+        {/* Specialist footnote — the $199 regulated agents aren't a headline card */}
+        {specialist ? (
           <div
-            className="mt-8 flex flex-col gap-5 rounded-[26px] p-7 md:flex-row md:items-center md:justify-between md:p-8"
-            style={{ backgroundColor: PALETTE.ink }}
+            className="mt-6 flex flex-col gap-2 rounded-[20px] border bg-white px-6 py-5 md:flex-row md:items-center md:justify-between"
+            style={{ borderColor: PALETTE.hairline }}
           >
-            <div>
-              <p
-                className="text-[11px] font-bold uppercase tracking-[0.18em]"
-                style={{ fontFamily: SPACE_MONO, color: PALETTE.canary }}
-              >
-                Want the lot?
-              </p>
-              <h2
-                className="mt-2 text-3xl"
-                style={{ fontFamily: CORMORANT, fontWeight: 600, color: PALETTE.paper }}
-              >
-                All-access — NZ${ALL_ACCESS.monthlyNzd}
-                <span className="text-base" style={{ fontFamily: SPACE_MONO, color: PALETTE.muted }}>
-                  {' '}
-                  /mo
-                </span>
-              </h2>
-              <p className="mt-2 max-w-xl text-sm leading-relaxed" style={{ color: '#C9C5BB' }}>
-                Every agent we make — now and as we add them. The simplest way in if you want more
-                than a handful.
-              </p>
-            </div>
+            <p className="text-sm leading-relaxed" style={{ color: PALETTE.body }}>
+              <span className="font-bold" style={{ color: PALETTE.ink }}>
+                Need a specialist?
+              </span>{' '}
+              The regulated, high-stakes agents — health, customs, compliance, the coast — are{' '}
+              {specialist.label}, wired to the live NZ sources they need.
+            </p>
             <Link
-              href="/agents/checkout?plan=all_access"
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition hover:brightness-95"
-              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+              href="/agents"
+              className="inline-flex shrink-0 items-center gap-1.5 text-sm font-bold hover:opacity-70"
+              style={{ color: PALETTE.ink }}
             >
-              Get all-access
-              <ArrowRight size={15} aria-hidden />
+              Browse $199 agents
+              <ArrowRight size={14} aria-hidden />
             </Link>
           </div>
         ) : null}
-
-        {/* Team bundles — kept for SMEs, not the lead */}
-        <div
-          className="mt-5 flex flex-col gap-2 rounded-[20px] border bg-white px-6 py-5 md:flex-row md:items-center md:justify-between"
-          style={{ borderColor: PALETTE.hairline }}
-        >
-          <p className="text-sm" style={{ color: PALETTE.body }}>
-            <span className="font-bold" style={{ color: PALETTE.ink }}>
-              Building a team?
-            </span>{' '}
-            All-access covers every agent for NZ${ALL_ACCESS?.monthlyNzd ?? 250}/mo — or talk to us
-            about volume pricing across your crew.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-1.5 text-sm font-bold hover:opacity-70"
-            style={{ color: PALETTE.ink }}
-          >
-            Talk to us
-            <ArrowRight size={14} aria-hidden />
-          </Link>
-        </div>
 
         <p className="mt-10 text-sm" style={{ color: PALETTE.muted }}>
           Prices in NZD, GST inclusive. The first {FREE_MESSAGE_LIMIT} messages with any agent are
