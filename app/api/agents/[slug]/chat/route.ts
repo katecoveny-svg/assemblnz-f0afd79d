@@ -8,7 +8,7 @@ import { citeFromPCO, type SupabaseRpcClient } from '@/lib/government/types';
 import { MARITIME_KNOWLEDGE, marineWeatherTool } from '@/lib/agents/maritime-knowledge';
 import { WHANAU_KNOWLEDGE, isFamilyAgent } from '@/lib/agents/whanau-knowledge';
 import { CLINICAL_NOTE_KNOWLEDGE } from '@/lib/agents/clinical-notes';
-import { CREATIVE_KNOWLEDGE, creativeTools, generateImageTool, IMAGE_RENDER_KNOWLEDGE } from '@/lib/agents/creative';
+import { CREATIVE_KNOWLEDGE, creativeTools, generateImageTool, MEDIA_RENDER_KNOWLEDGE } from '@/lib/agents/creative';
 import { VOICE_RECEPTIONIST_KNOWLEDGE, isVoiceAgent } from '@/lib/voice/agent-voice';
 import { handoffPromptBlock } from '@/lib/agents/handoffs';
 import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
@@ -194,10 +194,11 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   // Care Scribe: the SOAP/ICD clinical-note layer. Creative Studio: the Auaha
   // pipeline + creative-gen tools. Voice CS: the after-hours receptionist block.)
   const isMaritime = ['maritime-brief', 'tide-weather', 'catch-log'].includes(agent.slug);
-  const isCreative = agent.slug === 'creative-studio';
-  // Real image generation for every creative-category agent (Prism, Auaha,
-  // Creative Studio, Social Manager) — calls the generate-image edge function.
-  const canMakeImages = agent.category === 'creative';
+  // The whole creative category (Auaha, Social Manager, Prism, …) gets the real
+  // production stack: image (generateImage), video (Kling i2v) and podcast
+  // (ElevenLabs) — all fail-open per tool. Every asset renders inline via an
+  // assembl-visual block (MEDIA_RENDER_KNOWLEDGE).
+  const isCreative = agent.category === 'creative';
 
   // Every agent can set up an SMS reminder. Saved to agent_text_reminders and
   // sent by the send-text-reminders worker (via Twilio, once keys are set).
@@ -259,16 +260,17 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     ...nzKnowledgeTools,
     scheduleTextReminder,
     ...(isMaritime ? { marineWeather: marineWeatherTool } : {}),
-    ...(isCreative ? creativeTools : {}),
-    ...(canMakeImages ? { generateImage: generateImageTool } : {}),
+    ...(isCreative ? { generateImage: generateImageTool, ...creativeTools } : {}),
   };
 
   const knowledgeBlocks: string[] = [];
   if (isMaritime) knowledgeBlocks.push(MARITIME_KNOWLEDGE);
   if (isFamilyAgent(agent.slug)) knowledgeBlocks.push(WHANAU_KNOWLEDGE);
   if (agent.slug === 'care-scribe') knowledgeBlocks.push(CLINICAL_NOTE_KNOWLEDGE);
-  if (isCreative) knowledgeBlocks.push(CREATIVE_KNOWLEDGE);
-  if (canMakeImages) knowledgeBlocks.push(IMAGE_RENDER_KNOWLEDGE);
+  if (isCreative) {
+    knowledgeBlocks.push(CREATIVE_KNOWLEDGE);
+    knowledgeBlocks.push(MEDIA_RENDER_KNOWLEDGE);
+  }
   if (isVoiceAgent(agent.slug)) knowledgeBlocks.push(VOICE_RECEPTIONIST_KNOWLEDGE);
 
   const handoffBlock = handoffPromptBlock(agent.slug);

@@ -13,10 +13,12 @@
  *
  * {@link parseVisuals} strips those blocks out of the message text and returns
  * the parsed specs; {@link AgentVisual} renders one. Supported types: `stats`
- * (KPI cards), `bar`, `line`, `image`. Anything unrecognised renders nothing,
- * so a malformed block never breaks the chat.
+ * (KPI cards), `bar`, `line`, `image`, `video` (Kling render, polls to the MP4)
+ * and `audio` (a script voiced in the assembl NZ voice). Anything unrecognised
+ * renders nothing, so a malformed block never breaks the chat.
  */
 
+import { useEffect, useState } from 'react';
 import {
   Bar,
   BarChart,
@@ -29,6 +31,7 @@ import {
   YAxis,
 } from 'recharts';
 import { PALETTE } from '@/lib/marketplace/agents';
+import { DashLoader } from '@/components/marketplace/DashLoader';
 
 type StatItem = { label: string; value: string | number };
 type ChartPoint = { name: string; value: number };
@@ -37,7 +40,9 @@ export type VisualSpec =
   | { type: 'stats'; title?: string; items: StatItem[] }
   | { type: 'bar'; title?: string; data: ChartPoint[] }
   | { type: 'line'; title?: string; data: ChartPoint[] }
-  | { type: 'image'; title?: string; url: string; alt?: string };
+  | { type: 'image'; title?: string; url: string; alt?: string }
+  | { type: 'video'; title?: string; url?: string; requestId?: string; alt?: string }
+  | { type: 'audio'; title?: string; script: string; voice?: string };
 
 const FENCE = /```assembl-visual\s*\n([\s\S]*?)```/g;
 
@@ -67,6 +72,14 @@ function isValidSpec(spec: unknown): spec is VisualSpec {
       return Array.isArray(s.data) && s.data.length > 0;
     case 'image':
       return typeof s.url === 'string' && s.url.length > 0;
+    case 'video':
+      return (
+        (typeof s.url === 'string' && s.url.length > 0) ||
+        (typeof (s as { requestId?: unknown }).requestId === 'string' &&
+          ((s as { requestId: string }).requestId).length > 0)
+      );
+    case 'audio':
+      return typeof (s as { script?: unknown }).script === 'string' && (s as { script: string }).script.length > 0;
     default:
       return false;
   }
@@ -117,6 +130,22 @@ export function AgentVisual({ spec }: { spec: VisualSpec }) {
     );
   }
 
+  if (spec.type === 'video') {
+    return (
+      <Frame title={spec.title}>
+        <VideoBlock url={spec.url} requestId={spec.requestId} />
+      </Frame>
+    );
+  }
+
+  if (spec.type === 'audio') {
+    return (
+      <Frame title={spec.title ?? 'Audio'}>
+        <AudioBlock script={spec.script} voice={spec.voice} />
+      </Frame>
+    );
+  }
+
   // bar | line
   return (
     <Frame title={spec.title}>
@@ -142,5 +171,117 @@ export function AgentVisual({ spec }: { spec: VisualSpec }) {
         </ResponsiveContainer>
       </div>
     </Frame>
+  );
+}
+
+/** A Kling clip: shows a rendering state and polls the status route to the MP4. */
+function VideoBlock({ url, requestId }: { url?: string; requestId?: string }) {
+  const [videoUrl, setVideoUrl] = useState(url ?? '');
+  const [state, setState] = useState<'rendering' | 'ready' | 'failed'>(url ? 'ready' : 'rendering');
+
+  useEffect(() => {
+    if (url || !requestId) return;
+    let active = true;
+    const poll = async () => {
+      try {
+        const r = await fetch(`/api/agents/creative/video-status?id=${encodeURIComponent(requestId)}`);
+        const d = (await r.json()) as { status?: string; videoUrl?: string };
+        if (!active) return false;
+        if (d.status === 'completed' && d.videoUrl) {
+          setVideoUrl(d.videoUrl);
+          setState('ready');
+          return true;
+        }
+        if (d.status === 'failed' || d.status === 'error') {
+          setState('failed');
+          return true;
+        }
+      } catch {
+        /* keep polling */
+      }
+      return false;
+    };
+    void poll();
+    const t = setInterval(async () => {
+      if (await poll()) clearInterval(t);
+    }, 6000);
+    return () => {
+      active = false;
+      clearInterval(t);
+    };
+  }, [url, requestId]);
+
+  if (state === 'failed') {
+    return (
+      <p className="text-sm" style={{ color: PALETTE.body }}>
+        The video render didn’t complete. Ask {`Auaha`} to try again or tweak the motion prompt.
+      </p>
+    );
+  }
+  if (state === 'ready' && videoUrl) {
+    return (
+      <div>
+        <video src={videoUrl} controls playsInline className="w-full rounded-[12px]" />
+        <div className="mt-2 text-right">
+          <a href={videoUrl} download className="mk-mono text-[11px] underline" style={{ color: PALETTE.gold }}>
+            Download
+          </a>
+        </div>
+      </div>
+    );
+  }
+  return <DashLoader label="Rendering your clip with Kling… 1–3 min" width={64} />;
+}
+
+/** Voices a script in the assembl NZ voice via the platform TTS route. */
+function AudioBlock({ script, voice }: { script: string; voice?: string }) {
+  const [audioUrl, setAudioUrl] = useState('');
+  const [phase, setPhase] = useState<'loading' | 'ready' | 'error'>('loading');
+
+  useEffect(() => {
+    if (!script) return;
+    let active = true;
+    let objUrl = '';
+    (async () => {
+      setPhase('loading');
+      try {
+        const r = await fetch('/api/voice/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: script }),
+        });
+        if (!r.ok || r.status === 204) {
+          if (active) setPhase('error');
+          return;
+        }
+        const blob = await r.blob();
+        objUrl = URL.createObjectURL(blob);
+        if (active) {
+          setAudioUrl(objUrl);
+          setPhase('ready');
+        }
+      } catch {
+        if (active) setPhase('error');
+      }
+    })();
+    return () => {
+      active = false;
+      if (objUrl) URL.revokeObjectURL(objUrl);
+    };
+  }, [script]);
+
+  return (
+    <div>
+      <p className="mk-mono mb-2 text-[10px] uppercase tracking-[0.18em]" style={{ color: PALETTE.muted }}>
+        {voice ?? 'assembl NZ voice'}
+      </p>
+      {phase === 'loading' ? <DashLoader label="Voicing the script…" width={64} /> : null}
+      {phase === 'ready' && audioUrl ? <audio src={audioUrl} controls className="w-full" /> : null}
+      {phase === 'error' ? (
+        <p className="text-sm" style={{ color: PALETTE.body }}>
+          Couldn’t voice the script right now — the text is above to read.
+        </p>
+      ) : null}
+    </div>
   );
 }
