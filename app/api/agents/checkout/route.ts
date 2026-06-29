@@ -16,6 +16,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { getOrCreateCustomer } from '@/lib/stripe/customer';
 import { resolveOrCreateTenantId } from '@/lib/billing/tenant-context';
 import {
+  PROSTACK_BUNDLE_SLUGS,
   agentCountForPlan,
   getAgentPlan,
   isAgentPlan,
@@ -100,8 +101,15 @@ export async function POST(req: Request) {
 
     const origin = req.headers.get('origin') ?? new URL(req.url).origin;
     // Slugs ride in metadata as a comma-joined list (Stripe metadata values are
-    // strings, max 500 chars — 20 short slugs fit comfortably).
-    const agentSlugs = required > 0 ? picked.join(',') : '';
+    // strings, max 500 chars — 20 short slugs fit comfortably). Pro Stack is a
+    // fixed, server-authoritative bundle — the customer doesn't pick, so we set
+    // the bundle slugs here regardless of what the client sent.
+    const agentSlugs =
+      plan === 'prostack'
+        ? [...PROSTACK_BUNDLE_SLUGS].join(',')
+        : required > 0
+          ? picked.join(',')
+          : '';
     const metadata: Record<string, string> = {
       user_id: user.id,
       plan,

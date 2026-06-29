@@ -34,12 +34,19 @@ export function AgentCheckout({
   plan,
   agents,
   preselect,
+  includedAgents,
 }: {
   plan: PlanProps;
   agents: SlimAgent[];
   preselect: string | null;
+  /** Names of the agents in a fixed bundle (Pro Stack). Skips the picker. */
+  includedAgents?: string[];
 }) {
-  const allAccess = plan.agentCount == null;
+  // A fixed bundle (Pro Stack) has predefined agents — no pick, but it's not
+  // all-access either. All-access also has no pick (agentCount null, no bundle).
+  const fixedBundle = (includedAgents?.length ?? 0) > 0;
+  const allAccess = plan.agentCount == null && !fixedBundle;
+  const noPick = allAccess || fixedBundle;
   const required = plan.agentCount ?? 0;
 
   const [selected, setSelected] = useState<Set<string>>(
@@ -70,7 +77,7 @@ export function AgentCheckout({
     });
   }
 
-  const canSubmit = allAccess || selected.size === required;
+  const canSubmit = noPick || selected.size === required;
 
   async function submit() {
     if (submitting || !canSubmit) return;
@@ -80,7 +87,7 @@ export function AgentCheckout({
       const res = await fetch('/api/agents/checkout', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ plan: plan.id, agents: allAccess ? [] : Array.from(selected) }),
+        body: JSON.stringify({ plan: plan.id, agents: noPick ? [] : Array.from(selected) }),
       });
 
       if (res.status === 401) {
@@ -120,14 +127,16 @@ export function AgentCheckout({
         </Link>
 
         <h1 className="mt-5 text-3xl leading-tight md:text-4xl" style={{ ...DISPLAY, color: PALETTE.ink }}>
-          {allAccess ? `Confirm ${plan.name}` : `Pick your agents — ${plan.name}`}
+          {noPick ? `Confirm ${plan.name}` : `Pick your agents — ${plan.name}`}
         </h1>
         <p className="mt-2 text-lg" style={{ color: PALETTE.body }}>
-          {allAccess
-            ? 'All-Access unlocks every agent in the marketplace, now and as we add them.'
-            : required === 1
-              ? 'Choose the agent you want to subscribe to.'
-              : `Choose ${required} agents. You can change them later from your account.`}{' '}
+          {fixedBundle
+            ? `The Pro Stack bundles ${includedAgents!.length} everyday agents into one subscription.`
+            : allAccess
+              ? 'All-Access unlocks every agent in the marketplace, now and as we add them.'
+              : required === 1
+                ? 'Choose the agent you want to subscribe to.'
+                : `Choose ${required} agents. You can change them later from your account.`}{' '}
           <span className="font-bold" style={{ color: PALETTE.ink }}>
             NZ${plan.monthlyNzd}/mo.
           </span>
@@ -135,7 +144,35 @@ export function AgentCheckout({
 
         <div className="mt-5 h-1.5 w-full rounded-full" style={{ background: DASH_MOTIF }} aria-hidden />
 
-        {!allAccess ? (
+        {/* Fixed bundle (Pro Stack) — show what's included instead of a picker */}
+        {fixedBundle ? (
+          <div
+            className="mt-6 rounded-[20px] border bg-white p-5"
+            style={{ borderColor: PALETTE.hairline }}
+          >
+            <p
+              className="text-[11px] font-bold uppercase tracking-[0.16em]"
+              style={{ fontFamily: 'var(--font-space-mono), ui-monospace, monospace', color: PALETTE.muted }}
+            >
+              What&apos;s included
+            </p>
+            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+              {includedAgents!.map((name) => (
+                <li key={name} className="flex items-center gap-2 text-sm" style={{ color: PALETTE.ink }}>
+                  <span
+                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+                    style={{ backgroundColor: PALETTE.canary }}
+                  >
+                    <Check size={12} style={{ color: PALETTE.ink }} aria-hidden />
+                  </span>
+                  {name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        {!noPick ? (
           <>
             {/* Count + search */}
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -227,7 +264,7 @@ export function AgentCheckout({
           >
             {submitting ? 'Starting checkout…' : `Continue to payment · NZ$${plan.monthlyNzd}/mo`}
           </button>
-          {!allAccess && !canSubmit ? (
+          {!noPick && !canSubmit ? (
             <span className="text-sm" style={{ color: PALETTE.muted }}>
               Pick {required - selected.size} more to continue.
             </span>
