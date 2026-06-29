@@ -1997,6 +1997,23 @@ export function agentCheckoutHref(
 }
 
 /**
+ * Pro Stack composition helpers. An agent counts as "everyday" (one of the 3)
+ * when it's non-vertical and under $100/mo, and as a "specialist" (the 1) when
+ * it's non-vertical and $100+/mo. Verticals are sold through All-Access only.
+ */
+export function agentEligibleForProStack(
+  agent: Pick<MarketplaceAgent, 'priceNzd' | 'vertical'>,
+): boolean {
+  return !agent.vertical && agent.priceNzd < 100;
+}
+
+export function agentIsSpecialist(
+  agent: Pick<MarketplaceAgent, 'priceNzd' | 'vertical'>,
+): boolean {
+  return !agent.vertical && agent.priceNzd >= 100;
+}
+
+/**
  * Maps a marketplace model tier to a concrete model id for the chat route.
  * The registry stays the single source of truth.
  */

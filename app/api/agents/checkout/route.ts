@@ -1,14 +1,19 @@
 /**
  * POST /api/agents/checkout — subscribe to the agent ladder.
  *
- * Body: { plan: 'everyday' | 'specialist' | 'all_access',
- *         agents: string[] }   // the agent slugs the customer picked
+ * Body: { plan: 'everyday' | 'pro_stack' | 'specialist' | 'all_access',
+ *         agents: string[],     // the agent slugs the customer picked
+ *         promo?: string }      // optional promo code (JULYLAUNCH50)
  *
- * Auth-gated. We validate the pick count matches the plan, resolve a Stripe
+ * Auth-gated. We validate the pick count/mix matches the plan, resolve a Stripe
  * customer, and create a subscription Checkout Session. The picked slugs + plan
  * + user id ride along in session/subscription metadata; the marketplace webhook
  * (/api/stripe/webhooks) reads them on checkout.session.completed and writes the
  * agent_installs rows that grant entitlement.
+ *
+ * Pro Stack is a mixed pick — exactly 3 everyday agents + 1 specialist. The
+ * July promo (JULYLAUNCH50) is attached to checkout's `discounts` when the
+ * customer arrives with ?promo=JULYLAUNCH50 (All-Access, 50% off first month).
  */
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -16,22 +21,29 @@ import { getStripe } from '@/lib/stripe/client';
 import { getOrCreateCustomer } from '@/lib/stripe/customer';
 import { resolveOrCreateTenantId } from '@/lib/billing/tenant-context';
 import {
-  PROSTACK_BUNDLE_SLUGS,
+  JULY_PROMO,
+  PRO_STACK_EVERYDAY_COUNT,
+  PRO_STACK_SPECIALIST_COUNT,
   agentCountForPlan,
   getAgentPlan,
   isAgentPlan,
+  isJulyPromoCode,
   planForAgentPriceNzd,
   priceIdForPlan,
 } from '@/lib/billing/agent-pricing';
-import { marketplaceAgentBySlug } from '@/lib/marketplace/agents';
+import {
+  agentEligibleForProStack,
+  agentIsSpecialist,
+  marketplaceAgentBySlug,
+} from '@/lib/marketplace/agents';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
-  let body: { plan?: string; agents?: unknown };
+  let body: { plan?: string; agents?: unknown; promo?: unknown };
   try {
-    body = (await req.json()) as { plan?: string; agents?: unknown };
+    body = (await req.json()) as { plan?: string; agents?: unknown; promo?: unknown };
   } catch {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
@@ -58,19 +70,39 @@ export async function POST(req: Request) {
     if (unknown) {
       return NextResponse.json({ error: `Unknown agent: ${unknown}` }, { status: 400 });
     }
-    // The plan must charge the picked agent's tier — a $9.99 everyday agent
-    // can't be bought on the $199 specialist plan, and vice versa.
-    const mismatch = picked.find((slug) => {
-      const agent = marketplaceAgentBySlug(slug);
-      return agent ? planForAgentPriceNzd(agent.priceNzd) !== plan : false;
-    });
-    if (mismatch) {
-      return NextResponse.json(
-        { error: `That agent isn't on the ${getAgentPlan(plan)?.name ?? plan} plan.` },
-        { status: 400 },
-      );
+
+    if (plan === 'pro_stack') {
+      // Pro Stack is a mixed bundle — exactly 3 everyday + 1 specialist.
+      const agents = picked.map((slug) => marketplaceAgentBySlug(slug)!);
+      const everyday = agents.filter((a) => agentEligibleForProStack(a)).length;
+      const specialist = agents.filter((a) => agentIsSpecialist(a)).length;
+      if (everyday !== PRO_STACK_EVERYDAY_COUNT || specialist !== PRO_STACK_SPECIALIST_COUNT) {
+        return NextResponse.json(
+          {
+            error: `Pro Stack needs ${PRO_STACK_EVERYDAY_COUNT} everyday agents and ${PRO_STACK_SPECIALIST_COUNT} specialist.`,
+          },
+          { status: 400 },
+        );
+      }
+    } else {
+      // The plan must charge the picked agent's tier — a $9.99 everyday agent
+      // can't be bought on the $199 specialist plan, and vice versa.
+      const mismatch = picked.find((slug) => {
+        const agent = marketplaceAgentBySlug(slug);
+        return agent ? planForAgentPriceNzd(agent.priceNzd) !== plan : false;
+      });
+      if (mismatch) {
+        return NextResponse.json(
+          { error: `That agent isn't on the ${getAgentPlan(plan)?.name ?? plan} plan.` },
+          { status: 400 },
+        );
+      }
     }
   }
+
+  // The July promo only applies to its locked plan (All-Access).
+  const promoActive = isJulyPromoCode(typeof body.promo === 'string' ? body.promo : null)
+    && plan === JULY_PROMO.appliesToPlan;
 
   const priceId = priceIdForPlan(plan);
   if (!priceId) {
@@ -101,28 +133,27 @@ export async function POST(req: Request) {
 
     const origin = req.headers.get('origin') ?? new URL(req.url).origin;
     // Slugs ride in metadata as a comma-joined list (Stripe metadata values are
-    // strings, max 500 chars — 20 short slugs fit comfortably). Pro Stack is a
-    // fixed, server-authoritative bundle — the customer doesn't pick, so we set
-    // the bundle slugs here regardless of what the client sent.
-    const agentSlugs =
-      plan === 'prostack'
-        ? [...PROSTACK_BUNDLE_SLUGS].join(',')
-        : required > 0
-          ? picked.join(',')
-          : '';
+    // strings, max 500 chars — 20 short slugs fit comfortably).
+    const agentSlugs = required > 0 ? picked.join(',') : '';
     const metadata: Record<string, string> = {
       user_id: user.id,
       plan,
       agent_slugs: agentSlugs,
     };
+    if (promoActive) metadata.promo = JULY_PROMO.code;
 
     const stripe = getStripe();
+    // The July promo attaches the coupon directly via `discounts`; otherwise we
+    // let the customer type any promotion code. The two are mutually exclusive
+    // in Stripe Checkout, so we branch.
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       customer: customer.stripe_customer_id,
       client_reference_id: user.id,
       line_items: [{ price: priceId, quantity: 1 }],
-      allow_promotion_codes: true,
+      ...(promoActive
+        ? { discounts: [{ coupon: JULY_PROMO.code }] }
+        : { allow_promotion_codes: true }),
       success_url: `${origin}/agents?subscribed=1`,
       cancel_url: `${origin}/agents/pricing?checkout=cancelled`,
       subscription_data: { metadata },

@@ -4,6 +4,10 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Check, Search } from 'lucide-react';
 import { PALETTE, DASH_MOTIF } from '@/lib/marketplace/agents';
+import {
+  PRO_STACK_EVERYDAY_COUNT,
+  PRO_STACK_SPECIALIST_COUNT,
+} from '@/lib/billing/agent-pricing';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
 
@@ -13,6 +17,8 @@ type SlimAgent = {
   description: string;
   icon: string;
   accent: string;
+  priceNzd: number;
+  vertical: boolean;
 };
 
 type PlanProps = {
@@ -30,24 +36,26 @@ const DISPLAY: React.CSSProperties = {
   letterSpacing: '-0.02em',
 };
 
+const isEverydayAgent = (a: SlimAgent) => !a.vertical && a.priceNzd < 100;
+const isSpecialistAgent = (a: SlimAgent) => !a.vertical && a.priceNzd >= 100;
+
 export function AgentCheckout({
   plan,
   agents,
   preselect,
-  includedAgents,
+  promo,
 }: {
   plan: PlanProps;
   agents: SlimAgent[];
   preselect: string | null;
-  /** Names of the agents in a fixed bundle (Pro Stack). Skips the picker. */
-  includedAgents?: string[];
+  /** Active promo code (JULYLAUNCH50) to ride through to checkout, or null. */
+  promo?: string | null;
 }) {
-  // A fixed bundle (Pro Stack) has predefined agents — no pick, but it's not
-  // all-access either. All-access also has no pick (agentCount null, no bundle).
-  const fixedBundle = (includedAgents?.length ?? 0) > 0;
-  const allAccess = plan.agentCount == null && !fixedBundle;
-  const noPick = allAccess || fixedBundle;
+  const allAccess = plan.agentCount == null;
+  const proStack = plan.id === 'pro_stack';
   const required = plan.agentCount ?? 0;
+
+  const bySlug = useMemo(() => new Map(agents.map((a) => [a.slug, a])), [agents]);
 
   const [selected, setSelected] = useState<Set<string>>(
     () => new Set(preselect ? [preselect] : []),
@@ -55,6 +63,13 @@ export function AgentCheckout({
   const [query, setQuery] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const selectedAgents = useMemo(
+    () => Array.from(selected).map((s) => bySlug.get(s)).filter(Boolean) as SlimAgent[],
+    [selected, bySlug],
+  );
+  const everydayPicked = selectedAgents.filter(isEverydayAgent).length;
+  const specialistPicked = selectedAgents.filter(isSpecialistAgent).length;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -64,20 +79,36 @@ export function AgentCheckout({
     );
   }, [agents, query]);
 
+  // Whether a not-yet-selected agent can still be added under the plan's rules.
+  function canAdd(a: SlimAgent): boolean {
+    if (proStack) {
+      if (a.vertical) return false; // verticals aren't part of Pro Stack
+      if (isSpecialistAgent(a)) return specialistPicked < PRO_STACK_SPECIALIST_COUNT;
+      return everydayPicked < PRO_STACK_EVERYDAY_COUNT;
+    }
+    return selected.size < required;
+  }
+
   function toggle(slug: string) {
     setErrorMsg(null);
+    const agent = bySlug.get(slug);
+    if (!agent) return;
     setSelected((prev) => {
       const next = new Set(prev);
       if (next.has(slug)) {
         next.delete(slug);
-      } else if (next.size < required) {
+      } else if (canAdd(agent)) {
         next.add(slug);
       }
       return next;
     });
   }
 
-  const canSubmit = noPick || selected.size === required;
+  const mixOk = proStack
+    ? everydayPicked === PRO_STACK_EVERYDAY_COUNT &&
+      specialistPicked === PRO_STACK_SPECIALIST_COUNT
+    : selected.size === required;
+  const canSubmit = allAccess || mixOk;
 
   async function submit() {
     if (submitting || !canSubmit) return;
@@ -87,11 +118,15 @@ export function AgentCheckout({
       const res = await fetch('/api/agents/checkout', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ plan: plan.id, agents: noPick ? [] : Array.from(selected) }),
+        body: JSON.stringify({
+          plan: plan.id,
+          agents: allAccess ? [] : Array.from(selected),
+          ...(promo ? { promo } : {}),
+        }),
       });
 
       if (res.status === 401) {
-        const back = `/agents/checkout?plan=${plan.id}`;
+        const back = `/agents/checkout?plan=${plan.id}${promo ? `&promo=${promo}` : ''}`;
         window.location.href = `/login?redirect=${encodeURIComponent(back)}`;
         return;
       }
@@ -127,13 +162,13 @@ export function AgentCheckout({
         </Link>
 
         <h1 className="mt-5 text-3xl leading-tight md:text-4xl" style={{ ...DISPLAY, color: PALETTE.ink }}>
-          {noPick ? `Confirm ${plan.name}` : `Pick your agents — ${plan.name}`}
+          {allAccess ? `Confirm ${plan.name}` : `Pick your agents — ${plan.name}`}
         </h1>
         <p className="mt-2 text-lg" style={{ color: PALETTE.body }}>
-          {fixedBundle
-            ? `The Pro Stack bundles ${includedAgents!.length} everyday agents into one subscription.`
-            : allAccess
-              ? 'All-Access unlocks every agent in the marketplace, now and as we add them.'
+          {allAccess
+            ? 'All-Access unlocks every agent in the marketplace, now and as we add them.'
+            : proStack
+              ? `Choose ${PRO_STACK_EVERYDAY_COUNT} everyday agents and ${PRO_STACK_SPECIALIST_COUNT} specialist. Change them any month.`
               : required === 1
                 ? 'Choose the agent you want to subscribe to.'
                 : `Choose ${required} agents. You can change them later from your account.`}{' '}
@@ -142,42 +177,22 @@ export function AgentCheckout({
           </span>
         </p>
 
-        <div className="mt-5 h-1.5 w-full rounded-full" style={{ background: DASH_MOTIF }} aria-hidden />
-
-        {/* Fixed bundle (Pro Stack) — show what's included instead of a picker */}
-        {fixedBundle ? (
-          <div
-            className="mt-6 rounded-[20px] border bg-white p-5"
-            style={{ borderColor: PALETTE.hairline }}
-          >
-            <p
-              className="text-[11px] font-bold uppercase tracking-[0.16em]"
-              style={{ fontFamily: 'var(--font-space-mono), ui-monospace, monospace', color: PALETTE.muted }}
-            >
-              What&apos;s included
-            </p>
-            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-              {includedAgents!.map((name) => (
-                <li key={name} className="flex items-center gap-2 text-sm" style={{ color: PALETTE.ink }}>
-                  <span
-                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: PALETTE.canary }}
-                  >
-                    <Check size={12} style={{ color: PALETTE.ink }} aria-hidden />
-                  </span>
-                  {name}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {promo ? (
+          <p className="mt-2 text-sm font-bold" style={{ color: PALETTE.gold }}>
+            Promo {promo} applied — 50% off your first month.
+          </p>
         ) : null}
 
-        {!noPick ? (
+        <div className="mt-5 h-1.5 w-full rounded-full" style={{ background: DASH_MOTIF }} aria-hidden />
+
+        {!allAccess ? (
           <>
             {/* Count + search */}
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm font-bold" style={{ color: PALETTE.ink }}>
-                {selected.size} of {required} selected
+                {proStack
+                  ? `${everydayPicked}/${PRO_STACK_EVERYDAY_COUNT} everyday · ${specialistPicked}/${PRO_STACK_SPECIALIST_COUNT} specialist`
+                  : `${selected.size} of ${required} selected`}
               </p>
               <div
                 className="flex items-center gap-2 rounded-full border bg-white px-3 py-2"
@@ -198,7 +213,7 @@ export function AgentCheckout({
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((a) => {
                 const on = selected.has(a.slug);
-                const atCap = !on && selected.size >= required;
+                const atCap = !on && !canAdd(a);
                 return (
                   <button
                     key={a.slug}
@@ -233,6 +248,17 @@ export function AgentCheckout({
                           {on ? <Check size={12} style={{ color: PALETTE.ink }} aria-hidden /> : null}
                         </span>
                       </span>
+                      {proStack ? (
+                        <span
+                          className="mt-0.5 block text-[10.5px] font-bold uppercase tracking-[0.12em]"
+                          style={{
+                            fontFamily: 'var(--font-space-mono), ui-monospace, monospace',
+                            color: PALETTE.muted,
+                          }}
+                        >
+                          {a.vertical ? 'Not in Pro Stack' : isSpecialistAgent(a) ? 'Specialist' : 'Everyday'}
+                        </span>
+                      ) : null}
                       <span className="mt-1 block text-xs leading-snug" style={{ color: PALETTE.body }}>
                         {a.description}
                       </span>
@@ -264,9 +290,11 @@ export function AgentCheckout({
           >
             {submitting ? 'Starting checkout…' : `Continue to payment · NZ$${plan.monthlyNzd}/mo`}
           </button>
-          {!noPick && !canSubmit ? (
+          {!allAccess && !canSubmit ? (
             <span className="text-sm" style={{ color: PALETTE.muted }}>
-              Pick {required - selected.size} more to continue.
+              {proStack
+                ? 'Pick 3 everyday agents and 1 specialist to continue.'
+                : `Pick ${required - selected.size} more to continue.`}
             </span>
           ) : null}
         </div>

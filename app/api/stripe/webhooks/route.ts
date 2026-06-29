@@ -28,12 +28,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { createServiceClient } from '@/lib/stripe/supabase-service';
 import { writeAuditRow } from '@/lib/stripe/audit';
 import { syncAccountStatus } from '@/lib/stripe/connect';
-import {
-  ALL_ACCESS_SLUG,
-  PROSTACK_BUNDLE_SLUGS,
-  isAgentPlan,
-  planForPriceId,
-} from '@/lib/billing/agent-pricing';
+import { ALL_ACCESS_SLUG, isAgentPlan, planForPriceId } from '@/lib/billing/agent-pricing';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -145,19 +140,13 @@ async function onCheckoutCompleted(session: Stripe.Checkout.Session): Promise<vo
 
   if (!userId || !plan || !isAgentPlan(plan)) return; // Not an agent subscription.
 
-  // All-access → one sentinel row; bundles/per-agent → one row per picked slug.
+  // All-access → one sentinel row; Pro Stack / per-agent → one row per picked
+  // slug (Pro Stack rides the four picked slugs in metadata, same as everyday).
   const metadataSlugs = (session.metadata?.agent_slugs ?? '')
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
-  const slugs =
-    plan === 'all_access'
-      ? [ALL_ACCESS_SLUG]
-      : // Pro Stack is a fixed bundle — if the metadata is empty (e.g. an older
-        // session), fall back to the canonical bundle so entitlement is granted.
-        plan === 'prostack' && metadataSlugs.length === 0
-        ? [...PROSTACK_BUNDLE_SLUGS]
-        : metadataSlugs;
+  const slugs = plan === 'all_access' ? [ALL_ACCESS_SLUG] : metadataSlugs;
 
   if (slugs.length === 0) return; // No agents picked — nothing to grant.
 
