@@ -163,7 +163,7 @@ export function AssemblConciergeWidget() {
               type="button"
               aria-label="Close assembl guide"
               onClick={() => setOpen(false)}
-              className="rounded-full p-2 text-[color:var(--text-secondary)] transition-all hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              className="rounded-full p-2 text-[color:var(--text-secondary)] transition-all hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
             >
               <X className="h-4 w-4" aria-hidden />
             </button>
@@ -214,7 +214,7 @@ export function AssemblConciergeWidget() {
                   type="button"
                   onClick={() => send(prompt)}
                   disabled={isTyping}
-                  className="rounded-full border border-[rgba(35,33,31,0.12)] bg-white/60 px-3 py-1 text-xs text-[color:var(--text-secondary)] transition-all hover:bg-white/90 hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--text-primary)] focus-visible:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 disabled:opacity-40"
+                  className="rounded-full border border-[rgba(35,33,31,0.12)] bg-white/60 px-3 py-1 text-xs text-[color:var(--text-secondary)] transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:border-ring hover:text-[color:var(--text-primary)] focus-visible:-translate-y-0.5 focus-visible:border-ring focus-visible:bg-white/90 focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
                 >
                   {prompt}
                 </button>
@@ -239,12 +239,12 @@ export function AssemblConciergeWidget() {
                   placeholder="Ask about assembl..."
                   disabled={isTyping}
                   aria-describedby="concierge-counter"
-                  className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] outline-none transition-all focus:border-[color:var(--assembl-pounamu)] focus:ring-2 focus:ring-[color:var(--assembl-pounamu)]/20 disabled:opacity-60"
+                  className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] transition-all focus:border-ring focus:outline focus:outline-2 focus:outline-ring/30 focus:outline-offset-0 disabled:opacity-60"
                 />
                 <button
                   type="submit"
                   aria-label="Send"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)] transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 disabled:opacity-40"
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)] transition-all hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
                   disabled={!draft.trim() || isTyping}
                 >
                   <Send className="h-4 w-4" aria-hidden />
@@ -270,7 +270,7 @@ export function AssemblConciergeWidget() {
             </form>
             <Link
               href={latestMatch.href}
-              className="mt-1 inline-flex items-center rounded-sm font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              className="mt-1 inline-flex items-center rounded-sm font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
             >
               {latestMatch.cta}
               <ArrowRight className="ml-2 h-3.5 w-3.5" aria-hidden />
@@ -283,7 +283,7 @@ export function AssemblConciergeWidget() {
         ref={triggerRef}
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-14 items-center gap-3 rounded-full border border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-pounamu)] px-5 text-sm font-medium text-[color:var(--assembl-paper)] shadow-[0_16px_50px_rgba(35,33,31,0.20)] transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+        className="inline-flex h-14 items-center gap-3 rounded-full border border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-pounamu)] px-5 text-sm font-medium text-[color:var(--assembl-paper)] shadow-[0_16px_50px_rgba(35,33,31,0.20)] transition-all hover:-translate-y-0.5 hover:opacity-90 focus-visible:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
         aria-expanded={open}
         aria-haspopup="dialog"
       >
