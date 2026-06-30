@@ -79,6 +79,15 @@ export type MarketplaceAgent = {
    * point at All-Access rather than the $15 per-agent checkout.
    */
   vertical: boolean;
+  /**
+   * Consult-grade audio capture. When true, the chat composer shows a real
+   * MediaRecorder consult recorder (mic → MediaRecorder → Deepgram en-NZ,
+   * diarised → transcript) instead of the lightweight Web Speech dictation
+   * mic. Used by Care Scribe, where a full two-party consult must be recorded
+   * and transcribed onshore — not streamed phrase-by-phrase to a browser
+   * speech engine. Optional; defaults to off.
+   */
+  consultCapture?: boolean;
 };
 
 export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: string }[] = [
@@ -1033,8 +1042,9 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     icon: 'scribe',
     tile: 'cream',
-    greeting: 'With per-visit consent in place, paste or record the consult and I will draft the clinical note. I never diagnose — sign-off stays with you.',
-    starters: ['Draft a SOAP note from this consult.', 'Write a referral letter.'],
+    greeting: 'With per-visit consent in place, tap record to capture the consult — or paste a transcript — and I will draft the clinical note, suggest codes, and end with a Mana Receipt. I never diagnose; sign-off stays with you.',
+    starters: ['Draft a SOAP note from this consult.', 'Draft the ACC45 from this injury consult.', 'Write a referral letter.'],
+    consultCapture: true,
   },
   {
     slug: 'voice-cs',
