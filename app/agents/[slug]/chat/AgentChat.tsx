@@ -20,6 +20,7 @@ import { AgentMarkdown } from '@/components/marketplace/AgentMarkdown';
 import { downloadConversationPack, type ConversationTurn } from '@/lib/export/pdf';
 import { InstallPwaButton } from '@/components/hapai/InstallPwaButton';
 import { MicButton } from '@/components/marketplace/MicButton';
+import { ConsultRecorder } from '@/components/marketplace/ConsultRecorder';
 import orb from '@/components/marketplace/orbGrid.module.css';
 
 /** Pull the rendered text out of a UIMessage's parts. */
@@ -389,7 +390,11 @@ export function AgentChat({
             className="max-h-40 flex-1 resize-none rounded-[20px] border bg-white px-4 py-3 text-sm outline-none disabled:opacity-60"
             style={{ borderColor: PALETTE.hairline, color: PALETTE.ink }}
           />
-          <MicButton onTranscript={handleTranscript} disabled={!!paywall} ink={PALETTE.ink} />
+          {agent.consultCapture ? (
+            <ConsultRecorder onTranscript={handleTranscript} disabled={!!paywall} ink={PALETTE.ink} />
+          ) : (
+            <MicButton onTranscript={handleTranscript} disabled={!!paywall} ink={PALETTE.ink} />
+          )}
           <button
             type="submit"
             disabled={busy || (!input.trim() && !imageFile) || !!paywall}
