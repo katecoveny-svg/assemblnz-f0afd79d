@@ -149,6 +149,138 @@ type AgentDef = Omit<
   | 'vertical'
 > & { status?: AgentStatus; tools?: string[]; skills?: string[]; featured?: boolean; vertical?: boolean };
 
+/**
+ * Per-agent Claude Skill ids, layered on top of any inline `skills` on the def.
+ *
+ * Id conventions:
+ *   - `plugin:skill` — a skill from an installed Cowork/Claude plugin (sales,
+ *     marketing, legal, finance, human-resources, operations, customer-support).
+ *   - bare-name — a skill from assembl's own library (elite-copywriter,
+ *     tikanga-compliance, nz-privacy-act-2020, nz-hospitality-compliance, etc.).
+ *
+ * These are MERGED with each def's inline `skills` (deduped) in buildAgent, so
+ * an agent that already declares a core skill keeps it and gains these too.
+ * Seeded to `public.agents.skills`; runtime dispatch is a follow-up.
+ */
+const SKILLS_BY_SLUG: Record<string, string[]> = {
+  // ── Sales · Automotive · Retail ─────────────────────────────────────
+  arataki: [
+    'sales:account-research',
+    'sales:call-prep',
+    'sales:call-summary',
+    'sales:competitive-intelligence',
+    'sales:create-an-asset',
+    'sales:daily-briefing',
+    'sales:draft-outreach',
+    'sales:forecast',
+    'sales:pipeline-review',
+  ],
+  motor: [
+    'sales:account-research',
+    'sales:call-prep',
+    'sales:draft-outreach',
+    'sales:pipeline-review',
+    'customer-support:ticket-triage',
+  ],
+  transit: [
+    'sales:account-research',
+    'sales:call-prep',
+    'sales:draft-outreach',
+    'sales:pipeline-review',
+    'customer-support:ticket-triage',
+  ],
+  'transit-freight': [
+    'sales:account-research',
+    'sales:draft-outreach',
+    'sales:pipeline-review',
+    'operations:vendor-review',
+    'customer-support:ticket-triage',
+  ],
+  roster: [
+    'sales:account-research',
+    'sales:call-prep',
+    'sales:call-summary',
+    'sales:competitive-intelligence',
+    'sales:create-an-asset',
+    'sales:daily-briefing',
+    'sales:draft-outreach',
+    'sales:forecast',
+    'sales:pipeline-review',
+  ],
+  'roster-sorter': [
+    'sales:pipeline-review',
+    'sales:forecast',
+    'sales:draft-outreach',
+    'sales:account-research',
+    'sales:daily-briefing',
+  ],
+  counter: [
+    'sales:account-research',
+    'sales:competitive-intelligence',
+    'customer-support:ticket-triage',
+    'customer-support:draft-response',
+    'operations:vendor-review',
+  ],
+  cellar: [
+    'sales:account-research',
+    'operations:vendor-review',
+    'customer-support:draft-response',
+    'nz-hospitality-compliance',
+  ],
+  saffron: [
+    'nz-hospitality-compliance',
+    'operations:vendor-review',
+    'customer-support:draft-response',
+    'sales:account-research',
+  ],
+  'hoko-cga': [
+    'customer-support:draft-response',
+    'customer-support:kb-article',
+    'sales:account-research',
+  ],
+
+  // ── Business · Ops · Finance ────────────────────────────────────────
+  'invoice-tidy': ['finance:financial-statements', 'finance:reconciliation', 'rdti-activity-logger'],
+  'tax-tidy': ['finance:financial-statements', 'finance:variance-analysis', 'rdti-activity-logger'],
+  chief: ['sales:daily-briefing', 'legal:meeting-briefing', 'internal-comms'],
+  'inbox-triage': ['customer-support:ticket-triage', 'sales:daily-briefing'],
+  'meeting-records': ['legal:meeting-briefing', 'internal-comms'],
+  'hui-notes': ['legal:meeting-briefing'],
+  'stock-count': ['operations:vendor-review', 'operations:process-doc'],
+  'compliance-check': ['operations:compliance-tracking', 'legal:compliance-check'],
+  'customs-entry': ['operations:compliance-tracking'],
+  'food-temp-logs': ['nz-hospitality-compliance', 'operations:compliance-tracking'],
+  'voice-cs': ['customer-support:ticket-triage', 'customer-support:draft-response'],
+  'care-scribe': ['nz-privacy-act-2020'],
+
+  // ── Marketing · Creative ────────────────────────────────────────────
+  auaha: [
+    'marketing:campaign-plan',
+    'marketing:content-creation',
+    'marketing:draft-content',
+    'elite-copywriter',
+    'social-media-manager',
+    'assembl-voice',
+  ],
+  'social-manager': [
+    'marketing:campaign-plan',
+    'marketing:performance-report',
+    'social-media-manager',
+    'elite-copywriter',
+  ],
+  muse: ['marketing:brand-review', 'elite-copywriter', 'assembl-voice', 'tikanga-compliance'],
+
+  // ── Maritime ────────────────────────────────────────────────────────
+  'maritime-brief': ['operations:risk-assessment', 'operations:compliance-tracking'],
+
+  // ── Construction · HR (extend agents that already carry a core skill) ─
+  arai: ['operations:risk-assessment'],
+  kaupapa: ['operations:status-report', 'operations:capacity-plan'],
+  pai: ['operations:process-doc'],
+  whakaae: ['legal:compliance-check'],
+  aroha: ['aroha-employment-hero', 'human-resources:policy-lookup', 'human-resources:performance-review'],
+};
+
 function buildAgent(def: AgentDef): MarketplaceAgent {
   const body = AGENT_PROMPTS[def.slug];
   if (!body) throw new Error(`No locked system prompt for marketplace agent "${def.slug}"`);
@@ -159,7 +291,7 @@ function buildAgent(def: AgentDef): MarketplaceAgent {
     // Flat per-agent metadata bucket; the catalogue priceTier sets the price.
     pricingTier: 'per_agent',
     tools: def.tools ?? DEFAULT_TOOLS,
-    skills: def.skills ?? [],
+    skills: Array.from(new Set([...(def.skills ?? []), ...(SKILLS_BY_SLUG[def.slug] ?? [])])),
     fallbackModels: [...FALLBACK_MODELS],
     accent: TILE_BG[def.tile],
     featured: def.featured ?? false,
