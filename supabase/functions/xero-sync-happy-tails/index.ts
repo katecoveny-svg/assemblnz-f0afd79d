@@ -85,11 +85,11 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
     const { data } = await supabase
-      .from("tenant_customers")
-      .select("xero_tokens")
-      .eq("slug", TENANT_SLUG)
+      .from("tenant_xero_tokens")
+      .select("tokens")
+      .eq("tenant_slug", TENANT_SLUG)
       .maybeSingle();
-    tokens = (data?.xero_tokens as Record<string, unknown>) ?? {};
+    tokens = (data?.tokens as Record<string, unknown>) ?? {};
   } catch {
     // tenant table not applied yet — fall through to mocked mode
   }
@@ -138,9 +138,8 @@ Deno.serve(async (req) => {
       try {
         const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
         await supabase
-          .from("tenant_customers")
-          .update({ xero_tokens: { ...tokens, ...refreshed }, updated_at: new Date().toISOString() })
-          .eq("slug", TENANT_SLUG);
+          .from("tenant_xero_tokens")
+          .upsert({ tenant_slug: TENANT_SLUG, tokens: { ...tokens, ...refreshed }, updated_at: new Date().toISOString() });
       } catch { /* non-fatal */ }
     }
 

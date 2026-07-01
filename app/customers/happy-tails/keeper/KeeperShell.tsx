@@ -11,6 +11,7 @@ const NAV = [
   { n: '4', label: 'Bus route', href: `${BASE}/route`, key: 'route' },
   { n: '5', label: 'Xero invoicing', href: `${BASE}/invoicing`, key: 'invoicing' },
   { n: '6', label: 'Mana Receipts', href: `${BASE}/receipts`, key: 'receipts' },
+  { n: '7', label: 'Team', href: `${BASE}/team`, key: 'team' },
 ];
 
 /** Sketch dachshund line-drawing — the Happy Tails mark. */

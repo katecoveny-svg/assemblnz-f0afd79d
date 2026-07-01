@@ -73,19 +73,10 @@ export function isAdminHub(pathname: string | null): boolean {
   return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
-/** The Happy Tails × Keeper pilot workspace is a branded tenant instance —
- *  it renders its own Happy Tails chrome and must never show assembl site
- *  chrome inside the tenant (assembl attribution stays on Mana Receipts +
- *  a subtle "powered by assembl" footer only). */
-export function isHappyTailsKeeper(pathname: string | null): boolean {
-  if (!pathname) return false;
-  return (
-    pathname === "/customers/happy-tails/keeper" ||
-    pathname.startsWith("/customers/happy-tails/keeper/")
-  );
 /** Hosted per-customer demo/pilot workspaces (e.g. Air NZ × Dash at
- *  /customers/air-nz/dash) render their customer's own app chrome inside a
- *  phone frame — suppress the global assembl site chrome there. */
+ *  /customers/air-nz/dash, Happy Tails × Keeper at /customers/happy-tails/keeper)
+ *  render their customer's own app chrome — suppress the global assembl site
+ *  chrome there so the tenant instance is never diluted with assembl chrome. */
 export function isCustomerWorkspace(pathname: string | null): boolean {
   if (!pathname) return false;
   return pathname === "/customers" || pathname.startsWith("/customers/");
@@ -120,7 +111,6 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /dash/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isHappyTailsKeeper(pathname) || pathname === "/") return null;
   if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || pathname === "/") return null;
 
   return (

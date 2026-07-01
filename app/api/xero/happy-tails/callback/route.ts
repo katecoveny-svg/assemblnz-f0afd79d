@@ -69,13 +69,13 @@ export async function GET(req: Request) {
     }
     const tokens = await tokenRes.json();
 
-    // Store tokens on the happy-tails tenant row via the service-role client.
+    // Store tokens in the admin-only tenant_xero_tokens table via service-role
+    // (never on the anon-readable tenant_customers registry).
     const { getServiceClient } = await import('@/lib/supabase/service');
     const supabase = getServiceClient();
     await supabase
-      .from('tenant_customers')
-      .update({ xero_tokens: tokens, updated_at: new Date().toISOString() })
-      .eq('slug', 'happy-tails');
+      .from('tenant_xero_tokens')
+      .upsert({ tenant_slug: 'happy-tails', tokens, updated_at: new Date().toISOString() });
 
     return NextResponse.redirect(new URL('/customers/happy-tails/keeper/invoicing', req.url));
   } catch (e) {
