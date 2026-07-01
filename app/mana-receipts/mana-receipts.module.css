@@ -1,0 +1,546 @@
+/* Mana Receipts — CANON (locked 2026-06-23) canary + cream trust page.
+   Cormorant display (--mana-display), Lato body (--mana-body), Space Mono
+   labels (--mana-mono). Palette tokens inline from lib/marketplace/agents. */
+
+.root {
+  --canary: #ffd42a;
+  --canary2: #ffe27a;
+  --ink: #3a3832;
+  --body: #56544b;
+  --paper: #ffffff;
+  --cream: #fff7ec;
+  --hairline: #efeadc;
+  --gold: #c79b1f;
+  --muted: #8a8678;
+
+  font-family: var(--mana-body), system-ui, sans-serif;
+  color: var(--body);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wrap {
+  margin: 0 auto;
+  max-width: 760px;
+  padding: 0 24px;
+}
+
+/* ── Eyebrows / mono labels ─────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 20px;
+}
+
+.eyebrowMuted {
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 82% -10%, rgba(255, 212, 42, 0.16), transparent 60%),
+    var(--cream);
+  border-bottom: 1px solid var(--hairline);
+  padding: 96px 0 88px;
+}
+
+.heroDash {
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--canary) 0%, var(--canary2) 50%, #e0a800 100%);
+}
+
+.h1 {
+  font-family: var(--mana-display), Georgia, serif;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--ink);
+  font-size: clamp(46px, 8vw, 92px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.h1 em {
+  display: block;
+  font-style: italic;
+  font-weight: 700;
+  background: linear-gradient(110deg, #ffcb1f 0%, #f2c200 46%, #e0a800 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #e0a800;
+}
+
+.sub {
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--body);
+  max-width: 540px;
+  margin: 32px 0 40px;
+}
+
+/* ── Sections ───────────────────────────────────────────────────────── */
+.section {
+  padding: 72px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.sectionH {
+  font-family: var(--mana-display), Georgia, serif;
+  font-weight: 500;
+  color: var(--ink);
+  font-size: clamp(34px, 5.5vw, 64px);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  margin: 0 0 28px;
+}
+
+.p {
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--body);
+  margin: 0 0 22px;
+  max-width: 640px;
+}
+
+.p strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.p a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.p code,
+.inlineCode {
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 0.86em;
+  background: var(--cream);
+  border: 1px solid var(--hairline);
+  border-radius: 5px;
+  padding: 1px 6px;
+  color: var(--ink);
+}
+
+.lead {
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--ink);
+  font-weight: 700;
+  margin: 0 0 22px;
+  max-width: 640px;
+}
+
+/* ── Callout (cream card) ───────────────────────────────────────────── */
+.callout {
+  background: var(--cream);
+  border: 1px solid var(--hairline);
+  border-left: 4px solid var(--canary);
+  border-radius: 18px;
+  padding: 26px 30px;
+  margin: 8px 0 26px;
+  max-width: 660px;
+  box-shadow: 0 16px 40px rgba(180, 150, 40, 0.08);
+}
+
+.callout p {
+  margin: 0;
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--body);
+}
+
+.callout strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ── Tier / numbered blocks ─────────────────────────────────────────── */
+.tier {
+  margin: 0 0 26px;
+  max-width: 660px;
+}
+
+.tierHead {
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 17px;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+
+/* ── What we are / are not (two cards) ──────────────────────────────── */
+.split {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+  max-width: 720px;
+}
+
+@media (min-width: 720px) {
+  .split {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.listCard {
+  background: var(--cream);
+  border: 1px solid var(--hairline);
+  border-left: 4px solid var(--canary);
+  border-radius: 18px;
+  padding: 26px 28px;
+}
+
+.listCardTitle {
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: var(--ink);
+  margin: 0 0 16px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list li {
+  position: relative;
+  padding-left: 22px;
+  margin: 0 0 14px;
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+.list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--canary);
+}
+
+.listNot li::before {
+  background: transparent;
+  border: 1.5px solid var(--muted);
+}
+
+/* ── CTA pill (glass canary) ────────────────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 17px;
+  color: var(--ink);
+  background: linear-gradient(180deg, rgba(255, 224, 103, 0.62), rgba(255, 205, 40, 0.56));
+  backdrop-filter: blur(12px) saturate(1.3);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 99px;
+  padding: 16px 30px;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 12px 30px rgba(224, 168, 0, 0.28);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+.pill:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 16px 38px rgba(224, 168, 0, 0.34);
+}
+
+.pillSolid {
+  background: var(--canary);
+  border: 1px solid var(--canary);
+}
+
+/* ── Closing block ──────────────────────────────────────────────────── */
+.closing {
+  text-align: center;
+  padding: 84px 0 72px;
+  background:
+    radial-gradient(120% 80% at 50% 120%, rgba(255, 212, 42, 0.14), transparent 60%),
+    var(--paper);
+}
+
+.closingCaption {
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 24px 0 0;
+}
+
+/* ── Footer eyebrow ─────────────────────────────────────────────────── */
+.footerEyebrow {
+  text-align: center;
+  padding: 28px 0 56px;
+  border-top: 1px solid var(--hairline);
+  background: var(--cream);
+}
+
+.footerEyebrow span {
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── Trust Centre cross-link ────────────────────────────────────────── */
+.crossLink {
+  max-width: 660px;
+  margin: 10px 0 0;
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.crossLink a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Mana Receipt preview mock ──────────────────────────────────────── */
+.receipt {
+  --canary: #ffd42a;
+  --ink: #3a3832;
+  --body: #56544b;
+  --cream: #fff7ec;
+  --hairline: #efeadc;
+  --gold: #c79b1f;
+  --muted: #8a8678;
+  position: relative;
+  background: #ffffff;
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+  max-width: 560px;
+  margin: 0 auto;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(58, 56, 50, 0.16);
+  font-family: var(--mana-body), system-ui, sans-serif;
+}
+
+.receiptTop {
+  height: 5px;
+  background: linear-gradient(90deg, var(--canary) 0%, #ffe27a 50%, #e0a800 100%);
+}
+
+.receiptHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 28px 18px;
+  border-bottom: 1px dashed var(--hairline);
+}
+
+.receiptKicker {
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 6px;
+}
+
+.receiptTitle {
+  font-family: var(--mana-display), Georgia, serif;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1;
+  color: var(--ink);
+  margin: 0;
+}
+
+.receiptSeal {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--canary);
+  border-radius: 99px;
+  padding: 6px 12px;
+}
+
+.receiptBody {
+  padding: 8px 28px 20px;
+}
+
+.receiptRow {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.receiptRow:last-child {
+  border-bottom: 0;
+}
+
+.receiptLabel {
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: 2px;
+}
+
+.receiptValue {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.receiptValue .mono {
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--body);
+  word-break: break-all;
+}
+
+.receiptFlag {
+  margin: 14px 0 4px;
+  background: var(--cream);
+  border: 1px solid var(--hairline);
+  border-left: 4px solid var(--canary);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.receiptFlag strong {
+  display: block;
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 6px;
+}
+
+.receiptFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 28px 24px;
+  border-top: 1px dashed var(--hairline);
+  background: var(--cream);
+}
+
+.receiptFootMeta {
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.receiptCheck {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: #2f7a4a;
+}
+
+.receiptCheckPending {
+  color: var(--gold);
+}
+
+/* download actions */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 28px 0 0;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mana-body), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+  background: #ffffff;
+  border: 1.5px solid var(--ink);
+  border-radius: 99px;
+  padding: 12px 24px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.actionBtn:hover {
+  transform: translateY(-2px);
+}
+
+.actionPrimary {
+  background: var(--canary);
+  border-color: var(--canary);
+}
+
+/* soft perforation on the sample page hero framing */
+.receiptCaption {
+  text-align: center;
+  font-family: var(--mana-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 20px;
+}

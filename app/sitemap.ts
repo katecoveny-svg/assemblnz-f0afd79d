@@ -19,6 +19,8 @@ const PATHS = [
   '/industry-pack',
   '/insurance',
   '/kete',
+  '/mana-receipts',
+  '/mana-receipts/sample',
   '/platform',
   '/press',
   '/pricing',

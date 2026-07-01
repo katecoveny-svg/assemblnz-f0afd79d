@@ -306,11 +306,14 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 // CANON-LOCKED-2026-06-23: nav is Agents · Pricing · Trust · About + a
 // "Browse agents" CTA. No "Kete packs" / "Outputs" / "HAPAI tools" — those are
 // pre-marketplace surfaces.
+// "Trust" points at the Mana Receipts transparency page — the honest,
+// public-facing trust page. The deeper enterprise Trust Centre stays reachable
+// at /trust from the footer.
 export const nav = [
-  { href: '/agents',  label: 'Agents' },
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/trust',   label: 'Trust' },
-  { href: '/about',   label: 'About' },
+  { href: '/agents',        label: 'Agents' },
+  { href: '/pricing',       label: 'Pricing' },
+  { href: '/mana-receipts', label: 'Trust' },
+  { href: '/about',         label: 'About' },
 ] as const;
 
 export const navCta = { href: '/agents', label: 'Browse agents' };
