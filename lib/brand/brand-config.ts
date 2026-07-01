@@ -73,6 +73,28 @@ export const BrandConfigSchema = z.object({
     position: CrossBrandPosition,
     density: CrossBrandDensity,
   }),
+  /**
+   * Optional tileable line patterns rendered as subtle CSS backgrounds. `primary`
+   * is the dashboard shell watermark; `secondary` is used for empty states. Both
+   * are optional so other brands need not specify them.
+   */
+  patterns: z
+    .object({
+      primary: z.string().min(1).optional(),
+      secondary: z.string().min(1).optional(),
+    })
+    .optional(),
+  /**
+   * Optional editorial photography. `anchor` is the brand's signature portrait
+   * (used in heroes/fallbacks); `gallery` rotates as visual placeholders in
+   * widgets (e.g. per-customer avatars). Both are optional.
+   */
+  photography: z
+    .object({
+      anchor: z.string().min(1).optional(),
+      gallery: z.array(z.string().min(1)).optional(),
+    })
+    .optional(),
 });
 
 export type BrandConfig = z.infer<typeof BrandConfigSchema>;

@@ -19,7 +19,7 @@ export default async function OpsHome({
       <DemoRibbon />
       <Brand3DHero config={config} />
       <FinancePanel summary={{ revenue: 0, expenses: 0 }} />
-      <RosterTable rows={[]} />
+      <RosterTable rows={[]} emptyPattern={config.patterns?.secondary} />
     </div>
   );
 }

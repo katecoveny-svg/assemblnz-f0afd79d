@@ -21,7 +21,14 @@ export function Brand3DHero({ config }: { config: BrandConfig }) {
   const reduce = useReducedMotion();
   if (reduce) return <StaticFallback config={config} />;
   return (
-    <div className="h-64 w-full overflow-hidden rounded-2xl" data-brand-hero={config.hero3D}>
+    <div
+      className="h-64 w-full overflow-hidden rounded-2xl"
+      data-brand-hero={config.hero3D}
+      // Warm-white paper background — critical for Happy Tails so studio
+      // photography sits on paper, not a coloured surface. Falls back to the
+      // brand's own bg CSS variable for the other five brands.
+      style={{ background: 'var(--brand-bg)' }}
+    >
       <R3FCanvas hero={config.hero3D} />
     </div>
   );

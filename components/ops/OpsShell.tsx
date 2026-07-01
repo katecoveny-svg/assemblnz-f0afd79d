@@ -84,11 +84,34 @@ export function OpsShell({
             </nav>
           </aside>
 
-          <main className="col-span-12 flex flex-col gap-6 md:col-span-7">
-            <div className="rounded-2xl bg-[color:var(--brand-surface)]/60 px-4 py-3 text-sm text-[color:var(--brand-muted)]">
+          <main
+            className="relative col-span-12 flex flex-col gap-6 md:col-span-7"
+            style={
+              config.patterns?.primary
+                ? {
+                    // Very subtle line-pattern watermark behind main content
+                    // ONLY. Never on the header, sidebar, or right-rail.
+                    backgroundImage: `url(${config.patterns.primary})`,
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: '360px auto',
+                    backgroundColor: 'var(--brand-bg)',
+                  }
+                : undefined
+            }
+          >
+            {config.patterns?.primary ? (
+              // Warm-white scrim clamps pattern to ~6% visual weight — never
+              // colour-fills the line art.
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -z-10"
+                style={{ backgroundColor: 'var(--brand-bg)', opacity: 0.94 }}
+              />
+            ) : null}
+            <div className="relative rounded-2xl bg-[color:var(--brand-surface)]/60 px-4 py-3 text-sm text-[color:var(--brand-muted)]">
               {config.voice.greeting}
             </div>
-            {children}
+            <div className="relative flex flex-col gap-6">{children}</div>
           </main>
 
           <aside className="col-span-12 flex flex-col gap-4 md:col-span-3">

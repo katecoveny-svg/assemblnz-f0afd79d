@@ -73,26 +73,67 @@ export const happyTailsComms: CommsDraft[] = [
   },
 ];
 
+/**
+ * Happy Tails demo customer list — 8 rows, Franklin first (owner: Kate Hudson,
+ * NOT Harland), then 7 seeded demo dogs. Every row carries `demo: true`. Names
+ * are plausible; there are no fake phone numbers anywhere. The page passes the
+ * 8 dog photos through in a matching order so avatars line up with names.
+ */
 export const happyTailsCustomers: CRMCustomer[] = [
   {
-    id: 'cust-1',
-    name: 'Kelly & Biscuit',
+    id: 'cust-franklin',
+    name: 'Franklin · Kate Hudson',
     stage: 'vip',
-    lastSeen: '2026-06-24',
+    lastSeen: '2026-06-30',
     demo: true,
   },
   {
-    id: 'cust-2',
-    name: 'Harata & Nala',
+    id: 'cust-bailey',
+    name: 'Bailey',
     stage: 'active',
-    lastSeen: '2026-06-19',
+    lastSeen: '2026-06-28',
     demo: true,
   },
   {
-    id: 'cust-3',
-    name: 'Josh & Bruno',
+    id: 'cust-cooper',
+    name: 'Cooper',
+    stage: 'active',
+    lastSeen: '2026-06-26',
+    demo: true,
+  },
+  {
+    id: 'cust-daisy',
+    name: 'Daisy',
+    stage: 'active',
+    lastSeen: '2026-06-22',
+    demo: true,
+  },
+  {
+    id: 'cust-miko',
+    name: 'Miko',
+    stage: 'lead',
+    lastSeen: '2026-06-20',
+    demo: true,
+  },
+  {
+    id: 'cust-rusty',
+    name: 'Rusty',
+    stage: 'active',
+    lastSeen: '2026-06-18',
+    demo: true,
+  },
+  {
+    id: 'cust-pippa',
+    name: 'Pippa',
+    stage: 'vip',
+    lastSeen: '2026-06-14',
+    demo: true,
+  },
+  {
+    id: 'cust-stella',
+    name: 'Stella',
     stage: 'lapsed',
-    lastSeen: '2026-03-02',
+    lastSeen: '2026-04-05',
     demo: true,
   },
 ];

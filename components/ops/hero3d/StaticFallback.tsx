@@ -1,14 +1,57 @@
 'use client';
 
+import Image from 'next/image';
 import type { BrandConfig } from '@/lib/brand/brand-config';
 
 /**
  * Rendered in place of the 3D hero when the user prefers reduced motion or the
- * WebGL context can't initialise. A simple brand-tinted SVG — same aspect,
- * same visual weight, no animation.
+ * WebGL context can't initialise.
+ *
+ * For Happy Tails specifically we render Franklin's studio portrait centred
+ * over a CSS-tiled tails-and-paws pattern on a warm-white base — same editorial
+ * treatment as the 3D scene, minus the motion. No colour overlay.
+ *
+ * For other brands: a simple brand-tinted SVG (unchanged from before).
  */
 export function StaticFallback({ config }: { config: BrandConfig }) {
   const { accent, canary, ink } = config.colours;
+
+  // Happy Tails editorial path: Franklin over tiled pattern on warm white.
+  if (
+    config.slug === 'happy-tails' &&
+    config.photography?.anchor &&
+    config.patterns?.primary
+  ) {
+    return (
+      <div
+        aria-hidden
+        className="relative flex h-full min-h-[240px] w-full items-center justify-center overflow-hidden rounded-2xl"
+        style={{
+          backgroundColor: config.colours.bg,
+          backgroundImage: `url(${config.patterns.primary})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '240px auto',
+        }}
+      >
+        {/* Warm-white scrim so pattern reads at ~35% opacity, no colour overlay */}
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: config.colours.bg, opacity: 0.65 }}
+        />
+        <div className="relative flex h-full items-center justify-center py-4">
+          <Image
+            src={config.photography.anchor}
+            alt={config.mascot?.alt ?? 'Franklin'}
+            width={180}
+            height={270}
+            className="h-full max-h-56 w-auto object-contain"
+            priority
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       aria-hidden

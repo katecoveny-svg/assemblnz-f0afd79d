@@ -5,9 +5,17 @@ import type { RosterRow } from './types';
 
 /**
  * Roster table — staff shifts + hours + cost. Colours pulled from the brand's
- * CSS variables set by <BrandThemeProvider>.
+ * CSS variables set by <BrandThemeProvider>. When `emptyPattern` is provided,
+ * the empty state renders with a subtle tiled pattern background (Happy Tails
+ * uses this to show the mixed-dogs line art under "No entries yet · demo").
  */
-export function RosterTable({ rows }: { rows: RosterRow[] }) {
+export function RosterTable({
+  rows,
+  emptyPattern,
+}: {
+  rows: RosterRow[];
+  emptyPattern?: string;
+}) {
   const totalHours = rows.reduce((acc, r) => acc + r.hours, 0);
   const totalCost = rows.reduce((acc, r) => acc + r.cost, 0);
 
@@ -20,9 +28,31 @@ export function RosterTable({ rows }: { rows: RosterRow[] }) {
         </span>
       </div>
       {rows.length === 0 ? (
-        <p className="rounded-lg bg-black/5 p-4 text-sm text-[color:var(--brand-muted)]">
-          No one rostered — add shifts to see them here.
-        </p>
+        <div
+          className="relative overflow-hidden rounded-lg bg-black/5 p-8 text-center"
+          style={
+            emptyPattern
+              ? {
+                  backgroundColor: 'var(--brand-bg)',
+                  backgroundImage: `url(${emptyPattern})`,
+                  backgroundRepeat: 'repeat',
+                  backgroundSize: '200px auto',
+                }
+              : undefined
+          }
+        >
+          {emptyPattern ? (
+            <div
+              className="absolute inset-0"
+              style={{ backgroundColor: 'var(--brand-bg)', opacity: 0.7 }}
+            />
+          ) : null}
+          <p className="relative text-sm text-[color:var(--brand-muted)]">
+            {emptyPattern
+              ? 'No entries yet · demo'
+              : 'No one rostered — add shifts to see them here.'}
+          </p>
+        </div>
       ) : (
         <div className="overflow-hidden rounded-xl border border-black/5">
           <table className="w-full text-sm">
