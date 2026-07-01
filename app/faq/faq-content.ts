@@ -8,7 +8,12 @@
  */
 import { PUBLIC_MARKETPLACE_AGENTS } from '@/lib/marketplace/agents';
 
-export const LIVE_AGENT_COUNT = PUBLIC_MARKETPLACE_AGENTS.filter((a) => a.status === 'live').length;
+// Standalone agents on the flat shelf. Bundle members (the Kaitiaki specialists)
+// are surfaced through their bundle, not as individual shelf tiles, so they are
+// excluded from this headline count to keep it consistent with what the shelf shows.
+export const LIVE_AGENT_COUNT = PUBLIC_MARKETPLACE_AGENTS.filter(
+  (a) => a.status === 'live' && !a.bundle,
+).length;
 
 export type Faq = { q: string; a: string };
 export type FaqSection = { heading: string; items: Faq[] };
