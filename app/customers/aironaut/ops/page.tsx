@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
@@ -15,7 +16,8 @@ import {
  * AIRONAUT ops landing — Kate's dad's family freight-forwarding business.
  * Family pilot, Happy Tails-tier review bar: everything renders draft-only,
  * nothing sends, nothing lodges. The landing fans out to four real service
- * verticals; each card links to its own sub-page.
+ * verticals; each card renders as a small hero tile with the service line's
+ * photo, title (Orbitron), blurb, and a demo consignment count.
  *
  * The consignment counts under each card are pulled from the demo data set
  * and clearly labelled `demo`.
@@ -32,16 +34,19 @@ export default function AironautOpsHome() {
   if (!config) notFound();
 
   const serviceLines = config.serviceLines ?? [];
+  const primaryTagline = config.taglines?.primary ?? config.voice.greeting;
 
   return (
     <div className="flex flex-col gap-6">
       <DemoRibbon />
 
-      {/* Family-pilot banner — warm and quiet, not alarmist. Left rule in the
-          accent orange. */}
+      {/* Family-pilot banner — Warm Stone bg + Burnt Orange left rule +
+          Charcoal body text. Matches the real brand palette. */}
       <div
-        className="rounded-md border border-black/5 bg-[color:var(--brand-surface)] p-4 text-sm text-[color:var(--brand-ink)]"
+        className="rounded-md border border-black/5 p-4 text-sm"
         style={{
+          backgroundColor: 'var(--brand-surface)',
+          color: 'var(--brand-ink)',
           borderLeft: '4px solid var(--brand-accent)',
         }}
       >
@@ -54,33 +59,55 @@ export default function AironautOpsHome() {
 
       <Brand3DHero config={config} />
 
+      {/* Primary tagline as Orbitron uppercase headline over the service
+          lines. Uses the display font var wired for aironaut. */}
+      <h2
+        className="font-[family-name:var(--font-brand-display)] text-center text-2xl uppercase tracking-[0.24em] md:text-3xl"
+        style={{ color: 'var(--brand-surface)' }}
+      >
+        {primaryTagline}
+      </h2>
+
       <section className="rounded-2xl border border-black/5 bg-[color:var(--brand-surface)] p-5">
         <div className="mb-4 flex items-baseline justify-between">
-          <h3 className="text-lg font-semibold text-[color:var(--brand-ink)]">
+          <h3 className="font-[family-name:var(--font-brand-display)] text-lg font-semibold uppercase tracking-[0.16em] text-[color:var(--brand-ink)]">
             Service lines
           </h3>
           <span className="text-xs text-[color:var(--brand-muted)]">
             four verticals · demo consignments only
           </span>
         </div>
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {serviceLines.map((s) => (
             <Link
               key={s.id}
               href={`/customers/aironaut/ops/${s.href}`}
-              className="group rounded-xl border border-black/5 bg-[color:var(--brand-bg)]/40 p-4 transition hover:border-[color:var(--brand-accent)]/40"
+              className="group flex flex-col overflow-hidden rounded-xl border border-black/5 bg-white transition hover:border-[color:var(--brand-accent)]/40"
             >
-              <div className="mb-1 flex items-baseline justify-between">
-                <h4 className="text-base font-semibold text-[color:var(--brand-ink)]">
-                  {s.label}
-                </h4>
-                <span className="text-xs text-[color:var(--brand-muted)]">
-                  <TickerNumber value={DEMO_COUNTS[s.id] ?? 0} /> demo
-                </span>
+              {s.heroImage ? (
+                <div className="relative aspect-[16/9] w-full overflow-hidden bg-[color:var(--brand-bg)]">
+                  <Image
+                    src={s.heroImage}
+                    alt={s.label}
+                    fill
+                    sizes="(max-width: 768px) 90vw, 320px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </div>
+              ) : null}
+              <div className="flex flex-col gap-1 p-4">
+                <div className="flex items-baseline justify-between gap-2">
+                  <h4 className="font-[family-name:var(--font-brand-display)] text-base font-semibold uppercase tracking-[0.14em] text-[color:var(--brand-ink)]">
+                    {s.label}
+                  </h4>
+                  <span className="text-xs text-[color:var(--brand-muted)]">
+                    <TickerNumber value={DEMO_COUNTS[s.id] ?? 0} /> demo
+                  </span>
+                </div>
+                <p className="text-sm text-[color:var(--brand-muted)]">
+                  {s.blurb}
+                </p>
               </div>
-              <p className="text-sm text-[color:var(--brand-muted)]">
-                {s.blurb}
-              </p>
             </Link>
           ))}
         </div>

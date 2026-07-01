@@ -100,6 +100,10 @@ export const BrandConfigSchema = z.object({
    * across multiple business verticals (e.g. Aironaut's freight / exotic cars /
    * boats / wine). Each entry drives a landing card AND a route slug under
    * `/customers/<slug>/ops/<href>`. Optional so other brands need not specify it.
+   *
+   * Each entry may also carry an optional `heroImage` (public path) — used by
+   * the landing page to render a small tile per service line, and by each
+   * sub-page as a full-width hero image.
    */
   serviceLines: z
     .array(
@@ -108,9 +112,29 @@ export const BrandConfigSchema = z.object({
         label: z.string().min(1),
         blurb: z.string().min(1),
         href: z.string().min(1),
+        heroImage: z.string().min(1).optional(),
       }),
     )
     .optional(),
+  /**
+   * Optional rotating taglines. `primary` is the always-on brand tagline (used
+   * as the hero headline); `social` and `values` are secondary variants rotated
+   * where appropriate. Optional so brands without a formal tagline system need
+   * not specify them.
+   */
+  taglines: z
+    .object({
+      primary: z.string().min(1).optional(),
+      social: z.string().min(1).optional(),
+      values: z.string().min(1).optional(),
+    })
+    .optional(),
+  /**
+   * Optional call-to-action button copy — brand-specific action language
+   * (e.g. Aironaut's "REQUEST A QUOTE"). Used decoratively where the ops
+   * surface renders a brand-styled CTA button. Optional.
+   */
+  ctaLabel: z.string().min(1).optional(),
 });
 
 export type BrandConfig = z.infer<typeof BrandConfigSchema>;

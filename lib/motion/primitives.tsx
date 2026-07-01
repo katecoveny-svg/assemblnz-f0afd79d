@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  AnimatePresence,
   motion,
   useMotionValue,
   useSpring,
@@ -8,7 +9,7 @@ import {
   useReducedMotion,
   type HTMLMotionProps,
 } from 'framer-motion';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 /**
  * Motion budget: at most 2 concurrent animations per widget, hero targets 30 fps.
@@ -140,4 +141,63 @@ export function TickerNumber({
   }, [value, mv, spring, reduce]);
 
   return <motion.span className={className}>{formatted}</motion.span>;
+}
+
+type TickerTextProps = {
+  /** The rotating strings, cycled in order. */
+  labels: readonly string[];
+  /** Milliseconds between swaps. Default 4000. */
+  intervalMs?: number;
+  /** Fade duration in ms. Default 400. */
+  durationMs?: number;
+  className?: string;
+};
+
+/**
+ * Fades through a list of short strings — e.g. Aironaut's service-line labels
+ * ticking over on the hero. Respects reduced motion by freezing on the first
+ * label. Uses `AnimatePresence` so each label crossfades cleanly. Keep the list
+ * short (2–6 items) and each string short — this is decoration, not content.
+ */
+export function TickerText({
+  labels,
+  intervalMs = 4000,
+  durationMs = 400,
+  className,
+}: TickerTextProps) {
+  const reduce = useReducedMotion();
+  const [i, setI] = useState(0);
+
+  useEffect(() => {
+    if (reduce || labels.length <= 1) return;
+    const id = window.setInterval(() => {
+      setI((prev) => (prev + 1) % labels.length);
+    }, intervalMs);
+    return () => window.clearInterval(id);
+  }, [labels.length, intervalMs, reduce]);
+
+  const current = labels[i] ?? '';
+
+  if (reduce) {
+    return <span className={className}>{labels[0] ?? ''}</span>;
+  }
+
+  return (
+    <span
+      className={className}
+      style={{ position: 'relative', display: 'inline-block' }}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={current}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: durationMs / 1000, ease: 'easeOut' }}
+        >
+          {current}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
 }

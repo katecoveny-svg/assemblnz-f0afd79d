@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
@@ -21,9 +22,27 @@ export default function AironautExoticVehiclesPage() {
   return (
     <div className="flex flex-col gap-6">
       <DemoRibbon />
+      {line?.heroImage ? (
+        <div
+          className="relative w-full overflow-hidden rounded-2xl"
+          style={{ maxHeight: 280, aspectRatio: '21/9' }}
+        >
+          <Image
+            src={line.heroImage}
+            alt={line.label}
+            fill
+            sizes="(max-width: 1024px) 100vw, 900px"
+            className="object-cover"
+            priority
+          />
+        </div>
+      ) : null}
       <header className="rounded-2xl border border-black/5 bg-[color:var(--brand-surface)] p-5">
-        <h2 className="text-2xl font-semibold text-[color:var(--brand-ink)]">
-          {line?.label ?? 'Exotic Motor Vehicle Shipping'}
+        <h2
+          className="font-[family-name:var(--font-brand-display)] text-2xl font-semibold uppercase tracking-[0.16em]"
+          style={{ color: '#0B1F3A' }}
+        >
+          {line?.label?.toUpperCase() ?? 'EXOTIC MOTOR VEHICLE SHIPPING'}
         </h2>
         <p className="mt-1 text-sm text-[color:var(--brand-muted)]">
           {line?.blurb}

@@ -92,60 +92,48 @@ export function StaticFallback({ config }: { config: BrandConfig }) {
     );
   }
 
-  // AIRONAUT reduced-motion fallback: 2x2 grid of the four cargo silhouettes
-  // (freight container, exotic car, yacht hull, wine crate) drawn as thin
-  // wireframes in the accent orange on the deep-navy field. Matches the same
-  // editorial engineering-blueprint feel as the 3D scene, minus the orbit.
+  // AIRONAUT reduced-motion fallback: 2x2 grid of the four hero photos
+  // (cargo-plane, packaging-suite, yacht-hull, wine-shipment) on the Deep
+  // Navy bg. Below the grid, the primary tagline frozen in Orbitron uppercase
+  // over Warm Stone. No colour overlays — photos read as-shot.
   if (config.slug === 'aironaut') {
-    const stroke = accent;
+    const tiles = [
+      { src: '/brand/aironaut/hero-cargo-plane.png', alt: 'Air cargo' },
+      { src: '/brand/aironaut/packaging-suite.png', alt: 'Customs and packaging' },
+      { src: '/brand/aironaut/hero-yacht-hull.png', alt: 'Yacht transport' },
+      { src: '/brand/aironaut/wine-shipment.png', alt: 'Wine logistics' },
+    ];
+    const tagline =
+      config.taglines?.primary ?? 'GLOBAL TRADE. MADE SIMPLE.';
     return (
       <div
         aria-hidden
-        className="relative flex h-full min-h-[240px] w-full items-center justify-center overflow-hidden rounded-2xl"
+        className="relative flex h-full min-h-[240px] w-full flex-col items-center justify-center overflow-hidden rounded-2xl p-3"
         style={{ backgroundColor: config.colours.bg }}
       >
-        <svg viewBox="0 0 400 240" className="h-full w-full max-w-[560px]">
-          {/* subtle central blueprint grid */}
-          <g stroke={stroke} strokeOpacity="0.12" strokeWidth="1">
-            {[40, 80, 120, 160, 200].map((y) => (
-              <line key={`h${y}`} x1="20" x2="380" y1={y} y2={y} />
-            ))}
-            {[60, 120, 180, 240, 300, 340].map((x) => (
-              <line key={`v${x}`} x1={x} x2={x} y1="20" y2="220" />
-            ))}
-          </g>
-          <g fill="none" stroke={stroke} strokeWidth="1.5">
-            {/* freight container (top-left) */}
-            <g transform="translate(100 70)">
-              <rect x="-40" y="-16" width="80" height="32" />
-              <line x1="-40" y1="-16" x2="-32" y2="-24" />
-              <line x1="40" y1="-16" x2="48" y2="-24" />
-              <line x1="40" y1="16" x2="48" y2="8" />
-              <line x1="-32" y1="-24" x2="48" y2="-24" />
-              <line x1="48" y1="-24" x2="48" y2="8" />
-            </g>
-            {/* exotic car (top-right) */}
-            <g transform="translate(300 76)">
-              <path d="M-50 6 L-38 -6 L-14 -12 L14 -12 L34 -4 L50 6 L50 12 L-50 12 Z" />
-              <circle cx="-24" cy="14" r="6" />
-              <circle cx="26" cy="14" r="6" />
-              <line x1="-14" y1="-12" x2="-8" y2="-2" />
-              <line x1="14" y1="-12" x2="20" y2="-2" />
-            </g>
-            {/* yacht hull (bottom-left) */}
-            <g transform="translate(100 170)">
-              <path d="M-52 6 L52 6 L38 16 L-38 16 Z" />
-              <line x1="0" y1="-32" x2="0" y2="6" />
-              <path d="M0 -30 L28 4 L0 4 Z" />
-            </g>
-            {/* wine crate (bottom-right) */}
-            <g transform="translate(300 170)">
-              <rect x="-26" y="-16" width="52" height="32" />
-              <line x1="-26" y1="0" x2="26" y2="0" />
-              <line x1="0" y1="-16" x2="0" y2="16" />
-            </g>
-          </g>
-        </svg>
+        <div className="grid w-full max-w-[560px] flex-1 grid-cols-2 grid-rows-2 gap-2">
+          {tiles.map((t) => (
+            <div
+              key={t.src}
+              className="relative overflow-hidden rounded-md"
+              style={{ backgroundColor: config.colours.surface }}
+            >
+              <Image
+                src={t.src}
+                alt={t.alt}
+                fill
+                sizes="(max-width: 640px) 45vw, 280px"
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
+        <span
+          className="mt-3 font-[family-name:var(--font-brand-display)] text-xs uppercase tracking-[0.28em]"
+          style={{ color: config.colours.surface }}
+        >
+          {tagline}
+        </span>
       </div>
     );
   }

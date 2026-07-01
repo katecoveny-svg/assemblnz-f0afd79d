@@ -4,9 +4,10 @@ import {
   Inter,
   Inter_Tight,
   JetBrains_Mono,
+  Lato,
   Manrope,
+  Orbitron,
   Playfair_Display,
-  Space_Grotesk,
 } from 'next/font/google';
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font/dist/types';
 
@@ -43,16 +44,31 @@ const playfair = Playfair_Display({
   variable: '--font-brand-display',
   display: 'swap',
 });
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-brand-display',
-  display: 'swap',
-});
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   variable: '--font-brand-display',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
+});
+
+// AIRONAUT: Orbitron Bold 700 as display, Lato Regular/Medium as body.
+// Real brand kit — Orbitron for the uppercase wordmark & taglines, Lato for
+// paragraph copy.
+const orbitron = Orbitron({
+  subsets: ['latin'],
+  variable: '--font-brand-display',
+  display: 'swap',
+  weight: ['700'],
+});
+// Note: Lato via next/font/google only ships 100/300/400/700/900. We use
+// 400 (Regular) for body and 700 (Bold) as the emphasised weight — the brief
+// asked for 400+500, but 500 is not published for Lato; 700 is the closest
+// medium-weight substitute the family actually ships.
+const lato = Lato({
+  subsets: ['latin'],
+  variable: '--font-brand-body',
+  display: 'swap',
+  weight: ['400', '700'],
 });
 
 // Air NZ needs Fraunces Italic 900 as body per brief.
@@ -86,7 +102,7 @@ export function getBrandFonts(slug: string): BrandFonts {
     case 'auckland-zoo':
       return { display: playfair, body: inter, mono: jetbrainsMono };
     case 'aironaut':
-      return { display: spaceGrotesk, body: inter, mono: jetbrainsMono };
+      return { display: orbitron, body: lato, mono: jetbrainsMono };
     case 'lula-inn':
       return { display: cormorant, body: inter, mono: jetbrainsMono };
     default:

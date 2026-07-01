@@ -2,20 +2,28 @@
 
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Box, Cylinder } from '@react-three/drei';
+import { Box, Cylinder, Torus } from '@react-three/drei';
 import type { Group } from 'three';
 
 /**
- * AIRONAUT hero — editorial engineering-blueprint feel. Four cargo objects
- * (freight container, exotic car silhouette, yacht hull, wine crate) orbit
- * slowly around a shared centre, each rotating on its own axis at a slightly
- * different rate. All four are drawn as thin wireframe skeletons in the
- * accent orange against the deep-navy background.
+ * AIRONAUT hero — editorial engineering-blueprint scene keyed to the real
+ * brand palette:
+ *   Deep Navy    #0B1F3A — background (set by Brand3DHero wrapper)
+ *   Burnt Orange #C8622A — orbit-trail torus (thin, low opacity)
+ *   Steel Blue   #6E8FB3 — the four wireframe cargo silhouettes
  *
- * Deliberate low-noise scene — one shared orbit (~60s round-trip), no
- * directional lighting (wireframes only), so the ops surface stays quiet
- * behind the cargo motion.
+ * Four cargo objects (freight container, exotic car silhouette, yacht hull,
+ * wine crate) orbit slowly around a shared centre (~60s full revolution),
+ * each rotating on its own axis. All four drawn as thin Steel Blue
+ * wireframes so the ops surface stays quiet behind the cargo motion.
+ *
+ * DOM overlay (Orbitron caption ticker + Burnt Orange CTA button) is rendered
+ * by `<Brand3DHero>` above the canvas — cannot live inside the R3F scene.
  */
+
+// Real Aironaut palette — reused across the four cargo materials.
+const STEEL_BLUE = '#6E8FB3';
+const BURNT_ORANGE = '#C8622A';
 
 // Orbit + spin metadata for each cargo. Radius chosen so all four sit
 // comfortably inside the hero viewport at the default camera FOV. Phase
@@ -62,22 +70,25 @@ export function AironautHero() {
     <group>
       {/* Low ambient — wireframes read fine without directional. */}
       <ambientLight intensity={0.6} />
-      {/* Central low-opacity blueprint plane as a subtle base. Rotated flat
-          under the orbit, kept quiet at low opacity via meshBasicMaterial. */}
-      <mesh position={[0, -0.35, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[3, 3]} />
-        <meshBasicMaterial
-          color="#e67a2c"
-          wireframe
-          transparent
-          opacity={0.12}
-        />
-      </mesh>
+
+      {/* Burnt-orange orbit trail — a thin wireframe torus laid flat under the
+          cargo objects, matching their orbit radius. Low opacity so it reads
+          as a subtle suggestion of the orbit, not a hard ring. */}
+      <group rotation={[-Math.PI / 2, 0, 0]}>
+        <Torus args={[1.05, 0.02, 8, 96]}>
+          <meshBasicMaterial
+            color={BURNT_ORANGE}
+            wireframe
+            transparent
+            opacity={0.2}
+          />
+        </Torus>
+      </group>
 
       {/* 1. Freight container — a plain rectangular box. */}
       <group ref={containerRef}>
         <Box args={[0.42, 0.22, 0.22]}>
-          <meshBasicMaterial color="#e67a2c" wireframe />
+          <meshBasicMaterial color={STEEL_BLUE} wireframe />
         </Box>
       </group>
 
@@ -86,10 +97,10 @@ export function AironautHero() {
           deliberately simple. */}
       <group ref={carRef}>
         <Box args={[0.5, 0.12, 0.22]} position={[0, 0, 0]}>
-          <meshBasicMaterial color="#e67a2c" wireframe />
+          <meshBasicMaterial color={STEEL_BLUE} wireframe />
         </Box>
         <Box args={[0.24, 0.09, 0.18]} position={[0, 0.1, 0]}>
-          <meshBasicMaterial color="#e67a2c" wireframe />
+          <meshBasicMaterial color={STEEL_BLUE} wireframe />
         </Box>
       </group>
 
@@ -100,18 +111,18 @@ export function AironautHero() {
           args={[0.06, 0.14, 0.55, 8]}
           rotation={[0, 0, Math.PI / 2]}
         >
-          <meshBasicMaterial color="#e67a2c" wireframe />
+          <meshBasicMaterial color={STEEL_BLUE} wireframe />
         </Cylinder>
         {/* Mast hint — a short vertical strut. */}
         <Box args={[0.02, 0.28, 0.02]} position={[0, 0.16, 0]}>
-          <meshBasicMaterial color="#e67a2c" wireframe />
+          <meshBasicMaterial color={STEEL_BLUE} wireframe />
         </Box>
       </group>
 
       {/* 4. Wine crate — small squat box. */}
       <group ref={crateRef}>
         <Box args={[0.24, 0.18, 0.24]}>
-          <meshBasicMaterial color="#e67a2c" wireframe />
+          <meshBasicMaterial color={STEEL_BLUE} wireframe />
         </Box>
       </group>
     </group>
