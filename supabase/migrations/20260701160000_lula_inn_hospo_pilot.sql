@@ -50,19 +50,42 @@ create table if not exists public.tenant_customers (
 
 alter table public.tenant_customers enable row level security;
 
+-- IMPORTANT self-heal: tenant_customers may already have been created by an
+-- EARLIER pilot migration with a DIFFERENT column set. Three shapes exist in
+-- this repo, all via `create table if not exists`:
+--   · Happy Tails (20260701140000): id, slug, name (NOT NULL), brand_config,
+--     xero_tokens, status CHECK(demo|active|paused), timestamps.
+--   · Air NZ / Everyday Rewards (…145000 / …150000): id, slug, display_name
+--     (NOT NULL), status CHECK(demo|pilot|live|archived), brand, meta, ts.
+-- Our `create table if not exists` above therefore no-ops whenever any of them
+-- ran first, so the columns this seed writes might not exist. Add every one
+-- defensively (each ADD is a no-op where it already exists) so the seed applies
+-- cleanly no matter which pilot created the table.
+alter table public.tenant_customers add column if not exists name text;
+alter table public.tenant_customers add column if not exists display_name text;
+alter table public.tenant_customers add column if not exists kind text;
+alter table public.tenant_customers add column if not exists parent_slug text;
+alter table public.tenant_customers add column if not exists industry text;
+alter table public.tenant_customers add column if not exists region text;
+alter table public.tenant_customers add column if not exists brand jsonb not null default '{}'::jsonb;
+alter table public.tenant_customers add column if not exists metadata jsonb not null default '{}'::jsonb;
+
 -- Seed the two pilot tenants (idempotent upsert on slug). Star Group is the
--- parent operator; The Lula Inn is the pilot venue under it.
-insert into public.tenant_customers (slug, display_name, kind, parent_slug, status, industry, region, metadata)
+-- parent operator; The Lula Inn is the pilot venue under it. We set BOTH `name`
+-- and `display_name` so whichever the pre-existing table marked NOT NULL is
+-- satisfied, and use status 'demo' — the only value permitted by every pilot's
+-- status CHECK. The concept · pending framing lives in metadata.
+insert into public.tenant_customers (slug, name, display_name, kind, parent_slug, status, industry, region, metadata)
 values
-  ('star-group', 'Star Group', 'group', null, 'concept · pending', 'Hospitality group',
-   'North Island', '{"venues":"50+","loyalty":"Star Social Rewards","regions":["Auckland","Waikato","Bay of Plenty","Wellington"]}'::jsonb),
-  ('lula-inn', 'The Lula Inn', 'venue', 'star-group', 'concept · pending', 'Restaurant · bar · events',
-   'Viaduct Harbour, Auckland', '{"address":"149 Quay Street, Princes Wharf, Auckland","cuisine":"Pacific-fusion","intro":"Family-adjacent warm intro via Kate’s aunty (FOH)."}'::jsonb)
+  ('star-group', 'Star Group', 'Star Group', 'group', null, 'demo', 'Hospitality group',
+   'North Island', '{"label":"concept · pending","venues":"50+","loyalty":"Star Social Rewards","regions":["Auckland","Waikato","Bay of Plenty","Wellington"]}'::jsonb),
+  ('lula-inn', 'The Lula Inn', 'The Lula Inn', 'venue', 'star-group', 'demo', 'Restaurant · bar · events',
+   'Viaduct Harbour, Auckland', '{"label":"concept · pending","address":"149 Quay Street, Princes Wharf, Auckland","cuisine":"Pacific-fusion","intro":"Family-adjacent warm intro via Kate’s aunty (FOH)."}'::jsonb)
 on conflict (slug) do update set
+  name = excluded.name,
   display_name = excluded.display_name,
   kind = excluded.kind,
   parent_slug = excluded.parent_slug,
-  status = excluded.status,
   industry = excluded.industry,
   region = excluded.region,
   metadata = excluded.metadata,
