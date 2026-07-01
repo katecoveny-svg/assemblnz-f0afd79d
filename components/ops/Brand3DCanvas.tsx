@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Environment } from '@react-three/drei';
 import type { Hero3DSceneId } from '@/lib/brand/brand-config';
@@ -41,7 +42,12 @@ export function Brand3DCanvas({ hero }: { hero: Hero3DSceneId }) {
       style={{ background: 'transparent' }}
     >
       <Scene hero={hero} />
-      <Environment preset="city" />
+      {/* Environment streams an HDR from a remote CDN. Isolate its suspense
+          so a slow or blocked download can never blank the whole scene —
+          the heroes light acceptably from their own lights while it loads. */}
+      <Suspense fallback={null}>
+        <Environment preset="city" />
+      </Suspense>
     </Canvas>
   );
 }

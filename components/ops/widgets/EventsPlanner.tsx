@@ -27,7 +27,7 @@ export function EventsPlanner({ events }: { events: UpcomingEvent[] }) {
                     {e.name}
                   </div>
                   <div className="text-xs text-[color:var(--brand-muted)]">
-                    {new Date(e.when).toLocaleString()}
+                    {new Date(e.when).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland' })}
                   </div>
                 </div>
                 <div className="mt-1.5 flex items-center gap-2">

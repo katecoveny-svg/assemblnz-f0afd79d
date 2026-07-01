@@ -35,7 +35,7 @@ export function ManaReceiptViewer({ receipt }: { receipt: ManaReceipt | null }) 
       </div>
       <p className="mt-2 text-sm text-[color:var(--brand-ink)]">{receipt.note}</p>
       <div className="mt-2 text-[11px] text-[color:var(--brand-muted)]">
-        Issued {new Date(receipt.at).toLocaleString()}
+        Issued {new Date(receipt.at).toLocaleString('en-NZ', { timeZone: 'Pacific/Auckland' })}
       </div>
       {receipt.evidence && receipt.evidence.length > 0 ? (
         <ul className="mt-2 space-y-1">

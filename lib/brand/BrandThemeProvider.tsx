@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import type { BrandConfig } from '@/lib/brand/brand-config';
 import { getBrandFonts } from '@/lib/brand/fonts';
-import { buildBrandCss } from '@/lib/brand/use-brand-theme';
+import { buildBrandCss } from '@/lib/brand/brand-css';
 import { BrandThemeContextClient } from '@/lib/brand/BrandThemeContextClient';
 
 /**

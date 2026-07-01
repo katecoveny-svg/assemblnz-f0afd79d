@@ -68,7 +68,7 @@ export function CustomerCRM({
                       {c.name}
                     </div>
                     <div className="text-xs text-[color:var(--brand-muted)]">
-                      Last seen {new Date(c.lastSeen).toLocaleDateString()}
+                      Last seen {new Date(c.lastSeen).toLocaleDateString('en-NZ', { timeZone: 'Pacific/Auckland' })}
                     </div>
                   </div>
                 </div>
