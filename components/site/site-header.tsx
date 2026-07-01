@@ -77,6 +77,20 @@ export function isAdminHub(pathname: string | null): boolean {
  *  The Lula Inn) ship their own tenant chrome behind a passphrase gate.
  *  Suppress the global public site chrome across the whole subtree. */
 export function isCustomerPilot(pathname: string | null): boolean {
+/** The Happy Tails × Keeper pilot workspace is a branded tenant instance —
+ *  it renders its own Happy Tails chrome and must never show assembl site
+ *  chrome inside the tenant (assembl attribution stays on Mana Receipts +
+ *  a subtle "powered by assembl" footer only). */
+export function isHappyTailsKeeper(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return (
+    pathname === "/customers/happy-tails/keeper" ||
+    pathname.startsWith("/customers/happy-tails/keeper/")
+  );
+/** Hosted per-customer demo/pilot workspaces (e.g. Air NZ × Dash at
+ *  /customers/air-nz/dash) render their customer's own app chrome inside a
+ *  phone frame — suppress the global assembl site chrome there. */
+export function isCustomerWorkspace(pathname: string | null): boolean {
   if (!pathname) return false;
   return pathname === "/customers" || pathname.startsWith("/customers/");
 }
@@ -111,6 +125,8 @@ export function SiteHeader() {
   // global site chrome there. /dash/admin and /agents/pick keep the standard
   // chrome.
   if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerPilot(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isHappyTailsKeeper(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || pathname === "/") return null;
 
   return (
     <header

@@ -14,6 +14,7 @@ const CORE_PATHS = [
   '/about',
   '/agents',
   '/agents/pricing',
+  '/bundles/kaitiaki',
   '/ai-use',
   '/contact',
   '/data',

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, ShieldCheck, Sparkles, Zap } from 'lucide-react';
-import { PUBLIC_MARKETPLACE_AGENTS, DASH_MOTIF, PALETTE } from '@/lib/marketplace/agents';
+import { PUBLIC_MARKETPLACE_AGENTS, SHELF_AGENTS, DASH_MOTIF, PALETTE } from '@/lib/marketplace/agents';
+import { KAITIAKI_BUNDLE } from '@/lib/marketplace/bundles';
 import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 import { AgentGrid } from '@/components/marketplace/AgentGrid';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
@@ -50,7 +51,7 @@ export default function AgentsMarketplacePage() {
 
           <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold" style={{ color: PALETTE.ink }}>
             <span className="inline-flex items-center gap-2">
-              <Sparkles size={16} style={{ color: PALETTE.gold }} aria-hidden /> {PUBLIC_MARKETPLACE_AGENTS.length}{' '}
+              <Sparkles size={16} style={{ color: PALETTE.gold }} aria-hidden /> {SHELF_AGENTS.length}{' '}
               agents, ready now
             </span>
             <span className="inline-flex items-center gap-2">
@@ -128,7 +129,53 @@ export default function AgentsMarketplacePage() {
               for the ones you keep — or All-Access for every agent, including the industry specialists.
             </p>
           </header>
-          <AgentGrid agents={PUBLIC_MARKETPLACE_AGENTS} />
+          <AgentGrid agents={SHELF_AGENTS} />
+        </div>
+      </section>
+
+      {/* Bundles — a whole vertical behind one lead agent. Kaitiaki (animal
+          health, welfare, service & conservation) is the eighth bundle; its
+          specialists live inside it rather than as standalone shelf tiles. */}
+      <section className="px-5 pb-8 md:px-8">
+        <div className="mx-auto max-w-6xl">
+          <header className="mb-6 border-t pt-12" style={{ borderColor: PALETTE.hairline }}>
+            <p className="mk-mono text-xs font-bold uppercase tracking-[0.18em]" style={{ color: PALETTE.gold }}>
+              Bundles · a whole vertical, one front door
+            </p>
+          </header>
+          <Link
+            href="/bundles/kaitiaki"
+            className="group flex flex-col gap-5 rounded-[28px] border p-6 transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(180,150,40,0.14)] md:flex-row md:items-center md:p-8"
+            style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}
+          >
+            <div
+              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl"
+              style={{ backgroundColor: `${PALETTE.canary}33` }}
+            >
+              <AgentIcon name={KAITIAKI_BUNDLE.icon} className="h-9 w-9" />
+            </div>
+            <div className="flex-1">
+              <p className="mk-mono text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: PALETTE.gold }}>
+                Bundle · {KAITIAKI_BUNDLE.teReo}
+              </p>
+              <h2
+                className="mt-2 text-2xl md:text-3xl"
+                style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em', color: PALETTE.ink }}
+              >
+                Kaitiaki — animal care, welfare &amp; conservation
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: PALETTE.body }}>
+                {KAITIAKI_BUNDLE.shortPitch}
+              </p>
+            </div>
+            <span
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full px-5 py-2.5 text-sm font-bold transition group-hover:brightness-95 md:self-center"
+              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+            >
+              Meet Keeper
+              <ArrowRight size={15} aria-hidden />
+            </span>
+          </Link>
         </div>
       </section>
 
