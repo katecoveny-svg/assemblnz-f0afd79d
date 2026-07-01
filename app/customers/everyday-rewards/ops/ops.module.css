@@ -1,0 +1,397 @@
+/* ==========================================================================
+   Everyday Rewards × Dash — Partner Operations console (back-of-house)
+   --------------------------------------------------------------------------
+   Desktop dashboard chrome. Everyday Rewards brand (charcoal ink + EDR orange
+   + white), Roboto + Cormorant lockup. Fonts come from --edr-* vars set on the
+   ops layout wrapper (next/font). This is the team-facing operator surface —
+   NOT the phone-framed shopper demo. concept · pending.
+   ========================================================================== */
+
+.shell {
+  display: grid;
+  grid-template-columns: 236px 1fr;
+  min-height: 100dvh;
+  background: #f4f5f5;
+}
+
+/* --- sidebar ------------------------------------------------------------ */
+.sidebar {
+  background: #22303c;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  padding: 18px 12px;
+  gap: 3px;
+  overflow-y: auto;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 10px;
+}
+.brandText {
+  font-family: var(--edr-body), 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+.brandSub {
+  font-size: 10px;
+  color: #ffb98a;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 11px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--edr-body), 'Roboto', sans-serif;
+}
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+.navItem.active {
+  background: rgba(253, 100, 0, 0.18);
+  color: #fff;
+  box-shadow: inset 2px 0 0 #fd6400;
+}
+.navDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #fd6400;
+  flex: none;
+}
+.sidebarFoot {
+  margin-top: auto;
+  padding: 12px 8px 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.6;
+}
+.sidebarFoot a {
+  color: #ffb98a;
+  text-decoration: none;
+}
+
+/* --- main --------------------------------------------------------------- */
+.main {
+  padding: 0 0 60px;
+  min-width: 0;
+}
+.conceptStrip {
+  background: #22303c;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--edr-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 6px 16px;
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #eaeaea;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.eyebrow {
+  font-family: var(--edr-mono), monospace;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #fd6400;
+}
+.title {
+  font-family: var(--edr-display), Georgia, serif;
+  font-weight: 600;
+  font-size: 27px;
+  letter-spacing: -0.005em;
+  color: #22303c;
+  line-height: 1.05;
+  margin-top: 3px;
+}
+.conceptPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #fd6400;
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 10px;
+  font-family: var(--edr-mono), monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #c65100;
+  background: #ffe6d1;
+  white-space: nowrap;
+}
+.content {
+  padding: 24px 32px 0;
+  max-width: 1120px;
+}
+.lead {
+  font-size: 14px;
+  color: #5c666c;
+  line-height: 1.6;
+  margin-bottom: 18px;
+  max-width: 780px;
+}
+
+/* --- cards + grid ------------------------------------------------------- */
+.grid { display: grid; gap: 14px; }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; flex-direction: row; flex-wrap: wrap; overflow-x: auto; }
+  .g2, .g3, .g4 { grid-template-columns: 1fr 1fr; }
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #eaeaea;
+  border-radius: 14px;
+  padding: 18px;
+}
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.cardTitle {
+  font-family: var(--edr-body), 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: #22303c;
+}
+.label {
+  font-family: var(--edr-mono), monospace;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b6e71;
+}
+.kpi {
+  font-family: var(--edr-display), Georgia, serif;
+  font-weight: 600;
+  font-size: 31px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #22303c;
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.kpi.orange { color: #fd6400; }
+.kpiSub {
+  font-size: 12px;
+  color: #6b6e71;
+  margin-top: 6px;
+  line-height: 1.45;
+}
+.delta { font-size: 12px; font-weight: 600; }
+.deltaUp { color: #2e7d5b; }
+.deltaDown { color: #d0342c; }
+
+/* --- table -------------------------------------------------------------- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--edr-body), 'Roboto', sans-serif;
+}
+.table th {
+  text-align: left;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b6e71;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-bottom: 1px solid #eaeaea;
+  font-family: var(--edr-mono), monospace;
+}
+.table td {
+  padding: 11px 10px;
+  font-size: 13px;
+  color: #22303c;
+  border-bottom: 1px solid #eaeaea;
+  vertical-align: middle;
+}
+.table td.num, .table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.table tr:last-child td { border-bottom: 0; }
+
+/* --- badges / pills ----------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.bLive { background: rgba(46, 125, 91, 0.12); color: #2e7d5b; }
+.bOnboard { background: rgba(253, 100, 0, 0.12); color: #c65100; }
+.bPaused { background: #f0f0f0; color: #6b6e71; }
+.bReview { background: rgba(230, 162, 0, 0.16); color: #a97a00; }
+.bFlag { background: rgba(208, 52, 44, 0.12); color: #d0342c; }
+.bPass { background: rgba(46, 125, 91, 0.12); color: #2e7d5b; }
+
+.tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: 1px solid #eaeaea;
+}
+.tierDot { width: 8px; height: 8px; border-radius: 999px; flex: none; }
+
+/* --- bars --------------------------------------------------------------- */
+.bar { height: 7px; background: #eaeaea; border-radius: 999px; overflow: hidden; }
+.barFill { height: 100%; background: #fd6400; border-radius: 999px; }
+.barChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 130px;
+  padding-top: 8px;
+}
+.barCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+  height: 100%;
+}
+.barColFill {
+  width: 100%;
+  background: linear-gradient(180deg, #fd6400, #c65100);
+  border-radius: 6px 6px 0 0;
+  min-height: 4px;
+}
+.barColLabel { font-size: 10.5px; color: #6b6e71; text-align: center; }
+.barColVal { font-size: 10.5px; font-weight: 700; color: #22303c; font-variant-numeric: tabular-nums; }
+
+/* --- split ledger ------------------------------------------------------- */
+.ledgerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eaeaea;
+  font-size: 14px;
+}
+.ledgerRow:last-child { border-bottom: 0; }
+.ledgerRow.total { font-weight: 700; border-top: 2px solid #fd6400; }
+.ledgerName { color: #22303c; }
+.ledgerNote { font-size: 11.5px; color: #6b6e71; }
+.ledgerVal { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* --- comms + notices ---------------------------------------------------- */
+.commsBody {
+  white-space: pre-wrap;
+  font-family: var(--edr-body), 'Roboto', sans-serif;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #22303c;
+  background: #f4f5f5;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 10px;
+}
+.notice {
+  background: rgba(253, 100, 0, 0.06);
+  border: 1px solid rgba(253, 100, 0, 0.3);
+  border-left: 3px solid #fd6400;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  color: #22303c;
+  line-height: 1.6;
+}
+.assemblMark {
+  font-family: var(--edr-display), Georgia, serif;
+  font-weight: 600;
+  color: #3a3832;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #22303c;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  font-family: var(--edr-body), 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 9px 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btnGhost { background: #fff; color: #22303c; border: 1px solid #eaeaea; }
+.btnOrange { background: #fd6400; }
+
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.tab {
+  border: 1px solid #eaeaea;
+  background: #fff;
+  color: #22303c;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--edr-body), 'Roboto', sans-serif;
+}
+.tab.on { background: #22303c; color: #fff; border-color: #22303c; }
+
+.sectionTitle {
+  font-family: var(--edr-body), 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: #22303c;
+  margin: 22px 0 10px;
+}
+.muted { color: #6b6e71; font-size: 12.5px; line-height: 1.6; }
+
+/* --- slider (liability forecast) --------------------------------------- */
+.range { width: 100%; accent-color: #fd6400; }
+.rangeRow { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
+.rangeVal { font-weight: 700; color: #fd6400; font-variant-numeric: tabular-nums; }
