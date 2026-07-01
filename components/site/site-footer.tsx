@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { footerDisclaimer, footerKeteCutouts } from "@/lib/site-config";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
-import { isAdminHub, isAgentMarketplace, isAtlas, isAuthSurface, isDashMicrosite, isEcho, isHappyTailsKeeper } from "@/components/site/site-header";
 import { isAdminHub, isAgentMarketplace, isAtlas, isAuthSurface, isCustomerWorkspace, isDashMicrosite, isEcho } from "@/components/site/site-header";
 
 export function SiteFooter() {
@@ -12,7 +11,6 @@ export function SiteFooter() {
   // The /dash microsite, /agents marketplace, /atlas coach, signed-out auth
   // surfaces and the /admin operator hub ship their own footer (or none);
   // suppress the global one there.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isHappyTailsKeeper(pathname)) return null;
   if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname)) return null;
 
   return (
