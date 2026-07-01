@@ -28,7 +28,7 @@ export type Handoff = {
 export const HANDOFFS: Record<string, Handoff[]> = {
   // Family & Whānau — the old Tōro coordination table, mapped to canon agents.
   'whanau-help': [
-    { target: 'fridge-to-list', label: 'Fridge-to-List', when: 'Meal plans and the weekly shop' },
+    { target: 'fridge-to-list', label: 'Kai', when: 'Meal plans and the weekly shop' },
     { target: 'panui-parser', label: 'Pānui Parser', when: 'A school notice or newsletter to read' },
     { target: 'school-notice', label: 'School Notice', when: 'Newsletter events to add to the calendar' },
     { target: 'care-captain', label: 'Care Captain', when: 'A daily check-in with an elder' },

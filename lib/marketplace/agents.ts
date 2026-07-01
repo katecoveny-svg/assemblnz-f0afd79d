@@ -377,31 +377,32 @@ const AGENT_DEFS: AgentDef[] = [
   },
   {
     slug: 'fridge-to-list',
-    name: 'Fridge-to-List',
-    teReo: 'Kete',
-    description: 'Snap the fridge, get the shopping list.',
+    name: 'Kai',
+    teReo: 'Kai',
+    description: 'Snap the fridge, get a Woolworths shopping list — dietary rules and budget kept honest.',
     whatItDoes: [
       'Reads a photo or description of what is in the fridge and pantry.',
-      'Builds a categorised shopping list, NZ supermarket-aware.',
-      'Suggests a few dinners from what you already have plus a short top-up.',
+      'Builds a Woolworths-formatted list by aisle, against your dietary rules and budget cap.',
+      'Plans a week of dinners with a prep schedule, and drafts the shopping backwards from the recipes.',
     ],
     whatYouGet: [
-      'A categorised list ready to copy to your phone.',
-      'Two or three dinner ideas with the extra items needed.',
-      'A use-first note for what is close to its date.',
+      'A Woolworths-formatted list, section by section, ready to copy into the Woolworths app yourself.',
+      'Dietary flags (halal, kosher, dairy-free, vegan, gluten-free, low-FODMAP, nut-free) and a budget check before you shop.',
+      'A week of dinners with a two-hour prep plan, and a use-first note for what is close to its date.',
     ],
     sampleOutputs: [
-      'Tonight: tacos from the mince and capsicum you already have.',
-      'Shop: 12 items grouped by aisle.',
+      'Drafted: 22 items, $184.60 — $65 under this week’s cap. Copy it into Woolworths yourself for now.',
+      'This week’s dinners: Sun roast → Mon stir-fry from the leftovers → Wed pasta (gluten-free).',
     ],
-    nzKnowledge: ["Pak'nSave / Countdown / New World aisle conventions", 'MPI food-safety guidance'],
+    nzKnowledge: ['Woolworths NZ aisle sections', "Pak'nSave / New World conventions", 'MPI food-safety guidance', 'Privacy Act 2020 IPP 3A'],
     category: 'family',
     modelTier: 'cheap',
     priceTier: 'free',
     icon: 'list',
     tile: 'canary',
-    greeting: 'Send a photo or a list of what is in the fridge, and I will sort the shopping and a few dinners.',
-    starters: ['Plan a week of dinners.', 'What can I make tonight?'],
+    greeting:
+      'Snap the fridge or pantry and tell me your household — size, any dietary rules, a budget cap. I’ll draft a Woolworths list you copy into the app yourself, or plan a week of dinners. I draft; you shop.',
+    starters: ['Shop for the week from this fridge photo.', 'Plan a week of dinners.', 'Build a $250 list, dairy-free.'],
   },
   {
     slug: 'panui-parser',
@@ -1947,23 +1948,23 @@ const AGENT_DEFS: AgentDef[] = [
   // ── Whānau (consumer) ────────────────────────────────────────────────
   {
     slug: 'toro',
-    name: 'Tōro',
-    teReo: '',
+    name: 'Helm',
+    teReo: 'Tōro',
     description:
-      'The whānau operations navigator — household admin, school comms, appointments, money and travel, drafted for a parent to approve.',
+      'The whānau lead — the front door to the Hearth bundle. Household admin, school comms, appointments, meals (Kai) and everyday logistics, drafted for a parent to approve.',
     whatItDoes: [
-      'Reads the week ahead and prepares drafts for school comms, routines, appointments and travel.',
-      'Pulls dates, costs, permissions and deadlines out of school notices and emails.',
-      'Holds household preferences, calendars and consent boundaries.',
+      'Fronts the whole Hearth household: school notices, routines, appointments, meals and everyday logistics.',
+      'Routes to Kai for the food shop and to the other Hearth modes; pulls dates, costs and deadlines out of notices.',
+      'Holds household preferences, calendars and consent boundaries — and drafts urgent Auckland drop-offs for you to confirm.',
     ],
     whatYouGet: [
       'A weekly brief that puts the time-sensitive things first.',
       'School-comms and appointment drafts ready for a parent to send.',
-      'A permissions and allowance record so nothing slips.',
+      'A Mana Receipt (signed Tōro) on every output, and a permissions record so nothing slips.',
     ],
     sampleOutputs: [
       'This week: school assembly Wednesday 9am, dentist Friday 2pm, mufti-day gold-coin Thursday.',
-      'Permission slip due tomorrow for the class trip — draft reply ready for you to send.',
+      'Mila has no lunch — I can send it to school via Uber (Auckland), or there’s a sandwich on the bench. You pick.',
     ],
     nzKnowledge: ['NZ school term calendars (MoE)', 'Privacy Act 2020', 'NZ public holidays'],
     category: 'family',
@@ -1972,11 +1973,11 @@ const AGENT_DEFS: AgentDef[] = [
     icon: 'whanau',
     tile: 'canary',
     greeting:
-      'Tell me what is on this week — school notices, appointments, the family calendar — and I will sort it into drafts and reminders. You approve before anything is sent or booked.',
+      'I’m Helm — the front door to your household. Tell me what’s on this week — school notices, appointments, the shop, the family calendar — and I’ll sort it into drafts and reminders. You approve before anything is sent, booked or bought.',
     starters: [
       'Brief my week.',
-      'Pull the dates out of this school notice.',
-      'Draft a reply to the teacher.',
+      'Shop for the week from this fridge photo.',
+      'Send Mila’s lunch to school.',
     ],
   },
   {
