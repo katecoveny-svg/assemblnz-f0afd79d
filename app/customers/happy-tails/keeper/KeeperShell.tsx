@@ -11,6 +11,7 @@ const NAV = [
   { n: '4', label: 'Bus route', href: `${BASE}/route`, key: 'route' },
   { n: '5', label: 'Xero invoicing', href: `${BASE}/invoicing`, key: 'invoicing' },
   { n: '6', label: 'Mana Receipts', href: `${BASE}/receipts`, key: 'receipts' },
+  { n: '7', label: 'Team', href: `${BASE}/team`, key: 'team' },
 ];
 
 /** Sketch dachshund line-drawing — the Happy Tails mark. */
@@ -37,6 +38,19 @@ export function DogAvatar() {
       <path d="M26 40v11M42 40v11M92 40v11M104 40v11" />
       <path d="M100 24 Q108 19 106 13" />
     </svg>
+  );
+}
+
+/** Franklin has real branded photos; everyone else uses the sketch avatar. */
+export function RosterAvatar({ slug, kind = 'sit' }: { slug: string; kind?: 'sit' | 'wave' | 'stand' | 'lying' }) {
+  if (slug === 'franklin') {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img className="avimg" src={`/customers/happy-tails/franklin-${kind}.jpg`} alt="Franklin" />;
+  }
+  return (
+    <div className="av">
+      <DogAvatar />
+    </div>
   );
 }
 
