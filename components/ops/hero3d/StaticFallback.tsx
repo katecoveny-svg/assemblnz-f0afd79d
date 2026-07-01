@@ -52,6 +52,46 @@ export function StaticFallback({ config }: { config: BrandConfig }) {
     );
   }
 
+  // Auckland Zoo editorial path: giraffe portrait centred over the CSS-tiled
+  // safari pattern on the warm safari-orange bg. Never composites the portrait
+  // onto anything but the safari-orange field, ink, or off-white. The taonga
+  // species (kiwi, kākāpō, tuatara, tūī) are intentionally absent.
+  if (
+    config.slug === 'auckland-zoo' &&
+    config.photography?.anchor &&
+    config.patterns?.primary
+  ) {
+    return (
+      <div
+        aria-hidden
+        className="relative flex h-full min-h-[240px] w-full items-center justify-center overflow-hidden rounded-2xl"
+        style={{
+          backgroundColor: config.colours.bg,
+          backgroundImage: `url(${config.patterns.primary})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '280px auto',
+        }}
+      >
+        {/* Safari-orange scrim so the ink line pattern reads at low opacity —
+            NEVER colour-fills the line art. */}
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: config.colours.bg, opacity: 0.6 }}
+        />
+        <div className="relative flex h-full items-center justify-center py-4">
+          <Image
+            src={config.photography.anchor}
+            alt="Auckland Zoo — giraffe portrait"
+            width={180}
+            height={243}
+            className="h-full max-h-56 w-auto object-contain"
+            priority
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       aria-hidden

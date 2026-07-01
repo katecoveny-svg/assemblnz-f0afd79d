@@ -45,6 +45,7 @@ declare namespace React {
       directionalLight: Record<string, unknown>;
       pointLight: Record<string, unknown>;
       planeGeometry: Record<string, unknown>;
+      ringGeometry: Record<string, unknown>;
       meshStandardMaterial: Record<string, unknown>;
       meshPhysicalMaterial: Record<string, unknown>;
       meshBasicMaterial: Record<string, unknown>;
