@@ -71,6 +71,8 @@ export function AssemblConciergeWidget() {
     !!pathname &&
     (pathname.startsWith('/customers/happy-tails/keeper') ||
       pathname.startsWith('/customers/auckland-zoo/keeper'));
+      pathname.startsWith('/customers/auckland-zoo/keeper') ||
+      pathname.startsWith('/customers/aeronaut'));
 
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { KeeperShell, DogAvatar, DemoPill } from './KeeperShell';
+import { KeeperShell, RosterAvatar, DemoPill } from './KeeperShell';
 import { ROSTER, MORNING_ROUTE } from '@/lib/tenants/happy-tails/data';
 
 export default function KeeperDashboard() {
@@ -13,6 +13,16 @@ export default function KeeperDashboard() {
         </div>
         <DemoPill />
       </div>
+
+      <Link href={`${base}/dogs/franklin`} className="herofran">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="hfimg" src="/customers/happy-tails/franklin-stand.jpg" alt="Franklin the dachshund in a Happy Tails jacket" />
+        <div>
+          <div className="hft">Franklin&apos;s in today 🐾</div>
+          <div className="hfs">Black long-haired dachshund · Wed check-in / Thu out · CBD pickup 7:50–8:15. One of 6 pups on this morning&apos;s bus.</div>
+        </div>
+        <span className="hfpaw">Open Franklin →</span>
+      </Link>
 
       <div className="qa">
         <Link className="btn" href={`${base}/welcome-pack`} style={{ textDecoration: 'none' }}>
@@ -30,7 +40,7 @@ export default function KeeperDashboard() {
             {ROSTER.map((d) => (
               <Link key={d.slug} className="nmlink" href={`${base}/dogs/${d.slug}`} style={{ display: 'block' }}>
                 <div className="dog">
-                  <div className="av"><DogAvatar /></div>
+                  <RosterAvatar slug={d.slug} />
                   <div>
                     <div className="nm">{d.name}</div>
                     <div className="meta">

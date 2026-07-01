@@ -354,3 +354,159 @@ export const DEMO_BANNER = 'demo · pending Liana sign-off';
 export function dogBySlug(slug: string): Dog | undefined {
   return ROSTER.find((d) => d.slug === slug);
 }
+
+// ---------------------------------------------------------------------------
+// Team roster — per-member voice profile for Keeper to draft in.
+// ---------------------------------------------------------------------------
+export type TeamRole = 'owner' | 'carer' | 'vet' | 'bus driver' | 'handler';
+export type Permission = 'approve outgoing' | 'draft only' | 'read-only';
+
+export interface TeamMember {
+  name: string;
+  role: TeamRole;
+  phone: string | null;
+  email: string | null;
+  shifts: Record<string, { am: boolean; pm: boolean }>;
+  voiceProfile: { channel: Channel | null; tone: string; opener?: string; signoff?: string; samples: string[] };
+  permissions: Permission;
+  placeholder?: boolean;
+}
+
+const FULL_WEEK = {
+  mon: { am: true, pm: true }, tue: { am: true, pm: true }, wed: { am: true, pm: true },
+  thu: { am: true, pm: true }, fri: { am: true, pm: true }, sat: { am: false, pm: false }, sun: { am: false, pm: false },
+};
+const WEEKEND = {
+  mon: { am: false, pm: false }, tue: { am: false, pm: false }, wed: { am: false, pm: false },
+  thu: { am: false, pm: false }, fri: { am: false, pm: false }, sat: { am: true, pm: true }, sun: { am: true, pm: true },
+};
+
+export const TEAM: TeamMember[] = [
+  {
+    name: 'Liana Coleman', role: 'owner', phone: '021 183 7956', email: 'admin@happytailsdaycare.co.nz',
+    shifts: FULL_WEEK, permissions: 'approve outgoing',
+    voiceProfile: {
+      channel: 'email', tone: 'Warm, formal, considered', opener: 'Kia ora', signoff: 'Warmly, Liana × Happy Tails',
+      samples: ['We care for every dog as if they were our own.', 'We are so pleased to welcome your pup into the Happy Tails family.'],
+    },
+  },
+  {
+    name: 'Mathis', role: 'carer', phone: '021 ••• •••• · RLS-locked', email: null,
+    shifts: FULL_WEEK, permissions: 'draft only',
+    voiceProfile: {
+      channel: 'sms', tone: 'Casual, brief, personal · single 😀', opener: 'Hi there', signoff: 'Thanks Mathis 😀',
+      samples: ['Hi there, Pick for your pup tomorrow will be between 7.30-8.00am. City address right? Thanks Mathis 😀'],
+    },
+  },
+  {
+    name: 'Loane', role: 'carer', phone: null, email: null, shifts: FULL_WEEK, permissions: 'draft only',
+    voiceProfile: { channel: 'sms', tone: 'Sample needed — Keeper learns her voice on onboarding', samples: [] }, placeholder: true,
+  },
+  {
+    name: 'Emily', role: 'handler', phone: null, email: null, shifts: FULL_WEEK, permissions: 'read-only',
+    voiceProfile: { channel: null, tone: 'Senior handler · voice profile TBC', samples: [] }, placeholder: true,
+  },
+  {
+    name: 'Kimmy', role: 'vet', phone: null, email: null, shifts: FULL_WEEK, permissions: 'read-only',
+    voiceProfile: { channel: null, tone: 'Senior handler, vet-clinic background · voice profile TBC', samples: [] }, placeholder: true,
+  },
+  {
+    name: 'Carter', role: 'bus driver', phone: null, email: null, shifts: WEEKEND, permissions: 'read-only',
+    voiceProfile: { channel: null, tone: "Liana's son · weekends + school holidays · voice profile TBC", samples: [] }, placeholder: true,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Per-dog timeline events (dog_events). Franklin's opening feed.
+// ---------------------------------------------------------------------------
+export type DogEventType = 'booking' | 'sms' | 'email' | 'welcome_pack' | 'invoice' | 'incident' | 'note' | 'vaccination' | 'field_edit';
+
+export interface DogEvent {
+  type: DogEventType;
+  actor: string;
+  title: string;
+  detail: string;
+  at: string;
+}
+
+export const FRANKLIN_EVENTS: DogEvent[] = [
+  { type: 'vaccination', actor: 'Keeper', title: 'Kennel cough reminder drafted', detail: 'Due ~5 Aug 2026 — email to Kate awaiting Liana', at: '1 Jul 2026 · 08:41' },
+  { type: 'invoice', actor: 'Liana', title: 'INV-3031 issued', detail: 'June — 4 daycare + 5 overnight (small pup) = NZ$665', at: '15 Jun 2026 · 10:00' },
+  { type: 'sms', actor: 'Mathis', title: 'Pickup SMS sent', detail: '"City address right? Thanks Mathis 😀" — confirmed 7.30–8.00am', at: '10 Jun 2026 · 19:42' },
+  { type: 'note', actor: 'Emily', title: 'Behaviour note', detail: 'Settled fast, happy in the small pack. Kept in the top field.', at: '28 Jan 2026 · 15:20' },
+  { type: 'booking', actor: 'System', title: 'Weekly recurring booked', detail: 'Wed check-in / Thu check-out', at: '25 Jan 2026 · 09:00' },
+  { type: 'welcome_pack', actor: 'Liana', title: 'Welcome Pack sent', detail: '5-page pack emailed to Kate Hudson', at: '25 Jan 2026 · 08:12' },
+];
+
+// ---------------------------------------------------------------------------
+// Demo dog for the Welcome Pack walkthrough — keeps Franklin's real record safe.
+// ---------------------------------------------------------------------------
+export const DEMO_DOG = {
+  name: 'Biscuit',
+  breed: 'Golden retriever',
+  age: '2 years',
+  size: 'Large',
+  ownerName: 'Sam',
+  ownerEmail: 'sam@example.co.nz',
+  daysWanted: 'Mon + Wed + Fri daycare',
+  feeding: 'Owner provides food',
+  medical: 'None',
+  emergencyContact: 'Alex — 021 555 0134',
+  pickupSuburb: 'Grey Lynn',
+};
+
+// Five-page Welcome Pack, Liana's voice, matching the real pack layout
+// (cover · welcome · daycare bus rules · helpful info 6-step · services + thank you).
+export function welcomePackPages(dogName: string, ownerName: string, pronoun: { subj: string; obj: string; poss: string }) {
+  return [
+    {
+      tab: 'Cover',
+      title: `Welcome to Happy Tails, ${dogName}`,
+      body: [`A little pack to get ${dogName} started with the Happy Tails family.`, 'Riverhead, West Auckland · admin@happytailsdaycare.co.nz'],
+      cover: true,
+      steps: [] as string[],
+      sign: false,
+    },
+    {
+      tab: 'Welcome',
+      title: `Kia ora ${ownerName}`,
+      body: [
+        `We are so pleased to welcome ${dogName} into the Happy Tails family. We have loved reading through ${pronoun.poss} enrolment form and are already looking forward to meeting ${pronoun.obj} for ${pronoun.poss} trial day.`,
+        `We are not a casual drop-in daycare — every pup joins on a weekly recurring schedule so ${pronoun.subj} becomes part of a settled small group. We care for every dog as if they were our own.`,
+      ],
+      cover: false, steps: [] as string[], sign: false,
+    },
+    {
+      tab: 'The bus',
+      title: 'How the daycare bus works',
+      body: [
+        'Door-to-door pickup and drop-off across Auckland. Mathis will SMS you a 30-minute pickup window the day before, and confirm your address for the day.',
+        'Pre-pickup checklist (please, every morning): fed · toileted · collar + tag on.',
+      ],
+      cover: false, steps: [] as string[], sign: false,
+    },
+    {
+      tab: 'Helpful info',
+      title: `${dogName}'s first day — the 6 steps`,
+      body: [] as string[],
+      steps: [
+        'Enrolment form received — welcome aboard.',
+        'Trial day confirmed (usually a Thursday).',
+        'Mathis SMSes the pickup window the evening before.',
+        'Morning pickup — settle in with the small pack.',
+        'Midday update + an afternoon wash before drop-off.',
+        'Weekly recurring schedule locked in from week two.',
+      ],
+      cover: false, sign: false,
+    },
+    {
+      tab: 'Services',
+      title: 'Services & thank you',
+      body: [
+        'Daycare with bus — NZ$57/day (GST incl). Overnight Care for regular pups — NZ$95/night, with a 10% small-pup discount. Monthly Xero invoicing, part-month, 7-day terms.',
+        `Thank you for trusting us with ${dogName}. Any questions at all before ${pronoun.poss} first day, just reply here.`,
+      ],
+      cover: false, steps: [] as string[], sign: true,
+    },
+  ];
+}
