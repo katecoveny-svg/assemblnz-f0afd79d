@@ -42,11 +42,11 @@ export const HANDOFFS: Record<string, Handoff[]> = {
     { target: 'toro', label: 'Tōro', when: 'Coordinating who does what around the notice' },
   ],
   // Business & SME.
+  // hui-notes + meeting-records merged into the single Hui agent, so the old
+  // cross-handoffs between them collapse; only the outbound Sweep handoff stays.
   'hui': [
-    { target: 'hui', label: 'Hui', when: 'Keeping a searchable record of the meeting' },
     { target: 'sweep', label: 'Sweep', when: 'Turning actions into follow-up emails' },
   ],
-  'hui': [{ target: 'hui', label: 'Hui', when: 'Clean minutes from one meeting' }],
   'invoice-tidy': [{ target: 'treasury', label: 'Treasury', when: 'GST, PAYE or provisional tax on the figures' }],
   'treasury': [{ target: 'invoice-tidy', label: 'Invoice Tidy', when: 'Reconciling the invoices behind the return' }],
   'travel-logs': [{ target: 'treasury', label: 'Treasury', when: 'Folding the expense claim into the tax position' }],
