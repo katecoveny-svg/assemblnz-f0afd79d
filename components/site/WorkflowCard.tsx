@@ -32,7 +32,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
             {kete.name} · {kete.englishName}
           </span>
         </div>
-        <span className="rounded-full border border-white/68 bg-white/48 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.13em] text-[color:var(--text-secondary)] shadow-sm backdrop-blur-md">
+        <span className="rounded-full border border-white/68 bg-white/48 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.13em] text-[color:var(--text-secondary)] shadow-sm backdrop-blur-md">
           {workflow.live ? 'live' : 'preview'}
         </span>
       </div>
@@ -52,7 +52,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
           href={`/workflows/${workflow.slug}`}
           aria-label={`Open workflow ${workflow.title}`}
           title={`Open workflow ${workflow.title}`}
-          className="group/btn inline-flex h-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.70)] bg-[linear-gradient(180deg,rgba(255,255,255,0.76),rgba(232,239,233,0.62))] px-4 text-sm font-medium text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[color:var(--workflow-accent)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.94),0_18px_48px_rgba(58,56,50,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="group/btn inline-flex h-11 items-center justify-center rounded-full border border-[rgba(255,255,255,0.70)] bg-[linear-gradient(180deg,rgba(255,255,255,0.76),rgba(232,239,233,0.62))] px-4 text-sm font-medium text-[#23211F] shadow-[inset_0_1px_0_rgba(255,255,255,0.92),0_14px_36px_rgba(35,33,31,0.08)] transition hover:border-[color:var(--workflow-accent)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.94),0_18px_48px_rgba(58,56,50,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
         >
           <Play className="h-4 w-4" aria-hidden />
           <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-200 group-hover/btn:ml-2 group-hover/btn:max-w-[8rem] group-hover/btn:opacity-100 group-focus-visible/btn:ml-2 group-focus-visible/btn:max-w-[8rem] group-focus-visible/btn:opacity-100">Open workflow</span>
@@ -61,7 +61,7 @@ export function WorkflowCard({ workflow, compact = false }: WorkflowCardProps) {
           href={`/workflows/${workflow.slug}#preview`}
           aria-label={`Preview ${workflow.title}`}
           title={`Preview ${workflow.title}`}
-          className="group/btn inline-flex h-11 items-center justify-center rounded-full border border-[rgba(35,33,31,0.12)] bg-white/38 px-4 text-sm font-medium text-[color:var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-md transition hover:border-[color:var(--workflow-accent)] hover:bg-white/58 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="group/btn inline-flex h-11 items-center justify-center rounded-full border border-[rgba(35,33,31,0.12)] bg-white/38 px-4 text-sm font-medium text-[color:var(--text-primary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-md transition hover:border-[color:var(--workflow-accent)] hover:bg-white/58 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
         >
           <Eye className="h-4 w-4" aria-hidden />
           <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-200 group-hover/btn:ml-2 group-hover/btn:max-w-[8rem] group-hover/btn:opacity-100 group-focus-visible/btn:ml-2 group-focus-visible/btn:max-w-[8rem] group-focus-visible/btn:opacity-100">Preview sample</span>
