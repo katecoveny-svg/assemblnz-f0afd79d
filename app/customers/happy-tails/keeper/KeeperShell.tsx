@@ -41,6 +41,19 @@ export function DogAvatar() {
   );
 }
 
+/** Franklin has real branded photos; everyone else uses the sketch avatar. */
+export function RosterAvatar({ slug, kind = 'sit' }: { slug: string; kind?: 'sit' | 'wave' | 'stand' | 'lying' }) {
+  if (slug === 'franklin') {
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img className="avimg" src={`/customers/happy-tails/franklin-${kind}.jpg`} alt="Franklin" />;
+  }
+  return (
+    <div className="av">
+      <DogAvatar />
+    </div>
+  );
+}
+
 export function DemoPill() {
   return (
     <span className="pill">

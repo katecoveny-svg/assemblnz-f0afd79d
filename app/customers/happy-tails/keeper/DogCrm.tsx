@@ -76,7 +76,12 @@ export function DogCrm({
       </div>
 
       <div className="crmhead">
-        <div className="crmphoto"><DogAvatar /></div>
+        <div className="crmphoto">
+          {dog.slug === 'franklin'
+            // eslint-disable-next-line @next/next/no-img-element
+            ? <img src="/customers/happy-tails/franklin-lying.jpg" alt="Franklin the dachshund" />
+            : <DogAvatar />}
+        </div>
         <div style={{ flex: 1 }}>
           <h1 className="h1 big" style={{ marginBottom: 4 }}>{dog.name}</h1>
           <div className="sub">{dog.breed} · owner {dog.ownerName} · welcomed {dog.welcomedAt}</div>

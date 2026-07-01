@@ -4,7 +4,8 @@
 -- Fast-follow fix for PR #619: the original migration used timestamp
 -- 20260701140000, which COLLIDES with #611's already-merged
 -- 20260701140000_tenant_air_nz_pilot.sql (shared tenant_customers registry).
--- Bumped to 160000 (150000 is #615's kaitiaki bundle).
+-- Bumped to 180000 — 150000 (kaitiaki/everyday-rewards), 160000 (lula inn) and
+-- 170000 (air-nz ops) are all taken by already-merged pilots.
 --
 -- Reuses #611's shared public.tenant_customers registry (columns: slug,
 -- display_name, status, brand, meta) — this migration only UPSERTS the
