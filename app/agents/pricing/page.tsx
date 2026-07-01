@@ -4,6 +4,9 @@ import { ArrowRight, Check } from 'lucide-react';
 import { FREE_MESSAGE_LIMIT, JULY_PROMO, getAgentPlan } from '@/lib/billing/agent-pricing';
 import { MARKETPLACE_AGENTS, PALETTE, DASH_MOTIF } from '@/lib/marketplace/agents';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { graph, faqPageNode, breadcrumbNode, PRICE_TIERS, SITE_URL, ORG_ID } from '@/lib/seo/schema';
+import { FAQ_SECTIONS } from '@/app/faq/faq-content';
 
 export const metadata: Metadata = {
   title: 'Agent pricing — assembl',
@@ -93,9 +96,51 @@ const TIERS: Tier[] = [
   },
 ];
 
+const PRICING_FAQS = FAQ_SECTIONS.find((s) => s.heading === 'Pricing')?.items ?? [];
+
+const PRICING_SCHEMA = graph(
+  {
+    '@type': 'Product',
+    '@id': `${SITE_URL}/agents/pricing#subscription`,
+    name: 'assembl subscription',
+    description:
+      'assembl marketplace subscription plans for New Zealand teams — from free to All-Access. All prices in New Zealand dollars, GST-inclusive.',
+    brand: { '@id': ORG_ID },
+    offers: PRICE_TIERS.map((t) => ({
+      '@type': 'Offer',
+      name: t.name,
+      price: String(t.price),
+      priceCurrency: 'NZD',
+      description: t.note,
+      url: `${SITE_URL}/agents/pricing`,
+      availability: 'https://schema.org/InStock',
+      ...(t.price > 0
+        ? {
+            priceSpecification: {
+              '@type': 'UnitPriceSpecification',
+              price: String(t.price),
+              priceCurrency: 'NZD',
+              unitText: 'MONTH',
+            },
+          }
+        : {}),
+    })),
+  },
+  faqPageNode(
+    PRICING_FAQS.map((f) => ({ question: f.q, answer: f.a })),
+    `${SITE_URL}/agents/pricing#faq`,
+  ),
+  breadcrumbNode([
+    { name: 'assembl', path: '/' },
+    { name: 'Agents', path: '/agents' },
+    { name: 'Pricing', path: '/agents/pricing' },
+  ]),
+);
+
 export default function AgentPricingPage() {
   return (
     <div className="mk-root min-h-screen overflow-x-hidden" style={{ backgroundColor: PALETTE.cream }}>
+      <JsonLd data={PRICING_SCHEMA} />
       <MarketplaceHeader />
 
       <div className="mx-auto max-w-6xl px-5 py-10 md:px-8 md:py-14">
