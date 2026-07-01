@@ -65,6 +65,10 @@ export function AssemblConciergeWidget() {
   const isAgentChatPage = !!pathname && /^\/agents\/[^/]+\/chat(\/|$)/.test(pathname);
   // The /admin operator hub is an internal surface — keep the public concierge off it.
   const isAdminHub = !!pathname && (pathname === '/admin' || pathname.startsWith('/admin/'));
+  // White-labelled customer pilot workspaces (/customers/*) carry the customer's
+  // brand — assembl attribution lives in the Mana Receipt only, so keep the
+  // assembl concierge off them entirely.
+  const isCustomerWorkspace = !!pathname && (pathname === '/customers' || pathname.startsWith('/customers/'));
 
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
@@ -137,7 +141,7 @@ export function AssemblConciergeWidget() {
 
   // Don't render the global concierge on an agent's own chat page or the
   // internal /admin operator hub.
-  if (isAgentChatPage || isAdminHub) {
+  if (isAgentChatPage || isAdminHub || isCustomerWorkspace) {
     return null;
   }
 

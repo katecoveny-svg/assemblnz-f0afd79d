@@ -62,6 +62,32 @@ const productRedirect = (request: NextRequest) => {
   return null;
 };
 
+// Hosted customer pilot workspaces are password-gated at the edge so the gated
+// pages are never rendered for a locked visitor (nothing leaks into the RSC
+// payload). A locked request to /customers/<slug>/keeper/* is rewritten to that
+// customer's /unlock gate; the unlock action sets the cookie and sends the
+// visitor back in. Concept · pending demo — the cookie value is not a secret.
+const CUSTOMER_UNLOCK_COOKIES: Record<string, string> = {
+  'auckland-zoo': 'az_demo_unlock',
+};
+
+const customerWorkspaceGate = (request: NextRequest) => {
+  const pathname = request.nextUrl.pathname;
+  const match = pathname.match(/^\/customers\/([^/]+)\/keeper(?:\/|$)/);
+  if (!match) return null;
+
+  const slug = match[1];
+  const cookieName = CUSTOMER_UNLOCK_COOKIES[slug];
+  if (!cookieName) return null; // unknown tenant — let it 404 normally
+
+  if (request.cookies.get(cookieName)?.value === '1') return null; // unlocked
+
+  const url = request.nextUrl.clone();
+  url.pathname = `/customers/${slug}/unlock`;
+  url.search = '';
+  return NextResponse.rewrite(url);
+};
+
 const shouldProxyToSpa = (pathname: string) => {
   if (SPA_PUBLIC_PREFIXES.some((prefix) => matchesPrefix(pathname, prefix))) {
     return true;
@@ -82,6 +108,9 @@ export async function middleware(request: NextRequest) {
 
   const keteRedirect = legacyKeteRedirect(request);
   if (keteRedirect) return keteRedirect;
+
+  const customerGate = customerWorkspaceGate(request);
+  if (customerGate) return customerGate;
 
   if (shouldProxyToSpa(request.nextUrl.pathname)) {
     return NextResponse.rewrite(

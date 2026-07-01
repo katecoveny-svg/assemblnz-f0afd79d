@@ -73,6 +73,14 @@ export function isAdminHub(pathname: string | null): boolean {
   return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
+/** Hosted customer pilot workspaces (e.g. /customers/auckland-zoo/keeper) are
+ *  white-labelled to the customer's own brand and ship their own workspace
+ *  chrome + password gate. Suppress the global assembl site chrome there. */
+export function isCustomerWorkspace(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === "/customers" || pathname.startsWith("/customers/");
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMac, setIsMac] = useState(true);
@@ -102,7 +110,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /dash/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || pathname === "/") return null;
 
   return (
     <header
