@@ -4,7 +4,7 @@ export const airNzConfig: BrandConfig = parseBrandConfig({
   slug: 'air-nz',
   displayName: 'Air New Zealand',
   logo: {
-    src: '/img/customers/air-nz/logo.svg',
+    src: 'pending', // logo mark pending — non-image value → OpsShell renders the monogram chip (schema requires non-empty)
     darkSrc: '/img/customers/air-nz/logo-dark.svg',
     alt: 'Air New Zealand koru',
   },

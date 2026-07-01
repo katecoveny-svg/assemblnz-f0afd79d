@@ -21,7 +21,7 @@ export const aucklandZooConfig: BrandConfig = parseBrandConfig({
   slug: 'auckland-zoo',
   displayName: 'Auckland Zoo',
   logo: {
-    src: '/img/customers/auckland-zoo/logo.svg',
+    src: 'pending', // logo mark pending — non-image value → OpsShell renders the monogram chip (schema requires non-empty)
     alt: 'Auckland Zoo wordmark',
   },
   colours: {

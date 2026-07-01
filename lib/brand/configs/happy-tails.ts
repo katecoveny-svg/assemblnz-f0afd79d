@@ -5,7 +5,7 @@ export const happyTailsConfig: BrandConfig = parseBrandConfig({
   displayName: 'Happy Tails',
   logo: {
     // NOTE: logo mark still pending — this SVG is a placeholder for now.
-    src: '/img/customers/happy-tails/logo.svg',
+    src: 'pending', // logo mark pending — non-image value → OpsShell renders the monogram chip (schema requires non-empty)
     alt: 'Happy Tails wordmark',
   },
   mascot: {
