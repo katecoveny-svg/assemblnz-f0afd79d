@@ -7,10 +7,6 @@ import {
   getPilotSecret,
 } from '@/lib/customers/access';
 
-// Where the shared /customers gate drops you for this tenant once the code
-// checks out (the shared access lib stays tenant-neutral).
-const PILOT_DEFAULT_NEXT = '/customers/lula-inn/hospo/today';
-
 export type PilotGateState =
   | { status: 'idle' }
   | { status: 'error'; message: string };
@@ -35,6 +31,6 @@ export async function submitPilotGate(
   }
   const c = await cookies();
   c.set(buildPilotCookieAttributes());
-  const next = String(formData.get('next') ?? PILOT_DEFAULT_NEXT);
-  redirect(next.startsWith('/customers/') ? next : PILOT_DEFAULT_NEXT);
+  const next = String(formData.get('next') ?? '/customers/everyday-rewards/dash');
+  redirect(next.startsWith('/customers/') ? next : '/customers/everyday-rewards/dash');
 }

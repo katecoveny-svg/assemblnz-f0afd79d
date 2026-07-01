@@ -4,9 +4,9 @@ import { cookies } from 'next/headers';
  * Access gate for the hosted customer pilot workspaces (`/customers/*`).
  *
  * These are pre-partnership pitch surfaces shared privately with a named
- * customer (e.g. Lula Inn / Star Group). They must not be publicly crawlable,
- * so the whole `/customers` subtree sits behind a lightweight passphrase gate —
- * the same shape as the founder gate, but its own cookie.
+ * customer (e.g. Everyday Rewards / Woolworths NZ). They must not be publicly
+ * crawlable, so the whole `/customers` subtree sits behind a lightweight
+ * passphrase gate — the same shape as the founder gate, but its own cookie.
  *
  * The passphrase comes from `CUSTOMER_PILOT_ACCESS_CODE`. If that env var is
  * unset (e.g. a fresh Vercel preview), it falls back to a shareable default so
@@ -17,11 +17,8 @@ export const PILOT_COOKIE = 'assembl_pilot_access';
 export const PILOT_COOKIE_VALUE = '1';
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
-/** Where the gate drops you once the code checks out. */
-export const PILOT_DEFAULT_NEXT = '/customers/lula-inn/hospo/today';
-
 /** Shareable default so the pitch link works even before the env var is set. */
-export const PILOT_DEFAULT_CODE = 'lula-inn-2026';
+export const PILOT_DEFAULT_CODE = 'everyday-rewards-2026';
 
 export async function isPilotAuthed(): Promise<boolean> {
   const c = await cookies();

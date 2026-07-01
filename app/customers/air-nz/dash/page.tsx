@@ -101,6 +101,24 @@ export default function AirNzDashHome() {
           </Link>
         ))}
 
+        <Link
+          href="/customers/air-nz/ops"
+          className={styles.stageCard}
+          style={{ marginTop: 12, background: '#111', borderColor: '#111' }}
+        >
+          <div className={styles.row} style={{ padding: 0, borderBottom: 0 }}>
+            <div>
+              <div className={styles.cardTitle} style={{ color: '#fff' }}>
+                Air New Zealand team → Partner Operations
+              </div>
+              <div className={styles.cardMeta} style={{ color: '#9fd9dc' }}>
+                Back-of-house console — sponsors, revenue, compliance
+              </div>
+            </div>
+            <span className={styles.chevron}>›</span>
+          </div>
+        </Link>
+
         <p
           className={styles.cardMeta}
           style={{ marginTop: 18, lineHeight: 1.6 }}
