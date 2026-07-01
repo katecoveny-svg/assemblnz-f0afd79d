@@ -603,3 +603,82 @@
 :where(:not(.mk-root)) .font-display.font-normal {
   font-weight: 500;
 }
+
+/* ==========================================================================
+   Aironaut × Pīkau — hosted customs-broker pilot workspace.
+   Scoped tokens + utilities under .aironaut-root so the deep-navy/brass
+   customs-broker aesthetic never leaks into the assembl public site. Reuses
+   the site's Cormorant (--font-display) + Lato (--font-body) faces.
+   ========================================================================== */
+.aironaut-root {
+  --air-navy: #0B2A4A;        /* primary ink / headings */
+  --air-navy-deep: #071B33;   /* deepest surfaces, sidebar */
+  --air-navy-soft: #33506F;   /* secondary text on light */
+  --air-brass: #C9A34E;       /* accent / gold thread */
+  --air-brass-deep: #A9863A;
+  --air-paper: #F7F5F1;       /* page background */
+  --air-card: #FFFFFF;
+  --air-line: rgba(11, 42, 74, 0.12);
+  --air-line-soft: rgba(11, 42, 74, 0.07);
+  --air-ink: #14202E;         /* body text */
+  --air-slate: #4A5A6B;       /* muted text */
+  --air-ok: #2F7A55;          /* ready / cleared */
+  --air-warn: #B4791F;        /* missing info / due soon */
+  --air-hold: #A5402F;        /* held / overdue */
+  --air-mist: #EEF1F5;        /* subtle fill */
+
+  background: var(--air-paper);
+  color: var(--air-ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  min-height: 100vh;
+}
+.aironaut-root ::selection { background: rgba(201, 163, 78, 0.28); }
+
+.air-display {
+  font-family: var(--font-display), Georgia, 'Times New Roman', serif;
+  color: var(--air-navy);
+  letter-spacing: -0.01em;
+}
+.air-eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.68rem;
+  color: var(--air-brass-deep);
+}
+.air-card {
+  background: var(--air-card);
+  border: 1px solid var(--air-line);
+  border-radius: 14px;
+}
+.air-card-mist { background: var(--air-mist); }
+.air-hairline { border-color: var(--air-line); }
+
+/* Status pills */
+.air-pill {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.2rem 0.6rem; border-radius: 999px; white-space: nowrap;
+}
+.air-pill-ok    { background: rgba(47,122,85,0.12);  color: var(--air-ok); }
+.air-pill-warn  { background: rgba(180,121,31,0.14); color: var(--air-warn); }
+.air-pill-hold  { background: rgba(165,64,47,0.12);  color: var(--air-hold); }
+.air-pill-navy  { background: rgba(11,42,74,0.08);   color: var(--air-navy); }
+.air-pill-brass { background: rgba(201,163,78,0.16); color: var(--air-brass-deep); }
+
+/* Sidebar nav */
+.air-nav-link {
+  display: flex; align-items: center; gap: 0.7rem;
+  padding: 0.6rem 0.85rem; border-radius: 10px;
+  color: rgba(255,255,255,0.72); font-size: 0.92rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.air-nav-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.air-nav-link[data-active='true'] {
+  background: rgba(201,163,78,0.16); color: #fff;
+  box-shadow: inset 2px 0 0 var(--air-brass);
+}
+
+/* Compass mark (placeholder silhouette logo — no real Aironaut logo used) */
+.air-compass { color: var(--air-brass); }
