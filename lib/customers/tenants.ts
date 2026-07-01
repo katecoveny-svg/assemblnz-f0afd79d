@@ -50,6 +50,14 @@ export const TENANTS: readonly Tenant[] = [
     accentClass: 'border-emerald-200/70',
   },
   {
+    slug: 'air-nz',
+    displayName: 'Air New Zealand × Dash',
+    parentBrand: 'Koru partner concept',
+    status: 'concept',
+    blurb: 'Wait-moment earn in the journey — sponsors, revenue split, Koru reconciliation.',
+    accentClass: 'border-teal-200/70',
+  },
+  {
     slug: 'everyday-rewards',
     displayName: 'Everyday Rewards × Dash',
     parentBrand: 'Woolworths NZ',

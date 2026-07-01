@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import styles from './ops.module.css';
 import { OpsTopbar } from '@/components/customers/everyday-rewards/ops-chrome';
+import { getBrandConfig } from '@/lib/brand/configs';
+import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
+import { Brand3DHero } from '@/components/ops/Brand3DHero';
 import {
   SPONSORS,
   CAMPAIGNS,
@@ -15,6 +18,8 @@ import {
 } from '@/lib/customers/everyday-rewards/ops-data';
 
 const OPS = '/customers/everyday-rewards/ops';
+
+const brand = getBrandConfig('everyday-rewards');
 
 export default function OpsOverview() {
   const split = revenueSplit(REVENUE_MTD.grossAdRevenue);
@@ -47,6 +52,15 @@ export default function OpsOverview() {
     <>
       <OpsTopbar eyebrow="Partner Operations · Dash on Everyday Rewards" title="Overview" />
       <div className={styles.content}>
+        {brand ? (
+          // Signature r-leaf orbit 3D hero — reduced-motion users get the
+          // static SVG fallback inside Brand3DHero. BrandThemeProvider scopes
+          // the --brand-* palette vars this console's own CSS module doesn't
+          // set.
+          <BrandThemeProvider config={brand}>
+            <Brand3DHero config={brand} />
+          </BrandThemeProvider>
+        ) : null}
         <p className={styles.lead}>
           The back-of-house console the Everyday Rewards team would use to run a
           Dash wait-moment partnership — sponsors and tiers, earn scheduling,

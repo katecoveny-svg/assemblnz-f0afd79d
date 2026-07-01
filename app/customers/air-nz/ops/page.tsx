@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import styles from './ops.module.css';
 import { OpsTopbar } from '@/components/customers/air-nz/ops-chrome';
+import { getBrandConfig } from '@/lib/brand/configs';
+import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
+import { Brand3DHero } from '@/components/ops/Brand3DHero';
 import {
   SPONSORS,
   CAMPAIGNS,
@@ -14,6 +17,8 @@ import {
 } from '@/lib/customers/air-nz/ops-data';
 
 const OPS = '/customers/air-nz/ops';
+
+const brand = getBrandConfig('air-nz');
 
 export default function OpsOverview() {
   const split = revenueSplit(REVENUE_MTD.grossAdRevenue);
@@ -46,6 +51,14 @@ export default function OpsOverview() {
     <>
       <OpsTopbar eyebrow="Partner Operations · Dash on Air New Zealand" title="Overview" />
       <div className={styles.content}>
+        {brand ? (
+          // Signature koru 3D hero — reduced-motion users get the static SVG
+          // fallback inside Brand3DHero. BrandThemeProvider scopes the
+          // --brand-* palette vars this console's own CSS module doesn't set.
+          <BrandThemeProvider config={brand}>
+            <Brand3DHero config={brand} />
+          </BrandThemeProvider>
+        ) : null}
         <p className={styles.lead}>
           The back-of-house console the Air New Zealand team would use to run a
           Dash partnership — sponsors, campaigns, the revenue split, passenger

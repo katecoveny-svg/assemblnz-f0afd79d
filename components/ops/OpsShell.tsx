@@ -159,8 +159,24 @@ export function OpsShell({
           </aside>
         </div>
 
-        <footer className="border-t border-black/5 bg-[color:var(--brand-surface)] px-6 py-4 text-center">
-          <span className={`text-[color:var(--brand-muted)] ${densityMap[config.crossBrand.density]}`}>
+        <footer className="border-t border-black/5 bg-[color:var(--brand-surface)] px-6 py-6 text-center">
+          <p
+            className="mx-auto max-w-md text-sm italic leading-relaxed text-[color:var(--brand-muted)]"
+            // assembl-side chrome speaks in the assembl voice: the global
+            // Cormorant face (--font-display), never the tenant's brand font.
+            style={{ fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif" }}
+          >
+            The user sets the destination.
+            <br />
+            The agents read the signals.
+            <br />
+            The system finds a path.
+            <br />
+            The proof — receipts and mana — show the journey.
+          </p>
+          <span
+            className={`mt-3 block text-[color:var(--brand-muted)] ${densityMap[config.crossBrand.density]}`}
+          >
             Ops surface by <span className="font-mono">assembl</span>
           </span>
         </footer>
