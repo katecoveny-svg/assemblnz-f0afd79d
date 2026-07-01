@@ -12,7 +12,7 @@ export const Hero3DSceneId = z.enum([
   'air-nz',
   'everyday-rewards',
   'auckland-zoo',
-  'aeronaut',
+  'aironaut',
   'lula-inn',
 ]);
 export type Hero3DSceneId = z.infer<typeof Hero3DSceneId>;
@@ -94,6 +94,22 @@ export const BrandConfigSchema = z.object({
       anchor: z.string().min(1).optional(),
       gallery: z.array(z.string().min(1)).optional(),
     })
+    .optional(),
+  /**
+   * Optional service-line taxonomy — used by brands whose ops surface fans out
+   * across multiple business verticals (e.g. Aironaut's freight / exotic cars /
+   * boats / wine). Each entry drives a landing card AND a route slug under
+   * `/customers/<slug>/ops/<href>`. Optional so other brands need not specify it.
+   */
+  serviceLines: z
+    .array(
+      z.object({
+        id: z.string().min(1),
+        label: z.string().min(1),
+        blurb: z.string().min(1),
+        href: z.string().min(1),
+      }),
+    )
     .optional(),
 });
 

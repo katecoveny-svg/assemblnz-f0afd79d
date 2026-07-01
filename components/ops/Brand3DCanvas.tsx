@@ -7,7 +7,7 @@ import { HappyTailsHero } from '@/components/ops/hero3d/HappyTailsHero';
 import { AirNZHero } from '@/components/ops/hero3d/AirNZHero';
 import { EverydayRewardsHero } from '@/components/ops/hero3d/EverydayRewardsHero';
 import { AucklandZooHero } from '@/components/ops/hero3d/AucklandZooHero';
-import { AeronautHero } from '@/components/ops/hero3d/AeronautHero';
+import { AironautHero } from '@/components/ops/hero3d/AironautHero';
 import { LulaInnHero } from '@/components/ops/hero3d/LulaInnHero';
 
 function Scene({ hero }: { hero: Hero3DSceneId }) {
@@ -20,8 +20,8 @@ function Scene({ hero }: { hero: Hero3DSceneId }) {
       return <EverydayRewardsHero />;
     case 'auckland-zoo':
       return <AucklandZooHero />;
-    case 'aeronaut':
-      return <AeronautHero />;
+    case 'aironaut':
+      return <AironautHero />;
     case 'lula-inn':
       return <LulaInnHero />;
   }

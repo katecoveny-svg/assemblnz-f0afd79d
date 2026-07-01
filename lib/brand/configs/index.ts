@@ -3,7 +3,7 @@ import { happyTailsConfig } from '@/lib/brand/configs/happy-tails';
 import { airNzConfig } from '@/lib/brand/configs/air-nz';
 import { everydayRewardsConfig } from '@/lib/brand/configs/everyday-rewards';
 import { aucklandZooConfig } from '@/lib/brand/configs/auckland-zoo';
-import { aeronautConfig } from '@/lib/brand/configs/aeronaut';
+import { aironautConfig } from '@/lib/brand/configs/aironaut';
 import { lulaInnConfig } from '@/lib/brand/configs/lula-inn';
 
 export const brandConfigs: Record<string, BrandConfig> = {
@@ -11,7 +11,7 @@ export const brandConfigs: Record<string, BrandConfig> = {
   'air-nz': airNzConfig,
   'everyday-rewards': everydayRewardsConfig,
   'auckland-zoo': aucklandZooConfig,
-  aeronaut: aeronautConfig,
+  aironaut: aironautConfig,
   'lula-inn': lulaInnConfig,
 };
 

@@ -85,7 +85,7 @@ export function getBrandFonts(slug: string): BrandFonts {
       return { display: manrope, body: inter, mono: jetbrainsMono };
     case 'auckland-zoo':
       return { display: playfair, body: inter, mono: jetbrainsMono };
-    case 'aeronaut':
+    case 'aironaut':
       return { display: spaceGrotesk, body: inter, mono: jetbrainsMono };
     case 'lula-inn':
       return { display: cormorant, body: inter, mono: jetbrainsMono };
