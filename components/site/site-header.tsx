@@ -73,6 +73,14 @@ export function isAdminHub(pathname: string | null): boolean {
   return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
+/** The /customers pilot workspaces (private, gated, per-tenant branded — e.g.
+ *  The Lula Inn) ship their own tenant chrome behind a passphrase gate.
+ *  Suppress the global public site chrome across the whole subtree. */
+export function isCustomerPilot(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === "/customers" || pathname.startsWith("/customers/");
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMac, setIsMac] = useState(true);
@@ -102,7 +110,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /dash/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerPilot(pathname) || pathname === "/") return null;
 
   return (
     <header
