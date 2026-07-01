@@ -1,8 +1,16 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
+import { TENANT_SLUGS } from '@/lib/customers/tenants';
 
 const SPA_ORIGIN = 'https://assembl-app.vercel.app';
+
+/**
+ * Hosts we recognise as the "demo hub" subdomain. On these hosts the whole
+ * site is rewritten under `/customers/*` so pilots resolve at the short
+ * path (e.g. `demo.assembl.co.nz/happy-tails` → `/customers/happy-tails`).
+ */
+const DEMO_HOSTS = new Set(['demo.assembl.co.nz']);
 
 const PUBLIC_KETE_ROOTS = [
   'manaaki',
@@ -62,6 +70,53 @@ const productRedirect = (request: NextRequest) => {
   return null;
 };
 
+/**
+ * Rewrite the demo subdomain so pilots resolve at their short slug.
+ *
+ * On demo.assembl.co.nz:
+ *   `/`               → `/customers` (the hub)
+ *   `/<known-slug>`   → `/customers/<known-slug>` (that pilot)
+ *   `/<known-slug>/*` → `/customers/<known-slug>/*` (ops sub-routes)
+ *
+ * Everything else on the demo host (assets, API routes, existing
+ * /customers/* paths, next.js internals) passes through untouched.
+ */
+const demoHostRewrite = (request: NextRequest) => {
+  const host = (request.headers.get('host') ?? '').toLowerCase();
+  if (!DEMO_HOSTS.has(host)) return null;
+
+  const { pathname, search } = request.nextUrl;
+
+  // Root ('/') should show the hub on the demo host.
+  if (pathname === '/') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/customers';
+    return NextResponse.rewrite(url);
+  }
+
+  // Never rewrite reserved / already-scoped paths.
+  if (
+    pathname.startsWith('/customers') ||
+    pathname.startsWith('/api/') ||
+    pathname.startsWith('/_next/') ||
+    pathname.startsWith('/.well-known') ||
+    pathname === '/robots.txt' ||
+    pathname === '/sitemap.xml' ||
+    pathname === '/favicon.ico'
+  ) {
+    return null;
+  }
+
+  // First path segment must look like a known tenant slug before we rewrite.
+  const firstSegment = pathname.split('/').filter(Boolean)[0];
+  if (!firstSegment || !TENANT_SLUGS.includes(firstSegment)) return null;
+
+  const url = request.nextUrl.clone();
+  url.pathname = `/customers${pathname}`;
+  url.search = search;
+  return NextResponse.rewrite(url);
+};
+
 const shouldProxyToSpa = (pathname: string) => {
   if (SPA_PUBLIC_PREFIXES.some((prefix) => matchesPrefix(pathname, prefix))) {
     return true;
@@ -77,6 +132,11 @@ const shouldProxyToSpa = (pathname: string) => {
 };
 
 export async function middleware(request: NextRequest) {
+  // demo.assembl.co.nz rewrites happen first so short-slug URLs work before
+  // any product redirect or SPA proxy fires.
+  const demoRewrite = demoHostRewrite(request);
+  if (demoRewrite) return demoRewrite;
+
   const redirect = productRedirect(request);
   if (redirect) return redirect;
 
