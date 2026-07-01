@@ -66,7 +66,8 @@ export function AssemblConciergeWidget() {
   // The /admin operator hub is an internal surface — keep the public concierge off it.
   const isAdminHub = !!pathname && (pathname === '/admin' || pathname.startsWith('/admin/'));
   // Hosted per-customer workspaces (/customers/*, e.g. Happy Tails × Keeper,
-  // Air NZ × Dash) must never show assembl chrome inside the tenant.
+  // Auckland Zoo × Keeper, Air NZ × Dash) are white-labelled — never show the
+  // assembl concierge inside the tenant (attribution stays on the Mana Receipt).
   const isCustomerWorkspace = !!pathname && pathname.startsWith('/customers/');
 
   const [open, setOpen] = useState(false);

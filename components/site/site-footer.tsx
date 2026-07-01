@@ -10,7 +10,8 @@ export function SiteFooter() {
   const pathname = usePathname();
   // The /dash microsite, /agents marketplace, /atlas coach, signed-out auth
   // surfaces and the /admin operator hub ship their own footer (or none);
-  // suppress the global one there.
+  // suppress the global one there. Customer pilot workspaces (/customers/*) are
+  // white-labelled — suppress the assembl footer across the whole subtree.
   if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname)) return null;
 
   return (
