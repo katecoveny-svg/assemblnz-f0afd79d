@@ -2137,7 +2137,7 @@ const AGENT_DEFS: AgentDef[] = [
       'A Mana Receipt — and the discipline that Keeper never sends; the operator approves and sends every draft.',
     ],
     sampleOutputs: [
-      'Hi there, Pick for Franklin tomorrow will be between 7.50-8.15am. Kohi address right? Thanks Mathis \u{1F600}',
+      'Hi there, Pick for Biscuit tomorrow will be between 7.50-8.15am. Home address right? Thanks Sam \u{1F600}',
       'Xero invoice drafted: 4 daycare + 5 overnight (small-pup 10%) = NZ$665, 7-day terms — review and issue.',
     ],
     nzKnowledge: [
@@ -2156,8 +2156,8 @@ const AGENT_DEFS: AgentDef[] = [
       "Tell me about the dog, the roster or the pickup. I'll draft the Welcome Pack, the next-day SMS in your carer's voice, the monthly Xero invoice, or the owner email in your voice — you review and send. I never send on anyone's behalf.",
     starters: [
       'A new dog just enrolled — draft the Welcome Pack.',
-      "Draft this month's Xero invoice for Franklin.",
-      "Draft tomorrow's pickup SMS in Mathis's voice.",
+      "Draft this month's Xero invoice for Biscuit.",
+      "Draft tomorrow's pickup SMS in the carer's voice.",
       'A dog nipped another at pickup — draft the incident report.',
     ],
   },
