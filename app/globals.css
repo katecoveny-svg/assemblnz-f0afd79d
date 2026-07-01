@@ -165,13 +165,15 @@
 
   /* Add to a .glass-card that is itself a link/interactive to get the lift. */
   .glass-card-hover {
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2;
     transition:
       transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
       background 0.3s ease,
       box-shadow 0.3s ease;
   }
 
-  .glass-card-hover:hover {
+  .glass-card-hover:hover,
+  .glass-card-hover:focus-visible {
     transform: translateY(-6px);
     background: linear-gradient(160deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.42));
     box-shadow: 0 34px 80px rgba(40, 30, 18, 0.14);
@@ -208,7 +210,7 @@
   }
 
   .cta-primary {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2;
     position: relative;
     overflow: hidden;
     isolation: isolate;
@@ -243,7 +245,8 @@
     z-index: -1;
   }
 
-  .cta-primary:hover {
+  .cta-primary:hover,
+  .cta-primary:focus-visible {
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.6),
       inset 0 -12px 30px rgba(230, 189, 22, 0.16),
@@ -253,7 +256,7 @@
   }
 
   .btn-ghost {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 247, 236, 0.46)),
       radial-gradient(circle at 22% 0%, rgba(255, 255, 255, 0.55), transparent 36%);
@@ -271,7 +274,8 @@
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .btn-ghost:hover {
+  .btn-ghost:hover,
+  .btn-ghost:focus-visible {
     border-color: rgba(58, 56, 50, 0.30);
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 243, 223, 0.48)),
@@ -285,7 +289,7 @@
   /* Charcoal-fill pill — editorial charcoal + cream CTA used by some
      marketplace-direction surfaces, distinct from the canary .cta-primary. */
   .cta-charcoal {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2;
     background: #3A3832;
     color: #FFF7EC;
     border: 1px solid #3A3832;
@@ -297,7 +301,8 @@
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .cta-charcoal:hover {
+  .cta-charcoal:hover,
+  .cta-charcoal:focus-visible {
     background: #2A2824;
     box-shadow: 0 18px 40px rgba(58, 56, 50, 0.28);
     transform: translateY(-2px);
