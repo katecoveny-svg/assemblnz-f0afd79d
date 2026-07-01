@@ -5,12 +5,37 @@ import { ArrowRight } from 'lucide-react';
 import { SectionReveal } from '@/components/SectionReveal';
 import { Eyebrow } from '@/components/site/Eyebrow';
 import { LandscapeBand } from '@/components/site/LandscapeBand';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { graph, articleNode, breadcrumbNode, personNode, SITE_URL } from '@/lib/seo/schema';
 
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'assembl is an AI platform built in Aotearoa that solves the real reason AI adoption stalls in NZ businesses: not the technology, but trust and uptake.',
+    'assembl is an AI platform built in Aotearoa New Zealand that solves the real reason AI adoption stalls in New Zealand businesses: not the technology, but trust and uptake. Founded by Kate Hudson.',
+  alternates: { canonical: '/about' },
+  openGraph: {
+    title: 'About assembl',
+    description:
+      'The definitive account of what assembl is: an AI marketplace built in Aotearoa New Zealand, founded by Kate Hudson, where agents draft and people decide.',
+    url: `${SITE_URL}/about`,
+    type: 'article',
+  },
 };
+
+const ABOUT_SCHEMA = graph(
+  articleNode({
+    headline: 'What assembl is — an AI marketplace built in Aotearoa New Zealand',
+    description:
+      'assembl is an AI platform built in Aotearoa New Zealand that solves the real reason AI adoption stalls in New Zealand businesses: not the technology, but trust and uptake. Founded by Kate Hudson.',
+    path: '/about',
+    datePublished: '2026-07-01',
+  }),
+  personNode(),
+  breadcrumbNode([
+    { name: 'assembl', path: '/' },
+    { name: 'About', path: '/about' },
+  ]),
+);
 
 const HOW_IT_WORKS = [
   ['Agents draft it.', 'The slow, repetitive writing, done in seconds.'],
@@ -41,6 +66,7 @@ const ADOPTION_PATH = [
 export default function AboutPage() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#FFF7EC] text-[color:var(--text-primary)]">
+      <JsonLd data={ABOUT_SCHEMA} />
       {/* Hero — the one founder portrait site-wide lives here. */}
       <section className="border-b border-[rgba(35,33,31,0.08)]">
         <div className="mx-auto max-w-[1500px] px-5 py-12 md:px-10 md:py-16 xl:px-16">

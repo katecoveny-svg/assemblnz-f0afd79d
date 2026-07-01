@@ -7,7 +7,30 @@ import { CommandPalette } from '@/components/site/CommandPalette';
 import { AssemblConciergeWidget } from '@/components/site/AssemblConciergeWidget';
 import { KeteAccentProvider } from '@/components/KeteAccentContext';
 import { PwaRegister } from '@/components/site/PwaRegister';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { PUBLIC_MARKETPLACE_AGENTS } from '@/lib/marketplace/agents';
+import {
+  graph,
+  organizationNode,
+  dashOrganizationNode,
+  personNode,
+  websiteNode,
+  softwareApplicationNode,
+} from '@/lib/seo/schema';
 import './globals.css';
+
+// Site-wide entity graph — assembl (Organization), dash (sibling brand), Kate
+// Hudson (Person / founder), the WebSite, and the marketplace itself
+// (SoftwareApplication). Emitted on every page so answer engines read one
+// consistent set of entity signals no matter where they land.
+const LIVE_AGENT_COUNT = PUBLIC_MARKETPLACE_AGENTS.filter((a) => a.status === 'live').length;
+const SITE_GRAPH = graph(
+  organizationNode(),
+  dashOrganizationNode(),
+  personNode(),
+  websiteNode(),
+  softwareApplicationNode(LIVE_AGENT_COUNT),
+);
 
 // Next 16/Turbopack currently trips a prerender workStore invariant across
 // unrelated static routes in this app. Keep this branch on the dynamic path so
@@ -51,7 +74,8 @@ export const metadata: Metadata = {
   },
   description:
     'assembl is a fleet of specialist agents for the admin work that drains your team. Built in Aotearoa, reviewed by your people, and sealed with a record of how the work was made.',
-  metadataBase: new URL('https://assembl.co.nz'),
+  metadataBase: new URL('https://www.assembl.co.nz'),
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'assembl — mahi that earns its proof',
     description:
@@ -92,6 +116,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-NZ" className={`${cormorant.variable} ${lato.variable} ${spaceMono.variable}`}>
 
       <body>
+        <JsonLd data={SITE_GRAPH} />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-[color:var(--assembl-pounamu)] focus:px-6 focus:py-3 focus:text-sm focus:font-medium focus:text-[#FFF7EC] focus:shadow-brand focus:outline-none focus:ring-2 focus:ring-[color:var(--assembl-pounamu)] focus:ring-offset-2"

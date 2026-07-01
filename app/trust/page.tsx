@@ -4,6 +4,9 @@ import { SectionReveal } from "@/components/SectionReveal";
 import { ShaderHeroBackdrop } from "@/components/site/ShaderHeroBackdrop";
 import { ManaTrustLayerDiagram } from "@/components/trust/ManaTrustLayerDiagram";
 import { SecurityPackForm } from "@/components/trust/SecurityPackForm";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { graph, faqPageNode, articleNode, breadcrumbNode, SITE_URL } from "@/lib/seo/schema";
+import { FAQ_SECTIONS } from "@/app/faq/faq-content";
 import {
   CHANGE_LOG,
   COMPLIANCE_POSTURE,
@@ -95,9 +98,30 @@ function PostureBadge({ status }: { status: PostureStatus }) {
 
 const sectionClass = "border-t border-[color:var(--assembl-cloud)] py-16 md:py-20";
 
+const TRUST_FAQS = FAQ_SECTIONS.find((s) => s.heading === 'Trust, privacy and your data')?.items ?? [];
+const TRUST_SCHEMA = graph(
+  articleNode({
+    headline: 'assembl Trust Centre — data residency, PII masking and evidence packs',
+    description:
+      'Where your data lives, who can touch it, and what assembl can prove today, in plain English. Data in Sydney (a New Zealand option is coming), PII masked before any model call, and a receipt behind every output.',
+    path: '/trust',
+    datePublished: LAST_UPDATED,
+    dateModified: LAST_UPDATED,
+  }),
+  faqPageNode(
+    TRUST_FAQS.map((f) => ({ question: f.q, answer: f.a })),
+    `${SITE_URL}/trust#faq`,
+  ),
+  breadcrumbNode([
+    { name: 'assembl', path: '/' },
+    { name: 'Trust Centre', path: '/trust' },
+  ]),
+);
+
 export default function TrustCentrePage() {
   return (
     <main className="bg-[color:var(--assembl-paper)]">
+      <JsonLd data={TRUST_SCHEMA} />
       {/* ── Headline panel ─────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[radial-gradient(120%_90%_at_30%_22%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] pt-28 pb-12 md:pt-36 md:pb-16">
         <ShaderHeroBackdrop />
