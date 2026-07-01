@@ -38,7 +38,7 @@ export type AgentStatus = 'live' | 'coming_soon';
 /** Avatar tile colourway (canon). */
 export type TileTone = 'cream' | 'canary' | 'ink';
 
-export type MarketplaceCategory = 'start-here' | 'family' | 'business' | 'creative' | 'trades' | 'health' | 'build';
+export type MarketplaceCategory = 'start-here' | 'family' | 'business' | 'creative' | 'trades' | 'health' | 'build' | 'animal';
 
 export type MarketplaceAgent = {
   slug: string;
@@ -70,6 +70,16 @@ export type MarketplaceAgent = {
   greeting: string;
   starters: string[];
   toolHref?: string;
+  /**
+   * Bundle membership (V4). When set, this agent is surfaced through its bundle
+   * card + /bundles/<slug> page rather than as a standalone tile on the flat
+   * /agents and homepage shelves. Mirrors public.agents.bundle. Currently only
+   * the Kaitiaki bundle carries this in code; the other bundles' membership
+   * lives DB-only pending the Phase 3 floor swap.
+   */
+  bundle?: string;
+  /** front-door lead agent for its bundle (mirrors public.agents.is_bundle_lead) */
+  isBundleLead?: boolean;
   /** featured in the marketplace — surfaces as the lead "Start here" card */
   featured: boolean;
   /**
@@ -100,9 +110,13 @@ export const CATEGORIES: { slug: MarketplaceCategory; label: string; teReo: stri
   { slug: 'build', label: 'Build', teReo: 'Hanga' },
 ];
 
-export const CATEGORY_LABELS: Record<MarketplaceCategory, string> = Object.fromEntries(
-  CATEGORIES.map((c) => [c.slug, c.label]),
-) as Record<MarketplaceCategory, string>;
+export const CATEGORY_LABELS: Record<MarketplaceCategory, string> = {
+  ...(Object.fromEntries(CATEGORIES.map((c) => [c.slug, c.label])) as Record<MarketplaceCategory, string>),
+  // 'animal' is intentionally NOT in CATEGORIES (no flat-grid filter button — the
+  // Kaitiaki specialists surface through the bundle, not the shelf). The label
+  // exists only so the detail page can resolve CATEGORY_LABELS[agent.category].
+  animal: 'Animal & Conservation',
+};
 
 // Locked canon palette.
 export const PALETTE = {
@@ -2050,6 +2064,541 @@ const AGENT_DEFS: AgentDef[] = [
       'Draft a whānau update about the term.',
     ],
   },
+
+  // ── Kaitiaki (animal health, welfare, service & conservation) ──────────
+  // Lead: Keeper. Twelve specialists across three groups. These carry
+  // bundle:'kaitiaki' and are surfaced through /bundles/kaitiaki + the Kaitiaki
+  // card on the shelf, NOT as standalone flat-grid tiles (SHELF_AGENTS filters
+  // them out). Chat + detail pages still resolve them by slug.
+  {
+    slug: 'keeper',
+    name: 'Keeper',
+    teReo: 'Kaitiaki',
+    description:
+      'The front door to Kaitiaki. Routes an animal question to the right kind of care — companion vet, farm, equine, exotic, doggy daycare, welfare triage, wildlife rehab or Threatened Species Recovery. Every reply is a draft for a registered vet, welfare officer, licensed operator or named kaitiaki reviewer to sign.',
+    whatItDoes: [
+      'Hears the request in plain English and routes it to the right specialist — asking one clarifying question only if it is genuinely ambiguous.',
+      'Runs the bundle hard-rule checks on the way back: NZVA Code, Animal Welfare Act 1999, MPI notifiable-disease, DOC notification, council + vaccination cross-checks.',
+      'Attaches a kaitiaki-review flag to any taonga species so the output cannot ship without a named human reviewer.',
+    ],
+    whatYouGet: [
+      'The right specialist for the animal, without you having to know which one to ask.',
+      'A clean draft with every statutory obligation surfaced, never buried.',
+      'A Mana Receipt that names the specialist, the sources, and the human who must sign.',
+    ],
+    sampleOutputs: [
+      'Routed to Large Animal — and flagged the M.bovis signal to the MPI notifiable-disease pathway, which cannot be suppressed.',
+      'Kia ora — is this a pet, a farm animal, a wild animal, or something about your daycare?',
+    ],
+    nzKnowledge: [
+      'NZVA Code of Professional Conduct',
+      'Animal Welfare Act 1999',
+      'Wildlife Act 1953',
+      'Conservation Act 1987 s4 (Te Tiriti)',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'free',
+    icon: 'paw',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    isBundleLead: true,
+    greeting:
+      "Kia ora, I'm your Keeper. Tell me about the animal — a pet, a farm animal, a wild animal, or your daycare — and I'll route it to the right specialist. Every reply is a draft for a registered vet, welfare officer, licensed operator or kaitiaki reviewer to sign.",
+    starters: [
+      'My dog has been vomiting since this morning.',
+      'We found an injured kererū on the road — what do I do?',
+      "Draft tomorrow's pickup SMS for our daycare.",
+      "There's a cow down in the paddock and the herd's off its milk.",
+    ],
+  },
+
+  // Group A — Vet clinical
+  {
+    slug: 'vet-small-animal',
+    name: 'Small Animal Vet',
+    teReo: '',
+    description:
+      'Companion-animal consults for dogs, cats, rabbits and small mammals — a SOAP draft, differentials and a treatment plan for a registered veterinarian to examine and sign.',
+    whatItDoes: [
+      'Drafts a companion-animal SOAP, differential list and treatment plan from the presentation you describe.',
+      'Cross-checks every prescription against the VetMed NZ formulary for species and weight.',
+      'Prepares vaccination schedules, dental and desex plans, and end-of-life client-communication support.',
+    ],
+    whatYouGet: [
+      'A structured consult draft, marked for the vet to examine and sign.',
+      'A cost estimate as a range, stamped "confirm with clinic front-of-house".',
+      'A Mana Receipt citing the NZVA Code, the relevant MPI Code of Welfare and the formulary entry.',
+    ],
+    sampleOutputs: [
+      'SOAP drafted: 6yo DSH, acute vomiting — differentials listed; needs a physical exam, not diagnosed from history alone.',
+      'Meloxicam draft cross-checked against VetMed NZ for weight — controlled-drug protocol cited; vet confirms.',
+    ],
+    nzKnowledge: [
+      'NZVA Code of Professional Conduct',
+      'MPI Codes of Welfare — Cats, Dogs, Rabbits',
+      'VetMed NZ / NZ Formulary (veterinary)',
+      'Veterinary Medicines Regulations 2010',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'scribe',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Tell me the presentation and I'll draft a SOAP, a differential list and a treatment plan — cross-checked against the VetMed NZ formulary. I never diagnose from a photo; a registered vet examines and signs.",
+    starters: [
+      'Draft a SOAP for a lame 4yo Labrador.',
+      'Vaccination schedule for a new kitten.',
+      'Discharge notes after a cat dental.',
+    ],
+  },
+  {
+    slug: 'vet-large-animal',
+    name: 'Large Animal Vet',
+    teReo: '',
+    description:
+      'Production-animal herd health for dairy, beef, sheep, goats and deer — with withholding periods, NAIT checks and MPI notifiable-disease pathways that can never be suppressed.',
+    whatItDoes: [
+      'Drafts herd and per-animal plans — mastitis, calving, lameness scoring, drench resistance, reproduction.',
+      'Calculates milk and meat withholding periods and cross-checks NAIT on any movement or death.',
+      'Fires the MPI notifiable-disease pathway on M.bovis and the OSPRI workflow on TB — always, never delayed.',
+    ],
+    whatYouGet: [
+      'A plan with withholding days and a NAIT check surfaced up front.',
+      'A notifiable-disease flag the moment production-animal signals appear.',
+      'A Mana Receipt citing the DairyNZ or B+L protocol, the MPI code and the OSPRI reference.',
+    ],
+    sampleOutputs: [
+      'Mastitis plan drafted — milk withholding 96h, meat 7d; antimicrobial choice per NZVA AMU guidance.',
+      'M.bovis signal: this must go to MPI now — I cannot suppress or delay it. NAIT movement history attached.',
+    ],
+    nzKnowledge: [
+      'DairyNZ SmartSAMM + Healthy Udder',
+      'OSPRI TBfree + NAIT',
+      'MPI biosecurity + notifiable-disease list',
+      'NZVA antimicrobial-use guidelines',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'careCaptain',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Give me the herd or animal and the signs. I'll draft the plan with milk + meat withholding periods, a NAIT check, and an MPI notifiable-disease flag if one fires — that flag can never be suppressed.",
+    starters: [
+      'Subclinical mastitis across the herd — where do I start?',
+      'Withholding periods for this antibiotic in dairy cows.',
+      'Calving intervention checklist.',
+    ],
+  },
+  {
+    slug: 'vet-equine',
+    name: 'Equine Vet',
+    teReo: '',
+    description:
+      'Horse work across thoroughbred, harness, sport and leisure — lameness, colic triage, reproduction, pre-purchase exams, with live racing and FEI withdrawal-time checks before any prescription.',
+    whatItDoes: [
+      'Drafts the lameness or colic workup, respiratory and reproduction plans, and pre-purchase examinations.',
+      'Cross-checks every prescription against the current NZTR, HRNZ and FEI prohibited-substance lists.',
+      'Cites the owner + trainer + vet responsibility framework and any insurance/IDV interaction.',
+    ],
+    whatYouGet: [
+      'A workup draft with a withdrawal-time table for the discipline.',
+      'A live compliance stamp against the racing and FEI rules with the retrieval date.',
+      'A Mana Receipt citing the rules and the sources.',
+    ],
+    sampleOutputs: [
+      'Lameness workup drafted for a Standardbred — withdrawal-time table attached; HRNZ list checked today.',
+      'Colic triage: red-flag signs listed, refer for immediate vet exam — never model-led.',
+    ],
+    nzKnowledge: [
+      'NZTR rules of racing + integrity code',
+      'HRNZ rules',
+      'FEI prohibited-substances list',
+      'NZVA Equine special interest group',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'paw',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Tell me the horse, the discipline and the signs. I'll draft the workup with a withdrawal-time table cross-checked against the current NZTR, HRNZ and FEI prohibited-substance lists before any prescription.",
+    starters: [
+      'Pre-purchase exam checklist for a sport horse.',
+      'Withdrawal times for this drug before a race.',
+      'Colic triage — what needs an urgent referral?',
+    ],
+  },
+  {
+    slug: 'vet-exotic',
+    name: 'Exotic, Avian & Reptile Vet',
+    teReo: '',
+    description:
+      'A credible second opinion on birds, reptiles, small mammals and companion fish — husbandry-first, with a zoonotic check and a hard route to DOC when an "exotic" turns out to be a native.',
+    whatItDoes: [
+      'Drafts the consult with a husbandry review — enclosure, diet, UVB, temperature gradient, cage-mate compatibility.',
+      'Runs a CITES check on novel exotics and a zoonotic check every presentation.',
+      'Routes a native species presented as "exotic" straight to Rescue Coordination and DOC notification.',
+    ],
+    whatYouGet: [
+      'A species-appropriate plan a rural vet can stand behind.',
+      'A husbandry review that catches the usual root cause.',
+      'A Mana Receipt with the zoonotic and CITES/native checks recorded.',
+    ],
+    sampleOutputs: [
+      'Bearded dragon off its food — husbandry review flags a low UVB output; plan drafted for the vet.',
+      'That "green lizard" is a native gecko — this routes to DOC, not a pet consult.',
+    ],
+    nzKnowledge: [
+      'ARAV + AAV open modules',
+      'CITES Appendix I/II/III',
+      'MPI imported-pet regulations',
+      'NZVA exotic animal SIG',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'fish',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Tell me the species and the signs. I'll draft the consult with a husbandry review, a species-appropriate plan and a zoonotic-risk flag. If your “exotic” turns out to be a NZ native, I route it to DOC.",
+    starters: [
+      'My cockatiel is fluffed up and quiet.',
+      'Husbandry check for a new bearded dragon setup.',
+      'Guinea pig with hair loss — where do I start?',
+    ],
+  },
+
+  // Group B — Welfare & service
+  {
+    slug: 'spca-workflow',
+    name: 'SPCA Workflow',
+    teReo: '',
+    description:
+      'Welfare case triage under the Animal Welfare Act 1999 — severity grading, jurisdiction, inspector-brief and MPI-referral drafting, and the adoption + foster pipeline, for an authorised welfare officer to sign.',
+    whatItDoes: [
+      'Grades cruelty severity on the AWA framework and checks jurisdiction — SPCA vs MPI vs council.',
+      'Drafts the inspector brief and the MPI cruelty-complaint referral when it is triggered.',
+      'Runs the adoption and foster pipeline — matching, medical logs, return-to-shelter workflows.',
+    ],
+    whatYouGet: [
+      'A triage with a severity grade and a jurisdiction check.',
+      'An inspector-brief draft with facts, evidence and next investigative step.',
+      'A Mana Receipt citing the AWA section and the Code of Welfare.',
+    ],
+    sampleOutputs: [
+      'Severity: serious ill-treatment (AWA s29) — jurisdiction SPCA with MPI referral drafted.',
+      'Foster match cross-checked against declared capacity and existing animals in the home.',
+    ],
+    nzKnowledge: [
+      'Animal Welfare Act 1999 (PCO)',
+      'Animal Welfare (Care and Procedures) Regulations 2018',
+      'MPI Codes of Welfare',
+      'SPCA Certified Inspector powers (AWA s124)',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'shield',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Describe the complaint. I'll draft a severity grade, a jurisdiction check and an inspector brief — and the MPI referral if it's triggered. I never advise anyone to enter another person's property; those powers vest in the authorised inspector.",
+    starters: [
+      'Triage a report of a dog left without water.',
+      'Draft an inspector brief for a hoarding complaint.',
+      'Set up the adoption pipeline for an intake litter.',
+    ],
+  },
+  {
+    slug: 'rescue-coordination',
+    name: 'Rescue Coordination',
+    teReo: '',
+    description:
+      'Multi-agency coordination for injured, orphaned or displaced animals — beached marine mammals, injured natives, displaced companions and weather-event response. Human safety first; trained responders act.',
+    whatItDoes: [
+      'Confirms the species, checks jurisdiction, and drafts the responder sequence with a chain-of-custody note.',
+      'Routes beached marine mammals to Project Jonah + DOC, in that order, always.',
+      'Surfaces the Wildlife Act 1953 s63 offence loudly whenever an untrained person has handled a native.',
+    ],
+    whatYouGet: [
+      'A rescue triage with region-specific contacts and fallback numbers.',
+      'An evidence checklist — photos with EXIF, location, time, condition.',
+      'A Mana Receipt with the chain-of-custody note recorded.',
+    ],
+    sampleOutputs: [
+      'Beached dolphin at Ōtaki — call Project Jonah then DOC; keep it upright and wet, do not push it out.',
+      'Injured ruru handled by a member of public — Wildlife Act applies; route to Wildbase + DOC.',
+    ],
+    nzKnowledge: [
+      'DOC operational rescue procedures',
+      'Project Jonah stranding manual',
+      'Marine Mammal Protection Act 1978',
+      'Wildlife Act 1953',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'anchor',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Tell me what's been found and where. I'll confirm the species, check jurisdiction and draft the responder sequence with a chain-of-custody note. Never handle a marine mammal or native yourself — I route you to trained responders.",
+    starters: [
+      "There's a seal on the beach — what do I do?",
+      'Found an orphaned kererū chick.',
+      'Displaced dog after the storm — how do I reunite it?',
+    ],
+  },
+  {
+    slug: 'doggy-daycare',
+    name: 'Doggy Daycare',
+    teReo: '',
+    description:
+      'The operating system for a boutique NZ doggy daycare — enrolment to Welcome Pack, SMS pickup coordination in the carer’s voice, email in the owner’s voice, Xero invoicing, vaccination + council tracking. Every message and invoice is a draft the operator sends.',
+    whatItDoes: [
+      'Drafts the 5-page Welcome Pack from the enrolment form in the operator’s voice — a 2-minute review instead of 20–30.',
+      'Drafts the monthly Xero invoice as a Draft — part-month, itemised, small-pup discounts + swap credits + surcharges pre-applied.',
+      'Drafts next-day pickup SMS in the carer’s voice — 30-min window, address-per-day, pre-pickup checklist (fed / toileted / collar + tag).',
+    ],
+    whatYouGet: [
+      'Channel-aware drafts: email sounds like the owner, SMS sounds like the carer, never mixed.',
+      'A vaccination + council-registration ledger with 90/60/30-day nudges, and AWA-compliant incident reports.',
+      'A Mana Receipt — and the discipline that Keeper never sends; the operator approves and sends every draft.',
+    ],
+    sampleOutputs: [
+      'Hi there, Pick for Franklin tomorrow will be between 7.50-8.15am. Kohi address right? Thanks Mathis \u{1F600}',
+      'Xero invoice drafted: 4 daycare + 5 overnight (small-pup 10%) = NZ$665, 7-day terms — review and issue.',
+    ],
+    nzKnowledge: [
+      'Animal Welfare Act 1999 + Regulations 2018',
+      'Dog Control Act 1996 (s57A biting reports)',
+      'MPI Code of Welfare — Dogs (2018)',
+      'NZVA/NZKC vaccination protocol · Xero API',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'paw',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Tell me about the dog, the roster or the pickup. I'll draft the Welcome Pack, the next-day SMS in your carer's voice, the monthly Xero invoice, or the owner email in your voice — you review and send. I never send on anyone's behalf.",
+    starters: [
+      'A new dog just enrolled — draft the Welcome Pack.',
+      "Draft this month's Xero invoice for Franklin.",
+      "Draft tomorrow's pickup SMS in Mathis's voice.",
+      'A dog nipped another at pickup — draft the incident report.',
+    ],
+  },
+
+  // Group C — Conservation & wildlife (taonga specialties are kaumātua-gated)
+  {
+    slug: 'kakapo-recovery',
+    name: 'Kākāpō Recovery',
+    teReo: '',
+    description:
+      'Field-ops support for the DOC Kākāpō Recovery Programme. Coming soon — held until a Ngāi Tahu + DOC tripartite sign-off. The model never generates whakapapa and never surfaces a tracked-bird location.',
+    whatItDoes: [
+      'Drafts field-ops SOAP for a named bird — transmitter status, weight trend, feeding-station attendance, breeding status (when live).',
+      'Surfaces the aspergillosis differential immediately on any respiratory presentation.',
+      'Routes every output touching a named bird to a named Ngāi Tahu + DOC kaitiaki reviewer.',
+    ],
+    whatYouGet: [
+      'A programme-scoped draft that follows DOC operational rules exactly.',
+      'Ngāi Tahu data sovereignty over all mātauranga and the tracked-bird database.',
+      'A Mana Receipt naming the kaitiaki reviewer required before anything ships.',
+    ],
+    sampleOutputs: [
+      'Coming soon — pending iwi + DOC sign-off.',
+      'Respiratory sign on a named bird — aspergillosis differential surfaced; routes to the Recovery Programme.',
+    ],
+    nzKnowledge: [
+      'DOC Kākāpō Recovery Programme (partnership-gated)',
+      'DOC Species Recovery Plan — Strigops habroptilus',
+      'Ngāi Tahu kaitiaki protocols (iwi-owned)',
+      'Conservation Act 1987 s4',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    status: 'coming_soon',
+    icon: 'koru',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      'Coming soon — pending iwi + DOC sign-off. When live, every output touching a named bird routes to a named Ngāi Tahu + DOC kaitiaki reviewer, and I never generate whakapapa or surface transmitter data.',
+    starters: [
+      'What will this specialty do once it ships?',
+      'Why is Kākāpō Recovery held for iwi sign-off?',
+    ],
+  },
+  {
+    slug: 'kiwi-conservation',
+    name: 'Kiwi Conservation',
+    teReo: '',
+    description:
+      'National Kiwi Recovery Plan support — Operation Nest Egg, community trap programmes, dog-avoidance in kiwi zones. Coming soon — ships only after a Kiwis for Kiwi MOU and rohe-appropriate kaumātua sign-off.',
+    whatItDoes: [
+      'Drafts field surveys, trap-line audits and Operation Nest Egg logistics briefs (when live).',
+      'Always frames uncontrolled dogs near kiwi as a Wildlife Act 1953 offence.',
+      'Requires kaumātua-validated review on any translocation or whakapapa reference.',
+    ],
+    whatYouGet: [
+      'Recovery-plan-scoped drafts for trusts and community groups.',
+      'Certified-provider references for dog-aversion training.',
+      'A Mana Receipt naming the kaitiaki reviewer for the rohe.',
+    ],
+    sampleOutputs: [
+      'Coming soon — pending iwi sign-off for the translocation rohe.',
+      'Trap-cover standard cited to avoid non-target kiwi capture near the zone.',
+    ],
+    nzKnowledge: [
+      'DOC Kiwi Recovery Plan',
+      'Kiwis for Kiwi Best Practice Manual',
+      'Operation Nest Egg operational guide',
+      'Wildlife Act 1953',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    status: 'coming_soon',
+    icon: 'koru',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      'Coming soon — pending iwi sign-off for the translocation rohe. When live, any translocation or whakapapa reference routes to a named kaitiaki reviewer, and I refuse to produce handling content for an unpermitted person.',
+    starters: [
+      'What will Kiwi Conservation cover when it ships?',
+      'How does the kaumātua sign-off gate work?',
+    ],
+  },
+  {
+    slug: 'wildbase-recovery',
+    name: 'Wildbase Recovery',
+    teReo: '',
+    description:
+      'The wildlife-hospital pathway — admission protocols, orthopaedic repair, oiled-seabird and lead-toxicity care, rehab and soft-release. Every admission drafts a DOC notification. A draft for a registered vet + kaitiaki reviewer.',
+    whatItDoes: [
+      'Drafts the admission decision — admit, refer, humanely euthanise, or release-with-tag.',
+      'Builds the rehab plan with a target release date and release-site coordination with DOC.',
+      'Checks the radio-transmitter mass limit (3% of body weight) before any fitting recommendation.',
+    ],
+    whatYouGet: [
+      'A hospital-pathway SOAP defined by the case, not the species.',
+      'A DOC notification draft on every admission, with the Wildlife Act permit cited.',
+      'A Mana Receipt naming a kaitiaki reviewer where the species is taonga.',
+    ],
+    sampleOutputs: [
+      'Kererū with lead toxicity — admission drafted; DOC notification attached; chelation plan for the vet.',
+      'Wing fracture in a kārearea — orthopaedic plan; transmitter mass limit checked before tagging.',
+    ],
+    nzKnowledge: [
+      'Wildbase clinical protocols (partnership)',
+      'DOC wildlife handling standards',
+      'Oiled-wildlife response manual',
+      'Wildlife Act 1953',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'careCaptain',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Tell me the casualty and its condition. I'll draft the admission decision, a rehab plan with a release-site coordination note, and the DOC notification — with the radio-transmitter mass limit checked before any tag.",
+    starters: [
+      'Draft an admission for an oiled seabird.',
+      'Rehab plan for a kererū with a wing fracture.',
+      'What goes in the DOC notification?',
+    ],
+  },
+  {
+    slug: 'zoo-vet',
+    name: 'Zoo Vet',
+    teReo: '',
+    description:
+      'Ex-situ collection support for NZ zoos — NZCCM-style clinical notes, species-management dashboards, ZAA + welfare-code compliance, and visitor-education content. Built with Auckland Zoo as design partner (concept · pilot pending).',
+    whatItDoes: [
+      'Drafts SOAP/DAP notes for the resident collection and wild-native casualties, with species-specific dosing cross-checked against VetMed NZ + AZWMP.',
+      'Supports species-management plans, studbook queries and ZAA/AZA/EAZA TAG-bulletin translation for NZ context.',
+      'Generates "meet [name]" visitor-education cards in the zoo’s public voice — holding taonga naming + whakapapa for iwi.',
+    ],
+    whatYouGet: [
+      'Clinical, dashboard and education drafts for a vet, keeper or education-team member to sign.',
+      'A welfare-code tracker against the MPI Code of Welfare — Zoos and the ZAA manual.',
+      'A Mana Receipt with the clinical-accuracy stamp and the iwi-consultation hold on taonga content.',
+    ],
+    sampleOutputs: [
+      'Rhino forelimb lameness post-transfer — SOAP drafted; NSAID dose from AZWMP cross-checked against VetMed NZ.',
+      'Meet-the-chick card drafted — naming + whakapapa held as placeholders for iwi consultation.',
+    ],
+    nzKnowledge: [
+      'ZAA Accreditation Manual',
+      'MPI Code of Welfare — Zoos',
+      'AZWMP proceedings · VetMed NZ',
+      'CITES + MPI Import Health Standards',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'paw',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Tell me the animal and the moment — a clinical note, a species-management query, or a “meet the animal” card. I draft inside your zoo's voice; naming and whakapapa for taonga species are held for iwi consultation, never generated.",
+    starters: [
+      'Draft a clinical note for a giraffe with a foot issue.',
+      'Draft a meet-the-chick card for a kiwi hatch.',
+      'Summarise this species-management plan.',
+    ],
+  },
+  {
+    slug: 'species-recovery',
+    name: 'DOC Species Recovery',
+    teReo: '',
+    description:
+      'General support across the ~200 published Threatened Species Recovery Plans — tuatara, whio, takahē, kōkako, kākā, kea, tuna and more. Recovery-plan interpretation, translocation logistics, predator-control review. Taonga species route to a named kaitiaki reviewer.',
+    whatItDoes: [
+      'Drafts species-specific recovery-plan briefs, population survey plans and translocation logistics.',
+      'Surfaces the 1080 / brodifacoum operational rules loudly — consultation obligations, notification periods, GPS boundaries.',
+      'Cross-references iwi consent obligations and the Wildlife Act 1953 permit pathway on every translocation.',
+    ],
+    whatYouGet: [
+      'A recovery-plan-scoped draft for a DOC + iwi partner to sign.',
+      'Community-sanctuary content with the sanctuary’s own kaitiaki-partner attribution.',
+      'A Mana Receipt citing the Recovery Plan version and the iwi partner.',
+    ],
+    sampleOutputs: [
+      'Whio translocation logistics drafted — iwi consent obligations and the Wildlife Act permit pathway cross-referenced.',
+      '1080 aerial-drop review — consultation and notification rules surfaced with the DOC manual version cited.',
+    ],
+    nzKnowledge: [
+      'DOC Threatened Species Recovery Plans',
+      'NZ Threat Classification System',
+      'Predator Free 2050 operational content',
+      'Wildlife Act 1953 · DOC translocation SOP',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'business',
+    icon: 'koru',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Tell me the species and the kaupapa. I'll draft the recovery-plan brief, survey or translocation logistics — with 1080/brodifacoum consultation rules surfaced loudly and taonga content routed to a named kaitiaki reviewer.",
+    starters: [
+      'Summarise the takahē recovery plan.',
+      'Draft translocation logistics for whio.',
+      'Predator-control programme review for a mainland island.',
+    ],
+  },
 ];
 
 export const MARKETPLACE_AGENTS: MarketplaceAgent[] = AGENT_DEFS.map(buildAgent);
@@ -2065,6 +2614,20 @@ export function toPublicAgent(agent: MarketplaceAgent): PublicMarketplaceAgent {
 
 export const PUBLIC_MARKETPLACE_AGENTS: PublicMarketplaceAgent[] =
   MARKETPLACE_AGENTS.map(toPublicAgent);
+
+/**
+ * The flat "agent shelf" — every public agent EXCEPT those that live inside a
+ * bundle (currently the Kaitiaki specialists + Keeper). Bundle members surface
+ * through their bundle card + /bundles/<slug>, never as standalone tiles, so the
+ * homepage grid, the /agents grid and the shelf count all read from here.
+ */
+export const SHELF_AGENTS: PublicMarketplaceAgent[] =
+  PUBLIC_MARKETPLACE_AGENTS.filter((a) => !a.bundle);
+
+/** Public agents that belong to a given bundle, in registry order. */
+export function bundleAgents(bundle: string): PublicMarketplaceAgent[] {
+  return PUBLIC_MARKETPLACE_AGENTS.filter((a) => a.bundle === bundle);
+}
 
 const BY_SLUG = new Map(MARKETPLACE_AGENTS.map((a) => [a.slug, a]));
 

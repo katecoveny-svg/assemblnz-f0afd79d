@@ -198,6 +198,14 @@ function paths(name: string, ink: string): ReactElement[] {
         <circle key={7} cx={44} cy={48} r={5} fill={ink} />,
         <circle key={8} cx={44} cy={48} r={2} fill={CREAM} />,
       ];
+    case 'paw':
+      return [
+        <path key={1} d="M32 34c7 0 13 5 13 11 0 4-3 6-6 6-3 0-4-2-7-2s-4 2-7 2c-3 0-6-2-6-6 0-6 6-11 13-11z" fill={ink} />,
+        <ellipse key={2} cx={20} cy={26} rx={4} ry={5.5} fill={CAN} />,
+        <ellipse key={3} cx={44} cy={26} rx={4} ry={5.5} fill={CAN} />,
+        <ellipse key={4} cx={28} cy={18} rx={3.6} ry={5} fill={GOLD} />,
+        <ellipse key={5} cx={36} cy={18} rx={3.6} ry={5} fill={GOLD} />,
+      ];
     default:
       return [<circle key={1} cx={32} cy={32} r={14} fill={CAN} />];
   }
