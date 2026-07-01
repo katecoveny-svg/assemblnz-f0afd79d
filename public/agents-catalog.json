@@ -726,7 +726,7 @@
     },
     {
       "slug": "toro",
-      "name": "Tōro",
+      "name": "Helm",
       "industry": "Family",
       "accent": "#23211F",
       "type": "whanau",
@@ -736,7 +736,7 @@
           "slug": "allowance-ledger",
           "name": "Allowance Ledger",
           "role": "Allowance and pocket-money record",
-          "oneLiner": "Allowance and pocket-money record specialist for Tōro whānau workflows, with human review and an evidence-pack trail.",
+          "oneLiner": "Allowance and pocket-money record specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
           "status": "live",
           "phase": "ledger",
           "chatHref": "/c/toro?agent=allowance-ledger"
@@ -745,7 +745,7 @@
           "slug": "appointments",
           "name": "Appointments",
           "role": "Appointment and reminder coordination",
-          "oneLiner": "Appointment and reminder coordination specialist for Tōro whānau workflows, with human review and an evidence-pack trail.",
+          "oneLiner": "Appointment and reminder coordination specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
           "status": "live",
           "phase": "execution",
           "chatHref": "/c/toro?agent=appointments"
@@ -754,7 +754,7 @@
           "slug": "consent-guard",
           "name": "Consent Guard",
           "role": "Parent consent and approval checks",
-          "oneLiner": "Parent consent and approval checks specialist for Tōro whānau workflows, with human review and an evidence-pack trail.",
+          "oneLiner": "Parent consent and approval checks specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
           "status": "live",
           "phase": "ledger",
           "chatHref": "/c/toro?agent=consent-guard"
@@ -763,7 +763,7 @@
           "slug": "handover-helper",
           "name": "Handover Helper",
           "role": "Care handover notes",
-          "oneLiner": "Care handover notes specialist for Tōro whānau workflows, with human review and an evidence-pack trail.",
+          "oneLiner": "Care handover notes specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
           "status": "live",
           "phase": "pitch",
           "chatHref": "/c/toro?agent=handover-helper"
@@ -772,7 +772,7 @@
           "slug": "holiday-ideas",
           "name": "Holiday Ideas",
           "role": "Family holiday planning",
-          "oneLiner": "Family holiday planning specialist for Tōro whānau workflows, with human review and an evidence-pack trail.",
+          "oneLiner": "Family holiday planning specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
           "status": "live",
           "phase": "hunt",
           "chatHref": "/c/toro?agent=holiday-ideas"
@@ -781,7 +781,7 @@
           "slug": "kid-money",
           "name": "Kid Money",
           "role": "Family money conversations",
-          "oneLiner": "Family money conversations specialist for Tōro whānau workflows, with human review and an evidence-pack trail.",
+          "oneLiner": "Family money conversations specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
           "status": "live",
           "phase": "execution",
           "chatHref": "/c/toro?agent=kid-money"
@@ -790,7 +790,7 @@
           "slug": "routines",
           "name": "Routines",
           "role": "Household routine planning",
-          "oneLiner": "Household routine planning specialist for Tōro whānau workflows, with human review and an evidence-pack trail.",
+          "oneLiner": "Household routine planning specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
           "status": "live",
           "phase": "execution",
           "chatHref": "/c/toro?agent=routines"
@@ -799,7 +799,7 @@
           "slug": "school-comms",
           "name": "School Comms",
           "role": "School message drafting",
-          "oneLiner": "School message drafting specialist for Tōro whānau workflows, with human review and an evidence-pack trail.",
+          "oneLiner": "School message drafting specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
           "status": "live",
           "phase": "pitch",
           "chatHref": "/c/toro?agent=school-comms"
@@ -808,14 +808,14 @@
           "slug": "term-planner",
           "name": "Term Planner",
           "role": "School-term planning",
-          "oneLiner": "School-term planning specialist for Tōro whānau workflows, with human review and an evidence-pack trail.",
+          "oneLiner": "School-term planning specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
           "status": "live",
           "phase": "hunt",
           "chatHref": "/c/toro?agent=term-planner"
         },
         {
           "slug": "toro",
-          "name": "Tōro",
+          "name": "Helm",
           "role": "Family agent",
           "oneLiner": "Household admin, school communications, appointment management, family scheduling.",
           "status": "live",

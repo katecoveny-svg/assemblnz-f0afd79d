@@ -16,6 +16,7 @@ import { DashLoader } from '@/components/marketplace/DashLoader';
 import { Wordmark } from '@/components/marketplace/Wordmark';
 import { ShareToPhone } from '@/components/marketplace/ShareToPhone';
 import { AgentVisual, parseVisuals } from '@/components/marketplace/AgentVisual';
+import { UberDispatchCard, parseUberDispatch } from '@/components/marketplace/UberDispatchCard';
 import { AgentMarkdown } from '@/components/marketplace/AgentMarkdown';
 import { downloadConversationPack, type ConversationTurn } from '@/lib/export/pdf';
 import { InstallPwaButton } from '@/components/hapai/InstallPwaButton';
@@ -54,6 +55,10 @@ export function AgentChat({
   backHref?: string;
 }) {
   const chatApi = apiPath ?? `/api/agents/${agent.slug}/chat`;
+  // Uber Direct "🚗 Send it via Uber" surface: Kai (urgent grocery) + Helm
+  // (whānau logistics — forgotten lunch, laptop, meds pickup). Auckland-only
+  // scaffold; never dispatches a real delivery in this build.
+  const uberEnabled = agent.slug === 'fridge-to-list' || agent.slug === 'toro';
   const back = backHref ?? `/agents/${agent.slug}`;
   const greeting: UIMessage = {
     id: 'greeting',
@@ -201,7 +206,14 @@ export function AgentChat({
             const imgs = m.role === 'user' ? messageImages(m) : [];
             if (!raw && imgs.length === 0) return null;
             const isUser = m.role === 'user';
-            const { text, visuals } = isUser ? { text: raw, visuals: [] } : parseVisuals(raw);
+            const parsed = isUser ? { text: raw, visuals: [] } : parseVisuals(raw);
+            const uber =
+              !isUser && uberEnabled
+                ? parseUberDispatch(parsed.text)
+                : { text: parsed.text, dispatches: [] };
+            const text = uber.text;
+            const visuals = parsed.visuals;
+            const dispatches = uber.dispatches;
             return (
               <div key={m.id} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
                 {imgs.length > 0 ? (
@@ -246,6 +258,13 @@ export function AgentChat({
                   <div className="w-full max-w-[85%]">
                     {visuals.map((spec, i) => (
                       <AgentVisual key={i} spec={spec} />
+                    ))}
+                  </div>
+                ) : null}
+                {dispatches.length > 0 ? (
+                  <div className="w-full max-w-[85%]">
+                    {dispatches.map((spec, i) => (
+                      <UberDispatchCard key={i} spec={spec} />
                     ))}
                   </div>
                 ) : null}
