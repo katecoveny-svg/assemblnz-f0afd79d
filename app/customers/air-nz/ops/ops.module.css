@@ -1,0 +1,400 @@
+/* ==========================================================================
+   Air New Zealand × Dash — Partner Operations console (back-of-house)
+   --------------------------------------------------------------------------
+   Desktop dashboard chrome. Air NZ brand (near-black + Ocean Teal + white),
+   Inter Tight + Fraunces. Reads the --anz-* tokens declared on the shared
+   `.root` ancestor (dash/airnz.module.css). This is the team-facing operator
+   surface — NOT the phone-framed passenger demo. concept · demo pending.
+   ========================================================================== */
+
+.shell {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  min-height: 100dvh;
+  background: var(--anz-cool, #f5f5f6);
+}
+
+/* --- sidebar ------------------------------------------------------------ */
+.sidebar {
+  background: var(--anz-ink, #111);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  padding: 18px 12px;
+  gap: 4px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 10px;
+}
+.brandText {
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+.brandSub {
+  font-size: 10px;
+  color: #9fd9dc;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+}
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+.navItem.active {
+  background: rgba(0, 176, 185, 0.16);
+  color: #fff;
+  box-shadow: inset 2px 0 0 var(--anz-teal, #00b0b9);
+}
+.navDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--anz-teal, #00b0b9);
+  flex: none;
+}
+.sidebarFoot {
+  margin-top: auto;
+  padding: 12px 10px 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+}
+.sidebarFoot a {
+  color: #9fd9dc;
+  text-decoration: none;
+}
+
+/* --- main --------------------------------------------------------------- */
+.main {
+  padding: 0 0 60px;
+  min-width: 0;
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--anz-silver, #eaeaea);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.eyebrow {
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--anz-teal, #00b0b9);
+}
+.title {
+  font-family: var(--anz-display, 'Fraunces'), Georgia, serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 27px;
+  letter-spacing: 0.005em;
+  color: var(--anz-ink, #111);
+  line-height: 1.05;
+  margin-top: 2px;
+}
+.conceptPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--anz-silver, #eaeaea);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 10.5px;
+  color: var(--anz-warm, #6b6e71);
+  background: #fff;
+  white-space: nowrap;
+}
+.content {
+  padding: 24px 32px 0;
+  max-width: 1080px;
+}
+.lead {
+  font-size: 14px;
+  color: var(--anz-warm, #6b6e71);
+  line-height: 1.55;
+  margin-bottom: 18px;
+  max-width: 760px;
+}
+
+/* --- cards + grid ------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: 14px;
+}
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 860px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; flex-direction: row; flex-wrap: wrap; overflow-x: auto; }
+  .g2, .g3, .g4 { grid-template-columns: 1fr 1fr; }
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--anz-silver, #eaeaea);
+  border-radius: 14px;
+  padding: 18px;
+}
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.cardTitle {
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--anz-ink, #111);
+}
+.label {
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--anz-warm, #6b6e71);
+}
+.kpi {
+  font-family: var(--anz-display, 'Fraunces'), Georgia, serif;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--anz-ink, #111);
+  margin-top: 6px;
+}
+.kpi.teal { color: var(--anz-teal, #00b0b9); }
+.kpiSub {
+  font-size: 12px;
+  color: var(--anz-warm, #6b6e71);
+  margin-top: 6px;
+}
+.delta {
+  font-size: 12px;
+  font-weight: 600;
+}
+.deltaUp { color: var(--anz-success, #2e7d5b); }
+.deltaDown { color: var(--anz-red, #d0342c); }
+
+/* --- table -------------------------------------------------------------- */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+}
+.table th {
+  text-align: left;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--anz-warm, #6b6e71);
+  font-weight: 600;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--anz-silver, #eaeaea);
+}
+.table td {
+  padding: 11px 10px;
+  font-size: 13px;
+  color: var(--anz-ink, #111);
+  border-bottom: 1px solid var(--anz-silver, #eaeaea);
+  vertical-align: middle;
+}
+.table td.num, .table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.table tr:last-child td { border-bottom: 0; }
+
+/* --- badges / pills ----------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.bLive { background: rgba(46, 125, 91, 0.12); color: #2e7d5b; }
+.bOnboard { background: rgba(0, 176, 185, 0.12); color: #00838c; }
+.bPaused { background: #f0f0f0; color: #6b6e71; }
+.bReview { background: rgba(230, 162, 0, 0.14); color: #a97a00; }
+.bFlag { background: rgba(208, 52, 44, 0.12); color: #d0342c; }
+.bPass { background: rgba(46, 125, 91, 0.12); color: #2e7d5b; }
+
+.tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: 1px solid var(--anz-silver, #eaeaea);
+}
+.tierDot { width: 8px; height: 8px; border-radius: 999px; flex: none; }
+
+/* --- bars --------------------------------------------------------------- */
+.bar {
+  height: 7px;
+  background: var(--anz-silver, #eaeaea);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.barFill {
+  height: 100%;
+  background: var(--anz-teal, #00b0b9);
+  border-radius: 999px;
+}
+.barChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+  padding-top: 8px;
+}
+.barCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+  height: 100%;
+}
+.barColFill {
+  width: 100%;
+  background: linear-gradient(180deg, #00b0b9, #00838c);
+  border-radius: 6px 6px 0 0;
+  min-height: 4px;
+}
+.barColLabel { font-size: 10.5px; color: var(--anz-warm, #6b6e71); }
+.barColVal { font-size: 10.5px; font-weight: 600; color: var(--anz-ink, #111); }
+
+/* --- split ledger ------------------------------------------------------- */
+.ledgerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--anz-silver, #eaeaea);
+  font-size: 14px;
+}
+.ledgerRow:last-child { border-bottom: 0; }
+.ledgerRow.total { font-weight: 700; border-top: 2px solid var(--anz-teal, #00b0b9); }
+.ledgerName { color: var(--anz-ink, #111); }
+.ledgerNote { font-size: 11.5px; color: var(--anz-warm, #6b6e71); }
+.ledgerVal { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* --- comms + code ------------------------------------------------------- */
+.commsBody {
+  white-space: pre-wrap;
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--anz-ink, #111);
+  background: var(--anz-cool, #f5f5f6);
+  border: 1px solid var(--anz-silver, #eaeaea);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 10px;
+}
+.notice {
+  background: rgba(0, 176, 185, 0.06);
+  border: 1px solid rgba(0, 176, 185, 0.3);
+  border-left: 3px solid var(--anz-teal, #00b0b9);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  color: var(--anz-ink, #111);
+  line-height: 1.55;
+}
+.assemblMark {
+  font-family: var(--anz-lockup, 'Cormorant Garamond'), Georgia, serif;
+  font-weight: 600;
+  color: var(--a-charcoal, #3a3832);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--anz-ink, #111);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 9px 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btnGhost {
+  background: #fff;
+  color: var(--anz-ink, #111);
+  border: 1px solid var(--anz-silver, #eaeaea);
+}
+.btnTeal { background: var(--anz-teal, #00b0b9); }
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.tab {
+  border: 1px solid var(--anz-silver, #eaeaea);
+  background: #fff;
+  color: var(--anz-ink, #111);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+}
+.tab.on { background: var(--anz-ink, #111); color: #fff; border-color: var(--anz-ink, #111); }
+
+.sectionTitle {
+  font-family: var(--anz-body, 'Inter Tight'), sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--anz-ink, #111);
+  margin: 22px 0 10px;
+}
+.muted { color: var(--anz-warm, #6b6e71); font-size: 12.5px; line-height: 1.55; }
