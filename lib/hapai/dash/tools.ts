@@ -47,6 +47,8 @@ export type DashToolConfig = {
   ogFigure?: string;
   ogFigureLabel?: string;
   kete?: KeteSlug;
+  /** Optional te reo eyebrow label for the home-page tool card. */
+  teReo?: string;
   /** Pre-fill values for the "load an example" button. */
   sample?: Record<string, string>;
 };
