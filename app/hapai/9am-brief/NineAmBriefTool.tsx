@@ -47,7 +47,7 @@ export function NineAmBriefTool() {
   const [html, setHtml] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const gate = useToolGate("9am-brief");
+  const gate = useToolGate("dawn");
   // Dash by assembl: one quiet sponsored line while the brief drafts. Coarse
   // context only (the tool name) — never the user's day. Fail-open.
   const { ad: dashAd, request: requestDashAd, clear: clearDashAd, click: clickDashAd } =
@@ -57,9 +57,9 @@ export function NineAmBriefTool() {
     setError("");
     setHtml("");
     setLoading(true);
-    void requestDashAd({ tool: "9am-brief" });
+    void requestDashAd({ tool: "dawn" });
     try {
-      const response = await gate.fetch("/api/hapai/9am-brief", {
+      const response = await gate.fetch("/api/hapai/dawn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ today, meetings, followUps, worries, notes, imageDataUrl }),
@@ -100,7 +100,7 @@ export function NineAmBriefTool() {
     // for a receipt you can keep, forward, or file. No external assets.
     const doc = `<!doctype html><html lang="en-NZ"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>The 9am Brief — evidence pack</title>
+<title>The Dawn — evidence pack</title>
 <style>
   :root { color-scheme: light; }
   body { margin: 0; background: #FFF7EC; color: #23211F; font: 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
@@ -120,11 +120,11 @@ export function NineAmBriefTool() {
 <body><div class="wrap">
   <div class="mark">assembl</div>
   <p class="eyebrow" style="margin-top:18px">HAPAI · evidence pack</p>
-  <h1>The 9am Brief</h1>
+  <h1>The Dawn</h1>
   <p class="meta">Drafted ${stamped} · Pacific/Auckland</p>
   <hr class="rule"/>
   <div class="brief">${html}</div>
-  <div class="foot"><b>Draft operating brief.</b> It does not send messages, change calendars, or make commitments. A named person checks it before anyone acts on it. Made with assembl — assembl.co.nz/hapai/9am-brief</div>
+  <div class="foot"><b>Draft operating brief.</b> It does not send messages, change calendars, or make commitments. A named person checks it before anyone acts on it. Made with assembl — assembl.co.nz/hapai/dawn</div>
 </div></body></html>`;
     const blob = new Blob([doc], { type: "text/html" });
     const url = URL.createObjectURL(blob);
@@ -178,8 +178,8 @@ export function NineAmBriefTool() {
       kicker="HAPAI · 9am brief"
       title="The whole morning, sorted before the kettle boils."
       description="Photograph the school notice or the sports draw, or paste the morning’s inbox chaos. You get back a five-line brief — what matters today, what to pack, who to chase. So nobody leaves without their rugby boots."
-      toolPath="/hapai/9am-brief"
-      shareTitle="The 9am Brief by assembl"
+      toolPath="/hapai/dawn"
+      shareTitle="The Dawn by assembl"
       shareText="Turns the school notice, the sports draw, and tomorrow’s weather into a five-line morning brief. So you stop forgetting the rugby boots."
       posture="Draft operating brief only. It does not send messages, change calendars, or make commitments."
       highlights={proofCards.map(({ icon: Icon, title, body }) => ({
@@ -220,7 +220,7 @@ export function NineAmBriefTool() {
                     accept="image/*"
                     onChange={(event) => handleImageUpload(event.target.files?.[0] ?? null)}
                     className="absolute inset-0 cursor-pointer opacity-0"
-                    aria-label="Upload an image for the 9am Brief"
+                    aria-label="Upload an image for the Dawn"
                   />
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-4">
@@ -282,7 +282,7 @@ export function NineAmBriefTool() {
                 className="inline-flex rounded-full bg-[#23211F] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#3A3832] disabled:bg-[#C8C2BC]"
               >
                 <Sparkles className="mr-2 h-4 w-4" aria-hidden />
-                {loading ? "Drafting brief..." : "Draft my 9am Brief"}
+                {loading ? "Drafting brief..." : "Draft my Dawn"}
               </button>
               <button
                 type="button"
@@ -302,7 +302,7 @@ export function NineAmBriefTool() {
               </button>
               <span className="flex items-center">{gate.counter}</span>
             </div>
-            {loading ? <DashAgentLoader label="9am Brief" /> : null}
+            {loading ? <DashAgentLoader label="Dawn" /> : null}
             {loading ? (
               <p className="mt-4 rounded-[10px] border border-[#C79B1F]/30 bg-[#FFF9EC] px-4 py-3 text-sm text-[#6B5A28]">
                 Turning your day into a clear list: what matters, who to chase, what’s next.

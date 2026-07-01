@@ -309,7 +309,7 @@ async function sendApprovedDraft(draft: DraftRow): Promise<{ ok: boolean; messag
       queue_name: 'transactional',
       payload: {
         to: recipient,
-        subject: draft.source_metadata?.subject ?? draft.source_metadata?.title ?? 'A message from Assembl',
+        subject: draft.source_metadata?.subject ?? draft.source_metadata?.title ?? 'A message from assembl',
         html: draft.draft_body.replace(/\n/g, '<br />'),
         text: draft.draft_body,
         metadata: {

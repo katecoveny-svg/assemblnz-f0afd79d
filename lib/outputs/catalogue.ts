@@ -455,7 +455,7 @@ export const OUTPUTS: OutputDefinition[] = [
       'Classification prompts (broker confirms)',
       'Audit-ready draft record',
     ],
-    toolHref: '/hapai/customs-entry',
+    toolHref: '/hapai/pikau',
   },
   {
     slug: 'tariff-classification-justification',
@@ -1352,12 +1352,12 @@ export const OUTPUTS: OutputDefinition[] = [
     ],
   },
   {
-    slug: '9am-brief',
-    name: 'The 9am Brief',
+    slug: 'dawn',
+    name: 'The Dawn',
     oneLiner:
       'Paste the day’s mess; get back a clear list of what matters, who to chase, and what to pack.',
     group: 'cross-cutting',
-    producedBy: 'HAPAI — The 9am Brief',
+    producedBy: 'HAPAI — The Dawn',
     type: 'Brief/summary',
     frameworks: [],
     channels: ['Web'],
@@ -1369,7 +1369,7 @@ export const OUTPUTS: OutputDefinition[] = [
       'What to pack / prepare',
       'Priority order',
     ],
-    toolHref: '/hapai/9am-brief',
+    toolHref: '/hapai/dawn',
   },
   {
     slug: 'meeting-notes-summary',

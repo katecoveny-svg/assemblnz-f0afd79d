@@ -93,7 +93,7 @@ export type MarketplaceAgent = {
    * Consult-grade audio capture. When true, the chat composer shows a real
    * MediaRecorder consult recorder (mic → MediaRecorder → Deepgram en-NZ,
    * diarised → transcript) instead of the lightweight Web Speech dictation
-   * mic. Used by Care Scribe, where a full two-party consult must be recorded
+   * mic. Used by Quill, where a full two-party consult must be recorded
    * and transcribed onshore — not streamed phrase-by-phrase to a browser
    * speech engine. Optional; defaults to off.
    */
@@ -198,27 +198,7 @@ const SKILLS_BY_SLUG: Record<string, string[]> = {
     'sales:forecast',
     'sales:pipeline-review',
   ],
-  motor: [
-    'sales:account-research',
-    'sales:call-prep',
-    'sales:draft-outreach',
-    'sales:pipeline-review',
-    'customer-support:ticket-triage',
-  ],
-  transit: [
-    'sales:account-research',
-    'sales:call-prep',
-    'sales:draft-outreach',
-    'sales:pipeline-review',
-    'customer-support:ticket-triage',
-  ],
-  'transit-freight': [
-    'sales:account-research',
-    'sales:draft-outreach',
-    'sales:pipeline-review',
-    'operations:vendor-review',
-    'customer-support:ticket-triage',
-  ],
+  // motor, transit, transit-freight — KILLED (absorbed into Forge / arataki).
   roster: [
     'sales:account-research',
     'sales:call-prep',
@@ -230,7 +210,7 @@ const SKILLS_BY_SLUG: Record<string, string[]> = {
     'sales:forecast',
     'sales:pipeline-review',
   ],
-  'roster-sorter': [
+  pipeline: [
     'sales:pipeline-review',
     'sales:forecast',
     'sales:draft-outreach',
@@ -264,17 +244,17 @@ const SKILLS_BY_SLUG: Record<string, string[]> = {
 
   // ── Business · Ops · Finance ────────────────────────────────────────
   'invoice-tidy': ['finance:financial-statements', 'finance:reconciliation', 'rdti-activity-logger'],
-  'tax-tidy': ['finance:financial-statements', 'finance:variance-analysis', 'rdti-activity-logger'],
+  treasury: ['finance:financial-statements', 'finance:variance-analysis', 'rdti-activity-logger'],
   chief: ['sales:daily-briefing', 'legal:meeting-briefing', 'internal-comms'],
-  'inbox-triage': ['customer-support:ticket-triage', 'sales:daily-briefing'],
-  'meeting-records': ['legal:meeting-briefing', 'internal-comms'],
-  'hui-notes': ['legal:meeting-briefing'],
+  sweep: ['customer-support:ticket-triage', 'sales:daily-briefing'],
+  // meeting-records — KILLED (merged into hui).
+  hui: ['legal:meeting-briefing', 'internal-comms'],
   'stock-count': ['operations:vendor-review', 'operations:process-doc'],
   'compliance-check': ['operations:compliance-tracking', 'legal:compliance-check'],
-  'customs-entry': ['operations:compliance-tracking'],
+  // customs-entry — KILLED (duplicate of pikau).
   'food-temp-logs': ['nz-hospitality-compliance', 'operations:compliance-tracking'],
-  'voice-cs': ['customer-support:ticket-triage', 'customer-support:draft-response'],
-  'care-scribe': ['nz-privacy-act-2020'],
+  front: ['customer-support:ticket-triage', 'customer-support:draft-response'],
+  quill: ['nz-privacy-act-2020'],
 
   // ── Marketing · Creative ────────────────────────────────────────────
   auaha: [
@@ -293,8 +273,7 @@ const SKILLS_BY_SLUG: Record<string, string[]> = {
   ],
   muse: ['marketing:brand-review', 'elite-copywriter', 'assembl-voice', 'tikanga-compliance'],
 
-  // ── Maritime ────────────────────────────────────────────────────────
-  'maritime-brief': ['operations:risk-assessment', 'operations:compliance-tracking'],
+  // ── Maritime — maritime-brief KILLED (merge Tide & Weather only). ────
 
   // ── Construction · HR (extend agents that already carry a core skill) ─
   arai: ['operations:risk-assessment'],
@@ -328,7 +307,7 @@ const AGENT_DEFS: AgentDef[] = [
   {
     slug: 'atlas',
     name: 'Atlas',
-    teReo: 'Mahere',
+    teReo: '',
     description:
       'The free AI adoption coach. Maps your week, points you to the agents that fit, and walks you from idea to your first built workflow — honest about where AI will not help.',
     whatItDoes: [
@@ -342,8 +321,8 @@ const AGENT_DEFS: AgentDef[] = [
       'A one-page roadmap to save or share, and a journey map that tracks your progress, badges and streak.',
     ],
     sampleOutputs: [
-      'For school notices and the family calendar, start with Pānui Parser and 9am Brief — both free.',
-      'AI will not fix a messy roster on its own. Tidy the availability first, then Roster Sorter can hold it.',
+      'For school notices and the family calendar, start with Pānui Parser and Dawn — both free.',
+      'AI will not fix a messy roster on its own. Tidy the availability first, then Pipeline can hold it.',
     ],
     nzKnowledge: ['Privacy Act 2020 (IPP 3A, from 1 May 2026)', 'The assembl agent shelf', 'Tikanga considerations for whānau and Māori data'],
     category: 'start-here',
@@ -362,9 +341,9 @@ const AGENT_DEFS: AgentDef[] = [
   },
   // ── Family & Whānau ──────────────────────────────────────────────────
   {
-    slug: '9am-brief',
-    name: '9am Brief',
-    teReo: 'Te Rā',
+    slug: 'dawn',
+    name: 'Dawn',
+    teReo: '',
     description: 'Your day briefed before the kettle boils.',
     whatItDoes: [
       'Scans your calendar, the weather, and what changed overnight.',
@@ -386,6 +365,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'free',
     icon: 'brief',
     tile: 'cream',
+    bundle: 'hearth',
     greeting: 'Tell me your calendar and where you are, and I will brief your day. Short and plain.',
     starters: ['Brief my day.', 'What changed overnight?', 'What needs me today?'],
   },
@@ -414,6 +394,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'free',
     icon: 'list',
     tile: 'canary',
+    bundle: 'hearth',
     greeting:
       'Snap the fridge or pantry and tell me your household — size, any dietary rules, a budget cap. I’ll draft a Woolworths list you copy into the app yourself, or plan a week of dinners. I draft; you shop.',
     starters: ['Shop for the week from this fridge photo.', 'Plan a week of dinners.', 'Build a $250 list, dairy-free.'],
@@ -443,37 +424,11 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'toro',
     icon: 'panui',
     tile: 'cream',
+    bundle: 'hearth',
     greeting: 'Paste the school notice and I will pull out the dates, costs and what you need to do.',
     starters: ['Parse this newsletter.', 'What permission slips are due?'],
   },
-  {
-    slug: 'whanau-help',
-    name: 'Whānau Help',
-    teReo: 'Whānau',
-    description: 'Household assistant — appointments, reminders, who is picking up whom.',
-    whatItDoes: [
-      'Keeps the family logistics straight: appointments, pick-ups, reminders.',
-      'Spots clashes and gaps in the week early.',
-      'Drafts the coordinating messages — you send them.',
-    ],
-    whatYouGet: [
-      'A simple weekly view of who is doing what.',
-      'Draft messages ready to send.',
-      'Reminders so nothing slips.',
-    ],
-    sampleOutputs: [
-      'Thursday clash: both kids need collecting at 3pm.',
-      'Draft to Nan: are you free to pick up Mia on Friday?',
-    ],
-    nzKnowledge: ['AT / Metlink / ORC GTFS feeds', 'Privacy Act 2020'],
-    category: 'family',
-    modelTier: 'mid',
-    priceTier: 'toro',
-    icon: 'whanau',
-    tile: 'cream',
-    greeting: 'Tell me what the week holds and I will keep the appointments, pick-ups and reminders straight.',
-    starters: ['Map our week.', 'Who is picking up the kids on Friday?', 'Set a reminder.'],
-  },
+  // whanau-help — KILLED (absorbed into Tōro/Helm; see hearth bundle lead).
   {
     slug: 'school-notice',
     name: 'School Notice',
@@ -499,12 +454,13 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'toro',
     icon: 'bell',
     tile: 'cream',
+    bundle: 'hearth',
     greeting: 'Paste the newsletter and I will turn the events into calendar entries for you to add.',
     starters: ['Turn this newsletter into calendar events.', 'What is on this term?'],
   },
   {
-    slug: 'care-captain',
-    name: 'Care Captain',
+    slug: 'awhi',
+    name: 'Awhi',
     teReo: '',
     description: 'Daily SMS check-in with an elder, escalates on distress.',
     whatItDoes: [
@@ -527,6 +483,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'toro',
     icon: 'careCaptain',
     tile: 'cream',
+    bundle: 'hearth',
     greeting: 'I will check in on your loved one each day and let you know if anything looks off. Who am I checking in with, and when?',
     starters: ['Set up a 9am check-in with my dad.', 'What happens if there is no reply?'],
   },
@@ -561,9 +518,9 @@ const AGENT_DEFS: AgentDef[] = [
     starters: ['Reconcile this month.', 'Find any duplicate payments.'],
   },
   {
-    slug: 'hui-notes',
-    name: 'Hui Notes',
-    teReo: 'Hui',
+    slug: 'hui',
+    name: 'Hui',
+    teReo: '',
     description: 'Joins the meeting, leaves the minutes.',
     whatItDoes: [
       'Turns a transcript or notes into clean minutes.',
@@ -589,8 +546,8 @@ const AGENT_DEFS: AgentDef[] = [
     starters: ['Turn this transcript into minutes.', 'Pull out the actions and owners.'],
   },
   {
-    slug: 'roster-sorter',
-    name: 'Roster Sorter',
+    slug: 'pipeline',
+    name: 'Pipeline',
     teReo: '',
     description: 'Builds the staff roster around availability, leave and rules.',
     whatItDoes: [
@@ -617,8 +574,8 @@ const AGENT_DEFS: AgentDef[] = [
     starters: ['Draft next week’s roster.', 'Where am I short on cover?'],
   },
   {
-    slug: 'inbox-triage',
-    name: 'Inbox Triage',
+    slug: 'sweep',
+    name: 'Sweep',
     teReo: '',
     description: 'Sorts the morning inbox into reply-now, later, never.',
     whatItDoes: [
@@ -647,7 +604,7 @@ const AGENT_DEFS: AgentDef[] = [
   {
     slug: 'travel-logs',
     name: 'Travel Logs',
-    teReo: 'Haerenga',
+    teReo: '',
     description: 'Receipts and trips into a clean, IRD-ready expense claim.',
     whatItDoes: [
       'Reads receipts and trip records and sorts them into a claim.',
@@ -673,8 +630,8 @@ const AGENT_DEFS: AgentDef[] = [
     starters: ['Build this month’s claim.', 'Which receipts are missing detail?'],
   },
   {
-    slug: 'tax-tidy',
-    name: 'Tax Tidy',
+    slug: 'treasury',
+    name: 'Treasury',
     teReo: '',
     description: 'GST, PAYE, provisional tax.',
     whatItDoes: [
@@ -700,37 +657,10 @@ const AGENT_DEFS: AgentDef[] = [
     greeting: 'Give me your numbers and I will draft the GST, PAYE and provisional tax workings. General help, not advice — I never file.',
     starters: ['What should I set aside for GST?', 'Draft my provisional tax.'],
   },
+  // meeting-records — KILLED (merged into Hui).
   {
-    slug: 'meeting-records',
-    name: 'Meeting Records',
-    teReo: '',
-    description: 'A searchable record of every meeting.',
-    whatItDoes: [
-      'Keeps transcripts and summaries of meetings in one place.',
-      "Answers 'what did we decide about X' with the relevant moment.",
-      'Links every answer back to the meeting and the point in the transcript.',
-    ],
-    whatYouGet: [
-      'A searchable memory of every meeting.',
-      'A direct answer plus the supporting quote.',
-      'On-request summaries of past meetings.',
-    ],
-    sampleOutputs: [
-      'You decided to delay the launch in the 4 Jun standup — here is the moment.',
-      'Summary: three decisions, two open questions, with links back.',
-    ],
-    nzKnowledge: ['Privacy Act 2020'],
-    category: 'business',
-    modelTier: 'mid',
-    priceTier: 'toro',
-    icon: 'mic',
-    tile: 'cream',
-    greeting: 'Ask me what was decided or said in any past meeting and I will find the moment and point you to it.',
-    starters: ['What did we decide about pricing?', 'Summarise last week’s standup.'],
-  },
-  {
-    slug: 'power-watch',
-    name: 'Power Watch',
+    slug: 'switch',
+    name: 'Switch',
     teReo: '',
     description: 'Reads the power bill, finds a cheaper plan.',
     whatItDoes: [
@@ -753,6 +683,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'free',
     icon: 'power',
     tile: 'canary',
+    bundle: 'hearth',
     greeting: 'Send your power bill and I will see whether a cheaper plan fits your usage. Illustrative, not advice.',
     starters: ['Check my power bill.', 'Could I save by switching?'],
   },
@@ -793,6 +724,8 @@ const AGENT_DEFS: AgentDef[] = [
     vertical: true,
     icon: 'car',
     tile: 'cream',
+    bundle: 'forge',
+    isBundleLead: true,
     greeting:
       'Tell me the vehicle, the customer, or the job and I will prepare it — a compliant CIN, a finance disclosure, a WoF record, or a fleet check. A registered trader, inspector or broker reviews and acts; I never lodge or issue.',
     starters: [
@@ -803,34 +736,7 @@ const AGENT_DEFS: AgentDef[] = [
     ],
     toolHref: '/operator/arataki/service-match',
   },
-  {
-    slug: 'customs-entry',
-    name: 'Customs Entry',
-    teReo: '',
-    description: 'Drafts the import entry from invoice and packing list.',
-    whatItDoes: [
-      'Reads the commercial invoice and packing list.',
-      'Suggests tariff classifications against the NZ Working Tariff.',
-      'Flags duty, GST and missing documents for the broker.',
-    ],
-    whatYouGet: [
-      'A draft entry: line items, HS suggestions, values, origin.',
-      'A list of assumptions the broker must confirm.',
-      'A missing-documents checklist before lodging.',
-    ],
-    sampleOutputs: [
-      'Line 1: LED fittings → HS 9405.11 (confirm), duty 5%.',
-      'Missing: the supplier’s country-of-origin declaration.',
-    ],
-    nzKnowledge: ['Customs and Excise Act 2018', 'NZ Working Tariff', 'MPI BACC'],
-    category: 'trades',
-    modelTier: 'premium',
-    priceTier: 'business',
-    icon: 'container',
-    tile: 'cream',
-    greeting: 'Paste the invoice and packing list and I will draft the import entry. A licensed broker checks and lodges — I never lodge.',
-    starters: ['Draft an entry from this invoice.', 'Classify the HS tariff.'],
-  },
+  // customs-entry — KILLED (duplicate of Pīkau).
   {
     slug: 'food-temp-logs',
     name: 'Food Temp Logs',
@@ -915,65 +821,8 @@ const AGENT_DEFS: AgentDef[] = [
     greeting: 'Give me your certs and obligations and I will track the expiries and flag what is due. I never renew or certify.',
     starters: ['What is expiring soon?', 'Track our certifications.'],
   },
-  {
-    slug: 'building-consent',
-    name: 'Consent',
-    teReo: 'Whakaaetanga',
-    description:
-      'NZ Building Code specifications, product technical statements and consent-package QA/QC — drafted for your architect to review.',
-    whatItDoes: [
-      'Writes specifications in the Masterspec three-part format, referencing the current Building Code Acceptable Solutions.',
-      'Runs QA/QC on a consent package: flags missing documents, drawing-to-spec mismatches and code gaps with a risk rating.',
-      'Cross-references Building Code clauses to spec sections and reviews material choices against the Te Aranga design principles.',
-    ],
-    whatYouGet: [
-      'A three-part specification (General, Products, Execution) ready for a licensed architect to review.',
-      'A QA/QC flag table: item, risk, code reference, remediation.',
-      'A Te Aranga review and an authentication block on every draft.',
-    ],
-    sampleOutputs: [
-      'HIGH risk: cladding specified but no E2/AS1 weathertightness documentation in the package.',
-      'Spec section 4.2 meets H1/AS1 6th edition; the bracing schedule is missing — flag before lodgement.',
-    ],
-    nzKnowledge: ['NZ Building Code Acceptable Solutions (B1, B2, E2, E3, G4, H1)', 'NZS 3604', 'Building Act 2004 (Clause 14G)', 'Auckland Unitary Plan', 'Te Aranga Māori Design Principles'],
-    skills: ['masterspec-specification-agent'],
-    category: 'build',
-    modelTier: 'premium',
-    priceTier: 'business',
-    icon: 'shield',
-    tile: 'cream',
-    greeting:
-      'Give me your project and I will draft the specification in Masterspec format and flag what is missing from the consent package. Everything I produce is a draft for your licensed architect to review.',
-    starters: ['Write a basic residential specification.', 'QA my consent package.'],
-  },
-  {
-    slug: 'maritime-brief',
-    name: 'Maritime Brief',
-    teReo: 'Moana',
-    description: 'Tides, swell, wind, notices.',
-    whatItDoes: [
-      'Pulls tides, swell, wind and the marine forecast for your window.',
-      'Notes relevant Maritime NZ notices and warnings.',
-      'Summarises the window of concern through the day.',
-    ],
-    whatYouGet: [
-      'A pre-departure brief: tides, wind, swell, notices.',
-      'The window of concern called out clearly.',
-      'A reminder line and the official sources to confirm.',
-    ],
-    sampleOutputs: [
-      '1.2m swell easing, high tide 13:40 — a fair window this afternoon.',
-      'Notice: navigational warning for the harbour entrance.',
-    ],
-    nzKnowledge: ['Maritime NZ', 'MetService Marine', 'LINZ tides'],
-    category: 'trades',
-    modelTier: 'mid',
-    priceTier: 'business',
-    icon: 'anchor',
-    tile: 'cream',
-    greeting: 'Tell me the area and your window and I will brief the tides, wind, swell and notices. The call to go is always yours.',
-    starters: ['Brief tomorrow’s trip on the Hauraki Gulf.', 'What are the tides this afternoon?'],
-  },
+  // building-consent — KILLED (duplicate of Whakaaē).
+  // maritime-brief — KILLED (merge Tide & Weather only; Tide is the surviving weather agent).
   {
     slug: 'tide-weather',
     name: 'Tide & Weather',
@@ -1027,14 +876,15 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'free',
     icon: 'fish',
     tile: 'canary',
+    bundle: 'hearth',
     greeting: 'Tell me what you caught and I will keep the logbook. For limits and rules, I will point you to MPI.',
     starters: ['Log a catch.', 'Show today’s trip.'],
   },
 
   // ── Health & Service ─────────────────────────────────────────────────
   {
-    slug: 'care-scribe',
-    name: 'Care Scribe',
+    slug: 'quill',
+    name: 'Quill',
     teReo: '',
     description: 'Writes the clinical note while you focus on the patient.',
     whatItDoes: [
@@ -1057,13 +907,14 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     icon: 'scribe',
     tile: 'cream',
+    bundle: 'practice',
     greeting: 'With per-visit consent in place, tap record to capture the consult — or paste a transcript — and I will draft the clinical note, suggest codes, and end with a Mana Receipt. I never diagnose; sign-off stays with you.',
     starters: ['Draft a SOAP note from this consult.', 'Draft the ACC45 from this injury consult.', 'Write a referral letter.'],
     consultCapture: true,
   },
   {
-    slug: 'voice-cs',
-    name: 'Voice CS',
+    slug: 'front',
+    name: 'Front',
     teReo: '',
     description: 'Answers the phones after hours.',
     whatItDoes: [
@@ -1086,6 +937,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     icon: 'voice',
     tile: 'cream',
+    bundle: 'practice',
     greeting: 'Give me your greeting, your escalation rules and the number to transfer to, and I will answer the phones after hours.',
     starters: ['Set up after-hours reception.', 'What do you say when you answer?'],
   },
@@ -1117,6 +969,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     icon: 'spark',
     tile: 'canary',
+    bundle: 'ensemble',
     greeting: 'Tell me the brief — the brand, the audience, the channel — and I will draft the copy, image prompts, video and more for you to review.',
     starters: [
       'Brief and draft a launch campaign.',
@@ -1149,6 +1002,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     icon: 'social',
     tile: 'canary',
+    bundle: 'ensemble',
     greeting: 'Connect your accounts and tone guide, and I will publish, watch the comments, and draft the replies. Auaha makes it; I run it.',
     starters: [
       'Schedule this week’s posts.',
@@ -1259,7 +1113,7 @@ const AGENT_DEFS: AgentDef[] = [
   {
     slug: 'pilot',
     name: 'Pilot',
-    teReo: 'Kaiurungi',
+    teReo: '',
     description:
       'Your step-by-step agent maker. Pilot walks you through naming, building, testing and shipping your own agent — no code, no jargon. First one free.',
     whatItDoes: [
@@ -1314,7 +1168,7 @@ const AGENT_DEFS: AgentDef[] = [
       'Clear hand-offs for anything it should not answer itself.',
     ],
     sampleOutputs: [
-      'Routed a consent question to Building Consent; pointed, booked nothing.',
+      'Routed a consent question to Whakaaē; pointed, booked nothing.',
       'Escalated a billing dispute to a human, with the details captured.',
     ],
     nzKnowledge: ['Privacy Act 2020 (IPP 3 collection notice)'],
@@ -1353,6 +1207,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     icon: 'spark',
     tile: 'canary',
+    bundle: 'ensemble',
     greeting:
       'Before I make anything, tell me about your brand — the real version — and your site or socials if you have them. I will build your Brand DNA so everything I draft is unmistakably yours. I draft and direct; you approve before anything is published.',
     starters: ['Build a campaign from one line.', 'Plan our content for next month.'],
@@ -1418,6 +1273,7 @@ const AGENT_DEFS: AgentDef[] = [
     vertical: true,
     icon: 'koru',
     tile: 'canary',
+    bundle: 'assembler',
     greeting:
       'Tell me the project, the contract, or the claim and I will prepare it — a payment schedule, a variation, an EOT claim, or a consent pathway. A licensed practitioner or your project manager reviews and acts; I never lodge or certify.',
     starters: [
@@ -1454,6 +1310,7 @@ const AGENT_DEFS: AgentDef[] = [
     vertical: true,
     icon: 'list',
     tile: 'cream',
+    bundle: 'assembler',
     greeting:
       'Share the model or plan set and I will review it — clashes, Building Code compliance, accessibility, coordination. A Licensed Building Practitioner or chartered professional reviews and signs; I prepare the findings.',
     starters: [
@@ -1490,6 +1347,7 @@ const AGENT_DEFS: AgentDef[] = [
     vertical: true,
     icon: 'stock',
     tile: 'cream',
+    bundle: 'assembler',
     greeting:
       'Tell me the product or the substitution and I will check it against BPS 2025 and the Building Code, and hold the supplier evidence. Your reviewer approves substitutions; I prepare the record.',
     starters: [
@@ -1526,6 +1384,7 @@ const AGENT_DEFS: AgentDef[] = [
     vertical: true,
     icon: 'panui',
     tile: 'cream',
+    bundle: 'assembler',
     greeting:
       'Tell me the build and I will draft the consent — application, AEE, or an RFI response — on the right pathway. A Licensed Building Practitioner or agent lodges and signs; I prepare, I never lodge.',
     starters: [
@@ -1562,6 +1421,7 @@ const AGENT_DEFS: AgentDef[] = [
     vertical: true,
     icon: 'shield',
     tile: 'cream',
+    bundle: 'assembler',
     greeting:
       'Tell me the job and I will prepare the quality record — an ITP, an NCR, a defect register, or a sealed evidence pack. A named reviewer signs off; I prepare and seal, I never sign for you.',
     starters: [
@@ -1598,6 +1458,7 @@ const AGENT_DEFS: AgentDef[] = [
     vertical: true,
     icon: 'shield',
     tile: 'canary',
+    bundle: 'assembler',
     greeting:
       'Tell me the site, the task, or the incident and I will prepare it — an SSSP, a SWMS, a risk register, or a notifiable-event notification. A competent person reviews and acts; for a notifiable event I draft the notice, you send it.',
     starters: [
@@ -1608,111 +1469,7 @@ const AGENT_DEFS: AgentDef[] = [
   },
 
   // ── Trades (automotive + freight specialists) ────────────────────────
-  {
-    slug: 'motor',
-    name: 'Motor',
-    teReo: '',
-    description:
-      'Workshop safety, equipment compliance and dealership obligations — job cards and CGA records under the Motor Vehicle Sales Act, drafted for a registered trader to act on.',
-    whatItDoes: [
-      'Manages workshop safety and equipment compliance — hoist certification, hazardous substances, technician competency.',
-      'Holds dealership obligations under the MVSA and Consumer Guarantees Act 1993.',
-      'Captures job cards with diagnosis, itemised quote, customer approval and road-test result.',
-    ],
-    whatYouGet: [
-      'Job cards with the customer-approval trail before any work starts.',
-      'An equipment-certification register that flags lapses early.',
-      'CGA decision records that hold up if a repair is disputed.',
-    ],
-    sampleOutputs: [
-      'Additional work found mid-service — fresh approval required (CGA s28); customer message drafted.',
-      'Hoist certification expires in 9 days — flagged before it lapses.',
-    ],
-    nzKnowledge: ['Consumer Guarantees Act 1993', 'Motor Vehicle Sales Act 2003', 'Health and Safety at Work Act 2015'],
-    category: 'trades',
-    modelTier: 'premium',
-    priceTier: 'business',
-    vertical: true,
-    icon: 'car',
-    tile: 'cream',
-    greeting:
-      'Tell me the job, the vehicle, or the workshop and I will prepare the record — a job card, an equipment check, or a CGA decision. A registered trader or competent person reviews and acts; I prepare, I never certify.',
-    starters: [
-      'Open a job card for this repair.',
-      'What does the customer need to approve before we start?',
-      'Check our workshop equipment certifications.',
-    ],
-  },
-  {
-    slug: 'transit',
-    name: 'Transit',
-    teReo: '',
-    description:
-      'Freight movement and transport compliance — chain-of-custody, work-time and TSL records under the Land Transport Act 1998, drafted for your operator to act on.',
-    whatItDoes: [
-      'Tracks carrier handoffs, ETAs, proof-of-delivery and exceptions with a full movement record.',
-      'Monitors work-time and logbook limits, Transport Service Licence currency and load security.',
-      'Drafts operator and customer updates for delays, holds and documentation gaps.',
-    ],
-    whatYouGet: [
-      'A chain-of-custody record from pickup to delivery.',
-      'Work-time and logbook checks that flag a breach before it happens.',
-      'Customer-update drafts ready before the phone rings.',
-    ],
-    sampleOutputs: [
-      'Driver approaching the 13-hour work-time limit — flagged; reschedule or rest break drafted.',
-      'POD missing for consignment 4471 — surfaced, not assumed delivered.',
-    ],
-    nzKnowledge: ['Land Transport Act 1998', 'Work Time and Logbooks Rule 2007', 'NZTA transport rules'],
-    category: 'trades',
-    modelTier: 'mid',
-    priceTier: 'business',
-    vertical: true,
-    icon: 'container',
-    tile: 'cream',
-    greeting:
-      'Tell me the movement, the driver, or the exception and I will prepare the record — chain-of-custody, a work-time check, or a customer update. Your operator acts; I prepare and flag.',
-    starters: [
-      'Track this consignment and flag any exceptions.',
-      'Are my drivers within work-time limits this week?',
-      'Draft a delay update for the customer.',
-    ],
-  },
-  {
-    slug: 'transit-freight',
-    name: 'Transit-Freight',
-    teReo: '',
-    description:
-      'Freight documentation — commercial docs, packing lists and BOL/AWB packs with audit trails for customs and brokers, drafted for a licensed broker to lodge.',
-    whatItDoes: [
-      'Assembles commercial documents, packing lists and Bills of Lading / Air Waybills.',
-      'Builds broker-ready evidence: missing-document checklists, origin declarations, correction history.',
-      'Coordinates documentation deadlines against shipment cut-offs.',
-    ],
-    whatYouGet: [
-      'A complete, consignee-correct document set per shipment.',
-      'A missing-document checklist before the deadline bites.',
-      'A broker-ready pack that clears faster because it is already right.',
-    ],
-    sampleOutputs: [
-      'Missing: supplier country-of-origin declaration for shipment SH-2208 — flagged before lodging.',
-      'BOL drafted and cross-checked against the packing list — discrepancy on carton count raised.',
-    ],
-    nzKnowledge: ['Customs and Excise Act 2018', 'Maritime NZ requirements', 'IMO IMDG (dangerous goods)'],
-    category: 'trades',
-    modelTier: 'mid',
-    priceTier: 'business',
-    vertical: true,
-    icon: 'container',
-    tile: 'cream',
-    greeting:
-      'Send the shipment details and I will assemble the documentation — commercial docs, packing list, BOL or AWB, and a missing-document checklist. A licensed broker lodges; I prepare the pack.',
-    starters: [
-      'Build the document set for this shipment.',
-      'What documents are missing before we can lodge?',
-      'Draft the Bill of Lading from this packing list.',
-    ],
-  },
+  // motor, transit, transit-freight — KILLED (absorbed into Forge / arataki).
   {
     slug: 'pikau',
     name: 'Pīkau',
@@ -1739,6 +1496,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     icon: 'container',
     tile: 'cream',
+    bundle: 'forge',
     greeting:
       'Paste the invoice and packing list and I will draft the import entry — line items, duty, GST, and a list of what to confirm. A licensed customs broker checks and lodges; I never lodge.',
     starters: [
@@ -1773,6 +1531,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     icon: 'container',
     tile: 'cream',
+    bundle: 'forge',
     greeting:
       'Describe the goods and I will classify them — an HS suggestion with the reasoning, the duty rate, and any preference. A licensed broker confirms and lodges; my classification is a reasoned suggestion.',
     starters: [
@@ -1915,6 +1674,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'toro',
     icon: 'scribe',
     tile: 'canary',
+    bundle: 'ensemble',
     greeting:
       'Tell me what you need written and who it is for, and I will draft it in your voice — claim-safe and ready to publish. You approve before anything goes live.',
     starters: [
@@ -1950,6 +1710,7 @@ const AGENT_DEFS: AgentDef[] = [
     vertical: true,
     icon: 'palette',
     tile: 'cream',
+    bundle: 'ensemble',
     greeting:
       'Tell me the campaign and I will plan the production — assets, sequencing, and the approval gates. Nothing publishes until you sign it off; I prepare and keep it moving.',
     starters: [
@@ -1986,6 +1747,8 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'toro',
     icon: 'whanau',
     tile: 'canary',
+    bundle: 'hearth',
+    isBundleLead: true,
     greeting:
       'I’m Helm — the front door to your household. Tell me what’s on this week — school notices, appointments, the shop, the family calendar — and I’ll sort it into drafts and reminders. You approve before anything is sent, booked or bought.',
     starters: [
@@ -2020,6 +1783,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'toro',
     icon: 'anchor',
     tile: 'cream',
+    bundle: 'hearth',
     greeting:
       'Tell me where you are going, for how long, and who with, and I will plan it day by day — with the must-book-ahead bits flagged and a real NZD budget. You confirm and book; I plan.',
     starters: [

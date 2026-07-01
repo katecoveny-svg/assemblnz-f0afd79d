@@ -1,11 +1,11 @@
 /**
- * Marketplace agent → voice configuration (Helm / Voice CS flagship deep-port).
+ * Marketplace agent → voice configuration (Helm / Front flagship deep-port).
  *
  * Bridges the locked-canon marketplace slugs to the legacy voice registry in
  * `lib/voice/elevenlabs-agents.ts` (ported from `src/data/elevenLabsAgents.ts`).
  * The old `HelmSection.tsx` did a voice→chat handoff (sessionStorage transcript +
  * redirect); this lands the data layer that surface reads from, plus a
- * receptionist behaviour block for the after-hours Voice CS agent.
+ * receptionist behaviour block for the after-hours Front agent.
  *
  * Wiring the live ElevenLabs / Gemini Live session UI is a follow-up; this makes
  * the agents voice-ready (a default TTS + Gemini voice id each) so that work is
@@ -33,13 +33,13 @@ export type AgentVoiceConfig = {
 };
 
 /**
- * Marketplace slug → legacy ElevenLabs Conversational-AI agent. Voice CS is the
+ * Marketplace slug → legacy ElevenLabs Conversational-AI agent. Front is the
  * after-hours receptionist (the old "operations" / TŌROA-Helm voice); Customs
  * Entry maps to the legacy customs voice. Others derive a voice from category.
  */
 const SLUG_TO_LEGACY_VOICE: Record<string, string> = {
-  'voice-cs': 'operations',
-  'customs-entry': 'customs',
+  'front': 'operations',
+  'pikau': 'customs',
 };
 
 /** Resolve the voice config for a marketplace agent (null if the slug is unknown). */
@@ -57,14 +57,14 @@ export function voiceConfigForAgent(slug: string): AgentVoiceConfig | null {
 }
 
 /** Slugs that run as a voice surface (after-hours / phone reception). */
-export const VOICE_AGENT_SLUGS = ['voice-cs'] as const;
+export const VOICE_AGENT_SLUGS = ['front'] as const;
 
 export function isVoiceAgent(slug: string): boolean {
   return (VOICE_AGENT_SLUGS as readonly string[]).includes(slug);
 }
 
 /**
- * Behaviour block for the after-hours voice receptionist (Voice CS). Appended to
+ * Behaviour block for the after-hours voice receptionist (Front). Appended to
  * its system prompt so the spoken channel collects the right things and routes by
  * urgency. Distilled from the legacy Helm SMS/voice behaviour.
  */

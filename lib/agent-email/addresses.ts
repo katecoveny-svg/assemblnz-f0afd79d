@@ -22,14 +22,16 @@ export const AGENT_EMAIL_DOMAIN = 'assembl.co.nz';
 /** Agent roster slug → public email local-part. */
 export const AGENT_EMAIL_LOCAL_PART: Record<string, string> = {
   atlas: 'atlas',
-  'tax-tidy': 'tax-tidy',
-  'customs-entry': 'customs',
-  'care-scribe': 'care-scribe',
-  'voice-cs': 'voice-cs',
+  treasury: 'treasury',
+  // customs-entry (KILLED) → merged into pikau; the `customs@` local-part sticks.
+  pikau: 'customs',
+  quill: 'quill',
+  front: 'front',
   'food-temp-logs': 'food-temp',
   'stock-count': 'stock-count',
   'compliance-check': 'compliance',
-  'maritime-brief': 'maritime',
+  // maritime-brief (KILLED) → tide is the surviving weather agent.
+  'tide-weather': 'tide',
   arataki: 'arataki',
 };
 

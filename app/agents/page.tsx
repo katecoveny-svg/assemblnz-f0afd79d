@@ -1,25 +1,28 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, MessageCircle, ShieldCheck, Sparkles, Zap } from 'lucide-react';
-import { PUBLIC_MARKETPLACE_AGENTS, SHELF_AGENTS, DASH_MOTIF, PALETTE } from '@/lib/marketplace/agents';
-import { KAITIAKI_BUNDLE } from '@/lib/marketplace/bundles';
+import {
+  PUBLIC_MARKETPLACE_AGENTS,
+  DASH_MOTIF,
+  PALETTE,
+  marketplaceAgentBySlug,
+} from '@/lib/marketplace/agents';
+import { orderedBundles, type BundleMeta } from '@/lib/marketplace/bundles';
 import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
-import { AgentGrid } from '@/components/marketplace/AgentGrid';
 import { AgentIcon } from '@/components/marketplace/AgentIcon';
 import { MarketplaceFooter, MarketplaceHeader } from '@/components/marketplace/MarketplaceChrome';
 
 const FEATURED = PUBLIC_MARKETPLACE_AGENTS.find((a) => a.featured);
 
 // The free, single-use HAPAI tools — no install, no chat, just open and use.
-// We lead with the polished Dash-branded set; "See all" links through to the
-// full library at /hapai. These are a *different product* from the agents
-// above (installable, chat-based), so they get their own labelled section.
 const FREE_TOOLS = HAPAI_TOOLS.filter((t) => t.brand === 'dash' && t.status === 'live');
+
+const BUNDLE_CARDS = orderedBundles();
 
 export const metadata: Metadata = {
   title: 'Agents — assembl',
   description:
-    'Pick an agent, chat with it, install it on your phone. A shelf of NZ-built agents for family, work, and admin. Every reply is a draft for a human to check.',
+    'Eight bundles and one standalone. Pick a bundle, meet the lead, install the specialists you need. Every reply is a draft for a human to check.',
 };
 
 export default function AgentsMarketplacePage() {
@@ -40,19 +43,20 @@ export default function AgentsMarketplacePage() {
             className="mt-3 max-w-3xl text-4xl leading-[1.02] md:text-6xl"
             style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em', color: PALETTE.ink }}
           >
-            Pick an agent. Chat with it. Install it on your phone.
+            Pick a bundle. Meet the lead. Install the specialists.
           </h1>
           {/* dash motif underline */}
           <div className="mt-5 h-1.5 w-40 rounded-full" style={{ background: DASH_MOTIF }} aria-hidden />
           <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: PALETTE.body }}>
-            A shelf of NZ-built agents for the jobs you keep putting off — family, work, and admin.
-            Open one, talk to it, keep the ones that earn their place.
+            Eight bundles for the work New Zealanders actually do — construction, automotive,
+            creative, health, animal care, whānau, legal — plus one standalone for visas. One
+            front-door agent, real specialists behind it.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold" style={{ color: PALETTE.ink }}>
             <span className="inline-flex items-center gap-2">
-              <Sparkles size={16} style={{ color: PALETTE.gold }} aria-hidden /> {SHELF_AGENTS.length}{' '}
-              agents, ready now
+              <Sparkles size={16} style={{ color: PALETTE.gold }} aria-hidden /> {BUNDLE_CARDS.length}{' '}
+              front doors, one shelf
             </span>
             <span className="inline-flex items-center gap-2">
               <Zap size={16} style={{ color: PALETTE.gold }} aria-hidden /> Free to try
@@ -114,7 +118,7 @@ export default function AgentsMarketplacePage() {
         </section>
       ) : null}
 
-      {/* Grid — the installable, chat-based agents */}
+      {/* The 8 bundles + Visa standalone. Nine cards, one shelf. */}
       <section className="px-5 pb-16 pt-6 md:px-8">
         <div className="mx-auto max-w-6xl">
           <header className="mb-6">
@@ -122,65 +126,22 @@ export default function AgentsMarketplacePage() {
               className="mk-mono text-xs font-bold uppercase tracking-[0.18em]"
               style={{ color: PALETTE.gold }}
             >
-              Agents · install &amp; chat
+              Bundles · a whole vertical behind one lead
             </p>
             <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: PALETTE.body }}>
-              Installable, chat-based, and yours to keep. Free to try, then a simple monthly price
-              for the ones you keep — or All-Access for every agent, including the industry specialists.
+              Eight bundles plus Visa as a standalone. Meet the lead agent, then open the specialists
+              inside. Free to try, then a monthly bundle price for the ones you keep.
             </p>
           </header>
-          <AgentGrid agents={SHELF_AGENTS} />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {BUNDLE_CARDS.map((bundle) => (
+              <BundleCard key={bundle.slug} bundle={bundle} />
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Bundles — a whole vertical behind one lead agent. Kaitiaki (animal
-          health, welfare, service & conservation) is the eighth bundle; its
-          specialists live inside it rather than as standalone shelf tiles. */}
-      <section className="px-5 pb-8 md:px-8">
-        <div className="mx-auto max-w-6xl">
-          <header className="mb-6 border-t pt-12" style={{ borderColor: PALETTE.hairline }}>
-            <p className="mk-mono text-xs font-bold uppercase tracking-[0.18em]" style={{ color: PALETTE.gold }}>
-              Bundles · a whole vertical, one front door
-            </p>
-          </header>
-          <Link
-            href="/bundles/kaitiaki"
-            className="group flex flex-col gap-5 rounded-[28px] border p-6 transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(180,150,40,0.14)] md:flex-row md:items-center md:p-8"
-            style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}
-          >
-            <div
-              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl"
-              style={{ backgroundColor: `${PALETTE.canary}33` }}
-            >
-              <AgentIcon name={KAITIAKI_BUNDLE.icon} className="h-9 w-9" />
-            </div>
-            <div className="flex-1">
-              <p className="mk-mono text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: PALETTE.gold }}>
-                Bundle · {KAITIAKI_BUNDLE.teReo}
-              </p>
-              <h2
-                className="mt-2 text-2xl md:text-3xl"
-                style={{ fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif', fontWeight: 600, letterSpacing: '-0.02em', color: PALETTE.ink }}
-              >
-                Kaitiaki — animal care, welfare &amp; conservation
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: PALETTE.body }}>
-                {KAITIAKI_BUNDLE.shortPitch}
-              </p>
-            </div>
-            <span
-              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full px-5 py-2.5 text-sm font-bold transition group-hover:brightness-95 md:self-center"
-              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
-            >
-              Meet Keeper
-              <ArrowRight size={15} aria-hidden />
-            </span>
-          </Link>
-        </div>
-      </section>
-
-      {/* HAPAI tools — free, single-use, no install. A different product from the
-          agents above, so it gets its own clearly-labelled section. */}
+      {/* HAPAI tools — free, single-use, no install. */}
       <section className="px-5 pb-20 md:px-8">
         <div className="mx-auto max-w-6xl">
           <header className="mb-6 flex flex-wrap items-end justify-between gap-4 border-t pt-12" style={{ borderColor: PALETTE.hairline }}>
@@ -259,4 +220,73 @@ export default function AgentsMarketplacePage() {
       <MarketplaceFooter />
     </div>
   );
+}
+
+function BundleCard({ bundle }: { bundle: BundleMeta }) {
+  const lead = marketplaceAgentBySlug(bundle.leadSlug);
+  const leadName = lead?.name ?? formatSlugName(bundle.leadSlug);
+  const isStandalone = bundle.standalone === true;
+  const priceLine = isStandalone
+    ? `Pack · $${bundle.monthlyNzd}`
+    : `Bundle · $${bundle.monthlyNzd}/mo`;
+  const href = `/bundles/${bundle.slug}`;
+
+  return (
+    <Link
+      href={href}
+      className="group flex flex-col rounded-[26px] border bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(180,150,40,0.14)]"
+      style={{ borderColor: PALETTE.hairline }}
+    >
+      <div className="mb-4 flex items-center gap-3">
+        <div
+          className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl"
+          style={{ backgroundColor: `${PALETTE.canary}22` }}
+        >
+          <AgentIcon name={bundle.icon} className="h-8 w-8" />
+        </div>
+        <div>
+          <p className="mk-mono text-[11px] font-bold uppercase tracking-[0.18em]" style={{ color: PALETTE.gold }}>
+            {isStandalone ? 'Standalone' : 'Bundle'}
+            {bundle.teReo ? ` · ${bundle.teReo}` : ''}
+          </p>
+          <h3
+            className="mt-0.5 text-2xl leading-tight"
+            style={{
+              fontFamily: 'var(--font-cormorant), "Cormorant Garamond", Georgia, serif',
+              fontWeight: 600,
+              letterSpacing: '-0.02em',
+              color: PALETTE.ink,
+            }}
+          >
+            {bundle.name}
+          </h3>
+        </div>
+      </div>
+
+      <p className="text-sm leading-relaxed" style={{ color: PALETTE.body }}>
+        {bundle.shortPitch}
+      </p>
+
+      <div className="mt-5 flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-wide" style={{ color: PALETTE.muted }}>
+        <span className="mk-mono">Lead · {leadName}</span>
+        <span aria-hidden>·</span>
+        <span className="mk-mono">{priceLine}</span>
+      </div>
+
+      <span
+        className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold transition group-hover:gap-2.5"
+        style={{ color: PALETTE.ink }}
+      >
+        See specialists
+        <ArrowRight size={15} aria-hidden />
+      </span>
+    </Link>
+  );
+}
+
+function formatSlugName(slug: string): string {
+  return slug
+    .split('-')
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join(' ');
 }

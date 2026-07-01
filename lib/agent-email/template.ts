@@ -46,7 +46,7 @@ function bodyToHtml(text: string): string {
 }
 
 export type AgentEmailTemplateInput = {
-  /** Display name of the agent, e.g. "Tax Tidy". */
+  /** Display name of the agent, e.g. "Treasury". */
   agentName: string;
   /** The agent's own address, e.g. tax-tidy@assembl.co.nz. */
   agentEmail: string;

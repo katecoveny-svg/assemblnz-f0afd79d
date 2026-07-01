@@ -20,7 +20,7 @@ import './birdie.css';
 export const metadata: Metadata = {
   title: 'dash. by assembl — get paid for the wait',
   description:
-    'While your AI agent works, Dash turns the wait into a reward you keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners come on. Opt-in, NZ-built, Assembl-governed.',
+    'While your AI agent works, Dash turns the wait into a reward you keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners come on. Opt-in, NZ-built, assembl-governed.',
   // Relative urls/images resolve against the dash layout metadataBase (www host).
   alternates: { canonical: '/dash' },
   openGraph: {

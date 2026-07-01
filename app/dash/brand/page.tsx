@@ -161,7 +161,7 @@ export default function BrandPage() {
                 points, KiwiSaver, charity, power off your bill.
               </p>
               <p style={{ margin: 0 }}>
-                Dash is opt-in, NZ-built and Assembl-governed. The parent brand,
+                Dash is opt-in, NZ-built and assembl-governed. The parent brand,
                 assembl, is calm and quiet. Dash is its loud, friendly,
                 get-things-done sibling — a long dog that does the waiting for
                 you.

@@ -4,9 +4,9 @@ import { ShieldCheck } from 'lucide-react';
 import { PALETTE } from '@/lib/marketplace/agents';
 
 /**
- * Mana Receipt — the honesty layer on every Care Scribe note.
+ * Mana Receipt — the honesty layer on every Quill note.
  *
- * Care Scribe ends each clinical note with a "### Mana Receipt" section
+ * Quill ends each clinical note with a "### Mana Receipt" section
  * (Heard / Inferred / Corrected / Trust Map + the Privacy Act 2020 IPP 3A
  * automated-decision notice). The note body already renders that section as
  * markdown in the chat; this component is the scaffold for the dedicated

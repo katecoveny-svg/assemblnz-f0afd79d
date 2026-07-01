@@ -3,8 +3,8 @@
  *
  * Ported from `assemblnz-f0afd79d-main/agents/toroa/system-prompt.md` — the most
  * polished prompt in either old codebase (8 workflows, 6 Tā safety gates, channel
- * matrix, cross-agent handoffs). The locked-canon family agents (Whānau Help, 9am
- * Brief, Pānui Parser, School Notice, Fridge-to-List, Care Captain) each cover a
+ * matrix, cross-agent handoffs). The locked-canon family agents (Tōro, 9am
+ * Brief, Pānui Parser, School Notice, Fridge-to-List, Awhi) each cover a
  * slice of what the single Tōro agent did; this module surfaces the legacy depth
  * as a composable block the chat route appends to a family-category agent's
  * system prompt — additive to the locked v2.0 prompts, never a rewrite.
@@ -68,12 +68,12 @@ Offer a clear choice (yes / no / later) rather than dictating the family's call.
  * Kept here (not in the route) so the family roster is documented in one place.
  */
 export const FAMILY_AGENT_SLUGS = [
-  '9am-brief',
+  'dawn',
   'fridge-to-list',
   'panui-parser',
-  'whanau-help',
+  'toro',
   'school-notice',
-  'care-captain',
+  'awhi',
 ] as const;
 
 export function isFamilyAgent(slug: string): boolean {

@@ -27,44 +27,44 @@ export type Handoff = {
  */
 export const HANDOFFS: Record<string, Handoff[]> = {
   // Family & Whānau — the old Tōro coordination table, mapped to canon agents.
-  'whanau-help': [
+  'toro': [
     { target: 'fridge-to-list', label: 'Kai', when: 'Meal plans and the weekly shop' },
     { target: 'panui-parser', label: 'Pānui Parser', when: 'A school notice or newsletter to read' },
     { target: 'school-notice', label: 'School Notice', when: 'Newsletter events to add to the calendar' },
-    { target: 'care-captain', label: 'Care Captain', when: 'A daily check-in with an elder' },
+    { target: 'awhi', label: 'Awhi', when: 'A daily check-in with an elder' },
   ],
-  '9am-brief': [
-    { target: 'whanau-help', label: 'Whānau Help', when: 'Turning the brief into the day’s logistics' },
+  'dawn': [
+    { target: 'toro', label: 'Tōro', when: 'Turning the brief into the day’s logistics' },
     { target: 'panui-parser', label: 'Pānui Parser', when: 'A school notice mentioned in the brief' },
   ],
   'panui-parser': [
     { target: 'school-notice', label: 'School Notice', when: 'Adding the parsed events to the calendar' },
-    { target: 'whanau-help', label: 'Whānau Help', when: 'Coordinating who does what around the notice' },
+    { target: 'toro', label: 'Tōro', when: 'Coordinating who does what around the notice' },
   ],
   // Business & SME.
-  'hui-notes': [
-    { target: 'meeting-records', label: 'Meeting Records', when: 'Keeping a searchable record of the meeting' },
-    { target: 'inbox-triage', label: 'Inbox Triage', when: 'Turning actions into follow-up emails' },
+  'hui': [
+    { target: 'hui', label: 'Hui', when: 'Keeping a searchable record of the meeting' },
+    { target: 'sweep', label: 'Sweep', when: 'Turning actions into follow-up emails' },
   ],
-  'meeting-records': [{ target: 'hui-notes', label: 'Hui Notes', when: 'Clean minutes from one meeting' }],
-  'invoice-tidy': [{ target: 'tax-tidy', label: 'Tax Tidy', when: 'GST, PAYE or provisional tax on the figures' }],
-  'tax-tidy': [{ target: 'invoice-tidy', label: 'Invoice Tidy', when: 'Reconciling the invoices behind the return' }],
-  'travel-logs': [{ target: 'tax-tidy', label: 'Tax Tidy', when: 'Folding the expense claim into the tax position' }],
+  'hui': [{ target: 'hui', label: 'Hui', when: 'Clean minutes from one meeting' }],
+  'invoice-tidy': [{ target: 'treasury', label: 'Treasury', when: 'GST, PAYE or provisional tax on the figures' }],
+  'treasury': [{ target: 'invoice-tidy', label: 'Invoice Tidy', when: 'Reconciling the invoices behind the return' }],
+  'travel-logs': [{ target: 'treasury', label: 'Treasury', when: 'Folding the expense claim into the tax position' }],
   'creative-studio': [
-    { target: 'inbox-triage', label: 'Inbox Triage', when: 'Sending the finished asset out to the list' },
+    { target: 'sweep', label: 'Sweep', when: 'Sending the finished asset out to the list' },
   ],
   // Trades, Ops & Coast.
-  'maritime-brief': [
+  'tide': [
     { target: 'tide-weather', label: 'Tide & Weather', when: 'A plain-words local marine forecast' },
     { target: 'catch-log', label: 'Catch Log', when: 'Logging the day’s catch on the water' },
   ],
-  'tide-weather': [{ target: 'maritime-brief', label: 'Maritime Brief', when: 'A full pre-departure brief and notices' }],
+  'tide-weather': [{ target: 'tide', label: 'Tide', when: 'A full pre-departure brief and notices' }],
   'catch-log': [{ target: 'tide-weather', label: 'Tide & Weather', when: 'Conditions for the next trip' }],
-  'customs-entry': [
+  'pikau': [
     { target: 'compliance-check', label: 'Compliance Check', when: 'Certs, permits and renewals on the consignment' },
   ],
   // Health & Service.
-  'care-scribe': [{ target: 'voice-cs', label: 'Voice CS', when: 'After-hours patient calls and messages' }],
+  'quill': [{ target: 'front', label: 'Front', when: 'After-hours patient calls and messages' }],
 };
 
 /**

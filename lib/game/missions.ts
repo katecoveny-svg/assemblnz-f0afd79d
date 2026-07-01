@@ -25,7 +25,7 @@ export const DAILY_MISSIONS: MissionTemplate[] = [
   { title: 'Try a new agent', detail: 'Open an agent you have not used yet and give it a real task.', action: 'use-agent' },
   { title: 'Rewrite a prompt', detail: 'Take a prompt you used and make it clearer — say the goal, the input, and the output you want.', action: 'spot-slop' },
   { title: 'Say no once', detail: 'Notice one place AI is the wrong tool today, and say so. Knowing the limits is the skill.', action: 'say-no' },
-  { title: 'Two-minute brief', detail: 'Ask 9am Brief to map your day before the kettle boils.', action: 'use-agent' },
+  { title: 'Two-minute brief', detail: 'Ask Dawn to map your day before the kettle boils.', action: 'use-agent' },
   { title: 'Privacy check', detail: 'Look at one task that touches other people’s details. Would the Privacy Act 2020 apply? Atlas can talk it through.', action: 'privacy-lesson', minLevel: 1 },
 ];
 

@@ -61,15 +61,15 @@ export const FAQ_SECTIONS: FaqSection[] = [
       },
       {
         q: 'Which agents are free to try?',
-        a: 'Several agents are free — including Atlas (the AI adoption coach), 9am Brief, Fridge-to-List, Power Watch, Tide & Weather, Catch Log and Pilot (the agent maker). Beyond that, your first three messages with any paid agent are on us before you subscribe.',
+        a: 'Several agents are free — including Atlas (the AI adoption coach), Dawn, Fridge-to-List, Switch, Tide & Weather, Catch Log and Pilot (the agent maker). Beyond that, your first three messages with any paid agent are on us before you subscribe.',
       },
       {
         q: 'Can I build my own agent?',
         a: 'Yes. Pilot is a free, step-by-step agent maker that walks you through naming, building, testing and shipping your own agent — no code and no jargon. Your first build is free.',
       },
       {
-        q: 'What does the health agent (Care Scribe) do?',
-        a: 'Care Scribe writes the clinical note while the clinician focuses on the patient. It records the consult onshore, transcribes it in New Zealand English, and drafts the note — which a registered practitioner always reviews before it enters the record.',
+        q: 'What does the health agent (Quill) do?',
+        a: 'Quill writes the clinical note while the clinician focuses on the patient. It records the consult onshore, transcribes it in New Zealand English, and drafts the note — which a registered practitioner always reviews before it enters the record.',
       },
       {
         q: 'Do the agents know New Zealand law and regulations?',
