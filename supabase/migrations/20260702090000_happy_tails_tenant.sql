@@ -4,8 +4,10 @@
 -- Fast-follow fix for PR #619: the original migration used timestamp
 -- 20260701140000, which COLLIDES with #611's already-merged
 -- 20260701140000_tenant_air_nz_pilot.sql (shared tenant_customers registry).
--- Bumped to 180000 — 150000 (kaitiaki/everyday-rewards), 160000 (lula inn) and
--- 170000 (air-nz ops) are all taken by already-merged pilots.
+-- Moved to 20260702090000 (next day) — every 20260701*0000 slot up to 180000 is
+-- taken by concurrently-merged same-day pilots (air-nz, auckland-zoo, kaitiaki,
+-- everyday-rewards, lula inn, air-nz-ops). A next-day slot is unambiguous and
+-- still applies after #611's tenant_customers registry it depends on.
 --
 -- Reuses #611's shared public.tenant_customers registry (columns: slug,
 -- display_name, status, brand, meta) — this migration only UPSERTS the
