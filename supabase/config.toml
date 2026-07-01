@@ -7,6 +7,8 @@ project_id = "wurwcrgxjjwqdaxqceey"
     verify_jwt = false
   [functions.agent-intelligence]
     verify_jwt = false
+  [functions.agent-test-run]
+    verify_jwt = false
   [functions.agent-sms]
     verify_jwt = false
   [functions.agent-ako]

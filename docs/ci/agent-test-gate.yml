@@ -1,0 +1,79 @@
+# agent-test-gate.yml — Assembl CI (Phase 1C)
+#
+# HOW TO INSTALL:
+#   cp docs/ci/agent-test-gate.yml .github/workflows/agent-test-gate.yml
+#   git add .github/workflows/agent-test-gate.yml
+#   git commit -m "ci: install agent-test-gate workflow"
+#   git push
+#
+# WHY NOT AUTO-INSTALLED:
+#   The token used by Claude Code lacks the 'workflow' scope. GitHub requires
+#   'workflow' scope to create or update .github/workflows/ files, so this ships
+#   staged under docs/ci/ (same as simulator-gate.yml). Kate copies it in once
+#   (or grants the token 'workflow' scope). Until then, run the gate locally
+#   with `pnpm test:agents:ci`.
+#
+# ── Agent test gate — Phase 1C (spec §7.2.3) ─────────────────────────────────
+#
+# The agent cannot ship without passing. This runs the five-axis rubric suite
+# (tests/agents/*.json via lib/testing) on every PR that changes an agent's
+# prompt or the test protocol itself. A merge is blocked if any hard-stop check
+# fails or any rubric axis drops below threshold.
+#
+# The suite is deterministic and needs no secrets — it grades the reference
+# agent + runs negative controls. When ANTHROPIC_API_KEY is present a follow-up
+# job can grade the live agent; the gate below is the always-on floor.
+
+name: Agent Test Gate
+
+on:
+  pull_request:
+    paths:
+      # Any change to an agent's prompt (code — the source of truth) …
+      - 'lib/marketplace/agent-prompts.ts'
+      - 'lib/marketplace/agents.ts'
+      - 'supabase/functions/_shared/kete/**'
+      - 'supabase/functions/agent-*/**'
+      # … or to `agents.system_prompt` (the seeded DB mirror) …
+      - 'supabase/migrations/*agent*'
+      - 'supabase/migrations/*seed*roster*'
+      - 'supabase/migrations/*system_prompt*'
+      # … or to the test protocol itself.
+      - 'lib/testing/**'
+      - 'tests/agents/**'
+      - '.github/workflows/agent-test-gate.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: agent-test-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: Five-axis rubric gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run the agent test suite (the gate)
+        run: pnpm test:agents:ci
+
+      - name: Human-readable five-axis report
+        if: always()
+        run: pnpm test:agents || true

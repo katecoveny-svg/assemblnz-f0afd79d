@@ -16,7 +16,10 @@
     "stripe:setup": "tsx scripts/setup-flat-pricing-stripe.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:agents": "tsx lib/testing/cli.ts",
+    "test:agents:ci": "vitest run lib/testing/agent-suite.test.ts",
+    "seed:agent-scenarios": "tsx scripts/seed-agent-scenarios.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3",
