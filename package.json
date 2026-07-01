@@ -30,6 +30,8 @@
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
+    "@react-three/drei": "^9.114.0",
+    "@react-three/fiber": "^8.17.10",
     "@splinetool/react-spline": "^4.1.0",
     "@splinetool/runtime": "^1.10.93",
     "@stripe/react-stripe-js": "^6.3.0",
