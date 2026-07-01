@@ -286,8 +286,8 @@
           "chatHref": "/c/pikau?agent=transit"
         },
         {
-          "slug": "transit-freight",
-          "name": "Transit-Freight",
+          "slug": "forge",
+          "name": "Forge",
           "role": "Freight documentation",
           "oneLiner": "Produces shipping documentation with audit trails for customs and brokers.",
           "status": "live",

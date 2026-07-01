@@ -113,7 +113,7 @@ export const WORKFLOW_STARTERS: Record<KeteSlug, WorkflowStarter[]> = {
       clientUse: 'Send an importer the classification working before clearance.',
       starterPrompt:
         'Run a tariff classification and duty check. Ask for product description, materials, use, country of origin, value, Incoterms, supplier documents, prior rulings, and urgency. Return likely HS heading options, duty/GST considerations, origin evidence needed, broker questions, and evidence pack outline.',
-      agentSequence: ['Gateway', 'Pīkau', 'Transit-Freight', 'Biosecurity'],
+      agentSequence: ['Gateway', 'Pīkau', 'Forge', 'Biosecurity'],
       reviewerRole: 'Licensed customs broker or authorised declarant',
       evidencePack: 'Tariff classification record',
       citations: ['Customs and Excise Act 2018', 'NZ Working Tariff Document', 'WCO HS Explanatory Notes'],

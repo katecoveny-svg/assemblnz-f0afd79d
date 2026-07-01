@@ -5,7 +5,7 @@ import { gate, gateBlockedResponse } from "@/lib/gating/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const SYSTEM_PROMPT = `You are the assembl 9am Brief specialist for a New Zealand operator.
+const SYSTEM_PROMPT = `You are the assembl Dawn specialist for a New Zealand operator.
 
 Turn messy morning context into a useful operating brief. The output must help a human decide what to do first.
 
@@ -51,7 +51,7 @@ function appendWatermark(html: string) {
     html +
     `<footer style="margin-top:28px;padding-top:16px;border-top:1px solid rgba(35,33,31,0.12);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(35,33,31,0.62);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;line-height:1.5;">` +
     `<span><span style="font-family:'Fraunces',Georgia,serif;font-style:italic;text-transform:none;letter-spacing:0;font-size:14px;color:#3A3832;">assembl</span> · 9am brief</span>` +
-    `<a href="https://assembl.co.nz/hapai/9am-brief" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">assembl.co.nz/hapai/9am-brief →</a>` +
+    `<a href="https://assembl.co.nz/hapai/dawn" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">assembl.co.nz/hapai/dawn →</a>` +
     `</footer>`
   );
 }
@@ -129,7 +129,7 @@ export async function POST(req: Request) {
 
   // Access gate: assembl pays for the model call, so consume one unit of quota
   // once the input is valid. Anonymous gets 1 free run; an email lifts it to 5/day.
-  const gateVerdict = await gate(req, "hapai", "9am-brief");
+  const gateVerdict = await gate(req, "hapai", "dawn");
   if (!gateVerdict.allowed) return gateBlockedResponse(gateVerdict);
 
   const message = `What today feels like:
@@ -168,7 +168,7 @@ ${imageDataUrl ? "A photo or screenshot is attached. Read it carefully and extra
       }
     }
   } catch (error) {
-    console.error("[hapai/9am-brief] generation failed", error);
+    console.error("[hapai/dawn] generation failed", error);
   }
 
   return NextResponse.json({

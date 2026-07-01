@@ -38,20 +38,22 @@ describe('scanSensitive — quarantine detection', () => {
 
 describe('agent email addresses', () => {
   it('maps roster slugs to pretty addresses', () => {
-    expect(agentEmailAddress('customs-entry')).toBe('customs@assembl.co.nz');
+    expect(agentEmailAddress('pikau')).toBe('customs@assembl.co.nz');
     expect(agentEmailAddress('food-temp-logs')).toBe('food-temp@assembl.co.nz');
     expect(agentEmailAddress('atlas')).toBe('atlas@assembl.co.nz');
     expect(emailLocalPartForAgent('compliance-check')).toBe('compliance');
   });
 
   it('returns null for agents with no inbox', () => {
-    expect(agentEmailAddress('9am-brief')).toBeNull();
-    expect(agentHasEmail('9am-brief')).toBe(false);
+    expect(agentEmailAddress('dawn')).toBeNull();
+    expect(agentHasEmail('dawn')).toBe(false);
   });
 
   it('resolves an inbound local-part back to a slug', () => {
-    expect(agentSlugForLocalPart('customs')).toBe('customs-entry');
-    expect(agentSlugForLocalPart('MARITIME')).toBe('maritime-brief');
+    // customs-entry is KILLED; the `customs@` local-part now belongs to pikau.
+    expect(agentSlugForLocalPart('customs')).toBe('pikau');
+    // maritime-brief is KILLED; the `tide@` local-part now belongs to tide-weather.
+    expect(agentSlugForLocalPart('tide')).toBe('tide-weather');
     expect(agentSlugForLocalPart('noreply')).toBeNull();
   });
 });

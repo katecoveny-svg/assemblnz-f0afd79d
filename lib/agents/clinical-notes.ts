@@ -1,5 +1,5 @@
 /**
- * Clinical-note flagship knowledge (Care Scribe).
+ * Clinical-note flagship knowledge (Quill).
  *
  * The old codebases carried the clinic *consent/escalation* engine
  * (`assemblnz-latest/src/aaaip/policy/library.ts`, now ported to
@@ -9,13 +9,13 @@
  * a NZ clinician expects, plus the consent + scope guardrails distilled from the
  * ported clinic policy pack so the chat agent self-enforces them.
  *
- * Care Scribe is a scribe, not a clinician: it drafts the note, the clinician
+ * Quill is a scribe, not a clinician: it drafts the note, the clinician
  * reviews, edits and signs. Diagnosis, prescribing and sign-off stay human.
  */
 
 import { CLINIC_POLICY_METADATA } from '@/lib/compliance/policies/clinic';
 
-/** Note formats Care Scribe can produce, with their section structure. */
+/** Note formats Quill can produce, with their section structure. */
 export const CLINICAL_NOTE_FORMATS = {
   SOAP: ['Subjective', 'Objective', 'Assessment', 'Plan'],
   DAP: ['Data', 'Assessment', 'Plan'],
@@ -25,7 +25,7 @@ export const CLINICAL_NOTE_FORMATS = {
 export type ClinicalNoteFormat = keyof typeof CLINICAL_NOTE_FORMATS;
 
 /**
- * The clinical-note knowledge block, appended to Care Scribe's system prompt.
+ * The clinical-note knowledge block, appended to Quill's system prompt.
  * English-first; functional clinical te reo / NZ frameworks kept (Pae Ora,
  * Health Information Privacy Code).
  */

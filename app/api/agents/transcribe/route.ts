@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/agents/transcribe  (multipart/form-data, field "audio")
- * Consult-grade transcription for Care Scribe (and any consult-capture agent).
+ * Consult-grade transcription for Quill (and any consult-capture agent).
  *
  * Provider: Deepgram (nova-2, en-NZ, diarised + smart formatting). The key lives
  * in DEEPGRAM_API_KEY — the same key Hui uses. Diarisation matters here: it
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
       {
         configured: false,
         error:
-          'Recording is coming online shortly. For now, paste the consult transcript or your notes and Care Scribe will structure them.',
+          'Recording is coming online shortly. For now, paste the consult transcript or your notes and Quill will structure them.',
       },
       { status: 503 },
     );

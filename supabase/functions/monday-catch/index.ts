@@ -228,7 +228,7 @@ function humaniseOutcomeKind(kind: string): string {
 
 function composeMessage(items: CatchItem[]): string {
   if (items.length === 0) {
-    return "Quiet weekend on Assembl. Nothing urgent before Monday.";
+    return "Quiet weekend on assembl. Nothing urgent before Monday.";
   }
   const lead =
     items.length === 1

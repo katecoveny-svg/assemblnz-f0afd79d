@@ -9,7 +9,7 @@ import { StatCallout } from '@/components/dash/StatCallout';
 export const metadata: Metadata = {
   title: 'Dash for AI builders · assembl',
   description:
-    'Your AI agent makes people wait while it works. Dash turns that wait into a reward your users keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners come on. Opt-in, white-label, NZ-built, Assembl-governed.',
+    'Your AI agent makes people wait while it works. Dash turns that wait into a reward your users keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners come on. Opt-in, white-label, NZ-built, assembl-governed.',
   alternates: { canonical: '/dash/for-ai-builders' },
   openGraph: {
     title: 'Dash for AI builders · assembl',
@@ -72,7 +72,7 @@ export default function DashForAiBuildersPage() {
               <p className="lead" style={{ marginTop: 18, maxWidth: 540 }}>
                 Your agent makes people wait while it runs. Dash turns that wait into a reward they
                 keep — charity at launch, with KiwiSaver, Airpoints and more rolling out as partners
-                come on — in one line. Opt-in, white-label, Assembl-governed.
+                come on — in one line. Opt-in, white-label, assembl-governed.
               </p>
               <div className="heroCta" style={{ marginTop: 28 }}>
                 <Link href="/dash/sdk" className="btn btn--primary btn--lg">
@@ -147,7 +147,7 @@ export default function DashForAiBuildersPage() {
           </h2>
           <p className="body" style={{ maxWidth: 560, color: 'var(--muted)', fontSize: 17 }}>
             Run Dash in your own UI and wordmark — the wait still pays your users, and you ship a
-            reward feature without building one. One integration, opt-in, NZ-built, Assembl-governed.
+            reward feature without building one. One integration, opt-in, NZ-built, assembl-governed.
           </p>
         </div>
       </section>

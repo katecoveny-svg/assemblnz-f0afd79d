@@ -36,7 +36,7 @@ Could you please advise the process for obtaining an API key, and whether the PC
 
 Ngā mihi,
 
-Kate Harland  
+Kate Hudson  
 assembl  
 assembl@assemb.co.nz  
 https://www.assembl.co.nz

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Mic, Square, Loader2 } from 'lucide-react';
 
 /**
- * Consult-grade audio capture for Care Scribe.
+ * Consult-grade audio capture for Quill.
  *
  * Unlike the lightweight Web Speech dictation mic (which stops after a phrase,
  * renders nothing on Firefox, and streams audio to a browser speech engine),

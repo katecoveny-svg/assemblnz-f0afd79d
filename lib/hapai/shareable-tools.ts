@@ -132,12 +132,12 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     posture: 'Draft only. A named person reviews the spec; nothing auto-lodges. Not legal, financial, or medical advice.',
   },
   {
-    slug: 'customs-entry',
+    slug: 'pikau',
     name: 'Customs entry drafter',
     status: 'live',
     description:
       'Paste a commercial invoice and get back a structured customs entry draft your broker can check and file. Nothing is ever lodged.',
-    href: '/hapai/customs-entry',
+    href: '/hapai/pikau',
     visual: 'customs',
     shareable: true,
     category: 'operations',
@@ -191,12 +191,12 @@ export const HAPAI_TOOLS: readonly HapaiTool[] = [
     posture: 'Draft brief only. The owner signs off scope, budget, and deadlines.',
   },
   {
-    slug: '9am-brief',
-    name: 'The 9am Brief',
+    slug: 'dawn',
+    name: 'The Dawn',
     status: 'live',
     description:
       'Turns the school notice, the sports draw, and tomorrow’s weather into a five-line morning brief. So you stop forgetting the rugby boots.',
-    href: '/hapai/9am-brief',
+    href: '/hapai/dawn',
     visual: 'morning-brief',
     shareable: true,
     category: 'operations',

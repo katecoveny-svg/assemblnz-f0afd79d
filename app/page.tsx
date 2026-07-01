@@ -150,7 +150,7 @@ export default function HomePage() {
 
           <div className={styles.grid}>
             {agents.map((a, i) => {
-              // Lead with the flagship (9am Brief, first in the roster) as the
+              // Lead with the flagship (Dawn, first in the roster) as the
               // one dark featured tile — the .dc.html's featured-card slot.
               const featured = i === 0;
               const [tone, deep] = ORB_GOLDS[i % ORB_GOLDS.length];

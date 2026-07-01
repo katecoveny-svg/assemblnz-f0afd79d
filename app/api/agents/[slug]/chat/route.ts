@@ -191,9 +191,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   // handoff hints. All additive to the locked v2.0 system prompt — never a
   // rewrite. (Maritime: deep MNZ knowledge + a live keyless Open-Meteo Marine
   // sea-state tool. Family: the Tōro whānau-navigator workflows + safety gates.
-  // Care Scribe: the SOAP/ICD clinical-note layer. Creative Studio: the Auaha
-  // pipeline + creative-gen tools. Voice CS: the after-hours receptionist block.)
-  const isMaritime = ['maritime-brief', 'tide-weather', 'catch-log'].includes(agent.slug);
+  // Quill: the SOAP/ICD clinical-note layer. Creative Studio: the Auaha
+  // pipeline + creative-gen tools. Front: the after-hours receptionist block.)
+  const isMaritime = ['tide', 'tide-weather', 'catch-log'].includes(agent.slug);
   // The whole creative category (Auaha, Social Manager, Prism, …) gets the real
   // production stack: image (generateImage), video (Kling i2v) and podcast
   // (ElevenLabs) — all fail-open per tool. Every asset renders inline via an
@@ -266,7 +266,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const knowledgeBlocks: string[] = [];
   if (isMaritime) knowledgeBlocks.push(MARITIME_KNOWLEDGE);
   if (isFamilyAgent(agent.slug)) knowledgeBlocks.push(WHANAU_KNOWLEDGE);
-  if (agent.slug === 'care-scribe') knowledgeBlocks.push(CLINICAL_NOTE_KNOWLEDGE);
+  if (agent.slug === 'quill') knowledgeBlocks.push(CLINICAL_NOTE_KNOWLEDGE);
   if (isCreative) {
     knowledgeBlocks.push(CREATIVE_KNOWLEDGE);
     knowledgeBlocks.push(MEDIA_RENDER_KNOWLEDGE);

@@ -111,7 +111,7 @@ const SURFACES: [string, string][] = [
   ['inline', 'Compact one-line bar for tight UIs.'],
 ];
 
-const TRUST = ['Opt-in only', 'NZ data residency', 'No under-16 targeting', 'Signed webhooks', 'Assembl-governed'];
+const TRUST = ['Opt-in only', 'NZ data residency', 'No under-16 targeting', 'Signed webhooks', 'assembl-governed'];
 
 export default function DashSdkPage() {
   return (

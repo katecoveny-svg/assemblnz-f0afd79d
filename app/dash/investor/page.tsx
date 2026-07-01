@@ -521,7 +521,7 @@ function InvestorPage() {
               }}
             >
               <div style={rmEyebrow}>Edge</div>
-              <div style={rmTitle}>Assembl-governed</div>
+              <div style={rmTitle}>assembl-governed</div>
               <div style={rmBody}>
                 Trust, NZ data residency, brand-safety baked in.
               </div>

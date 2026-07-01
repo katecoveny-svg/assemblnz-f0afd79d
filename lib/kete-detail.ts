@@ -294,7 +294,7 @@ export const KETE_DETAIL: Record<
         description: 'Tariff classification — HS codes and duty assessed against the NZ Tariff Schedule.',
       },
       {
-        name: 'Transit-Freight',
+        name: 'Forge',
         description: 'Freight documentation — manifests, POD capture, broker-ready audit trail.',
       },
       {
