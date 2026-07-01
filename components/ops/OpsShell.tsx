@@ -5,6 +5,16 @@ import type { BrandConfig } from '@/lib/brand/brand-config';
 import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
 import { brandSlugs } from '@/lib/brand/configs';
 import { TenantSwitch } from '@/components/ops/TenantSwitch';
+import {
+  ASSEMBL_CANARY,
+  ASSEMBL_INK,
+  ASSEMBL_PAPER,
+  ASSEMBL_WARM_GREY,
+  AssemblMotto,
+  AssemblWordmark,
+  MatarikiCluster,
+  ParticulateBackdrop,
+} from '@/components/assembl/chrome';
 
 /**
  * OpsShell — the reusable chrome around every branded ops surface. Server
@@ -90,9 +100,11 @@ export function OpsShell({
           ) : null}
           {config.crossBrand.position === 'header-tag' ? (
             <span
-              className={`ml-3 rounded-full bg-black/5 px-2 py-0.5 ${densityMap[config.crossBrand.density]}`}
+              className={`ml-3 rounded-full bg-black/5 px-2 py-0.5 lowercase ${densityMap[config.crossBrand.density]}`}
+              style={{ letterSpacing: '0.08em' }}
             >
-              powered by assembl
+              powered by <span className="font-mono">assembl</span>
+              <span style={{ color: ASSEMBL_CANARY }}> ·</span>
             </span>
           ) : null}
           <div className="ml-auto">
@@ -159,26 +171,38 @@ export function OpsShell({
           </aside>
         </div>
 
-        <footer className="border-t border-black/5 bg-[color:var(--brand-surface)] px-6 py-6 text-center">
-          <p
-            className="mx-auto max-w-md text-sm italic leading-relaxed text-[color:var(--brand-muted)]"
-            // assembl-side chrome speaks in the assembl voice: the global
-            // Cormorant face (--font-display), never the tenant's brand font.
-            style={{ fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif" }}
-          >
-            The user sets the destination.
-            <br />
-            The agents read the signals.
-            <br />
-            The system finds a path.
-            <br />
-            The proof — receipts and mana — show the journey.
-          </p>
-          <span
-            className={`mt-3 block text-[color:var(--brand-muted)] ${densityMap[config.crossBrand.density]}`}
-          >
-            Ops surface by <span className="font-mono">assembl</span>
-          </span>
+        {/* assembl signature band — DIRECTION-LOCKED-2026-07-01. Always paper
+            white with the particulate landscape, regardless of tenant palette:
+            this strip is the assembl-side chrome, not the customer's. */}
+        <footer
+          className="relative overflow-hidden border-t border-black/5 px-6 py-12 text-center"
+          style={{ backgroundColor: ASSEMBL_PAPER, color: ASSEMBL_INK }}
+        >
+          <ParticulateBackdrop className="opacity-60" />
+          <div className="relative flex flex-col items-center gap-5">
+            <MatarikiCluster size={30} gold />
+            <p
+              className="mx-auto max-w-md text-[17px] lowercase leading-relaxed"
+              // assembl-side chrome speaks in the assembl voice: the global
+              // Cormorant face (--font-display), never the tenant's brand font.
+              style={{
+                fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
+              }}
+            >
+              the user sets the destination.
+              <br />
+              the agents read the signals.
+              <br />
+              the system finds a path.
+              <br />
+              the proof — receipts and mana — show the journey
+              <span style={{ color: ASSEMBL_CANARY }}>.</span>
+            </p>
+            <AssemblMotto />
+            <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+              ops surface by <AssemblWordmark /> · Aotearoa
+            </span>
+          </div>
         </footer>
       </div>
     </BrandThemeProvider>

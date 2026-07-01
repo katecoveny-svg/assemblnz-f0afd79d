@@ -5,6 +5,11 @@ import { useReducedMotion } from 'framer-motion';
 import type { BrandConfig } from '@/lib/brand/brand-config';
 import { StaticFallback } from '@/components/ops/hero3d/StaticFallback';
 import { TickerText } from '@/lib/motion/primitives';
+import {
+  ASSEMBL_PAPER,
+  ASSEMBL_WARM_GREY,
+  ParticulateBackdrop,
+} from '@/components/assembl/chrome';
 
 /**
  * Brand3DHero — lazily loads @react-three/fiber and the appropriate scene.
@@ -18,8 +23,21 @@ import { TickerText } from '@/lib/motion/primitives';
  */
 const R3FCanvas = dynamic(() => import('./Brand3DCanvas').then((m) => m.Brand3DCanvas), {
   ssr: false,
+  // Loading state is assembl chrome (DIRECTION-LOCKED-2026-07-01): the
+  // particulate landscape on paper white while three.js streams in.
   loading: () => (
-    <div className="h-full min-h-[240px] w-full animate-pulse rounded-2xl bg-[color:var(--brand-surface)]/60" />
+    <div
+      className="relative h-full min-h-[240px] w-full overflow-hidden rounded-2xl"
+      style={{ backgroundColor: ASSEMBL_PAPER }}
+    >
+      <ParticulateBackdrop className="opacity-70" />
+      <span
+        className="absolute inset-x-0 bottom-4 text-center text-[10px] uppercase"
+        style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
+      >
+        <span className="lowercase font-mono">assembl</span> · loading
+      </span>
+    </div>
   ),
 });
 

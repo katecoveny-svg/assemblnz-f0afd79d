@@ -1,0 +1,74 @@
+/* assembl chrome — DIRECTION-LOCKED-2026-07-01
+ *
+ * Motion budget from the locked spec:
+ *   - particulate landscape drifts slowly (5–10% opacity shift, 60s cycle)
+ *   - constellation dots pulse softly (1.5s ease, ~40% opacity range)
+ *   - cards levitate on hover (2–4px translate-y, 400ms ease)
+ *   - prefers-reduced-motion → hold everything still
+ */
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  animation: assembl-drift 60s ease-in-out infinite alternate;
+}
+
+@keyframes assembl-drift {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.9;
+  }
+}
+
+.clusterDot {
+  animation: assembl-pulse 1.5s ease-in-out infinite alternate;
+}
+
+.clusterDot:nth-child(3n) {
+  animation-delay: 0.5s;
+}
+
+.clusterDot:nth-child(3n + 1) {
+  animation-delay: 1s;
+}
+
+@keyframes assembl-pulse {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 0.9;
+  }
+}
+
+.levitate {
+  transition:
+    transform 400ms ease,
+    box-shadow 400ms ease;
+}
+
+.levitate:hover {
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .clusterDot {
+    animation: none;
+  }
+
+  .levitate {
+    transition: none;
+  }
+
+  .levitate:hover {
+    transform: none;
+  }
+}
