@@ -17,10 +17,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// Access is gated at the edge: middleware.ts rewrites any locked /keeper request
-// to /customers/auckland-zoo/unlock, so this layout (and the pages beneath it)
-// only ever render for an unlocked visitor — gated content never reaches the RSC
-// payload.
+// Access is gated one level up at app/customers/auckland-zoo/layout.tsx via the
+// shared customer-pilot passphrase gate (lib/customers/access.ts). This layout
+// only renders the branded workspace chrome.
 export default function KeeperLayout({ children }: { children: ReactNode }) {
   const style = tenantCssVars(AUCKLAND_ZOO.brand) as CSSProperties;
   return (

@@ -73,9 +73,20 @@ export function isAdminHub(pathname: string | null): boolean {
   return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
-/** Hosted customer pilot workspaces (e.g. /customers/auckland-zoo/keeper) are
- *  white-labelled to the customer's own brand and ship their own workspace
- *  chrome + password gate. Suppress the global assembl site chrome there. */
+/** The Happy Tails × Keeper pilot workspace is a branded tenant instance —
+ *  it renders its own Happy Tails chrome and must never show assembl site
+ *  chrome inside the tenant (assembl attribution stays on Mana Receipts +
+ *  a subtle "powered by assembl" footer only). */
+export function isHappyTailsKeeper(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return (
+    pathname === "/customers/happy-tails/keeper" ||
+    pathname.startsWith("/customers/happy-tails/keeper/")
+  );
+}
+/** Hosted per-customer demo/pilot workspaces (e.g. Air NZ × Dash at
+ *  /customers/air-nz/dash) render their customer's own app chrome inside a
+ *  phone frame — suppress the global assembl site chrome there. */
 export function isCustomerWorkspace(pathname: string | null): boolean {
   if (!pathname) return false;
   return pathname === "/customers" || pathname.startsWith("/customers/");

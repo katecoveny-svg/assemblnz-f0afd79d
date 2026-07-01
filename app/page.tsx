@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import {
-  PUBLIC_MARKETPLACE_AGENTS,
+  SHELF_AGENTS,
   CATEGORY_LABELS,
   agentPriceLabel,
 } from '@/lib/marketplace/agents';
@@ -41,7 +41,7 @@ const ORB_GOLDS: [string, string][] = [
 ];
 
 export default function HomePage() {
-  const agents = PUBLIC_MARKETPLACE_AGENTS;
+  const agents = SHELF_AGENTS;
 
   return (
     <>
