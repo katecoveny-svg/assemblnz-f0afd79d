@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useMemo } from 'react';
 import type { BrandConfig } from '@/lib/brand/brand-config';
+import { buildBrandCss } from '@/lib/brand/brand-css';
 
 /**
  * The theme context value exposed to widgets. `css` is a `React.CSSProperties`
@@ -26,20 +27,10 @@ export function useBrandTheme(): BrandThemeValue {
   return ctx;
 }
 
-/**
- * Build the inline `style` object from a `BrandConfig`. Server components can
- * import this without pulling the client context in.
- */
-export function buildBrandCss(config: BrandConfig): Record<string, string> {
-  return {
-    '--brand-bg': config.colours.bg,
-    '--brand-surface': config.colours.surface,
-    '--brand-ink': config.colours.ink,
-    '--brand-muted': config.colours.muted,
-    '--brand-accent': config.colours.accent,
-    '--brand-canary': config.colours.canary,
-  };
-}
+// buildBrandCss moved to lib/brand/brand-css.ts. This file is 'use client',
+// so defining it here turned every server-side call into "Attempted to call
+// buildBrandCss() from the server" — which killed OpsShell on all ops routes.
+// Server components must import it from '@/lib/brand/brand-css' directly.
 
 /**
  * Convenience client hook — memoise CSS for a config not fetched from context.
