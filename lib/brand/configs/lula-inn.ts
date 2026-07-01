@@ -4,7 +4,7 @@ export const lulaInnConfig: BrandConfig = parseBrandConfig({
   slug: 'lula-inn',
   displayName: 'Lula Inn',
   logo: {
-    src: '/img/customers/lula-inn/logo.svg',
+    src: '', // logo mark pending — empty string → OpsShell renders the monogram chip
     alt: 'Lula Inn wordmark',
   },
   colours: {

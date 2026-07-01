@@ -4,7 +4,7 @@ export const everydayRewardsConfig: BrandConfig = parseBrandConfig({
   slug: 'everyday-rewards',
   displayName: 'Everyday Rewards',
   logo: {
-    src: '/img/customers/everyday-rewards/logo.svg',
+    src: '', // logo mark pending — empty string → OpsShell renders the monogram chip
     alt: 'Everyday Rewards wordmark',
   },
   colours: {
