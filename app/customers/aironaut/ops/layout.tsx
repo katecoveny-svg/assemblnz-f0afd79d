@@ -14,6 +14,7 @@ import {
 } from '@/components/assembl/chrome';
 import { TenantPwa } from '@/components/customers/TenantPwa';
 import { tenantPwaMetadata } from '@/lib/pwa/apple';
+import { InviteGreeting } from '@/components/ops/InviteGreeting';
 
 export const metadata: Metadata = {
   title: 'AIRONAUT — AI operating system (concept pilot) · assembl',
@@ -59,7 +60,10 @@ export default function AironautOpsLayout({ children }: { children: ReactNode })
           }}
         />
 
-        <div className="relative">{children}</div>
+        <div className="relative">
+          <InviteGreeting demo="aironaut" />
+          {children}
+        </div>
 
         {/* Layer 1 — assembl OS signature band + quiet cross-brand lockup. */}
         <footer

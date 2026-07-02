@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Roboto, Cormorant_Garamond, Space_Mono } from 'next/font/google';
 import ops from './ops.module.css';
 import { OpsSidebar } from '@/components/customers/everyday-rewards/ops-chrome';
+import { InviteGreeting } from '@/components/ops/InviteGreeting';
 
 /**
  * Everyday Rewards × Dash — Partner Operations console shell (back-of-house).
@@ -68,6 +69,7 @@ export default function EverydayRewardsOpsLayout({ children }: { children: React
             <div className={ops.conceptStrip}>
               Concept workspace · not an active Everyday Rewards partnership · shared in confidence
             </div>
+            <InviteGreeting demo="everyday-rewards" />
             {children}
           </div>
         </main>

@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { OpsShell } from '@/components/ops/OpsShell';
 import { ManaReceiptViewer } from '@/components/ops/widgets/ManaReceiptViewer';
+import { InviteGreeting } from '@/components/ops/InviteGreeting';
 
 /**
  * Slug-scoped layout for the ops surface. Resolves the slug to a `BrandConfig`
@@ -50,6 +51,7 @@ export default async function OpsLayout({
         </>
       }
     >
+      <InviteGreeting demo={slug} />
       {children}
     </OpsShell>
   );

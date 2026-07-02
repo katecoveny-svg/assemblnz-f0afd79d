@@ -2,6 +2,13 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 import { TENANT_SLUGS } from '@/lib/customers/tenants';
+import {
+  INVITE_COOKIE,
+  buildInviteCookieValue,
+  getInviteSecret,
+  verifyInviteCookieValue,
+  verifyInviteSlug,
+} from '@/lib/demo-invites/crypto';
 
 const SPA_ORIGIN = 'https://assembl-app.vercel.app';
 
@@ -126,26 +133,24 @@ const demoUnauthorized = () =>
     },
   });
 
-/** Returns a 401 response when the request needs (and lacks) demo auth, else null. */
-const requireDemoAuth = async (request: NextRequest): Promise<NextResponse | null> => {
-  if (!needsDemoAuth(request)) return null;
-
+/** True when the request carries valid demo basic-auth credentials. */
+const basicAuthOk = async (request: NextRequest): Promise<boolean> => {
   const expectedUser = process.env.DEMO_BASIC_AUTH_USER;
   const expectedPassword = process.env.DEMO_BASIC_AUTH_PASSWORD;
-  // Fail closed: no configured credentials means nobody gets in.
-  if (!expectedUser || !expectedPassword) return demoUnauthorized();
+  // Fail closed: no configured credentials means nobody gets in this way.
+  if (!expectedUser || !expectedPassword) return false;
 
   const header = request.headers.get('authorization') ?? '';
-  if (!header.startsWith('Basic ')) return demoUnauthorized();
+  if (!header.startsWith('Basic ')) return false;
 
   let decoded = '';
   try {
     decoded = atob(header.slice(6).trim());
   } catch {
-    return demoUnauthorized();
+    return false;
   }
   const sep = decoded.indexOf(':');
-  if (sep < 0) return demoUnauthorized();
+  if (sep < 0) return false;
 
   const [gotUser, wantUser, gotPass, wantPass] = await Promise.all([
     sha256(decoded.slice(0, sep)),
@@ -157,9 +162,187 @@ const requireDemoAuth = async (request: NextRequest): Promise<NextResponse | nul
   // Single combined check — no early exit on username mismatch.
   const userOk = timingSafeEqual(gotUser, wantUser);
   const passOk = timingSafeEqual(gotPass, wantPass);
-  if (!(userOk && passOk)) return demoUnauthorized();
+  return userOk && passOk;
+};
 
+/**
+ * Returns a 401 response when the request needs (and lacks) demo auth, else null.
+ *
+ * Two grant paths, checked in order:
+ *   1. the shared basic-auth credential (Kate + anyone she's told) — full access;
+ *   2. a signed demo-invite cookie (magic link at /for/[slug]) — scoped to the
+ *      ONE demo the invite was minted for, revocable per-row in demo_invites.
+ * The basic-auth gate is untouched by the invite layer; invites are additive.
+ */
+const requireDemoAuth = async (request: NextRequest): Promise<NextResponse | null> => {
+  if (!needsDemoAuth(request)) return null;
+
+  if (await basicAuthOk(request)) return null;
+  if (await inviteCookieAllows(request)) return null;
+
+  return demoUnauthorized();
+};
+
+// ---------------------------------------------------------------------------
+// Demo magic links (/for/[slug]) — signed, per-prospect, revocable.
+//
+// A link like /for/happy-tails-liana-a3f9b2 carries its own HMAC token as the
+// final slug segment. The middleware verifies the HMAC BEFORE any DB lookup
+// (constant-time — bad links never reach the invite table), then atomically
+// records the open via the touch_demo_invite RPC, binds the browser to the
+// demo with a signed httpOnly cookie, and rewrites into the pilot workspace.
+// Revocation is live: every subsequent gated request re-checks revoked_at,
+// so killing a row in /admin/invites locks the browser out immediately.
+// ---------------------------------------------------------------------------
+
+const INVITE_PATH = /^\/for\/([a-z0-9-]+)\/?$/;
+const INVITE_COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
+
+const INVITE_INACTIVE_HTML = DEMO_401_HTML.replace(
+  'sign in to view the demo',
+  'this link isn&rsquo;t active anymore',
+);
+
+/** Branded "link retired" page — deliberately NO WWW-Authenticate header, so
+ *  prospects see the page, never a browser credentials popup. */
+const inviteInactive = () =>
+  new NextResponse(INVITE_INACTIVE_HTML, {
+    status: 401,
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+    },
+  });
+
+type SupabaseRestConfig = { url: string; key: string };
+
+const supabaseRestConfig = (): SupabaseRestConfig | null => {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  return url && key ? { url, key } : null;
+};
+
+type TouchedInvite = {
+  demo: string;
+  recipient_name: string;
+  recipient_company: string;
+  greeting_mode: string;
+  revoked: boolean;
+};
+
+/** Validate + record an open in one round trip (service-role RPC). */
+const touchInvite = async (slug: string): Promise<TouchedInvite | null> => {
+  const cfg = supabaseRestConfig();
+  if (!cfg) return null;
+  try {
+    const res = await fetch(`${cfg.url}/rest/v1/rpc/touch_demo_invite`, {
+      method: 'POST',
+      headers: {
+        apikey: cfg.key,
+        Authorization: `Bearer ${cfg.key}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ p_slug: slug }),
+    });
+    if (!res.ok) return null;
+    const rows = (await res.json()) as TouchedInvite[];
+    return rows?.[0] ?? null;
+  } catch {
+    return null;
+  }
+};
+
+/** Live revocation check for cookie-holders. Fail closed on any error. */
+const inviteStillActive = async (slug: string): Promise<boolean> => {
+  const cfg = supabaseRestConfig();
+  if (!cfg) return false;
+  try {
+    const res = await fetch(
+      `${cfg.url}/rest/v1/demo_invites?slug=eq.${encodeURIComponent(slug)}&select=revoked_at`,
+      { headers: { apikey: cfg.key, Authorization: `Bearer ${cfg.key}` } },
+    );
+    if (!res.ok) return false;
+    const rows = (await res.json()) as Array<{ revoked_at: string | null }>;
+    return rows.length === 1 && rows[0].revoked_at === null;
+  } catch {
+    return false;
+  }
+};
+
+/** Which tenant a gated request is scoped to (`/customers/<t>/…` on any host,
+ *  or `/<t>/…` on the demo host — mirroring demoHostRewrite). */
+const requestTenantScope = (request: NextRequest): string | null => {
+  const pathname = request.nextUrl.pathname;
+  if (matchesPrefix(pathname, '/customers')) {
+    return pathname.split('/').filter(Boolean)[1] ?? null;
+  }
+  const host = (request.headers.get('host') ?? '').toLowerCase();
+  if (DEMO_HOSTS.has(host)) {
+    return pathname.split('/').filter(Boolean)[0] ?? null;
+  }
   return null;
+};
+
+/**
+ * Second grant path: a valid, unrevoked invite cookie scoped to the demo the
+ * request is asking for. The signature check is local (no DB); the revocation
+ * check is a live read so revokes take effect on the very next request.
+ */
+const inviteCookieAllows = async (request: NextRequest): Promise<boolean> => {
+  const secret = getInviteSecret();
+  if (!secret) return false;
+
+  const payload = await verifyInviteCookieValue(
+    request.cookies.get(INVITE_COOKIE)?.value,
+    secret,
+  );
+  if (!payload) return false;
+
+  const scope = requestTenantScope(request);
+  if (!scope || scope !== payload.demo) return false;
+
+  return inviteStillActive(payload.slug);
+};
+
+/**
+ * Entry point for /for/[slug]: verify the HMAC token embedded in the slug,
+ * record the open, set the signed session cookie, and rewrite straight into
+ * the branded pilot (the URL bar keeps the personal /for link).
+ */
+const handleInviteEntry = async (request: NextRequest): Promise<NextResponse | null> => {
+  const match = INVITE_PATH.exec(request.nextUrl.pathname);
+  if (!match) return null;
+
+  const slug = match[1];
+  const secret = getInviteSecret();
+  // Fail closed: an unconfigured secret means no magic links, anywhere.
+  if (!secret) return inviteInactive();
+
+  if (!(await verifyInviteSlug(slug, secret))) return inviteInactive();
+
+  const invite = await touchInvite(slug);
+  if (!invite || invite.revoked) return inviteInactive();
+  if (!TENANT_SLUGS.includes(invite.demo)) return inviteInactive();
+
+  const url = request.nextUrl.clone();
+  url.pathname = `/customers/${invite.demo}/ops`;
+  url.search = '';
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-invite-slug', slug);
+
+  const response = NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+  response.cookies.set({
+    name: INVITE_COOKIE,
+    value: await buildInviteCookieValue(invite.demo, slug, secret),
+    maxAge: INVITE_COOKIE_MAX_AGE,
+    httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+    secure: process.env.NODE_ENV === 'production',
+  });
+  response.headers.set('Cache-Control', 'no-store');
+  return response;
 };
 
 // Legacy bare kete slugs (/manaaki, /arataki, …) are pre-pivot surfaces. They
@@ -261,6 +444,11 @@ const shouldProxyToSpa = (pathname: string) => {
 };
 
 export async function middleware(request: NextRequest) {
+  // Magic-link entry (/for/[slug]) resolves before the gate — a valid signed
+  // link IS the credential. Invalid or revoked links get the branded page.
+  const inviteEntry = await handleInviteEntry(request);
+  if (inviteEntry) return inviteEntry;
+
   // Pilot workspaces are gated before anything else — including the demo-host
   // rewrite, which would otherwise return early and skip the check.
   const demoAuth = await requireDemoAuth(request);

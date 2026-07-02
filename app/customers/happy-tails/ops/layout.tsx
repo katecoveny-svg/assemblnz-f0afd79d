@@ -14,6 +14,7 @@ import {
 } from '@/components/assembl/chrome';
 import { TenantPwa } from '@/components/customers/TenantPwa';
 import { tenantPwaMetadata } from '@/lib/pwa/apple';
+import { InviteGreeting } from '@/components/ops/InviteGreeting';
 
 export const metadata: Metadata = {
   title: 'Happy Tails — AI operating system (concept pilot) · assembl',
@@ -57,7 +58,10 @@ export default function HappyTailsOpsLayout({ children }: { children: ReactNode 
           }}
         />
 
-        <div className="relative">{children}</div>
+        <div className="relative">
+          <InviteGreeting demo="happy-tails" />
+          {children}
+        </div>
 
         <footer
           className="relative overflow-hidden border-t border-black/5 px-6 py-12 text-center"
