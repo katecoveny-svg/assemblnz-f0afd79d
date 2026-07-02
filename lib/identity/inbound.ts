@@ -28,6 +28,7 @@ import {
   type BundleIdentityMeta,
 } from './registry';
 import { deliverReply, sendModeIsLive, type BundleIdentityRow } from './send';
+import { sendPushToTenant } from '@/lib/push/send';
 
 export type InboundMessage = {
   channel: 'sms' | 'email';
@@ -211,6 +212,21 @@ export async function handleInboundMessage(msg: InboundMessage): Promise<Inbound
     body: replyBody,
     agent_reply_approval_id: approvalId,
   });
+
+  // 4b · web push to any installed workspace apps subscribed under this slug —
+  // a POINTER only ("new draft reply waiting"), never the message content.
+  // Draft-only rules unchanged: the push notifies, it cannot send. Best-effort
+  // (no-op when VAPID keys or subscriptions are absent).
+  try {
+    await sendPushToTenant(identity.bundle_slug, {
+      title: `${identity.display_name} · assembl`,
+      body: `New draft ${msg.channel.toUpperCase()} reply waiting for approval.`,
+      url: '/admin/approvals',
+      tag: `draft-${identity.bundle_slug}`,
+    });
+  } catch {
+    /* push is infrastructure, never the pipeline */
+  }
 
   // 5 · the send door — hard-gated to draft unless live=true AND SEND_MODE=live
   let mode: 'draft' | 'sent' = 'draft';
