@@ -726,7 +726,7 @@ function StepShip({ draft, set, busy, signedIn, result, onShip }: {
       </Field>
       {result && 'paywall' in result && (
         <div className="rounded-xl border p-4 text-sm" style={{ borderColor: C.gold, backgroundColor: `${C.canary}22`, color: C.ink }}>
-          {result.message} <Link href="/agents/pricing" className="underline" style={{ fontWeight: 700 }}>See Pilot pricing</Link>
+          {result.message} <Link href="/pricing" className="underline" style={{ fontWeight: 700 }}>See Pilot pricing</Link>
         </div>
       )}
       {!signedIn && <p className="text-sm" style={{ color: C.muted }}>You&apos;ll be asked to sign in to save your agent — the first one is free, and you earn points for building it.</p>}

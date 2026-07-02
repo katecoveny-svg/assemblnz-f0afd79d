@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  assembl signature brand pattern — LOCKED 2026-07-01
+  Tileable 600 × 600 vector. Fine ink line + sparse gold flecks.
+  Motif language: maunga · awa · matariki dot clusters · connecting arcs ·
+                  compass abstract · signal-pulse ring · fern-frond curl ·
+                  kōwhai bloom mark · gold flecks
+  Render at ~4% opacity as a wallpaper wash behind the silvery-gold hero.
+  Register: Aesop / Kinfolk / Muji — quiet, editorial, deliberate.
+  Seamless: motifs that cross a tile edge are duplicated on the opposite edge.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="600" height="600"
+     viewBox="0 0 600 600">
+
+  <defs>
+    <!-- MOTIF library — each anchored at (0,0) top-left of its own box -->
+    <g id="maunga" fill="none" stroke="#1A1918" stroke-width="1.2"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 0 22 L 14 2 L 24 14 L 34 4 L 46 22"/>
+    </g>
+    <g id="maungaWide" fill="none" stroke="#1A1918" stroke-width="1.2"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 0 24 L 12 6 L 20 16 L 30 2 L 40 14 L 52 24"/>
+    </g>
+    <g id="awa" fill="none" stroke="#1A1918" stroke-width="1.2" stroke-linecap="round">
+      <path d="M 0 7 Q 10 -1 20 7 T 40 7"/>
+    </g>
+    <g id="awa2" fill="none" stroke="#1A1918" stroke-linecap="round">
+      <path d="M 0 6 Q 10 -2 20 6 T 40 6" stroke-width="1.2"/>
+      <path d="M 4 14 Q 12 8 20 14 T 36 14" stroke-width="1.0" opacity="0.55"/>
+    </g>
+    <g id="matarikiA">
+      <circle cx="3" cy="4" r="1.3" fill="#1A1918"/>
+      <circle cx="14" cy="11" r="1.3" fill="#1A1918"/>
+      <circle cx="23" cy="3" r="1.3" fill="#1A1918"/>
+      <circle cx="19" cy="18" r="1.3" fill="#1A1918"/>
+      <path d="M 3 4 Q 9 7 14 11" fill="none" stroke="#1A1918" stroke-width="0.6" opacity="0.5"/>
+    </g>
+    <g id="matarikiB">
+      <circle cx="2" cy="10" r="1.3" fill="#1A1918"/>
+      <circle cx="10" cy="2" r="1.3" fill="#1A1918"/>
+      <circle cx="17" cy="12" r="1.3" fill="#1A1918"/>
+      <circle cx="25" cy="6" r="1.3" fill="#1A1918"/>
+      <circle cx="22" cy="20" r="1.3" fill="#1A1918"/>
+      <path d="M 10 2 Q 14 8 17 12" fill="none" stroke="#1A1918" stroke-width="0.6" opacity="0.5"/>
+    </g>
+    <g id="matarikiC">
+      <circle cx="4" cy="4" r="1.3" fill="#1A1918"/>
+      <circle cx="14" cy="7" r="1.3" fill="#1A1918"/>
+      <circle cx="9" cy="14" r="1.3" fill="#1A1918"/>
+      <circle cx="20" cy="14" r="1.5" fill="#D9B87A"/>
+    </g>
+    <g id="matarikiD">
+      <circle cx="2" cy="2" r="1.3" fill="#1A1918"/>
+      <circle cx="12" cy="6" r="1.3" fill="#1A1918"/>
+      <circle cx="7" cy="14" r="1.3" fill="#1A1918"/>
+      <path d="M 2 2 Q 8 3 12 6" fill="none" stroke="#1A1918" stroke-width="0.6" opacity="0.5"/>
+      <path d="M 12 6 Q 10 11 7 14" fill="none" stroke="#1A1918" stroke-width="0.6" opacity="0.5"/>
+    </g>
+    <g id="compass" fill="none" stroke="#1A1918" stroke-width="1.2" stroke-linecap="round">
+      <circle cx="14" cy="14" r="2.4"/>
+      <line x1="14" y1="0" x2="14" y2="7"/>
+      <line x1="14" y1="21" x2="14" y2="28"/>
+      <line x1="0" y1="14" x2="7" y2="14"/>
+      <line x1="21" y1="14" x2="28" y2="14"/>
+    </g>
+    <g id="pulse">
+      <circle cx="14" cy="14" r="1.3" fill="#1A1918"/>
+      <circle cx="14" cy="14" r="6.5" fill="none" stroke="#1A1918" stroke-width="1.2" opacity="0.85"/>
+      <circle cx="14" cy="14" r="12" fill="none" stroke="#1A1918" stroke-width="1.0" opacity="0.35"/>
+    </g>
+    <g id="frond" fill="none" stroke="#1A1918" stroke-width="1.2" stroke-linecap="round">
+      <path d="M 2 22 C 2 12 10 4 18 4 C 25 4 27 12 22 15 C 17 18 15 12 18 11"/>
+    </g>
+    <g id="kowhai" fill="none" stroke="#1A1918" stroke-width="1.2" stroke-linecap="round">
+      <path d="M 4 14 Q 8 6 13 11"/>
+      <path d="M 13 11 Q 18 4 22 12"/>
+      <path d="M 8 14 Q 13 20 18 15"/>
+    </g>
+    <g id="arc">
+      <circle cx="0" cy="10" r="1.3" fill="#1A1918"/>
+      <circle cx="28" cy="2" r="1.3" fill="#1A1918"/>
+      <path d="M 0 10 Q 14 -2 28 2" fill="none" stroke="#1A1918" stroke-width="0.7" opacity="0.6"/>
+    </g>
+    <circle id="gold" r="1.8" fill="#D9B87A"/>
+    <g id="goldpair">
+      <circle cx="0" cy="0" r="1.6" fill="#D9B87A"/>
+      <circle cx="7" cy="4" r="1.2" fill="#EFC96A"/>
+    </g>
+  </defs>
+
+  <!-- ground -->
+  <rect width="600" height="600" fill="#FBFAF6"/>
+
+  <!-- ============================================================
+       NW QUADRANT
+       ============================================================ -->
+  <use href="#maunga"      x="46"  y="38"/>
+  <use href="#matarikiA"   x="178" y="22"/>
+  <use href="#awa"         x="88"  y="118"/>
+  <use href="#gold"        x="232" y="96"/>
+  <use href="#pulse"       x="38"  y="176"/>
+  <g transform="translate(258 154) rotate(14)"><use href="#frond"/></g>
+  <use href="#matarikiD"   x="140" y="210"/>
+  <use href="#kowhai"      x="210" y="264"/>
+  <use href="#awa2"        x="40"  y="258"/>
+  <use href="#goldpair"    x="276" y="226"/>
+
+  <!-- ============================================================
+       NE QUADRANT
+       ============================================================ -->
+  <use href="#compass"     x="388" y="46"/>
+  <use href="#awa"         x="462" y="22"/>
+  <use href="#matarikiB"   x="316" y="96"/>
+  <g transform="translate(526 88) rotate(-22)"><use href="#frond"/></g>
+  <use href="#maungaWide"  x="400" y="170"/>
+  <use href="#gold"        x="348" y="208"/>
+  <use href="#matarikiC"   x="508" y="216"/>
+  <use href="#awa"         x="316" y="262"/>
+  <use href="#kowhai"      x="454" y="272"/>
+
+  <!-- ============================================================
+       SW QUADRANT
+       ============================================================ -->
+  <use href="#matarikiC"   x="66"  y="326"/>
+  <use href="#frond"       x="206" y="348"/>
+  <use href="#awa2"        x="88"  y="402"/>
+  <use href="#maunga"      x="238" y="418"/>
+  <use href="#compass"     x="30"  y="456"/>
+  <use href="#matarikiA"   x="174" y="486"/>
+  <use href="#awa"         x="56"  y="546"/>
+  <use href="#gold"        x="268" y="508"/>
+  <use href="#kowhai"      x="140" y="552"/>
+
+  <!-- ============================================================
+       SE QUADRANT
+       ============================================================ -->
+  <use href="#awa"         x="360" y="320"/>
+  <use href="#matarikiD"   x="482" y="336"/>
+  <use href="#pulse"       x="316" y="398"/>
+  <use href="#goldpair"    x="442" y="396"/>
+  <g transform="translate(538 448) rotate(28)"><use href="#frond"/></g>
+  <use href="#maunga"      x="384" y="476"/>
+  <use href="#matarikiB"   x="292" y="520"/>
+  <use href="#awa2"        x="456" y="542"/>
+  <use href="#gold"        x="560" y="512"/>
+
+  <!-- ============================================================
+       EDGE-CROSSERS — duplicated on the opposite side for seamless tile
+       ============================================================ -->
+  <!-- constellation crossing right edge at y=296 -->
+  <use href="#matarikiA"   x="578" y="296"/>
+  <use href="#matarikiA"   x="-22" y="296"/>
+
+  <!-- awa crossing left edge at y=384 -->
+  <use href="#awa"         x="-10" y="384"/>
+  <use href="#awa"         x="590" y="384"/>
+
+  <!-- maunga crossing bottom-right corner at (548, 578) -->
+  <use href="#maunga"      x="548" y="578"/>
+  <use href="#maunga"      x="-52" y="578"/>
+  <use href="#maunga"      x="548" y="-22"/>
+  <use href="#maunga"      x="-52" y="-22"/>
+
+  <!-- frond crossing top-left corner -->
+  <use href="#frond"       x="-6"  y="6"/>
+  <use href="#frond"       x="594" y="6"/>
+
+  <!-- gold fleck on right edge at y=132 -->
+  <use href="#gold"        x="596" y="132"/>
+  <use href="#gold"        x="-4"  y="132"/>
+
+</svg>

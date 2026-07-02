@@ -51,7 +51,7 @@ export function MarketplaceFooter() {
         </div>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold" style={{ color: PALETTE.ink }}>
           <Link href="/agents" className="hover:opacity-70">Agents</Link>
-          <Link href="/agents/pricing" className="hover:opacity-70">Pricing</Link>
+          <Link href="/pricing" className="hover:opacity-70">Pricing</Link>
           <Link href="/mana-receipts" className="hover:opacity-70">Trust</Link>
           <Link href="/legal/privacy" className="hover:opacity-70">Privacy</Link>
         </div>

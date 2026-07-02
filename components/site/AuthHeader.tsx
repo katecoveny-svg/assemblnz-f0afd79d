@@ -20,7 +20,7 @@ export function AuthHeader() {
         </Link>
         <nav className={styles.nav} aria-label="Primary">
           <Link href="/agents">Agents</Link>
-          <Link href="/agents/pricing">Pricing</Link>
+          <Link href="/pricing">Pricing</Link>
           <Link href="/trust">Trust</Link>
           <Link href="/about">About</Link>
         </nav>
