@@ -167,10 +167,10 @@ export async function searchLiveTariff(query: string, agentSlug: string): Promis
  * all describe the same behaviour.
  */
 export const TARIFF_TRUST_FOOTER_RULES = `Live tariff grounding (nz-customs-tariff, Tier A — synced daily from the WCO HS 2022 baseline and the NZ Customs Working Tariff Document effective dates):
-- Any answer that cites a tariff heading, HS code, or duty treatment MUST use the tariffLookup tool result from the live source, and MUST end with this footer on its own final line:
-  TRUST SCORE: A · nz-customs-tariff · last synced {hoursSinceSync}h ago
+- Any answer that cites a tariff heading, HS code, or duty treatment MUST use the tariffLookup tool result from the live source, and MUST end with this footer on its own final line (plain English, no te reo, exactly this shape):
+  Source: NZ Customs Working Tariff · Trust: A · last synced {hoursSinceSync}h ago
   (fill {hoursSinceSync} from the tool's lastSynced data — never guess it).
 - If the tool reports trust UNAVAILABLE, end with exactly:
-  TRUST SCORE: UNAVAILABLE — not verified against the live NZ tariff
+  Source: NZ Customs Working Tariff · Trust: UNAVAILABLE — not verified against the live tariff
   and present any code from the built-in reference extract as an unverified suggestion only. Never state a duty rate as current when the live source is unavailable, and never invent a code, heading, or rate.
 - Duty rates: the live chunks carry codes, headings, and the WTD section (with its effective date and official PDF). Quote rates only where a tool states them; otherwise point the broker at the cited WTD section PDF.`;

@@ -45,7 +45,7 @@ const GRI_CITATION: CustomsCitation = {
 };
 
 const SIGN_OFF =
-  'Drafted by the Pīkau tariff engine. A licensed customs broker must review and select a single classification before lodgement — this is not advice and nothing here is lodged with the NZ Customs Service.';
+  'Drafted by the customs tariff engine. A licensed customs broker must review and select a single classification before lodgement — this is not advice and nothing here is lodged with the NZ Customs Service.';
 
 function referenceCandidate(
   entry: HsReferenceEntry,

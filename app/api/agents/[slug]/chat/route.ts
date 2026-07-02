@@ -272,7 +272,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
         return {
           trust: 'UNAVAILABLE' as const,
           reason: live.reason,
-          note: 'End the answer with "TRUST SCORE: UNAVAILABLE — not verified against the live NZ tariff". Do not state any code or rate as current, and never invent one.',
+          note: 'End the answer with "Source: NZ Customs Working Tariff · Trust: UNAVAILABLE — not verified against the live tariff". Do not state any code or rate as current, and never invent one.',
         };
       }
       return {
@@ -283,7 +283,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
           sourcePointer: m.sourcePointer,
           similarity: m.similarity,
         })),
-        note: `Live Tier A source, synced ${live.hoursSinceSync}h ago. End the answer with: "TRUST SCORE: A · nz-customs-tariff · last synced ${live.hoursSinceSync}h ago".`,
+        note: `Live Tier A source, synced ${live.hoursSinceSync}h ago. End the answer with: "Source: NZ Customs Working Tariff · Trust: A · last synced ${live.hoursSinceSync}h ago".`,
       };
     },
   });
