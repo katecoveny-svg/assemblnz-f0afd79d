@@ -127,12 +127,16 @@ export async function handleInboundMessage(msg: InboundMessage): Promise<Inbound
   });
 
   // 3 · generate the reply with the bundle's lead agent
+  // DB-only rows (not in the code registry) route via their chat_slug: a row
+  // like { bundle_slug: 'atlas', chat_slug: 'atlas' } gives an individual
+  // AGENT its own inbound address through this same pipeline — chat_slug is
+  // tried first as a bundle lead, then as a marketplace agent slug.
   const meta: BundleIdentityMeta = identityMetaBySlug(identity.bundle_slug) ?? {
     bundleSlug: identity.bundle_slug,
     displayName: identity.display_name,
     email: identity.email ?? '',
     chatSlug: identity.chat_slug,
-    routingAgentSlug: '',
+    routingAgentSlug: identity.chat_slug,
   };
   const agent = resolveRoutingAgent(meta);
   if (!agent) {
