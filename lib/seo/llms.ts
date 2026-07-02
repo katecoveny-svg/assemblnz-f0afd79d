@@ -34,7 +34,7 @@ const PRICING_BLOCK = PRICE_TIERS.map(
 
 const KEY_PAGES = [
   ['/agents', 'The marketplace — browse every agent by category'],
-  ['/agents/pricing', 'Pricing ladder: Free → Everyday $9.99 → Pro Stack $49 → Specialist $199 → All-Access $250'],
+  ['/pricing', 'Pricing ladder: Free → Everyday $9.99 → Pro Stack $49 → Specialist $199 → All-Access $250'],
   ['/about', 'What assembl is, the founder, and how the human-in-the-loop works'],
   ['/trust', 'Trust Centre — data residency, PII masking, evidence packs, compliance posture'],
   ['/mana-receipts', 'How the Mana Receipt provenance layer works'],
@@ -57,7 +57,7 @@ export function buildLlmsTxt(): string {
   lines.push('');
   lines.push(PRICING_BLOCK);
   lines.push('');
-  lines.push(`Full detail: ${SITE_URL}/agents/pricing`);
+  lines.push(`Full detail: ${SITE_URL}/pricing`);
   lines.push('');
 
   lines.push('## Key pages');

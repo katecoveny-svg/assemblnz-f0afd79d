@@ -155,7 +155,7 @@ export async function POST(req: Request) {
         ? { discounts: [{ coupon: JULY_PROMO.code }] }
         : { allow_promotion_codes: true }),
       success_url: `${origin}/agents?subscribed=1`,
-      cancel_url: `${origin}/agents/pricing?checkout=cancelled`,
+      cancel_url: `${origin}/pricing?checkout=cancelled`,
       subscription_data: { metadata },
       metadata,
     });

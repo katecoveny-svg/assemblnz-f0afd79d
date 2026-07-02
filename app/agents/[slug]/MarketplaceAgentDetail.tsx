@@ -190,7 +190,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
         </div>
         <p className="mt-3 text-sm" style={{ color: PALETTE.muted }}>
           The first 3 messages with any agent are free. Bundles available on the{' '}
-          <Link href="/agents/pricing" className="font-bold underline" style={{ color: PALETTE.ink }}>
+          <Link href="/pricing" className="font-bold underline" style={{ color: PALETTE.ink }}>
             pricing page
           </Link>
           .

@@ -182,7 +182,7 @@ export default function FaqPage() {
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link
-                href="/agents/pricing"
+                href="/pricing"
                 className="inline-flex h-12 items-center rounded-full border border-[rgba(35,33,31,0.2)] px-7 text-sm font-medium text-[color:var(--text-primary)] md:h-14 md:px-9 md:text-base"
               >
                 See pricing

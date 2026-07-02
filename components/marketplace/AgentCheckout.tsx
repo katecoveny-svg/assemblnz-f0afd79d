@@ -154,7 +154,7 @@ export function AgentCheckout({
 
       <div className="mx-auto max-w-5xl px-5 py-10 md:px-8 md:py-14">
         <Link
-          href="/agents/pricing"
+          href="/pricing"
           className="inline-flex items-center gap-1.5 text-sm font-bold hover:opacity-70"
           style={{ color: PALETTE.body }}
         >

@@ -19,7 +19,7 @@ export default async function AgentCheckoutPage({
 }) {
   const { plan: planParam, agent: agentParam, promo: promoParam } = await searchParams;
   const plan = planParam ? getAgentPlan(planParam) : undefined;
-  if (!plan) redirect('/agents/pricing');
+  if (!plan) redirect('/pricing');
 
   const slimAgents = PUBLIC_MARKETPLACE_AGENTS.map((a) => ({
     slug: a.slug,

@@ -65,6 +65,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // ── v2 site (2026-07-02): /pricing is canonical again. The marketplace
+      // ladder page at /agents/pricing folded into it — 301 the old URL so
+      // saved links, paywall CTAs and indexed pages land on the one ladder.
+      { source: "/agents/pricing", destination: "/pricing", permanent: true },
+
       // Brand rename: "Dash by assembl" → "Assembling" (2 Jul 2026). The
       // ad-network microsite moved from /dash to /assembling; 301 the old paths
       // so saved links and any indexed pages don't 404. /beat (the pre-Dash

@@ -340,7 +340,7 @@ export default function HapaiPage() {
               share small internal tools for the work they actually do.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/agents/pricing" className="cta-primary inline-flex h-12 items-center px-6">
+              <Link href="/pricing" className="cta-primary inline-flex h-12 items-center px-6">
                 See pricing
               </Link>
               <Link href="/pilot-sprint" className="btn-ghost inline-flex h-12 items-center px-6">

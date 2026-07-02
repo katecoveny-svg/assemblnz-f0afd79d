@@ -299,7 +299,7 @@ export function AgentChat({
                   Subscribe · {agentPriceLabel(agent)}
                 </Link>
                 <Link
-                  href="/agents/pricing"
+                  href="/pricing"
                   className="inline-flex h-9 items-center rounded-full border px-4 text-xs font-bold"
                   style={{ borderColor: PALETTE.ink, color: PALETTE.ink }}
                 >
