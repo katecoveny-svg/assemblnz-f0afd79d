@@ -5,6 +5,7 @@ import { getBrandConfig } from '@/lib/brand/configs';
 import { TickerNumber } from '@/lib/motion';
 import { ASSEMBL_GOLD, ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
+import { EnableNotificationsButton } from '@/components/customers/EnableNotificationsButton';
 import { BackendTabs } from '@/components/customers/BackendTabs';
 import { DadWalkthrough, type WalkthroughStep } from '@/components/customers/aironaut/DadWalkthrough';
 import {
@@ -278,6 +279,9 @@ export default function AironautOsHome() {
             The workspace agent, live. Real tariff engine, real landed-cost maths,
             real NZ knowledge retrieval — every answer cites its sources.
           </p>
+          <div className="mt-3">
+            <EnableNotificationsButton slug="aironaut" />
+          </div>
 
           <div className="mt-6 grid gap-5 lg:grid-cols-3">
             <div className="lg:col-span-2">

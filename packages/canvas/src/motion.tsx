@@ -60,39 +60,42 @@ export const levitate: Variants = {
   },
 };
 
+// Loader pulse constants — Kate's locked spec (2026-07-02): each dot cycles
+// opacity 0.3 → 1.0 → 0.3 over 1.5s, staggered 200ms per dot.
+const LOADER_OPACITY_MIN = 0.3;
+const LOADER_OPACITY_MAX = 1.0;
+const LOADER_CYCLE_S = 1.5;
+const LOADER_STAGGER_S = 0.2;
+
 /**
- * The branded loader: the matariki dots breathing at the constellation-pulse
- * cadence while "assembling…" sits beside them in lowercase Cormorant.
- * Apply to each dot; stagger via the `custom` index.
+ * The branded loader pulse: opacity 0.3 → 1.0 → 0.3 over a 1.5s cycle,
+ * staggered 200ms per dot. Apply to each dot; stagger via the `custom` index.
  */
 export const assemblingLoader: Variants = {
-  initial: { opacity: motionTokens.pulse.opacityMin },
+  initial: { opacity: LOADER_OPACITY_MIN },
   animate: (i: number = 0) => ({
-    opacity: [motionTokens.pulse.opacityMin, motionTokens.pulse.opacityMax],
+    opacity: [LOADER_OPACITY_MIN, LOADER_OPACITY_MAX, LOADER_OPACITY_MIN],
     transition: {
-      duration: motionTokens.pulse.durationS,
+      duration: LOADER_CYCLE_S,
       ease: 'easeInOut',
       repeat: Infinity,
-      repeatType: 'reverse',
-      delay: (i % 3) * 0.25,
+      delay: i * LOADER_STAGGER_S,
     },
   }),
 };
 
-// Small radial matariki cluster used by the loader (deterministic trig —
-// same geometry as the pilot-chrome ornament, so server and client agree).
-const LOADER_DOTS: Array<{ x: number; y: number; r: number }> = (() => {
-  const dots = [{ x: 10, y: 10, r: 1.5 }];
-  for (let i = 0; i < 6; i++) {
-    const a = (Math.PI * 2 * i) / 6 + 0.4;
-    dots.push({ x: 10 + 4.4 * Math.cos(a), y: 10 + 4.4 * Math.sin(a), r: 1 });
-  }
-  for (let i = 0; i < 8; i++) {
-    const a = (Math.PI * 2 * i) / 8;
-    dots.push({ x: 10 + 7.8 * Math.cos(a), y: 10 + 7.8 * Math.sin(a), r: 0.7 });
-  }
-  return dots;
-})();
+// Matariki cluster used by the loader — 7 hand-placed dots (spec allows 5–9),
+// scattered like the star cluster rather than a geometric ring. Deterministic
+// literals so server and client always agree.
+const LOADER_DOTS: Array<{ x: number; y: number; r: number }> = [
+  { x: 12, y: 5.5, r: 2 },
+  { x: 6.6, y: 9, r: 1.4 },
+  { x: 17.2, y: 8.2, r: 1.6 },
+  { x: 4.8, y: 15, r: 1.1 },
+  { x: 12.4, y: 12.8, r: 1.8 },
+  { x: 19.2, y: 14.6, r: 1.2 },
+  { x: 9, y: 18.6, r: 1.5 },
+];
 
 export interface AssemblingLoaderProps {
   /** Loader copy — lowercase on-brand. Defaults to "assembling…". */
@@ -105,9 +108,16 @@ export interface AssemblingLoaderProps {
 
 /**
  * <AssemblingLoader /> — the branded typing/loading state for every agent
- * chat: gently pulsing matariki dot cluster + "assembling…" in lowercase
- * Cormorant. Dependency-light (framer-motion + react only); holds still
- * under prefers-reduced-motion.
+ * chat (Kate's locked spec, 2026-07-02):
+ *
+ *   - a matariki cluster of 7 champagne-gold (#BFA37A) dots on paper white
+ *   - dots pulse on a 200ms stagger, 1.5s cycle, opacity 0.3 → 1.0
+ *   - below the cluster, a tiny Space Mono `ASSEMBLING…` label —
+ *     uppercase, tracked 0.16em, ink at 60% opacity
+ *   - fully static under prefers-reduced-motion
+ *
+ * Dependency-light (framer-motion + react only). This replaces every
+ * "typing…" / spinner state in the pilot workspace chat UIs.
  */
 export function AssemblingLoader({
   label = 'assembling…',
@@ -124,13 +134,13 @@ export function AssemblingLoader({
       className={className}
       style={{
         display: 'inline-flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        gap: size * 0.45,
-        color: palette.bodyGrey,
+        gap: size * 0.3,
         ...style,
       }}
     >
-      <svg width={size} height={size} viewBox="0 0 20 20" fill="none" aria-hidden>
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden>
         {LOADER_DOTS.map((d, i) =>
           reduced ? (
             <circle
@@ -138,7 +148,7 @@ export function AssemblingLoader({
               cx={d.x.toFixed(2)}
               cy={d.y.toFixed(2)}
               r={d.r}
-              fill={i === 0 ? palette.gold : palette.goldSoft}
+              fill={palette.accentGold}
               opacity={0.8}
             />
           ) : (
@@ -147,7 +157,7 @@ export function AssemblingLoader({
               cx={d.x.toFixed(2)}
               cy={d.y.toFixed(2)}
               r={d.r}
-              fill={i === 0 ? palette.gold : palette.goldSoft}
+              fill={palette.accentGold}
               variants={assemblingLoader}
               custom={i}
               initial="initial"
@@ -158,11 +168,12 @@ export function AssemblingLoader({
       </svg>
       <span
         style={{
-          fontFamily: typography.display.fontFamily,
-          fontWeight: typography.display.fontWeightMin,
-          fontSize: size * 0.9,
-          letterSpacing: typography.display.letterSpacing,
-          textTransform: 'lowercase',
+          fontFamily: typography.mono.fontFamily,
+          fontSize: Math.max(8, Math.round(size * 0.45)),
+          letterSpacing: typography.mono.letterSpacing,
+          textTransform: 'uppercase',
+          color: palette.ink,
+          opacity: 0.6,
         }}
       >
         {label}

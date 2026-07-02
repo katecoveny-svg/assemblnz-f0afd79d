@@ -80,7 +80,7 @@ export function CanvasDemo() {
           margin: '0 auto',
         }}
       >
-        <Section label="assembling loader — the branded typing state">
+        <Section label="assembling loader — the branded typing state (locked spec: gold matariki cluster on paper, Space Mono label)">
           <div
             style={{
               display: 'flex',
@@ -89,7 +89,7 @@ export function CanvasDemo() {
               padding: 24,
               borderRadius: 16,
               border: `1px solid ${palette.hairline}`,
-              background: '#FFFFFF',
+              background: palette.paper,
             }}
           >
             <AssemblingLoader />
