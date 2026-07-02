@@ -11,7 +11,7 @@
   display: grid;
   grid-template-columns: 236px 1fr;
   min-height: 100dvh;
-  background: #f4f5f5;
+  background: #fbfaf6;
 }
 
 /* --- sidebar ------------------------------------------------------------ */
@@ -44,7 +44,7 @@
 }
 .brandSub {
   font-size: 10px;
-  color: #ffb98a;
+  color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-top: 3px;
@@ -66,7 +66,7 @@
   color: #fff;
 }
 .navItem.active {
-  background: rgba(253, 100, 0, 0.18);
+  background: rgba(255, 255, 255, 0.08);
   color: #fff;
   box-shadow: inset 2px 0 0 #fd6400;
 }
@@ -74,7 +74,7 @@
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: #fd6400;
+  background: rgba(255, 255, 255, 0.35);
   flex: none;
 }
 .sidebarFoot {
@@ -86,7 +86,7 @@
   line-height: 1.6;
 }
 .sidebarFoot a {
-  color: #ffb98a;
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
 }
 
@@ -124,7 +124,7 @@
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #fd6400;
+  color: #6b6e71;
 }
 .title {
   font-family: var(--edr-display), Georgia, serif;
@@ -139,15 +139,15 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  border: 1px solid #fd6400;
+  border: 1px solid #d8d6ce;
   border-radius: 999px;
   padding: 5px 11px;
   font-size: 10px;
   font-family: var(--edr-mono), monospace;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #c65100;
-  background: #ffe6d1;
+  color: #6b6e71;
+  background: #faf9f6;
   white-space: nowrap;
 }
 .content {
@@ -316,7 +316,7 @@
   font-size: 14px;
 }
 .ledgerRow:last-child { border-bottom: 0; }
-.ledgerRow.total { font-weight: 700; border-top: 2px solid #fd6400; }
+.ledgerRow.total { font-weight: 700; border-top: 2px solid #22303c; }
 .ledgerName { color: #22303c; }
 .ledgerNote { font-size: 11.5px; color: #6b6e71; }
 .ledgerVal { font-variant-numeric: tabular-nums; font-weight: 600; }

@@ -2,8 +2,7 @@ import Link from 'next/link';
 import styles from './ops.module.css';
 import { OpsTopbar } from '@/components/customers/everyday-rewards/ops-chrome';
 import { getBrandConfig } from '@/lib/brand/configs';
-import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
-import { Brand3DHero } from '@/components/ops/Brand3DHero';
+import { EdrAppSlotMock } from '@/components/customers/everyday-rewards/AppSlotMock';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { BackendTabs } from '@/components/customers/BackendTabs';
 import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
@@ -64,44 +63,83 @@ export default function OpsOverview() {
     <>
       <OpsTopbar eyebrow="Partner Operations · Assembling on Everyday Rewards" title="Overview" />
       <div className={styles.content}>
-        {brand ? (
-          // Signature r-leaf orbit 3D hero (the locked EDR hero) with the
-          // single native-partner line beneath. Reduced-motion users get the
-          // static SVG fallback inside Brand3DHero. BrandThemeProvider scopes
-          // the --brand-* palette vars this console's own CSS module doesn't
-          // set.
-          <div>
-            <BrandThemeProvider config={brand}>
-              <Brand3DHero config={brand} />
-            </BrandThemeProvider>
-            <div style={{ padding: '14px 4px 0' }}>
-              <p
-                style={{
-                  fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
-                  fontWeight: 500,
-                  fontSize: 'clamp(24px, 3vw, 36px)',
-                  lineHeight: 1.1,
-                  textTransform: 'lowercase',
-                  margin: 0,
-                }}
-              >
-                the native partner slot, earning in the everyday wait
-                <span style={{ color: '#F5C64B' }}>.</span>
-              </p>
-              <p
-                style={{
-                  margin: '6px 0 0',
-                  fontSize: 10,
-                  letterSpacing: '0.16em',
-                  textTransform: 'uppercase',
-                  color: '#5A5850',
-                }}
-              >
-                the earn layer via assembling · concept · shared in confidence
-              </p>
-            </div>
+        {/* Signature slice hero — a live mock of the Everyday Rewards app
+            home: mostly white like the real app, with Assembling as a NATIVE
+            PARTNER SLOT beside ASB and Olive (Woolworths' real AI assistant)
+            untouched in her own slot. Orange appears as small accents only
+            (the r-leaf badge + the earn pulse). Companion, never a
+            replacement. */}
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: 28,
+            borderRadius: 16,
+            overflow: 'hidden',
+            padding: '32px 28px',
+            background: '#FBFAF6',
+            border: '1px solid #EAEAEA',
+          }}
+        >
+          {/* shopper-icon wallpaper wash inside the hero panel */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              backgroundImage: 'url(/brand/everyday-rewards/pattern-shopper-icons.png)',
+              backgroundRepeat: 'repeat',
+              backgroundSize: '380px auto',
+              opacity: 0.05,
+            }}
+          />
+          <div style={{ position: 'relative', flex: '1 1 380px' }}>
+            <p
+              style={{
+                fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
+                fontWeight: 500,
+                fontSize: 'clamp(26px, 3.5vw, 42px)',
+                lineHeight: 1.1,
+                textTransform: 'lowercase',
+                color: '#22303c',
+                margin: 0,
+              }}
+            >
+              the native partner slot, earning in the everyday wait
+              <span style={{ color: '#F5C64B' }}>.</span>
+            </p>
+            <p
+              style={{
+                margin: '10px 0 0',
+                fontSize: 10,
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: '#5A5850',
+              }}
+            >
+              the earn layer via assembling · concept · shared in confidence
+            </p>
+            <p
+              style={{
+                margin: '18px 0 0',
+                maxWidth: 420,
+                fontSize: 13,
+                lineHeight: 1.55,
+                color: '#3E3C36',
+              }}
+            >
+              Assembling slots into the app Everyday Rewards already has —
+              a partner tile beside ASB, with Olive untouched in her own slot.
+              A companion in the everyday shop, never a replacement.
+            </p>
           </div>
-        ) : null}
+          <div style={{ position: 'relative', flex: '0 0 auto', margin: '0 auto' }}>
+            <EdrAppSlotMock />
+          </div>
+        </div>
         <p className={styles.lead}>
           The back-of-house console the Everyday Rewards team would use to run a
           Dash wait-moment partnership — sponsors and tiers, earn scheduling,
