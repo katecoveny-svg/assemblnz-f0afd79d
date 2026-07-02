@@ -42,14 +42,18 @@ export default async function HomePage() {
 
       {/* ── hero ─────────────────────────────────────────────────────── */}
       <section className={styles.hero}>
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 560 }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 640 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
               •
             </span>
             <MicroLabel>built in aotearoa</MicroLabel>
           </div>
-          <h1 className={styles.h1} style={{ marginTop: 22 }}>
+          {/* exactly two lines, per the locked composition rule */}
+          <h1
+            className={styles.h1}
+            style={{ marginTop: 22, fontSize: 'clamp(2.2rem, 4vw, 3.6rem)' }}
+          >
             purpose-built agents.
             <br />
             limitless potential
@@ -109,6 +113,33 @@ export default async function HomePage() {
                 </Link>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── the four-line brand story ────────────────────────────────── */}
+      <section className={styles.section} style={{ paddingTop: 20, paddingBottom: 28 }}>
+        <div className={`${styles.inner} rise`} style={{ textAlign: 'center' }}>
+          <MicroLabel as="h2">read signals · route work · move to proof</MicroLabel>
+          <div
+            className={styles.h1}
+            style={{
+              marginTop: 26,
+              fontSize: 'clamp(1.35rem, 2.6vw, 2rem)',
+              lineHeight: 1.55,
+              fontWeight: 400,
+            }}
+          >
+            the user sets the destination.
+            <br />
+            the agents read the signals.
+            <br />
+            the system finds a path.
+            <br />
+            the proof — receipts and mana — show the journey
+            <span aria-hidden style={{ color: palette.canary }}>
+              .
+            </span>
           </div>
         </div>
       </section>

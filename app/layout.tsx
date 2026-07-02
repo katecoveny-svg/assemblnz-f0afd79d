@@ -69,35 +69,29 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl — mahi that earns its proof',
+    default: 'assembl — purpose-built agents. limitless potential.',
     template: '%s · assembl',
   },
   description:
-    'assembl is a fleet of specialist agents for the admin work that drains your team. Built in Aotearoa, reviewed by your people, and sealed with a record of how the work was made.',
+    'purpose-built agents for the work New Zealand teams actually do. Agents draft, your people approve, and every output carries the record of how it was made. Built in Aotearoa.',
   metadataBase: new URL('https://www.assembl.co.nz'),
   alternates: { canonical: '/' },
+  // og:image comes from the file-convention opengraph-image.tsx per route
+  // (new-direction art) — do not pin a static image here or it wins over them.
   openGraph: {
-    title: 'assembl — mahi that earns its proof',
+    title: 'assembl — purpose-built agents. limitless potential.',
     description:
-      'Specialist agents for the admin work that drains your team.',
+      'purpose-built agents for the work New Zealand teams actually do. Agents draft, people decide.',
     type: 'website',
     locale: 'en_NZ',
     url: 'https://www.assembl.co.nz',
     siteName: 'assembl',
-    images: [
-      {
-        url: '/og/og-assembl.png',
-        width: 1200,
-        height: 630,
-        alt: 'assembl — Mahi that earns its proof. Practical assistants for the admin work that drains your team.',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl — mahi that earns its proof',
-    description: 'Specialist agents for the admin work that drains your team.',
-    images: ['/og/og-assembl.png'],
+    title: 'assembl — purpose-built agents. limitless potential.',
+    description:
+      'purpose-built agents for the work New Zealand teams actually do. Agents draft, people decide.',
   },
   icons: {
     icon: [

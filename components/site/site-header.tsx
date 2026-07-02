@@ -125,7 +125,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className="sticky top-0 z-40 w-full border-b border-[rgba(58,56,50,0.10)] bg-[rgba(255,247,236,0.78)] backdrop-blur-xl"
+      className="sticky top-0 z-40 w-full border-b border-[#E7E4DA] bg-[rgba(251,250,246,0.78)] backdrop-blur-xl"
       style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
       <div className="flex h-[72px] w-full max-w-none items-center justify-between gap-3 px-5 md:gap-4 md:px-8 xl:px-12 2xl:px-20">
@@ -192,11 +192,11 @@ export function SiteHeader() {
             href="/login"
             aria-current={pathname === "/login" ? "page" : undefined}
             className={cn(
-              "btn-ghost hidden h-11 items-center whitespace-nowrap px-4 text-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 lg:inline-flex xl:text-[15px]",
+              "btn-ghost hidden h-11 items-center whitespace-nowrap px-4 text-[14px] lowercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 lg:inline-flex xl:text-[15px]",
               pathname === "/login" && "text-[color:var(--text-primary)] font-medium"
             )}
           >
-            Sign in
+            sign in
           </Link>
           <Link
             href={navCta.href}
@@ -271,9 +271,9 @@ export function SiteHeader() {
               <li>
                 <Link
                   href="/login"
-                  className="flex min-h-[56px] items-center border-b border-[rgba(35,33,31,0.08)] font-display text-2xl font-light tracking-tight text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+                  className="flex min-h-[56px] items-center border-b border-[rgba(35,33,31,0.08)] font-display text-2xl font-light lowercase tracking-tight text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
                 >
-                  Sign in
+                  sign in
                 </Link>
               </li>
             </ul>

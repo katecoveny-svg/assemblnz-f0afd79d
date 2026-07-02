@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { footerDisclaimer, footerKeteCutouts } from "@/lib/site-config";
+import { footerDisclaimer } from "@/lib/site-config";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
+import { AssemblMotto, MatarikiCluster } from "@/components/assembl/chrome";
 import { isAdminHub, isAgentMarketplace, isAtlas, isAuthSurface, isCustomerWorkspace, isDashMicrosite, isEcho } from "@/components/site/site-header";
 
 export function SiteFooter() {
@@ -15,7 +16,7 @@ export function SiteFooter() {
   if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname)) return null;
 
   return (
-    <footer className="relative z-10 mt-24 border-t border-[rgba(58,56,50,0.10)] bg-[rgba(255,247,236,0.6)]">
+    <footer className="relative z-10 mt-24 border-t border-[#E7E4DA] bg-[#FBFAF6]">
       <div className="container py-16">
         <div className="grid gap-12 md:grid-cols-5">
           <div>
@@ -23,14 +24,7 @@ export function SiteFooter() {
               href="/"
               className="inline-flex flex-col items-start gap-3 rounded-sm transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
             >
-              <img
-                src={footerKeteCutouts.waihanga}
-                alt=""
-                aria-hidden
-                width={96}
-                height={96}
-                className="h-24 w-24 select-none object-contain opacity-80"
-              />
+              <MatarikiCluster size={44} gold className="opacity-90" />
               <AssemblWordmark className="text-2xl tracking-[-0.02em] text-[color:var(--text-primary)]" />
             </Link>
             <p className="mt-3 max-w-xs text-sm text-[color:var(--text-secondary)]">
@@ -151,7 +145,15 @@ export function SiteFooter() {
                   href="/trust"
                   className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
                 >
-                  Trust Centre
+                  Trust
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/mana-receipts"
+                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+                >
+                  Mana Receipts
                 </Link>
               </li>
               <li>
@@ -225,6 +227,7 @@ export function SiteFooter() {
 
         <div className="mt-6 flex flex-col gap-2 text-xs text-[color:var(--text-secondary)] md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} assembl. All rights reserved.</p>
+          <AssemblMotto />
           <p className="font-mono">Built in Aotearoa</p>
         </div>
       </div>

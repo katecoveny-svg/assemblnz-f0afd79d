@@ -8,6 +8,7 @@
   min-height: 100vh;
   background-color: #fbfaf6;
   color: #1a1918;
+  overflow-x: clip;
   /* canvas typography.body reads var(--font-sans); the site loads Lato as
      --font-body — bridge them so the whole v2 surface uses one quiet grotesk */
   --font-sans: var(--font-body);
@@ -73,15 +74,27 @@
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr;
+  /* minmax(0, …) so long unwrapped copy can never widen the column past
+     the viewport (375px phones were getting horizontal scroll) */
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 32px;
   padding: 56px 24px 40px;
   overflow: hidden;
 }
+@media (max-width: 480px) {
+  .nav {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .navCta {
+    padding: 8px 14px !important;
+    font-size: 12.5px;
+  }
+}
 @media (min-width: 900px) {
   .hero {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
     min-height: 66vh;
     padding: 72px 48px 48px;
   }
@@ -94,6 +107,24 @@
   .heroArt {
     height: 100%;
     min-height: 460px;
+  }
+}
+
+/* poster art layer — full-bleed on phones; feathered into the paper on the
+   left ≥900px so the hero copy stays quiet */
+.heroArtMask {
+  position: absolute;
+  inset: 0;
+}
+@media (min-width: 900px) {
+  .heroArtMask {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.55) 18%,
+      black 48%
+    );
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.55) 18%, black 48%);
   }
 }
 

@@ -1,102 +1,166 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { SectionReveal } from '@/components/SectionReveal';
-import { Eyebrow } from '@/components/site/Eyebrow';
-import { HowAPackWorks } from '@/components/site/HowAPackWorks';
-import { ShaderGradient } from '@/components/site/ShaderGradient';
-import { HeroThreads } from '@/components/site/HeroThreads';
+import { palette, typography } from '@assembl/canvas/tokens';
+import { MicroLabel } from '@assembl/canvas';
+import { HeroArt } from '@/components/v2/HeroArt';
+import styles from '@/components/v2/v2.module.css';
 
 export const metadata: Metadata = {
-  title: 'How assembl works',
+  title: 'assembl — how it works',
   description:
-    'Specialist agents draft it first. A person signs it off. You get a record of how it was made — the evidence pack. Here’s what that looks like.',
+    'agents read the signals and draft the work. a person signs it off. the proof — receipts and mana — shows the journey.',
+  alternates: { canonical: '/how-it-works' },
 };
 
 const STEPS = [
   {
-    n: '1',
-    title: 'Agents draft it.',
-    body:
-      'Bring a job your team does by hand — an RFI, an allergen report, a customs entry. The agent for that work writes the first draft in seconds, trained on your industry’s rules and your way of doing things.',
+    n: '01',
+    label: 'read signals',
+    title: 'agents draft it.',
+    body: 'bring a job your team does by hand — an rfi, an allergen report, a customs entry. the agent for that work writes the first draft in seconds, citing the current rules for your industry.',
   },
   {
-    n: '2',
-    title: 'You review and sign off.',
-    body:
-      'The draft lands with a named person who accepts, edits, or rejects it. Nothing leaves your team — nothing sends, publishes, or gets lodged — without that sign-off.',
+    n: '02',
+    label: 'route work',
+    title: 'you review and sign off.',
+    body: 'the draft lands with a named person who accepts, edits, or rejects it. nothing sends, publishes, or gets lodged without that sign-off.',
   },
   {
-    n: '3',
-    title: 'You get the evidence pack.',
-    body:
-      'Every signed output comes with its receipt: the sources used, the assumptions made, what changed in review, and who approved it. One file, dated and filed, ready when someone asks.',
+    n: '03',
+    label: 'move to proof',
+    title: 'you get the evidence pack.',
+    body: 'every signed output carries its receipt: the sources used, what changed in review, and who approved it. one file, dated and filed, ready when someone asks.',
   },
 ] as const;
 
 export default function HowItWorksPage() {
+  const body: React.CSSProperties = {
+    fontFamily: typography.body.fontFamily,
+    fontSize: 15,
+    lineHeight: typography.body.lineHeight,
+    color: palette.bodyGrey,
+  };
+
   return (
-    <main className="bg-[color:var(--assembl-paper)] text-[color:var(--text-primary)]">
-      <section className="relative overflow-hidden border-b border-[rgba(35,33,31,0.08)] bg-[radial-gradient(120%_90%_at_30%_28%,#f7f0e3_0%,#ece3d2_52%,#ddd2bd_100%)] py-28 lg:py-36">
-        {/* Signature flowing-gradient + gold-thread mesh, matching the homepage
-            hero. WebGL falls back to the CSS gradient above if unavailable. */}
-        <ShaderGradient className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(250,247,242,0.95)_0%,rgba(250,247,242,0.8)_34%,rgba(250,247,242,0.4)_58%,transparent_80%)]"
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-32 bg-[linear-gradient(to_bottom,transparent,var(--assembl-paper))]"
-        />
-        <HeroThreads className="pointer-events-none absolute inset-0 z-0" />
-        <div className="container relative z-10">
-          <SectionReveal>
-            <Eyebrow label="How it works" />
-            <h1 className="mt-6 max-w-4xl font-display text-[clamp(3rem,8vw,7rem)] font-light leading-[0.9] tracking-[-0.03em]">
-              How assembl <em className="shimmer-pounamu not-italic">works.</em>
-            </h1>
-            <p className="mt-8 max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              Specialist agents do the first draft. A person signs it off. You get a record of how it
-              was made. Here’s what that looks like.
-            </p>
-          </SectionReveal>
+    <div className={styles.page}>
+      {/* ── hero — paper white + the signed-off particulate landscape ── */}
+      <section className={styles.hero}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 640 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
+              •
+            </span>
+            <MicroLabel>read signals · route work · move to proof</MicroLabel>
+          </div>
+          <h1
+            className={styles.h1}
+            style={{ marginTop: 22, fontSize: 'clamp(2.2rem, 4vw, 3.6rem)' }}
+          >
+            how assembl works
+            <span aria-hidden style={{ color: palette.canary }}>
+              .
+            </span>
+          </h1>
+          <p style={{ ...body, marginTop: 24, maxWidth: 420 }}>
+            Specialist agents draft the work. A person signs it off. The proof shows the journey.
+          </p>
+        </div>
+        <div className={styles.heroArt}>
+          <HeroArt seed={20260702} />
         </div>
       </section>
 
-      {/* How a pack works in your business — Kate's verbatim 3-step section */}
-      <HowAPackWorks />
-
-      <section className="py-24 lg:py-32">
-        <div className="container grid gap-6 lg:grid-cols-3">
-          {STEPS.map((step, index) => (
-            <SectionReveal key={step.n} delay={index * 0.05}>
-              <article className="glass-card h-full p-7">
-                <p className="font-mono text-eyebrow uppercase text-[color:var(--assembl-pounamu)]">{step.n}</p>
-                <h2 className="mt-5 font-display text-display-md font-light">{step.title}</h2>
-                <p className="mt-5 text-body-md text-[color:var(--text-body)]">{step.body}</p>
+      {/* ── the three steps ──────────────────────────────────────────── */}
+      <section className={styles.section} style={{ paddingTop: 24 }}>
+        <div className={styles.inner}>
+          <div className={styles.cardGrid}>
+            {STEPS.map((step) => (
+              <article key={step.n} className={`${styles.cardLink} rise`}>
+                <div
+                  style={{
+                    height: '100%',
+                    padding: '26px 24px',
+                    background: '#fff',
+                    border: `1px solid ${palette.hairline}`,
+                    borderRadius: 14,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span
+                      aria-hidden
+                      style={{ color: palette.canary, fontSize: 11, lineHeight: 1 }}
+                    >
+                      •
+                    </span>
+                    <MicroLabel>
+                      {step.n} · {step.label}
+                    </MicroLabel>
+                  </div>
+                  <h2
+                    className={styles.h1}
+                    style={{ marginTop: 16, fontSize: '1.6rem', lineHeight: 1.15 }}
+                  >
+                    {step.title}
+                  </h2>
+                  <p style={{ ...body, marginTop: 14 }}>{step.body}</p>
+                </div>
               </article>
-            </SectionReveal>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="border-t border-[rgba(199,155,31,0.36)] py-20 lg:py-28">
-        <div className="container">
-          <SectionReveal>
-            <p className="max-w-2xl text-body-lg text-[color:var(--text-body)]">
-              <span className="font-medium text-[color:var(--text-primary)]">Built for NZ.</span> Each
-              pack has NZ law, council and sector rules built in from the start.
-            </p>
-            <div className="mt-10">
-              <Link href="/pilot-sprint" className="cta-primary inline-flex h-12 items-center px-7">
-                Book a Pilot Sprint
-                <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
-              </Link>
-            </div>
-          </SectionReveal>
+      {/* ── the four-line brand story ────────────────────────────────── */}
+      <section className={styles.section} style={{ paddingTop: 28, paddingBottom: 28 }}>
+        <div className={`${styles.inner} rise`} style={{ textAlign: 'center' }}>
+          <div
+            className={styles.h1}
+            style={{
+              fontSize: 'clamp(1.35rem, 2.6vw, 2rem)',
+              lineHeight: 1.55,
+              fontWeight: 400,
+            }}
+          >
+            the user sets the destination.
+            <br />
+            the agents read the signals.
+            <br />
+            the system finds a path.
+            <br />
+            the proof — receipts and mana — show the journey
+            <span aria-hidden style={{ color: palette.canary }}>
+              .
+            </span>
+          </div>
         </div>
       </section>
-    </main>
+
+      {/* ── built for nz + cta ───────────────────────────────────────── */}
+      <section className={styles.section} style={{ paddingTop: 8, paddingBottom: 56 }}>
+        <div
+          className={`${styles.inner} rise`}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 20,
+            borderTop: `1px solid ${palette.hairline}`,
+            paddingTop: 36,
+          }}
+        >
+          <p style={{ ...body, maxWidth: 480 }}>
+            <span style={{ color: palette.ink, fontWeight: 600 }}>Built in Aotearoa.</span> Agents
+            cite current NZ legislation, council and sector rules from the start.
+          </p>
+          <Link href="/agents" className={styles.navCta} style={{ padding: '11px 22px' }}>
+            explore marketplace
+            <span aria-hidden style={{ color: palette.canary, fontSize: 15, lineHeight: 1 }}>
+              •
+            </span>
+          </Link>
+        </div>
+      </section>
+    </div>
   );
 }
