@@ -43,7 +43,7 @@ export async function POST(req: Request) {
   try {
     const supabase = getServiceClient();
     const { error } = await supabase
-      .from('push_subscriptions')
+      .from('pwa_push_subscriptions')
       .upsert(
         { tenant_slug: tenantSlug, endpoint, p256dh, auth, user_label: userLabel },
         { onConflict: 'endpoint' },

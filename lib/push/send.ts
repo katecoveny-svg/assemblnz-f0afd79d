@@ -62,7 +62,7 @@ export async function sendPushToTenant(tenantSlug: string, payload: PushPayload)
   try {
     const supabase = getServiceClient();
     const { data, error } = await supabase
-      .from('push_subscriptions')
+      .from('pwa_push_subscriptions')
       .select('id, endpoint, p256dh, auth')
       .eq('tenant_slug', tenantSlug);
     if (error || !data) return 0;
@@ -93,7 +93,7 @@ export async function sendPushToTenant(tenantSlug: string, payload: PushPayload)
 
   if (dead.length > 0) {
     try {
-      await getServiceClient().from('push_subscriptions').delete().in('id', dead);
+      await getServiceClient().from('pwa_push_subscriptions').delete().in('id', dead);
     } catch {
       /* pruning is best-effort */
     }
