@@ -87,6 +87,23 @@ export const BUNDLE_IDENTITIES: Record<string, BundleIdentityMeta> = {
     chatSlug: 'kaitiaki',
     routingAgentSlug: 'keeper', // the real Kaitiaki lead — already registered
   },
+  // Hearth and Visa route straight to their bundles (no marketing-identity
+  // front). They exist for the shared-number keyword channels (HELM / VISA,
+  // 20260705090000) — no email alias yet, so email is empty.
+  hearth: {
+    bundleSlug: 'hearth',
+    displayName: 'Hearth',
+    email: '',
+    chatSlug: 'hearth',
+    routingAgentSlug: 'toro', // the real Hearth lead — already registered
+  },
+  visa: {
+    bundleSlug: 'visa',
+    displayName: 'Visa',
+    email: '',
+    chatSlug: 'visa',
+    routingAgentSlug: 'hoko-cga', // nearest registered legal agent until a visa agent ships
+  },
 };
 
 export function identityMetaBySlug(bundleSlug: string): BundleIdentityMeta | undefined {
