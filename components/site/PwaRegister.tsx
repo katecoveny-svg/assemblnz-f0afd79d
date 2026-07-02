@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { isTenantPwaScope, pwaBaseForPath, TENANT_CACHE_PREFIX } from "@/lib/pwa/tenants";
 
 function manifestForPath(pathname: string) {
   const hapaiMatch = pathname.match(/^\/hapai\/([^/]+)$/);
@@ -12,6 +13,11 @@ function manifestForPath(pathname: string) {
   // Each marketplace agent's chat installs as its own app.
   const agentChatMatch = pathname.match(/^\/agents\/([^/]+)\/chat$/);
   if (agentChatMatch?.[1]) return `/agents/${agentChatMatch[1]}/manifest.json`;
+
+  // PWA-enabled pilot workspaces install as their own tenant app. Host-aware:
+  // matches both /customers/<slug>/* (www) and /<slug>/* (demo host rewrite).
+  const tenant = pwaBaseForPath(pathname);
+  if (tenant) return `${tenant.base}/manifest.webmanifest`;
 
   return "/manifest.webmanifest";
 }
@@ -36,18 +42,22 @@ export function PwaRegister() {
 
     if (!("serviceWorker" in navigator)) return;
 
-    // We no longer ship a caching service worker. A worker at scope "/" is what
-    // repeatedly served returning visitors a stale app shell (the homepage
-    // rendering as the old narrow-strip layout); see public/sw.js and PRs #398
-    // and #418. Instead of registering one, we proactively tear down any worker
-    // that is still registered on this origin and purge every cache, so each
-    // load comes straight from the live network build. /sw.js itself is now a
-    // self-unregistering kill switch that covers visitors who never reach this
-    // code (their browser auto-updates the worker script on navigation).
+    // We no longer ship a SITE-WIDE caching service worker. A worker at scope
+    // "/" is what repeatedly served returning visitors a stale app shell (the
+    // homepage rendering as the old narrow-strip layout); see public/sw.js and
+    // PRs #398 and #418. We proactively tear down any root/legacy worker and
+    // purge its caches so each load comes straight from the live network build.
+    //
+    // EXCEPTION (pilot PWAs, 2026-07): tenant workspaces register their own
+    // NARROWLY-SCOPED workers (e.g. /customers/aironaut/), whose navigations
+    // are network-first by design — they can never serve a stale shell for the
+    // wider site because the browser only routes their own scope to them.
+    // Those registrations and their `tenant-pwa-*` caches are preserved.
     navigator.serviceWorker
       .getRegistrations()
       .then((registrations) => {
         registrations.forEach((registration) => {
+          if (isTenantPwaScope(registration.scope)) return;
           registration.unregister().catch(() => undefined);
         });
       })
@@ -56,7 +66,13 @@ export function PwaRegister() {
     if (typeof caches !== "undefined") {
       caches
         .keys()
-        .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+        .then((keys) =>
+          Promise.all(
+            keys
+              .filter((key) => !key.startsWith(TENANT_CACHE_PREFIX))
+              .map((key) => caches.delete(key)),
+          ),
+        )
         .catch(() => undefined);
     }
   }, []);

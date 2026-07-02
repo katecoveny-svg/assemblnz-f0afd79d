@@ -12,12 +12,17 @@ import {
   MatarikiCluster,
   ParticulateBackdrop,
 } from '@/components/assembl/chrome';
+import { TenantPwa } from '@/components/customers/TenantPwa';
+import { tenantPwaMetadata } from '@/lib/pwa/apple';
 
 export const metadata: Metadata = {
   title: 'Happy Tails — AI operating system (concept pilot) · assembl',
   description:
     'Concept pilot: the AI operating system for Happy Tails doggy daycare. Draft-only — nothing sends without a human yes.',
   robots: { index: false, follow: false },
+  // Installable PWA: iOS icon/splash/meta. The manifest link + scoped service
+  // worker are wired client-side by <TenantPwa /> (host-aware paths).
+  ...tenantPwaMetadata('happy-tails', 'Happy Tails'),
 };
 
 /**
@@ -36,6 +41,7 @@ export default function HappyTailsOpsLayout({ children }: { children: ReactNode 
 
   return (
     <BrandThemeProvider config={config}>
+      <TenantPwa slug="happy-tails" />
       <div
         className="relative min-h-screen"
         style={{ backgroundColor: ASSEMBL_PAPER, color: ASSEMBL_INK }}

@@ -12,12 +12,17 @@ import {
   MatarikiCluster,
   ParticulateBackdrop,
 } from '@/components/assembl/chrome';
+import { TenantPwa } from '@/components/customers/TenantPwa';
+import { tenantPwaMetadata } from '@/lib/pwa/apple';
 
 export const metadata: Metadata = {
   title: 'AIRONAUT — AI operating system (concept pilot) · assembl',
   description:
     'Concept pilot: the AI operating system for Aironaut Customs Brokers. Draft-only — nothing lodges, nothing sends.',
   robots: { index: false, follow: false },
+  // Installable PWA: iOS icon/splash/meta. The manifest link + scoped service
+  // worker are wired client-side by <TenantPwa /> (host-aware paths).
+  ...tenantPwaMetadata('aironaut', 'Aironaut'),
 };
 
 /**
@@ -37,6 +42,7 @@ export default function AironautOpsLayout({ children }: { children: ReactNode })
 
   return (
     <BrandThemeProvider config={config}>
+      <TenantPwa slug="aironaut" />
       <div
         className="relative min-h-screen"
         style={{ backgroundColor: ASSEMBL_PAPER, color: ASSEMBL_INK }}
