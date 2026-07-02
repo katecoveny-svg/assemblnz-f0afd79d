@@ -121,7 +121,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // Dash by assembl: fill the "Drafting…" wait state with one quiet sponsored
+  // Assembling: fill the "Drafting…" wait state with one quiet sponsored
   // line when the auction returns an ad; otherwise the normal loading text.
   const { ad: dashAd, request: requestDashAd, clear: clearDashAd, click: clickDashAd } =
     useDashAd('spinner');
@@ -233,7 +233,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
     setError(null);
     setPackError(null);
 
-    // Dash: ask for an ad to fill this wait state. Coarse context only — the
+    // Assembling: ask for an ad to fill this wait state. Coarse context only — the
     // tool (slug), kete, and agent the user is in. Never the prompt or any
     // content. Fail-open. Surface is 'spinner' to match the brief's canonical
     // wait-state surface, so a {spinner}-targeted campaign serves here.
@@ -422,7 +422,7 @@ export function PublicChatClient({ tenant, embed = false }: Props) {
                       onClick={() => clickDashAd(dashAd.impressionId)}
                       className="text-left underline decoration-dotted underline-offset-2 transition-colors hover:text-[color:var(--text-primary)]"
                       style={{ color: '#D9A85A' }}
-                      title="Sponsored — Dash by assembl"
+                      title="Sponsored — Assembling"
                     >
                       {dashAd.text}
                     </button>

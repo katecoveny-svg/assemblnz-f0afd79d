@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { DashDog } from './DashDog';
 
 /**
- * Dash home hero — recreated from `Dash Home Hero.html`.
+ * Assembling home hero — recreated from `Assembling Home Hero.html`.
  *
  * Three layered motion effects, all gated on reduced-motion / coarse pointer:
  *  1. A woven-light particle mesh on a <canvas> (gold points drift, link when
@@ -159,7 +159,7 @@ export function DashHero() {
               style={{ background: '#8a6320' }}
               aria-hidden
             />
-            Dash by assembl · NZ attention network
+            Assembling by assembl · NZ attention network
           </span>
           <h1
             className="d-display mt-6 font-semibold"
@@ -183,7 +183,7 @@ export function DashHero() {
             </span>
           </h1>
           <p className="d-lead mt-7 max-w-xl" style={{ color: 'var(--muted)' }}>
-            Dash renders NZ-brand creative inside the seconds your app spends loading — the wait
+            Assembling renders NZ-brand creative inside the seconds your app spends loading — the wait
             states — and shares the revenue with the publisher. Own the space between click and
             result.
           </p>
@@ -229,7 +229,7 @@ export function DashHero() {
               }}
             />
             <div className="dash-float relative overflow-hidden">
-              <DashDog title="The dash dachshund — its segmented body doubles as a loading bar" />
+              <DashDog title="The assembling dachshund — its segmented body doubles as a loading bar" />
               {/* gold shine sweep */}
               <div
                 aria-hidden

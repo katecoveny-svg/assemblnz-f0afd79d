@@ -1,6 +1,6 @@
 /**
  * POST /api/dash-waitlist — "I'm a publisher" / "I want to advertise" capture
- * for the /dash (Dash by assembl) landing page.
+ * for the /assembling (Assembling) landing page.
  *
  * Persists to the dedicated public.dash_waitlist table (the Dash-specific store),
  * AND emails assembl@assembl.co.nz via the proven notifyLead → send-contact-email
@@ -36,9 +36,9 @@ const BodySchema = z.object({
 });
 
 const ROLE_LABEL = {
-  publisher: 'Dash by assembl — become a publisher',
-  advertiser: 'Dash by assembl — become an advertiser',
-  earner: 'Dash by assembl — waitlist (notify me at launch)',
+  publisher: 'Assembling — become a publisher',
+  advertiser: 'Assembling — become an advertiser',
+  earner: 'Assembling — waitlist (notify me at launch)',
 } as const;
 
 export async function POST(req: Request) {
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
       role,
       organisation: organisation ?? '',
       message: message ?? '',
-      product: 'Dash by assembl (NZ in-product ad network)',
+      product: 'Assembling (NZ in-product ad network)',
     },
     sourceUrl,
     ip,

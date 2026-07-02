@@ -48,7 +48,7 @@ export function NineAmBriefTool() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const gate = useToolGate("dawn");
-  // Dash by assembl: one quiet sponsored line while the brief drafts. Coarse
+  // Assembling: one quiet sponsored line while the brief drafts. Coarse
   // context only (the tool name) — never the user's day. Fail-open.
   const { ad: dashAd, request: requestDashAd, clear: clearDashAd, click: clickDashAd } =
     useDashAd("spinner");
@@ -313,7 +313,7 @@ export function NineAmBriefTool() {
                     <button
                       type="button"
                       onClick={() => clickDashAd(dashAd.impressionId)}
-                      title="Sponsored — Dash by assembl"
+                      title="Sponsored — Assembling"
                       className="underline decoration-dotted underline-offset-2"
                       style={{ color: "#B08423" }}
                     >

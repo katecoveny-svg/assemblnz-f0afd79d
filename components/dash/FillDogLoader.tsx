@@ -6,7 +6,7 @@
  *
  * Pass `progress` (0–100) to drive it from real agent progress; omit it for the
  * looping demo. Honours prefers-reduced-motion (holds a static fill).
- * Ref: HANDOFF.md §5 + "Dash — Birdie Direction" / "Dash — Interactive".
+ * Ref: HANDOFF.md §5 + "Assembling — Birdie Direction" / "Assembling — Interactive".
  */
 const SRC = '/dash/mascot-dog.png';
 
@@ -33,7 +33,7 @@ export function FillDogLoader({
         <img
           className="filldog__fillimg"
           src={SRC}
-          alt="Dash the dachshund, filling up as the wait progresses"
+          alt="Assembling the dachshund, filling up as the wait progresses"
         />
         <span className="filldog__water" aria-hidden />
       </div>

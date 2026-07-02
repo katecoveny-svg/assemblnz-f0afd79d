@@ -1,5 +1,5 @@
 /**
- * The dash dachshund mark — the geometric dog whose segmented body doubles as
+ * The assembling dachshund mark — the geometric dog whose segmented body doubles as
  * a loading bar. Geometry lifted verbatim from the design handoff (viewBox
  * 1040×470) so it stays pixel-faithful to `assets/dash-dog.svg`.
  *
@@ -13,7 +13,7 @@ type DashDogProps = {
   title?: string;
 };
 
-export function DashDog({ className, tone = '#3a3832', title = 'dash dachshund' }: DashDogProps) {
+export function DashDog({ className, tone = '#3a3832', title = 'assembling dachshund' }: DashDogProps) {
   return (
     <svg
       className={className}

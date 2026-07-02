@@ -2,7 +2,7 @@
  * Dog — the segmented dachshund mark.
  *
  * Geometry is LOCKED: ported verbatim from the design handoff
- * (`Dash Loader Component.html` #cdog / `dash-dog.svg`), viewBox 1040×470.
+ * (`Assembling Loader Component.html` #cdog / `dash-dog.svg`), viewBox 1040×470.
  * Do NOT redraw. Hardcoded sage fills are replaced with CSS custom
  * properties so `whitelabel` mode can tint the body to a customer's brand
  * colour without touching the path data:
