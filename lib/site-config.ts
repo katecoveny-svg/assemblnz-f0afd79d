@@ -303,20 +303,20 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 
 // ── Site-wide nav (multi-page only — anchors are BANNED per canon §2.1) ──────
 
-// CANON-LOCKED-2026-06-23: nav is Agents · Pricing · Trust · About + a
-// "Browse agents" CTA. No "Kete packs" / "Outputs" / "HAPAI tools" — those are
+// DIRECTION-LOCKED-2026-07-01 (v2 site): nav is agents · pricing · trust ·
+// about + a "browse agents" CTA — lowercase on-brand (only micro-labels are
+// uppercase). No "Kete packs" / "Outputs" / "HAPAI tools" — those are
 // pre-marketplace surfaces.
-// "Trust" points at the Mana Receipts transparency page — the honest,
-// public-facing trust page. The deeper enterprise Trust Centre stays reachable
-// at /trust from the footer.
+// "trust" points at the canonical /trust page (v2); /mana-receipts stays live
+// as the deep-dive and is linked from the footer + /trust itself.
 export const nav = [
-  { href: '/agents',        label: 'Agents' },
-  { href: '/pricing',       label: 'Pricing' },
-  { href: '/mana-receipts', label: 'Trust' },
-  { href: '/about',         label: 'About' },
+  { href: '/agents',  label: 'agents' },
+  { href: '/pricing', label: 'pricing' },
+  { href: '/trust',   label: 'trust' },
+  { href: '/about',   label: 'about' },
 ] as const;
 
-export const navCta = { href: '/agents', label: 'Browse agents' };
+export const navCta = { href: '/agents', label: 'browse agents' };
 
 // ── Footer disclaimer — Plugin Architecture Canon §4 (verbatim) ──────────────
 
