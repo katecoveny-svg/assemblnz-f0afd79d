@@ -1,6 +1,17 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { TENANTS } from '@/lib/customers/tenants';
+import {
+  ASSEMBL_CANARY,
+  ASSEMBL_INK,
+  ASSEMBL_PAPER,
+  ASSEMBL_WARM_GREY,
+  AssemblMotto,
+  AssemblWordmark,
+  MatarikiCluster,
+  ParticulateBackdrop,
+  levitateClass,
+} from '@/components/assembl/chrome';
 
 // Never indexed. Layout already sets this; kept explicit for clarity.
 export const metadata: Metadata = {
@@ -8,16 +19,20 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+const serif = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
+
 /**
  * Hub page at `/customers` (i.e. demo.assembl.co.nz/customers).
  *
+ * Pure assembl chrome, so it follows DIRECTION-LOCKED-2026-07-01: paper
+ * white, the particulate mountain-and-wave landscape, lowercase Cormorant
+ * display, tracked micro-labels, cards that levitate on hover with the
+ * matariki dot-cluster ornament.
+ *
  * Lists every seeded tenant as a card linking through to that tenant's ops
  * console. The list is driven by `lib/customers/tenants.ts` — the canonical
- * in-code registry that mirrors the `tenant_customers` Supabase table.
- *
- * A future iteration can hydrate this from Supabase live so newly-seeded
- * tenants appear without a code deploy — for now the registry is enough to
- * keep the demo hub in step with what actually ships.
+ * in-code registry that mirrors the `tenant_customers` Supabase table. The
+ * pilot counts shown are real counts of that registry, never invented.
  */
 
 export default function CustomersHub() {
@@ -25,28 +40,47 @@ export default function CustomersHub() {
   const live = TENANTS.filter((t) => t.status === 'pilot');
 
   return (
-    <main className="min-h-screen bg-neutral-50 text-neutral-900">
-      <div className="mx-auto max-w-5xl px-6 py-16">
-        <header className="mb-12">
-          <p className="text-xs uppercase tracking-[0.2em] text-neutral-500">
-            assembl · demo
+    <main
+      className="relative min-h-screen overflow-hidden"
+      style={{ backgroundColor: ASSEMBL_PAPER, color: ASSEMBL_INK }}
+    >
+      {/* Landscape sits high on the page; content floats over it. */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[440px]">
+        <ParticulateBackdrop className="opacity-80" />
+      </div>
+
+      <div className="relative mx-auto max-w-5xl px-6 py-20">
+        <header className="mb-14">
+          <p
+            className="text-[10px] uppercase"
+            style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
+          >
+            <span className="lowercase">assembl</span> · demo
           </p>
-          <h1 className="mt-3 text-4xl font-serif tracking-tight">
-            Pilot workspaces
+          <h1
+            className="mt-4 text-5xl lowercase"
+            style={{ fontFamily: serif, fontWeight: 500, letterSpacing: '0.01em' }}
+          >
+            pilot workspaces<span style={{ color: ASSEMBL_CANARY }}>.</span>
           </h1>
-          <p className="mt-4 max-w-2xl text-neutral-600 leading-relaxed">
-            Private pre-partnership pitch surfaces. Every board here is
-            draft-only — nothing you see is a live customer record. Pick a
-            pilot to open its branded ops console.
+          <p
+            className="mt-5 max-w-xl text-[15px] leading-relaxed"
+            style={{ color: ASSEMBL_WARM_GREY }}
+          >
+            Private pitch surfaces for named partners. Everything is draft-only.
+            Pick a pilot to open its console.
           </p>
         </header>
 
         {live.length > 0 && (
           <section className="mb-14">
-            <h2 className="mb-4 text-sm uppercase tracking-wider text-neutral-500">
-              Live pilots
+            <h2
+              className="mb-5 text-[10px] uppercase"
+              style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
+            >
+              live pilots ({live.length})
             </h2>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {live.map((t) => (
                 <TenantCard key={t.slug} tenant={t} />
               ))}
@@ -55,20 +89,27 @@ export default function CustomersHub() {
         )}
 
         <section>
-          <h2 className="mb-4 text-sm uppercase tracking-wider text-neutral-500">
-            Concept pilots ({concepts.length})
+          <h2
+            className="mb-5 text-[10px] uppercase"
+            style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
+          >
+            concept pilots ({concepts.length})
           </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             {concepts.map((t) => (
               <TenantCard key={t.slug} tenant={t} />
             ))}
           </div>
         </section>
 
-        <footer className="mt-16 border-t border-neutral-200 pt-6 text-xs text-neutral-500">
-          <p>
-            Powered by assembl · {new Date().getFullYear()} · Not for public
-            distribution.
+        <footer
+          className="mt-20 flex flex-col items-center gap-3 border-t pt-8 text-center"
+          style={{ borderColor: '#E7E4DA' }}
+        >
+          <AssemblMotto />
+          <p className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>
+            powered by <AssemblWordmark /> · {new Date().getFullYear()} · not
+            for public distribution
           </p>
         </footer>
       </div>
@@ -85,32 +126,30 @@ function TenantCard({
     <Link
       href={`/customers/${tenant.slug}`}
       className={[
-        'group block rounded-2xl border bg-white p-6 shadow-sm transition',
-        'hover:shadow-md hover:-translate-y-0.5',
+        'group block rounded-2xl border bg-white/80 p-6 shadow-sm backdrop-blur-sm hover:shadow-md',
+        levitateClass,
         tenant.accentClass ?? 'border-neutral-200',
       ].join(' ')}
     >
-      <div className="flex items-baseline justify-between gap-3">
-        <h3 className="text-lg font-medium">{tenant.displayName}</h3>
-        <span
-          className={[
-            'rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider',
-            tenant.status === 'pilot'
-              ? 'bg-emerald-100 text-emerald-800'
-              : 'bg-neutral-100 text-neutral-600',
-          ].join(' ')}
-        >
-          {tenant.status}
-        </span>
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="text-lg" style={{ fontFamily: serif, fontWeight: 600 }}>
+          {tenant.displayName}
+        </h3>
+        <MatarikiCluster size={24} gold={tenant.status === 'pilot'} />
       </div>
       {tenant.parentBrand && (
-        <p className="mt-1 text-xs text-neutral-500">{tenant.parentBrand}</p>
+        <p className="mt-1 text-xs" style={{ color: ASSEMBL_WARM_GREY }}>
+          {tenant.parentBrand}
+        </p>
       )}
-      <p className="mt-3 text-sm leading-relaxed text-neutral-700">
+      <p className="mt-3 text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
         {tenant.blurb}
       </p>
-      <p className="mt-4 text-xs text-neutral-500 group-hover:text-neutral-800">
-        Open ops console →
+      <p
+        className="mt-4 text-[10px] uppercase transition-colors"
+        style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
+      >
+        open ops console →
       </p>
     </Link>
   );
