@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { ImageResponse } from 'next/og';
 import type { HapaiTool } from '@/lib/hapai/shareable-tools';
 
@@ -44,6 +46,8 @@ const categoryLabels = {
 } as const;
 
 async function loadGoogleFont(url: string): Promise<ArrayBuffer | null> {
+  // Test hook: force the bundled-font fallback (OG_FORCE_LOCAL_FONTS=1 pnpm build).
+  if (process.env.OG_FORCE_LOCAL_FONTS) return null;
   try {
     const cssRes = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
@@ -73,8 +77,6 @@ export async function renderHapaiToolOgImage(tool: HapaiTool) {
     loadGoogleFont(`https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,400&text=${encodeURIComponent(fontText)}`),
     loadGoogleFont(`https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500&text=${encodeURIComponent(fontText)}`),
   ]);
-  const headlineFont = cormorantNormal || cormorantItalic ? 'Fraunces' : 'serif';
-  const bodyFont = inter ? 'Plus Jakarta Sans' : 'sans-serif';
   const fonts: { name: string; data: ArrayBuffer; weight: 400 | 500; style: 'normal' | 'italic' }[] = [];
 
   if (cormorantNormal) {
@@ -89,6 +91,27 @@ export async function renderHapaiToolOgImage(tool: HapaiTool) {
     fonts.push({ name: 'Plus Jakarta Sans', data: inter, weight: 400, style: 'normal' });
     fonts.push({ name: 'Plus Jakarta Sans', data: inter, weight: 500, style: 'normal' });
   }
+
+  // Satori throws ("No fonts are loaded") when the fonts array is empty —
+  // which killed a whole production build when the Google Fonts fetches all
+  // flaked during prerender. The bundled TTFs are the floor: a build can
+  // never fail on fonts again, the card just renders with the committed faces.
+  if (fonts.length === 0) {
+    const local = (file: string) =>
+      readFileSync(join(process.cwd(), 'lib/hapai/og-fonts', file)).buffer as ArrayBuffer;
+    fonts.push({ name: 'Fraunces', data: local('fraunces-400.ttf'), weight: 400, style: 'normal' });
+    fonts.push({
+      name: 'Plus Jakarta Sans',
+      data: local('plus-jakarta-sans-400.ttf'),
+      weight: 400,
+      style: 'normal',
+    });
+  }
+
+  const headlineFont = fonts.some((f) => f.name === 'Fraunces') ? 'Fraunces' : 'serif';
+  const bodyFont = fonts.some((f) => f.name === 'Plus Jakarta Sans')
+    ? 'Plus Jakarta Sans'
+    : 'sans-serif';
 
   return new ImageResponse(
     (
