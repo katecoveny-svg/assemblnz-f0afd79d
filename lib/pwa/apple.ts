@@ -36,6 +36,12 @@ export function tenantPwaMetadata(slug: string, shortName: string) {
       title: shortName,
       startupImage: appleStartupImages(slug),
     },
+    // Next 16 emits only the modern `mobile-web-app-capable`; older iOS Safari
+    // still reads the apple-prefixed variants, so emit those explicitly too.
+    other: {
+      'apple-mobile-web-app-capable': 'yes',
+      'apple-mobile-web-app-status-bar-style': 'default',
+    },
     icons: {
       apple: `/brand/pwa/${slug}/apple-touch-icon.png`,
       icon: [

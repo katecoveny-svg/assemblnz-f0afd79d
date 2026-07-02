@@ -23,16 +23,31 @@ export function TenantPwa({ slug }: { slug: string }) {
     const base = hit.base;
 
     // Manifest link — host-aware, replaces whatever the root layout set.
+    // Next streams the root metadata <link rel="manifest"> in late, so keep a
+    // short watch and rewrite EVERY manifest link to the tenant one (a stray
+    // second link pointing at "/" would make the install non-deterministic).
     const href = `${base}/manifest.webmanifest`;
-    const existing = document.querySelector<HTMLLinkElement>('link[rel="manifest"]');
-    if (existing) {
-      existing.href = href;
-    } else {
-      const link = document.createElement('link');
-      link.rel = 'manifest';
-      link.href = href;
-      document.head.appendChild(link);
-    }
+    const applyManifest = () => {
+      const links = document.querySelectorAll<HTMLLinkElement>('link[rel="manifest"]');
+      if (links.length === 0) {
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = href;
+        document.head.appendChild(link);
+        return;
+      }
+      links.forEach((link, i) => {
+        if (i === 0) {
+          if (link.getAttribute('href') !== href) link.href = href;
+        } else {
+          link.remove();
+        }
+      });
+    };
+    applyManifest();
+    const observer = new MutationObserver(applyManifest);
+    observer.observe(document.head, { childList: true });
+    const stop = window.setTimeout(() => observer.disconnect(), 10000);
 
     // Scoped service worker. Scope defaults to the script's directory —
     // exactly the workspace base on this host.
@@ -41,6 +56,11 @@ export function TenantPwa({ slug }: { slug: string }) {
         .register(`${base}/sw.js`, { scope: `${base}/` })
         .catch(() => undefined);
     }
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(stop);
+    };
   }, [slug]);
 
   return null;
