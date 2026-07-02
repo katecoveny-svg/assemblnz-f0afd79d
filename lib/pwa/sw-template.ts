@@ -86,6 +86,11 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
+  // Dev servers rebuild /_next/static chunks under STABLE names (turbopack),
+  // so cache-first serves stale modules forever. The immutable-filename
+  // assumption only holds for production builds — stay hands-off locally.
+  if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') return;
+
   // 1 · Navigations INSIDE the scope: network-first, cache fallback, then a
   //     tiny offline shell. Never cache-first — a live deploy always wins.
   if (req.mode === 'navigate') {

@@ -174,8 +174,10 @@ export default function AironautOsHome() {
           className="object-cover"
         />
         <div className="absolute left-6 top-6 flex items-center gap-3">
-          <span className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-white/90">
-            <Image src="/brand/aironaut/logo-circular-mark.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
+          <span className="inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-white/90">
+            {/* The mark PNG is square with a white ground — clip it circular
+                too, or its corners poke past the round chip. */}
+            <Image src="/brand/aironaut/logo-circular-mark.png" alt="" width={40} height={40} className="h-10 w-10 rounded-full object-contain" />
           </span>
           <span
             className="text-sm font-semibold uppercase tracking-[0.2em] text-white"
@@ -187,12 +189,15 @@ export default function AironautOsHome() {
         <div className="absolute right-6 top-7">
           <KnowledgeSyncPill />
         </div>
-        <div className="absolute bottom-10 left-6 right-6 md:left-10">
+        {/* Headline sits high on the burnt-orange field, clear of the chrome,
+            so it stays legible (Kate, 2026-07-02). Sentence case here — not
+            the site-wide lowercase. */}
+        <div className="absolute left-6 right-6 md:left-10" style={{ top: '16%' }}>
           <h1
-            className="max-w-3xl text-4xl lowercase leading-tight text-white md:text-6xl"
-            style={{ fontFamily: serif, fontWeight: 500, textShadow: '0 1px 24px rgba(0,0,0,0.25)' }}
+            className="max-w-3xl text-4xl leading-tight text-white md:text-6xl"
+            style={{ fontFamily: serif, fontWeight: 500, textShadow: '0 1px 24px rgba(0,0,0,0.35)' }}
           >
-            the operating system for your freight business
+            The operating system for your freight business
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
