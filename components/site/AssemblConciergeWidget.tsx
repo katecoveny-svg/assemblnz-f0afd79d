@@ -144,7 +144,7 @@ export function AssemblConciergeWidget() {
 
   // Don't render the global concierge on an agent's own chat page or the
   // internal /admin operator hub.
-  if (isAgentChatPage || isAdminHub || isTenantWorkspace) {
+  if (isAgentChatPage || isAdminHub || isTenantWorkspace || pathname === '/') {
     return null;
   }
 

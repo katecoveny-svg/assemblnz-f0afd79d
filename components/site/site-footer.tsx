@@ -66,7 +66,9 @@ export function SiteFooter() {
   // auth surfaces and the /admin operator hub ship their own footer (or none);
   // suppress the global one there. Customer pilot workspaces (/customers/*) are
   // white-labelled — suppress the assembl footer across the whole subtree.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname)) return null;
+  // pathname === "/" — the root is the coming-soon splash until the fresh
+  // marketing site cuts over; the splash carries no chrome at all.
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || pathname === "/") return null;
 
   return (
     <footer
