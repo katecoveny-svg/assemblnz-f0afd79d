@@ -29,10 +29,14 @@ export type BundleIdentityRow = {
   telegram_handle: string | null;
   chat_slug: string;
   live: boolean;
+  /** shared-number keyword routing (20260705090000) — see lib/identity/inbound.ts */
+  keyword_sms: string | null;
+  phone_whatsapp: string | null;
+  keyword_whatsapp: string | null;
 };
 
 export type OutboundReply = {
-  channel: 'sms' | 'email';
+  channel: 'sms' | 'email' | 'whatsapp';
   /** the human we are replying to (their mobile / email) */
   to: string;
   body: string;
@@ -42,7 +46,7 @@ export type OutboundReply = {
 
 export type DeliverResult =
   | { mode: 'draft'; reason: string }
-  | { mode: 'sent'; provider: 'tnz' | 'brevo' }
+  | { mode: 'sent'; provider: 'tnz' | 'brevo' | 'twilio' }
   | { mode: 'error'; reason: string };
 
 export function sendModeIsLive(): boolean {
@@ -69,6 +73,9 @@ export async function deliverReply(
   try {
     if (reply.channel === 'sms') {
       return await sendSmsViaTnz(identity, reply);
+    }
+    if (reply.channel === 'whatsapp') {
+      return await sendWhatsAppViaTwilio(reply);
     }
     return await sendEmailViaBrevo(identity, reply);
   } catch (err) {
@@ -100,6 +107,35 @@ async function sendSmsViaTnz(
     return { mode: 'error', reason: `TNZ send failed: HTTP ${res.status}` };
   }
   return { mode: 'sent', provider: 'tnz' };
+}
+
+/**
+ * Twilio WhatsApp send. Only reachable through deliverReply's gate. The sender
+ * number is shared across identities, so it comes from env rather than the row.
+ */
+async function sendWhatsAppViaTwilio(reply: OutboundReply): Promise<DeliverResult> {
+  const sid = process.env.TWILIO_ACCOUNT_SID;
+  const token = process.env.TWILIO_AUTH_TOKEN;
+  const from = process.env.TWILIO_WHATSAPP_NUMBER; // 'whatsapp:+64…' format
+  if (!sid || !token || !from) {
+    return {
+      mode: 'error',
+      reason: 'TWILIO_ACCOUNT_SID / TWILIO_AUTH_TOKEN / TWILIO_WHATSAPP_NUMBER not configured',
+    };
+  }
+  const to = reply.to.startsWith('whatsapp:') ? reply.to : `whatsapp:${reply.to}`;
+  const res = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${Buffer.from(`${sid}:${token}`).toString('base64')}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({ From: from, To: to, Body: reply.body }),
+  });
+  if (!res.ok) {
+    return { mode: 'error', reason: `Twilio WhatsApp send failed: HTTP ${res.status}` };
+  }
+  return { mode: 'sent', provider: 'twilio' };
 }
 
 /** Brevo transactional email send. Only reachable through deliverReply's gate. */

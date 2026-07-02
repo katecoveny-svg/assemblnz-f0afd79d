@@ -31,7 +31,7 @@ import { deliverReply, sendModeIsLive, type BundleIdentityRow } from './send';
 import { sendPushToTenant } from '@/lib/push/send';
 
 export type InboundMessage = {
-  channel: 'sms' | 'email';
+  channel: 'sms' | 'email' | 'whatsapp';
   /** the human's address — their mobile or email */
   from: string;
   /** the bundle identity's address the message arrived on */
@@ -59,23 +59,75 @@ function serviceClient(): SupabaseClient | null {
   return createClient(base, key);
 }
 
+/**
+ * The routing keyword is the first word of the message (shared-number model:
+ * one short code / one WhatsApp sender for every identity). "helm hi there",
+ * "HELM." and "Helm" all resolve to HELM.
+ */
+function keywordToken(body: string): string | null {
+  const first = body.trim().split(/\s+/)[0]?.replace(/[^\p{L}\p{N}]/gu, '');
+  return first ? first.toUpperCase() : null;
+}
+
+/**
+ * Conversation continuity for shared numbers: a sender who opened with a
+ * keyword should not need to repeat it on every message. The most recent
+ * inbound row from the same address on the same channel wins.
+ */
+async function lastBundleForSender(
+  supabase: SupabaseClient,
+  msg: InboundMessage,
+): Promise<string | null> {
+  const { data } = await supabase
+    .from('bundle_identity_messages')
+    .select('bundle_slug')
+    .eq('direction', 'inbound')
+    .eq('channel', msg.channel)
+    .eq('from_addr', msg.from)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return (data as { bundle_slug: string } | null)?.bundle_slug ?? null;
+}
+
 async function resolveIdentityRow(
   supabase: SupabaseClient,
   msg: InboundMessage,
 ): Promise<BundleIdentityRow | null> {
   const { data, error } = await supabase
     .from('bundle_identity')
-    .select('bundle_slug, display_name, phone, email, telegram_handle, chat_slug, live');
+    .select(
+      'bundle_slug, display_name, phone, email, telegram_handle, chat_slug, live, keyword_sms, phone_whatsapp, keyword_whatsapp',
+    );
   if (error || !data) return null;
   const rows = data as BundleIdentityRow[];
 
-  if (msg.channel === 'sms') {
-    const wanted = normalizePhone(msg.to);
-    if (!wanted) return null;
-    return rows.find((r) => r.phone && normalizePhone(r.phone) === wanted) ?? null;
+  if (msg.channel === 'email') {
+    const wanted = normalizeEmail(msg.to);
+    return rows.find((r) => r.email && r.email.toLowerCase() === wanted) ?? null;
   }
-  const wanted = normalizeEmail(msg.to);
-  return rows.find((r) => r.email && r.email.toLowerCase() === wanted) ?? null;
+
+  // sms + whatsapp share a number across identities: keyword first, then the
+  // sender's ongoing conversation, then the (possibly ambiguous) number match.
+  const keyword = keywordToken(msg.body);
+  const keywordOf = (r: BundleIdentityRow) =>
+    msg.channel === 'sms' ? r.keyword_sms : r.keyword_whatsapp;
+  if (keyword) {
+    const byKeyword = rows.find((r) => keywordOf(r)?.toUpperCase() === keyword);
+    if (byKeyword) return byKeyword;
+  }
+
+  const lastSlug = await lastBundleForSender(supabase, msg);
+  if (lastSlug) {
+    const byHistory = rows.find((r) => r.bundle_slug === lastSlug);
+    if (byHistory) return byHistory;
+  }
+
+  const wanted = normalizePhone(msg.to);
+  if (!wanted) return null;
+  const phoneOf = (r: BundleIdentityRow) =>
+    msg.channel === 'sms' ? r.phone : r.phone_whatsapp;
+  return rows.find((r) => phoneOf(r) && normalizePhone(phoneOf(r)!) === wanted) ?? null;
 }
 
 /** Channel-specific drafting instructions appended to the lead agent's prompt. */
@@ -91,6 +143,13 @@ function identityPromptBlock(meta: BundleIdentityMeta, msg: InboundMessage): str
     return (
       `${shared}\n\nChannel: SMS. Keep the reply under 450 characters, plain text, no markdown, ` +
       `no links unless the sender asked for one. Sign off as ${meta.displayName} · assembl.`
+    );
+  }
+  if (msg.channel === 'whatsapp') {
+    return (
+      `${shared}\n\nChannel: WhatsApp. Keep the reply under 900 characters, plain text, no ` +
+      `markdown, conversational. No links unless the sender asked for one. Sign off as ` +
+      `${meta.displayName} · assembl.`
     );
   }
   return (
