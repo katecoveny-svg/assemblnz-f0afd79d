@@ -1,9 +1,20 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import styles from './ops.module.css';
 import { OpsTopbar } from '@/components/customers/air-nz/ops-chrome';
 import { getBrandConfig } from '@/lib/brand/configs';
-import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
-import { Brand3DHero } from '@/components/ops/Brand3DHero';
+import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
+import { BackendTabs } from '@/components/customers/BackendTabs';
+import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
+import {
+  AIRNZ_ACTIVITY,
+  AIRNZ_AGENT_GREETING,
+  AIRNZ_AGENT_NAME,
+  AIRNZ_KNOWLEDGE_SOURCES,
+  AIRNZ_RECEIPTS,
+  AIRNZ_TRY_ME,
+  airnzPromptExcerpt,
+} from '@/lib/customers/air-nz/agent';
 import {
   SPONSORS,
   CAMPAIGNS,
@@ -49,16 +60,68 @@ export default function OpsOverview() {
 
   return (
     <>
-      <OpsTopbar eyebrow="Partner Operations · Dash on Air New Zealand" title="Overview" />
+      <OpsTopbar eyebrow="Partner Operations · Assembling on Air New Zealand" title="Overview" />
       <div className={styles.content}>
-        {brand ? (
-          // Signature koru 3D hero — reduced-motion users get the static SVG
-          // fallback inside Brand3DHero. BrandThemeProvider scopes the
-          // --brand-* palette vars this console's own CSS module doesn't set.
-          <BrandThemeProvider config={brand}>
-            <Brand3DHero config={brand} />
-          </BrandThemeProvider>
-        ) : null}
+        {/* Signature slice hero — the trip-journey phone timeline (nine wait
+            moments, one day) on Ocean Teal, one line. Tier-2 framing: the
+            earn layer, never the airline's OS. */}
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 24,
+            borderRadius: 16,
+            overflow: 'hidden',
+            minHeight: 380,
+            padding: '32px 28px',
+            background: 'linear-gradient(135deg, #06242C 0%, #0A3540 55%, #0B4A56 100%)',
+          }}
+        >
+          <div style={{ flex: '1 1 55%' }}>
+            <p
+              style={{
+                fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
+                fontWeight: 500,
+                fontSize: 'clamp(30px, 4.5vw, 52px)',
+                lineHeight: 1.08,
+                textTransform: 'lowercase',
+                color: '#FFFFFF',
+                margin: 0,
+              }}
+            >
+              every wait, earning<span style={{ color: '#F5C64B' }}>.</span>
+            </p>
+            <p
+              style={{
+                margin: '12px 0 0',
+                fontSize: 10,
+                letterSpacing: '0.16em',
+                textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.85)',
+              }}
+            >
+              nine wait moments · one day · the earn layer via assembling
+            </p>
+          </div>
+          <div
+            style={{
+              position: 'relative',
+              flex: '0 0 38%',
+              alignSelf: 'stretch',
+              minHeight: 340,
+            }}
+          >
+            <Image
+              src="/brand/air-nz/trip-journey-phone.png"
+              alt="A passenger's trip-journey timeline: nine wait moments across one travel day, each earning"
+              fill
+              priority
+              sizes="(min-width: 1024px) 380px, 40vw"
+              style={{ objectFit: 'contain', objectPosition: 'center' }}
+            />
+          </div>
+        </div>
         <p className={styles.lead}>
           The back-of-house console the Air New Zealand team would use to run a
           Dash partnership — sponsors, campaigns, the revenue split, passenger
@@ -86,6 +149,30 @@ export default function OpsOverview() {
               <div className={styles.eyebrow} style={{ marginTop: 12 }}>Open →</div>
             </Link>
           ))}
+        </div>
+
+        <div className={styles.sectionTitle}>Talk to the Assembling desk</div>
+        <div style={{ display: 'grid', gap: 20 }}>
+          <PilotAgentChat
+            apiPath="/api/customers/air-nz/chat"
+            agentName={AIRNZ_AGENT_NAME}
+            greeting={AIRNZ_AGENT_GREETING}
+            tryMe={AIRNZ_TRY_ME}
+            accent={brand?.colours.accent ?? '#00B0B9'}
+            draftNote="Tier-2 slice: the earn layer only — never the airline's operating system. Concept demo; no live Air NZ systems, no real Airpoints Dollars."
+          />
+          <BackendTabs
+            brain={{
+              model: MODEL_TIER_TO_ANTHROPIC.mid,
+              fallbackNote: 'free-fallback ladder behind it (gemini → groq → ollama)',
+              temperatureNote: 'temperature: provider default',
+              promptExcerpt: airnzPromptExcerpt(),
+              sources: AIRNZ_KNOWLEDGE_SOURCES,
+            }}
+            activity={AIRNZ_ACTIVITY}
+            receipts={AIRNZ_RECEIPTS}
+            drafts={[]}
+          />
         </div>
 
         <div className={styles.sectionTitle}>Today, at a glance</div>
