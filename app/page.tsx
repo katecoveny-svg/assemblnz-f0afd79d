@@ -3,7 +3,7 @@ import styles from './splash.module.css';
 
 export const metadata: Metadata = {
   title: 'assembl — a new site. very soon.',
-  description: 'read signals · route work · move to proof. built in aotearoa by assembl.',
+  description: 'mahi that earns its proof. built in aotearoa by assembl.',
   alternates: { canonical: '/' },
 };
 
@@ -26,9 +26,14 @@ export default function SplashPage() {
         </span>
       </h1>
       <p className={styles.line}>a new site. very soon.</p>
-      <p className={styles.micro}>read signals · route work · move to proof</p>
+      <p className={styles.tagline}>
+        mahi that earns its proof
+        <span aria-hidden style={{ color: '#BFA37A' }}>
+          .
+        </span>
+      </p>
       <p className={styles.mail}>
-        <a href="mailto:hello@assembl.co.nz">hello@assembl.co.nz</a>
+        <a href="mailto:assembl@assembl.co.nz">assembl@assembl.co.nz</a>
       </p>
     </main>
   );
