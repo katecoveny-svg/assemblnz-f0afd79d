@@ -2,13 +2,20 @@ import 'server-only';
 
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
+import { getServiceClient } from '@/lib/supabase/service';
 
 /**
  * Admin gate for the operator hub at /admin.
  *
- * Access is granted to the founder mailbox (assembl@assembl.co.nz) OR any user
- * carrying an admin marker — either the legacy `user_roles.role = 'admin'` row
- * or an `is_admin = true` flag on their profile. Everyone else is bounced.
+ * Access is granted to:
+ *   1. the founder mailboxes (code allowlist below — always works, even before
+ *      the designated_admins migration has run),
+ *   2. any ACTIVE row in `designated_admins` (by user_id or email — the
+ *      v2-admin allowlist Kate manages from /admin/settings),
+ *   3. legacy markers: `user_roles.role = 'admin'` or `profiles.is_admin`.
+ *
+ * Everyone else is bounced. Unauthenticated visitors go to the canon-styled
+ * /admin/login (magic link + optional password).
  *
  * Pages under /admin then read with the service-role client (RLS bypass) ONLY
  * after this gate has proven authorisation — the established pattern documented
@@ -26,6 +33,45 @@ export type AdminUser = {
   email: string;
 };
 
+/** True when the (already authenticated) user is on the designated_admins allowlist. */
+async function isDesignatedAdmin(userId: string, email: string): Promise<boolean> {
+  // Prefer the service client (table writes are service-role only, and this
+  // read must not depend on the session's RLS visibility). Fall back to the
+  // session client — the RLS policy lets a designated admin read their row.
+  let client;
+  try {
+    client = getServiceClient();
+  } catch {
+    client = await createClient();
+  }
+  try {
+    const { data, error } = await client
+      .from('designated_admins')
+      .select('email, user_id, active')
+      .eq('active', true)
+      .or(`user_id.eq.${userId},email.eq.${email}`)
+      .limit(1);
+    if (error) return false;
+    const row = data?.[0];
+    if (!row) return false;
+
+    // Lazy back-fill: bind the auth user to their allowlist row on first sight
+    // so future checks (and the RLS helper) match by user_id too.
+    if (!row.user_id) {
+      try {
+        const svc = getServiceClient();
+        await svc.from('designated_admins').update({ user_id: userId }).eq('email', row.email);
+      } catch {
+        // Best-effort only; email match keeps working regardless.
+      }
+    }
+    return true;
+  } catch {
+    // Table not migrated in this environment yet — other checks still apply.
+    return false;
+  }
+}
+
 export async function ensureAdmin(redirectTo = '/admin'): Promise<AdminUser> {
   const supabase = await createClient();
   const {
@@ -33,7 +79,7 @@ export async function ensureAdmin(redirectTo = '/admin'): Promise<AdminUser> {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/login?redirect=${encodeURIComponent(redirectTo)}`);
+    redirect(`/admin/login?redirect=${encodeURIComponent(redirectTo)}`);
   }
 
   const email = user.email?.toLowerCase() ?? '';
@@ -41,7 +87,12 @@ export async function ensureAdmin(redirectTo = '/admin'): Promise<AdminUser> {
     return { id: user.id, email };
   }
 
-  // Fall back to a role/flag check for any future operators.
+  // The DB allowlist — operators Kate adds without a deploy.
+  if (await isDesignatedAdmin(user.id, email)) {
+    return { id: user.id, email };
+  }
+
+  // Fall back to the legacy role/flag check.
   const [{ data: roleRow }, { data: profileRow }] = await Promise.all([
     supabase
       .from('user_roles')
