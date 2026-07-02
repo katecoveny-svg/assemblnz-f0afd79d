@@ -76,6 +76,33 @@ export async function getStagedOverrideCount(): Promise<number | null> {
   return count('agent_prompt_overrides', (q) => q.eq('status', 'staged'));
 }
 
+// ── Designated admins (operator allowlist) ──────────────────────────────────
+export type DesignatedAdminRow = {
+  email: string;
+  user_id: string | null;
+  display_name: string | null;
+  added_by: string | null;
+  active: boolean;
+  created_at: string | null;
+};
+
+export async function getDesignatedAdmins(): Promise<{ rows: DesignatedAdminRow[]; available: boolean }> {
+  const exists = await count('designated_admins');
+  if (exists === null) return { rows: [], available: false };
+  const data = await rows<any>('designated_admins', (q) => q.order('created_at'));
+  return {
+    available: true,
+    rows: data.map((r) => ({
+      email: r.email,
+      user_id: r.user_id ?? null,
+      display_name: r.display_name ?? null,
+      added_by: r.added_by ?? null,
+      active: r.active !== false,
+      created_at: r.created_at ?? null,
+    })),
+  };
+}
+
 // ── Bundles ──────────────────────────────────────────────────────────────────
 export type BundleRow = {
   slug: string;

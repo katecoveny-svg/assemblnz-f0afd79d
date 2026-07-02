@@ -12,7 +12,8 @@ export const dynamic = 'force-dynamic';
 const STATUS_TONE: Record<string, 'ok' | 'warn' | 'neutral'> = {
   live: 'ok',
   draft: 'warn',
-  archived: 'neutral',
+  coming_soon: 'warn',
+  retired: 'neutral',
 };
 
 /** Registry status → catalogue status. coming_soon maps to draft. */
