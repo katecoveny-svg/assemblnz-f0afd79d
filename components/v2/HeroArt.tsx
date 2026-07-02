@@ -111,21 +111,32 @@ export function HeroArt({
 
 /** Full-bleed backdrop variant — the landscape behind floating cards. */
 export function LandscapeBackdrop({ seed, opacity = 1 }: { seed?: number; opacity?: number }) {
+  const showVideo = useHeroVideo();
+  const media: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'center 65%',
+    // quieter than the hero — this sits BEHIND floating cards and copy
+    opacity: 0.55,
+  };
   return (
     <div aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity }}>
-      <img
-        src="/brand/v2/hero-landscape.jpg"
-        alt=""
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          objectPosition: 'center 65%',
-          opacity: 0.55,
-        }}
-      />
+      <img src="/brand/v2/hero-landscape.jpg" alt="" style={media} />
+      {showVideo ? (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/brand/v2/hero-landscape.jpg"
+          src="/brand/v2/hero-landscape.mp4"
+          style={media}
+        />
+      ) : null}
       <ParticulateLandscape seed={seed} />
     </div>
   );
