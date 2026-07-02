@@ -42,14 +42,18 @@ export default async function HomePage() {
 
       {/* ── hero ─────────────────────────────────────────────────────── */}
       <section className={styles.hero}>
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: 560 }}>
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: 640 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
               •
             </span>
             <MicroLabel>built in aotearoa</MicroLabel>
           </div>
-          <h1 className={styles.h1} style={{ marginTop: 22 }}>
+          {/* exactly two lines, per the locked composition rule */}
+          <h1
+            className={styles.h1}
+            style={{ marginTop: 22, fontSize: 'clamp(2.2rem, 4vw, 3.6rem)' }}
+          >
             purpose-built agents.
             <br />
             limitless potential
