@@ -1,3 +1,7 @@
+-- NOTE (2026-07-02): table is pwa_push_subscriptions, NOT push_subscriptions —
+-- prod already has an older public.push_subscriptions (May multichannel shape:
+-- user_id/tenant_id uuid + subscription jsonb, migration 20260502120000) which
+-- this PWA layer must not touch.
 -- ═══════════════════════════════════════════════════════════════════════════
 -- Push subscriptions — Phase 4 of the v2 platform (pilot workspace PWAs)
 -- ═══════════════════════════════════════════════════════════════════════════
@@ -16,7 +20,7 @@
 -- Apply to prod via the management-API pattern (do NOT db push from CI).
 -- ═══════════════════════════════════════════════════════════════════════════
 
-create table if not exists public.push_subscriptions (
+create table if not exists public.pwa_push_subscriptions (
   id           uuid primary key default gen_random_uuid(),
   -- pilot tenant slug ('aironaut', 'happy-tails') or bundle identity slug
   tenant_slug  text not null,
@@ -30,18 +34,18 @@ create table if not exists public.push_subscriptions (
   created_at   timestamptz not null default now()
 );
 
-comment on table public.push_subscriptions is
+comment on table public.pwa_push_subscriptions is
   'Web-push subscriptions for the installed pilot workspace PWAs. Service-role write, admin read. Payloads are pointers only ("new draft reply waiting"), never message content.';
-comment on column public.push_subscriptions.tenant_slug is
+comment on column public.pwa_push_subscriptions.tenant_slug is
   'Pilot tenant slug or bundle identity slug the subscription belongs to.';
 
-create index if not exists push_subscriptions_tenant_idx
-  on public.push_subscriptions (tenant_slug);
+create index if not exists pwa_push_subscriptions_tenant_idx
+  on public.pwa_push_subscriptions (tenant_slug);
 
-alter table public.push_subscriptions enable row level security;
+alter table public.pwa_push_subscriptions enable row level security;
 
-drop policy if exists push_subscriptions_admin_read on public.push_subscriptions;
-create policy push_subscriptions_admin_read on public.push_subscriptions
+drop policy if exists pwa_push_subscriptions_admin_read on public.pwa_push_subscriptions;
+create policy pwa_push_subscriptions_admin_read on public.pwa_push_subscriptions
   for select to authenticated
   using (public.is_designated_admin(auth.uid()));
 -- Writes are service-role only (bypasses RLS); no insert/update/delete

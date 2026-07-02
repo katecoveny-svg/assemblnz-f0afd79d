@@ -50,3 +50,5 @@ next-env.d.ts
 *.legacy-rgb
 *.bak
 *.orig
+.vercel
+.env*
