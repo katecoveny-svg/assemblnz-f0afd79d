@@ -117,6 +117,33 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── the four-line brand story ────────────────────────────────── */}
+      <section className={styles.section} style={{ paddingTop: 20, paddingBottom: 28 }}>
+        <div className={`${styles.inner} rise`} style={{ textAlign: 'center' }}>
+          <MicroLabel as="h2">read signals · route work · move to proof</MicroLabel>
+          <div
+            className={styles.h1}
+            style={{
+              marginTop: 26,
+              fontSize: 'clamp(1.35rem, 2.6vw, 2rem)',
+              lineHeight: 1.55,
+              fontWeight: 400,
+            }}
+          >
+            the user sets the destination.
+            <br />
+            the agents read the signals.
+            <br />
+            the system finds a path.
+            <br />
+            the proof — receipts and mana — show the journey
+            <span aria-hidden style={{ color: palette.canary }}>
+              .
+            </span>
+          </div>
+        </div>
+      </section>
+
       {/* ── trust bar — TEXT ONLY (no client logos; none are signed) ─── */}
       <section className={styles.section} style={{ paddingTop: 8, paddingBottom: 40 }}>
         <div
