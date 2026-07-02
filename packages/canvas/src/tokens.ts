@@ -65,6 +65,14 @@ export const typography = {
     letterSpacing: '0.16em',
     fontSize: '10px',
   },
+  /** Mono micro labels: Space Mono, uppercase, tracked 0.16em (the loader label). */
+  mono: {
+    fontFamily:
+      "var(--font-mono, 'Space Mono'), ui-monospace, 'SFMono-Regular', Menlo, monospace",
+    textTransform: 'uppercase',
+    letterSpacing: '0.16em',
+    fontSize: '10px',
+  },
 } as const;
 
 export const motionTokens = {
