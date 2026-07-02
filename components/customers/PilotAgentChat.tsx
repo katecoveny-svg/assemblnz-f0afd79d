@@ -1,10 +1,12 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
+import { AssemblingLoader } from '@assembl/canvas';
 import { AgentMarkdown } from '@/components/marketplace/AgentMarkdown';
 import { ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
+import { loadChatHistory, saveChatHistory, type StoredChatMessage } from '@/lib/pwa/chat-store';
 
 /**
  * PilotAgentChat — the live agent panel inside a customer pilot workspace.
@@ -97,12 +99,63 @@ export function PilotAgentChat({
     [greeting],
   );
 
-  const { messages, sendMessage, status, error } = useChat({
+  const { messages, sendMessage, status, error, setMessages } = useChat({
     transport: new DefaultChatTransport({ api: apiPath }),
     messages: initialMessages,
   });
 
   const busy = status === 'submitted' || status === 'streaming';
+
+  // ── PWA offline shell ────────────────────────────────────────────────────
+  // Track connectivity for the offline banner, restore the last 20 messages
+  // (text-only) from IndexedDB so the installed app shows recent history
+  // offline, and snapshot completed turns back into the store.
+  const [offline, setOffline] = useState(false);
+  const restoredRef = useRef(false);
+
+  useEffect(() => {
+    setOffline(!navigator.onLine);
+    const on = () => setOffline(false);
+    const off = () => setOffline(true);
+    window.addEventListener('online', on);
+    window.addEventListener('offline', off);
+    return () => {
+      window.removeEventListener('online', on);
+      window.removeEventListener('offline', off);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (restoredRef.current) return;
+    restoredRef.current = true;
+    void loadChatHistory(apiPath).then((stored) => {
+      if (stored.length === 0) return;
+      setMessages((current) => {
+        // Only hydrate a fresh shell (greeting alone) — never clobber a
+        // conversation already underway.
+        if (current.length > 1) return current;
+        const restored = stored.map(
+          (s) =>
+            ({
+              id: `restored-${s.id}`,
+              role: s.role,
+              parts: [{ type: 'text', text: s.text }],
+            }) as UIMessage,
+        );
+        return [...current, ...restored];
+      });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiPath]);
+
+  useEffect(() => {
+    if (status !== 'ready') return;
+    const snapshot: StoredChatMessage[] = messages
+      .filter((m) => m.id !== 'greeting' && (m.role === 'user' || m.role === 'assistant'))
+      .map((m) => ({ id: m.id, role: m.role as 'user' | 'assistant', text: messageText(m) }))
+      .filter((m) => m.text.trim().length > 0);
+    if (snapshot.length > 0) void saveChatHistory(apiPath, snapshot);
+  }, [messages, status, apiPath]);
 
   const send = (text: string) => {
     const trimmed = text.trim();
@@ -131,6 +184,16 @@ export function PilotAgentChat({
         </span>
       </div>
 
+      {offline ? (
+        <div
+          className="border-b border-black/5 px-4 py-2 text-[10px] uppercase"
+          style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY, backgroundColor: '#F7F5EE' }}
+          role="status"
+        >
+          offline — showing your recent messages · replies resume when you reconnect
+        </div>
+      ) : null}
+
       <div ref={listRef} className="flex-1 space-y-4 overflow-y-auto px-4 py-4" style={{ minHeight: 320, maxHeight: 460 }}>
         {messages.map((m) => {
           const text = messageText(m);
@@ -148,9 +211,7 @@ export function PilotAgentChat({
                 {m.role === 'assistant' ? (
                   <>
                     {text ? <AgentMarkdown text={text} /> : (
-                      <span className="text-xs" style={{ color: ASSEMBL_WARM_GREY }}>
-                        working — checking the tools…
-                      </span>
+                      <AssemblingLoader size={22} style={{ padding: '2px 4px' }} />
                     )}
                     {citations.length > 0 && (
                       <div className="mt-3 border-t border-black/5 pt-2">
@@ -191,6 +252,13 @@ export function PilotAgentChat({
             </div>
           );
         })}
+        {status === 'submitted' ? (
+          <div className="flex justify-start">
+            <div className="max-w-[92%] rounded-2xl rounded-bl-md border border-black/5 bg-white px-4 py-3 text-sm">
+              <AssemblingLoader size={22} style={{ padding: '2px 4px' }} />
+            </div>
+          </div>
+        ) : null}
         {error ? (
           <p className="text-xs text-red-700">
             The agent hit a snag: {error.message}. Try again — nothing was lost.
@@ -234,7 +302,7 @@ export function PilotAgentChat({
           />
           <button
             type="submit"
-            disabled={busy || !input.trim()}
+            disabled={busy || offline || !input.trim()}
             className="rounded-xl px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
             style={{ backgroundColor: accent }}
           >
