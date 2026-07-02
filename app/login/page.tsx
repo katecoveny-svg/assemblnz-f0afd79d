@@ -79,7 +79,7 @@ export default async function LoginPage({
           New here?{' '}
           <Link
             href="/pilot-sprint"
-            className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--dash-canary,#FFD42A)] focus-visible:ring-offset-2"
+            className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--dash-canary,#BFA37A)] focus-visible:ring-offset-2"
           >
             Book a pilot to get an account →
           </Link>

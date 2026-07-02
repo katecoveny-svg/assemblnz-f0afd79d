@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { TickerNumber } from '@/lib/motion';
-import { ASSEMBL_CANARY, ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
+import { ASSEMBL_GOLD, ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { BackendTabs } from '@/components/customers/BackendTabs';
 import { FinancePanel } from '@/components/ops/widgets/FinancePanel';
@@ -89,7 +89,7 @@ export default function AucklandZooOpsHome() {
             style={{ fontFamily: serif, fontWeight: 500, textShadow: '0 1px 24px rgba(0,0,0,0.35)' }}
           >
             the operating system for your keeping team
-            <span style={{ color: ASSEMBL_CANARY }}>.</span>
+            <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
             className="mt-4 text-[10px] uppercase text-white/90"
@@ -175,7 +175,7 @@ export default function AucklandZooOpsHome() {
         <section className="mt-20">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
             talk to {ZOO_AGENT_NAME}
-            <span style={{ color: ASSEMBL_CANARY }}>.</span>
+            <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
             The keeper workspace agent, live. Real register, real welfare-record
@@ -234,7 +234,7 @@ export default function AucklandZooOpsHome() {
         {/* ── The working console — roster · register · comms ─────────────── */}
         <section className="mt-20">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            the console<span style={{ color: ASSEMBL_CANARY }}>.</span>
+            the console<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <div className="mt-6 flex flex-col gap-6">
             <FinancePanel summary={aucklandZooFinance} />
@@ -247,7 +247,7 @@ export default function AucklandZooOpsHome() {
         {/* ── Fold 4 · the transparency piece ─────────────────────────────── */}
         <section className="mt-20">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            the proof<span style={{ color: ASSEMBL_CANARY }}>.</span>
+            the proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
             Receipts and mana show the journey. The shape every keeper draft
@@ -275,7 +275,7 @@ export default function AucklandZooOpsHome() {
         {/* ── Fold 5 · next step ──────────────────────────────────────────── */}
         <section className="my-24 text-center">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            ready when you are<span style={{ color: ASSEMBL_CANARY }}>.</span>
+            ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm" style={{ color: '#3E3C36' }}>
             The pilot runs draft-only until you say otherwise. One conversation

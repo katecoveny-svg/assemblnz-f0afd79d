@@ -9,7 +9,7 @@ const REMEMBER_STORAGE_KEY = 'assembl-remember-device';
 const labelClass =
   'font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]';
 const inputClass =
-  'mt-2 w-full rounded-card border border-[rgba(58,56,50,0.18)] bg-white px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--dash-canary,#FFD42A)] focus:ring-2 focus:ring-[rgba(255,212,42,0.45)]';
+  'mt-2 w-full rounded-card border border-[rgba(58,56,50,0.18)] bg-white px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--dash-canary,#BFA37A)] focus:ring-2 focus:ring-[rgba(255,212,42,0.45)]';
 
 type Mode = 'magic' | 'password';
 
@@ -115,7 +115,7 @@ export function LoginForm({
         type="checkbox"
         checked={remember}
         onChange={(e) => persistRemember(e.target.checked)}
-        className="h-4 w-4 rounded border-[rgba(58,56,50,0.35)] accent-[#FFD42A] focus:ring-2 focus:ring-[rgba(255,212,42,0.45)]"
+        className="h-4 w-4 rounded border-[rgba(58,56,50,0.35)] accent-[#BFA37A] focus:ring-2 focus:ring-[rgba(255,212,42,0.45)]"
       />
       Stay signed in on this device
     </label>

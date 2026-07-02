@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react';
 import {
-  ASSEMBL_CANARY,
+  ASSEMBL_GOLD,
   ASSEMBL_INK,
   ASSEMBL_PAPER,
   ASSEMBL_WARM_GREY,
@@ -73,7 +73,7 @@ export function PilotGateView({
           }}
         >
           <span style={{ textTransform: 'lowercase' }}>assembl</span> · private
-          pilot <span style={{ color: ASSEMBL_CANARY }}>·</span>
+          pilot <span style={{ color: ASSEMBL_GOLD }}>·</span>
         </div>
         <h1
           style={{
@@ -87,7 +87,7 @@ export function PilotGateView({
           }}
         >
           this workspace is invite-only
-          <span style={{ color: ASSEMBL_CANARY }}>.</span>
+          <span style={{ color: ASSEMBL_GOLD }}>.</span>
         </h1>
         <p
           style={{

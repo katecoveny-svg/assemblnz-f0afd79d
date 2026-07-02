@@ -162,7 +162,7 @@ export function BundleChatPreview({
           borderBottom: `1px solid ${palette.hairline}`,
         }}
       >
-        <span aria-hidden style={{ color: palette.canary, fontSize: 11, lineHeight: 1 }}>
+        <span aria-hidden style={{ color: palette.accentGold, fontSize: 11, lineHeight: 1 }}>
           •
         </span>
         <span

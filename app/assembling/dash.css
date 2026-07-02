@@ -17,9 +17,9 @@
   --d-sage: #3a3832;
   --d-sage-2: #56544b;
   --d-sage-pale: #fff7ec;
-  --d-gold: #ffd42a;
+  --d-gold: #BFA37A;
   --d-hivis: #ffe27a;
-  --d-mint: #ffd42a;
+  --d-mint: #BFA37A;
   --d-ink: #3a3832;
 
   /* semantic — white canvas, charcoal text, yellow accents */
@@ -31,9 +31,9 @@
   --line: #efeadc;
   --accent: #3a3832; /* buttons, ink accents */
   --on-accent: #ffffff;
-  --gold: #ffd42a;
+  --gold: #BFA37A;
   --hivis: #ffe27a;
-  --mint: #ffd42a;
+  --mint: #BFA37A;
   --sage: #3a3832;
   --sage-pale: #fff7ec;
 
@@ -62,8 +62,8 @@
   --muted: #c9c4ad;
   --surface: #2c2a25;
   --surface-2: #56544b;
-  --line: #ffd42a;
-  --accent: #ffd42a;
+  --line: #BFA37A;
+  --accent: #BFA37A;
   --on-accent: #3a3832;
   --sage-pale: #56544b;
 }

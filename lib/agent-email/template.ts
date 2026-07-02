@@ -2,7 +2,7 @@
  * Canon HTML email template for agent replies.
  *
  * Locked brand (CANON-LOCKED-2026-06-23): Cormorant Garamond headline, Lato
- * body, Space Mono signature, canary accent, lowercase `assembl` wordmark,
+ * body, Space Mono signature, accentGold accent, lowercase `assembl` wordmark,
  * charcoal ink on cream. Email clients won't load web fonts reliably, so each
  * family carries a web-safe fallback and the layout is table-based with inline
  * styles only.
@@ -11,7 +11,7 @@
  */
 
 const PALETTE = {
-  canary: '#FFD42A',
+  accentGold: '#BFA37A',
   ink: '#3A3832',
   body: '#56544B',
   paper: '#FFFFFF',
@@ -68,8 +68,8 @@ export function renderAgentEmailHtml({ agentName, agentEmail, body }: AgentEmail
     <tr>
       <td align="center">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:${PALETTE.paper};border:1px solid ${PALETTE.hairline};border-radius:18px;overflow:hidden;">
-          <!-- canary rule -->
-          <tr><td style="height:4px;background:${PALETTE.canary};line-height:4px;font-size:0;">&nbsp;</td></tr>
+          <!-- accentGold rule -->
+          <tr><td style="height:4px;background:${PALETTE.accentGold};line-height:4px;font-size:0;">&nbsp;</td></tr>
           <tr>
             <td style="padding:32px 36px 8px;">
               <p style="margin:0 0 4px;font-family:${MONO};font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:${PALETTE.gold};">From your agent</p>

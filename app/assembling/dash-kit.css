@@ -18,9 +18,9 @@
   --d-sage: #3a3832;
   --d-sage-2: #56544b;
   --d-sage-pale: #fff7ec;
-  --d-gold: #ffd42a;
+  --d-gold: #BFA37A;
   --d-hivis: #ffe27a;
-  --d-mint: #ffd42a;
+  --d-mint: #BFA37A;
   --d-ink: #3a3832;
 
   /* semantic — white canvas, charcoal ink, canary accent */
@@ -32,13 +32,13 @@
   --line: #efeadc;
   --accent: #3a3832;
   --on-accent: #ffffff;
-  --gold: #ffd42a;
-  --pop: #ffd42a;
+  --gold: #BFA37A;
+  --pop: #BFA37A;
   --canary-2: #ffe27a;
   --hivis: #ffe27a;
   --gold-text: #c79b1f;
   --mono-muted: #8a8678;
-  --mint: #ffd42a;
+  --mint: #BFA37A;
   --sage: #3a3832;
   --sage-pale: #fff7ec;
 
@@ -73,7 +73,7 @@
   --cream-2: #ffffff;
   --pounamu: #3a3832;
   --pounamu-dark: #2c2a25;
-  --amber: #ffd42a;
+  --amber: #BFA37A;
   --amber-dim: #c79b1f;
   --ink: #3a3832;
   --ink-soft: #56544b;
@@ -673,7 +673,7 @@
 
 /* ---------- announcement marquee (birdie-style top bar) ---------- */
 .dashMarquee {
-  background: var(--pop, #ffd42a);
+  background: var(--pop, #BFA37A);
   color: var(--accent, #3a3832);
   border-bottom: 2px solid var(--accent, #3a3832);
   overflow: hidden;
@@ -701,7 +701,7 @@
   position: sticky;
   bottom: 0;
   z-index: 40;
-  background: var(--pop, #ffd42a);
+  background: var(--pop, #BFA37A);
   border-top: 2px solid var(--accent, #3a3832);
 }
 .dashSticky__inner {

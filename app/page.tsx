@@ -44,7 +44,7 @@ export default async function HomePage() {
       <section className={styles.hero}>
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 640 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
+            <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
               •
             </span>
             <MicroLabel>built in aotearoa</MicroLabel>
@@ -57,7 +57,7 @@ export default async function HomePage() {
             purpose-built agents.
             <br />
             limitless potential
-            <span aria-hidden style={{ color: palette.canary }}>
+            <span aria-hidden style={{ color: palette.accentGold }}>
               .
             </span>
           </h1>
@@ -68,7 +68,7 @@ export default async function HomePage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 26, marginTop: 32 }}>
             <Link href="/agents" className={styles.navCta} style={{ padding: '11px 22px' }}>
               explore marketplace
-              <span aria-hidden style={{ color: palette.canary, fontSize: 15, lineHeight: 1 }}>
+              <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
                 •
               </span>
             </Link>
@@ -137,7 +137,7 @@ export default async function HomePage() {
             the system finds a path.
             <br />
             the proof — receipts and mana — show the journey
-            <span aria-hidden style={{ color: palette.canary }}>
+            <span aria-hidden style={{ color: palette.accentGold }}>
               .
             </span>
           </div>
@@ -157,7 +157,7 @@ export default async function HomePage() {
             paddingTop: 36,
           }}
         >
-          <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
+          <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
             •
           </span>
           <MicroLabel>trusted by teams across aotearoa</MicroLabel>

@@ -6,7 +6,7 @@ import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
 import { brandSlugs } from '@/lib/brand/configs';
 import { TenantSwitch } from '@/components/ops/TenantSwitch';
 import {
-  ASSEMBL_CANARY,
+  ASSEMBL_GOLD,
   ASSEMBL_INK,
   ASSEMBL_PAPER,
   ASSEMBL_WARM_GREY,
@@ -104,7 +104,7 @@ export function OpsShell({
               style={{ letterSpacing: '0.08em' }}
             >
               powered by <span className="font-mono">assembl</span>
-              <span style={{ color: ASSEMBL_CANARY }}> ·</span>
+              <span style={{ color: ASSEMBL_GOLD }}> ·</span>
             </span>
           ) : null}
           <div className="ml-auto">
@@ -196,7 +196,7 @@ export function OpsShell({
               the system finds a path.
               <br />
               the proof — receipts and mana — show the journey
-              <span style={{ color: ASSEMBL_CANARY }}>.</span>
+              <span style={{ color: ASSEMBL_GOLD }}>.</span>
             </p>
             <AssemblMotto />
             <span className="text-[11px]" style={{ color: ASSEMBL_WARM_GREY }}>

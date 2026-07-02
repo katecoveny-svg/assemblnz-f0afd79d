@@ -93,14 +93,14 @@ export default async function BundlePage({ params }: { params: Promise<Params> }
             {/* ── main column ─────────────────────────────────────── */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
+                <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                   •
                 </span>
                 <MicroLabel>collection · {bundle.category}</MicroLabel>
               </div>
               <h1 className={styles.h1} style={{ marginTop: 18 }}>
                 {bundle.name.toLowerCase()}
-                <span aria-hidden style={{ color: palette.canary }}>
+                <span aria-hidden style={{ color: palette.accentGold }}>
                   .
                 </span>
               </h1>
@@ -161,7 +161,7 @@ export default async function BundlePage({ params }: { params: Promise<Params> }
                                 <span style={{ ...body, fontSize: 12.5 }}>{m.description}</span>
                                 <MicroLabel style={{ marginLeft: 'auto', whiteSpace: 'nowrap' }}>
                                   live{' '}
-                                  <span aria-hidden style={{ color: palette.canary }}>
+                                  <span aria-hidden style={{ color: palette.accentGold }}>
                                     •
                                   </span>
                                 </MicroLabel>
@@ -241,7 +241,7 @@ export default async function BundlePage({ params }: { params: Promise<Params> }
                       border: `1px solid ${palette.hairline}`,
                     }}
                   >
-                    <span aria-hidden style={{ color: palette.canary, fontSize: 10, lineHeight: 1 }}>
+                    <span aria-hidden style={{ color: palette.accentGold, fontSize: 10, lineHeight: 1 }}>
                       •
                     </span>
                     <span

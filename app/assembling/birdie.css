@@ -27,7 +27,7 @@
 .bd-progress {
   position: fixed; top: 0; left: 0; right: 0; height: 3px;
   transform-origin: left; transform: scaleX(0);
-  background: #FFD42A; z-index: 60; box-shadow: 0 0 10px rgba(255,212,42,.7);
+  background: #BFA37A; z-index: 60; box-shadow: 0 0 10px rgba(255,212,42,.7);
   pointer-events: none;
 }
 @supports (animation-timeline: scroll()) {
@@ -88,7 +88,7 @@
 /* Logo System — the wordmark's dash filling as a loader */
 @keyframes bdDashFill { 0% { transform: scaleX(.2) } 55% { transform: scaleX(1) } 100% { transform: scaleX(.2) } }
 .bd-loaderfill {
-  height: 100%; width: 100%; border-radius: 6px; background: #ffd42a;
+  height: 100%; width: 100%; border-radius: 6px; background: #BFA37A;
   transform-origin: left; animation: bdDashFill 2.4s cubic-bezier(.22,.61,.36,1) infinite;
 }
 @media (prefers-reduced-motion: reduce) { .bd-loaderfill { animation: none !important } }
@@ -134,5 +134,5 @@
 /* On the charcoal CTA the dark ring would vanish — flip it to canary. */
 .dash-kit .bd-cta-dark:focus-visible,
 .dash-kit .sdk-foot a:focus-visible {
-  outline-color: #FFD42A;
+  outline-color: #BFA37A;
 }

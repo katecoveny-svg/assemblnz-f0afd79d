@@ -96,6 +96,8 @@ const nextConfig: NextConfig = {
       { source: "/toro/school-survival/:path*", destination: "/hapai/9am-brief", permanent: false },
       { source: "/toro", destination: "/agents", permanent: true },
       { source: "/toroa", destination: "/agents", permanent: true },
+      // /bundles has no index page — collections browse from the marketplace.
+      { source: "/bundles", destination: "/agents", permanent: false },
       // Kete → Bundles (V4 marketplace cull, 2026-07-01). The old Kete vertical
       // landing pages fold into the new bundle front doors. Real /kete/*/tools/*
       // tool routes stay live via more-specific paths above/below.

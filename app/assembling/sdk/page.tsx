@@ -10,7 +10,7 @@ import '../birdie.css';
  * an options table, surfaces/theming columns, trust pills and a dark footer.
  *
  * Sits inside the /assembling Birdie chrome (marquee + nav + footer). Palette locked:
- * white + canary #FFD42A + charcoal #3a3832. See docs/dash-design-system.md.
+ * white + canary #BFA37A + charcoal #3a3832. See docs/dash-design-system.md.
  */
 
 export const metadata: Metadata = {
@@ -43,7 +43,7 @@ const mono: CSSProperties = { fontFamily: 'var(--font-dash-mono), "Space Mono", 
 // syntax-highlight palette from the handoff
 const HL = {
   c: '#8a8678', // comment
-  s: '#FFD42A', // string / method / identifier
+  s: '#BFA37A', // string / method / identifier
   k: '#7fc8a0', // keyword
   n: '#9ec1ff', // number
   t: '#e8e6dd', // default text
@@ -129,7 +129,7 @@ export default function DashSdkPage() {
         <div
           className="sdk-head"
           style={{
-            background: '#FFD42A',
+            background: '#BFA37A',
             padding: '40px 48px',
             display: 'flex',
             justifyContent: 'space-between',
@@ -153,7 +153,7 @@ export default function DashSdkPage() {
                 display: 'inline-block',
                 marginTop: 12,
                 background: '#3a3832',
-                color: '#FFD42A',
+                color: '#BFA37A',
                 fontSize: 11,
                 fontWeight: 700,
                 letterSpacing: '.12em',
@@ -294,7 +294,7 @@ export default function DashSdkPage() {
               style={{ fontSize: 12.5, padding: '16px 18px' }}
               tokens={[
                 ['Dash.'], ['theme', 's'], ['({'], '\n',
-                ['  accent: '], ["'#FFD42A'", 's'], [','], '\n',
+                ['  accent: '], ["'#BFA37A'", 's'], [','], '\n',
                 ['  ink:    '], ["'#3A3832'", 's'], [','], '\n',
                 ['  radius: '], ['26', 'n'], [','], '\n',
                 ['  mascot: '], ['true', 's'], [' '], ['// show dog', 'c'], '\n',
@@ -348,8 +348,8 @@ export default function DashSdkPage() {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8 }}>
-            <div style={{ fontWeight: 900, fontSize: 20, letterSpacing: '-.05em', color: '#FFD42A' }}>assembling</div>
-            <div style={{ width: 18, height: 6, borderRadius: 4, background: '#FFD42A', marginBottom: 4 }} />
+            <div style={{ fontWeight: 900, fontSize: 20, letterSpacing: '-.05em', color: '#BFA37A' }}>assembling</div>
+            <div style={{ width: 18, height: 6, borderRadius: 4, background: '#BFA37A', marginBottom: 4 }} />
           </div>
           <div style={{ ...mono, fontSize: 11, letterSpacing: '.08em', color: '#8a8678' }}>
             SDK v0.1 · docs.dash.assembl.co.nz

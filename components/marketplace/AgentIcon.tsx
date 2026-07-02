@@ -4,12 +4,12 @@
  * Ported verbatim from Kate's design source
  * (canon-2026-06-23/e26ab468-assembl_Agent_Avatars.dc.html). Each agent's
  * `icon` field in lib/marketplace/agents.ts is one of these keys. Flat-vector,
- * 64×64 viewBox, canary/charcoal/gold/cream palette. Size comes from className.
+ * 64×64 viewBox, champagne/charcoal/gold/cream palette. Size comes from className.
  */
 import type { ReactElement } from 'react';
 
 const INK = '#3A3832';
-const CAN = '#FFD42A';
+const CAN = '#BFA37A';
 const GOLD = '#C79B1F';
 const CREAM = '#FFF7EC';
 
@@ -165,7 +165,7 @@ function paths(name: string, ink: string): ReactElement[] {
         <circle key={2} cx={32} cy={32} r={8} fill={CAN} />,
       ];
     case 'palette':
-      // creative studio — artist's palette with a canary daub.
+      // creative studio — artist's palette with a gold daub.
       return [
         <path
           key={1}
@@ -180,7 +180,7 @@ function paths(name: string, ink: string): ReactElement[] {
         <circle key={4} cx={41} cy={24} r={3} fill={ink} />,
       ];
     case 'car':
-      // automotive vertical — a side-on car with canary body and ink wheels.
+      // automotive vertical — a side-on car with gold body and ink wheels.
       return [
         <path
           key={1}
@@ -219,7 +219,7 @@ export function AgentIcon({
   name: string;
   className?: string;
   /** avatar tile tone — on 'ink' the charcoal line-art is drawn in cream so it stays legible */
-  tone?: 'cream' | 'canary' | 'ink';
+  tone?: 'cream' | 'accentGold' | 'ink';
 }) {
   const ink = tone === 'ink' ? CREAM : INK;
   return (

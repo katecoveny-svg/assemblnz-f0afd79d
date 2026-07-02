@@ -47,7 +47,7 @@ export default function HowItWorksPage() {
       <section className={styles.hero}>
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 640 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
+            <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
               •
             </span>
             <MicroLabel>read signals · route work · move to proof</MicroLabel>
@@ -57,7 +57,7 @@ export default function HowItWorksPage() {
             style={{ marginTop: 22, fontSize: 'clamp(2.2rem, 4vw, 3.6rem)' }}
           >
             how assembl works
-            <span aria-hidden style={{ color: palette.canary }}>
+            <span aria-hidden style={{ color: palette.accentGold }}>
               .
             </span>
           </h1>
@@ -88,7 +88,7 @@ export default function HowItWorksPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span
                       aria-hidden
-                      style={{ color: palette.canary, fontSize: 11, lineHeight: 1 }}
+                      style={{ color: palette.accentGold, fontSize: 11, lineHeight: 1 }}
                     >
                       •
                     </span>
@@ -128,7 +128,7 @@ export default function HowItWorksPage() {
             the system finds a path.
             <br />
             the proof — receipts and mana — show the journey
-            <span aria-hidden style={{ color: palette.canary }}>
+            <span aria-hidden style={{ color: palette.accentGold }}>
               .
             </span>
           </div>
@@ -155,7 +155,7 @@ export default function HowItWorksPage() {
           </p>
           <Link href="/agents" className={styles.navCta} style={{ padding: '11px 22px' }}>
             explore marketplace
-            <span aria-hidden style={{ color: palette.canary, fontSize: 15, lineHeight: 1 }}>
+            <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
               •
             </span>
           </Link>

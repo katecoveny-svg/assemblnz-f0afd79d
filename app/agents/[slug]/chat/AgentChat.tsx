@@ -160,7 +160,7 @@ export function AgentChat({
           </Link>
           <span
             className={orb.orb}
-            style={{ width: 40, height: 40, background: 'radial-gradient(circle at 33% 26%, #FFFDF7 0%, #FFD42A 52%, #E0A800 100%)' }}
+            style={{ width: 40, height: 40, background: 'radial-gradient(circle at 33% 26%, #FFFDF7 0%, #BFA37A 52%, #E0A800 100%)' }}
             aria-hidden
           >
             <span className={orb.orbSpec} aria-hidden />
@@ -235,7 +235,7 @@ export function AgentChat({
                     style={
                       isUser
                         ? {
-                            background: 'linear-gradient(180deg, #FFE27A, #FFD42A)',
+                            background: 'linear-gradient(180deg, #D9C7A5, #BFA37A)',
                             color: PALETTE.ink,
                             boxShadow: '0 8px 20px rgba(255,200,30,0.22)',
                           }
@@ -281,7 +281,7 @@ export function AgentChat({
           {paywall ? (
             <div
               className="self-start rounded-[20px] border px-4 py-4 text-sm"
-              style={{ borderColor: PALETTE.canary, backgroundColor: PALETTE.cream, color: PALETTE.ink }}
+              style={{ borderColor: PALETTE.accentGold, backgroundColor: PALETTE.cream, color: PALETTE.ink }}
             >
               <div className="flex items-center gap-2 font-bold">
                 <Lock size={15} aria-hidden />
@@ -420,7 +420,7 @@ export function AgentChat({
             aria-label="Send"
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition hover:-translate-y-0.5 disabled:opacity-40 disabled:hover:translate-y-0"
             style={{
-              background: 'linear-gradient(180deg, #FFE27A, #FFD42A)',
+              background: 'linear-gradient(180deg, #D9C7A5, #BFA37A)',
               color: PALETTE.ink,
               boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 18px rgba(255,200,30,0.28)',
             }}

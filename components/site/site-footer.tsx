@@ -2,234 +2,138 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { footerDisclaimer } from "@/lib/site-config";
-import { AssemblWordmark } from "@/components/site/AssemblWordmark";
-import { AssemblMotto, MatarikiCluster } from "@/components/assembl/chrome";
+import { MatarikiCluster } from "@/components/assembl/chrome";
 import { isAdminHub, isAgentMarketplace, isAtlas, isAuthSurface, isCustomerWorkspace, isDashMicrosite, isEcho } from "@/components/site/site-header";
+
+/**
+ * Global footer — DIRECTION-LOCKED-2026-07-01 (palette correction 2026-07-02).
+ *
+ * Paper white, lowercase Cormorant `assembl` wordmark with the matariki
+ * cluster ornament, the tracked motto as the only uppercase text, Space Mono
+ * small links in three quiet columns (product / company / legal). No
+ * sub-brand references, no old-era anchors.
+ */
+
+const COLUMNS: { label: string; links: { href: string; label: string }[] }[] = [
+  {
+    label: "product",
+    links: [
+      { href: "/agents", label: "agents" },
+      { href: "/bundles", label: "bundles" },
+      { href: "/pricing", label: "pricing" },
+      { href: "/trust", label: "trust" },
+    ],
+  },
+  {
+    label: "company",
+    links: [
+      { href: "/about", label: "about" },
+      { href: "/contact", label: "contact" },
+    ],
+  },
+  {
+    label: "legal",
+    links: [
+      { href: "/legal/privacy", label: "privacy" },
+      { href: "/legal/terms", label: "terms" },
+    ],
+  },
+];
+
+const GOLD = "#BFA37A";
+const INK = "#1A1918";
+const BODY_GREY = "#5A5850";
+const HAIRLINE = "#E7E4DA";
+
+const monoSmall: React.CSSProperties = {
+  fontFamily: "var(--font-mono), 'Space Mono', monospace",
+  fontSize: 12.5,
+  textTransform: "lowercase",
+};
+
+const microLabel: React.CSSProperties = {
+  margin: 0,
+  fontFamily: "var(--font-mono), 'Space Mono', monospace",
+  fontSize: 11,
+  letterSpacing: "0.16em",
+  textTransform: "uppercase",
+  color: BODY_GREY,
+};
 
 export function SiteFooter() {
   const pathname = usePathname();
-  // The /dash microsite, /agents marketplace, /atlas coach, signed-out auth
-  // surfaces and the /admin operator hub ship their own footer (or none);
+  // The /assembling microsite, /agents marketplace, /atlas coach, signed-out
+  // auth surfaces and the /admin operator hub ship their own footer (or none);
   // suppress the global one there. Customer pilot workspaces (/customers/*) are
   // white-labelled — suppress the assembl footer across the whole subtree.
   if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname)) return null;
 
   return (
-    <footer className="relative z-10 mt-24 border-t border-[#E7E4DA] bg-[#FBFAF6]">
-      <div className="container py-16">
-        <div className="grid gap-12 md:grid-cols-5">
-          <div>
+    <footer
+      className="relative z-10 mt-24"
+      style={{ background: "#FBFAF6", borderTop: `1px solid ${HAIRLINE}` }}
+    >
+      <div className="container" style={{ paddingTop: 64, paddingBottom: 28 }}>
+        {/* motto — the only uppercase text in the footer */}
+        <p style={{ ...microLabel, display: "flex", alignItems: "center", gap: 10 }}>
+          <span aria-hidden style={{ color: GOLD, fontSize: 10, lineHeight: 1 }}>
+            •
+          </span>
+          adaptive. connected. purpose-built.
+        </p>
+
+        <div
+          className="grid gap-10 md:grid-cols-5"
+          style={{ marginTop: 40, paddingBottom: 48, borderBottom: `1px solid ${HAIRLINE}` }}
+        >
+          <div className="md:col-span-2">
             <Link
               href="/"
-              className="inline-flex flex-col items-start gap-3 rounded-sm transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              className="inline-flex flex-col items-start gap-3 rounded-sm transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none"
             >
-              <MatarikiCluster size={44} gold className="opacity-90" />
-              <AssemblWordmark className="text-2xl tracking-[-0.02em] text-[color:var(--text-primary)]" />
+              <MatarikiCluster size={40} gold className="opacity-90" />
+              <span
+                style={{
+                  fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
+                  fontWeight: 500,
+                  fontSize: 30,
+                  lineHeight: 1,
+                  letterSpacing: "0.04em",
+                  textTransform: "lowercase",
+                  color: INK,
+                }}
+              >
+                assembl
+                <span aria-hidden style={{ color: GOLD }}>
+                  .
+                </span>
+              </span>
             </Link>
-            <p className="mt-3 max-w-xs text-sm text-[color:var(--text-secondary)]">
-              Mahi that earns its proof. Built in Aotearoa.
-            </p>
           </div>
 
-          <div>
-            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-              Marketplace
-            </h2>
-            <ul className="mt-4 space-y-2 text-sm">
-              {[
-                { href: "/agents", label: "Browse all agents" },
-                { href: "/agents#pricing", label: "Bundles & pricing" },
-                { href: "/hapai", label: "Free tools" },
-                { href: "/hui", label: "Meeting notes" },
-              ].map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-              Company
-            </h2>
-            <ul className="mt-4 space-y-2 text-sm">
-              <li>
-                <Link
-                  href="/pilot-sprint"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Pilot Sprint
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/how-it-works"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  How it works
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/evidence-pack"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Evidence pack
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/data"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Data API
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/pricing"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/press"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Press
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-              Compliance
-            </h2>
-            <ul className="mt-4 space-y-2 text-sm">
-              <li>
-                <Link
-                  href="/trust"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Trust
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/mana-receipts"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Mana Receipts
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacy"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Privacy Statement
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/ai-use"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  AI use disclosure
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/trust/soc2"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  SOC 2 posture
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/te-tiriti"
-                  className="rounded-sm text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-                >
-                  Te Tiriti statement
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">
-              Aotearoa
-            </h2>
-            <p className="mt-4 text-sm text-[color:var(--text-secondary)]">
-              {footerDisclaimer}
-            </p>
-            <p className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-xs text-[color:var(--text-secondary)]">
-              <Link
-                href="/legal/disclaimer"
-                className="rounded-sm underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-              >
-                Disclaimer
-              </Link>
-              <span aria-hidden>·</span>
-              <Link
-                href="/legal/privacy"
-                className="rounded-sm underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-              >
-                Privacy Policy
-              </Link>
-              <span aria-hidden>·</span>
-              <Link
-                href="/legal/terms"
-                className="rounded-sm underline-offset-2 transition-colors hover:text-[color:var(--assembl-pounamu)] hover:underline focus-visible:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
-              >
-                Terms of Use
-              </Link>
-            </p>
-          </div>
+          {COLUMNS.map((col) => (
+            <div key={col.label}>
+              <h2 style={microLabel}>{col.label}</h2>
+              <ul style={{ listStyle: "none", margin: "16px 0 0", padding: 0 }}>
+                {col.links.map((item) => (
+                  <li key={item.href} style={{ marginTop: 10 }}>
+                    <Link
+                      href={item.href}
+                      className="rounded-sm transition-colors hover:opacity-70 focus-visible:outline-none"
+                      style={{ ...monoSmall, color: INK, textDecoration: "none" }}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="section-divider mt-12" />
-
-        <div className="mt-6 flex flex-col gap-2 text-xs text-[color:var(--text-secondary)] md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} assembl. All rights reserved.</p>
-          <AssemblMotto />
-          <p className="font-mono">Built in Aotearoa</p>
-        </div>
+        <p style={{ ...monoSmall, margin: 0, paddingTop: 24, fontSize: 11.5, color: BODY_GREY }}>
+          © 2026 assembl — built in aotearoa
+        </p>
       </div>
     </footer>
   );

@@ -8,7 +8,7 @@ import { InteractivePlayground } from '@/components/dash/InteractivePlayground';
  * "Coin Dash" coin-catching mini-game. Sits inside the /assembling Birdie chrome.
  * The interactive logic lives in components/dash/InteractivePlayground.tsx.
  *
- * Palette locked: white + canary #FFD42A + charcoal #3a3832.
+ * Palette locked: white + canary #BFA37A + charcoal #3a3832.
  */
 
 export const metadata: Metadata = {

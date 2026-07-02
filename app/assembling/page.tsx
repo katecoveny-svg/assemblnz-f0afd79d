@@ -13,7 +13,7 @@ import './birdie.css';
  * big "Sit. Stay. Get paid." CTA. Chrome (marquee + nav + footer) lives in
  * layout.tsx. Motion/hover/responsive rules live in birdie.css.
  *
- * Palette is locked: white + canary (#FFD42A) + charcoal text (#3a3832).
+ * Palette is locked: white + canary (#BFA37A) + charcoal text (#3a3832).
  * No black, no green. See docs/dash-design-system.md.
  */
 
@@ -111,7 +111,7 @@ export default function DashPage() {
               href="#waitlist"
               className="bd-cta-primary"
               style={{
-                background: '#FFD42A',
+                background: '#BFA37A',
                 color: '#3a3832',
                 padding: '17px 32px',
                 borderRadius: 99,
@@ -191,7 +191,7 @@ export default function DashPage() {
               width: 8,
               height: 8,
               borderRadius: '50%',
-              background: '#FFD42A',
+              background: '#BFA37A',
             }}
           />
           <span
@@ -203,7 +203,7 @@ export default function DashPage() {
               width: 5,
               height: 5,
               borderRadius: '50%',
-              background: '#FFD42A',
+              background: '#BFA37A',
             }}
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -319,7 +319,7 @@ export default function DashPage() {
                   width: 9,
                   height: 9,
                   borderRadius: '50%',
-                  background: '#FFD42A',
+                  background: '#BFA37A',
                   boxShadow: '0 0 0 4px rgba(255,212,42,.22)',
                 }}
               />
@@ -361,7 +361,7 @@ export default function DashPage() {
                 className="bd-mono bd-countpop"
                 style={{
                   flex: 'none',
-                  background: '#FFD42A',
+                  background: '#BFA37A',
                   color: '#3a3832',
                   fontWeight: 700,
                   fontSize: 13,
@@ -408,7 +408,7 @@ export default function DashPage() {
             href="/assembling/for-ai-builders"
             className="bd-door"
             style={{
-              background: '#FFD42A',
+              background: '#BFA37A',
               borderRadius: 28,
               padding: 34,
               minHeight: 240,
@@ -518,7 +518,7 @@ export default function DashPage() {
           {/* Charity is the live default at launch (SPCA NZ). */}
           <span
             style={{
-              background: '#FFD42A',
+              background: '#BFA37A',
               borderRadius: 99,
               padding: '15px 28px',
               fontWeight: 700,
@@ -561,7 +561,7 @@ export default function DashPage() {
           className="bd-reveal"
           style={{
             position: 'relative',
-            background: 'radial-gradient(120% 150% at 50% -10%,#FFE27A,#FFD42A)',
+            background: 'radial-gradient(120% 150% at 50% -10%,#FFE27A,#BFA37A)',
             borderRadius: 40,
             padding: 18,
             overflow: 'hidden',
@@ -612,7 +612,7 @@ export default function DashPage() {
               className="bd-cta-dark"
               style={{
                 background: '#3a3832',
-                color: '#FFD42A',
+                color: '#BFA37A',
                 padding: '18px 38px',
                 borderRadius: 99,
                 fontWeight: 700,

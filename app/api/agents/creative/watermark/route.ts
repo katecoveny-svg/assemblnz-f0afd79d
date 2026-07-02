@@ -48,7 +48,7 @@ function watermarkSvg(width: number, height: number): Buffer {
       font-family="'Cormorant Garamond','Georgia',serif"
       font-size="${fontSize}" font-weight="600" letter-spacing="-0.01em"
       fill="#FFF7EC" fill-opacity="0.96">assembl</text>
-    <rect x="${pillX}" y="${pillY}" width="${pillW}" height="${pillH}" rx="${Math.round(pillH / 2)}" fill="#FFD42A"/>
+    <rect x="${pillX}" y="${pillY}" width="${pillW}" height="${pillH}" rx="${Math.round(pillH / 2)}" fill="#BFA37A"/>
   </svg>`;
   return Buffer.from(svg);
 }

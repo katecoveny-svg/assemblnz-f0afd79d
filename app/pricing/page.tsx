@@ -113,14 +113,14 @@ export default function PricingPage() {
         <div className={styles.section} style={{ position: 'relative' }}>
           <div className={styles.inner}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
+              <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                 •
               </span>
               <MicroLabel>pricing</MicroLabel>
             </div>
             <h1 className={styles.h1} style={{ marginTop: 18, maxWidth: 700 }}>
               one ladder. no surprises
-              <span aria-hidden style={{ color: palette.canary }}>
+              <span aria-hidden style={{ color: palette.accentGold }}>
                 .
               </span>
             </h1>
@@ -164,7 +164,7 @@ export default function PricingPage() {
                       {t.name}
                     </h2>
                     {t.featured ? (
-                      <span aria-hidden style={{ color: palette.canary, fontSize: 13 }}>
+                      <span aria-hidden style={{ color: palette.accentGold, fontSize: 13 }}>
                         •
                       </span>
                     ) : null}
@@ -213,7 +213,7 @@ export default function PricingPage() {
                     style={{ marginTop: 'auto', justifyContent: 'center' }}
                   >
                     {t.cta.label}
-                    <span aria-hidden style={{ color: palette.canary, fontSize: 15, lineHeight: 1 }}>
+                    <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
                       •
                     </span>
                   </Link>

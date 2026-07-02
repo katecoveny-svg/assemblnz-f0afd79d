@@ -170,7 +170,7 @@ export function BundleCard({
           }}
         >
           <MicroLabel>{meta}</MicroLabel>
-          <span aria-hidden style={{ color: palette.canary, fontSize: 14, lineHeight: 1 }}>
+          <span aria-hidden style={{ color: palette.accentGold, fontSize: 14, lineHeight: 1 }}>
             •
           </span>
         </div>

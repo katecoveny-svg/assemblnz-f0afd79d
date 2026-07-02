@@ -58,7 +58,7 @@ export default function KaitiakiBundlePage() {
             style={{
               width: 96,
               height: 96,
-              background: 'radial-gradient(circle at 33% 26%, #FFFDF7 0%, #FFD42A 52%, #E0A800 100%)',
+              background: 'radial-gradient(circle at 33% 26%, #FFFDF7 0%, #BFA37A 52%, #E0A800 100%)',
             }}
             aria-hidden
           >
@@ -82,7 +82,7 @@ export default function KaitiakiBundlePage() {
               </Link>
               <span
                 className="mk-mono rounded-full px-3 py-2 text-[12px] font-bold uppercase tracking-wide"
-                style={{ backgroundColor: `${PALETTE.canary}66`, color: PALETTE.ink }}
+                style={{ backgroundColor: `${PALETTE.accentGold}66`, color: PALETTE.ink }}
               >
                 Bundle ${KAITIAKI_BUNDLE.monthlyNzd}/mo · seat ${KAITIAKI_BUNDLE.seatNzd}/mo
               </span>
@@ -97,7 +97,7 @@ export default function KaitiakiBundlePage() {
         {/* Lead — Keeper */}
         {lead ? (
           <section className="mt-6 rounded-[26px] p-6 md:p-8" style={{ ...SURFACE, backgroundColor: PALETTE.ink }}>
-            <p className="mk-mono text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: PALETTE.canary }}>
+            <p className="mk-mono text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: PALETTE.accentGold }}>
               The lead agent
             </p>
             <h2 className="mt-2 text-3xl" style={{ ...HEADLINE, color: PALETTE.paper }}>
@@ -109,7 +109,7 @@ export default function KaitiakiBundlePage() {
             <Link
               href={`/agents/${lead.slug}/chat`}
               className="mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition hover:brightness-95"
-              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+              style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink }}
             >
               <MessageCircle size={16} aria-hidden /> Meet Keeper <ArrowRight size={15} aria-hidden />
             </Link>

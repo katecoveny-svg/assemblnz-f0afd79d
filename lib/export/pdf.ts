@@ -23,7 +23,7 @@ const CONTENT_W = A4.w - MARGIN * 2;
 const INK = hexToRgb(BRAND.ink);
 const BODY = hexToRgb(BRAND.body);
 const MUTED = hexToRgb(BRAND.muted);
-const CANARY = hexToRgb(BRAND.canary);
+const CANARY = hexToRgb(BRAND.accentGold);
 const HAIRLINE = hexToRgb(BRAND.hairline);
 
 export type ConversationTurn = { role: 'user' | 'assistant'; text: string };

@@ -22,7 +22,7 @@ import {
 import type { KnowledgeKind } from '@/lib/pilot/types';
 
 const C = {
-  canary: '#FFD42A', ink: '#3A3832', body: '#56544B', paper: '#FFFFFF',
+  canary: '#BFA37A', ink: '#3A3832', body: '#56544B', paper: '#FFFFFF',
   cream: '#FFF7EC', hairline: '#EFEADC', gold: '#C79B1F', muted: '#8A8678',
 };
 

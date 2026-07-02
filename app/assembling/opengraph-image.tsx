@@ -6,7 +6,7 @@ export const contentType = 'image/png';
 
 // Assembling brand palette (locked): white + canary + charcoal. No black, no green.
 // See docs/dash-design-system.md.
-const CANARY = '#FFD42A';
+const CANARY = '#BFA37A';
 const INK = '#3A3832'; // charcoal text + dash bar
 const GOLD = '#5A4A00'; // mono eyebrow on canary
 const WHITE = '#FFFFFF';

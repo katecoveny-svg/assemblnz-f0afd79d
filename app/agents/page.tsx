@@ -65,7 +65,7 @@ export default async function AgentsMarketplacePage() {
                 aria-current={item.active ? 'page' : undefined}
               >
                 {item.active ? (
-                  <span aria-hidden style={{ color: palette.canary, fontSize: 11, lineHeight: 1 }}>
+                  <span aria-hidden style={{ color: palette.accentGold, fontSize: 11, lineHeight: 1 }}>
                     •
                   </span>
                 ) : null}
@@ -115,7 +115,7 @@ export default async function AgentsMarketplacePage() {
 
           <div style={{ position: 'relative', padding: '48px 28px 40px', maxWidth: 1180 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
+              <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                 •
               </span>
               <MicroLabel>agent marketplace</MicroLabel>
@@ -127,7 +127,7 @@ export default async function AgentsMarketplacePage() {
               discover agents.
               <br />
               explore purpose-built collections
-              <span aria-hidden style={{ color: palette.canary }}>
+              <span aria-hidden style={{ color: palette.accentGold }}>
                 .
               </span>
             </h1>

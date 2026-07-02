@@ -55,7 +55,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
             style={{
               width: 88,
               height: 88,
-              background: 'radial-gradient(circle at 33% 26%, #FFFDF7 0%, #FFD42A 52%, #E0A800 100%)',
+              background: 'radial-gradient(circle at 33% 26%, #FFFDF7 0%, #BFA37A 52%, #E0A800 100%)',
             }}
             aria-hidden
           >
@@ -72,7 +72,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
               </span>
               <span
                 className="mk-mono rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide"
-                style={{ backgroundColor: `${PALETTE.canary}66`, color: PALETTE.ink }}
+                style={{ backgroundColor: `${PALETTE.accentGold}66`, color: PALETTE.ink }}
               >
                 {agentPriceLabel(agent)}
               </span>
@@ -106,7 +106,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
             <a
               href={pilotBriefMailto(agent.name)}
               className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
-              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+              style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink }}
             >
               <CalendarClock size={17} aria-hidden /> Book a pilot brief
             </a>
@@ -174,7 +174,7 @@ export function MarketplaceAgentDetail({ agent }: { agent: MarketplaceAgent }) {
               <a
                 href={pilotBriefMailto(agent.name)}
                 className="mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
-                style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+                style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink }}
               >
                 <CalendarClock size={17} aria-hidden /> Book a pilot brief
               </a>
@@ -241,7 +241,7 @@ function BulletList({ items }: { items: string[] }) {
         <li key={i} className="flex gap-3 text-sm leading-relaxed" style={{ color: PALETTE.body }}>
           <span
             className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-            style={{ backgroundColor: PALETTE.canary }}
+            style={{ backgroundColor: PALETTE.accentGold }}
           >
             <Check size={13} style={{ color: PALETTE.ink }} aria-hidden />
           </span>

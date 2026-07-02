@@ -7,14 +7,14 @@
  * freight/customs, hospitality and whānau) were absorbed here with full
  * MarketplaceAgent data + locked prompts. Industry verticals carry
  * `vertical: true` (All-Access $250); consumer agents are flat per-agent. All
- * tiles are cream/canary (no ink) and greetings are English-first per the
+ * tiles are cream/accentGold (no ink) and greetings are English-first per the
  * brand canon. Base roster: LOCKED CANON (2026-06-23).
  *
  * Source of truth, read first: ~/Downloads/dash-gemini/CANON-LOCKED-2026-06-23.md.
  * English name headlines; te reo is a quiet label beside the name (never the
  * headline). Per-agent price tiers: Free / $9.99 / $199. Icons are the canon
  * flat-vector avatars (components/marketplace/AgentIcon.tsx); avatar tile
- * colourway per agent (cream everyday / canary free-featured / ink business).
+ * colourway per agent (cream everyday / accentGold free-featured / ink business).
  *
  * Locked prompts live in agent-prompts.ts, composed with the shared brand
  * prefix server-side and never shipped to the browser. The Supabase `agents`
@@ -36,7 +36,7 @@ export type PricingTier = 'per_agent' | 'free' | 'freemium' | 'paid';
 export type PriceTier = 'free' | 'toro' | 'business';
 export type AgentStatus = 'live' | 'coming_soon';
 /** Avatar tile colourway (canon). */
-export type TileTone = 'cream' | 'canary' | 'ink';
+export type TileTone = 'cream' | 'accentGold' | 'ink';
 
 export type MarketplaceCategory = 'start-here' | 'family' | 'business' | 'creative' | 'trades' | 'health' | 'build' | 'animal';
 
@@ -120,8 +120,8 @@ export const CATEGORY_LABELS: Record<MarketplaceCategory, string> = {
 
 // Locked canon palette.
 export const PALETTE = {
-  canary: '#FFD42A',
-  canary2: '#FFE27A',
+  accentGold: '#BFA37A',
+  accentGold2: '#D9C7A5',
   ink: '#3A3832',
   body: '#56544B',
   paper: '#FFFFFF',
@@ -132,7 +132,7 @@ export const PALETTE = {
 } as const;
 
 export const DASH_MOTIF =
-  'repeating-linear-gradient(90deg, #FFD42A 0 20px, transparent 20px 32px)';
+  'repeating-linear-gradient(90deg, #BFA37A 0 20px, transparent 20px 32px)';
 
 /** Free-fallback model ladder after the tier primary (lib/ai/router.ts). */
 export const FALLBACK_MODELS = [
@@ -153,7 +153,7 @@ const PRICE_TIER_NZD: Record<PriceTier, number> = {
 /** Avatar tile → background hex. */
 export const TILE_BG: Record<TileTone, string> = {
   cream: '#FFF7EC',
-  canary: '#FFD42A',
+  accentGold: '#BFA37A',
   ink: '#3A3832',
 };
 
@@ -393,7 +393,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'cheap',
     priceTier: 'free',
     icon: 'list',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'hearth',
     greeting:
       'Snap the fridge or pantry and tell me your household — size, any dietary rules, a budget cap. I’ll draft a Woolworths list you copy into the app yourself, or plan a week of dinners. I draft; you shop.',
@@ -682,7 +682,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'cheap',
     priceTier: 'free',
     icon: 'power',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'hearth',
     greeting: 'Send your power bill and I will see whether a cheaper plan fits your usage. Illustrative, not advice.',
     starters: ['Check my power bill.', 'Could I save by switching?'],
@@ -847,7 +847,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'cheap',
     priceTier: 'free',
     icon: 'tide',
-    tile: 'canary',
+    tile: 'accentGold',
     greeting: 'Tell me your spot and I will give the tides and marine forecast in plain words. Always confirm with MetService.',
     starters: ['Forecast for Raglan bar this afternoon.', 'When are the tides today?'],
   },
@@ -875,7 +875,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'cheap',
     priceTier: 'free',
     icon: 'fish',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'hearth',
     greeting: 'Tell me what you caught and I will keep the logbook. For limits and rules, I will point you to MPI.',
     starters: ['Log a catch.', 'Show today’s trip.'],
@@ -968,7 +968,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'premium',
     priceTier: 'business',
     icon: 'spark',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'ensemble',
     greeting: 'Tell me the brief — the brand, the audience, the channel — and I will draft the copy, image prompts, video and more for you to review.',
     starters: [
@@ -1001,7 +1001,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'mid',
     priceTier: 'business',
     icon: 'social',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'ensemble',
     greeting: 'Connect your accounts and tone guide, and I will publish, watch the comments, and draft the replies. Auaha makes it; I run it.',
     starters: [
@@ -1206,7 +1206,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'premium',
     priceTier: 'business',
     icon: 'spark',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'ensemble',
     greeting:
       'Before I make anything, tell me about your brand — the real version — and your site or socials if you have them. I will build your Brand DNA so everything I draft is unmistakably yours. I draft and direct; you approve before anything is published.',
@@ -1272,7 +1272,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     vertical: true,
     icon: 'koru',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'assembler',
     greeting:
       'Tell me the project, the contract, or the claim and I will prepare it — a payment schedule, a variation, an EOT claim, or a consent pathway. A licensed practitioner or your project manager reviews and acts; I never lodge or certify.',
@@ -1457,7 +1457,7 @@ const AGENT_DEFS: AgentDef[] = [
     priceTier: 'business',
     vertical: true,
     icon: 'shield',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'assembler',
     greeting:
       'Tell me the site, the task, or the incident and I will prepare it — an SSSP, a SWMS, a risk register, or a notifiable-event notification. A competent person reviews and acts; for a notifiable event I draft the notice, you send it.',
@@ -1673,7 +1673,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'mid',
     priceTier: 'toro',
     icon: 'scribe',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'ensemble',
     greeting:
       'Tell me what you need written and who it is for, and I will draft it in your voice — claim-safe and ready to publish. You approve before anything goes live.',
@@ -1746,7 +1746,7 @@ const AGENT_DEFS: AgentDef[] = [
     modelTier: 'mid',
     priceTier: 'toro',
     icon: 'whanau',
-    tile: 'canary',
+    tile: 'accentGold',
     bundle: 'hearth',
     isBundleLead: true,
     greeting:

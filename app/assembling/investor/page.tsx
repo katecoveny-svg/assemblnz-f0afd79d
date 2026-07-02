@@ -62,7 +62,7 @@ const stepNum: CSSProperties = {
   width: 22,
   height: 22,
   borderRadius: "50%",
-  background: "#FFD42A",
+  background: "#BFA37A",
   fontFamily: MONO,
   fontWeight: 700,
   fontSize: 12,
@@ -157,7 +157,7 @@ function InvestorPage() {
         {/* header band */}
         <div
           style={{
-            background: "#FFD42A",
+            background: "#BFA37A",
             padding: "34px 44px",
             display: "flex",
             justifyContent: "space-between",
@@ -443,7 +443,7 @@ function InvestorPage() {
                     fontWeight: 700,
                     fontSize: 34,
                     letterSpacing: "-0.03em",
-                    color: "#FFD42A",
+                    color: "#BFA37A",
                   }}
                 >
                   $1.5M
@@ -479,7 +479,7 @@ function InvestorPage() {
             <div
               style={{
                 flex: 1,
-                borderTop: "3px solid #FFD42A",
+                borderTop: "3px solid #BFA37A",
                 paddingTop: 12,
               }}
             >
@@ -492,7 +492,7 @@ function InvestorPage() {
             <div
               style={{
                 flex: 1,
-                borderTop: "3px solid #FFD42A",
+                borderTop: "3px solid #BFA37A",
                 paddingTop: 12,
               }}
             >
@@ -548,7 +548,7 @@ function InvestorPage() {
                 fontWeight: 700,
                 fontSize: 22,
                 letterSpacing: "-0.05em",
-                color: "#FFD42A",
+                color: "#BFA37A",
               }}
             >
               assembling
@@ -558,7 +558,7 @@ function InvestorPage() {
                 width: 20,
                 height: 6,
                 borderRadius: 4,
-                background: "#FFD42A",
+                background: "#BFA37A",
                 marginBottom: 4,
               }}
             />

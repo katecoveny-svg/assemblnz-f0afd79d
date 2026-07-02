@@ -19,7 +19,7 @@ export async function GET(request: Request, { params }: { params: Promise<Params
 
   const tile = agent?.tile ?? 'ink';
   const bg = TILE_BG[tile];
-  const fg = tile === 'ink' ? '#FFD42A' : '#3A3832';
+  const fg = tile === 'ink' ? '#BFA37A' : '#3A3832';
   const letter = (agent?.name ?? 'A').trim().charAt(0).toUpperCase();
 
   return new ImageResponse(
