@@ -69,14 +69,14 @@ export default function TrustPage() {
         <div className={styles.section} style={{ position: 'relative', paddingBottom: 40 }}>
           <div className={styles.inner}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
+              <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                 •
               </span>
               <MicroLabel>trust · in plain english</MicroLabel>
             </div>
             <h1 className={styles.h1} style={{ marginTop: 18, maxWidth: 640 }}>
               proof, not promises
-              <span aria-hidden style={{ color: palette.canary }}>
+              <span aria-hidden style={{ color: palette.accentGold }}>
                 .
               </span>
             </h1>
@@ -102,7 +102,7 @@ export default function TrustPage() {
           <div style={{ display: 'flex', gap: 22, marginTop: 22, flexWrap: 'wrap' }}>
             <Link href="/mana-receipts" className={styles.navCta}>
               read the honest trust page
-              <span aria-hidden style={{ color: palette.canary, fontSize: 15, lineHeight: 1 }}>
+              <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
                 •
               </span>
             </Link>
@@ -208,7 +208,7 @@ export default function TrustPage() {
                 <span
                   aria-hidden
                   style={{
-                    color: item.is ? palette.canary : palette.silverDeep,
+                    color: item.is ? palette.accentGold : palette.silverDeep,
                     fontSize: 11,
                     lineHeight: '21px',
                   }}

@@ -15,7 +15,7 @@ import Link from 'next/link';
 
 // Locked palette (CANON-LOCKED-2026-06-23)
 export const C = {
-  canary: '#FFD42A',
+  canary: '#BFA37A',
   gold: '#E0A800',
   goldEyebrow: '#C79B1F',
   pale: '#FFF1C2',
@@ -231,7 +231,7 @@ const TONE_PILL: Record<string, { bg: string; fg: string }> = {
   ok: { bg: 'rgba(58,125,110,.12)', fg: C.ok },
   warn: { bg: 'rgba(201,138,27,.14)', fg: C.warn },
   bad: { bg: 'rgba(181,83,58,.12)', fg: C.bad },
-  canary: { bg: 'rgba(255,212,42,.22)', fg: '#8A6D00' },
+  canary: { bg: 'rgba(191,163,122,.25)', fg: '#8A6B4E' },
   neutral: { bg: C.cream, fg: C.body },
 };
 

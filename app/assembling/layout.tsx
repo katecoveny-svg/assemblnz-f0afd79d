@@ -65,7 +65,7 @@ function Wordmark({ size = 28 }: { size?: number }) {
           width: barW,
           height: barH,
           borderRadius: Math.round(barH * 0.6),
-          background: '#FFD42A',
+          background: '#BFA37A',
           marginBottom: Math.round(size * 0.18),
         }}
       />
@@ -80,7 +80,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
       <div className="bd-progress" aria-hidden />
 
       {/* slim canary marquee */}
-      <div style={{ background: '#FFD42A', overflow: 'hidden', whiteSpace: 'nowrap', padding: '9px 0' }}>
+      <div style={{ background: '#BFA37A', overflow: 'hidden', whiteSpace: 'nowrap', padding: '9px 0' }}>
         <div
           className="bd-marquee-track bd-mono"
           style={{ fontSize: 11.5, letterSpacing: '.1em', color: '#3a3408', textTransform: 'uppercase' }}
@@ -146,7 +146,7 @@ export default function DashLayout({ children }: { children: ReactNode }) {
             href="/assembling#waitlist"
             className="bd-switch"
             style={{
-              background: '#FFD42A',
+              background: '#BFA37A',
               color: '#3a3832',
               padding: '12px 26px',
               borderRadius: 99,

@@ -92,7 +92,7 @@ export default function LogoPage() {
                   width: 46,
                   height: 13,
                   borderRadius: 7,
-                  background: "#FFD42A",
+                  background: "#BFA37A",
                   marginBottom: 14,
                 }}
               />
@@ -141,7 +141,7 @@ export default function LogoPage() {
                     width: 28,
                     height: 8,
                     borderRadius: 5,
-                    background: "#FFD42A",
+                    background: "#BFA37A",
                     marginBottom: 8,
                   }}
                 />
@@ -161,7 +161,7 @@ export default function LogoPage() {
             <div
               style={{
                 flex: 1,
-                background: "#FFD42A",
+                background: "#BFA37A",
                 borderRadius: 6,
                 boxShadow: "0 2px 6px rgba(0,0,0,.08)",
                 padding: 40,
@@ -284,7 +284,7 @@ export default function LogoPage() {
                 height: 14,
                 borderRadius: 7,
                 backgroundImage:
-                  "repeating-linear-gradient(90deg,#FFD42A 0 26px,transparent 26px 40px)",
+                  "repeating-linear-gradient(90deg,#BFA37A 0 26px,transparent 26px 40px)",
                 marginBottom: 14,
               }}
             />
@@ -302,7 +302,7 @@ export default function LogoPage() {
                 height: 10,
                 borderRadius: 6,
                 backgroundImage:
-                  "repeating-linear-gradient(90deg,#FFD42A 0 16px,transparent 16px 26px)",
+                  "repeating-linear-gradient(90deg,#BFA37A 0 16px,transparent 16px 26px)",
               }}
             />
           </div>
@@ -362,7 +362,7 @@ export default function LogoPage() {
                     width: 56,
                     height: 15,
                     borderRadius: 8,
-                    background: "#FFD42A",
+                    background: "#BFA37A",
                   }}
                 />
               </div>
@@ -371,7 +371,7 @@ export default function LogoPage() {
                   width: 120,
                   height: 120,
                   borderRadius: 28,
-                  background: "#FFD42A",
+                  background: "#BFA37A",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -416,7 +416,7 @@ export default function LogoPage() {
                     width: 34,
                     height: 9,
                     borderRadius: 5,
-                    background: "#FFD42A",
+                    background: "#BFA37A",
                   }}
                 />
               </div>
@@ -470,7 +470,7 @@ export default function LogoPage() {
                   width: 60,
                   height: 11,
                   borderRadius: 6,
-                  background: "#FFD42A",
+                  background: "#BFA37A",
                 }}
               />
             </div>
@@ -502,7 +502,7 @@ export default function LogoPage() {
                 fontSize: 10,
                 letterSpacing: ".14em",
                 textTransform: "uppercase",
-                color: "#FFD42A",
+                color: "#BFA37A",
                 marginBottom: 14,
               }}
             >
@@ -527,7 +527,7 @@ export default function LogoPage() {
                 }}
               >
                 Wordmark
-                <span style={{ color: "#FFD42A" }}>Lato Black &middot; -5% track</span>
+                <span style={{ color: "#BFA37A" }}>Lato Black &middot; -5% track</span>
               </div>
               <div
                 style={{
@@ -538,7 +538,7 @@ export default function LogoPage() {
                 }}
               >
                 Assembling length
-                <span style={{ color: "#FFD42A" }}>&asymp; 0.6&times; cap height</span>
+                <span style={{ color: "#BFA37A" }}>&asymp; 0.6&times; cap height</span>
               </div>
               <div
                 style={{
@@ -549,7 +549,7 @@ export default function LogoPage() {
                 }}
               >
                 Assembling gap
-                <span style={{ color: "#FFD42A" }}>0.25&times; cap height</span>
+                <span style={{ color: "#BFA37A" }}>0.25&times; cap height</span>
               </div>
               <div
                 style={{
@@ -560,13 +560,13 @@ export default function LogoPage() {
                 }}
               >
                 Assembling radius
-                <span style={{ color: "#FFD42A" }}>full / pill</span>
+                <span style={{ color: "#BFA37A" }}>full / pill</span>
               </div>
               <div
                 style={{ display: "flex", justifyContent: "space-between" }}
               >
                 Clear space
-                <span style={{ color: "#FFD42A" }}>height of &ldquo;d&rdquo;</span>
+                <span style={{ color: "#BFA37A" }}>height of &ldquo;d&rdquo;</span>
               </div>
             </div>
           </div>

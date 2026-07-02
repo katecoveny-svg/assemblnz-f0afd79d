@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { TickerNumber } from '@/lib/motion';
-import { ASSEMBL_CANARY, ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
+import { ASSEMBL_GOLD, ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { BackendTabs } from '@/components/customers/BackendTabs';
 import { FinancePanel } from '@/components/ops/widgets/FinancePanel';
@@ -108,7 +108,7 @@ export default function HappyTailsOpsHome() {
             style={{ fontFamily: serif, fontWeight: 500, color: config.colours.ink }}
           >
             the operating system for your doggy daycare
-            <span style={{ color: ASSEMBL_CANARY }}>.</span>
+            <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
             className="mt-4 text-[10px] uppercase"
@@ -196,7 +196,7 @@ export default function HappyTailsOpsHome() {
         <section className="mt-20">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
             talk to {HAPPY_TAILS_AGENT_NAME}
-            <span style={{ color: ASSEMBL_CANARY }}>.</span>
+            <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
             The workspace agent, live. Real roster, real pricing maths, the
@@ -257,7 +257,7 @@ export default function HappyTailsOpsHome() {
         {/* ── The working console — finance · roster · dog CRM · comms ───── */}
         <section className="mt-20">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            the console<span style={{ color: ASSEMBL_CANARY }}>.</span>
+            the console<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <div className="mt-6 flex flex-col gap-6">
             <FinancePanel summary={happyTailsFinance} />
@@ -270,7 +270,7 @@ export default function HappyTailsOpsHome() {
         {/* ── Fold 4 · the transparency piece ─────────────────────────────── */}
         <section className="mt-20">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            the proof<span style={{ color: ASSEMBL_CANARY }}>.</span>
+            the proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
             Receipts and mana show the journey. The latest:
@@ -304,7 +304,7 @@ export default function HappyTailsOpsHome() {
         {/* ── Fold 5 · next step ──────────────────────────────────────────── */}
         <section className="my-24 text-center">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            ready when you are<span style={{ color: ASSEMBL_CANARY }}>.</span>
+            ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm" style={{ color: '#3E3C36' }}>
             The pilot runs draft-only until you say otherwise. One conversation

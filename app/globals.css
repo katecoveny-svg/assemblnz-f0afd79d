@@ -1,6 +1,6 @@
 /**
  * assembl — canary brand design system
- * Palette: canary #FFD42A · charcoal #3A3832 · body #56544B · cream #FFF7EC
+ * Palette: canary #BFA37A · charcoal #3A3832 · body #56544B · cream #FFF7EC
  *          paper white #FFFFFF · hairline #EFEADC · gold eyebrows #C79B1F
  * Type: Cormorant Garamond (display/wordmark/headlines) + Lato (body/UI) +
  *       Space Mono (labels). Lowercase assembl wordmark. (dash brand = Lato.)
@@ -34,7 +34,7 @@
     --secondary-foreground: 45 7% 21%;
     --muted: 44 37% 90%;
     --muted-foreground: 49 7% 32%;     /* body #56544B */
-    --accent: 48 100% 58%;             /* canary #FFD42A — highlight/CTA pop */
+    --accent: 48 100% 58%;             /* canary #BFA37A — highlight/CTA pop */
     --accent-foreground: 45 7% 21%;    /* charcoal sits ON canary, never white */
     --destructive: 0 50% 50%;
     --destructive-foreground: 0 0% 100%;
@@ -52,7 +52,7 @@
     --assembl-taupe-deep: #3A3832;
 
     /* CANARY — brand pop (CTA fills, highlights, underlines). Charcoal text on top. */
-    --assembl-canary: #FFD42A;
+    --assembl-canary: #BFA37A;
     --assembl-canary-soft: #FFE894;     /* pale wash */
     --assembl-canary-deep: #E6BD16;     /* hover on canary fills */
 
@@ -215,7 +215,7 @@
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 48%),
       radial-gradient(circle at 24% 0%, rgba(255, 255, 255, 0.45), transparent 38%),
-      linear-gradient(135deg, #FFD42A 0%, #FBC81E 52%, #E6BD16 100%);
+      linear-gradient(135deg, #BFA37A 0%, #FBC81E 52%, #E6BD16 100%);
     color: #3A3832;
     border: 1px solid rgba(58, 56, 50, 0.14);
     border-radius: 999px;

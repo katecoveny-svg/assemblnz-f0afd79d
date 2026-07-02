@@ -60,7 +60,7 @@ export default async function MyAgentsPage() {
             <Link
               href="/pilot"
               className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold"
-              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+              style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink }}
             >
               <Plus size={16} /> Build a new agent
             </Link>
@@ -161,7 +161,7 @@ function DraftCard({ draft }: { draft: StoredDraft }) {
 function EmptyDrafts() {
   return (
     <div className="mt-4 flex flex-col items-start gap-3 rounded-[22px] border border-dashed p-6" style={{ borderColor: PALETTE.hairline, backgroundColor: PALETTE.paper }}>
-      <span className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ backgroundColor: `${PALETTE.canary}55` }}>
+      <span className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ backgroundColor: `${PALETTE.accentGold}55` }}>
         <Compass className="h-6 w-6" style={{ color: PALETTE.ink }} />
       </span>
       <p className="text-base" style={{ color: PALETTE.ink, fontWeight: 700 }}>
@@ -173,7 +173,7 @@ function EmptyDrafts() {
       <Link
         href="/pilot"
         className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold"
-        style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+        style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink }}
       >
         Build your first agent <ArrowRight size={15} />
       </Link>

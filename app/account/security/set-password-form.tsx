@@ -7,7 +7,7 @@ import { setPasswordAction } from './actions';
 const labelClass =
   'font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]';
 const inputClass =
-  'mt-2 w-full rounded-card border border-[rgba(58,56,50,0.18)] bg-white px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--dash-canary,#FFD42A)] focus:ring-2 focus:ring-[rgba(255,212,42,0.45)]';
+  'mt-2 w-full rounded-card border border-[rgba(58,56,50,0.18)] bg-white px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--dash-canary,#BFA37A)] focus:ring-2 focus:ring-[rgba(255,212,42,0.45)]';
 
 export function SetPasswordForm({ hasPassword }: { hasPassword: boolean }) {
   const [password, setPassword] = useState('');

@@ -30,7 +30,7 @@ function pickFill(rand: () => number): string {
   if (t < 0.6) return palette.silverDeep; // #B5B0A2
   if (t < 0.76) return palette.cream; // #C9C5BA
   if (t < 0.92) return palette.blueUndertone; // #8DA0B8
-  return rand() < 0.5 ? palette.gold : palette.goldSoft; // #EFC96A / #D9B87A
+  return rand() < 0.5 ? palette.gold : palette.goldSoft; // #BFA37A / #D9B87A
 }
 
 /** Mountain ridge line — two overlapping peaks left-of-centre. */

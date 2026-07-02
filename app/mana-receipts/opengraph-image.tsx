@@ -5,7 +5,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 // CANON palette (locked 2026-06-23).
-const CANARY = '#FFD42A';
+const CANARY = '#BFA37A';
 const INK = '#3A3832';
 const BODY = '#56544B';
 const CREAM = '#FFF7EC';

@@ -5,7 +5,7 @@
  * carry their own header + footer so the global SiteHeader/SiteFooter (which
  * still ship the older pre-canon chrome and a kete-cutout footer mark) are
  * suppressed there. This mirrors the homepage glass-pill nav from
- * home.module.css: lowercase Cormorant `assembl` wordmark + canary pill-dash on
+ * home.module.css: lowercase Cormorant `assembl` wordmark + gold pill-dash on
  * the left, a glass-pill nav on the right. The wordmark is always a link home.
  */
 
@@ -37,7 +37,7 @@
   }
 }
 
-/* brand — wordmark + canary pill-dash, always a link home */
+/* brand — wordmark + gold pill-dash, always a link home */
 .brand {
   display: inline-flex;
   align-items: flex-end;
@@ -51,7 +51,7 @@
   opacity: 0.82;
 }
 .brand:focus-visible {
-  outline: 2px solid var(--dash-canary, #ffd42a);
+  outline: 2px solid var(--dash-canary, #BFA37A);
   outline-offset: 4px;
 }
 .brandWord {
@@ -62,12 +62,12 @@
   letter-spacing: -0.01em;
   color: var(--dash-ink, #3a3832);
 }
-/* the canary pill-dash sitting at the baseline-bottom of the wordmark */
+/* the gold pill-dash sitting at the baseline-bottom of the wordmark */
 .pillDash {
   width: 22px;
   height: 7px;
   border-radius: 4px;
-  background: var(--dash-canary, #ffd42a);
+  background: var(--dash-canary, #BFA37A);
   margin-bottom: 6px;
   flex: none;
 }
@@ -105,7 +105,7 @@
   color: var(--dash-ink, #3a3832);
 }
 .nav a:focus-visible {
-  outline: 2px solid var(--dash-canary, #ffd42a);
+  outline: 2px solid var(--dash-canary, #BFA37A);
   outline-offset: 3px;
 }
 
@@ -132,7 +132,7 @@
   opacity: 0.85;
 }
 .cta:focus-visible {
-  outline: 2px solid var(--dash-canary, #ffd42a);
+  outline: 2px solid var(--dash-canary, #BFA37A);
   outline-offset: 3px;
 }
 

@@ -15,7 +15,7 @@ import styles from './chrome.module.css';
 export const ASSEMBL_PAPER = '#FBFAF6';
 export const ASSEMBL_INK = '#1A1918';
 export const ASSEMBL_WARM_GREY = '#5A5850';
-export const ASSEMBL_CANARY = '#F5C64B';
+export const ASSEMBL_GOLD = '#BFA37A';
 
 /** The particulate mountain-and-wave landscape, as a decorative backdrop. */
 export function ParticulateBackdrop({ className = '' }: { className?: string }) {

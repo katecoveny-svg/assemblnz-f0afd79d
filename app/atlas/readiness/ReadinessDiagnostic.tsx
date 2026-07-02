@@ -374,7 +374,7 @@ export function ReadinessDiagnostic() {
             <span style={{ fontFamily: D, fontWeight: 600, fontSize: 24, letterSpacing: '-0.01em', lineHeight: 1, color: PALETTE.ink }}>
               assembl
             </span>
-            <span style={{ width: 18, height: 5, borderRadius: 4, background: PALETTE.canary, marginBottom: 5 }} />
+            <span style={{ width: 18, height: 5, borderRadius: 4, background: PALETTE.accentGold, marginBottom: 5 }} />
           </Link>
           <div className="flex items-center gap-2">
             <button
@@ -384,9 +384,9 @@ export function ReadinessDiagnostic() {
               className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold transition"
               style={{
                 fontFamily: B,
-                backgroundColor: voiceOn ? PALETTE.canary : PALETTE.paper,
+                backgroundColor: voiceOn ? PALETTE.accentGold : PALETTE.paper,
                 color: PALETTE.ink,
-                border: `1px solid ${voiceOn ? PALETTE.canary : PALETTE.hairline}`,
+                border: `1px solid ${voiceOn ? PALETTE.accentGold : PALETTE.hairline}`,
               }}
             >
               {voiceOn ? <Volume2 size={14} aria-hidden /> : <VolumeX size={14} aria-hidden />}
@@ -452,7 +452,7 @@ export function ReadinessDiagnostic() {
           style={{ backgroundColor: PALETTE.ink, color: PALETTE.cream, fontFamily: B }}
           role="status"
         >
-          <Sparkles size={15} style={{ color: PALETTE.canary, display: 'inline', verticalAlign: '-2px' }} aria-hidden /> {toast}
+          <Sparkles size={15} style={{ color: PALETTE.accentGold, display: 'inline', verticalAlign: '-2px' }} aria-hidden /> {toast}
         </div>
       ) : null}
     </div>
@@ -522,7 +522,7 @@ function WelcomeScreen({
         <button
           type="submit"
           className="mt-1 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-bold transition hover:brightness-95"
-          style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: B }}
+          style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink, fontFamily: B }}
         >
           Start the check <ArrowRight size={17} aria-hidden />
         </button>
@@ -589,7 +589,7 @@ function QuizScreen({
           <span
             key={q.id}
             className="h-1.5 flex-1 rounded-full transition-colors"
-            style={{ backgroundColor: i <= index ? PALETTE.canary : PALETTE.hairline }}
+            style={{ backgroundColor: i <= index ? PALETTE.accentGold : PALETTE.hairline }}
           />
         ))}
       </div>
@@ -615,8 +615,8 @@ function QuizScreen({
               className="group flex items-center gap-3 rounded-[18px] border px-5 py-4 text-left transition hover:-translate-y-0.5"
               style={{
                 fontFamily: B,
-                backgroundColor: isSel ? PALETTE.canary : PALETTE.cream,
-                borderColor: isSel ? PALETTE.canary : PALETTE.hairline,
+                backgroundColor: isSel ? PALETTE.accentGold : PALETTE.cream,
+                borderColor: isSel ? PALETTE.accentGold : PALETTE.hairline,
                 color: PALETTE.ink,
               }}
             >
@@ -716,7 +716,7 @@ function ReportScreen({
   const bandIndex = ['beginner', 'familiar', 'fluent', 'builder'].indexOf(band.key);
   const notes = [...privacy, ...sector];
 
-  // Action buttons, ordered so the archetype's primary CTA leads (canary).
+  // Action buttons, ordered so the archetype's primary CTA leads (accentGold).
   const talkBtn = (
     <Link
       key="atlas"
@@ -724,7 +724,7 @@ function ReportScreen({
       className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition"
       style={
         archetype.primaryCta === 'atlas'
-          ? { backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: B }
+          ? { backgroundColor: PALETTE.accentGold, color: PALETTE.ink, fontFamily: B }
           : { border: `1px solid ${PALETTE.hairline}`, color: PALETTE.ink, fontFamily: B }
       }
     >
@@ -756,7 +756,7 @@ function ReportScreen({
       {/* Skill ladder (secondary axis) */}
       <div className="mt-4 flex gap-1.5" aria-hidden>
         {['beginner', 'familiar', 'fluent', 'builder'].map((k, i) => (
-          <span key={k} className="h-1 flex-1 rounded-full" style={{ backgroundColor: i <= bandIndex ? PALETTE.canary : PALETTE.hairline }} />
+          <span key={k} className="h-1 flex-1 rounded-full" style={{ backgroundColor: i <= bandIndex ? PALETTE.accentGold : PALETTE.hairline }} />
         ))}
       </div>
       <p className="mt-5 text-lg leading-relaxed" style={{ fontFamily: B, color: PALETTE.body }}>
@@ -780,7 +780,7 @@ function ReportScreen({
             href={`/agents/${rec.slug}`}
             className="group flex items-start gap-4 rounded-[18px] border p-4 transition hover:-translate-y-0.5"
             style={{
-              borderColor: i === 0 && archetype.key === 'too-busy' ? PALETTE.canary : PALETTE.hairline,
+              borderColor: i === 0 && archetype.key === 'too-busy' ? PALETTE.accentGold : PALETTE.hairline,
               backgroundColor: PALETTE.cream,
             }}
           >
@@ -836,7 +836,7 @@ function ReportScreen({
       {/* Your first move (framed by the archetype) */}
       <div
         className="mt-8 rounded-[18px] border p-5"
-        style={{ borderColor: archetype.primaryCta === 'pilot' ? PALETTE.canary : PALETTE.hairline, backgroundColor: PALETTE.cream }}
+        style={{ borderColor: archetype.primaryCta === 'pilot' ? PALETTE.accentGold : PALETTE.hairline, backgroundColor: PALETTE.cream }}
       >
         <p className="text-[11px] font-bold uppercase" style={{ fontFamily: M, letterSpacing: '0.18em', color: PALETTE.gold }}>
           {firstBuild ? 'Your suggested first build' : 'Your first move'}
@@ -854,7 +854,7 @@ function ReportScreen({
             href="/pilot"
             prefetch={false}
             className="mt-3 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition hover:brightness-95"
-            style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: B }}
+            style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink, fontFamily: B }}
           >
             <Sparkles size={15} aria-hidden /> Build it with Pilot
           </Link>
@@ -862,7 +862,7 @@ function ReportScreen({
           <Link
             href="/agents"
             className="mt-3 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition hover:brightness-95"
-            style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: B }}
+            style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink, fontFamily: B }}
           >
             Browse the shelf <ArrowRight size={15} aria-hidden />
           </Link>
@@ -919,7 +919,7 @@ function ReportScreen({
                   type="submit"
                   disabled={leadStatus === 'saving'}
                   className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition disabled:opacity-50"
-                  style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: B }}
+                  style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink, fontFamily: B }}
                 >
                   {leadStatus === 'saving' ? 'Saving…' : 'Save my report'}
                 </button>

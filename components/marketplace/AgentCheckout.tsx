@@ -223,8 +223,8 @@ export function AgentCheckout({
                     aria-pressed={on}
                     className="flex items-start gap-3 rounded-[20px] border bg-white p-4 text-left transition disabled:opacity-45"
                     style={{
-                      borderColor: on ? PALETTE.canary : PALETTE.hairline,
-                      boxShadow: on ? `0 0 0 2px ${PALETTE.canary}` : undefined,
+                      borderColor: on ? PALETTE.accentGold : PALETTE.hairline,
+                      boxShadow: on ? `0 0 0 2px ${PALETTE.accentGold}` : undefined,
                     }}
                   >
                     <span
@@ -241,8 +241,8 @@ export function AgentCheckout({
                         <span
                           className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border"
                           style={{
-                            borderColor: on ? PALETTE.canary : PALETTE.hairline,
-                            backgroundColor: on ? PALETTE.canary : 'transparent',
+                            borderColor: on ? PALETTE.accentGold : PALETTE.hairline,
+                            backgroundColor: on ? PALETTE.accentGold : 'transparent',
                           }}
                         >
                           {on ? <Check size={12} style={{ color: PALETTE.ink }} aria-hidden /> : null}
@@ -286,7 +286,7 @@ export function AgentCheckout({
             onClick={submit}
             disabled={!canSubmit || submitting}
             className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-base font-bold transition hover:brightness-95 disabled:opacity-45"
-            style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+            style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink }}
           >
             {submitting ? 'Starting checkout…' : `Continue to payment · NZ$${plan.monthlyNzd}/mo`}
           </button>

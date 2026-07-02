@@ -97,14 +97,14 @@ export function JourneyScene() {
             <span style={{ fontFamily: 'var(--font-display), Georgia, serif', fontWeight: 600, fontSize: 26, letterSpacing: '-0.01em', lineHeight: 1 }}>
               assembl
             </span>
-            <span style={{ width: 20, height: 6, borderRadius: 4, background: PALETTE.canary, marginBottom: 5 }} />
+            <span style={{ width: 20, height: 6, borderRadius: 4, background: PALETTE.accentGold, marginBottom: 5 }} />
           </Link>
           <div className="flex items-center gap-3">
             <span
               className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold"
               style={{ backgroundColor: PALETTE.ink, color: PALETTE.cream, fontFamily: 'var(--font-body), sans-serif' }}
             >
-              <Trophy size={13} style={{ color: PALETTE.canary }} aria-hidden />
+              <Trophy size={13} style={{ color: PALETTE.accentGold }} aria-hidden />
               {s ? s.points.toLocaleString('en-NZ') : '—'} pts
             </span>
             <Link href="/atlas" className="text-sm font-bold hover:opacity-70" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.body }}>
@@ -143,7 +143,7 @@ export function JourneyScene() {
             {/* path */}
             <svg viewBox="0 0 100 150" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden>
               <path d={PATH_D} fill="none" stroke={PALETTE.hairline} strokeWidth={4.5} strokeLinecap="round" />
-              <path d={PATH_D} fill="none" stroke={PALETTE.canary} strokeWidth={2.4} strokeLinecap="round" strokeDasharray="0.5 4" />
+              <path d={PATH_D} fill="none" stroke={PALETTE.accentGold} strokeWidth={2.4} strokeLinecap="round" strokeDasharray="0.5 4" />
             </svg>
 
             {/* milestones */}
@@ -158,7 +158,7 @@ export function JourneyScene() {
                     style={{
                       width: 30,
                       height: 30,
-                      backgroundColor: reached ? PALETTE.canary : '#FFFBF2',
+                      backgroundColor: reached ? PALETTE.accentGold : '#FFFBF2',
                       border: `2.5px solid ${isCurrent ? PALETTE.ink : reached ? PALETTE.gold : PALETTE.hairline}`,
                       boxShadow: isCurrent ? '0 0 0 4px rgba(255,212,42,0.35)' : 'none',
                       color: PALETTE.ink,
@@ -203,7 +203,7 @@ export function JourneyScene() {
               const slot = BADGE_SLOTS[i];
               return (
                 <div key={b.id} className="absolute -translate-x-1/2 -translate-y-1/2" style={pos(slot)} title={`${b.label} — ${b.note}`}>
-                  <span className="flex items-center justify-center rounded-full" style={{ width: 22, height: 22, backgroundColor: PALETTE.canary, border: `2px solid ${PALETTE.ink}` }}>
+                  <span className="flex items-center justify-center rounded-full" style={{ width: 22, height: 22, backgroundColor: PALETTE.accentGold, border: `2px solid ${PALETTE.ink}` }}>
                     <Sparkles size={11} style={{ color: PALETTE.ink }} aria-hidden />
                   </span>
                 </div>
@@ -237,7 +237,7 @@ export function JourneyScene() {
             </div>
             <p className="mt-2 text-sm" style={{ fontFamily: 'var(--font-body), sans-serif', color: PALETTE.body }}>{current?.note}</p>
             <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full" style={{ backgroundColor: PALETTE.cream }}>
-              <div className="h-full rounded-full" style={{ width: `${Math.round((s?.levelProgress ?? 0) * 100)}%`, backgroundColor: PALETTE.canary }} />
+              <div className="h-full rounded-full" style={{ width: `${Math.round((s?.levelProgress ?? 0) * 100)}%`, backgroundColor: PALETTE.accentGold }} />
             </div>
             <p className="mt-1.5 text-[11px]" style={{ fontFamily: 'var(--font-mono), monospace', color: PALETTE.muted }}>
               {s?.nextLevel ? `${(s.nextLevel.at - s.points).toLocaleString('en-NZ')} pts to ${s.nextLevel.label}` : 'Top level — kaitiaki.'}
@@ -267,7 +267,7 @@ export function JourneyScene() {
                 disabled={!s.signedIn || s.mission.completed || busy || !s.mission.id}
                 className="mt-3 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition disabled:opacity-45"
                 style={{
-                  backgroundColor: s.mission.completed ? PALETTE.cream : PALETTE.canary,
+                  backgroundColor: s.mission.completed ? PALETTE.cream : PALETTE.accentGold,
                   color: PALETTE.ink,
                   border: s.mission.completed ? `1px solid ${PALETTE.hairline}` : 'none',
                   fontFamily: 'var(--font-body), sans-serif',
@@ -322,7 +322,7 @@ export function JourneyScene() {
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-3">
-            <Link href="/atlas" className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold" style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: 'var(--font-body), sans-serif' }}>
+            <Link href="/atlas" className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold" style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink, fontFamily: 'var(--font-body), sans-serif' }}>
               Keep going with Atlas
             </Link>
             <Link href="/agents" className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold" style={{ border: `2px solid ${PALETTE.ink}`, color: PALETTE.ink, fontFamily: 'var(--font-body), sans-serif' }}>

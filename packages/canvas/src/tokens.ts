@@ -23,14 +23,18 @@ export const palette = {
   cream: '#C9C5BA',
   /** cool blue undertone inside the particulate art */
   blueUndertone: '#8DA0B8',
-  /** warm canary gold flecks — sparse, ornamental */
-  gold: '#EFC96A',
+  /** warm champagne gold flecks — sparse, ornamental */
+  gold: '#BFA37A',
   /** soft gold — secondary flecks and the constellation lines */
   goldSoft: '#D9B87A',
   /** ink text */
   ink: '#1A1918',
-  /** accent canary dot — the tiny period after "advantage." and CTA emphasis */
-  canary: '#F5C64B',
+  /** warm champagne gold accent — the tiny period after "advantage." and CTA emphasis */
+  accentGold: '#BFA37A',
+  /** steely navy — cool structural accent inside the art */
+  navy: '#4A6B8C',
+  /** bronze / tan — deep warm accent */
+  bronze: '#8A6B4E',
   /** warm grey body copy */
   bodyGrey: '#5A5850',
   /** hairline borders on paper (aligned with PR #644 chrome) */

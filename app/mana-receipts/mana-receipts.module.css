@@ -3,7 +3,7 @@
    labels (--mana-mono). Palette tokens inline from lib/marketplace/agents. */
 
 .root {
-  --canary: #ffd42a;
+  --canary: #BFA37A;
   --canary2: #ffe27a;
   --ink: #3a3832;
   --body: #56544b;
@@ -339,7 +339,7 @@
 
 /* ── Mana Receipt preview mock ──────────────────────────────────────── */
 .receipt {
-  --canary: #ffd42a;
+  --canary: #BFA37A;
   --ink: #3a3832;
   --body: #56544b;
   --cream: #fff7ec;

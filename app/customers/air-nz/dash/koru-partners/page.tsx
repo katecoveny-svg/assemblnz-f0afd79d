@@ -44,7 +44,7 @@ export default function AirNzKoruPartnersPage() {
                       ? 'var(--airnz-lockup), Georgia, serif'
                       : 'var(--airnz-body), sans-serif',
                     fontWeight: 600,
-                    color: p.assembl ? '#ffd42a' : '#6b6e71',
+                    color: p.assembl ? '#BFA37A' : '#6b6e71',
                     fontSize: p.assembl ? 15 : 14,
                   }}
                 >

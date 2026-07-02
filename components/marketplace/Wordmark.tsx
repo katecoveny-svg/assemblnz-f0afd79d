@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { PALETTE } from '@/lib/marketplace/agents';
 
-type Variant = 'primary' | 'reversed' | 'on-canary';
+type Variant = 'primary' | 'reversed' | 'on-accentGold';
 
 /**
  * The assembl marketplace wordmark: lowercase Cormorant Garamond 600 (-0.01em,
- * CANON-LOCKED-2026-06-23) closing with a canary pill-dash (≈0.6× cap height).
+ * CANON-LOCKED-2026-06-23) closing with a accentGold pill-dash (≈0.6× cap height).
  * Defaults to the marketplace word "assembl". NOTE: this is the *assembl*
  * wordmark — the sibling *dash* wordmark (Lato 900, -0.045em) is its own local
  * component in app/dash/layout.tsx; do not unify them.
@@ -25,7 +25,7 @@ export function Wordmark({
 }) {
   const wordColor = variant === 'reversed' ? '#FFFFFF' : PALETTE.ink;
   const dashColor =
-    variant === 'on-canary' ? PALETTE.ink : variant === 'reversed' ? PALETTE.canary : PALETTE.canary;
+    variant === 'on-accentGold' ? PALETTE.ink : variant === 'reversed' ? PALETTE.accentGold : PALETTE.accentGold;
 
   const dashW = Math.round(size * 0.92);
   const dashH = Math.max(6, Math.round(size * 0.28));

@@ -11,8 +11,8 @@
 
 /** Dash brand palette (locked 2026-06-23). Mirrors `PALETTE` in agents.ts. */
 export const BRAND = {
-  canary: '#FFD42A',
-  canary2: '#FFE27A',
+  accentGold: '#BFA37A',
+  accentGold2: '#D9C7A5',
   ink: '#3A3832',
   body: '#56544B',
   paper: '#FFFFFF',

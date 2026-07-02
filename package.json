@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm --filter @assembl/canvas build && next build",
+    "build": "node scripts/brand-guard.mjs && pnpm --filter @assembl/canvas build && next build",
     "build:dev": "next build && mkdir -p dist && echo '<!doctype html><meta charset=utf-8><title>assembl</title>' > dist/index.html",
     "start": "next start",
     "lint": "eslint app/kete/arataki components/arataki lib/arataki --max-warnings=0",

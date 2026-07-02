@@ -65,7 +65,7 @@ export function AdminLoginForm({ redirectTo }: { redirectTo: string }) {
         <span style={{ fontFamily: DISPLAY, fontWeight: 500, fontSize: 30, lineHeight: 1, color: palette.ink }}>
           assembl
         </span>
-        <span aria-hidden style={{ width: 8, height: 8, borderRadius: 999, background: palette.canary, marginBottom: 3 }} />
+        <span aria-hidden style={{ width: 8, height: 8, borderRadius: 999, background: palette.accentGold, marginBottom: 3 }} />
       </div>
 
       <MicroLabel as="p" style={{ marginBottom: 10 }}>
@@ -215,7 +215,7 @@ function RememberToggle({ remember, onChange }: { remember: boolean; onChange: (
         type="checkbox"
         checked={remember}
         onChange={(e) => onChange(e.target.checked)}
-        style={{ accentColor: palette.canary, width: 15, height: 15 }}
+        style={{ accentColor: palette.accentGold, width: 15, height: 15 }}
       />
       Stay signed in on this device (90 days)
     </label>
@@ -235,7 +235,7 @@ function SubmitButton({ pending, children }: { pending: boolean; children: React
         fontSize: 15,
         fontWeight: 700,
         color: palette.ink,
-        background: palette.canary,
+        background: palette.accentGold,
         border: 'none',
         borderRadius: 999,
         cursor: pending ? 'default' : 'pointer',

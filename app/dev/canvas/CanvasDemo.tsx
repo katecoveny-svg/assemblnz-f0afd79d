@@ -61,7 +61,7 @@ export function CanvasDemo() {
         <div style={{ position: 'relative', padding: '72px 48px 0', maxWidth: 640 }}>
           <MicroLabel>assembl · design system</MicroLabel>
           <h1 style={{ ...display, fontSize: 56, lineHeight: 1.05, marginTop: 16 }}>
-            the canvas<span style={{ color: palette.canary }}>.</span>
+            the canvas<span style={{ color: palette.accentGold }}>.</span>
           </h1>
           <p style={{ color: palette.bodyGrey, fontSize: 15, lineHeight: 1.55, maxWidth: 420 }}>
             every export of @assembl/canvas, rendered once. direction locked
@@ -184,7 +184,7 @@ export function CanvasDemo() {
                   }}
                 >
                   <span>{agent}</span>
-                  <span aria-hidden style={{ color: palette.canary }}>•</span>
+                  <span aria-hidden style={{ color: palette.accentGold }}>•</span>
                 </div>
               ))}
             </RightRail>

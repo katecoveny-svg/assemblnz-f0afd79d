@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { TickerNumber } from '@/lib/motion';
-import { ASSEMBL_CANARY, ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
+import { ASSEMBL_GOLD, ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { BackendTabs } from '@/components/customers/BackendTabs';
 import { DadWalkthrough, type WalkthroughStep } from '@/components/customers/aironaut/DadWalkthrough';
@@ -188,7 +188,7 @@ export default function AironautOsHome() {
             style={{ fontFamily: serif, fontWeight: 500, textShadow: '0 1px 24px rgba(0,0,0,0.25)' }}
           >
             the operating system for your freight business
-            <span style={{ color: ASSEMBL_CANARY }}>.</span>
+            <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
             className="mt-4 text-[10px] uppercase text-white/85"
@@ -272,7 +272,7 @@ export default function AironautOsHome() {
         <section className="mt-20">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
             talk to {AIRONAUT_AGENT_NAME}
-            <span style={{ color: ASSEMBL_CANARY }}>.</span>
+            <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
             The workspace agent, live. Real tariff engine, real landed-cost maths,
@@ -339,7 +339,7 @@ export default function AironautOsHome() {
         {/* ── Fold 4 · the transparency piece ─────────────────────────────── */}
         <section className="mt-20">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            the proof<span style={{ color: ASSEMBL_CANARY }}>.</span>
+            the proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
             Receipts and mana show the journey. The latest entry in the chain:
@@ -388,7 +388,7 @@ export default function AironautOsHome() {
         {/* ── Fold 5 · next step ──────────────────────────────────────────── */}
         <section className="my-24 text-center">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            ready when you are<span style={{ color: ASSEMBL_CANARY }}>.</span>
+            ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm" style={{ color: '#3E3C36' }}>
             The pilot runs draft-only until you say otherwise. One conversation

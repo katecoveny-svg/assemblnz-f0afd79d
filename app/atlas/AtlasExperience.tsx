@@ -329,7 +329,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
             >
               assembl
             </span>
-            <span style={{ width: 20, height: 6, borderRadius: 4, background: PALETTE.canary, marginBottom: 5 }} />
+            <span style={{ width: 20, height: 6, borderRadius: 4, background: PALETTE.accentGold, marginBottom: 5 }} />
           </Link>
           <div className="flex items-center gap-3">
             <Link href="/journey" aria-label="Your journey">
@@ -376,9 +376,9 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
               href="/atlas/readiness"
               prefetch={false}
               className="mt-5 flex items-center gap-3 rounded-[18px] border p-4 transition hover:-translate-y-0.5"
-              style={{ borderColor: PALETTE.canary, backgroundColor: PALETTE.cream }}
+              style={{ borderColor: PALETTE.accentGold, backgroundColor: PALETTE.cream }}
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: PALETTE.canary }}>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: PALETTE.accentGold }}>
                 <Sparkles size={18} style={{ color: PALETTE.ink }} aria-hidden />
               </span>
               <span className="min-w-0 flex-1">
@@ -401,9 +401,9 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
                 className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition"
                 style={{
                   fontFamily: 'var(--font-body), sans-serif',
-                  backgroundColor: voiceOn ? PALETTE.canary : PALETTE.paper,
+                  backgroundColor: voiceOn ? PALETTE.accentGold : PALETTE.paper,
                   color: PALETTE.ink,
-                  border: `1px solid ${voiceOn ? PALETTE.canary : PALETTE.hairline}`,
+                  border: `1px solid ${voiceOn ? PALETTE.accentGold : PALETTE.hairline}`,
                 }}
               >
                 {voiceOn ? <Volume2 size={16} aria-hidden /> : <VolumeX size={16} aria-hidden />}
@@ -445,7 +445,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
                   className="max-w-[88%] rounded-[18px] px-4 py-3 text-sm leading-relaxed"
                   style={
                     isUser
-                      ? { alignSelf: 'flex-end', backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: 'var(--font-body), sans-serif' }
+                      ? { alignSelf: 'flex-end', backgroundColor: PALETTE.accentGold, color: PALETTE.ink, fontFamily: 'var(--font-body), sans-serif' }
                       : { alignSelf: 'flex-start', backgroundColor: PALETTE.cream, color: PALETTE.body, border: `1px solid ${PALETTE.hairline}`, fontFamily: 'var(--font-body), sans-serif' }
                   }
                 >
@@ -518,7 +518,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
               disabled={busy || !input.trim()}
               aria-label="Send"
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition disabled:opacity-40"
-              style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink }}
+              style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink }}
             >
               <ArrowUp size={18} aria-hidden />
             </button>
@@ -572,7 +572,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
                 href={PILOT_HREF}
                 prefetch={false}
                 className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition hover:brightness-95"
-                style={{ backgroundColor: PALETTE.canary, color: PALETTE.ink, fontFamily: 'var(--font-body), sans-serif' }}
+                style={{ backgroundColor: PALETTE.accentGold, color: PALETTE.ink, fontFamily: 'var(--font-body), sans-serif' }}
               >
                 <Sparkles size={15} aria-hidden /> Meet Pilot
               </Link>
@@ -611,7 +611,7 @@ export function AtlasExperience({ agent }: { agent: PublicMarketplaceAgent }) {
           style={{ backgroundColor: PALETTE.ink, color: PALETTE.cream, fontFamily: 'var(--font-body), sans-serif' }}
           role="status"
         >
-          <Sparkles size={15} style={{ color: PALETTE.canary, display: 'inline', verticalAlign: '-2px' }} aria-hidden /> {badgeToast}
+          <Sparkles size={15} style={{ color: PALETTE.accentGold, display: 'inline', verticalAlign: '-2px' }} aria-hidden /> {badgeToast}
         </div>
       ) : null}
     </div>
@@ -630,7 +630,7 @@ function LevelPill({ level, points, badgeCount }: { level: Level; points: number
         {LEVELS.map((_, i) => (
           <span
             key={i}
-            style={{ width: 5, height: 5, borderRadius: 99, backgroundColor: i <= idx ? PALETTE.canary : PALETTE.hairline }}
+            style={{ width: 5, height: 5, borderRadius: 99, backgroundColor: i <= idx ? PALETTE.accentGold : PALETTE.hairline }}
           />
         ))}
       </span>

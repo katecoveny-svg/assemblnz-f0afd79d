@@ -96,7 +96,7 @@ export function DashWaitlistForm() {
           disabled={state === 'submitting'}
           style={{
             flex: 'none',
-            background: '#FFD42A',
+            background: '#BFA37A',
             color: '#3a3832',
             padding: '14px 26px',
             borderRadius: 99,

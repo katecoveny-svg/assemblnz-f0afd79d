@@ -71,7 +71,7 @@ export default async function AccountSecurityPage() {
         <p className="mt-6 text-center text-sm text-[color:var(--text-secondary)]">
           <Link
             href="/app"
-            className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--dash-canary,#FFD42A)] focus-visible:ring-offset-2"
+            className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--dash-canary,#BFA37A)] focus-visible:ring-offset-2"
           >
             ← Back to your dashboard
           </Link>

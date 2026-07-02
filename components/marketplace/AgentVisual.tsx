@@ -157,7 +157,7 @@ export function AgentVisual({ spec }: { spec: VisualSpec }) {
               <XAxis dataKey="name" tick={{ fontSize: 10, fill: PALETTE.muted }} />
               <YAxis tick={{ fontSize: 10, fill: PALETTE.muted }} />
               <Tooltip />
-              <Bar dataKey="value" fill={PALETTE.canary} radius={[4, 4, 0, 0]} />
+              <Bar dataKey="value" fill={PALETTE.accentGold} radius={[4, 4, 0, 0]} />
             </BarChart>
           ) : (
             <LineChart data={spec.data} margin={{ top: 4, right: 8, bottom: 4, left: -16 }}>

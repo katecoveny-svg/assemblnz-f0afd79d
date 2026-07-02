@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { TENANTS } from '@/lib/customers/tenants';
 import {
-  ASSEMBL_CANARY,
+  ASSEMBL_GOLD,
   ASSEMBL_INK,
   ASSEMBL_PAPER,
   ASSEMBL_WARM_GREY,
@@ -61,7 +61,7 @@ export default function CustomersHub() {
             className="mt-4 text-5xl lowercase"
             style={{ fontFamily: serif, fontWeight: 500, letterSpacing: '0.01em' }}
           >
-            pilot workspaces<span style={{ color: ASSEMBL_CANARY }}>.</span>
+            pilot workspaces<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
             className="mt-5 max-w-xl text-[15px] leading-relaxed"

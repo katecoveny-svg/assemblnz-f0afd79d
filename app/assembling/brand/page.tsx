@@ -27,7 +27,7 @@ export default function BrandPage() {
           style={{
             position: "relative",
             padding: "80px 72px 72px",
-            background: "#FFD42A",
+            background: "#BFA37A",
             overflow: "hidden",
           }}
         >
@@ -237,7 +237,7 @@ export default function BrandPage() {
                       height: "100%",
                       width: "62%",
                       borderRadius: 8,
-                      background: "#FFD42A",
+                      background: "#BFA37A",
                     }}
                   />
                 </div>
@@ -265,7 +265,7 @@ export default function BrandPage() {
                   fontWeight: 900,
                   fontSize: 48,
                   letterSpacing: "-.045em",
-                  color: "#FFD42A",
+                  color: "#BFA37A",
                 }}
               >
                 assembling
@@ -374,10 +374,10 @@ export default function BrandPage() {
           >
             {[
               {
-                bg: "#FFD42A",
+                bg: "#BFA37A",
                 border: "1px solid rgba(0,0,0,.06)",
                 name: "Canary",
-                code: "#FFD42A · primary",
+                code: "#BFA37A · primary",
               },
               {
                 bg: "#3a3832",
@@ -434,7 +434,7 @@ export default function BrandPage() {
                 fontSize: 11,
                 letterSpacing: ".14em",
                 textTransform: "uppercase",
-                color: "#FFD42A",
+                color: "#BFA37A",
                 marginBottom: 16,
               }}
             >
@@ -451,7 +451,7 @@ export default function BrandPage() {
               }}
             >
               {[
-                ["--dash-canary", "#FFD42A"],
+                ["--dash-canary", "#BFA37A"],
                 ["--dash-ink", "#3A3832"],
                 ["--dash-body", "#56544B"],
                 ["--dash-paper", "#FFFFFF"],
@@ -470,7 +470,7 @@ export default function BrandPage() {
                   }}
                 >
                   {name}
-                  <span style={{ color: "#FFD42A" }}>{val}</span>
+                  <span style={{ color: "#BFA37A" }}>{val}</span>
                 </div>
               ))}
             </div>
@@ -799,7 +799,7 @@ export default function BrandPage() {
               }}
             >
               {[
-                { letter: "A", bg: "#FFD42A", lc: "#5a4a00", text: "Get paid for the wait." },
+                { letter: "A", bg: "#BFA37A", lc: "#5a4a00", text: "Get paid for the wait." },
                 { letter: "B", bg: "#FFF7EC", lc: "#c79b1f", text: "Sit. Stay. Get paid." },
                 { letter: "C", bg: "#FFF7EC", lc: "#c79b1f", text: "While it thinks, you earn." },
                 { letter: "D", bg: "#FFF7EC", lc: "#c79b1f", text: "Long dog. Short wait." },
@@ -868,7 +868,7 @@ export default function BrandPage() {
           >
             <span
               style={{
-                background: "#FFD42A",
+                background: "#BFA37A",
                 color: "#3a3832",
                 padding: "15px 28px",
                 borderRadius: 99,
@@ -882,7 +882,7 @@ export default function BrandPage() {
             <span
               style={{
                 background: "#3a3832",
-                color: "#FFD42A",
+                color: "#BFA37A",
                 padding: "15px 28px",
                 borderRadius: 99,
                 fontFamily: lato,
@@ -907,7 +907,7 @@ export default function BrandPage() {
             </span>
             <span
               style={{
-                background: "#FFD42A",
+                background: "#BFA37A",
                 color: "#3a3832",
                 borderRadius: 99,
                 padding: "12px 22px",
@@ -933,7 +933,7 @@ export default function BrandPage() {
             <span
               style={{
                 background: "#3a3832",
-                color: "#FFD42A",
+                color: "#BFA37A",
                 fontFamily: mono,
                 fontWeight: 700,
                 fontSize: 13,
@@ -978,7 +978,7 @@ export default function BrandPage() {
                     width: "64%",
                     borderRadius: 9,
                     background:
-                      "repeating-linear-gradient(118deg,#FFD42A 0 12px,#fff 12px 22px)",
+                      "repeating-linear-gradient(118deg,#BFA37A 0 12px,#fff 12px 22px)",
                   }}
                 />
               </div>
@@ -1038,7 +1038,7 @@ export default function BrandPage() {
               fontWeight: 900,
               fontSize: 20,
               letterSpacing: "-.04em",
-              color: "#FFD42A",
+              color: "#BFA37A",
             }}
           >
             assembling

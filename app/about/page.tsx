@@ -74,14 +74,14 @@ export default function AboutPage() {
           <div className={`${styles.inner} ${styles.detail}`} style={{ alignItems: 'center' }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden style={{ color: palette.canary, fontSize: 12, lineHeight: 1 }}>
+                <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                   •
                 </span>
                 <MicroLabel>about assembl</MicroLabel>
               </div>
               <h1 className={styles.h1} style={{ marginTop: 18, maxWidth: 560 }}>
                 less admin. more mahi
-                <span aria-hidden style={{ color: palette.canary }}>
+                <span aria-hidden style={{ color: palette.accentGold }}>
                   .
                 </span>
               </h1>
@@ -176,7 +176,7 @@ export default function AboutPage() {
               >
                 <MicroLabel>
                   step {i + 1}{' '}
-                  <span aria-hidden style={{ color: palette.canary }}>
+                  <span aria-hidden style={{ color: palette.accentGold }}>
                     •
                   </span>
                 </MicroLabel>
@@ -242,7 +242,7 @@ export default function AboutPage() {
         >
           <Link href="/agents" className={styles.navCta} style={{ padding: '11px 22px' }}>
             explore the marketplace
-            <span aria-hidden style={{ color: palette.canary, fontSize: 15, lineHeight: 1 }}>
+            <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
               •
             </span>
           </Link>

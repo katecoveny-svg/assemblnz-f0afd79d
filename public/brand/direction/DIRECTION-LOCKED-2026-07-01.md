@@ -15,9 +15,11 @@ Reference images live in this folder — treat them as canon:
 ### Palette
 - **Background**: warm paper white — `#FBFAF6` / `#F7F5EE`
 - **Particulate art**: silvers, warm greys, cream — `#D8D6CE` / `#B5B0A2` with cool blue undertone `#8DA0B8`
-- **Gold flecks**: warm canary `#EFC96A` / soft gold `#D9B87A` — sparse, ornamental
+- **Gold flecks**: warm champagne gold `#BFA37A` / soft gold `#D9B87A` — sparse, ornamental
+- **Steely navy**: `#4A6B8C` — cool structural accent inside the art
+- **Bronze / tan**: `#8A6B4E` — deep warm accent
 - **Ink text**: `#1A1918` (kept)
-- **Accent canary dot**: `#F5C64B` — the tiny period after "advantage." and CTA emphasis
+- **Accent gold dot**: warm champagne `#BFA37A` — the tiny period after "advantage." and CTA emphasis. (PALETTE CORRECTION 2026-07-02: bright canary `#FFD42A`/`#F5C64B` is DEPRECATED on the marketing site, all pilot chrome, and all future surfaces — champagne gold `#BFA37A` is the accent everywhere.)
 
 ### Typography
 - **Display + headings**: Cormorant Garamond, lowercase, tracked slightly loose, weight 400–500

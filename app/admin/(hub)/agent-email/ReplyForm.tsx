@@ -71,7 +71,7 @@ export function ReplyForm({
             border: 'none',
             borderRadius: 999,
             padding: '9px 20px',
-            background: '#FFD42A',
+            background: '#BFA37A',
             color: '#3A3832',
             fontFamily: "'Lato', system-ui, sans-serif",
             fontWeight: 700,

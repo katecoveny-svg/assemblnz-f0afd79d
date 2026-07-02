@@ -4,7 +4,7 @@ import styles from './authChrome.module.css';
 /**
  * Canon footer for signed-out auth surfaces. Replaces the global SiteFooter
  * (which carries the old Mārama Whenua kete-cutout mark) with a clean line:
- * the lowercase `assembl` wordmark + canary pill-dash, and a Space Mono note.
+ * the lowercase `assembl` wordmark + gold pill-dash, and a Space Mono note.
  */
 export function AuthFooter() {
   const year = new Date().getFullYear();
