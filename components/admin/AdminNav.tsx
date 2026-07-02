@@ -14,13 +14,17 @@ import { usePathname } from 'next/navigation';
 
 const NAV: { label: string; href: string }[] = [
   { label: 'Today', href: '/admin' },
-  { label: 'Users', href: '/admin/users' },
   { label: 'Agents', href: '/admin/agents' },
+  { label: 'Bundles', href: '/admin/bundles' },
+  { label: 'Knowledge', href: '/admin/knowledge' },
+  { label: 'Tenants', href: '/admin/tenants' },
+  { label: 'Approvals', href: '/admin/approvals' },
+  { label: 'Receipts', href: '/admin/receipts' },
+  { label: 'Users', href: '/admin/users' },
   { label: 'Pilot', href: '/admin/pilot' },
   { label: 'Billing', href: '/admin/billing' },
   { label: 'Content', href: '/admin/content' },
   { label: 'Support', href: '/admin/support' },
-  { label: 'Receipts', href: '/admin/receipts' },
   { label: 'Health', href: '/admin/health' },
   { label: 'Settings', href: '/admin/settings' },
 ];

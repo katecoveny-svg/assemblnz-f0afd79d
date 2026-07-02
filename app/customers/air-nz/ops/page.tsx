@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import styles from './ops.module.css';
 import { OpsTopbar } from '@/components/customers/air-nz/ops-chrome';
+import { AirNzAppSlotMock } from '@/components/customers/air-nz/AppSlotMock';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { BackendTabs } from '@/components/customers/BackendTabs';
@@ -62,15 +62,17 @@ export default function OpsOverview() {
     <>
       <OpsTopbar eyebrow="Partner Operations · Assembling on Air New Zealand" title="Overview" />
       <div className={styles.content}>
-        {/* Signature slice hero — the trip-journey phone timeline (nine wait
-            moments, one day) on Ocean Teal, one line. Tier-2 framing: the
-            earn layer, never the airline's OS. */}
+        {/* Signature slice hero — a live mock of the Air NZ app home with
+            Assembling as a NATIVE SLOT beside Oscar (Air NZ's real in-app
+            assistant since 2017). Companion slot, never a replacement.
+            Tier-2 framing: the earn layer, never the airline's OS. */}
         <div
           style={{
             position: 'relative',
             display: 'flex',
+            flexWrap: 'wrap',
             alignItems: 'center',
-            gap: 24,
+            gap: 28,
             borderRadius: 16,
             overflow: 'hidden',
             minHeight: 380,
@@ -78,7 +80,7 @@ export default function OpsOverview() {
             background: 'linear-gradient(135deg, #06242C 0%, #0A3540 55%, #0B4A56 100%)',
           }}
         >
-          <div style={{ flex: '1 1 55%' }}>
+          <div style={{ flex: '1 1 380px' }}>
             <p
               style={{
                 fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
@@ -103,23 +105,22 @@ export default function OpsOverview() {
             >
               nine wait moments · one day · the earn layer via assembling
             </p>
+            <p
+              style={{
+                margin: '18px 0 0',
+                maxWidth: 420,
+                fontSize: 13,
+                lineHeight: 1.55,
+                color: 'rgba(255,255,255,0.78)',
+              }}
+            >
+              Assembling appears as a native slot in the app Air New Zealand
+              already has — right beside Oscar, their own virtual assistant.
+              A companion in the journey, never a replacement.
+            </p>
           </div>
-          <div
-            style={{
-              position: 'relative',
-              flex: '0 0 38%',
-              alignSelf: 'stretch',
-              minHeight: 340,
-            }}
-          >
-            <Image
-              src="/brand/air-nz/trip-journey-phone.png"
-              alt="A passenger's trip-journey timeline: nine wait moments across one travel day, each earning"
-              fill
-              priority
-              sizes="(min-width: 1024px) 380px, 40vw"
-              style={{ objectFit: 'contain', objectPosition: 'center' }}
-            />
+          <div style={{ flex: '0 0 auto', margin: '0 auto' }}>
+            <AirNzAppSlotMock />
           </div>
         </div>
         <p className={styles.lead}>

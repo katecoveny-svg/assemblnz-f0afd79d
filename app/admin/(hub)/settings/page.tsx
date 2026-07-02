@@ -1,6 +1,10 @@
-import { BODY, C, Card, Eyebrow, Grid, MONO, PageHeader, Pill, SectionTitle } from '@/components/admin/ui';
+import { BODY, C, CanaryButton, Card, Eyebrow, Grid, MONO, PageHeader, Pill, SectionTitle, nzDate } from '@/components/admin/ui';
+import { getDesignatedAdmins } from '@/lib/admin/v2-data';
+import { addDesignatedAdmin, setDesignatedAdminActive } from './actions';
 
 export const dynamic = 'force-dynamic';
+
+const FOUNDER_EMAILS = new Set(['assembl@assembl.co.nz', 'kate@assembl.co.nz']);
 
 /** Env keys whose PRESENCE we surface — values are never read or rendered. */
 const ENV_GROUPS: { group: string; keys: string[] }[] = [
@@ -43,13 +47,110 @@ function isSet(key: string): boolean {
 }
 
 export default async function SettingsPage() {
+  const admins = await getDesignatedAdmins();
+
   return (
     <>
       <PageHeader
         eyebrow="Operator hub · Settings"
         title="Settings"
-        lede="What's configured, what's switched on, and the brand tokens everything is built from. Read-only — values never leave the server."
+        lede="Operators, what's configured, what's switched on, and the brand tokens everything is built from. Secret values never leave the server."
       />
+
+      <SectionTitle style={{ marginTop: 8 }}>Operators</SectionTitle>
+      <Card style={{ marginBottom: 12 }}>
+        <p style={{ fontFamily: BODY, color: C.body, fontSize: 13.5, margin: '0 0 14px' }}>
+          The <code style={{ fontFamily: MONO, fontSize: 12.5 }}>designated_admins</code> allowlist — everyone here can
+          sign in at <code style={{ fontFamily: MONO, fontSize: 12.5 }}>/admin/login</code> with a magic link. The
+          founder mailboxes can&apos;t be deactivated.
+        </p>
+        {!admins.available ? (
+          <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.muted, margin: 0 }}>
+            Table not migrated in this environment yet (20260703100000) — the code allowlist in ensureAdmin still
+            covers the founder mailboxes.
+          </p>
+        ) : (
+          <div style={{ display: 'grid', gap: 8, marginBottom: 16 }}>
+            {admins.rows.map((a) => {
+              const founder = FOUNDER_EMAILS.has(a.email);
+              return (
+                <div key={a.email} style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                  <code style={{ fontFamily: MONO, fontSize: 12.5, color: C.ink }}>{a.email}</code>
+                  {a.display_name && (
+                    <span style={{ fontFamily: BODY, fontSize: 13, color: C.body }}>{a.display_name}</span>
+                  )}
+                  <Pill tone={a.active ? 'ok' : 'neutral'}>{a.active ? 'active' : 'inactive'}</Pill>
+                  {founder && <Pill tone="canary">founder</Pill>}
+                  <span style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted, marginLeft: 'auto' }}>
+                    added {nzDate(a.created_at, false)}
+                    {a.added_by ? ` by ${a.added_by}` : ''}
+                  </span>
+                  {!founder && (
+                    <form action={setDesignatedAdminActive}>
+                      <input type="hidden" name="email" value={a.email} />
+                      <input type="hidden" name="active" value={a.active ? '0' : '1'} />
+                      <button
+                        type="submit"
+                        style={{
+                          fontFamily: BODY,
+                          fontWeight: 700,
+                          fontSize: 12.5,
+                          color: a.active ? C.bad : C.ok,
+                          background: 'transparent',
+                          border: 'none',
+                          padding: 0,
+                          cursor: 'pointer',
+                          textDecoration: 'underline',
+                          textUnderlineOffset: 3,
+                        }}
+                      >
+                        {a.active ? 'deactivate' : 'reactivate'}
+                      </button>
+                    </form>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {admins.available && (
+          <form action={addDesignatedAdmin} style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+            <input
+              name="email"
+              type="email"
+              required
+              placeholder="new-operator@assembl.co.nz"
+              style={{
+                flex: '1 1 220px',
+                maxWidth: 300,
+                padding: '9px 13px',
+                fontFamily: MONO,
+                fontSize: 12.5,
+                color: C.ink,
+                background: C.paper,
+                border: `1px solid ${C.hairline}`,
+                borderRadius: 10,
+              }}
+            />
+            <input
+              name="display_name"
+              placeholder="Name (optional)"
+              style={{
+                flex: '1 1 160px',
+                maxWidth: 220,
+                padding: '9px 13px',
+                fontFamily: BODY,
+                fontSize: 13.5,
+                color: C.ink,
+                background: C.paper,
+                border: `1px solid ${C.hairline}`,
+                borderRadius: 10,
+              }}
+            />
+            <CanaryButton style={{ padding: '9px 16px' }}>Add operator</CanaryButton>
+          </form>
+        )}
+      </Card>
 
       <SectionTitle style={{ marginTop: 8 }}>Environment</SectionTitle>
       <p style={{ fontFamily: BODY, color: C.muted, fontSize: 13, margin: '-6px 0 14px' }}>
