@@ -8,6 +8,7 @@ import { citeFromPCO, type SupabaseRpcClient } from '@/lib/government/types';
 import { classifyGoods } from '@/lib/customs/classify';
 import { computeLandedCost } from '@/lib/customs/landed-cost';
 import { inferDutyRateByChapter, matchReference, WORKING_TARIFF_CITATION } from '@/lib/customs/hs-reference';
+import { searchLiveTariff, TARIFF_TRUST_FOOTER_RULES } from '@/lib/customs/tariff-live';
 import { buildEntryPlan } from '@/lib/customs/entry-planner';
 import { AIRONAUT_SYSTEM_PROMPT } from '@/lib/customers/aironaut/agent';
 import {
@@ -89,14 +90,17 @@ const aironautTools = {
 
   tariffLookup: tool({
     description:
-      'Look up the NZ Working Tariff reference for a goods description: matching HS headings, duty rates, and the tariff citation. Lighter than classifyGoods — use for a quick "what is the tariff on X" question.',
+      'Look up the NZ tariff for a goods description against the LIVE nz-customs-tariff knowledge source (HS 2022 baseline + NZ Working Tariff effective dates, synced daily). Returns live heading/code matches with lastSynced freshness for the mandatory trust footer, plus the built-in reference extract as secondary context. ALWAYS call this before citing any tariff heading, HS code, or duty treatment.',
     inputSchema: z.object({
       query: z.string().describe('Goods type to look up, e.g. "leather dog collars"'),
     }),
     execute: async ({ query }) => {
-      const matches = matchReference(query);
+      const [live, matches] = await Promise.all([
+        searchLiveTariff(query, 'pilot-aironaut'),
+        Promise.resolve(matchReference(query)),
+      ]);
       const fallbackRate = inferDutyRateByChapter('', query);
-      return {
+      const referenceExtract = {
         matches: matches.slice(0, 3).map((m) => ({
           hsCode: m.hsCode,
           heading: m.headingText,
@@ -105,15 +109,47 @@ const aironautTools = {
           chapter: m.chapterText,
         })),
         inferredRateIfNoMatch: matches.length === 0 ? fallbackRate : undefined,
+      };
+
+      if (live.trust === 'UNAVAILABLE') {
+        return {
+          trust: 'UNAVAILABLE' as const,
+          liveSourceReason: live.reason,
+          referenceExtract,
+          citations: [
+            {
+              title: WORKING_TARIFF_CITATION.source,
+              ref: WORKING_TARIFF_CITATION.ref,
+              url: WORKING_TARIFF_CITATION.url,
+              tier: 'A' as const,
+            },
+          ],
+          note: 'LIVE SOURCE UNAVAILABLE — the reference extract below is an unverified static snapshot. End the answer with "TRUST SCORE: UNAVAILABLE — not verified against the live NZ tariff" and do not state any rate as current.',
+        };
+      }
+
+      return {
+        trust: 'A' as const,
+        lastSynced: {
+          at: live.lastSyncedAt,
+          hoursAgo: live.hoursSinceSync,
+          source: 'nz-customs-tariff',
+        },
+        liveMatches: live.matches.map((m) => ({
+          extract: m.content,
+          sourcePointer: m.sourcePointer,
+          similarity: m.similarity,
+        })),
+        referenceExtract,
         citations: [
           {
-            title: WORKING_TARIFF_CITATION.source,
-            ref: WORKING_TARIFF_CITATION.ref,
+            title: live.sourceName,
+            ref: `Tier A · synced ${live.hoursSinceSync}h ago`,
             url: WORKING_TARIFF_CITATION.url,
             tier: 'A' as const,
           },
         ],
-        note: 'Reference extract — broker confirms the full 11-digit code before lodgement.',
+        note: `Live Tier A source, synced ${live.hoursSinceSync}h ago. End the answer with the trust footer: "TRUST SCORE: A · nz-customs-tariff · last synced ${live.hoursSinceSync}h ago". Broker confirms the full 11-digit code before lodgement.`,
       };
     },
   }),
@@ -277,9 +313,12 @@ export async function POST(req: Request) {
   }
 
   const modelMessages = await convertToModelMessages(body.messages ?? []);
+  // Required knowledge source: nz-customs-tariff. The footer-rules block makes
+  // the live-sync trust footer part of the prompt contract, not a suggestion.
+  const basePrompt = `${AIRONAUT_SYSTEM_PROMPT}\n\n${TARIFF_TRUST_FOOTER_RULES}`;
   const system = rung.isPrimary
-    ? AIRONAUT_SYSTEM_PROMPT
-    : `${AIRONAUT_SYSTEM_PROMPT}\n\n${FALLBACK_DISCLOSURE}`;
+    ? basePrompt
+    : `${basePrompt}\n\n${FALLBACK_DISCLOSURE}`;
   if (!rung.isPrimary) {
     void recordModelFallback({
       agentSlug: 'pilot-aironaut',

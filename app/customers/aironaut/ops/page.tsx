@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
+import { KnowledgeSyncPill } from '@/components/ops/KnowledgeSyncPill';
 import { TickerNumber } from '@/lib/motion';
 import { ASSEMBL_GOLD, ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
@@ -165,8 +166,8 @@ export default function AironautOsHome() {
       {/* ── Fold 1 · signature hero — photograph, wordmark, one line ─────── */}
       <section className="relative h-[88vh] min-h-[540px] w-full overflow-hidden">
         <Image
-          src="/brand/aironaut/hero-propeller-orange.png"
-          alt="Chrome aircraft propeller on the AIRONAUT burnt-orange field"
+          src="/brand/aironaut/hero-propeller-orange-branded.png"
+          alt="Chrome aircraft propeller with the AIRONAUT circular mark on the spinner, on the burnt-orange field"
           fill
           priority
           sizes="100vw"
@@ -182,6 +183,9 @@ export default function AironautOsHome() {
           >
             AIRONAUT
           </span>
+        </div>
+        <div className="absolute right-6 top-7">
+          <KnowledgeSyncPill />
         </div>
         <div className="absolute bottom-10 left-6 right-6 md:left-10">
           <h1

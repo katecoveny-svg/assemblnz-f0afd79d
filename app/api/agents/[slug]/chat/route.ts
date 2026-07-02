@@ -14,6 +14,7 @@ import { handoffPromptBlock } from '@/lib/agents/handoffs';
 import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
 import { getEntitlementStatus, incrementFreeUsage } from '@/lib/billing/agent-entitlement';
 import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billing/chat-identity';
+import { searchLiveTariff, TARIFF_TRUST_FOOTER_RULES } from '@/lib/customs/tariff-live';
 
 export const maxDuration = 60;
 
@@ -199,6 +200,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   // (ElevenLabs) — all fail-open per tool. Every asset renders inline via an
   // assembl-visual block (MEDIA_RENDER_KNOWLEDGE).
   const isCreative = agent.category === 'creative';
+  // Customs agents ground every tariff/HS answer in the live nz-customs-tariff
+  // Tier A source (synced daily) and carry the trust footer contract.
+  const isCustoms = ['pikau', 'gateway'].includes(agent.slug);
 
   // Every agent can set up an SMS reminder. Saved to agent_text_reminders and
   // sent by the send-text-reminders worker (via Twilio, once keys are set).
@@ -256,11 +260,40 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     },
   });
 
+  const tariffLookup = tool({
+    description:
+      'Look up the NZ tariff for a goods description against the LIVE nz-customs-tariff knowledge source (HS 2022 baseline + NZ Working Tariff effective dates, synced daily). ALWAYS call this before citing any tariff heading, HS code, or duty treatment, and end the answer with the trust footer the result specifies.',
+    inputSchema: z.object({
+      query: z.string().describe('Goods type to look up, e.g. "leather dog collars"'),
+    }),
+    execute: async ({ query }) => {
+      const live = await searchLiveTariff(query, agent.slug);
+      if (live.trust === 'UNAVAILABLE') {
+        return {
+          trust: 'UNAVAILABLE' as const,
+          reason: live.reason,
+          note: 'End the answer with "TRUST SCORE: UNAVAILABLE — not verified against the live NZ tariff". Do not state any code or rate as current, and never invent one.',
+        };
+      }
+      return {
+        trust: 'A' as const,
+        lastSynced: { at: live.lastSyncedAt, hoursAgo: live.hoursSinceSync, source: 'nz-customs-tariff' },
+        liveMatches: live.matches.map((m) => ({
+          extract: m.content,
+          sourcePointer: m.sourcePointer,
+          similarity: m.similarity,
+        })),
+        note: `Live Tier A source, synced ${live.hoursSinceSync}h ago. End the answer with: "TRUST SCORE: A · nz-customs-tariff · last synced ${live.hoursSinceSync}h ago".`,
+      };
+    },
+  });
+
   const tools = {
     ...nzKnowledgeTools,
     scheduleTextReminder,
     ...(isMaritime ? { marineWeather: marineWeatherTool } : {}),
     ...(isCreative ? { generateImage: generateImageTool, ...creativeTools } : {}),
+    ...(isCustoms ? { tariffLookup } : {}),
   };
 
   const knowledgeBlocks: string[] = [];
@@ -272,6 +305,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     knowledgeBlocks.push(MEDIA_RENDER_KNOWLEDGE);
   }
   if (isVoiceAgent(agent.slug)) knowledgeBlocks.push(VOICE_RECEPTIONIST_KNOWLEDGE);
+  if (isCustoms) knowledgeBlocks.push(TARIFF_TRUST_FOOTER_RULES);
 
   const handoffBlock = handoffPromptBlock(agent.slug);
   if (handoffBlock) knowledgeBlocks.push(handoffBlock);
