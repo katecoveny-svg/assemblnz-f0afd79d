@@ -33,6 +33,135 @@ const SPA_PUBLIC_PREFIXES = [
 const matchesPrefix = (pathname: string, prefix: string) =>
   pathname === prefix || pathname.startsWith(`${prefix}/`);
 
+/**
+ * Demo pilot basic-auth gate.
+ *
+ * Every hosted customer pilot workspace (`/customers/*` on any host, and the
+ * whole demo.assembl.co.nz subdomain) sits behind one shared HTTP basic-auth
+ * credential so pilots are never publicly crawlable. Credentials come from
+ * env (DEMO_BASIC_AUTH_USER / DEMO_BASIC_AUTH_PASSWORD) and are compared
+ * constant-time over SHA-256 digests (Web Crypto — edge-safe), so neither
+ * length nor prefix leaks. Fails CLOSED if the env vars are missing.
+ *
+ * Deliberately public: static assets (incl. /brand/* fonts + patterns — CDN
+ * caching matters more than hiding them), API routes, and Next internals.
+ * The marketing site and splash never enter this gate — only /customers/*
+ * and the demo host do.
+ */
+const DEMO_AUTH_EXEMPT_PREFIXES = [
+  '/api/',
+  '/_next/',
+  '/.well-known',
+  '/brand/',
+  '/robots.txt',
+  '/sitemap.xml',
+  '/favicon',
+];
+const DEMO_AUTH_STATIC_FILE =
+  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest)$/i;
+
+const needsDemoAuth = (request: NextRequest) => {
+  const pathname = request.nextUrl.pathname;
+  if (DEMO_AUTH_EXEMPT_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) {
+    return false;
+  }
+  if (DEMO_AUTH_STATIC_FILE.test(pathname)) return false;
+  if (matchesPrefix(pathname, '/customers')) return true;
+
+  const host = (request.headers.get('host') ?? '').toLowerCase();
+  return DEMO_HOSTS.has(host);
+};
+
+async function sha256(input: string): Promise<Uint8Array> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(input));
+  return new Uint8Array(digest);
+}
+
+/** Constant-time equality over equal-length digests. */
+function timingSafeEqual(a: Uint8Array, b: Uint8Array): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
+  return diff === 0;
+}
+
+const DEMO_401_HTML = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>assembl · demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center;
+         background: #101014; color: #f5f1e8; text-align: center;
+         font-family: 'Lato', sans-serif; font-weight: 300; }
+  .wm { font-family: 'Cormorant Garamond', serif; font-weight: 500;
+        font-size: clamp(3rem, 8vw, 4.5rem); letter-spacing: 0.02em;
+        text-transform: lowercase; margin: 0; }
+  .wm span { color: #BFA37A; }
+  p { font-size: 0.95rem; letter-spacing: 0.04em; color: rgba(245,241,232,.75);
+      margin: 1.25rem 2rem 0; line-height: 1.7; }
+  a { color: #BFA37A; text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1 class="wm">assembl<span>.</span></h1>
+  <p>sign in to view the demo · <a href="mailto:assembl@assembl.co.nz">assembl@assembl.co.nz</a> for access</p>
+</main>
+</body>
+</html>`;
+
+const demoUnauthorized = () =>
+  new NextResponse(DEMO_401_HTML, {
+    status: 401,
+    headers: {
+      'WWW-Authenticate': 'Basic realm="assembl demo", charset="UTF-8"',
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store',
+    },
+  });
+
+/** Returns a 401 response when the request needs (and lacks) demo auth, else null. */
+const requireDemoAuth = async (request: NextRequest): Promise<NextResponse | null> => {
+  if (!needsDemoAuth(request)) return null;
+
+  const expectedUser = process.env.DEMO_BASIC_AUTH_USER;
+  const expectedPassword = process.env.DEMO_BASIC_AUTH_PASSWORD;
+  // Fail closed: no configured credentials means nobody gets in.
+  if (!expectedUser || !expectedPassword) return demoUnauthorized();
+
+  const header = request.headers.get('authorization') ?? '';
+  if (!header.startsWith('Basic ')) return demoUnauthorized();
+
+  let decoded = '';
+  try {
+    decoded = atob(header.slice(6).trim());
+  } catch {
+    return demoUnauthorized();
+  }
+  const sep = decoded.indexOf(':');
+  if (sep < 0) return demoUnauthorized();
+
+  const [gotUser, wantUser, gotPass, wantPass] = await Promise.all([
+    sha256(decoded.slice(0, sep)),
+    sha256(expectedUser),
+    sha256(decoded.slice(sep + 1)),
+    sha256(expectedPassword),
+  ]);
+
+  // Single combined check — no early exit on username mismatch.
+  const userOk = timingSafeEqual(gotUser, wantUser);
+  const passOk = timingSafeEqual(gotPass, wantPass);
+  if (!(userOk && passOk)) return demoUnauthorized();
+
+  return null;
+};
+
 // Legacy bare kete slugs (/manaaki, /arataki, …) are pre-pivot surfaces. They
 // now redirect straight to the /agents marketplace that replaced the kete packs
 // (the old behaviour rewrote them to /kete/<root>, which itself now 301s to
@@ -132,6 +261,11 @@ const shouldProxyToSpa = (pathname: string) => {
 };
 
 export async function middleware(request: NextRequest) {
+  // Pilot workspaces are gated before anything else — including the demo-host
+  // rewrite, which would otherwise return early and skip the check.
+  const demoAuth = await requireDemoAuth(request);
+  if (demoAuth) return demoAuth;
+
   // demo.assembl.co.nz rewrites happen first so short-slug URLs work before
   // any product redirect or SPA proxy fires.
   const demoRewrite = demoHostRewrite(request);
