@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { motion, useScroll, useSpring } from 'framer-motion';
 
 /**
@@ -7,12 +8,16 @@ import { motion, useScroll, useSpring } from 'framer-motion';
  * Pairs with the sticky SiteHeader to give "you're somewhere mid-page" feedback.
  */
 export function ScrollProgress() {
+  const pathname = usePathname();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001,
   });
+
+  // the "/" coming-soon splash carries no chrome at all
+  if (pathname === '/') return null;
 
   return (
     <motion.div
