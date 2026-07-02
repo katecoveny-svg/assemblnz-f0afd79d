@@ -55,7 +55,23 @@ export default function AirNzOpsLayout({ children }: { children: ReactNode }) {
     >
       <div className={ops.shell}>
         <OpsSidebar />
-        <main className={ops.main}>{children}</main>
+        <main className={ops.main} style={{ position: 'relative' }}>
+          {/* Customer wallpaper — flight-icon line pattern at ~4% (the shared
+              AI-OS framework layer). Sits behind all console content. */}
+          <div
+            aria-hidden
+            style={{
+              position: 'fixed',
+              inset: 0,
+              pointerEvents: 'none',
+              backgroundImage: 'url(/brand/air-nz/pattern-flight-icons.png)',
+              backgroundRepeat: 'repeat',
+              backgroundSize: '420px auto',
+              opacity: 0.04,
+            }}
+          />
+          <div style={{ position: 'relative' }}>{children}</div>
+        </main>
       </div>
     </div>
   );

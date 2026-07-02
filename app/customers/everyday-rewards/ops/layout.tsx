@@ -49,11 +49,27 @@ export default function EverydayRewardsOpsLayout({ children }: { children: React
     <div className={`${roboto.variable} ${cormorant.variable} ${spaceMono.variable}`}>
       <div className={ops.shell}>
         <OpsSidebar />
-        <main className={ops.main}>
-          <div className={ops.conceptStrip}>
-            Concept workspace · not an active Everyday Rewards partnership · shared in confidence
+        <main className={ops.main} style={{ position: 'relative' }}>
+          {/* Customer wallpaper — shopper-icon line pattern at ~4% (the shared
+              AI-OS framework layer). Sits behind all console content. */}
+          <div
+            aria-hidden
+            style={{
+              position: 'fixed',
+              inset: 0,
+              pointerEvents: 'none',
+              backgroundImage: 'url(/brand/everyday-rewards/pattern-shopper-icons.png)',
+              backgroundRepeat: 'repeat',
+              backgroundSize: '420px auto',
+              opacity: 0.04,
+            }}
+          />
+          <div style={{ position: 'relative' }}>
+            <div className={ops.conceptStrip}>
+              Concept workspace · not an active Everyday Rewards partnership · shared in confidence
+            </div>
+            {children}
           </div>
-          {children}
         </main>
       </div>
     </div>
