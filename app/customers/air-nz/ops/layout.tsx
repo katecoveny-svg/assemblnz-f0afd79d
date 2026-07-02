@@ -4,6 +4,7 @@ import { Inter_Tight, Fraunces, Cormorant_Garamond } from 'next/font/google';
 import rootStyles from '../dash/airnz.module.css';
 import ops from './ops.module.css';
 import { OpsSidebar } from '@/components/customers/air-nz/ops-chrome';
+import { InviteGreeting } from '@/components/ops/InviteGreeting';
 
 /**
  * Air New Zealand × Dash — Partner Operations console shell (back-of-house).
@@ -70,7 +71,10 @@ export default function AirNzOpsLayout({ children }: { children: ReactNode }) {
               opacity: 0.04,
             }}
           />
-          <div style={{ position: 'relative' }}>{children}</div>
+          <div style={{ position: 'relative' }}>
+            <InviteGreeting demo="air-nz" />
+            {children}
+          </div>
         </main>
       </div>
     </div>

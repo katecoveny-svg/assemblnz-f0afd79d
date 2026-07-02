@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
 import { getBrandConfig } from '@/lib/brand/configs';
+import { InviteGreeting } from '@/components/ops/InviteGreeting';
 import {
   ASSEMBL_INK,
   ASSEMBL_PAPER,
@@ -50,7 +51,10 @@ export default function AucklandZooOpsLayout({ children }: { children: ReactNode
           }}
         />
 
-        <div className="relative">{children}</div>
+        <div className="relative">
+          <InviteGreeting demo="auckland-zoo" />
+          {children}
+        </div>
 
         <footer
           className="relative overflow-hidden border-t border-black/5 px-6 py-12 text-center"

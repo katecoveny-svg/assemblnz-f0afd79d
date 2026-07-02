@@ -18,6 +18,7 @@ const NAV: { label: string; href: string }[] = [
   { label: 'Bundles', href: '/admin/bundles' },
   { label: 'Knowledge', href: '/admin/knowledge' },
   { label: 'Tenants', href: '/admin/tenants' },
+  { label: 'Invites', href: '/admin/invites' },
   { label: 'Approvals', href: '/admin/approvals' },
   { label: 'Receipts', href: '/admin/receipts' },
   { label: 'Users', href: '/admin/users' },

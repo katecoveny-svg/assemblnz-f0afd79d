@@ -89,6 +89,10 @@ export function isHappyTailsKeeper(pathname: string | null): boolean {
  *  phone frame — suppress the global assembl site chrome there. */
 export function isCustomerWorkspace(pathname: string | null): boolean {
   if (!pathname) return false;
+  // /for/[slug] is a demo magic link — the middleware rewrites it into a
+  // /customers/* workspace while the URL bar keeps the personal link, so it
+  // must suppress the global chrome exactly like the workspace it serves.
+  if (pathname === "/for" || pathname.startsWith("/for/")) return true;
   return pathname === "/customers" || pathname.startsWith("/customers/");
 }
 
