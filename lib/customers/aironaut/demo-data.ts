@@ -151,3 +151,23 @@ export const aironautReceipt: ManaReceipt = {
   note: 'Family pilot — every action here stays a draft until Kate’s dad reviews.',
   evidence: ['aironaut/pilot/family-review-required'],
 };
+
+/**
+ * Seeded "today" activity for the backend-transparency tab. Every row is
+ * demo:true — this is what a live day WOULD look like, on demo records only.
+ */
+export type AironautActivityEvent = {
+  at: string; // NZ local time, HH:mm
+  kind: 'drafted' | 'read' | 'flagged' | 'computed';
+  note: string;
+  demo: true;
+};
+
+export const aironautActivity: AironautActivityEvent[] = [
+  { at: '06:45', kind: 'read', note: 'Scanned overnight carrier manifests — 3 demo consignments moved status.', demo: true },
+  { at: '07:10', kind: 'computed', note: 'Re-priced landed cost on AIR-2314 after freight uplift (+NZ$140).', demo: true },
+  { at: '07:32', kind: 'drafted', note: 'Drafted ETA update email for the Auckland → Sydney LCL (awaiting review).', demo: true },
+  { at: '08:05', kind: 'flagged', note: 'Wine consignment WNE-0907: excise note missing — flagged for broker.', demo: true },
+  { at: '08:41', kind: 'drafted', note: 'Drafted three-candidate HS classification for stainless brewing tanks (GRI 1).', demo: true },
+  { at: '09:00', kind: 'computed', note: 'Issued Mana Receipt for the morning classification run (hash-chained).', demo: true },
+];
