@@ -1,0 +1,100 @@
+/**
+ * @assembl/canvas — design tokens.
+ *
+ * Every value here is VERBATIM from the locked visual canon:
+ * `public/brand/direction/DIRECTION-LOCKED-2026-07-01.md`.
+ * Aligned with the pilot-chrome kit in `components/assembl/chrome.tsx`
+ * (PR #644) — do not fork divergent values.
+ *
+ * This module is plain data (no React, no directives) so it is safe to
+ * import from React Server Components via `@assembl/canvas/tokens`.
+ */
+
+export const palette = {
+  /** warm paper white — the background of every surface */
+  paper: '#FBFAF6',
+  /** deeper paper — secondary background / subtle panels */
+  paperDeep: '#F7F5EE',
+  /** particulate silver — light dots and strokes */
+  silver: '#D8D6CE',
+  /** particulate warm-grey silver — denser dots */
+  silverDeep: '#B5B0A2',
+  /** particulate cream mid-tone (from the shipped landscape asset) */
+  cream: '#C9C5BA',
+  /** cool blue undertone inside the particulate art */
+  blueUndertone: '#8DA0B8',
+  /** warm canary gold flecks — sparse, ornamental */
+  gold: '#EFC96A',
+  /** soft gold — secondary flecks and the constellation lines */
+  goldSoft: '#D9B87A',
+  /** ink text */
+  ink: '#1A1918',
+  /** accent canary dot — the tiny period after "advantage." and CTA emphasis */
+  canary: '#F5C64B',
+  /** warm grey body copy */
+  bodyGrey: '#5A5850',
+  /** hairline borders on paper (aligned with PR #644 chrome) */
+  hairline: '#E7E4DA',
+} as const;
+
+export const typography = {
+  /** Display + headings: Cormorant Garamond, lowercase, tracked slightly loose, weight 400–500. */
+  display: {
+    fontFamily: "var(--font-display, 'Cormorant Garamond'), Georgia, serif",
+    fontWeight: 500,
+    fontWeightMin: 400,
+    fontWeightMax: 500,
+    textTransform: 'lowercase',
+    letterSpacing: '0.01em',
+  },
+  /** Body: Inter or similar quiet grotesk — small, warm grey. */
+  body: {
+    fontFamily: "var(--font-sans, Inter), system-ui, -apple-system, sans-serif",
+    color: palette.bodyGrey,
+    fontSize: '15px',
+    lineHeight: 1.55,
+  },
+  /** Micro / labels: uppercase, tracked 0.16em. The ONLY uppercase on-brand. */
+  micro: {
+    fontFamily: "var(--font-sans, Inter), system-ui, -apple-system, sans-serif",
+    textTransform: 'uppercase',
+    letterSpacing: '0.16em',
+    fontSize: '10px',
+  },
+} as const;
+
+export const motionTokens = {
+  /** Particulate landscape drifts slowly (5–10% opacity shift, 60s cycle). */
+  drift: {
+    durationS: 60,
+    opacityMax: 1,
+    opacityMin: 0.9,
+    ease: 'easeInOut',
+  },
+  /** Constellation dots pulse softly (1.5s ease, 40% opacity range). */
+  pulse: {
+    durationS: 1.5,
+    opacityMin: 0.5,
+    opacityMax: 0.9,
+    ease: 'easeInOut',
+  },
+  /** Bundle cards levitate on hover (2–4px translate-y, 400ms ease). */
+  levitate: {
+    translateYPx: -3,
+    rangePx: [2, 4],
+    durationMs: 400,
+    ease: 'easeOut',
+  },
+} as const;
+
+/** The locked footer motto — preserve verbatim (micro-label treatment). */
+export const motto = 'Adaptive. Connected. Purpose-built.';
+
+export const tokens = {
+  palette,
+  typography,
+  motion: motionTokens,
+  motto,
+} as const;
+
+export type CanvasTokens = typeof tokens;

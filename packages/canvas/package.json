@@ -1,0 +1,49 @@
+{
+  "name": "@assembl/canvas",
+  "version": "0.1.0",
+  "description": "assembl design-system canvas — DIRECTION-LOCKED-2026-07-01 tokens, the silvery-gold particulate landscape, the matariki constellation, and the assembling… loader.",
+  "license": "UNLICENSED",
+  "author": "Kate Hudson <assembl@assembl.co.nz>",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./motion": {
+      "types": "./dist/motion.d.ts",
+      "import": "./dist/motion.js",
+      "require": "./dist/motion.cjs"
+    },
+    "./tokens": {
+      "types": "./dist/tokens.d.ts",
+      "import": "./dist/tokens.js",
+      "require": "./dist/tokens.cjs"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "framer-motion": "^11.0.0 || ^12.0.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.7",
+    "framer-motion": "^12.38.0",
+    "react": "19.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "keywords": ["assembl", "design-system", "canvas", "matariki", "particulate"],
+  "publishConfig": {
+    "access": "restricted"
+  }
+}

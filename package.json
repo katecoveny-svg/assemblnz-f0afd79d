@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "pnpm --filter @assembl/canvas build && next build",
     "build:dev": "next build && mkdir -p dist && echo '<!doctype html><meta charset=utf-8><title>assembl</title>' > dist/index.html",
     "start": "next start",
     "lint": "eslint app/kete/arataki components/arataki lib/arataki --max-warnings=0",
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3",
+    "@assembl/canvas": "workspace:*",
     "@ai-sdk/openai": "^3",
     "@ai-sdk/react": "^3",
     "@google/model-viewer": "^4.0.0",
