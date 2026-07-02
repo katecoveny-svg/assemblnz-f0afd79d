@@ -91,7 +91,7 @@ export function SiteFooter() {
           <div className="md:col-span-2">
             <Link
               href="/"
-              className="inline-flex flex-col items-start gap-3 rounded-sm transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none"
+              className="inline-flex flex-col items-start gap-3 rounded-sm transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
             >
               <MatarikiCluster size={40} gold className="opacity-90" />
               <span
@@ -121,7 +121,7 @@ export function SiteFooter() {
                   <li key={item.href} style={{ marginTop: 10 }}>
                     <Link
                       href={item.href}
-                      className="rounded-sm transition-colors hover:opacity-70 focus-visible:outline-none"
+                      className="rounded-sm transition-colors hover:opacity-70 focus-visible:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
                       style={{ ...monoSmall, color: INK, textDecoration: "none" }}
                     >
                       {item.label}
