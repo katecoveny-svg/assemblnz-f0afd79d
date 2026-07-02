@@ -35,15 +35,15 @@ const CORE_PATHS = [
   '/toro',
   '/trust',
   '/trust/soc2',
-  // Dash sub-brand
-  '/dash',
-  '/dash/for-ai-builders',
-  '/dash/sdk',
-  '/dash/rewards',
-  '/dash/interactive',
-  '/dash/privacy',
-  '/dash/terms',
-  '/dash/copyright',
+  // Assembling sub-brand
+  '/assembling',
+  '/assembling/for-ai-builders',
+  '/assembling/sdk',
+  '/assembling/rewards',
+  '/assembling/interactive',
+  '/assembling/privacy',
+  '/assembling/terms',
+  '/assembling/copyright',
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -53,7 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${BASE}${path}`,
     lastModified,
     changeFrequency: 'weekly',
-    priority: path === '' ? 1 : path.startsWith('/dash') ? 0.7 : 0.6,
+    priority: path === '' ? 1 : path.startsWith('/assembling') ? 0.7 : 0.6,
   }));
 
   // Every live agent gets its own entry — these are the high-intent,

@@ -1,5 +1,5 @@
 /**
- * dash by assembl — Dash Loader pure logic.
+ * dash by assembl — Assembling Loader pure logic.
  *
  * Framework-free, DOM-free helpers shared by the React component AND the stub
  * API routes, so the same revenue/rotation/settings rules are unit-tested once

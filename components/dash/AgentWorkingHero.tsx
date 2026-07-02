@@ -2,7 +2,7 @@
 
 /**
  * AgentWorkingHero — the flagship agentic surface: a mock "your AI agent is
- * working" card (step tracker + ETA + progress) with the Dash slot beneath it
+ * working" card (step tracker + ETA + progress) with the Assembling slot beneath it
  * (mono sponsored line + reward chip + the dachshund loader). The progress
  * advances, then resolves to a mint "you earned" pay-moment, then loops.
  *
@@ -142,10 +142,10 @@ export function AgentWorkingHero({
       {/* dash-rule divider */}
       <hr className="dash-rule" aria-hidden style={{ margin: '20px 0' }} />
 
-      {/* the Dash slot */}
+      {/* the Assembling slot */}
       <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
         <div style={{ width: 92, flex: 'none' }}>
-          <DashDog title="Dash loader" />
+          <DashDog title="Assembling loader" />
         </div>
         <div style={{ minWidth: 0 }}>
           {done ? (

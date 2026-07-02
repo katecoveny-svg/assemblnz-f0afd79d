@@ -68,7 +68,7 @@ export function GlossyMascotHero() {
           muted
           playsInline
           poster="/dash/dash-mascot-poster.jpg"
-          aria-label="Dash — a glossy white and canary-yellow dachshund mascot, slowly turning"
+          aria-label="Assembling — a glossy white and canary-yellow dachshund mascot, slowly turning"
         >
           <source src="/dash/dash-mascot.webm" type="video/webm" />
           <source src="/dash/dash-mascot.mp4" type="video/mp4" />

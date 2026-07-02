@@ -13,7 +13,7 @@ export function StickyCta() {
           Get paid to wait.
           <small>Opt-in · rewards, not cash · free</small>
         </span>
-        <Link href="/dash#waitlist" className="btn btn--primary">
+        <Link href="/assembling#waitlist" className="btn btn--primary">
           Join the waitlist <ArrowRight aria-hidden />
         </Link>
       </div>

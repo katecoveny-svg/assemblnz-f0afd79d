@@ -3,7 +3,7 @@
 /**
  * InteractivePlayground — the engagement surfaces from the design handoff
  * ("Dash - Interactive.dc.html"): a scratch-to-reveal reward card and the
- * "Dash Dash" coin-catching mini-game. Ported from the handoff's vanilla logic
+ * "Coin Dash" coin-catching mini-game. Ported from the handoff's vanilla logic
  * to a React client component with refs; the canvas scratch + rAF game loop run
  * imperatively, with listeners cleaned up on unmount.
  *
@@ -466,7 +466,7 @@ export function InteractivePlayground() {
               Mini game
             </div>
             <h2 style={{ margin: 0, fontWeight: 700, fontSize: 30, letterSpacing: '-.03em', color: '#3a3832' }}>
-              Dash Dash — catch the coins.
+              Coin Dash — catch the coins.
             </h2>
             <p style={{ margin: '8px 0 0', fontSize: 15, color: '#8a887e' }}>
               Move your mouse (or finger) to steer the dog. Catch coins while you wait. Dark coins

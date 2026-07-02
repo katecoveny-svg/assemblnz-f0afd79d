@@ -14,12 +14,12 @@ function openCommandPalette() {
   window.dispatchEvent(new Event("assembl:open-command"));
 }
 
-/** True on the public Dash by assembl microsite routes, which carry their own
- * chrome. /dash/admin (operator dashboard) keeps the standard site chrome. */
+/** True on the public Assembling microsite routes, which carry their own
+ * chrome. /assembling/admin (operator dashboard) keeps the standard site chrome. */
 export function isDashMicrosite(pathname: string | null): boolean {
   if (!pathname) return false;
-  if (pathname === "/dash") return true;
-  return pathname.startsWith("/dash/") && !pathname.startsWith("/dash/admin");
+  if (pathname === "/assembling") return true;
+  return pathname.startsWith("/assembling/") && !pathname.startsWith("/assembling/admin");
 }
 
 /** True on the agent marketplace (App Store-style surface), which ships its own
@@ -117,9 +117,9 @@ export function SiteHeader() {
     }
   }, [mobileNavOpen]);
 
-  // The /dash microsite (Dash by assembl), the /agents marketplace, and the
+  // The /assembling microsite (Assembling), the /agents marketplace, and the
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
-  // global site chrome there. /dash/admin and /agents/pick keep the standard
+  // global site chrome there. /assembling/admin and /agents/pick keep the standard
   // chrome.
   if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || pathname === "/") return null;
 

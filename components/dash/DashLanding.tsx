@@ -15,8 +15,8 @@ const HOW_STEPS = [
   {
     icon: Eye,
     n: 'ii',
-    title: 'Dash fills the gap',
-    body: 'In that moment, Dash renders a brand-safe, NZ-made piece of creative — the dog fills as it loads.',
+    title: 'Assembling fills the gap',
+    body: 'In that moment, Assembling renders a brand-safe, NZ-made piece of creative — the dog fills as it loads.',
   },
   {
     icon: Coins,
@@ -61,7 +61,7 @@ export function DashLanding() {
             The seconds between click and result are worth something.
           </h2>
           <p className="d-lead mt-6" style={{ color: 'var(--muted)' }}>
-            Dash is the in-product attention network for Aotearoa. It turns the wait states of NZ
+            Assembling is the in-product attention network for Aotearoa. It turns the wait states of NZ
             digital services into a brand-safe, revenue-sharing moment — measured, consented, and
             built for local audiences.
           </p>
@@ -139,7 +139,7 @@ export function DashLanding() {
             Own the space between click and result.
           </h2>
           <p className="d-lead mx-auto mt-6 max-w-xl" style={{ color: 'var(--muted)' }}>
-            Dash is launching in Aotearoa. Tell us who you are and we&rsquo;ll bring you in as access
+            Assembling is launching in Aotearoa. Tell us who you are and we&rsquo;ll bring you in as access
             opens.
           </p>
         </div>

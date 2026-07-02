@@ -65,11 +65,17 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // Brand rename: "Beat by assembl" → "Dash by assembl" (19 Jun 2026). The
-      // ad-network microsite moved from /beat to /dash; 301 the old paths so
-      // saved links and any indexed pages don't 404 during the migration window.
-      { source: "/beat", destination: "/dash", permanent: true },
-      { source: "/beat/:path*", destination: "/dash/:path*", permanent: true },
+      // Brand rename: "Dash by assembl" → "Assembling" (2 Jul 2026). The
+      // ad-network microsite moved from /dash to /assembling; 301 the old paths
+      // so saved links and any indexed pages don't 404. /beat (the pre-Dash
+      // name, PR #424) now points straight at /assembling to avoid a 301 chain.
+      // NOTE: /api/dash/* and the dash_* tables keep their names — external SDK
+      // consumers and the deployed schema depend on them (rename is a separate
+      // decision, see docs/assembling-rename-manual-steps.md).
+      { source: "/beat", destination: "/assembling", permanent: true },
+      { source: "/beat/:path*", destination: "/assembling/:path*", permanent: true },
+      { source: "/dash", destination: "/assembling", permanent: true },
+      { source: "/dash/:path*", destination: "/assembling/:path*", permanent: true },
 
       // ── Stale pre-pivot surfaces → the /agents marketplace (hidden 2026-06-23)
       // The marketplace replaces the old kete packs and the one-off vertical /

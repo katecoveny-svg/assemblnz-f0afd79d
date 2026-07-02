@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 
 /**
- * Waitlist signup — recreated from `Dash Launch Campaign.html`.
+ * Waitlist signup — recreated from `Assembling Launch Campaign.html`.
  *
  * Three personas (publisher / advertiser / earner). Native `required`
  * validation; on valid submit we preventDefault, swap the form for a success
@@ -141,7 +141,7 @@ export function DashWaitlist() {
         <p className="mt-4 text-center" style={{ fontFamily: 'var(--ff-sans)', fontSize: 14, color: 'var(--muted)' }}>
           Or email{' '}
           <a
-            href={`mailto:assembl@assembl.co.nz?subject=${encodeURIComponent(`Dash waitlist — ${active.label.toLowerCase()}`)}`}
+            href={`mailto:assembl@assembl.co.nz?subject=${encodeURIComponent(`Assembling waitlist — ${active.label.toLowerCase()}`)}`}
             style={{ color: 'inherit', textDecoration: 'underline' }}
           >
             assembl@assembl.co.nz

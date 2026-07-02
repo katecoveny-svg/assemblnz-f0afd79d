@@ -278,10 +278,10 @@ function OptInSurface({
   canSave: boolean;
 }) {
   return (
-    <div className={styles.optIn} data-dash="" role="group" aria-label="Dash Loader settings">
+    <div className={styles.optIn} data-dash="" role="group" aria-label="Assembling Loader settings">
       <h2 className={styles.optInTitle}>Swap your loader. Fund something good.</h2>
       <p className={styles.optInBody}>
-        Replace your default spinner with Dash. While you wait, a small NZ-brand line earns
+        Replace your default spinner with Assembling. While you wait, a small NZ-brand line earns
         revenue. You choose where it goes.
       </p>
 
@@ -289,9 +289,9 @@ function OptInSurface({
         <Switch
           checked={draft.optedIn}
           onChange={(optedIn) => setDraft({ ...draft, optedIn })}
-          label="Use Dash Loader"
+          label="Use Assembling Loader"
         />
-        <span className={styles.swapLabel}>Use Dash Loader</span>
+        <span className={styles.swapLabel}>Use Assembling Loader</span>
       </div>
 
       {draft.optedIn && (

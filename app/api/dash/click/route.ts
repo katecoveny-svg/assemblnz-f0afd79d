@@ -4,7 +4,7 @@
  *
  * The SDK navigates the browser here; we mark the impression clicked and 302 to
  * the campaign's cta_url. Open-redirect guard: only http(s) destinations are
- * followed. Unknown / malformed impressions bounce to the Dash landing page
+ * followed. Unknown / malformed impressions bounce to the Assembling landing page
  * rather than erroring in the user's face.
  */
 import { NextResponse } from 'next/server';
@@ -14,20 +14,20 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 function safeHttpUrl(raw: string | null | undefined, base: string): string {
-  if (!raw) return new URL('/dash', base).toString();
+  if (!raw) return new URL('/assembling', base).toString();
   try {
     const u = new URL(raw);
     if (u.protocol === 'http:' || u.protocol === 'https:') return u.toString();
   } catch {
     /* fall through */
   }
-  return new URL('/dash', base).toString();
+  return new URL('/assembling', base).toString();
 }
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const impressionId = url.searchParams.get('i')?.trim();
-  const fallback = new URL('/dash', url.origin).toString();
+  const fallback = new URL('/assembling', url.origin).toString();
 
   if (!impressionId) return NextResponse.redirect(fallback, { status: 302 });
 

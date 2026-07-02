@@ -17,9 +17,9 @@ export function HowItWorksModal({ trigger }: { trigger: ReactNode }) {
       <Dialog.Portal>
         <Dialog.Overlay className={styles.dialogOverlay} />
         <Dialog.Content className={styles.dialogContent} data-dash="">
-          <Dialog.Title className={styles.dialogTitle}>How Dash works</Dialog.Title>
+          <Dialog.Title className={styles.dialogTitle}>How Assembling works</Dialog.Title>
           <Dialog.Description className={styles.dialogDesc}>
-            When your app is thinking, Dash fills the wait instead of a blank spinner.
+            When your app is thinking, Assembling fills the wait instead of a blank spinner.
           </Dialog.Description>
           <ol className={styles.dialogList}>
             <li>
@@ -35,7 +35,7 @@ export function HowItWorksModal({ trigger }: { trigger: ReactNode }) {
               to SPCA NZ, Trees That Count or Foodbank NZ.
             </li>
             <li>
-              <strong>Your data stays yours.</strong> Dash never reads your content, prompts, files
+              <strong>Your data stays yours.</strong> Assembling never reads your content, prompts, files
               or code. Your IP is used only to confirm you&rsquo;re in Aotearoa.
             </li>
           </ol>

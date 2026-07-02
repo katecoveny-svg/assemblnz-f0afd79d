@@ -1,5 +1,5 @@
 /**
- * PhoneMock — a phone frame showing Dash inside a real-looking NZ-app wait.
+ * PhoneMock — a phone frame showing Assembling inside a real-looking NZ-app wait.
  * Slottable: pass the host name, the sponsored line, the reward, and a fill %.
  * Presentational; reuse on Home / How-it-works. See the components brief.
  */
@@ -56,7 +56,7 @@ export function PhoneMock({
         }}
       >
         <div style={{ width: 150 }}>
-          <DashDog title="Dash loader" />
+          <DashDog title="Assembling loader" />
         </div>
 
         {/* progress */}

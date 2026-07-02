@@ -1,5 +1,5 @@
 /**
- * dash by assembl — Dash Loader public API types.
+ * dash by assembl — Assembling Loader public API types.
  *
  * Three modes share one dachshund visual but diverge on revenue flow and
  * UI affordances:

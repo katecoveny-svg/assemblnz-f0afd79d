@@ -1,7 +1,7 @@
 import { Check } from 'lucide-react';
 
 /**
- * The animated ad loop, recreated from `Dash Launch Campaign.html`.
+ * The animated ad loop, recreated from `Assembling Launch Campaign.html`.
  *
  * A faux app loading card: the dog's body segments fill forest left -> right
  * (`dash-ad-seg`), an NZ-brand message renders in the gap (`dash-ad-msg`), then
@@ -20,13 +20,13 @@ export function DashWaitState() {
         </span>
         <span className="d-body text-[13px]">yourapp.co.nz · generating your report</span>
         <span className="d-pill d-pill--gold ml-auto" style={{ fontSize: 12, padding: '4px 11px' }}>
-          dash
+          assembling
         </span>
       </div>
 
       {/* the loader dog */}
       <div className="relative grid place-items-center py-7">
-        <svg viewBox="0 0 1040 470" className="w-full max-w-[320px]" fill="none" role="img" aria-label="dash loader filling">
+        <svg viewBox="0 0 1040 470" className="w-full max-w-[320px]" fill="none" role="img" aria-label="assembling loader filling">
           <ellipse cx="560" cy="432" rx="372" ry="20" fill="#3a3832" opacity="0.1" />
           <path d="M206 250 C 158 252 128 228 120 190" stroke="#3a3832" strokeWidth="26" strokeLinecap="round" />
           <rect x="214" y="298" width="48" height="118" rx="22" fill="#3a3832" />
