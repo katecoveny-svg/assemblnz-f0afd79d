@@ -60,11 +60,13 @@ export const aironautConfig: BrandConfig = parseBrandConfig({
     secondary: '/brand/aironaut/pattern-freight-icons.png',
   },
   photography: {
-    // Primary Freight anchor — chrome propeller on burnt-orange field.
-    anchor: '/brand/aironaut/hero-propeller-orange.png',
+    // Primary Freight anchor — chrome propeller on burnt-orange field, with
+    // the circular mark etched on the spinner (hero-propeller-orange.png is
+    // the unbranded original; keep both).
+    anchor: '/brand/aironaut/hero-propeller-orange-branded.png',
     // Gallery order (used by rotating widgets / carousels):
     gallery: [
-      '/brand/aironaut/hero-propeller-orange.png',
+      '/brand/aironaut/hero-propeller-orange-branded.png',
       '/brand/aironaut/hero-cargo-plane.png',
       '/brand/aironaut/hero-yacht-hull.png',
       '/brand/aironaut/wine-shipment.png',

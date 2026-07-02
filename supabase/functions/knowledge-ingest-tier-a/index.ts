@@ -142,7 +142,11 @@ Deno.serve(async (req) => {
       .from("knowledge_sources")
       .select("source_slug, source_name, tier, url, api_endpoint, source_type, refresh_cadence_days, last_fetched_at, last_content_hash, dependent_agents")
       .eq("active", true)
-      .eq("tier", "A");
+      .eq("tier", "A")
+      // source_type='custom' rows are owned by a dedicated ingester (e.g.
+      // ingest-nz-customs-tariff) — the generic sweep must not overwrite
+      // their structured chunk sets with page-text chunks.
+      .in("source_type", ["api", "rss", "scrape"]);
     if (onlySlug) q = q.eq("source_slug", onlySlug);
 
     const { data: sources, error } = await q;
