@@ -112,7 +112,7 @@ export default function AironautOsHome() {
 
   const walkthroughSteps: WalkthroughStep[] = [
     {
-      title: 'the quote',
+      title: 'The quote',
       lead: 'The agent compares carrier quotes and flags the Incoterms gaps — Rotterdam → Auckland, 2,000 L brewing tanks.',
       rows: [
         ...quote.quotes.map((q) => ({
@@ -124,7 +124,7 @@ export default function AironautOsHome() {
       footnote: quote.flags[0] ?? 'All quotes carry insurance where the incoterm requires it.',
     },
     {
-      title: 'the customs draft',
+      title: 'The customs draft',
       lead: 'The tariff engine returns three ranked HS candidates with the GRI reasoning — never a single unchecked code.',
       rows: (classification.candidates ?? []).slice(0, 3).map((c) => ({
         label: `${c.hsCode} · ${c.confidence}`,
@@ -133,7 +133,7 @@ export default function AironautOsHome() {
       footnote: classification.signOffLine,
     },
     {
-      title: 'the landed-cost report',
+      title: 'The landed-cost report',
       lead: 'CIF, duty at the preferred candidate rate, import GST at 15%, fees — the real calculator, not a mock.',
       rows: [
         { label: 'customs value (CIF)', value: nzd(landed.customsValueNzd) },
@@ -146,7 +146,7 @@ export default function AironautOsHome() {
       footnote: 'Indicative — the licensed broker confirms rate, concessions and valuation at lodgement.',
     },
     {
-      title: 'the audit receipt',
+      title: 'The audit receipt',
       lead: 'Every draft carries a tamper-evident receipt: input hash, output hash, the citation trail, chained to the one before.',
       rows: latestReceipt
         ? [
@@ -280,8 +280,8 @@ export default function AironautOsHome() {
 
         {/* ── Fold 3 · the live agent ─────────────────────────────────────── */}
         <section className="mt-20">
-          <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            talk to your customs broker
+          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
+            Talk to your customs broker
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
@@ -353,8 +353,8 @@ export default function AironautOsHome() {
 
         {/* ── Fold 4 · the transparency piece ─────────────────────────────── */}
         <section className="mt-20">
-          <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            the proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
+          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
+            The proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
             Every draft is backed by a tamper-evident audit receipt. The latest entry in the chain:
@@ -402,8 +402,8 @@ export default function AironautOsHome() {
 
         {/* ── Fold 5 · next step ──────────────────────────────────────────── */}
         <section className="my-24 text-center">
-          <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
+          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
+            Ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm" style={{ color: '#3E3C36' }}>
             The pilot runs draft-only until you say otherwise. One conversation
