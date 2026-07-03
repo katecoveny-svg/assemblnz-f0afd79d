@@ -58,6 +58,14 @@ export const TENANTS: readonly Tenant[] = [
     accentClass: 'border-teal-200/70',
   },
   {
+    slug: 'contact-energy',
+    displayName: 'Contact Energy × Assembling',
+    parentBrand: 'Switch pitch concept',
+    status: 'concept',
+    blurb: 'Earn layer in the app — loading moments become bill credits; Switch power assistant.',
+    accentClass: 'border-red-200/70',
+  },
+  {
     slug: 'everyday-rewards',
     displayName: 'Everyday Rewards × Dash',
     parentBrand: 'Woolworths NZ',
