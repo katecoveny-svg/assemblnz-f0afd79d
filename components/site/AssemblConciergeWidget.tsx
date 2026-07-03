@@ -172,7 +172,7 @@ export function AssemblConciergeWidget() {
               type="button"
               aria-label="Close assembl guide"
               onClick={() => setOpen(false)}
-              className="rounded-full p-2 text-[color:var(--text-secondary)] transition-all hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+              className="rounded-full p-2 text-[color:var(--text-secondary)] transition-all hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:bg-[rgba(35,33,31,0.06)] focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
             >
               <X className="h-4 w-4" aria-hidden />
             </button>

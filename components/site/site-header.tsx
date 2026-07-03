@@ -137,7 +137,7 @@ export function SiteHeader() {
           <Link
             href="/"
             aria-label="assembl — home"
-            className="shrink-0 rounded-sm text-[31px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:text-[36px]"
+            className="shrink-0 rounded-sm text-[31px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 xl:text-[36px]"
           >
             <AssemblWordmark />
           </Link>
@@ -154,7 +154,7 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "whitespace-nowrap rounded-sm text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:text-[15px]",
+                  "whitespace-nowrap rounded-sm text-[14px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 xl:text-[15px]",
                   isActive
                     ? "text-[color:var(--text-primary)] font-medium"
                     : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)] focus-visible:text-[color:var(--text-primary)]"
@@ -174,7 +174,7 @@ export function SiteHeader() {
             aria-label="Search"
             title="Search"
             aria-haspopup="dialog"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-white/60 hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:bg-white/60 focus-visible:text-[color:var(--text-primary)] lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-white/60 hover:text-[color:var(--text-primary)] focus-visible:bg-white/60 focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 lg:hidden"
           >
             <Search className="h-5 w-5" aria-hidden />
           </button>
@@ -184,7 +184,7 @@ export function SiteHeader() {
             onClick={openCommandPalette}
             aria-haspopup="dialog"
             title={isMac ? "Search (⌘K)" : "Search (Ctrl K)"}
-            className="hidden items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--text-primary)] lg:inline-flex"
+            className="hidden items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--text-primary)] focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 lg:inline-flex"
           >
             <Search className="h-3.5 w-3.5" aria-hidden />
             <span>Search</span>
@@ -196,7 +196,7 @@ export function SiteHeader() {
             href="/login"
             aria-current={pathname === "/login" ? "page" : undefined}
             className={cn(
-              "btn-ghost hidden h-11 items-center whitespace-nowrap px-4 text-[14px] lowercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 lg:inline-flex xl:text-[15px]",
+              "btn-ghost hidden h-11 items-center whitespace-nowrap px-4 text-[14px] lowercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 lg:inline-flex xl:text-[15px]",
               pathname === "/login" && "text-[color:var(--text-primary)] font-medium"
             )}
           >
@@ -204,7 +204,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href={navCta.href}
-            className="hidden cta-charcoal lg:inline-flex h-11 items-center whitespace-nowrap px-5 text-[14px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 xl:px-6 xl:text-[15px]"
+            className="hidden cta-charcoal lg:inline-flex h-11 items-center whitespace-nowrap px-5 text-[14px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 xl:px-6 xl:text-[15px]"
           >
             {navCta.label}
           </Link>
@@ -214,7 +214,7 @@ export function SiteHeader() {
             onClick={() => setMobileNavOpen(true)}
             aria-label="Open menu"
             aria-expanded={mobileNavOpen}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-white/60 hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:bg-white/60 focus-visible:text-[color:var(--text-primary)] md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-white/60 hover:text-[color:var(--text-primary)] focus-visible:bg-white/60 focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 md:hidden"
           >
             <Menu className="h-5 w-5" aria-hidden />
           </button>
@@ -237,7 +237,7 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="assembl — home"
-              className="rounded-sm text-[30px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+              className="rounded-sm text-[30px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
               onClick={() => setMobileNavOpen(false)}
             >
               <AssemblWordmark />
@@ -246,7 +246,7 @@ export function SiteHeader() {
               type="button"
               onClick={() => setMobileNavOpen(false)}
               aria-label="Close menu"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-white/60 hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:bg-white/60 focus-visible:text-[color:var(--text-primary)]"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-white/60 hover:text-[color:var(--text-primary)] focus-visible:bg-white/60 focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
             >
               <X className="h-5 w-5" aria-hidden />
             </button>
@@ -261,7 +261,7 @@ export function SiteHeader() {
                       href={item.href}
                       aria-current={isActive ? "page" : undefined}
                       className={cn(
-                        "flex min-h-[56px] items-center border-b border-[rgba(35,33,31,0.08)] font-display text-2xl font-light tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]",
+                        "flex min-h-[56px] items-center border-b border-[rgba(35,33,31,0.08)] font-display text-2xl font-light tracking-tight transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring",
                         isActive
                           ? "text-[color:var(--text-primary)]"
                           : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
