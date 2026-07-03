@@ -208,7 +208,7 @@
   }
 
   .cta-primary {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 focus-visible:-translate-y-0.5;
     position: relative;
     overflow: hidden;
     isolation: isolate;
@@ -253,7 +253,7 @@
   }
 
   .btn-ghost {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 focus-visible:-translate-y-0.5;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 247, 236, 0.46)),
       radial-gradient(circle at 22% 0%, rgba(255, 255, 255, 0.55), transparent 36%);
@@ -285,7 +285,7 @@
   /* Charcoal-fill pill — editorial charcoal + cream CTA used by some
      marketplace-direction surfaces, distinct from the canary .cta-primary. */
   .cta-charcoal {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 focus-visible:-translate-y-0.5;
     background: #3A3832;
     color: #FFF7EC;
     border: 1px solid #3A3832;
