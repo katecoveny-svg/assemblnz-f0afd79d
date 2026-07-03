@@ -72,6 +72,7 @@ const TIER_LABEL: Record<string, string> = {
 export function PilotAgentChat({
   apiPath,
   agentName,
+  composerPlaceholder,
   greeting,
   tryMe,
   accent,
@@ -79,6 +80,9 @@ export function PilotAgentChat({
 }: {
   apiPath: string;
   agentName: string;
+  /** Composer placeholder override — English-led tenants pass a phrase that
+   *  reads naturally (default: `Ask ${agentName} anything about the workspace…`). */
+  composerPlaceholder?: string;
   greeting: string;
   tryMe: string[];
   /** The customer accent colour — used on the send button only. */
@@ -297,7 +301,7 @@ export function PilotAgentChat({
               }
             }}
             rows={2}
-            placeholder={`Ask ${agentName} anything about the workspace…`}
+            placeholder={composerPlaceholder ?? `Ask ${agentName} anything about the workspace…`}
             className="flex-1 resize-none rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-black/30"
           />
           <button

@@ -169,5 +169,5 @@ export const aironautActivity: AironautActivityEvent[] = [
   { at: '07:32', kind: 'drafted', note: 'Drafted ETA update email for the Auckland → Sydney LCL (awaiting review).', demo: true },
   { at: '08:05', kind: 'flagged', note: 'Wine consignment WNE-0907: excise note missing — flagged for broker.', demo: true },
   { at: '08:41', kind: 'drafted', note: 'Drafted three-candidate HS classification for stainless brewing tanks (GRI 1).', demo: true },
-  { at: '09:00', kind: 'computed', note: 'Issued Mana Receipt for the morning classification run (hash-chained).', demo: true },
+  { at: '09:00', kind: 'computed', note: 'Issued hash-chained audit receipt for the morning classification run.', demo: true },
 ];

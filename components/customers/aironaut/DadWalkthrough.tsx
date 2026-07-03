@@ -5,7 +5,7 @@ import { ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
 
 /**
  * The four-click walkthrough for Kate's dad: watch one shipment go
- * quote → customs draft → landed-cost report → Mana Receipt without touching
+ * quote → customs draft → landed-cost report → audit receipt without touching
  * anything. Every artefact shown is computed server-side by the REAL Pīkau
  * engines (lib/customs) on the demo shipment and passed in as props — this
  * overlay just walks through them.
@@ -39,10 +39,10 @@ export function DadWalkthrough({
         className="rounded-xl border border-black/10 bg-white px-5 py-3 text-left shadow-sm transition-shadow hover:shadow-md"
       >
         <span className="block text-sm font-semibold">
-          watch a shipment go end-to-end →
+          Watch a shipment go end-to-end →
         </span>
         <span className="mt-0.5 block text-xs" style={{ color: ASSEMBL_WARM_GREY }}>
-          quote → customs draft → landed cost → Mana Receipt, in four clicks. Nothing to type.
+          Quote → customs draft → landed cost → audit receipt, in four clicks. Nothing to type.
         </span>
       </button>
     );
@@ -71,12 +71,12 @@ export function DadWalkthrough({
             onClick={() => setOpen(false)}
             className="rounded-md px-2 py-1 text-xs hover:bg-black/5"
           >
-            close ✕
+            Close ✕
           </button>
         </div>
 
         <h3
-          className="mt-3 text-2xl lowercase"
+          className="mt-3 text-2xl"
           style={{ fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif", fontWeight: 600 }}
         >
           {step.title}

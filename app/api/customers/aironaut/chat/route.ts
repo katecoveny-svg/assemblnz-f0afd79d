@@ -124,7 +124,7 @@ const aironautTools = {
               tier: 'A' as const,
             },
           ],
-          note: 'LIVE SOURCE UNAVAILABLE — the reference extract below is an unverified static snapshot. End the answer with "TRUST SCORE: UNAVAILABLE — not verified against the live NZ tariff" and do not state any rate as current.',
+          note: 'LIVE SOURCE UNAVAILABLE — the reference extract below is an unverified static snapshot. End the answer with "Source: NZ Customs Working Tariff · Trust: UNAVAILABLE — not verified against the live tariff" and do not state any rate as current.',
         };
       }
 
@@ -149,7 +149,7 @@ const aironautTools = {
             tier: 'A' as const,
           },
         ],
-        note: `Live Tier A source, synced ${live.hoursSinceSync}h ago. End the answer with the trust footer: "TRUST SCORE: A · nz-customs-tariff · last synced ${live.hoursSinceSync}h ago". Broker confirms the full 11-digit code before lodgement.`,
+        note: `Live Tier A source, synced ${live.hoursSinceSync}h ago. End the answer with the trust footer: "Source: NZ Customs Working Tariff · Trust: A · last synced ${live.hoursSinceSync}h ago". Broker confirms the full 11-digit code before lodgement.`,
       };
     },
   }),

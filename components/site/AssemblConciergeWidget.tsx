@@ -71,7 +71,9 @@ export function AssemblConciergeWidget() {
     !!pathname &&
     (pathname.startsWith('/customers/happy-tails/keeper') ||
       pathname.startsWith('/customers/auckland-zoo/keeper') ||
-      pathname.startsWith('/customers/aeronaut'));
+      // Was '/customers/aeronaut' — the tenant renamed to aironaut, which let
+      // the concierge leak onto the family-pilot workspace.
+      pathname.startsWith('/customers/aironaut'));
 
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');

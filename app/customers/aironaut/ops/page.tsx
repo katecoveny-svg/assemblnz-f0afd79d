@@ -112,8 +112,8 @@ export default function AironautOsHome() {
 
   const walkthroughSteps: WalkthroughStep[] = [
     {
-      title: 'the quote',
-      lead: 'Pīkau compares carrier quotes and flags the Incoterms gaps — Rotterdam → Auckland, 2,000 L brewing tanks.',
+      title: 'The quote',
+      lead: 'The agent compares carrier quotes and flags the Incoterms gaps — Rotterdam → Auckland, 2,000 L brewing tanks.',
       rows: [
         ...quote.quotes.map((q) => ({
           label: `${q.carrier}${q.cheapest ? ' · cheapest' : ''}${q.fastest ? ' · fastest' : ''}`,
@@ -124,7 +124,7 @@ export default function AironautOsHome() {
       footnote: quote.flags[0] ?? 'All quotes carry insurance where the incoterm requires it.',
     },
     {
-      title: 'the customs draft',
+      title: 'The customs draft',
       lead: 'The tariff engine returns three ranked HS candidates with the GRI reasoning — never a single unchecked code.',
       rows: (classification.candidates ?? []).slice(0, 3).map((c) => ({
         label: `${c.hsCode} · ${c.confidence}`,
@@ -133,7 +133,7 @@ export default function AironautOsHome() {
       footnote: classification.signOffLine,
     },
     {
-      title: 'the landed-cost report',
+      title: 'The landed-cost report',
       lead: 'CIF, duty at the preferred candidate rate, import GST at 15%, fees — the real calculator, not a mock.',
       rows: [
         { label: 'customs value (CIF)', value: nzd(landed.customsValueNzd) },
@@ -146,7 +146,7 @@ export default function AironautOsHome() {
       footnote: 'Indicative — the licensed broker confirms rate, concessions and valuation at lodgement.',
     },
     {
-      title: 'the mana receipt',
+      title: 'The audit receipt',
       lead: 'Every draft carries a tamper-evident receipt: input hash, output hash, the citation trail, chained to the one before.',
       rows: latestReceipt
         ? [
@@ -174,8 +174,10 @@ export default function AironautOsHome() {
           className="object-cover"
         />
         <div className="absolute left-6 top-6 flex items-center gap-3">
-          <span className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-white/90">
-            <Image src="/brand/aironaut/logo-circular-mark.png" alt="" width={40} height={40} className="h-10 w-10 object-contain" />
+          <span className="inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-white/90">
+            {/* The mark PNG is square with a white ground — clip it circular
+                too, or its corners poke past the round chip. */}
+            <Image src="/brand/aironaut/logo-circular-mark.png" alt="" width={40} height={40} className="h-10 w-10 rounded-full object-contain" />
           </span>
           <span
             className="text-sm font-semibold uppercase tracking-[0.2em] text-white"
@@ -187,12 +189,15 @@ export default function AironautOsHome() {
         <div className="absolute right-6 top-7">
           <KnowledgeSyncPill />
         </div>
-        <div className="absolute bottom-10 left-6 right-6 md:left-10">
+        {/* Headline sits high on the burnt-orange field, clear of the chrome,
+            so it stays legible (Kate, 2026-07-02). Sentence case here — not
+            the site-wide lowercase. */}
+        <div className="absolute left-6 right-6 md:left-10" style={{ top: '16%' }}>
           <h1
-            className="max-w-3xl text-4xl lowercase leading-tight text-white md:text-6xl"
-            style={{ fontFamily: serif, fontWeight: 500, textShadow: '0 1px 24px rgba(0,0,0,0.25)' }}
+            className="max-w-3xl text-4xl leading-tight text-white md:text-6xl"
+            style={{ fontFamily: serif, fontWeight: 500, textShadow: '0 1px 24px rgba(0,0,0,0.35)' }}
           >
-            the operating system for your freight business
+            The operating system for your freight business
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
@@ -248,7 +253,7 @@ export default function AironautOsHome() {
             },
             {
               label: 'move to proof',
-              body: 'Every decision lands as a hash-chained Mana Receipt you can show Customs.',
+              body: 'Every decision lands as a hash-chained audit receipt you can show Customs.',
               live: (
                 <span className="flex items-baseline gap-2">
                   <span className="text-2xl font-semibold">
@@ -275,8 +280,8 @@ export default function AironautOsHome() {
 
         {/* ── Fold 3 · the live agent ─────────────────────────────────────── */}
         <section className="mt-20">
-          <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            talk to {AIRONAUT_AGENT_NAME}
+          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
+            Talk to your customs broker
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
@@ -292,10 +297,11 @@ export default function AironautOsHome() {
               <PilotAgentChat
                 apiPath="/api/customers/aironaut/chat"
                 agentName={AIRONAUT_AGENT_NAME}
+                composerPlaceholder="Ask your customs broker anything about the workspace…"
                 greeting={AIRONAUT_AGENT_GREETING}
                 tryMe={AIRONAUT_TRY_ME}
                 accent={accent}
-                draftNote="Draft-only: Pīkau never lodges an entry or sends a message — a licensed broker reviews everything."
+                draftNote="Draft-only: the agent never lodges an entry or sends a message — a licensed broker reviews everything."
               />
             </div>
             <div className="flex flex-col gap-4">
@@ -319,6 +325,7 @@ export default function AironautOsHome() {
 
           <div className="mt-6">
             <BackendTabs
+              receiptsTabLabel="audit receipts"
               brain={{
                 model: MODEL_TIER_TO_ANTHROPIC.mid,
                 fallbackNote: 'free-fallback ladder behind it (gemini → groq → ollama)',
@@ -346,11 +353,11 @@ export default function AironautOsHome() {
 
         {/* ── Fold 4 · the transparency piece ─────────────────────────────── */}
         <section className="mt-20">
-          <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            the proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
+          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
+            The proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
-            Receipts and mana show the journey. The latest entry in the chain:
+            Every draft is backed by a tamper-evident audit receipt. The latest entry in the chain:
           </p>
           {latestReceipt ? (
             <div className="mt-5 rounded-2xl border border-black/10 bg-white/90 p-6 backdrop-blur-sm">
@@ -395,8 +402,8 @@ export default function AironautOsHome() {
 
         {/* ── Fold 5 · next step ──────────────────────────────────────────── */}
         <section className="my-24 text-center">
-          <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
-            ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
+          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
+            Ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm" style={{ color: '#3E3C36' }}>
             The pilot runs draft-only until you say otherwise. One conversation

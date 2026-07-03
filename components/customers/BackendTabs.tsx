@@ -49,13 +49,19 @@ export function BackendTabs({
   activity,
   receipts,
   drafts,
+  receiptsTabLabel,
 }: {
   brain: BackendBrain;
   activity: BackendActivityEvent[];
   receipts: BackendReceipt[];
   drafts: BackendDraft[];
+  /** Display override for the receipts tab — English-led tenants (e.g.
+   *  aironaut) pass 'audit receipts'; default stays 'mana receipts'. */
+  receiptsTabLabel?: string;
 }) {
   const [tab, setTab] = useState<(typeof TABS)[number]>(TABS[0]);
+  const tabLabel = (t: (typeof TABS)[number]) =>
+    t === 'mana receipts' && receiptsTabLabel ? receiptsTabLabel : t;
 
   return (
     <div className="rounded-2xl border border-black/10 bg-white/85 shadow-sm backdrop-blur-sm">
@@ -69,7 +75,7 @@ export function BackendTabs({
               tab === t ? 'bg-black/5 font-semibold' : 'hover:bg-black/[0.03]'
             }`}
           >
-            {t}
+            {tabLabel(t)}
           </button>
         ))}
       </div>
