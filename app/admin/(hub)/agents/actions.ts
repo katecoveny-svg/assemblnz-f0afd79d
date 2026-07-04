@@ -172,3 +172,88 @@ export async function toggleKnowledgeLink(formData: FormData) {
   revalidatePath(`/admin/agents/${slug}`);
   revalidatePath('/admin/knowledge');
 }
+
+/**
+ * Manual "sync now" for a Tier A knowledge source — invokes the deployed
+ * knowledge-ingest-tier-a edge function with the single-source override
+ * ({ source_slug }). The function fetches, diffs, re-embeds on change and
+ * stamps last_fetched_at; we just kick it and revalidate.
+ */
+export async function syncKnowledgeSource(formData: FormData) {
+  await ensureAdmin();
+
+  const slug = String(formData.get('slug') ?? '');
+  const sourceSlug = String(formData.get('source_slug') ?? '');
+  if (!sourceSlug) return;
+
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!base || !serviceKey) return;
+
+  try {
+    await fetch(`${base}/functions/v1/knowledge-ingest-tier-a`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${serviceKey}`,
+      },
+      body: JSON.stringify({ source_slug: sourceSlug }),
+      // The ingest can take a while on a changed source; don't hold the action
+      // past Vercel's window — the row's last_status shows the outcome.
+      signal: AbortSignal.timeout(25_000),
+    });
+  } catch {
+    // Timeout or network — the sync may still complete server-side; the
+    // knowledge_sources row records the real outcome either way.
+  }
+
+  if (slug) revalidatePath(`/admin/agents/${slug}`);
+  revalidatePath('/admin/agents');
+  revalidatePath('/admin/knowledge');
+}
+
+/**
+ * Record a test-chat exchange in assembl_audit_log so the drilldown's audit
+ * section reflects Kate's own test traffic. Draft-mode: decision is always
+ * 'draft' — nothing was sent anywhere. Called from the TestChatPanel client
+ * after each completed exchange; service-role write behind ensureAdmin.
+ */
+export async function recordTestExchange(input: {
+  slug: string;
+  query: string;
+  response: string;
+  sessionId?: string;
+  held?: boolean;
+}) {
+  const admin = await ensureAdmin();
+
+  const slug = String(input.slug ?? '');
+  if (!isMarketplaceAgent(slug)) return;
+
+  const sessionId =
+    typeof input.sessionId === 'string' && /^[0-9a-f-]{36}$/i.test(input.sessionId)
+      ? input.sessionId
+      : crypto.randomUUID();
+
+  try {
+    const sb = getServiceClient();
+    await sb.from('assembl_audit_log').insert({
+      // Fixed internal-org marker for operator test traffic (org_id is NOT NULL
+      // with no FK; no orgs table exists yet — revisit when one lands).
+      org_id: '00000000-0000-4000-8000-000000000001',
+      user_id: admin.id,
+      session_id: sessionId,
+      agent_slug: slug,
+      tool_name: 'admin-test-chat',
+      tool_input: { query: String(input.query ?? '').slice(0, 4000) },
+      tool_output: {
+        response: String(input.response ?? '').slice(0, 8000),
+        draft: true,
+        ...(input.held ? { kaumatua_hold: true } : {}),
+      },
+      decision: input.held ? 'kaumatua_hold' : 'draft',
+    });
+  } catch {
+    // Fail soft — the audit table may not exist in this environment.
+  }
+}
