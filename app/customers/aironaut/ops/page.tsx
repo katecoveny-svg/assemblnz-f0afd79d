@@ -298,8 +298,8 @@ export default function AironautOsHome() {
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
-            The OS sits behind the tools you already use — it reads and writes
-            beside them, it does not replace them.
+            customs broker reads and writes to these tools daily. it also draws
+            on these signal sources.
           </p>
           <div className="mt-6">
             <IntegrationMap />
