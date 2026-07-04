@@ -53,15 +53,20 @@ const matchesPrefix = (pathname: string, prefix: string) =>
 // Exempt (must keep working while the domain is "closed"):
 //   - /api/*            webhooks + Brevo inbound
 //   - /for/*            per-prospect magic links (handled before this anyway)
-//   - /admin*           Kate's operator hub (own magic-link auth)
-//   - /customers/*      hosted pilots (own demo basic-auth)
+//   - /customers/*      hosted pilots (own demo basic-auth + invite cookies)
 //   - static + Next internals (/_next, /brand, favicon, robots, sitemap, …)
+//
+// Redirected (not rewritten — kills stale bookmarks/caches with a real 302):
+//   - /login*           → / (the splash). The old app's sign-in form is gone
+//                         from the live domain; nobody should ever see it.
+//   - /admin*           → demo.assembl.co.nz/admin — the operator hub lives on
+//                         the demo host now, where Supabase Auth is wired up.
 // ---------------------------------------------------------------------------
 const SPLASH_HOSTS = new Set(['assembl.co.nz', 'www.assembl.co.nz']);
+const ADMIN_HOME = 'https://demo.assembl.co.nz';
 const SPLASH_EXEMPT_PREFIXES = [
   '/api/',
   '/for/',
-  '/admin',
   '/customers',
   '/_next/',
   '/brand/',
@@ -88,6 +93,25 @@ const splashGate = (request: NextRequest): NextResponse | null => {
 
   const { pathname } = request.nextUrl;
   if (pathname === '/') return null; // the splash already renders here
+
+  // Stale sign-in URLs get a hard 302 home, not a rewrite — the redirect
+  // shows in the URL bar and replaces any cached copy of the old form.
+  if (matchesPrefix(pathname, '/login')) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    url.search = '';
+    return NextResponse.redirect(url, 302);
+  }
+
+  // The operator hub moved to the demo host (Supabase Auth lives there);
+  // preserve the subpath + query so deep links keep working.
+  if (matchesPrefix(pathname, '/admin')) {
+    return NextResponse.redirect(
+      `${ADMIN_HOME}${pathname}${request.nextUrl.search}`,
+      302,
+    );
+  }
+
   if (SPLASH_EXEMPT_EXACT.has(pathname)) return null;
   if (SPLASH_EXEMPT_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) return null;
   if (SPLASH_STATIC_FILE.test(pathname)) return null;
@@ -123,6 +147,11 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   '/robots.txt',
   '/sitemap.xml',
   '/favicon',
+  // The operator hub carries its own (stronger) gate — ensureAdmin() over
+  // Supabase Auth — and /auth/* is where its magic-link round-trip lands.
+  // Basic auth in front of either would 401 the emailed sign-in link.
+  '/admin',
+  '/auth/',
 ];
 const DEMO_AUTH_STATIC_FILE =
   /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest)$/i;
