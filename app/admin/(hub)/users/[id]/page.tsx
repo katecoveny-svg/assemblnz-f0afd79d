@@ -29,7 +29,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
         lede={
           <span style={{ fontFamily: MONO, fontSize: 13 }}>{profile?.email ?? id}</span>
         }
-        actions={<Pill tone="canary">{role}</Pill>}
+        actions={<Pill tone="gold">{role}</Pill>}
       />
 
       <Grid min={200}>

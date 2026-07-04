@@ -23,7 +23,7 @@ function SignOff({ table, id }: { table: string; id: string }) {
           type="submit"
           style={{
             fontFamily: BODY, fontWeight: 700, fontSize: 12.5, color: C.ink,
-            background: C.canary, border: 'none', borderRadius: 999, padding: '6px 14px', cursor: 'pointer',
+            background: C.gold, border: 'none', borderRadius: 999, padding: '6px 14px', cursor: 'pointer',
           }}
         >
           Sign off

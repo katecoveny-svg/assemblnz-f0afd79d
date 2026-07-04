@@ -19,7 +19,7 @@ import {
 import {
   BODY,
   C,
-  CanaryButton,
+  GoldButton,
   Card,
   Eyebrow,
   Grid,
@@ -119,8 +119,8 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
                   fontWeight: 700,
                   fontSize: 13.5,
                   color: s === status ? C.ink : C.body,
-                  background: s === status ? C.canary : C.paper,
-                  border: `1.5px solid ${s === status ? C.canary : C.hairline}`,
+                  background: s === status ? C.gold : C.paper,
+                  border: `1.5px solid ${s === status ? C.gold : C.hairline}`,
                   borderRadius: 999,
                   padding: '8px 18px',
                   cursor: s === status ? 'default' : 'pointer',
@@ -195,7 +195,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
             Bundle lead (this agent is the front door of its bundle)
           </label>
           <div style={{ marginTop: 16 }}>
-            <CanaryButton>Save catalogue record</CanaryButton>
+            <GoldButton>Save catalogue record</GoldButton>
           </div>
         </form>
         {!dbRow && (
@@ -258,7 +258,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
             style={{ ...input, marginTop: 10 }}
           />
           <div style={{ display: 'flex', gap: 10, marginTop: 14, alignItems: 'center' }}>
-            <CanaryButton>Stage prompt edit</CanaryButton>
+            <GoldButton>Stage prompt edit</GoldButton>
           </div>
         </form>
         {stagedOverride && (
@@ -337,7 +337,7 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
                         letterSpacing: '0.08em',
                         textTransform: 'uppercase',
                         color: linked ? C.ink : C.body,
-                        background: linked ? C.canary : C.cream,
+                        background: linked ? C.gold : C.cream,
                         border: 'none',
                         borderRadius: 999,
                         padding: '5px 12px',

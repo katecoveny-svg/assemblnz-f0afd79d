@@ -5,7 +5,7 @@ import Link from 'next/link';
  * Admin UI kit — the locked canon brand applied to the operator hub.
  *
  * Cormorant Garamond headlines · Lato body · Space Mono labels/numerals ·
- * canary highlights · cream cards on a paper canvas. Fonts are loaded in
+ * champagne-gold highlights · cream cards on a paper canvas. Fonts are loaded in
  * app/admin/layout.tsx and exposed as the --admin-* CSS variables; these
  * primitives reference them inline so headings beat the global Fraunces rule
  * without touching globals.css.
@@ -15,9 +15,9 @@ import Link from 'next/link';
 
 // Locked palette (CANON-LOCKED-2026-06-23)
 export const C = {
-  canary: '#BFA37A',
-  gold: '#E0A800',
-  goldEyebrow: '#C79B1F',
+  gold: '#BFA37A',
+  goldDeep: '#8A6B4E',
+  goldEyebrow: '#BFA37A',
   pale: '#FFF1C2',
   ink: '#3A3832',
   body: '#56544B',
@@ -231,7 +231,7 @@ const TONE_PILL: Record<string, { bg: string; fg: string }> = {
   ok: { bg: 'rgba(58,125,110,.12)', fg: C.ok },
   warn: { bg: 'rgba(201,138,27,.14)', fg: C.warn },
   bad: { bg: 'rgba(181,83,58,.12)', fg: C.bad },
-  canary: { bg: 'rgba(191,163,122,.25)', fg: '#8A6B4E' },
+  gold: { bg: 'rgba(191,163,122,.25)', fg: '#8A6B4E' },
   neutral: { bg: C.cream, fg: C.body },
 };
 
@@ -336,7 +336,7 @@ export function Empty({ children }: { children: ReactNode }) {
 }
 
 // ── Buttons / links ──────────────────────────────────────────────────────────
-export function CanaryButton({
+export function GoldButton({
   children,
   type = 'submit',
   style,
@@ -353,12 +353,12 @@ export function CanaryButton({
         fontWeight: 700,
         fontSize: 14,
         color: C.ink,
-        background: C.canary,
+        background: C.gold,
         border: 'none',
         borderRadius: 999,
         padding: '9px 18px',
         cursor: 'pointer',
-        boxShadow: '0 6px 16px rgba(255,212,42,.32)',
+        boxShadow: '0 6px 16px rgba(191, 163, 122,.32)',
         ...style,
       }}
     >

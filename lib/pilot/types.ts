@@ -179,7 +179,7 @@ export function emptyDraft(): PilotDraft {
     description: '',
     category: 'build',
     icon: 'spark',
-    accent: '#FFD42A',
+    accent: '#BFA37A',
     spec: {
       domain: '',
       resultType: '',

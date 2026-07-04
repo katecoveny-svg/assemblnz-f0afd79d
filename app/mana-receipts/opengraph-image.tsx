@@ -5,11 +5,11 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 // CANON palette (locked 2026-06-23).
-const CANARY = '#BFA37A';
+const GOLD_ACCENT = '#BFA37A';
 const INK = '#3A3832';
 const BODY = '#56544B';
 const CREAM = '#FFF7EC';
-const GOLD = '#C79B1F';
+const GOLD = '#BFA37A';
 const HAIRLINE = '#EFEADC';
 
 async function loadGoogleFont(
@@ -75,7 +75,7 @@ export default async function ManaReceiptsOgImage() {
             left: 0,
             right: 0,
             height: 12,
-            background: `linear-gradient(90deg, ${CANARY} 0%, #FFE27A 50%, #E0A800 100%)`,
+            background: `linear-gradient(90deg, ${GOLD_ACCENT} 0%, #D9B87A 50%, #8A6B4E 100%)`,
           }}
         />
         <div
@@ -123,7 +123,7 @@ export default async function ManaReceiptsOgImage() {
               assembl
             </span>
             <div
-              style={{ width: 34, height: 11, borderRadius: 4, background: CANARY, marginBottom: 12 }}
+              style={{ width: 34, height: 11, borderRadius: 4, background: GOLD_ACCENT, marginBottom: 12 }}
             />
           </div>
           <span style={{ color: BODY }}>·  Aligned with the Privacy Act 2020 + IPP 3A</span>

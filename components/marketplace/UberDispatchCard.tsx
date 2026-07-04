@@ -118,7 +118,7 @@ export function UberDispatchCard({ spec }: { spec: UberDispatchSpec }) {
           onClick={getQuote}
           disabled={loading}
           className="mt-2 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition disabled:opacity-60"
-          style={{ background: 'linear-gradient(180deg, #FFE27A, #FFD42A)', color: PALETTE.ink }}
+          style={{ background: 'linear-gradient(180deg, #D9B87A, #BFA37A)', color: PALETTE.ink }}
         >
           <Car size={15} aria-hidden />
           {loading ? 'Checking coverage…' : '🚗 Send it via Uber'}

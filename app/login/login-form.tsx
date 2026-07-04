@@ -9,7 +9,9 @@ const REMEMBER_STORAGE_KEY = 'assembl-remember-device';
 const labelClass =
   'font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]';
 const inputClass =
-  'mt-2 w-full rounded-card border border-[rgba(58,56,50,0.18)] bg-white px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--dash-canary,#BFA37A)] focus:ring-2 focus:ring-[rgba(255,212,42,0.45)]';
+  'mt-2 w-full rounded-card border border-[rgba(58,56,50,0.18)] bg-white px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none focus:border-[color:var(--assembl-gold,#BFA37A)] focus:ring-2 focus:ring-[rgba(191,163,122,0.35)]';
+const quietLinkClass =
+  'mt-5 block w-full text-center text-sm lowercase text-[color:var(--text-secondary)] underline-offset-4 hover:text-[color:var(--text-primary)] hover:underline';
 
 type Mode = 'magic' | 'password';
 
@@ -90,34 +92,32 @@ export function LoginForm({
   if (sent) {
     return (
       <div className="rounded-card border border-[rgba(58,56,50,0.18)] bg-white/60 p-6 text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--dash-gold,#C79B1F)]">
+        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--assembl-gold,#BFA37A)]">
           Check your inbox
         </p>
         <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-          We&apos;ve sent a magic link to{' '}
+          We&apos;ve sent a link to{' '}
           <span className="font-mono text-[color:var(--text-primary)]">{email || 'your email'}</span>.
-          Click it on this device to finish signing in. The link expires in one hour.
+          Open it on this device — it expires in an hour.
         </p>
-        <button
-          type="button"
-          onClick={() => setSent(false)}
-          className="mt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
-        >
-          Use a different email
+        <button type="button" onClick={() => setSent(false)} className={quietLinkClass}>
+          use a different email
         </button>
       </div>
     );
   }
 
+  // Stay-signed-in is genuinely load-bearing (90-day vs 24-hour session), so
+  // it stays — tucked under the button, small.
   const rememberToggle = (
-    <label className="mt-5 flex cursor-pointer items-center gap-3 text-sm text-[color:var(--text-body)]">
+    <label className="mt-4 flex cursor-pointer items-center justify-center gap-2 text-xs lowercase text-[color:var(--text-secondary)]">
       <input
         type="checkbox"
         checked={remember}
         onChange={(e) => persistRemember(e.target.checked)}
-        className="h-4 w-4 rounded border-[rgba(58,56,50,0.35)] accent-[#BFA37A] focus:ring-2 focus:ring-[rgba(255,212,42,0.45)]"
+        className="h-3.5 w-3.5 rounded border-[rgba(58,56,50,0.35)] accent-[#BFA37A] focus:ring-2 focus:ring-[rgba(191,163,122,0.35)]"
       />
-      Stay signed in on this device
+      stay signed in on this device
     </label>
   );
 
@@ -159,21 +159,22 @@ export function LoginForm({
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
             className={inputClass}
-            placeholder="Your password"
+            placeholder="your password"
           />
         </label>
 
-        {rememberToggle}
         {errorBlock}
 
         <button
           type="submit"
           disabled={pending || email.trim().length === 0 || password.length === 0}
-          className="cta-primary mt-6 inline-flex h-12 w-full items-center justify-center px-7 text-sm md:text-base disabled:cursor-not-allowed disabled:opacity-60"
+          className="cta-primary mt-6 inline-flex h-12 w-full items-center justify-center px-7 text-sm lowercase md:text-base disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {pending ? 'Signing in…' : 'Sign in'}
+          {pending ? 'signing in…' : 'sign in'}
           {!pending && <ArrowRight className="ml-2 h-4 w-4" aria-hidden />}
         </button>
+
+        {rememberToggle}
 
         <button
           type="button"
@@ -181,9 +182,9 @@ export function LoginForm({
             setMode('magic');
             setError(null);
           }}
-          className="mt-5 block w-full text-center font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+          className={quietLinkClass}
         >
-          Use a magic link instead
+          use a magic link instead
         </button>
       </form>
     );
@@ -195,6 +196,9 @@ export function LoginForm({
       className="rounded-card border border-[rgba(58,56,50,0.10)] bg-white/55 p-6"
       noValidate
     >
+      <p className="mb-4 text-center text-sm lowercase text-[color:var(--text-body)]">
+        we&apos;ll send you a link
+      </p>
       <label className="block">
         <span className={labelClass}>Email</span>
         <input
@@ -210,17 +214,18 @@ export function LoginForm({
         />
       </label>
 
-      {rememberToggle}
       {errorBlock}
 
       <button
         type="submit"
         disabled={pending || email.trim().length === 0}
-        className="cta-primary mt-6 inline-flex h-12 w-full items-center justify-center px-7 text-sm md:text-base disabled:cursor-not-allowed disabled:opacity-60"
+        className="cta-primary mt-6 inline-flex h-12 w-full items-center justify-center px-7 text-sm lowercase md:text-base disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {pending ? 'Sending magic link…' : 'Send magic link'}
+        {pending ? 'sending…' : 'email me a link'}
         {!pending && <ArrowRight className="ml-2 h-4 w-4" aria-hidden />}
       </button>
+
+      {rememberToggle}
 
       <button
         type="button"
@@ -228,9 +233,9 @@ export function LoginForm({
           setMode('password');
           setError(null);
         }}
-        className="mt-5 block w-full text-center font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]"
+        className={quietLinkClass}
       >
-        Sign in with password instead
+        use password instead
       </button>
     </form>
   );

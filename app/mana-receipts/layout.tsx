@@ -6,7 +6,7 @@ import { Cormorant_Garamond, Lato, Space_Mono } from 'next/font/google';
  * (locked 2026-06-23): Cormorant Garamond display (incl. italic gold H1),
  * Lato body/UI, Space Mono eyebrows + labels. Scoped to this subtree via the
  * `--mana-*` CSS variables so it never touches the rest of the site fonts.
- * The global SiteHeader/Footer stay; this page carries the CANON canary + cream
+ * The global SiteHeader/Footer stay; this page carries the champagne-gold + cream
  * palette inline (see mana-receipts.module.css).
  */
 const cormorant = Cormorant_Garamond({

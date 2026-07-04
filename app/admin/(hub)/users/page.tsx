@@ -6,9 +6,9 @@ export const dynamic = 'force-dynamic';
 
 const ROLES = ['all', 'admin', 'business', 'pro', 'starter', 'free'];
 
-const ROLE_TONE: Record<string, 'ok' | 'warn' | 'bad' | 'canary' | 'neutral'> = {
+const ROLE_TONE: Record<string, 'ok' | 'warn' | 'bad' | 'gold' | 'neutral'> = {
   admin: 'bad',
-  business: 'canary',
+  business: 'gold',
   pro: 'ok',
   starter: 'warn',
   free: 'neutral',
@@ -44,8 +44,8 @@ export default async function UsersPage({
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 color: active ? C.ink : C.body,
-                background: active ? C.canary : C.cream,
-                border: `1px solid ${active ? C.canary : C.hairline}`,
+                background: active ? C.gold : C.cream,
+                border: `1px solid ${active ? C.gold : C.hairline}`,
                 borderRadius: 999,
                 padding: '6px 13px',
                 textDecoration: 'none',

@@ -7,7 +7,7 @@ import { updateTenant } from './actions';
 import {
   BODY,
   C,
-  CanaryButton,
+  GoldButton,
   Card,
   Eyebrow,
   Grid,
@@ -41,11 +41,11 @@ const input: CSSProperties = {
   boxSizing: 'border-box',
 };
 
-const STATUS_TONE: Record<string, 'ok' | 'warn' | 'neutral' | 'canary'> = {
+const STATUS_TONE: Record<string, 'ok' | 'warn' | 'neutral' | 'gold'> = {
   live: 'ok',
   pilot: 'ok',
   'concept-pending': 'warn',
-  concept: 'canary',
+  concept: 'gold',
   paused: 'warn',
   archived: 'neutral',
 };
@@ -154,7 +154,7 @@ export default async function TenantsPage() {
                     <input type="checkbox" name="demo_seed_enabled" defaultChecked={row.demo_seed_enabled} />
                     demo seed data
                   </label>
-                  <CanaryButton style={{ padding: '8px 16px' }}>Save</CanaryButton>
+                  <GoldButton style={{ padding: '8px 16px' }}>Save</GoldButton>
                 </form>
               )}
             </Card>

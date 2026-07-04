@@ -13,7 +13,7 @@ import {
 
 /**
  * Operator sign-in form — canvas styling (paper white, lowercase Cormorant
- * heading, tracked micro-labels, canary accent dot).
+ * heading, tracked micro-labels, gold accent dot).
  *
  * Reuses the proven server actions from /login (server-side PKCE — see
  * app/login/actions.ts), so the magic-link round-trip and the 90-day

@@ -4,7 +4,7 @@ import styles from './authChrome.module.css';
 /**
  * Canon header for signed-out auth surfaces (/login, /start/signup, /auth/*).
  *
- * Lowercase Cormorant `assembl` wordmark + canary pill-dash on the left (always
+ * Lowercase Cormorant `assembl` wordmark + gold pill-dash on the left (always
  * a link to `/` so a signed-out visitor can always get back to the homepage),
  * glass-pill nav on the right. Mirrors the homepage canon nav. The global
  * SiteHeader is suppressed on these routes (see site-header.tsx → isAuthSurface)

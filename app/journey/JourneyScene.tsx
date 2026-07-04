@@ -135,7 +135,7 @@ export function JourneyScene() {
               borderColor: PALETTE.hairline,
               backgroundColor: '#FFFBF2',
               backgroundImage:
-                'radial-gradient(rgba(199,155,31,0.10) 1px, transparent 1px), radial-gradient(rgba(58,56,50,0.04) 1px, transparent 1px)',
+                'radial-gradient(rgba(191,163,122,0.10) 1px, transparent 1px), radial-gradient(rgba(58,56,50,0.04) 1px, transparent 1px)',
               backgroundSize: '22px 22px, 11px 11px',
               backgroundPosition: '0 0, 6px 6px',
             }}
@@ -160,7 +160,7 @@ export function JourneyScene() {
                       height: 30,
                       backgroundColor: reached ? PALETTE.accentGold : '#FFFBF2',
                       border: `2.5px solid ${isCurrent ? PALETTE.ink : reached ? PALETTE.gold : PALETTE.hairline}`,
-                      boxShadow: isCurrent ? '0 0 0 4px rgba(255,212,42,0.35)' : 'none',
+                      boxShadow: isCurrent ? '0 0 0 4px rgba(191,163,122,0.35)' : 'none',
                       color: PALETTE.ink,
                     }}
                   >

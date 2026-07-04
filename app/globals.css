@@ -1,11 +1,11 @@
 /**
- * assembl — canary brand design system
- * Palette: canary #BFA37A · charcoal #3A3832 · body #56544B · cream #FFF7EC
- *          paper white #FFFFFF · hairline #EFEADC · gold eyebrows #C79B1F
+ * assembl — champagne-gold brand design system (DIRECTION-LOCKED-2026-07-01)
+ * Palette: champagne gold #BFA37A · charcoal #3A3832 · body #56544B · cream #FFF7EC
+ *          paper white #FFFFFF · hairline #EFEADC · gold eyebrows #BFA37A
  * Type: Cormorant Garamond (display/wordmark/headlines) + Lato (body/UI) +
  *       Space Mono (labels). Lowercase assembl wordmark. (dash brand = Lato.)
  * Light theme only.
- * Updated: 2026-06-23 — sitewide canary retheme (was Evidence Vessel pounamu)
+ * Updated: 2026-07-03 — bright-yellow accent retired sitewide; champagne gold #BFA37A is the accent
  */
 
 @tailwind base;
@@ -34,13 +34,13 @@
     --secondary-foreground: 45 7% 21%;
     --muted: 44 37% 90%;
     --muted-foreground: 49 7% 32%;     /* body #56544B */
-    --accent: 48 100% 58%;             /* canary #BFA37A — highlight/CTA pop */
-    --accent-foreground: 45 7% 21%;    /* charcoal sits ON canary, never white */
+    --accent: 36 35% 61%;              /* champagne gold #BFA37A — highlight/CTA pop */
+    --accent-foreground: 45 7% 21%;    /* charcoal sits ON gold, never white */
     --destructive: 0 50% 50%;
     --destructive-foreground: 0 0% 100%;
     --border: 44 37% 90%;              /* hairline #EFEADC */
     --input: 44 37% 90%;
-    --ring: 45 7% 21%;                 /* charcoal focus ring (canary too pale to ring) */
+    --ring: 45 7% 21%;                 /* charcoal focus ring (gold too pale to ring) */
     --radius: 24px;
 
     --assembl-paper: #FFF7EC;           /* base canvas — cream */
@@ -51,22 +51,22 @@
     --assembl-taupe: #EFEADC;
     --assembl-taupe-deep: #3A3832;
 
-    /* CANARY — brand pop (CTA fills, highlights, underlines). Charcoal text on top. */
-    --assembl-canary: #BFA37A;
-    --assembl-canary-soft: #FFE894;     /* pale wash */
-    --assembl-canary-deep: #E6BD16;     /* hover on canary fills */
+    /* CHAMPAGNE GOLD — brand pop (CTA fills, highlights, underlines). Charcoal text on top. */
+    --assembl-gold: #BFA37A;
+    --assembl-gold-soft: #EDE3CB;     /* pale wash */
+    --assembl-gold-deep: #A88A5E;     /* hover on gold fills */
 
     /* CHARCOAL — primary interactive ink. The former pounamu tokens now map here
        so every focus ring, link, and solid CTA inherits the new ink in one move. */
     --assembl-pounamu: #3A3832;         /* alias → charcoal ink */
     --assembl-pounamu-deep: #23211F;    /* hover, deep accents */
     --assembl-pounamu-soft: #D9D3C5;    /* subtle warm wash (was sage tint) */
-    --assembl-pounamu-paper: #FBF3DF;   /* very pale canary tint for bg */
+    --assembl-pounamu-paper: #FBF3DF;   /* very pale gold tint for bg */
     --assembl-sage-mist: #3A3832;       /* alias — kept for backwards compat */
 
     /* GOLD — eyebrows, hairlines, chapter numerals (readable gold-on-cream) */
-    --assembl-gold-thread: #C79B1F;     /* gold eyebrows */
-    --assembl-soft-gold: #C79B1F;       /* alias — kept for backwards compat */
+    --assembl-gold-thread: #BFA37A;     /* gold eyebrows */
+    --assembl-soft-gold: #BFA37A;       /* alias — kept for backwards compat */
 
     --text-primary: #3A3832;            /* charcoal — headings */
     --text-secondary: #56544B;          /* body muted */
@@ -215,7 +215,7 @@
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 48%),
       radial-gradient(circle at 24% 0%, rgba(255, 255, 255, 0.45), transparent 38%),
-      linear-gradient(135deg, #BFA37A 0%, #FBC81E 52%, #E6BD16 100%);
+      linear-gradient(135deg, #BFA37A 0%, #C8A876 52%, #A88A5E 100%);
     color: #3A3832;
     border: 1px solid rgba(58, 56, 50, 0.14);
     border-radius: 999px;
@@ -224,7 +224,7 @@
     letter-spacing: 0.01em;
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.5),
-      inset 0 -12px 30px rgba(230, 189, 22, 0.22),
+      inset 0 -12px 30px rgba(138, 107, 78, 0.22),
       0 14px 34px rgba(58, 56, 50, 0.16),
       0 2px 0 rgba(255, 255, 255, 0.22);
     backdrop-filter: blur(18px);
@@ -246,7 +246,7 @@
   .cta-primary:hover {
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      inset 0 -12px 30px rgba(230, 189, 22, 0.16),
+      inset 0 -12px 30px rgba(138, 107, 78, 0.16),
       0 20px 48px rgba(58, 56, 50, 0.22),
       0 0 0 1px rgba(58, 56, 50, 0.12);
     transform: translateY(-2px);
@@ -283,7 +283,7 @@
   }
 
   /* Charcoal-fill pill — editorial charcoal + cream CTA used by some
-     marketplace-direction surfaces, distinct from the canary .cta-primary. */
+     marketplace-direction surfaces, distinct from the champagne-gold .cta-primary. */
   .cta-charcoal {
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 focus-visible:-translate-y-0.5;
     background: #3A3832;
@@ -305,9 +305,9 @@
 
   /* Gold eyebrow/chip — readable gold-on-cream */
   .badge-gold {
-    background: rgba(199, 155, 31, 0.12);
+    background: rgba(191, 163, 122, 0.12);
     color: #8A6B12;
-    border: 1px solid rgba(199, 155, 31, 0.28);
+    border: 1px solid rgba(191, 163, 122, 0.28);
     border-radius: 16px;
     padding: 4px 12px;
     font-size: 0.75rem;
@@ -315,10 +315,10 @@
     letter-spacing: 0.02em;
   }
 
-  /* Canary chip — the brand pop. Charcoal ink on a pale canary wash.
+  /* Gold chip — the brand pop. Charcoal ink on a pale champagne wash.
      (Legacy class name kept so existing markup picks up the new look.) */
   .badge-sage {
-    background: rgba(255, 212, 42, 0.18);
+    background: rgba(191, 163, 122, 0.18);
     color: #3A3832;
     border: 1px solid rgba(58, 56, 50, 0.18);
     border-radius: 16px;
@@ -333,7 +333,7 @@
       135deg,
       #23211F 0%,
       #3A3832 55%,
-      #C79B1F 100%
+      #BFA37A 100%
     );
     -webkit-background-clip: text;
     background-clip: text;

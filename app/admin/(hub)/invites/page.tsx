@@ -7,7 +7,7 @@ import { CopyLinkButton } from './CopyLinkButton';
 import {
   BODY,
   C,
-  CanaryButton,
+  GoldButton,
   Card,
   Empty,
   Eyebrow,
@@ -114,7 +114,7 @@ export default async function InvitesPage({
       )}
 
       {createdInvite && (
-        <Card style={{ padding: '16px 20px', marginTop: 14, border: `1.5px solid ${C.canary}` }}>
+        <Card style={{ padding: '16px 20px', marginTop: 14, border: `1.5px solid ${C.gold}` }}>
           <Eyebrow style={{ marginBottom: 6 }}>New link minted</Eyebrow>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
             <span style={{ fontFamily: MONO, fontSize: 13, color: C.ink, wordBreak: 'break-all' }}>
@@ -174,7 +174,7 @@ export default async function InvitesPage({
             <input name="notes" placeholder="friend — family pilot intro" style={input} />
           </label>
           <div>
-            <CanaryButton>mint link</CanaryButton>
+            <GoldButton>mint link</GoldButton>
           </div>
         </form>
       </Card>
@@ -231,7 +231,7 @@ export default async function InvitesPage({
                 </td>
                 <td style={td}>{i.recipient_company}</td>
                 <td style={td}>
-                  <Pill tone="canary">{demoName(i.demo)}</Pill>
+                  <Pill tone="gold">{demoName(i.demo)}</Pill>
                 </td>
                 <td style={{ ...td, ...smallMono }}>{nzDate(i.created_at, false)}</td>
                 <td style={td}>
