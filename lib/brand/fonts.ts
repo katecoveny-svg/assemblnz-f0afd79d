@@ -1,4 +1,5 @@
 import {
+  Archivo_Black,
   Cormorant_Garamond,
   Fraunces,
   Inter,
@@ -6,8 +7,10 @@ import {
   JetBrains_Mono,
   Lato,
   Manrope,
+  Montserrat,
   Orbitron,
   Playfair_Display,
+  Public_Sans,
 } from 'next/font/google';
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font/dist/types';
 
@@ -24,11 +27,6 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 // Per-brand display / specialty fonts.
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  variable: '--font-brand-display',
-  display: 'swap',
-});
 const interTight = Inter_Tight({
   subsets: ['latin'],
   variable: '--font-brand-display',
@@ -71,6 +69,36 @@ const lato = Lato({
   weight: ['400', '700'],
 });
 
+// HAPPY TAILS: real brand font on happytailsdaycare.co.nz is Murs Gothic Wide
+// Bold (headings) + Public Sans 500 (body), read from the site's computed CSS
+// 2026-07-02. Murs Gothic is Wix-licensed and can't ship here — Archivo Black
+// is the closest free wide-bold-grotesque stand-in. Public Sans is exact.
+const archivoBlack = Archivo_Black({
+  subsets: ['latin'],
+  variable: '--font-brand-display',
+  display: 'swap',
+  weight: ['400'],
+});
+const publicSans = Public_Sans({
+  subsets: ['latin'],
+  variable: '--font-brand-body',
+  display: 'swap',
+  weight: ['400', '500', '700'],
+});
+
+// TOA ARCHITECTS: real site (toa.nz) sets Gotham Book/Bold uppercase headings
+// with wide tracking + Archer Book slab body, read from computed CSS
+// 2026-07-04. Both are licensed (Hoefler) and can't ship here — Montserrat is
+// the standard free geometric-sans stand-in for Gotham; Public Sans (exact
+// weights already loaded) carries body/UI copy. Tracking + uppercase live in
+// the components, not the font.
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-brand-display',
+  display: 'swap',
+  weight: ['300', '500', '700'],
+});
+
 // Air NZ needs Fraunces Italic 900 as body per brief.
 const frauncesItalicBody = Fraunces({
   subsets: ['latin'],
@@ -94,7 +122,7 @@ export type BrandFonts = {
 export function getBrandFonts(slug: string): BrandFonts {
   switch (slug) {
     case 'happy-tails':
-      return { display: fraunces, body: inter, mono: jetbrainsMono };
+      return { display: archivoBlack, body: publicSans, mono: jetbrainsMono };
     case 'air-nz':
       return { display: interTight, body: frauncesItalicBody, mono: jetbrainsMono };
     case 'everyday-rewards':
@@ -105,6 +133,8 @@ export function getBrandFonts(slug: string): BrandFonts {
       return { display: orbitron, body: lato, mono: jetbrainsMono };
     case 'lula-inn':
       return { display: cormorant, body: inter, mono: jetbrainsMono };
+    case 'toa-architects':
+      return { display: montserrat, body: publicSans, mono: jetbrainsMono };
     default:
       return { display: inter, body: inter, mono: jetbrainsMono };
   }

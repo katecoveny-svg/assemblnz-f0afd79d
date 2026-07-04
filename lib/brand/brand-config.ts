@@ -14,6 +14,7 @@ export const Hero3DSceneId = z.enum([
   'auckland-zoo',
   'aironaut',
   'lula-inn',
+  'toa-architects',
 ]);
 export type Hero3DSceneId = z.infer<typeof Hero3DSceneId>;
 
@@ -44,6 +45,12 @@ export const BrandConfigSchema = z.object({
     src: z.string().min(1),
     darkSrc: z.string().optional(),
     alt: z.string().min(1),
+    /**
+     * True when `src` is a wide wordmark lockup rather than a square mark.
+     * The ops header renders wordmarks at natural aspect (no 40×40 chip) and
+     * suppresses the duplicate displayName text beside them.
+     */
+    wordmark: z.boolean().optional(),
   }),
   mascot: z
     .object({
@@ -135,6 +142,26 @@ export const BrandConfigSchema = z.object({
    * surface renders a brand-styled CTA button. Optional.
    */
   ctaLabel: z.string().min(1).optional(),
+  /**
+   * Optional sidebar nav override — English-led, customer-specific labels
+   * (e.g. Happy Tails' "Enrolments · Welcome Packs · Xero"). Each href is a
+   * path segment under `/customers/<slug>/ops/`. Brands without an override
+   * fall back to the shared default nav in OpsShell.
+   */
+  nav: z
+    .array(
+      z.object({
+        label: z.string().min(1),
+        href: z.string().min(1),
+      }),
+    )
+    .optional(),
+  /**
+   * Optional pre-composited hero image (public path). When set, dashboard
+   * landings can render this static composition instead of the 3D scene —
+   * used by Happy Tails' Franklin composite.
+   */
+  heroImage: z.string().min(1).optional(),
 });
 
 export type BrandConfig = z.infer<typeof BrandConfigSchema>;

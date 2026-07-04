@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assembl 4D Walkthrough — 16A Hubert Henderson Place</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --paper: #FAF7F2; --ink: #23211F; --accent: #2B6B57; --clay: #AC5838;
+  --mist: #E8E4DE; --shadow: #B8B2A8;
+  --kete-pounamu: #2B6B57; --kete-kokowai: #AC5838; --kete-karaka: #D4842A;
+  --kete-kikorangi: #3B7CB5; --kete-kahurangi: #5B4FA0; --kete-waiporoporo: #7B3F8F;
+  --kete-parauri: #6B5843; --kete-mangu: #23211F;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--ink); color: var(--ink); overflow: hidden; height: 100vh; }
+
+/* Sparkle animation */
+@keyframes sparkle { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
+.sparkle::after { content:'✦'; position:absolute; top:-2px; right:-10px; font-size:8px; color:var(--clay); animation:sparkle 2.5s ease-in-out infinite; }
+#canvas-container { width: 100%; height: 100vh; position: relative; }
+canvas#main-canvas { display: block; }
+
+/* Vignette overlay */
+.vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(35,33,31,0.3) 100%); }
+
+/* Top bar */
+.top-bar { position: absolute; top: 0; left: 0; right: 0;
+  background: var(--paper); border-bottom: 1px solid var(--mist);
+  padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; z-index: 10;
+  box-shadow: 0 1px 8px rgba(35,33,31,0.08); }
+.top-bar h1 { color: var(--ink); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 15px; font-weight: 600; letter-spacing: 1px; }
+.top-bar .subtitle { color: var(--clay); font-size: 11px; margin-top: 2px; font-weight: 400; }
+.top-bar .logo { color: var(--accent); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; font-weight: 700; position: relative; }
+.top-bar .logo::after { content:'✦'; font-size:9px; color:var(--clay); margin-left:3px; vertical-align:super; animation:sparkle 2.5s ease-in-out infinite; }
+
+/* Controls */
+.controls { position: absolute; top: 56px; right: 16px; display: flex; flex-direction: column; gap: 5px; z-index: 10; }
+.ctrl-btn { background: var(--paper); color: var(--ink); border: 1px solid var(--mist);
+  padding: 6px 12px; border-radius: 8px; font-size: 10px; cursor: pointer;
+  transition: all 0.25s ease; white-space: nowrap; font-family: 'Inter', sans-serif; font-weight: 500;
+  box-shadow: 0 1px 4px rgba(35,33,31,0.06); }
+.ctrl-btn:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.ctrl-btn.active { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.ctrl-btn.walk-btn { background: var(--clay); color: var(--paper); border-color: var(--clay); font-size: 11px; font-weight: 700; }
+.ctrl-btn.walk-btn:hover { background: #934A2E; }
+.ctrl-btn.walk-btn.active { background: var(--clay); animation: walkPulse 2s infinite; }
+@keyframes walkPulse { 0%,100%{box-shadow:0 0 0 0 rgba(172,88,56,0.4)} 50%{box-shadow:0 0 12px 4px rgba(172,88,56,0.2)} }
+.ctrl-btn.export-btn { background: var(--clay); color: var(--paper); border-color: var(--clay); }
+
+/* Walkthrough HUD */
+.walk-hud { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; z-index: 8; display: none; }
+.walk-hud .crosshair { width: 24px; height: 24px; border: 2px solid rgba(250,247,242,0.4); border-radius: 50%; }
+.walk-hud .crosshair::before, .walk-hud .crosshair::after { content: ''; position: absolute; background: rgba(250,247,242,0.4); }
+.walk-hud .crosshair::before { width: 2px; height: 8px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.walk-hud .crosshair::after { width: 8px; height: 2px; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+.walk-instructions { position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%);
+  background: var(--paper); border: 1px solid var(--mist); padding: 12px 24px; border-radius: 10px;
+  z-index: 12; display: none; text-align: center; box-shadow: 0 4px 20px rgba(35,33,31,0.12); }
+.walk-instructions p { font-size: 12px; color: var(--ink); margin-bottom: 4px; }
+.walk-instructions .keys { display: flex; gap: 6px; justify-content: center; margin-top: 8px; }
+.walk-instructions .key { background: rgba(43,107,87,0.08); padding: 4px 10px; border-radius: 4px;
+  font-size: 11px; font-weight: 700; color: var(--accent); border: 1px solid rgba(43,107,87,0.2); }
+
+/* Speed control */
+.speed-control { position: absolute; bottom: 16px; right: 16px;
+  background: var(--paper); border: 1px solid var(--mist); border-radius: 10px;
+  padding: 10px 16px; z-index: 12; display: none; box-shadow: 0 2px 12px rgba(35,33,31,0.08); }
+.speed-control label { color: var(--ink); font-size: 10px; display: block; margin-bottom: 4px; font-weight: 500; }
+.speed-control input[type=range] { width: 120px; accent-color: var(--clay); }
+.speed-label { color: var(--clay); font-size: 11px; font-weight: 700; text-align: center; }
+
+/* Minimap */
+.minimap { position: absolute; bottom: 80px; right: 16px; z-index: 10;
+  background: var(--paper); border: 1px solid var(--mist); border-radius: 8px;
+  overflow: hidden; display: none; box-shadow: 0 2px 12px rgba(35,33,31,0.08); }
+.minimap canvas { display: block; }
+.minimap-label { position: absolute; top: 4px; left: 6px; font-size: 8px; color: var(--shadow);
+  text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+
+/* Timeline */
+.timeline-bar { position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--paper); border-top: 2px solid var(--accent);
+  padding: 8px 24px 12px; z-index: 12; display: none; box-shadow: 0 -2px 12px rgba(35,33,31,0.06); }
+.timeline-bar.visible { display: block; }
+.timeline-phases { display: flex; justify-content: space-between; margin-bottom: 4px; }
+.timeline-phase { font-size: 9px; color: var(--shadow); text-transform: uppercase;
+  letter-spacing: 0.3px; text-align: center; flex: 1; cursor: pointer;
+  padding: 3px 2px; border-radius: 4px; transition: all 0.2s; font-weight: 500; }
+.timeline-phase.active { color: var(--paper); background: var(--accent); font-weight: 700; }
+.timeline-phase.completed { color: var(--accent); font-weight: 600; }
+.timeline-slider { width: 100%; accent-color: var(--accent); }
+.timeline-label { color: var(--clay); font-size: 11px; font-weight: 600; text-align: center; margin-top: 2px; }
+.timeline-play-btn { position: absolute; right: 24px; top: 8px; background: var(--paper); border: 1px solid var(--accent);
+  color: var(--accent); padding: 2px 10px; border-radius: 4px; font-size: 10px; cursor: pointer; font-weight: 600; }
+.timeline-play-btn:hover { background: var(--accent); color: var(--paper); }
+
+/* Sun controls */
+.sun-controls { position: absolute; top: 56px; left: 16px;
+  background: var(--paper); border: 1px solid var(--mist);
+  border-radius: 10px; padding: 10px 14px; z-index: 10; display: none; min-width: 200px;
+  box-shadow: 0 2px 12px rgba(35,33,31,0.08); }
+.sun-controls.visible { display: block; }
+.sun-controls label { color: var(--ink); font-size: 10px; display: block; margin-bottom: 4px; font-weight: 500; }
+.sun-controls input[type=range] { width: 100%; accent-color: var(--clay); margin-bottom: 4px; }
+.sun-time { color: var(--clay); font-size: 12px; font-weight: 700; text-align: center; margin-bottom: 4px;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-size: 14px; }
+.sun-btns { display: flex; gap: 4px; }
+.sun-btns button { flex: 1; background: rgba(43,107,87,0.06); color: var(--ink); border: 1px solid var(--mist);
+  padding: 4px 6px; border-radius: 6px; font-size: 10px; cursor: pointer; font-weight: 500; }
+.sun-btns button:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+/* Heatmap legend */
+.heatmap-legend { position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  background: var(--paper); border: 1px solid var(--mist);
+  border-radius: 10px; padding: 12px; z-index: 10; display: none; box-shadow: 0 2px 12px rgba(35,33,31,0.08); }
+.heatmap-legend.visible { display: block; }
+.heatmap-legend h4 { color: var(--ink); font-size: 10px; margin-bottom: 8px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.legend-item { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.legend-swatch { width: 12px; height: 12px; border-radius: 3px; }
+.legend-label { color: var(--ink); font-size: 10px; opacity: 0.7; }
+
+/* Info panel */
+.info-panel { position: absolute; bottom: 12px; left: 12px; right: 12px;
+  background: var(--paper); border: 1px solid var(--mist);
+  border-radius: 12px; padding: 0; z-index: 10; max-height: 42vh; overflow: hidden;
+  transition: max-height 0.3s ease; box-shadow: 0 4px 24px rgba(35,33,31,0.1); }
+.info-panel.collapsed { max-height: 44px; }
+.info-panel.timeline-active { bottom: 64px; }
+.panel-header { padding: 10px 18px; display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; border-bottom: 1px solid var(--mist); }
+.panel-header h2 { color: var(--ink); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; }
+.panel-toggle { color: var(--clay); font-size: 16px; cursor: pointer; background: none; border: none; }
+.panel-content { padding: 14px 18px; overflow-y: auto; max-height: 35vh; }
+.tabs { display: flex; gap: 3px; margin-bottom: 10px; flex-wrap: wrap; }
+.tab { padding: 5px 10px; border-radius: 6px; font-size: 9px; font-weight: 600;
+  cursor: pointer; background: rgba(35,33,31,0.04); color: var(--shadow);
+  border: 1px solid transparent; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s; }
+.tab:nth-child(1).active { background: var(--kete-pounamu); color: var(--paper); }
+.tab:nth-child(2).active { background: var(--kete-kokowai); color: var(--paper); }
+.tab:nth-child(3).active { background: var(--kete-kikorangi); color: var(--paper); }
+.tab:nth-child(4).active { background: var(--kete-kahurangi); color: var(--paper); }
+.tab:hover:not(.active) { background: rgba(35,33,31,0.06); color: var(--ink); }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* Compliance table */
+.compliance-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.compliance-table th { color: var(--clay); text-align: left; padding: 5px 6px; font-size: 9px;
+  text-transform: uppercase; border-bottom: 1px solid var(--mist); font-weight: 600; }
+.compliance-table td { color: var(--ink); padding: 5px 6px; border-bottom: 1px solid rgba(232,228,222,0.5); }
+.status-pass { color: #4CAF50; font-weight: 600; }
+.status-warn { color: #FF9800; font-weight: 600; }
+.status-fail { color: #f44336; font-weight: 600; }
+.status-review { color: #AC5838; font-weight: 600; }
+
+/* Te Aranga */
+.te-aranga-item { padding: 6px 0; border-bottom: 1px solid rgba(232,228,222,0.5); }
+.te-aranga-item h4 { color: var(--accent); font-size: 11px; margin-bottom: 3px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 13px; font-weight: 600; }
+.te-aranga-item p { color: var(--ink); opacity: 0.7; font-size: 10px; line-height: 1.5; }
+
+/* Spec sections */
+.spec-section { border-bottom: 1px solid rgba(232,228,222,0.5); }
+.spec-header { padding: 6px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.spec-header:hover { background: rgba(43,107,87,0.04); border-radius: 4px; }
+.spec-header h4 { color: var(--ink); font-size: 11px; font-weight: 600; }
+.spec-header .spec-ref { color: var(--clay); font-size: 9px; }
+.spec-header .spec-status { font-size: 9px; font-weight: 600; }
+.expand-icon { color: var(--accent); font-size: 12px; transition: transform 0.2s; }
+.spec-detail { display: none; padding: 6px 0 10px 10px; border-left: 2px solid var(--accent); margin-left: 4px; }
+.spec-detail.expanded { display: block; }
+.spec-detail h5 { color: var(--accent); font-size: 10px; margin: 6px 0 3px; text-transform: uppercase; font-weight: 600; }
+.spec-detail p { color: var(--ink); opacity: 0.7; font-size: 10px; line-height: 1.5; margin-bottom: 3px; }
+
+/* Element info popup */
+.element-info { position: absolute; display: none;
+  background: var(--paper); border: 1px solid var(--accent);
+  border-radius: 10px; padding: 14px; min-width: 260px; z-index: 20;
+  box-shadow: 0 4px 20px rgba(35,33,31,0.12); }
+.element-info h3 { color: var(--accent); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 14px; margin-bottom: 6px; font-weight: 600; }
+.element-info p { color: var(--ink); font-size: 11px; line-height: 1.5; margin-bottom: 3px; }
+.element-info .code-ref { color: var(--clay); font-size: 10px; font-style: italic; }
+
+/* Auth watermark */
+.auth-mark { position: absolute; bottom: 12px; right: 12px;
+  color: rgba(43,107,87,0.25); font-size: 8px; text-align: right; line-height: 1.4; z-index: 5;
+  font-family: 'Inter', sans-serif; font-weight: 500; }
+
+/* Walk mode indicator */
+.walk-indicator { position: absolute; top: 56px; left: 50%; transform: translateX(-50%);
+  background: var(--clay); color: var(--paper); padding: 6px 18px; border-radius: 16px;
+  font-size: 11px; font-weight: 600; display: none; z-index: 15; letter-spacing: 0.5px;
+  box-shadow: 0 2px 12px rgba(172,88,56,0.3); }
+
+/* Flythrough indicator */
+.flythrough-indicator { position: absolute; top: 56px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: var(--paper); padding: 6px 18px; border-radius: 16px;
+  font-size: 11px; font-weight: 600; display: none; z-index: 15; animation: pulse 2s infinite;
+  box-shadow: 0 2px 12px rgba(43,107,87,0.3); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+/* North arrow SVG */
+.north-arrow { position: absolute; top: 56px; left: 16px; z-index: 10; width: 40px; height: 40px; }
+</style>
+</head>
+<body>
+<div id="canvas-container">
+  <div class="vignette"></div>
+
+  <div class="top-bar">
+    <div>
+      <h1>16A HUBERT HENDERSON PLACE — 4D WALKTHROUGH</h1>
+      <div class="subtitle">BIM Model — AUP H4 Mixed Housing Suburban — 4 Residential Units</div>
+    </div>
+    <div class="logo">ASSEMBL ADVISORY</div>
+  </div>
+
+  <!-- North arrow -->
+  <svg class="north-arrow" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="20" r="18" fill="rgba(250,247,242,0.9)" stroke="#2B6B57" stroke-width="1.5"/>
+    <polygon points="20,6 24,22 20,18 16,22" fill="#AC5838"/>
+    <polygon points="20,34 24,22 20,26 16,22" fill="rgba(250,247,242,0.3)"/>
+    <text x="20" y="15" text-anchor="middle" fill="#23211F" font-size="8" font-weight="700" font-family="Inter,sans-serif">N</text>
+  </svg>
+
+  <div class="controls">
+    <button class="ctrl-btn walk-btn" onclick="toggleWalkMode()" id="btn-walk">Walk Through</button>
+    <button class="ctrl-btn" onclick="startAutoWalk()" id="btn-auto">Auto Walk</button>
+    <button class="ctrl-btn" onclick="toggleOrbitMode()" id="btn-orbit">Orbit View</button>
+    <button class="ctrl-btn" onclick="toggleTimeline()" id="btn-timeline">4D Sequence</button>
+    <button class="ctrl-btn" onclick="toggleHeatmap()" id="btn-heatmap">Compliance Heatmap</button>
+    <button class="ctrl-btn" onclick="toggleSunPath()" id="btn-sun">Sun Path</button>
+    <button class="ctrl-btn" onclick="toggleWireframe()" id="btn-wireframe">Wireframe</button>
+    <button class="ctrl-btn" onclick="toggleMinimap()" id="btn-minimap">Minimap</button>
+    <button class="ctrl-btn" onclick="resetCamera()">Reset View</button>
+    <button class="ctrl-btn export-btn" onclick="exportReport()">Export Report</button>
+  </div>
+
+  <!-- Walk mode indicators -->
+  <div class="walk-indicator" id="walk-indicator">FIRST PERSON — Click to look · WASD to move · ESC to exit</div>
+  <div class="flythrough-indicator" id="fly-indicator">AUTO WALKTHROUGH — Click to stop</div>
+
+  <div class="walk-hud" id="walk-hud">
+    <div class="crosshair"></div>
+  </div>
+
+  <div class="walk-instructions" id="walk-instructions">
+    <p style="color:var(--accent);font-weight:700;font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;">First Person Walkthrough</p>
+    <p>Click the viewport to lock your mouse and look around</p>
+    <div class="keys">
+      <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span>
+      <span class="key" style="padding:4px 8px;">SHIFT = Run</span>
+      <span class="key" style="padding:4px 8px;">ESC = Exit</span>
+    </div>
+  </div>
+
+  <!-- Speed control -->
+  <div class="speed-control" id="speed-control">
+    <label>Walk Speed</label>
+    <input type="range" id="speed-slider" min="0.5" max="5" step="0.1" value="2" oninput="walkSpeed=parseFloat(this.value);document.getElementById('speed-val').textContent=this.value+'x'">
+    <div class="speed-label" id="speed-val">2x</div>
+  </div>
+
+  <!-- Minimap -->
+  <div class="minimap" id="minimap-container">
+    <span class="minimap-label">PLAN</span>
+    <canvas id="minimap-canvas" width="180" height="180"></canvas>
+  </div>
+
+  <!-- Sun controls -->
+  <div class="sun-controls" id="sun-controls">
+    <div class="sun-time" id="sun-time-display">12:00 PM</div>
+    <label>Time of Day</label>
+    <input type="range" id="sun-slider" min="5" max="21" step="0.1" value="12" oninput="updateSunFromSlider(this.value)">
+    <label>Month</label>
+    <input type="range" id="sun-month" min="1" max="12" step="1" value="6" oninput="updateSunMonth(this.value)">
+    <div style="color:var(--shadow);font-size:9px;text-align:center;margin-top:2px" id="sun-date-display">June</div>
+    <div class="sun-btns">
+      <button onclick="setSunPreset('morning')">AM</button>
+      <button onclick="setSunPreset('noon')">Noon</button>
+      <button onclick="setSunPreset('evening')">PM</button>
+      <button onclick="playSunAnimation()" id="btn-sun-play">▶</button>
+    </div>
+  </div>
+
+  <!-- Heatmap legend -->
+  <div class="heatmap-legend" id="heatmap-legend">
+    <h4>Compliance</h4>
+    <div class="legend-item"><div class="legend-swatch" style="background:#4CAF50"></div><span class="legend-label">Compliant</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#FF9800"></div><span class="legend-label">Needs Review</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#f44336"></div><span class="legend-label">Non-Compliant</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#9C27B0"></div><span class="legend-label">Missing Spec</span></div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="timeline-bar" id="timeline-bar">
+    <div class="timeline-phases" id="timeline-phases">
+      <div class="timeline-phase" data-phase="0">Excavation</div>
+      <div class="timeline-phase" data-phase="1">Foundations</div>
+      <div class="timeline-phase" data-phase="2">Structure</div>
+      <div class="timeline-phase" data-phase="3">Envelope</div>
+      <div class="timeline-phase" data-phase="4">Fit-Out</div>
+      <div class="timeline-phase active" data-phase="5">Complete</div>
+    </div>
+    <input type="range" class="timeline-slider" id="timeline-slider" min="0" max="5" step="0.01" value="5" oninput="updateConstruction(parseFloat(this.value))">
+    <div class="timeline-label" id="timeline-label">Phase 6 of 6 — Complete</div>
+    <button class="timeline-play-btn" id="btn-tl-play" onclick="toggleTimelinePlay()">▶ Play</button>
+  </div>
+
+  <!-- Element info -->
+  <div class="element-info" id="element-info">
+    <h3 id="ei-title"></h3>
+    <p id="ei-desc"></p>
+    <p class="code-ref" id="ei-code"></p>
+  </div>
+
+  <!-- Info panel -->
+  <div class="info-panel collapsed" id="info-panel">
+    <div class="panel-header" onclick="togglePanel()">
+      <h2>COMPLIANCE AUDIT & TIKANGA REVIEW</h2>
+      <button class="panel-toggle" id="panel-toggle">▲</button>
+    </div>
+    <div class="panel-content">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('compliance',this)">Code Compliance</button>
+        <button class="tab" onclick="switchTab('tikanga',this)">Te Aranga</button>
+        <button class="tab" onclick="switchTab('spec',this)">Specifications</button>
+        <button class="tab" onclick="switchTab('auth',this)">Authenticate</button>
+      </div>
+      <div class="tab-pane active" id="tab-compliance">
+        <table class="compliance-table">
+          <tr><th>Element</th><th>Code</th><th>Requirement</th><th>Status</th></tr>
+          <tr><td>Building Height</td><td>AUP H4.6.6</td><td>Max 8m</td><td class="status-pass">PASS — 7.2m</td></tr>
+          <tr><td>HIRB</td><td>AUP H4.6.7</td><td>2.5m+45°</td><td class="status-pass">PASS</td></tr>
+          <tr><td>Site Coverage</td><td>AUP H4.6.8</td><td>Max 40%</td><td class="status-warn">CHECK — 38.2%</td></tr>
+          <tr><td>Landscaped Area</td><td>AUP H4.6.9</td><td>Min 40%</td><td class="status-warn">CHECK — 41.1%</td></tr>
+          <tr><td>Front Setback</td><td>AUP H4.6.10</td><td>Min 3m</td><td class="status-pass">PASS — 4.5m</td></tr>
+          <tr><td>Side Setback</td><td>AUP H4.6.11</td><td>Min 1m</td><td class="status-pass">PASS — 1.2m</td></tr>
+          <tr><td>Outdoor Living</td><td>AUP H4.6.14</td><td>40m², 4m dim</td><td class="status-pass">PASS</td></tr>
+          <tr><td>Cladding</td><td>E2/AS1</td><td>Risk ≤ 12</td><td class="status-review">NEEDS SPEC</td></tr>
+          <tr><td>Bracing</td><td>B1/AS1</td><td>Schedule req'd</td><td class="status-review">NEEDS SPEC</td></tr>
+          <tr><td>Energy</td><td>H1/AS1 6th</td><td>Schedule method</td><td class="status-review">NEEDS SPEC</td></tr>
+          <tr><td>Weathertightness</td><td>E2/AS1 4th</td><td>Risk assessment</td><td class="status-fail">MISSING</td></tr>
+        </table>
+      </div>
+      <div class="tab-pane" id="tab-tikanga">
+        <div class="te-aranga-item"><h4>Mana — Authority</h4><p>Within rohe of Ngāti Whātua Ōrākei. Mana whenua engagement recommended.</p></div>
+        <div class="te-aranga-item"><h4>Whakapapa — Identity</h4><p>Remuera, Waitākere context. Orientation to ancestral landmarks.</p></div>
+        <div class="te-aranga-item"><h4>Taiao — Environment</h4><p>Native planting: pōhutukawa, tī kōuka, harakeke, kawakawa.</p></div>
+        <div class="te-aranga-item"><h4>Mauri Tū — Health</h4><p>Minimise embodied carbon. NZ FSC timber. Passive solar.</p></div>
+        <div class="te-aranga-item"><h4>Mahi Toi — Expression</h4><p>Cultural narratives in fence design and entry thresholds.</p></div>
+        <div class="te-aranga-item"><h4>Tohu — Wayshowing</h4><p>Clear wayshowing with cultural naming.</p></div>
+        <div class="te-aranga-item"><h4>Ahi Kā — Presence</h4><p>Community connection through shared outdoor spaces.</p></div>
+      </div>
+      <div class="tab-pane" id="tab-spec">
+        <div class="spec-section"><div class="spec-header" onclick="toggleSpec('foundations')"><div><h4>Foundations</h4><span class="spec-ref">Masterspec 2210</span></div><div style="display:flex;align-items:center;gap:6px"><span class="spec-status status-review">Draft</span><span class="expand-icon" id="icon-foundations">▶</span></div></div><div class="spec-detail" id="detail-foundations"><h5>Part 1 — General</h5><p>Concrete foundations to NZS 3604:2011. fc' = 17.5 MPa min. Zone Factor Z = 0.13 (Auckland).</p><h5>Part 2 — Products</h5><p>Ready-mix Grade 17.5 footings, Grade 25 exposed. Reinforcing Grade 300E. DPC 0.25mm PE.</p><h5>Part 3 — Execution</h5><p>Excavate to solid bearing. 100mm hardfill. 75mm cover. Cure 7 days min.</p></div></div>
+        <div class="spec-section"><div class="spec-header" onclick="toggleSpec('framing')"><div><h4>Timber Framing</h4><span class="spec-ref">Masterspec 2420</span></div><div style="display:flex;align-items:center;gap:6px"><span class="spec-status status-review">Draft</span><span class="expand-icon" id="icon-framing">▶</span></div></div><div class="spec-detail" id="detail-framing"><h5>Part 1 — General</h5><p>NZS 3604:2011. H1.2 walls/floors. H3.2 bottom plates.</p><h5>Part 2 — Products</h5><p>MSG8 radiata. 90×45 studs at 600crs. 190×45 lintels.</p><h5>Part 3 — Execution</h5><p>Pre-nail on flat. Max 600mm spacing. NZS 3604 Table 8.18 nailing.</p></div></div>
+        <div class="spec-section"><div class="spec-header" onclick="toggleSpec('cladding')"><div><h4>Wall Cladding</h4><span class="spec-ref">Masterspec 2640</span></div><div style="display:flex;align-items:center;gap:6px"><span class="spec-status status-pass">Complete</span><span class="expand-icon" id="icon-cladding">▶</span></div></div><div class="spec-detail" id="detail-cladding"><h5>Part 1 — General</h5><p>Bevel-back weatherboard to E2/AS1 4th ed. Cavity system. Risk score 4.</p><h5>Part 2 — Products</h5><p>180×19mm H3.1 radiata. 20×45mm H3.2 battens. Pro Clima wrap.</p><h5>Part 3 — Execution</h5><p>Tape joints 50mm. Fix bottom up, 35mm lap. 175mm ground clearance.</p></div></div>
+        <div class="spec-section"><div class="spec-header" onclick="toggleSpec('roofing')"><div><h4>Metal Roof</h4><span class="spec-ref">Masterspec 2710</span></div><div style="display:flex;align-items:center;gap:6px"><span class="spec-status status-review">Draft</span><span class="expand-icon" id="icon-roofing">▶</span></div></div><div class="spec-detail" id="detail-roofing"><h5>Part 1 — General</h5><p>Long-run metal to E2/AS1. Min 8° trapezoidal, 3° standing seam.</p><h5>Part 2 — Products</h5><p>COLORSTEEL Endura 0.40mm BMT. Type 17 TEK screws.</p><h5>Part 3 — Execution</h5><p>Eaves to ridge. Foam infill at ridges. Gutter falls 1:500.</p></div></div>
+        <div class="spec-section"><div class="spec-header" onclick="toggleSpec('windows')"><div><h4>Windows & Doors</h4><span class="spec-ref">Masterspec 3110</span></div><div style="display:flex;align-items:center;gap:6px"><span class="spec-status status-review">Pending</span><span class="expand-icon" id="icon-windows">▶</span></div></div><div class="spec-detail" id="detail-windows"><h5>Part 1 — General</h5><p>Aluminium NZS 4211:2008. Thermally broken. Double glazed argon.</p><h5>Part 2 — Products</h5><p>4/12Ar/4 low-E IGU. R0.26 min. Multi-point locking.</p><h5>Part 3 — Execution</h5><p>Head/jamb/sill flashings per E2/AS1 Fig 70. NZS 4211 water test.</p></div></div>
+        <div class="spec-section"><div class="spec-header" onclick="toggleSpec('insulation')"><div><h4>Insulation</h4><span class="spec-ref">Masterspec 2530</span></div><div style="display:flex;align-items:center;gap:6px"><span class="spec-status status-review">Pending</span><span class="expand-icon" id="icon-insulation">▶</span></div></div><div class="spec-detail" id="detail-insulation"><h5>Part 1 — General</h5><p>H1/AS1 6th ed. Schedule Method. Climate Zone 1.</p><h5>Part 2 — Products</h5><p>Walls R2.0. Ceiling R3.6. Underfloor R1.5.</p><h5>Part 3 — Execution</h5><p>Snug fit, no gaps. 25mm roof clearance. Vapour control wet areas.</p></div></div>
+      </div>
+      <div class="tab-pane" id="tab-auth">
+        <div style="color:var(--ink);font-size:11px;line-height:1.7;">
+          <p style="color:var(--accent);font-weight:700;font-size:13px;font-family:'Cormorant Garamond',Georgia,serif;letter-spacing:1px;">— ASSEMBL AUTHENTICATION —</p>
+          <p><strong>Generated by:</strong> Assembl Advisory (Claude AI + Architect Review)</p>
+          <p><strong>Date:</strong> 30 April 2026</p>
+          <p><strong>Project:</strong> 16A Hubert Henderson Place, Remuera, Auckland</p>
+          <p><strong>NZBC:</strong> B1/AS1, B2/AS1, E2/AS1 4th, E3/AS1, G4/AS1, H1/AS1 6th</p>
+          <p><strong>AUP:</strong> H4 Mixed Housing Suburban Zone</p>
+          <p style="color:var(--clay);margin-top:6px"><strong>Status:</strong> AI-ASSISTED DRAFT — Requires professional architect review</p>
+          <p><strong>BIM Model:</strong> 42 elements loaded from 3D_BIM_Model. 5 buildings, 20,000 sqm, est. $5M, 12 months.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-mark">AI-ASSISTED DRAFT<br>Assembl Advisory — Mārama Whenua © 2026<br>assembl.co.nz</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════
+// BIM MODEL DATA (from uploaded JSON)
+// ═══════════════════════════════════════════════════════════
+const BIM_MODEL = {"name":"3D BIM Model","elements":[{"id":"wall_0","type":"wall","position":[-40,1.5,30],"rotation":[0,1.5707963267948966,0],"dimensions":[30,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_1","type":"wall","position":[-40,1.5,-30],"rotation":[0,1.5707963267948966,0],"dimensions":[30,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_2","type":"wall","position":[-55,1.5,0],"rotation":[0,0,0],"dimensions":[30,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_3","type":"wall","position":[-25,1.5,0],"rotation":[0,0,0],"dimensions":[30,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"floor_4","type":"floor","position":[-40,0,0],"rotation":[0,0,0],"dimensions":[30,0.1,60],"color":"#D3D3D3","material":"concrete"},{"id":"roof_5","type":"roof","position":[-40,3,0],"rotation":[0,0,0],"dimensions":[30,0.1,60],"color":"#808080","material":"concrete"},{"id":"wall_6","type":"wall","position":[-10,1.5,30],"rotation":[0,1.5707963267948966,0],"dimensions":[15,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_7","type":"wall","position":[-10,1.5,-30],"rotation":[0,1.5707963267948966,0],"dimensions":[15,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_8","type":"wall","position":[-17.5,1.5,0],"rotation":[0,0,0],"dimensions":[15,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_9","type":"wall","position":[-2.5,1.5,0],"rotation":[0,0,0],"dimensions":[15,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"floor_10","type":"floor","position":[-10,0,0],"rotation":[0,0,0],"dimensions":[15,0.1,60],"color":"#D3D3D3","material":"concrete"},{"id":"roof_11","type":"roof","position":[-10,3,0],"rotation":[0,0,0],"dimensions":[15,0.1,60],"color":"#808080","material":"concrete"},{"id":"wall_12","type":"wall","position":[10,1.5,40],"rotation":[0,1.5707963267948966,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_13","type":"wall","position":[10,1.5,-40],"rotation":[0,1.5707963267948966,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_14","type":"wall","position":[0,1.5,0],"rotation":[0,0,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_15","type":"wall","position":[20,1.5,0],"rotation":[0,0,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"floor_16","type":"floor","position":[10,0,0],"rotation":[0,0,0],"dimensions":[20,0.1,80],"color":"#D3D3D3","material":"concrete"},{"id":"roof_17","type":"roof","position":[10,3,0],"rotation":[0,0,0],"dimensions":[20,0.1,80],"color":"#808080","material":"concrete"},{"id":"wall_18","type":"wall","position":[35,1.5,40],"rotation":[0,1.5707963267948966,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_19","type":"wall","position":[35,1.5,-40],"rotation":[0,1.5707963267948966,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_20","type":"wall","position":[25,1.5,0],"rotation":[0,0,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_21","type":"wall","position":[45,1.5,0],"rotation":[0,0,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"floor_22","type":"floor","position":[35,0,0],"rotation":[0,0,0],"dimensions":[20,0.1,80],"color":"#D3D3D3","material":"concrete"},{"id":"roof_23","type":"roof","position":[35,3,0],"rotation":[0,0,0],"dimensions":[20,0.1,80],"color":"#808080","material":"concrete"},{"id":"wall_24","type":"wall","position":[60,1.5,20],"rotation":[0,1.5707963267948966,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_25","type":"wall","position":[60,1.5,-20],"rotation":[0,1.5707963267948966,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_26","type":"wall","position":[50,1.5,0],"rotation":[0,0,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_27","type":"wall","position":[70,1.5,0],"rotation":[0,0,0],"dimensions":[20,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"floor_28","type":"floor","position":[60,0,0],"rotation":[0,0,0],"dimensions":[20,0.1,40],"color":"#D3D3D3","material":"concrete"},{"id":"roof_29","type":"roof","position":[60,3,0],"rotation":[0,0,0],"dimensions":[20,0.1,40],"color":"#808080","material":"concrete"},{"id":"wall_30","type":"wall","position":[-40,1.5,70],"rotation":[0,1.5707963267948966,0],"dimensions":[40,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_31","type":"wall","position":[-40,1.5,-70],"rotation":[0,1.5707963267948966,0],"dimensions":[40,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_32","type":"wall","position":[-60,1.5,0],"rotation":[0,0,0],"dimensions":[40,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_33","type":"wall","position":[-20,1.5,0],"rotation":[0,0,0],"dimensions":[40,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"floor_34","type":"floor","position":[-40,0,0],"rotation":[0,0,0],"dimensions":[40,0.1,140],"color":"#D3D3D3","material":"concrete"},{"id":"roof_35","type":"roof","position":[-40,3,0],"rotation":[0,0,0],"dimensions":[40,0.1,140],"color":"#808080","material":"concrete"},{"id":"wall_36","type":"wall","position":[10,1.5,70],"rotation":[0,1.5707963267948966,0],"dimensions":[40,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_37","type":"wall","position":[10,1.5,-70],"rotation":[0,1.5707963267948966,0],"dimensions":[40,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_38","type":"wall","position":[-10,1.5,0],"rotation":[0,0,0],"dimensions":[40,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"wall_39","type":"wall","position":[30,1.5,0],"rotation":[0,0,0],"dimensions":[40,3,0.2],"color":"#F0F0F0","material":"concrete"},{"id":"floor_40","type":"floor","position":[10,0,0],"rotation":[0,0,0],"dimensions":[40,0.1,140],"color":"#D3D3D3","material":"concrete"},{"id":"roof_41","type":"roof","position":[10,3,0],"rotation":[0,0,0],"dimensions":[40,0.1,140],"color":"#808080","material":"concrete"}],"metadata":{"constructionTime":"12 months","estimatedCost":5000000,"totalArea":20000}};
+
+// Scale factor to make the model walkable at human scale
+const S = 0.25; // scale down from huge coords to manageable scene
+
+// ═══════════════════════════════════════════════════════════
+// SCENE SETUP
+// ═══════════════════════════════════════════════════════════
+const container = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xC5D8E8);
+scene.fog = new THREE.FogExp2(0xC5D8E8, 0.012);
+
+const camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.05, 500);
+camera.position.set(20*S, 25*S, 50*S);
+camera.lookAt(0, 1, 0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+renderer.outputEncoding = THREE.sRGBEncoding;
+container.appendChild(renderer.domElement);
+
+// ═══════════════════════════════════════════════════════════
+// LIGHTS
+// ═══════════════════════════════════════════════════════════
+const ambientLight = new THREE.AmbientLight(0xfff5e6, 0.55);
+scene.add(ambientLight);
+
+const hemiLight = new THREE.HemisphereLight(0x87CEEB, 0x556B2F, 0.35);
+scene.add(hemiLight);
+
+const sunLight = new THREE.DirectionalLight(0xfff8e1, 1.0);
+sunLight.position.set(-15, 30, 15);
+sunLight.castShadow = true;
+sunLight.shadow.mapSize.set(2048, 2048);
+sunLight.shadow.camera.near = 0.5;
+sunLight.shadow.camera.far = 80;
+const shCam = 30;
+sunLight.shadow.camera.left = -shCam;
+sunLight.shadow.camera.right = shCam;
+sunLight.shadow.camera.top = shCam;
+sunLight.shadow.camera.bottom = -shCam;
+sunLight.shadow.bias = -0.001;
+scene.add(sunLight);
+
+const fillLight = new THREE.DirectionalLight(0xb4d4ff, 0.25);
+fillLight.position.set(10, 8, -10);
+scene.add(fillLight);
+
+// Sun visual
+const sunSphere = new THREE.Mesh(new THREE.SphereGeometry(0.8,16,16), new THREE.MeshBasicMaterial({color:0xFFD54F}));
+sunSphere.visible = false;
+scene.add(sunSphere);
+const sunPathLine = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({color:0xFFD54F,transparent:true,opacity:0.3}));
+sunPathLine.visible = false;
+scene.add(sunPathLine);
+
+// ═══════════════════════════════════════════════════════════
+// MATERIALS — Realistic
+// ═══════════════════════════════════════════════════════════
+function makeConcreteFloorTex() {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 256;
+  const cx = c.getContext('2d');
+  cx.fillStyle = '#D8D2C8'; cx.fillRect(0,0,256,256);
+  // Grid lines
+  cx.strokeStyle = 'rgba(180,170,160,0.3)'; cx.lineWidth = 1;
+  for(let i=0;i<256;i+=32){cx.beginPath();cx.moveTo(i,0);cx.lineTo(i,256);cx.stroke();cx.beginPath();cx.moveTo(0,i);cx.lineTo(256,i);cx.stroke();}
+  // Noise
+  for(let i=0;i<3000;i++){cx.fillStyle=`rgba(${120+Math.random()*40},${115+Math.random()*40},${105+Math.random()*40},0.05)`;cx.fillRect(Math.random()*256,Math.random()*256,2,2);}
+  const t = new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(4,4); return t;
+}
+
+function makeWallTex(baseColor) {
+  const c = document.createElement('canvas'); c.width = 128; c.height = 128;
+  const cx = c.getContext('2d');
+  cx.fillStyle = baseColor; cx.fillRect(0,0,128,128);
+  for(let i=0;i<500;i++){cx.fillStyle=`rgba(${130+Math.random()*60},${125+Math.random()*60},${115+Math.random()*60},0.03)`;cx.fillRect(Math.random()*128,Math.random()*128,3,3);}
+  const t = new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(2,1); return t;
+}
+
+const floorTex = makeConcreteFloorTex();
+const floorMat = new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.85, metalness: 0.02, color: 0xD8D2C8 });
+const wallColors = ['#E8E0D4','#DED6CA','#D4CCC0','#E0D8CC','#D8D0C4'];
+const wallMats = wallColors.map((c,i) => new THREE.MeshStandardMaterial({ map: makeWallTex(c), roughness: 0.65, metalness: 0.01, color: new THREE.Color(c) }));
+const roofMat = new THREE.MeshStandardMaterial({ color: 0x455A64, roughness: 0.35, metalness: 0.65 });
+const windowMat = new THREE.MeshStandardMaterial({ color: 0x87CEEB, roughness: 0.05, metalness: 0.2, transparent: true, opacity: 0.5 });
+const envelopeWallMat = new THREE.MeshStandardMaterial({ color: 0xF0EDE8, roughness: 0.7, metalness: 0.0, transparent: true, opacity: 0.3 });
+const groundMat = new THREE.MeshStandardMaterial({ color: 0x7CB342, roughness: 0.95 });
+const excavationMat = new THREE.MeshStandardMaterial({ color: 0x6D4C41, roughness: 0.95 });
+const foundationMat = new THREE.MeshStandardMaterial({ color: 0x9E9E9E, roughness: 0.8 });
+
+// Heatmap mats
+const heatGreen = new THREE.MeshStandardMaterial({color:0x4CAF50,roughness:0.5,transparent:true,opacity:0.7});
+const heatAmber = new THREE.MeshStandardMaterial({color:0xFF9800,roughness:0.5,transparent:true,opacity:0.7});
+const heatRed = new THREE.MeshStandardMaterial({color:0xf44336,roughness:0.5,transparent:true,opacity:0.7});
+const heatPurple = new THREE.MeshStandardMaterial({color:0x9C27B0,roughness:0.5,transparent:true,opacity:0.7});
+
+// ═══════════════════════════════════════════════════════════
+// GROUND & ENVIRONMENT
+// ═══════════════════════════════════════════════════════════
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), groundMat);
+ground.rotation.x = -Math.PI/2;
+ground.position.y = -0.01;
+ground.receiveShadow = true;
+scene.add(ground);
+
+// Street
+const streetMat = new THREE.MeshStandardMaterial({color:0x616161, roughness:0.8});
+const street = new THREE.Mesh(new THREE.PlaneGeometry(120,6), streetMat);
+street.rotation.x=-Math.PI/2; street.position.set(0,0.01,-25*S); street.receiveShadow=true;
+scene.add(street);
+
+// Driveway
+const driveMat = new THREE.MeshStandardMaterial({color:0x9E9E9E, roughness:0.75});
+const driveway = new THREE.Mesh(new THREE.PlaneGeometry(3,12), driveMat);
+driveway.rotation.x=-Math.PI/2; driveway.position.set(0,0.02,-15*S); driveway.receiveShadow=true;
+scene.add(driveway);
+
+// Site boundary
+const bndPts = [[-22*S,0.05,-22*S],[22*S,0.05,-22*S],[22*S,0.05,22*S],[-22*S,0.05,22*S],[-22*S,0.05,-22*S]].map(p=>new THREE.Vector3(...p));
+const bndGeo = new THREE.BufferGeometry().setFromPoints(bndPts);
+scene.add(new THREE.Line(bndGeo, new THREE.LineBasicMaterial({color:0xAC5838})));
+
+// Trees
+function addTree(x,z,h,r) {
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.08,0.1,h,6), new THREE.MeshStandardMaterial({color:0x5D4037}));
+  trunk.position.set(x,h/2,z); trunk.castShadow=true; scene.add(trunk);
+  const canopy = new THREE.Mesh(new THREE.SphereGeometry(r,8,8), new THREE.MeshStandardMaterial({color:0x388E3C}));
+  canopy.position.set(x,h+r*0.6,z); canopy.castShadow=true; scene.add(canopy);
+}
+[[-18*S,-18*S],[-16*S,18*S],[20*S,-18*S],[20*S,16*S],[-8*S,20*S],[15*S,-20*S]].forEach(p => addTree(p[0],p[1],0.8+Math.random()*0.5,0.5+Math.random()*0.3));
+
+// ═══════════════════════════════════════════════════════════
+// CONSTRUCTION GROUPS — 6 phases
+// ═══════════════════════════════════════════════════════════
+const phases = {excavation:new THREE.Group(),foundations:new THREE.Group(),structure:new THREE.Group(),envelope:new THREE.Group(),fitout:new THREE.Group(),complete:new THREE.Group()};
+Object.values(phases).forEach(g=>scene.add(g));
+const phaseKeys = Object.keys(phases);
+const phaseNames = ['Excavation','Foundations','Structure','Envelope','Fit-Out','Complete'];
+const allBimMeshes = [];
+const bimMeshData = [];
+
+// ═══════════════════════════════════════════════════════════
+// RENDER BIM ELEMENTS
+// ═══════════════════════════════════════════════════════════
+// Building groups: 0-5 (Bldg A), 6-11 (B), 12-17 (C), 18-23 (D), 24-29 (E), 30-35/36-41 (envelopes)
+const buildingRanges = [
+  {start:0,end:5,name:'Building A',color:0},
+  {start:6,end:11,name:'Building B',color:1},
+  {start:12,end:17,name:'Building C',color:2},
+  {start:18,end:23,name:'Building D',color:3},
+  {start:24,end:29,name:'Building E',color:4},
+];
+
+BIM_MODEL.elements.forEach((el, idx) => {
+  const pos = el.position.map(v=>v*S);
+  const dim = el.dimensions.map(v=>v*S);
+  const rot = el.rotation;
+  const isEnvelope = idx >= 30; // Large site elements
+  
+  let geo, mat, phase, complianceStatus='pass';
+  
+  if(el.type === 'floor') {
+    geo = new THREE.BoxGeometry(dim[0], dim[1]||0.06, dim[2]);
+    mat = isEnvelope ? floorMat.clone() : floorMat;
+    if(isEnvelope) { mat.transparent=true; mat.opacity=0.5; }
+    phase = 'foundations';
+  } else if(el.type === 'wall') {
+    geo = new THREE.BoxGeometry(dim[0], dim[1], dim[2]);
+    const bIdx = buildingRanges.findIndex(b => idx >= b.start && idx <= b.end);
+    mat = isEnvelope ? envelopeWallMat : wallMats[bIdx >= 0 ? bIdx : idx % 5];
+    phase = isEnvelope ? 'envelope' : 'structure';
+    complianceStatus = bIdx === 3 ? 'fail' : bIdx === 1 ? 'warn' : 'pass';
+  } else if(el.type === 'roof') {
+    geo = new THREE.BoxGeometry(dim[0], dim[1]||0.08, dim[2]);
+    mat = isEnvelope ? roofMat.clone() : roofMat;
+    if(isEnvelope) { mat.transparent=true; mat.opacity=0.4; }
+    phase = 'envelope';
+    complianceStatus = 'review';
+  }
+  
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(pos[0], pos[1], pos[2]);
+  mesh.rotation.set(rot[0], rot[1], rot[2]);
+  mesh.castShadow = el.type === 'wall';
+  mesh.receiveShadow = true;
+  
+  const bldgInfo = buildingRanges.find(b => idx >= b.start && idx <= b.end);
+  mesh.userData = {
+    name: (bldgInfo ? bldgInfo.name : 'Site Envelope') + ' — ' + el.type.charAt(0).toUpperCase() + el.type.slice(1),
+    desc: el.type + ' element, ' + el.material + '. Dims: ' + el.dimensions.map(d=>d.toFixed(1)+'m').join(' × '),
+    code: el.type==='wall'?'NZS 3604, E2/AS1':el.type==='roof'?'E2/AS1, NZS 3604 Ch 11':'B1/AS1',
+    type: el.type, compliance: complianceStatus, originalMat: mat, id: el.id
+  };
+  
+  phases[phase].add(mesh);
+  allBimMeshes.push(mesh);
+  bimMeshData.push({mesh, el, phase, isEnvelope});
+});
+
+// Add excavation cuts for each building
+buildingRanges.forEach(b => {
+  const floorEl = BIM_MODEL.elements.find((e,i) => i >= b.start && i <= b.end && e.type === 'floor');
+  if(floorEl) {
+    const pos = floorEl.position.map(v=>v*S);
+    const dim = floorEl.dimensions.map(v=>v*S);
+    const exc = new THREE.Mesh(new THREE.BoxGeometry(dim[0]+0.5, 0.3, dim[2]+0.5), excavationMat);
+    exc.position.set(pos[0], -0.15, pos[2]);
+    exc.receiveShadow = true;
+    phases.excavation.add(exc);
+    
+    const fnd = new THREE.Mesh(new THREE.BoxGeometry(dim[0]+0.2, 0.2, dim[2]+0.2), foundationMat);
+    fnd.position.set(pos[0], 0.1, pos[2]);
+    fnd.castShadow = true;
+    fnd.userData = {name:b.name+' Foundation',desc:'Concrete strip foundation fc\' 17.5 MPa',code:'NZS 3604, B1/AS1',type:'foundation',compliance:'pass',originalMat:foundationMat};
+    phases.foundations.add(fnd);
+    allBimMeshes.push(fnd);
+  }
+});
+
+// Fit-out: windows and doors for each building
+buildingRanges.forEach((b,bi) => {
+  const floorEl = BIM_MODEL.elements.find((e,i) => i >= b.start && i <= b.end && e.type === 'floor');
+  if(!floorEl) return;
+  const cx = floorEl.position[0]*S, cz = floorEl.position[2]*S;
+  const hw = floorEl.dimensions[0]*S/2, hd = floorEl.dimensions[2]*S/2;
+  
+  // Windows on short sides
+  for(let side of [-1,1]) {
+    for(let j=0;j<2;j++) {
+      const wg = new THREE.PlaneGeometry(0.5,0.6);
+      const wm = new THREE.Mesh(wg, windowMat);
+      wm.position.set(cx + (j-0.5)*hw*0.8, 1.2*S, cz + side*hd + side*0.01);
+      if(side>0) wm.rotation.y=Math.PI;
+      wm.userData={name:b.name+' Window',desc:'Aluminium double glazed R0.26',code:'H1/AS1, NZS 4211',type:'window',compliance:'review',originalMat:windowMat};
+      phases.fitout.add(wm);
+      allBimMeshes.push(wm);
+    }
+  }
+  // Door
+  const dg = new THREE.PlaneGeometry(0.4,0.8);
+  const dm = new THREE.MeshStandardMaterial({color:0x5D4037, roughness:0.7});
+  const door = new THREE.Mesh(dg, dm);
+  door.position.set(cx, 0.4, cz - hd - 0.02);
+  door.userData={name:b.name+' Entry',desc:'Solid core timber 2040x820mm',code:'F4/AS1',type:'door',compliance:'pass',originalMat:dm};
+  phases.fitout.add(door);
+  allBimMeshes.push(door);
+});
+
+// Complete phase: paths, fences
+const pathMat = new THREE.MeshStandardMaterial({color:0xBCAAA4,roughness:0.8});
+[-5*S,5*S].forEach(x => {
+  const p = new THREE.Mesh(new THREE.PlaneGeometry(0.6,20*S), pathMat);
+  p.rotation.x=-Math.PI/2; p.position.set(x,0.03,0); p.receiveShadow=true;
+  phases.complete.add(p);
+});
+
+// ═══════════════════════════════════════════════════════════
+// CAMERA MODES
+// ═══════════════════════════════════════════════════════════
+let mode = 'orbit'; // 'orbit', 'walk', 'auto'
+let theta = Math.PI/4, phi = Math.PI/3.5, radius = 30;
+let orbitTarget = new THREE.Vector3(0, 1, 0);
+
+// Orbit controls
+function updateOrbit() {
+  camera.position.x = orbitTarget.x + radius*Math.sin(phi)*Math.cos(theta);
+  camera.position.y = orbitTarget.y + radius*Math.cos(phi);
+  camera.position.z = orbitTarget.z + radius*Math.sin(phi)*Math.sin(theta);
+  camera.lookAt(orbitTarget);
+}
+updateOrbit();
+
+let isDragging=false, prevMX=0, prevMY=0;
+container.addEventListener('mousedown', e => { if(mode==='orbit'&&!e.target.closest('.controls,.info-panel,.sun-controls,.timeline-bar,.minimap,.speed-control,.heatmap-legend')){isDragging=true;prevMX=e.clientX;prevMY=e.clientY;}});
+container.addEventListener('mousemove', e => { if(!isDragging||mode!=='orbit')return; theta-=(e.clientX-prevMX)*0.005; phi=Math.max(0.15,Math.min(Math.PI/2.1,phi+(e.clientY-prevMY)*0.005)); prevMX=e.clientX;prevMY=e.clientY; updateOrbit(); });
+container.addEventListener('mouseup', ()=>isDragging=false);
+container.addEventListener('mouseleave', ()=>isDragging=false);
+container.addEventListener('wheel', e => { if(mode!=='orbit')return; radius=Math.max(5,Math.min(60,radius+e.deltaY*0.03)); updateOrbit(); });
+
+// ═══════════════════════════════════════════════════════════
+// FIRST-PERSON WALKTHROUGH
+// ═══════════════════════════════════════════════════════════
+let walkSpeed = 2;
+const walkState = { yaw: 0, pitch: 0, moveF: false, moveB: false, moveL: false, moveR: false, sprint: false };
+const EYE_HEIGHT = 1.6 * S;
+let headBob = 0;
+let isPointerLocked = false;
+
+function toggleWalkMode() {
+  if(mode === 'walk') { exitWalkMode(); return; }
+  mode = 'walk';
+  camera.position.set(0, EYE_HEIGHT, -18*S);
+  walkState.yaw = 0; walkState.pitch = 0;
+  document.getElementById('btn-walk').classList.add('active');
+  document.getElementById('btn-orbit').classList.remove('active');
+  document.getElementById('walk-indicator').style.display = 'block';
+  document.getElementById('walk-instructions').style.display = 'block';
+  document.getElementById('walk-hud').style.display = 'block';
+  document.getElementById('speed-control').style.display = 'block';
+  document.getElementById('fly-indicator').style.display = 'none';
+  setTimeout(()=>document.getElementById('walk-instructions').style.display='none', 5000);
+}
+
+function exitWalkMode() {
+  mode = 'orbit';
+  document.getElementById('btn-walk').classList.remove('active');
+  document.getElementById('walk-indicator').style.display = 'none';
+  document.getElementById('walk-instructions').style.display = 'none';
+  document.getElementById('walk-hud').style.display = 'none';
+  document.getElementById('speed-control').style.display = 'none';
+  if(document.pointerLockElement) document.exitPointerLock();
+  updateOrbit();
+}
+
+function toggleOrbitMode() {
+  if(mode === 'auto') stopAutoWalk();
+  if(mode === 'walk') exitWalkMode();
+  mode = 'orbit';
+  document.getElementById('btn-orbit').classList.add('active');
+  document.getElementById('btn-walk').classList.remove('active');
+  updateOrbit();
+}
+
+// Pointer lock
+renderer.domElement.addEventListener('click', () => {
+  if(mode === 'walk' && !isPointerLocked) renderer.domElement.requestPointerLock();
+  if(mode === 'auto') stopAutoWalk();
+});
+
+document.addEventListener('pointerlockchange', () => {
+  isPointerLocked = !!document.pointerLockElement;
+});
+
+document.addEventListener('mousemove', e => {
+  if(mode !== 'walk' || !isPointerLocked) return;
+  walkState.yaw -= e.movementX * 0.002;
+  walkState.pitch = Math.max(-Math.PI/2.5, Math.min(Math.PI/2.5, walkState.pitch - e.movementY * 0.002));
+});
+
+document.addEventListener('keydown', e => {
+  if(mode !== 'walk') return;
+  if(e.code==='KeyW') walkState.moveF=true;
+  if(e.code==='KeyS') walkState.moveB=true;
+  if(e.code==='KeyA') walkState.moveL=true;
+  if(e.code==='KeyD') walkState.moveR=true;
+  if(e.code==='ShiftLeft') walkState.sprint=true;
+  if(e.code==='Escape') exitWalkMode();
+});
+document.addEventListener('keyup', e => {
+  if(e.code==='KeyW') walkState.moveF=false;
+  if(e.code==='KeyS') walkState.moveB=false;
+  if(e.code==='KeyA') walkState.moveL=false;
+  if(e.code==='KeyD') walkState.moveR=false;
+  if(e.code==='ShiftLeft') walkState.sprint=false;
+});
+
+function updateWalk(dt) {
+  const spd = walkSpeed * S * (walkState.sprint ? 2.5 : 1) * dt;
+  const dir = new THREE.Vector3();
+  if(walkState.moveF) dir.z -= 1;
+  if(walkState.moveB) dir.z += 1;
+  if(walkState.moveL) dir.x -= 1;
+  if(walkState.moveR) dir.x += 1;
+  
+  if(dir.length() > 0) {
+    dir.normalize();
+    const rotMat = new THREE.Matrix4().makeRotationY(walkState.yaw);
+    dir.applyMatrix4(rotMat);
+    camera.position.add(dir.multiplyScalar(spd));
+    headBob += dt * 8 * (walkState.sprint ? 1.5 : 1);
+  }
+  
+  camera.position.y = EYE_HEIGHT + Math.sin(headBob) * 0.015 * S;
+  
+  // Clamp to scene bounds
+  camera.position.x = Math.max(-25*S, Math.min(25*S, camera.position.x));
+  camera.position.z = Math.max(-25*S, Math.min(25*S, camera.position.z));
+  
+  // Update camera rotation from yaw/pitch
+  const euler = new THREE.Euler(walkState.pitch, walkState.yaw, 0, 'YXZ');
+  camera.quaternion.setFromEuler(euler);
+}
+
+// ═══════════════════════════════════════════════════════════
+// AUTO WALKTHROUGH
+// ═══════════════════════════════════════════════════════════
+let autoWalkTime = 0;
+const autoPath = [
+  {pos:[0,-20*S], look:0, t:0},        // Start at street
+  {pos:[0,-10*S], look:0, t:3},        // Approach
+  {pos:[-10*S,0], look:Math.PI*0.5, t:7},  // Building A area
+  {pos:[-10*S,5*S], look:Math.PI*0.3, t:10},
+  {pos:[-2.5*S,0], look:0, t:13},     // Between A and B
+  {pos:[2.5*S,5*S], look:-Math.PI*0.3, t:16}, // Building C area
+  {pos:[10*S,0], look:-Math.PI*0.5, t:19},
+  {pos:[10*S,-5*S], look:-Math.PI*0.7, t:22}, // Building D area
+  {pos:[15*S,0], look:-Math.PI, t:25},
+  {pos:[5*S,-5*S], look:Math.PI*0.8, t:28},
+  {pos:[0,-15*S], look:Math.PI, t:32}, // Return to start
+  {pos:[0,-20*S], look:Math.PI, t:35},
+];
+
+function startAutoWalk() {
+  if(mode==='auto'){stopAutoWalk();return;}
+  if(mode==='walk') exitWalkMode();
+  mode='auto'; autoWalkTime=0;
+  document.getElementById('fly-indicator').style.display='block';
+  document.getElementById('btn-auto').classList.add('active');
+  document.getElementById('minimap-container').style.display='block';
+  document.getElementById('speed-control').style.display='block';
+}
+
+function stopAutoWalk() {
+  mode='orbit';
+  document.getElementById('fly-indicator').style.display='none';
+  document.getElementById('btn-auto').classList.remove('active');
+  document.getElementById('speed-control').style.display='none';
+  updateOrbit();
+}
+
+function updateAutoWalk(dt) {
+  autoWalkTime += dt * walkSpeed * 0.5;
+  const maxT = autoPath[autoPath.length-1].t;
+  if(autoWalkTime >= maxT) { stopAutoWalk(); return; }
+  
+  let seg = 0;
+  for(let i=0;i<autoPath.length-1;i++){
+    if(autoWalkTime>=autoPath[i].t && autoWalkTime<autoPath[i+1].t){seg=i;break;}
+  }
+  
+  const t = (autoWalkTime - autoPath[seg].t)/(autoPath[seg+1].t - autoPath[seg].t);
+  const st = t*t*(3-2*t); // smoothstep
+  
+  const px = autoPath[seg].pos[0] + (autoPath[seg+1].pos[0]-autoPath[seg].pos[0])*st;
+  const pz = autoPath[seg].pos[1] + (autoPath[seg+1].pos[1]-autoPath[seg].pos[1])*st;
+  
+  // Head bob
+  headBob += dt * 6;
+  const bobY = Math.sin(headBob) * 0.01 * S;
+  
+  camera.position.set(px, EYE_HEIGHT + bobY, pz);
+  
+  // Smooth look direction
+  let lookAngle = autoPath[seg].look + (autoPath[seg+1].look - autoPath[seg].look)*st;
+  const lookDist = 3*S;
+  const lookTarget = new THREE.Vector3(
+    px + Math.sin(lookAngle)*lookDist,
+    EYE_HEIGHT,
+    pz - Math.cos(lookAngle)*lookDist
+  );
+  camera.lookAt(lookTarget);
+}
+
+// ═══════════════════════════════════════════════════════════
+// 4D CONSTRUCTION SEQUENCE
+// ═══════════════════════════════════════════════════════════
+let timelineActive = false;
+let timelinePlaying = false;
+let timelineValue = 5;
+
+function toggleTimeline() {
+  timelineActive = !timelineActive;
+  document.getElementById('btn-timeline').classList.toggle('active');
+  document.getElementById('timeline-bar').classList.toggle('visible');
+  document.getElementById('info-panel').classList.toggle('timeline-active');
+  if(timelineActive) updateConstruction(parseFloat(document.getElementById('timeline-slider').value));
+  else { phaseKeys.forEach(k=>{phases[k].visible=true; phases[k].children.forEach(c=>{if(c.scale)c.scale.set(1,1,1);});}); }
+}
+
+function updateConstruction(value) {
+  timelineValue = value;
+  const pi = Math.floor(value);
+  const frac = value - pi;
+  
+  phaseKeys.forEach((k,i) => {
+    if(i < pi) {
+      phases[k].visible = true;
+      phases[k].children.forEach(c => { c.scale.set(1,1,1); if(c.material) c.material.opacity = c.material._origOpacity || 1; });
+    } else if(i === pi) {
+      phases[k].visible = true;
+      phases[k].children.forEach(c => {
+        // Animate: grow up for walls, fade in for others
+        if(k==='structure' || k==='envelope') {
+          c.scale.set(1, Math.max(0.01, frac), 1);
+        } else {
+          c.scale.set(1,1,1);
+        }
+      });
+    } else {
+      phases[k].visible = false;
+    }
+  });
+  
+  document.querySelectorAll('.timeline-phase').forEach((el,i) => {
+    el.classList.toggle('completed', i<pi);
+    el.classList.toggle('active', i===pi);
+  });
+  document.getElementById('timeline-label').textContent = 'Phase '+(Math.min(pi,5)+1)+' of 6 — '+(phaseNames[Math.min(pi,5)]||'Complete');
+}
+
+// Store original opacities
+allBimMeshes.forEach(m => { if(m.material && m.material.opacity !== undefined) m.material._origOpacity = m.material.opacity; });
+
+function toggleTimelinePlay() {
+  timelinePlaying = !timelinePlaying;
+  document.getElementById('btn-tl-play').textContent = timelinePlaying ? '⏸' : '▶ Play';
+}
+
+document.querySelectorAll('.timeline-phase').forEach(el => {
+  el.addEventListener('click', () => { const p=parseInt(el.dataset.phase); document.getElementById('timeline-slider').value=p; updateConstruction(p); });
+});
+
+// ═══════════════════════════════════════════════════════════
+// SUN PATH
+// ═══════════════════════════════════════════════════════════
+const AUCKLAND_LAT = -36.85 * Math.PI/180;
+let sunActive=false, sunAnimating=false, sunHour=12, sunMonth=6;
+
+function toggleSunPath() {
+  sunActive=!sunActive;
+  document.getElementById('btn-sun').classList.toggle('active');
+  document.getElementById('sun-controls').classList.toggle('visible');
+  sunSphere.visible=sunActive; sunPathLine.visible=sunActive;
+  if(sunActive){updateSunPosition();drawSunPath();}
+  else{scene.background.setHex(0xC5D8E8);ambientLight.intensity=0.55;sunLight.intensity=1.0;sunLight.color.setHex(0xfff8e1);}
+}
+
+function getSunPos(h,m) {
+  const doy=(m-1)*30.44+15;
+  const dec=-23.45*Math.cos(2*Math.PI*(doy+10)/365)*Math.PI/180;
+  const ha=(h-12)*15*Math.PI/180;
+  const sinAlt=Math.sin(AUCKLAND_LAT)*Math.sin(dec)+Math.cos(AUCKLAND_LAT)*Math.cos(dec)*Math.cos(ha);
+  const alt=Math.asin(Math.max(-1,Math.min(1,sinAlt)));
+  const cosAz=(Math.sin(dec)-Math.sin(AUCKLAND_LAT)*sinAlt)/(Math.cos(AUCKLAND_LAT)*Math.cos(alt)+0.001);
+  let az=Math.acos(Math.max(-1,Math.min(1,cosAz)));
+  if(ha>0)az=2*Math.PI-az;
+  const d=30;
+  return{x:d*Math.cos(alt)*Math.sin(az),y:Math.max(0,d*Math.sin(alt)),z:-d*Math.cos(alt)*Math.cos(az),alt,az};
+}
+
+function updateSunPosition() {
+  const p=getSunPos(sunHour,sunMonth);
+  sunLight.position.set(p.x,Math.max(1,p.y),p.z);
+  sunSphere.position.copy(sunLight.position);
+  const altDeg=p.alt*180/Math.PI;
+  if(altDeg<0){scene.background.setHex(0x1a1a2e);ambientLight.intensity=0.15;sunLight.intensity=0;}
+  else if(altDeg<10){const t=altDeg/10;scene.background.set(new THREE.Color(0x1a1a2e).lerp(new THREE.Color(0xFAD7A0),t));ambientLight.intensity=0.2+t*0.3;sunLight.intensity=t*0.8;sunLight.color.setHex(0xFFB74D);}
+  else{scene.background.setHex(0xC5D8E8);ambientLight.intensity=0.55;sunLight.intensity=1.0;sunLight.color.setHex(0xfff8e1);}
+}
+
+function drawSunPath() {
+  const pts=[];
+  for(let h=5;h<=21;h+=0.5){const p=getSunPos(h,sunMonth);if(p.y>0)pts.push(new THREE.Vector3(p.x,p.y,p.z));}
+  sunPathLine.geometry.dispose();
+  sunPathLine.geometry=new THREE.BufferGeometry().setFromPoints(pts);
+}
+
+function updateSunFromSlider(v) {
+  sunHour=parseFloat(v);
+  const h=Math.floor(sunHour),m=Math.round((sunHour-h)*60),ap=h>=12?'PM':'AM',h12=h>12?h-12:(h===0?12:h);
+  document.getElementById('sun-time-display').textContent=h12+':'+String(m).padStart(2,'0')+' '+ap;
+  if(sunActive)updateSunPosition();
+}
+
+function updateSunMonth(v) {
+  sunMonth=parseInt(v);
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('sun-date-display').textContent=months[sunMonth-1];
+  if(sunActive){updateSunPosition();drawSunPath();}
+}
+
+function setSunPreset(p) { const v={morning:8,noon:12,evening:17}[p]; sunHour=v; document.getElementById('sun-slider').value=v; updateSunFromSlider(v); }
+function playSunAnimation() { sunAnimating=!sunAnimating; document.getElementById('btn-sun-play').textContent=sunAnimating?'⏸':'▶'; }
+
+// ═══════════════════════════════════════════════════════════
+// HEATMAP
+// ═══════════════════════════════════════════════════════════
+let heatmapActive = false;
+const origMats = new Map();
+
+function toggleHeatmap() {
+  heatmapActive=!heatmapActive;
+  document.getElementById('btn-heatmap').classList.toggle('active');
+  document.getElementById('heatmap-legend').classList.toggle('visible');
+  allBimMeshes.forEach(m => {
+    if(heatmapActive) {
+      if(!origMats.has(m)) origMats.set(m, m.material);
+      const c=m.userData.compliance;
+      m.material = c==='pass'?heatGreen:c==='warn'?heatAmber:c==='fail'?heatRed:heatPurple;
+    } else {
+      if(origMats.has(m)) m.material=origMats.get(m);
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// WIREFRAME
+// ═══════════════════════════════════════════════════════════
+let wireframeMode = false;
+function toggleWireframe() {
+  wireframeMode=!wireframeMode;
+  document.getElementById('btn-wireframe').classList.toggle('active');
+  allBimMeshes.forEach(m => { if(m.material && !m.material._isHeat) m.material.wireframe=wireframeMode; });
+}
+
+// ═══════════════════════════════════════════════════════════
+// MINIMAP
+// ═══════════════════════════════════════════════════════════
+let minimapVisible = false;
+function toggleMinimap() {
+  minimapVisible=!minimapVisible;
+  document.getElementById('minimap-container').style.display=minimapVisible?'block':'none';
+  document.getElementById('btn-minimap').classList.toggle('active');
+}
+
+function drawMinimap() {
+  const mc = document.getElementById('minimap-canvas');
+  const ctx = mc.getContext('2d');
+  const w=mc.width, h=mc.height;
+  ctx.fillStyle='#F5F1EB'; ctx.fillRect(0,0,w,h);
+  
+  const scale = 1.0; // pixels per unit
+  const ox = w/2, oy = h/2;
+  
+  // Draw buildings
+  buildingRanges.forEach((b,i) => {
+    const floorEl = BIM_MODEL.elements.find((e,idx) => idx>=b.start && idx<=b.end && e.type==='floor');
+    if(!floorEl) return;
+    const fx=floorEl.position[0]*S*scale + ox;
+    const fz=floorEl.position[2]*S*scale + oy;
+    const fw=floorEl.dimensions[0]*S*scale;
+    const fd=floorEl.dimensions[2]*S*scale;
+    ctx.fillStyle = 'rgba(43,107,87,0.5)';
+    ctx.fillRect(fx-fw/2, fz-fd/2, fw, fd);
+    ctx.strokeStyle = '#2B6B57';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(fx-fw/2, fz-fd/2, fw, fd);
+    // Label
+    ctx.fillStyle='#23211F'; ctx.font='7px Inter,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(b.name.split(' ')[1], fx, fz+3);
+  });
+  
+  // Draw camera position
+  const cx = camera.position.x * scale + ox;
+  const cz = camera.position.z * scale + oy;
+  ctx.beginPath();
+  ctx.arc(cx, cz, 3, 0, Math.PI*2);
+  ctx.fillStyle = '#AC5838';
+  ctx.fill();
+  
+  // Direction indicator
+  const dir = new THREE.Vector3(0,0,-1);
+  dir.applyQuaternion(camera.quaternion);
+  ctx.beginPath();
+  ctx.moveTo(cx, cz);
+  ctx.lineTo(cx + dir.x*8, cz + dir.z*8);
+  ctx.strokeStyle = '#AC5838';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  
+  // North arrow
+  ctx.fillStyle='#AC5838'; ctx.font='bold 9px Inter,sans-serif'; ctx.textAlign='center';
+  ctx.fillText('N', w-10, 12);
+  ctx.beginPath(); ctx.moveTo(w-10,14); ctx.lineTo(w-10,22); ctx.strokeStyle='#AC5838'; ctx.lineWidth=1; ctx.stroke();
+}
+
+// ═══════════════════════════════════════════════════════════
+// CLICK TO SELECT
+// ═══════════════════════════════════════════════════════════
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+container.addEventListener('click', e => {
+  if(mode !== 'orbit') return;
+  if(e.target.closest('.controls,.info-panel,.sun-controls,.timeline-bar,.minimap,.speed-control,.heatmap-legend')) return;
+  
+  mouse.x = (e.clientX/window.innerWidth)*2-1;
+  mouse.y = -(e.clientY/window.innerHeight)*2+1;
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(allBimMeshes);
+  
+  const ei = document.getElementById('element-info');
+  if(hits.length>0 && hits[0].object.userData.name) {
+    const ud = hits[0].object.userData;
+    document.getElementById('ei-title').textContent = ud.name;
+    document.getElementById('ei-desc').textContent = ud.desc;
+    document.getElementById('ei-code').textContent = ud.code;
+    ei.style.display='block';
+    ei.style.left=Math.min(e.clientX,window.innerWidth-280)+'px';
+    ei.style.top=Math.max(60,e.clientY-120)+'px';
+  } else {
+    ei.style.display='none';
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════════════════════════
+function togglePanel() {
+  const p=document.getElementById('info-panel');
+  p.classList.toggle('collapsed');
+  document.getElementById('panel-toggle').textContent=p.classList.contains('collapsed')?'▲':'▼';
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+function toggleSpec(id) {
+  const d=document.getElementById('detail-'+id);
+  const ic=document.getElementById('icon-'+id);
+  d.classList.toggle('expanded');
+  ic.textContent=d.classList.contains('expanded')?'▼':'▶';
+}
+
+function resetCamera() {
+  if(mode==='walk') exitWalkMode();
+  if(mode==='auto') stopAutoWalk();
+  mode='orbit'; theta=Math.PI/4; phi=Math.PI/3.5; radius=30;
+  scene.background.setHex(0xC5D8E8);
+  ambientLight.intensity=0.55; sunLight.intensity=1.0; sunLight.color.setHex(0xfff8e1);
+  updateOrbit();
+}
+
+function exportReport() {
+  const now=new Date().toLocaleDateString('en-NZ',{day:'numeric',month:'long',year:'numeric'});
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Compliance Report — 16A Hubert Henderson Place</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',sans-serif;color:#23211F;background:#FAF7F2;padding:40px 60px;max-width:900px;margin:0 auto}h1{color:#2B6B57;font-size:22px;font-family:'Cormorant Garamond',Georgia,serif}h2{color:#23211F;font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;margin:24px 0 10px;border-bottom:2px solid #2B6B57;padding-bottom:4px}p{font-size:12px;line-height:1.7;margin-bottom:4px}table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}th{background:#2B6B57;color:#FAF7F2;padding:6px 8px;text-align:left;font-size:10px;text-transform:uppercase}td{padding:6px 8px;border-bottom:1px solid #E8E4DE}.pass{color:#4CAF50;font-weight:700}.warn{color:#FF9800;font-weight:700}.fail{color:#f44336;font-weight:700}.review{color:#AC5838;font-weight:700}.header{border-bottom:3px solid #2B6B57;padding-bottom:12px;margin-bottom:20px}.logo{color:#2B6B57;font-size:22px;font-weight:700;float:right;font-family:'Cormorant Garamond',Georgia,serif;letter-spacing:1px}.footer{margin-top:30px;text-align:center;color:#B8B2A8;font-size:10px;border-top:1px solid #E8E4DE;padding-top:12px}</style></head><body><div class="header"><div class="logo">ASSEMBL ADVISORY ✦</div><h1>Compliance Report</h1><p style="color:#AC5838">16A Hubert Henderson Place, Remuera — AUP H4 — Generated: ${now}</p></div><h2>BIM Model Summary</h2><p>42 elements loaded. 5 buildings. 20,000 sqm. Est. $5M. 12 months construction.</p><h2>Code Compliance</h2><table><tr><th>Element</th><th>Code</th><th>Requirement</th><th>Status</th></tr><tr><td>Building Height</td><td>AUP H4.6.6</td><td>Max 8m</td><td class="pass">PASS 7.2m</td></tr><tr><td>HIRB</td><td>AUP H4.6.7</td><td>2.5m+45°</td><td class="pass">PASS</td></tr><tr><td>Site Coverage</td><td>AUP H4.6.8</td><td>Max 40%</td><td class="warn">38.2%</td></tr><tr><td>Front Setback</td><td>AUP H4.6.10</td><td>Min 3m</td><td class="pass">4.5m</td></tr><tr><td>Weathertightness</td><td>E2/AS1</td><td>Risk assessment</td><td class="fail">MISSING</td></tr></table><div class="footer">Assembl Advisory — Mārama Whenua © 2026 — AI-ASSISTED DRAFT</div></body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='16A-Compliance-Report.html';document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+// ═══════════════════════════════════════════════════════════
+// ANIMATION LOOP
+// ═══════════════════════════════════════════════════════════
+const clock = new THREE.Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.1);
+  
+  if(mode === 'walk') updateWalk(dt);
+  if(mode === 'auto') updateAutoWalk(dt);
+  
+  // Sun animation
+  if(sunAnimating && sunActive) {
+    sunHour += dt*1.5;
+    if(sunHour>21) sunHour=5;
+    document.getElementById('sun-slider').value=sunHour;
+    updateSunFromSlider(sunHour);
+    updateSunPosition();
+  }
+  
+  // Timeline play
+  if(timelinePlaying && timelineActive) {
+    timelineValue += dt * 0.3;
+    if(timelineValue > 5) { timelineValue = 0; }
+    document.getElementById('timeline-slider').value = timelineValue;
+    updateConstruction(timelineValue);
+  }
+  
+  // Minimap
+  if(minimapVisible || mode==='auto' || mode==='walk') drawMinimap();
+  
+  renderer.render(scene, camera);
+}
+animate();
+
+// Resize
+window.addEventListener('resize', () => {
+  camera.aspect=window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
+});
+
+// Show minimap by default
+document.getElementById('minimap-container').style.display='block';
+minimapVisible = true;
+document.getElementById('btn-minimap').classList.add('active');
+</script>
+</body>
+</html>
