@@ -15,8 +15,44 @@ import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
 import { getEntitlementStatus, incrementFreeUsage } from '@/lib/billing/agent-entitlement';
 import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billing/chat-identity';
 import { searchLiveTariff, TARIFF_TRUST_FOOTER_RULES } from '@/lib/customs/tariff-live';
+import { loadDbPrompt, composePrompt } from '@/lib/agents/prompt-store';
+import {
+  bundleFor,
+  trustFooterRules,
+  TAONGA_SPECIES_HOLD,
+  KAUMATUA_HELD_SLUGS,
+  KAUMATUA_HOLD_MESSAGE,
+} from '@/lib/agents/knowledge-map';
+import { checkChatRateLimit, chatClientIp } from '@/lib/agents/chat-rate-limit';
+import { writeChatReceipt } from '@/lib/agents/receipts';
 
 export const maxDuration = 60;
+
+// ── CORS ─────────────────────────────────────────────────────────────────────
+// The staging marketing site (a static Next app on its own origin) embeds the
+// per-agent ChatWidget and calls this route cross-origin. Only the origins
+// below are allowed; everything else gets no CORS headers and the browser
+// blocks it.
+const ALLOWED_CHAT_ORIGINS = new Set([
+  'https://staging.assembl.co.nz',
+  'http://localhost:3000',
+  'http://localhost:3001',
+]);
+
+function corsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get('origin');
+  if (!origin || !ALLOWED_CHAT_ORIGINS.has(origin)) return {};
+  return {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    Vary: 'Origin',
+  };
+}
+
+export async function OPTIONS(req: Request) {
+  return new Response(null, { status: 204, headers: corsHeaders(req) });
+}
 
 /** Build a Set-Cookie header string from our anon cookie options. */
 function anonSetCookie(value: string): string {
@@ -124,7 +160,26 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const agent = marketplaceAgentBySlug(slug);
 
   if (!agent) {
-    return Response.json({ error: 'Unknown agent.' }, { status: 404 });
+    return Response.json({ error: 'Unknown agent.' }, { status: 404, headers: corsHeaders(req) });
+  }
+
+  // Kaumātua-hold: the taonga-species recovery agents don't chat until the
+  // kaupapa has kaumātua and iwi sign-off. Held at the route, not the prompt.
+  if (KAUMATUA_HELD_SLUGS.has(slug)) {
+    return Response.json(
+      { error: 'kaumatua_hold', message: KAUMATUA_HOLD_MESSAGE },
+      { status: 451, headers: corsHeaders(req) },
+    );
+  }
+
+  // Flood control (per IP per agent + per IP global). The free-message gate
+  // below is the spend control; this stops scripted hammering.
+  const rate = await checkChatRateLimit(chatClientIp(req.headers), slug);
+  if (!rate.allowed) {
+    return Response.json(
+      { error: 'rate_limited', message: 'Too many messages right now — give it a few minutes.' },
+      { status: 429, headers: corsHeaders(req) },
+    );
   }
 
   // Resolve the free-fallback ladder: the tier primary (Claude) then Gemini →
@@ -140,7 +195,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
         error:
           'Chat is not configured yet — set ANTHROPIC_API_KEY (primary) or a fallback key (GEMINI_API_KEY / GROQ_API_KEY / OLLAMA_BASE_URL). See .env.local.example.',
       },
-      { status: 503 },
+      { status: 503, headers: corsHeaders(req) },
     );
   }
 
@@ -148,7 +203,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   try {
     body = await req.json();
   } catch {
-    return Response.json({ error: 'Invalid request body.' }, { status: 400 });
+    return Response.json({ error: 'Invalid request body.' }, { status: 400, headers: corsHeaders(req) });
   }
 
   // ── Free-tier gate ────────────────────────────────────────────────────────
@@ -165,7 +220,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
         freeLimit: FREE_MESSAGE_LIMIT,
         message: `You've used your ${FREE_MESSAGE_LIMIT} free messages with ${agent.name}. Subscribe to keep going.`,
       },
-      { status: 402 },
+      { status: 402, headers: corsHeaders(req) },
     );
   }
   if (!status.entitled) {
@@ -175,9 +230,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const messages = body.messages ?? [];
   const modelMessages = await convertToModelMessages(messages);
 
+  // System prompt: DB-first (agent_prompts, pack='marketplace', versioned —
+  // curated from Kate's corpus), falling back to the locked code prompt.
+  const dbPrompt = await loadDbPrompt(slug);
+  const resolvedPrompt = dbPrompt ? composePrompt(dbPrompt.text) : agent.systemPrompt;
+
   // When the primary is unavailable and we're starting on a fallback rung, the
   // agent self-discloses and we log the selection-time fallback.
-  const baseSystem = rung.isPrimary ? agent.systemPrompt : `${agent.systemPrompt}\n\n${FALLBACK_DISCLOSURE}`;
+  const baseSystem = rung.isPrimary ? resolvedPrompt : `${resolvedPrompt}\n\n${FALLBACK_DISCLOSURE}`;
   if (!rung.isPrimary) {
     void recordModelFallback({
       agentSlug: agent.slug,
@@ -307,6 +367,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   if (isVoiceAgent(agent.slug)) knowledgeBlocks.push(VOICE_RECEPTIONIST_KNOWLEDGE);
   if (isCustoms) knowledgeBlocks.push(TARIFF_TRUST_FOOTER_RULES);
 
+  // Every agent carries the trust-footer contract (assigned sources, footer
+  // format, honest-UNAVAILABLE rule); Kaitiaki agents also carry the
+  // taonga-species kaumātua-hold.
+  knowledgeBlocks.push(trustFooterRules(agent.slug));
+  if (bundleFor(agent.slug) === 'kaitiaki') knowledgeBlocks.push(TAONGA_SPECIES_HOLD);
+
   const handoffBlock = handoffPromptBlock(agent.slug);
   if (handoffBlock) knowledgeBlocks.push(handoffBlock);
 
@@ -325,10 +391,23 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     tools,
     // Allow a couple of tool round-trips before the final answer.
     stopWhen: stepCountIs(4),
+    onFinish: ({ steps }) => {
+      const toolsUsed = steps.flatMap((s) => (s.toolCalls ?? []).map((c) => c?.toolName).filter((n): n is string => !!n));
+      writeChatReceipt({
+        agent: agent.slug,
+        domain: agent.category,
+        model: rung.id,
+        promptSource: dbPrompt ? 'db' : 'code',
+        promptVersion: dbPrompt?.version ?? null,
+        toolsUsed: Array.from(new Set(toolsUsed)),
+        draftMode: true,
+      });
+    },
     // Mid-stream provider error: log it as a fallback signal (best-effort). True
     // mid-stream model failover is a follow-up; selection-time fallback above
     // already covers the common "primary key absent / provider down at start".
     onError: ({ error }) => {
+      console.error(`[agents/${agent.slug}/chat] stream error:`, error);
       void recordModelFallback({
         agentSlug: agent.slug,
         primaryModel: rung.id,
@@ -338,7 +417,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     },
   });
 
-  return result.toUIMessageStreamResponse(
-    setAnonId ? { headers: { 'Set-Cookie': anonSetCookie(setAnonId) } } : undefined,
-  );
+  const headers: Record<string, string> = { ...corsHeaders(req) };
+  if (setAnonId) headers['Set-Cookie'] = anonSetCookie(setAnonId);
+  return result.toUIMessageStreamResponse(Object.keys(headers).length ? { headers } : undefined);
 }
