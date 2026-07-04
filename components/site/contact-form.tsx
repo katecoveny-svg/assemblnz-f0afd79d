@@ -45,7 +45,7 @@ export function ContactForm() {
           </p>
           <button
             onClick={handleCopy}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(35,33,31,0.15)] bg-white/40 text-[color:var(--text-secondary)] transition-all hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(35,33,31,0.15)] bg-white/40 text-[color:var(--text-secondary)] transition-all hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
             aria-label={copied ? "Reference copied" : "Copy reference to clipboard"}
             title={copied ? "Reference copied" : "Copy reference"}
           >
@@ -60,7 +60,7 @@ export function ContactForm() {
         <div className="mt-10">
           <Link
             href="/"
-            className="btn-ghost inline-flex h-11 items-center px-6 text-sm transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]"
+            className="btn-ghost inline-flex h-11 items-center px-6 text-sm"
           >
             <Home className="mr-2 h-4 w-4" aria-hidden />
             Return to home
@@ -200,7 +200,7 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={isPending}
-            className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+            className="cta-primary inline-flex h-12 items-center px-7 text-sm md:text-base disabled:opacity-60"
           >
             {isPending ? (
               <>
@@ -230,9 +230,9 @@ export function ContactForm() {
           transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
         .form-input:focus {
-          outline: none;
+          outline: 2px solid var(--assembl-pounamu);
+          outline-offset: 2px;
           border-color: var(--assembl-pounamu);
-          box-shadow: 0 0 0 3px rgba(58,56,50, 0.18);
         }
         .form-input::placeholder {
           color: var(--text-secondary);
