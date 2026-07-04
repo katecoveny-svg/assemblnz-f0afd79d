@@ -197,20 +197,25 @@ export default function AironautOsHome() {
                 too, or its corners poke past the round chip. */}
             <Image src="/brand/aironaut/logo-mark-official.png" alt="" width={40} height={40} className="h-10 w-10 rounded-full object-contain" />
           </span>
+          {/* Wordmark text collides with the sync pill at phone widths — the
+              round chip carries the brand there. */}
           <span
-            className="text-sm font-semibold uppercase tracking-[0.2em] text-white"
+            className="hidden text-sm font-semibold uppercase tracking-[0.2em] text-white sm:inline"
             style={{ fontFamily: 'var(--font-brand-display)' }}
           >
             AIRONAUT
           </span>
         </div>
-        <div className="absolute right-6 top-7">
+        {/* At phone widths the pill's live 'last updated Xh ago' text is
+            wider than the space beside the chip — drop it to its own line
+            under the chip there. */}
+        <div className="absolute left-6 top-[4.5rem] sm:left-auto sm:right-6 sm:top-7">
           <KnowledgeSyncPill />
         </div>
         {/* Headline sits high on the navy hull, clear of the chrome and the
             painted wordmark, so it stays legible. Lowercase per site canon
             (Kate, 2026-07-04). */}
-        <div className="absolute left-6 right-6 md:left-10" style={{ top: '18%' }}>
+        <div className="absolute left-6 right-6 top-[26%] sm:top-[18%] md:left-10">
           <h1
             className="max-w-3xl text-3xl leading-tight text-white md:text-5xl"
             style={{ fontFamily: serif, fontWeight: 500, textShadow: '0 1px 24px rgba(0,0,0,0.35)' }}
