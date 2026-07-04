@@ -88,6 +88,33 @@ const SERIF = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
 const NAVY = '#0B1F3A';
 const STEEL = '#6E8FB3';
 
+/** Phone-width node card: navy square icon, mono label, permanent caption. */
+function MobileNode({ node, filled = false }: { node: Placed; filled?: boolean }) {
+  return (
+    <div className="flex flex-col items-center text-center">
+      <span
+        className="flex h-8 w-8 items-center justify-center rounded-[7px] text-[13px] font-bold"
+        style={{
+          fontFamily: MONO,
+          backgroundColor: filled ? NAVY : '#FFFFFF',
+          color: filled ? '#FFFFFF' : NAVY,
+          border: filled ? 'none' : `1.5px solid ${NAVY}8C`,
+        }}
+      >
+        {node.glyph}
+      </span>
+      <p className="mt-1.5 text-[10px] font-bold" style={{ fontFamily: MONO, letterSpacing: '0.12em', color: '#1A1918' }}>
+        {node.label}
+      </p>
+      {node.caption.map((line, i) => (
+        <p key={i} className="text-[10px] leading-snug" style={{ fontFamily: MONO, color: '#6B6459' }}>
+          {line}
+        </p>
+      ))}
+    </div>
+  );
+}
+
 export function IntegrationMap() {
   return (
     <div className="rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm">
@@ -95,7 +122,41 @@ export function IntegrationMap() {
         the wiring — what it reads, what it writes
       </p>
 
-      <div className="relative mt-2 overflow-x-auto">
+      {/* Phone reflow — the wide SVG panned horizontally at 390px with ~6px
+          effective type. Below md: mark centred, tools and signals in
+          two-column grids above and below. */}
+      <div className="mt-4 md:hidden">
+        <p className="text-center text-[10px] font-bold" style={{ fontFamily: MONO, letterSpacing: '0.25em', color: NAVY }}>
+          READS + WRITES DAILY
+        </p>
+        <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-4">
+          {tools.map((n) => (
+            <MobileNode key={n.id} node={n} filled />
+          ))}
+        </div>
+        <div className="my-6 flex flex-col items-center">
+          <span
+            className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-white"
+            style={{ border: '2px solid #BFA37A' }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/brand/aironaut/logo-mark-official.png" alt="AIRONAUT" className="h-20 w-20 rounded-full object-contain" />
+          </span>
+          <p className="mt-2 text-2xl" style={{ fontFamily: SERIF, color: '#1F1D1A' }}>
+            customs broker<span style={{ color: '#BFA37A' }}>.</span>
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-x-3 gap-y-4">
+          {signals.map((n) => (
+            <MobileNode key={n.id} node={n} />
+          ))}
+        </div>
+        <p className="mt-4 text-center text-[10px] font-bold" style={{ fontFamily: MONO, letterSpacing: '0.25em', color: STEEL }}>
+          SIGNAL SOURCES · READ ONLY
+        </p>
+      </div>
+
+      <div className="relative mt-2 hidden overflow-x-auto md:block">
         <div className="relative mx-auto min-w-[760px] max-w-[1200px]">
           <svg
             viewBox={`0 0 ${W} ${H}`}
