@@ -88,28 +88,62 @@ const SERIF = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
 const NAVY = '#0B1F3A';
 const STEEL = '#6E8FB3';
 
-/** Phone-width node card: navy square icon, mono label, permanent caption. */
-function MobileNode({ node, filled = false }: { node: Placed; filled?: boolean }) {
+/**
+ * Phone spec (Kate, 2026-07-04): mark 80px centred, then two stacked card
+ * lists. Tool name in Cormorant 18px lowercase; plain-English sub-line in
+ * Space Mono 10px uppercase tracked, champagne gold. Icons (24px navy chips)
+ * on the daily-tools cards only, per the sketch. No rings, no hover, no
+ * letter-only nodes.
+ */
+const MOBILE_TOOLS: { glyph: string; name: string; sub: string }[] = [
+  { glyph: 'O', name: 'outlook', sub: 'reads: emails · writes: drafts' },
+  { glyph: 'X', name: 'xero', sub: 'reads: bills · writes: invoices' },
+  { glyph: '$', name: 'bank feed', sub: 'reads: payments · writes: nothing' },
+  { glyph: 'W', name: 'whatsapp + sms', sub: 'reads: replies · writes: drafts' },
+  { glyph: 'C', name: 'cusmod + edi', sub: 'reads: shipment data · writes: drafts' },
+  { glyph: 'D', name: 'dropbox / sharepoint', sub: 'reads: docs · writes: nothing' },
+];
+
+const MOBILE_SIGNALS: { name: string; sub: string }[] = [
+  { name: 'nz customs working tariff', sub: 'live daily ingest' },
+  { name: 'companies office + illion', sub: 'credit checks' },
+  { name: 'maersk · msc · cma cgm', sub: 'container tracking' },
+  { name: 'cathay + emirates skycargo', sub: 'air freight' },
+  { name: 'mpi biosecurity', sub: 'perishables' },
+  { name: 'nzta', sub: 'vehicle imports' },
+  { name: 'global wine logistics', sub: 'wine partner' },
+  { name: 'ird tax-debt register', sub: 'red flags' },
+];
+
+function MobileCardList({
+  cards,
+}: {
+  cards: { glyph?: string; name: string; sub: string }[];
+}) {
   return (
-    <div className="flex flex-col items-center text-center">
-      <span
-        className="flex h-8 w-8 items-center justify-center rounded-[7px] text-[13px] font-bold"
-        style={{
-          fontFamily: MONO,
-          backgroundColor: filled ? NAVY : '#FFFFFF',
-          color: filled ? '#FFFFFF' : NAVY,
-          border: filled ? 'none' : `1.5px solid ${NAVY}8C`,
-        }}
-      >
-        {node.glyph}
-      </span>
-      <p className="mt-1.5 text-[10px] font-bold" style={{ fontFamily: MONO, letterSpacing: '0.12em', color: '#1A1918' }}>
-        {node.label}
-      </p>
-      {node.caption.map((line, i) => (
-        <p key={i} className="text-[10px] leading-snug" style={{ fontFamily: MONO, color: '#6B6459' }}>
-          {line}
-        </p>
+    <div className="divide-y divide-black/10 rounded-xl border border-black/10 bg-white/90">
+      {cards.map((c) => (
+        <div key={c.name} className="flex items-center gap-3 px-4 py-3">
+          {c.glyph ? (
+            <span
+              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[12px] font-bold text-white"
+              style={{ fontFamily: MONO, backgroundColor: NAVY }}
+            >
+              {c.glyph}
+            </span>
+          ) : null}
+          <div className="min-w-0">
+            <p className="text-[18px] leading-snug" style={{ fontFamily: SERIF, color: '#1F1D1A' }}>
+              {c.name}
+            </p>
+            <p
+              className="text-[10px] uppercase leading-[1.4]"
+              style={{ fontFamily: MONO, letterSpacing: '0.16em', color: '#BFA37A' }}
+            >
+              {c.sub}
+            </p>
+          </div>
+        </div>
       ))}
     </div>
   );
@@ -122,38 +156,40 @@ export function IntegrationMap() {
         the wiring — what it reads, what it writes
       </p>
 
-      {/* Phone reflow — the wide SVG panned horizontally at 390px with ~6px
-          effective type. Below md: mark centred, tools and signals in
-          two-column grids above and below. */}
+      {/* Phone layout — stacked card lists, no ring (Kate, 2026-07-04). */}
       <div className="mt-4 md:hidden">
-        <p className="text-center text-[10px] font-bold" style={{ fontFamily: MONO, letterSpacing: '0.25em', color: NAVY }}>
-          READS + WRITES DAILY
-        </p>
-        <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-4">
-          {tools.map((n) => (
-            <MobileNode key={n.id} node={n} filled />
-          ))}
-        </div>
-        <div className="my-6 flex flex-col items-center">
+        <div className="flex flex-col items-center">
           <span
-            className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-white"
+            className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-white"
             style={{ border: '2px solid #BFA37A' }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/brand/aironaut/logo-mark-official.png" alt="AIRONAUT" className="h-20 w-20 rounded-full object-contain" />
+            <img src="/brand/aironaut/logo-mark-official.png" alt="AIRONAUT" className="h-16 w-16 rounded-full object-contain" />
           </span>
-          <p className="mt-2 text-2xl" style={{ fontFamily: SERIF, color: '#1F1D1A' }}>
+          <p className="mt-2 text-xl" style={{ fontFamily: SERIF, color: '#1F1D1A' }}>
             customs broker<span style={{ color: '#BFA37A' }}>.</span>
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-x-3 gap-y-4">
-          {signals.map((n) => (
-            <MobileNode key={n.id} node={n} />
-          ))}
+
+        <p
+          className="mt-5 text-[10px] font-bold uppercase"
+          style={{ fontFamily: MONO, letterSpacing: '0.2em', color: NAVY }}
+        >
+          READS + WRITES DAILY
+        </p>
+        <div className="mt-2">
+          <MobileCardList cards={MOBILE_TOOLS} />
         </div>
-        <p className="mt-4 text-center text-[10px] font-bold" style={{ fontFamily: MONO, letterSpacing: '0.25em', color: STEEL }}>
+
+        <p
+          className="mt-6 text-[10px] font-bold uppercase"
+          style={{ fontFamily: MONO, letterSpacing: '0.2em', color: STEEL }}
+        >
           SIGNAL SOURCES · READ ONLY
         </p>
+        <div className="mt-2">
+          <MobileCardList cards={MOBILE_SIGNALS} />
+        </div>
       </div>
 
       <div className="relative mt-2 hidden overflow-x-auto md:block">
