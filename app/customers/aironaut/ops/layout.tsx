@@ -53,10 +53,10 @@ export default function AironautOpsLayout({ children }: { children: ReactNode })
           aria-hidden
           className="pointer-events-none fixed inset-0"
           style={{
-            backgroundImage: 'url(/brand/aironaut/pattern-freight-icons.png)',
+            backgroundImage: 'url(/brand/aironaut/pattern-freight-icons-v2.png)',
             backgroundRepeat: 'repeat',
             backgroundSize: '420px auto',
-            opacity: 0.04,
+            opacity: 0.06,
           }}
         />
 

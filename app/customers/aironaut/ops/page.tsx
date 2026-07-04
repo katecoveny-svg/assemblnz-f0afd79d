@@ -153,8 +153,10 @@ export default function AironautOsHome() {
 
   return (
     <div className="flex flex-col">
-      {/* ── Fold 1 · signature hero — photograph, wordmark, one line ─────── */}
-      <section className="relative h-[88vh] min-h-[540px] w-full overflow-hidden">
+      {/* ── Fold 1 · dashboard backdrop — photograph, wordmark, one line ──
+          Backdrop scale, not a marketing takeover: the money work must be
+          visible without scrolling (Kate, 2026-07-04). */}
+      <section className="relative h-[56vh] min-h-[420px] w-full overflow-hidden">
         {/* Slow Ken Burns drift on the still — reduced-motion users get a
             static frame. */}
         <style>{`
@@ -170,7 +172,7 @@ export default function AironautOsHome() {
           }
         `}</style>
         <Image
-          src="/brand/aironaut/hero-yacht-bow.png"
+          src="/brand/aironaut/hero-yacht-bow-v2.png"
           alt="Navy yacht bow against the AIRONAUT propeller-globe wordmark painted on the branded hull, orange stripe below"
           fill
           priority
@@ -180,11 +182,20 @@ export default function AironautOsHome() {
           // the painted AIRONAUT wordmark stays in view at every viewport.
           style={{ objectPosition: '62% 30%' }}
         />
+        {/* Navy scrim behind the chrome + headline — keeps white type legible
+            where the crop puts the pale hull under it (375px). */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(180deg, rgba(11,31,58,0.5) 0%, rgba(11,31,58,0.18) 38%, rgba(11,31,58,0) 60%)',
+          }}
+        />
         <div className="absolute left-6 top-6 flex items-center gap-3">
           <span className="inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-white/90">
             {/* The mark PNG is square with a white ground — clip it circular
                 too, or its corners poke past the round chip. */}
-            <Image src="/brand/aironaut/logo-circular-mark.png" alt="" width={40} height={40} className="h-10 w-10 rounded-full object-contain" />
+            <Image src="/brand/aironaut/logo-mark-official.png" alt="" width={40} height={40} className="h-10 w-10 rounded-full object-contain" />
           </span>
           <span
             className="text-sm font-semibold uppercase tracking-[0.2em] text-white"
@@ -197,21 +208,21 @@ export default function AironautOsHome() {
           <KnowledgeSyncPill />
         </div>
         {/* Headline sits high on the navy hull, clear of the chrome and the
-            painted wordmark, so it stays legible. Sentence case here — not
-            the site-wide lowercase. */}
-        <div className="absolute left-6 right-6 md:left-10" style={{ top: '16%' }}>
+            painted wordmark, so it stays legible. Lowercase per site canon
+            (Kate, 2026-07-04). */}
+        <div className="absolute left-6 right-6 md:left-10" style={{ top: '18%' }}>
           <h1
-            className="max-w-3xl text-4xl leading-tight text-white md:text-6xl"
+            className="max-w-3xl text-3xl leading-tight text-white md:text-5xl"
             style={{ fontFamily: serif, fontWeight: 500, textShadow: '0 1px 24px rgba(0,0,0,0.35)' }}
           >
-            The operating system for your freight business
+            the operating system for your freight business
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h1>
           <p
             className="mt-4 text-[10px] uppercase text-white/85"
             style={{ letterSpacing: '0.16em' }}
           >
-            global trade. made simple. · concept pilot · draft-only
+            global trade. made simple.
           </p>
         </div>
       </section>
@@ -230,7 +241,7 @@ export default function AironautOsHome() {
         {/* ── Fold 2 · the money work — chase, check, cashflow ────────────── */}
         <section className="mt-16">
           <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
-            The money work
+            the money work
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
@@ -283,7 +294,7 @@ export default function AironautOsHome() {
         {/* ── Fold 2c · how it plugs into what you already use ────────────── */}
         <section className="mt-20">
           <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
-            How it plugs in
+            how it plugs in
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
@@ -298,7 +309,7 @@ export default function AironautOsHome() {
         {/* ── Fold 3 · the live agent ─────────────────────────────────────── */}
         <section className="mt-20">
           <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
-            Talk to your customs broker
+            talk to your customs broker
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
@@ -376,7 +387,7 @@ export default function AironautOsHome() {
         {/* ── Fold 4 · the transparency piece ─────────────────────────────── */}
         <section className="mt-20">
           <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
-            The proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
+            the proof<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
             Every draft is backed by a tamper-evident audit receipt. The latest entry in the chain:
@@ -425,7 +436,7 @@ export default function AironautOsHome() {
         {/* ── Fold 5 · next step ──────────────────────────────────────────── */}
         <section className="my-24 text-center">
           <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
-            Ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
+            ready when you are<span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-md text-sm" style={{ color: '#3E3C36' }}>
             The pilot runs draft-only until you say otherwise. One conversation

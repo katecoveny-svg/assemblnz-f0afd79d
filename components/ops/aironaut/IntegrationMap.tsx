@@ -127,7 +127,7 @@ export function IntegrationMap() {
             {/* AIRONAUT mark at the centre — on white, per the brand rule */}
             <circle cx={CX} cy={CY} r={62} fill="#fff" stroke="rgba(0,0,0,0.06)" />
             <image
-              href="/brand/aironaut/logo-circular-mark.png"
+              href="/brand/aironaut/logo-mark-official.png"
               x={CX - 46}
               y={CY - 46}
               width="92"

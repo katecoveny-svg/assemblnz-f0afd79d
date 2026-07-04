@@ -38,7 +38,8 @@
 
 ## Logo assets (in this folder)
 
-- `logo-circular-mark.png` — the primary circular mark: "AIRO NAUT" wrapping a navy globe with a steel-blue propeller cutting through. Use on white or warm-stone background.
+- `logo-mark-official.png` — **THE official Aironaut logo** (Kate's 2026-07-04 upload): clean isolated propeller-globe — navy globe, steel-blue propeller, "AIRO / NAUT" curved lettering, white ground. **Header mark on every Aironaut route.**
+- `logo-circular-mark.png` — the earlier circular mark. Fallback only — superseded by `logo-mark-official.png`.
 - `brand-style-guide.png` — the full 1-page brand kit for reference (do not use as a live asset — it's a style guide export)
 
 ## Hero imagery
@@ -49,12 +50,23 @@ Editorial-industrial photography, high contrast, brand-anchored. Use these acros
 - `hero-yacht-hull.png` — sleek yacht hull with mark backdrop navy-and-orange. **Primary hero for "Boat & Yacht Transport"**.
 - `hero-cargo-plane.png` — cargo-plane loading bay against navy/orange/warm-stone triptych. **Primary hero for the "Freight Import Export" / air-cargo depth surface**.
 - `hero-perishable-food.png` — perishable-goods styleboard (seafood, cheese, oil, tomatoes, salmon, figs) with "PERISHABLE / HANDLE WITH CARE" and "GLOBAL REACH / LOCAL EXPERTISE" tags. **Use for perishables / wine-adjacent / high-value cargo surfaces**.
-- `wine-shipment.png` — wine crate + export documents on navy/orange split bg. **Primary hero for "Wine Import & Export" (Global Wine Logistics partner)**.
-- `packaging-suite.png` — full packaging system (crates, boxes, tape, freight checklist). Use on the customs / dispatch / operations surfaces.
+- `wine-shipment.png` — wine crate + export documents on navy/orange split bg. Superseded by `hero-wine-crate.png` for the wine surface; keep for decks.
+- `packaging-suite.png` — full packaging system (crates, boxes, tape, freight checklist). Superseded by `hero-packaging-suite.png`; keep for decks.
+
+### 2026-07-04 uploads (current generation — prefer these)
+
+- `hero-yacht-bow.png` — navy superyacht bow, orange waterline stripe, painted AIRONAUT wall mark behind. v1 — superseded by v2; keep as fallback / pitch pack.
+- `hero-yacht-bow-v2.png` — cleaner render of the yacht bow with the AIRONAUT wall behind. **Dashboard hero (`/customers/aironaut/ops`) and "Boat & Yacht Transport" hero.**
+- `hero-cargo-ship.png` — photorealistic navy cargo ship, "AIRONAUT CUSTOMS BROKERS" on the hull, branded containers on deck. Cinematic. **Primary hero for "Freight Import Export".**
+- `hero-porsche-container.png` — grey 911 emerging from a container onto the orange floor, AIRONAUT mark on the navy wall. **Primary hero for "Exotic Motor Vehicle Shipping".**
+- `hero-wine-crate.png` — photorealistic branded shipment box + wooden crate with Pinot Noir bottles. **Primary hero for "Wine Import & Export".**
+- `hero-perishables.png` — Aironaut perishable-box lineup (crab, fish, cheese, salmon, tomatoes, olive oil). **Perishables sub-surface when one exists; until then, rotating hero backdrop.**
+- `hero-packaging-suite.png` — wooden crates + freight checklist + branded wrapping tape. **Operations / documents surface.**
 
 ## Signature pattern
 
-- `pattern-freight-icons.png` — repeating pattern of airplane / propeller / container / car / boat / clipboard-check / target / arrows on warm-stone bg with navy + orange accents. Use as: dashboard shell watermark, letterhead, empty states, tracking-page background.
+- `pattern-freight-icons-v2.png` — **current** (2026-07-04): cleaner navy/orange freight icon pattern (planes / containers / cars / boats / propellers / clipboards). Wallpaper on all Aironaut routes at 5–8% opacity over warm stone.
+- `pattern-freight-icons.png` — v1. Fallback only — superseded by v2.
 
 ## Four service lines (each has its own surface)
 
