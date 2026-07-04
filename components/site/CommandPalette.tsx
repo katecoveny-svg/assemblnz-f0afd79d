@@ -63,8 +63,9 @@ export function CommandPalette() {
                 className="h-11 flex-1 bg-transparent text-base outline-none placeholder:text-[color:var(--text-secondary)] md:text-body-md"
               />
               <Dialog.Close
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:bg-[rgba(35,33,31,0.06)] focus-visible:text-[color:var(--text-primary)]"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:bg-[rgba(35,33,31,0.06)] focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
                 aria-label="Close command palette"
+                title="Close"
               >
                 <X className="h-5 w-5" aria-hidden />
               </Dialog.Close>
@@ -80,7 +81,7 @@ export function CommandPalette() {
                     key={kete.slug}
                     value={`${kete.name} ${kete.englishName} ${kete.industry} ${kete.meaning}`}
                     onSelect={() => go(`/kete/${kete.slug}`)}
-                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/30"
+                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:-translate-y-0.5 aria-selected:scale-[1.01] aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-card aria-selected:outline aria-selected:outline-1 aria-selected:outline-ring/30"
                     style={{ borderLeftColor: kete.accent }}
                   >
                     <img src={KETE_VESSEL_IMAGES[kete.slug]} alt="" className="h-8 w-8 rounded-sm object-cover" />
@@ -102,7 +103,7 @@ export function CommandPalette() {
                       key={agent.slug}
                       value={`${agent.name} ${agent.role} ${kete.name} ${kete.englishName}`}
                       onSelect={() => go(`/agents/${agent.slug}`)}
-                      className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/30"
+                      className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 px-3 py-3 transition-all aria-selected:-translate-y-0.5 aria-selected:scale-[1.01] aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-card aria-selected:outline aria-selected:outline-1 aria-selected:outline-ring/30"
                       style={{ borderLeftColor: kete.accent }}
                     >
                       <Sparkles className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
@@ -122,7 +123,7 @@ export function CommandPalette() {
                     key={page.href}
                     value={page.label}
                     onSelect={() => go(page.href)}
-                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 border-[color:var(--assembl-pounamu)] px-3 py-3 transition-all aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-sm aria-selected:ring-1 aria-selected:ring-[color:var(--assembl-pounamu)]/30"
+                    className="group flex min-h-[56px] cursor-pointer items-center gap-3 rounded-[8px] border-l-4 border-[color:var(--assembl-pounamu)] px-3 py-3 transition-all aria-selected:-translate-y-0.5 aria-selected:scale-[1.01] aria-selected:bg-assembl-pounamu/10 aria-selected:shadow-card aria-selected:outline aria-selected:outline-1 aria-selected:outline-ring/30"
                   >
                     <FileText className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
                     <span className="flex-1 text-body-md">{page.label}</span>
