@@ -180,9 +180,11 @@ export function PilotAgentChat({
           style={{ backgroundColor: accent }}
         />
         <span className="text-sm font-semibold">{agentName}</span>
+        {/* 60% ink, not warm grey — the label was washing out on paper at
+            phone sizes (Kate, 2026-07-04). */}
         <span
-          className="ml-auto text-[9px] uppercase"
-          style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
+          className="ml-auto text-[10px] uppercase"
+          style={{ letterSpacing: '0.16em', color: 'rgba(31, 29, 26, 0.62)' }}
         >
           live agent · draft-only
         </span>
@@ -278,7 +280,7 @@ export function PilotAgentChat({
               type="button"
               onClick={() => send(t)}
               disabled={busy}
-              className="rounded-full border border-black/10 bg-white px-3 py-1 text-left text-[11px] transition-colors hover:bg-black/5 disabled:opacity-50"
+              className="rounded-full border border-black/10 bg-white px-3 py-1 text-left text-[11px] leading-[1.4] transition-colors hover:bg-black/5 disabled:opacity-50"
             >
               {t}
             </button>

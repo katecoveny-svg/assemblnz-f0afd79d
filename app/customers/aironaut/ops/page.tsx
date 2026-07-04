@@ -59,8 +59,8 @@ function citationLabel(c: import('@/lib/evidence/types').ReceiptCitation): {
  * AIRONAUT — the AI operating system for the family freight business.
  *
  * Fold 1  signature hero: the yacht-bow photograph on the branded hull, one line.
- * Fold 2  the money work — AR chase, credit check, cashflow exposure.
- * Fold 3  live agent chat (Pīkau) + the behind-the-scenes tabs + walkthrough.
+ * Fold 2  live agent chat (Pīkau) + the behind-the-scenes tabs + walkthrough.
+ * Fold 3  the money work — AR chase, credit check, cashflow exposure.
  * Fold 4  Mana Receipt chain — the transparency piece.
  * Fold 5  next step.
  *
@@ -232,7 +232,7 @@ export default function AironautOsHome() {
         </div>
       </section>
 
-      <div className="mx-auto w-full max-w-6xl px-6">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
         {/* Draft-mode bar — first thing after the fold. */}
         <div
           className="mt-8 rounded-md border border-black/5 bg-white/80 p-4 text-sm backdrop-blur-sm"
@@ -243,79 +243,13 @@ export default function AironautOsHome() {
           the workspace.
         </div>
 
-        {/* ── Fold 2 · the money work — chase, check, cashflow ────────────── */}
+        {/* ── Fold 2 · the live agent — the crown jewel, straight after the fold */}
         <section className="mt-16">
           <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
-            the money work
-            <span style={{ color: ASSEMBL_GOLD }}>.</span>
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
-            Overdue invoices chased on a steady cadence, new customers
-            credit-checked before terms, and the deferred-account squeeze seen
-            a month out. Sample data; every send needs your approval.
-          </p>
-
-          <div className="mt-6 grid items-start gap-5 md:grid-cols-3">
-            <ARChasePanel accent={accent} />
-            <CreditCheckPanel accent={accent} />
-
-            {/* Cashflow exposure — glance tile → the full page */}
-            <div className="rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm">
-              <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
-                cashflow exposure
-              </p>
-              <p className="mt-3 text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
-                {cashflowHeadline.out} · {cashflowHeadline.back}.
-              </p>
-              <div className="mt-3 flex items-end gap-1.5" aria-hidden>
-                {cashflowWeeks.map((w) => (
-                  <span
-                    key={w.label}
-                    className="w-7 rounded-t-sm"
-                    style={{
-                      height: Math.max(8, Math.abs(w.netK) * 0.6),
-                      backgroundColor:
-                        w.status === 'positive' ? '#2E6B34' : w.status === 'tight' ? '#C8622A' : '#8F2D2D',
-                      opacity: 0.9,
-                    }}
-                    title={`${w.label}: ${w.netK >= 0 ? '+' : '−'}$${Math.abs(w.netK)}k`}
-                  />
-                ))}
-              </div>
-              <p className="mt-3 text-[12px]" style={{ color: '#8F2D2D' }}>
-                {cashflowSqueeze.line}
-              </p>
-              <Link
-                href="/customers/aironaut/ops/cashflow"
-                className="mt-3 inline-block rounded-full px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition hover:opacity-90"
-                style={{ backgroundColor: accent }}
-              >
-                Open the full picture
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* ── Fold 2c · how it plugs into what you already use ────────────── */}
-        <section className="mt-20">
-          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
-            how it plugs in
-            <span style={{ color: ASSEMBL_GOLD }}>.</span>
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
-            The OS sits behind the tools you already use — it reads and writes
-            beside them, it does not replace them.
-          </p>
-          <div className="mt-6">
-            <IntegrationMap />
-          </div>
-        </section>
-
-        {/* ── Fold 3 · the live agent ─────────────────────────────────────── */}
-        <section className="mt-20">
-          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
-            talk to your customs broker
-            <span style={{ color: ASSEMBL_GOLD }}>.</span>
+            talk to your customs{' '}
+            <span className="whitespace-nowrap">
+              broker<span style={{ color: ASSEMBL_GOLD }}>.</span>
+            </span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
             The workspace agent, live. Real tariff engine, real landed-cost maths,
@@ -386,6 +320,74 @@ export default function AironautOsHome() {
                 preview: d.preview,
               }))}
             />
+          </div>
+        </section>
+
+        {/* ── Fold 3 · the money work — chase, check, cashflow ────────────── */}
+        <section className="mt-20">
+          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
+            the money work
+            <span style={{ color: ASSEMBL_GOLD }}>.</span>
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
+            Overdue invoices chased on a steady cadence, new customers
+            credit-checked before terms, and the deferred-account squeeze seen
+            a month out. Sample data; every send needs your approval.
+          </p>
+
+          <div className="mt-6 grid items-start gap-5 md:grid-cols-3">
+            <ARChasePanel accent={accent} />
+            <CreditCheckPanel accent={accent} />
+
+            {/* Cashflow exposure — glance tile → the full page */}
+            <div className="rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm">
+              <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+                cashflow exposure
+              </p>
+              <p className="mt-3 text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
+                {cashflowHeadline.out} · {cashflowHeadline.back}.
+              </p>
+              <div className="mt-3 flex items-end gap-1.5" aria-hidden>
+                {cashflowWeeks.map((w) => (
+                  <span
+                    key={w.label}
+                    className="w-7 rounded-t-sm"
+                    style={{
+                      height: Math.max(8, Math.abs(w.netK) * 0.6),
+                      backgroundColor:
+                        w.status === 'positive' ? '#2E6B34' : w.status === 'tight' ? '#C8622A' : '#8F2D2D',
+                      opacity: 0.9,
+                    }}
+                    title={`${w.label}: ${w.netK >= 0 ? '+' : '−'}$${Math.abs(w.netK)}k`}
+                  />
+                ))}
+              </div>
+              <p className="mt-3 text-[12px]" style={{ color: '#8F2D2D' }}>
+                {cashflowSqueeze.line}
+              </p>
+              <Link
+                href="/customers/aironaut/ops/cashflow"
+                className="mt-3 inline-block rounded-full px-3.5 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition hover:opacity-90"
+                style={{ backgroundColor: accent }}
+              >
+                Open the full picture
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Fold 3b · how it plugs into what you already use ────────────── */}
+        <section className="mt-20">
+          <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
+            how it plugs in
+            <span style={{ color: ASSEMBL_GOLD }}>.</span>
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
+            customs broker reads and writes to these tools daily. it also draws
+            on these signal sources.
+          </p>
+          <div className="mt-6">
+            <IntegrationMap />
           </div>
         </section>
 
