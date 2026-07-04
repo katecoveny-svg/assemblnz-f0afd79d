@@ -112,6 +112,17 @@ const splashGate = (request: NextRequest): NextResponse | null => {
     );
   }
 
+  // Emailed auth links belong on the demo host too — the session cookies must
+  // be written there for the operator hub to see them. Magic-link emails sent
+  // before 2026-07-05 point at this host (the old template used SiteURL);
+  // forward them with the token intact instead of splashing them.
+  if (matchesPrefix(pathname, '/auth')) {
+    return NextResponse.redirect(
+      `${ADMIN_HOME}${pathname}${request.nextUrl.search}`,
+      302,
+    );
+  }
+
   if (SPLASH_EXEMPT_EXACT.has(pathname)) return null;
   if (SPLASH_EXEMPT_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) return null;
   if (SPLASH_STATIC_FILE.test(pathname)) return null;
