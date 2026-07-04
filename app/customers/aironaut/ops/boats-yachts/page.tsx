@@ -28,7 +28,7 @@ export default function AironautBoatsYachtsPage() {
           under the scrim; the wall mark rides top-right. */}
       <section className="relative h-[72vh] min-h-[460px] w-full overflow-hidden">
         <Image
-          src="/brand/aironaut/hero-yacht-bow.png"
+          src="/brand/aironaut/hero-yacht-bow-v2.png"
           alt="Navy superyacht bow with orange waterline stripe, AIRONAUT mark on the wall behind"
           fill
           priority

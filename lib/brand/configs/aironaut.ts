@@ -18,8 +18,11 @@ export const aironautConfig: BrandConfig = parseBrandConfig({
   slug: 'aironaut',
   displayName: 'AIRONAUT',
   logo: {
-    src: '/brand/aironaut/logo-circular-mark.png',
-    alt: 'AIRONAUT circular mark',
+    // THE official mark (Kate's 2026-07-04 upload) — navy globe, steel-blue
+    // propeller, AIRO/NAUT curved lettering. Every Aironaut route uses this;
+    // logo-circular-mark.png stays in the folder as fallback only.
+    src: '/brand/aironaut/logo-mark-official.png',
+    alt: 'AIRONAUT propeller-globe mark',
   },
   // Real Aironaut palette:
   //   Deep Navy   #0B1F3A — primary surface, logo, headlines
@@ -56,8 +59,8 @@ export const aironautConfig: BrandConfig = parseBrandConfig({
     // Signature repeating freight-icon pattern on warm-stone bg. Used inside
     // Warm Stone card interiors only — never on the Deep Navy shell (see
     // OpsShell + README notes).
-    primary: '/brand/aironaut/pattern-freight-icons.png',
-    secondary: '/brand/aironaut/pattern-freight-icons.png',
+    primary: '/brand/aironaut/pattern-freight-icons-v2.png',
+    secondary: '/brand/aironaut/pattern-freight-icons-v2.png',
   },
   photography: {
     // Primary Freight anchor — chrome propeller on burnt-orange field, with
@@ -86,9 +89,9 @@ export const aironautConfig: BrandConfig = parseBrandConfig({
       label: 'Freight Import Export',
       blurb: 'General air + sea freight — the parent service.',
       href: 'freight',
-      // Landing page uses hero-propeller-orange (via config.photography.anchor)
-      // so the freight sub-page uses hero-cargo-plane for depth/variety.
-      heroImage: '/brand/aironaut/hero-cargo-plane.png',
+      // Kate's 2026-07-04 upload — navy cargo ship, AIRONAUT CUSTOMS BROKERS
+      // on the hull, branded containers on deck.
+      heroImage: '/brand/aironaut/hero-cargo-ship.png',
     },
     {
       id: 'exotic-vehicles',
@@ -104,16 +107,18 @@ export const aironautConfig: BrandConfig = parseBrandConfig({
       label: 'Boat & Yacht Transport',
       blurb: 'Marine transport worldwide.',
       href: 'boats-yachts',
-      // Kate's 2026-07-04 upload — navy superyacht bow, orange waterline
-      // stripe, AIRONAUT mark on the wall behind.
-      heroImage: '/brand/aironaut/hero-yacht-bow.png',
+      // Kate's 2026-07-04 upload (v2, cleaner render) — navy superyacht bow,
+      // orange waterline stripe, AIRONAUT mark on the wall behind.
+      heroImage: '/brand/aironaut/hero-yacht-bow-v2.png',
     },
     {
       id: 'wine',
       label: 'Wine Import & Export',
       blurb: 'NZ partner of Global Wine Logistics.',
       href: 'wine',
-      heroImage: '/brand/aironaut/wine-shipment.png',
+      // Kate's 2026-07-04 upload — branded shipment box + wooden crate,
+      // Pinot Noir bottles.
+      heroImage: '/brand/aironaut/hero-wine-crate.png',
     },
   ],
 });
