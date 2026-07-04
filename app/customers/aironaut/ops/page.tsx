@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { KnowledgeSyncPill } from '@/components/ops/KnowledgeSyncPill';
-import { TickerNumber } from '@/lib/motion';
 import { ASSEMBL_GOLD, ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { EnableNotificationsButton } from '@/components/customers/EnableNotificationsButton';
@@ -20,14 +19,7 @@ import {
   AIRONAUT_TRY_ME,
   aironautPromptExcerpt,
 } from '@/lib/customers/aironaut/agent';
-import {
-  aironautActivity,
-  aironautBoatConsignments,
-  aironautComms,
-  aironautExoticVehicleConsignments,
-  aironautFreightConsignments,
-  aironautWineConsignments,
-} from '@/lib/customers/aironaut/demo-data';
+import { aironautActivity, aironautComms } from '@/lib/customers/aironaut/demo-data';
 import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
 import { classifyGoods } from '@/lib/customs/classify';
 import { computeLandedCost } from '@/lib/customs/landed-cost';
@@ -66,8 +58,8 @@ function citationLabel(c: import('@/lib/evidence/types').ReceiptCitation): {
 /**
  * AIRONAUT — the AI operating system for the family freight business.
  *
- * Fold 1  signature hero: the propeller photograph, the wordmark, one line.
- * Fold 2  read signals · route work · move to proof (live from demo data).
+ * Fold 1  signature hero: the yacht-bow photograph on the branded hull, one line.
+ * Fold 2  the money work — AR chase, credit check, cashflow exposure.
  * Fold 3  live agent chat (Pīkau) + the behind-the-scenes tabs + walkthrough.
  * Fold 4  Mana Receipt chain — the transparency piece.
  * Fold 5  next step.
@@ -79,12 +71,6 @@ export default function AironautOsHome() {
   const config = getBrandConfig('aironaut');
   if (!config) notFound();
   const accent = config.colours.accent; // Burnt Orange — CTA + status dot only.
-
-  const consignmentCount =
-    aironautFreightConsignments.length +
-    aironautExoticVehicleConsignments.length +
-    aironautBoatConsignments.length +
-    aironautWineConsignments.length;
 
   // ── Real Pīkau computations for the walkthrough ─────────────────────────
   const quote = compareFreight(
@@ -169,13 +155,30 @@ export default function AironautOsHome() {
     <div className="flex flex-col">
       {/* ── Fold 1 · signature hero — photograph, wordmark, one line ─────── */}
       <section className="relative h-[88vh] min-h-[540px] w-full overflow-hidden">
+        {/* Slow Ken Burns drift on the still — reduced-motion users get a
+            static frame. */}
+        <style>{`
+          @keyframes aironaut-hero-kenburns {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+          }
+          .aironaut-hero-kenburns {
+            animation: aironaut-hero-kenburns 20s ease-in-out infinite alternate;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .aironaut-hero-kenburns { animation: none; }
+          }
+        `}</style>
         <Image
-          src="/brand/aironaut/hero-propeller-orange-branded.png"
-          alt="Chrome aircraft propeller with the AIRONAUT circular mark on the spinner, on the burnt-orange field"
+          src="/brand/aironaut/hero-yacht-bow.png"
+          alt="Navy yacht bow against the AIRONAUT propeller-globe wordmark painted on the branded hull, orange stripe below"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="aironaut-hero-kenburns object-cover"
+          // Portrait frame in a landscape hero: bias the crop up and right so
+          // the painted AIRONAUT wordmark stays in view at every viewport.
+          style={{ objectPosition: '62% 30%' }}
         />
         <div className="absolute left-6 top-6 flex items-center gap-3">
           <span className="inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-white/90">
@@ -193,8 +196,8 @@ export default function AironautOsHome() {
         <div className="absolute right-6 top-7">
           <KnowledgeSyncPill />
         </div>
-        {/* Headline sits high on the burnt-orange field, clear of the chrome,
-            so it stays legible (Kate, 2026-07-02). Sentence case here — not
+        {/* Headline sits high on the navy hull, clear of the chrome and the
+            painted wordmark, so it stays legible. Sentence case here — not
             the site-wide lowercase. */}
         <div className="absolute left-6 right-6 md:left-10" style={{ top: '16%' }}>
           <h1
@@ -224,66 +227,8 @@ export default function AironautOsHome() {
           the workspace.
         </div>
 
-        {/* ── Fold 2 · read signals · route work · move to proof ──────────── */}
-        <section className="mt-16 grid gap-5 md:grid-cols-3">
-          {[
-            {
-              label: 'read signals',
-              body: 'The OS watches every consignment, manifest and cut-off in one place.',
-              live: (
-                <span className="flex items-baseline gap-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 motion-reduce:animate-none" style={{ backgroundColor: accent }} />
-                    <span className="relative inline-flex h-2 w-2 rounded-full" style={{ backgroundColor: accent }} />
-                  </span>
-                  <span className="text-2xl font-semibold">
-                    <TickerNumber value={consignmentCount} />
-                  </span>
-                  <span className="text-xs" style={{ color: ASSEMBL_WARM_GREY }}>consignments watched</span>
-                </span>
-              ),
-            },
-            {
-              label: 'route work',
-              body: 'Classifications, landed costs and comms drafts queue for one human yes.',
-              live: (
-                <span className="flex items-baseline gap-2">
-                  <span className="text-2xl font-semibold">
-                    <TickerNumber value={aironautComms.length + aironautActivity.filter((a) => a.kind === 'drafted').length} />
-                  </span>
-                  <span className="text-xs" style={{ color: ASSEMBL_WARM_GREY }}>drafts awaiting review</span>
-                </span>
-              ),
-            },
-            {
-              label: 'move to proof',
-              body: 'Every decision lands as a hash-chained audit receipt you can show Customs.',
-              live: (
-                <span className="flex items-baseline gap-2">
-                  <span className="text-2xl font-semibold">
-                    <TickerNumber value={receiptChain.length} />
-                  </span>
-                  <span className="text-xs" style={{ color: ASSEMBL_WARM_GREY }}>
-                    receipts · head <span className="font-mono">{latestReceipt ? latestReceipt.receipt_hash.slice(7, 17) : '—'}</span>
-                  </span>
-                </span>
-              ),
-            },
-          ].map((p) => (
-            <div key={p.label} className="rounded-2xl border border-black/10 bg-white/85 p-5 backdrop-blur-sm">
-              <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
-                {p.label}
-              </p>
-              <div className="mt-3">{p.live}</div>
-              <p className="mt-3 text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
-                {p.body}
-              </p>
-            </div>
-          ))}
-        </section>
-
-        {/* ── Fold 2b · the money work — chase, check, cashflow ───────────── */}
-        <section className="mt-20">
+        {/* ── Fold 2 · the money work — chase, check, cashflow ────────────── */}
+        <section className="mt-16">
           <h2 className="text-3xl" style={{ fontFamily: serif, fontWeight: 500 }}>
             The money work
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
