@@ -231,7 +231,7 @@ export default async function InvitesPage({
                 </td>
                 <td style={td}>{i.recipient_company}</td>
                 <td style={td}>
-                  <Pill tone="canary">{demoName(i.demo)}</Pill>
+                  <Pill tone="gold">{demoName(i.demo)}</Pill>
                 </td>
                 <td style={{ ...td, ...smallMono }}>{nzDate(i.created_at, false)}</td>
                 <td style={td}>

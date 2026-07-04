@@ -6,9 +6,9 @@ export const dynamic = 'force-dynamic';
 
 const ROLES = ['all', 'admin', 'business', 'pro', 'starter', 'free'];
 
-const ROLE_TONE: Record<string, 'ok' | 'warn' | 'bad' | 'canary' | 'neutral'> = {
+const ROLE_TONE: Record<string, 'ok' | 'warn' | 'bad' | 'gold' | 'neutral'> = {
   admin: 'bad',
-  business: 'canary',
+  business: 'gold',
   pro: 'ok',
   starter: 'warn',
   free: 'neutral',

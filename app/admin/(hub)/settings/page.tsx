@@ -80,7 +80,7 @@ export default async function SettingsPage() {
                     <span style={{ fontFamily: BODY, fontSize: 13, color: C.body }}>{a.display_name}</span>
                   )}
                   <Pill tone={a.active ? 'ok' : 'neutral'}>{a.active ? 'active' : 'inactive'}</Pill>
-                  {founder && <Pill tone="canary">founder</Pill>}
+                  {founder && <Pill tone="gold">founder</Pill>}
                   <span style={{ fontFamily: MONO, fontSize: 10.5, color: C.muted, marginLeft: 'auto' }}>
                     added {nzDate(a.created_at, false)}
                     {a.added_by ? ` by ${a.added_by}` : ''}

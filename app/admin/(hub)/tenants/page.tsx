@@ -41,11 +41,11 @@ const input: CSSProperties = {
   boxSizing: 'border-box',
 };
 
-const STATUS_TONE: Record<string, 'ok' | 'warn' | 'neutral' | 'canary'> = {
+const STATUS_TONE: Record<string, 'ok' | 'warn' | 'neutral' | 'gold'> = {
   live: 'ok',
   pilot: 'ok',
   'concept-pending': 'warn',
-  concept: 'canary',
+  concept: 'gold',
   paused: 'warn',
   archived: 'neutral',
 };
