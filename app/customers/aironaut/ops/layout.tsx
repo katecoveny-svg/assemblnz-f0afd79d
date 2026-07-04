@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
@@ -24,6 +24,14 @@ export const metadata: Metadata = {
   // Installable PWA: iOS icon/splash/meta. The manifest link + scoped service
   // worker are wired client-side by <TenantPwa /> (host-aware paths).
   ...tenantPwaMetadata('aironaut', 'Aironaut'),
+};
+
+// Edge-to-edge on iOS (notch + home indicator) — the safe-area env() padding
+// below only takes effect with viewport-fit=cover.
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 };
 
 /**
@@ -60,15 +68,24 @@ export default function AironautOpsLayout({ children }: { children: ReactNode })
           }}
         />
 
-        <div className="relative">
+        <div
+          className="relative"
+          style={{
+            paddingLeft: 'env(safe-area-inset-left)',
+            paddingRight: 'env(safe-area-inset-right)',
+          }}
+        >
           <InviteGreeting demo="aironaut" />
           {children}
         </div>
 
         {/* Layer 1 — assembl OS signature band + quiet cross-brand lockup. */}
         <footer
-          className="relative overflow-hidden border-t border-black/5 px-6 py-12 text-center"
-          style={{ backgroundColor: ASSEMBL_PAPER }}
+          className="relative overflow-hidden border-t border-black/5 px-6 pt-12 text-center"
+          style={{
+            backgroundColor: ASSEMBL_PAPER,
+            paddingBottom: 'calc(3rem + env(safe-area-inset-bottom))',
+          }}
         >
           <ParticulateBackdrop className="opacity-60" />
           <div className="relative flex flex-col items-center gap-4">

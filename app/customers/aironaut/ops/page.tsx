@@ -197,8 +197,10 @@ export default function AironautOsHome() {
                 too, or its corners poke past the round chip. */}
             <Image src="/brand/aironaut/logo-mark-official.png" alt="" width={40} height={40} className="h-10 w-10 rounded-full object-contain" />
           </span>
+          {/* Wordmark text collides with the sync pill at phone widths — the
+              round chip carries the brand there. */}
           <span
-            className="text-sm font-semibold uppercase tracking-[0.2em] text-white"
+            className="hidden text-sm font-semibold uppercase tracking-[0.2em] text-white sm:inline"
             style={{ fontFamily: 'var(--font-brand-display)' }}
           >
             AIRONAUT
