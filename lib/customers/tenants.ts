@@ -36,9 +36,9 @@ export const TENANTS: readonly Tenant[] = [
   {
     slug: 'aironaut',
     displayName: 'Aironaut Customs Brokers',
-    parentBrand: 'Pīkau family pilot',
+    parentBrand: 'Aironaut Customs Brokers Ltd.',
     status: 'concept',
-    blurb: 'Customs brokerage — entries, HS classification, landed-cost, Mana Receipts.',
+    blurb: 'Customs brokerage — entries, shipment tracking, invoice chasing, cashflow.',
     accentClass: 'border-sky-200/70',
   },
   {

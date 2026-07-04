@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
-import { DemoRibbon } from '@/components/ops/DemoRibbon';
 import { CommsDrafts } from '@/components/ops/widgets/CommsDrafts';
 import { ConsignmentsTable } from '@/components/ops/aironaut/ConsignmentsTable';
 import { AironautDraftOnlyBanner } from '@/components/ops/aironaut/DraftOnlyBanner';
@@ -12,7 +11,7 @@ import {
 
 /**
  * AIRONAUT · Wine Import & Export — NZ partner of Global Wine Logistics.
- * Family pilot, draft-only.
+ * Draft-only.
  */
 export default function AironautWinePage() {
   const config = getBrandConfig('aironaut');
@@ -21,7 +20,6 @@ export default function AironautWinePage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <DemoRibbon />
       {line?.heroImage ? (
         <div
           className="relative w-full overflow-hidden rounded-2xl"

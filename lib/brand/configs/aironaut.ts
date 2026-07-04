@@ -95,16 +95,18 @@ export const aironautConfig: BrandConfig = parseBrandConfig({
       label: 'Exotic Motor Vehicle Shipping',
       blurb: 'High-value cars in and out of NZ.',
       href: 'exotic-vehicles',
-      // TODO(kate): a dedicated exotic-vehicles hero would be great — using
-      // packaging-suite for now as the closest fit from the current kit.
-      heroImage: '/brand/aironaut/packaging-suite.png',
+      // Kate's 2026-07-04 upload — grey 911 emerging from a container onto
+      // the orange floor, AIRONAUT mark on the navy wall behind.
+      heroImage: '/brand/aironaut/hero-porsche-container.png',
     },
     {
       id: 'boats-yachts',
       label: 'Boat & Yacht Transport',
       blurb: 'Marine transport worldwide.',
       href: 'boats-yachts',
-      heroImage: '/brand/aironaut/hero-yacht-hull.png',
+      // Kate's 2026-07-04 upload — navy superyacht bow, orange waterline
+      // stripe, AIRONAUT mark on the wall behind.
+      heroImage: '/brand/aironaut/hero-yacht-bow.png',
     },
     {
       id: 'wine',

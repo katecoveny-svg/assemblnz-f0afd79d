@@ -5,9 +5,8 @@ import type { AironautConsignment } from '@/lib/customers/aironaut/demo-data';
 
 /**
  * AIRONAUT consignments table — repurpose of the roster shape for freight
- * refs / mode / status. Every row here is demo-flagged and rendered under a
- * clear "demo · placeholder" ribbon; nothing in this widget can send or
- * lodge anything.
+ * refs / mode / status. Rows are sample records (demo-flagged in the data);
+ * nothing in this widget can send or lodge anything.
  */
 export function ConsignmentsTable({
   title,
@@ -22,15 +21,8 @@ export function ConsignmentsTable({
         <h3 className="text-lg font-semibold text-[color:var(--brand-ink)]">
           {title ?? 'Consignments'}
         </h3>
-        <span
-          className="rounded-full px-2 py-0.5 text-[11px] font-medium"
-          style={{
-            backgroundColor: 'var(--brand-canary)',
-            color: 'var(--brand-ink)',
-            opacity: 0.85,
-          }}
-        >
-          demo · placeholder
+        <span className="text-[11px] text-[color:var(--brand-muted)]">
+          sample data
         </span>
       </div>
       <div className="overflow-hidden rounded-xl border border-black/5">
