@@ -10,6 +10,7 @@ import { EverydayRewardsHero } from '@/components/ops/hero3d/EverydayRewardsHero
 import { AucklandZooHero } from '@/components/ops/hero3d/AucklandZooHero';
 import { AironautHero } from '@/components/ops/hero3d/AironautHero';
 import { LulaInnHero } from '@/components/ops/hero3d/LulaInnHero';
+import { ToaArchitectsHero } from '@/components/ops/hero3d/ToaArchitectsHero';
 
 function Scene({ hero }: { hero: Hero3DSceneId }) {
   switch (hero) {
@@ -25,6 +26,8 @@ function Scene({ hero }: { hero: Hero3DSceneId }) {
       return <AironautHero />;
     case 'lula-inn':
       return <LulaInnHero />;
+    case 'toa-architects':
+      return <ToaArchitectsHero />;
   }
 }
 

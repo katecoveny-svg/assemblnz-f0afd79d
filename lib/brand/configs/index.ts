@@ -5,6 +5,7 @@ import { everydayRewardsConfig } from '@/lib/brand/configs/everyday-rewards';
 import { aucklandZooConfig } from '@/lib/brand/configs/auckland-zoo';
 import { aironautConfig } from '@/lib/brand/configs/aironaut';
 import { lulaInnConfig } from '@/lib/brand/configs/lula-inn';
+import { toaArchitectsConfig } from '@/lib/brand/configs/toa-architects';
 
 export const brandConfigs: Record<string, BrandConfig> = {
   'happy-tails': happyTailsConfig,
@@ -13,6 +14,7 @@ export const brandConfigs: Record<string, BrandConfig> = {
   'auckland-zoo': aucklandZooConfig,
   aironaut: aironautConfig,
   'lula-inn': lulaInnConfig,
+  'toa-architects': toaArchitectsConfig,
 };
 
 export const brandSlugs = Object.keys(brandConfigs) as Array<

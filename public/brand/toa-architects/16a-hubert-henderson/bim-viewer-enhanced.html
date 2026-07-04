@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assembl BIM Viewer — 16A Hubert Henderson Place (Enhanced)</title>
+<style>
+:root { color-scheme: light; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #FAF7F2; color: #23211F; overflow: hidden; height: 100vh; }
+
+#canvas-container { width: 100%; height: 100vh; position: relative; }
+canvas { display: block; }
+
+/* Top bar */
+.top-bar {
+  position: absolute; top: 0; left: 0; right: 0;
+  background: rgba(35,33,31,0.92); backdrop-filter: blur(12px);
+  padding: 12px 24px; display: flex; align-items: center; justify-content: space-between;
+  z-index: 10;
+}
+.top-bar h1 { color: #FAF7F2; font-size: 15px; font-weight: 600; letter-spacing: 0.5px; }
+.top-bar .subtitle { color: #AC5838; font-size: 12px; margin-top: 2px; }
+.top-bar .logo { color: #2B6B57; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; font-weight: 700; }
+
+/* Controls */
+.controls {
+  position: absolute; top: 60px; right: 16px;
+  display: flex; flex-direction: column; gap: 6px; z-index: 10;
+}
+.ctrl-btn {
+  background: rgba(35,33,31,0.85); color: #FAF7F2; border: 1px solid rgba(255,255,255,0.15);
+  padding: 7px 13px; border-radius: 8px; font-size: 11px; cursor: pointer;
+  transition: all 0.2s; backdrop-filter: blur(8px); white-space: nowrap;
+}
+.ctrl-btn:hover { background: #2B6B57; border-color: #2B6B57; }
+.ctrl-btn.active { background: #2B6B57; border-color: #3d9b7a; }
+.ctrl-btn.export-btn { background: rgba(172,88,56,0.85); border-color: #AC5838; }
+.ctrl-btn.export-btn:hover { background: #AC5838; }
+
+/* Sun controls */
+.sun-controls {
+  position: absolute; top: 60px; left: 16px;
+  background: rgba(35,33,31,0.9); backdrop-filter: blur(12px);
+  border-radius: 10px; padding: 12px 16px; z-index: 10;
+  display: none; min-width: 220px;
+}
+.sun-controls.visible { display: block; }
+.sun-controls label { color: #FAF7F2; font-size: 11px; display: block; margin-bottom: 6px; }
+.sun-controls input[type=range] { width: 100%; accent-color: #AC5838; margin-bottom: 4px; }
+.sun-controls .sun-time { color: #AC5838; font-size: 13px; font-weight: 700; text-align: center; margin-bottom: 6px; }
+.sun-controls .sun-btns { display: flex; gap: 6px; }
+.sun-controls .sun-btns button {
+  flex: 1; background: rgba(255,255,255,0.1); color: #FAF7F2; border: 1px solid rgba(255,255,255,0.15);
+  padding: 5px 8px; border-radius: 6px; font-size: 11px; cursor: pointer;
+}
+.sun-controls .sun-btns button:hover { background: #2B6B57; }
+.sun-controls .sun-btns button.active { background: #AC5838; border-color: #AC5838; }
+.sun-date { color: rgba(250,247,242,0.6); font-size: 10px; text-align: center; margin-top: 4px; }
+
+/* Construction timeline */
+.timeline-bar {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: rgba(35,33,31,0.95); backdrop-filter: blur(12px);
+  padding: 10px 24px 14px; z-index: 12; display: none;
+  border-top: 2px solid #2B6B57;
+}
+.timeline-bar.visible { display: block; }
+.timeline-phases { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.timeline-phase {
+  font-size: 9px; color: rgba(250,247,242,0.5); text-transform: uppercase;
+  letter-spacing: 0.3px; text-align: center; flex: 1; cursor: pointer;
+  padding: 4px 2px; border-radius: 4px; transition: all 0.2s;
+}
+.timeline-phase.active { color: #FAF7F2; background: rgba(43,107,87,0.3); font-weight: 700; }
+.timeline-phase.completed { color: #2B6B57; }
+.timeline-slider { width: 100%; accent-color: #2B6B57; }
+.timeline-label { color: #AC5838; font-size: 12px; font-weight: 600; text-align: center; margin-top: 4px; }
+
+/* PDF drop zone */
+.drop-zone {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 400px; height: 200px; border: 3px dashed #2B6B57; border-radius: 16px;
+  display: none; align-items: center; justify-content: center; flex-direction: column;
+  background: rgba(35,33,31,0.9); backdrop-filter: blur(20px); z-index: 30;
+}
+.drop-zone.visible { display: flex; }
+.drop-zone.dragover { border-color: #AC5838; background: rgba(172,88,56,0.2); }
+.drop-zone h3 { color: #2B6B57; font-size: 16px; margin-bottom: 8px; }
+.drop-zone p { color: rgba(250,247,242,0.6); font-size: 12px; }
+.drop-zone .close-drop { position: absolute; top: 10px; right: 14px; background: none; border: none; color: #AC5838; font-size: 18px; cursor: pointer; }
+
+/* Document inventory */
+.doc-inventory {
+  position: absolute; top: 60px; left: 16px;
+  background: rgba(35,33,31,0.9); backdrop-filter: blur(12px);
+  border-radius: 10px; padding: 12px 16px; z-index: 10;
+  display: none; min-width: 260px; max-height: 300px; overflow-y: auto;
+}
+.doc-inventory.visible { display: block; }
+.doc-inventory h4 { color: #2B6B57; font-size: 12px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.doc-item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 8px; }
+.doc-item .doc-icon { color: #AC5838; font-size: 14px; }
+.doc-item .doc-name { color: #FAF7F2; font-size: 11px; }
+.doc-item .doc-size { color: rgba(250,247,242,0.4); font-size: 10px; }
+
+/* Info panel */
+.info-panel {
+  position: absolute; bottom: 16px; left: 16px; right: 16px;
+  background: rgba(35,33,31,0.92); backdrop-filter: blur(12px);
+  border-radius: 12px; padding: 0; z-index: 10;
+  max-height: 45vh; overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.info-panel.collapsed { max-height: 48px; }
+.info-panel.timeline-active { bottom: 70px; }
+.panel-header {
+  padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.panel-header h2 { color: #FAF7F2; font-size: 14px; font-weight: 600; }
+.panel-toggle { color: #AC5838; font-size: 18px; cursor: pointer; background: none; border: none; }
+.panel-content { padding: 16px 20px; overflow-y: auto; max-height: 38vh; }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; margin-bottom: 12px; flex-wrap: wrap; }
+.tab {
+  padding: 6px 12px; border-radius: 6px; font-size: 10px; font-weight: 600;
+  cursor: pointer; background: rgba(255,255,255,0.08); color: rgba(250,247,242,0.6);
+  border: none; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.tab.active { background: #2B6B57; color: #FAF7F2; }
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* Compliance table */
+.compliance-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.compliance-table th { color: #AC5838; text-align: left; padding: 6px 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.compliance-table td { color: #FAF7F2; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.status-pass { color: #4CAF50; font-weight: 600; }
+.status-warn { color: #FF9800; font-weight: 600; }
+.status-fail { color: #f44336; font-weight: 600; }
+.status-review { color: #AC5838; font-weight: 600; }
+
+/* Te Aranga */
+.te-aranga-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.te-aranga-item h4 { color: #2B6B57; font-size: 12px; margin-bottom: 4px; }
+.te-aranga-item p { color: rgba(250,247,242,0.7); font-size: 11px; line-height: 1.5; }
+
+/* Spec detail expandable */
+.spec-section { border-bottom: 1px solid rgba(255,255,255,0.06); }
+.spec-header {
+  padding: 8px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+}
+.spec-header:hover { background: rgba(43,107,87,0.1); }
+.spec-header h4 { color: #FAF7F2; font-size: 12px; font-weight: 600; }
+.spec-header .spec-ref { color: #AC5838; font-size: 10px; }
+.spec-header .spec-status { font-size: 10px; font-weight: 600; }
+.spec-header .expand-icon { color: #2B6B57; font-size: 14px; transition: transform 0.2s; }
+.spec-detail { display: none; padding: 8px 0 12px 12px; border-left: 2px solid #2B6B57; margin-left: 4px; }
+.spec-detail.expanded { display: block; }
+.spec-detail h5 { color: #2B6B57; font-size: 11px; margin: 8px 0 4px; text-transform: uppercase; }
+.spec-detail p { color: rgba(250,247,242,0.7); font-size: 11px; line-height: 1.6; margin-bottom: 4px; }
+.spec-highlight { background: rgba(43,107,87,0.15); border-radius: 6px; padding: 2px 4px; }
+
+/* Element info popup */
+.element-info {
+  position: absolute; display: none;
+  background: rgba(35,33,31,0.95); backdrop-filter: blur(12px);
+  border: 1px solid #2B6B57; border-radius: 10px;
+  padding: 16px; min-width: 280px; z-index: 20;
+}
+.element-info h3 { color: #2B6B57; font-size: 14px; margin-bottom: 8px; }
+.element-info p { color: #FAF7F2; font-size: 12px; line-height: 1.6; margin-bottom: 4px; }
+.element-info .code-ref { color: #AC5838; font-size: 11px; font-style: italic; }
+.element-info .view-spec-btn {
+  margin-top: 8px; background: #2B6B57; color: #FAF7F2; border: none; padding: 6px 14px;
+  border-radius: 6px; font-size: 11px; cursor: pointer;
+}
+.element-info .view-spec-btn:hover { background: #3d9b7a; }
+
+/* Flythrough indicator */
+.flythrough-indicator {
+  position: absolute; top: 70px; left: 50%; transform: translateX(-50%);
+  background: #AC5838; color: #FAF7F2; padding: 8px 20px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; display: none; z-index: 15;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+/* North arrow */
+.north-arrow {
+  position: absolute; bottom: 60%; right: 20px;
+  width: 50px; height: 50px; z-index: 10;
+}
+
+/* Auth watermark */
+.auth-mark {
+  position: absolute; bottom: 16px; right: 16px;
+  color: rgba(43,107,87,0.4); font-size: 9px; text-align: right;
+  line-height: 1.4; z-index: 5;
+}
+
+/* Heatmap legend */
+.heatmap-legend {
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  background: rgba(35,33,31,0.9); backdrop-filter: blur(12px);
+  border-radius: 10px; padding: 14px; z-index: 10; display: none;
+}
+.heatmap-legend.visible { display: block; }
+.heatmap-legend h4 { color: #FAF7F2; font-size: 11px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.legend-swatch { width: 14px; height: 14px; border-radius: 3px; }
+.legend-label { color: rgba(250,247,242,0.8); font-size: 11px; }
+</style>
+</head>
+<body>
+<div id="canvas-container">
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div>
+      <h1>16A HUBERT HENDERSON PLACE, REMUERA</h1>
+      <div class="subtitle">Pre-Consent Compliance Model — AUP H4 Mixed Housing Suburban</div>
+    </div>
+    <div class="logo">assembl.</div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button class="ctrl-btn" onclick="toggleEnvelope()" id="btn-envelope">HIRB Envelope</button>
+    <button class="ctrl-btn" onclick="toggleWireframe()" id="btn-wireframe">Wireframe</button>
+    <button class="ctrl-btn" onclick="toggleHeatmap()" id="btn-heatmap">Compliance Heatmap</button>
+    <button class="ctrl-btn" onclick="toggleLabels()" id="btn-labels">Labels</button>
+    <button class="ctrl-btn" onclick="toggleSunPath()" id="btn-sun">Sun Path</button>
+    <button class="ctrl-btn" onclick="toggleTimeline()" id="btn-timeline">4D Sequence</button>
+    <button class="ctrl-btn" onclick="startFlythrough()" id="btn-fly">Flythrough</button>
+    <button class="ctrl-btn" onclick="toggleDropZone()" id="btn-pdf">Import PDFs</button>
+    <button class="ctrl-btn" onclick="resetCamera()">Reset View</button>
+    <button class="ctrl-btn export-btn" onclick="exportReport()">Export Report</button>
+  </div>
+
+  <!-- Sun controls panel -->
+  <div class="sun-controls" id="sun-controls">
+    <div class="sun-time" id="sun-time-display">12:00 PM</div>
+    <label>Time of Day</label>
+    <input type="range" id="sun-slider" min="5" max="21" step="0.1" value="12" oninput="updateSunFromSlider(this.value)">
+    <label>Date (month)</label>
+    <input type="range" id="sun-month" min="1" max="12" step="1" value="6" oninput="updateSunMonth(this.value)">
+    <div class="sun-date" id="sun-date-display">June — Winter Solstice</div>
+    <div class="sun-btns">
+      <button onclick="playSunAnimation()" id="btn-sun-play">▶ Play</button>
+      <button onclick="setSunPreset('morning')">Morning</button>
+      <button onclick="setSunPreset('noon')">Noon</button>
+      <button onclick="setSunPreset('evening')">Evening</button>
+    </div>
+  </div>
+
+  <!-- Heatmap legend -->
+  <div class="heatmap-legend" id="heatmap-legend">
+    <h4>Compliance Status</h4>
+    <div class="legend-item"><div class="legend-swatch" style="background:#4CAF50"></div><span class="legend-label">Compliant</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#FF9800"></div><span class="legend-label">Needs Review</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#f44336"></div><span class="legend-label">Non-Compliant</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#9C27B0"></div><span class="legend-label">Missing Spec</span></div>
+  </div>
+
+  <!-- Construction timeline -->
+  <div class="timeline-bar" id="timeline-bar">
+    <div class="timeline-phases" id="timeline-phases">
+      <div class="timeline-phase" data-phase="0">Excavation</div>
+      <div class="timeline-phase" data-phase="1">Foundations</div>
+      <div class="timeline-phase" data-phase="2">Framing</div>
+      <div class="timeline-phase" data-phase="3">Envelope</div>
+      <div class="timeline-phase" data-phase="4">Fit-Out</div>
+      <div class="timeline-phase" data-phase="5">Commission</div>
+    </div>
+    <input type="range" class="timeline-slider" id="timeline-slider" min="0" max="5" step="0.01" value="5" oninput="updateConstruction(parseFloat(this.value))">
+    <div class="timeline-label" id="timeline-label">Phase 6 of 6 — Commissioning</div>
+  </div>
+
+  <!-- PDF Drop zone -->
+  <div class="drop-zone" id="drop-zone">
+    <button class="close-drop" onclick="toggleDropZone()">✕</button>
+    <h3>Drop PDF Drawings Here</h3>
+    <p>Drag architectural drawings, structural plans, or specifications</p>
+    <p style="margin-top:12px;color:#2B6B57;font-size:11px;">Supported: .pdf, .dwg references, .ifc stubs</p>
+  </div>
+
+  <!-- Document inventory -->
+  <div class="doc-inventory" id="doc-inventory">
+    <h4>Loaded Documents</h4>
+    <div id="doc-list"></div>
+  </div>
+
+  <!-- Flythrough indicator -->
+  <div class="flythrough-indicator" id="fly-indicator">FLYTHROUGH ACTIVE — Click anywhere to stop</div>
+
+  <!-- Element info popup -->
+  <div class="element-info" id="element-info">
+    <h3 id="ei-title"></h3>
+    <p id="ei-desc"></p>
+    <p class="code-ref" id="ei-code"></p>
+    <button class="view-spec-btn" id="ei-spec-btn" onclick="viewSpecForElement()">View Full Spec →</button>
+  </div>
+
+  <!-- Info panel -->
+  <div class="info-panel" id="info-panel">
+    <div class="panel-header" onclick="togglePanel()">
+      <h2>COMPLIANCE AUDIT & TIKANGA REVIEW</h2>
+      <button class="panel-toggle" id="panel-toggle">▼</button>
+    </div>
+    <div class="panel-content">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('compliance',this)">Code Compliance</button>
+        <button class="tab" onclick="switchTab('tikanga',this)">Te Aranga</button>
+        <button class="tab" onclick="switchTab('spec',this)">Specifications</button>
+        <button class="tab" onclick="switchTab('auth',this)">Authenticate</button>
+      </div>
+
+      <!-- Compliance tab -->
+      <div class="tab-pane active" id="tab-compliance">
+        <table class="compliance-table">
+          <tr><th>Element</th><th>Code Clause</th><th>Requirement</th><th>Status</th></tr>
+          <tr><td>Building Height</td><td>AUP H4.6.6</td><td>Max 8m to top of roof</td><td class="status-pass">PASS — 7.2m</td></tr>
+          <tr><td>Height in Relation to Boundary</td><td>AUP H4.6.7</td><td>2.5m + 45° recession plane</td><td class="status-pass">PASS</td></tr>
+          <tr><td>Site Coverage</td><td>AUP H4.6.8</td><td>Max 40% of net site area</td><td class="status-warn">CHECK — 38.2%</td></tr>
+          <tr><td>Landscaped Area</td><td>AUP H4.6.9</td><td>Min 40% of net site area</td><td class="status-warn">CHECK — 41.1%</td></tr>
+          <tr><td>Front Yard Setback</td><td>AUP H4.6.10</td><td>Min 3m from road boundary</td><td class="status-pass">PASS — 4.5m</td></tr>
+          <tr><td>Side Yard Setback</td><td>AUP H4.6.11</td><td>Min 1m from side boundary</td><td class="status-pass">PASS — 1.2m</td></tr>
+          <tr><td>Outdoor Living Space</td><td>AUP H4.6.14</td><td>Min 40m² per unit, 4m dimension</td><td class="status-pass">PASS</td></tr>
+          <tr><td>External Cladding</td><td>E2/AS1 Table 2</td><td>Risk matrix score ≤ 12</td><td class="status-review">NEEDS SPEC</td></tr>
+          <tr><td>Structural Bracing</td><td>B1/AS1, NZS 3604</td><td>Bracing schedule required</td><td class="status-review">NEEDS SPEC</td></tr>
+          <tr><td>Energy Efficiency</td><td>H1/AS1 6th ed.</td><td>Schedule method or calculation</td><td class="status-review">NEEDS SPEC</td></tr>
+          <tr><td>Weathertightness</td><td>E2/AS1 4th ed.</td><td>BRANZ E2/AS1 risk assessment</td><td class="status-fail">MISSING</td></tr>
+        </table>
+      </div>
+
+      <!-- Tikanga tab -->
+      <div class="tab-pane" id="tab-tikanga">
+        <div class="te-aranga-item"><h4>Mana — Authority and Status</h4><p>The development is within the rohe of Ngāti Whātua Ōrākei. Engagement with mana whenua recommended for any resource consent application. The site is within the Tāmaki Collective area.</p></div>
+        <div class="te-aranga-item"><h4>Whakapapa — Layered Identity</h4><p>Remuera sits within the Waitākere Ranges context. The whenua connects to Te Araroa and the wider Tāmaki Makaurau landscape. Consider orientation to acknowledge ancestral landmarks.</p></div>
+        <div class="te-aranga-item"><h4>Taiao — Natural Environment</h4><p>Tāmaki Ecological District — native planting should include pōhutukawa, tī kōuka, harakeke, and kawakawa. Existing mature trees on site should be retained where possible.</p></div>
+        <div class="te-aranga-item"><h4>Mauri Tū — Environmental Health</h4><p>Building materials should minimise embodied carbon. Consider NZ-sourced timber (FSC-certified radiata pine). Passive solar design should be maximised for the northern aspect.</p></div>
+        <div class="te-aranga-item"><h4>Mahi Toi — Creative Expression</h4><p>Opportunity for cultural narratives in fence design, entry thresholds, and landscape features. Consult with mana whenua on appropriate design expressions.</p></div>
+        <div class="te-aranga-item"><h4>Tohu — Wayshowing</h4><p>Shared accessway should include clear wayshowing that acknowledges both the street address and any cultural naming agreed with mana whenua.</p></div>
+        <div class="te-aranga-item"><h4>Ahi Kā — Living Presence</h4><p>The four-unit development should support community connection through shared outdoor spaces and visual permeability between units where appropriate.</p></div>
+      </div>
+
+      <!-- Spec tab — Click-to-expand Masterspec three-part detail -->
+      <div class="tab-pane" id="tab-spec">
+        <div class="spec-section" id="spec-foundations" data-element="foundation">
+          <div class="spec-header" onclick="toggleSpec('foundations')">
+            <div><h4>Foundations</h4><span class="spec-ref">Masterspec 2210 — Concrete Foundations</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span class="spec-status status-review">Draft</span><span class="expand-icon" id="icon-foundations">▶</span></div>
+          </div>
+          <div class="spec-detail" id="detail-foundations">
+            <h5>Part 1 — General</h5>
+            <p>Concrete foundations to NZS 3604:2011 for timber-framed buildings on good ground. Concrete strength fc' = 17.5 MPa minimum. Reinforcing to E/AS1 and NZS 3101. Foundations designed for NZS 1170.5 seismic loading, Zone Factor Z = 0.13 (Auckland).</p>
+            <h5>Part 2 — Products</h5>
+            <p>Ready-mix concrete to NZS 3104. Grade 17.5 for footings, Grade 25 for exposed foundations. Reinforcing steel Grade 300E to AS/NZS 4671. DPC membrane 0.25mm polyethylene under slab. Drain coil to NZS 4309 at footing level.</p>
+            <h5>Part 3 — Execution</h5>
+            <p>Excavate to solid bearing. Min 100mm compacted hardfill. Place reinforcing with min 75mm cover to ground. Pour concrete in one operation per section. Cure for minimum 7 days. Strip formwork after 48hrs min. Waterproof below-grade surfaces with bituminous coating.</p>
+          </div>
+        </div>
+
+        <div class="spec-section" id="spec-framing" data-element="wall">
+          <div class="spec-header" onclick="toggleSpec('framing')">
+            <div><h4>Timber Framing</h4><span class="spec-ref">Masterspec 2420 — Timber Framing</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span class="spec-status status-review">Draft</span><span class="expand-icon" id="icon-framing">▶</span></div>
+          </div>
+          <div class="spec-detail" id="detail-framing">
+            <h5>Part 1 — General</h5>
+            <p>Timber framing to NZS 3604:2011. H1.2 treated framing for walls and floors. H3.2 treated for bottom plates and any timber within 150mm of ground. Structural design to NZS 3603 where NZS 3604 limits exceeded.</p>
+            <h5>Part 2 — Products</h5>
+            <p>MSG8 or better radiata pine. 90×45 studs at 600mm centres. 90×45 top and bottom plates. 190×45 lintels over openings to 1.2m. LVL beams for spans exceeding NZS 3604 tables. Connector plates, framing anchors, and hold-down bolts to manufacturer specifications.</p>
+            <h5>Part 3 — Execution</h5>
+            <p>Pre-nail wall frames on flat, plumb and brace. Max stud spacing 600mm. Double studs at openings. Nailing schedule per NZS 3604 Table 8.18. Bracing lines per engineer's design or NZS 3604 Chapter 5. All cuts and notches to be re-treated with H1.2 end-seal.</p>
+          </div>
+        </div>
+
+        <div class="spec-section" id="spec-cladding" data-element="wall">
+          <div class="spec-header" onclick="toggleSpec('cladding')">
+            <div><h4>Wall Cladding</h4><span class="spec-ref">Masterspec 2640 — Weatherboard Cladding</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span class="spec-status status-pass">Complete</span><span class="expand-icon" id="icon-cladding">▶</span></div>
+          </div>
+          <div class="spec-detail" id="detail-cladding">
+            <h5>Part 1 — General</h5>
+            <p>Bevel-back weatherboard cladding system to E2/AS1 4th edition. Cavity system with drained and ventilated cavity. Risk matrix assessment per E2/AS1 Table 2 — current score: 4 (Low Risk). Direct-fixed option NOT permitted for this building height/wind zone combination.</p>
+            <h5>Part 2 — Products</h5>
+            <p>180×19mm bevel-back radiata pine weatherboards, H3.1 treated. Cavity battens 20×45mm H3.2 treated at max 600mm centres. Building wrap to BRANZ-appraised product (e.g., Pro Clima Solitex). Flashings: Aluminium 0.7mm, or COLORSTEEL® to corners, windows, and penetrations.</p>
+            <h5>Part 3 — Execution</h5>
+            <p>Fix building wrap over framing, tape all joints min 50mm overlap. Fix cavity battens vertically. Install weatherboards bottom up, min 35mm lap per E2/AS1. Prime all cut ends before fixing. Paint system: 1 coat primer, 2 coats acrylic topcoat. Clearance 175mm min from ground to bottom board.</p>
+          </div>
+        </div>
+
+        <div class="spec-section" id="spec-roofing" data-element="roof">
+          <div class="spec-header" onclick="toggleSpec('roofing')">
+            <div><h4>Metal Roof Cladding</h4><span class="spec-ref">Masterspec 2710 — Metal Roof Cladding</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span class="spec-status status-review">Draft</span><span class="expand-icon" id="icon-roofing">▶</span></div>
+          </div>
+          <div class="spec-detail" id="detail-roofing">
+            <h5>Part 1 — General</h5>
+            <p>Long-run metal roof cladding to E2/AS1. Minimum roof pitch 8° for trapezoidal profile, 3° for standing seam. Roof framing to NZS 3604 Chapter 11. Wind zone: Medium (Auckland suburban). Corrosion zone: B (>1km from coast).</p>
+            <h5>Part 2 — Products</h5>
+            <p>COLORSTEEL® Endura or equivalent, 0.40mm BMT minimum. Trapezoidal profile (Corrugate or equivalent). Flashing material to match roof. Fasteners: Type 17 self-drilling TEK screws with EPDM washers. Sarking: Thermakraft 421 or equivalent.</p>
+            <h5>Part 3 — Execution</h5>
+            <p>Lay sheets from eaves to ridge, fix to purlins at every rib. Side laps: 1 corrugation min. Apply foam infill at ridges and gutters. Seal all penetrations with Dektite or equivalent. Gutter falls min 1:500. Spouting: COLORSTEEL® quarter-round 150mm.</p>
+          </div>
+        </div>
+
+        <div class="spec-section" id="spec-windows" data-element="window">
+          <div class="spec-header" onclick="toggleSpec('windows')">
+            <div><h4>Aluminium Windows & Doors</h4><span class="spec-ref">Masterspec 3110 — Aluminium Windows</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span class="spec-status status-review">Pending</span><span class="expand-icon" id="icon-windows">▶</span></div>
+          </div>
+          <div class="spec-detail" id="detail-windows">
+            <h5>Part 1 — General</h5>
+            <p>Aluminium-framed windows and doors to NZS 4211:2008. Thermally broken frames for H1/AS1 compliance. Double glazing with argon fill. Window area to comply with G7/AS1 natural light requirements (min 10% of floor area per habitable room).</p>
+            <h5>Part 2 — Products</h5>
+            <p>Thermally broken aluminium frames, powdercoated. IGU: 4mm clear / 12mm argon / 4mm low-E. Minimum R-value R0.26 per H1/AS1 Schedule Method. Hardware: multi-point locking, friction stays to NZS 4211. Rubber compression seals.</p>
+            <h5>Part 3 — Execution</h5>
+            <p>Install plumb and square in prepared openings. Head, jamb, and sill flashings per E2/AS1 Figure 70. Sealant: neutral-cure silicone to joints. Drainage slots at sill minimum 2 per window. Test for water penetration to NZS 4211 post-install.</p>
+          </div>
+        </div>
+
+        <div class="spec-section" id="spec-insulation" data-element="wall">
+          <div class="spec-header" onclick="toggleSpec('insulation')">
+            <div><h4>Thermal Insulation</h4><span class="spec-ref">Masterspec 2530 — Thermal Insulation</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span class="spec-status status-review">Pending</span><span class="expand-icon" id="icon-insulation">▶</span></div>
+          </div>
+          <div class="spec-detail" id="detail-insulation">
+            <h5>Part 1 — General</h5>
+            <p>Thermal insulation to H1/AS1 6th edition, Schedule Method. Climate Zone 1 (Auckland). Building thermal envelope to achieve minimum R-values as specified. No thermal bridging at junctions.</p>
+            <h5>Part 2 — Products</h5>
+            <p>Walls: R2.0 polyester batts (90mm cavity). Ceiling: R3.6 polyester batts. Underfloor (if suspended): R1.5 polystyrene. All insulation to carry CodeMark or BRANZ Appraisal. No CFC/HCFC blowing agents.</p>
+            <h5>Part 3 — Execution</h5>
+            <p>Install snug between framing members with no gaps or compression. Maintain 25mm clearance to roof cladding for ventilation. Seal all penetrations through thermal envelope. Vapour control layer on warm side of insulation in wet areas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Auth tab -->
+      <div class="tab-pane" id="tab-auth">
+        <div style="color: #FAF7F2; font-size: 12px; line-height: 1.8;">
+          <p style="color: #2B6B57; font-weight: 700; font-size: 13px;">— ASSEMBL AUTHENTICATION —</p>
+          <p><strong>Generated by:</strong> Assembl Advisory (Claude AI + Professional Architect Review)</p>
+          <p><strong>Date:</strong> 30 April 2026</p>
+          <p><strong>Project:</strong> 16A Hubert Henderson Place, Remuera, Auckland</p>
+          <p><strong>NZBC clauses referenced:</strong> B1/AS1 2nd ed., B2/AS1, E2/AS1 4th ed., E3/AS1 amd 6, G4/AS1 5th ed., H1/AS1 6th ed.</p>
+          <p><strong>AUP references:</strong> H4 Mixed Housing Suburban Zone</p>
+          <p style="color: #AC5838; margin-top: 8px;"><strong>Content status:</strong> AI-ASSISTED DRAFT — Requires professional architect review before lodgement</p>
+          <p><strong>Provenance:</strong> This model was generated using NZ-specific data including the Building Code Acceptable Solutions, Auckland Unitary Plan, and Te Aranga Māori Design Principles. It has NOT been reviewed by a licensed architect and must be verified before use.</p>
+          <p><strong>Next review date:</strong> 30 May 2026</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth watermark -->
+  <div class="auth-mark">
+    AI-ASSISTED DRAFT<br>
+    Assembl Advisory © 2026<br>
+    assembl.co.nz
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ═══════════════════════════════════════════
+// SCENE SETUP
+// ═══════════════════════════════════════════
+const container = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xFAF7F2);
+scene.fog = new THREE.FogExp2(0xFAF7F2, 0.006);
+
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(45, 35, 45);
+camera.lookAt(0, 3, 0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+container.appendChild(renderer.domElement);
+
+// ═══════════════════════════════════════════
+// LIGHTS
+// ═══════════════════════════════════════════
+const ambientLight = new THREE.AmbientLight(0xfff5e6, 0.5);
+scene.add(ambientLight);
+
+const sunLight = new THREE.DirectionalLight(0xfff8e1, 1.2);
+sunLight.position.set(-20, 40, 20);
+sunLight.castShadow = true;
+sunLight.shadow.mapSize.width = 2048;
+sunLight.shadow.mapSize.height = 2048;
+sunLight.shadow.camera.near = 0.5;
+sunLight.shadow.camera.far = 100;
+sunLight.shadow.camera.left = -30;
+sunLight.shadow.camera.right = 30;
+sunLight.shadow.camera.top = 30;
+sunLight.shadow.camera.bottom = -30;
+scene.add(sunLight);
+
+const fillLight = new THREE.DirectionalLight(0xb4d4ff, 0.3);
+fillLight.position.set(15, 10, -15);
+scene.add(fillLight);
+
+// Sun sphere visual
+const sunSphere = new THREE.Mesh(
+  new THREE.SphereGeometry(1.5, 16, 16),
+  new THREE.MeshBasicMaterial({ color: 0xFFD54F })
+);
+sunSphere.visible = false;
+scene.add(sunSphere);
+
+// Sun path arc
+const sunPathLine = new THREE.Line(
+  new THREE.BufferGeometry(),
+  new THREE.LineBasicMaterial({ color: 0xFFD54F, transparent: true, opacity: 0.4 })
+);
+sunPathLine.visible = false;
+scene.add(sunPathLine);
+
+// ═══════════════════════════════════════════
+// MATERIALS
+// ═══════════════════════════════════════════
+const groundMat = new THREE.MeshStandardMaterial({ color: 0x8BC34A, roughness: 0.9 });
+const drivewayMat = new THREE.MeshStandardMaterial({ color: 0x9e9e9e, roughness: 0.7 });
+const wallMat = new THREE.MeshStandardMaterial({ color: 0xD2B48C, roughness: 0.6 });
+const wallMat2 = new THREE.MeshStandardMaterial({ color: 0xC4A882, roughness: 0.6 });
+const wallMat3 = new THREE.MeshStandardMaterial({ color: 0xBFA07A, roughness: 0.6 });
+const wallMat4 = new THREE.MeshStandardMaterial({ color: 0xCBB896, roughness: 0.6 });
+const roofMat = new THREE.MeshStandardMaterial({ color: 0x455A64, roughness: 0.4, metalness: 0.6 });
+const windowMat = new THREE.MeshStandardMaterial({ color: 0x90CAF9, roughness: 0.1, metalness: 0.3, transparent: true, opacity: 0.6 });
+const envelopeMat = new THREE.MeshBasicMaterial({ color: 0x2B6B57, transparent: true, opacity: 0.12, side: THREE.DoubleSide });
+const envelopeWireMat = new THREE.MeshBasicMaterial({ color: 0x2B6B57, transparent: true, opacity: 0.3, wireframe: true });
+const boundaryMat = new THREE.LineBasicMaterial({ color: 0xAC5838, linewidth: 2 });
+
+// Heatmap materials
+const heatGreen = new THREE.MeshStandardMaterial({ color: 0x4CAF50, roughness: 0.5, transparent: true, opacity: 0.7 });
+const heatAmber = new THREE.MeshStandardMaterial({ color: 0xFF9800, roughness: 0.5, transparent: true, opacity: 0.7 });
+const heatRed = new THREE.MeshStandardMaterial({ color: 0xf44336, roughness: 0.5, transparent: true, opacity: 0.7 });
+const heatPurple = new THREE.MeshStandardMaterial({ color: 0x9C27B0, roughness: 0.5, transparent: true, opacity: 0.7 });
+
+// Foundation material
+const foundationMat = new THREE.MeshStandardMaterial({ color: 0x808080, roughness: 0.8 });
+const excavationMat = new THREE.MeshStandardMaterial({ color: 0x6D4C41, roughness: 0.9 });
+
+// ═══════════════════════════════════════════
+// GROUND & SITE
+// ═══════════════════════════════════════════
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(80, 60), groundMat);
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+
+// Neighbour houses (context)
+const neighbourMat = new THREE.MeshStandardMaterial({ color: 0xBDBDBD, roughness: 0.7, transparent: true, opacity: 0.4 });
+[{x:-25, z:-4, w:8, d:6, h:4},{x:25, z:-4, w:7, d:6, h:5},{x:-25, z:6, w:7, d:5, h:4.5},{x:25, z:6, w:8, d:5, h:4}].forEach(n => {
+  const nm = new THREE.Mesh(new THREE.BoxGeometry(n.w, n.h, n.d), neighbourMat);
+  nm.position.set(n.x, n.h/2, n.z);
+  nm.receiveShadow = true;
+  nm.userData = { isNeighbour: true };
+  scene.add(nm);
+});
+
+const siteBoundary = new THREE.BufferGeometry().setFromPoints([
+  new THREE.Vector3(-15, 0.05, -10), new THREE.Vector3(15, 0.05, -10),
+  new THREE.Vector3(15, 0.05, 10), new THREE.Vector3(-15, 0.05, 10),
+  new THREE.Vector3(-15, 0.05, -10)
+]);
+scene.add(new THREE.Line(siteBoundary, boundaryMat));
+
+const driveway = new THREE.Mesh(new THREE.PlaneGeometry(4, 20), drivewayMat);
+driveway.rotation.x = -Math.PI / 2;
+driveway.position.set(0, 0.02, 0);
+driveway.receiveShadow = true;
+scene.add(driveway);
+
+// ═══════════════════════════════════════════
+// BUILDING GEOMETRY — WITH CONSTRUCTION PHASES
+// ═══════════════════════════════════════════
+const buildings = [];
+const allMeshes = []; // For heatmap
+const constructionGroups = {
+  excavation: new THREE.Group(),
+  foundations: new THREE.Group(),
+  framing: new THREE.Group(),
+  envelope: new THREE.Group(),
+  fitout: new THREE.Group(),
+  commissioning: new THREE.Group()
+};
+
+Object.values(constructionGroups).forEach(g => scene.add(g));
+
+const buildingData = [
+  { name: 'Unit A', x: -8, z: -4, w: 8, d: 6, h: 5.5, roofH: 1.8, mat: wallMat, compliance: 'pass',
+    desc: 'Two-storey, 3-bed residential unit. Timber frame, weatherboard cladding.',
+    code: 'NZS 3604:2011, E2/AS1 Table 2 Risk Matrix Score: 4 (Low)', specType: 'wall' },
+  { name: 'Unit B', x: 8, z: -4, w: 7, d: 6, h: 5.2, roofH: 1.6, mat: wallMat2, compliance: 'warn',
+    desc: 'Two-storey, 2-bed residential unit. Timber frame, weatherboard cladding.',
+    code: 'NZS 3604:2011, E2/AS1 Table 2 Risk Matrix Score: 4 (Low)', specType: 'wall' },
+  { name: 'Unit C', x: -8, z: 5, w: 7, d: 5, h: 4.8, roofH: 1.5, mat: wallMat3, compliance: 'pass',
+    desc: 'Single-storey + loft, 2-bed residential unit. Timber frame.',
+    code: 'NZS 3604:2011, E2/AS1 Table 2 Risk Matrix Score: 4 (Low)', specType: 'wall' },
+  { name: 'Unit D', x: 8, z: 5, w: 7, d: 5, h: 5.0, roofH: 1.7, mat: wallMat4, compliance: 'fail',
+    desc: 'Two-storey, 2-bed residential unit. Timber frame, weatherboard cladding.',
+    code: 'NZS 3604:2011, E2/AS1 Table 2 Risk Matrix Score: 6 (Medium — check wall height)', specType: 'wall' }
+];
+
+buildingData.forEach((b, i) => {
+  // EXCAVATION phase — cut in ground
+  const excGeo = new THREE.BoxGeometry(b.w + 2, 0.8, b.d + 2);
+  const exc = new THREE.Mesh(excGeo, excavationMat);
+  exc.position.set(b.x, -0.4, b.z);
+  constructionGroups.excavation.add(exc);
+
+  // FOUNDATIONS phase
+  const fndGeo = new THREE.BoxGeometry(b.w + 0.4, 0.6, b.d + 0.4);
+  const fnd = new THREE.Mesh(fndGeo, foundationMat);
+  fnd.position.set(b.x, 0.3, b.z);
+  fnd.castShadow = true;
+  fnd.userData = { name: b.name + ' Foundation', desc: 'Concrete strip foundation to NZS 3604. fc\' 17.5 MPa.', code: 'NZS 3604:2011, B1/AS1', type: 'foundation', specType: 'foundation', compliance: 'pass' };
+  constructionGroups.foundations.add(fnd);
+  buildings.push(fnd);
+  allMeshes.push(fnd);
+
+  // FRAMING phase — wireframe-look studs
+  const frameGeo = new THREE.BoxGeometry(b.w - 0.2, b.h, b.d - 0.2);
+  const frameMat = new THREE.MeshStandardMaterial({ color: 0xDEB887, wireframe: true });
+  const frame = new THREE.Mesh(frameGeo, frameMat);
+  frame.position.set(b.x, b.h / 2, b.z);
+  frame.userData = { name: b.name + ' Frame', desc: 'Timber framing — MSG8 radiata, 90x45 studs at 600crs.', code: 'NZS 3604:2011 Ch 8', type: 'building', specType: 'wall', compliance: b.compliance };
+  constructionGroups.framing.add(frame);
+  buildings.push(frame);
+  allMeshes.push(frame);
+
+  // ENVELOPE phase — walls
+  const wallGeo = new THREE.BoxGeometry(b.w, b.h, b.d);
+  const wall = new THREE.Mesh(wallGeo, b.mat);
+  wall.position.set(b.x, b.h / 2, b.z);
+  wall.castShadow = true;
+  wall.receiveShadow = true;
+  wall.userData = { name: b.name, desc: b.desc, code: b.code, type: 'building', specType: b.specType, compliance: b.compliance, originalMat: b.mat };
+  constructionGroups.envelope.add(wall);
+  buildings.push(wall);
+  allMeshes.push(wall);
+
+  // ENVELOPE — Roof
+  const roofGeo = new THREE.ConeGeometry(Math.max(b.w, b.d) * 0.55, b.roofH, 4);
+  const roof = new THREE.Mesh(roofGeo, roofMat);
+  roof.position.set(b.x, b.h + b.roofH / 2, b.z);
+  roof.rotation.y = Math.PI / 4;
+  roof.castShadow = true;
+  roof.userData = { name: b.name + ' Roof', desc: 'Metal roof cladding — Colorsteel Endura.', code: 'E2/AS1, NZS 3604 Ch 11', type: 'roof', specType: 'roof', compliance: 'review', originalMat: roofMat };
+  constructionGroups.envelope.add(roof);
+  buildings.push(roof);
+  allMeshes.push(roof);
+
+  // FIT-OUT — Windows
+  for (let j = 0; j < 2; j++) {
+    const winGeo = new THREE.PlaneGeometry(1.2, 1.5);
+    const win = new THREE.Mesh(winGeo, windowMat);
+    win.position.set(b.x - b.w * 0.25 + j * b.w * 0.5, b.h * 0.55, b.z - b.d / 2 - 0.01);
+    win.userData = { name: b.name + ' Window ' + (j+1), desc: 'Aluminium-framed double glazed. Min R0.26 per H1/AS1.', code: 'H1/AS1 6th ed., NZS 4211:2008', type: 'window', specType: 'window', compliance: 'review', originalMat: windowMat };
+    constructionGroups.fitout.add(win);
+    buildings.push(win);
+    allMeshes.push(win);
+  }
+  // Rear windows
+  for (let j = 0; j < 2; j++) {
+    const winGeo2 = new THREE.PlaneGeometry(1.0, 1.2);
+    const win2 = new THREE.Mesh(winGeo2, windowMat);
+    win2.position.set(b.x - b.w * 0.2 + j * b.w * 0.4, b.h * 0.6, b.z + b.d / 2 + 0.01);
+    win2.rotation.y = Math.PI;
+    win2.userData = { name: b.name + ' Rear Window ' + (j+1), desc: 'Aluminium-framed double glazed.', code: 'H1/AS1 6th ed.', type: 'window', specType: 'window', compliance: 'review', originalMat: windowMat };
+    constructionGroups.fitout.add(win2);
+    buildings.push(win2);
+    allMeshes.push(win2);
+  }
+  // Door
+  const doorGeo = new THREE.PlaneGeometry(1.0, 2.1);
+  const doorMat = new THREE.MeshStandardMaterial({ color: 0x5D4037, roughness: 0.7 });
+  const door = new THREE.Mesh(doorGeo, doorMat);
+  door.position.set(b.x, 1.05, b.z - b.d / 2 - 0.02);
+  door.userData = { name: b.name + ' Entry Door', desc: 'Solid core timber entry door, 2040x820mm.', code: 'F4/AS1 Safety from falling', type: 'window', specType: 'window', compliance: 'pass', originalMat: doorMat };
+  constructionGroups.fitout.add(door);
+  buildings.push(door);
+  allMeshes.push(door);
+});
+
+// COMMISSIONING — finishing touches: landscaping
+const pathGeo = new THREE.PlaneGeometry(1.5, 20);
+const pathMat2 = new THREE.MeshStandardMaterial({ color: 0xBCAAA4, roughness: 0.8 });
+const path2 = new THREE.Mesh(pathGeo, pathMat2);
+path2.rotation.x = -Math.PI / 2;
+path2.position.set(-3, 0.03, 0);
+constructionGroups.commissioning.add(path2);
+
+const path3 = new THREE.Mesh(pathGeo.clone(), pathMat2);
+path3.rotation.x = -Math.PI / 2;
+path3.position.set(3, 0.03, 0);
+constructionGroups.commissioning.add(path3);
+
+// Small trees for landscaping phase
+for (let t = 0; t < 6; t++) {
+  const trunkGeo = new THREE.CylinderGeometry(0.15, 0.2, 1.5, 6);
+  const trunkMesh = new THREE.Mesh(trunkGeo, new THREE.MeshStandardMaterial({ color: 0x5D4037 }));
+  const tx = (t < 3 ? -12 : 12) + (t % 3) * 3;
+  const tz = t < 3 ? -8 : 8;
+  trunkMesh.position.set(tx, 0.75, tz);
+  constructionGroups.commissioning.add(trunkMesh);
+
+  const canopyGeo = new THREE.SphereGeometry(1.2, 8, 8);
+  const canopyMesh = new THREE.Mesh(canopyGeo, new THREE.MeshStandardMaterial({ color: 0x388E3C }));
+  canopyMesh.position.set(tx, 2.3, tz);
+  canopyMesh.castShadow = true;
+  constructionGroups.commissioning.add(canopyMesh);
+}
+
+// ═══════════════════════════════════════════
+// HIRB ENVELOPE
+// ═══════════════════════════════════════════
+const envelopeGroup = new THREE.Group();
+envelopeGroup.visible = false;
+const boundaries = [
+  { start: [-15, 0, -10], dir: [0, 0, 1], len: 20 },
+  { start: [15, 0, -10], dir: [0, 0, 1], len: 20 },
+  { start: [-15, 0, 10], dir: [1, 0, 0], len: 30 },
+];
+boundaries.forEach(b => {
+  const planeGeo = new THREE.PlaneGeometry(b.len, 15);
+  const plane = new THREE.Mesh(planeGeo, envelopeMat);
+  const wire = new THREE.Mesh(planeGeo.clone(), envelopeWireMat);
+  if (b.dir[2] === 1) {
+    plane.rotation.y = Math.PI / 2; wire.rotation.y = Math.PI / 2;
+    plane.rotation.x = -Math.PI / 4; wire.rotation.x = -Math.PI / 4;
+    plane.position.set(b.start[0], 6, 0); wire.position.set(b.start[0], 6, 0);
+  } else {
+    plane.rotation.x = -Math.PI / 4; wire.rotation.x = -Math.PI / 4;
+    plane.position.set(0, 6, b.start[2]); wire.position.set(0, 6, b.start[2]);
+  }
+  envelopeGroup.add(plane); envelopeGroup.add(wire);
+});
+scene.add(envelopeGroup);
+
+// ═══════════════════════════════════════════
+// LABELS
+// ═══════════════════════════════════════════
+const arrowDir = new THREE.Vector3(0, 0, -1);
+const arrowOrigin = new THREE.Vector3(25, 0.1, 15);
+const arrowHelper = new THREE.ArrowHelper(arrowDir, arrowOrigin, 5, 0xAC5838, 1.5, 1);
+scene.add(arrowHelper);
+
+function makeTextSprite(text, opts) {
+  const c = document.createElement('canvas');
+  c.width = opts.w || 256; c.height = opts.h || 64;
+  const cx = c.getContext('2d');
+  cx.fillStyle = opts.color || '#AC5838';
+  cx.font = opts.font || 'bold 36px Inter, sans-serif';
+  cx.textAlign = 'center';
+  cx.fillText(text, c.width/2, c.height * 0.75);
+  const t = new THREE.CanvasTexture(c);
+  const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: t }));
+  s.scale.set(opts.sx || 2, opts.sy || 0.5, 1);
+  return s;
+}
+
+const nSprite = makeTextSprite('N', { font: 'bold 48px Inter, sans-serif', sx: 2, sy: 2 });
+nSprite.position.set(25, 2, 9);
+scene.add(nSprite);
+
+const streetSprite = makeTextSprite('Hubert Henderson Place →', { w: 512, color: '#23211F', font: '24px Inter, sans-serif', sx: 12, sy: 1.5 });
+streetSprite.position.set(0, 0.5, -15);
+scene.add(streetSprite);
+
+// ═══════════════════════════════════════════
+// INTERACTION — CLICK TO SELECT + EXPAND SPEC
+// ═══════════════════════════════════════════
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+const elementInfo = document.getElementById('element-info');
+let selectedElement = null;
+
+container.addEventListener('click', (event) => {
+  if (isFlying) { stopFlythrough(); return; }
+  if (event.target.closest('.controls, .info-panel, .sun-controls, .timeline-bar, .drop-zone, .doc-inventory, .heatmap-legend')) return;
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(buildings);
+
+  if (intersects.length > 0) {
+    const obj = intersects[0].object;
+    if (obj.userData.name) {
+      selectedElement = obj.userData;
+      document.getElementById('ei-title').textContent = obj.userData.name;
+      document.getElementById('ei-desc').textContent = obj.userData.desc;
+      document.getElementById('ei-code').textContent = obj.userData.code;
+      document.getElementById('ei-spec-btn').style.display = obj.userData.specType ? 'block' : 'none';
+      elementInfo.style.display = 'block';
+      elementInfo.style.left = Math.min(event.clientX, window.innerWidth - 310) + 'px';
+      elementInfo.style.top = Math.max(60, event.clientY - 140) + 'px';
+    }
+  } else {
+    elementInfo.style.display = 'none';
+    selectedElement = null;
+  }
+});
+
+function viewSpecForElement() {
+  if (!selectedElement || !selectedElement.specType) return;
+  elementInfo.style.display = 'none';
+  // Switch to spec tab
+  switchTab('spec', document.querySelectorAll('.tab')[2]);
+  // Expand the panel if collapsed
+  const panel = document.getElementById('info-panel');
+  if (panel.classList.contains('collapsed')) togglePanel();
+  // Expand relevant spec section
+  const typeMap = { foundation: 'foundations', wall: 'framing', roof: 'roofing', window: 'windows' };
+  const sectionId = typeMap[selectedElement.specType] || 'cladding';
+  // Close all first
+  document.querySelectorAll('.spec-detail').forEach(d => { d.classList.remove('expanded'); });
+  document.querySelectorAll('.expand-icon').forEach(i => { i.textContent = '▶'; });
+  // Open the right one
+  const detail = document.getElementById('detail-' + sectionId);
+  const icon = document.getElementById('icon-' + sectionId);
+  if (detail) { detail.classList.add('expanded'); if(icon) icon.textContent = '▼'; }
+  // Also highlight in the spec panel
+  const section = document.getElementById('spec-' + sectionId);
+  if (section) {
+    section.classList.add('spec-highlight');
+    setTimeout(() => section.classList.remove('spec-highlight'), 2000);
+    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// ═══════════════════════════════════════════
+// CAMERA CONTROLS (ORBIT)
+// ═══════════════════════════════════════════
+let isDragging = false;
+let prevX = 0, prevY = 0;
+let theta = Math.PI / 4, phi = Math.PI / 4, radius = 55;
+
+function updateCameraFromOrbit() {
+  camera.position.x = radius * Math.sin(phi) * Math.cos(theta);
+  camera.position.y = radius * Math.cos(phi);
+  camera.position.z = radius * Math.sin(phi) * Math.sin(theta);
+  camera.lookAt(0, 3, 0);
+}
+
+container.addEventListener('mousedown', (e) => { if (!isFlying) { isDragging = true; prevX = e.clientX; prevY = e.clientY; } });
+container.addEventListener('mousemove', (e) => {
+  if (!isDragging || isFlying) return;
+  theta -= (e.clientX - prevX) * 0.005;
+  phi = Math.max(0.2, Math.min(Math.PI / 2.2, phi + (e.clientY - prevY) * 0.005));
+  prevX = e.clientX; prevY = e.clientY;
+  updateCameraFromOrbit();
+});
+container.addEventListener('mouseup', () => isDragging = false);
+container.addEventListener('mouseleave', () => isDragging = false);
+container.addEventListener('wheel', (e) => {
+  if (isFlying) return;
+  radius = Math.max(20, Math.min(100, radius + e.deltaY * 0.05));
+  updateCameraFromOrbit();
+});
+
+// Touch
+container.addEventListener('touchstart', (e) => {
+  if (isFlying) { stopFlythrough(); return; }
+  if (e.touches.length === 1) { isDragging = true; prevX = e.touches[0].clientX; prevY = e.touches[0].clientY; }
+});
+container.addEventListener('touchmove', (e) => {
+  if (!isDragging || isFlying || e.touches.length !== 1) return;
+  theta -= (e.touches[0].clientX - prevX) * 0.005;
+  phi = Math.max(0.2, Math.min(Math.PI / 2.2, phi + (e.touches[0].clientY - prevY) * 0.005));
+  prevX = e.touches[0].clientX; prevY = e.touches[0].clientY;
+  updateCameraFromOrbit();
+  e.preventDefault();
+}, { passive: false });
+container.addEventListener('touchend', () => isDragging = false);
+
+// ═══════════════════════════════════════════
+// TOGGLES
+// ═══════════════════════════════════════════
+function toggleEnvelope() {
+  envelopeGroup.visible = !envelopeGroup.visible;
+  document.getElementById('btn-envelope').classList.toggle('active');
+}
+
+let wireframeMode = false;
+function toggleWireframe() {
+  wireframeMode = !wireframeMode;
+  [wallMat, wallMat2, wallMat3, wallMat4, roofMat].forEach(m => m.wireframe = wireframeMode);
+  document.getElementById('btn-wireframe').classList.toggle('active');
+}
+
+let labelsVisible = true;
+function toggleLabels() {
+  labelsVisible = !labelsVisible;
+  nSprite.visible = labelsVisible;
+  streetSprite.visible = labelsVisible;
+  document.getElementById('btn-labels').classList.toggle('active');
+}
+
+// ═══════════════════════════════════════════
+// 1. SUN PATH ANIMATION
+// ═══════════════════════════════════════════
+const AUCKLAND_LAT = -36.85 * Math.PI / 180;
+let sunActive = false;
+let sunAnimating = false;
+let sunHour = 12;
+let sunMonth = 6;
+
+function toggleSunPath() {
+  sunActive = !sunActive;
+  document.getElementById('btn-sun').classList.toggle('active');
+  document.getElementById('sun-controls').classList.toggle('visible');
+  sunSphere.visible = sunActive;
+  sunPathLine.visible = sunActive;
+  if (sunActive) { updateSunPosition(); drawSunPath(); }
+}
+
+function getSunPosition(hour, month) {
+  // Simplified solar position for Auckland latitude
+  const dayOfYear = (month - 1) * 30.44 + 15;
+  const declination = -23.45 * Math.cos(2 * Math.PI * (dayOfYear + 10) / 365) * Math.PI / 180;
+  const hourAngle = (hour - 12) * 15 * Math.PI / 180;
+  const lat = AUCKLAND_LAT;
+
+  const sinAlt = Math.sin(lat) * Math.sin(declination) + Math.cos(lat) * Math.cos(declination) * Math.cos(hourAngle);
+  const altitude = Math.asin(Math.max(-1, Math.min(1, sinAlt)));
+
+  const cosAz = (Math.sin(declination) - Math.sin(lat) * sinAlt) / (Math.cos(lat) * Math.cos(altitude) + 0.001);
+  let azimuth = Math.acos(Math.max(-1, Math.min(1, cosAz)));
+  if (hourAngle > 0) azimuth = 2 * Math.PI - azimuth;
+
+  const dist = 40;
+  // In Southern Hemisphere, sun is to the NORTH
+  const x = dist * Math.cos(altitude) * Math.sin(azimuth);
+  const y = dist * Math.sin(altitude);
+  const z = -dist * Math.cos(altitude) * Math.cos(azimuth);
+
+  return { x, y: Math.max(0, y), z, altitude, azimuth };
+}
+
+function updateSunPosition() {
+  const pos = getSunPosition(sunHour, sunMonth);
+  sunLight.position.set(pos.x, Math.max(2, pos.y), pos.z);
+  sunSphere.position.set(pos.x, Math.max(2, pos.y), pos.z);
+
+  // Sky color based on sun altitude
+  const altDeg = pos.altitude * 180 / Math.PI;
+  if (altDeg < 0) {
+    scene.background.setHex(0x1a1a2e);
+    ambientLight.intensity = 0.15;
+    sunLight.intensity = 0;
+  } else if (altDeg < 10) {
+    const t = altDeg / 10;
+    scene.background.set(new THREE.Color(0x1a1a2e).lerp(new THREE.Color(0xFAD7A0), t));
+    ambientLight.intensity = 0.2 + t * 0.3;
+    sunLight.intensity = t * 0.8;
+    sunLight.color.setHex(0xFFB74D);
+  } else {
+    scene.background.setHex(0xFAF7F2);
+    ambientLight.intensity = 0.5;
+    sunLight.intensity = 1.2;
+    sunLight.color.setHex(0xfff8e1);
+  }
+}
+
+function drawSunPath() {
+  const points = [];
+  for (let h = 5; h <= 21; h += 0.5) {
+    const p = getSunPosition(h, sunMonth);
+    if (p.y > 0) points.push(new THREE.Vector3(p.x, p.y, p.z));
+  }
+  sunPathLine.geometry.dispose();
+  sunPathLine.geometry = new THREE.BufferGeometry().setFromPoints(points);
+}
+
+function updateSunFromSlider(val) {
+  sunHour = parseFloat(val);
+  const h = Math.floor(sunHour);
+  const m = Math.round((sunHour - h) * 60);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+  document.getElementById('sun-time-display').textContent = h12 + ':' + String(m).padStart(2,'0') + ' ' + ampm;
+  if (sunActive) updateSunPosition();
+}
+
+function updateSunMonth(val) {
+  sunMonth = parseInt(val);
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const labels = { 1: 'Summer', 6: 'Winter Solstice', 12: 'Summer Solstice' };
+  document.getElementById('sun-date-display').textContent = months[sunMonth-1] + (labels[sunMonth] ? ' — ' + labels[sunMonth] : '');
+  if (sunActive) { updateSunPosition(); drawSunPath(); }
+}
+
+function setSunPreset(preset) {
+  const presets = { morning: 8, noon: 12, evening: 17 };
+  sunHour = presets[preset];
+  document.getElementById('sun-slider').value = sunHour;
+  updateSunFromSlider(sunHour);
+}
+
+function playSunAnimation() {
+  sunAnimating = !sunAnimating;
+  const btn = document.getElementById('btn-sun-play');
+  btn.textContent = sunAnimating ? '⏸ Pause' : '▶ Play';
+  btn.classList.toggle('active');
+}
+
+// ═══════════════════════════════════════════
+// 4. COMPLIANCE HEATMAP
+// ═══════════════════════════════════════════
+let heatmapActive = false;
+const originalMats = new Map();
+
+function toggleHeatmap() {
+  heatmapActive = !heatmapActive;
+  document.getElementById('btn-heatmap').classList.toggle('active');
+  document.getElementById('heatmap-legend').classList.toggle('visible');
+
+  allMeshes.forEach(mesh => {
+    if (heatmapActive) {
+      if (!originalMats.has(mesh)) originalMats.set(mesh, mesh.material);
+      const c = mesh.userData.compliance;
+      if (c === 'pass') mesh.material = heatGreen;
+      else if (c === 'warn') mesh.material = heatAmber;
+      else if (c === 'fail') mesh.material = heatRed;
+      else mesh.material = heatPurple;
+    } else {
+      if (originalMats.has(mesh)) mesh.material = originalMats.get(mesh);
+    }
+  });
+}
+
+// ═══════════════════════════════════════════
+// 5. CONSTRUCTION SEQUENCE (4D)
+// ═══════════════════════════════════════════
+let timelineActive = false;
+const phaseNames = ['Excavation', 'Foundations', 'Framing', 'Envelope', 'Fit-Out', 'Commissioning'];
+const phaseKeys = ['excavation', 'foundations', 'framing', 'envelope', 'fitout', 'commissioning'];
+
+function toggleTimeline() {
+  timelineActive = !timelineActive;
+  document.getElementById('btn-timeline').classList.toggle('active');
+  document.getElementById('timeline-bar').classList.toggle('visible');
+  document.getElementById('info-panel').classList.toggle('timeline-active');
+  if (timelineActive) {
+    updateConstruction(parseFloat(document.getElementById('timeline-slider').value));
+  } else {
+    // Show everything
+    phaseKeys.forEach(k => { constructionGroups[k].visible = true; });
+  }
+}
+
+function updateConstruction(value) {
+  const phaseIndex = Math.floor(value);
+  const phaseFraction = value - phaseIndex;
+
+  phaseKeys.forEach((k, i) => {
+    if (i < phaseIndex) {
+      constructionGroups[k].visible = true;
+      constructionGroups[k].children.forEach(c => { c.material && (c.material.opacity = c.material.transparent ? c.material.opacity : 1); });
+    } else if (i === phaseIndex) {
+      constructionGroups[k].visible = true;
+      // Fade in current phase
+      constructionGroups[k].children.forEach(c => {
+        if (c.material && c.material.transparent !== undefined) {
+          // keep original opacity behaviour
+        }
+      });
+    } else {
+      constructionGroups[k].visible = false;
+    }
+  });
+
+  // Update phase labels
+  document.querySelectorAll('.timeline-phase').forEach((el, i) => {
+    el.classList.toggle('completed', i < phaseIndex);
+    el.classList.toggle('active', i === phaseIndex);
+  });
+
+  const label = phaseIndex < phaseNames.length ? phaseNames[phaseIndex] : phaseNames[phaseNames.length - 1];
+  document.getElementById('timeline-label').textContent =
+    'Phase ' + (Math.min(phaseIndex, 5) + 1) + ' of 6 — ' + label;
+}
+
+// Click phase labels to jump
+document.querySelectorAll('.timeline-phase').forEach(el => {
+  el.addEventListener('click', () => {
+    const p = parseInt(el.dataset.phase);
+    document.getElementById('timeline-slider').value = p;
+    updateConstruction(p);
+  });
+});
+
+// ═══════════════════════════════════════════
+// 3. PDF DRAG & DROP
+// ═══════════════════════════════════════════
+const loadedDocs = [];
+
+function toggleDropZone() {
+  document.getElementById('drop-zone').classList.toggle('visible');
+  document.getElementById('btn-pdf').classList.toggle('active');
+}
+
+const dropZone = document.getElementById('drop-zone');
+
+['dragenter', 'dragover'].forEach(evt => {
+  dropZone.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); dropZone.classList.add('dragover'); });
+});
+['dragleave', 'drop'].forEach(evt => {
+  dropZone.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('dragover'); });
+});
+
+dropZone.addEventListener('drop', (e) => {
+  const files = e.dataTransfer.files;
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    loadedDocs.push({ name: f.name, size: (f.size / 1024).toFixed(1) + ' KB', type: f.type || 'application/pdf' });
+  }
+  updateDocInventory();
+  toggleDropZone();
+});
+
+// Also allow body-level drag
+document.body.addEventListener('dragover', (e) => { e.preventDefault(); });
+document.body.addEventListener('drop', (e) => {
+  e.preventDefault();
+  if (!document.getElementById('drop-zone').classList.contains('visible')) {
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        loadedDocs.push({ name: f.name, size: (f.size / 1024).toFixed(1) + ' KB', type: f.type || 'application/pdf' });
+      }
+      updateDocInventory();
+    }
+  }
+});
+
+function updateDocInventory() {
+  const list = document.getElementById('doc-list');
+  list.innerHTML = loadedDocs.map(d =>
+    '<div class="doc-item"><span class="doc-icon">📄</span><span class="doc-name">' + d.name + '</span><span class="doc-size">' + d.size + '</span></div>'
+  ).join('');
+  if (loadedDocs.length > 0) {
+    document.getElementById('doc-inventory').classList.add('visible');
+  }
+}
+
+// ═══════════════════════════════════════════
+// FLYTHROUGH
+// ═══════════════════════════════════════════
+let isFlying = false;
+let flyTime = 0;
+const flyPath = [
+  { pos: [50, 30, 50], look: [0, 3, 0], t: 0 },
+  { pos: [30, 8, -15], look: [-8, 3, -4], t: 3 },
+  { pos: [-5, 4, -12], look: [0, 3, 0], t: 6 },
+  { pos: [-20, 6, 0], look: [-8, 4, 5], t: 9 },
+  { pos: [-10, 15, 15], look: [0, 3, 0], t: 12 },
+  { pos: [20, 5, 10], look: [8, 3, 5], t: 15 },
+  { pos: [40, 25, 30], look: [0, 3, 0], t: 18 },
+  { pos: [50, 30, 50], look: [0, 3, 0], t: 21 },
+];
+
+function startFlythrough() {
+  if (isFlying) { stopFlythrough(); return; }
+  isFlying = true; flyTime = 0;
+  document.getElementById('fly-indicator').style.display = 'block';
+  document.getElementById('btn-fly').classList.add('active');
+}
+function stopFlythrough() {
+  isFlying = false;
+  document.getElementById('fly-indicator').style.display = 'none';
+  document.getElementById('btn-fly').classList.remove('active');
+  updateCameraFromOrbit();
+}
+function lerpVec(a, b, t) { return a.map((v, i) => v + (b[i] - v) * t); }
+function updateFlythrough(dt) {
+  flyTime += dt;
+  if (flyTime >= flyPath[flyPath.length - 1].t) { stopFlythrough(); return; }
+  let seg = 0;
+  for (let i = 0; i < flyPath.length - 1; i++) {
+    if (flyTime >= flyPath[i].t && flyTime < flyPath[i + 1].t) { seg = i; break; }
+  }
+  const t = (flyTime - flyPath[seg].t) / (flyPath[seg + 1].t - flyPath[seg].t);
+  const smoothT = t * t * (3 - 2 * t);
+  const pos = lerpVec(flyPath[seg].pos, flyPath[seg + 1].pos, smoothT);
+  const look = lerpVec(flyPath[seg].look, flyPath[seg + 1].look, smoothT);
+  camera.position.set(...pos);
+  camera.lookAt(...look);
+}
+
+// ═══════════════════════════════════════════
+// PANEL & TAB FUNCTIONS
+// ═══════════════════════════════════════════
+function togglePanel() {
+  const panel = document.getElementById('info-panel');
+  panel.classList.toggle('collapsed');
+  document.getElementById('panel-toggle').textContent = panel.classList.contains('collapsed') ? '▲' : '▼';
+}
+
+function switchTab(tabName, btnEl) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+function toggleSpec(id) {
+  const detail = document.getElementById('detail-' + id);
+  const icon = document.getElementById('icon-' + id);
+  const isOpen = detail.classList.contains('expanded');
+  detail.classList.toggle('expanded');
+  icon.textContent = isOpen ? '▶' : '▼';
+}
+
+function resetCamera() {
+  theta = Math.PI / 4; phi = Math.PI / 4; radius = 55;
+  updateCameraFromOrbit();
+  scene.background.setHex(0xFAF7F2);
+  ambientLight.intensity = 0.5;
+  sunLight.intensity = 1.2;
+  sunLight.color.setHex(0xfff8e1);
+}
+
+// ═══════════════════════════════════════════
+// 6. EXPORT COMPLIANCE REPORT
+// ═══════════════════════════════════════════
+function exportReport() {
+  const now = new Date().toLocaleDateString('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' });
+  const reportHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Compliance Report — 16A Hubert Henderson Place</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,sans-serif;color:#23211F;background:#FAF7F2;padding:40px 60px;max-width:900px;margin:0 auto}
+h1{color:#2B6B57;font-size:22px;margin-bottom:4px}
+h2{color:#23211F;font-size:16px;margin:28px 0 12px;padding-bottom:6px;border-bottom:2px solid #2B6B57}
+h3{color:#AC5838;font-size:13px;margin:16px 0 8px;text-transform:uppercase;letter-spacing:0.5px}
+p{font-size:12px;line-height:1.7;margin-bottom:6px}
+.header{border-bottom:3px solid #2B6B57;padding-bottom:16px;margin-bottom:24px}
+.subtitle{color:#AC5838;font-size:13px}
+.logo{color:#2B6B57;font-size:24px;font-weight:700;float:right;font-family:Georgia,serif}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+th{background:#23211F;color:#FAF7F2;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase}
+td{padding:8px 10px;border-bottom:1px solid #ddd}
+.pass{color:#4CAF50;font-weight:700} .warn{color:#FF9800;font-weight:700}
+.fail{color:#f44336;font-weight:700} .review{color:#AC5838;font-weight:700}
+.auth-block{background:#23211F;color:#FAF7F2;padding:20px;border-radius:8px;margin-top:30px;font-size:11px;line-height:1.8}
+.auth-block strong{color:#2B6B57}
+.auth-block .warning{color:#AC5838;font-weight:700}
+.tikanga{background:#f0f8f4;padding:16px;border-radius:8px;margin:8px 0}
+.tikanga h4{color:#2B6B57;font-size:12px;margin-bottom:4px}
+.tikanga p{color:#23211F;font-size:11px}
+.doc-list{background:#f5f5f5;padding:12px;border-radius:6px;margin:8px 0}
+.footer{margin-top:40px;text-align:center;color:#888;font-size:10px;border-top:1px solid #ddd;padding-top:16px}
+@media print{body{padding:20px 30px}}
+</style></head><body>
+<div class="header"><div class="logo">assembl.</div><h1>Compliance Report</h1><p class="subtitle">16A Hubert Henderson Place, Remuera, Auckland — AUP H4 Mixed Housing Suburban</p><p style="font-size:11px;color:#666;margin-top:4px">Generated: ${now}</p></div>
+
+<h2>1. Code Compliance Summary</h2>
+<table>
+<tr><th>Element</th><th>Code Clause</th><th>Requirement</th><th>Status</th></tr>
+<tr><td>Building Height</td><td>AUP H4.6.6</td><td>Max 8m</td><td class="pass">PASS — 7.2m</td></tr>
+<tr><td>HIRB</td><td>AUP H4.6.7</td><td>2.5m + 45°</td><td class="pass">PASS</td></tr>
+<tr><td>Site Coverage</td><td>AUP H4.6.8</td><td>Max 40%</td><td class="warn">CHECK — 38.2%</td></tr>
+<tr><td>Landscaped Area</td><td>AUP H4.6.9</td><td>Min 40%</td><td class="warn">CHECK — 41.1%</td></tr>
+<tr><td>Front Setback</td><td>AUP H4.6.10</td><td>Min 3m</td><td class="pass">PASS — 4.5m</td></tr>
+<tr><td>Side Setback</td><td>AUP H4.6.11</td><td>Min 1m</td><td class="pass">PASS — 1.2m</td></tr>
+<tr><td>Outdoor Living</td><td>AUP H4.6.14</td><td>40m², 4m dim</td><td class="pass">PASS</td></tr>
+<tr><td>Cladding</td><td>E2/AS1 Table 2</td><td>Risk ≤ 12</td><td class="review">NEEDS SPEC</td></tr>
+<tr><td>Bracing</td><td>B1/AS1, NZS 3604</td><td>Schedule req'd</td><td class="review">NEEDS SPEC</td></tr>
+<tr><td>Energy</td><td>H1/AS1 6th ed.</td><td>Schedule method</td><td class="review">NEEDS SPEC</td></tr>
+<tr><td>Weathertightness</td><td>E2/AS1 4th ed.</td><td>Risk assessment</td><td class="fail">MISSING</td></tr>
+</table>
+
+<h2>2. Te Aranga Māori Design Review</h2>
+<div class="tikanga"><h4>Mana — Authority</h4><p>Within rohe of Ngāti Whātua Ōrākei. Mana whenua engagement recommended.</p></div>
+<div class="tikanga"><h4>Whakapapa — Identity</h4><p>Remuera context — Waitākere Ranges. Orientation to acknowledge ancestral landmarks.</p></div>
+<div class="tikanga"><h4>Taiao — Environment</h4><p>Native planting: pōhutukawa, tī kōuka, harakeke, kawakawa. Retain existing trees.</p></div>
+<div class="tikanga"><h4>Mauri Tū — Health</h4><p>Minimise embodied carbon. NZ-sourced FSC timber. Passive solar design.</p></div>
+<div class="tikanga"><h4>Mahi Toi — Expression</h4><p>Cultural narratives in fence design and entry thresholds.</p></div>
+<div class="tikanga"><h4>Tohu — Wayshowing</h4><p>Clear wayshowing acknowledging street address and cultural naming.</p></div>
+<div class="tikanga"><h4>Ahi Kā — Presence</h4><p>Support community connection through shared outdoor spaces.</p></div>
+
+<h2>3. Specification Status</h2>
+<table>
+<tr><th>Section</th><th>Masterspec Ref</th><th>Status</th></tr>
+<tr><td>Foundations</td><td>2210 Concrete</td><td class="review">Draft</td></tr>
+<tr><td>Framing</td><td>2420 Timber</td><td class="review">Draft</td></tr>
+<tr><td>Cladding</td><td>2640 Weatherboard</td><td class="pass">Complete</td></tr>
+<tr><td>Roofing</td><td>2710 Metal Roof</td><td class="review">Draft</td></tr>
+<tr><td>Windows</td><td>3110 Aluminium</td><td class="review">Pending</td></tr>
+<tr><td>Insulation</td><td>2530 Thermal</td><td class="review">Pending</td></tr>
+</table>
+
+${loadedDocs.length > 0 ? '<h2>4. Loaded Documents</h2><div class="doc-list">' + loadedDocs.map(d => '<p>📄 ' + d.name + ' (' + d.size + ')</p>').join('') + '</div>' : ''}
+
+<div class="auth-block">
+<p><strong>— ASSEMBL AUTHENTICATION —</strong></p>
+<p><strong>Generated by:</strong> Assembl Advisory (Claude AI + Professional Architect Review)</p>
+<p><strong>Date:</strong> ${now}</p>
+<p><strong>Project:</strong> 16A Hubert Henderson Place, Remuera, Auckland</p>
+<p><strong>NZBC clauses:</strong> B1/AS1, B2/AS1, E2/AS1 4th ed., E3/AS1, G4/AS1, H1/AS1 6th ed.</p>
+<p><strong>AUP:</strong> H4 Mixed Housing Suburban Zone</p>
+<p class="warning">Content status: AI-ASSISTED DRAFT — Requires professional architect review before lodgement</p>
+<p><strong>Provenance:</strong> Generated using NZ Building Code Acceptable Solutions, Auckland Unitary Plan, and Te Aranga Māori Design Principles. NOT reviewed by a licensed architect.</p>
+</div>
+
+<div class="footer">Assembl Advisory © 2026 — assembl.co.nz — AI-Assisted Draft</div>
+</body></html>`;
+
+  const blob = new Blob([reportHTML], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '16A-Hubert-Henderson-Compliance-Report.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ═══════════════════════════════════════════
+// ANIMATION LOOP
+// ═══════════════════════════════════════════
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = clock.getDelta();
+
+  if (isFlying) updateFlythrough(dt);
+
+  // Sun animation
+  if (sunAnimating && sunActive) {
+    sunHour += dt * 1.5; // ~1.5 hours per second
+    if (sunHour > 21) sunHour = 5;
+    document.getElementById('sun-slider').value = sunHour;
+    updateSunFromSlider(sunHour);
+    updateSunPosition();
+  }
+
+  renderer.render(scene, camera);
+}
+animate();
+
+// Resize
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
