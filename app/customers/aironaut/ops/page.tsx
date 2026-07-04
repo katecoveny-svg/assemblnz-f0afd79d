@@ -206,13 +206,16 @@ export default function AironautOsHome() {
             AIRONAUT
           </span>
         </div>
-        <div className="absolute right-6 top-7">
+        {/* At phone widths the pill's live 'last updated Xh ago' text is
+            wider than the space beside the chip — drop it to its own line
+            under the chip there. */}
+        <div className="absolute left-6 top-[4.5rem] sm:left-auto sm:right-6 sm:top-7">
           <KnowledgeSyncPill />
         </div>
         {/* Headline sits high on the navy hull, clear of the chrome and the
             painted wordmark, so it stays legible. Lowercase per site canon
             (Kate, 2026-07-04). */}
-        <div className="absolute left-6 right-6 md:left-10" style={{ top: '18%' }}>
+        <div className="absolute left-6 right-6 top-[26%] sm:top-[18%] md:left-10">
           <h1
             className="max-w-3xl text-3xl leading-tight text-white md:text-5xl"
             style={{ fontFamily: serif, fontWeight: 500, textShadow: '0 1px 24px rgba(0,0,0,0.35)' }}
