@@ -18,6 +18,8 @@ const SCOPE = [
   'app/pricing',
   'app/trust',
   'app/bundles',
+  'app/login',
+  'app/account/security',
   'components/v2',
   'components/site/site-footer.tsx',
   'components/assembl',

@@ -1,4 +1,4 @@
-import { BODY, C, CanaryButton, Card, Eyebrow, Grid, MONO, PageHeader, Pill, SectionTitle, nzDate } from '@/components/admin/ui';
+import { BODY, C, GoldButton, Card, Eyebrow, Grid, MONO, PageHeader, Pill, SectionTitle, nzDate } from '@/components/admin/ui';
 import { getDesignatedAdmins } from '@/lib/admin/v2-data';
 import { addDesignatedAdmin, setDesignatedAdminActive } from './actions';
 
@@ -31,8 +31,8 @@ const FLAGS: { key: string; label: string }[] = [
 ];
 
 const TOKENS: { name: string; hex: string }[] = [
-  { name: 'Canary', hex: C.canary },
-  { name: 'Deep gold', hex: C.gold },
+  { name: 'Champagne gold', hex: C.gold },
+  { name: 'Deep gold', hex: C.goldDeep },
   { name: 'Pale', hex: C.pale },
   { name: 'Charcoal', hex: C.ink },
   { name: 'Slate', hex: C.body },
@@ -147,7 +147,7 @@ export default async function SettingsPage() {
                 borderRadius: 10,
               }}
             />
-            <CanaryButton style={{ padding: '9px 16px' }}>Add operator</CanaryButton>
+            <GoldButton style={{ padding: '9px 16px' }}>Add operator</GoldButton>
           </form>
         )}
       </Card>

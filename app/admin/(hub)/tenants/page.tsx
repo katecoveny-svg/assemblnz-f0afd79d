@@ -7,7 +7,7 @@ import { updateTenant } from './actions';
 import {
   BODY,
   C,
-  CanaryButton,
+  GoldButton,
   Card,
   Eyebrow,
   Grid,
@@ -154,7 +154,7 @@ export default async function TenantsPage() {
                     <input type="checkbox" name="demo_seed_enabled" defaultChecked={row.demo_seed_enabled} />
                     demo seed data
                   </label>
-                  <CanaryButton style={{ padding: '8px 16px' }}>Save</CanaryButton>
+                  <GoldButton style={{ padding: '8px 16px' }}>Save</GoldButton>
                 </form>
               )}
             </Card>

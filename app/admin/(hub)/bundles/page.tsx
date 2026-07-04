@@ -6,7 +6,7 @@ import { setAgentBundle, updateBundle } from './actions';
 import {
   BODY,
   C,
-  CanaryButton,
+  GoldButton,
   Card,
   Empty,
   Eyebrow,
@@ -124,7 +124,7 @@ export default async function BundlesPage() {
                       <textarea name="short_pitch" rows={2} defaultValue={b.short_pitch ?? ''} style={{ ...input, resize: 'vertical' }} />
                     </label>
                     <div style={{ marginTop: 14 }}>
-                      <CanaryButton>Save bundle</CanaryButton>
+                      <GoldButton>Save bundle</GoldButton>
                     </div>
                   </form>
 
@@ -198,7 +198,7 @@ export default async function BundlesPage() {
                         </option>
                       ))}
                     </select>
-                    <CanaryButton style={{ padding: '8px 16px' }}>Add</CanaryButton>
+                    <GoldButton style={{ padding: '8px 16px' }}>Add</GoldButton>
                   </form>
                 </Card>
               </section>

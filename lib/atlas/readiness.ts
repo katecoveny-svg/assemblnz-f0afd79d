@@ -265,7 +265,7 @@ export type Archetype = {
   recsIntro: string;
   /** the "your first move" framing. */
   firstMove: string;
-  /** which action leads as the primary (canary) CTA on the report. */
+  /** which action leads as the primary (gold) CTA on the report. */
   primaryCta: 'pilot' | 'atlas' | 'browse';
   /** how to frame the NZ-rules section. */
   complianceLede: string;

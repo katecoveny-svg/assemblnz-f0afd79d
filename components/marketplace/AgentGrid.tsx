@@ -18,13 +18,13 @@ type Filter = 'all' | MarketplaceCategory;
 // Gold orb shades, cycled per card — matches the homepage marketplace grid
 // (app/page.tsx ORB_GOLDS) so the two surfaces read identically.
 const ORB_GOLDS: [string, string][] = [
-  ['#FFD42A', '#E0A800'],
+  ['#BFA37A', '#8A6B4E'],
   ['#FFE066', '#F2C200'],
   ['#FFCB1F', '#D89A00'],
-  ['#FFD96B', '#E0A800'],
-  ['#FFE680', '#E0A800'],
+  ['#D9B87A', '#8A6B4E'],
+  ['#E4D6B0', '#8A6B4E'],
   ['#FFDD55', '#D89A00'],
-  ['#FFCF3A', '#E0A800'],
+  ['#C8A876', '#8A6B4E'],
 ];
 
 export function AgentGrid({ agents }: { agents: PublicMarketplaceAgent[] }) {

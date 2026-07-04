@@ -4,7 +4,7 @@ import { addKnowledgeSource, resolveKnowledgeAlert, updateKnowledgeSource } from
 import {
   BODY,
   C,
-  CanaryButton,
+  GoldButton,
   Card,
   Empty,
   Eyebrow,
@@ -208,7 +208,7 @@ export default async function KnowledgePage() {
                       <input type="checkbox" name="active" defaultChecked={s.active} />
                       active
                     </label>
-                    <CanaryButton style={{ padding: '8px 16px' }}>Save</CanaryButton>
+                    <GoldButton style={{ padding: '8px 16px' }}>Save</GoldButton>
                   </form>
                 </Card>
               );
@@ -250,7 +250,7 @@ export default async function KnowledgePage() {
                 <Eyebrow style={{ marginBottom: 5 }}>Cadence (days)</Eyebrow>
                 <input name="refresh_cadence_days" type="number" min={1} defaultValue={7} style={{ ...input, width: 110 }} />
               </label>
-              <CanaryButton>Register source</CanaryButton>
+              <GoldButton>Register source</GoldButton>
             </form>
           </Card>
         </>

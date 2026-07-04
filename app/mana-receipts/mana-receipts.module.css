@@ -1,16 +1,16 @@
-/* Mana Receipts — CANON (locked 2026-06-23) canary + cream trust page.
+/* Mana Receipts — champagne-gold + cream trust page (canary killed 2026-07-03).
    Cormorant display (--mana-display), Lato body (--mana-body), Space Mono
    labels (--mana-mono). Palette tokens inline from lib/marketplace/agents. */
 
 .root {
-  --canary: #BFA37A;
-  --canary2: #ffe27a;
+  --gold: #BFA37A;
+  --gold2: #D9B87A;
   --ink: #3a3832;
   --body: #56544b;
   --paper: #ffffff;
   --cream: #fff7ec;
   --hairline: #efeadc;
-  --gold: #c79b1f;
+  --gold: #BFA37A;
   --muted: #8a8678;
 
   font-family: var(--mana-body), system-ui, sans-serif;
@@ -51,7 +51,7 @@
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 82% -10%, rgba(255, 212, 42, 0.16), transparent 60%),
+    radial-gradient(120% 90% at 82% -10%, rgba(191, 163, 122, 0.16), transparent 60%),
     var(--cream);
   border-bottom: 1px solid var(--hairline);
   padding: 96px 0 88px;
@@ -60,7 +60,7 @@
 .heroDash {
   height: 4px;
   width: 100%;
-  background: linear-gradient(90deg, var(--canary) 0%, var(--canary2) 50%, #e0a800 100%);
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold2) 50%, #8A6B4E 100%);
 }
 
 .h1 {
@@ -78,11 +78,11 @@
   display: block;
   font-style: italic;
   font-weight: 700;
-  background: linear-gradient(110deg, #ffcb1f 0%, #f2c200 46%, #e0a800 100%);
+  background: linear-gradient(110deg, #ffcb1f 0%, #f2c200 46%, #8A6B4E 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: #e0a800;
+  color: #8A6B4E;
 }
 
 .sub {
@@ -156,7 +156,7 @@
 .callout {
   background: var(--cream);
   border: 1px solid var(--hairline);
-  border-left: 4px solid var(--canary);
+  border-left: 4px solid var(--gold);
   border-radius: 18px;
   padding: 26px 30px;
   margin: 8px 0 26px;
@@ -208,7 +208,7 @@
 .listCard {
   background: var(--cream);
   border: 1px solid var(--hairline);
-  border-left: 4px solid var(--canary);
+  border-left: 4px solid var(--gold);
   border-radius: 18px;
   padding: 26px 28px;
 }
@@ -245,7 +245,7 @@
   width: 8px;
   height: 8px;
   border-radius: 2px;
-  background: var(--canary);
+  background: var(--gold);
 }
 
 .listNot li::before {
@@ -253,7 +253,7 @@
   border: 1.5px solid var(--muted);
 }
 
-/* ── CTA pill (glass canary) ────────────────────────────────────────── */
+/* ── CTA pill (glass gold) ────────────────────────────────────────── */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -283,8 +283,8 @@
 }
 
 .pillSolid {
-  background: var(--canary);
-  border: 1px solid var(--canary);
+  background: var(--gold);
+  border: 1px solid var(--gold);
 }
 
 /* ── Closing block ──────────────────────────────────────────────────── */
@@ -292,7 +292,7 @@
   text-align: center;
   padding: 84px 0 72px;
   background:
-    radial-gradient(120% 80% at 50% 120%, rgba(255, 212, 42, 0.14), transparent 60%),
+    radial-gradient(120% 80% at 50% 120%, rgba(191, 163, 122, 0.14), transparent 60%),
     var(--paper);
 }
 
@@ -339,12 +339,12 @@
 
 /* ── Mana Receipt preview mock ──────────────────────────────────────── */
 .receipt {
-  --canary: #BFA37A;
+  --gold: #BFA37A;
   --ink: #3a3832;
   --body: #56544b;
   --cream: #fff7ec;
   --hairline: #efeadc;
-  --gold: #c79b1f;
+  --gold: #BFA37A;
   --muted: #8a8678;
   position: relative;
   background: #ffffff;
@@ -359,7 +359,7 @@
 
 .receiptTop {
   height: 5px;
-  background: linear-gradient(90deg, var(--canary) 0%, #ffe27a 50%, #e0a800 100%);
+  background: linear-gradient(90deg, var(--gold) 0%, #D9B87A 50%, #8A6B4E 100%);
 }
 
 .receiptHead {
@@ -401,7 +401,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink);
-  background: var(--canary);
+  background: var(--gold);
   border-radius: 99px;
   padding: 6px 12px;
 }
@@ -449,7 +449,7 @@
   margin: 14px 0 4px;
   background: var(--cream);
   border: 1px solid var(--hairline);
-  border-left: 4px solid var(--canary);
+  border-left: 4px solid var(--gold);
   border-radius: 12px;
   padding: 14px 16px;
   font-size: 13px;
@@ -530,8 +530,8 @@
 }
 
 .actionPrimary {
-  background: var(--canary);
-  border-color: var(--canary);
+  background: var(--gold);
+  border-color: var(--gold);
 }
 
 /* soft perforation on the sample page hero framing */

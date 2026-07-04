@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { LoginForm } from './login-form';
 
 export const metadata: Metadata = {
-  title: 'Sign in',
-  description: 'Sign in to your assembl account.',
+  title: 'sign in',
+  description: 'sign in to your assembl account.',
   robots: { index: false, follow: false },
 };
 
@@ -32,24 +32,21 @@ export default async function LoginPage({
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 0%, rgba(58,56,50, 0.08) 0%, transparent 60%)',
+            'radial-gradient(ellipse at 50% 0%, rgba(191, 163, 122, 0.10) 0%, transparent 60%)',
         }}
       />
       <div className="w-full max-w-md">
         <div className="glass-card p-8 sm:p-10">
           <div className="text-center">
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--dash-gold,#C79B1F)]">
-              Welcome back
-            </p>
             <h1
-              className="mt-4 font-display leading-[0.95] tracking-tight text-[color:var(--text-primary)]"
+              className="font-display lowercase leading-[0.95] tracking-tight text-[color:var(--text-primary)]"
               style={{ fontWeight: 500, fontSize: 'clamp(2.25rem, 5vw, 3rem)' }}
             >
-              Sign in.
+              sign in
+              <span aria-hidden style={{ color: 'var(--assembl-gold,#BFA37A)' }}>
+                .
+              </span>
             </h1>
-            <p className="mx-auto mt-3 max-w-xs text-base leading-relaxed text-[color:var(--text-body)]">
-              A magic link, or your password. Whichever is quicker for you.
-            </p>
           </div>
 
           <div className="mt-8">
@@ -75,13 +72,13 @@ export default async function LoginPage({
           </div>
         </div>
 
-        <p className="mt-6 text-center text-sm text-[color:var(--text-secondary)]">
-          New here?{' '}
+        <p className="mt-6 text-center text-sm lowercase text-[color:var(--text-secondary)]">
+          new here?{' '}
           <Link
             href="/pilot-sprint"
-            className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--dash-canary,#BFA37A)] focus-visible:ring-offset-2"
+            className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-gold)] focus-visible:ring-offset-2"
           >
-            Book a pilot to get an account →
+            book a pilot →
           </Link>
         </p>
       </div>

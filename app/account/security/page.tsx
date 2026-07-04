@@ -38,13 +38,13 @@ export default async function AccountSecurityPage() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(ellipse at 50% 0%, rgba(255,212,42, 0.10) 0%, transparent 60%)',
+            'radial-gradient(ellipse at 50% 0%, rgba(191, 163, 122, 0.10) 0%, transparent 60%)',
         }}
       />
       <div className="w-full max-w-md">
         <div className="glass-card p-8 sm:p-10">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--dash-gold,#C79B1F)]">
+            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-[color:var(--assembl-gold,#BFA37A)]">
               Account · Security
             </p>
             <h1
@@ -71,7 +71,7 @@ export default async function AccountSecurityPage() {
         <p className="mt-6 text-center text-sm text-[color:var(--text-secondary)]">
           <Link
             href="/app"
-            className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--dash-canary,#BFA37A)] focus-visible:ring-offset-2"
+            className="font-medium text-[color:var(--text-primary)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-gold,#BFA37A)] focus-visible:ring-offset-2"
           >
             ← Back to your dashboard
           </Link>

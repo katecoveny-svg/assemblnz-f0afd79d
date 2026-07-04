@@ -6,8 +6,8 @@ import { usePathname } from 'next/navigation';
 /**
  * Admin top nav — the marketplace-era operator surface.
  *
- * Lowercase `assembl` wordmark (Cormorant 600) + canary pill-dash, logo links
- * to `/`. Ten real sections. Space Mono labels, canary highlight on the active
+ * Lowercase `assembl` wordmark (Cormorant 600) + gold pill-dash, logo links
+ * to `/`. Ten real sections. Space Mono labels, gold highlight on the active
  * route. Self-contained chrome: the global SiteHeader/Footer are suppressed on
  * /admin (see components/site/site-header.tsx).
  */
@@ -32,7 +32,7 @@ const NAV: { label: string; href: string }[] = [
 
 const INK = '#3A3832';
 const BODY = '#56544B';
-const CANARY = '#FFD42A';
+const GOLD_ACCENT = '#BFA37A';
 const HAIRLINE = '#EFEADC';
 const DISPLAY = 'var(--font-display), "Cormorant Garamond", Georgia, serif';
 const FONT_BODY = 'var(--font-body), Lato, system-ui, sans-serif';
@@ -88,7 +88,7 @@ export function AdminNav({ email }: { email: string }) {
           </span>
           <span
             aria-hidden
-            style={{ width: 22, height: 7, borderRadius: 4, background: CANARY, marginBottom: 5 }}
+            style={{ width: 22, height: 7, borderRadius: 4, background: GOLD_ACCENT, marginBottom: 5 }}
           />
         </Link>
 
@@ -114,7 +114,7 @@ export function AdminNav({ email }: { email: string }) {
                   fontWeight: active ? 700 : 500,
                   fontSize: 14,
                   color: active ? INK : BODY,
-                  background: active ? CANARY : 'transparent',
+                  background: active ? GOLD_ACCENT : 'transparent',
                   padding: '7px 13px',
                   borderRadius: 999,
                   textDecoration: 'none',

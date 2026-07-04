@@ -40,6 +40,66 @@ const SPA_PUBLIC_PREFIXES = [
 const matchesPrefix = (pathname: string, prefix: string) =>
   pathname === prefix || pathname.startsWith(`${prefix}/`);
 
+// ---------------------------------------------------------------------------
+// Coming-soon splash gate (live domain only).
+//
+// The fresh marketing site is being built in its own repo/project at
+// staging.assembl.co.nz. Until it cuts over, the live domain shows ONLY the
+// coming-soon splash (app/page.tsx). The splash used to render at `/` alone,
+// so every other route (/login, /agents, …) fell through to the old app —
+// which is how prospects saw the deprecated canary UI. This gate rewrites any
+// non-exempt request on the live host to the splash so nothing else leaks.
+//
+// Exempt (must keep working while the domain is "closed"):
+//   - /api/*            webhooks + Brevo inbound
+//   - /for/*            per-prospect magic links (handled before this anyway)
+//   - /admin*           Kate's operator hub (own magic-link auth)
+//   - /customers/*      hosted pilots (own demo basic-auth)
+//   - static + Next internals (/_next, /brand, favicon, robots, sitemap, …)
+// ---------------------------------------------------------------------------
+const SPLASH_HOSTS = new Set(['assembl.co.nz', 'www.assembl.co.nz']);
+const SPLASH_EXEMPT_PREFIXES = [
+  '/api/',
+  '/for/',
+  '/admin',
+  '/customers',
+  '/_next/',
+  '/brand/',
+  '/.well-known',
+  '/assets/',
+];
+const SPLASH_EXEMPT_EXACT = new Set([
+  '/robots.txt',
+  '/sitemap.xml',
+  '/favicon.ico',
+  '/favicon.png',
+  '/icon.png',
+  '/apple-icon.png',
+  '/manifest.json',
+  '/manifest.webmanifest',
+  '/widget.js',
+]);
+const SPLASH_STATIC_FILE =
+  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest)$/i;
+
+const splashGate = (request: NextRequest): NextResponse | null => {
+  const host = (request.headers.get('host') ?? '').toLowerCase();
+  if (!SPLASH_HOSTS.has(host)) return null; // only the live apex/www domain
+
+  const { pathname } = request.nextUrl;
+  if (pathname === '/') return null; // the splash already renders here
+  if (SPLASH_EXEMPT_EXACT.has(pathname)) return null;
+  if (SPLASH_EXEMPT_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) return null;
+  if (SPLASH_STATIC_FILE.test(pathname)) return null;
+
+  // Everything else on the live domain → the coming-soon splash (URL bar
+  // keeps the original path; the visitor just sees the quiet card).
+  const url = request.nextUrl.clone();
+  url.pathname = '/';
+  url.search = '';
+  return NextResponse.rewrite(url);
+};
+
 /**
  * Demo pilot basic-auth gate.
  *
@@ -448,6 +508,12 @@ export async function middleware(request: NextRequest) {
   // link IS the credential. Invalid or revoked links get the branded page.
   const inviteEntry = await handleInviteEntry(request);
   if (inviteEntry) return inviteEntry;
+
+  // Live domain is behind the coming-soon splash while the fresh site is built
+  // at staging. Runs after the invite entry (so /for links resolve) and before
+  // everything else; exempts /api, /admin, /customers and static assets.
+  const splash = splashGate(request);
+  if (splash) return splash;
 
   // Pilot workspaces are gated before anything else — including the demo-host
   // rewrite, which would otherwise return early and skip the check.

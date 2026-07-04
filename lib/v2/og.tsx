@@ -3,13 +3,13 @@ import { ImageResponse } from 'next/og';
 /**
  * Shared OG image template for the v2 marketing site —
  * DIRECTION-LOCKED-2026-07-01: warm paper, lowercase Cormorant headline with
- * the canary full stop, sparse gold constellation, tiny lowercase wordmark.
+ * the champagne-gold full stop, sparse gold constellation, tiny lowercase wordmark.
  */
 
 const PAPER = '#FBFAF6';
 const INK = '#1A1918';
 const BODY = '#5A5850';
-const CANARY = '#F5C64B';
+const GOLD_BRIGHT = '#C8A876';
 const GOLD_SOFT = '#D9B87A';
 const SILVER = '#B5B0A2';
 
@@ -105,7 +105,7 @@ export async function v2OgImage({
             />
           ))}
           {STARS.map(([x, y, r, bright], i) => (
-            <circle key={i} cx={x} cy={y} r={r} fill={bright ? CANARY : GOLD_SOFT} opacity="0.85" />
+            <circle key={i} cx={x} cy={y} r={r} fill={bright ? GOLD_BRIGHT : GOLD_SOFT} opacity="0.85" />
           ))}
           {/* quiet particulate ridge along the bottom */}
           {Array.from({ length: 60 }).map((_, i) => {
@@ -137,7 +137,7 @@ export async function v2OgImage({
           }}
         >
           <div
-            style={{ width: 10, height: 10, borderRadius: 10, backgroundColor: CANARY }}
+            style={{ width: 10, height: 10, borderRadius: 10, backgroundColor: GOLD_BRIGHT }}
           />
           {eyebrow}
         </div>
@@ -154,7 +154,7 @@ export async function v2OgImage({
           }}
         >
           {headline}
-          <span style={{ color: CANARY }}>.</span>
+          <span style={{ color: GOLD_BRIGHT }}>.</span>
         </div>
 
         <div

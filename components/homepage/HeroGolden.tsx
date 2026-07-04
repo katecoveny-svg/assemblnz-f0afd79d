@@ -29,7 +29,7 @@ const lato = Lato({ subsets: ['latin'], weight: ['400', '900'], display: 'swap' 
 // Eyebrow set in Space Mono, matching the marketplace surfaces.
 const spaceMono = Space_Mono({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
 
-const CANARY = '#FFD42A';
+const GOLD_ACCENT = '#BFA37A';
 const CHARCOAL = '#3A3832';
 
 const GoldenScene = dynamic(() => import('@/components/homepage/GoldenScene'), {
@@ -144,7 +144,7 @@ export function HeroGolden() {
             {PRICING.map((item, i) => (
               <li key={item} className="flex items-center gap-4">
                 {i > 0 && (
-                  <span aria-hidden style={{ color: CANARY }}>
+                  <span aria-hidden style={{ color: GOLD_ACCENT }}>
                     ·
                   </span>
                 )}
