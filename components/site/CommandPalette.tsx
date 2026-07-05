@@ -63,8 +63,9 @@ export function CommandPalette() {
                 className="h-11 flex-1 bg-transparent text-base outline-none placeholder:text-[color:var(--text-secondary)] md:text-body-md"
               />
               <Dialog.Close
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2 focus-visible:bg-[rgba(35,33,31,0.06)] focus-visible:text-[color:var(--text-primary)]"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full text-[color:var(--text-secondary)] transition hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 focus-visible:bg-[rgba(35,33,31,0.06)] focus-visible:text-[color:var(--text-primary)]"
                 aria-label="Close command palette"
+                title="Close"
               >
                 <X className="h-5 w-5" aria-hidden />
               </Dialog.Close>

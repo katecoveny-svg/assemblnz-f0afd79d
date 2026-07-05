@@ -16,7 +16,7 @@ export function KeteDefinition({ children }: { children?: ReactNode }) {
   return (
     <details className="group inline align-baseline [&_summary::-webkit-details-marker]:hidden">
       <summary
-        className="inline cursor-pointer list-none rounded-sm underline decoration-dotted decoration-[color:var(--assembl-pounamu)] decoration-1 underline-offset-4 transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+        className="inline cursor-pointer list-none rounded-sm underline decoration-dotted decoration-[color:var(--assembl-pounamu)] decoration-1 underline-offset-4 transition-colors hover:text-[color:var(--assembl-pounamu)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
         aria-label="What is a kete?"
       >
         {children ?? 'kete'}
