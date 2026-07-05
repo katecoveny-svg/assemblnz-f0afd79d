@@ -45,6 +45,41 @@ export async function rejectContent(formData: FormData) {
   await review(formData, 'rejected');
 }
 
+// ── Agent action requests (the first real action path) ─────────────────────
+// Same human gate, different queue: agents file email drafts / webhook posts
+// into agent_action_requests, and only an operator's yes moves them on.
+// Dispatch is additionally env-gated (ACTION_DISPATCH_ENABLED) inside
+// decideActionRequest, so approving here records the decision without
+// sending anything until Kate deliberately flips that flag.
+
+export async function approveAgentAction(formData: FormData) {
+  const admin = await ensureAdmin();
+  const id = String(formData.get('id') ?? '');
+  const note = String(formData.get('note') ?? '').trim();
+  if (!id) return;
+  try {
+    const { decideActionRequest } = await import('@/lib/agents/action-requests');
+    await decideActionRequest(id, 'approved', admin.email, note || undefined);
+  } catch {
+    // Fail soft — the row simply stays pending.
+  }
+  revalidatePath('/admin/approvals');
+}
+
+export async function rejectAgentAction(formData: FormData) {
+  const admin = await ensureAdmin();
+  const id = String(formData.get('id') ?? '');
+  const note = String(formData.get('note') ?? '').trim();
+  if (!id) return;
+  try {
+    const { decideActionRequest } = await import('@/lib/agents/action-requests');
+    await decideActionRequest(id, 'rejected', admin.email, note || undefined);
+  } catch {
+    // Fail soft.
+  }
+  revalidatePath('/admin/approvals');
+}
+
 /** Send a reviewed item back to pending (undo). */
 export async function reopenContent(formData: FormData) {
   await ensureAdmin();

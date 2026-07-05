@@ -15,7 +15,9 @@ import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
 import { getEntitlementStatus, incrementFreeUsage } from '@/lib/billing/agent-entitlement';
 import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billing/chat-identity';
 import { searchLiveTariff, TARIFF_TRUST_FOOTER_RULES } from '@/lib/customs/tariff-live';
-import { loadDbPrompt, composePrompt } from '@/lib/agents/prompt-store';
+import { loadDbPrompt, composePrompt, loadDbKnowledge, knowledgeBlock } from '@/lib/agents/prompt-store';
+import { createActionRequest } from '@/lib/agents/action-requests';
+import { capabilityProfileFor } from '@/lib/marketplace/agent-capabilities';
 import {
   bundleFor,
   trustFooterRules,
@@ -232,7 +234,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
   // System prompt: DB-first (agent_prompts, pack='marketplace', versioned —
   // curated from Kate's corpus), falling back to the locked code prompt.
-  const dbPrompt = await loadDbPrompt(slug);
+  // Pilot knowledge (pack='knowledge') loads alongside — absent row, no block.
+  const [dbPrompt, pilotKnowledge] = await Promise.all([loadDbPrompt(slug), loadDbKnowledge(slug)]);
   const resolvedPrompt = dbPrompt ? composePrompt(dbPrompt.text) : agent.systemPrompt;
 
   // When the primary is unavailable and we're starting on a fallback rung, the
@@ -348,12 +351,82 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     },
   });
 
+  // ── Action path (PR 3) ────────────────────────────────────────────────────
+  // Agents whose capability profile declares send_email / webhook can FILE an
+  // action request. Filing is the whole tool: the row lands 'pending' in
+  // agent_action_requests, a named operator decides on /admin/approvals, and
+  // dispatch is separately env-gated. The tool result tells the model exactly
+  // what it may claim — drafted and held, never sent.
+  const profile = capabilityProfileFor(agent);
+  const requesterRef = 'userId' in identity ? `user:${identity.userId}` : `anon:${identity.anonId}`;
+
+  const draftEmailHandoff = tool({
+    description:
+      'File an email DRAFT for human review. Use when the user asks you to email someone (a customer, a supplier, a colleague). The email is NEVER sent by this tool — it is held for a named person to approve. Gather the recipient (if known), a clear subject and the full body before calling.',
+    inputSchema: z.object({
+      to: z.string().email().optional().describe('Recipient email, if the user provided one'),
+      subject: z.string().min(3).max(200),
+      body: z.string().min(20).describe('The complete drafted email body'),
+      reason: z.string().min(5).max(300).describe('One line on why this email should go out'),
+    }),
+    execute: async (input) => {
+      const created = await createActionRequest({
+        agentSlug: agent.slug,
+        requestedBy: requesterRef,
+        kind: 'email_draft',
+        payload: input,
+      });
+      if (!created) {
+        return { status: 'error', note: 'Could not file the draft for review. Tell the user to copy the draft text themselves for now.' };
+      }
+      return {
+        status: 'held_for_review',
+        requestId: created.id,
+        note: 'Draft filed and held for human approval. Tell the user: the email is DRAFTED and waiting for a named person to approve it — it has NOT been sent, and you cannot send it.',
+      };
+    },
+  });
+
+  const requestWebhookAction = tool({
+    description:
+      'File a webhook action request for human review — a structured payload the business wants posted to an endpoint they control (their CRM, their sheet bridge, their job system). NEVER call this with an endpoint you invented: only when the user names their own webhook URL. The request is held for human approval; nothing is posted by this tool.',
+    inputSchema: z.object({
+      url: z.string().url().describe('The https endpoint the USER provided'),
+      payload: z.record(z.string(), z.unknown()).describe('The structured data to deliver'),
+      reason: z.string().min(5).max(300),
+    }),
+    execute: async (input) => {
+      if (!input.url.startsWith('https://')) {
+        return { status: 'error', note: 'Only https endpoints can be filed. Ask the user for an https URL.' };
+      }
+      const created = await createActionRequest({
+        agentSlug: agent.slug,
+        requestedBy: requesterRef,
+        kind: 'webhook',
+        payload: input,
+      });
+      if (!created) {
+        return { status: 'error', note: 'Could not file the request. Tell the user honestly and suggest trying again later.' };
+      }
+      return {
+        status: 'held_for_review',
+        requestId: created.id,
+        note: 'Request filed and held for human approval. Tell the user it is queued for review — nothing has been posted yet.',
+      };
+    },
+  });
+
+  const canDraftEmail = profile.tools.includes('send_email');
+  const canWebhook = profile.tools.includes('webhook');
+
   const tools = {
     ...nzKnowledgeTools,
     scheduleTextReminder,
     ...(isMaritime ? { marineWeather: marineWeatherTool } : {}),
     ...(isCreative ? { generateImage: generateImageTool, ...creativeTools } : {}),
     ...(isCustoms ? { tariffLookup } : {}),
+    ...(canDraftEmail ? { draftEmailHandoff } : {}),
+    ...(canWebhook ? { requestWebhookAction } : {}),
   };
 
   const knowledgeBlocks: string[] = [];
@@ -375,6 +448,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
   const handoffBlock = handoffPromptBlock(agent.slug);
   if (handoffBlock) knowledgeBlocks.push(handoffBlock);
+
+  // Pilot-configured business knowledge (agent_prompts pack='knowledge').
+  if (pilotKnowledge) knowledgeBlocks.push(knowledgeBlock(pilotKnowledge));
+
+  if (canDraftEmail || canWebhook) {
+    knowledgeBlocks.push(
+      `# Action requests (drafts only)\nYou can FILE actions for human review${canDraftEmail ? ' — email drafts (draftEmailHandoff)' : ''}${canWebhook ? `${canDraftEmail ? ' and' : ' —'} webhook posts to an endpoint the user names (requestWebhookAction)` : ''}. Rules: you never send, post, or promise delivery — a named person reviews every request first, and you say so plainly. Never invent recipients or endpoints. After filing, confirm what was drafted and that it is held for approval.`,
+    );
+  }
 
   knowledgeBlocks.push(
     "Text reminders (offer proactively): you can set up SMS reminders for the user with the scheduleTextReminder tool. Whenever someone wants a reminder, a recurring nudge, or to be texted something, offer it, then run a quick set-up before calling the tool. First, confirm what to send (keep it short and friendly) and when (one-off, daily, or weekly with the day and time). Second, ask for the recipient's mobile in international format (e.g. +64211234567) — their own number or someone else's. Third, get an explicit opt-in for that number: ask them to confirm they have that person's permission to receive these texts and that the person can ask to stop at any time, and only continue on a clear yes — this consent is recorded and is required under the Unsolicited Electronic Messages Act 2007. Only after all three, call scheduleTextReminder (you can set up several at once), then confirm what is scheduled, that it will arrive by text on that schedule, and that they can message you any time to change, pause, or stop a reminder.",
