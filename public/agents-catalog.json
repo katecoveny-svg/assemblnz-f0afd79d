@@ -1,835 +1,499 @@
 {
-  "generatedAt": "2026-06-05T12:12:33.197Z",
-  "source": "lib/agents.ts",
-  "totalKete": 9,
-  "totalAgents": 82,
-  "liveAgents": 82,
-  "ketes": [
+  "generatedAt": "2026-07-05T01:51:58.750Z",
+  "source": "lib/marketplace/agents.ts",
+  "totalBundles": 9,
+  "totalAgents": 59,
+  "liveAgents": 57,
+  "bundles": [
     {
-      "slug": "waihanga",
-      "name": "Waihanga",
-      "industry": "Construction",
-      "accent": "#2B6B57",
-      "type": "industry",
-      "status": "active",
+      "slug": "kaitiaki",
+      "name": "Kaitiaki",
+      "category": "animal",
+      "subtitle": "Animal care, welfare and conservation, drafted for a licensed vet or authorised welfare officer to sign.",
+      "standalone": false,
       "agents": [
         {
-          "slug": "arai",
-          "name": "Ārai",
-          "role": "Health and safety lead",
-          "oneLiner": "Drafts SSSPs grounded in HSWA 2015. Cites every relevant section.",
+          "slug": "species-recovery",
+          "name": "DOC Species Recovery",
+          "oneLiner": "General support across the ~200 published Threatened Species Recovery Plans — tuatara, whio, takahē, kōkako, kākā, kea, tuna and more. Recovery-plan interpretation, translocation logistics, predator-control review. Taonga species route to a named kaitiaki reviewer.",
           "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/waihanga?agent=arai"
+          "chatHref": "/agents/species-recovery"
         },
         {
-          "slug": "ata",
-          "name": "Ata",
-          "role": "BIM and plan analysis",
-          "oneLiner": "Reviews building information models and plan sets for code compliance.",
+          "slug": "doggy-daycare",
+          "name": "Doggy Daycare",
+          "oneLiner": "The operating system for a boutique NZ doggy daycare — enrolment to Welcome Pack, SMS pickup coordination in the carer’s voice, email in the owner’s voice, Xero invoicing, vaccination + council tracking. Every message and invoice is a draft the operator sends.",
           "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/waihanga?agent=ata"
+          "chatHref": "/agents/doggy-daycare"
         },
         {
-          "slug": "ccc-ledger",
-          "name": "CCC Ledger",
-          "role": "Code compliance close-out record",
-          "oneLiner": "Code compliance close-out record specialist for Waihanga construction workflows, with human review and an evidence-pack trail.",
+          "slug": "vet-equine",
+          "name": "Equine Vet",
+          "oneLiner": "Horse work across thoroughbred, harness, sport and leisure — lameness, colic triage, reproduction, pre-purchase exams, with live racing and FEI withdrawal-time checks before any prescription.",
           "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/waihanga?agent=ccc-ledger"
+          "chatHref": "/agents/vet-equine"
         },
         {
-          "slug": "contracts",
-          "name": "Contracts",
-          "role": "Construction contracts evidence",
-          "oneLiner": "Construction contracts evidence specialist for Waihanga construction workflows, with human review and an evidence-pack trail.",
+          "slug": "vet-exotic",
+          "name": "Exotic, Avian & Reptile Vet",
+          "oneLiner": "A credible second opinion on birds, reptiles, small mammals and companion fish — husbandry-first, with a zoonotic check and a hard route to DOC when an \"exotic\" turns out to be a native.",
           "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/waihanga?agent=contracts"
+          "chatHref": "/agents/vet-exotic"
         },
         {
-          "slug": "council-rfi",
-          "name": "Council RFI",
-          "role": "Council request response drafting",
-          "oneLiner": "Council request response drafting specialist for Waihanga construction workflows, with human review and an evidence-pack trail.",
+          "slug": "keeper",
+          "name": "Keeper",
+          "oneLiner": "The front door to Kaitiaki. Routes an animal question to the right kind of care — companion vet, farm, equine, exotic, doggy daycare, welfare triage, wildlife rehab or Threatened Species Recovery. Every reply is a draft for a registered vet, welfare officer, licensed operator or named kaitiaki reviewer to sign.",
           "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/waihanga?agent=council-rfi"
+          "chatHref": "/agents/keeper"
         },
         {
-          "slug": "hapori",
-          "name": "Hāpori",
-          "role": "Community and stakeholder scan",
-          "oneLiner": "Community and stakeholder scan specialist for Waihanga construction workflows, with human review and an evidence-pack trail.",
+          "slug": "vet-large-animal",
+          "name": "Large Animal Vet",
+          "oneLiner": "Production-animal herd health for dairy, beef, sheep, goats and deer — with withholding periods, NAIT checks and MPI notifiable-disease pathways that can never be suppressed.",
           "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/waihanga?agent=hapori"
+          "chatHref": "/agents/vet-large-animal"
         },
         {
-          "slug": "iho",
-          "name": "Iho",
-          "role": "Fleet routing brain",
-          "oneLiner": "Routes work to the right specialist and coordinates handoffs across the kete.",
+          "slug": "rescue-coordination",
+          "name": "Rescue Coordination",
+          "oneLiner": "Multi-agency coordination for injured, orphaned or displaced animals — beached marine mammals, injured natives, displaced companions and weather-event response. Human safety first; trained responders act.",
           "status": "live",
-          "phase": "infra",
-          "chatHref": "/c/waihanga?agent=iho"
+          "chatHref": "/agents/rescue-coordination"
         },
         {
-          "slug": "kaupapa",
-          "name": "Kaupapa",
-          "role": "Project scoping",
-          "oneLiner": "Defines scope boundaries, identifies regulatory touchpoints, maps the consent pathway.",
+          "slug": "vet-small-animal",
+          "name": "Small Animal Vet",
+          "oneLiner": "Companion-animal consults for dogs, cats, rabbits and small mammals — a SOAP draft, differentials and a treatment plan for a registered veterinarian to examine and sign.",
           "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/waihanga?agent=kaupapa"
+          "chatHref": "/agents/vet-small-animal"
         },
         {
-          "slug": "pai",
-          "name": "Pai",
-          "role": "Quality assurance",
-          "oneLiner": "Runs final compliance checks and assembles the Evidence Pack for submission.",
+          "slug": "spca-workflow",
+          "name": "SPCA Workflow",
+          "oneLiner": "Welfare case triage under the Animal Welfare Act 1999 — severity grading, jurisdiction, inspector-brief and MPI-referral drafting, and the adoption + foster pipeline, for an authorised welfare officer to sign.",
           "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/waihanga?agent=pai"
+          "chatHref": "/agents/spca-workflow"
         },
         {
-          "slug": "producer-statements",
-          "name": "Producer Statements",
-          "role": "PS1-PS4 evidence control",
-          "oneLiner": "PS1-PS4 evidence control specialist for Waihanga construction workflows, with human review and an evidence-pack trail.",
+          "slug": "wildbase-recovery",
+          "name": "Wildbase Recovery",
+          "oneLiner": "The wildlife-hospital pathway — admission protocols, orthopaedic repair, oiled-seabird and lead-toxicity care, rehab and soft-release. Every admission drafts a DOC notification. A draft for a registered vet + kaitiaki reviewer.",
           "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/waihanga?agent=producer-statements"
+          "chatHref": "/agents/wildbase-recovery"
         },
         {
-          "slug": "rawa",
-          "name": "Rawa",
-          "role": "Materials and procurement",
-          "oneLiner": "Checks materials against Building Product Specifications and NZ Building Code.",
+          "slug": "zoo-vet",
+          "name": "Zoo Vet",
+          "oneLiner": "Ex-situ collection support for NZ zoos — NZCCM-style clinical notes, species-management dashboards, ZAA + welfare-code compliance, and visitor-education content. Built with Auckland Zoo as design partner (concept · pilot pending).",
           "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/waihanga?agent=rawa"
+          "chatHref": "/agents/zoo-vet"
         },
         {
-          "slug": "signal",
-          "name": "Signal",
-          "role": "Security and data guardrail",
-          "oneLiner": "Checks security, privacy, and operational-risk posture for the fleet.",
-          "status": "live",
-          "phase": "infra",
-          "chatHref": "/c/waihanga?agent=signal"
+          "slug": "kakapo-recovery",
+          "name": "Kākāpō Recovery",
+          "oneLiner": "Field-ops support for the DOC Kākāpō Recovery Programme. Coming soon — held until a Ngāi Tahu + DOC tripartite sign-off. The model never generates whakapapa and never surfaces a tracked-bird location.",
+          "status": "coming_soon",
+          "chatHref": null
         },
         {
-          "slug": "variations",
-          "name": "Variations",
-          "role": "Variation and RFI control",
-          "oneLiner": "Variation and RFI control specialist for Waihanga construction workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/waihanga?agent=variations"
-        },
-        {
-          "slug": "whakaae",
-          "name": "Whakaaē",
-          "role": "Building consents",
-          "oneLiner": "Drafts consent applications citing Building Act 2004 s 14B and relevant Acceptable Solutions.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/waihanga?agent=whakaae"
+          "slug": "kiwi-conservation",
+          "name": "Kiwi Conservation",
+          "oneLiner": "National Kiwi Recovery Plan support — Operation Nest Egg, community trap programmes, dog-avoidance in kiwi zones. Coming soon — ships only after a Kiwis for Kiwi MOU and rohe-appropriate kaumātua sign-off.",
+          "status": "coming_soon",
+          "chatHref": null
         }
       ]
     },
     {
-      "slug": "manaaki",
-      "name": "Manaaki",
-      "industry": "Hospitality",
-      "accent": "#AC5838",
-      "type": "industry",
-      "status": "active",
+      "slug": "hearth",
+      "name": "Hearth",
+      "category": "family",
+      "subtitle": "The whānau navigator. School notices, meals, calendar, elder check-ins, power bills, weather, catch logs. Tōro is the lead, no longer a peer.",
+      "standalone": false,
       "agents": [
         {
-          "slug": "aura",
-          "name": "Aura",
-          "role": "Guest experience and service compliance",
-          "oneLiner": "Manages guest experience standards and service-level compliance.",
+          "slug": "awhi",
+          "name": "Awhi",
+          "oneLiner": "Daily SMS check-in with an elder, escalates on distress.",
           "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/manaaki?agent=aura"
+          "chatHref": "/agents/awhi"
         },
         {
-          "slug": "hau",
-          "name": "Hau",
-          "role": "Wellbeing and venue safety",
-          "oneLiner": "Wellbeing and venue safety specialist for Manaaki hospitality workflows, with human review and an evidence-pack trail.",
+          "slug": "catch-log",
+          "name": "Catch Log",
+          "oneLiner": "Logbook for the day's catch.",
           "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/manaaki?agent=hau"
+          "chatHref": "/agents/catch-log"
         },
         {
-          "slug": "host-responsibility",
-          "name": "Host Responsibility",
-          "role": "Alcohol host-responsibility records",
-          "oneLiner": "Alcohol host-responsibility records specialist for Manaaki hospitality workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/manaaki?agent=host-responsibility"
-        },
-        {
-          "slug": "kai",
-          "name": "Kai",
-          "role": "Food safety operations",
-          "oneLiner": "Food safety operations specialist for Manaaki hospitality workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/manaaki?agent=kai"
-        },
-        {
-          "slug": "licence-renewal",
-          "name": "Licence Renewal",
-          "role": "Alcohol licence renewal pack",
-          "oneLiner": "Alcohol licence renewal pack specialist for Manaaki hospitality workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/manaaki?agent=licence-renewal"
-        },
-        {
-          "slug": "mahi",
-          "name": "Mahi",
-          "role": "Roster and shift evidence",
-          "oneLiner": "Roster and shift evidence specialist for Manaaki hospitality workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/manaaki?agent=mahi"
-        },
-        {
-          "slug": "manuhiri",
-          "name": "Manuhiri",
-          "role": "Guest and booking intake",
-          "oneLiner": "Guest and booking intake specialist for Manaaki hospitality workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/manaaki?agent=manuhiri"
-        },
-        {
-          "slug": "putea",
-          "name": "Pūtea",
-          "role": "Money and margin ledger",
-          "oneLiner": "Money and margin ledger specialist for Manaaki hospitality workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/manaaki?agent=putea"
-        }
-      ]
-    },
-    {
-      "slug": "pikau",
-      "name": "Pīkau",
-      "industry": "Logistics",
-      "accent": "#255F94",
-      "type": "industry",
-      "status": "active",
-      "agents": [
-        {
-          "slug": "biosecurity",
-          "name": "Biosecurity",
-          "role": "Border biosecurity attestations",
-          "oneLiner": "Border biosecurity attestations specialist for Pīkau freight and customs workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/pikau?agent=biosecurity"
-        },
-        {
-          "slug": "dangerous-goods",
-          "name": "Dangerous Goods",
-          "role": "Dangerous goods declaration review",
-          "oneLiner": "Dangerous goods declaration review specialist for Pīkau freight and customs workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/pikau?agent=dangerous-goods"
-        },
-        {
-          "slug": "gateway",
-          "name": "Gateway",
-          "role": "Tariff classification",
-          "oneLiner": "Classifies HS codes and assesses duty against the NZ Tariff Schedule.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/pikau?agent=gateway"
-        },
-        {
-          "slug": "morunga",
-          "name": "Mōrunga",
-          "role": "Freight opportunity intake",
-          "oneLiner": "Freight opportunity intake specialist for Pīkau freight and customs workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/pikau?agent=morunga"
-        },
-        {
-          "slug": "pikau",
-          "name": "Pīkau",
-          "role": "Customs declarations",
-          "oneLiner": "Drafts customs entries citing Customs and Excise Act 2018 requirements.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/pikau?agent=pikau"
-        },
-        {
-          "slug": "transit",
-          "name": "Transit",
-          "role": "Freight movement compliance",
-          "oneLiner": "Tracks movement records, compliance events, and transport handoff evidence.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/pikau?agent=transit"
-        },
-        {
-          "slug": "forge",
-          "name": "Forge",
-          "role": "Freight documentation",
-          "oneLiner": "Produces shipping documentation with audit trails for customs and brokers.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/pikau?agent=transit-freight"
-        },
-        {
-          "slug": "valuation",
-          "name": "Valuation",
-          "role": "Customs valuation evidence",
-          "oneLiner": "Customs valuation evidence specialist for Pīkau freight and customs workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/pikau?agent=valuation"
-        }
-      ]
-    },
-    {
-      "slug": "arataki",
-      "name": "Arataki",
-      "industry": "Automotive & Fleet",
-      "accent": "#8F4F13",
-      "type": "industry",
-      "status": "active",
-      "agents": [
-        {
-          "slug": "driver-hours",
-          "name": "Driver Hours",
-          "role": "Driver logbook and fatigue checks",
-          "oneLiner": "Driver logbook and fatigue checks specialist for Arataki automotive and fleet workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/arataki?agent=driver-hours"
-        },
-        {
-          "slug": "fleet-incident",
-          "name": "Fleet Incident",
-          "role": "Fleet incident triage and evidence",
-          "oneLiner": "Fleet incident triage and evidence specialist for Arataki automotive and fleet workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/arataki?agent=fleet-incident"
-        },
-        {
-          "slug": "motor",
-          "name": "Motor",
-          "role": "Workshop safety and compliance",
-          "oneLiner": "Workshop safety, equipment compliance, and dealership obligations.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/arataki?agent=motor"
-        },
-        {
-          "slug": "ruc",
-          "name": "RUC",
-          "role": "Road user charges evidence",
-          "oneLiner": "Road user charges evidence specialist for Arataki automotive and fleet workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/arataki?agent=ruc"
-        },
-        {
-          "slug": "warranty",
-          "name": "Warranty",
-          "role": "Warranty and CGA decision record",
-          "oneLiner": "Warranty and CGA decision record specialist for Arataki automotive and fleet workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/arataki?agent=warranty"
-        },
-        {
-          "slug": "whaikorero",
-          "name": "Whaikōrero",
-          "role": "Customer and insurer narrative",
-          "oneLiner": "Customer and insurer narrative specialist for Arataki automotive and fleet workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/arataki?agent=whaikorero"
-        },
-        {
-          "slug": "whare",
-          "name": "Whare",
-          "role": "Workshop operating records",
-          "oneLiner": "Workshop operating records specialist for Arataki automotive and fleet workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/arataki?agent=whare"
-        },
-        {
-          "slug": "wof-cof",
-          "name": "WoF-CoF",
-          "role": "WoF and CoF compliance calendar",
-          "oneLiner": "WoF and CoF compliance calendar specialist for Arataki automotive and fleet workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/arataki?agent=wof-cof"
-        }
-      ]
-    },
-    {
-      "slug": "auaha",
-      "name": "Auaha",
-      "industry": "Creative",
-      "accent": "#5B4FA0",
-      "type": "industry",
-      "status": "active",
-      "agents": [
-        {
-          "slug": "brand-ledger",
-          "name": "Brand Ledger",
-          "role": "Brand approval record",
-          "oneLiner": "Brand approval record specialist for Auaha creative workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/auaha?agent=brand-ledger"
-        },
-        {
-          "slug": "campaign-claims",
-          "name": "Campaign Claims",
-          "role": "Marketing claims evidence",
-          "oneLiner": "Marketing claims evidence specialist for Auaha creative workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/auaha?agent=campaign-claims"
-        },
-        {
-          "slug": "muse",
-          "name": "Muse",
-          "role": "Copywriting",
-          "oneLiner": "Drafts copy with NZ legislation citations where required.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/auaha?agent=muse"
-        },
-        {
-          "slug": "prism",
-          "name": "Prism",
-          "role": "Brand strategy",
-          "oneLiner": "Brand strategy, positioning, and creative direction.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/auaha?agent=prism"
-        },
-        {
-          "slug": "rights",
-          "name": "Rights",
-          "role": "Copyright and usage rights review",
-          "oneLiner": "Copyright and usage rights review specialist for Auaha creative workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/auaha?agent=rights"
-        },
-        {
-          "slug": "saffron",
-          "name": "Saffron",
-          "role": "Campaign and content production",
-          "oneLiner": "Drafts content production plans and campaign handoff records.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/auaha?agent=saffron"
-        },
-        {
-          "slug": "tiriti-review",
-          "name": "Te Tiriti Review",
-          "role": "Cultural and partnership review",
-          "oneLiner": "Cultural and partnership review specialist for Auaha creative workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/auaha?agent=tiriti-review"
-        },
-        {
-          "slug": "vessel-studio",
-          "name": "Vessel-Studio",
-          "role": "Visual vessel production",
-          "oneLiner": "Visual vessel production specialist for Auaha creative workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/auaha?agent=vessel-studio"
-        }
-      ]
-    },
-    {
-      "slug": "ako",
-      "name": "Ako",
-      "industry": "Education",
-      "accent": "#6B5843",
-      "type": "industry",
-      "status": "active",
-      "agents": [
-        {
-          "slug": "ako-licence",
-          "name": "Ako-Licence",
-          "role": "ECE licensing compliance",
-          "oneLiner": "Education Act 2020 licensing, child safety, and curriculum documentation.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/ako?agent=ako-licence"
-        },
-        {
-          "slug": "aroha",
-          "name": "Aroha",
-          "role": "Whānau and staff relationship scan",
-          "oneLiner": "Whānau and staff relationship scan specialist for Ako early childhood education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/ako?agent=aroha"
-        },
-        {
-          "slug": "ero-pack",
-          "name": "ERO-pack",
-          "role": "ERO evidence bundle",
-          "oneLiner": "ERO evidence bundle specialist for Ako early childhood education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/ako?agent=ero-pack"
-        },
-        {
-          "slug": "kaiako",
-          "name": "Kaiako",
-          "role": "Teacher evidence and planning",
-          "oneLiner": "Teacher evidence and planning specialist for Ako early childhood education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/ako?agent=kaiako"
-        },
-        {
-          "slug": "ratio-watch",
-          "name": "Ratio Watch",
-          "role": "ECE ratio and staffing monitor",
-          "oneLiner": "ECE ratio and staffing monitor specialist for Ako early childhood education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/ako?agent=ratio-watch"
-        },
-        {
-          "slug": "safety-checks",
-          "name": "Safety Checks",
-          "role": "Children safety-check evidence",
-          "oneLiner": "Children safety-check evidence specialist for Ako early childhood education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/ako?agent=safety-checks"
-        },
-        {
-          "slug": "tamariki",
-          "name": "Tamariki",
-          "role": "Child safety and records",
-          "oneLiner": "Child safety and records specialist for Ako early childhood education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/ako?agent=tamariki"
-        },
-        {
-          "slug": "whanau-comms",
-          "name": "Whānau Comms",
-          "role": "Family communication drafts",
-          "oneLiner": "Family communication drafts specialist for Ako early childhood education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/ako?agent=whanau-comms"
-        }
-      ]
-    },
-    {
-      "slug": "matauranga",
-      "name": "Mātauranga",
-      "industry": "Knowledge",
-      "accent": "#3D5A7A",
-      "type": "industry",
-      "status": "active",
-      "agents": [
-        {
-          "slug": "akonga",
-          "name": "Ākonga",
-          "role": "Student cohort scan",
-          "oneLiner": "Student cohort scan specialist for Mātauranga secondary education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/matauranga?agent=akonga"
-        },
-        {
-          "slug": "attendance",
-          "name": "Attendance",
-          "role": "Attendance and engagement evidence",
-          "oneLiner": "Attendance and engagement evidence specialist for Mātauranga secondary education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/matauranga?agent=attendance"
-        },
-        {
-          "slug": "board-pack",
-          "name": "Board Pack",
-          "role": "Board and governance records",
-          "oneLiner": "Board and governance records specialist for Mātauranga secondary education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/matauranga?agent=board-pack"
-        },
-        {
-          "slug": "ero-s",
-          "name": "ERO-S",
-          "role": "Secondary ERO evidence bundle",
-          "oneLiner": "Secondary ERO evidence bundle specialist for Mātauranga secondary education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/matauranga?agent=ero-s"
-        },
-        {
-          "slug": "kaiako-s",
-          "name": "Kaiako-S",
-          "role": "Secondary teacher reporting",
-          "oneLiner": "Secondary teacher reporting specialist for Mātauranga secondary education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/matauranga?agent=kaiako-s"
-        },
-        {
-          "slug": "ncea",
-          "name": "NCEA",
-          "role": "NCEA rule and assessment tracker",
-          "oneLiner": "NCEA rule and assessment tracker specialist for Mātauranga secondary education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/matauranga?agent=ncea"
-        },
-        {
-          "slug": "pastoral",
-          "name": "Pastoral",
-          "role": "Pastoral-care record review",
-          "oneLiner": "Pastoral-care record review specialist for Mātauranga secondary education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/matauranga?agent=pastoral"
-        },
-        {
-          "slug": "reo",
-          "name": "Reo",
-          "role": "Language and reporting clarity",
-          "oneLiner": "Language and reporting clarity specialist for Mātauranga secondary education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/matauranga?agent=reo"
-        },
-        {
-          "slug": "ropu",
-          "name": "Rōpū",
-          "role": "Group and board records",
-          "oneLiner": "Group and board records specialist for Mātauranga secondary education workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/matauranga?agent=ropu"
-        }
-      ]
-    },
-    {
-      "slug": "hoko",
-      "name": "Hoko",
-      "industry": "Commerce",
-      "accent": "#7B3F8F",
-      "type": "industry",
-      "status": "active",
-      "agents": [
-        {
-          "slug": "cellar",
-          "name": "Cellar",
-          "role": "Product and licence records",
-          "oneLiner": "Maintains product records, restricted-goods checks, and evidence trails.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/hoko?agent=cellar"
-        },
-        {
-          "slug": "fair-trading",
-          "name": "Fair Trading",
-          "role": "Retail claims and promotion review",
-          "oneLiner": "Retail claims and promotion review specialist for Hoko retail workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/hoko?agent=fair-trading"
-        },
-        {
-          "slug": "hoko-cga",
-          "name": "Hoko-CGA",
-          "role": "Consumer protection",
-          "oneLiner": "Consumer Guarantees Act compliance for NZ retailers.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/hoko?agent=hoko-cga"
-        },
-        {
-          "slug": "retail-privacy",
-          "name": "Retail Privacy",
-          "role": "Customer-data privacy check",
-          "oneLiner": "Customer-data privacy check specialist for Hoko retail workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/hoko?agent=retail-privacy"
-        },
-        {
-          "slug": "returns",
-          "name": "Returns",
-          "role": "Returns and remedy workflow",
-          "oneLiner": "Returns and remedy workflow specialist for Hoko retail workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/hoko?agent=returns"
-        },
-        {
-          "slug": "spark",
-          "name": "Spark",
-          "role": "Retail opportunity intake",
-          "oneLiner": "Retail opportunity intake specialist for Hoko retail workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/hoko?agent=spark"
-        },
-        {
-          "slug": "stock",
-          "name": "Stock",
-          "role": "Inventory and supplier records",
-          "oneLiner": "Inventory and supplier records specialist for Hoko retail workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/hoko?agent=stock"
-        },
-        {
-          "slug": "supplier-records",
-          "name": "Supplier Records",
-          "role": "Supplier evidence and traceability",
-          "oneLiner": "Supplier evidence and traceability specialist for Hoko retail workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/hoko?agent=supplier-records"
-        }
-      ]
-    },
-    {
-      "slug": "toro",
-      "name": "Helm",
-      "industry": "Family",
-      "accent": "#23211F",
-      "type": "whanau",
-      "status": "active",
-      "agents": [
-        {
-          "slug": "allowance-ledger",
-          "name": "Allowance Ledger",
-          "role": "Allowance and pocket-money record",
-          "oneLiner": "Allowance and pocket-money record specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/toro?agent=allowance-ledger"
-        },
-        {
-          "slug": "appointments",
-          "name": "Appointments",
-          "role": "Appointment and reminder coordination",
-          "oneLiner": "Appointment and reminder coordination specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/toro?agent=appointments"
-        },
-        {
-          "slug": "consent-guard",
-          "name": "Consent Guard",
-          "role": "Parent consent and approval checks",
-          "oneLiner": "Parent consent and approval checks specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "ledger",
-          "chatHref": "/c/toro?agent=consent-guard"
-        },
-        {
-          "slug": "handover-helper",
-          "name": "Handover Helper",
-          "role": "Care handover notes",
-          "oneLiner": "Care handover notes specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/toro?agent=handover-helper"
-        },
-        {
-          "slug": "holiday-ideas",
-          "name": "Holiday Ideas",
-          "role": "Family holiday planning",
-          "oneLiner": "Family holiday planning specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/toro?agent=holiday-ideas"
-        },
-        {
-          "slug": "kid-money",
-          "name": "Kid Money",
-          "role": "Family money conversations",
-          "oneLiner": "Family money conversations specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/toro?agent=kid-money"
-        },
-        {
-          "slug": "routines",
-          "name": "Routines",
-          "role": "Household routine planning",
-          "oneLiner": "Household routine planning specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/toro?agent=routines"
-        },
-        {
-          "slug": "school-comms",
-          "name": "School Comms",
-          "role": "School message drafting",
-          "oneLiner": "School message drafting specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "pitch",
-          "chatHref": "/c/toro?agent=school-comms"
-        },
-        {
-          "slug": "term-planner",
-          "name": "Term Planner",
-          "role": "School-term planning",
-          "oneLiner": "School-term planning specialist for Helm whānau workflows, with human review and an evidence-pack trail.",
-          "status": "live",
-          "phase": "hunt",
-          "chatHref": "/c/toro?agent=term-planner"
+          "slug": "dawn",
+          "name": "Dawn",
+          "oneLiner": "Your day briefed before the kettle boils.",
+          "status": "live",
+          "chatHref": "/agents/dawn"
         },
         {
           "slug": "toro",
           "name": "Helm",
-          "role": "Family agent",
-          "oneLiner": "Household admin, school communications, appointment management, family scheduling.",
+          "oneLiner": "The whānau lead — the front door to the Hearth bundle. Household admin, school comms, appointments, meals (Kai) and everyday logistics, drafted for a parent to approve.",
           "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/toro?agent=toro"
+          "chatHref": "/agents/toro"
+        },
+        {
+          "slug": "fridge-to-list",
+          "name": "Kai",
+          "oneLiner": "Snap the fridge, get a Woolworths shopping list — dietary rules and budget kept honest.",
+          "status": "live",
+          "chatHref": "/agents/fridge-to-list"
+        },
+        {
+          "slug": "panui-parser",
+          "name": "Pānui Parser",
+          "oneLiner": "School notices in, dates and permission slips out.",
+          "status": "live",
+          "chatHref": "/agents/panui-parser"
+        },
+        {
+          "slug": "school-notice",
+          "name": "School Notice",
+          "oneLiner": "Parses the newsletter, adds events to the calendar.",
+          "status": "live",
+          "chatHref": "/agents/school-notice"
+        },
+        {
+          "slug": "switch",
+          "name": "Switch",
+          "oneLiner": "Reads the power bill, finds a cheaper plan.",
+          "status": "live",
+          "chatHref": "/agents/switch"
         },
         {
           "slug": "voyage",
           "name": "Voyage",
-          "role": "Trip planning",
-          "oneLiner": "Plans multi-destination trips day-by-day with bookable activities, budgets, and packing lists.",
+          "oneLiner": "Trip planning for New Zealanders heading away — day-by-day itineraries, FX-aware budgets and packing lists, drafted for you to book.",
           "status": "live",
-          "phase": "execution",
-          "chatHref": "/c/toro?agent=voyage"
+          "chatHref": "/agents/voyage"
+        }
+      ]
+    },
+    {
+      "slug": "assembler",
+      "name": "Assembler",
+      "category": "construction",
+      "subtitle": "The site foreman that routes site safety, consents, project admin and quality — drafted for a Licensed Building Practitioner to review.",
+      "standalone": false,
+      "agents": [
+        {
+          "slug": "arai",
+          "name": "Ārai",
+          "oneLiner": "Construction health and safety — Site-Specific Safety Plans, risk registers and incident records built on the Health and Safety at Work Act 2015, drafted for a competent person to act on.",
+          "status": "live",
+          "chatHref": "/agents/arai"
+        },
+        {
+          "slug": "ata",
+          "name": "Ata",
+          "oneLiner": "BIM and plan review — clash detection, Building Code compliance and accessibility, drafted to the NZ BIM Handbook for your designer to sign.",
+          "status": "live",
+          "chatHref": "/agents/ata"
+        },
+        {
+          "slug": "kaupapa",
+          "name": "Kaupapa",
+          "oneLiner": "The construction project director — scope, programme, contract administration, payment claims and the consent pathway, drafted for your reviewer to act on.",
+          "status": "live",
+          "chatHref": "/agents/kaupapa"
+        },
+        {
+          "slug": "pai",
+          "name": "Pai",
+          "oneLiner": "Construction quality assurance — inspection and test plans, non-conformance and defect tracking, and the sealed evidence pack for your reviewer to sign.",
+          "status": "live",
+          "chatHref": "/agents/pai"
+        },
+        {
+          "slug": "rawa",
+          "name": "Rawa",
+          "oneLiner": "Materials, products and procurement — checked against the Building Product Specifications 2025 and the Building Code, with supplier evidence held for your reviewer.",
+          "status": "live",
+          "chatHref": "/agents/rawa"
+        },
+        {
+          "slug": "whakaae",
+          "name": "Whakaaē",
+          "oneLiner": "Building and resource consents — applications, AEEs and council RFI responses citing the Building Act 2004, drafted for your LBP to lodge.",
+          "status": "live",
+          "chatHref": "/agents/whakaae"
+        }
+      ]
+    },
+    {
+      "slug": "forge",
+      "name": "Forge",
+      "category": "automotive",
+      "subtitle": "The service manager for dealerships, workshops and heavy transport — drafted for a registered trader or operator to act on.",
+      "standalone": false,
+      "agents": [
+        {
+          "slug": "arataki",
+          "name": "Arataki",
+          "oneLiner": "The automotive agent that runs a dealership end to end — sales compliance, finance disclosure, the service lane, courtesy cars, and heavy-transport operations.",
+          "status": "live",
+          "chatHref": "/agents/arataki"
+        },
+        {
+          "slug": "gateway",
+          "name": "Gateway",
+          "oneLiner": "Tariff classification — HS codes and duty assessed against the NZ Working Tariff and the WCO Harmonised System, with reasoning a broker or Customs can rely on.",
+          "status": "live",
+          "chatHref": "/agents/gateway"
+        },
+        {
+          "slug": "pikau",
+          "name": "Pīkau",
+          "oneLiner": "Customs declarations — import entries drafted from the invoice and packing list under the Customs and Excise Act 2018, ready for a licensed broker to check and lodge.",
+          "status": "live",
+          "chatHref": "/agents/pikau"
+        }
+      ]
+    },
+    {
+      "slug": "practice",
+      "name": "Practice",
+      "category": "health",
+      "subtitle": "The duty doctor. Triages the request to GP, oncology, mental health, paeds, women’s, aged care, ACC, allied health — and always sends the work to a registered practitioner for review.",
+      "standalone": false,
+      "agents": [
+        {
+          "slug": "front",
+          "name": "Front",
+          "oneLiner": "Answers the phones after hours.",
+          "status": "live",
+          "chatHref": "/agents/front"
+        },
+        {
+          "slug": "quill",
+          "name": "Quill",
+          "oneLiner": "Writes the clinical note while you focus on the patient.",
+          "status": "live",
+          "chatHref": "/agents/quill"
+        }
+      ]
+    },
+    {
+      "slug": "ensemble",
+      "name": "Ensemble",
+      "category": "creative",
+      "subtitle": "The creative director — brief, draft, brand-redline and ship. ASA + Fair Trading + Copyright compliance on every artefact.",
+      "standalone": false,
+      "agents": [
+        {
+          "slug": "auaha",
+          "name": "Auaha",
+          "oneLiner": "Full creative shop — brief → copy → image → video → podcast → one-shot apps.",
+          "status": "live",
+          "chatHref": "/agents/auaha"
+        },
+        {
+          "slug": "muse",
+          "name": "Muse",
+          "oneLiner": "Copywriting and communications — on-brand, claim-safe copy across every channel under the Fair Trading Act 1986 and ASA codes, drafted for you to approve.",
+          "status": "live",
+          "chatHref": "/agents/muse"
+        },
+        {
+          "slug": "prism",
+          "name": "Prism",
+          "oneLiner": "The creative studio in one chat — brand DNA, campaigns, social, video and design direction, drafted on-brand for you to approve.",
+          "status": "live",
+          "chatHref": "/agents/prism"
+        },
+        {
+          "slug": "saffron",
+          "name": "Saffron",
+          "oneLiner": "Campaign and content production — production plans, asset schedules and handoff records, claim-safe under the ASA codes, drafted for you to approve.",
+          "status": "live",
+          "chatHref": "/agents/saffron"
+        },
+        {
+          "slug": "social-manager",
+          "name": "Social Manager",
+          "oneLiner": "The always-on half of your social — publishes, watches comments, drafts replies.",
+          "status": "live",
+          "chatHref": "/agents/social-manager"
+        }
+      ]
+    },
+    {
+      "slug": "counsel",
+      "name": "Counsel",
+      "category": "legal",
+      "subtitle": "The solicitor. Every output ends: this is a model-assisted draft — have a registered NZ lawyer review and sign.",
+      "standalone": false,
+      "agents": []
+    },
+    {
+      "slug": "visa",
+      "name": "Visa",
+      "category": "immigration",
+      "subtitle": "One agent, one job. AEWV, partnership, dependent child, student. INZ form-pack, Schedule of Documents, fee table, refusal-risk flags. Refers to a licensed adviser before submitting.",
+      "standalone": true,
+      "agents": []
+    },
+    {
+      "slug": "marketplace",
+      "name": "Marketplace",
+      "category": "general",
+      "subtitle": "Agents available individually, outside the collections.",
+      "standalone": false,
+      "agents": [
+        {
+          "slug": "ako-licence",
+          "name": "Ako-Licence",
+          "oneLiner": "Early-childhood-education licensing and compliance — ratios, qualifications, child safety and ERO readiness under the Education and Training Act 2020, drafted for your centre manager.",
+          "status": "live",
+          "chatHref": "/agents/ako-licence"
+        },
+        {
+          "slug": "aroha",
+          "name": "Aroha",
+          "oneLiner": "NZ HR and employment law — agreements, disciplinary process, leave, and the true cost of a hire, drafted for you to check.",
+          "status": "live",
+          "chatHref": "/agents/aroha"
+        },
+        {
+          "slug": "atlas",
+          "name": "Atlas",
+          "oneLiner": "The free AI adoption coach. Maps your week, points you to the agents that fit, and walks you from idea to your first built workflow — honest about where AI will not help.",
+          "status": "live",
+          "chatHref": "/agents/atlas"
+        },
+        {
+          "slug": "aura",
+          "name": "Aura",
+          "oneLiner": "Guest experience and service compliance for hospitality — host-responsibility records and service standards under the Sale and Supply of Alcohol Act 2012, drafted for your duty manager.",
+          "status": "live",
+          "chatHref": "/agents/aura"
+        },
+        {
+          "slug": "cellar",
+          "name": "Cellar",
+          "oneLiner": "Product and licence records for retail — restricted-goods checks and supplier traceability under the Sale and Supply of Alcohol Act 2012, drafted for an auditor or inspector.",
+          "status": "live",
+          "chatHref": "/agents/cellar"
+        },
+        {
+          "slug": "chief",
+          "name": "Chief",
+          "oneLiner": "A chief of staff for one — inbox, calendar, expenses, drafted and ready for your nod.",
+          "status": "live",
+          "chatHref": "/agents/chief"
+        },
+        {
+          "slug": "compliance-check",
+          "name": "Compliance Check",
+          "oneLiner": "Certs, H&S and renewals.",
+          "status": "live",
+          "chatHref": "/agents/compliance-check"
+        },
+        {
+          "slug": "counter",
+          "name": "Counter",
+          "oneLiner": "Retail ops in one place — POS brief, supplier reorders, returns and customer queries.",
+          "status": "live",
+          "chatHref": "/agents/counter"
+        },
+        {
+          "slug": "echo",
+          "name": "Echo",
+          "oneLiner": "Answers your website visitors and points them to the right place.",
+          "status": "live",
+          "chatHref": "/agents/echo"
+        },
+        {
+          "slug": "food-temp-logs",
+          "name": "Food Temp Logs",
+          "oneLiner": "Daily fridge and cool-store logs.",
+          "status": "live",
+          "chatHref": "/agents/food-temp-logs"
+        },
+        {
+          "slug": "hoko-cga",
+          "name": "Hoko-CGA",
+          "oneLiner": "Consumer-protection compliance for retail — returns, remedies and dispute records under the Consumer Guarantees Act 1993 and Fair Trading Act 1986, drafted for you to decide.",
+          "status": "live",
+          "chatHref": "/agents/hoko-cga"
+        },
+        {
+          "slug": "hui",
+          "name": "Hui",
+          "oneLiner": "Joins the meeting, leaves the minutes.",
+          "status": "live",
+          "chatHref": "/agents/hui"
+        },
+        {
+          "slug": "invoice-tidy",
+          "name": "Invoice Tidy",
+          "oneLiner": "Reconciles invoices against statements.",
+          "status": "live",
+          "chatHref": "/agents/invoice-tidy"
+        },
+        {
+          "slug": "pilot",
+          "name": "Pilot",
+          "oneLiner": "Your step-by-step agent maker. Pilot walks you through naming, building, testing and shipping your own agent — no code, no jargon. First one free.",
+          "status": "live",
+          "chatHref": "/agents/pilot"
+        },
+        {
+          "slug": "pipeline",
+          "name": "Pipeline",
+          "oneLiner": "Builds the staff roster around availability, leave and rules.",
+          "status": "live",
+          "chatHref": "/agents/pipeline"
+        },
+        {
+          "slug": "roster",
+          "name": "Roster",
+          "oneLiner": "Your CRM and pipeline, kept current — logs activity, drafts follow-ups, flags cold leads.",
+          "status": "live",
+          "chatHref": "/agents/roster"
+        },
+        {
+          "slug": "stock-count",
+          "name": "Stock Count",
+          "oneLiner": "Walk the shelves, talk the counts.",
+          "status": "live",
+          "chatHref": "/agents/stock-count"
+        },
+        {
+          "slug": "sweep",
+          "name": "Sweep",
+          "oneLiner": "Sorts the morning inbox into reply-now, later, never.",
+          "status": "live",
+          "chatHref": "/agents/sweep"
+        },
+        {
+          "slug": "tide-weather",
+          "name": "Tide & Weather",
+          "oneLiner": "Local marine forecast in plain words.",
+          "status": "live",
+          "chatHref": "/agents/tide-weather"
+        },
+        {
+          "slug": "travel-logs",
+          "name": "Travel Logs",
+          "oneLiner": "Receipts and trips into a clean, IRD-ready expense claim.",
+          "status": "live",
+          "chatHref": "/agents/travel-logs"
+        },
+        {
+          "slug": "treasury",
+          "name": "Treasury",
+          "oneLiner": "GST, PAYE, provisional tax.",
+          "status": "live",
+          "chatHref": "/agents/treasury"
         }
       ]
     }
