@@ -45,7 +45,7 @@ export const LULA_BRAND = {
   redBg: '#F7E1DE',
   white: '#ffffff',
   // assembl side of the cross-brand lockup (locked canon 2026-06-23).
-  canary: '#FFD42A',
+  canary: '#BFA37A',
   gold: '#C79B1F',
   assemblCream: '#FFF7EC',
   assemblCharcoal: '#3A3832',

@@ -16,7 +16,7 @@ import { dashFontVars } from '@/app/assembling/fonts';
 
 export function DashAgentLoader({
   label = 'Your agent',
-  accent = '#FFD42A',
+  accent = '#BFA37A',
   messages,
   maxWidth = 360,
 }: {

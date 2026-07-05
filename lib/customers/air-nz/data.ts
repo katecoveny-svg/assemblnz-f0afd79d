@@ -27,8 +27,8 @@ export const AIR_NZ_BRAND = {
   silver: '#EAEAEA',
   coolGrey: '#F5F5F6',
   success: '#2E7D5B',
-  // assembl-side lockup tokens (canary + cream + charcoal + Cormorant)
-  canary: '#FFD42A',
+  // assembl-side lockup tokens (champagne + cream + charcoal + Cormorant)
+  canary: '#BFA37A',
   cream: '#FFF7EC',
   charcoal: '#3A3832',
 } as const;

@@ -376,7 +376,7 @@ export default function BrandPage() {
               {
                 bg: "#BFA37A",
                 border: "1px solid rgba(0,0,0,.06)",
-                name: "Canary",
+                name: "Champagne",
                 code: "#BFA37A · primary",
               },
               {
@@ -697,7 +697,7 @@ export default function BrandPage() {
                   color: "#56544b",
                 }}
               >
-                The mascot is a glossy, designer-toy dachshund in canary &amp;
+                The mascot is a glossy, designer-toy dachshund in champagne &amp;
                 white. He is the loading state: as an agent works, the colour
                 fills the dog from the feet up. At 100% he&rsquo;s fully charged
                 — the wait paid off.
@@ -717,7 +717,7 @@ export default function BrandPage() {
                   <div
                     style={{ fontSize: 14, color: "#56544b", lineHeight: 1.5 }}
                   >
-                    Keep him glossy &amp; canary. Let him float. Drive the fill
+                    Keep him glossy &amp; champagne. Let him float. Drive the fill
                     with real progress.
                   </div>
                 </div>

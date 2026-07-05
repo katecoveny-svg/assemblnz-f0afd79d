@@ -7,7 +7,7 @@
  * to a React client component with refs; the canvas scratch + rAF game loop run
  * imperatively, with listeners cleaned up on unmount.
  *
- * Palette locked: white + canary #FFD42A + charcoal #3a3832.
+ * Palette locked: white + champagne #BFA37A + charcoal #3a3832.
  */
 
 import { useEffect, useRef } from 'react';
@@ -53,7 +53,7 @@ export function InteractivePlayground() {
       const { ctx, w, h } = scratch;
       ctx.globalCompositeOperation = 'source-over';
       ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = '#FFD42A';
+      ctx.fillStyle = '#BFA37A';
       ctx.fillRect(0, 0, w, h);
       ctx.fillStyle = 'rgba(58,56,50,.09)';
       for (let x = -12; x < w; x += 30) ctx.fillRect(x, 0, 16, h);
@@ -190,9 +190,9 @@ export function InteractivePlayground() {
         'px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:\'Space Mono\',monospace;font-weight:700;font-size:' +
         (big ? 13 : 11) +
         'px;z-index:1;background:' +
-        (big ? '#3a3832' : '#FFD42A') +
+        (big ? '#3a3832' : '#BFA37A') +
         ';color:' +
-        (big ? '#FFD42A' : '#3a3832') +
+        (big ? '#BFA37A' : '#3a3832') +
         ';box-shadow:0 4px 12px rgba(150,110,10,.3)' +
         (big ? ',0 0 14px rgba(58,56,50,.4)' : '');
       const x = Math.random() * (W - s);
@@ -353,11 +353,11 @@ export function InteractivePlayground() {
               onClick={() => api.current.resetScratch()}
               className="bd-reset"
               style={{
-                background: 'rgba(255,212,42,.5)',
+                background: 'rgba(191,163,122,.5)',
                 backdropFilter: 'blur(12px)',
                 WebkitBackdropFilter: 'blur(12px)',
                 border: '1px solid rgba(255,255,255,.65)',
-                boxShadow: '0 8px 26px rgba(255,212,42,.3),inset 0 1px 0 rgba(255,255,255,.8)',
+                boxShadow: '0 8px 26px rgba(191,163,122,.3),inset 0 1px 0 rgba(255,255,255,.8)',
                 color: '#3a3832',
                 fontWeight: 700,
                 fontSize: 15,
@@ -554,7 +554,7 @@ export function InteractivePlayground() {
               onClick={() => api.current.startGame()}
               className="bd-play bd-glowpulse"
               style={{
-                background: '#FFD42A',
+                background: '#BFA37A',
                 border: 'none',
                 color: '#3a3832',
                 fontWeight: 700,
@@ -602,7 +602,7 @@ export function InteractivePlayground() {
               className="bd-play"
               style={{
                 marginTop: 12,
-                background: '#FFD42A',
+                background: '#BFA37A',
                 border: 'none',
                 color: '#3a3832',
                 fontWeight: 700,

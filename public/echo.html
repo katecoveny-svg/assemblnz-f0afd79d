@@ -18,14 +18,14 @@
 <style>
   :root {
     --ink:#3A3832; --ink2:#23211F; --body:#56544B; --muted:#8A8678;
-    --cream:#FFF7EC; --paper:#FFFFFF; --canary:#FFD42A; --gold:#C79B1F; --hairline:#EFEADC;
+    --cream:#FFF7EC; --paper:#FFFFFF; --champagne:#BFA37A; --gold:#C79B1F; --hairline:#EFEADC;
   }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html,body { margin:0; height:100%; }
   body {
     background:
-      radial-gradient(120% 80% at 85% -10%, rgba(255,212,42,0.18) 0%, transparent 46%),
-      radial-gradient(120% 90% at 0% 100%, rgba(255,212,42,0.10) 0%, transparent 50%),
+      radial-gradient(120% 80% at 85% -10%, rgba(191,163,122,0.18) 0%, transparent 46%),
+      radial-gradient(120% 90% at 0% 100%, rgba(191,163,122,0.10) 0%, transparent 50%),
       var(--cream);
     color:var(--ink);
     font-family:var(--lato,'Lato'),-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -41,7 +41,7 @@
   .meta { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-top:4px; }
   .date { font-family:'Space Mono',monospace; font-size:13px; letter-spacing:0.04em; color:var(--body); }
   .mode { font-family:'Space Mono',monospace; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em;
-    color:var(--ink); background:var(--canary); padding:4px 11px; border-radius:999px; }
+    color:var(--ink); background:var(--champagne); padding:4px 11px; border-radius:999px; }
   .grid { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
   a.tile {
     display:flex; flex-direction:column; justify-content:space-between; min-height:122px;
@@ -73,8 +73,8 @@
     <div class="mark">
       <svg viewBox="0 0 40 40" aria-hidden="true">
         <g fill="none" stroke-width="4.8" stroke-linecap="round">
-          <path d="M8 14 H32" stroke="#FFD42A"/><path d="M8 26 H32" stroke="#C79B1F"/>
-          <path d="M14 8 V32" stroke="#3A3832"/><path d="M26 8 V32" stroke="#FFD42A"/>
+          <path d="M8 14 H32" stroke="#BFA37A"/><path d="M8 26 H32" stroke="#C79B1F"/>
+          <path d="M14 8 V32" stroke="#3A3832"/><path d="M26 8 V32" stroke="#BFA37A"/>
         </g>
       </svg>
       <span class="word">echo</span>

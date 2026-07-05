@@ -1,10 +1,10 @@
 /**
- * The journey companion — a small canary dachshund (the dash mascot, locked
+ * The journey companion — a small champagne dachshund (the dash mascot, locked
  * canon 2026-06-23). Travels the map beside the player. Flat vector, charcoal
- * line on a canary body; size comes from className.
+ * line on a champagne body; size comes from className.
  */
 const INK = '#3A3832';
-const CAN = '#FFD42A';
+const CAN = '#BFA37A';
 const CREAM = '#FFF7EC';
 
 export function Companion({ className }: { className?: string }) {

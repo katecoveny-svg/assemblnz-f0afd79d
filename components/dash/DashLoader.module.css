@@ -96,7 +96,7 @@
   }
 }
 .loader[data-status='success'] .seg {
-  fill: var(--d-mint, #ffd42a);
+  fill: var(--d-mint, #bfa37a);
   opacity: 1;
 }
 
@@ -195,7 +195,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--d-gold, #ffd42a);
+  background: var(--d-gold, #bfa37a);
   flex: none;
 }
 .sponsorName {

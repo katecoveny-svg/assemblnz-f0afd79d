@@ -15,7 +15,7 @@
    ============================================================ */
 
 [data-dash] {
-  /* raw palette — dash. white + yellow, charcoal text (no black) */
+  /* raw palette — dash. white + champagne, charcoal text (no black) */
   --d-cream: #fff7ec;
   --d-cream-2: #fff7d6;
   --d-forest: #3a3832;
@@ -23,12 +23,12 @@
   --d-sage: #3a3832;
   --d-sage-2: #56544b;
   --d-sage-pale: #fff7ec;
-  --d-gold: #ffd42a;
+  --d-gold: #bfa37a;
   --d-hivis: #ffe27a;
-  --d-mint: #ffd42a;
+  --d-mint: #bfa37a;
   --d-ink: #3a3832;
 
-  /* semantic — white surface, charcoal ink, yellow accent */
+  /* semantic — white surface, charcoal ink, champagne accent */
   --d-bg: #ffffff;
   --d-fg: #3a3832;
   --d-muted: #56544b;
@@ -61,7 +61,7 @@
   --d-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 
   /* gold focus ring (a11y) */
-  --d-focus-ring: 0 0 0 3px var(--d-bg), 0 0 0 6px rgba(255, 212, 42, 0.85);
+  --d-focus-ring: 0 0 0 3px var(--d-bg), 0 0 0 6px rgba(191,163,122, 0.85);
 
   color: var(--d-fg);
   font-family: var(--d-ff-sans);
