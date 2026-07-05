@@ -1,5 +1,6 @@
 import 'server-only';
 
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getServiceClient } from '@/lib/supabase/service';
@@ -72,14 +73,33 @@ async function isDesignatedAdmin(userId: string, email: string): Promise<boolean
   }
 }
 
-export async function ensureAdmin(redirectTo = '/admin'): Promise<AdminUser> {
+/**
+ * The path the visitor actually requested, via the x-pathname header the
+ * middleware stamps on every request. Falls back to /admin when the header
+ * is missing (direct render outside middleware) or points somewhere the
+ * login page would reject anyway (its guard only honours /admin paths).
+ */
+async function requestedAdminPath(): Promise<string> {
+  try {
+    const requested = (await headers()).get('x-pathname');
+    if (requested && requested.startsWith('/admin') && !requested.startsWith('/admin/login')) {
+      return requested;
+    }
+  } catch {
+    // headers() unavailable (e.g. called from a context without a request).
+  }
+  return '/admin';
+}
+
+export async function ensureAdmin(redirectTo?: string): Promise<AdminUser> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/admin/login?redirect=${encodeURIComponent(redirectTo)}`);
+    const target = redirectTo ?? (await requestedAdminPath());
+    redirect(`/admin/login?redirect=${encodeURIComponent(target)}`);
   }
 
   const email = user.email?.toLowerCase() ?? '';

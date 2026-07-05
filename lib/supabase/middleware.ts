@@ -14,6 +14,12 @@ import { REMEMBER_COOKIE, isRemembered, tuneAuthCookieOptions } from './session-
 const PROTECTED_PREFIXES = ['/app', '/account', '/dashboard', '/internal'];
 
 export async function updateSession(request: NextRequest) {
+  // Expose the requested pathname to server components (ensureAdmin uses it
+  // to send unauthenticated operators back to the page they actually asked
+  // for after sign-in, not just /admin). Set before any NextResponse.next so
+  // the forwarded request carries it on every path through this function.
+  request.headers.set('x-pathname', request.nextUrl.pathname);
+
   let response = NextResponse.next({ request });
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
