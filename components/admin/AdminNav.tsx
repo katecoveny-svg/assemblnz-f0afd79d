@@ -20,6 +20,7 @@ const NAV: { label: string; href: string }[] = [
   { label: 'Tenants', href: '/admin/tenants' },
   { label: 'Invites', href: '/admin/invites' },
   { label: 'Approvals', href: '/admin/approvals' },
+  { label: 'Connectors', href: '/admin/connectors' },
   { label: 'Receipts', href: '/admin/receipts' },
   { label: 'Users', href: '/admin/users' },
   { label: 'Pilot', href: '/admin/pilot' },

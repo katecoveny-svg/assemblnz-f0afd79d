@@ -26,16 +26,29 @@ Redeploy (any merge does it).
 Signed in as operator, open:
 
 ```
-https://demo.assembl.co.nz/api/admin/connect-link?external_user_id=agent:roster
+https://demo.assembl.co.nz/admin/connectors
 ```
 
-Send the returned `connect_link_url` to the pilot customer — they connect
-their Google/HubSpot account on Pipedream's hosted page; we never see
-credentials. The same URL then also lists what's connected under that id.
+Type the pilot's id (`tenant:happytails` is pre-seeded in the table), pick
+an app if you want Pipedream's hosted page pre-filtered, and hit
+**mint link**. Copy the link from the modal — or **queue email draft**,
+which files a Brevo draft into /admin/approvals (draft-mode always; nothing
+sends until you approve, and dispatch stays behind ACTION_DISPATCH_ENABLED).
+
+Send the link to the pilot customer — they connect their Google/HubSpot
+account on Pipedream's hosted page; we never see credentials. The table
+then shows what's connected under each id, and **revoke** severs the grant
+instantly. Every mint and revoke writes a mana receipt (issuer
+`action-path`).
 
 Convention: `agent:<slug>` for the agent that will use the account
 (matches what the chat tool files automatically); `tenant:<slug>` if a
-whole workspace shares one connection later.
+whole workspace shares one connection later. Known pilot ids live in
+`lib/connectors/pilots.ts` — add a line there to pin a new pilot to the
+table before they've connected anything.
+
+(The raw JSON endpoint `/api/admin/connect-link?external_user_id=…` still
+works for curl debugging; the page is the day-to-day surface.)
 
 ## 4 · How an action flows end to end
 
