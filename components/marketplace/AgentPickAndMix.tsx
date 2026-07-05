@@ -209,12 +209,20 @@ export function AgentPickAndMix({ agents }: { agents: AgentCard[] }) {
                 <span aria-hidden style={{ color: palette.accentGold }}> •</span>
               </Link>
               {a.pilotReady ? (
-                <Link
-                  href={`/agents/${a.slug}/chat`}
-                  style={{ ...body, fontSize: 12.5, color: palette.ink, textDecoration: 'none' }}
-                >
-                  chat now
-                </Link>
+                <>
+                  <Link
+                    href={`/agents/${a.slug}/chat`}
+                    style={{ ...body, fontSize: 12.5, color: palette.ink, textDecoration: 'none' }}
+                  >
+                    chat now
+                  </Link>
+                  <Link
+                    href={`/agents/${a.slug}/studio`}
+                    style={{ ...body, fontSize: 12.5, color: palette.bodyGrey, textDecoration: 'none' }}
+                  >
+                    studio
+                  </Link>
+                </>
               ) : (
                 <span style={{ ...body, fontSize: 12.5, opacity: 0.6 }}>coming soon</span>
               )}
