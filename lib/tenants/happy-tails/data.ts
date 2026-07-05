@@ -103,7 +103,7 @@ export const HAPPY_TAILS_BRAND: BrandConfig = {
     mute: '#7a746a',
     line: '#e6ded0',
     card: '#fffdf9',
-    canary: '#FFD42A',
+    canary: '#BFA37A',
     canarySoft: '#fff4c9',
     brown: '#7a4e2c',
   },

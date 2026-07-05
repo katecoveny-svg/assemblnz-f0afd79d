@@ -10,7 +10,7 @@
  * fallback the landing-page waitlist uses. Swap this back for the real install
  * snippet once the package ships.
  *
- * Styled in the locked Birdie palette (white + canary #FFD42A + charcoal
+ * Styled in the locked Birdie palette (white + champagne #BFA37A + charcoal
  * #3a3832) so it sits inside the SDK doc.
  */
 
@@ -97,7 +97,7 @@ export function DashKeyRequest() {
             disabled={status === 'submitting'}
             style={{
               flex: 'none',
-              background: '#FFD42A',
+              background: '#BFA37A',
               color: '#3a3832',
               padding: '14px 26px',
               borderRadius: 99,
@@ -105,7 +105,7 @@ export function DashKeyRequest() {
               fontSize: 15,
               border: 'none',
               cursor: 'pointer',
-              boxShadow: '0 6px 20px rgba(255,212,42,.5)',
+              boxShadow: '0 6px 20px rgba(191,163,122,.5)',
             }}
           >
             {status === 'submitting' ? 'Sending…' : 'Request a key'}
