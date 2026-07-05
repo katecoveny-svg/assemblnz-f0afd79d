@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
-import { ArcHeroBand } from '@/components/ops/toa/ArcHeroBand';
+import { ArcHeroPanel } from '@/components/ops/toa/ArcHeroPanel';
 import { LiveArcChat } from '@/components/ops/toa/LiveArcChat';
 import { MondayStrip } from '@/components/ops/toa/MondayStrip';
 import { CapabilityGrid } from '@/components/ops/toa/CapabilityGrid';
@@ -37,7 +37,7 @@ export default function ToaArchitectsOpsHome() {
   return (
     <div className="flex flex-col gap-6">
       <DemoRibbon />
-      <ArcHeroBand config={config} waiting={toaMondayQueue.length} />
+      <ArcHeroPanel waiting={toaMondayQueue.length} />
 
       {/* The main event: ARC is live. Ask it anything — it streams a real,
           sourced draft from assembl's consenting agent, nothing sends. */}
