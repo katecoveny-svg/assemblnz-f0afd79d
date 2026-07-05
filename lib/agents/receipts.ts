@@ -58,6 +58,48 @@ export function writeActionReceipt(receipt: ActionReceipt): void {
   })();
 }
 
+export type ConnectorAdminReceipt = {
+  action: 'connect_link_minted' | 'connection_revoked';
+  externalUserId: string;
+  operator: string;
+  /** expiry of the minted link — never the link itself */
+  expiresAt?: string | null;
+  appFilter?: string | null;
+};
+
+/**
+ * One receipt per operator move on /admin/connectors (mint a Connect link,
+ * revoke a connection). Same `action-path` ledger as the dispatch pipeline,
+ * so /admin/receipts shows connection custody alongside action custody.
+ * Deliberately records the expiry timestamp only — connect_link_url carries
+ * a live token and never lands in a receipt or a log line.
+ */
+export function writeConnectorAdminReceipt(receipt: ConnectorAdminReceipt): void {
+  void (async () => {
+    try {
+      const service = getServiceClient();
+      await service.from('mana_receipts').insert({
+        agent: 'connectors',
+        domain: null,
+        issuer: 'action-path',
+        hitl: {
+          status: receipt.action,
+          reviewer: receipt.operator,
+          send_mode: 'held',
+        },
+        detail: {
+          action: receipt.action,
+          external_user_id: receipt.externalUserId,
+          expires_at: receipt.expiresAt ?? null,
+          app_filter: receipt.appFilter ?? null,
+        },
+      });
+    } catch {
+      // Receipts are best-effort by design.
+    }
+  })();
+}
+
 export function writeChatReceipt(receipt: ChatReceipt): void {
   void (async () => {
     try {

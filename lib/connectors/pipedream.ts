@@ -68,7 +68,7 @@ async function accessToken(cfg: PdConfig): Promise<string> {
   return body.access_token;
 }
 
-async function pd<T>(cfg: PdConfig, method: 'GET' | 'POST', path: string, body?: unknown): Promise<T> {
+async function pd<T>(cfg: PdConfig, method: 'GET' | 'POST' | 'DELETE', path: string, body?: unknown): Promise<T> {
   const token = await accessToken(cfg);
   const res = await fetch(`${API}${path}`, {
     method,
@@ -84,7 +84,9 @@ async function pd<T>(cfg: PdConfig, method: 'GET' | 'POST', path: string, body?:
     const text = await res.text().catch(() => '');
     throw new Error(`pipedream ${method} ${path} failed: HTTP ${res.status}${text ? ` — ${text.slice(0, 200)}` : ''}`);
   }
-  return (await res.json()) as T;
+  // DELETEs come back 204/empty — only parse when there's a body to parse.
+  const text = await res.text().catch(() => '');
+  return (text ? JSON.parse(text) : {}) as T;
 }
 
 // ── Connect links (onboarding a pilot's account) ────────────────────────────
@@ -108,6 +110,10 @@ export type ConnectedAccount = {
   app?: { name_slug?: string; name?: string };
   name?: string;
   healthy?: boolean;
+  external_user_id?: string;
+  external_id?: string;
+  created_at?: string;
+  updated_at?: string;
 };
 
 /** Accounts a customer has connected under our project. */
@@ -120,6 +126,42 @@ export async function listConnectedAccounts(externalUserId: string): Promise<Con
     `/connect/${cfg.projectId}/accounts?external_user_id=${encodeURIComponent(externalUserId)}`,
   );
   return body.data ?? body.accounts ?? [];
+}
+
+/** Every account connected under the project, whoever owns it — the
+ *  /admin/connectors table groups these by external user. */
+export async function listAllConnectedAccounts(): Promise<ConnectedAccount[]> {
+  const cfg = pipedreamConfig();
+  if (!cfg) return [];
+  const body = await pd<{ data?: ConnectedAccount[]; accounts?: ConnectedAccount[] }>(
+    cfg,
+    'GET',
+    `/connect/${cfg.projectId}/accounts`,
+  );
+  return body.data ?? body.accounts ?? [];
+}
+
+/** The owner key Pipedream reports on an account — the API has used both
+ *  field names across versions, so read either. */
+export function accountOwner(account: ConnectedAccount): string | null {
+  return account.external_user_id ?? account.external_id ?? null;
+}
+
+/**
+ * Delete an external user and every account they've connected under our
+ * project. The customer's own Google/HubSpot account is untouched — this
+ * only severs the grant Pipedream holds for us.
+ */
+export async function revokeExternalUser(externalUserId: string): Promise<void> {
+  const cfg = pipedreamConfig();
+  if (!cfg) throw new Error('Pipedream Connect is not configured (PIPEDREAM_* env missing)');
+  await pd(cfg, 'DELETE', `/connect/${cfg.projectId}/users/${encodeURIComponent(externalUserId)}`);
+}
+
+/** Pre-filter the hosted Connect page to one app (Pipedream honours ?app=). */
+export function withAppFilter(connectLinkUrl: string, appSlug?: string | null): string {
+  if (!appSlug) return connectLinkUrl;
+  return `${connectLinkUrl}${connectLinkUrl.includes('?') ? '&' : '?'}app=${encodeURIComponent(appSlug)}`;
 }
 
 // ── Running actions ─────────────────────────────────────────────────────────
