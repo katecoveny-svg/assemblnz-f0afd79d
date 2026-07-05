@@ -182,7 +182,7 @@ export default function AironautOsHome() {
           // the bow still in frame. On desktop the visible band is only ~28%
           // of the image height — 30% lands entirely on the painted hull, so
           // drop the crop to keep the yacht bow in view (Kate, 2026-07-05).
-          className="aironaut-hero-kenburns object-cover object-[62%_30%] md:object-[62%_52%]"
+          className="aironaut-hero-kenburns object-cover object-[62%_30%] md:object-[62%_68%]"
         />
         {/* Navy scrim behind the chrome + headline — keeps white type legible
             where the crop puts the pale hull under it (375px). */}
