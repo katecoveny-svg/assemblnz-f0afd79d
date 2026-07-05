@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation';
 
 const NAV: { label: string; href: string }[] = [
   { label: 'Today', href: '/admin' },
+  { label: 'Activity', href: '/admin/activity' },
   { label: 'Agents', href: '/admin/agents' },
   { label: 'Bundles', href: '/admin/bundles' },
   { label: 'Knowledge', href: '/admin/knowledge' },
