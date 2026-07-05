@@ -4,30 +4,33 @@ import { palette, typography } from '@assembl/canvas/tokens';
 import { MicroLabel } from '@assembl/canvas';
 import { HeroArt } from '@/components/v2/HeroArt';
 import { MottoStrip } from '@/components/v2/V2Chrome';
+import { orderedBundles } from '@/lib/marketplace/bundles';
 import styles from '@/components/v2/v2.module.css';
 
 export const metadata: Metadata = {
   title: 'pricing — assembl',
   description:
-    'the full assembl ladder: tōro for whānau, operator, leader and enterprise for teams, and outcome — a pilot in 30 days. every agent is free to try, and a person approves every output.',
+    'benefit first, price second: try any agent free, take one for $9.99, run a pro stack for $49, a specialist collection for $199, everything for $250 — or buy the outcome from $5,000. NZD, GST inclusive.',
   alternates: { canonical: '/pricing' },
 };
 
 /**
- * /pricing — the May-11 LOCKED ladder (project_brand_pricing_locked_may11).
- * Full ladder, not monthly-only. Deny-list obeyed: agents "cite current NZ
- * legislation" (never "trained on"), automation is human-in-the-loop (never
- * unqualified "autonomous agents"), no "enterprise-grade", no "50+ Acts".
+ * /pricing — the LIVE marketplace ladder (Free / $9.99 / Pro Stack $49 pick
+ * 3+1 / Specialist $199 / All-Access $250 / enterprise custom / outcome from
+ * $5,000), replacing the pre-marketplace May-11 ladder ($29/$1,490/$1,990/
+ * $2,990) that no longer matched what checkout actually charges.
  *
- * The old /agents pricing route now 301s here (next.config) — this page is
- * canonical.
+ * Kept identical to the marketing site's /pricing (2026-07-05 consolidation:
+ * pricing must read the same on every surface). Benefit-first copy, then the
+ * price. Every V4 bundle maps to a tier below. All NZD, GST-inclusive.
+ * Deny-list obeyed: agents "cite current NZ legislation" (never "trained
+ * on"), human-in-the-loop always, no "enterprise-grade".
  */
 
 type Tier = {
   name: string;
-  price: string;
-  setup?: string;
-  blurb: string;
+  benefit: string;
+  rows: Array<{ label: string; price: string }>;
   points: string[];
   cta: { label: string; href: string };
   featured?: boolean;
@@ -35,67 +38,69 @@ type Tier = {
 
 const TIERS: Tier[] = [
   {
-    name: 'tōro',
-    price: '$29/mo',
-    blurb: 'the whānau navigator — home, school and everyday admin.',
-    points: [
-      'the household front door, plus the family specialists',
-      'school notices, the calendar, meals and check-ins',
-      'every reply is a draft a person confirms',
+    name: 'individual',
+    benefit: 'one job off your plate.',
+    rows: [
+      { label: 'try any agent', price: 'free' },
+      { label: 'one agent, yours', price: '$9.99/mo' },
     ],
-    cta: { label: 'meet tōro', href: '/agents/toro' },
+    points: [
+      'every agent in the marketplace answers three messages free — no card',
+      'pick the one that earns its keep and take it home',
+      'every reply is a draft you approve',
+    ],
+    cta: { label: 'try an agent', href: '/agents' },
   },
   {
     name: 'operator',
-    price: '$1,490/mo',
-    setup: '+ $590 setup',
-    blurb: 'one team, one workflow that runs every week.',
-    points: [
-      'one purpose-built collection, tuned to your work',
-      'agents cite current NZ legislation with retrieval dates',
-      'a named reviewer approves before anything ships',
+    benefit: 'the working day, drafted. the standard for NZ teams.',
+    rows: [
+      { label: 'pro stack — pick 3 + 1 agents', price: '$49/mo' },
+      { label: 'specialist collection', price: '$199/mo' },
+      { label: 'all-access — every agent', price: '$250/mo' },
     ],
-    cta: { label: 'book a demo', href: '/contact' },
-  },
-  {
-    name: 'leader',
-    price: '$1,990/mo',
-    setup: '+ $1,290 setup',
-    blurb: 'several workflows across the business, one calm surface.',
     points: [
-      'multiple collections working together',
-      'mana receipts on every output — the record of how it was made',
-      'human-in-the-loop by design, at every step',
+      'pro stack: any three agents plus one, working as a team',
+      'specialist: a whole purpose-built collection — construction, automotive, creative, animal care and more',
+      'all-access: the entire marketplace, one price',
     ],
-    cta: { label: 'book a demo', href: '/contact' },
+    cta: { label: 'book a pilot', href: '/pilot-sprint' },
     featured: true,
   },
   {
     name: 'enterprise',
-    price: '$2,990/mo',
-    setup: '+ $2,890 setup',
-    blurb: 'the whole operation, with governance to match.',
+    benefit: 'the whole operation, with governance to match.',
+    rows: [{ label: 'custom', price: "let's talk" }],
     points: [
       'organisation-wide rollout with named owners',
       'privacy designed to the Privacy Act 2020, including IPP 3A',
-      'audit-pack exports your board and auditor can read',
+      'mana receipts and audit-pack exports your board can read',
     ],
-    cta: { label: 'book a demo', href: '/contact' },
+    cta: { label: 'talk to us', href: 'mailto:assembl@assembl.co.nz?subject=enterprise' },
   },
   {
     name: 'outcome',
-    price: 'from $5,000',
-    blurb: 'a pilot in 30 days — one result, priced as the outcome.',
+    benefit: 'buy the result, not the software.',
+    rows: [{ label: 'per outcome', price: 'from $5,000' }],
     points: [
-      'one workflow, built and proven inside a month',
+      'one workflow, built and proven inside 30 days',
+      'priced as the outcome it delivers, not seats',
       'you keep the evidence pack either way',
-      'the anchor for everything above',
     ],
     cta: { label: 'start a pilot', href: '/pilot-sprint' },
   },
 ];
 
+/** Which tier buys which V4 bundle — the commerce map, no invented prices. */
+function tierForBundle(slug: string, standalone?: boolean): string {
+  if (standalone) return 'pack-priced — per application, on the collection page';
+  if (slug === 'hearth') return 'individual — $9.99 an agent, or pro stack $49';
+  return 'operator — specialist collection $199/mo';
+}
+
 export default function PricingPage() {
+  const bundles = orderedBundles();
+
   const body: React.CSSProperties = {
     fontFamily: typography.body.fontFamily,
     fontSize: 15,
@@ -116,19 +121,20 @@ export default function PricingPage() {
               <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                 •
               </span>
-              <MicroLabel>pricing</MicroLabel>
+              <MicroLabel>pricing · nzd, gst inclusive</MicroLabel>
             </div>
             <h1 className={styles.h1} style={{ marginTop: 18, maxWidth: 700 }}>
-              one ladder. no surprises
+              start free. pay when it earns its keep
               <span aria-hidden style={{ color: palette.accentGold }}>
                 .
               </span>
             </h1>
             <p style={{ ...body, marginTop: 18, maxWidth: 440 }}>
-              All prices in NZD. Every agent is free to try. A person approves every output.
+              Every agent is free to try. A person approves every output. All prices NZD,
+              GST inclusive.
             </p>
 
-            {/* the full ladder */}
+            {/* the four tiers */}
             <div
               className={styles.cardGrid}
               style={{ marginTop: 48, gridTemplateColumns: undefined }}
@@ -169,22 +175,50 @@ export default function PricingPage() {
                       </span>
                     ) : null}
                   </div>
-                  <div>
-                    <span
-                      style={{
-                        fontFamily: typography.display.fontFamily,
-                        fontWeight: typography.display.fontWeight,
-                        fontSize: 32,
-                        color: palette.ink,
-                      }}
-                    >
-                      {t.price}
-                    </span>
-                    {t.setup ? (
-                      <MicroLabel style={{ display: 'block', marginTop: 4 }}>{t.setup}</MicroLabel>
-                    ) : null}
+
+                  {/* benefit first — the price follows */}
+                  <p
+                    style={{
+                      fontFamily: typography.display.fontFamily,
+                      fontWeight: typography.display.fontWeightMin,
+                      fontSize: 18,
+                      lineHeight: 1.35,
+                      color: palette.ink,
+                      margin: 0,
+                    }}
+                  >
+                    {t.benefit}
+                  </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {t.rows.map((r) => (
+                      <div
+                        key={r.label}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'baseline',
+                          gap: 12,
+                          borderTop: `1px solid ${palette.hairline}`,
+                          paddingTop: 8,
+                        }}
+                      >
+                        <span style={{ ...body, fontSize: 13 }}>{r.label}</span>
+                        <span
+                          style={{
+                            fontFamily: typography.display.fontFamily,
+                            fontWeight: typography.display.fontWeight,
+                            fontSize: 20,
+                            whiteSpace: 'nowrap',
+                            color: palette.ink,
+                          }}
+                        >
+                          {r.price}
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                  <p style={{ ...body, fontSize: 13.5, margin: 0 }}>{t.blurb}</p>
+
                   <ul
                     style={{
                       listStyle: 'none',
@@ -207,28 +241,89 @@ export default function PricingPage() {
                       </li>
                     ))}
                   </ul>
-                  <Link
+                  <a
                     href={t.cta.href}
                     className={styles.navCta}
                     style={{ marginTop: 'auto', justifyContent: 'center' }}
                   >
                     {t.cta.label}
-                    <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
+                    <span
+                      aria-hidden
+                      style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}
+                    >
                       •
                     </span>
-                  </Link>
+                  </a>
                 </div>
               ))}
             </div>
 
-            {/* marketplace note — keeps the self-serve funnel honest + alive */}
-            <p className="rise" style={{ ...body, fontSize: 13, marginTop: 44, maxWidth: 620 }}>
-              Trying before buying: every agent in the{' '}
+            {/* every V4 bundle mapped to a tier — what you're buying */}
+            <div className="rise" style={{ marginTop: 56 }}>
+              <MicroLabel as="h2">which tier buys which collection</MicroLabel>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  marginTop: 16,
+                  border: `1px solid ${palette.hairline}`,
+                  borderRadius: 14,
+                  background: 'rgba(255,255,255,0.92)',
+                  overflow: 'hidden',
+                }}
+              >
+                {bundles.map((b, i) => (
+                  <div
+                    key={b.slug}
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: '4px 18px',
+                      alignItems: 'baseline',
+                      justifyContent: 'space-between',
+                      padding: '13px 18px',
+                      borderTop: i === 0 ? 'none' : `1px solid ${palette.hairline}`,
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+                      <Link
+                        href={`/bundles/${b.slug}`}
+                        style={{
+                          fontFamily: typography.display.fontFamily,
+                          fontWeight: typography.display.fontWeight,
+                          fontSize: 19,
+                          textTransform: 'lowercase',
+                          color: palette.ink,
+                          textDecoration: 'none',
+                        }}
+                      >
+                        {b.name}
+                      </Link>
+                      <MicroLabel style={{ fontSize: 9 }}>{b.category}</MicroLabel>
+                    </div>
+                    <span style={{ ...body, fontSize: 12.5 }}>
+                      {tierForBundle(b.slug, b.standalone)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <p style={{ ...body, fontSize: 13, marginTop: 14, maxWidth: 620 }}>
+                All-access ($250/mo) includes every collection above. Team pricing for a whole
+                bundle is on each collection page.
+              </p>
+            </div>
+
+            {/* the honest footnote */}
+            <p className="rise" style={{ ...body, fontSize: 13, marginTop: 32, maxWidth: 620 }}>
+              Not sure where to start? Every agent in the{' '}
               <Link href="/agents" style={{ color: palette.ink }}>
                 marketplace
               </Link>{' '}
-              answers three messages free, no card. Bundles and single seats are priced on each
-              collection page.
+              answers three messages free, no card — or start with a{' '}
+              <Link href="/pilot-sprint" style={{ color: palette.ink }}>
+                pilot
+              </Link>{' '}
+              and buy the outcome, not the software.
             </p>
           </div>
         </div>

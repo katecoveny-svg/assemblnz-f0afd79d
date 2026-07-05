@@ -70,6 +70,10 @@ const nextConfig: NextConfig = {
       // saved links, paywall CTAs and indexed pages land on the one ladder.
       { source: "/agents/pricing", destination: "/pricing", permanent: true },
 
+      // Pre-pivot "Pick your crew" browser (kete taxonomy) retired in the
+      // 2026-07-05 consolidation — the marketplace grid is the one shelf.
+      { source: "/agents/pick", destination: "/agents", permanent: true },
+
       // Brand rename: "Dash by assembl" → "Assembling" (2 Jul 2026). The
       // ad-network microsite moved from /dash to /assembling; 301 the old paths
       // so saved links and any indexed pages don't 404. /beat (the pre-Dash
