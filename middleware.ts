@@ -163,6 +163,9 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   // Basic auth in front of either would 401 the emailed sign-in link.
   '/admin',
   '/auth/',
+  // /login on the demo host immediately 302s to /admin/login (see
+  // demoHostRewrite) — exempt it so the redirect fires instead of the 401.
+  '/login',
 ];
 const DEMO_AUTH_STATIC_FILE =
   /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest)$/i;
@@ -504,6 +507,15 @@ const demoHostRewrite = (request: NextRequest) => {
     const url = request.nextUrl.clone();
     url.pathname = '/customers';
     return NextResponse.rewrite(url);
+  }
+
+  // The only sign-in on this host is the operator hub's. /auth/confirm sends
+  // its error path to /login, which here would dead-end at the pilot
+  // basic-auth wall — land it on the operator form instead.
+  if (matchesPrefix(pathname, '/login')) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/admin/login';
+    return NextResponse.redirect(url, 302);
   }
 
   // Never rewrite reserved / already-scoped paths.
