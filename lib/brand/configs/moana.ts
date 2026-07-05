@@ -66,7 +66,7 @@ export const moanaConfig: BrandConfig = parseBrandConfig({
   // Nav hrefs are path segments under /customers/moana/ops/ (schema requires
   // non-empty). The Overview link (bare base) is rendered by the layout.
   nav: [
-    { label: "Jack's wharf", href: 'jack' },
+    { label: "Jack's fishing", href: 'jack' },
     { label: 'Kids lessons', href: 'lessons' },
     { label: 'Forecast', href: 'forecast' },
     { label: 'Tides', href: 'tides' },
