@@ -73,6 +73,22 @@ export const TENANTS: readonly Tenant[] = [
     blurb: 'Wait-moment earn — sponsors, tiers, reconciliation, treasury.',
     accentClass: 'border-lime-200/70',
   },
+  {
+    slug: 'toa-architects',
+    displayName: 'TOA Architects',
+    parentBrand: 'TOA × ARC concept',
+    status: 'concept',
+    blurb: 'Architecture practice ops — brand-film hero, BIM viewers, six-job tray, integrations orbit.',
+    accentClass: 'border-stone-300/70',
+  },
+  {
+    slug: 'lula-inn',
+    displayName: 'Lula Inn',
+    parentBrand: 'Hospo pilot concept',
+    status: 'concept',
+    blurb: 'Hospitality ops — roster, compliance, service periods, mana receipts.',
+    accentClass: 'border-rose-200/70',
+  },
 ] as const;
 
 export function findTenant(slug: string): Tenant | undefined {
