@@ -52,12 +52,12 @@ function SwellMark({ size = 32 }: { size?: number }) {
   return (
     <span
       className="inline-flex items-center justify-center rounded-lg"
-      style={{ width: size, height: size, background: '#0a2a43' }}
+      style={{ width: size, height: size, background: '#F5F1E8', border: '1px solid #BFA37A55' }}
       aria-hidden
     >
       <svg width={size * 0.62} height={size * 0.62} viewBox="0 0 40 40" fill="none">
-        <path d="M4 24c4 0 4-4 8-4s4 4 8 4 4-4 8-4 4 4 8 4" stroke="#1E7A8C" strokeWidth="2.5" />
-        <path d="M4 31c4 0 4-4 8-4s4 4 8 4 4-4 8-4 4 4 8 4" stroke="#6E93A6" strokeWidth="2.5" />
+        <path d="M4 24c4 0 4-4 8-4s4 4 8 4 4-4 8-4 4 4 8 4" stroke="#BFA37A" strokeWidth="2.5" />
+        <path d="M4 31c4 0 4-4 8-4s4 4 8 4 4-4 8-4 4 4 8 4" stroke="#C97B63" strokeWidth="2.5" />
       </svg>
     </span>
   );
@@ -120,12 +120,12 @@ export function MoanaChat({
         </div>
         <span
           className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-medium"
-          style={{ background: 'rgba(30,122,140,0.12)', color: 'var(--brand-ink)' }}
+          style={{ background: 'rgba(191,163,122,0.14)', color: 'var(--brand-ink)' }}
         >
           <span
             className="inline-block h-1.5 w-1.5 rounded-full"
             // Safety-orange live dot — the single accent (per brand rule).
-            style={{ background: busy ? '#e1622f' : '#1e7a8c' }}
+            style={{ background: busy ? '#C97B63' : '#2E7D74' }}
           />
           {busy ? 'reading' : 'online'}
         </span>
@@ -176,7 +176,7 @@ export function MoanaChat({
               className="rounded-full px-3 py-1.5 text-left text-[11.5px] transition"
               style={{
                 background: 'rgba(255,255,255,0.6)',
-                border: '1px solid rgba(30,122,140,0.32)',
+                border: '1px solid rgba(191,163,122,0.4)',
                 color: 'var(--brand-ink)',
                 backdropFilter: 'blur(6px)',
               }}
@@ -212,9 +212,9 @@ export function MoanaChat({
           style={{
             // Safety-orange is reserved for CTAs — the send button is the
             // primary action, so it wears the accent.
-            background: 'linear-gradient(180deg, #e97a49, #e1622f)',
+            background: 'linear-gradient(180deg, #d98a72, #C97B63)',
             color: '#fff',
-            boxShadow: '0 4px 14px rgba(225,98,47,0.35), inset 0 1px 0 rgba(255,255,255,0.4)',
+            boxShadow: '0 4px 14px rgba(201,123,99,0.35), inset 0 1px 0 rgba(255,255,255,0.4)',
           }}
         >
           Ask
