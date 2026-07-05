@@ -5,6 +5,7 @@ import { MicroLabel } from '@assembl/canvas';
 import { HeroArt } from '@/components/v2/HeroArt';
 import { MottoStrip } from '@/components/v2/V2Chrome';
 import { orderedBundles } from '@/lib/marketplace/bundles';
+import { PRICING_TIERS as TIERS, tierForBundle } from '@/lib/registry/pricing';
 import styles from '@/components/v2/v2.module.css';
 
 export const metadata: Metadata = {
@@ -26,77 +27,6 @@ export const metadata: Metadata = {
  * Deny-list obeyed: agents "cite current NZ legislation" (never "trained
  * on"), human-in-the-loop always, no "enterprise-grade".
  */
-
-type Tier = {
-  name: string;
-  benefit: string;
-  rows: Array<{ label: string; price: string }>;
-  points: string[];
-  cta: { label: string; href: string };
-  featured?: boolean;
-};
-
-const TIERS: Tier[] = [
-  {
-    name: 'individual',
-    benefit: 'one job off your plate.',
-    rows: [
-      { label: 'try any agent', price: 'free' },
-      { label: 'one agent, yours', price: '$9.99/mo' },
-    ],
-    points: [
-      'every agent in the marketplace answers three messages free — no card',
-      'pick the one that earns its keep and take it home',
-      'every reply is a draft you approve',
-    ],
-    cta: { label: 'try an agent', href: '/agents' },
-  },
-  {
-    name: 'operator',
-    benefit: 'the working day, drafted. the standard for NZ teams.',
-    rows: [
-      { label: 'pro stack — pick 3 + 1 agents', price: '$49/mo' },
-      { label: 'specialist collection', price: '$199/mo' },
-      { label: 'all-access — every agent', price: '$250/mo' },
-    ],
-    points: [
-      'pro stack: any three agents plus one, working as a team',
-      'specialist: a whole purpose-built collection — construction, automotive, creative, animal care and more',
-      'all-access: the entire marketplace, one price',
-    ],
-    cta: { label: 'book a pilot', href: '/pilot-sprint' },
-    featured: true,
-  },
-  {
-    name: 'enterprise',
-    benefit: 'the whole operation, with governance to match.',
-    rows: [{ label: 'custom', price: "let's talk" }],
-    points: [
-      'organisation-wide rollout with named owners',
-      'privacy designed to the Privacy Act 2020, including IPP 3A',
-      'mana receipts and audit-pack exports your board can read',
-    ],
-    cta: { label: 'talk to us', href: 'mailto:assembl@assembl.co.nz?subject=enterprise' },
-  },
-  {
-    name: 'outcome',
-    benefit: 'buy the result, not the software.',
-    rows: [{ label: 'per outcome', price: 'from $5,000' }],
-    points: [
-      'one workflow, built and proven inside 30 days',
-      'priced as the outcome it delivers, not seats',
-      'you keep the evidence pack either way',
-    ],
-    cta: { label: 'start a pilot', href: '/pilot-sprint' },
-  },
-];
-
-/** Which tier buys which V4 bundle — the commerce map, no invented prices. */
-function tierForBundle(slug: string, standalone?: boolean): string {
-  if (standalone) return 'pack-priced — per application, on the collection page';
-  if (slug === 'hearth') return 'individual — $9.99 an agent, or pro stack $49';
-  return 'operator — specialist collection $199/mo';
-}
 
 export default function PricingPage() {
   const bundles = orderedBundles();

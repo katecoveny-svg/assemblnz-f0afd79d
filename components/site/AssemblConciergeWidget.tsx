@@ -3,58 +3,80 @@
 import { useMemo, useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, MessageCircle, Send, X } from 'lucide-react';
+import { ArrowRight, Send, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { orderedBundles } from '@/lib/marketplace/bundles';
+import { PRICING_NOTE, pricingPlainLines } from '@/lib/registry/pricing';
 
 type Message = {
   role: 'user' | 'agent';
   body: string;
 };
 
+/*
+ * Champagne canon (DIRECTION-LOCKED-2026-07-01): paper #FBFAF6, ink #1A1918,
+ * champagne gold #BFA37A accent — no canary yellow anywhere. Cormorant 600
+ * lowercase headers, Lato body, Space Mono micro-labels. Pricing and bundle
+ * names are never written here — they read from the single registry
+ * (lib/registry/pricing + lib/marketplace/bundles) so this surface can't drift
+ * from /pricing.
+ */
+const PAPER = '#FBFAF6';
+const INK = '#1A1918';
+const GOLD = '#BFA37A';
+
 const QUICK_PROMPTS = [
-  'Which agent fits my work?',
-  'What do agents cost?',
-  'How do agents collaborate?',
-  'What is an evidence pack?',
+  'how does pricing work?',
+  'which bundle fits me?',
+  'show me an agent',
+  'book a pilot',
 ] as const;
 
-const KNOWLEDGE = [
-  {
-    match: ['price', 'cost', 'pricing', 'pay', 'how much', 'subscription', 'plan'],
-    answer:
-      'assembl agents are priced per agent. Many are free, most are NZ$9.99/month, and the specialist Trades, Build, Health and Creative agents are NZ$199/month — GST exclusive. Each agent card shows its price, and you can install one to your phone and try it before you pay.',
-    href: '/pricing',
-    cta: 'See pricing',
-  },
-  {
-    match: ['which', 'agent', 'fit', 'family', 'whanau', 'business', 'trades', 'health', 'build', 'creative', 'find', 'recommend'],
-    answer:
-      'assembl is a marketplace of specialist Aotearoa agents across Family & Whānau, Business & SME, Trades, Ops & Coast, Build, Health and Creative. Tell me your trade or the admin that drains your week and I will point you to the right one.',
-    href: '/agents',
-    cta: 'Browse agents',
-  },
-  {
-    match: ['agent', 'collaborate', 'handoff', 'fleet', 'together'],
-    answer:
-      'Assistants collaborate behind the scenes. Each specialist keeps its lane, uses remembered business context when approved, hands off when another phase is needed, and leaves a trace for the evidence pack.',
-    href: '/agents',
-    cta: 'Browse agents',
-  },
-  {
-    match: ['evidence', 'proof', 'audit', 'review', 'approve'],
-    answer:
-      'An evidence pack is the working record: source citations, reasoning trace, reviewer edits, sign-off, and verifier trail. The important bit is that the mahi and the proof stay beside each other.',
-    href: '/evidence-pack',
-    cta: 'See evidence pack',
-  },
-  {
-    match: ['pilot', 'sprint', 'try', 'start'],
-    answer:
-      'Pilot Sprint is the low-risk start: two weeks, one real workflow, one named reviewer, and one evidence pack. It is built to prove the mahi before you subscribe.',
-    href: '/pilot-sprint',
-    cta: 'Book a pilot',
-  },
-] as const;
+/** Live bundle names, pulled from the registry — never hardcode agent names. */
+function bundleSentence(): string {
+  const bundles = orderedBundles();
+  const named = bundles.map((bundle) => bundle.name).join(', ');
+  return `There are ${bundles.length}: ${named}.`;
+}
+
+/** Knowledge base, built at render so pricing and names track the registry. */
+function buildKnowledge() {
+  return [
+    {
+      match: ['price', 'pricing', 'cost', 'pay', 'how much', 'subscription', 'plan'],
+      answer: `Start free — every agent answers a few messages before you pay a cent. From there: ${pricingPlainLines().join('; ')}. ${PRICING_NOTE}`,
+      href: '/pricing',
+      cta: 'see pricing',
+    },
+    {
+      match: ['bundle', 'fit', 'pack', 'industry', 'construction', 'automotive', 'creative', 'health', 'legal', 'family', 'immigration', 'animal', 'which'],
+      answer: `A bundle is a team of specialists built for one line of work. ${bundleSentence()} Tell me what you do and I'll point you at the right one.`,
+      href: '/bundles',
+      cta: 'browse bundles',
+    },
+    {
+      match: ['agent', 'show', 'assistant', 'fleet', 'marketplace', 'try'],
+      answer:
+        "Every agent has its own page — what it does, what it cites, and a chat you can try on the spot. A few messages free, no card. Pick the one that matches the job on your desk and put it to work.",
+      href: '/agents',
+      cta: 'meet the agents',
+    },
+    {
+      match: ['pilot', 'sprint', 'book', 'start', 'demo'],
+      answer:
+        "A pilot is the low-risk way in: one real workflow from your business, built and proven inside 30 days, priced as an outcome. You keep the evidence pack either way.",
+      href: '/pilot-sprint',
+      cta: 'book a pilot',
+    },
+    {
+      match: ['evidence', 'proof', 'audit', 'review', 'approve', 'trust'],
+      answer:
+        'Every piece of work ships with its evidence pack: sources cited, reasoning shown, a named person signing it off. The mahi and the proof stay side by side.',
+      href: '/evidence-pack',
+      cta: 'see an evidence pack',
+    },
+  ] as const;
+}
 
 const MAX_CHARS = 1000;
 
@@ -81,11 +103,11 @@ export function AssemblConciergeWidget() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'agent',
-      body:
-        'Hi. I can help you find the right assembl agent, explain pricing, and show how evidence packs work. Where would you like to start?',
+      body: "hey, I'm assembl. what would you like to know?",
     },
   ]);
 
+  const knowledge = useMemo(() => buildKnowledge(), []);
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -120,9 +142,22 @@ export function AssemblConciergeWidget() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [open]);
 
+  const findAnswer = (input: string) => {
+    const lower = input.toLowerCase();
+    return (
+      knowledge.find((entry) => entry.match.some((needle) => lower.includes(needle))) ?? {
+        answer:
+          "The short version: specialist agents that know Aotearoa, drafts a person approves, and an evidence pack behind every piece of work. Ask me about pricing, bundles, or a job you'd like off your plate.",
+        href: '/agents',
+        cta: 'meet the agents',
+      }
+    );
+  };
+
   const latestMatch = useMemo(() => {
     const last = [...messages].reverse().find((message) => message.role === 'user');
-    return last ? findAnswer(last.body) : KNOWLEDGE[2];
+    return last ? findAnswer(last.body) : knowledge[2];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
   const send = (text = draft) => {
@@ -144,8 +179,8 @@ export function AssemblConciergeWidget() {
     }, 1200);
   };
 
-  // Don't render the global concierge on an agent's own chat page or the
-  // internal /admin operator hub.
+  // Don't render the global concierge on an agent's own chat page, the internal
+  // /admin operator hub, a tenant workspace, or the homepage (its own portal).
   if (isAgentChatPage || isAdminHub || isTenantWorkspace || pathname === '/') {
     return null;
   }
@@ -156,23 +191,33 @@ export function AssemblConciergeWidget() {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label="assembl guide"
-          className="w-[min(calc(100vw-2rem),390px)] overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-[color:var(--assembl-paper)] shadow-[0_24px_80px_rgba(35,33,31,0.22)] animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-300"
+          aria-label="ask assembl"
+          style={{ backgroundColor: PAPER }}
+          className="w-[min(calc(100vw-2rem),390px)] overflow-hidden rounded-2xl border border-[rgba(26,25,24,0.10)] shadow-[0_24px_70px_rgba(26,25,24,0.16)] animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-300"
         >
-          <div className="flex items-start justify-between gap-4 border-b border-[rgba(35,33,31,0.10)] bg-white/60 p-4">
+          <div className="flex items-start justify-between gap-4 border-b border-[rgba(26,25,24,0.08)] p-4">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-[color:var(--assembl-pounamu)]">
-                assembl guide
+              <p
+                className="font-mono text-[10px] uppercase tracking-[0.22em]"
+                style={{ color: GOLD }}
+              >
+                your guide
               </p>
-              <h2 className="mt-1 font-display text-2xl font-light leading-none text-[color:var(--text-primary)]">
-                Ask about the mahi.
+              <h2
+                className="mt-1 font-display text-2xl font-semibold lowercase leading-none"
+                style={{ color: INK }}
+              >
+                ask assembl
+                <span aria-hidden style={{ color: GOLD }}>
+                  .
+                </span>
               </h2>
             </div>
             <button
               type="button"
-              aria-label="Close assembl guide"
+              aria-label="Close ask assembl"
               onClick={() => setOpen(false)}
-              className="rounded-full p-2 text-[color:var(--text-secondary)] transition-all hover:bg-[rgba(35,33,31,0.06)] hover:text-[color:var(--text-primary)] focus-visible:bg-[rgba(35,33,31,0.06)] focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+              className="rounded-full p-2 text-[rgba(26,25,24,0.55)] transition-all hover:bg-[rgba(26,25,24,0.06)] hover:text-[#1A1918] focus-visible:bg-[rgba(26,25,24,0.06)] focus-visible:text-[#1A1918] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2"
             >
               <X className="h-4 w-4" aria-hidden />
             </button>
@@ -189,10 +234,10 @@ export function AssemblConciergeWidget() {
               >
                 <p
                   className={cn(
-                    'max-w-[86%] rounded-[8px] px-3 py-2 text-sm leading-relaxed',
+                    'max-w-[86%] rounded-xl px-3 py-2 text-sm leading-relaxed',
                     message.role === 'user'
-                      ? 'bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
-                      : 'border border-[rgba(35,33,31,0.10)] bg-white/70 text-[color:var(--text-body)]',
+                      ? 'bg-[#1A1918] text-[#FBFAF6]'
+                      : 'border border-[rgba(26,25,24,0.08)] bg-white text-[#3A3832]',
                   )}
                 >
                   {message.body}
@@ -202,20 +247,20 @@ export function AssemblConciergeWidget() {
             {isTyping && (
               <div className="flex justify-start">
                 <div
-                  className="flex items-center gap-1 rounded-[8px] border border-[rgba(35,33,31,0.10)] bg-white/70 px-3 py-3"
+                  className="flex items-center gap-1 rounded-xl border border-[rgba(26,25,24,0.08)] bg-white px-3 py-3"
                   aria-hidden="true"
                 >
-                  <span className="h-1 w-1 animate-bounce rounded-full bg-[color:var(--assembl-pounamu)] [animation-delay:-0.3s]" />
-                  <span className="h-1 w-1 animate-bounce rounded-full bg-[color:var(--assembl-pounamu)] [animation-delay:-0.15s]" />
-                  <span className="h-1 w-1 animate-bounce rounded-full bg-[color:var(--assembl-pounamu)]" />
+                  <span className="h-1 w-1 animate-bounce rounded-full bg-[#BFA37A] [animation-delay:-0.3s]" />
+                  <span className="h-1 w-1 animate-bounce rounded-full bg-[#BFA37A] [animation-delay:-0.15s]" />
+                  <span className="h-1 w-1 animate-bounce rounded-full bg-[#BFA37A]" />
                 </div>
-                <span className="sr-only">assembl guide is typing...</span>
+                <span className="sr-only">assembl is typing...</span>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="border-t border-[rgba(35,33,31,0.10)] p-4">
+          <div className="border-t border-[rgba(26,25,24,0.08)] p-4">
             <div className="mb-3 flex flex-wrap gap-2">
               {QUICK_PROMPTS.map((prompt) => (
                 <button
@@ -223,7 +268,7 @@ export function AssemblConciergeWidget() {
                   type="button"
                   onClick={() => send(prompt)}
                   disabled={isTyping}
-                  className="rounded-full border border-[rgba(35,33,31,0.12)] bg-white/60 px-3 py-1 text-xs text-[color:var(--text-secondary)] transition-all hover:-translate-y-0.5 hover:bg-white/90 hover:border-ring hover:text-[color:var(--text-primary)] focus-visible:-translate-y-0.5 focus-visible:border-ring focus-visible:bg-white/90 focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
+                  className="rounded-full border border-[rgba(26,25,24,0.12)] bg-white px-3 py-1 text-xs text-[#56544B] transition-all hover:-translate-y-0.5 hover:border-[#BFA37A] hover:text-[#1A1918] focus-visible:-translate-y-0.5 focus-visible:border-[#BFA37A] focus-visible:text-[#1A1918] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2 disabled:opacity-40"
                 >
                   {prompt}
                 </button>
@@ -238,22 +283,23 @@ export function AssemblConciergeWidget() {
             >
               <div className="flex items-center gap-2">
                 <label htmlFor="assembl-guide-input" className="sr-only">
-                  Ask assembl guide
+                  Ask assembl
                 </label>
                 <input
                   id="assembl-guide-input"
                   ref={inputRef}
                   value={draft}
                   onChange={(event) => setDraft(event.target.value.slice(0, MAX_CHARS))}
-                  placeholder="Ask about assembl..."
+                  placeholder="ask anything..."
                   disabled={isTyping}
                   aria-describedby="concierge-counter"
-                  className="h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(35,33,31,0.14)] bg-white/70 px-3 text-sm text-[color:var(--text-primary)] transition-all focus:border-ring focus:outline focus:outline-2 focus:outline-ring/30 focus:outline-offset-0 disabled:opacity-60"
+                  className="h-11 min-w-0 flex-1 rounded-xl border border-[rgba(26,25,24,0.14)] bg-white px-3 text-sm text-[#1A1918] transition-all focus:border-[#BFA37A] focus:outline focus:outline-2 focus:outline-[#BFA37A]/30 focus:outline-offset-0 disabled:opacity-60"
                 />
                 <button
                   type="submit"
                   aria-label="Send"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] bg-[color:var(--assembl-pounamu)] text-[color:var(--assembl-paper)] transition-all hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 disabled:opacity-40"
+                  style={{ backgroundColor: INK, color: PAPER }}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl transition-all hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2 disabled:opacity-40"
                   disabled={!draft.trim() || isTyping}
                 >
                   <Send className="h-4 w-4" aria-hidden />
@@ -263,23 +309,24 @@ export function AssemblConciergeWidget() {
                 <span
                   id="concierge-counter"
                   className={cn(
-                    "font-mono text-[10px] uppercase tracking-[0.1em]",
+                    'font-mono text-[10px] uppercase tracking-[0.1em]',
                     draft.length > MAX_CHARS * 0.9
-                      ? "text-destructive font-medium"
-                      : "text-[color:var(--text-secondary)]"
+                      ? 'font-medium text-destructive'
+                      : 'text-[rgba(26,25,24,0.45)]',
                   )}
                   aria-hidden="true"
                 >
                   {draft.length} / {MAX_CHARS}
                 </span>
                 <span className="sr-only" aria-live="polite">
-                  {draft.length > MAX_CHARS * 0.9 ? `${draft.length} / ${MAX_CHARS} characters` : ""}
+                  {draft.length > MAX_CHARS * 0.9 ? `${draft.length} / ${MAX_CHARS} characters` : ''}
                 </span>
               </div>
             </form>
             <Link
               href={latestMatch.href}
-              className="mt-1 inline-flex items-center rounded-sm font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--assembl-pounamu)] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+              className="mt-1 inline-flex items-center rounded-sm font-mono text-[10px] uppercase tracking-[0.18em] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2"
+              style={{ color: GOLD }}
             >
               {latestMatch.cta}
               <ArrowRight className="ml-2 h-3.5 w-3.5" aria-hidden />
@@ -292,26 +339,15 @@ export function AssemblConciergeWidget() {
         ref={triggerRef}
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-14 items-center gap-3 rounded-full border border-[rgba(35,33,31,0.12)] bg-[color:var(--assembl-pounamu)] px-5 text-sm font-medium text-[color:var(--assembl-paper)] shadow-[0_16px_50px_rgba(35,33,31,0.20)] transition-all hover:-translate-y-0.5 hover:opacity-90 focus-visible:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+        style={{ backgroundColor: GOLD, color: INK }}
+        className="inline-flex h-14 items-center gap-2 rounded-full border border-[rgba(26,25,24,0.10)] px-6 shadow-[0_16px_44px_rgba(26,25,24,0.18)] transition-all hover:-translate-y-0.5 hover:opacity-90 focus-visible:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#BFA37A] focus-visible:outline-offset-2"
         aria-expanded={open}
         aria-haspopup="dialog"
       >
-        <MessageCircle className="h-5 w-5" aria-hidden />
-        Ask assembl
+        <span className="font-display text-lg font-semibold lowercase leading-none">
+          ask assembl
+        </span>
       </button>
     </aside>
-  );
-}
-
-function findAnswer(input: string) {
-  const lower = input.toLowerCase();
-  return (
-    KNOWLEDGE.find((entry) => entry.match.some((needle) => lower.includes(needle))) ??
-    {
-      answer:
-        'The short version: assembl is a marketplace of specialist Aotearoa agents for the admin work that drains your team — reviewable drafts, live NZ context, and an evidence pack behind every output. Tell me your trade and I will point you to the right agent.',
-      href: '/agents',
-      cta: 'Browse agents',
-    }
   );
 }
