@@ -61,3 +61,45 @@ export function composePrompt(raw: string): string {
   if (raw.startsWith('# assembl agent')) return raw;
   return `${SHARED_BRAND_PREFIX}\n\n${raw}`;
 }
+
+// ── Manual knowledge (pilot-configured) ─────────────────────────────────────
+// A second agent_prompts pack, 'knowledge', carries the customer's business
+// knowledge for a pilot — profile, FAQs, policies, tone — curated by the
+// assembl team (no self-serve upload yet). It rides the same table, the same
+// (agent_name, pack) uniqueness and the same is_active=false convention as
+// the marketplace pack, so a knowledge fix ships without a redeploy. Absent
+// row = no block, chat unchanged.
+
+const KNOWLEDGE_PACK = 'knowledge';
+
+const knowledgeCache = new Map<string, { value: string | null; at: number }>();
+
+export async function loadDbKnowledge(slug: string): Promise<string | null> {
+  const hit = knowledgeCache.get(slug);
+  if (hit && Date.now() - hit.at < CACHE_TTL_MS) return hit.value;
+
+  let value: string | null = null;
+  try {
+    const service = getServiceClient();
+    const { data, error } = await service
+      .from('agent_prompts')
+      .select('system_prompt')
+      .eq('agent_name', slug)
+      .eq('pack', KNOWLEDGE_PACK)
+      .order('version', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (!error && data?.system_prompt && data.system_prompt.trim().length > 20) {
+      value = data.system_prompt.trim();
+    }
+  } catch {
+    value = null;
+  }
+  knowledgeCache.set(slug, { value, at: Date.now() });
+  return value;
+}
+
+/** Wrap pilot knowledge as a system-prompt block with its honesty rule. */
+export function knowledgeBlock(raw: string): string {
+  return `# Your business knowledge (pilot-configured)\nThe following was provided by the business you are working for. Treat it as your primary source for questions about this business — its services, pricing, policies, hours and tone. If a question about the business is not covered below, say so plainly rather than guessing.\n\n${raw}`;
+}
