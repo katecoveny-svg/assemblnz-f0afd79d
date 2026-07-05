@@ -4,6 +4,7 @@ import { useMemo, useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowRight, Send, X } from 'lucide-react';
+import { isCustomerWorkspace } from '@/components/site/site-header';
 import { cn } from '@/lib/utils';
 import { orderedBundles } from '@/lib/marketplace/bundles';
 import { PRICING_NOTE, pricingPlainLines } from '@/lib/registry/pricing';
@@ -89,13 +90,10 @@ export function AssemblConciergeWidget() {
   const isAdminHub = !!pathname && (pathname === '/admin' || pathname.startsWith('/admin/'));
   // Full-screen white-labelled tenant workspaces must never show the assembl
   // concierge inside them (assembl attribution stays on the Mana Receipt).
-  const isTenantWorkspace =
-    !!pathname &&
-    (pathname.startsWith('/customers/happy-tails/keeper') ||
-      pathname.startsWith('/customers/auckland-zoo/keeper') ||
-      // Was '/customers/aeronaut' — the tenant renamed to aironaut, which let
-      // the concierge leak onto the family-pilot workspace.
-      pathname.startsWith('/customers/aironaut'));
+  // Uses the same guard as the site header/footer so new tenants and the
+  // /for/* magic links are covered without maintaining a slug list here —
+  // per-slug lists rot on tenant renames (aeronaut→aironaut did exactly that).
+  const isTenantWorkspace = isCustomerWorkspace(pathname);
 
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
