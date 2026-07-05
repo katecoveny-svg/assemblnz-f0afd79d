@@ -12,8 +12,9 @@ import { getKnowledgeSources, type KnowledgeSourceRow } from '@/lib/admin/v2-dat
  * V4 bundle map (lib/marketplace/bundles.ts) — the DB `agents` mirror only
  * contributes status overrides. Supabase contributes the wiring facts:
  * knowledge_sources.dependent_agents (Tier A anchors + last sync),
- * agent_prompt_overrides (staged prompt edits) and agent_prompts (the legacy
- * SQL corpus, shown as provenance only — runtime never reads it).
+ * agent_prompt_overrides (staged prompt edits) and agent_prompts (DB-first
+ * runtime prompts since PR #691 — chat reads pack='marketplace' rows via
+ * lib/agents/prompt-store.ts; other packs are the legacy kete corpus).
  *
  * Derived status is honest, not aspirational:
  *   live       — registry live AND >=1 active Tier A source lists the slug

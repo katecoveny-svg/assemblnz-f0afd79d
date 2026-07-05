@@ -6,12 +6,18 @@ import {
   CATEGORY_LABELS,
   MODEL_TIER_LABELS,
 } from '@/lib/marketplace/agents';
-import { getAgentDbRow, getKnowledgeSources, getPromptOverride } from '@/lib/admin/v2-data';
+import {
+  getAgentDbRow,
+  getKnowledgeSources,
+  getPromptOverride,
+  getMarketplacePromptRow,
+} from '@/lib/admin/v2-data';
 import { buildDashboardRows, getAgentAuditLog, STATUS_LABELS } from '@/lib/admin/agents-dashboard';
 import {
   setAgentStatus,
   updateAgentMeta,
   stagePromptOverride,
+  applyPromptOverride,
   discardPromptOverride,
   toggleKnowledgeLink,
   syncKnowledgeSource,
@@ -70,10 +76,11 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
   const agent = marketplaceAgentBySlug(slug);
   if (!agent) notFound();
 
-  const [dashboard, dbRow, override, knowledge, audit] = await Promise.all([
+  const [dashboard, dbRow, override, livePrompt, knowledge, audit] = await Promise.all([
     buildDashboardRows(),
     getAgentDbRow(slug),
     getPromptOverride(slug),
+    getMarketplacePromptRow(slug),
     getKnowledgeSources(),
     getAgentAuditLog(slug, 20),
   ]);
@@ -81,6 +88,8 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
   const derived = row?.status ?? 'stub';
   const catalogueStatus = dbRow?.status ?? (agent.status === 'live' ? 'live' : 'coming_soon');
   const stagedOverride = override && override.status === 'staged' ? override : null;
+  // Mirrors the runtime's resolution order: DB marketplace row, else code.
+  const livePromptText = livePrompt?.system_prompt ?? agent.systemPrompt;
   const linkedSources = knowledge.rows.filter((s) => s.dependent_agents.includes(slug));
 
   return (
@@ -256,13 +265,19 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
           <SectionTitle>System prompt</SectionTitle>
           <Card tone="cream">
             <p style={{ fontFamily: BODY, color: C.body, fontSize: 13.5, margin: '0 0 12px' }}>
-              <strong>Code is canonical.</strong> The runtime reads this prompt from{' '}
-              <code style={{ fontFamily: MONO, fontSize: 12.5 }}>lib/marketplace/agents.ts</code> — never from the
-              database. An edit below is <strong>staged</strong> in{' '}
-              <code style={{ fontFamily: MONO, fontSize: 12.5 }}>agent_prompt_overrides</code> (Supabase) for the
-              next code sync; it does not change what the agent says until it ships through a PR.
+              <strong>The database is live.</strong> Chat reads this prompt from{' '}
+              <code style={{ fontFamily: MONO, fontSize: 12.5 }}>agent_prompts</code> (pack{' '}
+              <code style={{ fontFamily: MONO, fontSize: 12.5 }}>marketplace</code>), falling back to the code
+              registry if no row exists. An edit below is <strong>staged</strong> in{' '}
+              <code style={{ fontFamily: MONO, fontSize: 12.5 }}>agent_prompt_overrides</code> first — test-chat it
+              on the right, then <strong>Apply to live chat</strong> pushes it into the live row. Chat picks it up
+              within ~5 minutes.
             </p>
-            <Eyebrow style={{ marginBottom: 8 }}>Live prompt (from code)</Eyebrow>
+            <Eyebrow style={{ marginBottom: 8 }}>
+              {livePrompt
+                ? `Live prompt — DB v${livePrompt.version} · applied ${nzDate(livePrompt.updated_at)}`
+                : 'Live prompt — code fallback (no DB row yet)'}
+            </Eyebrow>
             <pre
               style={{
                 fontFamily: MONO,
@@ -279,12 +294,12 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
                 margin: 0,
               }}
             >
-              {agent.systemPrompt}
+              {livePromptText}
             </pre>
 
             <div style={{ height: 18 }} />
             <Eyebrow style={{ marginBottom: 8 }}>
-              {stagedOverride ? 'Staged edit — awaiting code sync' : 'Stage an edit'}
+              {stagedOverride ? 'Staged edit — not live yet' : 'Stage an edit'}
             </Eyebrow>
             {stagedOverride && (
               <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.warn, margin: '0 0 10px' }}>
@@ -296,12 +311,12 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
               <textarea
                 name="system_prompt"
                 rows={10}
-                defaultValue={stagedOverride?.system_prompt ?? agent.systemPrompt}
+                defaultValue={stagedOverride?.system_prompt ?? livePromptText}
                 style={{ ...input, fontFamily: MONO, fontSize: 12, resize: 'vertical' }}
               />
               <input
                 name="note"
-                placeholder="Why this change? (lands in the sync PR description)"
+                placeholder="Why this change? (kept on the override row for the audit trail)"
                 defaultValue={stagedOverride?.note ?? ''}
                 style={{ ...input, marginTop: 10 }}
               />
@@ -310,26 +325,43 @@ export default async function AgentDetailPage({ params }: { params: Promise<{ sl
               </div>
             </form>
             {stagedOverride && (
-              <form action={discardPromptOverride} style={{ marginTop: 10 }}>
-                <input type="hidden" name="slug" value={slug} />
-                <button
-                  type="submit"
-                  style={{
-                    fontFamily: BODY,
-                    fontWeight: 700,
-                    fontSize: 13,
-                    color: C.bad,
-                    background: 'transparent',
-                    border: 'none',
-                    padding: 0,
-                    cursor: 'pointer',
-                    textDecoration: 'underline',
-                    textUnderlineOffset: 3,
-                  }}
-                >
-                  Discard staged edit
-                </button>
-              </form>
+              <div style={{ display: 'flex', gap: 18, marginTop: 14, alignItems: 'center', flexWrap: 'wrap' }}>
+                {stagedOverride.system_prompt.trim().length > 200 ? (
+                  <>
+                    <form action={applyPromptOverride}>
+                      <input type="hidden" name="slug" value={slug} />
+                      <GoldButton>Apply to live chat</GoldButton>
+                    </form>
+                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted }}>
+                      writes agent_prompts v{(livePrompt?.version ?? 0) + 1} · live in ~5 min
+                    </span>
+                  </>
+                ) : (
+                  <span style={{ fontFamily: MONO, fontSize: 11, color: C.warn }}>
+                    too short to apply — the runtime ignores prompts under 200 characters
+                  </span>
+                )}
+                <form action={discardPromptOverride}>
+                  <input type="hidden" name="slug" value={slug} />
+                  <button
+                    type="submit"
+                    style={{
+                      fontFamily: BODY,
+                      fontWeight: 700,
+                      fontSize: 13,
+                      color: C.bad,
+                      background: 'transparent',
+                      border: 'none',
+                      padding: 0,
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      textUnderlineOffset: 3,
+                    }}
+                  >
+                    Discard staged edit
+                  </button>
+                </form>
+              </div>
             )}
           </Card>
 
