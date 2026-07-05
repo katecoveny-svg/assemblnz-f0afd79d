@@ -89,6 +89,14 @@ export const TENANTS: readonly Tenant[] = [
     blurb: 'Hospitality ops — roster, compliance, service periods, mana receipts.',
     accentClass: 'border-rose-200/70',
   },
+  {
+    slug: 'moana',
+    displayName: 'Moana',
+    parentBrand: 'Boating & fishing concept',
+    status: 'concept',
+    blurb: 'Recreational boating & fishing assistant — forecast, tides, catch log, knots, safety.',
+    accentClass: 'border-cyan-200/70',
+  },
 ] as const;
 
 export function findTenant(slug: string): Tenant | undefined {
