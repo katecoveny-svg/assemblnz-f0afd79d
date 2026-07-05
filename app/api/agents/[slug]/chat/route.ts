@@ -416,8 +416,38 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     },
   });
 
+  const requestBusinessAction = tool({
+    description:
+      "File a business action against the customer's OWN connected tool (their sheet, their CRM) for human review — create a lead, or add a row to a sheet. The action is NEVER run by this tool: it is held for a named person to approve, and only runs at all once the business has connected the tool with the assembl team. Gather the concrete data first (the lead's details, the row's values).",
+    inputSchema: z.object({
+      action: z.enum(['create_lead', 'add_sheet_row']),
+      app: z.enum(['google_sheets', 'hubspot']).describe('Which connected tool this targets'),
+      data: z.record(z.string(), z.unknown()).describe('The lead fields or row values'),
+      reason: z.string().min(5).max(300),
+    }),
+    execute: async (input) => {
+      const created = await createActionRequest({
+        agentSlug: agent.slug,
+        requestedBy: requesterRef,
+        kind: 'connector_action',
+        // Connected-account owner is a server-side convention, never
+        // model-supplied: the pilot's account is connected under this id.
+        payload: { ...input, externalUserId: `agent:${agent.slug}` },
+      });
+      if (!created) {
+        return { status: 'error', note: 'Could not file the action. Tell the user honestly and offer the data as text instead.' };
+      }
+      return {
+        status: 'held_for_review',
+        requestId: created.id,
+        note: 'Action filed and held for human approval. Tell the user: it is QUEUED for a named person to approve — nothing has run against their systems, and you cannot run it.',
+      };
+    },
+  });
+
   const canDraftEmail = profile.tools.includes('send_email');
   const canWebhook = profile.tools.includes('webhook');
+  const canConnector = profile.tools.includes('create_lead') || profile.tools.includes('add_sheet_row');
 
   const tools = {
     ...nzKnowledgeTools,
@@ -427,6 +457,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     ...(isCustoms ? { tariffLookup } : {}),
     ...(canDraftEmail ? { draftEmailHandoff } : {}),
     ...(canWebhook ? { requestWebhookAction } : {}),
+    ...(canConnector ? { requestBusinessAction } : {}),
   };
 
   const knowledgeBlocks: string[] = [];
@@ -452,9 +483,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   // Pilot-configured business knowledge (agent_prompts pack='knowledge').
   if (pilotKnowledge) knowledgeBlocks.push(knowledgeBlock(pilotKnowledge));
 
-  if (canDraftEmail || canWebhook) {
+  if (canDraftEmail || canWebhook || canConnector) {
+    const abilities = [
+      ...(canDraftEmail ? ['email drafts (draftEmailHandoff)'] : []),
+      ...(canWebhook ? ['webhook posts to an endpoint the user names (requestWebhookAction)'] : []),
+      ...(canConnector ? ["business actions against the customer's connected tools — create a lead, add a sheet row (requestBusinessAction)"] : []),
+    ].join('; ');
     knowledgeBlocks.push(
-      `# Action requests (drafts only)\nYou can FILE actions for human review${canDraftEmail ? ' — email drafts (draftEmailHandoff)' : ''}${canWebhook ? `${canDraftEmail ? ' and' : ' —'} webhook posts to an endpoint the user names (requestWebhookAction)` : ''}. Rules: you never send, post, or promise delivery — a named person reviews every request first, and you say so plainly. Never invent recipients or endpoints. After filing, confirm what was drafted and that it is held for approval.`,
+      `# Action requests (drafts only)\nYou can FILE actions for human review — ${abilities}. Rules: you never send, post, run, or promise delivery — a named person reviews every request first, and you say so plainly. Never invent recipients, endpoints, or data. After filing, confirm what was filed and that it is held for approval.`,
     );
   }
 

@@ -216,6 +216,7 @@ export default async function ApprovalsPage({
               {actionRows.map((a: ActionRequestRow) => {
                 const email = a.kind === 'email_draft' ? (a.payload as { to?: string; subject?: string; body?: string; reason?: string }) : null;
                 const hook = a.kind === 'webhook' ? (a.payload as { url?: string; reason?: string }) : null;
+                const conn = a.kind === 'connector_action' ? (a.payload as { action?: string; app?: string; data?: Record<string, unknown>; reason?: string }) : null;
                 return (
                   <Card key={a.id} style={{ padding: '16px 20px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 6 }}>
@@ -223,7 +224,11 @@ export default async function ApprovalsPage({
                         {a.status}
                       </Pill>
                       <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 15, color: C.ink }}>
-                        {a.kind === 'email_draft' ? `email draft — ${email?.subject ?? '(no subject)'}` : `webhook — ${hook?.url ?? ''}`}
+                        {a.kind === 'email_draft'
+                          ? `email draft — ${email?.subject ?? '(no subject)'}`
+                          : a.kind === 'webhook'
+                            ? `webhook — ${hook?.url ?? ''}`
+                            : `${conn?.action?.replace(/_/g, ' ') ?? 'business action'} → ${conn?.app ?? 'connected tool'}`}
                       </span>
                       <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted, marginLeft: 'auto' }}>
                         {nzDate(a.created_at)}
@@ -234,8 +239,13 @@ export default async function ApprovalsPage({
                       {email?.to ? ` · to: ${email.to}` : a.kind === 'email_draft' ? ' · to: (not provided)' : ''}
                     </p>
                     <p style={{ fontFamily: BODY, fontSize: 13, color: C.body, margin: '4px 0 0' }}>
-                      {(email?.reason ?? hook?.reason) || ''}
+                      {(email?.reason ?? hook?.reason ?? conn?.reason) || ''}
                     </p>
+                    {conn?.data ? (
+                      <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, whiteSpace: 'pre-wrap', margin: '8px 0 0', borderLeft: `2px solid ${C.hairline}`, paddingLeft: 12 }}>
+                        {JSON.stringify(conn.data, null, 2).slice(0, 700)}
+                      </p>
+                    ) : null}
                     {email?.body ? (
                       <p style={{ fontFamily: BODY, fontSize: 13, color: C.body, whiteSpace: 'pre-wrap', margin: '8px 0 0', borderLeft: `2px solid ${C.hairline}`, paddingLeft: 12 }}>
                         {email.body.length > 900 ? `${email.body.slice(0, 900)}…` : email.body}
