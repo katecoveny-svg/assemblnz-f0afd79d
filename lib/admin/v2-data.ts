@@ -76,6 +76,34 @@ export async function getStagedOverrideCount(): Promise<number | null> {
   return count('agent_prompt_overrides', (q) => q.eq('status', 'staged'));
 }
 
+// ── Marketplace prompt rows (what the chat runtime actually reads) ──────────
+// prompt-store.ts resolves prompts from agent_prompts pack='marketplace' with
+// the code registry as fallback; this mirrors that read so the admin drilldown
+// can show the effective live prompt. No is_active filter — see prompt-store.
+export type MarketplacePromptRow = {
+  system_prompt: string;
+  version: number;
+  updated_at: string | null;
+};
+
+export async function getMarketplacePromptRow(slug: string): Promise<MarketplacePromptRow | null> {
+  const data = await rows<any>('agent_prompts', (q) =>
+    q
+      .select('system_prompt,version,updated_at')
+      .eq('agent_name', slug)
+      .eq('pack', 'marketplace')
+      .order('version', { ascending: false })
+      .limit(1),
+  );
+  const r = data[0];
+  if (!r || typeof r.system_prompt !== 'string' || r.system_prompt.trim().length <= 200) return null;
+  return {
+    system_prompt: r.system_prompt,
+    version: typeof r.version === 'number' ? r.version : 1,
+    updated_at: r.updated_at ?? null,
+  };
+}
+
 // ── Designated admins (operator allowlist) ──────────────────────────────────
 export type DesignatedAdminRow = {
   email: string;
