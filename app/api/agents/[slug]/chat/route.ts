@@ -17,6 +17,7 @@ import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billi
 import { searchLiveTariff, TARIFF_TRUST_FOOTER_RULES } from '@/lib/customs/tariff-live';
 import { loadDbPrompt, composePrompt, loadDbKnowledge, knowledgeBlock } from '@/lib/agents/prompt-store';
 import { createActionRequest } from '@/lib/agents/action-requests';
+import { requestHasDemoGrant } from '@/lib/demo-invites/gate';
 import { capabilityProfileFor } from '@/lib/marketplace/agent-capabilities';
 import {
   bundleFor,
@@ -210,9 +211,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
   // ── Free-tier gate ────────────────────────────────────────────────────────
   // Entitled (paid) callers skip the limit. Otherwise this user/device gets
-  // FREE_MESSAGE_LIMIT messages on this agent, then the paywall.
+  // FREE_MESSAGE_LIMIT messages on this agent, then the paywall. A genuine
+  // gated-demo viewer (valid shared basic-auth or a signed invite/hub cookie)
+  // runs unmetered — pilot workspaces must never dead-end on a paywall — while
+  // anonymous public traffic on the open web stays metered as before.
   const { identity, setAnonId } = await resolveChatIdentity();
-  const status = await getEntitlementStatus(identity, slug, { freeForever: agent.priceNzd === 0 });
+  const demoGrant = await requestHasDemoGrant(req);
+  const status = await getEntitlementStatus(identity, slug, {
+    freeForever: agent.priceNzd === 0 || demoGrant,
+  });
   if (!status.entitled && status.remaining <= 0) {
     return Response.json(
       {
