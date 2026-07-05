@@ -10,7 +10,16 @@ Everything ships env-gated: until these vars exist, the code answers
 2. Create a **project** (e.g. `assembl-pilots`) → note the **project ID** (`proj_…`).
 3. Project → **Connect** → create an **OAuth client** → note client ID + secret.
 
+> ⚠️ **`proj_…` vs `o_…`:** Pipedream shows two similar-looking IDs. The
+> **workspace/org ID** (`o_…`, workspace settings) is NOT the project ID —
+> the Connect API answers 404 "route not found" if you use it. Only the
+> `proj_…` ID from the project's settings works (ours: the `assembl-pilots`
+> project). This cost a setup round-trip on 2026-07-05; don't repeat it.
+
 ## 2 · Env vars (Vercel, assembl-web project — mark all sensitive)
+
+Vercel refuses the sensitive flag on the **development** scope — store each
+var twice: sensitive for production + preview, standard for development.
 
 ```
 PIPEDREAM_CLIENT_ID=…
