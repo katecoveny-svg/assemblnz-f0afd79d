@@ -9,6 +9,7 @@ import {
   verifyInviteCookieValue,
   verifyInviteSlug,
 } from '@/lib/demo-invites/crypto';
+import { HUB_DEMO_MARKER, verifyHubToken } from '@/lib/demo-invites/gate';
 
 const SPA_ORIGIN = 'https://assembl-app.vercel.app';
 
@@ -401,10 +402,47 @@ const inviteCookieAllows = async (request: NextRequest): Promise<boolean> => {
   );
   if (!payload) return false;
 
+  // The hub pass (`/demo-pass/<token>`) grants the whole demo host — no tenant
+  // scope check, no per-invite DB row to revoke against.
+  if (payload.demo === HUB_DEMO_MARKER) return true;
+
   const scope = requestTenantScope(request);
   if (!scope || scope !== payload.demo) return false;
 
   return inviteStillActive(payload.slug);
+};
+
+/**
+ * Hub-wide access pass: `/demo-pass/<token>` on the demo host. Verifies the
+ * signed token (constant-time), sets the hub-marked invite cookie, and lands
+ * the visitor on the pilot hub. Unlike /for/[slug] this grants EVERY tenant,
+ * so it's the single no-password way onto the whole demo.
+ */
+const HUB_PASS_PATH = /^\/demo-pass\/([a-f0-9]{16,})\/?$/;
+
+const handleHubEntry = async (request: NextRequest): Promise<NextResponse | null> => {
+  const match = HUB_PASS_PATH.exec(request.nextUrl.pathname);
+  if (!match) return null;
+
+  const secret = getInviteSecret();
+  if (!secret) return null;
+  if (!(await verifyHubToken(match[1]))) return null;
+
+  const url = request.nextUrl.clone();
+  url.pathname = '/customers';
+  url.search = '';
+  const response = NextResponse.redirect(url, 302);
+  response.cookies.set({
+    name: INVITE_COOKIE,
+    value: await buildInviteCookieValue(HUB_DEMO_MARKER, 'hub', secret),
+    maxAge: 60 * 60 * 24 * 30,
+    httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+    secure: process.env.NODE_ENV === 'production',
+  });
+  response.headers.set('Cache-Control', 'no-store');
+  return response;
 };
 
 /**
@@ -560,6 +598,11 @@ export async function middleware(request: NextRequest) {
   // link IS the credential. Invalid or revoked links get the branded page.
   const inviteEntry = await handleInviteEntry(request);
   if (inviteEntry) return inviteEntry;
+
+  // Hub-wide pass (/demo-pass/<token>) resolves before the gate too — a valid
+  // signed token IS the credential for the whole demo host.
+  const hubEntry = await handleHubEntry(request);
+  if (hubEntry) return hubEntry;
 
   // Live domain is behind the coming-soon splash while the fresh site is built
   // at staging. Runs after the invite entry (so /for links resolve) and before
