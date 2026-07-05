@@ -2,81 +2,113 @@ import { GlassCard, SectionHead } from '@/components/ops/moana/GlassCard';
 import { MoanaChat } from '@/components/ops/moana/MoanaChat';
 
 /**
- * Jack's wharf — Mangawhai estuary. The personal, local hook: a kid-friendly
- * plan for fishing off the estuary wharf, with the LIVE Tide & Weather / Catch
- * Log agent primed for Mangawhai. All guidance is general + honest — real
- * tides on LINZ, real rules on MPI, and the Mangawhai bar is never for kids.
+ * Jack's fishing — land-based (wharf / rock / beach), on foot or scooter.
+ * Jack is 13 and keen: current tips, the gear his mates are using, and
+ * species matched to his AREA and the season. The LIVE agent is primed for
+ * his spots (Mangawhai · Russell / Bay of Islands · Auckland waterfront).
+ * Honest throughout — real tides on LINZ, rules on MPI, and rock fishing is
+ * flagged as the highest-risk land-based fishing in Aotearoa.
  */
 
-const SPECIES = [
-  { name: 'Parore', note: 'Grazes the pylons — bread, weed or mussel. Great first fish.' },
-  { name: 'Spotties', note: 'Everywhere off the wharf. Tiny hook, bit of bait, non-stop fun.' },
-  { name: 'Yellow-eyed mullet (aua)', note: 'Schools in the estuary — light rig, small hook.' },
-  { name: 'Kahawai', note: 'Hit the run-out tide — a small lure or bait, good scrap for a kid.' },
-  { name: 'Snapper (small)', note: 'Estuary pannies. Handle gently, most go back.' },
-  { name: 'Flounder', note: 'On the sand at low tide — a set net or spear is a grown-up job.' },
+const AREAS = [
+  {
+    name: 'Mangawhai',
+    access: 'walk to the wharf · scooter to the beach',
+    spots: 'Estuary wharf, the surf beach, the heads rocks (exposed).',
+    biting: 'Parore & spotties off the wharf, kahawai on the run-out, dusk snapper on soft baits off the beach.',
+  },
+  {
+    name: 'Russell / Bay of Islands',
+    access: 'walk the waterfront · scooter to the points',
+    spots: 'Russell wharf & the Strand, Long Beach (Oneroa), Tapeka Point (rock), Ōkiato.',
+    biting: 'Snapper & kahawai off the wharves and points; kingfish for the keen off deeper rock on live bait or stickbait.',
+  },
+  {
+    name: 'Auckland waterfront',
+    access: 'all walk / scooter access',
+    spots: 'Okahu Bay, Mission Bay, St Heliers, Devonport & Bayswater wharves, Takapuna / Narrow Neck, North Head rocks, Pt Chev, Westhaven.',
+    biting: 'Snapper, kahawai, trevally, piper & sprats close in; kingfish off the deeper wharves (Orewa, Army Bay, Shakespear) for LBG.',
+  },
 ];
 
-export default function JackWharfPage() {
+const GEAR = [
+  ['Soft baits', 'Soft plastics on jigheads — the go-to for snapper & bream off wharves and beaches.'],
+  ['Micro & slow jigs', 'Little metals / inchiku — deadly around structure and the tide change.'],
+  ['Sabiki rigs', 'For sprats, piper & mackerel — great live bait and non-stop fun.'],
+  ['Stickbaits & live baits', 'Land-based game (LBG) for kingfish off the deeper wharves and rocks.'],
+];
+
+export default function JackFishingPage() {
   return (
     <div className="flex flex-col gap-5">
       <SectionHead
-        eyebrow="jack's wharf · mangawhai estuary"
-        title="A plan for the wharf today."
-        intro="The estuary is calm and kid-friendly — a world away from the Mangawhai bar (never cross that without local knowledge and a check with Coastguard). Fish a couple of hours either side of the tide, keep an eye on the water — it drains fast — and lifejackets on near the edge."
+        eyebrow="jack's fishing · land-based"
+        title="Pick a spot. Get the current word."
+        intro="Wharf, rock and beach — on foot or scooter, no boat needed. Ask Moana what's on right now for your area, the gear worth using, and how to catch what's biting. It reads the real tide and points you at the rules — and it never sugar-coats rock-fishing safety."
       />
 
       <div className="grid gap-5 md:grid-cols-[1.1fr_1fr] md:items-start">
         <MoanaChat
           agentSlug="catch-log"
-          title="Ask Moana · the wharf"
-          greeting="Kia ora Jack! Ask me about fishing off the Mangawhai wharf today — what's biting, the best rig for you, or when the tide's right. I'll point you at the real tide and the rules, and nothing here is a substitute for a grown-up alongside."
-          placeholder="e.g. what rig for parore off the wharf?"
+          title="Ask Moana · Jack's spots"
+          greeting="Chur Jack — where are you fishing today, Mangawhai, the Bay of Islands, or the Auckland waterfront? Tell me the spot and roughly when and I'll give you the current word: what's on, what to throw, and the tide to work. I read the real tide and the rules; the go/no-go on the rocks is always yours and a grown-up's."
+          placeholder="e.g. what's on off Okahu Bay this arvo?"
           openers={[
-            'What can I catch off the Mangawhai wharf today?',
-            "What's the best rig for a kid off the wharf?",
-            'When is the tide right for the estuary?',
-            'How do I let a small snapper go safely?',
+            "What's biting off the Auckland waterfront right now?",
+            'Best land-based soft-bait spots I can walk to in Mangawhai?',
+            'Land-based kingfish in the Bay of Islands — where and how?',
+            'What gear are guys my age using off the wharf?',
           ]}
         />
 
-        <GlassCard>
-          <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--brand-muted)]">off the wharf</p>
-          <div className="mt-3 flex flex-col gap-2.5">
-            {SPECIES.map((s) => (
-              <div key={s.name} className="border-b border-[#bfa37a]/25 pb-2.5 last:border-0">
-                <div className="text-[13.5px] font-semibold text-[color:var(--brand-ink)]">{s.name}</div>
-                <div className="text-[12px] leading-relaxed text-[color:var(--brand-muted)]">{s.note}</div>
-              </div>
-            ))}
-          </div>
-          <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--brand-muted)]">
-            Sizes &amp; bag limits are regulatory and change — check{' '}
-            <a href="https://www.fisheries.govt.nz/travel-and-recreation/fishing/fishing-rules/" target="_blank" rel="noreferrer" className="text-[#2E7D74] underline">MPI&rsquo;s NZ Fishing Rules</a>. Respect rāhui &amp; the estuary.
-          </p>
-        </GlassCard>
+        <div className="flex flex-col gap-4">
+          <GlassCard>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--brand-muted)]">gear right now</p>
+            <div className="mt-3 flex flex-col gap-2.5">
+              {GEAR.map(([h, b]) => (
+                <div key={h} className="border-b border-[#bfa37a]/25 pb-2.5 last:border-0">
+                  <div className="text-[13.5px] font-semibold text-[color:var(--brand-ink)]">{h}</div>
+                  <div className="text-[12px] leading-relaxed text-[color:var(--brand-muted)]">{b}</div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--brand-muted)]">
+              Braid + fluoro leader on a light 7ft spin rod (2500–4000 reel) covers most of it. Cheap and effective beats expensive.
+            </p>
+          </GlassCard>
+
+          <GlassCard>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#C97B63]">rock &amp; wharf safety</p>
+            <ul className="mt-2 flex flex-col gap-1.5 text-[12px] leading-relaxed text-[color:var(--brand-ink)]">
+              <li>Rock fishing is the highest-risk fishing in NZ — never alone, lifejacket on.</li>
+              <li>Watch the swell for several sets, never turn your back, know your exit.</li>
+              <li>Phone in a dry bag, helmet on the scooter, and tell a parent your plan.</li>
+            </ul>
+            <a href="https://www.maritimenz.govt.nz/recreational" target="_blank" rel="noreferrer" className="mt-2 inline-block text-[11px] text-[#2E7D74] underline">
+              Boating &amp; land-based safety ↗
+            </a>
+          </GlassCard>
+        </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        {[
-          { h: 'Tide', b: 'Best off the wharf: ~2 hrs either side of high. Check today on LINZ — the estuary empties quickly on the run-out.', src: ['LINZ tides', 'https://www.linz.govt.nz/sea/tides'] },
-          { h: 'Kid rig', b: 'Light rod, running or ledger rig, small hook (size 4–6). Mussel or bread for parore, bait strips for the rest. Keep it simple.', src: null },
-          { h: 'Safety', b: 'Lifejacket near the edge, hat + sunscreen, watch the tide and the weather. The bar is dangerous — the estuary is your spot.', src: ['Boating Safety Code', 'https://www.maritimenz.govt.nz/recreational'] },
-        ].map((c) => (
-          <GlassCard key={c.h}>
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--brand-muted)]">{c.h}</p>
-            <p className="mt-2 text-[12.5px] leading-relaxed text-[color:var(--brand-ink)]">{c.b}</p>
-            {c.src ? (
-              <a href={c.src[1]} target="_blank" rel="noreferrer" className="mt-2 inline-block text-[11px] text-[#2E7D74] underline">
-                {c.src[0]} ↗
-              </a>
-            ) : null}
+      <div className="grid gap-4 md:grid-cols-3">
+        {AREAS.map((a) => (
+          <GlassCard key={a.name}>
+            <div className="flex items-baseline justify-between gap-2">
+              <p className="text-[13.5px] font-semibold text-[color:var(--brand-ink)]">{a.name}</p>
+              <span className="text-[9.5px] uppercase tracking-[0.14em] text-[#9A7B3A]">on foot / scooter</span>
+            </div>
+            <p className="mt-2 text-[12px] leading-relaxed text-[color:var(--brand-ink)]">{a.spots}</p>
+            <p className="mt-2 text-[12px] leading-relaxed text-[color:var(--brand-muted)]">{a.biting}</p>
+            <p className="mt-2 text-[10.5px] text-[color:var(--brand-muted)]">{a.access}</p>
           </GlassCard>
         ))}
       </div>
 
       <p className="text-[11px] text-center text-[color:var(--brand-muted)]">
-        Concept demo · sample local guidance. Always fish with a grown-up, check the real tide and rules, and use your own judgement on the water.
+        Concept demo · well-known public spots + sample seasonal patterns. Check the real tide on{' '}
+        <a href="https://www.linz.govt.nz/sea/tides" target="_blank" rel="noreferrer" className="text-[#2E7D74] underline">LINZ</a> and current size &amp; bag limits on{' '}
+        <a href="https://www.fisheries.govt.nz/travel-and-recreation/fishing/fishing-rules/" target="_blank" rel="noreferrer" className="text-[#2E7D74] underline">MPI&rsquo;s NZ Fishing Rules</a>. Respect rāhui, reserves &amp; access, and use your own judgement on the water.
       </p>
     </div>
   );

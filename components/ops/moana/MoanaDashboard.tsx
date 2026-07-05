@@ -142,27 +142,29 @@ export function MoanaDashboard() {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <div style={{ flex: '1 1 260px' }}>
             <div style={{ display: 'flex', gap: 10, alignItems: 'baseline' }}>
-              <p style={{ ...eyebrow, color: CORAL }}>jack&rsquo;s wharf · mangawhai estuary</p>
-              {tag('TODAY', CORAL)}
+              <p style={{ ...eyebrow, color: CORAL }}>jack&rsquo;s fishing · land-based</p>
+              {tag('ON FOOT / SCOOTER', CORAL)}
             </div>
             <h2 style={{ fontFamily: 'var(--font-brand-display)', fontSize: 22, fontWeight: 600, color: INK, margin: '8px 0 0' }}>
-              Good arvo for a fish off the wharf.
+              Where are you fishing today?
             </h2>
             <p style={{ fontSize: 13, lineHeight: 1.6, color: '#5b5548', margin: '8px 0 0', maxWidth: 460 }}>
-              The estuary&rsquo;s calm and kid-friendly — a world away from the Mangawhai bar (never cross that
-              without local knowledge). Fish the couple of hours either side of the tide; the water drains fast,
-              so keep an eye on it.
+              Wharf, rock and beach — no boat needed. Ask what&rsquo;s on right now for your area, the gear worth
+              throwing, and the tide to work. Real tide, real rules, and it never sugar-coats rock-fishing safety.
             </p>
-            <div style={{ marginTop: 14 }}>
-              <MagneticButton onClick={toChat} animate={animate}>Ask about the wharf today →</MagneticButton>
+            <div style={{ marginTop: 14, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+              <MagneticButton onClick={toChat} animate={animate}>Ask what&rsquo;s on today →</MagneticButton>
+              <Link href="/customers/moana/ops/jack" style={{ fontSize: 13, color: CORAL, textDecoration: 'none', fontWeight: 600 }}>
+                open Jack&rsquo;s spots →
+              </Link>
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, flex: '1 1 260px' }}>
             {[
-              { k: 'Best window', v: '2 hrs ± high', s: 'high ~1:12pm' },
-              { k: 'Likely biting', v: 'parore · spotties', s: 'kahawai on the run-out' },
-              { k: 'Kid rig', v: 'light rod · size 4–6', s: 'mussel / bread for parore' },
-              { k: 'Safety', v: 'lifejacket near the edge', s: 'estuary drains quick' },
+              { k: 'Mangawhai', v: 'wharf · beach · heads', s: 'soft baits, kahawai run-out' },
+              { k: 'Bay of Islands', v: 'Russell · Tapeka Pt', s: 'land-based kingi for the keen' },
+              { k: 'Auckland front', v: 'Okahu → Devonport', s: 'snapper on soft plastics' },
+              { k: 'Gear now', v: 'soft baits · sabikis', s: 'micro-jigs · stickbaits' },
             ].map((c) => (
               <div key={c.k} style={{ borderRadius: 14, border: `1px solid ${GOLD}44`, background: 'rgba(255,255,255,0.55)', padding: '10px 12px' }}>
                 <div style={{ ...eyebrow, fontSize: 9 }}>{c.k}</div>
