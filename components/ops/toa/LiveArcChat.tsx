@@ -17,11 +17,13 @@ import { ArcMark } from '@/components/ops/toa/ArcHeroBand';
 
 const ARC_AGENT = 'whakaae';
 
+// Openers the LIVE consenting agent answers brilliantly and with sources —
+// generic NZ building-consent expertise, not TOA project data it can't see.
 const OPENERS = [
-  'Where is 16A at before lodgement?',
-  'Draft the geotech chase for 16A',
-  'What PS3s are missing for Matai Street Hall?',
-  'Which Building Code clauses apply to a 380 mm level change?',
+  'Which Building Code clauses apply to a 380 mm level change on a sloped site?',
+  'What PS3s do I need before a Code Compliance Certificate?',
+  'Draft a chase email for an outstanding geotech PS1',
+  'When does a minor dwelling need resource consent, not just building consent?',
 ];
 
 function messageText(m: UIMessage): string {
@@ -92,8 +94,9 @@ export function LiveArcChat({ compact = false }: { compact?: boolean }) {
       >
         {messages.length === 0 ? (
           <div className="text-[12.5px] leading-relaxed text-[color:var(--brand-muted)]">
-            Mōrena, Nick. I&rsquo;m ARC — ask me about any project, consent or consultant. I
-            answer with sources, I draft rather than decide, and nothing sends without you.
+            Mōrena, Nick. I&rsquo;m ARC — ask me anything about building consents, the Building
+            Code, PS1–PS4 or the CCC path. I answer with my sources, I draft rather than decide,
+            and nothing sends without you.
           </div>
         ) : (
           messages.map((m) => {
@@ -148,7 +151,7 @@ export function LiveArcChat({ compact = false }: { compact?: boolean }) {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask ARC about a project, consent or consultant…"
+          placeholder="Ask ARC about a consent, the Building Code, PS1–PS4…"
           className="flex-1 rounded-xl px-3 py-2 text-[13px] outline-none"
           style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(0,0,0,0.08)', color: 'var(--brand-ink)' }}
         />
