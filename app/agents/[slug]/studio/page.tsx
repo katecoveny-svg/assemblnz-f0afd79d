@@ -164,15 +164,15 @@ export default async function AgentStudioPage({ params }: { params: Promise<{ sl
             goes live. Every output stays a draft until a person you name approves it.
           </p>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'minmax(230px, 280px) minmax(360px, 1fr) minmax(250px, 320px)',
-              gap: 18,
-              marginTop: 34,
-              alignItems: 'start',
-            }}
-          >
+          {/* three panes ≥1100px, single column below (server component — plain
+              style tag rather than styled-jsx) */}
+          <style>{`
+            .studio-grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 34px; align-items: start; }
+            @media (min-width: 1100px) {
+              .studio-grid { grid-template-columns: minmax(230px, 280px) minmax(360px, 1fr) minmax(250px, 320px); }
+            }
+          `}</style>
+          <div className="studio-grid">
             {/* ── left · profile + setup rail ─────────────────────── */}
             <aside style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div style={panel}>
