@@ -14,8 +14,9 @@
 import 'server-only';
 import { getServiceClient } from '@/lib/supabase/service';
 import { writeActionReceipt } from '@/lib/agents/receipts';
+import { runConnectorAction, pipedreamConfigured } from '@/lib/connectors/pipedream';
 
-export type ActionKind = 'email_draft' | 'webhook';
+export type ActionKind = 'email_draft' | 'webhook' | 'connector_action';
 export type ActionStatus = 'pending' | 'approved' | 'dispatched' | 'rejected' | 'failed';
 
 export type EmailDraftPayload = {
@@ -31,12 +32,22 @@ export type WebhookPayload = {
   reason: string;
 };
 
+/** A business action to run against the customer's OWN connected account. */
+export type ConnectorActionPayload = {
+  action: 'create_lead' | 'add_sheet_row';
+  app: string; // e.g. 'google_sheets', 'hubspot'
+  /** connected-account owner — convention `tenant:<slug>`, set at connect time */
+  externalUserId: string;
+  data: Record<string, unknown>;
+  reason: string;
+};
+
 export type ActionRequestRow = {
   id: string;
   agent_slug: string;
   requested_by: string;
   kind: ActionKind;
-  payload: EmailDraftPayload | WebhookPayload;
+  payload: EmailDraftPayload | WebhookPayload | ConnectorActionPayload;
   status: ActionStatus;
   reviewer: string | null;
   review_note: string | null;
@@ -53,7 +64,7 @@ export async function createActionRequest(input: {
   agentSlug: string;
   requestedBy: string;
   kind: ActionKind;
-  payload: EmailDraftPayload | WebhookPayload;
+  payload: EmailDraftPayload | WebhookPayload | ConnectorActionPayload;
 }): Promise<{ id: string } | null> {
   try {
     const sb = getServiceClient();
@@ -167,7 +178,20 @@ async function dispatchAction(row: ActionRequestRow, reviewer: string): Promise<
   let ok = false;
 
   try {
-    if (row.kind === 'webhook') {
+    if (row.kind === 'connector_action') {
+      const p = row.payload as ConnectorActionPayload;
+      if (!pipedreamConfigured()) {
+        throw new Error('connector layer not configured (PIPEDREAM_* env missing) — see docs/PIPEDREAM-CONNECT-SETUP.md');
+      }
+      const run = await runConnectorAction({
+        externalUserId: p.externalUserId,
+        action: p.action,
+        app: p.app,
+        data: p.data,
+      });
+      ok = run.ok;
+      result = run.detail;
+    } else if (row.kind === 'webhook') {
       const p = row.payload as WebhookPayload;
       const url = new URL(p.url);
       // https only, and never into private/loopback space.

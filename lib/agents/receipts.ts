@@ -23,7 +23,7 @@ export type ChatReceipt = {
 
 export type ActionReceipt = {
   agent: string;
-  action: 'email_draft' | 'webhook';
+  action: 'email_draft' | 'webhook' | 'connector_action';
   requestId: string;
   stage: 'requested' | 'approved' | 'rejected' | 'dispatched' | 'failed';
   reviewer: string | null;
