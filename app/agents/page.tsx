@@ -5,8 +5,10 @@ import { BundleCard, KpiTrio, MicroLabel } from '@assembl/canvas';
 import { LandscapeBackdrop } from '@/components/v2/HeroArt';
 import { MottoStrip, V2Nav } from '@/components/v2/V2Chrome';
 import { getLiveAgentCounts } from '@/lib/v2/live-counts';
-import { orderedBundles } from '@/lib/marketplace/bundles';
-import { PUBLIC_MARKETPLACE_AGENTS } from '@/lib/marketplace/agents';
+import { orderedBundles, bundleBySlug } from '@/lib/marketplace/bundles';
+import { PUBLIC_MARKETPLACE_AGENTS, CATEGORY_LABELS } from '@/lib/marketplace/agents';
+import { capabilityProfileFor, CAPABILITY_BADGES } from '@/lib/marketplace/agent-capabilities';
+import { AgentPickAndMix, type AgentCard } from '@/components/marketplace/AgentPickAndMix';
 import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 import styles from '@/components/v2/v2.module.css';
 
@@ -41,6 +43,37 @@ export default async function AgentsMarketplacePage() {
   const bundles = orderedBundles();
   const liveAgents = PUBLIC_MARKETPLACE_AGENTS.filter((a) => a.status === 'live');
   const freeTools = HAPAI_TOOLS.filter((t) => t.brand === 'dash' && t.status === 'live');
+
+  // Pick-and-mix card model — capability layer merged over the registry,
+  // serialized for the client grid (system prompts never leave the server).
+  const agentCards: AgentCard[] = liveAgents.map((a) => {
+    const profile = capabilityProfileFor(a);
+    const knowledgeBacked =
+      profile.knowledge.includes('tier_a_sources') || profile.knowledge.includes('supabase_knowledge');
+    const connectorReady = profile.tools.includes('connector_ready');
+    const miniApp = profile.channels.includes('pwa_mini_app');
+    const badges = [
+      ...(profile.voiceReady ? [CAPABILITY_BADGES.voice] : []),
+      ...(knowledgeBacked ? [CAPABILITY_BADGES.knowledge] : []),
+      ...(connectorReady ? [CAPABILITY_BADGES.connector] : []),
+      ...(miniApp ? [CAPABILITY_BADGES.miniApp] : []),
+      CAPABILITY_BADGES.humanReview,
+    ];
+    const oneLiner = a.description.length > 96 ? `${a.description.slice(0, 93).trimEnd()}…` : a.description;
+    return {
+      slug: a.slug,
+      name: a.name,
+      oneLiner,
+      collection: a.bundle ? (bundleBySlug(a.bundle)?.name ?? a.bundle) : CATEGORY_LABELS[a.category],
+      badges,
+      voiceReady: profile.voiceReady,
+      connectorReady,
+      knowledgeBacked,
+      miniApp,
+      pilotReady: profile.pilotReady,
+      tier: profile.recommendedTier,
+    };
+  });
 
   const body: React.CSSProperties = {
     fontFamily: typography.body.fontFamily,
@@ -167,28 +200,14 @@ export default async function AgentsMarketplacePage() {
               })}
             </div>
 
-            {/* all live agents — quiet index, the real roster */}
+            {/* all live agents — pick and mix by capability */}
             <div className="rise" style={{ marginTop: 64 }}>
-              <MicroLabel as="h2">all live agents</MicroLabel>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
-                {liveAgents.map((a) => (
-                  <Link
-                    key={a.slug}
-                    href={`/agents/${a.slug}`}
-                    style={{
-                      ...body,
-                      fontSize: 12.5,
-                      textDecoration: 'none',
-                      textTransform: 'lowercase',
-                      padding: '6px 12px',
-                      borderRadius: 999,
-                      border: `1px solid ${palette.hairline}`,
-                      background: 'rgba(255,255,255,0.85)',
-                    }}
-                  >
-                    {a.name}
-                  </Link>
-                ))}
+              <MicroLabel as="h2">pick and mix — all live agents</MicroLabel>
+              <p style={{ ...body, marginTop: 10, maxWidth: 460 }}>
+                Filter by what an agent can do. Every one drafts; a person you name approves.
+              </p>
+              <div style={{ marginTop: 18 }}>
+                <AgentPickAndMix agents={agentCards} />
               </div>
             </div>
 
