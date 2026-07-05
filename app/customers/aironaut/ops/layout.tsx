@@ -56,7 +56,8 @@ export default function AironautOpsLayout({ children }: { children: ReactNode })
         className="relative min-h-screen"
         style={{ backgroundColor: ASSEMBL_PAPER, color: ASSEMBL_INK }}
       >
-        {/* Layer 2 — customer wallpaper: ink line pattern, ~4%, never colour-filled. */}
+        {/* Layer 2 — customer wallpaper: ink line pattern, ~8% (Kate asked for
+            slightly more visible, 2026-07-05 — cap stays 10%), never colour-filled. */}
         <div
           aria-hidden
           className="pointer-events-none fixed inset-0"
@@ -64,7 +65,7 @@ export default function AironautOpsLayout({ children }: { children: ReactNode })
             backgroundImage: 'url(/brand/aironaut/pattern-freight-icons-v2.png)',
             backgroundRepeat: 'repeat',
             backgroundSize: '420px auto',
-            opacity: 0.06,
+            opacity: 0.08,
           }}
         />
 
