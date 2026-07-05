@@ -44,7 +44,7 @@ export function SectionHead({
         {eyebrow}
       </p>
       <h1
-        className="mt-1 text-2xl font-semibold leading-tight text-[color:var(--brand-surface)]"
+        className="mt-1 text-2xl font-semibold leading-tight text-[color:var(--brand-ink)]"
         style={{ fontFamily: 'var(--font-brand-display)' }}
       >
         {title}
@@ -77,11 +77,11 @@ export function SourceLink({
       href={href}
       target="_blank"
       rel="noreferrer noopener"
-      className="flex flex-col rounded-xl border border-[#1E7A8C]/40 px-4 py-3 transition hover:border-[#1E7A8C]/70"
+      className="flex flex-col rounded-xl border border-[#2E7D74]/40 px-4 py-3 transition hover:border-[#2E7D74]/70"
       style={{ background: 'rgba(30,122,140,0.08)' }}
     >
-      <span className="text-[13px] font-medium text-[color:var(--brand-surface)]">
-        {label} <span className="text-[#1E7A8C]">↗ check the live source</span>
+      <span className="text-[13px] font-medium text-[color:var(--brand-ink)]">
+        {label} <span className="text-[#2E7D74]">↗ check the live source</span>
       </span>
       {note ? (
         <span className="mt-0.5 text-[11.5px] leading-relaxed text-[color:var(--brand-muted)]">

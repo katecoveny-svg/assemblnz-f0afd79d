@@ -23,24 +23,24 @@ export const moanaConfig: BrandConfig = parseBrandConfig({
     // No brand mark for a concept pilot — the header renders the initial in an
     // accent chip (OpsShell handles the non-image case). Kept as a tiny inline
     // data-URI so nothing 404s and no asset needs committing.
-    src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" fill="%230A2A43"/><path d="M4 26c4 0 4-4 8-4s4 4 8 4 4-4 8-4 4 4 8 4" stroke="%231E7A8C" stroke-width="2.5" fill="none"/><path d="M4 32c4 0 4-4 8-4s4 4 8 4 4-4 8-4 4 4 8 4" stroke="%236E93A6" stroke-width="2.5" fill="none"/></svg>',
-    alt: 'Moana — three swell lines mark',
+    src: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" fill="%23F5F1E8"/><path d="M4 26c4 0 4-4 8-4s4 4 8 4 4-4 8-4 4 4 8 4" stroke="%23BFA37A" stroke-width="2.5" fill="none"/><path d="M4 32c4 0 4-4 8-4s4 4 8 4 4-4 8-4 4 4 8 4" stroke="%23C97B63" stroke-width="2.5" fill="none"/></svg>',
+    alt: 'Moana — gold swell lines mark',
   },
-  // Moana palette:
-  //   Deep sea navy  #0A2A43 — primary surface / shell
-  //   Teal           #1E7A8C — secondary / accents / links
-  //   Foam / sand    #F2EFE6 — paper card interiors
-  //   Charcoal ink   #1B2A32 — body text
-  //   Muted steel    #6E93A6 — subheads / muted
-  //   Safety orange  #E1622F — accent (primary CTA + live dot ONLY)
-  //   Champagne      #BFA37A — assembl crossover accent
+  // Moana palette — LUMINOUS NZ MARINE (2026-07, "glass + gold + pāua"):
+  //   Warm pearl     #F5F1E8 — light shell / primary surface
+  //   White glass    #FFFFFF — card interiors (translucent)
+  //   Warm ink       #2A2620 — body text
+  //   Warm grey      #8A8272 — subheads / muted
+  //   Snapper coral  #C97B63 — accent (primary CTA + live dot)
+  //   Champagne gold #BFA37A — dominant accent (filigree, hairlines, sparkle)
+  //   component marine tones: pāua teal #2E7D74, pāua blue #3A6B8C, kelp #9A7B3A
   colours: {
-    bg: '#0A2A43', // Deep sea navy — primary surface
-    surface: '#F2EFE6', // Foam / sand — paper card interior
-    ink: '#1B2A32', // Charcoal ink — body
-    muted: '#6E93A6', // Muted steel — subhead / muted
-    accent: '#E1622F', // Safety orange — CTA + live dot only
-    canary: '#BFA37A', // assembl crossover accent (champagne)
+    bg: '#F5F1E8', // Warm pearl — light shell
+    surface: '#FFFFFF', // White glass — card interior
+    ink: '#2A2620', // Warm ink — body
+    muted: '#8A8272', // Warm grey — subhead / muted
+    accent: '#C97B63', // Snapper coral — CTA + live dot
+    canary: '#BFA37A', // Champagne gold — dominant accent
   },
   fonts: {
     display: 'Poppins',
@@ -66,6 +66,8 @@ export const moanaConfig: BrandConfig = parseBrandConfig({
   // Nav hrefs are path segments under /customers/moana/ops/ (schema requires
   // non-empty). The Overview link (bare base) is rendered by the layout.
   nav: [
+    { label: "Jack's wharf", href: 'jack' },
+    { label: 'Kids lessons', href: 'lessons' },
     { label: 'Forecast', href: 'forecast' },
     { label: 'Tides', href: 'tides' },
     { label: 'Catch log', href: 'catch-log' },
