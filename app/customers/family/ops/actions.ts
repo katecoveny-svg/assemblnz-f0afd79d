@@ -14,7 +14,7 @@ import { SAMPLE_NEWSLETTER } from '@/lib/family/sample';
  */
 
 const HUB = 'demo';
-const OWNER_EMAIL = 'assembl@assembl.co.nz'; // Kate's loaded address — draft target for testing
+const OWNER_EMAIL = 'kateharland@outlook.co.nz'; // Kate's personal inbox — the family digest is personal (assembl@assembl.co.nz is the work address)
 
 export async function parseNewsletterAction(formData: FormData) {
   const text = String(formData.get('newsletter') ?? '').trim() || SAMPLE_NEWSLETTER;
