@@ -25,6 +25,7 @@ const NAV: Array<[string, string]> = [
   ['Rides', '#rides'],
   ['Kitchen', '#kitchen'],
   ['Packing', '#packing'],
+  ['Kids’ quest', '#quest'],
   ['Kids’ money', '#money'],
   ['Homework', '#homework'],
   ['Boating', '#boating'],
