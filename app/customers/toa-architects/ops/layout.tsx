@@ -26,9 +26,16 @@ export default function ToaArchitectsOpsLayout({
   const config = getBrandConfig('toa-architects');
   if (!config) notFound();
 
+  // English-led architecture nav (Consents, Clients, Consultants, Fees, Site
+  // Visits, Documents). Without this, OpsShell falls back to the generic retail
+  // sidebar (CRM, Loyalty, Events…), which has nothing to do with a practice —
+  // keep the focus on the work ARC actually does.
+  const nav = config.nav?.map((n) => [n.label, n.href] as [string, string]);
+
   return (
     <OpsShell
       config={config}
+      nav={nav}
       rightRail={
         <>
           <LiveArcChat compact />
