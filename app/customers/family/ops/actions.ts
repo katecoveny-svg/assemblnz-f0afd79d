@@ -83,3 +83,50 @@ export async function emailDigestAction() {
   });
   revalidatePath('/customers/family/ops');
 }
+
+/**
+ * "Queue" a grocery basket for pickup or Uber Direct delivery — DRAFT ONLY.
+ * Files a pending request in the approval queue; nothing is bought, paid or
+ * dispatched (ACTION_DISPATCH_ENABLED stays off, and there's no real Woolworths
+ * ordering integration — see the integration brief). The Uber Direct leg is the
+ * only part that could go live today.
+ */
+export async function draftGroceryOrderAction(formData: FormData) {
+  const mode = formData.get('mode') === 'delivery' ? 'delivery' : 'pickup';
+  const how = mode === 'delivery'
+    ? 'Uber Direct delivery — courier collects from Countdown Mangawhai and drops to the door'
+    : 'Click & Collect pickup at Woolworths Mangawhai';
+  await createActionRequest({
+    agentSlug: 'family-os',
+    requestedBy: `family:${HUB}`,
+    kind: 'email_draft',
+    payload: {
+      to: OWNER_EMAIL,
+      subject: `Grocery basket queued (${mode}) — please review`,
+      body: `Kia ora — your Family OS has a grocery basket ready to ${mode}.\n\nHow: ${how}.\nBasket: your usual + tonight's missing items (~$96 before Everyday Rewards).\n\nThis is a DRAFT. Nothing is bought, paid or sent. Approve it and I'll hand the list off; the checkout stays with you.`,
+      reason: `Grocery basket queued for ${mode} (draft-only — no order placed).`,
+    },
+  });
+  revalidatePath('/customers/family/ops');
+}
+
+/**
+ * Release the kids' weekly allowance (Tōro) — DRAFT ONLY. Files a pending
+ * approval; no real money moves. Dispatch is off and there is no payments
+ * integration wired — this records the parent's intent for review.
+ */
+export async function draftAllowanceAction(formData: FormData) {
+  const amount = String(formData.get('amount') ?? '').trim() || '17.00';
+  await createActionRequest({
+    agentSlug: 'toro',
+    requestedBy: `family:${HUB}`,
+    kind: 'email_draft',
+    payload: {
+      to: OWNER_EMAIL,
+      subject: `Weekly allowance ready to release — $${amount}`,
+      body: `Tōro has this week's allowance ready: $${amount} across Mila and Jack, for the chores marked done.\n\nThis is a DRAFT for your approval. No money moves on its own — releasing records your yes; the transfer stays with you.`,
+      reason: `Weekly allowance payout drafted ($${amount}) — draft-only, no funds moved.`,
+    },
+  });
+  revalidatePath('/customers/family/ops');
+}
