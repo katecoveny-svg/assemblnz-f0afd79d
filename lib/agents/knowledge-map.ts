@@ -58,6 +58,16 @@ const AGENT_ANCHORS: Record<string, KnowledgeAnchor[]> = {
   roster: [{ source: 'MBIE wage rates + Holidays Act guidance', tier: 'A' }, PCO],
   aroha: [{ source: 'MBIE employment guidance + Holidays Act 2003', tier: 'A' }, PCO],
   'ako-licence': [PCO, { source: 'MoE licensing criteria (Te Whāriki)', tier: 'B' }],
+  // PACK cites dog-training authorities, not NZ legislation: books + professional
+  // bodies are Tier A, trainer channels Tier B, practitioner consensus Tier C.
+  pack: [
+    { source: 'Mark Vette — Dog Zen / Puppy Zen (Penguin NZ)', tier: 'A' },
+    { source: 'Sophia Yin — Low Stress Handling; McDevitt — Control Unleashed (LAT); Stewart — BAT 2.0', tier: 'A' },
+    { source: 'IAABC / CCPDT professional guidance', tier: 'A' },
+    { source: 'Will Atherton Canine Training; Susan Garrett (practitioner channels)', tier: 'B' },
+    { source: 'Cesar Millan — Cesar’s Way (contested)', tier: 'A' },
+    { source: 'Practitioner consensus & synthesis', tier: 'C' },
+  ],
 };
 
 /** Bundle membership for anchor defaults (mirrors the staging registry; code
@@ -70,7 +80,7 @@ const BUNDLE_BY_SLUG: Record<string, string> = {
   keeper: 'kaitiaki', 'vet-small-animal': 'kaitiaki', 'vet-large-animal': 'kaitiaki', 'vet-equine': 'kaitiaki',
   'vet-exotic': 'kaitiaki', 'spca-workflow': 'kaitiaki', 'rescue-coordination': 'kaitiaki', 'doggy-daycare': 'kaitiaki',
   'kakapo-recovery': 'kaitiaki', 'kiwi-conservation': 'kaitiaki', 'wildbase-recovery': 'kaitiaki', 'zoo-vet': 'kaitiaki',
-  'species-recovery': 'kaitiaki',
+  'species-recovery': 'kaitiaki', pack: 'kaitiaki',
   awhi: 'hearth', 'catch-log': 'hearth', dawn: 'hearth', 'fridge-to-list': 'hearth', 'panui-parser': 'hearth',
   'school-notice': 'hearth', switch: 'hearth', 'tide-weather': 'hearth', toro: 'hearth', voyage: 'hearth',
 };

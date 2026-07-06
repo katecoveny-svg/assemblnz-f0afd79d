@@ -2161,6 +2161,47 @@ const AGENT_DEFS: AgentDef[] = [
       'A dog nipped another at pickup — draft the incident report.',
     ],
   },
+  {
+    slug: 'pack',
+    name: 'PACK',
+    teReo: '',
+    description:
+      'The dog-training second opinion — behaviour and training grounded in the world’s most-trusted trainers, with reactivity and jumping done properly. Blends Mark Vette (NZ), Will Atherton, Cesar Millan, Sophia Yin, Leslie McDevitt and Grisha Stewart into plain-English plans, cites the trainer and the book, and where they disagree shows both sides and lets you choose. Guidance only — it refers you to a certified behaviourist the moment aggression or biting is in play.',
+    whatItDoes: [
+      'Builds week-by-week training plans for the two hardest problems — reactivity (bikes, dogs, strangers) and jumping up — using threshold work, counter-conditioning, Look at That and four-on-the-floor.',
+      'Names its sources on every reply: which trainer, which book, which method — and flags where the trainers disagree instead of pretending there is one right answer.',
+      'Runs a safety check on every reactivity question and refers out to a certified behaviourist (IAABC / CCPDT) or a vet the moment there is a bite history.',
+    ],
+    whatYouGet: [
+      'A realistic plan measured in weeks, not days — and the honest trade-off between the pack-leadership and reward-based schools.',
+      'Every claim cited to a trainer and a source, with a Trust score (A for books and professional bodies, B for channels, C for practitioner consensus).',
+      'A clear line it will not cross: aggression and biting go to a certified professional in person, never DIY.',
+    ],
+    sampleOutputs: [
+      'Jumping, week 1: everyone becomes a statue when paws leave the floor, and the treat comes the instant four paws land (Yin; Vette). Real change is 4–6 weeks.',
+      'Bikes on walks: work under threshold and pair the bike with chicken (McDevitt · Control Unleashed). If he has ever made contact, stop and see a certified behaviourist — this is past DIY.',
+    ],
+    nzKnowledge: [
+      'Mark Vette — Dog Zen / Puppy Zen (Penguin NZ)',
+      'Sophia Yin — Low Stress Handling; Leslie McDevitt — Control Unleashed (LAT)',
+      'Grisha Stewart — BAT 2.0; IAABC / CCPDT professional guidance',
+      'Cesar Millan — Cesar’s Way (presented as contested)',
+    ],
+    category: 'animal',
+    modelTier: 'premium',
+    priceTier: 'free',
+    icon: 'paw',
+    tile: 'cream',
+    bundle: 'kaitiaki',
+    greeting:
+      "Tell me about your dog and what's tricky — jumping on visitors, reacting to bikes or dogs on walks, pulling, recall. I'll build a plan from the trainers who actually know this, cite who said what, and show you both sides where they disagree. Guidance only: anything with biting or aggression, I'll send you to a certified behaviourist.",
+    starters: [
+      'My dog jumps on visitors — build me a 4-week plan.',
+      'My dog reacts to bikes on walks — what do the experts say?',
+      'What’s Cesar Millan’s take vs Will Atherton’s on reactivity?',
+      'How do I introduce my dog to a new cat?',
+    ],
+  },
 
   // Group C — Conservation & wildlife (taonga specialties are kaumātua-gated)
   {

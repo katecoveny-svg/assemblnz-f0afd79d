@@ -15,6 +15,7 @@ import { FamilyInbox } from '@/components/ops/family/FamilyInbox';
 import { FamilyProfiles } from '@/components/ops/family/FamilyProfiles';
 import { FamilyPacking } from '@/components/ops/family/FamilyPacking';
 import { FamilyMoanaChat } from '@/components/ops/family/FamilyMoanaChat';
+import { FamilyPackChat } from '@/components/ops/family/FamilyPackChat';
 import { FamilyHomeworkChat } from '@/components/ops/family/FamilyHomeworkChat';
 import { FamilyQuest } from '@/components/ops/family/FamilyQuest';
 import { familyOpsVisuals } from './visuals/manifest';
@@ -274,6 +275,29 @@ export default async function FamilyOsHome() {
       {/* ── Kids' money · Tōro (chores → allowance → savings) ─────────── */}
       <Section id="money" title="Kids’ money · Tōro" accent={CORAL} empty={false}>
         <FamilyMoney readOnly={viewer?.isKid} />
+      </Section>
+
+      {/* ── Franklin — dog training · PACK ───────────────────────────── */}
+      <Section id="dog" title="Franklin · dog training · PACK" accent={GOLD} empty={false}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 14, alignItems: 'start' }}>
+          <FamilyPackChat />
+          <div style={{ ...glass, padding: 16 }}>
+            <p style={{ ...eyebrow, color: GOLD }}>what PACK is for</p>
+            <p style={{ fontSize: 13, color: INK, lineHeight: 1.6, marginTop: 8 }}>
+              A calm, cited second opinion that blends the world’s most-trusted trainers —
+              <strong> Mark Vette</strong> (NZ), Will Atherton, Sophia Yin, Cesar Millan and more.
+              Built for the two hard ones: <strong>reactivity</strong> and <strong>jumping</strong>.
+            </p>
+            <ul style={{ margin: '10px 0 0', paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 5 }}>
+              <li style={{ fontSize: 12.5, color: MUTED }}>Week-by-week plans, measured in weeks not days.</li>
+              <li style={{ fontSize: 12.5, color: MUTED }}>Cites the trainer + book; shows both sides where they disagree.</li>
+              <li style={{ fontSize: 12.5, color: MUTED }}>Guidance only — refers you to a certified behaviourist for any biting or aggression.</li>
+            </ul>
+            <p style={{ fontSize: 11, color: MUTED, marginTop: 12 }}>
+              Draft-only · nothing books a vet, orders gear or messages a trainer.
+            </p>
+          </div>
+        </div>
       </Section>
 
       {/* ── Boating — Moana, the mariner ─────────────────────────────── */}
