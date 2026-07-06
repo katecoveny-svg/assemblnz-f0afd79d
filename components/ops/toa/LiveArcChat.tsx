@@ -15,15 +15,19 @@ import { ArcMark } from '@/components/ops/toa/ArcHeroBand';
  * trust footer; nothing sends. Glass-and-champagne per DIRECTION-LOCKED.
  */
 
-const ARC_AGENT = 'whakaae';
+// ARC streams from the TOA-tuned endpoint (server-side prompt knows 16A's real
+// facts: Remuera, AUP Zone H4, the 380 mm level change, the stormwater line) so
+// the 16A chip is a real drafting moment, not generic guidance. Same live model
+// ladder as the marketplace agents; draft-only; every reply cites a trust grade.
+const ARC_ENDPOINT = '/api/customers/toa-architects/arc/chat';
 
-// Openers the LIVE consenting agent answers brilliantly and with sources —
-// generic NZ building-consent expertise, not TOA project data it can't see.
+// The brief's five chips — the 16A memo is the killer moment.
 const OPENERS = [
-  'Which Building Code clauses apply to a 380 mm level change on a sloped site?',
-  'What PS3s do I need before a Code Compliance Certificate?',
-  'Draft a chase email for an outstanding geotech PS1',
-  'When does a minor dwelling need resource consent, not just building consent?',
+  'draft a consent memo for a rear extension at 16A Hubert Henderson',
+  'check this design against Te Aranga principles',
+  'summarise Auckland Unitary Plan Zone MHU rules for a 3-storey infill',
+  "turn today's site meeting notes into an RFI list",
+  'find recently consented terraces in Kingsland',
 ];
 
 function messageText(m: UIMessage): string {
@@ -35,7 +39,7 @@ function messageText(m: UIMessage): string {
 
 export function LiveArcChat({ compact = false }: { compact?: boolean }) {
   const transport = useMemo(
-    () => new DefaultChatTransport({ api: `/api/agents/${ARC_AGENT}/chat` }),
+    () => new DefaultChatTransport({ api: ARC_ENDPOINT }),
     [],
   );
   const { messages, sendMessage, status } = useChat({ transport });
@@ -94,9 +98,9 @@ export function LiveArcChat({ compact = false }: { compact?: boolean }) {
       >
         {messages.length === 0 ? (
           <div className="text-[12.5px] leading-relaxed text-[color:var(--brand-muted)]">
-            Mōrena, Nick. I&rsquo;m ARC — ask me anything about building consents, the Building
-            Code, PS1–PS4 or the CCC path. I answer with my sources, I draft rather than decide,
-            and nothing sends without you.
+            Nick — ask me about 16A, a consent, the Building Code, PS1&ndash;PS4 or the CCC path.
+            I answer with my sources, I draft rather than decide, and every reply ends with a
+            trust grade. Nothing sends without you.
           </div>
         ) : (
           messages.map((m) => {
