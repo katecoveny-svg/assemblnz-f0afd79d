@@ -7,6 +7,7 @@ import { aironautConfig } from '@/lib/brand/configs/aironaut';
 import { lulaInnConfig } from '@/lib/brand/configs/lula-inn';
 import { toaArchitectsConfig } from '@/lib/brand/configs/toa-architects';
 import { moanaConfig } from '@/lib/brand/configs/moana';
+import { familyConfig } from '@/lib/brand/configs/family';
 
 export const brandConfigs: Record<string, BrandConfig> = {
   'happy-tails': happyTailsConfig,
@@ -17,6 +18,7 @@ export const brandConfigs: Record<string, BrandConfig> = {
   'lula-inn': lulaInnConfig,
   'toa-architects': toaArchitectsConfig,
   moana: moanaConfig,
+  family: familyConfig,
 };
 
 export const brandSlugs = Object.keys(brandConfigs) as Array<

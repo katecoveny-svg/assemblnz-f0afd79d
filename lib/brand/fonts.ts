@@ -147,6 +147,8 @@ export function getBrandFonts(slug: string): BrandFonts {
       return { display: montserrat, body: publicSans, mono: jetbrainsMono };
     case 'moana':
       return { display: poppins, body: lato, mono: jetbrainsMono };
+    case 'family':
+      return { display: playfair, body: lato, mono: jetbrainsMono };
     default:
       return { display: inter, body: inter, mono: jetbrainsMono };
   }
