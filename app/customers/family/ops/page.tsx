@@ -4,17 +4,10 @@ import { getBrandConfig } from '@/lib/brand/configs';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
 import { listFamily, group } from '@/lib/family/store';
 import type { FamilyItem } from '@/lib/family/types';
-import { SAMPLE_NEWSLETTER } from '@/lib/family/sample';
 import { googleCalendarLink, mapsDirections, uberDeepLink, woolworthsSearch } from '@/lib/family/connectors';
-import {
-  parseNewsletterAction,
-  loadSampleAction,
-  approveAction,
-  dismissAction,
-  assignPickupAction,
-  clearAllProposedAction,
-  emailDigestAction,
-} from './actions';
+import { FamilyHeroPanel } from '@/components/ops/family/FamilyHeroPanel';
+import { FamilyChat } from '@/components/ops/family/FamilyChat';
+import { approveAction, dismissAction, assignPickupAction, emailDigestAction } from './actions';
 
 export const dynamic = 'force-dynamic';
 
@@ -86,65 +79,43 @@ export default async function FamilyOsHome() {
     <div style={{ ...body, display: 'flex', flexDirection: 'column', gap: 18 }}>
       <DemoRibbon />
 
-      {/* ── Hero: forward the newsletter ─────────────────────────────── */}
-      <div style={{ ...glass, padding: 'clamp(22px,3vw,34px)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: -40, right: -30, width: 220, height: 220, borderRadius: '50%', background: `radial-gradient(circle, ${CORAL}22, transparent 70%)` }} />
-        <p style={{ ...eyebrow, color: CORAL }}>family os · concept</p>
-        <h1 style={{ fontFamily: display, fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 600, margin: '8px 0 0', lineHeight: 1.05 }}>
-          Life admin, handled<span style={{ color: CORAL }}>.</span>
-        </h1>
-        <p style={{ fontSize: 14.5, lineHeight: 1.6, color: '#5b5548', margin: '12px 0 0', maxWidth: 560 }}>
-          Forward your school newsletter and I&rsquo;ll turn it into the family&rsquo;s week — events, pickups,
-          what to buy, what to sign, what to pay. I <strong>draft and suggest</strong>; you approve. Nothing gets
-          booked, paid or sent without you.
-        </p>
+      {/* ── Hero (real WebGL) + newsletter parse ─────────────────────── */}
+      <FamilyHeroPanel parsed={parsed} />
 
-        <form action={parseNewsletterAction} style={{ marginTop: 18 }}>
-          <textarea
-            name="newsletter"
-            defaultValue={parsed ? '' : SAMPLE_NEWSLETTER}
-            placeholder="Paste or forward a school newsletter…"
-            rows={5}
-            style={{ width: '100%', boxSizing: 'border-box', borderRadius: 14, border: `1px solid ${GOLD}55`, background: '#fffdf9', padding: '12px 14px', fontSize: 13, lineHeight: 1.5, color: INK, resize: 'vertical', fontFamily: 'var(--font-brand-body)' }}
-          />
-          <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap', alignItems: 'center' }}>
-            <button type="submit" style={{ ...btn(CORAL), fontSize: 14, padding: '11px 22px' }}>
-              ✨ Turn this into our week
-            </button>
-            <FormButton action={loadSampleAction} label="Use the sample newsletter" tone={GOLD} />
-            {parsed ? <FormButton action={clearAllProposedAction} label="Clear" tone={MUTED} outline /> : null}
-            <span style={{ ...body, fontSize: 11.5, color: MUTED }}>real agent · claude reads it · draft-only</span>
-          </div>
-        </form>
-      </div>
-
-      {/* ── Approval queue — the trust centre ────────────────────────── */}
-      {proposedCount > 0 ? (
-        <div id="approvals" style={{ ...glass, border: `1.5px solid ${CORAL}`, padding: 22, scrollMarginTop: 80 }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
-            <div>
-              <p style={{ ...eyebrow, color: CORAL }}>waiting for you · {proposedCount}</p>
-              <h2 style={{ fontFamily: display, fontSize: 22, fontWeight: 600, margin: '4px 0 0' }}>Here&rsquo;s what I found. Approve the bits you want.</h2>
-            </div>
-            <FormButton action={emailDigestAction} label="✉︎ Email me the week (draft)" tone={BLUE} outline />
-          </div>
-          {g.approvals.filter((a) => a.status === 'proposed').length > 0 ? (
-            <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px,1fr))', gap: 12 }}>
+      {/* ── Live family assistant + approval queue, side by side ─────── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1.05fr) minmax(280px, 0.95fr)', gap: 16, alignItems: 'start' }}>
+        <div>
+          <p style={{ ...eyebrow, color: CORAL, marginBottom: 8 }}>or just ask</p>
+          <FamilyChat />
+        </div>
+        <div id="approvals" style={{ scrollMarginTop: 80 }}>
+          <p style={{ ...eyebrow, color: CORAL, marginBottom: 8 }}>waiting for you {proposedCount > 0 ? `· ${proposedCount}` : ''}</p>
+          {proposedCount > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <form action={emailDigestAction}>
+                <button type="submit" style={{ ...linkPill(BLUE), cursor: 'pointer', padding: '8px 14px' }}>✉︎ Email me the week (draft)</button>
+              </form>
               {g.approvals.filter((a) => a.status === 'proposed').map((a) => {
-                const k = (a.detail as { kind?: string; reason?: string });
+                const k = a.detail as { kind?: string; reason?: string };
                 return (
-                  <div key={a.id} style={{ ...glass, padding: 16 }}>
+                  <div key={a.id} style={{ ...glass, padding: 15 }}>
                     <span style={{ ...eyebrow, fontSize: 9.5, color: kindTone[k.kind ?? 'other'] }}>{k.kind ?? 'other'}</span>
-                    <div style={{ fontSize: 14.5, fontWeight: 600, marginTop: 5 }}>{a.title}</div>
-                    <div style={{ fontSize: 12.5, color: MUTED, marginTop: 4 }}>{k.reason}</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, marginTop: 4 }}>{a.title}</div>
+                    <div style={{ fontSize: 12, color: MUTED, marginTop: 3 }}>{k.reason}</div>
                     <ApproveDismiss id={a.id} />
                   </div>
                 );
               })}
             </div>
-          ) : null}
+          ) : (
+            <div style={{ ...glass, padding: 18 }}>
+              <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6 }}>
+                Parse a newsletter (or ask me) and anything with <strong style={{ color: INK }}>money, transport, messaging or shopping</strong> lands here for you to approve. Nothing happens without your yes.
+              </p>
+            </div>
+          )}
         </div>
-      ) : null}
+      </div>
 
       {/* ── The grid: week / pickups / shopping / memory ─────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: 16, alignItems: 'start' }}>
@@ -251,15 +222,6 @@ export default async function FamilyOsHome() {
         Nothing books, pays or sends on its own. Real dates &amp; rules always your call.
       </p>
     </div>
-  );
-}
-
-/** A server-action-only button (for actions with no form fields). */
-function FormButton({ action, label, tone, outline }: { action: () => Promise<void>; label: string; tone: string; outline?: boolean }) {
-  return (
-    <form action={action}>
-      <button type="submit" style={outline ? btn(tone, false) : { ...linkPill(tone), cursor: 'pointer', padding: '8px 14px' }}>{label}</button>
-    </form>
   );
 }
 
