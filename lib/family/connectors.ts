@@ -53,10 +53,19 @@ export function uberEatsSearch(dish: string, address?: string): string {
 }
 
 /** Delivereasy NZ — a real NZ-owned on-demand courier (Auckland/Wgtn/Chch).
- *  They have no public consumer API, so this opens their site; the booking is
- *  done by hand until a partner integration lands. Kept honest in the UI. */
+ *  Their last-mile API exists but is partner-gated (contact-to-access, no
+ *  self-serve), so this opens their site; booking is by hand until the partner
+ *  deal lands. Kept honest in the UI. */
 export function delivereasyHome(): string {
   return 'https://www.delivereasy.co.nz/';
+}
+
+/** Uber Connect — Uber's send-a-parcel courier, live in Auckland. We open Uber
+ *  with the pickup + dropoff pre-filled; the adult chooses "Uber Connect" and
+ *  confirms the fare. We deliberately DON'T pin a product_id (it's account- and
+ *  region-specific and needs the OAuth Products API) — no invented IDs. */
+export function uberConnectSend(pickup: string, dropoff: string): string {
+  return uberDeepLink(dropoff, pickup);
 }
 
 /** Uber ride deep-link reused as a courier fallback — the adult adds the note

@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import { mapsDirections, uberDeepLink, delivereasyHome, uberCourierFallback } from '@/lib/family/connectors';
+import { mapsDirections, uberDeepLink, delivereasyHome, uberConnectSend } from '@/lib/family/connectors';
 import { draftDelivereasyIntakeAction } from '@/app/customers/family/ops/actions';
 
 /**
@@ -100,24 +100,36 @@ export function FamilyRides() {
         <div style={{ fontSize: 12.5, color: INK, fontWeight: 600 }}>Confirm-and-tap only</div>
         <p style={{ fontSize: 11.5, color: MUTED, lineHeight: 1.55, marginTop: 6 }}>
           I never book a ride for you. Tapping opens Uber with the trip pre-filled — you check the fare and confirm.
-          Estimates are indicative and rural coverage varies (no Uber courier in NZ yet). For a child riding solo, use <strong style={{ color: INK }}>Uber Teens</strong> on the family profile.
+          Estimates are indicative; Uber Connect (the parcel courier) covers Auckland &amp; metro, rural varies. For a child riding solo, use <strong style={{ color: INK }}>Uber Teens</strong> on the family profile.
         </p>
       </div>
 
-      {/* Gear drops — send a courier (Delivereasy) */}
+      {/* Gear drops — send a courier (two real options: Uber Connect + Delivereasy) */}
       <div style={{ ...card, gridColumn: '1 / -1' }}>
         <div style={{ fontSize: 13.5, fontWeight: 700, color: INK }}>Gear drops — send a courier</div>
         <p style={{ fontSize: 12, color: MUTED, marginTop: 4, lineHeight: 1.55 }}>
-          Forgotten togs, a kit left at home, a shared plate to school — describe it and hand it to <strong style={{ color: INK }}>Delivereasy</strong>, NZ’s on-demand courier. They have no public API yet, so it’s booked by hand for now — Assembl opens it pre-thought-out.
+          Forgotten togs, a kit left at home, a shared plate to school — describe it and send a courier. Two real options; you pick and confirm the fare in-app. Nothing is booked by us.
         </p>
-        <div style={{ display: 'flex', gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
-          <a href={delivereasyHome()} target="_blank" rel="noreferrer" style={pill(SAGE)}>Send with Delivereasy ↗</a>
-          <a href={uberCourierFallback('Mangawhai, Northland', 'Mangawhai Beach School')} target="_blank" rel="noreferrer" style={pill(MUTED)}>Uber ride fallback ↗</a>
-          <form action={draftDelivereasyIntakeAction}>
-            <button type="submit" style={{ ...pill(GOLD), cursor: 'pointer', background: `${GOLD}12` }}>Ask us to wire Delivereasy (draft)</button>
-          </form>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(230px,1fr))', gap: 10, marginTop: 10 }}>
+          <div style={{ border: `1px solid ${GOLD}33`, borderRadius: 10, padding: '10px 11px' }}>
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: INK }}>Uber Connect</div>
+            <div style={{ fontSize: 10.5, color: MUTED, margin: '3px 0 8px' }}>Uber’s send-a-parcel courier — <strong style={{ color: SAGE }}>live in Auckland &amp; metro</strong>, up to 20&nbsp;kg. Choose “Uber Connect” in the app.</div>
+            <a href={uberConnectSend('Mangawhai, Northland', 'Mangawhai Beach School')} target="_blank" rel="noreferrer" style={pill(CORAL)}>Send with Uber Connect ↗</a>
+          </div>
+          <div style={{ border: `1px solid ${GOLD}33`, borderRadius: 10, padding: '10px 11px' }}>
+            <div style={{ fontSize: 12.5, fontWeight: 700, color: INK }}>Delivereasy</div>
+            <div style={{ fontSize: 10.5, color: MUTED, margin: '3px 0 8px' }}>NZ-owned courier — Auckland / Wellington / Christchurch. Their API is <strong style={{ color: GOLD }}>partner-gated</strong>, so it’s booked by hand today.</div>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              <a href={delivereasyHome()} target="_blank" rel="noreferrer" style={pill(SAGE)}>Send with Delivereasy ↗</a>
+              <form action={draftDelivereasyIntakeAction}>
+                <button type="submit" style={{ ...pill(GOLD), cursor: 'pointer', background: `${GOLD}12` }}>Draft partner outreach</button>
+              </form>
+            </div>
+          </div>
         </div>
-        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 8 }}>Delivereasy is booked manually today. Full API integration comes with our partner deal.</div>
+        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 8 }}>
+          You tap and confirm the fare — we never dispatch. Rural coverage varies; where neither courier runs, it’s a manual drop. We’ve drafted a Delivereasy partner outreach — it’s waiting in your approvals.
+        </div>
       </div>
 
       <div style={{ gridColumn: '1 / -1', fontSize: 10.5, color: MUTED, borderTop: `1px solid ${GOLD}22`, paddingTop: 8 }}>
