@@ -125,14 +125,16 @@ function KidQuest({ kid }: { kid: Kid }) {
   );
 }
 
-export function FamilyQuest() {
+export function FamilyQuest({ only }: { only?: string } = {}) {
+  const filtered = only ? KIDS.filter((k) => k.name.toLowerCase() === only.toLowerCase()) : KIDS;
+  const kids = filtered.length ? filtered : KIDS;
   return (
     <div>
       <p style={{ fontSize: 11.5, color: MUTED, marginBottom: 10 }}>
         Tap what you’ve done — earn XP, fill the bar, level up and keep your streak. Points &amp; pride, not real money (that’s in Kids’ money, and a parent releases it).
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 14 }}>
-        {KIDS.map((k) => <KidQuest key={k.name} kid={k} />)}
+        {kids.map((k) => <KidQuest key={k.name} kid={k} />)}
       </div>
     </div>
   );

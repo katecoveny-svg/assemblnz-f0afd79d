@@ -61,7 +61,7 @@ export function FamilyKitchen() {
             <div style={label}>fuel offer ready</div>
           </div>
         </div>
-        <div style={{ fontSize: 11, color: MUTED, marginTop: 6 }}>Member •••• 4821 · Woolworths Mangawhai</div>
+        <div style={{ fontSize: 11, color: MUTED, marginTop: 6 }}>Member •••• 4821 · Woolworths St Heliers</div>
 
         <p style={{ ...label, marginTop: 14 }}>your family’s usual</p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
@@ -90,7 +90,7 @@ export function FamilyKitchen() {
         </div>
         <div style={{ fontSize: 11, color: MUTED, marginTop: 10 }}>Ask the assistant for “budget”, “no cook” or “use what’s in the fridge”.</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
-          <a href={uberEatsSearch('spaghetti bolognese', 'Mangawhai')} target="_blank" rel="noreferrer"
+          <a href={uberEatsSearch('spaghetti bolognese', 'Kohimarama')} target="_blank" rel="noreferrer"
             style={{ fontSize: 12, fontWeight: 600, color: '#fff', background: INK, textDecoration: 'none', borderRadius: 999, padding: '7px 13px' }}>Order it in via Uber Eats ↗</a>
           <span style={{ fontSize: 10.5, color: MUTED }}>Uber Eats opens where you finish. Assembl helps you decide.</span>
         </div>
@@ -112,7 +112,7 @@ export function FamilyKitchen() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8, flexWrap: 'wrap', fontSize: 11.5, color: INK }}>
             <span style={{ fontWeight: 600 }}>Your list</span>
             <span style={{ color: MUTED }}>→</span>
-            <span style={{ fontWeight: 600 }}>Uber courier collects from Countdown Mangawhai</span>
+            <span style={{ fontWeight: 600 }}>Uber courier collects from Countdown St Heliers</span>
             <span style={{ color: MUTED }}>→</span>
             <span style={{ fontWeight: 600, color: WOOLIES }}>delivered to the door</span>
           </div>

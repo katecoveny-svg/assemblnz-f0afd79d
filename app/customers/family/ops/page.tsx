@@ -103,7 +103,9 @@ export default async function FamilyOsHome() {
     }));
   const people: Person[] = [...(demoMode ? WHANAU_DEMO : WHANAU), ...added];
   const custody = custodyThisWeek();
-  const kids = people.filter((p) => p.kind === 'child' && p.year);
+  const allKids = people.filter((p) => p.kind === 'child' && p.year);
+  // A kid viewing their own magic link sees just their own quest + homework.
+  const kids = viewer?.isKid ? allKids.filter((k) => k.name.toLowerCase() === viewer.name.toLowerCase()) : allKids;
 
   const body: CSSProperties = { fontFamily: 'var(--font-brand-body)', color: INK };
 
@@ -268,7 +270,7 @@ export default async function FamilyOsHome() {
 
       {/* ── Kids' quest — the interactive game layer ─────────────────── */}
       <Section id="quest" title="Kids’ quest" accent={CORAL} empty={false}>
-        <FamilyQuest />
+        <FamilyQuest only={viewer?.isKid ? viewer.name : undefined} />
       </Section>
 
       {/* ── Kids' money · Tōro (chores → allowance → savings) ─────────── */}
