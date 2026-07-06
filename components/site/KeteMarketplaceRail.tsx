@@ -22,7 +22,7 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
       <div className="flex items-center justify-between gap-4">
         <Link
           href={`/kete/${kete.slug}`}
-          className="flex min-w-0 items-center gap-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)] focus-visible:ring-offset-2"
+          className="flex min-w-0 items-center gap-3 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
         >
           <Image
             src={KETE_VESSEL_IMAGES[kete.slug]}
@@ -51,14 +51,14 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
       <div
         tabIndex={0}
         onKeyDown={onKeyDown}
-        className="flex gap-4 overflow-x-auto pb-4 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--assembl-pounamu)]"
+        className="flex gap-4 overflow-x-auto pb-4 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
         aria-label={`${kete.name} ${kete.englishName} specialist agents`}
       >
         {agents.map((agent) => (
           <Link
             key={`${kete.slug}-${agent.slug}`}
             href={`/agents/${agent.slug}`}
-            className="group relative flex h-[280px] w-[220px] shrink-0 flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/65 transition duration-200 hover:-translate-y-1 hover:shadow-card-hover"
+            className="group relative flex h-[280px] w-[220px] shrink-0 flex-col overflow-hidden rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/65 transition duration-200 hover:-translate-y-1 hover:shadow-card-hover focus-visible:-translate-y-1 focus-visible:shadow-card-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
           >
             <span className="absolute left-0 top-0 h-1.5 w-16" style={{ backgroundColor: kete.accent }} />
             <div className="p-4">
