@@ -194,9 +194,9 @@ export const KAITIAKI_BUNDLE: BundleMeta = {
       slugs: ['vet-small-animal', 'vet-large-animal', 'vet-equine', 'vet-exotic'],
     },
     {
-      label: 'Welfare & service',
-      blurb: 'Case triage, multi-agency rescue, and the operating system for a boutique NZ doggy daycare.',
-      slugs: ['spca-workflow', 'rescue-coordination', 'doggy-daycare'],
+      label: 'Welfare, training & service',
+      blurb: 'Case triage, multi-agency rescue, dog training and behaviour, and the operating system for a boutique NZ doggy daycare.',
+      slugs: ['spca-workflow', 'rescue-coordination', 'pack', 'doggy-daycare'],
     },
     {
       label: 'Conservation & wildlife',
