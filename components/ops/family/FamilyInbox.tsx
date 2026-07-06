@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { InboxStatus } from '@/lib/family/inbox-status';
+import { FamilyDropzone } from '@/components/ops/family/FamilyDropzone';
 
 /**
  * Inbox (Echo) — the always-on email spoke.
@@ -57,7 +58,16 @@ export function FamilyInbox({ status }: { status: InboxStatus | null }) {
         </span>
       </div>
 
-      <p style={{ fontSize: 11, color: MUTED, marginTop: 10 }}>
+      <div style={{ marginTop: 10 }}>
+        <FamilyDropzone
+          kinds={[{ key: 'newsletter', label: 'Newsletter / notice' }]}
+          defaultKind="newsletter"
+          accept="image/*,application/pdf"
+          hint="Sacred Heart / Baradene PDFs, sports fixtures, Kindo forms, or a photo of what came home in the bag — read on-device, draft-only, auto-deleted after 30 days"
+        />
+      </div>
+
+      <p style={{ fontSize: 11, color: MUTED, marginTop: 12 }}>
         {connected ? 'Latest from your inbox' : '4 new · 1 newsletter · 1 sports · 1 bill · 1 enrolment'}
       </p>
 

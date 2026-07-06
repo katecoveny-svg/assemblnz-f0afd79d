@@ -1,25 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
 import { useFormStatus } from 'react-dom';
 import { SAMPLE_NEWSLETTER } from '@/lib/family/sample';
 import { parseNewsletterAction, loadSampleAction, clearAllProposedAction } from '@/app/customers/family/ops/actions';
+import FamilyHeroIllustrated from '@/app/customers/family/ops/visuals/FamilyHeroIllustrated';
+import { AmbientStyles } from '@/app/customers/family/ops/visuals/ambient';
 
 /**
- * FamilyHeroPanel — the stunning top of Family OS: the warm luminous WebGL
- * hero behind the "Life admin, handled." title and the newsletter input.
- * The parse form posts the real server action (Claude reads the newsletter);
- * the submit button shows a live "reading your newsletter…" pending state.
+ * FamilyHeroPanel — the top of Family OS: a warm, hand-drawn ambient hero
+ * (visual direction B — illustrated + ambient motion; no 3D) behind the
+ * "Life admin, handled." title and the newsletter input. The parse form posts
+ * the real server action (Claude reads the newsletter); the submit button shows
+ * a live "reading your newsletter…" pending state.
  */
 
-const FamilyHero = dynamic(() => import('@/components/ops/family/FamilyHero'), {
-  ssr: false,
-  loading: () => <div style={{ width: '100%', height: '100%', background: 'radial-gradient(120% 90% at 60% 25%, #fff, #FBF6EE 70%)' }} />,
-});
-
-const CREAM = '#FBF6EE';
-const INK = '#2A2620';
+const CREAM = '#FBFAF6';
+const INK = '#1A1918';
 const MUTED = '#8A8272';
 const GOLD = '#BFA37A';
 const CORAL = '#E08A6B';
@@ -47,16 +43,14 @@ function MiniButton({ action, label, tone }: { action: () => Promise<void>; labe
 }
 
 export function FamilyHeroPanel({ parsed }: { parsed: boolean }) {
-  const [animate, setAnimate] = useState(false);
-  useEffect(() => setAnimate(!window.matchMedia('(prefers-reduced-motion: reduce)').matches), []);
-
   return (
     <div style={{
       position: 'relative', overflow: 'hidden', borderRadius: 22,
       border: `1px solid ${GOLD}55`, boxShadow: '0 16px 44px rgba(154,123,58,0.12), inset 0 1px 0 rgba(255,255,255,0.8)',
       minHeight: 460,
     }}>
-      <div style={{ position: 'absolute', inset: 0 }}><FamilyHero animate={animate} /></div>
+      <AmbientStyles />
+      <div style={{ position: 'absolute', inset: 0 }}><FamilyHeroIllustrated /></div>
       <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(90deg, ${CREAM}f4 0%, ${CREAM}cc 46%, transparent 74%)`, pointerEvents: 'none' }} />
       <div style={{ position: 'relative', padding: 'clamp(24px,3.5vw,40px)', maxWidth: 620 }}>
         <p style={{ fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase', color: CORAL }}>family os · concept</p>
@@ -76,7 +70,7 @@ export function FamilyHeroPanel({ parsed }: { parsed: boolean }) {
             {parsed
               ? <MiniButton action={clearAllProposedAction} label="Clear" tone={MUTED} />
               : <MiniButton action={loadSampleAction} label="Use the sample" tone={GOLD} />}
-            <span style={{ fontSize: 11.5, color: MUTED }}>real agent · claude reads it · drag the orbs</span>
+            <span style={{ fontSize: 11.5, color: MUTED }}>real agent · claude reads it · hand-drawn, always yours</span>
           </div>
         </form>
       </div>

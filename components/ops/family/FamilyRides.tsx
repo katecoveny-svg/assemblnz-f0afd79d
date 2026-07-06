@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
-import { mapsDirections, uberDeepLink } from '@/lib/family/connectors';
+import { mapsDirections, uberDeepLink, delivereasyHome, uberCourierFallback } from '@/lib/family/connectors';
+import { draftDelivereasyIntakeAction } from '@/app/customers/family/ops/actions';
 
 /**
  * Rides + logistics — the transport spoke of Family OS.
@@ -99,8 +100,28 @@ export function FamilyRides() {
         <div style={{ fontSize: 12.5, color: INK, fontWeight: 600 }}>Confirm-and-tap only</div>
         <p style={{ fontSize: 11.5, color: MUTED, lineHeight: 1.55, marginTop: 6 }}>
           I never book a ride for you. Tapping opens Uber with the trip pre-filled — you check the fare and confirm.
-          Estimates are indicative; rural coverage varies. For a child riding solo, use <strong style={{ color: INK }}>Uber Teens</strong> on the family profile.
+          Estimates are indicative and rural coverage varies (no Uber courier in NZ yet). For a child riding solo, use <strong style={{ color: INK }}>Uber Teens</strong> on the family profile.
         </p>
+      </div>
+
+      {/* Gear drops — send a courier (Delivereasy) */}
+      <div style={{ ...card, gridColumn: '1 / -1' }}>
+        <div style={{ fontSize: 13.5, fontWeight: 700, color: INK }}>Gear drops — send a courier</div>
+        <p style={{ fontSize: 12, color: MUTED, marginTop: 4, lineHeight: 1.55 }}>
+          Forgotten togs, a kit left at home, a shared plate to school — describe it and hand it to <strong style={{ color: INK }}>Delivereasy</strong>, NZ’s on-demand courier. They have no public API yet, so it’s booked by hand for now — Assembl opens it pre-thought-out.
+        </p>
+        <div style={{ display: 'flex', gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
+          <a href={delivereasyHome()} target="_blank" rel="noreferrer" style={pill(SAGE)}>Send with Delivereasy ↗</a>
+          <a href={uberCourierFallback('Mangawhai, Northland', 'Mangawhai Beach School')} target="_blank" rel="noreferrer" style={pill(MUTED)}>Uber ride fallback ↗</a>
+          <form action={draftDelivereasyIntakeAction}>
+            <button type="submit" style={{ ...pill(GOLD), cursor: 'pointer', background: `${GOLD}12` }}>Ask us to wire Delivereasy (draft)</button>
+          </form>
+        </div>
+        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 8 }}>Delivereasy is booked manually today. Full API integration comes with our partner deal.</div>
+      </div>
+
+      <div style={{ gridColumn: '1 / -1', fontSize: 10.5, color: MUTED, borderTop: `1px solid ${GOLD}22`, paddingTop: 8 }}>
+        <strong style={{ color: INK }}>Coming next: Uber Direct + Delivereasy partner API.</strong> Books couriers, tracks delivery, and closes the loop end-to-end. Requires commercial accounts (Kate’s pitching both).
       </div>
     </div>
   );

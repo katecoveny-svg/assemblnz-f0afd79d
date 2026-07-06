@@ -7,11 +7,13 @@ import type { FamilyItem } from '@/lib/family/types';
 import { googleCalendarLink, mapsDirections, uberDeepLink, woolworthsSearch } from '@/lib/family/connectors';
 import { FamilyHeroPanel } from '@/components/ops/family/FamilyHeroPanel';
 import { FamilyChat } from '@/components/ops/family/FamilyChat';
+import { ThrowItIn } from '@/components/ops/family/ThrowItIn';
 import { FamilyRides } from '@/components/ops/family/FamilyRides';
 import { FamilyKitchen } from '@/components/ops/family/FamilyKitchen';
 import { FamilyMoney } from '@/components/ops/family/FamilyMoney';
 import { FamilyInbox } from '@/components/ops/family/FamilyInbox';
 import { getInboxStatus } from '@/lib/family/inbox-status';
+import { getFamilyViewer } from '@/lib/family/viewer';
 import { approveAction, dismissAction, assignPickupAction, emailDigestAction } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -26,8 +28,8 @@ export const dynamic = 'force-dynamic';
  * sends. Server-rendered with server actions, so the core works with no JS.
  */
 
-const CREAM = '#FBF6EE';
-const INK = '#2A2620';
+const CREAM = '#FBFAF6';
+const INK = '#1A1918';
 const MUTED = '#8A8272';
 const GOLD = '#BFA37A';
 const CORAL = '#E08A6B';
@@ -78,6 +80,7 @@ export default async function FamilyOsHome() {
   const proposedCount = g.proposed.length;
   const parsed = items.some((i) => i.source === 'newsletter');
   const inboxStatus = await getInboxStatus('demo');
+  const viewer = await getFamilyViewer();
 
   const body: CSSProperties = { fontFamily: 'var(--font-brand-body)', color: INK };
 
@@ -85,8 +88,22 @@ export default async function FamilyOsHome() {
     <div style={{ ...body, display: 'flex', flexDirection: 'column', gap: 18 }}>
       <DemoRibbon />
 
-      {/* ── Hero (real WebGL) + newsletter parse ─────────────────────── */}
+      {viewer ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', padding: '8px 14px', borderRadius: 999, border: `1px solid ${GOLD}44`, background: '#fffdf9', fontSize: 12.5 }}>
+          <span style={{ fontFamily: display, fontSize: 16, color: INK }}>{viewer.greeting}</span>
+          <span style={{ color: MUTED }}>
+            {viewer.isKid
+              ? '— this is your view: your week, your chores, your savings. Kate approves everything.'
+              : '— you can see the whole family’s week.'}
+          </span>
+        </div>
+      ) : null}
+
+      {/* ── Hero (illustrated + ambient) + newsletter parse ──────────── */}
       <FamilyHeroPanel parsed={parsed} />
+
+      {/* ── Throw it in — anyone drops a note (typed or spoken) ──────── */}
+      <ThrowItIn />
 
       {/* ── Live family assistant + approval queue, side by side ─────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1.05fr) minmax(280px, 0.95fr)', gap: 16, alignItems: 'start' }}>
@@ -218,7 +235,7 @@ export default async function FamilyOsHome() {
 
       {/* ── Kids' money · Tōro (chores → allowance → savings) ─────────── */}
       <Section id="money" title="Kids’ money · Tōro" accent={CORAL} empty={false}>
-        <FamilyMoney />
+        <FamilyMoney readOnly={viewer?.isKid} />
       </Section>
 
       {/* ── Inbox · Echo (always-on email parsing) ────────────────────── */}
@@ -277,10 +294,27 @@ function Section({ id, title, accent, empty, children }: { id?: string; title: s
   );
 }
 
+function relTime(iso?: string): string {
+  if (!iso) return 'just now';
+  const mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins} min ago`;
+  const hrs = Math.round(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.round(hrs / 24)}d ago`;
+}
+
 function Row({ item, children }: { item: FamilyItem; children: React.ReactNode }) {
+  const d = item.detail as { from?: string; dropped_at?: string; channel?: string };
+  const from = typeof d?.from === 'string' ? d.from : null;
   return (
     <div style={{ padding: '10px 0', borderBottom: `1px solid ${GOLD}22`, opacity: item.status === 'proposed' ? 1 : 0.92 }}>
       {children}
+      {from ? (
+        <div style={{ fontSize: 10.5, color: MUTED, marginTop: 6 }}>
+          {d?.channel === 'voice' ? '🎙 ' : ''}from <strong style={{ color: INK }}>{from}</strong> · {relTime(d?.dropped_at)}
+        </div>
+      ) : null}
     </div>
   );
 }
