@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { OpsShell } from '@/components/ops/OpsShell';
-import { ArcChatPanel } from '@/components/ops/toa/ArcChatPanel';
+import { LiveArcChat } from '@/components/ops/toa/LiveArcChat';
 import { ManaReceiptViewer } from '@/components/ops/widgets/ManaReceiptViewer';
 
 /**
@@ -14,8 +14,9 @@ import { ManaReceiptViewer } from '@/components/ops/widgets/ManaReceiptViewer';
  * (no header, no nav, no brand CSS vars). Same trap as PR #641's static
  * tenant pages.
  *
- * Right rail: ARC chat (scripted, draft-only) + a receipt viewer. The chat
- * lives in the rail so it's present on every section, like the other pilots.
+ * Right rail: ARC chat (LIVE — streams from /api/agents/whakaae/chat,
+ * unmetered inside the gated demo) + a receipt viewer. The chat lives in the
+ * rail so it's present on every section, like the other pilots.
  */
 export default function ToaArchitectsOpsLayout({
   children,
@@ -30,7 +31,7 @@ export default function ToaArchitectsOpsLayout({
       config={config}
       rightRail={
         <>
-          <ArcChatPanel />
+          <LiveArcChat compact />
           <ManaReceiptViewer
             receipt={{
               id: 'MR-TOA-DEMO-0001',

@@ -108,7 +108,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
   .mark { font-weight: 900; letter-spacing: -0.02em; color: #3A3832; font-size: 22px; }
   .eyebrow { font: 700 11px/1 "Space Mono",ui-monospace,monospace; letter-spacing: 0.22em; text-transform: uppercase; color: #C79B1F; }
   h1 { font-size: 32px; font-weight: 900; letter-spacing: -0.02em; margin: 12px 0 4px; color: #3A3832; }
-  .dash { width: 120px; height: 9px; background: #FFD42A; border-radius: 999px; margin: 14px 0 18px; }
+  .dash { width: 120px; height: 9px; background: #BFA37A; border-radius: 999px; margin: 14px 0 18px; }
   .meta { color: #8A8678; font-size: 13px; margin-bottom: 24px; }
   .rule { border: 0; border-top: 1px solid #EFEADC; margin: 24px 0; }
   .body h2 { font-size: 22px; font-weight: 900; color: #3A3832; margin: 24px 0 8px; }
@@ -116,7 +116,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
   .body ul { margin: 0 0 12px; padding-left: 20px; }
   .body p { margin: 0 0 12px; }
   .foot { margin-top: 32px; padding: 16px 18px; background: #3A3832; color: #FFF7EC; border-radius: 10px; font-size: 13px; line-height: 1.5; }
-  .foot b { color: #FFD42A; }
+  .foot b { color: #BFA37A; }
   @media print { body { background: #fff; } .wrap { padding: 0; } }
 </style></head>
 <body><div class="wrap">
@@ -177,7 +177,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
                   aria-label={config.imageLabel ?? 'Upload a photo'}
                 />
                 <div className="flex items-center gap-4">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FFD42A] text-[#3A3832]">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#BFA37A] text-[#3A3832]">
                     <Upload className="h-5 w-5" aria-hidden />
                   </span>
                   <div className="flex-1">
@@ -218,14 +218,14 @@ export function DashTool({ config }: { config: DashToolConfig }) {
                   <textarea
                     value={values[field.name] ?? ''}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="min-h-[150px] w-full rounded-[10px] border border-[#EFEADC] bg-white p-4 text-sm leading-relaxed text-[#3A3832] outline-none focus:border-[#FFD42A]"
+                    className="min-h-[150px] w-full rounded-[10px] border border-[#EFEADC] bg-white p-4 text-sm leading-relaxed text-[#3A3832] outline-none focus:border-[#BFA37A]"
                     placeholder={field.placeholder}
                   />
                 ) : field.type === 'select' ? (
                   <select
                     value={values[field.name] ?? ''}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#3A3832] outline-none focus:border-[#FFD42A]"
+                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#3A3832] outline-none focus:border-[#BFA37A]"
                   >
                     {field.options?.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -237,7 +237,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
                   <input
                     value={values[field.name] ?? ''}
                     onChange={(e) => setField(field.name, e.target.value)}
-                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#3A3832] outline-none focus:border-[#FFD42A]"
+                    className="h-11 w-full rounded-[8px] border border-[#EFEADC] bg-white px-3 text-sm text-[#3A3832] outline-none focus:border-[#BFA37A]"
                     placeholder={field.placeholder}
                   />
                 )}

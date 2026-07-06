@@ -25,12 +25,16 @@ export function OpsShell({
   config,
   children,
   rightRail,
+  nav: navOverride,
 }: {
   config: BrandConfig;
   children: ReactNode;
   rightRail?: ReactNode;
+  /** Sidebar nav. Each [label, path]; a path starting with '#' is an on-page
+   *  anchor, otherwise it links to /customers/<slug>/ops/<path>. */
+  nav?: Array<[string, string]>;
 }) {
-  const nav: Array<[string, string]> = [
+  const nav: Array<[string, string]> = navOverride ?? [
     ['Roster', 'roster'],
     ['CRM', 'crm'],
     ['Comms', 'comms'],
@@ -117,8 +121,8 @@ export function OpsShell({
             <nav className="sticky top-6 flex flex-col gap-1 text-sm">
               {nav.map(([label, path]) => (
                 <Link
-                  key={path}
-                  href={`/customers/${config.slug}/ops/${path}`}
+                  key={path || label}
+                  href={path.startsWith('#') ? path : `/customers/${config.slug}/ops/${path}`}
                   className="rounded-md px-3 py-2 text-[color:var(--brand-muted)] transition-colors hover:bg-black/5 hover:text-[color:var(--brand-ink)]"
                 >
                   {label}
@@ -160,14 +164,7 @@ export function OpsShell({
           </main>
 
           <aside className="col-span-12 flex flex-col gap-4 md:col-span-3">
-            {rightRail ?? (
-              <div className="rounded-2xl border border-black/5 bg-[color:var(--brand-surface)] p-4">
-                <h4 className="text-sm font-semibold">Right rail</h4>
-                <p className="mt-1 text-xs text-[color:var(--brand-muted)]">
-                  Pass a `rightRail` prop to fill this column.
-                </p>
-              </div>
-            )}
+            {rightRail}
           </aside>
         </div>
 

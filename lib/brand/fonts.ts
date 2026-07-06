@@ -10,6 +10,7 @@ import {
   Montserrat,
   Orbitron,
   Playfair_Display,
+  Poppins,
   Public_Sans,
 } from 'next/font/google';
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font/dist/types';
@@ -99,6 +100,15 @@ const montserrat = Montserrat({
   weight: ['300', '500', '700'],
 });
 
+// MOANA (concept pilot): a clean nautical geometric sans — Poppins as display,
+// Lato (already imported for Aironaut) as body. JetBrains Mono for mono.
+const poppins = Poppins({
+  subsets: ['latin'],
+  variable: '--font-brand-display',
+  display: 'swap',
+  weight: ['500', '600', '700'],
+});
+
 // Air NZ needs Fraunces Italic 900 as body per brief.
 const frauncesItalicBody = Fraunces({
   subsets: ['latin'],
@@ -135,6 +145,10 @@ export function getBrandFonts(slug: string): BrandFonts {
       return { display: cormorant, body: inter, mono: jetbrainsMono };
     case 'toa-architects':
       return { display: montserrat, body: publicSans, mono: jetbrainsMono };
+    case 'moana':
+      return { display: poppins, body: lato, mono: jetbrainsMono };
+    case 'family':
+      return { display: playfair, body: lato, mono: jetbrainsMono };
     default:
       return { display: inter, body: inter, mono: jetbrainsMono };
   }

@@ -37,7 +37,7 @@ export const aironautConfig: BrandConfig = parseBrandConfig({
     ink: '#1F1F1F', // Charcoal — body
     muted: '#6E8FB3', // Steel Blue — secondary / subhead
     accent: '#C8622A', // Burnt Orange — CTAs / action
-    canary: '#FFD42A', // assembl crossover — untouched
+    canary: '#BFA37A', // assembl crossover accent (champagne)
   },
   fonts: {
     display: 'Orbitron',

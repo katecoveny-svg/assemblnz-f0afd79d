@@ -116,7 +116,7 @@ export function AirNzAppSlotMock() {
               width: 22,
               height: 22,
               borderRadius: 11,
-              background: '#F5C64B',
+              background: '#BFA37A',
               color: INK,
               display: 'flex',
               alignItems: 'center',

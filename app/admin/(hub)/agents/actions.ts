@@ -3,17 +3,20 @@
 import { revalidatePath } from 'next/cache';
 import { ensureAdmin } from '@/lib/admin/ensureAdmin';
 import { getServiceClient } from '@/lib/supabase/service';
-import { isMarketplaceAgent } from '@/lib/marketplace/agents';
+import { isMarketplaceAgent, marketplaceAgentBySlug } from '@/lib/marketplace/agents';
 
 /**
  * Agents CRUD server actions — every write happens with the service role ONLY
  * after ensureAdmin() has proven authorisation. RLS stays intact on the tables.
  *
- * Prompt caveat (reference_agent_prompts_live_in_code): the runtime reads
- * system prompts from code (lib/marketplace/agent-prompts.ts). Admin edits are
- * STAGED in agent_prompt_overrides — a reviewed draft for the next code sync —
- * and the UI labels them exactly that. Nothing at runtime reads the override
- * today; that is deliberate and documented in migration 20260703100000.
+ * Prompt flow (DB-first since PR #691): the chat runtime resolves prompts via
+ * lib/agents/prompt-store.ts — agent_prompts pack='marketplace', one versioned
+ * row per agent, with the code prompt (lib/marketplace/agent-prompts.ts) as
+ * fallback. Admin edits are STAGED in agent_prompt_overrides and reach live
+ * chat only through applyPromptOverride below, which writes the staged text
+ * into the agent's marketplace row (version bump; is_active stays false — see
+ * the partial-unique-index note in prompt-store.ts). The runtime never reads
+ * agent_prompt_overrides directly.
  */
 
 // Matches the DB check (20260623140050): live | draft | retired | coming_soon.
@@ -82,9 +85,9 @@ export async function updateAgentMeta(formData: FormData) {
 }
 
 /**
- * Stage a system-prompt edit. Code stays canonical — this writes a draft to
- * agent_prompt_overrides (status 'staged') for the next code sync, and the UI
- * says exactly that next to the form.
+ * Stage a system-prompt edit. This writes a draft to agent_prompt_overrides
+ * (status 'staged') — nothing changes for live chat until an admin explicitly
+ * applies it via applyPromptOverride, and the UI says exactly that.
  */
 export async function stagePromptOverride(formData: FormData) {
   const admin = await ensureAdmin();
@@ -135,6 +138,74 @@ export async function discardPromptOverride(formData: FormData) {
 }
 
 /**
+ * Apply a staged prompt edit to live chat: write the staged text into the
+ * agent's agent_prompts pack='marketplace' row (the row prompt-store reads),
+ * bump version, then mark the override 'synced'. Deliberately a second,
+ * explicit click after staging — gated, not one-click. Live chat picks the
+ * new prompt up within ~5 minutes (prompt-store cache TTL).
+ *
+ * is_active stays FALSE by design: a global partial unique index (one active
+ * row per lower(agent_name) across ALL packs) is held by the legacy kete rows,
+ * so for marketplace rows presence in the pack IS the activation. Never flip
+ * the flag or touch kete rows here.
+ */
+export async function applyPromptOverride(formData: FormData) {
+  const admin = await ensureAdmin();
+
+  const slug = String(formData.get('slug') ?? '');
+  const agent = marketplaceAgentBySlug(slug);
+  if (!agent) return;
+
+  try {
+    const sb = getServiceClient();
+    const { data: override } = await sb
+      .from('agent_prompt_overrides')
+      .select('system_prompt, status')
+      .eq('agent_slug', slug)
+      .maybeSingle();
+    // prompt-store ignores prompts ≤200 chars (fallback-to-code guard), so
+    // applying one would silently change nothing — refuse it here instead.
+    if (!override || override.status !== 'staged') return;
+    if (override.system_prompt.trim().length <= 200) return;
+
+    const { data: current } = await sb
+      .from('agent_prompts')
+      .select('version, display_name')
+      .eq('agent_name', slug)
+      .eq('pack', 'marketplace')
+      .maybeSingle();
+
+    const { error } = await sb.from('agent_prompts').upsert(
+      {
+        agent_name: slug,
+        pack: 'marketplace',
+        display_name: current?.display_name ?? agent.name,
+        system_prompt: override.system_prompt,
+        version: (current?.version ?? 0) + 1,
+        is_active: false,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'agent_name,pack' },
+    );
+    if (error) return;
+
+    // Prompt is live first, then the override flips to 'synced'. If this
+    // update fails the override stays staged and re-applying is harmless
+    // (another version bump of the same text).
+    await sb
+      .from('agent_prompt_overrides')
+      .update({ status: 'synced', updated_by: admin.email, updated_at: new Date().toISOString() })
+      .eq('agent_slug', slug)
+      .eq('status', 'staged');
+  } catch {
+    // Fail soft in half-migrated environments.
+  }
+
+  revalidatePath('/admin/agents');
+  revalidatePath(`/admin/agents/${slug}`);
+}
+
+/**
  * Link/unlink an agent from a knowledge source by toggling the agent's slug in
  * knowledge_sources.dependent_agents (the array the Tier A diff-and-alert loop
  * uses to flag agents for a scenario-pack refresh — see 20260701090000).
@@ -171,4 +242,89 @@ export async function toggleKnowledgeLink(formData: FormData) {
 
   revalidatePath(`/admin/agents/${slug}`);
   revalidatePath('/admin/knowledge');
+}
+
+/**
+ * Manual "sync now" for a Tier A knowledge source — invokes the deployed
+ * knowledge-ingest-tier-a edge function with the single-source override
+ * ({ source_slug }). The function fetches, diffs, re-embeds on change and
+ * stamps last_fetched_at; we just kick it and revalidate.
+ */
+export async function syncKnowledgeSource(formData: FormData) {
+  await ensureAdmin();
+
+  const slug = String(formData.get('slug') ?? '');
+  const sourceSlug = String(formData.get('source_slug') ?? '');
+  if (!sourceSlug) return;
+
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!base || !serviceKey) return;
+
+  try {
+    await fetch(`${base}/functions/v1/knowledge-ingest-tier-a`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${serviceKey}`,
+      },
+      body: JSON.stringify({ source_slug: sourceSlug }),
+      // The ingest can take a while on a changed source; don't hold the action
+      // past Vercel's window — the row's last_status shows the outcome.
+      signal: AbortSignal.timeout(25_000),
+    });
+  } catch {
+    // Timeout or network — the sync may still complete server-side; the
+    // knowledge_sources row records the real outcome either way.
+  }
+
+  if (slug) revalidatePath(`/admin/agents/${slug}`);
+  revalidatePath('/admin/agents');
+  revalidatePath('/admin/knowledge');
+}
+
+/**
+ * Record a test-chat exchange in assembl_audit_log so the drilldown's audit
+ * section reflects Kate's own test traffic. Draft-mode: decision is always
+ * 'draft' — nothing was sent anywhere. Called from the TestChatPanel client
+ * after each completed exchange; service-role write behind ensureAdmin.
+ */
+export async function recordTestExchange(input: {
+  slug: string;
+  query: string;
+  response: string;
+  sessionId?: string;
+  held?: boolean;
+}) {
+  const admin = await ensureAdmin();
+
+  const slug = String(input.slug ?? '');
+  if (!isMarketplaceAgent(slug)) return;
+
+  const sessionId =
+    typeof input.sessionId === 'string' && /^[0-9a-f-]{36}$/i.test(input.sessionId)
+      ? input.sessionId
+      : crypto.randomUUID();
+
+  try {
+    const sb = getServiceClient();
+    await sb.from('assembl_audit_log').insert({
+      // Fixed internal-org marker for operator test traffic (org_id is NOT NULL
+      // with no FK; no orgs table exists yet — revisit when one lands).
+      org_id: '00000000-0000-4000-8000-000000000001',
+      user_id: admin.id,
+      session_id: sessionId,
+      agent_slug: slug,
+      tool_name: 'admin-test-chat',
+      tool_input: { query: String(input.query ?? '').slice(0, 4000) },
+      tool_output: {
+        response: String(input.response ?? '').slice(0, 8000),
+        draft: true,
+        ...(input.held ? { kaumatua_hold: true } : {}),
+      },
+      decision: input.held ? 'kaumatua_hold' : 'draft',
+    });
+  } catch {
+    // Fail soft — the audit table may not exist in this environment.
+  }
 }

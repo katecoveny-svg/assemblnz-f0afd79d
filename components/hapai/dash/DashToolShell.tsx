@@ -7,7 +7,7 @@ import { ArrowLeft, ShieldCheck } from 'lucide-react';
 import { ShareableToolActions } from '@/components/hapai/ShareableToolActions';
 
 /**
- * DashToolShell — the Dash-branded chrome (canary + charcoal, Lato/Space Mono)
+ * DashToolShell — the Dash-branded chrome (champagne + charcoal, Lato/Space Mono)
  * for the 2026 viral HAPAI tools. Self-scopes the Dash type system via the
  * `mk-root` class (same approach as the agent marketplace) so it never touches
  * the rest of the site, and reuses the shared ShareableToolActions for share/
@@ -58,7 +58,7 @@ export function DashToolShell({
           <div className="relative overflow-hidden rounded-[14px] border border-[#EFEADC] bg-white p-7 shadow-[0_24px_70px_rgba(58,56,50,0.07)] md:p-10">
             <div
               className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full"
-              style={{ background: 'radial-gradient(circle, rgba(255,212,42,0.26), transparent 68%)' }}
+              style={{ background: 'radial-gradient(circle, rgba(191,163,122,0.26), transparent 68%)' }}
               aria-hidden
             />
             <div className="relative">
@@ -66,8 +66,8 @@ export function DashToolShell({
               <h1 className="mt-4 max-w-3xl text-[clamp(2.6rem,5.4vw,4.6rem)] font-black leading-[0.96] tracking-[-0.02em] text-[#3A3832]">
                 {title}
               </h1>
-              {/* canary pill-dash */}
-              <div className="mt-6 h-[10px] w-40 rounded-full bg-[#FFD42A]" aria-hidden />
+              {/* champagne pill-dash */}
+              <div className="mt-6 h-[10px] w-40 rounded-full bg-[#BFA37A]" aria-hidden />
               <p className="mt-6 max-w-2xl text-[clamp(1.02rem,1.5vw,1.2rem)] leading-relaxed text-[#56544B]">{intro}</p>
 
               {highlights.length > 0 ? (
@@ -86,7 +86,7 @@ export function DashToolShell({
           {/* aside — share + posture, charcoal panel */}
           <aside className="flex flex-col gap-4 rounded-[14px] border border-[#EFEADC] bg-white p-4 shadow-[0_24px_70px_rgba(58,56,50,0.08)]">
             <div className="rounded-[10px] bg-[#3A3832] p-6 text-white">
-              <p className="mk-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#FFD42A]">share this</p>
+              <p className="mk-mono text-[10px] font-bold uppercase tracking-[0.22em] text-[#BFA37A]">share this</p>
               <p className="mt-3 text-sm leading-relaxed text-white/80">{shareText}</p>
               <div className="mt-5">
                 <ShareableToolActions title={shareTitle} text={shareText} path={toolPath} />

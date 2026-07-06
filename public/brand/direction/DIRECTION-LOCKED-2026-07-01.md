@@ -19,7 +19,7 @@ Reference images live in this folder — treat them as canon:
 - **Steely navy**: `#4A6B8C` — cool structural accent inside the art
 - **Bronze / tan**: `#8A6B4E` — deep warm accent
 - **Ink text**: `#1A1918` (kept)
-- **Accent gold dot**: warm champagne `#BFA37A` — the tiny period after "advantage." and CTA emphasis. (PALETTE CORRECTION 2026-07-02: bright canary `#FFD42A`/`#F5C64B` is DEPRECATED on the marketing site, all pilot chrome, and all future surfaces — champagne gold `#BFA37A` is the accent everywhere.)
+- **Accent gold dot**: warm champagne `#BFA37A` — the tiny period after "advantage." and CTA emphasis. (PALETTE CORRECTION 2026-07-02: the bright canary hexes `FFD42A`/`F5C64B` are DEPRECATED on the marketing site, all pilot chrome, and all future surfaces — champagne gold `#BFA37A` is the accent everywhere. Enforced repo-wide by `scripts/brand-guard.mjs`.)
 
 ### Typography
 - **Display + headings**: Cormorant Garamond, lowercase, tracked slightly loose, weight 400–500

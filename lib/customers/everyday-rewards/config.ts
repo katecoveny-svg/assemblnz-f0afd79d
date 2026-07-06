@@ -28,7 +28,7 @@ export const EDR_BRAND = {
   successGreen: '#2e7d32',
   errorRed: '#bd161c',
   // assembl side of the cross-brand lockup (canon).
-  canary: '#FFD42A',
+  canary: '#BFA37A',
   gold: '#C79B1F',
   cream: '#FFF7EC',
   assemblCharcoal: '#3A3832',

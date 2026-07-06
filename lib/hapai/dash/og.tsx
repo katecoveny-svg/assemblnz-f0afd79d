@@ -4,7 +4,7 @@ import type { DashToolConfig } from '@/lib/hapai/dash/tools';
 /**
  * Dash-brand HAPAI share card (locked palette, 2026-06-23).
  *
- * Cream canvas, charcoal Lato 900 headline, one canary accent (the pill-dash
+ * Cream canvas, charcoal Lato 900 headline, one champagne accent (the pill-dash
  * under the tool name). Numbers tools lead with one giant figure — that figure
  * is the share asset (brand note in viral-hapai-shortlist.md).
  */
@@ -18,7 +18,7 @@ const CREAM = '#FFF7EC';
 const PAPER = '#FFFFFF';
 const INK = '#3A3832'; // charcoal
 const BODY = '#56544B';
-const CANARY = '#FFD42A';
+const CHAMPAGNE = '#BFA37A';
 const GOLD = '#C79B1F';
 const MUTED = '#8A8678';
 const HAIRLINE = '#EFEADC';
@@ -79,7 +79,7 @@ export async function renderDashToolOgImage(tool: DashToolConfig) {
           overflow: 'hidden',
         }}
       >
-        {/* faint canary wash, top-right */}
+        {/* faint champagne wash, top-right */}
         <div
           style={{
             position: 'absolute',
@@ -88,7 +88,7 @@ export async function renderDashToolOgImage(tool: DashToolConfig) {
             width: 460,
             height: 460,
             borderRadius: 999,
-            background: 'radial-gradient(circle, rgba(255,212,42,0.22), transparent 68%)',
+            background: 'radial-gradient(circle, rgba(191,163,122,0.22), transparent 68%)',
           }}
         />
 
@@ -122,7 +122,7 @@ export async function renderDashToolOgImage(tool: DashToolConfig) {
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
               color: INK,
-              background: CANARY,
+              background: CHAMPAGNE,
               borderRadius: 999,
               padding: '10px 18px',
             }}
@@ -142,8 +142,8 @@ export async function renderDashToolOgImage(tool: DashToolConfig) {
                 {tool.ogFigure}
               </div>
             </div>
-            {/* canary pill-dash beneath the figure */}
-            <div style={{ display: 'flex', width: 280, height: 12, background: CANARY, borderRadius: 999, marginTop: 18 }} />
+            {/* champagne pill-dash beneath the figure */}
+            <div style={{ display: 'flex', width: 280, height: 12, background: CHAMPAGNE, borderRadius: 999, marginTop: 18 }} />
             <div style={{ display: 'flex', marginTop: 20, maxWidth: 900, fontFamily: display, fontWeight: 700, fontSize: 34, color: BODY }}>
               {tool.ogFigureLabel}
             </div>
@@ -167,7 +167,7 @@ export async function renderDashToolOgImage(tool: DashToolConfig) {
             >
               {tool.title}
             </div>
-            <div style={{ display: 'flex', width: 240, height: 12, background: CANARY, borderRadius: 999, marginTop: 22 }} />
+            <div style={{ display: 'flex', width: 240, height: 12, background: CHAMPAGNE, borderRadius: 999, marginTop: 22 }} />
             <div style={{ display: 'flex', marginTop: 22, maxWidth: 880, fontFamily: display, fontWeight: 400, fontSize: 30, lineHeight: 1.28, color: BODY }}>
               {truncate(tool.description, 130)}
             </div>

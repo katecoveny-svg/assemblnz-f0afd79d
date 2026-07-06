@@ -27,7 +27,7 @@ Consistent visual language: back-of-dog studio portraits, pure white background,
 Editorial photography + line pattern land on:
 - Warm white background `#FBF7F1`
 - Ink `#1A1918`
-- Canary hairline accent `#FFD42A` (rare, used only for crossover markers with assembl)
+- Champagne hairline accent `#BFA37A` (rare, used only for crossover markers with assembl)
 
 ## Usage rules
 

@@ -9,6 +9,7 @@ import {
   verifyInviteCookieValue,
   verifyInviteSlug,
 } from '@/lib/demo-invites/crypto';
+import { HUB_DEMO_MARKER, verifyHubToken } from '@/lib/demo-invites/gate';
 
 const SPA_ORIGIN = 'https://assembl-app.vercel.app';
 
@@ -53,15 +54,20 @@ const matchesPrefix = (pathname: string, prefix: string) =>
 // Exempt (must keep working while the domain is "closed"):
 //   - /api/*            webhooks + Brevo inbound
 //   - /for/*            per-prospect magic links (handled before this anyway)
-//   - /admin*           Kate's operator hub (own magic-link auth)
-//   - /customers/*      hosted pilots (own demo basic-auth)
+//   - /customers/*      hosted pilots (own demo basic-auth + invite cookies)
 //   - static + Next internals (/_next, /brand, favicon, robots, sitemap, …)
+//
+// Redirected (not rewritten — kills stale bookmarks/caches with a real 302):
+//   - /login*           → / (the splash). The old app's sign-in form is gone
+//                         from the live domain; nobody should ever see it.
+//   - /admin*           → demo.assembl.co.nz/admin — the operator hub lives on
+//                         the demo host now, where Supabase Auth is wired up.
 // ---------------------------------------------------------------------------
 const SPLASH_HOSTS = new Set(['assembl.co.nz', 'www.assembl.co.nz']);
+const ADMIN_HOME = 'https://demo.assembl.co.nz';
 const SPLASH_EXEMPT_PREFIXES = [
   '/api/',
   '/for/',
-  '/admin',
   '/customers',
   '/_next/',
   '/brand/',
@@ -88,6 +94,36 @@ const splashGate = (request: NextRequest): NextResponse | null => {
 
   const { pathname } = request.nextUrl;
   if (pathname === '/') return null; // the splash already renders here
+
+  // Stale sign-in URLs get a hard 302 home, not a rewrite — the redirect
+  // shows in the URL bar and replaces any cached copy of the old form.
+  if (matchesPrefix(pathname, '/login')) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    url.search = '';
+    return NextResponse.redirect(url, 302);
+  }
+
+  // The operator hub moved to the demo host (Supabase Auth lives there);
+  // preserve the subpath + query so deep links keep working.
+  if (matchesPrefix(pathname, '/admin')) {
+    return NextResponse.redirect(
+      `${ADMIN_HOME}${pathname}${request.nextUrl.search}`,
+      302,
+    );
+  }
+
+  // Emailed auth links belong on the demo host too — the session cookies must
+  // be written there for the operator hub to see them. Magic-link emails sent
+  // before 2026-07-05 point at this host (the old template used SiteURL);
+  // forward them with the token intact instead of splashing them.
+  if (matchesPrefix(pathname, '/auth')) {
+    return NextResponse.redirect(
+      `${ADMIN_HOME}${pathname}${request.nextUrl.search}`,
+      302,
+    );
+  }
+
   if (SPLASH_EXEMPT_EXACT.has(pathname)) return null;
   if (SPLASH_EXEMPT_PREFIXES.some((p) => pathname === p || pathname.startsWith(p))) return null;
   if (SPLASH_STATIC_FILE.test(pathname)) return null;
@@ -123,6 +159,14 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   '/robots.txt',
   '/sitemap.xml',
   '/favicon',
+  // The operator hub carries its own (stronger) gate — ensureAdmin() over
+  // Supabase Auth — and /auth/* is where its magic-link round-trip lands.
+  // Basic auth in front of either would 401 the emailed sign-in link.
+  '/admin',
+  '/auth/',
+  // /login on the demo host immediately 302s to /admin/login (see
+  // demoHostRewrite) — exempt it so the redirect fires instead of the 401.
+  '/login',
 ];
 const DEMO_AUTH_STATIC_FILE =
   /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest)$/i;
@@ -358,10 +402,47 @@ const inviteCookieAllows = async (request: NextRequest): Promise<boolean> => {
   );
   if (!payload) return false;
 
+  // The hub pass (`/demo-pass/<token>`) grants the whole demo host — no tenant
+  // scope check, no per-invite DB row to revoke against.
+  if (payload.demo === HUB_DEMO_MARKER) return true;
+
   const scope = requestTenantScope(request);
   if (!scope || scope !== payload.demo) return false;
 
   return inviteStillActive(payload.slug);
+};
+
+/**
+ * Hub-wide access pass: `/demo-pass/<token>` on the demo host. Verifies the
+ * signed token (constant-time), sets the hub-marked invite cookie, and lands
+ * the visitor on the pilot hub. Unlike /for/[slug] this grants EVERY tenant,
+ * so it's the single no-password way onto the whole demo.
+ */
+const HUB_PASS_PATH = /^\/demo-pass\/([a-f0-9]{16,})\/?$/;
+
+const handleHubEntry = async (request: NextRequest): Promise<NextResponse | null> => {
+  const match = HUB_PASS_PATH.exec(request.nextUrl.pathname);
+  if (!match) return null;
+
+  const secret = getInviteSecret();
+  if (!secret) return null;
+  if (!(await verifyHubToken(match[1]))) return null;
+
+  const url = request.nextUrl.clone();
+  url.pathname = '/customers';
+  url.search = '';
+  const response = NextResponse.redirect(url, 302);
+  response.cookies.set({
+    name: INVITE_COOKIE,
+    value: await buildInviteCookieValue(HUB_DEMO_MARKER, 'hub', secret),
+    maxAge: 60 * 60 * 24 * 30,
+    httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+    secure: process.env.NODE_ENV === 'production',
+  });
+  response.headers.set('Cache-Control', 'no-store');
+  return response;
 };
 
 /**
@@ -466,6 +547,15 @@ const demoHostRewrite = (request: NextRequest) => {
     return NextResponse.rewrite(url);
   }
 
+  // The only sign-in on this host is the operator hub's. /auth/confirm sends
+  // its error path to /login, which here would dead-end at the pilot
+  // basic-auth wall — land it on the operator form instead.
+  if (matchesPrefix(pathname, '/login')) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/admin/login';
+    return NextResponse.redirect(url, 302);
+  }
+
   // Never rewrite reserved / already-scoped paths.
   if (
     pathname.startsWith('/customers') ||
@@ -508,6 +598,11 @@ export async function middleware(request: NextRequest) {
   // link IS the credential. Invalid or revoked links get the branded page.
   const inviteEntry = await handleInviteEntry(request);
   if (inviteEntry) return inviteEntry;
+
+  // Hub-wide pass (/demo-pass/<token>) resolves before the gate too — a valid
+  // signed token IS the credential for the whole demo host.
+  const hubEntry = await handleHubEntry(request);
+  if (hubEntry) return hubEntry;
 
   // Live domain is behind the coming-soon splash while the fresh site is built
   // at staging. Runs after the invite entry (so /for links resolve) and before

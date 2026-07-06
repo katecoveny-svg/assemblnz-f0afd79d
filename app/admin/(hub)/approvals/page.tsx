@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { getApprovals, getPendingApprovalCount } from '@/lib/admin/v2-data';
-import { approveContent, rejectContent, reopenContent } from './actions';
+import { listActionRequests, dispatchEnabled, type ActionRequestRow } from '@/lib/agents/action-requests';
+import { approveContent, rejectContent, reopenContent, approveAgentAction, rejectAgentAction } from './actions';
 import {
   BODY,
   C,
@@ -67,10 +68,12 @@ export default async function ApprovalsPage({
   const { status: statusParam } = await searchParams;
   const filter = (FILTERS as readonly string[]).includes(statusParam ?? '') ? statusParam! : 'pending';
 
-  const [{ rows, available }, pendingCount] = await Promise.all([
+  const [{ rows, available }, pendingCount, actionRows] = await Promise.all([
     getApprovals(filter),
     getPendingApprovalCount(),
+    listActionRequests('all'),
   ]);
+  const pendingActions = actionRows.filter((a) => a.status === 'pending');
 
   return (
     <>
@@ -193,6 +196,87 @@ export default async function ApprovalsPage({
                   )}
                 </Card>
               ))}
+            </div>
+          )}
+
+          <SectionTitle>
+            Agent action requests{pendingActions.length > 0 ? ` · ${pendingActions.length} pending` : ''}
+          </SectionTitle>
+          <p style={{ fontFamily: BODY, fontSize: 13, color: C.body, margin: '0 0 12px' }}>
+            Actions agents filed from live chat — email drafts and webhook posts. Approving records
+            your decision;{' '}
+            {dispatchEnabled()
+              ? 'dispatch is ON, so approved actions are carried out immediately.'
+              : 'dispatch is OFF (ACTION_DISPATCH_ENABLED), so nothing sends even after approval — the yes is just on file.'}
+          </p>
+          {actionRows.length === 0 ? (
+            <Empty>No agent action requests yet — they appear when an agent files a draft from chat.</Empty>
+          ) : (
+            <div style={{ display: 'grid', gap: 12, marginBottom: 24 }}>
+              {actionRows.map((a: ActionRequestRow) => {
+                const email = a.kind === 'email_draft' ? (a.payload as { to?: string; subject?: string; body?: string; reason?: string }) : null;
+                const hook = a.kind === 'webhook' ? (a.payload as { url?: string; reason?: string }) : null;
+                const conn = a.kind === 'connector_action' ? (a.payload as { action?: string; app?: string; data?: Record<string, unknown>; reason?: string }) : null;
+                return (
+                  <Card key={a.id} style={{ padding: '16px 20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 6 }}>
+                      <Pill tone={a.status === 'pending' ? 'warn' : a.status === 'rejected' || a.status === 'failed' ? 'bad' : 'ok'}>
+                        {a.status}
+                      </Pill>
+                      <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 15, color: C.ink }}>
+                        {a.kind === 'email_draft'
+                          ? `email draft — ${email?.subject ?? '(no subject)'}`
+                          : a.kind === 'webhook'
+                            ? `webhook — ${hook?.url ?? ''}`
+                            : `${conn?.action?.replace(/_/g, ' ') ?? 'business action'} → ${conn?.app ?? 'connected tool'}`}
+                      </span>
+                      <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted, marginLeft: 'auto' }}>
+                        {nzDate(a.created_at)}
+                      </span>
+                    </div>
+                    <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, margin: '0 0 4px' }}>
+                      agent: {a.agent_slug} · from: {a.requested_by}
+                      {email?.to ? ` · to: ${email.to}` : a.kind === 'email_draft' ? ' · to: (not provided)' : ''}
+                    </p>
+                    <p style={{ fontFamily: BODY, fontSize: 13, color: C.body, margin: '4px 0 0' }}>
+                      {(email?.reason ?? hook?.reason ?? conn?.reason) || ''}
+                    </p>
+                    {conn?.data ? (
+                      <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, whiteSpace: 'pre-wrap', margin: '8px 0 0', borderLeft: `2px solid ${C.hairline}`, paddingLeft: 12 }}>
+                        {JSON.stringify(conn.data, null, 2).slice(0, 700)}
+                      </p>
+                    ) : null}
+                    {email?.body ? (
+                      <p style={{ fontFamily: BODY, fontSize: 13, color: C.body, whiteSpace: 'pre-wrap', margin: '8px 0 0', borderLeft: `2px solid ${C.hairline}`, paddingLeft: 12 }}>
+                        {email.body.length > 900 ? `${email.body.slice(0, 900)}…` : email.body}
+                      </p>
+                    ) : null}
+
+                    {a.status === 'pending' ? (
+                      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginTop: 14 }}>
+                        <form action={approveAgentAction} style={{ display: 'contents' }}>
+                          <input type="hidden" name="id" value={a.id} />
+                          <input name="note" placeholder="Optional review note" style={noteInput} />
+                          <button type="submit" style={reviewButton(C.ok, true)}>
+                            Approve
+                          </button>
+                        </form>
+                        <form action={rejectAgentAction}>
+                          <input type="hidden" name="id" value={a.id} />
+                          <button type="submit" style={reviewButton(C.bad, false)}>
+                            Reject
+                          </button>
+                        </form>
+                      </div>
+                    ) : (
+                      <p style={{ fontFamily: MONO, fontSize: 11, color: C.muted, margin: '12px 0 0' }}>
+                        {a.status} by {a.reviewer ?? '—'} · {nzDate(a.decided_at ?? a.created_at)}
+                        {a.review_note ? ` · "${a.review_note}"` : ''}
+                      </p>
+                    )}
+                  </Card>
+                );
+              })}
             </div>
           )}
 

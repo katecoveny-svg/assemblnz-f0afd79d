@@ -27,12 +27,35 @@ async function applyRememberParam(url: URL) {
  *   {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=magiclink&next={{ .RedirectTo }}
  * Configured in Supabase Dashboard → Auth → Email Templates.
  */
+/**
+ * Resolve the post-confirm destination. Normally `next` is a relative path.
+ * Magic-link emails sent before 2026-07-05 carry an ABSOLUTE URL instead: the
+ * old template pointed the link at SiteURL with the real confirm URL (which
+ * held the true destination in its own `next`) nested inside. Unwrap that so
+ * rescued old links still land where the visitor was headed, not on /app.
+ */
+function resolveNext(raw: string | null): string {
+  if (!raw) return '/app';
+  if (raw.startsWith('/')) return raw;
+  try {
+    const nested = new URL(raw);
+    const host = nested.hostname;
+    if (host === 'assembl.co.nz' || host.endsWith('.assembl.co.nz')) {
+      const inner = nested.searchParams.get('next');
+      if (inner && inner.startsWith('/')) return inner;
+      if (!nested.pathname.startsWith('/auth')) return `${nested.pathname}${nested.search}`;
+    }
+  } catch {
+    // not a URL — fall through to the default
+  }
+  return '/app';
+}
+
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const token_hash = url.searchParams.get('token_hash');
   const type = url.searchParams.get('type') as EmailOtpType | null;
-  const nextParam = url.searchParams.get('next');
-  const next = nextParam && nextParam.startsWith('/') ? nextParam : '/app';
+  const next = resolveNext(url.searchParams.get('next'));
 
   await applyRememberParam(url);
 

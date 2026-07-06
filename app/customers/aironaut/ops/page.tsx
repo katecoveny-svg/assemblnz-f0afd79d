@@ -177,10 +177,12 @@ export default function AironautOsHome() {
           fill
           priority
           sizes="100vw"
-          className="aironaut-hero-kenburns object-cover"
-          // Portrait frame in a landscape hero: bias the crop up and right so
-          // the painted AIRONAUT wordmark stays in view at every viewport.
-          style={{ objectPosition: '62% 30%' }}
+          // Portrait frame in a landscape hero. On phones the container is
+          // nearly the image's aspect so 30%-up keeps the wordmark high with
+          // the bow still in frame. On desktop the visible band is only ~28%
+          // of the image height — 30% lands entirely on the painted hull, so
+          // drop the crop to keep the yacht bow in view (Kate, 2026-07-05).
+          className="aironaut-hero-kenburns object-cover object-[62%_30%] md:object-[62%_68%]"
         />
         {/* Navy scrim behind the chrome + headline — keeps white type legible
             where the crop puts the pale hull under it (375px). */}

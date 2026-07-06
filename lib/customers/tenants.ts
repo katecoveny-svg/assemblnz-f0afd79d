@@ -73,6 +73,38 @@ export const TENANTS: readonly Tenant[] = [
     blurb: 'Wait-moment earn — sponsors, tiers, reconciliation, treasury.',
     accentClass: 'border-lime-200/70',
   },
+  {
+    slug: 'toa-architects',
+    displayName: 'TOA Architects',
+    parentBrand: 'TOA × ARC concept',
+    status: 'concept',
+    blurb: 'Architecture practice ops — brand-film hero, BIM viewers, six-job tray, integrations orbit.',
+    accentClass: 'border-stone-300/70',
+  },
+  {
+    slug: 'lula-inn',
+    displayName: 'Lula Inn',
+    parentBrand: 'Hospo pilot concept',
+    status: 'concept',
+    blurb: 'Hospitality ops — roster, compliance, service periods, mana receipts.',
+    accentClass: 'border-rose-200/70',
+  },
+  {
+    slug: 'moana',
+    displayName: 'Moana',
+    parentBrand: 'Boating & fishing concept',
+    status: 'concept',
+    blurb: 'Recreational boating & fishing assistant — forecast, tides, catch log, knots, safety.',
+    accentClass: 'border-cyan-200/70',
+  },
+  {
+    slug: 'family',
+    displayName: 'Family OS',
+    parentBrand: 'Whānau operating system concept',
+    status: 'concept',
+    blurb: 'The family operating system — forward a school newsletter, get the week: events, pickups, shopping, approvals.',
+    accentClass: 'border-orange-200/70',
+  },
 ] as const;
 
 export function findTenant(slug: string): Tenant | undefined {

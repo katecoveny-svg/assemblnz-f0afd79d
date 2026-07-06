@@ -15,8 +15,47 @@ import { FREE_MESSAGE_LIMIT } from '@/lib/billing/agent-pricing';
 import { getEntitlementStatus, incrementFreeUsage } from '@/lib/billing/agent-entitlement';
 import { resolveChatIdentity, ANON_COOKIE, anonCookieOptions } from '@/lib/billing/chat-identity';
 import { searchLiveTariff, TARIFF_TRUST_FOOTER_RULES } from '@/lib/customs/tariff-live';
+import { loadDbPrompt, composePrompt, loadDbKnowledge, knowledgeBlock } from '@/lib/agents/prompt-store';
+import { createActionRequest } from '@/lib/agents/action-requests';
+import { requestHasDemoGrant } from '@/lib/demo-invites/gate';
+import { capabilityProfileFor } from '@/lib/marketplace/agent-capabilities';
+import {
+  bundleFor,
+  trustFooterRules,
+  TAONGA_SPECIES_HOLD,
+  KAUMATUA_HELD_SLUGS,
+  KAUMATUA_HOLD_MESSAGE,
+} from '@/lib/agents/knowledge-map';
+import { checkChatRateLimit, chatClientIp } from '@/lib/agents/chat-rate-limit';
+import { writeChatReceipt } from '@/lib/agents/receipts';
 
 export const maxDuration = 60;
+
+// ── CORS ─────────────────────────────────────────────────────────────────────
+// The staging marketing site (a static Next app on its own origin) embeds the
+// per-agent ChatWidget and calls this route cross-origin. Only the origins
+// below are allowed; everything else gets no CORS headers and the browser
+// blocks it.
+const ALLOWED_CHAT_ORIGINS = new Set([
+  'https://staging.assembl.co.nz',
+  'http://localhost:3000',
+  'http://localhost:3001',
+]);
+
+function corsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get('origin');
+  if (!origin || !ALLOWED_CHAT_ORIGINS.has(origin)) return {};
+  return {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    Vary: 'Origin',
+  };
+}
+
+export async function OPTIONS(req: Request) {
+  return new Response(null, { status: 204, headers: corsHeaders(req) });
+}
 
 /** Build a Set-Cookie header string from our anon cookie options. */
 function anonSetCookie(value: string): string {
@@ -124,7 +163,26 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const agent = marketplaceAgentBySlug(slug);
 
   if (!agent) {
-    return Response.json({ error: 'Unknown agent.' }, { status: 404 });
+    return Response.json({ error: 'Unknown agent.' }, { status: 404, headers: corsHeaders(req) });
+  }
+
+  // Kaumātua-hold: the taonga-species recovery agents don't chat until the
+  // kaupapa has kaumātua and iwi sign-off. Held at the route, not the prompt.
+  if (KAUMATUA_HELD_SLUGS.has(slug)) {
+    return Response.json(
+      { error: 'kaumatua_hold', message: KAUMATUA_HOLD_MESSAGE },
+      { status: 451, headers: corsHeaders(req) },
+    );
+  }
+
+  // Flood control (per IP per agent + per IP global). The free-message gate
+  // below is the spend control; this stops scripted hammering.
+  const rate = await checkChatRateLimit(chatClientIp(req.headers), slug);
+  if (!rate.allowed) {
+    return Response.json(
+      { error: 'rate_limited', message: 'Too many messages right now — give it a few minutes.' },
+      { status: 429, headers: corsHeaders(req) },
+    );
   }
 
   // Resolve the free-fallback ladder: the tier primary (Claude) then Gemini →
@@ -140,7 +198,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
         error:
           'Chat is not configured yet — set ANTHROPIC_API_KEY (primary) or a fallback key (GEMINI_API_KEY / GROQ_API_KEY / OLLAMA_BASE_URL). See .env.local.example.',
       },
-      { status: 503 },
+      { status: 503, headers: corsHeaders(req) },
     );
   }
 
@@ -148,14 +206,20 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   try {
     body = await req.json();
   } catch {
-    return Response.json({ error: 'Invalid request body.' }, { status: 400 });
+    return Response.json({ error: 'Invalid request body.' }, { status: 400, headers: corsHeaders(req) });
   }
 
   // ── Free-tier gate ────────────────────────────────────────────────────────
   // Entitled (paid) callers skip the limit. Otherwise this user/device gets
-  // FREE_MESSAGE_LIMIT messages on this agent, then the paywall.
+  // FREE_MESSAGE_LIMIT messages on this agent, then the paywall. A genuine
+  // gated-demo viewer (valid shared basic-auth or a signed invite/hub cookie)
+  // runs unmetered — pilot workspaces must never dead-end on a paywall — while
+  // anonymous public traffic on the open web stays metered as before.
   const { identity, setAnonId } = await resolveChatIdentity();
-  const status = await getEntitlementStatus(identity, slug, { freeForever: agent.priceNzd === 0 });
+  const demoGrant = await requestHasDemoGrant(req);
+  const status = await getEntitlementStatus(identity, slug, {
+    freeForever: agent.priceNzd === 0 || demoGrant,
+  });
   if (!status.entitled && status.remaining <= 0) {
     return Response.json(
       {
@@ -165,7 +229,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
         freeLimit: FREE_MESSAGE_LIMIT,
         message: `You've used your ${FREE_MESSAGE_LIMIT} free messages with ${agent.name}. Subscribe to keep going.`,
       },
-      { status: 402 },
+      { status: 402, headers: corsHeaders(req) },
     );
   }
   if (!status.entitled) {
@@ -175,9 +239,15 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   const messages = body.messages ?? [];
   const modelMessages = await convertToModelMessages(messages);
 
+  // System prompt: DB-first (agent_prompts, pack='marketplace', versioned —
+  // curated from Kate's corpus), falling back to the locked code prompt.
+  // Pilot knowledge (pack='knowledge') loads alongside — absent row, no block.
+  const [dbPrompt, pilotKnowledge] = await Promise.all([loadDbPrompt(slug), loadDbKnowledge(slug)]);
+  const resolvedPrompt = dbPrompt ? composePrompt(dbPrompt.text) : agent.systemPrompt;
+
   // When the primary is unavailable and we're starting on a fallback rung, the
   // agent self-discloses and we log the selection-time fallback.
-  const baseSystem = rung.isPrimary ? agent.systemPrompt : `${agent.systemPrompt}\n\n${FALLBACK_DISCLOSURE}`;
+  const baseSystem = rung.isPrimary ? resolvedPrompt : `${resolvedPrompt}\n\n${FALLBACK_DISCLOSURE}`;
   if (!rung.isPrimary) {
     void recordModelFallback({
       agentSlug: agent.slug,
@@ -288,12 +358,113 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     },
   });
 
+  // ── Action path (PR 3) ────────────────────────────────────────────────────
+  // Agents whose capability profile declares send_email / webhook can FILE an
+  // action request. Filing is the whole tool: the row lands 'pending' in
+  // agent_action_requests, a named operator decides on /admin/approvals, and
+  // dispatch is separately env-gated. The tool result tells the model exactly
+  // what it may claim — drafted and held, never sent.
+  const profile = capabilityProfileFor(agent);
+  const requesterRef = 'userId' in identity ? `user:${identity.userId}` : `anon:${identity.anonId}`;
+
+  const draftEmailHandoff = tool({
+    description:
+      'File an email DRAFT for human review. Use when the user asks you to email someone (a customer, a supplier, a colleague). The email is NEVER sent by this tool — it is held for a named person to approve. Gather the recipient (if known), a clear subject and the full body before calling.',
+    inputSchema: z.object({
+      to: z.string().email().optional().describe('Recipient email, if the user provided one'),
+      subject: z.string().min(3).max(200),
+      body: z.string().min(20).describe('The complete drafted email body'),
+      reason: z.string().min(5).max(300).describe('One line on why this email should go out'),
+    }),
+    execute: async (input) => {
+      const created = await createActionRequest({
+        agentSlug: agent.slug,
+        requestedBy: requesterRef,
+        kind: 'email_draft',
+        payload: input,
+      });
+      if (!created) {
+        return { status: 'error', note: 'Could not file the draft for review. Tell the user to copy the draft text themselves for now.' };
+      }
+      return {
+        status: 'held_for_review',
+        requestId: created.id,
+        note: 'Draft filed and held for human approval. Tell the user: the email is DRAFTED and waiting for a named person to approve it — it has NOT been sent, and you cannot send it.',
+      };
+    },
+  });
+
+  const requestWebhookAction = tool({
+    description:
+      'File a webhook action request for human review — a structured payload the business wants posted to an endpoint they control (their CRM, their sheet bridge, their job system). NEVER call this with an endpoint you invented: only when the user names their own webhook URL. The request is held for human approval; nothing is posted by this tool.',
+    inputSchema: z.object({
+      url: z.string().url().describe('The https endpoint the USER provided'),
+      payload: z.record(z.string(), z.unknown()).describe('The structured data to deliver'),
+      reason: z.string().min(5).max(300),
+    }),
+    execute: async (input) => {
+      if (!input.url.startsWith('https://')) {
+        return { status: 'error', note: 'Only https endpoints can be filed. Ask the user for an https URL.' };
+      }
+      const created = await createActionRequest({
+        agentSlug: agent.slug,
+        requestedBy: requesterRef,
+        kind: 'webhook',
+        payload: input,
+      });
+      if (!created) {
+        return { status: 'error', note: 'Could not file the request. Tell the user honestly and suggest trying again later.' };
+      }
+      return {
+        status: 'held_for_review',
+        requestId: created.id,
+        note: 'Request filed and held for human approval. Tell the user it is queued for review — nothing has been posted yet.',
+      };
+    },
+  });
+
+  const requestBusinessAction = tool({
+    description:
+      "File a business action against the customer's OWN connected tool (their sheet, their CRM) for human review — create a lead, or add a row to a sheet. The action is NEVER run by this tool: it is held for a named person to approve, and only runs at all once the business has connected the tool with the assembl team. Gather the concrete data first (the lead's details, the row's values).",
+    inputSchema: z.object({
+      action: z.enum(['create_lead', 'add_sheet_row']),
+      app: z.enum(['google_sheets', 'hubspot']).describe('Which connected tool this targets'),
+      data: z.record(z.string(), z.unknown()).describe('The lead fields or row values'),
+      reason: z.string().min(5).max(300),
+    }),
+    execute: async (input) => {
+      const created = await createActionRequest({
+        agentSlug: agent.slug,
+        requestedBy: requesterRef,
+        kind: 'connector_action',
+        // Connected-account owner is a server-side convention, never
+        // model-supplied: the pilot's account is connected under this id.
+        payload: { ...input, externalUserId: `agent:${agent.slug}` },
+      });
+      if (!created) {
+        return { status: 'error', note: 'Could not file the action. Tell the user honestly and offer the data as text instead.' };
+      }
+      return {
+        status: 'held_for_review',
+        requestId: created.id,
+        note: 'Action filed and held for human approval. Tell the user: it is QUEUED for a named person to approve — nothing has run against their systems, and you cannot run it.',
+      };
+    },
+  });
+
+  const canDraftEmail = profile.tools.includes('send_email');
+  const canWebhook = profile.tools.includes('webhook');
+  const canConnector = profile.tools.includes('create_lead') || profile.tools.includes('add_sheet_row');
+
   const tools = {
     ...nzKnowledgeTools,
     scheduleTextReminder,
     ...(isMaritime ? { marineWeather: marineWeatherTool } : {}),
     ...(isCreative ? { generateImage: generateImageTool, ...creativeTools } : {}),
     ...(isCustoms ? { tariffLookup } : {}),
+    ...(canDraftEmail ? { draftEmailHandoff } : {}),
+    ...(canWebhook ? { requestWebhookAction } : {}),
+    ...(canConnector ? { requestBusinessAction } : {}),
   };
 
   const knowledgeBlocks: string[] = [];
@@ -307,8 +478,28 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
   if (isVoiceAgent(agent.slug)) knowledgeBlocks.push(VOICE_RECEPTIONIST_KNOWLEDGE);
   if (isCustoms) knowledgeBlocks.push(TARIFF_TRUST_FOOTER_RULES);
 
+  // Every agent carries the trust-footer contract (assigned sources, footer
+  // format, honest-UNAVAILABLE rule); Kaitiaki agents also carry the
+  // taonga-species kaumātua-hold.
+  knowledgeBlocks.push(trustFooterRules(agent.slug));
+  if (bundleFor(agent.slug) === 'kaitiaki') knowledgeBlocks.push(TAONGA_SPECIES_HOLD);
+
   const handoffBlock = handoffPromptBlock(agent.slug);
   if (handoffBlock) knowledgeBlocks.push(handoffBlock);
+
+  // Pilot-configured business knowledge (agent_prompts pack='knowledge').
+  if (pilotKnowledge) knowledgeBlocks.push(knowledgeBlock(pilotKnowledge));
+
+  if (canDraftEmail || canWebhook || canConnector) {
+    const abilities = [
+      ...(canDraftEmail ? ['email drafts (draftEmailHandoff)'] : []),
+      ...(canWebhook ? ['webhook posts to an endpoint the user names (requestWebhookAction)'] : []),
+      ...(canConnector ? ["business actions against the customer's connected tools — create a lead, add a sheet row (requestBusinessAction)"] : []),
+    ].join('; ');
+    knowledgeBlocks.push(
+      `# Action requests (drafts only)\nYou can FILE actions for human review — ${abilities}. Rules: you never send, post, run, or promise delivery — a named person reviews every request first, and you say so plainly. Never invent recipients, endpoints, or data. After filing, confirm what was filed and that it is held for approval.`,
+    );
+  }
 
   knowledgeBlocks.push(
     "Text reminders (offer proactively): you can set up SMS reminders for the user with the scheduleTextReminder tool. Whenever someone wants a reminder, a recurring nudge, or to be texted something, offer it, then run a quick set-up before calling the tool. First, confirm what to send (keep it short and friendly) and when (one-off, daily, or weekly with the day and time). Second, ask for the recipient's mobile in international format (e.g. +64211234567) — their own number or someone else's. Third, get an explicit opt-in for that number: ask them to confirm they have that person's permission to receive these texts and that the person can ask to stop at any time, and only continue on a clear yes — this consent is recorded and is required under the Unsolicited Electronic Messages Act 2007. Only after all three, call scheduleTextReminder (you can set up several at once), then confirm what is scheduled, that it will arrive by text on that schedule, and that they can message you any time to change, pause, or stop a reminder.",
@@ -325,10 +516,23 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     tools,
     // Allow a couple of tool round-trips before the final answer.
     stopWhen: stepCountIs(4),
+    onFinish: ({ steps }) => {
+      const toolsUsed = steps.flatMap((s) => (s.toolCalls ?? []).map((c) => c?.toolName).filter((n): n is string => !!n));
+      writeChatReceipt({
+        agent: agent.slug,
+        domain: agent.category,
+        model: rung.id,
+        promptSource: dbPrompt ? 'db' : 'code',
+        promptVersion: dbPrompt?.version ?? null,
+        toolsUsed: Array.from(new Set(toolsUsed)),
+        draftMode: true,
+      });
+    },
     // Mid-stream provider error: log it as a fallback signal (best-effort). True
     // mid-stream model failover is a follow-up; selection-time fallback above
     // already covers the common "primary key absent / provider down at start".
     onError: ({ error }) => {
+      console.error(`[agents/${agent.slug}/chat] stream error:`, error);
       void recordModelFallback({
         agentSlug: agent.slug,
         primaryModel: rung.id,
@@ -338,7 +542,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
     },
   });
 
-  return result.toUIMessageStreamResponse(
-    setAnonId ? { headers: { 'Set-Cookie': anonSetCookie(setAnonId) } } : undefined,
-  );
+  const headers: Record<string, string> = { ...corsHeaders(req) };
+  if (setAnonId) headers['Set-Cookie'] = anonSetCookie(setAnonId);
+  return result.toUIMessageStreamResponse(Object.keys(headers).length ? { headers } : undefined);
 }
