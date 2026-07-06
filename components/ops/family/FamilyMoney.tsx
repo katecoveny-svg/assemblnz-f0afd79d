@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { draftAllowanceAction } from '@/app/customers/family/ops/actions';
+import { InkJar } from '@/app/customers/family/ops/visuals/ink';
 
 /**
  * Kids' money — Tōro, the flagship family agent.
@@ -61,7 +62,7 @@ function Bar({ pct, color }: { pct: number; color: string }) {
   );
 }
 
-export function FamilyMoney() {
+export function FamilyMoney({ readOnly = false }: { readOnly?: boolean }) {
   const payout = KIDS.reduce((sum, k) => sum + k.allowance, 0);
   return (
     <div>
@@ -87,12 +88,15 @@ export function FamilyMoney() {
                 ))}
               </div>
 
-              <div style={{ marginTop: 12, borderTop: `1px solid ${GOLD}22`, paddingTop: 10 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5 }}>
-                  <span style={{ color: INK, fontWeight: 600 }}>Saving for {k.goal.label}</span>
-                  <span style={{ color: MUTED }}>${k.goal.saved} / ${k.goal.target} · {pct}%</span>
+              <div style={{ marginTop: 12, borderTop: `1px solid ${GOLD}22`, paddingTop: 10, display: 'flex', gap: 10, alignItems: 'center' }}>
+                <InkJar size={34} level={pct / 100} title={`${k.name}'s savings jar`} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5 }}>
+                    <span style={{ color: INK, fontWeight: 600 }}>Saving for {k.goal.label}</span>
+                    <span style={{ color: MUTED }}>${k.goal.saved} / ${k.goal.target} · {pct}%</span>
+                  </div>
+                  <Bar pct={pct} color={CORAL} />
                 </div>
-                <Bar pct={pct} color={CORAL} />
               </div>
             </div>
           );
@@ -102,12 +106,16 @@ export function FamilyMoney() {
       <div style={{ ...card, marginTop: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
         <div>
           <div style={{ fontSize: 13, fontWeight: 700, color: INK }}>Sunday payout ready · ${payout.toFixed(2)}</div>
-          <div style={{ fontSize: 11.5, color: MUTED, marginTop: 2 }}>Allowances for the chores marked done. You release it — Tōro never moves real money.</div>
+          <div style={{ fontSize: 11.5, color: MUTED, marginTop: 2 }}>Allowances for the chores marked done. {readOnly ? 'A parent releases it' : 'You release it'} — Tōro never moves real money.</div>
         </div>
-        <form action={draftAllowanceAction}>
-          <input type="hidden" name="amount" value={payout.toFixed(2)} />
-          <button type="submit" style={{ fontSize: 12.5, fontWeight: 600, color: '#fff', background: CORAL, border: 'none', borderRadius: 999, padding: '9px 16px', cursor: 'pointer' }}>Release Sunday’s allowance (draft)</button>
-        </form>
+        {readOnly ? (
+          <span style={{ fontSize: 11.5, color: MUTED, fontStyle: 'italic' }}>waiting on a parent</span>
+        ) : (
+          <form action={draftAllowanceAction}>
+            <input type="hidden" name="amount" value={payout.toFixed(2)} />
+            <button type="submit" style={{ fontSize: 12.5, fontWeight: 600, color: '#fff', background: CORAL, border: 'none', borderRadius: 999, padding: '9px 16px', cursor: 'pointer' }}>Release Sunday’s allowance (draft)</button>
+          </form>
+        )}
       </div>
     </div>
   );

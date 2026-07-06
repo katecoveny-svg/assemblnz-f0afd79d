@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
-import { woolworthsSearch } from '@/lib/family/connectors';
+import { woolworthsSearch, uberEatsSearch } from '@/lib/family/connectors';
 import { draftGroceryOrderAction } from '@/app/customers/family/ops/actions';
+import { FamilyDropzone } from '@/components/ops/family/FamilyDropzone';
 
 /**
  * Kitchen + groceries — the Woolworths spoke.
@@ -88,6 +89,11 @@ export function FamilyKitchen() {
           </div>
         </div>
         <div style={{ fontSize: 11, color: MUTED, marginTop: 10 }}>Ask the assistant for “budget”, “no cook” or “use what’s in the fridge”.</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
+          <a href={uberEatsSearch('spaghetti bolognese', 'Mangawhai')} target="_blank" rel="noreferrer"
+            style={{ fontSize: 12, fontWeight: 600, color: '#fff', background: INK, textDecoration: 'none', borderRadius: 999, padding: '7px 13px' }}>Order it in via Uber Eats ↗</a>
+          <span style={{ fontSize: 10.5, color: MUTED }}>Uber Eats opens where you finish. Assembl helps you decide.</span>
+        </div>
       </div>
 
       {/* Draft basket → pickup / delivery + Uber Direct flow */}
@@ -115,6 +121,21 @@ export function FamilyKitchen() {
             need a Woolworths partnership — that’s the flagship (see the integration brief).
           </p>
         </div>
+      </div>
+
+      {/* Snap it in — receipts, fridge, product photos → the vision agent reads them */}
+      <div style={card}>
+        <p style={label}>snap it in</p>
+        <div style={{ fontSize: 11.5, color: MUTED, margin: '6px 0 10px', lineHeight: 1.5 }}>A receipt, a fridge photo, or a product — the vision agent reads it and drops what it finds into your week, with a trust score to check.</div>
+        <FamilyDropzone
+          kinds={[{ key: 'receipt', label: 'Receipt' }, { key: 'fridge', label: 'Fridge / pantry' }, { key: 'product', label: 'Product' }]}
+          defaultKind="receipt"
+          hint="Read on-device · draft-only · auto-deleted after 30 days"
+        />
+      </div>
+
+      <div style={{ gridColumn: '1 / -1', fontSize: 10.5, color: MUTED, borderTop: `1px solid ${GOLD}22`, paddingTop: 8 }}>
+        <strong style={{ color: INK }}>Coming next: Uber Direct + Delivereasy partner API.</strong> Books couriers, tracks delivery, and closes the loop end-to-end. Requires commercial accounts (Kate’s pitching both).
       </div>
     </div>
   );

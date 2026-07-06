@@ -59,6 +59,45 @@ export async function saveProposed(hub: string, source: string, week: ParsedWeek
   }
 }
 
+/**
+ * Save a single dropped note (the "throw it in" box / a voice drop) as ONE
+ * proposed item, attributed to whoever dropped it. `from` + timestamp live on
+ * the item detail so the week can show "from Jack, 2 mins ago".
+ */
+export async function saveDrop(input: {
+  hub?: string;
+  kind: FamilyKind;
+  title: string;
+  from?: string;
+  raw?: string;
+  when_label?: string | null;
+  person?: string | null;
+  location?: string | null;
+  channel?: 'text' | 'voice';
+}): Promise<boolean> {
+  try {
+    const sb = getServiceClient();
+    const { error } = await sb.from('family_items').insert({
+      hub: input.hub ?? 'demo',
+      kind: input.kind,
+      title: input.title,
+      person: input.person ?? null,
+      location: input.location ?? null,
+      when_label: input.when_label ?? null,
+      source: 'drop',
+      detail: {
+        from: input.from ?? null,
+        raw: input.raw ?? null,
+        channel: input.channel ?? 'text',
+        dropped_at: new Date().toISOString(),
+      },
+    });
+    return !error;
+  } catch {
+    return false;
+  }
+}
+
 export async function decide(id: string, status: FamilyStatus): Promise<void> {
   try {
     const sb = getServiceClient();

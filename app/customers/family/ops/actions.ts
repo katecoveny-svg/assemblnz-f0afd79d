@@ -2,8 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 import { parseNewsletter } from '@/lib/family/parse';
-import { saveProposed, decide, assignPickup, clearProposed, familyContext, listFamily, group } from '@/lib/family/store';
+import { saveProposed, decide, assignPickup, clearProposed, familyContext, listFamily, group, saveDrop } from '@/lib/family/store';
 import { createActionRequest } from '@/lib/agents/action-requests';
+import { parseDrop } from '@/lib/family/drop';
+import { uploadAndScan, type FamilyUploadKind } from '@/lib/family/uploads';
 import { SAMPLE_NEWSLETTER } from '@/lib/family/sample';
 
 /**
@@ -126,6 +128,75 @@ export async function draftAllowanceAction(formData: FormData) {
       subject: `Weekly allowance ready to release — $${amount}`,
       body: `Tōro has this week's allowance ready: $${amount} across Mila and Jack, for the chores marked done.\n\nThis is a DRAFT for your approval. No money moves on its own — releasing records your yes; the transfer stays with you.`,
       reason: `Weekly allowance payout drafted ($${amount}) — draft-only, no funds moved.`,
+    },
+  });
+  revalidatePath('/customers/family/ops');
+}
+
+/**
+ * "Throw it in" — anyone in the whānau drops a quick note (typed or spoken →
+ * transcribed) from any device. We route the intent to the right tab and file a
+ * single PROPOSED item, attributed to whoever dropped it. Draft-only: it lands
+ * in the week for Kate to approve; nothing is booked, paid or sent.
+ */
+export async function throwItInAction(formData: FormData) {
+  const text = String(formData.get('text') ?? '').trim();
+  const from = String(formData.get('from') ?? '').trim() || 'Someone';
+  const channel = formData.get('channel') === 'voice' ? 'voice' : 'text';
+  if (!text) return;
+  const parsed = await parseDrop(text);
+  await saveDrop({
+    hub: HUB,
+    kind: parsed.kind,
+    title: parsed.title,
+    when_label: parsed.when_label ?? null,
+    person: parsed.person ?? null,
+    location: parsed.location ?? null,
+    from,
+    raw: text,
+    channel,
+  });
+  revalidatePath('/customers/family/ops');
+}
+
+/**
+ * Upload a photo / PDF / short video from the Kitchen or Inbox drop-zones. The
+ * file goes to the private per-tenant family-uploads bucket and is scanned by
+ * the family-vision function; anything it reads lands as PROPOSED items with a
+ * Trust A/B/C score for Kate to review. Draft-only, RLS-locked, purged after 30
+ * days. No child data leaves the tenant.
+ */
+export async function uploadFamilyFileAction(formData: FormData) {
+  const file = formData.get('file');
+  const kind = String(formData.get('kind') ?? 'receipt') as FamilyUploadKind;
+  const from = String(formData.get('from') ?? '').trim() || 'Someone';
+  if (!(file instanceof File) || file.size === 0) return;
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  await uploadAndScan({
+    file: { bytes, name: file.name || 'upload', type: file.type || 'application/octet-stream' },
+    kind,
+    hub: HUB,
+    uploadedBy: from,
+  });
+  revalidatePath('/customers/family/ops');
+}
+
+/**
+ * "Want us to reach out about a Delivereasy integration?" — files a DRAFT
+ * partner-intake note. Draft-only: nothing is sent to Delivereasy; it records
+ * Kate's interest so she can follow up. (Delivereasy has no public consumer API
+ * today — couriers are booked by hand until a partner deal lands.)
+ */
+export async function draftDelivereasyIntakeAction() {
+  await createActionRequest({
+    agentSlug: 'family-os',
+    requestedBy: `family:${HUB}`,
+    kind: 'email_draft',
+    payload: {
+      to: OWNER_EMAIL,
+      subject: 'Delivereasy partner integration — reach out?',
+      body: `Drafted a note to open a Delivereasy partner conversation: connect their courier network so "send a courier" books and tracks end-to-end from Family OS.\n\nThis is a DRAFT — nothing has been sent to Delivereasy. Approve it and we'll follow up on your behalf.`,
+      reason: 'Delivereasy partner-integration intake (draft-only — not sent).',
     },
   });
   revalidatePath('/customers/family/ops');

@@ -43,3 +43,24 @@ export function woolworthsSearch(item: string): string {
 export function shoppingListText(list: string, items: string[]): string {
   return `${list}\n${items.map((i) => `• ${i}`).join('\n')}`;
 }
+
+/** Uber Eats NZ search for a dish (opens the app/site pre-filled — the "order
+ *  it" handoff for a meal we've planned; no API relationship needed). */
+export function uberEatsSearch(dish: string, address?: string): string {
+  const q = `q=${enc(dish)}`;
+  const a = address ? `&pl=${enc(address)}` : '';
+  return `https://www.ubereats.com/nz/search?${q}${a}`;
+}
+
+/** Delivereasy NZ — a real NZ-owned on-demand courier (Auckland/Wgtn/Chch).
+ *  They have no public consumer API, so this opens their site; the booking is
+ *  done by hand until a partner integration lands. Kept honest in the UI. */
+export function delivereasyHome(): string {
+  return 'https://www.delivereasy.co.nz/';
+}
+
+/** Uber ride deep-link reused as a courier fallback — the adult adds the note
+ *  for the driver. Fragile, but works where Delivereasy is off. */
+export function uberCourierFallback(pickup: string, dropoff: string): string {
+  return uberDeepLink(dropoff, pickup);
+}
