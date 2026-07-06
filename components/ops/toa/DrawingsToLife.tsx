@@ -4,14 +4,15 @@ import { useEffect, useRef, useState } from 'react';
 import { Cormorant_Garamond } from 'next/font/google';
 
 /**
- * DrawingsToLife — "drawings rise. sun turns. buildings build."
+ * DrawingsToLife — "drawings rise. sun turns. rooms come to life."
  *
  * Nick's connection is to the drawing. So the drawing stays central: it starts
  * as a scanned 2D plan and, on scroll, lifts and recedes while the 3D model
- * rises in front of it — the drawing standing up, not replaced. The model is
- * Kate's verbatim 16A BIM viewer (bim-viewer-enhanced.html), which already
- * carries the sun-path study (Move 2 — time) and the construction-phase
- * scrubber (Move 3 — phase). We frame; we don't re-port the model.
+ * rises in front of it — the drawing standing up, not replaced. The model is a
+ * warm, furnished interior-design-style dollhouse of the 16C two-bed unit
+ * (bim-viewer-interior.html): the rooms laid out and lived-in (Move 3), with a
+ * real Auckland sun slider — dawn to golden hour (Move 2). We frame; we don't
+ * re-port the model.
  *
  * Honest: the plan is a stand-in of the 16C typology, not Nick's sheets.
  */
@@ -21,8 +22,7 @@ const cormorant = Cormorant_Garamond({
   display: 'swap',
 });
 
-const VIEWER = '/brand/toa-architects/16a-hubert-henderson/bim-viewer-enhanced.html';
-const WALKTHROUGH = '/brand/toa-architects/16a-hubert-henderson/bim-walkthrough.html';
+const VIEWER = '/brand/toa-architects/16a-hubert-henderson/bim-viewer-interior.html';
 const CHAMPAGNE = '#bfa37a';
 
 /** Scanned-look 2D floor plan of the 16C two-bed unit — inline, self-contained. */
@@ -161,11 +161,11 @@ export function DrawingsToLife() {
           className={`${cormorant.className} lowercase text-3xl leading-tight md:text-4xl`}
           style={{ color: '#161516' }}
         >
-          drawings rise. sun turns. buildings build.
+          drawings rise. sun turns. rooms come to life.
         </h2>
         <p className="mt-2 text-sm leading-relaxed" style={{ color: '#363a35' }}>
           the drawing stays central. the model rises off it — same 16A, now
-          standing. scroll.
+          standing, furnished, and lit. scroll.
         </p>
       </div>
 
@@ -186,7 +186,7 @@ export function DrawingsToLife() {
               {mount ? (
                 <iframe
                   src={VIEWER}
-                  title="16A Hubert Henderson Place — assembl BIM viewer (sun-path + construction phases)"
+                  title="16A Hubert Henderson Place — furnished two-bed unit, interior model with sun study"
                   className="block h-full w-full border-0"
                   loading="lazy"
                 />
@@ -218,13 +218,13 @@ export function DrawingsToLife() {
                 {t < 0.85 ? 'the drawing you drew —' : 'the drawing you drew — now standing.'}
               </p>
               <a
-                href={WALKTHROUGH}
+                href={VIEWER}
                 target="_blank"
                 rel="noreferrer"
                 className="pointer-events-auto shrink-0 rounded-full px-3 py-1.5 text-[11px] font-semibold transition hover:opacity-90"
                 style={{ backgroundColor: CHAMPAGNE, color: '#1a1918' }}
               >
-                walk the site →
+                open the model →
               </a>
             </div>
           </div>
@@ -245,13 +245,13 @@ export function DrawingsToLife() {
           },
           {
             k: 'the sun, crossing',
-            cap: '9am. 12pm. 3pm. same day, three sun studies.',
-            sub: 'drag the time + season sliders in the model.',
+            cap: 'dawn. midday. golden hour. one real Auckland day.',
+            sub: 'drag the light slider in the model.',
           },
           {
-            k: 'the build, sequenced',
-            cap: 'foundation to finish. drag the scrubber.',
-            sub: 'the phase timeline is built into the model.',
+            k: 'the rooms, furnished',
+            cap: 'beds, kitchen, living, deck — every space laid out.',
+            sub: 'toggle furnished or bare shell in the model.',
           },
         ].map((m) => (
           <div key={m.k} className="flex flex-col gap-2 rounded-xl border border-black/5 bg-white p-4">
