@@ -12,8 +12,14 @@ import { FamilyRides } from '@/components/ops/family/FamilyRides';
 import { FamilyKitchen } from '@/components/ops/family/FamilyKitchen';
 import { FamilyMoney } from '@/components/ops/family/FamilyMoney';
 import { FamilyInbox } from '@/components/ops/family/FamilyInbox';
+import { FamilyProfiles } from '@/components/ops/family/FamilyProfiles';
+import { FamilyPacking } from '@/components/ops/family/FamilyPacking';
+import { FamilyMoanaChat } from '@/components/ops/family/FamilyMoanaChat';
+import { FamilyHomeworkChat } from '@/components/ops/family/FamilyHomeworkChat';
 import { getInboxStatus } from '@/lib/family/inbox-status';
 import { getFamilyViewer } from '@/lib/family/viewer';
+import { WHANAU, WHANAU_DEMO, custodyThisWeek, DEMO_MODE_COOKIE, type Person } from '@/lib/family/profiles';
+import { cookies } from 'next/headers';
 import { approveAction, dismissAction, assignPickupAction, emailDigestAction } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -82,6 +88,21 @@ export default async function FamilyOsHome() {
   const inboxStatus = await getInboxStatus('demo');
   const viewer = await getFamilyViewer();
 
+  const jar = await cookies();
+  const demoMode = jar.get(DEMO_MODE_COOKIE)?.value === '1';
+  const added: Person[] = g.people
+    .filter((p) => (p.detail as { added?: boolean })?.added)
+    .map((p) => ({
+      id: p.id, name: p.title, mark: p.title.slice(0, 1).toLowerCase(),
+      role: String((p.detail as { role?: string })?.role || 'whānau'),
+      kind: 'parent' as const,
+      details: ((p.detail as { details?: string[] })?.details ?? []),
+      accent: '#BFA37A',
+    }));
+  const people: Person[] = [...(demoMode ? WHANAU_DEMO : WHANAU), ...added];
+  const custody = custodyThisWeek();
+  const kids = people.filter((p) => p.kind === 'child' && p.year);
+
   const body: CSSProperties = { fontFamily: 'var(--font-brand-body)', color: INK };
 
   return (
@@ -104,6 +125,11 @@ export default async function FamilyOsHome() {
 
       {/* ── Throw it in — anyone drops a note (typed or spoken) ──────── */}
       <ThrowItIn />
+
+      {/* ── The whānau — profiles, custody, Franklin ─────────────────── */}
+      <Section id="whanau" title="The whānau" accent={GOLD} empty={false}>
+        <FamilyProfiles people={people} custody={custody} demoMode={demoMode} />
+      </Section>
 
       {/* ── Live family assistant + approval queue, side by side ─────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1.05fr) minmax(280px, 0.95fr)', gap: 16, alignItems: 'start' }}>
@@ -210,6 +236,11 @@ export default async function FamilyOsHome() {
         <FamilyKitchen />
       </Section>
 
+      {/* ── Packing lists — text it to the kids + gear reminders ──────── */}
+      <Section id="packing" title="Packing lists" accent={SAGE} empty={false}>
+        <FamilyPacking />
+      </Section>
+
       {/* ── Shopping lists (from the newsletter) ──────────────────────── */}
       <Section id="shopping" title="Shopping" accent={SAGE} empty={g.shopping.length === 0 && 'Nut-free plates, sports kit, lunchbox — lists appear from the newsletter.'}>
           {g.shopping.map((s) => {
@@ -236,6 +267,20 @@ export default async function FamilyOsHome() {
       {/* ── Kids' money · Tōro (chores → allowance → savings) ─────────── */}
       <Section id="money" title="Kids’ money · Tōro" accent={CORAL} empty={false}>
         <FamilyMoney readOnly={viewer?.isKid} />
+      </Section>
+
+      {/* ── Boating — Moana, the mariner ─────────────────────────────── */}
+      <Section id="boating" title="On the water · Moana" accent={BLUE} empty={false}>
+        <FamilyMoanaChat />
+      </Section>
+
+      {/* ── Homework help — grounded to each kid's year + school ─────── */}
+      <Section id="homework" title="Homework help" accent={CORAL} empty={kids.length === 0 && 'Add the kids’ year + school and homework help appears here.'}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 14 }}>
+          {kids.map((k) => (
+            <FamilyHomeworkChat key={k.id} child={{ name: k.name, year: k.year ?? 0, school: k.school ?? '', level: k.level ?? 'NZ Curriculum' }} />
+          ))}
+        </div>
       </Section>
 
       {/* ── Inbox · Echo (always-on email parsing) ────────────────────── */}

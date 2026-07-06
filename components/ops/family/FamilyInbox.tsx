@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { InboxStatus } from '@/lib/family/inbox-status';
 import { FamilyDropzone } from '@/components/ops/family/FamilyDropzone';
+import { requestInboxConnectAction } from '@/app/customers/family/ops/actions';
 
 /**
  * Inbox (Echo) — the always-on email spoke.
@@ -57,6 +58,21 @@ export function FamilyInbox({ status }: { status: InboxStatus | null }) {
             : 'Not connected yet — showing a sample. Connect your inbox to go live.'}
         </span>
       </div>
+
+      {!connected ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
+          <span style={{ fontSize: 11, color: MUTED }}>Connect your inbox so newsletters + bills parse automatically:</span>
+          <form action={requestInboxConnectAction}>
+            <input type="hidden" name="provider" value="Outlook" />
+            <button type="submit" style={{ fontSize: 11.5, fontWeight: 600, color: '#fff', background: '#0F6CBD', border: 'none', borderRadius: 999, padding: '6px 12px', cursor: 'pointer' }}>Connect Outlook</button>
+          </form>
+          <form action={requestInboxConnectAction}>
+            <input type="hidden" name="provider" value="Gmail" />
+            <button type="submit" style={{ fontSize: 11.5, fontWeight: 600, color: INK, background: 'transparent', border: `1px solid ${GOLD}66`, borderRadius: 999, padding: '6px 12px', cursor: 'pointer' }}>Connect Gmail</button>
+          </form>
+          <span style={{ fontSize: 10, color: MUTED }}>sync’s deployed &amp; waiting — one-time authorise finishes it</span>
+        </div>
+      ) : null}
 
       <div style={{ marginTop: 10 }}>
         <FamilyDropzone

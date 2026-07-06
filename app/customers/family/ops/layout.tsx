@@ -20,10 +20,14 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1, view
  * dashboard fills the canvas.
  */
 const NAV: Array<[string, string]> = [
+  ['The whānau', '#whanau'],
   ['This week', '#week'],
   ['Rides', '#rides'],
   ['Kitchen', '#kitchen'],
+  ['Packing', '#packing'],
   ['Kids’ money', '#money'],
+  ['Homework', '#homework'],
+  ['Boating', '#boating'],
   ['Inbox', '#inbox'],
   ['Pickups', '#pickups'],
   ['Approvals', '#approvals'],
