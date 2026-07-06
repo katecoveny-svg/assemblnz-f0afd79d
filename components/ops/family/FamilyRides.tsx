@@ -19,7 +19,7 @@ const BLUE = '#6E93A6';
 const SAGE = '#7A8B6F';
 const CORAL = '#E08A6B';
 
-const HOME = 'Mangawhai, Northland';
+const HOME = 'Kohimarama, Auckland';
 
 type Ride = {
   who: string;
@@ -33,28 +33,30 @@ type Ride = {
   teens?: boolean;
 };
 
-// Demo rides derived from this week's pickups (placeholder data).
+// Real Auckland school runs (Kate's week). Fares are indicative estimates —
+// Uber operates in Auckland and the deep-links are real, but live per-trip
+// quotes need Uber's Developer API (the estimate MCP doesn't cover NZ).
 const RIDES: Ride[] = [
   {
-    who: 'Mila',
-    trip: 'School disco pickup',
-    when: 'Friday 8:00pm',
-    from: 'Mangawhai Beach School hall',
+    who: 'Jack',
+    trip: 'Sacred Heart pickup',
+    when: 'Weekdays ~3:20pm',
+    from: 'Sacred Heart College, Glendowie',
     to: HOME,
-    est: '$12–16',
-    eta: '~6 min away',
-    note: 'Disco ends 8:00pm sharp — Mum on the calendar; Uber is the backup if the night runs late.',
+    est: '~$18–26',
+    eta: 'Auckland · ~5–8 min',
+    note: 'Glendowie → Kohimarama, ~6 km. Uber Teens if he’s riding solo. On Aaron’s weeks this is his run.',
+    teens: true,
   },
   {
-    who: 'Jack',
-    trip: 'Cross country return',
-    when: 'Tuesday ~2:30pm',
-    from: 'Mangawhai Beach School',
+    who: 'Mila',
+    trip: 'Baradene pickup',
+    when: 'Weekdays ~3:30pm',
+    from: 'Baradene College, Remuera',
     to: HOME,
-    est: '$10–14',
-    eta: '~5 min away',
-    note: 'Dad can’t — late shift Tuesdays. Backup pickup: Ben (neighbour). Uber Teens if no adult’s free.',
-    teens: true,
+    est: '~$16–23',
+    eta: 'Auckland · ~7–10 min',
+    note: 'Remuera → Kohimarama, ~5 km. Too young for Uber Teens — an adult confirms and rides, or it’s a parent pickup.',
   },
 ];
 
@@ -100,7 +102,7 @@ export function FamilyRides() {
         <div style={{ fontSize: 12.5, color: INK, fontWeight: 600 }}>Confirm-and-tap only</div>
         <p style={{ fontSize: 11.5, color: MUTED, lineHeight: 1.55, marginTop: 6 }}>
           I never book a ride for you. Tapping opens Uber with the trip pre-filled — you check the fare and confirm.
-          Estimates are indicative; Uber Connect (the parcel courier) covers Auckland &amp; metro, rural varies. For a child riding solo, use <strong style={{ color: INK }}>Uber Teens</strong> on the family profile.
+          Estimates are indicative (live per-trip quotes need Uber’s Developer API — the estimate tool doesn’t cover NZ). Uber Connect, the parcel courier, covers Auckland. For a child riding solo, use <strong style={{ color: INK }}>Uber Teens</strong> on the family profile.
         </p>
       </div>
 
@@ -114,7 +116,7 @@ export function FamilyRides() {
           <div style={{ border: `1px solid ${GOLD}33`, borderRadius: 10, padding: '10px 11px' }}>
             <div style={{ fontSize: 12.5, fontWeight: 700, color: INK }}>Uber Connect</div>
             <div style={{ fontSize: 10.5, color: MUTED, margin: '3px 0 8px' }}>Uber’s send-a-parcel courier — <strong style={{ color: SAGE }}>live in Auckland &amp; metro</strong>, up to 20&nbsp;kg. Choose “Uber Connect” in the app.</div>
-            <a href={uberConnectSend('Mangawhai, Northland', 'Mangawhai Beach School')} target="_blank" rel="noreferrer" style={pill(CORAL)}>Send with Uber Connect ↗</a>
+            <a href={uberConnectSend('Kohimarama, Auckland', 'Sacred Heart College, Glendowie')} target="_blank" rel="noreferrer" style={pill(CORAL)}>Send with Uber Connect ↗</a>
           </div>
           <div style={{ border: `1px solid ${GOLD}33`, borderRadius: 10, padding: '10px 11px' }}>
             <div style={{ fontSize: 12.5, fontWeight: 700, color: INK }}>Delivereasy</div>

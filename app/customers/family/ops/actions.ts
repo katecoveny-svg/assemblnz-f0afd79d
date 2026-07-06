@@ -1,12 +1,15 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
+import { getServiceClient } from '@/lib/supabase/service';
 import { parseNewsletter } from '@/lib/family/parse';
 import { saveProposed, decide, assignPickup, clearProposed, familyContext, listFamily, group, saveDrop } from '@/lib/family/store';
 import { createActionRequest } from '@/lib/agents/action-requests';
 import { parseDrop } from '@/lib/family/drop';
 import { uploadAndScan, type FamilyUploadKind } from '@/lib/family/uploads';
 import { SAMPLE_NEWSLETTER } from '@/lib/family/sample';
+import { DEMO_MODE_COOKIE } from '@/lib/family/profiles';
 
 /**
  * Family OS server actions. These POST to the /customers/family route, so the
@@ -198,6 +201,69 @@ export async function draftDelivereasyIntakeAction() {
       body: `Drafted a note to open a Delivereasy partner conversation: connect their courier network so "send a courier" books and tracks end-to-end from Family OS.\n\nThis is a DRAFT — nothing has been sent to Delivereasy. Approve it and we'll follow up on your behalf.`,
       reason: 'Delivereasy partner-integration intake (draft-only — not sent).',
     },
+  });
+  revalidatePath('/customers/family/ops');
+}
+
+/** Add a family member (or anyone in the circle) — stored as an approved person
+ *  row so it shows in the whānau immediately. */
+export async function addFamilyMemberAction(formData: FormData) {
+  const name = String(formData.get('name') ?? '').trim();
+  if (!name) return;
+  const role = String(formData.get('role') ?? '').trim();
+  const details = String(formData.get('details') ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+  try {
+    const sb = getServiceClient();
+    await sb.from('family_items').insert({
+      hub: HUB, kind: 'person', title: name, status: 'approved', source: 'profile',
+      detail: { role, details, added: true },
+    });
+  } catch {
+    // fail soft
+  }
+  revalidatePath('/customers/family/ops');
+}
+
+/** Flip demo mode (placeholder whānau for prospect showings) on/off via cookie. */
+export async function toggleDemoModeAction() {
+  const jar = await cookies();
+  const on = jar.get(DEMO_MODE_COOKIE)?.value === '1';
+  jar.set(DEMO_MODE_COOKIE, on ? '0' : '1', { path: '/customers/family', maxAge: 60 * 60 * 24 * 365 });
+  revalidatePath('/customers/family/ops');
+}
+
+/** Register intent to connect an inbox (Gmail / Outlook). The family-inbox-sync
+ *  backend is already deployed and waiting on an OAuth token; this files the
+ *  request so the one-time authorise gets actioned. Nothing is connected here —
+ *  the OAuth consent is done by Kate; see docs/FAMILY-INBOX-ECHO-SETUP.md. */
+export async function requestInboxConnectAction(formData: FormData) {
+  const provider = String(formData.get('provider') ?? '').trim() || 'inbox';
+  await createActionRequest({
+    agentSlug: 'family-os',
+    requestedBy: `family:${HUB}`,
+    kind: 'email_draft',
+    payload: {
+      to: OWNER_EMAIL,
+      subject: `Connect ${provider} to Echo — authorise it`,
+      body: `You asked to connect your ${provider} inbox so Echo can read newsletters + bills.\n\nThe sync runs already (deployed, dry-mode). The last step is a one-time OAuth authorise + secret — steps in docs/FAMILY-INBOX-ECHO-SETUP.md. Nothing is connected until you complete that.`,
+      reason: `Inbox connect requested (${provider}) — OAuth is the remaining step, draft-only.`,
+    },
+  });
+  revalidatePath('/customers/family/ops');
+}
+
+/** Drop a gear reminder (a packing list) into the week as a proposed task. */
+export async function draftGearReminderAction(formData: FormData) {
+  const label = String(formData.get('label') ?? '').trim() || 'Gear';
+  const items = String(formData.get('items') ?? '').trim();
+  await saveDrop({
+    hub: HUB,
+    kind: 'task',
+    title: `Pack for ${label}`,
+    when_label: 'before you go',
+    from: 'Packing lists',
+    raw: items,
+    channel: 'text',
   });
   revalidatePath('/customers/family/ops');
 }
