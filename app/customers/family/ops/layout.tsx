@@ -21,8 +21,11 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1, view
  */
 const NAV: Array<[string, string]> = [
   ['This week', '#week'],
+  ['Rides', '#rides'],
+  ['Kitchen', '#kitchen'],
+  ['Kids’ money', '#money'],
+  ['Inbox', '#inbox'],
   ['Pickups', '#pickups'],
-  ['Shopping', '#shopping'],
   ['Approvals', '#approvals'],
   ['Family memory', '#memory'],
 ];

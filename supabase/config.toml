@@ -163,6 +163,8 @@ project_id = "wurwcrgxjjwqdaxqceey"
     verify_jwt = false
   [functions.evidence-sweep]
     verify_jwt = false
+  [functions.family-inbox-sync]
+    verify_jwt = false
   [functions.ambient-agent-loop]
     verify_jwt = false
   [functions.morning-briefing]

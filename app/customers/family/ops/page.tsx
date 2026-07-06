@@ -7,6 +7,11 @@ import type { FamilyItem } from '@/lib/family/types';
 import { googleCalendarLink, mapsDirections, uberDeepLink, woolworthsSearch } from '@/lib/family/connectors';
 import { FamilyHeroPanel } from '@/components/ops/family/FamilyHeroPanel';
 import { FamilyChat } from '@/components/ops/family/FamilyChat';
+import { FamilyRides } from '@/components/ops/family/FamilyRides';
+import { FamilyKitchen } from '@/components/ops/family/FamilyKitchen';
+import { FamilyMoney } from '@/components/ops/family/FamilyMoney';
+import { FamilyInbox } from '@/components/ops/family/FamilyInbox';
+import { getInboxStatus } from '@/lib/family/inbox-status';
 import { approveAction, dismissAction, assignPickupAction, emailDigestAction } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -72,6 +77,7 @@ export default async function FamilyOsHome() {
   const g = group(items);
   const proposedCount = g.proposed.length;
   const parsed = items.some((i) => i.source === 'newsletter');
+  const inboxStatus = await getInboxStatus('demo');
 
   const body: CSSProperties = { fontFamily: 'var(--font-brand-body)', color: INK };
 
@@ -175,8 +181,20 @@ export default async function FamilyOsHome() {
             );
           })}
         </Section>
+      </div>
 
-        <Section id="shopping" title="Shopping" accent={SAGE} empty={g.shopping.length === 0 && 'Nut-free plates, sports kit, lunchbox — lists appear from the newsletter.'}>
+      {/* ── Rides + logistics (Uber estimates + deep links) ───────────── */}
+      <Section id="rides" title="Rides + logistics" accent={BLUE} empty={false}>
+        <FamilyRides />
+      </Section>
+
+      {/* ── Kitchen + groceries (Woolworths + Uber Direct) ────────────── */}
+      <Section id="kitchen" title="Kitchen + groceries" accent={SAGE} empty={false}>
+        <FamilyKitchen />
+      </Section>
+
+      {/* ── Shopping lists (from the newsletter) ──────────────────────── */}
+      <Section id="shopping" title="Shopping" accent={SAGE} empty={g.shopping.length === 0 && 'Nut-free plates, sports kit, lunchbox — lists appear from the newsletter.'}>
           {g.shopping.map((s) => {
             const d = s.detail as { items?: string[]; reason?: string };
             return (
@@ -198,7 +216,18 @@ export default async function FamilyOsHome() {
           })}
         </Section>
 
-        <Section id="memory" title="Family memory" accent={GOLD} empty={false}>
+      {/* ── Kids' money · Tōro (chores → allowance → savings) ─────────── */}
+      <Section id="money" title="Kids’ money · Tōro" accent={CORAL} empty={false}>
+        <FamilyMoney />
+      </Section>
+
+      {/* ── Inbox · Echo (always-on email parsing) ────────────────────── */}
+      <Section id="inbox" title="Inbox · Echo" accent={BLUE} empty={false}>
+        <FamilyInbox status={inboxStatus} />
+      </Section>
+
+      {/* ── Family memory ─────────────────────────────────────────────── */}
+      <Section id="memory" title="Family memory" accent={GOLD} empty={false}>
           {g.memory.map((m) => (
             <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 0', borderBottom: `1px solid ${GOLD}22` }}>
               <span style={{ width: 6, height: 6, borderRadius: 999, background: m.status === 'approved' ? SAGE : CORAL, flex: 'none' }} />
@@ -215,7 +244,6 @@ export default async function FamilyOsHome() {
             ))}
           </div>
         </Section>
-      </div>
 
       <p style={{ ...body, fontSize: 11, color: MUTED, textAlign: 'center' }}>
         Concept demo · the agent proposes, you approve, the app executes (calendar / maps / Uber / Woolworths handoffs).
