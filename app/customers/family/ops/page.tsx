@@ -120,7 +120,7 @@ export default async function FamilyOsHome() {
 
       {/* ── Approval queue — the trust centre ────────────────────────── */}
       {proposedCount > 0 ? (
-        <div style={{ ...glass, border: `1.5px solid ${CORAL}`, padding: 22 }}>
+        <div id="approvals" style={{ ...glass, border: `1.5px solid ${CORAL}`, padding: 22, scrollMarginTop: 80 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
             <div>
               <p style={{ ...eyebrow, color: CORAL }}>waiting for you · {proposedCount}</p>
@@ -148,7 +148,7 @@ export default async function FamilyOsHome() {
 
       {/* ── The grid: week / pickups / shopping / memory ─────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: 16, alignItems: 'start' }}>
-        <Section title="This week" accent={CORAL} empty={g.events.length === 0 && 'Events land here once you parse a newsletter.'}>
+        <Section id="week" title="This week" accent={CORAL} empty={g.events.length === 0 && 'Events land here once you parse a newsletter.'}>
           {g.events.map((e) => (
             <Row key={e.id} item={e}>
               <div style={{ fontSize: 14, fontWeight: 600 }}>{e.title}</div>
@@ -174,7 +174,7 @@ export default async function FamilyOsHome() {
           ) : null}
         </Section>
 
-        <Section title="Pickup board" accent={BLUE} empty={g.pickups.length === 0 && 'Who’s collecting whom — appears when a newsletter mentions pickups.'}>
+        <Section id="pickups" title="Pickup board" accent={BLUE} empty={g.pickups.length === 0 && 'Who’s collecting whom — appears when a newsletter mentions pickups.'}>
           {g.pickups.map((p) => {
             const d = p.detail as { assigned?: string; backup?: string; note?: string };
             return (
@@ -205,7 +205,7 @@ export default async function FamilyOsHome() {
           })}
         </Section>
 
-        <Section title="Shopping" accent={SAGE} empty={g.shopping.length === 0 && 'Nut-free plates, sports kit, lunchbox — lists appear from the newsletter.'}>
+        <Section id="shopping" title="Shopping" accent={SAGE} empty={g.shopping.length === 0 && 'Nut-free plates, sports kit, lunchbox — lists appear from the newsletter.'}>
           {g.shopping.map((s) => {
             const d = s.detail as { items?: string[]; reason?: string };
             return (
@@ -227,7 +227,7 @@ export default async function FamilyOsHome() {
           })}
         </Section>
 
-        <Section title="Family memory" accent={GOLD} empty={false}>
+        <Section id="memory" title="Family memory" accent={GOLD} empty={false}>
           {g.memory.map((m) => (
             <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 0', borderBottom: `1px solid ${GOLD}22` }}>
               <span style={{ width: 6, height: 6, borderRadius: 999, background: m.status === 'approved' ? SAGE : CORAL, flex: 'none' }} />
@@ -272,10 +272,10 @@ function Done({ id }: { id: string }) {
   );
 }
 
-function Section({ title, accent, empty, children }: { title: string; accent: string; empty: string | false; children: React.ReactNode }) {
+function Section({ id, title, accent, empty, children }: { id?: string; title: string; accent: string; empty: string | false; children: React.ReactNode }) {
   const hasKids = Array.isArray(children) ? children.some(Boolean) : Boolean(children);
   return (
-    <div style={{ ...glass, padding: 18 }}>
+    <div id={id} style={{ ...glass, padding: 18, scrollMarginTop: 80 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span style={{ width: 8, height: 8, borderRadius: 999, background: accent }} />
         <p style={{ ...eyebrow, color: accent }}>{title}</p>
