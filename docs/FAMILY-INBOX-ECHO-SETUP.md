@@ -40,7 +40,102 @@ Until an inbox provider + OAuth creds are set, the function runs in **DRY MODE**
 This is by design — **the cron can be live in prod and still touch nothing** until Kate
 connects a real inbox. That keeps production clean while the plumbing is verified.
 
-## Go-live — connecting a real inbox
+## Connecting an inbox with one click (the "Connect Gmail / Outlook" buttons)
+
+The ops console has **Connect Outlook** / **Connect Gmail** buttons. When wired,
+clicking one takes Kate through a normal OAuth consent screen once; the refresh
+token is captured automatically and the sync goes live on its next tick — **no
+`supabase secrets set`, no redeploy**. This is the preferred path. (The manual
+`supabase secrets set` route in the next section still works and is the fallback.)
+
+### How it works
+
+1. **Start** — `GET /api/family/inbox/connect/{gmail|outlook}` redirects the
+   browser to the provider consent screen with the read-only mail scope
+   (`gmail.readonly`, or Microsoft `Mail.Read offline_access`),
+   `access_type=offline&prompt=consent`, and `state=<hub>` (default `demo`).
+2. **Callback** — `GET /api/family/inbox/callback/{gmail|outlook}` exchanges the
+   `code`, stores **only the refresh token** (+ the connected email, for display)
+   into `public.family_inbox_tokens (hub, provider)` via the service client, then
+   redirects to `/customers/family/ops?connected={provider}`.
+3. **Sync** — `family-inbox-sync` now **prefers the stored token** in
+   `family_inbox_tokens` over the env `FAMILY_INBOX_*_REFRESH_TOKEN`, mints an
+   access token per run, and reads the real inbox. Everything else (dedupe,
+   dry-mode, draft-only) is unchanged. If no token is stored *and* no env token is
+   set, it stays in **dry mode**.
+
+The token table has **RLS enabled with no policies** — it is service-role only.
+We store **only the refresh token**; access tokens are minted per run and never
+persisted. Tokens are **never logged**.
+
+### Repointing the buttons (one-line UI change — not done in this change)
+
+The two buttons currently file an `email_draft` action request
+(`requestInboxConnectAction`). To make them start the OAuth flow, point them at
+the connect route instead of the server action:
+
+- **Connect Outlook** → `href="/api/family/inbox/connect/outlook"`
+- **Connect Gmail**   → `href="/api/family/inbox/connect/gmail"`
+
+(i.e. render each as a plain link/anchor to that path — a top-level browser
+navigation, not `fetch`, since the route issues a 302 to the provider.)
+
+### Env needed for the buttons to work
+
+Set these on the **Next.js app** (Vercel env), not just the edge function:
+
+| Provider | Vars |
+| --- | --- |
+| Gmail   | `GMAIL_OAUTH_CLIENT_ID`, `GMAIL_OAUTH_CLIENT_SECRET` |
+| Outlook | `MS_OAUTH_CLIENT_ID`, `MS_OAUTH_CLIENT_SECRET` |
+| Both    | `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SUPABASE_URL` (already set) |
+| Both    | `NEXT_PUBLIC_SITE_URL` (or `APP_URL`) — the public origin, so the redirect_uri matches what you registered. Falls back to the request origin if unset. |
+
+> The connect route also accepts `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_CLIENT_ID`
+> (and the matching secrets) as Gmail fallbacks, but prefer `GMAIL_OAUTH_*` so the
+> **same** OAuth app that issues the refresh token is the one the sync refreshes
+> against (the sync mints Gmail tokens with `GMAIL_OAUTH_CLIENT_ID/SECRET`).
+
+If the client-id env is missing, the connect route redirects back to
+`/customers/family/ops?connect=needs-setup` rather than showing a broken consent
+page. Error paths from the callback come back as `?connect=denied|no-code|exchange-failed|no-refresh-token|store-failed` (+ `&provider=`).
+
+### Registering the OAuth apps
+
+**Google Cloud Console (Gmail):**
+
+1. **APIs & Services → Enable APIs** → enable the **Gmail API**.
+2. **Credentials → Create credentials → OAuth client ID → Web application.**
+3. Add an **Authorised redirect URI**:
+   `https://<your-domain>/api/family/inbox/callback/gmail`
+   (e.g. `https://demo.assembl.co.nz/api/family/inbox/callback/gmail`).
+4. **OAuth consent screen** → add the scope
+   `https://www.googleapis.com/auth/gmail.readonly`. While the app is in *Testing*,
+   add `kateharland@outlook.co.nz`'s Google account (or whichever Gmail you're
+   connecting) as a **test user**.
+5. Copy the client id/secret into `GMAIL_OAUTH_CLIENT_ID` / `GMAIL_OAUTH_CLIENT_SECRET`.
+
+**Microsoft Entra ID (Outlook):**
+
+1. **Entra ID → App registrations → New registration.** Supported account types:
+   personal + work (so `kateharland@outlook.co.nz` can sign in).
+2. **Authentication → Add a platform → Web**, redirect URI:
+   `https://<your-domain>/api/family/inbox/callback/outlook`.
+3. **API permissions → Microsoft Graph → Delegated →** add **`Mail.Read`** and
+   **`offline_access`**.
+4. **Certificates & secrets → New client secret.**
+5. Copy the application (client) id + secret into `MS_OAUTH_CLIENT_ID` /
+   `MS_OAUTH_CLIENT_SECRET`.
+
+### Honest status
+
+Until the OAuth apps above are registered, the four env vars are set, **and** Kate
+completes the consent screen once, nothing is connected and the sync **stays in
+dry mode** (parsing the bundled sample, writing nothing to prod). The plumbing is
+built and deployed; the remaining steps are app-registration + one click by Kate
+in production — neither of which can be done from a dev session.
+
+## Go-live — connecting a real inbox (manual secret route — fallback)
 
 ### Which inbox?
 

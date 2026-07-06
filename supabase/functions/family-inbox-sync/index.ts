@@ -29,12 +29,21 @@ const corsHeaders = {
  * the "same message re-processed every day" bug — we never rely on the unread
  * flag alone (a message can be re-read across runs, or marked unread again).
  *
+ * REFRESH TOKEN SOURCE: for each provider we prefer a STORED refresh token from
+ * public.family_inbox_tokens (hub, provider) — written by the "Connect Gmail /
+ * Outlook" flow (app/api/family/inbox/{connect,callback}). If there's no stored
+ * row we fall back to the env token (FAMILY_INBOX_*_REFRESH_TOKEN). This lets the
+ * demo go live the moment Kate authorises, with no redeploy. Access tokens are
+ * always minted per run from whichever refresh token we resolved.
+ *
  * Env:
  *  - SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (standard)
  *  - GEMINI_API_KEY (the AI gateway; same as echo-respond)
  *  - FAMILY_INBOX_PROVIDER = "gmail" | "outlook" | unset
- *  - Gmail:   FAMILY_INBOX_GMAIL_REFRESH_TOKEN, GMAIL_OAUTH_CLIENT_ID, GMAIL_OAUTH_CLIENT_SECRET
- *  - Outlook: FAMILY_INBOX_MS_REFRESH_TOKEN, MS_OAUTH_CLIENT_ID, MS_OAUTH_CLIENT_SECRET
+ *  - Gmail:   GMAIL_OAUTH_CLIENT_ID, GMAIL_OAUTH_CLIENT_SECRET (+ optional env
+ *             fallback FAMILY_INBOX_GMAIL_REFRESH_TOKEN)
+ *  - Outlook: MS_OAUTH_CLIENT_ID, MS_OAUTH_CLIENT_SECRET (+ optional env
+ *             fallback FAMILY_INBOX_MS_REFRESH_TOKEN)
  *  - FAMILY_INBOX_HUB (optional, default "demo")
  *  - FAMILY_INBOX_MAX (optional, default 10 — max NEW messages processed per run)
  */
@@ -108,9 +117,25 @@ type InboxMessage = { id: string; subject: string; body: string };
 
 const VALID_CATEGORIES = ["newsletter", "sports", "bill", "event", "school-admin", "other"];
 
+// ── Refresh-token resolution (stored first, then env) ───────────────────────
+// deno-lint-ignore no-explicit-any
+async function resolveRefreshToken(sb: any, hub: string, provider: "gmail" | "outlook", envFallback?: string): Promise<string | null> {
+  try {
+    const { data } = await sb
+      .from("family_inbox_tokens")
+      .select("refresh_token")
+      .eq("hub", hub)
+      .eq("provider", provider)
+      .maybeSingle();
+    if (data?.refresh_token) return data.refresh_token as string;
+  } catch (e) {
+    console.error("[family-inbox-sync] token lookup failed (falling back to env):", e);
+  }
+  return envFallback ?? null;
+}
+
 // ── Token minting ──────────────────────────────────────────────────────────
-async function mintGmailToken(): Promise<string | null> {
-  const refresh = Deno.env.get("FAMILY_INBOX_GMAIL_REFRESH_TOKEN");
+async function mintGmailToken(refresh: string | null): Promise<string | null> {
   const clientId = Deno.env.get("GMAIL_OAUTH_CLIENT_ID");
   const clientSecret = Deno.env.get("GMAIL_OAUTH_CLIENT_SECRET");
   if (!refresh || !clientId || !clientSecret) return null;
@@ -137,8 +162,7 @@ async function mintGmailToken(): Promise<string | null> {
   }
 }
 
-async function mintOutlookToken(): Promise<string | null> {
-  const refresh = Deno.env.get("FAMILY_INBOX_MS_REFRESH_TOKEN");
+async function mintOutlookToken(refresh: string | null): Promise<string | null> {
   const clientId = Deno.env.get("MS_OAUTH_CLIENT_ID");
   const clientSecret = Deno.env.get("MS_OAUTH_CLIENT_SECRET");
   if (!refresh || !clientId || !clientSecret) return null;
@@ -375,7 +399,8 @@ Deno.serve(async (req) => {
     let dryRun = false;
 
     if (provider === "gmail") {
-      const token = await mintGmailToken();
+      const refresh = await resolveRefreshToken(sb, hub, "gmail", Deno.env.get("FAMILY_INBOX_GMAIL_REFRESH_TOKEN"));
+      const token = await mintGmailToken(refresh);
       if (!token) {
         dryRun = true;
         summary.notes.push("gmail creds incomplete — falling back to dry run");
@@ -383,7 +408,8 @@ Deno.serve(async (req) => {
         messages = await fetchGmailMessages(token, maxMsgs);
       }
     } else if (provider === "outlook") {
-      const token = await mintOutlookToken();
+      const refresh = await resolveRefreshToken(sb, hub, "outlook", Deno.env.get("FAMILY_INBOX_MS_REFRESH_TOKEN"));
+      const token = await mintOutlookToken(refresh);
       if (!token) {
         dryRun = true;
         summary.notes.push("outlook creds incomplete — falling back to dry run");

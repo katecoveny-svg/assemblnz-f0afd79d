@@ -16,6 +16,8 @@ import { FamilyProfiles } from '@/components/ops/family/FamilyProfiles';
 import { FamilyPacking } from '@/components/ops/family/FamilyPacking';
 import { FamilyMoanaChat } from '@/components/ops/family/FamilyMoanaChat';
 import { FamilyHomeworkChat } from '@/components/ops/family/FamilyHomeworkChat';
+import { FamilyQuest } from '@/components/ops/family/FamilyQuest';
+import { familyOpsVisuals } from './visuals/manifest';
 import { getInboxStatus } from '@/lib/family/inbox-status';
 import { getFamilyViewer } from '@/lib/family/viewer';
 import { WHANAU, WHANAU_DEMO, custodyThisWeek, DEMO_MODE_COOKIE, type Person } from '@/lib/family/profiles';
@@ -168,7 +170,7 @@ export default async function FamilyOsHome() {
 
       {/* ── The grid: week / pickups / shopping / memory ─────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: 16, alignItems: 'start' }}>
-        <Section id="week" title="This week" accent={CORAL} empty={g.events.length === 0 && 'Events land here once you parse a newsletter.'}>
+        <Section id="week" title="This week" accent={CORAL} icon={familyOpsVisuals.heroes.week} empty={g.events.length === 0 && 'Events land here once you parse a newsletter.'}>
           {g.events.map((e) => (
             <Row key={e.id} item={e}>
               <div style={{ fontSize: 14, fontWeight: 600 }}>{e.title}</div>
@@ -227,12 +229,12 @@ export default async function FamilyOsHome() {
       </div>
 
       {/* ── Rides + logistics (Uber estimates + deep links) ───────────── */}
-      <Section id="rides" title="Rides + logistics" accent={BLUE} empty={false}>
+      <Section id="rides" title="Rides + logistics" accent={BLUE} icon={familyOpsVisuals.heroes.rides} empty={false}>
         <FamilyRides />
       </Section>
 
       {/* ── Kitchen + groceries (Woolworths + Uber Direct) ────────────── */}
-      <Section id="kitchen" title="Kitchen + groceries" accent={SAGE} empty={false}>
+      <Section id="kitchen" title="Kitchen + groceries" accent={SAGE} icon={familyOpsVisuals.heroes.kitchen} empty={false}>
         <FamilyKitchen />
       </Section>
 
@@ -264,6 +266,11 @@ export default async function FamilyOsHome() {
           })}
         </Section>
 
+      {/* ── Kids' quest — the interactive game layer ─────────────────── */}
+      <Section id="quest" title="Kids’ quest" accent={CORAL} empty={false}>
+        <FamilyQuest />
+      </Section>
+
       {/* ── Kids' money · Tōro (chores → allowance → savings) ─────────── */}
       <Section id="money" title="Kids’ money · Tōro" accent={CORAL} empty={false}>
         <FamilyMoney readOnly={viewer?.isKid} />
@@ -284,7 +291,7 @@ export default async function FamilyOsHome() {
       </Section>
 
       {/* ── Inbox · Echo (always-on email parsing) ────────────────────── */}
-      <Section id="inbox" title="Inbox · Echo" accent={BLUE} empty={false}>
+      <Section id="inbox" title="Inbox · Echo" accent={BLUE} icon={familyOpsVisuals.heroes.inbox} empty={false}>
         <FamilyInbox status={inboxStatus} />
       </Section>
 
@@ -324,13 +331,14 @@ function Done({ id }: { id: string }) {
   );
 }
 
-function Section({ id, title, accent, empty, children }: { id?: string; title: string; accent: string; empty: string | false; children: React.ReactNode }) {
+function Section({ id, title, accent, empty, icon, children }: { id?: string; title: string; accent: string; empty: string | false; icon?: string; children: React.ReactNode }) {
   const hasKids = Array.isArray(children) ? children.some(Boolean) : Boolean(children);
   return (
     <div id={id} style={{ ...glass, padding: 18, scrollMarginTop: 80 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span style={{ width: 8, height: 8, borderRadius: 999, background: accent }} />
         <p style={{ ...eyebrow, color: accent }}>{title}</p>
+        {icon ? <img src={icon} alt="" aria-hidden width={30} height={30} style={{ marginLeft: 'auto', opacity: 0.9 }} /> : null}
       </div>
       <div style={{ marginTop: 12 }}>
         {hasKids ? children : <p style={{ fontSize: 12.5, color: MUTED }}>{empty || 'Nothing yet.'}</p>}
