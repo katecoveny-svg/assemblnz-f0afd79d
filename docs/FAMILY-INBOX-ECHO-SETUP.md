@@ -89,7 +89,20 @@ Set these on the **Next.js app** (Vercel env), not just the edge function:
 | Gmail   | `GMAIL_OAUTH_CLIENT_ID`, `GMAIL_OAUTH_CLIENT_SECRET` |
 | Outlook | `MS_OAUTH_CLIENT_ID`, `MS_OAUTH_CLIENT_SECRET` |
 | Both    | `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_SUPABASE_URL` (already set) |
-| Both    | `NEXT_PUBLIC_SITE_URL` (or `APP_URL`) — the public origin, so the redirect_uri matches what you registered. Falls back to the request origin if unset. |
+| Both    | *(optional)* `FAMILY_INBOX_REDIRECT_ORIGIN` — pins the OAuth `redirect_uri` host. |
+
+> **Redirect URI is pinned to `https://demo.assembl.co.nz`.** The
+> `assemblnz-f0afd79d` deployment serves `demo.assembl.co.nz`, `assembl.co.nz`
+> **and** `www.assembl.co.nz` from one app, so the connect/callback routes do
+> **not** derive the OAuth `redirect_uri` from the request origin (a click from
+> `www.` would produce a `www.` URI and fail `redirect_uri_mismatch`). Both
+> routes hard-default the `redirect_uri` to
+> `https://demo.assembl.co.nz/api/family/inbox/callback/{gmail|outlook}`.
+> Register **exactly** that URI in both OAuth apps — no `www.`, no trailing slash.
+> Override only for local/preview via `FAMILY_INBOX_REDIRECT_ORIGIN`
+> (e.g. `http://localhost:3000`). `NEXT_PUBLIC_SITE_URL` is deliberately **not**
+> reused here — it is shared with the invites/onboarding magic-link flows and
+> must not be forced to the demo host globally.
 
 > The connect route also accepts `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_CLIENT_ID`
 > (and the matching secrets) as Gmail fallbacks, but prefer `GMAIL_OAUTH_*` so the
@@ -106,9 +119,8 @@ page. Error paths from the callback come back as `?connect=denied|no-code|exchan
 
 1. **APIs & Services → Enable APIs** → enable the **Gmail API**.
 2. **Credentials → Create credentials → OAuth client ID → Web application.**
-3. Add an **Authorised redirect URI**:
-   `https://<your-domain>/api/family/inbox/callback/gmail`
-   (e.g. `https://demo.assembl.co.nz/api/family/inbox/callback/gmail`).
+3. Add this **Authorised redirect URI** exactly (no `www.`, no trailing slash):
+   `https://demo.assembl.co.nz/api/family/inbox/callback/gmail`
 4. **OAuth consent screen** → add the scope
    `https://www.googleapis.com/auth/gmail.readonly`. While the app is in *Testing*,
    add `kateharland@outlook.co.nz`'s Google account (or whichever Gmail you're
@@ -119,8 +131,9 @@ page. Error paths from the callback come back as `?connect=denied|no-code|exchan
 
 1. **Entra ID → App registrations → New registration.** Supported account types:
    personal + work (so `kateharland@outlook.co.nz` can sign in).
-2. **Authentication → Add a platform → Web**, redirect URI:
-   `https://<your-domain>/api/family/inbox/callback/outlook`.
+2. **Authentication → Add a platform → Web**, redirect URI (exact, no `www.`,
+   no trailing slash):
+   `https://demo.assembl.co.nz/api/family/inbox/callback/outlook`.
 3. **API permissions → Microsoft Graph → Delegated →** add **`Mail.Read`** and
    **`offline_access`**.
 4. **Certificates & secrets → New client secret.**

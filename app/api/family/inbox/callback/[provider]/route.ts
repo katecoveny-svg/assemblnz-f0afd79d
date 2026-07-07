@@ -26,6 +26,15 @@ function originOf(req: Request): string {
   return new URL(req.url).origin;
 }
 
+// The redirect_uri sent on the token exchange MUST be byte-identical to the one
+// the connect route sent to the consent screen and to the URI registered in the
+// provider's OAuth app. It is pinned to the registered demo host (see the
+// matching note in ../../connect/[provider]/route.ts) — not the request origin,
+// which varies across the demo/apex/www domains this deployment serves.
+const REGISTERED_REDIRECT_ORIGIN = (
+  process.env.FAMILY_INBOX_REDIRECT_ORIGIN || 'https://demo.assembl.co.nz'
+).replace(/\/$/, '');
+
 export async function GET(req: Request, { params }: { params: Promise<{ provider: string }> }) {
   const { provider } = await params;
   const origin = originOf(req);
@@ -48,7 +57,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ provider
     return NextResponse.redirect(`${opsUrl}?connect=no-code&provider=${provider}`);
   }
 
-  const redirectUri = `${origin}/api/family/inbox/callback/${provider}`;
+  const redirectUri = `${REGISTERED_REDIRECT_ORIGIN}/api/family/inbox/callback/${provider}`;
 
   const clientId =
     provider === 'gmail'
