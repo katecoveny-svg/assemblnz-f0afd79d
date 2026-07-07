@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { WaitlistForm } from '@/components/alphassembl/WaitlistForm';
+import { ALPHASSEMBL_INTEGRATIONS } from '@/lib/registry/alphassembl-integrations';
 
 export const revalidate = 300;
 
@@ -111,7 +112,7 @@ export default function AlphassemblLanding() {
           />
           <div className="overflow-hidden rounded-[2rem] p-6">
             <Image
-              src="/alphassembl/franklin-rear.png"
+              src="/alphassembl/franklin-transparent.png"
               alt="Franklin, the Alphassembl dachshund"
               width={1122}
               height={1402}
@@ -223,11 +224,48 @@ export default function AlphassemblLanding() {
           <Lock size={18} className="mt-0.5 shrink-0" style={{ color: 'var(--a-muted)' }} />
           <p className="text-xs leading-relaxed" style={{ color: 'var(--a-muted)' }}>
             <strong style={{ color: 'var(--a-navy)' }}>Your privacy (NZ Privacy Act 2020, IPP 12).</strong>{' '}
-            Alphassembl uses AI services that may process your messages on servers outside New Zealand. We only collect
-            what we need to answer you and run the waitlist, we don’t sell your data, and we handle it under the NZ
-            Privacy Act 2020. You can ask us to delete your data at any time.
+            Kaiako inference runs on Anthropic’s US infrastructure during beta. We’re moving to NZ-region inference for
+            full launch. Your data is stored in Supabase Sydney (ANZ). We handle it under the NZ Privacy Act 2020,
+            including IPP 12 on overseas storage — we don’t sell your data, and you can ask us to delete it at any time.
           </p>
         </div>
+      </section>
+
+      {/* Works with */}
+      <section className="mx-auto max-w-6xl px-6 pb-4">
+        <div className="flex items-center gap-2">
+          <Sparkles size={18} style={{ color: 'var(--a-amber-600)' }} />
+          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--a-amber-600)' }}>
+            Works with
+          </span>
+        </div>
+        <h2 className="mt-3 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl" style={{ ...display, color: 'var(--a-navy)' }}>
+          Built for NZ dogs and the people who look after them
+        </h2>
+        <div className="mt-6 flex flex-wrap gap-3">
+          {ALPHASSEMBL_INTEGRATIONS.map((i) => (
+            <div
+              key={i.slug}
+              className="flex items-center gap-2.5 rounded-xl border px-4 py-3"
+              style={{ borderColor: '#eceef1', background: 'var(--a-grey)' }}
+            >
+              <span className="text-sm font-semibold" style={{ ...display, color: 'var(--a-navy)' }}>{i.name}</span>
+              <span
+                className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide"
+                style={
+                  i.status === 'live'
+                    ? { background: '#ecfdf3', color: '#17663a' }
+                    : { background: '#fef3c7', color: 'var(--a-amber-600)' }
+                }
+              >
+                {i.status === 'live' ? 'Live' : 'Roadmap'}
+              </span>
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 text-xs" style={{ color: 'var(--a-muted)' }}>
+          Draft-only during beta — nothing takes payment or posts to your books without a human saying yes.
+        </p>
       </section>
 
       {/* Waitlist */}

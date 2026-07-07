@@ -21,9 +21,10 @@ export const runtime = 'nodejs';
  *   2. Urgency pre-pass (cheap Haiku): routine | concerning | refer_to_professional.
  *   3. If refer_to_professional → skip RAG, return a calm safety reply + the
  *      referral directory (alphassembl_vets). Nothing is dispatched.
- *   4. Else → lexical RAG over the three P1 sources (match_alphassembl_knowledge),
- *      inject as grounded context, generate with the locked Kaiako prompt, and
- *      return the reply with its Trust-tiered sources.
+ *   4. Else → Tier A vector RAG over the P1 sources via the kaiako-rag edge
+ *      function (match_knowledge_tier_a, scoped to 'kaiako'), inject as grounded
+ *      context, generate with the locked Kaiako prompt, and return the reply
+ *      with its Trust-tiered sources.
  */
 
 const DAILY_LIMIT = 50;
@@ -66,8 +67,6 @@ async function classifyUrgency(message: string): Promise<Urgency> {
   if (word.includes('concerning')) return 'concerning';
   return 'routine';
 }
-
-type Chunk = { source_slug: string; source_name: string; source_url: string | null; tier: string; content: string; rank: number };
 
 export async function POST(req: Request) {
   let json: unknown;
@@ -135,21 +134,32 @@ export async function POST(req: Request) {
     });
   }
 
-  // 4 · Grounded answer — lexical RAG + locked Kaiako prompt.
-  const { data: chunks } = await service.rpc('match_alphassembl_knowledge', {
-    query_text: message,
-    top_k: RAG_TOP_K,
-  });
-  const rows = (chunks ?? []) as Chunk[];
-
-  const knowledgeBlock = rows.length
-    ? rows
-        .map(
-          (c) =>
-            `[${c.source_name} · Trust ${c.tier}]\n${c.content}`,
-        )
-        .join('\n\n')
-    : '(No grounding passages matched this question — answer from your force-free training knowledge, say plainly where you are not citing a source, and never invent a citation.)';
+  // 4 · Grounded answer — Tier A VECTOR RAG via the kaiako-rag edge function
+  // (embeds the query + runs match_knowledge_tier_a where the Gemini key lives,
+  // scoped to sources 'kaiako' depends on). Fails soft to no grounding.
+  let knowledgeBlock =
+    '(No grounding passages matched this question — answer from your force-free training knowledge, say plainly where you are not citing a source, and never invent a citation.)';
+  let ragSources: { name: string; url: string | null; tier: string }[] = [];
+  try {
+    const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    if (base) {
+      const r = await fetch(`${base}/functions/v1/kaiako-rag`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ action: 'retrieve', query: message, top_k: RAG_TOP_K }),
+      });
+      if (r.ok) {
+        const data = (await r.json()) as {
+          context?: string;
+          sources?: Array<{ title: string; tier?: string; pointer?: string | null }>;
+        };
+        if (data.context && data.context.trim()) knowledgeBlock = data.context;
+        ragSources = (data.sources ?? []).map((s) => ({ name: s.title, url: s.pointer ?? null, tier: s.tier ?? 'A' }));
+      }
+    }
+  } catch {
+    /* fail soft — Kaiako answers from force-free knowledge and says so */
+  }
 
   const system = `${agent.systemPrompt}
 
@@ -176,11 +186,8 @@ ${knowledgeBlock}
     return NextResponse.json({ error: 'Kaiako could not answer just now — please try again.' }, { status: 502 });
   }
 
-  // Dedupe sources by name for the sources panel.
-  const seen = new Set<string>();
-  const sources = rows
-    .filter((c) => (seen.has(c.source_name) ? false : (seen.add(c.source_name), true)))
-    .map((c) => ({ name: c.source_name, url: c.source_url, tier: c.tier }));
+  // Sources for the panel — the edge function already dedupes by source name.
+  const sources = ragSources;
 
   await service
     .from('alphassembl_chat_log')
