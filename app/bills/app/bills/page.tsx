@@ -1,6 +1,7 @@
 import { Card, PageHeading, SectionLabel } from '@/components/bills/kit';
 import { UploadDropzone } from '@/components/bills/UploadDropzone';
 import { BillsTable } from '@/components/bills/BillsTable';
+import { LiveState } from '@/components/bills/LiveState';
 import { Mail } from 'lucide-react';
 import Link from 'next/link';
 
@@ -12,7 +13,10 @@ export default function BillsPage() {
       <div className="grid gap-4 lg:grid-cols-[1fr_1.4fr]">
         <div className="space-y-4">
           <Card>
-            <SectionLabel>Add a bill</SectionLabel>
+            <div className="mb-3 flex items-center justify-between">
+              <SectionLabel>Add a bill</SectionLabel>
+              <LiveState state="live" note="Claude Vision" />
+            </div>
             <UploadDropzone />
           </Card>
           <Card>
@@ -36,7 +40,10 @@ export default function BillsPage() {
         </div>
 
         <Card>
-          <SectionLabel>Tracked bills · 8</SectionLabel>
+          <div className="mb-3 flex items-center justify-between">
+            <SectionLabel>Tracked bills · 8</SectionLabel>
+            <LiveState state="sample" note="uploads appear in your log" />
+          </div>
           <BillsTable />
         </Card>
       </div>

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { EyeOff, PiggyBank, ReceiptText, Search, ArrowRight } from 'lucide-react';
 import { Card, PageHeading, SectionLabel, CategoryTag, TrendChip, money } from '@/components/bills/kit';
+import { LiveState } from '@/components/bills/LiveState';
 import { SpendTrendChart, CategoryDonut, CategoryLegend } from '@/components/bills/charts';
 import { stats, bills, hiddenCostsTotal, savingsTotal, household } from '@/lib/bills/data';
 
@@ -21,10 +22,13 @@ export default function OverviewPage() {
   const recent = bills.slice(0, 4);
   return (
     <div>
-      <PageHeading
-        title="Good evening, Kate"
-        lead={`Here’s where ${household.name} stands this month — ${household.billsTracked} bills tracked across ${household.suburb}.`}
-      />
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <PageHeading
+          title="Good evening, Kate"
+          lead={`Here’s where ${household.name} stands this month — ${household.billsTracked} bills tracked across ${household.suburb}.`}
+        />
+        <LiveState state="sample" note="demo household" />
+      </div>
 
       {/* 5-stat row */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">

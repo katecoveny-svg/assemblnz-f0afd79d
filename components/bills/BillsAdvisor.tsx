@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Sparkles, X, Send, Loader2, ShieldCheck } from 'lucide-react';
+import { useBillsSession } from './useSession';
 
 type Msg = { role: 'user' | 'assistant'; content: string; sources?: string[] };
 
@@ -23,6 +24,7 @@ const INTRO: Msg = {
  * switches anything; it prepares a recommendation for the household to approve.
  */
 export function BillsAdvisor() {
+  const sessionId = useBillsSession();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([INTRO]);
   const [input, setInput] = useState('');
@@ -46,6 +48,7 @@ export function BillsAdvisor() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: q,
+          sessionId,
           history: next.slice(-8).map((m) => ({ role: m.role, content: m.content })),
         }),
       });

@@ -14,11 +14,12 @@ export const dynamic = 'force-dynamic';
  * rule made literal: Assembl Bills prepares the action; the household approves.
  */
 const BodySchema = z.object({
-  kind: z.enum(['switch', 'cancel', 'refund', 'dispute', 'apply']),
+  kind: z.enum(['switch', 'cancel', 'refund', 'dispute', 'apply', 'notify', 'partner']),
   label: z.string().trim().min(1).max(120),
   target: z.string().trim().min(1).max(160),
   detail: z.string().trim().max(600).optional().or(z.literal('')),
   amount: z.string().trim().max(40).optional().or(z.literal('')),
+  email: z.string().trim().email().max(254).optional().or(z.literal('')),
 });
 
 const KIND_VERB: Record<string, string> = {
@@ -27,6 +28,8 @@ const KIND_VERB: Record<string, string> = {
   refund: 'Claim refund',
   dispute: 'Dispute a bill',
   apply: 'Apply for scheme',
+  notify: 'Notify when live',
+  partner: 'Partnership outreach',
 };
 
 export async function POST(req: Request) {
@@ -41,7 +44,7 @@ export async function POST(req: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.issues[0]?.message ?? 'Invalid input' }, { status: 400 });
   }
-  const { kind, label, target, detail, amount } = parsed.data;
+  const { kind, label, target, detail, amount, email } = parsed.data;
 
   let service: ReturnType<typeof getServiceClient>;
   try {
@@ -55,7 +58,7 @@ export async function POST(req: Request) {
     surface: `assembl-bills:${kind}`,
     kind: 'bill-action',
     title: `${verb} — ${target}`,
-    summary: `${label}${amount ? ` (${amount})` : ''}. ${detail || ''} Draft only — no switch or cancellation happens until approved.`.trim(),
+    summary: `${label}${amount ? ` (${amount})` : ''}${email ? ` · ${email}` : ''}. ${detail || ''} Draft only — no switch or cancellation happens until approved.`.trim(),
     tenant_slug: 'assembl-bills',
     status: 'pending',
     created_by: 'assembl-bills-console',
@@ -65,6 +68,7 @@ export async function POST(req: Request) {
       label,
       detail: detail || null,
       amount: amount || null,
+      email: email || null,
       auto_dispatch: false,
     },
   });
