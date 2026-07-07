@@ -8,8 +8,7 @@
 //   4. upserts each plan into public.assembl_bills_provider_prices, refreshing
 //      source_last_verified_at + raw_scrape (audit trail).
 // A plan seen before but missing now is marked status='discontinued' (kept, not
-// deleted). A >15% price jump vs last scrape, or a 404, files a row into
-// public.agent_action_requests for Kate to review before it propagates.
+// deleted). A >15% price jump vs last scrape, or a 404, // a draft into content_approvals (/admin/approvals) for Kate to review.
 //
 // Nothing is dispatched — this only refreshes READ data. ACTION_DISPATCH stays off.
 //
@@ -114,13 +113,14 @@ Deno.serve(async () => {
       const res = await fetch(src.url, { headers: { 'User-Agent': UA } });
       if (res.status === 404) {
         summary.alerts++;
-        await supabase.from('agent_action_requests').insert({
+        await supabase.from('content_approvals').insert({
           surface: 'assembl-bills:price-scrape',
           kind: 'scrape-alert',
+          tenant_slug: 'assembl-bills',
+          created_by: 'refresh-provider-prices',
           title: `Price page 404 — ${src.provider}`,
           summary: `${src.url} returned 404. Its prices may be stale; review the source URL.`,
           status: 'pending',
-          created_by: 'refresh-provider-prices',
           payload: { provider: src.provider, url: src.url, http: 404 },
         });
         continue;
@@ -151,13 +151,14 @@ Deno.serve(async () => {
         const prevCost = prev?.monthly_cost_nzd as number | undefined;
         if (prevCost && monthly && Math.abs(monthly - prevCost) / prevCost > JUMP_THRESHOLD) {
           summary.alerts++;
-          await supabase.from('agent_action_requests').insert({
-            surface: 'assembl-bills:price-scrape',
-            kind: 'scrape-alert',
+          await supabase.from('content_approvals').insert({
+          surface: 'assembl-bills:price-scrape',
+          kind: 'scrape-alert',
+          tenant_slug: 'assembl-bills',
+          created_by: 'refresh-provider-prices',
             title: `Big price move — ${src.provider} ${planName}`,
             summary: `${planName} moved from $${prevCost} to $${monthly} (>${JUMP_THRESHOLD * 100}%). Review before it propagates.`,
             status: 'pending',
-            created_by: 'refresh-provider-prices',
             payload: { provider: src.provider, plan: planName, from: prevCost, to: monthly },
           });
         }
