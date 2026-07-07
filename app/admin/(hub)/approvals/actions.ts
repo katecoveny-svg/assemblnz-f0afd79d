@@ -113,6 +113,24 @@ export async function rejectSparkTool(formData: FormData) {
   revalidatePath('/admin/approvals');
 }
 
+// ── SPARK winter series ────────────────────────────────────────────────────
+// Kate's Tuesday control: pull a "Build One Thing" episode's four platform posts
+// into content_approvals as pending drafts. Idempotent per (date, platform).
+// Files drafts only — nothing dispatches; ACTION_DISPATCH_ENABLED stays OFF.
+
+export async function ingestWinterSeries(formData: FormData) {
+  await ensureAdmin();
+  const date = String(formData.get('date') ?? '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+  try {
+    const { ingestWinterEpisode } = await import('@/lib/spark/winter-series');
+    await ingestWinterEpisode(date, 'admin:winter-series');
+  } catch {
+    // Fail soft — nothing queued, the page just re-renders.
+  }
+  revalidatePath('/admin/approvals');
+}
+
 /** Send a reviewed item back to pending (undo). */
 export async function reopenContent(formData: FormData) {
   await ensureAdmin();

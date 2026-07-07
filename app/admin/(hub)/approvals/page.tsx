@@ -2,8 +2,9 @@ import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { getApprovals, getPendingApprovalCount } from '@/lib/admin/v2-data';
 import { listActionRequests, dispatchEnabled, type ActionRequestRow } from '@/lib/agents/action-requests';
-import { approveContent, rejectContent, reopenContent, approveAgentAction, rejectAgentAction, approveSparkTool, rejectSparkTool } from './actions';
+import { approveContent, rejectContent, reopenContent, approveAgentAction, rejectAgentAction, approveSparkTool, rejectSparkTool, ingestWinterSeries } from './actions';
 import { listPendingSparkTools } from '@/lib/spark/store';
+import { WINTER_DATES } from '@/lib/spark/winter-series';
 import {
   BODY,
   C,
@@ -119,6 +120,26 @@ export default async function ApprovalsPage({
             ))}
           </div>
 
+          <Card style={{ padding: '14px 18px', marginBottom: 18 }}>
+            <p style={{ fontFamily: BODY, fontWeight: 700, fontSize: 14, color: C.ink, margin: '0 0 3px' }}>
+              SPARK “Build One Thing” winter series
+            </p>
+            <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, margin: '0 0 10px' }}>
+              Pull a Tuesday episode&apos;s four platform posts in as pending drafts. Draft-only — approving records a
+              yes; nothing posts (ACTION_DISPATCH_ENABLED stays off). Re-pulling a date is safe.
+            </p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {WINTER_DATES.map((d, i) => (
+                <form key={d} action={ingestWinterSeries} style={{ display: 'contents' }}>
+                  <input type="hidden" name="date" value={d} />
+                  <button type="submit" style={reviewButton(C.gold ?? C.ink, false)}>
+                    Ep{i + 2} · {d}
+                  </button>
+                </form>
+              ))}
+            </div>
+          </Card>
+
           {rows.length === 0 ? (
             <Empty>
               {filter === 'pending'
@@ -150,6 +171,53 @@ export default async function ApprovalsPage({
                   )}
                   {r.summary && (
                     <p style={{ fontFamily: BODY, fontSize: 13.5, color: C.body, margin: '6px 0 0' }}>{r.summary}</p>
+                  )}
+
+                  {typeof r.payload?.body === 'string' && (
+                    <details style={{ marginTop: 8 }}>
+                      <summary
+                        style={{ fontFamily: MONO, fontSize: 11.5, color: C.muted, cursor: 'pointer' }}
+                      >
+                        full post{r.payload?.postTime ? ` · ${String(r.payload.postTime)}` : ''}
+                        {typeof r.payload?.imageConcept === 'string' && r.payload.imageConcept ? ' · + image concept' : ''}
+                      </summary>
+                      <pre
+                        style={{
+                          fontFamily: BODY,
+                          fontSize: 13,
+                          lineHeight: 1.5,
+                          color: C.ink,
+                          background: C.paper,
+                          border: `1px solid ${C.hairline}`,
+                          borderRadius: 10,
+                          padding: '12px 14px',
+                          margin: '8px 0 0',
+                          whiteSpace: 'pre-wrap',
+                          wordBreak: 'break-word',
+                        }}
+                      >
+                        {String(r.payload.body)}
+                      </pre>
+                      {typeof r.payload?.imageConcept === 'string' && r.payload.imageConcept && (
+                        <pre
+                          style={{
+                            fontFamily: MONO,
+                            fontSize: 11.5,
+                            lineHeight: 1.5,
+                            color: C.body,
+                            background: 'transparent',
+                            border: `1px dashed ${C.hairline}`,
+                            borderRadius: 10,
+                            padding: '10px 12px',
+                            margin: '8px 0 0',
+                            whiteSpace: 'pre-wrap',
+                            wordBreak: 'break-word',
+                          }}
+                        >
+                          {String(r.payload.imageConcept)}
+                        </pre>
+                      )}
+                    </details>
                   )}
 
                   {r.status === 'pending' ? (
