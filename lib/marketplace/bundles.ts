@@ -45,6 +45,13 @@ export type BundleMeta = {
   leadSlug: string;
   /** one-line pitch for the shelf card */
   shortPitch: string;
+  /**
+   * Hand-written card line for the marketplace shelf and homepage. The shelf
+   * cards render lowercase, so this line avoids acronyms and initialisms —
+   * never derive it from shortPitch (auto-lowercasing turned "GP" into "gp"
+   * and "WoF" into "wof").
+   */
+  cardLine: string;
   /** headline bundle price (NZD/mo) */
   monthlyNzd: number;
   /** standalone per-seat price (NZD/mo) */
@@ -71,6 +78,8 @@ export const ASSEMBLER_BUNDLE: BundleMeta = {
   leadSlug: 'foreman',
   shortPitch:
     'The site foreman who routes safety, consents, project admin and quality — without you having to think about which agent owns which job.',
+  cardLine:
+    'the site foreman — safety, consents, project admin and quality, routed to the right specialist.',
   monthlyNzd: 399,
   seatNzd: 199,
   icon: 'shield',
@@ -104,6 +113,8 @@ export const FORGE_BUNDLE: BundleMeta = {
   leadSlug: 'arataki',
   shortPitch:
     'Service manager for dealerships, workshops and heavy transport. One front door for WoF/CoF, CCCFA finance, GPS consent, RUC, VDAM and freight admin.',
+  cardLine:
+    'the service manager for dealerships, workshops and heavy transport — warrants, finance and freight admin in one trail.',
   monthlyNzd: 349,
   seatNzd: 199,
   icon: 'car',
@@ -132,6 +143,8 @@ export const ENSEMBLE_BUNDLE: BundleMeta = {
   leadSlug: 'creative-director',
   shortPitch:
     'A creative director who briefs, drafts, brand-redlines and ships — copy, image, video, 3D, podcast, schedule. ASA + Fair Trading + Copyright compliance on every artefact.',
+  cardLine:
+    'the creative director — briefs, drafts, redlines and ships, claim-safe and on brand every time.',
   monthlyNzd: 299,
   seatNzd: 149,
   icon: 'spark',
@@ -160,6 +173,8 @@ export const PRACTICE_BUNDLE: BundleMeta = {
   leadSlug: 'duty-doctor',
   shortPitch:
     'A duty doctor who triages the request to GP, oncology, mental health, paeds, women’s, aged care, ACC, allied health or vet — and always sends the work to a registered practitioner for review.',
+  cardLine:
+    'the duty doctor — triages every request and always sends the work to a registered practitioner.',
   monthlyNzd: 499,
   seatNzd: 249,
   icon: 'scribe',
@@ -183,6 +198,8 @@ export const KAITIAKI_BUNDLE: BundleMeta = {
   leadSlug: 'keeper',
   shortPitch:
     'Animal health, welfare, service and conservation — one front door. Keeper routes to a companion vet, farm, equine or exotic specialist, doggy daycare, welfare triage, wildlife rehab or Threatened Species Recovery.',
+  cardLine:
+    'animal health, welfare and conservation — one front door, from the clinic to the sanctuary.',
   monthlyNzd: 399,
   seatNzd: 199,
   icon: 'paw',
@@ -217,6 +234,8 @@ export const HEARTH_BUNDLE: BundleMeta = {
   leadSlug: 'toro',
   shortPitch:
     'The whānau navigator. School notices, meals, calendar, elder check-ins, power bills, weather, catch logs. Tōro is the lead, no longer a peer.',
+  cardLine:
+    'the whānau navigator — school notices, meals, money and the week ahead, sorted.',
   monthlyNzd: 24.99,
   seatNzd: 9.99,
   icon: 'whanau',
@@ -255,6 +274,8 @@ export const COUNSEL_BUNDLE: BundleMeta = {
   leadSlug: 'solicitor',
   shortPitch:
     'The solicitor. Routes to family, employment, property, wills/trusts, immigration appeals, tenancy, consumer, Te Tiriti, tax or Disputes Tribunal. Every output ends: this is a model-assisted draft — have a registered NZ lawyer review and sign.',
+  cardLine:
+    'the solicitor — every draft goes to a registered lawyer to review and sign before it counts.',
   monthlyNzd: 499,
   seatNzd: 249,
   icon: 'shield',
@@ -279,6 +300,8 @@ export const VISA_STANDALONE: BundleMeta = {
   leadSlug: 'visa',
   shortPitch:
     'One agent, one job. AEWV, partnership, dependent child, student. INZ form-pack, Schedule of Documents, fee table, refusal-risk flags. Refers to a licensed adviser before submitting.',
+  cardLine:
+    'one agent, one job — a complete visa application pack, checked with a licensed adviser before it ships.',
   monthlyNzd: 49.99,
   seatNzd: 49.99,
   icon: 'panui',

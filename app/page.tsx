@@ -19,18 +19,18 @@ import styles from '@/components/v2/home/home.module.css';
 import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 
 export const metadata: Metadata = {
-  title: 'assembl — purpose-built agents. limitless potential.',
+  title: 'assembl — mahi that earns its proof.',
   description:
-    'purpose-built agents for the work New Zealand teams actually do. Agents draft, your people approve, and every output carries the record of how it was made. Built in Aotearoa.',
+    'Purpose-built agents for the work New Zealand teams actually do. Agents draft, your people approve, and every output carries the record of how it was made. Built in Aotearoa.',
   alternates: { canonical: '/' },
 };
 
 /**
- * Homepage — DIRECTION-LOCKED-2026-07-01, built as the full front door:
- * live 3D particulate landscape hero, floating collections, the five-stage
- * pipeline on a gold thread, featured workflows, the nine kete, and the
- * evidence pack assembling itself on scroll. Ships its own chrome (the
- * global SiteHeader/Footer suppress themselves on "/").
+ * Homepage — DIRECTION-LOCKED-2026-07-01, imagery + copy rework 2026-07-07:
+ * the sculptural evidence-vessel film as the hero, floating collections, the
+ * five-stage pipeline on a gold thread, featured workflows, the nine kete,
+ * and the evidence pack assembling itself on scroll. Ships its own chrome
+ * (the global SiteHeader/Footer suppress themselves on "/").
  */
 export default async function HomePage() {
   const counts = await getLiveAgentCounts();
@@ -69,8 +69,8 @@ export default async function HomePage() {
                 </span>
               </p>
               <p className={styles.sectionLede}>
-                Every collection routes to specialists. What works for one industry is consistent
-                across all of them.
+                Pick your industry&rsquo;s front door. A lead agent routes the work to specialists,
+                and every output comes back with proof attached.
               </p>
             </div>
           </Reveal>
@@ -89,7 +89,7 @@ export default async function HomePage() {
                 >
                   <BundleCard
                     title={b.name}
-                    description={`${b.shortPitch.split('. ')[0].toLowerCase().replace(/\.$/, '')}.`}
+                    description={b.cardLine}
                     tags={[b.category]}
                     gold={i % 3 === 1}
                     meta={live > 0 ? `${live} agents live` : b.standalone ? 'standalone' : undefined}
@@ -233,12 +233,12 @@ export default async function HomePage() {
                 <MicroLabel as="h2">the nine kete</MicroLabel>
               </div>
               <p className={styles.h2} style={{ marginTop: 16 }}>
-                one pack per industry. one standard of proof
+                nine kete, woven for the work
                 <span aria-hidden style={{ color: palette.accentGold }}>
                   .
                 </span>
               </p>
-              <p className={styles.sectionLede}>{reo.agentsPolicyRuntimeIntro}</p>
+              <p className={styles.sectionLede}>{reo.nineKeteIntro}</p>
             </div>
           </Reveal>
 
