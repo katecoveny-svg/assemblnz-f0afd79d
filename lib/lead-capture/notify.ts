@@ -15,7 +15,7 @@ import "server-only";
 export type LeadFields = Record<string, unknown>;
 
 export interface NotifyLeadInput {
-  /** Human label for the surface, e.g. "Trust Pack request", "HAPAI tool — turf-maintenance". */
+  /** Human label for the surface, e.g. "Trust Pack request", "SPARK tool — turf-maintenance". */
   formName: string;
   /** The lead's own email, if the form captured one. Used as reply-to. */
   email?: string | null;

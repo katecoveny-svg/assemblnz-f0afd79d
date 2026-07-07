@@ -45,8 +45,8 @@ export function FoodTempLog({ context = "hapai" }: { context?: "hapai" | "manaak
       }
     : {
         backHref: "/hapai",
-        backLabel: "HAPAI library",
-        eyebrow: "HAPAI · food temperature log",
+        backLabel: "SPARK library",
+        eyebrow: "SPARK · food temperature log",
         h1: "Food safety record in 30 seconds.",
         body: "A free hospitality tool for daily temperature and cleaning records mapped to Food Act 2014 Food Control Plan expectations.",
       };

@@ -80,6 +80,39 @@ export async function rejectAgentAction(formData: FormData) {
   revalidatePath('/admin/approvals');
 }
 
+// ── SPARK generated tools ──────────────────────────────────────────────────
+// Tools the public built at /spark land as 'draft' in spark_tools. They only ever
+// show a draft ribbon until approved here. Nothing is dispatched — the tool is
+// stored HTML — so approval simply clears it out of the draft state.
+
+export async function approveSparkTool(formData: FormData) {
+  const admin = await ensureAdmin();
+  const slug = String(formData.get('slug') ?? '');
+  const note = String(formData.get('note') ?? '').trim();
+  if (!slug) return;
+  try {
+    const { decideSparkTool } = await import('@/lib/spark/store');
+    await decideSparkTool(slug, 'approved', admin.email, note || undefined);
+  } catch {
+    // Fail soft — the row stays draft.
+  }
+  revalidatePath('/admin/approvals');
+}
+
+export async function rejectSparkTool(formData: FormData) {
+  const admin = await ensureAdmin();
+  const slug = String(formData.get('slug') ?? '');
+  const note = String(formData.get('note') ?? '').trim();
+  if (!slug) return;
+  try {
+    const { decideSparkTool } = await import('@/lib/spark/store');
+    await decideSparkTool(slug, 'rejected', admin.email, note || undefined);
+  } catch {
+    // Fail soft.
+  }
+  revalidatePath('/admin/approvals');
+}
+
 /** Send a reviewed item back to pending (undo). */
 export async function reopenContent(formData: FormData) {
   await ensureAdmin();

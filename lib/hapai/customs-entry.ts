@@ -1,5 +1,5 @@
 /**
- * Free HAPAI customs-entry drafter — deterministic, safe structuring only.
+ * Free SPARK customs-entry drafter — deterministic, safe structuring only.
  *
  * This module turns commercial-invoice fields into a broker-ready *draft* of a
  * customs entry. Hard rules baked in:

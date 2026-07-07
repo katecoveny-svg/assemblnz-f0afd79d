@@ -154,12 +154,12 @@ export function StudyHelperTool() {
     <main className="min-h-screen overflow-hidden bg-[radial-gradient(circle_at_78%_18%,rgba(58,56,50,0.13),transparent_32%),linear-gradient(180deg,#FFF7EC_0%,#F7F1E9_55%,#FFF7EC_100%)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
       <div className="mx-auto max-w-[1500px]">
         <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]">
-          <ArrowLeft className="h-3.5 w-3.5" /> HAPAI library
+          <ArrowLeft className="h-3.5 w-3.5" /> SPARK library
         </Link>
 
         <div className="grid gap-8 lg:grid-cols-[0.95fr_0.72fr] lg:items-stretch">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3A3832]">HAPAI · study helper</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3A3832]">SPARK · study helper</p>
             <h1 className="mt-3 max-w-4xl font-display text-[clamp(4.1rem,8.4vw,8.8rem)] font-normal leading-[0.84] text-[#23211F]">
               Turn notes into a plan.
             </h1>

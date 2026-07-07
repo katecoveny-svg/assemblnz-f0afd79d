@@ -119,7 +119,7 @@ export function NineAmBriefTool() {
 </style></head>
 <body><div class="wrap">
   <div class="mark">assembl</div>
-  <p class="eyebrow" style="margin-top:18px">HAPAI · evidence pack</p>
+  <p class="eyebrow" style="margin-top:18px">SPARK · evidence pack</p>
   <h1>The Dawn</h1>
   <p class="meta">Drafted ${stamped} · Pacific/Auckland</p>
   <hr class="rule"/>
@@ -159,7 +159,7 @@ export function NineAmBriefTool() {
     setToday("Busy operator day. Need to close loose loops before travel and keep the important people warm.");
     setMeetings("10am supplier check-in\n1pm internal build review\n4pm pilot follow-up window");
     setFollowUps("Send Dad the Pīkau link\nSend Praveen the Arataki dealership note\nConfirm Nick has the Waihanga one-pager");
-    setWorries("HAPAI tools need to look more credible before sharing\nMeeting recorder needs to feel like a proper assistant, not a form");
+    setWorries("SPARK tools need to look more credible before sharing\nMeeting recorder needs to feel like a proper assistant, not a form");
     setNotes("Turn scattered screenshots, emails, and whiteboard notes into one calm list. Keep everything draft-only.");
   }
 
@@ -175,7 +175,7 @@ export function NineAmBriefTool() {
 
   return (
     <HapaiToolShell
-      kicker="HAPAI · 9am brief"
+      kicker="SPARK · 9am brief"
       title="The whole morning, sorted before the kettle boils."
       description="Photograph the school notice or the sports draw, or paste the morning’s inbox chaos. You get back a five-line brief — what matters today, what to pack, who to chase. So nobody leaves without their rugby boots."
       toolPath="/hapai/dawn"

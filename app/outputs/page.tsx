@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Outputs you can file — every assembl tool ends in a signed evidence pack',
     description:
-      'Named deliverables across nine kete and the HAPAI tools. Filter by industry, output type, framework, and channel.',
+      'Named deliverables across nine kete and the SPARK tools. Filter by industry, output type, framework, and channel.',
     type: 'website',
     url: 'https://www.assembl.co.nz/outputs',
     siteName: 'assembl',

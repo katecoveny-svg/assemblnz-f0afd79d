@@ -6,7 +6,7 @@
  * "interested" and "signed up".
  *
  * Source of truth: every entry here maps to a real workflow on a live kete page
- * (lib/kete-detail.ts → typicalWorkflows / workflows) or to a live HAPAI tool
+ * (lib/kete-detail.ts → typicalWorkflows / workflows) or to a live SPARK tool
  * (lib/hapai/shareable-tools.ts). We do NOT invent outputs. If a kete looks
  * thin, that is a real gap to flag — not a prompt to fabricate.
  *
@@ -57,7 +57,7 @@ export type OutputDefinition = {
   oneLiner: string;
   /** The kete (or cross-cutting group) this output belongs to. */
   group: OutputGroup;
-  /** The kete pack or HAPAI tool that produces it (human-readable). */
+  /** The kete pack or SPARK tool that produces it (human-readable). */
   producedBy: string;
   type: OutputType;
   /** Legislation / frameworks cited in the output, if any. */
@@ -307,12 +307,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'Daily fridge, freezer, hot-hold, cooking, and cleaning checks — walk away with a Food Act 2014 record.',
     group: 'manaaki',
-    producedBy: 'HAPAI — Food temperature log',
+    producedBy: 'SPARK — Food temperature log',
     type: 'Log/record',
     frameworks: ['Food Act 2014'],
     channels: ['Web', 'PDF'],
     description:
-      'A live HAPAI tool: log the day’s fridge, freezer, hot-hold, cooking, and cleaning checks and walk away with a Food Act 2014 record. The food business operator remains responsible for verification.',
+      'A live SPARK tool: log the day’s fridge, freezer, hot-hold, cooking, and cleaning checks and walk away with a Food Act 2014 record. The food business operator remains responsible for verification.',
     whatsInside: [
       'Fridge / freezer temperature checks',
       'Hot-hold and cooking checks',
@@ -443,12 +443,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'Paste a commercial invoice; get back a structured customs entry draft your broker can check and file. Nothing is ever lodged.',
     group: 'pikau',
-    producedBy: 'HAPAI — Customs entry drafter',
+    producedBy: 'SPARK — Customs entry drafter',
     type: 'Draft',
     frameworks: ['Customs and Excise Act 2018', 'NZ Working Tariff Document'],
     channels: ['Web', 'PDF'],
     description:
-      'A live HAPAI tool: paste a commercial invoice and get a structured customs entry draft. It structures your invoice into entry fields, never invents an HS code, and never lodges to Trade Single Window — your broker confirms classification and files.',
+      'A live SPARK tool: paste a commercial invoice and get a structured customs entry draft. It structures your invoice into entry fields, never invents an HS code, and never lodges to Trade Single Window — your broker confirms classification and files.',
     whatsInside: [
       'Structured entry fields from your invoice',
       'Line-by-line value breakdown',
@@ -676,12 +676,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'A brief that captures audience, tone, channel, and constraints — turn a few notes into something a team can build from.',
     group: 'auaha',
-    producedBy: 'HAPAI — Brief generator',
+    producedBy: 'SPARK — Brief generator',
     type: 'Brief/summary',
     frameworks: ['Fair Trading Act 1986', 'ASA Code of Ethics'],
     channels: ['Web', 'PDF', 'Word'],
     description:
-      'A live HAPAI tool: turn a few notes into a creative, pitch, or project brief that captures audience, tone, channel, and constraints. The owner signs off scope, budget, and deadlines.',
+      'A live SPARK tool: turn a few notes into a creative, pitch, or project brief that captures audience, tone, channel, and constraints. The owner signs off scope, budget, and deadlines.',
     whatsInside: [
       'Audience and objective',
       'Tone and channel',
@@ -753,12 +753,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'See tagline options in five different styles — draft language a human chooses and clears.',
     group: 'auaha',
-    producedBy: 'HAPAI — Tagline workshop',
+    producedBy: 'SPARK — Tagline workshop',
     type: 'Draft',
     frameworks: [],
     channels: ['Web'],
     description:
-      'A live HAPAI tool: see tagline options across five different styles for a brand or campaign. Draft language only — a human chooses and clears the final line.',
+      'A live SPARK tool: see tagline options across five different styles for a brand or campaign. Draft language only — a human chooses and clears the final line.',
     whatsInside: [
       'Five distinct tagline styles',
       'Multiple options per style',
@@ -810,12 +810,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'A branded hero image for a post, page, or deck — generation covered, a human picks the final asset.',
     group: 'auaha',
-    producedBy: 'HAPAI — Vessel studio',
+    producedBy: 'SPARK — Vessel studio',
     type: 'Draft',
     frameworks: [],
     channels: ['Web'],
     description:
-      'A live HAPAI tool: generate a hero image for a post, page, or deck in the locked assembl brand direction. Draft imagery only — a named person picks and publishes the final asset.',
+      'A live SPARK tool: generate a hero image for a post, page, or deck in the locked assembl brand direction. Draft imagery only — a named person picks and publishes the final asset.',
     whatsInside: [
       'Brand-locked hero imagery',
       'Multiple compositions',
@@ -1199,12 +1199,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'Photo of the fridge in. A week’s meal plan and a supermarket-aisle shopping list out, tuned for NZ kai.',
     group: 'toro',
-    producedBy: 'HAPAI — Fridge to shopping list',
+    producedBy: 'SPARK — Fridge to shopping list',
     type: 'Draft',
     frameworks: [],
     channels: ['Web'],
     description:
-      'A live HAPAI tool: take a photo of the fridge and get a week’s meal plan and a supermarket-aisle shopping list, tuned for NZ kai conventions. A household planning aid — check allergies, budget, and preferences.',
+      'A live SPARK tool: take a photo of the fridge and get a week’s meal plan and a supermarket-aisle shopping list, tuned for NZ kai conventions. A household planning aid — check allergies, budget, and preferences.',
     whatsInside: [
       'Week of meals',
       'Supermarket-aisle list',
@@ -1219,12 +1219,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'A plain-English briefing that explains KiwiSaver for tamariki to a parent making the call.',
     group: 'toro',
-    producedBy: 'HAPAI — KiwiSaver Kids',
+    producedBy: 'SPARK — KiwiSaver Kids',
     type: 'Brief/summary',
     frameworks: [],
     channels: ['Web'],
     description:
-      'A live HAPAI tool: a plain-English briefing on KiwiSaver for tamariki, so a parent can make the call with the basics in front of them. Information aid only — not financial advice.',
+      'A live SPARK tool: a plain-English briefing on KiwiSaver for tamariki, so a parent can make the call with the basics in front of them. Information aid only — not financial advice.',
     whatsInside: [
       'How KiwiSaver works for kids',
       'Options compared',
@@ -1239,12 +1239,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'A coordinated family trip itinerary with the bookings, timings, and what-to-pack drawn together.',
     group: 'toro',
-    producedBy: 'HAPAI — Voyage Italy',
+    producedBy: 'SPARK — Voyage Italy',
     type: 'Brief/summary',
     frameworks: [],
     channels: ['Web', 'Email'],
     description:
-      'A live HAPAI tool: a family trip itinerary that pulls bookings, timings, and packing into one plan the household can follow. A planning aid — confirm bookings and details yourself.',
+      'A live SPARK tool: a family trip itinerary that pulls bookings, timings, and packing into one plan the household can follow. A planning aid — confirm bookings and details yourself.',
     whatsInside: [
       'Day-by-day itinerary',
       'Bookings and timings',
@@ -1318,12 +1318,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'A tailored Privacy Act 2020 summary that maps your data flows to the 13 IPPs, including IPP 3A.',
     group: 'cross-cutting',
-    producedBy: 'HAPAI — Privacy Act one-pager',
+    producedBy: 'SPARK — Privacy Act one-pager',
     type: 'Brief/summary',
     frameworks: ['Privacy Act 2020 + IPP 3A'],
     channels: ['Web', 'PDF'],
     description:
-      'A live HAPAI tool: generate a tailored Privacy Act 2020 summary for your organisation, mapping your data flows to the 13 Information Privacy Principles including IPP 3A. Plain-English draft only — not legal advice.',
+      'A live SPARK tool: generate a tailored Privacy Act 2020 summary for your organisation, mapping your data flows to the 13 Information Privacy Principles including IPP 3A. Plain-English draft only — not legal advice.',
     whatsInside: [
       'Your data flows mapped to the 13 IPPs',
       'IPP 3A coverage',
@@ -1357,12 +1357,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'Paste the day’s mess; get back a clear list of what matters, who to chase, and what to pack.',
     group: 'cross-cutting',
-    producedBy: 'HAPAI — The Dawn',
+    producedBy: 'SPARK — The Dawn',
     type: 'Brief/summary',
     frameworks: [],
     channels: ['Web'],
     description:
-      'A live HAPAI tool: paste the day’s mess and get back a clear operating brief — what matters, who to chase, what to pack. It does not send messages, change calendars, or make commitments.',
+      'A live SPARK tool: paste the day’s mess and get back a clear operating brief — what matters, who to chase, what to pack. It does not send messages, change calendars, or make commitments.',
     whatsInside: [
       'What matters today',
       'Who to chase',
@@ -1382,7 +1382,7 @@ export const OUTPUTS: OutputDefinition[] = [
     frameworks: [],
     channels: ['Web', 'Voice'],
     description:
-      'A live HAPAI tool: record or paste a meeting and walk away with a proper record — decisions, action items, next steps. Draft meeting record only — get consent and review before sharing or filing.',
+      'A live SPARK tool: record or paste a meeting and walk away with a proper record — decisions, action items, next steps. Draft meeting record only — get consent and review before sharing or filing.',
     whatsInside: [
       'Decisions',
       'Action items with owners',
@@ -1397,12 +1397,12 @@ export const OUTPUTS: OutputDefinition[] = [
     oneLiner:
       'Add up the unbilled admin hours your team loses each week and see the annual cost — and where a kete claws it back.',
     group: 'cross-cutting',
-    producedBy: 'HAPAI — Admin tax calculator',
+    producedBy: 'SPARK — Admin tax calculator',
     type: 'Calculation',
     frameworks: [],
     channels: ['Web'],
     description:
-      'A live HAPAI tool: add up the unbilled admin hours your team loses each week and see the annual cost, then where a kete pack would claw it back. Indicative calculator only — confirm your own rates and hours.',
+      'A live SPARK tool: add up the unbilled admin hours your team loses each week and see the annual cost, then where a kete pack would claw it back. Indicative calculator only — confirm your own rates and hours.',
     whatsInside: [
       'Weekly admin-hours input',
       'Annual cost estimate',

@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 /**
  * Per-agent web app manifest. Lets every marketplace agent install to a phone
  * home screen as its own app, opening straight into its chat. Mirrors the
- * HAPAI tool manifest pattern (app/hapai/[slug]/manifest.json), themed per
+ * SPARK tool manifest pattern (app/hapai/[slug]/manifest.json), themed per
  * agent via its canon tile colour. The matching `<link rel="manifest">` is set
  * by components/site/PwaRegister for the /agents/[slug]/chat path.
  */

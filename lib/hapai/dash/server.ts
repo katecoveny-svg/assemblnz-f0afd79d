@@ -5,7 +5,7 @@ import { gate, gateBlockedResponse } from '@/lib/gating/server';
 import { getDashTool, type DashToolConfig } from '@/lib/hapai/dash/tools';
 
 /**
- * Shared server handler for the five Dash-branded HAPAI tools. Each route file
+ * Shared server handler for the five Dash-branded SPARK tools. Each route file
  * is a one-liner that calls handleDashTool(slug, req). The locked system prompt
  * + deterministic fallback live here (server-only), never in the bundle.
  *

@@ -121,7 +121,7 @@ export function VoyageItalyTrip({ payload, storageScope, isTemplate }: Props) {
         <div className="relative mx-auto grid max-w-[1500px] gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
           <header>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
-              HAPAI travel tool · Voyage
+              SPARK travel tool · Voyage
             </p>
             <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.4rem,7vw,7.4rem)] font-light leading-[0.88] tracking-tight text-[#23211F]">
               {isTemplate ? 'Plan the trip before you land.' : payload.title}

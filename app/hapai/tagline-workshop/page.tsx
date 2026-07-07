@@ -3,7 +3,7 @@ import { LegacyHapaiToolShell } from "@/components/hapai/LegacyHapaiToolShell";
 
 export const metadata: Metadata = {
   title: "Tagline workshop — assembl",
-  description: "Generate and shortlist tagline candidates in a shareable HAPAI surface.",
+  description: "Generate and shortlist tagline candidates in a shareable SPARK surface.",
 };
 
 export default function TaglineWorkshopPage() {

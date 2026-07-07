@@ -1,6 +1,6 @@
 /**
  * GET /api/gating/peek?surface=hapai:9am-brief — read remaining quota WITHOUT
- * consuming a unit. The HAPAI tools call this on mount so the "X runs remaining"
+ * consuming a unit. The SPARK tools call this on mount so the "X runs remaining"
  * counter is visible before the visitor ever hits the wall.
  *
  * Returns `{ remaining, limit, tier }` where remaining/limit are `'unlimited'`

@@ -67,7 +67,7 @@ export default async function BillingPage() {
             <div className="mt-8 rounded-[8px] border border-[rgba(35,33,31,0.12)] bg-white/55 p-8">
               <h2 className="font-display text-display-md font-light">You’re on the free tier</h2>
               <p className="mt-3 text-body-md text-[color:var(--text-body)]">
-                The free HAPAI tools are yours to use. To turn a workflow on for real work,
+                The free SPARK tools are yours to use. To turn a workflow on for real work,
                 pick a self-serve plan — Solo or Team, no sales call.
               </p>
               <Link href="/pricing" className="cta-primary mt-6 inline-flex h-12 items-center justify-center px-6">

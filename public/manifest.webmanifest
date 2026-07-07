@@ -1,7 +1,7 @@
 {
   "name": "assembl",
   "short_name": "assembl",
-  "description": "Mahi that earns its proof. HAPAI tools, specialist kete, workflows, human review, and evidence packs.",
+  "description": "Mahi that earns its proof. SPARK tools, specialist kete, workflows, human review, and evidence packs.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
@@ -33,8 +33,8 @@
       "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Open HAPAI tools",
-      "short_name": "HAPAI",
+      "name": "Open SPARK tools",
+      "short_name": "SPARK",
       "description": "Open the shareable assembl tool library.",
       "url": "/hapai",
       "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]

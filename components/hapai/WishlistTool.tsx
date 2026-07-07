@@ -90,11 +90,11 @@ export function WishlistTool() {
 
   return (
     <HapaiToolShell
-      kicker="HAPAI · the wishlist"
+      kicker="SPARK · the wishlist"
       title="The wishlist"
       description="Name one job you wish you could hand off. We’ll draft the spec for the specialist assembl would build you — tailored to your business, built on the right NZ law, draft-only."
       toolPath="/hapai/wishlist"
-      shareTitle="The wishlist — a free assembl HAPAI tool"
+      shareTitle="The wishlist — a free assembl SPARK tool"
       shareText="Name one job you wish you could hand off and get a tailored specialist spec."
       posture="Draft only. The spec is a starting point a named person reviews. Nothing the specialist drafts is ever lodged automatically — a licensed person lodges. Not legal, financial, or medical advice."
       highlights={[

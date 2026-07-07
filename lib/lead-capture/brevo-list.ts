@@ -1,5 +1,5 @@
 /**
- * subscribeToBrevoList — add a captured HAPAI lead to the single assembl
+ * subscribeToBrevoList — add a captured SPARK lead to the single assembl
  * mailing list in Brevo (the ESP already running this stack — the lead-
  * notification leg in ./notify.ts also uses Brevo).
  *

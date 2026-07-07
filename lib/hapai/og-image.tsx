@@ -4,7 +4,7 @@ import { ImageResponse } from 'next/og';
 import type { HapaiTool } from '@/lib/hapai/shareable-tools';
 
 /**
- * Shared HAPAI share-card renderer.
+ * Shared SPARK share-card renderer.
  *
  * Used by both the dynamic `/hapai/[slug]/opengraph-image` route and any tool
  * that lives outside `/hapai/` and needs its own same-path OG route (e.g.
@@ -14,7 +14,7 @@ import type { HapaiTool } from '@/lib/hapai/shareable-tools';
 
 export const ogSize = { width: 1200, height: 630 };
 export const ogContentType = 'image/png';
-export const ogAlt = 'assembl HAPAI share card';
+export const ogAlt = 'assembl SPARK share card';
 
 const CREAM = '#FAF7F2';
 const CREAM2 = '#EFE3CE'; // ceramic disc tone, shows against the cream field
@@ -71,7 +71,7 @@ function truncate(text: string, max: number) {
 export async function renderHapaiToolOgImage(tool: HapaiTool) {
   const route = `assembl.co.nz${tool.href}`;
   const accent = CATEGORY_ACCENT[tool.category] ?? POUNAMU;
-  const fontText = `assembl HAPAI live tool ${tool.name} ${tool.description} ${tool.posture} ${route}`;
+  const fontText = `assembl SPARK live tool ${tool.name} ${tool.description} ${tool.posture} ${route}`;
   const [cormorantNormal, cormorantItalic, inter] = await Promise.all([
     loadGoogleFont(`https://fonts.googleapis.com/css2?family=Fraunces:wght@400&text=${encodeURIComponent(fontText)}`),
     loadGoogleFont(`https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@1,400&text=${encodeURIComponent(fontText)}`),
@@ -222,7 +222,7 @@ export async function renderHapaiToolOgImage(tool: HapaiTool) {
                   textTransform: 'uppercase',
                 }}
               >
-                HAPAI · {categoryLabels[tool.category]}
+                SPARK · {categoryLabels[tool.category]}
               </div>
             </div>
             <div

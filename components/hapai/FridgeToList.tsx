@@ -35,8 +35,8 @@ export function FridgeToList({ context = "hapai" }: { context?: "hapai" | "toro"
       }
     : {
         backHref: "/hapai",
-        backLabel: "HAPAI library",
-        eyebrow: "HAPAI · fridge to shopping list",
+        backLabel: "SPARK library",
+        eyebrow: "SPARK · fridge to shopping list",
         h1: "Photo in. Shopping list out.",
         body: "Upload a fridge, pantry, or cupboard photo. Get meal ideas and a supermarket-aisle shopping list tuned for NZ kai conventions.",
         household: "Your household",

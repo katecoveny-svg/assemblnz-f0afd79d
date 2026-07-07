@@ -14,7 +14,7 @@ const PAGES = [
   { label: 'How it works', href: '/how-it-works' },
   { label: 'Evidence pack', href: '/evidence-pack' },
   { label: 'Arataki loan cars', href: '/operator/arataki/loan-cars' },
-  { label: 'HAPAI tools', href: '/hapai' },
+  { label: 'SPARK tools', href: '/hapai' },
   { label: 'Founder', href: '/about' },
 ];
 
@@ -58,7 +58,7 @@ export function CommandPalette() {
               <Search className="h-4 w-4 text-[color:var(--text-secondary)]" aria-hidden />
               <Command.Input
                 autoFocus
-                placeholder="Find HAPAI tools, kete packs, agents, or pages..."
+                placeholder="Find SPARK tools, kete packs, agents, or pages..."
                 aria-label="Search assembl"
                 className="h-11 flex-1 bg-transparent text-base outline-none placeholder:text-[color:var(--text-secondary)] md:text-body-md"
               />

@@ -38,7 +38,7 @@ export type HapaiTool = {
   posture: string;
   /** 'dash' tools ship the locked Dash canary/charcoal brand + their own
    *  co-located opengraph-image route, so they are excluded from the green
-   *  dynamic [slug] OG route. Defaults to the original green HAPAI brand. */
+   *  dynamic [slug] OG route. Defaults to the original green SPARK brand. */
   brand?: 'dash';
   /** The kete this tool belongs to, when it maps to one. Drives the "open the
    *  matching kete chat" link and library grouping. */
@@ -357,11 +357,11 @@ export function getHapaiToolUrl(tool: HapaiTool): string {
 }
 
 export function getHapaiToolEmailHref(tool: HapaiTool): string {
-  const subject = `${tool.name} — a shareable assembl HAPAI tool`;
+  const subject = `${tool.name} — a shareable assembl SPARK tool`;
   const body = [
     'Kia ora,',
     '',
-    `I thought this assembl HAPAI tool might be useful: ${tool.name}.`,
+    `I thought this assembl SPARK tool might be useful: ${tool.name}.`,
     tool.description,
     '',
     `Open it here: ${getHapaiToolUrl(tool)}`,

@@ -96,7 +96,7 @@ export default function PrivacyActPage() {
     ctx.fillStyle = "#3A3832";
     ctx.font = `${Math.round(width * 0.035)}px monospace`;
     ctx.letterSpacing = "8px";
-    ctx.fillText("HAPAI · PRIVACY ACT 2020", width * 0.16, height * 0.2);
+    ctx.fillText("SPARK · PRIVACY ACT 2020", width * 0.16, height * 0.2);
     ctx.fillStyle = "#23211F";
     ctx.font = `${Math.round(width * 0.075)}px Georgia, serif`;
     wrap(ctx, "Know which rules apply. Hand it to your team.", width * 0.16, height * 0.34, width * 0.68, Math.round(width * 0.083));
@@ -142,15 +142,15 @@ export default function PrivacyActPage() {
   }
 
   const instagramCaption = `Know which Privacy Act rules apply.\nMap your data flows to the 13 IPPs.\nIncludes IPP 3A from 1 May 2026.\nTry the free tool: assembl.co.nz/hapai/privacy-act\n\n#NZBusiness #PrivacyAct2020 #DataPrivacy #Aotearoa #SmallBusinessNZ`;
-  const linkedInPost = `Most NZ businesses know the Privacy Act 2020 applies. Most are hazy on which Information Privacy Principles matter most for their actual data flows.\n\nassembl built a free HAPAI tool that turns a simple intake form into a one-page Privacy Act summary for your organisation, including the new IPP 3A effective from 1 May 2026.\n\nUse it here: https://www.assembl.co.nz/hapai/privacy-act`;
+  const linkedInPost = `Most NZ businesses know the Privacy Act 2020 applies. Most are hazy on which Information Privacy Principles matter most for their actual data flows.\n\nassembl built a free SPARK tool that turns a simple intake form into a one-page Privacy Act summary for your organisation, including the new IPP 3A effective from 1 May 2026.\n\nUse it here: https://www.assembl.co.nz/hapai/privacy-act`;
 
   return (
     <main className="min-h-screen bg-[color:var(--assembl-paper)] px-6 py-12 text-[#23211F] md:px-12 md:py-16">
       <div className="mx-auto max-w-[920px]">
         <Link href="/hapai" className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]">
-          <ArrowLeft className="h-3.5 w-3.5" /> HAPAI library
+          <ArrowLeft className="h-3.5 w-3.5" /> SPARK library
         </Link>
-        <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#6B6661]">HAPAI · Privacy Act 2020 one-pager</p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#6B6661]">SPARK · Privacy Act 2020 one-pager</p>
         <h1 className="mt-3 font-display text-[38px] font-normal leading-tight md:text-[52px]">Know which rules apply. Hand it to your team.</h1>
         <p className="mt-4 max-w-2xl text-[17px] leading-relaxed text-[#5A5550]">Generate a one-page Privacy Act 2020 summary for your organisation. Maps your data flows to the 13 Information Privacy Principles. Includes the new IPP 3A.</p>
 

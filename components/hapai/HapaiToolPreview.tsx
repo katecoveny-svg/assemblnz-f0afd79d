@@ -1,7 +1,7 @@
 import type { HapaiTool } from '@/lib/hapai/shareable-tools';
 
 /**
- * HapaiToolPreview — the single, templated cover used on every HAPAI tool card.
+ * HapaiToolPreview — the single, templated cover used on every SPARK tool card.
  *
  * One sharp, vector "vessel mark" (the flat echo of the home hero sculpture)
  * on a bone field, tinted by the tool's category accent. Keeping one cover for

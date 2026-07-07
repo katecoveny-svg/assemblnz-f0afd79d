@@ -9,7 +9,7 @@
 import { useState } from "react";
 
 const SHARE_TEXT =
-  "Most NZ teams do not need more jargon. They need one useful internal tool for one real job. HAPAI from assembl is the practical place to start.";
+  "Most NZ teams do not need more jargon. They need one useful internal tool for one real job. SPARK from assembl is the practical place to start.";
 
 const SHARE_URL = "https://www.assembl.co.nz/hapai";
 
@@ -28,7 +28,7 @@ export default function HapaiShareButtons() {
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({
-          title: "HAPAI — practical internal tools for real work",
+          title: "SPARK — practical internal tools for real work",
           text: SHARE_TEXT,
           url: SHARE_URL,
         });

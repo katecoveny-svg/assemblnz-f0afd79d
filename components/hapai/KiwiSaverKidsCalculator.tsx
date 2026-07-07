@@ -78,14 +78,14 @@ export function KiwiSaverKidsCalculator() {
           href="/hapai"
           className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#B8956A]"
         >
-          <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> HAPAI library
+          <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> SPARK library
         </Link>
 
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           {/* ── LEFT — eyebrow + headline + context ─────────────────── */}
           <header>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#B8956A]">
-              HAPAI · kiwisaver for kids
+              SPARK · kiwisaver for kids
             </p>
             <h1 className="mt-4 max-w-3xl font-display text-[clamp(3rem,7vw,5.5rem)] font-light leading-[0.92]">
               $1,000 at birth becomes $53,000 at 65.

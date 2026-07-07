@@ -11,7 +11,7 @@ export default function HapaiNextStep() {
         What should your team build first?
       </h2>
       <p className="mt-3 text-sm leading-relaxed text-[color:var(--text-body)]">
-        Answer three follow-up questions and HAPAI will rank three practical
+        Answer three follow-up questions and SPARK will rank three practical
         project candidates for your tier, function, and team size.
       </p>
       <Link href="/hapai/projects" className="mt-5 inline-flex items-center text-sm font-medium text-[color:var(--assembl-pounamu)]">

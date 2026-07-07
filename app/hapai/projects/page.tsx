@@ -56,7 +56,7 @@ export default function HapaiProjectsPage() {
               Now here’s what to build first.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-[color:var(--text-body)] md:text-lg">
-              HAPAI tells you where your team sits. This picker turns that into
+              SPARK tells you where your team sits. This picker turns that into
               three practical candidate projects, ranked for your tier, function,
               and team size.
             </p>
@@ -65,7 +65,7 @@ export default function HapaiProjectsPage() {
                 Pick a project <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </a>
               <Link href="/hapai" className="btn-ghost inline-flex h-12 items-center px-6">
-                Back to HAPAI
+                Back to SPARK
               </Link>
             </div>
           </header>

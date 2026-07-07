@@ -252,7 +252,7 @@ function ResultCard({
 
       <div className="bg-pounamu-50 border border-pounamu-100 rounded-md p-5 mb-6">
         <p className="text-sm font-medium text-pounamu-900 mb-2">
-          What HAPAI does at this tier
+          What SPARK does at this tier
         </p>
         <p className="text-sm text-taupe-700 leading-relaxed">
           {tier.slug === "akoranga" &&
@@ -264,7 +264,7 @@ function ResultCard({
           {tier.slug === "rangatira" &&
             "Lead-user culture is locked in. Time to formalise the marketplace — let people build for each other. New hires are recruited for curiosity, not credentials."}
           {tier.slug === "pou" &&
-            "You're the case study. HAPAI becomes the product you ship to other NZ businesses still on the wrong side of the trust gap. The framework scales out."}
+            "You're the case study. SPARK becomes the product you ship to other NZ businesses still on the wrong side of the trust gap. The framework scales out."}
         </p>
       </div>
 
@@ -291,7 +291,7 @@ function ShareCluster({
   sessions: number;
 }) {
   const [copied, setCopied] = useState(false);
-  const shareText = `My team sits at ${tier.slug} — ${tier.english} (~${sessions} sessions/month).\n\nThe HAPAI library from assembl maps how ready a team is to turn one useful task into a repeatable internal tool. Try it:`;
+  const shareText = `My team sits at ${tier.slug} — ${tier.english} (~${sessions} sessions/month).\n\nThe SPARK library from assembl maps how ready a team is to turn one useful task into a repeatable internal tool. Try it:`;
 
   function copyLink() {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -305,7 +305,7 @@ function ShareCluster({
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
         await (navigator as any).share({
-          title: "HAPAI — your team's practical tools tier",
+          title: "SPARK — your team's practical tools tier",
           text: shareText,
           url: shareUrl,
         });
@@ -319,7 +319,7 @@ function ShareCluster({
 
   const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
   const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-  const emailUrl = `mailto:?subject=${encodeURIComponent("HAPAI: where your team sits on the adoption ladder")}&body=${encodeURIComponent(shareText + "\n\n" + shareUrl)}`;
+  const emailUrl = `mailto:?subject=${encodeURIComponent("SPARK: where your team sits on the adoption ladder")}&body=${encodeURIComponent(shareText + "\n\n" + shareUrl)}`;
 
   return (
     <div className="flex flex-wrap gap-2">

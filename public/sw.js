@@ -18,7 +18,7 @@
 // this worker, which immediately tears itself (and every cache) down and
 // reloads the page onto the live network build.
 //
-// Trade-off: the HAPAI "Save to home screen" prompt needs a registered service
+// Trade-off: the SPARK "Save to home screen" prompt needs a registered service
 // worker with a fetch handler, so the native install prompt will no longer fire
 // (InstallPwaButton falls back to the manual "Add to Home Screen" hint). If
 // richer PWA install is wanted back later, register a narrowly-scoped,
