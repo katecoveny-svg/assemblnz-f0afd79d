@@ -18,19 +18,22 @@ export const SLOPE_DROP = 0.38; // 380 mm cross-fall, downhill toward -X
 export const DECK = { x: 3.4, z: 2.6, y: WALL_H * 0 } as const;
 
 /**
- * POI anchors, in world space. Each ARC insight floats at the spatial moment it
- * belongs to — on the boundary, the setback line, the north wall, the desk, the
- * mantel, the cladding, the site-meeting scene. Kept just off the surface so the
- * eye markers read as a layer hovering *over* the architecture, in every phase.
+ * POI anchors, in world space, tuned to the REAL 16C model (villa-16a.glb) after
+ * it is recentred to the origin in WalkCanvas (group at [-5.4, 0, 3.0], scale 1,
+ * so the building runs X ≈ -5.3…+5.3 east–west, Z ≈ -2.9 north to +2.9 south,
+ * ridge at y ≈ 3.2). Each ARC insight floats at the spatial moment it belongs
+ * to — the boundary, the side setback, the north roofline, an interior corner,
+ * the living wall, the south cladding face, the entry deck. Kept just off the
+ * surface so the eye markers read as a layer hovering *over* the architecture.
  */
 export const POI_ANCHORS = {
-  teAranga: [-(FOOTPRINT.x / 2) - 2.6, 0.9, FOOTPRINT.z / 2 + 1.2], // outside, on the boundary
-  zoneRules: [FOOTPRINT.x / 2 + 1.9, 2.4, -FOOTPRINT.z / 2 + 1.5], // the side setback line
-  h1Energy: [0.6, 1.8, FOOTPRINT.z / 2 + 0.15], // the north (+Z) wall
-  consentMemo: [-FOOTPRINT.x / 2 + 1.1, 1.15, -FOOTPRINT.z / 2 + 1.1], // desk, office corner
-  precedent: [FOOTPRINT.x / 2 - 0.35, 1.35, -1.4], // interior living wall / mantel
-  materials: [-FOOTPRINT.x / 2 - 0.15, 1.5, 1.0], // exterior cladding face
-  rfi: [1.4, 0.5, FOOTPRINT.z / 2 + 2.2], // the deck / site-meeting scene
+  teAranga: [-6.9, 1.0, 1.7], // outside the west boundary, before the building
+  zoneRules: [6.3, 2.5, -1.3], // the east side setback line, up high
+  h1Energy: [0.2, 2.7, -3.3], // the north roofline / clerestory glazing
+  consentMemo: [-3.7, 1.2, -1.1], // the office corner, inside
+  precedent: [3.3, 1.4, -0.9], // the interior living wall / mantel
+  materials: [-1.9, 1.5, 3.1], // the south cladding face
+  rfi: [0.9, 0.6, 4.4], // the entry deck / site-meeting scene
 } as const;
 
 export type PoiId = keyof typeof POI_ANCHORS;

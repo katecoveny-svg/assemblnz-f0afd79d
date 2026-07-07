@@ -19,7 +19,8 @@ import { IsometricFallback } from './IsometricFallback';
  * Desktop: orbit by default, optional first-person (pointer-lock + WASD).
  * Touch: orbit + tap. Reduced-motion / no-WebGL: a static isometric, POIs intact.
  *
- * Honest: the model is a stand-in of the 16A-style typology, not Nick's drawings.
+ * Honest: the model is the real proposed 16C unit — assembl-built in Blender
+ * from the draft RC (villa-16a.glb), not a stand-in typology.
  */
 const WalkCanvas = dynamic(() => import('./WalkCanvas').then((m) => m.WalkCanvas), {
   ssr: false,
@@ -62,9 +63,8 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
 
   const [phase, setPhase] = useState<Phase>('complete');
   const [activePoi, setActivePoi] = useState<PoiId | null>(null);
-  const [mode, setMode] = useState<'orbit' | 'walk'>('orbit');
-  const [locked, setLocked] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
+  const [introGone, setIntroGone] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -73,6 +73,12 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
   }, []);
 
   const use3D = mounted && webgl && !reduce;
+  // cinematic intro title dissolves shortly after the model lands
+  useEffect(() => {
+    if (!use3D) return;
+    const t = window.setTimeout(() => setIntroGone(true), 2600);
+    return () => window.clearTimeout(t);
+  }, [use3D]);
 
   function changePhase(next: Phase) {
     if (next === phase || transitioning) return;
@@ -169,11 +175,10 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
         ) : use3D ? (
           <WalkCanvas
             phase={phase}
-            mode={mode}
+            cinematic={use3D}
             pois={POI_LIST}
             activePoi={activePoi}
             onOpenPoi={(id) => setActivePoi(id)}
-            onLockChange={setLocked}
           />
         ) : (
           <IsometricFallback phase={phase} onOpenPoi={(id) => setActivePoi(id)} />
@@ -189,7 +194,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
           </span>
         </div>
 
-        {/* controls hint + first-person toggle — bottom-left */}
+        {/* controls hint — bottom-left */}
         <div className="absolute bottom-4 left-4 flex flex-wrap items-center gap-2">
           <span
             className="rounded-full px-2.5 py-1 text-[10.5px]"
@@ -197,29 +202,10 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
           >
             {!use3D
               ? 'tap an eye to reveal an ARC insight'
-              : mode === 'walk'
-                ? locked
-                  ? 'WASD / arrows to walk · Esc to release · then click an eye'
-                  : 'click the stage to walk · Esc to release'
+              : touch
+                ? 'drag to orbit · pinch to zoom · tap an eye'
                 : 'drag to look · scroll to zoom · click an eye'}
           </span>
-          {use3D && !touch ? (
-            <button
-              type="button"
-              onClick={() => {
-                setActivePoi(null);
-                setMode((mMode) => (mMode === 'orbit' ? 'walk' : 'orbit'));
-              }}
-              className="rounded-full px-3 py-1 text-[10.5px] font-semibold transition"
-              style={{
-                background: mode === 'walk' ? INK : 'rgba(255,255,255,0.82)',
-                color: mode === 'walk' ? '#fff' : INK,
-                border: `1px solid ${mode === 'walk' ? INK : 'rgba(0,0,0,0.15)'}`,
-              }}
-            >
-              {mode === 'walk' ? 'orbit view' : 'first-person walk'}
-            </button>
-          ) : null}
         </div>
 
         {/* honest attribution — bottom-right, quiet */}
@@ -227,8 +213,31 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
           className="pointer-events-none absolute bottom-4 right-4 max-w-[46%] text-right text-[10px] leading-tight"
           style={{ color: '#8a8578' }}
         >
-          stand-in model — 16A-style typology, not Nick&apos;s actual drawings
+          the proposed 16C unit · assembl-built 3D model (Blender) from the draft RC
         </span>
+
+        {/* cinematic intro — dissolves as the camera pushes into the model */}
+        {use3D && !introGone ? (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-10 grid place-items-center px-6 text-center transition-opacity duration-[900ms] ease-in-out"
+            style={{
+              background: 'radial-gradient(120% 90% at 50% 45%, rgba(242,235,221,0.9) 0%, rgba(242,235,221,0.55) 45%, rgba(242,235,221,0) 78%)',
+              opacity: introGone ? 0 : 1,
+            }}
+          >
+            <span
+              className="text-2xl lowercase leading-tight md:text-4xl"
+              style={{
+                color: INK,
+                fontFamily: 'var(--font-brand-display, Cormorant Garamond), Georgia, serif',
+                animation: 'poiEnter 1.1s cubic-bezier(0.22,1,0.36,1) both',
+              }}
+            >
+              tēnā koe, Nick — remember 16A?
+            </span>
+          </div>
+        ) : null}
 
         {/* "change floor" transition wash */}
         <div

@@ -41,7 +41,7 @@ export default function ToaWalkPage() {
           Draft-mode is enforced: nothing sends, lodges, or files without your yes.
         </p>
         <p>
-          the model is a stand-in of the 16A-style typology, not Nick&apos;s drawings · zone,
+          the 3D model is the real proposed 16C unit — assembl-built in Blender from the draft RC · zone,
           energy and cladding figures are real and cited · precedents, fees and lead times are demo ·
           Te Aranga audit held for review with mana whenua
         </p>
