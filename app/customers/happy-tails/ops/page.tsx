@@ -258,6 +258,49 @@ export default function HappyTailsOpsHome() {
           </div>
         </section>
 
+        {/* ── Kaiako — force-free training sub-agent under Keeper ───────────── */}
+        {/* Additive Alphassembl fold: Keeper now routes any training question to
+            Kaiako, the force-free trainer. Nothing about the surface above
+            changes — this is one extra card. */}
+        <section className="mt-20">
+          <div
+            className="rounded-2xl border border-black/10 bg-white/85 p-6 backdrop-blur-sm"
+            style={{ borderLeft: `4px solid ${accent}` }}
+          >
+            <p className="text-[10px] uppercase" style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}>
+              now under keeper
+            </p>
+            <h2 className="mt-2 text-2xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
+              meet kaiako — your force-free trainer<span style={{ color: ASSEMBL_GOLD }}>.</span>
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
+              Keeper now routes any dog-training question to <strong>Kaiako</strong>, the newest specialist in
+              the Kaitiaki bundle and the training voice behind <strong>Alphassembl</strong>. Kaiako works
+              force-free — LIMA and the humane hierarchy, never a shock, prong or “dominance” fix — grounds
+              every reply in the Dog Control Act 1996, SPCA NZ and Ian Dunbar, and refers a bite or real
+              aggression straight to a vet or behaviourist.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {['LIMA', 'Force-free only', 'Refer when in doubt'].map((b) => (
+                <span
+                  key={b}
+                  className="rounded-full px-3 py-1 text-[11px] font-semibold"
+                  style={{ backgroundColor: '#F5EFE4', color: '#3E3C36' }}
+                >
+                  {b}
+                </span>
+              ))}
+            </div>
+            <a
+              href="/alphassembl/chat"
+              className="mt-5 inline-block rounded-xl px-5 py-2.5 text-sm font-semibold lowercase tracking-[0.06em] text-white"
+              style={{ backgroundColor: accent }}
+            >
+              ask kaiako →
+            </a>
+          </div>
+        </section>
+
         {/* ── The working console — finance · roster · dog CRM · comms ───── */}
         <section className="mt-20">
           <h2 className="text-3xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
