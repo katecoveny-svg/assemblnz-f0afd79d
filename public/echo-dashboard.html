@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>echo · chief of staff</title>
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#f4f3ef; --panel:#ffffff; --ink:#1b1c19; --muted:#6d6e66; --line:#e7e6df;
+    --green:#2f6b43; --green-soft:#e8f0ea; --amber:#b9702c; --amber-soft:#fbf2e4;
+    --blue:#2d5b8e; --blue-soft:#e9f0f8; --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  .demo-ribbon{background:var(--ink); color:#fff; text-align:center; font-size:12.5px; padding:6px 10px; letter-spacing:.02em;}
+  .demo-ribbon b{color:#9fe3b6;}
+  /* top bar */
+  .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:18px 26px; max-width:1180px; margin:0 auto;}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .logo{width:38px;height:38px;border-radius:11px;background:var(--green);color:#fff;
+    display:grid;place-items:center;font-weight:700;font-size:19px;}
+  .brand h1{font-size:20px;margin:0;font-weight:640;letter-spacing:-.01em;}
+  .brand .sub{font-size:12.5px;color:var(--muted);margin-top:-2px;}
+  .top-right{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted);}
+  .pill{background:var(--green-soft);color:var(--green);border-radius:999px;padding:4px 11px;font-weight:600;font-size:12px;}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:6px;
+    box-shadow:0 0 0 0 rgba(47,107,67,.5);animation:pulse 2s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,107,67,.45)}70%{box-shadow:0 0 0 7px rgba(47,107,67,0)}100%{box-shadow:0 0 0 0 rgba(47,107,67,0)}}
+  /* hero */
+  .hero{max-width:1180px;margin:2px auto 6px;padding:8px 26px 0;}
+  .hero h2{font-size:26px;margin:6px 0 4px;font-weight:660;letter-spacing:-.015em;}
+  .hero .line{font-size:15.5px;color:var(--muted);max-width:70ch;}
+  .hero .line b{color:var(--ink);font-weight:600;}
+  /* grid */
+  .grid{max-width:1180px;margin:18px auto 40px;padding:0 26px;
+    display:grid;grid-template-columns:repeat(12,1fr);gap:16px;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 20px;box-shadow:0 1px 2px rgba(0,0,0,.02);}
+  .col-8{grid-column:span 8;} .col-6{grid-column:span 6;} .col-4{grid-column:span 4;} .col-12{grid-column:span 12;}
+  @media(max-width:900px){.col-8,.col-6,.col-4,.col-12{grid-column:span 12;}}
+  .card h3{margin:0 0 2px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+  .card .lead{font-size:14px;color:var(--muted);margin:0 0 12px;}
+  /* timeline */
+  .tl{list-style:none;margin:8px 0 0;padding:0;}
+  .tl li{display:flex;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line);}
+  .tl li:last-child{border-bottom:0;}
+  .tl .t{width:74px;flex:0 0 auto;font-variant-numeric:tabular-nums;color:var(--muted);font-size:13.5px;}
+  .tl .body{flex:1;}
+  .tl .body b{font-weight:600;}
+  .tag{display:inline-block;font-size:11px;font-weight:600;border-radius:999px;padding:2px 9px;margin-left:6px;}
+  .tag.g{background:var(--green-soft);color:var(--green);} .tag.a{background:var(--amber-soft);color:var(--amber);}
+  .tag.b{background:var(--blue-soft);color:var(--blue);}
+  /* focus list */
+  .focus{list-style:none;margin:0;padding:0;counter-reset:f;}
+  .focus li{padding:11px 0;border-bottom:1px solid var(--line);}
+  .focus li:last-child{border-bottom:0;}
+  .focus .h{font-weight:620;font-size:15px;}
+  .focus .w{font-size:13.5px;color:var(--muted);margin-top:2px;}
+  /* reminders */
+  .rem{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);}
+  .rem:last-child{border-bottom:0;}
+  .rem .who{font-weight:600;font-size:14.5px;}
+  .rem .det{font-size:13px;color:var(--muted);}
+  .toggle{position:relative;width:42px;height:25px;flex:0 0 auto;}
+  .toggle input{opacity:0;width:0;height:0;}
+  .slider{position:absolute;inset:0;background:#d2d2ca;border-radius:999px;cursor:pointer;transition:.18s;}
+  .slider:before{content:"";position:absolute;width:19px;height:19px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.18s;box-shadow:0 1px 2px rgba(0,0,0,.2);}
+  input:checked + .slider{background:var(--green);}
+  input:checked + .slider:before{transform:translateX(17px);}
+  /* inbox */
+  .mail{padding:10px 0;border-bottom:1px solid var(--line);}
+  .mail:last-child{border-bottom:0;}
+  .mail .top{display:flex;justify-content:space-between;gap:10px;}
+  .mail .from{font-weight:600;font-size:14px;}
+  .mail .subj{font-size:13.5px;color:var(--muted);}
+  .badge{font-size:11px;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;}
+  .badge.draft{background:var(--green-soft);color:var(--green);}
+  .badge.reply{background:var(--blue-soft);color:var(--blue);}
+  .badge.fyi{background:#efeeE8;color:var(--muted);}
+  /* opportunities */
+  .opp{padding:10px 0;border-bottom:1px solid var(--line);}
+  .opp:last-child{border-bottom:0;}
+  .opp .h{font-weight:620;font-size:14.5px;}
+  .opp .m{font-size:13px;color:var(--muted);}
+  .due{font-size:11.5px;font-weight:700;color:var(--amber);}
+  /* chat */
+  .chat{display:flex;flex-direction:column;gap:10px;max-height:280px;overflow:auto;padding-right:4px;}
+  .bub{max-width:82%;padding:9px 13px;border-radius:14px;font-size:14px;}
+  .bub.k{align-self:flex-end;background:var(--blue-soft);border-bottom-right-radius:4px;}
+  .bub.e{align-self:flex-start;background:var(--green-soft);border-bottom-left-radius:4px;}
+  .chatbar{display:flex;gap:8px;margin-top:12px;}
+  .chatbar input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:14px;background:#fbfbf9;}
+  .chatbar button{border:0;background:var(--green);color:#fff;border-radius:10px;padding:0 16px;font:inherit;font-weight:600;cursor:pointer;}
+  .idea{padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .idea:last-child{border-bottom:0;}
+  .idea .m{font-size:12.5px;color:var(--muted);}
+  footer{max-width:1180px;margin:0 auto;padding:8px 26px 40px;color:var(--muted);font-size:12.5px;
+    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .oversight{background:var(--green-soft);color:var(--green);border-radius:8px;padding:3px 9px;font-weight:600;}
+</style>
+</head>
+<body>
+<div class="demo-ribbon">This is a live <b>demo</b> of Echo — assembl's ambient chief-of-staff agent. Sample data. Your real Echo is private.</div>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="logo">e</div>
+    <div>
+      <h1>echo</h1>
+      <div class="sub">your ambient chief of staff · by assembl</div>
+    </div>
+  </div>
+  <div class="top-right">
+    <span><span class="live-dot"></span>live</span>
+    <span id="today"></span>
+    <span class="pill">solo week</span>
+  </div>
+</div>
+
+<div class="hero">
+  <h2 id="greeting">Morning, Mara.</h2>
+  <div class="line" id="oneliner"><b>Quiet-ish day</b> — one investor call at 11, the Kōwhai order ships today, and the R&D grant closes Friday. I've teed up 3 drafts and 2 reminders for your yes.</div>
+</div>
+
+<div class="grid">
+
+  <!-- Your day -->
+  <section class="card col-8">
+    <h3>Your day</h3>
+    <p class="lead">Tuesday · pulled from your calendar</p>
+    <ul class="tl">
+      <li><span class="t">8:30</span><div class="body"><b>School drop + gym</b> <span class="tag g">personal</span></div></li>
+      <li><span class="t">10:00</span><div class="body">Deep-work block — <b>investor deck v3</b> <span class="tag b">protected</span></div></li>
+      <li><span class="t">11:00</span><div class="body"><b>Call — Ravensdown angel intro</b> (30m) <span class="tag a">prep ready</span></div></li>
+      <li><span class="t">1:00</span><div class="body">Lunch — hold, no meetings</div></li>
+      <li><span class="t">3:30</span><div class="body"><b>Kōwhai wholesale order</b> ships — courier booked</div></li>
+      <li><span class="t">6:00</span><div class="body">Dinner with Priya <span class="tag g">personal</span></div></li>
+    </ul>
+  </section>
+
+  <!-- Focus today -->
+  <section class="card col-4">
+    <h3>Focus — what actually matters</h3>
+    <ul class="focus">
+      <li><div class="h">Send the R&D grant draft</div><div class="w">Closes Fri 5pm. Draft's 90% there — 20 min to finish.</div></li>
+      <li><div class="h">Prep the 11am angel call</div><div class="w">Brief + their portfolio notes are ready below.</div></li>
+      <li><div class="h">Approve the July invoices</div><div class="w">3 waiting; $8,240 total. One's overdue.</div></li>
+    </ul>
+  </section>
+
+  <!-- Reminders -->
+  <section class="card col-6">
+    <h3>Reminders I can send <span style="color:var(--green);font-weight:700;">· from assembl</span></h3>
+    <p class="lead">Toggle off any you don't want sent. I always ask before sending.</p>
+    <div id="rem"></div>
+  </section>
+
+  <!-- Inbox -->
+  <section class="card col-6">
+    <h3>Inbox — triaged, drafts ready</h3>
+    <p class="lead">12 new · 3 need you · I've drafted replies to review</p>
+    <div class="mail"><div class="top"><span class="from">Ravensdown Ventures</span><span class="badge reply">reply drafted</span></div><div class="subj">Re: intro call — confirming 11am today</div></div>
+    <div class="mail"><div class="top"><span class="from">Callaghan Innovation</span><span class="badge draft">draft ready</span></div><div class="subj">R&D grant — one form field outstanding</div></div>
+    <div class="mail"><div class="top"><span class="from">Kōwhai Studio (wholesale)</span><span class="badge reply">reply drafted</span></div><div class="subj">Order #4471 — dispatch confirmation</div></div>
+    <div class="mail"><div class="top"><span class="from">Xero</span><span class="badge fyi">fyi</span></div><div class="subj">3 invoices awaiting approval</div></div>
+  </section>
+
+  <!-- Opportunities -->
+  <section class="card col-6">
+    <h3>Opportunities &amp; funding</h3>
+    <p class="lead">Scouted for you — NZ grants, awards, deadlines</p>
+    <div class="opp"><div class="h">R&D Tax Incentive (RDTI) <span class="due">· due Fri</span></div><div class="m">You're eligible on this year's dev spend. Draft started.</div></div>
+    <div class="opp"><div class="h">Callaghan Ārohia Trailblazer grant</div><div class="m">Up to $4k mentoring + capability. Fits your stage.</div></div>
+    <div class="opp"><div class="h">AI Awards NZ 2026 — Emerging Company</div><div class="m">Entries open. One-pager mostly reusable from your deck.</div></div>
+  </section>
+
+  <!-- Ask Echo -->
+  <section class="card col-6">
+    <h3>Ask echo</h3>
+    <p class="lead">Two-way — text or type. Echo answers with real context.</p>
+    <div class="chat" id="chat">
+      <div class="bub k">what should I lead with on the 11am call?</div>
+      <div class="bub e">Lead with traction: 40% MoM on wholesale, 3 signed stockists. They fund early revenue, not ideas — so open with the number, then the R&D moat. I've put their two most relevant portfolio bets in your brief. Want me to text you the one-liner at 10:55?</div>
+      <div class="bub k">yes and remind me to send the grant after</div>
+      <div class="bub e">Done — nudge at 10:55 for the call, and a 12:00 reminder to send the grant. Both from assembl. 👍</div>
+    </div>
+    <div class="chatbar">
+      <input id="chatin" placeholder="Ask Echo anything…" autocomplete="off">
+      <button onclick="sendChat()">Send</button>
+    </div>
+  </section>
+
+  <!-- Ideas -->
+  <section class="card col-6">
+    <h3>Ideas I'm holding for you</h3>
+    <p class="lead">Nothing good evaporates overnight</p>
+    <div class="idea">Bundle Kōwhai samples with wholesale orders as a referral hook <div class="m">Tue · next step: cost 100 sample packs</div></div>
+    <div class="idea">Local-press angle: "Ōtautahi maker scales with an AI chief of staff" <div class="m">Mon · next step: draft the pitch to The Press</div></div>
+    <div class="idea">Fortnightly cleaner to buy back a founder day <div class="m">next step: get 2 local quotes</div></div>
+  </section>
+
+</div>
+
+<footer>
+  <span>echo · ambient chief of staff by <b>assembl</b> — <span class="oversight">human-in-the-loop</span> · Echo drafts &amp; proposes; you approve</span>
+  <span>demo build · sample data · <span id="stamp"></span></span>
+</footer>
+
+<script>
+  // date
+  const now = new Date();
+  const opts = {weekday:'long', day:'numeric', month:'long'};
+  document.getElementById('today').textContent = now.toLocaleDateString('en-NZ', opts);
+  document.getElementById('stamp').textContent = now.toLocaleDateString('en-NZ', {day:'numeric',month:'short',year:'numeric'});
+  const h = now.getHours();
+  document.getElementById('greeting').textContent = (h<12?'Morning':h<17?'Afternoon':'Evening') + ', Mara.';
+
+  // reminders
+  const REM = [
+    {who:'Priya', det:'Dinner tonight 6pm — "see you at 6 💚"', on:true},
+    {who:'Wholesale courier', det:'Order #4471 pickup 3:30pm today', on:true},
+    {who:'Jordan (co-founder)', det:'Board pack due tomorrow 9am', on:false},
+  ];
+  const rem = document.getElementById('rem');
+  REM.forEach((r,i)=>{
+    const d=document.createElement('div'); d.className='rem';
+    d.innerHTML = `<div><div class="who">${r.who}</div><div class="det">${r.det}</div></div>
+      <label class="toggle"><input type="checkbox" ${r.on?'checked':''}><span class="slider"></span></label>`;
+    rem.appendChild(d);
+  });
+
+  // chat (canned, demo only)
+  function sendChat(){
+    const i=document.getElementById('chatin'); const v=i.value.trim(); if(!v) return;
+    const c=document.getElementById('chat');
+    const k=document.createElement('div'); k.className='bub k'; k.textContent=v; c.appendChild(k);
+    i.value='';
+    setTimeout(()=>{
+      const e=document.createElement('div'); e.className='bub e';
+      e.textContent="On it — in the live version I'd pull your calendar, inbox and notes to answer this properly, then draft or schedule whatever you need. (This is a demo, so I'm keeping it light.)";
+      c.appendChild(e); c.scrollTop=c.scrollHeight;
+    },450);
+    c.scrollTop=c.scrollHeight;
+  }
+  document.getElementById('chatin').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+</script>
+</body>
+</html>

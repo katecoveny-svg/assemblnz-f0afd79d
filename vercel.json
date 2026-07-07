@@ -11,5 +11,12 @@
       "path": "/api/dash/payouts/run",
       "schedule": "0 2 * * *"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/echo-demo",
+      "destination": "/echo-dashboard.html",
+      "permanent": false
+    }
   ]
 }
