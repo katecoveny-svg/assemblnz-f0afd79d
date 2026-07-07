@@ -40,7 +40,8 @@ function WalkControls({ onLockChange }: { onLockChange: (locked: boolean) => voi
   useFrame((_, delta) => {
     const c = ref.current;
     if (!c || !c.isLocked) return;
-    const speed = 4.2 * delta;
+    // considered dolly pace, matched to the brand film — no fast twitch
+    const speed = 2.4 * delta;
     const k = keys.current;
     if (k['KeyW'] || k['ArrowUp']) c.moveForward(speed);
     if (k['KeyS'] || k['ArrowDown']) c.moveForward(-speed);
@@ -62,21 +63,33 @@ function WalkControls({ onLockChange }: { onLockChange: (locked: boolean) => voi
   );
 }
 
+/**
+ * Golden-hour grade — locked to brand-film scene 3: a low, warm key raking from
+ * the right (the sun sitting in the trees), a soft warm fill, and a warm rim
+ * that catches the roof edge. Honey cedar, charcoal roof, long soft shadows.
+ */
 function Sun() {
   return (
     <>
-      <ambientLight intensity={0.72} />
-      <hemisphereLight args={['#fff7ea', '#d8d2c2', 0.75]} />
+      <ambientLight intensity={0.58} color="#fff2e0" />
+      <hemisphereLight args={['#ffe9c8', '#cfd0c4', 0.7]} />
+      {/* the sun — low, right, slightly behind: backlit like the film */}
       <directionalLight
-        position={[7, 8, 5]}
-        intensity={1.35}
+        position={[9, 4.2, -2]}
+        intensity={1.65}
+        color="#ffd7a0"
         castShadow
-        shadow-mapSize={[1024, 1024]}
-        shadow-camera-left={-14}
-        shadow-camera-right={14}
-        shadow-camera-top={14}
-        shadow-camera-bottom={-14}
+        shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.0004}
+        shadow-camera-left={-16}
+        shadow-camera-right={16}
+        shadow-camera-top={16}
+        shadow-camera-bottom={-16}
       />
+      {/* warm rim from behind-right — the golden edge on the gable */}
+      <directionalLight position={[5, 2.4, -7]} intensity={0.55} color="#ffc79a" />
+      {/* cool sky fill from the front so the shadowed faces don't go muddy */}
+      <directionalLight position={[-6, 5, 8]} intensity={0.35} color="#eaf0f4" />
     </>
   );
 }
@@ -96,7 +109,7 @@ export function WalkCanvas({
   onOpenPoi: (id: PoiId) => void;
   onLockChange: (locked: boolean) => void;
 }) {
-  const startCam = useMemo(() => [12.5, 3.9, 12.5] as [number, number, number], []);
+  const startCam = useMemo(() => [12.5, 3.3, 12.5] as [number, number, number], []);
   return (
     <Canvas
       shadows
@@ -106,14 +119,14 @@ export function WalkCanvas({
       style={{ background: 'transparent' }}
     >
       <Sun />
-      <Environment preset="city" />
+      <Environment preset="sunset" />
 
       {/* paper-white ground the building sits on */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} receiveShadow>
         <circleGeometry args={[26, 64]} />
-        <meshStandardMaterial color="#efeee7" roughness={1} />
+        <meshStandardMaterial color="#ece6d8" roughness={1} />
       </mesh>
-      <ContactShadows position={[0, 0.01, 0]} opacity={0.32} scale={30} blur={2.4} far={9} />
+      <ContactShadows position={[0, 0.01, 0]} opacity={0.36} scale={30} blur={2.6} far={9} color="#3a2f22" />
 
       <VillaModel phase={phase} />
 
@@ -142,7 +155,7 @@ export function WalkCanvas({
           minPolarAngle={0.5}
           maxPolarAngle={Math.PI / 2.4}
           autoRotate={activePoi === null}
-          autoRotateSpeed={0.32}
+          autoRotateSpeed={0.42}
           target={[0, 1.5, 0]}
         />
       )}

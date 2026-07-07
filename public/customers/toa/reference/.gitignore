@@ -1,0 +1,4 @@
+# Reference-only mood assets — never ship in the bundle.
+*
+!.gitignore
+!README.md

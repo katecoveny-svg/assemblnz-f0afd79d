@@ -81,10 +81,11 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
       setPhase(next);
       return;
     }
-    // ICG-style "change floor" fade: to paper white, swap, back
+    // "change floor" as a gentle dissolve — matched to the film's single
+    // continuous take: warm cream wash in, swap under it, ease back out
     setTransitioning(true);
-    window.setTimeout(() => setPhase(next), 280);
-    window.setTimeout(() => setTransitioning(false), 640);
+    window.setTimeout(() => setPhase(next), 420);
+    window.setTimeout(() => setTransitioning(false), 940);
   }
 
   const stageHeight = fullBleed
@@ -96,7 +97,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
   return (
     <section aria-label="Walk 16A with ARC" className="flex flex-col gap-5">
       {/* keyframes for the POI pulse (scoped, defined once per mount) */}
-      <style>{`@keyframes poiPulse{0%{transform:scale(1);opacity:.65}70%{transform:scale(2);opacity:0}100%{opacity:0}}`}</style>
+      <style>{`@keyframes poiPulse{0%{transform:scale(1);opacity:.65}70%{transform:scale(2);opacity:0}100%{opacity:0}}@keyframes poiEnter{0%{opacity:0;transform:scale(.5)}60%{opacity:1}100%{opacity:1;transform:scale(1)}}`}</style>
 
       {/* header */}
       <div className="flex flex-col gap-2">
@@ -157,7 +158,7 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
       {/* the stage */}
       <div
         className={`relative w-full overflow-hidden rounded-2xl ${stageHeight}`}
-        style={{ background: '#efeee7', border: '1px solid rgba(0,0,0,0.08)' }}
+        style={{ background: 'linear-gradient(180deg,#efe9dc 0%,#ece6d8 55%,#e6dccb 100%)', border: '1px solid rgba(0,0,0,0.08)' }}
       >
         {!mounted ? (
           <div className="grid h-full w-full place-items-center">
@@ -232,8 +233,8 @@ export function ToaWalkthrough({ fullBleed = false }: { fullBleed?: boolean }) {
         {/* "change floor" transition wash */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 transition-opacity duration-300"
-          style={{ background: '#f4f1e8', opacity: transitioning ? 1 : 0 }}
+          className="pointer-events-none absolute inset-0 transition-opacity duration-500 ease-in-out"
+          style={{ background: '#f2ebdd', opacity: transitioning ? 1 : 0 }}
         />
 
         {/* POI reveal */}
