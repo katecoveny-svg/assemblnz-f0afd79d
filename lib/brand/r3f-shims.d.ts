@@ -39,8 +39,12 @@ declare module '@react-three/drei' {
   export const OrbitControls: (props: Record<string, unknown>) => any;
   export const PointerLockControls: (props: Record<string, unknown>) => any;
   export const ContactShadows: (props: Record<string, unknown>) => any;
+  export const Edges: (props: Record<string, unknown>) => any;
   // Loose overload — real types kick in once drei is installed.
   export function useTexture(input: string | string[]): any;
+  // GLTF loader hook + preloader — loose shim; real types arrive with drei.
+  export const useGLTF: ((path: string) => any) & { preload: (path: string) => void };
+  export function useProgress(): { progress: number; active: boolean };
 }
 
 declare namespace React {
@@ -48,6 +52,7 @@ declare namespace React {
     interface IntrinsicElements {
       group: Record<string, unknown>;
       mesh: Record<string, unknown>;
+      primitive: Record<string, unknown>;
       ambientLight: Record<string, unknown>;
       hemisphereLight: Record<string, unknown>;
       directionalLight: Record<string, unknown>;
