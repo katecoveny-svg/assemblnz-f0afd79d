@@ -38,6 +38,10 @@ export function ThrowItIn() {
   const [channel, setChannel] = useState<'text' | 'voice'>('text');
   const [rec, setRec] = useState(false);
   const [note, setNote] = useState<string | null>(null);
+  // A brief inline confirmation after submit — so Kate SEES her drop landed
+  // instead of the form silently clearing. Server action still owns the save;
+  // this is UX truth-in-the-moment. Auto-clears after ~4s.
+  const [landed, setLanded] = useState<{ text: string; from: string } | null>(null);
   const mediaRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
@@ -80,7 +84,19 @@ export function ThrowItIn() {
   }
 
   return (
-    <form action={throwItInAction} onSubmit={() => { setTimeout(() => { setText(''); setChannel('text'); }, 0); }}
+    <form action={throwItInAction} onSubmit={() => {
+      // Snapshot what Kate just dropped so the confirmation reads back the real
+      // words she typed — not a generic "sent". Clear the input on the next
+      // tick so React's controlled input plays nicely with the server action.
+      if (text.trim()) {
+        const snapshot = { text: text.trim(), from };
+        setLanded(snapshot);
+        window.setTimeout(() => {
+          setLanded((cur) => (cur === snapshot ? null : cur));
+        }, 4500);
+      }
+      setTimeout(() => { setText(''); setChannel('text'); }, 0);
+    }}
       style={{ borderRadius: 16, border: `1px solid ${GOLD}44`, background: 'linear-gradient(180deg,#ffffff,#fffdf9)', padding: '10px 12px', boxShadow: '0 8px 24px rgba(154,123,58,0.08)' }}>
       <input type="hidden" name="from" value={from} />
       <input type="hidden" name="channel" value={channel} />
@@ -108,8 +124,10 @@ export function ThrowItIn() {
         </button>
         <DropButton />
       </div>
-      <div style={{ fontSize: 10.5, color: note ? CORAL : MUTED, marginTop: 6 }}>
-        {note ?? <>routes to the right tab · lands for <strong style={{ color: SAGE }}>Kate</strong> to approve · nothing sent</>}
+      <div style={{ fontSize: 10.5, color: landed ? SAGE : note ? CORAL : MUTED, marginTop: 6 }} aria-live="polite">
+        {landed
+          ? <><strong style={{ color: SAGE }}>landed</strong> — “{landed.text}” routed to the right tab · waiting for <strong style={{ color: SAGE }}>Kate</strong> in Approvals</>
+          : note ?? <>routes to the right tab · lands for <strong style={{ color: SAGE }}>Kate</strong> to approve · nothing sent</>}
       </div>
     </form>
   );

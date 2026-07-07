@@ -80,9 +80,22 @@ function ApproveDismiss({ id }: { id: string }) {
   );
 }
 
-export default async function FamilyOsHome() {
+// The OAuth Connect Gmail/Outlook button lands Kate back here with ?connect=…
+// carrying the outcome. Widen loosely then narrow to the four states FamilyInbox
+// knows how to render — anything else (or absence) leaves the banner off.
+type OpsSearchParams = { connect?: string | string[] };
+type ConnectStateKey = 'connected' | 'needs-setup' | 'error' | 'unknown-provider';
+const CONNECT_STATES: ReadonlySet<ConnectStateKey> = new Set(['connected', 'needs-setup', 'error', 'unknown-provider']);
+
+export default async function FamilyOsHome({ searchParams }: { searchParams?: Promise<OpsSearchParams> }) {
   const config = getBrandConfig('family');
   if (!config) notFound();
+
+  const rawConnect = (await searchParams)?.connect;
+  const connectCandidate = Array.isArray(rawConnect) ? rawConnect[0] : rawConnect;
+  const connectState: ConnectStateKey | null = CONNECT_STATES.has(connectCandidate as ConnectStateKey)
+    ? (connectCandidate as ConnectStateKey)
+    : null;
 
   const items = await listFamily('demo');
   const g = group(items);
@@ -318,7 +331,7 @@ export default async function FamilyOsHome() {
 
       {/* ── Inbox · Echo (always-on email parsing) ────────────────────── */}
       <Section id="inbox" title="Inbox · Echo" accent={BLUE} icon={familyOpsVisuals.heroes.inbox} empty={false}>
-        <FamilyInbox status={inboxStatus} />
+        <FamilyInbox status={inboxStatus} connectState={connectState} />
       </Section>
 
       {/* ── Family memory ─────────────────────────────────────────────── */}
