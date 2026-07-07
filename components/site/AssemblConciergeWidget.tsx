@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowRight, Send, X } from 'lucide-react';
-import { isCustomerWorkspace, isAlphassembl } from '@/components/site/site-header';
+import { isCustomerWorkspace, isAlphassembl, isAssemblBills } from '@/components/site/site-header';
 import { cn } from '@/lib/utils';
 import { orderedBundles } from '@/lib/marketplace/bundles';
 import { PRICING_NOTE, pricingPlainLines } from '@/lib/registry/pricing';
@@ -179,7 +179,7 @@ export function AssemblConciergeWidget() {
 
   // Don't render the global concierge on an agent's own chat page, the internal
   // /admin operator hub, a tenant workspace, or the homepage (its own portal).
-  if (isAgentChatPage || isAdminHub || isTenantWorkspace || isAlphassembl(pathname) || pathname === '/') {
+  if (isAgentChatPage || isAdminHub || isTenantWorkspace || isAlphassembl(pathname) || isAssemblBills(pathname) || pathname === '/') {
     return null;
   }
 
