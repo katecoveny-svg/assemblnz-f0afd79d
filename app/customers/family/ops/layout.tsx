@@ -18,21 +18,17 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1, view
  * Family OS workspace shell. Warm cream + gold in the luminous direction; the
  * whole surface is the family operating system, so no right rail — the
  * dashboard fills the canvas.
+ *
+ * The sidebar mirrors the in-page tab bar: each entry loads one section as its
+ * own server-rendered view via ?tab=…, instead of the old on-page #anchors that
+ * scrolled the whole (very tall) dashboard. Five tabs, one section at a time.
  */
 const NAV: Array<[string, string]> = [
-  ['The whānau', '#whanau'],
-  ['This week', '#week'],
-  ['Rides', '#rides'],
-  ['Kitchen', '#kitchen'],
-  ['Packing', '#packing'],
-  ['Kids’ quest', '#quest'],
-  ['Kids’ money', '#money'],
-  ['Homework', '#homework'],
-  ['Boating', '#boating'],
-  ['Inbox', '#inbox'],
-  ['Pickups', '#pickups'],
-  ['Approvals', '#approvals'],
-  ['Family memory', '#memory'],
+  ['Week', '?tab=week'],
+  ['Rides', '?tab=rides'],
+  ['Kitchen', '?tab=kitchen'],
+  ['Money', '?tab=money'],
+  ['Inbox', '?tab=inbox'],
 ];
 
 export default function FamilyOpsLayout({ children }: { children: ReactNode }) {
