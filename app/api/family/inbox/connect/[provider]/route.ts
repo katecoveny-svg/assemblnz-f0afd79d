@@ -36,6 +36,19 @@ function originOf(req: Request): string {
   return new URL(req.url).origin;
 }
 
+// The OAuth redirect_uri must EXACTLY match the URI registered in the provider's
+// app (Google Cloud / Entra) — down to the host, no trailing slash, never www.
+// This project serves demo.assembl.co.nz AND assembl.co.nz AND www.assembl.co.nz
+// from one deployment, so deriving the redirect_uri from the request origin (as
+// originOf does) would silently break with redirect_uri_mismatch when the button
+// is clicked from a non-demo host. We therefore pin it to the registered demo
+// host, overridable only via a dedicated var (e.g. localhost for dev). We must
+// NOT reuse NEXT_PUBLIC_SITE_URL here: it's shared with the invites/onboarding
+// magic-link flows, so it can't be forced to the demo host globally.
+const REGISTERED_REDIRECT_ORIGIN = (
+  process.env.FAMILY_INBOX_REDIRECT_ORIGIN || 'https://demo.assembl.co.nz'
+).replace(/\/$/, '');
+
 export async function GET(req: Request, { params }: { params: Promise<{ provider: string }> }) {
   const { provider } = await params;
   const origin = originOf(req);
@@ -57,7 +70,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ provider
     return NextResponse.redirect(`${opsUrl}?connect=needs-setup`);
   }
 
-  const redirectUri = `${origin}/api/family/inbox/callback/${provider}`;
+  const redirectUri = `${REGISTERED_REDIRECT_ORIGIN}/api/family/inbox/callback/${provider}`;
 
   let authUrl: string;
   if (provider === 'gmail') {
