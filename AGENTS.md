@@ -73,3 +73,33 @@ Every PR must:
 - [ ] Mobile responsive at 375px minimum
 - [ ] Vercel preview deploys green
 - [ ] PR body lists acceptance criteria and includes a test plan
+
+## Cursor Cloud specific instructions
+
+The live app is the **Next.js 16 app at the repo root** (`assembl-web`), managed with
+**pnpm** (`packageManager: pnpm@9.15.9`, Node 20+). The startup update script already runs
+`pnpm install` and builds the `@assembl/canvas` workspace package, so dependencies are ready.
+
+Non-obvious caveats:
+
+- **`@assembl/canvas` must be built before `tsc`, `next dev`, or `next build`.** It has no
+  `transpilePackages` wiring; consumers import its compiled `dist/` (see
+  `packages/canvas/package.json` `exports`). If typecheck reports
+  `Cannot find module '@assembl/canvas'`, run `pnpm --filter @assembl/canvas build`.
+- **`.env.local` is required for Supabase-backed routes** (`/login`, `/account`, `/dashboard`,
+  `/app`, `/internal`, admin, live chat) — those pages `throw` without
+  `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Public marketing and
+  `/agents` browse render fine without it. `.env.local` is git-ignored and is NOT recreated by
+  the update script, so create it once per fresh VM:
+  `cp .env.local.example .env.local` then set
+  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` to the `SUPABASE_PUBLISHABLE_KEY` value already
+  committed in the repo's `.env` (both point at the hosted project `wurwcrgxjjwqdaxqceey`).
+- **Optional integrations fail open.** AI model providers (Anthropic/OpenAI/…), Stripe,
+  Deepgram, Brevo, etc. return a friendly "not configured" instead of crashing. Live agent chat
+  needs at least one model-provider key; without it the chat route returns 503 but the rest of
+  the marketplace stays live.
+- **Standard commands** (do not duplicate elsewhere): dev = `pnpm dev` (port 3000),
+  `pnpm lint`, `pnpm typecheck`, `pnpm test` (vitest), `pnpm build`. `README.md`/`docs/` are
+  stale (they describe the old Vite SPA now in `legacy-vite/`); trust `package.json` scripts.
+- Sub-projects have independent toolchains and are not part of the main app setup: `remotion/`
+  uses **Bun**, and `plugins/mcp-servers/*` use **npm**.
