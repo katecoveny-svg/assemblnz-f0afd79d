@@ -26,6 +26,14 @@ export interface Tenant {
 
 export const TENANTS: readonly Tenant[] = [
   {
+    slug: 'creative-agency',
+    displayName: 'AUAHA Creative Kete',
+    parentBrand: 'assembl studio',
+    status: 'concept',
+    blurb: 'A creative studio in a chat — Prism art-directs and generates imagery, Muse writes, Flux films, Verse voices. Real generation, on-brand.',
+    accentClass: 'border-amber-300/70',
+  },
+  {
     slug: 'happy-tails',
     displayName: 'Happy Tails',
     parentBrand: 'Franklin & friends',
