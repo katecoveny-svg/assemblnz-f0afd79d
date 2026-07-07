@@ -75,6 +75,10 @@ const PILOT_SURFACES: Record<string, { href: string; label: string }[]> = {
   gateway: [{ href: '/customers/aironaut', label: 'aironaut pilot' }],
   'zoo-vet': [{ href: '/customers/auckland-zoo', label: 'auckland zoo pilot' }],
   echo: [{ href: '/echo', label: 'echo live chat' }],
+  pack: [
+    { href: '/agents/pack/chat', label: 'pack chat' },
+    { href: '/customers/family/ops', label: 'family ops' },
+  ],
 };
 
 /** slug → V4 bundle slug, from the bundle groups + lead slugs + registry field. */
