@@ -117,7 +117,7 @@ export function UploadDropzone({ sessionId: sessionProp }: { sessionId?: string 
       )}
 
       {error && (
-        <div className="mt-3 flex items-center gap-2 rounded-xl px-4 py-3 text-sm" style={{ background: 'var(--b-coral-soft)', border: '1px solid #F0CFC3', color: 'var(--b-coral-deep)' }}>
+        <div className="mt-3 flex items-center gap-2 rounded-xl px-4 py-3 text-sm" style={{ background: 'var(--b-coral-soft)', border: '1px solid var(--b-coral-line)', color: 'var(--b-coral-deep)' }}>
           <AlertCircle size={15} /> {error}
         </div>
       )}

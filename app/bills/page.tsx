@@ -1,168 +1,184 @@
 import Link from 'next/link';
-import {
-  Wallet,
-  ArrowRight,
-  Mail,
-  Upload,
-  Landmark,
-  Sparkles,
-  Search,
-  Bell,
-  ShieldCheck,
-  MapPin,
-} from 'lucide-react';
+import { ArrowRight, Mail, Upload, Landmark, Sparkles, Search, Bell, ShieldCheck } from 'lucide-react';
 import { WaitlistForm } from '@/components/bills/WaitlistForm';
-import { marketClaims } from '@/lib/bills/data';
+import { WordMark, HeroSavingsCard, ProviderMarquee } from '@/components/bills/HeroFx';
+import { Reveal } from '@/components/bills/motion';
+import { marketClaims, savingsTotal, hiddenCostsTotal } from '@/lib/bills/data';
 
 export const revalidate = 300;
 
 const display = { fontFamily: 'var(--font-bills-display), system-ui, sans-serif' } as const;
+const totalFound = savingsTotal + hiddenCostsTotal;
 
 const flow = [
-  { icon: Mail, title: 'It reads your bills', body: 'Connect Gmail or Outlook and Assembl Bills parses the PDFs and email bodies — provider, amount, due date, plan and usage. No manual entry.' },
-  { icon: Upload, title: 'Or upload a photo', body: 'Snap a paper bill or drop a PDF. OCR + AI pull out the details and add it to your running cost log.' },
-  { icon: Landmark, title: 'And watches the bank', body: 'With your consent, open banking (Akahu / CDR) surfaces the recurring charges you forgot — the quiet subscriptions and duplicate debits.' },
-  { icon: Search, title: 'Then finds cheaper', body: 'An agent researches NZ-specific alternatives — power, broadband, insurance — grounded in Powerswitch and Consumer NZ, matched to your actual usage.' },
-  { icon: Bell, title: 'And tells you first', body: '“We found a cheaper power plan for your address.” Loyalty traps, price rises, mortgage refix, Warmer Kiwi Homes eligibility — surfaced before you have to ask.' },
-  { icon: ShieldCheck, title: 'You stay in control', body: 'Assembl Bills recommends and prepares the switch. You approve it. Nothing is switched, cancelled or paid automatically — ever.' },
+  { icon: Mail, title: 'It reads your bills', body: 'Connect Gmail or Outlook — or just drop a PDF or photo. Claude Vision pulls out provider, amount, due date and plan. No manual entry.' },
+  { icon: Upload, title: 'Live extraction', body: 'Drop a real bill and watch it parse in seconds — the same engine runs whether it comes from your inbox or your camera roll.' },
+  { icon: Landmark, title: 'Watches the bank', body: 'Drop a bank CSV (parsed in your browser) or connect open banking — it surfaces the recurring charges you forgot.' },
+  { icon: Search, title: 'Finds cheaper', body: 'An agent researches NZ providers — power, broadband, insurance — from a live price book, matched to your actual usage.' },
+  { icon: Bell, title: 'Tells you first', body: 'Loyalty traps, price rises, mortgage refix, Warmer Kiwi Homes eligibility — surfaced before you have to ask.' },
+  { icon: ShieldCheck, title: 'You stay in control', body: 'It recommends and prepares the switch. You approve it. Nothing is switched, cancelled or paid automatically — ever.' },
 ];
 
 const differentiators = [
-  { k: 'Not a dashboard — an operating system', v: 'SortMe shows you what you spent. Assembl Bills acts: it researches, alerts and prepares the switch.' },
-  { k: 'Email-first ingestion', v: 'No NZ product parses email bills. It’s the most frictionless path in — you don’t have to connect a bank account first.' },
-  { k: 'NZ provider intelligence', v: 'Trained on Mercury, Contact, Genesis, Meridian, Spark, One NZ, AA, Tower — not a US database.' },
-  { k: 'Proactive, not reactive', v: 'It surfaces the opportunity when a cheaper plan appears or your plan anniversary approaches — you don’t have to remember to check.' },
+  { k: 'Not a dashboard — an operating system', v: 'SortMe shows what you spent. Assembl Bills acts: researches, alerts and prepares the switch.' },
+  { k: 'Email-first ingestion', v: 'No NZ product parses email bills. The most frictionless path in — no bank account required first.' },
+  { k: 'NZ provider intelligence', v: 'A live price book of real NZ plans — Mercury, Contact, Spark, One NZ, AA — not a US database.' },
+  { k: 'Proactive, not reactive', v: 'It surfaces the opportunity the moment a cheaper plan appears or your plan anniversary nears.' },
 ];
 
 export default function BillsLanding() {
   return (
     <main>
       {/* Header */}
-      <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <div className="flex items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg text-white" style={{ background: 'var(--b-teal)' }}>
-            <Wallet size={17} />
-          </span>
-          <span className="text-lg font-bold tracking-tight" style={{ ...display, color: 'var(--b-ink)' }}>
-            Assembl Bills
-          </span>
-          <span className="ml-1 text-xs" style={{ color: 'var(--b-faint)' }}>by assembl</span>
-        </div>
+      <header className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-5 py-5 sm:px-6">
+        <span className="min-w-0 shrink"><WordMark size={17} /></span>
         <Link
           href="/bills/app"
-          className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
-          style={{ background: 'var(--b-teal)', ...display }}
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+          style={{ background: 'linear-gradient(135deg, #5AADA0, #3A7D6E)', boxShadow: '0 0 24px -6px rgba(90,173,160,0.7)', ...display }}
         >
-          See the demo <ArrowRight size={15} />
+          <span className="hidden sm:inline">See the demo</span>
+          <span className="sm:hidden">Demo</span>
+          <ArrowRight size={15} />
         </Link>
       </header>
 
       {/* Hero */}
-      <section className="mx-auto grid max-w-6xl items-center gap-10 px-6 pb-14 pt-6 md:grid-cols-[1.05fr_0.95fr] md:pt-12">
+      <section className="mx-auto grid max-w-6xl items-center gap-10 px-6 pb-8 pt-6 md:grid-cols-[1.05fr_0.95fr] md:pt-12">
         <div>
-          <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
-            <Sparkles size={13} /> Built in Aotearoa · beta waitlist open
-          </span>
-          <h1 className="mt-5 text-4xl font-bold leading-[1.06] tracking-tight sm:text-[52px]" style={{ ...display, color: 'var(--b-ink)' }}>
-            Stop overpaying on your household bills.
-          </h1>
-          <p className="mt-5 max-w-lg text-lg leading-relaxed" style={{ color: 'var(--b-muted)' }}>
-            Assembl Bills is the agentic operating system for your NZ bills. It reads them from your inbox, tracks the cost, and{' '}
-            <strong style={{ color: 'var(--b-ink)' }}>proactively finds you cheaper plans</strong> — grounded in Powerswitch and Consumer NZ. It recommends; you switch.
-          </p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <a href="#waitlist" className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-white transition hover:opacity-90" style={{ background: 'var(--b-teal)', ...display }}>
-              Join the waitlist <ArrowRight size={16} />
-            </a>
-            <Link href="/bills/app" className="text-sm font-semibold" style={{ color: 'var(--b-teal-deep)' }}>
-              Explore the demo console →
-            </Link>
-          </div>
-          <p className="mt-5 text-xs" style={{ color: 'var(--b-faint)' }}>
-            Concept demo · sample data only. Recommends switches — never acts without your approval.
-          </p>
+          <Reveal>
+            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)' }}>
+              <Sparkles size={12} /> Built in Aotearoa · beta waitlist open
+            </span>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h1 className="mt-5 font-extrabold leading-[1.03] tracking-tight" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '-0.02em', fontSize: 'clamp(2.35rem, 7.2vw, 3.9rem)' }}>
+              Stop overpaying on your{' '}
+              <span style={{ background: 'linear-gradient(90deg, #5AADA0, #E9C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 0 22px rgba(90,173,160,0.4))' }}>
+                household bills.
+              </span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-5 max-w-lg text-lg leading-relaxed" style={{ color: 'var(--b-muted)' }}>
+              The agentic operating system for your NZ bills. It reads them from your inbox, tracks the cost, and{' '}
+              <strong style={{ color: 'var(--b-ink)' }}>proactively finds you cheaper plans</strong> — grounded in Powerswitch and Consumer NZ. It recommends; you switch.
+            </p>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <a href="#waitlist" className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-white transition hover:opacity-90" style={{ background: 'linear-gradient(135deg, #5AADA0, #3A7D6E)', boxShadow: '0 0 30px -6px rgba(90,173,160,0.7)', ...display }}>
+                Join the waitlist <ArrowRight size={16} />
+              </a>
+              <Link href="/bills/app" className="inline-flex items-center gap-1.5 rounded-xl px-5 py-3.5 text-sm font-semibold transition hover:bg-white/5" style={{ color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)' }}>
+                Explore the live console →
+              </Link>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mt-5 text-xs" style={{ color: 'var(--b-faint)' }}>
+              Live console · sample household. Recommends switches — never acts without your approval.
+            </p>
+          </Reveal>
         </div>
 
-        {/* Claim panel */}
-        <div className="rounded-3xl p-6" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)' }}>
-          <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--b-faint)' }}>
-            The NZ picture
-          </p>
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            {marketClaims.map((c) => (
-              <div key={c.stat} className="rounded-2xl p-4" style={{ background: 'var(--b-surface-alt)' }}>
-                <div className="text-2xl font-bold" style={{ ...display, color: 'var(--b-teal-deep)' }}>{c.stat}</div>
-                <div className="mt-1 text-xs leading-snug" style={{ color: 'var(--b-muted)' }}>{c.body}</div>
-                <div className="mt-1.5 text-[10px]" style={{ color: 'var(--b-faint)' }}>{c.source}</div>
-              </div>
-            ))}
-          </div>
-          <p className="mt-4 text-xs leading-relaxed" style={{ color: 'var(--b-muted)' }}>
-            The average household could save <strong style={{ color: 'var(--b-ink)' }}>$400–$500/year</strong> just by switching power — yet most never do, because comparison is made unnecessarily complex.{' '}
-            <span style={{ color: 'var(--b-faint)' }}>Consumer NZ</span>
-          </p>
-        </div>
+        <Reveal delay={0.15}>
+          <HeroSavingsCard found={totalFound} />
+        </Reveal>
       </section>
 
-      {/* How it works */}
-      <section className="mx-auto max-w-6xl px-6 py-14">
-        <h2 className="text-center text-2xl font-bold tracking-tight sm:text-3xl" style={{ ...display, color: 'var(--b-ink)' }}>
-          One system, from inbox to saving
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>
-          Bill ingestion, a live cost log, agent-led price research, and honest alerts — the whole loop, in one place.
-        </p>
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {flow.map((f) => (
-            <div key={f.title} className="rounded-2xl p-6" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)' }}>
-              <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
-                <f.icon size={20} />
-              </span>
-              <h3 className="text-base font-semibold" style={{ ...display, color: 'var(--b-ink)' }}>{f.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{f.body}</p>
-            </div>
+      {/* Provider marquee */}
+      <div className="mx-auto max-w-6xl px-6 pb-14">
+        <p className="mb-2 text-center text-[10px] font-semibold uppercase tracking-[0.18em]" style={{ color: 'var(--b-faint)' }}>Knows every NZ provider</p>
+        <ProviderMarquee />
+      </div>
+
+      {/* Claim stats */}
+      <section className="mx-auto max-w-6xl px-6 pb-16">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {marketClaims.map((c, i) => (
+            <Reveal key={c.stat} delay={i * 0.06}>
+              <div className="rounded-2xl p-5" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
+                <div className="text-3xl font-extrabold" style={{ ...display, color: 'var(--b-teal)', filter: 'drop-shadow(0 0 14px rgba(90,173,160,0.35))' }}>{c.stat}</div>
+                <div className="mt-1.5 text-xs leading-snug" style={{ color: 'var(--b-muted)' }}>{c.body}</div>
+                <div className="mt-1.5 text-[10px]" style={{ color: 'var(--b-faint)' }}>{c.source}</div>
+              </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      {/* Why it's different */}
-      <section className="py-14" style={{ background: 'var(--b-surface-alt)' }}>
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="flex items-center gap-2">
-            <MapPin size={18} style={{ color: 'var(--b-teal-deep)' }} />
-            <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--b-teal-deep)' }}>
-              Why it’s different
-            </span>
-          </div>
-          <h2 className="mt-3 max-w-2xl text-2xl font-bold tracking-tight sm:text-3xl" style={{ ...display, color: 'var(--b-ink)' }}>
-            The closest NZ tools are dashboards. This is an operating system.
+      {/* How it works */}
+      <section className="mx-auto max-w-6xl px-6 py-8">
+        <Reveal>
+          <h2 className="text-center text-3xl font-extrabold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '-0.02em' }}>
+            One system, inbox to saving
           </h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {differentiators.map((d) => (
-              <div key={d.k} className="rounded-2xl p-5" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)' }}>
-                <p className="font-semibold" style={{ ...display, color: 'var(--b-ink)' }}>{d.k}</p>
-                <p className="mt-1.5 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{d.v}</p>
+          <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>
+            Bill ingestion, a live cost log, agent-led price research, and honest alerts — the whole loop, in one place.
+          </p>
+        </Reveal>
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {flow.map((f, i) => (
+            <Reveal key={f.title} delay={(i % 3) * 0.08}>
+              <div className="group h-full rounded-2xl p-6 transition duration-300 hover:-translate-y-1" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
+                <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl transition group-hover:scale-110" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)', boxShadow: '0 0 20px -6px rgba(90,173,160,0.6)' }}>
+                  <f.icon size={20} />
+                </span>
+                <h3 className="text-base font-bold" style={{ ...display, color: 'var(--b-ink)' }}>{f.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{f.body}</p>
               </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Why different */}
+      <section className="py-16">
+        <div className="mx-auto max-w-6xl px-6">
+          <Reveal>
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: 'var(--b-teal)' }}>Why it’s different</span>
+              <span className="h-px flex-1" style={{ background: 'linear-gradient(90deg, var(--b-teal-line), transparent)' }} />
+            </div>
+            <h2 className="mt-3 max-w-2xl text-3xl font-extrabold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '-0.02em' }}>
+              The closest NZ tools are dashboards. This is an operating system.
+            </h2>
+          </Reveal>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {differentiators.map((d, i) => (
+              <Reveal key={d.k} delay={(i % 2) * 0.08}>
+                <div className="rounded-2xl p-5" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
+                  <p className="font-bold" style={{ ...display, color: 'var(--b-ink)' }}>{d.k}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{d.v}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
-          <p className="mt-6 max-w-2xl text-xs leading-relaxed" style={{ color: 'var(--b-faint)' }}>
-            The US validated the demand: Rocket Money reached millions of users and was acquired by Rocket Companies for US$1.275B. NZ lacks a localised equivalent with NZ provider intelligence and an agentic approach. NZ’s Consumer Data Right went live for banking in December 2025 — the infrastructure is arriving.
-          </p>
+          <Reveal delay={0.1}>
+            <p className="mt-6 max-w-2xl text-xs leading-relaxed" style={{ color: 'var(--b-faint)' }}>
+              The US validated the demand: Rocket Money reached millions of users and was acquired by Rocket Companies for US$1.275B. NZ lacks a localised equivalent with NZ provider intelligence and an agentic approach. NZ’s Consumer Data Right went live for banking in December 2025.
+            </p>
+          </Reveal>
         </div>
       </section>
 
       {/* Waitlist */}
       <section id="waitlist" className="py-16">
         <div className="mx-auto max-w-xl px-6 text-center">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl" style={{ ...display, color: 'var(--b-ink)' }}>
-            Join the Assembl Bills waitlist
-          </h2>
-          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>
-            We’re opening the beta to New Zealand households and small businesses, region by region. Add your details and we’ll be in touch.
-          </p>
-          <div className="mt-8 rounded-2xl p-6 text-left" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)' }}>
-            <WaitlistForm />
-          </div>
+          <Reveal>
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '-0.02em' }}>
+              Join the waitlist
+            </h2>
+            <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>
+              We’re opening the beta to New Zealand households and small businesses, region by region.
+            </p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <div className="mt-8 rounded-2xl p-6 text-left" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))', border: '1px solid var(--b-teal-line)', boxShadow: 'var(--b-glow-teal)', backdropFilter: 'blur(10px)' }}>
+              <WaitlistForm />
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -172,7 +188,7 @@ export default function BillsLanding() {
           <span>
             <strong style={{ color: 'var(--b-ink)' }}>Assembl Bills</strong> — an assembl product · Built in Aotearoa.
           </span>
-          <span>Concept · beta. Pricing shown in the demo is indicative — always verify on Powerswitch (Consumer NZ).</span>
+          <span>Live console · beta. Pricing shown is indicative — always verify on Powerswitch (Consumer NZ).</span>
         </div>
       </footer>
     </main>
