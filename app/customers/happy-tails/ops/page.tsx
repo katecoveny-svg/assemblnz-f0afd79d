@@ -76,19 +76,20 @@ export default function HappyTailsOpsHome() {
         className="relative flex h-[88vh] min-h-[540px] w-full flex-col overflow-hidden"
         style={{ backgroundColor: config.colours.bg }}
       >
-        {/* tails-and-paws wash behind Franklin — hero-strength, still quiet */}
+        {/* tails-and-paws wash behind Franklin — Liana's brand dialled up (~16%),
+            larger tile: proud, still readable behind the ops surface */}
         <div
           aria-hidden
           className="absolute inset-0"
           style={{
             backgroundImage: 'url(/brand/happy-tails/pattern-tails-and-paws.png)',
             backgroundRepeat: 'repeat',
-            backgroundSize: '380px auto',
-            opacity: 0.08,
+            backgroundSize: '480px auto',
+            opacity: 0.16,
           }}
         />
         <Image
-          src="/brand/happy-tails/franklin-black-longhair-rear.png"
+          src="/customers/happy-tails/franklin-transparent.png"
           alt="Franklin the long-haired dachshund, lying down, photographed from behind"
           fill
           priority
