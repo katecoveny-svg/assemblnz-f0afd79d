@@ -7,6 +7,7 @@ declare module '@react-three/fiber' {
     clock: { getElapsedTime(): number };
   }
   export function useFrame(callback: (state: RootState, delta: number) => void): void;
+  export function useThree(): any;
   export const Canvas: (props: {
     children?: unknown;
     camera?: unknown;
@@ -14,6 +15,8 @@ declare module '@react-three/fiber' {
     gl?: unknown;
     style?: unknown;
     frameloop?: unknown;
+    shadows?: unknown;
+    [key: string]: unknown;
   }) => any;
 }
 
@@ -32,6 +35,10 @@ declare module '@react-three/drei' {
   export const Cylinder: (props: Common) => any;
   export const Plane: (props: Common) => any;
   export const Environment: (props: { preset?: string }) => any;
+  export const Html: (props: Record<string, unknown>) => any;
+  export const OrbitControls: (props: Record<string, unknown>) => any;
+  export const PointerLockControls: (props: Record<string, unknown>) => any;
+  export const ContactShadows: (props: Record<string, unknown>) => any;
   // Loose overload — real types kick in once drei is installed.
   export function useTexture(input: string | string[]): any;
 }
@@ -42,11 +49,16 @@ declare namespace React {
       group: Record<string, unknown>;
       mesh: Record<string, unknown>;
       ambientLight: Record<string, unknown>;
+      hemisphereLight: Record<string, unknown>;
       directionalLight: Record<string, unknown>;
       pointLight: Record<string, unknown>;
       planeGeometry: Record<string, unknown>;
       ringGeometry: Record<string, unknown>;
+      circleGeometry: Record<string, unknown>;
       sphereGeometry: Record<string, unknown>;
+      boxGeometry: Record<string, unknown>;
+      bufferGeometry: Record<string, unknown>;
+      bufferAttribute: Record<string, unknown>;
       lineSegments: Record<string, unknown>;
       lineBasicMaterial: Record<string, unknown>;
       meshStandardMaterial: Record<string, unknown>;
