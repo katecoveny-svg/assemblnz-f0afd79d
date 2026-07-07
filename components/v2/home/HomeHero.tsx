@@ -6,6 +6,7 @@ import { palette } from '@assembl/canvas/tokens';
 import { MicroLabel } from '@assembl/canvas';
 import { MagneticButton } from '@/components/site/MagneticButton';
 import { CountUp } from '@/components/site/CountUp';
+import { homeCopy } from '@/lib/home-copy';
 import { Hero3D } from './Hero3D';
 import styles from './home.module.css';
 
@@ -78,30 +79,33 @@ export function HomeHero({
           <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
             •
           </span>
-          <MicroLabel>built in aotearoa</MicroLabel>
+          <MicroLabel>{homeCopy.hero.eyebrow}</MicroLabel>
         </motion.div>
 
         <h1 className={styles.h1} style={{ marginTop: 22 }}>
-          <HeadlineLine words={['purpose-built', 'agents.']} offset={0} />
-          <HeadlineLine words={['limitless', 'potential']} offset={2} withDot />
+          <HeadlineLine words={[...homeCopy.hero.headlineLine1]} offset={0} />
+          <HeadlineLine
+            words={[...homeCopy.hero.headlineLine2]}
+            offset={homeCopy.hero.headlineLine1.length}
+            withDot
+          />
         </h1>
 
         <motion.p {...fade(0.55)} className={styles.lede}>
-          Agents draft the work. Your people approve it. Every output carries the record of how it
-          was made.
+          {homeCopy.hero.lede}
         </motion.p>
 
         <motion.div {...fade(0.7)} className={styles.ctaRow}>
           <MagneticButton>
-            <Link href="/agents" className={styles.ctaPrimary}>
-              browse agents
+            <Link href={homeCopy.hero.ctaPrimary.href} className={styles.ctaPrimary}>
+              {homeCopy.hero.ctaPrimary.label}
               <span aria-hidden style={{ color: palette.goldSoft, fontSize: 15, lineHeight: 1 }}>
                 •
               </span>
             </Link>
           </MagneticButton>
-          <Link href="/how-it-works" className={styles.ctaGhost}>
-            how it works
+          <Link href={homeCopy.hero.ctaSecondary.href} className={styles.ctaGhost}>
+            {homeCopy.hero.ctaSecondary.label}
           </Link>
         </motion.div>
 
@@ -111,7 +115,7 @@ export function HomeHero({
             <span className={styles.pulseValue}>
               <CountUp value={agentsLive} />
             </span>
-            agents live
+            {homeCopy.hero.stats.agents}
           </span>
           <span aria-hidden style={{ color: palette.hairline }}>
             |
@@ -120,7 +124,7 @@ export function HomeHero({
             <span className={styles.pulseValue}>
               <CountUp value={collections} />
             </span>
-            collections
+            {homeCopy.hero.stats.collections}
           </span>
           <span aria-hidden style={{ color: palette.hairline }}>
             |
@@ -129,8 +133,15 @@ export function HomeHero({
             <span className={styles.pulseValue}>
               <CountUp value={freeTools} />
             </span>
-            free tools
+            {homeCopy.hero.stats.tools}
           </span>
+        </motion.div>
+
+        {/* text-only trust bar — no client logos until earned (hard rule) */}
+        <motion.div {...fade(1)} style={{ marginTop: 26 }}>
+          <MicroLabel style={{ fontSize: 9.5, color: '#9A968A' }}>
+            {homeCopy.hero.trustLine}
+          </MicroLabel>
         </motion.div>
       </div>
 
