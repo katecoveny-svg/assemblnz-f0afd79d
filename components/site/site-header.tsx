@@ -96,6 +96,15 @@ export function isCustomerWorkspace(pathname: string | null): boolean {
   return pathname === "/customers" || pathname.startsWith("/customers/");
 }
 
+/** Alphassembl (/alphassembl + /alphassembl/chat) is a distinct consumer brand
+ *  — navy + amber, DM Sans + Inter, its own header/footer. It must NOT show the
+ *  global assembl marketing chrome (that would double the header and muddy the
+ *  brand). */
+export function isAlphassembl(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return pathname === "/alphassembl" || pathname.startsWith("/alphassembl/");
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [isMac, setIsMac] = useState(true);
@@ -125,7 +134,7 @@ export function SiteHeader() {
   // homepage hero (locked canon 2026-06-23) ship their own nav; suppress the
   // global site chrome there. /assembling/admin and /agents/pick keep the standard
   // chrome.
-  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || pathname === "/") return null;
+  if (isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || pathname === "/") return null;
 
   return (
     <header
