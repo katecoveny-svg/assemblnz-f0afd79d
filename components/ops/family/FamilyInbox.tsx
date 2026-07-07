@@ -42,10 +42,46 @@ function Dot({ on }: { on: boolean }) {
   return <span style={{ width: 7, height: 7, borderRadius: 999, background: on ? SAGE : GOLD, display: 'inline-block' }} />;
 }
 
-export function FamilyInbox({ status }: { status: InboxStatus | null }) {
+/**
+ * Explains what happened after Kate clicks Connect Gmail / Connect Outlook.
+ * Values match the ?connect=… codes the OAuth route redirects back with, so a
+ * silent bounce becomes a legible line of prose instead of the same screen.
+ */
+export type ConnectState =
+  | 'needs-setup'         // OAuth client id/secret not configured for this env
+  | 'connected'           // callback stored a refresh token
+  | 'error'               // provider returned an OAuth error
+  | 'unknown-provider'
+  | null;
+
+const CONNECT_MESSAGES: Record<Exclude<ConnectState, null>, { tone: 'ok' | 'wait' | 'bad'; text: string }> = {
+  connected:          { tone: 'ok',   text: 'Inbox connected — Echo will start its 15-minute sweep on the next tick. Drafts land in Approvals.' },
+  'needs-setup':      { tone: 'wait', text: "Almost there — the OAuth app isn't wired for this environment yet (missing GMAIL_OAUTH_CLIENT_ID / MS_OAUTH_CLIENT_ID on Vercel). The button, callback and sync are all deployed and waiting on those env vars." },
+  error:              { tone: 'bad',  text: "The provider returned an error before authorising Echo. Nothing was stored — try again, or check the browser wasn't blocking the popup." },
+  'unknown-provider': { tone: 'bad',  text: 'That inbox provider isn\'t supported yet — Gmail and Outlook only for now.' },
+};
+
+function ConnectBanner({ state }: { state: Exclude<ConnectState, null> }) {
+  const { tone, text } = CONNECT_MESSAGES[state];
+  const stripe = tone === 'ok' ? SAGE : tone === 'wait' ? GOLD : CORAL;
+  const bg     = tone === 'ok' ? '#F4F7F0' : tone === 'wait' ? '#FBF5E9' : '#FBECE4';
+  return (
+    <div role="status" style={{
+      display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 10,
+      border: `1px solid ${stripe}55`, background: bg, borderRadius: 12, padding: '10px 13px',
+    }}>
+      <span style={{ marginTop: 5, width: 8, height: 8, borderRadius: 999, background: stripe, flexShrink: 0 }} />
+      <span style={{ fontSize: 12, color: INK, lineHeight: 1.55 }}>{text}</span>
+    </div>
+  );
+}
+
+export function FamilyInbox({ status, connectState = null }: { status: InboxStatus | null; connectState?: ConnectState }) {
   const connected = Boolean(status?.connected);
   return (
     <div>
+      {connectState ? <ConnectBanner state={connectState} /> : null}
+
       {/* status strip */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', border: `1px solid ${GOLD}44`, background: '#fffdf9', borderRadius: 12, padding: '9px 13px' }}>
         <Dot on={connected} />
