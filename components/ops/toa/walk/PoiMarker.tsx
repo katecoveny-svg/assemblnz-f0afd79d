@@ -34,7 +34,12 @@ export function PoiMarker({
         }}
         aria-label={`ARC insight: ${label}`}
         className="group relative grid place-items-center"
-        style={{ width: 44, height: 44, transform: active ? 'scale(1.12)' : undefined }}
+        style={{
+          width: 44,
+          height: 44,
+          // filmic reveal — each eye fades in on the film's detail-reveal rhythm
+          animation: `poiEnter 0.9s cubic-bezier(0.22,1,0.36,1) ${0.5 + index * 0.4}s both`,
+        }}
       >
         {/* pulse ring */}
         <span
@@ -51,6 +56,7 @@ export function PoiMarker({
           style={{
             background: active ? '#bfa37a' : 'rgba(22,21,22,0.92)',
             border: '1.5px solid #bfa37a',
+            transform: active ? 'scale(1.14)' : undefined,
           }}
         >
           {/* eye icon */}
