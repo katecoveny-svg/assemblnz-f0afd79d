@@ -1,16 +1,21 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-// ── champagne canon ──────────────────────────────────────────────────────────
-const PAPER = "#FBFAF6";
-const CLOUD = "#FFFFFF";
-const INK = "#1A1918";
-const GREY = "#5A5850";
-const GOLD = "#BFA37A";
-const GOLD_DEEP = "#A88A5E";
-const SAND = "#EFEADC";
-const serif = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
+// ── Mārama cosmic canon ──────────────────────────────────────────────────────
+const BG = "#09090F";
+const CARD = "#0A0A13";
+const GLASS = "rgba(18,18,34,0.62)";
+const GLASS2 = "rgba(10,10,19,0.66)";
+const INK = "#EDEBF5";
+const MUT = "rgba(237,235,245,0.60)";
+const FAINT = "rgba(237,235,245,0.34)";
+const LINE = "rgba(255,255,255,0.08)";
+const KOWHAI = "#D4A843";
+const KOWHAI_L = "#F0D078";
+const POUNAMU = "#3A7D6E";
+const POUNAMU_L = "#5AADA0";
+const disp = "'Helvetica Neue', Arial, 'Segoe UI', sans-serif";
 const mono = "var(--font-mono), 'Space Mono', ui-monospace, monospace";
 
 export interface SlimAgent {
@@ -45,6 +50,16 @@ interface Asset {
   receipt?: Receipt;
 }
 
+// accent → lighter companion for the orb highlight
+const ACCENT_L: Record<string, string> = {
+  auaha: "#E7CC8E",
+  prism: "#DFBE86",
+  muse: "#D3B27E",
+  flux: "#C2A473",
+  verse: "#B49A6C",
+};
+const lighten = (slug: string) => ACCENT_L[slug] ?? KOWHAI_L;
+
 let idc = 0;
 const uid = () => `a${++idc}_${Math.round(performance.now())}`;
 
@@ -56,117 +71,213 @@ export function CreativeWorkspace({ agents }: { agents: SlimAgent[] }) {
   const addAsset = useCallback((a: Asset) => setGallery((g) => [a, ...g]), []);
 
   return (
-    <div style={{ minHeight: "100vh", background: PAPER, color: INK }}>
-      <Header remaining={gallery.length} />
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "232px minmax(0,1fr) 300px",
-          gap: 0,
-          alignItems: "stretch",
-          maxWidth: 1440,
-          margin: "0 auto",
-        }}
-        className="cw-grid"
-      >
-        <AgentRail interactive={interactive} roster={roster} active={active} onPick={setActive} />
-        <section style={{ padding: "22px 26px", borderLeft: `1px solid ${SAND}`, borderRight: `1px solid ${SAND}`, minHeight: "70vh" }}>
-          <AgentStage key={active.slug} agent={active} onAsset={addAsset} />
+    <div className="auaha3d" style={{ position: "relative", minHeight: "100vh", background: `radial-gradient(1200px 700px at 50% -8%, #141225 0%, ${BG} 62%)`, color: INK, overflow: "hidden" }}>
+      <Backdrop />
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "26px 24px 96px" }}>
+        <BrandBar sessionCount={gallery.length} />
+
+        <section style={{ textAlign: "center", margin: "34px 0 6px" }}>
+          <p style={{ fontFamily: disp, fontWeight: 700, fontSize: 10, letterSpacing: "0.42em", textTransform: "uppercase", color: FAINT, margin: "0 0 14px" }}>
+            The creative kete · a studio in a chat
+          </p>
+          <h1 style={{ fontFamily: disp, fontWeight: 300, fontSize: "clamp(28px,4.8vw,52px)", lineHeight: 1.04, letterSpacing: "-0.01em", margin: "0 auto", maxWidth: "18ch", textWrap: "balance" as const }}>
+            Describe it once.{" "}
+            <b style={{ fontWeight: 900, background: `linear-gradient(92deg, ${KOWHAI_L}, ${KOWHAI} 55%, ${POUNAMU_L})`, WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Auaha assembles the whole thing.
+            </b>
+          </h1>
+          <p style={{ color: MUT, fontSize: 15, lineHeight: 1.6, maxWidth: "58ch", margin: "16px auto 0" }}>
+            Pick a maker, give it a brief. Muse writes it, Prism art-directs and generates it, Flux films it, Verse
+            voices it — real models behind every panel, on-brand, yours to approve. Nothing publishes on its own.
+          </p>
         </section>
-        <GalleryRail gallery={gallery} />
+
+        {/* console-in-place: orb selector + active stage live in one glass surface */}
+        <ConsolePanel interactive={interactive} active={active} onPick={setActive} onAsset={addAsset} />
+
+        {gallery.length > 0 && <SessionGallery gallery={gallery} />}
+
+        <RosterStrip roster={roster} />
+
+        <footer style={{ marginTop: 58, paddingTop: 24, borderTop: `1px solid ${LINE}`, display: "flex", justifyContent: "space-between", gap: 18, flexWrap: "wrap", alignItems: "center" }}>
+          <p style={{ margin: 0, color: FAINT, fontSize: 11.5, lineHeight: 1.7, maxWidth: "64ch" }}>
+            <b style={{ color: MUT }}>Concept · demo.</b> AUAHA runs on real generation keys (Imagen · Gemini · Fal · ElevenLabs).
+            A missing key returns a named panel, never a 500. Action dispatch stays off — nothing here publishes or emails on its own.
+            Keys are never surfaced. Built in Aotearoa.
+          </p>
+          <div style={{ fontFamily: disp, fontWeight: 900, letterSpacing: "0.5em", fontSize: 13, color: MUT }}>AUAHA</div>
+        </footer>
       </div>
-      <style>{`
-        @media (max-width: 940px) {
-          .cw-grid { grid-template-columns: 1fr !important; }
-          .cw-grid > * { border: none !important; }
-        }
-      `}</style>
+
+      <style>{styles}</style>
     </div>
   );
 }
 
-function Header({ remaining }: { remaining: number }) {
+// ── ambient backdrop: starfield canvas + drifting nebula orbs ─────────────────
+function Backdrop() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const cv = ref.current;
+    if (!cv) return;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cx = cv.getContext("2d");
+    if (!cx) return;
+    let W = 0, H = 0, t = 0, raf = 0;
+    let stars: { x: number; y: number; r: number; o: number; s: number; ph: number }[] = [];
+    const init = () => {
+      W = cv.width = innerWidth;
+      H = cv.height = innerHeight;
+      stars = Array.from({ length: 190 }, () => ({
+        x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.3 + 0.2,
+        o: Math.random() * 0.7 + 0.1, s: Math.random() * 2 + 0.4, ph: Math.random() * 7,
+      }));
+    };
+    const draw = () => {
+      cx.clearRect(0, 0, W, H);
+      t += 0.016;
+      for (const s of stars) {
+        const b = (Math.sin(t * s.s + s.ph) + 1) / 2;
+        const a = 0.1 + b * s.o * 0.9;
+        cx.beginPath();
+        cx.arc(s.x, s.y, s.r * (0.7 + b * 0.5), 0, 7);
+        cx.fillStyle = `rgba(235,238,250,${a})`;
+        cx.fill();
+      }
+      if (!reduce) raf = requestAnimationFrame(draw);
+    };
+    init();
+    draw();
+    addEventListener("resize", init);
+    return () => { cancelAnimationFrame(raf); removeEventListener("resize", init); };
+  }, []);
   return (
-    <header style={{ padding: "20px 26px 14px", maxWidth: 1440, margin: "0 auto" }}>
-      <p style={{ fontFamily: mono, fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: GREY }}>
-        assembl · demo · draft-only
-      </p>
-      <h1 style={{ fontFamily: serif, fontWeight: 500, fontSize: 38, margin: "6px 0 2px", letterSpacing: "-0.02em" }}>
-        auaha<span style={{ color: GOLD }}>.</span> the creative kete
-      </h1>
-      <p style={{ fontSize: 13.5, color: GREY, maxWidth: 640 }}>
-        A creative studio in a chat. Describe what you need — Prism art-directs and generates the image, Muse writes
-        the words, Flux films it, Verse voices it. Everything real, on-brand, yours to approve.
-        {remaining > 0 && <span style={{ color: GOLD_DEEP }}> · {remaining} in this session</span>}
-      </p>
+    <>
+      <canvas ref={ref} style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none" }} />
+      <div className="orb" style={{ width: 420, height: 300, top: -40, left: -30, background: "radial-gradient(circle, rgba(212,168,67,0.10), transparent 70%)", ["--d" as string]: "17s" }} />
+      <div className="orb" style={{ width: 360, height: 360, top: 320, right: -70, background: "radial-gradient(circle, rgba(58,125,110,0.09), transparent 70%)", ["--d" as string]: "21s", ["--del" as string]: "-4s" }} />
+      <div className="orb" style={{ width: 300, height: 300, bottom: 120, left: "8%", background: "radial-gradient(circle, rgba(58,106,156,0.08), transparent 70%)", ["--d" as string]: "19s", ["--del" as string]: "-8s" }} />
+    </>
+  );
+}
+
+function BrandBar({ sessionCount }: { sessionCount: number }) {
+  return (
+    <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, flexWrap: "wrap", padding: "13px 20px", border: `1px solid ${LINE}`, borderRadius: 18, background: `linear-gradient(180deg, ${GLASS}, ${GLASS2})`, backdropFilter: "blur(14px)", boxShadow: "0 20px 60px -30px rgba(0,0,0,0.9)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
+        <ConstellationMark />
+        <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          <span style={{ fontFamily: disp, fontWeight: 700, fontSize: 9.5, letterSpacing: "0.32em", textTransform: "uppercase", color: KOWHAI_L, opacity: 0.85 }}>Assembl · Auaha Creative Pack</span>
+          <span className="wm" style={{ fontFamily: disp, fontWeight: 900, fontSize: 22, letterSpacing: "0.5em", textTransform: "uppercase" }}>Auaha</span>
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <Chip dot={POUNAMU_L}>5 makers live</Chip>
+        <Chip dot={KOWHAI}>20 gens / hour</Chip>
+        <Chip dot="#C6784E">Dispatch off</Chip>
+        {sessionCount > 0 ? <Chip>{sessionCount} this session</Chip> : <Chip>Mana receipt on every output</Chip>}
+      </div>
     </header>
   );
 }
 
-function AgentRail({
-  interactive,
-  roster,
-  active,
-  onPick,
-}: {
-  interactive: SlimAgent[];
-  roster: SlimAgent[];
-  active: SlimAgent;
-  onPick: (a: SlimAgent) => void;
-}) {
+function Chip({ children, dot }: { children: React.ReactNode; dot?: string }) {
   return (
-    <nav style={{ padding: "22px 16px" }}>
-      <p style={{ fontFamily: mono, fontSize: 9.5, letterSpacing: "0.14em", textTransform: "uppercase", color: GREY, marginBottom: 10 }}>
-        the makers
-      </p>
-      {interactive.map((a) => {
-        const on = a.slug === active.slug;
-        return (
-          <button
-            key={a.slug}
-            onClick={() => onPick(a)}
-            style={{
-              display: "block",
-              width: "100%",
-              textAlign: "left",
-              padding: "10px 12px",
-              marginBottom: 6,
-              borderRadius: 12,
-              border: `1px solid ${on ? a.accent : SAND}`,
-              background: on ? CLOUD : "transparent",
-              boxShadow: on ? "0 1px 8px rgba(26,25,24,0.05)" : "none",
-              cursor: "pointer",
-            }}
-          >
-            <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ width: 8, height: 8, borderRadius: 999, background: a.accent }} />
-              <span style={{ fontFamily: serif, fontSize: 18, fontWeight: 600 }}>{a.name}</span>
-            </span>
-            <span style={{ fontSize: 11, color: GREY }}>{a.role}</span>
-          </button>
-        );
-      })}
-      <p style={{ fontFamily: mono, fontSize: 9.5, letterSpacing: "0.14em", textTransform: "uppercase", color: GREY, margin: "18px 0 8px" }}>
-        the rest of the kete
-      </p>
-      {roster.map((a) => (
-        <div key={a.slug} style={{ padding: "5px 12px", opacity: 0.75 }}>
-          <span style={{ fontFamily: serif, fontSize: 15, fontWeight: 600 }}>{a.name}</span>
-          <span style={{ fontSize: 11, color: GREY, display: "block" }}>{a.role}</span>
-        </div>
-      ))}
-    </nav>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 10.5, letterSpacing: "0.02em", color: MUT, padding: "6px 11px", border: `1px solid ${LINE}`, borderRadius: 999, background: "rgba(255,255,255,0.02)" }}>
+      {dot && <span style={{ width: 6, height: 6, borderRadius: 999, background: dot, boxShadow: `0 0 8px ${dot}` }} />}
+      {children}
+    </span>
   );
 }
 
-// ── the stage switches on agent kind ─────────────────────────────────────────
+function ConstellationMark() {
+  return (
+    <svg className="mark" width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+      <defs>
+        <radialGradient id="ag" cx="40%" cy="35%" r="50%"><stop offset="0%" stopColor="#F0D078" /><stop offset="50%" stopColor="#D4A843" /><stop offset="100%" stopColor="#8B6020" /></radialGradient>
+        <radialGradient id="ap" cx="40%" cy="35%" r="50%"><stop offset="0%" stopColor="#7ACFC2" /><stop offset="50%" stopColor="#3A7D6E" /><stop offset="100%" stopColor="#1E5044" /></radialGradient>
+        <radialGradient id="apl" cx="40%" cy="35%" r="50%"><stop offset="0%" stopColor="#5AADA0" /><stop offset="50%" stopColor="#2E6B5E" /><stop offset="100%" stopColor="#153D35" /></radialGradient>
+        <radialGradient id="ahi" cx="35%" cy="30%" r="28%"><stop offset="0%" stopColor="#fff" stopOpacity="0.6" /><stop offset="100%" stopColor="#fff" stopOpacity="0" /></radialGradient>
+        <linearGradient id="al" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#D4A843" stopOpacity="0.6" /><stop offset="100%" stopColor="#3A7D6E" stopOpacity="0.55" /></linearGradient>
+      </defs>
+      <line x1="18" y1="8" x2="8" y2="26" stroke="url(#al)" strokeWidth="1.2" />
+      <line x1="18" y1="8" x2="28" y2="26" stroke="url(#al)" strokeWidth="1.2" />
+      <line x1="8" y1="26" x2="28" y2="26" stroke="url(#al)" strokeWidth="1.2" />
+      <circle cx="18" cy="8" r="4.5" fill="url(#ag)" /><circle cx="18" cy="8" r="4.5" fill="url(#ahi)" />
+      <circle cx="8" cy="26" r="4.5" fill="url(#ap)" /><circle cx="8" cy="26" r="4.5" fill="url(#ahi)" />
+      <circle cx="28" cy="26" r="4.5" fill="url(#apl)" /><circle cx="28" cy="26" r="4.5" fill="url(#ahi)" />
+    </svg>
+  );
+}
+
+// ── the console: agent orbs + the active stage, all in one glass surface ──────
+function ConsolePanel({
+  interactive,
+  active,
+  onPick,
+  onAsset,
+}: {
+  interactive: SlimAgent[];
+  active: SlimAgent;
+  onPick: (a: SlimAgent) => void;
+  onAsset: (a: Asset) => void;
+}) {
+  return (
+    <div style={{ position: "relative", margin: "30px auto 0", maxWidth: 940, border: `1px solid rgba(212,168,67,0.24)`, borderRadius: 24, background: `linear-gradient(180deg, rgba(24,24,44,0.72), ${GLASS2})`, backdropFilter: "blur(16px)", boxShadow: "0 40px 90px -44px rgba(0,0,0,0.95), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 60px -24px rgba(212,168,67,0.32)", padding: "22px 22px 24px" }}>
+      {/* orb selector */}
+      <div className="orbrow" style={{ display: "flex", justifyContent: "center", gap: "clamp(10px,3vw,30px)", flexWrap: "wrap", paddingBottom: 20, borderBottom: `1px solid ${LINE}`, marginBottom: 20 }}>
+        {interactive.map((a, i) => {
+          const on = a.slug === active.slug;
+          return (
+            <button
+              key={a.slug}
+              onClick={() => onPick(a)}
+              className={`orbbtn${on ? " on" : ""}`}
+              style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 9, padding: 0 }}
+              aria-pressed={on}
+            >
+              <span
+                className="orb3"
+                style={{
+                  ["--a" as string]: a.accent,
+                  ["--al" as string]: lighten(a.slug),
+                  ["--bdel" as string]: `${-i * 0.6}s`,
+                  width: 58, height: 58, borderRadius: "50%", position: "relative", display: "grid", placeItems: "center",
+                  background: `radial-gradient(circle at 36% 30%, ${lighten(a.slug)}, ${a.accent} 52%, #2a1f0a 100%)`,
+                  boxShadow: on
+                    ? `0 0 0 2px ${a.accent}, 0 0 0 6px rgba(212,168,67,0.14), 0 12px 30px -8px rgba(0,0,0,0.8), 0 0 34px -2px ${a.accent}`
+                    : `0 0 0 1px rgba(255,255,255,0.12), 0 12px 30px -12px rgba(0,0,0,0.8), 0 0 26px -6px ${a.accent}`,
+                  transform: on ? "translateY(-4px) scale(1.06)" : "none",
+                  transition: "transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s",
+                }}
+              >
+                <span style={{ position: "relative", zIndex: 2, fontFamily: disp, fontWeight: 900, fontSize: 19, color: "#140f04", textShadow: "0 1px 0 rgba(255,255,255,0.35)" }}>{a.name[0]}</span>
+              </span>
+              <span style={{ fontFamily: disp, fontWeight: 700, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: on ? INK : MUT }}>{a.name}</span>
+              <span style={{ fontSize: 9, letterSpacing: "0.1em", textTransform: "uppercase", color: FAINT }}>{a.role}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* active maker header + stage */}
+      <div style={{ marginBottom: 4 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+          <h2 style={{ fontFamily: disp, fontWeight: 900, fontSize: 22, letterSpacing: "0.01em", margin: 0 }}>{active.name}</h2>
+          <span style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: active.accent }}>{active.role}</span>
+        </div>
+        <p style={{ fontSize: 13, color: MUT, maxWidth: "62ch", margin: "6px 0 0", lineHeight: 1.6 }}>{active.blurb}</p>
+      </div>
+
+      <AgentStage key={active.slug} agent={active} onAsset={onAsset} />
+    </div>
+  );
+}
+
+// ── the stage switches on agent kind (logic preserved) ───────────────────────
 function AgentStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) => void }) {
   return (
-    <div>
-      <div style={{ marginBottom: 16 }}>
-        <h2 style={{ fontFamily: serif, fontWeight: 600, fontSize: 26, margin: 0 }}>{agent.name}</h2>
-        <p style={{ fontSize: 13, color: GREY, maxWidth: 560, marginTop: 4 }}>{agent.blurb}</p>
-      </div>
+    <div style={{ marginTop: 14 }}>
       {agent.kind === "image" && <ImageStage agent={agent} onAsset={onAsset} />}
       {agent.kind === "video" && <VideoStage agent={agent} onAsset={onAsset} />}
       {agent.kind === "podcast" && <PodcastStage agent={agent} onAsset={onAsset} />}
@@ -175,20 +286,11 @@ function AgentStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
   );
 }
 
-// Shared honest-error / not-configured panel
+// Shared honest-error / not-configured panel (dark)
 function Notice({ children, tone = "info" }: { children: React.ReactNode; tone?: "info" | "warn" }) {
+  const warn = tone === "warn";
   return (
-    <div
-      style={{
-        border: `1px solid ${tone === "warn" ? "#D8B45A" : SAND}`,
-        background: tone === "warn" ? "#FBF3DD" : CLOUD,
-        borderRadius: 12,
-        padding: "12px 14px",
-        fontSize: 12.5,
-        color: tone === "warn" ? "#6B531C" : GREY,
-        marginTop: 12,
-      }}
-    >
+    <div style={{ border: `1px solid ${warn ? "rgba(212,168,67,0.42)" : LINE}`, background: warn ? "rgba(212,168,67,0.08)" : "rgba(255,255,255,0.02)", borderRadius: 12, padding: "12px 14px", fontSize: 12.5, color: warn ? KOWHAI_L : MUT, marginTop: 12, lineHeight: 1.55 }}>
       {children}
     </div>
   );
@@ -216,38 +318,16 @@ function Composer({
       <textarea
         value={v}
         onChange={(e) => setV(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) send();
-        }}
+        onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) send(); }}
         placeholder={placeholder}
         rows={2}
-        style={{
-          flex: 1,
-          resize: "vertical",
-          border: `1px solid ${SAND}`,
-          borderRadius: 12,
-          padding: "10px 12px",
-          fontSize: 13.5,
-          fontFamily: "inherit",
-          background: CLOUD,
-          color: INK,
-        }}
+        className="brief"
+        style={{ flex: 1, resize: "vertical", border: `1px solid ${LINE}`, borderRadius: 13, padding: "12px 14px", fontSize: 13.5, fontFamily: "inherit", background: "rgba(9,9,15,0.7)", color: INK, lineHeight: 1.5 }}
       />
       <button
         onClick={send}
         disabled={busy}
-        style={{
-          alignSelf: "flex-end",
-          padding: "10px 18px",
-          borderRadius: 12,
-          border: "none",
-          background: busy ? SAND : INK,
-          color: busy ? GREY : PAPER,
-          fontSize: 13,
-          fontWeight: 600,
-          cursor: busy ? "default" : "pointer",
-          whiteSpace: "nowrap",
-        }}
+        style={{ alignSelf: "stretch", padding: "0 20px", borderRadius: 13, border: "none", background: busy ? "rgba(255,255,255,0.06)" : `linear-gradient(180deg, ${KOWHAI_L}, ${KOWHAI})`, color: busy ? FAINT : "#1a1406", fontFamily: disp, fontWeight: 900, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", cursor: busy ? "default" : "pointer", whiteSpace: "nowrap", boxShadow: busy ? "none" : "0 12px 30px -14px rgba(212,168,67,0.7), inset 0 1px 0 rgba(255,255,255,0.5)" }}
       >
         {busy ? "…" : cta}
       </button>
@@ -255,13 +335,26 @@ function Composer({
   );
 }
 
+function Starters({ items, busy, onPick }: { items: string[]; busy: boolean; onPick: (s: string) => void }) {
+  return (
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
+      {items.map((s) => (
+        <button key={s} onClick={() => onPick(s)} disabled={busy} className="seed"
+          style={{ fontFamily: mono, fontSize: 11, padding: "6px 12px", borderRadius: 999, border: `1px solid ${LINE}`, background: "rgba(255,255,255,0.02)", color: MUT, cursor: busy ? "default" : "pointer" }}>
+          {s}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function ReceiptChip({ r }: { r: Receipt }) {
   return (
-    <div style={{ fontFamily: mono, fontSize: 10.5, color: GREY, marginTop: 6, lineHeight: 1.5 }}>
-      <span style={{ color: GOLD_DEEP }}>◆ mana receipt</span> · {r.provider} · {r.model}
+    <div style={{ fontFamily: mono, fontSize: 10.5, color: MUT, marginTop: 8, lineHeight: 1.5 }}>
+      <span style={{ color: KOWHAI_L }}>◆ mana receipt</span> · {r.provider} · {r.model}
       {r.spec ? ` · ${r.spec}` : ""} · ~${r.costNzd.toFixed(2)} est.
       <br />
-      <span style={{ color: "#7A7566" }}>{r.trust}</span>
+      <span style={{ color: FAINT }}>{r.trust}</span>
     </div>
   );
 }
@@ -314,11 +407,12 @@ function ImageStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
   return (
     <div>
       <Composer placeholder="Describe the shot — subject, mood, light, palette. e.g. 'editorial hero for a Wellington gin brand, botanical, moody, low key'" cta="Generate ×4" busy={busy} onSend={run} />
+      {!lastBrief && <Starters busy={busy} onPick={run} items={["Editorial hero of a kōwhai branch at dawn, Aotearoa light.", "Product still for a Wellington gin, botanical, low key."]} />}
       {lastBrief && (
-        <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
           {["more editorial", "warmer", "darker, add fog", "wider crop"].map((q) => (
-            <button key={q} onClick={() => run(`${lastBrief} — ${q}`)} disabled={busy}
-              style={{ fontSize: 11.5, padding: "5px 11px", borderRadius: 999, border: `1px solid ${SAND}`, background: CLOUD, color: GREY, cursor: busy ? "default" : "pointer" }}>
+            <button key={q} onClick={() => run(`${lastBrief} — ${q}`)} disabled={busy} className="seed"
+              style={{ fontFamily: mono, fontSize: 11, padding: "6px 12px", borderRadius: 999, border: `1px solid ${LINE}`, background: "rgba(255,255,255,0.02)", color: MUT, cursor: busy ? "default" : "pointer" }}>
               {q}
             </button>
           ))}
@@ -332,7 +426,7 @@ function ImageStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 10, marginTop: 16 }}>
             {imgs.map((src, i) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={i} src={src} alt={`variation ${i + 1}`} style={{ width: "100%", borderRadius: 12, border: `1px solid ${SAND}` }} />
+              <img key={i} src={src} alt={`variation ${i + 1}`} style={{ width: "100%", borderRadius: 12, border: `1px solid ${LINE}` }} />
             ))}
           </div>
           {receipt && <ReceiptChip r={receipt} />}
@@ -350,9 +444,10 @@ function VideoStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
   const [receipt, setReceipt] = useState<Receipt | null>(null);
   const [nc, setNc] = useState<{ envVar: string; detail: string } | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [started, setStarted] = useState(false);
 
   const run = async (brief: string) => {
-    setBusy(true); setErr(null); setNc(null); setVideo(null); setStatus("Flux is framing the shot…");
+    setBusy(true); setErr(null); setNc(null); setVideo(null); setStarted(true); setStatus("Flux is framing the shot…");
     try {
       const res = await fetch("/api/creative/video", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -396,12 +491,13 @@ function VideoStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
   return (
     <div>
       <Composer placeholder="Describe one 15-second scene — subject, motion, camera, light. e.g. 'slow dolly across a sunlit Auckland rooftop bar at golden hour'" cta="Film it" busy={busy} onSend={run} />
+      {!started && <Starters busy={busy} onPick={run} items={["One unbroken push through a misty rimu forest into first light.", "Golden-hour dolly across an Auckland rooftop bar."]} />}
       {busy && <Notice>{status}</Notice>}
       {nc && <Notice tone="warn">Video is not configured. Set <b>{nc.envVar}</b> (Fal Kling) or GEMINI_API_KEY (Veo). {nc.detail}</Notice>}
       {err && <Notice tone="warn">{err}</Notice>}
       {video && (
         <div style={{ marginTop: 16 }}>
-          <video src={video} controls style={{ width: "100%", borderRadius: 12, border: `1px solid ${SAND}` }} />
+          <video src={video} controls style={{ width: "100%", borderRadius: 12, border: `1px solid ${LINE}` }} />
           {receipt && <ReceiptChip r={receipt} />}
         </div>
       )}
@@ -417,9 +513,10 @@ function PodcastStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset
   const [receipt, setReceipt] = useState<Receipt | null>(null);
   const [nc, setNc] = useState<{ envVar: string; detail: string } | null>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [started, setStarted] = useState(false);
 
   const run = async (topic: string) => {
-    setBusy(true); setErr(null); setNc(null); setAudio(null); setScript("");
+    setBusy(true); setErr(null); setNc(null); setAudio(null); setScript(""); setStarted(true);
     try {
       const res = await fetch("/api/creative/podcast", {
         method: "POST", headers: { "Content-Type": "application/json" },
@@ -442,13 +539,14 @@ function PodcastStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset
   return (
     <div>
       <Composer placeholder="Give Verse a topic — it writes the script and voices it. e.g. 'a 40-second welcome for a new café loyalty app'" cta="Write & voice" busy={busy} onSend={run} />
+      {!started && <Starters busy={busy} onPick={run} items={["A 30-second warm NZ voice intro for a sustainability podcast.", "A 40-second welcome for a new café loyalty app."]} />}
       {busy && <Notice>Verse is writing the script and recording…</Notice>}
       {nc && <Notice tone="warn">Podcast voice is not configured. Set <b>{nc.envVar}</b> (or GEMINI_API_KEY for the Google TTS fallback). {nc.detail}</Notice>}
       {err && <Notice tone="warn">{err}</Notice>}
       {audio && (
         <div style={{ marginTop: 16 }}>
           <audio src={audio} controls style={{ width: "100%" }} />
-          {script && <p style={{ fontSize: 13, color: INK, background: CLOUD, border: `1px solid ${SAND}`, borderRadius: 12, padding: "12px 14px", marginTop: 12, whiteSpace: "pre-wrap", lineHeight: 1.55 }}>{script}</p>}
+          {script && <p style={{ fontSize: 13, color: INK, background: "rgba(9,9,15,0.7)", border: `1px solid ${LINE}`, borderRadius: 12, padding: "12px 14px", marginTop: 12, whiteSpace: "pre-wrap", lineHeight: 1.55 }}>{script}</p>}
           {receipt && <ReceiptChip r={receipt} />}
         </div>
       )}
@@ -502,23 +600,14 @@ function ChatStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) =
 
   return (
     <div>
-      {msgs.length === 0 && (
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-          {starters.map((s) => (
-            <button key={s} onClick={() => run(s)} disabled={busy}
-              style={{ fontSize: 12, padding: "7px 12px", borderRadius: 999, border: `1px solid ${SAND}`, background: CLOUD, color: GREY, cursor: "pointer" }}>
-              {s}
-            </button>
-          ))}
-        </div>
-      )}
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 8 }}>
+      {msgs.length === 0 && <Starters busy={busy} onPick={run} items={starters} />}
+      <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 12 }}>
         {msgs.map((m, i) => (
           <div key={i} style={{ alignSelf: m.role === "user" ? "flex-end" : "flex-start", maxWidth: "86%" }}>
             <div style={{
-              background: m.role === "user" ? INK : CLOUD,
-              color: m.role === "user" ? PAPER : INK,
-              border: m.role === "user" ? "none" : `1px solid ${SAND}`,
+              background: m.role === "user" ? `linear-gradient(180deg, ${KOWHAI_L}, ${KOWHAI})` : "rgba(9,9,15,0.7)",
+              color: m.role === "user" ? "#1a1406" : INK,
+              border: m.role === "user" ? "none" : `1px solid ${LINE}`,
               borderRadius: 14, padding: "10px 14px", fontSize: 13.5, lineHeight: 1.55, whiteSpace: "pre-wrap",
             }}>
               {m.content || (busy ? "…" : "")}
@@ -533,23 +622,20 @@ function ChatStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) =
   );
 }
 
-// ── GALLERY RAIL ─────────────────────────────────────────────────────────────
-function GalleryRail({ gallery }: { gallery: Asset[] }) {
+// ── SESSION GALLERY (below the console) ──────────────────────────────────────
+function SessionGallery({ gallery }: { gallery: Asset[] }) {
   return (
-    <aside style={{ padding: "22px 16px" }}>
-      <p style={{ fontFamily: mono, fontSize: 9.5, letterSpacing: "0.14em", textTransform: "uppercase", color: GREY, marginBottom: 10 }}>
-        this session
-      </p>
-      {gallery.length === 0 && <p style={{ fontSize: 12.5, color: GREY }}>Everything you generate lands here — download on hover, receipt under each.</p>}
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <section style={{ marginTop: 44 }}>
+      <SectionHead num="01" title="This session · every output carries its receipt" lead="Everything you generate lands here — click to download; model, provider and cost sit under each, never the raw prompt." />
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: 14 }}>
         {gallery.map((a) => (
-          <div key={a.id} style={{ border: `1px solid ${SAND}`, borderRadius: 12, background: CLOUD, overflow: "hidden" }}>
+          <div key={a.id} className="tile" style={{ border: `1px solid ${LINE}`, borderRadius: 16, background: CARD, overflow: "hidden", display: "flex", flexDirection: "column" }}>
             <GalleryThumb a={a} />
-            <div style={{ padding: "8px 10px" }}>
-              <div style={{ fontSize: 11.5, fontWeight: 600 }}>{a.agent} · {a.kind}</div>
-              <div style={{ fontSize: 11, color: GREY }}>{a.caption}</div>
+            <div style={{ padding: "10px 12px" }}>
+              <div style={{ fontFamily: disp, fontWeight: 700, fontSize: 11.5, letterSpacing: "0.04em" }}>{a.agent} · {a.kind}</div>
+              <div style={{ fontSize: 11, color: MUT, marginTop: 2 }}>{a.caption}</div>
               {a.receipt && (
-                <div style={{ fontFamily: mono, fontSize: 9.5, color: GOLD_DEEP, marginTop: 3 }}>
+                <div style={{ fontFamily: mono, fontSize: 9.5, color: KOWHAI_L, marginTop: 4 }}>
                   ◆ {a.receipt.provider} · ~${a.receipt.costNzd.toFixed(2)}
                 </div>
               )}
@@ -557,7 +643,7 @@ function GalleryRail({ gallery }: { gallery: Asset[] }) {
           </div>
         ))}
       </div>
-    </aside>
+    </section>
   );
 }
 
@@ -574,5 +660,67 @@ function GalleryThumb({ a }: { a: Asset }) {
   if (a.kind === "video")
     return <video src={a.url} muted loop onClick={() => dl("mp4")} onMouseOver={(e) => (e.currentTarget as HTMLVideoElement).play()} onMouseOut={(e) => (e.currentTarget as HTMLVideoElement).pause()} style={{ width: "100%", display: "block", cursor: "pointer" }} />;
   if (a.kind === "podcast") return <div style={{ padding: 10 }}><audio src={a.url} controls style={{ width: "100%" }} /></div>;
-  return <div style={{ padding: 10, fontSize: 11.5, color: INK, maxHeight: 120, overflow: "auto", whiteSpace: "pre-wrap" }}>{a.url.slice(0, 400)}</div>;
+  return <div style={{ padding: 12, fontSize: 11.5, color: INK, maxHeight: 140, overflow: "auto", whiteSpace: "pre-wrap", background: "rgba(9,9,15,0.5)" }}>{a.url.slice(0, 400)}</div>;
 }
+
+// ── ROSTER STRIP ─────────────────────────────────────────────────────────────
+function RosterStrip({ roster }: { roster: SlimAgent[] }) {
+  if (roster.length === 0) return null;
+  return (
+    <section style={{ marginTop: 44 }}>
+      <SectionHead num="02" title="The rest of the kete" lead="Real roster, not interactive chat surfaces in this build — they hold colour, cadence, social, events and formal writing across a campaign." />
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(190px,1fr))", gap: 12 }}>
+        {roster.map((a) => (
+          <div key={a.slug} className="rnode" style={{ display: "flex", alignItems: "center", gap: 12, border: `1px solid ${LINE}`, borderRadius: 14, padding: "13px 15px", background: "rgba(14,14,26,0.5)" }}>
+            <div style={{ width: 30, height: 30, borderRadius: 9, flex: "none", display: "grid", placeItems: "center", background: "radial-gradient(circle at 34% 28%, #B79A6B, #8A7350 62%, #3a2f1a 100%)", fontFamily: disp, fontWeight: 900, fontSize: 12, color: "#140f04", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.35)" }}>{a.name[0]}</div>
+            <div>
+              <h4 style={{ margin: 0, fontFamily: disp, fontWeight: 700, fontSize: 12, letterSpacing: "0.04em" }}>{a.name}</h4>
+              <p style={{ margin: "2px 0 0", fontSize: 9.5, letterSpacing: "0.1em", textTransform: "uppercase", color: FAINT }}>{a.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SectionHead({ num, title, lead }: { num: string; title: string; lead: string }) {
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 6 }}>
+        <span style={{ fontFamily: mono, fontSize: 10, letterSpacing: "0.16em", color: KOWHAI, opacity: 0.8 }}>{num}</span>
+        <span style={{ fontFamily: disp, fontWeight: 300, fontSize: 11, letterSpacing: "0.32em", textTransform: "uppercase", color: MUT }}>{title}</span>
+        <span style={{ flex: 1, height: 1, background: LINE }} />
+      </div>
+      <p style={{ color: MUT, fontSize: 13.5, maxWidth: "62ch", margin: 0, lineHeight: 1.6 }}>{lead}</p>
+    </div>
+  );
+}
+
+const styles = `
+  .auaha3d .wm{
+    background:linear-gradient(92deg,#fff 0%,#fff 42%,${KOWHAI} 72%,${POUNAMU} 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 14px rgba(212,168,67,.5)) drop-shadow(0 0 36px rgba(58,125,110,.22));
+    animation:auaha-wm 5s ease-in-out infinite;
+  }
+  @keyframes auaha-wm{0%,100%{filter:drop-shadow(0 0 14px rgba(212,168,67,.55)) drop-shadow(0 0 36px rgba(212,168,67,.22))}50%{filter:drop-shadow(0 0 24px rgba(255,220,80,.9)) drop-shadow(0 0 64px rgba(212,168,67,.5))}}
+  .auaha3d .mark{filter:drop-shadow(0 0 12px rgba(212,168,67,1)) drop-shadow(0 0 32px rgba(212,168,67,.55)) drop-shadow(0 0 64px rgba(240,208,120,.2));animation:auaha-mark 3s ease-in-out infinite}
+  @keyframes auaha-mark{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .auaha3d .orb3{animation:auaha-bob 4.8s ease-in-out infinite var(--bdel,0s)}
+  @keyframes auaha-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .auaha3d .orbbtn.on .orb3{animation:none}
+  .auaha3d .orb3::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.6),transparent 44%)}
+  .auaha3d .orb{position:fixed;border-radius:50%;filter:blur(70px);z-index:1;pointer-events:none;animation:auaha-drift var(--d,16s) ease-in-out infinite var(--del,0s)}
+  @keyframes auaha-drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(24px,-16px) scale(1.08)}66%{transform:translate(-12px,10px) scale(.93)}}
+  .auaha3d .brief:focus{outline:none;border-color:rgba(212,168,67,.5);box-shadow:0 0 0 3px rgba(212,168,67,.12)}
+  .auaha3d .brief::placeholder{color:${FAINT}}
+  .auaha3d .seed:hover{color:${INK};border-color:rgba(212,168,67,.4);background:rgba(212,168,67,.06)}
+  .auaha3d .tile{transition:transform .2s ease,border-color .2s ease}
+  .auaha3d .tile:hover{transform:translateY(-3px);border-color:rgba(212,168,67,.35)}
+  .auaha3d .rnode{transition:.2s}
+  .auaha3d .rnode:hover{border-color:rgba(138,115,80,.5);background:rgba(20,20,36,.6)}
+  .auaha3d button:focus-visible{outline:2px solid ${KOWHAI};outline-offset:3px;border-radius:8px}
+  @media (max-width:640px){.auaha3d .wm{font-size:18px;letter-spacing:.32em}}
+  @media (prefers-reduced-motion:reduce){.auaha3d *{animation:none!important}}
+`;
