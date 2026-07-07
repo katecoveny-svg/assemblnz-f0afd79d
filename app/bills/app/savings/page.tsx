@@ -1,4 +1,5 @@
 import { Card, PageHeading, SectionLabel, CategoryTag, money } from '@/components/bills/kit';
+import { LiveState } from '@/components/bills/LiveState';
 import { SavingsBarChart } from '@/components/bills/charts';
 import { ActionButton } from '@/components/bills/ActionButton';
 import { savings, savingsTotal } from '@/lib/bills/data';
@@ -6,7 +7,10 @@ import { savings, savingsTotal } from '@/lib/bills/data';
 export default function SavingsPage() {
   return (
     <div>
-      <PageHeading title="Savings" lead="What switching could return to your pocket this year — matched to your actual usage, grounded in Powerswitch and Consumer NZ. Each figure is indicative; you approve every switch." />
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <PageHeading title="Savings" lead="What switching could return to your pocket this year — matched to your actual usage, grounded in Powerswitch and Consumer NZ. Each figure is indicative; you approve every switch." />
+        <LiveState state="sample" note="prices from live DB" />
+      </div>
 
       <div className="grid gap-4 lg:grid-cols-[1fr_1.3fr]">
         <Card>

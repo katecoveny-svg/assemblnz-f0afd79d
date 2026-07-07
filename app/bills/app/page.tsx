@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { EyeOff, PiggyBank, ReceiptText, Search, ArrowRight } from 'lucide-react';
 import { Card, PageHeading, SectionLabel, CategoryTag, TrendChip, money } from '@/components/bills/kit';
+import { LiveState } from '@/components/bills/LiveState';
+import { CountUp } from '@/components/bills/motion';
 import { SpendTrendChart, CategoryDonut, CategoryLegend } from '@/components/bills/charts';
 import { stats, bills, hiddenCostsTotal, savingsTotal, household } from '@/lib/bills/data';
 
@@ -11,32 +13,49 @@ const quickActions = [
   { href: '/bills/app/providers', Icon: Search, title: 'Compare providers', body: '14 NZ plans across power, broadband, insurance' },
 ];
 
-const toneStyle: Record<string, { fg: string }> = {
-  good: { fg: 'var(--b-teal-deep)' },
-  cost: { fg: 'var(--b-coral-deep)' },
-  neutral: { fg: 'var(--b-ink)' },
+const toneStyle: Record<string, { fg: string; glow: string }> = {
+  good: { fg: 'var(--b-teal)', glow: 'drop-shadow(0 0 14px rgba(90,173,160,0.4))' },
+  cost: { fg: 'var(--b-coral)', glow: 'drop-shadow(0 0 14px rgba(242,130,94,0.4))' },
+  neutral: { fg: 'var(--b-ink)', glow: 'none' },
 };
+
+// Parse "$1,684" / "11" into { prefix, value }.
+function statNumber(v: string): { prefix: string; value: number } {
+  const prefix = v.trim().startsWith('$') ? '$' : '';
+  const value = Number(v.replace(/[^0-9.]/g, '')) || 0;
+  return { prefix, value };
+}
 
 export default function OverviewPage() {
   const recent = bills.slice(0, 4);
   return (
     <div>
-      <PageHeading
-        title="Good evening, Kate"
-        lead={`Here’s where ${household.name} stands this month — ${household.billsTracked} bills tracked across ${household.suburb}.`}
-      />
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <PageHeading
+          title="Good evening, Kate"
+          lead={`Here’s where ${household.name} stands this month — ${household.billsTracked} bills tracked across ${household.suburb}.`}
+        />
+        <LiveState state="sample" note="demo household" />
+      </div>
 
       {/* 5-stat row */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
-        {stats.map((s) => (
-          <Card key={s.key} className="!p-4">
-            <p className="text-xs" style={{ color: 'var(--b-faint)' }}>{s.label}</p>
-            <p className="mt-1 text-2xl font-bold" style={{ fontFamily: 'var(--font-bills-display)', color: (toneStyle[s.tone] ?? toneStyle.neutral).fg }}>
-              {s.value}
-            </p>
-            <p className="mt-0.5 text-[11px] leading-snug" style={{ color: 'var(--b-muted)' }}>{s.sub}</p>
-          </Card>
-        ))}
+        {stats.map((s) => {
+          const t = toneStyle[s.tone] ?? toneStyle.neutral;
+          const { prefix, value } = statNumber(s.value);
+          return (
+            <Card key={s.key} className="!p-4" hover glow={s.tone === 'good' ? 'teal' : s.tone === 'cost' ? 'coral' : undefined}>
+              <p className="text-xs" style={{ color: 'var(--b-faint)' }}>{s.label}</p>
+              <CountUp
+                to={value}
+                prefix={prefix}
+                className="mt-1 block text-2xl font-extrabold"
+                style={{ fontFamily: 'var(--font-bills-display)', color: t.fg, filter: t.glow }}
+              />
+              <p className="mt-0.5 text-[11px] leading-snug" style={{ color: 'var(--b-muted)' }}>{s.sub}</p>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Trend + donut */}
@@ -59,7 +78,7 @@ export default function OverviewPage() {
 
       {/* Hidden cost callout */}
       <Link href="/bills/app/hidden-costs" className="mt-4 block">
-        <div className="flex items-center justify-between gap-4 rounded-2xl p-5 transition hover:opacity-95" style={{ background: 'var(--b-coral-soft)', border: '1px solid #F0CFC3' }}>
+        <div className="flex items-center justify-between gap-4 rounded-2xl p-5 transition hover:opacity-95" style={{ background: 'var(--b-coral-soft)', border: '1px solid var(--b-coral-line)' }}>
           <div className="flex items-start gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: 'var(--b-coral)' }}>
               <EyeOff size={18} />

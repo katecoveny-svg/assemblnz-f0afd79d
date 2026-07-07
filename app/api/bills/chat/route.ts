@@ -3,6 +3,8 @@ import { z } from 'zod';
 import type { ModelMessage } from 'ai';
 import { resolveModelLadder, generateWithFallback } from '@/lib/ai/router';
 import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
+import { getServiceClient } from '@/lib/supabase/service';
+import { getPriceBook, CATEGORY_LABEL } from '@/lib/bills/provider-prices';
 import {
   providerPlans,
   savings,
@@ -25,24 +27,59 @@ export const runtime = 'nodejs';
  */
 const BodySchema = z.object({
   message: z.string().trim().min(1).max(1000),
+  sessionId: z.string().trim().max(64).optional(),
   history: z
     .array(z.object({ role: z.enum(['user', 'assistant']), content: z.string().max(4000) }))
     .max(16)
     .optional(),
 });
 
-function knowledgeBlock(): string {
+/** Live provider prices (from the scraped table) grouped for the prompt; falls
+ *  back to the static list when the table is empty. */
+async function livePricesBlock(): Promise<{ text: string; live: boolean }> {
+  const book = await getPriceBook();
+  if (book.live && book.plans.length) {
+    const byCat = new Map<string, string[]>();
+    for (const p of book.plans) {
+      const line = `- ${p.provider} · ${p.planName} — ~$${p.monthlyCost ?? '?'}/mo (source ${p.sourceHost}, verified ${p.lastVerified.slice(0, 10)})`;
+      const key = CATEGORY_LABEL[p.category] ?? p.category;
+      byCat.set(key, [...(byCat.get(key) ?? []), line]);
+    }
+    const text = [...byCat.entries()].map(([cat, lines]) => `### ${cat}\n${lines.join('\n')}`).join('\n\n');
+    return { text, live: true };
+  }
   const byCat = CATEGORY_ORDER.map((cat) => {
     const plans = providerPlans.filter((p) => p.category === cat);
     if (!plans.length) return '';
-    const lines = plans
-      .map((p) => `- ${p.provider} · ${p.planName} — indicative ${p.indicativeMonthly}/mo — ${p.features.join('; ')}`)
-      .join('\n');
-    return `### ${cat}\n${lines}`;
+    return `### ${cat}\n${plans.map((p) => `- ${p.provider} · ${p.planName} — indicative ${p.indicativeMonthly}/mo`).join('\n')}`;
   })
     .filter(Boolean)
     .join('\n\n');
+  return { text: byCat, live: false };
+}
 
+/** The user's own bills, if any have been parsed this session (real spend). */
+async function ingestedBillsBlock(sessionId?: string): Promise<string> {
+  if (!sessionId) return '';
+  try {
+    const service = getServiceClient();
+    const { data } = await service
+      .from('assembl_bills_ingested')
+      .select('provider, category, total_amount, due_date')
+      .eq('session_id', sessionId)
+      .order('created_at', { ascending: false })
+      .limit(12);
+    if (!data || !data.length) return '';
+    const lines = data
+      .map((b) => `- ${b.provider ?? 'Unknown'} (${b.category ?? '?'}) — $${b.total_amount ?? '?'}${b.due_date ? `, due ${b.due_date}` : ''}`)
+      .join('\n');
+    return `\n\n## This user's own bills you have parsed (their ACTUAL current spend — use these to personalise)\n${lines}`;
+  } catch {
+    return '';
+  }
+}
+
+function demoFindingsBlock(): string {
   const found = savings
     .map((s) => `- ${s.category}: move from ${s.fromProvider} to ${s.toProvider} (${s.toPlan}) — ~$${s.annualSaving}/yr. Source: ${s.source}`)
     .join('\n');
@@ -51,10 +88,7 @@ function knowledgeBlock(): string {
     .map((h) => `- ${h.name}: ~$${h.annual}/yr — ${h.detail} Action: ${h.action}`)
     .join('\n');
 
-  return `## NZ Provider list (indicative pricing — never quote as a live/exact rate)
-${byCat}
-
-## Savings this household's console already found
+  return `## Savings this household's console already found
 ${found}
 
 ## Hidden costs already flagged
@@ -75,12 +109,20 @@ export async function POST(req: Request) {
   const { message } = parsed.data;
   const history = parsed.data.history ?? [];
 
+  const [prices, ownBills] = await Promise.all([
+    livePricesBlock(),
+    ingestedBillsBlock(parsed.data.sessionId),
+  ]);
+
   const system = `You are the Assembl Bills advisor — a calm, plain-English helper for New Zealand households and small businesses managing their bills (power, broadband, insurance, council rates, mobile, subscriptions).
 
+Current NZ market context: electricity prices are up ~12% year-on-year and council rates are rising ~15% across many regions (Consumer NZ). Only ~7% of households switched power last year (MBIE) — mostly because comparison is made too hard. Your job is to make the switch obvious and easy.
+
 ## What you do
-- Answer questions about switching, overpaying, hidden costs and savings, grounded ONLY in the provider list and findings below.
+- Answer questions about switching, overpaying, hidden costs and savings, grounded ONLY in the price book and findings below.
+- If the user's OWN parsed bills are listed, use their actual spend: name their current provider + amount, then compare to the 3 cheapest alternatives in the same category from the price book, and give the yearly difference.
 - Lead with the answer. Be warm, brief and specific. Use NZ spelling and context.
-- When you name a cheaper option, give the indicative monthly figure AND say it must be confirmed on Powerswitch (powerswitch.org.nz, run by Consumer NZ) or the provider's own site.
+- When you name a cheaper option, give the monthly figure AND say it must be confirmed on Powerswitch (powerswitch.org.nz, run by Consumer NZ) or the provider's own site.
 
 ## Format
 - Write in plain, conversational text for a chat bubble. NO markdown: no "#" headings, no "**" bold, no tables. Keep to short paragraphs; if you list options, use simple "– " dashes. Keep the whole reply under ~140 words.
@@ -91,8 +133,10 @@ export async function POST(req: Request) {
 - Don't give regulated financial, tax, or legal advice. For KiwiSaver or mortgage specifics, suggest Sorted (sorted.org.nz) or a licensed adviser.
 - End every answer with one line: "Sources: <comma-separated>" naming the providers and/or Powerswitch / Consumer NZ you relied on.
 
-## Grounding
-${knowledgeBlock()}
+## NZ provider price book (${prices.live ? 'LIVE — scraped from provider pages, each line cites its source + verified date' : 'indicative seed data'})
+${prices.text}
+
+## ${demoFindingsBlock()}${ownBills}
 
 Note: ${PROVIDER_PRICING_DISCLAIMER}`;
 

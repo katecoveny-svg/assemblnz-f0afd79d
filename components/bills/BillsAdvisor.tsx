@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Sparkles, X, Send, Loader2, ShieldCheck } from 'lucide-react';
+import { useBillsSession } from './useSession';
 
 type Msg = { role: 'user' | 'assistant'; content: string; sources?: string[] };
 
@@ -23,6 +24,7 @@ const INTRO: Msg = {
  * switches anything; it prepares a recommendation for the household to approve.
  */
 export function BillsAdvisor() {
+  const sessionId = useBillsSession();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([INTRO]);
   const [input, setInput] = useState('');
@@ -46,6 +48,7 @@ export function BillsAdvisor() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: q,
+          sessionId,
           history: next.slice(-8).map((m) => ({ role: m.role, content: m.content })),
         }),
       });
@@ -68,10 +71,14 @@ export function BillsAdvisor() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:opacity-90"
-        style={{ background: 'var(--b-teal)', fontFamily: 'var(--font-bills-display)' }}
+        className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-white transition hover:scale-105"
+        style={{
+          background: 'linear-gradient(135deg, #5AADA0, #3A7D6E)',
+          boxShadow: '0 0 20px rgba(90,173,160,0.55), 0 0 44px rgba(90,173,160,0.3)',
+          fontFamily: 'var(--font-bills-display)',
+        }}
       >
-        <Sparkles size={16} /> Ask the advisor
+        <Sparkles size={16} className="transition group-hover:rotate-12" /> Ask the advisor
       </button>
 
       {open && (

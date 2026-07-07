@@ -24,13 +24,14 @@ import {
 const money = (n: number) => `$${n.toLocaleString('en-NZ')}`;
 
 const tooltipStyle = {
-  background: BILLS.surface,
-  border: `1px solid ${BILLS.line}`,
+  background: 'rgba(17,22,35,0.92)',
+  border: `1px solid ${BILLS.tealLine}`,
   borderRadius: 12,
   fontFamily: 'var(--font-bills-body), system-ui, sans-serif',
   fontSize: 12,
   color: BILLS.ink,
-  boxShadow: '0 6px 24px rgba(24,33,31,0.08)',
+  boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+  backdropFilter: 'blur(8px)',
 } as const;
 
 /** 7-month total spend, with the power line riding underneath it. */
@@ -62,8 +63,8 @@ export function SpendTrendChart() {
           tickFormatter={(v) => `$${v}`}
         />
         <Tooltip contentStyle={tooltipStyle} formatter={(v, name) => [money(Number(v)), name === 'spend' ? 'Total bills' : 'Electricity']} />
-        <Area isAnimationActive={false} type="monotone" dataKey="spend" stroke={BILLS.teal} strokeWidth={2.5} fill="url(#billsSpend)" />
-        <Area isAnimationActive={false} type="monotone" dataKey="power" stroke={BILLS.coral} strokeWidth={2} fill="url(#billsPower)" />
+        <Area isAnimationActive={false} type="monotone" dataKey="spend" stroke={BILLS.teal} strokeWidth={2.5} fill="url(#billsSpend)" style={{ filter: 'drop-shadow(0 0 6px rgba(90,173,160,0.5))' }} />
+        <Area isAnimationActive={false} type="monotone" dataKey="power" stroke={BILLS.coral} strokeWidth={2} fill="url(#billsPower)" style={{ filter: 'drop-shadow(0 0 6px rgba(242,130,94,0.45))' }} />
       </AreaChart>
     </ResponsiveContainer>
   );

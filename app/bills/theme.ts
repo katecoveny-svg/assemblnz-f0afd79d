@@ -1,65 +1,77 @@
 /**
  * Assembl Bills — visual identity, in ONE file.
  *
- * A calm, finance-adjacent palette, deliberately distinct from its siblings:
- *   • Alphassembl = navy + amber      • TOA = paper white + gold
- *   • Assembl Bills = warm paper + a considered muted teal + a warm coral
+ * A dark "cosmic-fintech" identity in the assembl family: deep space base,
+ * glass surfaces, multi-layer glow. Teal (pounamu) is Bills' signature accent —
+ * kept teal-led so it stays distinct from the gold-led master brand — with a
+ * warm coral for money leaving the wallet and a whisper of kōwhai gold for
+ * premium highlights. Money staying home glows teal; money leaving glows coral.
  *
- * Teal reads as "trusted, considered, NZ". Coral marks money leaving the wallet
- * (costs, price rises, hidden charges). Teal marks money staying in it (savings).
- *
- * If Kate provides her Perplexity preview screenshots, swap the six BILLS.*
- * accent values below and every surface updates — nothing else references raw
- * hex. `themeVars` mirrors these into CSS custom properties for the layout.
+ * Everything downstream references these CSS vars, so swapping values here
+ * re-skins every surface. `themeVars` mirrors them onto the layout root.
  */
 
 export const BILLS = {
-  // Surfaces
-  paper: '#FBFAF6', // off-white page
-  surface: '#FFFFFF', // cards
-  surfaceAlt: '#F4F2EA', // inset panels / table stripes
-  line: '#E7E3D6', // warm hairline
+  // Surfaces (deep space)
+  paper: '#080A12', // page base
+  bg2: '#0C0F1A', // secondary band
+  surface: '#111623', // solid card fallback (glass layered on top in components)
+  surfaceAlt: '#161C2C', // inset panels
+  line: 'rgba(255,255,255,0.09)', // hairline on dark
 
-  // Ink
-  ink: '#18211F', // deep near-black, faint green cast
-  muted: '#5E6B67', // secondary text
-  faint: '#8A938F', // captions, meta
+  // Ink (light on dark)
+  ink: '#EEF2F8', // primary text
+  muted: '#9BA8BD', // secondary
+  faint: '#64748B', // captions
 
-  // Accent — muted teal
-  teal: '#3E8A88',
-  tealDeep: '#2E6A69', // text-on-paper strength
-  tealSoft: '#ECF4F3', // tint background
-  tealLine: '#CFE4E2',
+  // Accent — pounamu teal, brightened for glow on dark
+  teal: '#5AADA0',
+  tealDeep: '#3A7D6E',
+  tealSoft: 'rgba(90,173,160,0.13)',
+  tealLine: 'rgba(90,173,160,0.32)',
 
   // Money leaving the wallet — warm coral
-  coral: '#DE6E52',
-  coralDeep: '#B8503A',
-  coralSoft: '#FBECE6',
+  coral: '#F2825E',
+  coralDeep: '#E0674A',
+  coralSoft: 'rgba(242,130,94,0.13)',
+  coralLine: 'rgba(242,130,94,0.30)',
 
-  // Muted ochre for cautions/alerts (NOT canary — deliberately desaturated)
-  ochre: '#B8813C',
-  ochreSoft: '#F6EEDE',
+  // Kōwhai gold — premium accent, used sparingly
+  gold: '#E9C46A',
+  goldDeep: '#D4A843',
+  goldSoft: 'rgba(233,196,106,0.12)',
 
-  // Positive = savings = teal family (kept as an alias for chart clarity)
-  positive: '#3E8A88',
-  positiveDeep: '#2E6A69',
+  // Ochre alias (kept for existing refs) → gold family
+  ochre: '#E9C46A',
+  ochreSoft: 'rgba(233,196,106,0.12)',
+
+  positive: '#5AADA0',
+  positiveDeep: '#3A7D6E',
 } as const;
 
-/** Ordered palette for category donut / multi-series charts. Teal-led, warm-accented. */
+/** Ordered palette for the category donut / multi-series charts — luminous on dark. */
 export const CATEGORY_COLORS = [
-  '#3E8A88', // teal
-  '#DE6E52', // coral
-  '#5E8C7B', // sage
-  '#B8813C', // ochre
-  '#6E8FA6', // slate blue
-  '#9C6F86', // mauve
-  '#7A7D55', // olive
-  '#C08A6A', // clay
+  '#5AADA0', // teal
+  '#F2825E', // coral
+  '#E9C46A', // gold
+  '#7FB2C8', // sky
+  '#A98BD6', // violet
+  '#6FCF97', // mint
+  '#E58FB0', // rose
+  '#C0A16A', // clay
 ] as const;
 
-/** CSS custom properties for the /bills layout root. Inline-style scoped — no globals. */
+/** Multi-layer glow presets (drop-shadow filter strings) — the assembl POP move. */
+export const GLOW = {
+  teal: 'drop-shadow(0 0 8px rgba(90,173,160,.55)) drop-shadow(0 0 26px rgba(90,173,160,.28))',
+  coral: 'drop-shadow(0 0 8px rgba(242,130,94,.55)) drop-shadow(0 0 26px rgba(242,130,94,.28))',
+  gold: 'drop-shadow(0 0 8px rgba(233,196,106,.55)) drop-shadow(0 0 26px rgba(212,168,67,.28))',
+} as const;
+
+/** CSS custom properties for the /bills layout root. Inline-style scoped. */
 export const themeVars: Record<string, string> = {
   '--b-paper': BILLS.paper,
+  '--b-bg2': BILLS.bg2,
   '--b-surface': BILLS.surface,
   '--b-surface-alt': BILLS.surfaceAlt,
   '--b-line': BILLS.line,
@@ -73,10 +85,17 @@ export const themeVars: Record<string, string> = {
   '--b-coral': BILLS.coral,
   '--b-coral-deep': BILLS.coralDeep,
   '--b-coral-soft': BILLS.coralSoft,
+  '--b-coral-line': BILLS.coralLine,
+  '--b-gold': BILLS.gold,
+  '--b-gold-deep': BILLS.goldDeep,
   '--b-ochre': BILLS.ochre,
   '--b-ochre-soft': BILLS.ochreSoft,
+  // glass surface + glow tokens
+  '--b-glass': 'rgba(255,255,255,0.035)',
+  '--b-glass-2': 'rgba(255,255,255,0.06)',
+  '--b-glow-teal': '0 0 0 1px rgba(90,173,160,.25), 0 8px 40px -12px rgba(90,173,160,.35)',
+  '--b-glow-coral': '0 0 0 1px rgba(242,130,94,.25), 0 8px 40px -12px rgba(242,130,94,.35)',
 };
 
-/** Convenience style fragments used across surfaces. */
 export const display = { fontFamily: 'var(--font-bills-display), system-ui, sans-serif' } as const;
 export const body = { fontFamily: 'var(--font-bills-body), system-ui, sans-serif' } as const;

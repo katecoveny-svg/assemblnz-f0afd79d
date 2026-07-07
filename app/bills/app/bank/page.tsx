@@ -1,39 +1,40 @@
 import { Card, PageHeading, SectionLabel, CategoryTag, money } from '@/components/bills/kit';
 import { TransactionLog } from '@/components/bills/TransactionLog';
+import { BankCsvImport } from '@/components/bills/BankCsvImport';
+import { LiveState } from '@/components/bills/LiveState';
+import { NotifyInline } from '@/components/bills/NotifyInline';
 import { bankFormats, recurringCharges } from '@/lib/bills/data';
-import { Landmark, Upload, Repeat, Lock } from 'lucide-react';
+import { Landmark, Repeat } from 'lucide-react';
 
 export default function BankPage() {
   return (
     <div>
-      <PageHeading title="Bank" lead="Bring in your transactions two ways — drop a bank CSV, or connect open banking. Assembl Bills detects the recurring charges you may have forgotten." />
+      <PageHeading title="Bank" lead="Bring in your transactions two ways — drop a real bank CSV (parsed live, in your browser) or connect open banking when it’s live. Assembl Bills detects the recurring charges you may have forgotten." />
 
       <div className="grid gap-4 lg:grid-cols-2">
-        {/* CSV parser */}
+        {/* CSV parser — REAL, client-side */}
         <Card>
-          <SectionLabel>Import a statement (CSV)</SectionLabel>
-          <div className="flex items-center justify-center rounded-2xl px-6 py-8 text-center" style={{ border: '1.5px dashed var(--b-line)', background: 'var(--b-surface-alt)' }}>
-            <div>
-              <span className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
-                <Upload size={18} />
-              </span>
-              <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>Drop a bank CSV</p>
-              <p className="mt-1 text-xs" style={{ color: 'var(--b-muted)' }}>Auto-detects the format from your bank</p>
-            </div>
+          <div className="mb-3 flex items-center justify-between">
+            <SectionLabel>Import a statement (CSV)</SectionLabel>
+            <LiveState state="live" note="parsed in-browser" />
           </div>
+          <BankCsvImport />
           <div className="mt-3 flex flex-wrap gap-1.5">
             {bankFormats.map((b) => (
               <span key={b.bank} className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium" style={{ background: 'var(--b-surface-alt)', color: 'var(--b-muted)' }}>
                 <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)' }} />
-                {b.bank} · {b.status}
+                {b.bank}
               </span>
             ))}
           </div>
         </Card>
 
-        {/* Akahu / open banking — honest stub */}
+        {/* Akahu / open banking — honest coming-next */}
         <Card>
-          <SectionLabel>Connect open banking</SectionLabel>
+          <div className="mb-3 flex items-center justify-between">
+            <SectionLabel>Connect open banking</SectionLabel>
+            <LiveState state="coming" note="Akahu accreditation" />
+          </div>
           <div className="flex items-start gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: 'var(--b-surface-alt)', color: 'var(--b-muted)' }}>
               <Landmark size={18} />
@@ -43,7 +44,7 @@ export default function BankPage() {
                 Akahu — all 5 major NZ banks
               </p>
               <p className="mt-1 text-sm" style={{ color: 'var(--b-muted)' }}>
-                ANZ, ASB, BNZ, Westpac and Kiwibank via NZ’s open finance layer. With your consent, Assembl Bills reads transactions to spot recurring charges.
+                ANZ, ASB, BNZ, Westpac and Kiwibank via NZ’s open finance layer. We’re applying for accredited status — add your email and we’ll tell you the moment it’s live.
               </p>
             </div>
           </div>
@@ -54,18 +55,21 @@ export default function BankPage() {
               </span>
             ))}
           </div>
-          <button type="button" disabled className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-xl px-4 py-3 text-sm font-semibold" style={{ background: 'var(--b-surface-alt)', color: 'var(--b-faint)', cursor: 'not-allowed' }}>
-            <Lock size={14} /> Coming next: real Akahu connection
-          </button>
+          <div className="mt-3">
+            <NotifyInline kind="notify" target="Akahu open banking" label="Notify me when Akahu bank connection is live" />
+          </div>
           <p className="mt-2 text-[11px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
-            Live open-banking access needs a commercial Akahu account and accredited-app registration under NZ’s Consumer Data Right — a Phase 2 job. The demo uses sample transactions only.
+            Real Akahu access needs a commercial account + accredited-app registration under NZ’s Consumer Data Right. Not faked as working — this files a request for Kate to action.
           </p>
         </Card>
       </div>
 
-      {/* Recurring detection */}
+      {/* Recurring detection (sample demo set; the CSV import above detects real ones live) */}
       <Card className="mt-4">
-        <SectionLabel>Recurring charges detected</SectionLabel>
+        <div className="mb-3 flex items-center justify-between">
+          <SectionLabel>Recurring charges (sample)</SectionLabel>
+          <LiveState state="sample" note="import a CSV above for live detection" />
+        </div>
         <div className="space-y-2.5">
           {recurringCharges.map((r) => (
             <div key={r.merchant} className="flex items-center justify-between gap-3 rounded-xl px-3 py-2.5" style={{ background: 'var(--b-surface-alt)' }}>
@@ -89,9 +93,11 @@ export default function BankPage() {
         </div>
       </Card>
 
-      {/* Transaction log */}
       <Card className="mt-4">
-        <SectionLabel>Transaction log</SectionLabel>
+        <div className="mb-3 flex items-center justify-between">
+          <SectionLabel>Transaction log (sample)</SectionLabel>
+          <LiveState state="sample" />
+        </div>
         <TransactionLog />
       </Card>
     </div>

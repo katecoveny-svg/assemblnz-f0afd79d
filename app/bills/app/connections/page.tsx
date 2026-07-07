@@ -1,43 +1,51 @@
 import { Card, PageHeading, SectionLabel, CategoryTag } from '@/components/bills/kit';
+import { LiveState } from '@/components/bills/LiveState';
+import { NotifyInline } from '@/components/bills/NotifyInline';
 import { emailProviders, detectedProviders } from '@/lib/bills/data';
-import { Mail, Lock, Check, ShieldCheck } from 'lucide-react';
+import { Mail, Check, ShieldCheck } from 'lucide-react';
 
 export default function ConnectionsPage() {
   return (
     <div>
-      <PageHeading title="Connections" lead="Connect an inbox and Assembl Bills reads your bills automatically — provider, amount and due date, straight from the email. Read-only, and only bill-related mail." />
+      <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
+        <PageHeading title="Connections" lead="Connect an inbox and Assembl Bills reads your bills automatically. Secure OAuth is coming next — for now, upload a bill on the Bills tab and it’s read live by Claude Vision." />
+        <LiveState state="coming" note="OAuth in progress" />
+      </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        {/* Email connect */}
+        {/* Email connect — honest coming-next */}
         <Card>
           <SectionLabel>Connect your email</SectionLabel>
           <div className="space-y-3">
             {emailProviders.map((p) => (
-              <div key={p.id} className="flex items-center justify-between gap-3 rounded-xl px-4 py-3.5" style={{ background: 'var(--b-surface-alt)' }}>
+              <div key={p.id} className="rounded-xl px-4 py-3.5" style={{ background: 'var(--b-surface-alt)' }}>
                 <div className="flex items-center gap-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-lg" style={{ background: 'var(--b-surface)', color: 'var(--b-teal-deep)' }}>
                     <Mail size={18} />
                   </span>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>{p.name}</p>
                     <p className="text-[11px]" style={{ color: 'var(--b-muted)' }}>{p.note}</p>
                   </div>
                 </div>
-                <button type="button" disabled className="inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold" style={{ background: 'var(--b-surface)', color: 'var(--b-faint)', border: '1px solid var(--b-line)', cursor: 'not-allowed' }}>
-                  <Lock size={12} /> Connect coming next
-                </button>
+                <div className="mt-2.5">
+                  <NotifyInline kind="notify" target={`${p.name} inbox connect`} label={`Notify me when ${p.name} connect is live`} />
+                </div>
               </div>
             ))}
           </div>
           <p className="mt-3 flex items-start gap-2 text-[11px] leading-relaxed" style={{ color: 'var(--b-faint)' }}>
             <ShieldCheck size={13} className="mt-0.5 shrink-0" />
-            Secure OAuth (Gmail / Microsoft) reuses assembl’s existing inbox connect. Not yet wired for Bills — this demo shows the flow with sample detections only. Read-only scope; no email is stored beyond the bill details.
+            Secure OAuth (Gmail / Microsoft) isn’t wired for Bills yet — no `GMAIL_OAUTH` credentials on this environment, so we show an honest coming-next state rather than a dead button. When live it’s read-only; no email is stored beyond the bill details.
           </p>
         </Card>
 
-        {/* Provider detection */}
+        {/* Provider detection — sample */}
         <Card>
-          <SectionLabel>Providers we’d detect in your inbox</SectionLabel>
+          <div className="mb-3 flex items-center justify-between">
+            <SectionLabel>Providers we’d detect in your inbox</SectionLabel>
+            <LiveState state="sample" />
+          </div>
           <div className="space-y-2">
             {detectedProviders.map((d) => (
               <div key={d.name} className="flex items-center justify-between gap-3 rounded-xl px-3 py-2.5" style={{ background: 'var(--b-surface-alt)' }}>
@@ -52,7 +60,7 @@ export default function ConnectionsPage() {
             ))}
           </div>
           <p className="mt-3 text-[11px]" style={{ color: 'var(--b-faint)' }}>
-            Detected from sample data. On a real connect, Assembl Bills recognises NZ providers automatically and files each bill to the right category.
+            On a real connect, Assembl Bills recognises NZ providers automatically and files each bill to the right category — the same extraction the Bills-tab upload already runs live.
           </p>
         </Card>
       </div>

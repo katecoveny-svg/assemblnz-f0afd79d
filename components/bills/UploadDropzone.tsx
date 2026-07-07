@@ -1,44 +1,81 @@
 'use client';
 
 import { useCallback, useRef, useState, type DragEvent } from 'react';
-import { UploadCloud, FileText, Check, Loader2 } from 'lucide-react';
+import { UploadCloud, FileText, Check, Loader2, Sparkles, AlertCircle } from 'lucide-react';
+import { useBillsSession } from './useSession';
 
-type Parsed = { name: string; provider: string; amount: string; category: string };
+type Parsed = {
+  provider: string | null;
+  category: string | null;
+  total_amount: number | null;
+  due_date: string | null;
+  account_number: string | null;
+  confidence: string | null;
+};
+
+const money = (n: number | null) => (n == null ? '—' : `$${n.toLocaleString('en-NZ', { minimumFractionDigits: 2 })}`);
+const MAX = 8 * 1024 * 1024;
 
 /**
- * Drag-drop / photo upload for a paper or PDF bill. In this Phase-1 demo the
- * extraction is SIMULATED locally (no file leaves the browser, no OCR call) so
- * the flow is honest and self-contained — it shows what real OCR + LLM
- * extraction would return. The card is clearly labelled as a demo of the flow.
+ * Drag-drop / photo upload → REAL Claude Vision extraction via /api/bills/parse.
+ * The file is read to a base64 data URL in the browser and POSTed; the endpoint
+ * runs the actual model and persists the record. Real bill in → real fields out.
  */
-export function UploadDropzone() {
+export function UploadDropzone({ sessionId: sessionProp }: { sessionId?: string }) {
+  const sessionHook = useBillsSession();
+  const sessionId = sessionProp || sessionHook;
   const [over, setOver] = useState(false);
   const [busy, setBusy] = useState(false);
   const [parsed, setParsed] = useState<Parsed | null>(null);
+  const [error, setError] = useState('');
   const [fileName, setFileName] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleFile = useCallback((file: File | null) => {
-    setFileName(file?.name ?? 'paper-bill.pdf');
-    setBusy(true);
-    setParsed(null);
-    // Simulate OCR + LLM extraction latency, then return a realistic result.
-    window.setTimeout(() => {
-      setBusy(false);
-      setParsed({
-        name: file?.name ?? 'paper-bill.pdf',
-        provider: 'Watercare',
-        amount: '$148.20',
-        category: 'Council',
-      });
-    }, 1100);
-  }, []);
+  const readAsDataUrl = (file: File) =>
+    new Promise<string>((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(String(r.result));
+      r.onerror = () => reject(new Error('read failed'));
+      r.readAsDataURL(file);
+    });
+
+  const handleFile = useCallback(
+    async (file: File | null) => {
+      if (!file) return;
+      setError('');
+      setParsed(null);
+      if (file.size > MAX) {
+        setError('That file is over 8MB — try a smaller image or PDF.');
+        return;
+      }
+      setFileName(file.name);
+      setBusy(true);
+      try {
+        const dataUrl = await readAsDataUrl(file);
+        const res = await fetch('/api/bills/parse', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ dataUrl, fileName: file.name, sessionId, source: file.type === 'application/pdf' ? 'upload' : 'photo' }),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setError(json.error ?? 'Could not read that bill — please try again.');
+        } else {
+          setParsed(json.parsed as Parsed);
+        }
+      } catch {
+        setError('Network error — please try again.');
+      } finally {
+        setBusy(false);
+      }
+    },
+    [sessionId],
+  );
 
   const onDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setOver(false);
-    const file = e.dataTransfer.files?.[0] ?? null;
-    handleFile(file);
+    void handleFile(e.dataTransfer.files?.[0] ?? null);
   };
 
   return (
@@ -60,49 +97,52 @@ export function UploadDropzone() {
           background: over ? 'var(--b-teal-soft)' : 'var(--b-surface-alt)',
         }}
       >
-        <span
-          className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl"
-          style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}
-        >
+        <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
           <UploadCloud size={22} />
         </span>
         <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>
           Drop a bill here, or click to browse
         </p>
-        <p className="mt-1 text-xs" style={{ color: 'var(--b-muted)' }}>
-          PDF or a photo of a paper bill · demo extracts provider, amount &amp; due date
+        <p className="mt-1 flex items-center gap-1.5 text-xs" style={{ color: 'var(--b-muted)' }}>
+          <Sparkles size={12} style={{ color: 'var(--b-teal-deep)' }} /> PDF or photo · read live by Claude Vision
         </p>
-        <input
-          ref={inputRef}
-          type="file"
-          accept="application/pdf,image/*"
-          className="hidden"
-          onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
-        />
+        <input ref={inputRef} type="file" accept="application/pdf,image/png,image/jpeg,image/webp" className="hidden" onChange={(e) => void handleFile(e.target.files?.[0] ?? null)} />
       </div>
 
       {busy && (
         <div className="mt-3 flex items-center gap-2 rounded-xl px-4 py-3 text-sm" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)', color: 'var(--b-muted)' }}>
           <Loader2 size={16} className="animate-spin" style={{ color: 'var(--b-teal)' }} />
-          Reading <span className="font-medium" style={{ color: 'var(--b-ink)' }}>{fileName}</span> — extracting details…
+          Reading <span className="font-medium" style={{ color: 'var(--b-ink)' }}>{fileName}</span> — extracting with Claude Vision…
+        </div>
+      )}
+
+      {error && (
+        <div className="mt-3 flex items-center gap-2 rounded-xl px-4 py-3 text-sm" style={{ background: 'var(--b-coral-soft)', border: '1px solid var(--b-coral-line)', color: 'var(--b-coral-deep)' }}>
+          <AlertCircle size={15} /> {error}
         </div>
       )}
 
       {parsed && (
         <div className="mt-3 rounded-xl px-4 py-3" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-teal-line)' }}>
-          <div className="flex items-center gap-2">
-            <Check size={15} style={{ color: 'var(--b-teal-deep)' }} />
-            <span className="text-sm font-semibold" style={{ color: 'var(--b-ink)' }}>
-              Extracted — review before it’s added
-            </span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Check size={15} style={{ color: 'var(--b-teal-deep)' }} />
+              <span className="text-sm font-semibold" style={{ color: 'var(--b-ink)' }}>Extracted — review before it’s added</span>
+            </div>
+            {parsed.confidence && (
+              <span className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
+                {parsed.confidence} confidence
+              </span>
+            )}
           </div>
-          <div className="mt-2 grid grid-cols-3 gap-3 text-sm">
-            <Field label="Provider" value={parsed.provider} />
-            <Field label="Amount" value={parsed.amount} />
-            <Field label="Category" value={parsed.category} />
+          <div className="mt-2 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+            <Field label="Provider" value={parsed.provider ?? '—'} />
+            <Field label="Category" value={parsed.category ?? '—'} />
+            <Field label="Amount" value={money(parsed.total_amount)} />
+            <Field label="Due" value={parsed.due_date ?? '—'} />
           </div>
           <p className="mt-2 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--b-faint)' }}>
-            <FileText size={12} /> Demo flow — this sample file stays in your browser and isn’t uploaded.
+            <FileText size={12} /> Read live by Claude Vision and saved to your bill log. Nothing is paid or actioned.
           </p>
         </div>
       )}
@@ -113,12 +153,8 @@ export function UploadDropzone() {
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-[11px] uppercase tracking-wide" style={{ color: 'var(--b-faint)' }}>
-        {label}
-      </p>
-      <p className="font-semibold" style={{ color: 'var(--b-ink)' }}>
-        {value}
-      </p>
+      <p className="text-[11px] uppercase tracking-wide" style={{ color: 'var(--b-faint)' }}>{label}</p>
+      <p className="truncate font-semibold" style={{ color: 'var(--b-ink)' }}>{value}</p>
     </div>
   );
 }

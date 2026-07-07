@@ -1,4 +1,5 @@
 import { Card, PageHeading, SectionLabel, CategoryTag, money } from '@/components/bills/kit';
+import { LiveState } from '@/components/bills/LiveState';
 import { ActionButton } from '@/components/bills/ActionButton';
 import { hiddenCosts, hiddenCostsTotal } from '@/lib/bills/data';
 import { EyeOff } from 'lucide-react';
@@ -15,7 +16,10 @@ const ACTION: Record<string, { kind: 'cancel' | 'refund'; label: string }> = {
 export default function HiddenCostsPage() {
   return (
     <div>
-      <PageHeading title="Hidden costs" lead="Charges quietly draining the account — unused subscriptions, a duplicate debit, an ACC overpayment and high fund fees. Each has an NZ-specific next step, and none is actioned without you." />
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <PageHeading title="Hidden costs" lead="Charges quietly draining the account — unused subscriptions, a duplicate debit, an ACC overpayment and high fund fees. Each has an NZ-specific next step, and none is actioned without you." />
+        <LiveState state="sample" note="upload bills to detect yours" />
+      </div>
 
       <Card className="mb-4">
         <div className="flex items-center gap-4">

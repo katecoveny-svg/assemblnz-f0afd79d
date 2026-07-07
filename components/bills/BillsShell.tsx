@@ -12,9 +12,9 @@ import {
   EyeOff,
   Database,
   Plug,
-  Wallet,
 } from 'lucide-react';
 import { BillsAdvisor } from './BillsAdvisor';
+import { WordMark } from './HeroFx';
 
 const NAV = [
   { href: '/bills/app', label: 'Overview', Icon: LayoutDashboard },
@@ -29,25 +29,24 @@ const NAV = [
 
 export function BillsShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const isActive = (href: string) =>
-    href === '/bills/app' ? pathname === href : pathname.startsWith(href);
+  const isActive = (href: string) => (href === '/bills/app' ? pathname === href : pathname.startsWith(href));
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--b-paper)' }}>
+    <div className="min-h-screen">
       {/* Demo ribbon */}
       <div
         className="flex items-center justify-center gap-2 px-4 py-1.5 text-[11px] font-medium"
-        style={{ background: 'var(--b-ink)', color: 'var(--b-paper)' }}
+        style={{ background: 'rgba(90,173,160,0.08)', color: 'var(--b-muted)', borderBottom: '1px solid var(--b-line)' }}
       >
-        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)' }} />
-        Concept demo · sample data only — no real accounts, inbox or bank feed connected
+        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)', boxShadow: '0 0 8px rgba(90,173,160,0.9)' }} />
+        Live console · sample household — real Vision parsing, real provider prices, no real accounts connected
       </div>
 
       <div className="mx-auto flex max-w-7xl gap-6 px-4 py-5 sm:px-6">
         {/* Sidebar — desktop */}
         <aside className="hidden w-56 shrink-0 lg:block">
           <div className="sticky top-5">
-            <Brand />
+            <WordMark size={16} />
             <nav className="mt-6 space-y-1">
               {NAV.map(({ href, label, Icon }) => {
                 const active = isActive(href);
@@ -56,10 +55,11 @@ export function BillsShell({ children }: { children: ReactNode }) {
                     key={href}
                     href={href}
                     className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition"
-                    style={{
-                      background: active ? 'var(--b-teal-soft)' : 'transparent',
-                      color: active ? 'var(--b-teal-deep)' : 'var(--b-muted)',
-                    }}
+                    style={
+                      active
+                        ? { background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)', boxShadow: 'inset 0 0 20px -8px rgba(90,173,160,0.6)' }
+                        : { color: 'var(--b-muted)', border: '1px solid transparent' }
+                    }
                   >
                     <Icon size={17} />
                     {label}
@@ -73,13 +73,10 @@ export function BillsShell({ children }: { children: ReactNode }) {
 
         {/* Main */}
         <main className="min-w-0 flex-1 pb-16">
-          {/* Mobile brand + tab strip */}
           <div className="lg:hidden">
             <div className="flex items-center justify-between">
-              <Brand />
-              <Link href="/bills" className="text-xs font-semibold" style={{ color: 'var(--b-teal-deep)' }}>
-                Landing →
-              </Link>
+              <WordMark size={15} />
+              <Link href="/bills" className="text-xs font-semibold" style={{ color: 'var(--b-teal)' }}>Landing →</Link>
             </div>
             <nav className="mt-4 -mx-4 flex gap-1.5 overflow-x-auto px-4 pb-1">
               {NAV.map(({ href, label, Icon }) => {
@@ -89,11 +86,11 @@ export function BillsShell({ children }: { children: ReactNode }) {
                     key={href}
                     href={href}
                     className="flex shrink-0 items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition"
-                    style={{
-                      background: active ? 'var(--b-teal)' : 'var(--b-surface)',
-                      color: active ? '#fff' : 'var(--b-muted)',
-                      border: `1px solid ${active ? 'var(--b-teal)' : 'var(--b-line)'}`,
-                    }}
+                    style={
+                      active
+                        ? { background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)' }
+                        : { background: 'rgba(255,255,255,0.04)', color: 'var(--b-muted)', border: '1px solid var(--b-line)' }
+                    }
                   >
                     <Icon size={14} />
                     {label}
@@ -112,26 +109,13 @@ export function BillsShell({ children }: { children: ReactNode }) {
   );
 }
 
-function Brand() {
-  return (
-    <Link href="/bills" className="flex items-center gap-2">
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg text-white" style={{ background: 'var(--b-teal)' }}>
-        <Wallet size={17} />
-      </span>
-      <span className="text-[15px] font-bold tracking-tight" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>
-        Assembl Bills
-      </span>
-    </Link>
-  );
-}
-
 function ViewLanding() {
   return (
-    <div className="mt-8 rounded-2xl p-4" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)' }}>
+    <div className="mt-8 rounded-2xl p-4" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
       <p className="text-xs leading-relaxed" style={{ color: 'var(--b-muted)' }}>
-        This is the household console. See the product story and join the waitlist on the landing page.
+        The household console. See the product story and join the waitlist on the landing page.
       </p>
-      <Link href="/bills" className="mt-2 inline-block text-xs font-semibold" style={{ color: 'var(--b-teal-deep)' }}>
+      <Link href="/bills" className="mt-2 inline-block text-xs font-semibold" style={{ color: 'var(--b-teal)' }}>
         View landing →
       </Link>
     </div>
