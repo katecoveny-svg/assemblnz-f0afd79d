@@ -5,7 +5,7 @@ import { PersonalOpener } from '@/components/ops/toa/PersonalOpener';
 import { ArcHeroPanel } from '@/components/ops/toa/ArcHeroPanel';
 import { SaveTimeMoney } from '@/components/ops/toa/SaveTimeMoney';
 import { LiveArcChat } from '@/components/ops/toa/LiveArcChat';
-import { DrawingsToLife } from '@/components/ops/toa/DrawingsToLife';
+import { ToaWalkthrough } from '@/components/ops/toa/walk/ToaWalkthrough';
 import { MondayStrip } from '@/components/ops/toa/MondayStrip';
 import { CapabilityGrid } from '@/components/ops/toa/CapabilityGrid';
 import { IntegrationsOrbit } from '@/components/ops/toa/IntegrationsOrbit';
@@ -75,8 +75,17 @@ export default function ToaArchitectsOpsHome() {
         <LiveArcChat />
       </section>
 
-      {/* 4 — drawings, coming to life (the wow) */}
-      <DrawingsToLife />
+      {/* 4 — the walk-through (the wow): walk 16A while ARC hovers over it */}
+      <div className="flex flex-col gap-3">
+        <ToaWalkthrough />
+        <a
+          href="/customers/toa-architects/ops/walk"
+          className="self-start rounded-full px-3.5 py-1.5 text-[11px] font-semibold transition hover:opacity-90"
+          style={{ backgroundColor: '#bfa37a', color: '#161516' }}
+        >
+          open the full-screen walk-through →
+        </a>
+      </div>
 
       {/* 5 — this week on 16A · the OS story · the weekend queue · the six jobs */}
       <Flagship16A />
