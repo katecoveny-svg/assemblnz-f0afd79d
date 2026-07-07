@@ -39,8 +39,8 @@ export function TiltCard({ children, className }: { children: ReactNode; classNa
     const r = el.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width;
     const py = (e.clientY - r.top) / r.height;
-    ry.set((px - 0.5) * 9);
-    rx.set((0.5 - py) * 7);
+    ry.set((px - 0.5) * 14);
+    rx.set((0.5 - py) * 11);
     gx.set(px * 100);
     gy.set(py * 100);
   }

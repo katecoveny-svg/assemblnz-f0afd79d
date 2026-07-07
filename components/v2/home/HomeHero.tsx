@@ -11,27 +11,44 @@ import styles from './home.module.css';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/** Word-by-word rise for the two locked headline lines. */
-function HeadlineLine({ words, offset }: { words: string[]; offset: number }) {
+/** Word-by-word rise for the two locked headline lines. The champagne full
+ *  stop rides INSIDE the last word's inline-block so it can never wrap alone. */
+function HeadlineLine({
+  words,
+  offset,
+  withDot = false,
+}: {
+  words: string[];
+  offset: number;
+  withDot?: boolean;
+}) {
   const reduced = useReducedMotion();
   return (
     <span style={{ display: 'block' }}>
-      {words.map((word, i) => (
-        <span
-          key={`${word}-${i}`}
-          style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}
-        >
-          <motion.span
-            style={{ display: 'inline-block', whiteSpace: 'pre' }}
-            initial={reduced ? false : { y: '110%' }}
-            animate={{ y: 0 }}
-            transition={{ delay: 0.12 + (offset + i) * 0.09, duration: 0.9, ease: EASE }}
+      {words.map((word, i) => {
+        const last = i === words.length - 1;
+        return (
+          <span
+            key={`${word}-${i}`}
+            style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}
           >
-            {word}
-            {i < words.length - 1 ? ' ' : ''}
-          </motion.span>
-        </span>
-      ))}
+            <motion.span
+              style={{ display: 'inline-block', whiteSpace: 'pre' }}
+              initial={reduced ? false : { y: '110%' }}
+              animate={{ y: 0 }}
+              transition={{ delay: 0.12 + (offset + i) * 0.09, duration: 0.9, ease: EASE }}
+            >
+              {word}
+              {last && withDot ? (
+                <span aria-hidden style={{ color: palette.accentGold }}>
+                  .
+                </span>
+              ) : null}
+              {!last ? ' ' : ''}
+            </motion.span>
+          </span>
+        );
+      })}
     </span>
   );
 }
@@ -66,18 +83,7 @@ export function HomeHero({
 
         <h1 className={styles.h1} style={{ marginTop: 22 }}>
           <HeadlineLine words={['purpose-built', 'agents.']} offset={0} />
-          <span style={{ display: 'block' }}>
-            <HeadlineLine words={['limitless', 'potential']} offset={2} />
-            <motion.span
-              aria-hidden
-              style={{ color: palette.accentGold, display: 'inline-block' }}
-              initial={reduced ? false : { opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.75, duration: 0.6 }}
-            >
-              .
-            </motion.span>
-          </span>
+          <HeadlineLine words={['limitless', 'potential']} offset={2} withDot />
         </h1>
 
         <motion.p {...fade(0.55)} className={styles.lede}>
