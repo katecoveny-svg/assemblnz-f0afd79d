@@ -5,6 +5,9 @@
 declare module '@react-three/fiber' {
   export interface RootState {
     clock: { getElapsedTime(): number };
+    /** normalized pointer coordinates (-1..1) */
+    pointer: { x: number; y: number };
+    gl: { getPixelRatio(): number };
   }
   export function useFrame(callback: (state: RootState, delta: number) => void): void;
   export function useThree(): any;
