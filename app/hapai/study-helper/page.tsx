@@ -4,7 +4,7 @@ import { StudyHelperTool } from "./StudyHelperTool";
 export const metadata: Metadata = {
   title: "Study Helper — assembl",
   description:
-    "A shareable HAPAI tool for NZ students: upload notes or a teacher prompt and get an essay plan, quote checklist, recall quiz, or study sprint.",
+    "A shareable SPARK tool for NZ students: upload notes or a teacher prompt and get an essay plan, quote checklist, recall quiz, or study sprint.",
   openGraph: {
     title: "Study Helper — assembl",
     description:

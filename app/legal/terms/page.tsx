@@ -5,7 +5,7 @@ import { SectionReveal } from '@/components/SectionReveal';
 export const metadata: Metadata = {
   title: 'Terms of Use',
   description:
-    'The terms governing use of assembl.co.nz, app.assembl.co.nz, the HAPAI tools, the workflow marketplace, and any embedded assembl widget.',
+    'The terms governing use of assembl.co.nz, app.assembl.co.nz, the SPARK tools, the workflow marketplace, and any embedded assembl widget.',
 };
 
 const LAST_REVIEWED = '27 May 2026';
@@ -35,7 +35,7 @@ export default function TermsPage() {
           <div className="mt-12 space-y-10 text-base leading-relaxed text-[color:var(--text-body)] md:text-[17px]">
             <SectionReveal delay={0.2}>
               <p>
-                These terms (&quot;Terms&quot;) govern your use of assembl.co.nz, app.assembl.co.nz, the HAPAI tools, the workflow marketplace, the embed widgets, the kete chats, and any other surface operated by assembl Ltd (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By using any of them you agree to these Terms. If you do not agree, stop using the service.
+                These terms (&quot;Terms&quot;) govern your use of assembl.co.nz, app.assembl.co.nz, the SPARK tools, the workflow marketplace, the embed widgets, the kete chats, and any other surface operated by assembl Ltd (&quot;assembl&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;). By using any of them you agree to these Terms. If you do not agree, stop using the service.
               </p>
             </SectionReveal>
 
@@ -43,7 +43,7 @@ export default function TermsPage() {
               <div className="rounded-card border border-[rgba(35,33,31,0.10)] bg-white/55 p-6 md:p-8">
                 <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-[color:var(--text-secondary)]">In plain English</p>
                 <ul className="mt-4 space-y-2 text-[color:var(--text-body)]">
-                  <li>Use assembl to draft work and build evidence packs — the public chats and HAPAI tools are free to try.</li>
+                  <li>Use assembl to draft work and build evidence packs — the public chats and SPARK tools are free to try.</li>
                   <li>Outputs are drafts: a named human on your team reviews and signs off before anything leaves your organisation.</li>
                   <li>Be fair — stay inside the rate limits, don&apos;t misuse the service, and we can suspend accounts that do.</li>
                 </ul>
@@ -61,7 +61,7 @@ export default function TermsPage() {
               <h2 className="font-display text-2xl font-light md:text-3xl">2. What you can use it for.</h2>
               <p className="mt-3">You may use assembl to:</p>
               <ul className="mt-3 space-y-2 pl-5">
-                <li className="list-disc">Try the public chats at <Link href="/c/waihanga" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/c/[kete]</Link> and the HAPAI tools at <Link href="/hapai" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/hapai</Link> without signup, for personal evaluation.</li>
+                <li className="list-disc">Try the public chats at <Link href="/c/waihanga" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/c/[kete]</Link> and the SPARK tools at <Link href="/hapai" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/hapai</Link> without signup, for personal evaluation.</li>
                 <li className="list-disc">Run workflows from the marketplace at <Link href="/workflows" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">/workflows</Link>, share workflow links, and embed workflow widgets on your own website, subject to the rate limits in clause 4.</li>
                 <li className="list-disc">Subscribe to an agent (or All-Access), or book a Pilot Sprint, to run real workflows against your team&apos;s data.</li>
                 <li className="list-disc">Use the outputs as drafts. Every draft must be reviewed and signed off by a named human in your team before it leaves your organisation (see <Link href="/legal/disclaimer" className="underline-offset-2 hover:text-[color:var(--assembl-pounamu)] hover:underline">Disclaimer</Link>).</li>
@@ -86,7 +86,7 @@ export default function TermsPage() {
             <SectionReveal delay={0.4}>
               <h2 className="font-display text-2xl font-light md:text-3xl">4. Rate limits and fair use.</h2>
               <p className="mt-3">
-                The public marketplace and HAPAI tools are free to evaluate. Default limits: <strong>3 runs per IP per workflow per hour</strong> for anonymous users; <strong>100 runs per tenant per day</strong> for signed-in tenants. Higher limits come with a paid agent subscription, All-Access, or a custom contract.
+                The public marketplace and SPARK tools are free to evaluate. Default limits: <strong>3 runs per IP per workflow per hour</strong> for anonymous users; <strong>100 runs per tenant per day</strong> for signed-in tenants. Higher limits come with a paid agent subscription, All-Access, or a custom contract.
               </p>
               <p className="mt-3">
                 We may throttle or temporarily suspend access if usage looks abusive or appears designed to bypass these limits. We&apos;ll tell you why before doing so where reasonably possible.

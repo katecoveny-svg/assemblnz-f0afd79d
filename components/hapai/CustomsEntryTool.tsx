@@ -90,11 +90,11 @@ export function CustomsEntryTool() {
 
   return (
     <HapaiToolShell
-      kicker="HAPAI · Pīkau · freight & customs"
+      kicker="SPARK · Pīkau · freight & customs"
       title="Customs entry drafter"
       description="Paste the fields from a commercial invoice and get back a structured customs entry draft your broker can check and file. It never invents an HS code and never lodges — your broker confirms classification and files it."
       toolPath="/hapai/customs-entry"
-      shareTitle="Customs entry drafter — a free assembl HAPAI tool"
+      shareTitle="Customs entry drafter — a free assembl SPARK tool"
       shareText="Turn your invoice into a structured customs entry draft your broker can file. Draft only — never lodges to TSW."
       posture="Draft only. It structures your invoice into entry fields, never invents an HS code, and never lodges to TSW. Your licensed broker confirms classification and files the entry."
       highlights={[

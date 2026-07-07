@@ -29,11 +29,11 @@ export function AdminTaxCalculator() {
 
   return (
     <HapaiToolShell
-      kicker="HAPAI · the admin tax"
+      kicker="SPARK · the admin tax"
       title="The admin tax"
       description="Add up the unbilled hours your team loses every week to compliance paperwork and double entry, then see the annual cost — and how much a kete pack could claw back."
       toolPath="/hapai/admin-tax"
-      shareTitle="The admin tax calculator — a free assembl HAPAI tool"
+      shareTitle="The admin tax calculator — a free assembl SPARK tool"
       shareText="See what unbilled admin hours cost your team each year — and how much you could claw back."
       posture="Indicative calculator only. Confirm your own rates and hours before acting on the numbers. assembl outputs stay draft-only and reviewed by a named person."
       highlights={[

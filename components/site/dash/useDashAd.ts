@@ -1,10 +1,10 @@
 'use client';
 
 /**
- * useDashAd — the HAPAI-side adapter for @assembl/dash-sdk.
+ * useDashAd — the SPARK-side adapter for @assembl/dash-sdk.
  *
  * Dogfood wiring: assembl is its own first Dash publisher ('assembl-hapai').
- * A HAPAI surface calls `request()` when its wait state begins; if an ad comes
+ * A SPARK surface calls `request()` when its wait state begins; if an ad comes
  * back it renders one line of text, and `clear()` drops it when the wait ends.
  * Fail-open is built into the SDK — request() resolves to null on any miss, so
  * the surface just shows its normal loading text.

@@ -88,7 +88,7 @@ export default function DisclaimerPage() {
             <SectionReveal delay={0.45}>
               <h2 className="font-display text-2xl font-light md:text-3xl">No professional relationship created.</h2>
               <p className="mt-3">
-                Using assembl, the public chat, the HAPAI tools, or the workflow marketplace does not create a lawyer-client, accountant-client, doctor-patient, financial-adviser-client, or any other professional relationship between you and assembl, between you and Kate Hudson, or between you and any agent in the assembl fleet. For matters requiring a regulated professional, engage one.
+                Using assembl, the public chat, the SPARK tools, or the workflow marketplace does not create a lawyer-client, accountant-client, doctor-patient, financial-adviser-client, or any other professional relationship between you and assembl, between you and Kate Hudson, or between you and any agent in the assembl fleet. For matters requiring a regulated professional, engage one.
               </p>
             </SectionReveal>
 

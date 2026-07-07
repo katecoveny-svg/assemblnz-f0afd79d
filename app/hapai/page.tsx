@@ -14,11 +14,11 @@ import {
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'HAPAI — shareable tools for real work',
+  title: 'SPARK — shareable tools for real work',
   description:
-    'HAPAI means to lift or support. It is assembl’s public tool library: small shareable tools for study, meetings, travel, compliance logs, share cards, and everyday work.',
+    'SPARK is assembl’s tool builder and public library: describe the tool your business needs in plain English, or use a ready-made shareable tool for study, meetings, travel, compliance logs, share cards, and everyday work.',
   openGraph: {
-    title: 'HAPAI — shareable tools for real work',
+    title: 'SPARK — shareable tools for real work',
     description:
       'Open one useful tool, run one real task, and share the result.',
     type: 'website',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'HAPAI — shareable tools for real work',
+    title: 'SPARK — shareable tools for real work',
     description:
       'One task, one tool, one useful result.',
   },
@@ -37,7 +37,7 @@ const reasons = [
   {
     title: 'One task at a time',
     body:
-      'Each HAPAI tool does one job clearly: turn a photo, paste, recording, note, or brief into something useful enough to review.',
+      'Each SPARK tool does one job clearly: turn a photo, paste, recording, note, or brief into something useful enough to review.',
   },
   {
     title: 'Useful without training',
@@ -101,7 +101,7 @@ export default function HapaiPage() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
           <div>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--assembl-pounamu)]">
-              built in aotearoa · HAPAI
+              built in aotearoa · SPARK
             </p>
             <h1 className="mt-5 max-w-4xl font-display text-[clamp(3.2rem,6vw,5.8rem)] font-light leading-[0.92]">
               Tools for the job in front of you.
@@ -210,7 +210,7 @@ export default function HapaiPage() {
             <p className="mt-6 text-base leading-relaxed text-[color:var(--text-body)]">
               Adoption starts small: someone runs a meeting note, school notice,
               or customer reply through a tool and gets a useful first draft.
-              HAPAI makes those wins visible, shareable, and easy to turn into
+              SPARK makes those wins visible, shareable, and easy to turn into
               private tools for the team.
             </p>
           </div>
@@ -328,12 +328,12 @@ export default function HapaiPage() {
               industry pack
             </p>
             <h2 className="mt-4 font-display text-[clamp(3rem,7vw,5.5rem)] font-light leading-[0.9]">
-              Bring HAPAI to your team.
+              Bring SPARK to your team.
             </h2>
           </div>
           <div>
             <p className="text-lg leading-relaxed text-[color:var(--text-body)]">
-              The full HAPAI library, branded to your org and available to every
+              The full SPARK library, branded to your org and available to every
               team member, comes with All-Access — every agent we make, NZ$250/month.
               Your wordmark, your colour, your voice, your review rules. The
               point is simple: every team should be able to create, open, and

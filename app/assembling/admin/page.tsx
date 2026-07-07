@@ -172,7 +172,7 @@ export default async function DashAdminPage() {
       {campaigns.length === 0 ? (
         <p style={muted}>
           No campaigns yet. Insert one in the Supabase SQL editor (see the migration footer) and it
-          will serve on the next HAPAI wait state.
+          will serve on the next SPARK wait state.
         </p>
       ) : (
         <div style={tableWrap}>

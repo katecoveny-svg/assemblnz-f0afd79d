@@ -8,7 +8,7 @@ import { ShareableToolActions } from '@/components/hapai/ShareableToolActions';
 
 /**
  * DashToolShell — the Dash-branded chrome (champagne + charcoal, Lato/Space Mono)
- * for the 2026 viral HAPAI tools. Self-scopes the Dash type system via the
+ * for the 2026 viral SPARK tools. Self-scopes the Dash type system via the
  * `mk-root` class (same approach as the agent marketplace) so it never touches
  * the rest of the site, and reuses the shared ShareableToolActions for share/
  * copy/embed. Existing green tools keep HapaiToolShell — this is opt-in.
@@ -50,7 +50,7 @@ export function DashToolShell({
           className="mk-mono inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#8A8678] transition hover:text-[#3A3832]"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-          HAPAI library
+          SPARK library
         </Link>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(330px,0.56fr)] lg:items-stretch">

@@ -54,7 +54,7 @@ export function PainfulWorkflowCapture() {
             Tell us the task you stare at.
           </h3>
           <p className="mt-5 text-sm leading-relaxed text-[color:var(--text-body)] md:text-base">
-            The best HAPAI tools start with one ordinary piece of work someone
+            The best SPARK tools start with one ordinary piece of work someone
             keeps avoiding: the spreadsheet, the follow-up, the proof pack, the
             weekly note, the form nobody wants to open.
           </p>
@@ -123,7 +123,7 @@ export function PainfulWorkflowCapture() {
           </button>
           {state === "success" ? (
             <p className="text-sm leading-relaxed text-[color:var(--assembl-pounamu)]">
-              Got it. We&apos;ll use this as a candidate for the next HAPAI tool.
+              Got it. We&apos;ll use this as a candidate for the next SPARK tool.
             </p>
           ) : null}
           {state === "error" ? (

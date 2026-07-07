@@ -1,6 +1,6 @@
-# HAPAI static tool scaffold
+# SPARK static tool scaffold
 
-Public HAPAI tools live at `public/hapai/[tool-name]/` and use three files:
+Public SPARK tools live at `public/hapai/[tool-name]/` and use three files:
 
 - `index.html` for the landing page
 - `[tool-name].html` for the assembl edition

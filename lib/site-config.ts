@@ -305,7 +305,7 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 
 // DIRECTION-LOCKED-2026-07-01 (v2 site): nav is agents · pricing · trust ·
 // about + a "browse agents" CTA — lowercase on-brand (only micro-labels are
-// uppercase). No "Kete packs" / "Outputs" / "HAPAI tools" — those are
+// uppercase). No "Kete packs" / "Outputs" / "SPARK tools" — those are
 // pre-marketplace surfaces.
 // "trust" points at the canonical /trust page (v2); /mana-receipts stays live
 // as the deep-dive and is linked from the footer + /trust itself.

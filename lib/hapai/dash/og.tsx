@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 import type { DashToolConfig } from '@/lib/hapai/dash/tools';
 
 /**
- * Dash-brand HAPAI share card (locked palette, 2026-06-23).
+ * Dash-brand SPARK share card (locked palette, 2026-06-23).
  *
  * Cream canvas, charcoal Lato 900 headline, one champagne accent (the pill-dash
  * under the tool name). Numbers tools lead with one giant figure — that figure
@@ -11,7 +11,7 @@ import type { DashToolConfig } from '@/lib/hapai/dash/tools';
 
 export const dashOgSize = { width: 1200, height: 630 };
 export const dashOgContentType = 'image/png';
-export const dashOgAlt = 'assembl HAPAI — Dash share card';
+export const dashOgAlt = 'assembl SPARK — Dash share card';
 
 // Locked Dash palette.
 const CREAM = '#FFF7EC';
@@ -44,7 +44,7 @@ function truncate(text: string, max: number) {
 
 export async function renderDashToolOgImage(tool: DashToolConfig) {
   const route = `assembl.co.nz/hapai/${tool.slug}`;
-  const fontText = `${tool.name} ${tool.description} ${tool.eyebrow} ${tool.ogFigure ?? ''} ${tool.ogFigureLabel ?? ''} ${route} HAPAI tool live assembl`;
+  const fontText = `${tool.name} ${tool.description} ${tool.eyebrow} ${tool.ogFigure ?? ''} ${tool.ogFigureLabel ?? ''} ${route} SPARK tool live assembl`;
   const [lato900, lato700, mono] = await Promise.all([
     loadGoogleFont(`https://fonts.googleapis.com/css2?family=Lato:wght@900&text=${encodeURIComponent(fontText)}`),
     loadGoogleFont(`https://fonts.googleapis.com/css2?family=Lato:wght@400;700&text=${encodeURIComponent(fontText)}`),
@@ -127,7 +127,7 @@ export async function renderDashToolOgImage(tool: DashToolConfig) {
               padding: '10px 18px',
             }}
           >
-            HAPAI
+            SPARK
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 import type { KeteSlug } from '@/lib/kete';
 
 /**
- * Client-safe config for the five Dash-branded HAPAI tools (viral shortlist,
+ * Client-safe config for the five Dash-branded SPARK tools (viral shortlist,
  * 2026-06-23). Drives the shared <DashTool> client component, the grid entry,
  * and the per-tool Dash OG card. System prompts and fallbacks live server-side
  * in lib/hapai/dash/server.ts so the locked prompts never reach the bundle.
@@ -22,7 +22,7 @@ export type DashField = {
 export type DashToolConfig = {
   slug: string;
   name: string;
-  /** Mono eyebrow, e.g. "HAPAI tool · live". */
+  /** Mono eyebrow, e.g. "SPARK tool · live". */
   eyebrow: string;
   /** Hero headline. */
   title: string;
@@ -71,7 +71,7 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
   {
     slug: 'rates-reader',
     name: 'Rates Reader',
-    eyebrow: 'HAPAI tool · live',
+    eyebrow: 'SPARK tool · live',
     title: 'Your rates notice, in plain English.',
     description:
       'Snap or paste your rates notice and get a plain-English breakdown — what you pay for, how your area compares, where the council actually spends it.',
@@ -130,7 +130,7 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
   {
     slug: 'school-notice',
     name: 'School Notice Translator',
-    eyebrow: 'HAPAI tool · live',
+    eyebrow: 'SPARK tool · live',
     title: 'The school notice, sorted.',
     description:
       'Paste or photograph the newsletter, the Hero post, or that PDF the teacher sent. Get back the actual dates, what’s needed, and a drafted RSVP.',
@@ -179,7 +179,7 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
   {
     slug: 'healthy-homes',
     name: 'Healthy Homes Checker',
-    eyebrow: 'HAPAI tool · live',
+    eyebrow: 'SPARK tool · live',
     title: 'Does your rental meet the standards?',
     description:
       'Answer a few questions room by room. Get a pass/fail on each Healthy Homes Standard, and a plain-English letter you can send your landlord.',
@@ -254,7 +254,7 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
   {
     slug: 'fare-optimiser',
     name: 'Fare Optimiser',
-    eyebrow: 'HAPAI tool · live',
+    eyebrow: 'SPARK tool · live',
     title: 'Stop overpaying for the bus.',
     description:
       'Type your usual trips and get the cheapest fare combo — HOP cap, Bee Card weekly, daily deals — and a dollar figure you can hand your parents.',
@@ -322,7 +322,7 @@ export const DASH_TOOLS: readonly DashToolConfig[] = [
   {
     slug: 'holidays-act',
     name: 'Holidays Act Sense-Check',
-    eyebrow: 'HAPAI tool · live',
+    eyebrow: 'SPARK tool · live',
     title: 'Does your holiday pay look right?',
     description:
       'Paste your pay details and recent leave. Get a yes / no / can’t-tell on whether the holiday pay maths looks right — with the part of the Act it should match.',

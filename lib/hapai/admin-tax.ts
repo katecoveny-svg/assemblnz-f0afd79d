@@ -1,5 +1,5 @@
 /**
- * Free HAPAI "admin tax" calculator — deterministic, indicative maths only.
+ * Free SPARK "admin tax" calculator — deterministic, indicative maths only.
  *
  * The "admin tax" is the unbilled time a team loses every week to compliance
  * paperwork, double entry, and chasing evidence. This module turns a few inputs

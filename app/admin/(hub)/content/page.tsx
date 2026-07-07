@@ -23,7 +23,7 @@ const SURFACES: { group: string; items: Surface[] }[] = [
     group: 'Editorial',
     items: [
       { title: 'Blog', blurb: 'Posts and updates.', view: '/blog', source: 'app/blog' },
-      { title: 'HAPAI tools', blurb: 'Free, no-install utilities.', view: '/hapai', source: 'app/hapai' },
+      { title: 'SPARK tools', blurb: 'Free, no-install utilities.', view: '/hapai', source: 'app/hapai' },
     ],
   },
   {

@@ -4,7 +4,7 @@ import { NineAmBriefTool } from "./NineAmBriefTool";
 export const metadata: Metadata = {
   title: "The Dawn — assembl",
   description:
-    "Paste your morning mess and get back a clear list: what matters today, who to chase, and what might slip. A free HAPAI tool from assembl.",
+    "Paste your morning mess and get back a clear list: what matters today, who to chase, and what might slip. A free SPARK tool from assembl.",
   openGraph: {
     title: "The Dawn — assembl",
     description:

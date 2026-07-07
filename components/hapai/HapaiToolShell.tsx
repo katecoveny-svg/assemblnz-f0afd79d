@@ -43,7 +43,7 @@ export function HapaiToolShell({
           className="inline-flex items-center gap-2 rounded-sm font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] transition hover:text-[#3A3832] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3A3832] focus-visible:ring-offset-2"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
-          HAPAI library
+          SPARK library
         </Link>
 
         {/* Single column until there is genuinely room for two — below 1280px
@@ -92,7 +92,7 @@ export function HapaiToolShell({
                   </p>
                 </div>
                 <div className="rounded-full border border-[rgba(58,56,50,0.16)] bg-white/74 px-3 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[#3A3832] shadow-[0_14px_40px_rgba(35,33,31,0.08)]">
-                  HAPAI
+                  SPARK
                 </div>
               </div>
 

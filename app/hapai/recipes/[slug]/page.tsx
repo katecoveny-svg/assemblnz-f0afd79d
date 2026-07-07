@@ -13,7 +13,7 @@ export async function generateMetadata({
   const project = findProject(slug);
   return {
     title: project ? `${project.title} recipe · hapai · assembl` : "hapai recipe · assembl",
-    description: project?.summary ?? "A one-page HAPAI project recipe.",
+    description: project?.summary ?? "A one-page SPARK project recipe.",
   };
 }
 

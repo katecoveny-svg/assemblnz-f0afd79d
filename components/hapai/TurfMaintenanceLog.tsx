@@ -112,12 +112,12 @@ export function TurfMaintenanceLog() {
           href="/hapai"
           className="mb-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-[#6B6661] hover:text-[#3A3832]"
         >
-          <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> HAPAI library
+          <ArrowLeft className="h-3.5 w-3.5" aria-hidden /> SPARK library
         </Link>
         <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
           <header>
             <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-[#3A3832]">
-              HAPAI · turf maintenance log
+              SPARK · turf maintenance log
             </p>
             <h1 className="mt-4 max-w-3xl font-display text-[clamp(3.2rem,7vw,6rem)] font-light leading-[0.9]">
               A pitch that’s ready to play. A record you can file.

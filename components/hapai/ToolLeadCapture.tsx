@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Check, Loader2, Mail } from "lucide-react";
 
 type ToolLeadCaptureProps = {
-  /** The HAPAI tool slug this capture belongs to (must match the registry). */
+  /** The SPARK tool slug this capture belongs to (must match the registry). */
   toolSlug: string;
   /** Optional snapshot of the user's current result, stored with the lead. */
   payload?: Record<string, unknown>;

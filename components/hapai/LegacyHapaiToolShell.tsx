@@ -74,7 +74,7 @@ export function LegacyHapaiToolShell({
         <div className="flex flex-col gap-3 border-b border-[rgba(35,33,31,0.10)] bg-[#23211F] px-4 py-4 text-[#FFF7EC] md:flex-row md:items-center md:justify-between md:px-5">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#D9A85A]">
-              HAPAI workspace
+              SPARK workspace
             </p>
             <p className="mt-1 text-sm text-[#FFF7EC]/78">
               Open the full workspace below, or launch it full-screen when you

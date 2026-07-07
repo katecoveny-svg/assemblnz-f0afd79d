@@ -1,5 +1,5 @@
 /**
- * Self-serve subscription tiers — the conversion step between the free HAPAI
+ * Self-serve subscription tiers — the conversion step between the free SPARK
  * tools and the $3,500/mo kete pack.
  *
  * Locked numbers (confirmed by Kate, June 2026): Solo NZ$49/mo, Team NZ$149/mo.
@@ -51,7 +51,7 @@ export const SELF_SERVE_TIERS: readonly SelfServeTier[] = [
       'One industry kete’s workflows',
       'Single user',
       'Draft-only outputs, reviewed by you',
-      'HAPAI tools included',
+      'SPARK tools included',
       'Cancel any time',
     ],
     excludes: ['Done-for-you Pilot Sprint', 'assembl human-review service'],
@@ -67,7 +67,7 @@ export const SELF_SERVE_TIERS: readonly SelfServeTier[] = [
       'All kete workflows',
       'Up to 5 users',
       'Draft-only outputs, reviewed by your team',
-      'HAPAI tools included',
+      'SPARK tools included',
       'Cancel any time',
     ],
     excludes: ['Done-for-you Pilot Sprint', 'assembl human-review service'],

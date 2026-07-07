@@ -11,7 +11,7 @@ import {
 
 export const metadata: Metadata = {
   title: "hapai project recommendations · assembl",
-  description: "Three ranked candidate projects for your team’s next HAPAI build.",
+  description: "Three ranked candidate projects for your team’s next SPARK build.",
 };
 
 const VALID_TIERS = new Set(["akoranga", "kaimahi", "tohunga", "rangatira", "pou"]);

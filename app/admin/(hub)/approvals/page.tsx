@@ -2,7 +2,8 @@ import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import { getApprovals, getPendingApprovalCount } from '@/lib/admin/v2-data';
 import { listActionRequests, dispatchEnabled, type ActionRequestRow } from '@/lib/agents/action-requests';
-import { approveContent, rejectContent, reopenContent, approveAgentAction, rejectAgentAction } from './actions';
+import { approveContent, rejectContent, reopenContent, approveAgentAction, rejectAgentAction, approveSparkTool, rejectSparkTool } from './actions';
+import { listPendingSparkTools } from '@/lib/spark/store';
 import {
   BODY,
   C,
@@ -68,10 +69,11 @@ export default async function ApprovalsPage({
   const { status: statusParam } = await searchParams;
   const filter = (FILTERS as readonly string[]).includes(statusParam ?? '') ? statusParam! : 'pending';
 
-  const [{ rows, available }, pendingCount, actionRows] = await Promise.all([
+  const [{ rows, available }, pendingCount, actionRows, sparkDrafts] = await Promise.all([
     getApprovals(filter),
     getPendingApprovalCount(),
     listActionRequests('all'),
+    listPendingSparkTools(),
   ]);
   const pendingActions = actionRows.filter((a) => a.status === 'pending');
 
@@ -277,6 +279,58 @@ export default async function ApprovalsPage({
                   </Card>
                 );
               })}
+            </div>
+          )}
+
+          <SectionTitle>
+            SPARK tool drafts{sparkDrafts.length > 0 ? ` · ${sparkDrafts.length} pending` : ''}
+          </SectionTitle>
+          <p style={{ fontFamily: BODY, fontSize: 13, color: C.body, margin: '0 0 12px' }}>
+            Tools the public built at <code style={{ fontFamily: MONO, fontSize: 12 }}>/spark</code>. Each is stored as a
+            draft and shows a draft ribbon on its shareable page until you approve it here — nothing auto-publishes.
+          </p>
+          {sparkDrafts.length === 0 ? (
+            <Empty>No SPARK tool drafts waiting.</Empty>
+          ) : (
+            <div style={{ display: 'grid', gap: 12, marginBottom: 24 }}>
+              {sparkDrafts.map((t) => (
+                <Card key={t.id} style={{ padding: '16px 20px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 6 }}>
+                    <Pill tone="warn">draft</Pill>
+                    <span style={{ fontFamily: BODY, fontWeight: 700, fontSize: 15, color: C.ink }}>{t.title}</span>
+                    <Link
+                      href={`/spark/tool/${t.slug}`}
+                      style={{ fontFamily: MONO, fontSize: 11.5, color: C.body }}
+                      target="_blank"
+                    >
+                      /spark/tool/{t.slug} ↗
+                    </Link>
+                    <span style={{ fontFamily: MONO, fontSize: 11, color: C.muted, marginLeft: 'auto' }}>
+                      {nzDate(t.created_at)}
+                    </span>
+                  </div>
+                  <p style={{ fontFamily: BODY, fontSize: 13.5, color: C.body, margin: '0 0 4px' }}>{t.summary}</p>
+                  <p style={{ fontFamily: MONO, fontSize: 11.5, color: C.body, margin: '0 0 4px' }}>
+                    asked: &ldquo;{t.prompt.slice(0, 160)}{t.prompt.length > 160 ? '…' : ''}&rdquo;
+                    {t.requested_by ? ` · ${t.requested_by}` : ''}
+                  </p>
+                  <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginTop: 14 }}>
+                    <form action={approveSparkTool} style={{ display: 'contents' }}>
+                      <input type="hidden" name="slug" value={t.slug} />
+                      <input name="note" placeholder="Optional note" style={noteInput} />
+                      <button type="submit" style={reviewButton(C.ok, true)}>
+                        Approve
+                      </button>
+                    </form>
+                    <form action={rejectSparkTool}>
+                      <input type="hidden" name="slug" value={t.slug} />
+                      <button type="submit" style={reviewButton(C.bad, false)}>
+                        Reject
+                      </button>
+                    </form>
+                  </div>
+                </Card>
+              ))}
             </div>
           )}
 

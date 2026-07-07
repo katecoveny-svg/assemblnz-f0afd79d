@@ -3,7 +3,7 @@ import { LegacyHapaiToolShell } from "@/components/hapai/LegacyHapaiToolShell";
 
 export const metadata: Metadata = {
   title: "Brief generator — assembl",
-  description: "Create a draft creative, pitch, or project brief in a shareable HAPAI surface.",
+  description: "Create a draft creative, pitch, or project brief in a shareable SPARK surface.",
 };
 
 export default function BriefGeneratorPage() {

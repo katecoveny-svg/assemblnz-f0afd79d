@@ -11,7 +11,7 @@ export async function GET(
   const { slug } = await params;
   const tool = getHapaiTool(slug);
   if (!tool) {
-    return Response.json({ error: "Unknown HAPAI tool" }, { status: 404 });
+    return Response.json({ error: "Unknown SPARK tool" }, { status: 404 });
   }
 
   return Response.json(

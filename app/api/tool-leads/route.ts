@@ -1,5 +1,5 @@
 /**
- * POST /api/tool-leads — email capture for the free HAPAI tools and the
+ * POST /api/tool-leads — email capture for the free SPARK tools and the
  * /hapai library page.
  *
  * Writes a row to public.hapai_leads. Fail-closed and non-blocking by design:
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
   const { email, toolSlug, payload, consentMarketing, source } = parsed.data;
 
-  // Soft guard: accept registered HAPAI tools plus the library page capture.
+  // Soft guard: accept registered SPARK tools plus the library page capture.
   if (toolSlug !== "hapai-library" && !getHapaiTool(toolSlug)) {
     return NextResponse.json({ error: "Unknown tool" }, { status: 400 });
   }
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
   // working even if the email or the mirror write fails.
   const tool = getHapaiTool(toolSlug);
   await recordLead({
-    formName: `HAPAI tool — ${tool?.name ?? toolSlug}`,
+    formName: `SPARK tool — ${tool?.name ?? toolSlug}`,
     email,
     fields: {
       tool: toolSlug,

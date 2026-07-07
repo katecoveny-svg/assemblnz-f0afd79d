@@ -121,7 +121,7 @@ export function DashTool({ config }: { config: DashToolConfig }) {
 </style></head>
 <body><div class="wrap">
   <div class="mark">assembl</div>
-  <p class="eyebrow" style="margin-top:18px">HAPAI · evidence pack</p>
+  <p class="eyebrow" style="margin-top:18px">SPARK · evidence pack</p>
   <h1>${escapeHtml(config.evidenceTitle)}</h1>
   <div class="dash"></div>
   <p class="meta">Generated ${stamped} · Pacific/Auckland</p>

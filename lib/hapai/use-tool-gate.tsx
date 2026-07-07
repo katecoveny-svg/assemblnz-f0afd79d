@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * useToolGate — drop-in access gating for any HAPAI tool.
+ * useToolGate — drop-in access gating for any SPARK tool.
  *
  * Wraps a tool's `fetch` so the shared funnel (anonymous: 1 free run → email
  * capture → 5 runs/day) works with a ~2-line change per tool:

@@ -62,11 +62,11 @@ const PRICING_ENTRY_POINTS = [
     accent: '#D4A853',
   },
   {
-    name: 'HAPAI tools',
+    name: 'SPARK tools',
     price: 'Public tools',
     bestFor: 'Use this when you want to try one useful task now.',
-    body: 'HAPAI comes from hāpai: to lift or support. These are public one-task tools for study, meetings, school notices, privacy checks, food logs, share cards, and briefs.',
-    cta: 'Open HAPAI tools',
+    body: 'SPARK builds the tool you describe in plain English — plus a set of public one-task tools for study, meetings, school notices, privacy checks, food logs, share cards, and briefs.',
+    cta: 'Open SPARK tools',
     href: '/hapai',
     accent: '#23211F',
   },
@@ -165,10 +165,10 @@ export function HomePortal({ ketes }: HomePortalProps) {
             </p>
             <div className="mt-5 max-w-[700px] text-[0.98rem] leading-[1.65] text-[#3D4250] md:text-[1.08rem]">
               <p>
-                Start with a public HAPAI tool, a specialist kete pack, or one
-                repeatable workflow. HAPAI means lift or support. Kete means
-                basket or kit. The useful work becomes draft, review, sign-off,
-                and proof.
+                Start with a public SPARK tool, a specialist kete pack, or one
+                repeatable workflow. SPARK builds the tool you describe in plain
+                English. Kete means basket or kit. The useful work becomes draft,
+                review, sign-off, and proof.
               </p>
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row md:mt-10">
@@ -183,7 +183,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 href="/hapai"
                 className="btn-ghost inline-flex h-12 w-full items-center justify-center bg-white/62 px-8 text-base backdrop-blur-md sm:w-auto md:h-14"
               >
-                Open HAPAI tools
+                Open SPARK tools
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
             </div>
@@ -210,14 +210,14 @@ export function HomePortal({ ketes }: HomePortalProps) {
               Start with the work in front of you.
             </h2>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Use HAPAI for one quick public tool. Use a kete pack for a
+              Use SPARK for one quick public tool. Use a kete pack for a
               specialist operating area. Use workflows for repeatable jobs with
               inputs, reviewers, outputs, and evidence.
             </p>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {[
-              ['HAPAI tools', 'HAPAI means to lift or support. These are public one-task tools: study, meetings, travel, share cards, logs, briefs, and useful everyday jobs.', '/hapai', 'Try the tools'],
+              ['SPARK tools', 'SPARK builds the tool you describe in plain English — plus public one-task tools: study, meetings, travel, share cards, logs, briefs, and useful everyday jobs.', '/hapai', 'Try the tools'],
               ['Kete packs', 'Kete means a basket or kit. Each kete is a specialist pack for one operating area, with agents, tools, live knowledge, and review rules.', '#kete-workflows', 'See the packs'],
               ['Workflows', 'Repeatable jobs with inputs, reviewers, outputs, and evidence packs. This is where one useful tool becomes a system your team can run again.', '/workflows', 'Browse workflows'],
             ].map(([title, body, href, cta]) => (
@@ -271,7 +271,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/hapai" className="cta-primary inline-flex h-12 items-center justify-center px-6">
-                Open HAPAI tools
+                Open SPARK tools
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
               </Link>
               <Link href="/c/waihanga" className="btn-ghost inline-flex h-12 items-center justify-center px-6">
@@ -295,14 +295,14 @@ export function HomePortal({ ketes }: HomePortalProps) {
         <div className="mx-auto max-w-[1500px]">
           <div className="max-w-3xl">
             <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[color:var(--assembl-pounamu)]">
-              HAPAI · PUBLIC TOOLS
+              SPARK · PUBLIC TOOLS
             </p>
             <h2 className="mt-4 font-display text-[clamp(2.8rem,6vw,5rem)] font-normal leading-tight">
               Try one useful tool.
             </h2>
             <p className="mt-5 max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              HAPAI means to lift or support. It is the apps and tools page:
-              single-purpose public tools for
+              SPARK builds the tool you describe in plain English. It is the apps
+              and tools page: single-purpose public tools for
               real work. Open one, get a useful result, then turn the win into a
               private internal tool if it earns its keep.
             </p>
@@ -375,7 +375,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                 <span className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/14" aria-hidden />
                 <span className="pointer-events-none absolute bottom-0 left-0 h-44 w-full bg-[linear-gradient(0deg,rgba(255,255,255,0.16),transparent)]" aria-hidden />
                 <span className="relative font-mono text-[10px] uppercase tracking-[0.20em] text-[#D9A85A]">
-                  full HAPAI library
+                  full SPARK library
                 </span>
                 <span>
                   <span className="relative block font-display text-[clamp(2.7rem,4vw,4.2rem)] font-light leading-[0.88] text-[#FAF7F2]">
@@ -385,7 +385,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
                     Tools for study, meetings, travel, school notices, food logs, cards, briefs, and the jobs people actually need done.
                   </span>
                   <span className="relative mt-7 inline-flex h-11 items-center gap-2 rounded-full border border-white/30 bg-white/16 px-4 text-sm font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.28)] backdrop-blur-md">
-                    Open HAPAI <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                    Open SPARK <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                   </span>
                 </span>
               </Link>
@@ -496,7 +496,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
               Choose the right starting point.
             </h2>
             <p className="max-w-[720px] text-[17px] leading-[1.6] text-[color:var(--text-body)] md:text-base">
-              Use a HAPAI tool for one task, a Pilot Sprint to prove one workflow,
+              Use a SPARK tool for one task, a Pilot Sprint to prove one workflow,
               or a kete pack when you want a whole specialist operating area with
               agents, live knowledge, review rules, and evidence packs.
             </p>
@@ -554,7 +554,7 @@ export function HomePortal({ ketes }: HomePortalProps) {
               Book a pilot <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
             <Link href="/hapai" className="inline-flex h-12 items-center justify-center rounded-full border border-[rgba(43,107,87,0.20)] bg-white/36 px-6 font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/58">
-              Try a HAPAI tool <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
+              Try a SPARK tool <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
             </Link>
             <Link href="/evidence-pack" className="inline-flex h-12 items-center justify-center rounded-full border border-[rgba(43,107,87,0.20)] bg-white/36 px-6 font-medium text-[#103F35] shadow-[inset_0_1px_0_rgba(255,255,255,0.72)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/58">
               See an evidence pack <ArrowRight className="ml-2 h-4 w-4" aria-hidden />

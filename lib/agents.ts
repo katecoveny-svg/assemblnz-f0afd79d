@@ -64,10 +64,10 @@ export const FLEET_AGENT_SLUGS_BY_KETE: Record<KeteSlug, string[]> = {
   manaaki: ['manuhiri', 'aura', 'kai', 'hau', 'mahi', 'host-responsibility', 'licence-renewal', 'putea', 'iho', 'signal'],
   pikau: ['morunga', 'gateway', 'pikau', 'forge', 'biosecurity', 'dangerous-goods', 'valuation', 'iho', 'signal'],
   arataki: ['whaikorero', 'whare', 'wof-cof', 'ruc', 'driver-hours', 'warranty', 'fleet-incident', 'iho', 'signal'],
-  auaha: ['muse', 'prism', 'vessel-studio', 'saffron', 'rights', 'tiriti-review', 'campaign-claims', 'brand-ledger', 'iho', 'signal'],
+  auaha: ['spark', 'muse', 'prism', 'vessel-studio', 'saffron', 'rights', 'tiriti-review', 'campaign-claims', 'brand-ledger', 'iho', 'signal'],
   ako: ['aroha', 'ako-licence', 'kaiako', 'tamariki', 'ero-pack', 'ratio-watch', 'safety-checks', 'whanau-comms', 'iho', 'signal'],
   matauranga: ['akonga', 'kaiako-s', 'reo', 'ropu', 'ero-s', 'ncea', 'board-pack', 'attendance', 'pastoral', 'iho', 'signal'],
-  hoko: ['spark', 'hoko-cga', 'stock', 'cellar', 'returns', 'fair-trading', 'supplier-records', 'retail-privacy', 'iho', 'signal'],
+  hoko: ['vend', 'hoko-cga', 'stock', 'cellar', 'returns', 'fair-trading', 'supplier-records', 'retail-privacy', 'iho', 'signal'],
   toro: ['toro', 'voyage', 'term-planner', 'kid-money', 'holiday-ideas', 'routines', 'school-comms', 'appointments', 'allowance-ledger', 'consent-guard', 'handover-helper', 'iho', 'signal'],
 };
 
@@ -287,6 +287,32 @@ export const AGENTS: Agent[] = [
 
   // ── Auaha (Creative) ───────────────────────────────────────────────
   {
+    // SPARK (ASM-042) — App Builder & Digital Transformation.
+    // Successor to the SPARK tools library. Turns a plain-English description into
+    // a working tool (calculators, intake forms, compliance checklists). Generated
+    // tools are built toward Privacy Act 2020 (IPP 3A collection notices) and
+    // WCAG 2.1 AA, and can scaffold NZ money surfaces (Xero/IRD figures, Stripe NZ
+    // deposit fields). Empower-not-replace: SPARK builds what you describe; you set
+    // the terms, check it, and run it. Every generated tool lands as a DRAFT in the
+    // approval queue — nothing auto-publishes.
+    slug: 'spark',
+    name: 'SPARK',
+    role: 'App builder & digital transformation',
+    kete: 'auaha',
+    phase: 'execution',
+    status: 'live',
+    oneLiner:
+      'Describe the tool your business needs in plain English — SPARK builds a working calculator, intake form, or checklist in seconds.',
+    expertise:
+      'No-code tool builder for NZ small business: quote and pricing calculators, client intake forms, and compliance checklists (e.g. Healthy Homes). Generates client-side working tools built toward the Privacy Act 2020 (IPP 3A collection notices) and WCAG 2.1 AA accessibility, and can scaffold NZ money surfaces — Xero/IRD figures and Stripe NZ deposit fields. You set the rates, terms and questions; you check it; you run it. Generated tools are locked to a review queue and never auto-published.',
+    collaboratesWith: ['prism', 'muse', 'signal', 'iho'],
+    memoryScope: 'Prior tool descriptions, generated tool drafts, your rates and terms, and reviewer decisions.',
+    ambientBrief: 'Turn each plain-English tool request into a working draft tool and queue it for your review.',
+    legislation: ['Privacy Act 2020', 'WCAG 2.1 AA'],
+    capabilities: ['pricing', 'booking', 'compliance', 'planning'],
+    buyingOptions: { subscribe: true, perOutput: null, perResolution: null },
+  },
+  {
     slug: 'muse',
     name: 'Muse',
     role: 'Copywriting',
@@ -366,7 +392,9 @@ export const AGENTS: Agent[] = [
   draftAgent('ero-s', 'ERO-S', 'Secondary ERO evidence bundle', 'matauranga', 'ledger'),
 
   // ── Hoko (Retail) ─────────────────────────────────────────────────
-  draftAgent('spark', 'Spark', 'Retail opportunity intake', 'hoko', 'hunt'),
+  // Renamed from 'spark' → 'vend' (2026-07-07): the 'spark' slug + SPARK name now
+  // belong to the app-builder agent (ASM-042). This remains the retail hunt agent.
+  draftAgent('vend', 'Vend', 'Retail opportunity intake', 'hoko', 'hunt'),
   {
     slug: 'hoko-cga',
     name: 'Hoko-CGA',
@@ -376,7 +404,7 @@ export const AGENTS: Agent[] = [
     status: 'live',
     oneLiner: 'Consumer Guarantees Act compliance for NZ retailers.',
     expertise: 'Retail consumer-protection specialist for CGA remedies, Fair Trading claims, returns, and dispute-ready records.',
-    collaboratesWith: ['stock', 'cellar', 'spark', 'putea'],
+    collaboratesWith: ['stock', 'cellar', 'vend', 'putea'],
     memoryScope: 'Returns policy, product categories, supplier history, customer complaint patterns, and remedy decisions.',
     ambientBrief: 'Review overnight customer issues, returns, stock risk, and campaign claims for the daily trading brief.',
     legislation: ['Consumer Guarantees Act 1993', 'Fair Trading Act 1986'],
