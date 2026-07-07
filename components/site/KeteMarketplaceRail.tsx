@@ -80,7 +80,7 @@ export function KeteMarketplaceRail({ kete, agents }: { kete: Kete; agents: Agen
                 sizes="220px"
                 className="object-cover transition duration-300 group-hover:scale-105"
               />
-              <span className="absolute inset-x-3 bottom-3 translate-y-2 rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-2 text-center font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--assembl-paper)] opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+              <span className="absolute inset-x-3 bottom-3 translate-y-2 rounded-full bg-[color:var(--assembl-pounamu)] px-3 py-2 text-center font-mono text-[10px] uppercase tracking-[0.08em] text-[color:var(--assembl-paper)] opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
                 Run a demo
               </span>
             </div>
