@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
@@ -83,19 +84,73 @@ function ApproveDismiss({ id }: { id: string }) {
 // The OAuth Connect Gmail/Outlook button lands Kate back here with ?connect=…
 // carrying the outcome. Widen loosely then narrow to the four states FamilyInbox
 // knows how to render — anything else (or absence) leaves the banner off.
-type OpsSearchParams = { connect?: string | string[] };
+type OpsSearchParams = { connect?: string | string[]; tab?: string | string[] };
 type ConnectStateKey = 'connected' | 'needs-setup' | 'error' | 'unknown-provider';
 const CONNECT_STATES: ReadonlySet<ConnectStateKey> = new Set(['connected', 'needs-setup', 'error', 'unknown-provider']);
+
+// One section at a time. Each tab renders as its own server-rendered view via
+// ?tab=… — no 9000px anchor scroll. The hero + throw-it-in bar sit above the
+// tabs on every view; the connect buttons live on the Inbox tab (FamilyInbox).
+const TABS = [
+  { key: 'week', label: 'Week' },
+  { key: 'rides', label: 'Rides' },
+  { key: 'kitchen', label: 'Kitchen' },
+  { key: 'money', label: 'Money' },
+  { key: 'inbox', label: 'Inbox' },
+] as const;
+type TabKey = (typeof TABS)[number]['key'];
+const TAB_KEYS: ReadonlySet<string> = new Set(TABS.map((t) => t.key));
+
+function first(v: string | string[] | undefined): string | undefined {
+  return Array.isArray(v) ? v[0] : v;
+}
+
+function TabBar({ active }: { active: TabKey }) {
+  return (
+    <nav aria-label="Family sections" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      {TABS.map((t) => {
+        const on = t.key === active;
+        return (
+          <Link
+            key={t.key}
+            href={`/customers/family/ops?tab=${t.key}`}
+            scroll={false}
+            aria-current={on ? 'page' : undefined}
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              padding: '8px 16px',
+              borderRadius: 999,
+              textDecoration: 'none',
+              color: on ? '#fff' : INK,
+              background: on ? INK : '#fffdf9',
+              border: `1.5px solid ${on ? INK : `${GOLD}66`}`,
+              boxShadow: on ? '0 6px 16px rgba(26,25,24,0.16)' : 'none',
+            }}
+          >
+            {t.label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
 
 export default async function FamilyOsHome({ searchParams }: { searchParams?: Promise<OpsSearchParams> }) {
   const config = getBrandConfig('family');
   if (!config) notFound();
 
-  const rawConnect = (await searchParams)?.connect;
-  const connectCandidate = Array.isArray(rawConnect) ? rawConnect[0] : rawConnect;
+  const sp = await searchParams;
+  const connectCandidate = first(sp?.connect);
   const connectState: ConnectStateKey | null = CONNECT_STATES.has(connectCandidate as ConnectStateKey)
     ? (connectCandidate as ConnectStateKey)
     : null;
+
+  // Resolve the active tab. Default to 'week' — but if an OAuth redirect landed
+  // us here with a connect outcome and no explicit tab, open Inbox so the banner
+  // that explains the result is actually on screen.
+  const rawTab = first(sp?.tab);
+  const tab: TabKey = TAB_KEYS.has(rawTab ?? '') ? (rawTab as TabKey) : connectState ? 'inbox' : 'week';
 
   const items = await listFamily('demo');
   const g = group(items);
@@ -144,214 +199,242 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
       {/* ── Throw it in — anyone drops a note (typed or spoken) ──────── */}
       <ThrowItIn />
 
-      {/* ── The whānau — profiles, custody, Franklin ─────────────────── */}
-      <Section id="whanau" title="The whānau" accent={GOLD} empty={false}>
-        <FamilyProfiles people={people} custody={custody} demoMode={demoMode} />
-      </Section>
+      {/* ── Section tabs — one view at a time (no anchor scroll) ─────── */}
+      <TabBar active={tab} />
 
-      {/* ── Live family assistant + approval queue, side by side ─────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1.05fr) minmax(280px, 0.95fr)', gap: 16, alignItems: 'start' }}>
-        <div>
-          <p style={{ ...eyebrow, color: CORAL, marginBottom: 8 }}>or just ask</p>
-          <FamilyChat />
-        </div>
-        <div id="approvals" style={{ scrollMarginTop: 80 }}>
-          <p style={{ ...eyebrow, color: CORAL, marginBottom: 8 }}>waiting for you {proposedCount > 0 ? `· ${proposedCount}` : ''}</p>
-          {proposedCount > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <form action={emailDigestAction}>
-                <button type="submit" style={{ ...linkPill(BLUE), cursor: 'pointer', padding: '8px 14px' }}>✉︎ Email me the week (draft)</button>
-              </form>
-              {g.approvals.filter((a) => a.status === 'proposed').map((a) => {
-                const k = a.detail as { kind?: string; reason?: string };
-                return (
-                  <div key={a.id} style={{ ...glass, padding: 15 }}>
-                    <span style={{ ...eyebrow, fontSize: 9.5, color: kindTone[k.kind ?? 'other'] }}>{k.kind ?? 'other'}</span>
-                    <div style={{ fontSize: 14, fontWeight: 600, marginTop: 4 }}>{a.title}</div>
-                    <div style={{ fontSize: 12, color: MUTED, marginTop: 3 }}>{k.reason}</div>
-                    <ApproveDismiss id={a.id} />
+      {/* key={tab} remounts the view on switch so nothing bleeds between tabs */}
+      <div key={tab} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+
+        {tab === 'week' && (
+          <>
+            {/* ── The whānau — profiles, custody, Franklin ─────────────── */}
+            <Section id="whanau" title="The whānau" accent={GOLD} empty={false}>
+              <FamilyProfiles people={people} custody={custody} demoMode={demoMode} />
+            </Section>
+
+            {/* ── Live family assistant + approval queue, side by side ─── */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1.05fr) minmax(280px, 0.95fr)', gap: 16, alignItems: 'start' }}>
+              <div>
+                <p style={{ ...eyebrow, color: CORAL, marginBottom: 8 }}>or just ask</p>
+                <FamilyChat />
+              </div>
+              <div id="approvals" style={{ scrollMarginTop: 80 }}>
+                <p style={{ ...eyebrow, color: CORAL, marginBottom: 8 }}>waiting for you {proposedCount > 0 ? `· ${proposedCount}` : ''}</p>
+                {proposedCount > 0 ? (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <form action={emailDigestAction}>
+                      <button type="submit" style={{ ...linkPill(BLUE), cursor: 'pointer', padding: '8px 14px' }}>✉︎ Email me the week (draft)</button>
+                    </form>
+                    {g.approvals.filter((a) => a.status === 'proposed').map((a) => {
+                      const k = a.detail as { kind?: string; reason?: string };
+                      return (
+                        <div key={a.id} style={{ ...glass, padding: 15 }}>
+                          <span style={{ ...eyebrow, fontSize: 9.5, color: kindTone[k.kind ?? 'other'] }}>{k.kind ?? 'other'}</span>
+                          <div style={{ fontSize: 14, fontWeight: 600, marginTop: 4 }}>{a.title}</div>
+                          <div style={{ fontSize: 12, color: MUTED, marginTop: 3 }}>{k.reason}</div>
+                          <ApproveDismiss id={a.id} />
+                        </div>
+                      );
+                    })}
                   </div>
+                ) : (
+                  <div style={{ ...glass, padding: 18 }}>
+                    <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6 }}>
+                      Parse a newsletter (or ask me) and anything with <strong style={{ color: INK }}>money, transport, messaging or shopping</strong> lands here for you to approve. Nothing happens without your yes.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* ── The grid: week / pickups ─────────────────────────────── */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: 16, alignItems: 'start' }}>
+              <Section id="week" title="This week" accent={CORAL} icon={familyOpsVisuals.heroes.week} empty={g.events.length === 0 && 'Events land here once you parse a newsletter.'}>
+                {g.events.map((e) => (
+                  <Row key={e.id} item={e}>
+                    <div style={{ fontSize: 14, fontWeight: 600 }}>{e.title}</div>
+                    <div style={{ fontSize: 12, color: MUTED }}>{[e.when_label, e.person, e.location].filter(Boolean).join(' · ')}</div>
+                    {e.status === 'proposed' ? <ApproveDismiss id={e.id} /> : (
+                      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                        <a href={googleCalendarLink(e.title, e.when_label ?? undefined, e.location ?? undefined)} target="_blank" rel="noreferrer" style={linkPill(CORAL)}>add to calendar ↗</a>
+                        <Done id={e.id} />
+                      </div>
+                    )}
+                  </Row>
+                ))}
+                {g.tasks.length > 0 ? (
+                  <>
+                    <p style={{ ...eyebrow, marginTop: 14 }}>needs doing</p>
+                    {g.tasks.map((t) => (
+                      <Row key={t.id} item={t}>
+                        <div style={{ fontSize: 13.5 }}>{t.title}{t.person ? <span style={{ color: MUTED }}> · {t.person}</span> : null}{t.when_label ? <span style={{ color: MUTED }}> · {t.when_label}</span> : null}</div>
+                        {t.status === 'proposed' ? <ApproveDismiss id={t.id} /> : <Done id={t.id} />}
+                      </Row>
+                    ))}
+                  </>
+                ) : null}
+              </Section>
+
+              <Section id="pickups" title="Pickup board" accent={BLUE} empty={g.pickups.length === 0 && 'Who’s collecting whom — appears when a newsletter mentions pickups.'}>
+                {g.pickups.map((p) => {
+                  const d = p.detail as { assigned?: string; backup?: string; note?: string };
+                  return (
+                    <Row key={p.id} item={p}>
+                      <div style={{ fontSize: 14, fontWeight: 600 }}>{p.person}</div>
+                      <div style={{ fontSize: 12, color: MUTED }}>from {p.location} · {p.when_label}</div>
+                      {d.note ? <div style={{ fontSize: 11.5, color: MUTED, marginTop: 2 }}>{d.note}</div> : null}
+                      <div style={{ fontSize: 12, marginTop: 6 }}>
+                        {d.assigned ? <span style={{ color: SAGE, fontWeight: 600 }}>✓ {d.assigned}</span> : <span style={{ color: CORAL }}>unassigned</span>}
+                        {d.backup ? <span style={{ color: MUTED }}> · backup {d.backup}</span> : null}
+                      </div>
+                      <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
+                        {g.people.map((who) => (
+                          <form key={who.id} action={assignPickupAction}>
+                            <input type="hidden" name="id" value={p.id} />
+                            <input type="hidden" name="who" value={who.title.split(' ')[0]} />
+                            <input type="hidden" name="field" value="assigned" />
+                            <button type="submit" style={{ ...linkPill(BLUE), cursor: 'pointer' }}>{who.title.split(' ')[0]}</button>
+                          </form>
+                        ))}
+                      </div>
+                      <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
+                        <a href={mapsDirections(p.location ?? '')} target="_blank" rel="noreferrer" style={linkPill(BLUE)}>maps ↗</a>
+                        <a href={uberDeepLink(p.location ?? '')} target="_blank" rel="noreferrer" style={linkPill(MUTED)}>Uber (needs approval) ↗</a>
+                      </div>
+                    </Row>
+                  );
+                })}
+              </Section>
+            </div>
+
+            {/* ── Kids' quest — the interactive game layer ─────────────── */}
+            <Section id="quest" title="Kids’ quest" accent={CORAL} empty={false}>
+              <FamilyQuest only={viewer?.isKid ? viewer.name : undefined} />
+            </Section>
+
+            {/* ── Homework help — grounded to each kid's year + school ─── */}
+            <Section id="homework" title="Homework help" accent={CORAL} empty={kids.length === 0 && 'Add the kids’ year + school and homework help appears here.'}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 14 }}>
+                {kids.map((k) => (
+                  <FamilyHomeworkChat key={k.id} child={{ name: k.name, year: k.year ?? 0, school: k.school ?? '', level: k.level ?? 'NZ Curriculum' }} />
+                ))}
+              </div>
+            </Section>
+          </>
+        )}
+
+        {tab === 'rides' && (
+          <>
+            {/* ── Rides + logistics (Uber estimates + deep links) ──────── */}
+            <Section id="rides" title="Rides + logistics" accent={BLUE} icon={familyOpsVisuals.heroes.rides} empty={false}>
+              <FamilyRides />
+            </Section>
+
+            {/* ── Packing lists — text it to the kids + gear reminders ── */}
+            <Section id="packing" title="Packing lists" accent={SAGE} empty={false}>
+              <FamilyPacking />
+            </Section>
+          </>
+        )}
+
+        {tab === 'kitchen' && (
+          <>
+            {/* ── Kitchen + groceries (Woolworths + Uber Direct) ───────── */}
+            <Section id="kitchen" title="Kitchen + groceries" accent={SAGE} icon={familyOpsVisuals.heroes.kitchen} empty={false}>
+              <FamilyKitchen />
+            </Section>
+
+            {/* ── Shopping lists (from the newsletter) ─────────────────── */}
+            <Section id="shopping" title="Shopping" accent={SAGE} empty={g.shopping.length === 0 && 'Nut-free plates, sports kit, lunchbox — lists appear from the newsletter.'}>
+              {g.shopping.map((s) => {
+                const d = s.detail as { items?: string[]; reason?: string };
+                return (
+                  <Row key={s.id} item={s}>
+                    <div style={{ fontSize: 14, fontWeight: 600 }}>{s.title}</div>
+                    {d.reason ? <div style={{ fontSize: 11.5, color: MUTED }}>{d.reason}</div> : null}
+                    <ul style={{ margin: '8px 0 0', paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 3 }}>
+                      {(d.items ?? []).map((it) => (
+                        <li key={it} style={{ fontSize: 12.5 }}>
+                          <a href={woolworthsSearch(it)} target="_blank" rel="noreferrer" style={{ color: SAGE, textDecoration: 'none' }}>{it}</a>
+                        </li>
+                      ))}
+                    </ul>
+                    {s.status === 'proposed' ? <ApproveDismiss id={s.id} /> : (
+                      <div style={{ ...body, fontSize: 11, color: MUTED, marginTop: 8 }}>Tap an item to open Woolworths · budget / healthy / easiest, just ask</div>
+                    )}
+                  </Row>
                 );
               })}
-            </div>
-          ) : (
-            <div style={{ ...glass, padding: 18 }}>
-              <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6 }}>
-                Parse a newsletter (or ask me) and anything with <strong style={{ color: INK }}>money, transport, messaging or shopping</strong> lands here for you to approve. Nothing happens without your yes.
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
+            </Section>
+          </>
+        )}
 
-      {/* ── The grid: week / pickups / shopping / memory ─────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))', gap: 16, alignItems: 'start' }}>
-        <Section id="week" title="This week" accent={CORAL} icon={familyOpsVisuals.heroes.week} empty={g.events.length === 0 && 'Events land here once you parse a newsletter.'}>
-          {g.events.map((e) => (
-            <Row key={e.id} item={e}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{e.title}</div>
-              <div style={{ fontSize: 12, color: MUTED }}>{[e.when_label, e.person, e.location].filter(Boolean).join(' · ')}</div>
-              {e.status === 'proposed' ? <ApproveDismiss id={e.id} /> : (
-                <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-                  <a href={googleCalendarLink(e.title, e.when_label ?? undefined, e.location ?? undefined)} target="_blank" rel="noreferrer" style={linkPill(CORAL)}>add to calendar ↗</a>
-                  <Done id={e.id} />
+        {tab === 'money' && (
+          <>
+            {/* ── Kids' money · Tōro (chores → allowance → savings) ────── */}
+            <Section id="money" title="Kids’ money · Tōro" accent={CORAL} empty={false}>
+              <FamilyMoney readOnly={viewer?.isKid} />
+            </Section>
+
+            {/* ── Franklin — dog training · PACK ───────────────────────── */}
+            <Section id="dog" title="Franklin · dog training · PACK" accent={GOLD} empty={false}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 14, alignItems: 'start' }}>
+                <FamilyPackChat />
+                <div style={{ ...glass, padding: 16 }}>
+                  <p style={{ ...eyebrow, color: GOLD }}>what PACK is for</p>
+                  <p style={{ fontSize: 13, color: INK, lineHeight: 1.6, marginTop: 8 }}>
+                    A calm, cited second opinion that blends the world’s most-trusted trainers —
+                    <strong> Mark Vette</strong> (NZ), Will Atherton, Sophia Yin, Cesar Millan and more.
+                    Built for the two hard ones: <strong>reactivity</strong> and <strong>jumping</strong>.
+                  </p>
+                  <ul style={{ margin: '10px 0 0', paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    <li style={{ fontSize: 12.5, color: MUTED }}>Week-by-week plans, measured in weeks not days.</li>
+                    <li style={{ fontSize: 12.5, color: MUTED }}>Cites the trainer + book; shows both sides where they disagree.</li>
+                    <li style={{ fontSize: 12.5, color: MUTED }}>Guidance only — refers you to a certified behaviourist for any biting or aggression.</li>
+                  </ul>
+                  <p style={{ fontSize: 11, color: MUTED, marginTop: 12 }}>
+                    Draft-only · nothing books a vet, orders gear or messages a trainer.
+                  </p>
                 </div>
-              )}
-            </Row>
-          ))}
-          {g.tasks.length > 0 ? (
-            <>
-              <p style={{ ...eyebrow, marginTop: 14 }}>needs doing</p>
-              {g.tasks.map((t) => (
-                <Row key={t.id} item={t}>
-                  <div style={{ fontSize: 13.5 }}>{t.title}{t.person ? <span style={{ color: MUTED }}> · {t.person}</span> : null}{t.when_label ? <span style={{ color: MUTED }}> · {t.when_label}</span> : null}</div>
-                  {t.status === 'proposed' ? <ApproveDismiss id={t.id} /> : <Done id={t.id} />}
-                </Row>
+              </div>
+            </Section>
+
+            {/* ── Boating — Moana, the mariner ─────────────────────────── */}
+            <Section id="boating" title="On the water · Moana" accent={BLUE} empty={false}>
+              <FamilyMoanaChat />
+            </Section>
+          </>
+        )}
+
+        {tab === 'inbox' && (
+          <>
+            {/* ── Inbox · Echo (always-on email parsing) ───────────────── */}
+            <Section id="inbox" title="Inbox · Echo" accent={BLUE} icon={familyOpsVisuals.heroes.inbox} empty={false}>
+              <FamilyInbox status={inboxStatus} connectState={connectState} />
+            </Section>
+
+            {/* ── Family memory ────────────────────────────────────────── */}
+            <Section id="memory" title="Family memory" accent={GOLD} empty={false}>
+              {g.memory.map((m) => (
+                <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 0', borderBottom: `1px solid ${GOLD}22` }}>
+                  <span style={{ width: 6, height: 6, borderRadius: 999, background: m.status === 'approved' ? SAGE : CORAL, flex: 'none' }} />
+                  <span style={{ fontSize: 12.5, flex: 1 }}>{m.title}{m.person ? <span style={{ color: MUTED }}> · {m.person}</span> : null}</span>
+                  {m.status === 'proposed' ? (
+                    <form action={approveAction}><input type="hidden" name="id" value={m.id} /><button type="submit" style={{ ...linkPill(GOLD), cursor: 'pointer' }}>remember</button></form>
+                  ) : null}
+                </div>
               ))}
-            </>
-          ) : null}
-        </Section>
+              <p style={{ ...eyebrow, marginTop: 14 }}>the family</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
+                {g.people.map((p) => (
+                  <span key={p.id} style={{ fontSize: 12, border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '4px 10px', background: '#fffdf9' }}>{p.title}</span>
+                ))}
+              </div>
+            </Section>
+          </>
+        )}
 
-        <Section id="pickups" title="Pickup board" accent={BLUE} empty={g.pickups.length === 0 && 'Who’s collecting whom — appears when a newsletter mentions pickups.'}>
-          {g.pickups.map((p) => {
-            const d = p.detail as { assigned?: string; backup?: string; note?: string };
-            return (
-              <Row key={p.id} item={p}>
-                <div style={{ fontSize: 14, fontWeight: 600 }}>{p.person}</div>
-                <div style={{ fontSize: 12, color: MUTED }}>from {p.location} · {p.when_label}</div>
-                {d.note ? <div style={{ fontSize: 11.5, color: MUTED, marginTop: 2 }}>{d.note}</div> : null}
-                <div style={{ fontSize: 12, marginTop: 6 }}>
-                  {d.assigned ? <span style={{ color: SAGE, fontWeight: 600 }}>✓ {d.assigned}</span> : <span style={{ color: CORAL }}>unassigned</span>}
-                  {d.backup ? <span style={{ color: MUTED }}> · backup {d.backup}</span> : null}
-                </div>
-                <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
-                  {g.people.map((who) => (
-                    <form key={who.id} action={assignPickupAction}>
-                      <input type="hidden" name="id" value={p.id} />
-                      <input type="hidden" name="who" value={who.title.split(' ')[0]} />
-                      <input type="hidden" name="field" value="assigned" />
-                      <button type="submit" style={{ ...linkPill(BLUE), cursor: 'pointer' }}>{who.title.split(' ')[0]}</button>
-                    </form>
-                  ))}
-                </div>
-                <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
-                  <a href={mapsDirections(p.location ?? '')} target="_blank" rel="noreferrer" style={linkPill(BLUE)}>maps ↗</a>
-                  <a href={uberDeepLink(p.location ?? '')} target="_blank" rel="noreferrer" style={linkPill(MUTED)}>Uber (needs approval) ↗</a>
-                </div>
-              </Row>
-            );
-          })}
-        </Section>
       </div>
-
-      {/* ── Rides + logistics (Uber estimates + deep links) ───────────── */}
-      <Section id="rides" title="Rides + logistics" accent={BLUE} icon={familyOpsVisuals.heroes.rides} empty={false}>
-        <FamilyRides />
-      </Section>
-
-      {/* ── Kitchen + groceries (Woolworths + Uber Direct) ────────────── */}
-      <Section id="kitchen" title="Kitchen + groceries" accent={SAGE} icon={familyOpsVisuals.heroes.kitchen} empty={false}>
-        <FamilyKitchen />
-      </Section>
-
-      {/* ── Packing lists — text it to the kids + gear reminders ──────── */}
-      <Section id="packing" title="Packing lists" accent={SAGE} empty={false}>
-        <FamilyPacking />
-      </Section>
-
-      {/* ── Shopping lists (from the newsletter) ──────────────────────── */}
-      <Section id="shopping" title="Shopping" accent={SAGE} empty={g.shopping.length === 0 && 'Nut-free plates, sports kit, lunchbox — lists appear from the newsletter.'}>
-          {g.shopping.map((s) => {
-            const d = s.detail as { items?: string[]; reason?: string };
-            return (
-              <Row key={s.id} item={s}>
-                <div style={{ fontSize: 14, fontWeight: 600 }}>{s.title}</div>
-                {d.reason ? <div style={{ fontSize: 11.5, color: MUTED }}>{d.reason}</div> : null}
-                <ul style={{ margin: '8px 0 0', paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  {(d.items ?? []).map((it) => (
-                    <li key={it} style={{ fontSize: 12.5 }}>
-                      <a href={woolworthsSearch(it)} target="_blank" rel="noreferrer" style={{ color: SAGE, textDecoration: 'none' }}>{it}</a>
-                    </li>
-                  ))}
-                </ul>
-                {s.status === 'proposed' ? <ApproveDismiss id={s.id} /> : (
-                  <div style={{ ...body, fontSize: 11, color: MUTED, marginTop: 8 }}>Tap an item to open Woolworths · budget / healthy / easiest, just ask</div>
-                )}
-              </Row>
-            );
-          })}
-        </Section>
-
-      {/* ── Kids' quest — the interactive game layer ─────────────────── */}
-      <Section id="quest" title="Kids’ quest" accent={CORAL} empty={false}>
-        <FamilyQuest only={viewer?.isKid ? viewer.name : undefined} />
-      </Section>
-
-      {/* ── Kids' money · Tōro (chores → allowance → savings) ─────────── */}
-      <Section id="money" title="Kids’ money · Tōro" accent={CORAL} empty={false}>
-        <FamilyMoney readOnly={viewer?.isKid} />
-      </Section>
-
-      {/* ── Franklin — dog training · PACK ───────────────────────────── */}
-      <Section id="dog" title="Franklin · dog training · PACK" accent={GOLD} empty={false}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 14, alignItems: 'start' }}>
-          <FamilyPackChat />
-          <div style={{ ...glass, padding: 16 }}>
-            <p style={{ ...eyebrow, color: GOLD }}>what PACK is for</p>
-            <p style={{ fontSize: 13, color: INK, lineHeight: 1.6, marginTop: 8 }}>
-              A calm, cited second opinion that blends the world’s most-trusted trainers —
-              <strong> Mark Vette</strong> (NZ), Will Atherton, Sophia Yin, Cesar Millan and more.
-              Built for the two hard ones: <strong>reactivity</strong> and <strong>jumping</strong>.
-            </p>
-            <ul style={{ margin: '10px 0 0', paddingLeft: 16, display: 'flex', flexDirection: 'column', gap: 5 }}>
-              <li style={{ fontSize: 12.5, color: MUTED }}>Week-by-week plans, measured in weeks not days.</li>
-              <li style={{ fontSize: 12.5, color: MUTED }}>Cites the trainer + book; shows both sides where they disagree.</li>
-              <li style={{ fontSize: 12.5, color: MUTED }}>Guidance only — refers you to a certified behaviourist for any biting or aggression.</li>
-            </ul>
-            <p style={{ fontSize: 11, color: MUTED, marginTop: 12 }}>
-              Draft-only · nothing books a vet, orders gear or messages a trainer.
-            </p>
-          </div>
-        </div>
-      </Section>
-
-      {/* ── Boating — Moana, the mariner ─────────────────────────────── */}
-      <Section id="boating" title="On the water · Moana" accent={BLUE} empty={false}>
-        <FamilyMoanaChat />
-      </Section>
-
-      {/* ── Homework help — grounded to each kid's year + school ─────── */}
-      <Section id="homework" title="Homework help" accent={CORAL} empty={kids.length === 0 && 'Add the kids’ year + school and homework help appears here.'}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 14 }}>
-          {kids.map((k) => (
-            <FamilyHomeworkChat key={k.id} child={{ name: k.name, year: k.year ?? 0, school: k.school ?? '', level: k.level ?? 'NZ Curriculum' }} />
-          ))}
-        </div>
-      </Section>
-
-      {/* ── Inbox · Echo (always-on email parsing) ────────────────────── */}
-      <Section id="inbox" title="Inbox · Echo" accent={BLUE} icon={familyOpsVisuals.heroes.inbox} empty={false}>
-        <FamilyInbox status={inboxStatus} connectState={connectState} />
-      </Section>
-
-      {/* ── Family memory ─────────────────────────────────────────────── */}
-      <Section id="memory" title="Family memory" accent={GOLD} empty={false}>
-          {g.memory.map((m) => (
-            <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 0', borderBottom: `1px solid ${GOLD}22` }}>
-              <span style={{ width: 6, height: 6, borderRadius: 999, background: m.status === 'approved' ? SAGE : CORAL, flex: 'none' }} />
-              <span style={{ fontSize: 12.5, flex: 1 }}>{m.title}{m.person ? <span style={{ color: MUTED }}> · {m.person}</span> : null}</span>
-              {m.status === 'proposed' ? (
-                <form action={approveAction}><input type="hidden" name="id" value={m.id} /><button type="submit" style={{ ...linkPill(GOLD), cursor: 'pointer' }}>remember</button></form>
-              ) : null}
-            </div>
-          ))}
-          <p style={{ ...eyebrow, marginTop: 14 }}>the family</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
-            {g.people.map((p) => (
-              <span key={p.id} style={{ fontSize: 12, border: `1px solid ${GOLD}44`, borderRadius: 999, padding: '4px 10px', background: '#fffdf9' }}>{p.title}</span>
-            ))}
-          </div>
-        </Section>
 
       <p style={{ ...body, fontSize: 11, color: MUTED, textAlign: 'center' }}>
         Concept demo · the agent proposes, you approve, the app executes (calendar / maps / Uber / Woolworths handoffs).
