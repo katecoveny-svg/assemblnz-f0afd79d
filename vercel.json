@@ -4,6 +4,10 @@
   "ignoreCommand": "case \"$VERCEL_GIT_COMMIT_REF\" in assets/*|pr-assets/*|*shots*|*screenshots*|*screens*) exit 0;; esac; git diff --quiet HEAD^ HEAD -- . ':(exclude)plugins/'",
   "crons": [
     {
+      "path": "/api/spark/winter-series/ingest",
+      "schedule": "0 17 * * 1"
+    },
+    {
       "path": "/api/business-pulse/scheduled",
       "schedule": "0 * * * *"
     },
