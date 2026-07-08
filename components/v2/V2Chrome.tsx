@@ -53,8 +53,8 @@ export function V2Nav({ current }: { current?: string }) {
         <Link href="/login" className={styles.navLink}>
           sign in
         </Link>
-        <Link href="/contact" className={styles.navCta}>
-          book a demo
+        <Link href="/agents" className={styles.navCta}>
+          try an agent
           <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
             •
           </span>

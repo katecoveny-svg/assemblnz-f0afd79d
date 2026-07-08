@@ -189,7 +189,7 @@ export default async function HomePage() {
                               display: 'inline-block',
                             }}
                           />
-                          {kete.name} · {kete.industry}
+                          {kete.industry}
                         </span>
                         <h3 className={styles.workflowTitle}>{w.title}</h3>
                         <p className={styles.workflowBody}>{w.description}</p>
@@ -230,7 +230,7 @@ export default async function HomePage() {
                 <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                   •
                 </span>
-                <MicroLabel as="h2">the nine kete</MicroLabel>
+                <MicroLabel as="h2">nine industries</MicroLabel>
               </div>
               <p className={styles.h2} style={{ marginTop: 16 }}>
                 one pack per industry. one standard of proof
@@ -245,12 +245,12 @@ export default async function HomePage() {
           <div className={styles.keteGrid}>
             {KETES.map((kete, i) => (
               <Reveal key={kete.slug} delay={(i % 3) * 0.08}>
-                <Link href={`/kete/${kete.slug}`} className={styles.keteCard}>
+                <Link href="/agents" className={styles.keteCard}>
                   <div className={styles.keteImageWrap}>
                     {/* eslint-disable-next-line @next/next/no-img-element -- locked vessel stills, art-directed crop */}
                     <img
                       src={keteImagery[kete.slug].wide}
-                      alt={`${kete.name} — ${kete.englishName}`}
+                      alt={`${kete.industry} — ${kete.englishName}`}
                       className={styles.keteImage}
                       loading="lazy"
                     />
@@ -262,10 +262,9 @@ export default async function HomePage() {
                   </div>
                   <div className={styles.keteBody}>
                     <div className={styles.keteNameRow}>
-                      <h3 className={styles.keteName}>{kete.name}</h3>
-                      <span className={styles.keteEnglish}>{kete.englishName}</span>
+                      <h3 className={styles.keteName}>{kete.industry}</h3>
+                      <span className={styles.keteEnglish} lang="mi">{kete.name}</span>
                     </div>
-                    <span className={styles.keteMeaning}>{kete.meaning}</span>
                     <p className={styles.keteTagline}>{kete.tagline}</p>
                   </div>
                 </Link>
@@ -327,7 +326,7 @@ export default async function HomePage() {
               <div className={styles.ctaRow} style={{ justifyContent: 'center', marginTop: 34 }}>
                 <MagneticButton>
                   <Link href="/agents" className={styles.ctaPrimary}>
-                    browse agents
+                    try an agent free
                     <span
                       aria-hidden
                       style={{ color: palette.goldSoft, fontSize: 15, lineHeight: 1 }}
@@ -336,8 +335,8 @@ export default async function HomePage() {
                     </span>
                   </Link>
                 </MagneticButton>
-                <Link href="/contact" className={styles.ctaGhost}>
-                  book a demo
+                <Link href="/pricing" className={styles.ctaGhost}>
+                  see pricing
                 </Link>
               </div>
             </Reveal>
