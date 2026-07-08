@@ -207,8 +207,10 @@ export const reo = {
 export type PipelineStage = {
   id: string;
   number: string;
+  /** English lead — the headline of the stage (canon: English always headlines). */
   title: string;
-  subtitle: string;
+  /** Quiet te reo stage name, shown as a small label beside the English title. */
+  reoLabel: string;
   body: string;
   example: string;
 };
@@ -217,26 +219,26 @@ export const pipelineStages: readonly PipelineStage[] = [
   {
     id: 'kahu',
     number: '01',
-    title: 'Kahu',
-    subtitle: 'Intent capture',
+    title: 'Capture',
+    reoLabel: 'Kahu',
     body:
-      'A request comes in. Kahu listens, transcribes, and frames it: what is being asked, who is asking, what context already lives in your kete. The brief never starts from a blank page.',
+      'A request comes in. It gets listened to, transcribed, and framed: what is being asked, who is asking, and what context already lives in your workspace. The brief never starts from a blank page.',
     example: 'The council asks for a variation.',
   },
   {
     id: 'iho',
     number: '02',
-    title: 'Iho',
-    subtitle: 'Routing',
+    title: 'Route',
+    reoLabel: 'Iho',
     body:
-      'Iho is the brain of the pipeline. It picks the right specialist agent for the work, the right model for the job, and the right pou — Rangatiratanga, Kaitiakitanga, Manaakitanga, Whanaungatanga — for the cultural pass.',
-    example: 'Routes the variation to Whakaaē, citing NZS 3910:2013.',
+      'The routing brain of the pipeline picks the right specialist agent for the work, the right model for the job, and applies a cultural pass — Rangatiratanga, Kaitiakitanga, Manaakitanga, Whanaungatanga — where it is needed.',
+    example: 'Routes the variation to the consenting agent, citing NZS 3910:2013.',
   },
   {
     id: 'ta',
     number: '03',
-    title: 'Tā',
-    subtitle: 'Execution',
+    title: 'Draft',
+    reoLabel: 'Tā',
     body:
       'The specialist agent drafts the work end-to-end. Every Act, Section, and council document cited inline. Nothing invented, nothing left unsourced. This is where the time is given back to your team.',
     example: 'Drafts the variation pack — cost, time, contract impact.',
@@ -244,19 +246,19 @@ export const pipelineStages: readonly PipelineStage[] = [
   {
     id: 'mahara',
     number: '04',
-    title: 'Mahara',
-    subtitle: 'Review',
+    title: 'Review',
+    reoLabel: 'Mahara',
     body:
-      'Draft Mode. The named reviewer in your team accepts, edits, or rejects each paragraph. Reasoning is preserved alongside the edit so the next reviewer — or the auditor — can see why.',
+      'Draft Mode. The named reviewer on your team accepts, edits, or rejects each paragraph. Reasoning is preserved alongside the edit so the next reviewer — or the auditor — can see why.',
     example: 'Your project manager edits the rate, accepts the rest.',
   },
   {
     id: 'mana',
     number: '05',
-    title: 'Mana',
-    subtitle: 'Sign-off',
+    title: 'Sign-off',
+    reoLabel: 'Mana',
     body:
-      'Nothing ships until a person says so. Mana captures the sign-off, seals the evidence pack, and hands the work to the system that needs it — the BCA, the customer, the auditor. Your name is on it. The evidence ledger — every output ends in a signed receipt you can file, forward, or footnote.',
+      'Nothing ships until a person says so. The sign-off is captured, the evidence pack is sealed, and the work is handed to the system that needs it — the BCA, the customer, the auditor. Your name is on it, and every output ends in a signed receipt you can file, forward, or footnote.',
     example: 'Your name on the sign-off line. Pack sealed. Variation sent.',
   },
 ] as const;

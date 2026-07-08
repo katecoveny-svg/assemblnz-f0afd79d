@@ -77,16 +77,16 @@ export function ContactForm() {
           <select
             id="intent"
             name="intent"
-            defaultValue="demo"
+            defaultValue="trial"
             className="form-input"
             required
             aria-required="true"
             aria-invalid={state.status === "error"}
             aria-describedby={state.status === "error" ? "form-error" : undefined}
           >
-            <option value="demo">Book a demo</option>
-            <option value="trial">Start a 14-day trial</option>
+            <option value="trial">Try an agent free</option>
             <option value="question">Ask a question</option>
+            <option value="team">Talk to the team</option>
           </select>
         </Field>
 

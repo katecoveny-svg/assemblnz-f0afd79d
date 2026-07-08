@@ -23,7 +23,6 @@ const CORE_PATHS = [
   '/hui',
   '/industry-pack',
   '/insurance',
-  '/kete',
   '/mana-receipts',
   '/mana-receipts/sample',
   '/platform',

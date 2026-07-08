@@ -32,7 +32,7 @@ export function PipelineThread() {
             <div className={styles.stageTitleRow}>
               <span className={styles.stageNumber}>{stage.number}</span>
               <h3 className={styles.stageTitle}>{stage.title}</h3>
-              <span className={styles.stageSubtitle}>{stage.subtitle}</span>
+              <span className={styles.stageSubtitle} lang="mi">{stage.reoLabel}</span>
             </div>
             <p className={styles.stageBody}>{stage.body}</p>
             <span className={styles.stageExample}>
