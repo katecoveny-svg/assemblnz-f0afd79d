@@ -19,10 +19,12 @@ const ParticulateScene = dynamic(() => import('./ParticulateScene'), { ssr: fals
 
 // Te reo visual-metaphor labels — locked direction: these live ONLY on the
 // landscape art, as poetic naming of the visual scene, never as UI labels.
+// Placed on their features: matariki by the constellation, papatūānuku on
+// the mountain body, moana on the wave crest. Quiet by design.
 const METAPHORS = [
-  { reo: 'matariki', tag: 'guiding intelligence across systems', top: '9%', right: '5%' },
-  { reo: 'papatūānuku', tag: 'grounded in data, rooted in purpose', bottom: '19%', left: '43%' },
-  { reo: 'moana', tag: 'flowing connections, endless potential', top: '38%', right: '13%' },
+  { reo: 'matariki', tag: 'guiding intelligence across systems', top: '22%', right: '5%' },
+  { reo: 'papatūānuku', tag: 'grounded in data, rooted in purpose', bottom: '13%', right: '31%' },
+  { reo: 'moana', tag: 'flowing connections, endless potential', top: '43%', right: '10%' },
 ] as const;
 
 export function Hero3D() {
@@ -68,12 +70,11 @@ export function Hero3D() {
           className={styles.metaphorLabel}
           style={{
             top: 'top' in m ? m.top : undefined,
-            right: 'right' in m ? m.right : undefined,
             bottom: 'bottom' in m ? m.bottom : undefined,
-            left: 'left' in m ? m.left : undefined,
+            right: m.right,
           }}
           initial={reduced ? false : { opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 0.8, y: 0 }}
           transition={{ delay: 1.4 + i * 0.45, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
         >
           <span className={styles.metaphorReo}>{m.reo}</span>
