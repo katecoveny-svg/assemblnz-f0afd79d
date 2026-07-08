@@ -336,6 +336,7 @@ export type ApprovalRow = {
   reviewed_at: string | null;
   review_note: string | null;
   created_at: string | null;
+  payload: Record<string, unknown> | null;
 };
 
 export async function getApprovals(status?: string): Promise<{ rows: ApprovalRow[]; available: boolean }> {
@@ -362,6 +363,7 @@ export async function getApprovals(status?: string): Promise<{ rows: ApprovalRow
       reviewed_at: r.reviewed_at ?? null,
       review_note: r.review_note ?? null,
       created_at: r.created_at ?? null,
+      payload: (r.payload as Record<string, unknown> | null) ?? null,
     })),
   };
 }

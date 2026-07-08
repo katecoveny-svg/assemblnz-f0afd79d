@@ -3,6 +3,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: process.cwd(),
+  // Ship the committed winter-series markdown into the serverless bundles that
+  // read it at runtime (the /admin approvals ingest action + the ingest API).
+  outputFileTracingIncludes: {
+    '/admin/approvals': ['./content/spark-winter-series/**'],
+    '/api/spark/winter-series/ingest': ['./content/spark-winter-series/**'],
+  },
   turbopack: {
     root: process.cwd(),
   },
