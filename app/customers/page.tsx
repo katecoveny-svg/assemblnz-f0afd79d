@@ -72,6 +72,57 @@ export default function CustomersHub() {
           </p>
         </header>
 
+        {/* Featured product — Alphassembl (the NZ dog-owner OS, Kaitiaki bundle).
+            Not a /customers tenant: it's a product surface at /alphassembl that
+            Happy Tails runs on, so it gets its own card linking to the product. */}
+        <section className="mb-14">
+          <h2
+            className="mb-5 text-[10px] uppercase"
+            style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
+          >
+            products (1)
+          </h2>
+          <div
+            className={[
+              'group block rounded-2xl border p-6 shadow-sm',
+              levitateClass,
+            ].join(' ')}
+            style={{ borderColor: '#1a2e4a', background: 'linear-gradient(135deg, #1a2e4a 0%, #22385a 100%)' }}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-lg" style={{ fontFamily: serif, fontWeight: 600, color: '#fff' }}>
+                  Alphassembl
+                </h3>
+                <p className="mt-1 text-xs" style={{ color: '#f59e0b' }}>
+                  Kaitiaki bundle · the NZ dog-owner OS
+                </p>
+              </div>
+              <MatarikiCluster size={24} gold />
+            </div>
+            <p className="mt-3 text-sm leading-relaxed" style={{ color: '#c7d0dd' }}>
+              One system for every part of your dog’s life — Kaiako the force-free trainer,
+              grounded in NZ law and welfare. Happy Tails runs on it.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-4">
+              <Link
+                href="/alphassembl"
+                className="text-[10px] uppercase"
+                style={{ letterSpacing: '0.16em', color: '#fff' }}
+              >
+                open the landing →
+              </Link>
+              <Link
+                href="/alphassembl/chat"
+                className="text-[10px] uppercase"
+                style={{ letterSpacing: '0.16em', color: '#f59e0b' }}
+              >
+                ask Kaiako →
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {live.length > 0 && (
           <section className="mb-14">
             <h2
