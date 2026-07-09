@@ -1,9 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
-  <g fill="none" stroke="#B8964F" stroke-width="1.3" opacity="0.45">
-    <path d="M30 40h50l20 30-20 30H30l-20-30z"/>
-    <circle cx="160" cy="70" r="28"/>
-    <rect x="40" y="140" width="70" height="50" rx="6"/>
-    <path d="M140 150c30 0 40 40 70 40"/>
-    <path d="M20 210h200"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" fill="none">
+  <!-- Auaha creative — HT-style scattered line art: frame, brush, reel, type, aperture. Brass on transparent. -->
+  <g stroke="#B8964F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5">
+    <!-- frame -->
+    <rect x="50" y="50" width="90" height="70" rx="4"/>
+    <rect x="60" y="60" width="70" height="50" rx="2"/>
+    <!-- brush -->
+    <path d="M180 50l40 40"/>
+    <path d="M176 54c-10 10-12 28-4 40l20-20c-10-8-14-20-16-20z"/>
+    <path d="M220 90l36 12"/>
+    <!-- aperture -->
+    <circle cx="340" cy="90" r="34"/>
+    <circle cx="340" cy="90" r="14"/>
+    <path d="M340 56l10 28-26 10 26 10-10 28-10-28-26-10 26-10z"/>
+    <!-- film reel -->
+    <circle cx="100" cy="220" r="40"/>
+    <circle cx="100" cy="220" r="12"/>
+    <circle cx="82" cy="204" r="5"/><circle cx="118" cy="204" r="5"/>
+    <circle cx="82" cy="236" r="5"/><circle cx="118" cy="236" r="5"/>
+    <!-- type / leading -->
+    <path d="M200 190h90"/>
+    <path d="M210 190v60M280 190v60"/>
+    <path d="M210 220h70"/>
+    <!-- play triangle -->
+    <path d="M330 200l50 30-50 30z"/>
+    <!-- waveform -->
+    <path d="M60 340c10-20 20-20 30 0s20 20 30 0 20-20 30 0 20 20 30 0"/>
+    <!-- colour chips -->
+    <rect x="220" y="320" width="28" height="28" rx="3"/>
+    <rect x="256" y="320" width="28" height="28" rx="3"/>
+    <rect x="292" y="320" width="28" height="28" rx="3"/>
+    <!-- mic -->
+    <rect x="360" y="300" width="24" height="40" rx="12"/>
+    <path d="M352 324c0 20 16 36 36 36s36-16 36-36"/>
+    <path d="M388 360v24M374 384h28"/>
+    <!-- spark -->
+    <path d="M420 60l6 16 16 6-16 6-6 16-6-16-16-6 16-6z"/>
+    <path d="M160 280c20-8 36 4 40 20"/>
+  </g>
+  <g stroke="#3A7D6E" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.4">
+    <path d="M280 120c16-10 34-6 44 10"/>
+    <circle cx="200" cy="360" r="10"/>
+    <path d="M40 400c24 8 40 28 44 48"/>
   </g>
 </svg>

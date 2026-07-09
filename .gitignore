@@ -52,3 +52,10 @@ next-env.d.ts
 *.orig
 .vercel
 .env*
+
+# Local ML tooling (SAM 3D Objects — clone lives on the VM, not in git)
+tools/sam-3d-objects/
+tools/**/checkpoints/
+tools/**/*.ply
+tools/**/*.pt
+tools/**/*.ckpt

@@ -1,8 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
-  <g fill="none" stroke="#161516" stroke-width="1.2" opacity="0.4">
-    <path d="M20 40h60v60H20zM90 40h60v60H90zM160 40h60v60h-60z"/>
-    <path d="M20 120h60v60H20zM90 120h60v60H90zM160 120h60v60h-60z"/>
-    <path d="M40 50l20 20-20 20M110 50l20 20-20 20M180 50l20 20-20 20"/>
-    <circle cx="50" cy="150" r="12"/><circle cx="120" cy="150" r="12"/><circle cx="190" cy="150" r="12"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" fill="none">
+  <!-- TOA — HT-style scattered line art: massing blocks, section cut, north arrow, grid, column. Monochrome charcoal. -->
+  <g stroke="#161516" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.48">
+    <!-- massing axon -->
+    <path d="M60 120l40-24 40 24v48l-40 24-40-24z"/>
+    <path d="M100 96v48M60 120l40 24 40-24"/>
+    <!-- second volume -->
+    <path d="M160 140l28-16 28 16v36l-28 16-28-16z"/>
+    <path d="M188 124v36M160 140l28 16 28-16"/>
+    <!-- plan grid -->
+    <rect x="280" y="70" width="90" height="70"/>
+    <path d="M310 70v70M340 70v70M280 95h90M280 120h90"/>
+    <!-- north arrow -->
+    <path d="M400 80l12 28h-24z"/>
+    <path d="M400 108v36"/>
+    <path d="M392 120h16"/>
+    <!-- section cut -->
+    <path d="M60 260h100"/>
+    <path d="M80 260v60l20 20h40l20-20v-60"/>
+    <path d="M100 280h60M100 300h60"/>
+    <!-- column / grid line -->
+    <circle cx="240" cy="280" r="10"/>
+    <path d="M240 220v50M240 290v70"/>
+    <path d="M210 360h60"/>
+    <!-- staircase -->
+    <path d="M320 240h20v16h20v16h20v16h20v16"/>
+    <path d="M320 240v64h80"/>
+    <!-- site boundary -->
+    <path d="M60 400l40-20 50 10 40-16 60 20"/>
+    <path d="M80 420l30-14"/>
+    <!-- dimension ticks -->
+    <path d="M200 200h80M200 196v8M280 196v8"/>
+    <!-- champagne node (assembl crossover — sparse) -->
+  </g>
+  <g stroke="#BFA37A" stroke-width="1.35" stroke-linecap="round" fill="none" opacity="0.5">
+    <circle cx="240" cy="280" r="3" fill="#BFA37A" stroke="none"/>
+    <path d="M360 320c16-12 36-8 48 8"/>
+    <path d="M120 180c12-10 28-8 36 6"/>
   </g>
 </svg>

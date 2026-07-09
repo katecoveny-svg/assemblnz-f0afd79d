@@ -102,88 +102,15 @@ function TabBar({ active }: { active: FredTabKey }) {
   );
 }
 
+/** Quiet intro under the editorial photo hero — no second competing banner. */
 function Hero() {
   return (
-    <section
-      style={{
-        position: 'relative',
-        overflow: 'hidden',
-        borderRadius: 20,
-        minHeight: 220,
-        padding: '28px 22px 24px',
-        background: `linear-gradient(145deg, ${NAVY} 0%, #243656 48%, #4A2F3C 100%)`,
-        color: '#fff',
-      }}
-    >
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'url(/brand/auckland-dog-trainer/pattern-training-field.svg)',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '280px auto',
-          opacity: 0.14,
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: `radial-gradient(ellipse at 88% 18%, ${PINK}66 0%, transparent 48%), radial-gradient(ellipse at 8% 92%, ${GOLD}40 0%, transparent 42%)`,
-          pointerEvents: 'none',
-        }}
-      />
-      {/* Inventive training-field mark — leash arc + signal rings (not daycare) */}
-      <svg
-        aria-hidden
-        width="160"
-        height="160"
-        viewBox="0 0 160 160"
-        style={{
-          position: 'absolute',
-          right: 18,
-          bottom: 8,
-          opacity: 0.55,
-          pointerEvents: 'none',
-        }}
-      >
-        <circle cx="80" cy="88" r="54" fill="none" stroke={PINK} strokeWidth="1.2" opacity="0.7" />
-        <circle cx="80" cy="88" r="28" fill="none" stroke="#fff" strokeWidth="1" opacity="0.35" />
-        <path
-          d="M28 70C48 28 92 22 118 48"
-          fill="none"
-          stroke={PINK}
-          strokeWidth="3"
-          strokeLinecap="round"
-        />
-        <circle cx="118" cy="48" r="6" fill={GOLD} />
-        <circle cx="42" cy="96" r="10" fill="none" stroke="#fff" strokeWidth="1.5" />
-        <circle cx="108" cy="108" r="14" fill="none" stroke={PINK} strokeWidth="1.5" />
-      </svg>
-      <div style={{ position: 'relative', maxWidth: 560 }}>
-        <p style={{ ...eyebrow, color: PINK }}>learn to talk dog · auckland</p>
-        <h1
-          style={{
-            margin: '10px 0 0',
-            fontFamily: display,
-            fontSize: 'clamp(26px, 4.5vw, 38px)',
-            fontWeight: 500,
-            lineHeight: 1.15,
-          }}
-        >
-          Auckland Dog Trainer
-        </h1>
-        <p style={{ margin: '8px 0 0', fontSize: 13, color: PINK, letterSpacing: '0.04em' }}>
-          Fred&apos;s method · operating system
-        </p>
-        <p style={{ margin: '10px 0 0', fontSize: 14.5, lineHeight: 1.55, color: '#D8DEE9', maxWidth: 460 }}>
-          Intake, session notes → homework, programme journeys, course studio, and social from
-          session clips — scale the method without losing Fred&apos;s standard.
-        </p>
-      </div>
+    <section style={{ padding: '4px 2px 0' }}>
+      <p style={{ ...eyebrow, color: PINK_DEEP }}>Fred&apos;s method · operating system</p>
+      <p style={{ margin: '8px 0 0', fontSize: 14.5, lineHeight: 1.55, color: MUTED, maxWidth: 520 }}>
+        Intake, session notes → homework, programme journeys, course studio, and social from
+        session clips — scale the method without losing Fred&apos;s standard.
+      </p>
     </section>
   );
 }

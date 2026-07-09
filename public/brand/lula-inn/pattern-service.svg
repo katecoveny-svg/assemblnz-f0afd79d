@@ -1,8 +1,46 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
-  <g fill="none" stroke="#f5e7d1" stroke-width="1.3" opacity="0.35">
-    <path d="M60 40c0 30-18 40-18 70 0 22 16 36 36 36s36-14 36-36c0-30-18-40-18-70"/>
-    <path d="M78 146v24h-12"/><ellipse cx="78" cy="40" rx="28" ry="8"/>
-    <rect x="140" y="50" width="54" height="70" rx="8"/><path d="M150 50c4-16 30-16 34 0"/>
-    <path d="M40 190h70"/><path d="M160 180c20 0 30 16 30 30"/><circle cx="200" cy="50" r="8"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" fill="none">
+  <!-- Lula Inn — HT-style scattered line art: wine glass, plate, napkin fold, key, harbour buoy. -->
+  <g stroke="#1F3A44" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5">
+    <!-- wine glass -->
+    <path d="M70 60c0 36 20 52 40 52s40-16 40-52"/>
+    <path d="M70 60h80"/>
+    <path d="M110 112v40M90 152h40"/>
+    <!-- plate + cutlery -->
+    <ellipse cx="240" cy="100" rx="50" ry="30"/>
+    <ellipse cx="240" cy="100" rx="28" ry="14"/>
+    <path d="M170 90v40M166 90v16M174 90v16"/>
+    <path d="M310 88c8 0 12 8 8 16l-16 28"/>
+    <!-- napkin fold -->
+    <path d="M360 60l40 20-20 48-40-20z"/>
+    <path d="M360 60l20 48"/>
+    <!-- room key -->
+    <circle cx="80" cy="240" r="18"/>
+    <circle cx="80" cy="240" r="7"/>
+    <path d="M98 240h46M130 240v12M140 240v8"/>
+    <!-- harbour buoy -->
+    <ellipse cx="220" cy="250" rx="22" ry="30"/>
+    <path d="M198 250h44M220 220v60M220 280v28"/>
+    <!-- menu card -->
+    <rect x="300" y="210" width="70" height="90" rx="4"/>
+    <path d="M314 232h42M314 250h36M314 268h40"/>
+    <!-- coffee cup -->
+    <path d="M60 360h50v36c0 14-10 24-25 24s-25-10-25-24v-36z"/>
+    <path d="M110 372c14 0 22 8 22 18s-8 18-22 18"/>
+    <path d="M72 348c4-8 12-8 16 0M88 348c4-8 12-8 16 0"/>
+    <!-- service bell -->
+    <path d="M200 360c0-28 20-48 44-48s44 20 44 48H200z"/>
+    <path d="M244 312v-10"/>
+    <circle cx="244" cy="298" r="5"/>
+    <path d="M190 360h108"/>
+    <!-- small star / brass accent mark -->
+    <path d="M380 360l5 14 14 5-14 5-5 14-5-14-14-5 14-5z"/>
+    <!-- swell hint -->
+    <path d="M40 200c24 0 24-12 48-12s24 12 48 12"/>
+    <path d="M320 160c20 0 20-10 40-10"/>
+  </g>
+  <g stroke="#B8964F" stroke-width="1.35" stroke-linecap="round" fill="none" opacity="0.45">
+    <path d="M160 200c18-10 36-4 44 12"/>
+    <circle cx="400" cy="120" r="12"/>
+    <path d="M360 400c20 8 36 24 40 44"/>
   </g>
 </svg>

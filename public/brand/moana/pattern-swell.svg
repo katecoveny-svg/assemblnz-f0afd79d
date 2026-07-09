@@ -1,8 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
-  <g fill="none" stroke="#2E7D74" stroke-width="1.6" opacity="0.5">
-    <path d="M0 50c30 0 30-20 60-20s30 20 60 20 30-20 60-20 30 20 60 20"/>
-    <path d="M0 100c30 0 30-20 60-20s30 20 60 20 30-20 60-20 30 20 60 20" stroke="#3A6B8C"/>
-    <path d="M0 150c30 0 30-20 60-20s30 20 60 20 30-20 60-20 30 20 60 20"/>
-    <path d="M0 200c30 0 30-20 60-20s30 20 60 20 30-20 60-20 30 20 60 20" stroke="#C97B63"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" fill="none">
+  <!-- Moana — HT-style scattered line art: swell lines, hook, buoy, compass, knot. -->
+  <g stroke="#1E5A52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5">
+    <!-- swell rows (broken, not continuous stripes) -->
+    <path d="M20 70c28 0 28-16 56-16s28 16 56 16"/>
+    <path d="M160 70c28 0 28-16 56-16s28 16 56 16"/>
+    <path d="M300 70c28 0 28-16 56-16s28 16 56 16"/>
+    <path d="M40 120c28 0 28-14 56-14s28 14 56 14"/>
+    <path d="M200 120c28 0 28-14 56-14s28 14 56 14"/>
+    <path d="M360 120c24 0 24-14 48-14"/>
+    <!-- fish hook -->
+    <path d="M80 200v70c0 28 22 48 48 48s40-16 40-40"/>
+    <path d="M80 200c0-16 12-28 28-28"/>
+    <path d="M168 278l12 14"/>
+    <!-- buoy -->
+    <ellipse cx="260" cy="230" rx="28" ry="36"/>
+    <path d="M232 230h56M260 194v72"/>
+    <path d="M260 266v40"/>
+    <!-- compass -->
+    <circle cx="380" cy="230" r="36"/>
+    <circle cx="380" cy="230" r="6"/>
+    <path d="M380 202l8 28-8 8-8-8z"/>
+    <path d="M380 258l-6-20"/>
+    <!-- knot -->
+    <path d="M60 360c20-20 40-8 40 12 0 24-28 32-44 16 20 28 56 20 64-8 6-22-10-40-32-40"/>
+    <!-- tide mark -->
+    <path d="M180 360c40-10 70 10 110 6"/>
+    <path d="M200 390c36-8 64 8 100 4"/>
+    <!-- small bird / tern -->
+    <path d="M360 360c16-18 36-18 52 0"/>
+    <path d="M360 360c16 8 36 8 52 0"/>
+    <!-- anchor light -->
+    <circle cx="420" cy="400" r="10"/>
+    <path d="M420 410v30M406 430h28"/>
+    <path d="M140 280c16 4 28 18 28 34"/>
+  </g>
+  <g stroke="#C97B63" stroke-width="1.35" stroke-linecap="round" fill="none" opacity="0.45">
+    <path d="M300 300c24-12 48-4 60 16"/>
+    <path d="M40 260c12-16 32-20 48-8"/>
+    <circle cx="200" cy="200" r="10"/>
   </g>
 </svg>

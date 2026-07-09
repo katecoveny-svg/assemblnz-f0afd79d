@@ -1,21 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280">
-  <!-- Auckland Dog Trainer  training-field motif (leash arcs, signal rings, path markers). Not daycare paws. -->
-  <g fill="none" stroke="#1B2A4A" stroke-width="1.35" opacity="0.5">
-    <circle cx="70" cy="70" r="28"/>
-    <circle cx="70" cy="70" r="14"/>
-    <path d="M40 140c30-40 60-40 90 0"/>
-    <path d="M55 155c20-26 40-26 60 0"/>
-    <path d="M160 40c18 0 18-12 36-12s18 12 36 12 18-12 36-12"/>
-    <path d="M150 95c40 8 70 40 78 78"/>
-    <circle cx="210" cy="190" r="22"/>
-    <path d="M198 190h24M210 178v24"/>
-    <path d="M30 220h90M30 235h60"/>
-    <path d="M140 230c25-5 45 10 70 8"/>
-    <circle cx="40" cy="40" r="4"/><circle cx="250" cy="50" r="4"/><circle cx="240" cy="250" r="4"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" fill="none">
+  <!-- Auckland Dog Trainer — HT-style scattered line art: leash, hand signal, attentive dog, training markers. Navy ink on transparent. -->
+  <g stroke="#1B2A4A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.55">
+    <!-- leash coil -->
+    <path d="M48 72c28-18 52-8 70 12 14 16 8 36-6 44"/>
+    <path d="M112 128c-22 8-40 28-36 52 4 22 28 34 50 28"/>
+    <circle cx="70" cy="70" r="5"/>
+    <!-- hand-signal ring + arcs -->
+    <circle cx="220" cy="90" r="28"/>
+    <path d="M200 90h40M220 70v40"/>
+    <path d="M252 78c10-6 22-4 30 6"/>
+    <path d="M254 102c12 2 22 12 24 24"/>
+    <!-- attentive dog silhouette (side) -->
+    <path d="M320 140c8-18 28-28 48-22 14 4 24 18 22 32l-6 28c-2 10-10 18-20 20l-36 6c-12 2-24-6-28-18l-8-28c-2-8 2-16 8-18z"/>
+    <path d="M358 118c6-10 18-14 28-8"/>
+    <path d="M310 186c-4 22 6 40 22 48"/>
+    <path d="M360 188c6 20 4 38-8 50"/>
+    <!-- soft ear / head study -->
+    <path d="M60 240c12-28 40-40 68-28 18 8 28 28 24 48-4 18-20 32-40 34-22 2-42-12-50-32-4-10-4-16-2-22z"/>
+    <path d="M78 228c-8-14-4-28 10-34"/>
+    <circle cx="108" cy="252" r="3.5" fill="#1B2A4A" stroke="none"/>
+    <!-- training field markers -->
+    <circle cx="200" cy="260" r="36"/>
+    <circle cx="200" cy="260" r="18"/>
+    <path d="M200 224v12M200 284v12M164 260h12M224 260h12"/>
+    <!-- leash arc across field -->
+    <path d="M280 250c40-30 80-20 110 20"/>
+    <path d="M390 270c8 18 4 36-10 48"/>
+    <!-- paw print (sparse — method, not daycare pack) -->
+    <ellipse cx="80" cy="360" rx="10" ry="12"/>
+    <circle cx="68" cy="344" r="4.5"/><circle cx="80" cy="340" r="4.5"/><circle cx="92" cy="344" r="4.5"/><circle cx="98" cy="356" r="4"/>
+    <!-- second leash handle -->
+    <path d="M160 380c30-8 50 10 48 34-2 18-20 28-38 24"/>
+    <path d="M170 410c-16 4-28-6-26-20"/>
+    <!-- signal chevron -->
+    <path d="M280 360l28 18-28 18"/>
+    <path d="M300 360l28 18-28 18"/>
+    <!-- calm sit marker -->
+    <path d="M380 360c0-20 16-36 36-36s36 16 36 36v40H380v-40z"/>
+    <path d="M392 360v-12c0-12 10-20 24-20s24 8 24 20v12"/>
+    <!-- small motion ticks (like HT wag lines, but for leash release) -->
+    <path d="M420 120c8-4 14-4 20 0M424 132c10-2 16 0 22 6"/>
+    <path d="M40 180c6-6 14-8 22-4M36 192c8-4 16-4 24 2"/>
+    <!-- bone? no — keep method icons only -->
+    <path d="M300 420c40 0 60-20 90-20"/>
+    <circle cx="400" cy="400" r="8"/>
   </g>
-  <g fill="none" stroke="#D4A5B0" stroke-width="1.2" opacity="0.55">
-    <path d="M20 100c40 10 60 50 100 55"/>
-    <circle cx="200" cy="80" r="10"/>
-    <path d="M180 160l40 20-20 36z"/>
+  <g stroke="#D4A5B0" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.5">
+    <path d="M140 60c20-10 40-6 52 10"/>
+    <path d="M420 200c-16 12-20 32-10 48"/>
+    <circle cx="250" cy="400" r="14"/>
+    <path d="M40 300c24 8 40 28 44 52"/>
   </g>
 </svg>

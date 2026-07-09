@@ -37,7 +37,14 @@ export default async function HappyTailsDaycareOsPage({
 
   return (
     <div className="mx-auto w-full max-w-6xl px-6 py-8">
-      <OsWowStage config={config} heroHeightClass="h-56 md:h-72" patternOpacity={0.14}>
+      <OsWowStage
+        config={config}
+        heroHeightClass="h-56 md:h-72"
+        patternOpacity={0.14}
+        heroEyebrow="happy tails · franklin & friends"
+        heroTitle="The daycare that runs itself"
+        heroBlurb="Enrolment, bus, welcome packs, and owner support — daycare ops, not training."
+      >
         <div className="flex flex-col gap-5">
           <DemoRibbon />
           <HappyTailsDaycareOS tab={tab} />
