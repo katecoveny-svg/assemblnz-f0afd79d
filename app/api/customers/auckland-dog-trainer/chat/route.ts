@@ -63,16 +63,26 @@ const fredTools = {
         : /reactiv|scooter|select/.test(i.issues.toLowerCase())
           ? 'soon'
           : 'routine';
+      const riskLevel =
+        urgency === 'urgent' ? 'high' : /reactiv|scooter|aggress/.test(i.issues.toLowerCase()) ? 'medium' : 'low';
       const similar = LEADS.filter((l) => l.recommended === recommended).slice(0, 2);
       return {
         recommended,
         offer: OFFERS[recommended],
         urgency,
+        riskLevel,
         triageNote:
           urgency === 'urgent'
             ? 'Safety flag — private assessment first; do not route to group or park work yet.'
             : `Likely fit for ${OFFERS[recommended].label}. Fred confirms before booking.`,
         similarLeads: similar,
+        draftReplyHint: `Kia ora — thanks for getting in touch about ${i.dog ?? 'your dog'}. From what you've shared, ${OFFERS[recommended].label} looks like the cleanest next step (${OFFERS[recommended].priceSample}). Draft only — Fred sends.`,
+        explainerHint:
+          recommended === 'reactivity'
+            ? 'Understanding thresholds (Reactivity W2)'
+            : recommended === 'recall'
+              ? 'Recall under distraction'
+              : 'Private assessment explainer',
         citations: [WORKSPACE_CITE],
       };
     },

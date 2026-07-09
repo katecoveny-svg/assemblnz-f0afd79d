@@ -1,16 +1,24 @@
 'use client';
 
 import Link from 'next/link';
-import type { CSSProperties } from 'react';
+import { useMemo, useState, type CSSProperties } from 'react';
 import {
+  AGENT_MESH,
   APPLICANTS,
+  CHALLENGES,
   COURSE_MODULES,
+  COURSE_STUDIO_DRAFT,
   DOGS,
+  FAQ_VIDEOS,
   LEADS,
   OFFERS,
   PROGRAMMES,
+  QUIZ,
   REVENUE_SAMPLE,
   SUPPORT_INBOX,
+  TIME_COCKPIT,
+  VIDEO_UPLOADS,
+  WEEK_BLOCKS,
   type OfferSlug,
   type Urgency,
 } from '@/lib/customers/auckland-dog-trainer/demo-data';
@@ -19,6 +27,7 @@ import {
   type FredTabKey,
 } from '@/lib/customers/auckland-dog-trainer/tabs';
 import { SessionNotesEngine } from '@/components/ops/fred/SessionNotesEngine';
+import { OsReveal } from '@/components/ops/shared/OsMotion';
 
 export type { FredTabKey };
 
@@ -69,9 +78,9 @@ function TabBar({ active }: { active: FredTabKey }) {
             scroll={false}
             aria-current={on ? 'page' : undefined}
             style={{
-              fontSize: 13,
+              fontSize: 12.5,
               fontWeight: 600,
-              padding: '8px 14px',
+              padding: '7px 13px',
               borderRadius: 999,
               textDecoration: 'none',
               color: on ? '#fff' : NAVY,
@@ -95,8 +104,8 @@ function Hero() {
         position: 'relative',
         overflow: 'hidden',
         borderRadius: 20,
-        minHeight: 220,
-        padding: '28px 24px 24px',
+        minHeight: 200,
+        padding: '26px 22px 22px',
         background: `linear-gradient(135deg, ${NAVY} 0%, #243656 55%, #3A2A38 100%)`,
         color: '#fff',
       }}
@@ -110,129 +119,288 @@ function Hero() {
           pointerEvents: 'none',
         }}
       />
-      <div style={{ position: 'relative', maxWidth: 560 }}>
-        <p
-          style={{
-            ...eyebrow,
-            color: PINK,
-          }}
-        >
-          auckland dog trainer · learn to talk dog
-        </p>
+      <div style={{ position: 'relative', maxWidth: 580 }}>
+        <p style={{ ...eyebrow, color: PINK }}>learn to talk dog · command centre</p>
         <h1
           style={{
             margin: '10px 0 0',
             fontFamily: display,
-            fontSize: 'clamp(28px, 5vw, 40px)',
+            fontSize: 'clamp(26px, 4.5vw, 38px)',
             fontWeight: 500,
             lineHeight: 1.15,
-            letterSpacing: '0.01em',
           }}
         >
           Fred OS
         </h1>
-        <p style={{ margin: '12px 0 0', fontSize: 15, lineHeight: 1.55, color: '#D8DEE9', maxWidth: 440 }}>
-          Scale Fred&apos;s method without losing Fred&apos;s standards — intake, session notes,
-          weekly homework, course content, and trainer onboarding in one operating system.
+        <p style={{ margin: '10px 0 0', fontSize: 14.5, lineHeight: 1.55, color: '#D8DEE9', maxWidth: 460 }}>
+          Capture leads, match dogs to the right programme, run training journeys, create course
+          content, support clients, and protect Fred&apos;s week — without losing the method.
         </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 18 }}>
-          <Link
-            href="/customers/auckland-dog-trainer/ops?tab=notes"
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              padding: '10px 16px',
-              borderRadius: 999,
-              background: PINK,
-              color: NAVY,
-            }}
-          >
-            Open notes engine
-          </Link>
-          <Link
-            href="/customers/auckland-dog-trainer/ops?tab=leads"
-            style={{
-              fontSize: 12,
-              fontWeight: 600,
-              letterSpacing: '0.04em',
-              textDecoration: 'none',
-              padding: '10px 16px',
-              borderRadius: 999,
-              border: `1.5px solid ${PINK}88`,
-              color: '#fff',
-            }}
-          >
-            Triage leads
-          </Link>
-        </div>
       </div>
     </section>
   );
 }
 
-function StatStrip() {
-  const items = [
-    { k: 'leads', v: String(REVENUE_SAMPLE.leadsThisWeek), s: 'this week' },
-    { k: 'bookings', v: String(REVENUE_SAMPLE.bookingsPending), s: 'pending' },
-    { k: 'programmes', v: String(REVENUE_SAMPLE.activeProgrammes), s: 'active dogs' },
-    { k: 'course', v: String(REVENUE_SAMPLE.courseWaitlist), s: 'waitlist · SAMPLE' },
-  ];
+/** Killer demo moment — enquiry → profile → offer → reply → CRM → explainer video */
+function KillerDemo() {
+  const lead = LEADS[0];
+  const [played, setPlayed] = useState(false);
+
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-        gap: 10,
-      }}
-    >
-      {items.map((i) => (
-        <div key={i.k} style={{ ...glass, padding: '14px 16px', background: BLUSH }}>
-          <p style={eyebrow}>{i.k}</p>
-          <p style={{ margin: '6px 0 0', fontFamily: display, fontSize: 28, color: NAVY }}>{i.v}</p>
-          <p style={{ margin: '2px 0 0', fontSize: 12, color: MUTED }}>{i.s}</p>
+    <OsReveal>
+      <section style={{ ...glass, padding: 18, borderColor: `${PINK}88`, background: `linear-gradient(180deg, ${BLUSH}, ${CREAM})` }}>
+        <p style={{ ...eyebrow, color: PINK_DEEP }}>killer demo moment</p>
+        <h2 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 22, color: NAVY }}>
+          Enquiry in → operations out
+        </h2>
+        <p style={{ margin: '8px 0 0', fontSize: 13.5, color: MUTED, lineHeight: 1.5 }}>
+          A client enquiry arrives. assembl reads it, creates the dog profile, recommends{' '}
+          <strong style={{ color: NAVY }}>Reactivity Rewired</strong>, drafts Fred&apos;s reply, adds
+          the lead to CRM, and suggests the right explainer video.
+        </p>
+        <button
+          type="button"
+          onClick={() => setPlayed(true)}
+          style={{
+            marginTop: 14,
+            fontSize: 12,
+            fontWeight: 700,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            padding: '10px 16px',
+            borderRadius: 999,
+            border: 'none',
+            cursor: 'pointer',
+            background: NAVY,
+            color: '#fff',
+          }}
+        >
+          {played ? 'Replay flow' : 'Run the intake flow'}
+        </button>
+
+        {played ? (
+          <div
+            style={{
+              marginTop: 14,
+              display: 'grid',
+              gap: 10,
+              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            }}
+          >
+            {[
+              { step: '1 · Intake', body: `${lead.dog} · ${lead.breed} · ${lead.suburb}` },
+              { step: '2 · Pathway', body: OFFERS[lead.recommended].label },
+              { step: '3 · Risk', body: `${lead.riskLevel} risk · ${lead.urgency}` },
+              { step: '4 · Draft reply', body: lead.draftReply?.slice(0, 90) + '…' },
+              { step: '5 · CRM', body: 'Lead + dog profile created' },
+              { step: '6 · Course match', body: lead.explainerVideo ?? '—' },
+            ].map((s, i) => (
+              <OsReveal key={s.step} delay={0.05 * i}>
+                <div style={{ ...glass, padding: 12 }}>
+                  <p style={{ ...eyebrow, color: PINK_DEEP }}>{s.step}</p>
+                  <p style={{ margin: '6px 0 0', fontSize: 13, color: NAVY, lineHeight: 1.45 }}>{s.body}</p>
+                </div>
+              </OsReveal>
+            ))}
+          </div>
+        ) : null}
+      </section>
+    </OsReveal>
+  );
+}
+
+function WeekTab() {
+  const attention = DOGS.filter((d) => !d.homeworkDone || d.videosPending > 0);
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <KillerDemo />
+      <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
+        {[
+          { k: 'capacity', v: `${TIME_COCKPIT.capacityPct}%`, s: 'Fred this week' },
+          { k: 'sessions', v: String(TIME_COCKPIT.sessionsToday), s: 'today' },
+          { k: 'follow-ups', v: String(TIME_COCKPIT.followUpsDue), s: 'due' },
+          { k: 'admin debt', v: `${TIME_COCKPIT.adminDebtMins}m`, s: 'unpaid load' },
+          { k: 'leads', v: String(REVENUE_SAMPLE.leadsThisWeek), s: 'this week' },
+          { k: 'attention', v: String(attention.length), s: 'dogs needing you' },
+        ].map((i) => (
+          <div key={i.k} style={{ ...glass, padding: '14px 16px', background: BLUSH }}>
+            <p style={eyebrow}>{i.k}</p>
+            <p style={{ margin: '6px 0 0', fontFamily: display, fontSize: 26, color: NAVY }}>{i.v}</p>
+            <p style={{ margin: '2px 0 0', fontSize: 12, color: MUTED }}>{i.s}</p>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+        <div style={{ ...glass, padding: 16 }}>
+          <p style={eyebrow}>today · sessions & travel</p>
+          <ul style={{ margin: '10px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {WEEK_BLOCKS.filter((b) => b.when.startsWith('Thu') || b.kind === 'session').slice(0, 5).map((b) => (
+              <li key={b.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: 13, color: NAVY }}>
+                <span>
+                  <strong>{b.when}</strong> · {b.title}
+                </span>
+                <span style={{ color: MUTED }}>{b.mins}m</span>
+              </li>
+            ))}
+          </ul>
         </div>
-      ))}
+        <div style={{ ...glass, padding: 16 }}>
+          <p style={eyebrow}>next best action</p>
+          <ol style={{ margin: '10px 0 0', paddingLeft: 18, color: NAVY, fontSize: 13.5, lineHeight: 1.55 }}>
+            {TIME_COCKPIT.nextBestActions.map((a) => (
+              <li key={a} style={{ marginBottom: 6 }}>
+                {a}
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div style={{ ...glass, padding: 16 }}>
+          <p style={eyebrow}>dogs needing attention</p>
+          {attention.map((d) => (
+            <div key={d.id} style={{ marginTop: 10, fontSize: 13.5, color: NAVY }}>
+              <strong>{d.name}</strong> · {offerLabel(d.programme)} W{d.week}
+              <div style={{ color: MUTED, fontSize: 12.5 }}>
+                {!d.homeworkDone ? 'Homework pending · ' : ''}
+                {d.videosPending > 0 ? `${d.videosPending} video to review` : 'On track'}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ ...glass, padding: 16 }}>
+        <p style={eyebrow}>video upload → homework</p>
+        <div style={{ display: 'grid', gap: 10, marginTop: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
+          {VIDEO_UPLOADS.map((v) => (
+            <div key={v.id} style={{ padding: 12, borderRadius: 12, background: BLUSH }}>
+              <p style={{ margin: 0, fontWeight: 700, color: NAVY, fontSize: 14 }}>
+                {v.dog} · {v.title}
+              </p>
+              <p style={{ margin: '6px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.45 }}>{v.summary}</p>
+              <p style={{ margin: '8px 0 0', fontSize: 12.5, color: NAVY }}>
+                Homework · {v.homework}
+              </p>
+              <p style={{ ...eyebrow, marginTop: 8, color: v.needsFred ? '#B54A4A' : GOLD }}>
+                {v.needsFred ? 'queued for Fred' : 'Support Agent can answer'}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
 
-function OverviewTab() {
+function LandingTab() {
+  const [answers, setAnswers] = useState<Record<string, OfferSlug>>({});
+  const recommendation = useMemo(() => {
+    const votes = Object.values(answers);
+    if (votes.length < QUIZ.length) return null;
+    const tally = votes.reduce<Partial<Record<OfferSlug, number>>>((acc, v) => {
+      acc[v] = (acc[v] ?? 0) + 1;
+      return acc;
+    }, {});
+    return (Object.entries(tally).sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] as OfferSlug) ?? 'private';
+  }, [answers]);
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <StatStrip />
-      <div style={{ ...glass, padding: 18 }}>
-        <p style={eyebrow}>capacity</p>
-        <p style={{ margin: '8px 0 0', fontSize: 15, color: NAVY, lineHeight: 1.5 }}>
-          {REVENUE_SAMPLE.trainerCapacity}. Repeat clients {REVENUE_SAMPLE.repeatClients} · SAMPLE.
-        </p>
-        <p style={{ margin: '10px 0 0', fontSize: 13.5, color: MUTED, lineHeight: 1.5 }}>
-          The OS watches enquiries, session notes, homework uploads, and support messages — then
-          drafts the next client plan, course lesson, or hiring step for Fred&apos;s yes.
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ ...glass, padding: 18, background: `linear-gradient(135deg, ${NAVY}, #2a3d5c)` }}>
+        <p style={{ ...eyebrow, color: PINK }}>public landing hub · self-service</p>
+        <h2 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 26, color: '#fff' }}>
+          Not sure what your dog needs? Find the right training path.
+        </h2>
+        <p style={{ margin: '10px 0 0', fontSize: 14, color: '#D8DEE9', maxWidth: 480 }}>
+          Visual programme chooser — replaces the explanations Fred repeats every week.
         </p>
       </div>
-      <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
-        {[
-          {
-            t: 'Intake + triage',
-            b: 'Sort enquiries into private, obedience, recall, reactivity, board & train, or course.',
-          },
-          {
-            t: 'Notes → homework',
-            b: 'Two-minute voice note becomes client summary, CRM, follow-up, and trainer handover.',
-          },
-          {
-            t: 'Course + hiring',
-            b: 'Turn methods into modules; screen and onboard a second trainer in Fred’s method.',
-          },
-        ].map((c) => (
-          <div key={c.t} style={{ ...glass, padding: 16 }}>
-            <p style={{ ...eyebrow, color: PINK_DEEP }}>{c.t}</p>
-            <p style={{ margin: '8px 0 0', fontSize: 14, color: NAVY, lineHeight: 1.5 }}>{c.b}</p>
+
+      <p style={eyebrow}>choose your challenge</p>
+      <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+        {CHALLENGES.map((c) => (
+          <div key={c.id} style={{ ...glass, padding: 14, minHeight: 120 }}>
+            <h3 style={{ margin: 0, fontFamily: display, fontSize: 18, color: NAVY }}>{c.title}</h3>
+            <p style={{ margin: '8px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.45 }}>{c.blurb}</p>
+            <p style={{ margin: '10px 0 0', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: PINK_DEEP }}>
+              → {OFFERS[c.mapsTo].short}
+            </p>
           </div>
         ))}
+      </div>
+
+      <p style={{ ...eyebrow, marginTop: 6 }}>programme cards</p>
+      <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+        {(['private', 'recall', 'reactivity', 'board-train'] as OfferSlug[]).map((slug) => {
+          const p = PROGRAMMES.find((x) => x.slug === slug)!;
+          return (
+            <article key={slug} style={{ ...glass, padding: 16 }}>
+              <h3 style={{ margin: 0, fontFamily: display, fontSize: 18, color: NAVY }}>{p.name}</h3>
+              <p style={{ margin: '6px 0 0', fontSize: 13, fontWeight: 700, color: PINK_DEEP }}>{p.priceSample}</p>
+              <p style={{ margin: '8px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.45 }}>{p.blurb}</p>
+            </article>
+          );
+        })}
+      </div>
+
+      <div style={{ ...glass, padding: 16 }}>
+        <p style={eyebrow}>video-first FAQ</p>
+        <div style={{ display: 'grid', gap: 8, marginTop: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+          {FAQ_VIDEOS.map((f) => (
+            <div key={f.id} style={{ padding: 12, borderRadius: 12, background: BLUSH }}>
+              <div style={{ height: 64, borderRadius: 8, background: `${NAVY}18`, display: 'grid', placeItems: 'center', color: NAVY, fontSize: 12, fontWeight: 700 }}>
+                ▶ {f.dur}
+              </div>
+              <p style={{ margin: '8px 0 0', fontSize: 13, color: NAVY }}>{f.q}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ ...glass, padding: 16 }}>
+        <p style={eyebrow}>dog fit quiz · 3 of 8–10 shown</p>
+        <p style={{ margin: '6px 0 12px', fontSize: 13, color: MUTED }}>
+          Owner answers → Pathway Agent recommends the next step and creates a CRM lead.
+        </p>
+        {QUIZ.map((q) => (
+          <div key={q.id} style={{ marginBottom: 14 }}>
+            <p style={{ margin: 0, fontWeight: 600, color: NAVY, fontSize: 14 }}>{q.prompt}</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>
+              {q.options.map((o) => {
+                const on = answers[q.id] === o.weight;
+                return (
+                  <button
+                    key={o.id}
+                    type="button"
+                    onClick={() => setAnswers((a) => ({ ...a, [q.id]: o.weight }))}
+                    style={{
+                      fontSize: 12.5,
+                      padding: '7px 12px',
+                      borderRadius: 999,
+                      cursor: 'pointer',
+                      border: `1.5px solid ${on ? NAVY : `${NAVY}22`}`,
+                      background: on ? NAVY : CREAM,
+                      color: on ? '#fff' : NAVY,
+                    }}
+                  >
+                    {o.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+        {recommendation ? (
+          <div style={{ marginTop: 8, padding: 14, borderRadius: 12, background: BLUSH }}>
+            <p style={eyebrow}>recommended path</p>
+            <p style={{ margin: '6px 0 0', fontFamily: display, fontSize: 20, color: NAVY }}>
+              {OFFERS[recommendation].label}
+            </p>
+            <p style={{ margin: '6px 0 0', fontSize: 13, color: MUTED }}>
+              {OFFERS[recommendation].priceSample} · lead drafted into CRM (SAMPLE) · Fred confirms before send
+            </p>
+          </div>
+        ) : null}
       </div>
     </div>
   );
@@ -242,14 +410,13 @@ function LeadsTab() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ ...glass, padding: 16 }}>
-        <p style={eyebrow}>dog intake + triage</p>
+        <p style={eyebrow}>lead triage · Intake + Pathway + Risk agents</p>
         <p style={{ margin: '6px 0 0', fontSize: 14, color: MUTED, lineHeight: 1.5 }}>
-          Owners answer age, breed, behaviour, bite history, recall, leash, reactivity, home life,
-          goals. assembl recommends the path — Fred confirms.
+          Dog profile, issue type, urgency, risk level, recommended offer — sorted before Fred replies.
         </p>
       </div>
       {LEADS.map((lead) => (
-        <article key={lead.id} style={{ ...glass, padding: 16 }}>
+        <article key={lead.id} style={{ ...glass, padding: 16, borderColor: lead.id === 'lead-killer' ? `${PINK}88` : undefined }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'space-between' }}>
             <div>
               <h3 style={{ margin: 0, fontFamily: display, fontSize: 20, color: NAVY }}>
@@ -262,40 +429,28 @@ function LeadsTab() {
                 {lead.owner} · {lead.source} · {lead.receivedAt}
               </p>
             </div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  padding: '5px 10px',
-                  borderRadius: 999,
-                  background: `${urgencyTone(lead.urgency)}18`,
-                  color: urgencyTone(lead.urgency),
-                }}
-              >
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '5px 10px', borderRadius: 999, background: `${urgencyTone(lead.urgency)}18`, color: urgencyTone(lead.urgency) }}>
                 {lead.urgency}
               </span>
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
-                  padding: '5px 10px',
-                  borderRadius: 999,
-                  background: `${PINK}33`,
-                  color: NAVY,
-                }}
-              >
+              <span style={{ fontSize: 11, fontWeight: 700, padding: '5px 10px', borderRadius: 999, background: `${NAVY}10`, color: NAVY }}>
+                risk {lead.riskLevel}
+              </span>
+              <span style={{ fontSize: 11, fontWeight: 700, padding: '5px 10px', borderRadius: 999, background: `${PINK}33`, color: NAVY }}>
                 → {offerLabel(lead.recommended)}
               </span>
             </div>
           </div>
           <p style={{ margin: '10px 0 0', fontSize: 13.5, color: NAVY, lineHeight: 1.5 }}>{lead.triage}</p>
-          <p style={{ margin: '8px 0 0', fontSize: 12, color: MUTED }}>
-            Issues: {lead.issues.join(' · ')}
-          </p>
+          {lead.draftReply ? (
+            <p style={{ margin: '10px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.5, padding: 12, background: BLUSH, borderRadius: 10 }}>
+              <span style={eyebrow}>draft reply · </span>
+              {lead.draftReply}
+            </p>
+          ) : null}
+          {lead.explainerVideo ? (
+            <p style={{ margin: '8px 0 0', fontSize: 12.5, color: PINK_DEEP }}>Explainer · {lead.explainerVideo}</p>
+          ) : null}
         </article>
       ))}
     </div>
@@ -320,25 +475,10 @@ function DogsTab() {
                 {OFFERS[dog.programme].label} · week {dog.week}/{dog.weeksTotal}
               </span>
             </div>
-            <div
-              style={{
-                marginTop: 12,
-                height: 6,
-                borderRadius: 999,
-                background: `${NAVY}12`,
-                overflow: 'hidden',
-              }}
-            >
+            <div style={{ marginTop: 12, height: 6, borderRadius: 999, background: `${NAVY}12`, overflow: 'hidden' }}>
               <div style={{ width: `${pct}%`, height: '100%', background: PINK_DEEP, borderRadius: 999 }} />
             </div>
-            <div
-              style={{
-                display: 'grid',
-                gap: 10,
-                marginTop: 14,
-                gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-              }}
-            >
+            <div style={{ display: 'grid', gap: 10, marginTop: 14, gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
               <div>
                 <p style={eyebrow}>triggers</p>
                 <p style={{ margin: '4px 0 0', fontSize: 13, color: NAVY }}>{dog.triggers.join(' · ') || '—'}</p>
@@ -350,14 +490,18 @@ function DogsTab() {
               <div>
                 <p style={eyebrow}>this week</p>
                 <p style={{ margin: '4px 0 0', fontSize: 13, color: NAVY }}>
-                  Homework {dog.homeworkDone ? '✓ done' : '○ pending'} · Next: {dog.nextSession}
+                  Homework {dog.homeworkDone ? '✓' : '○'} · Videos {dog.videosPending} · Next: {dog.nextSession}
+                </p>
+              </div>
+              <div>
+                <p style={eyebrow}>time · revenue</p>
+                <p style={{ margin: '4px 0 0', fontSize: 13, color: NAVY }}>
+                  {dog.timeSpentHrs}h · {dog.revenueSample} · {dog.paymentStatus}
                 </p>
               </div>
             </div>
             {dog.riskNotes.length > 0 ? (
-              <p style={{ margin: '12px 0 0', fontSize: 12.5, color: '#B54A4A', lineHeight: 1.45 }}>
-                Risk · {dog.riskNotes.join(' · ')}
-              </p>
+              <p style={{ margin: '12px 0 0', fontSize: 12.5, color: '#B54A4A' }}>Risk · {dog.riskNotes.join(' · ')}</p>
             ) : null}
             <p style={{ margin: '8px 0 0', fontSize: 13, color: MUTED }}>Last win · {dog.lastWin}</p>
           </article>
@@ -369,16 +513,27 @@ function DogsTab() {
 
 function ProgrammesTab() {
   return (
-    <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
-      {PROGRAMMES.map((p) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      {PROGRAMMES.filter((p) => p.curriculum.length > 0).map((p) => (
         <article key={p.slug} style={{ ...glass, padding: 16 }}>
-          <p style={eyebrow}>{p.weeks ? `${p.weeks}-week journey` : 'flexible'}</p>
-          <h3 style={{ margin: '6px 0 0', fontFamily: display, fontSize: 20, color: NAVY }}>{p.name}</h3>
-          <p style={{ margin: '6px 0 0', fontSize: 12, fontWeight: 700, color: PINK_DEEP }}>{p.priceSample}</p>
-          <p style={{ margin: '10px 0 0', fontSize: 13.5, color: MUTED, lineHeight: 1.5 }}>{p.blurb}</p>
-          <p style={{ margin: '12px 0 0', fontSize: 12, color: NAVY }}>
-            {p.activeDogs} active dog{p.activeDogs === 1 ? '' : 's'} · SAMPLE
-          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 8 }}>
+            <div>
+              <h3 style={{ margin: 0, fontFamily: display, fontSize: 20, color: NAVY }}>{p.name}</h3>
+              <p style={{ margin: '4px 0 0', fontSize: 12, fontWeight: 700, color: PINK_DEEP }}>{p.priceSample}</p>
+            </div>
+            <span style={eyebrow}>{p.activeDogs} active · SAMPLE</span>
+          </div>
+          <p style={{ margin: '8px 0 12px', fontSize: 13.5, color: MUTED }}>{p.blurb}</p>
+          <div style={{ display: 'grid', gap: 8, gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+            {p.curriculum.map((w) => (
+              <div key={w.week} style={{ padding: 12, borderRadius: 12, background: BLUSH, borderLeft: `3px solid ${PINK_DEEP}` }}>
+                <p style={eyebrow}>week {w.week}</p>
+                <p style={{ margin: '4px 0 0', fontSize: 14, fontWeight: 600, color: NAVY }}>{w.title}</p>
+                <p style={{ margin: '6px 0 0', fontSize: 12.5, color: MUTED }}>Owner · {w.ownerTask}</p>
+                {w.video ? <p style={{ margin: '4px 0 0', fontSize: 12, color: PINK_DEEP }}>Video · {w.video}</p> : null}
+              </div>
+            ))}
+          </div>
         </article>
       ))}
     </div>
@@ -386,13 +541,26 @@ function ProgrammesTab() {
 }
 
 function CourseTab() {
+  const d = COURSE_STUDIO_DRAFT;
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div style={{ ...glass, padding: 16 }}>
-        <p style={eyebrow}>course builder</p>
-        <p style={{ margin: '6px 0 0', fontSize: 14, color: MUTED, lineHeight: 1.5 }}>
-          Upload rough videos, voice notes, or outlines — assembl drafts modules, lesson summaries,
-          worksheets, checklists, and student emails. Upsell Agent flags when a student needs private help.
+      <div style={{ ...glass, padding: 16, borderColor: `${PINK}66` }}>
+        <p style={eyebrow}>course studio · Course Agent</p>
+        <h3 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 22, color: NAVY }}>{d.module}</h3>
+        <p style={{ margin: '6px 0 0', fontSize: 15, fontWeight: 600, color: PINK_DEEP }}>{d.lessonTitle}</p>
+        <ol style={{ margin: '12px 0 0', paddingLeft: 18, color: NAVY, fontSize: 13.5, lineHeight: 1.5 }}>
+          {d.outline.map((o) => (
+            <li key={o}>{o}</li>
+          ))}
+        </ol>
+        <p style={{ margin: '12px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.5, padding: 12, background: BLUSH, borderRadius: 10 }}>
+          <span style={eyebrow}>script · </span>
+          {d.script}
+        </p>
+        <p style={{ margin: '10px 0 0', fontSize: 13, color: NAVY }}>Owner task · {d.ownerTask}</p>
+        <p style={{ margin: '4px 0 0', fontSize: 13, color: NAVY }}>Worksheet · {d.worksheet}</p>
+        <p style={{ margin: '10px 0 0', fontSize: 12.5, color: MUTED, lineHeight: 1.45 }}>
+          Google Vids prompt · {d.googleVidsPrompt}
         </p>
       </div>
       {COURSE_MODULES.map((m) => (
@@ -401,21 +569,11 @@ function CourseTab() {
             <h3 style={{ margin: 0, fontSize: 15, color: NAVY }}>{m.title}</h3>
             <p style={{ margin: '4px 0 0', fontSize: 12, color: MUTED }}>
               {m.lessons > 0 ? `${m.lessons} lessons` : 'content gap'}
-              {m.fromSession ? ` · sourced from ${m.fromSession}` : ''}
+              {m.fromSession ? ` · ${m.fromSession}` : ''}
+              {m.scriptReady ? ' · script ready for Vids' : ''}
             </p>
           </div>
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              padding: '5px 10px',
-              borderRadius: 999,
-              background: m.status === 'live' ? `${GOLD}33` : m.status === 'draft' ? `${PINK}33` : `${NAVY}10`,
-              color: NAVY,
-            }}
-          >
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', padding: '5px 10px', borderRadius: 999, background: m.status === 'live' ? `${GOLD}33` : m.status === 'draft' ? `${PINK}33` : `${NAVY}10`, color: NAVY }}>
             {m.status}
           </span>
         </article>
@@ -440,28 +598,13 @@ function SupportTab() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div style={{ ...glass, padding: 16 }}>
-        <p style={eyebrow}>remote support inbox</p>
-        <p style={{ margin: '6px 0 0', fontSize: 14, color: MUTED, lineHeight: 1.5 }}>
-          Owner messages sorted into urgent, needs Fred, answerable from course content, or booking
-          opportunity — so Fred only spends brain on what only Fred can do.
-        </p>
-      </div>
       {SUPPORT_INBOX.map((m) => (
         <article key={m.id} style={{ ...glass, padding: 14 }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'space-between' }}>
             <p style={{ margin: 0, fontSize: 13, color: MUTED }}>
               {m.from} · {m.dog} · {m.at}
             </p>
-            <span
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                color: bucketColor[m.bucket],
-              }}
-            >
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: bucketColor[m.bucket] }}>
               {bucketLabel[m.bucket]}
             </span>
           </div>
@@ -472,23 +615,52 @@ function SupportTab() {
   );
 }
 
+function TimeTab() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ ...glass, padding: 16 }}>
+        <p style={eyebrow}>capacity meter</p>
+        <div style={{ marginTop: 10, height: 14, borderRadius: 999, background: `${NAVY}12`, overflow: 'hidden' }}>
+          <div style={{ width: `${TIME_COCKPIT.capacityPct}%`, height: '100%', background: `linear-gradient(90deg, ${PINK}, ${PINK_DEEP})`, borderRadius: 999 }} />
+        </div>
+        <p style={{ margin: '8px 0 0', fontSize: 14, color: NAVY }}>
+          Fred at {TIME_COCKPIT.capacityPct}% · travel {TIME_COCKPIT.travelMins}m · admin debt {TIME_COCKPIT.adminDebtMins}m · unpaid support {TIME_COCKPIT.unpaidSupportMins}m
+        </p>
+      </div>
+      <div style={{ ...glass, padding: 16 }}>
+        <p style={eyebrow}>week blocks</p>
+        <ul style={{ margin: '10px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {WEEK_BLOCKS.map((b) => (
+            <li key={b.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: 13.5, color: NAVY, padding: '8px 10px', background: BLUSH, borderRadius: 10 }}>
+              <span>
+                <strong>{b.when}</strong> · {b.kind} · {b.title}
+              </span>
+              <span style={{ color: MUTED }}>{b.mins}m</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div style={{ ...glass, padding: 16 }}>
+        <p style={eyebrow}>time leakage → course opportunities</p>
+        {TIME_COCKPIT.timeLeakage.map((t) => (
+          <div key={t.label} style={{ marginTop: 10, fontSize: 13.5, color: NAVY }}>
+            <strong>{t.mins}m</strong> · {t.label}
+            <div style={{ color: PINK_DEEP, fontSize: 12.5 }}>→ {t.action}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function HiringTab() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div style={{ ...glass, padding: 16 }}>
-        <p style={eyebrow}>trainer hiring + onboarding</p>
-        <p style={{ margin: '6px 0 0', fontSize: 14, color: MUTED, lineHeight: 1.5 }}>
-          Job ad in Fred&apos;s tone, applicant screening, interview tasks, trial-session scorecards,
-          onboarding manual, and quality control on client notes — so a second trainer keeps the method.
-        </p>
-      </div>
       <div style={{ ...glass, padding: 16, background: BLUSH }}>
         <p style={eyebrow}>draft job ad · SAMPLE</p>
         <p style={{ margin: '8px 0 0', fontSize: 14, color: NAVY, lineHeight: 1.55 }}>
           Auckland Dog Trainer is hiring a second trainer who can learn to talk dog the Fred way —
-          clear communication, ethical tools, calm handling, and zero ego with reactive cases. You&apos;ll
-          shadow sessions, run homework reviews, and eventually carry programmes under Fred&apos;s
-          quality bar.
+          clear communication, ethical tools, calm handling, and zero ego with reactive cases.
         </p>
       </div>
       {APPLICANTS.map((a) => (
@@ -503,11 +675,25 @@ function HiringTab() {
               <p style={{ ...eyebrow, margin: 0 }}>method fit</p>
             </div>
           </div>
-          <p style={{ margin: '10px 0 0', fontSize: 13.5, color: NAVY, lineHeight: 1.45 }}>{a.methodFit}</p>
+          <p style={{ margin: '10px 0 0', fontSize: 13.5, color: NAVY }}>{a.methodFit}</p>
           <p style={{ margin: '8px 0 0', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: PINK_DEEP }}>
             stage · {a.stage}
           </p>
         </article>
+      ))}
+    </div>
+  );
+}
+
+function AgentsTab() {
+  return (
+    <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+      {AGENT_MESH.map((a) => (
+        <div key={a.id} style={{ ...glass, padding: 14 }}>
+          <p style={{ ...eyebrow, color: a.status === 'live' ? GOLD : a.status === 'drafting' ? PINK_DEEP : MUTED }}>{a.status}</p>
+          <h3 style={{ margin: '6px 0 0', fontSize: 15, color: NAVY }}>{a.name}</h3>
+          <p style={{ margin: '6px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.45 }}>{a.job}</p>
+        </div>
       ))}
     </div>
   );
@@ -518,14 +704,17 @@ export function FredDashboard({ tab }: { tab: FredTabKey }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'var(--font-brand-body), system-ui, sans-serif', color: NAVY }}>
       <Hero />
       <TabBar active={tab} />
-      {tab === 'overview' ? <OverviewTab /> : null}
+      {tab === 'week' ? <WeekTab /> : null}
+      {tab === 'landing' ? <LandingTab /> : null}
       {tab === 'leads' ? <LeadsTab /> : null}
       {tab === 'dogs' ? <DogsTab /> : null}
       {tab === 'programmes' ? <ProgrammesTab /> : null}
       {tab === 'notes' ? <SessionNotesEngine /> : null}
       {tab === 'course' ? <CourseTab /> : null}
       {tab === 'support' ? <SupportTab /> : null}
+      {tab === 'time' ? <TimeTab /> : null}
       {tab === 'hiring' ? <HiringTab /> : null}
+      {tab === 'agents' ? <AgentsTab /> : null}
     </div>
   );
 }
