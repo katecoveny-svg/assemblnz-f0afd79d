@@ -24,6 +24,13 @@ import {
   osStaggerItem,
 } from '@/components/ops/shared/OsMotion';
 import { SocialStudio } from '@/components/ops/shared/SocialStudio';
+import {
+  HT_OS_TABS,
+  type HtOsTab,
+} from '@/lib/customers/happy-tails/tabs';
+
+export type { HtOsTab };
+export { HT_OS_TABS };
 
 const INK = '#1A1918';
 const MUTED = '#6B655C';
@@ -31,22 +38,6 @@ const ACCENT = '#8B5A2B';
 const CREAM = '#FBF7F1';
 const PAPER = '#F5EFE4';
 const GOLD = '#BFA37A';
-
-export const HT_OS_TABS = [
-  { key: 'week', label: "Liana's Week" },
-  { key: 'landing', label: 'Landing hub' },
-  { key: 'leads', label: 'Enrolment triage' },
-  { key: 'dogs', label: 'Dog CRM' },
-  { key: 'journey', label: 'Care journey' },
-  { key: 'packs', label: 'Welcome studio' },
-  { key: 'social', label: 'Social studio' },
-  { key: 'support', label: 'Owner support' },
-  { key: 'time', label: 'Time cockpit' },
-  { key: 'hiring', label: 'Hiring OS' },
-  { key: 'agents', label: 'Agent mesh' },
-] as const;
-
-export type HtOsTab = (typeof HT_OS_TABS)[number]['key'];
 
 const glass: CSSProperties = {
   borderRadius: 16,
