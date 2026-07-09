@@ -187,7 +187,7 @@ export default async function AgentsMarketplacePage() {
                   >
                     <BundleCard
                       title={b.name}
-                      description={`${b.shortPitch.split('. ')[0].toLowerCase().replace(/\.$/, '')}.`}
+                      description={b.cardLine}
                       tags={[b.category]}
                       gold={i % 3 === 1}
                       meta={

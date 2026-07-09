@@ -1,7 +1,8 @@
-/* Homepage — DIRECTION-LOCKED-2026-07-01.
-   Warm paper white, silvery-gold particulate 3D field, lowercase Cormorant
-   display, massive whitespace. Tokens ride inline from @assembl/canvas;
-   this module holds layout, media queries and scroll-driven behaviour. */
+/* Homepage — DIRECTION-LOCKED-2026-07-01, imagery rework 2026-07-07.
+   Warm paper white, the sculptural evidence vessel as the hero image,
+   lowercase Cormorant display, massive whitespace. Tokens ride inline from
+   @assembl/canvas; this module holds layout, media queries and scroll
+   behaviour. */
 
 .page {
   min-height: 100vh;
@@ -13,20 +14,26 @@
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── hero ───────────────────────────────────────────────────────────── */
+/* ── hero — copy left, vessel film right ────────────────────────────── */
 .hero {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
+  gap: 44px;
   min-height: 88svh;
-  padding: 48px 24px 40px;
+  padding: 48px 24px 56px;
   overflow: hidden;
 }
 @media (min-width: 900px) {
   .hero {
+    grid-template-columns: minmax(0, 11fr) minmax(0, 9fr);
+    gap: 56px;
     min-height: 92svh;
-    padding: 56px 48px 64px;
+    padding: 56px 48px 72px;
+    max-width: 1320px;
+    margin: 0 auto;
+    width: 100%;
   }
 }
 .heroCopy {
@@ -34,68 +41,40 @@
   z-index: 2;
   max-width: 620px;
 }
-@media (min-width: 900px) {
-  .heroCopy {
-    max-width: 46%;
-  }
-}
 
-/* the 3D field — full-bleed behind the copy; feathered so the left column
-   stays quiet paper ≥900px, soft full-bleed veil on phones */
-.heroArt {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-.heroArtInner {
-  position: absolute;
-  inset: 0;
+/* the vessel film — sculptural canon, warm cream + gold. Rounded editorial
+   plate; the HeroVideo inside is absolutely positioned, so the wrapper owns
+   the aspect ratio. */
+.heroMedia {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid #e7e4da;
+  background: #f3efe4;
+  box-shadow: 0 30px 80px rgba(26, 25, 24, 0.1);
 }
 @media (min-width: 900px) {
-  .heroArtInner {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      rgba(0, 0, 0, 0.4) 22%,
-      black 52%
-    );
-    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.4) 22%, black 52%);
+  .heroMedia {
+    aspect-ratio: 4 / 4.6;
+    max-height: 74vh;
+    justify-self: end;
   }
 }
-@media (max-width: 899px) {
-  .heroArtInner {
-    opacity: 0.55;
-  }
-}
-
-/* te reo visual-metaphor labels on the landscape art (locked direction:
-   matariki / papatūānuku / moana live ONLY on the art) */
-.metaphorLabel {
+.heroMediaCaption {
   position: absolute;
-  display: none;
-  flex-direction: column;
-  gap: 3px;
-  pointer-events: none;
-}
-@media (min-width: 1050px) {
-  .metaphorLabel {
-    display: flex;
-  }
-}
-.metaphorReo {
-  font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
-  font-size: 19px;
-  font-weight: 500;
-  font-style: italic;
-  color: #1a1918;
-  line-height: 1;
-}
-.metaphorTag {
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 11px;
-  color: #5a5850;
-  letter-spacing: 0.02em;
+  left: 18px;
+  bottom: 14px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(231, 228, 218, 0.9);
+  background: rgba(251, 250, 246, 0.86);
+  backdrop-filter: blur(6px);
 }
 
 /* the big lowercase Cormorant headline — ≤2 lines, champagne full stop */

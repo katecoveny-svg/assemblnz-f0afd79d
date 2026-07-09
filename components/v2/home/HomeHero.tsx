@@ -6,7 +6,8 @@ import { palette } from '@assembl/canvas/tokens';
 import { MicroLabel } from '@assembl/canvas';
 import { MagneticButton } from '@/components/site/MagneticButton';
 import { CountUp } from '@/components/site/CountUp';
-import { Hero3D } from './Hero3D';
+import { HeroVideo } from '@/components/HeroVideo';
+import { heroVideos, reo } from '@/lib/site-config';
 import styles from './home.module.css';
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -53,6 +54,11 @@ function HeadlineLine({
   );
 }
 
+// Locked Reo headline ("Mahi that earns / its proof.") split into words for
+// the rise animation — the CSS lowercases, the gold dot rides the last word.
+const LINE_ONE = reo.heroHeadlineLines[0].split(' ');
+const LINE_TWO = reo.heroHeadlineLines[1].replace(/\.$/, '').split(' ');
+
 export function HomeHero({
   agentsLive,
   collections,
@@ -71,8 +77,6 @@ export function HomeHero({
 
   return (
     <header className={styles.hero}>
-      <Hero3D />
-
       <div className={styles.heroCopy}>
         <motion.div {...fade(0.05)} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
@@ -82,8 +86,8 @@ export function HomeHero({
         </motion.div>
 
         <h1 className={styles.h1} style={{ marginTop: 22 }}>
-          <HeadlineLine words={['purpose-built', 'agents.']} offset={0} />
-          <HeadlineLine words={['limitless', 'potential']} offset={2} withDot />
+          <HeadlineLine words={LINE_ONE} offset={0} />
+          <HeadlineLine words={LINE_TWO} offset={LINE_ONE.length} withDot />
         </h1>
 
         <motion.p {...fade(0.55)} className={styles.lede}>
@@ -133,6 +137,30 @@ export function HomeHero({
           </span>
         </motion.div>
       </div>
+
+      {/* the signature vessel — the sculptural canon film, cream and gold.
+          HeroVideo handles reduced-motion (poster), mobile (poster, no MP4
+          bytes) and load-error fallbacks. */}
+      <motion.div
+        className={styles.heroMedia}
+        initial={reduced ? false : { opacity: 0, y: 26 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35, duration: 1.1, ease: EASE }}
+      >
+        <HeroVideo
+          src={heroVideos.home.src ?? ''}
+          posterSrc={heroVideos.home.poster}
+          label="the assembl evidence vessel"
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+          overlayClassName="pointer-events-none absolute inset-0 bg-[rgba(250,247,242,0.06)]"
+        />
+        <span className={styles.heroMediaCaption}>
+          <MicroLabel style={{ fontSize: 9 }}>the evidence vessel</MicroLabel>
+          <span aria-hidden style={{ color: palette.accentGold, fontSize: 11, lineHeight: 1 }}>
+            •
+          </span>
+        </span>
+      </motion.div>
 
       <motion.div
         className={styles.scrollHint}

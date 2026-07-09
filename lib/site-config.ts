@@ -196,6 +196,12 @@ export const reo = {
   agentsPolicyRuntimeIntro:
     'Each pack sits on the same NZ policy runtime: Privacy Act 2020 controls, cultural review when needed, a full audit trail, and signed receipts built into the substrate. What works for one industry is consistent across all nine packs.',
 
+  // Homepage — the nine kete gallery lede (2026-07-07). Positions the kete as
+  // the woven industry knowledge the agents draw on, so the section reads as
+  // craft rather than repeating the collections pitch.
+  nineKeteIntro:
+    'Every kete is woven for its industry — the legislation, standards and tikanga its agents carry into each draft. Different trades, one standard of proof: Privacy Act 2020 controls, cultural review when needed, and a signed receipt on every output.',
+
   // /about — strategic positioning sentence per the vertical-agent strategy memo.
   aboutPositioning:
     'assembl is the cross-vertical trust-and-control layer for operational agents in New Zealand document-heavy workflows.',
