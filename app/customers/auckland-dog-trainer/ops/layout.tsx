@@ -8,7 +8,7 @@ import { InviteGreeting } from '@/components/ops/InviteGreeting';
 export const metadata: Metadata = {
   title: 'Auckland Dog Trainer — Learn To Talk Dog command centre · assembl',
   description:
-    'Auckland Dog Trainer operating system — landing hub, lead triage, training CRM, programme journeys, course studio, social, time cockpit, hiring, and agent mesh. Draft-only. Fred runs the method.',
+    'Auckland Dog Trainer operating system — morning brief, Business Genome, landing hub, lead triage, training CRM, programme journeys, course studio, social, time cockpit, hiring, and agent mesh. Draft-only. Fred runs the method.',
   robots: { index: false, follow: false },
 };
 
@@ -20,6 +20,8 @@ export const viewport: Viewport = {
 
 const NAV: Array<[string, string]> = [
   ["Fred's Week", '?tab=week'],
+  ['Morning brief', '?tab=brief'],
+  ['Business Genome', '?tab=genome'],
   ['Landing hub', '?tab=landing'],
   ['Lead triage', '?tab=leads'],
   ['Training CRM', '?tab=dogs'],
@@ -49,16 +51,16 @@ export default function AucklandDogTrainerOpsLayout({ children }: { children: Re
             </p>
             <ol className="mt-3 flex flex-col gap-2.5 text-[12.5px] leading-relaxed text-[color:var(--brand-ink)]">
               <li>
-                <strong>1. Landing hub</strong> answers “which path?” before you have to.
+                <strong>1. Business Genome</strong> holds every fact once — every surface reads it.
               </li>
               <li>
-                <strong>2. Triage + CRM</strong> create the dog profile and draft reply.
+                <strong>2. Landing hub</strong> answers “which path?” before you have to.
               </li>
               <li>
-                <strong>3. Programme OS</strong> runs week-by-week journeys.
+                <strong>3. Triage + CRM</strong> create the dog profile and draft reply.
               </li>
               <li>
-                <strong>4. Time + hiring</strong> protect capacity and scale the method.
+                <strong>4. Morning brief</strong> suggests one improvement a day — you say yes.
               </li>
             </ol>
             <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--brand-muted)]">
