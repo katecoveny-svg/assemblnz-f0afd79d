@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { OpsShell } from '@/components/ops/OpsShell';
+import { InviteGreeting } from '@/components/ops/InviteGreeting';
 
 export const metadata: Metadata = {
   title: 'Auckland Dog Trainer — Learn To Talk Dog command centre · assembl',
@@ -79,6 +80,7 @@ export default function AucklandDogTrainerOpsLayout({ children }: { children: Re
         </div>
       }
     >
+      <InviteGreeting demo="auckland-dog-trainer" />
       {children}
     </OpsShell>
   );
