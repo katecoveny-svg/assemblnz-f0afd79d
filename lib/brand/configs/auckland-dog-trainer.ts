@@ -14,9 +14,12 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
   slug: 'auckland-dog-trainer',
   displayName: 'Auckland Dog Trainer',
   logo: {
-    src: 'pending',
-    alt: 'Auckland Dog Trainer — Learn To Talk Dog',
+    // Fred's real ADT lockup (pink, dog inside the D) from aucklanddogtrainer.com.
+    src: '/brand/auckland-dog-trainer/logo-adt-pink.png',
+    alt: 'ADT — Auckland Dog Trainer',
+    wordmark: true,
   },
+  siteUrl: 'https://aucklanddogtrainer.com',
   mascot: {
     src: '/brand/auckland-dog-trainer/heroes/studio-paw.webp',
     alt: 'Dog giving paw — Learn To Talk Dog',

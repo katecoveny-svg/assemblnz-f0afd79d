@@ -16,7 +16,9 @@ import { useFrame, useThree } from '@react-three/fiber';
  * back-to-front sorting read faithfully at hero scale and cost no extra deps.
  */
 
-const SPLAT_URL = '/3d/tui-splat.splat';
+// v3 = upright-pose bake. The query busts stale browser/CDN copies of the
+// earlier upside-down export.
+const SPLAT_URL = '/3d/tui-splat.splat?v=3';
 const BYTES_PER_SPLAT = 32;
 
 type SplatData = {
@@ -114,7 +116,22 @@ export function TuiSplat({
   const geoRef = React.useRef<THREE.BufferGeometry>(null);
   const sortTimer = React.useRef(0);
   const fadeIn = React.useRef(0);
+  const baseYaw = React.useRef(0.4);
+  const wasActive = React.useRef(false);
+  // Pointer interactivity — the hero art layer is pointer-events:none, so we
+  // listen on the window: the tui turns toward the cursor and tilts with it.
+  const pointer = React.useRef({ x: 0, y: 0, lastMove: 0 });
   const { size, camera } = useThree();
+
+  React.useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.current.y = (e.clientY / window.innerHeight) * 2 - 1;
+      pointer.current.lastMove = performance.now();
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => window.removeEventListener('pointermove', onMove);
+  }, []);
 
   const uniforms = React.useMemo(
     () => ({ uFocal: { value: 1000 }, uFade: { value: 0 } }),
@@ -175,8 +192,28 @@ export function TuiSplat({
   useFrame((state, delta) => {
     const g = group.current;
     if (!g || !data) return;
-    // slow turntable so the 3D reads immediately
-    g.rotation.y += delta * 0.35;
+    // Interactive: while the pointer moves, the bird turns toward the cursor
+    // within a clamped front-facing range (so it never shows awkward back-on
+    // angles), then eases back into its slow idle turntable.
+    const p = pointer.current;
+    const active = performance.now() - p.lastMove < 2500;
+    if (active && !wasActive.current) {
+      // wrap the accumulated turntable yaw so damping takes the short path
+      g.rotation.y =
+        THREE.MathUtils.euclideanModulo(g.rotation.y + Math.PI, Math.PI * 2) - Math.PI;
+    }
+    if (!active && wasActive.current) {
+      baseYaw.current = g.rotation.y; // resume the turntable from here
+    }
+    wasActive.current = active;
+    if (active) {
+      g.rotation.y = THREE.MathUtils.damp(g.rotation.y, 0.4 + p.x * 0.9, 2.5, delta);
+      g.rotation.x = THREE.MathUtils.damp(g.rotation.x, p.y * 0.12, 2.5, delta);
+    } else {
+      baseYaw.current += delta * 0.35;
+      g.rotation.y = THREE.MathUtils.damp(g.rotation.y, baseYaw.current, 2.5, delta);
+      g.rotation.x = THREE.MathUtils.damp(g.rotation.x, 0, 2.5, delta);
+    }
     // gentle bob
     g.position.y = position[1] + Math.sin(state.clock.getElapsedTime() * 0.6) * 0.06;
 
