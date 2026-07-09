@@ -310,6 +310,87 @@ function Notice({ children, tone = "info" }: { children: React.ReactNode; tone?:
   );
 }
 
+function fileToDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+/** Raw photo / clip dropzone for Prism + Flux social pipelines. */
+function MediaUpload({
+  accept,
+  label,
+  preview,
+  onChange,
+}: {
+  accept: string;
+  label: string;
+  preview: string | null;
+  onChange: (dataUrl: string | null, file: File | null) => void;
+}) {
+  return (
+    <div style={{ marginTop: 12 }}>
+      <label
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 6,
+          minHeight: 88,
+          borderRadius: 14,
+          border: `1px dashed rgba(212,168,67,0.45)`,
+          background: "rgba(212,168,67,0.06)",
+          cursor: "pointer",
+          padding: 14,
+          textAlign: "center",
+        }}
+      >
+        <input
+          type="file"
+          accept={accept}
+          hidden
+          onChange={async (e) => {
+            const f = e.target.files?.[0] ?? null;
+            if (!f) {
+              onChange(null, null);
+              return;
+            }
+            if (f.size > 12 * 1024 * 1024) {
+              onChange(null, null);
+              return;
+            }
+            onChange(await fileToDataUrl(f), f);
+          }}
+        />
+        <span style={{ fontSize: 12.5, fontWeight: 600, color: KOWHAI_L }}>{label}</span>
+        <span style={{ fontSize: 11, color: FAINT }}>Raw upload → social still / reel · max 12MB</span>
+      </label>
+      {preview ? (
+        <div style={{ marginTop: 10, position: "relative" }}>
+          {preview.startsWith("data:video/") ? (
+            // eslint-disable-next-line jsx-a11y/media-has-caption
+            <video src={preview} controls style={{ width: "100%", maxHeight: 180, borderRadius: 12, border: `1px solid ${LINE}`, objectFit: "cover" }} />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={preview} alt="Reference upload" style={{ width: "100%", maxHeight: 180, borderRadius: 12, border: `1px solid ${LINE}`, objectFit: "cover" }} />
+          )}
+          <button
+            type="button"
+            onClick={() => onChange(null, null)}
+            style={{ marginTop: 6, fontSize: 11, color: FAINT, background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}
+          >
+            clear upload
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function Composer({
   placeholder,
   cta,
@@ -392,6 +473,7 @@ function ImageStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
   const [nc, setNc] = useState<{ envVar: string; detail: string } | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [lastBrief, setLastBrief] = useState("");
+  const [refUrl, setRefUrl] = useState<string | null>(null);
 
   const run = async (brief: string) => {
     setBusy(true); setErr(null); setNc(null); setLastBrief(brief);
@@ -399,7 +481,15 @@ function ImageStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
       const res = await fetch("/api/creative/image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ brief, agent: agent.slug, count: 4, aspectRatio: "1:1" }),
+        body: JSON.stringify({
+          brief: refUrl
+            ? `${brief}\n\nSocial still from uploaded reference — keep subject, invent on-brand framing.`
+            : brief,
+          agent: agent.slug,
+          count: 4,
+          aspectRatio: "1:1",
+          referenceDataUrl: refUrl ?? undefined,
+        }),
       });
       const { nc, err, data } = await handleApi(res);
       if (nc) setNc(nc);
@@ -420,11 +510,17 @@ function ImageStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
 
   return (
     <div>
-      <Composer placeholder="Describe the shot — subject, mood, light, palette. e.g. 'editorial hero for a Wellington gin brand, botanical, moody, low key'" cta="Generate ×4" busy={busy} onSend={run} />
-      {!lastBrief && <Starters busy={busy} onPick={run} items={["Editorial hero of a kōwhai branch at dawn, Aotearoa light.", "Product still for a Wellington gin, botanical, low key."]} />}
+      <MediaUpload
+        accept="image/*"
+        label="Upload a raw photo for social stills"
+        preview={refUrl}
+        onChange={(url) => setRefUrl(url)}
+      />
+      <Composer placeholder="Describe the shot — or upload a photo and steer: 'Instagram 4:5, warmer, crop tighter'" cta="Generate ×4" busy={busy} onSend={run} />
+      {!lastBrief && <Starters busy={busy} onPick={run} items={["Editorial hero of a kōwhai branch at dawn, Aotearoa light.", "Instagram still from this upload — navy training-field mood.", "Product still for a Wellington gin, botanical, low key."]} />}
       {lastBrief && (
         <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
-          {["more editorial", "warmer", "darker, add fog", "wider crop"].map((q) => (
+          {["more editorial", "warmer", "darker, add fog", "wider crop", "9:16 story crop"].map((q) => (
             <button key={q} onClick={() => run(`${lastBrief} — ${q}`)} disabled={busy} className="seed"
               style={{ fontFamily: mono, fontSize: 11, padding: "6px 12px", borderRadius: 999, border: `1px solid ${LINE}`, background: "rgba(255,255,255,0.02)", color: MUT, cursor: busy ? "default" : "pointer" }}>
               {q}
@@ -459,13 +555,20 @@ function VideoStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
   const [nc, setNc] = useState<{ envVar: string; detail: string } | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [started, setStarted] = useState(false);
+  const [refUrl, setRefUrl] = useState<string | null>(null);
 
   const run = async (brief: string) => {
     setBusy(true); setErr(null); setNc(null); setVideo(null); setStarted(true); setStatus("Flux is framing the shot…");
     try {
       const res = await fetch("/api/creative/video", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ brief, aspectRatio: "16:9" }),
+        body: JSON.stringify({
+          brief: refUrl
+            ? `${brief}\n\nImage-to-video / edit from the uploaded reference. Hook in 2s. Social reel energy.`
+            : brief,
+          aspectRatio: "9:16",
+          referenceDataUrl: refUrl ?? undefined,
+        }),
       });
       const { nc, err, data } = await handleApi(res);
       if (nc) { setNc(nc); return; }
@@ -504,8 +607,14 @@ function VideoStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) 
 
   return (
     <div>
-      <Composer placeholder="Describe one 15-second scene — subject, motion, camera, light. e.g. 'slow dolly across a sunlit Auckland rooftop bar at golden hour'" cta="Film it" busy={busy} onSend={run} />
-      {!started && <Starters busy={busy} onPick={run} items={["One unbroken push through a misty rimu forest into first light.", "Golden-hour dolly across an Auckland rooftop bar."]} />}
+      <MediaUpload
+        accept="image/*,video/*"
+        label="Upload a raw photo or clip for the reel"
+        preview={refUrl}
+        onChange={(url) => setRefUrl(url)}
+      />
+      <Composer placeholder="Describe the 15s reel — or upload footage and steer the cut. e.g. 'hook on the leash reset, soft blush grade'" cta="Film it" busy={busy} onSend={run} />
+      {!started && <Starters busy={busy} onPick={run} items={["One unbroken push through a misty rimu forest into first light.", "9:16 reel from this upload — hook in 2 seconds.", "Golden-hour dolly across an Auckland rooftop bar."]} />}
       {busy && <Notice>{status}</Notice>}
       {nc && <Notice tone="warn">Video is not configured. Set <b>{nc.envVar}</b> (Fal Kling) or GEMINI_API_KEY (Veo). {nc.detail}</Notice>}
       {err && <Notice tone="warn">{err}</Notice>}
@@ -609,8 +718,8 @@ function ChatStage({ agent, onAsset }: { agent: SlimAgent; onAsset: (a: Asset) =
   };
 
   const starters = agent.kind === "orchestrate"
-    ? ["Full campaign for a switch-and-win energy offer.", "Launch package for a new Wellington café."]
-    : ["Three headlines for a winter single-origin.", "A LinkedIn post announcing a pilot."];
+    ? ["Full campaign for a switch-and-win energy offer.", "Launch package for a new Wellington café.", "Social pack from a raw session clip — reel + carousel + caption."]
+    : ["Three headlines for a winter single-origin.", "A LinkedIn post announcing a pilot.", "Instagram carousel from this week's upload — educational, NZ voice."];
 
   return (
     <div>

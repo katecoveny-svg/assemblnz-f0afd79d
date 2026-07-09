@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280">
+  <!-- Auckland Dog Trainer  training-field motif (leash arcs, signal rings, path markers). Not daycare paws. -->
+  <g fill="none" stroke="#1B2A4A" stroke-width="1.35" opacity="0.5">
+    <circle cx="70" cy="70" r="28"/>
+    <circle cx="70" cy="70" r="14"/>
+    <path d="M40 140c30-40 60-40 90 0"/>
+    <path d="M55 155c20-26 40-26 60 0"/>
+    <path d="M160 40c18 0 18-12 36-12s18 12 36 12 18-12 36-12"/>
+    <path d="M150 95c40 8 70 40 78 78"/>
+    <circle cx="210" cy="190" r="22"/>
+    <path d="M198 190h24M210 178v24"/>
+    <path d="M30 220h90M30 235h60"/>
+    <path d="M140 230c25-5 45 10 70 8"/>
+    <circle cx="40" cy="40" r="4"/><circle cx="250" cy="50" r="4"/><circle cx="240" cy="250" r="4"/>
+  </g>
+  <g fill="none" stroke="#D4A5B0" stroke-width="1.2" opacity="0.55">
+    <path d="M20 100c40 10 60 50 100 55"/>
+    <circle cx="200" cy="80" r="10"/>
+    <path d="M180 160l40 20-20 36z"/>
+  </g>
+</svg>

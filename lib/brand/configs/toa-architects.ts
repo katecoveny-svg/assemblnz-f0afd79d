@@ -71,6 +71,7 @@ export const toaArchitectsConfig: BrandConfig = parseBrandConfig({
     { label: 'Fees', href: 'fees' },
     { label: 'Site Visits', href: 'site-visits' },
     { label: 'Documents', href: 'documents' },
+    { label: 'Social', href: 'social' },
   ],
   taglines: {
     // Concept framing only — never TOA's own copy, never a partnership claim.

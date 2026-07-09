@@ -10,6 +10,7 @@ export const FRED_TABS = [
   { key: 'programmes', label: 'Programme OS' },
   { key: 'notes', label: 'Session scribe' },
   { key: 'course', label: 'Course studio' },
+  { key: 'social', label: 'Social studio' },
   { key: 'support', label: 'Support' },
   { key: 'time', label: 'Time cockpit' },
   { key: 'hiring', label: 'Hiring OS' },

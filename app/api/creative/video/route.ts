@@ -8,9 +8,10 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
-  const { brief, aspectRatio } = (await req.json().catch(() => ({}))) as {
+  const { brief, aspectRatio, referenceDataUrl } = (await req.json().catch(() => ({}))) as {
     brief?: string;
     aspectRatio?: string;
+    referenceDataUrl?: string;
   };
   if (!brief || brief.trim().length < 3) {
     return NextResponse.json({ error: "A scene description is required." }, { status: 400 });
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
 
   const flux = getAgent("flux")!;
   try {
-    const started = await startVideo(brief, { aspectRatio });
+    const started = await startVideo(brief, { aspectRatio, referenceDataUrl });
     const receipt = buildReceipt({
       agent: flux.name,
       kind: "video",
@@ -34,7 +35,7 @@ export async function POST(req: Request) {
       model: started.model,
       costNzd: videoCostNzd(started.provider === "veo" ? "veo" : "fal"),
       brief,
-      spec: `${aspectRatio ?? "16:9"} · ~8s`,
+      spec: `${aspectRatio ?? "16:9"} · ~8s${referenceDataUrl ? " · ref upload" : ""}`,
       now: new Date().toISOString(),
     });
     if (started.done) {

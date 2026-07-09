@@ -146,9 +146,9 @@ export default function HappyTailsOpsHome() {
             <span style={{ color: ASSEMBL_GOLD }}>.</span>
           </h2>
           <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
-            The Fred OS command-centre pattern, adapted for doggy daycare — not training.
-            Lead triage, dog CRM, care journeys, Welcome Pack studio, time cockpit, and the
-            Keeper agent mesh.
+            Daycare command centre — enrolment, bus, welcome packs, owner support, and social —
+            not a training OS. Lead triage, dog CRM, care journeys, Welcome Pack studio, time
+            cockpit, and the Keeper agent mesh.
           </p>
           <a
             href="/customers/happy-tails/ops/os"

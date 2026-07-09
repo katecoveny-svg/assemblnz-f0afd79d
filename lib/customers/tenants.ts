@@ -43,11 +43,11 @@ export const TENANTS: readonly Tenant[] = [
   },
   {
     slug: 'auckland-dog-trainer',
-    displayName: 'Fred OS',
-    parentBrand: 'Auckland Dog Trainer · Learn To Talk Dog',
+    displayName: 'Auckland Dog Trainer',
+    parentBrand: 'Learn To Talk Dog · Fred',
     status: 'concept',
     blurb:
-      'Dog trainer operating system — intake triage, session notes → homework, programmes, course builder, hiring.',
+      'Training OS for Fred’s method — intake triage, session notes → homework, programmes, course studio, social, hiring.',
     accentClass: 'border-rose-300/70',
   },
   {
