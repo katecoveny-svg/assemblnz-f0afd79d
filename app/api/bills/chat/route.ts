@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import type { ModelMessage } from 'ai';
 import { resolveModelLadder, generateWithFallback } from '@/lib/ai/router';
+import { edgeLlm } from '@/lib/bills/llm';
 import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
 import { getServiceClient } from '@/lib/supabase/service';
 import { getPriceBook, CATEGORY_LABEL } from '@/lib/bills/provider-prices';
@@ -141,25 +142,33 @@ ${prices.text}
 Note: ${PROVIDER_PRICING_DISCLAIMER}`;
 
   const ladder = resolveModelLadder(MODEL_TIER_TO_ANTHROPIC.mid, []);
-  if (ladder.length === 0) {
-    return NextResponse.json(
-      { error: 'The advisor is offline (no model key configured). Set ANTHROPIC_API_KEY to enable it.' },
-      { status: 503 },
-    );
+  let text = '';
+  if (ladder.length > 0) {
+    const messages: ModelMessage[] = [
+      ...history.map((h) => ({ role: h.role, content: h.content }) as ModelMessage),
+      { role: 'user', content: message } as ModelMessage,
+    ];
+    const result = await generateWithFallback({ ladder, system, messages, agentSlug: 'assembl-bills' });
+    if (result.ok) text = result.text;
   }
-
-  const messages: ModelMessage[] = [
-    ...history.map((h) => ({ role: h.role, content: h.content }) as ModelMessage),
-    { role: 'user', content: message } as ModelMessage,
-  ];
-
-  const result = await generateWithFallback({ ladder, system, messages, agentSlug: 'assembl-bills' });
-  if (!result.ok) {
+  if (!text) {
+    // Platform edge LLM fallback — the advisor answers with the same grounding
+    // even when no local model key is configured.
+    const transcript = history
+      .map((h) => `${h.role === 'user' ? 'User' : 'Advisor'}: ${h.content}`)
+      .join('\n');
+    const edge = await edgeLlm({
+      system,
+      message: transcript ? `${transcript}\nUser: ${message}` : message,
+      maxTokens: 800,
+    });
+    if (edge) text = edge.text.trim();
+  }
+  if (!text) {
     return NextResponse.json({ error: 'The advisor could not answer just now — please try again.' }, { status: 502 });
   }
 
   // Surface a small set of source chips: any provider named in the reply, plus Powerswitch.
-  const text = result.text;
   const named = new Set<string>();
   for (const p of providerPlans) {
     if (text.includes(p.provider)) named.add(p.provider);

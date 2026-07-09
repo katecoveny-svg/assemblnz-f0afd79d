@@ -8,7 +8,7 @@ export default function ConnectionsPage() {
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
-        <PageHeading title="Connections" lead="Connect an inbox and assembl bills reads your bills automatically. Secure OAuth is coming next — for now, upload a bill on the Bills tab and it’s read live by Claude Vision." />
+        <PageHeading title="Connections" lead="Connect an inbox and assembl bills reads your bills automatically. Secure OAuth is coming next — for now, forward a bill email and paste it on the Bills tab, or drop a PDF/photo — both are read live." />
         <LiveState state="coming" note="OAuth in progress" />
       </div>
 
