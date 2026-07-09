@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useRef, useState, type DragEvent } from 'react';
-import { UploadCloud, FileText, Check, Loader2, Sparkles, AlertCircle } from 'lucide-react';
+import { Mail, Check, Loader2, AlertCircle, FileText } from 'lucide-react';
 import { useBillsSession } from './useSession';
 
 type Parsed = {
@@ -9,57 +9,45 @@ type Parsed = {
   category: string | null;
   total_amount: number | null;
   due_date: string | null;
-  account_number: string | null;
   confidence: string | null;
 };
 
-const money = (n: number | null) => (n == null ? '—' : `$${n.toLocaleString('en-NZ', { minimumFractionDigits: 2 })}`);
-const MAX = 8 * 1024 * 1024;
+const money = (n: number | null) =>
+  n == null ? '—' : `$${n.toLocaleString('en-NZ', { minimumFractionDigits: 2 })}`;
+const MAX = 2 * 1024 * 1024;
 
 /**
- * Drag-drop / photo upload → REAL vision extraction via /api/bills/parse (Anthropic → platform edge model).
- * The file is read to a base64 data URL in the browser and POSTed; the endpoint
- * runs the actual model and persists the record. Real bill in → real fields out.
+ * Email-first ingestion — forward a bill email and paste it here, or drop the
+ * .eml/.txt file. POSTs to /api/bills/parse-email (real model extraction with
+ * a deterministic fallback) and logs the record to the session bill log.
  */
-export function UploadDropzone({ sessionId: sessionProp }: { sessionId?: string }) {
-  const sessionHook = useBillsSession();
-  const sessionId = sessionProp || sessionHook;
+export function EmailDropzone() {
+  const sessionId = useBillsSession();
+  const [text, setText] = useState('');
   const [over, setOver] = useState(false);
   const [busy, setBusy] = useState(false);
   const [parsed, setParsed] = useState<Parsed | null>(null);
   const [error, setError] = useState('');
-  const [fileName, setFileName] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const readAsDataUrl = (file: File) =>
-    new Promise<string>((resolve, reject) => {
-      const r = new FileReader();
-      r.onload = () => resolve(String(r.result));
-      r.onerror = () => reject(new Error('read failed'));
-      r.readAsDataURL(file);
-    });
-
-  const handleFile = useCallback(
-    async (file: File | null) => {
-      if (!file) return;
-      setError('');
-      setParsed(null);
-      if (file.size > MAX) {
-        setError('That file is over 8MB — try a smaller image or PDF.');
+  const parse = useCallback(
+    async (email: string, fileName?: string) => {
+      if (email.trim().length < 20) {
+        setError('Paste the whole email (or drop the .eml file) so there’s something to read.');
         return;
       }
-      setFileName(file.name);
+      setError('');
+      setParsed(null);
       setBusy(true);
       try {
-        const dataUrl = await readAsDataUrl(file);
-        const res = await fetch('/api/bills/parse', {
+        const res = await fetch('/api/bills/parse-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ dataUrl, fileName: file.name, sessionId, source: file.type === 'application/pdf' ? 'upload' : 'photo' }),
+          body: JSON.stringify({ email, fileName, sessionId }),
         });
         const json = await res.json().catch(() => ({}));
         if (!res.ok) {
-          setError(json.error ?? 'Could not read that bill — please try again.');
+          setError(json.error ?? 'Could not read that email — please try again.');
         } else {
           setParsed(json.parsed as Parsed);
         }
@@ -72,47 +60,87 @@ export function UploadDropzone({ sessionId: sessionProp }: { sessionId?: string 
     [sessionId],
   );
 
+  const handleFile = useCallback(
+    async (file: File | null) => {
+      if (!file) return;
+      if (file.size > MAX) {
+        setError('Keep email files under 2MB.');
+        return;
+      }
+      const body = await file.text();
+      setText(body.slice(0, 20_000));
+      void parse(body, file.name);
+    },
+    [parse],
+  );
+
   const onDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setOver(false);
-    void handleFile(e.dataTransfer.files?.[0] ?? null);
+    const file = e.dataTransfer.files?.[0];
+    if (file) void handleFile(file);
   };
 
   return (
     <div>
       <div
-        role="button"
-        tabIndex={0}
         onDragOver={(e) => {
           e.preventDefault();
           setOver(true);
         }}
         onDragLeave={() => setOver(false)}
         onDrop={onDrop}
-        onClick={() => inputRef.current?.click()}
-        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && inputRef.current?.click()}
-        className="flex cursor-pointer flex-col items-center justify-center rounded-2xl px-6 py-10 text-center transition"
+        className="rounded-2xl p-3 transition"
         style={{
           border: `1.5px dashed ${over ? 'var(--b-teal)' : 'var(--b-line)'}`,
           background: over ? 'var(--b-teal-soft)' : 'var(--b-surface-alt)',
         }}
       >
-        <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
-          <UploadCloud size={22} />
-        </span>
-        <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
-          Drop a bill here, or click to browse
-        </p>
-        <p className="mt-1 flex items-center gap-1.5 text-xs" style={{ color: 'var(--b-muted)' }}>
-          <Sparkles size={12} style={{ color: 'var(--b-teal-deep)' }} /> PDF or photo · read live by the reading agent
-        </p>
-        <input ref={inputRef} type="file" accept="application/pdf,image/png,image/jpeg,image/webp" className="hidden" onChange={(e) => void handleFile(e.target.files?.[0] ?? null)} />
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          rows={5}
+          placeholder={'Paste a forwarded bill email here — subject, body, the lot.\nOr drag the .eml file straight in.'}
+          className="w-full resize-y rounded-xl px-3 py-2.5 text-sm leading-relaxed"
+          style={{
+            border: '1px solid var(--b-line)',
+            background: '#fff',
+            color: 'var(--b-ink)',
+            outline: 'none',
+          }}
+        />
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => void parse(text)}
+            className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold text-white transition hover:opacity-90"
+            style={{ background: 'var(--b-teal-deep)', opacity: busy ? 0.6 : 1 }}
+          >
+            <Mail size={13} /> {busy ? 'Reading…' : 'Read this email'}
+          </button>
+          <button
+            type="button"
+            onClick={() => inputRef.current?.click()}
+            className="rounded-full px-4 py-2 text-xs font-semibold transition hover:bg-black/5"
+            style={{ border: '1px solid var(--b-teal-line)', color: 'var(--b-teal-deep)' }}
+          >
+            Drop / choose .eml file
+          </button>
+          <input
+            ref={inputRef}
+            type="file"
+            accept=".eml,.txt,message/rfc822,text/plain"
+            className="hidden"
+            onChange={(e) => void handleFile(e.target.files?.[0] ?? null)}
+          />
+        </div>
       </div>
 
       {busy && (
         <div className="mt-3 flex items-center gap-2 rounded-xl px-4 py-3 text-sm" style={{ background: 'var(--b-surface)', border: '1px solid var(--b-line)', color: 'var(--b-muted)' }}>
           <Loader2 size={16} className="animate-spin" style={{ color: 'var(--b-teal)' }} />
-          Reading <span className="font-medium" style={{ color: 'var(--b-ink)' }}>{fileName}</span> — the reading agent is extracting the fields…
+          Reading the email — extracting provider, amount and due date…
         </div>
       )}
 
@@ -127,7 +155,7 @@ export function UploadDropzone({ sessionId: sessionProp }: { sessionId?: string 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Check size={15} style={{ color: 'var(--b-teal-deep)' }} />
-              <span className="text-sm font-semibold" style={{ color: 'var(--b-ink)' }}>Extracted — review before it’s added</span>
+              <span className="text-sm font-semibold" style={{ color: 'var(--b-ink)' }}>Extracted from email — review before it’s added</span>
             </div>
             {parsed.confidence && (
               <span className="rounded-md px-1.5 py-0.5 text-[10px] font-semibold" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
@@ -142,7 +170,7 @@ export function UploadDropzone({ sessionId: sessionProp }: { sessionId?: string 
             <Field label="Due" value={parsed.due_date ?? '—'} />
           </div>
           <p className="mt-2 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--b-faint)' }}>
-            <FileText size={12} /> Read live and saved to your bill log. Nothing is paid or actioned.
+            <FileText size={12} /> Saved to your bill log. Nothing is paid or actioned.
           </p>
         </div>
       )}

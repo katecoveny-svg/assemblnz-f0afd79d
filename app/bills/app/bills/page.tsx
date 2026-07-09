@@ -1,41 +1,36 @@
 import { Card, PageHeading, SectionLabel } from '@/components/bills/kit';
 import { UploadDropzone } from '@/components/bills/UploadDropzone';
+import { EmailDropzone } from '@/components/bills/EmailDropzone';
 import { BillsTable } from '@/components/bills/BillsTable';
 import { LiveState } from '@/components/bills/LiveState';
-import { Mail } from 'lucide-react';
 import Link from 'next/link';
 
 export default function BillsPage() {
   return (
     <div>
-      <PageHeading title="Bills" lead="Every tracked bill in one running log. Add one by dropping a PDF or photo, or connect your email to have them read automatically." />
+      <PageHeading title="Bills" lead="Every tracked bill in one running log. Drop a PDF or photo, or forward a bill email and paste it in — both are read live." />
 
       <div className="grid gap-4 lg:grid-cols-[1fr_1.4fr]">
         <div className="space-y-4">
           <Card>
             <div className="mb-3 flex items-center justify-between">
-              <SectionLabel>Add a bill</SectionLabel>
-              <LiveState state="live" note="Claude Vision" />
+              <SectionLabel>Add a bill · PDF or photo</SectionLabel>
+              <LiveState state="live" note="vision extraction" />
             </div>
             <UploadDropzone />
           </Card>
           <Card>
-            <div className="flex items-start gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
-                <Mail size={17} />
-              </span>
-              <div>
-                <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
-                  Or connect your inbox
-                </p>
-                <p className="mt-1 text-sm" style={{ color: 'var(--b-muted)' }}>
-                  assembl bills reads bill PDFs and email bodies from Gmail or Outlook — no manual entry.
-                </p>
-                <Link href="/bills/app/connections" className="mt-2 inline-block text-xs font-semibold" style={{ color: 'var(--b-teal-deep)' }}>
-                  Set up connections →
-                </Link>
-              </div>
+            <div className="mb-3 flex items-center justify-between">
+              <SectionLabel>Email in · forward &amp; paste</SectionLabel>
+              <LiveState state="live" note="email extraction" />
             </div>
+            <EmailDropzone />
+            <p className="mt-3 text-xs" style={{ color: 'var(--b-faint)' }}>
+              Full Gmail / Outlook auto-ingestion is next —{' '}
+              <Link href="/bills/app/connections" className="font-semibold" style={{ color: 'var(--b-teal-deep)' }}>
+                see connections →
+              </Link>
+            </p>
           </Card>
         </div>
 

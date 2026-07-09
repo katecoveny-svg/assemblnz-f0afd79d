@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getServiceClient } from '@/lib/supabase/service';
+import { edgeLlm, edgeLlmConfigured, stripFences } from '@/lib/bills/llm';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -70,8 +71,8 @@ const numOrNull = (n: unknown): number | null =>
 
 export async function POST(req: Request) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json({ error: 'Bill parsing is offline (no ANTHROPIC_API_KEY configured).' }, { status: 503 });
+  if (!apiKey && !edgeLlmConfigured()) {
+    return NextResponse.json({ error: 'Bill parsing is offline (no model provider configured).' }, { status: 503 });
   }
 
   let json: unknown;
@@ -103,41 +104,59 @@ export async function POST(req: Request) {
     ? { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: decoded.base64 } }
     : { type: 'image', source: { type: 'base64', media_type: decoded.mediaType, data: decoded.base64 } };
 
-  // ── Real Anthropic Vision call ────────────────────────────────────────────
+  // ── Real vision call: Anthropic direct → platform edge LLM ───────────────
   let modelText = '';
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 1500,
-        messages: [
-          {
-            role: 'user',
-            content: [contentBlock, { type: 'text', text: EXTRACTION_PROMPT }],
-          },
-        ],
-      }),
-    });
-    if (!res.ok) {
-      const body = await res.text();
-      console.error('[bills-parse] anthropic error', res.status, body.slice(0, 300));
-      return NextResponse.json({ error: 'Could not read that bill just now — please try again.' }, { status: 502 });
+  let usedModel = MODEL;
+  if (apiKey) {
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: MODEL,
+          max_tokens: 1500,
+          messages: [
+            {
+              role: 'user',
+              content: [contentBlock, { type: 'text', text: EXTRACTION_PROMPT }],
+            },
+          ],
+        }),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { content?: { type: string; text?: string }[] };
+        modelText = (data.content ?? []).filter((b) => b.type === 'text').map((b) => b.text ?? '').join('\n').trim();
+      } else {
+        console.error('[bills-parse] anthropic error', res.status, (await res.text()).slice(0, 300));
+      }
+    } catch (err) {
+      console.error('[bills-parse] anthropic fetch failed', err instanceof Error ? err.message : String(err));
     }
-    const data = (await res.json()) as { content?: { type: string; text?: string }[] };
-    modelText = (data.content ?? []).filter((b) => b.type === 'text').map((b) => b.text ?? '').join('\n').trim();
-  } catch (err) {
-    console.error('[bills-parse] fetch failed', err instanceof Error ? err.message : String(err));
-    return NextResponse.json({ error: 'Bill parsing is unavailable right now.' }, { status: 502 });
+  }
+  if (!modelText) {
+    // Platform edge LLM — vision-capable, holds its own provider keys in
+    // Supabase secrets (same pattern as the Auaha image pipeline).
+    const edge = await edgeLlm({
+      system: EXTRACTION_PROMPT,
+      message: 'Extract this bill.',
+      imageDataUrl: parsed.data.dataUrl,
+      maxTokens: 1500,
+    });
+    if (edge) {
+      modelText = edge.text;
+      usedModel = edge.model;
+    }
+  }
+  if (!modelText) {
+    return NextResponse.json({ error: 'Bill parsing is unavailable right now — please try again.' }, { status: 502 });
   }
 
   // The model is asked for pure JSON; strip any stray fences defensively.
-  const jsonStr = modelText.replace(/^```(?:json)?/i, '').replace(/```$/i, '').trim();
+  const jsonStr = stripFences(modelText);
   let extracted: Parsed;
   try {
     const raw = JSON.parse(jsonStr) as Record<string, unknown>;
@@ -172,7 +191,7 @@ export async function POST(req: Request) {
       total_amount: extracted.total_amount,
       gst_amount: extracted.gst_amount,
       line_items: extracted.line_items,
-      model: MODEL,
+      model: usedModel,
       confidence: extracted.confidence,
       raw_extraction: extracted as unknown as Record<string, unknown>,
       file_name: parsed.data.fileName ?? null,

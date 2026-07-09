@@ -39,7 +39,7 @@ export function BillsShell({ children }: { children: ReactNode }) {
         style={{ background: 'rgba(43,107,87,0.08)', color: 'var(--b-muted)', borderBottom: '1px solid var(--b-line)' }}
       >
         <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)', boxShadow: '0 0 8px rgba(43,107,87,0.9)' }} />
-        Live console · sample household — real Vision parsing, real provider prices, no real accounts connected
+        Live console · sample household — real bill parsing, real provider prices, no real accounts connected
       </div>
 
       <div className="mx-auto flex max-w-7xl gap-6 px-4 py-5 sm:px-6">
