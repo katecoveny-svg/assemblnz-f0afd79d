@@ -38,7 +38,8 @@ export default async function AucklandDogTrainerOpsHome({
   return (
     <OsWowStage
       config={config}
-      heroHeightClass="h-60 md:h-80"
+      heroHeightClass="min-h-64 md:min-h-80"
+      patternOpacity={0.18}
       heroEyebrow="learn to talk dog · auckland"
       heroTitle="Auckland Dog Trainer"
       heroBlurb="Fred’s method, operating at scale — session notes to homework, programmes, course, and social from the field."

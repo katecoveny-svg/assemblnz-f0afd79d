@@ -264,6 +264,7 @@ export function OsParallaxPattern({
           backgroundRepeat: 'repeat',
           backgroundSize: `${size}px auto`,
           opacity,
+          mixBlendMode: 'multiply',
           y: reduce ? 0 : y,
           willChange: 'transform',
         }}

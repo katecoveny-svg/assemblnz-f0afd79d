@@ -18,9 +18,9 @@ import { InviteGreeting } from '@/components/ops/InviteGreeting';
 import { OsMotionField } from '@/components/ops/shared/OsMotion';
 
 export const metadata: Metadata = {
-  title: 'Happy Tails — AI operating system (concept pilot) · assembl',
+  title: 'Happy Tails — daycare operating system (concept pilot) · assembl',
   description:
-    'Concept pilot: the AI operating system for Happy Tails doggy daycare. Draft-only — nothing sends without a human yes.',
+    'Concept pilot: the daycare operating system for Happy Tails. Draft-only — nothing sends without a human yes.',
   robots: { index: false, follow: false },
   // Installable PWA: iOS icon/splash/meta. The manifest link + scoped service
   // worker are wired client-side by <TenantPwa /> (host-aware paths).

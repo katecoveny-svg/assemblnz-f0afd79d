@@ -18,8 +18,8 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
     alt: 'Auckland Dog Trainer — Learn To Talk Dog',
   },
   mascot: {
-    src: '/brand/auckland-dog-trainer/heroes/attention-portrait.webp',
-    alt: 'Attentive dog — Learn To Talk Dog',
+    src: '/brand/auckland-dog-trainer/heroes/studio-paw.webp',
+    alt: 'Dog giving paw — Learn To Talk Dog',
   },
   colours: {
     bg: '#F7EEF1',
@@ -43,14 +43,18 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
   },
   crossBrand: { position: 'footer-only', density: 'quiet' },
   patterns: {
-    primary: '/brand/auckland-dog-trainer/pattern-training-field.svg',
+    // Hand-drawn training doodles (sit, paw, hand signal, leads, whistle,
+    // clicker) — navy ink on transparent, HT brand-board style.
+    primary: '/brand/auckland-dog-trainer/pattern-training-doodles.png',
     secondary: '/brand/auckland-dog-trainer/pattern-leads-and-paws.svg',
   },
   photography: {
-    anchor: '/brand/auckland-dog-trainer/heroes/training-field.webp',
+    // Studio editorial portraits on a blush-pink seamless — method-first,
+    // never Happy Tails daycare pack photos.
+    anchor: '/brand/auckland-dog-trainer/heroes/studio-sit-profile.webp',
     gallery: [
-      '/brand/auckland-dog-trainer/heroes/attention-portrait.webp',
-      '/brand/auckland-dog-trainer/heroes/training-field.webp',
+      '/brand/auckland-dog-trainer/heroes/studio-paw.webp',
+      '/brand/auckland-dog-trainer/heroes/studio-sit-profile.webp',
     ],
   },
   taglines: {
