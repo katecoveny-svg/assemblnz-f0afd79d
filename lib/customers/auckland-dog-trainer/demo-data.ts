@@ -140,7 +140,7 @@ export const OFFERS: Record<
   'obedience-6w': {
     label: '6-Week Obedience & Manners',
     short: 'Obedience',
-    priceSample: 'programme · SAMPLE',
+    priceSample: 'programme · indicative',
   },
   recall: {
     label: 'Recall Mastery',
@@ -160,17 +160,17 @@ export const OFFERS: Record<
   'boutique-board': {
     label: 'Boutique Boarding',
     short: 'Boarding',
-    priceSample: 'stay · SAMPLE',
+    priceSample: 'stay · indicative',
   },
   bootcamp: {
     label: 'Group Bootcamp',
     short: 'Bootcamp',
-    priceSample: 'launching · SAMPLE',
+    priceSample: 'launching soon',
   },
   course: {
     label: 'Online Course',
     short: 'Course',
-    priceSample: 'coming · SAMPLE',
+    priceSample: 'coming soon',
   },
 };
 
@@ -482,7 +482,7 @@ export const PROGRAMMES: Programme[] = [
     slug: 'obedience-6w',
     name: '6-Week Obedience & Manners',
     weeks: 6,
-    priceSample: 'programme · SAMPLE',
+    priceSample: 'programme · indicative',
     blurb: 'Foundations, impulse control, real-life manners — weekly sessions + lifetime online support.',
     activeDogs: 5,
     curriculum: [
@@ -541,7 +541,7 @@ export const PROGRAMMES: Programme[] = [
     slug: 'bootcamp',
     name: 'Group Bootcamp',
     weeks: 4,
-    priceSample: 'launching · SAMPLE',
+    priceSample: 'launching soon',
     blurb: 'NEW — small-group Saturday intensives: obedience, lead work, and real-world manners around other dogs. Fred coaches the humans; the group proofs the dogs.',
     activeDogs: 0,
     curriculum: [

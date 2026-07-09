@@ -42,7 +42,7 @@ export default async function AucklandDogTrainerOpsHome({
       patternOpacity={0.08}
       heroEyebrow="learn to talk dog · auckland"
       heroTitle="Auckland Dog Trainer"
-      heroBlurb="Fred’s method, operating at scale — session notes to homework, programmes, course, and social from the field."
+      heroBlurb="Learn To Talk Dog, operating at scale — session notes to homework, programmes, course, and social from the field."
     >
       <div className="flex flex-col gap-5">
         <DemoRibbon />
@@ -61,7 +61,7 @@ export default async function AucklandDogTrainerOpsHome({
               greeting={FRED_AGENT_GREETING}
               tryMe={FRED_TRY_ME}
               accent={config.colours.accent}
-              draftNote="Draft-only: the Fred desk never emails a client or books a session without Fred’s yes."
+              draftNote="Draft-only: the desk never emails a client or books a session without your yes."
             />
           </section>
         </OsScrollReveal>

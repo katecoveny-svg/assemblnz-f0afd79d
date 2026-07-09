@@ -117,7 +117,7 @@ function Hero() {
   );
 }
 
-/** Killer demo moment — enquiry → profile → offer → reply → CRM → explainer video */
+/** Intake walkthrough — enquiry → profile → offer → reply → CRM → explainer video */
 function KillerDemo() {
   const lead = LEADS[0];
   const [played, setPlayed] = useState(false);
@@ -125,13 +125,13 @@ function KillerDemo() {
   return (
     <OsReveal>
       <section style={{ ...glass, padding: 18, borderColor: `${PINK}88`, background: `linear-gradient(180deg, ${BLUSH}, ${CREAM})` }}>
-        <p style={{ ...eyebrow, color: PINK_DEEP }}>killer demo moment</p>
+        <p style={{ ...eyebrow, color: PINK_DEEP }}>watch it work · intake flow</p>
         <h2 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 22, color: NAVY }}>
           Enquiry in → operations out
         </h2>
         <p style={{ margin: '8px 0 0', fontSize: 13.5, color: MUTED, lineHeight: 1.5 }}>
-          A client enquiry arrives. assembl reads it, creates the dog profile, recommends{' '}
-          <strong style={{ color: NAVY }}>Reactivity Rewired</strong>, drafts Fred&apos;s reply, adds
+          A client enquiry arrives. The intake agent reads it, creates the dog profile, recommends{' '}
+          <strong style={{ color: NAVY }}>Reactivity Rewired</strong>, drafts your reply, adds
           the lead to CRM, and suggests the right explainer video.
         </p>
         <button
@@ -290,7 +290,7 @@ function LandingTab() {
           Not sure what your dog needs? Find the right training path.
         </h2>
         <p style={{ margin: '10px 0 0', fontSize: 14, color: '#D8DEE9', maxWidth: 480 }}>
-          Visual programme chooser — replaces the explanations Fred repeats every week.
+          Visual programme chooser — replaces the explanations you repeat every week.
         </p>
       </div>
 
@@ -377,7 +377,7 @@ function LandingTab() {
               {OFFERS[recommendation].label}
             </p>
             <p style={{ margin: '6px 0 0', fontSize: 13, color: MUTED }}>
-              {OFFERS[recommendation].priceSample} · lead drafted into CRM (SAMPLE) · Fred confirms before send
+              {OFFERS[recommendation].priceSample} · lead drafted into CRM · you confirm before anything sends
             </p>
           </div>
         ) : null}
@@ -523,7 +523,7 @@ function ProgrammesTab() {
               <h3 style={{ margin: 0, fontFamily: display, fontSize: 20, color: NAVY }}>{p.name}</h3>
               <p style={{ margin: '4px 0 0', fontSize: 12, fontWeight: 700, color: PINK_DEEP }}>{p.priceSample}</p>
             </div>
-            <span style={eyebrow}>{p.activeDogs} active · SAMPLE</span>
+            <span style={eyebrow}>{p.activeDogs} active · indicative</span>
           </div>
           <p style={{ margin: '8px 0 12px', fontSize: 13.5, color: MUTED }}>{p.blurb}</p>
           <div style={{ display: 'grid', gap: 8, gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
@@ -659,7 +659,7 @@ function HiringTab() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div style={{ ...glass, padding: 16, background: BLUSH }}>
-        <p style={eyebrow}>draft job ad · SAMPLE</p>
+        <p style={eyebrow}>draft job ad · indicative</p>
         <p style={{ margin: '8px 0 0', fontSize: 14, color: NAVY, lineHeight: 1.55 }}>
           Auckland Dog Trainer is hiring a second trainer who can learn to talk dog the Fred way —
           clear communication, ethical tools, calm handling, and zero ego with reactive cases.

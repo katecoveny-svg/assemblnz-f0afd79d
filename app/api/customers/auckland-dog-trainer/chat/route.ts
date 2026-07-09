@@ -41,7 +41,7 @@ const fredTools = {
       programmes: PROGRAMMES,
       offers: OFFERS,
       citations: [WORKSPACE_CITE],
-      note: 'Prices marked SAMPLE are pitch figures, not live quotes.',
+      note: 'Indicative prices are placeholders, not live quotes.',
     }),
   }),
 
