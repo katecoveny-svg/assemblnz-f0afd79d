@@ -205,8 +205,9 @@ export function TuiSplat({
       ref={group}
       position={position}
       scale={scale}
-      // SAM 3D exports are y-down (COLMAP convention) — flip upright.
-      rotation={[Math.PI, 0.4, 0]}
+      // Upright pose is baked into tui-splat.splat (Rx(-50°) from the raw SAM
+      // 3D export, which stores the bird belly-up). Only a starting yaw here.
+      rotation={[0, 0.4, 0]}
     >
       <points frustumCulled={false}>
         <bufferGeometry ref={geoRef}>
