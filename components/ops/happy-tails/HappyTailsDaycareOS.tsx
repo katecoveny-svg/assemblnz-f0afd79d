@@ -23,6 +23,7 @@ import {
   OsStagger,
   osStaggerItem,
 } from '@/components/ops/shared/OsMotion';
+import { SocialStudio } from '@/components/ops/shared/SocialStudio';
 
 const INK = '#1A1918';
 const MUTED = '#6B655C';
@@ -38,6 +39,7 @@ export const HT_OS_TABS = [
   { key: 'dogs', label: 'Dog CRM' },
   { key: 'journey', label: 'Care journey' },
   { key: 'packs', label: 'Welcome studio' },
+  { key: 'social', label: 'Social studio' },
   { key: 'support', label: 'Owner support' },
   { key: 'time', label: 'Time cockpit' },
   { key: 'hiring', label: 'Hiring OS' },
@@ -499,6 +501,7 @@ export function HappyTailsDaycareOS({ tab }: { tab: HtOsTab }) {
         {safeTab === 'dogs' ? <DogsTab /> : null}
         {safeTab === 'journey' ? <JourneyTab /> : null}
         {safeTab === 'packs' ? <PacksTab /> : null}
+        {safeTab === 'social' ? <SocialStudio pilot="happy-tails" /> : null}
         {safeTab === 'support' ? <SupportTab /> : null}
         {safeTab === 'time' ? <TimeTab /> : null}
         {safeTab === 'hiring' ? <HiringTab /> : null}

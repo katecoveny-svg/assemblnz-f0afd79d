@@ -16,8 +16,8 @@ import { transformSessionNotes } from '@/lib/customers/auckland-dog-trainer/note
 export const maxDuration = 60;
 
 const WORKSPACE_CITE = {
-  title: 'Fred OS workspace',
-  ref: 'programmes · dogs · leads · notes engine',
+  title: 'Auckland Dog Trainer workspace',
+  ref: 'programmes · dogs · leads · notes engine · social',
   tier: 'C' as const,
 };
 

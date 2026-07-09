@@ -5,6 +5,7 @@ import { Canvas } from '@react-three/fiber';
 import { Environment } from '@react-three/drei';
 import type { Hero3DSceneId } from '@/lib/brand/brand-config';
 import { HappyTailsHero } from '@/components/ops/hero3d/HappyTailsHero';
+import { AucklandDogTrainerHero } from '@/components/ops/hero3d/AucklandDogTrainerHero';
 import { AirNZHero } from '@/components/ops/hero3d/AirNZHero';
 import { EverydayRewardsHero } from '@/components/ops/hero3d/EverydayRewardsHero';
 import { AucklandZooHero } from '@/components/ops/hero3d/AucklandZooHero';
@@ -16,6 +17,8 @@ function Scene({ hero }: { hero: Hero3DSceneId }) {
   switch (hero) {
     case 'happy-tails':
       return <HappyTailsHero />;
+    case 'auckland-dog-trainer':
+      return <AucklandDogTrainerHero />;
     case 'air-nz':
       return <AirNZHero />;
     case 'everyday-rewards':

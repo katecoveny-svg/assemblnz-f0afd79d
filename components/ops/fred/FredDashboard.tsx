@@ -27,6 +27,7 @@ import {
   type FredTabKey,
 } from '@/lib/customers/auckland-dog-trainer/tabs';
 import { SessionNotesEngine } from '@/components/ops/fred/SessionNotesEngine';
+import { SocialStudio } from '@/components/ops/shared/SocialStudio';
 import { OsHoverLift, OsReveal, OsScrollReveal, OsStagger, osStaggerItem } from '@/components/ops/shared/OsMotion';
 import { motion } from 'framer-motion';
 
@@ -69,7 +70,7 @@ function offerLabel(slug: OfferSlug): string {
 
 function TabBar({ active }: { active: FredTabKey }) {
   return (
-    <nav aria-label="Fred OS sections" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+    <nav aria-label="Auckland Dog Trainer sections" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
       {FRED_TABS.map((t) => {
         const on = t.key === active;
         return (
@@ -108,9 +109,9 @@ function Hero() {
         position: 'relative',
         overflow: 'hidden',
         borderRadius: 20,
-        minHeight: 200,
-        padding: '26px 22px 22px',
-        background: `linear-gradient(135deg, ${NAVY} 0%, #243656 55%, #3A2A38 100%)`,
+        minHeight: 220,
+        padding: '28px 22px 24px',
+        background: `linear-gradient(145deg, ${NAVY} 0%, #243656 48%, #4A2F3C 100%)`,
         color: '#fff',
       }}
     >
@@ -119,12 +120,51 @@ function Hero() {
         style={{
           position: 'absolute',
           inset: 0,
-          background: `radial-gradient(ellipse at 85% 20%, ${PINK}55 0%, transparent 50%), radial-gradient(ellipse at 10% 90%, ${GOLD}33 0%, transparent 45%)`,
+          backgroundImage: 'url(/brand/auckland-dog-trainer/pattern-training-field.svg)',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '280px auto',
+          opacity: 0.14,
           pointerEvents: 'none',
         }}
       />
-      <div style={{ position: 'relative', maxWidth: 580 }}>
-        <p style={{ ...eyebrow, color: PINK }}>learn to talk dog · command centre</p>
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `radial-gradient(ellipse at 88% 18%, ${PINK}66 0%, transparent 48%), radial-gradient(ellipse at 8% 92%, ${GOLD}40 0%, transparent 42%)`,
+          pointerEvents: 'none',
+        }}
+      />
+      {/* Inventive training-field mark — leash arc + signal rings (not daycare) */}
+      <svg
+        aria-hidden
+        width="160"
+        height="160"
+        viewBox="0 0 160 160"
+        style={{
+          position: 'absolute',
+          right: 18,
+          bottom: 8,
+          opacity: 0.55,
+          pointerEvents: 'none',
+        }}
+      >
+        <circle cx="80" cy="88" r="54" fill="none" stroke={PINK} strokeWidth="1.2" opacity="0.7" />
+        <circle cx="80" cy="88" r="28" fill="none" stroke="#fff" strokeWidth="1" opacity="0.35" />
+        <path
+          d="M28 70C48 28 92 22 118 48"
+          fill="none"
+          stroke={PINK}
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        <circle cx="118" cy="48" r="6" fill={GOLD} />
+        <circle cx="42" cy="96" r="10" fill="none" stroke="#fff" strokeWidth="1.5" />
+        <circle cx="108" cy="108" r="14" fill="none" stroke={PINK} strokeWidth="1.5" />
+      </svg>
+      <div style={{ position: 'relative', maxWidth: 560 }}>
+        <p style={{ ...eyebrow, color: PINK }}>learn to talk dog · auckland</p>
         <h1
           style={{
             margin: '10px 0 0',
@@ -134,11 +174,14 @@ function Hero() {
             lineHeight: 1.15,
           }}
         >
-          Fred OS
+          Auckland Dog Trainer
         </h1>
+        <p style={{ margin: '8px 0 0', fontSize: 13, color: PINK, letterSpacing: '0.04em' }}>
+          Fred&apos;s method · operating system
+        </p>
         <p style={{ margin: '10px 0 0', fontSize: 14.5, lineHeight: 1.55, color: '#D8DEE9', maxWidth: 460 }}>
-          Capture leads, match dogs to the right programme, run training journeys, create course
-          content, support clients, and protect Fred&apos;s week — without losing the method.
+          Intake, session notes → homework, programme journeys, course studio, and social from
+          session clips — scale the method without losing Fred&apos;s standard.
         </p>
       </div>
     </section>
@@ -722,6 +765,7 @@ export function FredDashboard({ tab }: { tab: FredTabKey }) {
         {tab === 'programmes' ? <ProgrammesTab /> : null}
         {tab === 'notes' ? <SessionNotesEngine /> : null}
         {tab === 'course' ? <CourseTab /> : null}
+        {tab === 'social' ? <SocialStudio pilot="auckland-dog-trainer" /> : null}
         {tab === 'support' ? <SupportTab /> : null}
         {tab === 'time' ? <TimeTab /> : null}
         {tab === 'hiring' ? <HiringTab /> : null}

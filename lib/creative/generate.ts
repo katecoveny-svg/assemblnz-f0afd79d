@@ -48,10 +48,13 @@ export interface ImageResult {
 
 export async function generateImages(
   brief: string,
-  opts: { count?: number; aspectRatio?: string } = {},
+  opts: { count?: number; aspectRatio?: string; referenceDataUrl?: string } = {},
 ): Promise<ImageResult> {
   const count = Math.min(Math.max(opts.count ?? 4, 1), 4);
   const aspectRatio = opts.aspectRatio ?? "1:1";
+  const prompt = opts.referenceDataUrl
+    ? `${brief}\n\nUse the uploaded reference as subject/mood guidance. Keep it on-brand and original — do not reproduce watermarks or logos.`
+    : brief;
   const g = keys.gemini();
   if (g) {
     const model = "imagen-4.0-generate-001";
@@ -59,7 +62,7 @@ export async function generateImages(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        instances: [{ prompt: brief }],
+        instances: [{ prompt }],
         parameters: { sampleCount: count, aspectRatio, personGeneration: "allow_adult" },
       }),
     });
@@ -75,7 +78,7 @@ export async function generateImages(
   }
   const f = keys.fal();
   if (f) {
-    const images = await falFlux(brief, count, f);
+    const images = await falFlux(prompt, count, f);
     return { provider: "fal", model: "fal-ai/flux-pro/v1.1", images, aspectRatio };
   }
   throw new NotConfigured(
@@ -113,16 +116,44 @@ export type VideoStart =
 
 export async function startVideo(
   brief: string,
-  opts: { aspectRatio?: string } = {},
+  opts: { aspectRatio?: string; referenceDataUrl?: string } = {},
 ): Promise<VideoStart> {
   const aspectRatio = opts.aspectRatio ?? "16:9";
   const f = keys.fal();
   if (f) {
+    // Prefer image-to-video when a still/frame is provided.
+    if (opts.referenceDataUrl?.startsWith("data:image/")) {
+      const i2v = "fal-ai/kling-video/v2/master/image-to-video";
+      const res = await fetch(`https://fal.run/${i2v}`, {
+        method: "POST",
+        headers: { Authorization: `Key ${f}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: brief,
+          image_url: opts.referenceDataUrl,
+          duration: "5",
+          aspect_ratio: aspectRatio,
+        }),
+      });
+      if (res.ok) {
+        const d = (await res.json()) as { video?: { url: string } };
+        if (d.video?.url) {
+          const r = await fetch(d.video.url);
+          return { provider: "fal", model: i2v, done: true, video: dataUrl("video/mp4", await bufToB64(r)) };
+        }
+      }
+      // fall through to text-to-video if i2v fails
+    }
     const model = "fal-ai/kling-video/v2/master/text-to-video";
     const res = await fetch(`https://fal.run/${model}`, {
       method: "POST",
       headers: { Authorization: `Key ${f}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: brief, duration: "5", aspect_ratio: aspectRatio }),
+      body: JSON.stringify({
+        prompt: opts.referenceDataUrl
+          ? `${brief}\n\n(Reference media provided by the user — match mood, subject, and palette.)`
+          : brief,
+        duration: "5",
+        aspect_ratio: aspectRatio,
+      }),
     });
     if (res.ok) {
       const d = (await res.json()) as { video?: { url: string } };
@@ -138,7 +169,16 @@ export async function startVideo(
     const res = await fetch(`${GLB}/models/${model}:predictLongRunning?key=${g}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ instances: [{ prompt: brief }], parameters: { aspectRatio } }),
+      body: JSON.stringify({
+        instances: [
+          {
+            prompt: opts.referenceDataUrl
+              ? `${brief}\n\n(User supplied reference media — honour subject and mood.)`
+              : brief,
+          },
+        ],
+        parameters: { aspectRatio },
+      }),
     });
     if (res.ok) {
       const d = (await res.json()) as { name?: string };

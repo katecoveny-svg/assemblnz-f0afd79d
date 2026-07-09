@@ -9,6 +9,7 @@ import { z } from 'zod';
  */
 export const Hero3DSceneId = z.enum([
   'happy-tails',
+  'auckland-dog-trainer',
   'air-nz',
   'everyday-rewards',
   'auckland-zoo',

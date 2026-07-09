@@ -8,11 +8,12 @@ export const runtime = "nodejs";
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
-  const { brief, aspectRatio, count, agent = "prism" } = (await req.json().catch(() => ({}))) as {
+  const { brief, aspectRatio, count, agent = "prism", referenceDataUrl } = (await req.json().catch(() => ({}))) as {
     brief?: string;
     aspectRatio?: string;
     count?: number;
     agent?: string;
+    referenceDataUrl?: string;
   };
   if (!brief || brief.trim().length < 3) {
     return NextResponse.json({ error: "A brief is required." }, { status: 400 });
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const result = await generateImages(brief, { aspectRatio, count });
+    const result = await generateImages(brief, { aspectRatio, count, referenceDataUrl });
     const receipt = buildReceipt({
       agent: getAgent(agent)?.name ?? "Prism",
       kind: "image",
@@ -35,7 +36,7 @@ export async function POST(req: Request) {
       model: result.model,
       costNzd: imageCostNzd(result.images.length, result.provider),
       brief,
-      spec: `${result.images.length}× ${result.aspectRatio}`,
+      spec: `${result.images.length}× ${result.aspectRatio}${referenceDataUrl ? " · ref upload" : ""}`,
       now: new Date().toISOString(),
     });
     return NextResponse.json({ images: result.images, receipt, remaining: rl.remaining });

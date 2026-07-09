@@ -5,9 +5,9 @@ import { getBrandConfig } from '@/lib/brand/configs';
 import { OpsShell } from '@/components/ops/OpsShell';
 
 export const metadata: Metadata = {
-  title: 'Fred OS — Learn To Talk Dog command centre (concept) · assembl',
+  title: 'Auckland Dog Trainer — Learn To Talk Dog command centre (concept) · assembl',
   description:
-    'Concept pilot: Fred OS for Auckland Dog Trainer — landing hub, lead triage, training CRM, programme journeys, course studio, time cockpit, hiring, and agent mesh. Draft-only.',
+    'Concept pilot: Auckland Dog Trainer operating system — landing hub, lead triage, training CRM, programme journeys, course studio, social, time cockpit, hiring, and agent mesh. Draft-only. Fred runs the method.',
   robots: { index: false, follow: false },
 };
 
@@ -25,6 +25,7 @@ const NAV: Array<[string, string]> = [
   ['Programme OS', '?tab=programmes'],
   ['Session scribe', '?tab=notes'],
   ['Course studio', '?tab=course'],
+  ['Social studio', '?tab=social'],
   ['Support', '?tab=support'],
   ['Time cockpit', '?tab=time'],
   ['Hiring OS', '?tab=hiring'],
