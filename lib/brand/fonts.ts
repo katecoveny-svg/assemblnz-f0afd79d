@@ -151,6 +151,8 @@ export function getBrandFonts(slug: string): BrandFonts {
       return { display: playfair, body: lato, mono: jetbrainsMono };
     case 'auckland-dog-trainer':
       return { display: playfair, body: lato, mono: jetbrainsMono };
+    case 'contact-energy':
+      return { display: interTight, body: inter, mono: jetbrainsMono };
     default:
       return { display: inter, body: inter, mono: jetbrainsMono };
   }

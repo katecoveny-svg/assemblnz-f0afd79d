@@ -57,6 +57,9 @@ export const moanaConfig: BrandConfig = parseBrandConfig({
     position: 'footer-only',
     density: 'quiet',
   },
+  patterns: {
+    primary: '/brand/moana/pattern-swell.svg',
+  },
   taglines: {
     primary: 'The sea, read for you.',
     social: 'Know the water before you go.',

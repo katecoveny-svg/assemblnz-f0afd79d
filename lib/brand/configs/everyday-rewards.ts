@@ -29,4 +29,7 @@ export const everydayRewardsConfig: BrandConfig = parseBrandConfig({
     position: 'context-panel',
     density: 'medium',
   },
+  patterns: {
+    primary: '/brand/everyday-rewards/pattern-shopper-icons.png',
+  },
 });

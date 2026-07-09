@@ -15,6 +15,7 @@ import {
   MatarikiCluster,
   ParticulateBackdrop,
 } from '@/components/assembl/chrome';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
 
 /**
  * OpsShell — the reusable chrome around every branded ops surface. Server
@@ -60,8 +61,12 @@ export function OpsShell({
 
   return (
     <BrandThemeProvider config={config}>
-      <div className="min-h-screen bg-[color:var(--brand-bg)] text-[color:var(--brand-ink)] font-[family-name:var(--font-brand-body)]">
-        <header className="flex items-center gap-4 border-b border-black/5 bg-[color:var(--brand-surface)] px-6 py-3">
+      <div className="relative min-h-screen overflow-hidden bg-[color:var(--brand-bg)] text-[color:var(--brand-ink)] font-[family-name:var(--font-brand-body)]">
+        <OsMotionField
+          accent={config.colours.canary}
+          secondary={config.colours.accent}
+        />
+        <header className="relative flex items-center gap-4 border-b border-black/5 bg-[color:var(--brand-surface)] px-6 py-3">
           <Link
             href={`/customers/${config.slug}/ops`}
             className="flex items-center gap-3 font-[family-name:var(--font-brand-display)]"
@@ -116,7 +121,7 @@ export function OpsShell({
           </div>
         </header>
 
-        <div className="grid grid-cols-12 gap-6 px-6 py-6">
+        <div className="relative grid grid-cols-12 gap-6 px-6 py-6">
           <aside className="col-span-12 md:col-span-2">
             <nav className="sticky top-6 flex flex-col gap-1 text-sm">
               {nav.map(([label, path]) => {

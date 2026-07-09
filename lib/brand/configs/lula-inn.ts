@@ -29,4 +29,7 @@ export const lulaInnConfig: BrandConfig = parseBrandConfig({
     position: 'footer-only',
     density: 'quiet',
   },
+  patterns: {
+    primary: '/brand/lula-inn/pattern-service.svg',
+  },
 });

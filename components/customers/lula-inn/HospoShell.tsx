@@ -2,9 +2,11 @@ import Link from 'next/link';
 import { LULA_BRAND, LULA_TENANT } from '@/lib/customers/lula-inn/brand';
 import { LulaMark, ConceptBadge, CrossBrandLockup } from './marks';
 import { HospoNav } from './HospoNav';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
 
 const B = LULA_BRAND;
 const BASE = '/customers/lula-inn/hospo';
+const PATTERN = '/brand/lula-inn/pattern-service.svg';
 
 /**
  * The standalone Lula Inn ops chrome. Global assembl chrome is suppressed on
@@ -16,15 +18,31 @@ export function HospoShell({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
+        position: 'relative',
         minHeight: '100vh',
+        overflow: 'hidden',
         background: B.sand,
         fontFamily: 'var(--lula-body), system-ui, sans-serif',
         color: B.ink,
       }}
     >
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `url(${PATTERN})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '360px auto',
+          opacity: 0.07,
+          pointerEvents: 'none',
+        }}
+      />
+      <OsMotionField accent={B.brass} secondary={B.coral} />
       {/* concept strip */}
       <div
         style={{
+          position: 'relative',
           background: B.ocean,
           color: 'rgba(251,246,236,0.86)',
           fontFamily: 'var(--lula-mono), monospace',
@@ -41,11 +59,11 @@ export function HospoShell({ children }: { children: React.ReactNode }) {
       {/* top bar */}
       <header
         style={{
-          background: B.cream,
-          borderBottom: `1px solid ${B.line}`,
           position: 'sticky',
           top: 0,
           zIndex: 20,
+          background: B.cream,
+          borderBottom: `1px solid ${B.line}`,
         }}
       >
         <div
@@ -96,7 +114,7 @@ export function HospoShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main style={{ padding: '30px 0 12px' }}>{children}</main>
+      <main style={{ position: 'relative', padding: '30px 0 12px' }}>{children}</main>
 
       {/* footer lockup */}
       <footer style={{ background: B.cream, borderTop: `1px solid ${B.line}`, marginTop: 40 }}>
