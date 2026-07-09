@@ -15,6 +15,7 @@ import {
 import { TenantPwa } from '@/components/customers/TenantPwa';
 import { tenantPwaMetadata } from '@/lib/pwa/apple';
 import { InviteGreeting } from '@/components/ops/InviteGreeting';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
 
 export const metadata: Metadata = {
   title: 'AIRONAUT — AI operating system (concept pilot) · assembl',
@@ -56,8 +57,8 @@ export default function AironautOpsLayout({ children }: { children: ReactNode })
         className="relative min-h-screen"
         style={{ backgroundColor: ASSEMBL_PAPER, color: ASSEMBL_INK }}
       >
-        {/* Layer 2 — customer wallpaper: ink line pattern, ~8% (Kate asked for
-            slightly more visible, 2026-07-05 — cap stays 10%), never colour-filled. */}
+        {/* Layer 2 — customer wallpaper: ink line pattern on Warm Stone only
+            (never-composite on navy). Soft ambient field sits above paper. */}
         <div
           aria-hidden
           className="pointer-events-none fixed inset-0"
@@ -65,8 +66,13 @@ export default function AironautOpsLayout({ children }: { children: ReactNode })
             backgroundImage: 'url(/brand/aironaut/pattern-freight-icons-v2.png)',
             backgroundRepeat: 'repeat',
             backgroundSize: '420px auto',
-            opacity: 0.08,
+            opacity: 0.09,
           }}
+        />
+        <OsMotionField
+          accent={config.colours.canary}
+          secondary={config.colours.accent}
+          intensity="soft"
         />
 
         <div

@@ -15,6 +15,7 @@ import {
 import { TenantPwa } from '@/components/customers/TenantPwa';
 import { tenantPwaMetadata } from '@/lib/pwa/apple';
 import { InviteGreeting } from '@/components/ops/InviteGreeting';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
 
 export const metadata: Metadata = {
   title: 'Happy Tails — AI operating system (concept pilot) · assembl',
@@ -54,8 +55,13 @@ export default function HappyTailsOpsLayout({ children }: { children: ReactNode 
             backgroundImage: 'url(/brand/happy-tails/pattern-tails-and-paws.png)',
             backgroundRepeat: 'repeat',
             backgroundSize: '460px auto',
-            opacity: 0.07,
+            opacity: 0.09,
           }}
+        />
+        <OsMotionField
+          accent={config.colours.canary}
+          secondary={config.colours.accent}
+          intensity="medium"
         />
 
         <div className="relative">

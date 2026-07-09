@@ -3,7 +3,7 @@ import type { ReactNode, CSSProperties } from 'react';
 import { Syne, Plus_Jakarta_Sans, Space_Mono } from 'next/font/google';
 import { themeVars } from './theme';
 import { BillsAtmosphere } from '@/components/bills/BillsAtmosphere';
-import { OsMotionField } from '@/components/ops/shared/OsMotion';
+import { OsMotionField, OsParallaxPattern } from '@/components/ops/shared/OsMotion';
 
 const syne = Syne({
   subsets: ['latin'],
@@ -51,17 +51,12 @@ export default function BillsLayout({ children }: { children: ReactNode }) {
       data-assembl-bills
     >
       <BillsAtmosphere />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-[1]"
-        style={{
-          backgroundImage: 'url(/brand/assembl-bills/pattern-ledger.svg)',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '360px auto',
-          opacity: 0.07,
-        }}
+      <OsParallaxPattern
+        src="/brand/assembl-bills/pattern-ledger.svg"
+        opacity={0.09}
+        size={360}
       />
-      <OsMotionField accent="#5AADA0" secondary="#3A7D6E" className="z-[1]" />
+      <OsMotionField accent="#5AADA0" secondary="#E9C46A" intensity="medium" className="z-[1]" />
       <div className="relative z-10">{children}</div>
       <style>{`
         @keyframes bills-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }

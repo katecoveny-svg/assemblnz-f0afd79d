@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
+import { motion, useReducedMotion } from 'framer-motion';
 import { AssemblingLoader } from '@assembl/canvas';
 import { AgentMarkdown } from '@/components/marketplace/AgentMarkdown';
 import { ASSEMBL_WARM_GREY } from '@/components/assembl/chrome';
@@ -161,6 +162,8 @@ export function PilotAgentChat({
     if (snapshot.length > 0) void saveChatHistory(apiPath, snapshot);
   }, [messages, status, apiPath]);
 
+  const reduce = useReducedMotion();
+
   const send = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || busy) return;
@@ -172,21 +175,34 @@ export function PilotAgentChat({
   };
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-black/10 bg-white/85 shadow-sm backdrop-blur-sm">
-      <div className="flex items-center gap-2 border-b border-black/5 px-4 py-3">
+    <div
+      className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-black/10 bg-white/90 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-xl"
+      style={{ boxShadow: `0 20px 50px rgba(0,0,0,0.08), 0 0 0 1px ${accent}22` }}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-24 opacity-70"
+        style={{
+          background: `radial-gradient(ellipse at 20% 0%, ${accent}33 0%, transparent 60%)`,
+        }}
+      />
+      <div className="relative flex items-center gap-2 border-b border-black/5 px-4 py-3.5">
+        <span className="relative inline-flex h-2.5 w-2.5">
+          <span
+            className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-50 motion-reduce:animate-none"
+            style={{ backgroundColor: accent }}
+          />
+          <span
+            className="relative inline-flex h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: accent }}
+          />
+        </span>
+        <span className="text-sm font-semibold tracking-tight">{agentName}</span>
         <span
-          aria-hidden
-          className="inline-block h-2 w-2 rounded-full"
-          style={{ backgroundColor: accent }}
-        />
-        <span className="text-sm font-semibold">{agentName}</span>
-        {/* 60% ink, not warm grey — the label was washing out on paper at
-            phone sizes (Kate, 2026-07-04). */}
-        <span
-          className="ml-auto text-[10px] uppercase"
-          style={{ letterSpacing: '0.16em', color: 'rgba(31, 29, 26, 0.62)' }}
+          className="ml-auto rounded-full px-2 py-0.5 text-[10px] uppercase"
+          style={{ letterSpacing: '0.16em', color: 'rgba(31, 29, 26, 0.62)', background: `${accent}14` }}
         >
-          live agent · draft-only
+          live · draft-only
         </span>
       </div>
 
@@ -200,18 +216,22 @@ export function PilotAgentChat({
         </div>
       ) : null}
 
-      <div ref={listRef} className="flex-1 space-y-4 overflow-y-auto px-4 py-4" style={{ minHeight: 320, maxHeight: 460 }}>
-        {messages.map((m) => {
+      <div ref={listRef} className="relative flex-1 space-y-4 overflow-y-auto px-4 py-4" style={{ minHeight: 340, maxHeight: 520 }}>
+        {messages.map((m, idx) => {
           const text = messageText(m);
           const citations = m.role === 'assistant' ? messageCitations(m) : [];
           const score = provenanceScore(citations);
-          return (
-            <div key={m.id} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
+          const bubble = (
               <div
                 className={
                   m.role === 'user'
-                    ? 'max-w-[85%] rounded-2xl rounded-br-md bg-black/80 px-4 py-2.5 text-sm text-white'
-                    : 'max-w-[92%] rounded-2xl rounded-bl-md border border-black/5 bg-white px-4 py-3 text-sm'
+                    ? 'max-w-[85%] rounded-2xl rounded-br-md px-4 py-2.5 text-sm text-white shadow-md'
+                    : 'max-w-[92%] rounded-2xl rounded-bl-md border border-black/5 bg-white/95 px-4 py-3 text-sm shadow-sm'
+                }
+                style={
+                  m.role === 'user'
+                    ? { background: `linear-gradient(135deg, ${accent}, #1a1a1a)` }
+                    : undefined
                 }
               >
                 {m.role === 'assistant' ? (
@@ -240,7 +260,7 @@ export function PilotAgentChat({
                               target={c.url ? '_blank' : undefined}
                               rel="noreferrer"
                               title={`${TIER_LABEL[c.tier ?? 'B']}${c.ref ? ` — ${c.ref}` : ''}`}
-                              className={`rounded-full border border-black/10 px-2 py-0.5 text-[10px] ${c.url ? 'hover:bg-black/5' : 'cursor-default'}`}
+                              className={`rounded-full border border-black/10 px-2 py-0.5 text-[10px] transition-colors ${c.url ? 'hover:bg-black/5' : 'cursor-default'}`}
                               style={{ color: '#3E3C36' }}
                             >
                               {c.tier ? `${c.tier} · ` : ''}
@@ -255,12 +275,29 @@ export function PilotAgentChat({
                   text
                 )}
               </div>
-            </div>
+          );
+          if (reduce) {
+            return (
+              <div key={m.id} className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}>
+                {bubble}
+              </div>
+            );
+          }
+          return (
+            <motion.div
+              key={m.id}
+              className={m.role === 'user' ? 'flex justify-end' : 'flex justify-start'}
+              initial={{ opacity: 0, y: 12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.35, delay: Math.min(idx * 0.02, 0.2) }}
+            >
+              {bubble}
+            </motion.div>
           );
         })}
         {status === 'submitted' ? (
           <div className="flex justify-start">
-            <div className="max-w-[92%] rounded-2xl rounded-bl-md border border-black/5 bg-white px-4 py-3 text-sm">
+            <div className="max-w-[92%] rounded-2xl rounded-bl-md border border-black/5 bg-white px-4 py-3 text-sm shadow-sm">
               <AssemblingLoader size={22} style={{ padding: '2px 4px' }} />
             </div>
           </div>
@@ -272,18 +309,20 @@ export function PilotAgentChat({
         ) : null}
       </div>
 
-      <div className="border-t border-black/5 px-4 pb-4 pt-3">
+      <div className="relative border-t border-black/5 bg-white/70 px-4 pb-4 pt-3 backdrop-blur-md">
         <div className="mb-3 flex flex-wrap gap-1.5">
           {tryMe.map((t) => (
-            <button
+            <motion.button
               key={t}
               type="button"
               onClick={() => send(t)}
               disabled={busy}
-              className="rounded-full border border-black/10 bg-white px-3 py-1 text-left text-[11px] leading-[1.4] transition-colors hover:bg-black/5 disabled:opacity-50"
+              whileHover={reduce ? undefined : { y: -2, scale: 1.02 }}
+              whileTap={reduce ? undefined : { scale: 0.98 }}
+              className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-left text-[11px] leading-[1.4] shadow-sm transition-colors hover:bg-black/[0.03] disabled:opacity-50"
             >
               {t}
-            </button>
+            </motion.button>
           ))}
         </div>
         <form
@@ -304,16 +343,19 @@ export function PilotAgentChat({
             }}
             rows={2}
             placeholder={composerPlaceholder ?? `Ask ${agentName} anything about the workspace…`}
-            className="flex-1 resize-none rounded-xl border border-black/10 bg-white px-3 py-2 text-sm outline-none focus:border-black/30"
+            className="flex-1 resize-none rounded-2xl border border-black/10 bg-white px-3.5 py-2.5 text-sm outline-none transition-shadow focus:border-transparent focus:shadow-[0_0_0_3px_var(--focus-ring)]"
+            style={{ ['--focus-ring' as string]: `${accent}44` }}
           />
-          <button
+          <motion.button
             type="submit"
             disabled={busy || offline || !input.trim()}
-            className="rounded-xl px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+            whileHover={reduce ? undefined : { scale: 1.04 }}
+            whileTap={reduce ? undefined : { scale: 0.96 }}
+            className="rounded-2xl px-4 py-2.5 text-sm font-semibold text-white shadow-md disabled:opacity-50"
             style={{ backgroundColor: accent }}
           >
             {busy ? '…' : 'send'}
-          </button>
+          </motion.button>
         </form>
         {draftNote ? (
           <p className="mt-2 text-[10px]" style={{ color: ASSEMBL_WARM_GREY }}>
