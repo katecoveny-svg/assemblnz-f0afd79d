@@ -119,15 +119,25 @@ export function OpsShell({
         <div className="grid grid-cols-12 gap-6 px-6 py-6">
           <aside className="col-span-12 md:col-span-2">
             <nav className="sticky top-6 flex flex-col gap-1 text-sm">
-              {nav.map(([label, path]) => (
-                <Link
-                  key={path || label}
-                  href={path.startsWith('#') ? path : `/customers/${config.slug}/ops/${path}`}
-                  className="rounded-md px-3 py-2 text-[color:var(--brand-muted)] transition-colors hover:bg-black/5 hover:text-[color:var(--brand-ink)]"
-                >
-                  {label}
-                </Link>
-              ))}
+              {nav.map(([label, path]) => {
+                // Support three nav shapes used across pilots:
+                //   '#anchor'           → on-page hash
+                //   '?tab=…' / '?x=…'   → query on the ops home (Family, Fred OS)
+                //   'roster'            → /customers/<slug>/ops/roster
+                const href =
+                  path.startsWith('#') || path.startsWith('?')
+                    ? `/customers/${config.slug}/ops${path}`
+                    : `/customers/${config.slug}/ops/${path}`;
+                return (
+                  <Link
+                    key={path || label}
+                    href={href}
+                    className="rounded-md px-3 py-2 text-[color:var(--brand-muted)] transition-colors hover:bg-black/5 hover:text-[color:var(--brand-ink)]"
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
             </nav>
           </aside>
 
