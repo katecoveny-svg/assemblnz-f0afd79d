@@ -40,7 +40,7 @@ export function AgentCard({
       transition={{ ...CANON_TRANSITION, delay: Math.min(index * 0.035, 0.28) }}
       className={`group relative flex h-full flex-col overflow-hidden rounded-card border bg-white/55 p-7 backdrop-blur-sm transition-all duration-300 hover:shadow-[0_18px_44px_rgba(58,56,50,0.12)] focus-within:-translate-y-1 focus-within:scale-[1.01] focus-within:shadow-[0_18px_44px_rgba(58,56,50,0.12)] ${
         selected
-          ? 'border-[color:var(--assembl-sage-mist)] ring-2 ring-[color:var(--assembl-sage-mist)]'
+          ? 'border-[color:var(--assembl-sage-mist)] ring-2 ring-inset ring-[color:var(--assembl-sage-mist)]'
           : 'border-[rgba(35,33,31,0.10)]'
       } ${className}`}
       style={{ ['--kete-accent' as string]: kete.accent }}
@@ -67,7 +67,7 @@ export function AgentCard({
       </div>
 
       <div className="mt-4 flex items-start justify-between gap-3">
-        <Link href={agentHref} className="rounded-sm focus-visible:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-4">
+        <Link href={agentHref} className="rounded-sm focus-visible:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-2">
           <h3 className="font-display text-3xl font-light leading-none text-[color:var(--text-primary)]">
             {agent.name}
           </h3>
@@ -121,7 +121,7 @@ export function AgentCard({
       {onToggle && (
         <button
           onClick={onToggle}
-          className={`mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-full border px-5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+          className={`mt-5 inline-flex h-10 items-center justify-center gap-2 rounded-full border px-5 text-sm font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 ${
             selected
               ? 'border-[color:var(--assembl-sage-mist)] bg-[color:var(--assembl-sage-mist)] text-[color:var(--assembl-paper)]'
               : 'border-[rgba(35,33,31,0.18)] bg-white/40 text-[color:var(--text-primary)] hover:border-[color:var(--text-primary)]'

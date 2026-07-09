@@ -38,7 +38,7 @@ export function KeteVesselCard({
     >
       <Link
         href={`/kete/${kete.slug}`}
-        className="kete-card group block overflow-hidden rounded-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-4"
+        className="kete-card group block overflow-hidden rounded-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-[color:var(--assembl-pounamu)] focus-visible:outline-offset-2"
         style={{ ['--kete-accent' as string]: `${kete.accent}59` }}
       >
         <div className="relative aspect-square overflow-hidden">
