@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
+import { FredDashboard } from '@/components/ops/fred/FredDashboard';
 import {
-  FredDashboard,
   FRED_TABS,
   type FredTabKey,
-} from '@/components/ops/fred/FredDashboard';
+} from '@/lib/customers/auckland-dog-trainer/tabs';
 
 /**
  * Fred OS — Auckland Dog Trainer / Learn To Talk Dog concept ops.

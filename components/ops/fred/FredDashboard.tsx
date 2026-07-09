@@ -14,7 +14,13 @@ import {
   type OfferSlug,
   type Urgency,
 } from '@/lib/customers/auckland-dog-trainer/demo-data';
+import {
+  FRED_TABS,
+  type FredTabKey,
+} from '@/lib/customers/auckland-dog-trainer/tabs';
 import { SessionNotesEngine } from '@/components/ops/fred/SessionNotesEngine';
+
+export type { FredTabKey };
 
 const NAVY = '#1B2A4A';
 const PINK = '#D4A5B0';
@@ -23,19 +29,6 @@ const BLUSH = '#F7EEF1';
 const CREAM = '#FFFCFB';
 const MUTED = '#6B7389';
 const GOLD = '#C4A574';
-
-export const FRED_TABS = [
-  { key: 'overview', label: 'Overview' },
-  { key: 'leads', label: 'Leads' },
-  { key: 'dogs', label: 'Dogs' },
-  { key: 'programmes', label: 'Programmes' },
-  { key: 'notes', label: 'Notes engine' },
-  { key: 'course', label: 'Course' },
-  { key: 'support', label: 'Support' },
-  { key: 'hiring', label: 'Hiring' },
-] as const;
-
-export type FredTabKey = (typeof FRED_TABS)[number]['key'];
 
 const glass: CSSProperties = {
   borderRadius: 16,
