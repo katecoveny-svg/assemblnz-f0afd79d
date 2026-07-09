@@ -36,7 +36,7 @@ export default async function ProvidersPage() {
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
-        <PageHeading title="Provider DB" lead="The NZ provider price book Assembl Bills reasons over — each price carries its source and the date it was last verified." />
+        <PageHeading title="Provider DB" lead="The NZ provider price book assembl bills reasons over — each price carries its source and the date it was last verified." />
         <LiveState
           state={book.live ? 'live' : 'sample'}
           note={book.live ? `${plans.length} plans · verified to ${verifiedFmt(book.lastVerified)}` : 'seed data'}

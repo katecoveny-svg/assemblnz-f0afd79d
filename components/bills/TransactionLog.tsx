@@ -30,7 +30,7 @@ export function TransactionLog() {
                 background: active ? 'var(--b-teal)' : 'var(--b-surface)',
                 color: active ? '#fff' : 'var(--b-muted)',
                 border: `1px solid ${active ? 'var(--b-teal)' : 'var(--b-line)'}`,
-                fontFamily: 'var(--font-bills-display)',
+                fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif",
               }}
             >
               {c}

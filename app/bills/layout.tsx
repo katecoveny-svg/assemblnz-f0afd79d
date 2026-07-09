@@ -1,27 +1,29 @@
 import type { Metadata } from 'next';
 import type { ReactNode, CSSProperties } from 'react';
-import { Syne, Plus_Jakarta_Sans, Space_Mono } from 'next/font/google';
+import { Cormorant_Garamond, Inter, IBM_Plex_Mono } from 'next/font/google';
 import { themeVars } from './theme';
 import { BillsAtmosphere } from '@/components/bills/BillsAtmosphere';
-import { OsMotionField, OsParallaxPattern } from '@/components/ops/shared/OsMotion';
+import { OsParallaxPattern } from '@/components/ops/shared/OsMotion';
 
-const syne = Syne({
+// assembl canon typography: Cormorant Garamond display, Inter body,
+// IBM Plex Mono labels/plates.
+const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
   variable: '--font-bills-display',
   display: 'swap',
-  weight: ['600', '700', '800'],
+  weight: ['500', '600', '700'],
 });
-const jakarta = Plus_Jakarta_Sans({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-bills-body',
   display: 'swap',
-  weight: ['300', '400', '500', '600'],
+  weight: ['400', '500', '600', '700'],
 });
-const spaceMono = Space_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   variable: '--font-bills-mono',
   display: 'swap',
-  weight: ['400', '700'],
+  weight: ['400', '600'],
 });
 
 export const metadata: Metadata = {
@@ -41,7 +43,7 @@ export const metadata: Metadata = {
 export default function BillsLayout({ children }: { children: ReactNode }) {
   return (
     <div
-      className={`${syne.variable} ${jakarta.variable} ${spaceMono.variable} relative min-h-screen overflow-hidden`}
+      className={`${cormorant.variable} ${inter.variable} ${plexMono.variable} relative min-h-screen overflow-hidden`}
       style={{
         ...(themeVars as CSSProperties),
         background: 'var(--b-paper)',
@@ -53,16 +55,15 @@ export default function BillsLayout({ children }: { children: ReactNode }) {
       <BillsAtmosphere />
       <OsParallaxPattern
         src="/brand/assembl-bills/pattern-ledger.svg"
-        opacity={0.09}
+        opacity={0.06}
         size={360}
       />
-      <OsMotionField accent="#5AADA0" secondary="#E9C46A" intensity="medium" className="z-[1]" />
       <div className="relative z-10">{children}</div>
       <style>{`
         @keyframes bills-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
         .bills-rise { animation: bills-rise .6s cubic-bezier(.16,1,.3,1) both; }
         @media (prefers-reduced-motion: reduce) { .bills-rise { animation: none; } }
-        [data-assembl-bills] ::selection { background: rgba(90,173,160,0.3); }
+        [data-assembl-bills] ::selection { background: rgba(43,107,87,0.18); }
       `}</style>
     </div>
   );

@@ -69,7 +69,7 @@ const spaceMono = Space_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl — purpose-built agents. limitless potential.',
+    default: 'assembl — purpose-built agents for New Zealand business. Less admin. More mahi.',
     template: '%s · assembl',
   },
   description:
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
   // og:image comes from the file-convention opengraph-image.tsx per route
   // (new-direction art) — do not pin a static image here or it wins over them.
   openGraph: {
-    title: 'assembl — purpose-built agents. limitless potential.',
+    title: 'assembl — purpose-built agents for New Zealand business. Less admin. More mahi.',
     description:
       'purpose-built agents for the work New Zealand teams actually do. Agents draft, people decide.',
     type: 'website',
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl — purpose-built agents. limitless potential.',
+    title: 'assembl — purpose-built agents for New Zealand business. Less admin. More mahi.',
     description:
       'purpose-built agents for the work New Zealand teams actually do. Agents draft, people decide.',
   },

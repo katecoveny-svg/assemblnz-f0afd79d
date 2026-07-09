@@ -19,7 +19,7 @@ import styles from '@/components/v2/home/home.module.css';
 import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 
 export const metadata: Metadata = {
-  title: 'assembl — purpose-built agents. limitless potential.',
+  title: 'assembl — purpose-built agents for New Zealand business. Less admin. More mahi.',
   description:
     'purpose-built agents for the work New Zealand teams actually do. Agents draft, your people approve, and every output carries the record of how it was made. Built in Aotearoa.',
   alternates: { canonical: '/' },

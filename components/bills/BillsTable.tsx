@@ -37,7 +37,7 @@ export function BillsTable() {
                 background: active ? 'var(--b-teal)' : 'var(--b-surface)',
                 color: active ? '#fff' : 'var(--b-muted)',
                 border: `1px solid ${active ? 'var(--b-teal)' : 'var(--b-line)'}`,
-                fontFamily: 'var(--font-bills-display)',
+                fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif",
               }}
             >
               {c}
@@ -57,7 +57,7 @@ export function BillsTable() {
             >
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="truncate font-semibold" style={{ color: 'var(--b-ink)', fontFamily: 'var(--font-bills-display)' }}>
+                  <span className="truncate font-semibold" style={{ color: 'var(--b-ink)', fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif" }}>
                     {b.provider}
                   </span>
                   <CategoryTag category={b.category} />

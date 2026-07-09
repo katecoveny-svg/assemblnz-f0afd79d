@@ -63,8 +63,8 @@ export function SpendTrendChart() {
           tickFormatter={(v) => `$${v}`}
         />
         <Tooltip contentStyle={tooltipStyle} formatter={(v, name) => [money(Number(v)), name === 'spend' ? 'Total bills' : 'Electricity']} />
-        <Area isAnimationActive={false} type="monotone" dataKey="spend" stroke={BILLS.teal} strokeWidth={2.5} fill="url(#billsSpend)" style={{ filter: 'drop-shadow(0 0 6px rgba(90,173,160,0.5))' }} />
-        <Area isAnimationActive={false} type="monotone" dataKey="power" stroke={BILLS.coral} strokeWidth={2} fill="url(#billsPower)" style={{ filter: 'drop-shadow(0 0 6px rgba(242,130,94,0.45))' }} />
+        <Area isAnimationActive={false} type="monotone" dataKey="spend" stroke={BILLS.teal} strokeWidth={2.5} fill="url(#billsSpend)" style={{ filter: 'drop-shadow(0 0 6px rgba(43,107,87,0.5))' }} />
+        <Area isAnimationActive={false} type="monotone" dataKey="power" stroke={BILLS.coral} strokeWidth={2} fill="url(#billsPower)" style={{ filter: 'drop-shadow(0 0 6px rgba(184,92,62,0.45))' }} />
       </AreaChart>
     </ResponsiveContainer>
   );
@@ -98,7 +98,7 @@ export function CategoryDonut({ data = categorySplit }: { data?: CategorySlice[]
         <span className="text-[11px] uppercase tracking-wide" style={{ color: BILLS.faint }}>
           per month
         </span>
-        <span className="text-2xl font-bold" style={{ color: BILLS.ink, fontFamily: 'var(--font-bills-display)' }}>
+        <span className="text-2xl font-bold" style={{ color: BILLS.ink, fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif" }}>
           {money(total)}
         </span>
       </div>

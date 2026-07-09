@@ -4,35 +4,34 @@ import { motion } from 'framer-motion';
 import { Wallet, TrendingDown, Zap, Wifi, Shield, Tv } from 'lucide-react';
 import { CountUp } from './motion';
 
-/** Gradient-glow wordmark — the assembl POP move, teal-led for Bills. */
+/** Lowercase serif wordmark — assembl canon, with the champagne full stop. */
 export function WordMark({ size = 20 }: { size?: number }) {
   return (
-    <span className="inline-flex items-center gap-2">
+    <span className="inline-flex items-baseline gap-2">
       <span
-        className="flex items-center justify-center rounded-xl"
+        className="flex items-center justify-center self-center rounded-lg"
         style={{
-          width: size * 1.7,
-          height: size * 1.7,
-          background: 'linear-gradient(135deg, #5AADA0, #3A7D6E)',
-          boxShadow: '0 0 14px rgba(90,173,160,0.6), 0 0 40px rgba(90,173,160,0.3)',
+          width: size * 1.6,
+          height: size * 1.6,
+          background: '#1A4D3D',
+          boxShadow: '0 1px 3px rgba(26,77,61,0.3)',
         }}
       >
-        <Wallet size={size} color="#fff" />
+        <Wallet size={size * 0.9} color="#FBFAF6" />
       </span>
       <span
-        className="font-extrabold uppercase"
         style={{
-          fontFamily: 'var(--font-bills-display)',
-          fontSize: size * 0.95,
-          letterSpacing: '0.02em',
-          background: 'linear-gradient(90deg, #FFFFFF 0%, #EEF2F8 40%, #5AADA0 78%, #3A7D6E 100%)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          filter: 'drop-shadow(0 0 16px rgba(90,173,160,0.45))',
+          fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif",
+          fontWeight: 500,
+          fontSize: size * 1.35,
+          lineHeight: 1,
+          letterSpacing: '0.04em',
+          textTransform: 'lowercase',
+          color: '#1A1918',
         }}
       >
-        Assembl&nbsp;Bills
+        assembl bills
+        <span aria-hidden style={{ color: '#BFA37A' }}>.</span>
       </span>
     </span>
   );
@@ -53,7 +52,7 @@ export function HeroSavingsCard({ found }: { found: number }) {
       {/* central glow disc */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-        style={{ width: '78%', height: '78%', background: 'radial-gradient(circle, rgba(90,173,160,0.22), transparent 68%)' }}
+        style={{ width: '78%', height: '78%', background: 'radial-gradient(circle, rgba(43,107,87,0.22), transparent 68%)' }}
         animate={{ scale: [1, 1.06, 1], opacity: [0.85, 1, 0.85] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -61,9 +60,9 @@ export function HeroSavingsCard({ found }: { found: number }) {
       <div
         className="absolute left-1/2 top-1/2 flex aspect-square w-[62%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full text-center"
         style={{
-          background: 'radial-gradient(circle at 40% 35%, rgba(255,255,255,0.10), rgba(255,255,255,0.02))',
+          background: 'radial-gradient(circle at 40% 35%, #FFFFFF, #F7F5EE)',
           border: '1px solid var(--b-teal-line)',
-          boxShadow: 'inset 0 0 40px rgba(90,173,160,0.14), 0 0 60px -10px rgba(90,173,160,0.45)',
+          boxShadow: 'inset 0 0 40px rgba(43,107,87,0.14), 0 0 60px -10px rgba(43,107,87,0.45)',
           backdropFilter: 'blur(8px)',
         }}
       >
@@ -73,8 +72,8 @@ export function HeroSavingsCard({ found }: { found: number }) {
         <CountUp
           to={found}
           prefix="$"
-          className="mt-1 text-4xl font-extrabold sm:text-5xl"
-          style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)', letterSpacing: '-0.02em' }}
+          className="mt-1 text-4xl font-semibold sm:text-5xl"
+          style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)', letterSpacing: '0.01em' }}
         />
         <span className="mt-1 text-[11px]" style={{ color: 'var(--b-faint)' }}>across power, broadband, subs…</span>
       </div>
@@ -87,7 +86,7 @@ export function HeroSavingsCard({ found }: { found: number }) {
           style={{
             left: c.x,
             top: c.y,
-            background: 'rgba(17,22,35,0.85)',
+            background: 'rgba(255,255,255,0.92)',
             border: `1px solid ${c.tone === 'teal' ? 'var(--b-teal-line)' : 'var(--b-coral-line)'}`,
             color: c.tone === 'teal' ? 'var(--b-teal)' : 'var(--b-coral)',
             boxShadow: c.tone === 'teal' ? 'var(--b-glow-teal)' : 'var(--b-glow-coral)',
@@ -103,7 +102,7 @@ export function HeroSavingsCard({ found }: { found: number }) {
   );
 }
 
-/** Scrolling marquee of the NZ providers Assembl Bills knows. */
+/** Scrolling marquee of the NZ providers assembl bills knows. */
 export function ProviderMarquee() {
   const names = [
     'Mercury', 'Contact', 'Genesis', 'Meridian', 'Electric Kiwi', 'Frank', 'Spark', 'One NZ', '2degrees',
@@ -117,7 +116,7 @@ export function ProviderMarquee() {
           <span
             key={`${n}-${i}`}
             className="whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-medium"
-            style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid var(--b-line)', color: 'var(--b-muted)' }}
+            style={{ background: 'rgba(26,25,24,0.04)', border: '1px solid var(--b-line)', color: 'var(--b-muted)' }}
           >
             {n}
           </span>

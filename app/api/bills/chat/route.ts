@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 /**
- * POST /api/bills/chat — the Assembl Bills advisor.
+ * POST /api/bills/chat — the assembl bills advisor.
  *
  * Grounded in the NZ Provider DB + the savings/hidden-costs this household's
  * console already surfaced. Uses the existing Anthropic key via the shared
@@ -114,7 +114,7 @@ export async function POST(req: Request) {
     ingestedBillsBlock(parsed.data.sessionId),
   ]);
 
-  const system = `You are the Assembl Bills advisor — a calm, plain-English helper for New Zealand households and small businesses managing their bills (power, broadband, insurance, council rates, mobile, subscriptions).
+  const system = `You are the assembl bills advisor — a calm, plain-English helper for New Zealand households and small businesses managing their bills (power, broadband, insurance, council rates, mobile, subscriptions).
 
 Current NZ market context: electricity prices are up ~12% year-on-year and council rates are rising ~15% across many regions (Consumer NZ). Only ~7% of households switched power last year (MBIE) — mostly because comparison is made too hard. Your job is to make the switch obvious and easy.
 

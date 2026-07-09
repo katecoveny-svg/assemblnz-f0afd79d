@@ -20,6 +20,7 @@ const COLUMNS: { label: string; links: { href: string; label: string }[] }[] = [
     links: [
       { href: "/agents", label: "agents" },
       { href: "/bundles", label: "bundles" },
+      { href: "/bills", label: "bills" },
       { href: "/pricing", label: "pricing" },
       { href: "/trust", label: "trust" },
     ],

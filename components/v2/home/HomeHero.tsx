@@ -82,8 +82,9 @@ export function HomeHero({
         </motion.div>
 
         <h1 className={styles.h1} style={{ marginTop: 22 }}>
-          <HeadlineLine words={['purpose-built', 'agents.']} offset={0} />
-          <HeadlineLine words={['limitless', 'potential']} offset={2} withDot />
+          <HeadlineLine words={['purpose-built', 'agents', 'for']} offset={0} />
+          <HeadlineLine words={['new', 'zealand', 'business.']} offset={3} />
+          <HeadlineLine words={['less', 'admin.', 'more', 'mahi']} offset={6} withDot />
         </h1>
 
         <motion.p {...fade(0.55)} className={styles.lede}>

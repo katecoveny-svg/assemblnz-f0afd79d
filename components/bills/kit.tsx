@@ -28,12 +28,12 @@ export function Card({
       ? 'var(--b-glow-teal)'
       : glow === 'coral'
         ? 'var(--b-glow-coral)'
-        : '0 10px 40px -18px rgba(0,0,0,0.6)';
+        : '0 10px 40px -18px rgba(26,25,24,0.12)';
   return (
     <div
       className={`relative rounded-2xl ${pad ? 'p-5 sm:p-6' : ''} ${hover ? 'transition duration-300 hover:-translate-y-0.5' : ''} ${className}`}
       style={{
-        background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))',
+        background: '#FFFFFF',
         border: '1px solid var(--b-line)',
         boxShadow: shadow,
         backdropFilter: 'blur(10px)',
@@ -49,8 +49,8 @@ export function PageHeading({ title, lead }: { title: string; lead?: string }) {
   return (
     <div className="mb-6">
       <h1
-        className="text-2xl font-extrabold tracking-tight sm:text-[30px]"
-        style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)', letterSpacing: '-0.01em' }}
+        className="text-2xl font-semibold tracking-tight sm:text-[30px]"
+        style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)', letterSpacing: '0.01em' }}
       >
         {title}
       </h1>
@@ -72,19 +72,19 @@ export function SectionLabel({ children }: { children: ReactNode }) {
 }
 
 const CATEGORY_TINT: Record<string, { bg: string; fg: string }> = {
-  Electricity: { bg: 'rgba(90,173,160,0.15)', fg: '#7FCFC0' },
-  Broadband: { bg: 'rgba(127,178,200,0.15)', fg: '#9FCBDE' },
-  Insurance: { bg: 'rgba(169,139,214,0.16)', fg: '#C3AAE6' },
-  Council: { bg: 'rgba(233,196,106,0.15)', fg: '#EACB78' },
-  Subscriptions: { bg: 'rgba(242,130,94,0.16)', fg: '#F5A184' },
-  Mobile: { bg: 'rgba(111,207,151,0.15)', fg: '#8FD9AE' },
-  Gas: { bg: 'rgba(192,161,106,0.16)', fg: '#D4B87E' },
-  KiwiSaver: { bg: 'rgba(90,173,160,0.15)', fg: '#7FCFC0' },
-  ACC: { bg: 'rgba(233,196,106,0.15)', fg: '#EACB78' },
+  Electricity: { bg: 'rgba(43,107,87,0.15)', fg: '#2B6B57' },
+  Broadband: { bg: 'rgba(74,107,140,0.15)', fg: '#4A6B8C' },
+  Insurance: { bg: 'rgba(122,95,168,0.16)', fg: '#7A5FA8' },
+  Council: { bg: 'rgba(191,163,122,0.15)', fg: '#8F7434' },
+  Subscriptions: { bg: 'rgba(184,92,62,0.16)', fg: '#B85C3E' },
+  Mobile: { bg: 'rgba(62,125,87,0.15)', fg: '#3E7D57' },
+  Gas: { bg: 'rgba(138,107,78,0.16)', fg: '#8A6B4E' },
+  KiwiSaver: { bg: 'rgba(43,107,87,0.15)', fg: '#2B6B57' },
+  ACC: { bg: 'rgba(191,163,122,0.15)', fg: '#8F7434' },
 };
 
 export function CategoryTag({ category }: { category: string }) {
-  const t = CATEGORY_TINT[category] ?? { bg: 'rgba(255,255,255,0.08)', fg: 'var(--b-muted)' };
+  const t = CATEGORY_TINT[category] ?? { bg: 'rgba(26,25,24,0.06)', fg: 'var(--b-muted)' };
   return (
     <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold" style={{ background: t.bg, color: t.fg }}>
       {category}
@@ -94,7 +94,7 @@ export function CategoryTag({ category }: { category: string }) {
 
 export function SourceBadge({ source }: { source: string }) {
   return (
-    <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-medium" style={{ background: 'rgba(255,255,255,0.06)', color: 'var(--b-faint)' }}>
+    <span className="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-medium" style={{ background: 'rgba(26,25,24,0.05)', color: 'var(--b-faint)' }}>
       {source}
     </span>
   );
@@ -103,9 +103,9 @@ export function SourceBadge({ source }: { source: string }) {
 export function TrendChip({ trend, note }: { trend?: 'up' | 'down' | 'flat'; note?: string }) {
   if (!trend) return null;
   const map = {
-    up: { Icon: ArrowUpRight, color: '#F5A184', bg: 'rgba(242,130,94,0.16)' },
-    down: { Icon: ArrowDownRight, color: '#7FCFC0', bg: 'rgba(90,173,160,0.16)' },
-    flat: { Icon: Minus, color: 'var(--b-faint)', bg: 'rgba(255,255,255,0.06)' },
+    up: { Icon: ArrowUpRight, color: '#B85C3E', bg: 'rgba(184,92,62,0.16)' },
+    down: { Icon: ArrowDownRight, color: '#2B6B57', bg: 'rgba(43,107,87,0.16)' },
+    flat: { Icon: Minus, color: 'var(--b-faint)', bg: 'rgba(26,25,24,0.05)' },
   }[trend];
   const { Icon } = map;
   return (

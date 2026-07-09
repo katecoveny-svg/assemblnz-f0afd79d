@@ -6,10 +6,10 @@ import { ArrowRight, Check, Loader2, ShieldCheck } from 'lucide-react';
 type Kind = 'switch' | 'cancel' | 'refund' | 'dispute' | 'apply';
 
 /**
- * The only "action" surface in Assembl Bills. Nothing is ever dispatched:
+ * The only "action" surface in assembl bills. Nothing is ever dispatched:
  * ACTION_DISPATCH_ENABLED is OFF. A click drops a DRAFT into the approval
  * queue (content_approvals → /admin/approvals) for a human yes, then shows a
- * calm "queued" state. This is the SPARK rule made literal — Assembl Bills
+ * calm "queued" state. This is the SPARK rule made literal — assembl bills
  * recommends and prepares; the household approves and switches.
  */
 export function ActionButton({
@@ -69,7 +69,7 @@ export function ActionButton({
       onClick={queue}
       disabled={state === 'sending'}
       className="inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition hover:opacity-90 disabled:opacity-60"
-      style={{ ...styles, fontFamily: 'var(--font-bills-display)' }}
+      style={{ ...styles, fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif" }}
       title="Prepares a draft for your approval — nothing is switched automatically"
     >
       {state === 'sending' ? <Loader2 size={14} className="animate-spin" /> : state === 'error' ? <ShieldCheck size={14} /> : null}

@@ -33,7 +33,7 @@ const TYPE_LABEL: Record<AlertType, string> = {
 export default function AlertsPage() {
   return (
     <div>
-      <PageHeading title="Alerts" lead="What Assembl Bills surfaced without being asked — savings, loyalty traps, subsidies you may qualify for, and price rises. Each is a recommendation; you decide." />
+      <PageHeading title="Alerts" lead="What assembl bills surfaced without being asked — savings, loyalty traps, subsidies you may qualify for, and price rises. Each is a recommendation; you decide." />
 
       {/* Warmer Kiwi Homes — REAL, sourced from EECA */}
       <div className="mb-4 rounded-2xl p-5" style={{ background: 'var(--b-teal-soft)', border: '1px solid var(--b-teal-line)' }}>
@@ -44,7 +44,7 @@ export default function AlertsPage() {
             </span>
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: 'var(--b-teal-deep)' }}>Government subsidy · {WKH_HEADLINE}</p>
-              <p className="font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>You may qualify for Warmer Kiwi Homes</p>
+              <p className="font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>You may qualify for Warmer Kiwi Homes</p>
             </div>
           </div>
           <LiveState state="live" note="EECA" />
@@ -88,7 +88,7 @@ export default function AlertsPage() {
                       <span className="text-sm font-bold" style={{ color: m.accent }}>{a.amount}</span>
                     )}
                   </div>
-                  <p className="mt-1.5 font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>{a.title}</p>
+                  <p className="mt-1.5 font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{a.title}</p>
                   <p className="mt-1 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{a.body}</p>
                   <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                     {a.source && <span className="text-[11px]" style={{ color: 'var(--b-faint)' }}>Source: {a.source}</span>}

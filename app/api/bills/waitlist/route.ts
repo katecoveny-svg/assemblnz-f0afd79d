@@ -6,7 +6,7 @@ import { recordLead, clientIpFromHeaders } from '@/lib/lead-capture';
 export const dynamic = 'force-dynamic';
 
 /**
- * POST /api/bills/waitlist — capture a NZ household or SME for the Assembl
+ * POST /api/bills/waitlist — capture a NZ household or SME for the assembl
  * Bills waitlist. Three fail-soft legs, mirroring the Alphassembl pattern:
  *   1. durable row in public.assembl_bills_waitlist (unique on lower(email)),
  *   2. the unified lead pipeline (recordLead → notify assembl inbox + persist),
@@ -67,13 +67,13 @@ export async function POST(req: Request) {
 
   // 2 · Unified lead pipeline (internal notify + durable persist). Fail-soft.
   await recordLead({
-    formName: 'Assembl Bills — waitlist',
+    formName: 'assembl bills — waitlist',
     email,
     name,
     fields: {
       region,
       biggestBillPain: biggestBillPain ?? '',
-      offering: 'Assembl Bills — agentic bill OS (beta waitlist)',
+      offering: 'assembl bills — agentic bill OS (beta waitlist)',
     },
     sourceUrl,
     ip: clientIpFromHeaders(req.headers),
@@ -82,13 +82,13 @@ export async function POST(req: Request) {
   // 3 · Draft the welcome email into the approval queue — never auto-sent.
   if (!alreadyOnList) {
     const welcomeHtml = `<p>Kia ora ${escapeHtml(name)},</p>
-<p>Thanks for joining the Assembl Bills waitlist — the agentic operating system for your household bills.</p>
-<p>We're opening the beta to New Zealand households and SMEs region by region. We'll be in touch as ${escapeHtml(region)} comes online. In the meantime, everything Assembl Bills does is grounded in NZ sources (Powerswitch, Consumer NZ) — it recommends the switch, you approve it.</p>
-<p>Ngā mihi,<br/>The Assembl Bills team · assembl</p>`;
+<p>Thanks for joining the assembl bills waitlist — the agentic operating system for your household bills.</p>
+<p>We're opening the beta to New Zealand households and SMEs region by region. We'll be in touch as ${escapeHtml(region)} comes online. In the meantime, everything assembl bills does is grounded in NZ sources (Powerswitch, Consumer NZ) — it recommends the switch, you approve it.</p>
+<p>Ngā mihi,<br/>The assembl bills team · assembl</p>`;
     const { error: draftError } = await service.from('content_approvals').insert({
       surface: 'assembl-bills:waitlist',
       kind: 'email-draft',
-      title: `Assembl Bills welcome — ${email}`,
+      title: `assembl bills welcome — ${email}`,
       summary: `Waitlist welcome for ${name} (${region})${biggestBillPain ? ` · pain: ${biggestBillPain}` : ''}. Draft only — approve to send.`,
       tenant_slug: 'assembl-bills',
       status: 'pending',
@@ -97,7 +97,7 @@ export async function POST(req: Request) {
         provider: 'brevo',
         type: 'transactional',
         to: email,
-        subject: 'You’re on the Assembl Bills waitlist',
+        subject: 'You’re on the assembl bills waitlist',
         html: welcomeHtml,
         auto_send: false,
       },

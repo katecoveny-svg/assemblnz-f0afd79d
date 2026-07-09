@@ -35,7 +35,7 @@ export function ProviderGrid({ plans }: { plans: LivePlan[] }) {
                 background: active ? 'var(--b-teal)' : 'var(--b-surface)',
                 color: active ? '#fff' : 'var(--b-muted)',
                 border: `1px solid ${active ? 'var(--b-teal)' : 'var(--b-line)'}`,
-                fontFamily: 'var(--font-bills-display)',
+                fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif",
               }}
             >
               {label} <span style={{ opacity: 0.7 }}>· {count}</span>
@@ -50,7 +50,7 @@ export function ProviderGrid({ plans }: { plans: LivePlan[] }) {
             <div className="flex items-start justify-between gap-2">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>{p.provider}</span>
+                  <span className="font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{p.provider}</span>
                   <CategoryTag category={CATEGORY_LABEL[p.category] ?? p.category} />
                 </div>
                 <p className="mt-0.5 text-xs" style={{ color: 'var(--b-muted)' }}>{p.planName}</p>

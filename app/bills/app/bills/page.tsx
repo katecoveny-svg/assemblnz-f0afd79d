@@ -25,11 +25,11 @@ export default function BillsPage() {
                 <Mail size={17} />
               </span>
               <div>
-                <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>
+                <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
                   Or connect your inbox
                 </p>
                 <p className="mt-1 text-sm" style={{ color: 'var(--b-muted)' }}>
-                  Assembl Bills reads bill PDFs and email bodies from Gmail or Outlook — no manual entry.
+                  assembl bills reads bill PDFs and email bodies from Gmail or Outlook — no manual entry.
                 </p>
                 <Link href="/bills/app/connections" className="mt-2 inline-block text-xs font-semibold" style={{ color: 'var(--b-teal-deep)' }}>
                   Set up connections →

@@ -15,7 +15,7 @@ const SUGGESTIONS = [
 const INTRO: Msg = {
   role: 'assistant',
   content:
-    'Kia ora — I’m the Assembl Bills advisor. Ask me about your power, broadband, insurance or subscriptions and I’ll point to the cheaper options in your NZ provider list. I recommend and prepare the switch; you always approve it.',
+    'Kia ora — I’m the assembl bills advisor. Ask me about your power, broadband, insurance or subscriptions and I’ll point to the cheaper options in your NZ provider list. I recommend and prepare the switch; you always approve it.',
 };
 
 /**
@@ -73,9 +73,9 @@ export function BillsAdvisor() {
         onClick={() => setOpen(true)}
         className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-white transition hover:scale-105"
         style={{
-          background: 'linear-gradient(135deg, #5AADA0, #3A7D6E)',
-          boxShadow: '0 0 20px rgba(90,173,160,0.55), 0 0 44px rgba(90,173,160,0.3)',
-          fontFamily: 'var(--font-bills-display)',
+          background: 'linear-gradient(135deg, #2B6B57, #1A4D3D)',
+          boxShadow: '0 0 20px rgba(43,107,87,0.55), 0 0 44px rgba(43,107,87,0.3)',
+          fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif",
         }}
       >
         <Sparkles size={16} className="transition group-hover:rotate-12" /> Ask the advisor
@@ -95,7 +95,7 @@ export function BillsAdvisor() {
                   <Sparkles size={16} />
                 </span>
                 <div>
-                  <p className="text-sm font-bold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>
+                  <p className="text-sm font-bold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
                     Bills advisor
                   </p>
                   <p className="text-[11px]" style={{ color: 'var(--b-faint)' }}>
@@ -181,7 +181,7 @@ export function BillsAdvisor() {
                 </button>
               </div>
               <p className="mt-2 flex items-center gap-1.5 text-[11px]" style={{ color: 'var(--b-faint)' }}>
-                <ShieldCheck size={12} /> Advice only. Assembl Bills never switches or cancels on its own — you approve every action.
+                <ShieldCheck size={12} /> Advice only. assembl bills never switches or cancels on its own — you approve every action.
               </p>
             </form>
           </aside>
