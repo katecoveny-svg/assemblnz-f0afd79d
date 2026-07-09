@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { palette } from '@assembl/canvas/tokens';
 import { gauss, mulberry32 } from '@assembl/canvas';
+import { TuiSplat } from './TuiSplat';
 
 /**
  * The silvery-gold particulate mountain-and-wave landscape from
@@ -357,6 +358,8 @@ function Field({ count }: { count: number }) {
       </points>
       <GoldThread />
       <ConstellationLayer />
+      {/* the tui — Kate's SAM 3D reconstruction, perched over the wave */}
+      <TuiSplat position={[2.7, 0.95, 1.2]} scale={2.15} />
     </group>
   );
 }

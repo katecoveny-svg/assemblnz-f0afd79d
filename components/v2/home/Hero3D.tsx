@@ -22,7 +22,8 @@ const ParticulateScene = dynamic(() => import('./ParticulateScene'), { ssr: fals
 const METAPHORS = [
   { reo: 'matariki', tag: 'guiding intelligence across systems', top: '9%', right: '5%' },
   { reo: 'papatūānuku', tag: 'grounded in data, rooted in purpose', bottom: '19%', left: '43%' },
-  { reo: 'moana', tag: 'flowing connections, endless potential', top: '38%', right: '13%' },
+  // nudged below the tui splat's turntable sweep so wings never cover the text
+  { reo: 'moana', tag: 'flowing connections, endless potential', top: '62%', right: '9%' },
 ] as const;
 
 export function Hero3D() {
