@@ -36,9 +36,9 @@ export function BillsShell({ children }: { children: ReactNode }) {
       {/* Demo ribbon */}
       <div
         className="flex items-center justify-center gap-2 px-4 py-1.5 text-[11px] font-medium"
-        style={{ background: 'rgba(90,173,160,0.08)', color: 'var(--b-muted)', borderBottom: '1px solid var(--b-line)' }}
+        style={{ background: 'rgba(43,107,87,0.08)', color: 'var(--b-muted)', borderBottom: '1px solid var(--b-line)' }}
       >
-        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)', boxShadow: '0 0 8px rgba(90,173,160,0.9)' }} />
+        <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: 'var(--b-teal)', boxShadow: '0 0 8px rgba(43,107,87,0.9)' }} />
         Live console · sample household — real Vision parsing, real provider prices, no real accounts connected
       </div>
 
@@ -57,7 +57,7 @@ export function BillsShell({ children }: { children: ReactNode }) {
                     className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition"
                     style={
                       active
-                        ? { background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)', boxShadow: 'inset 0 0 20px -8px rgba(90,173,160,0.6)' }
+                        ? { background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)', boxShadow: 'inset 0 0 20px -8px rgba(43,107,87,0.6)' }
                         : { color: 'var(--b-muted)', border: '1px solid transparent' }
                     }
                   >
@@ -89,7 +89,7 @@ export function BillsShell({ children }: { children: ReactNode }) {
                     style={
                       active
                         ? { background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)' }
-                        : { background: 'rgba(255,255,255,0.04)', color: 'var(--b-muted)', border: '1px solid var(--b-line)' }
+                        : { background: 'rgba(26,25,24,0.04)', color: 'var(--b-muted)', border: '1px solid var(--b-line)' }
                     }
                   >
                     <Icon size={14} />
@@ -111,7 +111,7 @@ export function BillsShell({ children }: { children: ReactNode }) {
 
 function ViewLanding() {
   return (
-    <div className="mt-8 rounded-2xl p-4" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
+    <div className="mt-8 rounded-2xl p-4" style={{ background: '#FFFFFF', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
       <p className="text-xs leading-relaxed" style={{ color: 'var(--b-muted)' }}>
         The household console. See the product story and join the waitlist on the landing page.
       </p>

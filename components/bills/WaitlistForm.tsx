@@ -58,7 +58,7 @@ export function WaitlistForm() {
         <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full text-white" style={{ background: 'var(--b-teal)' }} aria-hidden>
           <Check size={20} />
         </div>
-        <p className="text-lg font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>
+        <p className="text-lg font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
           {status === 'already' ? 'You’re already on the list' : 'You’re on the waitlist'}
         </p>
         <p className="mt-1 text-sm" style={{ color: 'var(--b-muted)' }}>
@@ -110,7 +110,7 @@ export function WaitlistForm() {
         type="submit"
         disabled={status === 'submitting'}
         className="w-full rounded-xl px-5 py-3.5 text-sm font-semibold text-white transition disabled:opacity-60"
-        style={{ background: 'var(--b-teal)', fontFamily: 'var(--font-bills-display)' }}
+        style={{ background: 'var(--b-teal)', fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif" }}
       >
         {status === 'submitting' ? 'Joining…' : 'Join the waitlist'}
       </button>
@@ -120,7 +120,7 @@ export function WaitlistForm() {
         <Lock size={13} className="mt-0.5 shrink-0" />
         <span>
           <strong style={{ color: 'var(--b-muted)' }}>Privacy (NZ Privacy Act 2020).</strong>{' '}
-          We collect your name, email and region only to run the waitlist and tell you when Assembl Bills opens in your area. We don’t sell your data, and you can ask us to correct or delete it any time at assembl@assembl.co.nz.
+          We collect your name, email and region only to run the waitlist and tell you when assembl bills opens in your area. We don’t sell your data, and you can ask us to correct or delete it any time at assembl@assembl.co.nz.
         </span>
       </p>
     </form>

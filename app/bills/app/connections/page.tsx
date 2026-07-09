@@ -8,7 +8,7 @@ export default function ConnectionsPage() {
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
-        <PageHeading title="Connections" lead="Connect an inbox and Assembl Bills reads your bills automatically. Secure OAuth is coming next — for now, upload a bill on the Bills tab and it’s read live by Claude Vision." />
+        <PageHeading title="Connections" lead="Connect an inbox and assembl bills reads your bills automatically. Secure OAuth is coming next — for now, upload a bill on the Bills tab and it’s read live by Claude Vision." />
         <LiveState state="coming" note="OAuth in progress" />
       </div>
 
@@ -24,7 +24,7 @@ export default function ConnectionsPage() {
                     <Mail size={18} />
                   </span>
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>{p.name}</p>
+                    <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{p.name}</p>
                     <p className="text-[11px]" style={{ color: 'var(--b-muted)' }}>{p.note}</p>
                   </div>
                 </div>
@@ -60,7 +60,7 @@ export default function ConnectionsPage() {
             ))}
           </div>
           <p className="mt-3 text-[11px]" style={{ color: 'var(--b-faint)' }}>
-            On a real connect, Assembl Bills recognises NZ providers automatically and files each bill to the right category — the same extraction the Bills-tab upload already runs live.
+            On a real connect, assembl bills recognises NZ providers automatically and files each bill to the right category — the same extraction the Bills-tab upload already runs live.
           </p>
         </Card>
       </div>

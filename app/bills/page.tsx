@@ -7,11 +7,11 @@ import { marketClaims, savingsTotal, hiddenCostsTotal } from '@/lib/bills/data';
 
 export const revalidate = 300;
 
-const display = { fontFamily: 'var(--font-bills-display), system-ui, sans-serif' } as const;
+const display = { fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", textTransform: 'lowercase' } as const;
 const totalFound = savingsTotal + hiddenCostsTotal;
 
 const flow = [
-  { icon: Mail, title: 'It reads your bills', body: 'Connect Gmail or Outlook — or just drop a PDF or photo. Claude Vision pulls out provider, amount, due date and plan. No manual entry.' },
+  { icon: Mail, title: 'It reads your bills', body: 'Connect Gmail or Outlook — or just drop a PDF or photo. The reading agent pulls out provider, amount, due date and plan. No manual entry.' },
   { icon: Upload, title: 'Live extraction', body: 'Drop a real bill and watch it parse in seconds — the same engine runs whether it comes from your inbox or your camera roll.' },
   { icon: Landmark, title: 'Watches the bank', body: 'Drop a bank CSV (parsed in your browser) or connect open banking — it surfaces the recurring charges you forgot.' },
   { icon: Search, title: 'Finds cheaper', body: 'An agent researches NZ providers — power, broadband, insurance — from a live price book, matched to your actual usage.' },
@@ -20,7 +20,7 @@ const flow = [
 ];
 
 const differentiators = [
-  { k: 'Not a dashboard — an operating system', v: 'SortMe shows what you spent. Assembl Bills acts: researches, alerts and prepares the switch.' },
+  { k: 'Not a dashboard — an operating system', v: 'SortMe shows what you spent. assembl bills acts: researches, alerts and prepares the switch.' },
   { k: 'Email-first ingestion', v: 'No NZ product parses email bills. The most frictionless path in — no bank account required first.' },
   { k: 'NZ provider intelligence', v: 'A live price book of real NZ plans — Mercury, Contact, Spark, One NZ, AA — not a US database.' },
   { k: 'Proactive, not reactive', v: 'It surfaces the opportunity the moment a cheaper plan appears or your plan anniversary nears.' },
@@ -35,7 +35,7 @@ export default function BillsLanding() {
         <Link
           href="/bills/app"
           className="inline-flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
-          style={{ background: 'linear-gradient(135deg, #5AADA0, #3A7D6E)', boxShadow: '0 0 24px -6px rgba(90,173,160,0.7)', ...display }}
+          style={{ background: 'linear-gradient(135deg, #2B6B57, #1A4D3D)', boxShadow: '0 0 24px -6px rgba(43,107,87,0.7)', ...display }}
         >
           <span className="hidden sm:inline">See the demo</span>
           <span className="sm:hidden">Demo</span>
@@ -52,9 +52,9 @@ export default function BillsLanding() {
             </span>
           </Reveal>
           <Reveal delay={0.05}>
-            <h1 className="mt-5 font-extrabold leading-[1.03] tracking-tight" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '-0.02em', fontSize: 'clamp(2.35rem, 7.2vw, 3.9rem)' }}>
+            <h1 className="mt-5 font-semibold leading-[1.03] tracking-tight" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '0.01em', fontSize: 'clamp(2.35rem, 7.2vw, 3.9rem)' }}>
               Stop overpaying on your{' '}
-              <span style={{ background: 'linear-gradient(90deg, #5AADA0, #E9C46A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 0 22px rgba(90,173,160,0.4))' }}>
+              <span style={{ background: 'linear-gradient(90deg, #2B6B57, #BFA37A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', filter: 'drop-shadow(0 0 22px rgba(43,107,87,0.4))' }}>
                 household bills.
               </span>
             </h1>
@@ -67,10 +67,10 @@ export default function BillsLanding() {
           </Reveal>
           <Reveal delay={0.15}>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <a href="#waitlist" className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-white transition hover:opacity-90" style={{ background: 'linear-gradient(135deg, #5AADA0, #3A7D6E)', boxShadow: '0 0 30px -6px rgba(90,173,160,0.7)', ...display }}>
+              <a href="#waitlist" className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold text-white transition hover:opacity-90" style={{ background: 'linear-gradient(135deg, #2B6B57, #1A4D3D)', boxShadow: '0 0 30px -6px rgba(43,107,87,0.7)', ...display }}>
                 Join the waitlist <ArrowRight size={16} />
               </a>
-              <Link href="/bills/app" className="inline-flex items-center gap-1.5 rounded-xl px-5 py-3.5 text-sm font-semibold transition hover:bg-white/5" style={{ color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)' }}>
+              <Link href="/bills/app" className="inline-flex items-center gap-1.5 rounded-xl px-5 py-3.5 text-sm font-semibold transition hover:bg-black/5" style={{ color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)' }}>
                 Explore the live console →
               </Link>
             </div>
@@ -98,8 +98,8 @@ export default function BillsLanding() {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {marketClaims.map((c, i) => (
             <Reveal key={c.stat} delay={i * 0.06}>
-              <div className="rounded-2xl p-5" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
-                <div className="text-3xl font-extrabold" style={{ ...display, color: 'var(--b-teal)', filter: 'drop-shadow(0 0 14px rgba(90,173,160,0.35))' }}>{c.stat}</div>
+              <div className="rounded-2xl p-5" style={{ background: '#FFFFFF', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
+                <div className="text-3xl font-semibold" style={{ ...display, color: 'var(--b-teal)', filter: 'drop-shadow(0 0 14px rgba(43,107,87,0.35))' }}>{c.stat}</div>
                 <div className="mt-1.5 text-xs leading-snug" style={{ color: 'var(--b-muted)' }}>{c.body}</div>
                 <div className="mt-1.5 text-[10px]" style={{ color: 'var(--b-faint)' }}>{c.source}</div>
               </div>
@@ -111,7 +111,7 @@ export default function BillsLanding() {
       {/* How it works */}
       <section className="mx-auto max-w-6xl px-6 py-8">
         <Reveal>
-          <h2 className="text-center text-3xl font-extrabold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '-0.02em' }}>
+          <h2 className="text-center text-3xl font-semibold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '0.01em' }}>
             One system, inbox to saving
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-center text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>
@@ -121,8 +121,8 @@ export default function BillsLanding() {
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {flow.map((f, i) => (
             <Reveal key={f.title} delay={(i % 3) * 0.08}>
-              <div className="group h-full rounded-2xl p-6 transition duration-300 hover:-translate-y-1" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
-                <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl transition group-hover:scale-110" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)', boxShadow: '0 0 20px -6px rgba(90,173,160,0.6)' }}>
+              <div className="group h-full rounded-2xl p-6 transition duration-300 hover:-translate-y-1" style={{ background: '#FFFFFF', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
+                <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl transition group-hover:scale-110" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal)', border: '1px solid var(--b-teal-line)', boxShadow: '0 0 20px -6px rgba(43,107,87,0.6)' }}>
                   <f.icon size={20} />
                 </span>
                 <h3 className="text-base font-bold" style={{ ...display, color: 'var(--b-ink)' }}>{f.title}</h3>
@@ -141,14 +141,14 @@ export default function BillsLanding() {
               <span className="text-[11px] font-semibold uppercase tracking-[0.18em]" style={{ color: 'var(--b-teal)' }}>Why it’s different</span>
               <span className="h-px flex-1" style={{ background: 'linear-gradient(90deg, var(--b-teal-line), transparent)' }} />
             </div>
-            <h2 className="mt-3 max-w-2xl text-3xl font-extrabold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '-0.02em' }}>
+            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '0.01em' }}>
               The closest NZ tools are dashboards. This is an operating system.
             </h2>
           </Reveal>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {differentiators.map((d, i) => (
               <Reveal key={d.k} delay={(i % 2) * 0.08}>
-                <div className="rounded-2xl p-5" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
+                <div className="rounded-2xl p-5" style={{ background: '#FFFFFF', border: '1px solid var(--b-line)', backdropFilter: 'blur(8px)' }}>
                   <p className="font-bold" style={{ ...display, color: 'var(--b-ink)' }}>{d.k}</p>
                   <p className="mt-1.5 text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>{d.v}</p>
                 </div>
@@ -167,7 +167,7 @@ export default function BillsLanding() {
       <section id="waitlist" className="py-16">
         <div className="mx-auto max-w-xl px-6 text-center">
           <Reveal>
-            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '-0.02em' }}>
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl" style={{ ...display, color: 'var(--b-ink)', letterSpacing: '0.01em' }}>
               Join the waitlist
             </h2>
             <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed" style={{ color: 'var(--b-muted)' }}>
@@ -175,7 +175,7 @@ export default function BillsLanding() {
             </p>
           </Reveal>
           <Reveal delay={0.08}>
-            <div className="mt-8 rounded-2xl p-6 text-left" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))', border: '1px solid var(--b-teal-line)', boxShadow: 'var(--b-glow-teal)', backdropFilter: 'blur(10px)' }}>
+            <div className="mt-8 rounded-2xl p-6 text-left" style={{ background: '#FFFFFF', border: '1px solid var(--b-teal-line)', boxShadow: 'var(--b-glow-teal)', backdropFilter: 'blur(10px)' }}>
               <WaitlistForm />
             </div>
           </Reveal>
@@ -186,7 +186,7 @@ export default function BillsLanding() {
       <footer className="mx-auto max-w-6xl px-6 py-10">
         <div className="flex flex-col items-center justify-between gap-3 border-t pt-6 text-xs sm:flex-row" style={{ borderColor: 'var(--b-line)', color: 'var(--b-faint)' }}>
           <span>
-            <strong style={{ color: 'var(--b-ink)' }}>Assembl Bills</strong> — an assembl product · Built in Aotearoa.
+            <strong style={{ color: 'var(--b-ink)' }}>assembl bills</strong> — an assembl product · Built in Aotearoa.
           </span>
           <span>Live console · beta. Pricing shown is indicative — always verify on Powerswitch (Consumer NZ).</span>
         </div>

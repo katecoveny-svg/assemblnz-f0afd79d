@@ -14,8 +14,8 @@ const quickActions = [
 ];
 
 const toneStyle: Record<string, { fg: string; glow: string }> = {
-  good: { fg: 'var(--b-teal)', glow: 'drop-shadow(0 0 14px rgba(90,173,160,0.4))' },
-  cost: { fg: 'var(--b-coral)', glow: 'drop-shadow(0 0 14px rgba(242,130,94,0.4))' },
+  good: { fg: 'var(--b-teal)', glow: 'drop-shadow(0 0 14px rgba(43,107,87,0.4))' },
+  cost: { fg: 'var(--b-coral)', glow: 'drop-shadow(0 0 14px rgba(184,92,62,0.4))' },
   neutral: { fg: 'var(--b-ink)', glow: 'none' },
 };
 
@@ -49,8 +49,8 @@ export default function OverviewPage() {
               <CountUp
                 to={value}
                 prefix={prefix}
-                className="mt-1 block text-2xl font-extrabold"
-                style={{ fontFamily: 'var(--font-bills-display)', color: t.fg, filter: t.glow }}
+                className="mt-1 block text-2xl font-semibold"
+                style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: t.fg, filter: t.glow }}
               />
               <p className="mt-0.5 text-[11px] leading-snug" style={{ color: 'var(--b-muted)' }}>{s.sub}</p>
             </Card>
@@ -84,7 +84,7 @@ export default function OverviewPage() {
               <EyeOff size={18} />
             </span>
             <div>
-              <p className="font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>
+              <p className="font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
                 {money(hiddenCostsTotal)}/yr in hidden costs detected
               </p>
               <p className="mt-0.5 text-sm" style={{ color: 'var(--b-muted)' }}>
@@ -126,7 +126,7 @@ export default function OverviewPage() {
                 <span className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: 'var(--b-teal-soft)', color: 'var(--b-teal-deep)' }}>
                   <a.Icon size={17} />
                 </span>
-                <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>{a.title}</p>
+                <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>{a.title}</p>
                 <p className="mt-1 text-[11px] leading-snug" style={{ color: 'var(--b-muted)' }}>{a.body}</p>
               </Card>
             </Link>

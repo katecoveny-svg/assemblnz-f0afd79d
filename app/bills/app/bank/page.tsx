@@ -9,7 +9,7 @@ import { Landmark, Repeat } from 'lucide-react';
 export default function BankPage() {
   return (
     <div>
-      <PageHeading title="Bank" lead="Bring in your transactions two ways — drop a real bank CSV (parsed live, in your browser) or connect open banking when it’s live. Assembl Bills detects the recurring charges you may have forgotten." />
+      <PageHeading title="Bank" lead="Bring in your transactions two ways — drop a real bank CSV (parsed live, in your browser) or connect open banking when it’s live. assembl bills detects the recurring charges you may have forgotten." />
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* CSV parser — REAL, client-side */}
@@ -40,7 +40,7 @@ export default function BankPage() {
               <Landmark size={18} />
             </span>
             <div>
-              <p className="text-sm font-semibold" style={{ fontFamily: 'var(--font-bills-display)', color: 'var(--b-ink)' }}>
+              <p className="text-sm font-semibold" style={{ fontFamily: "var(--font-bills-display), 'Cormorant Garamond', Georgia, serif", color: 'var(--b-ink)' }}>
                 Akahu — all 5 major NZ banks
               </p>
               <p className="mt-1 text-sm" style={{ color: 'var(--b-muted)' }}>

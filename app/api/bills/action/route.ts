@@ -5,13 +5,13 @@ import { getServiceClient } from '@/lib/supabase/service';
 export const dynamic = 'force-dynamic';
 
 /**
- * POST /api/bills/action — the ONLY "action" endpoint in Assembl Bills.
+ * POST /api/bills/action — the ONLY "action" endpoint in assembl bills.
  *
  * ACTION_DISPATCH_ENABLED is OFF. Nothing is ever switched, cancelled, refunded
  * or paid here. Every "Switch", "Cancel", "Refund", "Dispute" or "Apply" click
  * drops a DRAFT into content_approvals (status 'pending') so it surfaces at
  * /admin/approvals for a human yes. This is the SPARK "empower, don't replace"
- * rule made literal: Assembl Bills prepares the action; the household approves.
+ * rule made literal: assembl bills prepares the action; the household approves.
  */
 const BodySchema = z.object({
   kind: z.enum(['switch', 'cancel', 'refund', 'dispute', 'apply', 'notify', 'partner']),
