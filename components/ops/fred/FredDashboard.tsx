@@ -29,6 +29,8 @@ import {
 } from '@/lib/customers/auckland-dog-trainer/tabs';
 import { SessionNotesEngine } from '@/components/ops/fred/SessionNotesEngine';
 import { InstagramLeadCapture } from '@/components/ops/fred/InstagramLeadCapture';
+import { BusinessGenome } from '@/components/ops/fred/BusinessGenome';
+import { MorningBrief } from '@/components/ops/fred/MorningBrief';
 import { SocialStudio } from '@/components/ops/shared/SocialStudio';
 import { OsHoverLift, OsReveal, OsScrollReveal, OsStagger, osStaggerItem } from '@/components/ops/shared/OsMotion';
 import { motion } from 'framer-motion';
@@ -187,6 +189,8 @@ function KillerDemo() {
 
 /** First look — every capability of the console, one tap from the front door. */
 const CAPABILITIES: Array<{ tab: FredTabKey; title: string; body: string }> = [
+  { tab: 'brief', title: 'Morning brief', body: 'Every morning: yesterday’s numbers, one improvement already built. You say yes.' },
+  { tab: 'genome', title: 'Business Genome', body: 'Every fact once — change a price and the site, agents and emails all update.' },
   { tab: 'notes', title: 'Session scribe', body: 'Record a 2-min voice note → client summary, homework, CRM notes, handover.' },
   { tab: 'leads', title: 'Instagram → CRM', body: 'DM enquiries read, triaged and filed as leads with your draft reply.' },
   { tab: 'social', title: 'Social studio', body: 'Real stills and reels generated from a one-line brief. Draft-only.' },
@@ -754,6 +758,8 @@ export function FredDashboard({ tab }: { tab: FredTabKey }) {
       <TabBar active={tab} />
       <OsScrollReveal key={tab} delay={0.04}>
         {tab === 'week' ? <WeekTab /> : null}
+        {tab === 'brief' ? <MorningBrief /> : null}
+        {tab === 'genome' ? <BusinessGenome /> : null}
         {tab === 'landing' ? <LandingTab /> : null}
         {tab === 'leads' ? <LeadsTab /> : null}
         {tab === 'dogs' ? <DogsTab /> : null}
