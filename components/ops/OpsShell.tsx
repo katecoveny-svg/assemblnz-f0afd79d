@@ -86,37 +86,62 @@ export function OpsShell({
             href={`/customers/${config.slug}/ops`}
             className="group flex items-center gap-3 font-[family-name:var(--font-brand-display)] transition-transform hover:-translate-y-0.5"
           >
-            {config.logo.src.endsWith('.svg') ||
-            config.logo.src.endsWith('.png') ? (
-              <span
-                className="inline-flex h-11 w-11 items-center justify-center rounded-md shadow-sm transition-shadow group-hover:shadow-md"
-                style={{ backgroundColor: 'var(--brand-surface)' }}
-                aria-hidden
-              >
-                <Image
-                  src={config.logo.src}
-                  alt={config.logo.alt}
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 object-contain"
-                />
-              </span>
+            {config.logo.wordmark &&
+            (config.logo.src.endsWith('.svg') || config.logo.src.endsWith('.png')) ? (
+              // Wide wordmark lockup — natural aspect, no chip, no duplicate name.
+              <Image
+                src={config.logo.src}
+                alt={config.logo.alt}
+                width={160}
+                height={52}
+                className="h-10 w-auto object-contain"
+                priority
+              />
             ) : (
-              <span
-                className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[color:var(--brand-accent)] text-sm font-bold text-[color:var(--brand-surface)] shadow-sm transition-transform group-hover:scale-105"
-                aria-hidden
-              >
-                {config.displayName.slice(0, 1)}
-              </span>
+              <>
+                {config.logo.src.endsWith('.svg') ||
+                config.logo.src.endsWith('.png') ? (
+                  <span
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-md shadow-sm transition-shadow group-hover:shadow-md"
+                    style={{ backgroundColor: 'var(--brand-surface)' }}
+                    aria-hidden
+                  >
+                    <Image
+                      src={config.logo.src}
+                      alt={config.logo.alt}
+                      width={40}
+                      height={40}
+                      className="h-10 w-10 object-contain"
+                    />
+                  </span>
+                ) : (
+                  <span
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[color:var(--brand-accent)] text-sm font-bold text-[color:var(--brand-surface)] shadow-sm transition-transform group-hover:scale-105"
+                    aria-hidden
+                  >
+                    {config.displayName.slice(0, 1)}
+                  </span>
+                )}
+                <span className="text-base font-semibold uppercase tracking-[0.16em]">
+                  {config.displayName}
+                </span>
+              </>
             )}
-            <span className="text-base font-semibold uppercase tracking-[0.16em]">
-              {config.displayName}
-            </span>
           </Link>
           {config.mascot ? (
-            <span className="text-xs text-[color:var(--brand-muted)]">
+            <span className="hidden text-xs text-[color:var(--brand-muted)] md:inline">
               · {config.mascot.alt}
             </span>
+          ) : null}
+          {config.siteUrl ? (
+            <a
+              href={config.siteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-black/10 bg-black/5 px-3 py-1 text-[11px] font-semibold lowercase tracking-[0.06em] text-[color:var(--brand-ink)] transition-colors hover:bg-black/10"
+            >
+              {config.siteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '')} ↗
+            </a>
           ) : null}
           {config.crossBrand.position === 'header-tag' ? (
             <span

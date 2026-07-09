@@ -59,6 +59,12 @@ export const BrandConfigSchema = z.object({
       alt: z.string().min(1),
     })
     .optional(),
+  /**
+   * Optional public website for the business. When set, the ops header
+   * surfaces a quiet "visit site ↗" link so operators can jump to the
+   * customer-facing site.
+   */
+  siteUrl: z.string().url().optional(),
   colours: z.object({
     bg: HexColour,
     surface: HexColour,

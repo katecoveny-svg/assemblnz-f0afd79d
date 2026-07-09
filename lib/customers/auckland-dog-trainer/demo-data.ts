@@ -11,6 +11,7 @@ export type OfferSlug =
   | 'reactivity'
   | 'board-train'
   | 'boutique-board'
+  | 'bootcamp'
   | 'course';
 
 export type Lead = {
@@ -161,6 +162,11 @@ export const OFFERS: Record<
     short: 'Boarding',
     priceSample: 'stay · SAMPLE',
   },
+  bootcamp: {
+    label: 'Group Bootcamp',
+    short: 'Bootcamp',
+    priceSample: 'launching · SAMPLE',
+  },
   course: {
     label: 'Online Course',
     short: 'Course',
@@ -192,6 +198,12 @@ export const CHALLENGES: ChallengeCard[] = [
     title: 'I want full training support',
     blurb: 'Intensive live-in training with daily updates and a handover pack.',
     mapsTo: 'board-train',
+  },
+  {
+    id: 'group',
+    title: 'We want to train with other dogs',
+    blurb: 'NEW Group Bootcamp — Saturday intensives, real-world proofing as a pack.',
+    mapsTo: 'bootcamp',
   },
   {
     id: 'unsure',
@@ -523,6 +535,20 @@ export const PROGRAMMES: Programme[] = [
       { week: 1, title: 'Structure & calm defaults', ownerTask: 'Watch daily update clips' },
       { week: 2, title: 'Lead, recall, manners', ownerTask: 'Mid-stay check-in call' },
       { week: 3, title: 'Handover pack', ownerTask: 'Owner training day' },
+    ],
+  },
+  {
+    slug: 'bootcamp',
+    name: 'Group Bootcamp',
+    weeks: 4,
+    priceSample: 'launching · SAMPLE',
+    blurb: 'NEW — small-group Saturday intensives: obedience, lead work, and real-world manners around other dogs. Fred coaches the humans; the group proofs the dogs.',
+    activeDogs: 0,
+    curriculum: [
+      { week: 1, title: 'Group foundations & engagement', ownerTask: 'Daily 5-min engagement reps before meals' },
+      { week: 2, title: 'Lead work around other dogs', ownerTask: 'One quiet-street walk using the group protocol' },
+      { week: 3, title: 'Distraction proofing as a pack', ownerTask: 'Film one park pass-by for review' },
+      { week: 4, title: 'Real-world graduation walk', ownerTask: 'Keep the weekly group checklist' },
     ],
   },
   {
