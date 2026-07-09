@@ -5,9 +5,9 @@ import { getBrandConfig } from '@/lib/brand/configs';
 import { OpsShell } from '@/components/ops/OpsShell';
 
 export const metadata: Metadata = {
-  title: 'Auckland Dog Trainer — Learn To Talk Dog command centre (concept) · assembl',
+  title: 'Auckland Dog Trainer — Learn To Talk Dog command centre · assembl',
   description:
-    'Concept pilot: Auckland Dog Trainer operating system — landing hub, lead triage, training CRM, programme journeys, course studio, social, time cockpit, hiring, and agent mesh. Draft-only. Fred runs the method.',
+    'Auckland Dog Trainer operating system — landing hub, lead triage, training CRM, programme journeys, course studio, social, time cockpit, hiring, and agent mesh. Draft-only. Fred runs the method.',
   robots: { index: false, follow: false },
 };
 
@@ -48,7 +48,7 @@ export default function AucklandDogTrainerOpsLayout({ children }: { children: Re
             </p>
             <ol className="mt-3 flex flex-col gap-2.5 text-[12.5px] leading-relaxed text-[color:var(--brand-ink)]">
               <li>
-                <strong>1. Landing hub</strong> answers “which path?” before Fred does.
+                <strong>1. Landing hub</strong> answers “which path?” before you have to.
               </li>
               <li>
                 <strong>2. Triage + CRM</strong> create the dog profile and draft reply.
@@ -61,19 +61,19 @@ export default function AucklandDogTrainerOpsLayout({ children }: { children: Re
               </li>
             </ol>
             <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--brand-muted)]">
-              Draft-only. Nothing emails a client or books a session without Fred&apos;s yes.
+              Draft-only. Nothing emails a client or books a session without your yes.
             </p>
           </div>
           <div className="rounded-2xl border border-[#D4A5B0]/50 bg-[#F7EEF1] p-4">
             <p className="text-[11px] uppercase tracking-[0.18em] text-[color:var(--brand-muted)]">
-              pitch line
+              the promise
             </p>
             <p
               className="mt-2 text-[14px] leading-relaxed text-[color:var(--brand-ink)]"
               style={{ fontFamily: 'var(--font-brand-display), Georgia, serif' }}
             >
-              Scale Fred&apos;s method without losing Fred&apos;s standards — the invisible operations
-              manager behind the expertise.
+              Scale the method without losing the standard — the operations desk runs the admin;
+              you run the training.
             </p>
           </div>
         </div>
