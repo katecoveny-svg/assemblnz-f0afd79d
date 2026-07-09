@@ -49,7 +49,7 @@ export function OsEditorialHero({
             backgroundImage: `url(${pattern})`,
             backgroundRepeat: 'repeat',
             backgroundSize: '300px auto',
-            opacity: 0.4,
+            opacity: 0.24,
             mixBlendMode: 'multiply',
           }}
         />
