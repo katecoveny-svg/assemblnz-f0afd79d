@@ -185,10 +185,54 @@ function KillerDemo() {
   );
 }
 
+/** First look — every capability of the console, one tap from the front door. */
+const CAPABILITIES: Array<{ tab: FredTabKey; title: string; body: string }> = [
+  { tab: 'notes', title: 'Session scribe', body: 'Record a 2-min voice note → client summary, homework, CRM notes, handover.' },
+  { tab: 'leads', title: 'Instagram → CRM', body: 'DM enquiries read, triaged and filed as leads with your draft reply.' },
+  { tab: 'social', title: 'Social studio', body: 'Real stills and reels generated from a one-line brief. Draft-only.' },
+  { tab: 'programmes', title: 'Programme OS', body: 'Reactivity, Recall, Board & Train — plus the NEW Group Bootcamp.' },
+  { tab: 'landing', title: 'Landing hub', body: 'A programme chooser that answers "which path?" before you have to.' },
+  { tab: 'dogs', title: 'Training CRM', body: 'Every dog, week by week — triggers, goals, homework, payments.' },
+  { tab: 'time', title: 'Time cockpit', body: 'Sessions, travel and admin debt — protect the hours that earn.' },
+  { tab: 'agents', title: 'Agent mesh', body: 'The desk behind it all. Draft-only — nothing sends without your yes.' },
+];
+
+function CapabilitiesGrid() {
+  return (
+    <section>
+      <p style={{ ...eyebrow, color: PINK_DEEP, marginBottom: 10 }}>
+        everything this console does · tap any card
+      </p>
+      <OsStagger style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+        {CAPABILITIES.map((c) => (
+          <motion.div key={c.tab} variants={osStaggerItem}>
+            <OsHoverLift accent={PINK} style={{ height: '100%' }}>
+              <Link
+                href={`/customers/auckland-dog-trainer/ops?tab=${c.tab}`}
+                scroll={false}
+                style={{ textDecoration: 'none', display: 'block', height: '100%' }}
+              >
+                <div style={{ ...glass, padding: '14px 16px', height: '100%', borderColor: `${PINK}44` }}>
+                  <p style={{ margin: 0, fontFamily: display, fontSize: 18, color: NAVY }}>
+                    {c.title}
+                    <span style={{ color: PINK_DEEP }}> →</span>
+                  </p>
+                  <p style={{ margin: '6px 0 0', fontSize: 12.5, color: MUTED, lineHeight: 1.5 }}>{c.body}</p>
+                </div>
+              </Link>
+            </OsHoverLift>
+          </motion.div>
+        ))}
+      </OsStagger>
+    </section>
+  );
+}
+
 function WeekTab() {
   const attention = DOGS.filter((d) => !d.homeworkDone || d.videosPending > 0);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <CapabilitiesGrid />
       <KillerDemo />
       <OsStagger style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
         {[
