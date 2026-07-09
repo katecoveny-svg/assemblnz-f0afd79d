@@ -41,7 +41,7 @@ export default async function AucklandDogTrainerOpsHome({
 
   const sp = await searchParams;
   const rawTab = first(sp?.tab);
-  const tab: FredTabKey = TAB_KEYS.has(rawTab ?? '') ? (rawTab as FredTabKey) : 'overview';
+  const tab: FredTabKey = TAB_KEYS.has(rawTab ?? '') ? (rawTab as FredTabKey) : 'week';
 
   return (
     <div className="flex flex-col gap-5">

@@ -131,6 +131,34 @@ export default function HappyTailsOpsHome() {
           stay Drafts in Xero until issued.
         </div>
 
+        <section
+          className="mt-8 rounded-2xl border border-black/10 bg-white/90 p-5 backdrop-blur-sm"
+          style={{ borderLeft: `4px solid ${accent}` }}
+        >
+          <p
+            className="text-[10px] uppercase"
+            style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
+          >
+            daycare operating system
+          </p>
+          <h2 className="mt-2 text-2xl lowercase" style={{ fontFamily: serif, fontWeight: 500 }}>
+            Liana&apos;s week · enrolment · bus · welcome packs
+            <span style={{ color: ASSEMBL_GOLD }}>.</span>
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm" style={{ color: '#3E3C36' }}>
+            The Fred OS command-centre pattern, adapted for doggy daycare — not training.
+            Lead triage, dog CRM, care journeys, Welcome Pack studio, time cockpit, and the
+            Keeper agent mesh.
+          </p>
+          <a
+            href="/customers/happy-tails/ops/os"
+            className="mt-4 inline-flex text-[10px] uppercase"
+            style={{ letterSpacing: '0.16em', color: accent }}
+          >
+            open the daycare OS →
+          </a>
+        </section>
+
         {/* ── Fold 2 · read signals · route work · move to proof ──────────── */}
         <section className="mt-16 grid gap-5 md:grid-cols-3">
           {[

@@ -23,10 +23,10 @@ Operating rules (non-negotiable):
 You sign drafts: "Drafted by the Fred OS desk — waiting on Fred's yes before anything leaves the workspace."`;
 
 export const FRED_TRY_ME: string[] = [
-  'Triage a new lead: 18-month Labrador, pulls on lead, jumps on guests, Grey Lynn',
+  'A new quiz lead just came in: Kelpie cross, reacts to bikes, Mt Eden — triage and draft the reply',
   'Turn this session note into homework: Met Bruno today. Reactive to scooters within ten metres. Owner timing inconsistent.',
-  'Which programme fits a 4-year-old Rottweiler with dog reactivity who wants off-leash freedom?',
-  'Draft a trainer handover for Diesel on Recall Mastery week 3',
+  'Show me Reactivity Rewired week-by-week and what the owner should do in week 2',
+  'Where is my time leaking this week, and what should become a course lesson?',
 ];
 
 export function fredPromptExcerpt(): string {

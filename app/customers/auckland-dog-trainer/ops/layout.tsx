@@ -5,9 +5,9 @@ import { getBrandConfig } from '@/lib/brand/configs';
 import { OpsShell } from '@/components/ops/OpsShell';
 
 export const metadata: Metadata = {
-  title: 'Fred OS — Auckland Dog Trainer (concept) · assembl',
+  title: 'Fred OS — Learn To Talk Dog command centre (concept) · assembl',
   description:
-    'Concept pilot: Learn To Talk Dog operating system for Fred — intake, session notes to homework, programmes, course builder, support triage, and trainer hiring. Draft-only.',
+    'Concept pilot: Fred OS for Auckland Dog Trainer — landing hub, lead triage, training CRM, programme journeys, course studio, time cockpit, hiring, and agent mesh. Draft-only.',
   robots: { index: false, follow: false },
 };
 
@@ -17,19 +17,18 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-/**
- * Fred OS workspace shell. Navy + pale pink brand direction; sidebar mirrors
- * the in-page tab bar so each section is one server-rendered view via ?tab=.
- */
 const NAV: Array<[string, string]> = [
-  ['Overview', '?tab=overview'],
-  ['Leads', '?tab=leads'],
-  ['Dogs', '?tab=dogs'],
-  ['Programmes', '?tab=programmes'],
-  ['Notes engine', '?tab=notes'],
-  ['Course', '?tab=course'],
+  ["Fred's Week", '?tab=week'],
+  ['Landing hub', '?tab=landing'],
+  ['Lead triage', '?tab=leads'],
+  ['Training CRM', '?tab=dogs'],
+  ['Programme OS', '?tab=programmes'],
+  ['Session scribe', '?tab=notes'],
+  ['Course studio', '?tab=course'],
   ['Support', '?tab=support'],
-  ['Hiring', '?tab=hiring'],
+  ['Time cockpit', '?tab=time'],
+  ['Hiring OS', '?tab=hiring'],
+  ['Agent mesh', '?tab=agents'],
 ];
 
 export default function AucklandDogTrainerOpsLayout({ children }: { children: ReactNode }) {
@@ -44,24 +43,24 @@ export default function AucklandDogTrainerOpsLayout({ children }: { children: Re
         <div className="flex flex-col gap-4">
           <div className="rounded-2xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)] p-4">
             <p className="text-[11px] uppercase tracking-[0.18em] text-[color:var(--brand-muted)]">
-              how it works
+              command centre
             </p>
             <ol className="mt-3 flex flex-col gap-2.5 text-[12.5px] leading-relaxed text-[color:var(--brand-ink)]">
               <li>
-                <strong>1. Intake</strong> triages the dog–human team into the right offer.
+                <strong>1. Landing hub</strong> answers “which path?” before Fred does.
               </li>
               <li>
-                <strong>2. Session notes</strong> become homework, CRM, and follow-ups.
+                <strong>2. Triage + CRM</strong> create the dog profile and draft reply.
               </li>
               <li>
-                <strong>3. Programmes</strong> track weekly progress and video uploads.
+                <strong>3. Programme OS</strong> runs week-by-week journeys.
               </li>
               <li>
-                <strong>4. Course + hiring</strong> scale the method without diluting it.
+                <strong>4. Time + hiring</strong> protect capacity and scale the method.
               </li>
             </ol>
             <p className="mt-3 text-[11px] leading-relaxed text-[color:var(--brand-muted)]">
-              Draft-only concept. Nothing emails a client or books a session without Fred&apos;s yes.
+              Draft-only. Nothing emails a client or books a session without Fred&apos;s yes.
             </p>
           </div>
           <div className="rounded-2xl border border-[#D4A5B0]/50 bg-[#F7EEF1] p-4">
@@ -72,8 +71,8 @@ export default function AucklandDogTrainerOpsLayout({ children }: { children: Re
               className="mt-2 text-[14px] leading-relaxed text-[color:var(--brand-ink)]"
               style={{ fontFamily: 'var(--font-brand-display), Georgia, serif' }}
             >
-              You&apos;re busy because your expertise is trapped in your head. Fred OS turns consults,
-              methods, and client questions into a working operating system.
+              Scale Fred&apos;s method without losing Fred&apos;s standards — the invisible operations
+              manager behind the expertise.
             </p>
           </div>
         </div>
