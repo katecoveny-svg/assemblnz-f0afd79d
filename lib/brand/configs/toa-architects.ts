@@ -60,6 +60,9 @@ export const toaArchitectsConfig: BrandConfig = parseBrandConfig({
     position: 'footer-only',
     density: 'quiet',
   },
+  patterns: {
+    primary: '/brand/toa-architects/pattern-whakairo.svg',
+  },
   // English-led sidebar per the brief.
   nav: [
     { label: 'Consents', href: 'consents' },

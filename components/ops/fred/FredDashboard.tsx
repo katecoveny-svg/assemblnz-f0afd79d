@@ -27,7 +27,8 @@ import {
   type FredTabKey,
 } from '@/lib/customers/auckland-dog-trainer/tabs';
 import { SessionNotesEngine } from '@/components/ops/fred/SessionNotesEngine';
-import { OsReveal } from '@/components/ops/shared/OsMotion';
+import { OsHoverLift, OsReveal, OsScrollReveal, OsStagger, osStaggerItem } from '@/components/ops/shared/OsMotion';
+import { motion } from 'framer-motion';
 
 export type { FredTabKey };
 
@@ -72,25 +73,28 @@ function TabBar({ active }: { active: FredTabKey }) {
       {FRED_TABS.map((t) => {
         const on = t.key === active;
         return (
-          <Link
-            key={t.key}
-            href={`/customers/auckland-dog-trainer/ops?tab=${t.key}`}
-            scroll={false}
-            aria-current={on ? 'page' : undefined}
-            style={{
-              fontSize: 12.5,
-              fontWeight: 600,
-              padding: '7px 13px',
-              borderRadius: 999,
-              textDecoration: 'none',
-              color: on ? '#fff' : NAVY,
-              background: on ? NAVY : CREAM,
-              border: `1.5px solid ${on ? NAVY : `${NAVY}22`}`,
-              boxShadow: on ? '0 6px 16px rgba(27,42,74,0.18)' : 'none',
-            }}
-          >
-            {t.label}
-          </Link>
+          <motion.div key={t.key} whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+            <Link
+              href={`/customers/auckland-dog-trainer/ops?tab=${t.key}`}
+              scroll={false}
+              aria-current={on ? 'page' : undefined}
+              style={{
+                display: 'inline-block',
+                fontSize: 12.5,
+                fontWeight: 600,
+                padding: '8px 14px',
+                borderRadius: 999,
+                textDecoration: 'none',
+                color: on ? '#fff' : NAVY,
+                background: on ? NAVY : CREAM,
+                border: `1.5px solid ${on ? NAVY : `${NAVY}22`}`,
+                boxShadow: on ? '0 8px 20px rgba(27,42,74,0.22)' : '0 1px 0 rgba(255,255,255,0.8) inset',
+                transition: 'box-shadow 0.2s ease',
+              }}
+            >
+              {t.label}
+            </Link>
+          </motion.div>
         );
       })}
     </nav>
@@ -214,7 +218,7 @@ function WeekTab() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <KillerDemo />
-      <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
+      <OsStagger style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
         {[
           { k: 'capacity', v: `${TIME_COCKPIT.capacityPct}%`, s: 'Fred this week' },
           { k: 'sessions', v: String(TIME_COCKPIT.sessionsToday), s: 'today' },
@@ -223,13 +227,15 @@ function WeekTab() {
           { k: 'leads', v: String(REVENUE_SAMPLE.leadsThisWeek), s: 'this week' },
           { k: 'attention', v: String(attention.length), s: 'dogs needing you' },
         ].map((i) => (
-          <div key={i.k} style={{ ...glass, padding: '14px 16px', background: BLUSH }}>
-            <p style={eyebrow}>{i.k}</p>
-            <p style={{ margin: '6px 0 0', fontFamily: display, fontSize: 26, color: NAVY }}>{i.v}</p>
-            <p style={{ margin: '2px 0 0', fontSize: 12, color: MUTED }}>{i.s}</p>
-          </div>
+          <motion.div key={i.k} variants={osStaggerItem}>
+            <OsHoverLift accent={PINK} style={{ ...glass, padding: '14px 16px', background: BLUSH }}>
+              <p style={eyebrow}>{i.k}</p>
+              <p style={{ margin: '6px 0 0', fontFamily: display, fontSize: 26, color: NAVY }}>{i.v}</p>
+              <p style={{ margin: '2px 0 0', fontSize: 12, color: MUTED }}>{i.s}</p>
+            </OsHoverLift>
+          </motion.div>
         ))}
-      </div>
+      </OsStagger>
 
       <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
         <div style={{ ...glass, padding: 16 }}>
@@ -317,17 +323,19 @@ function LandingTab() {
       </div>
 
       <p style={eyebrow}>choose your challenge</p>
-      <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+      <OsStagger style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
         {CHALLENGES.map((c) => (
-          <div key={c.id} style={{ ...glass, padding: 14, minHeight: 120 }}>
-            <h3 style={{ margin: 0, fontFamily: display, fontSize: 18, color: NAVY }}>{c.title}</h3>
-            <p style={{ margin: '8px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.45 }}>{c.blurb}</p>
-            <p style={{ margin: '10px 0 0', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: PINK_DEEP }}>
-              → {OFFERS[c.mapsTo].short}
-            </p>
-          </div>
+          <motion.div key={c.id} variants={osStaggerItem}>
+            <OsHoverLift accent={PINK} style={{ ...glass, padding: 14, minHeight: 120 }}>
+              <h3 style={{ margin: 0, fontFamily: display, fontSize: 18, color: NAVY }}>{c.title}</h3>
+              <p style={{ margin: '8px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.45 }}>{c.blurb}</p>
+              <p style={{ margin: '10px 0 0', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: PINK_DEEP }}>
+                → {OFFERS[c.mapsTo].short}
+              </p>
+            </OsHoverLift>
+          </motion.div>
         ))}
-      </div>
+      </OsStagger>
 
       <p style={{ ...eyebrow, marginTop: 6 }}>programme cards</p>
       <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
@@ -702,19 +710,23 @@ function AgentsTab() {
 export function FredDashboard({ tab }: { tab: FredTabKey }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'var(--font-brand-body), system-ui, sans-serif', color: NAVY }}>
-      <Hero />
+      <OsScrollReveal>
+        <Hero />
+      </OsScrollReveal>
       <TabBar active={tab} />
-      {tab === 'week' ? <WeekTab /> : null}
-      {tab === 'landing' ? <LandingTab /> : null}
-      {tab === 'leads' ? <LeadsTab /> : null}
-      {tab === 'dogs' ? <DogsTab /> : null}
-      {tab === 'programmes' ? <ProgrammesTab /> : null}
-      {tab === 'notes' ? <SessionNotesEngine /> : null}
-      {tab === 'course' ? <CourseTab /> : null}
-      {tab === 'support' ? <SupportTab /> : null}
-      {tab === 'time' ? <TimeTab /> : null}
-      {tab === 'hiring' ? <HiringTab /> : null}
-      {tab === 'agents' ? <AgentsTab /> : null}
+      <OsScrollReveal key={tab} delay={0.04}>
+        {tab === 'week' ? <WeekTab /> : null}
+        {tab === 'landing' ? <LandingTab /> : null}
+        {tab === 'leads' ? <LeadsTab /> : null}
+        {tab === 'dogs' ? <DogsTab /> : null}
+        {tab === 'programmes' ? <ProgrammesTab /> : null}
+        {tab === 'notes' ? <SessionNotesEngine /> : null}
+        {tab === 'course' ? <CourseTab /> : null}
+        {tab === 'support' ? <SupportTab /> : null}
+        {tab === 'time' ? <TimeTab /> : null}
+        {tab === 'hiring' ? <HiringTab /> : null}
+        {tab === 'agents' ? <AgentsTab /> : null}
+      </OsScrollReveal>
     </div>
   );
 }

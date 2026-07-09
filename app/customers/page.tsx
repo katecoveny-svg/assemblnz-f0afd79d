@@ -12,6 +12,8 @@ import {
   ParticulateBackdrop,
   levitateClass,
 } from '@/components/assembl/chrome';
+import { HubTenantCard } from '@/components/ops/shared/HubTenantCard';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
 
 // Never indexed. Layout already sets this; kept explicit for clarity.
 export const metadata: Metadata = {
@@ -20,20 +22,6 @@ export const metadata: Metadata = {
 };
 
 const serif = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
-
-/**
- * Hub page at `/customers` (i.e. demo.assembl.co.nz/customers).
- *
- * Pure assembl chrome, so it follows DIRECTION-LOCKED-2026-07-01: paper
- * white, the particulate mountain-and-wave landscape, lowercase Cormorant
- * display, tracked micro-labels, cards that levitate on hover with the
- * matariki dot-cluster ornament.
- *
- * Lists every seeded tenant as a card linking through to that tenant's ops
- * console. The list is driven by `lib/customers/tenants.ts` — the canonical
- * in-code registry that mirrors the `tenant_customers` Supabase table. The
- * pilot counts shown are real counts of that registry, never invented.
- */
 
 export default function CustomersHub() {
   const concepts = TENANTS.filter((t) => t.status === 'concept');
@@ -44,10 +32,10 @@ export default function CustomersHub() {
       className="relative min-h-screen overflow-hidden"
       style={{ backgroundColor: ASSEMBL_PAPER, color: ASSEMBL_INK }}
     >
-      {/* Landscape sits high on the page; content floats over it. */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[440px]">
         <ParticulateBackdrop className="opacity-80" />
       </div>
+      <OsMotionField accent={ASSEMBL_GOLD} secondary="#D4A5B0" intensity="soft" />
 
       <div className="relative mx-auto max-w-5xl px-6 py-20">
         <header className="mb-14">
@@ -174,7 +162,7 @@ export default function CustomersHub() {
             </h2>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               {live.map((t) => (
-                <TenantCard key={t.slug} tenant={t} />
+                <HubTenantCard key={t.slug} tenant={t} />
               ))}
             </div>
           </section>
@@ -189,7 +177,7 @@ export default function CustomersHub() {
           </h2>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             {concepts.map((t) => (
-              <TenantCard key={t.slug} tenant={t} />
+              <HubTenantCard key={t.slug} tenant={t} />
             ))}
           </div>
         </section>
@@ -206,43 +194,5 @@ export default function CustomersHub() {
         </footer>
       </div>
     </main>
-  );
-}
-
-function TenantCard({
-  tenant,
-}: {
-  tenant: (typeof TENANTS)[number];
-}) {
-  return (
-    <Link
-      href={`/customers/${tenant.slug}`}
-      className={[
-        'group block rounded-2xl border bg-white/80 p-6 shadow-sm backdrop-blur-sm hover:shadow-md',
-        levitateClass,
-        tenant.accentClass ?? 'border-neutral-200',
-      ].join(' ')}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="text-lg" style={{ fontFamily: serif, fontWeight: 600 }}>
-          {tenant.displayName}
-        </h3>
-        <MatarikiCluster size={24} gold={tenant.status === 'pilot'} />
-      </div>
-      {tenant.parentBrand && (
-        <p className="mt-1 text-xs" style={{ color: ASSEMBL_WARM_GREY }}>
-          {tenant.parentBrand}
-        </p>
-      )}
-      <p className="mt-3 text-sm leading-relaxed" style={{ color: '#3E3C36' }}>
-        {tenant.blurb}
-      </p>
-      <p
-        className="mt-4 text-[10px] uppercase transition-colors"
-        style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
-      >
-        open ops console →
-      </p>
-    </Link>
   );
 }

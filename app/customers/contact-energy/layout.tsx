@@ -9,6 +9,8 @@ import {
   ContactSidebar,
   CreditsCorner,
 } from '@/components/customers/contact-energy/chrome';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
+import { getBrandConfig } from '@/lib/brand/configs';
 
 /**
  * Contact Energy × Assembling — hosted pitch-concept workspace shell.
@@ -48,16 +50,43 @@ export const metadata: Metadata = {
 };
 
 export default function ContactEnergyLayout({ children }: { children: ReactNode }) {
+  const brand = getBrandConfig('contact-energy');
+  const pattern = brand?.patterns?.primary ?? '/brand/contact-energy/pattern-switch.svg';
+
   return (
-    <div className={`${styles.root} ${montserrat.variable} ${cormorant.variable}`}>
+    <div
+      className={`${styles.root} ${montserrat.variable} ${cormorant.variable}`}
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
+      <div
+        aria-hidden
+        style={{
+          position: 'fixed',
+          inset: 0,
+          pointerEvents: 'none',
+          backgroundImage: `url(${pattern})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '360px auto',
+          opacity: 0.07,
+          zIndex: 0,
+        }}
+      />
+      <OsMotionField
+        accent={brand?.colours.canary ?? '#BFA37A'}
+        secondary={brand?.colours.accent ?? '#C8102E'}
+        intensity="soft"
+        className="z-[0]"
+      />
       <CreditsProvider>
-        <ConceptTop />
-        <div className={styles.shell}>
-          <ContactSidebar />
-          {children}
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <ConceptTop />
+          <div className={styles.shell}>
+            <ContactSidebar />
+            {children}
+          </div>
+          <CreditsCorner />
+          <ConceptCorner />
         </div>
-        <CreditsCorner />
-        <ConceptCorner />
       </CreditsProvider>
     </div>
   );

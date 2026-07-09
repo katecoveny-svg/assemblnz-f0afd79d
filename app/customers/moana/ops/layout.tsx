@@ -14,7 +14,7 @@ import {
   MatarikiCluster,
   ParticulateBackdrop,
 } from '@/components/assembl/chrome';
-import { OsMotionField } from '@/components/ops/shared/OsMotion';
+import { OsMotionField, OsParallaxPattern } from '@/components/ops/shared/OsMotion';
 
 export const metadata: Metadata = {
   title: 'Moana — the sea, read for you (concept pilot) · assembl',
@@ -52,19 +52,10 @@ export default function MoanaOpsLayout({ children }: { children: ReactNode }) {
     <BrandThemeProvider config={config}>
       <div className="relative min-h-screen overflow-hidden bg-[color:var(--brand-bg)] text-[color:var(--brand-ink)] font-[family-name:var(--font-brand-body)]">
         {config.patterns?.primary ? (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              backgroundImage: `url(${config.patterns.primary})`,
-              backgroundRepeat: 'repeat',
-              backgroundSize: '360px auto',
-              opacity: 0.09,
-            }}
-          />
+          <OsParallaxPattern src={config.patterns.primary} opacity={0.1} size={360} />
         ) : null}
-        <OsMotionField accent={config.colours.canary} secondary={config.colours.accent} />
-        <header className="relative flex items-center gap-4 border-b border-white/10 bg-[color:var(--brand-bg)] px-6 py-3">
+        <OsMotionField accent={config.colours.canary} secondary={config.colours.accent} intensity="medium" />
+        <header className="relative z-[1] flex items-center gap-4 border-b border-white/10 bg-[color:var(--brand-bg)]/90 px-6 py-3 backdrop-blur-md">
           <Link href={base} className="flex items-center gap-3">
             <span
               className="inline-flex h-9 w-9 items-center justify-center rounded-lg"

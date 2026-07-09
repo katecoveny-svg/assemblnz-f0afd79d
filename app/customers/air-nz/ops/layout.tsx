@@ -5,6 +5,8 @@ import rootStyles from '../dash/airnz.module.css';
 import ops from './ops.module.css';
 import { OpsSidebar } from '@/components/customers/air-nz/ops-chrome';
 import { InviteGreeting } from '@/components/ops/InviteGreeting';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
+import { getBrandConfig } from '@/lib/brand/configs';
 
 /**
  * Air New Zealand × Dash — Partner Operations console shell (back-of-house).
@@ -50,15 +52,16 @@ export const metadata: Metadata = {
 };
 
 export default function AirNzOpsLayout({ children }: { children: ReactNode }) {
+  const brand = getBrandConfig('air-nz');
   return (
     <div
       className={`${rootStyles.root} ${interTight.variable} ${fraunces.variable} ${cormorant.variable}`}
     >
       <div className={ops.shell}>
         <OpsSidebar />
-        <main className={ops.main} style={{ position: 'relative' }}>
-          {/* Customer wallpaper — flight-icon line pattern at ~4% (the shared
-              AI-OS framework layer). Sits behind all console content. */}
+        <main className={ops.main} style={{ position: 'relative', overflow: 'hidden' }}>
+          {/* Customer wallpaper — flight-icon line pattern (the shared
+              OS framework layer). Sits behind all console content. */}
           <div
             aria-hidden
             style={{
@@ -68,8 +71,13 @@ export default function AirNzOpsLayout({ children }: { children: ReactNode }) {
               backgroundImage: 'url(/brand/air-nz/pattern-flight-icons.png)',
               backgroundRepeat: 'repeat',
               backgroundSize: '420px auto',
-              opacity: 0.04,
+              opacity: 0.07,
             }}
+          />
+          <OsMotionField
+            accent={brand?.colours.canary ?? '#BFA37A'}
+            secondary={brand?.colours.accent ?? '#0B4A56'}
+            intensity="soft"
           />
           <div style={{ position: 'relative' }}>
             <InviteGreeting demo="air-nz" />

@@ -25,6 +25,7 @@ import { getFamilyViewer } from '@/lib/family/viewer';
 import { WHANAU, WHANAU_DEMO, custodyThisWeek, DEMO_MODE_COOKIE, type Person } from '@/lib/family/profiles';
 import { cookies } from 'next/headers';
 import { approveAction, dismissAction, assignPickupAction, emailDigestAction } from './actions';
+import { OsScrollReveal } from '@/components/ops/shared/OsMotion';
 
 export const dynamic = 'force-dynamic';
 
@@ -194,10 +195,14 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
       ) : null}
 
       {/* ── Hero (illustrated + ambient) + newsletter parse ──────────── */}
-      <FamilyHeroPanel parsed={parsed} />
+      <OsScrollReveal>
+        <FamilyHeroPanel parsed={parsed} />
+      </OsScrollReveal>
 
       {/* ── Throw it in — anyone drops a note (typed or spoken) ──────── */}
-      <ThrowItIn />
+      <OsScrollReveal delay={0.05}>
+        <ThrowItIn />
+      </OsScrollReveal>
 
       {/* ── Section tabs — one view at a time (no anchor scroll) ─────── */}
       <TabBar active={tab} />
@@ -206,6 +211,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
       <div key={tab} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
 
         {tab === 'week' && (
+          <OsScrollReveal>
           <>
             {/* ── The whānau — profiles, custody, Franklin ─────────────── */}
             <Section id="whanau" title="The whānau" accent={GOLD} empty={false}>
@@ -321,6 +327,7 @@ export default async function FamilyOsHome({ searchParams }: { searchParams?: Pr
               </div>
             </Section>
           </>
+          </OsScrollReveal>
         )}
 
         {tab === 'rides' && (

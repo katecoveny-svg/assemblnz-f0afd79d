@@ -6,6 +6,7 @@ import { EdrAppSlotMock } from '@/components/customers/everyday-rewards/AppSlotM
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { BackendTabs } from '@/components/customers/BackendTabs';
 import { MODEL_TIER_TO_ANTHROPIC } from '@/lib/marketplace/agents';
+import { OsScrollReveal, OsHoverLift } from '@/components/ops/shared/OsMotion';
 import {
   EDR_ACTIVITY,
   EDR_AGENT_GREETING,
@@ -69,77 +70,79 @@ export default function OpsOverview() {
             untouched in her own slot. Orange appears as small accents only
             (the r-leaf badge + the earn pulse). Companion, never a
             replacement. */}
-        <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            gap: 28,
-            borderRadius: 16,
-            overflow: 'hidden',
-            padding: '32px 28px',
-            background: '#FBFAF6',
-            border: '1px solid #EAEAEA',
-          }}
-        >
-          {/* shopper-icon wallpaper wash inside the hero panel */}
+        <OsScrollReveal>
           <div
-            aria-hidden
             style={{
-              position: 'absolute',
-              inset: 0,
-              pointerEvents: 'none',
-              backgroundImage: 'url(/brand/everyday-rewards/pattern-shopper-icons.png)',
-              backgroundRepeat: 'repeat',
-              backgroundSize: '380px auto',
-              opacity: 0.05,
+              position: 'relative',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: 28,
+              borderRadius: 16,
+              overflow: 'hidden',
+              padding: '32px 28px',
+              background: '#FBFAF6',
+              border: '1px solid #EAEAEA',
             }}
-          />
-          <div style={{ position: 'relative', flex: '1 1 380px' }}>
-            <p
+          >
+            {/* shopper-icon wallpaper wash inside the hero panel */}
+            <div
+              aria-hidden
               style={{
-                fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
-                fontWeight: 500,
-                fontSize: 'clamp(26px, 3.5vw, 42px)',
-                lineHeight: 1.1,
-                textTransform: 'lowercase',
-                color: '#22303c',
-                margin: 0,
+                position: 'absolute',
+                inset: 0,
+                pointerEvents: 'none',
+                backgroundImage: 'url(/brand/everyday-rewards/pattern-shopper-icons.png)',
+                backgroundRepeat: 'repeat',
+                backgroundSize: '380px auto',
+                opacity: 0.08,
               }}
-            >
-              the native partner slot, earning in the everyday wait
-              <span style={{ color: '#BFA37A' }}>.</span>
-            </p>
-            <p
-              style={{
-                margin: '10px 0 0',
-                fontSize: 10,
-                letterSpacing: '0.16em',
-                textTransform: 'uppercase',
-                color: '#5A5850',
-              }}
-            >
-              the earn layer via assembling · concept · shared in confidence
-            </p>
-            <p
-              style={{
-                margin: '18px 0 0',
-                maxWidth: 420,
-                fontSize: 13,
-                lineHeight: 1.55,
-                color: '#3E3C36',
-              }}
-            >
-              Assembling slots into the app Everyday Rewards already has —
-              a partner tile beside ASB, with Olive untouched in her own slot.
-              A companion in the everyday shop, never a replacement.
-            </p>
+            />
+            <div style={{ position: 'relative', flex: '1 1 380px' }}>
+              <p
+                style={{
+                  fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
+                  fontWeight: 500,
+                  fontSize: 'clamp(26px, 3.5vw, 42px)',
+                  lineHeight: 1.1,
+                  textTransform: 'lowercase',
+                  color: '#22303c',
+                  margin: 0,
+                }}
+              >
+                the native partner slot, earning in the everyday wait
+                <span style={{ color: '#BFA37A' }}>.</span>
+              </p>
+              <p
+                style={{
+                  margin: '10px 0 0',
+                  fontSize: 10,
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  color: '#5A5850',
+                }}
+              >
+                the earn layer via assembling · concept · shared in confidence
+              </p>
+              <p
+                style={{
+                  margin: '18px 0 0',
+                  maxWidth: 420,
+                  fontSize: 13,
+                  lineHeight: 1.55,
+                  color: '#3E3C36',
+                }}
+              >
+                Assembling slots into the app Everyday Rewards already has —
+                a partner tile beside ASB, with Olive untouched in her own slot.
+                A companion in the everyday shop, never a replacement.
+              </p>
+            </div>
+            <div style={{ position: 'relative', flex: '0 0 auto', margin: '0 auto' }}>
+              <EdrAppSlotMock />
+            </div>
           </div>
-          <div style={{ position: 'relative', flex: '0 0 auto', margin: '0 auto' }}>
-            <EdrAppSlotMock />
-          </div>
-        </div>
+        </OsScrollReveal>
         <p className={styles.lead}>
           The back-of-house console the Everyday Rewards team would use to run a
           Dash wait-moment partnership — sponsors and tiers, earn scheduling,
@@ -151,48 +154,54 @@ export default function OpsOverview() {
 
         <div className={`${styles.grid} ${styles.g4}`}>
           {kpis.map((k) => (
-            <div className={styles.card} key={k.label}>
-              <div className={styles.label}>{k.label}</div>
-              <div className={`${styles.kpi} ${k.orange ? styles.orange : ''}`}>{k.value}</div>
-              <div className={styles.kpiSub}>{k.sub}</div>
-            </div>
+            <OsHoverLift key={k.label} accent={brand?.colours.accent}>
+              <div className={styles.card}>
+                <div className={styles.label}>{k.label}</div>
+                <div className={`${styles.kpi} ${k.orange ? styles.orange : ''}`}>{k.value}</div>
+                <div className={styles.kpiSub}>{k.sub}</div>
+              </div>
+            </OsHoverLift>
           ))}
         </div>
 
         <div className={styles.sectionTitle}>Jump in</div>
         <div className={`${styles.grid} ${styles.g4}`}>
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className={styles.card} style={{ textDecoration: 'none' }}>
-              <div className={styles.cardTitle}>{l.title}</div>
-              <div className={styles.kpiSub}>{l.meta}</div>
-              <div className={styles.eyebrow} style={{ marginTop: 12 }}>Open →</div>
-            </Link>
+            <OsHoverLift key={l.href} accent={brand?.colours.accent}>
+              <Link href={l.href} className={styles.card} style={{ textDecoration: 'none', display: 'block' }}>
+                <div className={styles.cardTitle}>{l.title}</div>
+                <div className={styles.kpiSub}>{l.meta}</div>
+                <div className={styles.eyebrow} style={{ marginTop: 12 }}>Open →</div>
+              </Link>
+            </OsHoverLift>
           ))}
         </div>
 
         <div className={styles.sectionTitle}>Talk to the Assembling desk</div>
-        <div style={{ display: 'grid', gap: 20 }}>
-          <PilotAgentChat
-            apiPath="/api/customers/everyday-rewards/chat"
-            agentName={EDR_AGENT_NAME}
-            greeting={EDR_AGENT_GREETING}
-            tryMe={EDR_TRY_ME}
-            accent={brand?.colours.accent ?? '#fd6400'}
-            draftNote="Tier-2 slice: the earn layer only — never the programme's operating system. Concept demo; no real points are ever minted."
-          />
-          <BackendTabs
-            brain={{
-              model: MODEL_TIER_TO_ANTHROPIC.mid,
-              fallbackNote: 'free-fallback ladder behind it (gemini → groq → ollama)',
-              temperatureNote: 'temperature: provider default',
-              promptExcerpt: edrPromptExcerpt(),
-              sources: EDR_KNOWLEDGE_SOURCES,
-            }}
-            activity={EDR_ACTIVITY}
-            receipts={EDR_RECEIPTS}
-            drafts={[]}
-          />
-        </div>
+        <OsScrollReveal>
+          <div style={{ display: 'grid', gap: 20 }}>
+            <PilotAgentChat
+              apiPath="/api/customers/everyday-rewards/chat"
+              agentName={EDR_AGENT_NAME}
+              greeting={EDR_AGENT_GREETING}
+              tryMe={EDR_TRY_ME}
+              accent={brand?.colours.accent ?? '#fd6400'}
+              draftNote="Tier-2 slice: the earn layer only — never the programme's operating system. Concept demo; no real points are ever minted."
+            />
+            <BackendTabs
+              brain={{
+                model: MODEL_TIER_TO_ANTHROPIC.mid,
+                fallbackNote: 'free-fallback ladder behind it (gemini → groq → ollama)',
+                temperatureNote: 'temperature: provider default',
+                promptExcerpt: edrPromptExcerpt(),
+                sources: EDR_KNOWLEDGE_SOURCES,
+              }}
+              activity={EDR_ACTIVITY}
+              receipts={EDR_RECEIPTS}
+              drafts={[]}
+            />
+          </div>
+        </OsScrollReveal>
 
         <div className={styles.sectionTitle}>Today, at a glance</div>
         <div className={`${styles.grid} ${styles.g2}`}>

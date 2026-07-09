@@ -15,7 +15,14 @@ import {
   type DaycarePath,
 } from '@/lib/customers/happy-tails/daycare-os-data';
 import { PRICING, ROSTER } from '@/lib/tenants/happy-tails/data';
-import { OsReveal } from '@/components/ops/shared/OsMotion';
+import { motion } from 'framer-motion';
+import {
+  OsHoverLift,
+  OsReveal,
+  OsScrollReveal,
+  OsStagger,
+  osStaggerItem,
+} from '@/components/ops/shared/OsMotion';
 
 const INK = '#1A1918';
 const MUTED = '#6B655C';
@@ -62,24 +69,27 @@ function TabBar({ active }: { active: HtOsTab }) {
       {HT_OS_TABS.map((t) => {
         const on = t.key === active;
         return (
-          <Link
-            key={t.key}
-            href={`/customers/happy-tails/ops/os?tab=${t.key}`}
-            scroll={false}
-            aria-current={on ? 'page' : undefined}
-            style={{
-              fontSize: 12.5,
-              fontWeight: 600,
-              padding: '7px 13px',
-              borderRadius: 999,
-              textDecoration: 'none',
-              color: on ? '#fff' : INK,
-              background: on ? INK : CREAM,
-              border: `1.5px solid ${on ? INK : `${INK}22`}`,
-            }}
-          >
-            {t.label}
-          </Link>
+          <motion.div key={t.key} whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+            <Link
+              href={`/customers/happy-tails/ops/os?tab=${t.key}`}
+              scroll={false}
+              aria-current={on ? 'page' : undefined}
+              style={{
+                display: 'inline-block',
+                fontSize: 12.5,
+                fontWeight: 600,
+                padding: '8px 14px',
+                borderRadius: 999,
+                textDecoration: 'none',
+                color: on ? '#fff' : INK,
+                background: on ? INK : CREAM,
+                border: `1.5px solid ${on ? INK : `${INK}22`}`,
+                boxShadow: on ? '0 8px 20px rgba(26,25,24,0.2)' : 'none',
+              }}
+            >
+              {t.label}
+            </Link>
+          </motion.div>
         );
       })}
     </nav>
@@ -147,7 +157,7 @@ function WeekTab() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <KillerDemo />
-      <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))' }}>
+      <OsStagger style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))' }}>
         {[
           { k: 'capacity', v: `${DAYCARE_TIME.capacityPct}%`, s: 'Riverhead today' },
           { k: 'roster', v: String(DAYCARE_TIME.dogsOnRoster), s: 'dogs · Franklin #1' },
@@ -155,13 +165,15 @@ function WeekTab() {
           { k: 'follow-ups', v: String(DAYCARE_TIME.followUpsDue), s: 'due' },
           { k: 'admin debt', v: `${DAYCARE_TIME.adminDebtMins}m`, s: 'unpaid load' },
         ].map((i) => (
-          <div key={i.k} style={{ ...glass, padding: '14px 16px', background: PAPER }}>
-            <p style={eyebrow}>{i.k}</p>
-            <p style={{ margin: '6px 0 0', fontFamily: display, fontSize: 26, color: INK }}>{i.v}</p>
-            <p style={{ margin: '2px 0 0', fontSize: 12, color: MUTED }}>{i.s}</p>
-          </div>
+          <motion.div key={i.k} variants={osStaggerItem}>
+            <OsHoverLift accent={ACCENT} style={{ ...glass, padding: '14px 16px', background: PAPER }}>
+              <p style={eyebrow}>{i.k}</p>
+              <p style={{ margin: '6px 0 0', fontFamily: display, fontSize: 26, color: INK }}>{i.v}</p>
+              <p style={{ margin: '2px 0 0', fontSize: 12, color: MUTED }}>{i.s}</p>
+            </OsHoverLift>
+          </motion.div>
         ))}
-      </div>
+      </OsStagger>
       <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
         <div style={{ ...glass, padding: 16 }}>
           <p style={eyebrow}>today · bus & ops</p>
@@ -444,34 +456,54 @@ export function HappyTailsDaycareOS({ tab }: { tab: HtOsTab }) {
   const safeTab = useMemo(() => (HT_OS_TABS.some((t) => t.key === tab) ? tab : 'week'), [tab]);
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'var(--font-brand-body), system-ui, sans-serif', color: INK }}>
-      <section
-        style={{
-          borderRadius: 20,
-          padding: '22px 20px',
-          background: `linear-gradient(135deg, ${INK} 0%, #2c2620 100%)`,
-          color: '#fff',
-        }}
-      >
-        <p style={{ ...eyebrow, color: GOLD }}>happy tails · daycare operating system</p>
-        <h1 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 'clamp(24px, 4vw, 34px)', fontWeight: 500 }}>
-          The daycare that runs itself
-        </h1>
-        <p style={{ margin: '10px 0 0', fontSize: 14, color: '#D8D2C8', maxWidth: 460, lineHeight: 1.5 }}>
-          Enrolment, bus, welcome packs, invoices, owner support, and capacity — daycare ops, not
-          training. Draft-only · two-voice rule locked.
-        </p>
-      </section>
+      <OsScrollReveal>
+        <section
+          style={{
+            borderRadius: 24,
+            padding: '26px 22px',
+            background: `linear-gradient(135deg, ${INK} 0%, #2c2620 100%)`,
+            color: '#fff',
+            boxShadow: '0 24px 60px rgba(26,25,24,0.28)',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: 'url(/brand/happy-tails/pattern-tails-and-paws.png)',
+              backgroundRepeat: 'repeat',
+              backgroundSize: '320px auto',
+              opacity: 0.12,
+            }}
+          />
+          <div style={{ position: 'relative' }}>
+            <p style={{ ...eyebrow, color: GOLD }}>happy tails · daycare operating system</p>
+            <h1 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 'clamp(24px, 4vw, 34px)', fontWeight: 500 }}>
+              The daycare that runs itself
+            </h1>
+            <p style={{ margin: '10px 0 0', fontSize: 14, color: '#D8D2C8', maxWidth: 460, lineHeight: 1.5 }}>
+              Enrolment, bus, welcome packs, invoices, owner support, and capacity — daycare ops, not
+              training. Draft-only · two-voice rule locked.
+            </p>
+          </div>
+        </section>
+      </OsScrollReveal>
       <TabBar active={safeTab} />
-      {safeTab === 'week' ? <WeekTab /> : null}
-      {safeTab === 'landing' ? <LandingTab /> : null}
-      {safeTab === 'leads' ? <LeadsTab /> : null}
-      {safeTab === 'dogs' ? <DogsTab /> : null}
-      {safeTab === 'journey' ? <JourneyTab /> : null}
-      {safeTab === 'packs' ? <PacksTab /> : null}
-      {safeTab === 'support' ? <SupportTab /> : null}
-      {safeTab === 'time' ? <TimeTab /> : null}
-      {safeTab === 'hiring' ? <HiringTab /> : null}
-      {safeTab === 'agents' ? <AgentsTab /> : null}
+      <OsScrollReveal key={safeTab} delay={0.04}>
+        {safeTab === 'week' ? <WeekTab /> : null}
+        {safeTab === 'landing' ? <LandingTab /> : null}
+        {safeTab === 'leads' ? <LeadsTab /> : null}
+        {safeTab === 'dogs' ? <DogsTab /> : null}
+        {safeTab === 'journey' ? <JourneyTab /> : null}
+        {safeTab === 'packs' ? <PacksTab /> : null}
+        {safeTab === 'support' ? <SupportTab /> : null}
+        {safeTab === 'time' ? <TimeTab /> : null}
+        {safeTab === 'hiring' ? <HiringTab /> : null}
+        {safeTab === 'agents' ? <AgentsTab /> : null}
+      </OsScrollReveal>
     </div>
   );
 }

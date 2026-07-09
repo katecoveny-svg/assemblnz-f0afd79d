@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { InviteGreeting } from '@/components/ops/InviteGreeting';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
 import {
   ASSEMBL_INK,
   ASSEMBL_PAPER,
@@ -47,8 +48,13 @@ export default function AucklandZooOpsLayout({ children }: { children: ReactNode
             backgroundImage: 'url(/brand/auckland-zoo/pattern-safari-animals.png)',
             backgroundRepeat: 'repeat',
             backgroundSize: '420px auto',
-            opacity: 0.04,
+            opacity: 0.08,
           }}
+        />
+        <OsMotionField
+          accent={config.colours.canary}
+          secondary={config.colours.accent}
+          intensity="medium"
         />
 
         <div className="relative">

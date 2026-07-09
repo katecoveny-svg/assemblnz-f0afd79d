@@ -73,6 +73,20 @@ export function CreativeWorkspace({ agents }: { agents: SlimAgent[] }) {
   return (
     <div className="auaha3d" style={{ position: "relative", minHeight: "100vh", background: `radial-gradient(1200px 700px at 50% -8%, #141225 0%, ${BG} 62%)`, color: INK, overflow: "hidden" }}>
       <Backdrop />
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 1,
+          pointerEvents: "none",
+          backgroundImage: "url(/brand/creative-agency/pattern-studio.svg)",
+          backgroundRepeat: "repeat",
+          backgroundSize: "280px auto",
+          opacity: 0.14,
+          mixBlendMode: "screen",
+        }}
+      />
       <div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "26px 24px 96px" }}>
         <BrandBar sessionCount={gallery.length} />
 
