@@ -70,7 +70,7 @@ export function OpsShell({
               backgroundImage: `url(${shellPattern})`,
               backgroundRepeat: 'repeat',
               backgroundSize: '380px auto',
-              opacity: 0.2,
+              opacity: 0.1,
               mixBlendMode: 'multiply',
             }}
           />

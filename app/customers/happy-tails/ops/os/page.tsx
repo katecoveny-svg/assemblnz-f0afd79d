@@ -40,7 +40,7 @@ export default async function HappyTailsDaycareOsPage({
       <OsWowStage
         config={config}
         heroHeightClass="min-h-56 md:min-h-72"
-        patternOpacity={0.18}
+        patternOpacity={0.1}
         heroEyebrow="happy tails · franklin & friends"
         heroTitle="The daycare that runs itself"
         heroBlurb="Enrolment, bus, welcome packs, and owner support — daycare ops, not training."

@@ -81,10 +81,43 @@ export async function generateImages(
     const images = await falFlux(prompt, count, f);
     return { provider: "fal", model: "fal-ai/flux-pro/v1.1", images, aspectRatio };
   }
+  // No local provider key — route through the deployed `generate-image` edge
+  // function, which holds its own FAL_API_KEY in Supabase secrets. This is the
+  // same path the live Auaha agent chat uses (lib/agents/creative.ts), so the
+  // social studios generate real stills wherever the platform secrets live.
+  const edge = await edgeGenerateImage(prompt);
+  if (edge) return { provider: "fal", model: "generate-image edge · flux", images: [edge], aspectRatio };
   throw new NotConfigured(
     "GEMINI_API_KEY",
-    "Image generation needs GEMINI_API_KEY (Imagen) or FAL_KEY (Flux). Neither is set.",
+    "Image generation needs GEMINI_API_KEY (Imagen), FAL_KEY (Flux), or the generate-image edge function (Supabase env). None responded.",
   );
+}
+
+/** Fal Flux via the deployed Supabase edge function (its own FAL_API_KEY). */
+async function edgeGenerateImage(prompt: string): Promise<string | null> {
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (!base || !key) return null;
+  try {
+    const res = await fetch(`${base}/functions/v1/generate-image`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, apikey: key, "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, provider: "fal", style: "photorealistic" }),
+    });
+    if (!res.ok) return null;
+    const d = (await res.json()) as { imageUrl?: string };
+    if (!d.imageUrl) return null;
+    // Hosted Fal URLs get inlined so galleries stay self-contained; data URLs pass through.
+    if (d.imageUrl.startsWith("data:")) return d.imageUrl;
+    const r = await fetch(d.imageUrl);
+    if (!r.ok) return d.imageUrl;
+    return dataUrl(r.headers.get("content-type") || "image/jpeg", await bufToB64(r));
+  } catch {
+    return null;
+  }
 }
 
 async function falFlux(prompt: string, count: number, key: string): Promise<string[]> {

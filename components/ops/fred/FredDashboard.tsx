@@ -19,6 +19,7 @@ import {
   TIME_COCKPIT,
   VIDEO_UPLOADS,
   WEEK_BLOCKS,
+  type Lead,
   type OfferSlug,
   type Urgency,
 } from '@/lib/customers/auckland-dog-trainer/demo-data';
@@ -27,6 +28,7 @@ import {
   type FredTabKey,
 } from '@/lib/customers/auckland-dog-trainer/tabs';
 import { SessionNotesEngine } from '@/components/ops/fred/SessionNotesEngine';
+import { InstagramLeadCapture } from '@/components/ops/fred/InstagramLeadCapture';
 import { SocialStudio } from '@/components/ops/shared/SocialStudio';
 import { OsHoverLift, OsReveal, OsScrollReveal, OsStagger, osStaggerItem } from '@/components/ops/shared/OsMotion';
 import { motion } from 'framer-motion';
@@ -385,16 +387,20 @@ function LandingTab() {
 }
 
 function LeadsTab() {
+  const [captured, setCaptured] = useState<Lead | null>(null);
+  const leads = captured ? [captured, ...LEADS] : LEADS;
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <InstagramLeadCapture onCaptured={setCaptured} />
       <div style={{ ...glass, padding: 16 }}>
         <p style={eyebrow}>lead triage · Intake + Pathway + Risk agents</p>
         <p style={{ margin: '6px 0 0', fontSize: 14, color: MUTED, lineHeight: 1.5 }}>
           Dog profile, issue type, urgency, risk level, recommended offer — sorted before Fred replies.
         </p>
       </div>
-      {LEADS.map((lead) => (
-        <article key={lead.id} style={{ ...glass, padding: 16, borderColor: lead.id === 'lead-killer' ? `${PINK}88` : undefined }}>
+      {leads.map((lead) => (
+        <article key={lead.id} style={{ ...glass, padding: 16, borderColor: lead.id === 'lead-killer' || lead.id === captured?.id ? `${PINK}88` : undefined }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'space-between' }}>
             <div>
               <h3 style={{ margin: 0, fontFamily: display, fontSize: 20, color: NAVY }}>
@@ -402,6 +408,24 @@ function LeadsTab() {
                 <span style={{ fontFamily: 'var(--font-brand-body)', fontSize: 13, color: MUTED, marginLeft: 8 }}>
                   {lead.breed} · {lead.age} · {lead.suburb}
                 </span>
+                {lead.id === captured?.id ? (
+                  <span
+                    style={{
+                      marginLeft: 8,
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      padding: '3px 8px',
+                      borderRadius: 999,
+                      background: PINK_DEEP,
+                      color: '#fff',
+                      verticalAlign: 'middle',
+                    }}
+                  >
+                    new · from instagram
+                  </span>
+                ) : null}
               </h3>
               <p style={{ margin: '4px 0 0', fontSize: 13, color: MUTED }}>
                 {lead.owner} · {lead.source} · {lead.receivedAt}
