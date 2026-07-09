@@ -1,11 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
-import {
-  HappyTailsDaycareOS,
-  HT_OS_TABS,
-  type HtOsTab,
-} from '@/components/ops/happy-tails/HappyTailsDaycareOS';
+import { HappyTailsDaycareOS } from '@/components/ops/happy-tails/HappyTailsDaycareOS';
 import { OsWowStage } from '@/components/ops/shared/OsWowStage';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import {
@@ -13,6 +9,10 @@ import {
   HAPPY_TAILS_AGENT_NAME,
   HAPPY_TAILS_TRY_ME,
 } from '@/lib/customers/happy-tails/agent';
+import {
+  HT_OS_TABS,
+  type HtOsTab,
+} from '@/lib/customers/happy-tails/tabs';
 import { OsScrollReveal } from '@/components/ops/shared/OsMotion';
 
 type SearchParams = { tab?: string | string[] };
