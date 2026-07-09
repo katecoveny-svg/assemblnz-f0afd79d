@@ -16,37 +16,41 @@ import type { BrandConfig } from '@/lib/brand/brand-config';
 export function StaticFallback({ config }: { config: BrandConfig }) {
   const { accent, canary, ink } = config.colours;
 
-  // Auckland Dog Trainer — training-field pattern (no Franklin / daycare photos).
-  if (config.slug === 'auckland-dog-trainer' && config.patterns?.primary) {
+  // Auckland Dog Trainer — editorial still + training-field line art.
+  if (config.slug === 'auckland-dog-trainer') {
+    const photo = config.photography?.anchor;
+    const pattern = config.patterns?.primary;
     return (
       <div
         aria-hidden
-        className="relative flex h-full min-h-[240px] w-full items-center justify-center overflow-hidden rounded-2xl"
-        style={{
-          backgroundColor: config.colours.ink,
-          backgroundImage: `url(${config.patterns.primary})`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '260px auto',
-        }}
+        className="relative flex h-full min-h-[240px] w-full items-end overflow-hidden rounded-2xl"
+        style={{ backgroundColor: config.colours.ink }}
       >
+        {photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={photo}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : null}
+        {pattern ? (
+          <div
+            className="absolute inset-0 opacity-20 mix-blend-soft-light"
+            style={{
+              backgroundImage: `url(${pattern})`,
+              backgroundRepeat: 'repeat',
+              backgroundSize: '280px auto',
+            }}
+          />
+        ) : null}
         <div
           className="absolute inset-0"
           style={{
-            background: `radial-gradient(ellipse at 70% 30%, ${accent}55 0%, transparent 55%), linear-gradient(160deg, ${config.colours.ink}ee, ${config.colours.ink})`,
+            background: `linear-gradient(105deg, ${config.colours.ink}dd 0%, transparent 60%)`,
           }}
         />
-        <div className="relative flex flex-col items-center gap-3 px-6 text-center">
-          <svg width="88" height="88" viewBox="0 0 88 88" fill="none" aria-hidden>
-            <circle cx="44" cy="48" r="30" stroke={accent} strokeWidth="1.4" opacity="0.8" />
-            <circle cx="44" cy="48" r="14" stroke="#fff" strokeWidth="1" opacity="0.35" />
-            <path
-              d="M16 40C28 18 52 14 68 30"
-              stroke={accent}
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            />
-            <circle cx="68" cy="30" r="4" fill={canary} />
-          </svg>
+        <div className="relative z-[1] p-5">
           <span
             className="text-sm font-medium tracking-[0.12em] uppercase"
             style={{ color: '#F7EEF1', fontFamily: 'var(--font-brand-display, Georgia, serif)' }}

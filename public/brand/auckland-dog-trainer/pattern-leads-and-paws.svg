@@ -1,9 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
-  <g fill="none" stroke="#1B2A4A" stroke-width="1.4" opacity="0.55">
-    <path d="M28 42c18 0 18-14 36-14s18 14 36 14 18-14 36-14 18 14 36 14"/>
-    <path d="M28 162c18 0 18-14 36-14s18 14 36 14 18-14 36-14 18 14 36 14"/>
-    <circle cx="70" cy="100" r="7"/><circle cx="92" cy="92" r="5"/><circle cx="92" cy="112" r="5"/><circle cx="112" cy="100" r="5"/>
-    <circle cx="170" cy="190" r="7"/><circle cx="192" cy="182" r="5"/><circle cx="192" cy="202" r="5"/><circle cx="212" cy="190" r="5"/>
-    <path d="M40 210c20-28 40-28 60 0"/><path d="M140 50c20-28 40-28 60 0"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" fill="none">
+  <!-- Auckland Dog Trainer secondary — leash + paw line art (HT density, method icons). -->
+  <g stroke="#1B2A4A" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5">
+    <path d="M40 80c36-8 60 20 56 52-4 28-32 44-58 36"/>
+    <path d="M96 132c18 22 18 50-2 70"/>
+    <circle cx="40" cy="80" r="5"/>
+    <path d="M180 70c10-22 36-32 58-22 16 8 26 26 22 44l-10 36c-4 12-14 20-26 22l-40 4c-14 2-28-8-32-22l-6-30c-2-10 4-20 14-22z"/>
+    <path d="M220 60c8-12 22-16 34-8"/>
+    <ellipse cx="320" cy="90" rx="12" ry="14"/>
+    <circle cx="306" cy="72" r="5"/><circle cx="320" cy="66" r="5"/><circle cx="334" cy="72" r="5"/><circle cx="340" cy="86" r="4.5"/>
+    <path d="M400 60c-20 30-20 60 0 90"/>
+    <path d="M60 240c40-6 70 20 66 56"/>
+    <circle cx="200" cy="250" r="32"/>
+    <circle cx="200" cy="250" r="14"/>
+    <path d="M280 220c36 10 60 40 58 74"/>
+    <path d="M380 240l24 40-40 12z"/>
+    <ellipse cx="80" cy="380" rx="11" ry="13"/>
+    <circle cx="66" cy="362" r="5"/><circle cx="80" cy="358" r="5"/><circle cx="94" cy="362" r="5"/><circle cx="100" cy="376" r="4"/>
+    <path d="M180 360c30-20 70-12 96 18"/>
+    <path d="M320 360c0-18 14-32 32-32s32 14 32 32v36H320v-36z"/>
+    <path d="M400 400c20-8 40 4 48 24"/>
+  </g>
+  <g stroke="#D4A5B0" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.48">
+    <path d="M140 160c18-8 34 0 42 14"/>
+    <path d="M260 320c16 12 20 32 8 48"/>
+    <circle cx="420" cy="160" r="12"/>
   </g>
 </svg>

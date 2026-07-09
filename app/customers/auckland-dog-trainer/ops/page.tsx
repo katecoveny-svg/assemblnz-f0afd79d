@@ -36,7 +36,13 @@ export default async function AucklandDogTrainerOpsHome({
   const tab: FredTabKey = TAB_KEYS.has(rawTab ?? '') ? (rawTab as FredTabKey) : 'week';
 
   return (
-    <OsWowStage config={config} heroHeightClass="h-60 md:h-80">
+    <OsWowStage
+      config={config}
+      heroHeightClass="h-60 md:h-80"
+      heroEyebrow="learn to talk dog · auckland"
+      heroTitle="Auckland Dog Trainer"
+      heroBlurb="Fred’s method, operating at scale — session notes to homework, programmes, course, and social from the field."
+    >
       <div className="flex flex-col gap-5">
         <DemoRibbon />
         <FredDashboard tab={tab} />

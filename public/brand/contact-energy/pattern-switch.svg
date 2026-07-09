@@ -1,8 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240">
-  <g fill="none" stroke="#C8102E" stroke-width="1.4" opacity="0.4">
-    <path d="M70 30l20 50h-24l30 70-20-48h24z"/>
-    <circle cx="170" cy="70" r="28"/><path d="M170 50v20l14 14"/>
-    <path d="M40 170c40-20 80 20 120 0s80 20 80 20" stroke="#1a1a1a"/>
-    <rect x="150" y="150" width="50" height="40" rx="6"/><path d="M160 170h30"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480" fill="none">
+  <!-- Contact Energy — HT-style scattered line art: switch, plug, bolt, meter, leaf. -->
+  <g stroke="#1A1A1A" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.48">
+    <!-- rocker switch -->
+    <rect x="50" y="60" width="70" height="50" rx="8"/>
+    <path d="M64 85h42"/>
+    <circle cx="78" cy="85" r="8"/>
+    <!-- plug -->
+    <path d="M180 70h40v30h-40z"/>
+    <path d="M192 70v-16M208 70v-16"/>
+    <path d="M190 100v24c0 14 10 24 20 24s20-10 20-24"/>
+    <!-- bolt -->
+    <path d="M300 50l-20 48h24l-16 52 48-64h-28l20-36z"/>
+    <!-- meter dial -->
+    <circle cx="400" cy="100" r="36"/>
+    <path d="M400 100l18-22"/>
+    <path d="M380 100h8M412 100h8M400 80v8M400 112v8"/>
+    <!-- leaf / warmer homes -->
+    <path d="M80 200c0-40 28-70 60-70 4 36-16 70-60 70z"/>
+    <path d="M80 200c20-16 40-20 60-12"/>
+    <!-- power cord wave -->
+    <path d="M180 200c30 0 30-20 60-20s30 20 60 20 30-20 60-20"/>
+    <path d="M200 250c28 0 28-16 56-16s28 16 56 16"/>
+    <!-- outlet -->
+    <rect x="360" y="220" width="60" height="50" rx="6"/>
+    <path d="M378 236v18M402 236v18"/>
+    <path d="M390 258c6 0 10 4 10 8"/>
+    <!-- bill / statement -->
+    <rect x="60" y="320" width="70" height="90" rx="4"/>
+    <path d="M74 344h42M74 362h36M74 380h40"/>
+    <!-- house outline -->
+    <path d="M200 360l40-28 40 28v48H200v-48z"/>
+    <path d="M224 408v-28h32v28"/>
+    <!-- sun / solar hint -->
+    <circle cx="360" cy="360" r="18"/>
+    <path d="M360 330v8M360 382v8M334 360h8M378 360h8"/>
+    <path d="M340 340l6 6M374 374l6 6M374 340l-6 6M340 374l-6 6"/>
+  </g>
+  <g stroke="#C8102E" stroke-width="1.3" stroke-linecap="round" fill="none" opacity="0.45">
+    <path d="M140 140c16-10 34-6 44 10"/>
+    <circle cx="280" cy="300" r="10"/>
+    <path d="M420 300c-12 16-10 36 4 48"/>
   </g>
 </svg>

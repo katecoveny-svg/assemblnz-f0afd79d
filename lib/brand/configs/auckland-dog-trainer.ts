@@ -7,8 +7,8 @@ import { parseBrandConfig, type BrandConfig } from '@/lib/brand/brand-config';
  * notes → homework, programme trackers, course builder, remote support, hiring.
  * Display name is the business; Fred is the trainer behind it.
  *
- * Palette: navy + pale pink. Imagery is method-first (leash / hand-signal /
- * training field) — never Happy Tails daycare photography.
+ * Palette: navy + pale pink. Imagery is method-first editorial photography +
+ * HT-style line-art patterns — never Happy Tails daycare pack photos.
  */
 export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
   slug: 'auckland-dog-trainer',
@@ -16,6 +16,10 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
   logo: {
     src: 'pending',
     alt: 'Auckland Dog Trainer — Learn To Talk Dog',
+  },
+  mascot: {
+    src: '/brand/auckland-dog-trainer/heroes/attention-portrait.webp',
+    alt: 'Attentive dog — Learn To Talk Dog',
   },
   colours: {
     bg: '#F7EEF1',
@@ -30,6 +34,8 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
     body: 'Lato',
     mono: 'JetBrains Mono',
   },
+  // Scene id kept for Brand3DCanvas registry; OsWowStage prefers photography
+  // when present (editorial stills / future SAM 3D exports).
   hero3D: 'auckland-dog-trainer',
   voice: {
     greeting: 'Learn to talk dog — then scale the method without losing the standard.',
@@ -39,6 +45,13 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
   patterns: {
     primary: '/brand/auckland-dog-trainer/pattern-training-field.svg',
     secondary: '/brand/auckland-dog-trainer/pattern-leads-and-paws.svg',
+  },
+  photography: {
+    anchor: '/brand/auckland-dog-trainer/heroes/training-field.webp',
+    gallery: [
+      '/brand/auckland-dog-trainer/heroes/attention-portrait.webp',
+      '/brand/auckland-dog-trainer/heroes/training-field.webp',
+    ],
   },
   taglines: {
     primary: 'Learn To Talk Dog — Fred’s method, operating at scale.',

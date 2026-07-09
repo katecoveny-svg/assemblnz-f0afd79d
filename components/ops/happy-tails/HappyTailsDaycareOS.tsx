@@ -450,38 +450,12 @@ export function HappyTailsDaycareOS({ tab }: { tab: HtOsTab }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'var(--font-brand-body), system-ui, sans-serif', color: INK }}>
       <OsScrollReveal>
-        <section
-          style={{
-            borderRadius: 24,
-            padding: '26px 22px',
-            background: `linear-gradient(135deg, ${INK} 0%, #2c2620 100%)`,
-            color: '#fff',
-            boxShadow: '0 24px 60px rgba(26,25,24,0.28)',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            aria-hidden
-            style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: 'url(/brand/happy-tails/pattern-tails-and-paws.png)',
-              backgroundRepeat: 'repeat',
-              backgroundSize: '320px auto',
-              opacity: 0.12,
-            }}
-          />
-          <div style={{ position: 'relative' }}>
-            <p style={{ ...eyebrow, color: GOLD }}>happy tails · daycare operating system</p>
-            <h1 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 'clamp(24px, 4vw, 34px)', fontWeight: 500 }}>
-              The daycare that runs itself
-            </h1>
-            <p style={{ margin: '10px 0 0', fontSize: 14, color: '#D8D2C8', maxWidth: 460, lineHeight: 1.5 }}>
-              Enrolment, bus, welcome packs, invoices, owner support, and capacity — daycare ops, not
-              training. Draft-only · two-voice rule locked.
-            </p>
-          </div>
+        <section style={{ padding: '2px 0 0' }}>
+          <p style={{ ...eyebrow, color: GOLD }}>happy tails · daycare operating system</p>
+          <p style={{ margin: '8px 0 0', fontSize: 14, color: MUTED, maxWidth: 480, lineHeight: 1.5 }}>
+            Enrolment, bus, welcome packs, invoices, owner support, and capacity — daycare ops, not
+            training. Draft-only · two-voice rule locked.
+          </p>
         </section>
       </OsScrollReveal>
       <TabBar active={safeTab} />
