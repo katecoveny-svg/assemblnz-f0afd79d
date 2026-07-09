@@ -3,6 +3,7 @@ import type { ReactNode, CSSProperties } from 'react';
 import { Syne, Plus_Jakarta_Sans, Space_Mono } from 'next/font/google';
 import { themeVars } from './theme';
 import { BillsAtmosphere } from '@/components/bills/BillsAtmosphere';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
 
 const syne = Syne({
   subsets: ['latin'],
@@ -24,15 +25,15 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Assembl Bills — the agentic operating system for your household bills.',
+  title: 'assembl bills — the agentic operating system for your household bills.',
   description:
-    'Assembl Bills ingests your NZ power, broadband, insurance, council and subscription bills, tracks the cost, and proactively surfaces cheaper alternatives — grounded in Powerswitch and Consumer NZ. Recommends; you switch. Built by assembl.',
+    'assembl bills ingests your NZ power, broadband, insurance, council and subscription bills, tracks the cost, and proactively surfaces cheaper alternatives — grounded in Powerswitch and Consumer NZ. Recommends; you switch. Built by assembl.',
   openGraph: {
-    title: 'Assembl Bills — stop overpaying on your NZ household bills.',
+    title: 'assembl bills — stop overpaying on your NZ household bills.',
     description:
-      'An AI operating system for household bills. Email + upload + open banking in; proactive savings, hidden-cost detection and NZ provider intelligence out. Join the waitlist.',
+      'An agentic operating system for household bills. Email + upload + open banking in; proactive savings, hidden-cost detection and NZ provider intelligence out. Join the waitlist.',
     type: 'website',
-    siteName: 'Assembl Bills',
+    siteName: 'assembl bills',
   },
   robots: { index: false, follow: false },
 };
@@ -50,6 +51,17 @@ export default function BillsLayout({ children }: { children: ReactNode }) {
       data-assembl-bills
     >
       <BillsAtmosphere />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{
+          backgroundImage: 'url(/brand/assembl-bills/pattern-ledger.svg)',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '360px auto',
+          opacity: 0.07,
+        }}
+      />
+      <OsMotionField accent="#5AADA0" secondary="#3A7D6E" className="z-[1]" />
       <div className="relative z-10">{children}</div>
       <style>{`
         @keyframes bills-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }

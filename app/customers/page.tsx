@@ -72,53 +72,94 @@ export default function CustomersHub() {
           </p>
         </header>
 
-        {/* Featured product — Alphassembl (the NZ dog-owner OS, Kaitiaki bundle).
-            Not a /customers tenant: it's a product surface at /alphassembl that
-            Happy Tails runs on, so it gets its own card linking to the product. */}
+        {/* Featured products — not /customers tenants: product OSes that pilots
+            run on (Alphassembl) or that sit beside the partner demos (Bills). */}
         <section className="mb-14">
           <h2
             className="mb-5 text-[10px] uppercase"
             style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
           >
-            products (1)
+            products (2)
           </h2>
-          <div
-            className={[
-              'group block rounded-2xl border p-6 shadow-sm',
-              levitateClass,
-            ].join(' ')}
-            style={{ borderColor: '#1a2e4a', background: 'linear-gradient(135deg, #1a2e4a 0%, #22385a 100%)' }}
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h3 className="text-lg" style={{ fontFamily: serif, fontWeight: 600, color: '#fff' }}>
-                  Alphassembl
-                </h3>
-                <p className="mt-1 text-xs" style={{ color: '#f59e0b' }}>
-                  Kaitiaki bundle · the NZ dog-owner OS
-                </p>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            <div
+              className={['group block rounded-2xl border p-6 shadow-sm', levitateClass].join(' ')}
+              style={{
+                borderColor: '#1a2e4a',
+                background: 'linear-gradient(135deg, #1a2e4a 0%, #22385a 100%)',
+              }}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="text-lg" style={{ fontFamily: serif, fontWeight: 600, color: '#fff' }}>
+                    Alphassembl
+                  </h3>
+                  <p className="mt-1 text-xs" style={{ color: '#f59e0b' }}>
+                    Kaitiaki bundle · the NZ dog-owner OS
+                  </p>
+                </div>
+                <MatarikiCluster size={24} gold />
               </div>
-              <MatarikiCluster size={24} gold />
+              <p className="mt-3 text-sm leading-relaxed" style={{ color: '#c7d0dd' }}>
+                One system for every part of your dog’s life — Kaiako the force-free trainer,
+                grounded in NZ law and welfare. Happy Tails runs on it.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-4">
+                <Link
+                  href="/alphassembl"
+                  className="text-[10px] uppercase"
+                  style={{ letterSpacing: '0.16em', color: '#fff' }}
+                >
+                  open the landing →
+                </Link>
+                <Link
+                  href="/alphassembl/chat"
+                  className="text-[10px] uppercase"
+                  style={{ letterSpacing: '0.16em', color: '#f59e0b' }}
+                >
+                  ask Kaiako →
+                </Link>
+              </div>
             </div>
-            <p className="mt-3 text-sm leading-relaxed" style={{ color: '#c7d0dd' }}>
-              One system for every part of your dog’s life — Kaiako the force-free trainer,
-              grounded in NZ law and welfare. Happy Tails runs on it.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-4">
-              <Link
-                href="/alphassembl"
-                className="text-[10px] uppercase"
-                style={{ letterSpacing: '0.16em', color: '#fff' }}
-              >
-                open the landing →
-              </Link>
-              <Link
-                href="/alphassembl/chat"
-                className="text-[10px] uppercase"
-                style={{ letterSpacing: '0.16em', color: '#f59e0b' }}
-              >
-                ask Kaiako →
-              </Link>
+
+            <div
+              className={['group block rounded-2xl border p-6 shadow-sm', levitateClass].join(' ')}
+              style={{
+                borderColor: '#3A7D6E',
+                background: 'linear-gradient(135deg, #1F3D38 0%, #2A5A4F 55%, #3A7D6E 100%)',
+              }}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="text-lg" style={{ fontFamily: serif, fontWeight: 600, color: '#fff' }}>
+                    assembl bills
+                  </h3>
+                  <p className="mt-1 text-xs" style={{ color: '#9FE0D2' }}>
+                    household OS · live parse · NZ price book
+                  </p>
+                </div>
+                <MatarikiCluster size={24} gold />
+              </div>
+              <p className="mt-3 text-sm leading-relaxed" style={{ color: '#D5E8E3' }}>
+                Reads bills, watches the bank, finds cheaper NZ plans, and prepares the switch —
+                you approve. Live upload parse + advisor chat on a live provider price book.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-4">
+                <Link
+                  href="/bills"
+                  className="text-[10px] uppercase"
+                  style={{ letterSpacing: '0.16em', color: '#fff' }}
+                >
+                  open the landing →
+                </Link>
+                <Link
+                  href="/bills/app"
+                  className="text-[10px] uppercase"
+                  style={{ letterSpacing: '0.16em', color: '#9FE0D2' }}
+                >
+                  open the console →
+                </Link>
+              </div>
             </div>
           </div>
         </section>

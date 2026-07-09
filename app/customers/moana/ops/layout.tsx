@@ -14,6 +14,7 @@ import {
   MatarikiCluster,
   ParticulateBackdrop,
 } from '@/components/assembl/chrome';
+import { OsMotionField } from '@/components/ops/shared/OsMotion';
 
 export const metadata: Metadata = {
   title: 'Moana — the sea, read for you (concept pilot) · assembl',
@@ -49,8 +50,21 @@ export default function MoanaOpsLayout({ children }: { children: ReactNode }) {
 
   return (
     <BrandThemeProvider config={config}>
-      <div className="min-h-screen bg-[color:var(--brand-bg)] text-[color:var(--brand-ink)] font-[family-name:var(--font-brand-body)]">
-        <header className="flex items-center gap-4 border-b border-white/10 bg-[color:var(--brand-bg)] px-6 py-3">
+      <div className="relative min-h-screen overflow-hidden bg-[color:var(--brand-bg)] text-[color:var(--brand-ink)] font-[family-name:var(--font-brand-body)]">
+        {config.patterns?.primary ? (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              backgroundImage: `url(${config.patterns.primary})`,
+              backgroundRepeat: 'repeat',
+              backgroundSize: '360px auto',
+              opacity: 0.09,
+            }}
+          />
+        ) : null}
+        <OsMotionField accent={config.colours.canary} secondary={config.colours.accent} />
+        <header className="relative flex items-center gap-4 border-b border-white/10 bg-[color:var(--brand-bg)] px-6 py-3">
           <Link href={base} className="flex items-center gap-3">
             <span
               className="inline-flex h-9 w-9 items-center justify-center rounded-lg"
@@ -88,7 +102,7 @@ export default function MoanaOpsLayout({ children }: { children: ReactNode }) {
           </span>
         </header>
 
-        <div className="grid grid-cols-12 gap-6 px-6 py-6">
+        <div className="relative grid grid-cols-12 gap-6 px-6 py-6">
           <aside className="col-span-12 md:col-span-2">
             <nav className="sticky top-6 flex flex-col gap-1 text-sm">
               <Link
@@ -109,7 +123,7 @@ export default function MoanaOpsLayout({ children }: { children: ReactNode }) {
             </nav>
           </aside>
 
-          <main className="col-span-12 flex flex-col gap-6 md:col-span-10">
+          <main className="relative col-span-12 flex flex-col gap-6 md:col-span-10">
             {children}
           </main>
         </div>

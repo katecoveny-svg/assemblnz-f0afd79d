@@ -12,6 +12,7 @@ import {
   nzd,
 } from '@/components/customers/lula-inn/ui';
 import { ManaReceiptsPanel } from '@/components/customers/lula-inn/ManaReceipts';
+import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import {
   COVERS,
   SHIFTS,
@@ -22,6 +23,11 @@ import {
   staffById,
 } from '@/lib/customers/lula-inn/demo-data';
 import { HOSPO_LINKS } from '@/components/customers/lula-inn/nav-links';
+import {
+  LULA_AGENT_GREETING,
+  LULA_AGENT_NAME,
+  LULA_TRY_ME,
+} from '@/lib/customers/lula-inn/agent';
 
 const B = LULA_BRAND;
 
@@ -202,6 +208,19 @@ export default function TodayPage() {
       <div style={{ marginTop: 8, marginBottom: 8 }}>
         <ManaReceiptsPanel limit={4} />
       </div>
+
+      <Section title={`Talk to ${LULA_AGENT_NAME}`} basis="live floor desk · draft-only">
+        <Card pad={16}>
+          <PilotAgentChat
+            apiPath="/api/customers/lula-inn/chat"
+            agentName={LULA_AGENT_NAME}
+            greeting={LULA_AGENT_GREETING}
+            tryMe={LULA_TRY_ME}
+            accent={B.coral}
+            draftNote="Draft-only: the floor desk never sends staff messages or changes the roster without a manager yes."
+          />
+        </Card>
+      </Section>
     </Container>
   );
 }

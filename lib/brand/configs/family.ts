@@ -45,6 +45,9 @@ export const familyConfig: BrandConfig = parseBrandConfig({
     tone: 'warm-personal',
   },
   crossBrand: { position: 'footer-only', density: 'quiet' },
+  patterns: {
+    primary: '/brand/family/pattern-hearth.svg',
+  },
   taglines: {
     primary: 'Life admin, handled.',
     social: 'Forward the newsletter. Get the week.',

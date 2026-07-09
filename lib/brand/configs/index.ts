@@ -9,6 +9,7 @@ import { toaArchitectsConfig } from '@/lib/brand/configs/toa-architects';
 import { moanaConfig } from '@/lib/brand/configs/moana';
 import { familyConfig } from '@/lib/brand/configs/family';
 import { aucklandDogTrainerConfig } from '@/lib/brand/configs/auckland-dog-trainer';
+import { contactEnergyConfig } from '@/lib/brand/configs/contact-energy';
 
 export const brandConfigs: Record<string, BrandConfig> = {
   'happy-tails': happyTailsConfig,
@@ -21,6 +22,7 @@ export const brandConfigs: Record<string, BrandConfig> = {
   moana: moanaConfig,
   family: familyConfig,
   'auckland-dog-trainer': aucklandDogTrainerConfig,
+  'contact-energy': contactEnergyConfig,
 };
 
 export const brandSlugs = Object.keys(brandConfigs) as Array<

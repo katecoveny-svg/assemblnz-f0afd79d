@@ -45,6 +45,9 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
     tone: 'warm-personal',
   },
   crossBrand: { position: 'footer-only', density: 'quiet' },
+  patterns: {
+    primary: '/brand/auckland-dog-trainer/pattern-leads-and-paws.svg',
+  },
   taglines: {
     primary: 'Scale Fred’s method. Keep Fred’s standards.',
     social: 'Session notes → homework, CRM, course match, trainer handover.',

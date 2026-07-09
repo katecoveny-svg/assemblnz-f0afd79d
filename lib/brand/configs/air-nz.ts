@@ -31,4 +31,7 @@ export const airNzConfig: BrandConfig = parseBrandConfig({
     position: 'footer-only',
     density: 'quiet',
   },
+  patterns: {
+    primary: '/brand/air-nz/pattern-flight-icons.png',
+  },
 });
