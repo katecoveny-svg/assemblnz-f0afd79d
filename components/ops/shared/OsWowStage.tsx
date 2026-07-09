@@ -20,7 +20,7 @@ export function OsWowStage({
   config,
   children,
   showHero3D = true,
-  heroHeightClass = 'h-56 md:h-72',
+  heroHeightClass = 'min-h-56 md:min-h-72',
   patternOpacity = 0.11,
   heroEyebrow,
   heroTitle,
