@@ -42,6 +42,15 @@ export const TENANTS: readonly Tenant[] = [
     accentClass: 'border-amber-200/70',
   },
   {
+    slug: 'auckland-dog-trainer',
+    displayName: 'Fred OS',
+    parentBrand: 'Auckland Dog Trainer · Learn To Talk Dog',
+    status: 'concept',
+    blurb:
+      'Dog trainer operating system — intake triage, session notes → homework, programmes, course builder, hiring.',
+    accentClass: 'border-rose-300/70',
+  },
+  {
     slug: 'aironaut',
     displayName: 'Aironaut Customs Brokers',
     parentBrand: 'Aironaut Customs Brokers Ltd.',
