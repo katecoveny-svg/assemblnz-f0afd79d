@@ -82,20 +82,21 @@ export function HomeHero({
         </motion.div>
 
         <h1 className={styles.h1} style={{ marginTop: 22 }}>
-          <HeadlineLine words={['purpose-built', 'agents', 'for']} offset={0} />
-          <HeadlineLine words={['new', 'zealand', 'business.']} offset={3} />
-          <HeadlineLine words={['less', 'admin.', 'more', 'mahi']} offset={6} withDot />
+          <HeadlineLine words={['assembl', 'grows', 'your']} offset={0} />
+          <HeadlineLine words={['business', 'while', 'you', 'run', 'it.']} offset={3} />
+          <HeadlineLine words={['less', 'admin.', 'more', 'mahi']} offset={8} withDot />
         </h1>
 
         <motion.p {...fade(0.55)} className={styles.lede}>
-          Agents draft the work. Your people approve it. Every output carries the record of how it
-          was made.
+          One Living Site — website, CRM, bookings, knowledge, and agents on a single source of
+          truth. It learns your business every day and suggests one improvement every morning. You
+          say yes.
         </motion.p>
 
         <motion.div {...fade(0.7)} className={styles.ctaRow}>
           <MagneticButton>
-            <Link href="/agents" className={styles.ctaPrimary}>
-              browse agents
+            <Link href="#living-site" className={styles.ctaPrimary}>
+              watch a business come alive
               <span aria-hidden style={{ color: palette.goldSoft, fontSize: 15, lineHeight: 1 }}>
                 •
               </span>
