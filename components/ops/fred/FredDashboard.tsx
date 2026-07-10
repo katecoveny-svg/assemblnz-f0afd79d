@@ -749,7 +749,17 @@ function AgentsTab() {
   );
 }
 
-export function FredDashboard({ tab }: { tab: FredTabKey }) {
+import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
+
+export function FredDashboard({
+  tab,
+  genomeFacts,
+  genomeLive = false,
+}: {
+  tab: FredTabKey;
+  genomeFacts?: GenomeFact[];
+  genomeLive?: boolean;
+}) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'var(--font-brand-body), system-ui, sans-serif', color: NAVY }}>
       <OsScrollReveal>
@@ -759,7 +769,7 @@ export function FredDashboard({ tab }: { tab: FredTabKey }) {
       <OsScrollReveal key={tab} delay={0.04}>
         {tab === 'week' ? <WeekTab /> : null}
         {tab === 'brief' ? <MorningBrief /> : null}
-        {tab === 'genome' ? <BusinessGenome /> : null}
+        {tab === 'genome' ? <BusinessGenome facts={genomeFacts} live={genomeLive} /> : null}
         {tab === 'landing' ? <LandingTab /> : null}
         {tab === 'leads' ? <LeadsTab /> : null}
         {tab === 'dogs' ? <DogsTab /> : null}

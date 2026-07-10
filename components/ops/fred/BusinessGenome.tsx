@@ -3,11 +3,13 @@
 import { useState, type CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
+  GENOME_FACTS,
   GENOME_SECTION_LABELS,
   GENOME_SURFACES,
   RIPPLE_SCENARIOS,
   genomeFactsWith,
   surfaceName,
+  type GenomeFact,
   type GenomeSection,
 } from '@/lib/customers/auckland-dog-trainer/genome';
 import { OsHoverLift, OsReveal, OsScrollReveal, OsStagger, osStaggerItem } from '@/components/ops/shared/OsMotion';
@@ -220,8 +222,14 @@ function RippleDemo({
   );
 }
 
-function GenomeBrowser({ appliedIds }: { appliedIds: ReadonlySet<string> }) {
-  const facts = genomeFactsWith(appliedIds);
+function GenomeBrowser({
+  appliedIds,
+  baseFacts,
+}: {
+  appliedIds: ReadonlySet<string>;
+  baseFacts: GenomeFact[];
+}) {
+  const facts = genomeFactsWith(appliedIds, baseFacts);
   const updatedFactIds = new Set(
     RIPPLE_SCENARIOS.filter((s) => appliedIds.has(s.id)).map((s) => s.applies.factId),
   );
@@ -293,7 +301,14 @@ function SurfacesStrip() {
   );
 }
 
-export function BusinessGenome() {
+export function BusinessGenome({
+  facts = GENOME_FACTS,
+  live = false,
+}: {
+  /** Base genome — live DB rows when available, in-repo sample otherwise. */
+  facts?: GenomeFact[];
+  live?: boolean;
+}) {
   const [appliedIds, setAppliedIds] = useState<ReadonlySet<string>>(new Set());
   const applyScenario = (id: string) =>
     setAppliedIds((prev) => new Set(prev).add(id));
@@ -308,7 +323,9 @@ export function BusinessGenome() {
             background: `linear-gradient(135deg, ${NAVY}, #2a3d5c)`,
           }}
         >
-          <p style={{ ...eyebrow, color: PINK }}>business genome · single source of truth</p>
+          <p style={{ ...eyebrow, color: PINK }}>
+            business genome · single source of truth{live ? ' · reading live from the database' : ''}
+          </p>
           <h2 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 26, color: '#fff' }}>
             The business, written down once
           </h2>
@@ -327,7 +344,7 @@ export function BusinessGenome() {
 
       <RippleDemo appliedIds={appliedIds} onApply={applyScenario} />
       <OsScrollReveal delay={0.05}>
-        <GenomeBrowser appliedIds={appliedIds} />
+        <GenomeBrowser appliedIds={appliedIds} baseFacts={facts} />
       </OsScrollReveal>
       <OsScrollReveal delay={0.05}>
         <SurfacesStrip />

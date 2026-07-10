@@ -285,10 +285,14 @@ export function surfaceName(id: SurfaceId): string {
 /**
  * The genome after a set of ripple scenarios has been applied — existing
  * facts take the scenario's new value, `adds` scenarios append a new fact.
+ * `base` defaults to the in-repo facts; pass live DB facts when available.
  */
-export function genomeFactsWith(appliedIds: Iterable<string>): GenomeFact[] {
+export function genomeFactsWith(
+  appliedIds: Iterable<string>,
+  base: GenomeFact[] = GENOME_FACTS,
+): GenomeFact[] {
   const ids = new Set(appliedIds);
-  const facts = GENOME_FACTS.map((f) => ({ ...f }));
+  const facts = base.map((f) => ({ ...f }));
   for (const s of RIPPLE_SCENARIOS) {
     if (!ids.has(s.id)) continue;
     const existing = facts.find((f) => f.id === s.applies.factId);

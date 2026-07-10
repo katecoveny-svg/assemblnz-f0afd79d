@@ -89,7 +89,16 @@ function useSplatData(): SplatData | null {
   React.useEffect(() => {
     let cancelled = false;
     fetch(SPLAT_URL)
-      .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(`${r.status}`))))
+      .then((r) => {
+        if (!r.ok) return Promise.reject(new Error(`${r.status}`));
+        // A splash/auth gate rewriting the asset route returns HTML with a
+        // 200 — parsing that as splat data renders an invisible bird.
+        const type = r.headers.get('content-type') ?? '';
+        if (type.includes('text/html')) {
+          return Promise.reject(new Error(`expected binary, got ${type}`));
+        }
+        return r.arrayBuffer();
+      })
       .then((buf) => {
         if (!cancelled) setData(parseSplat(buf));
       })
