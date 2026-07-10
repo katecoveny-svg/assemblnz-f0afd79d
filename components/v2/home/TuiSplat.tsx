@@ -93,8 +93,9 @@ function useSplatData(): SplatData | null {
       .then((buf) => {
         if (!cancelled) setData(parseSplat(buf));
       })
-      .catch(() => {
-        /* hero still works without the tui */
+      .catch((err) => {
+        // hero still works without the tui — but say why it's missing
+        console.warn('tui splat failed to load:', err?.message ?? err);
       });
     return () => {
       cancelled = true;

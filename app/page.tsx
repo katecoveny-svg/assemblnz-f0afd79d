@@ -5,17 +5,12 @@ import { BundleCard, KpiTrio, MicroLabel } from '@assembl/canvas';
 import { V2Nav } from '@/components/v2/V2Chrome';
 import { HomeHero } from '@/components/v2/home/HomeHero';
 import { LivingSiteEvolution } from '@/components/v2/home/LivingSiteEvolution';
-import { PipelineThread } from '@/components/v2/home/PipelineThread';
-import { TiltCard } from '@/components/v2/home/TiltCard';
-import { EvidenceStory } from '@/components/v2/home/EvidenceStory';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
 import { AssemblWordmark } from '@/components/site/AssemblWordmark';
 import { getLiveAgentCounts } from '@/lib/v2/live-counts';
 import { orderedBundles } from '@/lib/marketplace/bundles';
-import { workflows, featuredWorkflowSlugs, getWorkflow } from '@/lib/workflows';
-import { KETES, getKete } from '@/lib/kete';
-import { ketes as keteImagery, reo, footerDisclaimer } from '@/lib/site-config';
+import { reo, footerDisclaimer } from '@/lib/site-config';
 import styles from '@/components/v2/home/home.module.css';
 import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 
@@ -27,20 +22,15 @@ export const metadata: Metadata = {
 };
 
 /**
- * Homepage — DIRECTION-LOCKED-2026-07-01, built as the full front door:
- * live 3D particulate landscape hero, floating collections, the five-stage
- * pipeline on a gold thread, featured workflows, the nine kete, and the
- * evidence pack assembling itself on scroll. Ships its own chrome (the
- * global SiteHeader/Footer suppress themselves on "/").
+ * Homepage — the Living Site front door (concept pivot 2026-07-10): the
+ * particulate hero, a business assembling itself on scroll, industry
+ * templates, and one clear ask — step inside a living site. Ships its own
+ * chrome (the global SiteHeader/Footer suppress themselves on "/").
  */
 export default async function HomePage() {
   const counts = await getLiveAgentCounts();
   const bundles = orderedBundles();
   const freeTools = HAPAI_TOOLS.filter((t) => t.brand === 'dash' && t.status === 'live').length;
-  const featured = featuredWorkflowSlugs
-    .map((slug) => getWorkflow(slug))
-    .filter((w): w is NonNullable<typeof w> => Boolean(w));
-
   return (
     <div className={styles.page}>
       <V2Nav />
@@ -64,17 +54,17 @@ export default async function HomePage() {
                 <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                   •
                 </span>
-                <MicroLabel as="h2">purpose-built collections</MicroLabel>
+                <MicroLabel as="h2">industry templates</MicroLabel>
               </div>
               <p className={styles.h2} style={{ marginTop: 16 }}>
-                one front door per industry
+                your industry, ready to install
                 <span aria-hidden style={{ color: palette.accentGold }}>
                   .
                 </span>
               </p>
               <p className={styles.sectionLede}>
-                Every collection routes to specialists. What works for one industry is consistent
-                across all of them.
+                Choose a template and the Living Site assembles around it — the agents, bookings,
+                knowledge, and website your industry actually needs, consistent across all of them.
               </p>
             </div>
           </Reveal>
@@ -115,222 +105,26 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── the pipeline — five stages on a gold thread ──────────────── */}
-      <section className={styles.section} style={{ background: palette.paperDeep }}>
-        <div className={styles.inner}>
-          <Reveal>
-            <div className={styles.sectionHead}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
-                  •
-                </span>
-                <MicroLabel as="h2">how it works</MicroLabel>
-              </div>
-              <p className={styles.h2} style={{ marginTop: 16 }}>
-                {reo.howItWorksHeadline[0]}
-                <br />
-                {reo.howItWorksHeadline[1]}
-              </p>
-            </div>
-          </Reveal>
-
-          <PipelineThread />
-
-          <Reveal>
-            <Link href="/how-it-works" className={styles.sectionLink} style={{ marginTop: 40 }}>
-              see the full pipeline
-              <span aria-hidden style={{ color: palette.accentGold }}>
-                →
-              </span>
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── featured workflows — tilt cards with kete accents ────────── */}
-      <section className={styles.section}>
-        <div className={styles.inner}>
-          <Reveal>
-            <div className={styles.sectionHead}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
-                  •
-                </span>
-                <MicroLabel as="h2">workflows</MicroLabel>
-              </div>
-              <p className={styles.h2} style={{ marginTop: 16 }}>
-                one job in. minutes back
-                <span aria-hidden style={{ color: palette.accentGold }}>
-                  .
-                </span>
-              </p>
-              <p className={styles.sectionLede}>
-                {workflows.length} live workflows, each built on New Zealand legislation and sealed
-                with a record you can file.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className={styles.workflowGrid}>
-            {featured.map((w, i) => {
-              const kete = getKete(w.kete);
-              return (
-                <Reveal key={w.slug} delay={(i % 3) * 0.08} className={styles.fillHeight}>
-                  <Link
-                    href={`/w/${w.slug}`}
-                    className={`${styles.cardLink} ${styles.fillHeight}`}
-                  >
-                    <TiltCard>
-                      <div className={styles.workflowCard}>
-                        <span className={styles.workflowKete}>
-                          <span
-                            aria-hidden
-                            style={{
-                              width: 7,
-                              height: 7,
-                              borderRadius: 999,
-                              background: kete.accent,
-                              display: 'inline-block',
-                            }}
-                          />
-                          {kete.industry}
-                        </span>
-                        <h3 className={styles.workflowTitle}>{w.title}</h3>
-                        <p className={styles.workflowBody}>{w.description}</p>
-                        <div className={styles.workflowFoot}>
-                          <span className={styles.workflowChip}>
-                            <span aria-hidden style={{ color: palette.gold }}>
-                              ↺
-                            </span>
-                            saves ~{w.timeSavedMin} min
-                          </span>
-                          <span className={styles.workflowPrice}>{w.priceLabel}</span>
-                        </div>
-                      </div>
-                    </TiltCard>
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </div>
-
-          <Reveal>
-            <Link href="/workflows" className={styles.sectionLink} style={{ marginTop: 44 }}>
-              browse all workflows
-              <span aria-hidden style={{ color: palette.accentGold }}>
-                →
-              </span>
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── the nine kete — vessel gallery ───────────────────────────── */}
-      <section className={styles.section} style={{ background: palette.paperDeep }}>
-        <div className={styles.inner}>
-          <Reveal>
-            <div className={styles.sectionHead}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
-                  •
-                </span>
-                <MicroLabel as="h2">nine industries</MicroLabel>
-              </div>
-              <p className={styles.h2} style={{ marginTop: 16 }}>
-                one pack per industry. one standard of proof
-                <span aria-hidden style={{ color: palette.accentGold }}>
-                  .
-                </span>
-              </p>
-              <p className={styles.sectionLede}>{reo.agentsPolicyRuntimeIntro}</p>
-            </div>
-          </Reveal>
-
-          <div className={styles.keteGrid}>
-            {KETES.map((kete, i) => (
-              <Reveal key={kete.slug} delay={(i % 3) * 0.08}>
-                <Link href="/agents" className={styles.keteCard}>
-                  <div className={styles.keteImageWrap}>
-                    {/* eslint-disable-next-line @next/next/no-img-element -- locked vessel stills, art-directed crop */}
-                    <img
-                      src={keteImagery[kete.slug].wide}
-                      alt={`${kete.industry} — ${kete.englishName}`}
-                      className={styles.keteImage}
-                      loading="lazy"
-                    />
-                    <span
-                      className={styles.keteAccentBar}
-                      style={{ background: kete.accent }}
-                      aria-hidden
-                    />
-                  </div>
-                  <div className={styles.keteBody}>
-                    <div className={styles.keteNameRow}>
-                      <h3 className={styles.keteName}>{kete.industry}</h3>
-                      <span className={styles.keteEnglish} lang="mi">{kete.name}</span>
-                    </div>
-                    <p className={styles.keteTagline}>{kete.tagline}</p>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── the evidence pack — assembles itself on scroll ───────────── */}
-      <section className={styles.section}>
-        <div className={styles.inner}>
-          <Reveal>
-            <div className={styles.sectionHead}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
-                  •
-                </span>
-                <MicroLabel as="h2">the evidence pack</MicroLabel>
-              </div>
-              <p className={styles.h2} style={{ marginTop: 16 }}>
-                {reo.evidencePackHeadline[0]}
-                <br />
-                {reo.evidencePackHeadline[1]}
-              </p>
-              <p className={styles.sectionLede}>{reo.evidenceLedgerSubcopy}</p>
-            </div>
-          </Reveal>
-
-          <EvidenceStory />
-
-          <Reveal>
-            <Link href="/trust" className={styles.sectionLink} style={{ marginTop: 40 }}>
-              how we earn trust
-              <span aria-hidden style={{ color: palette.accentGold }}>
-                →
-              </span>
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ── closing — real numbers, trust strip, one clear ask ───────── */}
       <section className={`${styles.section} ${styles.closing}`} style={{ background: palette.paperDeep }}>
         <div className={styles.inner}>
           <div className={styles.closingInner}>
             <Reveal>
               <p className={styles.h2}>
-                bring one workflow.
-                <br />
-                leave with proof
+                your business, alive
                 <span aria-hidden style={{ color: palette.accentGold }}>
                   .
                 </span>
+                <br />
+                see one running today.
               </p>
             </Reveal>
 
             <Reveal delay={0.1}>
               <div className={styles.ctaRow} style={{ justifyContent: 'center', marginTop: 34 }}>
                 <MagneticButton>
-                  <Link href="/agents" className={styles.ctaPrimary}>
-                    try an agent free
+                  <Link href="/living-site" className={styles.ctaPrimary}>
+                    step inside a living site
                     <span
                       aria-hidden
                       style={{ color: palette.goldSoft, fontSize: 15, lineHeight: 1 }}
@@ -339,6 +133,9 @@ export default async function HomePage() {
                     </span>
                   </Link>
                 </MagneticButton>
+                <Link href="/agents" className={styles.ctaGhost}>
+                  try an agent free
+                </Link>
                 <Link href="/pricing" className={styles.ctaGhost}>
                   see pricing
                 </Link>

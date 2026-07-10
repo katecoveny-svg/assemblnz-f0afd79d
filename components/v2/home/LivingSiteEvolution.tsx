@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { palette } from '@assembl/canvas/tokens';
 import { MicroLabel } from '@assembl/canvas';
@@ -193,6 +194,20 @@ export function LivingSiteEvolution() {
           </motion.span>
           everything quietly keeps improving
         </motion.p>
+
+        <motion.div
+          initial={reduced ? false : { opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4, duration: 1 }}
+        >
+          <Link href="/living-site" className={styles.sectionLink} style={{ marginTop: 30 }}>
+            step inside a living site
+            <span aria-hidden style={{ color: palette.accentGold }}>
+              →
+            </span>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
