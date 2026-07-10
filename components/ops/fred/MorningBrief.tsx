@@ -97,7 +97,8 @@ function Yesterday() {
 
 /** The signature moment — the system noticed, did the work, asks for one yes. */
 function NoticedCard() {
-  const [approved, setApproved] = useState(false);
+  const [decision, setDecision] = useState<Decision>('pending');
+  const approved = decision === 'approved';
   const n = MORNING_BRIEF.noticed;
 
   return (
@@ -139,13 +140,23 @@ function NoticedCard() {
           </div>
         </div>
 
-        {!approved ? (
+        {decision === 'pending' ? (
           <div style={{ display: 'flex', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
-            <button type="button" onClick={() => setApproved(true)} style={approveBtn}>
+            <button type="button" onClick={() => setDecision('approved')} style={approveBtn}>
               Approve ✓
             </button>
-            <button type="button" style={skipBtn}>
+            <button type="button" onClick={() => setDecision('skipped')} style={skipBtn}>
               Keep the old page
+            </button>
+          </div>
+        ) : decision === 'skipped' ? (
+          <div style={{ display: 'flex', gap: 10, marginTop: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+            <p style={{ margin: 0, fontSize: 13, color: MUTED }}>
+              Keeping the old page. The rebuild stays saved — I&apos;ll keep watching the numbers and
+              re-suggest if it keeps underperforming.
+            </p>
+            <button type="button" onClick={() => setDecision('pending')} style={skipBtn}>
+              Reconsider
             </button>
           </div>
         ) : (

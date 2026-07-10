@@ -3,10 +3,10 @@
 import { useState, type CSSProperties } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  GENOME_FACTS,
   GENOME_SECTION_LABELS,
   GENOME_SURFACES,
   RIPPLE_SCENARIOS,
+  genomeFactsWith,
   surfaceName,
   type GenomeSection,
 } from '@/lib/customers/auckland-dog-trainer/genome';
@@ -66,10 +66,16 @@ function SurfaceChip({ label, inverse }: { label: string; inverse?: boolean }) {
 }
 
 /** The killer interaction — edit one fact, watch every surface update. */
-function RippleDemo() {
+function RippleDemo({
+  appliedIds,
+  onApply,
+}: {
+  appliedIds: ReadonlySet<string>;
+  onApply: (scenarioId: string) => void;
+}) {
   const [scenarioId, setScenarioId] = useState(RIPPLE_SCENARIOS[0].id);
-  const [applied, setApplied] = useState(false);
   const scenario = RIPPLE_SCENARIOS.find((s) => s.id === scenarioId) ?? RIPPLE_SCENARIOS[0];
+  const applied = appliedIds.has(scenario.id);
 
   return (
     <OsReveal>
@@ -96,10 +102,7 @@ function RippleDemo() {
               <button
                 key={s.id}
                 type="button"
-                onClick={() => {
-                  setScenarioId(s.id);
-                  setApplied(false);
-                }}
+                onClick={() => setScenarioId(s.id)}
                 style={{
                   fontSize: 12.5,
                   fontWeight: 600,
@@ -150,7 +153,7 @@ function RippleDemo() {
           {!applied ? (
             <button
               type="button"
-              onClick={() => setApplied(true)}
+              onClick={() => onApply(scenario.id)}
               style={{
                 marginTop: 12,
                 fontSize: 12,
@@ -169,7 +172,8 @@ function RippleDemo() {
             </button>
           ) : (
             <p style={{ margin: '12px 0 0', fontSize: 12.5, color: GOLD, fontWeight: 700 }}>
-              ✓ Genome updated — {scenario.updates.length} surfaces rewrote themselves
+              ✓ Genome updated — {scenario.updates.length} surfaces rewrote themselves. Scroll down:
+              the fact itself has changed too.
             </p>
           )}
         </div>
@@ -216,29 +220,45 @@ function RippleDemo() {
   );
 }
 
-function GenomeBrowser() {
+function GenomeBrowser({ appliedIds }: { appliedIds: ReadonlySet<string> }) {
+  const facts = genomeFactsWith(appliedIds);
+  const updatedFactIds = new Set(
+    RIPPLE_SCENARIOS.filter((s) => appliedIds.has(s.id)).map((s) => s.applies.factId),
+  );
+
   return (
     <section>
       <p style={{ ...eyebrow, marginBottom: 10 }}>
-        the genome · {GENOME_FACTS.length} facts, one place
+        the genome · {facts.length} facts, one place
       </p>
       <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
         {SECTION_ORDER.map((section) => {
-          const facts = GENOME_FACTS.filter((f) => f.section === section);
-          if (facts.length === 0) return null;
+          const sectionFacts = facts.filter((f) => f.section === section);
+          if (sectionFacts.length === 0) return null;
           return (
             <div key={section} style={{ ...glass, padding: 14 }}>
               <p style={{ ...eyebrow, color: PINK_DEEP }}>{GENOME_SECTION_LABELS[section]}</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
-                {facts.map((f) => (
-                  <div key={f.id}>
-                    <p style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: NAVY }}>{f.label}</p>
-                    <p style={{ margin: '3px 0 0', fontSize: 12.5, color: MUTED, lineHeight: 1.45 }}>{f.value}</p>
-                    <p style={{ margin: '4px 0 0', fontSize: 11, color: PINK_DEEP }}>
-                      read by {f.readBy.length} surface{f.readBy.length === 1 ? '' : 's'}
-                    </p>
-                  </div>
-                ))}
+                {sectionFacts.map((f) => {
+                  const updated = updatedFactIds.has(f.id);
+                  return (
+                    <div
+                      key={f.id}
+                      style={
+                        updated
+                          ? { padding: '8px 10px', borderRadius: 10, background: `${GOLD}1E` }
+                          : undefined
+                      }
+                    >
+                      <p style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: NAVY }}>{f.label}</p>
+                      <p style={{ margin: '3px 0 0', fontSize: 12.5, color: MUTED, lineHeight: 1.45 }}>{f.value}</p>
+                      <p style={{ margin: '4px 0 0', fontSize: 11, color: updated ? GOLD : PINK_DEEP, fontWeight: updated ? 700 : undefined }}>
+                        {updated ? '✓ updated just now · ' : ''}
+                        read by {f.readBy.length} surface{f.readBy.length === 1 ? '' : 's'}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           );
@@ -274,6 +294,10 @@ function SurfacesStrip() {
 }
 
 export function BusinessGenome() {
+  const [appliedIds, setAppliedIds] = useState<ReadonlySet<string>>(new Set());
+  const applyScenario = (id: string) =>
+    setAppliedIds((prev) => new Set(prev).add(id));
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <OsScrollReveal>
@@ -301,9 +325,9 @@ export function BusinessGenome() {
         </section>
       </OsScrollReveal>
 
-      <RippleDemo />
+      <RippleDemo appliedIds={appliedIds} onApply={applyScenario} />
       <OsScrollReveal delay={0.05}>
-        <GenomeBrowser />
+        <GenomeBrowser appliedIds={appliedIds} />
       </OsScrollReveal>
       <OsScrollReveal delay={0.05}>
         <SurfacesStrip />

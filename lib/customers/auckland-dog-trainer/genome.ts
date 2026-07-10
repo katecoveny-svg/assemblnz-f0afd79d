@@ -183,6 +183,13 @@ export type RippleScenario = {
   after: string;
   narrative: string;
   updates: RippleUpdate[];
+  /** How the applied change lands in the genome itself. */
+  applies: {
+    factId: string;
+    value: string;
+    /** Present when the change introduces a brand-new fact. */
+    adds?: { section: GenomeSection; label: string; readBy: SurfaceId[] };
+  };
 };
 
 export const RIPPLE_SCENARIOS: RippleScenario[] = [
@@ -203,6 +210,10 @@ export const RIPPLE_SCENARIOS: RippleScenario[] = [
       { surface: 'email', where: 'Enquiry reply drafts', change: 'Draft replies re-priced before Fred approves' },
       { surface: 'crm', where: 'Offer value on open leads', change: 'Pipeline value re-forecast' },
     ],
+    applies: {
+      factId: 'g-reactivity',
+      value: '$2,400 + GST · 6 weeks',
+    },
   },
   {
     id: 'faq',
@@ -219,6 +230,11 @@ export const RIPPLE_SCENARIOS: RippleScenario[] = [
       { surface: 'support', where: 'Support assistant', change: 'Auto-resolves the repeat thread' },
       { surface: 'course', where: 'Reactivity module', change: 'Lesson callout suggested' },
     ],
+    applies: {
+      factId: 'g-faq-muzzle',
+      value: '“Is a muzzle a punishment?” → No — a well-fitted muzzle is safety equipment',
+      adds: { section: 'knowledge', label: 'FAQ · muzzles', readBy: ['website', 'faq', 'voice', 'support', 'course'] },
+    },
   },
   {
     id: 'service',
@@ -236,6 +252,10 @@ export const RIPPLE_SCENARIOS: RippleScenario[] = [
       { surface: 'voice', where: 'Agent answers', change: 'Recommends bootcamp for group-fit enquiries' },
       { surface: 'social', where: 'Launch posts', change: 'Three drafts queued for approval' },
     ],
+    applies: {
+      factId: 'g-bootcamp',
+      value: 'Live · Saturday small-group intensives · 6 dogs max + waitlist',
+    },
   },
   {
     id: 'testimonial',
@@ -251,9 +271,38 @@ export const RIPPLE_SCENARIOS: RippleScenario[] = [
       { surface: 'email', where: 'Enquiry reply drafts', change: 'Recall replies cite Diesel’s result' },
       { surface: 'social', where: 'Content queue', change: 'Win-story post drafted' },
     ],
+    applies: {
+      factId: 'g-testimonials',
+      value: '24 approved · latest: Diesel “recalled away from a full dog park. Life-changing.”',
+    },
   },
 ];
 
 export function surfaceName(id: SurfaceId): string {
   return GENOME_SURFACES.find((s) => s.id === id)?.name ?? id;
+}
+
+/**
+ * The genome after a set of ripple scenarios has been applied — existing
+ * facts take the scenario's new value, `adds` scenarios append a new fact.
+ */
+export function genomeFactsWith(appliedIds: Iterable<string>): GenomeFact[] {
+  const ids = new Set(appliedIds);
+  const facts = GENOME_FACTS.map((f) => ({ ...f }));
+  for (const s of RIPPLE_SCENARIOS) {
+    if (!ids.has(s.id)) continue;
+    const existing = facts.find((f) => f.id === s.applies.factId);
+    if (existing) {
+      existing.value = s.applies.value;
+    } else if (s.applies.adds) {
+      facts.push({
+        id: s.applies.factId,
+        section: s.applies.adds.section,
+        label: s.applies.adds.label,
+        value: s.applies.value,
+        readBy: s.applies.adds.readBy,
+      });
+    }
+  }
+  return facts;
 }
