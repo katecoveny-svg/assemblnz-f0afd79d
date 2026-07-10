@@ -3,7 +3,7 @@
  */
 
 export const FRED_TABS = [
-  { key: 'week', label: "Sam's Week" },
+  { key: 'week', label: 'Today' },
   { key: 'brief', label: 'Morning brief' },
   { key: 'genome', label: 'Business Genome' },
   { key: 'landing', label: 'Landing hub' },

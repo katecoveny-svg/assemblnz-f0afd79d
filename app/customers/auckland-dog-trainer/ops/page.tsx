@@ -41,7 +41,8 @@ export default async function AucklandDogTrainerOpsHome({
   const genome = tab === 'genome' ? await getLiveGenomeFacts() : null;
   // The enquiry loop: public-website submissions land in living_site_enquiries
   // and surface here — full rows on the triage tab, the count on the brief.
-  const enquiries = tab === 'leads' || tab === 'brief' ? await getRecentEnquiries() : null;
+  const enquiries =
+    tab === 'leads' || tab === 'brief' || tab === 'week' ? await getRecentEnquiries() : null;
 
   return (
     <OsWowStage
@@ -59,7 +60,7 @@ export default async function AucklandDogTrainerOpsHome({
           genomeFacts={genome?.facts}
           genomeLive={genome?.live ?? false}
           liveEnquiries={enquiries ?? undefined}
-          liveEnquiryCount={tab === 'brief' && enquiries ? enquiries.length : undefined}
+          liveEnquiryCount={enquiries ? enquiries.length : undefined}
         />
         <OsScrollReveal delay={0.08}>
           <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">

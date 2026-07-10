@@ -17,7 +17,6 @@ import {
   REVENUE_SAMPLE,
   SUPPORT_INBOX,
   TIME_COCKPIT,
-  VIDEO_UPLOADS,
   WEEK_BLOCKS,
   type Lead,
   type OfferSlug,
@@ -106,214 +105,155 @@ function TabBar({ active }: { active: FredTabKey }) {
   );
 }
 
-/** Quiet intro under the editorial photo hero — no second competing banner. */
+/** Quiet intro under the editorial photo hero — one line, no competing banner. */
 function Hero() {
   return (
     <section style={{ padding: '4px 2px 0' }}>
-      <p style={{ ...eyebrow, color: PINK_DEEP }}>Sam&apos;s method · operating system</p>
+      <p style={{ ...eyebrow, color: PINK_DEEP }}>Sam&apos;s operating system</p>
       <p style={{ margin: '8px 0 0', fontSize: 14.5, lineHeight: 1.55, color: MUTED, maxWidth: 520 }}>
-        Intake, session notes → homework, programme journeys, course studio, and social from
-        session clips — scale the method without losing Sam&apos;s standard.
+        One genome. Every surface. Nothing sends without your yes.
       </p>
     </section>
   );
 }
 
-/** Intake walkthrough — enquiry → profile → offer → reply → CRM → explainer video */
-function KillerDemo() {
-  const lead = LEADS[0];
-  const [played, setPlayed] = useState(false);
+/**
+ * Today — the calm front door (design canon vNext). One primary action, a
+ * short list of what actually needs Sam, and everything else behind a quiet
+ * row of links. No stat walls, no capability grids.
+ */
+function WeekTab({ liveEnquiryCount }: { liveEnquiryCount?: number | null }) {
+  const attention = DOGS.filter((d) => !d.homeworkDone || d.videosPending > 0);
+  const nextSessions = WEEK_BLOCKS.filter((b) => b.kind === 'session').slice(0, 2);
+  const enquiries = typeof liveEnquiryCount === 'number' ? liveEnquiryCount : REVENUE_SAMPLE.leadsThisWeek;
+
+  const quietLink: CSSProperties = {
+    fontSize: 12.5,
+    fontWeight: 600,
+    color: PINK_DEEP,
+    textDecoration: 'none',
+    whiteSpace: 'nowrap',
+  };
+
+  const priorities: Array<{ id: string; text: React.ReactNode; href: string; link: string }> = [
+    {
+      id: 'enquiries',
+      text: (
+        <>
+          <strong>{enquiries}</strong> enquir{enquiries === 1 ? 'y' : 'ies'} on your desk, replies drafted
+        </>
+      ),
+      href: '/customers/auckland-dog-trainer/ops?tab=leads',
+      link: 'read them',
+    },
+    ...nextSessions.map((b) => ({
+      id: b.id,
+      text: (
+        <>
+          <strong>{b.when}</strong> · {b.title}
+        </>
+      ),
+      href: '/customers/auckland-dog-trainer/ops?tab=time',
+      link: 'your day',
+    })),
+    {
+      id: 'attention',
+      text: (
+        <>
+          <strong>{attention.map((d) => d.name).join(' and ')}</strong> need{attention.length === 1 ? 's' : ''} you —
+          homework or a video to review
+        </>
+      ),
+      href: '/customers/auckland-dog-trainer/ops?tab=dogs',
+      link: 'see the dogs',
+    },
+  ];
 
   return (
-    <OsReveal>
-      <section style={{ ...glass, padding: 18, borderColor: `${PINK}88`, background: `linear-gradient(180deg, ${BLUSH}, ${CREAM})` }}>
-        <p style={{ ...eyebrow, color: PINK_DEEP }}>watch it work · intake flow</p>
-        <h2 style={{ margin: '8px 0 0', fontFamily: display, fontSize: 22, color: NAVY }}>
-          Enquiry in → operations out
-        </h2>
-        <p style={{ margin: '8px 0 0', fontSize: 13.5, color: MUTED, lineHeight: 1.5 }}>
-          A client enquiry arrives. The intake agent reads it, creates the dog profile, recommends{' '}
-          <strong style={{ color: NAVY }}>Reactivity Rewired</strong>, drafts your reply, adds
-          the lead to CRM, and suggests the right explainer video.
-        </p>
-        <button
-          type="button"
-          onClick={() => setPlayed(true)}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      {/* the one primary action */}
+      <OsReveal>
+        <section
           style={{
-            marginTop: 14,
-            fontSize: 12,
-            fontWeight: 700,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            padding: '10px 16px',
-            borderRadius: 999,
-            border: 'none',
-            cursor: 'pointer',
-            background: NAVY,
-            color: '#fff',
+            ...glass,
+            padding: '22px 22px 20px',
+            borderColor: `${PINK}88`,
+            background: `linear-gradient(180deg, ${BLUSH}, ${CREAM})`,
           }}
         >
-          {played ? 'Replay flow' : 'Run the intake flow'}
-        </button>
-
-        {played ? (
-          <div
-            style={{
-              marginTop: 14,
-              display: 'grid',
-              gap: 10,
-              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-            }}
-          >
-            {[
-              { step: '1 · Intake', body: `${lead.dog} · ${lead.breed} · ${lead.suburb}` },
-              { step: '2 · Pathway', body: OFFERS[lead.recommended].label },
-              { step: '3 · Risk', body: `${lead.riskLevel} risk · ${lead.urgency}` },
-              { step: '4 · Draft reply', body: lead.draftReply?.slice(0, 90) + '…' },
-              { step: '5 · CRM', body: 'Lead + dog profile created' },
-              { step: '6 · Course match', body: lead.explainerVideo ?? '—' },
-            ].map((s, i) => (
-              <OsReveal key={s.step} delay={0.05 * i}>
-                <div style={{ ...glass, padding: 12 }}>
-                  <p style={{ ...eyebrow, color: PINK_DEEP }}>{s.step}</p>
-                  <p style={{ margin: '6px 0 0', fontSize: 13, color: NAVY, lineHeight: 1.45 }}>{s.body}</p>
-                </div>
-              </OsReveal>
-            ))}
+          <p style={{ ...eyebrow, color: PINK_DEEP }}>while you slept · one improvement, ready</p>
+          <h2 style={{ margin: '10px 0 0', fontFamily: display, fontSize: 24, color: NAVY, maxWidth: 620, lineHeight: 1.25 }}>
+            Your Reactivity Rewired page converts worse than your other programmes.
+            The rebuild is done — it just needs your yes.
+          </h2>
+          <div style={{ marginTop: 16 }}>
+            <Link
+              href="/customers/auckland-dog-trainer/ops?tab=brief"
+              scroll={false}
+              style={{
+                display: 'inline-block',
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                padding: '11px 20px',
+                borderRadius: 999,
+                background: NAVY,
+                color: '#fff',
+                textDecoration: 'none',
+              }}
+            >
+              review it
+            </Link>
           </div>
-        ) : null}
-      </section>
-    </OsReveal>
-  );
-}
+        </section>
+      </OsReveal>
 
-/** First look — every capability of the console, one tap from the front door. */
-const CAPABILITIES: Array<{ tab: FredTabKey; title: string; body: string }> = [
-  { tab: 'brief', title: 'Morning brief', body: 'Every morning: yesterday’s numbers, one improvement already built. You say yes.' },
-  { tab: 'genome', title: 'Business Genome', body: 'Every fact once — change a price and the site, agents and emails all update.' },
-  { tab: 'notes', title: 'Session scribe', body: 'Record a 2-min voice note → client summary, homework, CRM notes, handover.' },
-  { tab: 'leads', title: 'Instagram → CRM', body: 'DM enquiries read, triaged and filed as leads with your draft reply.' },
-  { tab: 'social', title: 'Social studio', body: 'Real stills and reels generated from a one-line brief. Draft-only.' },
-  { tab: 'programmes', title: 'Programme OS', body: 'Reactivity, Recall, Board & Train — plus the NEW Group Bootcamp.' },
-  { tab: 'landing', title: 'Landing hub', body: 'A programme chooser that answers "which path?" before you have to.' },
-  { tab: 'dogs', title: 'Training CRM', body: 'Every dog, week by week — triggers, goals, homework, payments.' },
-  { tab: 'time', title: 'Time cockpit', body: 'Sessions, travel and admin debt — protect the hours that earn.' },
-  { tab: 'agents', title: 'Agent mesh', body: 'The desk behind it all. Draft-only — nothing sends without your yes.' },
-];
-
-function CapabilitiesGrid() {
-  return (
-    <section>
-      <p style={{ ...eyebrow, color: PINK_DEEP, marginBottom: 10 }}>
-        everything this console does · tap any card
-      </p>
-      <OsStagger style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
-        {CAPABILITIES.map((c) => (
-          <motion.div key={c.tab} variants={osStaggerItem}>
-            <OsHoverLift accent={PINK} style={{ height: '100%' }}>
-              <Link
-                href={`/customers/auckland-dog-trainer/ops?tab=${c.tab}`}
-                scroll={false}
-                style={{ textDecoration: 'none', display: 'block', height: '100%' }}
-              >
-                <div style={{ ...glass, padding: '14px 16px', height: '100%', borderColor: `${PINK}44` }}>
-                  <p style={{ margin: 0, fontFamily: display, fontSize: 18, color: NAVY }}>
-                    {c.title}
-                    <span style={{ color: PINK_DEEP }}> →</span>
-                  </p>
-                  <p style={{ margin: '6px 0 0', fontSize: 12.5, color: MUTED, lineHeight: 1.5 }}>{c.body}</p>
-                </div>
+      {/* today, in plain sentences */}
+      <OsReveal delay={0.05}>
+        <section style={{ ...glass, padding: '6px 22px' }}>
+          {priorities.map((p) => (
+            <div
+              key={p.id}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'baseline',
+                gap: 14,
+                padding: '14px 0',
+                borderBottom: `1px solid ${NAVY}0C`,
+                fontSize: 14.5,
+                color: NAVY,
+                lineHeight: 1.5,
+              }}
+            >
+              <span>{p.text}</span>
+              <Link href={p.href} scroll={false} style={quietLink}>
+                {p.link} →
               </Link>
-            </OsHoverLift>
-          </motion.div>
-        ))}
-      </OsStagger>
-    </section>
-  );
-}
-
-function WeekTab() {
-  const attention = DOGS.filter((d) => !d.homeworkDone || d.videosPending > 0);
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <CapabilitiesGrid />
-      <KillerDemo />
-      <OsStagger style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
-        {[
-          { k: 'capacity', v: `${TIME_COCKPIT.capacityPct}%`, s: 'Sam this week' },
-          { k: 'sessions', v: String(TIME_COCKPIT.sessionsToday), s: 'today' },
-          { k: 'follow-ups', v: String(TIME_COCKPIT.followUpsDue), s: 'due' },
-          { k: 'admin debt', v: `${TIME_COCKPIT.adminDebtMins}m`, s: 'unpaid load' },
-          { k: 'leads', v: String(REVENUE_SAMPLE.leadsThisWeek), s: 'this week' },
-          { k: 'attention', v: String(attention.length), s: 'dogs needing you' },
-        ].map((i) => (
-          <motion.div key={i.k} variants={osStaggerItem}>
-            <OsHoverLift accent={PINK} style={{ ...glass, padding: '14px 16px', background: BLUSH }}>
-              <p style={eyebrow}>{i.k}</p>
-              <p style={{ margin: '6px 0 0', fontFamily: display, fontSize: 26, color: NAVY }}>{i.v}</p>
-              <p style={{ margin: '2px 0 0', fontSize: 12, color: MUTED }}>{i.s}</p>
-            </OsHoverLift>
-          </motion.div>
-        ))}
-      </OsStagger>
-
-      <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
-        <div style={{ ...glass, padding: 16 }}>
-          <p style={eyebrow}>today · sessions & travel</p>
-          <ul style={{ margin: '10px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {WEEK_BLOCKS.filter((b) => b.when.startsWith('Thu') || b.kind === 'session').slice(0, 5).map((b) => (
-              <li key={b.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: 13, color: NAVY }}>
-                <span>
-                  <strong>{b.when}</strong> · {b.title}
-                </span>
-                <span style={{ color: MUTED }}>{b.mins}m</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div style={{ ...glass, padding: 16 }}>
-          <p style={eyebrow}>next best action</p>
-          <ol style={{ margin: '10px 0 0', paddingLeft: 18, color: NAVY, fontSize: 13.5, lineHeight: 1.55 }}>
-            {TIME_COCKPIT.nextBestActions.map((a) => (
-              <li key={a} style={{ marginBottom: 6 }}>
-                {a}
-              </li>
-            ))}
-          </ol>
-        </div>
-        <div style={{ ...glass, padding: 16 }}>
-          <p style={eyebrow}>dogs needing attention</p>
-          {attention.map((d) => (
-            <div key={d.id} style={{ marginTop: 10, fontSize: 13.5, color: NAVY }}>
-              <strong>{d.name}</strong> · {offerLabel(d.programme)} W{d.week}
-              <div style={{ color: MUTED, fontSize: 12.5 }}>
-                {!d.homeworkDone ? 'Homework pending · ' : ''}
-                {d.videosPending > 0 ? `${d.videosPending} video to review` : 'On track'}
-              </div>
             </div>
           ))}
-        </div>
-      </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 14, padding: '14px 0', fontSize: 14.5, color: MUTED }}>
+            <span>Everything else is handled — drafts waiting where they should be.</span>
+          </div>
+        </section>
+      </OsReveal>
 
-      <div style={{ ...glass, padding: 16 }}>
-        <p style={eyebrow}>video upload → homework</p>
-        <div style={{ display: 'grid', gap: 10, marginTop: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
-          {VIDEO_UPLOADS.map((v) => (
-            <div key={v.id} style={{ padding: 12, borderRadius: 12, background: BLUSH }}>
-              <p style={{ margin: 0, fontWeight: 700, color: NAVY, fontSize: 14 }}>
-                {v.dog} · {v.title}
-              </p>
-              <p style={{ margin: '6px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.45 }}>{v.summary}</p>
-              <p style={{ margin: '8px 0 0', fontSize: 12.5, color: NAVY }}>
-                Homework · {v.homework}
-              </p>
-              <p style={{ ...eyebrow, marginTop: 8, color: v.needsFred ? '#B54A4A' : GOLD }}>
-                {v.needsFred ? 'queued for Sam' : 'Support Agent can answer'}
-              </p>
-            </div>
+      {/* everything else — quiet, one row, progressive disclosure */}
+      <OsReveal delay={0.08}>
+        <nav aria-label="All console areas" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 18px', padding: '4px 2px' }}>
+          {FRED_TABS.filter((t) => t.key !== 'week').map((t) => (
+            <Link
+              key={t.key}
+              href={`/customers/auckland-dog-trainer/ops?tab=${t.key}`}
+              scroll={false}
+              style={{ fontSize: 12.5, color: MUTED, textDecoration: 'none' }}
+            >
+              {t.label.toLowerCase()}
+            </Link>
           ))}
-        </div>
-      </div>
+        </nav>
+      </OsReveal>
     </div>
   );
 }
@@ -801,7 +741,7 @@ export function FredDashboard({
       </OsScrollReveal>
       <TabBar active={tab} />
       <OsScrollReveal key={tab} delay={0.04}>
-        {tab === 'week' ? <WeekTab /> : null}
+        {tab === 'week' ? <WeekTab liveEnquiryCount={liveEnquiryCount} /> : null}
         {tab === 'brief' ? <MorningBrief liveEnquiryCount={liveEnquiryCount} /> : null}
         {tab === 'genome' ? <BusinessGenome facts={genomeFacts} live={genomeLive} editable /> : null}
         {tab === 'landing' ? <LandingTab /> : null}
