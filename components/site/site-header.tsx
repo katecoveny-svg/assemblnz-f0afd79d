@@ -96,6 +96,8 @@ export function isCustomerWorkspace(pathname: string | null): boolean {
   // The Living Site sample-business sites (/living-site/<vertical>) are
   // white-labelled — each is the sample customer's website. The /living-site tour keeps global chrome.
   if (pathname.startsWith("/living-site/")) return true;
+  // The assembl OS demo ships its own pearl chrome.
+  if (pathname === "/os" || pathname.startsWith("/os/")) return true;
   return pathname === "/customers" || pathname.startsWith("/customers/");
 }
 

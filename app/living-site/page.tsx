@@ -224,6 +224,9 @@ export default async function LivingSitePage() {
                   </span>
                 </Link>
               </MagneticButton>
+              <Link href="/os" className={styles.ctaGhost}>
+                see the operating system
+              </Link>
               <Link href="/living-site/dog-training" className={styles.ctaGhost}>
                 see the sample website
               </Link>

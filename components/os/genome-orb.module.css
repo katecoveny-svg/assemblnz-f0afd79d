@@ -1,0 +1,89 @@
+/* Genome orb — lines grow, nodes drift, nothing pops. */
+
+.orb {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.orbitRing {
+  fill: none;
+  stroke: #e6e2d6;
+  stroke-width: 1;
+  stroke-dasharray: 2 5;
+}
+
+.thread {
+  stroke: #d9cfae;
+  stroke-width: 1;
+  stroke-dasharray: 160;
+  stroke-dashoffset: 160;
+  animation: orb-thread-grow 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes orb-thread-grow {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.pearl {
+  filter: drop-shadow(0 14px 26px rgba(148, 128, 84, 0.28));
+}
+
+.pearlRim {
+  fill: none;
+  stroke: rgba(194, 161, 95, 0.45);
+  stroke-width: 1;
+}
+
+.pearlGlint {
+  fill: rgba(255, 255, 255, 0.85);
+}
+
+.initial {
+  font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+  font-size: 64px;
+  fill: #b3945a;
+}
+
+.node {
+  animation: orb-node-drift 6.5s ease-in-out infinite;
+}
+
+@keyframes orb-node-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.nodeBall {
+  filter: drop-shadow(0 6px 12px rgba(148, 128, 84, 0.22));
+}
+
+.nodeRim {
+  fill: none;
+  stroke: rgba(194, 161, 95, 0.4);
+  stroke-width: 0.8;
+}
+
+.nodeLabel {
+  font-family: var(--font-body), 'Inter', system-ui, sans-serif;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  fill: #6d6d76;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thread {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .node {
+    animation: none;
+  }
+}

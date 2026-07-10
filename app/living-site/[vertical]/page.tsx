@@ -99,12 +99,20 @@ export default async function SampleVerticalPage({ params }: { params: Promise<P
             sample business — details fictional · generated from a Business Genome
             {live ? ', reading live from the database' : ''}
           </p>
-          <Link
-            href="/living-site"
-            style={{ color: '#fff', fontSize: 11.5, fontWeight: 700, textDecoration: 'underline', whiteSpace: 'nowrap' }}
-          >
-            see how it works →
-          </Link>
+          <span style={{ display: 'flex', gap: 16, whiteSpace: 'nowrap' }}>
+            <Link
+              href={`/living-site/${v.slug}/os`}
+              style={{ color: '#fff', fontSize: 11.5, fontWeight: 700, textDecoration: 'underline' }}
+            >
+              the OS behind this site →
+            </Link>
+            <Link
+              href="/living-site"
+              style={{ color: '#fff', fontSize: 11.5, fontWeight: 700, textDecoration: 'underline' }}
+            >
+              how it works →
+            </Link>
+          </span>
         </div>
       </div>
 
@@ -196,13 +204,17 @@ export default async function SampleVerticalPage({ params }: { params: Promise<P
             aria-hidden
             className={art.heroArt}
             style={{
-              background: `radial-gradient(120% 120% at 15% 10%, ${p.accent} 0%, ${p.ink} 62%, ${p.ink} 100%)`,
-              boxShadow: `0 24px 60px ${p.ink}33`,
+              background: `radial-gradient(130% 130% at 32% 22%, #ffffff 0%, ${p.card} 40%, ${p.bg} 62%, ${p.accent}66 92%, ${p.accent}99 100%)`,
+              boxShadow: `0 30px 70px ${p.ink}22, inset 0 1px 0 rgba(255,255,255,0.9)`,
+              border: `1px solid ${p.ink}10`,
             }}
           >
-            <span className={art.heroArtRing} style={{ width: '68%', aspectRatio: '1', left: '-18%', top: '-22%' }} />
-            <span className={art.heroArtRing} style={{ width: '46%', aspectRatio: '1', right: '-12%', bottom: '-16%' }} />
-            <span className={art.heroArtLetter}>{v.businessName.charAt(0)}</span>
+            <span className={art.heroArtRing} style={{ width: '68%', aspectRatio: '1', left: '-18%', top: '-22%', borderColor: `${p.accent}33` }} />
+            <span className={art.heroArtRing} style={{ width: '46%', aspectRatio: '1', right: '-12%', bottom: '-16%', borderColor: `${p.accent}2b` }} />
+            <span className={art.heroArtGlint} />
+            <span className={art.heroArtLetter} style={{ color: p.accent }}>
+              {v.businessName.charAt(0)}
+            </span>
           </div>
         </section>
 
