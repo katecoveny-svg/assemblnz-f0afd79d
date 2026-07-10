@@ -524,6 +524,9 @@ export default async function HomePage() {
               <Link href="/contact" className={styles.footerLink}>
                 contact
               </Link>
+              <a href="mailto:assembl@assembl.co.nz" className={styles.footerLink}>
+                assembl@assembl.co.nz
+              </a>
             </nav>
           </div>
           <p className={styles.footerDisclaimer}>{footerDisclaimer}</p>

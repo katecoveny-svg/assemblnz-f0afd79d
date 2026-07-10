@@ -30,6 +30,7 @@ const COLUMNS: { label: string; links: { href: string; label: string }[] }[] = [
     links: [
       { href: "/about", label: "about" },
       { href: "/contact", label: "contact" },
+      { href: "mailto:assembl@assembl.co.nz", label: "assembl@assembl.co.nz" },
     ],
   },
   {
