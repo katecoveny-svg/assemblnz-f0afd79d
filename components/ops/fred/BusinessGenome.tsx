@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, type CSSProperties } from 'react';
+import { useState, useTransition, type CSSProperties } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { updateGenomeFactAction } from '@/app/customers/auckland-dog-trainer/ops/genome-actions';
 import {
   GENOME_FACTS,
   GENOME_SECTION_LABELS,
@@ -222,12 +224,142 @@ function RippleDemo({
   );
 }
 
+/**
+ * One editable fact row. On a real save the ripple is COMPUTED from the
+ * fact's read_by list (not the curated scenarios): every listed surface
+ * re-reads the genome on its next load, so that IS the update list.
+ */
+function FactRow({
+  fact,
+  updated,
+  editable,
+}: {
+  fact: GenomeFact;
+  updated: boolean;
+  editable: boolean;
+}) {
+  const router = useRouter();
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(fact.value);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+
+  const save = () => {
+    setError(null);
+    startTransition(async () => {
+      const result = await updateGenomeFactAction(fact.id, draft);
+      if (!result.ok) {
+        setError(result.message ?? 'Something went wrong.');
+        return;
+      }
+      setEditing(false);
+      setSaved(true);
+      router.refresh();
+    });
+  };
+
+  const chipBtn: CSSProperties = {
+    fontSize: 10.5,
+    fontWeight: 700,
+    letterSpacing: '0.06em',
+    textTransform: 'uppercase',
+    padding: '4px 10px',
+    borderRadius: 999,
+    cursor: 'pointer',
+    border: `1.5px solid ${NAVY}22`,
+    background: CREAM,
+    color: NAVY,
+  };
+
+  return (
+    <div
+      style={
+        updated || saved
+          ? { padding: '8px 10px', borderRadius: 10, background: `${GOLD}1E` }
+          : undefined
+      }
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'baseline' }}>
+        <p style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: NAVY }}>{fact.label}</p>
+        {editable && !editing ? (
+          <button type="button" onClick={() => { setDraft(fact.value); setEditing(true); setSaved(false); }} style={chipBtn}>
+            edit
+          </button>
+        ) : null}
+      </div>
+
+      {editing ? (
+        <div style={{ marginTop: 6 }}>
+          <textarea
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            maxLength={300}
+            rows={2}
+            style={{
+              width: '100%',
+              boxSizing: 'border-box',
+              fontSize: 13,
+              padding: '8px 10px',
+              borderRadius: 10,
+              border: `1.5px solid ${NAVY}33`,
+              background: CREAM,
+              color: NAVY,
+              fontFamily: 'inherit',
+              resize: 'vertical',
+            }}
+          />
+          <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+            <button
+              type="button"
+              onClick={save}
+              disabled={pending}
+              style={{ ...chipBtn, background: NAVY, color: '#fff', border: `1.5px solid ${NAVY}`, opacity: pending ? 0.6 : 1 }}
+            >
+              {pending ? 'saving…' : 'save to the genome'}
+            </button>
+            <button type="button" onClick={() => { setEditing(false); setError(null); }} disabled={pending} style={chipBtn}>
+              cancel
+            </button>
+          </div>
+          {error ? (
+            <p style={{ margin: '6px 0 0', fontSize: 12, color: '#B54A4A' }}>{error}</p>
+          ) : null}
+        </div>
+      ) : (
+        <p style={{ margin: '3px 0 0', fontSize: 12.5, color: MUTED, lineHeight: 1.45 }}>{fact.value}</p>
+      )}
+
+      {saved ? (
+        <div style={{ marginTop: 8 }}>
+          <p style={{ margin: 0, fontSize: 11.5, color: GOLD, fontWeight: 700 }}>
+            ✓ saved — {fact.readBy.length} surface{fact.readBy.length === 1 ? '' : 's'} re-read this
+            fact on their next load:
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 6 }}>
+            {fact.readBy.map((s) => (
+              <SurfaceChip key={s} label={surfaceName(s).toLowerCase()} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <p style={{ margin: '4px 0 0', fontSize: 11, color: updated ? GOLD : PINK_DEEP, fontWeight: updated ? 700 : undefined }}>
+          {updated ? '✓ updated just now · ' : ''}
+          read by {fact.readBy.length} surface{fact.readBy.length === 1 ? '' : 's'}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function GenomeBrowser({
   appliedIds,
   baseFacts,
+  editable,
 }: {
   appliedIds: ReadonlySet<string>;
   baseFacts: GenomeFact[];
+  editable: boolean;
 }) {
   const facts = genomeFactsWith(appliedIds, baseFacts);
   const updatedFactIds = new Set(
@@ -236,9 +368,16 @@ function GenomeBrowser({
 
   return (
     <section>
-      <p style={{ ...eyebrow, marginBottom: 10 }}>
-        the genome · {facts.length} facts, one place
-      </p>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
+        <p style={{ ...eyebrow, margin: 0 }}>
+          the genome · {facts.length} facts, one place
+        </p>
+        {editable ? (
+          <p style={{ ...eyebrow, margin: 0, color: GOLD }}>
+            editable · a save here rewrites every surface
+          </p>
+        ) : null}
+      </div>
       <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
         {SECTION_ORDER.map((section) => {
           const sectionFacts = facts.filter((f) => f.section === section);
@@ -247,26 +386,9 @@ function GenomeBrowser({
             <div key={section} style={{ ...glass, padding: 14 }}>
               <p style={{ ...eyebrow, color: PINK_DEEP }}>{GENOME_SECTION_LABELS[section]}</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
-                {sectionFacts.map((f) => {
-                  const updated = updatedFactIds.has(f.id);
-                  return (
-                    <div
-                      key={f.id}
-                      style={
-                        updated
-                          ? { padding: '8px 10px', borderRadius: 10, background: `${GOLD}1E` }
-                          : undefined
-                      }
-                    >
-                      <p style={{ margin: 0, fontSize: 13.5, fontWeight: 600, color: NAVY }}>{f.label}</p>
-                      <p style={{ margin: '3px 0 0', fontSize: 12.5, color: MUTED, lineHeight: 1.45 }}>{f.value}</p>
-                      <p style={{ margin: '4px 0 0', fontSize: 11, color: updated ? GOLD : PINK_DEEP, fontWeight: updated ? 700 : undefined }}>
-                        {updated ? '✓ updated just now · ' : ''}
-                        read by {f.readBy.length} surface{f.readBy.length === 1 ? '' : 's'}
-                      </p>
-                    </div>
-                  );
-                })}
+                {sectionFacts.map((f) => (
+                  <FactRow key={f.id} fact={f} updated={updatedFactIds.has(f.id)} editable={editable} />
+                ))}
               </div>
             </div>
           );
@@ -304,10 +426,13 @@ function SurfacesStrip() {
 export function BusinessGenome({
   facts = GENOME_FACTS,
   live = false,
+  editable = false,
 }: {
   /** Base genome — live DB rows when available, in-repo sample otherwise. */
   facts?: GenomeFact[];
   live?: boolean;
+  /** Gated ops console only — turns each fact into an edit-in-place row. */
+  editable?: boolean;
 }) {
   const [appliedIds, setAppliedIds] = useState<ReadonlySet<string>>(new Set());
   const applyScenario = (id: string) =>
@@ -344,7 +469,7 @@ export function BusinessGenome({
 
       <RippleDemo appliedIds={appliedIds} onApply={applyScenario} />
       <OsScrollReveal delay={0.05}>
-        <GenomeBrowser appliedIds={appliedIds} baseFacts={facts} />
+        <GenomeBrowser appliedIds={appliedIds} baseFacts={facts} editable={editable && live} />
       </OsScrollReveal>
       <OsScrollReveal delay={0.05}>
         <SurfacesStrip />

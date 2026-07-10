@@ -54,13 +54,13 @@ function HeadlineLine({
 }
 
 export function HomeHero({
-  agentsLive,
-  collections,
-  freeTools,
+  genomeFacts,
+  surfaces,
 }: {
-  agentsLive: number;
-  collections: number;
-  freeTools: number;
+  /** Facts in the Business Genome (canonical Fred seed). */
+  genomeFacts: number;
+  /** Surfaces that read the genome (website, CRM, bookings, agents, …). */
+  surfaces: number;
 }) {
   const reduced = useReducedMotion();
   const fade = (delay: number) => ({
@@ -107,31 +107,33 @@ export function HomeHero({
           </Link>
         </motion.div>
 
-        {/* real numbers only — never invented (locked canon) */}
+        {/* real numbers only — never invented (locked canon). These are the
+            OS story, not marketplace stats: one genome, many surfaces, one
+            improvement each morning. */}
         <motion.div {...fade(0.85)} className={styles.pulseStrip}>
           <span className={styles.pulseItem}>
             <span className={styles.pulseValue}>
-              <CountUp value={agentsLive} />
+              <CountUp value={genomeFacts} />
             </span>
-            agents live
+            facts · one source of truth
           </span>
           <span aria-hidden style={{ color: palette.hairline }}>
             |
           </span>
           <span className={styles.pulseItem}>
             <span className={styles.pulseValue}>
-              <CountUp value={collections} />
+              <CountUp value={surfaces} />
             </span>
-            collections
+            surfaces reading it
           </span>
           <span aria-hidden style={{ color: palette.hairline }}>
             |
           </span>
           <span className={styles.pulseItem}>
             <span className={styles.pulseValue}>
-              <CountUp value={freeTools} />
+              <CountUp value={1} />
             </span>
-            free tools
+            improvement every morning
           </span>
         </motion.div>
       </div>

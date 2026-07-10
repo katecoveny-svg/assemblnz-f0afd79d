@@ -77,6 +77,55 @@ export async function getLiveGenomeFacts(): Promise<GenomeRead> {
   }
 }
 
+export type LiveEnquiry = {
+  id: string;
+  name: string;
+  email: string;
+  dog: string | null;
+  message: string;
+  source: string;
+  /** Pre-formatted NZ-time display string — formatted server-side so the
+   *  client component that renders it can never hydration-mismatch. */
+  when: string;
+};
+
+const whenFormat = new Intl.DateTimeFormat('en-NZ', {
+  timeZone: 'Pacific/Auckland',
+  day: 'numeric',
+  month: 'short',
+  hour: 'numeric',
+  minute: '2-digit',
+});
+
+/**
+ * Recent public-website enquiries for the ops console — the other half of
+ * the enquiry loop. Returns [] when the DB/keys are unavailable so the
+ * console falls back to its sample leads without erroring.
+ */
+export async function getRecentEnquiries(limit = 8): Promise<LiveEnquiry[]> {
+  try {
+    const supabase = getServiceClient();
+    const { data, error } = await supabase
+      .from('living_site_enquiries')
+      .select('id, name, email, dog, message, source, created_at')
+      .eq('tenant', GENOME_TENANT)
+      .order('created_at', { ascending: false })
+      .limit(limit);
+    if (error || !data) return [];
+    return data.map((r) => ({
+      id: String(r.id),
+      name: r.name,
+      email: r.email,
+      dog: r.dog ?? null,
+      message: r.message,
+      source: r.source,
+      when: whenFormat.format(new Date(r.created_at)),
+    }));
+  } catch {
+    return [];
+  }
+}
+
 /** Store a public landing-page enquiry. Returns false when the DB is down. */
 export async function storeEnquiry(input: {
   name: string;

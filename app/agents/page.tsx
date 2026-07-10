@@ -151,21 +151,23 @@ export default async function AgentsMarketplacePage() {
               <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                 •
               </span>
-              <MicroLabel>agent marketplace</MicroLabel>
+              <MicroLabel>the fleet behind every living site</MicroLabel>
             </div>
             <h1
               className={styles.h1}
               style={{ marginTop: 18, fontSize: 'clamp(2.2rem, 4.6vw, 3.4rem)' }}
             >
-              discover agents.
+              the agents your
               <br />
-              explore purpose-built collections
+              living site runs on
               <span aria-hidden style={{ color: palette.accentGold }}>
                 .
               </span>
             </h1>
             <p style={{ ...body, marginTop: 18, maxWidth: 380 }}>
-              Purpose-built agents that work together across your business.
+              Every Living Site is staffed by purpose-built agents reading one Business Genome.
+              This is the fleet — browse it, try one, or install your industry and get the
+              right crew day one.
             </p>
 
             {/* floating bundle cards */}

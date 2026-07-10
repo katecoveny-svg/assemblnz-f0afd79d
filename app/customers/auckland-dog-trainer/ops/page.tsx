@@ -14,7 +14,10 @@ import {
   FRED_AGENT_NAME,
   FRED_TRY_ME,
 } from '@/lib/customers/auckland-dog-trainer/agent';
-import { getLiveGenomeFacts } from '@/lib/customers/auckland-dog-trainer/genome-store';
+import {
+  getLiveGenomeFacts,
+  getRecentEnquiries,
+} from '@/lib/customers/auckland-dog-trainer/genome-store';
 
 type OpsSearchParams = { tab?: string | string[] };
 
@@ -36,6 +39,9 @@ export default async function AucklandDogTrainerOpsHome({
   const rawTab = first(sp?.tab);
   const tab: FredTabKey = TAB_KEYS.has(rawTab ?? '') ? (rawTab as FredTabKey) : 'week';
   const genome = tab === 'genome' ? await getLiveGenomeFacts() : null;
+  // The enquiry loop: public-website submissions land in living_site_enquiries
+  // and surface here — full rows on the triage tab, the count on the brief.
+  const enquiries = tab === 'leads' || tab === 'brief' ? await getRecentEnquiries() : null;
 
   return (
     <OsWowStage
@@ -48,7 +54,13 @@ export default async function AucklandDogTrainerOpsHome({
     >
       <div className="flex flex-col gap-5">
         <DemoRibbon />
-        <FredDashboard tab={tab} genomeFacts={genome?.facts} genomeLive={genome?.live ?? false} />
+        <FredDashboard
+          tab={tab}
+          genomeFacts={genome?.facts}
+          genomeLive={genome?.live ?? false}
+          liveEnquiries={enquiries ?? undefined}
+          liveEnquiryCount={tab === 'brief' && enquiries ? enquiries.length : undefined}
+        />
         <OsScrollReveal delay={0.08}>
           <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
             <p
