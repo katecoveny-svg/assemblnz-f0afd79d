@@ -14,6 +14,7 @@ import {
   FRED_AGENT_NAME,
   FRED_TRY_ME,
 } from '@/lib/customers/auckland-dog-trainer/agent';
+import { getLiveGenomeFacts } from '@/lib/customers/auckland-dog-trainer/genome-store';
 
 type OpsSearchParams = { tab?: string | string[] };
 
@@ -34,6 +35,7 @@ export default async function AucklandDogTrainerOpsHome({
   const sp = await searchParams;
   const rawTab = first(sp?.tab);
   const tab: FredTabKey = TAB_KEYS.has(rawTab ?? '') ? (rawTab as FredTabKey) : 'week';
+  const genome = tab === 'genome' ? await getLiveGenomeFacts() : null;
 
   return (
     <OsWowStage
@@ -46,7 +48,7 @@ export default async function AucklandDogTrainerOpsHome({
     >
       <div className="flex flex-col gap-5">
         <DemoRibbon />
-        <FredDashboard tab={tab} />
+        <FredDashboard tab={tab} genomeFacts={genome?.facts} genomeLive={genome?.live ?? false} />
         <OsScrollReveal delay={0.08}>
           <section className="rounded-3xl border border-[#1B2A4A]/12 bg-[color:var(--brand-surface)]/90 p-5 shadow-[0_20px_50px_rgba(27,42,74,0.08)] backdrop-blur-xl">
             <p

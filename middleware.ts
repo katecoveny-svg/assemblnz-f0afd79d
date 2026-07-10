@@ -73,6 +73,12 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/brand/',
   '/.well-known',
   '/assets/',
+  // 3D assets (tui gaussian splat etc.) — .splat/.ply aren't in the static
+  // extension regex, so without this the fetch gets the splash HTML back.
+  '/3d/',
+  // Living Site funnel — public marketing surfaces linked from the homepage.
+  '/living-site',
+  '/install',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   '/robots.txt',
@@ -86,7 +92,7 @@ const SPLASH_EXEMPT_EXACT = new Set([
   '/widget.js',
 ]);
 const SPLASH_STATIC_FILE =
-  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest)$/i;
+  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;
 
 const splashGate = (request: NextRequest): NextResponse | null => {
   const host = (request.headers.get('host') ?? '').toLowerCase();
@@ -167,9 +173,12 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   // /login on the demo host immediately 302s to /admin/login (see
   // demoHostRewrite) — exempt it so the redirect fires instead of the 401.
   '/login',
+  // Living Site funnel — public everywhere, including the demo host.
+  '/living-site',
+  '/install',
 ];
 const DEMO_AUTH_STATIC_FILE =
-  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest)$/i;
+  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|mp4|webm|txt|xml|json|woff2?|ttf|otf|css|js|map|webmanifest|splat|ply|glb|gltf)$/i;
 
 const needsDemoAuth = (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;

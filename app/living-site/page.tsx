@@ -8,7 +8,12 @@ import { DemoRibbon } from '@/components/ops/DemoRibbon';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
 import { getBrandFonts } from '@/lib/brand/fonts';
+import { getLiveGenomeFacts } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import styles from '@/components/v2/home/home.module.css';
+
+// The genome is read from the database on every request — a fact edited in
+// Supabase shows up here on the next load. That's the point.
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'a living site, live — inside a real business OS · assembl',
@@ -22,7 +27,8 @@ export const metadata: Metadata = {
  * "watch a business come alive" story ends in something a visitor can touch.
  * Sample data only; the full console stays behind guided-demo invites.
  */
-export default function LivingSitePage() {
+export default async function LivingSitePage() {
+  const { facts, live } = await getLiveGenomeFacts();
   const fonts = getBrandFonts('auckland-dog-trainer');
   const brandVars = `${fonts.display.variable} ${fonts.body.variable} ${fonts.mono.variable}`;
 
@@ -61,7 +67,18 @@ export default function LivingSitePage() {
               </p>
             </div>
           </Reveal>
-          <DemoRibbon />
+          <div
+            style={
+              {
+                // DemoRibbon reads --brand-* vars, normally set by the ops shell.
+                '--brand-accent': '#D4A5B0',
+                '--brand-canary': '#BFA37A',
+                '--brand-ink': '#1B2A4A',
+              } as React.CSSProperties
+            }
+          >
+            <DemoRibbon />
+          </div>
         </div>
       </section>
 
@@ -77,7 +94,7 @@ export default function LivingSitePage() {
             </div>
           </Reveal>
           <div className={brandVars} style={frame}>
-            <BusinessGenome />
+            <BusinessGenome facts={facts} live={live} />
           </div>
         </div>
       </section>
