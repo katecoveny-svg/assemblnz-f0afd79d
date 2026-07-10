@@ -79,6 +79,36 @@ const SPLASH_EXEMPT_PREFIXES = [
   // Living Site funnel — public marketing surfaces linked from the homepage.
   '/living-site',
   '/install',
+  // The marketing site proper (wiring audit 2026-07-10): the homepage IS the
+  // real front door now, and it links to these — every path the nav, footers
+  // and sitemap promise must actually serve on the apex. Anything NOT listed
+  // (old app surfaces: /workflows, /kete, /operator, /dev, /internal, /app…)
+  // still falls through to the splash rewrite.
+  '/about',
+  '/agents',
+  '/pricing',
+  '/how-it-works',
+  '/trust',
+  '/contact',
+  '/mana-receipts',
+  '/te-tiriti',
+  '/legal',
+  '/bundles',
+  '/bills',
+  '/faq',
+  '/ai-use',
+  '/data',
+  '/hui',
+  '/industry-pack',
+  '/insurance',
+  '/platform',
+  '/press',
+  '/public-assembly',
+  '/start',
+  '/toro',
+  '/assembling',
+  '/hapai',
+  '/free-tools',
 ];
 const SPLASH_EXEMPT_EXACT = new Set([
   '/robots.txt',
