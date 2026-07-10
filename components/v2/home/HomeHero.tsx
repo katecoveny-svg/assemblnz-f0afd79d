@@ -78,19 +78,18 @@ export function HomeHero({
           <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
             •
           </span>
-          <MicroLabel>built in aotearoa</MicroLabel>
+          <MicroLabel>the living business operating system · built in aotearoa</MicroLabel>
         </motion.div>
 
         <h1 className={styles.h1} style={{ marginTop: 22 }}>
-          <HeadlineLine words={['assembl', 'grows', 'your']} offset={0} />
-          <HeadlineLine words={['business', 'while', 'you', 'run', 'it.']} offset={3} />
-          <HeadlineLine words={['less', 'admin.', 'more', 'mahi']} offset={8} withDot />
+          <HeadlineLine words={['less', 'admin.']} offset={0} />
+          <HeadlineLine words={['more', 'mahi']} offset={2} withDot />
         </h1>
 
         <motion.p {...fade(0.55)} className={styles.lede}>
-          One Living Site — website, CRM, bookings, knowledge, and agents on a single source of
-          truth. It learns your business every day and suggests one improvement every morning. You
-          say yes.
+          Most software gives you another dashboard. Most AI gives you another chatbot.
+          assembl gives you a business that learns, organises itself, and gets better
+          every day.
         </motion.p>
 
         <motion.div {...fade(0.7)} className={styles.ctaRow}>
