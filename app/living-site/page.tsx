@@ -9,6 +9,7 @@ import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
 import { getBrandFonts } from '@/lib/brand/fonts';
 import { getLiveGenomeFacts } from '@/lib/customers/auckland-dog-trainer/genome-store';
+import { SAMPLE_VERTICALS } from '@/lib/living-site/verticals';
 import styles from '@/components/v2/home/home.module.css';
 
 // The genome is read from the database on every request — a fact edited in
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * The public, ungated slice of the Fred demo — where the homepage's
+ * The public, ungated slice of the Sam demo — where the homepage's
  * "watch a business come alive" story ends in something a visitor can touch.
  * Sample data only; the full console stays behind guided-demo invites.
  */
@@ -60,10 +61,10 @@ export default async function LivingSitePage() {
                 </span>
               </p>
               <p className={styles.sectionLede}>
-                Fred trains dogs in Auckland. Below is his business running as one system —
-                services, pricing, FAQs, bookings, and agents reading a single source of truth,
-                improving itself every morning. Everything here is interactive. Go on — change a
-                price, approve the brief.
+                Sam trains dogs in Auckland — a fictional sample business on a real system.
+                Below is that business running as one whole: services, pricing, FAQs, bookings,
+                and agents reading a single source of truth, improving itself every morning.
+                Everything here is interactive. Go on — change a price, approve the brief.
               </p>
             </div>
           </Reveal>
@@ -116,6 +117,83 @@ export default async function LivingSitePage() {
         </div>
       </section>
 
+      {/* ── the sample businesses — one living site per industry ───────── */}
+      <section className={styles.section} style={{ paddingTop: 28 }}>
+        <div className={styles.inner}>
+          <Reveal>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
+                •
+              </span>
+              <MicroLabel as="h2">the websites it writes · every industry</MicroLabel>
+            </div>
+          </Reveal>
+          <Reveal>
+            <p className={styles.sectionLede} style={{ marginTop: 0 }}>
+              Each template runs a complete sample business — fictional people, real system.
+              Every price, FAQ and testimonial below is read from that business&apos;s genome,
+              and an enquiry sent on any of them lands on its owner&apos;s desk.
+            </p>
+          </Reveal>
+          <div
+            style={{
+              display: 'grid',
+              gap: 14,
+              marginTop: 22,
+              gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+            }}
+          >
+            {SAMPLE_VERTICALS.map((v) => (
+              <Reveal key={v.slug}>
+                <Link href={`/living-site/${v.slug}`} style={{ textDecoration: 'none' }}>
+                  <article
+                    style={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 8,
+                      padding: '18px 20px',
+                      borderRadius: 18,
+                      background: palette.paper,
+                      border: `1px solid ${palette.hairline}`,
+                      boxShadow: '0 14px 34px rgba(24, 28, 38, 0.06)',
+                    }}
+                  >
+                    <MicroLabel style={{ color: v.palette.accent }}>{v.industryLabel}</MicroLabel>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
+                        fontSize: 21,
+                        lineHeight: 1.2,
+                        color: palette.ink,
+                      }}
+                    >
+                      {v.businessName}
+                    </p>
+                    <p style={{ margin: 0, fontSize: 12.5, color: palette.bodyGrey, lineHeight: 1.5 }}>
+                      {v.tagline}
+                    </p>
+                    <p
+                      style={{
+                        margin: 'auto 0 0',
+                        fontSize: 11,
+                        fontWeight: 700,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: palette.accentGold,
+                      }}
+                    >
+                      visit the sample site →
+                    </p>
+                  </article>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── outro ─────────────────────────────────────────────────────── */}
       <section className={styles.section} style={{ background: palette.paperDeep }}>
         <div className={styles.inner}>
@@ -147,8 +225,8 @@ export default async function LivingSitePage() {
                   </span>
                 </Link>
               </MagneticButton>
-              <Link href="/living-site/fred" className={styles.ctaGhost}>
-                see fred&apos;s website
+              <Link href="/living-site/dog-training" className={styles.ctaGhost}>
+                see the sample website
               </Link>
               <Link href="/pricing" className={styles.ctaGhost}>
                 pricing

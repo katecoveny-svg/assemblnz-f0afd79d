@@ -13,40 +13,70 @@ const display = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
 /**
  * The installer — the brief's flow, end to end:
  * choose an industry → answer ten questions → the system generates →
- * review what appeared → step inside. Demo: generation is simulated and
- * lands on Fred's Living Site; only the dog-training template is built.
+ * review what appeared → step inside. Demo: generation is simulated; every
+ * template lands on its industry's genome-backed sample site at
+ * /living-site/<id> (all sample businesses fictional).
  */
+
+import { SAMPLE_VERTICALS, verticalBySlug } from '@/lib/living-site/verticals';
 
 const INDUSTRIES: Array<{ id: string; name: string; blurb: string; ready: boolean }> = [
   { id: 'dog-training', name: 'dog training', blurb: 'programmes, reactive-dog triage, session notes', ready: true },
-  { id: 'hospitality', name: 'café & hospitality', blurb: 'menus, rosters, food-safety records', ready: false },
-  { id: 'trades', name: 'trades & construction', blurb: 'quotes, variations, consent trails', ready: false },
-  { id: 'health', name: 'physio & allied health', blurb: 'bookings, ACC notes, recall reminders', ready: false },
-  { id: 'beauty', name: 'salon & beauty', blurb: 'bookings, rebooking nudges, retail', ready: false },
-  { id: 'tutoring', name: 'tutoring & education', blurb: 'timetables, invoicing, progress reports', ready: false },
+  { id: 'customs', name: 'customs brokerage', blurb: 'entries, tariff codes, perishables triage', ready: true },
+  { id: 'architecture', name: 'architecture practice', blurb: 'concept to consent, site observation, RFIs', ready: true },
+  { id: 'hospitality', name: 'café & hospitality', blurb: 'menus, rosters, food-safety records', ready: true },
+  { id: 'trades', name: 'trades & construction', blurb: 'quotes, variations, consent trails', ready: true },
+  { id: 'health', name: 'physio & allied health', blurb: 'bookings, ACC notes, recall reminders', ready: true },
+  { id: 'beauty', name: 'salon & beauty', blurb: 'bookings, rebooking nudges, retail', ready: true },
+  { id: 'tutoring', name: 'tutoring & education', blurb: 'timetables, invoicing, progress reports', ready: true },
 ];
 
-const QUESTIONS: Array<{ id: string; q: string; sample: string }> = [
-  { id: 'q1', q: 'what is your business called?', sample: 'Auckland Dog Trainer · Learn To Talk Dog' },
-  { id: 'q2', q: 'who is behind it?', sample: 'Fred — method lead. Hiring a second trainer.' },
-  { id: 'q3', q: 'where do you work?', sample: 'Greater Auckland · in-home + Western Springs field' },
-  { id: 'q4', q: 'what do you sell, roughly priced?', sample: 'Private $299 · Recall $1,750 · Reactivity $2,200 · Board & Train $4,500' },
-  { id: 'q5', q: 'what question do customers ask you every week?', sample: '“What is a threshold?” and “Is a muzzle a punishment?”' },
-  { id: 'q6', q: 'what must never happen?', sample: 'Bite-history dogs going straight to group work' },
-  { id: 'q7', q: 'how do bookings work?', sample: '75-minute sessions, Thu/Fri field days, deposit to confirm' },
-  { id: 'q8', q: 'what proof do you have?', sample: '23 testimonials — latest: “a reliable house dog in 4 weeks”' },
-  { id: 'q9', q: 'what voice should it use?', sample: 'Warm, plain-spoken, method-first — never shouty' },
-  { id: 'q10', q: 'what should never send without you?', sample: 'Everything. Client emails, bookings, posts — all wait for my yes.' },
+const QUESTIONS: Array<{ id: string; q: string }> = [
+  { id: 'q1', q: 'what is your business called?' },
+  { id: 'q2', q: 'who is behind it?' },
+  { id: 'q3', q: 'where do you work?' },
+  { id: 'q4', q: 'what do you sell, roughly priced?' },
+  { id: 'q5', q: 'what question do customers ask you every week?' },
+  { id: 'q6', q: 'what must never happen?' },
+  { id: 'q7', q: 'how do bookings work?' },
+  { id: 'q8', q: 'what proof do you have?' },
+  { id: 'q9', q: 'what voice should it use?' },
+  { id: 'q10', q: 'what should never send without you?' },
 ];
+
+/** Sample answers derived from the chosen vertical's genome — the same facts
+ *  its sample site renders, so the story stays honest end-to-end. */
+function samplesFor(industryId: string | null): Record<string, string> {
+  const v = verticalBySlug(industryId ?? '') ?? SAMPLE_VERTICALS[0];
+  const byId = new Map(v.fallbackFacts.map((f) => [f.id, f]));
+  const section = (s: string) => v.fallbackFacts.filter((f) => f.section === s);
+  const services = section('services')
+    .slice(0, 4)
+    .map((f) => `${f.label} ${f.value.split('·')[0].trim()}`)
+    .join(' · ');
+  const knowledge = section('knowledge');
+  return {
+    q1: byId.get('g-name')?.value ?? v.businessName,
+    q2: byId.get('g-team')?.value ?? `${v.owner} — owner`,
+    q3: byId.get('g-area')?.value ?? '',
+    q4: services,
+    q5: knowledge[0]?.value.split('→')[0].trim() ?? '',
+    q6: knowledge[1]?.value ?? '',
+    q7: byId.get('g-booking-rules')?.value ?? '',
+    q8: byId.get('g-testimonials')?.value ?? '',
+    q9: byId.get('g-voice')?.value ?? '',
+    q10: 'Everything. Client emails, bookings, posts — all wait for my yes.',
+  };
+}
 
 const GENERATION: Array<{ label: string; detail: string }> = [
-  { label: 'business genome', detail: 'your ten answers become 14 facts — one source of truth' },
+  { label: 'business genome', detail: 'your ten answers become one source of truth' },
   { label: 'website', detail: 'hero, services, pricing, faqs, testimonials, book' },
-  { label: 'crm', detail: 'dog + owner profiles, stages, next actions' },
+  { label: 'crm', detail: 'client profiles, stages, next actions' },
   { label: 'knowledge base', detail: 'your answers, your policies, your method' },
-  { label: 'calendar & bookings', detail: '75-min sessions, field days, deposits' },
+  { label: 'calendar & bookings', detail: 'your booking rules, deposits, buffers' },
   { label: 'voice & chat agent', detail: 'answers only from the genome' },
-  { label: 'automations', detail: 'enquiry replies, homework emails — draft-only' },
+  { label: 'automations', detail: 'enquiry replies, follow-ups — draft-only' },
   { label: 'morning brief', detail: 'one improvement a day, waiting for your yes' },
 ];
 
@@ -99,7 +129,6 @@ export function InstallerFlow() {
 
   React.useEffect(() => {
     if (step !== 'generating') return;
-    setGenCount(0);
     const tick = window.setInterval(() => {
       setGenCount((n) => {
         if (n >= GENERATION.length) {
@@ -141,7 +170,8 @@ export function InstallerFlow() {
             </p>
             <p className={styles.sectionLede}>
               One template per industry — the agents, bookings, knowledge, and website that
-              business actually needs. Dog training is live today; the rest are in the studio.
+              business actually needs. Every template lands on a real, genome-backed sample
+              business you can touch.
             </p>
             <div
               style={{
@@ -231,11 +261,11 @@ export function InstallerFlow() {
             <div style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '20px 0', flexWrap: 'wrap' }}>
               <button
                 type="button"
-                onClick={() => setAnswers(Object.fromEntries(QUESTIONS.map((q) => [q.id, q.sample])))}
+                onClick={() => setAnswers(samplesFor(industry))}
                 className={styles.ctaGhost}
                 style={{ cursor: 'pointer' }}
               >
-                use fred&apos;s sample answers
+                use the sample answers
               </button>
               <span style={{ fontSize: 12, color: palette.bodyGrey }}>{answered}/10 answered</span>
             </div>
@@ -252,7 +282,7 @@ export function InstallerFlow() {
                     id={`install-${q.id}`}
                     value={answers[q.id] ?? ''}
                     onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))}
-                    placeholder={q.sample}
+                    placeholder={samplesFor(industry)[q.id]}
                     style={{
                       width: '100%',
                       marginTop: 10,
@@ -272,7 +302,10 @@ export function InstallerFlow() {
               <button
                 type="button"
                 disabled={answered < 10}
-                onClick={() => setStep('generating')}
+                onClick={() => {
+                  setGenCount(0);
+                  setStep('generating');
+                }}
                 className={styles.ctaPrimary}
                 style={{ border: 'none', cursor: answered === 10 ? 'pointer' : 'not-allowed', opacity: answered === 10 ? 1 : 0.5 }}
               >
@@ -352,8 +385,10 @@ export function InstallerFlow() {
               </span>
             </p>
             <p className={styles.sectionLede}>
-              This demo lands on Fred&apos;s — a real Living Site, generated from answers exactly
-              like yours. Everything below is interactive.
+              This demo lands on{' '}
+              {verticalBySlug(industry ?? '')?.businessName ?? 'a sample business'} — a real,
+              genome-backed Living Site (fictional business, live system). Everything below is
+              interactive.
             </p>
             <div
               style={{
@@ -364,7 +399,7 @@ export function InstallerFlow() {
               }}
             >
               {[
-                { href: '/living-site/fred', title: 'the website', body: 'hero, programmes, pricing, faqs, book — all read from the genome' },
+                { href: `/living-site/${industry ?? 'dog-training'}`, title: 'the website', body: 'hero, services, pricing, faqs, book — all read from the genome' },
                 { href: '/living-site', title: 'the operating system', body: 'the genome ripple + the morning brief, live' },
                 { href: '/contact', title: 'your own install', body: 'guided setup with the assembl team — bring your website and docs' },
               ].map((c) => (

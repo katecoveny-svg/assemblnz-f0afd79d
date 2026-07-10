@@ -12,12 +12,12 @@ import {
 } from 'three';
 
 /**
- * Auckland Dog Trainer hero — method-first, not daycare.
+ * Harbourside Dog Training hero — method-first, not daycare.
  *
  * No Franklin, no Happy Tails photography. A training-field massing:
  * soft ground plane, a living leash arc, handler + dog silhouettes as
  * simple volumes, and floating "hand-signal" rings in navy / blush.
- * Inventive and editorial — Learn To Talk Dog, not pack-life daycare.
+ * Inventive and editorial — calm, method-first, not pack-life daycare.
  */
 const NAVY = '#1B2A4A';
 const BLUSH = '#D4A5B0';

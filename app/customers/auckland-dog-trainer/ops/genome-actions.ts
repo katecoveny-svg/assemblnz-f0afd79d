@@ -54,7 +54,7 @@ export async function updateGenomeFactAction(
 
   // Every surface that reads the genome re-renders with the new value.
   revalidatePath('/living-site');
-  revalidatePath('/living-site/fred');
+  revalidatePath('/living-site/dog-training');
   revalidatePath('/customers/auckland-dog-trainer/ops');
   return { ok: true };
 }

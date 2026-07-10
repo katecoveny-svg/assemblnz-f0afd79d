@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 const serif = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
 
 export default function CustomersHub() {
-  // Fred is featured up top as the flagship Living Site — skip his hub card.
+  // Sam is featured up top as the flagship Living Site — skip his hub card.
   const concepts = TENANTS.filter(
     (t) => t.status === 'concept' && t.slug !== 'auckland-dog-trainer',
   );
@@ -82,10 +82,10 @@ export default function CustomersHub() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <h3 className="text-lg" style={{ fontFamily: serif, fontWeight: 600, color: '#fff' }}>
-                  Auckland Dog Trainer · Learn To Talk Dog
+                  Harbourside Dog Training · calm, method-first
                 </h3>
                 <p className="mt-1 text-xs" style={{ color: '#D4A5B0' }}>
-                  Fred · the first complete Living Site — genome, brief, website, desk
+                  Sam · the first complete Living Site — genome, brief, website, desk
                 </p>
               </div>
               <MatarikiCluster size={24} gold />
@@ -93,7 +93,7 @@ export default function CustomersHub() {
             <p className="mt-3 text-sm leading-relaxed" style={{ color: '#c7d0dd' }}>
               One Business Genome in the database; the public website, booking form, ops console,
               morning brief, and desk agent all read it. Change a fact once and every surface
-              rewrites itself — enquiries from the public site land on Fred&apos;s desk.
+              rewrites itself — enquiries from the public site land on Sam&apos;s desk.
             </p>
             <div className="mt-4 flex flex-wrap gap-4">
               <Link
@@ -111,7 +111,7 @@ export default function CustomersHub() {
                 edit the genome →
               </Link>
               <Link
-                href="/living-site/fred"
+                href="/living-site/dog-training"
                 className="text-[10px] uppercase"
                 style={{ letterSpacing: '0.16em', color: '#D4A5B0' }}
               >

@@ -74,7 +74,7 @@ function offerLabel(slug: OfferSlug): string {
 
 function TabBar({ active }: { active: FredTabKey }) {
   return (
-    <nav aria-label="Auckland Dog Trainer sections" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+    <nav aria-label="Harbourside Dog Training sections" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
       {FRED_TABS.map((t) => {
         const on = t.key === active;
         return (
@@ -110,10 +110,10 @@ function TabBar({ active }: { active: FredTabKey }) {
 function Hero() {
   return (
     <section style={{ padding: '4px 2px 0' }}>
-      <p style={{ ...eyebrow, color: PINK_DEEP }}>Fred&apos;s method · operating system</p>
+      <p style={{ ...eyebrow, color: PINK_DEEP }}>Sam&apos;s method · operating system</p>
       <p style={{ margin: '8px 0 0', fontSize: 14.5, lineHeight: 1.55, color: MUTED, maxWidth: 520 }}>
         Intake, session notes → homework, programme journeys, course studio, and social from
-        session clips — scale the method without losing Fred&apos;s standard.
+        session clips — scale the method without losing Sam&apos;s standard.
       </p>
     </section>
   );
@@ -240,7 +240,7 @@ function WeekTab() {
       <KillerDemo />
       <OsStagger style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
         {[
-          { k: 'capacity', v: `${TIME_COCKPIT.capacityPct}%`, s: 'Fred this week' },
+          { k: 'capacity', v: `${TIME_COCKPIT.capacityPct}%`, s: 'Sam this week' },
           { k: 'sessions', v: String(TIME_COCKPIT.sessionsToday), s: 'today' },
           { k: 'follow-ups', v: String(TIME_COCKPIT.followUpsDue), s: 'due' },
           { k: 'admin debt', v: `${TIME_COCKPIT.adminDebtMins}m`, s: 'unpaid load' },
@@ -308,7 +308,7 @@ function WeekTab() {
                 Homework · {v.homework}
               </p>
               <p style={{ ...eyebrow, marginTop: 8, color: v.needsFred ? '#B54A4A' : GOLD }}>
-                {v.needsFred ? 'queued for Fred' : 'Support Agent can answer'}
+                {v.needsFred ? 'queued for Sam' : 'Support Agent can answer'}
               </p>
             </div>
           ))}
@@ -473,7 +473,7 @@ function LeadsTab({ liveEnquiries = [] }: { liveEnquiries?: LiveEnquiry[] }) {
       <div style={{ ...glass, padding: 16 }}>
         <p style={eyebrow}>lead triage · Intake + Pathway + Risk agents</p>
         <p style={{ margin: '6px 0 0', fontSize: 14, color: MUTED, lineHeight: 1.5 }}>
-          Dog profile, issue type, urgency, risk level, recommended offer — sorted before Fred replies.
+          Dog profile, issue type, urgency, risk level, recommended offer — sorted before Sam replies.
         </p>
       </div>
       {leads.map((lead) => (
@@ -664,7 +664,7 @@ function CourseTab() {
 function SupportTab() {
   const bucketLabel = {
     urgent: 'urgent / safety',
-    'needs-fred': 'needs Fred',
+    'needs-fred': 'needs Sam',
     'course-answer': 'course can answer',
     booking: 'booking opportunity',
   } as const;
@@ -703,7 +703,7 @@ function TimeTab() {
           <div style={{ width: `${TIME_COCKPIT.capacityPct}%`, height: '100%', background: `linear-gradient(90deg, ${PINK}, ${PINK_DEEP})`, borderRadius: 999 }} />
         </div>
         <p style={{ margin: '8px 0 0', fontSize: 14, color: NAVY }}>
-          Fred at {TIME_COCKPIT.capacityPct}% · travel {TIME_COCKPIT.travelMins}m · admin debt {TIME_COCKPIT.adminDebtMins}m · unpaid support {TIME_COCKPIT.unpaidSupportMins}m
+          Sam at {TIME_COCKPIT.capacityPct}% · travel {TIME_COCKPIT.travelMins}m · admin debt {TIME_COCKPIT.adminDebtMins}m · unpaid support {TIME_COCKPIT.unpaidSupportMins}m
         </p>
       </div>
       <div style={{ ...glass, padding: 16 }}>
@@ -738,7 +738,7 @@ function HiringTab() {
       <div style={{ ...glass, padding: 16, background: BLUSH }}>
         <p style={eyebrow}>draft job ad · indicative</p>
         <p style={{ margin: '8px 0 0', fontSize: 14, color: NAVY, lineHeight: 1.55 }}>
-          Auckland Dog Trainer is hiring a second trainer who can learn to talk dog the Fred way —
+          Harbourside Dog Training is hiring a second trainer who can harbourside dog training the Sam way —
           clear communication, ethical tools, calm handling, and zero ego with reactive cases.
         </p>
       </div>

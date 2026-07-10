@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import { storeEnquiry } from '@/lib/customers/auckland-dog-trainer/genome-store';
+import { VERTICAL_TENANTS } from '@/lib/living-site/verticals';
 
 export const maxDuration = 15;
 
 /**
- * Public enquiry intake for Fred's Living Site landing page.
+ * Public enquiry intake for Sam's Living Site landing page.
  * Writes to living_site_enquiries via the service client (RLS deny-all).
- * Draft-only downstream: nothing emails Fred's clients from here.
+ * Draft-only downstream: nothing emails Sam's clients from here.
  */
 export async function POST(request: Request) {
   let body: unknown;
@@ -31,6 +32,10 @@ export async function POST(request: Request) {
   const email = str(b.email, 200);
   const message = str(b.message, 2000);
   const dog = str(b.dog, 200) ?? undefined;
+  // Tenant must be one of the known sample verticals — anything else lands
+  // on the flagship rather than minting arbitrary tenant rows.
+  const rawTenant = str(b.tenant, 60);
+  const tenant = rawTenant && VERTICAL_TENANTS.has(rawTenant) ? rawTenant : undefined;
 
   if (!name || !email || !message || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return NextResponse.json(
@@ -39,7 +44,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const stored = await storeEnquiry({ name, email, dog, message });
+  const stored = await storeEnquiry({ name, email, dog, message, tenant });
   if (!stored) {
     return NextResponse.json(
       { ok: false, error: 'could not store the enquiry — try again shortly' },

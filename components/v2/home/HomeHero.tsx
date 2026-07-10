@@ -57,7 +57,7 @@ export function HomeHero({
   genomeFacts,
   surfaces,
 }: {
-  /** Facts in the Business Genome (canonical Fred seed). */
+  /** Facts in the Business Genome (canonical Sam seed). */
   genomeFacts: number;
   /** Surfaces that read the genome (website, CRM, bookings, agents, …). */
   surfaces: number;

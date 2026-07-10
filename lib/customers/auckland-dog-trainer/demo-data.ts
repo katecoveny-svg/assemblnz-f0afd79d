@@ -1,5 +1,5 @@
 /**
- * Fred OS — extended command-centre demo data.
+ * Sam OS — extended command-centre demo data.
  * SAMPLE only. Offers track aucklanddogtrainer.com + pitch brief pricing.
  */
 
@@ -208,7 +208,7 @@ export const CHALLENGES: ChallengeCard[] = [
   {
     id: 'unsure',
     title: 'I’m not sure yet',
-    blurb: 'Start with a private assessment — Fred maps the right path.',
+    blurb: 'Start with a private assessment — Sam maps the right path.',
     mapsTo: 'private',
   },
 ];
@@ -247,12 +247,12 @@ export const QUIZ: QuizQuestion[] = [
 
 export const AGENT_MESH: AgentMeshItem[] = [
   { id: 'intake', name: 'Intake Agent', job: 'Reads enquiry forms → dog/client profiles', status: 'live' },
-  { id: 'pathway', name: 'Pathway Agent', job: 'Recommends the right Fred offer', status: 'live' },
+  { id: 'pathway', name: 'Pathway Agent', job: 'Recommends the right Sam offer', status: 'live' },
   { id: 'risk', name: 'Risk Agent', job: 'Flags bite history, aggression, child safety', status: 'watching' },
   { id: 'scribe', name: 'Session Scribe', job: 'Voice notes → CRM + client summaries', status: 'live' },
   { id: 'homework', name: 'Homework Agent', job: 'Weekly owner tasks', status: 'live' },
-  { id: 'video', name: 'Video Review Agent', job: 'Summarises clips; queues Fred checks', status: 'drafting' },
-  { id: 'support', name: 'Support Agent', job: 'Answers repeats from Fred’s material', status: 'live' },
+  { id: 'video', name: 'Video Review Agent', job: 'Summarises clips; queues Sam checks', status: 'drafting' },
+  { id: 'support', name: 'Support Agent', job: 'Answers repeats from Sam’s material', status: 'live' },
   { id: 'course', name: 'Course Agent', job: 'Lessons, worksheets, Google Vids scripts', status: 'drafting' },
   { id: 'content', name: 'Content Agent', job: 'Posts, emails, course promos from issues', status: 'watching' },
   { id: 'time', name: 'Time Agent', job: 'Calendar, travel, admin debt, capacity', status: 'live' },
@@ -312,7 +312,7 @@ export const LEADS: Lead[] = [
     source: 'Landing quiz',
     receivedAt: 'Just now',
     draftReply:
-      'Kia ora Alex & Mo — thanks for the quiz about Nova. From what you’ve shared, Reactivity Rewired is the cleanest path: six weeks of threshold work, engagement, and safer walks. I’ve reserved a private assessment slot so we can confirm fit. Draft only — Fred will send.',
+      'Kia ora Alex & Mo — thanks for the quiz about Nova. From what you’ve shared, Reactivity Rewired is the cleanest path: six weeks of threshold work, engagement, and safer walks. I’ve reserved a private assessment slot so we can confirm fit. Draft only — Sam will send.',
     explainerVideo: 'Understanding thresholds (Reactivity W2)',
   },
   {
@@ -542,7 +542,7 @@ export const PROGRAMMES: Programme[] = [
     name: 'Group Bootcamp',
     weeks: 4,
     priceSample: 'launching soon',
-    blurb: 'NEW — small-group Saturday intensives: obedience, lead work, and real-world manners around other dogs. Fred coaches the humans; the group proofs the dogs.',
+    blurb: 'NEW — small-group Saturday intensives: obedience, lead work, and real-world manners around other dogs. Sam coaches the humans; the group proofs the dogs.',
     activeDogs: 0,
     curriculum: [
       { week: 1, title: 'Group foundations & engagement', ownerTask: 'Daily 5-min engagement reps before meals' },
@@ -556,7 +556,7 @@ export const PROGRAMMES: Programme[] = [
     name: 'Online Course',
     weeks: null,
     priceSample: 'building · SAMPLE',
-    blurb: 'Turn Fred’s method into modules, worksheets, and student support — with upsells to private help.',
+    blurb: 'Turn Sam’s method into modules, worksheets, and student support — with upsells to private help.',
     activeDogs: 0,
     curriculum: [],
   },
@@ -694,7 +694,7 @@ export const REVENUE_SAMPLE = {
   bookingsPending: 3,
   activeProgrammes: 12,
   courseWaitlist: 18,
-  trainerCapacity: 'Fred at 92% · second trainer needed',
+  trainerCapacity: 'Sam at 92% · second trainer needed',
   repeatClients: '41%',
 };
 
@@ -714,5 +714,5 @@ export const COURSE_STUDIO_DRAFT = {
   ownerTask: 'Track distance before reaction on three walks',
   worksheet: 'Threshold distance log · 7-day grid',
   googleVidsPrompt:
-    'Storyboard a 90-sec training lesson: title Understanding thresholds, B-roll of calm walk at distance, on-camera Fred intro/outro, lower-third: “Distance is a tool”.',
+    'Storyboard a 90-sec training lesson: title Understanding thresholds, B-roll of calm walk at distance, on-camera Sam intro/outro, lower-third: “Distance is a tool”.',
 };

@@ -4,7 +4,14 @@
 system**, not an AI agent marketplace. One Business Genome per customer;
 every surface (website, CRM, bookings, knowledge, agents, emails) reads it.
 "Less admin. More mahi." / "assembl grows your business while you run it."
-First vertical: Fred the Dog Trainer (`auckland-dog-trainer`).
+
+**The demo cast is FICTIONAL (locked 2026-07-10):** no real prospect has
+agreed to appear, so no demo surface may name a real business or person.
+Flagship vertical: "Harbourside Dog Training" / owner "Sam" (tenant key
+`auckland-dog-trainer` is a legacy identifier only — never surface the old
+real-world branding it once carried). All sample verticals live in
+`lib/living-site/verticals.ts` + `living_site_genome`; every sample site
+carries a "sample business — details fictional" strip. Keep it that way.
 
 **Read `docs/LIVING-SITE-HANDOVER.md` before touching Living Site work** —
 it carries the full state, database details, PR history, and the open list.

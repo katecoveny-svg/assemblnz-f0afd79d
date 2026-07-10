@@ -514,6 +514,14 @@ const productRedirect = (request: NextRequest) => {
   const pathname = request.nextUrl.pathname;
   const url = request.nextUrl.clone();
 
+  // The flagship sample site briefly shipped at /living-site/fred; the demo
+  // cast is fictional now and the page lives at its industry slug.
+  if (matchesPrefix(pathname, '/living-site/fred')) {
+    url.pathname = '/living-site/dog-training';
+    url.search = '';
+    return NextResponse.redirect(url, 308);
+  }
+
   if (matchesPrefix(pathname, '/toro/route')) {
     url.pathname = '/app/voyage/italy';
     return NextResponse.redirect(url, 307);

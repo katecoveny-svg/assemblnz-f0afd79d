@@ -48,9 +48,9 @@ export default async function AucklandDogTrainerOpsHome({
       config={config}
       heroHeightClass="min-h-64 md:min-h-80"
       patternOpacity={0.08}
-      heroEyebrow="learn to talk dog · auckland"
-      heroTitle="Auckland Dog Trainer"
-      heroBlurb="Learn To Talk Dog, operating at scale — session notes to homework, programmes, course, and social from the field."
+      heroEyebrow="harbourside dog training · auckland"
+      heroTitle="Harbourside Dog Training"
+      heroBlurb="calm, method-first, operating at scale — session notes to homework, programmes, course, and social from the field."
     >
       <div className="flex flex-col gap-5">
         <DemoRibbon />

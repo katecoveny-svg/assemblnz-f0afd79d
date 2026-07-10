@@ -6,9 +6,9 @@ import { OpsShell } from '@/components/ops/OpsShell';
 import { InviteGreeting } from '@/components/ops/InviteGreeting';
 
 export const metadata: Metadata = {
-  title: 'Auckland Dog Trainer — Learn To Talk Dog command centre · assembl',
+  title: 'Harbourside Dog Training — calm, method-first command centre · assembl',
   description:
-    'Auckland Dog Trainer operating system — morning brief, Business Genome, landing hub, lead triage, training CRM, programme journeys, course studio, social, time cockpit, hiring, and agent mesh. Draft-only. Fred runs the method.',
+    'Harbourside Dog Training operating system — morning brief, Business Genome, landing hub, lead triage, training CRM, programme journeys, course studio, social, time cockpit, hiring, and agent mesh. Draft-only. Sam runs the method.',
   robots: { index: false, follow: false },
 };
 
@@ -19,7 +19,7 @@ export const viewport: Viewport = {
 };
 
 const NAV: Array<[string, string]> = [
-  ["Fred's Week", '?tab=week'],
+  ["Sam's Week", '?tab=week'],
   ['Morning brief', '?tab=brief'],
   ['Business Genome', '?tab=genome'],
   ['Landing hub', '?tab=landing'],

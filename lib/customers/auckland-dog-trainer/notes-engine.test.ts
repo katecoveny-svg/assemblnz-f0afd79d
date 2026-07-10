@@ -4,7 +4,7 @@ import {
   DEFAULT_NOTE,
 } from '@/lib/customers/auckland-dog-trainer/notes-engine';
 
-describe('Fred OS session notes engine', () => {
+describe('Sam OS session notes engine', () => {
   it('transforms the Bruno sample into the six killer outputs', () => {
     const plan = transformSessionNotes(DEFAULT_NOTE);
     expect(plan.dogProfile.name).toBe('Bruno');

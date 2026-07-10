@@ -16,7 +16,7 @@ import { transformSessionNotes } from '@/lib/customers/auckland-dog-trainer/note
 export const maxDuration = 60;
 
 const WORKSPACE_CITE = {
-  title: 'Auckland Dog Trainer workspace',
+  title: 'Harbourside Dog Training workspace',
   ref: 'programmes · dogs · leads · notes engine · social',
   tier: 'C' as const,
 };
@@ -35,7 +35,7 @@ function recommendOffer(text: string): OfferSlug {
 const fredTools = {
   listProgrammes: tool({
     description:
-      'List Fred’s programme catalogue with SAMPLE prices and active-dog counts. Use before recommending an offer.',
+      'List Sam’s programme catalogue with SAMPLE prices and active-dog counts. Use before recommending an offer.',
     inputSchema: z.object({}),
     execute: async () => ({
       programmes: PROGRAMMES,
@@ -74,9 +74,9 @@ const fredTools = {
         triageNote:
           urgency === 'urgent'
             ? 'Safety flag — private assessment first; do not route to group or park work yet.'
-            : `Likely fit for ${OFFERS[recommended].label}. Fred confirms before booking.`,
+            : `Likely fit for ${OFFERS[recommended].label}. Sam confirms before booking.`,
         similarLeads: similar,
-        draftReplyHint: `Kia ora — thanks for getting in touch about ${i.dog ?? 'your dog'}. From what you've shared, ${OFFERS[recommended].label} looks like the cleanest next step (${OFFERS[recommended].priceSample}). Draft only — Fred sends.`,
+        draftReplyHint: `Kia ora — thanks for getting in touch about ${i.dog ?? 'your dog'}. From what you've shared, ${OFFERS[recommended].label} looks like the cleanest next step (${OFFERS[recommended].priceSample}). Draft only — Sam sends.`,
         explainerHint:
           recommended === 'reactivity'
             ? 'Understanding thresholds (Reactivity W2)'
@@ -97,12 +97,12 @@ const fredTools = {
     execute: async ({ transcript }) => ({
       plan: transformSessionNotes(transcript),
       citations: [WORKSPACE_CITE],
-      note: 'Draft only — Fred reviews before anything is sent to the owner.',
+      note: 'Draft only — Sam reviews before anything is sent to the owner.',
     }),
   }),
 
   lookupDog: tool({
-    description: 'Look up a dog already on a Fred programme by name.',
+    description: 'Look up a dog already on a Sam programme by name.',
     inputSchema: z.object({ name: z.string() }),
     execute: async ({ name }) => {
       const q = name.trim().toLowerCase();
