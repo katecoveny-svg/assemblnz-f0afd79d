@@ -16,6 +16,15 @@ carries a "sample business — details fictional" strip. Keep it that way.
 **Read `docs/LIVING-SITE-HANDOVER.md` before touching Living Site work** —
 it carries the full state, database details, PR history, and the open list.
 
+**Design canon (locked 2026-07-10): `docs/DESIGN-SYSTEM-VNEXT.md`.** The
+short version: not a SaaS dashboard — the calmest business OS ever designed.
+One primary action per screen; progressive disclosure; if a screen can lose
+half its elements, remove them. Quiet editorial typography, whitespace, one
+restrained accent; motion assembles (nothing pops or bounces). Human words,
+no AI jargon, never expose implementation. Don't make it look like an AI
+product — make it look like the future of running a business. Success
+metric: "How did it already know that?"
+
 ## Invariants that bite
 
 - `middleware.ts` splash gate rewrites every non-exempt path to `/` on
