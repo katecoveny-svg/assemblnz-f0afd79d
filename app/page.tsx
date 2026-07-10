@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { palette, motto } from '@assembl/canvas/tokens';
 import { KpiTrio, MicroLabel } from '@assembl/canvas';
 import { V2Nav } from '@/components/v2/V2Chrome';
 import { HomeHero } from '@/components/v2/home/HomeHero';
 import { LivingSiteEvolution } from '@/components/v2/home/LivingSiteEvolution';
+import { SampleSiteWall } from '@/components/v2/home/SampleSiteWall';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
 import { AssemblWordmark } from '@/components/site/AssemblWordmark';
-import { orderedBundles } from '@/lib/marketplace/bundles';
 import {
   GENOME_FACTS,
   GENOME_SURFACES,
@@ -30,7 +31,6 @@ export const metadata: Metadata = {
  * chrome (the global SiteHeader/Footer suppress themselves on "/").
  */
 export default async function HomePage() {
-  const bundles = orderedBundles();
   return (
     <div className={styles.page}>
       <V2Nav />
@@ -77,85 +77,13 @@ export default async function HomePage() {
                 understanding of how your business works.
               </p>
               <p style={{ margin: '14px 0 0', fontSize: 17.5, lineHeight: 1.55, color: palette.ink }}>
-                We call it your <strong>Business Genome</strong>
+                We call it your <strong>Business Genome</strong>. One business. One brain.
+                Update something once — it updates everywhere
                 <span aria-hidden style={{ color: palette.accentGold }}>
                   .
                 </span>
               </p>
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── one business. one brain. ───────────────────────────────────── */}
-      <section className={styles.section} style={{ paddingTop: 28, background: palette.paperDeep }}>
-        <div className={styles.inner}>
-          <Reveal>
-            <div className={styles.sectionHead}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
-                  •
-                </span>
-                <MicroLabel as="h2">the business genome</MicroLabel>
-              </div>
-              <p className={styles.h2} style={{ marginTop: 16 }}>
-                one business. one brain
-                <span aria-hidden style={{ color: palette.accentGold }}>
-                  .
-                </span>
-              </p>
-              <p className={styles.sectionLede}>
-                Your Business Genome becomes the single source of truth for everything.
-                From one place, assembl powers:
-              </p>
-            </div>
-          </Reveal>
-          <Reveal>
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 10,
-                marginTop: 24,
-                maxWidth: 720,
-              }}
-            >
-              {[
-                'your website',
-                'your CRM',
-                'your knowledge base',
-                'your customer portal',
-                'your bookings',
-                'your assistants',
-                'your voice agents',
-                'your dashboards',
-                'your automations',
-                'your marketing',
-              ].map((surface) => (
-                <span
-                  key={surface}
-                  style={{
-                    fontSize: 13.5,
-                    fontWeight: 600,
-                    padding: '9px 16px',
-                    borderRadius: 999,
-                    background: palette.paper,
-                    border: `1px solid ${palette.hairline}`,
-                    color: palette.ink,
-                  }}
-                >
-                  {surface}
-                </span>
-              ))}
-            </div>
-          </Reveal>
-          <Reveal>
-            <p style={{ margin: '28px 0 0', fontSize: 17.5, lineHeight: 1.55, color: palette.ink, maxWidth: 560 }}>
-              Update something once. It updates everywhere
-              <span aria-hidden style={{ color: palette.accentGold }}>
-                .
-              </span>
-            </p>
           </Reveal>
         </div>
       </section>
@@ -241,51 +169,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── less software. more momentum. ─────────────────────────────── */}
-      <section className={styles.section} style={{ paddingTop: 28, background: palette.paperDeep }}>
-        <div className={styles.inner}>
-          <Reveal>
-            <div className={styles.sectionHead}>
-              <p className={styles.h2}>
-                less software. more momentum
-                <span aria-hidden style={{ color: palette.accentGold }}>
-                  .
-                </span>
-              </p>
-              <p className={styles.sectionLede}>
-                assembl takes care of the repetitive work that slows businesses down.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal>
-            <div style={{ maxWidth: 560, margin: '24px 0 0' }}>
-              {[
-                'Following up with customers.',
-                'Keeping information consistent.',
-                'Answering common questions.',
-                'Organising knowledge.',
-                'Finding opportunities.',
-                'Surfacing improvements.',
-              ].map((line) => (
-                <p
-                  key={line}
-                  style={{ margin: '0 0 10px', fontSize: 16.5, lineHeight: 1.5, color: palette.bodyGrey }}
-                >
-                  {line}
-                </p>
-              ))}
-              <p style={{ margin: '24px 0 0', fontSize: 17.5, lineHeight: 1.55, color: palette.ink }}>
-                So you can spend more time doing the work that matters
-                <span aria-hidden style={{ color: palette.accentGold }}>
-                  .
-                </span>
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── collections — floating bundle cards ──────────────────────── */}
+      {/* ── the visible demo — eight live sample businesses ───────────── */}
       <section className={styles.section} style={{ paddingTop: 40 }}>
         <div className={styles.inner}>
           <Reveal>
@@ -294,79 +178,24 @@ export default async function HomePage() {
                 <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
                   •
                 </span>
-                <MicroLabel as="h2">industry templates</MicroLabel>
+                <MicroLabel as="h2">see it, don&apos;t read it</MicroLabel>
               </div>
               <p className={styles.h2} style={{ marginTop: 16 }}>
-                your industry, ready to install
+                eight businesses, running live
                 <span aria-hidden style={{ color: palette.accentGold }}>
                   .
                 </span>
               </p>
               <p className={styles.sectionLede}>
-                One template per industry — the agents, bookings, knowledge and website that
-                business actually needs.
+                Sample businesses, real system. Open one — every price and FAQ reads live
+                from its genome.
               </p>
             </div>
           </Reveal>
-
-          <div className={styles.cardGrid}>
-            {bundles.map((b, i) => {
-              const floatClass = styles[`float${(i % 4) + 1}` as keyof typeof styles] as
-                | string
-                | undefined;
-              return (
-                <Link
-                  key={b.slug}
-                  href="/install"
-                  className={`${styles.cardLink} ${floatClass ?? ''} rise`}
-                  style={{ textDecoration: 'none' }}
-                >
-                  <article
-                    style={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 10,
-                      padding: '20px 22px',
-                      borderRadius: 18,
-                      background: palette.paper,
-                      border: `1px solid ${palette.hairline}`,
-                      boxShadow: '0 14px 34px rgba(24, 28, 38, 0.06)',
-                    }}
-                  >
-                    <MicroLabel style={{ color: palette.bodyGrey }}>{b.category}</MicroLabel>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
-                        fontSize: 21,
-                        lineHeight: 1.2,
-                        color: palette.ink,
-                      }}
-                    >
-                      {b.name}
-                    </p>
-                    <p
-                      style={{
-                        margin: 'auto 0 0',
-                        fontSize: 12,
-                        fontWeight: 700,
-                        letterSpacing: '0.08em',
-                        textTransform: 'uppercase',
-                        color: palette.accentGold,
-                      }}
-                    >
-                      install →
-                    </p>
-                  </article>
-                </Link>
-              );
-            })}
-          </div>
-
+          <SampleSiteWall />
           <Reveal>
             <Link href="/install" className={styles.sectionLink} style={{ marginTop: 44 }}>
-              choose yours — ten questions and it assembles
+              install yours — ten questions and it assembles
               <span aria-hidden style={{ color: palette.accentGold }}>
                 →
               </span>
@@ -375,24 +204,50 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── built for new zealand businesses ──────────────────────────── */}
-      <section className={styles.section} style={{ paddingTop: 28 }}>
-        <div className={styles.inner}>
-          <Reveal>
-            <div className={styles.sectionHead}>
-              <p className={styles.h2}>
-                built for new zealand businesses
-                <span aria-hidden style={{ color: palette.accentGold }}>
-                  .
-                </span>
-              </p>
-              <p className={styles.sectionLede}>
-                assembl is designed around the way Kiwi businesses actually work. Simple.
-                Practical. No unnecessary complexity. Just software that earns its place
-                every day.
-              </p>
-            </div>
-          </Reveal>
+      {/* ── aotearoa — the one photographic moment ─────────────────────── */}
+      <section aria-label="Built in Aotearoa" style={{ position: 'relative', minHeight: 'clamp(260px, 42vw, 460px)', overflow: 'hidden' }}>
+        <Image
+          src="/images/site/landscape-tapeka-bay-of-islands.png"
+          alt="Tapeka Point, Bay of Islands — coastal headland at golden hour"
+          fill
+          sizes="100vw"
+          style={{ objectFit: 'cover' }}
+        />
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(26,25,24,0.05) 30%, rgba(26,25,24,0.55) 100%)',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            padding: 'clamp(20px, 4vw, 44px)',
+            color: '#fff',
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
+              fontSize: 'clamp(22px, 3.4vw, 34px)',
+              lineHeight: 1.2,
+              maxWidth: 560,
+            }}
+          >
+            built for new zealand businesses
+            <span aria-hidden style={{ color: palette.goldSoft }}>
+              .
+            </span>
+          </p>
+          <p style={{ margin: '8px 0 0', fontSize: 14, maxWidth: 460, color: 'rgba(255,255,255,0.85)' }}>
+            Simple. Practical. Software that earns its place every day.
+          </p>
         </div>
       </section>
 

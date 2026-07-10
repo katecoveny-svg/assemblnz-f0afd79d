@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { SampleEnquiryForm } from '@/components/living-site/SampleEnquiryForm';
 import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
+import { Reveal } from '@/components/site/Reveal';
+import art from '@/components/living-site/sample.module.css';
 import { getBrandFonts } from '@/lib/brand/fonts';
 import { getGenomeFactsFor } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
@@ -144,55 +146,69 @@ export default async function SampleVerticalPage({ params }: { params: Promise<P
       </header>
 
       <main style={{ maxWidth: 1080, margin: '0 auto', padding: '0 clamp(18px, 5vw, 56px) 64px' }}>
-        {/* ── hero ───────────────────────────────────────────────────── */}
-        <section style={{ padding: '52px 0 40px', maxWidth: 720 }}>
-          {area ? <p style={eyebrow}>{area.toLowerCase()}</p> : null}
-          <h1 style={{ margin: '14px 0 0', fontFamily: display, fontSize: 'clamp(34px, 5vw, 52px)', lineHeight: 1.08 }}>
-            {v.heroHeadline}
-          </h1>
-          <p style={{ margin: '16px 0 0', fontSize: 16, lineHeight: 1.6, color: p.muted, maxWidth: 540 }}>
-            {v.heroLede}
-          </p>
-          <div style={{ display: 'flex', gap: 10, marginTop: 22, flexWrap: 'wrap' }}>
-            <a
-              href="#book"
-              style={{
-                fontSize: 12.5,
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                padding: '12px 22px',
-                borderRadius: 999,
-                background: p.ink,
-                color: '#fff',
-                textDecoration: 'none',
-              }}
-            >
-              get in touch
-            </a>
-            <a
-              href="#services"
-              style={{
-                fontSize: 12.5,
-                fontWeight: 700,
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                padding: '12px 22px',
-                borderRadius: 999,
-                border: `1.5px solid ${p.ink}33`,
-                color: p.ink,
-                textDecoration: 'none',
-                background: p.card,
-              }}
-            >
-              services &amp; pricing
-            </a>
+        {/* ── hero — copy + generative art in the business's palette ──── */}
+        <section className={art.heroGrid}>
+          <div>
+            {area ? <p style={eyebrow}>{area.toLowerCase()}</p> : null}
+            <h1 style={{ margin: '14px 0 0', fontFamily: display, fontSize: 'clamp(34px, 5vw, 52px)', lineHeight: 1.08 }}>
+              {v.heroHeadline}
+            </h1>
+            <p style={{ margin: '16px 0 0', fontSize: 16, lineHeight: 1.6, color: p.muted, maxWidth: 540 }}>
+              {v.heroLede}
+            </p>
+            <div style={{ display: 'flex', gap: 10, marginTop: 22, flexWrap: 'wrap' }}>
+              <a
+                href="#book"
+                style={{
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  padding: '12px 22px',
+                  borderRadius: 999,
+                  background: p.ink,
+                  color: '#fff',
+                  textDecoration: 'none',
+                }}
+              >
+                get in touch
+              </a>
+              <a
+                href="#services"
+                style={{
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  padding: '12px 22px',
+                  borderRadius: 999,
+                  border: `1.5px solid ${p.ink}33`,
+                  color: p.ink,
+                  textDecoration: 'none',
+                  background: p.card,
+                }}
+              >
+                services &amp; pricing
+              </a>
+            </div>
+          </div>
+          <div
+            aria-hidden
+            className={art.heroArt}
+            style={{
+              background: `radial-gradient(120% 120% at 15% 10%, ${p.accent} 0%, ${p.ink} 62%, ${p.ink} 100%)`,
+              boxShadow: `0 24px 60px ${p.ink}33`,
+            }}
+          >
+            <span className={art.heroArtRing} style={{ width: '68%', aspectRatio: '1', left: '-18%', top: '-22%' }} />
+            <span className={art.heroArtRing} style={{ width: '46%', aspectRatio: '1', right: '-12%', bottom: '-16%' }} />
+            <span className={art.heroArtLetter}>{v.businessName.charAt(0)}</span>
           </div>
         </section>
 
         {/* ── about ──────────────────────────────────────────────────── */}
         {team || bookingRules ? (
-          <section style={{ ...card, display: 'grid', gap: 18, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+          <Reveal><section style={{ ...card, display: 'grid', gap: 18, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
             <div>
               <p style={eyebrow}>about {v.owner.toLowerCase()}</p>
               <p style={{ margin: '10px 0 0', fontFamily: display, fontSize: 24, lineHeight: 1.3 }}>
@@ -211,7 +227,7 @@ export default async function SampleVerticalPage({ params }: { params: Promise<P
                 </p>
               ) : null}
             </div>
-          </section>
+          </section></Reveal>
         ) : null}
 
         {/* ── services & pricing — straight from the genome ─────────── */}
@@ -224,7 +240,7 @@ export default async function SampleVerticalPage({ params }: { params: Promise<P
             {services.map((s) => {
               const { lead, rest } = splitValue(s.value);
               return (
-                <article key={s.id} style={card}>
+                <article key={s.id} className={art.card} style={card}>
                   <h3 style={{ margin: 0, fontFamily: display, fontSize: 20 }}>{s.label}</h3>
                   <p style={{ margin: '10px 0 0', fontSize: 15, fontWeight: 700, color: p.accent }}>{lead}</p>
                   {rest ? (
@@ -245,7 +261,7 @@ export default async function SampleVerticalPage({ params }: { params: Promise<P
             </h2>
             <div style={{ display: 'grid', gap: 14, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
               {knowledge.map((k) => (
-                <article key={k.id} style={{ ...card, borderLeft: `3px solid ${p.accent}` }}>
+                <article key={k.id} className={art.card} style={{ ...card, borderLeft: `3px solid ${p.accent}` }}>
                   <p style={{ ...eyebrow, color: p.muted }}>{k.label.toLowerCase()}</p>
                   <p style={{ margin: '8px 0 0', fontSize: 14.5, lineHeight: 1.55 }}>{k.value}</p>
                 </article>

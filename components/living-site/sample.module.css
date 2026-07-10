@@ -1,0 +1,54 @@
+/* Living Site sample-business pages — motion + art, palette comes inline. */
+
+.heroGrid {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: center;
+  padding: 52px 0 40px;
+}
+
+/* Generative hero art — layered gradients in the vertical's palette with an
+   oversized display letterform. No stock photos: the cast is fictional. */
+.heroArt {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+}
+
+.heroArtLetter {
+  font-family: var(--font-brand-display), Georgia, serif;
+  font-size: clamp(140px, 22vw, 230px);
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
+  user-select: none;
+}
+
+.heroArtRing {
+  position: absolute;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+}
+
+.card {
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card:hover {
+    transform: none;
+    transition: none;
+  }
+}
