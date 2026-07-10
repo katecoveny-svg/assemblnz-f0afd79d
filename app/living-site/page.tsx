@@ -137,8 +137,8 @@ export default async function LivingSitePage() {
           <Reveal>
             <div className={styles.ctaRow} style={{ marginTop: 8 }}>
               <MagneticButton>
-                <Link href="/how-it-works" className={styles.ctaPrimary}>
-                  how it works
+                <Link href="/install" className={styles.ctaPrimary}>
+                  install a business
                   <span
                     aria-hidden
                     style={{ color: palette.goldSoft, fontSize: 15, lineHeight: 1 }}
@@ -147,6 +147,9 @@ export default async function LivingSitePage() {
                   </span>
                 </Link>
               </MagneticButton>
+              <Link href="/living-site/fred" className={styles.ctaGhost}>
+                see fred&apos;s website
+              </Link>
               <Link href="/pricing" className={styles.ctaGhost}>
                 pricing
               </Link>

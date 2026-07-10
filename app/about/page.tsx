@@ -12,7 +12,7 @@ import styles from '@/components/v2/v2.module.css';
 export const metadata: Metadata = {
   title: 'about — assembl',
   description:
-    'assembl is an ai platform built in aotearoa new zealand, founded by kate hudson. agents draft, people decide, and every output carries the record of how it was made.',
+    'assembl builds living sites — a business operating system from aotearoa new zealand, founded by kate hudson. one source of truth runs your website, crm, bookings, and agents; people decide, and every output carries the record of how it was made.',
   alternates: { canonical: '/about' },
   openGraph: {
     title: 'about assembl',
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 const ABOUT_SCHEMA = graph(
   articleNode({
-    headline: 'What assembl is — an AI marketplace built in Aotearoa New Zealand',
+    headline: 'What assembl is — the living business platform built in Aotearoa New Zealand',
     description:
       'assembl is an AI platform built in Aotearoa New Zealand that solves the real reason AI adoption stalls in New Zealand businesses: not the technology, but trust and uptake. Founded by Kate Hudson.',
     path: '/about',

@@ -8,7 +8,7 @@ import styles from '@/components/v2/v2.module.css';
 export const metadata: Metadata = {
   title: 'assembl — how it works',
   description:
-    'agents read the signals and draft the work. a person signs it off. the proof — receipts and mana — shows the journey.',
+    'install a living site — website, crm, bookings, knowledge, and agents on one source of truth. agents draft the work inside it, a person signs off, and the proof shows the journey.',
   alternates: { canonical: '/how-it-works' },
 };
 
@@ -50,7 +50,7 @@ export default function HowItWorksPage() {
             <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
               •
             </span>
-            <MicroLabel>read signals · route work · move to proof</MicroLabel>
+            <MicroLabel>install · run · improve every morning</MicroLabel>
           </div>
           <h1
             className={styles.h1}
@@ -62,7 +62,9 @@ export default function HowItWorksPage() {
             </span>
           </h1>
           <p style={{ ...body, marginTop: 24, maxWidth: 420 }}>
-            Specialist agents draft the work. A person signs it off. The proof shows the journey.
+            You install a Living Site — one source of truth running your website, CRM,
+            bookings, and agents. The agents draft the work inside it, a person signs it
+            off, and the proof shows the journey.
           </p>
         </div>
         <div className={styles.heroArt}>
