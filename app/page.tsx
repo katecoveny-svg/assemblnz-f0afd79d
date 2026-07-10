@@ -4,6 +4,7 @@ import { palette, motto } from '@assembl/canvas/tokens';
 import { BundleCard, KpiTrio, MicroLabel } from '@assembl/canvas';
 import { V2Nav } from '@/components/v2/V2Chrome';
 import { HomeHero } from '@/components/v2/home/HomeHero';
+import { LivingSiteEvolution } from '@/components/v2/home/LivingSiteEvolution';
 import { PipelineThread } from '@/components/v2/home/PipelineThread';
 import { TiltCard } from '@/components/v2/home/TiltCard';
 import { EvidenceStory } from '@/components/v2/home/EvidenceStory';
@@ -19,9 +20,9 @@ import styles from '@/components/v2/home/home.module.css';
 import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 
 export const metadata: Metadata = {
-  title: 'assembl — purpose-built agents for New Zealand business. Less admin. More mahi.',
+  title: 'assembl — grows your business while you run it. Less admin. More mahi.',
   description:
-    'purpose-built agents for the work New Zealand teams actually do. Agents draft, your people approve, and every output carries the record of how it was made. Built in Aotearoa.',
+    'One Living Site for your whole business — website, CRM, bookings, knowledge, and agents on a single source of truth, improving itself every morning. You say yes. Built in Aotearoa.',
   alternates: { canonical: '/' },
 };
 
@@ -50,6 +51,9 @@ export default async function HomePage() {
         collections={bundles.length}
         freeTools={freeTools}
       />
+
+      {/* ── the living site — a business assembling itself on scroll ─── */}
+      <LivingSiteEvolution />
 
       {/* ── collections — floating bundle cards ──────────────────────── */}
       <section className={styles.section} style={{ paddingTop: 40 }}>

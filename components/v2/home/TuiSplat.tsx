@@ -16,8 +16,8 @@ import { useFrame, useThree } from '@react-three/fiber';
  * back-to-front sorting read faithfully at hero scale and cost no extra deps.
  */
 
-// v3 = upright-pose bake. The query busts stale browser/CDN copies of the
-// earlier upside-down export.
+// The v3 bake shipped 180° off about X (bird still inverted); the runtime
+// `orient` correction below fixes it without touching the binary.
 const SPLAT_URL = '/3d/tui-splat.splat?v=3';
 const BYTES_PER_SPLAT = 32;
 
@@ -106,12 +106,20 @@ function useSplatData(): SplatData | null {
 export function TuiSplat({
   position = [4.35, 1.55, 1.6],
   scale = 3.1,
+  orient = [(130 * Math.PI) / 180, 0, 0],
+  frozen = false,
 }: {
   position?: [number, number, number];
   scale?: number;
+  /** Inner corrective rotation (radians) that makes the bird's up-axis +Y,
+   *  so the outer turntable/pointer yaw never tumbles it. */
+  orient?: [number, number, number];
+  /** Debug: skip all animation (turntable, pointer, bob). */
+  frozen?: boolean;
 }) {
   const data = useSplatData();
   const group = React.useRef<THREE.Group>(null);
+  const inner = React.useRef<THREE.Group>(null);
   const matRef = React.useRef<THREE.ShaderMaterial>(null);
   const geoRef = React.useRef<THREE.BufferGeometry>(null);
   const sortTimer = React.useRef(0);
@@ -151,10 +159,10 @@ export function TuiSplat({
   }, [data]);
 
   const resort = React.useCallback(() => {
-    if (!data || !scratch || !geoRef.current || !group.current) return;
+    if (!data || !scratch || !geoRef.current || !inner.current) return;
     const { order, depths, positions, colors, sizes } = scratch;
     const mv = new THREE.Matrix4()
-      .multiplyMatrices(camera.matrixWorldInverse, group.current.matrixWorld)
+      .multiplyMatrices(camera.matrixWorldInverse, inner.current.matrixWorld)
       .elements;
     for (let i = 0; i < data.count; i++) {
       const x = data.positions[i * 3];
@@ -192,6 +200,23 @@ export function TuiSplat({
   useFrame((state, delta) => {
     const g = group.current;
     if (!g || !data) return;
+    if (frozen) {
+      const m = matRef.current;
+      if (m) {
+        const persp = camera as THREE.PerspectiveCamera;
+        const focal =
+          (size.height * state.gl.getPixelRatio()) /
+          (2 * Math.tan(THREE.MathUtils.degToRad(persp.fov) / 2));
+        m.uniforms.uFocal.value = focal * scale;
+        m.uniforms.uFade.value = 1;
+      }
+      sortTimer.current += delta;
+      if (sortTimer.current > 0.4) {
+        sortTimer.current = 0;
+        resort();
+      }
+      return;
+    }
     // Interactive: while the pointer moves, the bird turns toward the cursor
     // within a clamped front-facing range (so it never shows awkward back-on
     // angles), then eases back into its slow idle turntable.
@@ -242,26 +267,28 @@ export function TuiSplat({
       ref={group}
       position={position}
       scale={scale}
-      // Upright pose is baked into tui-splat.splat (Rx(-50°) from the raw SAM
-      // 3D export, which stores the bird belly-up). Only a starting yaw here.
+      // Yaw/tilt animate on this outer group; the upright correction lives on
+      // the inner `orient` group so the turntable never tumbles the bird.
       rotation={[0, 0.4, 0]}
     >
-      <points frustumCulled={false}>
-        <bufferGeometry ref={geoRef}>
-          <bufferAttribute attach="attributes-position" args={[scratch.positions, 3]} />
-          <bufferAttribute attach="attributes-aColor" args={[scratch.colors, 4]} />
-          <bufferAttribute attach="attributes-aSize" args={[scratch.sizes, 1]} />
-        </bufferGeometry>
-        <shaderMaterial
-          ref={matRef}
-          vertexShader={VERT}
-          fragmentShader={FRAG}
-          uniforms={uniforms}
-          transparent
-          depthWrite={false}
-          depthTest
-        />
-      </points>
+      <group ref={inner} rotation={orient}>
+        <points frustumCulled={false}>
+          <bufferGeometry ref={geoRef}>
+            <bufferAttribute attach="attributes-position" args={[scratch.positions, 3]} />
+            <bufferAttribute attach="attributes-aColor" args={[scratch.colors, 4]} />
+            <bufferAttribute attach="attributes-aSize" args={[scratch.sizes, 1]} />
+          </bufferGeometry>
+          <shaderMaterial
+            ref={matRef}
+            vertexShader={VERT}
+            fragmentShader={FRAG}
+            uniforms={uniforms}
+            transparent
+            depthWrite={false}
+            depthTest
+          />
+        </points>
+      </group>
     </group>
   );
 }
