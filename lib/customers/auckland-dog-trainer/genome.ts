@@ -1,5 +1,5 @@
 /**
- * Business Genome — Auckland Dog Trainer's single source of truth.
+ * Business Genome — Harbourside Dog Training's single source of truth.
  *
  * Every surface of the Living Site (website, booking flow, proposals, FAQ,
  * voice agent, support assistant, emails, CRM, course, social) reads from
@@ -69,7 +69,7 @@ export const GENOME_FACTS: GenomeFact[] = [
     id: 'g-name',
     section: 'identity',
     label: 'Business',
-    value: 'Auckland Dog Trainer · Learn To Talk Dog',
+    value: 'Harbourside Dog Training · calm, method-first',
     readBy: ['website', 'proposals', 'email', 'voice', 'social'],
   },
   {
@@ -125,7 +125,7 @@ export const GENOME_FACTS: GenomeFact[] = [
     id: 'g-team',
     section: 'team',
     label: 'Trainers',
-    value: 'Fred (method lead) · second trainer hiring — Aroha W. on trial',
+    value: 'Sam (method lead) · second trainer hiring — Aroha W. on trial',
     readBy: ['website', 'booking', 'crm'],
   },
   {
@@ -160,7 +160,7 @@ export const GENOME_FACTS: GenomeFact[] = [
     id: 'g-automations',
     section: 'operations',
     label: 'Automations',
-    value: 'Draft-only: enquiry replies, homework emails, follow-ups — Fred approves every send',
+    value: 'Draft-only: enquiry replies, homework emails, follow-ups — Sam approves every send',
     readBy: ['email', 'crm', 'support'],
   },
 ];
@@ -200,14 +200,14 @@ export const RIPPLE_SCENARIOS: RippleScenario[] = [
     before: '$2,200 + GST',
     after: '$2,400 + GST',
     narrative:
-      'Fred raises the Reactivity Rewired price once, in the genome. No CMS, no duplicate editing — every surface that quotes it rewrites itself.',
+      'Sam raises the Reactivity Rewired price once, in the genome. No CMS, no duplicate editing — every surface that quotes it rewrites itself.',
     updates: [
       { surface: 'website', where: 'Programme card + pricing section', change: 'Price and “from” copy updated' },
       { surface: 'booking', where: 'Checkout + deposit maths', change: 'Deposit recalculated on the new total' },
       { surface: 'proposals', where: 'Proposal template', change: 'Line item and totals refreshed' },
       { surface: 'faq', where: '“How much does it cost?”', change: 'Answer rewritten with the new price' },
       { surface: 'voice', where: 'Agent answers', change: 'Quotes $2,400 from the next conversation' },
-      { surface: 'email', where: 'Enquiry reply drafts', change: 'Draft replies re-priced before Fred approves' },
+      { surface: 'email', where: 'Enquiry reply drafts', change: 'Draft replies re-priced before Sam approves' },
       { surface: 'crm', where: 'Offer value on open leads', change: 'Pipeline value re-forecast' },
     ],
     applies: {
@@ -219,14 +219,14 @@ export const RIPPLE_SCENARIOS: RippleScenario[] = [
     id: 'faq',
     chip: 'Add an FAQ',
     factLabel: 'FAQ · muzzles',
-    before: 'Not in the genome — Fred answers it by hand every week',
+    before: 'Not in the genome — Sam answers it by hand every week',
     after: '“Is a muzzle a punishment?” → No — a well-fitted muzzle is safety equipment…',
     narrative:
       'The support inbox keeps asking the same question. One approved answer enters the genome and every answering surface learns it at once.',
     updates: [
       { surface: 'website', where: 'FAQ section', change: 'New question published with video slot' },
       { surface: 'faq', where: 'Knowledge base', change: 'Canonical answer stored + versioned' },
-      { surface: 'voice', where: 'Voice & chat agent', change: 'Answers it without pinging Fred' },
+      { surface: 'voice', where: 'Voice & chat agent', change: 'Answers it without pinging Sam' },
       { surface: 'support', where: 'Support assistant', change: 'Auto-resolves the repeat thread' },
       { surface: 'course', where: 'Reactivity module', change: 'Lesson callout suggested' },
     ],
@@ -243,7 +243,7 @@ export const RIPPLE_SCENARIOS: RippleScenario[] = [
     before: 'Launching soon — no public path',
     after: 'Live · Saturday intensives · 6 dogs max',
     narrative:
-      'Fred flips Group Bootcamp to live. The Living Site builds the whole path — page, bookings, CRM tags, campaign — in one move.',
+      'Sam flips Group Bootcamp to live. The Living Site builds the whole path — page, bookings, CRM tags, campaign — in one move.',
     updates: [
       { surface: 'website', where: 'New landing section', change: 'Bootcamp page drafted from the curriculum' },
       { surface: 'booking', where: 'Saturday slots', change: '6-dog capacity + waitlist opened' },
@@ -264,7 +264,7 @@ export const RIPPLE_SCENARIOS: RippleScenario[] = [
     before: 'Nirtika’s note sitting in the support inbox',
     after: '“Diesel recalled away from a full dog park. Life-changing.” — approved',
     narrative:
-      'One tap approves the quote into the genome. Proof shows up everywhere Fred sells, without touching a page builder.',
+      'One tap approves the quote into the genome. Proof shows up everywhere Sam sells, without touching a page builder.',
     updates: [
       { surface: 'website', where: 'Testimonials + Recall page', change: 'Quote placed beside Recall Mastery' },
       { surface: 'proposals', where: 'Recall proposal template', change: 'Social proof block refreshed' },

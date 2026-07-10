@@ -3,7 +3,7 @@
  *
  * Facts live in Supabase (`living_site_genome`, seeded by migration
  * 20260718100000) and are read server-side by every surface: the public
- * /living-site demo, Fred's public landing page, and the gated ops console.
+ * /living-site demo, Sam's public landing page, and the gated ops console.
  * Edit a row once and every surface renders the new value on next load.
  *
  * Falls back to the in-repo GENOME_FACTS when the database is unreachable
@@ -51,30 +51,41 @@ function rowToFact(row: GenomeRow): GenomeFact {
   };
 }
 
-/** Live genome, ordered like the canonical fact list (new facts appended). */
-export async function getLiveGenomeFacts(): Promise<GenomeRead> {
+/**
+ * Live genome for ANY tenant, ordered like its canonical fallback list
+ * (facts added in the DB but unknown to the repo are kept, grouped last).
+ * Falls back to `fallback` whenever the DB/keys are unavailable.
+ */
+export async function getGenomeFactsFor(
+  tenant: string,
+  fallback: GenomeFact[],
+): Promise<GenomeRead> {
   try {
     const supabase = getServiceClient();
     const { data, error } = await supabase
       .from('living_site_genome')
       .select('fact_id, section, label, value, read_by')
-      .eq('tenant', GENOME_TENANT);
+      .eq('tenant', tenant);
     if (error || !data || data.length === 0) {
-      return { facts: GENOME_FACTS, live: false };
+      return { facts: fallback, live: false };
     }
     const byId = new Map((data as GenomeRow[]).map((r) => [r.fact_id, rowToFact(r)]));
     const ordered: GenomeFact[] = [];
-    for (const fact of GENOME_FACTS) {
+    for (const fact of fallback) {
       const live = byId.get(fact.id);
       ordered.push(live ?? fact);
       byId.delete(fact.id);
     }
-    // facts added in the DB but unknown to the repo — keep them, grouped last
     for (const extra of byId.values()) ordered.push(extra);
     return { facts: ordered, live: true };
   } catch {
-    return { facts: GENOME_FACTS, live: false };
+    return { facts: fallback, live: false };
   }
+}
+
+/** Live genome for the flagship dog-training tenant. */
+export async function getLiveGenomeFacts(): Promise<GenomeRead> {
+  return getGenomeFactsFor(GENOME_TENANT, GENOME_FACTS);
 }
 
 export type LiveEnquiry = {
@@ -126,17 +137,24 @@ export async function getRecentEnquiries(limit = 8): Promise<LiveEnquiry[]> {
   }
 }
 
-/** Store a public landing-page enquiry. Returns false when the DB is down. */
+/**
+ * Store a public landing-page enquiry. Returns false when the DB is down.
+ * `tenant` defaults to the flagship; callers must validate it against the
+ * known sample-vertical tenants before passing anything user-influenced.
+ * The `dog` column predates the multi-vertical pivot — it now carries each
+ * vertical's "detail" line (shipment, project, booking…).
+ */
 export async function storeEnquiry(input: {
   name: string;
   email: string;
   dog?: string;
   message: string;
+  tenant?: string;
 }): Promise<boolean> {
   try {
     const supabase = getServiceClient();
     const { error } = await supabase.from('living_site_enquiries').insert({
-      tenant: GENOME_TENANT,
+      tenant: input.tenant ?? GENOME_TENANT,
       name: input.name,
       email: input.email,
       dog: input.dog ?? null,

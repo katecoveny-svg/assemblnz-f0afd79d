@@ -133,7 +133,7 @@ export function SessionNotesEngine({ initialNote = DEFAULT_NOTE }: { initialNote
         setNote(j.transcript);
         await draftPlan(j.transcript);
       } else if (res.status === 503) {
-        // transcription key not configured — keep the message in Fred's world
+        // transcription key not configured — keep the message in Sam's world
         setNotice(
           'Voice transcription is coming online shortly — paste or type the note instead and the scribe will still draft the plan.',
         );

@@ -6,7 +6,7 @@ import type { Lead } from '@/lib/customers/auckland-dog-trainer/demo-data';
 
 /**
  * Instagram DM → CRM lead — the visual proof that a raw social message becomes
- * a structured lead without Fred touching a keyboard.
+ * a structured lead without Sam touching a keyboard.
  *
  * Left: the DM as it lands in Instagram. Right: the intake agent reading it,
  * extracting the dog profile, scoring risk, matching a programme, and filing
@@ -43,7 +43,7 @@ export const IG_DM = {
   handle: 'jess.and.milo',
   when: 'Instagram · 2 min ago',
   messages: [
-    'Hi Fred! A friend from the dog park gave me your name.',
+    'Hi Sam! A friend from the dog park gave me your name.',
     'My 18-month-old spoodle Milo has started lunging and barking at other dogs on walks around Grey Lynn — it’s getting worse and I cross the street to avoid everyone now 😔',
     'Do you do 1:1 sessions? What do you charge? We’re free most mornings.',
   ],
@@ -75,7 +75,7 @@ const STEPS = [
   { k: 'extract', label: 'Extract profile', body: 'Milo · Spoodle · 18mo · Grey Lynn' },
   { k: 'risk', label: 'Risk & urgency', body: 'medium risk · soon — escalating pattern' },
   { k: 'match', label: 'Match programme', body: 'Reactivity Rewired (1:1, mornings)' },
-  { k: 'draft', label: 'Draft Fred’s reply', body: 'assessment walk + booking link' },
+  { k: 'draft', label: 'Draft Sam’s reply', body: 'assessment walk + booking link' },
   { k: 'file', label: 'File in CRM', body: 'Lead + dog profile created ✓' },
 ] as const;
 
@@ -126,8 +126,8 @@ export function InstagramLeadCapture({ onCaptured }: { onCaptured: (lead: Lead) 
       </h2>
       <p style={{ margin: '8px 0 0', fontSize: 13.5, color: MUTED, lineHeight: 1.5, maxWidth: 560 }}>
         Real example: an enquiry arrives in Instagram. The intake agent reads it, builds the dog
-        profile, scores urgency, matches the programme, drafts Fred&apos;s reply — and the lead
-        appears in triage below. Draft-only: nothing sends without Fred&apos;s yes.
+        profile, scores urgency, matches the programme, drafts Sam&apos;s reply — and the lead
+        appears in triage below. Draft-only: nothing sends without Sam&apos;s yes.
       </p>
 
       <div
@@ -271,7 +271,7 @@ export function InstagramLeadCapture({ onCaptured }: { onCaptured: (lead: Lead) 
                 }}
               >
                 Lead filed — <strong>Milo · Spoodle · Grey Lynn</strong> is now first in triage
-                below, with Fred&apos;s draft reply attached.
+                below, with Sam&apos;s draft reply attached.
               </motion.p>
             ) : null}
           </AnimatePresence>

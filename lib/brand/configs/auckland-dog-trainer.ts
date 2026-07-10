@@ -1,28 +1,28 @@
 import { parseBrandConfig, type BrandConfig } from '@/lib/brand/brand-config';
 
 /**
- * Auckland Dog Trainer — Learn To Talk Dog (concept pilot).
+ * Harbourside Dog Training — calm, method-first (concept pilot).
  *
- * Product surface for Fred Esquivel Paz's training method: intake, session
+ * Product surface for Sam's training method: intake, session
  * notes → homework, programme trackers, course builder, remote support, hiring.
- * Display name is the business; Fred is the trainer behind it.
+ * Display name is the business; Sam is the trainer behind it.
  *
  * Palette: navy + pale pink. Imagery is method-first editorial photography +
  * HT-style line-art patterns — never Happy Tails daycare pack photos.
  */
 export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
   slug: 'auckland-dog-trainer',
-  displayName: 'Auckland Dog Trainer',
+  displayName: 'Harbourside Dog Training',
   logo: {
-    // Fred's real ADT lockup (pink, dog inside the D) from aucklanddogtrainer.com.
+    // Sam's real ADT lockup (pink, dog inside the D) from aucklanddogtrainer.com.
     src: '/brand/auckland-dog-trainer/logo-adt-pink.png',
-    alt: 'ADT — Auckland Dog Trainer',
+    alt: 'ADT — Harbourside Dog Training',
     wordmark: true,
   },
   siteUrl: 'https://aucklanddogtrainer.com',
   mascot: {
     src: '/brand/auckland-dog-trainer/heroes/studio-paw.webp',
-    alt: 'Dog giving paw — Learn To Talk Dog',
+    alt: 'Dog giving paw — calm, method-first',
   },
   colours: {
     bg: '#F7EEF1',
@@ -41,7 +41,7 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
   // when present (editorial stills / future SAM 3D exports).
   hero3D: 'auckland-dog-trainer',
   voice: {
-    greeting: 'Learn to talk dog — then scale the method without losing the standard.',
+    greeting: 'Calm, method-first training — then scale the method without losing the standard.',
     tone: 'warm-personal',
   },
   crossBrand: { position: 'footer-only', density: 'quiet' },
@@ -61,9 +61,9 @@ export const aucklandDogTrainerConfig: BrandConfig = parseBrandConfig({
     ],
   },
   taglines: {
-    primary: 'Learn To Talk Dog — Fred’s method, operating at scale.',
+    primary: 'calm, method-first — Sam’s method, operating at scale.',
     social: 'Session clips → educational reels, carousels, and homework posts.',
-    values: 'Draft-only. Nothing sends to a client without Fred’s yes.',
+    values: 'Draft-only. Nothing sends to a client without Sam’s yes.',
   },
   ctaLabel: 'TURN NOTES INTO A PLAN',
   nav: [

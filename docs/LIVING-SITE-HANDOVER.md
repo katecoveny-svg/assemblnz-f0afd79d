@@ -100,21 +100,36 @@ _Items closed 10 Jul 2026 (session-continuation follow-up PR):_
 - ~~**Legacy repo banner**~~ — DONE (PR in `assemblnz-7d51a25a`); archiving
   itself is owner-only in GitHub settings.
 
+_Closed in the following session (fictional-cast + verticals PR):_
+
+- ~~**Real voice v1**~~ — browser-native speech in/out on `PilotAgentChat`
+  (Web Speech API mic + `speechSynthesis` replies, feature-detected; replies
+  speak only after the visitor uses the mic). ElevenLabs-quality TTS is a
+  later upgrade if wanted (needs keys).
+- ~~**The demo cast is fictional (Kate's call: no prospect has agreed)**~~ —
+  all identifying business/person names are gone. Flagship is now
+  "Harbourside Dog Training" / "Sam"; the `auckland-dog-trainer` tenant key
+  is legacy-only. Repo values AND prod DB rows updated (migration
+  `20260719090000_living_site_verticals.sql`).
+- ~~**All industry templates live**~~ — eight sample verticals in
+  `lib/living-site/verticals.ts`, each a fictional business with a seeded
+  genome and a genome-backed sample site at `/living-site/<industry>`
+  (generic route `app/living-site/[vertical]/page.tsx`, tenant-scoped
+  enquiries). `/install` offers all eight and lands on the matching sample.
+  Old `/living-site/fred` URL 308-redirects to `/living-site/dog-training`.
+- ~~**Sitemap**~~ — `/living-site` + `/install` added (0.9); sample sites
+  stay noindex.
+
 _Still open:_
 
-4. **Real voice** (speech) — the "voice & chat agent" is the real streaming
-   text agent (`PilotAgentChat` → `/api/customers/auckland-dog-trainer/chat`).
-   ElevenLabs bits exist elsewhere in the org (legacy repo used
-   `@elevenlabs/react`; `voice:deploy:manaaki` script here) — actual
-   speech in/out is not wired on the public page. Needs keys + a product call.
-5. **Installer → real generation** — `/install` is a simulated demo that lands
-   on Fred's site. The real version writes a new tenant's genome rows and
-   scaffolds surfaces from the template. Second vertical: extend
-   `living_site_genome` (already tenant-keyed) + generalise `genome-store` per
-   tenant.
-8. **Indexing** — `/living-site/fred` is `noindex` (sample data); flip when
-   real. Deep marketplace pages (`/bundles/*`) still carry old-story copy —
-   acceptable while the marketplace is internal plumbing.
+5. **Installer → real generation** — `/install` still simulates generation
+   (it lands on the pre-seeded sample). The real version writes a NEW
+   tenant's genome rows from the ten answers. The plumbing now exists
+   (`getGenomeFactsFor(tenant, fallback)`, tenant-keyed table, generic
+   sample-site renderer) — what's left is the write path + abuse controls.
+8. **Indexing** — sample sites stay `noindex` (fictional data). Deep
+   marketplace pages (`/bundles/*`) still carry old-story copy — acceptable
+   while the marketplace is internal plumbing.
 
 ## Environment / workflow memory
 

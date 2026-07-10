@@ -2,7 +2,7 @@
  * Session Notes → Client Plan engine (demo).
  *
  * Deterministic, local transform so the pitch works without a model key.
- * Pattern-matches Fred-style voice notes into the six killer outputs.
+ * Pattern-matches Sam-style voice notes into the six killer outputs.
  */
 
 export type NotesPlan = {
@@ -113,7 +113,7 @@ export function transformSessionNotes(raw: string): NotesPlan {
           `Short daily manners reps: sit, wait at thresholds, calm greetings.`,
           `Practice loose-lead in low distraction for 5 minutes before the “real” walk.`,
           `Reward calm defaults in the house — catch ${Name} being settled.`,
-          `Send Fred one clip of the hardest moment this week.`,
+          `Send Sam one clip of the hardest moment this week.`,
         ];
 
   const riskNotes = [
@@ -166,7 +166,7 @@ export function transformSessionNotes(raw: string): NotesPlan {
         : recall
           ? `The priority is a clean, conflict-free recall so ${Name} can earn more freedom safely.`
           : `The priority is clear communication and short, consistent practice at home.`
-    }\n\nHomework for the week is below. Film one short clip if you can — I’ll review it between sessions.\n\n— Fred · Auckland Dog Trainer`,
+    }\n\nHomework for the week is below. Film one short clip if you can — I’ll review it between sessions.\n\n— Sam · Harbourside Dog Training`,
     dogProfile: { name: Name, age, breed, issues },
     weeklyHomework,
     riskNotes: riskNotes.length ? riskNotes : ['No elevated risk flags from this note.'],
@@ -176,7 +176,7 @@ export function transformSessionNotes(raw: string): NotesPlan {
       reactive ? 'pressure/release at distance' : recall ? 'recall proofing' : 'manners foundations'
     }. Owner note: ${
       /timing|inconsistent/i.test(text) ? 'coach timing before adding complexity.' : 'supportive — keep instructions concrete.'
-    } Do not change the method mid-week; follow the homework list and escalate to Fred if a safety flag appears.`,
+    } Do not change the method mid-week; follow the homework list and escalate to Sam if a safety flag appears.`,
     followUp: {
       when: /friday|fri\b/i.test(text) ? 'Friday check-in' : '3 days after session',
       message: `How did ${Name}'s practice go this week? Any scooter/dog moments under threshold — or did something feel too close? Reply with a 20-sec clip if you can.`,

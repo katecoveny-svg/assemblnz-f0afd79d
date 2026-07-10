@@ -1,9 +1,9 @@
 /**
- * Fred OS tab keys — shared between the server page and the client dashboard.
+ * Sam OS tab keys — shared between the server page and the client dashboard.
  */
 
 export const FRED_TABS = [
-  { key: 'week', label: "Fred's Week" },
+  { key: 'week', label: "Sam's Week" },
   { key: 'brief', label: 'Morning brief' },
   { key: 'genome', label: 'Business Genome' },
   { key: 'landing', label: 'Landing hub' },

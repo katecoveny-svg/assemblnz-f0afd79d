@@ -11,6 +11,9 @@ const BASE = 'https://www.assembl.co.nz';
 
 const CORE_PATHS = [
   '',
+  // The Living Site funnel — the primary story; keep these prominent.
+  '/living-site',
+  '/install',
   '/about',
   '/agents',
   '/pricing',
@@ -27,7 +30,6 @@ const CORE_PATHS = [
   '/mana-receipts/sample',
   '/platform',
   '/press',
-  '/pricing',
   '/public-assembly',
   '/start',
   '/te-tiriti',
@@ -52,7 +54,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${BASE}${path}`,
     lastModified,
     changeFrequency: 'weekly',
-    priority: path === '' ? 1 : path.startsWith('/assembling') ? 0.7 : 0.6,
+    priority:
+      path === ''
+        ? 1
+        : path === '/living-site' || path === '/install'
+          ? 0.9
+          : path.startsWith('/assembling')
+            ? 0.7
+            : 0.6,
   }));
 
   // Every live agent gets its own entry — these are the high-intent,

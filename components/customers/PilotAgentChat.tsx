@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport, type UIMessage } from 'ai';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -70,6 +70,59 @@ const TIER_LABEL: Record<string, string> = {
   C: 'tier c · workspace demo data',
 };
 
+// ── voice — browser-native, no keys ─────────────────────────────────────────
+// Speech-in via the Web Speech API (feature-detected; the mic button simply
+// doesn't render where it's unsupported) and speech-out via speechSynthesis.
+// Replies are only spoken after the visitor has used their voice first.
+
+type SpeechRecognitionLike = {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  start: () => void;
+  stop: () => void;
+  abort: () => void;
+  onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }> & { isFinal: boolean }> }) => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+};
+
+function getSpeechRecognition(): (new () => SpeechRecognitionLike) | null {
+  if (typeof window === 'undefined') return null;
+  const w = window as unknown as {
+    SpeechRecognition?: new () => SpeechRecognitionLike;
+    webkitSpeechRecognition?: new () => SpeechRecognitionLike;
+  };
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
+}
+
+/** Markdown → plain speakable text (headings, emphasis, links, code). */
+function speakable(text: string): string {
+  return text
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`([^`]*)`/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/[#*_>~]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function speak(text: string) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const clean = speakable(text);
+  if (!clean) return;
+  const utterance = new SpeechSynthesisUtterance(clean.slice(0, 800));
+  const voices = window.speechSynthesis.getVoices();
+  const preferred =
+    voices.find((v) => v.lang === 'en-NZ') ??
+    voices.find((v) => v.lang === 'en-AU') ??
+    voices.find((v) => v.lang === 'en-GB');
+  if (preferred) utterance.voice = preferred;
+  utterance.rate = 1.02;
+  window.speechSynthesis.speak(utterance);
+}
+
 export function PilotAgentChat({
   apiPath,
   agentName,
@@ -115,20 +168,19 @@ export function PilotAgentChat({
   // Track connectivity for the offline banner, restore the last 20 messages
   // (text-only) from IndexedDB so the installed app shows recent history
   // offline, and snapshot completed turns back into the store.
-  const [offline, setOffline] = useState(false);
+  const offline = useSyncExternalStore(
+    (onChange) => {
+      window.addEventListener('online', onChange);
+      window.addEventListener('offline', onChange);
+      return () => {
+        window.removeEventListener('online', onChange);
+        window.removeEventListener('offline', onChange);
+      };
+    },
+    () => !navigator.onLine,
+    () => false,
+  );
   const restoredRef = useRef(false);
-
-  useEffect(() => {
-    setOffline(!navigator.onLine);
-    const on = () => setOffline(false);
-    const off = () => setOffline(true);
-    window.addEventListener('online', on);
-    window.addEventListener('offline', off);
-    return () => {
-      window.removeEventListener('online', on);
-      window.removeEventListener('offline', off);
-    };
-  }, []);
 
   useEffect(() => {
     if (restoredRef.current) return;
@@ -167,12 +219,74 @@ export function PilotAgentChat({
   const send = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || busy) return;
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel(); // never talk over a new question
+    }
     sendMessage({ text: trimmed });
     setInput('');
     requestAnimationFrame(() => {
       listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' });
     });
   };
+
+  // ── voice in/out ─────────────────────────────────────────────────────────
+  // Support never changes at runtime; the server snapshot is false so SSR
+  // renders no mic and the client fills it in without a hydration mismatch.
+  const micSupported = useSyncExternalStore(
+    () => () => {},
+    () => getSpeechRecognition() !== null,
+    () => false,
+  );
+  const [listening, setListening] = useState(false);
+  const [voiceReplies, setVoiceReplies] = useState(false);
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const spokenIdsRef = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    return () => {
+      recognitionRef.current?.abort();
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  const toggleMic = () => {
+    if (listening) {
+      recognitionRef.current?.stop();
+      return;
+    }
+    const Recognition = getSpeechRecognition();
+    if (!Recognition) return;
+    const recognition = new Recognition();
+    recognition.lang = 'en-NZ';
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 1;
+    recognition.onresult = (event) => {
+      const result = event.results[event.results.length - 1];
+      const transcript = result?.[0]?.transcript ?? '';
+      setInput(transcript);
+      if (result?.isFinal && transcript.trim()) {
+        setVoiceReplies(true); // spoke to it → it speaks back
+        send(transcript);
+      }
+    };
+    recognition.onend = () => setListening(false);
+    recognition.onerror = () => setListening(false);
+    recognitionRef.current = recognition;
+    setListening(true);
+    recognition.start();
+  };
+
+  // Speak each completed assistant reply exactly once, only when enabled.
+  useEffect(() => {
+    if (!voiceReplies || status !== 'ready') return;
+    const last = messages[messages.length - 1];
+    if (!last || last.role !== 'assistant' || last.id === 'greeting') return;
+    if (spokenIdsRef.current.has(last.id)) return;
+    spokenIdsRef.current.add(last.id);
+    speak(messageText(last));
+  }, [messages, status, voiceReplies]);
 
   return (
     <div
@@ -198,8 +312,29 @@ export function PilotAgentChat({
           />
         </span>
         <span className="text-sm font-semibold tracking-tight">{agentName}</span>
+        <button
+          type="button"
+          onClick={() => {
+            setVoiceReplies((v) => {
+              if (v && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+              }
+              return !v;
+            });
+          }}
+          aria-pressed={voiceReplies}
+          title={voiceReplies ? 'Spoken replies on — tap to mute' : 'Tap to have replies spoken aloud'}
+          className="ml-auto rounded-full border border-black/10 px-2 py-0.5 text-[10px] uppercase transition-colors hover:bg-black/[0.04]"
+          style={{
+            letterSpacing: '0.16em',
+            color: voiceReplies ? '#fff' : 'rgba(31, 29, 26, 0.62)',
+            background: voiceReplies ? accent : 'transparent',
+          }}
+        >
+          {voiceReplies ? '🔊 voice on' : '🔇 voice'}
+        </button>
         <span
-          className="ml-auto rounded-full px-2 py-0.5 text-[10px] uppercase"
+          className="rounded-full px-2 py-0.5 text-[10px] uppercase"
           style={{ letterSpacing: '0.16em', color: 'rgba(31, 29, 26, 0.62)', background: `${accent}14` }}
         >
           live · draft-only
@@ -346,6 +481,26 @@ export function PilotAgentChat({
             className="flex-1 resize-none rounded-2xl border border-black/10 bg-white px-3.5 py-2.5 text-sm outline-none transition-shadow focus:border-transparent focus:shadow-[0_0_0_3px_var(--focus-ring)]"
             style={{ ['--focus-ring' as string]: `${accent}44` }}
           />
+          {micSupported ? (
+            <motion.button
+              type="button"
+              onClick={toggleMic}
+              disabled={busy || offline}
+              aria-pressed={listening}
+              aria-label={listening ? 'Stop listening' : 'Speak your question'}
+              title={listening ? 'Listening — tap to stop' : 'Speak your question'}
+              whileHover={reduce ? undefined : { scale: 1.04 }}
+              whileTap={reduce ? undefined : { scale: 0.96 }}
+              className="rounded-2xl border border-black/10 px-3 py-2.5 text-sm shadow-sm disabled:opacity-50"
+              style={
+                listening
+                  ? { backgroundColor: accent, color: '#fff' }
+                  : { backgroundColor: '#fff' }
+              }
+            >
+              {listening ? '● listening' : '🎙'}
+            </motion.button>
+          ) : null}
           <motion.button
             type="submit"
             disabled={busy || offline || !input.trim()}

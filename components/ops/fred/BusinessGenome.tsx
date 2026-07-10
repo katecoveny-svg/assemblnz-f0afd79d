@@ -216,7 +216,7 @@ function RippleDemo({
 
         {applied ? (
           <p style={{ margin: '14px 0 0', fontSize: 12, color: MUTED }}>
-            No CMS. No duplicate editing. Draft surfaces still wait for Fred&apos;s yes before anything sends.
+            No CMS. No duplicate editing. Draft surfaces still wait for Sam&apos;s yes before anything sends.
           </p>
         ) : null}
       </section>

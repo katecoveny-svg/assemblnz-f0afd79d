@@ -16,7 +16,7 @@ import type { BrandConfig } from '@/lib/brand/brand-config';
 export function StaticFallback({ config }: { config: BrandConfig }) {
   const { accent, canary, ink } = config.colours;
 
-  // Auckland Dog Trainer — editorial still + training-field line art.
+  // Harbourside Dog Training — editorial still + training-field line art.
   if (config.slug === 'auckland-dog-trainer') {
     const photo = config.photography?.anchor;
     const pattern = config.patterns?.primary;
@@ -55,7 +55,7 @@ export function StaticFallback({ config }: { config: BrandConfig }) {
             className="text-sm font-medium tracking-[0.12em] uppercase"
             style={{ color: '#F7EEF1', fontFamily: 'var(--font-brand-display, Georgia, serif)' }}
           >
-            Learn To Talk Dog
+            calm, method-first
           </span>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { Menu, Search, X } from "lucide-react";
 import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
@@ -93,7 +93,7 @@ export function isCustomerWorkspace(pathname: string | null): boolean {
   // /customers/* workspace while the URL bar keeps the personal link, so it
   // must suppress the global chrome exactly like the workspace it serves.
   if (pathname === "/for" || pathname.startsWith("/for/")) return true;
-  // Fred's public Living Site landing page is white-labelled the same way —
+  // Sam's public Living Site landing page is white-labelled the same way —
   // it is the customer's website, not an assembl marketing page.
   if (pathname.startsWith("/living-site/fred")) return true;
   return pathname === "/customers" || pathname.startsWith("/customers/");
@@ -120,17 +120,22 @@ export function isAssemblBills(pathname: string | null): boolean {
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const [isMac, setIsMac] = useState(true);
+  // Platform never changes at runtime; the server snapshot says Mac (the
+  // historic default) so hydration matches, then the client value takes over.
+  const isMac = useSyncExternalStore(
+    () => () => {},
+    () => navigator.platform.toUpperCase().indexOf("MAC") >= 0,
+    () => true,
+  );
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
-  useEffect(() => {
-    setIsMac(navigator.platform.toUpperCase().indexOf("MAC") >= 0);
-  }, []);
-
-  // Close mobile nav when route changes.
-  useEffect(() => {
+  // Close mobile nav when the route changes — state adjusted during render
+  // (the sanctioned "derive from prop change" pattern), not in an effect.
+  const [navPathname, setNavPathname] = useState(pathname);
+  if (navPathname !== pathname) {
+    setNavPathname(pathname);
     setMobileNavOpen(false);
-  }, [pathname]);
+  }
 
   // Lock body scroll while the mobile drawer is open.
   useEffect(() => {

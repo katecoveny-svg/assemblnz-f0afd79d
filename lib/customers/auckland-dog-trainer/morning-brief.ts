@@ -2,7 +2,7 @@
  * Morning brief — the daily improvement panel.
  *
  * Every morning the Living Site reads yesterday, notices one thing worth
- * fixing, does the work, and asks for Fred's yes. SAMPLE data only.
+ * fixing, does the work, and asks for Sam's yes. SAMPLE data only.
  */
 
 import type { SurfaceId } from './genome';
@@ -42,7 +42,7 @@ export const IMPROVEMENT_KIND_LABELS: Record<ImprovementKind, string> = {
 };
 
 export const MORNING_BRIEF = {
-  greeting: 'Mōrena, Fred.',
+  greeting: 'Mōrena, Sam.',
   dateLine: 'Thursday · your Living Site worked overnight',
   yesterday: [
     { id: 'enquiries', label: 'enquiries', value: '5', note: 'all triaged, replies drafted' },

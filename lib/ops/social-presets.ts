@@ -36,7 +36,7 @@ export type SocialPreset = {
 export const SOCIAL_PRESETS: Record<SocialPilot, SocialPreset> = {
   'auckland-dog-trainer': {
     pilot: 'auckland-dog-trainer',
-    brandLabel: 'Auckland Dog Trainer',
+    brandLabel: 'Harbourside Dog Training',
     accent: '#D4A5B0',
     ink: '#1B2A4A',
     surface: '#FFFCFB',
@@ -50,7 +50,7 @@ export const SOCIAL_PRESETS: Record<SocialPilot, SocialPreset> = {
       { id: 'linkedin', label: 'LinkedIn', connected: false },
     ],
     voiceNote:
-      'Educational, calm, method-led. Fred’s voice — teach the human to talk dog. Never daycare “pack life”.',
+      'Educational, calm, method-led. Sam’s voice — teach the human to talk dog. Never daycare “pack life”.',
     starters: [
       'Reel: 12s leash-pressure reset from today’s session clip',
       'Carousel: three hand signals every reactive-dog owner needs',
@@ -61,14 +61,14 @@ export const SOCIAL_PRESETS: Record<SocialPilot, SocialPreset> = {
         id: 'adt-1',
         platform: 'instagram',
         title: 'Reactivity isn’t “bad dog”',
-        body: 'It’s a conversation the dog is already having. Today’s session: soft eye → breathe → move. Save this for the next footpath moment. — Fred · Auckland Dog Trainer',
+        body: 'It’s a conversation the dog is already having. Today’s session: soft eye → breathe → move. Save this for the next footpath moment. — Sam · Harbourside Dog Training',
         status: 'ready',
       },
       {
         id: 'adt-2',
         platform: 'tiktok',
         title: 'Hook: Stop yanking the lead',
-        body: 'Hook (0–2s): “Stop yanking.” Beat: show the reset. CTA: “Learn To Talk Dog — link in bio.” Draft only.',
+        body: 'Hook (0–2s): “Stop yanking.” Beat: show the reset. CTA: “calm, method-first — link in bio.” Draft only.',
         status: 'draft',
       },
     ],
