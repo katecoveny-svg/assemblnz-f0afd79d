@@ -253,7 +253,7 @@ export default async function HomePage() {
                 </span>
               </p>
               <p className={styles.sectionLede}>
-                assembl quietly takes care of the repetitive work that slows businesses down.
+                assembl takes care of the repetitive work that slows businesses down.
               </p>
             </div>
           </Reveal>
@@ -303,8 +303,8 @@ export default async function HomePage() {
                 </span>
               </p>
               <p className={styles.sectionLede}>
-                Choose a template and the Living Site assembles around it — the agents, bookings,
-                knowledge, and website your industry actually needs, consistent across all of them.
+                One template per industry — the agents, bookings, knowledge and website that
+                business actually needs.
               </p>
             </div>
           </Reveal>

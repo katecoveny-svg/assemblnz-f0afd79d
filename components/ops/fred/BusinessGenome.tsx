@@ -455,9 +455,8 @@ export function BusinessGenome({
             The business, written down once
           </h2>
           <p style={{ margin: '10px 0 0', fontSize: 14, color: '#D8DEE9', maxWidth: 560, lineHeight: 1.55 }}>
-            Services, pricing, FAQs, policies, testimonials, booking rules — one genome.{' '}
-            The website, booking flow, proposals, agents, and emails are surfaces that read it.
-            Change a fact once and everything stays in sync.
+            Every fact, written down once. Every surface reads it. Change it once —
+            everything stays in sync.
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 12 }}>
             {GENOME_SURFACES.map((s) => (
