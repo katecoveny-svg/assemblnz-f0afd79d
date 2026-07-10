@@ -80,11 +80,13 @@ const GENERATION: Array<{ label: string; detail: string }> = [
   { label: 'morning brief', detail: 'one improvement a day, waiting for your yes' },
 ];
 
-type Step = 'industry' | 'questions' | 'generating' | 'ready';
+// The canon onboarding order: conversation first, documents second,
+// generation third, review fourth, live fifth.
+type Step = 'industry' | 'questions' | 'documents' | 'generating' | 'ready';
 
 function StepDots({ step }: { step: Step }) {
-  const order: Step[] = ['industry', 'questions', 'generating', 'ready'];
-  const labels = ['choose', 'answer', 'generate', 'go live'];
+  const order: Step[] = ['industry', 'questions', 'documents', 'generating', 'ready'];
+  const labels = ['choose', 'introduce', 'share', 'generate', 'go live'];
   const idx = order.indexOf(step);
   return (
     <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
@@ -124,8 +126,12 @@ export function InstallerFlow() {
   const [industry, setIndustry] = React.useState<string | null>(null);
   const [answers, setAnswers] = React.useState<Record<string, string>>({});
   const [genCount, setGenCount] = React.useState(0);
+  const [qIndex, setQIndex] = React.useState(0);
 
-  const answered = QUESTIONS.filter((q) => (answers[q.id] ?? '').trim().length > 0).length;
+  const advanceQuestion = () => {
+    if (qIndex === QUESTIONS.length - 1) setStep('documents');
+    else setQIndex((i) => i + 1);
+  };
 
   React.useEffect(() => {
     if (step !== 'generating') return;
@@ -226,7 +232,10 @@ export function InstallerFlow() {
               <button
                 type="button"
                 disabled={!industry}
-                onClick={() => setStep('questions')}
+                onClick={() => {
+                  setQIndex(0);
+                  setStep('questions');
+                }}
                 className={styles.ctaPrimary}
                 style={{ border: 'none', cursor: industry ? 'pointer' : 'not-allowed', opacity: industry ? 1 : 0.5 }}
               >
@@ -241,80 +250,147 @@ export function InstallerFlow() {
 
         {step === 'questions' ? (
           <motion.div
-            key="questions"
+            key={`question-${qIndex}`}
+            initial={reduced ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.45, ease: EASE }}
+          >
+            {/* One question at a time — a conversation, not a form. */}
+            <p style={{ fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', color: palette.bodyGrey, margin: 0 }}>
+              {qIndex + 1} of {QUESTIONS.length}
+            </p>
+            <label
+              htmlFor={`install-${QUESTIONS[qIndex].id}`}
+              className={styles.h2}
+              style={{ display: 'block', marginTop: 14, maxWidth: 640 }}
+            >
+              {QUESTIONS[qIndex].q}
+              <span aria-hidden style={{ color: palette.accentGold }}>
+                {' '}
+              </span>
+            </label>
+            <input
+              id={`install-${QUESTIONS[qIndex].id}`}
+              key={QUESTIONS[qIndex].id}
+              autoFocus
+              value={answers[QUESTIONS[qIndex].id] ?? ''}
+              onChange={(e) =>
+                setAnswers((a) => ({ ...a, [QUESTIONS[qIndex].id]: e.target.value }))
+              }
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && (answers[QUESTIONS[qIndex].id] ?? '').trim()) {
+                  e.preventDefault();
+                  advanceQuestion();
+                }
+              }}
+              placeholder={samplesFor(industry)[QUESTIONS[qIndex].id]}
+              style={{
+                width: '100%',
+                maxWidth: 640,
+                marginTop: 24,
+                fontSize: 17,
+                color: palette.ink,
+                background: palette.paper,
+                border: 'none',
+                borderBottom: `1.5px solid ${palette.hairline}`,
+                padding: '10px 2px 12px',
+                outline: 'none',
+              }}
+            />
+            <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 26, flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                disabled={!(answers[QUESTIONS[qIndex].id] ?? '').trim()}
+                onClick={advanceQuestion}
+                className={styles.ctaPrimary}
+                style={{
+                  border: 'none',
+                  cursor: (answers[QUESTIONS[qIndex].id] ?? '').trim() ? 'pointer' : 'not-allowed',
+                  opacity: (answers[QUESTIONS[qIndex].id] ?? '').trim() ? 1 : 0.45,
+                }}
+              >
+                {qIndex === QUESTIONS.length - 1 ? 'that’s the setup' : 'next'}
+                <span aria-hidden style={{ color: palette.goldSoft }}>
+                  →
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  setAnswers((a) => ({
+                    ...a,
+                    [QUESTIONS[qIndex].id]: samplesFor(industry)[QUESTIONS[qIndex].id],
+                  }))
+                }
+                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12.5, color: palette.bodyGrey, textDecoration: 'underline', padding: 0 }}
+              >
+                use the sample answer
+              </button>
+              <button
+                type="button"
+                onClick={() => (qIndex === 0 ? setStep('industry') : setQIndex((i) => i - 1))}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12.5, color: palette.bodyGrey, padding: 0 }}
+              >
+                back
+              </button>
+            </div>
+          </motion.div>
+        ) : null}
+
+        {step === 'documents' ? (
+          <motion.div
+            key="documents"
             initial={reduced ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.5, ease: EASE }}
           >
             <p className={styles.h2}>
-              ten questions
+              already written it down somewhere
               <span aria-hidden style={{ color: palette.accentGold }}>
-                .
+                ?
               </span>
             </p>
             <p className={styles.sectionLede}>
-              This is the whole setup. Your answers become the Business Genome — every surface
-              reads from it. Got a website, docs, or FAQs already? In the real install you drop
-              them here and we read them for you.
+              A website, a price list, an FAQ doc — in a real install you drop them here and
+              assembl reads them, so you never repeat yourself.
             </p>
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '20px 0', flexWrap: 'wrap' }}>
+            <div
+              aria-hidden
+              style={{
+                ...cardBase,
+                marginTop: 24,
+                maxWidth: 560,
+                padding: '38px 24px',
+                textAlign: 'center',
+                borderStyle: 'dashed',
+                color: palette.bodyGrey,
+                fontSize: 13.5,
+              }}
+            >
+              drop files here · demo only — nothing uploads
+            </div>
+            <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 26, flexWrap: 'wrap' }}>
               <button
                 type="button"
-                onClick={() => setAnswers(samplesFor(industry))}
-                className={styles.ctaGhost}
-                style={{ cursor: 'pointer' }}
-              >
-                use the sample answers
-              </button>
-              <span style={{ fontSize: 12, color: palette.bodyGrey }}>{answered}/10 answered</span>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {QUESTIONS.map((q, i) => (
-                <div key={q.id} style={cardBase}>
-                  <label
-                    htmlFor={`install-${q.id}`}
-                    style={{ fontFamily: display, fontSize: 18, color: palette.ink, display: 'block' }}
-                  >
-                    {i + 1} · {q.q}
-                  </label>
-                  <input
-                    id={`install-${q.id}`}
-                    value={answers[q.id] ?? ''}
-                    onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))}
-                    placeholder={samplesFor(industry)[q.id]}
-                    style={{
-                      width: '100%',
-                      marginTop: 10,
-                      fontSize: 14,
-                      color: palette.ink,
-                      background: palette.paperDeep,
-                      border: `1px solid ${palette.hairline}`,
-                      borderRadius: 10,
-                      padding: '11px 13px',
-                      outline: 'none',
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-            <div style={{ display: 'flex', gap: 12, marginTop: 26, flexWrap: 'wrap' }}>
-              <button
-                type="button"
-                disabled={answered < 10}
                 onClick={() => {
                   setGenCount(0);
                   setStep('generating');
                 }}
                 className={styles.ctaPrimary}
-                style={{ border: 'none', cursor: answered === 10 ? 'pointer' : 'not-allowed', opacity: answered === 10 ? 1 : 0.5 }}
+                style={{ border: 'none', cursor: 'pointer' }}
               >
                 generate my living site
                 <span aria-hidden style={{ color: palette.goldSoft }}>
                   •
                 </span>
               </button>
-              <button type="button" onClick={() => setStep('industry')} className={styles.ctaGhost} style={{ cursor: 'pointer' }}>
+              <button
+                type="button"
+                onClick={() => setStep('questions')}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12.5, color: palette.bodyGrey, padding: 0 }}
+              >
                 back
               </button>
             </div>
@@ -385,36 +461,25 @@ export function InstallerFlow() {
               </span>
             </p>
             <p className={styles.sectionLede}>
-              This demo lands on{' '}
-              {verticalBySlug(industry ?? '')?.businessName ?? 'a sample business'} — a real,
-              genome-backed Living Site (fictional business, live system). Everything below is
-              interactive.
+              {verticalBySlug(industry ?? '')?.businessName ?? 'A sample business'} is live —
+              a real, genome-backed Living Site. Fictional business, live system.
             </p>
-            <div
-              style={{
-                display: 'grid',
-                gap: 14,
-                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                marginTop: 24,
-              }}
-            >
-              {[
-                { href: `/living-site/${industry ?? 'dog-training'}`, title: 'the website', body: 'hero, services, pricing, faqs, book — all read from the genome' },
-                { href: '/living-site', title: 'the operating system', body: 'the genome ripple + the morning brief, live' },
-                { href: '/contact', title: 'your own install', body: 'guided setup with the assembl team — bring your website and docs' },
-              ].map((c) => (
-                <Link key={c.href} href={c.href} style={{ textDecoration: 'none' }}>
-                  <div style={{ ...cardBase, height: '100%', borderColor: `${palette.accentGold}66` }}>
-                    <span style={{ fontFamily: display, fontSize: 21, color: palette.ink }}>
-                      {c.title}
-                      <span style={{ color: palette.accentGold }}> →</span>
-                    </span>
-                    <span style={{ fontSize: 13, color: palette.bodyGrey, display: 'block', marginTop: 6, lineHeight: 1.5 }}>
-                      {c.body}
-                    </span>
-                  </div>
-                </Link>
-              ))}
+            <div style={{ display: 'flex', gap: 18, alignItems: 'center', marginTop: 26, flexWrap: 'wrap' }}>
+              <Link
+                href={`/living-site/${industry ?? 'dog-training'}`}
+                className={styles.ctaPrimary}
+              >
+                step inside
+                <span aria-hidden style={{ color: palette.goldSoft }}>
+                  •
+                </span>
+              </Link>
+              <Link href="/living-site" style={{ fontSize: 12.5, color: palette.bodyGrey }}>
+                see the operating system
+              </Link>
+              <Link href="/contact" style={{ fontSize: 12.5, color: palette.bodyGrey }}>
+                your own install
+              </Link>
             </div>
             <p style={{ marginTop: 22, fontSize: 12, color: palette.bodyGrey }}>
               demo · the generation above is simulated — your answers stayed in this browser tab.
