@@ -116,6 +116,42 @@ export default async function LivingSitePage() {
         </div>
       </section>
 
+      {/* ── the website the genome builds ──────────────────────────────── */}
+      <section className={styles.section} style={{ paddingTop: 28 }}>
+        <div className={styles.inner}>
+          <Reveal>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18 }}>
+              <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
+                •
+              </span>
+              <MicroLabel as="h2">three · the website it writes</MicroLabel>
+            </div>
+          </Reveal>
+          <Reveal>
+            <div style={frame}>
+              <p className={styles.sectionLede} style={{ marginTop: 0 }}>
+                The genome&apos;s first surface is Fred&apos;s public website — every price, FAQ
+                and testimonial on it is read from the facts above, live. Change a fact and the
+                site rewrites itself. Send an enquiry there and it lands on Fred&apos;s desk.
+              </p>
+              <div className={styles.ctaRow} style={{ marginTop: 18 }}>
+                <MagneticButton>
+                  <Link href="/living-site/fred" className={styles.ctaPrimary}>
+                    visit Fred&apos;s website
+                    <span
+                      aria-hidden
+                      style={{ color: palette.goldSoft, fontSize: 15, lineHeight: 1 }}
+                    >
+                      •
+                    </span>
+                  </Link>
+                </MagneticButton>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── outro ─────────────────────────────────────────────────────── */}
       <section className={styles.section} style={{ background: palette.paperDeep }}>
         <div className={styles.inner}>
