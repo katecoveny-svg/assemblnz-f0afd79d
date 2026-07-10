@@ -434,13 +434,42 @@ function LandingTab() {
   );
 }
 
-function LeadsTab() {
+function LeadsTab({ liveEnquiries = [] }: { liveEnquiries?: LiveEnquiry[] }) {
   const [captured, setCaptured] = useState<Lead | null>(null);
   const leads = captured ? [captured, ...LEADS] : LEADS;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <InstagramLeadCapture onCaptured={setCaptured} />
+      {liveEnquiries.length > 0 ? (
+        <div style={{ ...glass, padding: 16, borderColor: `${GOLD}88` }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'space-between', alignItems: 'baseline' }}>
+            <p style={{ ...eyebrow, color: GOLD }}>from your public website · live</p>
+            <p style={{ margin: 0, fontSize: 12, color: MUTED }}>
+              {liveEnquiries.length} on your desk — intake agent drafts a reply for each, you approve every send
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
+            {liveEnquiries.map((e) => (
+              <article key={e.id} style={{ padding: 12, borderRadius: 12, background: BLUSH }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: 'space-between' }}>
+                  <p style={{ margin: 0, fontWeight: 700, color: NAVY, fontSize: 14 }}>
+                    {e.name}
+                    {e.dog ? (
+                      <span style={{ fontWeight: 400, color: MUTED, marginLeft: 8, fontSize: 13 }}>{e.dog}</span>
+                    ) : null}
+                  </p>
+                  <span style={{ ...eyebrow, color: e.source === 'seed' ? MUTED : GOLD }}>
+                    {e.source === 'seed' ? 'sample' : e.source} · {e.when}
+                  </span>
+                </div>
+                <p style={{ margin: '8px 0 0', fontSize: 13.5, color: NAVY, lineHeight: 1.5 }}>{e.message}</p>
+                <p style={{ margin: '6px 0 0', fontSize: 12.5, color: MUTED }}>{e.email}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      ) : null}
       <div style={{ ...glass, padding: 16 }}>
         <p style={eyebrow}>lead triage · Intake + Pathway + Risk agents</p>
         <p style={{ margin: '6px 0 0', fontSize: 14, color: MUTED, lineHeight: 1.5 }}>
@@ -750,15 +779,20 @@ function AgentsTab() {
 }
 
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
+import type { LiveEnquiry } from '@/lib/customers/auckland-dog-trainer/genome-store';
 
 export function FredDashboard({
   tab,
   genomeFacts,
   genomeLive = false,
+  liveEnquiries,
+  liveEnquiryCount,
 }: {
   tab: FredTabKey;
   genomeFacts?: GenomeFact[];
   genomeLive?: boolean;
+  liveEnquiries?: LiveEnquiry[];
+  liveEnquiryCount?: number | null;
 }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, fontFamily: 'var(--font-brand-body), system-ui, sans-serif', color: NAVY }}>
@@ -768,10 +802,10 @@ export function FredDashboard({
       <TabBar active={tab} />
       <OsScrollReveal key={tab} delay={0.04}>
         {tab === 'week' ? <WeekTab /> : null}
-        {tab === 'brief' ? <MorningBrief /> : null}
-        {tab === 'genome' ? <BusinessGenome facts={genomeFacts} live={genomeLive} /> : null}
+        {tab === 'brief' ? <MorningBrief liveEnquiryCount={liveEnquiryCount} /> : null}
+        {tab === 'genome' ? <BusinessGenome facts={genomeFacts} live={genomeLive} editable /> : null}
         {tab === 'landing' ? <LandingTab /> : null}
-        {tab === 'leads' ? <LeadsTab /> : null}
+        {tab === 'leads' ? <LeadsTab liveEnquiries={liveEnquiries} /> : null}
         {tab === 'dogs' ? <DogsTab /> : null}
         {tab === 'programmes' ? <ProgrammesTab /> : null}
         {tab === 'notes' ? <SessionNotesEngine /> : null}

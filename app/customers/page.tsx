@@ -24,7 +24,10 @@ export const metadata: Metadata = {
 const serif = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
 
 export default function CustomersHub() {
-  const concepts = TENANTS.filter((t) => t.status === 'concept');
+  // Fred is featured up top as the flagship Living Site — skip his hub card.
+  const concepts = TENANTS.filter(
+    (t) => t.status === 'concept' && t.slug !== 'auckland-dog-trainer',
+  );
   const live = TENANTS.filter((t) => t.status === 'pilot');
 
   return (
@@ -55,10 +58,68 @@ export default function CustomersHub() {
             className="mt-5 max-w-xl text-[15px] leading-relaxed"
             style={{ color: ASSEMBL_WARM_GREY }}
           >
-            Private pitch surfaces for named partners. Everything is draft-only.
-            Pick a pilot to open its console.
+            Every workspace here is a Living Site in the making — one Business Genome,
+            many surfaces, draft-only until its owner says yes. Private pitch surfaces
+            for named partners; pick a pilot to open its console.
           </p>
         </header>
+
+        {/* The flagship — the one complete end-to-end Living Site. */}
+        <section className="mb-14">
+          <h2
+            className="mb-5 text-[10px] uppercase"
+            style={{ letterSpacing: '0.16em', color: ASSEMBL_WARM_GREY }}
+          >
+            the living site · flagship
+          </h2>
+          <div
+            className={['group block rounded-2xl border p-6 shadow-sm', levitateClass].join(' ')}
+            style={{
+              borderColor: '#D4A5B0',
+              background: 'linear-gradient(135deg, #1B2A4A 0%, #2a3d5c 100%)',
+            }}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h3 className="text-lg" style={{ fontFamily: serif, fontWeight: 600, color: '#fff' }}>
+                  Auckland Dog Trainer · Learn To Talk Dog
+                </h3>
+                <p className="mt-1 text-xs" style={{ color: '#D4A5B0' }}>
+                  Fred · the first complete Living Site — genome, brief, website, desk
+                </p>
+              </div>
+              <MatarikiCluster size={24} gold />
+            </div>
+            <p className="mt-3 text-sm leading-relaxed" style={{ color: '#c7d0dd' }}>
+              One Business Genome in the database; the public website, booking form, ops console,
+              morning brief, and desk agent all read it. Change a fact once and every surface
+              rewrites itself — enquiries from the public site land on Fred&apos;s desk.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-4">
+              <Link
+                href="/customers/auckland-dog-trainer/ops"
+                className="text-[10px] uppercase"
+                style={{ letterSpacing: '0.16em', color: '#fff' }}
+              >
+                open the console →
+              </Link>
+              <Link
+                href="/customers/auckland-dog-trainer/ops?tab=genome"
+                className="text-[10px] uppercase"
+                style={{ letterSpacing: '0.16em', color: '#D4A5B0' }}
+              >
+                edit the genome →
+              </Link>
+              <Link
+                href="/living-site/fred"
+                className="text-[10px] uppercase"
+                style={{ letterSpacing: '0.16em', color: '#D4A5B0' }}
+              >
+                the website it writes →
+              </Link>
+            </div>
+          </div>
+        </section>
 
         {/* Featured products — not /customers tenants: product OSes that pilots
             run on (Alphassembl) or that sit beside the partner demos (Bills). */}

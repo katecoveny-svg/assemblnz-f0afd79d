@@ -78,34 +78,43 @@ this PR (Fred site, installer, interior pivots, this doc).
 
 ## What still needs work (in priority order)
 
-1. **De-marketplace the chrome** — the nav (`V2Nav`: "agents · pricing ·
-   trust · about · try an agent"), the collections/bundle cards on the
-   homepage, and the live-counts pulse strip still tell the agents-first
-   story. Kate flagged this explicitly. The brief wants the marketplace to be
-   internal plumbing, not the front door.
-6. **Genome editing UI** — facts are live data but editing means Supabase
-   table editor today. Add an admin/ops "edit fact" affordance (write path
-   gated by `ensureAdmin` or demo auth) so the ripple is user-editable.
-2. **Ripple computed, not choreographed** — the "change once" scenarios in
-   `lib/customers/auckland-dog-trainer/genome.ts` (`RIPPLE_SCENARIOS`) are
-   curated copy. Next: derive surface updates from `read_by` + fact diffs.
-3. **Enquiries → CRM loop** — form rows land in `living_site_enquiries` but
-   the ops Lead-triage tab still renders static `LEADS`. Read live enquiries
-   into the triage tab (and let the morning brief count them).
+_Items closed 10 Jul 2026 (session-continuation follow-up PR):_
+
+- ~~**De-marketplace the chrome**~~ — DONE. `V2Nav` now reads "how it works ·
+  living site · pricing · about" with a "see a living site" CTA; homepage
+  bundle-card grid replaced with industry-template tiles that all point at
+  `/install`; hero pulse strip + closing KpiTrio now tell the OS story (facts ·
+  surfaces · one improvement a morning); `/agents` repositioned as "the fleet
+  behind every living site". Marketplace stays reachable via footer + `/agents`.
+- ~~**Genome editing UI**~~ — DONE. Ops genome tab (`?tab=genome`) has
+  edit-in-place per fact → `updateGenomeFactAction` (server action, update-only,
+  defence-in-depth credential check on top of the middleware gate) →
+  `revalidatePath` on every genome surface.
+- ~~**Ripple computed, not choreographed**~~ — DONE for real edits: a saved
+  fact shows the surface list computed from its `read_by` (the curated
+  `RIPPLE_SCENARIOS` remain for the guided demo chips).
+- ~~**Enquiries → CRM loop**~~ — DONE. `getRecentEnquiries()` in genome-store;
+  Lead-triage tab shows live `living_site_enquiries` rows above the sample
+  leads ("from your public website · live"); the morning brief's enquiries
+  tile reports the real count.
+- ~~**Legacy repo banner**~~ — DONE (PR in `assemblnz-7d51a25a`); archiving
+  itself is owner-only in GitHub settings.
+
+_Still open:_
+
 4. **Real voice** (speech) — the "voice & chat agent" is the real streaming
    text agent (`PilotAgentChat` → `/api/customers/auckland-dog-trainer/chat`).
    ElevenLabs bits exist elsewhere in the org (legacy repo used
    `@elevenlabs/react`; `voice:deploy:manaaki` script here) — actual
-   speech in/out is not wired on the public page.
+   speech in/out is not wired on the public page. Needs keys + a product call.
 5. **Installer → real generation** — `/install` is a simulated demo that lands
    on Fred's site. The real version writes a new tenant's genome rows and
-   scaffolds surfaces from the template.
-7. **Legacy repo `assemblnz-7d51a25a`** — the old Lovable/Vite codebase; no
-   Fred content; recommend archiving on GitHub (Settings → Archive) with a
-   README banner pointing here. Not yet done.
+   scaffolds surfaces from the template. Second vertical: extend
+   `living_site_genome` (already tenant-keyed) + generalise `genome-store` per
+   tenant.
 8. **Indexing** — `/living-site/fred` is `noindex` (sample data); flip when
-   real. Interior pages beyond the three touched (e.g. `/trust`, `/bundles`)
-   still carry old-story copy.
+   real. Deep marketplace pages (`/bundles/*`) still carry old-story copy —
+   acceptable while the marketplace is internal plumbing.
 
 ## Environment / workflow memory
 

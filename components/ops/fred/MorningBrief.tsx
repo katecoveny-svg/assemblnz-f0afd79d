@@ -79,10 +79,20 @@ function Greeting() {
   );
 }
 
-function Yesterday() {
+function Yesterday({ liveEnquiryCount }: { liveEnquiryCount?: number | null }) {
+  // When the ops page hands us the real living_site_enquiries count, the
+  // enquiries tile stops being sample copy and reports the actual database.
+  const stats =
+    typeof liveEnquiryCount === 'number'
+      ? MORNING_BRIEF.yesterday.map((s) =>
+          s.id === 'enquiries'
+            ? { ...s, value: String(liveEnquiryCount), note: 'on your desk · live from the website' }
+            : s,
+        )
+      : MORNING_BRIEF.yesterday;
   return (
     <OsStagger style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
-      {MORNING_BRIEF.yesterday.map((s) => (
+      {stats.map((s) => (
         <motion.div key={s.id} variants={osStaggerItem}>
           <OsHoverLift accent={PINK} style={{ ...glass, padding: '14px 16px', background: BLUSH, height: '100%' }}>
             <p style={eyebrow}>{s.label}</p>
@@ -261,13 +271,13 @@ function Queue() {
   );
 }
 
-export function MorningBrief() {
+export function MorningBrief({ liveEnquiryCount }: { liveEnquiryCount?: number | null }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
       <OsScrollReveal>
         <Greeting />
       </OsScrollReveal>
-      <Yesterday />
+      <Yesterday liveEnquiryCount={liveEnquiryCount} />
       <NoticedCard />
       <OsScrollReveal delay={0.05}>
         <Queue />

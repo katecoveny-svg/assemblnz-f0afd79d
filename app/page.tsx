@@ -1,18 +1,20 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { palette, motto } from '@assembl/canvas/tokens';
-import { BundleCard, KpiTrio, MicroLabel } from '@assembl/canvas';
+import { KpiTrio, MicroLabel } from '@assembl/canvas';
 import { V2Nav } from '@/components/v2/V2Chrome';
 import { HomeHero } from '@/components/v2/home/HomeHero';
 import { LivingSiteEvolution } from '@/components/v2/home/LivingSiteEvolution';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
 import { AssemblWordmark } from '@/components/site/AssemblWordmark';
-import { getLiveAgentCounts } from '@/lib/v2/live-counts';
 import { orderedBundles } from '@/lib/marketplace/bundles';
+import {
+  GENOME_FACTS,
+  GENOME_SURFACES,
+} from '@/lib/customers/auckland-dog-trainer/genome';
 import { reo, footerDisclaimer } from '@/lib/site-config';
 import styles from '@/components/v2/home/home.module.css';
-import { HAPAI_TOOLS } from '@/lib/hapai/shareable-tools';
 
 export const metadata: Metadata = {
   title: 'assembl — grows your business while you run it. Less admin. More mahi.',
@@ -28,19 +30,13 @@ export const metadata: Metadata = {
  * chrome (the global SiteHeader/Footer suppress themselves on "/").
  */
 export default async function HomePage() {
-  const counts = await getLiveAgentCounts();
   const bundles = orderedBundles();
-  const freeTools = HAPAI_TOOLS.filter((t) => t.brand === 'dash' && t.status === 'live').length;
   return (
     <div className={styles.page}>
       <V2Nav />
 
       {/* ── hero — live 3D particulate landscape ─────────────────────── */}
-      <HomeHero
-        agentsLive={counts.total}
-        collections={bundles.length}
-        freeTools={freeTools}
-      />
+      <HomeHero genomeFacts={GENOME_FACTS.length} surfaces={GENOME_SURFACES.length} />
 
       {/* ── the living site — a business assembling itself on scroll ─── */}
       <LivingSiteEvolution />
@@ -71,32 +67,62 @@ export default async function HomePage() {
 
           <div className={styles.cardGrid}>
             {bundles.map((b, i) => {
-              const live = counts.byBundle[b.slug] ?? 0;
               const floatClass = styles[`float${(i % 4) + 1}` as keyof typeof styles] as
                 | string
                 | undefined;
               return (
                 <Link
                   key={b.slug}
-                  href={`/bundles/${b.slug}`}
+                  href="/install"
                   className={`${styles.cardLink} ${floatClass ?? ''} rise`}
+                  style={{ textDecoration: 'none' }}
                 >
-                  <BundleCard
-                    title={b.name}
-                    description={`${b.shortPitch.split('. ')[0].toLowerCase().replace(/\.$/, '')}.`}
-                    tags={[b.category]}
-                    gold={i % 3 === 1}
-                    meta={live > 0 ? `${live} agents live` : b.standalone ? 'standalone' : undefined}
-                    style={{ maxWidth: 'none', height: '100%' }}
-                  />
+                  <article
+                    style={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 10,
+                      padding: '20px 22px',
+                      borderRadius: 18,
+                      background: palette.paper,
+                      border: `1px solid ${palette.hairline}`,
+                      boxShadow: '0 14px 34px rgba(24, 28, 38, 0.06)',
+                    }}
+                  >
+                    <MicroLabel style={{ color: palette.bodyGrey }}>{b.category}</MicroLabel>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontFamily: "var(--font-display), 'Cormorant Garamond', Georgia, serif",
+                        fontSize: 21,
+                        lineHeight: 1.2,
+                        color: palette.ink,
+                      }}
+                    >
+                      {b.name}
+                    </p>
+                    <p
+                      style={{
+                        margin: 'auto 0 0',
+                        fontSize: 12,
+                        fontWeight: 700,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: palette.accentGold,
+                      }}
+                    >
+                      install →
+                    </p>
+                  </article>
                 </Link>
               );
             })}
           </div>
 
           <Reveal>
-            <Link href="/agents" className={styles.sectionLink} style={{ marginTop: 44 }}>
-              explore the marketplace
+            <Link href="/install" className={styles.sectionLink} style={{ marginTop: 44 }}>
+              choose yours — ten questions and it assembles
               <span aria-hidden style={{ color: palette.accentGold }}>
                 →
               </span>
@@ -133,8 +159,8 @@ export default async function HomePage() {
                     </span>
                   </Link>
                 </MagneticButton>
-                <Link href="/agents" className={styles.ctaGhost}>
-                  try an agent free
+                <Link href="/install" className={styles.ctaGhost}>
+                  install your industry
                 </Link>
                 <Link href="/pricing" className={styles.ctaGhost}>
                   see pricing
@@ -166,9 +192,21 @@ export default async function HomePage() {
               <div style={{ marginTop: 52, width: '100%' }}>
                 <KpiTrio
                   stats={[
-                    { label: 'agents live', value: counts.total, hint: 'across the marketplace' },
-                    { label: 'collections', value: bundles.length, hint: 'purpose-built bundles' },
-                    { label: 'free tools', value: freeTools, hint: 'open and use — no login' },
+                    {
+                      label: 'source of truth',
+                      value: 1,
+                      hint: 'the Business Genome — every fact once',
+                    },
+                    {
+                      label: 'surfaces reading it',
+                      value: GENOME_SURFACES.length,
+                      hint: 'website, CRM, bookings, agents…',
+                    },
+                    {
+                      label: 'improvement a morning',
+                      value: 1,
+                      hint: 'already built — you say yes',
+                    },
                   ]}
                 />
               </div>
