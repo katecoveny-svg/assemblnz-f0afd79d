@@ -61,10 +61,8 @@ export default async function LivingSitePage() {
                 </span>
               </p>
               <p className={styles.sectionLede}>
-                Sam trains dogs in Auckland — a fictional sample business on a real system.
-                Below is that business running as one whole: services, pricing, FAQs, bookings,
-                and agents reading a single source of truth, improving itself every morning.
-                Everything here is interactive. Go on — change a price, approve the brief.
+                One business. One source of truth. Every surface reads it.
+                Sample business — real system. Go on: change a price, approve the brief.
               </p>
             </div>
           </Reveal>
@@ -130,9 +128,8 @@ export default async function LivingSitePage() {
           </Reveal>
           <Reveal>
             <p className={styles.sectionLede} style={{ marginTop: 0 }}>
-              Each template runs a complete sample business — fictional people, real system.
-              Every price, FAQ and testimonial below is read from that business&apos;s genome,
-              and an enquiry sent on any of them lands on its owner&apos;s desk.
+              Eight industries, eight sample businesses. Every price and FAQ reads live
+              from a genome. Send an enquiry — it lands on the owner&apos;s desk.
             </p>
           </Reveal>
           <div
@@ -206,8 +203,10 @@ export default async function LivingSitePage() {
                 </span>
               </p>
               <p className={styles.sectionLede}>
-                The full console — CRM, programme journeys, course studio, hiring — opens in
-                guided demos. The system installs from an industry template and ten questions;
+                We don&apos;t believe the future is a collection of disconnected AI agents.
+                We believe every business should have one connected operating system that
+                understands how it works and helps it improve over time. That&apos;s a
+                Living Business. An industry template and ten questions installs yours —
                 nothing sends without your yes.
               </p>
             </div>

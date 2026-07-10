@@ -12,7 +12,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 /**
  * The Living Site evolution — a business assembling itself on scroll.
  * Blank page → website → CRM → knowledge → calendar → bookings → invoices →
- * voice → marketing → reports → everything quietly keeps improving.
+ * voice → marketing → reports → everything keeps improving.
  * The website is one surface of the operating system, not the product.
  */
 
@@ -192,7 +192,7 @@ export function LivingSiteEvolution() {
           >
             ●
           </motion.span>
-          everything quietly keeps improving
+          everything keeps improving
         </motion.p>
 
         <motion.div
