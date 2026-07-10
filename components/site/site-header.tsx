@@ -93,6 +93,9 @@ export function isCustomerWorkspace(pathname: string | null): boolean {
   // /customers/* workspace while the URL bar keeps the personal link, so it
   // must suppress the global chrome exactly like the workspace it serves.
   if (pathname === "/for" || pathname.startsWith("/for/")) return true;
+  // Fred's public Living Site landing page is white-labelled the same way —
+  // it is the customer's website, not an assembl marketing page.
+  if (pathname.startsWith("/living-site/fred")) return true;
   return pathname === "/customers" || pathname.startsWith("/customers/");
 }
 

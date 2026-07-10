@@ -1,22 +1,26 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { EnquiryForm } from '@/components/customers/fred-landing/EnquiryForm';
+import { PilotAgentChat } from '@/components/customers/PilotAgentChat';
 import { getBrandFonts } from '@/lib/brand/fonts';
+import { getLiveGenomeFacts } from '@/lib/customers/auckland-dog-trainer/genome-store';
 import {
-  getLiveGenomeFacts,
-} from '@/lib/customers/auckland-dog-trainer/genome-store';
+  FRED_AGENT_GREETING,
+  FRED_AGENT_NAME,
+  FRED_TRY_ME,
+} from '@/lib/customers/auckland-dog-trainer/agent';
 import type { GenomeFact } from '@/lib/customers/auckland-dog-trainer/genome';
-import { EnquiryForm } from './EnquiryForm';
 
-// The whole page is genome-read: a fact edited in Supabase renders here on
-// the very next request. That IS the demo.
+// Every fact on this page reads from the Business Genome on each request —
+// edit the genome and the website updates. That's the Living Site.
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'auckland dog trainer · learn to talk dog — a living site, built by assembl',
+  title: 'Auckland Dog Trainer — Learn To Talk Dog',
   description:
-    'Fred’s public website, generated from his Business Genome — services, pricing, FAQs and proof all read live from one source of truth. Part of the assembl living-site demo.',
-  // A fictional sample business — keep it out of real dog-training searches.
-  robots: { index: false, follow: true },
+    'Premium balanced dog training across greater Auckland: private sessions, Reactivity Rewired, Recall Mastery, and Board & Train. Book a consultation — Fred reads every enquiry.',
+  robots: { index: false, follow: false },
 };
 
 const NAVY = '#1B2A4A';
@@ -27,71 +31,37 @@ const CREAM = '#FFFCFB';
 const MUTED = '#6B7389';
 const GOLD = '#C4A574';
 
-const display = 'var(--font-brand-display), Georgia, serif';
-const mono = 'var(--font-brand-mono), ui-monospace, monospace';
-
-const eyebrow: React.CSSProperties = {
-  fontSize: 10,
-  letterSpacing: '0.16em',
-  textTransform: 'uppercase',
-  color: PINK_DEEP,
-  fontFamily: mono,
-};
+const display = "var(--font-brand-display), 'Playfair Display', Georgia, serif";
+const body = 'var(--font-brand-body), system-ui, sans-serif';
 
 const card: React.CSSProperties = {
-  borderRadius: 16,
-  border: `1px solid ${NAVY}14`,
   background: CREAM,
-  boxShadow: '0 10px 28px rgba(27,42,74,0.06)',
+  border: `1px solid ${NAVY}14`,
+  borderRadius: 18,
+  padding: 22,
+  boxShadow: '0 14px 36px rgba(27,42,74,0.07)',
 };
 
-const inner: React.CSSProperties = {
-  maxWidth: 1040,
-  margin: '0 auto',
-  padding: '0 clamp(16px, 4vw, 32px)',
+const eyebrow: React.CSSProperties = {
+  fontSize: 10.5,
+  letterSpacing: '0.18em',
+  textTransform: 'uppercase',
+  color: PINK_DEEP,
+  fontFamily: 'var(--font-brand-mono), ui-monospace, monospace',
 };
 
-/** Quiet provenance chip — the demo's whole point, worn lightly. */
-function GenomeTag({ factId }: { factId: string }) {
-  return (
-    <span
-      style={{
-        fontSize: 9.5,
-        letterSpacing: '0.08em',
-        fontFamily: mono,
-        color: `${NAVY}66`,
-        whiteSpace: 'nowrap',
-      }}
-    >
-      genome · {factId}
-    </span>
-  );
+function factsIn(facts: GenomeFact[], section: GenomeFact['section']): GenomeFact[] {
+  return facts.filter((f) => f.section === section);
+}
+function fact(facts: GenomeFact[], id: string): GenomeFact | undefined {
+  return facts.find((f) => f.id === id);
 }
 
-/** '$299 + GST · assessment + success plan' → { price, detail }. */
-function splitService(value: string): { price: string; detail: string | null } {
-  const [price, ...rest] = value.split(' · ');
-  return { price, detail: rest.length ? rest.join(' · ') : null };
-}
-
-/** '“Q?” → answer' → { q, a } (falls back to the raw value as the answer). */
-function splitFaq(value: string): { q: string; a: string } {
-  const i = value.indexOf('→');
-  if (i < 0) return { q: value, a: '' };
-  return {
-    q: value.slice(0, i).trim().replace(/^[“"]|[”"]$/g, ''),
-    a: value.slice(i + 1).trim(),
-  };
-}
-
-/** '23 approved · latest: Tank “quote”' → { count, quote }. */
-function splitTestimonial(value: string): { count: string | null; quote: string } {
-  const i = value.toLowerCase().indexOf('latest:');
-  if (i < 0) return { count: null, quote: value };
-  return {
-    count: value.slice(0, i).replace(/·\s*$/, '').trim() || null,
-    quote: value.slice(i + 'latest:'.length).trim(),
-  };
+/** Split "$2,200 + GST · 6 weeks" into price + detail for the service cards. */
+function splitValue(value: string): { lead: string; rest: string | null } {
+  const idx = value.indexOf('·');
+  if (idx < 0) return { lead: value, rest: null };
+  return { lead: value.slice(0, idx).trim(), rest: value.slice(idx + 1).trim() };
 }
 
 export default async function FredLandingPage() {
@@ -99,237 +69,257 @@ export default async function FredLandingPage() {
   const fonts = getBrandFonts('auckland-dog-trainer');
   const brandVars = `${fonts.display.variable} ${fonts.body.variable} ${fonts.mono.variable}`;
 
-  const byId = new Map(facts.map((f) => [f.id, f]));
-  const fact = (id: string): GenomeFact | undefined => byId.get(id);
-
-  const [businessName, tagline] = (
-    fact('g-name')?.value ?? 'Auckland Dog Trainer · Learn To Talk Dog'
-  ).split(' · ');
-  const area = fact('g-area')?.value;
-  const team = fact('g-team')?.value;
-
-  // This page IS the genome's "website" surface — programmes and FAQs render
-  // whatever the database holds, including facts added there after ship.
-  const services = facts.filter((f) => f.section === 'services');
-  const faqs = facts.filter(
-    (f) => f.section === 'knowledge' && f.readBy.includes('website'),
-  );
-  const testimonial = fact('g-testimonials')
-    ? splitTestimonial(fact('g-testimonials')!.value)
-    : null;
+  const services = factsIn(facts, 'services');
+  const knowledge = factsIn(facts, 'knowledge');
+  const area = fact(facts, 'g-area')?.value ?? 'Greater Auckland';
+  const team = fact(facts, 'g-team')?.value ?? 'Fred (method lead)';
+  const testimonials = fact(facts, 'g-testimonials')?.value ?? '';
+  const bookingRules = fact(facts, 'g-booking-rules')?.value ?? '';
 
   return (
-    <div
-      className={brandVars}
-      style={{
-        background: BLUSH,
-        color: NAVY,
-        fontFamily: 'var(--font-brand-body), system-ui, sans-serif',
-        minHeight: '100vh',
-      }}
-    >
-      {/* ── demo strip — honest about what this is ─────────────────────── */}
-      <div style={{ background: NAVY, color: '#fff' }}>
-        <div
-          style={{
-            ...inner,
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: 10,
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '9px clamp(16px, 4vw, 32px)',
-          }}
-        >
-          <p style={{ margin: 0, fontSize: 11.5, letterSpacing: '0.04em' }}>
-            sample business · this page is generated from Fred&apos;s Business Genome
-            {live ? ' — reading live from the database' : ' — sample data'}
-          </p>
-          <Link
-            href="/living-site"
-            style={{ color: PINK, fontSize: 11.5, fontWeight: 700, textDecoration: 'none', whiteSpace: 'nowrap' }}
-          >
-            see how it works →
-          </Link>
+    <div className={brandVars} style={{ background: BLUSH, color: NAVY, fontFamily: body, minHeight: '100vh' }}>
+      {/* ── header ─────────────────────────────────────────────────── */}
+      <header
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 16,
+          padding: '18px clamp(18px, 5vw, 56px)',
+          borderBottom: `1px solid ${NAVY}12`,
+          background: CREAM,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <Image
+            src="/brand/auckland-dog-trainer/logo-adt-pink.png"
+            alt="ADT — Auckland Dog Trainer"
+            width={44}
+            height={44}
+            style={{ objectFit: 'contain' }}
+          />
+          <div>
+            <p style={{ margin: 0, fontFamily: display, fontSize: 18, lineHeight: 1.1 }}>
+              Auckland Dog Trainer
+            </p>
+            <p style={{ margin: 0, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: MUTED }}>
+              learn to talk dog
+            </p>
+          </div>
         </div>
-      </div>
-
-      {/* ── header ─────────────────────────────────────────────────────── */}
-      <header style={{ ...inner, display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'baseline', justifyContent: 'space-between', padding: '26px clamp(16px, 4vw, 32px) 0' }}>
-        <p style={{ margin: 0, fontFamily: display, fontSize: 22 }}>
-          {businessName}
-          <span aria-hidden style={{ color: PINK_DEEP }}>
-            .
-          </span>
-        </p>
         <a
-          href="#enquire"
+          href="#book"
           style={{
             fontSize: 12,
             fontWeight: 700,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
-            padding: '9px 16px',
+            padding: '10px 18px',
             borderRadius: 999,
             background: NAVY,
             color: '#fff',
             textDecoration: 'none',
           }}
         >
-          book an assessment
+          Book a consultation
         </a>
       </header>
 
-      {/* ── hero ───────────────────────────────────────────────────────── */}
-      <section style={{ ...inner, padding: 'clamp(36px, 7vw, 72px) clamp(16px, 4vw, 32px) clamp(28px, 5vw, 48px)' }}>
-        <p style={eyebrow}>{tagline ?? 'learn to talk dog'}</p>
-        <h1 style={{ margin: '14px 0 0', fontFamily: display, fontSize: 'clamp(32px, 6vw, 54px)', lineHeight: 1.08, maxWidth: 640, fontWeight: 500 }}>
-          Your dog isn&apos;t being difficult. They&apos;re talking — let&apos;s learn the language.
-        </h1>
-        <p style={{ margin: '16px 0 0', fontSize: 16, color: MUTED, lineHeight: 1.6, maxWidth: 520 }}>
-          Calm, method-first training for reactive dogs, unreliable recalls and brand-new chaos
-          machines{area ? ` — ${area.toLowerCase()}` : ''}.
-        </p>
-        {area ? (
-          <p style={{ margin: '18px 0 0', display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 12.5, fontWeight: 700, padding: '6px 12px', borderRadius: 999, background: `${NAVY}0C` }}>
-              {area}
-            </span>
-            <GenomeTag factId="g-area" />
-          </p>
-        ) : null}
-      </section>
+      <main style={{ maxWidth: 1080, margin: '0 auto', padding: '0 clamp(18px, 5vw, 56px) 64px' }}>
+        {/* ── hero ───────────────────────────────────────────────────── */}
+        <section
+          style={{
+            display: 'grid',
+            gap: 28,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            alignItems: 'center',
+            padding: '52px 0 40px',
+          }}
+        >
+          <div>
+            <p style={eyebrow}>{area.toLowerCase()}</p>
+            <h1 style={{ margin: '14px 0 0', fontFamily: display, fontSize: 'clamp(34px, 5vw, 52px)', lineHeight: 1.08 }}>
+              Learn to talk dog.
+            </h1>
+            <p style={{ margin: '16px 0 0', fontSize: 16, lineHeight: 1.6, color: MUTED, maxWidth: 460 }}>
+              Clear communication, calm handling, and walks you both enjoy. Fred works with the
+              dogs other trainers turn away — reactivity, recall, manners — and coaches you, not
+              just your dog.
+            </p>
+            <div style={{ display: 'flex', gap: 10, marginTop: 22, flexWrap: 'wrap' }}>
+              <a
+                href="#book"
+                style={{
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  padding: '12px 22px',
+                  borderRadius: 999,
+                  background: NAVY,
+                  color: '#fff',
+                  textDecoration: 'none',
+                }}
+              >
+                Book a consultation
+              </a>
+              <a
+                href="#services"
+                style={{
+                  fontSize: 12.5,
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  padding: '12px 22px',
+                  borderRadius: 999,
+                  border: `1.5px solid ${NAVY}33`,
+                  color: NAVY,
+                  textDecoration: 'none',
+                  background: CREAM,
+                }}
+              >
+                Programmes
+              </a>
+            </div>
+          </div>
+          <div style={{ position: 'relative', borderRadius: 22, overflow: 'hidden', minHeight: 320, boxShadow: '0 24px 60px rgba(27,42,74,0.16)' }}>
+            <Image
+              src="/brand/auckland-dog-trainer/heroes/studio-sit-profile.webp"
+              alt="A dog sitting calmly in profile — Learn To Talk Dog"
+              fill
+              sizes="(max-width: 800px) 100vw, 520px"
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          </div>
+        </section>
 
-      {/* ── programmes — straight from the genome ──────────────────────── */}
-      <section style={{ background: CREAM, borderTop: `1px solid ${NAVY}10`, borderBottom: `1px solid ${NAVY}10` }}>
-        <div style={{ ...inner, padding: 'clamp(32px, 6vw, 56px) clamp(16px, 4vw, 32px)' }}>
-          <p style={eyebrow}>programmes &amp; pricing</p>
-          <h2 style={{ margin: '10px 0 0', fontFamily: display, fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 500 }}>
-            One path per problem — no upsells, no mystery.
+        {/* ── about ──────────────────────────────────────────────────── */}
+        <section style={{ ...card, display: 'grid', gap: 18, gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+          <div>
+            <p style={eyebrow}>about fred</p>
+            <p style={{ margin: '10px 0 0', fontFamily: display, fontSize: 24, lineHeight: 1.3 }}>
+              Communication first. Ego never.
+            </p>
+            <p style={{ margin: '10px 0 0', fontSize: 14.5, lineHeight: 1.6, color: MUTED }}>
+              Fred&apos;s method is built on how dogs actually communicate — body language, play,
+              tonality, and pressure/release. No shame, no shouting, no shortcuts. You learn the
+              language; your dog learns the standard.
+            </p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, justifyContent: 'center' }}>
+            <p style={{ margin: 0, fontSize: 13.5, color: NAVY }}>
+              <strong>The team ·</strong> {team}
+            </p>
+            <p style={{ margin: 0, fontSize: 13.5, color: NAVY }}>
+              <strong>How sessions run ·</strong> {bookingRules}
+            </p>
+          </div>
+        </section>
+
+        {/* ── services & pricing — straight from the genome ─────────── */}
+        <section id="services" style={{ paddingTop: 44 }}>
+          <p style={eyebrow}>programmes & pricing</p>
+          <h2 style={{ margin: '10px 0 18px', fontFamily: display, fontSize: 30 }}>
+            Find the right path for your dog
           </h2>
-          <div style={{ display: 'grid', gap: 14, marginTop: 24, gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))' }}>
+          <div style={{ display: 'grid', gap: 14, gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
             {services.map((s) => {
-              const { price, detail } = splitService(s.value);
-              const launching = !price.startsWith('$');
+              const { lead, rest } = splitValue(s.value);
               return (
-                <article key={s.id} style={{ ...card, padding: 18, background: launching ? BLUSH : CREAM, borderColor: launching ? `${PINK}88` : `${NAVY}14`, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <h3 style={{ margin: 0, fontFamily: display, fontSize: 20, fontWeight: 500 }}>{s.label}</h3>
-                  <p style={{ margin: 0, fontSize: 14.5, fontWeight: 700, color: launching ? PINK_DEEP : NAVY }}>
-                    {launching ? s.value : price}
-                  </p>
-                  {!launching && detail ? (
-                    <p style={{ margin: 0, fontSize: 13, color: MUTED, lineHeight: 1.5 }}>{detail}</p>
+                <article key={s.id} style={card}>
+                  <h3 style={{ margin: 0, fontFamily: display, fontSize: 20 }}>{s.label}</h3>
+                  <p style={{ margin: '10px 0 0', fontSize: 15, fontWeight: 700, color: PINK_DEEP }}>{lead}</p>
+                  {rest ? (
+                    <p style={{ margin: '6px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.5 }}>{rest}</p>
                   ) : null}
-                  <div style={{ marginTop: 'auto', paddingTop: 6 }}>
-                    <GenomeTag factId={s.id} />
-                  </div>
                 </article>
               );
             })}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── faq + proof ────────────────────────────────────────────────── */}
-      <section style={{ ...inner, padding: 'clamp(32px, 6vw, 56px) clamp(16px, 4vw, 32px)', display: 'grid', gap: 28, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
-        <div>
-          <p style={eyebrow}>owners ask</p>
-          <div style={{ display: 'grid', gap: 12, marginTop: 14 }}>
-            {faqs.map((f) => {
-              const { q, a } = splitFaq(f.value);
-              return (
-                <div key={f.id} style={{ ...card, padding: 16 }}>
-                  <p style={{ margin: 0, fontWeight: 700, fontSize: 14.5 }}>{q}</p>
-                  {a ? (
-                    <p style={{ margin: '6px 0 0', fontSize: 13, color: MUTED, lineHeight: 1.5 }}>{a}</p>
-                  ) : null}
-                  <div style={{ marginTop: 8 }}>
-                    <GenomeTag factId={f.id} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div>
-          <p style={eyebrow}>results</p>
-          {testimonial ? (
-            <figure style={{ ...card, margin: '14px 0 0', padding: 20, background: `linear-gradient(180deg, ${CREAM}, ${BLUSH})` }}>
-              <blockquote style={{ margin: 0, fontFamily: display, fontSize: 20, lineHeight: 1.4 }}>
-                {testimonial.quote}
-              </blockquote>
-              {testimonial.count ? (
-                <figcaption style={{ margin: '12px 0 0', fontSize: 12.5, color: GOLD, fontWeight: 700 }}>
-                  {testimonial.count} testimonials
-                </figcaption>
-              ) : null}
-              <div style={{ marginTop: 10 }}>
-                <GenomeTag factId="g-testimonials" />
-              </div>
-            </figure>
-          ) : null}
-          {team ? (
-            <div style={{ ...card, marginTop: 12, padding: 16 }}>
-              <p style={{ ...eyebrow, color: MUTED }}>who you&apos;ll meet</p>
-              <p style={{ margin: '8px 0 0', fontSize: 14, lineHeight: 1.55 }}>{team}</p>
-              <div style={{ marginTop: 8 }}>
-                <GenomeTag factId="g-team" />
-              </div>
-            </div>
-          ) : null}
-        </div>
-      </section>
-
-      {/* ── enquiry ────────────────────────────────────────────────────── */}
-      <section id="enquire" style={{ background: CREAM, borderTop: `1px solid ${NAVY}10` }}>
-        <div style={{ ...inner, padding: 'clamp(32px, 6vw, 56px) clamp(16px, 4vw, 32px)', maxWidth: 760 }}>
-          <p style={eyebrow}>start here</p>
-          <h2 style={{ margin: '10px 0 0', fontFamily: display, fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 500 }}>
-            Tell Fred about your dog.
+        {/* ── faqs & policies ────────────────────────────────────────── */}
+        <section style={{ paddingTop: 44 }}>
+          <p style={eyebrow}>good to know</p>
+          <h2 style={{ margin: '10px 0 18px', fontFamily: display, fontSize: 30 }}>
+            Straight answers
           </h2>
-          <p style={{ margin: '10px 0 22px', fontSize: 14, color: MUTED, lineHeight: 1.55 }}>
-            Every enquiry gets a personal recommendation — which programme fits, what it costs,
-            and what the first session looks like.
-          </p>
-          <EnquiryForm />
-        </div>
-      </section>
-
-      {/* ── footer — the reveal ────────────────────────────────────────── */}
-      <footer style={{ background: NAVY, color: '#fff' }}>
-        <div style={{ ...inner, padding: '28px clamp(16px, 4vw, 32px)', display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center', justifyContent: 'space-between' }}>
-          <div>
-            <p style={{ margin: 0, fontFamily: display, fontSize: 18 }}>
-              {businessName}
-              <span aria-hidden style={{ color: PINK }}>
-                .
-              </span>
-            </p>
-            <p style={{ margin: '6px 0 0', fontSize: 12, color: 'rgba(255,255,255,0.72)', lineHeight: 1.55, maxWidth: 460 }}>
-              Every price, FAQ and quote on this page is read{' '}
-              {live ? 'live from the database' : 'from sample data'} — one source of truth, no
-              page builder. Edit the genome and this site rewrites itself.
-            </p>
+          <div style={{ display: 'grid', gap: 14, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            {knowledge.map((k) => (
+              <article key={k.id} style={{ ...card, borderLeft: `3px solid ${PINK_DEEP}` }}>
+                <p style={{ ...eyebrow, color: MUTED }}>{k.label.toLowerCase()}</p>
+                <p style={{ margin: '8px 0 0', fontSize: 14.5, lineHeight: 1.55 }}>{k.value}</p>
+              </article>
+            ))}
           </div>
-          <Link
-            href="/living-site"
-            style={{
-              fontSize: 12,
-              fontWeight: 700,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              padding: '11px 18px',
-              borderRadius: 999,
-              background: PINK,
-              color: NAVY,
-              textDecoration: 'none',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            this is a living site →
-          </Link>
-        </div>
+        </section>
+
+        {/* ── testimonials ───────────────────────────────────────────── */}
+        <section style={{ paddingTop: 44 }}>
+          <p style={eyebrow}>results</p>
+          <h2 style={{ margin: '10px 0 18px', fontFamily: display, fontSize: 30 }}>
+            What owners say
+          </h2>
+          <div style={{ ...card, background: `linear-gradient(135deg, ${NAVY}, #2a3d5c)`, color: '#fff' }}>
+            <p style={{ margin: 0, fontFamily: display, fontSize: 22, lineHeight: 1.45, maxWidth: 640 }}>
+              “A reliable house dog in 4 weeks.” — Tank&apos;s family
+            </p>
+            <p style={{ margin: '12px 0 0', fontSize: 13, color: '#D8DEE9' }}>{testimonials}</p>
+          </div>
+        </section>
+
+        {/* ── book ───────────────────────────────────────────────────── */}
+        <section id="book" style={{ paddingTop: 44 }}>
+          <p style={eyebrow}>book a consultation</p>
+          <h2 style={{ margin: '10px 0 6px', fontFamily: display, fontSize: 30 }}>
+            Tell Fred about your dog
+          </h2>
+          <p style={{ margin: '0 0 18px', fontSize: 14, color: MUTED, maxWidth: 560, lineHeight: 1.55 }}>
+            Every enquiry lands in the CRM, gets triaged by the intake agent, and Fred reads it
+            personally. Bite history or safety worries? Say so — those go to the top of the pile.
+          </p>
+          <div style={card}>
+            <EnquiryForm />
+          </div>
+        </section>
+
+        {/* ── the resident agent — voice & chat, installed ───────────── */}
+        <section style={{ paddingTop: 44 }}>
+          <p style={eyebrow}>ask us anything · voice & chat agent</p>
+          <h2 style={{ margin: '10px 0 6px', fontFamily: display, fontSize: 30 }}>
+            The site answers for itself
+          </h2>
+          <p style={{ margin: '0 0 18px', fontSize: 14, color: MUTED, maxWidth: 560, lineHeight: 1.55 }}>
+            This agent reads the same genome as the rest of the page — programmes, prices,
+            policies. Ask about your dog and it will point you at the right path.
+          </p>
+          <div style={card}>
+            <PilotAgentChat
+              apiPath="/api/customers/auckland-dog-trainer/chat"
+              agentName={FRED_AGENT_NAME}
+              greeting={FRED_AGENT_GREETING}
+              tryMe={FRED_TRY_ME}
+              accent={PINK}
+              draftNote="Draft-only: the agent never books a session or emails anyone without Fred's yes."
+            />
+          </div>
+        </section>
+      </main>
+
+      {/* ── footer — the living site attribution ─────────────────────── */}
+      <footer style={{ borderTop: `1px solid ${NAVY}12`, background: CREAM, padding: '26px clamp(18px, 5vw, 56px)' }}>
+        <p style={{ margin: 0, fontSize: 12.5, color: MUTED, lineHeight: 1.6, maxWidth: 720 }}>
+          Auckland Dog Trainer · Learn To Talk Dog — a{' '}
+          <Link href="/living-site" style={{ color: PINK_DEEP, fontWeight: 700 }}>
+            Living Site
+          </Link>{' '}
+          by assembl. Every fact on this page reads from the Business Genome
+          {live ? ' (live from the database)' : ''} — change it once and the website, agents, and
+          emails all update. Demo · sample business data
+          {live ? '' : ' · offline fallback'}.
+          <span aria-hidden style={{ color: GOLD }}> ●</span>
+        </p>
       </footer>
     </div>
   );

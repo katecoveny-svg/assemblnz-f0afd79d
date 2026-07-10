@@ -200,9 +200,16 @@ export function LivingSiteEvolution() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 1 }}
+          style={{ display: 'flex', gap: 28, flexWrap: 'wrap' }}
         >
           <Link href="/living-site" className={styles.sectionLink} style={{ marginTop: 30 }}>
             step inside a living site
+            <span aria-hidden style={{ color: palette.accentGold }}>
+              →
+            </span>
+          </Link>
+          <Link href="/install" className={styles.sectionLink} style={{ marginTop: 30 }}>
+            run the installer
             <span aria-hidden style={{ color: palette.accentGold }}>
               →
             </span>

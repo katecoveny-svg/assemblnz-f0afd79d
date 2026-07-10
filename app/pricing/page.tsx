@@ -11,7 +11,7 @@ import styles from '@/components/v2/v2.module.css';
 export const metadata: Metadata = {
   title: 'pricing — assembl',
   description:
-    'benefit first, price second: try any agent free, take one for $9.99, run a pro stack for $49, a specialist collection for $199, everything for $250 — or buy the outcome from $5,000. NZD, GST inclusive.',
+    'one living site grows your business while you run it. benefit first, price second: try any agent free, take one for $9.99, run a pro stack for $49, a specialist collection for $199, everything for $250 — or buy the outcome from $5,000. NZD, GST inclusive.',
   alternates: { canonical: '/pricing' },
 };
 
@@ -60,8 +60,8 @@ export default function PricingPage() {
               </span>
             </h1>
             <p style={{ ...body, marginTop: 18, maxWidth: 440 }}>
-              Every agent is free to try. A person approves every output. All prices NZD,
-              GST inclusive.
+              Your Living Site starts free — every agent inside it is free to try, and a
+              person approves every output. All prices NZD, GST inclusive.
             </p>
 
             {/* the four tiers */}
