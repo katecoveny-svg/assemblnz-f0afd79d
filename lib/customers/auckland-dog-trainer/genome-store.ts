@@ -113,13 +113,13 @@ const whenFormat = new Intl.DateTimeFormat('en-NZ', {
  * the enquiry loop. Returns [] when the DB/keys are unavailable so the
  * console falls back to its sample leads without erroring.
  */
-export async function getRecentEnquiries(limit = 8): Promise<LiveEnquiry[]> {
+export async function getRecentEnquiries(limit = 8, tenant: string = GENOME_TENANT): Promise<LiveEnquiry[]> {
   try {
     const supabase = getServiceClient();
     const { data, error } = await supabase
       .from('living_site_enquiries')
       .select('id, name, email, dog, message, source, created_at')
-      .eq('tenant', GENOME_TENANT)
+      .eq('tenant', tenant)
       .order('created_at', { ascending: false })
       .limit(limit);
     if (error || !data) return [];

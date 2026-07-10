@@ -353,14 +353,32 @@ export function InstallerFlow() {
               </span>
             </p>
             <p className={styles.sectionLede}>
-              A website, a price list, an FAQ doc — in a real install you drop them here and
-              assembl reads them, so you never repeat yourself.
+              Drop in anything you&apos;ve got. assembl reads it, so you never repeat yourself.
             </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 20, maxWidth: 560 }}>
+              {['website', 'PDFs', 'emails', 'price list', 'logos', 'Google Drive', 'social media', 'spreadsheets'].map((chip) => (
+                <span
+                  key={chip}
+                  style={{
+                    fontSize: 12.5,
+                    fontWeight: 600,
+                    padding: '8px 14px',
+                    borderRadius: 999,
+                    background: palette.paper,
+                    border: `1px solid ${palette.hairline}`,
+                    color: palette.ink,
+                    boxShadow: '0 6px 18px rgba(24,28,38,0.05)',
+                  }}
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
             <div
               aria-hidden
               style={{
                 ...cardBase,
-                marginTop: 24,
+                marginTop: 16,
                 maxWidth: 560,
                 padding: '38px 24px',
                 textAlign: 'center',
@@ -369,7 +387,7 @@ export function InstallerFlow() {
                 fontSize: 13.5,
               }}
             >
-              drop files here · demo only — nothing uploads
+              drop files or folders here · demo only — nothing uploads
             </div>
             <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 26, flexWrap: 'wrap' }}>
               <button
@@ -406,13 +424,14 @@ export function InstallerFlow() {
             transition={{ duration: 0.5, ease: EASE }}
           >
             <p className={styles.h2}>
-              assembling
+              understanding your business
               <span aria-hidden style={{ color: palette.accentGold }}>
                 …
               </span>
             </p>
             <p className={styles.sectionLede}>
-              Nobody bolts plugins together. The business simply appears, one surface at a time.
+              Your answers become the genome; the business appears around it, one surface at a
+              time. Nobody bolts plugins together.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 24, maxWidth: 640 }}>
               {GENERATION.slice(0, genCount).map((g, i) => (
@@ -474,8 +493,8 @@ export function InstallerFlow() {
                   •
                 </span>
               </Link>
-              <Link href="/living-site" style={{ fontSize: 12.5, color: palette.bodyGrey }}>
-                see the operating system
+              <Link href={`/living-site/${industry ?? 'dog-training'}/os`} style={{ fontSize: 12.5, color: palette.bodyGrey }}>
+                see its operating system
               </Link>
               <Link href="/contact" style={{ fontSize: 12.5, color: palette.bodyGrey }}>
                 your own install
