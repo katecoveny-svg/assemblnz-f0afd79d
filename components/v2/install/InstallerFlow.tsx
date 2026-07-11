@@ -130,18 +130,24 @@ export function InstallerFlow() {
   const [answers, setAnswers] = React.useState<Record<string, string>>({});
   const [genCount, setGenCount] = React.useState(0);
   const [qIndex, setQIndex] = React.useState(0);
-  // null = write in flight · {id} = real install written · 'error' = fall
-  // back to the sample site. Mirrored in a ref so the generation timers and
-  // the server-action promise can hand off to 'ready' without an effect.
-  const [install, setInstall] = React.useState<{ id: string } | 'error' | null>(null);
-  const installRef = React.useRef<{ id: string } | 'error' | null>(null);
+  // null = write in flight · {id} = real install written · {failed} = fall
+  // back to the sample site (keeping WHY, so the copy stays honest).
+  // Mirrored in a ref so the generation timers and the server-action promise
+  // can hand off to 'ready' without an effect.
+  type InstallState = { id: string } | { failed: 'invalid' | 'capacity' | 'unavailable' } | null;
+  const [install, setInstall] = React.useState<InstallState>(null);
+  const installRef = React.useRef<InstallState>(null);
   const animDoneRef = React.useRef(false);
+  const inFlightRef = React.useRef(false);
 
   const maybeReady = React.useCallback(() => {
     if (animDoneRef.current && installRef.current !== null) setStep('ready');
   }, []);
 
   const beginGeneration = () => {
+    // A double-click must not mint two genomes.
+    if (inFlightRef.current) return;
+    inFlightRef.current = true;
     setGenCount(0);
     animDoneRef.current = false;
     installRef.current = null;
@@ -149,14 +155,17 @@ export function InstallerFlow() {
     setStep('generating');
     generateInstall(industry ?? 'dog-training', answers)
       .then((r) => {
-        installRef.current = r.ok ? { id: r.id } : 'error';
+        installRef.current = r.ok ? { id: r.id } : { failed: r.error };
         setInstall(installRef.current);
         maybeReady();
       })
       .catch(() => {
-        installRef.current = 'error';
-        setInstall('error');
+        installRef.current = { failed: 'unavailable' };
+        setInstall(installRef.current);
         maybeReady();
+      })
+      .finally(() => {
+        inFlightRef.current = false;
       });
   };
 
@@ -186,7 +195,8 @@ export function InstallerFlow() {
     return () => window.clearInterval(tick);
   }, [step, reduced, maybeReady]);
 
-  const installed = install && install !== 'error' ? install : null;
+  const installed = install && 'id' in install ? install : null;
+  const failure = install && 'failed' in install ? install.failed : null;
   const readySiteHref = installed
     ? `/living-site/install/${installed.id}`
     : `/living-site/${industry ?? 'dog-training'}`;
@@ -545,7 +555,11 @@ export function InstallerFlow() {
             <p style={{ marginTop: 22, fontSize: 12, color: palette.bodyGrey }}>
               {installed
                 ? 'demo install · unlisted, cleared periodically — your answers went into a real Business Genome and nowhere else.'
-                : 'demo · generation could not reach the database just now, so this landed on the sample site — your answers stayed in this browser tab.'}
+                : failure === 'capacity'
+                  ? 'demo · today’s install capacity is used up, so this landed on the sample site — try again tomorrow; your answers stayed in this browser tab.'
+                  : failure === 'invalid'
+                    ? 'demo · those answers couldn’t be turned into a genome, so this landed on the sample site — your answers stayed in this browser tab.'
+                    : 'demo · generation could not reach the database just now, so this landed on the sample site — your answers stayed in this browser tab.'}
             </p>
           </motion.div>
         ) : null}

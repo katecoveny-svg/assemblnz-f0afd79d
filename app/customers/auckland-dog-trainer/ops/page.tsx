@@ -136,7 +136,8 @@ export default async function AucklandDogTrainerOpsHome({
   const genome = tab === 'genome' ? await getLiveGenomeFacts() : null;
   // The enquiry loop: public-website submissions land in living_site_enquiries
   // and surface here — full rows on the triage tab, the count on the brief.
-  const enquiries = tab === 'leads' || tab === 'brief' ? await getRecentEnquiries() : null;
+  // Same limit as the Today tile so the two never show different numbers.
+  const enquiries = tab === 'leads' || tab === 'brief' ? await getRecentEnquiries(20) : null;
 
   return (
     <OsWowStage

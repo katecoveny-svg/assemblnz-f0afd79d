@@ -95,6 +95,7 @@ export function PearlWave() {
     let w = 0;
     let h = 0;
     let raf = 0;
+    let running = false;
     let visible = true;
     let onscreen = true;
     const t0 = performance.now();
@@ -110,6 +111,8 @@ export function PearlWave() {
     };
 
     const frame = (now: number) => {
+      // A frame in flight when the loop is paused must not reschedule it.
+      if (!running) return;
       drawFrame(ctx, w, h, (now - t0) / 1000);
       raf = requestAnimationFrame(frame);
     };
@@ -118,9 +121,10 @@ export function PearlWave() {
     const still = () => drawFrame(ctx, w, h, 2.6);
     const start = () => {
       cancelAnimationFrame(raf);
+      running = !reduced.matches && visible && onscreen;
       if (reduced.matches) {
         still();
-      } else if (visible && onscreen) {
+      } else if (running) {
         raf = requestAnimationFrame(frame);
       }
     };
@@ -148,6 +152,7 @@ export function PearlWave() {
     reduced.addEventListener('change', start);
 
     return () => {
+      running = false;
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();

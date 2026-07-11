@@ -122,11 +122,14 @@ export async function createInstall(
 
     // Rolling 24h cap on install rows — the whole feature stays bounded.
     const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-    const { count, error: countError } = await supabase
-      .from('living_site_genome')
-      .select('*', { count: 'exact', head: true })
-      .like('tenant', 'install-%')
-      .gte('updated_at', since);
+    const capCount = () =>
+      supabase
+        .from('living_site_genome')
+        .select('*', { count: 'exact', head: true })
+        .like('tenant', 'install-%')
+        .gte('updated_at', since);
+
+    const { count, error: countError } = await capCount();
     if (countError) return { ok: false, error: 'unavailable' };
     if ((count ?? 0) + facts.length > DAILY_ROW_CAP) return { ok: false, error: 'capacity' };
 
@@ -145,6 +148,16 @@ export async function createInstall(
       })),
     );
     if (error) return { ok: false, error: 'unavailable' };
+
+    // The pre-check races concurrent requests, so re-count AFTER inserting:
+    // whoever pushed the window over the cap deletes their own rows again.
+    // Concurrent offenders all see the overrun and all self-revert.
+    const { count: after, error: afterError } = await capCount();
+    if (afterError || (after ?? 0) > DAILY_ROW_CAP) {
+      await supabase.from('living_site_genome').delete().eq('tenant', tenant);
+      return { ok: false, error: afterError ? 'unavailable' : 'capacity' };
+    }
+
     return { ok: true, id };
   } catch {
     return { ok: false, error: 'unavailable' };
