@@ -74,7 +74,14 @@ export default async function VerticalOsPage({ params }: { params: Promise<Param
           {
             label: 'new enquiries',
             value: String(enquiries.length),
-            hint: enquiries.length > 0 ? 'replies drafted' : 'the desk is quiet',
+            // Only the flagship has a triage surface drafting replies; the
+            // other verticals' enquiries are captured rows, so say that.
+            hint:
+              enquiries.length === 0
+                ? 'the desk is quiet'
+                : v.slug === 'dog-training'
+                  ? 'replies drafted'
+                  : 'captured from the website',
           },
           { label: 'facts in your genome', value: String(facts.length), hint: live ? 'live' : 'sample' },
           { label: 'services live', value: String(services), hint: 'priced once, shown everywhere' },
