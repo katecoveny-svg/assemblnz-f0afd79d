@@ -218,8 +218,13 @@ export async function getInstall(id: string): Promise<InstallSite | null> {
   return { id, tenant, base, v, facts };
 }
 
-/** True when a genome exists for this tenant (used to validate enquiries). */
-export async function installTenantExists(tenant: string): Promise<boolean> {
+/**
+ * Whether a genome exists for this install tenant (used to validate
+ * enquiries). Returns null when the check itself failed — callers must
+ * treat that as "can't store correctly right now", NOT as "doesn't exist",
+ * or an install's enquiry would silently land on the flagship tenant.
+ */
+export async function installTenantExists(tenant: string): Promise<boolean | null> {
   if (!INSTALL_TENANT_RE.test(tenant)) return false;
   try {
     const supabase = getServiceClient();
@@ -227,8 +232,9 @@ export async function installTenantExists(tenant: string): Promise<boolean> {
       .from('living_site_genome')
       .select('*', { count: 'exact', head: true })
       .eq('tenant', tenant);
-    return !error && (count ?? 0) > 0;
+    if (error) return null;
+    return (count ?? 0) > 0;
   } catch {
-    return false;
+    return null;
   }
 }

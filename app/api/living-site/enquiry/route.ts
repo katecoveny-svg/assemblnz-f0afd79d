@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { storeEnquiry } from '@/lib/customers/auckland-dog-trainer/genome-store';
-import { installTenantExists } from '@/lib/living-site/install-store';
+import { INSTALL_TENANT_RE, installTenantExists } from '@/lib/living-site/install-store';
 import { VERTICAL_TENANTS } from '@/lib/living-site/verticals';
 
 export const maxDuration = 15;
@@ -37,11 +37,21 @@ export async function POST(request: Request) {
   // genome actually exists — anything else lands on the flagship rather
   // than minting arbitrary tenant rows.
   const rawTenant = str(b.tenant, 60);
-  const tenant =
-    rawTenant &&
-    (VERTICAL_TENANTS.has(rawTenant) || (await installTenantExists(rawTenant)))
-      ? rawTenant
-      : undefined;
+  let tenant: string | undefined;
+  if (rawTenant && VERTICAL_TENANTS.has(rawTenant)) {
+    tenant = rawTenant;
+  } else if (rawTenant && INSTALL_TENANT_RE.test(rawTenant)) {
+    const exists = await installTenantExists(rawTenant);
+    // Couldn't check → 503 rather than silently filing the enquiry under
+    // the flagship tenant, where the install's dashboard would never see it.
+    if (exists === null) {
+      return NextResponse.json(
+        { ok: false, error: 'could not store the enquiry — try again shortly' },
+        { status: 503 },
+      );
+    }
+    if (exists) tenant = rawTenant;
+  }
 
   if (!name || !email || !message || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return NextResponse.json(

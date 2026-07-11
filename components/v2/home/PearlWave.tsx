@@ -98,7 +98,10 @@ export function PearlWave() {
     let running = false;
     let visible = true;
     let onscreen = true;
-    const t0 = performance.now();
+    // Pause-aware clock: `t` only advances while frames actually draw, so
+    // resuming continues the tide from the frozen frame instead of jumping.
+    let t = 2.6;
+    let last = 0;
 
     const size = () => {
       const rect = canvas.getBoundingClientRect();
@@ -113,15 +116,18 @@ export function PearlWave() {
     const frame = (now: number) => {
       // A frame in flight when the loop is paused must not reschedule it.
       if (!running) return;
-      drawFrame(ctx, w, h, (now - t0) / 1000);
+      if (last) t += Math.min(0.1, (now - last) / 1000);
+      last = now;
+      drawFrame(ctx, w, h, t);
       raf = requestAnimationFrame(frame);
     };
 
     // Reduced motion gets one considered still; everyone else gets the tide.
-    const still = () => drawFrame(ctx, w, h, 2.6);
+    const still = () => drawFrame(ctx, w, h, t);
     const start = () => {
       cancelAnimationFrame(raf);
       running = !reduced.matches && visible && onscreen;
+      last = 0; // resume without counting the time spent paused
       if (reduced.matches) {
         still();
       } else if (running) {
