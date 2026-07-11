@@ -305,22 +305,20 @@ export const evidencePackContents: readonly EvidenceReveal[] = [
 
 // ── Site-wide nav (multi-page only — anchors are BANNED per canon §2.1) ──────
 
-// DIRECTION-LOCKED-2026-07-01 (v2 site): nav is agents · pricing · trust ·
-// about + a "browse agents" CTA — lowercase on-brand (only micro-labels are
-// uppercase). No "Kete packs" / "Outputs" / "SPARK tools" — those are
-// pre-marketplace surfaces.
-// "trust" points at the canonical /trust page (v2); /mana-receipts stays live
-// as the deep-dive and is linked from the footer + /trust itself.
+// Living Business OS direction (locked 2026-07-10, chrome aligned
+// 2026-07-11): the global nav matches the homepage's own nav — the living
+// site story, never the marketplace. Lowercase on-brand (only micro-labels
+// are uppercase).
 export const nav = [
-  { href: '/agents',  label: 'agents' },
-  { href: '/pricing', label: 'pricing' },
-  { href: '/trust',   label: 'trust' },
-  { href: '/about',   label: 'about' },
+  { href: '/how-it-works', label: 'how it works' },
+  { href: '/living-site',  label: 'living site' },
+  { href: '/pricing',      label: 'pricing' },
+  { href: '/about',        label: 'about' },
 ] as const;
 
-export const navCta = { href: '/agents', label: 'browse agents' };
+export const navCta = { href: '/living-site', label: 'see a living site' };
 
 // ── Footer disclaimer — Plugin Architecture Canon §4 (verbatim) ──────────────
 
 export const footerDisclaimer =
-  'assembl evidence vessel. Built in Aotearoa. Every output is reviewed by a named human in your team before it ships. We do not provide legal, tax, or medical advice. We do not generate karakia, whaikōrero, mihimihi, pepeha, or waiata.';
+  'assembl — the living business operating system. Built in Aotearoa. Nothing sends without your yes: every email, booking, and post is a draft until a person on your team approves it. We do not provide legal, tax, or medical advice. We do not generate karakia, whaikōrero, mihimihi, pepeha, or waiata.';

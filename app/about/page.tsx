@@ -45,11 +45,11 @@ const ABOUT_SCHEMA = graph(
  */
 
 const STEPS = [
-  ['agents draft it.', 'The slow, repetitive writing, done in seconds.'],
+  ['one business, one brain.', 'Every fact lives once in your Business Genome — and every surface reads it.'],
   ['you decide.', 'Nothing sends or publishes until a named person approves it.'],
   [
-    'you get the receipts.',
-    'Every output comes with an evidence pack — the sources used, the assumptions made, and who signed off.',
+    'it gets better every day.',
+    'One improvement each morning — already done, as a draft, waiting for your yes.',
   ],
 ] as const;
 
@@ -240,8 +240,8 @@ export default function AboutPage() {
           className={`${styles.inner} rise`}
           style={{ display: 'flex', flexWrap: 'wrap', gap: 22, alignItems: 'center' }}
         >
-          <Link href="/agents" className={styles.navCta} style={{ padding: '11px 22px' }}>
-            explore the marketplace
+          <Link href="/living-site" className={styles.navCta} style={{ padding: '11px 22px' }}>
+            see a living site
             <span aria-hidden style={{ color: palette.accentGold, fontSize: 15, lineHeight: 1 }}>
               •
             </span>

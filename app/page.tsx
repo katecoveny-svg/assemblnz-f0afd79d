@@ -358,8 +358,8 @@ export default async function HomePage() {
               </span>
             </Link>
             <nav className={styles.footerLinks} aria-label="Footer">
-              <Link href="/agents" className={styles.footerLink}>
-                agents
+              <Link href="/living-site" className={styles.footerLink}>
+                living site
               </Link>
               <Link href="/pricing" className={styles.footerLink}>
                 pricing

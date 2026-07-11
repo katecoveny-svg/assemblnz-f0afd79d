@@ -99,8 +99,8 @@ export const motionTokens = {
   },
 } as const;
 
-/** The locked footer motto — preserve verbatim (micro-label treatment). */
-export const motto = 'Adaptive. Connected. Purpose-built.';
+/** The footer motto — Living Business OS direction (Kate, 2026-07-11). */
+export const motto = 'Less admin. More mahi.';
 
 export const tokens = {
   palette,

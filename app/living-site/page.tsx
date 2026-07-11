@@ -4,6 +4,7 @@ import { palette } from '@assembl/canvas/tokens';
 import { MicroLabel } from '@assembl/canvas';
 import { BusinessGenome } from '@/components/ops/fred/BusinessGenome';
 import { MorningBrief } from '@/components/ops/fred/MorningBrief';
+import { GenomeOrb } from '@/components/os/GenomeOrb';
 import { DemoRibbon } from '@/components/ops/DemoRibbon';
 import { Reveal } from '@/components/site/Reveal';
 import { MagneticButton } from '@/components/site/MagneticButton';
@@ -33,12 +34,13 @@ export default async function LivingSitePage() {
   const fonts = getBrandFonts('auckland-dog-trainer');
   const brandVars = `${fonts.display.variable} ${fonts.body.variable} ${fonts.mono.variable}`;
 
+  // Pearl glass (design canon vNext) — white panel, hairline, soft shadow.
   const frame: React.CSSProperties = {
-    background: '#F7EEF1',
-    border: `1px solid ${palette.hairline}`,
+    background: '#fbfbfc',
+    border: '1px solid #ececef',
     borderRadius: 22,
     padding: 'clamp(14px, 3vw, 34px)',
-    boxShadow: '0 24px 60px rgba(24, 28, 38, 0.07)',
+    boxShadow: '0 1px 2px rgba(38, 38, 43, 0.04), 0 24px 60px rgba(38, 38, 43, 0.07)',
   };
 
   return (
@@ -47,32 +49,51 @@ export default async function LivingSitePage() {
       <section className={styles.section} style={{ paddingBottom: 24 }}>
         <div className={styles.inner}>
           <Reveal>
-            <div className={styles.sectionHead}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
-                  •
-                </span>
-                <MicroLabel as="h2">a living site · live demo</MicroLabel>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 24,
+              }}
+            >
+              <div className={styles.sectionHead} style={{ flex: '1 1 420px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span aria-hidden style={{ color: palette.accentGold, fontSize: 12, lineHeight: 1 }}>
+                    •
+                  </span>
+                  <MicroLabel as="h2">a living site · live demo</MicroLabel>
+                </div>
+                <p className={styles.h2} style={{ marginTop: 16 }}>
+                  this is a living site
+                  <span aria-hidden style={{ color: palette.accentGold }}>
+                    .
+                  </span>
+                </p>
+                <p className={styles.sectionLede}>
+                  One business. One source of truth. Every surface reads it.
+                  Sample business — real system. Go on: change a price, approve the brief.
+                </p>
               </div>
-              <p className={styles.h2} style={{ marginTop: 16 }}>
-                this is a living site
-                <span aria-hidden style={{ color: palette.accentGold }}>
-                  .
-                </span>
-              </p>
-              <p className={styles.sectionLede}>
-                One business. One source of truth. Every surface reads it.
-                Sample business — real system. Go on: change a price, approve the brief.
-              </p>
+              {/* the genome itself — the pearl orb, surfaces in orbit */}
+              <div aria-hidden style={{ flex: '0 0 auto', margin: '0 auto' }}>
+                <GenomeOrb
+                  initial="a"
+                  surfaces={['website', 'crm', 'knowledge', 'bookings', 'voice', 'email', 'automations', 'marketing']}
+                  size={300}
+                />
+              </div>
             </div>
           </Reveal>
           <div
             style={
               {
-                // DemoRibbon reads --brand-* vars, normally set by the ops shell.
-                '--brand-accent': '#D4A5B0',
-                '--brand-canary': '#BFA37A',
-                '--brand-ink': '#1B2A4A',
+                // DemoRibbon reads --brand-* vars, normally set by the ops
+                // shell — pearl values here (canon vNext).
+                '--brand-accent': '#c2a15f',
+                '--brand-canary': '#c2a15f',
+                '--brand-ink': '#26262b',
               } as React.CSSProperties
             }
           >
@@ -93,7 +114,7 @@ export default async function LivingSitePage() {
             </div>
           </Reveal>
           <div className={brandVars} style={frame}>
-            <BusinessGenome facts={facts} live={live} />
+            <BusinessGenome facts={facts} live={live} tone="pearl" />
           </div>
         </div>
       </section>
@@ -110,7 +131,7 @@ export default async function LivingSitePage() {
             </div>
           </Reveal>
           <div className={brandVars} style={frame}>
-            <MorningBrief />
+            <MorningBrief tone="pearl" />
           </div>
         </div>
       </section>
