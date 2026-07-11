@@ -13,12 +13,15 @@ const display = "var(--font-display), 'Cormorant Garamond', Georgia, serif";
 /**
  * The installer — the brief's flow, end to end:
  * choose an industry → answer ten questions → the system generates →
- * review what appeared → step inside. Demo: generation is simulated; every
- * template lands on its industry's genome-backed sample site at
- * /living-site/<id> (all sample businesses fictional).
+ * review what appeared → step inside. The generation is REAL: the ten
+ * answers are written as rows in living_site_genome under a fresh install
+ * tenant, and /living-site/install/[id] renders a living site from them.
+ * If the write is unavailable (offline, capacity cap), the flow falls back
+ * to the industry's fictional sample site and says so.
  */
 
 import { SAMPLE_VERTICALS, verticalBySlug } from '@/lib/living-site/verticals';
+import { generateInstall } from '@/app/install/actions';
 
 const INDUSTRIES: Array<{ id: string; name: string; blurb: string; ready: boolean }> = [
   { id: 'dog-training', name: 'dog training', blurb: 'programmes, reactive-dog triage, session notes', ready: true },
@@ -127,6 +130,35 @@ export function InstallerFlow() {
   const [answers, setAnswers] = React.useState<Record<string, string>>({});
   const [genCount, setGenCount] = React.useState(0);
   const [qIndex, setQIndex] = React.useState(0);
+  // null = write in flight · {id} = real install written · 'error' = fall
+  // back to the sample site. Mirrored in a ref so the generation timers and
+  // the server-action promise can hand off to 'ready' without an effect.
+  const [install, setInstall] = React.useState<{ id: string } | 'error' | null>(null);
+  const installRef = React.useRef<{ id: string } | 'error' | null>(null);
+  const animDoneRef = React.useRef(false);
+
+  const maybeReady = React.useCallback(() => {
+    if (animDoneRef.current && installRef.current !== null) setStep('ready');
+  }, []);
+
+  const beginGeneration = () => {
+    setGenCount(0);
+    animDoneRef.current = false;
+    installRef.current = null;
+    setInstall(null);
+    setStep('generating');
+    generateInstall(industry ?? 'dog-training', answers)
+      .then((r) => {
+        installRef.current = r.ok ? { id: r.id } : 'error';
+        setInstall(installRef.current);
+        maybeReady();
+      })
+      .catch(() => {
+        installRef.current = 'error';
+        setInstall('error');
+        maybeReady();
+      });
+  };
 
   const advanceQuestion = () => {
     if (qIndex === QUESTIONS.length - 1) setStep('documents');
@@ -139,14 +171,29 @@ export function InstallerFlow() {
       setGenCount((n) => {
         if (n >= GENERATION.length) {
           window.clearInterval(tick);
-          window.setTimeout(() => setStep('ready'), reduced ? 0 : 900);
+          window.setTimeout(
+            () => {
+              animDoneRef.current = true;
+              maybeReady();
+            },
+            reduced ? 0 : 900,
+          );
           return n;
         }
         return n + 1;
       });
     }, reduced ? 60 : 850);
     return () => window.clearInterval(tick);
-  }, [step, reduced]);
+  }, [step, reduced, maybeReady]);
+
+  const installed = install && install !== 'error' ? install : null;
+  const readySiteHref = installed
+    ? `/living-site/install/${installed.id}`
+    : `/living-site/${industry ?? 'dog-training'}`;
+  const readyOsHref = `${readySiteHref}/os`;
+  const businessLabel =
+    (answers.q1 ?? '').trim() ||
+    (verticalBySlug(industry ?? '')?.businessName ?? 'Your business');
 
   const cardBase: React.CSSProperties = {
     border: `1px solid ${palette.hairline}`,
@@ -392,10 +439,7 @@ export function InstallerFlow() {
             <div style={{ display: 'flex', gap: 16, alignItems: 'center', marginTop: 26, flexWrap: 'wrap' }}>
               <button
                 type="button"
-                onClick={() => {
-                  setGenCount(0);
-                  setStep('generating');
-                }}
+                onClick={beginGeneration}
                 className={styles.ctaPrimary}
                 style={{ border: 'none', cursor: 'pointer' }}
               >
@@ -453,13 +497,13 @@ export function InstallerFlow() {
                   </span>
                 </motion.div>
               ))}
-              {genCount < GENERATION.length ? (
+              {genCount < GENERATION.length || install === null ? (
                 <motion.p
                   animate={reduced ? undefined : { opacity: [0.4, 1, 0.4] }}
                   transition={{ duration: 1.4, repeat: Infinity }}
                   style={{ margin: '6px 0 0', fontSize: 12, letterSpacing: '0.14em', textTransform: 'uppercase', color: palette.bodyGrey }}
                 >
-                  ● {GENERATION[genCount]?.label}…
+                  ● {GENERATION[genCount]?.label ?? 'writing your genome'}…
                 </motion.p>
               ) : null}
             </div>
@@ -480,20 +524,18 @@ export function InstallerFlow() {
               </span>
             </p>
             <p className={styles.sectionLede}>
-              {verticalBySlug(industry ?? '')?.businessName ?? 'A sample business'} is live —
-              a real, genome-backed Living Site. Fictional business, live system.
+              {installed
+                ? `${businessLabel} is live — a real Living Site generated from your ten answers. The genome exists in the database, and the site reads it on every load.`
+                : `${verticalBySlug(industry ?? '')?.businessName ?? 'A sample business'} is live — a real, genome-backed Living Site. Fictional business, live system.`}
             </p>
             <div style={{ display: 'flex', gap: 18, alignItems: 'center', marginTop: 26, flexWrap: 'wrap' }}>
-              <Link
-                href={`/living-site/${industry ?? 'dog-training'}`}
-                className={styles.ctaPrimary}
-              >
+              <Link href={readySiteHref} className={styles.ctaPrimary}>
                 step inside
                 <span aria-hidden style={{ color: palette.goldSoft }}>
                   •
                 </span>
               </Link>
-              <Link href={`/living-site/${industry ?? 'dog-training'}/os`} style={{ fontSize: 12.5, color: palette.bodyGrey }}>
+              <Link href={readyOsHref} style={{ fontSize: 12.5, color: palette.bodyGrey }}>
                 see its operating system
               </Link>
               <Link href="/contact" style={{ fontSize: 12.5, color: palette.bodyGrey }}>
@@ -501,7 +543,9 @@ export function InstallerFlow() {
               </Link>
             </div>
             <p style={{ marginTop: 22, fontSize: 12, color: palette.bodyGrey }}>
-              demo · the generation above is simulated — your answers stayed in this browser tab.
+              {installed
+                ? 'demo install · unlisted, cleared periodically — your answers went into a real Business Genome and nowhere else.'
+                : 'demo · generation could not reach the database just now, so this landed on the sample site — your answers stayed in this browser tab.'}
             </p>
           </motion.div>
         ) : null}

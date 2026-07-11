@@ -120,13 +120,20 @@ _Closed in the following session (fictional-cast + verticals PR):_
 - ~~**Sitemap**~~ — `/living-site` + `/install` added (0.9); sample sites
   stay noindex.
 
+- ~~**Installer → real generation**~~ — `/install` now writes a REAL genome:
+  the ten answers become rows in `living_site_genome` under an
+  `install-<industry>-<token>` tenant (server action `app/install/actions.ts`
+  → `lib/living-site/install-store.ts`), and `/living-site/install/[id]`
+  (+ `/os`) renders a living site + pearl dashboard from those rows via the
+  shared `components/living-site/SampleSite.tsx`. Abuse posture: answer
+  length caps, only known-industry tenant shapes mintable, rolling 24h row
+  cap (600), unlisted + noindex, enquiries only accepted for install tenants
+  whose genome exists. If the DB is unreachable the flow falls back to the
+  industry sample site and says so. Installs are demo rows — clear
+  `tenant like 'install-%'` whenever.
+
 _Still open:_
 
-5. **Installer → real generation** — `/install` still simulates generation
-   (it lands on the pre-seeded sample). The real version writes a NEW
-   tenant's genome rows from the ten answers. The plumbing now exists
-   (`getGenomeFactsFor(tenant, fallback)`, tenant-keyed table, generic
-   sample-site renderer) — what's left is the write path + abuse controls.
 8. **Indexing** — sample sites stay `noindex` (fictional data). Deep
    marketplace pages (`/bundles/*`) still carry old-story copy — acceptable
    while the marketplace is internal plumbing.
