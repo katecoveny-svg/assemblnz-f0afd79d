@@ -1,20 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import dynamic from 'next/dynamic';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ParticulateLandscape } from '@assembl/canvas';
+import { PearlWave } from './PearlWave';
 import styles from './home.module.css';
 
-const ParticulateScene = dynamic(() => import('./ParticulateScene'), { ssr: false });
-
 /**
- * The homepage hero art: the signed-off poster paints first everywhere, and
- * on motion-allowed screens the live 3D particulate field mounts over it —
- * pointer parallax, breathing drift, scroll dissolve.
- *
- * prefers-reduced-motion → poster + still SVG landscape only (no canvas).
- * No WebGL → the Canvas falls back to the still SVG.
+ * The homepage hero art, pearl direction: a slow particle wave — pearl grey
+ * to champagne gold on warm paper — behind the headline. Canvas 2D, so it
+ * paints instantly on every device; prefers-reduced-motion gets a still of
+ * the same wave (handled inside PearlWave).
  */
 
 // Te reo visual-metaphor labels — locked direction: these live ONLY on the
@@ -22,7 +17,6 @@ const ParticulateScene = dynamic(() => import('./ParticulateScene'), { ssr: fals
 const METAPHORS = [
   { reo: 'matariki', tag: 'guiding intelligence across systems', top: '9%', right: '5%' },
   { reo: 'papatūānuku', tag: 'grounded in data, rooted in purpose', bottom: '19%', left: '43%' },
-  // nudged below the tui splat's turntable sweep so wings never cover the text
   { reo: 'moana', tag: 'flowing connections, endless potential', top: '62%', right: '9%' },
 ] as const;
 
@@ -32,35 +26,7 @@ export function Hero3D() {
   return (
     <div className={styles.heroArt} aria-hidden>
       <div className={styles.heroArtInner}>
-        <picture>
-          <source media="(max-width: 899px)" srcSet="/brand/v2/hero-landscape-mobile.jpg" />
-          <img
-            src="/brand/v2/hero-landscape.jpg"
-            alt=""
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center top',
-              opacity: 0.9,
-            }}
-          />
-        </picture>
-        {reduced ? (
-          <div style={{ position: 'absolute', inset: 0, opacity: 0.5 }}>
-            <ParticulateLandscape />
-          </div>
-        ) : (
-          <ParticulateScene
-            fallback={
-              <div style={{ position: 'absolute', inset: 0, opacity: 0.5 }}>
-                <ParticulateLandscape />
-              </div>
-            }
-          />
-        )}
+        <PearlWave />
       </div>
 
       {METAPHORS.map((m, i) => (

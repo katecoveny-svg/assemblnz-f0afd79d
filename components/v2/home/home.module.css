@@ -65,7 +65,8 @@
 }
 @media (max-width: 899px) {
   .heroArtInner {
-    opacity: 0.55;
+    /* the pearl wave is quiet by design — keep most of it under the copy */
+    opacity: 0.8;
   }
 }
 
